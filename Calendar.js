@@ -6,10 +6,11 @@ dojo.require("dojo.date.locale");
 
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
+dojo.require("dijit._CssStateMixin");
 
 dojo.declare(
 	"dijit.Calendar",
-	[dijit._Widget, dijit._Templated],
+	[dijit._Widget, dijit._Templated, dijit._CssStateMixin],
 	{
 		// summary:
 		//		A simple GUI for choosing a date in the context of a monthly calendar.
@@ -47,6 +48,16 @@ dojo.declare(
 		// tabIndex: Integer
 		//		Order fields are traversed when user hits the tab key
 		tabIndex: "0",
+		
+		baseClass:"dijitCalendar",
+
+		// Set node classes for various mouse events, see dijit._CssStateMixin for more details 
+		cssStateNodes: {
+			"decrementMonth": "dijitCalendarArrow",
+			"incrementMonth": "dijitCalendarArrow",
+			"previousYearLabelNode": "dijitCalendarPreviousYear",
+			"nextYearLabelNode": "dijitCalendarNextYear"			
+		},
 
 		attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
 			tabIndex: "domNode"
@@ -362,7 +373,25 @@ dojo.declare(
 			if(evt.relatedTarget.parentNode == this._currentNode){ return; }
 
 			dojo.removeClass(this._currentNode, "dijitCalendarHoveredDate");
+			if(dojo.hasClass(this._currentNode, "dijitCalendarActiveDate")) {
+				dojo.removeClass(this._currentNode, "dijitCalendarActiveDate");
+			}
 			this._currentNode = null;
+		},
+		
+		_onDayMouseDown: function(/*Event*/ evt){
+			var node = evt.target.parentNode;
+			if(node && node.dijitDateValue){
+				dojo.addClass(node, "dijitCalendarActiveDate");
+				this._currentNode = node;
+			}
+		},
+		
+		_onDayMouseUp: function(/*Event*/ evt){
+			var node = evt.target.parentNode;
+			if(node && node.dijitDateValue){
+				dojo.removeClass(node, "dijitCalendarActiveDate");
+			}
 		},
 
 //TODO: use typematic

@@ -1,13 +1,14 @@
 /* Normal Calendar Style */
 .lucid .dijitCalendar {
 	font-size:10px;
+    float: none; /* override .lucid .dijitShadow */
+    display: table;	
 }
 
 .dj_ie6 .lucid .dijitCalendar,
 .dj_ie7 .lucid .dijitCalendar {
 	width: 200px;
 }
-
 
 .lucid .dijitCalendar img {
 	border:none;
@@ -51,7 +52,8 @@
 	background-image:none;
 }
 
-.lucid .dijitHover .dijitInnerContainer{
+.lucid .dijitCalendarHover .dijitInnerContainer,
+.lucid .dijitCalendarActive .dijitInnerContainer {
 	background-color: #cce1f8;
 }
 
@@ -116,35 +118,35 @@
 	background-image: url("images/calendar_forward_arrow.png");
 }
 
-.lucid .dijitCalendar .dijitHover .dijitCalendarDecrease {
+.lucid .dijitCalendarArrowHover .dijitCalendarDecrease {
 	background-image: url("images/calendar_back_arrow_hover.png");
 }
 
-.lucid .dijitCalendar .dijitHover .dijitCalendarIncrease {
+.lucid .dijitCalendarArrowHover .dijitCalendarIncrease {
 	background-image: url("images/calendar_forward_arrow_hover.png");
 }
 
-.dijitRtl .lucid .dijitCalendar .dijitHover .dijitCalendarIncrease{
+.dijitRtl .lucid .dijitCalendarArrowHover .dijitCalendarIncrease{
 	background-image: url("images/calendar_back_arrow_hover.png");
 }
 
-.dijitRtl .lucid .dijitCalendar .dijitHover .dijitCalendarDecrease {
+.dijitRtl .lucid .dijitCalendarArrowHover .dijitCalendarDecrease {
 	background-image: url("images/calendar_forward_arrow_hover.png");
 }
 
-.lucid .dijitCalendar .dijitFocus .dijitCalendarDecrease {
+.lucid .dijitCalendarArrowActive .dijitCalendarDecrease {
 	background-image: url("images/calendar_back_arrow_mousedown.png");
 }
 
-.lucid .dijitCalendar .dijitFocus .dijitCalendarIncrease {
+.lucid .dijitCalendarArrowActive .dijitCalendarIncrease {
 	background-image: url("images/calendar_forward_arrow_mousedown.png");
 }
 
-.dijitRtl .lucid .dijitCalendar .dijitFocus .dijitCalendarIncrease{
+.dijitRtl .lucid .dijitCalendarArrowActive .dijitCalendarIncrease{
 	background-image: url("images/calendar_back_arrow_mousedown.png");
 }
 
-.dijitRtl .lucid .dijitCalendar .dijitFocus .dijitCalendarDecrease {
+.dijitRtl .lucid .dijitCalendarArrowActive .dijitCalendarDecrease {
 	background-image: url("images/calendar_forward_arrow_mousedown.png");
 }
 
@@ -326,14 +328,14 @@
 
 
 
-.lucid .dijitCalendarNextYearHovered,
-.lucid .dijitCalendarPreviousYearHovered {
+.lucid .dijitCalendarNextYearHover,
+.lucid .dijitCalendarPreviousYearHover {
 	color:#000;
 	border:solid 1px #799ab7;
 }
 
-.dj_ie6 .lucid .dijitCalendarNextYearHovered,
-.dj_ie6 .lucid .dijitCalendarPreviousYearHovered {
+.dj_ie6 .lucid .dijitCalendarNextYearHover,
+.dj_ie6 .lucid .dijitCalendarPreviousYearHover {
 	color:#000;
 	border:solid 1px #799ab7;
 	padding:1px 5px 0px 5px;
