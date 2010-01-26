@@ -107,7 +107,7 @@ dojo.declare(
 
 		templateString: dojo.cache("dijit.form", "templates/ComboBox.html"),
 
-		baseClass:"dijitComboBox",
+		baseClass:"dijitTextBox dijitComboBox",
 
 		// Set classes like dijitDownArrowButtonHover depending on
 		// mouse action over button node
@@ -192,7 +192,6 @@ dojo.declare(
 				case dk.PAGE_UP:
 				case dk.UP_ARROW:
 					if(!this._isShowingNow){
-						this._arrowPressed();
 						doSearch = true;
 						searchFunction = "_startSearchAll";
 					}else{
@@ -367,7 +366,6 @@ dojo.declare(
 
 		_showResultList: function(){
 			this._hideResultList();
-			this._arrowPressed();
 			// hide the tooltip
 			this.displayMessage("");
 
@@ -421,7 +419,6 @@ dojo.declare(
 			this._abortQuery();
 			if(this._isShowingNow){
 				dijit.popup.close(this._popupWidget);
-				this._arrowIdle();
 				this._isShowingNow=false;
 				dijit.setWaiState(this.comboNode, "expanded", "false");
 				dijit.removeWaiState(this.focusNode,"activedescendant");
@@ -458,7 +455,6 @@ dojo.declare(
 			// summary:
 			//		Called magically when focus has shifted away from this widget and it's drop down
 			this._hideResultList();
-			this._arrowIdle();
 			this.inherited(arguments);
 		},
 
@@ -609,18 +605,6 @@ dojo.declare(
 
 		/////////////// Event handlers /////////////////////
 
-		_arrowPressed: function(){
-			if(!this.disabled && !this.readOnly && this.hasDownArrow){
-				dojo.addClass(this.downArrowNode, "dijitArrowButtonActive");
-			}
-		},
-
-		_arrowIdle: function(){
-			if(!this.disabled && !this.readOnly && this.hasDownArrow){
-				dojo.removeClass(this.downArrowNode, "dojoArrowButtonPushed");
-			}
-		},
-
 		// FIXME: For 2.0, rename to "_compositionEnd"
 		compositionend: function(/*Event*/ evt){
 			// summary:
@@ -644,9 +628,6 @@ dojo.declare(
 		},
 
 		postMixInProperties: function(){
-			if(!this.hasDownArrow){
-				this.baseClass = "dijitTextBox";
-			}
 			if(!this.store){
 				var srcNodeRef = this.srcNodeRef;
 
@@ -680,6 +661,10 @@ dojo.declare(
 			//		Subclasses must call this method from their postCreate() methods
 			// tags:
 			//		protected
+
+			if(!this.hasDownArrow){
+				this.downArrowNode.style.display = "none";
+			}
 
 			// find any associated label element and add to ComboBox node.
 			var label=dojo.query('label[for="'+this.id+'"]');

@@ -450,11 +450,6 @@ table .dijitComboButton .dijitButtonNode {
 	visibility: visible;
 }
 
-.dijitTextBox .dijitArrowButton {
-	/* this is for a combo box with no arrow displayed; we set baseClass=TextBox */
-	display:none;
-}
-
 /****
 		dijit.form.CheckBox
  	 &
