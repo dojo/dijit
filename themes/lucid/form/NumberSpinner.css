@@ -2,23 +2,6 @@
 
 /* the namespace is ".lucid .dijitSpinner .dijitInputLayoutContainer" */
 
-/********* hacks ************/
-
-/* 
- * in .dijitValidationIcon the padding is: 0 2px;
- * but lucid Common.css change this to padding: 2px;
- * this cause the div calculate its height error (minus 4px)
- */
-/*
-.lucid .dijitSpinner .dijitInputLayoutContainer .dijitValidationIcon {
-	padding-top: 0;
-	padding-bottom: 0;
-}
-/** end hacks **/
-
-.lucid .dijitSpinner {
-	border: 1px solid #bcc8dd;
-}
 
 .lucid .dijitSpinner .dijitInputLayoutContainer {
 	background-color: #fff;
@@ -95,10 +78,6 @@
 .lucid .dijitSpinnerHover,
 .lucid .dijitUpArrowButtonActive,
 .lucid .dijitDownArrowButtonActive {
-/*.lucid .dijitSpinnerUpArrowActive,
-.lucid .dijitSpinnerDownArrowActive,
-.lucid .dijitSpinnerFocusedUpArrowHover,
-.lucid .dijitSpinnerFocusedDownArrowHover {*/
 	border:1px solid #769dc0;	
 }
 
@@ -109,25 +88,6 @@
 	background-image: url("images/textBox_back_hover.png");
 }
 
-/*
-.lucid .dijitSpinner .dijitInputLayoutContainer .dijitDownArrowButtonHover,
-.lucid .dijitSpinner .dijitInputLayoutContainer .dijitUpArrowButtonHover {
-	border-color: #769dc0;
-	background-color: #abd6ff;
-	background-image: url("images/white_grad.png");
-}
-*/
-
-/*
-.lucid .dijitSpinnerHover .dijitInputLayoutContainer .dijitDownArrowButton,
-.lucid .dijitSpinnerHover .dijitInputLayoutContainer .dijitUpArrowButton,
-*/
-/*
-.lucid .dijitSpinnerUpArrowActive .dijitInputLayoutContainer .dijitUpArrowButton,
-.lucid .dijitSpinnerDownArrowActive .dijitInputLayoutContainer .dijitDownArrowButton,
-.lucid .dijitSpinnerFocusedUpArrowHover .dijitInputLayoutContainer .dijitUpArrowButton,
-.lucid .dijitSpinnerFocusedDownArrowHover .dijitInputLayoutContainer .dijitDownArrowButton {
-*/	
 .lucid .dijitUpArrowButtonActive,
 .lucid .dijitDownArrowButtonActive {
 	border:1px solid #769dc0;

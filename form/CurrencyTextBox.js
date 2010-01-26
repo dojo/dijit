@@ -47,6 +47,8 @@ dojo.declare(
 		/*=====
 		constraints: {},
 		======*/
+		
+		baseClass: "dijitTextBox dijitCurrencyTextBox",
 
 		// Override regExpGen ValidationTextBox.regExpGen().... we use a reg-ex generating function rather
 		// than a straight regexp to deal with locale  (plus formatting options too?)

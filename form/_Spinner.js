@@ -32,7 +32,7 @@ dojo.declare(
 
 		templateString: dojo.cache("dijit.form", "templates/Spinner.html"),
 
-		baseClass: "dijitSpinner",
+		baseClass: "dijitTextBox dijitSpinner",
 
 		// Set classes like dijitUpArrowButtonHover or dijitDownArrowButtonActive depending on
 		// mouse action over specified node

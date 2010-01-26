@@ -28,7 +28,7 @@ dojo.declare(
 		//		protected
 
 		templateString: dojo.cache("dijit.form", "templates/ValidationTextBox.html"),
-		baseClass: "dijitTextBox",
+		baseClass: "dijitTextBox dijitValidationTextBox",
 
 		// required: Boolean
 		//		User is required to enter data into this field.

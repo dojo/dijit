@@ -5,14 +5,9 @@
 	display: none;	/* normal status, the validation will not occupy the width  */
 }
 
-/* we want to find a common class for all the widgets under lucid.form.
- * here we use .dijitTextBox as the namespace 
- * hope this namespace will not cause the render problems of other widgets 
- * if so, expand 'dijitTextBox' to 'dijit(TextBox|DateTextBox|CurrencyTextBox|...)'
- */
-.lucid .dijitTextBoxError .dijitValidationIcon,
-.lucid .dijitComboBoxError .dijitValidationIcon,
-.lucid .dijitSpinnerError .dijitValidationIcon {
+/* 'dijitTextBox' refers to 'dijit(TextBox|DateTextBox|CurrencyTextBox|...)' */
+
+.lucid .dijitTextBoxError .dijitValidationIcon {
 	display: block;
 	background: transparent url('images/error.png') repeat-y top center;
 	border-left: 1px solid #d46464;
@@ -33,9 +28,7 @@
 }
 
 /* active status */
-.lucid .dijitTextBox,
-.lucid .dijitComboBox,
-.lucid .dijitTextArea {
+.lucid .dijitTextBox {
 	border: 1px solid #bcc8dd;
 	background-color: #fff;
 	background-repeat: repeat-x;
@@ -44,30 +37,24 @@
 }
 
 /* hover */
-.lucid .dijitTextBoxHover,
-.lucid .dijitComboBoxHover,
-.lucid .dijitTextAreaHover {
+.lucid .dijitTextBoxHover {
 	border: 1px solid #769dc0;
 	background-color: #eef7ff;
 	background-image: url('images/textBox_back_hover.png');
 }
 
 /* error status */
-.lucid .dijitTextBoxError,
-.lucid .dijitComboBoxError {
+.lucid .dijitTextBoxError {
 	border: 1px solid #d46464;
-	background-color: #fdf7f7;
-	background-image: none;
 }
-.lucid .dijitComboBoxError .dijitInputField {
+.lucid .dijitTextBoxError,
+.lucid .dijitTextBoxError .dijitInputField {
 	background-color: #fdf7f7;
 	background-image: none;
 }
 
 /* check status */
-.lucid .dijitTextBoxFocused,
-.lucid .dijitComboBoxFocused,
-.lucid .dijitTextAreaFocused {
+.lucid .dijitTextBoxFocused {
 	background-color: #fff;
 	background-image: url('images/textBox_back_checked.png');
 }
@@ -76,15 +63,12 @@
 	background: #fff;
 }
 
-.lucid .dijitTextBoxErrorFocused,
-.lucid .dijitComboBoxErrorFocused {
+.lucid .dijitTextBoxErrorFocused {
 	border-color: #ce4f4f;
 }
 
 /* disable status */
-.lucid .dijitTextBoxDisabled,
-.lucid .dijitComboBoxDisabled,
-.lucid .dijitTextAreaDisabled {
+.lucid .dijitTextBoxDisabled {
 	border: 1px solid #d3d3d3;
 	background-color: #efefef;
 	background-image: none;
