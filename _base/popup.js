@@ -4,15 +4,29 @@ dojo.require("dijit._base.focus");
 dojo.require("dijit._base.place");
 dojo.require("dijit._base.window");
 
-dijit.popup = new function(){
+dijit.popup = {
 	// summary:
-	//		This class is used to show/hide widgets as popups.
+	//		This singleton is used to show/hide widgets as popups.
 
-	var stack = [],
-		beginZIndex=1000,
-		idGen = 1;
+	// _stack: dijit._Widget[]
+	//		Stack of currently popped up widgets.
+	//		(someone opened _stack[0], and then it opened _stack[1], etc.)
+	_stack: [],
+	
+	// _beginZIndex: Number
+	//		Z-index of the first popup.   (If first popup opens other
+	//		popups they get a higher z-index.)
+	_beginZIndex: 1000,
 
-	this.moveOffScreen = function(/*DomNode*/ node){
+	_idGen: 1,
+	
+	// _wrappers:
+	//		Cache of wrapper nodes and iframes.  Each element in this
+	//		array is a [div, iframe].
+	_wrappers: [],
+
+
+	moveOffScreen: function(/*DomNode*/ node){
 		// summary:
 		//		Moves node offscreen without hiding it (so that all layout widgets included 
 		//		in this node can still layout properly)
@@ -32,7 +46,7 @@ dijit.popup = new function(){
 			s.display="";
 		}
 		dojo.body().appendChild(node);
-	};
+	},
 
 /*=====
 dijit.popup.__OpenArgs = function(){
@@ -89,17 +103,18 @@ dijit.popup.__OpenArgs = function(){
 }
 =====*/
 
-	// Compute the closest ancestor popup that's *not* a child of another popup.
-	// Ex: For a TooltipDialog with a button that spawns a tree of menus, find the popup of the button.
-	var getTopPopup = function(){
+	getTopPopup: function(){
+		// summary:
+		//		Compute the closest ancestor popup that's *not* a child of another popup.
+		//		Ex: For a TooltipDialog with a button that spawns a tree of menus, find the popup of the button.
+		var stack = this._stack;
 		for(var pi=stack.length-1; pi > 0 && stack[pi].parent === stack[pi-1].widget; pi--){
 			/* do nothing, just trying to get right value for pi */
 		}
 		return stack[pi];
-	};
+	},
 
-	var wrappers=[];
-	this.open = function(/*dijit.popup.__OpenArgs*/ args){
+	open: function(/*dijit.popup.__OpenArgs*/ args){
 		// summary:
 		//		Popup the widget at the specified position
 		//
@@ -114,20 +129,21 @@ dijit.popup.__OpenArgs = function(){
 		//		Note that whatever widget called dijit.popup.open() should also listen to its own _onBlur callback
 		//		(fired from _base/focus.js) to know that focus has moved somewhere else and thus the popup should be closed.
 
-		var widget = args.popup,
+		var stack = this._stack,
+			widget = args.popup,
 			orient = args.orient || (
 				dojo._isBodyLtr() ?
 				{'BL':'TL', 'BR':'TR', 'TL':'BL', 'TR':'BR'} :
 				{'BR':'TR', 'BL':'TL', 'TR':'BR', 'TL':'BL'}
 			),
 			around = args.around,
-			id = (args.around && args.around.id) ? (args.around.id+"_dropdown") : ("popup_"+idGen++);
+			id = (args.around && args.around.id) ? (args.around.id+"_dropdown") : ("popup_"+this._idGen++);
 
 		// make wrapper div to hold widget and possibly hold iframe behind it.
 		// we can't attach the iframe as a child of the widget.domNode because
 		// widget.domNode might be a <table>, <ul>, etc.
 
-		var wrapperobj = wrappers.pop(), wrapper, iframe;
+		var wrapperobj = this._wrappers.pop(), wrapper, iframe;
 		if(!wrapperobj){
 			wrapper = dojo.create("div",{
 				"class":"dijitPopup"
@@ -143,7 +159,7 @@ dijit.popup.__OpenArgs = function(){
 		dojo.attr(wrapper,{
 			id: id,
 			style:{
-				zIndex: beginZIndex + stack.length,
+				zIndex: this._beginZIndex + stack.length,
 				visibility:"hidden",
 				// prevent transient scrollbar causing misalign (#5776), and initial flash in upper left (#10111)
 				top: "-9999px"
@@ -182,7 +198,7 @@ dijit.popup.__OpenArgs = function(){
 				args.onCancel();
 			}else if(evt.charOrCode === dojo.keys.TAB){
 				dojo.stopEvent(evt);
-				var topPopup = getTopPopup();
+				var topPopup = this.getTopPopup();
 				if(topPopup && topPopup.onCancel){
 					topPopup.onCancel();
 				}
@@ -195,8 +211,8 @@ dijit.popup.__OpenArgs = function(){
 			handlers.push(dojo.connect(widget, "onCancel", args.onCancel));
 		}
 
-		handlers.push(dojo.connect(widget, widget.onExecute ? "onExecute" : "onChange", function(){
-			var topPopup = getTopPopup();
+		handlers.push(dojo.connect(widget, widget.onExecute ? "onExecute" : "onChange", this, function(){
+			var topPopup = this.getTopPopup();
 			if(topPopup && topPopup.onExecute){
 				topPopup.onExecute();
 			}
@@ -219,12 +235,14 @@ dijit.popup.__OpenArgs = function(){
 		}
 
 		return best;
-	};
+	},
 
-	this.close = function(/*dijit._Widget*/ popup){
+	close: function(/*dijit._Widget*/ popup){
 		// summary:
 		//		Close specified popup and any popups that it parented
-		
+
+		var stack = this._stack;
+
 		// Basically work backwards from the top of the stack closing popups
 		// until we hit the specified popup, but IIRC there was some issue where closing
 		// a popup would cause others to close too.  Thus if we are trying to close B in [A,B,C]
@@ -252,14 +270,14 @@ dijit.popup.__OpenArgs = function(){
 			// don't use moveOffScreen which would also reattach the wrapper to body, which causes reloading of iframe
 			wrapper.style.top = "-9999px";
 			wrapper.style.visibility = "hidden";
-			wrappers.push([wrapper,iframe]);
+			this._wrappers.push([wrapper,iframe]);
 
 			if(onClose){
 				onClose();
 			}
 		}
-	};
-}();
+	}
+};
 
 dijit._frames = new function(){
 	// summary:
