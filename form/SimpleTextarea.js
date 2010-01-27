@@ -16,7 +16,7 @@ dojo.declare("dijit.form.SimpleTextarea",
 	// example:
 	//	|	new dijit.form.SimpleTextarea({ rows:20, cols:30 }, "foo");
 
-	baseClass: "dijitTextArea",
+	baseClass: "dijitTextBox dijitTextArea",
 
 	attributeMap: dojo.delegate(dijit.form._FormValueWidget.prototype.attributeMap, {
 		rows:"textbox", cols: "textbox"

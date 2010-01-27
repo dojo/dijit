@@ -135,49 +135,6 @@
 	background:#efefef url("images/arrowdown_disabled.png") no-repeat scroll center center !important;
 }
 
-/* for SimpleTextArea */
-/*
- * SOME PROBLEMS:
- *  1. in the BorderContainer.css, the css use !important rules. good idea?
- *  .lucid .dijitSplitContainer-child, .lucid .dijitBorderContainer-child {
-		background-color:#FFFFFF !important;
-		border:1px solid #C0CCDF !important;
-	}
- *  Here, I override the css, also need !important.
- *  
- *  2. the SimpleTextArea's class contains .dijitSplitContainer-child and dijitTextAreaHover at the same level.
- *  So when we override the css rule, we need a more similar patten, or it will use the 
- *  dijitSplitContainer-child's rule, here I use the tag textarea.XXX
- */
-.lucid textarea.dijitTextAreaHover{
-	border: 1px solid #769dc0; /* !important; */
-	background-color: #eef7ff !important;
-	background-image: url('images/textBox_back_hover.png');
-}
-
-.lucid textarea.dijitTextAreaDisabled{
-	border: 1px solid #d3d3d3 !important;
-	background-color: #efefef !important;
-	background-image: none;
-	color: #818181;
-
-}
-
-.lucid textarea.dijitTextAreaFocused {
-	border: 1px solid #81a5c6; /* !important; */
-	background-image:url("images/textBox_back_checked.png");
-	background-color:#fff !important;
-	outline: none; /* for webkit */
-}
-
-.lucid textarea.dijitTextAreaReadOnly{
-	border: 1px solid #c1c1c1 !important;
-	background-color: #efefef !important;
-	background-image: none;
-	color: #000;
-}
-
-
 /*========================= hacks for browsers =========================*/
 /* it seems the input[type="hidden"] has a height (16px) too... this may cause the widget's height calcuate error */
 .dj_ff3 .lucid .dijitInputField input[type="hidden"] {
