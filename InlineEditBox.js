@@ -521,7 +521,7 @@ dojo.declare(
 
 		this.editWidget.focus();
 		setTimeout(dojo.hitch(this, function(){
-			if(this.editWidget.focusNode.tagName == "INPUT"){
+			if(this.editWidget.focusNode && this.editWidget.focusNode.tagName == "INPUT"){
 				dijit.selectInputText(this.editWidget.focusNode);
 			}
 		}), 0);
