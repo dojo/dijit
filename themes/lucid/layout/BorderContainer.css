@@ -11,8 +11,8 @@
 	/* By default put borders on all children of BorderContainer,
 	 *  to give illusion of borders on the splitters themselves.
 	 */
-	border: 1px #c0ccdf solid;
-	background-color:#fff;
+	border: 1px #c0ccdf solid !important;
+	background-color:#fff !important;
 	
 }
 
