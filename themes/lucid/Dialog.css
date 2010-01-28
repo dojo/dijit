@@ -14,18 +14,24 @@
 
 .lucid .dijitDialog .dijitDialogPaneContent {
 	background: #fff url("images/dialog_contentarea_shadow.png") repeat-x top left;
-	border:none;
 	border-top: 1px solid #769dc0; /* w/out this, an <h1> on the top line causes a gap between the .content and .label */
 	padding:10px 8px;
-	border-bottom: 1px solid #cdcdcd;
+	position: relative;
 }
 
-.lucid .dijitDialog .dijitDialogPaneAction{
+.lucid .dijitDialog .dijitDialogPaneContent .dijitDialogPaneContentArea {
+	margin: -10px -8px;
+	padding: 10px 8px;
+}
+
+.lucid .dijitDialog .dijitDialogPaneContent .dijitDialogPaneActionBar{
 	background-color: #f2f2f2;
 	padding: 3px 5px 2px 7px;
 	text-align: right;
+	border-top: 1px solid #cdcdcd;
+	margin: 10px -8px -10px;
 }
-.lucid .dijitDialog .dijitDialogPaneAction .dijitButton{
+.lucid .dijitDialog .dijitDialogPaneContent .dijitDialogPaneActionBar .dijitButton{
 	float: none;
 }
 

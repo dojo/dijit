@@ -4,7 +4,7 @@
 	left: 5px;
 }
 
-.dijitRtl .lucid .dijitDialog .dijitDialogPaneAction{
+.dijitRtl .lucid .dijitDialog .dijitDialogPaneContent .dijitDialogPaneActionBar{
 	text-align: left;
 	padding: 3px 7px 2px 5px;
 }
