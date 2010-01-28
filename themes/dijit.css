@@ -967,7 +967,6 @@ img.dijitColorPaletteUnder {
 	background-color:white;
 }
 .dijitMenuTable {
-	margin:1px 0;
 	border-collapse:collapse;
 	border-width:0;
 	background-color:white;
@@ -1308,7 +1307,6 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .dijitDialog {
 	position: absolute;
 	z-index: 999;
-	padding: 1px;
 	overflow: hidden;       /* override overflow: auto; from ContentPane to make dragging smoother */
 }
 

@@ -164,6 +164,7 @@ dijit.popup.__OpenArgs = function(){
 				// prevent transient scrollbar causing misalign (#5776), and initial flash in upper left (#10111)
 				top: "-9999px"
 			},
+			"class": "dijitPopup " + (widget.baseClass || widget["class"] || "").split(" ")[0] +"Popup",
 			dijitPopupParent: args.parent ? args.parent.id : ""
 		});
 
