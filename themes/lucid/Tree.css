@@ -2,7 +2,6 @@
 /* Tree */
 
 .lucid .dijitTreeNode {
-    background-image : url('images/i.gif');
     background-repeat : repeat-y;
     zoom: 1;	/* force layout on IE (TODO: may not be needed anymore) */
 	font-family:Verdana, Arial, Helvetica, sans-serif; /* remove for final code as font styling should be picked up from the parent */
@@ -19,11 +18,6 @@
 .dijit_a11y .dijitTreeNode {
     border-top:none;
 	border-bottom:none;
-}
-
-/* left vertical line (grid) for all nodes */
-.lucid .dijitTreeIsLast {
-    background: url('images/i_half.gif') no-repeat;
 }
 
 .lucid .dijitTreeIsRoot {
@@ -175,7 +169,6 @@
 }
 
 .lucid .dijitTreeExpandoLeaf {
-	background-image: url('images/treeExpand_leaf.gif');
 	width:16px;
 }
 
