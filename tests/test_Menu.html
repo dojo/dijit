@@ -18,12 +18,8 @@
 		}
 		#contentContainer { padding: 2em; }
 
-		#navMenuContainer, #navMenu, #navMenuSub1, #navMenuSub2, #navMenuSub3 {
-			background-color: #f7f7f7;
-			/* background-color: LightCoral */
-		}
 		#navMenu {
-			background: none;
+			/* make the sidebar menu blend in with the whole sidebar */
 			border: none;
 		}
 	</style>
@@ -275,7 +271,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td id="navMenuContainer" valign=top width="0%">
+			<td id="navMenuContainer" class="dijitMenu" valign=top width="0%">
 
 				<h3 style="margin-bottom: 2em;">Navigation menu:</h3>
 				<div dojoType="dijit.Menu" id="navMenu">
