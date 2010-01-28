@@ -2,7 +2,6 @@
 /* Tree */
 
 .lucid .dijitTreeNode {
-    background-repeat : repeat-y;
     zoom: 1;	/* force layout on IE (TODO: may not be needed anymore) */
 	font-family:Verdana, Arial, Helvetica, sans-serif; /* remove for final code as font styling should be picked up from the parent */
 	font-weight:normal;/* remove for final code as font styling should be picked up from the parent */
