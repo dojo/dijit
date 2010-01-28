@@ -57,5 +57,4 @@ dojo.declare("dijit.form.NumberSpinner",
 			dojo.stopEvent(e);
 		}
 	}
-
 });
