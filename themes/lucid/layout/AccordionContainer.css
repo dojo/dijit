@@ -19,7 +19,8 @@
 	border-bottom: 1px solid #f5f5f5;
 }
 
-.lucid .dijitAccordionContainer .dijitAccordionInnerContainerHover{
+.lucid .dijitAccordionContainer .dijitAccordionInnerContainerHover,
+.lucid .dijitAccordionContainer .dijitAccordionInnerContainerSelectedActive {
 	background-color:#ABD6FF;
 	border:1px solid #769DC0;
 }
@@ -82,15 +83,18 @@
 	background-image: none;
 }
 
-.lucid .dijitAccordionTitleSelectedHover{
+.lucid .dijitAccordionTitleSelectedHover,
+.lucid .dijitAccordionContainer .dijitAccordionTitleSelectedActive{
 	background-color:#ABD6FF;
+	background-image:url("images/accordion_back.png");
 }
 
 .dj_ie6 .lucid .dijitAccordionTitleSelectedHover{
 	background-image: none;
 }
 
-.lucid .dijitAccordionInnerContainerHover .dijitAccordionTitleSelected{
+.lucid .dijitAccordionInnerContainerHover .dijitAccordionTitleSelected,
+.lucid .dijitAccordionInnerContainerActive .dijitAccordionTitleSelected{
 	background-color:#ABD6FF;
 }
 
@@ -105,7 +109,8 @@
 	padding: 9px;
 }
 
-.lucid .dijitAccordionContainer .dijitAccordionInnerContainerHover .dijitAccordionContainer-child{
+.lucid .dijitAccordionContainer .dijitAccordionInnerContainerHover .dijitAccordionContainer-child, 
+.lucid .dijitAccordionContainer .dijitAccordionInnerContainerActive .dijitAccordionContainer-child {
 	background-color:#ffffff;
 	border:1px solid #769DC0 !important;
 }
