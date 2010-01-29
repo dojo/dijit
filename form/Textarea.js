@@ -134,6 +134,13 @@ dojo.declare(
 		this.connect(this.textbox, "onscroll", this._onInput);
 		this.connect(this.textbox, "onresize", this._onInput);
 		this.connect(this.textbox, "onfocus", this._onInput); // useful when a previous estimate was off a bit
-		setTimeout(dojo.hitch(this, "resize"), 0);
+		this._setTimeoutHandle = setTimeout(dojo.hitch(this, "resize"), 0);
+	},
+
+	uninitialize: function(){
+		if(this._setTimeoutHandle){
+			clearTimeout(this._setTimeoutHandle);
+		}
+		this.inherited(arguments);
 	}
 });
