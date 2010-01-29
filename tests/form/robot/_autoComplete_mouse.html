@@ -287,6 +287,51 @@
 				}
 			]);
 
+			doh.register("10431", [
+				{
+					timeout: 9000,
+					name: "untouched blank value and required",
+					combo: "japanese",
+					setUp: function(){
+						this.combo = dijit.byId(this.combo);
+					},
+					runTest: function(){
+						doh.is("", this.combo.attr('value'), "value");
+						doh.is("", this.combo.attr('displayedValue'), "displayedValue");
+						doh.f(this.combo.isValid(), "isValid");
+						doh.is("", this.combo.state, "state");
+					},
+					tearDown: function(){
+						this.combo._hideResultList();
+					}
+				},
+				{
+					timeout: 9000,
+					name: "blurred blank value and required",
+					combo: "japanese",
+					setUp: function(){
+						this.combo = dijit.byId(this.combo);
+					},
+					runTest: function(){
+						var d = new doh.Deferred();
+						doh.robot.mouseMoveAt(this.combo.focusNode, 500, 500);
+						doh.robot.mouseClick({left:true}, 500);
+						doh.robot.keyPress(dojo.keys.TAB, 1000);
+
+						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.is("", this.combo.attr('value'), "value");
+							doh.is("", this.combo.attr('displayedValue'), "displayedValue");
+							doh.f(this.combo.isValid(), "isValid");
+							doh.is("Error", this.combo.state, "state");
+						})), 1000, 500);
+						return d;
+					},
+					tearDown: function(){
+						this.combo._hideResultList();
+					}
+				}
+			]);
+
 			doh.run();
 		});
 	</script>

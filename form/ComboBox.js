@@ -642,10 +642,7 @@ dojo.declare(
 				// IE6 and Opera set selectedIndex, which is automatically set
 				// by the selected attribute of an option tag
 				// IE6 does not set value, Opera sets value = selectedIndex
-				if(	!this.value || (
-						(typeof srcNodeRef.selectedIndex == "number") &&
-						srcNodeRef.selectedIndex.toString() === this.value)
-				){
+				if(!("value" in this.params)){
 					var item = this.store.fetchSelectedItem();
 					if(item){
 						var valueField = this._getValueField();
@@ -1139,7 +1136,16 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 
 	constructor: function( /*DomNode*/ root){
 		this.root = root;
-
+		if(root.tagName != "SELECT"){
+			root = dojo.query("select", root);
+			if(root.length > 0){ // SELECT is a child of srcNodeRef
+				root = root[0];
+			}else{ // no select, so create 1 to parent the option tags to define selectedIndex
+				this.root.innerHTML = "<SELECT>"+this.root.innerHTML+"</SELECT>";
+				root = this.root.firstChild;
+			}
+			this.root = root;
+		}
 		dojo.query("> option", root).forEach(function(node){
 			//	TODO: this was added in #3858 but unclear why/if it's needed;  doesn't seem to be.
 			//	If it is needed then can we just hide the select itself instead?
@@ -1205,7 +1211,7 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 		//	|		{identity: "CA", onItem: function(item){...}
 		//
 		//		Call `onItem()` with the DOM node `<option value="CA">California</option>`
-		var item = dojo.query("option[value='" + args.identity + "']", this.root)[0];
+		var item = dojo.query("> option[value='" + args.identity + "']", this.root)[0];
 		args.onItem(item);
 	},
 
@@ -1215,9 +1221,9 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 		//		Not part of dojo.data API.
 		var root = this.root,
 			si = root.selectedIndex;
-		return dojo.query("> option:nth-child(" +
-			(si != -1 ? si+1 : 1) + ")",
-			root)[0];	// dojo.data.Item
+		return typeof si == "number"
+			? dojo.query("> option:nth-child(" + (si != -1 ? si+1 : 1) + ")", root)[0]
+			: null;	// dojo.data.Item
 	}
 });
 //Mix in the simple fetch implementation to this class.

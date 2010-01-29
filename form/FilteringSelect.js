@@ -79,8 +79,10 @@ dojo.declare(
 			if(dataObject.query[this.searchAttr] != this._lastQuery){
 				return;
 			}
-			this._isvalid = results.length || this._maxOptions; // result.length==0 && maxOptions != 0 implies the nextChoices item selected but then the datastore returned 0 more entries
-			this.validate(true);
+			if(this.item === undefined){ // item == undefined for keyboard search
+				this._isvalid = results.length != 0 || this._maxOptions != 0; // result.length==0 && maxOptions != 0 implies the nextChoices item selected but then the datastore returned 0 more entries
+				this.validate(true);
+			}
 			dijit.form.ComboBoxMixin.prototype._openResultList.apply(this, arguments);
 		},
 
