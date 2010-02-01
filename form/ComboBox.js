@@ -1136,7 +1136,7 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 
 	constructor: function( /*DomNode*/ root){
 		this.root = root;
-		if(root.tagName != "SELECT"){
+		if(root.tagName != "SELECT" && root.firstChild){
 			root = dojo.query("select", root);
 			if(root.length > 0){ // SELECT is a child of srcNodeRef
 				root = root[0];
