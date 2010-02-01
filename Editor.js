@@ -323,7 +323,6 @@ dojo.declare(
 				return this.inherited('queryCommandEnabled',arguments);
 			}
 		},
-
 		_moveToBookmark: function(b){
 			// summary:
 			//		Selects the text specified in bookmark b
@@ -332,22 +331,46 @@ dojo.declare(
 			var bookmark = b.mark;
 			var mark = b.mark;
 			var col = b.isCollapsed;
-			if(dojo.isIE){
-				if(dojo.isArray(mark)){//IE CONTROL
-					bookmark = [];
-					dojo.forEach(mark,function(n){
-						bookmark.push(dijit.range.getNode(n,this.editNode));
-					},this);
+			var r;
+			if(mark){
+				if(dojo.isIE){
+					if(dojo.isArray(mark)){
+						//IE CONTROL, have to use the native bookmark.
+						bookmark = [];
+						dojo.forEach(mark,function(n){
+							bookmark.push(dijit.range.getNode(n,this.editNode));
+						},this);
+						dojo.withGlobal(this.window,'moveToBookmark',dijit,[{mark: bookmark, isCollapsed: col}]);
+					}else{
+						if(mark.startContainer && mark.endContainer){
+							// Use the pseudo WC3 range API.  This works better for positions
+							// than the IE native bookmark code.
+							var sel = dijit.range.getSelection(this.window);
+							if(sel && sel.removeAllRanges){
+								sel.removeAllRanges();
+								r = dijit.range.create(this.window);
+								var sNode = dijit.range.getNode(mark.startContainer,this.editNode);
+								var eNode = dijit.range.getNode(mark.endContainer,this.editNode);
+								if(sNode && eNode){
+									// Okay, we believe we found the position, so add it into the selection
+									// There are cases where it may not be found, particularly in undo/redo, when
+									// IE changes the underlying DOM on us (wraps text in a <p> tag or similar.
+									// So, in those cases, don't bother restoring selection.
+									r.setStart(sNode,mark.startOffset);
+									r.setEnd(eNode,mark.endOffset);
+									sel.addRange(r);
+								}
+							}
+						}
+					}
+				}else{//w3c range
+					r=dijit.range.create(this.window);
+					r.setStart(dijit.range.getNode(mark.startContainer,this.editNode),mark.startOffset);
+					r.setEnd(dijit.range.getNode(mark.endContainer,this.editNode),mark.endOffset);
+					dojo.withGlobal(this.window,'moveToBookmark',dijit,[{mark: r, isCollapsed: col}]);
 				}
-			}else{//w3c range
-				var r=dijit.range.create(this.window);
-				r.setStart(dijit.range.getNode(b.startContainer,this.editNode),b.startOffset);
-				r.setEnd(dijit.range.getNode(b.endContainer,this.editNode),b.endOffset);
-				bookmark=r;
 			}
-			dojo.withGlobal(this.window,'moveToBookmark',dijit,[{mark: bookmark, isCollapsed: col}]);
 		},
-
 		_changeToStep: function(from, to){
 			// summary:
 			//		Reverts editor to "to" setting, from the undo stack.
@@ -407,6 +430,7 @@ dojo.declare(
 				this._inEditing=false;
 			}
 		},
+
 		_getBookmark: function(){
 			// summary:
 			//		Get the currently selected text
@@ -417,18 +441,38 @@ dojo.declare(
 			if(b.mark){
 				var mark = b.mark;
 				if(dojo.isIE){
-					if(dojo.isArray(mark)){//CONTROL
-						dojo.forEach(mark,function(n){
+					// Try to use the pseudo range API on IE for better accuracy.
+					var sel = dijit.range.getSelection(this.window);
+					if(!dojo.isArray(mark)){
+						if(sel){
+							var range;
+							if(sel.rangeCount){
+								range = sel.getRangeAt(0);
+							}
+							if(range){
+								b.mark = range.cloneRange();
+							}else{
+								b.mark = dojo.withGlobal(this.window,dijit.getBookmark);
+							}
+						}
+					}else{
+						// Control ranges (img, table, etc), handle differently.
+						dojo.forEach(b.mark,function(n){
 							tmp.push(dijit.range.getIndex(n,this.editNode).o);
 						},this);
 						b.mark = tmp;
 					}
-				}else{//w3c range
-					tmp=dijit.range.getIndex(mark.startContainer,this.editNode).o;
-					b.mark ={startContainer:tmp,
-						startOffset:mark.startOffset,
-						endContainer:mark.endContainer === mark.startContainer?tmp:dijit.range.getIndex(mark.endContainer,this.editNode).o,
-						endOffset:mark.endOffset};
+				}
+				try{
+					if(b.mark && b.mark.startContainer){
+						tmp=dijit.range.getIndex(b.mark.startContainer,this.editNode).o;
+						b.mark={startContainer:tmp,
+							startOffset:b.mark.startOffset,
+							endContainer:b.mark.endContainer===b.mark.startContainer?tmp:dijit.range.getIndex(b.mark.endContainer,this.editNode).o,
+							endOffset:b.mark.endOffset};
+					}
+				}catch(e){
+					b.mark = null;
 				}
 			}
 			return b;

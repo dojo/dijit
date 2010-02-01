@@ -18,9 +18,9 @@ dijit.range.getIndex=function(/*DomNode*/node, /*DomNode*/parent){
 				break;
 			}
 		}
-		if(i>=pnode.childNodes.length){
-			dojo.debug("Error finding index of a node in dijit.range.getIndex");
-		}
+		//if(i>=pnode.childNodes.length){
+			//dojo.debug("Error finding index of a node in dijit.range.getIndex");
+		//}
 		ret.unshift(i);
 		retR.unshift(i-pnode.childNodes.length);
 		node = pnode;
@@ -56,7 +56,7 @@ dijit.range.getNode = function(/*Array*/index, /*DomNode*/parent){
 			node = node.childNodes[i];
 		}else{
 			node = null;
-			console.debug('Error: can not find node with index',index,'under parent node',parent );
+			//console.debug('Error: can not find node with index',index,'under parent node',parent );
 			return false; //terminate dojo.every
 		}
 		return true; //carry on the every loop
@@ -338,21 +338,23 @@ if(!dijit.range._w3c){
 			if(container.nodeType!=3){ //normal node
 				if(offset > 0){
 					node = container.childNodes[offset-1];
-					if(node.nodeType == 3){
-						container = node;
-						offset = node.length;
-						//pass through
-					}else{
-						if(node.nextSibling && node.nextSibling.nodeType == 3){
-							container=node.nextSibling;
-							offset=0;
+					if(node){
+						if(node.nodeType == 3){
+							container = node;
+							offset = node.length;
 							//pass through
 						}else{
-							atmrange.moveToElementText(node.nextSibling?node:container);
-							var parent = node.parentNode;
-							var tempNode = parent.insertBefore(node.ownerDocument.createTextNode(' '), node.nextSibling);
-							atmrange.collapse(false);
-							parent.removeChild(tempNode);
+							if(node.nextSibling && node.nextSibling.nodeType == 3){
+								container=node.nextSibling;
+								offset=0;
+								//pass through
+							}else{
+								atmrange.moveToElementText(node.nextSibling?node:container);
+								var parent = node.parentNode;
+								var tempNode = parent.insertBefore(node.ownerDocument.createTextNode(' '), node.nextSibling);
+								atmrange.collapse(false);
+								parent.removeChild(tempNode);
+							}
 						}
 					}
 				}else{
