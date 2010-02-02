@@ -938,16 +938,19 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 	focus: function(){
 		// summary:
 		//		Move focus to this editor
+		if(!this.isLoaded){
+			this.focusOnLoad = true;
+			return;
+		}
+		if(this._cursorToStart){ 
+			delete this._cursorToStart;
+			if(this.editNode.childNodes){
+				this.placeCursorAtStart(); // this calls focus() so return
+				return;
+			}
+		}
 		if(!dojo.isIE){
 			dijit.focus(this.iframe);
-			if(this._cursorToStart){ 
-				delete this._cursorToStart;
-				if(this.editNode.childNodes && 
-					this.editNode.childNodes.length === 1 && 
-					this.editNode.innerHTML === "&nbsp;"){
-						this.placeCursorAtStart();
-				}
-			}
 		}else if(this.editNode && this.editNode.focus){
 			// editNode may be hidden in display:none div, lets just punt in this case
 			//this.editNode.focus(); -> causes IE to scroll always (strict and quirks mode) to the top the Iframe
@@ -1356,6 +1359,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			}));
 			return;
 		}
+		this._cursorToStart = true;
 		if(this.textarea && (this.isClosed || !this.isLoaded)){
 			this.textarea.value=html;
 		}else{
@@ -1364,7 +1368,6 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 
 			// Use &nbsp; to avoid webkit problems where editor is disabled until the user clicks it
 			if(!html && dojo.isWebKit){
-				this._cursorToStart = true;
 				html = "&nbsp;";
 			}
 			node.innerHTML = html;

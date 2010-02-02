@@ -36,6 +36,16 @@
 					});
 					doh.robot.sequence(function(){}, 1000); // slow down to allow widget to exit edit mode
 				}
+				function save(deferred, widget){
+					moveAndClick(function(){
+						try{
+							var buttons = dojo.query(".saveButton", widget.domNode.parentNode);
+							var saveButton = dojo.query("BUTTON", buttons[buttons.length-1])[0];
+							return saveButton;
+						}catch(e){ deferred.errback(e); }
+					});
+					doh.robot.sequence(function(){}, 1000); // slow down to allow widget to exit edit mode
+				}
 				function testOK(deferred, delay){
 					doh.robot.sequence(dojo.hitch(deferred, "callback", true), delay? delay : 1);
 				}
@@ -324,6 +334,24 @@
 							}), 1000);
 							return d;
 						}	
+					}
+				]);
+
+				doh.register("focus tests", [
+					{
+						name: "RTE",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var inlineBox = dijit.byId("inlineRTE");
+							moveAndClick(inlineBox.domNode);
+							doh.robot.typeKeys("!start!", 1000, 1400);
+							save(d, inlineBox);
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(inlineBox.attr("value").indexOf('!start!') >= 0, "value changed");
+							}), 1000);
+							return d;
+						}
 					}
 				]);
 				doh.run();
