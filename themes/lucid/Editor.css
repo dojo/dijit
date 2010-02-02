@@ -42,7 +42,7 @@
 
 
 .lucid .dijitEditorHover {
-	border: 1px solid #769dc0 !important;
+	border: 1px solid #769dc0;
 }
 .lucid .dijitEditorHover .dijitEditorIFrameContainer{
 	background-color: #eef7ff;
@@ -59,7 +59,7 @@
 
 
 .lucid .dijitEditorFocused {
-	border: 1px solid #81a5c6 !important;
+	border: 1px solid #81a5c6;
 }
 .lucid .dijitEditorFocused .dijitEditorIFrameContainer{
 	background-color: #fff;

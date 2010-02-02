@@ -289,7 +289,9 @@
 
 .dj_ie6 .lucid .dijitTabContainer .dijitTabContainerLeft-tabs, 
 .dj_ie6 .lucid .dijitTabContainer .dijitTabContainerRight-tabs {
-	top: -1px !important;	/* weird, why left & right tab has 1px spacing on the top under ie6??? */
+	/*todo: this rule seems to make no difference for left/right tabs
+	 * 
+	 * top: -1px;	/* weird, why left & right tab has 1px spacing on the top under ie6??? */
 }
 
 

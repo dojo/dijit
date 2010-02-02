@@ -132,6 +132,10 @@
 
 /* disabled status */
 .lucid .dijitComboBoxDisabled .dijitArrowButtonInner {
+	/* !important to override
+	 * 		.lucid .dijitDisabled .dijitArrowButtonInner { background-image:url("images/icon_drop_down.png"); }
+	 * from Button.css
+	 */
 	background:#efefef url("images/arrowdown_disabled.png") no-repeat scroll center center !important;
 }
 

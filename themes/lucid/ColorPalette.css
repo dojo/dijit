@@ -2,9 +2,8 @@
 	outline:1px solid #769dc0; 
 	border: 1px solid #c0ccdf;
 	background:#fff;
-	
 
-	-moz-border-radius: 0px !important;
+	-moz-border-radius: 0px;
 }
 
 .lucid  .dijitColorPalette .dijitPaletteTable {

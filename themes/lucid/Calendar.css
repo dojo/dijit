@@ -175,7 +175,7 @@
 .lucid .dijitCalendarCurrentDate .dijitCalendarDateLabel {
 }
 .lucid .dijitCalendarCurrentMonth {
-	background-color:white !important;
+	background-color:white;
 }
 .lucid .dijitCalendarYearContainer {
 	vertical-align:middle;
@@ -264,18 +264,19 @@
 .lucid .dijitCalendarPreviousMonthDisabled,
 .lucid .dijitCalendarNextMonthDisabled	{
 	/* days that are part of the previous or next month - disabled*/
-	background-color:#a4a5a6 !important;
+	background-color:#a4a5a6;
 }
 .lucid .dijitCalendarCurrentMonthDisabled {
 	/* days that are part of this month - disabled */
-	background-color:#bbbbbc !important;
+	background-color:#bbbbbc;
 }
 .lucid .dijitCalendarDisabledDate {
-	cursor:default !important;
-	text-decoration:line-through !important;
+	cursor:default;
+	text-decoration:line-through;
 }
 /* End Disabled Calendar Style */
 .lucid .dijitCalendarMonthContainer .dijitMenuPassive{
+	/* top: 20px !important modifying date drop down so it appears below, instead of over, the current date */
 	top: 20px !important;
 	left: 0px;
 	border-color: #769dc0;
@@ -291,6 +292,6 @@
 .lucid .dijitCalendarMonthContainer .dijitMenuPassive .dijitMenuItemHover{
 	background-color: #abd6ff;
 	border-color: #769dc0;
-	border-width:1px 0px !important;
+	border-width:1px 0px;
 	background-image: url("images/white_grad.png");
 }

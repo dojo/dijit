@@ -10,10 +10,6 @@
 	-moz-box-shadow: none;
 }
 
-.lucid .dijitDisabled {
-	color: #9B9B9B !important;
-}
-
 .lucid /*, .lucid input, .lucid textarea */{
 	font-family: Verdana,Arial,Helvetica,sans-serif;
 }

@@ -73,8 +73,8 @@
 .lucid .dijitMenuPassive .dijitMenuItemHover,
 .lucid .dijitMenuPassive .dijitMenuItemSelected{
 	background-color: #abd6ff;
-	border-top:solid 1px #769dc0 !important;
-	border-bottom:solid 1px #769dc0 !important;
+	border-top:solid 1px #769dc0 !important;	/* !important to workaround IE6 bug */
+	border-bottom:solid 1px #769dc0 !important;	/* !important to workaround IE6 bug */
 	color:#000;
 	background-image:url(images/white_grad.png);
 	background-repeat:repeat-x;
@@ -89,7 +89,7 @@
 .lucid .dijitMenuPassive .dijitMenuItemSelected,
 .lucid .dijitMenuActive .dijitMenuItemHover,
 .lucid .dijitMenuActive .dijitMenuItemSelected{
-	border:solid 1px #769dc0 !important;
+	border:solid 1px #769dc0 !important;	/* !important to workaround IE6 bug */
 }
 .dijit_a11y .dijitMenuPassive .dijitMenuItemHover,
 .dijit_a11y .dijitMenuPassive .dijitMenuItemSelected,
@@ -101,14 +101,14 @@
 /*.lucid .dijitMenuItemActive,*/
 .lucid .dijitMenuItemActive td,
 .lucid .dijitMenuItemActive li.dijitMenuItemSelected{
-	background-color: #7dbefa !important;
-	background-image:url(images/white_grad_shadow.png) !important;
-	background-repeat:repeat-x !important;
+	background-color: #7dbefa !important;	/* !important to workaround IE6 bug */
+	background-image:url(images/white_grad_shadow.png) !important;	/* !important to workaround IE6 bug */
+	background-repeat:repeat-x !important;	/* !important to workaround IE6 bug */
 
 }
 
 .lucid .dijitMenuItemActive li.dijitMenuItemSelected{
-	border-width:1px 0px !important;
+	border-width:1px 0px !important;	/* !important to workaround IE6 bug */
 }
 
 .lucid .dijitMenuItemIcon {

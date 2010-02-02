@@ -71,12 +71,11 @@
 	outline: 1px invert dotted;
 }
 .lucid .dijitTreeLabel {
-	padding-left:1px !important;
+	padding-left:1px;
 	margin-bottom:-1px;
 
 }
 .lucid .dijitTreeRowSelected{
-	/*background-image: url(images/white_grad.png);*/
 	background-repeat:repeat-x;
 	background-color:#e3f2ff;
 }
@@ -85,8 +84,6 @@
 }
 .lucid .dijitTreeNode .dijitTreeRowHover,
 .lucid .dijitTreeNode .dijitTreeRowActive {
-	/*background-color: #f6f9fa !important;*/
-	/* using a transparent png so that we can still see grid lines, which are (unfortunately) behind the dijitRowNode that we are hovering over */
 	background-image: url(images/white_grad.png);
 	background-repeat:repeat-x;
 	background-color:#abd6ff;
@@ -130,8 +127,6 @@
 	background-image: none;
 }
 .lucid .dijitTreeNode .dijitTreeRowFocused{
-	/*background-color: #f6f9fa !important;*/
-	/* using a transparent png so that we can still see grid lines, which are (unfortunately) behind the dijitRowNode that we are hovering over */
 	background-repeat: repeat;
 	background-color:#e3f2ff;
 	border-color:#bfd6eb;
