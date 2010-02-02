@@ -146,11 +146,13 @@ dojo.declare(
 
 		removeChild: function(child){
 			// Overrides _LayoutWidget.removeChild().
+
+			this.inherited(arguments);
+
+			// destroy wrapper widget after child, because child tries to detach itself from it's parent
 			child._wrapperWidget.destroy();
 			delete child._wrapperWidget;
 			dojo.removeClass(child.domNode, "dijitHidden");
-
-			this.inherited(arguments);
 		},
 
 		getChildren: function(){
