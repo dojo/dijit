@@ -8,39 +8,41 @@
 	-webkit-border-radius: 0;
 }
 
-/*.lucid .dijitTimePickerTick,*/
-.lucid .dijitTimePickerMarker {
-	border-bottom:  1px #c0ccdf solid !important;
-}
 .lucid .dijitTimePicker{
-	border:1px #769dc0 solid !important;
-	background-color:#fff !important;
+	border:1px #769dc0 solid;
+	background-color:#fff;
 	font-family:Verdana, Arial, Helvetica, sans-serif;
 }
-.lucid .dijitTimePickerTick {
-	color:#666;
-	border-top:solid 1px  #fff !important;
-	border-bottom:  1px #c0ccdf solid !important;
-	background-color:#f8f8f8;
+
+.lucid .dijitTimePickerItem{
+	/* dijitTimePickerItem refers to both Tick's (minor values like 2:15, 2:30, 2:45) and Marker's (major values like 2PM, 3PM) */
+	border:solid 1px #fff;
 }
 
 .lucid .dijitTimePickerMarker {
+	/* major value */
 	background:url("images/white_grad.png") repeat-x top;
 	color:#000;
 	font-size:.95em;
-	border:solid 1px #769dc0 !important;
+	border-color: #769dc0;
 	background-color:#dadfe6;
 	margin-top:-1px;
 	margin-left:-1px;
 	margin-right:-1px;
 }
-.lucid .dijitTimePickerItem{
-	border:solid 1px transparent;
+
+.lucid .dijitTimePickerTick {
+	/* minor value */
+	color:#666;
+	border-bottom-color: #c0ccdf;
+	background-color:#f8f8f8;
 }
+
+
 .lucid .dijitTimePickerItemSelected {
 	color: #000;
 	background:#7dbefa url("images/white_grad.png") repeat-x top;
-	border:1px solid #769dc0 !important;
+	border-color: #769dc0;
 	margin-left:-1px;
 	margin-right:-1px;
 }
@@ -48,7 +50,7 @@
 .lucid .dijitTimePickerItemHover{
 	background: #abd6ff none;
 	color:#000;
-	border:1px solid #769dc0 !important;
+	border-color: #769dc0;
 	background:#abd6ff url("images/white_grad.png") repeat-x top;
 	margin-left:-7px;
 	margin-right:-7px;
@@ -56,8 +58,8 @@
 
 .lucid .dijitTimePickerTick .dijitTimePickerItemInner {
 	font-size:0.75em;
-	padding:2px !important;
-	margin:0 !important;
+	padding:2px;
+	margin:0;
 }
 
 .lucid .dijitTimePickerItemHover .dijitTimePickerItemInner,
