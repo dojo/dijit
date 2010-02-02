@@ -206,7 +206,7 @@ tortor pharetra congue. Suspendisse pulvinar.
 		<hr style="width:100%;">
 
 		<h2>Editor</h2>
-		<div id="inlineRTE" dojoType="dijit.InlineEditBox" editor="dijit.Editor""
+		<div id="inlineRTE" dojoType="dijit.InlineEditBox" editor="dijit.Editor"
 			autoSave="false" renderAsHtml="true"
 			editorParams="{height: '', extraPlugins: ['dijit._editor.plugins.AlwaysShowToolbar']}">
 			<b>Aliquam</b> vitae enim. <i>Duis</i> scelerisque metus auctor est venenatis
@@ -248,5 +248,14 @@ tortor pharetra congue. Suspendisse pulvinar.
  			});
 		</script>
 		<hr style="width:100%;">
+		<h2>Complex renderAsHtml="false"</h2>
+		<div id="renderAsHtml_false" dojoType="dijit.InlineEditBox" renderAsHtml="false" width="400px" style="width:400px;">
+			&lt;B&gt;not bold&lt;/B&gt;<B>not bold</B>&amp;lt;input&amp;gt;
+		</div>
+		<hr style="width:100%;">
+		<h2>Complex renderAsHtml="true"</h2>
+		<div id="renderAsHtml_true" dojoType="dijit.InlineEditBox" renderAsHtml="true" width="400px" style="width:400px;">
+			&lt;B&gt;not bold&lt;/B&gt;<B>bold</B>&amp;lt;input&amp;gt;
+		</div>
 	</body>
 </html>
