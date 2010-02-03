@@ -270,6 +270,158 @@
 					}
 				]);
 
+				doh.register("submit", [
+					{
+						name: "plain",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var nameBox = dojo.byId("buttonName");
+							var valueBox = dojo.byId("buttonValue");
+							nameBox.value = 'INIT';
+							valueBox.value = 'INIT';
+
+							doh.robot.mouseMoveAt('Plain', 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(nameBox.value, "Plain", "Plain name");
+								doh.t(/Plain Submit/.test(valueBox.value), "Plain value");
+							}), 1000);
+
+							return d;
+						}
+					},
+					{
+						name: "combo left",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var nameBox = dojo.byId("buttonName");
+							var valueBox = dojo.byId("buttonValue");
+							nameBox.value = 'INIT';
+							valueBox.value = 'INIT';
+
+							doh.robot.mouseMoveAt('Combo', 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(nameBox.value, "Combo", "Combo name");
+								doh.t(/Combo Submit/.test(valueBox.value), "Combo value");
+							}), 1000);
+
+							return d;
+						}
+					},
+					{
+						name: "combo right",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var nameBox = dojo.byId("buttonName");
+							var valueBox = dojo.byId("buttonValue");
+							nameBox.value = 'INIT';
+							valueBox.value = 'INIT';
+
+							var downArrowNode = dojo.query(".dijitDownArrowButton", dojo.byId("Combo"))[0];
+
+							doh.robot.mouseMoveAt(downArrowNode, 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(nameBox.value, "INIT", "Combo Down Arrow name");
+								doh.t(/^INIT$/.test(valueBox.value), "Combo Down Arrow value");
+							}), 1000);
+
+							return d;
+						}
+					},
+					{
+						name: "combo menu",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var nameBox = dojo.byId("buttonName");
+							var valueBox = dojo.byId("buttonValue");
+							nameBox.value = 'INIT';
+							valueBox.value = 'INIT';
+
+							doh.robot.mouseMoveAt("ComboMenuItem", 1000);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(nameBox.value, "", "Combo Arrow name");
+								doh.t(/^$/.test(valueBox.value), "Combo Arrow value");
+							}), 1000);
+
+							return d;
+						}
+					},
+					{
+						name: "drop down",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var nameBox = dojo.byId("buttonName");
+							var valueBox = dojo.byId("buttonValue");
+							nameBox.value = 'INIT';
+							valueBox.value = 'INIT';
+
+							doh.robot.mouseMoveAt('DropDown', 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(nameBox.value, "DropDown", "DropDown name");
+								doh.t(/DropDown Submit/.test(valueBox.value), "DropDown value");
+							}), 1000);
+
+							return d;
+						}
+					},
+					{
+						name: "drop down menu",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var nameBox = dojo.byId("buttonName");
+							var valueBox = dojo.byId("buttonValue");
+							nameBox.value = 'INIT';
+							valueBox.value = 'INIT';
+
+							doh.robot.mouseMoveAt("DropDownMenuItem", 1000);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(nameBox.value, "", "DropDown Arrow name");
+								doh.t(/^$/.test(valueBox.value), "DropDown Arrow value");
+							}), 1000);
+
+							return d;
+						}
+					},
+					{
+						name: "disabled",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var nameBox = dojo.byId("buttonName");
+							var valueBox = dojo.byId("buttonValue");
+							nameBox.value = 'INIT';
+							valueBox.value = 'INIT';
+
+							doh.robot.mouseMoveAt('Disabled', 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(nameBox.value, "INIT", "Disabled name");
+								doh.t(/^INIT$/.test(valueBox.value), "Disabled value");
+							}), 1000);
+
+							return d;
+						}
+					}
+				]);
+
 				doh.run();
 			});
 		</script>

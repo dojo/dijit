@@ -401,5 +401,34 @@
 		<button dojoType="dijit.form.Button" type="reset" id="bReset">Reset</button>
 	</form>
 
+	<h3>Submit/value test</h3>
+	<script>
+		submittedValues = function(values){
+			for(var i in values){
+				document.getElementById('buttonName').value = i;
+				document.getElementById('buttonValue').value = values[i];
+			}
+		};
+	</script>
+	<form dojoType="dijit.form.Form" id="myForm"
+		encType="multipart/form-data" action="../formAction.html" method="" target="_formSubmitIframe">
+		<button id="Plain" name="Plain" type="submit" dojoType="dijit.form.Button" value="Plain Submit" label="Plain Submit"></button>
+		<button id="Combo" name="Combo" type="submit" dojoType="dijit.form.ComboButton" value="Combo Submit" label="Combo Submit">
+			<div dojoType="dijit.Menu" style="display:none;">
+				<div id="ComboMenuItem" dojoType="dijit.MenuItem" onclick="dijit.byId('myForm').submit()">Combo MenuItem Submit</div>
+			</div>
+		</button>
+		<button id="DropDown" name="DropDown" type="submit" dojoType="dijit.form.DropDownButton" value="DropDown Submit" label="DropDown Submit">
+			<div dojoType="dijit.Menu" style="display:none;">
+				<div id="DropDownMenuItem" dojoType="dijit.MenuItem" onclick="dijit.byId('myForm').submit()">DropDown MenuItem Submit</div>
+			</div>
+		</button>
+		<button id="Disabled" name="Disabled" type="submit" dojoType="dijit.form.Button" disabled value="Disabled Submit" label="Disabled Submit"></button>
+	</form>
+	<br>
+	<label for="buttonName">Submitted name:</label><input id="buttonName"><br>
+	<nobr style="width:100%;"><label for="buttonValue">Submitted value:</label><input id="buttonValue" style="width:100%;overflow:hidden;"></nobr>
+<iframe name="_formSubmitIframe" src="about:blank" onload="if(this.values)submittedValues(this.values)" style="display:none;"></iframe>
+
 </body>
 </html>

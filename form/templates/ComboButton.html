@@ -1,7 +1,9 @@
 <table class='dijit dijitReset dijitInline dijitLeft'
 	cellspacing='0' cellpadding='0' waiRole="presentation"
 	><tbody waiRole="presentation"><tr waiRole="presentation"
-		><td class="dijitReset dijitStretch dijitButtonNode" dojoAttachPoint="buttonNode"><button id="${id}_button" class="dijitReset dijitButtonContents"
+		><td class="dijitReset dijitStretch dijitButtonNode" dojoAttachPoint="buttonNode"
+		><button id="${id}_button" class="dijitReset dijitButtonContents"
+			${nameAttrSetting} type="${type}" value="${value}"
 			dojoAttachEvent="onclick:_onButtonClick,onkeypress:_onButtonKeyPress" dojoAttachPoint="titleNode"
 			waiRole="button" waiState="labelledby-${id}_label"
 			><div class="dijitReset dijitInline" dojoAttachPoint="iconNode" waiRole="presentation"></div
@@ -10,7 +12,7 @@
 		><td id="${id}_arrow" class='dijitReset dijitRight dijitButtonNode dijitArrowButton'
 			dojoAttachPoint="_popupStateNode,focusNode,_buttonNode"
 			dojoAttachEvent="onkeypress:_onArrowKeyPress"
-			title="${optionsTitle}" ${nameAttrSetting}
+			title="${optionsTitle}"
 			waiRole="button" waiState="haspopup-true"
 			><div class="dijitReset dijitArrowButtonInner" waiRole="presentation">&thinsp;</div
 			><div class="dijitReset dijitArrowButtonChar" waiRole="presentation">&#9660;</div
