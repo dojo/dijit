@@ -600,6 +600,8 @@ dojo.declare(
 			// tags:
 			//		private
 			if(this._savedSelection){
+				// Clear off cursor to start, we're deliberately going to a selection.
+				delete this._cursorToStart;
 				// only restore the selection if the current range is collapsed
 				// if not collapsed, then it means the editor does not lose
 				// selection and there is no need to restore it

@@ -470,7 +470,9 @@ dojo.declare("dijit._editor.plugins.FontChoice", dijit._editor._Plugin,{
 		this.connect(this.button.select, "onChange", function(choice){
 			// User invoked change, since all internal updates set priorityChange to false and will
 			// not trigger an onChange event.
+			console.log("Calling editor focus.");
 			this.editor.focus();
+			console.log("Done calling editor focus.");
 			
 			if(this.command == "fontName" && choice.indexOf(" ") != -1){ choice = "'" + choice + "'"; }
 
