@@ -470,9 +470,7 @@ dojo.declare("dijit._editor.plugins.FontChoice", dijit._editor._Plugin,{
 		this.connect(this.button.select, "onChange", function(choice){
 			// User invoked change, since all internal updates set priorityChange to false and will
 			// not trigger an onChange event.
-			console.log("Calling editor focus.");
 			this.editor.focus();
-			console.log("Done calling editor focus.");
 			
 			if(this.command == "fontName" && choice.indexOf(" ") != -1){ choice = "'" + choice + "'"; }
 
@@ -516,9 +514,11 @@ dojo.declare("dijit._editor.plugins.FontChoice", dijit._editor._Plugin,{
 			if(quoted){ value = quoted[1]; }
 
 			if(_c === "formatBlock"){
-				if(!value){
+				if(!value || (dojo.isIE && value == "p")){
 					// Some browsers (WebKit) doesn't actually get the tag info right.
-					// So ... lets double-check it.
+					// and IE returns paragraph when in a DIV!, so incorrect a lot,
+					// so we have double-check it.
+					value = null;
 					var elem;
 					// Try to find the current element where the caret is.
 					var sel = dijit.range.getSelection(this.editor.window);
