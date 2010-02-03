@@ -86,8 +86,8 @@
 
 			// Defer parsing and addOnLoad() execution until the specified CSS loads.
 			if(dojo.config._deferParsing){
-				dojo.addOnLoad = originalOnLoad;
 				setTimeout(function(){
+					dojo.addOnLoad = originalOnLoad;
 					dojo.parser.parse(b);
 					for(var i=0; i<loadFuncs.length; i++){
 						loadFuncs[i]();
