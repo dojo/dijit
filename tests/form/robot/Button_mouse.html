@@ -422,6 +422,28 @@
 					}
 				]);
 
+				doh.register("resize", [
+					{
+						name: "ComboButton",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var combo = dijit.byId('combo_default');
+							var origSize = combo.domNode.scrollWidth;
+
+							doh.robot.mouseMoveAt('changeLabels', 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.isNot(origSize, combo.domNode.scrollWidth, "ComboButton size");
+							}), 1000);
+
+							return d;
+						}
+					}
+				]);
+
 				doh.run();
 			});
 		</script>

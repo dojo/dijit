@@ -132,6 +132,7 @@ dojo.declare("dijit.form.Button",
 		dojo.deprecated("dijit.form.Button.setLabel() is deprecated.  Use attr('label', ...) instead.", "", "2.0");
 		this.attr("label", content);
 	},
+
 	_setLabelAttr: function(/*String*/ content){
 		// summary:
 		//		Hook for attr('label', ...) to work.
@@ -278,6 +279,14 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 				});
 			}
 		}
+	},
+
+	_setLabelAttr: function(/*String*/ content){
+		var isIE = dojo.isIE;
+		if(isIE && (isIE < 8 || dojo.isQuirks)){ // fixed in IE8/strict
+			this.titleNode.style.width = "1px"; // onresize handler will set it to the correct size
+		}
+		this.inherited(arguments);
 	},
 
 	_onButtonKeyPress: function(/*Event*/ evt){
