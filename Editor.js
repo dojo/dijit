@@ -212,6 +212,7 @@ dojo.declare(
 
 			var outsideClientArea = this.document.body.componentFromPoint(e.x, e.y);
 			if(!outsideClientArea){
+				delete this._cursorToStart; // Remove the force to cursor to start position. 
 				delete this._savedSelection; // new mouse position overrides old selection
 				if(e.target.tagName == "BODY"){
 					setTimeout(dojo.hitch(this, "placeCursorAtEnd"), 0);
