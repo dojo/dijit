@@ -253,6 +253,8 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 		if(this._resetValue === undefined){
 			this._resetValue = this.value;
 		}
+
+		this.connect(this.domNode, "onmousedown", "_onMouseDown");
 	},
 
 	_setValueAttr: function(/*anything*/ newValue, /*Boolean, optional*/ priorityChange){
@@ -296,6 +298,18 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 				e.srcElement.fireEvent('onkeypress', te);
 			}
 		}
+	},
+
+	_onMouseDown: function(e){
+		// Set a global event to handle mouseup, so it fires properly
+		// even if the cursor leaves this.domNode before the mouse up event.
+		var mouseUpConnector = this.connect(dojo.body(), "onmouseup", function(){
+			// if user clicks on the button, even if the mouse is released outside of it,
+			// this button should get focus (which mimics native browser buttons)
+			if(this.isFocusable()){
+				this.focus();
+			}
+		});
 	},
 
 	_layoutHackIE7: function(){

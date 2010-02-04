@@ -90,11 +90,6 @@ dojo.declare("dijit._CssStateMixin", [], {
 					// even if the cursor leaves this.domNode before the mouse up event.
 					// Alternately could set active=false on mouseout.
 					var mouseUpConnector = this.connect(dojo.body(), "onmouseup", function(){
-						// if user clicks on the button, even if the mouse is released outside of it,
-						// this button should get focus (which mimics native browser buttons)
-						if(this._mouseDown && this.isFocusable()){
-							this.focus();
-						}
 						this._active = false;
 						this._mouseDown = false;
 						this._setStateClass();
