@@ -309,6 +309,7 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 			if(this.isFocusable()){
 				this.focus();
 			}
+			this.disconnect(mouseUpConnector);
 		});
 	},
 
