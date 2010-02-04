@@ -6,17 +6,6 @@
 	font-family:Verdana, Arial, Helvetica, sans-serif; /* remove for final code as font styling should be picked up from the parent */
 	font-weight:normal;/* remove for final code as font styling should be picked up from the parent */
 	font-size:11px;/* remove for final code as font styling should be picked up from the parent */
-	border-top:solid 1px transparent;
-	border-bottom:solid 1px transparent;
-}
-.dj_ie6 .lucid .dijitTreeNode {
-    border-top:none;
-	border-bottom:none;
-}
-
-.dijit_a11y .dijitTreeNode {
-    border-top:none;
-	border-bottom:none;
 }
 
 .lucid .dijitTreeIsRoot {
@@ -31,21 +20,8 @@
 
 .lucid .dijitTreeRow {
 	/* so insert line shows up on IE when dropping after a target element */
-	padding-bottom: 1px;
-	padding-top:3px;
-}
-
-.dj_ie7 .lucid .dijitTreeRow{
-	border-top:solid 1px transparent;
-	border-bottom:solid 1px transparent;
-}
-.dj_ie6 .lucid .dijitTreeRow {
-	margin-top:1px;
-	margin-bottom:1px;
-}
-.dijit_a11y .dijitTreeRow{
-	border-top:none !important;
-	border-bottom:none !important;	
+	padding-bottom: 2px;
+	padding-top:4px;
 }
 
 .lucid .dijitTreeContent {
@@ -73,59 +49,38 @@
 .lucid .dijitTreeLabel {
 	padding-left:1px;
 	margin-bottom:-1px;
-
 }
 .lucid .dijitTreeRowSelected{
 	background-repeat:repeat-x;
 	background-color:#e3f2ff;
 }
-.lucid .dijitTreeRowSelected .dijitTreeLabel {
-	
-}
-.lucid .dijitTreeNode .dijitTreeRowHover,
-.lucid .dijitTreeNode .dijitTreeRowActive {
+.lucid .dijitTreeNode .dijitTreeRowHover {
 	background-image: url(images/white_grad.png);
 	background-repeat:repeat-x;
 	background-color:#abd6ff;
 	border-top:solid 1px #769dc0;
 	border-bottom:solid 1px #769dc0;
-	margin-top:-1px;
-	margin-bottom:-1px;
+	padding-bottom: 1px;
+	padding-top:3px;
 }
 .dj_ie6 .lucid .dijitTreeNode .dijitTreeRowHover {
 	background-image: none;
 }
-.dj_ie6 .lucid .dijitTreeNode .dijitTreeRowHover,
-.dj_ie7 .lucid .dijitTreeNode .dijitTreeRowHover,
-.dj_ie6 .lucid .dijitTreeNode .dijitTreeRowActive,
-.dj_ie7 .lucid .dijitTreeNode .dijitTreeRowActive {
-	margin-top:0px;
-	margin-bottom:0px;
-}
-.dijit_a11y .dijitTreeNode .dijitTreeRowHover,
-.dijit_a11y .dijitTreeNode .dijitTreeRowActive {
-	border-top:none;
-	border-bottom:none;
-	margin-top:0px;
-	margin-bottom:0px;	
-}
-
-.dj_ie6 .dijit_a11y .dijitTreeNode .dijitTreeRowHover,
-.dj_ie6 .dijit_a11y .dijitTreeNode .dijitTreeRowActive {
-	margin-top:1px !important;
-	margin-bottom:1px !important;	
-}
 
 /* Proper class needs tp be created */
 .lucid .dijitTreeNode .dijitTreeRowActive {
-	background-repeat: repeat;
 	background-color:#7dbefa;
 	background-image: url(images/white_grad_shadow.png);
 	background-repeat:repeat-x;
+	border-top:solid 1px #769dc0;
+	border-bottom:solid 1px #769dc0;
+	padding-bottom: 1px;
+	padding-top:3px;
 }
 .dj_ie6 .lucid .dijitTreeNode .dijitTreeRowActive {
 	background-image: none;
 }
+
 .lucid .dijitTreeNode .dijitTreeRowFocused{
 	background-repeat: repeat;
 	background-color:#e3f2ff;
