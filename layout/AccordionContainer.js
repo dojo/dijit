@@ -77,7 +77,10 @@ dojo.declare(
 			// Set the height of the open pane based on what room remains.
 
 			var openPane = this.selectedChildWidget,
-				openPaneContainer = openPane._wrapperWidget.domNode;
+				openPaneContainer = openPane._wrapperWidget.domNode,
+				openPaneContainerMargin = dojo._getMarginExtents(openPaneContainer),
+				openPaneContainerPadBorder = dojo._getPadBorderExtents(openPaneContainer),
+				mySize = this._contentBox;
 
 			// get cumulative height of all the unselected title bars
 			var totalCollapsedHeight = 0;
@@ -86,14 +89,13 @@ dojo.declare(
 					totalCollapsedHeight += dojo.marginBox(child._wrapperWidget.domNode).h;
 				}
 			});
-			var mySize = this._contentBox;
-			this._verticalSpace = mySize.h - totalCollapsedHeight - dojo._getMarginExtents(openPaneContainer).h 
-			 	- dojo._getPadBorderExtents(openPaneContainer).h - openPane._buttonWidget.getTitleHeight();
+			this._verticalSpace = mySize.h - totalCollapsedHeight - openPaneContainerMargin.h 
+			 	- openPaneContainerPadBorder.h - openPane._buttonWidget.getTitleHeight();
 
 			// Memo size to make displayed child
 			this._containerContentBox = {
 				h: this._verticalSpace,
-	            w: dojo.contentBox(openPaneContainer).w
+				w: this._contentBox.w - openPaneContainerMargin.w - openPaneContainerPadBorder.w
 			};
 
 			if(openPane){
