@@ -12,7 +12,7 @@ dojo.declare("dijit.form.NumberSpinner",
 	// description:
 	//		A `dijit.form.NumberTextBox` extension to provide keyboard accessible value selection
 	//		as well as icons for spinning direction. When using the keyboard, the typematic rules
-	//		apply, meaning holding the key will gradually increarease or decrease the value and
+	//		apply, meaning holding the key will gradually increase or decrease the value and
 	// 		accelerate.
 	//
 	// example:

@@ -96,7 +96,7 @@ dojo.declare(
 		//		this represents the displayed value.
 		//
 		//		Setting 'displayedValue' through attr('displayedValue', ...)
-		//		updates 'value', and vice-versa.  Othewise 'value' is updated
+		//		updates 'value', and vice-versa.  Otherwise 'value' is updated
 		//		from 'displayedValue' periodically, like onBlur etc.
 		//
 		//		TODO: move declaration to MappedTextBox?
