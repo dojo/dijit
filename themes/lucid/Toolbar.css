@@ -19,8 +19,6 @@
 /* hover status */
 .lucid .dijitToolbar .dijitButtonHover .dijitButtonNode,
 .lucid .dijitToolbar .dijitDropDownButtonHover .dijitButtonNode,
-/*.lucid .dijitToolbar .dijitComboButtonHover .dijitStretch,*/
-/*.lucid .dijitToolbar .dijitComboButtonDownArrowHover .dijitDownArrowButton,*/
 .lucid .dijitToolbar .dijitComboButton .dijitButtonNodeHover,
 .lucid .dijitToolbar .dijitComboButton .dijitDownArrowButtonHover,
 .lucid .dijitToolbar .dijitToggleButtonHover .dijitButtonNode {
@@ -33,8 +31,6 @@
 /* actve status */
 .lucid .dijitToolbar .dijitButtonActive .dijitButtonNode,
 .lucid .dijitToolbar .dijitDropDownButtonActive .dijitButtonNode,
-/*.lucid .dijitToolbar .dijitComboButtonActive .dijitStretch,*/
-/*.lucid .dijitToolbar .dijitComboButtonDownArrowActive .dijitDownArrowButton,*/
 .lucid .dijitToolbar .dijitComboButton .dijitButtonNodeActive,
 .lucid .dijitToolbar .dijitComboButton .dijitDownArrowButtonActive,
 .lucid .dijitToolbar .dijitToggleButtonActive .dijitButtonNode {
@@ -68,15 +64,11 @@
 
 .dj_ie6 .lucid .dijitToolbar .dijitButtonHover .dijitButtonNode,
 .dj_ie6 .lucid .dijitToolbar .dijitDropDownButtonHover .dijitButtonNode,
-/*.dj_ie6 .lucid .dijitToolbar .dijitComboButtonHover .dijitStretch,*/
-/*.dj_ie6 .lucid .dijitToolbar .dijitComboButtonDownArrowHover .dijitDownArrowButton,*/
 .dj_ie6 .lucid .dijitToolbar .dijitComboButton .dijitButtonNodeHover,
 .dj_ie6 .lucid .dijitToolbar .dijitComboButton .dijitDownArrowButtonHover,
 .dj_ie6 .lucid .dijitToolbar .dijitToggleButtonHover .dijitButtonNode,
 .dj_ie6 .lucid .dijitToolbar .dijitButtonActive .dijitButtonNode,
 .dj_ie6 .lucid .dijitToolbar .dijitDropDownButtonActive .dijitButtonNode,
-/*.dj_ie6 .lucid .dijitToolbar .dijitComboButtonActive .dijitStretch,*/
-/*.dj_ie6 .lucid .dijitToolbar .dijitComboButtonDownArrowActive .dijitDownArrowButton,*/
 .dj_ie6 .lucid .dijitToolbar .dijitComboButton .dijitButtonNodeActive,
 .dj_ie6 .lucid .dijitToolbar .dijitComboButton .dijitDownArrowButtonActive,
 .dj_ie6 .lucid .dijitToolbar .dijitToggleButtonActive .dijitButtonNode,
@@ -94,10 +86,3 @@
 	padding: 1px;	/* ComboButton use table td has no margin, so we minus padding 2px -> 1px for the 1px border. ie6... */
 }
 
-/*
-.dj_ie6 .lucid .dijitToolbar .dijitComboButtonHover .dijitStretch,
-.dj_ie6 .lucid .dijitToolbar .dijitComboButtonDownArrowHover .dijitDownArrowButton,
-.dj_ie6 .lucid .dijitToolbar .dijitComboButtonActive .dijitStretch,
-.dj_ie6 .lucid .dijitToolbar .dijitComboButtonDownArrowActive .dijitDownArrowButton {
-	padding: 1px;
-}*/
