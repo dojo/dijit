@@ -76,12 +76,12 @@
 	padding-top: 3px;
 }
 
-.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab.dijitTabChecked .dijitTabContent{
+.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTabChecked .dijitTabContent{
 	padding-bottom: 4px;
 	padding-top: 7px;
 	border-bottom: none;
 }
-.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab.dijitTabChecked {
+.lucid .dijitTabContainer .dijitTabContainerTop-tabs dijitTabChecked {
 	padding-top: 0;
 }
 
@@ -98,11 +98,11 @@
 }
 
 /* checked status */
-.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab.dijitTabChecked .dijitTabInnerDiv { 
+.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTabChecked .dijitTabInnerDiv { 
 	background-color:#fff;
 	background-image:none;
 }
-.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab.dijitTabChecked .dijitTabInnerDiv .dijitTabContent{
+.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTabChecked .dijitTabInnerDiv .dijitTabContent{
 	background-image:url(images/focus.png);
 }
 
@@ -135,12 +135,12 @@
 	padding-bottom: 3px;
 }
 
-.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab.dijitTabChecked .dijitTabContent{
+.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTabChecked .dijitTabContent{
 	padding-bottom: 7px;
 	padding-top: 4px;
 	border-top: none;
 }
-.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab.dijitTabChecked {
+.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTabChecked {
 	padding-bottom: 0;
 }
 
@@ -158,7 +158,7 @@
 }
 
 /* checked status */
-.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab.dijitTabChecked .dijitTabInnerDiv{
+.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTabChecked .dijitTabInnerDiv{
 	background-image:none;
 }
 
@@ -201,13 +201,13 @@
 }
 
 /* checked status */
-.lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab.dijitTabChecked .dijitTabInnerDiv .dijitTabContent {
+.lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTabChecked .dijitTabInnerDiv .dijitTabContent {
 	padding-right: 9px;
 	border-right: none;
 	
 	background-image: none;
 }
-.lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab.dijitTabChecked .dijitTabInnerDiv{
+.lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTabChecked .dijitTabInnerDiv{
 	background-image: url(images/focus.png);
 }
 
@@ -248,13 +248,13 @@
 }
 
 /* checked status */
-.lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab.dijitTabChecked .dijitTabInnerDiv .dijitTabContent {
+.lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTabChecked .dijitTabInnerDiv .dijitTabContent {
 	padding-left: 5px;
 	border-left: none;
 	
 	background-image: none;
 }
-.lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab.dijitTabChecked .dijitTabInnerDiv{
+.lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTabChecked .dijitTabInnerDiv{
 	background-image: url(images/focus.png);
 }
 
@@ -268,10 +268,10 @@
 .dj_ie7 .lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab {
 	top: 2px;	/* 1px under other browsers */
 }
-.dj_ie7 .lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab.dijitTabChecked {
+.dj_ie7 .lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTabChecked {
 	top: 1px;	/* 1px under other browsers */
 }
-.dj_ie7 .lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab.dijitTabChecked {
+.dj_ie7 .lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTabChecked {
 	top: -2px;	/* -1px under other browsers */
 }
 
