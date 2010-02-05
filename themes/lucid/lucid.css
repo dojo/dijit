@@ -24,6 +24,7 @@
 
 /* RTL files */
 @import url("../dijit_rtl.css");
+@import url("form/Common_rtl.css");
 @import url("form/Button_rtl.css");
 @import url("layout/TabContainer_rtl.css");
 @import url("form/Slider_rtl.css");
