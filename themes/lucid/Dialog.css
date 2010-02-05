@@ -204,10 +204,6 @@
 	-webkit-box-shadow: 0px 5px 10px #adadad;
 }
 
-/*
-.dj_ie6 .lucid .dijitPopup .dijitTooltipContainer,
-.dj_ie6 .lucid .dijitPopup .dijitMenu {
-	filter: progid:DXImageTransform.Microsoft.Shadow(color='#666666', Direction=135, Strength=3);
+.lucid .dijitDialogUnderlay {
+	background: #fff;
 }
-*/
-
