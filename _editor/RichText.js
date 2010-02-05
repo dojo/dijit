@@ -698,6 +698,14 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			// not contentEditable.   Removing it would also probably remove the need for creating
 			// the extra <div> in _getIframeDocTxt()
 			this.editNode.style.zoom = 1.0;
+		}else{
+			this.connect(this.document, "onmousedown", function(){
+				// Clear the moveToStart focus, as mouse 
+				// down will set cursor point.  Required to properly
+				// work with selection/position driven plugins and clicks in
+				// the window. refs: #10678
+				delete this._cursorToStart;
+			}); 
 		}
 
 		if(dojo.isWebKit){
