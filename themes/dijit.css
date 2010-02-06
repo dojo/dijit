@@ -795,9 +795,32 @@ body .dijitAlignClient { position: absolute; }
 }
 
 /* TitlePane */
+
 .dijitTitlePane {
 	display: block;
 	overflow: hidden;
+}
+.dijitTitlePaneTitle * {
+	vertical-align: middle;
+}
+.dijitTitlePane .dijitArrowNodeInner {
+	/* normally, hide arrow text in favor of icon */
+	display: none;
+}
+.dijit_a11y .dijitTitlePane .dijitArrowNodeInner {
+	/* ... except in a11y mode, then show text arrow */
+	display:inline !important;
+	font-family: monospace;		/* because - and + are different widths */
+}
+.dijit_a11y .dijitTitlePane .dijitArrowNode {
+	/* ... and hide icon */
+	display:none;
+}
+
+.dj_ie6 .dijitTitlePaneContentOuter,
+.dj_ie6 .dijitTitlePane .dijitTitlePaneTitle {
+	/* force hasLayout to ensure borders etc, show up */
+	zoom: 1;
 }
 
 /* Color Palette
@@ -1831,4 +1854,5 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .dijitForceStatic {
 	position: static !important;
 }
+
 

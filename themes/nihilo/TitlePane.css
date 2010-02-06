@@ -17,22 +17,13 @@
 	cursor: pointer;
 }
 
-.nihilo .dijitTitlePaneTitle * {
-	vertical-align: middle;
-}
-
 .nihilo .dijitTitlePane .dijitOpen .dijitArrowNode,
 .nihilo .dijitTitlePane .dijitClosed .dijitArrowNode {
 	width:15px;
 	height:15px;
 }
 
-.nihilo .dijitTitlePaneFocused .dijitTitlePaneTextNode {
-	color: #243C5F;
-}
-
-.nihilo .dijitOpen .dijitTitlePaneTextNode,
-.nihilo .dijitFixedOpen .dijitTitlePaneTextNode {
+.nihilo .dijitTitlePaneTextNode {
 	color: #243C5F;
 }
 
@@ -48,20 +39,6 @@
 .dj_ie6 .nihilo .dijitTitlePane .dijitOpen .dijitArrowNode {
 	background:url('images/spriteRoundedIconsSmall.gif') no-repeat -15px top;
 }
-.nihilo .dijitTitlePane .dijitArrowNodeInner {
-	display:none;
-}
-
-.dijit_a11y .dijitTitlePane .dijitOpen .dijitArrowNodeInner,
-.dijit_a11y .dijitTitlePane .dijitClosed .dijitArrowNodeInner {
-	display:inline !important;
-	font-family:monospace;
-	padding-bottom:.2em;
-}
-
-.dijit_a11y .dijitTitlePane .dijitArrowNode {
-	display:none;
-}
 
 .nihilo .dijitTitlePaneContentOuter {
 	background: #ffffff;
@@ -70,11 +47,6 @@
 }
 .nihilo .dijitTitlePaneContentInner {
 	padding:10px;
-}
-/* force hasLayout to ensure borders etc, show up */
-.dj_ie6 .nihilo .dijitTitlePaneContentOuter,
-.dj_ie6 .nihilo .dijitTitlePane .dijitTitlePaneTitle {
-	zoom: 1;
 }
 
 .nihilo .dijitTitlePaneTextNode {

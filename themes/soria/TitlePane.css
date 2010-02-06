@@ -27,13 +27,7 @@
 	height:15px;
 }
 
-.soria .dijitTitlePaneFocused .dijitTitlePaneTextNode {
-	color: #243C5F;
-}
-
-
-.soria .dijitOpen .dijitTitlePaneTextNode,
-.soria .dijitFixedOpen .dijitTitlePaneTextNode {
+.soria .dijitTitlePaneTextNode {
 	color: #243C5F;
 }
 
@@ -49,20 +43,6 @@
 .dj_ie6 .soria .dijitTitlePane .dijitOpen .dijitArrowNode {
 	background:url('images/spriteRoundedIconsSmall.gif') no-repeat -15px top;
 }
-.soria .dijitTitlePane .dijitArrowNodeInner {
-	display:none;
-}
-
-.dijit_a11y .dijitTitlePane .dijitOpen .dijitArrowNodeInner,
-.dijit_a11y .dijitTitlePane .dijitClosed .dijitArrowNodeInner {
-	display:inline !important;
-	font-family:monospace;
-	padding-bottom:.2em;
-}
-
-.dijit_a11y .dijitTitlePane .dijitArrowNode {
-	display:none;
-}
 
 .soria .dijitTitlePaneContentOuter {
 	background: #ffffff;
@@ -71,11 +51,6 @@
 }
 .soria .dijitTitlePaneContentInner {
 	padding:10px;
-}
-/* force hasLayout to ensure borders etc, show up */
-.dj_ie6 .soria .dijitTitlePaneContentOuter,
-.dj_ie6 .soria .dijitTitlePane .dijitTitlePaneTitle {
-	zoom: 1;
 }
 
 .soria .dijitTitlePaneTextNode {
