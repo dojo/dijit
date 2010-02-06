@@ -75,16 +75,6 @@
 	margin-top:-1px;
 }
 
-.dijit_a11y .dijitTimePickerTickHover {
-	background-color: #CCC !important;
-	border-top: 1px solid #900 !important;
-	border-bottom: none !important;
-}
-
-.dijit_a11y .dijitTimePickerMarkerHover {
-	border-bottom-width: 0px;
-}
-
 /* add by wendong for arrow button */
 .lucid .dijitTimePicker .dijitUpArrowButton,
 .lucid .dijitTimePicker .dijitDownArrowButton {

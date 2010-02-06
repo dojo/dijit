@@ -50,13 +50,3 @@
 	border-bottom: none;
 }
 
-.dijit_a11y .dijitTimePickerTickHover {
-	background-color: #CCC !important;
-	border-top: 1px solid #333 !important;
-	border-bottom: 1px solid #333 !important;
-}
-
-.dijit_a11y .dijitTimePickerMarkerHover {
-	border-bottom-width: 2px;
-}
-
