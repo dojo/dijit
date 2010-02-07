@@ -156,10 +156,6 @@
 	background-image: none;
 }
 
-.dijit_a11y .dijitSliderProgressBar {
-	background-color: #888 !important;
-}
-
 .lucid .dijitSliderImageHandleH {
 	border: 0px;
 	width: 16px;
