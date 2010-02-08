@@ -259,9 +259,9 @@ dojo.declare(
 					childItems.splice(insertIndex, 0, childItem);
 					store.setValues(newParentItem, parentAttr, childItems);
 				}else{
-				store.setValues(newParentItem, parentAttr,
-					store.getValues(newParentItem, parentAttr).concat(childItem));
-			}
+					store.setValues(newParentItem, parentAttr,
+						store.getValues(newParentItem, parentAttr).concat(childItem));
+				}
 			}
 		},
 
