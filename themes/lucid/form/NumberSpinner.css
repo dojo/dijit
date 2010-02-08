@@ -150,6 +150,7 @@
 
 /* input field */
 .lucid .dijitSpinner input {
+	/* TODO: apparently unneeded */
 	display:block;
 }
 

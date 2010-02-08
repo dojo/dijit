@@ -409,10 +409,8 @@ table .dijitComboButton .dijitButtonNode {
 	outline: auto 5px -webkit-focus-ring-color;
 }
 
-.dijitTextBox INPUT,
-.dijitComboBox INPUT,
-.dijitSpinner INPUT {
-	border-left: solid black 1px;	/* TODO: for RTL mode should be border-right */
+.dijitTextBox INPUT {
+	/* for when an <input> is embedded inside an inline-block <div> with a size and border */
 	display:inline;
 	position:static !important;
 	border:0 !important;
@@ -423,31 +421,29 @@ table .dijitComboButton .dijitButtonNode {
 	width:100% !important;
 }
 
-/* Display an "X" for invalid input. Themes will override these rules to display an icon instead.
-*/
+/* when there's an error, a11y mode displays a text X, otherwise themes display an icon */
 .dijitValidationIcon {
-	visibility: hidden;
-	display: block;
+	display: none;
 	padding: 0 2px;
 	float: right;
 	height: auto;
 }
 .dijitValidationIconText {
-	visibility: hidden;
 	display: none;
 	float:right;
-	font-family: sans-serif;
-	font-style:italic;
-	font-size: 0.75em;
-	padding-right: 0.15em;
-	line-height: 160%;
+	border: 1px solid black;
+	padding: 0px 1px;
+	font-size: 0.8em;
+	margin: 1px;
 }
-.dijit_a11y .dijitValidationIcon { display: none !important; }
-.dijit_a11y .dijitValidationIconText { display: block !important; }
-
-.dijitError .dijitValidationIcon,
-.dijitError .dijitValidationIconText {
-	visibility: visible;
+.dijitError .dijitValidationIcon {
+	display: block;
+}
+.dijit_a11y .dijitError .dijitValidationIconText {
+	display: inline !important;
+}
+.dijit_a11y .dijitError .dijitValidationIcon {
+	display: none !important;
 }
 
 /****
