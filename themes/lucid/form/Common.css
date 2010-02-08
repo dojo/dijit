@@ -51,6 +51,7 @@
 
 /* check status */
 .lucid .dijitTextBoxFocused {
+	border: 1px solid #769dc0;
 	background-color: #fff;
 	background-image: url('images/textBox_back_checked.png');
 }
