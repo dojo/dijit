@@ -514,7 +514,7 @@ dojo.declare("dijit._editor.plugins.FontChoice", dijit._editor._Plugin,{
 			if(quoted){ value = quoted[1]; }
 
 			if(_c === "formatBlock"){
-				if(!value || (dojo.isIE && value == "p")){
+				if(!value || value == "p"){
 					// Some browsers (WebKit) doesn't actually get the tag info right.
 					// and IE returns paragraph when in a DIV!, so incorrect a lot,
 					// so we have double-check it.
