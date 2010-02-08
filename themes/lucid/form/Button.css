@@ -3,19 +3,15 @@
 	background-position: center top;
 	background-repeat: repeat-x;
 	background-color: #cde3f6;
-
 	border: 1px solid #799ab7;
 	padding:4px 10px 4px 10px;
-
 	border-radius: 4px;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
-
 	box-shadow:0px 1px 1px rgba(0,0,0,0.2);
 	-webkit-box-shadow:0px 1px 1px rgba(0,0,0,0.2);
 	-moz-box-shadow: 0px 1px 1px rgba(0,0,0,0.2);
 }
-
 
 .lucid .dijitButtonNode button {
 	background-color: transparent;
@@ -40,6 +36,10 @@
 .lucid .dijitButtonText {
 	padding: 0 0.3em;
 	text-align: center;
+}
+
+.lucid .dijitDisabled .dijitButtonText {
+	color: #7F7F7F;
 }
 
 /* hover status */
@@ -70,22 +70,18 @@
 
 .lucid .dijitButtonDisabled .dijitButtonNode,
 .lucid .dijitDropDownButtonDisabled .dijitButtonNode,
-.lucid .dijitComboButtonDisabled .dijitButtonNode{ 
-/*.lucid .dijitComboButtonDownArrowDisabled .dijitArrowButton {*/
+.lucid .dijitComboButtonDisabled .dijitButtonNode,
+.lucid .dijitToggleButtonDisabled .dijitButtonNode{ 
 	background-image: url(images/button_grad_d.png);
 	background-color: #dddddd;
 	border: solid 1px #c9c9c9;
 	color: #696969;
 }
 
-
 /* for ComboButton */
 .lucid table.dijitComboButton {
 	border-collapse: separate;	/* overrid dijit.css */
 }
-
-
-/** hacks for browsers **/
 
 /* ie6 & ie7 doesn't support min-width */
 .dj_ie6 .lucid .dijitComboButton .dijitArrowButton,
@@ -111,4 +107,3 @@
     -webkit-border-bottom-right-radius: 4px;
     -webkit-border-bottom-left-radius: 0px;
 }
-
