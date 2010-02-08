@@ -473,10 +473,12 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 
 		// The contents inside of <body>.  The real contents are set later via a call to setValue().
 		var html = "";
+		var setBodyId = true;
 		if(dojo.isIE || (!this.height && !dojo.isMoz)){
 			// In auto-expand mode, need a wrapper div for AlwaysShowToolbar plugin to correctly
 			// expand/contract the editor as the content changes.
-			html = "<div></div>";
+			html = "<div id='dijitEditorBody'></div>";
+			setBodyId = false;
 		}else if(dojo.isMoz){
 			// workaround bug where can't select then delete text (until user types something
 			// into the editor)... and/or issue where typing doesn't erase selected text
@@ -507,36 +509,48 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		var label=dojo.query('label[for="'+this.id+'"]');
 
 		return [
-			this.isLeftToRight() ? "<html><head>" : "<html dir='rtl'><head>",
-			(dojo.isMoz && label.length ? "<title>" + label[0].innerHTML + "</title>" : ""),
-			"<meta http-equiv='Content-Type' content='text/html'>",
-			"<style>",
-			"body,html {",
-			"\tbackground:transparent;",
-			"\tpadding: 1px 0 0 0;",
-			"\tmargin: -1px 0 0 0;", // remove extraneous vertical scrollbar on safari and firefox
-			(dojo.isWebKit?"\twidth: 100%;":""),
-			(dojo.isWebKit?"\theight: 100%;":""),
-			"}",
+			this.isLeftToRight() ? "<html>\n<head>\n" : "<html dir='rtl'>\n<head>\n",
+			(dojo.isMoz && label.length ? "<title>" + label[0].innerHTML + "</title>\n" : ""),
+			"<meta http-equiv='Content-Type' content='text/html'>\n",
+			"<style>\n",
+			"\tbody,html {\n",
+			"\t\tbackground:transparent;\n",
+			"\t\tpadding: 1px 0 0 0;\n",
+			"\t\tmargin: -1px 0 0 0;\n", // remove extraneous vertical scrollbar on safari and firefox
+
+			// Set the html/body sizing.  Webkit always needs this, other browsers
+			// only set it when height is defined (not auto-expanding), otherwise 
+			// scrollers do not appear.
+			((dojo.isWebKit)?"\t\twidth: 100%;\n":""),
+			((dojo.isWebKit)?"\t\theight: 100%;\n":""),
+			"\t}\n",
+			
 			// TODO: left positioning will cause contents to disappear out of view
 			//	   if it gets too wide for the visible area
-			"body{",
-			"\ttop:0px; left:0px; right:0px;",
-			"\tfont:", font, ";",
-				((this.height||dojo.isOpera) ? "" : "position: fixed;"),
+			"\tbody{\n",
+			"\t\ttop:0px;\n",
+			"\t\tleft:0px;\n",
+			"\t\tright:0px;\n",
+			"\t\tfont:", font, ";\n",
+				((this.height||dojo.isOpera) ? "" : "\t\tposition: fixed;\n"),
 			// FIXME: IE 6 won't understand min-height?
-			"\tmin-height:", this.minHeight, ";",
-			"\tline-height:", lineHeight,
-			"}",
-			"p{ margin: 1em 0; }",
-			(this.height ? // height:auto undoes the height:100%
-				"" : "body,html{overflow-y:hidden;/*for IE*/} body > div {overflow-x:auto;/*FF:horizontal scrollbar*/ overflow-y:hidden;/*safari*/ min-height:"+this.minHeight+";/*safari*/}"
-			),
-			"li > ul:-moz-first-node, li > ol:-moz-first-node{ padding-top: 1.2em; } ",
-			"li{ min-height:1.2em; }",
-			"</style>",
-			this._applyEditingAreaStyleSheets(),
-			"</head><body onload='frameElement._loadFunc(window,document)' style='"+userStyle+"'>", html, "</body></html>"
+			"\t\tmin-height:", this.minHeight, ";\n",
+			"\t\tline-height:", lineHeight,";\n",
+			"\t}\n",
+			"\tp{ margin: 1em 0; }\n",
+			
+			// Determine how scrollers should be applied.  In autoexpand mode (height = "") no scrollers on y at all.
+			// But in fixed height mode we want both x/y scrollers.  Also, if it's using wrapping div and in auto-expand
+			// (Mainly IE) we need to kill the y scroller on body and html.
+			(!setBodyId && !this.height ? "\tbody,html {overflow-y: hidden;}\n" : ""),
+			"\t#dijitEditorBody{overflow-x: auto; overflow-y:" + (this.height ? "auto;" : "hidden;") + "}\n",
+			"\tli > ul:-moz-first-node, li > ol:-moz-first-node{ padding-top: 1.2em; }\n",
+			"\tli{ min-height:1.2em; }\n",
+			"</style>\n",
+			this._applyEditingAreaStyleSheets(),"\n",
+			"</head>\n<body ",
+			(setBodyId?"id='dijitEditorBody' ":""),
+			"onload='frameElement._loadFunc(window,document)' style='"+userStyle+"'>", html, "</body>\n</html>"
 		].join(""); // String
 	},
 
@@ -1821,7 +1835,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 	getFooterHeight: function(){
 		// summary:
 		//		A function for obtaining the height of the footer node
-        return this._getNodeChildrenHeight(this.footer); // Number
+		return this._getNodeChildrenHeight(this.footer); // Number
 	},
 
 	_getNodeChildrenHeight: function(node){
