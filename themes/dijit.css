@@ -1779,6 +1779,10 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	width: 16px;
 }
 
+.dijitSelectMenu .dijitMenuItemIcon {
+	/* avoid blank area in left side of menu (since we have no icons) */
+	display:none;
+}
 .dj_ie6 .dijitSelectMenu .dijitMenuItemLabel,
 .dj_ie7 .dijitSelectMenu .dijitMenuItemLabel {
 	/* Set back to static due to bug in ie6/ie7 - See Bug #9651 */

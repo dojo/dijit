@@ -50,10 +50,6 @@
 .nihilo .dijitSelectMenu td {
 	padding: 0em;
 }
-.nihilo .dijitSelectMenu .dijitMenuItemIcon {
-	margin: 0.1em 0.2em;
-	display: none;
-}
 .nihilo .dijitSelectMenu .dijitMenuItemLabel,
 .nihilo .dijitSelectMenu .dijitMenuArrowCell {
 	padding: 0.1em 0.2em;

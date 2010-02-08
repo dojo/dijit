@@ -53,10 +53,6 @@
 .tundra .dijitSelectMenu td {
 	padding: 0em;
 }
-.tundra .dijitSelectMenu .dijitMenuItemIcon {
-	margin: 0.1em 0.2em;
-	display: none;
-}
 .tundra .dijitSelectMenu .dijitMenuItemLabel,
 .tundra .dijitSelectMenu .dijitMenuArrowCell {
 	padding: 0.1em 0.2em;
