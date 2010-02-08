@@ -486,8 +486,9 @@ table .dijitComboButton .dijitButtonNode {
 
 .dijit_a11y .dijitCheckBox,
 .dijit_a11y .dijitRadio {
-	width: auto;
-	height: auto;
+	/* in a11y mode we display the native checkbox (not the icon), so don't restrict the size */
+	width: auto !important;
+	height: auto !important;
 }
 .dijit_a11y .dijitCheckBoxInput {
 	opacity: 1;
