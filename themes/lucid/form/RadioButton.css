@@ -17,11 +17,6 @@
 	margin: 0px 2px 0px 0px;
 	padding: 0px;
 }
-.dj_ie7 .dijit_a11y .dijitRadio,
-.dj_ie6 .dijit_a11y .dijitRadio{
-	width: 20px;
-	height:20px;
-}
 
 .dj_ie6 .lucid .dijitRadio,
 .dj_ie6 .lucid .dijitRadioIcon	{		/* inside a toggle button */
