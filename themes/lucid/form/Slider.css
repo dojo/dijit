@@ -15,43 +15,43 @@
 	background-image: url("../images/sliderFullVertical.gif");
 }
 
-.lucid .dijitSliderHovered .dijitSliderProgressBarH,
-.lucid .dijitSliderHovered .dijitSliderLeftBumper{
+.lucid .dijitSliderHover .dijitSliderProgressBarH,
+.lucid .dijitSliderHover .dijitSliderLeftBumper{
 	background-image: url("../images/sliderFullFocus.png");
 	background-color: #abd6ff;
 }
-.dj_ie6 .lucid .dijitSliderHovered .dijitSliderProgressBarH,
-.dj_ie6 .lucid .dijitSliderHovered .dijitSliderLeftBumper{
+.dj_ie6 .lucid .dijitSliderHover .dijitSliderProgressBarH,
+.dj_ie6 .lucid .dijitSliderHover .dijitSliderLeftBumper{
 	background-image: url("../images/sliderFullFocus.gif");
 }
 
-.lucid .dijitSliderHovered .dijitSliderProgressBarV,
-.lucid .dijitSliderHovered .dijitSliderBottomBumper{
+.lucid .dijitSliderHover .dijitSliderProgressBarV,
+.lucid .dijitSliderHover .dijitSliderBottomBumper{
 	background-image: url("../images/sliderFullVerticalFocus.png");
 	background-color: #abd6ff;
 }
-.dj_ie6 .lucid .dijitSliderHovered .dijitSliderProgressBarV,
-.dj_ie6 .lucid .dijitSliderHovered .dijitSliderBottomBumper{
+.dj_ie6 .lucid .dijitSliderHover .dijitSliderProgressBarV,
+.dj_ie6 .lucid .dijitSliderHover .dijitSliderBottomBumper{
 	background-image: url("../images/sliderFullVerticalFocus.gif");
 }
 
-.lucid .dijitSliderHovered .dijitSliderRemainingBarH,
-.lucid .dijitSliderHovered .dijitSliderRightBumper{
+.lucid .dijitSliderHover .dijitSliderRemainingBarH,
+.lucid .dijitSliderHover .dijitSliderRightBumper{
 	background-image: url("../images/sliderEmptyFocus.png");
 	background-color: #fff;
 }
-.dj_ie6 .lucid .dijitSliderHovered .dijitSliderRemainingBarH,
-.dj_ie6 .lucid .dijitSliderHovered .dijitSliderRightBumper{
+.dj_ie6 .lucid .dijitSliderHover .dijitSliderRemainingBarH,
+.dj_ie6 .lucid .dijitSliderHover .dijitSliderRightBumper{
 	background-image: url("../images/sliderEmptyFocus.gif");
 }
 
-.lucid .dijitSliderHovered .dijitSliderRemainingBarV,
-.lucid .dijitSliderHovered .dijitSliderTopBumper{
+.lucid .dijitSliderHover .dijitSliderRemainingBarV,
+.lucid .dijitSliderHover .dijitSliderTopBumper{
 	background-image: url("../images/sliderEmptyVerticalFocus.png");
 	background-color: #fff;
 }
-.dj_ie6 .lucid .dijitSliderHovered .dijitSliderRemainingBarV,
-.dj_ie6 .lucid .dijitSliderHovered .dijitSliderTopBumper{
+.dj_ie6 .lucid .dijitSliderHover .dijitSliderRemainingBarV,
+.dj_ie6 .lucid .dijitSliderHover .dijitSliderTopBumper{
 	background-image: url("../images/sliderEmptyVerticalFocus.gif");
 }
 
@@ -142,7 +142,7 @@
 	border-color: #769dc0;
 }
 
-.lucid .dijitSliderHovered .dijitSliderBar {
+.lucid .dijitSliderHover .dijitSliderBar {
 	border-color: #769dc0;
 }
 .lucid .dijitSliderDisabled .dijitSliderBar {
@@ -174,10 +174,10 @@
 	background-image: url("../images/preciseSliderThumbFocus.gif");
 }
 
-.lucid .dijitSliderHovered .dijitSliderImageHandleH {
+.lucid .dijitSliderHover .dijitSliderImageHandleH {
 	background-image: url("../images/preciseSliderThumbFocus.png"); 
 }
-.dj_ie6 .lucid .dijitSliderHovered .dijitSliderImageHandleH {
+.dj_ie6 .lucid .dijitSliderHover .dijitSliderImageHandleH {
 	background-image: url("../images/preciseSliderThumbFocus.gif");
 }
 
@@ -219,11 +219,11 @@
 	background-image: url("../images/sliderThumbFocus.gif");
 }
 
-.lucid .dijitSliderHovered .dijitSliderImageHandleV {
+.lucid .dijitSliderHover .dijitSliderImageHandleV {
 	background-image: url("../images/sliderThumbFocus.png");
 }
 
-.dj_ie6 .lucid .dijitSliderHovered .dijitSliderImageHandleV {
+.dj_ie6 .lucid .dijitSliderHover .dijitSliderImageHandleV {
 	background-image: url("../images/sliderThumbFocus.gif");
 }
 
@@ -267,12 +267,12 @@
 .dj_ie6 .lucid .dijitSliderDecrementIconH {
 	background-image: url('../images/arrowleft.gif');
 }
-.lucid .dijitSliderHovered .dijitSliderDecrementIconH {
+.lucid .dijitSliderHover .dijitSliderDecrementIconH {
 	background-image: url('../images/arrowleft_focus.png');
 	background-color: #fff;
 	border: solid 1px #769dc0;
 }
-.dj_ie6 .lucid .dijitSliderHovered .dijitSliderDecrementIconH {
+.dj_ie6 .lucid .dijitSliderHover .dijitSliderDecrementIconH {
 	background-image: url('../images/arrowleft_focus.gif');
 }
 
@@ -292,12 +292,12 @@
 .dj_ie6 .lucid .dijitSliderDecrementIconV {
 	background-image: url('../images/arrowdown.gif');
 }
-.lucid .dijitSliderHovered .dijitSliderDecrementIconV {
+.lucid .dijitSliderHover .dijitSliderDecrementIconV {
 	background-image: url('../images/arrowdown_focus.png');
 	background-color: #fff;
 	border: solid 1px #769dc0;
 }
-.dj_ie6 .lucid .dijitSliderHovered .dijitSliderDecrementIconV {
+.dj_ie6 .lucid .dijitSliderHover .dijitSliderDecrementIconV {
 	background-image: url('../images/arrowdown_focus.gif');
 }
 
@@ -316,12 +316,12 @@
 .dj_ie6 .lucid .dijitSliderIncrementIconH {
 	background-image: url('../images/arrowright.gif');
 }
-.lucid .dijitSliderHovered .dijitSliderIncrementIconH {
+.lucid .dijitSliderHover .dijitSliderIncrementIconH {
 	background-image: url('../images/arrowright_focus.png');
 	background-color: #fff;
 	border: solid 1px #769dc0;
 }
-.dj_ie6 .lucid .dijitSliderHovered .dijitSliderIncrementIconH {
+.dj_ie6 .lucid .dijitSliderHover .dijitSliderIncrementIconH {
 	background-image: url('../images/arrowright_focus.gif');
 }
 
@@ -341,77 +341,77 @@
 .dj_ie6 .lucid .dijitSliderIncrementIconV {
 	background-image: url('../images/arrowup.gif');
 }
-.lucid .dijitSliderHovered .dijitSliderIncrementIconV {
+.lucid .dijitSliderHover .dijitSliderIncrementIconV {
 	background-image: url('../images/arrowup_focus.png');
 	background-color: #fff;
 	border: solid 1px #769dc0;
 }
-.dj_ie6 .lucid .dijitSliderHovered .dijitSliderIncrementIconV {
+.dj_ie6 .lucid .dijitSliderHover .dijitSliderIncrementIconV {
 	background-image: url('../images/arrowup_focus.gif');
 }
 
-.lucid .dijitSliderButtonContainerV .dijitSliderDecrementButtonHovered,
-.lucid .dijitSliderButtonContainerH .dijitSliderDecrementButtonHovered {
+.lucid .dijitSliderButtonContainerV .dijitSliderDecrementButtonHover,
+.lucid .dijitSliderButtonContainerH .dijitSliderDecrementButtonHover {
 	background-color: #abd6ff;
 }
-.lucid .dijitSliderButtonContainerV .dijitSliderIncrementButtonHovered,
-.lucid .dijitSliderButtonContainerH .dijitSliderIncrementButtonHovered {
+.lucid .dijitSliderButtonContainerV .dijitSliderIncrementButtonHover,
+.lucid .dijitSliderButtonContainerH .dijitSliderIncrementButtonHover {
 	background-color: #abd6ff;
 }
 
-.lucid .dijitSliderProgressBarH .dijitSliderThumbHovered{
+.lucid .dijitSliderProgressBarH .dijitSliderThumbHover{
 	background-image: url(../images/preciseSliderThumbHover.png);
 }
-.dj_ie6 .lucid .dijitSliderProgressBarH .dijitSliderThumbHovered{
+.dj_ie6 .lucid .dijitSliderProgressBarH .dijitSliderThumbHover{
 	background-image: url(../images/preciseSliderThumbHover.gif);
 }
-.lucid .dijitSliderProgressBarV .dijitSliderThumbHovered{
+.lucid .dijitSliderProgressBarV .dijitSliderThumbHover{
 	background-image: url(../images/sliderThumbHover.png);
 }
-.dj_ie6 .lucid .dijitSliderProgressBarV .dijitSliderThumbHovered{
+.dj_ie6 .lucid .dijitSliderProgressBarV .dijitSliderThumbHover{
 	background-image: url(../images/sliderThumbHover.gif);
 }
 
-.lucid .dijitSliderProgressBarH .dijitSliderThumbDown{
+.lucid .dijitSliderProgressBarH .dijitSliderThumbActive{
 	background-image: url(../images/preciseSliderThumbDown.png);
 }
-.dj_ie6 .lucid .dijitSliderProgressBarH .dijitSliderThumbDown{
+.dj_ie6 .lucid .dijitSliderProgressBarH .dijitSliderThumbActive{
 	background-image: url(../images/preciseSliderThumbDown.gif);
 }
-.lucid .dijitSliderProgressBarV .dijitSliderThumbDown{
+.lucid .dijitSliderProgressBarV .dijitSliderThumbActive{
 	background-image: url(../images/sliderThumbDown.png);
 }
-.dj_ie6 .lucid .dijitSliderProgressBarV .dijitSliderThumbDown{
+.dj_ie6 .lucid .dijitSliderProgressBarV .dijitSliderThumbActive{
 	background-image: url(../images/sliderThumbDown.gif);
 }
 
-.lucid .dijitSliderButtonContainerH .dijitSliderDecrementButtonDown {
+.lucid .dijitSliderButtonContainerH .dijitSliderDecrementButtonActive {
 	background-image: url('../images/arrowleft_down.png');
 	background-color: #7dbefa;
 }
-.dj_ie6 .lucid .dijitSliderButtonContainerH .dijitSliderDecrementButtonDown {
+.dj_ie6 .lucid .dijitSliderButtonContainerH .dijitSliderDecrementButtonActive {
 	background-image: url('../images/arrowleft_down.gif');
 }
-.lucid .dijitSliderButtonContainerV .dijitSliderDecrementButtonDown {
+.lucid .dijitSliderButtonContainerV .dijitSliderDecrementButtonActive {
 	background-image: url('../images/arrowup_down.png');
 	background-color: #7dbefa;
 }
-.dj_ie6 .lucid .dijitSliderButtonContainerV .dijitSliderDecrementButtonDown {
+.dj_ie6 .lucid .dijitSliderButtonContainerV .dijitSliderDecrementButtonActive {
 	background-image: url('../images/arrowup_down.gif');
 }
 
-.lucid .dijitSliderButtonContainerH .dijitSliderIncrementButtonDown {
+.lucid .dijitSliderButtonContainerH .dijitSliderIncrementButtonActive {
 	background-image: url('../images/arrowright_down.png');
 	background-color: #7dbefa;
 }
-.dj_ie6 .lucid .dijitSliderButtonContainerH .dijitSliderIncrementButtonDown {
+.dj_ie6 .lucid .dijitSliderButtonContainerH .dijitSliderIncrementButtonActive {
 	background-image: url('../images/arrowright_down.gif');
 }
-.lucid .dijitSliderButtonContainerV .dijitSliderIncrementButtonDown {
+.lucid .dijitSliderButtonContainerV .dijitSliderIncrementButtonActive {
 	background-image: url('../images/arrowdown_down.png');
 	background-color: #7dbefa;
 }
-.dj_ie6 .lucid .dijitSliderButtonContainerV .dijitSliderIncrementButtonDown {
+.dj_ie6 .lucid .dijitSliderButtonContainerV .dijitSliderIncrementButtonActive {
 	background-image: url('../images/arrowdown_down.gif');
 }
 
