@@ -1405,11 +1405,13 @@ dojo.declare(
 			nodes = this._itemNodesMap[identity];
 
 		if(nodes){
-			var self = this;
-			dojo.forEach(nodes,function(node){
+			var label = this.getLabel(item),
+				tooltip = this.getTooltip(item);
+			dojo.forEach(nodes, function(node){
 				node.attr({
-					label: self.getLabel(item),
-					tooltip: self.getTooltip(item)
+					item: item,		// theoretically could be new JS Object representing same item
+					label: label,
+					tooltip: tooltip
 				});
 				node._updateItemClasses(item);
 			});
