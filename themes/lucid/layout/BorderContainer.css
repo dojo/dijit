@@ -11,15 +11,16 @@
 	/* By default put borders on all children of BorderContainer,
 	 *  to give illusion of borders on the splitters themselves.
 	 */
-	border: 1px #c0ccdf solid !important;
-	background-color:#fff !important;
+	border: 1px #c0ccdf solid;
+	background-color:#fff;
 	
 }
 
 .lucid .dijitBorderContainer-dijitTabContainerTop,
 .lucid .dijitBorderContainer-dijitTabContainerBottom,
 .lucid .dijitBorderContainer-dijitTabContainerLeft,
-.lucid .dijitBorderContainer-dijitTabContainerRight {
+.lucid .dijitBorderContainer-dijitTabContainerRight,
+.lucid .dijitBorderContainer-dijitAccordionContainer {
 	/* except that TabContainer defines borders on it's sub-nodes (tablist and dijitTabPaneWrapper),
 	 * so override rule setting border on domNode
 	 */
