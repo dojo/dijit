@@ -42,6 +42,10 @@
 	right:-10px;
 }
 
+.dj_iequirks-rtl .dijitComboButton BUTTON {
+	float:left;
+}
+
 .dijitRtl .dijitSliderMoveableH {
 	right:auto;
 	left:0;
