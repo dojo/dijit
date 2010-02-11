@@ -68,6 +68,12 @@
             var pSubMenu = new dijit.Menu({parentMenu:pMenu, id:"progSubMenu"});
             pSubMenu.addChild(new dijit.MenuItem({label:"Submenu item", onClick:fClick}));
             pSubMenu.addChild(new dijit.MenuItem({label:"Submenu item", onClick:fClick}));
+			
+            var pSubSubMenu = new dijit.Menu({parentMenu:pSubMenu, id:"progSubSubMenu"});
+            pSubSubMenu.addChild(new dijit.MenuItem({label:"SubSubmenu item", onClick:fClick}));
+            pSubSubMenu.addChild(new dijit.MenuItem({label:"SubSubmenu item", onClick:fClick}));
+            pSubMenu.addChild(new dijit.PopupMenuItem({label:"SubSubmenu", popup:pSubSubMenu, id:"progPopupMenuItem2"}));
+
             pMenu.addChild(new dijit.PopupMenuItem({label:"Submenu", popup:pSubMenu, id:"progPopupMenuItem"}));
 
             pMenu.startup();

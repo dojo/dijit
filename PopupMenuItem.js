@@ -40,6 +40,7 @@ dojo.declare("dijit.PopupMenuItem",
 				this.popup = dijit.byNode(node);
 			}
 			dojo.body().appendChild(this.popup.domNode);
+			this.popup.startup();
 
 			this.popup.domNode.style.display="none";
 			if(this.arrowWrapper){
