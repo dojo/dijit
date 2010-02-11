@@ -230,7 +230,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		//		Returns the current scroll of the tabs where 0 means
 		//		"scrolled all the way to the left" and some positive number, based on #
 		//		of pixels of possible scroll (ex: 1000) means "scrolled all the way to the right"
-		var sl = (this.isLeftToRight() || dojo.isIE < 8) ? this.scrollNode.scrollLeft :
+		var sl = (this.isLeftToRight() || dojo.isIE < 8 || dojo.isQuirks || dojo.isWebKit) ? this.scrollNode.scrollLeft :
 				dojo.style(this.containerNode, "width") - dojo.style(this.scrollNode, "width")
 					 + (dojo.isIE == 8 ? -1 : 1) * this.scrollNode.scrollLeft;
 		return sl;
@@ -244,7 +244,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		//		to achieve that scroll.
 		//
 		//		This method is to adjust for RTL funniness in various browsers and versions.
-		if(this.isLeftToRight() || dojo.isIE < 8){
+		if(this.isLeftToRight() || dojo.isIE < 8 || dojo.isQuirks || dojo.isWebKit){
 			return val;
 		}else{
 			var maxScroll = dojo.style(this.containerNode, "width") - dojo.style(this.scrollNode, "width");
