@@ -8,6 +8,8 @@ dojo.declare("dijit.MenuBar", dijit._MenuBase, {
 
 	templateString: dojo.cache("dijit", "templates/MenuBar.html"),
 
+	baseClass: "dijitMenuBar",
+
 	// _isMenuBar: [protected] Boolean
 	//		This is a MenuBar widget, not a (vertical) Menu widget.
 	_isMenuBar: true,

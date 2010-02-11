@@ -385,6 +385,8 @@ dojo.declare("dijit.Menu",
 
 	templateString: dojo.cache("dijit", "templates/Menu.html"),
 
+	baseClass: "dijitMenu",
+
 	// targetNodeIds: [const] String[]
 	//		Array of dom node ids of nodes to attach to.
 	//		Fill this with nodeIds upon widget creation and it becomes context menu for those nodes.
