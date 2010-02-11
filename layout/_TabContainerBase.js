@@ -82,7 +82,10 @@ dojo.declare("dijit.layout._TabContainerBase",
 	layout: function(){
 		// Overrides StackContainer.layout().
 		// Configure the content pane to take up all the space except for where the tabs are
+
 		if(!this._contentBox || typeof(this._contentBox.l) == "undefined"){return;}
+
+		var sc = this.selectedChildWidget;
 
 		if(this.doLayout){
 			// position and size the titles and the container node
@@ -101,10 +104,8 @@ dojo.declare("dijit.layout._TabContainerBase",
 			// children[2] is the margin-box size of this.containerNode, set by layoutChildren() call above
 			this._containerContentBox = dijit.layout.marginBox2contentBox(this.containerNode, children[2]);
 
-			if(this.selectedChildWidget){
-				if(this.selectedChildWidget.resize){
-					this.selectedChildWidget.resize(this._containerContentBox);
-				}
+			if(sc && sc.resize){
+				sc.resize(this._containerContentBox);
 			}
 		}else{
 			// just layout the tab controller, so it can position left/right buttons etc.
@@ -112,8 +113,10 @@ dojo.declare("dijit.layout._TabContainerBase",
 				this.tablist.resize({w: dojo.contentBox(this.domNode).w});
 			}
 
-			// and call resize() on the pane just to tell it that it's been made visible
-			this.selectedChildWidget.resize();
+			// and call resize() on the selected pane just to tell it that it's been made visible
+			if(sc && sc.resize){
+				sc.resize();
+			}
 		}
 	},
 
