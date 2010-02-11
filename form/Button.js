@@ -49,7 +49,6 @@ dojo.declare("dijit.form.Button",
 	templateString: dojo.cache("dijit.form", "templates/Button.html"),
 
 	attributeMap: dojo.delegate(dijit.form._FormWidget.prototype.attributeMap, {
-		label: { node: "containerNode", type: "innerHTML" },
 		iconClass: { node: "iconNode", type: "class" }
 	}),
 
