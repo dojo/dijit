@@ -31,7 +31,7 @@
 			switch(key){
 				case "locale":
 					// locale string | null
-					dojo.config.locale = locale = value;
+					dojo.locale = dojo.config.locale = locale = value;
 					break;
 				case "dir":
 					// rtl | null
