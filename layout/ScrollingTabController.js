@@ -266,18 +266,9 @@ dojo.declare("dijit.layout.ScrollingTabController",
 			var sl = this._getScroll();
 
 			if(sl > node.offsetLeft ||
-				sl + dojo.style(this.scrollNode, "width") <
-				node.offsetLeft + dojo.style(node, "width")){
-
-				var anim = this.createSmoothScroll();
-				// use dojo.connect() rather than this.connect() because the animation will soon be
-				// garbage collected and there's no reason to leave a reference to the connection in this._connects[]
-				dojo.connect(anim, "onEnd", function(){
-					tab.onClick(null);
-				});
-				anim.play();
-			}else{
-				tab.onClick(null);
+					sl + dojo.style(this.scrollNode, "width") <
+					node.offsetLeft + dojo.style(node, "width")){
+				this.createSmoothScroll().play();
 			}
 		}
 
