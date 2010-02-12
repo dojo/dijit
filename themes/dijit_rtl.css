@@ -42,10 +42,6 @@
 	right:-10px;
 }
 
-.dj_iequirks-rtl .dijitComboButton BUTTON {
-	float:left;
-}
-
 .dijitRtl .dijitSliderMoveableH {
 	right:auto;
 	left:0;
@@ -112,4 +108,12 @@
 /* Tab */
 .dijitRtl .dijitTabContainer .tabStripMenuButton {
 	float: left;
+}
+
+.dj_iequirks-rtl .dijitComboButton BUTTON {
+	float:left;
+}
+
+.dj_ie-rtl .dijitTimePickerItem {
+	width:100%;
 }
