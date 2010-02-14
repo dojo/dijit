@@ -1,196 +1,50 @@
-* html .lucid .dijitTab .tabLabel {
-	/* todo: why is this here in the TabContainer_rtl.css file instead of TabContainer.css?   And why is it needed at all? */
-	display: inline-block;
+.dijitRtl .lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab,
+.dijitRtl .lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab {
+	margin-right: 0;
+	margin-left: 1px;
 }
-
-.dijitRtl .lucid .dijitTabContainer .dijitTab .dijitTabInnerDiv .dijitTabContent {
-	padding-left: 15px;
-	padding-right: 10px;
+.dijitRtl .lucid .dijitTabContainer .dijitTab {
+	-moz-box-orient:horizontal;
+	text-align: right;
 }
-.dj_ie6-rtl .lucid .dijitTabContainer .dijitTab .dijitTabInnerDiv .dijitTabContent {
-	padding-left: 16px;
+.dj_ie7-rtl .lucid .dijitTabContainer .dijitTab .dijitTabInnerDiv .dijitTabContent {
+	display: block;
+	left: 0;
 }
-
-.dijitRtl .lucid .dijitTabPaneWrapper {
-	#zoom: 1;
+.dj_ie7-rtl .lucid .dijitTabContainer .dijitTabCloseText {
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	float: left;
 }
-
-.dijitRtl .lucid .dijitTabContainer .dijitTabListWrapper{
-	/* this rule seems to completely mess up the display, leaving a gap in the tab strip, why is it here?
-	right: -1px;*/
+.dj_ie7-rtl .lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab,
+.dj_ie7-rtl .lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTabChecked {
+	top: 1px;
 }
-.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabListWrapper{
-	/* this rule seems to completely mess up the display, leaving a gap in the tab strip, why is it here?
-	right: -2px; */
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab .dijitTabInnerDiv,
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab .dijitTabInnerDiv,
+.dj_ie7-rtl .lucid .dijitTabContainer .tabStripButton .dijitButtonContents,
+.dj_ie7-rtl .lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab .dijitTabInnerDiv,
+.dj_ie7-rtl .lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab .dijitTabInnerDiv {
+	float:left;
 }
-
-.dj_ie6-rtl .lucid .dijitTabContainer .dijitTab {
-	background-color:#cde3f6;
-	border-style:solid;
-	border-width:1px;
-	border-color: #799ab7 #799ab7 #799ab7 #799ab7;
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab,
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab,
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTab .dijitTabInnerDiv .tabLabel,/*Make the .tablael has width in ie6-rtl with haslayout property, fix Close icon position bug*/
+.dj_ie7-rtl .lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab .dijitTabInnerDiv,
+.dj_ie7-rtl .lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab .dijitTabInnerDiv{
+	zoom:1;
 }
-
-
-.dj_ie6-rtl .lucid .dijitTab .dijitTabInnerDiv {
-	/* without this the tab label and icon become invisible, as though they were set to visibility:hidden */
-	/* TODO: move the width: 0.1% hack to dijit.css, as tundra also has it */
-	width : 0.1%;
-	/*
-	 * todo: these rules have no effect AFAICT.
-	border:none;
-	background-image: none;
-	top: -1px;
-	left:-1px;
-	*/
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabCloseIcon ,
+.dj_ie7-rtl .lucid .dijitTabContainer .dijitTabCloseIcon {
+	margin-right:5px;
 }
-
-.dj_ie6-rtl .lucid .dijitTab .dijitTabCloseButton ,
-.dj_ie7-rtl .lucid .dijitTab .dijitTabCloseButton {
-	/* todo: this has no effect, at least on IE6 RTL mode.   the close icon is right next to the text. */
-	margin-right: 4px;
-}
-
-
-
-
-
-
-.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabHover{
-	background-color:#8dc7fe;
-}
-
-
-.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabChecked{
-	background-color:#fff;
-}
-
-.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabChecked .dijitTabInnerDiv{
-	background-color:#fff;
-	background-image:none;
-}
-.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabChecked .dijitTabInnerDiv .dijitTabContent{
-	background:none;
-}
-
-
-
-.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerTop-tabs{
-	bottom: -7px;
-}
-.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab{
-	top: -1px;
-	border-bottom: none;
-}
-
-.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTabChecked {
-	top: -2px;
-	border-top:solid 1px #b3b3b3;
-	border-left:solid 1px #b3b3b3;
-	border-right:solid 1px #b3b3b3;
-}
-
-
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab,
 .dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab {
-	border-top: none;
+	display:inline-block;
+	display:inline;
 }
-
-.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTabChecked {
-	border-bottom:solid 1px #b3b3b3;
-	border-top:none;
-	border-left:solid 1px #b3b3b3;
-	border-right:solid 1px #b3b3b3;
-	background-image:none;
-	
+.dj_ie6-rtl  .lucid .dijitTabContainer .dijitTabContainerRight-tabs,
+.dj_ie6-rtl  .lucid .dijitTabContainer .dijitTabContainerLeft-tabs {
+	width:1%;
 }
-
-
-.dj_ie6 .lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab {
-	border-left: 1px solid #fff;
-	border-top: 1px solid #fff;
-}
-
-.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab {
-	border-left: 1px solid #799ab7;
-	border-top: 1px solid #799ab7;
-}
-
-.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab {
-	border-right: none;
-}
-
-
-
-.dj_ie7-rtl .lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab{
-	border-bottom:2px solid #b3b3b3;
-}
-
-
-
-.dj_ie6 .lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab {
-	border-right: 1px solid #fff;
-	border-top: 1px solid #fff;
-}
-
-
-.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab {
-	border-right: 1px solid #799ab7;
-	border-top: 1px solid #799ab7;
-}
-
-.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab {
-	border-left: none;
-}
-
-.dj_ie7-rtl .lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab{
-	border-bottom:2px solid #b3b3b3;
-}
-.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab .dijitTabInnerDiv {
-	border-bottom:none;
-}
-
-.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab {
-	border-bottom:solid 1px #799ab7;
-}
-
-.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab .dijitTabInnerDiv {
-	border-bottom:none;
-}
-
-.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab {
-	border-bottom:solid 1px #799ab7;
-}
-
-.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTabChecked{
-	border-left:1px solid #b3b3b3;
-	border-right:none;
-	border-top:2px solid #b3b3b3;
-	border-bottom:1px solid #b3b3b3;
-	background-image:none;
-}
-
-.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTabChecked{
-	border-right:1px solid #b3b3b3;
-	border-left:1px solid white;
-	border-top:2px solid #b3b3b3;
-	border-bottom:1px solid #b3b3b3;
-	background-image:none;
-}
-
-
-.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab {
-	top: 0px;
-}
-.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTabChecked {
-	top: -2px;
-}
-
-.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab {
-	top: 0px;
-}
-.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTabChecked {
-	top: -2px;
-}
-
-
-
