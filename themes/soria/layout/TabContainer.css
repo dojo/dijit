@@ -496,25 +496,19 @@
 	width: 21px;
 }
 
-.soria .dijitTabContainer .tabStripButton img {
+.soria .dijitTabStripIcon {
 	height: 14px;
-	background: url(../images/spriteRoundedIconsSmall.png) no-repeat;
+	background: url(../images/spriteRoundedIconsSmall.png) no-repeat left top ;
 }
-.dj_ie6 .soria .dijitTabContainer .tabStripButton img {
+
+.dj_ie6 .soria .dijitTabStripIcon {
 	background-image: url(../images/spriteRoundedIconsSmall.gif);
 }
-.soria .dijitTabContainer .tabStripMenuButton img {
-	background-position: -15px top;
-}
-.soria .dijitTabContainer .tabStripSlideButtonLeft img {
-	background-position: 0px top;
-}
-.soria .dijitTabContainer .tabStripSlideButtonRight img {
+
+.soria .dijitTabStripSlideRightIcon {
 	background-position: -30px top;
 }
-/*
-.soria .dijitTabContent .dijitTabIcon {
-	height: 13px;
-	width: 14px;
+
+.soria .dijitTabStripMenuIcon {
+	background-position: -15px top;
 }
-*/

@@ -20,10 +20,6 @@
 	top: 0px;
 }
 
-.nihilo .dijitTabContainer .tabStripMenuButton-Hover {
-	cursor: pointer;
-}
-
 /* Tabs, shared classes */
 .nihilo .dijitTabPaneWrapper {
 	background:#fff;
@@ -478,20 +474,20 @@
 	width: 21px;
 }
 
-.nihilo .dijitTabContainer .tabStripButton img {
+.nihilo .dijitTabStripIcon {
 	height: 14px;
 	background: url(../images/spriteRoundedIconsSmall.png) no-repeat left top ;
 }
 
-.dj_ie6 .nihilo .dijitTabContainer .tabStripButton img {
+.dj_ie6 .nihilo .dijitTabStripIcon {
 	background-image: url(../images/spriteRoundedIconsSmall.gif);
 }
 
-.nihilo .dijitTabContainer .tabStripSlideButtonRight img {
+.nihilo .dijitTabStripSlideRightIcon {
 	background-position: -30px top;
 }
 
-.nihilo .dijitTabContainer .tabStripMenuButton img {
+.nihilo .dijitTabStripMenuIcon {
 	background-position: -15px top;
 }
 

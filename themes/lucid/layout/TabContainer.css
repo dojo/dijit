@@ -356,19 +356,17 @@
 	background-color: transparent;
 }
 
-.lucid .dijitTabContainer .tabStripMenuButton .dijitTabInnerDiv .dijitTabContent img,
-.lucid .dijitTabContainer .tabStripSlideButtonLeft .dijitTabInnerDiv .dijitTabContent img,
-.lucid .dijitTabContainer .tabStripSlideButtonRight .dijitTabInnerDiv .dijitTabContent img{ 
+.lucid .dijitTabStripIcon { 
 	background-image: url("images/tabStripSlideButtonLeft.png");
 	background-position: center center;
 	background-repeat: no-repeat;
 	width: 15px;
 	height: 15px;
 }
-.lucid .dijitTabContainer .tabStripSlideButtonRight .dijitTabInnerDiv .dijitTabContent img{
+.lucid .dijitTabStripSlideRightIcon {
 	background-image: url("images/tabStripSlideButtonRight.png");
 }
-.lucid .dijitTabContainer .tabStripMenuButton .dijitTabInnerDiv .dijitTabContent img {
+.lucid .dijitTabStripMenuIcon {
 	background-image: url("images/tabStripMenuButton.png");
 }
 

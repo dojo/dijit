@@ -435,12 +435,6 @@ dojo.declare("dijit.layout._ScrollingTabControllerButton",
 	{
 		baseClass: "dijitTab tabStripButton",
 
-		buttonType: "",
-
-		buttonClass: "",
-
-		tabPosition: "top",
-
 		templateString: dojo.cache("dijit.layout","templates/_ScrollingTabControllerButton.html"),
 
 		// Override inherited tabIndex: 0 from dijit.form.Button, because user shouldn't be

@@ -37,10 +37,6 @@
 	bottom: 2px;
 }
 
-.tundra .dijitTabContainer .tabStripMenuButton-Hover {
-	cursor: pointer;
-}
-
 /* checked tab*/
 .tundra .dijitTabChecked {
 	/* the selected tab (with or without hover) */
@@ -337,24 +333,20 @@
 	width: 21px;
 }
 
-.tundra .dijitTabContainer .tabStripButton img {
+.tundra .dijitTabStripIcon {
 	height: 14px;
-	background: url(../images/spriteRoundedIconsSmall.png) no-repeat;
+	background: url(../images/spriteRoundedIconsSmall.png) no-repeat left top ;
 }
-.dj_ie6 .tundra .dijitTabContainer .tabStripButton img {
+
+.dj_ie6 .tundra .dijitTabStripIcon {
 	background-image: url(../images/spriteRoundedIconsSmall.gif);
 }
 
-.tundra .dijitTabContainer .tabStripMenuButton img {
-	background-position: -15px top;
-}
-.tundra .dijitTabContainer .tabStripSlideButtonLeft img {
-	background-position: 0px top;
-}
-.tundra .dijitTabContainer .tabStripSlideButtonRight img {
+.tundra .dijitTabStripSlideRightIcon {
 	background-position: -30px top;
 }
-/*
-.tundra .dijitTabContainerTopStrip .dijitTabContainerBottom .tabStripButton .dijitTabInnerDiv {
-	padding-top: 4px;
-}*/
+
+.tundra .dijitTabStripMenuIcon {
+	background-position: -15px top;
+}
+

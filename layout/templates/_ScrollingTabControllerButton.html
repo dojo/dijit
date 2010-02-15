@@ -1,8 +1,7 @@
-<div id="${id}-${buttonType}" class="tabStripButton dijitTab ${buttonClass} tabStripButton-${tabPosition}"
-		dojoAttachEvent="onclick:_onButtonClick">
-	<div role="presentation" wairole="presentation" class="dijitTabInnerDiv" dojoattachpoint="innerDiv,focusNode">
-		<div role="presentation" wairole="presentation" class="dijitTabContent dijitButtonContents" dojoattachpoint="tabContent">
-			<img src="${_blankGif}"/>
+<div dojoAttachEvent="onclick:_onButtonClick">
+	<div waiRole="presentation" class="dijitTabInnerDiv" dojoattachpoint="innerDiv,focusNode">
+		<div waiRole="presentation" class="dijitTabContent dijitButtonContents" dojoattachpoint="tabContent">
+			<img waiRole="presentation" src="${_blankGif}" class="dijitTabStripIcon" dojoAttachPoint="iconNode"/>
 			<span dojoAttachPoint="containerNode,titleNode" class="dijitButtonText"></span>
 		</div>
 	</div>
