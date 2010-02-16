@@ -1,18 +1,14 @@
 dojo.provide("dijit._base.place");
 
+dojo.require("dojo.window");
 dojo.require("dojo.AdapterRegistry");
 
-// ported from dojo.html.util
 
 dijit.getViewport = function(){
 	// summary:
 	//		Returns the dimensions and scroll position of the viewable area of a browser window
 
-	var scrollRoot = (dojo.doc.compatMode == 'BackCompat')? dojo.body() : dojo.doc.documentElement;
-
-	// get scroll position
-	var scroll = dojo._docScroll(); // scrollRoot.scrollTop/Left should work
-	return { w: scrollRoot.clientWidth, h: scrollRoot.clientHeight, l: scroll.x, t: scroll.y };
+	return dojo.window.getViewport();
 };
 
 /*=====
