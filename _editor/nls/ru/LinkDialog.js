@@ -3,5 +3,11 @@
 	insertImageTitle: "Свойства изображения",
 	url: "URL:",
 	text: "Описание:",
-	set: "Задать"
+	target: "Целевой объект:",
+	set: "Задать",
+	currentWindow: "Текущее окно",
+	parentWindow: "Родительское окно",
+	topWindow: "Окно верхнего уровня",
+	newWindow: "Новое окно"
 })
+

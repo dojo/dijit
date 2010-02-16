@@ -1,6 +1,6 @@
 ({
 	'bold': '粗体',
-	'copy': '拷贝',
+	'copy': '复制',
 	'cut': '剪切',
 	'delete': '删除',
 	'indent': '增加缩进',
@@ -24,7 +24,7 @@
 	'undo': '撤销',
 	'unlink': '除去链接',
 	'createLink': '创建链接',
-	'toggleDir': '固定方向',
+	'toggleDir': '切换方向',
 	'insertImage': '插入图像',
 	'insertTable': '插入/编辑表',
 	'toggleTableBorder': '切换表边框',
@@ -38,6 +38,11 @@
 	'fontSize': '字体大小',
 	'fontName': '字体名称',
 	'tabIndent': '制表符缩进',
+	"fullScreen": "切换全屏",
+	"viewSource": "查看 HTML 源代码",
+	"print": "打印",
+	"newPage": "新建页面",
 	/* Error messages */
-	'systemShortcut': '只能在浏览器中通过键盘快捷方式执行“${0}”操作。使用 ${1}。'
+	'systemShortcut': '只能通过使用键盘快捷键在浏览器中执行 "${0}" 操作。请使用 ${1}。'
 })
+

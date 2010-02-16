@@ -3,5 +3,11 @@
 	insertImageTitle: "Vlastnosti obrázku",
 	url: "Adresa URL:",
 	text: "Popis:",
-	set: "Nastavit"
+	target: "Cíl:",
+	set: "Nastavit",
+	currentWindow: "Aktuální okno",
+	parentWindow: "Nadřízené okno",
+	topWindow: "Okno nejvyšší úrovně",
+	newWindow: "Nové okno"
 })
+

@@ -24,7 +24,7 @@
 	'undo': 'Rückgängig',
 	'unlink': 'Link entfernen',
 	'createLink': 'Link erstellen',
-	'toggleDir': 'Richtung wechseln',
+	'toggleDir': 'Wechselrichtung',
 	'insertImage': 'Grafik einfügen',
 	'insertTable': 'Tabelle einfügen/bearbeiten',
 	'toggleTableBorder': 'Tabellenumrandung ein-/ausschalten',
@@ -37,8 +37,13 @@
 	'formatBlock': 'Absatzstil',
 	'fontSize': 'Schriftgröße',
 	'fontName': 'Schriftartname',
-	'tabIndent': 'Registerkarteneinrückung',
+	'tabIndent': 'Tabulatoreinrückung',
+	"fullScreen": "Gesamtanzeige",
+	"viewSource": "HTML-Quelle",
+	"print": "Drucken",
+	"newPage": "Neue Seite",
 	/* Error messages */
-	'systemShortcut': 'Die Aktion "${0}" ist im Browser nur über einen Tastaturkurzbefehl verfügbar. Verwenden Sie ${1}.',
+	'systemShortcut': 'Die Aktion "${0}" ist nur über einen Direktaufruf in Ihrem Browser verfügbar. Verwenden Sie ${1}.',
 	'ctrlKey':'Strg+${0}'
 })
+
