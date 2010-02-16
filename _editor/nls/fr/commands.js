@@ -24,20 +24,25 @@
 	'undo': 'Annuler',
 	'unlink': 'Supprimer le lien',
 	'createLink': 'Créer un lien',
-	'toggleDir': 'Afficher/Masquer la direction',
+	'toggleDir': 'Changer de sens',
 	'insertImage': 'Insérer une image',
 	'insertTable': 'Insérer/Modifier un tableau',
 	'toggleTableBorder': 'Afficher/Masquer la bordure du tableau',
 	'deleteTable': 'Supprimer le tableau',
 	'tableProp': 'Propriété du tableau',
 	'htmlToggle': 'Source HTML',
-	'foreColor': 'Couleur d\'avant-plan',
-	'hiliteColor': 'Couleur d\'arrière-plan',
+	'foreColor': 'Couleur avant-plan',
+	'hiliteColor': 'Couleur arrière-plan',
 	'plainFormatBlock': 'Style de paragraphe',
 	'formatBlock': 'Style de paragraphe',
 	'fontSize': 'Taille de police',
 	'fontName': 'Nom de police',
-	'tabIndent': 'Retrait d\'onglet',
+	'tabIndent': 'Retrait de tabulation',
+	"fullScreen": "Basculer vers le mode plein écran",
+	"viewSource": "Afficher la source HTML",
+	"print": "Imprimer",
+	"newPage": "Nouvelle page",
 	/* Error messages */
-	'systemShortcut': 'L\'action "${0}" est disponible dans votre navigateur uniquement, par le biais d\'un raccourci-clavier. Utilisez ${1}.'
+	'systemShortcut': 'Action "${0}" uniquement disponible dans votre navigateur via un raccourci clavier. Utilisez ${1}.'
 })
+

@@ -37,7 +37,13 @@
 	'formatBlock': 'Estilo de párrafo',
 	'fontSize': 'Tamaño de font',
 	'fontName': 'Nombre de font',
-	'tabIndent': 'Sangrado',
+	'tabIndent': 'Sangría de tabulador',
+	"fullScreen": "Conmutar pantalla completa",
+	"viewSource": "Ver fuente HTML",
+	"print": "Imprimir",
+	"newPage": "Nueva página",
 	/* Error messages */
-	'systemShortcut': 'La acción "${0}" sólo está disponible en el navegador mediante un atajo de teclado. Utilice ${1}.'
+	'systemShortcut': 'La acción "${0}" sólo está disponible en su navegador mediante un atajo de teclado. Utilice ${1}.',
+	'ctrlKey':'control+${0}'
 })
+

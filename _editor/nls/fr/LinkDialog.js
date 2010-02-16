@@ -1,7 +1,13 @@
 ({
-	createLinkTitle: "Propriétés du lien",
-	insertImageTitle: "Propriétés de l'image",
+	createLinkTitle: "Propriétés des liens",
+	insertImageTitle: "Propriétés des images",
 	url: "URL :",
 	text: "Description :",
-	set: "Définir"
+	target: "Cible :",
+	set: "Définir",
+	currentWindow: "Fenêtre en cours",
+	parentWindow: "Fenêtre parent",
+	topWindow: "Première fenêtre",
+	newWindow: "Nouvelle fenêtre"
 })
+

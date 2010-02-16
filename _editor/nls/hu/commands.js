@@ -24,7 +24,7 @@
 	'undo': 'Visszavonás',
 	'unlink': 'Hivatkozás eltávolítása',
 	'createLink': 'Hivatkozás létrehozása',
-	'toggleDir': 'Irányváltás',
+	'toggleDir': 'Irány váltókapcsoló',
 	'insertImage': 'Kép beszúrása',
 	'insertTable': 'Táblázat beszúrása/szerkesztése',
 	'toggleTableBorder': 'Táblázatszegély ki-/bekapcsolása',
@@ -37,7 +37,12 @@
 	'formatBlock': 'Bekezdés stílusa',
 	'fontSize': 'Betűméret',
 	'fontName': 'Betűtípus',
-	'tabIndent': 'Tabulátor behúzás',
+	'tabIndent': 'Tab behúzás',
+	"fullScreen": "Váltás teljes képernyőre",
+	"viewSource": "HTML forrás megjelenítése",
+	"print": "Nyomtatás",
+	"newPage": "Új oldal",
 	/* Error messages */
-	'systemShortcut': 'A(z) "${0}" művelet csak billentyűparancs használatával érhető el a böngészőben. Használja a következő gyorsbillentyűt: ${1}.'
+	'systemShortcut': 'A(z) "${0}" művelet a böngészőben csak billentyűparancs használatával érhető el. Használja a következőt: ${1}.'
 })
+

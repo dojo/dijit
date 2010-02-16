@@ -3,5 +3,11 @@
 	insertImageTitle: "Grafikeigenschaften",
 	url: "URL:",
 	text: "Beschreibung:",
-	set: "Festlegen"
+	target: "Ziel:",
+	set: "Festlegen",
+	currentWindow: "Aktuelles Fenster",
+	parentWindow: "Übergeordnetes Fenster",
+	topWindow: "Aktives Fenster",
+	newWindow: "Neues Fenster"
 })
+

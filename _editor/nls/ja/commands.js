@@ -31,13 +31,18 @@
 	'deleteTable': 'テーブルの削除',
 	'tableProp': 'テーブル・プロパティー',
 	'htmlToggle': 'HTML ソース',
-	'foreColor': 'テキストの色',
-	'hiliteColor': 'マーカー',
+	'foreColor': '前景色',
+	'hiliteColor': '背景色',
 	'plainFormatBlock': '段落スタイル',
 	'formatBlock': '段落スタイル',
 	'fontSize': 'フォント・サイズ',
 	'fontName': 'フォント名',
 	'tabIndent': 'タブ・インデント',
+	"fullScreen": "フルスクリーンの切り替え",
+	"viewSource": "HTML ソースの表示",
+	"print": "印刷",
+	"newPage": "改ページ",
 	/* Error messages */
-	'systemShortcut': '"${0}" アクションを使用できるのは、ブラウザーでキーボード・ショートカットを使用する場合のみです。 ${1} を使用してください。'
+	'systemShortcut': '"${0}" アクションは、キーボード・ショートカットを使用して、ブラウザーでのみ使用できます。${1} を使用します。'
 })
+

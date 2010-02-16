@@ -14,7 +14,7 @@
 	'justifyRight': 'Wyrównaj do prawej',
 	'outdent': 'Usuń wcięcie',
 	'paste': 'Wklej',
-	'redo': 'Przywróć',
+	'redo': 'Ponów',
 	'removeFormat': 'Usuń formatowanie',
 	'selectAll': 'Wybierz wszystko',
 	'strikethrough': 'Przekreślenie',
@@ -30,14 +30,20 @@
 	'toggleTableBorder': 'Przełącz ramkę tabeli',
 	'deleteTable': 'Usuń tabelę',
 	'tableProp': 'Właściwość tabeli',
-	'htmlToggle': 'Kod źródłowy HTML',
+	'htmlToggle': 'Źródło HTML',
 	'foreColor': 'Kolor pierwszego planu',
 	'hiliteColor': 'Kolor tła',
 	'plainFormatBlock': 'Styl akapitu',
 	'formatBlock': 'Styl akapitu',
 	'fontSize': 'Wielkość czcionki',
 	'fontName': 'Nazwa czcionki',
-	'tabIndent': 'Wcięcie tworzone tabulacją',
+	'tabIndent': 'Wcięcie o tabulator',
+	"fullScreen": "Przełącz pełny ekran",
+	"viewSource": "Wyświetl kod źródłowy HTML",
+	"print": "Drukuj",
+	"newPage": "Nowa strona",
 	/* Error messages */
-	'systemShortcut': 'Działanie ${0} jest dostępne w przeglądarce wyłącznie za pomocą skrótu klawiaturowego. Użyj klawiszy ${1}.'
+	'systemShortcut': 'Działanie ${0} jest dostępne w tej przeglądarce wyłącznie przy użyciu skrótu klawiaturowego. Należy użyć klawiszy ${1}.',
+	'ctrlKey':'Ctrl+${0}'
 })
+
