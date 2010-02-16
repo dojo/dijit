@@ -972,6 +972,31 @@
 					}
 				]);
 
+				doh.register("set constraints", [
+					{
+						name: "number",
+						timeout: 6000,
+						runTest: function(){
+							var textWidget = dijit.byId("q05");
+							textWidget.attr('value', 12345);
+							doh.is("12,345", textWidget.attr('displayedValue'), "default value");
+							textWidget.attr('constraints', {places:2});
+							doh.is("12,345.00", textWidget.attr('displayedValue'), "decimal value");
+						}
+					},
+					{
+						name: "currency",
+						timeout: 6000,
+						runTest: function(){
+							var textWidget = dijit.byId("q08eurde");
+							textWidget.attr('value', 12345.25);
+							doh.is("12.345,25 €", textWidget.attr('displayedValue'), "EUR value");
+							textWidget.attr('constraints', {currency:'USD', locale:'en-us'});
+							doh.is("$12,345.25", textWidget.attr('displayedValue'), "USD value");
+						}
+					}
+				]);
+
 				doh.run();
 			});
 		</script>

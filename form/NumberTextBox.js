@@ -77,16 +77,19 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 		 =====*/
 		_formatter: dojo.number.format,
 
-		postMixInProperties: function(){
-			var places = typeof this.constraints.places == "number"? this.constraints.places : 0;
+		_setConstraintsAttr: function(/* Object */ constraints){
+			var places = typeof constraints.places == "number"? constraints.places : 0;
 			if(places){ places++; } // decimal rounding errors take away another digit of precision
-			if(typeof this.constraints.max != "number"){
-				this.constraints.max = 9 * Math.pow(10, 15-places);
+			if(typeof constraints.max != "number"){
+				constraints.max = 9 * Math.pow(10, 15-places);
 			}
-			if(typeof this.constraints.min != "number"){
-				this.constraints.min = -9 * Math.pow(10, 15-places);
+			if(typeof constraints.min != "number"){
+				constraints.min = -9 * Math.pow(10, 15-places);
 			}
-			this.inherited(arguments);
+			this.inherited(arguments, [ constraints ]);
+			if(this.focusNode && this.focusNode.value && !isNaN(this.value)){
+				this.attr('value', this.value);
+			}
 		},
 
 		_onFocus: function(){

@@ -187,11 +187,15 @@ dojo.declare(
 			this.constraints = {};
 		},
 
-		postMixInProperties: function(){
-			this.inherited(arguments);
-			this.constraints.locale = this.lang;
-			this.messages = dojo.i18n.getLocalization("dijit.form", "validate", this.lang);
-			if(this.invalidMessage == "$_unset_$"){ this.invalidMessage = this.messages.invalidMessage; }
+		_setConstraintsAttr: function(/* Object */ constraints){
+			if(!constraints.locale && this.lang){
+				constraints.locale = this.lang;
+			}
+			this.constraints = constraints;
+			this._computePartialRE();
+		},
+
+		_computePartialRE: function(){
 			var p = this.regExpGen(this.constraints);
 			this.regExp = p;
 			var partialre = "";
@@ -226,6 +230,12 @@ dojo.declare(
 				console.warn('RegExp error in ' + this.declaredClass + ': ' + this.regExp);
 			} // should never be here unless the original RE is bad or the parsing is bad
 			this._partialre = "^(?:" + partialre + ")$";
+		},
+
+		postMixInProperties: function(){
+			this.inherited(arguments);
+			this.messages = dojo.i18n.getLocalization("dijit.form", "validate", this.lang);
+			if(this.invalidMessage == "$_unset_$"){ this.invalidMessage = this.messages.invalidMessage; }
 		},
 
 		_setDisabledAttr: function(/*Boolean*/ value){
@@ -432,13 +442,17 @@ dojo.declare(
 			}
 		},
 
-		postCreate: function(){
+		_setConstraintsAttr: function(/* Object */ constraints){
 			this.inherited(arguments);
 			if(this.constraints.min !== undefined){
 				dijit.setWaiState(this.focusNode, "valuemin", this.constraints.min);
+			}else{
+				dijit.removeWaiState(this.focusNode, "valuemin");
 			}
 			if(this.constraints.max !== undefined){
 				dijit.setWaiState(this.focusNode, "valuemax", this.constraints.max);
+			}else{
+				dijit.removeWaiState(this.focusNode, "valuemax");
 			}
 		},
 
