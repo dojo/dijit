@@ -8,7 +8,7 @@ dijit.getViewport = function(){
 	// summary:
 	//		Returns the dimensions and scroll position of the viewable area of a browser window
 
-	return dojo.window.getViewport();
+	return dojo.window.getBox();
 };
 
 /*=====
