@@ -444,28 +444,20 @@
 							doh.robot.mouseMoveAt("navMenuDisabledItem", 500);
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(isHidden("navMenuSub1"), "Enabled submenu should be hidden");
-								doh.t(dojo.hasClass("navMenuDisabledItem", "dijitMenuItemHover"),
-									"Disabled navigation MenuItem should have hover effect, actual class is: " + dojo.byId("navMenuDisabledItem").className);
 							}), 1000); // linger long enough for menu to close
 
 							doh.robot.mouseMoveAt("navMenuPopupItem1", 500, 500); // move back to Enabled submenu
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(isVisible("navMenuSub1"), "Enabled submenu should be visible");
-								doh.f(dojo.hasClass("navMenuDisabledItem", "dijitMenuItemHover"),
-									"Disabled navigation MenuItem shouldn't have hover effect anymore, actual class is: " + dojo.byId("navMenuDisabledItem").className);
 							}), 1000); // linger long enough for menu to open
 
 							doh.robot.mouseMoveAt("navMenuDisabledItem", 500, 50); // QUICKLY move to the next menu item
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.t(dojo.hasClass("navMenuDisabledItem", "dijitMenuItemHover"),
-									"Disabled navigation MenuItem should again have hover effect, actual class is: " + dojo.byId("navMenuDisabledItem").className);
 							}), 200, 50);
 
 							doh.robot.mouseMoveAt("navMenuSub1_item2", 0, 50); // QUICKLY move to the popup menu
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(isVisible("navMenuSub1"), "Enabled submenu 1 should be visible");
-								doh.f(dojo.hasClass("navMenuDisabledItem", "dijitMenuItemHover"),
-									"Disabled navigation MenuItem shouldn't have hover effect anymore, actual class is: " + dojo.byId("navMenuDisabledItem").className);
 								doh.t(dojo.hasClass("navMenuSub1_item2", "dijitMenuItemHover"),
 									"Submenu 1, item 2 navigation MenuItem should have hover effect, actual class is: " + dojo.byId("navMenuDisabledItem").className);
 								doh.t(dojo.hasClass("navMenuPopupItem1", "dijitMenuItemSelected"),
