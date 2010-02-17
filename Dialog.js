@@ -3,6 +3,7 @@ dojo.provide("dijit.Dialog");
 dojo.require("dojo.dnd.move");
 dojo.require("dojo.dnd.TimedMoveable");
 dojo.require("dojo.fx");
+dojo.require("dojo.window");
 
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
@@ -292,7 +293,7 @@ dojo.declare(
 			}
 
 			var mb = dojo.marginBox(this.domNode);
-			var viewport = dijit.getViewport();
+			var viewport = dojo.window.getBox();
 			if(mb.w >= viewport.w || mb.h >= viewport.h){
 				// Reduce size of dialog contents so that dialog fits in viewport
 
@@ -327,7 +328,7 @@ dojo.declare(
 			//		private
 			if(!dojo.hasClass(dojo.body(),"dojoMove")){
 				var node = this.domNode,
-					viewport = dijit.getViewport(),
+					viewport = dojo.window.getBox(),
 					p = this._relativePosition,
 					bb = p ? null : dojo._getBorderBox(node),
 					l = Math.floor(viewport.l + (p ? p.x : (viewport.w - bb.w) / 2)),
@@ -414,7 +415,7 @@ dojo.declare(
 			this._modalconnects.push(dojo.connect(window, "onresize", this, function(){
 				// IE gives spurious resize events and can actually get stuck
 				// in an infinite loop if we don't ignore them
-				var viewport = dijit.getViewport();
+				var viewport = dojo.window.getBox();
 				if(!this._oldViewport ||
 						viewport.h != this._oldViewport.h ||
 						viewport.w != this._oldViewport.w){

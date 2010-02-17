@@ -33,6 +33,7 @@
 
 	<script type="text/javascript">
 		dojo.require("doh.runner");
+		dojo.require("dojo.window");
 		dojo.require("dijit.dijit");
 
 
@@ -62,7 +63,7 @@
 					function placeOnScreenTR(t){
 						// Place popup at top right... dijit.placeOnScreen() should choose the top-right corner, because
 						// any of the other corner would make the popup go partially off the screen
-						var viewport = dijit.getViewport(),
+						var viewport = dojo.window.getBox(),
 							ret = dijit.placeOnScreen(popup, {x: viewport.w-10, y:7}, ["TL", "BR", "TR", "BL"]),
 							popupCoords = dojo.position(popup);
 

@@ -17,6 +17,7 @@
 
 		<script type="text/javascript">
 			dojo.require("dijit.robotx");
+			dojo.require("dojo.window");
 
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_FullScreen.html');
@@ -55,7 +56,7 @@
 								doh.robot.sequence(d.getTestCallback(function(){
 									//Now check the state!
 									doh.assertTrue(fsPlugin.isFullscreen);
-									var vp = dijit.getViewport();
+									var vp = dojo.window.getBox();
 									var edPos = dojo.position(editor0.domNode);
 									doh.assertEqual("absolute", dojo.style(editor0.domNode, "position"));
 									doh.assertEqual("0", dojo.style(editor0.domNode, "top"), "Top position check");
@@ -158,7 +159,7 @@
 								doh.robot.sequence(d.getTestCallback(function(){
 									//Now check the state!
 									doh.assertTrue(fsPlugin.isFullscreen);
-									var vp = dijit.getViewport();
+									var vp = dojo.window.getBox();
 									var edPos = dojo.position(editor0.domNode);
 									doh.assertEqual("absolute", dojo.style(editor0.domNode, "position"));
 									doh.assertEqual("0", dojo.style(editor0.domNode, "top"), "Top position check");

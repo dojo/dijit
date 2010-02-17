@@ -17,6 +17,7 @@
 
 		<script type="text/javascript">
 			dojo.require("dijit.robotx");
+			dojo.require("dojo.window");
 
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_Tooltip.html');
@@ -99,7 +100,7 @@
 
 								// make sure tooltip is on the screen (in LTR mode it needs to go to the
 								// left of the <select>, not to the right like it usually does)
-								var viewportCoords = dijit.getViewport(),
+								var viewportCoords = dojo.window.getBox(),
 									tooltipCoords = dojo.position(masterTT.domNode);
 								console.log("viewport coords: ", viewportCoords, "tooltip coords: ", tooltipCoords);
 								doh.t(tooltipCoords.x > 0, "x > 0");

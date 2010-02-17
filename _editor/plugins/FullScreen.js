@@ -1,8 +1,10 @@
 dojo.provide("dijit._editor.plugins.FullScreen");
 
+dojo.require("dojo.window");
+dojo.require("dojo.i18n");
+
 dojo.require("dijit._editor._Plugin");
 dojo.require("dijit.form.Button");
-dojo.require("dojo.i18n");
 
 dojo.requireLocalization("dijit._editor", "commands");
 
@@ -122,7 +124,7 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 		//		resizes (window scaled)
 		// tags:
 		//		private
-		var vp = dijit.getViewport();
+		var vp = dojo.window.getBox();
 		dojo.marginBox(this.editor.domNode, {
 			w: vp.w,
 			h: vp.h
@@ -160,7 +162,7 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 		//		regular view.
 		// tags:
 		//		private
-		var vp = dijit.getViewport();
+		var vp = dojo.window.getBox();
 
 		//Alias this for shorter code.
 		var ed = this.editor;
@@ -268,7 +270,7 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 				// function to handle resize events.
 				// Will check current VP and only resize if
 				// different.
-				var vp = dijit.getViewport();
+				var vp = dojo.window.getBox();
 				if("_prevW" in this && "_prevH" in this){
 					// No actual size change, ignore.
 					if(vp.w === this._prevW && vp.h === this._prevH){

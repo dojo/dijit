@@ -1,8 +1,10 @@
 dojo.provide("dijit._editor.plugins.ViewSource");
 
+dojo.require("dojo.window");
+dojo.require("dojo.i18n");
+
 dojo.require("dijit._editor._Plugin");
 dojo.require("dijit.form.Button");
-dojo.require("dojo.i18n");
 
 dojo.requireLocalization("dijit._editor", "commands");
 
@@ -196,7 +198,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 					// function to handle resize events.
 					// Will check current VP and only resize if
 					// different.
-					var vp = dijit.getViewport();
+					var vp = dojo.window.getBox();
 
 					if("_prevW" in this && "_prevH" in this){
 						// No actual size change, ignore.
@@ -305,7 +307,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 		// adapt.
 		if(this._fsPlugin && this._fsPlugin.isFullscreen){
 			//Okay, probably in FS, adjust.
-			var vp = dijit.getViewport();
+			var vp = dojo.window.getBox();
 			edb.w = (vp.w - extents.w);
 			edb.h = (vp.h - (tbH + extents.h + fH));
 		}
