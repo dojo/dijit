@@ -236,6 +236,7 @@ dojo.declare(
 			this.inherited(arguments);
 			this.messages = dojo.i18n.getLocalization("dijit.form", "validate", this.lang);
 			if(this.invalidMessage == "$_unset_$"){ this.invalidMessage = this.messages.invalidMessage; }
+			this._setConstraintsAttr(this.constraints); // this needs to happen now (and later) due to codependency on _set*Attr calls attachPoints
 		},
 
 		_setDisabledAttr: function(/*Boolean*/ value){
@@ -444,15 +445,17 @@ dojo.declare(
 
 		_setConstraintsAttr: function(/* Object */ constraints){
 			this.inherited(arguments);
-			if(this.constraints.min !== undefined){
-				dijit.setWaiState(this.focusNode, "valuemin", this.constraints.min);
-			}else{
-				dijit.removeWaiState(this.focusNode, "valuemin");
-			}
-			if(this.constraints.max !== undefined){
-				dijit.setWaiState(this.focusNode, "valuemax", this.constraints.max);
-			}else{
-				dijit.removeWaiState(this.focusNode, "valuemax");
+			if(this.focusNode){ // not set when called from postMixInProperties
+				if(this.constraints.min !== undefined){
+					dijit.setWaiState(this.focusNode, "valuemin", this.constraints.min);
+				}else{
+					dijit.removeWaiState(this.focusNode, "valuemin");
+				}
+				if(this.constraints.max !== undefined){
+					dijit.setWaiState(this.focusNode, "valuemax", this.constraints.max);
+				}else{
+					dijit.removeWaiState(this.focusNode, "valuemax");
+				}
 			}
 		},
 

@@ -100,17 +100,13 @@ dojo.declare(
 			this.regExpGen = this.dateLocaleModule.regexp;
 		},
 
-		postMixInProperties: function(){
-			if(!this.value || this.value.toString() == dijit.form._DateTimeTextBox.prototype.value.toString()){
-				this.value = null;
-			}
-			var constraints = this.constraints;
+		_setConstraintsAttr: function(/* Object */ constraints){
 			constraints.selector = this._selector;
 			constraints.fullYear = true; // see #5465 - always format with 4-digit years
 			var fromISO = dojo.date.stamp.fromISOString;
 			if(typeof constraints.min == "string"){ constraints.min = fromISO(constraints.min); }
  			if(typeof constraints.max == "string"){ constraints.max = fromISO(constraints.max); }
-			this.inherited(arguments);
+			this.inherited(arguments, [constraints]);
 		},
 
 		_onFocus: function(/*Event*/ evt){
@@ -123,11 +119,15 @@ dojo.declare(
 		_setValueAttr: function(/*Date*/ value, /*Boolean?*/ priorityChange, /*String?*/ formattedValue){
 			// summary:
 			//		Sets the date on this textbox.  Note that `value` must be like a Javascript Date object.
-			if(value instanceof Date && !(this.dateClassObj instanceof Date)){
-				value = new this.dateClassObj(value);
+			if(value !== undefined){
+				if(!value || value.toString() == dijit.form._DateTimeTextBox.prototype.value.toString()){
+					value = null;
+				}
+				if(value instanceof Date && !(this.dateClassObj instanceof Date)){
+					value = new this.dateClassObj(value);
+				}
 			}
-
-			this.inherited(arguments);
+			this.inherited(arguments, [value, priorityChange, formattedValue]);
 			if(this._picker){
 				// #3948: fix blank date on popup only
 				if(!value){value = new this.dateClassObj();}
@@ -168,9 +168,10 @@ dojo.declare(
 						// 	disables dates outside of the min/max of the _DateTimeTextBox
 						var compare = dojo.date.compare;
 						var constraints = textBox.constraints;
-						return constraints &&
+						return constraints && (
 							(constraints.min && compare(constraints.min, date, textBox._selector) > 0) ||
-							(constraints.max && compare(constraints.max, date, textBox._selector) < 0);
+							(constraints.max && compare(constraints.max, date, textBox._selector) < 0)
+						);
 					}
 				});
 				this._picker.attr('value', this.attr('value') || new this.dateClassObj());
