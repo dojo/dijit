@@ -16,6 +16,7 @@
 		<script type="text/javascript" src="../../helpers.js"></script>
 
 		<script type="text/javascript">
+			dojo.require("dojo.window");
 			dojo.require("dijit.robotx");
 
 			dojo.addOnLoad(function(){
@@ -46,7 +47,7 @@
 
 							try{
 								//Focus on the editor window
-								dijit.scrollIntoView(editor0.domNode);
+								dojo.window.scrollIntoView(editor0.domNode);
 								editor0.focus();
 
 								//Find the fullscreen plugin, we'll need it.
@@ -94,7 +95,7 @@
 
 							try{
 								//Focus on the editor window
-								dijit.scrollIntoView(editor0.domNode);
+								dojo.window.scrollIntoView(editor0.domNode);
 								editor0.focus();
 
 								//Find the fullscreen plugin, we'll need it.

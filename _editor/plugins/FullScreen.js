@@ -308,7 +308,7 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 			// Call it once to work around IE glitchiness.  Safe for other browsers too.
 			this._resizeEditor();
 			var dn = this.editor.toolbar.domNode;
-			setTimeout(function(){dijit.scrollIntoView(dn);}, 250);
+			setTimeout(function(){dojo.window.scrollIntoView(dn);}, 250);
 		}else{
 			if(this._resizeHandle){
 				// Cleanup resizing listeners
@@ -380,7 +380,7 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 						setTimeout(dojo.hitch(this, function(){ed.resize({h: mb.h});}), 0);		
 					}
 				}
-				dijit.scrollIntoView(self.editor.toolbar.domNode);
+				dojo.window.scrollIntoView(self.editor.toolbar.domNode);
 			}, 100);
 		}
 	},

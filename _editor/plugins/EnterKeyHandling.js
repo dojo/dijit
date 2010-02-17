@@ -1,6 +1,6 @@
 dojo.provide("dijit._editor.plugins.EnterKeyHandling");
 
-dojo.require("dijit._base.scroll");
+dojo.require("dojo.window");
 
 dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 	// summary:
@@ -344,7 +344,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 			selection.removeAllRanges();
 			selection.addRange(newrange);
 			if(this.editor.height){
-				dijit.scrollIntoView(newblock);
+				dojo.window.scrollIntoView(newblock);
 			}
 		}else if(dijit.range.atBeginningOfContainer(block.blockNode,
 				range.startContainer, range.startOffset)){
@@ -356,7 +356,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 				selection.removeAllRanges();
 				selection.addRange(newrange);
 				// browser does not scroll the caret position into view, do it manually
-				dijit.scrollIntoView(newblock.nextSibling);
+				dojo.window.scrollIntoView(newblock.nextSibling);
 			}
 			_letBrowserHandle = false;
 		}else{ // press enter in the middle of P

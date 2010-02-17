@@ -16,8 +16,8 @@
 		<script type="text/javascript" src="../../helpers.js"></script>
 
 		<script type="text/javascript">
-			dojo.require("dijit.robotx");
 			dojo.require("dojo.window");
+			dojo.require("dijit.robotx");
 
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_FullScreen.html');
@@ -46,7 +46,7 @@
 
 							try{
 								//Focus on the editor window
-								dijit.scrollIntoView(editor0.domNode);
+								dojo.window.scrollIntoView(editor0.domNode);
 								editor0.focus();
 
 								//Find the fullscreen plugin, we'll need it.
@@ -98,7 +98,7 @@
 
 							try{
 								//Focus on the editor window
-								dijit.scrollIntoView(editor0.domNode);
+								dojo.window.scrollIntoView(editor0.domNode);
 								editor0.focus();
 
 								//Find the fullscreen plugin, we'll need it.
@@ -148,7 +148,7 @@
 
 							try{
 								//Focus on the editor window
-								dijit.scrollIntoView(editor0.domNode);
+								dojo.window.scrollIntoView(editor0.domNode);
 								editor0.focus();
 
 								//Find the fullscreen plugin, we'll need it.
@@ -201,7 +201,7 @@
 
 							try{
 								//Focus on the editor window
-								dijit.scrollIntoView(editor0.domNode);
+								dojo.window.scrollIntoView(editor0.domNode);
 								editor0.focus();
 								doh.assertTrue(fsPlugin != null);
 								//Click it, then click it again!
@@ -253,7 +253,7 @@
 
 							try{
 								//Focus on the editor window
-								dijit.scrollIntoView(editor.domNode);
+								dojo.window.scrollIntoView(editor.domNode);
 								editor.focus();
 
 								var origEditorSize = dojo.marginBox(editor.domNode);
@@ -323,7 +323,7 @@
 
 							try{
 								//Focus on the editor window
-								dijit.scrollIntoView(editor.domNode);
+								dojo.window.scrollIntoView(editor.domNode);
 								editor.focus();
 
 								var origEditorSize = dojo.marginBox(editor.domNode);
@@ -393,7 +393,7 @@
 
 							try{
 								//Focus on the editor window
-								dijit.scrollIntoView(editor.domNode);
+								dojo.window.scrollIntoView(editor.domNode);
 								editor.focus();
 
 								var origEditorSize = dojo.marginBox(editor.domNode);
@@ -463,7 +463,7 @@
 
 							try{
 								//Focus on the editor window
-								dijit.scrollIntoView(editor.domNode);
+								dojo.window.scrollIntoView(editor.domNode);
 								editor.focus();
 
 								var origEditorSize = dojo.marginBox(editor.domNode);
@@ -533,7 +533,7 @@
 
 							try{
 								//Focus on the editor window
-								dijit.scrollIntoView(editor.domNode);
+								dojo.window.scrollIntoView(editor.domNode);
 								editor.focus();
 
 								var origEditorSize = dojo.marginBox(editor.domNode);
@@ -603,7 +603,7 @@
 
 							try{
 								//Focus on the editor window
-								dijit.scrollIntoView(editor.domNode);
+								dojo.window.scrollIntoView(editor.domNode);
 								editor.focus();
 
 								var origEditorSize = dojo.marginBox(editor.domNode);
@@ -673,7 +673,7 @@
 
 							try{
 								//Focus on the editor window
-								dijit.scrollIntoView(editor.domNode);
+								dojo.window.scrollIntoView(editor.domNode);
 								editor.focus();
 
 								var origEditorSize = dojo.marginBox(editor.domNode);
@@ -743,7 +743,7 @@
 
 							try{
 								//Focus on the editor window
-								dijit.scrollIntoView(editor.domNode);
+								dojo.window.scrollIntoView(editor.domNode);
 								editor.focus();
 
 								var origEditorSize = dojo.marginBox(editor.domNode);

@@ -16,6 +16,7 @@
 		<script type="text/javascript" src="../../helpers.js"></script>
 
 		<script type="text/javascript">
+			dojo.require("dojo.window");
 			dojo.require("dijit.robotx");
 
 			dojo.addOnLoad(function(){
@@ -304,7 +305,7 @@
 							setTimeout(function(){
 								try{
 									//Focus on the editor window
-									dijit.scrollIntoView(editor1.domNode);
+									dojo.window.scrollIntoView(editor1.domNode);
 									editor1.focus();
 
 									doh.assertTrue(vsPlugin != null, "Checking for viewSource plugin.");
@@ -367,7 +368,7 @@
 									try{
 										//Focus on the editor window
 										editor0.focus();
-										dijit.scrollIntoView(editor0.domNode);
+										dojo.window.scrollIntoView(editor0.domNode);
 
 										var simpleScript0 = '<scr' + 'ipt type="text/javascript">var foo = "Hack!"</scr' + 'ipt>';
 										var simpleScript1 = '<scr' + 'ipt type="text/javascript" src="http://example.com/hack.js"></scr' + 'ipt>';
@@ -433,7 +434,7 @@
 									try{
 										//Focus on the editor window
 										editor0.focus();
-										dijit.scrollIntoView(editor0.domNode);
+										dojo.window.scrollIntoView(editor0.domNode);
 
 										var complexScript = '< scr' + 'IPt type="text/javascript"            \n>\n   var foo = "Hack!"  \n</SCr' + 'ipt  >';
 										doh.assertTrue(vsPlugin != null, "Checking for VS plugin.");
@@ -492,7 +493,7 @@
 									try{
 										//Focus on the editor window
 										editor0.focus();
-										dijit.scrollIntoView(editor0.domNode);
+										dojo.window.scrollIntoView(editor0.domNode);
 
 										var simpleComment = '<!--  Hello, this is a comment! -->';
 
@@ -554,7 +555,7 @@
 									try{
 										//Focus on the editor window
 										editor0.focus();
-										dijit.scrollIntoView(editor0.domNode);
+										dojo.window.scrollIntoView(editor0.domNode);
 
 										//Type in some script stuff.
 										doh.assertTrue(vsPlugin != null, "Checking for VS plugin.");
@@ -679,7 +680,7 @@
 									try{
 										//Focus on the editor window
 										editor3.focus();
-										dijit.scrollIntoView(editor3.domNode);
+										dojo.window.scrollIntoView(editor3.domNode);
 
 										var simpleScript0 = '<scr' + 'ipt type="text/javascript">var foo = "Hack!"</scr' + 'ipt>';
 										var simpleScript1 = '<scr' + 'ipt type="text/javascript" src="http://example.com/hack.js"></scr' + 'ipt>';
@@ -754,7 +755,7 @@
 								//Timing gets wonky here, so we need to do this on a timeout
 								//so the browser has time  to shift focus.
 								editor2.focus();
-								dijit.scrollIntoView(editor2.domNode);
+								dojo.window.scrollIntoView(editor2.domNode);
 								setTimeout(function(){
 									try{
 										//Focus on the editor window

@@ -1,10 +1,12 @@
 dojo.provide("dijit.form.ComboBox");
 
-dojo.require("dijit.form._FormWidget");
-dojo.require("dijit.form.ValidationTextBox");
+dojo.require("dojo.window");
+dojo.require("dojo.regexp");
 dojo.require("dojo.data.util.simpleFetch");
 dojo.require("dojo.data.util.filter");
-dojo.require("dojo.regexp");
+
+dojo.require("dijit.form._FormWidget");
+dojo.require("dijit.form.ValidationTextBox");
 
 dojo.requireLocalization("dijit.form", "ComboBox");
 
@@ -970,7 +972,7 @@ dojo.declare(
 				}
 			}
 			// scrollIntoView is called outside of _focusOptionNode because in IE putting it inside causes the menu to scroll up on mouseover
-			dijit.scrollIntoView(this._highlighted_option);
+			dojo.window.scrollIntoView(this._highlighted_option);
 		},
 
 		highlightFirstOption: function(){
@@ -979,14 +981,14 @@ dojo.declare(
 			var first = this.domNode.firstChild;
 			var second = first.nextSibling;
 			this._focusOptionNode(second.style.display == "none" ? first : second); // remotely possible that Previous Choices is the only thing in the list
-			dijit.scrollIntoView(this._highlighted_option);
+			dojo.window.scrollIntoView(this._highlighted_option);
 		},
 
 		highlightLastOption: function(){
 			// summary:
 			// 		Highlight the last real item in the list (not More Choices).
 			this._focusOptionNode(this.domNode.lastChild.previousSibling);
-			dijit.scrollIntoView(this._highlighted_option);
+			dojo.window.scrollIntoView(this._highlighted_option);
 		},
 
 		_highlightPrevOption: function(){
@@ -1005,7 +1007,7 @@ dojo.declare(
 					this.highlightLastOption();
 				}
 			}
-			dijit.scrollIntoView(this._highlighted_option);
+			dojo.window.scrollIntoView(this._highlighted_option);
 		},
 
 		_page: function(/*Boolean*/ up){

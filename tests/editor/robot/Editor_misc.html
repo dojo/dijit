@@ -16,6 +16,7 @@
 		<script type="text/javascript" src="../../helpers.js"></script>
 
 		<script type="text/javascript">
+			dojo.require("dojo.window");
 			dojo.require("dijit.robotx");
 
 			dojo.addOnLoad(function(){
@@ -36,7 +37,7 @@
 							var d = new doh.Deferred();
 							try{
 								//Focus on the editor window
-								dijit.scrollIntoView(editor0.domNode);
+								dojo.window.scrollIntoView(editor0.domNode);
 								doh.robot.mouseMoveAt(editor0.iframe, 500, null, 10, 10);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.keyPress(dojo.keys.ENTER, 500);
@@ -72,7 +73,7 @@
 							var d = new doh.Deferred();
 							try{
 								//Focus on the editor window
-								dijit.scrollIntoView(editor0.domNode);
+								dojo.window.scrollIntoView(editor0.domNode);
 								doh.robot.mouseMoveAt(editor0.iframe, 500, null, 10, 10);
 								doh.robot.mouseClick({left:true}, 500);
 

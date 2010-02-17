@@ -17,6 +17,7 @@
 		<script type="text/javascript" src="Tree_dnd.js"></script>
 
 		<script type="text/javascript">
+			dojo.require("dojo.window");
 			dojo.require("dijit.robotx");
 
 			dojo.addOnLoad(function(){
@@ -42,7 +43,7 @@
 								fruitsTreeNode = findTreeNodeByPath("itemTree", ["Fruits"]);					// right tree
 
 							// (Try to) make sure drag source and drop source are both in viewport
-							dijit.scrollIntoView(fruitsTreeNode.domNode);
+							dojo.window.scrollIntoView(fruitsTreeNode.domNode);
 
 							// Drag and Drop, *copying* in order to add a parent rather than change
 							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 500, 1000);
@@ -108,7 +109,7 @@
 								cerealsTreeNode = findTreeNodeByPath("itemTree", ["Cereals"]);
 
 							// (Try to) make sure drag source and drop source are both in viewport
-							dijit.scrollIntoView(cerealsTreeNode.domNode);
+							dojo.window.scrollIntoView(cerealsTreeNode.domNode);
 
 							// Drag and Drop
 							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 0, 1000);
@@ -155,7 +156,7 @@
 								citrusTreeNode = findTreeNodeByPath("itemTree", ["Fruits", "Citrus"]);
 
 							// (Try to) make sure drag source and drop source are both in viewport
-							dijit.scrollIntoView(vegetablesTreeNode.domNode);
+							dojo.window.scrollIntoView(vegetablesTreeNode.domNode);
 
 							// Drag and Drop
 							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 0, 1000);

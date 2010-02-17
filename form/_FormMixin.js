@@ -1,5 +1,7 @@
 dojo.provide("dijit.form._FormMixin");
 
+dojo.require("dojo.window");
+
 dojo.declare("dijit.form._FormMixin", null,
 	{
 	// summary:
@@ -55,7 +57,7 @@ dojo.declare("dijit.form._FormMixin", null,
 				var valid = widget.disabled || !widget.validate || widget.validate();
 				if(!valid && !didFocus){
 					// Set focus of the first non-valid widget
-					dijit.scrollIntoView(widget.containerNode || widget.domNode);
+					dojo.window.scrollIntoView(widget.containerNode || widget.domNode);
 					widget.focus();
 					didFocus = true;
 				}

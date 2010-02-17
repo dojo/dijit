@@ -16,6 +16,7 @@
 		<script type="text/javascript" src="../../helpers.js"></script>
 
 		<script type="text/javascript">
+			dojo.require("dojo.window");
 			dojo.require("dijit.robotx");
 
 			function normalize(str){
@@ -49,7 +50,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							dijit.scrollIntoView(editor1.domNode);
+							dojo.window.scrollIntoView(editor1.domNode);
 
 							// Set contents of editor1
 							doh.robot.sequence(function(){
@@ -85,7 +86,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							dijit.scrollIntoView(editor1.domNode);
+							dojo.window.scrollIntoView(editor1.domNode);
 
 							// strange things happen if you alter an editor's value while it is focused,
 							// so temporarily move to the toolbar while setting content
@@ -182,7 +183,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							dijit.scrollIntoView(editor1.domNode);
+							dojo.window.scrollIntoView(editor1.domNode);
 
 							doh.robot.sequence(function(){
 								editor1.focus();
@@ -220,7 +221,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							dijit.scrollIntoView(editor1.domNode);
+							dojo.window.scrollIntoView(editor1.domNode);
 
 							// Focus on link before editor
 							doh.robot.sequence(function(){

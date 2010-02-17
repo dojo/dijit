@@ -16,6 +16,7 @@
 		<script type="text/javascript" src="../helpers.js"></script>
 
 		<script type="text/javascript">
+			dojo.require("dojo.window");
 			dojo.require("dijit.robotx");
 
 			dojo.addOnLoad(function(){
@@ -182,7 +183,7 @@
 							var d = new doh.Deferred();
 
 							// Open the href pane, causing the href to load
-							dijit.scrollIntoView(dijit.byId("inner").domNode);
+							dojo.window.scrollIntoView(dijit.byId("inner").domNode);
 							doh.robot.sequence(d.getTestErrback(function(){
 								href1.attr("open", true);
 							}), 1000);

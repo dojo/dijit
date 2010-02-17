@@ -17,6 +17,7 @@
 		<script type="text/javascript" src="Tree_dnd.js"></script>
 
 		<script type="text/javascript">
+			dojo.require("dojo.window");
 			dojo.require("dijit.robotx");
 
 			dojo.addOnLoad(function(){
@@ -51,7 +52,7 @@
 							doh.is(0, children.items.length, "no item children yet");
 
 							// (Try to) make sure drag source and drop source are both in viewport
-							dijit.scrollIntoView(fruitsTreeNode.domNode);
+							dojo.window.scrollIntoView(fruitsTreeNode.domNode);
 
 							// Drag "Apple" onto Fruits.
 							doh.robot.mouseMoveAt("1001", 0, 1000);
@@ -160,7 +161,7 @@
 								cerealsTreeNode = findTreeNode("collectionsTree", "Cereals (0)");
 
 							// (Try to) make sure drag source and drop source are both in viewport
-							dijit.scrollIntoView(cerealsTreeNode.domNode);
+							dojo.window.scrollIntoView(cerealsTreeNode.domNode);
 
 							// Drag 'Cereals' and drop near top edge of 'Vegetables'.
 							// It should become Vegetables' prior-sibling
@@ -224,7 +225,7 @@
 								citrusTreeNodeSize = dojo.contentBox(citrusTreeNode.domNode);
 
 							// (Try to) make sure drag source and drop source are both in viewport
-							dijit.scrollIntoView(vegetablesTreeNode.domNode);
+							dojo.window.scrollIntoView(vegetablesTreeNode.domNode);
 
 							// Drag 'Vegetables' and drop near bottom edge of 'Citrus'.
 							// It should become Citrus' prior-sibling

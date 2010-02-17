@@ -16,6 +16,7 @@
 		<script type="text/javascript" src="../../helpers.js"></script>
 
 		<script type="text/javascript">
+			dojo.require("dojo.window");
 			dojo.require("dijit.robotx");
 
 			function normalize(str){
@@ -53,7 +54,7 @@
 								boldButton = toolbar.getChildren()[7],
 								italicButton = toolbar.getChildren()[8];
 
-							dijit.scrollIntoView(editor1.domNode);
+							dojo.window.scrollIntoView(editor1.domNode);
 
 							// Focus the editor
 							doh.robot.mouseMoveAt(editor1.editNode, 500);

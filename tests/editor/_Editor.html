@@ -21,6 +21,7 @@
 
 
 	<script type="text/javascript">
+		dojo.require("dojo.window");
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.Editor");
 		dojo.require("dijit._editor.plugins.AlwaysShowToolbar");
@@ -41,9 +42,9 @@
 <div>more contentmargin:50px;border:50px solid red; padding:50px;
 <iframe src="test_Editor.html" id="iframe" style="width:100px; height:50px; overflow:hidden;">
 </iframe>
-<input type="button" dojoType="dijit.form.Button" onClick="var frame=dojo.byId('iframe');dojo.withGlobal(frame.contentWindow, function(){frame.contentWindow.dijit.scrollIntoView(frame.contentWindow.dijit.byId('editor1').toolbar.getChildren()[7].domNode);});alert('expected Bold, got: '+frame.contentWindow.dijit.byId('editor1').toolbar.getChildren()[7].titleNode.getAttribute('title'))">Scroll bold into view</input>
+<input type="button" dojoType="dijit.form.Button" onClick="var frame=dojo.byId('iframe');dojo.withGlobal(frame.contentWindow, function(){frame.contentWindow.dojo.window.scrollIntoView(frame.contentWindow.dijit.byId('editor1').toolbar.getChildren()[7].domNode);});alert('expected Bold, got: '+frame.contentWindow.dijit.byId('editor1').toolbar.getChildren()[7].titleNode.getAttribute('title'))">Scroll bold into view</input>
 <input type="button" dojoType="dijit.form.Button" onClick="var frame=dojo.byId('iframe');doh.robot.scrollIntoView(dojo.query(dojo.isIE?'strong':'b',frame.contentWindow.dijit.byId('editor1').document.body)[0]);">Scroll bold text into view</input>
-<input type="button" dojoType="dijit.form.Button" onClick="var frame=dojo.byId('iframe');dojo.withGlobal(frame.contentWindow, function(){frame.contentWindow.dijit.scrollIntoView(frame.contentWindow.dijit.byId('editor1').toolbar.getChildren()[8].domNode);});alert('expected Italic, got: '+frame.contentWindow.dijit.byId('editor1').toolbar.getChildren()[8].titleNode.getAttribute('title'))">Scroll italics into view</input>
+<input type="button" dojoType="dijit.form.Button" onClick="var frame=dojo.byId('iframe');dojo.withGlobal(frame.contentWindow, function(){frame.contentWindow.dojo.window.scrollIntoView(frame.contentWindow.dijit.byId('editor1').toolbar.getChildren()[8].domNode);});alert('expected Italic, got: '+frame.contentWindow.dijit.byId('editor1').toolbar.getChildren()[8].titleNode.getAttribute('title'))">Scroll italics into view</input>
 </div>
 </div>
 </body>

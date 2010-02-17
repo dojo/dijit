@@ -16,8 +16,8 @@
 		<script type="text/javascript" src="../helpers.js"></script>
 
 		<script type="text/javascript">
-			dojo.require("dijit.robotx");
 			dojo.require("dojo.window");
+			dojo.require("dijit.robotx");
 
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_Tooltip.html');
@@ -190,7 +190,7 @@
 								around = dojo.byId("t1");
 
 							doh.robot.sequence(function(){
-								dijit.scrollIntoView(around);
+								dojo.window.scrollIntoView(around);
 								around.focus();
 							}, 500);
 
@@ -213,7 +213,7 @@
 								around = dojo.byId("t2");
 
 							doh.robot.sequence(function(){
-								dijit.scrollIntoView(around);
+								dojo.window.scrollIntoView(around);
 								around.focus();
 							}, 500);
 
@@ -233,7 +233,7 @@
 								around = dojo.byId("t3");
 
 							doh.robot.sequence(function(){
-								dijit.scrollIntoView(around);
+								dojo.window.scrollIntoView(around);
 								around.focus();
 							}, 500);
 
@@ -262,7 +262,7 @@
 							doh.is("t2", connectIds[2]);
 
 							// Focus "t2 text" and make sure tooltip shows
-							dijit.scrollIntoView(around);
+							dojo.window.scrollIntoView(around);
 							around.focus();
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -288,7 +288,7 @@
 							doh.is("t2", connectIds[1]);
 
 							// Focus "t3 text" and make sure tooltip doesn't show
-							dijit.scrollIntoView(around);
+							dojo.window.scrollIntoView(around);
 							around.focus();
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -314,7 +314,7 @@
 							tooltip.attr("connectId", ["t3", "t4"]);
 
 							// Focus "t2 text" and make sure tooltip doesn't show anymore
-							dijit.scrollIntoView(around);
+							dojo.window.scrollIntoView(around);
 							around.focus();
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -333,7 +333,7 @@
 								around = dojo.byId("t4");
 
 							// Focus "t4 text" and make sure tooltip shows
-							dijit.scrollIntoView(around);
+							dojo.window.scrollIntoView(around);
 							around.focus();
 
 							doh.robot.sequence(d.getTestCallback(function(){
