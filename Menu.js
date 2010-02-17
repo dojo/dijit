@@ -1,5 +1,7 @@
 dojo.provide("dijit.Menu");
 
+dojo.require("dojo.window");
+
 dojo.require("dijit._Widget");
 dojo.require("dijit._KeyNavContainer");
 dojo.require("dijit._Templated");
@@ -453,7 +455,7 @@ dojo.declare("dijit.Menu",
 		//		Returns the window reference of the passed iframe
 		// tags:
 		//		private
-		var win = dijit.getDocumentWindow(this._iframeContentDocument(iframe_el)) ||
+		var win = dojo.window.get(this._iframeContentDocument(iframe_el)) ||
 			// Moz. TODO: is this available when defaultView isn't?
 			this._iframeContentDocument(iframe_el)['__parent__'] ||
 			(iframe_el.name && dojo.doc.frames[iframe_el.name]) || null;

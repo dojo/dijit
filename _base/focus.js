@@ -1,5 +1,6 @@
 dojo.provide("dijit._base.focus");
 
+dojo.require("dojo.window");
 dojo.require("dijit._base.manager");	// for dijit.isTabNavigable()
 
 // summary:
@@ -405,7 +406,7 @@ dojo.mixin(dijit, {
 					}
 					// otherwise, find the iframe this node refers to (can't access it via parentNode,
 					// need to do this trick instead). window.frameElement is supported in IE/FF/Webkit
-					node=dijit.getDocumentWindow(node.ownerDocument).frameElement;
+					node=dojo.window.get(node.ownerDocument).frameElement;
 				}else{
 					var id = node.getAttribute && node.getAttribute("widgetId");
 					if(id){
