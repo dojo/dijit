@@ -21,36 +21,58 @@
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_TimeTextBox.html');
 
-				doh.register("partial input", {
-					name: "partial input",
-					timeout: 60000,
-					setUp: function(){
-						// clear the field
-						var w = dijit.byId('q2');
-						w.attr('value', null, false);
+				doh.register("TimeTextBox", [
+					{
+						name: "keyboard",
+						timeout: 60000,
+						runTest: function(){
+							var d = new doh.Deferred(),
+								w = dijit.byId('q1');
+	
+							// focus field, thus opening drop down		
+							w.focus();
+	
+							// advance from 5:45PM to 6PM, and select
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 1000, {});
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+							
+							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+								var val = dojo.date.stamp.toISOString(w.attr('value'), {selector: "time"});	
+								doh.is(val, "T18:00:00", "should be 6PM");
+							})), 500);
+							return d;
+						}
 					},
-					runTest: function(){
-						var d = new doh.Deferred(),
-							w = dijit.byId('q2');
+					{
+						name: "partial input",
+						timeout: 60000,
+						setUp: function(){
+							// clear the field
+							var w = dijit.byId('q2');
+							w.attr('value', null, false);
+						},
+						runTest: function(){
+							var d = new doh.Deferred(),
+								w = dijit.byId('q2');
+	
+							// focus field, thus opening drop down		
+							w.focus();
+	
+							// close drop down
+							doh.robot.keyPress(dojo.keys.ESCAPE, 1500, {});
+							
+							// do partial input
+							doh.robot.typeKeys('12:', 1000, 600);
 
-						// focus field, thus opening drop down		
-						w.focus();
-
-						// close drop down
-						doh.robot.keyPress(dojo.keys.ESCAPE, 1500, {});
-						
-						// do partial input
-						doh.robot.typeKeys('12:', 1000, 600);
-						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-							doh.f(w.isValid(), 'fully invalid');
-							doh.t(w._isValidSubset(), 'partially valid');
-							doh.f(this.state == "Error", 'no error shown');
-							w.attr('value', dojo.date.stamp.fromISOString('T12:34:00'));
-							console.log("at end of sequence");
-						})), 500);
-						return d;
+							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+								doh.f(w.isValid(), 'fully invalid');
+								doh.t(w._isValidSubset(), 'partially valid');
+								doh.f(this.state == "Error", 'no error shown');
+							})), 500);
+							return d;
+						}
 					}
-				});
+				]);
 
 				doh.run();
 			});
