@@ -83,7 +83,7 @@
 			var slider = dijit.byId(inSliderId);
 			eaVals = populateExpected(slider);
 			strokeIndex = 0;
-			noteChanges = dojo.connect(slider, "onChange", function(){
+			noteChanges = dojo.global.dojo.connect(slider, "onChange", function(){
 				eaVals[strokeIndex++].actual = slider.attr('value');
 			});
 		}
@@ -137,8 +137,8 @@
 			var lostFocus = function(){
 				blurCount++;
 			}
-			var focusFunc = dojo.connect(slider.focusNode, "onfocus", gotFocus);
-			var blurFunc = dojo.connect(slider.focusNode, "onblur", lostFocus);
+			var focusFunc = dojo.global.dojo.connect(slider.focusNode, "onfocus", gotFocus);
+			var blurFunc = dojo.global.dojo.connect(slider.focusNode, "onblur", lostFocus);
 
 			// insure a known focus starting point -- the slider to test.
 			slider.focus();
