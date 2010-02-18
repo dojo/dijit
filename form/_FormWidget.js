@@ -68,6 +68,11 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 		this.inherited(arguments);
 	},
 
+	postCreate: function(){
+		this.inherited(arguments);
+		this.connect(this.domNode, "onmousedown", "_onMouseDown");
+	},
+
 	_setDisabledAttr: function(/*Boolean*/ value){
 		this.disabled = value;
 		dojo.attr(this.focusNode, 'disabled', value);
@@ -207,6 +212,21 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 		//		Deprecated.   Use attr('value') instead.
 		dojo.deprecated(this.declaredClass+"::getValue() is deprecated. Use attr('value') instead.", "", "2.0");
 		return this.attr('value');
+	},
+	
+	_onMouseDown: function(e){
+		// Set a global event to handle mouseup, so it fires properly
+		// even if the cursor leaves this.domNode before the mouse up event.
+		var mouseUpConnector = this.connect(dojo.body(), "onmouseup", function(){
+			// If user clicks on the button, even if the mouse is released outside of it,
+			// this button should get focus (to mimics native browser buttons).
+			// This is also needed on chrome because otherwise buttons won't get focus at all,
+			// which leads to bizarre focus restore on Dialog close etc.
+			if(this.isFocusable()){
+				this.focus();
+			}
+			this.disconnect(mouseUpConnector);
+		});
 	}
 });
 
@@ -255,8 +275,6 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 		if(this._resetValue === undefined){
 			this._resetValue = this.value;
 		}
-
-		this.connect(this.domNode, "onmousedown", "_onMouseDown");
 	},
 
 	_setValueAttr: function(/*anything*/ newValue, /*Boolean, optional*/ priorityChange){
@@ -300,19 +318,6 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 				e.srcElement.fireEvent('onkeypress', te);
 			}
 		}
-	},
-
-	_onMouseDown: function(e){
-		// Set a global event to handle mouseup, so it fires properly
-		// even if the cursor leaves this.domNode before the mouse up event.
-		var mouseUpConnector = this.connect(dojo.body(), "onmouseup", function(){
-			// if user clicks on the button, even if the mouse is released outside of it,
-			// this button should get focus (which mimics native browser buttons)
-			if(this.isFocusable()){
-				this.focus();
-			}
-			this.disconnect(mouseUpConnector);
-		});
 	},
 
 	_layoutHackIE7: function(){
