@@ -298,17 +298,13 @@
 							var d = new doh.Deferred();
 							var inlineBox = dijit.byId("renderAsHtml_false");
 							moveAndClick(inlineBox.domNode);
-							doh.robot.sequence(d.getTestErrback(function(){
-								var editor = inlineBox.wrapperWidget.editWidget;
-								doh.is('<B>not bold</B><B>not bold</B>&lt;input&gt;', editor.attr("value"), "initial editor value");
-							}), 1000);
-							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
-							doh.robot.typeKeys("start", 1000, 1000);
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 1000, {});
+							doh.robot.typeKeys("start", 2000, 1000);
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 							doh.robot.sequence(d.getTestCallback(function(){
 								var editor = inlineBox.wrapperWidget.editWidget;
-								doh.is('start<B>not bold</B><B>not bold</B>&lt;input&gt;', editor.attr("value"), "re-edit value");
+								doh.t(/^<B>not bold<\/B><B>not bold<\/B>&lt;input&gt;start$/i.test(editor.attr("value")), "editor value");
 							}), 1000);
 							return d;
 						}	
@@ -320,17 +316,13 @@
 							var d = new doh.Deferred();
 							var inlineBox = dijit.byId("renderAsHtml_true");
 							moveAndClick(inlineBox.domNode);
-							doh.robot.sequence(d.getTestErrback(function(){
-								var editor = inlineBox.wrapperWidget.editWidget;
-								doh.is('&lt;B&gt;not bold&lt;/B&gt;<B>bold</B>&amp;lt;input&amp;gt;', editor.attr("value"), "initial editor value");
-							}), 1000);
-							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
-							doh.robot.typeKeys("start", 1000, 1000);
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 1000, {});
+							doh.robot.typeKeys("start", 2000, 1000);
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 							doh.robot.sequence(d.getTestCallback(function(){
 								var editor = inlineBox.wrapperWidget.editWidget;
-								doh.is('start&lt;B&gt;not bold&lt;/B&gt;<B>bold</B>&amp;lt;input&amp;gt;', editor.attr("value"), "re-edit value");
+								doh.t(/^&lt;B&gt;not bold&lt;\/B&gt;<B>bold<\/B>&amp;lt;input&amp;gt;start$/i.test(editor.attr("value")), "re-edit value");
 							}), 1000);
 							return d;
 						}	
@@ -354,6 +346,7 @@
 						}
 					}
 				]);
+
 				doh.run();
 			});
 		</script>
