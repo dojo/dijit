@@ -125,9 +125,9 @@
 							});
 						tc.addChild(cp2);
 						
-						var left = dojo.byId("dijit_layout__ScrollingTabControllerButton_1-leftBtn");
-						var right = dojo.byId("dijit_layout__ScrollingTabControllerButton_2-rightBtn");						
-						var menu = dojo.byId("dijit_layout__ScrollingTabControllerButton_0-menuBtn");
+						var left = dojo.byId("tc1_tablist_leftBtn");
+						var right = dojo.byId("tc1_tablist_rightBtn");						
+						var menu = dojo.byId("tc1_tablist_menuBtn");
 
 						t.assertTrue(left, "verify left scroll button exists");
 						t.assertTrue(right, "verify right scroll button exists");
@@ -142,7 +142,7 @@
 
 			doh.register("selectingTabs", [
 
-				// Check that tab buttton is scrolled into view when tab is selected
+				// Check that tab button is scrolled into view when tab is selected
 				{
 					name: 'isVisible',
 					timeout: 10000,
@@ -155,10 +155,10 @@
 						tc.selectChild(cp);
 						
 						setTimeout(d.getTestCallback(function(){
-								var cpLeft = dojo.byId("dijit_layout__ScrollingTabControllerButton_1-leftBtn");
+								var cpLeft = dojo.byId("tc1_tablist_leftBtn");
 								var left = dojo.position(cpLeft).x + dojo.position(cpLeft).w;
 
-								var cpRight = dojo.byId("dijit_layout__ScrollingTabControllerButton_2-rightBtn");
+								var cpRight = dojo.byId("tc1_tablist_rightBtn");
 								var right = dojo.position(cpRight).x;
 
 								var tab = dijit.byId("tc1_tablist_newTab1");
@@ -261,9 +261,9 @@
 						cp = dijit.byId('cp7');
 						tc.removeChild(cp);			
 						
-						var left = dojo.byId("dijit_layout__ScrollingTabControllerButton_7-leftBtn");
-						var right = dojo.byId("dijit_layout__ScrollingTabControllerButton_8-rightBtn");
-						var menu = dojo.byId("dijit_layout__ScrollingTabControllerButton_6-menuBtn");
+						var left = dijit.byId("tc3_tablist_leftBtn").domNode;
+						var right = dijit.byId("tc3_tablist_rightBtn").domNode;
+						var menu = dijit.byId("tc3_tablist_menuBtn").domNode;
 						
 						t.assertTrue(isHidden(left), "left scroll is hidden");
 						t.assertTrue(isHidden(right), "right scroll is hidden");
