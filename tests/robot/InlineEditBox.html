@@ -291,43 +291,90 @@
 				]);
 
 				doh.register("renderAsHtml", [
+
+					// "plain text" mode, < > & have no special meaning
 					{
 						name: "false",
 						timeout: 10000,
 						runTest: function(){
 							var d = new doh.Deferred();
+
+							// confirm initial displayed value
 							var inlineBox = dijit.byId("renderAsHtml_false");
+							doh.is("&lt;B&gt;not bold&lt;/B&gt;&amp;lt;input&amp;gt;", dojo.trim(inlineBox.domNode.innerHTML),
+								"confirm initial value (with special chars) wasn't modified");
+							doh.is("<B>not bold</B>&lt;input&gt;", inlineBox.attr("value"),
+								"confirm initial attr('value')");
+
+							// launch editor, and make sure that special characters aren't mangled
 							moveAndClick(inlineBox.domNode);
-							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 1000, {});
-							doh.robot.typeKeys("start", 2000, 1000);
-							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
-							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
-							doh.robot.sequence(d.getTestCallback(function(){
+							doh.robot.sequence(d.getTestErrback(function(){
 								var editor = inlineBox.wrapperWidget.editWidget;
-								doh.t(/^<B>not bold<\/B><B>not bold<\/B>&lt;input&gt;start$/i.test(editor.attr("value")), "editor value");
+								doh.is("<B>not bold</B>&lt;input&gt;", editor.attr("value"), "initial editor value");
 							}), 1000);
+
+							// edit value and save		
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 1000, {});
+							doh.robot.typeKeys("end", 2000, 1000);
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+
+							// check that display value didn't mangle special characters
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("&lt;B&gt;not bold&lt;/B&gt;&amp;lt;input&amp;gt;end", dojo.trim(inlineBox.domNode.innerHTML),
+									"displayed value after edit");
+								doh.is("<B>not bold</B>&lt;input&gt;end", inlineBox.attr("value"),
+									"attr('value') after edit");
+							}), 1000);
+
 							return d;
 						}	
 					},
+
+					// HTML mode, display mode has rich text, which is passed to editor
 					{
 						name: "true",
 						timeout: 10000,
 						runTest: function(){
 							var d = new doh.Deferred();
+
+							// confirm initial displayed value
 							var inlineBox = dijit.byId("renderAsHtml_true");
+							doh.is("&lt;b&gt;not bold&lt;/b&gt;<b>bold</b>&amp;lt;input&amp;gt;",
+								dojo.trim(inlineBox.domNode.innerHTML).toLowerCase(),
+								"confirm initial value (with special chars) wasn't modified");
+							doh.is("&lt;b&gt;not bold&lt;/b&gt;<b>bold</b>&amp;lt;input&amp;gt;",
+								inlineBox.attr("value").toLowerCase(),
+								"confirm initial attr('value')");
+
+							// launch editor, and make sure that value was passed to editor as HTML
 							moveAndClick(inlineBox.domNode);
-							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 1000, {});
-							doh.robot.typeKeys("start", 2000, 1000);
-							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
-							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
-							doh.robot.sequence(d.getTestCallback(function(){
+							doh.robot.sequence(d.getTestErrback(function(){
 								var editor = inlineBox.wrapperWidget.editWidget;
-								doh.t(/^&lt;B&gt;not bold&lt;\/B&gt;<B>bold<\/B>&amp;lt;input&amp;gt;start$/i.test(editor.attr("value")), "re-edit value");
+								doh.is("&lt;b&gt;not bold&lt;/b&gt;<b>bold</b>&amp;lt;input&amp;gt;",
+									editor.attr("value").toLowerCase(),
+									"initial editor value");
 							}), 1000);
+
+							// edit value and save		
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 1000, {});
+							doh.robot.typeKeys("end", 2000, 1000);
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+
+							// check that display value didn't mangle special characters
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("&lt;b&gt;not bold&lt;/b&gt;<b>bold</b>&amp;lt;input&amp;gt;end",
+									dojo.trim(inlineBox.domNode.innerHTML).toLowerCase(),
+									"displayed value after edit");
+								doh.is("&lt;b&gt;not bold&lt;/b&gt;<b>bold</b>&amp;lt;input&amp;gt;end",
+									inlineBox.attr("value").toLowerCase(),
+									"attr('value') after edit");
+							}), 1000);
+
 							return d;
 						}	
 					}
 				]);
+
 
 				doh.register("focus tests", [
 					{

@@ -121,20 +121,14 @@ dojo.declare("dijit.InlineEditBox",
 			this.displayNode.setAttribute("tabIndex", 0);
 		}
 
-		var val = this.value;
-		if(val === null){ val = ""; } // ia few programmatic users like to specify null instead of ""
-		if(val === "" && !("value" in this.params)){ // "" is a good value if specified directly so check params
-			val = this.displayNode.innerHTML;
-			if(!this.renderAsHtml){ // value should not but may contain HTML tags so escape them to avoid losing those tags, but leave <br> to add newlines
-				val = val.replace(/<br\/?>/gi,"\n").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<BR>");
-				this.displayNode.innerHTML = val; // re-render without HTML tags
-				val = this.displayNode.innerText || this.displayNode.textContent || ""; // automagically converts HTML entities to appropriate single characters, and <BR> to newlines
-			}
+		if(!this.value && !("value" in this.params)){ // "" is a good value if specified directly so check params){
+		   this.value = dojo.trim(this.renderAsHtml ? this.displayNode.innerHTML :
+		      (this.displayNode.innerText||this.displayNode.textContent||""));
 		}
-		this.value = dojo.trim(val);
-		if(this.value === ""){
-			this.displayNode.innerHTML = this.noValueIndicator; // needed when value is not specified explicitly and no innerHTML as well
+		if(!this.value){
+		    this.displayNode.innerHTML = this.noValueIndicator;
 		}
+
 		dojo.addClass(this.displayNode, 'dijitInlineEditBoxDisplayMode');
 	},
 
