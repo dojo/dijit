@@ -105,7 +105,7 @@
 	padding-right:25px;
 }
 
-/* Tab */
+/* TabContainer */
 .dijitRtl .dijitTabContainer .tabStripMenuButton {
 	float: left;
 }
@@ -116,4 +116,9 @@
 
 .dj_ie-rtl .dijitTimePickerItem {
 	width:100%;
+}
+
+.dijitTab .dijitTabCloseButton {
+	margin-left: 0px;
+	margin-right: 1em;
 }
