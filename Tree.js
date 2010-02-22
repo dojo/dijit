@@ -350,6 +350,9 @@ dojo.declare(
 			this._setExpando(false);
 		}
 
+		// Set leaf icon or folder icon, as appropriate
+		this._updateItemClasses(this.item);
+
 		// On initial tree show, make the selected TreeNode as either the root node of the tree,
 		// or the first child, if the root node is hidden
 		if(this == tree.rootNode){
