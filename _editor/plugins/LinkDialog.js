@@ -303,7 +303,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 		if(e && e.target){
 			var t = e.target;
 			var tg = t.tagName? t.tagName.toLowerCase() : "";
-			if(tg === this.tag){
+			if(tg === this.tag && dojo.attr(t,"href")){
 				this.editor.onDisplayChanged();
 				dojo.withGlobal(this.editor.window,
 					 "selectElement",
