@@ -118,7 +118,7 @@
 	width:100%;
 }
 
-.dijitTab .dijitTabCloseButton {
+.dijitRtl .dijitTab .dijitTabCloseButton {
 	margin-left: 0px;
 	margin-right: 1em;
 }
