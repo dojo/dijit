@@ -933,6 +933,14 @@ img.dijitColorPaletteUnder {
 	display: none;
 }
 
+.dj_ie6 .dijitAccordionTitle,
+.dj_iequirks .dijitAccordionTitle {
+	/* avoid IE6/IE quirks size calc bug where accordion ends up too short (themeTesterQuirk.html)
+	 * and IE6 bug where the first title bar turns white upon hovering any title bar
+	 */
+	zoom: 1;
+}
+
 /* Calendar */
 
 .dijitCalendarContainer {
