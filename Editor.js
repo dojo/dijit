@@ -101,13 +101,12 @@ dojo.declare(
 			// Okay, denote the value can now be set.
 			this.setValueDeferred.callback(true);
 
-			this.onNormalizedDisplayChanged(); //update toolbar button status
-
 			dojo.addClass(this.iframe.parentNode, "dijitEditorIFrameContainer");
 			dojo.addClass(this.iframe, "dijitEditorIFrame");
 			dojo.attr(this.iframe, "allowTransparency", true);
 
 			this.toolbar.startup();
+			this.onNormalizedDisplayChanged(); //update toolbar button status
 		},
 		destroy: function(){
 			dojo.forEach(this._plugins, function(p){
