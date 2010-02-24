@@ -4,12 +4,10 @@
  */
 
 /*** some common festure ***/
-.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab .dijitTabContent,
-.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab .dijitTabContent{
+.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab .dijitTabContent, .lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab .dijitTabContent {
 	min-width: 60px;
 	text-align: center;
 }
-
 .lucid .dijitTabContainer .dijitTab .dijitTabCloseIcon {
 	background: url("images/tabClose.png") no-repeat right top;
 	width: 12px;
@@ -19,28 +17,39 @@
 .lucid .dijitTab .dijitTabCloseButtonHover .dijitTabCloseIcon {
 	background: url("images/tabCloseHover.png") no-repeat right top;
 }
-
-
 .lucid .dijitTabContainer .dijitTab .dijitTabCloseButton {
 	margin-left: 0;
 }
 /* set the spacer invisible */
-.lucid .dijitTabContainer .dijitTabSpacer  {
+.lucid .dijitTabContainer .dijitTabSpacer {
 	height: 0;
 	width: 0;
 	overflow: hidden;
 }
 .lucid .dijitTab .dijitTabInnerDiv {
-	background-color:#cde3f6;
+	background-color:#eeeeee;
+	-webkit-transition-property:background-color, border, padding-top;
+ 	-webkit-transition-duration:.3s;
+	-webkit-transition-timing-function:linear;
 }
 .lucid .dijitTabHover .dijitTabInnerDiv {
-	background-color:#8dc7fe;
+	background-color:#a6d2fb;
+	-webkit-transition-property:background-color, border, padding;
+ 	-webkit-transition-duration:.35s;
+	-webkit-transition-timing-function:linear;
+}
+.lucid .dijitTabActive .dijitTabInnerDiv {
+	background-color:#7dbefa;
+	-webkit-transition-property:background-color, border, padding;
+ 	-webkit-transition-duration:.35s;
+	-webkit-transition-timing-function:linear;
 }
 .lucid .dijitTabChecked .dijitTabInnerDiv {
 	background-color:#fff;
+	-webkit-transition-property:background-color, border, padding;
+ 	-webkit-transition-duration:.35s;
+	-webkit-transition-timing-function:linear;
 }
-
-
 /*** end common ***/
 
 
@@ -52,90 +61,95 @@
 }
 .lucid .dijitTabContainer .dijitTabContainerTop-container {
 	background:#fff;
-	border:1px solid #769dc0;
+	border:1px solid #b5bcc7;
 	border-top: none;
 }
 .lucid .dijitTabContainer .dijitTabContainerTop-tabs {
-	border-bottom: 1px solid #769dc0;;
+	border-bottom: 1px solid #b5bcc7;
 }
 .lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab {
 	top: 1px;	/* used for overlap */
 	margin-right: 1px;
 }
-
 /* for top tab padding. change height when status changes */
-.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab .dijitTabContent{
-	padding-top: 4px;
+.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab .dijitTabContent {
+	padding-top: 3px;
 	padding-right: 8px;
 	padding-bottom: 3px;
 	padding-left: 4px;
+	border: 1px solid #b5bcc7;
+	border-bottom: 1px solid #b5bcc7;
+}
+.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTabHover .dijitTabContent, .lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTabActive .dijitTabContent {
+	color:#000 !important;
 	border: 1px solid #769dc0;
-	border-bottom: 1px solid #769dc0;
 }
 .lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab {
 	padding-top: 3px;
 }
-
-.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTabChecked .dijitTabContent{
+.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTabChecked .dijitTabContent {
 	padding-bottom: 4px;
-	padding-top: 7px;
+	padding-top: 6px;
 	border-bottom: none;
 }
 .lucid .dijitTabContainer .dijitTabContainerTop-tabs dijitTabChecked {
 	padding-top: 0;
 }
-
 /* normal status */
 .lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab .dijitTabInnerDiv {
 	background-image:url(images/tab_bottom.png);
 	background-position:bottom;
 	background-repeat:repeat-x;
+	background-position: 0px -5px;
 }
 .lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab .dijitTabInnerDiv .dijitTabContent {
 	background-image:url(images/tab_top_back.png);
 	background-position:center top;
 	background-repeat:repeat-x;
+	color:#3d3d3d;
 }
-
 /* checked status */
-.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTabChecked .dijitTabInnerDiv { 
-	background-color:#fff;
+.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTabChecked .dijitTabInnerDiv {
+	background-color:#b2d4f3;
 	background-image:none;
+	box-shadow: 0px -1px 1px rgba(0, 0, 0, 0.04);
+	-webkit-box-shadow: 0px -1px 0px rgba(0, 0, 0, 0.04);
+	-moz-box-shadow: 0px -1px 1px rgba(0, 0, 0, 0.04);
 }
-.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTabChecked .dijitTabInnerDiv .dijitTabContent{
+.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTabChecked .dijitTabInnerDiv .dijitTabContent {
 	background-image:url(images/focus.png);
+	color:#000;
+	border-color:#b5bcc7;
 }
-
 /** end top tab **/
 
 
 /*************** bottom tab ***************/
 .lucid .dijitTabContainer .dijitTabContainerBottom-container {
 	background:#fff;
-	border:1px solid #769dc0;
+	border:1px solid #b5bcc7;
 	border-bottom: none;
 }
 .lucid .dijitTabContainer .dijitTabContainerBottom-tabs {
-	border-top: 1px solid #769dc0;
+	border-top: 1px solid #b5bcc7;
 }
 .lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab {
 	top: -1px;	/* used for overlap */
 	margin-right: 1px;
 }
 /* calculate the position and size */
-.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab .dijitTabContent{
+.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab .dijitTabContent {
 	padding-top: 3px;
 	padding-right: 8px;
 	padding-bottom: 4px;
 	padding-left: 4px;
-	border: 1px solid #769dc0;
-	border-top: 1px solid #769dc0;
+	border: 1px solid #b5bcc7;
+	border-top: 1px solid #b5bcc7;
 }
 .lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab {
 	padding-bottom: 3px;
 }
-
-.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTabChecked .dijitTabContent{
+.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTabChecked .dijitTabContent {
 	padding-bottom: 7px;
 	padding-top: 4px;
 	border-top: none;
@@ -143,8 +157,6 @@
 .lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTabChecked {
 	padding-bottom: 0;
 }
-
-
 /* normal status */
 .lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab .dijitTabInnerDiv {
 	background-image: url(images/tab_bottom_top.png);
@@ -156,12 +168,10 @@
 	background-position: center bottom;
 	background-repeat: repeat-x;
 }
-
 /* checked status */
-.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTabChecked .dijitTabInnerDiv{
+.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTabChecked .dijitTabInnerDiv {
 	background-image:none;
 }
-
 /** end bottom tab **/
 
 /**==================================================================**/
@@ -169,18 +179,16 @@
 /*************** left tab ***************/
 .lucid .dijitTabContainer .dijitTabContainerLeft-container {
 	background:#fff;
-	border:1px solid #769dc0;
+	border:1px solid #b5bcc7;
 	border-left: none;
 }
-
 .lucid .dijitTabContainer .dijitTabContainerLeft-tabs {
-	border-right: 1px solid #769dc0;
+	border-right: 1px solid #b5bcc7;
 }
 .lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab {
 	left: 1px;	/* used for overlap */
 	margin-bottom: 1px;
 }
-
 /* normal status */
 .lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab .dijitTabInnerDiv {
 	background-image: url(images/tab_back_lucid_left.png);
@@ -192,42 +200,36 @@
 	padding-right: 8px;
 	padding-bottom: 4px;
 	padding-left: 4px;
-	border: 1px solid #769dc0;
-	border-right: 1px solid #769dc0;
-
+	border: 1px solid #b5bcc7;
+	border-right: 1px solid #b5bcc7;
 	background-image: url(images/tab_top_back.png);
 	background-position: center bottom;
 	background-repeat: repeat-x;
 }
-
 /* checked status */
 .lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTabChecked .dijitTabInnerDiv .dijitTabContent {
 	padding-right: 9px;
 	border-right: none;
-	
 	background-image: none;
 }
-.lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTabChecked .dijitTabInnerDiv{
+.lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTabChecked .dijitTabInnerDiv {
 	background-image: url(images/focus.png);
 }
-
 /** end left tab **/
 
 /*************** right tab ***************/
 .lucid .dijitTabContainer .dijitTabContainerRight-container {
 	background:#fff;
-	border:1px solid #769dc0;
+	border:1px solid #b5bcc7;
 	border-right: none;
 }
-
 .lucid .dijitTabContainer .dijitTabContainerRight-tabs {
-	border-left: 1px solid #769dc0;
+	border-left: 1px solid #b5bcc7;
 }
 .lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab {
 	left: -1px;	/* used for overlap */
 	margin-bottom: 1px;
 }
-
 /* normal status */
 .lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab .dijitTabInnerDiv {
 	background-image: url(images/tab_back_lucid_left.png);
@@ -236,28 +238,24 @@
 }
 .lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab .dijitTabInnerDiv .dijitTabContent {
 	padding-top: 3px;
-	padding-right: 8px;	
+	padding-right: 8px;
 	padding-bottom: 4px;
 	padding-left: 4px;
-	border: 1px solid #769dc0;
-	border-left: 1px solid #769dc0;
-
+	border: 1px solid #b5bcc7;
+	border-left: 1px solid #b5bcc7;
 	background-image: url(images/tab_top_back.png);
 	background-position: center bottom;
 	background-repeat: repeat-x;
 }
-
 /* checked status */
 .lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTabChecked .dijitTabInnerDiv .dijitTabContent {
 	padding-left: 5px;
 	border-left: none;
-	
 	background-image: none;
 }
-.lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTabChecked .dijitTabInnerDiv{
+.lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTabChecked .dijitTabInnerDiv {
 	background-image: url(images/focus.png);
 }
-
 /** end right tab **/
 
 /**==================================================================**/
@@ -274,115 +272,99 @@
 .dj_ie7 .lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTabChecked {
 	top: -2px;	/* -1px under other browsers */
 }
-
 /** for ie6 **/
 
-.dj_ie6 .lucid .dijitTabContainer .dijitLayoutContainer,
-.dj_ie6 .lucid .dijitTabContainer .dijitTabListWrapper,
-.dj_ie6 .lucid .dijitTabContainer .dijitTabContainerTabListNested  {
+.dj_ie6 .lucid .dijitTabContainer .dijitLayoutContainer, .dj_ie6 .lucid .dijitTabContainer .dijitTabListWrapper, .dj_ie6 .lucid .dijitTabContainer .dijitTabContainerTabListNested {
 	overflow-x: hidden;	/* otherwish the widget will be very very long under ie6 */
 }
-.dj_ie6 .lucid .dijitTabContainer .dijitTab .dijitTabInnerDiv, 
-.dj_ie6 .lucid .dijitTabContainer .dijitTab .dijitTabInnerDiv .dijitTabContent{
+.dj_ie6 .lucid .dijitTabContainer .dijitTab .dijitTabInnerDiv, .dj_ie6 .lucid .dijitTabContainer .dijitTab .dijitTabInnerDiv .dijitTabContent {
 	background-image: none;	/* ie6 doesn't support transparent background */
 }
-
-.dj_ie6 .lucid .dijitTabContainer .dijitTabContainerLeft-tabs, 
-.dj_ie6 .lucid .dijitTabContainer .dijitTabContainerRight-tabs {
-	/*todo: this rule seems to make no difference for left/right tabs
+.dj_ie6 .lucid .dijitTabContainer .dijitTabContainerLeft-tabs, .dj_ie6 .lucid .dijitTabContainer .dijitTabContainerRight-tabs {
+/*todo: this rule seems to make no difference for left/right tabs
 	 * 
 	 * top: -1px;	/* weird, why left & right tab has 1px spacing on the top under ie6??? */
 }
-
-
 /** round corner **/
-.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab .dijitTabInnerDiv,
-.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab .dijitTabContent{
-	border-radius: 4px 4px 0px 0px;
-	-moz-border-radius: 4px 4px 0px 0px;
-	-webkit-border-top-left-radius:4px;
-    -webkit-border-top-right-radius:4px;
+.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab .dijitTabInnerDiv, .lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab .dijitTabContent {
+	border-radius: 2px 2px 0px 0px;
+	-moz-border-radius: 2px 2px 0px 0px;
+	-webkit-border-top-left-radius:2px;
+	-webkit-border-top-right-radius:2px;
 }
-
-.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab .dijitTabInnerDiv,
-.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab .dijitTabContent{
-	border-radius: 0px 0px 4px 4px;
-	-moz-border-radius: 0px 0px 4px 4px;
-    -webkit-border-bottom-right-radius:4px;
-    -webkit-border-bottom-left-radius:4px;
+.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab .dijitTabInnerDiv, .lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab .dijitTabContent {
+	border-radius: 0px 0px 2px 2px;
+	-moz-border-radius: 0px 0px 2px 2px;
+	-webkit-border-bottom-right-radius:2px;
+	-webkit-border-bottom-left-radius:2px;
 }
-
-.lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab .dijitTabInnerDiv,
-.lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab .dijitTabContent{
-	border-radius: 4px 0px 0px 4px;
-	-moz-border-radius: 4px 0px 0px 4px;
-	-webkit-border-top-left-radius:4px;
-    -webkit-border-bottom-left-radius:4px;
+.lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab .dijitTabInnerDiv, .lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab .dijitTabContent {
+	border-radius: 2px 0px 0px 2px;
+	-moz-border-radius: 2px 0px 0px 2px;
+	-webkit-border-top-left-radius:2px;
+	-webkit-border-bottom-left-radius:2px;
 }
-
-.lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab .dijitTabInnerDiv,
-.lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab .dijitTabContent{
-	border-radius: 0px 4px 4px 0px;
-	-moz-border-radius: 0px 4px 4px 0px;
-    -webkit-border-top-right-radius:4px;
-    -webkit-border-bottom-right-radius:4px;
+.lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab .dijitTabInnerDiv, .lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab .dijitTabContent {
+	border-radius: 0px 2px 2px 0px;
+	-moz-border-radius: 0px 2px 2px 0px;
+	-webkit-border-top-right-radius:2px;
+	-webkit-border-bottom-right-radius:2px;
 }
-
-
 /************ left/right scroll buttons + menu button ************/
 
 .lucid .dijitTabContainer .tabStripButton {
-	background-color: #cde3f6;
+	background-color: #eeeeee;
 	background-repeat: no-repeat;
 }
 .lucid .dijitTabContainer .dijitTabListContainer-top .tabStripButton {
-	border: 1px solid #769dc0;
-	padding: 8px 3px;
+	border: 1px solid #b5bcc7;
+	padding: 0px 3px;
 	background-image: url(images/tab_top_back.png);
 	background-position: top center;
 }
-
 .lucid .dijitTabContainer .dijitTabListContainer-bottom .tabStripButton {
-	border: 1px solid #769dc0;
-	padding: 7px 3px;
+	border: 1px solid #b5bcc7;
+	padding: 0px 3px;
 	background-image: url(images/tab_top_back_bottom.png);
 	background-position: bottom center;
 }
-
 .lucid .dijitTabContainer .tabStripButtonHover {
-	background-color:#e1eefa;
+	background-color:#a6d2fb;
+}
+.lucid .dijitTabContainer .tabStripButtonActive {
+	background-color:#7dbefa;
 }
 .lucid .dijitTabContainer div.tabStripButtonHover .dijitTabInnerDiv {
-	background-color: transparent;
+	xbackground-color: transparent;
 }
-
-.lucid .dijitTabStripIcon { 
+.lucid .dijitTabContainer .tabStripMenuButton .dijitTabInnerDiv .dijitTabContent img, .lucid .dijitTabContainer .tabStripSlideButtonLeft .dijitTabInnerDiv .dijitTabContent img, .lucid .dijitTabContainer .tabStripSlideButtonRight .dijitTabInnerDiv .dijitTabContent img {
 	background-image: url("images/tabStripSlideButtonLeft.png");
 	background-position: center center;
 	background-repeat: no-repeat;
 	width: 15px;
 	height: 15px;
+	background-color: transparent;
 }
-.lucid .dijitTabStripSlideRightIcon {
+.lucid .dijitTabContainer .tabStripSlideButtonRight .dijitTabInnerDiv .dijitTabContent img {
 	background-image: url("images/tabStripSlideButtonRight.png");
 }
-.lucid .dijitTabStripMenuIcon {
+.lucid .dijitTabContainer .tabStripMenuButton .dijitTabInnerDiv .dijitTabContent img {
 	background-image: url("images/tabStripMenuButton.png");
 }
-
-
+.lucid .dijitTabContainer .tabStripSlideButtonRight .dijitTabInnerDiv .dijitTabContent img {
+	background-image: url("images/tabStripSlideButtonRight.png");
+}
+.lucid .dijitTabContainer .tabStripSlideButtonRight .tabStripButton {
+	margin-right:1px;
+}
 /** hacks for browsers **/
-.dj_ie6 .lucid .dijitTabContainer .dijitTabListContainer-top .tabStripButton,
-.dj_ie6 .lucid .dijitTabContainer .dijitTabListContainer-bottom .tabStripButton {
+.dj_ie6 .lucid .dijitTabContainer .dijitTabListContainer-top .tabStripButton, .dj_ie6 .lucid .dijitTabContainer .dijitTabListContainer-bottom .tabStripButton {
 	width: 15px;
 }
-
-.dj_ie6 .dijitTabContainer .dijitTabListContainer-top .tabStripButton,
-.dj_ie6 .dijitTabContainer .dijitTabListContainer-bottom .tabStripButton{
+.dj_ie6 .dijitTabContainer .dijitTabListContainer-top .tabStripButton, .dj_ie6 .dijitTabContainer .dijitTabListContainer-bottom .tabStripButton {
 	background-image: none;
 }
-.dj_ie6 .lucid .dijitTabContainer div .tabStripButton .dijitTabInnerDiv, 
-.dj_ie6 .lucid .dijitTabContainer .dijitTabListWrapper .dijitTabHover {
+.dj_ie6 .lucid .dijitTabContainer div .tabStripButton .dijitTabInnerDiv, .dj_ie6 .lucid .dijitTabContainer .dijitTabListWrapper .dijitTabHover {
 	background-color: transparent;
 }
 /* icon position fix.... */
@@ -392,28 +374,20 @@
 .dj_ie7 .lucid .dijitTabContainer .dijitTabListContainer-bottom .tabStripButton {
 	padding-top: 8px;
 }
-
 .dj_ie8 .lucid .dijitTabContainer .dijitTabListContainer-top .tabStripButton {
 	padding-top: 7px;
 }
 .dj_ie8 .lucid .dijitTabContainer .dijitTabListContainer-bottom .tabStripButton {
 	padding-top: 6px;
 }
-
 .dj_webkit .lucid .dijitTabContainer .dijitTabListContainer-top .tabStripButton {
 	padding-top: 6px;
 }
 .dj_webkit .lucid .dijitTabContainer .dijitTabListContainer-bottom .tabStripButton {
-	padding-top: 5px;	
+	padding-top: 5px;
 }
-
-.lucid .dijitTabContainer .dijitTabListContainer-top  .tabStripButton {
-	-moz-border-radius: 4px 4px 0px 0px;
-	-webkit-border-top-left-radius:4px;
-    -webkit-border-top-right-radius:4px;
+.lucid .dijitTabContainer .dijitTabListContainer-top .tabStripButton {
+	margin-top:7px;
 }
-.lucid .dijitTabContainer .dijitTabListContainer-bottom  .tabStripButton {
-	-moz-border-radius: 0px 0px 4px 4px;
-    -webkit-border-bottom-right-radius:4px;
-    -webkit-border-bottom-left-radius:4px;
+.lucid .dijitTabContainer .dijitTabListContainer-bottom .tabStripButton {
 }
