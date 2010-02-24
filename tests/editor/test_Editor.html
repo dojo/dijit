@@ -23,11 +23,26 @@
 	<script type="text/javascript">
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.Editor");
+		dojo.require("dijit._editor._Plugin");
 		dojo.require("dijit._editor.plugins.AlwaysShowToolbar");
 		dojo.require("dijit._editor.plugins.FontChoice");  // 'fontName','fontSize','formatBlock'
 		dojo.require("dijit._editor.plugins.TextColor");
 		dojo.require("dijit._editor.plugins.LinkDialog");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+
+		// Dummy simple plugin for testing that filters registered this way work
+		// properly with content setting on load.
+		dojo.declare("dijit.tests.editor.TestFilter", [dijit._editor._Plugin], {
+			setEditor: function(editor){
+				this.editor = editor;
+				this.editor.contentPreFilters.push(function(val){
+					if(val){
+						val = val.replace("notdojo", "DOJO");
+					}
+					return val;
+				});
+			}
+		});
 	</script>
 </head>
 
@@ -150,6 +165,11 @@
 	<h2>Font sizing via style</h2> 
 	<div dojoType="dijit.Editor" style="text-align:left; font-size:30pt" id="fontSizedEditor"> 
 		Hello World! 
+	</div> 
+
+	<h2>Checking pre-filter application</h2> 
+	<div dojoType="dijit.Editor" id="filteredEditor" extraPlugins="[{name: 'dijit.tests.editor.TestFilter'}]"> 
+		notdojo 
 	</div> 
 
 	<h2>Programmatic creation</h2>

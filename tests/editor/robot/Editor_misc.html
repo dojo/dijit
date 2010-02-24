@@ -91,6 +91,32 @@
 						tearDown: function(){
 							if(editor0){editor0.attr("value", value);}
 						}
+					},
+					{
+						name: "Test prefilters do process initial content",
+						timeout: 20000,
+						setUp: function(){
+							editor0 = dijit.byId("filteredEditor");
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+							try{
+								//Focus on the editor window
+								dojo.window.scrollIntoView(editor0.domNode);
+								doh.robot.mouseMoveAt(editor0.iframe, 500, null, 10, 10);
+								doh.robot.mouseClick({left:true}, 500);
+
+ 								doh.robot.sequence(d.getTestCallback(function(){
+									//Now check the state!
+									var val = editor0.attr("value");
+									doh.assertTrue(val.indexOf("DOJO") > 0);
+									doh.assertTrue(val.indexOf("notdojo") < 0)
+								}), 500);
+							}catch(e){
+								d.errback(e);
+							}
+							return d;
+						}
 					}
 				]);
 				doh.run();
