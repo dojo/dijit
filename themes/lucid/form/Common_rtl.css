@@ -1,7 +1,6 @@
 /* lucid/form/Common_rtl.css */
 .dijitRtl .lucid .dijitTextBoxError .dijitValidationIcon {
 	border-left:0px;
-	border-right: 3px solid #D46464;
+	border-right: 1px solid #D46464;
 	float: left;
-	margin-left: -1px;
 }
