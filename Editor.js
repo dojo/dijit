@@ -76,16 +76,17 @@ dojo.declare(
 				dojo['require']("dijit._editor.range");
 				this._steps=this._steps.slice(0);
 				this._undoedSteps=this._undoedSteps.slice(0);
-//				this.addKeyHandler('z',this.KEY_CTRL,this.undo);
-//				this.addKeyHandler('y',this.KEY_CTRL,this.redo);
 			}
 			if(dojo.isArray(this.extraPlugins)){
 				this.plugins=this.plugins.concat(this.extraPlugins);
 			}
 
-//			try{
+			// Set up a deferred so that the value isn't applied to the editor 
+			// until all the plugins load, needed to avoid timing condition
+			// reported in #10537.
+			this.setValueDeferred = new dojo.Deferred();
+
 			this.inherited(arguments);
-//			dijit.Editor.superclass.postCreate.apply(this, arguments);
 
 			this.commands = dojo.i18n.getLocalization("dijit._editor", "commands", this.lang);
 
@@ -96,8 +97,11 @@ dojo.declare(
 			}
 
 			dojo.forEach(this.plugins, this.addPlugin, this);
+
+			// Okay, denote the value can now be set.
+			this.setValueDeferred.callback(true);
+
 			this.onNormalizedDisplayChanged(); //update toolbar button status
-//			}catch(e){ console.debug(e); }
 
 			dojo.addClass(this.iframe.parentNode, "dijitEditorIFrameContainer");
 			dojo.addClass(this.iframe, "dijitEditorIFrame");

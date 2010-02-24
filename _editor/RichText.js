@@ -743,19 +743,28 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		this.attr('disabled', this.disabled); // initialize content to editable (or not)
 
 		// Note that setValue() call will only work after isLoaded is set to true (above)
-		this.setValue(html);
 
-		if(this.onLoadDeferred){
-			this.onLoadDeferred.callback(true);
+		// Set up a function to allow delaying the setValue until a callback is fired
+		// This ensures extensions like dijit.Editor have a way to hold the value set 
+		// until plugins load (and do things like register filters.
+		var setContent = dojo.hitch(this, function(){
+			this.setValue(html);
+			if(this.onLoadDeferred){
+				this.onLoadDeferred.callback(true);
+			}
+			this.onDisplayChanged();
+			if(this.focusOnLoad){
+				// after the document loads, then set focus after updateInterval expires so that
+				// onNormalizedDisplayChanged has run to avoid input caret issues
+				dojo.addOnLoad(dojo.hitch(this, function(){ setTimeout(dojo.hitch(this, "focus"), this.updateInterval); }));
+			}
+		});
+		if(this.setValueDeferred){
+			this.setValueDeferred.addCallback(setContent);
+		}else{
+			setContent();
 		}
 
-		this.onDisplayChanged();
-
-		if(this.focusOnLoad){
-			// after the document loads, then set focus after updateInterval expires so that
-			// onNormalizedDisplayChanged has run to avoid input caret issues
-			dojo.addOnLoad(dojo.hitch(this, function(){ setTimeout(dojo.hitch(this, "focus"), this.updateInterval); }));
-		}
 	},
 
 	onKeyDown: function(/* Event */ e){
