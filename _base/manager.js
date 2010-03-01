@@ -237,7 +237,7 @@ dojo.declare("dijit.WidgetSet", null, {
 				(widgetType in _widgetTypeCtr ?
 					++_widgetTypeCtr[widgetType] : _widgetTypeCtr[widgetType] = 0);
 		}while(hash[id]);
-		return id; // String
+		return dijit._scopeName == "dijit" ? id : dijit._scopeName + "_" + id; // String
 	};
 	
 	dijit.findWidgets = function(/*DomNode*/ root){
