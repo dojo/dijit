@@ -228,7 +228,7 @@ dijit.getUniqueId = function(/*String*/widgetType){
 			(widgetType in dijit._widgetTypeCtr ?
 				++dijit._widgetTypeCtr[widgetType] : dijit._widgetTypeCtr[widgetType] = 0);
 	}while(dijit.byId(id));
-	return id; // String
+	return dijit._scopeName == "dijit" ? id : dijit._scopeName + "_" + id; // String
 };
 
 dijit.findWidgets = function(/*DomNode*/ root){
