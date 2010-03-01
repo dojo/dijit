@@ -1238,6 +1238,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//see comments in placeCursorAtEnd
 		var isvalid=false;
 		if(dojo.isMoz){
+			// TODO:  Is this branch even necessary?
 			var first=this.editNode.firstChild;
 			while(first){
 				if(first.nodeType == 3){
@@ -1248,7 +1249,14 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 					}
 				}else if(first.nodeType == 1){
 					isvalid=true;
-					this._sCall("selectElementChildren", [ first ]);
+					var tg = first.tagName ? first.tagName.toLowerCase() : "";
+					// Collapse before childless tags.
+					if(/br|input|img|base|meta|area|basefont/.test(tg)){
+						this._sCall("selectElement", [ first ]);
+					}else{
+						// Collapse inside tags with children.
+						this._sCall("selectElementChildren", [ first ]);
+					}
 					break;
 				}
 				first = first.nextSibling;
