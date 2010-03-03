@@ -356,7 +356,7 @@ dojo.declare("dijit.WidgetSet", null, {
 							body = doc && doc.body;
 						return body && body.contentEditable == 'true';
 					}else{
-						// contentWindow.document isn't accessbile within IE7/8
+						// contentWindow.document isn't accessible within IE7/8
 						// if the iframe.src points to a foreign url and this
 						// page contains an element, that could get focus
 						try{
