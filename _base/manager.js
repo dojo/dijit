@@ -354,9 +354,16 @@ dijit.isTabNavigable = function(/*Element*/elem){
 						body = doc && doc.body;
 					return body && body.contentEditable == 'true';
 				}else{
-					doc = elem.contentWindow.document;
-					body = doc && doc.body;
-					return body && body.firstChild && body.firstChild.contentEditable == 'true';
+					// contentWindow.document isn't accessible within IE7/8
+					// if the iframe.src points to a foreign url and this
+					// page contains an element, that could get focus
+					try{
+						doc = elem.contentWindow.document;
+						body = doc && doc.body;
+						return body && body.firstChild && body.firstChild.contentEditable == 'true';
+					}catch(e){
+						return false;
+					}
 				}
 			default:
 				return elem.contentEditable == 'true';
