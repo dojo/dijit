@@ -11,7 +11,7 @@
 	there are currently (3 themes * 4 tests) * (10 variations of supported browsers)
 	not including testing individual locale-strings
 
-	you should NOT be using this in a production enviroment. include
+	you should NOT be using this in a production environment. include
 	your css and set your classes manually. for test purposes only ...
 */
 
@@ -27,7 +27,7 @@
 		for(var i=0; i<ary.length; i++){
 			var split = ary[i].split(/=/),
 				key = split[0],
-				value = split[1];
+				value = split[1].replace(/[^\w]/g, "");	// replace() to prevent XSS attack
 			switch(key){
 				case "locale":
 					// locale string | null
