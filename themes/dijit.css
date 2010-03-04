@@ -326,6 +326,8 @@ DIV.dijitArrowButton {
 	float: right;
 }
 
+/* Spinner */
+
 .dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
 	border-style: solid;
 	border-width: 0 0 0 1px !important;
@@ -946,7 +948,7 @@ img.dijitColorPaletteUnder {
 .dijitCalendarContainer {
 	width: auto;	/* in case user has specified a width for the TABLE nodes, see #10553 */
 }
-.dijitCalendarContainer thead tr th, .dijitCalendarContainer thead tr td, .dijitCalendarContainer tbody tr td, .dijitCalendarContainer tfoot tr td {
+.dijitCalendarContainer th, .dijitCalendarContainer td {
 	padding: 0;
 }
 
@@ -973,7 +975,7 @@ img.dijitColorPaletteUnder {
 }
 
 .dijitCalendarIncrementControl,
-.dijitCalendarBodyContainer tbody tr td,
+.dijitCalendarBodyContainer td,
 .dijitCalendarDateTemplate,
 .dijitCalendarContainer .dijitInline {
 	cursor:pointer;
@@ -1051,7 +1053,7 @@ img.dijitColorPaletteUnder {
 }
 .dj_ff3 .dijit_a11y .dijitMenuItem td {
 	padding: none !important;
-	background:none ! important;
+	background:none !important;
 }
 .dijit_a11y .dijitMenuItemSelected .dijitMenuItemLabel {
 	border-width: 1px;
@@ -1131,16 +1133,16 @@ img.dijitColorPaletteUnder {
 	overflow: hidden;
 	border: 1px solid black;
 }
-.dijitTabContainer .nowrapTabStrip {
+.nowrapTabStrip {
 	width: 50000px;
 	display: block;
 	position: relative;
 }
-.dijitTabContainer .dijitTabListWrapper {
+.dijitTabListWrapper {
 	overflow: hidden;
 }
 
-.dijit_a11y .dijitTabContainer .tabStripButton img {
+.dijit_a11y .tabStripButton img {
 	/* hide the icons (or rather the empty space where they normally appear) because text will appear instead */
 	display: none;
 }
@@ -1233,12 +1235,12 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 }
 
 
-.dijitTab .dijitTabCloseButton {
+.dijitTabCloseButton {
 	margin-left: 1em;
 }
 
 /* images off, high-contrast mode styles */
-.dijitTab .dijitTabCloseText {
+.dijitTabCloseText {
 	display:none;
 }
 
@@ -1247,7 +1249,7 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	margin: 0px 6px;
 }
 
-.dijit_a11y .dijitTab .dijitTabCloseIcon {
+.dijit_a11y .dijitTabCloseIcon {
 	display:none;
 }
 
@@ -1272,7 +1274,7 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 }
 
 /* InlineEditBox */
-.dijitInlineEditBoxDisplayMode{
+.dijitInlineEditBoxDisplayMode {
 	border: 1px solid transparent;	/* so keyline (border) on hover can appear without screen jump */
 }
 
@@ -1376,6 +1378,8 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .dijit_a11y .dijitDialog .closeText {
 	display:inline;
 }
+
+/* Slider */
 
 .dijitSliderMoveable {
 	z-index:99;
@@ -1506,7 +1510,7 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	text-align:center;
 }
 
-.dijitSlider .dijitSliderButton {
+.dijitSliderButton {
 	font-family:monospace;
 	margin:0;
 	padding:0;
@@ -1711,6 +1715,8 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	position: relative;
 	overflow: hidden;
 }
+
+/* Spinner again: TODO: combine this with above spinner section */
 .dijitSpinnerButtonContainer {
 	float: right;
 	width: 18px;
@@ -1842,6 +1848,7 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	color: #333; /* because WebKit lightens disabled input/textarea no matter what color you specify */
 }
 
+/* Slider again: TODO: move these rules up with other slider rules */
 .dijit_a11y .dijitSliderReadOnly,
 .dijit_a11y .dijitSliderDisabled {
 	opacity:0.6;
