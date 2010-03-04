@@ -311,15 +311,5 @@ dojo.extend(dijit._Widget, {
 	//		Parameter for children of `dijit.layout.StackContainer` or subclasses.
 	//		When true, display title of this widget as tab label etc., rather than just using
 	//		icon specified in iconClass
-	showTitle: true,
-
-	onClose: function(){
-		// summary:
-		//		Parameter for children of `dijit.layout.StackContainer` or subclasses.
-		//		Callback if a user tries to close the child.   Child will be closed if this function returns true.
-		// tags:
-		//		extension
-
-		return true;		// Boolean
-	}
+	showTitle: true
 });

@@ -1127,6 +1127,20 @@ dojo.declare("dijit._Widget", null, {
 			//		Also called to indicate hide of a `dijit.Dialog`, `dijit.TooltipDialog`, or `dijit.TitlePane`.
 			// tags:
 			//		callback
+	},
+
+	onClose: function(){
+		// summary:
+		//		Called when this widget is being displayed as a popup (ex: a Calendar popped
+		//		up from a DateTextBox), and it is hidden.
+		//		This is called from the dijit.popup code, and should not be called directly.
+		//
+		//		Also used as a parameter for children of `dijit.layout.StackContainer` or subclasses.
+		//		Callback if a user tries to close the child.   Child will be closed if this function returns true.
+		// tags:
+		//		extension
+
+		return true;		// Boolean
 	}
 });
 
