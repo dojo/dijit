@@ -63,3 +63,13 @@
 	border: 1px #555 dotted !important;
 	padding: 0px;
 }
+
+.tundra .dijitToolbarSeparator {
+	/* separator icon in the editor sprite */
+	background: url('images/editor.gif');
+}
+
+.dijitRtl .tundra .dijitToolbarSeparator {
+	/* separator icon in the editor sprite */
+	background-image: url('images/editor_rtl.gif');
+}

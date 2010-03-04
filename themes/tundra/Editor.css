@@ -9,10 +9,6 @@
 	top: expression(eval((document.documentElement||document.body).scrollTop));
 }
 
-.tundra .dijitToolbar .dijitToolbarSeparator {
-	background: url('images/editor.gif');
-}
-
 .tundra .dijitEditorIcon {
 	background-image: url('images/editor.gif'); /* editor icons sprite image */
 	background-repeat: no-repeat;
@@ -63,8 +59,7 @@
 .tundra .dijitEditorIconUnderline { background-position: -648px; }
 .tundra .dijitEditorIconUndo { background-position: -666px; }
 .tundra .dijitEditorIconWikiword { background-position: -684px; }
-.tundra .dijitEditorIconToggleDir { background-position: -540px; /* padding: 0; margin: 0; color:#555555;
-									font-family:verdana,arial,sans-serif; font-weight: 800; font-size: 70%; */}
+.tundra .dijitEditorIconToggleDir { background-position: -540px; }
 .tundra .dijitEditorIconTabIndent { background-position: -702px; }
 .tundra .dijitEditorIconSelectAll { background-position: -720px; }
 .tundra .dijitEditorIconUnlink { background-position: -738px; }
