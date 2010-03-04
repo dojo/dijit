@@ -27,6 +27,8 @@
 	margin:0 0 0 0.55em;
 }
 
+/* ProgressBar */
+
 .dijitRtl .dijitProgressBarFull .dijitProgressBarLabel {
 	right:0; /* FF workaround */
 }
@@ -91,7 +93,7 @@
 }
 
 .dijitRtl .dijit_a11y .dijitSpinnerButtonContainer {
-	margin-left: none;
+	margin-left: 0px;
 	margin-right: 2px;
 }
 
