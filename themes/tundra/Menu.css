@@ -4,7 +4,6 @@
 	margin: 0px;
 	padding: 0px;
 	background-color: #f7f7f7;
-	/* background:#eaeaea url("images/titleBar.png") repeat-x top left; */
 }
 
 .tundra .dijitBorderContainer .dijitMenuBar {
@@ -16,7 +15,7 @@
 	margin: 0;
 }
 
-.tundra .dijitMenuBar .dijitMenuItem {
+.tundra .dijitMenuItem {
 	padding: 4px 5px;
 }
 
@@ -39,6 +38,7 @@
 }
 
 .tundra .dijitMenuExpand {
+	/* arrow to indicate this MenuItem opens a sub-menu */
 	width: 7px;
 	height: 7px;
 	background-image: url('images/spriteArrows.png');

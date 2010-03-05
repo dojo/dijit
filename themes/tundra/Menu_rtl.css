@@ -1,8 +1,8 @@
-.dijitRtl .tundra .dijitMenuItem .dijitMenuItemIcon {
+.dijitRtl .tundra .dijitMenuItemIcon {
 	padding-left: 3px;
 	padding-right: 0px;
 }
 
-.dijitRtl .tundra .dijitMenuItem .dijitMenuExpand {
+.dijitRtl .tundra .dijitMenuExpand {
 	background-position: -7px 0px;
 }
