@@ -11,16 +11,11 @@
  ****/
 
 .tundra .dijitInputField INPUT,
-.tundra .dijitTextBox,
-.tundra .dijitComboBox,
-.tundra .dijitSpinner {
+.tundra .dijitTextBox {
 	margin: 0em 0.1em;
 }
 
-.tundra .dijitTextBox,
-.tundra .dijitComboBox,
-.tundra .dijitSpinner,
-.tundra .dijitTextArea {
+.tundra .dijitTextBox {
 	font-family: sans-serif;
 	font-size: 100%;
 }
@@ -29,10 +24,7 @@
 	padding: 3px;
 }
 
-.tundra .dijitTextBox,
-.tundra .dijitComboBox,
-.tundra .dijitSpinner,
-.tundra .dijitTextArea {
+.tundra .dijitTextBox {
 	/* 	For all except dijit.form.NumberSpinner:  the actual input element.
 		For TextBox, ComboBox, Spinner: the div that contains the input.
 		Otherwise the actual input element.
@@ -43,7 +35,7 @@
 	line-height: normal;
 }
 
-/* ComboBox specifix rules*/
+/* ComboBox specific rules*/
 .tundra .dijitComboBox .dijitInputField {
 	padding: 1px 0;
 }
@@ -51,31 +43,19 @@
 .tundra .dijitComboBox .dijitButtonNode {
 	padding: 1px 0.2em;
 }
-.tundra .dijitComboBox .dijitButtonNode,
-.tundra .dijitSpinner .dijitButtonNode {
-	/* line between the input area and the drop down button */
+.tundra .dijitTextBox .dijitButtonNode {
+	/* line between the input area and the drop down button, and also between
+	 * the up and down buttons of a spinner
+	 */
 	border-color: #9b9b9b;
-	border-width: 0px 0px 0px 1px;
-	border-style: solid;
 }
 
-.tundra .dijitTextBoxFocused,
-.tundra .dijitComboBoxFocused,
-.tundra .dijitSpinnerFocused,
-.tundra .dijitTextAreaFocused {
+.tundra .dijitTextBoxFocused {
 	/* input field when focused (ie: typing affects it) */
 	border-color:#406b9b;
 }
-.tundra .dijitComboBoxFocused .dijitButtonNode,
-.tundra .dijitSpinnerFocused .dijitButtonNode,
-.tundra .dijitSpinner .dijitUpArrowButtonActive,
-.tundra .dijitSpinner .dijitDownArrowButtonActive {
-	border-left-color:#366dba;
-}
-.tundra .dijitSpinnerFocused .dijitDownArrowButton,
-.tundra .dijitSpinner .dijitUpArrowButtonActive,
-.tundra .dijitSpinner .dijitDownArrowButtonActive {
-	border-top-color:#366dba;
+.tundra .dijitTextBoxFocused .dijitButtonNode {
+	border-color:#366dba;
 }
 
 .tundra .dijitError {
@@ -103,17 +83,10 @@
 	background: transparent url('../images/warning.png') no-repeat center center;
 }
 
-/*
- * IE6: can't display PNG images with gradient transparency.
- * Want to use filter property for those images, but then need to specify a path relative
- * to the main page, rather than relative to this file... using gifs for now
- */
-
 /* The highlight is shown in the ComboBox menu. */
 .tundra .dijitComboBoxHighlightMatch {
 	background-color:#a5beda;
 }
-
 
 .tundra .dijitFocusedLabel {
 	/* for checkboxes or radio buttons, hatch border around the corresponding label, to indicate focus */

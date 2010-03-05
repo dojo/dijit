@@ -1,3 +1,5 @@
+/* TextBox */
+
 .dj_gecko-rtl .dijitInputField {
 	direction: ltr; /* Firefox needs this - probably a bug */
 }
@@ -5,16 +7,40 @@
 	direction: rtl; /* Firefox needs dijitInputField to be ltr, so fix the contained tags */
 }
 
-/* ComboBox */
+/* Menu */
+
 .dijitRtl .dijitMenuItem {
 	text-align: right;
 }
 
-/* Tree */
+/* ComboBox and Spinner */
 
-.dijitRtl .dijitComboBox .dijitInputField {
-	border-right-width:1px !important;
-	border-left-width:0 !important;
+.dijitRtl .dijitTextBox .dijitButtonNode {
+	/* combobox and spinner: line between the input area and the drop down button */
+	border-right-width: 1px !important;
+	border-left-width: 0px !important;
+}
+
+.dj_iequirks-rtl .dijitComboButton BUTTON {
+	float:left;
+}
+
+.dijitRtl .dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
+	right: auto;
+	left: 0;
+}
+
+.dijitRtl .dijitSpinnerButtonContainer {
+	float: left;
+}
+
+.dijitRtl .dijit_a11y .dijitSpinnerButtonContainer {
+	margin-left: 0px;
+	margin-right: 2px;
+}
+
+.dijitRtl DIV.dijitArrowButton, .dijitRtl .dijitValidationIcon, .dijitRtl .dijitValidationIconText {
+	float: left;
 }
 
 /* Calendar */
@@ -80,27 +106,6 @@
 	left:auto;
 }
 
-/* Spinner */
-
-.dijitRtl .dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
-	right: auto;
-	left: 0;
-	border-width: 0 1px 0 0 !important;
-}
-
-.dijitRtl .dijitSpinnerButtonContainer {
-	float: left;
-}
-
-.dijitRtl .dijit_a11y .dijitSpinnerButtonContainer {
-	margin-left: 0px;
-	margin-right: 2px;
-}
-
-.dijitRtl DIV.dijitArrowButton, .dijitRtl .dijitValidationIcon, .dijitRtl .dijitValidationIconText {
-	float: left;
-}
-
 /* ContentPane*/
 .dijitRtl .dijitContentPaneLoading, .dijitRtl .dijitContentPaneError {
 	background-position:right;
@@ -112,15 +117,12 @@
 	float: left;
 }
 
-.dj_iequirks-rtl .dijitComboButton BUTTON {
-	float:left;
-}
-
-.dj_ie-rtl .dijitTimePickerItem {
-	width:100%;
-}
-
 .dijitRtl .dijitTab .dijitTabCloseButton {
 	margin-left: 0px;
 	margin-right: 1em;
+}
+
+/* TimePicker */
+.dj_ie-rtl .dijitTimePickerItem {
+	width:100%;
 }

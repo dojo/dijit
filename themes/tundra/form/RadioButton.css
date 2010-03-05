@@ -1,14 +1,5 @@
-.tundra .dijitToggleButton .dijitRadio,
-.tundra .dijitToggleButton .dijitRadioIcon {
-	background-image: url('../images/checkmarkNoBorder.png');
-}
 
-.dj_ie6 .tundra .dijitToggleButton .dijitRadio,
-.dj_ie6 .tundra .dijitToggleButton .dijitRadioIcon {
-	background-image: url('../images/checkmarkNoBorder.gif');
-}
-
-.tundra .dijitRadio,
+.tundra .dijitRadio,			/* stand alone */
 .tundra .dijitRadioIcon	{		/* inside a toggle button */
 	background-image: url('../images/checkmark.png'); /* checkbox sprite image */
 	background-repeat: no-repeat;
@@ -17,14 +8,21 @@
 	margin: 0;
 	padding: 0;
 }
-
 .dj_ie6 .tundra .dijitRadio,
-.dj_ie6 .tundra .dijitRadioIcon	{		/* inside a toggle button */
+.dj_ie6 .tundra .dijitRadioIcon	{
 	background-image: url('../images/checkmark.gif'); /* checkbox sprite image */
 }
 
-.tundra .dijitRadio,
 .tundra .dijitToggleButton .dijitRadioIcon {
+	/* for checkbox in a toggle button, override above setting to have no border */
+	background-image: url('../images/checkmarkNoBorder.png');
+}
+.dj_ie6 .tundra .dijitToggleButton .dijitRadioIcon {
+	background-image: url('../images/checkmarkNoBorder.gif');
+}
+
+.tundra .dijitRadio,
+.tundra .dijitRadioIcon {
 	/* unselected */
 	background-position: -112px;
 }

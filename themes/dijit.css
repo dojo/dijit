@@ -179,17 +179,8 @@
 	border-width: medium!important;
 }
 
-.dijit_a11y .dijitComboBoxReadOnly .dijitInputField,
-.dijit_a11y .dijitComboBoxReadOnly .dijitButtonNode,
-.dijit_a11y .dijitSpinnerReadOnly .dijitButtonNode,
-.dijit_a11y .dijitSpinnerReadOnly .dijitInputField,
-.dijit_a11y .dijitButtonDisabled .dijitButtonNode,
-.dijit_a11y .dijitDropDownButtonDisabled .dijitButtonNode,
-.dijit_a11y .dijitComboButtonDisabled .dijitButtonNode,
-.dijit_a11y .dijitComboBoxDisabled .dijitInputField,
-.dijit_a11y .dijitComboBoxDisabled .dijitButtonNode,
-.dijit_a11y .dijitSpinnerDisabled .dijitButtonNode,
-.dijit_a11y .dijitSpinnerDisabled .dijitInputField {
+.dijit_a11y .dijitTextBoxReadOnly .dijitInputField,
+.dijit_a11y .dijitTextBoxReadOnly .dijitButtonNode {
 	border-style: outset!important;
 	border-width: medium!important;
 	border-color: #999 !important;
@@ -318,10 +309,17 @@
 }
 
 .dijitArrowButton {
-	/* Node that is acting as a arrow button -- drop down (spinner has its own treatment).  Also gets dijitButtonNode */
+	/* Node that is acting as a arrow button -- drop down.  Also gets dijitButtonNode */
 	/* place AFTER dijitButtonNode so it overrides */
 	padding: 0 .4em;
 }
+
+.dijitTextBox .dijitButtonNode {
+	/* dividing line between input area and up/down button(s) for ComboBox and Spinner */
+	border: solid black;
+	border-width: 0px 0px 0px 1px !important;
+}
+
 DIV.dijitArrowButton {
 	float: right;
 }
@@ -329,8 +327,6 @@ DIV.dijitArrowButton {
 /* Spinner */
 
 .dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
-	border-style: solid;
-	border-width: 0 0 0 1px !important;
 	padding: 0;
 	position: absolute;
 	right: 0;

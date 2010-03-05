@@ -4,6 +4,7 @@
 		dijit.form.DropDownButton
 		dijit.form.ComboButton
 		dijit.form.ComboBox (partial)
+		dijit.form.Spinner (partial) (TODO: create NumberSpinner.css file like lucid has)
  *****/
 
 .tundra .dijitButtonNode {
@@ -12,14 +13,6 @@
 	border-bottom: 1px solid #9b9b9b;
 	padding: 0.1em 0.2em 0.2em 0.2em;
 	background: #fff url("../images/buttonEnabled.png") repeat-x bottom left;
-}
-
-.tundra .dijitSelect .dijitButtonContents {
-	border-right: none;
-}
-.dijitRtl .tundra .dijitSelect .dijitButtonContents {
-	border-left: none;
-	border-right-width: 1px;
 }
 
 .tundra .dijitButtonNode button {
@@ -35,12 +28,6 @@
 .tundra .dijitDisabled .dijitButtonText {
 	color: #7F7F7F;
 }
-
-/*
-.tundra .dijitComboBox .dijitButtonNode {
-	border: 0px;
-}
-*/
 
 .tundra .dijitArrowButton {
 	color: #111;
@@ -61,7 +48,6 @@
 .tundra .dijitSpinnerDisabled,
 .tundra .dijitSpinnerDisabled .dijitButtonNode {
 	/* disabled state - inner */
-	/* border-color: #d5d5d5 #bdbdbd #bdbdbd #d5d5d5; */
 	border-color: #d5d5d5 #d5d5d5 #bdbdbd #d5d5d5;
 	background:#e4e4e4 url("../images/buttonDisabled.png") top repeat-x;
 }
@@ -140,9 +126,6 @@
 	height: auto;
 	font-size: 100%;
 	font-size: inherit;
-}
-.tundra .dijitComboBoxHover .dijitArrowButtonInner {
-	/* TODO: url("../images/arrowDownHover.png") but in IE6 it flickers some? */
 }
 
 /* Since Spinner doesn't have it's own file */
