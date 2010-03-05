@@ -1,16 +1,13 @@
 /* Tree */
-.dijitRtl .lucid .dijitTreeContainer .dijitTreeNode {
-    background-image : none;
-}
 
-.dijitRtl .lucid .dijitTreeContainer .dijitTreeExpandoOpened {
+.dijitRtl .lucid .dijitTreeExpandoOpened {
 	background-image: url('images/treeExpand_minus_rtl.gif');
 }
 
-.dijitRtl .lucid .dijitTreeContainer .dijitTreeExpandoClosed {
+.dijitRtl .lucid .dijitTreeExpandoClosed {
 	background-image: url('images/treeExpand_plus_rtl.gif');
 }
 
-.dijitRtl .lucid .dijitTreeContainer .dijitTreeExpandoLeaf {
+.dijitRtl .lucid .dijitTreeExpandoLeaf {
 	background-image: none;
 }

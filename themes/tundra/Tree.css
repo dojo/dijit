@@ -1,4 +1,3 @@
-
 /* Tree */
 
 .tundra .dijitTreeNode {
@@ -32,18 +31,6 @@
     min-width: 18px;
  }
 
-.tundra .dijitTreeExpand {
-    width: 18px;
-    height: 18px;
-    background-repeat : no-repeat;
-}
-
-/* same style as IE selection */
-.tundra .dijitTreeNodeEmphasized {
-    background-color: Highlight;
-    color: HighlightText;
-}
-
 /* don't use :focus due to opera and IE's lack of support on div's */
 .tundra .dijitTreeLabelFocused {
 	outline: 1px invert dotted;
@@ -52,11 +39,10 @@
 	background:#e2ebfe;
 }
 .tundra .dijitTreeRowHover {
-	/*background-color: #f6f9fa !important;*/
 	/* using a transparent png so that we can still see grid lines, which are (unfortunately) behind the dijitRowNode that we are hovering over */
 	background-image: url(images/treeHover.png);
 	background-repeat: repeat;
-	background-color: none !important;
+	background-color: transparent !important;
 }
 
 
