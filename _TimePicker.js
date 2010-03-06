@@ -270,10 +270,14 @@ dojo.declare("dijit._TimePicker",
 
 		_buttonMouse: function(/*Event*/ e){
 			// summary:
-			//		Handler for mouse button presses
+			//		Handler for hover (and unhover) on up/down arrows
 			// tags:
 			//		private
-			dojo.toggleClass(e.currentTarget, "dijitButtonNodeHover", e.type == "mouseover");
+
+			// in non-IE browser the "mouseenter" event will become "mouseover", 
+			// but in IE it's still "mouseenter"
+			dojo.toggleClass(e.currentTarget, "dijitButtonNodeHover",
+				e.type == "mouseenter" || e.type == "mouseover");
 		},
 
 		_createOption: function(/*Number*/ index){
@@ -486,3 +490,4 @@ dojo.declare("dijit._TimePicker",
 		}
 	}
 );
+
