@@ -92,7 +92,7 @@
 					for(var i=0; i<loadFuncs.length; i++){
 						loadFuncs[i]();
 					}
-				}, 120);
+				}, 320);
 			}
 
 		});
