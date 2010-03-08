@@ -49,16 +49,16 @@
 .dj_ie6 .lucid .dijitAccordionTitleHover {
 	background-image: none;
 }
-.lucid .dijitAccordionContainer .dijitAccordionInnerContainerHover,
-.lucid .dijitAccordionContainer .dijitAccordionInnerContainerSelectedActive {
+.lucid .dijitAccordionInnerContainerHover,
+.lucid .dijitAccordionInnerContainerSelectedActive {
 	background-color:#b7dcff;
 	border:1px solid #769DC0;
 	-webkit-transition-property:background-color;
  	-webkit-transition-duration:.3s;
 	-webkit-transition-timing-function:linear;
 }
-.lucid .dijitAccordionContainer .dijitAccordionInnerContainerHover .dijitAccordionContainer-child,
-.lucid .dijitAccordionContainer .dijitAccordionInnerContainerActive .dijitAccordionContainer-child {
+.lucid .dijitAccordionInnerContainerHover .dijitAccordionContainer-child,
+.lucid .dijitAccordionInnerContainerActive .dijitAccordionContainer-child {
 	background-color:#ffffff;
 	border:1px solid #769DC0 !important;
 	-webkit-box-shadow:inset 0px 0px 3px rgba(0, 0, 0, .35);
@@ -71,10 +71,10 @@
 /* Hover State End*/
 /* Active State*/
 
-.lucid .dijitAccordionContainer .dijitAccordionInnerContainerActive {
+.lucid .dijitAccordionInnerContainerActive {
 	border-color:#769DC0;
 }
-.lucid .dijitAccordionContainer .dijitAccordionTitleActive {
+.lucid .dijitAccordionTitleActive {
 	background-image: url("images/accordion_down.png");
 	background-repeat:repeat-x;
 	background-color:#7dbefa;
@@ -119,10 +119,9 @@
 /* Selected State End*/  
 /* Focused State */
 
-.lucid .dijitAccordionFocused, .lucid .dijitAccordionTitleFocused {
-	text-decoration:none;
-}
 .lucid .dijitAccordionTitleFocused {
+	/* todo: presumably this violates a11y rules because there's no way to tell when focus is on the accordion itself */
+	text-decoration:none;
 	outline:none;
 }
 /* Focused State End*/
