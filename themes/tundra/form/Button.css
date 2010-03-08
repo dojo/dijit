@@ -37,16 +37,14 @@
 	padding-right:4px;
 }
 
-.tundra .dijitComboBoxReadOnly,
-.tundra .dijitSpinnerReadOnly,
-.tundra .dijitSpinnerReadOnly .dijitButtonNode,
+.tundra .dijitTextBoxReadOnly,
+.tundra .dijitTextBoxReadOnly .dijitButtonNode,
 .tundra .dijitButtonDisabled .dijitButtonNode,
 .tundra .dijitToggleButtonDisabled .dijitButtonNode,
 .tundra .dijitDropDownButtonDisabled .dijitButtonNode,
 .tundra .dijitComboButtonDisabled .dijitButtonNode,
-.tundra .dijitComboBoxDisabled,
-.tundra .dijitSpinnerDisabled,
-.tundra .dijitSpinnerDisabled .dijitButtonNode {
+.tundra .dijitTextBoxDisabled,
+.tundra .dijitTextBoxDisabled .dijitButtonNode {
 	/* disabled state - inner */
 	border-color: #d5d5d5 #d5d5d5 #bdbdbd #d5d5d5;
 	background:#e4e4e4 url("../images/buttonDisabled.png") top repeat-x;
