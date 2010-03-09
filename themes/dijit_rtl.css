@@ -126,3 +126,16 @@
 .dj_ie-rtl .dijitTimePickerItem {
 	width:100%;
 }
+
+.dijitRtl .dijitTab .dijitTabCloseButton {
+	margin-left: 0px;
+	margin-right: 1em;
+}
+
+/* ColorPalette */
+.dijitRtl .dijitColorPaletteUnder {
+	/* needed in RTL mode when DropDownButton expands the ColorPalette beyond it's natural width */
+	left: auto;
+	right: 0;
+}
+
