@@ -22,6 +22,10 @@ dojo.declare("dijit._PaletteMixin",
 	// value: String
 	//		Currently selected color/emoticon/etc.
 	value: null,
+	
+	// _selectedCell: [private] Integer
+	//		Index of the currently selected cell. Initially, none selected
+	_selectedCell: -1,
 
 	// _currentFocus: [private] DomNode
 	//		The currently focused cell (if the palette itself has focus), or otherwise
@@ -174,8 +178,9 @@ dojo.declare("dijit._PaletteMixin",
 		// tags:
 		//		private
 
-		var target = evt.currentTarget;
-		this._selectCell(target);
+		var target = evt.currentTarget;		
+		var value = this._getDye(this._cells[target.index].node).getValue();
+		this._setValueAttr(value, true);		
 		dojo.stopEvent(evt);
 	},
 
@@ -198,15 +203,45 @@ dojo.declare("dijit._PaletteMixin",
 		}
 	},
 
-	_selectCell: function(/*DomNode*/ cell){
+	_setValueAttr: function(value, priorityChange){
+	
 		// summary:
-		// 		Callback when user clicks a given cell (to select it).  Triggers the onChange event.
-		// selectNode: DomNode
-		//		the clicked cell
+		// 		This selects a cell. It triggers the onChange event.
+		// value: String value of the cell to select
 		// tags:
 		//		protected
-        var dye = this._getDye(cell);
-		this.onChange(this.value = dye.getValue());
+		// priorityChange:
+		//		Optional parameter used to tell the select whether or not to fire
+		//		onChange event.
+		
+		var dye=null;
+		
+		//if attr("value", null) is called, returns null and there's no cell with the thick border.
+		if (value==null){
+			this.value = null;
+			if(this._selectedCell >= 0)
+				dojo.removeClass(this._cells[this._selectedCell].node, "dijitPaletteCellSelected");
+			this._selectedCell = -1;
+		}			
+		
+		for(var i=0; i < this._cells.length; i++){
+			if(value == this._getDye(this._cells[i].node).getValue()){
+				if(this._selectedCell >= 0){
+					dojo.removeClass(this._cells[this._selectedCell].node, "dijitPaletteCellSelected");
+					dojo.removeClass(this._cells[this._selectedCell].node, "dijitPaletteCellHover");
+				}
+				this._selectedCell = i;
+				dojo.addClass(this._cells[i].node, "dijitPaletteCellSelected");
+				dye = this._getDye(this._cells[i].node);
+			}
+		}
+		
+		if(dye != null){
+			this.value = dye.getValue();
+			if(priorityChange || priorityChange === undefined){
+				this.onChange(this.value = dye.getValue());
+			}
+		}
 	},
 
 	onChange: function(value){

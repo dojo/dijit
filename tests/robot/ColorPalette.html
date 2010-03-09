@@ -104,6 +104,9 @@
 								
 								doh.is(1, changes.length, 'one onchange event');
 								doh.is("#ffc0cb", changes[0], "correct value");
+								
+								big.attr('value', null);
+								doh.is(big.attr('value'), null, "value has been cleared");
 							})), 1000);
 
 							return d;
@@ -182,21 +185,37 @@
 								// workaround robot bug where first mouse click doesn't happen occasionally :-(
 								doh.robot.mouseClick({left: true}, 500);
 							}
+							
+								var green = dojo.query("[title=verde]", small.domNode);
+							doh.is(1, green.length, "found verde (green)");
+
+							doh.robot.mouseMoveAt(green[0], 500);
+							doh.robot.mouseClick({left: true}, 500);
+							if(dojo.isMoz){
+								// workaround robot bug where first mouse click doesn't happen occasionally :-(
+								doh.robot.mouseClick({left: true}, 500);
+							}
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// test that value set
 								var value = small.attr('value');
-								doh.is("#ff0000", value, "value");
+								doh.is("#008000", value, "value");
 								
 								// test that focus also got set
 								var focus = dojo.global.dijit._curFocus;
 								doh.t(focus, "something is focused");
 								var imgNode = focus.getElementsByTagName("img")[0]
 								doh.t(imgNode, "found image node");
-                                var dye = small._getDye(focus);                              
-								doh.is("#ff0000", dye.getValue(), "focused");
+								var dye = small._getDye(focus);
+								doh.is("#008000", dye.getValue(), "focused");
+								
+								//test that selected style was removed from previously selected cell and added to new selection
+								doh.f(dojo.hasClass(red[0], "dijitPaletteCellSelected"),
+								"Red swatch should not have selected class, actual class is: " + red[0].className);
+								doh.t(dojo.hasClass(green[0], "dijitPaletteCellSelected"), "Green swatch should have selected class, actual class is: " + green[0].className);
 							}), 1000);
-
+							
+							
 							return d;
 						}
 					}
