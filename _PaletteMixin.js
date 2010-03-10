@@ -178,9 +178,14 @@ dojo.declare("dijit._PaletteMixin",
 		// tags:
 		//		private
 
-		var target = evt.currentTarget;		
-		var value = this._getDye(this._cells[target.index].node).getValue();
+		var target = evt.currentTarget,	
+			value = this._getDye(target).getValue();
 		this._setValueAttr(value, true);		
+
+		// workaround bug where hover class is not removed on popup because the popup is
+		// closed and then there's no onblur event on the cell
+		dojo.removeClass(target, "dijitPaletteCellHover");
+
 		dojo.stopEvent(evt);
 	},
 
@@ -204,7 +209,6 @@ dojo.declare("dijit._PaletteMixin",
 	},
 
 	_setValueAttr: function(value, priorityChange){
-	
 		// summary:
 		// 		This selects a cell. It triggers the onChange event.
 		// value: String value of the cell to select
@@ -214,32 +218,28 @@ dojo.declare("dijit._PaletteMixin",
 		//		Optional parameter used to tell the select whether or not to fire
 		//		onChange event.
 		
-		var dye=null;
-		
-		//if attr("value", null) is called, returns null and there's no cell with the thick border.
-		if (value==null){
-			this.value = null;
-			if(this._selectedCell >= 0)
-				dojo.removeClass(this._cells[this._selectedCell].node, "dijitPaletteCellSelected");
-			this._selectedCell = -1;
-		}			
-		
-		for(var i=0; i < this._cells.length; i++){
-			if(value == this._getDye(this._cells[i].node).getValue()){
-				if(this._selectedCell >= 0){
-					dojo.removeClass(this._cells[this._selectedCell].node, "dijitPaletteCellSelected");
-					dojo.removeClass(this._cells[this._selectedCell].node, "dijitPaletteCellHover");
-				}
-				this._selectedCell = i;
-				dojo.addClass(this._cells[i].node, "dijitPaletteCellSelected");
-				dye = this._getDye(this._cells[i].node);
-			}
+		// clear old value and selected cell
+		this.value = null;
+		if(this._selectedCell >= 0){
+			dojo.removeClass(this._cells[this._selectedCell].node, "dijitPaletteCellSelected");
 		}
-		
-		if(dye != null){
-			this.value = dye.getValue();
-			if(priorityChange || priorityChange === undefined){
-				this.onChange(this.value = dye.getValue());
+		this._selectedCell = -1;
+
+		// search for cell matching specified value
+		if(value){
+			for(var i = 0; i < this._cells.length; i++){
+				if(value == this._cells[i].dye.getValue()){
+					this._selectedCell = i;
+					this.value = value;
+
+					dojo.addClass(this._cells[i].node, "dijitPaletteCellSelected");
+
+					if(priorityChange || priorityChange === undefined){
+						this.onChange(value);
+					}
+
+					break;
+				}
 			}
 		}
 	},
