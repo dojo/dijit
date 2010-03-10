@@ -24,10 +24,6 @@
 	bottom: 2px;
 }
 
- .soria .dijitTabContainer .tabStripMenuButton-Hover {
-	cursor: pointer;
-}
-
 /* Tabs, shared classes */
 .soria .dijitTabPaneWrapper {
 	background:#fff;

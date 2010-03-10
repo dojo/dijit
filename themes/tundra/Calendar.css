@@ -100,7 +100,6 @@
 }
 
 .tundra .dijitCalendarDisabledDate {
-	cursor:default !important;
 	text-decoration:line-through !important;
 }
 

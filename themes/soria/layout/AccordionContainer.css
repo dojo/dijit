@@ -14,7 +14,6 @@
 	background:#fafafa url("../images/titleBar.png") repeat-x top left;
 	border-top: 1px solid #b9bbdd;
 	padding: 5px 4px 6px 8px;
-	cursor:pointer;
 	font-size: 0.9em;
 	font-weight: bold;
 	color: #373941;
@@ -26,7 +25,6 @@
 	border-top: 1px solid #b9bbdd;
 	border-bottom: 1px solid #b9bbdd;
 	padding: 5px 4px 5px 8px;
-	cursor: default;
 	color: #243C5F;
 }
 

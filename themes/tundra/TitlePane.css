@@ -6,7 +6,6 @@
 }
 .tundra .dijitTitlePaneTitleHover  {
 	background: #f8fafd url("images/accordionItemHover.gif") bottom repeat-x;
-	cursor: pointer;
 }
 
 .tundra .dijitTitlePane .dijitArrowNode {

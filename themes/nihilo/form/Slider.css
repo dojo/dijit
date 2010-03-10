@@ -48,7 +48,6 @@
 	height:18px;
 	background:url("../images/preciseSliderThumb.png") no-repeat center top;
 	#background:url("../images/preciseSliderThumb.gif") no-repeat center top;
-	cursor:pointer;
 }
 .nihilo .dijitSliderFocused .dijitSliderImageHandleH {
 	background-image:url("../images/preciseSliderThumbFocus.png");
@@ -73,7 +72,6 @@
 	height:15px;
 	background:url("../images/sliderThumb.png") no-repeat center center;
 	#background:url("../images/sliderThumb.gif") no-repeat center center;
-	cursor:pointer;
 }
 
 .nihilo .dijitSliderFocused .dijitSliderImageHandleV {
@@ -98,7 +96,6 @@
 	background:url('../images/spriteRoundedIconsSmall.png') no-repeat -45px top;
 	#background:url('../images/spriteRoundedIconsSmall.gif') no-repeat -45px top;
 	width:15px; height:15px;
-	cursor:pointer;
 }
 .nihilo .dijitSliderIncrementIconH {
 	background:url('../images/spriteRoundedIconsSmall.png') no-repeat -30px top;
@@ -109,7 +106,6 @@
 .nihilo .dijitSliderDecrementIconV {
 	width:15px;
 	height:15px;
-	cursor:pointer;
 	background:url('../images/spriteRoundedIconsSmall.png') no-repeat -15px top;
 	#background:url('../images/spriteRoundedIconsSmall.gif') no-repeat -15px top;
 }

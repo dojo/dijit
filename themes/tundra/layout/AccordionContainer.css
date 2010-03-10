@@ -11,7 +11,6 @@
 	background:#fafafa url("../images/titleBar.png") repeat-x bottom left;
 	border-top: 1px solid #bfbfbf;
 	padding: 4px 4px 4px 8px;
-	cursor:pointer;
 }
 
 .tundra .dijitAccordionTitleHover  {
@@ -24,5 +23,4 @@
 	border-top: 1px solid #aaaaaa;
 	border-bottom: 1px solid #bfbfbf;
 	padding: 4px 4px 4px 8px;
-	cursor: default;
 }

@@ -50,7 +50,6 @@
 /*.lucid .dijitComboButtonDownArrowHover .dijitArrowButton*/
 .lucid .dijitComboButton .dijitDownArrowButtonHover{
 	background-color: #8dc7fe;
-	cursor: pointer;
 }
 
 /* checked status */

@@ -15,14 +15,10 @@
 }
 
 /* InlineEditBox */
-.lucid .dijitInlineEditBoxDisplayMode{
-	border:1px solid transparent;
-}
 
 .lucid .dijitInlineEditBoxDisplayModeHover{
 	background-color: #e2f1ff;
 	border: solid 1px #769dc0;
-	cursor: text;
 }
 
 .dj_ie6 .lucid .dijitInlineEditBoxDisplayMode{

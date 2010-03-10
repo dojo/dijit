@@ -6,13 +6,6 @@
 	border-right-width: 1px;
 }
 
-/* Cursor States */
-.tundra .dijitSelectDisabled * {
-    cursor: not-allowed !important;
-}
-.tundra .dijitSelectReadOnly * {
-    cursor: default !important;
-}
 .tundra .dijitSelect .dijitButtonNode {
 	padding: 0px;
 }

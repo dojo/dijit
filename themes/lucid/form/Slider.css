@@ -135,7 +135,6 @@
 .lucid .dijitSliderBar {
 	border-style: solid;
 	outline: 1px;
-	cursor: pointer;
 }
 
 .lucid .dijitSliderFocused .dijitSliderBar {
@@ -161,7 +160,6 @@
 	width: 16px;
 	height: 16px;
 	background: url("../images/preciseSliderThumb.png") no-repeat center top;
-	cursor: pointer;
 }
 .dj_ie6 .lucid .dijitSliderImageHandleH {
 	background-image: url("../images/preciseSliderThumb.gif");
@@ -205,7 +203,6 @@
 	width: 16px;
 	height: 16px;
 	background: url("../images/sliderThumb.png") no-repeat center center;
-	cursor: pointer;
 }
 .dj_ie6 .lucid .dijitSliderImageHandleV {
 	background-image: url("../images/sliderThumb.gif");
@@ -253,7 +250,6 @@
 }
 
 .lucid .dijitSliderDecrementIconH {
-	cursor: pointer;
 	background-image: url('../images/arrowleft.png');
 	background-color: #e3e8ef;
 	border: solid 1px #bcc8dd;
@@ -277,7 +273,6 @@
 }
 
 .lucid .dijitSliderDecrementIconV {
-	cursor: pointer;
 	background-image: url('../images/arrowdown.png');
 	background-position:-1px 0px;
 	background-color: #e3e8ef;
@@ -302,7 +297,6 @@
 }
 
 .lucid .dijitSliderIncrementIconH {
-	cursor: pointer;
 	background-image: url('../images/arrowright.png');
 	background-color: #e3e8ef;
 	border: solid 1px #bcc8dd;
@@ -326,7 +320,6 @@
 }
 
 .lucid .dijitSliderIncrementIconV {
-	cursor: pointer;
 	background-image: url('../images/arrowup.png');
 	background-position:-1px 0px;
 	background-color: #e3e8ef;

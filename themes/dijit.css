@@ -287,14 +287,6 @@
 	cursor: pointer;
 }
 
-/**** Disabled cursor *****/
-.dijitReadOnly *,
-.dijitDisabled *,
-.dijitReadOnly,
-.dijitDisabled {	/* a region the user would be able to click on, but it's disabled */
-	cursor: not-allowed !important;
-}
-
 .dj_ie .dijitButtonNode {
 	/* ensure hasLayout */
 	zoom: 1;
@@ -795,6 +787,13 @@ body .dijitAlignClient { position: absolute; }
 	display: block;
 	overflow: hidden;
 }
+.dijitTitlePaneTitle {
+	cursor: pointer;
+}
+.dijitFixedOpen {
+	/* TitlePane that cannot be closed */
+	cursor: default;
+}
 .dijitTitlePaneTitle * {
 	vertical-align: middle;
 }
@@ -910,6 +909,9 @@ img.dijitColorPaletteUnder {
 .dijitAccordionTitle {
 	cursor: pointer;
 }
+.dijitAccordionTitleSelected {
+	cursor: default;
+}
 .dijitAccordionTitleFocused  {
 	text-decoration: underline;
 }
@@ -964,17 +966,19 @@ img.dijitColorPaletteUnder {
 	color:gray !important;
 }
 
-.dijitCalendarPreviousMonthDisabled,
-.dijitCalendarCurrentMonthDisabled,
-.dijitCalendarNextMonthDisabled {
-	cursor:default !important
+.dijitCalendarIncrementControl,
+.dijitCalendarDateTemplate,
+.dijitCalendarMonthLabel,
+.dijitCalendarPreviousYear,
+.dijitCalendarNextYear {
+	cursor: pointer;
 }
 
-.dijitCalendarIncrementControl,
-.dijitCalendarBodyContainer td,
-.dijitCalendarDateTemplate,
-.dijitCalendarContainer .dijitInline {
-	cursor:pointer;
+.dijitCalendarPreviousMonthDisabled,
+.dijitCalendarCurrentMonthDisabled,
+.dijitCalendarNextMonthDisabled,
+.dijitCalendarDisabledDate {
+	cursor: default;
 }
 
 .dijitSpacer {
@@ -1272,6 +1276,7 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 /* InlineEditBox */
 .dijitInlineEditBoxDisplayMode {
 	border: 1px solid transparent;	/* so keyline (border) on hover can appear without screen jump */
+	cursor: text;
 }
 
 .dj_ie6 .dijitInlineEditBoxDisplayMode {
@@ -1283,11 +1288,10 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	/* An InlineEditBox in view mode (click this to edit the text) */
 	background-color: #e2ebf2;
 	border: solid 1px black;
-	cursor: text;
 }
 
 .dijitInlineEditBoxDisplayModeDisabled {
-	cursor: not-allowed;
+	cursor: default;
 }
 
 /* Tree */
@@ -1336,10 +1340,15 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	overflow: hidden;       /* override overflow: auto; from ContentPane to make dragging smoother */
 }
 
-.dijitDialogFixed div.dijitDialogTitleBar {
+.dijitDialogTitleBar {
+	cursor: move;
+}
+.dijitDialogFixed .dijitDialogTitleBar {
 	cursor:default;
 }
-
+.dijitDialogCloseIcon {
+	cursor: pointer;
+}
 .dijitDialogUnderlayWrapper {
 	position: absolute;
 	left: 0;
@@ -1396,6 +1405,7 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	border:8px solid gray;
 	width:0;
 	height:0;
+	cursor: pointer;
 }
 .dijit_a11y .dijitSliderFocused .dijitSliderImageHandle {
 	border:4px solid #000;
@@ -1417,6 +1427,7 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .dijitSliderBar {
 	border-style:solid;
 	border-color:black;
+	cursor: pointer;
 }
 
 .dijitSliderBarContainerV {
@@ -1519,7 +1530,10 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 
 .dijitSliderButtonContainer {
 	text-align:center;
-	height:0;
+	height:0;	/* ??? */
+}
+.dijitSliderButtonContainer * {
+	cursor: pointer;
 }
 
 .dijitSlider .dijitButtonNode {
@@ -1862,4 +1876,12 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	position: static !important;
 }
 
+/**** Disabled cursor *****/
+.dijitReadOnly *,
+.dijitDisabled *,
+.dijitReadOnly,
+.dijitDisabled {
+	/* a region the user would be able to click on, but it's disabled */
+	cursor: default;
+}
 

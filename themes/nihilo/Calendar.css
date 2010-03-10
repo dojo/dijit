@@ -106,7 +106,6 @@
 	/* one or the other? */
 	/* background: url(images/noX.gif) no-repeat center center !important; */
 	text-decoration:line-through !important;
-	cursor:default !important;
 }
 
 .nihilo .dijitCalendarCurrentDate {

@@ -95,7 +95,6 @@
 	background-position:center top;
 	padding: 5px 7px 2px 7px;
 	color:#000;
-	cursor: default;
 	-webkit-transition-property:background-color;
  	-webkit-transition-duration:.3s;
 	-webkit-transition-timing-function:linear;
