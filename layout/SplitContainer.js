@@ -142,7 +142,6 @@ dojo.declare("dijit.layout.SplitContainer",
 		// add the thumb div
 		var thumb = dojo.doc.createElement('div');
 		thumb.className = 'thumb';
-		thumb.id = sizer.id;
 		sizer.appendChild(thumb);
 
 		// FIXME: are you serious? why aren't we using mover start/stop combo?
