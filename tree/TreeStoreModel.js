@@ -159,14 +159,14 @@ dojo.declare(
 				dojo.forEach(childItems, function(item, idx){
 					if(!store.isItemLoaded(item)){
 						store.loadItem({
-							item: function onItem(item){
+							item: item,
+							onItem: function(item){
 								childItems[idx] = item;
 								if(--_waitCount == 0){
 									// all nodes have been loaded, send them to the tree
 									onComplete(childItems);
 								}
 							},
-							onItem: onItem,
 							onError: onError
 						});
 					}
