@@ -42,7 +42,7 @@
 .nihilo .dijitTitlePaneContentOuter {
 	background: #ffffff;
 	border:1px solid #bfbfbf;
-	border-top: 0px solid #3d3d3d;	/* w/out this, an <h1> on the top line causes a gap between the .content and .label */
+	border-top: 0px;
 }
 .nihilo .dijitTitlePaneContentInner {
 	padding:10px;
