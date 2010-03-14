@@ -18,7 +18,9 @@
 .dijitRtl .dijitTextBox .dijitButtonNode {
 	/* combobox and spinner: line between the input area and the drop down button */
 	border-right-width: 1px !important;
+	border-right-style: solid;
 	border-left-width: 0px !important;
+	border-left-style: none;
 }
 
 .dj_iequirks-rtl .dijitComboButton BUTTON {
@@ -26,8 +28,8 @@
 }
 
 .dijitRtl .dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
-	right: auto;
-	left: 0;
+	right: 0;
+	left: auto;
 }
 
 .dijitRtl .dijitSpinnerButtonContainer {
@@ -138,4 +140,5 @@
 	left: auto;
 	right: 0;
 }
+
 

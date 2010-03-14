@@ -250,19 +250,6 @@ dojo.declare(
 			this._refreshState();
 		},
 
-		postCreate: function(){
-			if(dojo.isIE){ // IE INPUT tag fontFamily has to be set directly using STYLE
-				var s = dojo.getComputedStyle(this.focusNode);
-				if(s){
-					var ff = s.fontFamily;
-					if(ff){
-						this.focusNode.style.fontFamily = ff;
-					}
-				}
-			}
-			this.inherited(arguments);
-		},
-
 		reset:function(){
 			// Overrides dijit.form.TextBox.reset() by also
 			// hiding errors about partial matches

@@ -87,8 +87,9 @@
 .tundra .dijitArrowButtonInner {
 	background:url("../images/spriteArrows.png") no-repeat scroll 0px center;
 	width: 7px;
-	height: 7px;
-	font-size: 1px;
+	margin: 0px 5px 0px 4px;
+}
+.dijitRtl .tundra .dijitArrowButtonInner {
 	margin: 0px 4px 0px 5px;
 }
 .dj_ie6 .tundra .dijitArrowButtonInner {
@@ -127,12 +128,7 @@
 }
 
 /* Since Spinner doesn't have it's own file */
-.tundra .dijitSpinner .dijitArrowButtonInner {
-	display: block;  /* inline just isnt going to work for us here IMO */
-	position:absolute;
-	top: 50%;
-	margin-top: -4px; /* half its height */
-	left: 50%;
-	margin-left: -4px; /* half its width */
-	line-height: 2px;
+.tundra .dijitSpinner .dijitDownArrowButton .dijitArrowButtonInner {
+	#margin-top: -2px;
+	#margin-bottom: 2px;
 }

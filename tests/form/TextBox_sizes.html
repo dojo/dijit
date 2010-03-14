@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>dijit.form.TextBox size tests</title>
+
+	<style type="text/css">
+		@import "../../../dojo/resources/dojo.css";
+		@import "../css/dijitTests.css";
+		TD {
+			padding: 1px;
+			background-color: pink;
+			font-size: 12pt;
+			font-family: monospace;
+		}
+		TABLE, TD, .dijit {
+			border-color: black !important;
+			margin: 0px !important;
+		}
+	</style>
+
+	<!-- required: a default dijit theme: -->
+	<link id="themeStyles" rel="stylesheet" href="../../themes/tundra/tundra.css">
+
+	<!-- required: dojo.js -->
+	<script type="text/javascript" src="../../../dojo/dojo.js"
+		djConfig="parseOnLoad: true, isDebug: true"></script>
+
+	<!-- not needed, for testing alternate themes -->
+	<script type="text/javascript" src="../_testCommon.js"></script>
+
+
+	<script type="text/javascript">
+		dojo.require("doh.runner");
+		dojo.require("dijit.dijit"); // optimize: load dijit layer
+		dojo.require("dijit.form.TextBox");
+		dojo.require("dijit.form.NumberTextBox");
+		dojo.require("dijit.form.FilteringSelect");
+		dojo.require("dijit.form.NumberSpinner");
+
+		dojo.addOnLoad(function(){
+
+			var textbox = dijit.byId("textbox");
+			var validation = dijit.byId("validation");
+			var combobox = dijit.byId("combobox");
+			var spinner = dijit.byId("spinner");
+
+			var compareToTextBox = function(attr){
+				try{
+					var textboxPos = dojo.position(textbox.domNode);
+					var validationPos = dojo.position(validation.domNode);
+					var comboboxPos = dojo.position(combobox.domNode);
+					var spinnerPos = dojo.position(spinner.domNode);
+					doh.t(textboxPos[attr] == validationPos[attr] &&
+						textboxPos[attr] == comboboxPos[attr] &&
+						textboxPos[attr] == spinnerPos[attr],
+						"Expected same " + attr + ":" + textboxPos[attr] + '/' + validationPos[attr] + '/' + comboboxPos[attr] + '/' + spinnerPos[attr]
+					);
+				}catch(e){
+					throw e; // prevent consoles from including entire function text in output
+				}
+			};
+
+			var compareToTextBoxParent = function(attr){
+				try{
+					var textboxPos = dojo.position(textbox.domNode.parentNode);
+					var validationPos = dojo.position(validation.domNode.parentNode);
+					var comboboxPos = dojo.position(combobox.domNode.parentNode);
+					var spinnerPos = dojo.position(spinner.domNode.parentNode);
+					doh.t(textboxPos[attr] == validationPos[attr] &&
+						textboxPos[attr] == comboboxPos[attr] &&
+						textboxPos[attr] == spinnerPos[attr],
+						"Expected same parent " + attr + ":" + textboxPos[attr] + '/' + validationPos[attr] + '/' + comboboxPos[attr] + '/' + spinnerPos[attr]
+					);
+				}catch(e){
+					throw e; // prevent consoles from including entire function text in output
+				}
+			};
+
+			var runTest = [
+        	        	{
+        	        	        name: "x",
+        	        	        runTest: function(){ compareToTextBox("x"); }
+        	        	},
+        	        	{
+        	        	        name: "y",
+        	        	        runTest: function(){ compareToTextBoxParent("h"); }
+        	        	},
+        	        	{
+        	        	        name: "h",
+        	        	        runTest: function(){ compareToTextBox("h"); }
+        	        	},
+        	        	{
+        	        	        name: "w",
+        	        	        runTest: function(){ compareToTextBox("w"); }
+        	        	}
+			];
+
+			var createErrors = function(){
+				validation._hasBeenBlurred = true;
+				validation.attr('value', null);
+				combobox._hasBeenBlurred = true;
+				combobox.attr('value', null);
+				spinner._hasBeenBlurred = true;
+				spinner.attr('value', null);
+			};
+
+        		doh.register("create normal boxes", [
+				{
+					name: "setup",
+					timeout: 9000,
+					runTest: function(){
+						/* create errors, then insert good values to exercise the widget rendering */
+						createErrors();
+						validation.attr('value', 23);
+						combobox.attr('value', "KY");
+						spinner.attr('value', 32);
+					}
+        	        	}
+  			]);
+
+        		doh.register("check normal sizes", runTest);
+
+        		doh.register("create errors", [
+				{
+					name: "setup",
+					runTest: function(){
+						createErrors();
+					}
+        	        	}
+  			]);
+
+        		doh.register("check error sizes", runTest);
+
+        		doh.register("check button sizes", [
+				{
+					name: "ComboBox",
+					runTest: function(){
+						var inputPos = dojo.position(combobox.focusNode.parentNode);
+						var arrowPos = dojo.position(combobox.downArrowNode);
+						doh.t(Math.abs(inputPos.h-arrowPos.h) <= 1, "ComboBox button height (" + arrowPos.h + ") is same as input height (" + inputPos.h + ")");
+					}
+        	        	},
+				{
+					name: "Spinner",
+					runTest: function(){
+						// use offsetHeight since the buttons could be truncated by overflow:hidden
+						var inputHeight = spinner.focusNode.parentNode.offsetHeight;
+						var downArrowHeight = spinner.downArrowNode.offsetHeight;
+						var upArrowHeight = spinner.upArrowNode.offsetHeight;
+						doh.t((inputHeight-downArrowHeight-upArrowHeight) <= 1, "Spinner button heights (" + upArrowHeight + "," + downArrowHeight + ") are equal to the input height (" + inputHeight + ")");
+						doh.t(Math.abs(upArrowHeight - downArrowHeight) <= 1, "Spinner UP button height (" + upArrowHeight + ") is equal to the DOWN buttom height (" + downArrowHeight + ")");
+					}
+        	        	}
+  			]);
+
+			doh.run();
+		});
+	</script>
+</head>
+<body class="tundra">
+
+	<h1 class="testTitle">dijit.form.TextBox size tests</h1>
+
+		<table rules="all" cellpadding="0" cellspacing="0" border="2" frame="border">
+			<tr>
+				<td style="font-size:1px;overflow:hidden;">&nbsp;</td>
+				<td style="font-size:1px;overflow:hidden;">&nbsp;</td>
+				<td></td>
+				<td style="font-size:1px;overflow:hidden;">&nbsp;</td>
+			</tr>
+			<tr>
+				<td>TextBox</td>
+				<td></td>
+				<td><input dojoType="dijit.form.TextBox" type="text" name="textbox" id="textbox" value="text"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>NumberTextBox</td>
+				<td></td>
+				<td><input dojoType="dijit.form.NumberTextBox" type="text" name="validation" id="validation" value="54" required="true"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>FilteringSelect</td>
+				<td></td>
+				<td><select id="combobox" name="combobox" dojoType="dijit.form.FilteringSelect" required="true">
+					<option value="KY">Kentucky</option>
+				</select></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>NumberSpinner</td>
+				<td></td>
+				<td><div dojoType="dijit.form.NumberSpinner" type="text" name="spinner" id="spinner" value="45" required="true"></div></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td style="font-size:1px;overflow:hidden;">&nbsp;</td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+</body>
+</html>

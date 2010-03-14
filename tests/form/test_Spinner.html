@@ -1,5 +1,5 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-		"http://www.w3.org/TR/html4/strict.dtd">
+<!--DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd"-->
 <html>
 	<head>
 		<title>Dojo Spinner Widget Test</title>
@@ -10,6 +10,7 @@
 			@import "../../../util/doh/robot/robot.css";
 
 			body .bigFont {
+				font-family: sans-serif;
 			        font-size: larger; /* help test widget sizing */
 			}
 
@@ -42,15 +43,23 @@
 			<h1>number spinner</h1>
 			<br>
 			initial value=900, no delta specified, no min specified, max=1550, onChange captured, big font<br>
-			<label for="integerspinner1">Spinbox #1: </label><br>
+<fieldset style="border:2px solid black;padding:0px;margin:0px;">
+			<label for="integerspinner1">Spinbox #1: </label>
 			<input dojoType="dijit.form.NumberSpinner"
 				onChange="dojo.byId('oc1').value=arguments[0]"
 				value="900"
+style="font-family:monospace;font-size:16px;width:200px;vertical-align:middle;position:relative;background:transparent !important;"
 				class="bigFont"
 				constraints="{max:1550,places:0}"
 				name="integerspinner1"
 				id="integerspinner1">
+			<input dojoType="dijit.form.TextBox"
+				value="900g"
+style="font-family:monospace;font-size:16px;width:200px;vertical-align:middle;position:relative;left:-209px;background:transparent !important;color:red;"
+				class="bigFont"
+				>
 			onChange:<input id="oc1" disabled value="not fired yet!" autocomplete="off">
+</fieldset>
 			<input type="button" id="sv1_1" value="Set value to 400" onClick="dijit.byId('integerspinner1').attr('value',400)" tabIndex="-1">
 			<input type="button" id="sv1_2" value="Set value to null" onClick="dijit.byId('integerspinner1').attr('value',null)" tabIndex="-1">
 			<input type="button" id="sv1_3" value="Set required to false" onClick="dijit.byId('integerspinner1').attr('required',false)" tabIndex="-1">
@@ -59,8 +68,19 @@
 			<br>
 			initial value=1000, delta=10, min=9 max=1550<br>
 			<label for="integerspinner2">Spinbox with custom styling (width=50%, 200% Courier font): </label>
+<br><span style="font-size:48px;">__</span><input style="width:50px;font-size:2em;font-family:Courier;">
+			<input dojoType="dijit.form.TextBox"
+        style="font-size:2em;font-family:Courier;border:1px solid blue;width:20%;"
+        value="1000"
+>
+<span style="font-size:48px;">__</span>
+			<input dojoType="dijit.form.NumberTextBox"
+        style="font-size:2em;font-family:Courier;border:1px solid blue;width:20%;"
+        value="1000"
+        constraints="{min:9,max:1550,places:0}"
+>
 			<input dojoType="dijit.form.NumberSpinner"
-				style="font-size:200%;font-family:Courier;border:1px solid blue;width:50%;"
+				style="font-size:200%;font-family:Courier;border:1px solid blue;width:20%;"
 				value="1000"
 				smallDelta="10"
 				largeDelta="100"
@@ -82,6 +102,7 @@
 			<input dojoType="dijit.form.NumberSpinner"
 				value="1.0"
 				smallDelta="0.1"
+style="font-family:sans-serif;font-size:48px;"
 				largeDelta="1.0"
 				constraints="{min:-10.9,max:155,places:1,round:true,exponent:false}"
 				maxLength="20"
@@ -99,6 +120,12 @@
 				maxLength="20"
 				name="spinnerMinOnly"
 				id="spinnerMinOnly">
+			<input dojoType="dijit.form.NumberTextBox"
+				value="1.0"
+				constraints="{min:-10.9,places:1,round:false}"
+				maxLength="20"
+			>
+<br>
 			<input type="button" onclick="dijit.byId('spinnerMinOnly').attr('readOnly',false);" value="Remove readOnly">
 			<input type="button" onclick="dijit.byId('spinnerMinOnly').attr('readOnly',true);" value="Set readOnly">
 			<input type="button" onclick="dijit.byId('spinnerMinOnly').attr('disabled',false);" value="Remove disabled">

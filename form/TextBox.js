@@ -197,6 +197,15 @@ dojo.declare(
 		postCreate: function(){
 			// setting the value here is needed since value="" in the template causes "undefined"
 			// and setting in the DOM (instead of the JS object) helps with form reset actions
+			if(dojo.isIE){ // IE INPUT tag fontFamily has to be set directly using STYLE
+				var s = dojo.getComputedStyle(this.focusNode);
+				if(s){
+					var ff = s.fontFamily;
+					if(ff){
+						this.focusNode.style.fontFamily = ff;
+					}
+				}
+			}
 			this.textbox.setAttribute("value", this.textbox.value); // DOM and JS values shuld be the same
 			this.inherited(arguments);
 			if(dojo.isMoz || dojo.isOpera){

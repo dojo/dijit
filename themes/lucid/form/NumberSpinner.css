@@ -17,7 +17,6 @@
 	width: 21px;
 	overflow: hidden;
 	position: relative;
-	height: 100%;
 	padding: 2px 0px;
 }
 
@@ -27,7 +26,6 @@
 	width: 20px;
 	background-color: #f6f7fa;
 	background-image: url("images/menubutton_back.png");
-	overflow: hidden;
 	
 	/* override Button.css */
 	border-radius: 0;
@@ -64,7 +62,6 @@
 	width: auto;
 	height: 100%;
 	margin: 0;
-	margin-top: -1px;	/* here we set -1 to fix the position of the arrow button (because it has a border-top of dijitArrowButtonInner) */
 	padding:0;
 }
 
@@ -157,15 +154,7 @@
 /** hacks for browsers **/
 
 .dj_ie .lucid .dijitSpinner .dijitInputField {
-	padding: 0 0;
 	vertical-align: middle;
-}
-.dj_ie .lucid .dijitSpinner .dijitInputField input{
-	padding: 2px 2px;
-}
-
-.dj_ie6 .lucid .dijitSpinner .dijitInputField input {
-	padding: 2px 0;
 }
 
 /* for IE 7, when div is enlarged, 

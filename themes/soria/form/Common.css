@@ -32,7 +32,8 @@
 }
 
 .soria .dijitComboBox .dijitButtonNode {
-	padding: 0 0.2em;
+	padding-left: 0.2em;
+	padding-right: 0.2em;
 }
 .soria .dijitComboBox .dijitButtonNode,
 .soria .dijitSpinner .dijitButtonNode {

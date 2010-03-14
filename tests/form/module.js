@@ -29,6 +29,24 @@ try{
 	doh.registerUrl("dijit.tests.form.robot.Spinner_a11y", dojo.moduleUrl("dijit","tests/form/robot/Spinner_a11y.html"+userArgs), 99999999);
 
 	doh.registerUrl("dijit.tests.form.CheckBox", dojo.moduleUrl("dijit", "tests/form/test_CheckBox.html"));
+
+	doh.registerUrl("dijit.tests.form.TextBox.tundra.ltr", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=tundra&dir=ltr"));
+	doh.registerUrl("dijit.tests.form.TextBox.tundra.rtl", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=tundra&dir=rtl"));
+	doh.registerUrl("dijit.tests.form.TextBox.tundra.quirks", dojo.moduleUrl("dijit", "tests/quirks.html?file=form/TextBox_sizes.html&theme=tundra&dir=ltr"));
+	doh.registerUrl("dijit.tests.form.TextBox.lucid.ltr", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=lucid&dir=ltr"));
+	doh.registerUrl("dijit.tests.form.TextBox.lucid.rtl", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=lucid&dir=rtl"));
+	doh.registerUrl("dijit.tests.form.TextBox.lucid.quirks", dojo.moduleUrl("dijit", "tests/quirks.html?file=form/TextBox_sizes.html&theme=lucid&dir=ltr"));
+	doh.registerUrl("dijit.tests.form.TextBox.soria.ltr", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=soria&dir=ltr"));
+	doh.registerUrl("dijit.tests.form.TextBox.soria.rtl", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=soria&dir=rtl"));
+	doh.registerUrl("dijit.tests.form.TextBox.soria.quirks", dojo.moduleUrl("dijit", "tests/quirks.html?file=form/TextBox_sizes.html&theme=soria&dir=ltr"));
+	doh.registerUrl("dijit.tests.form.TextBox.nihilo.ltr", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=nihilo&dir=ltr"));
+	doh.registerUrl("dijit.tests.form.TextBox.nihilo.rtl", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=nihilo&dir=rtl"));
+	doh.registerUrl("dijit.tests.form.TextBox.nihilo.quirks", dojo.moduleUrl("dijit", "tests/quirks.html?file=form/TextBox_sizes.html&theme=nihilo&dir=ltr"));
+	/* is there a UI contract that a11y textbox widgets have consistent heights and widths?
+	doh.registerUrl("dijit.tests.form.TextBox.a11y.ltr", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?a11y=1&dir=ltr"));
+	doh.registerUrl("dijit.tests.form.TextBox.a11y.rtl", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?a11y=1&dir=rtl"));
+	doh.registerUrl("dijit.tests.form.TextBox.a11y.quirks", dojo.moduleUrl("dijit", "tests/quirks.html?file=form/TextBox_sizes.html&a11y=1&dir=ltr"));
+	*/
 }catch(e){
 	doh.debug(e);
 }

@@ -15,7 +15,6 @@
 }
 
 .lucid .dijitInputField,
-.lucid input.dijitTextBox,
 .lucid .dijitTextArea  {
 	padding-top: 2px;	/* $1 */
 	padding-bottom: 2px;	/* $1 .these are related, should be the same */
@@ -91,9 +90,8 @@
 
 .lucid .dijitComboBox .dijitButtonNode {
 	background: #f6f7fa url("images/menubutton_back.png") repeat-x left top;
-	border: none;
+	border-style: none;
 	border-left: 1px solid #bcc8dd;
-	padding: 0px;
 	width: 1.7em;
 	
 	/* override Button.css */
@@ -156,6 +154,6 @@
 	background-image: none;
 }
 .dj_ie6 .lucid .dijitComboBoxFocused .dijitArrowButtonInner {
-	border: none;	/* doesn't support transparent border */
+	border-style: none;	/* doesn't support transparent border */
 	margin: 1px; /* use margin 1px to fill the border's width */
 }
