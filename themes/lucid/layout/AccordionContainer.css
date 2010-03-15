@@ -7,21 +7,20 @@
 	background-color: #d4ebff;
 	border:solid 1px #b5bcc7;
 	margin-bottom:1px;
-	-webkit-transition-property:background-color;
+	-webkit-transition-property:background-color,border;
  	-webkit-transition-duration:.3s;
 	-webkit-transition-timing-function:linear;
 }
 .lucid .dijitAccordionTitle {
-	background-color: #eeeeee;
-	background-image: url("images/accordion_back.png");
+	background-color: #e6e6e7;
+	background-image: url("images/accordion.png");
+	background-position:0px 0px;
 	background-repeat:repeat-x;
 	padding: 5px 7px 2px 7px;
-	outline:none;
 	min-height:17px;
-	color:#3d3d3d;
+	color:#4a4a4a;
 	-webkit-transition-property:background-color, border;
- 	-webkit-transition-duration:.35s;
-	-webkit-transition-timing-function:linear;
+ 	-webkit-transition-duration:.3s;
 }
 .dj_ie6 .lucid .dijitAccordionTitle {
 	background-image: none;
@@ -42,9 +41,7 @@
 .lucid .dijitAccordionTitleHover {
 	background-color:#9dcfff;
 	color:#000;
-	-webkit-transition-property:background-color, border;
- 	-webkit-transition-duration:.3s;
-	-webkit-transition-timing-function:linear;
+ 	-webkit-transition-duration:.2s;
 }
 .dj_ie6 .lucid .dijitAccordionTitleHover {
 	background-image: none;
@@ -52,17 +49,15 @@
 .lucid .dijitAccordionInnerContainerHover,
 .lucid .dijitAccordionInnerContainerSelectedActive {
 	background-color:#b7dcff;
-	border:1px solid #769DC0;
-	-webkit-transition-property:background-color;
- 	-webkit-transition-duration:.3s;
-	-webkit-transition-timing-function:linear;
+	border:1px solid #769DC0 !important;
+	-webkit-transition-duration:.22s;
 }
 .lucid .dijitAccordionInnerContainerHover .dijitAccordionContainer-child,
 .lucid .dijitAccordionInnerContainerActive .dijitAccordionContainer-child {
 	background-color:#ffffff;
 	border:1px solid #769DC0 !important;
-	-webkit-box-shadow:inset 0px 0px 3px rgba(0, 0, 0, .35);
-	-moz-box-shadow:inset 0px 0px 3px rgba(0, 0, 0, .35);
+	-webkit-box-shadow:inset 0px 0px 3px rgba(0, 0, 0, .25);
+	-moz-box-shadow:inset 0px 0px 3px rgba(0, 0, 0, .25);
 }
 .dj_ie6 .lucid .dijitAccordionInnerContainerHover {
 	background-image: none;
@@ -75,9 +70,10 @@
 	border-color:#769DC0;
 }
 .lucid .dijitAccordionTitleActive {
-	background-image: url("images/accordion_down.png");
+	background-position:0px -136px;
 	background-repeat:repeat-x;
 	background-color:#7dbefa;
+	color:#000;
 }
 .dj_ie6 .lucid .dijitAccordionTitleActive {
 	background-image: none;
@@ -87,17 +83,11 @@
 /* Selected state */ 
 .lucid .dijitAccordionInnerContainerSelected {
 	border-color:#92bce1;
-
 }
 .lucid .dijitAccordionTitleSelected {
 	background-color:#cde8ff;
-	background-image:url("images/accordion_back.png");
-	background-position:center top;
 	padding: 5px 7px 2px 7px;
 	color:#000;
-	-webkit-transition-property:background-color;
- 	-webkit-transition-duration:.3s;
-	-webkit-transition-timing-function:linear;
 }
 .dj_ie6 .lucid .dijitAccordionTitleSelected {
 	background-image: none;
@@ -105,11 +95,14 @@
 .lucid .dijitAccordionInnerContainerHover .dijitAccordionTitleSelected,
 .lucid .dijitAccordionInnerContainerActive .dijitAccordionTitleSelected {
 	background-color:#ABD6FF;
+	border-color:#769DC0 !important;
+	-webkit-transition-duration:.2s;
 }
 .lucid .dijitAccordionTitleSelectedHover,
 .lucid .dijitAccordionContainer .dijitAccordionTitleSelectedActive{
 	background-color:#ABD6FF;
-	background-image:url("images/accordion_back.png");
+	background-position:0px 0px;
+	-webkit-transition-duration:.22s;
 }
 .dj_ie6 .lucid .dijitAccordionTitleSelectedHover {
 	background-image: none;
@@ -121,6 +114,5 @@
 .lucid .dijitAccordionTitleFocused {
 	/* todo: presumably this violates a11y rules because there's no way to tell when focus is on the accordion itself */
 	text-decoration:none;
-	outline:none;
 }
 /* Focused State End*/

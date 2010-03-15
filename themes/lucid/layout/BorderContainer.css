@@ -91,10 +91,10 @@
 /* active splitter */
 .lucid .dijitSplitterHActive {
 	font-size: 1px;
-	background:url("images/splitterThumbActive.png");
-	-moz-opacity: 1;
-	opacity: 1;
-	filter: Alpha(Opacity=100);
+	background-color:#abd4fb;
+	-moz-opacity: .6;
+	opacity: .6;
+	filter: Alpha(Opacity=60);
 	margin: 0;
 	border-top:blue;
 
@@ -102,9 +102,9 @@
 
 .lucid .dijitSplitterVActive {
 	font-size: 1px;
-	background:url("images/splitterThumbActive.png");
-	-moz-opacity: 1;
-	opacity: 1;
-	filter: Alpha(Opacity=100);
+	background-color:#abd4fb;
+	-moz-opacity: .6;
+	opacity: .6;
+	filter: Alpha(Opacity=60);
 	margin: 0;
 }
