@@ -2,7 +2,18 @@
  * TabContainer
  */
 
-/*** some common festure ***/
+/*** some common features ***/
+.lucid .dijitTabPaneWrapper {
+	background:#fff;
+}
+.lucid .dijitTabPaneWrapper,
+.lucid .dijitTabContainerTop-tabs,
+.lucid .dijitTabContainerBottom-tabs,
+.lucid .dijitTabContainerLeft-tabs,
+.lucid .dijitTabContainerRight-tabs {
+	/* todo: add common class name for this div */
+	border-color: #b5bcc7;
+}
 .lucid .dijitTabContainerTop-tabs .dijitTabContent,
 .lucid .dijitTabContainerBottom-tabs .dijitTabContent{
 	min-width: 60px;
@@ -13,7 +24,6 @@
 }
 .lucid .dijitTabCloseIcon {
 	background: url("images/tabClose.png") no-repeat;
-	background-position:0px;
 	width: 14px;
 	height: 14px;
 	margin-left: 5px;
@@ -52,26 +62,29 @@
 	background-color:#b2d4f3;
 	color:#000;
 }
-.lucid .tabStripButton .dijitTabInnerDiv,
-.lucid .tabStripButtonHover .dijitTabInnerDiv,
-.lucid .tabStripButtonActive .dijitTabInnerDiv {
+
+.lucid .dijitTabContent {
+	border: 1px solid #b5bcc7;
+}
+.lucid .dijitTabHover .dijitTabContent,
+.lucid .dijitTabActive .dijitTabContent {
+	border-color: #769dc0;
+}
+.lucid .dijitTabChecked .dijitTabContent {
+	color:#000;
+	border-color: #b5bcc7;	
+}
+
+.lucid .tabStripButton .dijitTabInnerDiv {
 	background-color: transparent;
+}
+.lucid .tabStripButton .dijitTabContent {
+	border: none;
 }
 /*** end common ***/
 
 
 /*************** top tab ***************/
-.lucid .dijitTabPaneWrapper {
-	background:#FFFFFF;
-}
-.lucid .dijitTabContainerTop-container {
-	background:#fff;
-	border:1px solid #b5bcc7;
-	border-top: none;
-}
-.lucid .dijitTabContainerTop-tabs {
-	border-bottom: 1px solid #b5bcc7;
-}
 .lucid .dijitTabContainerTop-tabs .dijitTab {
 	top: 1px;	/* used for overlap */
 	margin-right: 1px;
@@ -82,13 +95,7 @@
 	padding-right: 8px;
 	padding-bottom: 3px;
 	padding-left: 4px;
-	border: 1px solid #b5bcc7;
-	border-bottom: 1px solid #b5bcc7;
-}
-.lucid .dijitTabContainerTop-tabs .dijitTabHover .dijitTabContent,
-.lucid .dijitTabContainerTop-tabs .dijitTabActive .dijitTabContent {
-	color:#000 !important;
-	border: 1px solid #769dc0;
+	border-bottom: 1px;
 }
 .lucid .dijitTabContainerTop-tabs .dijitTab {
 	padding-top: 3px;
@@ -96,7 +103,6 @@
 .lucid .dijitTabContainerTop-tabs .dijitTabChecked .dijitTabContent {
 	padding-bottom: 4px;
 	padding-top: 6px;
-	border-bottom: none;
 }
 
 /* normal status */
@@ -125,21 +131,11 @@
 .lucid .dijitTabContainerTop-tabs .dijitTabChecked .dijitTabContent {
 	background-position:0px -102px;
 	background-repeat:repeat-x;
-	color:#000;
-	border-color:#b5bcc7;
 }
 /** end top tab **/
 
 
 /*************** bottom tab ***************/
-.lucid .dijitTabContainerBottom-container {
-	background:#fff;
-	border:1px solid #b5bcc7;
-	border-bottom: none;
-}
-.lucid .dijitTabContainerBottom-tabs {
-	border-top: 1px solid #b5bcc7;
-}
 .lucid .dijitTabContainerBottom-tabs .dijitTab {
 	top: -1px;	/* used for overlap */
 	margin-right: 1px;
@@ -150,8 +146,7 @@
 	padding-right: 8px;
 	padding-bottom: 4px;
 	padding-left: 4px;
-	border: 1px solid #b5bcc7;
-	border-top: 1px solid #b5bcc7;
+	border-top: none;
 }
 .lucid .dijitTabContainerBottom-tabs .dijitTab {
 	padding-bottom: 3px;
@@ -172,22 +167,12 @@
 	background-repeat: repeat-x;
 	background-position:bottom
 }
-/* hover active status */
-.lucid .dijitTabContainerBottom-tabs .dijitTabHover .dijitTabContent,
-.lucid .dijitTabContainerBottom-tabs .dijitTabActive .dijitTabContent {
-	color:#000;
-	border: 1px solid #769dc0;
-}
 
 /* checked status */
 .lucid .dijitTabContainerBottom-tabs .dijitTabChecked .dijitTabContent {
 	padding-bottom: 7px;
 	padding-top: 4px;
-	border-top:none;
-	border-color:#b5bcc7;
 	background-position:0px -119px;
-	background-repeat:repeat-x;
-
 }
 .lucid .dijitTabContainerBottom-tabs .dijitTabChecked {
 	padding-bottom: 0;
@@ -201,14 +186,6 @@
 /** end bottom tab **/
 
 /*************** left tab ***************/
-.lucid .dijitTabContainerLeft-container {
-	background:#fff;
-	border:1px solid #b5bcc7;
-	border-left: none;
-}
-.lucid .dijitTabContainerLeft-tabs {
-	border-right: 1px solid #b5bcc7;
-}
 .lucid .dijitTabContainerLeft-tabs .dijitTab {
 	left: 1px;	/* used for overlap */
 	margin-bottom: 1px;
@@ -224,24 +201,15 @@
 	padding-right: 8px;
 	padding-bottom: 4px;
 	padding-left: 4px;
-	border: 1px solid #b5bcc7;
-	border-right: 1px solid #b5bcc7;
 	background-image: url("images/tabLeft.png");
 	background-repeat: repeat-y;
 	background-position:0px 0px;
-}
-/* hover active status */
-.lucid .dijitTabContainerLeft-tabs .dijitTabHover .dijitTabContent,
-.lucid .dijitTabContainerLeft-tabs .dijitTabActive .dijitTabContent {
-	color:#000;
-	border: 1px solid #769dc0;
 }
 /* checked status */
 .lucid .dijitTabContainerLeft-tabs .dijitTabChecked .dijitTabContent {
 	padding-right: 9px;
 	border-right: none;
 	background-image: none;
-	border-color:#b5bcc7;
 }
 .lucid .dijitTabContainerLeft-tabs .dijitTabChecked .dijitTabInnerDiv {
 	background-position:0px -179px;
@@ -253,14 +221,6 @@
 /** end left tab **/
 
 /*************** right tab ***************/
-.lucid .dijitTabContainerRight-container {
-	background:#fff;
-	border:1px solid #b5bcc7;
-	border-right: none;
-}
-.lucid .dijitTabContainerRight-tabs {
-	border-left: 1px solid #b5bcc7;
-}
 .lucid .dijitTabContainerRight-tabs .dijitTab {
 	left: -1px;	/* used for overlap */
 	margin-bottom: 1px;
@@ -276,28 +236,18 @@
 	padding-right: 8px;
 	padding-bottom: 4px;
 	padding-left: 4px;
-	border: 1px solid #b5bcc7;
-	border-left: 1px solid #b5bcc7;
 	background-image: url("images/tabRight.png");
 	background-position:right top;
 	background-repeat: repeat-y;
-}
-/* hover active status */
-.lucid .dijitTabContainerRight-tabs .dijitTabHover .dijitTabContent,
-.lucid .dijitTabContainerRight-tabs .dijitTabActive .dijitTabContent {
-	color:#000;
-	border: 1px solid #769dc0;
 }
 /* checked status */
 .lucid .dijitTabContainerRight-tabs .dijitTabChecked .dijitTabContent {
 	padding-left: 5px;
 	border-left: none;
 	background-image: none;
-	border-color:#b5bcc7;
 }
 .lucid .dijitTabContainerRight-tabs .dijitTabChecked .dijitTabInnerDiv {
 	background-position:-348px -179px;
-	background-repeat:repeat-y;
 	box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.07);
 	-webkit-box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.07);
 	-moz-box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.07);
@@ -322,16 +272,11 @@
 .dj_ie6 .lucid .dijitLayoutContainer,
 .dj_ie6 .lucid .dijitTabListWrapper,
 .dj_ie6 .lucid .dijitTabContainerTabListNested {
-	overflow-x: hidden;	/* otherwish the widget will be very very long under ie6 */
+	overflow-x: hidden;	/* otherwise the widget will be very very long under ie6 */
 }
 .dj_ie6 .lucid .dijitTabInnerDiv,
 .dj_ie6 .lucid .dijitTabContent {
-	background-image: none;	/* ie6 doesn't support transparent background */
-}
-.dj_ie6 .lucid .dijitTabContainerLeft-tabs,
-.dj_ie6 .lucid .dijitTabContainerRight-tabs {
-	/*todo: this rule seems to make no difference for left/right tabs
-	 * top: -1px;	/* weird, why left & right tab has 1px spacing on the top under ie6??? */
+	background-image: none;	/* ie6 doesn't support gradient transparency background */
 }
 
 /** round corner **/
@@ -367,32 +312,27 @@
 
 /************ left/right scroll buttons + menu button ************/
 .lucid .tabStripButton {
-	background-color: #eeeeee;
-	background-repeat: no-repeat;
+	background-color:#deecf9;
+	border: 1px solid #b5bcc7;
 }
 .lucid .dijitTabListContainer-top .tabStripButton {
-	border: 1px solid #b5bcc7;
 	padding: 4px 3px;
 	margin-top:7px;
 	background-image: url("images/tabTop.png");
 	background-position:0px 0px;
-	background-color:#deecf9;
 }
 .lucid .dijitTabListContainer-bottom .tabStripButton {
-	border: 1px solid #b5bcc7;
 	padding:5px 3px;
 	margin-bottom:4px;
 	background-image: url("images/tabTop.png");
 	background-position:0px -248px;
 	background-position:bottom;
-	background-color:#deecf9;
-	/*background-color: transparent;*/
 }
 .lucid .tabStripButtonHover {
-	background-color:#a6d2fb !important;
+	background-color:#a6d2fb;
 }
 .lucid .tabStripButtonActive {
-	background-color:#7dbefa!important;
+	background-color:#7dbefa;
 }
 .lucid .dijitTabStripIcon {
 	height:15px;
@@ -409,10 +349,12 @@
 }
 
 /*disabled styles for tab strip buttons*/
-.lucid .tabStripButtonDisabled {
-	background-color:#DDDDDD !important;
-	background-image:url(../form/images/button_grad_d.png) !important;
-	border:1px solid #C9C9C9 !important;
+.lucid .dijitTabListContainer-top .tabStripButtonDisabled,
+.lucid .dijitTabListContainer-bottom .tabStripButtonDisabled {
+	/* 3 element selector so background-image: ... rule doesn't need !important */
+	background-color:#DDDDDD;
+	background-image:url(../form/images/button_grad_d.png);
+	border:1px solid #C9C9C9;
 }
 .lucid .tabStripButtonDisabled .dijitTabInnerDiv {
 	background:none;
@@ -460,13 +402,16 @@
 	-webkit-transition-property:background-color, border;
  	-webkit-transition-duration:.3s;
 }
-.lucid .dijitTabContainerTabListNested .dijitTabInnerDiv {
+.lucid .dijitTabContainerTabListNested .dijitTab .dijitTabInnerDiv {
+	/* 4 element selector to override box-shadow setting from above rule:
+	 *		.lucid .dijitTabContainerTop-tabs .dijitTabChecked .dijitTabInnerDiv { ... }
+	 */
 	background: none;
 	border: none;
 	top: 0px;/* to override top: 1px/-1px for normal tabs */
-	box-shadow: none !important;
-	-webkit-box-shadow: none !important;
-	-moz-box-shadow: none !important;
+	box-shadow: none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
 }
 .lucid .dijitTabContainerTabListNested .dijitTabHover .dijitTabContent {
 	background-color:#eaf4fc;
@@ -500,7 +445,6 @@
 .lucid .dijitTabContainerTabListNested .dijitTabChecked .tabLabel {
 	text-decoration: none;
 	background-image:none;
-	/*background:#f3f3f3;*/
 }
 .lucid .dijitTabPaneWrapperNested {
 	border: none;/* prevent double border */

@@ -29,7 +29,7 @@
 .dj_ie7-rtl .lucid .dijitTabContainerBottom-tabs .dijitTabInnerDiv,
 .dj_iequirks-rtl .lucid .tabStripButton .dijitButtonContents,
 .dj_iequirks-rtl .lucid .dijitTabContainerTop-tabs .dijitTabInnerDiv,
-.dj_iequirks-rtl .lucid .dijitTabContainerBottom-tabs .dijitTabInnerDiv, {
+.dj_iequirks-rtl .lucid .dijitTabContainerBottom-tabs .dijitTabInnerDiv {
 	float:left;
 }
 .dj_ie6-rtl .lucid .tabLabel,/*Make the .tablael has width in ie6-rtl with haslayout property, fix Close icon position bug*/

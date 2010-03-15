@@ -34,6 +34,8 @@
 	padding: 5px;
 }
 
+/* Splitters and gutters */
+
 .lucid .dijitSplitterH,
 .lucid .dijitGutterH {
 	background:none;
@@ -61,30 +63,32 @@
 	left:2px;
 	width:1px;
 }
-.lucid .dijitSplitterVHover .dijitSplitterThumb {
-	background:#769dc0 none;
-}
 
-.lucid .dijitSplitterHHover .dijitSplitterThumb {
-	background:#769dc0 none;
-}
-
+/* hovered splitter */
 .lucid .dijitSplitterHHover {
 	font-size: 1px;
 	-moz-opacity: 1;
 	opacity: 1;
 	filter: Alpha(Opacity=100);
 	margin: 0;
-	background: url("images/splitterThumbHover.png") no-repeat center top;
+	background: url("images/splitterHorizontalHover.png") no-repeat center top;
+}
+
+.lucid .dijitSplitterHHover .dijitSplitterThumb {
+	background:#769dc0 none;
 }
 
 .lucid .dijitSplitterVHover {
 	font-size: 1px;
 	-moz-opacity: 1;
 	opacity: 1;
-	filter: Alpha(Opacity=1);
+	filter: Alpha(Opacity=100);
 	margin: 0;
-	background: url("images/splitterThumbVerticalHover.png") no-repeat center left;
+	background: url("images/splitterVerticalHover.png") no-repeat center left;
+}
+
+.lucid .dijitSplitterVHover .dijitSplitterThumb {
+	background:#769dc0 none;
 }
 
 
