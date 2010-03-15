@@ -1251,7 +1251,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 					isvalid=true;
 					var tg = first.tagName ? first.tagName.toLowerCase() : "";
 					// Collapse before childless tags.
-					if(/br|input|img|base|meta|area|basefont/.test(tg)){
+					if(/br|input|img|base|meta|area|basefont|hr|link/.test(tg)){
 						this._sCall("selectElement", [ first ]);
 					}else{
 						// Collapse inside tags with children.
