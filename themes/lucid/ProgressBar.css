@@ -11,7 +11,7 @@
 
 .lucid .dijitProgressBarTile {
 	/* inner container for finished portion when in 'tile' (image) mode */
-	background:#93cafe url("images/progressBarFull.png") repeat-x center center;
+	background:#9dcfff url("images/progressBarFull.png") repeat-x center center;
 }
 
 .lucid .dijitProgressBarFull {
@@ -22,3 +22,7 @@
 	/* Set to a color that contrasts with both the "Empty" and "Full" parts. */
 	color:#293a4b;
 }
+.lucid .dijitProgressBarIndeterminate .dijitProgressBarTile {
+	/* use an animated gif for the progress bar in 'indeterminate' mode */
+	background:#cad2de url("images/progressBarAnim.gif") repeat-x top;
+} 
