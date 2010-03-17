@@ -1,16 +1,18 @@
 .lucid .dijitButtonNode {
-	background-image: url(images/button_back_full.png);
+	background-image: url("images/button.png");
 	background-position: center top;
 	background-repeat: repeat-x;
-	background-color: #cde3f6;
-	border: 1px solid #799ab7;
-	padding:4px 10px 4px 10px;
+	background-color: #e4f2ff;
+	border: 1px solid #769dc0;
+	padding:2px 10px 3px 10px;
 	border-radius: 4px;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
-	box-shadow:0px 1px 1px rgba(0,0,0,0.2);
-	-webkit-box-shadow:0px 1px 1px rgba(0,0,0,0.2);
-	-moz-box-shadow: 0px 1px 1px rgba(0,0,0,0.2);
+	box-shadow:0px 1px 1px rgba(0,0,0,0.17);
+	-webkit-box-shadow:0px 1px 1px rgba(0,0,0,0.17);
+	-moz-box-shadow: 0px 1px 1px rgba(0,0,0,0.17);
+	-webkit-transition-property:background-color;
+ 	-webkit-transition-duration:.3s;
 }
 
 .lucid .dijitButtonNode button {
@@ -19,18 +21,41 @@
 }
 
 .lucid .dijitComboButton .dijitArrowButton {
-	border-left: none;
+	border-left-width: 0px;
 	min-width: 21px;
 	padding: 4px 0;
 }
 
+/*arrow styles for down/up/left/right directions*/
 .lucid .dijitArrowButtonInner {
-	width: 14px;
-	height: 10px;
+	width: 15px;
+	height: 15px;
 	margin: 0 auto;
-	background-image: url("images/button_arrow.png");
-	background-position:top center;
-	background-repeat: no-repeat;
+	background:url("images/buttonArrows.png") no-repeat 0px -15px;
+}
+.dj_ie6 .lucid .dijitArrowButtonInner {
+	overflow:hidden;
+}
+.lucid .dijitLeftArrowButton .dijitArrowButtonInner {
+	background-position: 0px 0px;
+}
+.lucid .dijitRightArrowButton .dijitArrowButtonInner {
+	background-position: 0px -30px;
+}
+.lucid .dijitUpArrowButton .dijitArrowButtonInner {
+	background-position: 0px -45px;
+}
+.lucid .dijitDisabled .dijitArrowButtonInner {
+	background-position: 0px -75px;
+}
+.lucid .dijitDisabled .dijitLeftArrowButton .dijitArrowButtonInner {
+	background-position: 0px -60px;
+}
+.lucid .dijitDisabled .dijitRightArrowButton .dijitArrowButtonInner {
+	background-position: 0px -90px;
+}
+.lucid .dijitDisabled .dijitUpArrowButton .dijitArrowButtonInner {
+	background-position: 0px -105px;
 }
 
 .lucid .dijitButtonText {
@@ -45,18 +70,22 @@
 /* hover status */
 .lucid .dijitButtonHover .dijitButtonNode,
 .lucid .dijitDropDownButtonHover .dijitButtonNode,
-/*.lucid .dijitComboButtonHover .dijitStretch,*/
 .lucid .dijitComboButton .dijitButtonNodeHover, 
-/*.lucid .dijitComboButtonDownArrowHover .dijitArrowButton*/
 .lucid .dijitComboButton .dijitDownArrowButtonHover{
-	background-color: #8dc7fe;
+	background-color: #afd9ff;
+	color:#000;
+ 	-webkit-transition-duration:.2s;
 }
 
 /* checked status */
 .lucid .dijitButtonActive .dijitButtonNode, 
 .lucid .dijitDropDownButtonActive .dijitButtonNode,
 .lucid .dijitComboButtonActive .dijitButtonNode {
-	background-color: #e1edf9;
+	background-color: #99cfff;
+	box-shadow:0px 0px 0px rgba(0,0,0,0);
+	-webkit-box-shadow:0px 0px 0px rgba(0,0,0,0);
+	-moz-box-shadow: 0px 0px 0px rgba(0,0,0,0);
+ 	-webkit-transition-duration:.1s;
 }
 
 /* disabled status */
@@ -71,20 +100,26 @@
 .lucid .dijitDropDownButtonDisabled .dijitButtonNode,
 .lucid .dijitComboButtonDisabled .dijitButtonNode,
 .lucid .dijitToggleButtonDisabled .dijitButtonNode{ 
-	background-image: url(images/button_grad_d.png);
-	background-color: #dddddd;
+	background-position:0px -149px;
+	background-color: #e3e3e3;
 	border: solid 1px #c9c9c9;
 	color: #696969;
+	box-shadow:0px 0px 0px rgba(0,0,0,0);
+	-webkit-box-shadow:0px 0px 0px rgba(0,0,0,0);
+	-moz-box-shadow: 0px 0px 0px rgba(0,0,0,0);
 }
 
 /* for ComboButton */
 .lucid table.dijitComboButton {
-	border-collapse: separate;	/* overrid dijit.css */
+	border-collapse: separate;	/* override dijit.css so that ComboBox rounded corners work */
 }
 
 /* ie6 & ie7 doesn't support min-width */
 .dj_ie6 .lucid .dijitComboButton .dijitArrowButton,
 .dj_ie7 .lucid .dijitComboButton .dijitArrowButton {
+	/* TODO: both min-width usage and width usage are strange, and width setting probably
+	 * breaks a11y at large font sizes.   can't you use padding instead?
+	 */
 	width: 21px;
 }
 
