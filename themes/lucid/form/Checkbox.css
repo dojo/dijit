@@ -49,7 +49,7 @@
 }
 
 .lucid .dijitCheckBoxCheckedHover {
-	/* hovering over an unchecked enabled checkbox */
+	/* hovering over an checked enabled checkbox */
 	background-position: -30px;
 }
 
