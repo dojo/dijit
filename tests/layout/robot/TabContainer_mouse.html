@@ -13,7 +13,7 @@
 			djConfig="isDebug: true"></script>
 
 		<!-- functions to help test -->
-		<script type="text/javascript" src="../helpers.js"></script>
+		<script type="text/javascript" src="../../helpers.js"></script>
 
 		<script type="text/javascript">
 			dojo.require("dijit.dijit"); // optimize: load dijit layer
@@ -55,8 +55,13 @@
 							var tc = dijit.byId("mainTabContainer");
 							
 							doh.robot.sequence(d.getTestCallback(function(){
+								// verify tab button is selected
 								doh.is('mainTabContainer_tablist_tab3', dojo.global.dijit._curFocus.id, "verify chosen tab is in its chosen state and focused");
+
+								// verify pane is shown
 								doh.is("tab3", tc.selectedChildWidget.id, "verify that the appropiate contentpane is displayed");
+								doh.t(isVisible(dijit.byId("tab3")), "tab3 shown");
+								doh.t(isHidden(dijit.byId("tab2")), "tab2 hidden");
 							}), 500);
 							
 							return d;
@@ -107,11 +112,8 @@
 							doh.robot.mouseMoveAt("dijit_MenuItem_8", 500);
 							doh.robot.mouseClick({left: true}, 1000);
 							
-							// verify SplitContainer tab is chosen and displayed
+							// verify SplitContainer tab is displayed (but it doesn't get focus, see #10727)
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is('mainTabContainer_tablist_tab4href', dojo.global.dijit._curFocus.id,
-									"verify the chosen tab is displayed and focused");
-
 								// Check that tab button is scrolled correctly into view
 								// TODO: this check won't work in RTL mode
 								var tc = dijit.byId("mainTabContainer");
@@ -130,6 +132,11 @@
 								var isTabVisible = (tablistLeft < tabLeft && tablistRight > tabRight);
 
 								doh.t(isTabVisible, "verify tab is in display area")
+								
+								// And verify that pane is shown
+								doh.is("tab4href", tc.selectedChildWidget.id, "verify that the appropiate contentpane is displayed");
+								doh.t(isVisible(dijit.byId("tab4href")), "tab4 shown");
+								doh.t(isHidden(dijit.byId("tab1")), "tab1 hidden");
 							}), 1000);
 							
 							return d;
