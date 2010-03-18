@@ -74,10 +74,12 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		this.inherited(arguments);
 		var menuItem;
 		if(this.useMenu){
+			var containerId = this.containerId;
 			menuItem = new dijit.MenuItem({
 				label: page.title,
 				onClick: dojo.hitch(this, function(){
-					this.onSelectChild(page);
+					var container = dijit.byId(containerId);
+					container.selectChild(page);
 				})
 			});
 			this._menuChildren[page.id] = menuItem;
