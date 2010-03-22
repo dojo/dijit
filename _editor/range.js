@@ -65,12 +65,13 @@ dijit.range.getNode = function(/*Array*/index, /*DomNode*/parent){
 	return node;
 }
 
-dijit.range.getCommonAncestor = function(n1,n2){
+dijit.range.getCommonAncestor = function(n1,n2,root){
+	root = root||n1.ownerDocument.body;
 	var getAncestors = function(n){
 		var as=[];
 		while(n){
 			as.unshift(n);
-			if(n.nodeName!='BODY'){
+			if(n !== root){
 				n = n.parentNode;
 			}else{
 				break;
