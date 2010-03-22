@@ -204,7 +204,7 @@ dojo.declare(
 		goToToday: function(){
 			// summary:
 			//      Sets calendar's value to today's date
-			this.attr('value', this.dateClassObj());
+			this.attr('value', new this.dateClassObj());
 		},
 
 		constructor: function(/*Object*/args){
