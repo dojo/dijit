@@ -80,27 +80,12 @@
 .tundra .dijitCalendarNextMonth 		{
 	/* days that are part of the previous or next month */
 	color:#999999;
-	background-color:#f8f8f8 !important;
-}
-
-.tundra .dijitCalendarPreviousMonthDisabled,
-.tundra .dijitCalendarNextMonthDisabled	{
-	/* days that are part of the previous or next month - disabled*/
-	background-color:#a4a5a6 !important;
+	background-color:#f8f8f8;
 }
 
 .tundra .dijitCalendarCurrentMonth {
 	/* days that are part of this month */
-	background-color:white !important;
-}
-
-.tundra .dijitCalendarCurrentMonthDisabled {
-	/* days that are part of this month - disabled */
-	background-color:#bbbbbc !important;
-}
-
-.tundra .dijitCalendarDisabledDate {
-	text-decoration:line-through !important;
+	background-color: white;
 }
 
 .tundra .dijitCalendarCurrentDate {
@@ -110,7 +95,12 @@
 }
 
 .tundra .dijitCalendarHoveredDate {
-	background-color: #e2ebf2 !important;
+	background-color: #e2ebf2;
+}
+
+.tundra .dijitCalendarDisabledDate {
+	text-decoration: line-through;
+	background-color: white;	/* override hover effects above, hover and click on disabled date should have no effect */
 }
 
 .tundra .dijitCalendarSelectedDate {

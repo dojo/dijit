@@ -966,10 +966,6 @@ img.dijitColorPaletteUnder {
 	vertical-align: middle;
 }
 
-.dijitCalendarDisabledDate {
-	color:gray !important;
-}
-
 .dijitCalendarIncrementControl,
 .dijitCalendarDateTemplate,
 .dijitCalendarMonthLabel,
@@ -978,10 +974,9 @@ img.dijitColorPaletteUnder {
 	cursor: pointer;
 }
 
-.dijitCalendarPreviousMonthDisabled,
-.dijitCalendarCurrentMonthDisabled,
-.dijitCalendarNextMonthDisabled,
 .dijitCalendarDisabledDate {
+	color: gray;
+	text-decoration: line-through;
 	cursor: default;
 }
 

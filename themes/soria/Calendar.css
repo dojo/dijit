@@ -86,24 +86,11 @@
 	border:#fdfdfd solid 1px !important;
 }
 
-.soria .dijitCalendarPreviousMonthDisabled,
-.soria .dijitCalendarNextMonthDisabled	{
-	/* days that are part of the previous or next month - disabled*/
-	background-color:#a4a5a6 !important;
-}
-
 .soria .dijitCalendarCurrentMonth {
 	/* days that are part of this month */
 }
 
-.soria .dijitCalendarCurrentMonthDisabled {
-	/* days that are part of this month - disabled */
-	background-color:#bbbbbc !important;
-}
-
 .soria .dijitCalendarDisabledDate {
-	/* one or the other? */
-	/* background: url(images/noX.gif) no-repeat center center !important; */
 	text-decoration:line-through !important;
 }
 
