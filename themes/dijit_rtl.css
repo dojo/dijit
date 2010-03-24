@@ -1,12 +1,3 @@
-/* TextBox */
-
-.dj_gecko-rtl .dijitInputField {
-	direction: ltr; /* Firefox needs this - probably a bug */
-}
-.dj_gecko-rtl .dijitInputField * {
-	direction: rtl; /* Firefox needs dijitInputField to be ltr, so fix the contained tags */
-}
-
 /* Menu */
 
 .dijitRtl .dijitMenuItem {
