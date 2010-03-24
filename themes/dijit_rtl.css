@@ -98,9 +98,6 @@
 }
 
 /* TabContainer */
-.dijitRtl .dijitTabContainer .tabStripMenuButton {
-	float: left;
-}
 
 .dijitRtl .dijitTab .dijitTabCloseButton {
 	margin-left: 0px;
