@@ -30,11 +30,6 @@
 	float: left;
 }
 
-.dijitRtl .dijit_a11y .dijitSpinnerButtonContainer {
-	margin-left: 0px;
-	margin-right: 2px;
-}
-
 .dijitRtl DIV.dijitArrowButton, .dijitRtl .dijitValidationIcon, .dijitRtl .dijitValidationIconText {
 	float: left;
 }

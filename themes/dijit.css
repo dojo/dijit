@@ -1759,13 +1759,11 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	width: 100%;
 }
 .dijit_a11y .dijitSpinner .dijitArrowButton .dijitArrowButtonChar {
-	font-size: 0.4em;
+	font-size: 0.5em;
 	vertical-align: top;
 }
 .dijit_a11y .dijitSpinnerButtonContainer {
 	width: 0.5em;
-	margin-left: 2px;
-	overflow: visible;
 }
 .dijit_a11y .dijitSpinnerButtonContainer .dijitButtonNode {
 	border-width: 1px 0px 0px 1px;
