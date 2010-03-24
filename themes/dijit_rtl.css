@@ -4,7 +4,14 @@
 	text-align: right;
 }
 
-/* ComboBox and Spinner */
+/* Button */
+
+.dj_iequirks-rtl .dijitComboButton BUTTON {
+	/* workaround bug where label invisible (themeTesterQuirk.html?dir=rtl) */
+	float:left;
+}
+
+/* TextBox, ComboBox, Spinner */
 
 .dijitRtl .dijitTextBox .dijitButtonNode {
 	/* combobox and spinner: line between the input area and the drop down button */
@@ -12,10 +19,6 @@
 	border-right-style: solid;
 	border-left-width: 0px !important;
 	border-left-style: none;
-}
-
-.dj_iequirks-rtl .dijitComboButton BUTTON {
-	float:left;
 }
 
 .dijitRtl .dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
@@ -130,6 +133,12 @@
 	/* needed in RTL mode when DropDownButton expands the ColorPalette beyond it's natural width */
 	left: auto;
 	right: 0;
+}
+
+/* Select */
+
+.dijitRtl .dijitSelect .dijitButtonNode {
+	text-align: right;
 }
 
 

@@ -1787,9 +1787,6 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .dijitSelect .dijitButtonNode {
 	text-align: left;
 }
-.dijitRtl .dijitSelect .dijitButtonNode {
-	text-align: right;
-}
 .dijitToolbar .dijitSelect {
 	margin: 0;
 }
