@@ -1773,6 +1773,7 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 /* Select */
 .dijitSelect {
 	margin: 0.2em;
+	border-collapse: collapse;
 }
 .dj_ie .dijitSelect,
 .dj_ie7 .dijitSelect,

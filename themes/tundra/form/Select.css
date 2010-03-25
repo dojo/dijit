@@ -1,11 +1,3 @@
-.tundra .dijitSelect .dijitButtonContents {
-	border-right: none;
-}
-.dijitRtl .tundra .dijitSelect .dijitButtonContents {
-	border-left: none;
-	border-right-width: 1px;
-}
-
 .tundra .dijitSelect .dijitButtonNode {
 	padding: 0px;
 }
