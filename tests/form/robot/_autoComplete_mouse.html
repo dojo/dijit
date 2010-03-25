@@ -331,6 +331,65 @@
 					}
 				}
 			]);
+			
+			doh.register("placeHolder", [
+				{
+					timeout: 3000,
+					name: "focus/blur",
+					combo: "placeholdertest",
+					setUp: function(){
+						this.combo = dijit.byId(this.combo);
+					},
+					runTest: function(){
+						var d = new doh.Deferred();
+						doh.is("", this.combo.attr('value'), "value");
+						doh.is("", this.combo.attr('displayedValue'), "displayedValue");
+						doh.is("Select a New England State", this.combo._phspan.innerHTML, "_phspan.innerHTML");
+						doh.isNot("none", this.combo._phspan.style.display, "_phspan.style.display");
+
+						this.combo.focus();
+						doh.is("none", this.combo._phspan.style.display, "_phspan.style.display");
+						
+						doh.robot.keyPress(dojo.keys.TAB, 500, {});
+						doh.robot.sequence(d.getTestCallback(dojo.hitch(this,function(){
+							doh.is("", this.combo.attr('value'), "value");
+							doh.is("", this.combo.attr('displayedValue'), "displayedValue");
+							doh.isNot("none", this.combo._phspan.style.display, "_phspan.style.display");
+						})), 500);
+						return d;
+					},
+					tearDown: function(){
+						this.combo._hideResultList();
+					}
+				},
+				{
+					timeout: 6000,
+					name: "select a value",
+					combo: "placeholdertest",
+					setUp: function(){
+						this.combo = dijit.byId(this.combo);
+					},
+					runTest: function(){
+						var d = new doh.Deferred(), value = isComboBox?'Connecticut':'ct';
+						this.combo.attr('value',value);
+						doh.is(value, this.combo.attr('value'), "selected Connecticut from drop down");
+
+						this.combo.focus();
+						doh.is("none", this.combo._phspan.style.display, "_phspan.style.display 1");
+						
+						doh.robot.keyPress(dojo.keys.TAB, 500, {});
+						doh.robot.sequence(d.getTestCallback(dojo.hitch(this,function(){
+							doh.is(value, this.combo.attr('value'), "value");
+							doh.is("none", this.combo._phspan.style.display, "_phspan.style.display 2");
+							doh.is('Connecticut', this.combo.textbox.value, "textbox.value 2");
+						})), 500);
+						return d;
+					},
+					tearDown: function(){
+						this.combo._hideResultList();
+					}
+				}
+			]);
 
 			doh.run();
 		});

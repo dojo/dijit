@@ -33,12 +33,34 @@ dojo.declare(
 		//		If true, all text will be selected when focused with mouse
 		selectOnClick: false,
 
+		//	placeHolder: String
+		//		Defines a hint to help users fill out the input field (as defined in HTML 5).
+		//		This should only contain plain text (no html markup).
+		placeHolder: "",
+		
 		templateString: dojo.cache("dijit.form", "templates/TextBox.html"),
 		baseClass: "dijitTextBox",
 
 		attributeMap: dojo.delegate(dijit.form._FormValueWidget.prototype.attributeMap, {
 			maxLength: "focusNode"
 		}),
+		
+		_setPlaceHolderAttr: function(v){
+			this.placeHolder=v;
+			if(!this._phspan){
+				this._attachPoints.push('_phspan');
+				this._phspan = dojo.create('span',{className:'dijitPlaceHolder',innerHTML:v},this.textbox,'after');
+			}
+			dojo.attr(this._phspan,'innerText',v);
+
+			this._updatePlaceHolder();
+		},
+		
+		_updatePlaceHolder: function(){
+			if(this._phspan){
+				this._phspan.style.display=(this.placeHolder&&!this._focused&&!this.textbox.value)?"":"none";
+			}
+		},
 
 		_getValueAttr: function(){
 			// summary:
@@ -87,6 +109,7 @@ dojo.declare(
 			if(formattedValue != null && formattedValue != undefined && ((typeof formattedValue) != "number" || !isNaN(formattedValue)) && this.textbox.value != formattedValue){
 				this.textbox.value = formattedValue;
 			}
+
 			this.inherited(arguments, [filteredValue, priorityChange]);
 		},
 
@@ -271,6 +294,8 @@ dojo.declare(
 			if(this.selectOnClick && dojo.isMoz){
 				this.textbox.selectionStart = this.textbox.selectionEnd = undefined; // clear selection so that the next mouse click doesn't reselect
 			}
+			
+			this._updatePlaceHolder();
 		},
 
 		_onFocus: function(/*String*/ by){
@@ -278,7 +303,7 @@ dojo.declare(
 
 			// Select all text on focus via click if nothing already selected.
 			// Since mouse-up will clear the selection need to defer selection until after mouse-up.
-			// Don't do anything on focus by tabbing into the widgetm since there's no associated mouse-up event.
+			// Don't do anything on focus by tabbing into the widget since there's no associated mouse-up event.
 			if(this.selectOnClick && by == "mouse"){
 				this._selectOnClickHandle = this.connect(this.domNode, "onmouseup", function(){
 					// Only select all text on first click; otherwise users would have no way to clear
@@ -301,6 +326,8 @@ dojo.declare(
 				});
 			}
 
+			this._updatePlaceHolder();
+			
 			this._refreshState();
 			this.inherited(arguments);
 		},

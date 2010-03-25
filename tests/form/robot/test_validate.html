@@ -256,12 +256,12 @@
 								doh.robot.typeKeys('a', 500, 200);
 								doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
 									doh.is('a', this.textbox.attr('value'), "attr('value')");
-									doh.is('', this.textbox.attr('state'));
-									doh.is(true, this.textbox.isValid(), "isValid()");
+									doh.is('', this.textbox.attr('state'), "state 1");
+									doh.is(true, this.textbox.isValid(), "isValid() 1");
 									dojo.byId("q01").focus();
 									doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-										doh.is('', this.textbox.attr('state'));
-										doh.is(true, this.textbox.isValid(), "isValid()");
+										doh.is('', this.textbox.attr('state'), "state 2");
+										doh.is(true, this.textbox.isValid(), "isValid() 2");
 									})), 1000);
 								})), 500);
 							})), 1000);
@@ -993,6 +993,103 @@
 							doh.is("12.345,25 €", textWidget.attr('displayedValue'), "EUR value");
 							textWidget.attr('constraints', {currency:'USD', locale:'en-us'});
 							doh.is("$12,345.25", textWidget.attr('displayedValue'), "USD value");
+						}
+					}
+				]);
+				
+				doh.register("placeholder", [
+					{
+						name: "textbox",
+						runTest: function(){
+							var textWidget = dijit.byId("q26");
+							doh.is('', textWidget.attr('value'),'initial value is empty');
+							doh.is('placeholder is here',textWidget._phspan.innerHTML, '_phspan.innerHTML');
+							textWidget.attr('value','abc');
+							doh.is('abc',textWidget.attr('value'));
+							textWidget.attr('placeHolder','new placholder');
+							doh.is('abc',textWidget.attr('value'));
+							textWidget.attr('value','');
+							doh.is('new placholder',textWidget._phspan.innerHTML, '_phspan.innerHTML');
+							doh.is('',textWidget.attr('value'));
+						}
+					},
+					{
+						name: "focus/blur textbox",
+						timeout: 6000,
+						runTest: function(){
+							var d = new doh.Deferred(), textWidget = dijit.byId("q26");
+							textWidget.attr('placeHolder','placeholder is here');
+							textWidget.attr('value','');
+							
+							//  Clicking into the input should hide _phspan
+							doh.robot.mouseMoveAt(textWidget.focusNode, 500);
+							doh.robot.mouseClick({left: true}, 500);
+							
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.is("", textWidget.attr('value'), "attr('value')");
+								doh.is("none", textWidget._phspan.style.display, "_phspan.style.display");
+								
+								doh.robot.keyPress(dojo.keys.TAB, 500, {});
+								doh.robot.sequence(d.getTestCallback(function(){
+									doh.is("", textWidget.attr('value'), "attr('value')");
+									doh.isNot("none",textWidget._phspan.style.display, "_phspan.style.display");
+								}), 500);
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "type in textbox",
+						timeout: 6000,
+						runTest: function(){
+							var d = new doh.Deferred(), textWidget = dijit.byId("q26");
+							textWidget.attr('placeHolder','placeholder is here');
+							textWidget.attr('value','');
+							
+							//  Clicking into the input should hide _phspan
+							doh.robot.mouseMoveAt(textWidget.focusNode, 500);
+							doh.robot.mouseClick({left: true}, 500);
+							
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.is("", textWidget.attr('value'), "attr('value')");
+								doh.is("none", textWidget._phspan.style.display, "_phspan.style.display 1");
+								
+								doh.robot.typeKeys('new', 1000, 1400);
+								doh.robot.sequence(d.getTestCallback(function(){
+									doh.is("new", textWidget.attr('value'), "attr('value')");
+									doh.is("none", textWidget._phspan.style.display, "_phspan.style.display 2");
+								}), 500);
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "reset textbox",
+						runTest: function(){
+							var textWidget = dijit.byId("q26"), d = new doh.Deferred();
+							textWidget.focus();
+							textWidget.attr('placeHolder','placeholder is here');
+							textWidget.attr('value','');
+							
+							doh.is("", textWidget.attr('value'), "attr('value') 1");
+							doh.is("none", textWidget._phspan.style.display, "_phspan.style.display");
+							
+							textWidget.attr('value','abc');
+							textWidget.reset();
+							
+							doh.is("", textWidget.attr('value'), "attr('value') 2");
+							doh.is("none", textWidget._phspan.style.display, "_phspan.style.display 1");
+							
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+							doh.robot.sequence(d.getTestCallback(function(){
+								textWidget.attr('value','xyz');
+								textWidget.reset();
+								
+								doh.is("", textWidget.attr('value'), "attr('value')");
+								doh.isNot("none", textWidget._phspan.style.display, "_phspan.style.display");
+							}), 500);
+							
+							return d;
 						}
 					}
 				]);

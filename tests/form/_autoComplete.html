@@ -509,6 +509,25 @@
 		<button name="button" onclick="alert(document.displayData()); return false;">view data</button>
 
 	</form>
+	
+	<hr>
+	<p>test placeholder</p>
+	<select id="placeholdertest"
+			name="placetest"
+			dojoType="$testWidget"
+			style="width:50%;font-family:Courier;"
+			autoComplete="false"
+			selectOnClick="true"
+			pageSize="5"
+			placeHolder="Select a New England State"
+			value=""
+	>
+		<option value="ct">Connecticut</option>
+		<option value="me">Maine</option>
+		<option value="ma">Massachusetts</option>
+		<option value="nh">New Hampshire</option>
+		<option value="vt">Vermont</option>
+	</select>
 	<p>
 	This is some text below the boxes. It shouldn't get pushed out of the way when search results get returned.
 	A native select tag to test IE bleed through problem:

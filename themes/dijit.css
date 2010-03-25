@@ -88,6 +88,7 @@
 
 .dijitInputField {
 	overflow:hidden;
+	position:relative;
 	#zoom:1;
 }
 
@@ -382,6 +383,15 @@ table .dijitComboButton .dijitButtonNode {
 	vertical-align: middle;
 	#vertical-align: auto;
 }
+
+.dijitPlaceHolder {
+	color: #AAAAAA;
+	font-style: italic;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
 .dijitSpinner {
 	position: relative; /* fix IE problem where arrows are disconnected from textbox in themetester */
 }

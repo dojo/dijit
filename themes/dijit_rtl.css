@@ -1,3 +1,8 @@
+.dijitRtl .dijitPlaceHolder {
+	left: auto;
+	right: 0;
+}
+
 /* Menu */
 
 .dijitRtl .dijitMenuItem {
