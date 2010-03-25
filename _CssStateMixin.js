@@ -17,11 +17,6 @@ dojo.declare("dijit._CssStateMixin", [], {
 	//		By setting the cssStateNodes attribute, a widget can also track events on subnodes (like buttons
 	//		within the widget).
 
-	// baseClass: [protected] String
-	//		Root CSS class of the widget (ex: dijitTextBox), used to construct CSS classes to indicate
-	//		widget state.
-	baseClass: "",
-
 	// cssStateNodes: [protected] Object
 	//		List of sub-nodes within the widget that need CSS classes applied on mouse hover/press and focus
 	//.
@@ -131,6 +126,11 @@ dojo.declare("dijit._CssStateMixin", [], {
 
 		function multiply(modifier){
 			newStateClasses = newStateClasses.concat(dojo.map(newStateClasses, function(c){ return c+modifier; }), "dijit"+modifier);
+		}
+
+		if(!this.isLeftToRight()){
+			// For RTL mode we need to set an addition class like dijitTextBoxRtl.
+			multiply("Rtl");
 		}
 
 		if(this.checked){

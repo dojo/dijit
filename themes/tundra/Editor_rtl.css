@@ -1,7 +1,7 @@
 /* Editor */
-.dijitRtl .tundra .dijitEditorIcon {
+.tundra .dijitEditorRtl .dijitEditorIcon {
 	background-image: url('images/editor_rtl.gif'); /* editor icons sprite image */
 }
-.dijitRtl .tundra .dijitDisabled .dijitEditorIcon {
+.tundra .dijitEditorRtlDisabled .dijitEditorIcon {
 	background-image: url('images/editorDisabled_rtl.gif'); /* editor icons sprite image */
 }

@@ -1,22 +1,23 @@
-.dijitRtl .tundra .dijitTab {
+.tundra .dijitTabRtl {
 	-moz-box-orient:horizontal;
 	text-align: right;
 }
 
-.dijitRtl .tundra .dijitTabInnerDiv {
+.tundra .dijitTabRtl .dijitTabInnerDiv {
 	padding:2px 9px 2px 8px;
 }
 
-.dijitRtl .tundra .tabStrip-disabled .tabStripButton .dijitTabInnerDiv {
+.tundra .tabStrip-disabled .tabStripButtonRtl .dijitTabInnerDiv {
+	/* this is not special for RTL mode, but just here to override rule above (for enabled tabstrip) */
 	padding-bottom: 3px;
 	padding-top: 1px;
 }
 
-.dijitRtl .tundra .tabStripButton .dijitTabInnerDiv {
+.tundra .tabStripButtonRtl .dijitTabInnerDiv {
 	padding: 3px 2px 4px 2px;
 }
 
-.dijitRtl .tundra .dijitTabPaneWrapper {
+.tundra .dijitTabPaneWrapper {
 	#zoom: 1;
 }
 
@@ -28,12 +29,12 @@
 	margin-right: 1px !important;
 }
 
-.dijitRtl .tundra .dijitTabContainerLeft-tabs .dijitTab,
-.dijitRtl .tundra .dijitTabContainerRight-tabs .dijitTab {
+.tundra .dijitTabContainerLeft-tabs .dijitTabRtl,
+.tundra .dijitTabContainerRight-tabs .dijitTabRtl {
 	margin-left:0px;
 }
 
-.dj_ie-rtl .tundra .dijitTab .dijitTabInnerDiv {
+.dj_ie .tundra .dijitTabRtl .dijitTabInnerDiv {
 	/* without this the tab label and icon become invisible, as though they were set to visibility:hidden */
 	width : 0.1% !important;
 }

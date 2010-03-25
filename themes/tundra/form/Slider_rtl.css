@@ -1,31 +1,31 @@
-.dijitRtl .tundra .dijitSliderProgressBarH,
-.dijitRtl .tundra .dijitSliderRemainingBarH,
-.dijitRtl .tundra .dijitSliderLeftBumper,
-.dijitRtl .tundra .dijitSliderRightBumper,
-.dijitRtl .tundra .dijitSliderTopBumper {
+.tundra .dijitSliderRtl .dijitSliderProgressBarH,
+.tundra .dijitSliderRtl .dijitSliderRemainingBarH,
+.tundra .dijitSliderRtl .dijitSliderLeftBumper,
+.tundra .dijitSliderRtl .dijitSliderRightBumper,
+.tundra .dijitSliderRtl .dijitSliderTopBumper {
 	background-position: top right;
 }
 
-.dijitRtl .tundra .dijitSliderProgressBarV,
-.dijitRtl .tundra .dijitSliderRemainingBarV,
-.dijitRtl .tundra .dijitSliderBottomBumper {
+.tundra .dijitSliderRtl .dijitSliderProgressBarV,
+.tundra .dijitSliderRtl .dijitSliderRemainingBarV,
+.tundra .dijitSliderRtl .dijitSliderBottomBumper {
 	background-position: bottom right;
 }
 
-.dijitRtl .tundra .dijitSliderLeftBumper {
+.tundra .dijitSliderRtl .dijitSliderLeftBumper {
 	border-left-width: 0px;
 	border-right-width: 1px;
 }
 
-.dijitRtl .tundra .dijitSliderRightBumper {
+.tundra .dijitSliderRtl .dijitSliderRightBumper {
 	border-left-width: 1px;
 	border-right-width: 0px;
 }
 
-.dijitRtl .tundra .dijitSliderIncrementIconH {
+.tundra .dijitSliderRtl .dijitSliderIncrementIconH {
 	background-position: -7px 0px;
 }
 
-.dijitRtl .tundra .dijitSliderDecrementIconH {
+.tundra .dijitSliderRtl .dijitSliderDecrementIconH {
 	background-position: -14px 0px;
 }

@@ -69,7 +69,7 @@
 	background: url('images/editor.gif');
 }
 
-.dijitRtl .tundra .dijitToolbarSeparator {
+.tundra .dijitToolbarRtl .dijitToolbarSeparator {
 	/* separator icon in the editor sprite */
 	background-image: url('images/editor_rtl.gif');
 }

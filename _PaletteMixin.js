@@ -116,8 +116,8 @@ dojo.declare("dijit._PaletteMixin",
 			// The down key the index is increase by the x dimension.
 			DOWN_ARROW: this._xDim,
 			// Right and left move the index by 1.
-			RIGHT_ARROW: dojo._isBodyLtr() ? 1 : -1,
-			LEFT_ARROW: dojo._isBodyLtr() ? -1 : 1
+			RIGHT_ARROW: this.isLeftToRight() ? 1 : -1,
+			LEFT_ARROW: this.isLeftToRight() ? -1 : 1
 		};
 		for(var key in keyIncrementMap){
 			this._connects.push(

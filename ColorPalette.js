@@ -58,7 +58,12 @@ dojo.declare("dijit.ColorPalette",
 	// templateString: String
 	//		The template of this widget.
 	templateString: dojo.cache("dijit", "templates/ColorPalette.html"),
-	
+
+	// dir: String
+	//		Do not change this value; it's hardcoded to "ltr" because ColorPalette
+	//		uses the same color-position image in RTL mode as in LTR mode.
+	dir: "ltr",
+
 	baseClass: "dijitColorPalette",
 
 	dyeClass: 'dijit._Color',

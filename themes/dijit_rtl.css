@@ -5,20 +5,20 @@
 
 /* Menu */
 
-.dijitRtl .dijitMenuItem {
+.dijitMenuItemRtl {
 	text-align: right;
 }
 
 /* Button */
 
-.dj_iequirks-rtl .dijitComboButton BUTTON {
+.dj_iequirks .dijitComboButtonRtl BUTTON {
 	/* workaround bug where label invisible (themeTesterQuirk.html?dir=rtl) */
 	float:left;
 }
 
 /* TextBox, ComboBox, Spinner */
 
-.dijitRtl .dijitTextBox .dijitButtonNode {
+.dijitTextBoxRtl .dijitButtonNode {
 	/* combobox and spinner: line between the input area and the drop down button */
 	border-right-width: 1px !important;
 	border-right-style: solid;
@@ -26,67 +26,64 @@
 	border-left-style: none;
 }
 
-.dijitRtl .dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
+.dijitSpinnerRtl .dijitInputLayoutContainer .dijitArrowButton {
 	right: 0;
 	left: auto;
 }
 
-.dijitRtl .dijitSpinnerButtonContainer {
+.dijitSpinnerRtl .dijitSpinnerButtonContainer {
 	float: left;
 }
 
-.dijitRtl DIV.dijitArrowButton, .dijitRtl .dijitValidationIcon, .dijitRtl .dijitValidationIconText {
+.dijitTextBoxRtl DIV.dijitArrowButton, .dijitTextBoxRtl .dijitValidationIcon, .dijitTextBoxRtl .dijitValidationIconText {
 	float: left;
 }
 
 /* Calendar */
 
-.dijitRtl .dijitCalendarNextYear {
+.dijitCalendarRtl .dijitCalendarNextYear {
 	margin:0 0.55em 0 0;
 }
 
-.dijitRtl .dijitCalendarPreviousYear {
+.dijitCalendarRtl .dijitCalendarPreviousYear {
 	margin:0 0 0 0.55em;
 }
 
+
 /* Slider */
 
-.dijitRtl .dijitSliderImageHandleV {
+.dijitSliderRtl .dijitSliderImageHandleV {
 	left:auto;
 	right:-6px;
 }
 
-.dj_ie-rtl .dijitSliderImageHandleV {
+.dj_ie .dijitSliderRtl .dijitSliderImageHandleV {
 	right:-10px;
 }
 
-.dijitRtl .dijitSliderMoveableH {
+.dijitSliderRtl .dijitSliderMoveableH {
 	right:auto;
 	left:0;
 }
 
-.dijitRtl .dijitRuleContainerV {
+.dijitSliderRtl .dijitRuleContainerV {
 	float:right;
 }
 
-.dijitRtl .dijitRuleContainerV {
+.dj_ie .dijitSliderRtl .dijitRuleContainerV {
 	text-align:right;
 }
 
-.dj_ie-rtl .dijitRuleLabelV {
+.dj_ie .dijitSliderRtl .dijitRuleLabelV {
 	text-align:left;
 }
 
-.dj_ie-rtl .dijitRuleLabelH {
+.dj_ie .dijitSliderRtl .dijitRuleLabelH {
 	zoom:1;
 }
 
-.dj_ie-rtl .dijitSliderProgressBarH {
-	right:0;
-	left:auto;
-}
-
-.dj_gecko-rtl .dijitSliderProgressBarH {
+.dijitSliderRtl .dijitSliderProgressBarH {
+	/* workarounds for IE and FF */
 	float:right;
 	right:0;
 	left:auto;
@@ -100,31 +97,26 @@
 
 /* TabContainer */
 
-.dijitRtl .dijitTab .dijitTabCloseButton {
+.dijitTabRtl .dijitTabCloseButton {
 	margin-left: 0px;
 	margin-right: 1em;
 }
 
 /* TimePicker */
-.dj_ie-rtl .dijitTimePickerItem {
+.dj_ie .dijitTimePickerRtl .dijitTimePickerItem {
 	width:100%;
 }
 
-.dijitRtl .dijitTab .dijitTabCloseButton {
-	margin-left: 0px;
-	margin-right: 1em;
-}
 
 /* ColorPalette */
-.dijitRtl .dijitColorPaletteUnder {
+.dijitColorPaletteRtl .dijitColorPaletteUnder {
 	/* needed in RTL mode when DropDownButton expands the ColorPalette beyond it's natural width */
 	left: auto;
 	right: 0;
 }
 
 /* Select */
-
-.dijitRtl .dijitSelect .dijitButtonNode {
+.dijitSelectRtl .dijitButtonNode {
 	text-align: right;
 }
 
