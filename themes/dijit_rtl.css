@@ -69,11 +69,7 @@
 	float:right;
 }
 
-.dj_gecko-rtl .dijitRuleContainerV {
-	float:left;
-}
-
-.dj_ie-rtl .dijitRuleContainerV {
+.dijitRtl .dijitRuleContainerV {
 	text-align:right;
 }
 
