@@ -60,7 +60,7 @@ dojo.declare(
 
 	templateString: dojo.cache("dijit", "templates/TitlePane.html"),
 
-	// Hover and focus effects for title bar
+	// Hover effect for title bar
 	cssStateNodes: {
 		titleBarNode: "dijitTitlePaneTitle"
 	},

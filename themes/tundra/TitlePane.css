@@ -23,10 +23,6 @@
 	background-position: -14px 0px;
 }
 
-.tundra .dijitTitlePaneFocused .dijitTitlePaneTextNode {
-	text-decoration:underline;
-}
-
 .tundra .dijitTitlePaneContentOuter {
 	background: #ffffff;
 	border:1px solid #bfbfbf;
