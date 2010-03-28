@@ -45,9 +45,12 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 	_initButton: function(){
 		// summary:
 		//		Over-ride for creation of the resize button.
-		var strings = dojo.i18n.getLocalization("dijit._editor", "commands");
+		var strings = dojo.i18n.getLocalization("dijit._editor", "commands"),
+			editor = this.editor;
 		this.button = new dijit.form.ToggleButton({
 			label: strings["fullScreen"],
+			dir: editor.dir,
+			lang: editor.lang,
 			showLabel: false,
 			iconClass: this.iconClassPrefix + " " + this.iconClassPrefix + "FullScreen",
 			tabIndex: "-1",

@@ -549,7 +549,8 @@ dojo.declare(
 				var popupId = this.id + "_popup";
 				this._popupWidget = new dijit.form._ComboBoxMenu({
 					onChange: dojo.hitch(this, this._selectOption),
-					id: popupId
+					id: popupId,
+					dir: this.dir
 				});
 				dijit.removeWaiState(this.focusNode,"activedescendant");
 				dijit.setWaiState(this.textbox,"owns",popupId); // associate popup with textbox

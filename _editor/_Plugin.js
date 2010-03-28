@@ -63,6 +63,8 @@ dojo.declare("dijit._editor._Plugin", null, {
 			if(!this.button){
 				var props = dojo.mixin({
 					label: label,
+					dir: this.dir,
+					lang: this.lang,
 					showLabel: false,
 					iconClass: className,
 					dropDown: this.dropDown,

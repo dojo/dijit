@@ -14,9 +14,12 @@ dojo.declare("dijit._editor.plugins.Print",dijit._editor._Plugin,{
 	_initButton: function(){
 		// summary:
 		//		Over-ride for creation of the Print button.
-		var strings = dojo.i18n.getLocalization("dijit._editor", "commands");
+		var strings = dojo.i18n.getLocalization("dijit._editor", "commands"),
+			editor = this.editor;
 		this.button = new dijit.form.Button({
 			label: strings["print"],
+			dir: editor.dir,
+			lang: editor.lang,
 			showLabel: false,
 			iconClass: this.iconClassPrefix + " " + this.iconClassPrefix + "Print",
 			tabIndex: "-1",

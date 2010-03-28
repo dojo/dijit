@@ -40,6 +40,8 @@ dojo.declare("dijit.layout.TabContainer",
 
 			return new TabController({
 				id: this.id + "_tablist",
+				dir: this.dir,
+				lang: this.lang,
 				tabPosition: this.tabPosition,
 				doLayout: this.doLayout,
 				containerId: this.id,

@@ -464,7 +464,8 @@ dojo.declare("dijit._editor.plugins.FontChoice", dijit._editor._Plugin,{
 			params.values = this.params.custom;
 		}
 
-		this.button = new clazz(params);
+		var editor = this.editor;
+		this.button = new clazz(dojo.delegate({dir: editor.dir, lang: editor.lang}, params));
 
 		// Reflect changes to the drop down in the editor
 		this.connect(this.button.select, "onChange", function(choice){

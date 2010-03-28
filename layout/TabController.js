@@ -128,11 +128,15 @@ dojo.declare("dijit.layout._TabButton",
 			var _nlsResources = dojo.i18n.getLocalization("dijit", "common");
 			this._closeMenu = new dijit.Menu({
 				id: this.id+"_Menu",
+				dir: this.dir,
+				lang: this.lang,
 				targetNodeIds: [this.domNode]
 			});
 
 			this._closeMenu.addChild(new dijit.MenuItem({
 				label: _nlsResources.itemClose,
+				dir: this.dir,
+				lang: this.lang,
 				onClick: dojo.hitch(this, "onClickCloseButton")
 			}));
 		}else{

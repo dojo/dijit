@@ -158,6 +158,7 @@ dojo.declare(
 						dijit.form._DateTimeTextBox.superclass._setValueAttr.call(textBox, value, true);
 					},
 					id: this.id + "_popup",
+					dir: textBox.dir,
 					lang: textBox.lang,
 					constraints: textBox.constraints,
 

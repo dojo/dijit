@@ -319,6 +319,8 @@ dojo.declare(
 							isExpandable: model.mayHaveChildren(item),
 							label: tree.getLabel(item),
 							tooltip: tree.getTooltip(item),
+							dir: tree.dir,
+							lang: tree.lang,
 							indent: this.indent + 1
 						});
 					if(existingNodes){

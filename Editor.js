@@ -92,7 +92,10 @@ dojo.declare(
 
 			if(!this.toolbar){
 				// if we haven't been assigned a toolbar, create one
-				this.toolbar = new dijit.Toolbar({});
+				this.toolbar = new dijit.Toolbar({
+					dir: this.dir,
+					lang: this.lang
+				});
 				this.header.appendChild(this.toolbar.domNode);
 			}
 

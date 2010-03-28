@@ -75,6 +75,8 @@ dojo.declare(
 				var button = new cls({
 					id: this.id + "_" + page.id,
 					label: page.title,
+					dir: page.dir,
+					lang: page.lang,
 					showLabel: page.showTitle,
 					iconClass: page.iconClass,
 					closeButton: page.closable,

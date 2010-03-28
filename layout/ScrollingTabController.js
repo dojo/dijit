@@ -77,6 +77,8 @@ dojo.declare("dijit.layout.ScrollingTabController",
 			var containerId = this.containerId;
 			menuItem = new dijit.MenuItem({
 				label: page.title,
+				dir: page.dir,
+				lang: page.lang,
 				onClick: dojo.hitch(this, function(){
 					var container = dijit.byId(containerId);
 					container.selectChild(page);
@@ -155,6 +157,8 @@ dojo.declare("dijit.layout.ScrollingTabController",
 			// Create the menu that is used to select tabs.
 			this._menu = new dijit.Menu({
 				id: this.id + "_menu",
+				dir: this.dir,
+				lang: this.lang,
 				targetNodeIds: [this._menuBtn.domNode],
 				leftClickToOpen: true,
 				refocus: false	// selecting a menu item sets focus to a TabButton
