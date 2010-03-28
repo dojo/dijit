@@ -29,12 +29,8 @@
 .tundra .dijitTreeContent {
     min-height: 18px;
     min-width: 18px;
- }
-
-/* don't use :focus due to opera and IE's lack of support on div's */
-.tundra .dijitTreeLabelFocused {
-	outline: 1px invert dotted;
 }
+
 .tundra .dijitTreeRowSelected .dijitTreeLabel {
 	background:#e2ebfe;
 }
@@ -44,7 +40,6 @@
 	background-repeat: repeat;
 	background-color: transparent !important;
 }
-
 
 .tundra .dijitTreeExpandoOpened {
 	background-image: url('images/treeExpand_minus.gif');
