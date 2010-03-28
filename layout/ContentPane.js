@@ -574,7 +574,9 @@ dojo.declare(
 		var setterParams = dojo.mixin({
 			cleanContent: this.cleanContent,
 			extractContent: this.extractContent,
-			parseContent: this.parseOnLoad
+			parseContent: this.parseOnLoad,
+			dir: this.dir,
+			lang: this.lang
 		}, this._contentSetterParams || {});
 
 		dojo.mixin(setter, setterParams);
