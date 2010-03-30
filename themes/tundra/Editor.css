@@ -1,12 +1,6 @@
-.dijitEditor {
+.tundra .dijitEditor {
 	border:1px solid #bfbfbf;
 	border-top:0;
-}
-
-.dijitIEFixedToolbar {
-	position:absolute;
-	/* top:0; */
-	top: expression(eval((document.documentElement||document.body).scrollTop));
 }
 
 .tundra .dijitEditorIcon {
