@@ -3,6 +3,7 @@ dojo.provide("dijit._Widget");
 //>>excludeStart("dijitBaseExclude", kwArgs.customDijitBase == "true");
 dojo.require( "dijit._base" );
 //>>excludeEnd("dijitBaseExclude");
+dojo.require( "dojo.Stateful" );
 
 
 // This code is to assist deferring dojo.connect() calls in widgets (connecting to events on the widgets'
@@ -60,7 +61,7 @@ var _attrReg = {},	// cached results from getSetterAttributes
 		return _attrReg[dc] || [];	// String[]
 	};
 
-dojo.declare("dijit._Widget", null, {
+dojo.declare("dijit._Widget", dojo.Stateful, {
 	// summary:
 	//		Base class for all Dijit widgets.
 
@@ -853,30 +854,41 @@ dojo.declare("dijit._Widget", null, {
 		//		layout() calls?
 		var args = arguments.length;
 		if(args == 1 && !dojo.isString(name)){
-			for(var x in name){ this.attr(x, name[x]); }
+			for(var x in name){ this.set(x, name[x]); }
 			return this;
 		}
-		var names = this._getAttrNames(name);
 		if(args >= 2){ // setter
-			if(this[names.s]){
-				// use the explicit setter
-				args = dojo._toArray(arguments, 1);
-				return this[names.s].apply(this, args) || this;
-			}else{
-				// if param is specified as DOM node attribute, copy it
-				if(name in this.attributeMap){
-					this._attrToDom(name, value);
-				}
-
-				// FIXME: what about function assignments? Any way to connect() here?
-				this[name] = value;
-			}
-			return this;
+			return this.set.apply(this, arguments);
 		}else{ // getter
-			return this[names.g] ? this[names.g]() : this[name];
+			return this.get(name);
 		}
 	},
-
+	
+	get: function(name){
+		var names = this._getAttrNames(name);
+		return this[names.g] ? this[names.g]() : this[name];
+	},
+	
+	set: function(name, value){
+		var names = this._getAttrNames(name);
+		if(this[names.s]){
+			// use the explicit setter
+			var result = this[names.s].apply(this, Array.prototype.slice.call(arguments, 1));
+		}else{
+			// if param is specified as DOM node attribute, copy it
+			if(name in this.attributeMap){
+				this._attrToDom(name, value);
+			}
+			var oldValue = this[name];
+			// FIXME: what about function assignments? Any way to connect() here?
+			this[name] = value;
+		}
+		if(this._watchCallbacks){
+			this._watchCallbacks(name, oldValue, value);
+		}
+		return result || this;
+	},
+	
 	_attrPairNames: {},		// shared between all widgets
 	_getAttrNames: function(name){
 		// summary:
