@@ -626,8 +626,41 @@ dojo.declare(
 			//		protected
 			this.endEditing(true);
 			this.inherited(arguments);
+		},
+
+		_setDisabledAttr: function(/*Boolean*/ value){
+			if(!this.disabled && !value){
+				// Disable editor: disable all enabled buttons and remember that list
+				this._buttonEnabledPlugins = dojo.filter(this._plugins, function(p){
+					if (p && p.button && !p.button.attr("disabled")) {
+						p.button.attr("disabled", true);
+						return true;
+					}
+					return false;
+				});
+			}else if(this.disabled && value){
+				// Enable editor: we only want to enable the buttons that should be
+				// enabled (for example, the outdent button shouldn't be enabled if the current
+				// text can't be outdented).
+				dojo.forEach(this._buttonEnabledPlugins, function(p){
+					p.button.attr("disabled", false);
+					p.updateState && p.updateState();	// just in case something changed, like caret position
+				});
+			}
+			
+			this.inherited(arguments);
+		},
+		
+		_setStateClass: function(){
+			this.inherited(arguments);
+			
+			// Let theme set the editor's text color based on editor enabled/disabled state.
+			// We need to jump through hoops because the main document (where the theme CSS is)
+			// is separate from the iframe's document.
+			if(this.document && this.document.body){
+				dojo.style(this.document.body, "color", dojo.style(this.iframe, "color"));
+			}
 		}
-		/* end of custom undo/redo support */
 	}
 );
 

@@ -1717,6 +1717,11 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	display: block;	/* prevents glitch on FF with InlineEditBox, see #8404 */
 }
 
+.dijitEditorDisabled,
+.dijitEditorReadOnly {
+	color: gray;
+}
+
 /* TimePicker */
 
 .dijitTimePickerItemInner {
