@@ -319,6 +319,9 @@ DIV.dijitArrowButton {
 /* Spinner */
 
 .dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
+	/* note: .dijitInputLayoutContainer makes this rule override .dijitArrowButton settings
+	 * for dijit.form.Button
+	 */
 	padding: 0;
 	position: absolute;
 	right: 0;
@@ -374,9 +377,7 @@ table .dijitComboButton .dijitButtonNode {
 	Everything that has an <input>
 *******/
 
-.dijitTextBox,
-.dijitComboBox,
-.dijitSpinner {
+.dijitTextBox {
 	border: solid black 1px;
 	#overflow: hidden; /* #6027, #6067 */
 	width: 15em;	/* need to set default size on outer node since inner nodes say <input style="width:100%"> and <td width=100%>.  user can override */
@@ -384,7 +385,19 @@ table .dijitComboButton .dijitButtonNode {
 	#vertical-align: auto;
 }
 
+.dijitTextBoxReadOnly,
+.dijitTextBoxDisabled {
+	color: gray;
+}
+.dj_webkit .dijitTextBoxDisabled INPUT {
+	color: #eee; /* because WebKit lightens disabled input/textarea no matter what color you specify */
+}
+.dj_webkit TEXTAREA.dijitTextAreaDisabled {
+	color: #333; /* because WebKit lightens disabled input/textarea no matter what color you specify */
+}
+
 .dijitPlaceHolder {
+	/* hint text that appears in a textbox until user starts typing */
 	color: #AAAAAA;
 	font-style: italic;
 	position: absolute;
@@ -401,15 +414,10 @@ table .dijitComboButton .dijitButtonNode {
 }
 
 /* rules for webkit to deal with fuzzy blue focus border */
-.dijitTextBox input:focus,
-.dijitComboBox input:focus,
-.dijitSpinner input:focus {
+.dijitTextBox input:focus {
 	outline: none;	/* blue fuzzy line looks wrong on combobox or something w/validation icon showing */
 }
-.dijitTextBoxFocused,
-.dijitComboBoxFocused,
-.dijitSpinnerFocused,
-.dijitTextAreaFocused {
+.dijitTextBoxFocused {
 	outline: auto 5px -webkit-focus-ring-color;
 }
 
@@ -1845,26 +1853,6 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .dijitSelectMenu .dijitMenuTable {
 	margin: 0px;
 	background-color: transparent;
-}
-
-/* basic readonly/disabled text color rules for form widgets */
-.dijitTextBoxReadOnly,
-.dijitComboBoxReadOnly,
-.dijitSpinnerReadOnly,
-.dijitTextAreaReadOnly,
-.dijitTextBoxDisabled,
-.dijitComboBoxDisabled,
-.dijitSpinnerDisabled,
-.dijitTextAreaDisabled {
-	color: gray;
-}
-.dj_webkit .dijitTextBoxDisabled INPUT,
-.dj_webkit .dijitComboBoxDisabled INPUT,
-.dj_webkit .dijitSpinnerDisabled INPUT {
-	color: #eee;
-}
-.dj_webkit TEXTAREA.dijitTextAreaDisabled {
-	color: #333; /* because WebKit lightens disabled input/textarea no matter what color you specify */
 }
 
 /* Used in cases, such as FullScreen plugin, when we need to force stuff to static positioning. */
