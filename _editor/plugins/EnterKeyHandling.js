@@ -366,6 +366,15 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 				dojo.place(newblock, block.blockNode, "after");
 			}
 			_letBrowserHandle = false;
+
+			// Clone any block level styles.
+			if(block.blockNode.style){
+				if(newblock.style){
+					if(block.blockNode.style.cssText){
+						newblock.style.cssText = block.blockNode.style.cssText;
+					}
+				}
+			}
 			
 			// Okay, we probably have to split.
 			var rs = range.startContainer;
@@ -388,7 +397,6 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 				while(parentC !== block.blockNode){
 					var tg = parentC.tagName;
 					var newTg = doc.createElement(tg);
-					
 					// Clone over any 'style' data. 
 					if(parentC.style){
 						if(newTg.style){
