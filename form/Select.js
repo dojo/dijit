@@ -8,15 +8,14 @@ dojo.requireLocalization("dijit.form", "validate");
 
 dojo.declare("dijit.form._SelectMenu", dijit.Menu, {
 	// summary:
-	//		An internally-used menu for dropdown that allows us to more
-	//		gracefully overflow our menu
+	//		An internally-used menu for dropdown that allows us a vertical scrollbar
 	buildRendering: function(){
 		// summary:
 		//		Stub in our own changes, so that our domNode is not a table
 		//		otherwise, we won't respond correctly to heights/overflows
 		this.inherited(arguments);
 		var o = (this.menuTableNode = this.domNode);
-		var n = (this.domNode = dojo.doc.createElement("div"));
+		var n = (this.domNode = dojo.create("div", {style: {overflowX: "hidden", overflowY: "scroll"}}));
 		if(o.parentNode){
 			o.parentNode.replaceChild(n, o);
 		}
@@ -39,17 +38,12 @@ dojo.declare("dijit.form._SelectMenu", dijit.Menu, {
 		//		The margin box to set this dropdown to.
 		if(mb){
 			dojo.marginBox(this.domNode, mb);
-			var w = dojo.contentBox(this.domNode).w;
-			if(dojo.isMoz && this.domNode.scrollHeight > this.domNode.clientHeight){
-				w--;
-			}else if(dojo.isIE < 8 || (dojo.isIE && dojo.isQuirks)){
-				// IE < 8 and IE8 in quirks mode doesn't need this additional
-				// width of the scrollbar...it causes a horizontal scroll bar
-				// (as well as continually expanding the dropdown each time
-				// it is opened)
-				w -= 16;
+			if("w" in mb){
+				// We've explicitly set the wrapper <div>'s width, so set <table> width to match.
+				// 100% is safer than a pixel value because there may be a scroll bar with
+				// browser/OS specific width.
+				this.menuTableNode.style.width = "100%";
 			}
-			dojo.marginBox(this.menuTableNode, {w: w});
 		}
 	}
 });
@@ -101,10 +95,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		}
 
 		// Create the dropDown widget
-		this.dropDown = new dijit.form._SelectMenu({
-			id: this.id + "_menu",
-			dir: this.dir
-		});
+		this.dropDown = new dijit.form._SelectMenu();
 		dojo.addClass(this.dropDown.domNode, this.baseClass + "Menu");
 	},
 
@@ -263,6 +254,18 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		this._loadChildren(true);
 		this._isLoaded = true;
 		loadCallback();
+	},
+
+	closeDropDown: function(){
+		// overriding _HasDropDown.closeDropDown()
+		this.inherited(arguments);
+
+		if(this.dropDown && this.dropDown.menuTableNode){
+			// Erase possible width: 100% setting from _SelectMenu.resize().
+			// Leaving it would interfere with the next openDropDown() call, which
+			// queries the natural size of the drop down.
+			this.dropDown.menuTableNode.style.width = "";
+		}
 	},
 
 	uninitialize: function(preserveDom){

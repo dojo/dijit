@@ -325,6 +325,8 @@ dojo.declare("dijit._HasDropDown",
 					this._explicitDDHeight = true;
 				}
 			}
+
+			// Code for resizing dropdown (height limitation, or increasing width to match my width)
 			if(this.maxHeight || this.forceWidth || this.autoWidth){
 				var myStyle = {
 					display: "",
@@ -337,9 +339,26 @@ dojo.declare("dijit._HasDropDown",
 					myStyle.height = "";
 				}
 				dojo.style(ddNode, myStyle);
+				
+				// Get size of drop down, and determine if vertical scroll bar needed
 				var mb = dojo.marginBox(ddNode);
 				var overHeight = (this.maxHeight && mb.h > this.maxHeight);
-				dojo.style(ddNode, {overflow: overHeight ? "auto" : "hidden"});
+				dojo.style(ddNode, {
+					overflowx: "hidden",
+					overflowY: overHeight ? "auto" : "hidden"
+				});
+				if(overHeight){
+					mb.h = this.maxHeight;
+					if("w" in mb){
+						mb.w += 16;	// room for vertical scrollbar
+					}
+				}else{
+					delete mb.h;
+				}
+				delete mb.t;
+				delete mb.l;
+
+				// Adjust dropdown width to match or be larger than my width
 				if(this.forceWidth){
 					mb.w = this.domNode.offsetWidth;
 				}else if(this.autoWidth){
@@ -347,22 +366,15 @@ dojo.declare("dijit._HasDropDown",
 				}else{
 					delete mb.w;
 				}
-				if(overHeight){
-					mb.h = this.maxHeight;
-					if("w" in mb){
-						mb.w += 16;
-					}
-				}else{
-					delete mb.h;
-				}
-				delete mb.t;
-				delete mb.l;
+				
+				// And finally, resize the dropdown to calculated height and width
 				if(dojo.isFunction(dropDown.resize)){
 					dropDown.resize(mb);
 				}else{
 					dojo.marginBox(ddNode, mb);
 				}
 			}
+
 			var retVal = dijit.popup.open({
 				parent: this,
 				popup: dropDown,
