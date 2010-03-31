@@ -188,7 +188,7 @@ dojo.declare(
 			this._setText(this.monthLabelNode, monthNames[month.getMonth()]);
 			// Repopulate month list based on current year (Hebrew calendar)
 			dojo.query(".dijitCalendarMonthLabelTemplate", this.domNode).forEach(function(node, i){
-				dojo.style(node, "display", i in monthNames ? "inherit" : "none"); // hide leap months (Hebrew)
+				dojo.toggleClass(node, "dijitHidden", !(i in monthNames)); // hide leap months (Hebrew)
 				this._setText(node, monthNames[i]);
 			}, this);
 
