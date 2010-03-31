@@ -629,7 +629,7 @@ dojo.declare(
 		},
 
 		_setDisabledAttr: function(/*Boolean*/ value){
-			if(!this.disabled && !value){
+			if(!this.disabled && value){
 				// Disable editor: disable all enabled buttons and remember that list
 				this._buttonEnabledPlugins = dojo.filter(this._plugins, function(p){
 					if (p && p.button && !p.button.attr("disabled")) {
@@ -638,7 +638,7 @@ dojo.declare(
 					}
 					return false;
 				});
-			}else if(this.disabled && value){
+			}else if(this.disabled && !value){
 				// Enable editor: we only want to enable the buttons that should be
 				// enabled (for example, the outdent button shouldn't be enabled if the current
 				// text can't be outdented).
