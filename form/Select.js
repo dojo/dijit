@@ -25,7 +25,6 @@ dojo.declare("dijit.form._SelectMenu", dijit.Menu, {
 		dijit.setWaiRole(o,"listbox");
 		dijit.setWaiRole(n,"presentation");
 		n.appendChild(o);
-		this.tabIndex=null; // so tabindex=0 does not get set on domNode (role="presentation" AND tabindex is invalid)
 	},
 	resize: function(/*Object*/ mb){
 		// summary:
