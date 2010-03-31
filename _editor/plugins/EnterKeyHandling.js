@@ -359,7 +359,80 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 				dojo.window.scrollIntoView(newblock.nextSibling);
 			}
 			_letBrowserHandle = false;
-		}else{ // press enter in the middle of P
+		}else{ //press enter in the middle of P/DIV/Whatever/
+			if(block.blockNode === block.blockContainer){
+				block.blockNode.appendChild(newblock);
+			}else{
+				dojo.place(newblock, block.blockNode, "after");
+			}
+			_letBrowserHandle = false;
+			
+			// Okay, we probably have to split.
+			var rs = range.startContainer;
+			if(rs && rs.nodeType == 3){
+				// Text node, we have to split it.
+				var nodeToMove, tNode;
+				var txt = rs.nodeValue;
+				var startNode = doc.createTextNode(txt.substring(0, range.startOffset));
+				var endNode = doc.createTextNode(txt.substring(range.startOffset, txt.length));
+
+				// Place the split, then remove original nodes.
+				dojo.place(startNode, rs, "before");
+				dojo.place(endNode, rs, "after");
+				dojo.destroy(rs);
+
+				// Okay, we split the text.  Now we need to see if we're
+				// parented to the block element we're splitting and if
+				// not, we have to split all the way up.  Ugh.
+				var parentC = startNode.parentNode;
+				while(parentC !== block.blockNode){
+					var tg = parentC.tagName;
+					var newTg = doc.createElement(tg);
+					
+					// Clone over any 'style' data. 
+					if(parentC.style){
+						if(newTg.style){
+							if(parentC.style.cssText){
+								newTg.style.cssText = parentC.style.cssText;
+							}
+						}
+					}
+
+					nodeToMove = endNode;
+					while(nodeToMove){
+						tNode = nodeToMove.nextSibling;
+						newTg.appendChild(nodeToMove);
+						nodeToMove = tNode;
+					}
+					dojo.place(newTg, parentC, "after");
+					startNode = parentC;
+					endNode = newTg;
+					parentC = parentC.parentNode;
+				}
+
+				// Lastly, move the split out tags to the new block.
+				// as they should now be split properly.
+				nodeToMove = endNode;
+				if(nodeToMove.nodeType == 1 || (nodeToMove.nodeType == 3 && nodeToMove.nodeValue)){
+					// Non-blank text and non-text nodes need to clear out that blank space
+					// before moving the contents.
+					newblock.innerHTML = "";
+				}
+				while(nodeToMove){
+					tNode = nodeToMove.nextSibling;
+					newblock.appendChild(nodeToMove);
+					nodeToMove = tNode;
+				}
+			}
+			
+			//lets move caret to the newly created block
+			newrange = dijit.range.create(this.editor.window);
+			newrange.setStart(newblock, 0);
+			selection.removeAllRanges();
+			selection.addRange(newrange);
+			if(this.editor.height){
+				dijit.scrollIntoView(newblock);
+			}
 			if(dojo.isMoz){
 				// press enter in middle of P may leave a trailing <br/>, let's remove it later
 				this._pressedEnterInBlock = block.blockNode;
