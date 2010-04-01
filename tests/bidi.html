@@ -15,7 +15,7 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../dojo/dojo.js"
-		djConfig="parseOnLoad: true, isDebug: true"></script>
+		djConfig="parseOnLoad: true, extraLocale: ['en','ar','he'], isDebug: true"></script>
 
 	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="_testCommon.js"></script>
@@ -62,7 +62,7 @@
 		store="continentStore" query="{type:'continent'}"
 		rootId="continentRoot" rootLabel="Continents" childrenAttrs="children"></div>
 
-	<div id="right" dir="rtl" style="float: right; width: 500px;">
+	<div id="right" dir="rtl" lang="ar-eg" style="float: right; width: 500px;">
 		<h2>RTL</h2>
 
 		<div dojoType="dijit.Toolbar"
@@ -122,7 +122,7 @@
 		</div>
 	</div>
 
-	<div id="left" dir="ltr" style="width: 500px; float: left;">
+	<div id="left" dir="ltr" lang="en-us" style="width: 500px; float: left;">
 		<h2>LTR</h2>
 
 		<div dojoType="dijit.Toolbar"
