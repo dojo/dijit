@@ -90,9 +90,9 @@ dojo.declare("dijit.layout.ScrollingTabController",
 
 		// update the menuItem label when the button label is updated
 		this.pane2handles[page.id].push(
-			this.connect(this.pane2button[page.id], "attr", function(name, value){
+			this.connect(this.pane2button[page.id], "set", function(name, value){
 				if(this._postStartup){
-					if(arguments.length == 2 && name == "label"){
+					if(name == "label"){
 						if(menuItem){
 							menuItem.attr(name, value);
 						}

@@ -86,14 +86,33 @@
 						doh.is("bang", b.attr("name"));
 						doh.is("zap", b.attr("foo"));
 					},
+					function setGet(){
+						var b = new Baz();
 
-					function domAttr(){
+						// widget attribute mapped to DOM node innerHTML
+						dojo.body().appendChild(b.domNode);
+						doh.is("howdy!", b.get("name"));
+						doh.is("howdy!", b.nameNode.innerHTML);
+						b.set("name", "thinger");
+						doh.is(b.get("name"), "thinger");
+						doh.is(b.nameNode.innerHTML, "thinger");
+
+						// hash setting
+						b.set({
+							name: "bang",
+							foo: "zap"
+						});
+						doh.is("bang", b.get("name"));
+						doh.is("zap", b.get("foo"));
+					},
+
+					function domSetGet(){
 						// test setting widget attributes corresponding to DOM node attributes
 						var t = new Textbox();
-						doh.assertFalse(t.attr("disabled"));
-						t.attr("disabled", true);
+						doh.assertFalse(t.get("disabled"));
+						t.set("disabled", true);
 						doh.assertTrue(dojo.attr(t.domNode, "disabled"));
-						doh.assertTrue(t.attr("disabled"));
+						doh.assertTrue(t.get("disabled"));
 					},
 
 					function domInnerHTML(){
@@ -102,7 +121,7 @@
 							foo: "blah",
 							name: "whatever"
 						});
-						doh.is("whatever", b2.attr("name"));
+						doh.is("whatever", b2.get("name"));
 						doh.is("whatever", b2.nameNode.innerHTML);
 					},
 					function attributeMap(){

@@ -314,12 +314,10 @@ dojo.declare("dijit.layout._AccordionInnerContainer",
 
 		postCreate: function(){
 			this.inherited(arguments);
-			this.connect(this.contentWidget, 'attr', function(name, value){
-				if(arguments.length == 2){
-					var mappedName = {title: "label", tooltip: "title", iconClass: "iconClass"}[name];
-					if(mappedName){
-						this.button.attr(mappedName, value);
-					}
+			this.connect(this.contentWidget, 'set', function(name, value){
+				var mappedName = {title: "label", tooltip: "title", iconClass: "iconClass"}[name];
+				if(mappedName){
+					this.button.attr(mappedName, value);
 				}
 			}, this);
 		},

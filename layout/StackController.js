@@ -84,18 +84,16 @@ dojo.declare(
 				}, refNode);
 				dijit.setWaiState(button.focusNode,"selected", "false");
 				this.pane2handles[page.id] = [
-					this.connect(page, 'attr', function(name, value){
-						if(arguments.length == 2){
-							var buttonAttr = {
-								title: 'label',
-								showTitle: 'showLabel',
-								iconClass: 'iconClass',
-								closable: 'closeButton',
-								tooltip: 'title'
-							}[name];
-							if(buttonAttr){
-								button.attr(buttonAttr, value);
-							}
+					this.connect(page, 'set', function(name, value){
+						var buttonAttr = {
+							title: 'label',
+							showTitle: 'showLabel',
+							iconClass: 'iconClass',
+							closable: 'closeButton',
+							tooltip: 'title'
+						}[name];
+						if(buttonAttr){
+							button.attr(buttonAttr, value);
 						}
 					}),
 					this.connect(button, 'onClick', dojo.hitch(this,"onButtonClick", page)),

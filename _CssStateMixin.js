@@ -242,8 +242,8 @@ dojo.declare("dijit._CssStateMixin", [], {
 
 		// Just in case widget is enabled/disabled while it has focus/hover/active state.
 		// Maybe this is overkill.
-		this.connect(this, "attr", function(name, value){
-			if(arguments.length == 2 && (name == "disabled" || name == "readOnly")){
+		this.connect(this, "set", function(name, value){
+			if(name == "disabled" || name == "readOnly"){
 				setClass();
 			}
 		});

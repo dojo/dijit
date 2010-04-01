@@ -3,7 +3,6 @@ dojo.provide("dijit._Widget");
 //>>excludeStart("dijitBaseExclude", kwArgs.customDijitBase == "true");
 dojo.require( "dijit._base" );
 //>>excludeEnd("dijitBaseExclude");
-dojo.require( "dojo.Stateful" );
 
 
 // This code is to assist deferring dojo.connect() calls in widgets (connecting to events on the widgets'
@@ -61,7 +60,7 @@ var _attrReg = {},	// cached results from getSetterAttributes
 		return _attrReg[dc] || [];	// String[]
 	};
 
-dojo.declare("dijit._Widget", dojo.Stateful, {
+dojo.declare("dijit._Widget", null, {
 	// summary:
 	//		Base class for all Dijit widgets.
 
@@ -853,11 +852,7 @@ dojo.declare("dijit._Widget", dojo.Stateful, {
 		//		- what relationship should setAttribute()/attr() have to
 		//		layout() calls?
 		var args = arguments.length;
-		if(args == 1 && !dojo.isString(name)){
-			for(var x in name){ this.set(x, name[x]); }
-			return this;
-		}
-		if(args >= 2){ // setter
+		if(args >= 2 || typeof name === "object"){ // setter
 			return this.set.apply(this, arguments);
 		}else{ // getter
 			return this.get(name);
@@ -870,6 +865,10 @@ dojo.declare("dijit._Widget", dojo.Stateful, {
 	},
 	
 	set: function(name, value){
+		if(typeof name === "object"){
+			for(var x in name){ this.set(x, name[x]); }
+			return this;
+		}
 		var names = this._getAttrNames(name);
 		if(this[names.s]){
 			// use the explicit setter
@@ -882,9 +881,6 @@ dojo.declare("dijit._Widget", dojo.Stateful, {
 			var oldValue = this[name];
 			// FIXME: what about function assignments? Any way to connect() here?
 			this[name] = value;
-		}
-		if(this._watchCallbacks){
-			this._watchCallbacks(name, oldValue, value);
 		}
 		return result || this;
 	},
