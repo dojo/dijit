@@ -276,7 +276,7 @@ dojo.declare("dijit._TimePicker",
 
 			// in non-IE browser the "mouseenter" event will become "mouseover", 
 			// but in IE it's still "mouseenter"
-			dojo.toggleClass(e.currentTarget, "dijitButtonNodeHover",
+			dojo.toggleClass(e.currentTarget, e.currentTarget == this.upArrow ? "dijitUpArrowHover" : "dijitDownArrowHover", 
 				e.type == "mouseenter" || e.type == "mouseover");
 		},
 
