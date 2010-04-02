@@ -109,7 +109,7 @@
  								doh.robot.sequence(d.getTestCallback(function(){
 									//Now check the state!
 									var val = editor0.attr("value");
-									doh.assertTrue(val.indexOf("DOJO") > 0);
+									doh.assertTrue(val.indexOf("DOJO") >= 0);
 									doh.assertTrue(val.indexOf("notdojo") < 0)
 								}), 500);
 							}catch(e){
