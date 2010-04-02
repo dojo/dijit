@@ -142,19 +142,18 @@ dojo.declare("dijit._editor._Plugin", null, {
 		// FIXME: prevent creating this if we don't need to (i.e., editor can't handle our command)
 		this._initButton();
 
-		// FIXME: wire up editor to button here!
-		if(this.command.length &&
-			!this.editor.queryCommandAvailable(this.command)){
-			// console.debug("hiding:", this.command);
-			if(this.button){
-				this.button.domNode.style.display = "none";
+		// Processing for buttons that execute by calling editor.execCommand()
+		if(this.button && this.useDefaultCommand){
+			if(this.editor.queryCommandAvailable(this.command)){
+				this.connect(this.button, "onClick",
+					dojo.hitch(this.editor, "execCommand", this.command, this.commandArg)
+				);
+			}else{
+				// hide button because editor doesn't support command (due to browser limitations)
+				this.button.domNode.style.display = "none";			
 			}
 		}
-		if(this.button && this.useDefaultCommand){
-			this.connect(this.button, "onClick",
-				dojo.hitch(this.editor, "execCommand", this.command, this.commandArg)
-			);
-		}
+
 		this.connect(this.editor, "onNormalizedDisplayChanged", "updateState");
 	},
 
