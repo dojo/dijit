@@ -45,12 +45,12 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 		======*/
 
 		// value: Number
-		//		The value of this NumberTextBox as a javascript Number (ie, not a String).
+		//		The value of this NumberTextBox as a Javascript Number (i.e., not a String).
 		//		If the displayed value is blank, the value is NaN, and if the user types in
 		//		an gibberish value (like "hello world"), the value is undefined
 		//		(i.e. attr('value') returns undefined).
 		//
-		//		Symetrically, attr('value', NaN) will clear the displayed value,
+		//		Symmetrically, attr('value', NaN) will clear the displayed value,
 		//		whereas attr('value', undefined) will have no effect.
 		value: NaN,
 
