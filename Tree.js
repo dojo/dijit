@@ -360,7 +360,7 @@ dojo.declare(
 		if(this == tree.rootNode){
 			var fc = this.tree.showRoot ? this : this.getChildren()[0];
 			if(fc){
-				fc.setSelected(true);
+				fc.setFocusable(true);
 				tree.lastFocused = fc;
 			}else{
 				// fallback: no nodes in tree so focus on Tree <div> itself
@@ -413,10 +413,19 @@ dojo.declare(
 		// description:
 		//		In particular, setting a node as selected involves setting tabIndex
 		//		so that when user tabs to the tree, focus will go to that node (only).
-		var labelNode = this.labelNode;
-		labelNode.setAttribute("tabIndex", selected ? "0" : "-1");
-		dijit.setWaiState(labelNode, "selected", selected);
+		dijit.setWaiState(this.labelNode, "selected", selected);
 		dojo.toggleClass(this.rowNode, "dijitTreeRowSelected", selected);
+	},
+
+	setFocusable: function(/*Boolean*/ selected){
+		// summary:
+		//		A Tree has a (single) node that's focusable.
+		//		Mark that this node is/isn't that currently focsuable node.
+		// description:
+		//		In particular, setting a node as selected involves setting tabIndex
+		//		so that when user tabs to the tree, focus will go to that node (only).
+
+		this.labelNode.setAttribute("tabIndex", selected ? "0" : "-1");
 	},
 
 	_onClick: function(evt){
@@ -773,24 +782,27 @@ dojo.declare(
 		//		Select a tree node related to passed item.
 		//		WARNING: if model use multi-parented items or desired tree node isn't already loaded
 		//		behavior is not granted. Use 'path' attr instead for full support.
+
+		if(this.selectedNode && !this.selectedNode._destroyed){
+			this.selectedNode.setSelected(false);
+			this.selectedNode = null;
+		}
+
 		var oldValue = this.attr("selectedItem");
 		var identity = (!item || dojo.isString(item)) ? item : this.model.getIdentity(item);
 		if(identity == oldValue ? this.model.getIdentity(oldValue) : null){ return; }
 		var nodes = this._itemNodesMap[identity];
 		if(nodes && nodes.length){
 			//select the first item
-			this.focusNode(nodes[0]);
-		}else if(this.lastFocused){
-			// Select none so deselect current
-			this.lastFocused.setSelected(false);
-			this.lastFocused = null;
+			this.selectedNode = nodes[0];
+			this.selectedNode.setSelected(true);
 		}
 	},
 
 	_getSelectedItemAttr: function(){
 		// summary:
 		//		Return item related to selected tree node.
-		return this.lastFocused && this.lastFocused.item;
+		return this.selectedNode && this.selectedNode.item;
 	},
 
 	_setPathAttr: function(/*Item[] || String[]*/ path){
@@ -798,6 +810,10 @@ dojo.declare(
 		//		Select the tree node identified by passed path.
 		// path:
 		//		Array of items or item id's
+
+		if(this.selectedNode && !this.selectedNode._destroyed){
+			this.selectedNode.setSelected(false);
+		}
 
 		if(!path || !path.length){ return; }
 
@@ -839,9 +855,8 @@ dojo.declare(
 					this._expandNode(node).addCallback(dojo.hitch(this, advance));
 				}else{
 					// Final destination node, select it
-					if(this.lastFocused != node){
-						this.focusNode(node);
-					}
+					node.setSelected(true);
+					this.selectedNode = node;
 				}
 			}
 
@@ -852,9 +867,9 @@ dojo.declare(
 	_getPathAttr: function(){
 		// summary:
 		//		Return an array of items that is the path to selected tree node.
-		if(!this.lastFocused){ return; }
+		if(!this.selectedNode){ return; }
 		var res = [];
-		var treeNode = this.lastFocused;
+		var treeNode = this.selectedNode;
 		while(treeNode && treeNode !== this.rootNode){
 			res.unshift(treeNode.item);
 			treeNode = treeNode.getParent();
@@ -1376,14 +1391,14 @@ dojo.declare(
 		//		It marks that the current node is the selected one, and the previously
 		//		selected node no longer is.
 
-		if(node){
-			if(node != this.lastFocused && this.lastFocused && !this.lastFocused._destroyed){
-				// mark that the previously selected node is no longer the selected one
-				this.lastFocused.setSelected(false);
+		if(node && node != this.lastFocused){
+			if(this.lastFocused && !this.lastFocused._destroyed){
+				// mark that the previously focsable node is no longer focusable
+				this.lastFocused.setFocusable(false);
 			}
 
 			// mark that the new node is the currently selected one
-			node.setSelected(true);
+			node.setFocusable(true);
 			this.lastFocused = node;
 		}
 	},
