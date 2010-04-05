@@ -781,22 +781,13 @@ dojo.declare(
 		// summary:
 		//		Select a tree node related to passed item.
 		//		WARNING: if model use multi-parented items or desired tree node isn't already loaded
-		//		behavior is not granted. Use 'path' attr instead for full support.
-
-		if(this.selectedNode && !this.selectedNode._destroyed){
-			this.selectedNode.setSelected(false);
-			this.selectedNode = null;
-		}
+		//		behavior is undefined. Use attr('path', ...) instead.
 
 		var oldValue = this.attr("selectedItem");
 		var identity = (!item || dojo.isString(item)) ? item : this.model.getIdentity(item);
 		if(identity == oldValue ? this.model.getIdentity(oldValue) : null){ return; }
 		var nodes = this._itemNodesMap[identity];
-		if(nodes && nodes.length){
-			//select the first item
-			this.selectedNode = nodes[0];
-			this.selectedNode.setSelected(true);
-		}
+		this._selectNode((nodes && nodes[0]) || null);	//select the first item
 	},
 
 	_getSelectedItemAttr: function(){
@@ -811,10 +802,7 @@ dojo.declare(
 		// path:
 		//		Array of items or item id's
 
-		if(this.selectedNode && !this.selectedNode._destroyed){
-			this.selectedNode.setSelected(false);
-		}
-
+		this._selectNode(null);
 		if(!path || !path.length){ return; }
 
 		// If this is called during initialization, defer running until Tree has finished loading
@@ -855,8 +843,7 @@ dojo.declare(
 					this._expandNode(node).addCallback(dojo.hitch(this, advance));
 				}else{
 					// Final destination node, select it
-					node.setSelected(true);
-					this.selectedNode = node;
+					this._selectNode(node);
 				}
 			}
 
@@ -1017,6 +1004,7 @@ dojo.declare(
 
 	_onEnterKey: function(/*Object*/ message, /*Event*/ evt){
 		this._publish("execute", { item: message.item, node: message.node } );
+		this._selectNode(message.node);
 		this.onClick(message.item, message.node, evt);
 	},
 
@@ -1173,10 +1161,10 @@ dojo.declare(
 		// summary:
 		//		Translates click events into commands for the controller to process
 
-		var domElement = e.target;
+		var domElement = e.target,
+			isExpandoClick = (domElement == nodeWidget.expandoNode || domElement == nodeWidget.expandoNodeText);
 
-		if( (this.openOnClick && nodeWidget.isExpandable) ||
-			(domElement == nodeWidget.expandoNode || domElement == nodeWidget.expandoNodeText) ){
+		if( (this.openOnClick && nodeWidget.isExpandable) || isExpandoClick ){
 			// expando node was clicked, or label of a folder node was clicked; open it
 			if(nodeWidget.isExpandable){
 				this._onExpandoClick({node:nodeWidget});
@@ -1186,16 +1174,19 @@ dojo.declare(
 			this.onClick(nodeWidget.item, nodeWidget, e);
 			this.focusNode(nodeWidget);
 		}
+		if(!isExpandoClick){
+			this._selectNode(nodeWidget);
+		}
 		dojo.stopEvent(e);
 	},
 	_onDblClick: function(/*TreeNode*/ nodeWidget, /*Event*/ e){
 		// summary:
 		//		Translates double-click events into commands for the controller to process
 
-		var domElement = e.target;
+		var domElement = e.target,
+			isExpandoClick = (domElement == nodeWidget.expandoNode || domElement == nodeWidget.expandoNodeText);
 
-		if( (this.openOnDblClick && nodeWidget.isExpandable) ||
-			(domElement == nodeWidget.expandoNode || domElement == nodeWidget.expandoNodeText) ){
+		if( (this.openOnDblClick && nodeWidget.isExpandable) ||isExpandoClick ){
 			// expando node was clicked, or label of a folder node was clicked; open it
 			if(nodeWidget.isExpandable){
 				this._onExpandoClick({node:nodeWidget});
@@ -1204,6 +1195,9 @@ dojo.declare(
 			this._publish("execute", { item: nodeWidget.item, node: nodeWidget, evt: e } );
 			this.onDblClick(nodeWidget.item, nodeWidget, e);
 			this.focusNode(nodeWidget);
+		}
+		if(!isExpandoClick){
+			this._selectNode(nodeWidget);
 		}
 		dojo.stopEvent(e);
 	},
@@ -1381,6 +1375,21 @@ dojo.declare(
 
 		// set focus so that the label will be voiced using screen readers
 		dijit.focus(node.labelNode);
+	},
+
+	_selectNode: function(/*_tree.Node*/ node){
+		// summary:
+		//		Mark specified node as select, and unmark currently selected node.
+		// tags:
+		//		protected
+
+		if(this.selectedNode && !this.selectedNode._destroyed){
+			this.selectedNode.setSelected(false);
+		}
+		if(node){
+			node.setSelected(true);
+		}
+		this.selectedNode = node;
 	},
 
 	_onNodeFocus: function(/*dijit._Widget*/ node){
