@@ -41,18 +41,21 @@
 		rootId="continentRoot" rootLabel="Continents" childrenAttrs="children"></div>
 
 	<h2>Tree with hardcoded root node (not corresponding to any item in the store)</h2>
-	<p>Clicking a folder node will open/close it (openOnclick==true), and clicking a leaf node will popup an alert.</p>
+	<p>
+		Clicking a folder node will open/close it (openOnclick==true),
+		and clicking a leaf node will log a message to the console.
+	</p>
 	<div dojoType="dijit.Tree" id="mytree"
 		model="continentModel" openOnClick="true" onLoad="console.log('loaded mytree (first tree)');">
 		<script type="dojo/method" event="onClick" args="item">
-			alert("Execute of node " + continentStore.getLabel(item)
+			console.log("Execute of node " + continentStore.getLabel(item)
 				+", population=" + continentStore.getValue(item, "population"));
 		</script>
 		<script type="dojo/method" event="onOpen" args="item">
-			console.log("Open of node " + continentStore.getLabel(item));
+			console.log("Open of node " + continentStore.getLabel(item)||"root");
 		</script>
 		<script type="dojo/method" event="onClose" args="item">
-			console.log("Close of node " + continentStore.getLabel(item));
+			console.log("Close of node " + continentStore.getLabel(item)||"root");
 		</script>
 	</div>
 
@@ -61,24 +64,24 @@
 	<h2>A rootless tree (no "continents" node) with context menus, and custom icons</h2>
 
 	<ul dojoType="dijit.Menu" id="tree_menu" style="display: none;">
-		<li dojoType="dijit.MenuItem" onClick="alert('Hello world');">Enabled Item</li>
+		<li dojoType="dijit.MenuItem" onClick="console.log('Hello world');">Enabled Item</li>
 		<li dojoType="dijit.MenuItem" disabled="true">Disabled Item</li>
 		<li dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCut"
-			onClick="alert('not actually cutting anything, just a test!')">Cut</li>
+			onClick="console.log('not actually cutting anything, just a test!')">Cut</li>
 		<li dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCopy"
-			onClick="alert('not actually copying anything, just a test!')">Copy</li>
+			onClick="console.log('not actually copying anything, just a test!')">Copy</li>
 		<li dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconPaste"
-			onClick="alert('not actually pasting anything, just a test!')">Paste</li>
+			onClick="console.log('not actually pasting anything, just a test!')">Paste</li>
 		<li dojoType="dijit.PopupMenuItem">
 			<span>Enabled Submenu</span>
 			<ul dojoType="dijit.Menu" id="submenu2">
-				<li dojoType="dijit.MenuItem" onClick="alert('Submenu 1!')">Submenu Item One</li>
-				<li dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">Submenu Item Two</li>
+				<li dojoType="dijit.MenuItem" onClick="console.log('Submenu 1!')">Submenu Item One</li>
+				<li dojoType="dijit.MenuItem" onClick="console.log('Submenu 2!')">Submenu Item Two</li>
 				<li dojoType="dijit.PopupMenuItem">
 					<span>Deeper Submenu</span>
 					<ul dojoType="dijit.Menu" id="submenu4">
-						<li dojoType="dijit.MenuItem" onClick="alert('Sub-submenu 1!')">Sub-sub-menu Item One</li>
-						<li dojoType="dijit.MenuItem" onClick="alert('Sub-submenu 2!')">Sub-sub-menu Item Two</li>
+						<li dojoType="dijit.MenuItem" onClick="console.log('Sub-submenu 1!')">Sub-sub-menu Item One</li>
+						<li dojoType="dijit.MenuItem" onClick="console.log('Sub-submenu 2!')">Sub-sub-menu Item Two</li>
 					</ul>
 				</li>
 			</ul>
@@ -86,8 +89,8 @@
 		<li dojoType="dijit.PopupMenuItem" disabled="true">
 			<span>Disabled Submenu</span>
 			<ul dojoType="dijit.Menu" id="submenu3" style="display: none;">
-				<li dojoType="dijit.MenuItem" onClick="alert('Submenu 1!')">Submenu Item One</li>
-				<li dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">Submenu Item Two</li>
+				<li dojoType="dijit.MenuItem" onClick="console.log('Submenu 1!')">Submenu Item One</li>
+				<li dojoType="dijit.MenuItem" onClick="console.log('Submenu 2!')">Submenu Item Two</li>
 			</ul>
 		</li>
 	</ul>
@@ -120,13 +123,16 @@
                     "noteIcon";
 		</script>
 		<script type="dojo/method" event="onClick" args="item">
-			alert("Execute of node " + this.model.getLabel(item)
+			console.log("Execute of node " + this.model.getLabel(item)
 				+", population=" + continentStore.getValue(item, "population"));
 		</script>
 </div>
 
 	<h2>Double click, expand on load, direct style setting, tooltip test</h2>
-	<p>Double-Clicking a folder node will open/close it (openOnDblClick==true), and clicking or Double Clicking a leaf node will popup an alert.</p>
+	<p>
+		Double-Clicking a folder node will open/close it (openOnDblClick==true),
+		and clicking or Double Clicking a leaf node will log a message to the console.
+	</p>
 	<div dojoType="dijit.Tree" id="mytree3" store="continentStore" query="{type:'continent'}"
 		label="Continents" openOnClick="false" openOnDblClick="true"
 		autoExpand="true" onLoad="console.log('loaded mytree3 (third tree)');">
@@ -158,7 +164,7 @@
 			return item && ("Tooltip for " + this.model.getLabel(item));
 		</script>
 		<script type="dojo/method" event="onDblClick" args="item">
-			alert("Execute of node " + this.model.getLabel(item)
+			console.log("Execute of node " + this.model.getLabel(item)
 				+", population=" + continentStore.getValue(item, "population"));
 		</script>
 	</div>
