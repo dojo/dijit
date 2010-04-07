@@ -1,0 +1,181 @@
+/* claro/form/Common.css */
+
+/*========================= common css =========================*/
+
+/* 'dijitTextBox' refers to 'dijit(TextBox|DateTextBox|CurrencyTextBox|...)' */
+
+.claro .dijitTextBoxError .dijitValidationIcon {
+	display: block;
+	background: transparent url('images/error.png') repeat-y top center;
+	border: solid #d46464 0px;
+	border-left-width: 1px;
+	width: 4px;
+	padding: 2px 3px 2px 2px;
+}
+
+/* .dijitInputField .dijitPlaceHolder is explicitly listed below because
+   dijitPlaceHolder is absolutely positioned, so padding set on dijitInputField
+   won't affect it */
+.claro .dijitInputField,
+.claro .dijitTextArea,
+.claro .dijitInputField .dijitPlaceHolder {
+	padding: 2px 2px 2px 2px;
+}
+.dj_ie6 .claro .dijitInputField,
+.dj_ie7 .claro .dijitInputField {
+	padding-bottom: 1px;
+}
+
+.claro .dijitTextBox,
+.claro .dijitTextBox .dijitButtonNode {
+	/* color for (outer) border on *TextBox widgets, and border between input and buttons on ComboBox and Spinner */
+	border-color: #b5bcc7;
+	-webkit-transition-property:background-color, border;
+ 	-webkit-transition-duration:.35s;
+}
+.claro .dijitTextBox {
+	background-color: #f7fcff;
+}
+
+/* hover */
+.claro .dijitTextBoxHover,
+.claro .dijitTextBoxHover .dijitButtonNode {
+	border-color: #769dc0;
+ 	-webkit-transition-duration:.25s;
+}
+.claro .dijitTextBoxHover {
+	background-color: #e9f4fe;
+	background-image: url('images/textBox_back.png');
+	background-repeat: repeat-x;
+}
+
+/* error state */
+.claro .dijitTextBoxError,
+.claro .dijitTextBoxError .dijitButtonNode {
+	border-color: #d46464;
+}
+.claro .dijitTextBoxError,
+.claro .dijitTextBoxError .dijitInputField {
+	background-color: #fdf7f7;
+	background-image: none;
+}
+
+/* focused state */
+.claro .dijitTextBoxFocused,
+.claro .dijitTextBoxFocused .dijitButtonNode {
+	border-color:#769dc0;
+ 	-webkit-transition-duration:.1s;
+}
+.claro .dijitTextBoxFocused {
+	background-color: #fff;
+	background-image: url('images/textBox_back.png');
+	background-repeat: repeat-x;
+}
+.claro .dijitTextBoxFocused .dijitInputField {
+	background: #fff;
+}
+
+.claro .dijitTextBoxErrorFocused,
+.claro .dijitTextBoxErrorFocused .dijitButtonNode {
+	border-color: #ce4f4f;
+}
+
+/* disabled state */
+.claro .dijitTextBoxDisabled,
+.claro .dijitTextBoxDisabled .dijitButtonNode {
+	border-color: #d3d3d3;
+}
+.claro .dijitTextBoxDisabled {
+	background-color: #efefef;
+	background-image: none;
+	color: #818181;
+}
+
+/*========================= for special widgets =========================*/
+
+.claro .dijitComboBox .dijitArrowButtonInner {
+	background-image: url("images/commonFormArrows.png");
+	background-position:-35px 53%;
+	background-repeat: no-repeat;
+	margin: 0px;
+	padding:1px 0px;
+	width:16px;
+	height:100%;
+	border: 1px solid #fff;
+	display:block;
+}
+
+/* ComboBox */
+
+.claro .dijitComboBox input{
+	/* line up input text with menu text */
+	padding-left: 2px;
+}
+.dj_ie6 .claro .dijitComboBox input{
+	position: absolute !important;
+}
+
+.claro .dijitComboBox .dijitButtonNode {
+	background-color: #ebeef4;
+	background-image: url("images/formHighlight.png");
+	background-repeat:repeat-x;
+	padding: 0px;
+	
+	/* override Button.css.   TODO: make rule in Button.css more specific so I don't need to override here. */
+	border-radius: 0;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+}
+
+/* hover state */
+.claro .dijitComboBoxHover .dijitButtonNode {
+	background-color:#abd6ff;
+}
+.claro .dijitComboBoxHover .dijitArrowButtonInner {
+	background-position:-70px 53%;
+}
+
+/* focused state */
+.claro .dijitComboBoxFocused .dijitButtonNode {
+	background-color:#7dbefa;
+	background-position:0px -177px;
+}	
+.claro .dijitComboBoxFocused .dijitArrowButtonInner {
+	background-position:-70px 53%;
+	border:none;
+	margin:1px;
+}
+
+/* disabled state */
+.claro .dijitComboBoxDisabled .dijitArrowButtonInner {
+	/* !important to override
+	 * .claro .dijitDisabled .dijitArrowButtonInner { background-image:url("images/icon_drop_down.png"); }
+	 * from Button.css
+	 */
+	background-position:0px 50% !important;
+	background-color:#f1f1f1;
+}
+
+/*========================= hacks for browsers =========================*/
+/* it seems the input[type="hidden"] has a height (16px) too... this may cause the widget's height calcuate error */
+.dj_ff3 .claro .dijitInputField input[type="hidden"] {
+	display: none;
+	height: 0;
+	width: 0;
+}
+
+/* ie */
+.dj_ie .claro .dijitInputField input {
+	margin: 0 0 0 0;	/* override dijit.css */
+}
+
+/* ie6 doesn't support transparent background img */
+.dj_ie6 .claro .dijitTextBox,
+.dj_ie6 .claro .dijitComboBox,
+.dj_ie6 .claro .dijitComboBox .dijitButtonNode {
+	background-image: none;
+}
+.dj_ie6 .claro .dijitComboBoxFocused .dijitArrowButtonInner {
+	border: none;
+	margin: 1px; 
+}

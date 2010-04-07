@@ -1,0 +1,57 @@
+.claro .dijitTabContainerTop-tabs .dijitTabRtl,
+.claro .dijitTabContainerBottom-tabs .dijitTabRtl {
+	margin-right: 0;
+	margin-left: 1px;
+}
+.claro .dijitTabRtl {
+	-moz-box-orient:horizontal;
+	text-align: right;
+}
+.dj_ie7 .claro .dijitTabRtl .dijitTabContent {
+	display: block;
+	left: 0;
+}
+.dj_ie7 .claro .dijitTabRtl .dijitTabCloseText,
+.dj_iequirks .claro .dijitTabRtl .dijitTabCloseText {
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	float: left;
+}
+.dj_ie7 .claro .dijitTabContainerTop-tabs .dijitTabRtl,
+.dj_ie7 .claro .dijitTabContainerTop-tabs .dijitTabCheckedRtl {
+	top: 1px;
+}
+.dj_ie7 .claro .tabStripButtonRtl .dijitButtonContents,
+.dj_ie6 .claro .dijitTabContainerTop-tabs .dijitTabRtl .dijitTabInnerDiv,
+.dj_ie6 .claro .dijitTabContainerBottom-tabs .dijitTabRtl .dijitTabInnerDiv,
+.dj_ie7 .claro .dijitTabContainerTop-tabs .dijitTabRtl .dijitTabInnerDiv,
+.dj_ie7 .claro .dijitTabContainerBottom-tabs .dijitTabRtl .dijitTabInnerDiv,
+.dj_iequirks .claro .tabStripButtonRtl .dijitButtonContents,
+.dj_iequirks .claro .dijitTabContainerTop-tabs .dijitTabRtl .dijitTabInnerDiv,
+.dj_iequirks .claro .dijitTabContainerBottom-tabs .dijitTabRtl .dijitTabInnerDiv {
+	float:left;
+}
+.dj_ie6 .claro .dijitTabRtl .tabLabel,
+.dj_ie6 .claro .dijitTabContainerRight-tabs .dijitTabRtl,
+.dj_ie6 .claro .dijitTabContainerLeft-tabs .dijitTabRtl,
+.dj_ie7 .claro .dijitTabContainerRight-tabs .dijitTabRtl .dijitTabInnerDiv,
+.dj_ie7 .claro .dijitTabContainerLeft-tabs .dijitTabRtl .dijitTabInnerDiv {
+	/*Make the .tablabel have width in ie6 with haslayout property, fix Close icon position bug*/
+	zoom:1;
+}
+.dj_ie6 .claro .dijitTabRtl .dijitTabCloseIcon,
+.dj_ie7 .claro .dijitTabRtl .dijitTabCloseIcon,
+.dj_iequirks .claro .dijitTabRtl .dijitTabCloseIcon {
+	margin-right:5px;
+}
+
+.dj_ie6 .claro .dijitTabContainerRightRtl .dijitTabContainerRight-tabs,
+.dj_ie6 .claro .dijitTabContainerLeftRtl .dijitTabContainerLeft-tabs {
+	width:1%;
+}
+
+.dj_ie6 .dijitTabContainerTopStrip,
+.dj_ie6 .dijitTabContainerBottomStrip {
+	position:absolute;
+}

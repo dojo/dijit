@@ -1,0 +1,21 @@
+/* ContentPane */
+
+.claro .dijitContentPane {
+	padding: 8px;
+}		
+
+/* nested layouts */
+.claro .dijitTabContainerTop-dijitContentPane,
+.claro .dijitTabContainerLeft-dijitContentPane,
+.claro .dijitTabContainerBottom-dijitContentPane,
+.claro .dijitTabContainerRight-dijitContentPane,
+.claro .dijitAccordionContainer-dijitContentPane {
+	background-color: #fff;
+	padding: 8px;		
+}
+
+.claro .dijitSplitContainer-dijitContentPane,
+.claro .dijitBorderContainer-dijitContentPane {
+	background-color: #fff;		
+	padding: 8px;
+}
