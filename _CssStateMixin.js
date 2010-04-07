@@ -40,7 +40,7 @@ dojo.declare("dijit._CssStateMixin", [], {
 		
 		// Monitoring changes to disabled, readonly, etc. state, and update CSS class of root node
 		this.connect(this, "attr", function(name, value){
-			if(arguments.length == 2 && {disabled: true, readOnly: true, checked:true, selected:true}[name]){
+			if(arguments.length >= 2 && {disabled: true, readOnly: true, checked:true, selected:true}[name]){
 				this._setStateClass();
 			}
 		});
