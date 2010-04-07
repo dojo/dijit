@@ -952,9 +952,13 @@ img.dijitColorPaletteUnder {
 
 
 .dijit_a11y .dijitColorPalette .dijitPaletteTable,
-.dijit_a11y .dijitColorPalette .dijitPaletteCell,
-.dijit_a11y .dijitColorPalette .dijitPaletteImg {
+.dijit_a11y .dijitColorPalette .dijitPaletteTable * {
+	/* table cells are to catch events, but the swatches are in the PaletteImg behind the table */
 	background-color: transparent !important;
+}
+.dj_gecko .dijit_a11y .dijitColorPalette .dijitPaletteCellFocused .dijitPaletteImg {
+	border: 3px dotted #000;	/* focus border on table cells broken in FF high contrast :-( */
+	margin: -1px;
 }
 
 /* AccordionContainer */
