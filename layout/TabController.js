@@ -146,6 +146,18 @@ dojo.declare("dijit.layout._TabButton",
 			}
 		}
 	},
+	_setLabelAttr: function(/*String*/ content){
+		// summary:
+		//		Hook for attr('label', ...) to work.
+		// description:
+		//		takes an HTML string.
+		//		Inherited ToggleButton implementation will Set the label (text) of the button; 
+		//		Need to set the alt attribute of icon on tab buttons if no label displayed
+			this.inherited(arguments);
+			if(this.showLabel == false && !this.params.title){
+				this.iconNode.alt = dojo.trim(this.containerNode.innerText || this.containerNode.textContent || '');
+			}
+		},
 
 	destroy: function(){
 		if(this._closeMenu){
