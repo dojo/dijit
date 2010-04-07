@@ -329,13 +329,17 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 			var parent = domNode.parentNode;
 			var pingNode = domNode.firstChild || domNode; // target node most unlikely to have a custom filter
 			var origFilter = pingNode.style.filter; // save custom filter, most likely nothing
+			var _this = this;
 			while(parent && parent.clientHeight == 0){ // search for parents that haven't rendered yet
-				parent._disconnectHandle = this.connect(parent, "onscroll", dojo.hitch(this, function(e){
-					this.disconnect(parent._disconnectHandle); // only call once
-					parent.removeAttribute("_disconnectHandle"); // clean up DOM node
-					pingNode.style.filter = (new Date()).getMilliseconds(); // set to anything that's unique
-					setTimeout(function(){ pingNode.style.filter = origFilter }, 0); // restore custom filter, if any
-				}));
+				(function ping(){
+					var disconnectHandle = _this.connect(parent, "onscroll",
+						function(e){
+							_this.disconnect(disconnectHandle); // only call once
+							pingNode.style.filter = (new Date()).getMilliseconds(); // set to anything that's unique
+							setTimeout(function(){ pingNode.style.filter = origFilter }, 0); // restore custom filter, if any
+						}
+					);
+				})();
 				parent = parent.parentNode;
 			}
 		}
