@@ -35,7 +35,7 @@
 						setUp: function(){
 							// refs to Calendar widget
 					    	cal1 = dijit.byId('calendar1');
-							cal1.attr("value", new Date(2009, 8, 16));
+							cal1.set("value", new Date(2009, 8, 16));
 
 					    	// setup onChange handler to monitor onChange calls on cal1
 							dojo.connect(cal1, 'onChange', function(val){
@@ -58,7 +58,7 @@
 							doh.robot.keyPress(dojo.keys.UP_ARROW, 500, {});
 							doh.robot.keyPress(dojo.keys.UP_ARROW, 500, {});
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-								var value = cal1.attr('value');
+								var value = cal1.get('value');
 								doh.is(0, dojo.date.compare(new Date(2009, 8, 10), value), 'actual value is ' + value);
 								doh.is(6, changes.length, 'six onchange events');
 								doh.is(0, dojo.date.compare(new Date(2009, 8, 17), changes[0]),
@@ -74,7 +74,7 @@
 						setUp: function(){
 							// refs to Calendar widget
 					    	cal1 = dijit.byId('calendar1');
-							cal1.attr("value", new Date(2008, 0, 31));
+							cal1.set("value", new Date(2008, 0, 31));
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -85,7 +85,7 @@
 
 							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 500, {});
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-								var value = cal1.attr('value');
+								var value = cal1.get('value');
 								doh.is(0, dojo.date.compare(new Date(2008, 1, 29), value), 'actual value is ' + value);
 							})), 1000);
 							return d;
@@ -97,7 +97,7 @@
 						setUp: function(){
 							// refs to Calendar widget
 					    	cal1 = dijit.byId('calendar1');
-							cal1.attr("value", new Date(2008, 1, 15));
+							cal1.set("value", new Date(2008, 1, 15));
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -111,7 +111,7 @@
 							doh.robot.keyPress(dojo.keys.PAGE_UP, 500, {ctrl:true});
 							doh.robot.keyPress(dojo.keys.PAGE_UP, 500, {ctrl:true});
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-								var value = cal1.attr('value');
+								var value = cal1.get('value');
 								doh.is(0, dojo.date.compare(new Date(2007, 1, 28), value), 'actual value is ' + value);
 							})), 1000);
 							return d;

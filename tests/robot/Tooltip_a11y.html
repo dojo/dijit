@@ -172,10 +172,10 @@
 							var d = new doh.Deferred(),
 								tooltip = dijit.byId("t_tooltip");
 
-							// While we are at it, test attr('label', ...) too
-							tooltip.attr('label', 'bill was here');
+							// While we are at it, test set('label', ...) too
+							tooltip.set('label', 'bill was here');
 
-							var connectIds = tooltip.attr("connectId");
+							var connectIds = tooltip.get("connectId");
 							doh.is(2, connectIds.length, "2 connect ids initially");
 							doh.is("t1", connectIds[0]);
 							doh.is("t3", connectIds[1]);
@@ -255,7 +255,7 @@
 
 							tooltip.addTarget("t2");
 
-							var connectIds = tooltip.attr("connectId");
+							var connectIds = tooltip.get("connectId");
 							doh.is(3, connectIds.length, "3 connect ids");
 							doh.is("t1", connectIds[0]);
 							doh.is("t3", connectIds[1]);
@@ -282,7 +282,7 @@
 								around = dojo.byId("t3");
 
 							tooltip.removeTarget("t3");
-							var connectIds = tooltip.attr("connectId");
+							var connectIds = tooltip.get("connectId");
 							doh.is(2, connectIds.length, "2 connect ids");
 							doh.is("t1", connectIds[0]);
 							doh.is("t2", connectIds[1]);
@@ -311,7 +311,7 @@
 							dojo.byId("t5").focus();
 
 							// Disconnecting from "t2 text", and adding "t4 text"
-							tooltip.attr("connectId", ["t3", "t4"]);
+							tooltip.set("connectId", ["t3", "t4"]);
 
 							// Focus "t2 text" and make sure tooltip doesn't show anymore
 							dojo.window.scrollIntoView(around);

@@ -189,8 +189,8 @@
 					name: "changeIcon",
 					runTest: function(t){
 						var cp =  dijit.byId("cp4");
-						cp.attr("iconClass", "noteIcon"); 
-						cp.attr("title", "note");
+						cp.set("iconClass", "noteIcon"); 
+						cp.set("title", "note");
 						
 						var menuTitle = dijit.byId("dijit_MenuItem_15").label;
 						
@@ -212,7 +212,7 @@
 					name: 'changeName',
 					runTest: function(t){
 						var cp = dijit.byId('cpTitle');
-						cp.attr('title', 'newTitle');
+						cp.set('title', 'newTitle');
 						
 						var title = dojo.query("#tc1_tablist_cpTitle span.tabLabel")[0];
 						var menuTitle = dijit.byId("dijit_MenuItem_0").label;
@@ -294,13 +294,13 @@
 						// TODO: should test actual positions of tabs vs. content, not just settings
 						t.assertEqual('top', tc.tabPosition, "tabs are on the top of the container");
 						
-						tc.attr("tabPosition", "left");						
+						tc.set("tabPosition", "left");						
 						t.assertEqual('left', tc.tabPosition, "tabs are on the left of the container");
 						
-						tc.attr("tabPosition", "right");						
+						tc.set("tabPosition", "right");						
 						t.assertEqual('right', tc.tabPosition, "tabs are on the right of the container");
 						
-						tc.attr("tabPosition", "bottom");						
+						tc.set("tabPosition", "bottom");						
 						t.assertEqual('bottom', tc.tabPosition, "tabs are on the bottom of the container");
 					}
 				},

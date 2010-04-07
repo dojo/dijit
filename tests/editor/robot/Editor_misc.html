@@ -31,7 +31,7 @@
 						setUp: function(){
 							editor0 = dijit.byId("thud");
 							height = dojo.style(editor0.domNode, "height");
-							value = editor0.attr("value");
+							value = editor0.get("value");
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -59,7 +59,7 @@
 							return d;
 						},
 						tearDown: function(){
-							if(editor0){editor0.attr("value", value);}
+							if(editor0){editor0.set("value", value);}
 						}
 					},
 					{
@@ -67,7 +67,7 @@
 						timeout: 20000,
 						setUp: function(){
 							editor0 = dijit.byId("fontSizedEditor");
-							value = editor0.attr("value");
+							value = editor0.get("value");
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -89,7 +89,7 @@
 							return d;
 						},
 						tearDown: function(){
-							if(editor0){editor0.attr("value", value);}
+							if(editor0){editor0.set("value", value);}
 						}
 					},
 					{
@@ -108,7 +108,7 @@
 
  								doh.robot.sequence(d.getTestCallback(function(){
 									//Now check the state!
-									var val = editor0.attr("value");
+									var val = editor0.get("value");
 									doh.assertTrue(val.indexOf("DOJO") >= 0);
 									doh.assertTrue(val.indexOf("notdojo") < 0)
 								}), 500);
@@ -123,7 +123,7 @@
 						timeout: 20000,
 						setUp: function(){
 							editor0 = dijit.byId("brEditor");
-							value = editor0.attr("value");
+							value = editor0.get("value");
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -138,7 +138,7 @@
 								doh.robot.typeKeys("abc", 500);
  								doh.robot.sequence(d.getTestCallback(function(){
 									//Now check the state!
-									var content = editor0.attr("value");
+									var content = editor0.get("value");
 									doh.assertTrue(content.indexOf("abc<br") >= 0);
 								}), 1000);
 							}catch(e){
@@ -147,7 +147,7 @@
 							return d;
 						},
 						tearDown: function(){
-							if(editor0){editor0.attr("value", value);}
+							if(editor0){editor0.set("value", value);}
 						}
 					}
 				]);

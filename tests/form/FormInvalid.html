@@ -24,13 +24,13 @@
             function foo(isValid){
                 var form = dijit.byId("myForm1");
                 var btn = dijit.byId("submitBtn");
-                btn.attr("disabled", !isValid);
+                btn.set("disabled", !isValid);
             }
 
             dojo.addOnLoad(function(){
                 var form = dijit.byId("myForm1");
                 dojo.connect(form, "onValidStateChange", null, foo);
-                dijit.byId("submitBtn").attr("disabled", true);
+                dijit.byId("submitBtn").set("disabled", true);
             })
         </script>
     </head>

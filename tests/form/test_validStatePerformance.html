@@ -46,9 +46,9 @@
         for (var i = 1; i <= 20; i++) {
 			    var w = dijit.byId("input1_" + i);
 			    if(dojo.version.major == 1 && dojo.version.minor == 2) {
-			      w.attr("value", i);
+			      w.set("value", i);
 			    } else {
-			      w.attr("value", i);
+			      w.set("value", i);
 			    }
 			  }
         console.log("Time 3: Inserting value into NumberTextBox-fields: " + ((new Date()).getTime() - startTime3) + " millis");
@@ -57,9 +57,9 @@
         for (var i = 1; i <= 20; i++) {
 			    var w = dijit.byId("input2_" + i);
 			    if(dojo.version.major == 1 && dojo.version.minor == 2) {
-			      w.attr("value", i);
+			      w.set("value", i);
 			    } else {
-			      w.attr("value", i);
+			      w.set("value", i);
 			    }
 			  }
         console.log("Time 4: Inserting value into ValidationTextBox-fields: " + ((new Date()).getTime() - startTime4) + " millis");

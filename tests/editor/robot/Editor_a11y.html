@@ -68,7 +68,7 @@
 							doh.robot.typeKeys(" new world.", 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								var val = normalize(editor1.attr('value'));
+								var val = normalize(editor1.get('value'));
 								doh.is("hello <b>bold</b> and <i>exciting</i> new world.", val);
 							}), 1500);
 
@@ -92,7 +92,7 @@
 							// so temporarily move to the toolbar while setting content
 							doh.robot.keyPress(dojo.keys.TAB, 500, {shift: true});	// go to toolbar
 							doh.robot.sequence(function(){
-								editor1.attr("value", "toolbar <b>state</b> <i>test</i>.")
+								editor1.set("value", "toolbar <b>state</b> <i>test</i>.")
 							}, 500);
 							doh.robot.keyPress(dojo.keys.TAB, 500);	// goes to content
 
@@ -105,11 +105,11 @@
 
 								var boldButton = toolbar.getChildren()[7];
 								doh.t(boldButton, "found bold button");
-								doh.f(boldButton.attr("checked"), "bold button not depressed");
+								doh.f(boldButton.get("checked"), "bold button not depressed");
 
 								var italicButton = toolbar.getChildren()[8];
 								doh.t(italicButton, "found italic button");
-								doh.f(italicButton.attr("checked"), "italic button not depressed");
+								doh.f(italicButton.get("checked"), "italic button not depressed");
 							}), 500);
 
 							return d;
@@ -134,11 +134,11 @@
 
 								var boldButton = toolbar.getChildren()[7];
 								doh.t(boldButton, "found bold button");
-								doh.t(boldButton.attr("checked"), "bold button depressed");
+								doh.t(boldButton.get("checked"), "bold button depressed");
 
 								var italicButton = toolbar.getChildren()[8];
 								doh.t(italicButton, "found italic button");
-								doh.f(italicButton.attr("checked"), "italic button not depressed");
+								doh.f(italicButton.get("checked"), "italic button not depressed");
 							}), 1000);
 
 							return d;
@@ -164,11 +164,11 @@
 
 								var boldButton = toolbar.getChildren()[7];
 								doh.t(boldButton, "found bold button");
-								doh.f(boldButton.attr("checked"), "bold button not depressed");
+								doh.f(boldButton.get("checked"), "bold button not depressed");
 
 								var italicButton = toolbar.getChildren()[8];
 								doh.t(italicButton, "found italic button");
-								doh.t(italicButton.attr("checked"), "italic button depressed");
+								doh.t(italicButton.get("checked"), "italic button depressed");
 							}), 1000);
 
 							return d;
@@ -205,7 +205,7 @@
 								// Get the value and try to do some normalization to make all browsers look
 								// the same.   Would be nice if we didn't need this, the normalization should
 								// probably happen as pre and post filters on the editor
-								var val = normalize(editor1.attr('value'));
+								var val = normalize(editor1.get('value'));
 								doh.is("hello <b>world</b>", val);
 							}), 1000);
 

@@ -37,7 +37,7 @@
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 							
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-								var val = dojo.date.stamp.toISOString(w.attr('value'), {selector: "time"});	
+								var val = dojo.date.stamp.toISOString(w.get('value'), {selector: "time"});	
 								doh.is(val, "T18:00:00", "should be 6PM");
 							})), 500);
 							return d;
@@ -49,7 +49,7 @@
 						setUp: function(){
 							// clear the field
 							var w = dijit.byId('q2');
-							w.attr('value', null, false);
+							w.set('value', null, false);
 						},
 						runTest: function(){
 							var d = new doh.Deferred(),

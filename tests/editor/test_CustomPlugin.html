@@ -74,8 +74,8 @@
 						this.sourceArea.style.top = "-999px";
 					}
 
-					this.editor.attr('disabled', this.source); // conditionally disable toolbar -- FIXME. Doesn't work.
-					this.button.attr('label', this.source ? "View WYSIWYG" : this.editor.commands[this.command]); // note: should be localized
+					this.editor.set('disabled', this.source); // conditionally disable toolbar -- FIXME. Doesn't work.
+					this.button.set('label', this.source ? "View WYSIWYG" : this.editor.commands[this.command]); // note: should be localized
 				}
 			}
 		);

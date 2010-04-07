@@ -43,7 +43,7 @@
 		});
 
 		function updateDynamicIds(){
-			dojo.byId("t_connected_id").innerHTML = "Tooltip connected with nodes: " + dijit.byId("t_tooltip").attr("connectId");
+			dojo.byId("t_connected_id").innerHTML = "Tooltip connected with nodes: " + dijit.byId("t_tooltip").get("connectId");
 		}
 		function addDynamicTarget(id){
 			dijit.byId("t_tooltip").addTarget(id);

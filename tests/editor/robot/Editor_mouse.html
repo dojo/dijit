@@ -94,7 +94,7 @@
 								// Get the value and try to do some normalization to make all browsers look
 								// the same.   Would be nice if we didn't need this, the normalization should
 								// probably happen as pre and post filters on the editor
-								var val = normalize(editor1.attr('value'));
+								var val = normalize(editor1.get("value"));
 								doh.is("hello <b>world</b>. <i>how are you</i>?", val);
 							}), 5000);
 
@@ -126,7 +126,7 @@
 							}
 	
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("hello. <i>how are you</i>?", normalize(editor1.attr('value')));
+								doh.is("hello. <i>how are you</i>?", normalize(editor1.get("value")));
 							}),500);
 
 							return d;

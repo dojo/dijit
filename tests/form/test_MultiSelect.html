@@ -84,9 +84,9 @@
 
 			// there is only one debug button
 			dojo.query(".debug").connect("onclick",function(e){
-				console.log('select value:',dijit.byId("select").attr('value'));
-				console.log('select2 value:',dijit.byId("select2").attr('value'));
-				console.log('select3 value:',dijit.byId("select3").attr('value'));
+				console.log('select value:',dijit.byId("select").get('value'));
+				console.log('select2 value:',dijit.byId("select2").get('value'));
+				console.log('select3 value:',dijit.byId("select3").get('value'));
 			});
 
 			// natural form reaction:
@@ -135,7 +135,7 @@
 
 		</form>
 
-		<button class="debug">call attr('value')</button>
+		<button class="debug">call get('value')</button>
 
 		<h3><label for="select3">markup:</label></h3>
 
@@ -153,6 +153,6 @@
 
 		<br><br>
 		<button class='invert' id="i3">invert markup list</button>
-		<button class='set' id="s1" onclick="dijit.byId('select3').attr('value', ['VA', 'WA']);">set markup list to [VA, WA]</button>
+		<button class='set' id="s1" onclick="dijit.byId('select3').set('value', ['VA', 'WA']);">set markup list to [VA, WA]</button>
 </body>
 </html>

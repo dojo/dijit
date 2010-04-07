@@ -48,7 +48,7 @@
 	<p class="box">
 		<button id="button" onclick="console.log('clicked native button');">&lt;button&gt;</button>
 		<input id="input" type="button" value="&lt;input type='button'&gt;" onclick="console.log('clicked native input button');">
-		<button id="1465" dojoType="dijit.form.Button" onClick='console.log("clicked simple");' iconClass="plusIcon" value="Create">
+		<button id="1465" dojoType="dijit.form.Button" style="height:200px" height="300px" onClick='console.log("clicked simple");' iconClass="plusIcon" value="Create">
 			Create
 		</button>
 		<span dojoType="dijit.Tooltip" connectId="1465">tooltip on button</span>
@@ -202,7 +202,7 @@
 	<h2>Toggle buttons</h2>
 	<p>The button CSS as well as the icon CSS can change on toggle </p>
 	<div class="box">
-		<button dojoType="dijit.form.ToggleButton" id="toggle1" checked onChange="console.log('toggled button checked='+arguments[0]);this.attr('label',arguments[0] ==
+		<button dojoType="dijit.form.ToggleButton" id="toggle1" checked onChange="console.log('toggled button checked='+arguments[0]);this.set('label',arguments[0] ==
 		true ? 'toggle me off' : 'toggle me on');" iconClass="dijitCheckBoxIcon">
 			Toggle me off
 		</button>
@@ -298,7 +298,7 @@
 		var disabled = false;
 		function toggleDisabled(){
 			disabled =! disabled;
-			forEachButton(function(widget){ widget.attr('disabled',disabled); });
+			forEachButton(function(widget){ widget.set('disabled',disabled); });
 			dojo.byId("toggle").innerHTML= disabled ? "Enable all" : "Disable all";
 		}
 		var labels=["<img src='../images/note.gif' width='20' height='20'>All", "<i>work</i>", "and no", "<h1>play</h1>",
@@ -307,12 +307,12 @@
 		var idx = 0;
 		function changeLabels(){
 			forEachButton(function(widget){
-				widget.attr('label', labels[idx++ % labels.length]);
+				widget.set('label', labels[idx++ % labels.length]);
 			});
 		}
 		function getLabels(){
 			forEachButton(function(widget){
-				console.log(widget.attr('label'));
+				console.log(widget.get('label'));
 			});
 		}
 	</script>
@@ -337,7 +337,7 @@
 				label: "hello!",
 				name: "programmatic"
 			});
-			widget2.attr("label", "i'm programmatic too");	// change label (for testing)
+			widget2.set("label", "i'm programmatic too");	// change label (for testing)
 			widget2.placeAt("buttonContainer");	// place in page
 		});
 	</script>

@@ -73,8 +73,8 @@
 								// getValue() should call the post-filter which recombines the separate <p> nodes into bigger
 								// paragraphs.
 								doh.is('<p>para 1<br />line 2</p><p>para 2<br />line 2</p>',
-										dijit.byId("br").attr('value'),
-										"attr('value')");
+										dijit.byId("br").get('value'),
+										"get('value')");
 
 								// Make sure that the post-filter didn't corrupt the data inside the editor
 								doh.is('<p>para 1</p><p>line 2</p><p>&nbsp;</p><p>para 2</p><p>line 2</p>',
@@ -98,7 +98,7 @@
 
 								var br = dijit.byId("br");
 
-								br.attr("value", "ab345<br>ab345<br>ab345<br>ab345<br>");
+								br.set("value", "ab345<br>ab345<br>ab345<br>ab345<br>");
 
 								// Pre-filter should internally convert it to have a <p> for each line
 								// of text.
@@ -108,8 +108,8 @@
 								// getValue() should call the post-filter which recombines the separate <p> nodes into bigger
 								// paragraphs.
 								doh.is('<p>ab345<br/>ab345<br/>ab345<br/>ab345</p>',
-										dijit.byId("br").attr('value'),
-										"attr('value')");
+										dijit.byId("br").get('value'),
+										"get('value')");
 							}
 						},
 						********/
@@ -122,7 +122,7 @@
 								var d = new doh.Deferred();
 
 								var br = dijit.byId("br");
-								br.attr("value", "");
+								br.set("value", "");
 								br.focus();
 
 								// tab to the MenuBar... then focus should automatically shift to "File" menu,
@@ -136,11 +136,11 @@
 											dom2string(br.editNode),
 											"innerHTML of editor (should have converted each line of text to a separate <p>)");
 
-									// attr('value') should call the post-filter which recombines the separate <p> nodes into bigger
+									// get('value') should call the post-filter which recombines the separate <p> nodes into bigger
 									// paragraphs.
 									doh.is('<p>ab345<br />ab345<br />ab345<br />ab345</p>',
-											br.attr('value'),
-											"attr('value')");
+											br.get('value'),
+											"get('value')");
 								}), 500);
 
 								return d;

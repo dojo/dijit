@@ -141,17 +141,17 @@
 			doh.register("CheckBox values",
 				[
 					function getValues(){
-						doh.is( dojo.toJson(originalGet), dojo.toJson(formWidget.attr('value')) );
+						doh.is( dojo.toJson(originalGet), dojo.toJson(formWidget.get('value')) );
 					},
 					submitForm("original submit", originalSubmit),
 					function setValues(){
-						formWidget.attr('value', change);
-						doh.is( dojo.toJson(changedGet), dojo.toJson(formWidget.attr('value')) );
+						formWidget.set('value', change);
+						doh.is( dojo.toJson(changedGet), dojo.toJson(formWidget.get('value')) );
 					},
 					submitForm("changed submit", changedSubmit),
 					function resetValues(){
 						formWidget.reset();
-						doh.is( dojo.toJson(originalGet), dojo.toJson(formWidget.attr('value')), "reset to original values" );
+						doh.is( dojo.toJson(originalGet), dojo.toJson(formWidget.get('value')), "reset to original values" );
 					},
 					submitForm("reset submit", originalSubmit)
 				]
@@ -163,7 +163,7 @@
 						var d = new doh.Deferred();
 						var cb = dijit.byId('cb2');
 						var lastOnChange = dojo.byId('oncheckedoutput').innerHTML;
-						cb.attr('checked', !cb.attr('checked'));
+						cb.set('checked', !cb.get('checked'));
 						setTimeout(d.getTestCallback(function(){
 							doh.isNot(lastOnChange, dojo.byId('oncheckedoutput').innerHTML);
 						}), 0);
@@ -174,7 +174,7 @@
 						var d = new doh.Deferred();
 						var cb = dijit.byId('cb2');
 						var lastOnChange = dojo.byId('oncheckedoutput').innerHTML;
-						cb.attr('checked', !cb.attr('checked'), false);
+						cb.set('checked', !cb.get('checked'), false);
 						setTimeout(d.getTestCallback(function(){
 							doh.is(lastOnChange, dojo.byId('oncheckedoutput').innerHTML);
 						}), 0);
@@ -200,14 +200,14 @@
 		<input type="checkbox" id="cb0" checked/>
 			<label for="cb0">cb0: Vanilla (non-dojo) checkbox (for comparison purposes)</label>
 		<br>
-		<input name="cb1" id="cb1" value="foo" dojoType="dijit.form.CheckBox" onClick="console.log('clicked cb1')">
+		<input name="cb1" id="cb1" jsid="cb1" value="foo" dojoType="dijit.form.CheckBox" onClick="console.log('clicked cb1')">
 			<label for="cb1">cb1: normal checkbox, with value=foo, clicking generates console log messages</label>
-			<button type=button onclick="alert(dijit.byId('cb1').attr('value'));">attr('value')</button>
+			<button type=button onclick="alert(dijit.byId('cb1').get('value'));">get('value')</button>
 		<br>
 		<input onChange="reportChecked" name="cb2" id="cb2" dojoType="dijit.form.CheckBox" checked="checked"/>
 			<label for="cb2">cb2: normal checkbox, with default value, initially turned on.</label>
 			<span>"onChange" handler updates: [<span id="oncheckedoutput"></span>]</span>
-			<button type=button onclick="alert(dijit.byId('cb2').attr('value'));">attr('value')</button>
+			<button type=button onclick="alert(dijit.byId('cb2').get('value'));">get('value')</button>
 		<br>
 		<input name="cb3" id="cb3" dojoType="dijit.form.CheckBox" disabled>
 			<label for="cb3">cb3: disabled checkbox</label>
@@ -217,16 +217,16 @@
 		<br>
 		<input name="cb5" id="cb5" type="checkbox" value="" dojoType="dijit.form.CheckBox" onClick="console.log('clicked cb5')">
 			<label for="cb5">cb5: normal checkbox, with specified value="", clicking generates console log messages</label>
-			<button type=button onclick="alert(dijit.byId('cb5').attr('value'));">attr('value')</button>
+			<button type=button onclick="alert(dijit.byId('cb5').get('value'));">get('value')</button>
 		<br>
 		<div id="checkboxContainer"></div>
 			<label for="cb6">cb6: instantiated from script</label>
 		<br>
 		<input onChange="reportValueChanged" name="cb7" id="cb7" dojoType="dijit.form.CheckBox">
 			<label for="cb7">cb7: normal checkbox.</label>
-			<input type="button" onclick='dijit.byId("cb7").attr("disabled",true);' value="disable" />
-			<input type="button" onclick='dijit.byId("cb7").attr("disabled",false);' value="enable" />
-			<input type="button" onclick='dijit.byId("cb7").attr("value", "fish");' value='set value to "fish"' />
+			<input type="button" onclick='dijit.byId("cb7").set("disabled",true);' value="disable" />
+			<input type="button" onclick='dijit.byId("cb7").set("disabled",false);' value="enable" />
+			<input type="button" onclick='dijit.byId("cb7").set("value", "fish");' value='set value to "fish"' />
 			<input type="button" onclick='dijit.byId("cb7").reset();' value='Reset value+checked' />
 			<span>"onChange" handler updates: [<span id="onvaluechangedoutput"></span>]</span>
 		<br>
@@ -241,8 +241,8 @@
 			<label for="g1rb2">talk</label>
 			<input type="radio" name="g[1]" id="g1rb3" value="weather" dojoType="dijit.form.RadioButton" disabled="disabled"/>
 			<label for="g1rb3">weather</label>
-			<input type="button" onclick='dijit.byId("g1rb3").attr("disabled",false);' value="enable weather" />
-			<input type="button" onclick='dijit.byId("g1rb3").attr("disabled",true);' value="disable weather" />
+			<input type="button" onclick='dijit.byId("g1rb3").set("disabled",false);' value="enable weather" />
+			<input type="button" onclick='dijit.byId("g1rb3").set("disabled",true);' value="disable weather" />
 		</p>
 		<p>
 			<span>Radio group #2: (no default value, and has breaks)</span><br>

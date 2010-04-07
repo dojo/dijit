@@ -94,7 +94,7 @@
 							// goes to the first enabled button
 							dojo.forEach(["toolbar1.cut", "toolbar1.copy", "toolbar1.bold", "toolbar1.backcolor",
 								"toolbar1.forecolor", "toolbar1.combo2"], function(widgetName){
-								dijit.byId(widgetName).attr("disabled", true);
+								dijit.byId(widgetName).set("disabled", true);
 							});
 
 							// Initial focus (upon tabbing into toolbar) should go to first enabled button
@@ -159,8 +159,8 @@
 							var d = new doh.Deferred();
 
 							// Re-enable the ToolipDialog and ColorPalette drop down so that we can test it
-							dijit.byId("toolbar1.dialog").attr("disabled", false);
-							dijit.byId("toolbar1.backcolor").attr("disabled", false);
+							dijit.byId("toolbar1.dialog").set("disabled", false);
+							dijit.byId("toolbar1.backcolor").set("disabled", false);
 
 							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
 								toolbar1Before.focus();

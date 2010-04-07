@@ -37,7 +37,7 @@
 
 		var obj;
 		function getValues(){
-			obj = dijit.byId('myForm').attr('value');
+			obj = dijit.byId('myForm').get('value');
 			console.log("Object is: " + dojo.toJson(obj, true));
 		}
 
@@ -46,7 +46,7 @@
 		 		obj = {testF: 'testi'};
 			}
 			console.log("Object is: " + dojo.toJson(obj, true));
-			dijit.byId('myForm').attr('value', obj);
+			dijit.byId('myForm').set('value', obj);
 		}
 
 		function validate(){
@@ -90,7 +90,7 @@
 							h1: "still hidden",
 							t1: "new line 1\nnew line 2",
 							st1: "new simple line 1\nnew simple line 2",
-							richtext: "<h1>changed</h1><p>This is the changed content set by attr('value', ...')</p>",
+							richtext: "<h1>changed</h1><p>This is the changed content set by set('value', ...')</p>",
 							filename: "",
 							readOnlyWidget: "Should be returned",
 							duplicate: ["1", "2", "3"]
@@ -112,7 +112,7 @@
 							h1: "hidden",
 							t1: "line 1\nline 2",
 							st1: "simple line 1\nsimple line 2",
-							richtext: "<h1>changed</h1><p>This is the changed content set by attr('value', ...')</p>", // not a form element, so not reset
+							richtext: "<h1>changed</h1><p>This is the changed content set by set('value', ...')</p>", // not a form element, so not reset
 							filename: "",
 							readOnlyWidget: "Should be returned",
 							duplicate: ["first", "second", "third"]
@@ -202,7 +202,7 @@
 						}
 					},
 					function getValues(){
-						var values = formWidget.attr('value');
+						var values = formWidget.get('value');
 
 						// FF3 sticks in some tabs and newlines that mess up the equality check
 						// Need better way to compare two HTML trees but for now do this.
@@ -224,11 +224,11 @@
 						}
 					},
 					function setValues(){
-						formWidget.attr('value', changed);
-						doh.is( dojo.toJson(changed), dojo.toJson(formWidget.attr('value')) );
+						formWidget.set('value', changed);
+						doh.is( dojo.toJson(changed), dojo.toJson(formWidget.get('value')) );
 
-						formWidget.attr('value', particalchanged);
-						doh.is( dojo.toJson(dojo.mixin(changed,particalchanged)), dojo.toJson(formWidget.attr('value')) );
+						formWidget.set('value', particalchanged);
+						doh.is( dojo.toJson(dojo.mixin(changed,particalchanged)), dojo.toJson(formWidget.get('value')) );
 					},
 					function nameAttributeSurvived(){  // ticket:4753
 						var radios = dojo.query("INPUT[type=radio]", "radio-cells").forEach(
@@ -252,20 +252,20 @@
 					function resetTest(){
 						formWidget._onResetReturn = false;
 						formWidget.reset();
-						doh.isNot( dojo.toJson(reset), dojo.toJson(formWidget.attr('value')), "reset stopped");
+						doh.isNot( dojo.toJson(reset), dojo.toJson(formWidget.get('value')), "reset stopped");
 						formWidget._onResetReturn = true;
 						formWidget.reset();
 						delete formWidget._onResetReturn;
-						doh.is( dojo.toJson(reset), dojo.toJson(formWidget.attr('value')), "reset permitted" );
+						doh.is( dojo.toJson(reset), dojo.toJson(formWidget.get('value')), "reset permitted" );
 					},
 					function testValidate(){
 						doh.is(formWidget.validate(), true);
 					},
 					function resetEditor(){ // reset editor so that refresh will pass all tests
-						dijit.byId('editor').attr('value', original.richtext);
+						dijit.byId('editor').set('value', original.richtext);
 						// FF3 sticks in some tabs and newlines that mess up the equality check
 						// Need better way to compare two HTML trees but for now do this.
-						var values = formWidget.attr('value');
+						var values = formWidget.get('value');
 						values.richtext = values.richtext.replace(/[\n\t]/, "", "g");
 						doh.is( dojo.toJson(original), dojo.toJson(values) );
 					}
@@ -294,7 +294,7 @@
 		</script>
 		<script type="dojo/method" event="onSubmit">
 			console.debug('Attempting to submit form w/values:\n',
-				dojo.toJson(this.attr('value'),true)
+				dojo.toJson(this.get('value'),true)
 			);
 			if(this.validate()){
 				return confirm('Form is valid, press OK to submit');
@@ -427,7 +427,7 @@
 				<input dojoType="dijit.form.RadioButton" type="radio" name="r2" value="2" checked="checked" /> 2
 				<input dojoType="dijit.form.RadioButton" type="radio" name="r2" value="3"/> 3
 				<input dojoType="dijit.form.RadioButton" type="radio" name="r2" value="4" /> 4
-				<input type="button" onclick="dojo.query('INPUT[type=radio]','radio-cells').forEach(function(n){dijit.getEnclosingWidget(n).attr('checked',false);});return true;" value="Unset all radio buttons"/>
+				<input type="button" onclick="dojo.query('INPUT[type=radio]','radio-cells').forEach(function(n){dijit.getEnclosingWidget(n).set('checked',false);});return true;" value="Unset all radio buttons"/>
 				</td>
 				</tr>
 

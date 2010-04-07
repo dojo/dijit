@@ -41,7 +41,7 @@
 			var key = initValue < finalValue ? dojo.keys.RIGHT_ARROW : dojo.keys.LEFT_ARROW;
 
 			// Set slider to initial value, one value away from the min or max
-			slider.attr('value', initValue, false);
+			slider.set('value', initValue, false);
 
 			// Focus the slider
 			slider.focus();
@@ -49,7 +49,7 @@
 			// First key press moves to either min or max
 			doh.robot.keyPress(key, 500);
 			doh.robot.sequence(d.getTestErrback(function(){
-				doh.is(finalValue, new Number(slider.attr('value')).toFixed(1),
+				doh.is(finalValue, new Number(slider.get('value')).toFixed(1),
 						"value after first " + (key == dojo.keys.RIGHT_ARROW ? "right arrow" : "left arrow"));
 				if(onChange[slider.id]){
 					doh.is(finalValue,parseFloat(dojo.byId(onChange[slider.id]).value),
@@ -59,7 +59,7 @@
 				// Second key press should have no effect, but confirm it
 				doh.robot.keyPress(key, 500);
 				doh.robot.sequence(d.getTestCallback(function(){
-					doh.is(finalValue, new Number(slider.attr('value')).toFixed(1),
+					doh.is(finalValue, new Number(slider.get('value')).toFixed(1),
 						"value after second " + (key == dojo.keys.RIGHT_ARROW ? "right arrow" : "left arrow"));
 					if(onChange[slider.id]){
 						doh.is(finalValue, parseFloat(dojo.byId(onChange[slider.id]).value),
@@ -84,7 +84,7 @@
 			eaVals = populateExpected(slider);
 			strokeIndex = 0;
 			noteChanges = dojo.global.dojo.connect(slider, "onChange", function(){
-				eaVals[strokeIndex++].actual = slider.attr('value');
+				eaVals[strokeIndex++].actual = slider.get('value');
 			});
 		}
 
@@ -92,37 +92,37 @@
 			// summary:
 			//		Returns array of expected slider values after each keystroke (in this test)
 
-			var initVal = inSlider.attr('value');
+			var initVal = inSlider.get('value');
 			var eVals = [];
 
 			// The values expected by pressing HOME, right arrow five times,
 			// PgUp twice, PgDn, up arrow twice, down arrow once,
 			// left arrow once, and END.
-			inSlider.attr('value', inSlider.minimum, false);
-			eVals.push({stroke: "HOME", expected: inSlider.attr('value')});
+			inSlider.set('value', inSlider.minimum, false);
+			eVals.push({stroke: "HOME", expected: inSlider.get('value')});
 			for(var i = 0; i < 5; i++){
 				inSlider._bumpValue(1, false);
-				eVals.push({stroke: "RIGHT", expected: inSlider.attr('value')});
+				eVals.push({stroke: "RIGHT", expected: inSlider.get('value')});
 			}
 			for(i = 0; i < 2; i++){
 				inSlider._bumpValue(inSlider.pageIncrement, false);
-				eVals.push({stroke: "PgUp", expected: inSlider.attr('value')});
+				eVals.push({stroke: "PgUp", expected: inSlider.get('value')});
 			}
 			inSlider._bumpValue(-inSlider.pageIncrement, false);
-			eVals.push({stroke: "PgDn", expected: inSlider.attr('value')});
+			eVals.push({stroke: "PgDn", expected: inSlider.get('value')});
 			for(i = 0; i < 2; i++){
 				inSlider._bumpValue(1, false);
-				eVals.push({stroke: "UP", expected: inSlider.attr('value')});
+				eVals.push({stroke: "UP", expected: inSlider.get('value')});
 			}
 			inSlider._bumpValue(-1, false);
-			eVals.push({stroke: "DOWN", expected: inSlider.attr('value')});
+			eVals.push({stroke: "DOWN", expected: inSlider.get('value')});
 			inSlider._bumpValue(-1, false);
-			eVals.push({stroke: "LEFT", expected: inSlider.attr('value')});
-			inSlider.attr('value', inSlider.maximum, false)
-			eVals.push({stroke: "END", expected: inSlider.attr('value')});
+			eVals.push({stroke: "LEFT", expected: inSlider.get('value')});
+			inSlider.set('value', inSlider.maximum, false)
+			eVals.push({stroke: "END", expected: inSlider.get('value')});
 
 			// reset <inSlider> back to its initial value, and return
-			inSlider.attr('value', initVal, false);
+			inSlider.set('value', initVal, false);
 			return eVals;
 		}
 
@@ -165,7 +165,7 @@
 		var a11yKeystrokeTest = function(inSliderId){
 			var d = new doh.Deferred();
 			var slider = dijit.byId(inSliderId);
-			var initVal = slider.attr('value');
+			var initVal = slider.get('value');
 			// get focus on slider thumb before pressing keys.
 			slider.focus();
 			doh.robot.sequence(function(){ strokeIndex = 0; }, 1000); // insure onChange events have stopped
@@ -185,7 +185,7 @@
 			doh.robot.keyPress(dojo.keys.END, 200);
 			var testPresses = function(){
 				dojo.disconnect(noteChanges);
-				slider.attr('value', initVal, false);
+				slider.set('value', initVal, false);
 				for(var i = 0; i < eaVals.length; i++){
 					doh.assertEqual(eaVals[i].expected, eaVals[i].actual, eaVals[i].stroke + " (" + slider.id + ")");
 				}
@@ -217,7 +217,7 @@
 				timeout: 30000,
 				runTest: function(){
 					this.slider = dijit.byId(this.slider);
-					this.slider.attr('disabled', true);
+					this.slider.set('disabled', true);
 					return a11yBoundaryTest(this.slider, this.value, this.value);
 				}
 			});
@@ -230,7 +230,7 @@
 				timeout: 30000,
 				runTest: function(){
 					this.slider = dijit.byId(this.slider);
-					this.slider.attr('disabled', false);
+					this.slider.set('disabled', false);
 					return a11yBoundaryTest(this.slider, this.value, this.slider.minimum);
 				}
 			});
@@ -258,7 +258,7 @@
 					var slider = dijit.byId(sliderIds[0]);
 					doh.is(dijit.getWaiState(slider.focusNode, "valuemin"), slider.minimum, "aria-valuemin");
 					doh.is(dijit.getWaiState(slider.focusNode, "valuemax"), slider.maximum, "aria-valuemax");
-					doh.is(dijit.getWaiState(slider.focusNode, "valuenow"), slider.attr('value'), "aria-valuenow");
+					doh.is(dijit.getWaiState(slider.focusNode, "valuenow"), slider.get('value'), "aria-valuenow");
 				}
 			]);
 
@@ -321,8 +321,8 @@
 						var d = new doh.Deferred();
 						var slider = dijit.byId("programaticSlider");
 						var target = dijit.byId("slider3");
-						target.attr('value', 1);
-						var initValue = target.attr('value');
+						target.set('value', 1);
+						var initValue = target.get('value');
 						// get focus on slider thumb before pressing keys.
 						slider.focus();
 						// jump to slider3 (hopefully)
@@ -331,7 +331,7 @@
 						});
 						doh.robot.keyPress(dojo.keys.END, 1000);
 						doh.robot.sequence(d.getTestCallback(function(){
-							doh.f(initValue == target.attr('value'), "disabled tab stop should be skipped");
+							doh.f(initValue == target.get('value'), "disabled tab stop should be skipped");
 						}), 500);
 						return d;
 					}

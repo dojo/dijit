@@ -81,8 +81,8 @@
 					intermediateChanges="true"
 					propercase="true" />
 				<br>onChange:<input id="oc1" size="34" disabled value="not fired yet!" autocomplete="off">
-				<input tabIndex="-1" type="button" onclick="dijit.byId('q01').attr('disabled', true);" value="Disable">
-				<input tabIndex="-1" type="button" onclick="dijit.byId('q01').attr('disabled', false);" value="Enable">
+				<input tabIndex="-1" type="button" onclick="dijit.byId('q01').set('disabled', true);" value="Disable">
+				<input tabIndex="-1" type="button" onclick="dijit.byId('q01').set('disabled', false);" value="Enable">
 			</div>
 
 			<div class="dojoTitlePaneLabel">
@@ -112,11 +112,11 @@
                                 >
 				onChange:<input id="oc3" size="14" disabled value="not fired yet!" autocomplete="off">
 				<nobr>
-				<button id="q03_valid" type=button onclick="dijit.byId('q03').attr('value', 120);">set value to 120</button>
-				<button id="q03_outofrange" type=button onclick="dijit.byId('q03').attr('value', 121);">set value to 121</button>
-				<button id="q03_invalid" type=button onclick="dijit.byId('q03').attr('value', 'two');">set value to two</button>
-				<button id="q03_null" type=button onclick="dijit.byId('q03').attr('value', null);">set value to null</button>
-				<button type=button onclick="dojo.byId('gv3').value=''+dijit.byId('q03').attr('value');">get value</button>
+				<button id="q03_valid" type=button onclick="dijit.byId('q03').set('value', 120);">set value to 120</button>
+				<button id="q03_outofrange" type=button onclick="dijit.byId('q03').set('value', 121);">set value to 121</button>
+				<button id="q03_invalid" type=button onclick="dijit.byId('q03').set('value', 'two');">set value to two</button>
+				<button id="q03_null" type=button onclick="dijit.byId('q03').set('value', null);">set value to null</button>
+				<button type=button onclick="dojo.byId('gv3').value=''+dijit.byId('q03').get('value');">get value</button>
 				<input id="gv3" size="10" disabled value="" autocomplete="off">
 				</nobr>
 			</div>
@@ -132,8 +132,8 @@
 					constraints="{places:0,min:1,max:100}"
 					regExpGen="return '\\d+'"
 					required="true">
-					<button onclick="dijit.byId('fav').attr('required', true); return false;">attr(required, true)</button>
-					<button onclick="dijit.byId('fav').attr('required', false); return false;">attr(required, false)</button>
+					<button onclick="dijit.byId('fav').set('required', true); return false;">attr(required, true)</button>
+					<button onclick="dijit.byId('fav').set('required', false); return false;">attr(required, false)</button>
 			</div>
 
 			<div class="dojoTitlePaneLabel">
@@ -256,8 +256,8 @@
 					required="true"
 					currency="EUR"
 					invalidMessage="Invalid amount.  Include cents." />EUR
-				<button onclick="dijit.byId('q08eur').attr('disabled',true); return false;">Disable</button>
-				<button onclick="dijit.byId('q08eur').attr('disabled',false); return false;">Enable</button>
+				<button onclick="dijit.byId('q08eur').set('disabled',true); return false;">Disable</button>
+				<button onclick="dijit.byId('q08eur').set('disabled',false); return false;">Enable</button>
 				<button onclick="dijit.byId('q08eur').reset(); return false;">Reset</button>
 			</div>
 
@@ -430,10 +430,10 @@
 			<div class="testExample">
 				<input id="q24" type="text" name="readOnly" class="medium" readOnly value="cannot type here"
 					dojoType="dijit.form.TextBox">
-				<input type="button" id="removereadonly" onclick="dijit.byId('q24').attr('readOnly',false);" value="Remove readOnly">
-				<input type="button" onclick="dijit.byId('q24').attr('readOnly',true);" value="Set readOnly">
-				<input type="button" id="removedisabled" onclick="dijit.byId('q24').attr('disabled',false);" value="Remove disabled">
-				<input type="button" onclick="dijit.byId('q24').attr('disabled',true);" value="Set disabled">
+				<input type="button" id="removereadonly" onclick="dijit.byId('q24').set('readOnly',false);" value="Remove readOnly">
+				<input type="button" onclick="dijit.byId('q24').set('readOnly',true);" value="Set readOnly">
+				<input type="button" id="removedisabled" onclick="dijit.byId('q24').set('disabled',false);" value="Remove disabled">
+				<input type="button" onclick="dijit.byId('q24').set('disabled',true);" value="Set disabled">
 			</div>
 			<div class="dojoTitlePaneLabel">
 				<label for="q25">initially disabled ValidationTextBox</label>
@@ -442,10 +442,10 @@
 			<div class="testExample">
 				<input id="q25" type="text" name="disabled" class="medium" disabled value="cannot type here"
 					dojoType="dijit.form.ValidationTextBox">
-				<input type="button" onclick="dijit.byId('q25').attr('readOnly',false);" value="Remove readOnly">
-				<input type="button" onclick="dijit.byId('q25').attr('readOnly',true);" value="Set readOnly">
-				<input type="button" onclick="dijit.byId('q25').attr('disabled',false);" value="Remove disabled">
-				<input type="button" onclick="dijit.byId('q25').attr('disabled',true);" value="Set disabled">
+				<input type="button" onclick="dijit.byId('q25').set('readOnly',false);" value="Remove readOnly">
+				<input type="button" onclick="dijit.byId('q25').set('readOnly',true);" value="Set readOnly">
+				<input type="button" onclick="dijit.byId('q25').set('disabled',false);" value="Remove disabled">
+				<input type="button" onclick="dijit.byId('q25').set('disabled',true);" value="Set disabled">
 			</div>
 
 		        <script>

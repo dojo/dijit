@@ -238,13 +238,13 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.f(dijit.byId("checked2").attr('checked'), "not initially checked");
+							doh.f(dijit.byId("checked2").get('checked'), "not initially checked");
 
 							doh.robot.mouseMoveAt("checked2", 500);
 							doh.robot.mouseClick({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.t(dijit.byId("checked2").attr('checked'), "now it's checked");
+								doh.t(dijit.byId("checked2").get('checked'), "now it's checked");
 							}), 500);
 
 							return d;

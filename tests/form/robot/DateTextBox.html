@@ -44,42 +44,42 @@
 				doh.register("API", [
 					function initial(){
 						// initial conditions
-						doh.is(0, dojo.date.compare(new Date(2005,11,30), american.attr('value')), 'wire value of american: ' + american.attr('value'));
-						doh.is('12/30/2005', american.attr('displayedValue'), 'displayed value of american');
+						doh.is(0, dojo.date.compare(new Date(2005,11,30), american.get('value')), 'wire value of american: ' + american.get('value'));
+						doh.is('12/30/2005', american.get('displayedValue'), 'displayed value of american');
 					},
 
 					function setValue(){
-						american.attr('value', new Date(2004,9,20));
-						doh.is(0, dojo.date.compare(new Date(2004,9,20), american.attr('value')),
-								'wire value of american is: ' + american.attr('value') +
+						american.set('value', new Date(2004,9,20));
+						doh.is(0, dojo.date.compare(new Date(2004,9,20), american.get('value')),
+								'wire value of american is: ' + american.get('value') +
 								' but should be: ' + new Date(2004,9,20));
-						doh.is('10/20/2004', american.attr('displayedValue'), 'displayed value of american');
+						doh.is('10/20/2004', american.get('displayedValue'), 'displayed value of american');
 						doh.t(american.isValid(), 'marked as valid');
 					},
 
 					function setDisplayedValue(){
-						american.attr('displayedValue', '11/12/2006');
-						doh.is(0, dojo.date.compare(new Date(2006, 10, 12), american.attr('value')), 'wire value of american');
-						doh.is('11/12/2006', american.attr('displayedValue'), 'displayed value of american');
+						american.set('displayedValue', '11/12/2006');
+						doh.is(0, dojo.date.compare(new Date(2006, 10, 12), american.get('value')), 'wire value of american');
+						doh.is('11/12/2006', american.get('displayedValue'), 'displayed value of american');
 						doh.t(american.isValid(), 'marked as valid');
 					},
 
 					function setInvalidDisplayedValue(){
-						american.attr('displayedValue', 'foo');
-						doh.t(american.attr('value') === undefined, 'value is undefined if displayedValue is garbage');
+						american.set('displayedValue', 'foo');
+						doh.t(american.get('value') === undefined, 'value is undefined if displayedValue is garbage');
 						doh.f(american.isValid(), 'marked as invalid');
 
-						// setting the value to attr('value') should never change anything, so
+						// setting the value to get('value') should never change anything, so
 						// therefore setting the value to undefined shouldn't affect the displayed value
-						american.attr('value', undefined);
-						doh.is(american.attr('displayedValue'), 'foo');
+						american.set('value', undefined);
+						doh.is(american.get('displayedValue'), 'foo');
 					},
 
 					function setOutOfRange(){
 						// This widget is set to be valid between 2004 and 2006 only
-						american.attr('displayedValue', '12/1/2008');
+						american.set('displayedValue', '12/1/2008');
 						doh.f(american.isValid(), 'marked as invalid since out of range');
-						doh.is('12/1/2008', american.attr('displayedValue'), 'displayed value of american');
+						doh.is('12/1/2008', american.get('displayedValue'), 'displayed value of american');
 					}
 				]);
 
@@ -88,7 +88,7 @@
 					timeout: 60000,
 					setUp: function(){
 						// clear the field
-						american.attr('value', null);
+						american.set('value', null);
 					},
 					runTest: function(){
 						var d = new doh.Deferred();
@@ -100,7 +100,7 @@
 						doh.robot.typeKeys('1/3/2005', 500, 1600);
 						doh.robot.keyPress(dojo.keys.TAB, 500, {});
 						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-							var value = american.attr('value');
+							var value = american.get('value');
 							doh.is(0, dojo.date.compare(new Date(2005, 0, 3), value), 'actual value is ' + value);
 							doh.is(1, changes.length, 'one onchange event');	// #9018
 							doh.is(0, dojo.date.compare(new Date(2005, 0, 3), changes[0]),
@@ -114,7 +114,7 @@
 				doh.register("drop down", [
 					function setUp(){
 						// clear the field
-						american.attr('value', new Date(2005, 4, 10));
+						american.set('value', new Date(2005, 4, 10));
 					},
 
 					{
@@ -351,10 +351,10 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-								doh.is('6/15/2006', american.attr('displayedValue'), 'displayed value of american');
+								doh.is('6/15/2006', american.get('displayedValue'), 'displayed value of american');
 
 								var expectedVal = new Date(2006, 5, 15);	// 6/15/2006
-								doh.is(0, dojo.date.compare(expectedVal, american.attr('value')), 'wire value of american: ' + american.attr('value'));
+								doh.is(0, dojo.date.compare(expectedVal, american.get('value')), 'wire value of american: ' + american.get('value'));
 
 								doh.is(1, changes.length, "onchange event fired");
 								doh.is(0, dojo.date.compare(expectedVal, changes[0]), 'onchange of american: ' + changes[0]);
@@ -382,23 +382,23 @@
 
 				doh.register("localization", [
 					function initialGerman(){
-						doh.is(0, dojo.date.compare(new Date(2006,10,29), german.attr('value')), 'wire value of german: ' + german.attr('value'));
-						doh.is('29.11.2006', german.attr('displayedValue'), 'displayed value of german');
+						doh.is(0, dojo.date.compare(new Date(2006,10,29), german.get('value')), 'wire value of german: ' + german.get('value'));
+						doh.is('29.11.2006', german.get('displayedValue'), 'displayed value of german');
 					},
 
 					function setValueGerman(){
-						german.attr('value', new Date(2004,9,20));
-						doh.is(0, dojo.date.compare(new Date(2004,9,20), german.attr('value')),
-								'wire value of german is: ' + german.attr('value') +
+						german.set('value', new Date(2004,9,20));
+						doh.is(0, dojo.date.compare(new Date(2004,9,20), german.get('value')),
+								'wire value of german is: ' + german.get('value') +
 								' but should be: ' + new Date(2004,9,20));
-						doh.is('20.10.2004', german.attr('displayedValue'), 'displayed value of german');
+						doh.is('20.10.2004', german.get('displayedValue'), 'displayed value of german');
 						doh.t(german.isValid(), 'marked as valid');
 					},
 
 					function setDisplayedValueGerman(){
-						german.attr('displayedValue', '12.11.2006');
-						doh.is(0, dojo.date.compare(new Date(2006, 10, 12), german.attr('value')), 'wire value of german');
-						doh.is('12.11.2006', german.attr('displayedValue'), 'displayed value of german');
+						german.set('displayedValue', '12.11.2006');
+						doh.is(0, dojo.date.compare(new Date(2006, 10, 12), german.get('value')), 'wire value of german');
+						doh.is('12.11.2006', german.get('displayedValue'), 'displayed value of german');
 						doh.t(german.isValid(), 'marked as valid');
 					},
 
@@ -408,7 +408,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							doh.robot.sequence(function(){
-								german.attr('value', new Date(2006, 9, 15));	// 10/15/2006
+								german.set('value', new Date(2006, 9, 15));	// 10/15/2006
 								german.focus();
 							}, 500);
 

@@ -66,7 +66,7 @@
 					},
 
 					function placeAsFirst(){
-						pane2.attr("content","button should appear BEFORE this text");
+						pane2.set("content","button should appear BEFORE this text");
 
 						// create a button, and add it to pane2 before the above text
 						var button = new dijit.form.Button({
@@ -128,20 +128,20 @@
 			<button id="addStuff" dojoType="dijit.form.Button">
 				Add Stuff
 				<script type="dojo/method" event="onClick">
-					this.attr("disabled", true);
+					this.set("disabled", true);
 					var bc = dijit.byId("bc1");
 
 					// add a left pane and add content
 					new dijit.layout.ContentPane({
 						region:"left",
 						style:"width:100px"
-					}).placeAt(bc).attr("content","<p>wowzers</p>");
+					}).placeAt(bc).set("content","<p>wowzers</p>");
 
 					// add a top pane, and add content
 					new dijit.layout.ContentPane({
 						region:"top",
 						style:"height:100px"
-					}).placeAt(bc).attr("content","<div>some HTML text</div>");
+					}).placeAt(bc).set("content","<div>some HTML text</div>");
 
 				</script>
 			</button>

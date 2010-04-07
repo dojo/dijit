@@ -109,7 +109,7 @@
 							// Resetting an href on a hidden pane should have no effect
 							var d = new doh.Deferred();
 
-							dijit.byId("pane2").attr("href", "doc0.html");
+							dijit.byId("pane2").set("href", "doc0.html");
 							setTimeout(d.getTestCallback(function(){
 								doh.f(loadEvents.pane2, "pane2 shouldn't be loaded");
 							}), 750);
@@ -124,7 +124,7 @@
 							// Resetting an href on a hidden pane should have no effect
 							var d = new doh.Deferred();
 
-							dijit.byId("innerPane1").attr("href", "doc1.html");
+							dijit.byId("innerPane1").set("href", "doc1.html");
 							setTimeout(d.getTestCallback(function(){
 								doh.f(loadEvents.innerPane1, "innerPane1 shouldn't be loaded");
 							}), 750);
@@ -139,7 +139,7 @@
 							// Resetting an href on a hidden pane should have no effect
 							var d = new doh.Deferred();
 
-							dijit.byId("bcPane2").attr("href", "doc0.html");
+							dijit.byId("bcPane2").set("href", "doc0.html");
 							setTimeout(d.getTestCallback(function(){
 								doh.f(loadEvents.bcPane2, "bcPane2 shouldn't be loaded");
 							}), 750);
@@ -379,7 +379,7 @@
 							doh.f(loadEvents["ctpHmc"], "ctpHmc load deferred until open");
 
 							var tp = dijit.byId("ctpHmc");
-							tp.attr("open", true);
+							tp.set("open", true);
 
 							// Allow time for href to load, pane to expand, and resize to be called on children
 							setTimeout(d.getTestCallback(function(){
@@ -406,7 +406,7 @@
 							doh.f(dijit.byId("ctpMc_child2")._resized, "resize event for child2 deferred");
 
 							var tp = dijit.byId("ctpMc");
-							tp.attr("open", true);
+							tp.set("open", true);
 
 							// Allow time for pane to expand, and resize to be called on children
 							setTimeout(d.getTestCallback(function(){

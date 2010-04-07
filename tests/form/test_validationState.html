@@ -46,8 +46,8 @@
 					<td><label for="birth">Birthdate (before 2006-12-31):</label></td>
 					<td><div><input id="birth" dojoType="dijit.form.DateTextBox" value="2000-01-01"
 						required="true" name="birth" constraints="{min:'1900-01-01', max:'2006-12-31'}" />
-					<button onclick="dijit.byId('birth').attr('disabled',true);return false">Disable</button>
-					<button onclick="dijit.byId('birth').attr('disabled',false);return false">Enable</button>
+					<button onclick="dijit.byId('birth').set('disabled',true);return false">Disable</button>
+					<button onclick="dijit.byId('birth').set('disabled',false);return false">Enable</button>
 					<button onclick="dijit.byId('birth').reset();return false">Reset</button>
 					</div></td>
 				</tr>
@@ -67,14 +67,14 @@
 			</table>
 			<button dojoType="dijit.form.Button">
 				<script type="dojo/method" event="onClick">
-					console.dir(dijit.byId("form1").attr('value'));
+					console.dir(dijit.byId("form1").get('value'));
 				</script>
 				<script type="dojo/method" event="startup">
 					var form = dijit.byId("form1");
 					//  set initial state
-					this.attr("disabled", !form.isValid());
+					this.set("disabled", !form.isValid());
 					this.connect(form, "onValidStateChange", function(state){
-							this.attr("disabled", !state);
+							this.set("disabled", !state);
 					});
 				</script>
 				Submit
@@ -89,7 +89,7 @@
 													dojo.byId("lastName"));
 					dojo.byId("newRow").style.display = "";
 					dojo.byId("newRow2").style.display = "";
-					this.attr("disabled", true);
+					this.set("disabled", true);
 					this.domNode.blur();
 					// Call this, since we added a new widget - so that our
 					// form knows that we have something else to watch.

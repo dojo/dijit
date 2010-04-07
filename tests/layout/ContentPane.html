@@ -61,7 +61,7 @@
 							pane2 = new dijit.layout.ContentPane({
 								preventCache: true
 							}, dojo.byId("pane2"));
-							pane2.attr("content", "");// pass undefined on purpose
+							pane2.set("content", "");// pass undefined on purpose
 						},
 						runTest: function(t){
 							t.assertEqual(0, dijit._Container.prototype.getChildren.call(pane2).length);
@@ -71,11 +71,11 @@
 					{
 						name: "setContent_String",
 						setUp: function(){
-							pane2.attr("content", "");
+							pane2.set("content", "");
 						},
 						runTest: function(t){
 							var msg = "<h3>a simple html string</h3>";
-							pane2.attr("content", msg);
+							pane2.set("content", msg);
 							t.assertEqual(msg, pane2.domNode.innerHTML.toLowerCase());
 						}
 					},
@@ -83,15 +83,15 @@
 						name: "setContent_DOMNode",
 						setUp: function(t){
 							var div = dojo.doc.createElement('div');
-							div.innerHTML = "attr('content', [DOMNode] )";
+							div.innerHTML = "set('content', [DOMNode] )";
 							div.setAttribute('dojoType', 'dijit.TestWidget');
-							pane2.attr("content", div);
+							pane2.set("content", div);
 						},
 						runTest: function(t){
 							t.assertEqual(1, dijit._Container.prototype.getChildren.call(pane2).length);
 						},
 						tearDown: function(t){
-							pane2.attr("content", ""); // clear content for next test
+							pane2.set("content", ""); // clear content for next test
 						}
 					},
 					{
@@ -103,7 +103,7 @@
 											+"<div dojotype='dijit.TestWidget'>below</div>";
 
 							var list = div.childNodes;
-							pane2.attr("content", div.childNodes);
+							pane2.set("content", div.childNodes);
 						},
 						runTest: function(t){
 							t.assertEqual(2, dijit._Container.prototype.getChildren.call(pane2).length);
@@ -119,7 +119,7 @@
 					{
 						name: "setContent_dojo_NodeList",
 						setUp: function(t){
-							pane2.attr("content", "");
+							pane2.set("content", "");
 						},
 						runTest: function(t){
 							var div = dojo.doc.createElement('div');
@@ -132,7 +132,7 @@
 								list.push(n.cloneNode(true));
 							});
 
-							pane2.attr("content", list);
+							pane2.set("content", list);
 							t.assertEqual(4, pane2.domNode.childNodes.length);
 						}
 					},
@@ -144,7 +144,7 @@
 
 							// test that it's actually working
 							pane2.extractContent = true;
-							pane2.attr("content", '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" '
+							pane2.set("content", '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" '
 								+'"http://www.w3.org/TR/html4/strict.dtd">'
 								+'<html><head><style>body{font-weight:bold;}</style></head>'
 								+'<body>extractContent test</body></html>');
@@ -163,7 +163,7 @@
 						name: "setHref_loading",
 						timeout: 1800,
 						setUp: function(t){
-							pane2.attr('href', 'getResponse.php?messId=1');
+							pane2.set('href', 'getResponse.php?messId=1');
 						},
 						runTest: function(t){
 							var d = new tests.Deferred();
@@ -179,11 +179,11 @@
 						name: "setHref_then_cancel",
 						timeout: 2800,
 						setUp: function(t){
-							pane2.attr("content", "");// clear previous
+							pane2.set("content", "");// clear previous
 						},
 						runTest: function(t){
 							var msg = "This should NEVER be seen!";
-							pane2.attr('href', 'getResponse.php?delay=1000&message='+encodeURI(msg));
+							pane2.set('href', 'getResponse.php?delay=1000&message='+encodeURI(msg));
 							var d = new t.Deferred();
 							setTimeout(d.getTestCallback(
 								function(){
@@ -201,15 +201,15 @@
 						name: "setHref_cancels_previous_setHref",
 						timeout: 2800,
 						setUp: function(t){
-							pane2.attr("content", "");
+							pane2.set("content", "");
 						},
 						runTest: function(t){
 							var msgCanceled = "This should be canceled";
-							pane2.attr('href', "getResponse.php?delay=1000&message="+encodeURI(msgCanceled));
+							pane2.set('href', "getResponse.php?delay=1000&message="+encodeURI(msgCanceled));
 
 							var msg = "This message should win over the previous";
 							setTimeout(function(){
-								pane2.attr('href', "getResponse.php?message="+encodeURI(msg));
+								pane2.set('href', "getResponse.php?message="+encodeURI(msg));
 							}, 900);
 
 							var d = new t.Deferred();
@@ -225,21 +225,21 @@
 						name: "setContent_cancels_setHref",
 						timeout: 2800,
 						setUp: function(t){
-							pane2.attr("content", "");
+							pane2.set("content", "");
 						},
 						runTest: function(t){
 							dojo.connect(pane2, "onUnload", function(){
-								console.log("pane2 unload of: " + pane2.attr('content'));
+								console.log("pane2 unload of: " + pane2.get('content'));
 							});
 							dojo.connect(pane2, "onLoad", function(){
-								console.log("pane2 load of: " + pane2.attr('content'));
+								console.log("pane2 load of: " + pane2.get('content'));
 							});
 							var msgCanceled = "This message be canceled";
-							pane2.attr('href', "getResponse.php?delay=1000&message="+encodeURI(msgCanceled));
+							pane2.set('href', "getResponse.php?delay=1000&message="+encodeURI(msgCanceled));
 
 							var msg = "This message should win over (ie, cancel) the inflight one";
 							setTimeout(function(){
-								pane2.attr("content", msg);
+								pane2.set("content", msg);
 							}, 500);
 
 							var d = new t.Deferred();
@@ -255,7 +255,7 @@
 						name: "refresh",
 						timeout: 1900,
 						setUp: function(t){
-							pane2.attr('href', "getResponse.php?message="+encodeURI('initial load'));
+							pane2.set('href', "getResponse.php?message="+encodeURI('initial load'));
 						},
 						runTest: function(t){
 							var msg = 'refreshed load'
@@ -281,7 +281,7 @@
 
 						timeout: 1800,
 						setUp: function(t){
-							pane2.attr("content", "");
+							pane2.set("content", "");
 						},
 						runTest: function(t){
 							t.assertTrue(pane2.isLoaded);
@@ -294,7 +294,7 @@
 								dojo.connect(pane2, "onLoad", function(){ history += " and reloaded"})
 							];
 
-							pane2.attr('href', "getResponse.php?delay=300&message=test");
+							pane2.set('href', "getResponse.php?delay=300&message=test");
 
 							t.assertFalse(pane2.isLoaded);
 							t.assertEqual("unloaded", history);
@@ -326,11 +326,11 @@
 						timeout: 1800,
 						setUp: function(t){
 							pane2.domNode.style.display = 'none';
-							pane2.attr("content", "");
+							pane2.set("content", "");
 						},
 						runTest: function(t){
 							pane2._msg = "This text should not be loaded until after widget is shown";
-							pane2.attr('href', "getResponse.php?message="+encodeURI(pane2._msg));
+							pane2.set('href', "getResponse.php?message="+encodeURI(pane2._msg));
 							var d = new t.Deferred();
 							setTimeout(d.getTestCallback(
 								function(){
@@ -347,7 +347,7 @@
 						name: "onDownloadError",
 						timeout: 1800,
 						setUp: function(t){
-							pane2.attr("content", "");
+							pane2.set("content", "");
 						},
 						runTest: function(t){
 							var res = {};
@@ -368,7 +368,7 @@
 							var evtHandle = dojo.connect(pane2, 'onDownloadError', this, 'onError');
 
 							// test onDownloadError
-							pane2.attr('href', 'nonexistant');
+							pane2.set('href', 'nonexistant');
 
 							// do the test
 							var d = new t.Deferred();
@@ -400,7 +400,7 @@
 						name: "onLoad|Unload_onDownloadStart|End",
 						timeout: 2400,
 						setUp:function(t){
-							pane2.attr("content", "");
+							pane2.set("content", "");
 						},
 						runTest:function(t){
 							var obj = {
@@ -426,7 +426,7 @@
 							var loadHandler = dojo.connect(pane2, 'onLoad', obj, 'load');
 							var unloadHandler = dojo.connect(pane2, 'onUnload', obj, 'unload');
 
-							pane2.attr('href', 'getResponse.php?delay=400');
+							pane2.set('href', 'getResponse.php?delay=400');
 
 							var d = new t.Deferred();
 							setTimeout(function(){
@@ -735,8 +735,8 @@
 							container = new dijit.layout.ContentPane();
 							container.placeAt(dojo.body(), "last");
 							container.startup();
-							t.is(0, container.getChildren().length, "number of children before attr('content', ...)");
-							container.attr('content',
+							t.is(0, container.getChildren().length, "number of children before set('content', ...)");
+							container.set('content',
 								'<span>plain non-widget content</span>' +
 								'<div><span>' +
 									'<div id="zero" dojoType="dijit.TestContained"></div>' +
@@ -777,8 +777,8 @@
 							hiddenCP.placeAt(dojo.body(), "last");
 							hiddenCP.startup();
 
-							t.is(0, hiddenCP.getChildren().length, "number of children before attr('content', ...)");
-							hiddenCP.attr('content',
+							t.is(0, hiddenCP.getChildren().length, "number of children before set('content', ...)");
+							hiddenCP.set('content',
 								'<span>plain non-widget content</span>' +
 								'<div><span>' +
 									'<div id="deferredZero" dojoType="dijit.TestContained"></div>' +
@@ -790,7 +790,7 @@
 
 							t.f(dijit.byId('deferredTwo')._resized, "not resized yet");
 
-							hiddenCP.attr("style", {display: "block"});
+							hiddenCP.set("style", {display: "block"});
 							hiddenCP._onShow();
 
 							t.t(dijit.byId('deferredTwo')._resized, "resized");

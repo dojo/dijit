@@ -44,7 +44,7 @@
 							doh.robot.sequence(function(){ dojo.byId("input").focus(); });
 
 							var clicks = 0;
-							dijit.byId("1465").attr("onClick", function(){ clicks++; });
+							dijit.byId("1465").set("onClick", function(){ clicks++; });
 
 
 							// tab into button to get focus
@@ -68,7 +68,7 @@
 
 							doh.is("1465", dijit.getEnclosingWidget(dojo.global.dijit._curFocus).id, "focus starting on 1465");
 
-							dijit.byId("1467").attr("disabled", true);
+							dijit.byId("1467").set("disabled", true);
 
 							// tab over disabled "View" button to "Create" combo-button
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
@@ -242,7 +242,7 @@
 							var d = new doh.Deferred();
 
 							var clicked = false;
-							dijit.byId("save").attr("onClick", function(){ clicked = true; });
+							dijit.byId("save").set("onClick", function(){ clicked = true; });
 
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 
@@ -357,7 +357,7 @@
 								dijit.byId("color").focus();
 
 								// And disable the ComboBox.
-								dijit.byId("save").attr("disabled", true);
+								dijit.byId("save").set("disabled", true);
 							});
 
 							// Tab should skip over the ComboButton entirely
@@ -380,8 +380,8 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							var checked = dijit.byId("toggle1").attr("checked");
-							dijit.byId("toggle1").attr("onChange", function(v){ checked = v; });
+							var checked = dijit.byId("toggle1").get("checked");
+							dijit.byId("toggle1").set("onChange", function(v){ checked = v; });
 							doh.t(checked, "toggle1 initially checked");
 
 							doh.robot.sequence(function(){

@@ -98,11 +98,11 @@
 
 			var createErrors = function(){
 				validation._hasBeenBlurred = true;
-				validation.attr('value', null);
+				validation.set('value', null);
 				combobox._hasBeenBlurred = true;
-				combobox.attr('value', null);
+				combobox.set('value', null);
 				spinner._hasBeenBlurred = true;
-				spinner.attr('value', null);
+				spinner.set('value', null);
 			};
 
         		doh.register("create normal boxes", [
@@ -112,9 +112,9 @@
 					runTest: function(){
 						/* create errors, then insert good values to exercise the widget rendering */
 						createErrors();
-						validation.attr('value', 23);
-						combobox.attr('value', "KY");
-						spinner.attr('value', 32);
+						validation.set('value', 23);
+						combobox.set('value', "KY");
+						spinner.set('value', 32);
 					}
         	        	}
   			]);

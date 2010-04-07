@@ -38,12 +38,12 @@
 					{
 						name: "title",
 						runTest: function(){
-							doh.is("Title Pane #1", pane1.attr("title"), "title attr");
+							doh.is("Title Pane #1", pane1.get("title"), "title attr");
 							doh.is("Title Pane #1", innerText(pane1.titleNode), "inner text");
 							
-							pane1.attr("title", "modified title");
+							pane1.set("title", "modified title");
 
-							doh.is("modified title", pane1.attr("title"), "title attr modified");
+							doh.is("modified title", pane1.get("title"), "title attr modified");
 							doh.is("modified title", innerText(pane1.titleNode), "inner text modified");
 						}
 					},
@@ -55,13 +55,13 @@
 							var d = new doh.Deferred();
 
 							doh.t(pane1.domNode.offsetHeight > 100, "pane 1 is open");
-							doh.t(pane1.attr("open"), "pane1.open is true");
+							doh.t(pane1.get("open"), "pane1.open is true");
 
-							pane1.attr("open", false);
+							pane1.set("open", false);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(pane1.domNode.offsetHeight < 100, "pane 1 is closed");
-								doh.f(pane1.attr("open"), "pane1.open is false");
+								doh.f(pane1.get("open"), "pane1.open is false");
 							}), 500);
 							
 							return d;
@@ -113,7 +113,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(pane1.domNode.offsetHeight > 100, "pane 1 is open");
-								doh.t(pane1.attr("open"), "pane1.open is true");
+								doh.t(pane1.get("open"), "pane1.open is true");
 							}), 500);
 							
 							return d;
@@ -147,13 +147,13 @@
 							var height1, height2, height3;
 
 							doh.robot.sequence(d.getTestErrback(function(){
-								pane1.attr("open", true);
+								pane1.set("open", true);
 							}), 500);
 
 							// Changing the content while open should change the height
 							doh.robot.sequence(d.getTestErrback(function(){
 								height1 = pane1.domNode.offsetHeight;
-								pane1.attr("content", pane1.attr("content") + "<br>new line");
+								pane1.set("content", pane1.get("content") + "<br>new line");
 							}), 500);
 							doh.robot.sequence(d.getTestErrback(function(){
 								height2 = pane1.domNode.offsetHeight;
@@ -162,11 +162,11 @@
 
 							// Change the content while closed should also change the height (when it is next opened)
 							doh.robot.sequence(d.getTestErrback(function(){
-								pane1.attr("open", false);
+								pane1.set("open", false);
 							}), 500);
 							doh.robot.sequence(d.getTestErrback(function(){
-								pane1.attr("content", pane1.attr("content") + "<br>another new line");
-								pane1.attr("open", true);
+								pane1.set("content", pane1.get("content") + "<br>another new line");
+								pane1.set("open", true);
 							}), 500);
 							doh.robot.sequence(d.getTestCallback(function(){
 								height3 = pane1.domNode.offsetHeight;
@@ -185,7 +185,7 @@
 							// Open the href pane, causing the href to load
 							dojo.window.scrollIntoView(dijit.byId("inner").domNode);
 							doh.robot.sequence(d.getTestErrback(function(){
-								href1.attr("open", true);
+								href1.set("open", true);
 							}), 1000);
 
 							// Initially it should display "Loading..." with a small height (enough for that one message)
@@ -213,7 +213,7 @@
 
 							// Opening the href pane will cause it to expand, and during the expansion the load
 							// will finish.   Make sure height shows full content
-							href2.attr("open", true);
+							href2.set("open", true);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								var height = href2.domNode.offsetHeight;
@@ -236,8 +236,8 @@
 							var resized = false;
 							dojo.connect(dijit.byId("tabContainer"), "resize", function(){ resized = true;});
 
-							doh.f(pane3.attr("open"), "pane3 is closed");
-							pane3.attr("open", true);
+							doh.f(pane3.get("open"), "pane3 is closed");
+							pane3.set("open", true);
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(resized, "tabcontainer was resized");
 							}), 500);

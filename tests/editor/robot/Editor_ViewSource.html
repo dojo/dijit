@@ -42,7 +42,7 @@
 									break;
 								}
 							}
-							if(vsPlugin) { vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
+							if(vsPlugin) { vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -73,7 +73,7 @@
 							return d;
 						},
 						tearDown: function(){
-							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
+							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
 							 fsPlugin = null;
 							 vsPlugin = null;
 						}
@@ -93,7 +93,7 @@
 									break;
 								}
 							}
-							if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
+							if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -122,7 +122,7 @@
 							return d;
 						},
 						tearDown: function(){
-							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
+							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
 						}
 					},
 					{
@@ -138,7 +138,7 @@
 									break;
 								}
 							}
-							if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
+							if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -167,7 +167,7 @@
 							return d;
 						},
 						tearDown: function(){
-							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
+							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
 							 fsPlugin = null;
 							 vsPlugin = null;
 						}
@@ -185,7 +185,7 @@
 									break;
 								}
 							}
-							if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
+							if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -216,7 +216,7 @@
 							return d;
 						},
 						tearDown: function(){
-							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
+							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
 							 fsPlugin = null;
 							 vsPlugin = null;
 						}
@@ -239,8 +239,8 @@
 									break;
 								}
 							}
-							if(fsPlugin) {fsPlugin.button.attr("checked", false);}
-							if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
+							if(fsPlugin) {fsPlugin.button.set("checked", false);}
+							if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -272,8 +272,8 @@
 							return d;
 						},
 						tearDown: function(){
-							 if(fsPlugin) {fsPlugin.button.attr("checked", false);}
-							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
+							 if(fsPlugin) {fsPlugin.button.set("checked", false);}
+							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
 							 fsPlugin = null;
 							 vsPlugin = null;
 						}
@@ -296,8 +296,8 @@
 									break;
 								}
 							}
-							if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
-							if(fsPlugin) {fsPlugin.button.attr("checked", false);}
+							if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
+							if(fsPlugin) {fsPlugin.button.set("checked", false);}
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -335,8 +335,8 @@
 							return d;
 						},
 						tearDown: function(){
-							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
-							 if(fsPlugin) {fsPlugin.button.attr("checked", false);}
+							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
+							 if(fsPlugin) {fsPlugin.button.set("checked", false);}
 							 fsPlugin = null;
 							 vsPlugin = null;
 						}
@@ -356,14 +356,14 @@
 									break;
 								}
 							}
-							if(vsPlugin) { vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
+							if(vsPlugin) { vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
 							editor0.onLoadDeferred.addCallback(function(){
 								//Timing gets wonky here, so we need to do this on a timeout
 								//so the browser has time  to shift focus.
-								var oldValue = editor0.attr("value");
+								var oldValue = editor0.get("value");
 								setTimeout(function(){
 									try{
 										//Focus on the editor window
@@ -389,10 +389,10 @@
 										doh.robot.keyPress(dojo.keys.F12, 1000, {ctrl:true,shift:true});
 										doh.robot.sequence(d.getTestCallback(function(){
 											//Now check the state!
-											var val = editor0.attr("value");
+											var val = editor0.get("value");
 											doh.assertEqual(-1, val.indexOf("Hack!"), "Validating inline script tag was stripped");
 											doh.assertEqual(-1, val.indexOf("hack.js"), "Validating import script tag was stripped");
-											editor0.attr("value", oldValue);
+											editor0.set("value", oldValue);
 										}), 2000);
 									}catch(e){
 										d.errback(e);
@@ -402,7 +402,7 @@
 							return d;
 						},
 						tearDown: function(){
-							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
+							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
 							 fsPlugin = null;
 							 vsPlugin = null;
 						}
@@ -422,14 +422,14 @@
 									break;
 								}
 							}
-							if(vsPlugin) { vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
+							if(vsPlugin) { vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
 							editor0.onLoadDeferred.addCallback(function(){
 								//Timing gets wonky here, so we need to do this on a timeout
 								//so the browser has time  to shift focus.
-								var oldValue = editor0.attr("value");
+								var oldValue = editor0.get("value");
 								setTimeout(function(){
 									try{
 										//Focus on the editor window
@@ -449,9 +449,9 @@
 										doh.robot.keyPress(dojo.keys.F12, 500, {ctrl:true,shift:true});
 										doh.robot.sequence(d.getTestCallback(function(){
 											//Now check the state!
-											var val = editor0.attr("value");
+											var val = editor0.get("value");
 											doh.assertEqual(-1, val.indexOf("< scrIPt "), "Validating script tag was stripped");
-											editor0.attr("value", oldValue);
+											editor0.set("value", oldValue);
 										}), 2000);
 									}catch(e){
 										d.errback(e);
@@ -461,7 +461,7 @@
 							return d;
 						},
 						tearDown: function(){
-							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
+							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
 							 fsPlugin = null;
 							 vsPlugin = null;
 						}
@@ -481,14 +481,14 @@
 									break;
 								}
 							}
-							if(vsPlugin) { vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
+							if(vsPlugin) { vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
 							editor0.onLoadDeferred.addCallback(function(){
 								//Timing gets wonky here, so we need to do this on a timeout
 								//so the browser has time  to shift focus.
-								var oldValue = editor0.attr("value");
+								var oldValue = editor0.get("value");
 								setTimeout(function(){
 									try{
 										//Focus on the editor window
@@ -511,9 +511,9 @@
 
 										doh.robot.sequence(d.getTestCallback(function(){
 											//Now check the state!
-											var val = editor0.attr("value");
+											var val = editor0.get("value");
 											doh.assertEqual(-1, val.indexOf("Hello, this is a comment!"), "Validating comment block was stripped");
-											editor0.attr("value", oldValue);
+											editor0.set("value", oldValue);
 										}), 2000);
 									}catch(e){
 										d.errback(e);
@@ -523,7 +523,7 @@
 							return d;
 						},
 						tearDown: function(){
-							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
+							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
 							 fsPlugin = null;
 							 vsPlugin = null;
 						}
@@ -543,14 +543,14 @@
 									break;
 								}
 							}
-							if(vsPlugin) { vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
+							if(vsPlugin) { vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
 							editor0.onLoadDeferred.addCallback(function(){
 								//Timing gets wonky here, so we need to do this on a timeout
 								//so the browser has time  to shift focus.
-								var oldValue = editor0.attr("value");
+								var oldValue = editor0.get("value");
 								setTimeout(function(){
 									try{
 										//Focus on the editor window
@@ -573,9 +573,9 @@
 
 										doh.robot.sequence(d.getTestCallback(function(){
 											//Now check the state!
-											var val = editor0.attr("value");
+											var val = editor0.get("value");
 											doh.assertEqual(-1, val.indexOf("Hello, this is a comment!"), "Validating multiline comment block was stripped");
-											editor0.attr("value", oldValue);
+											editor0.set("value", oldValue);
 										}), 2000);
 									}catch(e){
 										d.errback(e);
@@ -585,7 +585,7 @@
 							return d;
 						},
 						tearDown: function(){
-							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
+							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
 							 fsPlugin = null;
 							 vsPlugin = null;
 						}
@@ -607,14 +607,14 @@
 									break;
 								}
 							}
-							if(vsPlugin) { vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
+							if(vsPlugin) { vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
 						},
 						runTest: function(){
 							 var d = new doh.Deferred();
 							 editor0.onLoadDeferred.addCallback(function(){
 								//Timing gets wonky here, so we need to do this on a timeout
 								//so the browser has time  to shift focus.
-								var oldValue = editor0.attr("value");
+								var oldValue = editor0.get("value");
 								setTimeout(function(){
 									try{
 										//Focus on the editor window
@@ -636,9 +636,9 @@
 
 										doh.robot.sequence(d.getTestCallback(function(){
 											//Now check the state!
-											var val = editor0.attr("value");
+											var val = editor0.get("value");
 											doh.assertEqual(-1, val.indexOf("<iframe"), "Validating iframe tag was stripped stripped");
-											editor0.attr("value", oldValue);
+											editor0.set("value", oldValue);
 										}), 2000);
 									}catch(e){
 										d.errback(e);
@@ -648,7 +648,7 @@
 							return d;
 						},
 						tearDown: function(){
-							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
+							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
 							 fsPlugin = null;
 							 vsPlugin = null;
 						}
@@ -668,14 +668,14 @@
 									break;
 								}
 							}
-							if(vsPlugin) { vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
+							if(vsPlugin) { vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
 							editor3.onLoadDeferred.addCallback(function(){
 								//Timing gets wonky here, so we need to do this on a timeout
 								//so the browser has time  to shift focus.
-								var oldValue = editor3.attr("value");
+								var oldValue = editor3.get("value");
 								setTimeout(function(){
 									try{
 										//Focus on the editor window
@@ -710,14 +710,14 @@
 										doh.robot.keyPress(dojo.keys.F12, 1000, {ctrl:true,shift:true});
 										doh.robot.sequence(d.getTestCallback(function(){
 											//Now check the state!
-											var val = editor3.attr("value");
+											var val = editor3.get("value");
 											// IE strips scripts anyway, need to look more at this sometime.
 											// It's not the plugin doing it.
 											doh.assertTrue((0 <= val.indexOf("Hack!")) || dojo.isIE, "Validating inline script tag was left");
 											doh.assertTrue((0 <= val.indexOf("hack.js") || dojo.isIE), "Validating import script tag was left");
 											doh.assertTrue(0 <= val.indexOf("<iframe"), "Validating iframe tag was left");
 											doh.assertTrue(0 <= val.indexOf("Hello, this is a comment!"), "Validating comment was left");
-											editor3.attr("value", oldValue);
+											editor3.set("value", oldValue);
 										}), 2000);
 									}catch(e){
 										d.errback(e);
@@ -727,7 +727,7 @@
 							return d;
 						},
 						tearDown: function(){
-							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
+							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
 							 fsPlugin = null;
 							 vsPlugin = null;
 						}
@@ -747,7 +747,7 @@
 									break;
 								}
 							}
-							if(vsPlugin) { vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
+							if(vsPlugin) { vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
 						},
 						runTest: function(){
 							 var d = new doh.Deferred();
@@ -774,7 +774,7 @@
 							return d;
 						},
 						tearDown: function(){
-							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.attr("checked", false);}
+							 if(vsPlugin) {vsPlugin.button.focus(); vsPlugin.button.set("checked", false);}
 							 fsPlugin = null;
 							 vsPlugin = null;
 						}

@@ -62,10 +62,10 @@
 							moveAndClick("predefined");
 							doh.robot.sequence(d.getTestCallback(function(){
 								var currencyTextBox = inlineBox.wrapperWidget.editWidget;
-								doh.is('dollar', currencyTextBox.attr("displayedValue"), "displayedValue");
+								doh.is('dollar', currencyTextBox.get("displayedValue"), "displayedValue");
 								doh.f(currencyTextBox.isValid(), "!isValid");
 								inlineBox.cancel(false);
-								doh.is('', inlineBox.attr("value"), "value");
+								doh.is('', inlineBox.get("value"), "value");
 							}), 1000);
 							return d;
 						}
@@ -81,12 +81,12 @@
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 							doh.robot.sequence(d.getTestErrback(function(){
 								var currencyTextBox = inlineBox.wrapperWidget.editWidget;
-								doh.is('dollar', currencyTextBox.attr("displayedValue"), "displayedValue");
+								doh.is('dollar', currencyTextBox.get("displayedValue"), "displayedValue");
 								doh.f(currencyTextBox.isValid(), "!isValid");
 							}), 1000);
 							doh.robot.keyPress(dojo.keys.ESCAPE, 500, {});
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is('', inlineBox.attr("value"), "value");
+								doh.is('', inlineBox.get("value"), "value");
 							}), 1000);
 							return d;
 						}
@@ -101,7 +101,7 @@
 							doh.robot.typeKeys("123", 1000, 600);
 							moveAndClick("predefined");
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("$123.00", inlineBox.attr("value"), "value");
+								doh.is("$123.00", inlineBox.get("value"), "value");
 							}), 1000);
 							return d;
 						}
@@ -116,7 +116,7 @@
 							doh.robot.typeKeys("234", 1000, 600);
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is('$234.00', inlineBox.attr("value"), "value");
+								doh.is('$234.00', inlineBox.get("value"), "value");
 							}), 1000);
 							return d;
 						}
@@ -131,7 +131,7 @@
 							doh.robot.typeKeys("345", 1000, 600);
 							doh.robot.keyPress(dojo.keys.ESCAPE, 500, {});
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("$234.00", inlineBox.attr("value"), "value");
+								doh.is("$234.00", inlineBox.get("value"), "value");
 							}), 1000);
 							return d;
 						}
@@ -146,7 +146,7 @@
 							doh.robot.typeKeys("456", 1000, 600);
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is('$456.00', inlineBox.attr("value"), "value");
+								doh.is('$456.00', inlineBox.get("value"), "value");
 							}), 1000);
 							return d;
 						}
@@ -171,8 +171,8 @@
 							doh.robot.typeKeys(" again", 1000, 1200);
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is('$567.00', dijit.byId("dollar_as").attr("value"), "value");
-								doh.is('editable again', inlineBox.attr("value"), "value");
+								doh.is('$567.00', dijit.byId("dollar_as").get("value"), "value");
+								doh.is('editable again', inlineBox.get("value"), "value");
 							}), 1000);
 							return d;
 						}
@@ -189,7 +189,7 @@
 							doh.robot.typeKeys("line 2", 500, 1200);
 							moveAndClick("predefined");
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is('line 1\\nline 2', inlineBox.attr("value").replace(/\n/g, "\\n"), "textarea programmatic value was " + inlineBox.attr("value").replace(/\n/g, "\\n"));
+								doh.is('line 1\\nline 2', inlineBox.get("value").replace(/\n/g, "\\n"), "textarea programmatic value was " + inlineBox.get("value").replace(/\n/g, "\\n"));
 								doh.is('line 1<br>line 2', inlineBox.domNode.innerHTML.toLowerCase(), "textarea rendered value was " + inlineBox.domNode.innerHTML);
 							}), 1000);
 							return d;
@@ -210,9 +210,9 @@
 							var inlineBox = dijit.byId("dollar");
 							moveAndClick(inlineBox.domNode);
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is('$2,000', inlineBox.attr("value"), "value");
+								doh.is('$2,000', inlineBox.get("value"), "value");
 								var currencyTextBox = inlineBox.wrapperWidget.editWidget;
-								doh.is('2000.00', currencyTextBox.attr("displayedValue"), "displayedValue");
+								doh.is('2000.00', currencyTextBox.get("displayedValue"), "displayedValue");
 							}), 1000);
 							cancel(d, inlineBox);
 							testOK(d);
@@ -227,9 +227,9 @@
 							var inlineBox = dijit.byId("quantity");
 							moveAndClick(inlineBox.domNode);
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is(3, inlineBox.attr("value"));
+								doh.is(3, inlineBox.get("value"));
 								var numberSpinner = inlineBox.wrapperWidget.editWidget;
-								doh.is(3, numberSpinner.attr("value"));
+								doh.is(3, numberSpinner.get("value"));
 							}), 1000);
 							cancel(d, inlineBox);
 							testOK(d);
@@ -244,9 +244,9 @@
 							var inlineBox = dijit.byId("item");
 							moveAndClick(inlineBox.domNode);
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is("refrigerators", dojo.trim(inlineBox.attr("value")));
+								doh.is("refrigerators", dojo.trim(inlineBox.get("value")));
 								var comboBox = inlineBox.wrapperWidget.editWidget;
-								doh.is("refrigerators", comboBox.attr("value"));
+								doh.is("refrigerators", comboBox.get("value"));
 							}), 1000);
 							cancel(d, inlineBox);
 							testOK(d);
@@ -262,9 +262,9 @@
 							moveAndClick(inlineBox.domNode);
 							var preDate = dojo.date.locale.parse("01/05/2007", {datePattern: 'MM/dd/yyyy', selector:'date'});
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is("01/05/2007", inlineBox.attr("value"));
+								doh.is("01/05/2007", inlineBox.get("value"));
 								var dateTextBox = inlineBox.wrapperWidget.editWidget;
-								doh.is(preDate.toString(), dateTextBox.attr("value").toString());
+								doh.is(preDate.toString(), dateTextBox.get("value").toString());
 							}), 1000);
 							cancel(d, inlineBox);
 							testOK(d);
@@ -279,9 +279,9 @@
 							var inlineBox = dijit.byId("state");
 							moveAndClick(inlineBox.domNode);
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is("Pennsylvania", dojo.trim(inlineBox.attr("value")));
+								doh.is("Pennsylvania", dojo.trim(inlineBox.get("value")));
 								var filteringSelect = inlineBox.wrapperWidget.editWidget;
-								doh.is("PA", filteringSelect.attr("value"));
+								doh.is("PA", filteringSelect.get("value"));
 							}), 1000);
 							cancel(d, inlineBox);
 							testOK(d);
@@ -303,14 +303,14 @@
 							var inlineBox = dijit.byId("renderAsHtml_false");
 							doh.is("&lt;B&gt;not bold&lt;/B&gt;&amp;lt;input&amp;gt;", dojo.trim(inlineBox.domNode.innerHTML),
 								"confirm initial value (with special chars) wasn't modified");
-							doh.is("<B>not bold</B>&lt;input&gt;", inlineBox.attr("value"),
-								"confirm initial attr('value')");
+							doh.is("<B>not bold</B>&lt;input&gt;", inlineBox.get("value"),
+								"confirm initial get('value')");
 
 							// launch editor, and make sure that special characters aren't mangled
 							moveAndClick(inlineBox.domNode);
 							doh.robot.sequence(d.getTestErrback(function(){
 								var editor = inlineBox.wrapperWidget.editWidget;
-								doh.is("<B>not bold</B>&lt;input&gt;", editor.attr("value"), "initial editor value");
+								doh.is("<B>not bold</B>&lt;input&gt;", editor.get("value"), "initial editor value");
 							}), 1000);
 
 							// edit value and save		
@@ -322,8 +322,8 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("&lt;B&gt;not bold&lt;/B&gt;&amp;lt;input&amp;gt;end", dojo.trim(inlineBox.domNode.innerHTML),
 									"displayed value after edit");
-								doh.is("<B>not bold</B>&lt;input&gt;end", inlineBox.attr("value"),
-									"attr('value') after edit");
+								doh.is("<B>not bold</B>&lt;input&gt;end", inlineBox.get("value"),
+									"get('value') after edit");
 							}), 1000);
 
 							return d;
@@ -343,15 +343,15 @@
 								dojo.trim(inlineBox.domNode.innerHTML).toLowerCase(),
 								"confirm initial value (with special chars) wasn't modified");
 							doh.is("&lt;b&gt;not bold&lt;/b&gt;<b>bold</b>&amp;lt;input&amp;gt;",
-								inlineBox.attr("value").toLowerCase(),
-								"confirm initial attr('value')");
+								inlineBox.get("value").toLowerCase(),
+								"confirm initial get('value')");
 
 							// launch editor, and make sure that value was passed to editor as HTML
 							moveAndClick(inlineBox.domNode);
 							doh.robot.sequence(d.getTestErrback(function(){
 								var editor = inlineBox.wrapperWidget.editWidget;
 								doh.is("&lt;b&gt;not bold&lt;/b&gt;<b>bold</b>&amp;lt;input&amp;gt;",
-									editor.attr("value").toLowerCase(),
+									editor.get("value").toLowerCase(),
 									"initial editor value");
 							}), 1000);
 
@@ -366,8 +366,8 @@
 									dojo.trim(inlineBox.domNode.innerHTML).toLowerCase(),
 									"displayed value after edit");
 								doh.is("&lt;b&gt;not bold&lt;/b&gt;<b>bold</b>&amp;lt;input&amp;gt;end",
-									inlineBox.attr("value").toLowerCase(),
-									"attr('value') after edit");
+									inlineBox.get("value").toLowerCase(),
+									"get('value') after edit");
 							}), 1000);
 
 							return d;
@@ -387,7 +387,7 @@
 							doh.robot.typeKeys("!start!", 1000, 1400);
 							save(d, inlineBox);
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.t(inlineBox.attr("value").indexOf('!start!') >= 0, "value changed");
+								doh.t(inlineBox.get("value").indexOf('!start!') >= 0, "value changed");
 							}), 1000);
 							return d;
 						}

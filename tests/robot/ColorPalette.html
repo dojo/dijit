@@ -40,13 +40,13 @@
 							});
 						},
 						runTest: function(){
-							doh.f(big.attr('value'), "no value for big");
-							doh.f(small.attr('value'), "no value for small");
-							doh.f(prog.attr('value'), "no value for prog");
+							doh.f(big.get('value'), "no value for big");
+							doh.f(small.get('value'), "no value for small");
+							doh.f(prog.get('value'), "no value for prog");
 						}
 					},
 					
-					// TODO: when attr() is implemented as a setter, add tests like big.attr("value", "#ffc0cb")
+					// TODO: when attr() is implemented as a setter, add tests like big.set("value", "#ffc0cb")
 
 					{
 						name: "focus",
@@ -100,13 +100,13 @@
 							// Select the current value
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-								doh.is("#ffc0cb", big.attr("value"), "selected value");
+								doh.is("#ffc0cb", big.get("value"), "selected value");
 								
 								doh.is(1, changes.length, 'one onchange event');
 								doh.is("#ffc0cb", changes[0], "correct value");
 								
-								big.attr('value', null);
-								doh.is(big.attr('value'), null, "value has been cleared");
+								big.set('value', null);
+								doh.is(big.get('value'), null, "value has been cleared");
 							})), 1000);
 
 							return d;
@@ -161,7 +161,7 @@
 							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								var value = small.attr('value');
+								var value = small.get('value');
 								doh.is("#ffff00", value);
 							}), 1000);
 
@@ -198,7 +198,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// test that value set
-								var value = small.attr('value');
+								var value = small.get('value');
 								doh.is("#008000", value, "value");
 								
 								// test that focus also got set

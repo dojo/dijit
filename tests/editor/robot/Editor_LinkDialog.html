@@ -42,7 +42,7 @@
 									break;
 								}
 							}
-							value = editor.attr("value");
+							value = editor.get("value");
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -56,21 +56,21 @@
 
 								//Find the fullscreen plugin, we'll need it.
 								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
-								var value = editor.attr("value");
+								var value = editor.get("value");
 								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
 								doh.robot.mouseClick({left:true}, 500);
 								var url, desc;
 								doh.robot.sequence(function(){
 									url = dijit.byId(ldPlugin._uniqueId + "_urlInput");
 									desc = dijit.byId(ldPlugin._uniqueId + "_textInput");
-									url.attr("value", "http://example.com/");
-									desc.attr("value", "This is my example link.");
+									url.set("value", "http://example.com/");
+									desc.set("value", "This is my example link.");
 								},2000);
 								doh.robot.mouseMoveAt(function(){return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode;}, 500);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									//Now check the state!
-									var newVal = editor.attr("value");
+									var newVal = editor.get("value");
 									doh.assertTrue(newVal !== value, "Verify the contents have changed.");
 									doh.assertTrue(new RegExp("href=(\"|\')http://example.com/(\"|\')").test(newVal), "Verifying URL has been inserted.");
 									doh.assertFalse(new RegExp("<li><a").test(newVal), "Verifying insert did not occur in the top li (IE test for selection restore.)");
@@ -83,7 +83,7 @@
 							return d;
 						},
 						tearDown: function(){
-							if(editor){editor.attr("value", value);}
+							if(editor){editor.set("value", value);}
 						}
 					},
 					{
@@ -100,7 +100,7 @@
 									break;
 								}
 							}
-							value = editor.attr("value");
+							value = editor.get("value");
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -114,7 +114,7 @@
 
 								//Find the fullscreen plugin, we'll need it.
 								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
-								var value = editor.attr("value");
+								var value = editor.get("value");
 								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
 								doh.robot.mouseClick({left:true}, 500);
 
@@ -123,15 +123,15 @@
 									url = dijit.byId(ldPlugin._uniqueId + "_urlInput");
 									desc = dijit.byId(ldPlugin._uniqueId + "_textInput");
 									target = dijit.byId(ldPlugin._uniqueId + "_targetSelect");
-									url.attr("value", "http://example.com/");
-									desc.attr("value", "This is my example link.");
-									target.attr("value", "_blank");
+									url.set("value", "http://example.com/");
+									desc.set("value", "This is my example link.");
+									target.set("value", "_blank");
 								},2000);
 								doh.robot.mouseMoveAt(function(){return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode;}, 500);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									//Now check the state!
-									var newVal = editor.attr("value");
+									var newVal = editor.get("value");
 									doh.assertTrue(newVal !== value, "Verify the contents have changed.");
 									doh.assertFalse(new RegExp("<li><a").test(newVal), "Verifying insert did not occur in the top li (IE test for selection restore.)");
 									doh.assertTrue(new RegExp("href=(\"|\')http://example.com/(\"|\')").test(newVal), "Verifying URL has been inserted.");
@@ -144,7 +144,7 @@
 							return d;
 						},
 						tearDown: function(){
-							if(editor){editor.attr("value", value);}
+							if(editor){editor.set("value", value);}
 						}
 					},
 					{
@@ -161,7 +161,7 @@
 									break;
 								}
 							}
-							value = editor.attr("value");
+							value = editor.get("value");
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -175,7 +175,7 @@
 
 								//Find the fullscreen plugin, we'll need it.
 								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
-								var value = editor.attr("value");
+								var value = editor.get("value");
 								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
 								doh.robot.mouseClick({left:true}, 500);
 
@@ -184,15 +184,15 @@
 									url = dijit.byId(ldPlugin._uniqueId + "_urlInput");
 									desc = dijit.byId(ldPlugin._uniqueId + "_textInput");
 									target = dijit.byId(ldPlugin._uniqueId + "_targetSelect");
-									url.attr("value", "example.com/");
-									desc.attr("value", "This is my example link.");
-									target.attr("value", "_blank");
+									url.set("value", "example.com/");
+									desc.set("value", "This is my example link.");
+									target.set("value", "_blank");
 								},2000);
 								doh.robot.mouseMoveAt(function(){return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode;}, 500);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									//Now check the state!
-									var newVal = editor.attr("value");
+									var newVal = editor.get("value");
 									doh.assertTrue(newVal !== value, "Verify the contents have changed.");
 									doh.assertFalse(new RegExp("<li><a").test(newVal), "Verifying insert did not occur in the top li (IE test for selection restore.)");
 									doh.assertTrue(new RegExp("href=(\"|\')http://example.com/(\"|\')").test(newVal), "Verifying URL has been inserted.");
@@ -205,7 +205,7 @@
 							return d;
 						},
 						tearDown: function(){
-							if(editor){editor.attr("value", value);}
+							if(editor){editor.set("value", value);}
 						}
 					},
 					{
@@ -222,7 +222,7 @@
 									break;
 								}
 							}
-							value = editor.attr("value");
+							value = editor.get("value");
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -236,7 +236,7 @@
 
 								//Find the fullscreen plugin, we'll need it.
 								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
-								var value = editor.attr("value");
+								var value = editor.get("value");
 								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
 								doh.robot.mouseClick({left:true}, 500);
 
@@ -245,15 +245,15 @@
 									url = dijit.byId(ldPlugin._uniqueId + "_urlInput");
 									desc = dijit.byId(ldPlugin._uniqueId + "_textInput");
 									target = dijit.byId(ldPlugin._uniqueId + "_targetSelect");
-									url.attr("value", "./myDirectory/myfile.html");
-									desc.attr("value", "This is my example relative link.");
-									target.attr("value", "_blank");
+									url.set("value", "./myDirectory/myfile.html");
+									desc.set("value", "This is my example relative link.");
+									target.set("value", "_blank");
 								},2000);
 								doh.robot.mouseMoveAt(function(){return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode;}, 500);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									//Now check the state!
-									var newVal = editor.attr("value");
+									var newVal = editor.get("value");
 									doh.assertTrue(newVal !== value, "Verify the contents have changed.");
 									doh.assertFalse(new RegExp("<li><a").test(newVal), "Verifying insert did not occur in the top li (IE test for selection restore.)");
 									doh.assertTrue(new RegExp("href=(\"|\')./myDirectory/myfile.html(\"|\')").test(newVal), "Verifying URL has been inserted.");
@@ -266,7 +266,7 @@
 							return d;
 						},
 						tearDown: function(){
-							if(editor){editor.attr("value", value);}
+							if(editor){editor.set("value", value);}
 						}
 					},
 					{
@@ -286,7 +286,7 @@
 							dojo.withGlobal(editor.window, function(){
 								node = dojo.byId("exampleLink");
 							});
-							value = editor.attr("value");
+							value = editor.get("value");
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -299,7 +299,7 @@
 
 								//Find the fullscreen plugin, we'll need it.
 								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
-								var value = editor.attr("value");
+								var value = editor.get("value");
 
 								doh.robot.sequence(function(){
 									// Okay, select the text of the hyperlink so we can then perform an edit on it.
@@ -313,18 +313,18 @@
 									desc = dijit.byId(ldPlugin._uniqueId + "_textInput");
 									target = dijit.byId(ldPlugin._uniqueId + "_targetSelect");
 
-									oldUrl = url.attr("value");
-									oldDesc = desc.attr("value");
+									oldUrl = url.get("value");
+									oldDesc = desc.get("value");
 
-									url.attr("value", oldUrl + "_2");
-									desc.attr("value", oldDesc + "_2");
-									target.attr("value", "_blank");
+									url.set("value", oldUrl + "_2");
+									desc.set("value", oldDesc + "_2");
+									target.set("value", "_blank");
 								}, 2000);
 								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode; }, 500);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									//Now check the state!
-									var newVal = editor.attr("value");
+									var newVal = editor.get("value");
 									doh.assertTrue(newVal !== value, "Verify the contents have changed.");
 									doh.assertTrue(new RegExp("href=(\"|\')"+ oldUrl + "_2" + "(\"|\')").test(newVal), "Verifying URL has been inserted.");
 									doh.assertFalse(new RegExp("href=(\"|\')"+ oldUrl + "(\"|\')").test(newVal), "Verifying old URL is gone.");
@@ -340,7 +340,7 @@
 							return d;
 						},
 						tearDown: function(){
-							if(editor){editor.attr("value", value);}
+							if(editor){editor.set("value", value);}
 						}
 					},
 					{
@@ -360,7 +360,7 @@
 							dojo.withGlobal(editor.window, function(){
 								node = dojo.byId("exampleLink");
 							});
-							value = editor.attr("value");
+							value = editor.get("value");
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -373,7 +373,7 @@
 
 								//Find the fullscreen plugin, we'll need it.
 								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
-								var value = editor.attr("value");
+								var value = editor.get("value");
 
 								doh.robot.sequence(function(){
 									// Okay, select the text of the hyperlink so we can then perform an edit on it.
@@ -386,20 +386,20 @@
 									url = dijit.byId(ldPlugin._uniqueId + "_urlInput");
 									desc = dijit.byId(ldPlugin._uniqueId + "_textInput");
 									target = dijit.byId(ldPlugin._uniqueId + "_targetSelect");
-									oldDesc = desc.attr("value");
-									desc.attr("value", "");
-									target.attr("value", "_blank");
+									oldDesc = desc.get("value");
+									desc.set("value", "");
+									target.set("value", "_blank");
 								}, 2000);
 								doh.robot.sequence(function(){
 									// Verify setting the content is disabled.
 									var setButton = dijit.byId(ldPlugin._uniqueId + "_setButton");
-									doh.assertTrue(setButton.attr("disabled"));
+									doh.assertTrue(setButton.get("disabled"));
 								}, 500);
 								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_cancelButton").domNode; }, 500);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									//Now check the state!
-									var newVal = editor.attr("value");
+									var newVal = editor.get("value");
 									doh.assertTrue(newVal === value, "Verify the contents have not changed.");
 								}), 2000);
 							}catch(e){
@@ -408,7 +408,7 @@
 							return d;
 						},
 						tearDown: function(){
-							if(editor){editor.attr("value", value);}
+							if(editor){editor.set("value", value);}
 						}
 					},
 					{
@@ -425,7 +425,7 @@
 									break;
 								}
 							}
-							value = editor.attr("value");
+							value = editor.get("value");
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -447,14 +447,14 @@
 									url = dijit.byId(ldPlugin._uniqueId + "_urlInput");
 									desc = dijit.byId(ldPlugin._uniqueId + "_textInput");
 									target = dijit.byId(ldPlugin._uniqueId + "_targetSelect");
-									url.attr("value", "http://this is not/valid/bad.html");
-									desc.attr("value", "This is my example relative link.");
-									target.attr("value", "_blank");
+									url.set("value", "http://this is not/valid/bad.html");
+									desc.set("value", "This is my example relative link.");
+									target.set("value", "_blank");
 									url.validate();
 								},2000);
 								doh.robot.sequence(function(){
 									var setButton = dijit.byId(ldPlugin._uniqueId + "_setButton");
-									doh.assertTrue(setButton.attr("disabled"));
+									doh.assertTrue(setButton.get("disabled"));
 								}, 500);
 								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_cancelButton").domNode; }, 500);
 								doh.robot.mouseClick({left:true}, 500);
@@ -462,7 +462,7 @@
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									//Now check the state!
-									var newVal = editor.attr("value");
+									var newVal = editor.get("value");
 									doh.assertTrue(newVal === value, "Verify the contents have not changed.");
 									doh.assertFalse(url.isValid());
 								}), 2000);
@@ -472,7 +472,7 @@
 							return d;
 						},
 						tearDown: function(){
-							if(editor){editor.attr("value", value);}
+							if(editor){editor.set("value", value);}
 						}
 					},
 					{
@@ -489,7 +489,7 @@
 									break;
 								}
 							}
-							value = editor.attr("value");
+							value = editor.get("value");
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -503,7 +503,7 @@
 
 								//Find the fullscreen plugin, we'll need it.
 								doh.assertTrue(ldPlugin !== null, "Verifying the image dialog.");
-								var value = editor.attr("value");
+								var value = editor.get("value");
 								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
 								doh.robot.mouseClick({left:true}, 500);
 
@@ -511,14 +511,14 @@
 								doh.robot.sequence(function(){
 									url = dijit.byId(ldPlugin._uniqueId + "_urlInput");
 									desc = dijit.byId(ldPlugin._uniqueId + "_textInput");
-									url.attr("value", "./sample2.jpg");
-									desc.attr("value", "This is my example image 2.");
+									url.set("value", "./sample2.jpg");
+									desc.set("value", "This is my example image 2.");
 								},2000);
 								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode; }, 500);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									//Now check the state!
-									var newVal = editor.attr("value");
+									var newVal = editor.get("value");
 									doh.assertTrue(newVal !== value, "Verify the contents have changed.");
 									doh.assertFalse(new RegExp("<li><img").test(newVal), "Verifying insert did not occur in the top li (IE test for selection restore.)");
 									doh.assertTrue(new RegExp("src=(\"|\').*/sample2.jpg(\"|\')").test(newVal), "Verifying URL has been inserted.");
@@ -530,7 +530,7 @@
 							return d;
 						},
 						tearDown: function(){
-							if(editor){editor.attr("value", value);}
+							if(editor){editor.set("value", value);}
 						}
 					},
 					{
@@ -547,7 +547,7 @@
 									break;
 								}
 							}
-							value = editor.attr("value");
+							value = editor.get("value");
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -561,7 +561,7 @@
 
 								//Find the fullscreen plugin, we'll need it.
 								doh.assertTrue(ldPlugin !== null, "Verifying the image dialog.");
-								var value = editor.attr("value");
+								var value = editor.get("value");
 								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
 								doh.robot.mouseClick({left:true}, 500);
 
@@ -569,14 +569,14 @@
 								doh.robot.sequence(function(){
 									url = dijit.byId(ldPlugin._uniqueId + "_urlInput");
 									desc = dijit.byId(ldPlugin._uniqueId + "_textInput");
-									url.attr("value", "example.com/example.jpg");
-									desc.attr("value", "This is my example image.");
+									url.set("value", "example.com/example.jpg");
+									desc.set("value", "This is my example image.");
 								},2000);
 								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode; }, 500);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									//Now check the state!
-									var newVal = editor.attr("value");
+									var newVal = editor.get("value");
 									doh.assertTrue(newVal !== value, "Verify the contents have changed.");
 									doh.assertFalse(new RegExp("<li><img").test(newVal), "Verifying insert did not occur in the top li (IE test for selection restore.)");
 									doh.assertTrue(new RegExp("src=(\"|\')http://example.com/example.jpg(\"|\')").test(newVal), "Verifying URL has been inserted.");
@@ -588,7 +588,7 @@
 							return d;
 						},
 						tearDown: function(){
-							if(editor){editor.attr("value", value);}
+							if(editor){editor.set("value", value);}
 						}
 					},
 					{
@@ -608,7 +608,7 @@
 							dojo.withGlobal(editor.window, function(){
 								node = dojo.byId("exampleImage");
 							});
-							value = editor.attr("value");
+							value = editor.get("value");
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -622,7 +622,7 @@
 
 								//Find the fullscreen plugin, we'll need it.
 								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
-								var value = editor.attr("value");
+								var value = editor.get("value");
 
 								doh.robot.sequence(function(){editor._sCall("selectElement", [node]);}, 500);
 								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
@@ -631,15 +631,15 @@
 								doh.robot.sequence(function(){
 									url = dijit.byId(ldPlugin._uniqueId + "_urlInput");
 									desc = dijit.byId(ldPlugin._uniqueId + "_textInput");
-									oldDesc = desc.attr("value");
-									url.attr("value", "./sample2.jpg");
-									desc.attr("value", oldDesc + "_2");
+									oldDesc = desc.get("value");
+									url.set("value", "./sample2.jpg");
+									desc.set("value", oldDesc + "_2");
 								}, 2000);
 								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode; }, 500);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									//Now check the state!
-									var newVal = editor.attr("value");
+									var newVal = editor.get("value");
 									doh.assertTrue(newVal !== value, "Verify the contents have changed.");
 									doh.assertFalse(new RegExp("<li><img").test(newVal), "Verifying insert did not occur in the top li (IE test for selection restore.)");
 									doh.assertTrue(new RegExp("src=(\"|\')"+ ".*/sample2.jpg" + "(\"|\')").test(newVal), "Verifying URL has been inserted.");
@@ -653,7 +653,7 @@
 							return d;
 						},
 						tearDown: function(){
-							if(editor){editor.attr("value", value);}
+							if(editor){editor.set("value", value);}
 						}
 					},
 					{
@@ -673,7 +673,7 @@
 							dojo.withGlobal(editor.window, function(){
 								node = dojo.byId("exampleImage");
 							});
-							value = editor.attr("value");
+							value = editor.get("value");
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -687,7 +687,7 @@
 
 								//Find the fullscreen plugin, we'll need it.
 								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
-								var value = editor.attr("value");
+								var value = editor.get("value");
 
 								doh.robot.sequence(function(){editor._sCall("selectElement", [node]);}, 500);
 								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
@@ -696,20 +696,20 @@
 								doh.robot.sequence(function(){
 									url = dijit.byId(ldPlugin._uniqueId + "_urlInput");
 									desc = dijit.byId(ldPlugin._uniqueId + "_textInput");
-									oldDesc = desc.attr("value");
-									url.attr("value", "./sample2.jpg");
-									desc.attr("value", "");
+									oldDesc = desc.get("value");
+									url.set("value", "./sample2.jpg");
+									desc.set("value", "");
 								}, 2000);
 								doh.robot.sequence(function(){
 									// Verify setting the content is disabled.
 									var setButton = dijit.byId(ldPlugin._uniqueId + "_setButton");
-									doh.assertFalse(setButton.attr("disabled"));
+									doh.assertFalse(setButton.get("disabled"));
 								}, 500);
 								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode; }, 500);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									//Now check the state!
-									var newVal = editor.attr("value");
+									var newVal = editor.get("value");
 									doh.assertTrue(newVal !== value, "Verify the contents have changed.");
 									doh.assertFalse(new RegExp("<li><img").test(newVal), "Verifying insert did not occur in the top li (IE test for selection restore.)");
 									doh.assertTrue(new RegExp("src=(\"|\')"+ ".*/sample2.jpg" + "(\"|\')").test(newVal), "Verifying URL has been inserted.");
@@ -723,7 +723,7 @@
 							return d;
 						},
 						tearDown: function(){
-							if(editor){editor.attr("value", value);}
+							if(editor){editor.set("value", value);}
 						}
 					},
 					{
@@ -743,7 +743,7 @@
 							dojo.withGlobal(editor.window, function(){
 								node = dojo.byId("exampleImage");
 							});
-							value = editor.attr("value");
+							value = editor.get("value");
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -757,7 +757,7 @@
 
 								//Find the fullscreen plugin, we'll need it.
 								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
-								var value = editor.attr("value");
+								var value = editor.get("value");
 
 								doh.robot.mouseMoveAt(node, 500);
 								doh.robot.mouseClick({left:true}, 500);
@@ -774,7 +774,7 @@
 							return d;
 						},
 						tearDown: function(){
-							if(editor){editor.attr("value", value);}
+							if(editor){editor.set("value", value);}
 						}
 					}
 				]);

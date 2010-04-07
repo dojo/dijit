@@ -55,7 +55,7 @@
 				runTest: function(t){
 					console.log("basicChecks: " + this.name);
 					var msg = "Simple Test";
-					pane1.attr('content', msg);
+					pane1.set('content', msg);
 					t.assertEqual(msg, pane1.domNode.innerHTML);
 				}
 			},
@@ -94,7 +94,7 @@
 					t.assertTrue(dialog);
 					t.assertTrue(dialog.domNode.parentNode == dojo.body());
 
-					dialogCtrPane.attr('content', "new content, no more dialog");
+					dialogCtrPane.set('content', "new content, no more dialog");
 					t.assertFalse(dijit.byId("sacrificialDlg"));
 					t.assertFalse(dojo.byId("sacrificialDlg"));
 				}
@@ -126,7 +126,7 @@
 					var manualWidget = new dijit.TestWidget({id: "destroyTestWidget"});
 					dojo.place(manualWidget.domNode, dialogCtrPane.domNode, "last");
 
-					// make sure widget created via attr('content') and also the above widget are there
+					// make sure widget created via get('content') and also the above widget are there
 					t.assertTrue(dijit.byId("sacrificialDlg"), "dialog in dialogContainer still there");
 					t.assertTrue(dijit.byId("destroyTestWidget"), "test widget in dialogContainer still there");
 

@@ -61,7 +61,7 @@
 		><script type='dojo/method' event='onBlur'>
 			if(!document.getElementById('onBlurFired').checked){
 				document.getElementById('onBlurFired').checked=true;
-				dijit.byId('automated').attr('disabled', true);
+				dijit.byId('automated').set('disabled', true);
 				setTimeout(function(){ try {
 					dijit.byId('automated').document.execCommand('bold', false, false);
 					document.getElementById('disabledOK').checked = (dijit.byId('automated').document.queryCommandState('bold') == false);
@@ -97,8 +97,8 @@
 	</div>
 	<input id="focusAfter" value="input after editor1">
 	<button onClick="dijit.byId('editor1').destroy()">destroy</button>
-	<button onClick="dijit.byId('editor1').attr('disableSpellCheck', !dijit.byId('editor1').attr('disableSpellCheck'))">toggle spell check</button>
-	<button onclick="console.log(dijit.byId('editor1').attr('value'))">getValue</button>
+	<button onClick="dijit.byId('editor1').set('disableSpellCheck', !dijit.byId('editor1').get('disableSpellCheck'))">toggle spell check</button>
+	<button onclick="console.log(dijit.byId('editor1').get('value'))">getValue</button>
 	<hr/>
 
 	<h2>Created from div, auto-expanding</h2>
@@ -145,7 +145,7 @@
 		<br>
 	</div>
 	<h3>..after</h3>
-	<button onclick="alert(dijit.byId('blah').attr('value'));">getValue</button>
+	<button onclick="alert(dijit.byId('blah').get('value'));">getValue</button>
 	<hr/>
 
 	<h2>Plugins specified</h2>

@@ -48,6 +48,13 @@
 				// mouseleave/enter map to mouseout/over in all browsers except IE
 				console.log(this.domNode.getAttribute('widgetId') + ' ' + arguments[0].type);
 			}
+			dojo.addOnLoad(function(){
+				dijit.byId("localLong").parse = function(value,constraints){
+					return this.dateLocaleModule.parse(value, (constraints.formatLength="long") && constraints) ||
+						 this.dateLocaleModule.parse(value, (constraints.formatLength="short") && constraints) ||
+						(this._isEmpty(value) ? null : undefined);	 // Date
+				};
+			});
 		</script>
 	</head>
 
@@ -70,8 +77,8 @@
 				>
 				onChange:<input id="oc1" size="34" disabled value="not fired yet!" autocomplete="off">
 				<nobr>
-				<button type="button" onclick="dijit.byId('local').attr('value', null);">attr('value',null)</button>
-				<button type="button" onclick="dojo.byId('gv1').value=''+dijit.byId('local').attr('value');">attr('value')</button>
+				<button type="button" onclick="dijit.byId('local').set('value', null);">set('value',null)</button>
+				<button type="button" onclick="dojo.byId('gv1').value=''+dijit.byId('local').get('value');">get('value')</button>
 				<button type="button" onclick="dojo.byId('gv1').value=''+dijit.byId('local').value;">.value</button>
 				<input id="gv1" size="34" disabled value="not called yet!" autocomplete="off">
 				</nobr>
@@ -82,7 +89,7 @@
 					Attributes: required="true", trim="true", constraints={min:'2004-01-01',max:'2006-12-31',formatLength:'long'}. Works for leap years</span>
 			</div>
 			<div class="testExample">
-				<div id="localLong" type="text" name="date1" value="2005-12-30"
+				<div id="localLong" jsid="localLong" type="text" name="date1" value="2005-12-30"
 					dojoType="dijit.form.DateTextBox"
 					constraints="{min:'2004-01-01',max:'2006-12-31',formatLength:'long'}"
 					required="true"
@@ -195,10 +202,10 @@
 			<div class="testExample">
 				From: <input id="fromDate" type="text" name="fromDate" dojoType="dijit.form.DateTextBox"
 					required="true"
-					onChange="dijit.byId('toDate').constraints.min = this.attr('value');" />
+					onChange="dijit.byId('toDate').constraints.min = this.get('value');" />
 				To: <input id="toDate" type="text" name="toDate" dojoType="dijit.form.DateTextBox"
 					required="true"
-					onChange="dijit.byId('fromDate').constraints.max = this.attr('value');" />
+					onChange="dijit.byId('fromDate').constraints.max = this.get('value');" />
 			</div>
 
 			<div>

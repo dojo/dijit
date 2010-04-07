@@ -28,7 +28,7 @@
 							var d = new doh.Deferred();
 
 							var clicked = false;
-							dijit.byId("1467").attr("onClick", function(){ clicked = true; });
+							dijit.byId("1467").set("onClick", function(){ clicked = true; });
 
 							doh.robot.mouseMoveAt("1467", 500);
 							doh.robot.mouseClick({left:true}, 500);
@@ -46,7 +46,7 @@
 							var d = new doh.Deferred();
 
 							var clicked = false;
-							dijit.byId("disabled").attr("onClick", function(){ clicked = true; });
+							dijit.byId("disabled").set("onClick", function(){ clicked = true; });
 
 							doh.robot.mouseMoveAt("disabled", 500);
 							doh.robot.mouseClick({left:true}, 500);
@@ -105,7 +105,7 @@
 							doh.t(leftPart, "found left part of button");
 
 							var clicked = false;
-							dijit.byId("save").attr("onClick", function(){ clicked = true; });
+							dijit.byId("save").set("onClick", function(){ clicked = true; });
 
 							doh.robot.mouseMoveAt(leftPart, 500);
 							doh.robot.mouseClick({left:true}, 500);
@@ -160,8 +160,8 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							var checked = dijit.byId("toggle1").attr("checked");
-							dijit.byId("toggle1").attr("onChange", function(v){ checked = v; });
+							var checked = dijit.byId("toggle1").get("checked");
+							dijit.byId("toggle1").set("onChange", function(v){ checked = v; });
 							doh.t(checked, "toggle1 initially checked");
 
 							doh.robot.mouseMoveAt("toggle1", 500);
@@ -179,8 +179,8 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							var checked = dijit.byId("toggle2").attr("checked");
-							dijit.byId("toggle2").attr("onChange", function(v){ checked = v; });
+							var checked = dijit.byId("toggle2").get("checked");
+							dijit.byId("toggle2").set("onChange", function(v){ checked = v; });
 							doh.f(checked, "toggle2 initially unchecked");
 
 							doh.robot.mouseMoveAt("toggle2", 500);
@@ -198,10 +198,10 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							dijit.byId("toggle1").attr("disabled", true);
+							dijit.byId("toggle1").set("disabled", true);
 
 							var changed = false;
-							dijit.byId("toggle1").attr("onChange", function(v){ changed = true; });
+							dijit.byId("toggle1").set("onChange", function(v){ changed = true; });
 
 							doh.robot.mouseMoveAt("toggle1", 500);
 							doh.robot.mouseClick({left:true}, 500);
@@ -218,7 +218,7 @@
 					{
 						name: "change label",
 						runTest: function(){
-							dijit.byId("edit").attr("label", "hi!");
+							dijit.byId("edit").set("label", "hi!");
 							doh.is("hi!", dijit.byId("edit").containerNode.innerHTML);
 						}
 					},
@@ -227,11 +227,11 @@
 						name: "icon",
 						runTest: function(){
 							doh.f(dojo.hasClass(dijit.byId("1467").iconNode, "plusIcon"), "doesn't plus icon class");
-							dijit.byId("1467").attr("iconClass", "plusIcon");
+							dijit.byId("1467").set("iconClass", "plusIcon");
 							doh.t(dojo.hasClass(dijit.byId("1467").iconNode, "plusIcon"), "has plus icon class");
 
 							// switching icon erases old one
-							dijit.byId("1467").attr("iconClass", "noteIcon");
+							dijit.byId("1467").set("iconClass", "noteIcon");
 							doh.f(dojo.hasClass(dijit.byId("1467").iconNode, "plusIcon"), "doesn't plus icon class");
 						}
 					},
@@ -242,7 +242,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							dijit.byId("save").attr("disabled", true);
+							dijit.byId("save").set("disabled", true);
 
 							var d = new doh.Deferred();
 
@@ -250,7 +250,7 @@
 							var leftPart = dojo.query(".dijitButtonContents", dojo.byId("save"))[0];
 							doh.t(leftPart, "found left part of button");
 							var clicked = false;
-							dijit.byId("save").attr("onClick", function(){ clicked = true; });
+							dijit.byId("save").set("onClick", function(){ clicked = true; });
 							doh.robot.mouseMoveAt(leftPart, 500);
 							doh.robot.mouseClick({left:true}, 500);
 

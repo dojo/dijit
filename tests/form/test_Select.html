@@ -103,11 +103,11 @@
 							runTest: function(t){
 								var d = new doh.Deferred();
 								t.is(dojo.toJson({s1:"VA", s2:"CA", s3:"AL", s4: "AK", s5: "move", s6: "", s7:"NY", s8:"AL",
-									s9:"CT", s10:"AL", s11:"AL", s12: "AL"}), dojo.toJson(form.attr("value")));
-								s1.attr("value", "WA");
+									s9:"CT", s10:"AL", s11:"AL", s12: "AL"}), dojo.toJson(form.get("value")));
+								s1.set("value", "WA");
 								t.is("WA", s1.value);
 								setTimeout(function(){ try{ // allow onChange to fire
-									s1.attr("value", "UT");
+									s1.set("value", "UT");
 									t.is("TN", s1.value);
 									setTimeout(function(){ try{ // allow onChange to fire
 										t.is(2, numChanges);
@@ -120,7 +120,7 @@
 						function test_changeSelected(t){
 							t.is("AL", s11.value);
 							t.is(wrapLabel("Alabama"), s11.containerNode.innerHTML.toLowerCase().replace(/ */g, ""));
-							s11.attr("value", "AK");
+							s11.set("value", "AK");
 							t.is("AK", s11.value);
 							t.is(wrapLabel("Alaska"), s11.containerNode.innerHTML.toLowerCase().replace(/ */g, ""));
 							var d = new doh.Deferred();
@@ -187,14 +187,14 @@
 						function test_newItem(t){
 							t.is(5, s11.getOptions().length);
 							t.is("AL", s11.value);
-							s11.attr("value", "NY");
+							s11.set("value", "NY");
 							t.is("AL", s11.value);
 							var d = new doh.Deferred();
 							writeStore.newItem({value: "NY", label: "New York"});
 							window.setTimeout(function(){
 								try{
 									t.is(6, s11.getOptions().length);
-									s11.attr("value", "NY");
+									s11.set("value", "NY");
 									t.is("NY", s11.value);
 									d.callback(true);
 								} catch (e) {
@@ -317,7 +317,7 @@
 			</select>
 			<button dojoType="dijit.form.Button" type="button">
 				<script type="dojo/method" event="onClick">
-					console.log(s1.attr("displayedValue"));
+					console.log(s1.get("displayedValue"));
 				</script>
 				Get Displayed Value
 			</button>
@@ -352,7 +352,7 @@
 			</div>
 			<button dojoType="dijit.form.Button" type="button">
 				<script type="dojo/method" event="onClick">
-					s4.attr("disabled", !s4.attr("disabled"));
+					s4.set("disabled", !s4.get("disabled"));
 				</script>
 				Toggle Disabled
 			</button>
@@ -382,7 +382,7 @@
 			</button>
 			<button dojoType="dijit.form.Button" type="button">
 				<script type="dojo/method" event="onClick">
-					s6.attr("disabled", !s6.attr("disabled"));
+					s6.set("disabled", !s6.get("disabled"));
 				</script>
 				Toggle Disabled
 			</button>

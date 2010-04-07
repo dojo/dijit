@@ -109,7 +109,7 @@
 		function toggleDisabled(button, widget){
 			widget = dijit.byId(widget);
 			button = dojo.byId(button);
-			widget.attr('disabled',!widget.disabled);
+			widget.set('disabled',!widget.disabled);
 			button.innerHTML= widget.disabled ? "Enable" : "Disable";
 		}
 	</script>
@@ -238,10 +238,10 @@
 		<br>value:<input id="v1" disabled value="not fired yet!" autocomplete="off">
 		<br>blur:<input id="b1" disabled value="not fired yet!" autocomplete="off">
 		<br>this.item:<input id="i1" disabled value="no onChange yet!" autocomplete="off">
-		<input type="button" id="sv1_1" value="Set displayed value to Kentucky" onClick="dijit.byId('setvaluetest').attr('displayedValue', 'Kentucky')" tabIndex="-1">
-	        <input type="button" id="sv1_2" value="Set displayed value to Canada" onClick="dijit.byId('setvaluetest').attr('displayedValue', 'Canada')" tabIndex="-1">
-	        <input type="button" id="sv1_3" value="Set value to null" onClick="dijit.byId('setvaluetest').attr('value', null)" tabIndex="-1">
-	        <input type="button" id="sv1_4" value="Get value" onClick="dojo.byId('v1').value=dijit.byId('setvaluetest').attr('value')" tabIndex="-1">
+		<input type="button" id="sv1_1" value="Set displayed value to Kentucky" onClick="dijit.byId('setvaluetest').set('displayedValue', 'Kentucky')" tabIndex="-1">
+	        <input type="button" id="sv1_2" value="Set displayed value to Canada" onClick="dijit.byId('setvaluetest').set('displayedValue', 'Canada')" tabIndex="-1">
+	        <input type="button" id="sv1_3" value="Set value to null" onClick="dijit.byId('setvaluetest').set('value', null)" tabIndex="-1">
+	        <input type="button" id="sv1_4" value="Get value" onClick="dojo.byId('v1').value=dijit.byId('setvaluetest').get('value')" tabIndex="-1">
 
 		<hr>
 
@@ -486,10 +486,10 @@
 				promptMessage="Please enter a state"
 				invalidMessage="Invalid state name."
 		>
-		<input type="button" onclick="dijit.byId('labelFunc').attr('readOnly',false);" value="Remove readOnly">
-		<input type="button" onclick="dijit.byId('labelFunc').attr('readOnly',true);" value="Set readOnly">
-		<input type="button" onclick="dijit.byId('labelFunc').attr('disabled',false);" value="Remove disabled">
-		<input type="button" onclick="dijit.byId('labelFunc').attr('disabled',true);" value="Set disabled">
+		<input type="button" onclick="dijit.byId('labelFunc').set('readOnly',false);" value="Remove readOnly">
+		<input type="button" onclick="dijit.byId('labelFunc').set('readOnly',true);" value="Set readOnly">
+		<input type="button" onclick="dijit.byId('labelFunc').set('disabled',false);" value="Remove disabled">
+		<input type="button" onclick="dijit.byId('labelFunc').set('disabled',true);" value="Set disabled">
 		<hr>
 		<input type="button" value="Create one in a window" onclick="var win=window.open(window.location);">
 		<input type="submit">

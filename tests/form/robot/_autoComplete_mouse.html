@@ -163,7 +163,7 @@
 						doh.robot.mouseClick({left:true}, 500);
 
 						doh.robot.sequence(d.getTestCallback(function(){
-							doh.is(isComboBox ? "New Jersey (NJ)" : "NJ", dijit.byId("setvaluetest").attr('value'),
+							doh.is(isComboBox ? "New Jersey (NJ)" : "NJ", dijit.byId("setvaluetest").get("value"),
 								"selected New Jersey from drop down");
 							var count = dijit.byId("setvaluetest").labelFuncCounts['NJ'];
 							doh.is(4, count, "custom labelFunc was called " + count + " times (expected 4)");
@@ -188,7 +188,7 @@
 						doh.robot.mouseClick({left:true}, 500);
 
 						doh.robot.sequence(d.getTestCallback(function(){
-							doh.is(isComboBox ? "New Jersey (NJ)" : "NJ", dijit.byId("setvaluetest").attr('value'),
+							doh.is(isComboBox ? "New Jersey (NJ)" : "NJ", dijit.byId("setvaluetest").get("value"),
 								"New Jersey still set after blur");
 							var count = dijit.byId("setvaluetest").labelFuncCounts['NJ'];
 							doh.is(4, count, "custom labelFunc was called " + count + " times (expected 4, unchanged after blur)");
@@ -296,8 +296,8 @@
 						this.combo = dijit.byId(this.combo);
 					},
 					runTest: function(){
-						doh.is("", this.combo.attr('value'), "value");
-						doh.is("", this.combo.attr('displayedValue'), "displayedValue");
+						doh.is("", this.combo.get("value"), "value");
+						doh.is("", this.combo.get('displayedValue'), "displayedValue");
 						doh.f(this.combo.isValid(), "isValid");
 						doh.is("", this.combo.state, "state");
 					},
@@ -319,8 +319,8 @@
 						doh.robot.keyPress(dojo.keys.TAB, 1000);
 
 						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-							doh.is("", this.combo.attr('value'), "value");
-							doh.is("", this.combo.attr('displayedValue'), "displayedValue");
+							doh.is("", this.combo.get("value"), "value");
+							doh.is("", this.combo.get('displayedValue'), "displayedValue");
 							doh.f(this.combo.isValid(), "isValid");
 							doh.is("Error", this.combo.state, "state");
 						})), 1000, 500);
@@ -342,8 +342,8 @@
 					},
 					runTest: function(){
 						var d = new doh.Deferred();
-						doh.is("", this.combo.attr('value'), "value");
-						doh.is("", this.combo.attr('displayedValue'), "displayedValue");
+						doh.is("", this.combo.get("value"), "value");
+						doh.is("", this.combo.get('displayedValue'), "displayedValue");
 						doh.is("Select a New England State", this.combo._phspan.innerHTML, "_phspan.innerHTML");
 						doh.isNot("none", this.combo._phspan.style.display, "_phspan.style.display");
 
@@ -352,8 +352,8 @@
 						
 						doh.robot.keyPress(dojo.keys.TAB, 500, {});
 						doh.robot.sequence(d.getTestCallback(dojo.hitch(this,function(){
-							doh.is("", this.combo.attr('value'), "value");
-							doh.is("", this.combo.attr('displayedValue'), "displayedValue");
+							doh.is("", this.combo.get("value"), "value");
+							doh.is("", this.combo.get('displayedValue'), "displayedValue");
 							doh.isNot("none", this.combo._phspan.style.display, "_phspan.style.display");
 						})), 500);
 						return d;
@@ -371,15 +371,15 @@
 					},
 					runTest: function(){
 						var d = new doh.Deferred(), value = isComboBox?'Connecticut':'ct';
-						this.combo.attr('value',value);
-						doh.is(value, this.combo.attr('value'), "selected Connecticut from drop down");
+						this.combo.set("value",value);
+						doh.is(value, this.combo.get("value"), "selected Connecticut from drop down");
 
 						this.combo.focus();
 						doh.is("none", this.combo._phspan.style.display, "_phspan.style.display 1");
 						
 						doh.robot.keyPress(dojo.keys.TAB, 500, {});
 						doh.robot.sequence(d.getTestCallback(dojo.hitch(this,function(){
-							doh.is(value, this.combo.attr('value'), "value");
+							doh.is(value, this.combo.get("value"), "value");
 							doh.is("none", this.combo._phspan.style.display, "_phspan.style.display 2");
 							doh.is('Connecticut', this.combo.textbox.value, "textbox.value 2");
 						})), 500);

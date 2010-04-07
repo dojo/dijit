@@ -26,7 +26,7 @@
 						timeout: 15000,
 						runTest: function(){
 							// Submit button is initially disabled
-							doh.t(dijit.byId("submitBtn").attr("disabled"));
+							doh.t(dijit.byId("submitBtn").get("disabled"));
 						}
 					},
 					{
@@ -41,7 +41,7 @@
 							doh.robot.typeKeys("hello", 500, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.t(dijit.byId("submitBtn").attr("disabled"));
+								doh.t(dijit.byId("submitBtn").get("disabled"));
 							}), 500);
 							return d;
 						}
@@ -58,7 +58,7 @@
 							doh.robot.typeKeys("world", 500, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.f(dijit.byId("submitBtn").attr("disabled"));
+								doh.f(dijit.byId("submitBtn").get("disabled"));
 							}), 500);
 							return d;
 						}

@@ -34,7 +34,7 @@
 			//		Click the arrow button once to get to the final value, and
 			//		then click the arrow button again (value shouldn't change second time)
 			var d = new doh.Deferred();
-			slider.attr('value', initValue);
+			slider.set('value', initValue);
 			var button = slider._descending ?
 				(initValue<finalValue?slider.decrementButton: slider.incrementButton) :
 				(initValue<finalValue?slider.incrementButton: slider.decrementButton);
@@ -44,14 +44,14 @@
 			doh.robot.mouseMoveAt(button, 500);
 			doh.robot.mouseClick({left: true}, 500);
 			doh.robot.sequence(d.getTestErrback(function(){
-				doh.is(finalValue, new Number(slider.attr('value')).toFixed(1));
+				doh.is(finalValue, new Number(slider.get('value')).toFixed(1));
 				if(onChange[slider.id]){
 					doh.is(finalValue, parseFloat(dojo.byId(onChange[slider.id]).value));
 				}
 				doh.robot.mouseMoveAt(button, 500);
 				doh.robot.mouseClick({left: true}, 500);
 				doh.robot.sequence(d.getTestCallback(function(){
-					doh.is(finalValue, new Number(slider.attr('value')).toFixed(1));
+					doh.is(finalValue, new Number(slider.get('value')).toFixed(1));
 					if(onChange[slider.id]){
 						doh.is(finalValue, parseFloat(dojo.byId(onChange[slider.id]).value));
 					}
@@ -62,7 +62,7 @@
 
 		var buttonHeldTest = function(slider, initValue, finalValue){
 			var d = new doh.Deferred();
-			slider.attr('value', initValue);
+			slider.set('value', initValue);
 			var button = slider._descending?(initValue<finalValue?slider.decrementButton: slider.incrementButton): (initValue<finalValue?slider.incrementButton: slider.decrementButton);
 			doh.robot.sequence(function(){
 				dojo.window.scrollIntoView(slider.domNode);
@@ -71,7 +71,7 @@
 			doh.robot.mousePress({left: true}, 500);
 			doh.robot.mouseRelease({left: true}, 5000);
 			doh.robot.sequence(d.getTestCallback(function(){
-				doh.is(finalValue, new Number(slider.attr('value')).toFixed(1));
+				doh.is(finalValue, new Number(slider.get('value')).toFixed(1));
 				if(onChange[slider.id]){
 					doh.is(finalValue, parseFloat(dojo.byId(onChange[slider.id]).value));
 				}
@@ -82,7 +82,7 @@
 		var mouseWheelTest = function(slider, initValue, finalValue){
 			if(slider.discreteValues != Infinity){
 				var d = new doh.Deferred();
-				slider.attr('value', initValue);
+				slider.set('value', initValue);
 				var direction = (finalValue-initValue)/Math.abs(finalValue-initValue);
 				var delta = Math.ceil((slider.discreteValues-1)*Math.abs(doh.robot.mouseWheelSize)/doh.robot.mouseWheelSize);
 				doh.robot.sequence(function(){
@@ -92,7 +92,7 @@
 				doh.robot.mouseClick({left: true}, 500);
 				doh.robot.mouseWheel(delta*direction, 500, Math.abs(delta)*200);
 				doh.robot.sequence(d.getTestCallback(function(){
-					doh.is(finalValue, new Number(slider.attr('value')).toFixed(1));
+					doh.is(finalValue, new Number(slider.get('value')).toFixed(1));
 					if(onChange[slider.id]){
 						doh.is(finalValue, parseFloat(dojo.byId(onChange[slider.id]).value));
 					}
@@ -106,17 +106,17 @@
 
 			// Test initial values
 			doh.register("initial values", function initialValues(){
-				doh.is(10, dijit.byId("slider1").attr("value"), "horizontal1");
-				doh.is(10, dijit.byId("slider2").attr("value"), "vertical1");
-				doh.is(2, dijit.byId("slider3").attr("value"), "horizontal2");
-				doh.is(10, dijit.byId("sliderH2").attr("value"), "sliderH2");
-				doh.is(1400, dijit.byId("programaticSlider").attr("value"), "programaticSlider");
+				doh.is(10, dijit.byId("slider1").get("value"), "horizontal1");
+				doh.is(10, dijit.byId("slider2").get("value"), "vertical1");
+				doh.is(2, dijit.byId("slider3").get("value"), "horizontal2");
+				doh.is(10, dijit.byId("sliderH2").get("value"), "sliderH2");
+				doh.is(1400, dijit.byId("programaticSlider").get("value"), "programaticSlider");
 			});
 
-			doh.register("attr('value', ...)", [
+			doh.register("set('value', ...)", [
 				function valid(){
 					var slider = dijit.byId(arrowSliders[0]);
-					slider.attr('value', 50);
+					slider.set('value', 50);
 					var d = new doh.Deferred();
 					doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 						doh.is(50, parseFloat(dojo.byId(onChange[slider.id]).value));
@@ -126,7 +126,7 @@
 				function setToNull(){
 					// No idea why setting to null makes it go to 0 but apparently that's expected behavior
 					var slider = dijit.byId(arrowSliders[0]);
-					slider.attr('value', null);
+					slider.set('value', null);
 					var d = new doh.Deferred();
 					doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 						doh.is(0, parseFloat(dojo.byId(onChange[slider.id]).value));
@@ -249,7 +249,7 @@
 				{
 					name: "slider1",
 					setUp: function(){
-						dijit.byId("slider1").attr('value',10);
+						dijit.byId("slider1").set('value',10);
 					},
 					timeout: 4000, // this is the animated slider so there is a 500ms delay
 					runTest: function(){
@@ -262,7 +262,7 @@
 						doh.robot.mouseMoveAt(dojo.query("div[style*='20%']", dojo.byId('dijit_form_HorizontalRule_0'))[0], 500);
 						doh.robot.mouseRelease({left: true}, 500);
 						doh.robot.sequence(function(){
-							var value = slider.attr('value');
+							var value = slider.get('value');
 							if(value >= 19 && value <= 21){
 								d.callback(true);
 							}else{
@@ -272,7 +272,7 @@
 						return d;
 					},
 					tearDown: function(){
-						dijit.byId("slider1").attr('value',20);
+						dijit.byId("slider1").set('value',20);
 					}
 				},
 
@@ -280,7 +280,7 @@
 					name: "slider2",
 					timeout: 3500,
 					setUp: function(){
-						dijit.byId("slider2").attr('value',10);
+						dijit.byId("slider2").set('value',10);
 					},
 					runTest: function(){
 						var d = new doh.Deferred();
@@ -293,7 +293,7 @@
 						doh.robot.mouseMoveAt(marker, 500, 100, 0, 0);
 						doh.robot.mouseRelease({left: true}, 500);
 						doh.robot.sequence(function(){
-							var value = slider.attr('value');
+							var value = slider.get('value');
 							if(value == 20){
 								d.callback(true);
 							}else{
@@ -308,7 +308,7 @@
 					name: "slider3",
 					timeout: 3500,
 					setUp: function(){
-						dijit.byId("programaticSlider").attr('value',1000);
+						dijit.byId("programaticSlider").set('value',1000);
 					},
 					runTest: function(){
 						var d = new doh.Deferred();
@@ -320,7 +320,7 @@
 						doh.robot.mouseMoveAt(dojo.query("div[style*='0%']", dojo.byId('dijit_form_VerticalRule_2'))[0], 500, 100, 0, 0);
 						doh.robot.mouseRelease({left: true}, 500);
 						doh.robot.sequence(function(){
-							var value = slider.attr('value');
+							var value = slider.get('value');
 							if(value == 3000){
 								d.callback(true);
 							}else{
