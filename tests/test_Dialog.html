@@ -302,53 +302,53 @@
 	</div>
 	
 	
-	<!-- Lucid Test Case -->
-	<button dojoType="dijit.form.Button"  id="lucidDlg1Btn" onclick="dijit.byId('lucidDlg1').show()">Show Dialog With Action Buttons</button>
-	<div dojoType="dijit.Dialog" id="lucidDlg1" title="Lucid Dialog 1" 
+	<!-- Action Bar test case -->
+	<button dojoType="dijit.form.Button"  id="ABDlg1Btn" onclick="dijit.byId('ABDlg1').show()">Show Dialog With Action Buttons</button>
+	<div dojoType="dijit.Dialog" id="ABDlg1" title="ActionBar Dialog 1" 
 			onExecute="console.log('OK button pressed')"
 			onCancel="console.log('Cancel button pressed')"
 			aria-describedby="intro"
 			execute="console.log('submitted w/args:\n' + dojo.toJson(arguments[0], true));">
 		<div class="dijitDialogPaneContentArea">
-			<div id="lucidintro1" style="width:30em;">Introductory information spoken by screen reader if aria-describedby is
+			<div id="ABintro1" style="width:30em;">Introductory information spoken by screen reader if aria-describedby is
 			added to the declaration of dialog above with value equal to the id of the container element for this text. This technique
 			will work in Dojo 1.4. </div>
 		</div>
 		
 		
 		<div class="dijitDialogPaneActionBar">
-			<button dojoType="dijit.form.Button" type="submit" id="luciddialog1button1">OK</button>
-			<button dojoType="dijit.form.Button" type="submit" id="luciddialog1button2">Cancel</button>
+			<button dojoType="dijit.form.Button" type="submit" id="ABdialog1button1">OK</button>
+			<button dojoType="dijit.form.Button" type="submit" id="ABdialog1button2">Cancel</button>
 		</div>
 	</div>
 	
-	<button dojoType="dijit.form.Button"  id="lucidDlg2Btn" onclick="dijit.byId('lucidDlg2').show()">Show Dialog With No Action Buttons</button>
-	<div dojoType="dijit.Dialog" id="lucidDlg2" title="Lucid Dialog 2"
+	<button dojoType="dijit.form.Button"  id="NABDlgBtn" onclick="dijit.byId('NABDlg').show()">Show Dialog With No Action Buttons</button>
+	<div dojoType="dijit.Dialog" id="NABDlg" title="No Action Bar Dialog"
 			aria-describedby="intro"
 			onfocus="console.log('user focus handler')"
 			onblur="console.log('user blur handler')"
 			execute="console.log('submitted w/args:\n' + dojo.toJson(arguments[0], true));">
 				
 		<div class="dijitDialogPaneContentArea">
-			<div id="lucidintro" style="width:30em;">Introductory information spoken by screen reader if aria-describedby is
+			<div id="NABintro" style="width:30em;">Introductory information spoken by screen reader if aria-describedby is
 			added to the declaration of dialog above with value equal to the id of the container element for this text. This technique
 			will work in Dojo 1.4. </div>
 			<table>
 				<tr>
 					<td><label for="name">Name: </label></td>
-					<td><input dojoType=dijit.form.TextBox type="text" name="lucidname" id="lucidname"></td>
+					<td><input dojoType=dijit.form.TextBox type="text" name="NABname" id="NABname"></td>
 				</tr>
 				<tr>
 					<td><label for="loc">Location: </label></td>
-					<td><input dojoType=dijit.form.TextBox type="text" name="lucidloc" id="lucidloc"></td>
+					<td><input dojoType=dijit.form.TextBox type="text" name="NABloc" id="NABloc"></td>
 				</tr>
 				<tr>
 					<td><label for="date">Date: </label></td>
-					<td><input dojoType=dijit.form.DateTextBox type="text" name="luciddate" id="luciddate"></td>
+					<td><input dojoType=dijit.form.DateTextBox type="text" name="NABdate" id="NABdate"></td>
 				</tr>
 				<tr>
 					<td><label for="desc">Description: </label></td>
-					<td><input dojoType=dijit.form.TextBox type="text" name="luciddesc" id="luciddesc"></td>
+					<td><input dojoType=dijit.form.TextBox type="text" name="NABdesc" id="NABdesc"></td>
 				</tr>
 			</table>
 		</div>

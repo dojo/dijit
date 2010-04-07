@@ -38,7 +38,7 @@
 					document.getElementsByTagName("html")[0].dir = value;
 					break;
 				case "theme":
-					// tundra | soria | nihilo | lucid | null
+					// tundra | soria | nihilo | claro | null
 					theme = value;
 					break;
 				case "a11y":

@@ -33,9 +33,9 @@ try{
 	doh.registerUrl("dijit.tests.form.TextBox.tundra.ltr", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=tundra&dir=ltr"));
 	doh.registerUrl("dijit.tests.form.TextBox.tundra.rtl", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=tundra&dir=rtl"));
 	doh.registerUrl("dijit.tests.form.TextBox.tundra.quirks", dojo.moduleUrl("dijit", "tests/quirks.html?file=form/TextBox_sizes.html&theme=tundra&dir=ltr"));
-	doh.registerUrl("dijit.tests.form.TextBox.lucid.ltr", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=lucid&dir=ltr"));
-	doh.registerUrl("dijit.tests.form.TextBox.lucid.rtl", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=lucid&dir=rtl"));
-	doh.registerUrl("dijit.tests.form.TextBox.lucid.quirks", dojo.moduleUrl("dijit", "tests/quirks.html?file=form/TextBox_sizes.html&theme=lucid&dir=ltr"));
+	doh.registerUrl("dijit.tests.form.TextBox.claro.ltr", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=claro&dir=ltr"));
+	doh.registerUrl("dijit.tests.form.TextBox.claro.rtl", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=claro&dir=rtl"));
+	doh.registerUrl("dijit.tests.form.TextBox.claro.quirks", dojo.moduleUrl("dijit", "tests/quirks.html?file=form/TextBox_sizes.html&theme=claro&dir=ltr"));
 	doh.registerUrl("dijit.tests.form.TextBox.soria.ltr", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=soria&dir=ltr"));
 	doh.registerUrl("dijit.tests.form.TextBox.soria.rtl", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=soria&dir=rtl"));
 	doh.registerUrl("dijit.tests.form.TextBox.soria.quirks", dojo.moduleUrl("dijit", "tests/quirks.html?file=form/TextBox_sizes.html&theme=soria&dir=ltr"));
