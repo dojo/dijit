@@ -21,7 +21,7 @@
 @import url("Tree.css"); 
 @import url("Toolbar.css");
 @import url("Editor.css");/*in order to test button or menu item with icon */
-@import url("../../icons/EditorIcons.css"); /*sprite for editor icons to be used by all themes*/
+@import url("../../icons/editorIcons.css"); /*sprite for editor icons to be used by all themes*/
 @import url("TitlePane.css");
 @import url("form/NumberSpinner.css");
 

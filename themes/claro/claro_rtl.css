@@ -7,7 +7,7 @@
 @import url("form/Select_rtl.css");
 @import url("Dialog_rtl.css");
 @import url("Editor_rtl.css");
-@import url("../../icons/EditorIcons_rtl.css");/* RTL sprite for editor icons to be used by all themes*/
+@import url("../../icons/editorIcons_rtl.css");/* RTL sprite for editor icons to be used by all themes*/
 @import url("TitlePane_rtl.css");
 @import url("Menu_rtl.css");
 @import url("Calendar_rtl.css");
