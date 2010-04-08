@@ -20,7 +20,7 @@
 
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_TabContainer.html');
-				doh.register("keyboard tests",[
+				doh.register("basic navigation",[
 					{
 						name: "focus on first tab",
 						timeout: 10000,
@@ -140,7 +140,10 @@
 								
 								return d;
 						}
-					},
+					}
+				]);
+
+				doh.register("closing tabs", [
 					{
 						name: "close tab with DELETE button",
 						timeout: 10000,
@@ -182,8 +185,13 @@
 								}), 500);
 								return d;
 						}
-					},
-					{
+					}
+				]);
+
+				// Run test about opening context menu via keyboard, except on safari/mac where that isn't
+				// possible (#9927)
+				if(!dojo.isMac || !dojo.isWebKit){
+					doh.register("closing tabs via context menu", {
 						name: "close tab through context menu",
 						timeout: 10000,
 						runTest: function(t){
@@ -213,7 +221,10 @@
 								
 								return d;
 						}
-					},
+					});
+				}
+
+				doh.register("up/down arrows", [
 					{
 						name: "move to tab with DOWN button",
 						timeout: 10000,
