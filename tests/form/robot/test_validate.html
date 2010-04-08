@@ -991,7 +991,7 @@
 						runTest: function(){
 							var textWidget = dijit.byId("q08eurde");
 							textWidget.set('value', 12345.25);
-							doh.is("12.345,25 €", textWidget.get('displayedValue'), "EUR value");
+							doh.is("12.345,25\xa0€", textWidget.get('displayedValue'), "EUR value");
 							textWidget.set('constraints', {currency:'USD', locale:'en-us'});
 							doh.is("$12,345.25", textWidget.get('displayedValue'), "USD value");
 						}
