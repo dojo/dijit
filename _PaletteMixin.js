@@ -138,13 +138,9 @@ dojo.declare("dijit._PaletteMixin",
 
 	postCreate: function(){
 		this.inherited(arguments);
-		// Set initial navigable node.   At any point in time there's exactly one
-		// cell with tabIndex != -1.   If focus is inside the palette then
-		// focus is on that cell.
-		// TODO: if we set aria info (for the current value) on the palette itself then can we avoid
-		// having to focus each individual cell?
-		this._currentFocus = this._cells[0].node;
-		dojo.attr(this._currentFocus, "tabIndex", this.tabIndex);
+
+		// Set initial navigable node.
+		this._setCurrent(this._cells[0].node);
 	},
 
 	focus: function(){
@@ -162,7 +158,7 @@ dojo.declare("dijit._PaletteMixin",
 		//		protected
 
 		// Just to be the same as 1.3, when I am focused again go to first (0,0) cell rather than
-		// currently focused node.
+		// currently focused node. (TODO: remove?)
 		dojo.attr(this._currentFocus, "tabIndex", "-1");
 		this._currentFocus = this._cells[0].node;
 		dojo.attr(this._currentFocus, "tabIndex", this.tabIndex);
@@ -180,7 +176,17 @@ dojo.declare("dijit._PaletteMixin",
 
 		var target = evt.currentTarget,	
 			value = this._getDye(target).getValue();
-		this._setValueAttr(value, true);		
+
+		// First focus the clicked cell, and then send onChange() notification.
+		// onChange() (via _setValueAttr) must be after the focus call, because
+		// it may trigger a refocus to somewhere else (like the Editor content area), and that
+		// second focus should win.
+		// Use setTimeout because IE doesn't like changing focus inside of an event handler.
+		this._setCurrent(target);
+		setTimeout(dojo.hitch(this, function(){
+			dijit.focus(target);		
+			this._setValueAttr(value, true);		
+		}));
 
 		// workaround bug where hover class is not removed on popup because the popup is
 		// closed and then there's no onblur event on the cell
@@ -191,9 +197,14 @@ dojo.declare("dijit._PaletteMixin",
 
 	_setCurrent: function(/*DomNode*/ node){
 		// summary:
-		//		Called to focus a cell.
+		//		Sets which node is the focused cell.
 		// description:
-		//		Moves the tabIndex setting to the new cell.
+   		//		At any point in time there's exactly one
+		//		cell with tabIndex != -1.   If focus is inside the palette then
+		// 		focus is on that cell.
+		//
+		//		After calling this method, arrow key handlers and mouse click handlers
+		//		should focus the cell in a setTimeout().
 		// tags:
 		//		protected
 		if("_currentFocus" in this){
