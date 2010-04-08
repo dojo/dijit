@@ -172,6 +172,7 @@
 			// availableThemes[] is just a list of 'official' dijit themes, you can use ?theme=String
 			// for 'un-supported' themes, too. (eg: yours)
 			var availableThemes = [
+				{ theme:"claro", author:"Dojo", baseUri:"../themes/" },
 				{ theme:"tundra", author:"Dojo", baseUri:"../themes/" },
 				{ theme:"soria", author:"nikolai", baseUri:"../themes/" },
 				{ theme:"nihilo", author:"nikolai", baseUri:"../themes/" }
@@ -179,7 +180,12 @@
 
 			var tmpString='';
 			dojo.forEach(availableThemes,function(theme){
-				tmpString += '<a href="?theme='+theme.theme+'">'+theme.theme+'</'+'a> - by: '+theme.author+' <br>';
+				tmpString += 
+					'<a href="?theme='+theme.theme+'">'+theme.theme+'</'+'a> (' +
+					'<a href="?theme='+theme.theme+'&dir=rtl">RTL</'+'a> ' +
+					'<a href="?theme='+theme.theme+'&a11y=true">high-contrast</'+'a> ' +
+					'<a href="?theme='+theme.theme+'&dir=rtl&a11y=true">RTL+high-contrast</'+'a> )' +
+					' - by: '+theme.author+' <br>';
 				dijit.byId('themeMenu').addChild(new dijit.MenuItem({
 					label: theme.theme,
 					onClick: function(){ location.search = "?theme=" + theme.theme; }
