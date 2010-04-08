@@ -164,7 +164,7 @@ dojo.declare("dijit.WidgetSet", null, {
 
 	every: function(func, thisObj){
 		// summary:
-		// 		A synthetic clone of `dojo.every` acting explictly on this WidgetSet
+		// 		A synthetic clone of `dojo.every` acting explicitly on this WidgetSet
 		//
 		// func: Function
 		//		A callback function run for every widget in this list. Exits loop
@@ -352,10 +352,11 @@ dojo.declare("dijit.WidgetSet", null, {
 					return true;
 				case "iframe":
 					// If it's an editor <iframe> then it's tab navigable.
+					//TODO: feature detect "designMode" in elem.contentDocument?
 					if(dojo.isMoz){
-						try {
+						try{
 							return elem.contentDocument.designMode == "on";
-						}catch (err){
+						}catch(err){
 							return false;
 						}
 					}else if(dojo.isWebKit){
