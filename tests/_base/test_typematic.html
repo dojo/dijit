@@ -28,7 +28,7 @@
 				lastCount = count;
 				inputNode.value += key;
 			}
-			inputNode.focus();
+				inputNode.focus();
 		}
 		dojo.addOnLoad(function(){
 			var keyNode = dojo.byId('typematicInput');
@@ -43,7 +43,14 @@
 				this, typematicCallBack, 200, 200);
 			dijit.typematic.addMouseListener(mouseNode,
 				this, typematicCallBack, 0.9, 200);
-			keyNode.focus(); // make it easier to type
+
+			try {
+				// Focus the input so it's easier for user to start typing.
+				// Doesn't work well in IE6 though, when this test is loaded from robot/typematic.html,
+				// Apparently the robot code sets up a cover <div> over this page and IE doesn't want to focus
+				// the input since it's hidden.
+				keyNode.focus();
+			}catch(e){}
 		});
 	</script>
 </head>
