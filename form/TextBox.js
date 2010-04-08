@@ -51,7 +51,8 @@ dojo.declare(
 				this._attachPoints.push('_phspan');
 				this._phspan = dojo.create('span',{className:'dijitPlaceHolder',innerHTML:v},this.textbox,'after');
 			}
-			dojo.attr(this._phspan,'innerText',v);
+			this._phspan.innerHTML="";
+			this._phspan.appendChild(document.createTextNode(v));
 
 			this._updatePlaceHolder();
 		},
