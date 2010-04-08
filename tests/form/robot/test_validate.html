@@ -20,36 +20,37 @@
 				doh.robot.initRobot('../test_validate.html');
 
 				// Test initial conditions
-				// TODO: convert this to a bunch of doh.is() calls, two per widget (for value and onchange)
-				doh.register("setUp", {
-					name: "setUp",
+				doh.register("initial conditions", {
+					name: "initial conditions",
 					runTest: function(){
-						var s = "firstname: Testing Testing\n"
-							+ ": not fired yet!\n"
-							+ "lastname: TESTING TESTING\n"
-							+ ": \n"
-							+ "age: \n"
-							+ ": not fired yet!\n"
-							+ ": \n"
-							+ ": \n"
-							+ "fav: \n"
-							+ "occupation: \n"
-							+ ": 3,000\n"
-							+ "elevation: 3000\n"
-							+ ": not fired yet!\n"
-							+ ": $54,775.53\n"
-							+ "income1: 54775.53\n"
-							+ ": not fired yet!\n"
-							+ ": €54,775.53\n"
-							+ "income2: 54775.53\n"
-							+ ": 54.775,53 €\n"
-							+ "income3: 54775.53\n"
-							+ "phone: someTestString\n"
-							+ "password: \n"
-							+ "ticket1651: \n"
-							+ "readOnly: cannot type here\n"
-							+ "disabled: cannot type here\n";
-						doh.is(s, dojo.doc.displayData());
+						var form1 = dojo.byId("form1");
+						
+						doh.is("Testing Testing", form1.firstname.value, "firstname");
+						doh.is("not fired yet!", dojo.byId("oc1").value, "firstname onchange");
+
+						doh.is("TESTING TESTING", form1.lastname.value, "lastname");
+						
+						doh.is("", form1.age.value, "age");
+						doh.is("not fired yet!", dojo.byId("oc3").value, "age onchange");
+						
+						doh.is("", form1.occupation.value, "occupation");
+						
+						doh.is("3000", form1.elevation.value, "elevation");
+						doh.is("3,000", dojo.byId("q05").value, "elevation display value");
+						doh.is("not fired yet!", dojo.byId("oc5").value, "elevation onchange");
+						
+						doh.is("54775.53", form1.income1.value, "income1");
+						doh.is("$54,775.53", dojo.byId("q08").value, "income1 display value");
+						doh.is("not fired yet!", dojo.byId("oc8").value, "income1 onchange");
+
+						doh.is("54775.53", form1.income2.value, "income2");
+						doh.is("€54,775.53", dojo.byId("q08eur").value, "income2 display value");
+
+						doh.is("someTestString", form1.phone.value, "phone");
+						doh.is("", form1.password.value, "password");
+						doh.is("", form1.ticket1651.value, "ticket1651");
+						doh.is("cannot type here", form1.readOnly.value, "readonly");
+						doh.is("cannot type here", form1.disabled.value, "disabled");
 					}
 				});
 
