@@ -220,7 +220,7 @@
 						combo.set('displayedValue', 'Kentucky');
 						doh.robot.sequence(d.getTestCallback(function(){
 							var oc1=dojo.byId('oc1');
-							doh.is(isComboBox ? "Kentucky" : "KY", combo.get("value"), "get("value")");
+							doh.is(isComboBox ? "Kentucky" : "KY", combo.get("value"), "get('value')");
 							doh.is(isComboBox ? "Kentucky" : "KY", oc1.value, "onChange");
 							if(!isComboBox){
 								doh.t(combo.isValid(), "isValid()");
@@ -241,7 +241,7 @@
 						combo.set('displayedValue', 'Canada');
 						doh.robot.sequence(d.getTestCallback(function(){
 							var oc1=dojo.byId('oc1');
-							doh.is(isComboBox ? "Canada" : "", combo.get("value"), "get("value")");
+							doh.is(isComboBox ? "Canada" : "", combo.get("value"), "get('value')");
 							doh.is(isComboBox ? "Canada" : "", oc1.value, "onChange");
 							if(!isComboBox){
 								doh.f(combo.isValid(), "isValid()");
@@ -252,7 +252,7 @@
 				}
 			]);
 
-			doh.register("set("value", ...)", [
+			doh.register("set('value', ...)", [
 				// Set value to null.
 				// This should be an invalid assignment for FilteringSelect, but ok for ComboBox.
 				{
@@ -264,7 +264,7 @@
 						combo.set("value", null);
 						doh.robot.sequence(d.getTestCallback(function(){
 							var oc1=dojo.byId('oc1');
-							doh.is("", combo.get("value"), "get("value")");
+							doh.is("", combo.get("value"), "get('value')");
 							doh.is("", oc1.value, "onChange");
 							if(!isComboBox){
 								doh.f(combo.isValid(), "isValid()");
@@ -873,7 +873,7 @@
 						}
 						doh.robot.keyPress(dojo.keys.ENTER, 500); // select current item
 						doh.robot.sequence(d.getTestCallback(function(){
-							doh.is(isComboBox ? "Vermont" : "vt", combo.get("value"), "wrap get("value")");
+							doh.is(isComboBox ? "Vermont" : "vt", combo.get("value"), "wrap get('value')");
 						}), 1000);
 
 						return d;
@@ -899,7 +899,7 @@
 						}
 						doh.robot.keyPress(dojo.keys.ENTER, 500); // select current item
 						doh.robot.sequence(d.getTestCallback(function(){
-							doh.is(isComboBox ? "Massachusetts" : "ma", combo.get("value"), "wrap get("value")");
+							doh.is(isComboBox ? "Massachusetts" : "ma", combo.get("value"), "wrap get('value')");
 						}), 1000);
 
 						return d;
