@@ -215,18 +215,20 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 	},
 	
 	_onMouseDown: function(e){
-		// Set a global event to handle mouseup, so it fires properly
-		// even if the cursor leaves this.domNode before the mouse up event.
-		var mouseUpConnector = this.connect(dojo.body(), "onmouseup", function(){
-			// If user clicks on the button, even if the mouse is released outside of it,
-			// this button should get focus (to mimics native browser buttons).
-			// This is also needed on chrome because otherwise buttons won't get focus at all,
-			// which leads to bizarre focus restore on Dialog close etc.
-			if(this.isFocusable()){
-				this.focus();
-			}
-			this.disconnect(mouseUpConnector);
-		});
+		// If user clicks on the button, even if the mouse is released outside of it,
+		// this button should get focus (to mimics native browser buttons).
+		// This is also needed on chrome because otherwise buttons won't get focus at all,
+		// which leads to bizarre focus restore on Dialog close etc.
+		if(!e.ctrlKey && this.isFocusable()){ // !e.ctrlKey to ignore right-click on mac
+			// Set a global event to handle mouseup, so it fires properly
+			// even if the cursor leaves this.domNode before the mouse up event.
+			var mouseUpConnector = this.connect(dojo.body(), "onmouseup", function(){
+				if (this.isFocusable()) {
+					this.focus();
+				}
+				this.disconnect(mouseUpConnector);
+			});
+		}
 	}
 });
 
