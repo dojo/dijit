@@ -353,7 +353,11 @@ dojo.declare("dijit.WidgetSet", null, {
 				case "iframe":
 					// If it's an editor <iframe> then it's tab navigable.
 					if(dojo.isMoz){
-						return elem.contentDocument.designMode == "on";
+						try {
+							return elem.contentDocument.designMode == "on";
+						}catch (err){
+							return false;
+						}
 					}else if(dojo.isWebKit){
 						var doc = elem.contentDocument,
 							body = doc && doc.body;

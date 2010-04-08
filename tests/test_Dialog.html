@@ -357,6 +357,13 @@
 
 	<button dojoType="dijit.form.Button"  id="layeredDialogs" onclick="open2Dialogs">Show 2 Dialogs</button>
 
+	<button dojoType="dijit.form.Button"  id="iframeDlg" onclick='dijit.byId("dlgFrame").show();'>Show iframe in dialog</button>
+	<div dojoType="dijit.Dialog" id="dlgFrame" title="Search">
+		<iframe title="Google" src="http://www.google.com" style="width:600px; height: 400px;">
+	</iframe>
+				
+	</div>
+	
 	<p><b><i>(scroll down to see more links to click, for testing positioning / scroll handling)</i></b></p>
 
 	<p>
