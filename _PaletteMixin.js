@@ -151,21 +151,6 @@ dojo.declare("dijit._PaletteMixin",
 		dijit.focus(this._currentFocus);
 	},
 
-	_onBlur: function(){
-		// summary:
-		//		Handler for when the widget loses focus
-		// tags:
-		//		protected
-
-		// Just to be the same as 1.3, when I am focused again go to first (0,0) cell rather than
-		// currently focused node. (TODO: remove?)
-		dojo.attr(this._currentFocus, "tabIndex", "-1");
-		this._currentFocus = this._cells[0].node;
-		dojo.attr(this._currentFocus, "tabIndex", this.tabIndex);
-
-		this.inherited(arguments);
-	},
-
 	_onCellClick: function(/*Event*/ evt){
 		// summary:
 		//		Handler for click, enter key & space key. Selects the cell.

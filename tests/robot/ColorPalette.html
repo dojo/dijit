@@ -124,7 +124,7 @@
 							dojo.byId("beforeBig").focus();
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is("white", dojo.global.dijit._curFocus.title, "tab into colorpalette, focus goes to white")
+								doh.is("pink", dojo.global.dijit._curFocus.title, "tab into colorpalette, focus goes to pink (last focused cell)")
 							}), 1000);
 
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
@@ -134,7 +134,7 @@
 
 							doh.robot.keyPress(dojo.keys.TAB, 500, {shift: true});
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is("white", dojo.global.dijit._curFocus.title, "shift-tab back into colorpalette")
+								doh.is("pink", dojo.global.dijit._curFocus.title, "shift-tab back into colorpalette")
 							}), 1000);
 
 							doh.robot.keyPress(dojo.keys.TAB, 500, {shift: true});
