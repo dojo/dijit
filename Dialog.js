@@ -144,7 +144,12 @@ dojo.declare(
 			//		callback
 
 			// when href is specified we need to reposition the dialog after the data is loaded
+			// and find the focusable elements
 			this._position();
+			if(this.autofocus){
+				this._getFocusItems(this.domNode);
+				dijit.focus(this._firstFocusItem);
+			}
 			this.inherited(arguments);
 		},
 
