@@ -274,7 +274,7 @@
 
 		var test4WidgetProgrammatic;
 		dojo.addOnLoad(function(){
-			test4WidgetProgrammatic = new Test4Widget().placeAt("test4Widget", "after");
+			test4WidgetProgrammatic = new Test4Widget({dir: "ltr"}).placeAt("test4Widget", "after");
 			test4WidgetProgrammatic.startup();
 		});
 
