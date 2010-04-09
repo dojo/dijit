@@ -42,7 +42,7 @@ dojo.declare(
 
 		isValid: function(){
 			// Overrides ValidationTextBox.isValid()
-			return this._isvalid || (!this.required && this.attr('displayedValue') == ""); // #5974
+			return this._isvalid || (!this.required && this.get('displayedValue') == ""); // #5974
 		},
 
 		_callbackSetLabel: function(	/*Array*/ result,
@@ -68,7 +68,7 @@ dojo.declare(
 				this.validate(this._focused);
 				this.item = null;
 			}else{
-				this.attr('item', result[0], priorityChange);
+				this.set('item', result[0], priorityChange);
 			}
 		},
 
@@ -197,7 +197,7 @@ dojo.declare(
 		},
 
 		undo: function(){
-			this.attr('displayedValue', this._lastDisplayedValue);
+			this.set('displayedValue', this._lastDisplayedValue);
 		}
 	}
 );

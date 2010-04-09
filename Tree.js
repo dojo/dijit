@@ -783,7 +783,7 @@ dojo.declare(
 		//		WARNING: if model use multi-parented items or desired tree node isn't already loaded
 		//		behavior is undefined. Use set('path', ...) instead.
 
-		var oldValue = this.attr("selectedItem");
+		var oldValue = this.get("selectedItem");
 		var identity = (!item || dojo.isString(item)) ? item : this.model.getIdentity(item);
 		if(identity == oldValue ? this.model.getIdentity(oldValue) : null){ return; }
 		var nodes = this._itemNodesMap[identity];

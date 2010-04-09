@@ -67,7 +67,7 @@ dojo.declare("dijit.form._FormMixin", null,
 
 		setValues: function(val){
 			dojo.deprecated(this.declaredClass+"::setValues() is deprecated. Use set('value', val) instead.", "", "2.0");
-			return this.attr('value', val);
+			return this.set('value', val);
 		},
 		_setValueAttr: function(/*object*/obj){
 			// summary:

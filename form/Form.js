@@ -94,7 +94,7 @@ dojo.declare(
 			if(dojo.isIE && this.srcNodeRef && this.srcNodeRef.attributes){
 				var item = this.srcNodeRef.attributes.getNamedItem('encType');
 				if(item && !item.specified && (typeof item.value == "string")){
-					this.attr('encType', item.value);
+					this.set('encType', item.value);
 				}
 			}
 			this.inherited(arguments);

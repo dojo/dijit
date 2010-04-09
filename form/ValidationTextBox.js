@@ -304,7 +304,7 @@ dojo.declare(
 			//		Returns widget as a printable string using the widget's value
 			// tags:
 			//		protected
-			var val = this.filter(this.attr('value')); // call filter in case value is nonstring and filter has been customized
+			var val = this.filter(this.get('value')); // call filter in case value is nonstring and filter has been customized
 			return val != null ? (typeof val == "string" ? val : this.serialize(val, this.constraints)) : ""; // String
 		},
 
@@ -376,14 +376,14 @@ dojo.declare(
 			//		Tests if the value is in the min/max range specified in constraints
 			// tags:
 			//		protected
-			return this.rangeCheck(this.attr('value'), this.constraints);
+			return this.rangeCheck(this.get('value'), this.constraints);
 		},
 
 		_isDefinitelyOutOfRange: function(){
 			// summary:
 			//		Returns true if the value is out of range and will remain
 			//		out of range even if the user types more characters
-			var val = this.attr('value');
+			var val = this.get('value');
 			var isTooLittle = false;
 			var isTooMuch = false;
 			if("min" in this.constraints){
@@ -415,7 +415,7 @@ dojo.declare(
 
 		getErrorMessage: function(/*Boolean*/ isFocused){
 			// Overrides dijit.form.ValidationTextBox.getErrorMessage to print "out of range" message if appropriate
-			var v = this.attr('value');
+			var v = this.get('value');
 			if(v !== null && v !== '' && v !== undefined && !this.isInRange(isFocused)){ // don't check isInRange w/o a real value
 				return this.rangeMessage; // String
 			}

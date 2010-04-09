@@ -35,7 +35,7 @@ dojo.declare("dijit.CheckedMenuItem",
 			// tags:
 			//		private
 			if(!this.disabled){
-				this.attr("checked", !this.checked);
+				this.set("checked", !this.checked);
 				this.onChange(this.checked);
 			}
 			this.inherited(arguments);

@@ -138,7 +138,7 @@ dojo.declare("dijit.InlineEditBox",
 		// tags:
 		//		deprecated
 		dojo.deprecated("dijit.InlineEditBox.setDisabled() is deprecated.  Use set('disabled', bool) instead.", "", "2.0");
-		this.attr('disabled', disabled);
+		this.set('disabled', disabled);
 	},
 
 	_setDisabledAttr: function(/*Boolean*/ disabled){
@@ -293,7 +293,7 @@ dojo.declare("dijit.InlineEditBox",
 
 		var ww = this.wrapperWidget;
 		var value = ww.getValue();
-		this.attr('value', value); // display changed, formatted value
+		this.set('value', value); // display changed, formatted value
 
 		// tell the world that we have changed
 		setTimeout(dojo.hitch(this, "onChange", value), 0); // setTimeout prevents browser freeze for long-running event handlers
@@ -307,7 +307,7 @@ dojo.declare("dijit.InlineEditBox",
 		// tags:
 		//		deprecated
 		dojo.deprecated("dijit.InlineEditBox.setValue() is deprecated.  Use set('value', ...) instead.", "", "2.0");
-		return this.attr("value", val);
+		return this.set("value", val);
 	},
 
 	_setValueAttr: function(/*String*/ val){
@@ -328,7 +328,7 @@ dojo.declare("dijit.InlineEditBox",
 		// tags:
 		//		deprecated
 		dojo.deprecated("dijit.InlineEditBox.getValue() is deprecated.  Use get('value') instead.", "", "2.0");
-		return this.attr("value");
+		return this.get("value");
 	},
 
 	cancel: function(/*Boolean*/ focus){

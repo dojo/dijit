@@ -232,6 +232,6 @@ dojo.declare(
 		// tags:
 		//		deprecated
 		dojo.deprecated("dijit.TitlePane.setTitle() is deprecated.  Use set('title', ...) instead.", "", "2.0");
-		this.attr("title", title);
+		this.set("title", title);
 	}
 });

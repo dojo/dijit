@@ -81,7 +81,7 @@ dojo.declare(
 				newValue = true;
 			}
 			if(this._created){
-				this.attr('checked', newValue);
+				this.set('checked', newValue);
 			}
 		},
 		_getValueAttr: function(){
@@ -120,7 +120,7 @@ dojo.declare(
 
 			this._hasBeenBlurred = false;
 
-			this.attr('checked', this.params.checked || false);
+			this.set('checked', this.params.checked || false);
 
 			// Handle unlikely event that the <input type=checkbox> value attribute has changed
 			this.value = this.params.value || "on";
@@ -183,7 +183,7 @@ dojo.declare(
 
 		_clicked: function(/*Event*/ e){
 			if(!this.checked){
-				this.attr('checked', true);
+				this.set('checked', true);
 			}
 		}
 	}

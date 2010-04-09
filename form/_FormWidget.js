@@ -97,7 +97,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 		// summary:
 		//		Deprecated.   Use set('disabled', ...) instead.
 		dojo.deprecated("setDisabled("+disabled+") is deprecated. Use set('disabled',"+disabled+") instead.", "", "2.0");
-		this.attr('disabled', disabled);
+		this.set('disabled', disabled);
 	},
 
 	_onFocus: function(e){
@@ -204,14 +204,14 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 		// summary:
 		//		Deprecated.   Use set('value', ...) instead.
 		dojo.deprecated("dijit.form._FormWidget:setValue("+value+") is deprecated.  Use set('value',"+value+") instead.", "", "2.0");
-		this.attr('value', value);
+		this.set('value', value);
 	},
 
 	getValue: function(){
 		// summary:
 		//		Deprecated.   Use get('value') instead.
 		dojo.deprecated(this.declaredClass+"::getValue() is deprecated. Use get('value') instead.", "", "2.0");
-		return this.attr('value');
+		return this.get('value');
 	},
 	
 	_onMouseDown: function(e){
@@ -272,8 +272,8 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 		if(dojo.isIE){ // IE won't stop the event with keypress
 			this.connect(this.focusNode || this.domNode, "onkeydown", this._onKeyDown);
 		}
-		// Update our reset value if it hasn't yet been set (because this.attr
-		// is only called when there *is* a value
+		// Update our reset value if it hasn't yet been set (because this.set()
+		// is only called when there *is* a value)
 		if(this._resetValue === undefined){
 			this._resetValue = this.value;
 		}

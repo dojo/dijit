@@ -69,7 +69,7 @@ dojo.declare(
 			// tags:
 			//      deprecated
 			dojo.deprecated("dijit.Calendar:setValue() is deprecated.  Use set('value', ...) instead.", "", "2.0");
-			this.attr('value', value);
+			this.set('value', value);
 		},
 
 		_getValueAttr: function(){
@@ -100,7 +100,7 @@ dojo.declare(
 				this.displayMonth = new this.dateClassObj(value);
 				if(!this.isDisabledDate(value, this.lang)){
 					this.value = value;
-					this.onChange(this.attr('value'));
+					this.onChange(this.get('value'));
 				}
 				dojo.attr(this.domNode, "aria-label",
 					this.dateLocaleModule.format(value,
@@ -220,7 +220,7 @@ dojo.declare(
 		goToToday: function(){
 			// summary:
 			//      Sets calendar's value to today's date
-			this.attr('value', new this.dateClassObj());
+			this.set('value', new this.dateClassObj());
 		},
 
 		constructor: function(/*Object*/args){
@@ -273,7 +273,7 @@ dojo.declare(
 			}, this);
 
 			this.value = null;
-			this.attr('value', dateObj);
+			this.set('value', dateObj);
 		},
 
 		_onMenuHover: function(e){
@@ -342,8 +342,8 @@ dojo.declare(
 			dojo.stopEvent(evt);
 			for(var node = evt.target; node && !node.dijitDateValue; node = node.parentNode);
 			if(node && !dojo.hasClass(node, "dijitCalendarDisabledDate")){
-				this.attr('value', node.dijitDateValue);
-				this.onValueSelected(this.attr('value'));
+				this.set('value', node.dijitDateValue);
+				this.onValueSelected(this.get('value'));
 			}
 		},
 
@@ -441,7 +441,7 @@ dojo.declare(
 					newValue = new Date(newValue).setDate(1);
 					break;
 				case dk.ENTER:
-					this.onValueSelected(this.attr('value'));
+					this.onValueSelected(this.get('value'));
 					break;
 				case dk.ESCAPE:
 					//TODO
@@ -454,7 +454,7 @@ dojo.declare(
 				newValue = this.dateFuncObj.add(newValue, interval, increment);
 			}
 
-			this.attr("value", newValue);
+			this.set("value", newValue);
 		},
 
 		onValueSelected: function(/*Date*/ date){

@@ -176,7 +176,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 
 	_setValueAttr: function(value){
 		this.inherited(arguments);
-		dojo.attr(this.valueNode, "value", this.attr("value"));
+		dojo.attr(this.valueNode, "value", this.get("value"));
 	},
 
 	_setDisplay: function(/*String*/ newDisplay){

@@ -105,7 +105,7 @@ dojo.declare("dijit._TimePicker",
 			// tags:
 			//		deprecated
 			dojo.deprecated("dijit._TimePicker:setValue() is deprecated.  Use set('value', ...) instead.", "", "2.0");
-			this.attr('value', value);
+			this.set('value', value);
 		},
 		_setValueAttr: function(/*Date*/ date){
 			// summary:
@@ -337,7 +337,7 @@ dojo.declare("dijit._TimePicker",
 			var tdate = tgt.target.date || tgt.target.parentNode.date;
 			if(!tdate || this.isDisabledDate(tdate)){ return; }
 			this._highlighted_option = null;
-			this.attr('value', tdate);
+			this.set('value', tdate);
 			this.onValueSelected(tdate);
 		},
 

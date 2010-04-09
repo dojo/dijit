@@ -229,7 +229,7 @@ dojo.declare(
 					// fall through
 
 				case dk.TAB:
-					var newvalue = this.attr('displayedValue');
+					var newvalue = this.get('displayedValue');
 					//	if the user had More Choices selected fall into the
 					//	_onBlur handler
 					if(pw && (
@@ -434,7 +434,7 @@ dojo.declare(
 			// #4617:
 			//		if value is now more choices or previous choices, revert
 			//		the value
-			var newvalue = this.attr('displayedValue');
+			var newvalue = this.get('displayedValue');
 			var pw = this._popupWidget;
 			if(pw && (
 				newvalue == pw._messages["previousMessage"] ||
@@ -445,7 +445,7 @@ dojo.declare(
 			}else if(typeof this.item == "undefined"){
 				// Update 'value' (ex: KY) according to currently displayed text
 				this.item = null;
-				this.attr('displayedValue', newvalue);
+				this.set('displayedValue', newvalue);
 			}else{
 				if(this.value != this._lastValueReported){
 					dijit.form._FormValueWidget.prototype._setValueAttr.call(this, this.value, true);
@@ -494,7 +494,7 @@ dojo.declare(
 				this.value = '';
 			}else{
 				newValue = this.labelFunc(node.item, this.store);
-				this.attr('item', node.item, false, newValue);
+				this.set('item', node.item, false, newValue);
 			}
 			// get the text that the user manually entered (cut off autocompleted text)
 			this.focusNode.value = this.focusNode.value.substring(0, this._lastInput.length);

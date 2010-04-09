@@ -252,7 +252,7 @@ dojo.declare("dijit._editor.plugins._FormatBlockDropDown", dijit._editor.plugins
 		// Init and set the default value to no formatting.  Update state will adjust it
 		// as needed.
 		this.inherited(arguments);
-		this.attr("value", "noFormat", false);
+		this.set("value", "noFormat", false);
 	},
 
 	getLabel: function(value, name){

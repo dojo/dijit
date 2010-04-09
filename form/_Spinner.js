@@ -54,7 +54,7 @@ dojo.declare(
 			// summary:
 			//		Handler for arrow button or arrow key being pressed
 			if(this.disabled || this.readOnly){ return; }
-			this._setValueAttr(this.adjust(this.attr('value'), direction*increment), false);
+			this._setValueAttr(this.adjust(this.get('value'), direction*increment), false);
 			dijit.selectInputText(this.textbox, this.textbox.value.length);
 		},
 

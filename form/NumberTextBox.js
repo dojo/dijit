@@ -88,13 +88,13 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 			}
 			this.inherited(arguments, [ constraints ]);
 			if(this.focusNode && this.focusNode.value && !isNaN(this.value)){
-				this.attr('value', this.value);
+				this.set('value', this.value);
 			}
 		},
 
 		_onFocus: function(){
 			if(this.disabled){ return; }
-			var val = this.attr('value');
+			var val = this.get('value');
 			if(typeof val == "number" && !isNaN(val)){
 				var formattedValue = this.format(val, this.constraints);
 				if(formattedValue !== undefined){
@@ -211,7 +211,7 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 			if(!this._focused || this._isEmpty(this.textbox.value)){
 				return this.inherited(arguments);
 			}else{
-				var v = this.attr('value');
+				var v = this.get('value');
 				if(!isNaN(v) && this.rangeCheck(v, this.constraints)){
 					if(this.constraints.exponent !== false && /\de[-+]?\d/i.test(this.textbox.value)){ // exponential, parse doesn't like it
 						return true; // valid exponential number in range

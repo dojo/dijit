@@ -73,7 +73,7 @@ dojo.declare(
 			//		a "displayed value" and a separate "submit value",
 			//		This treats the "displayed value" as the master value, computing the
 			//		submit value from it via this.parse().
-			return this.parse(this.attr('displayedValue'), this.constraints);
+			return this.parse(this.get('displayedValue'), this.constraints);
 		},
 
 		_setValueAttr: function(value, /*Boolean?*/ priorityChange, /*String?*/ formattedValue){
@@ -134,7 +134,7 @@ dojo.declare(
 			// tags:
 			//		deprecated
 			dojo.deprecated(this.declaredClass+"::getDisplayedValue() is deprecated. Use set('displayedValue') instead.", "", "2.0");
-			return this.attr('displayedValue');
+			return this.get('displayedValue');
 		},
 
 		_getDisplayedValueAttr: function(){
@@ -171,7 +171,7 @@ dojo.declare(
 			if(value === null || value === undefined){ value = '' }
 			else if(typeof value != "string"){ value = String(value) }
 			this.textbox.value = value;
-			this._setValueAttr(this.attr('value'), undefined, value);
+			this._setValueAttr(this.get('value'), undefined, value);
 		},
 
 		format: function(/* String */ value, /* Object */ constraints){
@@ -213,7 +213,7 @@ dojo.declare(
 			if(this.intermediateChanges){
 				var _this = this;
 				// the setTimeout allows the key to post to the widget input box
-				setTimeout(function(){ _this._handleOnChange(_this.attr('value'), false); }, 0);
+				setTimeout(function(){ _this._handleOnChange(_this.get('value'), false); }, 0);
 			}
 			this._refreshState();
 		},
@@ -281,7 +281,7 @@ dojo.declare(
 		},
 
 		_setBlurValue: function(){
-			this._setValueAttr(this.attr('value'), true);
+			this._setValueAttr(this.get('value'), true);
 		},
 
 		_onBlur: function(e){

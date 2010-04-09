@@ -740,7 +740,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 
 		this.isLoaded = true;
 
-		this.attr('disabled', this.disabled); // initialize content to editable (or not)
+		this.set('disabled', this.disabled); // initialize content to editable (or not)
 
 		// Note that setValue() call will only work after isLoaded is set to true (above)
 
@@ -826,7 +826,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		// tags:
 		//		deprecated
 		dojo.deprecated('dijit.Editor::setDisabled is deprecated','use dijit.Editor::attr("disabled",boolean) instead', 2.0);
-		this.attr('disabled',disabled);
+		this.set('disabled',disabled);
 	},
 	_setValueAttr: function(/*String*/ value){
 		// summary:
@@ -947,7 +947,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		// console.info('_onFocus')
 		if(!this.disabled){
 			if(!this._disabledOK){
-				this.attr('disabled', false);
+				this.set('disabled', false);
 			}
 			this.inherited(arguments);
 		}

@@ -46,7 +46,7 @@ dojo.declare("dijit.MenuItem",
 			// If button label is specified as srcNodeRef.innerHTML rather than
 			// this.params.label, handle it here.
 			if(source && !("label" in this.params)){
-				this.attr('label', source.innerHTML);
+				this.set('label', source.innerHTML);
 			}
 		},
 
@@ -156,7 +156,7 @@ dojo.declare("dijit.MenuItem",
 			// tags:
 			//		deprecated
 			dojo.deprecated("dijit.MenuItem.setLabel() is deprecated.  Use set('label', ...) instead.", "", "2.0");
-			this.attr("label", content);
+			this.set("label", content);
 		},
 
 		setDisabled: function(/*Boolean*/ disabled){
@@ -165,7 +165,7 @@ dojo.declare("dijit.MenuItem",
 			// tags:
 			//		deprecated
 			dojo.deprecated("dijit.Menu.setDisabled() is deprecated.  Use set('disabled', bool) instead.", "", "2.0");
-			this.attr('disabled', disabled);
+			this.set('disabled', disabled);
 		},
 		_setDisabledAttr: function(/*Boolean*/ value){
 			// summary:

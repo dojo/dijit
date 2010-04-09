@@ -95,7 +95,7 @@ dojo.declare("dijit.form.Button",
 		// If button label is specified as srcNodeRef.innerHTML rather than
 		// this.params.label, handle it here.
 		if(source && (!this.params || !("label" in this.params))){
-			this.attr('label', source.innerHTML);
+			this.set('label', source.innerHTML);
 		}
 	},
 
@@ -336,7 +336,7 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 	}),
 
 	_clicked: function(/*Event*/ evt){
-		this.attr('checked', !this.checked);
+		this.set('checked', !this.checked);
 	},
 
 	_setCheckedAttr: function(/*Boolean*/ value, /* Boolean? */ priorityChange){
@@ -360,6 +360,6 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 		this._hasBeenBlurred = false;
 
 		// set checked state to original setting
-		this.attr('checked', this.params.checked || false);
+		this.set('checked', this.params.checked || false);
 	}
 });

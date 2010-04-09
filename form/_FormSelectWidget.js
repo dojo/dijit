@@ -249,7 +249,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 				// Set our value (which might be undefined), and then tweak
 				// it to send a change event with the real value
 				this._loadingStore = false;
-				this.attr("value", (("_pendingValue" in this) ? this._pendingValue : selectedValue));
+				this.set("value", (("_pendingValue" in this) ? this._pendingValue : selectedValue));
 				delete this._pendingValue;
 
 				if(!this.loadChildrenOnOpen){
@@ -317,7 +317,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 	_getDisplayedValueAttr: function(){
 		// summary:
 		//		returns the displayed value of the widget
-		var val = this.attr("value");
+		var val = this.get("value");
 		if(!dojo.isArray(val)){
 			val = [val];
 		}
@@ -552,7 +552,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		// summary:
 		//		hooks into this.attr to provide a mechanism for getting the
 		//		option items for the current value of the widget.
-		return this.getOptions(this.attr("value"));
+		return this.getOptions(this.get("value"));
 	},
 
 	_pseudoLoadChildren: function(/* item[] */ items){
