@@ -16,9 +16,9 @@ dojo.declare(
 		//	|		Name: <input type="text" name="name" />
 		//	|	</form>
 		//	|	myObj = {name: "John Doe"};
-		//	|	dijit.byId('myForm').attr('value', myObj);
+		//	|	dijit.byId('myForm').set('value', myObj);
 		//	|
-		//	|	myObj=dijit.byId('myForm').attr('value');
+		//	|	myObj=dijit.byId('myForm').get('value');
 
 		// HTML <FORM> attributes
 

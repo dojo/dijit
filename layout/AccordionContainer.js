@@ -54,7 +54,7 @@ dojo.declare(
 				var style = this.selectedChildWidget.containerNode.style;
 				style.display = "";
 				style.overflow = "auto";
-				this.selectedChildWidget._wrapperWidget.attr("selected", true);
+				this.selectedChildWidget._wrapperWidget.set("selected", true);
 			}
 		},
 
@@ -182,7 +182,7 @@ dojo.declare(
 			var animations = [];
 			var paneHeight = this._verticalSpace;
 			if(newWidget){
-				newWidget._wrapperWidget.attr("selected", true);
+				newWidget._wrapperWidget.set("selected", true);
 
 				this._showChild(newWidget);	// prepare widget to be slid in
 
@@ -211,7 +211,7 @@ dojo.declare(
 				}));
 			}
 			if(oldWidget){
-				oldWidget._wrapperWidget.attr("selected", false);
+				oldWidget._wrapperWidget.set("selected", false);
 				var oldContents = oldWidget.domNode,
 					oldContentsOverflow = oldContents.style.overflow;
 				oldContents.style.overflow = "hidden";
@@ -317,14 +317,14 @@ dojo.declare("dijit.layout._AccordionInnerContainer",
 			this.connect(this.contentWidget, 'set', function(name, value){
 				var mappedName = {title: "label", tooltip: "title", iconClass: "iconClass"}[name];
 				if(mappedName){
-					this.button.attr(mappedName, value);
+					this.button.set(mappedName, value);
 				}
 			}, this);
 		},
 
 		_setSelectedAttr: function(/*Boolean*/ isSelected){
 			this.selected = isSelected;
-			this.button.attr("selected", isSelected);
+			this.button.set("selected", isSelected);
 			if(isSelected){
 				var cw = this.contentWidget;
 				if(cw.onSelected){ cw.onSelected(); }

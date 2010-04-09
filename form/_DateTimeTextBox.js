@@ -131,7 +131,7 @@ dojo.declare(
 			if(this._picker){
 				// #3948: fix blank date on popup only
 				if(!value){value = new this.dateClassObj();}
-				this._picker.attr('value', value);
+				this._picker.set('value', value);
 			}
 		},
 
@@ -175,7 +175,7 @@ dojo.declare(
 						);
 					}
 				});
-				this._picker.attr('value', this.get('value') || new this.dateClassObj());
+				this._picker.set('value', this.get('value') || new this.dateClassObj());
 			}
 			if(!this._opened){
 				// Open drop down.  Align left sides of input box and drop down, even in RTL mode,

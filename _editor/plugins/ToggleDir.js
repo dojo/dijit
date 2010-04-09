@@ -30,7 +30,7 @@ dojo.declare("dijit._editor.plugins.ToggleDir",
 				//view.  But, the nice thing is this works for all supported browsers.
 				editDoc = editDoc.getElementsByTagName("body")[0];
 				var isLtr = dojo.getComputedStyle(editDoc).direction == "ltr";
-				this.button.attr("checked", !isLtr);
+				this.button.set("checked", !isLtr);
 				this.connect(this.button, "onChange", "_setRtl");
 			}));
 		},

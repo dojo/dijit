@@ -25,12 +25,12 @@ dojo.declare(
 	//		But note that those classes can contain any widget as a child.
 	// example:
 	//		Some quick samples:
-	//		To change the innerHTML use .attr('content', '<b>new content</b>')
+	//		To change the innerHTML use .set('content', '<b>new content</b>')
 	//
-	//		Or you can send it a NodeList, .attr('content', dojo.query('div [class=selected]', userSelection))
+	//		Or you can send it a NodeList, .set('content', dojo.query('div [class=selected]', userSelection))
 	//		please note that the nodes in NodeList will copied, not moved
 	//
-	//		To do a ajax update use .attr('href', url)
+	//		To do a ajax update use .set('href', url)
 
 	// href: String
 	//		The href of the content that displays now.

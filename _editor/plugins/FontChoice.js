@@ -76,8 +76,8 @@ dojo.declare("dijit._editor.plugins._FontDropDown",
 			}
 		});
 
-		this.select.attr("value", "", false);
-		this.disabled = this.select.attr("disabled");
+		this.select.set("value", "", false);
+		this.disabled = this.select.get("disabled");
 	},
 
 	_setValueAttr: function(value, priorityChange){
@@ -92,7 +92,7 @@ dojo.declare("dijit._editor.plugins._FontDropDown",
 
 		//if the value is not a permitted value, just set empty string to prevent showing the warning icon
 		priorityChange = priorityChange !== false?true:false;
-		this.select.attr('value', dojo.indexOf(this.values,value) < 0 ? "" : value, priorityChange);
+		this.select.set('value', dojo.indexOf(this.values,value) < 0 ? "" : value, priorityChange);
 		if(!priorityChange){
 			// Clear the last state in case of updateState calls.  Ref: #10466
 			this.select._lastValueReported=null;
@@ -101,9 +101,9 @@ dojo.declare("dijit._editor.plugins._FontDropDown",
 
 	_getValueAttr: function(){
 		// summary:
-		//		Allow retreving the value from the composite select on
-		//		call to button.attr("value");
-		return this.select.attr('value');
+		//		Allow retreiving the value from the composite select on
+		//		call to button.get("value");
+		return this.select.get('value');
 	},
 
 	focus: function(){
@@ -121,7 +121,7 @@ dojo.declare("dijit._editor.plugins._FontDropDown",
 		// Save off ths disabled state so the get retrieves it correctly
 		//without needing to have a function proxy it.
 		this.disabled = value;
-		this.select.attr("disabled", value);
+		this.select.set("disabled", value);
 	}
 });
 
@@ -551,10 +551,10 @@ dojo.declare("dijit._editor.plugins.FontChoice", dijit._editor._Plugin,{
 					}
 				}
 			}
-			if(value !== this.button.attr("value")){
+			if(value !== this.button.get("value")){
 				// Set the value, but denote it is not a priority change, so no
 				// onchange fires.
-				this.button.attr('value', value, false);
+				this.button.set('value', value, false);
 			}
 		}
 	}

@@ -225,11 +225,11 @@
 		dojo.addOnLoad(function(){
 			// It's the server's responsibility to localize the date displayed in the (non-edit) version of an InlineEditBox,
 			// but since we don't have a server we'll hack it in the client
-			dijit.byId("backgroundArea").attr('value', dojo.date.locale.format(new Date(2005, 11, 30), { selector: 'date' }));
+			dijit.byId("backgroundArea").set('value', dojo.date.locale.format(new Date(2005, 11, 30), { selector: 'date' }));
 
 			var nineAm = new Date(0);
 			nineAm.setHours(9);
-			dijit.byId("timePicker").attr('value', dojo.date.locale.format(nineAm, { selector: 'time' }));
+			dijit.byId("timePicker").set('value', dojo.date.locale.format(nineAm, { selector: 'time' }));
 		});
 
 		/***
@@ -1031,8 +1031,8 @@
 
 				<p>
 					These links will
-					<a href="#" onClick="dijit.byId('areaEditable').attr('disabled', true)">disable</a> /
-					<a href="#" onClick="dijit.byId('areaEditable').attr('disabled', false)">enable</a>
+					<a href="#" onClick="dijit.byId('areaEditable').set('disabled', true)">disable</a> /
+					<a href="#" onClick="dijit.byId('areaEditable').set('disabled', false)">enable</a>
 					the text area above.
 				</p>
 

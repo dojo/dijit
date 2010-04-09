@@ -50,7 +50,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 		// If we did it all the time, buttons like bold, italic, etc
 		// break.
 		if(dojo.isWebKit){this._vsFocused = true;}
-		this.button.attr("checked", !this.button.attr("checked"));
+		this.button.set("checked", !this.button.get("checked"));
 
 	},
 
@@ -82,7 +82,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 			}, dojo.body());
 		}
 		// Make sure readonly mode doesn't make the wrong cursor appear over the button.
-		this.button.attr("readOnly", false);
+		this.button.set("readOnly", false);
 	},
 
 
@@ -140,19 +140,19 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 					}
 				};
 				this.editor.onDisplayChanged();
-				html = ed.attr("value");
+				html = ed.get("value");
 				html = this._filter(html);
-				ed.attr("value", html);
+				ed.set("value", html);
 				this._pluginList = [];
 				this._disabledPlugins = dojo.filter(edPlugins, function(p){
 					// Turn off any plugins not controlled by queryCommandenabled.
-					if(p && p.button && !p.button.attr("disabled") &&
+					if(p && p.button && !p.button.get("disabled") &&
 						!(p instanceof dijit._editor.plugins.ViewSource)){
 						p._vs_updateState = p.updateState;
 						p.updateState = function(){
 							return false;
 						};
-						p.button.attr("disabled", true);
+						p.button.set("disabled", true);
 						if(p.command){
 							// FF has a weird behavior when spellcheck is off,
 							// queryCommandValue() returns true on the doc, and as such
@@ -166,7 +166,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 								case "strikethrough":
 								case "superscript":
 								case "subscript":
-									p.button.attr("checked", false);
+									p.button.set("checked", false);
 									break;
 								default:
 									break;
@@ -248,12 +248,12 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 				if(!this._readOnly){
 					html = this.sourceArea.value;
 					html = this._filter(html);
-					ed.attr("value", html);
+					ed.set("value", html);
 				}
 
 				dojo.forEach(this._disabledPlugins, function(p){
 					// Turn back on any plugins we turned off.
-					p.button.attr("disabled", false);
+					p.button.set("disabled", false);
 					if(p._vs_updateState){
 						p.updateState = p._vs_updateState;
 					}
@@ -425,7 +425,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 		this.connect(this.sourceArea, "onkeydown", dojo.hitch(this, function(e){
 			if(this._sourceShown && e.keyCode == dojo.keys.F12 && e.ctrlKey && e.shiftKey){
 				this.button.focus();
-				this.button.attr("checked", false);
+				this.button.set("checked", false);
 				setTimeout(dojo.hitch(this, function(){ed.focus();}), 100);
 				dojo.stopEvent(e);
 			}

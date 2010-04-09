@@ -46,7 +46,7 @@ dojo.declare("dijit._editor.plugins.NewPage",dijit._editor._Plugin,{
 		//		Function to set the content to blank.
 		// tags:
 		//		private
-		this.editor.attr("value", this.content);
+		this.editor.set("value", this.content);
 		this.editor.focus();
 	}
 });

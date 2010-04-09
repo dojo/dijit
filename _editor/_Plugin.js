@@ -121,7 +121,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 					checked = e.queryCommandState(c);
 					if(this.checked !== checked){
 						this.checked = checked;
-						this.button.attr('checked', e.queryCommandState(c));
+						this.button.set('checked', e.queryCommandState(c));
 					}
 				}
 			}catch(e){

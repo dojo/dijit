@@ -71,7 +71,7 @@
 				name: 'parseNewContent',
 				runTest: function(t){
 					console.log("basicChecks: " + this.name);
-					dialogCtrPane.attr(
+					dialogCtrPane.set(
 						"content",
 						'<div dojoType="dijit.Dialog" id="sacrificialDlg" title="Life is short for this fellow">'
 						+'	<p>This dialog should be cleanly destroyed when the unit tests run</p>'
@@ -104,7 +104,7 @@
 				runTest: function(t) {
 					console.log("basicChecks: " + this.name);
 					// do the same thing over again - we should be error free
-					dialogCtrPane.attr(
+					dialogCtrPane.set(
 						"content",
 						'<div dojoType="dijit.Dialog" id="sacrificialDlg" title="Life is short for this fellow">'
 						+'	<p>This dialog should be cleanly destroyed when the unit tests run</p>'

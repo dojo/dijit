@@ -132,7 +132,7 @@ dojo.declare("dijit._TimePicker",
 				// valid)
 				var p = dijit.byId(this.domNode.parentNode.dijitPopupParent);
 				if(p){
-					var val = p.attr('displayedValue');
+					var val = p.get('displayedValue');
 					if(val && !p.parse(val, p.constraints)){
 						this._filterString = val;
 					}else{

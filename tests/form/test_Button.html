@@ -298,7 +298,7 @@
 		var disabled = false;
 		function toggleDisabled(){
 			disabled =! disabled;
-			forEachButton(function(widget){ widget.attr('disabled',disabled); });
+			forEachButton(function(widget){ widget.set('disabled',disabled); });
 			dojo.byId("toggle").innerHTML= disabled ? "Enable all" : "Disable all";
 		}
 		var labels=["<img src='../images/note.gif' width='20' height='20'>All", "<i>work</i>", "and no", "<h1>play</h1>",
@@ -307,12 +307,12 @@
 		var idx = 0;
 		function changeLabels(){
 			forEachButton(function(widget){
-				widget.attr('label', labels[idx++ % labels.length]);
+				widget.set('label', labels[idx++ % labels.length]);
 			});
 		}
 		function getLabels(){
 			forEachButton(function(widget){
-				console.log(widget.attr('label'));
+				console.log(widget.get('label'));
 			});
 		}
 	</script>
@@ -337,7 +337,7 @@
 				label: "hello!",
 				name: "programmatic"
 			});
-			widget2.attr("label", "i'm programmatic too");	// change label (for testing)
+			widget2.set("label", "i'm programmatic too");	// change label (for testing)
 			widget2.placeAt("buttonContainer");	// place in page
 		});
 	</script>

@@ -195,7 +195,7 @@ dojo.declare(
 					if(!underlay){
 						underlay = dijit._underlay = new dijit.DialogUnderlay(this.underlayAttrs);
 					}else{
-						underlay.attr(this.underlayAttrs);
+						underlay.set(this.underlayAttrs);
 					}
 
 					var zIndex = 948 + dijit._dialogStack.length*2;
@@ -226,7 +226,7 @@ dojo.declare(
 						dijit._underlay.hide();
 					}else{
 						dojo.style(dijit._underlay.domNode, 'zIndex', 948 + ds.length*2);
-						dijit._underlay.attr(ds[ds.length-1].underlayAttrs);
+						dijit._underlay.set(ds[ds.length-1].underlayAttrs);
 					}
 
 					// Restore focus to wherever it was before this dialog was displayed

@@ -107,7 +107,7 @@
 					function copyPath(){
 						var d = new doh.Deferred;
 
-						myTree.attr("path", myTree2.attr("path"));
+						myTree.set("path", myTree2.get("path"));
 
 						setTimeout(d.getTestCallback(function(){
 							doh.t(myTree.rootNode.isExpanded, "root node is expanded");
@@ -124,12 +124,12 @@
 						runTest: function(){
 							var d = new doh.Deferred;
 
-							myTree.attr("path", ["earth", "NA", "CA", "Ottawa"]);
+							myTree.set("path", ["earth", "NA", "CA", "Ottawa"]);
 
 							setTimeout(d.getTestErrback(function(){
-								var path = dojo.map(myTree.attr("path"), function(item){ return myTree.model.getIdentity(item); });
+								var path = dojo.map(myTree.get("path"), function(item){ return myTree.model.getIdentity(item); });
 								doh.is(["earth", "NA", "CA", "Ottawa"], path, "path got set on myTree")
-								myTree2.attr("path", path);
+								myTree2.set("path", path);
 
 								setTimeout(d.getTestCallback(function(){
 									doh.t(myTree2.rootNode.isExpanded, "root node is expanded");
@@ -189,8 +189,8 @@
 					},
 
 					function selectAnItem(){
-						myTree.attr('selectedItem','CN');
-						doh.is('CN',myTree.model.getIdentity(myTree.attr('selectedItem')));
+						myTree.set('selectedItem','CN');
+						doh.is('CN',myTree.model.getIdentity(myTree.get('selectedItem')));
 					},
 
 					function nestedItemDelete(){

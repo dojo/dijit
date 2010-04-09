@@ -708,7 +708,7 @@
 						doh.robot.sequence(d.getTestCallback(function(){
 							doh.is("Africa", tree.lastFocused.label, "Africa is focused");
 
-							var item = tree.attr("selectedItem"),
+							var item = tree.get("selectedItem"),
 								label = tree.model.getLabel(item);
 							doh.is("Africa", label, "Africa is selected");
 						}), 500);
@@ -733,7 +733,7 @@
 						doh.robot.sequence(d.getTestCallback(function(){
 							doh.is("Asia", tree.lastFocused.label, "Asia is focused");
 
-							var item = tree.attr("selectedItem"),
+							var item = tree.get("selectedItem"),
 								label = tree.model.getLabel(item);
 							doh.is("Africa", label, "but Africa is still selected");
 						}), 500);
@@ -753,7 +753,7 @@
 						doh.robot.keyPress(dojo.keys.ENTER, 300);			// select it
 						
 						doh.robot.sequence(d.getTestCallback(function(){
-							var item = tree.attr("selectedItem"),
+							var item = tree.get("selectedItem"),
 								label = tree.model.getLabel(item);
 							doh.is("Asia", label, "after ENTER focus shifted from Africa to Asia");
 						}), 500);

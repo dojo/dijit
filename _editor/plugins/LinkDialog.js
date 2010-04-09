@@ -124,7 +124,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 		//		not, append http:// to it.  Also validates other fields as determined by
 		//		the internal _isValid function.
 		var self = this;
-		var url = this._urlInput.attr("value");
+		var url = this._urlInput.get("value");
 		var fixupUrl = function(url){
 			var appendHttp = false;
 			if(url && url.length > 7){
@@ -142,9 +142,9 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 				}
 			}
 			if(appendHttp){
-				self._urlInput.attr("value", "http://" + url);
+				self._urlInput.set("value", "http://" + url);
 			}
-			self._setButton.attr("disabled", !self._isValid());
+			self._setButton.set("disabled", !self._isValid());
 		};
 		if(this._delayedCheck){
 			clearTimeout(this._delayedCheck);
@@ -175,7 +175,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 	_setContent: function(staticPanel){
 		// summary:
 		//		Helper for _initButton above.   Not sure why it's a separate method.
-		this.dropDown.attr('content', staticPanel);
+		this.dropDown.set('content', staticPanel);
 	},
 
 	_checkValues: function(args){
@@ -287,8 +287,8 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 				"getAncestorElement", dijit._editor.selection, [this.tag]);
 		}
 		this.dropDown.reset();
-		this._setButton.attr("disabled", true);
-		this.dropDown.attr("value", this._getCurrentValues(a));
+		this._setButton.set("disabled", true);
+		this.dropDown.set("value", this._getCurrentValues(a));
 	},
 
 	_onDblClick: function(e){
@@ -311,7 +311,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 				setTimeout(dojo.hitch(this, function(){
 					// Focus shift outside the event handler.
 					// IE doesn't like focus changes in event handles.
-					this.button.attr("disabled", false);
+					this.button.set("disabled", false);
 					this.button.openDropDown();
 				}), 10);
 			}

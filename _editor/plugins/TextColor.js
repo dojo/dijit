@@ -67,8 +67,8 @@ dojo.declare("dijit._editor.plugins.TextColor", dijit._editor._Plugin, {
 			
 		}
 		
-		if(value !== this.dropDown.attr('value')){
-			this.dropDown.attr('value', value, false);
+		if(value !== this.dropDown.get('value')){
+			this.dropDown.set('value', value, false);
 		}
 	}
 });

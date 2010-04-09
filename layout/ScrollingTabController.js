@@ -94,7 +94,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 				if(this._postStartup){
 					if(name == "label"){
 						if(menuItem){
-							menuItem.attr(name, value);
+							menuItem.set(name, value);
 						}
 	
 						// The changed label will have changed the width of the
@@ -431,8 +431,8 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		//		amount of horizontal scroll
 
 		var scrollBounds = this._getScrollBounds();
-		this._leftBtn.attr("disabled", scroll <= scrollBounds.min);
-		this._rightBtn.attr("disabled", scroll >= scrollBounds.max);
+		this._leftBtn.set("disabled", scroll <= scrollBounds.min);
+		this._rightBtn.set("disabled", scroll >= scrollBounds.max);
 	}
 });
 

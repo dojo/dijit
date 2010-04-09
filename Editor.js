@@ -632,8 +632,8 @@ dojo.declare(
 			if(!this.disabled && value){
 				// Disable editor: disable all enabled buttons and remember that list
 				this._buttonEnabledPlugins = dojo.filter(this._plugins, function(p){
-					if (p && p.button && !p.button.attr("disabled")) {
-						p.button.attr("disabled", true);
+					if (p && p.button && !p.button.get("disabled")) {
+						p.button.set("disabled", true);
 						return true;
 					}
 					return false;

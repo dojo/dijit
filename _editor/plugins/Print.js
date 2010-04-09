@@ -40,7 +40,7 @@ dojo.declare("dijit._editor.plugins.Print",dijit._editor._Plugin,{
 		this.editor.onLoadDeferred.addCallback(
 			dojo.hitch(this, function(){
 				if(!this.editor.iframe.contentWindow["print"]){
-					this.button.attr("disabled", true);
+					this.button.set("disabled", true);
 				}
 			})
 		);
@@ -64,7 +64,7 @@ dojo.declare("dijit._editor.plugins.Print",dijit._editor._Plugin,{
 				// So, open a new 'window', print it, and close it.
 				// Also, can't use size 0x0, have to use 1x1
 				var edDoc = this.editor.document;
-				var content = this.editor.attr("value");
+				var content = this.editor.get("value");
 				content = "<html><head><meta http-equiv='Content-Type' " +
 					"content='text/html; charset='UTF-8'></head><body>" +
 					content + "</body></html>";
