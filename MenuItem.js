@@ -152,19 +152,19 @@ dojo.declare("dijit.MenuItem",
 
 		setLabel: function(/*String*/ content){
 			// summary:
-			//		Deprecated.   Use attr('label', ...) instead.
+			//		Deprecated.   Use set('label', ...) instead.
 			// tags:
 			//		deprecated
-			dojo.deprecated("dijit.MenuItem.setLabel() is deprecated.  Use attr('label', ...) instead.", "", "2.0");
+			dojo.deprecated("dijit.MenuItem.setLabel() is deprecated.  Use set('label', ...) instead.", "", "2.0");
 			this.attr("label", content);
 		},
 
 		setDisabled: function(/*Boolean*/ disabled){
 			// summary:
-			//		Deprecated.   Use attr('disabled', bool) instead.
+			//		Deprecated.   Use set('disabled', bool) instead.
 			// tags:
 			//		deprecated
-			dojo.deprecated("dijit.Menu.setDisabled() is deprecated.  Use attr('disabled', bool) instead.", "", "2.0");
+			dojo.deprecated("dijit.Menu.setDisabled() is deprecated.  Use set('disabled', bool) instead.", "", "2.0");
 			this.attr('disabled', disabled);
 		},
 		_setDisabledAttr: function(/*Boolean*/ value){

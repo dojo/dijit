@@ -104,7 +104,7 @@ dojo.declare("dijit._TimePicker",
 			//		Deprecated.  Used attr('value') instead.
 			// tags:
 			//		deprecated
-			dojo.deprecated("dijit._TimePicker:setValue() is deprecated.  Use attr('value') instead.", "", "2.0");
+			dojo.deprecated("dijit._TimePicker:setValue() is deprecated.  Use set('value', ...) instead.", "", "2.0");
 			this.attr('value', value);
 		},
 		_setValueAttr: function(/*Date*/ date){

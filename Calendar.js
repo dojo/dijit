@@ -68,7 +68,7 @@ dojo.declare(
 			//      Deprecated.   Used attr('value', ...) instead.
 			// tags:
 			//      deprecated
-			dojo.deprecated("dijit.Calendar:setValue() is deprecated.  Use attr('value', ...) instead.", "", "2.0");
+			dojo.deprecated("dijit.Calendar:setValue() is deprecated.  Use set('value', ...) instead.", "", "2.0");
 			this.attr('value', value);
 		},
 

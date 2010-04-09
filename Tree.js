@@ -781,7 +781,7 @@ dojo.declare(
 		// summary:
 		//		Select a tree node related to passed item.
 		//		WARNING: if model use multi-parented items or desired tree node isn't already loaded
-		//		behavior is undefined. Use attr('path', ...) instead.
+		//		behavior is undefined. Use set('path', ...) instead.
 
 		var oldValue = this.attr("selectedItem");
 		var identity = (!item || dojo.isString(item)) ? item : this.model.getIdentity(item);

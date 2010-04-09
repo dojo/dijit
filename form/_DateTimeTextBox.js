@@ -73,7 +73,7 @@ dojo.declare(
 		},
 
 		// value: Date
-		//		The value of this widget as a JavaScript Date object.  Use attr("value") / attr("value", val) to manipulate.
+		//		The value of this widget as a JavaScript Date object.  Use get("value") / set("value", val) to manipulate.
 		//		When passed to the parser in markup, must be specified according to `dojo.date.stamp.fromISOString`
 		value: new Date(""),	// value.toString()="NaN"
 		_blankValue: null,	// used by filter() when the textbox is blank

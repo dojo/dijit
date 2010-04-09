@@ -73,7 +73,7 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 		//	|	myProgressBar.update({'indeterminate': true});
 		//	|	myProgressBar.update({'progress': 80});
 
-		// TODO: deprecate this method and use attr() instead
+		// TODO: deprecate this method and use set() instead
 
 		dojo.mixin(this, attributes || {});
 		var tip = this.internalProgress;

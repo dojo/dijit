@@ -36,7 +36,7 @@ dojo.declare(
 	//		The href of the content that displays now.
 	//		Set this at construction if you want to load data externally when the
 	//		pane is shown.  (Set preload=true to load it immediately.)
-	//		Changing href after creation doesn't have any effect; use attr('href', ...);
+	//		Changing href after creation doesn't have any effect; Use set('href', ...);
 	href: "",
 
 /*=====
@@ -222,9 +222,9 @@ dojo.declare(
 
 	setHref: function(/*String|Uri*/ href){
 		// summary:
-		//		Deprecated.   Use attr('href', ...) instead.
-		dojo.deprecated("dijit.layout.ContentPane.setHref() is deprecated. Use attr('href', ...) instead.", "", "2.0");
-		return this.attr("href", href);
+		//		Deprecated.   Use set('href', ...) instead.
+		dojo.deprecated("dijit.layout.ContentPane.setHref() is deprecated. Use set('href', ...) instead.", "", "2.0");
+		return this.set("href", href);
 	},
 	_setHrefAttr: function(/*String|Uri*/ href){
 		// summary:
@@ -257,9 +257,9 @@ dojo.declare(
 
 	setContent: function(/*String|DomNode|Nodelist*/data){
 		// summary:
-		//		Deprecated.   Use attr('content', ...) instead.
-		dojo.deprecated("dijit.layout.ContentPane.setContent() is deprecated.  Use attr('content', ...) instead.", "", "2.0");
-		this.attr("content", data);
+		//		Deprecated.   Use set('content', ...) instead.
+		dojo.deprecated("dijit.layout.ContentPane.setContent() is deprecated.  Use set('content', ...) instead.", "", "2.0");
+		this.set("content", data);
 	},
 	_setContentAttr: function(/*String|DomNode|Nodelist*/data){
 		// summary:

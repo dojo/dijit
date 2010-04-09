@@ -134,10 +134,10 @@ dojo.declare("dijit.InlineEditBox",
 
 	setDisabled: function(/*Boolean*/ disabled){
 		// summary:
-		//		Deprecated.   Use attr('disable', ...) instead.
+		//		Deprecated.   Use set('disabled', ...) instead.
 		// tags:
 		//		deprecated
-		dojo.deprecated("dijit.InlineEditBox.setDisabled() is deprecated.  Use attr('disabled', bool) instead.", "", "2.0");
+		dojo.deprecated("dijit.InlineEditBox.setDisabled() is deprecated.  Use set('disabled', bool) instead.", "", "2.0");
 		this.attr('disabled', disabled);
 	},
 
@@ -303,10 +303,10 @@ dojo.declare("dijit.InlineEditBox",
 
 	setValue: function(/*String*/ val){
 		// summary:
-		//		Deprecated.   Use attr('value', ...) instead.
+		//		Deprecated.   Use set('value', ...) instead.
 		// tags:
 		//		deprecated
-		dojo.deprecated("dijit.InlineEditBox.setValue() is deprecated.  Use attr('value', ...) instead.", "", "2.0");
+		dojo.deprecated("dijit.InlineEditBox.setValue() is deprecated.  Use set('value', ...) instead.", "", "2.0");
 		return this.attr("value", val);
 	},
 
@@ -324,10 +324,10 @@ dojo.declare("dijit.InlineEditBox",
 
 	getValue: function(){
 		// summary:
-		//		Deprecated.   Use attr('value') instead.
+		//		Deprecated.   Use get('value') instead.
 		// tags:
 		//		deprecated
-		dojo.deprecated("dijit.InlineEditBox.getValue() is deprecated.  Use attr('value') instead.", "", "2.0");
+		dojo.deprecated("dijit.InlineEditBox.getValue() is deprecated.  Use get('value') instead.", "", "2.0");
 		return this.attr("value");
 	},
 

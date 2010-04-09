@@ -130,10 +130,10 @@ dojo.declare(
 
 		getDisplayedValue: function(){
 			// summary:
-			//		Deprecated.   Use attr('displayedValue') instead.
+			//		Deprecated.   Use set('displayedValue') instead.
 			// tags:
 			//		deprecated
-			dojo.deprecated(this.declaredClass+"::getDisplayedValue() is deprecated. Use attr('displayedValue') instead.", "", "2.0");
+			dojo.deprecated(this.declaredClass+"::getDisplayedValue() is deprecated. Use set('displayedValue') instead.", "", "2.0");
 			return this.attr('displayedValue');
 		},
 
@@ -153,11 +153,11 @@ dojo.declare(
 
 		setDisplayedValue: function(/*String*/value){
 			// summary:
-			//		Deprecated.   Use attr('displayedValue', ...) instead.
+			//		Deprecated.   Use set('displayedValue', ...) instead.
 			// tags:
 			//		deprecated
-			dojo.deprecated(this.declaredClass+"::setDisplayedValue() is deprecated. Use attr('displayedValue', ...) instead.", "", "2.0");
-			this.attr('displayedValue', value);
+			dojo.deprecated(this.declaredClass+"::setDisplayedValue() is deprecated. Use set('displayedValue', ...) instead.", "", "2.0");
+			this.set('displayedValue', value);
 		},
 
 		_setDisplayedValueAttr: function(/*String*/value){

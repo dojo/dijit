@@ -751,10 +751,10 @@ dojo.declare("dijit._Widget", null, {
 
 	setAttribute: function(/*String*/ attr, /*anything*/ value){
 		// summary:
-		//		Deprecated.  Use attr() instead.
+		//		Deprecated.  Use set() instead.
 		// tags:
 		//		deprecated
-		dojo.deprecated(this.declaredClass+"::setAttribute() is deprecated. Use attr() instead.", "", "2.0");
+		dojo.deprecated(this.declaredClass+"::setAttribute(attr, value) is deprecated. Use set() instead.", "", "2.0");
 		this.attr(attr, value);
 	},
 
@@ -819,38 +819,8 @@ dojo.declare("dijit._Widget", null, {
 		//		Optional. If provided, attr() operates as a setter. If omitted,
 		//		the current value of the named property is returned.
 		// description:
-		//		Get or set named properties on a widget. If no value is
-		//		provided, the current value of the attribute is returned,
-		//		potentially via a getter method. If a value is provided, then
-		//		the method acts as a setter, assigning the value to the name,
-		//		potentially calling any explicitly provided setters to handle
-		//		the operation. For instance, if the widget has properties "foo"
-		//		and "bar" and a method named "_setFooAttr", calling:
-		//	|	myWidget.attr("foo", "Howdy!");
-		//		would be equivalent to calling:
-		//	|	widget._setFooAttr("Howdy!");
-		//		while calling:
-		//	|	myWidget.attr("bar", "Howdy!");
-		//		would be the same as writing:
-		//	|	widget.bar = "Howdy!";
-		//		It also tries to copy the changes to the widget's DOM according
-		//		to settings in attributeMap (see description of `dijit._Widget.attributeMap`
-		//		for details)
-		//		For example, calling:
-		//	|	myTitlePane.attr("title", "Howdy!");
-		//		will do
-		//	|	myTitlePane.title = "Howdy!";
-		//	|	myTitlePane.title.innerHTML = "Howdy!";
-		//		It works for DOM node attributes too.  Calling
-		//	|	widget.attr("disabled", true)
-		//		will set the disabled attribute on the widget's focusNode,
-		//		among other housekeeping for a change in disabled state.
-
-		//	open questions:
-		//		- how to handle build shortcut for attributes which want to map
-		//		into DOM attributes?
-		//		- what relationship should setAttribute()/attr() have to
-		//		layout() calls?
+		//		This method is deprecated, use get() or set() directly.
+		dojo.deprecated(this.declaredClass+"::attr() is deprecated. Use get() or set() instead.", "", "2.0");
 		var args = arguments.length;
 		if(args >= 2 || typeof name === "object"){ // setter
 			return this.set.apply(this, arguments);
@@ -900,6 +870,14 @@ dojo.declare("dijit._Widget", null, {
 		//	|	myWidget.set("bar", 3);
 		//		would be equivalent to writing:
 		//	|	widget.bar = 3;
+		//
+		//	set() may also be called with a hash of name/value pairs, ex:
+		//	|	myWidget.set({
+		//	|		foo: "Howdy",
+		//	|		bar: 3
+		//	|	})
+		//	This is equivalent to calling set(foo, "Howdy") and set(bar, 3)
+
 		if(typeof name === "object"){
 			for(var x in name){
 				this.set(x, name[x]); 

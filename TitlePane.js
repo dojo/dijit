@@ -228,10 +228,10 @@ dojo.declare(
 
 	setTitle: function(/*String*/ title){
 		// summary:
-		//		Deprecated.  Use attr('title', ...) instead.
+		//		Deprecated.  Use set('title', ...) instead.
 		// tags:
 		//		deprecated
-		dojo.deprecated("dijit.TitlePane.setTitle() is deprecated.  Use attr('title', ...) instead.", "", "2.0");
+		dojo.deprecated("dijit.TitlePane.setTitle() is deprecated.  Use set('title', ...) instead.", "", "2.0");
 		this.attr("title", title);
 	}
 });

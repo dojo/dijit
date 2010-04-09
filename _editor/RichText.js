@@ -822,7 +822,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 
 	setDisabled: function(/*Boolean*/ disabled){
 		// summary:
-		//		Deprecated, use attr('disabled', ...) instead.
+		//		Deprecated, use set('disabled', ...) instead.
 		// tags:
 		//		deprecated
 		dojo.deprecated('dijit.Editor::setDisabled is deprecated','use dijit.Editor::attr("disabled",boolean) instead', 2.0);
@@ -1385,7 +1385,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 	setValue: function(/*String*/ html){
 		// summary:
 		//		This function sets the content. No undo history is preserved.
-		//		Users should use attr('value', ...) instead.
+		//		Users should use set('value', ...) instead.
 		// tags:
 		//		deprecated
 

@@ -66,7 +66,7 @@ dojo.declare("dijit.form._FormMixin", null,
 		},
 
 		setValues: function(val){
-			dojo.deprecated(this.declaredClass+"::setValues() is deprecated. Use attr('value', val) instead.", "", "2.0");
+			dojo.deprecated(this.declaredClass+"::setValues() is deprecated. Use set('value', val) instead.", "", "2.0");
 			return this.attr('value', val);
 		},
 		_setValueAttr: function(/*object*/obj){
@@ -184,8 +184,8 @@ dojo.declare("dijit.form._FormMixin", null,
 		},
 
 		getValues: function(){
-			dojo.deprecated(this.declaredClass+"::getValues() is deprecated. Use attr('value') instead.", "", "2.0");
-			return this.attr('value');
+			dojo.deprecated(this.declaredClass+"::getValues() is deprecated. Use get('value') instead.", "", "2.0");
+			return this.get('value');
 		},
 		_getValueAttr: function(){
 			// summary:

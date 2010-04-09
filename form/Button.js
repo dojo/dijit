@@ -127,9 +127,9 @@ dojo.declare("dijit.form.Button",
 
 	setLabel: function(/*String*/ content){
 		// summary:
-		//		Deprecated.  Use attr('label', ...) instead.
-		dojo.deprecated("dijit.form.Button.setLabel() is deprecated.  Use attr('label', ...) instead.", "", "2.0");
-		this.attr("label", content);
+		//		Deprecated.  Use set('label', ...) instead.
+		dojo.deprecated("dijit.form.Button.setLabel() is deprecated.  Use set('label', ...) instead.", "", "2.0");
+		this.set("label", content);
 	},
 
 	_setLabelAttr: function(/*String*/ content){
@@ -348,9 +348,9 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 
 	setChecked: function(/*Boolean*/ checked){
 		// summary:
-		//		Deprecated.   Use attr('checked', true/false) instead.
-		dojo.deprecated("setChecked("+checked+") is deprecated. Use attr('checked',"+checked+") instead.", "", "2.0");
-		this.attr('checked', checked);
+		//		Deprecated.   Use set('checked', true/false) instead.
+		dojo.deprecated("setChecked("+checked+") is deprecated. Use set('checked',"+checked+") instead.", "", "2.0");
+		this.set('checked', checked);
 	},
 
 	reset: function(){
