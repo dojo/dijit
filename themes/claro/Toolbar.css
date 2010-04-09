@@ -17,20 +17,23 @@
 
 /** override claro/form/Button.css **/
 .claro .dijitToolbar .dijitButtonNode {
-	border: 1px solid transparent;
-	padding: 1px;
+	border:none;
+	padding: 2px;
 	background-image: url("images/commonHighlight.png");
-	background-position:0px 0px;
+	background-position:0 -30px;
 	background-repeat:repeat-x;
-	background-color: rgba(171,214,255,0);
-	border-color: rgba(118,151,192,0);
+	background-color: transparent;	/* for IE, which doesn't understand rgba(...) */
+	background-color:rgba(171,214,255,0);
 	border-radius: 2px;	
 	-moz-border-radius: 2px;	
 	-webkit-border-radius: 2px;	
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
-	-webkit-transition-property:background-color, border;
+	-webkit-transition-property:background-color;
 	-webkit-transition-duration:.3s, .35s;
+}
+.dj_ie6 .claro .dijitToolbar .dijitButtonNode {
+	background: none;	/* because background-color: transparent above doesn't work */
 }
 
 .claro .dijitToolbar .dijitComboBox .dijitButtonNode {
@@ -43,9 +46,12 @@
 .claro .dijitToolbar .dijitComboButton .dijitButtonNodeHover,
 .claro .dijitToolbar .dijitComboButton .dijitDownArrowButtonHover,
 .claro .dijitToolbar .dijitToggleButtonHover .dijitButtonNode {
-	border-color: #769dc0;
+	background-position:0 0;
+	border:solid 1px #769dc0;
 	background-color: #abd6ff;
-	-webkit-transition-duration:.2s, .25s;
+	padding: 1px;
+	-webkit-transition-duration:.2s;
+	
 }
 
 /* actve status */
@@ -54,9 +60,10 @@
 .claro .dijitToolbar .dijitComboButton .dijitButtonNodeActive,
 .claro .dijitToolbar .dijitComboButton .dijitDownArrowButtonActive,
 .claro .dijitToolbar .dijitToggleButtonActive .dijitButtonNode {
-	border-color: #769dc0;
+	border:solid 1px #769dc0;
 	background-color:#7dbefa;
 	background-position:0px -177px;
+	padding: 1px;
 	-webkit-transition-duration:.1s;
 }
 
@@ -105,6 +112,16 @@
 .dj_ie6 .claro .dijitToolbar .dijitComboButton .dijitButtonNodeActive,
 .dj_ie6 .claro .dijitToolbar .dijitComboButton .dijitDownArrowButtonActive {
 	padding: 1px;	/* ComboButton use table td has no margin, so we minus padding 2px -> 1px for the 1px border. ie6... */
+}
+
+.claro .dijitToolbarSeparator {
+	/* separator icon in the editor sprite */
+	background: url('../../icons/images/editorIconsEnabled.png');
+}
+.dijitRtl .claro .dijitToolbarSeparator {
+	/* TODO: this doesn't make sense, it's dijitRtl in the selector but then below it references the disabled PNG */
+	/* separator icon in the editor sprite */
+	background-image: url('../../icons/images/editorIconsDisabled.png');
 }
 
 /* Toolbar inside of disabled Editor */
