@@ -388,7 +388,7 @@ dojo.declare("dijit.layout._AccordionButton",
 	getTitleHeight: function(){
 		// summary:
 		//		Returns the height of the title dom node.
-		return dojo.marginBox(this.titleNode).h;	// Integer
+		return dojo.marginBox(this.domNode).h;	// Integer
 	},
 
 	// TODO: maybe the parent should set these methods directly rather than forcing the code
