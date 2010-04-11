@@ -60,11 +60,6 @@ dojo.declare(
 
 	templateString: dojo.cache("dijit", "templates/TitlePane.html"),
 
-	// Hover effect for title bar
-	cssStateNodes: {
-		titleBarNode: "dijitTitlePaneTitle"
-	},
-
 	attributeMap: dojo.delegate(dijit.layout.ContentPane.prototype.attributeMap, {
 		title: { node: "titleNode", type: "innerHTML" },
 		tooltip: {node: "focusNode", type: "attribute", attribute: "title"},	// focusNode spans the entire width, titleNode doesn't
@@ -75,10 +70,15 @@ dojo.declare(
 		if(!this.open){
 			this.hideNode.style.display = this.wipeNode.style.display = "none";
 		}
+		
+		// Hover and focus effect on title bar, except for non-toggleable TitlePanes
+		// This should really be controlled from _setToggleableAttr() but _CssStateMixin
+		// doesn't provide a way to disconnect a previous _trackMouseState() call
+		if(this.toggleable){
+			this._trackMouseState(this.titleBarNode, "dijitTitlePaneTitle");
+		}
 		this._setCss();
 		dojo.setSelectable(this.titleNode, false);
-		dijit.setWaiState(this.containerNode,"hidden", this.open ? "false" : "true");
-		dijit.setWaiState(this.focusNode, "pressed", this.open ? "true" : "false");
 
 		// setup open/close animations
 		var hideNode = this.hideNode, wipeNode = this.wipeNode;
@@ -105,6 +105,8 @@ dojo.declare(
 		// open: Boolean
 		//		True if you want to open the pane, false if you want to close it.
 		if(this.open !== open){ this.toggle(); }
+		dijit.setWaiState(this.containerNode,"hidden", this.open ? "false" : "true");
+		dijit.setWaiState(this.focusNode, "pressed", this.open ? "true" : "false");
 	},
 
 	_setToggleableAttr: function(/* Boolean */ canToggle){
@@ -169,8 +171,6 @@ dojo.declare(
 			this.hideNode.style.display = this.open ? "" : "none";
 		}
 		this.open =! this.open;
-		dijit.setWaiState(this.containerNode, "hidden", this.open ? "false" : "true");
-		dijit.setWaiState(this.focusNode, "pressed", this.open ? "true" : "false");
 
 		// load content (if this is the first time we are opening the TitlePane
 		// and content is specified as an href, or href was set when hidden)
