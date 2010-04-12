@@ -21,7 +21,7 @@
 			var dialogIds = [
 				{ dlg: "dialog1", firstFocus: "name" },
 				{ dlg: "tabDialog", firstFocus: "tc_tablist_cp1" },
-				{ dlg: "fifthDlg", firstFocus: "fifthDlg" },
+				{ dlg: "fifthDlg", firstFocus: "timeref" }, //timeref is in layout/getResponse.php
 				{ dlg: "dialog6", firstFocus: "dialog6", fileInput: "afile" },
 				{ dlg: "cantmove", firstFocus: "cantmove" },
 				{ dlg: "preventer", firstFocus: "preventerOK" }
@@ -44,6 +44,7 @@
 					xtraPara = dojo.doc.createElement("p");
 					dojo.attr(xtraPara, 'tabIndex', 0);
 					xtraPara.innerHTML = "Tab-focussable paragraph";
+					xtraPara.id="focusPara";
 					dojo.place(xtraPara, dojo.body(), "first");
 					xtraPara.focus();
 				};
@@ -60,22 +61,14 @@
 					var dlog = dijit.byId(ids.dlg);
 					// need to show dialog in order to find the first tab stop.
 					if( !dojo.isMoz && ids.fileInput){
-						that.firstTabStop = dojo.byId(ids.fileInput);
+						that.firstTabStop = ids.fileInput;
 					}else{
-						that.firstTabStop = dojo.byId(ids.firstFocus);
+						that.firstTabStop = ids.firstFocus;
 					}
-					focusConnect = dojo.connect(that.firstTabStop, "onfocus", function(){
-						gotFocus = true;
-					});
-					blurConnect = dojo.connect(that.firstTabStop, "onblur", function(){
-						lostFocus = true;
-					});
 				};
 
 				that.ariaFocusTeardown = function(){
 					removeTabNavFocus();
-					dojo.disconnect(focusConnect);
-					dojo.disconnect(blurConnect);
 				};
 
 				that.ariaFocus = function(dlogId){
@@ -87,15 +80,23 @@
 					var doHide = function(){
 						dlog.hide();
 					};
+					var doFocusTest = function(){
+						gotFocus = (dojo.global.dijit._curFocus.id == that.firstTabStop);
+					}
+					var doBlurTest = function(){
+						lostFocus = (dojo.global.dijit._curFocus.id != that.firstTabStop);
+					}
 					// <firstTabStop> set in that.ariaFocusSetup(), above.
 					doh.isNot(null, that.firstTabStop,  + "no first-focusable item for dialog: " + dlog.id);
-					doh.robot.sequence(doShow, 200);   // wait a bit for the connects to connect.
-					doh.robot.sequence(doHide, 800);
+					doh.robot.sequence(doShow, 200);
+					doh.robot.sequence(doFocusTest, (dlogId.dlg == "fifthDlg" ? 4000 : 1000));  // wait for dialog to display
+					doh.robot.sequence(doHide, 1000);
+					doh.robot.sequence(doBlurTest, 1000);
 					var testShowHide = function(){
 						doh.t(gotFocus, "first focusable didn't get focus on open, for: " + dlog.id);
 						doh.t(lostFocus, "first focusable didn't lose focus on close, for: " + dlog.id);
 					};
-					doh.robot.sequence(d.getTestCallback(testShowHide), 1200);
+					doh.robot.sequence(d.getTestCallback(testShowHide), 1000);
 					return d;
 				};
 				return that;
@@ -330,7 +331,7 @@
 					doh.register("a11yFirstFocusable",{
 						name:"a11yFirstFocusable_"+dialogIds[i].dlg,
 						dialog:dialogIds[i],
-						timeout:4000,
+						timeout:20000,
 						setUp:function(){
 							dialogTest.ariaFocusSetup(this.dialog);
 						},
