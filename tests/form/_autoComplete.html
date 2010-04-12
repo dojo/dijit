@@ -238,10 +238,10 @@
 		<br>value:<input id="v1" disabled value="not fired yet!" autocomplete="off">
 		<br>blur:<input id="b1" disabled value="not fired yet!" autocomplete="off">
 		<br>this.item:<input id="i1" disabled value="no onChange yet!" autocomplete="off">
-		<input type="button" id="sv1_1" value="Set displayed value to Kentucky" onClick="dijit.byId('setvaluetest').set('displayedValue', 'Kentucky')" tabIndex="-1">
-	        <input type="button" id="sv1_2" value="Set displayed value to Canada" onClick="dijit.byId('setvaluetest').set('displayedValue', 'Canada')" tabIndex="-1">
-	        <input type="button" id="sv1_3" value="Set value to null" onClick="dijit.byId('setvaluetest').set('value', null)" tabIndex="-1">
-	        <input type="button" id="sv1_4" value="Get value" onClick="dojo.byId('v1').value=dijit.byId('setvaluetest').get('value')" tabIndex="-1">
+		<input type="button" id="sv1_1" value="Set displayed value to Kentucky" onClick="dijit.byId('setvaluetest').set('displayedValue', 'Kentucky')">
+	        <input type="button" id="sv1_2" value="Set displayed value to Canada" onClick="dijit.byId('setvaluetest').set('displayedValue', 'Canada')">
+	        <input type="button" id="sv1_3" value="Set value to null" onClick="dijit.byId('setvaluetest').set('value', null)">
+	        <input type="button" id="sv1_4" value="Get value" onClick="dojo.byId('v1').value=dijit.byId('setvaluetest').get('value')">
 
 		<hr>
 
@@ -277,7 +277,7 @@
 				id="slow"
 		>
 		<br>onChange:<input id="ocSlow" disabled value="not fired yet!" autocomplete="off">
-		<button id="slowDestroy" tabIndex="-1" onclick="dijit.byId('slow').destroy();return false">Destroy widget to test in-flight query cancel</button>
+		<button id="slowDestroy" onclick="dijit.byId('slow').destroy();return false">Destroy widget to test in-flight query cancel</button>
 		<hr>
 
 		<label for="datatestDijit">Dijit List test #1</label> (150% font):
