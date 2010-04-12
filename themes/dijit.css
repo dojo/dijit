@@ -1332,8 +1332,10 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	cursor: text;
 }
 
+.dijit_a11y .dijitInlineEditBoxDisplayMode,
 .dj_ie6 .dijitInlineEditBoxDisplayMode {
-	border: none;				/* except that IE6 doesn't support transparent borders */
+	/* except that IE6 doesn't support transparent borders, nor does high contrast mode */
+	border: none;
 }
 
 .dijitInlineEditBoxDisplayModeHover,
