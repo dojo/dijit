@@ -197,18 +197,16 @@
 			</script>
 
 			<div class="dojoTitlePaneLabel">
-				<label for="fromDate"> Date pairs, to/from</label>
+				 Date pairs, from/to (won't submit unless from/to fields filled in correctly):
 			</div>
 			<div class="testExample">
-				From: <input id="fromDate" type="text" name="fromDate" dojoType="dijit.form.DateTextBox"
+				<label for="fromDate">From:</label> <input id="fromDate" type="text" name="fromDate" dojoType="dijit.form.DateTextBox"
 					required="true"
 					onChange="dijit.byId('toDate').constraints.min = this.get('value');" />
-				To: <input id="toDate" type="text" name="toDate" dojoType="dijit.form.DateTextBox"
+				<label for="toDate">To:</label> <input id="toDate" type="text" name="toDate" dojoType="dijit.form.DateTextBox"
 					required="true"
 					onChange="dijit.byId('fromDate').constraints.max = this.get('value');" />
-			</div>
 
-			<div>
 				<button type="button" name="button" onclick="displayData(); return false;">view data</button>
 				<input type="submit" name="submit" />
 				<input type="reset" name="reset" />
