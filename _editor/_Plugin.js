@@ -115,7 +115,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 				enabled = e.queryCommandEnabled(c);
 				if(this.enabled !== enabled){
 					this.enabled = enabled;
-					this.button.attr('disabled', !enabled);
+					this.button.set('disabled', !enabled);
 				}
 				if(typeof this.button.checked == 'boolean'){
 					checked = e.queryCommandState(c);
