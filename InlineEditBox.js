@@ -89,7 +89,9 @@ dojo.declare("dijit.InlineEditBox",
 
 	// noValueIndicator: [const] String
 	//		The text that gets displayed when there is no value (so that the user has a place to click to edit)
-	noValueIndicator: "<span style='font-family: wingdings; text-decoration: underline;'>&nbsp;&nbsp;&nbsp;&nbsp;&#x270d;&nbsp;&nbsp;&nbsp;&nbsp;</span>",
+	noValueIndicator: dojo.isIE <= 6 ?	// font-family needed on IE6 but it messes up IE8
+		"<span style='font-family: wingdings; text-decoration: underline;'>&nbsp;&nbsp;&nbsp;&nbsp;&#x270d;&nbsp;&nbsp;&nbsp;&nbsp;</span>" :
+		"<span style='text-decoration: underline;'>&nbsp;&nbsp;&nbsp;&nbsp;&#x270d;&nbsp;&nbsp;&nbsp;&nbsp;</span>",
 
 	constructor: function(){
 		// summary:
