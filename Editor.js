@@ -215,8 +215,39 @@ dojo.declare(
 			//		IE only to prevent 2 clicks to focus
 			// tags:
 			//		private
+			var outsideClientArea;
+			// IE 8's componentFromPoint is broken, which is a shame since it
+			// was smaller code, but oh well.  We have to do this brute force
+			// to detect if the click was scroller or not.
+			var b = this.document.body;
+			var clientWidth = b.clientWidth;
+			var clientHeight = b.clientHeight;
+			var clientLeft = b.clientLeft;
+			var offsetWidth = b.offsetWidth;
+			var offsetHeight = b.offsetHeight;
+			var offsetLeft = b.offsetLeft;
 
-			var outsideClientArea = this.document.body.componentFromPoint(e.x, e.y);
+			//Check for vertical scroller click.
+			bodyDir = b.dir?b.dir.toLowerCase():""
+			if(bodyDir != "rtl"){
+				if(clientWidth < offsetWidth && e.x > clientWidth && e.x < offsetWidth){ 
+					// Check the click was between width and offset width, if so, scroller
+					outsideClientArea = true;
+				}
+			}else{
+				// RTL mode, we have to go by the left offsets.
+				if(e.x < clientLeft && e.x > offsetLeft){
+					// Check the click was between width and offset width, if so, scroller
+					outsideClientArea = true;
+				}
+			}
+			if(!outsideClientArea){
+				// Okay, might be horiz scroller, check that.
+				if(clientHeight < offsetHeight && e.y > clientHeight && e.y < offsetHeight){
+					// Horizontal scroller.
+					outsideClientArea = true;
+				}
+			}
 			if(!outsideClientArea){
 				delete this._cursorToStart; // Remove the force to cursor to start position. 
 				delete this._savedSelection; // new mouse position overrides old selection
