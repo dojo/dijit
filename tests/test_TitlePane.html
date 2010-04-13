@@ -37,19 +37,19 @@
 		dojo.declare("dijit.TestTitlePane", dijit.TitlePane, {
 			templateString: '<div class="dijitTitlePane">' +
 							'    <div class="dijitTitlePaneTitle" dojoAttachPoint="titleBarNode" style="cursor: default;">' +
-							'        <span dojoAttachEvent="onclick:toggle,onkeypress: _onTitleKey" tabindex="0"' +
-							'                waiRole="button" dojoAttachPoint="focusNode,arrowNode" style="cursor: pointer;">' +
-							'			<img src="${_blankGif}" alt="" class="dijitArrowNode" waiRole="presentation">' +
-							'			<span dojoAttachPoint="arrowNodeInner" class="dijitArrowNodeInner"></span>' +
-							'		 </span>' +
-							'        <span dojoAttachPoint="titleNode" class="dijitTitlePaneTextNode"></span>' +
-							'    </div>' +
-							'    <div class="dijitTitlePaneContentOuter" dojoAttachPoint="hideNode">' +
-							'        <div class="dijitReset" dojoAttachPoint="wipeNode">' +
-							'            <div class="dijitTitlePaneContentInner" dojoAttachPoint="containerNode" waiRole="region" tabindex="-1">' +
-							'            </div>' +
-							'        </div>' +
-							'    </div>' +
+							        '<span dojoAttachEvent="onclick:toggle,onkeypress: _onTitleKey" tabindex="0"' +
+							                'waiRole="button" dojoAttachPoint="focusNode,arrowNode" style="cursor: pointer;">' +
+										'<img src="${_blankGif}" alt="" class="dijitArrowNode" waiRole="presentation">' +
+										'<span dojoAttachPoint="arrowNodeInner" class="dijitArrowNodeInner"></span>' +
+									 '</span>' +
+							        '<span dojoAttachPoint="titleNode" class="dijitTitlePaneTextNode"></span>' +
+							    '</div>' +
+							    '<div class="dijitTitlePaneContentOuter" dojoAttachPoint="hideNode">' +
+							        '<div class="dijitReset" dojoAttachPoint="wipeNode">' +
+							            '<div class="dijitTitlePaneContentInner" dojoAttachPoint="containerNode" waiRole="region" tabindex="-1">' +
+							            '</div>' +
+							        '</div>' +
+							    '</div>' +
 							'</div>'
 		});
 	</script>
