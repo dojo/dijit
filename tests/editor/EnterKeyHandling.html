@@ -23,10 +23,7 @@
 	<script type="text/javascript">
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.Editor");
-		dojo.require("dijit._editor.plugins.AlwaysShowToolbar");
-		dojo.require("dijit._editor.plugins.FontChoice");  // 'fontName','fontSize','formatBlock'
-		dojo.require("dijit._editor.plugins.TextColor");
-		dojo.require("dijit._editor.plugins.LinkDialog");
+		dojo.require("dijit._editor.plugins.ViewSource");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
 		// Make editor indent work for paragraphs in addition to lists
@@ -42,24 +39,39 @@
 
 	<h2>blockNodeforEnter='BR'</h2>
 	<div dojoType="dijit.Editor" id="br"
-			plugins="[{name:'dijit._editor.plugins.EnterKeyHandling', blockNodeForEnter:'BR'}]"
+			plugins="[{name:'dijit._editor.plugins.EnterKeyHandling', blockNodeForEnter:'BR'}, 'viewsource']"
 		><p>para 1<br>line 2</p>
 		<p>para 2<br>line 2</p>
  	</div>
 
  	<h2>blockNodeforEnter='DIV'</h2>
 	<div dojoType="dijit.Editor" id="div"
-			plugins="[{name:'dijit._editor.plugins.EnterKeyHandling', blockNodeForEnter:'DIV'}]"
+			plugins="[{name:'dijit._editor.plugins.EnterKeyHandling', blockNodeForEnter:'DIV'}, 'viewsource']"
 		><p>para 1<br>line 2</p>
 		<p>para 2<br>line 2</p>
+ 	</div>
+
+ 	<h2>blockNodeforEnter='DIV' split test</h2>
+	<div dojoType="dijit.Editor" id="div2"
+			plugins="[{name:'dijit._editor.plugins.EnterKeyHandling', blockNodeForEnter:'DIV'}, 'viewsource']">
+		<div>&nbsp;</div>
+		<div id="lineOne">this is a line of text.  It <b id="boldLine">is</b> intended to be split up by pressing enter.</div>
+		<div>&nbsp;</div>
  	</div>
 
  	<h2>blockNodeforEnter='P'</h2>
 	<div dojoType="dijit.Editor" id="p"
-			plugins="[{name:'dijit._editor.plugins.EnterKeyHandling', blockNodeForEnter:'P'}]"
+			plugins="[{name:'dijit._editor.plugins.EnterKeyHandling', blockNodeForEnter:'P'}, 'viewsource']"
 		><p>para 1<br>line 2</p>
 		<p>para 2<br>line 2</p>
  	</div>
-
+ 	
+	<h2>blockNodeforEnter='P' split test</h2>
+	<div dojoType="dijit.Editor" id="p2"
+			plugins="[{name:'dijit._editor.plugins.EnterKeyHandling', blockNodeForEnter:'P'}, 'viewsource']">
+		<p>&nbsp;</p>
+		<p id="lineOne">this is a line of text.  It <b id="boldLine">is</b> intended to be split up by pressing enter.</p>
+		<p>&nbsp;</p>
+ 	</div>
 </body>
 </html>
