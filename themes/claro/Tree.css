@@ -70,6 +70,9 @@
 .claro .dijitTreeRowHover .dijitTreeExpandoClosed {
 	background-position: -17px 0px;
 }
+.claro .dijitTreeExpandoLeaf{
+	background-image:none;
+}
 .claro .dijitTreeExpandoLoading {
 	background-image: url('images/treeExpand_loading.gif');
 }
