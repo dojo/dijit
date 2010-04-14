@@ -185,7 +185,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		this.containerNode.innerHTML = '<span class="dijitReset dijitInline ' + this.baseClass + 'Label">' +
 					(newDisplay || this.emptyLabel || "&nbsp;") +
 					'</span>';
-		dijit.setWaiState(this.focusNode, "valuenow", (newDisplay || this.emptyLabel || "&nbsp;") );
+		dijit.setWaiState(this.focusNode, "valuetext", (newDisplay || this.emptyLabel || "&nbsp;") );
 	},
 
 	validate: function(/*Boolean*/ isFocused){
