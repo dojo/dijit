@@ -59,6 +59,14 @@
 		<div>&nbsp;</div>
  	</div>
 
+ 	<h2>blockNodeforEnter='DIV' split test style clone</h2>
+	<div dojoType="dijit.Editor" id="div3"
+			plugins="[{name:'dijit._editor.plugins.EnterKeyHandling', blockNodeForEnter:'DIV'}, 'viewsource']">
+		<div>&nbsp;</div>
+		<div id="lineOne">this is a line of text.  It <b id="boldLine" style="font-size: 4em">is</b> intended to be split up by pressing enter.</div>
+		<div>&nbsp;</div>
+ 	</div>
+
  	<h2>blockNodeforEnter='P'</h2>
 	<div dojoType="dijit.Editor" id="p"
 			plugins="[{name:'dijit._editor.plugins.EnterKeyHandling', blockNodeForEnter:'P'}, 'viewsource']"
