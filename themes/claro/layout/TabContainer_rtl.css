@@ -11,6 +11,9 @@
 	display: block;
 	left: 0;
 }
+.dj_ie7 .claro .dijitTabContainerTop-tabs .dijitTabRtlChecked .dijitTabContent {
+	border-bottom: none;
+}
 .dj_ie7 .claro .dijitTabRtl .dijitTabCloseText,
 .dj_iequirks .claro .dijitTabRtl .dijitTabCloseText {
 	width: 0;
@@ -54,4 +57,10 @@
 .dj_ie6 .dijitTabContainerTopStrip,
 .dj_ie6 .dijitTabContainerBottomStrip {
 	position:absolute;
+}
+.dj_iequirks .claro .dijitTabContainerTopRtl .dijitTabContainerTopStrip {
+	padding-top: 10px;
+}
+.dj_ie7 .claro .dijitTabContainerRight-tabs .dijitTabRtlChecked .dijitTabInnerDiv {
+	background-position:-341px -179px;
 }
