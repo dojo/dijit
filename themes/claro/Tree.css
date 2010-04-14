@@ -74,7 +74,7 @@
 	background-image:none;
 }
 .claro .dijitTreeExpandoLoading {
-	background-image: url('images/treeExpand_loading.gif');
+	background-image: url('images/loadingAnimation.gif');
 }
 
 /* Drag and Drop on TreeNodes
