@@ -71,6 +71,7 @@
 .claro .dijitToolbar .dijitToggleButtonChecked .dijitButtonNode {
 	border-color: #769dc0;
 	background-color:#fff;
+	padding: 1px;
 }
 
 
