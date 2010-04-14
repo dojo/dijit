@@ -1649,6 +1649,13 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	left:-50%;
 }
 
+.dijitRuleLabelV {
+	/* so that long labels don't overflow to multiple rows, or overwrite slider itself */
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
 .dijitRuleMarkV {
 	height:0;
 	border-right-width:0 !important;
