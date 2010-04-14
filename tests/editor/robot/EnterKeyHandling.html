@@ -149,91 +149,91 @@
 				}
 
 				doh.register("Split tests", [
-                    {
-                        name: "Test div line split",
-                        timeout: 10000,
-                        runTest: function(){
-                            var d = new doh.Deferred();
-                            // The initial input was a div with a line of text with a bold tag in the middle.
-                            // we want to focus on the bold and enter there, splitting it.
-                            var editor = dijit.byId("div2");
-                            dojo.window.scrollIntoView(editor.iframe);
-                            var node = dojo.withGlobal(editor.window, function(){
-                                return dojo.byId("boldLine");
-                            });
-                            doh.robot.mouseMoveAt(node, 500);
-                            doh.robot.mouseClick({left:true}, 500);
-                            doh.robot.keyPress(dojo.keys.ENTER, 500);
+					{
+						name: "Test div line split",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							// The initial input was a div with a line of text with a bold tag in the middle.
+							// we want to focus on the bold and enter there, splitting it.
+							var editor = dijit.byId("div2");
+							dojo.window.scrollIntoView(editor.iframe);
+							var node = dojo.withGlobal(editor.window, function(){
+								return dojo.byId("boldLine");
+							});
+							doh.robot.mouseMoveAt(node, 500);
+							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.keyPress(dojo.keys.ENTER, 500);
 
-                            doh.robot.sequence(d.getTestCallback(function(){
-                                // Do tests here.
-                                var val = editor.get("value");
-                                // Check that it split the is into two and that the bold and div were properly split.
-                                doh.assertTrue(val.indexOf("It <b id=\"boldLine\">i</b></div>") > 0);
-                                doh.assertTrue(val.indexOf("<div><b>s</b>") > 0);
-                            }), 500);
+							doh.robot.sequence(d.getTestCallback(function(){
+								// Do tests here.
+								var val = editor.get("value");
+								// Check that it split the is into two and that the bold and div were properly split.
+								doh.assertTrue(val.indexOf("It <b id=\"boldLine\">i</b></div>") > 0);
+								doh.assertTrue(val.indexOf("<div><b>s</b>") > 0);
+							}), 500);
 
-                            return d;
-                        }
-                        
-                    },
-                    {
-                        name: "Test div line split style clone",
-                        timeout: 10000,
-                        runTest: function(){
-                            var d = new doh.Deferred();
-                            // The initial input was a div with a line of text with a bold tag in the middle.
-                            // we want to focus on the bold and enter there, splitting it.
-                            var editor = dijit.byId("div3");
-                            dojo.window.scrollIntoView(editor.iframe);
-                            var node = dojo.withGlobal(editor.window, function(){
-                                return dojo.byId("boldLine");
-                            });
-                            doh.robot.mouseMoveAt(node, 500);
-                            doh.robot.mouseClick({left:true}, 500);
-                            doh.robot.keyPress(dojo.keys.ENTER, 500);
+							return d;
+						}
 
-                            doh.robot.sequence(d.getTestCallback(function(){
-                                // Do tests here.
-                                var val = editor.get("value");
-                                // Check that it split the is into two and that the bold and div were properly split.
-                                val = val.toLowerCase();
-                                doh.assertTrue(/it <b id="boldline" style="font-size: 4em;?">i<\/b><\/div>/.test(val));
-                                doh.assertTrue(/<div><b style="font-size: 4em;?">s<\/b>/.test(val));
-                            }), 500);
+					},
+					{
+						name: "Test div line split style clone",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							// The initial input was a div with a line of text with a bold tag in the middle.
+							// we want to focus on the bold and enter there, splitting it.
+							var editor = dijit.byId("div3");
+							dojo.window.scrollIntoView(editor.iframe);
+							var node = dojo.withGlobal(editor.window, function(){
+								return dojo.byId("boldLine");
+							});
+							doh.robot.mouseMoveAt(node, 500);
+							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.keyPress(dojo.keys.ENTER, 500);
 
-                            return d;
-                        }
-                        
-                    },
-                    {
-                        name: "Test p line split",
-                        timeout: 10000,
-                        runTest: function(){
-                            var d = new doh.Deferred();
-                            // The initial input was a div with a line of text with a bold tag in the middle.
-                            // we want to focus on the bold and enter there, splitting it.
-                            var editor = dijit.byId("p2");
-                            dojo.window.scrollIntoView(editor.iframe);
-                            var node = dojo.withGlobal(editor.window, function(){
-                                return dojo.byId("boldLine");
-                            });
-                            doh.robot.mouseMoveAt(node, 500);
-                            doh.robot.mouseClick({left:true}, 500);
-                            doh.robot.keyPress(dojo.keys.ENTER, 500);
+							doh.robot.sequence(d.getTestCallback(function(){
+								// Do tests here.
+								var val = editor.get("value");
+								// Check that it split the is into two and that the bold and div were properly split.
+								val = val.toLowerCase();
+								doh.assertTrue(/it <b id="boldline" style="font-size: 4em;?">i<\/b><\/div>/.test(val));
+								doh.assertTrue(/<div><b style="font-size: 4em;?">s<\/b>/.test(val));
+							}), 500);
 
-                            doh.robot.sequence(d.getTestCallback(function(){
-                                // Do tests here.
-                                var val = editor.get("value");
-                                // Check that it split the is into two and that the bold and div were properly split.
-                                doh.assertTrue(val.indexOf("It <b id=\"boldLine\">i</b></p>") > 0);
-                                doh.assertTrue(val.indexOf("<p><b>s</b>") > 0);
-                            }), 500);
+							return d;
+						}
 
-                            return d;
-                        }
-                    }
-                ]);
+					},
+					{
+						name: "Test p line split",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							// The initial input was a div with a line of text with a bold tag in the middle.
+							// we want to focus on the bold and enter there, splitting it.
+							var editor = dijit.byId("p2");
+							dojo.window.scrollIntoView(editor.iframe);
+							var node = dojo.withGlobal(editor.window, function(){
+								return dojo.byId("boldLine");
+							});
+							doh.robot.mouseMoveAt(node, 500);
+							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.keyPress(dojo.keys.ENTER, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								// Do tests here.
+								var val = editor.get("value");
+								// Check that it split the is into two and that the bold and div were properly split.
+								doh.assertTrue(val.indexOf("It <b id=\"boldLine\">i</b></p>") > 0);
+								doh.assertTrue(val.indexOf("<p><b>s</b>") > 0);
+							}), 500);
+
+							return d;
+						}
+					}
+				]);
 
 				doh.run();
 			});
