@@ -21,9 +21,8 @@
 .claro .dijitInputField .dijitPlaceHolder {
 	padding: 2px 2px 2px 2px;
 }
-.dj_ie6 .claro .dijitInputField,
-.dj_ie7 .claro .dijitInputField {
-	padding-bottom: 1px;
+.dj_ie .claro .dijitInputField {
+	padding-left: 4px;
 }
 
 .claro .dijitTextBox,
@@ -111,8 +110,8 @@
 	/* line up input text with menu text */
 	padding-left: 2px;
 }
-.dj_ie6 .claro .dijitComboBox input{
-	position: absolute !important;
+.dj_ie .claro .dijitComboBox input{
+    padding: 0px;
 }
 
 .claro .dijitComboBox .dijitButtonNode {
