@@ -153,9 +153,10 @@ dojo.declare("dijit._CssStateMixin", [], {
 			}else if(this._hovering){
 				multiply("Hover");
 			}
-			if(this._focused){
-				multiply("Focused");
-			}
+		}
+
+		if(this._focused){
+			multiply("Focused");
 		}
 
 		// Remove old state classes and add new ones.
