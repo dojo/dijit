@@ -50,8 +50,8 @@ dojo.declare("dijit.form.NumberSpinner",
 		if((e.charOrCode == dojo.keys.HOME || e.charOrCode == dojo.keys.END) && !(e.ctrlKey || e.altKey || e.metaKey)
 		&& typeof this.get('value') != 'undefined' /* gibberish, so HOME and END are default editing keys*/){
 			var value = this.constraints[(e.charOrCode == dojo.keys.HOME ? "min" : "max")];
-			if(value){
-				this._setValueAttr(value,true);
+			if(typeof value == "number"){
+				this._setValueAttr(value, false);
 			}
 			// eat home or end key whether we change the value or not
 			dojo.stopEvent(e);
