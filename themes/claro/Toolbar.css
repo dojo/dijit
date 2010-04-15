@@ -119,11 +119,6 @@
 	/* separator icon in the editor sprite */
 	background: url('../../icons/images/editorIconsEnabled.png');
 }
-.dijitRtl .claro .dijitToolbarSeparator {
-	/* TODO: this doesn't make sense, it's dijitRtl in the selector but then below it references the disabled PNG */
-	/* separator icon in the editor sprite */
-	background-image: url('../../icons/images/editorIconsDisabled.png');
-}
 
 /* Toolbar inside of disabled Editor */
 .claro .dijitDisabled .dijitToolbar {

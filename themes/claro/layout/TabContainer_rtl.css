@@ -11,9 +11,6 @@
 	display: block;
 	left: 0;
 }
-.dj_ie7 .claro .dijitTabContainerTop-tabs .dijitTabRtlChecked .dijitTabContent {
-	border-bottom: none;
-}
 .dj_ie7 .claro .dijitTabRtl .dijitTabCloseText,
 .dj_iequirks .claro .dijitTabRtl .dijitTabCloseText {
 	width: 0;

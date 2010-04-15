@@ -100,6 +100,9 @@
 	padding-bottom: 4px;
 	padding-top: 6px;
 }
+.dj_ie .claro .dijitTabContainerTop-tabs .dijitTabChecked .dijitTabContent {
+	border-bottom: none;
+}
 
 /* normal status */
 .claro .dijitTabContainerTop-tabs .dijitTabInnerDiv {
