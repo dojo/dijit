@@ -14,8 +14,8 @@
 
 */
 @import url("../dijit.css");
+@import url("../../icons/commonIcons.css");/*sprite containing common icons to be used by all themes*/
 @import url("Common.css");
-
 @import url("layout/ContentPane.css");
 @import url("layout/TabContainer.css");
 @import url("layout/AccordionContainer.css");
@@ -36,5 +36,6 @@
 @import url("Dialog.css");
 @import url("Menu.css");
 @import url("Editor.css");
+@import url("../../icons/editorIcons.css"); /* sprite for editor icons to be used by all themes */
 @import url("ColorPalette.css");
 @import url("tundra_rtl.css");

@@ -66,10 +66,10 @@
 
 .tundra .dijitToolbarSeparator {
 	/* separator icon in the editor sprite */
-	background: url('images/editor.gif');
+	background: url('../../icons/images/editorIconsEnabled.png');
 }
 
 .tundra .dijitToolbarRtl .dijitToolbarSeparator {
 	/* separator icon in the editor sprite */
-	background-image: url('images/editor_rtl.gif');
+	background-image: url('../../icons/images/editorIconsDisabled.png');
 }
