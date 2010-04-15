@@ -252,7 +252,7 @@
 							this.textbox = dijit.byId(this.textbox);
 							this.textbox.focusNode.focus();
 							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
-								doh.is('', this.textbox.get('state'));
+								doh.is('Error', this.textbox.get('state'));
 								doh.is(false, this.textbox.isValid(), "isValid()");
 								doh.robot.typeKeys('a', 500, 200);
 								doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){

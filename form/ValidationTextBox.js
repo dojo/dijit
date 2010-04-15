@@ -44,7 +44,15 @@ dojo.declare(
 
 		// invalidMessage: String
 		// 		The message to display if value is invalid.
-		invalidMessage: "$_unset_$", // read from the message file if not overridden
+		//		The translated string value is read from the message file by default.
+		// 		Set to "" to use the promptMessage instead.
+		invalidMessage: "$_unset_$",
+
+		// missingMessage: String
+		// 		The message to display if value is empty and the field is required.
+		//		The translated string value is read from the message file by default.
+		// 		Set to "" to use the invalidMessage instead.
+		missingMessage: "$_unset_$",
 
 		// constraints: dijit.form.ValidationTextBox.__Constraints
 		//		user-defined object needed to pass parameters to the validator functions
@@ -116,7 +124,7 @@ dojo.declare(
 			//		Return an error message to show if appropriate
 			// tags:
 			//		protected
-			return this.invalidMessage; // String
+			return (this.required && this._isEmpty(this.textbox.value)) ? this.missingMessage : this.invalidMessage; // String
 		},
 
 		getPromptMessage: function(/*Boolean*/ isFocused){
@@ -138,20 +146,19 @@ dojo.declare(
 			var message = "";
 			var isValid = this.disabled || this.isValid(isFocused);
 			if(isValid){ this._maskValidSubsetError = true; }
-			var isValidSubset = !isValid && isFocused && this._isValidSubset();
 			var isEmpty = this._isEmpty(this.textbox.value);
-			if(isEmpty){ this._maskValidSubsetError = true; }
-			this.state = (isValid || (!this._hasBeenBlurred && isEmpty) || isValidSubset) ? "" : "Error";
-			if(this.state == "Error"){ this._maskValidSubsetError = false; }
+			var isValidSubset = !isValid && !isEmpty && isFocused && this._isValidSubset();
+			this.state = ((isValid || ((!this._hasBeenBlurred || isFocused) && isEmpty) || isValidSubset) && this._maskValidSubsetError) ? "" : "Error";
+			if(this.state == "Error"){ this._maskValidSubsetError = isFocused; } // we want the error to show up afer a blur and refocus
 			this._setStateClass();
 			dijit.setWaiState(this.focusNode, "invalid", isValid ? "false" : "true");
 			if(isFocused){
-				if(isEmpty){
-					message = this.getPromptMessage(true);
-				}
-				if(!message && (this.state == "Error" || (isValidSubset && !this._maskValidSubsetError))){
+				if(this.state == "Error"){
 					message = this.getErrorMessage(true);
+				}else{
+					message = this.getPromptMessage(true); // show the prompt whever there's no error
 				}
+				this._maskValidSubsetError = true; // since we're focused, always mask warnings
 			}
 			this.displayMessage(message);
 			return isValid;
@@ -236,6 +243,9 @@ dojo.declare(
 			this.inherited(arguments);
 			this.messages = dojo.i18n.getLocalization("dijit.form", "validate", this.lang);
 			if(this.invalidMessage == "$_unset_$"){ this.invalidMessage = this.messages.invalidMessage; }
+			if(!this.invalidMessage){ this.invalidMessage = this.promptMessage; }
+			if(this.missingMessage == "$_unset_$"){ this.missingMessage = this.messages.missingMessage; }
+			if(!this.missingMessage){ this.missingMessage = this.invalidMessage; }
 			this._setConstraintsAttr(this.constraints); // this needs to happen now (and later) due to codependency on _set*Attr calls attachPoints
 		},
 
@@ -246,7 +256,7 @@ dojo.declare(
 
 		_setRequiredAttr: function(/*Boolean*/ value){
 			this.required = value;
-			dijit.setWaiState(this.focusNode,"required", value);
+			dijit.setWaiState(this.focusNode, "required", value);
 			this._refreshState();
 		},
 
@@ -416,7 +426,7 @@ dojo.declare(
 		getErrorMessage: function(/*Boolean*/ isFocused){
 			// Overrides dijit.form.ValidationTextBox.getErrorMessage to print "out of range" message if appropriate
 			var v = this.get('value');
-			if(v !== null && v !== '' && v !== undefined && !this.isInRange(isFocused)){ // don't check isInRange w/o a real value
+			if(v !== null && v !== '' && v !== undefined && (typeof v != "number" || !isNaN(v)) && !this.isInRange(isFocused)){ // don't check isInRange w/o a real value
 				return this.rangeMessage; // String
 			}
 			return this.inherited(arguments);

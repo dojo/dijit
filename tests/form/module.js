@@ -30,6 +30,8 @@ try{
 
 	doh.registerUrl("dijit.tests.form.CheckBox", dojo.moduleUrl("dijit", "tests/form/test_CheckBox.html"));
 
+	doh.registerUrl("dijit.tests.form.robot.validationMessages", dojo.moduleUrl("dijit","tests/form/robot/validationMessages.html"+userArgs), 99999999);
+
 	doh.registerUrl("dijit.tests.form.TextBox.tundra.ltr", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=tundra&dir=ltr"));
 	doh.registerUrl("dijit.tests.form.TextBox.tundra.rtl", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=tundra&dir=rtl"));
 	doh.registerUrl("dijit.tests.form.TextBox.tundra.quirks", dojo.moduleUrl("dijit", "tests/quirks.html?file=form/TextBox_sizes.html&theme=tundra&dir=ltr"));
