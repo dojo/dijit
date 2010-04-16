@@ -820,7 +820,17 @@ dojo.declare("dijit._Widget", null, {
 		//		the current value of the named property is returned.
 		// description:
 		//		This method is deprecated, use get() or set() directly.
-		dojo.deprecated(this.declaredClass+"::attr() is deprecated. Use get() or set() instead.", "", "2.0");
+
+		// Print deprecation warning but only once per calling function
+		if(dojo.config.isDebug){
+			var alreadyCalledHash = arguments.callee._ach || (arguments.callee._ach = {}), caller = arguments.callee.caller.toString();
+			if(!alreadyCalledHash[caller]){
+				dojo.deprecated(this.declaredClass + "::attr() is deprecated. Use get() or set() instead, called from " +
+				caller, "", "2.0");
+				alreadyCalledHash[caller] = true;
+			}
+		}
+
 		var args = arguments.length;
 		if(args >= 2 || typeof name === "object"){ // setter
 			return this.set.apply(this, arguments);
