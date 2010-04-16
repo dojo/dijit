@@ -39,7 +39,8 @@ The 16 x 16px icons in these sprites are action and object type images which can
 .dijitFolderClosed,
 .dijitIconFolderClosed,
 .dijitFolderOpened,
-.dijitIconFolderOpen {
+.dijitIconFolderOpen 
+.dijitIconError {
 	background-image: url('images/commonIconsObjActEnabled.png'); /* Contains both object and action icons in a sprite image for the enabled state.  */ 
 	width: 16px;
 	height: 16px;
@@ -78,7 +79,8 @@ The 16 x 16px icons in these sprites are action and object type images which can
 .dj_ie6 .dijitFolderClosed,
 .dj_ie6 .dijitIconFolderClosed,
 .dj_ie6 .dijitFolderOpened,
-.dj_ie6 .dijitIconFolderOpen {
+.dj_ie6 .dijitIconFolderOpen 
+.dj_ie6 .dijitIconError {
 	background-image: url('images/commonIconsObjActEnabled8bit.png');
 }
 
@@ -115,7 +117,8 @@ The 16 x 16px icons in these sprites are action and object type images which can
 .dijitDisabled .dijitFolderClosed,
 .dijitDisabled .dijitIconFolderClosed,
 .dijitDisabled .dijitFolderOpened,
-.dijitDisabled .dijitIconFolderOpen {
+.dijitDisabled .dijitIconFolderOpen 
+.dijitDisabled .dijitIconError {
 	background-image: url('images/commonIconsObjActDisabled.png'); /* Contains both object and action icons as a sprite image for the disabled state. These would be used by buttons and menus.   */
 }
 
@@ -151,7 +154,9 @@ The 16 x 16px icons in these sprites are action and object type images which can
 .dijitIconSample { background-position: -416px; }
 .dijitIconTable { background-position: -432px; }
 .dijitIconUsers { background-position: -448px; }
+.dijitIconError { background-position: -496px; }
 
 /*Tree folder icons*/
 .dijitIconFolderClosed, .dijitFolderClosed { background-position: -464px; }
 .dijitIconFolderOpen, .dijitFolderOpened { background-position: -480px; }
+

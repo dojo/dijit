@@ -37,11 +37,14 @@
 
 .claro .dijitSelect .dijitArrowButton {
 	padding: 0;
-	border: 1px solid #fff;
+	border: 1px solid #fff;	/* inner white border on button node */
 	border-top:none;
 	background-color:#ebeef4;
 	background-image: url("images/formHighlight.png");
 	background-repeat:repeat-x;
+}
+.dj_ie8 .claro .dijitSelect .dijitArrowButton {
+	border: none;	/* otherwise bottom and right part of outer (gray) border of button not visible */
 }
 
 .claro .dijitSelect .dijitArrowButton .dijitArrowButtonInner {
