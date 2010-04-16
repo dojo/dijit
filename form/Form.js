@@ -50,7 +50,7 @@ dojo.declare(
 		//		Target frame for the document to be opened in.
 		target: "",
 
-		templateString: "<form dojoAttachPoint='containerNode' dojoAttachEvent='onreset:_onReset,onsubmit:_onSubmit' ${nameAttrSetting}></form>",
+		templateString: "<form dojoAttachPoint='containerNode' dojoAttachEvent='onreset:_onReset,onsubmit:_onSubmit' ${!nameAttrSetting}></form>",
 
 		attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
 			action: "",
