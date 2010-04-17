@@ -63,7 +63,7 @@ dojo.declare(
 			dijit.setWaiState(this.focusNode, "readonly", value);
 		},
 
-		_setValueAttr: function(/*String or Boolean*/ newValue){
+		_setValueAttr: function(/*String or Boolean*/ newValue, /*Boolean*/ priorityChange){
 			// summary:
 			//		Handler for value= attribute to constructor, and also calls to
 			//		attr('value', val).
@@ -81,7 +81,7 @@ dojo.declare(
 				newValue = true;
 			}
 			if(this._created){
-				this.set('checked', newValue);
+				this.set('checked', newValue, priorityChange);
 			}
 		},
 		_getValueAttr: function(){
