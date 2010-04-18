@@ -3,6 +3,7 @@ dojo.provide("dijit.form.Select");
 dojo.require("dijit.form._FormSelectWidget");
 dojo.require("dijit._HasDropDown");
 dojo.require("dijit.Menu");
+dojo.require("dijit.Tooltip");
 
 dojo.requireLocalization("dijit.form", "validate");
 
