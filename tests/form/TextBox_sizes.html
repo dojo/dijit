@@ -78,22 +78,22 @@
 			};
 
 			var runTest = [
-        	        	{
-        	        	        name: "x",
-        	        	        runTest: function(){ compareToTextBox("x"); }
-        	        	},
-        	        	{
-        	        	        name: "y",
-        	        	        runTest: function(){ compareToTextBoxParent("h"); }
-        	        	},
-        	        	{
-        	        	        name: "h",
-        	        	        runTest: function(){ compareToTextBox("h"); }
-        	        	},
-        	        	{
-        	        	        name: "w",
-        	        	        runTest: function(){ compareToTextBox("w"); }
-        	        	}
+				{
+						name: "x",
+						runTest: function(){ compareToTextBox("x"); }
+				},
+				{
+						name: "y",
+						runTest: function(){ compareToTextBoxParent("h"); }
+				},
+				{
+						name: "h",
+						runTest: function(){ compareToTextBox("h"); }
+				},
+				{
+						name: "w",
+						runTest: function(){ compareToTextBox("w"); }
+				}
 			];
 
 			var createErrors = function(){
@@ -105,34 +105,30 @@
 				spinner.set('value', null);
 			};
 
-        		doh.register("create normal boxes", [
-				{
-					name: "setup",
-					timeout: 9000,
-					runTest: function(){
-						/* create errors, then insert good values to exercise the widget rendering */
-						createErrors();
-						validation.set('value', 23);
-						combobox.set('value', "KY");
-						spinner.set('value', 32);
-					}
-        	        	}
-  			]);
+			doh.register("create normal boxes", {
+				name: "setup",
+				timeout: 9000,
+				runTest: function(){
+					/* create errors, then insert good values to exercise the widget rendering */
+					createErrors();
+					validation.set('value', 23);
+					combobox.set('value', "KY");
+					spinner.set('value', 32);
+				}
+ 			});
 
-        		doh.register("check normal sizes", runTest);
+			doh.register("check normal sizes", runTest);
 
-        		doh.register("create errors", [
-				{
-					name: "setup",
-					runTest: function(){
-						createErrors();
-					}
-        	        	}
-  			]);
+			doh.register("create errors", {
+				name: "setup",
+				runTest: function(){
+					createErrors();
+				}
+			});
 
-        		doh.register("check error sizes", runTest);
+			doh.register("check error sizes", runTest);
 
-        		doh.register("check button sizes", [
+			doh.register("check button sizes", [
 				{
 					name: "ComboBox",
 					runTest: function(){
@@ -140,7 +136,7 @@
 						var arrowPos = dojo.position(combobox.downArrowNode);
 						doh.t(Math.abs(inputPos.h-arrowPos.h) <= 1, "ComboBox button height (" + arrowPos.h + ") is same as input height (" + inputPos.h + ")");
 					}
-        	        	},
+				},
 				{
 					name: "Spinner",
 					runTest: function(){
@@ -151,7 +147,7 @@
 						doh.t((inputHeight-downArrowHeight-upArrowHeight) <= 1, "Spinner button heights (" + upArrowHeight + "," + downArrowHeight + ") are equal to the input height (" + inputHeight + ")");
 						doh.t(Math.abs(upArrowHeight - downArrowHeight) <= 1, "Spinner UP button height (" + upArrowHeight + ") is equal to the DOWN buttom height (" + downArrowHeight + ")");
 					}
-        	        	}
+				}
   			]);
 
 			doh.run();
