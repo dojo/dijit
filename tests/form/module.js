@@ -32,22 +32,22 @@ try{
 
 	doh.registerUrl("dijit.tests.form.robot.validationMessages", dojo.moduleUrl("dijit","tests/form/robot/validationMessages.html"+userArgs), 99999999);
 
-	doh.registerUrl("dijit.tests.form.TextBox.tundra.ltr", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=tundra&dir=ltr"));
-	doh.registerUrl("dijit.tests.form.TextBox.tundra.rtl", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=tundra&dir=rtl"));
-	doh.registerUrl("dijit.tests.form.TextBox.tundra.quirks", dojo.moduleUrl("dijit", "tests/quirks.html?file=form/TextBox_sizes.html&theme=tundra&dir=ltr"));
-	doh.registerUrl("dijit.tests.form.TextBox.claro.ltr", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=claro&dir=ltr"));
-	doh.registerUrl("dijit.tests.form.TextBox.claro.rtl", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=claro&dir=rtl"));
-	doh.registerUrl("dijit.tests.form.TextBox.claro.quirks", dojo.moduleUrl("dijit", "tests/quirks.html?file=form/TextBox_sizes.html&theme=claro&dir=ltr"));
-	doh.registerUrl("dijit.tests.form.TextBox.soria.ltr", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=soria&dir=ltr"));
-	doh.registerUrl("dijit.tests.form.TextBox.soria.rtl", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=soria&dir=rtl"));
-	doh.registerUrl("dijit.tests.form.TextBox.soria.quirks", dojo.moduleUrl("dijit", "tests/quirks.html?file=form/TextBox_sizes.html&theme=soria&dir=ltr"));
-	doh.registerUrl("dijit.tests.form.TextBox.nihilo.ltr", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=nihilo&dir=ltr"));
-	doh.registerUrl("dijit.tests.form.TextBox.nihilo.rtl", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=nihilo&dir=rtl"));
-	doh.registerUrl("dijit.tests.form.TextBox.nihilo.quirks", dojo.moduleUrl("dijit", "tests/quirks.html?file=form/TextBox_sizes.html&theme=nihilo&dir=ltr"));
+	doh.registerUrl("dijit.tests.form.TextBox_sizes.tundra.ltr", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=tundra&dir=ltr"));
+	doh.registerUrl("dijit.tests.form.TextBox_sizes.tundra.rtl", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=tundra&dir=rtl"));
+	doh.registerUrl("dijit.tests.form.TextBox_sizes.tundra.quirks", dojo.moduleUrl("dijit", "tests/quirks.html?file=form/TextBox_sizes.html&theme=tundra&dir=ltr"));
+	doh.registerUrl("dijit.tests.form.TextBox_sizes.claro.ltr", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=claro&dir=ltr"));
+	doh.registerUrl("dijit.tests.form.TextBox_sizes.claro.rtl", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=claro&dir=rtl"));
+	doh.registerUrl("dijit.tests.form.TextBox_sizes.claro.quirks", dojo.moduleUrl("dijit", "tests/quirks.html?file=form/TextBox_sizes.html&theme=claro&dir=ltr"));
+	doh.registerUrl("dijit.tests.form.TextBox_sizes.soria.ltr", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=soria&dir=ltr"));
+	doh.registerUrl("dijit.tests.form.TextBox_sizes.soria.rtl", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=soria&dir=rtl"));
+	doh.registerUrl("dijit.tests.form.TextBox_sizes.soria.quirks", dojo.moduleUrl("dijit", "tests/quirks.html?file=form/TextBox_sizes.html&theme=soria&dir=ltr"));
+	doh.registerUrl("dijit.tests.form.TextBox_sizes.nihilo.ltr", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=nihilo&dir=ltr"));
+	doh.registerUrl("dijit.tests.form.TextBox_sizes.nihilo.rtl", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=nihilo&dir=rtl"));
+	doh.registerUrl("dijit.tests.form.TextBox_sizes.nihilo.quirks", dojo.moduleUrl("dijit", "tests/quirks.html?file=form/TextBox_sizes.html&theme=nihilo&dir=ltr"));
 	/* is there a UI contract that a11y textbox widgets have consistent heights and widths?
-	doh.registerUrl("dijit.tests.form.TextBox.a11y.ltr", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?a11y=1&dir=ltr"));
-	doh.registerUrl("dijit.tests.form.TextBox.a11y.rtl", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?a11y=1&dir=rtl"));
-	doh.registerUrl("dijit.tests.form.TextBox.a11y.quirks", dojo.moduleUrl("dijit", "tests/quirks.html?file=form/TextBox_sizes.html&a11y=1&dir=ltr"));
+	doh.registerUrl("dijit.tests.form.TextBox_sizes.a11y.ltr", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?a11y=1&dir=ltr"));
+	doh.registerUrl("dijit.tests.form.TextBox_sizes.a11y.rtl", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?a11y=1&dir=rtl"));
+	doh.registerUrl("dijit.tests.form.TextBox_sizes.a11y.quirks", dojo.moduleUrl("dijit", "tests/quirks.html?file=form/TextBox_sizes.html&a11y=1&dir=ltr"));
 	*/
 }catch(e){
 	doh.debug(e);
