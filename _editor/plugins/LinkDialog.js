@@ -34,6 +34,11 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 	//		useful, they are technically valid.
 	urlRegExp: "((https?|ftps?|file)\\://|\./|/|)(/[a-zA-Z]{1,1}:/|)(((?:(?:[\\da-zA-Z](?:[-\\da-zA-Z]{0,61}[\\da-zA-Z])?)\\.)*(?:[a-zA-Z](?:[-\\da-zA-Z]{0,80}[\\da-zA-Z])?)\\.?)|(((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])|(0[xX]0*[\\da-fA-F]?[\\da-fA-F]\\.){3}0[xX]0*[\\da-fA-F]?[\\da-fA-F]|(0+[0-3][0-7][0-7]\\.){3}0+[0-3][0-7][0-7]|(0|[1-9]\\d{0,8}|[1-3]\\d{9}|4[01]\\d{8}|42[0-8]\\d{7}|429[0-3]\\d{6}|4294[0-8]\\d{5}|42949[0-5]\\d{4}|429496[0-6]\\d{3}|4294967[01]\\d{2}|42949672[0-8]\\d|429496729[0-5])|0[xX]0*[\\da-fA-F]{1,8}|([\\da-fA-F]{1,4}\\:){7}[\\da-fA-F]{1,4}|([\\da-fA-F]{1,4}\\:){6}((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])))(\\:\\d+)?(/(?:[^?#\\s/]+/)*(?:[^?#\\s/]+(?:\\?[^?#\\s/]*)?(?:#.*)?)?)?",
 
+	// emailRegExp: [protected] String
+	//		Used for validating input as correct email address.  Taken from dojox.validate
+	emailRegExp:  "<?(mailto\\:)([!#-'*+\\-\\/-9=?A-Z^-~]+[.])*[!#-'*+\\-\\/-9=?A-Z^-~]+" /*username*/ + "@" +  
+        "((?:(?:[\\da-zA-Z](?:[-\\da-zA-Z]{0,61}[\\da-zA-Z])?)\\.)+(?:[a-zA-Z](?:[-\\da-zA-Z]{0,6}[\\da-zA-Z])?)\\.?)|localhost|^[^-][a-zA-Z0-9_-]*>?",	// host.
+
 	// htmlTemplate: [protected] String
 	//		String used for templating the HTML to insert at the desired point.
 	htmlTemplate: "<a href=\"${urlInput}\" _djrealurl=\"${urlInput}\"" +
@@ -48,13 +53,17 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 	//		Regular expression used to validate url fragments (ip address, hostname, etc)
 	_hostRxp:  new RegExp("^((([^\\[:]+):)?([^@]+)@)?(\\[([^\\]]+)\\]|([^\\[:]*))(:([0-9]+))?$"),
 
+	// _userAtRxp [private] RegExp
+	//		Regular expression used to validate e-mail address fragment.
+	_userAtRxp: new RegExp("^([!#-'*+\\-\\/-9=?A-Z^-~]+[.])*[!#-'*+\\-\\/-9=?A-Z^-~]+@", "i"),
+
 	// linkDialogTemplate: [protected] String
 	//		Template for contents of TooltipDialog to pick URL
 	linkDialogTemplate: [
 		"<table><tr><td>",
 		"<label for='${id}_urlInput'>${url}</label>",
 		"</td><td>",
-		"<input dojoType='dijit.form.ValidationTextBox' regExp='${urlRegExp}' required='true' " +
+		"<input dojoType='dijit.form.ValidationTextBox' required='true' " +
 		"id='${id}_urlInput' name='urlInput' intermediateChanges='true'>",
 		"</td></tr><tr><td>",
 		"<label for='${id}_textInput'>${text}</label>",
@@ -112,6 +121,16 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 		if(this._textInput){
 			this.connect(this._textInput, "onChange", "_checkAndFixInput");
 		}
+
+		// Build up the dual check for http/https/file:, and mailto formats.
+		this._urlRegExp = new RegExp("^" + this.urlRegExp + "$", "i");
+		this._emailRegExp = new RegExp("^" + this.emailRegExp + "$", "i");
+		this._urlInput.isValid = dojo.hitch(this, function(){
+			// Function over-ride of isValid to test if the input matches a url or a mailto style link.
+			var value = this._urlInput.get("value");
+			return this._urlRegExp.test(value) || this._emailRegExp.test(value);
+		});
+
 		this._connectTagEvents();
 		this.inherited(arguments);
 	},
@@ -127,22 +146,31 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 		var url = this._urlInput.get("value");
 		var fixupUrl = function(url){
 			var appendHttp = false;
-			if(url && url.length > 7){
+			var appendMailto = false;
+			if(url && url.length > 1){
 				url = dojo.trim(url);
-				if(url.indexOf("/") > 0){
-					if(url.indexOf("://") === -1){
-						// Check that it doesn't start with / or ./, which would
-						// imply 'target server relativeness'
-						if(url.charAt(0) !== '/' && url.indexOf("./") !== 0){
-							if(self._hostRxp.test(url)){
-								appendHttp = true;
+				if(url.indexOf("mailto:") !== 0){
+					if(url.indexOf("/") > 0){
+						if(url.indexOf("://") === -1){
+							// Check that it doesn't start with / or ./, which would
+							// imply 'target server relativeness'
+							if(url.charAt(0) !== '/' && url.indexOf("./") !== 0){
+								if(self._hostRxp.test(url)){
+									appendHttp = true;
+								}
 							}
 						}
+					}else if(self._userAtRxp.test(url)){
+						// If it looks like a foo@, append a mailto.
+						appendMailto = true;
 					}
 				}
 			}
 			if(appendHttp){
 				self._urlInput.set("value", "http://" + url);
+			}
+			if(appendMailto){
+				self._urlInput.set("value", "mailto:" + url);
 			}
 			self._setButton.set("disabled", !self._isValid());
 		};
