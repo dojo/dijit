@@ -476,6 +476,195 @@
 						}
 					},
 					{
+						name: "Anchor Tag: Test mailto url.",
+						timeout: 20000,
+						setUp: function(){
+							editor = dijit.byId("editor");
+							ldPlugin = null;
+							var edPlugins = editor._plugins, i;
+							for(i = 0; i < edPlugins.length; i++){
+								var p = edPlugins[i];
+								if(p.declaredClass === "dijit._editor.plugins.LinkDialog"){
+									ldPlugin = p;
+									break;
+								}
+							}
+							value = editor.get("value");
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							try{
+								//Focus on the editor window
+								dojo.window.scrollIntoView(editor.domNode);
+								editor.focus();
+								doh.robot.mouseMoveAt(editor.iframe, 500);
+								doh.robot.mouseClick({left:true}, 500);
+
+								//Find the fullscreen plugin, we'll need it.
+								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
+								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
+								doh.robot.mouseClick({left:true}, 500);
+
+								var url, desc, target;
+								doh.robot.sequence(function(){
+									url = dijit.byId(ldPlugin._uniqueId + "_urlInput");
+									desc = dijit.byId(ldPlugin._uniqueId + "_textInput");
+									target = dijit.byId(ldPlugin._uniqueId + "_targetSelect");
+									url.set("value", "mailto:johndoe@example.com");
+									desc.set("value", "Send a message to John.");
+									target.set("value", "_blank");
+									url.isValid();
+								},2000);
+								doh.robot.sequence(function(){
+									var setButton = dijit.byId(ldPlugin._uniqueId + "_setButton");
+									doh.assertTrue(!setButton.get("disabled"));
+								}, 500);
+								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode; }, 500);
+								doh.robot.mouseClick({left:true}, 500);
+								doh.robot.mouseMoveAt(editor.iframe, 500, null, 0, 0);
+								doh.robot.mouseClick({left:true}, 500);
+								doh.robot.sequence(d.getTestCallback(function(){
+									//Now check the state!
+									var newVal = editor.get("value");
+									doh.assertTrue((newVal.indexOf("mailto:johndoe@example.com") > -1), "Verify the contents have the mailto url present.");
+								}), 2000);
+							}catch(e){
+								d.errback(e);
+							}
+							return d;
+						},
+						tearDown: function(){
+							if(editor){editor.set("value", value);}
+						}
+					},
+					{
+						name: "Anchor Tag: Test mailto url prepend.",
+						timeout: 20000,
+						setUp: function(){
+							editor = dijit.byId("editor");
+							ldPlugin = null;
+							var edPlugins = editor._plugins, i;
+							for(i = 0; i < edPlugins.length; i++){
+								var p = edPlugins[i];
+								if(p.declaredClass === "dijit._editor.plugins.LinkDialog"){
+									ldPlugin = p;
+									break;
+								}
+							}
+							value = editor.get("value");
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							try{
+								//Focus on the editor window
+								dojo.window.scrollIntoView(editor.domNode);
+								editor.focus();
+								doh.robot.mouseMoveAt(editor.iframe, 500);
+								doh.robot.mouseClick({left:true}, 500);
+
+								//Find the fullscreen plugin, we'll need it.
+								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
+								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
+								doh.robot.mouseClick({left:true}, 500);
+
+								var url, desc, target;
+								doh.robot.sequence(function(){
+									url = dijit.byId(ldPlugin._uniqueId + "_urlInput");
+									desc = dijit.byId(ldPlugin._uniqueId + "_textInput");
+									target = dijit.byId(ldPlugin._uniqueId + "_targetSelect");
+									url.set("value", "johndoe@example.com");
+									desc.set("value", "Send a message to John.");
+									target.set("value", "_blank");
+									url.isValid();
+								},2000);
+								doh.robot.sequence(function(){
+									var setButton = dijit.byId(ldPlugin._uniqueId + "_setButton");
+									doh.assertTrue(!setButton.get("disabled"));
+								}, 500);
+								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode; }, 500);
+								doh.robot.mouseClick({left:true}, 500);
+								doh.robot.mouseMoveAt(editor.iframe, 500, null, 0, 0);
+								doh.robot.mouseClick({left:true}, 500);
+								doh.robot.sequence(d.getTestCallback(function(){
+									//Now check the state!
+									var newVal = editor.get("value");
+									doh.assertTrue((newVal.indexOf("mailto:johndoe@example.com") > -1), "Verify the contents have the mailto url present.");
+								}), 2000);
+							}catch(e){
+								d.errback(e);
+							}
+							return d;
+						},
+						tearDown: function(){
+							if(editor){editor.set("value", value);}
+						}
+					},
+					{
+						name: "Anchor Tag: Test invalid mailto url.",
+						timeout: 20000,
+						setUp: function(){
+							editor = dijit.byId("editor");
+							ldPlugin = null;
+							var edPlugins = editor._plugins, i;
+							for(i = 0; i < edPlugins.length; i++){
+								var p = edPlugins[i];
+								if(p.declaredClass === "dijit._editor.plugins.LinkDialog"){
+									ldPlugin = p;
+									break;
+								}
+							}
+							value = editor.get("value");
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							try{
+								//Focus on the editor window
+								dojo.window.scrollIntoView(editor.domNode);
+								editor.focus();
+								doh.robot.mouseMoveAt(editor.iframe, 500);
+								doh.robot.mouseClick({left:true}, 500);
+
+								//Find the fullscreen plugin, we'll need it.
+								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
+								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
+								doh.robot.mouseClick({left:true}, 500);
+
+								var url, desc, target;
+								doh.robot.sequence(function(){
+									url = dijit.byId(ldPlugin._uniqueId + "_urlInput");
+									desc = dijit.byId(ldPlugin._uniqueId + "_textInput");
+									target = dijit.byId(ldPlugin._uniqueId + "_targetSelect");
+									url.set("value", "mailto:john doe@example.com");
+									desc.set("value", "Send a message to John.");
+									target.set("value", "_blank");
+									url.isValid();
+								},2000);
+								doh.robot.sequence(function(){
+									var setButton = dijit.byId(ldPlugin._uniqueId + "_setButton");
+									doh.assertTrue(setButton.get("disabled"));
+								}, 500);
+								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_cancelButton").domNode; }, 500);
+								doh.robot.mouseClick({left:true}, 500);
+								doh.robot.mouseMoveAt(editor.iframe, 500, null, 0, 0);
+								doh.robot.mouseClick({left:true}, 500);
+								doh.robot.sequence(d.getTestCallback(function(){
+									var newVal = editor.get("value");
+									doh.assertTrue(newVal === value, "Verify the contents have not changed.");
+									doh.assertFalse(url.isValid());
+								}), 2000);
+							}catch(e){
+								d.errback(e);
+							}
+							return d;
+						},
+						tearDown: function(){
+							if(editor){editor.set("value", value);}
+						}
+					},
+					{
 						name: "Image Tag: Create a new image",
 						timeout: 20000,
 						setUp: function(){
