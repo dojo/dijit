@@ -15,14 +15,14 @@ dojo.declare("dijit._editor.plugins.TextColor", dijit._editor._Plugin, {
 	// Override _Plugin.buttonClass to use DropDownButton (with ColorPalette) to control this plugin
 	buttonClass: dijit.form.DropDownButton,
 	
-	//TODO: set initial focus/selection state?
-	
 	constructor: function(){
 		this.dropDown = new dijit.ColorPalette();
 		this.connect(this.dropDown, "onChange", function(color){
 			this.editor.execCommand(this.command, color);
 			
 		});
+		// We do not want default command/onclick stuff.
+		this.useDefaultCommand = false;
 	},
 
 	updateState: function(){
@@ -68,6 +68,7 @@ dojo.declare("dijit._editor.plugins.TextColor", dijit._editor._Plugin, {
 		}
 		
 		if(value !== this.dropDown.get('value')){
+			console.log("Boom?");
 			this.dropDown.set('value', value, false);
 		}
 	}
