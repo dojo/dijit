@@ -1,10 +1,10 @@
 <span class="dijit dijitReset dijitLeft dijitInline"
-	dojoAttachEvent="onclick:_onButtonClick"
 	><span class="dijitReset dijitRight dijitInline"
 		><span class="dijitReset dijitInline dijitButtonNode"
 			><button class="dijitReset dijitStretch dijitButtonContents"
+				dojoAttachEvent="onclick:_onButtonClick"
 				dojoAttachPoint="titleNode,focusNode"
-				${!nameAttrSetting} type="${type}" value="${value}" waiRole="button" waiState="labelledby-${id}_label"
+				type="button" waiRole="button" waiState="labelledby-${id}_label"
 				><span class="dijitReset dijitInline" dojoAttachPoint="iconNode"
 					><span class="dijitReset dijitToggleButtonIconChar">&#10003;</span
 				></span
@@ -13,6 +13,8 @@
 					dojoAttachPoint="containerNode"
 				></span
 			></button
+			><input ${!nameAttrSetting} type="${type}" value="${value}" style="display:none !important;"
+				dojoAttachPoint="valueNode"
 		></span
 	></span
 ></span>

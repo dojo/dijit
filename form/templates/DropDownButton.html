@@ -3,7 +3,7 @@
 	><span class='dijitReset dijitRight dijitInline'
 		><span class='dijitReset dijitInline dijitButtonNode'
 			><button class="dijitReset dijitStretch dijitButtonContents"
-				${!nameAttrSetting} type="${type}" value="${value}"
+				dojoAttachEvent="onclick:_onButtonClick"
 				dojoAttachPoint="focusNode,titleNode,_arrowWrapperNode"
 				waiRole="button" waiState="haspopup-true,labelledby-${id}_label"
 				><span class="dijitReset dijitInline"
@@ -16,6 +16,8 @@
 				><span class="dijitReset dijitInline dijitArrowButtonInner">&thinsp;</span
 				><span class="dijitReset dijitInline dijitArrowButtonChar">&#9660;</span
 			></button
+			><input ${!nameAttrSetting} type="${type}" value="${value}" style="display:none !important;"
+				dojoAttachPoint="valueNode"
 		></span
 	></span
 ></span>

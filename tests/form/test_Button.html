@@ -401,6 +401,23 @@
 		<button dojoType="dijit.form.Button" type="reset" id="bReset">Reset</button>
 	</form>
 
+	<h3>onClick Tests</h3>
+	<div>Testing that onClick works properly
+	</div>
+	<form>
+		<label for="onClickName">Value: </label><input id="onClickName" name="onClickName" value="RESET"><br>
+		<button dojoType="dijit.form.Button" type="reset" id="reset1">Reset with no onClick handler should reset</button>
+		<button type="reset" id="reset1N">Native Reset with no onClick handler should reset</button><br>
+		<button dojoType="dijit.form.Button" type="reset" id="reset2" onClick="return false">Reset with "return false" onClick handler should not reset</button>
+		<button type="reset" id="reset2N" onClick="return false">Native Reset with "return false" onClick handler should not reset</button><br>
+		<button dojoType="dijit.form.Button" type="reset" id="reset3" onClick="return true">Reset with "return true" onClick handler should reset</button>
+		<button type="reset" id="reset3N" onClick="return true">Native Reset with "return true" onClick handler should reset</button><br>
+		<button dojoType="dijit.form.Button" type="reset" id="reset4" onClick="return">Reset with "return" onClick handler should reset</button>
+		<button type="reset" id="reset4N" onClick="return">Native Reset with "return" onClick handler should reset</button><br>
+		<button dojoType="dijit.form.Button" type="reset" id="reset5" onClick="">Reset with "" onClick handler should reset</button>
+		<button type="reset" id="reset5N" onClick="">Native Reset with "" onClick handler should reset</button><br>
+	</form>
+
 	<h3>Submit/value test</h3>
 	<script>
 		submittedValues = function(values){

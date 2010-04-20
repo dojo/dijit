@@ -49,6 +49,7 @@ dojo.declare("dijit.form.Button",
 	templateString: dojo.cache("dijit.form", "templates/Button.html"),
 
 	attributeMap: dojo.delegate(dijit.form._FormWidget.prototype.attributeMap, {
+		value: "valueNode",
 		iconClass: { node: "iconNode", type: "class" }
 	}),
 
@@ -68,7 +69,7 @@ dojo.declare("dijit.form.Button",
 		//		Handler when the user activates the button portion.
 		if(this._onClick(e) === false){ // returning nothing is same as true
 			e.preventDefault(); // needed for checkbox
-		}else if(this.type == "submit" && !this.focusNode.form){ // see if a nonform widget needs to be signalled
+		}else if(this.type == "submit" && !(this.valueNode||this.focusNode).form){ // see if a nonform widget needs to be signalled
 			for(var node=this.domNode; node.parentNode/*#5935*/; node=node.parentNode){
 				var widget=dijit.byNode(node);
 				if(widget && typeof widget._onSubmit == "function"){
@@ -76,17 +77,9 @@ dojo.declare("dijit.form.Button",
 					break;
 				}
 			}
-		}
-	},
-
-	_setValueAttr: function(/*String*/ value){
-		// Verify that value cannot be set for BUTTON elements.
-		var attr = this.attributeMap.value || '';
-		if(this[attr.node || attr || 'domNode'].tagName == 'BUTTON'){
-			// On IE, setting value actually overrides innerHTML, so disallow for everyone for consistency
-			if(value != this.value){
-				console.debug('Cannot change the value attribute on a Button widget.');
-			}
+		}else if(this.valueNode){
+			this.valueNode.click();
+			e.preventDefault(); // cancel BUTTON click and continue with hidden INPUT click
 		}
 	},
 

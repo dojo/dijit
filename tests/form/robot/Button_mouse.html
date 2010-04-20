@@ -286,7 +286,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(nameBox.value, "Plain", "Plain name");
-								doh.t(/Plain Submit/.test(valueBox.value), "Plain value");
+								doh.is(valueBox.value, "Plain Submit", "Plain value");
 							}), 1000);
 
 							return d;
@@ -307,7 +307,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(nameBox.value, "Combo", "Combo name");
-								doh.t(/Combo Submit/.test(valueBox.value), "Combo value");
+								doh.is(valueBox.value, "Combo Submit", "Combo value");
 							}), 1000);
 
 							return d;
@@ -330,7 +330,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(nameBox.value, "INIT", "Combo Down Arrow name");
-								doh.t(/^INIT$/.test(valueBox.value), "Combo Down Arrow value");
+								doh.is(valueBox.value, "INIT", "Combo Down Arrow value");
 							}), 1000);
 
 							return d;
@@ -351,7 +351,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(nameBox.value, "", "Combo Arrow name");
-								doh.t(/^$/.test(valueBox.value), "Combo Arrow value");
+								doh.is(valueBox.value, "", "Combo Arrow value");
 							}), 1000);
 
 							return d;
@@ -372,7 +372,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(nameBox.value, "DropDown", "DropDown name");
-								doh.t(/DropDown Submit/.test(valueBox.value), "DropDown value");
+								doh.is(valueBox.value, "DropDown Submit", "DropDown value");
 							}), 1000);
 
 							return d;
@@ -393,7 +393,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(nameBox.value, "", "DropDown Arrow name");
-								doh.t(/^$/.test(valueBox.value), "DropDown Arrow value");
+								doh.is(valueBox.value, "", "DropDown Arrow value");
 							}), 1000);
 
 							return d;
@@ -414,8 +414,191 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(nameBox.value, "INIT", "Disabled name");
-								doh.t(/^INIT$/.test(valueBox.value), "Disabled value");
+								doh.is(valueBox.value, "INIT", "Disabled value");
 							}), 1000);
+
+							return d;
+						}
+					}
+				]);
+
+				doh.register("onClick", [
+					{
+						name: "reset: none",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var valueBox = dojo.byId("onClickName");
+							valueBox.value = '1';
+							doh.robot.mouseMoveAt('reset1', 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(dojo.byId('onClickName').value, "RESET");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "reset native: none",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var valueBox = dojo.byId("onClickName");
+							valueBox.value = '1';
+							doh.robot.mouseMoveAt('reset1N', 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(dojo.byId('onClickName').value, "RESET");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "reset: return false",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var valueBox = dojo.byId("onClickName");
+							valueBox.value = '2';
+							doh.robot.mouseMoveAt('reset2', 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(dojo.byId('onClickName').value, "2");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "reset native: return false",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var valueBox = dojo.byId("onClickName");
+							valueBox.value = '2';
+							doh.robot.mouseMoveAt('reset2N', 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(dojo.byId('onClickName').value, "2");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "reset: return true",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var valueBox = dojo.byId("onClickName");
+							valueBox.value = '3';
+							doh.robot.mouseMoveAt('reset3', 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(dojo.byId('onClickName').value, "RESET");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "reset native: return true",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var valueBox = dojo.byId("onClickName");
+							valueBox.value = '3';
+							doh.robot.mouseMoveAt('reset3N', 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(dojo.byId('onClickName').value, "RESET");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "reset: return",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var valueBox = dojo.byId("onClickName");
+							valueBox.value = '4';
+							doh.robot.mouseMoveAt('reset4', 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(dojo.byId('onClickName').value, "RESET");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "reset native: return",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var valueBox = dojo.byId("onClickName");
+							valueBox.value = '4';
+							doh.robot.mouseMoveAt('reset4N', 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(dojo.byId('onClickName').value, "RESET");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "reset: empty",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var valueBox = dojo.byId("onClickName");
+							valueBox.value = '5';
+							doh.robot.mouseMoveAt('reset5', 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(dojo.byId('onClickName').value, "RESET");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "reset native: empty",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var valueBox = dojo.byId("onClickName");
+							valueBox.value = '5';
+							doh.robot.mouseMoveAt('reset5N', 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(dojo.byId('onClickName').value, "RESET");
+							}), 500);
 
 							return d;
 						}
