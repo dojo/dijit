@@ -1,6 +1,6 @@
 dojo.provide("dijit.form.CheckBox");
 
-dojo.require("dijit.form.Button");
+dojo.require("dijit.form.ToggleButton");
 
 dojo.declare(
 	"dijit.form.CheckBox",
@@ -10,17 +10,18 @@ dojo.declare(
 		// 		Same as an HTML checkbox, but with fancy styling.
 		//
 		// description:
-		// User interacts with real html inputs.
-		// On onclick (which occurs by mouse click, space-bar, or
-		// using the arrow keys to switch the selected radio button),
-		// we update the state of the checkbox/radio.
+		//		User interacts with real html inputs.
+		//		On onclick (which occurs by mouse click, space-bar, or
+		//		using the arrow keys to switch the selected radio button),
+		//		we update the state of the checkbox/radio.
 		//
-		// There are two modes:
-		//   1. High contrast mode
-		//   2. Normal mode
-		// In case 1, the regular html inputs are shown and used by the user.
-		// In case 2, the regular html inputs are invisible but still used by
-		// the user. They are turned quasi-invisible and overlay the background-image.
+		//		There are two modes:
+		//			1. High contrast mode
+		//			2. Normal mode
+		//
+		//		In case 1, the regular html inputs are shown and used by the user.
+		//		In case 2, the regular html inputs are invisible but still used by
+		//		the user. They are turned quasi-invisible and overlay the background-image.
 
 		templateString: dojo.cache("dijit.form", "templates/CheckBox.html"),
 
