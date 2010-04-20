@@ -159,10 +159,10 @@
 							var editor = dijit.byId("div2");
 							dojo.window.scrollIntoView(editor.iframe);
 							var node = dojo.withGlobal(editor.window, function(){
-								return dojo.byId("boldLine");
+								return dojo.byId("boldLine0");
 							});
 							
-							doh.robot.mouseMoveAt(editor.editNode, 500);
+							doh.robot.mouseMoveAt(node, 500);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(function(){
@@ -178,7 +178,7 @@
 								// Do tests here.
 								var val = editor.get("value");
 								// Check that it split the is into two and that the bold and div were properly split.
-								doh.assertTrue(val.indexOf("It <b id=\"boldLine\">i</b></div>") > 0);
+								doh.assertTrue(val.indexOf("It <b id=\"boldLine0\">i</b></div>") > 0);
 								doh.assertTrue(val.indexOf("<div><b>s</b>") > 0);
 							}), 500);
 
@@ -196,10 +196,10 @@
 							var editor = dijit.byId("div3");
 							dojo.window.scrollIntoView(editor.iframe);
 							var node = dojo.withGlobal(editor.window, function(){
-								return dojo.byId("boldLine");
+								return dojo.byId("boldLine1");
 							});
 							
-							doh.robot.mouseMoveAt(editor.editNode, 500);
+							doh.robot.mouseMoveAt(node, 500);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(function(){
@@ -216,8 +216,8 @@
 								var val = editor.get("value");
 								// Check that it split the is into two and that the bold and div were properly split.
 								val = val.toLowerCase();
-								doh.assertTrue(/it <b id="boldline" style="font-size: 4em;?">i<\/b><\/div>/.test(val));
-								doh.assertTrue(/<div><b style="font-size: 4em;?">s<\/b>/.test(val));
+								doh.assertTrue(/it <b\s+id="boldline1"\s+style\s*=\s*"\s*font-size:\s*4em;?\s*">i<\/b><\/div>/.test(val));
+								doh.assertTrue(/<div><b\s+style\s*=\s*"\s*font-size:\s*4em;?\s*">s<\/b>/.test(val));
 							}), 500);
 
 							return d;
@@ -234,10 +234,10 @@
 							var editor = dijit.byId("p2");
 							dojo.window.scrollIntoView(editor.iframe);
 							var node = dojo.withGlobal(editor.window, function(){
-								return dojo.byId("boldLine");
+								return dojo.byId("boldLine2");
 							});
 							
-							doh.robot.mouseMoveAt(editor.editNode, 500);
+							doh.robot.mouseMoveAt(node, 500);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(function(){
@@ -253,7 +253,7 @@
 								// Do tests here.
 								var val = editor.get("value");
 								// Check that it split the is into two and that the bold and div were properly split.
-								doh.assertTrue(val.indexOf("It <b id=\"boldLine\">i</b></p>") > 0);
+								doh.assertTrue(val.indexOf("It <b id=\"boldLine2\">i</b></p>") > 0);
 								doh.assertTrue(val.indexOf("<p><b>s</b>") > 0);
 							}), 500);
 
