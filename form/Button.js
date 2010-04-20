@@ -259,28 +259,6 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 
 	_focusedNode: null,
 
-	postCreate: function(){
-		this.inherited(arguments);
-
-		var isIE = dojo.isIE;
-		if(isIE && (isIE < 8 || dojo.isQuirks)){ // fixed in IE8/strict
-			with(this.titleNode){ // resize BUTTON tag so parent TD won't inherit extra padding
-				style.width = scrollWidth + "px";
-				this.connect(this.titleNode, "onresize", function(){
-					setTimeout( function(){ style.width = scrollWidth + "px"; }, 0);
-				});
-			}
-		}
-	},
-
-	_setLabelAttr: function(/*String*/ content){
-		var isIE = dojo.isIE;
-		if(isIE && (isIE < 8 || dojo.isQuirks)){ // fixed in IE8/strict
-			this.titleNode.style.width = "1px"; // onresize handler will set it to the correct size
-		}
-		this.inherited(arguments);
-	},
-
 	_onButtonKeyPress: function(/*Event*/ evt){
 		// summary:
 		//		Handler for right arrow key when focus is on left part of button

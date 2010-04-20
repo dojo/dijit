@@ -238,15 +238,6 @@
 	margin: 0.2em;
 }
 
-.dj_ie BUTTON.dijitButtonNode {
-	overflow: visible; /* eliminates arbitrary left and right padding on buttons */
-}
-
-table .dijitButton .dijitButtonNode,
-table .dijitComboButton .dijitButtonNode {
-	#overflow:hidden; /* visible messes up if the button is inside a table on IE */
-}
-
 .dijitButtonNode IMG {
 	/* make text and images line up cleanly */
 	vertical-align:middle;
@@ -272,11 +263,8 @@ TABLE.dijitComboButton {
 	margin: 0;
 }
 
-.dj_ie8 .dijitToolbar button,
-.dj_webkit .dijitToolbar button {
-	/* FF and IE<8 adds implicit padding to buttons, so make other browsers follow suit,
-	 * to avoid a bunch of browse specific rules in theme files
-	 */
+.dijitToolbar .dijitButtonContents {
+	/* just because it used to be this way */
 	padding: 1px 2px;
 }
 

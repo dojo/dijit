@@ -2,12 +2,12 @@
 	cellspacing='0' cellpadding='0' waiRole="presentation"
 	><tbody waiRole="presentation"><tr waiRole="presentation"
 		><td class="dijitReset dijitStretch dijitButtonNode" dojoAttachPoint="buttonNode"
-		><button id="${id}_button" class="dijitReset dijitButtonContents"
-			dojoAttachEvent="onclick:_onButtonClick,onkeypress:_onButtonKeyPress" dojoAttachPoint="titleNode"
+		><div id="${id}_button" class="dijitReset dijitButtonContents"
+			dojoAttachEvent="ondijitclick:_onButtonClick,onkeypress:_onButtonKeyPress" dojoAttachPoint="titleNode"
 			waiRole="button" waiState="labelledby-${id}_label"
 			><div class="dijitReset dijitInline" dojoAttachPoint="iconNode" waiRole="presentation"></div
 			><div class="dijitReset dijitInline dijitButtonText" id="${id}_label" dojoAttachPoint="containerNode" waiRole="presentation"></div
-		></button
+		></div
 		><input ${!nameAttrSetting} type="${type}" value="${value}" style="display:none !important;"
 			dojoAttachPoint="valueNode"
 		></td
