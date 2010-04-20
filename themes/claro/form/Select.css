@@ -24,6 +24,7 @@
 .claro .dijitSelect {
 	border: 1px solid #b5bcc7;
 	background-color: #f7fcff;
+	border-collapse: separate;
 }
 .dj_ie6 .claro .dijitSelect,
 .dj_ie6 .claro .dijitSelect .dijitButtonNode {
@@ -42,9 +43,6 @@
 	background-color:#ebeef4;
 	background-image: url("images/formHighlight.png");
 	background-repeat:repeat-x;
-}
-.dj_ie8 .claro .dijitSelect .dijitArrowButton {
-	border: none;	/* otherwise bottom and right part of outer (gray) border of button not visible */
 }
 
 .claro .dijitSelect .dijitArrowButton .dijitArrowButtonInner {
