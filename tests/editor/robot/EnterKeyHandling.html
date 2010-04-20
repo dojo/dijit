@@ -161,8 +161,17 @@
 							var node = dojo.withGlobal(editor.window, function(){
 								return dojo.byId("boldLine");
 							});
-							doh.robot.mouseMoveAt(node, 500);
+							
+							doh.robot.mouseMoveAt(editor.editNode, 500);
 							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(function(){
+								dojo.withGlobal(editor.window, "selectElementChildren", dijit._editor.selection, [node]); 
+							}, 500);
+							
+							//Keyboard kill the selection and shift position between i and s.
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100, {});
+							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 100, {});
 							doh.robot.keyPress(dojo.keys.ENTER, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -189,8 +198,17 @@
 							var node = dojo.withGlobal(editor.window, function(){
 								return dojo.byId("boldLine");
 							});
-							doh.robot.mouseMoveAt(node, 500);
+							
+							doh.robot.mouseMoveAt(editor.editNode, 500);
 							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(function(){
+								dojo.withGlobal(editor.window, "selectElementChildren", dijit._editor.selection, [node]); 
+							}, 500);
+							
+							//Keyboard kill the selection and shift position between i and s.
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100, {});
+							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 100, {});
 							doh.robot.keyPress(dojo.keys.ENTER, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -218,8 +236,17 @@
 							var node = dojo.withGlobal(editor.window, function(){
 								return dojo.byId("boldLine");
 							});
-							doh.robot.mouseMoveAt(node, 500);
+							
+							doh.robot.mouseMoveAt(editor.editNode, 500);
 							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(function(){
+								dojo.withGlobal(editor.window, "selectElementChildren", dijit._editor.selection, [node]); 
+							}, 500);
+							
+							//Keyboard kill the selection and shift position between i and s.
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100, {});
+							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 100, {});
 							doh.robot.keyPress(dojo.keys.ENTER, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
