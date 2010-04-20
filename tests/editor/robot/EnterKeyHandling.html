@@ -162,15 +162,15 @@
 								return dojo.byId("boldLine0");
 							});
 							
-							doh.robot.mouseMoveAt(node, 500);
+							doh.robot.mouseMoveAt(editor.iframe, 500);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(function(){
-								dojo.withGlobal(editor.window, "selectElementChildren", dijit._editor.selection, [node]); 
+                                editor._sCall("selectElementChildren", [node]);
 							}, 500);
 							
 							//Keyboard kill the selection and shift position between i and s.
-							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100, {});
+							if(!dojo.isMoz) {doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100, {}); }
 							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 100, {});
 							doh.robot.keyPress(dojo.keys.ENTER, 500);
 
@@ -199,15 +199,15 @@
 								return dojo.byId("boldLine1");
 							});
 							
-							doh.robot.mouseMoveAt(node, 500);
+							doh.robot.mouseMoveAt(editor.iframe, 500);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(function(){
-								dojo.withGlobal(editor.window, "selectElementChildren", dijit._editor.selection, [node]); 
+                                editor._sCall("selectElementChildren", [node]);
 							}, 500);
 							
 							//Keyboard kill the selection and shift position between i and s.
-							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100, {});
+							if(!dojo.isMoz) {doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100, {}); }
 							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 100, {});
 							doh.robot.keyPress(dojo.keys.ENTER, 500);
 
@@ -237,15 +237,15 @@
 								return dojo.byId("boldLine2");
 							});
 							
-							doh.robot.mouseMoveAt(node, 500);
+							doh.robot.mouseMoveAt(editor.iframe, 500);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(function(){
-								dojo.withGlobal(editor.window, "selectElementChildren", dijit._editor.selection, [node]); 
+                                editor._sCall("selectElementChildren", [node]);
 							}, 500);
 							
 							//Keyboard kill the selection and shift position between i and s.
-							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100, {});
+							if(!dojo.isMoz) {doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100, {}); }
 							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 100, {});
 							doh.robot.keyPress(dojo.keys.ENTER, 500);
 
