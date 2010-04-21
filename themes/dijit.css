@@ -238,6 +238,10 @@
 	margin: 0.2em;
 }
 
+.dijitButtonContents {
+	display: block;		/* to make focus border rectangular */
+}
+
 .dijitButtonNode IMG {
 	/* make text and images line up cleanly */
 	vertical-align:middle;
