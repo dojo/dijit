@@ -202,10 +202,6 @@ dojo.declare(
 				this.connect(node, "onfocus", "_onTargetFocus"),
 				this.connect(node, "onblur", "_onTargetBlur")
 			];
-			if(dojo.isIE && !node.style.zoom){//preserve zoom
-				// BiDi workaround
-				node.style.zoom = 1;
-			}
 		},
 
 		removeTarget: function(/*DOMNODE || String*/ node){
