@@ -277,7 +277,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 		//		protected
 		var url, text, target;
 		if(a && a.tagName.toLowerCase() === this.tag){
-			url = a.getAttribute('_djrealurl');
+			url = a.getAttribute('_djrealurl') || a.getAttribute('href');
 			target = a.getAttribute('target') || "_self";
 			text = a.textContent || a.innerText;
 			dojo.withGlobal(this.editor.window, "selectElement", dijit._editor.selection, [a, true]);
@@ -394,7 +394,7 @@ dojo.declare("dijit._editor.plugins.ImgLinkDialog", [dijit._editor.plugins.LinkD
 		//		protected
 		var url, text;
 		if(img && img.tagName.toLowerCase() === this.tag){
-			url = img.getAttribute('_djrealurl');
+			url = img.getAttribute('_djrealurl') || img.getAttribute('src');
 			text = img.getAttribute('alt');
 			dojo.withGlobal(this.editor.window,
 				"selectElement", dijit._editor.selection, [img, true]);
