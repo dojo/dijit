@@ -8,16 +8,15 @@
 }
 .claro .dijitTreeRow {
 	/* so insert line shows up on IE when dropping after a target element */
-	padding-bottom: 1px;
-	padding-top:3px;
-	border:solid 1px #fff;
-	background-color: rgba(171,214,255,0);
-	border-color: rgba(118,157,192,0);
+	padding: 4px 1px 2px 0px;
+	margin-left: 1px;
 	background-image: url("images/commonHighlight.png");
 	background-position:0px 0px;
 	background-repeat:repeat-x;
-	-webkit-transition-property:background-color, border;
- 	-webkit-transition-duration:.25s ;
+	border-color: rgba(118,157,192,0);
+	background-color: rgba(171,214,255,0);
+	-webkit-transition-property:background-color, border-color;
+	-webkit-transition-duration:.25s ;
 	-webkit-transition-timing-function: ease-out;
 }
 .dj_ie6 .claro .dijitTreeRow {
@@ -27,19 +26,24 @@
 .claro .dijitTreeRowSelected {
 	background-repeat:repeat-x;
 	background-color:#d8edff;
+	padding: 3px 0px 1px;
+	margin-left: 0px;
 	border:solid 1px #c3e2fd;
 	color:#000;
 }
 .claro .dijitTreeRowHover {
 	background-color:#abd6ff;
+	padding: 3px 0px 1px;
+	margin-left: 0px;
 	border:solid 1px #769dc0;
 	color:#000;
-	-webkit-transition-duration:.2s, .25s;
-	-webkit-transition-timing-function: linear;
+	-webkit-transition-duration:.25s ; 
 }
 .claro .dijitTreeRowActive {
 	background-color:#7dbefa;
 	background-position:0px -177px;
+	padding: 3px 0px 1px;
+	margin-left: 0px;
 	border:solid 1px #769dc0;
 	color:#000;
 }
