@@ -715,7 +715,7 @@ dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
 			p = new _p({ buttonClass: dijit.form.ToggleButton, command: name });
 			break;
 		case "|":
-			p = new _p({ button: new dijit.ToolbarSeparator() });
+			p = new _p({ button: new dijit.ToolbarSeparator(), setEditor: function(editor) {this.editor = editor;} });
 	}
 //	console.log('name',name,p);
 	o.plugin=p;
