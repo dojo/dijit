@@ -141,12 +141,8 @@ dojo.declare(
 		// every page one by one
 		if(this._beingDestroyed){ return; }
 
-		if(this._started){
-			// in case the tab titles now take up one line instead of two lines
-			// TODO: this is overkill in most cases since ScrollingTabController never changes size (for >= 1 tab)
-			this.layout();
-		}
-
+		// Select new page to display, also updating TabController to show the respective tab.
+		// Do this before layout call because it can affect the height of the TabController.
 		if(this.selectedChildWidget === page){
 			this.selectedChildWidget = undefined;
 			if(this._started){
@@ -155,6 +151,13 @@ dojo.declare(
 					this.selectChild(children[0]);
 				}
 			}
+		}
+
+		if(this._started){
+			// In case the tab titles now take up one line instead of two lines
+			// (note though that ScrollingTabController never overflows to multiple lines),
+			// or the height has changed slightly because of addition/removal of tab which close icon
+			this.layout();
 		}
 	},
 
