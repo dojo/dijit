@@ -27,14 +27,15 @@
 	*/
 	background:#fff url("../images/validationInputBg.png") repeat-x top left;
 	#background:#fff url('../images/validationInputBg.gif') repeat-x top left;
+	#background-color: #fff !important; /* no png transparency */
 	border:1px solid #d3d3d3;
 	line-height: normal;
 }
 
-.nihilo .dijitComboBox .dijitButtonNode {
-	padding-left: 0.2em;
-	padding-right: 0.2em;
+.soria .dijitButtonWithArrow .dijitArrowButtonContainer {
+	width:12px;
 }
+
 .nihilo .dijitComboBox .dijitButtonNode,
 .nihilo .dijitSpinner .dijitButtonNode {
 	/* line between the input area and the drop down button */
@@ -68,7 +69,7 @@
 }
 .dj_ie6 .nihilo .dijitError INPUT {
 	/* background-color: transparent on an <input> doesn't work on IE6 */
-	background-color:#f9f7ba !important;
+	background-color:#f9f7ba;
 }
 
 .nihilo .dijitErrorFocused {
@@ -77,14 +78,16 @@
 }
 .dj_ie6 .nihilo .dijitErrorFocused INPUT {
 	/* background-color: transparent on an <input> doesn't work on IE6 */
-	background-color:#ff6 !important;
+	background-color:#ff6;
 }
 
 /* Validation errors  */
+.nihilo .dijitValidationContainer, .nihilo .dijitValidationIcon {
+	width: 18px;
+}
+
 .nihilo .dijitValidationIcon {
-	/* prevent height change when widget goes from valid to invalid state */
-	width: 16px;
-	background: transparent url('../images/warning.png') no-repeat center center;
+	background: transparent url('../images/warning.png') no-repeat center 95%;
 }
 
 /* The highlight is shown in the ComboBox menu. */

@@ -4,7 +4,6 @@
 	background-repeat: repeat-x;
 	background-color: #e4f2ff;
 	border: 1px solid #769dc0;
-	padding:2px 4px 4px 4px;
 	border-radius: 4px;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
@@ -15,44 +14,61 @@
  	-webkit-transition-duration:.3s;
 }
 
+/*
+.claro .dijitButtonField, .claro .dijitSelectField , .claro .dijitInputField {
+	padding:2px;
+}
+*/
+
+.claro .dijitComboButton .dijitButtonContents {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
 .claro .dijitButtonNode button {
 	background-color: transparent;
 	border: none;
 }
 
-.claro .dijitComboButton .dijitArrowButton {
-	border-left-width: 0px;
-	padding: 4px 2px 4px 2px;
-}
-
 /*arrow styles for down/up/left/right directions*/
-.claro .dijitArrowButtonInner {
-	width: 15px;
-	height: 15px;
-	margin: 0 auto;
+.claro .dijitButtonWithArrow .dijitArrowButtonContainer {
+	width: 20px;
+}
+.claro .dijitArrowButtonImg {
+	width:17px;
+	margin: 0;
 	background-image:url("images/buttonArrows.png");
 	background-repeat:no-repeat;
 	background-position:-51px 53%;
 }
-.claro .dijitLeftArrowButton .dijitArrowButtonInner {
+.dj_iequirks .claro .dijitArrowButtonImg {
+	width:19px; /* quirks mode, include the border width 2x1px */
+}
+.claro .dijitComboButton .dijitArrowButtonImg {
+	margin:0 2px;
+}
+.claro .dijitComboButton .dijitArrowButton {
+	border-left:0;
+}
+.claro .dijitLeftArrowButton .dijitArrowButtonImg {
 	background-position: -77px 53%;
 }
-.claro .dijitRightArrowButton .dijitArrowButtonInner {
+.claro .dijitRightArrowButton .dijitArrowButtonImg {
 	background-position: -26px 53%;
 }
-.claro .dijitUpArrowButton .dijitArrowButtonInner {
+.claro .dijitUpArrowButton .dijitArrowButtonImg {
 	background-position: 0px 53%;
 }
-.claro .dijitDisabled .dijitArrowButtonInner {
+.claro .dijitDisabled .dijitArrowButtonImg {
 	background-position: -151px 53%;
 }
-.claro .dijitDisabled .dijitLeftArrowButton .dijitArrowButtonInner {
+.claro .dijitDisabled .dijitLeftArrowButton .dijitArrowButtonImg {
 	background-position: -177px 53%;
 }
-.claro .dijitDisabled .dijitRightArrowButton .dijitArrowButtonInner {
+.claro .dijitDisabled .dijitRightArrowButton .dijitArrowButtonImg {
 	background-position: -126px 53%;
 }
-.claro .dijitDisabled .dijitUpArrowButton .dijitArrowButtonInner {
+.claro .dijitDisabled .dijitUpArrowButton .dijitArrowButtonImg {
 	background-position: -100px 53%;
 }
 

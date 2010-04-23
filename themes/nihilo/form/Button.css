@@ -11,7 +11,6 @@
 	/* border:1px outset #a0a0a0; */
 	border:1px solid #dedede;
 	border-bottom:1px solid #dedede;
-	padding: 0.1em 0.2em 0.2em 0.2em;
 	background: #fff url("../images/buttonEnabled.png") repeat-x top left;
 }
 .nihilo .dijitSelect .dijitButtonContents {
@@ -25,7 +24,6 @@
 
 .nihilo .dijitButtonText {
 	text-align: center;
-	padding: 0 0.3em;
 }
 
 .nihilo .dijitComboBox .dijitButtonNode {
@@ -34,10 +32,6 @@
 
 .nihilo .dijitArrowButton {
 	color: #111;
-}
-
-.nihilo .dijitComboButton .dijitDownArrowButton {
-	padding-right:4px;
 }
 
 .nihilo .dijitComboBoxReadOnly,
@@ -68,7 +62,7 @@
 .nihilo .dijitButtonNodeHover,
 .nihilo .dijitToggleButtonHover .dijitButtonNode,
 .nihilo .dijitDropDownButtonHover .dijitButtonNode,
-.nihilo .dijitButtonContentsHover,
+.nihilo .dijitComboButton .dijitButtonNode,
 .nihilo .dijitDownArrowButtonHover,
 .nihilo .dijitUpArrowButtonHover {
 	/* hover state - inner */
@@ -82,7 +76,7 @@
 .nihilo .dijitButtonActive .dijitButtonNode,
 .nihilo .dijitToggleButtonActive .dijitButtonNode,
 .nihilo .dijitDropDownButtonActive .dijitButtonNode,
-.nihilo .dijitComboButton .dijitButtonContentsActive,
+.nihilo .dijitComboButtonActive .dijitButtonNode,
 .nihilo .dijitStackController .dijitToggleButtonChecked .dijitButtonNode {
 	/* active state - inner (for when you are pressing a normal button, or
 	 * when a radio-type button is in a depressed state
@@ -92,21 +86,22 @@
 }
 
 
-.nihilo .dijitArrowButtonInner {
+.nihilo .dijitArrowButtonImg {
 	background-image: url("../images/spriteArrows.png");
 	background-repeat: no-repeat;
 	background-position: 0px center;
 	width: 11px;
+	margin: 0 3px;
 }
-.nihilo .dijitLeftArrowButton .dijitArrowButtonInner {
+.nihilo .dijitLeftArrowButton .dijitArrowButtonImg {
 	background-position: -11px center;
 }
-.nihilo .dijitUpArrowButton .dijitArrowButtonInner {
+.nihilo .dijitUpArrowButton .dijitArrowButtonImg {
 	background-position: -22px center;
 }
-.nihilo .dijitRightArrowButton .dijitArrowButtonInner {
+.nihilo .dijitRightArrowButton .dijitArrowButtonImg {
 	background-position: -33px center;
 }
-.dj_ie6 .nihilo .dijitArrowButtonInner {
+.dj_ie6 .nihilo .dijitArrowButtonImg {
 	background-image: url("../images/spriteArrows.gif");
 }

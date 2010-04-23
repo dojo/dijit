@@ -32,6 +32,7 @@
 	#display:inline; /* don't use .dj_ie since that increases the priority */
 	border:0;
 	padding:0;
+	/*vertical-align: text-bottom;  consistent accross browsers */
 	vertical-align:middle;
 	#vertical-align: auto;	/* makes TextBox,Button line up w/native counterparts on IE6 */
 }
@@ -50,6 +51,22 @@
 .dj_ie .dijitInputField INPUT {
 	font-size: 100%;
 	float: left; /* removes hidden top/bottom margin */
+}
+
+.dj_ie .dijitInputField {
+	margin-right: 0 !important; /* prevent float overflow */  
+	margin-left: 0 !important;
+}
+
+/* Default padding around form elements */
+.dijitInputField, .dijitSelectField, .dijitButtonField, .dijitTextArea {
+  	padding:4px;
+}
+
+.dijitArrowButton .dijitInputField, .dijitValidationContainer .dijitInputField {
+	background-color:transparent !important;
+	padding-left:0 !important;
+	padding-right:0 !important;
 }
 
 .dijitInlineTable {
@@ -88,7 +105,6 @@
 
 .dijitInputField {
 	overflow:hidden;
-	position:relative;
 	#zoom:1;
 }
 
@@ -187,23 +203,31 @@
 .dijitButtonNode * {
 	vertical-align: middle;
 }
-.dijit_a11y .dijitArrowButtonInner {
-	width: 1em;
-	display: none !important;
-}
-.dijitButtonNode .dijitArrowButtonInner {
+.dijitArrowButtonImg {
 	background: no-repeat center;
-	width: 16px;
-	margin: 0px;
+	width: 12px;
 	height: 100%;
+	overflow:hidden;
 	direction: ltr; /* needed by IE/RTL */
 }
-
+.dj_iequirks td.dijitArrowButton .dijitArrowButtonImg {
+	height:16px; /* so it can align vertically */
+}
+.dijitArrowButtonText {
+	display: none !important;
+}
+.dijit_a11y .dijitArrowButtonImg {
+	display: none !important;
+}
+.dijit_a11y .dijitArrowButtonText {
+	display: block !important;
+	height:100%;
+	white-space:nowrap;
+}
 /* In high contrast mode, display the check symbol */
 .dijit_a11y .dijitToggleButtonChecked .dijitToggleButtonIconChar {
 	display: inline !important;
 }
-
 
 /****
 		3-element borders:  ( dijitLeft + dijitStretch + dijitRight )
@@ -253,7 +277,6 @@ TABLE.dijitComboButton {
 	border-collapse: collapse;
 	border:0;
 	padding:0;
-	margin:0;
 }
 .dijitToolbar .dijitComboButton {
 	/* because Toolbar only draws a border around the hovered thing */
@@ -310,16 +333,6 @@ TABLE.dijitComboButton {
 		on IE. MSIE is truly the web's boat anchor.
 	*/
 	overflow: visible;
-}
-
-.dijitArrowButton {
-	/* Node that is acting as a arrow button -- drop down.  Also gets dijitButtonNode */
-	/* place AFTER dijitButtonNode so it overrides */
-	padding: 0 .4em;
-}
-
-DIV.dijitArrowButton {
-	float: right;
 }
 
 /******
@@ -380,82 +393,191 @@ DIV.dijitArrowButton {
 }
 
 /* when there's an error, a11y mode displays a text X, otherwise themes display an icon */
-.dijitValidationIcon {
-	display: none;
-	padding: 0 2px;
+.dijitValidationContainer {
 	float: right;
-	height: auto;
+	height: 100%;
+	min-height: 2px !important; /* give it some height */
+	width:18px;
+	display:none;
 }
-.dijitValidationIconText {
+.dijitValidationIcon, .dijitValidationIconText {
 	display: none;
-	float:right;
-	border: 1px solid black;
-	padding: 0px 1px;
-	font-size: 0.8em;
-	margin: 1px;
+	position:absolute;
+	top:0;
+	right:0;
+	height: 100%;
+	font-weight:bold;
+	white-space: nowrap;
 }
-.dijitError .dijitValidationIcon {
+.dijitValidationIcon {
+	width:18px
+}
+.dijitError .dijitValidationIcon, .dijitError .dijitValidationContainer {
 	display: block;
 }
-.dijit_a11y .dijitError .dijitValidationIconText {
-	display: inline !important;
-}
-.dijit_a11y .dijitError .dijitValidationIcon {
+
+/* ALLY - Validation */
+.dijit_a11y .dijitValidationIcon {
 	display: none !important;
+}
+.dijit_a11y .dijitValidationIconText {
+	display: block !important;
+}
+.dijit_a11y .dijitErrorFocused {
+	background-color:#000 !important;
+}
+.dijit_a11y .dijitValidationIconText {
+	background-color:#000 !important;
+	color:#FFF !important;
+	padding:0 2px;
+}
+.dijit_a11y .dijitValidationChar {
+	font-size: 14px;
+}
+.dijit_a11y .dijitValidationContainer .dijitInline {
+	background-color:#000 !important;
+}
+.dijit_a11y .dijitValidationContainer {
+	width:16px;
+}
+/* Validation & arrow characters */
+.dijit_a11y .dijitValidationChar, 
+.dijit_a11y .dijitArrowButtonChar  {
+	display:inline-block;
+	#display:inline;
+}
+.dijit_a11y .dijitValidationChar {
+	background-color:#000 !important;
+	color:#FFF !important;
+	vertical-align:bottom;
+	font-family:Arial;
+}
+.dijit_a11y .dijitArrowButtonChar {
+	font-size:9px;
+	line-height:7px;
+	height:9px;
+	font-family:Arial;
+}
+.dijitInputLayoutContainer .dijitInline {
+	width:1px; !important;
+	visibility:hidden;
+}
+.dj_ie .dijitArrowButtonChar {
+	line-height:100%;
 }
 
 /* ComboBox & Spinner */
 
-.dijitTextBox .dijitButtonNode {
+.dijitInputLayoutContainer, .dijitButtonWithArrow {
+	position: relative;
+	overflow: hidden;
+}
+.dj_ie .dijitInputLayoutContainer, .dj_ie .dijitButtonWithArrow {
+	zoom: 1 !important;   /* forces hasLayout=true to avoid rendering bugs */
+}
+.dj_iequirks .dijitInputLayoutContainer, .dj_iequirks .dijitButtonWithArrow {
+	height:1% !important; /* forces hasLayout=true in quirks mode, holy hack */
+}
+
+.dijitButtonWithArrow .dijitArrowButtonContainer {
+	float: right;
+	width: 18px;
+	min-height: 2px !important; /* give it some height */
+	overflow: hidden;
+	height:100%;
+}
+.dijitButtonWithArrow .dijitButtonField {
+	float:left;
+}
+.dijitInputLayoutContainer .dijitArrowButton {
+	overflow:hidden;
+	height: 100%;
+}
+.dijitButtonWithArrow .dijitValidationIcon {
+	right: 18px;
+}
+.dijitArrowButton {
+	line-height:10px; /* For opera & IE */
+}
+.dijitArrowButton .dijitInline, 
+.dijitValidationContainer .dijitInline {
+	height:100%;
+	vertical-align:middle;
+}
+.dijitArrowButtonImg {
+	font-size:0; /* removes black box in Opera 10 */
+	width:7px;	 /* recommended for themes */
+	margin:0 5px;
+}
+.dijitArrowButtonText {
+	min-width:10px;
+	margin:0 4px 0 3px;
+	white-space:nowrap;
+}
+.dj_ie .dijitArrowButtonImg {
+	font-size: 100%;		/* IE needs font-size */
+	line-height: normal;
+}
+.dj_ie6 .dijitSpinner .dijitArrowButtonText,
+.dj_iequirks .dijitSpinner .dijitArrowButtonText {
+	zoom:50%;
+}
+.dj_ie6 .dijitSpinner .dijitArrowButtonChar,
+.dj_iequirks .dijitSpinner .dijitArrowButtonChar {
+	font-size:18px;
+}
+.dj_ie7 .dijitSpinner .dijitArrowButtonText {
+	font-size:50%;
+}
+.dijitTextBox .dijitArrowButton {
 	/* dividing line between input area and up/down button(s) for ComboBox and Spinner */
 	border: solid black;
 	border-width: 0px 0px 0px 1px !important;
-}
-
-.dijitComboBox .dijitArrowButtonInner {
-	display: block;
-	overflow: hidden;
-}
-
-.dijitComboBox DIV.dijitDownArrowButton {
-	padding: 0px;
-}
-.dj_iequirks .dijitComboBox .dijitDownArrowButton,
-.dj_iequirks .dijitSpinnerButtonContainer {
-	padding: 1px 0px;
 }
 
 .dj_ie .dijitToolbar .dijitComboBox{
 	/* make combobox buttons align porperly with other buttons in a toolbar */
 	vertical-align: middle;
 }
-
-/* Spinner */
-
-.dijitSpinner {
-	position: relative; /* fix IE problem where arrows are disconnected from textbox in themetester */
-}
-
-.dijitSpinnerButtonContainer {
-	float: right;
-	width: 18px;
-	position: relative;
-	overflow: hidden;
-}
-
-.dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
+.dijitArrowButtonContainer .dijitArrowButton {
 	/* note: .dijitInputLayoutContainer makes this rule override .dijitArrowButton settings
 	 * for dijit.form.Button
 	 */
-	padding: 0;
 	position: absolute;
+	top: 0;
 	right: 0;
 	float: none;
+	height: 100%;
+}
+.dijitArrowButtonFillHeight {
+	display:none;
+}
+.dj_ie6 .dijitArrowButtonFillHeight {
+	display: block;
+	padding-right: 0;
+	padding-left: 0;
+}
+
+/* ALLY - ComboBox & Spinner */
+.dijit_a11y .dijitArrowButtonContainer {
+	width: 19px;
+}
+.dj_iequirks .dijit_a11y .dijitArrowButtonContainer  {
+	width:20px;
+}
+.dijit_a11y .dijitButtonWithArrow .dijitValidationIconText {
+	right: 19px;
+}
+.dijit_a11y .dijitValidationIconText {
+	min-width: 11px;
+}
+.dj_iequirks .dijit_a11y .dijitValidationIconText {
+	width: 14px; /* include padding */
+}
+
+/* Spinner */
+.dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
 	height: 50%;
-	width: 100%;
-	bottom: auto;
-	left: 0;
-	right: auto;
 }
 .dijitSpinner .dijitInputLayoutContainer .dijitDownArrowButton {
 	top: 50%;
@@ -464,30 +586,24 @@ DIV.dijitArrowButton {
 .dijitSpinner .dijitInputLayoutContainer .dijitUpArrowButton {
 	top: 0;
 }
-.dijitSpinner INPUT {
-	float:right; /* removes IE fake margins */
+.dj_ie6 .dijitArrowButtonFillHeight {
+	zoom: 100%; /* emulate height:100% */
 }
-
-.dijitSpinner .dijitArrowButtonInner {
-	margin: auto;
-}
-
-.dj_ie .dijitSpinner .dijitArrowButtonInnerHalfHeight {
+.dj_ie6 .dijitSpinner .dijitArrowButton .dijitArrowButtonFillHeight {
 	zoom: 50%; /* emulate height:50% */
-	padding: 1px 0;
+}
+.dj_ie6 .dijitSpinner .dijitDownArrowButton .dijitArrowButtonFillHeight {
+	margin-top:-1px; /* IE6 */
 }
 
-.dijit_a11y .dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
-	width: 100%;
+/* ALLY - Spinner */
+.dijit_a11y .dijitArrowButton {
+	min-width:19px;
 }
-.dijit_a11y .dijitSpinner .dijitArrowButton .dijitArrowButtonChar {
-	font-size: 0.5em;
-	vertical-align: top;
+.dj_iequirks .dijit_a11y .dijitArrowButton {
+	width:20px;
 }
-.dijit_a11y .dijitSpinnerButtonContainer {
-	width: 0.5em;
-}
-.dijit_a11y .dijitSpinnerButtonContainer .dijitButtonNode {
+.dijit_a11y .dijitArrowButtonContainer .dijitArrowButton {
 	border-width: 1px 0px 0px 1px;
 	border-style: solid !important;
 }
@@ -1685,6 +1801,10 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .dijit_a11y .dijitTab .tabLabel {
 	display: inline !important;
 }
+/* Uncomment if this should be default behavior
+.dijit_a11y .dijitButtonIcon {
+	display:none;
+}*/
 .dj_ie7 .dijitButtonNode > BUTTON.dijitButtonContents > * {
 	position: relative; /* workaround for IE7 distorted text on scroll */
 }
@@ -1811,6 +1931,9 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .dijitSelect .dijitButtonNode {
 	text-align: left;
 }
+.dijitSelect .dijitButtonContents {
+	border-right: 0 !important;
+}
 .dijitToolbar .dijitSelect {
 	margin: 0;
 }
@@ -1823,18 +1946,9 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	border-color: #999 !important;
 	color:#999 !important;
 }
-.dijitSelect .dijitButtonContents {
-	padding: 0px;
-	background: transparent none;
-}
 .dijitSelectFixedWidth .dijitButtonContents {
 	width: 100%;
 }
-.dijitSelect .dijitArrowButton {
-	width: 16px;
-	padding: 0px 4px;
-}
-
 .dijitSelectMenu .dijitMenuItemIcon {
 	/* avoid blank area in left side of menu (since we have no icons) */
 	display:none;

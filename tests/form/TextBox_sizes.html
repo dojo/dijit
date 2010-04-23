@@ -17,6 +17,10 @@
 			border-color: black !important;
 			margin: 0px !important;
 		}
+		/* style widgets to make sure the sizes remain accurate */
+		.dijitInputField, .dijitSelectField, .dijitButtonField, .dijitTextArea {
+			padding: 10px !important;
+		}
 	</style>
 
 	<!-- required: a default dijit theme: -->
@@ -107,13 +111,16 @@
 
 			doh.register("create normal boxes", {
 				name: "setup",
-				timeout: 9000,
+				timeout: 2000,
 				runTest: function(){
+					var d = new doh.Deferred();
 					/* create errors, then insert good values to exercise the widget rendering */
 					createErrors();
 					validation.set('value', 23);
 					combobox.set('value', "KY");
 					spinner.set('value', 32);
+					setTimeout(dojo.hitch(d, "callback", true), 500);
+					return d;
 				}
  			});
 
@@ -122,7 +129,10 @@
 			doh.register("create errors", {
 				name: "setup",
 				runTest: function(){
+					var d = new doh.Deferred();
 					createErrors();
+					setTimeout(dojo.hitch(d, "callback", true), 500);
+					return d;
 				}
 			});
 
@@ -145,10 +155,74 @@
 						var downArrowHeight = spinner.downArrowNode.offsetHeight;
 						var upArrowHeight = spinner.upArrowNode.offsetHeight;
 						doh.t((inputHeight-downArrowHeight-upArrowHeight) <= 1, "Spinner button heights (" + upArrowHeight + "," + downArrowHeight + ") are equal to the input height (" + inputHeight + ")");
-						doh.t(Math.abs(upArrowHeight - downArrowHeight) <= 1, "Spinner UP button height (" + upArrowHeight + ") is equal to the DOWN buttom height (" + downArrowHeight + ")");
+						doh.t(Math.abs(upArrowHeight - downArrowHeight) <= 1, "Spinner UP button height (" + upArrowHeight + ") is equal to the DOWN button height (" + downArrowHeight + ")");
 					}
 				}
   			]);
+
+			dojo.forEach([textbox, validation, combobox, spinner], function(widget){
+				var widgetName = widget.baseClass.replace(/^.* /, "");
+				doh.register("internal offsets", [
+					{
+						name: "textbox: " + widgetName,
+						runTest: function(){
+							var paddedBoxPos = dojo.position(widget.focusNode.parentNode);
+							var inputPos = dojo.position(widget.focusNode);
+							var paddingLeft = Math.abs(inputPos.x - paddedBoxPos.x);
+							var paddingRight = Math.abs(inputPos.w - paddedBoxPos.w) - paddingLeft;
+							var paddingTop = Math.abs(inputPos.y - paddedBoxPos.y);
+							var paddingBottom = Math.abs(inputPos.h - paddedBoxPos.h) - paddingTop;
+							doh.t(Math.abs(paddingLeft-10) <= 1, "left padding("+paddingLeft+") should be 10");
+							doh.t(Math.abs(paddingRight-10) <= 1, "right padding("+paddingRight+") should be 10");
+							doh.t(Math.abs(paddingTop-10) <= 1, "top padding("+paddingTop+") should be 10");
+							doh.t(Math.abs(paddingBottom-10) <= 1, "bottom padding("+paddingBottom+") should be 10");
+						}
+					},
+					{
+						name: "padded box: " + widgetName,
+						runTest: function(){
+							var domNodePos = dojo.position(widget.domNode);
+							var paddedBoxPos = dojo.position(widget.focusNode.parentNode);
+							var clientHeight = widget.domNode.clientHeight;
+							var clientWidth = widget.domNode.clientWidth;
+							doh.t(Math.abs(clientHeight-paddedBoxPos.h) <= 1, "padded textbox height: " + clientHeight + " vs " + paddedBoxPos.h);
+							var border = (domNodePos.w - clientWidth) >> 1; // average border width
+							var offset = Math.min(Math.abs(domNodePos.x + border - paddedBoxPos.x), Math.abs(domNodePos.x + domNodePos.w - border - paddedBoxPos.x - paddedBoxPos.w));
+							doh.t(offset <= 1, "padded textbox horizontally just left or right (" + offset + ") of domNode: domNode x/w/b = " + domNodePos.x+"/"+domNodePos.w+"/"+border + ", pad box x/w = " + paddedBoxPos.x+"/"+paddedBoxPos.w);
+						}
+					},
+					{
+						name: "validation node: " + widgetName,
+						runTest: function(){
+							if(widget.state != "Error"){ return; }
+							var validationNode = dojo.query(".dijitValidationContainer", widget.domNode)[0];
+							var validationPos = dojo.position(validationNode);
+							var paddedBoxPos = dojo.position(widget.focusNode.parentNode);
+							var offset = Math.min(Math.abs(paddedBoxPos.x + paddedBoxPos.w - validationPos.x), Math.abs(validationPos.x + validationPos.w - paddedBoxPos.x));
+
+							// IE 6 float bug(s) causes a known 3px margin between input field & validation icon 
+							// Fix could be .dj_ie .dijitInputField { float:right; /* get rid of 3px margin */ }
+							// But this breaks even more the tests, dojo.position() bug?
+							if(dojo.isIE < 7 || dojo.isQuirks)
+								doh.t(offset <= 3, "padded textbox horizontally just left or right (" + offset + ") of validation node: valiation node x/w = " + validationPos.x+"/"+validationPos.w + ", pad box x/w = " + paddedBoxPos.x+"/"+paddedBoxPos.w);
+							else
+								doh.t(offset <= 1, "padded textbox horizontally just left or right (" + offset + ") of validation node: valiation node x/w = " + validationPos.x+"/"+validationPos.w + ", pad box x/w = " + paddedBoxPos.x+"/"+paddedBoxPos.w);
+						}
+					},
+					{
+						name: "button: " + widgetName,
+						runTest: function(){
+							if(widget.state != "Error" || widgetName == "dijitValidationTextBox"){ return; }
+							var validationNode = dojo.query(".dijitValidationContainer", widget.domNode)[0];
+							var buttonNode = dojo.query(".dijitArrowButtonContainer", widget.domNode)[0];
+							var validationPos = dojo.position(validationNode);
+							var buttonPos = dojo.position(buttonNode);
+							var offset = Math.min(Math.abs(validationPos.x + validationPos.w - buttonPos.x), Math.abs(buttonPos.x + buttonPos.w - validationPos.x));
+							doh.t(offset <= 1, "button node horizontally just left or right (" + offset + ") of validation node: valiation node x/w = " + validationPos.x+"/"+validationPos.w + ", button x/w = " + buttonPos.x+"/"+buttonPos.w);
+						}
+					}
+				]);
+			});
 
 			doh.run();
 		});

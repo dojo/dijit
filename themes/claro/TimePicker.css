@@ -2,7 +2,6 @@
 
 /* override Button.css */
 .claro .dijitTimePicker .dijitButtonNode {
-	padding: 0 0;
 	border-radius: 0;
 	-moz-border-radius: 0;
 	-webkit-border-radius: 0;
@@ -81,13 +80,13 @@
 .dj_ie6 .claro .dijitTimePicker .dijitButtonNode {
 	background-image: none;
 }
-.claro .dijitTimePicker .dijitArrowButtonInner{
+.claro .dijitTimePicker .dijitArrowButtonImg {
 	height: 100%; /* hack claro.button.css */
 	background-image: url("form/images/commonFormArrows.png");
 	background-repeat: no-repeat;
 	background-position:-140px 45%;
 }
-.claro .dijitTimePicker .dijitDownArrowButton .dijitArrowButtonInner{
+.claro .dijitTimePicker .dijitDownArrowButton .dijitArrowButtonImg {
 	background-position:-35px 45%;
 }
 /* hover */
@@ -95,9 +94,9 @@
 .claro .dijitTimePicker .dijitDownArrowHover {
 	background-color: #abd6ff;
 }
-.claro .dijitTimePicker .dijitUpArrowHover .dijitArrowButtonInner {
+.claro .dijitTimePicker .dijitUpArrowHover .dijitArrowButtonImg {
 	background-position:-175px 45%;
 }
-.claro .dijitTimePicker .dijitDownArrowHover .dijitArrowButtonInner {
+.claro .dijitTimePicker .dijitDownArrowHover .dijitArrowButtonImg {
 	background-position:-70px 45%;
 }

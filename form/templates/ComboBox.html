@@ -1,15 +1,24 @@
 <div class="dijit dijitReset dijitInlineTable dijitLeft"
 	id="widget_${id}"
 	dojoAttachPoint="comboNode" waiRole="combobox" tabIndex="-1"
-	><div style="overflow:hidden;"
-		><div class='dijitReset dijitRight dijitButtonNode dijitArrowButton dijitDownArrowButton'
-			dojoAttachPoint="downArrowNode" waiRole="presentation"
-			dojoAttachEvent="onmousedown:_onArrowMouseDown"
-			><div class="dijitArrowButtonInner">&nbsp;</div
-			><div class="dijitArrowButtonChar">&#9660;</div
+	><div class="dijitInputLayoutContainer dijitButtonWithArrow"
+		><div class="dijitReset dijitArrowButtonContainer"
+			><div class='dijitReset dijitRight dijitButtonNode dijitArrowButton dijitDownArrowButton'
+				dojoAttachPoint="downArrowNode" waiRole="presentation"
+				dojoAttachEvent="onmousedown:_onArrowMouseDown"
+				><div class="dijitArrowButtonImg"
+					><div class="dijitArrowButtonFillHeight dijitInputField"></div
+					></div
+				><div class="dijitArrowButtonText"
+					><div class="dijitInline"><div class="dijitArrowButtonFillHeight dijitInputField"></div></div
+					><span class="dijitArrowButtonChar">&#9660;</span
+				></div
+			></div
 		></div
-		><div class="dijitReset dijitValidationIcon"><br></div
-		><div class="dijitReset dijitValidationIconText">&Chi;</div
+		><div class="dijitReset dijitValidationContainer"
+			><BR><div class="dijitReset dijitValidationIcon"><div class="dijitInputField"></div></div
+			><div class="dijitReset dijitValidationIconText"><div class="dijitInline"><div class="dijitInputField"></div></div><span class="dijitValidationChar">&Chi;</span></div
+			></div
 		><div class="dijitReset dijitInputField"
 			><input ${!nameAttrSetting} type="text" autocomplete="off" class='dijitReset'
 			dojoAttachEvent="onkeypress:_onKeyPress,compositionend"
