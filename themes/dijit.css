@@ -298,7 +298,7 @@ TABLE.dijitComboButton {
 
 .dj_ie .dijitComboButton {
 	/* hack to get inline-table to vertically align w/other buttons */
-	margin-bottom: -3px;
+	vertical-align: text-bottom;
 }
 
 .dj_webkit .dijitToolbar .dijitDropDownButton {
