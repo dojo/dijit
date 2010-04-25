@@ -18,12 +18,17 @@
 
 /* TextBox, ComboBox, Spinner */
 
-.dijitTextBoxRtl .dijitArrowButton {
+.dijitRtl .dijitButtonWithArrow .dijitArrowButton {
 	/* combobox and spinner: line between the input area and the drop down button */
 	border-right-width: 1px !important;
-	border-right-style: solid;
 	border-left-width: 0px !important;
-	border-left-style: none;
+}
+
+.dijitRtl .dijit_a11y .dijitButtonWithArrow td.dijitArrowButton {
+	/* combobox and spinner: line between the input area and the drop down button */
+	border-right-width: medium !important;
+	border-right-style:outset !important;
+	border-left-width: 0px !important;
 }
 
 .dijitTextBoxRtl .dijitInputLayoutContainer .dijitArrowButton {
@@ -47,7 +52,7 @@
 .dijitTextBoxRtl .dijitButtonWithArrow .dijitValidationIcon, 
 .dijitTextBoxRtl .dijitButtonWithArrow .dijitValidationIconText {
 	right:auto;
-	left: 19px;
+	left: 20px;
 }
 
 /* Calendar */

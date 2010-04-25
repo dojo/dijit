@@ -185,7 +185,8 @@
 	background:white !important;
 	color:black !important;
 }
-.dijit_a11y .dijitButtonNode {
+.dijit_a11y .dijitButtonNode,
+.dijit_a11y .dijitButtonWithArrow {
 	border-color: black!important;
 	border-style: outset!important;
 	border-width: medium!important;
@@ -326,13 +327,23 @@ TABLE.dijitComboButton {
 	/* ensure hasLayout */
 	zoom: 1;
 }
-
-.dj_ie .dijitButtonNode button {
-	/*
-		disgusting hack to get rid of spurious padding around button elements
-		on IE. MSIE is truly the web's boat anchor.
-	*/
-	overflow: visible;
+.dijitTextBox .dijitButtonWithArrow {
+	border-width: 0 !important; /* border is set on .dijitTextBox */
+}
+.dijitButtonWithArrow {
+	border: 1px solid #000000;
+}
+.dijitButtonWithArrow .dijitButtonNode {
+	display:table-cell;
+	border-width: 0 !important; /* border is set on .dijitButtonWithArrow */
+}
+.dijitButtonWithArrow td.dijitArrowButton {
+	/* dividing line between content & arrow: ComboButton, Select, ComboBox and Spinner */
+	border-left-width: 1px!important;
+}
+.dijit_a11y .dijitButtonWithArrow td.dijitArrowButton {
+	border-left-width: medium!important;
+	border-left-style: outset!important;
 }
 
 /******
@@ -453,10 +464,12 @@ TABLE.dijitComboButton {
 	font-family:Arial;
 }
 .dijit_a11y .dijitArrowButtonChar {
-	font-size:9px;
+	font-size:100%;  /* #11029 same as font-size as text */
+}
+.dijit_a11y .dijitInputLayoutContainer .dijitArrowButtonChar {
+	font-size:9px;   /* must be fixed-size < .dijitArrowButtonContainer */
 	line-height:7px;
 	height:9px;
-	font-family:Arial;
 }
 .dijitInputLayoutContainer .dijitInline {
 	width:1px; !important;
@@ -566,7 +579,7 @@ TABLE.dijitComboButton {
 	width:20px;
 }
 .dijit_a11y .dijitButtonWithArrow .dijitValidationIconText {
-	right: 19px;
+	right: 20px;
 }
 .dijit_a11y .dijitValidationIconText {
 	min-width: 11px;
@@ -1931,8 +1944,9 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .dijitSelect .dijitButtonNode {
 	text-align: left;
 }
-.dijitSelect .dijitButtonContents {
-	border-right: 0 !important;
+.dijit_a11y td.dijitArrowButton {
+	text-align: center;
+	border-left: 0 !important;
 }
 .dijitToolbar .dijitSelect {
 	margin: 0;
@@ -1940,9 +1954,9 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .dj_webkit .dijitToolbar .dijitSelect {
 	padding-left: 0.3em;
 }
-.dijit_a11y .dijitSelectDisabled .dijitButtonNode {
+.dijit_a11y .dijitSelectDisabled,
+.dijit_a11y .dijitSelectDisabled .dijitArrowButton {
 	border-style: outset!important;
-	border-width: medium!important;
 	border-color: #999 !important;
 	color:#999 !important;
 }
