@@ -1,5 +1,5 @@
 ({
-	'bold': 'عريض',
+	'bold': 'عري~ض',
 	'copy': 'نسخ',
 	'cut': 'قص',
 	'delete': 'حذف',
@@ -7,20 +7,20 @@
 	'insertHorizontalRule': 'مسطرة أفقية',
 	'insertOrderedList': '‏كشف مرقم‏',
 	'insertUnorderedList': 'كشف نقطي',
-	'italic': 'مائل',
+	'italic': '~مائل',
 	'justifyCenter': 'محاذاة في الوسط',
 	'justifyFull': 'ضبط',
 	'justifyLeft': 'محاذاة الى اليسار',
 	'justifyRight': 'محاذاة الى اليمين',
 	'outdent': 'ازاحة للخارج',
 	'paste': 'لصق',
-	'redo': 'اعادة',
+	'redo': '‏اعادة‏',
 	'removeFormat': 'ازالة النسق',
 	'selectAll': 'اختيار كل',
 	'strikethrough': 'تشطيب',
 	'subscript': 'رمز سفلي',
 	'superscript': 'رمز علوي',
-	'underline': 'تسطير',
+	'underline': '~تسطير',
 	'undo': 'تراجع',
 	'unlink': 'ازالة وصلة',
 	'createLink': 'تكوين وصلة',
@@ -37,7 +37,13 @@
 	'formatBlock': 'نمط الفقرة',
 	'fontSize': 'حجم طاقم الطباعة',
 	'fontName': 'اسم طاقم الطباعة',
-	'tabIndent': 'ازاحة علامة الجدولة للداخل',
+	'tabIndent': 'ازاحة للداخل باستخدام Tab',
+	"fullScreen": "تبديل الشاشة الكاملة",
+	"viewSource": "مشاهدة مصدر HTML ",
+	"print": "‏طباعة‏",
+	"newPage": "صفحة جديدة",
 	/* Error messages */
-	'systemShortcut': 'يكون التصرف "${0}" متاحا فقط ببرنامج الاستعراض الخاص بك باستخدام المسار المختصر للوحة المفاتيح.  استخدم ${1}.'
+	'systemShortcut': 'التصرف "${0}" يكون متاحا فقط في برنامج الاستعراض الخاص بك باستخدام المسار المختصر للوحة المفاتيح. استخدم ${1}.',
+	'ctrlKey':'ctrl+${0}'
 })
+

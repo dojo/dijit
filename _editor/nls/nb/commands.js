@@ -38,6 +38,11 @@
 	'fontSize': 'Skriftstørrelse',
 	'fontName': 'Skriftnavn',
 	'tabIndent': 'Tabulatorinnrykk',
+	"fullScreen": "Slå på/av full skjerm",
+	"viewSource": "Vis HTML-kilde",
+	"print": "Skriv ut",
+	"newPage": "Ny side",
 	/* Error messages */
 	'systemShortcut': 'Handlingen "${0}" er bare tilgjengelig i nettleseren ved hjelp av en tastatursnarvei. Bruk ${1}.'
 })
+

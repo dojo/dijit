@@ -3,5 +3,11 @@
 	insertImageTitle: "תכונות תמונה",
 	url: "URL:‏",
 	text: "תיאור:",
-	set: "הגדרה"
+	target: "יעד:",
+	set: "הגדרה",
+	currentWindow: "חלון נוכחי ",
+	parentWindow: "חלון אב",
+	topWindow: "חלון עליון ",
+	newWindow: "חלון חדש"
 })
+

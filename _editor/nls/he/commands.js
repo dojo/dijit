@@ -1,6 +1,6 @@
 ({
 	'bold': 'מודגש',
-	'copy': 'העתקה',
+	'copy': 'עותק',
 	'cut': 'גזירה',
 	'delete': 'מחיקה',
 	'indent': 'הגדלת כניסה',
@@ -38,6 +38,13 @@
 	'fontSize': 'גופן יחסי',
 	'fontName': 'שם גופן',
 	'tabIndent': 'כניסת טאב',
+	"fullScreen": "מיתוג מסך מלא ",
+	"viewSource": "הצגת מקור HTML ",
+	"print": "הדפסה",
+	"newPage": "דף חדש ",
 	/* Error messages */
-	'systemShortcut': 'הפעולה "${0}" זמינה בדפדפן רק באמצעות קיצור דרך במקלדת. השתמשו בקיצור ${1}.'
+	'systemShortcut': 'הפעולה "${0}" זמינה בדפדפן רק באמצעות קיצור דרך במקלדת. השתמשו בקיצור ${1}.',
+	'ctrlKey':'ctrl+${0}‎',
+	'appleKey':'\u2318${0}‎' // "command" or open-apple key on Macintosh
 })
+

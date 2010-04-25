@@ -3,5 +3,11 @@
 	insertImageTitle: "Afbeeldingseigenschappen",
 	url: "URL:",
 	text: "Beschrijving:",
-	set: "Instellen"
+	target: "Doel:",
+	set: "Instellen",
+	currentWindow: "Huidig venster",
+	parentWindow: "Hoofdvenster",
+	topWindow: "Werkvenster",
+	newWindow: "Nieuw venster"
 })
+

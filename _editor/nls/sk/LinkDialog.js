@@ -1,8 +1,13 @@
 ({
-	createLinkTitle: "Vlastnosti odkazu",
-	insertImageTitle: "Vlastnosti obrázku",
+	createLinkTitle: "Pripojiť vlastnosti",
+	insertImageTitle: "Vlastnosti obrázka ",
 	url: "URL:",
-	text: "Popis:",
-	set: "Nastaviť"
+	text: "Opis:",
+	target: "Cieľ:",
+	set: "Nastaviť",
+	currentWindow: "Aktuálne okno ",
+	parentWindow: "Rodičovské okno ",
+	topWindow: "Najvrchnejšie okno ",
+	newWindow: "Nové okno "
 })
 

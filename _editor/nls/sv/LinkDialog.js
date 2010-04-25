@@ -3,5 +3,11 @@
 	insertImageTitle: "Bildegenskaper",
 	url: "URL-adress:",
 	text: "Beskrivning:",
-	set: "Ange"
+	target: "Mål:",
+	set: "Ange",
+	currentWindow: "aktuellt fönster",
+	parentWindow: "överordnat fönster",
+	topWindow: "översta fönstret",
+	newWindow: "nytt fönster"
 })
+

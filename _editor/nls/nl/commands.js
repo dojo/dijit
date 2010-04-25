@@ -38,6 +38,11 @@
 	'fontSize': 'Lettergrootte',
 	'fontName': 'Lettertype',
 	'tabIndent': 'Inspringen',
+	"fullScreen": "Volledig scherm afwisselen",
+	"viewSource": "HTML-bron bekijken",
+	"print": "Afdrukken",
+	"newPage": "Nieuwe pagina",
 	/* Error messages */
 	'systemShortcut': 'De actie "${0}" is alleen beschikbaar in uw browser via een sneltoetscombinatie. Gebruik ${1}.'
 })
+

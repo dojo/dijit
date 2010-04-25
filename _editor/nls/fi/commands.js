@@ -18,8 +18,8 @@
 	'removeFormat': 'Poista muotoilu',
 	'selectAll': 'Valitse kaikki',
 	'strikethrough': 'Yliviivaus',
-	'subscript': 'Alennettu',
-	'superscript': 'Korotettu',
+	'subscript': 'Alaindeksi',
+	'superscript': 'Yläindeksi',
 	'underline': 'Alleviivaus',
 	'undo': 'Kumoa',
 	'unlink': 'Poista linkki',
@@ -38,6 +38,11 @@
 	'fontSize': 'Fontin koko',
 	'fontName': 'Fontin nimi',
 	'tabIndent': 'Sarkainsisennys',
+	"fullScreen": "Vaihda koko näyttö",
+	"viewSource": "Näytä HTML-lähde",
+	"print": "Tulosta",
+	"newPage": "Uusi sivu",
 	/* Error messages */
 	'systemShortcut': 'Toiminto "${0}" on käytettävissä selaimessa vain näppäimistön pikatoiminnolla. Käytä seuraavaa: ${1}.'
 })
+

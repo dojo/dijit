@@ -38,6 +38,10 @@
 	'fontSize': 'Veľkosť písma',
 	'fontName': 'Názov písma',
 	'tabIndent': 'Odsadenie tabulátora',
+	"fullScreen": "Prepnúť na celoobrazovkové zobrazenie",
+	"viewSource": "Zobraziť zdrojový kód HTML ",
+	"print": "Tlačiť",
+	"newPage": "Nová stránka ",
 	/* Error messages */
 	'systemShortcut': 'Akcia "${0}" je vo vašom prehliadači dostupná len s použitím klávesovej skratky. Použite ${1}.'
 })

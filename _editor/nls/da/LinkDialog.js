@@ -3,5 +3,11 @@
 	insertImageTitle: "Billedegenskaber",
 	url: "URL:",
 	text: "Beskrivelse:",
-	set: "Definér"
+	target: "Mål:",
+	set: "Definér",
+	currentWindow: "Aktuelt vindue",
+	parentWindow: "Overordnet vindue",
+	topWindow: "Øverste vindue",
+	newWindow: "Nyt vindue"
 })
+

@@ -38,6 +38,10 @@
 	'fontSize': 'Cos de la lletra',
 	'fontName': 'Nom del tipus de lletra',
 	'tabIndent': 'Sagnat',
+	"fullScreen": "Commuta pantalla completa",
+	"viewSource": "Visualitza font HTML",
+	"print": "Imprimeix",
+	"newPage": "Pàgina nova",
 	/* Error messages */
 	'systemShortcut': 'L\'acció "${0}" és l\'única disponible al navegador utilitzant una drecera del teclat. Utilitzeu ${1}.',
 	'ctrlKey':'control+${0}'

@@ -38,6 +38,11 @@
 	'fontSize': 'Yazı Tipi Boyutu',
 	'fontName': 'Yazı Tipi Adı',
 	'tabIndent': 'Sekme Girintisi',
+	"fullScreen": "Tam Ekranı Aç/Kapat",
+	"viewSource": "HTML Kaynağını Görüntüle",
+	"print": "Yazdır",
+	"newPage": "Yeni Sayfa",
 	/* Error messages */
 	'systemShortcut': '"${0}" işlemi yalnızca tarayıcınızda bir klavye kısayoluyla birlikte kullanılabilir. Şunu kullanın: ${1}.'
 })
+

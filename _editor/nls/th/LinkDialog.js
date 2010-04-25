@@ -3,6 +3,11 @@
 	insertImageTitle: "คุณสมบัติอิมเมจ",
 	url: "URL:",
 	text: "รายละเอียด",
-	set: "ตั้งค่า"
+	target: "เป้าหมาย:",
+	set: "ตั้งค่า",
+	currentWindow: "หน้าต่างปัจจุบัน",
+	parentWindow: "หน้าต่างหลัก",
+	topWindow: "หน้าต่างบนสุด",
+	newWindow: "หน้าต่างใหม่"
 })
 

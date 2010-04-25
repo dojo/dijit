@@ -3,5 +3,11 @@
 	insertImageTitle: "Kuvan ominaisuudet",
 	url: "URL-osoite:",
 	text: "Kuvaus:",
-	set: "Aseta"
+	target: "Kohde:",
+	set: "Aseta",
+	currentWindow: "Nykyinen ikkuna",
+	parentWindow: "Pääikkuna",
+	topWindow: "Päällimmäinen ikkuna",
+	newWindow: "Uusi ikkuna"
 })
+

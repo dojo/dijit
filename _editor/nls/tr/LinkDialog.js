@@ -3,5 +3,11 @@
 	insertImageTitle: "Resim Özellikleri",
 	url: "URL:",
 	text: "Açıklama:",
-	set: "Ayarla"
+	target: "Hedef:",
+	set: "Ayarla",
+	currentWindow: "Geçerli Pencere",
+	parentWindow: "Üst Pencere",
+	topWindow: "En Üst Pencere",
+	newWindow: "Yeni Pencere"
 })
+
