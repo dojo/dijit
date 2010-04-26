@@ -332,10 +332,10 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 			var t = e.target;
 			var tg = t.tagName? t.tagName.toLowerCase() : "";
 			if(tg === this.tag && dojo.attr(t,"href")){
-				this.editor.onDisplayChanged();
 				dojo.withGlobal(this.editor.window,
 					 "selectElement",
 					 dijit._editor.selection, [t]);
+				this.editor.onDisplayChanged();
 				setTimeout(dojo.hitch(this, function(){
 					// Focus shift outside the event handler.
 					// IE doesn't like focus changes in event handles.
@@ -458,6 +458,33 @@ dojo.declare("dijit._editor.plugins.ImgLinkDialog", [dijit._editor.plugins.LinkD
 			args.textInput = args.textInput.replace(/"/g, "&quot;");
 		}
 		return args;
+	},
+
+	_onDblClick: function(e){
+		// summary:
+		// 		Function to define a behavior on double clicks on the element
+		//		type this dialog edits to select it and pop up the editor
+		//		dialog.
+		// e: Object
+		//		The double-click event.
+		// tags:
+		//		protected.
+		if(e && e.target){
+			var t = e.target;
+			var tg = t.tagName? t.tagName.toLowerCase() : "";
+			if(tg === this.tag && dojo.attr(t,"src")){
+				dojo.withGlobal(this.editor.window,
+					 "selectElement",
+					 dijit._editor.selection, [t]);
+				this.editor.onDisplayChanged();
+				setTimeout(dojo.hitch(this, function(){
+					// Focus shift outside the event handler.
+					// IE doesn't like focus changes in event handles.
+					this.button.set("disabled", false);
+					this.button.openDropDown();
+				}), 10);
+			}
+		}
 	}
 });
 
