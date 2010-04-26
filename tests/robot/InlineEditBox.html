@@ -30,8 +30,7 @@
 					moveAndClick(function(){
 						try{
 							var buttons = dojo.query(".cancelButton", widget.domNode.parentNode);
-							var cancelButton = dojo.query("BUTTON", buttons[buttons.length-1])[0];
-							return cancelButton;
+							return buttons[buttons.length-1];
 						}catch(e){ deferred.errback(e); }
 					});
 					doh.robot.sequence(function(){}, 1000); // slow down to allow widget to exit edit mode
@@ -40,8 +39,7 @@
 					moveAndClick(function(){
 						try{
 							var buttons = dojo.query(".saveButton", widget.domNode.parentNode);
-							var saveButton = dojo.query("BUTTON", buttons[buttons.length-1])[0];
-							return saveButton;
+							return buttons[buttons.length-1];
 						}catch(e){ deferred.errback(e); }
 					});
 					doh.robot.sequence(function(){}, 1000); // slow down to allow widget to exit edit mode
