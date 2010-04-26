@@ -14,22 +14,15 @@ dojo.declare("dijit.MenuBar", dijit._MenuBase, {
 	//		This is a MenuBar widget, not a (vertical) Menu widget.
 	_isMenuBar: true,
 
-	constructor: function(){
-		// summary:
-		//		Sets up local variables etc.
-		// tags:
-		//		private
-
-		// parameter to dijit.popup.open() about where to put popup (relative to this.domNode)
-		this._orient = this.isLeftToRight() ? {BL: 'TL'} : {BR: 'TR'};
-	},
-
 	postCreate: function(){
 		var k = dojo.keys, l = this.isLeftToRight();
 		this.connectKeyNavHandlers(
 			l ? [k.LEFT_ARROW] : [k.RIGHT_ARROW],
 			l ? [k.RIGHT_ARROW] : [k.LEFT_ARROW]
 		);
+
+		// parameter to dijit.popup.open() about where to put popup (relative to this.domNode)
+		this._orient = this.isLeftToRight() ? {BL: 'TL'} : {BR: 'TR'};
 	},
 
 	focusChild: function(item){
