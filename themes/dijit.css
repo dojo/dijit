@@ -48,6 +48,12 @@
 	position: relative;			/* to support setting width/height, see #2033 */
 }
 
+.dijitInputField {
+	/* for positioning of placeHolder */
+	position: relative;
+	#zoom: 1;
+}
+
 .dj_ie .dijitInputField INPUT {
 	font-size: 100%;
 	float: left; /* removes hidden top/bottom margin */
@@ -96,11 +102,6 @@
 .dijit_a11y .dijitPopup table,
 .dijit_a11y .dijitTooltipContainer {
 	background-color: white !important;
-}
-
-.dijitInputField {
-	overflow:hidden;
-	#zoom:1;
 }
 
 .dijitPositionOnly {
