@@ -14,12 +14,6 @@
  	-webkit-transition-duration:.3s;
 }
 
-/*
-.claro .dijitButtonField, .claro .dijitSelectField , .claro .dijitInputField {
-	padding:2px;
-}
-*/
-
 .claro .dijitComboButton .dijitButtonContents {
 	padding-top: 0;
 	padding-bottom: 0;

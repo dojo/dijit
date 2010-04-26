@@ -3,8 +3,8 @@
 /*========================= common css =========================*/
 
 /* Default padding around form elements */
-.dijitInputField, .dijitSelectField, .dijitButtonField, .dijitTextArea {
-  	padding: 2px;
+.claro .dijitButtonField, .claro .dijitInputField, .claro .dijitTextArea {
+	padding: 2px;
 }
 
 /* 'dijitTextBox' refers to 'dijit(TextBox|DateTextBox|CurrencyTextBox|...)' */

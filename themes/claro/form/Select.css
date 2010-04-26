@@ -15,6 +15,10 @@
 }
 /* end override */
 
+.claro .dijitSelect .dijitButtonText {
+	padding: 0px 5px 2px 5px;
+}
+
 /* normal status */
 .claro .dijitSelect {
 	border: 1px solid #b5bcc7;
@@ -26,6 +30,10 @@
 	background-image:none;
 }
 
+.claro .dijitSelect .dijitButtonContents {
+	border: 0px solid #b5bcc7;
+	border-right-width: 1px;
+}
 .claro .dijitSelect .dijitArrowButton {
 	border: 1px solid #fff;	/* inner white border on button node */
 	border-bottom:0;

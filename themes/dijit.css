@@ -330,7 +330,8 @@ TABLE.dijitComboButton {
 }
 .dijitButtonWithArrow .dijitButtonNode {
 	display:table-cell;
-	border-width: 0 !important; /* border is set on .dijitButtonWithArrow */
+	border-width: 0; /* border is set on .dijitButtonWithArrow, except for Select where
+						this is the dividing line (on claro) */
 }
 .dijitButtonWithArrow td.dijitArrowButton {
 	/* dividing line between content & arrow: ComboButton, Select, ComboBox and Spinner */
