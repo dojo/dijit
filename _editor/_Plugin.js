@@ -57,13 +57,14 @@ dojo.declare("dijit._editor._Plugin", null, {
 		// tags:
 		//		protected extension
 		if(this.command.length){
-			var label = this.getLabel(this.command);
-			var className = this.iconClassPrefix+" "+this.iconClassPrefix + this.command.charAt(0).toUpperCase() + this.command.substr(1);
+			var label = this.getLabel(this.command),
+				editor = this.editor,
+				className = this.iconClassPrefix+" "+this.iconClassPrefix + this.command.charAt(0).toUpperCase() + this.command.substr(1);
 			if(!this.button){
 				var props = dojo.mixin({
 					label: label,
-					dir: this.dir,
-					lang: this.lang,
+					dir: editor.dir,
+					lang: editor.lang,
 					showLabel: false,
 					iconClass: className,
 					dropDown: this.dropDown,
