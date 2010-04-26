@@ -58,11 +58,6 @@
 	margin-left: 0 !important;
 }
 
-/* Default padding around form elements */
-.dijitInputField, .dijitSelectField, .dijitButtonField, .dijitTextArea {
-  	padding:4px;
-}
-
 .dijitArrowButton .dijitInputField, .dijitValidationContainer .dijitInputField {
 	background-color:transparent !important;
 	padding-left:0 !important;
