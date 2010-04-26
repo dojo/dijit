@@ -665,6 +665,65 @@
 						}
 					},
 					{
+						name: "Anchor Tag: Double-Click opens TooltipDialog.",
+						timeout: 20000,
+						setUp: function(){
+							editor = dijit.byId("editor");
+							ldPlugin = null;
+							var edPlugins = editor._plugins, i;
+							for(i = 0; i < edPlugins.length; i++){
+								var p = edPlugins[i];
+								if(p.declaredClass === "dijit._editor.plugins.ImgLinkDialog"){
+									ldPlugin = p;
+									break;
+								}
+							}
+							dojo.withGlobal(editor.window, function(){
+								node = dojo.byId("exampleLink");
+							});
+							value = editor.get("value");
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+							try{
+								//Focus on the editor window
+								dojo.window.scrollIntoView(editor.domNode);
+								editor.focus();
+								doh.robot.mouseMoveAt(editor.iframe, 500);
+								doh.robot.mouseClick({left:true}, 500);
+								
+
+								//Find the fullscreen plugin, we'll need it.
+								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
+								var value = editor.get("value");
+
+								doh.robot.mouseMoveAt(node, 500);
+								doh.robot.mouseClick({left:true}, 100);
+								doh.robot.mouseClick({left:true}, 100);
+								doh.robot.sequence(d.getTestCallback(function(){
+									var f = dijit.getFocus();
+									if(f.node){
+										var w = dijit.getEnclosingWidget(f.node);
+										if(w){
+											var val = w.get("value");
+											doh.assertTrue(new RegExp("http://www.example.com/example.html").test(val), "Verifying the contents contained link url");
+										}else{
+											doh.assertTrue(false, "Failed to enclosing textbox widget.");
+										}
+									}else{
+										doh.assertTrue(false, "Failed to get focus.");	
+									}
+								}), 2000);
+							}catch(e){
+								d.errback(e);
+							}
+							return d;
+						},
+						tearDown: function(){
+							if(editor){editor.set("value", value);}
+						}
+					},
+					{
 						name: "Image Tag: Create a new image",
 						timeout: 20000,
 						setUp: function(){
@@ -956,6 +1015,65 @@
 									var tag = selectedElement.tagName? selectedElement.tagName.toLowerCase() : "";
 									doh.assertTrue(tag === "img");
 									doh.assertTrue(selectedElement.getAttribute("id") === "exampleImage");
+								}), 2000);
+							}catch(e){
+								d.errback(e);
+							}
+							return d;
+						},
+						tearDown: function(){
+							if(editor){editor.set("value", value);}
+						}
+					},
+					{
+						name: "Image Tag: Double-Click opens TooltipDialog.",
+						timeout: 20000,
+						setUp: function(){
+							editor = dijit.byId("editor");
+							ldPlugin = null;
+							var edPlugins = editor._plugins, i;
+							for(i = 0; i < edPlugins.length; i++){
+								var p = edPlugins[i];
+								if(p.declaredClass === "dijit._editor.plugins.ImgLinkDialog"){
+									ldPlugin = p;
+									break;
+								}
+							}
+							dojo.withGlobal(editor.window, function(){
+								node = dojo.byId("exampleImage");
+							});
+							value = editor.get("value");
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+							try{
+								//Focus on the editor window
+								dojo.window.scrollIntoView(editor.domNode);
+								editor.focus();
+								doh.robot.mouseMoveAt(editor.iframe, 500);
+								doh.robot.mouseClick({left:true}, 500);
+								
+
+								//Find the fullscreen plugin, we'll need it.
+								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
+								var value = editor.get("value");
+
+								doh.robot.mouseMoveAt(node, 500);
+								doh.robot.mouseClick({left:true}, 100);
+								doh.robot.mouseClick({left:true}, 100);
+								doh.robot.sequence(d.getTestCallback(function(){
+									var f = dijit.getFocus();
+									if(f.node){
+										var w = dijit.getEnclosingWidget(f.node);
+										if(w){
+											var val = w.get("value");
+											doh.assertTrue(new RegExp(".*/sample.jpg").test(val), "Verifying the contents contained image name");
+										}else{
+											doh.assertTrue(false, "Failed to enclosing textbox widget.");
+										}
+									}else{
+										doh.assertTrue(false, "Failed to get focus.");	
+									}
 								}), 2000);
 							}catch(e){
 								d.errback(e);
