@@ -26,7 +26,7 @@ dojo.declare("dijit.InlineEditBox",
 	//		dijit.Editor (for editing HTML) or a Slider (for adjusting a number).
 	//		An edit widget must support the following API to be used:
 	//			- displayedValue or value as initialization parameter,
-	//			and available through attr('displayedValue') / attr('value')
+	//			and available through set('displayedValue') / set('value')
 	//			- void focus()
 	//			- DOM-node focusNode = node containing editable text
 
@@ -145,7 +145,7 @@ dojo.declare("dijit.InlineEditBox",
 
 	_setDisabledAttr: function(/*Boolean*/ disabled){
 		// summary:
-		//		Hook to make attr("disabled", ...) work.
+		//		Hook to make set("disabled", ...) work.
 		//		Set disabled state of widget.
 		this.disabled = disabled;
 		dijit.setWaiState(this.domNode, "disabled", disabled);
@@ -203,7 +203,7 @@ dojo.declare("dijit.InlineEditBox",
 		this._savedTabIndex = dojo.attr(this.displayNode, "tabIndex") || "0";
 
 		if(this.wrapperWidget){
-			this.wrapperWidget.editWidget.attr("displayedValue" in this.editorParams ? "displayedValue" : "value", this.value);
+			this.wrapperWidget.editWidget.set("displayedValue" in this.editorParams ? "displayedValue" : "value", this.value);
 		}else{
 			// Placeholder for edit widget
 			// Put place holder (and eventually editWidget) before the display node so that it's positioned correctly
@@ -314,7 +314,7 @@ dojo.declare("dijit.InlineEditBox",
 
 	_setValueAttr: function(/*String*/ val){
 		// summary:
-		// 		Hook to make attr("value", ...) work.
+		// 		Hook to make set("value", ...) work.
 		//		Inserts specified HTML value into this node, or an "input needed" character if node is blank.
 
 		this.value = val = dojo.trim(val);
@@ -423,9 +423,9 @@ dojo.declare(
 		}else{
 			// If possible, enable/disable save button based on whether the user has changed the value
 			if("intermediateChanges" in cls.prototype){
-				ew.attr("intermediateChanges", true);
+				ew.set("intermediateChanges", true);
 				this.connect(ew, "onChange", "_onIntermediateChange");
-				this.saveButton.attr("disabled", true);
+				this.saveButton.set("disabled", true);
 			}
 		}
 	},
@@ -434,7 +434,7 @@ dojo.declare(
 		// summary:
 		//		Called for editor widgets that support the intermediateChanges=true flag as a way
 		//		to detect when to enable/disabled the save button
-		this.saveButton.attr("disabled", (this.getValue() == this._resetValue) || !this.enableSave());
+		this.saveButton.set("disabled", (this.getValue() == this._resetValue) || !this.enableSave());
 	},
 
 	destroy: function(){
@@ -446,7 +446,7 @@ dojo.declare(
 		// summary:
 		//		Return the [display] value of the edit widget
 		var ew = this.editWidget;
-		return String(ew.attr("displayedValue" in ew ? "displayedValue" : "value"));
+		return String(ew.get("displayedValue" in ew ? "displayedValue" : "value"));
 	},
 
 	_onKeyPress: function(e){
