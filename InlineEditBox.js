@@ -13,7 +13,7 @@ dojo.declare("dijit.InlineEditBox",
 	dijit._Widget,
 	{
 	// summary:
-	//		An element with in-line edit capabilitites
+	//		An element with in-line edit capabilites
 	//
 	// description:
 	//		Behavior for an existing node (`<p>`, `<div>`, `<span>`, etc.) so that
@@ -400,8 +400,11 @@ dojo.declare(
 			// inline-block mode
 			editStyle += "width:" + (width + (Number(width) == width ? "px" : "")) + ";";
 		}
-		var editorParams = this.inlineEditBox.editorParams;
-		editorParams.style = editStyle;
+		var editorParams = dojo.delegate(this.inlineEditBox.editorParams, {
+			style: editStyle,
+			dir: this.dir,
+			lang: this.lang
+		});
 		editorParams[ "displayedValue" in cls.prototype ? "displayedValue" : "value"] = this.value;
 		var ew = (this.editWidget = new cls(editorParams, this.editorPlaceholder));
 
