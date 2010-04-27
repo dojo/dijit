@@ -260,7 +260,10 @@
 }
 
 .dijitButtonContents {
-	display: block;		/* to make focus border rectangular */
+	display: block;		/* to make focus border rectangular on dijit.form.*Button */
+}
+td.dijitButtonContents {
+	display: table-cell;	/* but don't affect select */
 }
 
 .dijitButtonNode IMG {
