@@ -2,6 +2,7 @@
 
 /* override button.css */
 .claro .dijitSelect .dijitButtonNode {
+	padding:0px;
 	border-radius: 0;
 	-moz-border-radius: 0;
 	-webkit-border-radius: 0;
@@ -34,9 +35,11 @@
 	border: 0px solid #b5bcc7;
 	border-right-width: 1px;
 }
+
 .claro .dijitSelect .dijitArrowButton {
+	padding: 0;
 	border: 1px solid #fff;	/* inner white border on button node */
-	border-bottom:0;
+	border-top:none;
 	background-color:#ebeef4;
 	background-image: url("images/formHighlight.png");
 	background-repeat:repeat-x;
@@ -80,7 +83,8 @@
 .claro .dijitSelectFocused .dijitArrowButton {
 	background-color:#7dbefa;
 	background-position:0px -177px;
-	border-color: #81a5c6;
+	border: none;
+	padding: 0px 1px;
 }
 .claro .dijitSelectFocused .dijitArrowButton .dijitArrowButtonImg {
 	background-position:-70px 70%;
