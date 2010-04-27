@@ -99,8 +99,8 @@ dojo.declare("dijit._HasDropDown",
 			}
 			this.toggleDropDown();
 
-			// If we are a click, then we'll pretend we did a mouse up
-			if(e.type == "click" || e.type == "keypress"){
+			// If we are a click event, or triggered via SPACE/ENTER key, then we'll pretend we did a mouse up
+			if(e.type == "click" || e.type == "keydown"){
 				this._onDropDownMouseup();
 			}
 		},
@@ -117,7 +117,6 @@ dojo.declare("dijit._HasDropDown",
 			//			1. mouse down on the select node (probably on the arrow)
 			//			2. move mouse to a menu item while holding down the mouse button
 			//			3. mouse up.  this selects the menu item as though the user had clicked it.
-
 			if(e && this._docHandler){
 				this.disconnect(this._docHandler);
 			}
@@ -171,7 +170,7 @@ dojo.declare("dijit._HasDropDown",
 			this.connect(this._buttonNode, "onclick", "_onDropDownMouse");
 			this.connect(this._buttonNode, "onkeydown", "_onDropDownKeydown");
 			this.connect(this._buttonNode, "onblur", "_onDropDownBlur");
-			this.connect(this._buttonNode, "onkeypress", "_onKey");
+			this.connect(this._buttonNode, "onkeydown", "_onKey");
 
 			// If we have a _setStateClass function (which happens when
 			// we are a form widget), then we need to connect our open/close
@@ -230,7 +229,7 @@ dojo.declare("dijit._HasDropDown",
 
 		_onKey: function(/*Event*/ e){
 			// summary:
-			//		Callback when the user presses a key on menu popup node
+			//		Callback when the user presses a key while focused on the button node
 
 			if(this.disabled || this.readOnly){ return; }
 			var d = this.dropDown;
@@ -241,7 +240,7 @@ dojo.declare("dijit._HasDropDown",
 				this.toggleDropDown();
 				return;
 			}
-			if(e.keyCode == dojo.keys.DOWN_ARROW || e.keyCode == dojo.keys.ENTER || e.charOrCode == " "){
+			if(e.keyCode == dojo.keys.DOWN_ARROW || e.keyCode == dojo.keys.ENTER || e.keyCode == dojo.keys.SPACE){
 				this._onDropDownMouse(e);
 			}
 		},
