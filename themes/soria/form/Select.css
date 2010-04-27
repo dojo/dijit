@@ -1,12 +1,12 @@
+.soria .dijitSelect .dijitButtonNode {
+	padding: 0px;
+}
+
 /* Make unselected "look" more like a text box and less like a button */
 .soria .dijitSelect .dijitButtonContents {
-    background-image: url("../images/validationInputBg.png");
-	background-position:left top;
-	background-repeat:repeat-x;
-    #background-image: url('../images/validationInputBg.gif');
-}
-.soria .dijitSelectField {
-	background-color:#fff !important; /* background must be white for validationInputBg.png */
+	padding-top: 1px;
+    background:#fff url("../images/validationInputBg.png") repeat-x top left;
+    #background:#fff url('../images/validationInputBg.gif') repeat-x top left;
 }
 .soria .dijitSelectHover .dijitButtonContents,
 .soria .dijitSelectActive .dijitButtonContents,
@@ -14,6 +14,9 @@
 .soria .dijitSelectDisabled .dijitButtonContents,
 .soria .dijitSelectReadOnly .dijitButtonContents{
 	background: transparent none;
+}
+.dj_ie .soria .dijitSelect .dijitButtonContents {
+	padding-top: 0px;
 }
 
 /* Mirror DropDownButton */

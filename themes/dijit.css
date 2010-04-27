@@ -260,7 +260,10 @@
 }
 
 .dijitButtonContents {
-	display: block;		/* to make focus border rectangular */
+	display: block;		/* to make focus border rectangular on dijit.form.*Button */
+}
+td.dijitButtonContents {
+	display: table-cell;	/* but don't affect select */
 }
 
 .dijitButtonNode IMG {
@@ -331,8 +334,7 @@ TABLE.dijitComboButton {
 }
 .dijitButtonWithArrow .dijitButtonNode {
 	display:table-cell;
-	border-width: 0; /* border is set on .dijitButtonWithArrow, except for Select where
-						this is the dividing line (on claro) */
+	border-width: 0 !important;
 }
 .dijitButtonWithArrow td.dijitArrowButton {
 	/* dividing line between content & arrow: ComboButton, Select, ComboBox and Spinner */
@@ -1941,25 +1943,30 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .dijitSelect .dijitButtonNode {
 	text-align: left;
 }
-.dijit_a11y td.dijitArrowButton {
-	text-align: center;
-	border-left: 0 !important;
-}
 .dijitToolbar .dijitSelect {
 	margin: 0;
 }
 .dj_webkit .dijitToolbar .dijitSelect {
 	padding-left: 0.3em;
 }
-.dijit_a11y .dijitSelectDisabled,
-.dijit_a11y .dijitSelectDisabled .dijitArrowButton {
+.dijit_a11y .dijitSelectDisabled .dijitButtonNode {
 	border-style: outset!important;
+	border-width: medium!important;
 	border-color: #999 !important;
 	color:#999 !important;
+}
+.dijitSelect .dijitButtonContents {
+	padding: 0px;
+	background: transparent none;
 }
 .dijitSelectFixedWidth .dijitButtonContents {
 	width: 100%;
 }
+.dijitSelect .dijitArrowButton {
+	width: 16px;
+	padding: 0px 4px;
+}
+
 .dijitSelectMenu .dijitMenuItemIcon {
 	/* avoid blank area in left side of menu (since we have no icons) */
 	display:none;
