@@ -11,6 +11,7 @@
 	/* enabled state - inner */
 	border: 1px solid #c0c0c0;
 	border-bottom: 1px solid #9b9b9b;
+	padding: 0.1em 0.2em 0.2em 0.2em;
 	background: #fff url("../images/buttonEnabled.png") repeat-x bottom left;
 }
 
