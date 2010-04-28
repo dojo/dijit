@@ -71,41 +71,18 @@ dojo.declare("dijit._HasDropDown",
 		//
 		dropDownPosition: ["below","above"],
 
-		// _stopClickEvents: Boolean
-		//		When set to false, the click events will not be stopped, in
-		//		case you want to use them in your subwidget
-		_stopClickEvents: true,
-
-		_onDropDownMouse: function(/*Event*/ e){
+		_onDropDownMouseDown: function(/*Event*/ e){
 			// summary:
-			//		Callback when the user mouse clicks on the arrow icon, or presses the down
-			//		arrow key, to open the drop down.
+			//		Callback when the user mousedown's on the arrow icon
 
-			// We handle mouse events using onmousedown in order to allow for selecting via
-			// a mouseDown --> mouseMove --> mouseUp.  So, our click is already handled, unless
-			// we are executed via keypress - in which case, this._seenKeydown
-			// will be set to true.
-			if(e.type == "click" && !this._seenKeydown){ return; }
-			this._seenKeydown = false;
-
-			// If we are a mouse event, set up the mouseup handler.  See _onDropDownMouse() for
-			// details on this handler.
-			if(e.type == "mousedown"){
-				this._docHandler = this.connect(dojo.doc, "onmouseup", "_onDropDownMouseup");
-			}
 			if(this.disabled || this.readOnly){ return; }
-			if(this._stopClickEvents){
-				dojo.stopEvent(e);
-			}
-			this.toggleDropDown();
 
-			// If we are a click event, or triggered via SPACE/ENTER key, then we'll pretend we did a mouse up
-			if(e.type == "click" || e.type == "keydown"){
-				this._onDropDownMouseup();
-			}
+			this._docHandler = this.connect(dojo.doc, "onmouseup", "_onDropDownMouseUp");
+
+			this.toggleDropDown();
 		},
 
-		_onDropDownMouseup: function(/*Event?*/ e){
+		_onDropDownMouseUp: function(/*Event?*/ e){
 			// summary:
 			//		Callback when the user lifts their mouse after mouse down on the arrow icon.
 			//		If the drop is a simple menu and the mouse is over the menu, we execute it, otherwise, we focus our
@@ -166,11 +143,9 @@ dojo.declare("dijit._HasDropDown",
 			this._buttonNode = this._buttonNode || this.focusNode || this.domNode;
 			this._popupStateNode = this._popupStateNode || this.focusNode || this._buttonNode;
 			this._aroundNode = this._aroundNode || this.domNode;
-			this.connect(this._buttonNode, "onmousedown", "_onDropDownMouse");
-			this.connect(this._buttonNode, "onclick", "_onDropDownMouse");
+			this.connect(this._buttonNode, "onmousedown", "_onDropDownMouseDown");
 			this.connect(this._buttonNode, "onkeydown", "_onDropDownKeydown");
-			this.connect(this._buttonNode, "onblur", "_onDropDownBlur");
-			this.connect(this._buttonNode, "onkeydown", "_onKey");
+			this.connect(this._buttonNode, "onkeyup", "_onKey");
 
 			// If we have a _setStateClass function (which happens when
 			// we are a form widget), then we need to connect our open/close
@@ -211,20 +186,9 @@ dojo.declare("dijit._HasDropDown",
 		},
 
 		_onDropDownKeydown: function(/*Event*/ e){
-			this._seenKeydown = true;
-		},
-
-		_onKeyPress: function(/*Event*/ e){
-			if(this._opened && e.charOrCode == dojo.keys.ESCAPE && !e.shiftKey && !e.ctrlKey && !e.altKey){
-				this.toggleDropDown();
-				dojo.stopEvent(e);
-				return;
+			if(e.keyCode == dojo.keys.DOWN_ARROW || e.keyCode == dojo.keys.ENTER || e.keyCode == dojo.keys.SPACE){
+				e.preventDefault();	// stop IE screen jump
 			}
-			this.inherited(arguments);
-		},
-
-		_onDropDownBlur: function(/*Event*/ e){
-			this._seenKeydown = false;
 		},
 
 		_onKey: function(/*Event*/ e){
@@ -238,10 +202,10 @@ dojo.declare("dijit._HasDropDown",
 			}
 			if(d && this._opened && e.keyCode == dojo.keys.ESCAPE){
 				this.toggleDropDown();
-				return;
-			}
-			if(e.keyCode == dojo.keys.DOWN_ARROW || e.keyCode == dojo.keys.ENTER || e.keyCode == dojo.keys.SPACE){
-				this._onDropDownMouse(e);
+			}else if(d && !this._opened && 
+					(e.keyCode == dojo.keys.DOWN_ARROW || e.keyCode == dojo.keys.ENTER || e.keyCode == dojo.keys.SPACE)){
+				this.toggleDropDown();
+				setTimeout(dojo.hitch(d, "focus"), 1);
 			}
 		},
 
