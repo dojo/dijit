@@ -1,6 +1,5 @@
 .claro .dijitProgressBar {
 	margin:2px 0px 2px 0px;
-	background:#f8f8f8 url("images/progressBarEmpty.png") repeat-x top;
 }
 .claro .dijitProgressBarEmpty {
 	/* outer container and background of the bar that's not finished yet*/

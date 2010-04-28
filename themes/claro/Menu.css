@@ -14,6 +14,7 @@
 	background-repeat:repeat-y;
 	background-color:#fff;
 	border: 1px solid #769dc0;
+	margin-top: -2px;
 }
 .claro .dijitMenuBar .dijitMenuItem {  
 	padding: 6px 10px 7px;
@@ -48,7 +49,6 @@
 .claro .dijitMenuPassive .dijitMenuItemActive{
 	background-position:0px -177px;
 }
-/* no alpha transparency in IE6 */
 .dj_ie6 .claro .dijitMenuItem,
 .dj_ie6 .claro .dijitMenuPassive .dijitMenuItem {
 	background-image: none;
@@ -63,6 +63,14 @@
 	background-position:0px 0px;
 	color:#000;
 }
+.dj_ie .claro .dijitMenuActive .dijitMenuItemHover,
+.dj_ie .claro .dijitMenuActive .dijitMenuItemSelected,
+.dj_ie .claro .dijitMenuPassive .dijitMenuItemHover,
+.dj_ie .claro .dijitMenuPassive .dijitMenuItemSelected {
+	padding-top: 6px;
+	padding-bottom: 5px;
+	margin-top: -3px;
+}
 .claro .dijitMenuActive .dijitMenuItemActive{
 	background-color: #7dbefa;
 	background-position:0px -177px;
@@ -72,6 +80,7 @@
 }
 .claro td.dijitMenuItemIconCell {
  padding: 2px;
+ margin: 0px 0px 0px 4px;
 }
 .claro td.dijitMenuItemLabel {
 	padding-top: 5px;
@@ -135,9 +144,6 @@
 	background-position:0px -177px;
 	background-color:#7dbefa;
 }
-
 .claro .dijitMenuPreviousButton, .claro .dijitMenuNextButton {
 	font-style: italic;
 }
-
-/* END ComboBox Menu*/

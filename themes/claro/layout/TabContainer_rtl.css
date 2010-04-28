@@ -61,3 +61,8 @@
 .dj_ie7 .claro .dijitTabContainerRight-tabs .dijitTabRtlChecked .dijitTabInnerDiv {
 	background-position:-341px -179px;
 }
+
+.dj_ie6 .dijitTabContainerTopRtl .dijitTabStripIcon,
+.dj_ie6 .dijitTabContainerBottomRtl .dijitTabStripIcon {
+   position: relative;
+}
