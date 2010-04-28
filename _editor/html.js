@@ -16,7 +16,7 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 	switch(node.nodeType){
 		case 1: //element node
 			var lName = node.nodeName.toLowerCase();
-			if(lName.charAt(0) == "/"){
+			if(!lName || lName.charAt(0) == "/"){
 				// IE does some strange things with malformed HTML input, like
 				// treating a close tag </span> without an open tag <span>, as
 				// a new tag with tagName of /span.  Corrupts output HTML, remove
