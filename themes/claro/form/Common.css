@@ -146,12 +146,10 @@
 }
 
 /* disabled state */
-.claro .dijitComboBoxDisabled .dijitArrowButtonInner {
-	/* !important to override
-	 * .claro .dijitDisabled .dijitArrowButtonInner { background-image:url("images/icon_drop_down.png"); }
-	 * from Button.css
-	 */
-	background-position:0px 50% !important;
+.claro div.dijitComboBoxDisabled .dijitArrowButtonInner {
+	/* specific selector set to override background-position setting from Button.js
+	 * (.claro .dijitComboBoxDisabled .dijitArrowButtonInner) */
+	background-position:0px 50%;
 	background-color:#f1f1f1;
 }
 
