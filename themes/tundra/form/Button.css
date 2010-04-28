@@ -33,6 +33,10 @@
 	color: #111;
 }
 
+.tundra .dijitComboButton .dijitDownArrowButton {
+	padding-right:4px;
+}
+
 .tundra .dijitTextBoxReadOnly,
 .tundra .dijitTextBoxReadOnly .dijitButtonNode,
 .tundra .dijitButtonDisabled .dijitButtonNode,
@@ -50,7 +54,7 @@
 .tundra .dijitButtonNodeHover,
 .tundra .dijitToggleButtonHover .dijitButtonNode,
 .tundra .dijitDropDownButtonHover .dijitButtonNode,
-.tundra .dijitComboButton .dijitButtonNodeHover,
+.tundra .dijitComboButton .dijitButtonContentsHover,
 .tundra .dijitComboButton .dijitDownArrowButtonHover {
 	/* hover state - inner */
 	/* TODO: change from Hover to Selected so that button is still highlighted while drop down is being used */
@@ -71,7 +75,7 @@
 .tundra .dijitButtonActive .dijitButtonNode,
 .tundra .dijitToggleButtonActive .dijitButtonNode,
 .tundra .dijitDropDownButtonActive .dijitButtonNode,
-.tundra .dijitComboButtonActive .dijitButtonNode,
+.tundra .dijitButtonContentsActive,
 .tundra .dijitStackController .dijitToggleButtonChecked .dijitButtonNode {
 	/* active state - inner (for when you are pressing a normal button, or
 	 * when a radio-type button is in a depressed state
@@ -80,32 +84,51 @@
 	background: #ededed url("../images/buttonActive.png") bottom repeat-x;
 }
 
-.tundra .dijitArrowButtonImg {
+.tundra .dijitArrowButtonInner {
 	background:url("../images/spriteArrows.png") no-repeat scroll 0px center;
+	width: 7px;
+	margin: 0px 5px 0px 4px;
 }
-.dj_ie6 .tundra .dijitArrowButtonImg {
+.dijitRtl .tundra .dijitArrowButtonInner {
+	margin: 0px 4px 0px 5px;
+}
+.dj_ie6 .tundra .dijitArrowButtonInner {
 	background-image:url("../images/spriteArrows.gif");
 }
 
-.tundra .dijitLeftArrowButton .dijitArrowButtonImg {
+.tundra .dijitLeftArrowButton .dijitArrowButtonInner {
 	background-position: -7px center;
 }
-.tundra .dijitRightArrowButton .dijitArrowButtonImg {
+.tundra .dijitRightArrowButton .dijitArrowButtonInner {
 	background-position: -14px center;
 }
-.tundra .dijitUpArrowButton .dijitArrowButtonImg {
+.tundra .dijitUpArrowButton .dijitArrowButtonInner {
 	background-position: -21px center;
 }
 
-.tundra .dijitDisabled .dijitArrowButtonImg {
+.tundra .dijitDisabled .dijitArrowButtonInner {
 	background-position: -28px center;
 }
-.tundra .dijitDisabled .dijitLeftArrowButton .dijitArrowButtonImg {
+.tundra .dijitDisabled .dijitLeftArrowButton .dijitArrowButtonInner {
 	background-position: -35px center;
 }
-.tundra .dijitDisabled .dijitRightArrowButton .dijitArrowButtonImg {
+.tundra .dijitDisabled .dijitRightArrowButton .dijitArrowButtonInner {
 	background-position: -42px center;
 }
-.tundra .dijitDisabled .dijitUpArrowButton .dijitArrowButtonImg {
+.tundra .dijitDisabled .dijitUpArrowButton .dijitArrowButtonInner {
 	background-position: -49px center;
+}
+
+
+/* Since ComboBox doesn't have it's own file... */
+.tundra .dijitComboBox .dijitArrowButton .dijitArrowButtonInner {
+	height: auto;
+	font-size: 100%;
+	font-size: inherit;
+}
+
+/* Since Spinner doesn't have it's own file */
+.tundra .dijitSpinner .dijitDownArrowButton .dijitArrowButtonInner {
+	#margin-top: -2px;
+	#margin-bottom: 2px;
 }

@@ -36,6 +36,10 @@
 	color: #111;
 }
 
+.nihilo .dijitComboButton .dijitDownArrowButton {
+	padding-right:4px;
+}
+
 .nihilo .dijitComboBoxReadOnly,
 .nihilo .dijitSpinnerReadOnly,
 .nihilo .dijitSpinnerReadOnly .dijitButtonNode,
@@ -64,7 +68,7 @@
 .nihilo .dijitButtonNodeHover,
 .nihilo .dijitToggleButtonHover .dijitButtonNode,
 .nihilo .dijitDropDownButtonHover .dijitButtonNode,
-.nihilo .dijitComboButton .dijitButtonNode,
+.nihilo .dijitButtonContentsHover,
 .nihilo .dijitDownArrowButtonHover,
 .nihilo .dijitUpArrowButtonHover {
 	/* hover state - inner */
@@ -78,7 +82,7 @@
 .nihilo .dijitButtonActive .dijitButtonNode,
 .nihilo .dijitToggleButtonActive .dijitButtonNode,
 .nihilo .dijitDropDownButtonActive .dijitButtonNode,
-.nihilo .dijitComboButtonActive .dijitButtonNode,
+.nihilo .dijitComboButton .dijitButtonContentsActive,
 .nihilo .dijitStackController .dijitToggleButtonChecked .dijitButtonNode {
 	/* active state - inner (for when you are pressing a normal button, or
 	 * when a radio-type button is in a depressed state
@@ -88,22 +92,21 @@
 }
 
 
-.nihilo .dijitArrowButtonImg {
+.nihilo .dijitArrowButtonInner {
 	background-image: url("../images/spriteArrows.png");
 	background-repeat: no-repeat;
 	background-position: 0px center;
 	width: 11px;
-	margin: 0 3px;
 }
-.nihilo .dijitLeftArrowButton .dijitArrowButtonImg {
+.nihilo .dijitLeftArrowButton .dijitArrowButtonInner {
 	background-position: -11px center;
 }
-.nihilo .dijitUpArrowButton .dijitArrowButtonImg {
+.nihilo .dijitUpArrowButton .dijitArrowButtonInner {
 	background-position: -22px center;
 }
-.nihilo .dijitRightArrowButton .dijitArrowButtonImg {
+.nihilo .dijitRightArrowButton .dijitArrowButtonInner {
 	background-position: -33px center;
 }
-.dj_ie6 .nihilo .dijitArrowButtonImg {
+.dj_ie6 .nihilo .dijitArrowButtonInner {
 	background-image: url("../images/spriteArrows.gif");
 }

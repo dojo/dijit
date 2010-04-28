@@ -1,11 +1,11 @@
-<table class='dijit dijitReset dijitInline dijitLeft dijitButtonWithArrow dijitButtonNode'
+<table class='dijit dijitReset dijitInline dijitLeft'
 	cellspacing='0' cellpadding='0' waiRole="presentation"
 	><tbody waiRole="presentation"><tr waiRole="presentation"
-		><td class="dijitReset dijitStretch dijitButtonNode dijitButtonField" dojoAttachPoint="buttonNode"
+		><td class="dijitReset dijitStretch dijitButtonNode" dojoAttachPoint="buttonNode"
 		><div id="${id}_button" class="dijitReset dijitButtonContents"
 			dojoAttachEvent="ondijitclick:_onButtonClick,onkeypress:_onButtonKeyPress" dojoAttachPoint="titleNode"
 			waiRole="button" waiState="labelledby-${id}_label"
-			><div class="dijitReset dijitInline dijitButtonIcon" dojoAttachPoint="iconNode" waiRole="presentation"></div
+			><div class="dijitReset dijitInline" dojoAttachPoint="iconNode" waiRole="presentation"></div
 			><div class="dijitReset dijitInline dijitButtonText" id="${id}_label" dojoAttachPoint="containerNode" waiRole="presentation"></div
 		></div
 		><input ${!nameAttrSetting} type="${type}" value="${value}" style="display:none !important;"
@@ -16,7 +16,7 @@
 			dojoAttachEvent="onkeypress:_onArrowKeyPress"
 			title="${optionsTitle}"
 			waiRole="button" waiState="haspopup-true"
-			><div class="dijitReset dijitArrowButtonImg" waiRole="presentation">&thinsp;</div
+			><div class="dijitReset dijitArrowButtonInner" waiRole="presentation">&thinsp;</div
 			><div class="dijitReset dijitArrowButtonChar" waiRole="presentation">&#9660;</div
 		></td
 	></tr></tbody

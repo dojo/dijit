@@ -44,9 +44,11 @@ try{
 	doh.registerUrl("dijit.tests.form.TextBox_sizes.nihilo.ltr", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=nihilo&dir=ltr"));
 	doh.registerUrl("dijit.tests.form.TextBox_sizes.nihilo.rtl", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=nihilo&dir=rtl"));
 	doh.registerUrl("dijit.tests.form.TextBox_sizes.nihilo.quirks", dojo.moduleUrl("dijit", "tests/quirks.html?file=form/TextBox_sizes.html&theme=nihilo&dir=ltr"));
+	/* is there a UI contract that a11y textbox widgets have consistent heights and widths?
 	doh.registerUrl("dijit.tests.form.TextBox_sizes.a11y.ltr", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?a11y=1&dir=ltr"));
 	doh.registerUrl("dijit.tests.form.TextBox_sizes.a11y.rtl", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?a11y=1&dir=rtl"));
 	doh.registerUrl("dijit.tests.form.TextBox_sizes.a11y.quirks", dojo.moduleUrl("dijit", "tests/quirks.html?file=form/TextBox_sizes.html&a11y=1&dir=ltr"));
+	*/
 }catch(e){
 	doh.debug(e);
 }

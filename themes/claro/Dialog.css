@@ -119,9 +119,8 @@
 	height:14px;
 }
 .dj_ie6 .claro .dijitTooltipConnector {
-	background-image:url("images/tooltip8bit.gif");
+	background-image:url("images/tooltip8bit.png");
 }
-
 .claro .dijitTooltipABRight .dijitTooltipConnector {
 	/* above or below tooltip, but the arrow appears on the right,
 		and the right edges of target and tooltip are aligned rather than the left */

@@ -45,7 +45,7 @@
 	background-repeat:repeat-x;
 }
 
-.claro .dijitSelect .dijitArrowButton .dijitArrowButtonImg {
+.claro .dijitSelect .dijitArrowButton .dijitArrowButtonInner {
 	background-image: url("images/commonFormArrows.png");
 	background-position:-35px 70%;
 	background-repeat: no-repeat;
@@ -56,7 +56,7 @@
 
 /* hover status */
 .claro .dijitSelectHover {
-	border-color: #769dc0;
+	border: 1px solid #769dc0;
 	background-color: #e9f4fe;
 	background-image: url('images/textBox_back.png');
 	background-repeat: repeat-x;
@@ -69,7 +69,7 @@
 .claro .dijitSelectHover .dijitArrowButton {
 	background-color:#abd6ff;
 }
-.claro .dijitSelectHover .dijitArrowButton .dijitArrowButtonImg {
+.claro .dijitSelectHover .dijitArrowButton .dijitArrowButtonInner {
 	background-position:-70px 70%;
 }
 
@@ -86,7 +86,7 @@
 	border: none;
 	padding: 0px 1px;
 }
-.claro .dijitSelectFocused .dijitArrowButton .dijitArrowButtonImg {
+.claro .dijitSelectFocused .dijitArrowButton .dijitArrowButtonInner {
 	background-position:-70px 70%;
 	margin-bottom: 1px;
 }
@@ -101,7 +101,7 @@
 .claro .dijitSelectDisabled .dijitArrowButton { 
 	background-color: #efefef;
 }
-.claro .dijitSelectDisabled .dijitArrowButton .dijitArrowButtonImg {
+.claro .dijitSelectDisabled .dijitArrowButton .dijitArrowButtonInner {
 	background-position:0px 70%
 }
 

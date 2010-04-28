@@ -36,6 +36,10 @@
 	color: #111;
 }
 
+.soria .dijitComboButton .dijitDownArrowButton {
+	padding-right:4px;
+}
+
 .soria .dijitComboBoxReadOnly,
 .soria .dijitSpinnerReadOnly,
 .soria .dijitSpinnerReadOnly .dijitButtonNode,
@@ -62,6 +66,7 @@
 .soria .dijitButtonNodeHover,
 .soria .dijitToggleButtonHover .dijitButtonNode,
 .soria .dijitDropDownButtonHover .dijitButtonNode,
+.soria .dijitButtonContentsHover,
 .soria .dijitUpArrowButtonHover,
 .soria .dijitDownArrowButtonHover {
 	/* hover state - inner */
@@ -73,7 +78,7 @@
 .soria .dijitButtonActive .dijitButtonNode,
 .soria .dijitToggleButtonActive .dijitButtonNode,
 .soria .dijitDropDownButtonActive .dijitButtonNode,
-.soria .dijitComboButtonActive .dijitButtonNode,
+.soria .dijitComboButtonActive .dijitButtonContents,
 .soria .dijitStackController .dijitToggleButtonChecked .dijitButtonNode {
 	/* active state - inner (for when you are pressing a normal button, or
 	 * when a radio-type button is in a depressed state
@@ -87,22 +92,22 @@
 	background: #91b4e5 url("../images/buttonActive.png") top left repeat-x;
 }
 
-.soria .dijitArrowButtonImg {
+
+.soria .dijitArrowButtonInner {
 	background-image: url("../images/spriteArrows.png");
 	background-repeat: no-repeat;
 	background-position: 0px center;
-	margin:0 3px;
-	width:11px;
+	width: 11px;
 }
-.soria .dijitLeftArrowButton .dijitArrowButtonImg {
+.soria .dijitLeftArrowButton .dijitArrowButtonInner {
 	background-position: -11px center;
 }
-.soria .dijitUpArrowButton .dijitArrowButtonImg {
+.soria .dijitUpArrowButton .dijitArrowButtonInner {
 	background-position: -22px center;
 }
-.soria .dijitRightArrowButton .dijitArrowButtonImg {
+.soria .dijitRightArrowButton .dijitArrowButtonInner {
 	background-position: -33px center;
 }
-.dj_ie6 .soria .dijitArrowButtonImg {
+.dj_ie6 .soria .dijitArrowButtonInner {
 	background-image: url("../images/spriteArrows.gif");
 }

@@ -19,6 +19,10 @@
 	font-size: 100%;
 }
 
+.tundra .dijitTextArea {
+	padding: 3px;
+}
+
 .tundra .dijitTextBox {
 	/* 	For all except dijit.form.NumberSpinner:  the actual input element.
 		For TextBox, ComboBox, Spinner: the div that contains the input.
@@ -31,6 +35,10 @@
 }
 
 /* ComboBox specific rules*/
+.tundra .dijitComboBox .dijitButtonNode {
+	padding-left: 0.2em;
+	padding-right: 0.2em;
+}
 .tundra .dijitTextBox .dijitButtonNode {
 	/* line between the input area and the drop down button, and also between
 	 * the up and down buttons of a spinner
@@ -52,7 +60,7 @@
 }
 .dj_ie6 .tundra .dijitError INPUT {
 	/* background-color: transparent on an <input> doesn't work on IE6 */
-	background-color:#f9f7ba;
+	background-color:#f9f7ba !important;
 }
 
 .tundra .dijitErrorFocused {
@@ -61,12 +69,14 @@
 }
 .dj_ie6 .tundra .dijitErrorFocused INPUT {
 	/* background-color: transparent on an <input> doesn't work on IE6 */
-	background-color:#f9f999;
+	background-color:#f9f999 !important;
 }
 
 /* Validation errors  */
 .tundra .dijitValidationIcon {
-	background: transparent url('../images/warning.png') no-repeat center 95%;
+	/* prevent height change when widget goes from valid to invalid state */
+	width: 16px;
+	background: transparent url('../images/warning.png') no-repeat center center;
 }
 
 /* The highlight is shown in the ComboBox menu. */

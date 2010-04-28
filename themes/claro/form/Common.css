@@ -2,30 +2,27 @@
 
 /*========================= common css =========================*/
 
-/* Default padding around form elements */
-.claro .dijitButtonField, .claro .dijitInputField, .claro .dijitTextArea {
-	padding: 2px;
-}
-
 /* 'dijitTextBox' refers to 'dijit(TextBox|DateTextBox|CurrencyTextBox|...)' */
 
 .claro .dijitTextBoxError .dijitValidationIcon {
 	display: block;
-	background: #d46363 url('images/error.png') no-repeat top center;
+	background: transparent url('images/error.png') repeat-y top center;
 	border: solid #d46464 0px;
 	border-left-width: 1px;
-	width: 9px;
+	width: 4px;
+	padding: 2px 3px 2px 2px;
 }
 
-.claro .dijitArrowButton {
-	padding:0;
+/* .dijitInputField .dijitPlaceHolder is explicitly listed below because
+   dijitPlaceHolder is absolutely positioned, so padding set on dijitInputField
+   won't affect it */
+.claro .dijitInputField,
+.claro .dijitTextArea,
+.claro .dijitInputField .dijitPlaceHolder {
+	padding: 2px 2px 2px 2px;
 }
-
-.claro .dijitTextBoxError .dijitValidationContainer {
-	width:11px;
-}
-.claro .dijitButtonWithArrow .dijitValidationIcon {
-	right:20px;
+.dj_ie .claro .dijitInputField {
+	padding-left: 4px;
 }
 
 .claro .dijitTextBox,
@@ -73,6 +70,9 @@
 	background-image: url('images/textBox_back.png');
 	background-repeat: repeat-x;
 }
+.claro .dijitTextBoxFocused .dijitInputField {
+	background: #fff;
+}
 
 .claro .dijitTextBoxErrorFocused,
 .claro .dijitTextBoxErrorFocused .dijitButtonNode {
@@ -92,11 +92,13 @@
 
 /*========================= for special widgets =========================*/
 
-.claro .dijitComboBox .dijitArrowButtonImg {
+.claro .dijitComboBox .dijitArrowButtonInner {
 	background-image: url("images/commonFormArrows.png");
 	background-position:-35px 53%;
 	background-repeat: no-repeat;
 	margin: 0px;
+	padding:1px 0px;
+	width:16px;
 	height:100%;
 	border: 1px solid #fff;
 	display:block;
@@ -104,10 +106,19 @@
 
 /* ComboBox */
 
+.claro .dijitComboBox input{
+	/* line up input text with menu text */
+	padding-left: 2px;
+}
+.dj_ie .claro .dijitComboBox input{
+    padding: 0px;
+}
+
 .claro .dijitComboBox .dijitButtonNode {
 	background-color: #ebeef4;
 	background-image: url("images/formHighlight.png");
 	background-repeat:repeat-x;
+	padding: 0px;
 	
 	/* override Button.css.   TODO: make rule in Button.css more specific so I don't need to override here. */
 	border-radius: 0;
@@ -119,7 +130,7 @@
 .claro .dijitComboBoxHover .dijitButtonNode {
 	background-color:#abd6ff;
 }
-.claro .dijitComboBoxHover .dijitArrowButtonImg {
+.claro .dijitComboBoxHover .dijitArrowButtonInner {
 	background-position:-70px 53%;
 }
 
@@ -128,15 +139,16 @@
 	background-color:#7dbefa;
 	background-position:0px -177px;
 }	
-.claro .dijitComboBoxFocused .dijitArrowButtonImg {
+.claro .dijitComboBoxFocused .dijitArrowButtonInner {
 	background-position:-70px 53%;
-	border-color:transparent;
+	border:none;
+	margin:1px;
 }
 
 /* disabled state */
-.claro .dijitComboBoxDisabled .dijitArrowButtonImg {
+.claro .dijitComboBoxDisabled .dijitArrowButtonInner {
 	/* !important to override
-	 * .claro .dijitDisabled .dijitArrowButtonImg { background-image:url("images/icon_drop_down.png"); }
+	 * .claro .dijitDisabled .dijitArrowButtonInner { background-image:url("images/icon_drop_down.png"); }
 	 * from Button.css
 	 */
 	background-position:0px 50% !important;
@@ -144,8 +156,17 @@
 }
 
 /*========================= hacks for browsers =========================*/
+/* it seems the input[type="hidden"] has a height (16px) too... this may cause the widget's height calcuate error */
+.dj_ff3 .claro .dijitInputField input[type="hidden"] {
+	display: none;
+	height: 0;
+	width: 0;
+}
 
 /* ie */
+.dj_ie .claro .dijitInputField input {
+	margin: 0 0 0 0;	/* override dijit.css */
+}
 
 /* ie6 doesn't support transparent background img */
 .dj_ie6 .claro .dijitTextBox,
@@ -153,6 +174,7 @@
 .dj_ie6 .claro .dijitComboBox .dijitButtonNode {
 	background-image: none;
 }
-.dj_ie6 .claro .dijitArrowButtonImg {
-	border-width: 0 1px;
+.dj_ie6 .claro .dijitComboBoxFocused .dijitArrowButtonInner {
+	border: none;
+	margin: 1px; 
 }

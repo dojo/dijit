@@ -1,32 +1,24 @@
 <div class="dijit dijitReset dijitInlineTable dijitLeft"
 	id="widget_${id}" waiRole="presentation"
-	><div class="dijitInputLayoutContainer dijitButtonWithArrow"
-		><div class="dijitReset dijitArrowButtonContainer"
+	><div class="dijitInputLayoutContainer"
+		><div class="dijitReset dijitSpinnerButtonContainer"
 			><div class="dijitReset dijitLeft dijitButtonNode dijitArrowButton dijitUpArrowButton"
 				dojoAttachPoint="upArrowNode"
-				><div class="dijitArrowButtonImg"
-					><div class="dijitArrowButtonFillHeight dijitInputField"></div
+				><div class="dijitArrowButtonInner"
+					><div class="dijitArrowButtonInnerHalfHeight"></div
 				></div
-				><div class="dijitArrowButtonText"
-					><div class="dijitInline"><div class="dijitInputField"></div></div
-					><span class="dijitArrowButtonChar">&#9650;</span
-				></div
+				><div class="dijitArrowButtonChar">&#9650;</div
 			></div
 			><div class="dijitReset dijitLeft dijitButtonNode dijitArrowButton dijitDownArrowButton"
 				dojoAttachPoint="downArrowNode"
-				><div class="dijitArrowButtonImg"
-					><div class="dijitArrowButtonFillHeight dijitInputField"></div
+				><div class="dijitArrowButtonInner"
+					><div class="dijitArrowButtonInnerHalfHeight"></div
 				></div
-				><div class="dijitArrowButtonText"
-					><div class="dijitInline"><div class="dijitInputField"></div></div
-					><span class="dijitArrowButtonChar">&#9660;</span
-				></div
+				><div class="dijitArrowButtonChar">&#9660;</div
 			></div
 		>&nbsp;</div
-		><div class="dijitReset dijitValidationContainer"
-			><BR><div class="dijitReset dijitValidationIcon"><div class="dijitInputField"></div></div
-			><div class="dijitReset dijitValidationIconText"><div class="dijitInline"><div class="dijitInputField"></div></div><span class="dijitValidationChar">&Chi;</span></div
-			></div
+		><div class="dijitReset dijitValidationIcon"><BR></div
+		><div class="dijitReset dijitValidationIconText">&Chi;</div
 		><div class="dijitReset dijitInputField"
 			><input class='dijitReset' dojoAttachPoint="textbox,focusNode" type="${type}" dojoAttachEvent="onkeypress:_onKeyPress"
 				waiRole="spinbutton" autocomplete="off" ${!nameAttrSetting}

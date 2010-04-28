@@ -17,7 +17,8 @@
 
 /** override claro/form/Button.css **/
 .claro .dijitToolbar .dijitButtonNode {
-	border:1px solid transparent;
+	border:none;
+	padding: 2px;
 	background-image: url("images/commonHighlight.png");
 	background-position:0 -30px;
 	background-repeat:repeat-x;
@@ -37,6 +38,10 @@
 	background: none;	/* because background-color: transparent above doesn't work */
 }
 
+.claro .dijitToolbar .dijitComboBox .dijitButtonNode {
+	padding: 0px;
+}
+
 .claro .dijitToolbar .dijitComboButton {
 	padding: 1px;
 }
@@ -47,6 +52,7 @@
 	background-position:0 0;
 	border:solid 1px #769dc0;
 	background-color: #abd6ff;
+	padding: 1px;
 }
 .claro .dijitToolbar .dijitComboButtonHover {
 	background-color: #abd6ff;
@@ -68,6 +74,7 @@
 	border:solid 1px #769dc0;
 	background-color:#7dbefa;
 	background-position:0px -177px;
+	padding: 1px;
 }
 .claro .dijitToolbar .dijitComboButtonActive {
 	-webkit-transition-duration:.2s;

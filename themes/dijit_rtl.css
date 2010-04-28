@@ -18,41 +18,25 @@
 
 /* TextBox, ComboBox, Spinner */
 
-.dijitRtl .dijitButtonWithArrow .dijitArrowButton {
+.dijitTextBoxRtl .dijitButtonNode {
 	/* combobox and spinner: line between the input area and the drop down button */
 	border-right-width: 1px !important;
+	border-right-style: solid;
 	border-left-width: 0px !important;
+	border-left-style: none;
 }
 
-.dijitRtl .dijit_a11y .dijitButtonWithArrow td.dijitArrowButton {
-	/* combobox and spinner: line between the input area and the drop down button */
-	border-right-width: medium !important;
-	border-right-style:outset !important;
-	border-left-width: 0px !important;
+.dijitSpinnerRtl .dijitInputLayoutContainer .dijitArrowButton {
+	right: 0;
+	left: auto;
 }
 
-.dijitTextBoxRtl .dijitInputLayoutContainer .dijitArrowButton {
-	left:0;
-	right:auto;
-}
-
-.dijitTextBoxRtl .dijitArrowButton .dijitArrowButtonText {
-	margin: 0 3px 0 4px;
-}
-
-.dijitTextBoxRtl .dijitArrowButtonContainer, .dijitTextBoxRtl .dijitValidationContainer {
+.dijitSpinnerRtl .dijitSpinnerButtonContainer {
 	float: left;
 }
 
-.dijitTextBoxRtl .dijitValidationIcon, .dijitTextBoxRtl .dijitValidationIconText {
-	right:auto;
-	left:0;
-}
-
-.dijitTextBoxRtl .dijitButtonWithArrow .dijitValidationIcon, 
-.dijitTextBoxRtl .dijitButtonWithArrow .dijitValidationIconText {
-	right:auto;
-	left: 20px;
+.dijitTextBoxRtl DIV.dijitArrowButton, .dijitTextBoxRtl .dijitValidationIcon, .dijitTextBoxRtl .dijitValidationIconText {
+	float: left;
 }
 
 /* Calendar */
