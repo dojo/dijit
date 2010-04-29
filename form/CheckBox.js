@@ -132,12 +132,14 @@ dojo.declare(
 			if(this.id){
 				dojo.query("label[for='"+this.id+"']").addClass("dijitFocusedLabel");
 			}
+			this.inherited(arguments);
 		},
 
 		_onBlur: function(){
 			if(this.id){
 				dojo.query("label[for='"+this.id+"']").removeClass("dijitFocusedLabel");
 			}
+			this.inherited(arguments);
 		},
 
 		_onClick: function(/*Event*/ e){
