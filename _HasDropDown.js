@@ -205,7 +205,9 @@ dojo.declare("dijit._HasDropDown",
 			}else if(d && !this._opened && 
 					(e.keyCode == dojo.keys.DOWN_ARROW || e.keyCode == dojo.keys.ENTER || e.keyCode == dojo.keys.SPACE)){
 				this.toggleDropDown();
-				setTimeout(dojo.hitch(d, "focus"), 1);
+				if(d.focus){
+					setTimeout(dojo.hitch(d, "focus"), 1);
+				}
 			}
 		},
 
