@@ -84,12 +84,22 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 		dijit.setWaiState(this.focusNode, "disabled", value);
 
 		if(value){
-			// reset those, because after the domNode is disabled, we can no longer receive
+			// reset these, because after the domNode is disabled, we can no longer receive
 			// mouse related events, see #4200
 			this._hovering = false;
 			this._active = false;
-			// remove the tabIndex, especially for FF
-			this.focusNode.setAttribute('tabIndex', "-1");
+
+			// clear tab stop(s) on this widget's focusable node(s)  (ComboBox has two focusable nodes)
+			var attachPointNames = "tabIndex" in this.attributeMap ? this.attributeMap.tabIndex : "focusNode";
+			dojo.forEach(dojo.isArray(attachPointNames) ? attachPointNames : [attachPointNames], function(attachPointName){
+				var node = this[attachPointName];
+				// complex code because tabIndex=-1 on a <div> doesn't work on FF
+				if(dojo.isWebKit || dijit.hasDefaultTabStop(node)){	// see #11064 about webkit bug
+					node.setAttribute('tabIndex', "-1");
+				}else{
+					node.removeAttribute('tabIndex');				
+				}
+			}, this);
 		}else{
 			this.focusNode.setAttribute('tabIndex', this.tabIndex);
 		}

@@ -340,11 +340,7 @@
 							}), 1000);
 							return d;
 						}
-					}
-
-/***
-	commented out until #8903 is fixed
-					,
+					},
 
 					{
 						name: "tab closes menu",
@@ -356,7 +352,7 @@
 								// Focus element before "save" ComboButton
 								dijit.byId("color").focus();
 
-								// And disable the ComboBox.
+								// And disable the ComboButton
 								dijit.byId("save").set("disabled", true);
 							});
 
@@ -370,7 +366,6 @@
 							return d;
 						}
 					}
-***/
 				]);
 
 				doh.register("dijit.form.ToggleButton", [

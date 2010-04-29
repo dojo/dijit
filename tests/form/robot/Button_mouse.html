@@ -52,7 +52,10 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.f(clicked, "click event was fired");
+								if(!dojo.isWebKit){		// webkit bug, see #11064
+									doh.f(dojo.isDescendant(dojo.global.dijit._curFocus, dijit.byId("disabled").domNode), "not focused on button")
+								}
+								doh.f(clicked, "click event wasn't fired");
 							}), 1000);
 							return d;
 						}
@@ -150,6 +153,55 @@
 							}), 1000);
 							return d;
 						}
+					},
+
+					{
+						name: "disabled click button",
+						timeout: 15000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var leftPart = dojo.query(".dijitButtonContents", dojo.byId("save"))[0];
+							doh.t(leftPart, "found left part of button");
+
+							var clicked = false;
+							dijit.byId("save").set("onClick", function(){ clicked = true; });
+
+							dijit.byId("save").set("disabled", true);
+
+							doh.robot.mouseMoveAt(leftPart, 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								if(!dojo.isWebKit){ // webkit bug, see #11064
+									doh.f(dojo.isDescendant(dojo.global.dijit._curFocus, dijit.byId("save").domNode), "not focused on button")
+								}
+								doh.f(clicked, "click event wasn't fired");
+							}), 1000);
+							return d;
+						}
+					},
+
+					{
+						name: "disabled click drop down button",
+						timeout: 15000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var rightPart = dojo.query(".dijitDownArrowButton", dojo.byId("save"))[0];
+							doh.t(rightPart, "found right part of button");
+
+							doh.robot.mouseMoveAt(rightPart, 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								if(!dojo.isWebKit){		// webkit bug, see #11064
+									doh.f(dojo.isDescendant(dojo.global.dijit._curFocus, dijit.byId("save").domNode), "not focused on button")
+								}
+								doh.t(isHidden("saveMenu"), "save menu is still hidden: " + dijit.byId("saveMenu").domNode.style.cssText);
+							}), 1000);
+							return d;
+						}
 					}
 				]);
 
@@ -207,14 +259,17 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.f(changed, "value changed");
+								if(!dojo.isWebKit){		// webkit bug, see #11064
+									doh.f(dojo.isDescendant(dojo.global.dijit._curFocus, dijit.byId("toggle1").domNode), "not focused on button")
+								}
+								doh.f(changed, "value didn't change");
 							}), 1000);
 							return d;
 						}
 					}
 				]);
 
-				doh.register("attr", [
+				doh.register("get/set", [
 					{
 						name: "change label",
 						runTest: function(){

@@ -213,8 +213,9 @@
 						doh.robot.mouseClick({left:true}, 500);
 
 						doh.robot.sequence(d.getTestCallback(function(){
-							// TODO: uncomment when #8595 is fixed
-							//doh.isNot(combo, dijit.getEnclosingWidget(dojo.global.dijit._curFocus), "click doesn't focus disabled combo");
+							if(!dojo.isWebKit){		// webkit bug, see #11064
+								doh.isNot(combo, dijit.getEnclosingWidget(dojo.global.dijit._curFocus), "click doesn't focus disabled combo");
+							}
 						}), 1000, 500);
 
 						return d;

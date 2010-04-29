@@ -326,6 +326,53 @@ dojo.declare("dijit.WidgetSet", null, {
 			&& (attr(elem, "type") != "hidden");
 	});
 	
+	dijit.hasDefaultTabStop = function(/*Element*/ elem){
+		// summary:
+		//		Tests if element is tab-navigable even without an explicit tabIndex setting
+	
+		// No explicit tabIndex setting, need to investigate node type
+		switch(elem.nodeName.toLowerCase()){
+			case "a":
+				// An <a> w/out a tabindex is only navigable if it has an href
+				return hasAttr(elem, "href");
+			case "area":
+			case "button":
+			case "input":
+			case "object":
+			case "select":
+			case "textarea":
+				// These are navigable by default
+				return true;
+			case "iframe":
+				// If it's an editor <iframe> then it's tab navigable.
+				//TODO: feature detect "designMode" in elem.contentDocument?
+				if(dojo.isMoz){
+					try{
+						return elem.contentDocument.designMode == "on";
+					}catch(err){
+						return false;
+					}
+				}else if(dojo.isWebKit){
+					var doc = elem.contentDocument,
+						body = doc && doc.body;
+					return body && body.contentEditable == 'true';
+				}else{
+					// contentWindow.document isn't accessible within IE7/8
+					// if the iframe.src points to a foreign url and this
+					// page contains an element, that could get focus
+					try{
+						doc = elem.contentWindow.document;
+						body = doc && doc.body;
+						return body && body.firstChild && body.firstChild.contentEditable == 'true';
+					}catch(e){
+						return false;
+					}
+				}
+			default:
+				return elem.contentEditable == 'true';
+		}
+	};
+	
 	var isTabNavigable = (dijit.isTabNavigable = function(/*Element*/ elem){
 		// summary:
 		//		Tests if an element is tab-navigable
@@ -337,50 +384,11 @@ dojo.declare("dijit.WidgetSet", null, {
 			// Explicit tab index setting
 			return attr(elem, "tabIndex") >= 0; // boolean
 		}else{
-			// No explicit tabIndex setting, need to investigate node type
-			switch(elem.nodeName.toLowerCase()){
-				case "a":
-					// An <a> w/out a tabindex is only navigable if it has an href
-					return hasAttr(elem, "href");
-				case "area":
-				case "button":
-				case "input":
-				case "object":
-				case "select":
-				case "textarea":
-					// These are navigable by default
-					return true;
-				case "iframe":
-					// If it's an editor <iframe> then it's tab navigable.
-					//TODO: feature detect "designMode" in elem.contentDocument?
-					if(dojo.isMoz){
-						try{
-							return elem.contentDocument.designMode == "on";
-						}catch(err){
-							return false;
-						}
-					}else if(dojo.isWebKit){
-						var doc = elem.contentDocument,
-							body = doc && doc.body;
-						return body && body.contentEditable == 'true';
-					}else{
-						// contentWindow.document isn't accessible within IE7/8
-						// if the iframe.src points to a foreign url and this
-						// page contains an element, that could get focus
-						try{
-							doc = elem.contentWindow.document;
-							body = doc && doc.body;
-							return body && body.firstChild && body.firstChild.contentEditable == 'true';
-						}catch(e){
-							return false;
-						}
-					}
-				default:
-					return elem.contentEditable == 'true';
-			}
+			// No explicit tabIndex setting, so depends on node type
+			return dijit.hasDefaultTabStop(elem);
 		}
 	});
-	
+
 	dijit._getTabNavigable = function(/*DOMNode*/ root){
 		// summary:
 		//		Finds descendants of the specified root node.
