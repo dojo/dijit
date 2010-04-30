@@ -25,9 +25,6 @@ dojo.declare(
 
 		templateString: dojo.cache("dijit.form", "templates/CheckBox.html"),
 
-		// the icon mapping in dijit.form.Button has no meaning for a CheckBox
-		attributeMap: dijit.form._FormWidget.prototype.attributeMap,
-	
 		baseClass: "dijitCheckBox",
 
 		// type: [private] String
@@ -53,8 +50,10 @@ dojo.declare(
 		//		In markup, this is specified as "readOnly".
 		//		Similar to disabled except readOnly form values are submitted.
 		readOnly: false,
-
-		attributeMap: dojo.delegate(dijit.form.ToggleButton.prototype.attributeMap, {
+		
+		// the attributeMap should inherit from dijit.form._FormWidget.prototype.attributeMap 
+		// instead of ToggleButton as the icon mapping has no meaning for a CheckBox
+		attributeMap: dojo.delegate(dijit.form._FormWidget.prototype.attributeMap, {
 			readOnly: "focusNode"
 		}),
 
