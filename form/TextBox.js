@@ -50,20 +50,6 @@ dojo.declare(
 			if(!this._phspan){
 				this._attachPoints.push('_phspan');
 				this._phspan = dojo.create('span',{className:'dijitPlaceHolder'},this.textbox,'after');
-				
-				//IE 6 layout bug work around START (remove when we drop IE6 support)
-				//feature-detect (actually it should be bug-detect) the layout bug
-				if(this._fixIELayout===undefined){
-					var pos = dojo.position(this._phspan);
-					this._fixIELayout = pos.x<0;
-				}
-				if(this._fixIELayout){
-					//the placeholder does not show up in IE 6 until a focus followed by blur
-					//the following would force it to show up properly
-					//this only need to be done when _phspan is first created
-					this._phspan.style.filter="";
-				}
-				//IE 6 layout bug work around END
 			}
 			this._phspan.innerHTML="";
 			this._phspan.appendChild(document.createTextNode(v));
