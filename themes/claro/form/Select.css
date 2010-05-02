@@ -1,9 +1,5 @@
 /** dijit.form.Select **/
 
-/* override button.css */
-.claro .dijitSelect .dijitButtonNode {
-	padding:0px;
-}
 .claro .dijitSelect .dijitButtonNode {
 	background: none;
 	border: none;

@@ -5,7 +5,6 @@
 	background-repeat: repeat-x;
 	background-color: #e4f2ff;
 	border: 1px solid #769dc0;
-	padding:2px 4px 4px 4px;
 	-webkit-transition-property:background-color;
  	-webkit-transition-duration:.3s;
 }
@@ -14,7 +13,8 @@
 .claro .dijitDropDownButton .dijitButtonNode,
 .claro .dijitComboButton .dijitButtonNode,
 .claro .dijitToggleButton .dijitButtonNode {
-	/* rounded corners and shadow for the dijit.form.*Button widgets (see also ComboButton section below) */
+	/* padding, rounded corners and shadow for the dijit.form.*Button widgets (see also ComboButton section below) */
+	padding:2px 4px 4px 4px;
 	border-radius: 4px;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
@@ -23,14 +23,9 @@
 	-moz-box-shadow: 0px 1px 1px rgba(0,0,0,0.15);	
 }
 
-.claro .dijitButtonNode button {
-	background-color: transparent;
-	border: none;
-}
-
 .claro .dijitComboButton .dijitArrowButton {
 	border-left-width: 0px;
-	padding: 4px 2px 4px 2px;
+	padding: 4px 2px 4px 2px;	/* TODO: still needed? */
 }
 
 /*arrow styles for down/up/left/right directions*/
