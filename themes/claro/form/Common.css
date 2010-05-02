@@ -119,11 +119,6 @@
 	background-image: url("images/formHighlight.png");
 	background-repeat:repeat-x;
 	padding: 0px;
-	
-	/* override Button.css.   TODO: make rule in Button.css more specific so I don't need to override here. */
-	border-radius: 0;
-	-moz-border-radius: 0;
-	-webkit-border-radius: 0;
 }
 
 /* hover state */

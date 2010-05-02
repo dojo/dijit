@@ -3,12 +3,6 @@
 /* override button.css */
 .claro .dijitSelect .dijitButtonNode {
 	padding:0px;
-	border-radius: 0;
-	-moz-border-radius: 0;
-	-webkit-border-radius: 0;
-	box-shadow: 0px 0px 0px rgba(0,0,0,0);
-	-webkit-box-shadow: 0px 0px 0px rgba(0,0,0,0);
-	-moz-box-shadow: 0px 0px 0px rgba(0,0,0,0);
 }
 .claro .dijitSelect .dijitButtonNode {
 	background: none;

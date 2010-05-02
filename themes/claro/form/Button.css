@@ -1,18 +1,26 @@
 .claro .dijitButtonNode {
+	/* rules for dijit.form.*Button widgets and arrow nodes on ComboBox, Spinner etc. */
 	background-image: url("images/button.png");
 	background-position: center top;
 	background-repeat: repeat-x;
 	background-color: #e4f2ff;
 	border: 1px solid #769dc0;
 	padding:2px 4px 4px 4px;
+	-webkit-transition-property:background-color;
+ 	-webkit-transition-duration:.3s;
+}
+
+.claro .dijitButton .dijitButtonNode,
+.claro .dijitDropDownButton .dijitButtonNode,
+.claro .dijitComboButton .dijitButtonNode,
+.claro .dijitToggleButton .dijitButtonNode {
+	/* rounded corners and shadow for the dijit.form.*Button widgets (see also ComboButton section below) */
 	border-radius: 4px;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	box-shadow:0px 1px 1px rgba(0,0,0,0.15);
 	-webkit-box-shadow:0px 1px 1px rgba(0,0,0,0.15);
-	-moz-box-shadow: 0px 1px 1px rgba(0,0,0,0.15);
-	-webkit-transition-property:background-color;
- 	-webkit-transition-duration:.3s;
+	-moz-box-shadow: 0px 1px 1px rgba(0,0,0,0.15);	
 }
 
 .claro .dijitButtonNode button {

@@ -19,11 +19,6 @@
 	background-position:0px 0px;
 	background-repeat:repeat-x;
 	overflow: hidden;
-
-	/* override rounded button corners from Button.css */
-	border-radius: 0;
-	-moz-border-radius: 0;
-	-webkit-border-radius: 0;
 }
 .dj_ie6 .claro .dijitSpinner .dijitArrowButton {
 	/* TODO: doublecheck how badly this is needed */
