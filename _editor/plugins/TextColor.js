@@ -70,7 +70,6 @@ dojo.declare("dijit._editor.plugins.TextColor", dijit._editor._Plugin, {
 		}
 		
 		if(value !== this.dropDown.get('value')){
-			console.log("Boom?");
 			this.dropDown.set('value', value, false);
 		}
 	}
