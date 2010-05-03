@@ -283,7 +283,8 @@ dojo.declare(
 		//		browser support. By default, we only enable customUndo for IE, as it
 		//		has broken native undo/redo support. Note: the implementation does
 		//		support other browsers which have W3C DOM2 Range API implemented.
-		customUndo: dojo.isIE,
+		//		It was also enabled on WebKit, to fix undo/redo enablement. (#9613)
+		customUndo: dojo.isIE || dojo.isWebKit,
 
 		// editActionInterval: Integer
 		//		When using customUndo, not every keystroke will be saved as a step.
