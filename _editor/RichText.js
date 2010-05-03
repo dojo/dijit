@@ -435,11 +435,9 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			if(dojo.isIE){
 				this._localizeEditorCommands();
 			}
-
+			
 			// Do final setup and set initial contents of editor
 			this.onLoad(html);
-
-			this.savedContent = this.getValue(true);
 		});
 
 		// Set the iframe's initial (blank) content.
@@ -758,6 +756,8 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 				// onNormalizedDisplayChanged has run to avoid input caret issues
 				dojo.addOnLoad(dojo.hitch(this, function(){ setTimeout(dojo.hitch(this, "focus"), this.updateInterval); }));
 			}
+			// Save off the initial content now
+			this.savedContent = this.getValue(true);
 		});
 		if(this.setValueDeferred){
 			this.setValueDeferred.addCallback(setContent);
