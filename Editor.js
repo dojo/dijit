@@ -369,7 +369,7 @@ dojo.declare(
 			var bookmark = b.mark;
 			var mark = b.mark;
 			var col = b.isCollapsed;
-			var r;
+			var r, sNode, eNode, sel;
 			if(mark){
 				if(dojo.isIE){
 					if(dojo.isArray(mark)){
@@ -383,12 +383,12 @@ dojo.declare(
 						if(mark.startContainer && mark.endContainer){
 							// Use the pseudo WC3 range API.  This works better for positions
 							// than the IE native bookmark code.
-							var sel = dijit.range.getSelection(this.window);
+							sel = dijit.range.getSelection(this.window);
 							if(sel && sel.removeAllRanges){
 								sel.removeAllRanges();
 								r = dijit.range.create(this.window);
-								var sNode = dijit.range.getNode(mark.startContainer,this.editNode);
-								var eNode = dijit.range.getNode(mark.endContainer,this.editNode);
+								sNode = dijit.range.getNode(mark.startContainer,this.editNode);
+								eNode = dijit.range.getNode(mark.endContainer,this.editNode);
 								if(sNode && eNode){
 									// Okay, we believe we found the position, so add it into the selection
 									// There are cases where it may not be found, particularly in undo/redo, when
@@ -402,10 +402,21 @@ dojo.declare(
 						}
 					}
 				}else{//w3c range
-					r=dijit.range.create(this.window);
-					r.setStart(dijit.range.getNode(mark.startContainer,this.editNode),mark.startOffset);
-					r.setEnd(dijit.range.getNode(mark.endContainer,this.editNode),mark.endOffset);
-					dojo.withGlobal(this.window,'moveToBookmark',dijit,[{mark: r, isCollapsed: col}]);
+					sel = dijit.range.getSelection(this.window);
+					if(sel && sel.removeAllRanges){
+						sel.removeAllRanges();
+						r = dijit.range.create(this.window);
+						sNode = dijit.range.getNode(mark.startContainer,this.editNode);
+						eNode = dijit.range.getNode(mark.endContainer,this.editNode);
+						if(sNode && eNode){
+							// Okay, we believe we found the position, so add it into the selection
+							// There are cases where it may not be found, particularly in undo/redo, when
+							// formatting as been done and so on, so don't restore selection then.
+							r.setStart(sNode,mark.startOffset);
+							r.setEnd(eNode,mark.endOffset);
+							sel.addRange(r);
+						}
+					}
 				}
 			}
 		},
@@ -476,7 +487,7 @@ dojo.declare(
 			//		protected
 			var b=dojo.withGlobal(this.window,dijit.getBookmark);
 			var tmp=[];
-			if(b.mark){
+			if(b && b.mark){
 				var mark = b.mark;
 				if(dojo.isIE){
 					// Try to use the pseudo range API on IE for better accuracy.
