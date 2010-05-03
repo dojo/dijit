@@ -102,6 +102,10 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}
 		//this.contentDomPostFilters.push(this._postDomFixUrlAttributes);
 
+		if(params && dojo.isString(params.value)){
+			this.value = params.value;
+		}
+
 		this.onLoadDeferred = new dojo.Deferred();
 	},
 
@@ -318,7 +322,14 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		// initialize the editor.
 		var html;
 
-		if(dn.nodeName && dn.nodeName.toLowerCase() == "textarea"){
+		if(dojo.isString(this.value)){
+			// Allow setting the editor content programmatically instead of
+			// relying on the initial content being contained within the target
+			// domNode.
+			html = this.value;
+			delete this.value;
+			dn.innerHTML = "";
+		}else if(dn.nodeName && dn.nodeName.toLowerCase() == "textarea"){
 			// if we were created from a textarea, then we need to create a
 			// new editing harness node.
 			var ta = (this.textarea = dn);
