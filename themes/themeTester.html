@@ -349,6 +349,13 @@
 				<div dojoType="dijit.Menu" id="themeMenu">
 				</div>
 			</div>
+			<div dojoType="dijit.PopupMenuBarItem" id="dialogs">
+				<span>Dialogs</span>
+				<div dojoType="dijit.Menu" id="dialogMenu">
+					<div dojoType="dijit.MenuItem" onClick="dijit.byId('dialog1').show();">loading animation</div>
+					<div dojoType="dijit.MenuItem" onClick="dijit.byId('dialogAB').show();">action bar</div>
+				</div>
+			</div>
 			<div dojoType="dijit.PopupMenuBarItem" id="help">
 				<span>Help</span>
 				<div dojoType="dijit.Menu" id="helpMenu">
@@ -419,7 +426,8 @@
 
 				<h2>Dialogs</h2>
 				<ul>
-					<li><a href="#" onclick="dijit.byId('dialog1').show()">show Modal Dialog</a></li>
+					<li><a href="#" onclick="dijit.byId('dialog1').show()">modal dialog w/loading animation</a></li>
+					<li><a href="#" onclick="dijit.byId('dialogAB').show()">modal dialog w/action bar</a></li>
 				</ul>
 
 				<div dojoType="dijit.form.DropDownButton">
@@ -705,10 +713,12 @@
 			<div id="textboxTab" dojoType="dijit.layout.ContentPane" title="Text Input Widgets" style="padding:10px;display:none;">
 
 				<h2>dijit.form.DateTextBox</h2>
-				<label for="date1">Enabled:</label>
-				<input id="date1" name="date1" type="text" dojoType="dijit.form.DateTextBox" value="2008-12-25">
-				<label for="date2">Disabled:</label>
-				<input id="date2" name="date2" type="text" dojoType="dijit.form.DateTextBox" value="2008-12-25" disabled="disabled">
+				<label for="date1">Enabled w/placeHolder:</label>
+				<input id="date1" name="date1" type="text" dojoType="dijit.form.DateTextBox" placeHolder="Birthday">
+				<label for="date2">Disabled w/placeHolder:</label>
+				<input id="date2" name="date2" type="text" dojoType="dijit.form.DateTextBox" placeHolder="Birthday" disabled="disabled">
+				<label for="date2">Disabled w/value:</label>
+				<input id="date3" name="date3" type="text" dojoType="dijit.form.DateTextBox" value="2008-12-25" disabled="disabled">
 
 				<h2>dijit.form.TimeTextBox</h2>
 				<label for="time1">Enabled:</label>
@@ -767,22 +777,31 @@
 
 				<hr class="spacer">
 
-				<h2>dijit.form.ComboBox</h2>
-				<label for="datatestComboBox">Enabled: </label>
-				<input dojoType="dijit.form.ComboBox"
-					value="California"
+				<h2>dijit.form.FilteringSelect</h2>
+				<label for="filteringSelect">Enabled w/placeHolder: </label>
+				<input dojoType="dijit.form.FilteringSelect"
+					placeHolder="State"
 					store="stateStore"
 					searchAttr="name"
 					name="state2"
-					id="datatestComboBox"
+					id="filteringSelect"
 				>
-				<label for="datatestComboBox2">Disabled: </label>
-				<input dojoType="dijit.form.ComboBox"
-					value="California"
+				<label for="filteringSelect2">Disabled w/placeHolder: </label>
+				<input dojoType="dijit.form.FilteringSelect"
+					placeHolder="State"
 					store="stateStore"
 					searchAttr="name"
 					name="state2"
-					id="datatestComboBox2"
+					id="filteringSelect2"
+					disabled
+				>
+				<label for="filteringSelect3">Disabled w/value: </label>
+				<input dojoType="dijit.form.FilteringSelect"
+					value="California"
+					store="stateStore"
+					searchAttr="name"
+					name="state3"
+					id="filteringSelect3"
 					disabled
 				>
 
@@ -1126,8 +1145,33 @@
 
 	<!-- dialog in body -->
 	<div id="dialog1" dojoType="dijit.Dialog"
-		title="Floating Modal Dialog" style="display:none;"
-		href="../tests/layout/doc0.html"></div>
+		title="Floating Modal Dialog from href" style="display:none; width: 400px;"
+		href="../tests/layout/getResponse.php?delay=3000&messId=3" refreshOnShow="true"></div>
+	<div id="dialogAB" dojoType="dijit.Dialog"
+		title="Floating Modal Dialog" style="display:none;">
+		<div class="dijitDialogPaneContentArea">
+			<table>
+				<tr>
+					<td><label for="name">Name: </label></td>
+					<td><input dojoType=dijit.form.TextBox type="text" name="name" id="name"></td>
+				</tr>
+				<tr>
+					<td><label for="loc">Location: </label></td>
+					<td><input dojoType=dijit.form.TextBox type="text" name="loc" id="loc"></td>
+				</tr>
+				<tr>
+					<td><label for="date">Date: </label></td>
+					<td><input dojoType=dijit.form.DateTextBox type="text" name="date" id="date"></td>
+				</tr>
+			</table>
+		</div>
+		
+		
+		<div class="dijitDialogPaneActionBar">
+			<button dojoType="dijit.form.Button" type="submit" id="ABdialog1button1">OK</button>
+			<button dojoType="dijit.form.Button" type="submit" id="ABdialog1button2">Cancel</button>
+		</div>
+	</div>
 
 </body>
 </html>
