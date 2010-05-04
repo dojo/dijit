@@ -15,11 +15,6 @@
 	background: #fff url("../images/buttonEnabled.png") repeat-x bottom left;
 }
 
-.tundra .dijitButtonNode button {
-	border: 0px;
-	background-color: transparent;
-}
-
 .tundra .dijitButtonText {
 	text-align: center;
 	padding: 0 0.3em;
