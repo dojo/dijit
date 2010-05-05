@@ -6,7 +6,10 @@
 	overflow: hidden;
 	position: relative;
 	width: auto;
-	padding: 0 2px;
+	padding: 1px 2px;
+}
+.dj_ie6 .claro .dijitSpinnerButtonContainer {
+	padding: 0 2px 2px; /* rendering workaround */
 }
 
 /* button */
@@ -18,6 +21,12 @@
 	background-position:0px 0px;
 	background-repeat:repeat-x;
 	overflow: hidden;
+}
+.dj_iequirks .claro .dijitSpinner .dijitArrowButton {
+	overflow: visible; /* 0 height w/o this */
+}
+.dj_ie6 .claro .dijitSpinner .dijitArrowButton {
+	padding-bottom: 1px; /* needed in a11y sizing to account for the border sizing */
 }
 
 .claro .dijitSpinner .dijitSpinnerButtonInner {
@@ -40,6 +49,9 @@
 	display: block;
 	margin: -1px 0px -1px 0px;	/* compensate for inner border */
 	#margin-top: 0; /* since its bottom aligned */
+}
+.dj_iequirks .claro .dijitSpinner .dijitArrowButtonInner {
+	width: 19px;
 }
 .claro .dijitSpinner .dijitDownArrowButton .dijitArrowButtonInner {
 	background-position:-34px;

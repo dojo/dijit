@@ -64,6 +64,9 @@
 	#line-height: 100%; /* IE7 (and somewhat an IE6) problem where the icon is not centered vertically w/o this */
 	#overflow: hidden; /* IE6 combobox button won't go to the bottom w/o this */
 }
+.dj_iequirks .dijitTextBox INPUT {
+	line-height: normal; /* makes the heights a little taller than 100% */
+}
 .dijitTextBox .dijitSpinnerButtonContainer,
 .dijitTextBox .dijitArrowButtonContainer,
 .dijitTextBox .dijitValidationContainer {
@@ -411,7 +414,7 @@ DIV.dijitArrowButton {
 	text-indent: -1em !important;
 	direction: ltr !important;
 	text-align: left !important;
-	height: auto !important;
+	height: 100% !important; /* 100% and not auto needed for IE+quirks */
 	#text-indent: 0 !important;
 	#letter-spacing: -5em !important;
 	#text-align: right !important;
@@ -433,7 +436,7 @@ DIV.dijitArrowButton {
 .dijitSpinner .dijitSpinnerButtonContainer,
 .dijitComboBox .dijitArrowButtonContainer {
 	/* dividing line between input area and up/down button(s) for ComboBox and Spinner */
-	border-width: 0 0 0 1px !important;
+	border-width: 0 0 0 1px !important; /* !important needed due to wayward ".theme .dijitButtonNode" rules */
 }
 .dijitSpinner .dijitSpinnerButtonContainer .dijitButtonNode {
 	/* dividing line between input area and up/down button(s) for ComboBox and Spinner */

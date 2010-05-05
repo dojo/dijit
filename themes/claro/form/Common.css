@@ -13,8 +13,8 @@
 	width: 9px;
 }
 .claro .dijitTextBoxError .dijitValidationIcon {
-	width: 1px;
-	visibility: hidden;
+	width: 0px;
+	background-color: transparent !important; /* so the INPUT doesn't obscure the border in rtl+a11y */
 }
 
 /* .dijitInputField .dijitPlaceHolder is explicitly listed below because
@@ -108,15 +108,15 @@
 	border: 1px solid #fff;
 }
 
-.claro .dijitComboBox .dijitInputField {
+.claro .dijitTextBox .dijitInputField {
 	padding-top: 1px; /* 1px and not 2px due to 1px padding on the INPUT */
 	padding-bottom: 1px;
 }
-.claro .dijitComboBox .dijitInputInner {
+.claro .dijitTextBox .dijitInputInner {
 	/* left padding helps line up input text with menu text */
 	padding: 1px 2px 1px 0; /* match 1px vertical border on button */
 }
-.claro .dijitComboBox .dijitValidationContainer {
+.claro .dijitTextBox .dijitValidationContainer {
 	padding: 0 0 2px 0; /* match 1px border height in button */
 }
 

@@ -112,7 +112,7 @@
 	margin-top: -1px; /* image has too many blank pixels on top */
 }
 .dj_ie .nihilo .dijitSpinner .dijitUpArrowButton .dijitArrowButtonInner {
-	margin-bottom: -1px; /* image has too many blank pixels on top */
+	margin-top: 1px; /* image has too many blank pixels on top */
 }
 .nihilo .dijitSpinnerButtonContainer {
 	width: auto;

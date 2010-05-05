@@ -105,7 +105,7 @@
 	background-image: url("../images/spriteArrows.gif");
 }
 .dj_ie .soria .dijitSpinner .dijitUpArrowButton .dijitArrowButtonInner {
-	margin-bottom: -1px; /* image has too many blank pixels on top */
+	margin-top: 1px; /* image has too many blank pixels on top */
 }
 .soria .dijitSpinnerButtonContainer {
 	width: auto;
