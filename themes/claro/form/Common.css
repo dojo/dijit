@@ -6,16 +6,15 @@
 
 .claro .dijitTextBoxError .dijitValidationContainer {
 	background-color: #d46363;
-}
-.claro .dijitTextBoxError .dijitValidationIcon {
-	background: transparent url('images/error.png') repeat-y top center;
+	background-image: url('images/error.png');
+	background-position: top center;
 	border: solid #d46464 0px;
 	border-left-width: 1px;
-	width: 4px;
-	padding-top: 2px;
-	padding-bottom: 2px;
-	padding-right: 3px !important;
-	padding-left: 2px !important;
+	width: 9px;
+}
+.claro .dijitTextBoxError .dijitValidationIcon {
+	width: 1px;
+	visibility: hidden;
 }
 
 /* .dijitInputField .dijitPlaceHolder is explicitly listed below because
@@ -97,6 +96,8 @@
 
 /*========================= for special widgets =========================*/
 
+/* ComboBox */
+
 .claro .dijitComboBox .dijitArrowButtonInner {
 	background-image: url("images/commonFormArrows.png");
 	background-position:-35px 53%;
@@ -106,8 +107,6 @@
 	height:100%;
 	border: 1px solid #fff;
 }
-
-/* ComboBox */
 
 .claro .dijitComboBox .dijitInputField {
 	padding-top: 1px; /* 1px and not 2px due to 1px padding on the INPUT */
@@ -166,4 +165,16 @@
 .dj_ie6 .claro .dijitTextBox,
 .dj_ie6 .claro .dijitComboBox .dijitButtonNode {
 	background-image: none;
+}
+
+
+/* In quirks mode strangely all browsers do border-box sizing for input nodes.
+ * Drop the 1px white border around ComboBox arrow to fix misalignment of icon, and to jump on focus.
+ * Note also that these rules are copying what is done on focus.
+ */
+.dj_quirks .claro .dijitComboBox .dijitArrowButtonInner {
+	border: 0px;
+}
+.dj_quirks .claro .dijitComboBox .dijitArrowButtonContainer {
+	padding: 1px;
 }
