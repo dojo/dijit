@@ -1721,9 +1721,6 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .dijit_a11y .dijitTab .tabLabel {
 	display: inline !important;
 }
-.dj_ie7 .dijitButtonNode > BUTTON.dijitButtonContents > * {
-	position: relative; /* workaround for IE7 distorted text on scroll */
-}
 
 /* TextArea, SimpleTextArea */
 .dijitTextArea {
