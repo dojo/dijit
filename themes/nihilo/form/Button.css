@@ -94,6 +94,7 @@
 	background-repeat: no-repeat;
 	background-position: 0px center;
 	width: 11px;
+	height: 11px;
 }
 .nihilo .dijitLeftArrowButton .dijitArrowButtonInner {
 	background-position: -11px center;
