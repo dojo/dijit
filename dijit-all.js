@@ -17,7 +17,10 @@ dojo.require("dijit.Dialog");
 dojo.require("dijit.DialogUnderlay");
 dojo.require("dijit.TooltipDialog");
 
+// Editor
 dojo.require("dijit.Editor");
+dojo.require("dijit._editor.plugins.FontChoice");
+dojo.require("dijit._editor.plugins.LinkDialog");
 
 dojo.require("dijit.Menu");
 dojo.require("dijit.MenuItem");
@@ -45,7 +48,7 @@ dojo.require("dijit.form.ToggleButton");
 dojo.require("dijit.form.CheckBox");
 dojo.require("dijit.form.RadioButton");
 
-// Textbox widgets
+// TextBox widgets
 dojo.require("dijit.form.TextBox");
 dojo.require("dijit.form.ValidationTextBox");
 dojo.require("dijit.form.CurrencyTextBox");
@@ -57,6 +60,7 @@ dojo.require("dijit.form.NumberTextBox");
 dojo.require("dijit.form.ComboBox");
 dojo.require("dijit.form.FilteringSelect");
 dojo.require("dijit.form.MultiSelect");
+dojo.require("dijit.form.Select");
 
 // Slider widgets
 dojo.require("dijit.form.HorizontalSlider");
