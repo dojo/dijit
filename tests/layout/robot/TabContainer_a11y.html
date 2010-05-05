@@ -232,14 +232,14 @@
 								var d = new doh.Deferred();
 								
 								doh.robot.sequence(function(){
-									dojo.byId("dijit_layout_TabContainer_14_tablist_HanselGretel1").focus();
+									dojo.byId("ltabs_tablist_HanselGretel1").focus();
 								}, 500, 500);
 								
 								doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
-								var tc = dijit.byId("dijit_layout_TabContainer_14");
+								var tc = dijit.byId("ltabs");
 								
 								doh.robot.sequence(d.getTestCallback(function(){
-									doh.is('dijit_layout_TabContainer_14_tablist_GreenTwigs1', dojo.global.dijit._curFocus.id, "currently chosen tab");
+									doh.is('ltabs_tablist_GreenTwigs1', dojo.global.dijit._curFocus.id, "currently chosen tab");
 									doh.is("GreenTwigs1", tc.selectedChildWidget.id, "currently displayed pane");
 								}), 500);
 								return d;
@@ -252,10 +252,10 @@
 								var d = new doh.Deferred();
 								
 								doh.robot.keyPress(dojo.keys.UP_ARROW, 500, {});
-								var tc = dijit.byId("dijit_layout_TabContainer_14");
+								var tc = dijit.byId("ltabs");
 								
 								doh.robot.sequence(d.getTestCallback(function(){
-									doh.is('dijit_layout_TabContainer_14_tablist_HanselGretel1', dojo.global.dijit._curFocus.id, "currently chosen tab");
+									doh.is('ltabs_tablist_HanselGretel1', dojo.global.dijit._curFocus.id, "currently chosen tab");
 									doh.is("HanselGretel1", tc.selectedChildWidget.id, "currently chosen pane");
 								}), 500);
 								
