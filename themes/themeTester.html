@@ -5,7 +5,7 @@
 	<title>Dijit Theme Tester</title>
 
 	<!-- required: a default theme -->
-	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/tundra/tundra.css">
+	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/claro/claro.css">
 
 	<style type="text/css">
 		@import "../../dojo/resources/dojo.css";
@@ -149,20 +149,23 @@
 
 		function setTextBoxPadding(){
 			// summary:
-			//		Handler for when a MenuItem is clicked to set/clear non-default padding for
+			//		Handler for when a MenuItem is clicked to set non-default padding for
 			//		TextBox widgets
 
-			// checked tells whether the menu item was val: will be only 0, 5, 10, or "default"
-			var checked = this.get('checked'),
-				val = this.get('label');
+			// Effectively ignore clicks on the  currently checked MenuItem
+			if(!this.get("checked")){
+				this.set("checked", true);
+			}
+
+			// val will be "theme default", "0px", "5px", "10px"
+			var val = this.get("label");
 			
 			// set class on body to get requested padding, and remove any previous class
-			dojo.toggleClass(dojo.body(), "noInputPad", checked && val == 0);
-			dojo.toggleClass(dojo.body(), "fiveInputPad", checked && val == 5);
-			dojo.toggleClass(dojo.body(), "tenInputPad", checked && val == 10);
+			dojo.toggleClass(dojo.body(), "noInputPad", val == "0px");
+			dojo.toggleClass(dojo.body(), "fiveInputPad", val == "5px");
+			dojo.toggleClass(dojo.body(), "tenInputPad", val == "10px");
 
-			// If user checked this MenuItem, uncheck the other two MenuItem's (radio-button effect).
-			// If the user unchecked this MenuItem, no effect
+			// Clear previously checked MenuItem (radio-button effect).
 			dojo.forEach(this.getParent().getChildren(), function(mi){
 				if(mi != this){
 					mi.set("checked", false);
@@ -269,7 +272,7 @@
 		***/
 	</script>
 </head>
-<body class="tundra">
+<body class="claro">
 	<!-- basic preloader: -->
 	<div id="loader"><div id="loaderInner">Loading themeTester ... </div></div>
 
@@ -379,9 +382,10 @@
 			<div dojoType="dijit.PopupMenuBarItem" id="inputPadding">
 				<span>Custom TextBox Padding</span>
 				<div dojoType="dijit.Menu" id="inputPaddingMenu">
-					<div dojoType="dijit.CheckedMenuItem" onClick="setTextBoxPadding">0</div>
-					<div dojoType="dijit.CheckedMenuItem" onClick="setTextBoxPadding">5</div>
-					<div dojoType="dijit.CheckedMenuItem" onClick="setTextBoxPadding">10</div>
+					<div dojoType="dijit.CheckedMenuItem" onClick="setTextBoxPadding" checked>theme default</div>
+					<div dojoType="dijit.CheckedMenuItem" onClick="setTextBoxPadding">0px</div>
+					<div dojoType="dijit.CheckedMenuItem" onClick="setTextBoxPadding">5px</div>
+					<div dojoType="dijit.CheckedMenuItem" onClick="setTextBoxPadding">10px</div>
 				</div>
 			</div>
 			<div dojoType="dijit.PopupMenuBarItem" id="help">
