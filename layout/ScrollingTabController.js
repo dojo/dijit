@@ -76,6 +76,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		if(this.useMenu){
 			var containerId = this.containerId;
 			menuItem = new dijit.MenuItem({
+				id: page.id + "_stcMi",
 				label: page.title,
 				dir: page.dir,
 				lang: page.lang,
