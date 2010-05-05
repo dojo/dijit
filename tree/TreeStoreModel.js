@@ -256,7 +256,7 @@ dojo.declare(
 			if(newParentItem){
 				if(typeof insertIndex == "number"){
 					// call slice() to avoid modifying the original array, confusing the data store
-					var childItems = store.getValues(newParentItem, parentAttr);
+					var childItems = store.getValues(newParentItem, parentAttr).slice();
 					childItems.splice(insertIndex, 0, childItem);
 					store.setValues(newParentItem, parentAttr, childItems);
 				}else{
