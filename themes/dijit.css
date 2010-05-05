@@ -159,7 +159,12 @@
 .dijit_a11y * {
 	background-image:none !important;
 }
-
+.dijit_a11y .dijitIcon {
+	/* dijitIcon is for user icons; since they don't display in high contrast mode,
+	 * hide the node, to avoid it using up space
+	 */
+	display: none;
+}
 .dijit_a11y .dijitCalendarIncrementControl {
 	display: none;	/* don't display icon */
 }
@@ -1810,11 +1815,11 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 }
 
 
-/* Disable the high contrast character */
 .dijitToggleButtonIconChar {
+	/* character (instead of icon) to show that ToggleButton is checked */
 	display:none !important;
 }
-.dijit_a11y .dijitToggleButtonIconChar {
+.dijit_a11y .dijitToggleButton .dijitToggleButtonIconChar {
 	display:inline !important;
 	visibility:hidden;
 }
