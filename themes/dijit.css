@@ -1285,10 +1285,6 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	cursor: default;	/* because clicking will have no effect */
 }
 
-.dijitTabButtonIcon {
-	height: 18px;
-}
-
 .dijitTabContainerTop-tabs .dijitTab {
 	top: 1px;	/* to overlap border on .dijitTabContainerTop-tabs */
 }
