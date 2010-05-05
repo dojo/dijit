@@ -91,7 +91,7 @@ dojo.declare(
 		dojo.style(this.rowNode, this.isLeftToRight() ? "paddingLeft" : "paddingRight", pixels);
 
 		dojo.forEach(this.getChildren(), function(child){
-			child.attr("indent", indent+1);
+			child.set("indent", indent+1);
 		});
 	},
 
@@ -307,7 +307,7 @@ dojo.declare(
 					for(var i=0;i<existingNodes.length;i++){
 						if(existingNodes[i] && !existingNodes[i].getParent()){
 							node = existingNodes[i];
-							node.attr('indent', this.indent+1);
+							node.set('indent', this.indent+1);
 							break;
 						}
 					}
@@ -504,7 +504,7 @@ dojo.declare(
 
 	// selectedItem: [readonly] Item
 	//		The currently selected item in this tree.
-	//		This property can only be set (via attr('selectedItem', ...)) when that item is already
+	//		This property can only be set (via set('selectedItem', ...)) when that item is already
 	//		visible in the tree.   (I.e. the tree has already been expanded to show that node.)
 	//		Should generally use `path` attribute to set the selected item instead.
 	selectedItem: null,
@@ -1437,7 +1437,7 @@ dojo.declare(
 			var label = this.getLabel(item),
 				tooltip = this.getTooltip(item);
 			dojo.forEach(nodes, function(node){
-				node.attr({
+				node.set({
 					item: item,		// theoretically could be new JS Object representing same item
 					label: label,
 					tooltip: tooltip
@@ -1559,7 +1559,7 @@ dojo.declare(
 
 		if(this.tree.rootNode){
 			// If tree has already loaded, then reset indent for all the nodes
-			this.tree.rootNode.attr('indent', this.showRoot ? 0 : -1);
+			this.tree.rootNode.set('indent', this.showRoot ? 0 : -1);
 		}
 	},
 
