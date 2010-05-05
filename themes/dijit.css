@@ -199,12 +199,6 @@
 	direction: ltr; /* needed by IE/RTL */
 }
 
-/* In high contrast mode, display the check symbol */
-.dijit_a11y .dijitToggleButtonChecked .dijitToggleButtonIconChar {
-	display: inline !important;
-}
-
-
 /****
 		3-element borders:  ( dijitLeft + dijitStretch + dijitRight )
  ****/
@@ -251,7 +245,7 @@ td.dijitButtonContents {
 	/*margin-bottom:.2em;*/
 }
 
-TABLE.dijitComboButton {
+TABLE.dijitComboButton { /* TODO: why not add dijitReset class to ComboButton? */
 	/* In ComboButton, borders are on each cell rather than on <table> itself */
 	border-collapse: collapse;
 	border:0;
@@ -313,12 +307,6 @@ TABLE.dijitComboButton {
 		on IE. MSIE is truly the web's boat anchor.
 	*/
 	overflow: visible;
-}
-
-.dijitArrowButton {
-	/* Node that is acting as a arrow button -- drop down.  Also gets dijitButtonNode */
-	/* place AFTER dijitButtonNode so it overrides */
-	padding: 0 .4em;
 }
 
 DIV.dijitArrowButton {
@@ -429,7 +417,7 @@ DIV.dijitArrowButton {
 	padding: 1px 0px;
 }
 
-.dj_ie .dijitToolbar .dijitComboBox{
+.dj_ie .dijitToolbar .dijitComboBox {
 	/* make combobox buttons align porperly with other buttons in a toolbar */
 	vertical-align: middle;
 }
@@ -548,7 +536,7 @@ DIV.dijitArrowButton {
 		dijit.ProgressBar
  ****/
 
-.dijitProgressBarEmpty{
+.dijitProgressBarEmpty {
 	/* outer container and background of the bar that's not finished yet*/
 	position:relative;overflow:hidden;
 	border:1px solid black; 	/* a11y: border necessary for high-contrast mode */
@@ -583,7 +571,7 @@ DIV.dijitArrowButton {
 	background-attachment: fixed;
 }
 
-.dijit_a11y .dijitProgressBarTile{
+.dijit_a11y .dijitProgressBarTile {
 	/* a11y:  The border provides visibility in high-contrast mode */
 	border-width:2px;
 	border-style:solid;
@@ -667,7 +655,7 @@ DIV.dijitArrowButton {
 /* Layout widgets. This is essential CSS to make layout work (it isn't "styling" CSS)
    make sure that the position:absolute in dijitAlign* overrides other classes */
 
-.dijitLayoutContainer{
+.dijitLayoutContainer {
 	position: relative;
 	display: block;
 	overflow: hidden;
@@ -735,7 +723,7 @@ body .dijitAlignClient { position: absolute; }
 	z-index: 11 !important;
 }
 
-.dijitSplitterCover{
+.dijitSplitterCover {
 	position:absolute;
 	z-index:-1;
 	top:0;
@@ -744,12 +732,12 @@ body .dijitAlignClient { position: absolute; }
 	height:100%;
 }
 
-.dijitSplitterCoverActive{
+.dijitSplitterCoverActive {
 	z-index:3 !important;
 }
 
 /* #6945: stop mouse events */
-.dj_ie .dijitSplitterCover{
+.dj_ie .dijitSplitterCover {
 	background: white;
 	filter: alpha(opacity=0);
 }
@@ -766,13 +754,13 @@ body .dijitAlignClient { position: absolute; }
 	border-right:1px;
 	cursor: ew-resize;
 }
-.dijitSplitContainer{
+.dijitSplitContainer {
 	position: relative;
 	overflow: hidden;
 	display: block;
 }
 
-.dijitSplitPane{
+.dijitSplitPane {
 	position: absolute;
 }
 
@@ -1056,7 +1044,7 @@ img.dijitColorPaletteUnder {
 	border-right:hidden;
 }
 
-.dijitMenuItem{
+.dijitMenuItem {
 	text-align: left;
 	white-space: nowrap;
 	padding:.1em .2em;
@@ -1783,12 +1771,10 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 }
 .dijit_a11y .dijitToggleButtonIconChar {
 	display:inline !important;
-}
-
-.dijit_a11y .dijitToggleButtonIconChar {
 	visibility:hidden;
 }
 .dijit_a11y .dijitToggleButtonChecked .dijitToggleButtonIconChar {
+	display: inline !important; /* In high contrast mode, display the check symbol */
 	visibility:visible !important;
 }
 
@@ -1830,6 +1816,7 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .dijitSelect .dijitButtonContents {
 	padding: 0px;
 	background: transparent none;
+	white-space: nowrap;
 }
 .dijitSelectFixedWidth .dijitButtonContents {
 	width: 100%;
@@ -1866,10 +1853,6 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 }
 
 /* Style the different areas of the button to look like a "real" dropdown */
-.dijitSelect .dijitButtonContents {
-	white-space: nowrap;
-}
-
 /* Remove margins on the sub-table */
 .dijitSelectMenu .dijitMenuTable {
 	margin: 0px;

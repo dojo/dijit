@@ -11,15 +11,11 @@
  ****/
 
 .soria .dijitInputField INPUT,
-.soria .dijitTextBox,
-.soria .dijitComboBox,
-.soria .dijitSpinner {
+.soria .dijitTextBox {
 	margin: 0em 0.1em;
 }
 
 .soria .dijitTextBox,
-.soria .dijitComboBox,
-.soria .dijitSpinner,
 .soria .dijitTextArea {
 	/* 	For all except dijit.form.NumberSpinner:  the actual input element.
 		For TextBox, ComboBox, Spinner: the table that contains the input.
@@ -32,25 +28,19 @@
 }
 
 .soria .dijitComboBox .dijitButtonNode {
-	padding-left: 0.2em;
-	padding-right: 0.2em;
+	padding: 0 0.2em;
 }
-.soria .dijitComboBox .dijitButtonNode,
-.soria .dijitSpinner .dijitButtonNode {
+.soria .dijitTextBox .dijitButtonNode {
 	/* line between the input area and the drop down button */
 	border-color: #8ba0bd;
-	border-left: 1px solid #8ba0bd;
 }
 
 .soria .dijitTextBoxFocused,
-.soria .dijitComboBoxFocused,
-.soria .dijitSpinnerFocused,
 .soria .dijitTextAreaFocused {
 	/* input field when focused (ie: typing affects it) */
 	border-color:#406b9b;
 }
-.soria .dijitComboBoxFocused .dijitButtonNode,
-.soria .dijitSpinnerFocused .dijitButtonNode,
+.soria .dijitTextBoxFocused .dijitButtonNode,
 .soria .dijitSpinner .dijitUpArrowButtonActive,
 .soria .dijitSpinner .dijitDownArrowButtonActive {
 	border-left-color:#8ba0bd;

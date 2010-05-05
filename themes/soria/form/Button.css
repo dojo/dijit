@@ -4,11 +4,11 @@
 		dijit.form.DropDownButton
 		dijit.form.ComboButton
 		dijit.form.ComboBox (partial)
+		dijit.form.Spinner (partial) (TODO: create NumberSpinner.css file like claro has)
  *****/
 
 .soria .dijitButtonNode {
 	/* enabled state - inner */
-	/* border:1px outset #a0a0a0; */
 	border: 1px solid #8ba0bd;
 	border-bottom:1px solid #657c9c;
 	padding: 0.1em 0.2em 0.2em 0.2em;
@@ -35,16 +35,14 @@
 	padding-right:4px;
 }
 
-.soria .dijitComboBoxReadOnly,
-.soria .dijitSpinnerReadOnly,
-.soria .dijitSpinnerReadOnly .dijitButtonNode,
+.soria .dijitTextBoxReadOnly,
+.soria .dijitTextBoxReadOnly .dijitButtonNode,
 .soria .dijitButtonDisabled .dijitButtonNode,
 .soria .dijitToggleButtonDisabled .dijitButtonNode,
 .soria .dijitDropDownButtonDisabled .dijitButtonNode,
 .soria .dijitComboButtonDisabled .dijitButtonNode,
-.soria .dijitComboBoxDisabled,
-.soria .dijitSpinnerDisabled,
-.soria .dijitSpinnerDisabled .dijitButtonNode {
+.soria .dijitTextBoxDisabled,
+.soria .dijitTextBoxDisabled .dijitButtonNode {
 	/* disabled state - inner */
 	border-color: #b9bbdd #b9bbdd #b9bbdd #b9bbdd;
 	background:#c3d3e5 url("../images/buttonDisabled.png") top repeat-x;

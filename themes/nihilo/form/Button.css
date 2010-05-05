@@ -4,6 +4,7 @@
 		dijit.form.DropDownButton
 		dijit.form.ComboButton
 		dijit.form.ComboBox (partial)
+		dijit.form.Spinner (partial) (TODO: create NumberSpinner.css file like claro has)
  *****/
 
 .nihilo .dijitButtonNode {
@@ -14,6 +15,7 @@
 	padding: 0.1em 0.2em 0.2em 0.2em;
 	background: #fff url("../images/buttonEnabled.png") repeat-x top left;
 }
+
 .nihilo .dijitSelect .dijitButtonContents {
 	border-right: none;
 }
