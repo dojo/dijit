@@ -1,48 +1,52 @@
 /* NumberSpinner */
 
-/* the namespace is ".claro .dijitSpinner .dijitInputLayoutContainer" */
+/* the namespace is ".claro .dijitSpinner" */
 
 .claro .dijitSpinnerButtonContainer {
-	width: 21px;	/* TODO: can this be replaced by padding? */
 	overflow: hidden;
 	position: relative;
 	height: 100%;
-	padding: 2px 0px;
+	width: auto;
+	padding: 0 2px;
 }
 
 /* button */
 .claro .dijitSpinner .dijitArrowButton {
 	height: 49%;
-	width: 20px;	/* TODO: can this be replaced by padding? */
+	width:auto;
 	background-color: #ebeef4;
 	background-image: url("images/formHighlight.png");
 	background-position:0px 0px;
 	background-repeat:repeat-x;
 	overflow: hidden;
 }
-.dj_ie6 .claro .dijitSpinner .dijitArrowButton {
-	/* TODO: doublecheck how badly this is needed */
-	width: 19px;
-}
 
+.claro .dijitSpinner .dijitSpinnerButtonInner {
+	width: 15px;
+}
 /* up & down button icons */
 .claro .dijitSpinner .dijitArrowButtonInner {
 	border:solid 1px #fff;
 	background-image: url("images/commonFormArrows.png");
 	background-repeat: no-repeat;
 	height: 100%;
+	width:15px;
+	padding-left: 1px;
+	padding-right: 1px;
 
 	/* for up arrow */
-	background-position:-139px 50%;
+	background-position:-139px center;
 
 	/* override button.css (TODO: move to Common.css since ComboBox needs this too) */
 	display: block;
-	width: auto;
 	margin: -1px 0px -1px 0px;	/* compensate for inner border */
-	padding:0;
+	#margin-top: 0; /* since its bottom aligned */
 }
 .claro .dijitSpinner .dijitDownArrowButton .dijitArrowButtonInner {
 	background-position:-34px;
+}
+.claro .dijitSpinner .dijitArrowButtonInner .dijitInputField {
+	padding: 0;
 }
 
 /** hover & focused status **/
@@ -81,7 +85,8 @@
 	/* hide inner border while button is depressed */
 	border: 0px;
 	padding: 1px;
-	margin:-1px 1px 1px 0px;
+	margin-right:2px;
+	margin-bottom:1px;
 }
 .claro .dijitSpinner .dijitUpArrowButtonActive .dijitArrowButtonInner {
 	background-position:-173px;
@@ -102,24 +107,7 @@
 	background-position:1px;
 }
 
-/* input field */
-.claro .dijitSpinner input {
-	display:block;
-}
-
 /** hacks for browsers **/
-
-.dj_ie .claro .dijitSpinner .dijitInputField {
-	padding: 0 0;
-	vertical-align: middle;
-}
-.dj_ie .claro .dijitSpinner input {
-	padding: 2px 2px;
-}
-
-.dj_ie6 .claro .dijitSpinner input {
-	padding: 2px 0;
-}
 
 /* for IE 7, when div is enlarged, 
  * should be no empty space between dijitInputLayoutContainer and dijitSpinner*/

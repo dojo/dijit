@@ -49,7 +49,11 @@ dojo.declare(
 			this.placeHolder = v;
 			if(!this._phspan){
 				this._attachPoints.push('_phspan');
-				this._phspan = dojo.create('span',{className:'dijitPlaceHolder'},this.textbox,'after');
+				/* dijitInputField class gives placeHolder same padding as the input field
+				 * parent node already has dijitInputField class but it doesn't affect this <span>
+				 * since it's position: absolute.
+				 */
+				this._phspan = dojo.create('span',{className:'dijitPlaceHolder dijitInputField'},this.textbox,'after');
 			}
 			this._phspan.innerHTML="";
 			this._phspan.appendChild(document.createTextNode(v));
@@ -222,11 +226,16 @@ dojo.declare(
 			// setting the value here is needed since value="" in the template causes "undefined"
 			// and setting in the DOM (instead of the JS object) helps with form reset actions
 			if(dojo.isIE){ // IE INPUT tag fontFamily has to be set directly using STYLE
-				var s = dojo.getComputedStyle(this.focusNode);
+				var s = dojo.getComputedStyle(this.domNode);
 				if(s){
 					var ff = s.fontFamily;
 					if(ff){
-						this.focusNode.style.fontFamily = ff;
+						var inputs = this.domNode.getElementsByTagName("INPUT");
+						if(inputs){
+							for(var i=0; i < inputs.length; i++){
+								inputs[i].style.fontFamily = ff;
+							}
+						}
 					}
 				}
 			}

@@ -23,10 +23,6 @@
 	padding: 0 0.3em;
 }
 
-.soria .dijitComboBox .dijitButtonNode {
-	border-width: 0px 0px 0px 1px;
-}
-
 .soria .dijitArrowButton {
 	color: #111;
 }
@@ -92,6 +88,9 @@
 	background-position: 0px center;
 	width: 11px;
 }
+.soria .dijitComboBox .dijitArrowButtonInner {
+        background-position: 0 center;
+}
 .soria .dijitLeftArrowButton .dijitArrowButtonInner {
 	background-position: -11px center;
 }
@@ -103,4 +102,20 @@
 }
 .dj_ie6 .soria .dijitArrowButtonInner {
 	background-image: url("../images/spriteArrows.gif");
+}
+.dj_ie .soria .dijitSpinner .dijitUpArrowButton .dijitArrowButtonInner {
+	margin-bottom: -1px; /* image has too many blank pixels on top */
+}
+.soria .dijitSpinnerButtonContainer {
+	width: auto;
+	padding: 0;
+}
+.soria .dijitSpinner .dijitArrowButton {
+	width: 15px;
+}
+.soria .dijitSpinner .dijitSpinnerButtonInner {
+	width: 15px;
+}
+.soria .dijitSpinner .dijitArrowButtonInner .dijitInputField {
+	padding: 0;
 }

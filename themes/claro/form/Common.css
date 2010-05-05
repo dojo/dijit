@@ -4,25 +4,31 @@
 
 /* 'dijitTextBox' refers to 'dijit(TextBox|DateTextBox|CurrencyTextBox|...)' */
 
+.claro .dijitTextBoxError .dijitValidationContainer {
+	background-color: #d46363;
+}
 .claro .dijitTextBoxError .dijitValidationIcon {
-	display: block;
 	background: transparent url('images/error.png') repeat-y top center;
 	border: solid #d46464 0px;
 	border-left-width: 1px;
 	width: 4px;
-	padding: 2px 3px 2px 2px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-right: 3px !important;
+	padding-left: 2px !important;
 }
 
 /* .dijitInputField .dijitPlaceHolder is explicitly listed below because
    dijitPlaceHolder is absolutely positioned, so padding set on dijitInputField
    won't affect it */
-.claro .dijitInputField,
+.claro .dijitTextBox .dijitInputContainer,
 .claro .dijitTextArea,
 .claro .dijitInputField .dijitPlaceHolder {
-	padding: 2px 2px 2px 2px;
+	padding: 2px;
 }
-.dj_ie .claro .dijitInputField {
-	padding-left: 4px;
+.claro .dijitTextBox .dijitInputField {
+	padding-top: 2px;
+	padding-bottom: 2px;
 }
 
 .claro .dijitTextBox,
@@ -54,9 +60,8 @@
 	border-color: #d46464;
 }
 .claro .dijitTextBoxError,
-.claro .dijitTextBoxError .dijitInputField {
+.claro .dijitTextBoxError .dijitInputContainer {
 	background-color: #fdf7f7;
-	background-image: none;
 }
 
 /* focused state */
@@ -70,7 +75,7 @@
 	background-image: url('images/textBox_back.png');
 	background-repeat: repeat-x;
 }
-.claro .dijitTextBoxFocused .dijitInputField {
+.claro .dijitTextBoxFocused .dijitInputContainer {
 	background: #fff;
 }
 
@@ -97,21 +102,23 @@
 	background-position:-35px 53%;
 	background-repeat: no-repeat;
 	margin: 0px;
-	padding:1px 0px;
 	width:16px;
 	height:100%;
 	border: 1px solid #fff;
-	display:block;
 }
 
 /* ComboBox */
 
-.claro .dijitComboBox input{
-	/* line up input text with menu text */
-	padding-left: 2px;
+.claro .dijitComboBox .dijitInputField {
+	padding-top: 1px; /* 1px and not 2px due to 1px padding on the INPUT */
+	padding-bottom: 1px;
 }
-.dj_ie .claro .dijitComboBox input{
-    padding: 0px;
+.claro .dijitComboBox .dijitInputInner {
+	/* left padding helps line up input text with menu text */
+	padding: 1px 2px 1px 0; /* match 1px vertical border on button */
+}
+.claro .dijitComboBox .dijitValidationContainer {
+	padding: 0 0 2px 0; /* match 1px border height in button */
 }
 
 .claro .dijitComboBox .dijitButtonNode {
@@ -132,11 +139,11 @@
 .claro .dijitComboBoxFocused .dijitButtonNode {
 	background-color:#7dbefa;
 	background-position:0px -177px;
+	padding: 1px;
 }	
 .claro .dijitComboBoxFocused .dijitArrowButtonInner {
 	background-position:-70px 53%;
-	border:none;
-	margin:1px;
+	border: 0px none;
 }
 
 /* disabled state */
@@ -155,18 +162,8 @@
 	width: 0;
 }
 
-/* ie */
-.dj_ie .claro .dijitInputField input {
-	margin: 0 0 0 0;	/* override dijit.css */
-}
-
 /* ie6 doesn't support transparent background img */
 .dj_ie6 .claro .dijitTextBox,
-.dj_ie6 .claro .dijitComboBox,
 .dj_ie6 .claro .dijitComboBox .dijitButtonNode {
 	background-image: none;
-}
-.dj_ie6 .claro .dijitComboBoxFocused .dijitArrowButtonInner {
-	border: none;
-	margin: 1px; 
 }

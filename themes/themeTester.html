@@ -40,18 +40,15 @@
 
 		hr.spacer { border:0; background-color:#ededed; width:80%; height:1px; }
 
-		/* for custom menu buttons, do not appear to have any effect */
-		.myCustomTheme .dijitButtonNode {
-			border:1px solid #000;
-			vertical-align: middle;
-			padding: 0.2em 0.2em;
-			background: url("themeTesterImages/blackButtonEnabled.gif") repeat-x bottom left #474747;
-			color: blue;
+		/* rules used to test custom setting of TextBox padding */
+		.noInputPad .dijitInputField {
+			padding: 0px !important;
 		}
-
-		.myCustomTheme .dijitButtonHover .dijitButtonNode,
-		.myCustomTheme .dijitToggleButtonHover .dijitButtonNode {
-			background: url("themeTesterImages/blackButtonHover.gif") repeat-x bottom left #3b3b3b !important;
+		.fiveInputPad .dijitInputField {
+			padding: 5px !important;
+		}
+		.tenInputPad .dijitInputField {
+			padding: 10px !important;
 		}
 	</style>
 
@@ -101,7 +98,7 @@
 		// dnd:
 		dojo.require("dojo.dnd.Source");
 
-		// various Form elemetns
+		// various Form elements
 		dojo.require("dijit.form.CheckBox");
 		dojo.require("dijit.form.Textarea");
 		dojo.require("dijit.form.SimpleTextarea");
@@ -148,6 +145,29 @@
 		// for the calendar
 		function myHandler(id,newValue){
 			console.debug("onChange for id = " + id + ", value: " + newValue);
+		}
+
+		function setTextBoxPadding(){
+			// summary:
+			//		Handler for when a MenuItem is clicked to set/clear non-default padding for
+			//		TextBox widgets
+
+			// checked tells whether the menu item was val: will be only 0, 5, 10, or "default"
+			var checked = this.get('checked'),
+				val = this.get('label');
+			
+			// set class on body to get requested padding, and remove any previous class
+			dojo.toggleClass(dojo.body(), "noInputPad", checked && val == 0);
+			dojo.toggleClass(dojo.body(), "fiveInputPad", checked && val == 5);
+			dojo.toggleClass(dojo.body(), "tenInputPad", checked && val == 10);
+
+			// If user checked this MenuItem, uncheck the other two MenuItem's (radio-button effect).
+			// If the user unchecked this MenuItem, no effect
+			dojo.forEach(this.getParent().getChildren(), function(mi){
+				if(mi != this){
+					mi.set("checked", false);
+				}
+			}, this);
 		}
 
 		dojo.addOnLoad(function() {
@@ -354,6 +374,14 @@
 				<div dojoType="dijit.Menu" id="dialogMenu">
 					<div dojoType="dijit.MenuItem" onClick="dijit.byId('dialog1').show();">loading animation</div>
 					<div dojoType="dijit.MenuItem" onClick="dijit.byId('dialogAB').show();">action bar</div>
+				</div>
+			</div>
+			<div dojoType="dijit.PopupMenuBarItem" id="inputPadding">
+				<span>Custom TextBox Padding</span>
+				<div dojoType="dijit.Menu" id="inputPaddingMenu">
+					<div dojoType="dijit.CheckedMenuItem" onClick="setTextBoxPadding">0</div>
+					<div dojoType="dijit.CheckedMenuItem" onClick="setTextBoxPadding">5</div>
+					<div dojoType="dijit.CheckedMenuItem" onClick="setTextBoxPadding">10</div>
 				</div>
 			</div>
 			<div dojoType="dijit.PopupMenuBarItem" id="help">

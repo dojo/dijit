@@ -10,16 +10,12 @@
 		dijit.form.ComboBox (partial)
  ****/
 
-.nihilo .dijitInputField INPUT,
-.nihilo .dijitTextBox,
-.nihilo .dijitComboBox,
-.nihilo .dijitSpinner {
+.nihilo .dijitInputContainer INPUT,
+.nihilo .dijitTextBox {
 	margin: 0em 0.1em;
 }
 
 .nihilo .dijitTextBox,
-.nihilo .dijitComboBox,
-.nihilo .dijitSpinner,
 .nihilo .dijitTextArea {
 	/* 	For all except dijit.form.NumberSpinner:  the actual input element.
 		For TextBox, ComboBox, Spinner: the table that contains the input.
@@ -32,25 +28,19 @@
 }
 
 .nihilo .dijitComboBox .dijitButtonNode {
-	padding-left: 0.2em;
-	padding-right: 0.2em;
+	padding: 0 0.2em !important;
 }
-.nihilo .dijitComboBox .dijitButtonNode,
-.nihilo .dijitSpinner .dijitButtonNode {
+.nihilo .dijitTextBox .dijitButtonNode {
 	/* line between the input area and the drop down button */
 	border-color: #d3d3d3;
-	border-left: 1px solid #d3d3d3;
 }
 
 .nihilo .dijitTextBoxFocused,
-.nihilo .dijitComboBoxFocused,
-.nihilo .dijitSpinnerFocused,
 .nihilo .dijitTextAreaFocused {
 	/* input field when focused (ie: typing affects it) */
 	border-color:#b3b3b3;
 }
-.nihilo .dijitComboBoxFocused .dijitButtonNode,
-.nihilo .dijitSpinnerFocused .dijitButtonNode,
+.nihilo .dijitTextBoxFocused .dijitButtonNode,
 .nihilo .dijitSpinner .dijitUpArrowButtonActive,
 .nihilo .dijitSpinner .dijitDownArrowButtonActive {
 	border-left-color:#d3d3d3;
@@ -66,18 +56,10 @@
 	background-color:#f9f7ba;
 	background-image:none;
 }
-.dj_ie6 .nihilo .dijitError INPUT {
-	/* background-color: transparent on an <input> doesn't work on IE6 */
-	background-color:#f9f7ba !important;
-}
 
 .nihilo .dijitErrorFocused {
 	background-color:#ff6;
 	background-image:none;
-}
-.dj_ie6 .nihilo .dijitErrorFocused INPUT {
-	/* background-color: transparent on an <input> doesn't work on IE6 */
-	background-color:#ff6 !important;
 }
 
 /* Validation errors  */

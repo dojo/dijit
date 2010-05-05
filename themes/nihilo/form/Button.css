@@ -107,3 +107,22 @@
 .dj_ie6 .nihilo .dijitArrowButtonInner {
 	background-image: url("../images/spriteArrows.gif");
 }
+.dj_webkit .nihilo .dijitSpinner .dijitUpArrowButton .dijitArrowButtonInner {
+	margin-top: -1px; /* image has too many blank pixels on top */
+}
+.dj_ie .nihilo .dijitSpinner .dijitUpArrowButton .dijitArrowButtonInner {
+	margin-bottom: -1px; /* image has too many blank pixels on top */
+}
+.nihilo .dijitSpinnerButtonContainer {
+	width: auto;
+	padding: 0;
+}
+.nihilo .dijitSpinner .dijitArrowButton {
+	width: 15px;
+}
+.nihilo .dijitSpinner .dijitSpinnerButtonInner {
+	width: 15px;
+}
+.nihilo .dijitSpinner .dijitArrowButtonInner .dijitInputField {
+	padding: 0;
+}

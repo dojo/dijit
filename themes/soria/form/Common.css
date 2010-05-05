@@ -10,7 +10,7 @@
 		dijit.form.ComboBox (partial)
  ****/
 
-.soria .dijitInputField INPUT,
+.soria .dijitInputContainer INPUT,
 .soria .dijitTextBox {
 	margin: 0em 0.1em;
 }
@@ -56,18 +56,10 @@
 	background-color:#f9f7ba;
 	background-image:none;
 }
-.dj_ie6 .soria .dijitError INPUT {
-	/* background-color: transparent on an <input> doesn't work on IE6 */
-	background-color:#f9f7ba !important;
-}
 
 .soria .dijitErrorFocused {
 	background-color:#ff6;
 	background-image:none;
-}
-.dj_ie6 .soria .dijitErrorFocused INPUT {
-	/* background-color: transparent on an <input> doesn't work on IE6 */
-	background-color:#ff6 !important;
 }
 
 /* Validation errors  */

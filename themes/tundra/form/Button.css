@@ -14,7 +14,6 @@
 	padding: 0.1em 0.2em 0.2em 0.2em;
 	background: #fff url("../images/buttonEnabled.png") repeat-x bottom left;
 }
-
 .tundra .dijitButtonText {
 	text-align: center;
 	padding: 0 0.3em;
@@ -82,10 +81,10 @@
 .tundra .dijitArrowButtonInner {
 	background:url("../images/spriteArrows.png") no-repeat scroll 0px center;
 	width: 7px;
-	margin: 0px 5px 0px 4px;
+	margin: 0px 4px 0px 4px;
 }
-.dijitRtl .tundra .dijitArrowButtonInner {
-	margin: 0px 4px 0px 5px;
+.tundra .dijitTextBox .dijitArrowButtonInner {
+	background-position: 0 center;
 }
 .dj_ie6 .tundra .dijitArrowButtonInner {
 	background-image:url("../images/spriteArrows.gif");
@@ -112,17 +111,25 @@
 .tundra .dijitDisabled .dijitUpArrowButton .dijitArrowButtonInner {
 	background-position: -49px center;
 }
-
-
-/* Since ComboBox doesn't have it's own file... */
-.tundra .dijitComboBox .dijitArrowButton .dijitArrowButtonInner {
-	height: auto;
-	font-size: 100%;
-	font-size: inherit;
+.dj_webkit .tundra .dijitSpinner .dijitUpArrowButton .dijitArrowButtonInner {
+	margin-top: -1px; /* image has too many blank pixels on top */
 }
-
-/* Since Spinner doesn't have it's own file */
-.tundra .dijitSpinner .dijitDownArrowButton .dijitArrowButtonInner {
-	#margin-top: -2px;
-	#margin-bottom: 2px;
+.dj_ie .tundra .dijitSpinner .dijitDownArrowButton .dijitArrowButtonInner {
+	margin-top: -2px; /* image has too many blank pixels on top */
+}
+.dj_ie8 .tundra .dijitSpinner .dijitDownArrowButton .dijitArrowButtonInner {
+	margin-top: -1px; /* image has too many blank pixels on top */
+}
+.tundra .dijitSpinnerButtonContainer {
+	width: auto;
+	padding: 0;
+}
+.tundra .dijitSpinner .dijitArrowButton {
+	width: 15px;
+}
+.tundra .dijitSpinner .dijitSpinnerButtonInner {
+	width: 15px;
+}
+.tundra .dijitSpinner .dijitArrowButtonInner .dijitInputField {
+	padding: 0;
 }

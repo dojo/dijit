@@ -10,7 +10,7 @@
 		dijit.form.ComboBox (partial)
  ****/
 
-.tundra .dijitInputField INPUT,
+.tundra .dijitInputContainer INPUT,
 .tundra .dijitTextBox {
 	margin: 0em 0.1em;
 }
@@ -57,18 +57,10 @@
 	background-color:#f9f7ba;
 	background-image:none;
 }
-.dj_ie6 .tundra .dijitError INPUT {
-	/* background-color: transparent on an <input> doesn't work on IE6 */
-	background-color:#f9f7ba !important;
-}
 
 .tundra .dijitErrorFocused {
 	background-color:#f9f999;
 	background-image:none;
-}
-.dj_ie6 .tundra .dijitErrorFocused INPUT {
-	/* background-color: transparent on an <input> doesn't work on IE6 */
-	background-color:#f9f999 !important;
 }
 
 /* Validation errors  */

@@ -183,7 +183,7 @@
 							"Just one input inside of " + testWidget + " w/name specified");
 						if(!isComboBox){
 							// Filtering select should have two inputs, but the displayed one is hidden
-							doh.is(2, dojo.query("input", dijit.byId("combo3").domNode).length,
+							doh.is(2, dojo.query("input", dijit.byId("combo3").domNode).length-dojo.query("input[readOnly]", dijit.byId("combo3").domNode).length,
 								"Two inputs inside of filteringSelect");
 						}
 
