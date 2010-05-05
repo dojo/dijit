@@ -400,6 +400,9 @@ DIV.dijitArrowButton {
 }
 .dijitError INPUT.dijitValidationInner,
 .dijitTextBox INPUT.dijitArrowButtonInner {
+	/* <input> used to display arrow icon/validation icon, or in arrow character in high contrast mode.
+	 * The css below is a trick to hide the character in non-high-contrast mode
+	 */
 	text-indent: -1em !important;
 	direction: ltr !important;
 	text-align: left !important;
@@ -410,7 +413,7 @@ DIV.dijitArrowButton {
 }
 .dijit_a11y INPUT.dijitValidationInner,
 .dijit_a11y INPUT.dijitArrowButtonInner {
-	/* when there's an error, a11y mode displays a text X, otherwise themes display an icon */
+	/* (in high contrast mode) revert rules from above so character displays */
 	text-indent: 0 !important;
 	width: 1em !important;
 	#text-align: left !important;
@@ -497,7 +500,7 @@ DIV.dijitArrowButton {
 	border-top-width: 1px !important;
 }
 .dijitSpinner .dijitSpinnerButtonContainer .dijitUpArrowButton {
-	#bottom: 50%;
+	#bottom: 50%;	/* otherwise (on some machines) top arrow icon too close to splitter border (IE6/7) */
 	#margin-bottom: -1px !important; /* same size as the bottom with a border */
 	top: 0;
 }
