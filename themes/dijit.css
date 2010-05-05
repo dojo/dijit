@@ -414,10 +414,14 @@ DIV.dijitArrowButton {
 	text-indent: -1em !important;
 	direction: ltr !important;
 	text-align: left !important;
-	height: 100% !important; /* 100% and not auto needed for IE+quirks */
+	height: auto !important;
 	#text-indent: 0 !important;
 	#letter-spacing: -5em !important;
 	#text-align: right !important;
+}
+.dj_iequirks .dijitError INPUT.dijitValidationInner,
+.dj_iequirks .dijitTextBox INPUT.dijitArrowButtonInner {
+	height: 100% !important; /* 100% and not auto needed for IE+quirks */
 }
 .dijit_a11y INPUT.dijitValidationInner,
 .dijit_a11y INPUT.dijitArrowButtonInner {
