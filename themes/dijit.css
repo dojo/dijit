@@ -63,9 +63,6 @@
 	#line-height: 100%; /* IE7 (and somewhat an IE6) problem where the icon is not centered vertically w/o this */
 	#overflow: hidden; /* IE6 combobox button won't go to the bottom w/o this */
 }
-.dj_iequirks .dijitTextBox INPUT {
-	line-height: normal; /* makes the heights a little taller than 100% */
-}
 .dijitTextBox .dijitSpinnerButtonContainer,
 .dijitTextBox .dijitArrowButtonContainer,
 .dijitTextBox .dijitValidationContainer {
@@ -406,7 +403,7 @@ DIV.dijitArrowButton {
 .dijit_a11y .dijitTextBox INPUT {
 	margin: 0 !important;
 }
-.dijitError INPUT.dijitValidationInner,
+.dijitTextBoxError INPUT.dijitValidationInner,
 .dijitTextBox INPUT.dijitArrowButtonInner {
 	/* <input> used to display arrow icon/validation icon, or in arrow character in high contrast mode.
 	 * The css below is a trick to hide the character in non-high-contrast mode
@@ -419,9 +416,8 @@ DIV.dijitArrowButton {
 	#letter-spacing: -5em !important;
 	#text-align: right !important;
 }
-.dj_iequirks .dijitTextBox INPUT.dijitSpinnerButtonInner,
-.dj_iequirks .dijitError INPUT.dijitValidationInner,
-.dj_iequirks .dijitTextBox INPUT.dijitArrowButtonInner {
+.dj_iequirks .dijitTextBox INPUT {
+	line-height: normal; /* makes the heights a little taller than 100% */
 	height: 100% !important; /* 100% and not auto needed for IE+quirks */
 }
 .dijit_a11y INPUT.dijitValidationInner,
@@ -431,7 +427,7 @@ DIV.dijitArrowButton {
 	width: 1em !important;
 	#text-align: left !important;
 }
-.dijitError .dijitValidationContainer {
+.dijitTextBoxError .dijitValidationContainer {
 	display: inline;
 	cursor: default;
 }
