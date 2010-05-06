@@ -529,6 +529,9 @@ DIV.dijitArrowButton {
 .dijit_a11y .dijitSpinner .dijitSpinnerButtonContainer .dijitArrowButton {
 	width: 100%;
 }
+.dj_iequirks .dijit_a11y .dijitSpinner .dijitSpinnerButtonContainer .dijitArrowButton {
+	width: 1em; /* matches .dijit_a11y .dijitTextBox .dijitSpinnerButtonContainer rule - 100% is the whole screen width in quirks */
+}
 .dijit_a11y .dijitSpinner .dijitArrowButton .dijitArrowButtonChar {
 	font-size: 0.5em;
 	vertical-align:top;
