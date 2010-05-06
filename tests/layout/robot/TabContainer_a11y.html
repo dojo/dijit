@@ -177,7 +177,12 @@
 								
 								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
 								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 750, {});
-								doh.robot.keyPress("w", 750, {ctrl:true});
+								if(dojo.isChrome < 5){
+									// on chrome 4 ctrl+w isn't trapped, and closes the whole browser!
+									doh.robot.keyPress(dojo.keys.DELETE, 750, {});
+								}else{
+									doh.robot.keyPress("w", 750, {ctrl:true});
+								}
 								
 								var tc = dijit.byId("mainTabContainer");
 								doh.robot.sequence(d.getTestCallback(function(){
