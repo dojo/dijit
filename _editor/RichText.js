@@ -868,7 +868,8 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 
 		if(handlers && !e.altKey){
 			dojo.some(handlers, function(h){
-				if(!(h.shift ^ e.shiftKey) && !(h.ctrl ^ e.ctrlKey)){
+				// treat meta- same as ctrl-, for benefit of mac users
+				if(!(h.shift ^ e.shiftKey) && !(h.ctrl ^ (e.ctrlKey||e.metaKey))){
 					if(!h.handler.apply(this, args)){
 						e.preventDefault();
 					}
