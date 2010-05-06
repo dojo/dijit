@@ -100,12 +100,14 @@
 			];
 
 			var createErrors = function(){
+				textbox._hasBeenBlurred = true;
+				textbox.set('value', "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwzyz");
 				validation._hasBeenBlurred = true;
-				validation.set('value', null);
+				validation.set('displayedValue', "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwzyz");
 				combobox._hasBeenBlurred = true;
-				combobox.set('value', null);
+				combobox.set('displayedValue', "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwzyz");
 				spinner._hasBeenBlurred = true;
-				spinner.set('value', null);
+				spinner.set('displayedValue', "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwzyz");
 			};
 
 			doh.register("create normal boxes", {

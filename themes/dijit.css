@@ -415,6 +415,7 @@ DIV.dijitArrowButton {
 	#letter-spacing: -5em !important;
 	#text-align: right !important;
 }
+.dj_iequirks .dijitTextBox INPUT.dijitSpinnerButtonInner,
 .dj_iequirks .dijitError INPUT.dijitValidationInner,
 .dj_iequirks .dijitTextBox INPUT.dijitArrowButtonInner {
 	height: 100% !important; /* 100% and not auto needed for IE+quirks */
