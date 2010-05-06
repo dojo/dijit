@@ -162,11 +162,15 @@
 	background-image:none !important;
 }
 .dijit_a11y .dijitIcon,
-.dijit_a11y .dijitArrowButtonInner,
+.dijit_a11y div.dijitArrowButtonInner,
+.dijit_a11y span.dijitArrowButtonInner,
+.dijit_a11y img.dijitArrowButtonInner,
 .dijit_a11y .dijitCalendarIncrementControl {
-	/* hide icon nodes in high contrast mode; when necesary they will be replaced by character equivalents */
+	/* hide icon nodes in high contrast mode; when necesary they will be replaced by character equivalents
+	 * exception for INPUT.dijitArrowButtonInner, because the icon and character are controlled by the same node */
 	display: none;
 }
+
 
 .dijit_a11y .dijitA11ySideArrow {
 	display: inline !important; /* display text instead */
