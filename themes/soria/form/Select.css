@@ -19,6 +19,10 @@
 	padding-top: 0px;
 }
 
+.soria .dijitSelect .dijitArrowButton {
+	padding: 0px 2px;
+}
+
 /* Mirror DropDownButton */
 .soria .dijitSelectDisabled .dijitButtonNode {
     border-color: #b9bbdd #b9bbdd #b9bbdd #b9bbdd;

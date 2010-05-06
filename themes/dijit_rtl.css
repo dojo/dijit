@@ -120,10 +120,3 @@
 	left: auto;
 	right: 0;
 }
-
-/* Select */
-.dijitSelectRtl .dijitButtonNode {
-	text-align: right;
-}
-
-

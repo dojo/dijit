@@ -161,15 +161,13 @@
 .dijit_a11y * {
 	background-image:none !important;
 }
-.dijit_a11y .dijitIcon {
-	/* dijitIcon is for user icons; since they don't display in high contrast mode,
-	 * hide the node, to avoid it using up space
-	 */
+.dijit_a11y .dijitIcon,
+.dijit_a11y .dijitArrowButtonInner,
+.dijit_a11y .dijitCalendarIncrementControl {
+	/* hide icon nodes in high contrast mode; when necesary they will be replaced by character equivalents */
 	display: none;
 }
-.dijit_a11y .dijitCalendarIncrementControl {
-	display: none;	/* don't display icon */
-}
+
 .dijit_a11y .dijitA11ySideArrow {
 	display: inline !important; /* display text instead */
 	cursor: pointer;
@@ -214,10 +212,8 @@
 .dijitButtonNode * {
 	vertical-align: middle;
 }
-.dijit_a11y .dijitArrowButtonInner {
-	width: 1em !important;
-}
 .dijitButtonNode .dijitArrowButtonInner {
+	/* the arrow icon node */
 	background: no-repeat center;
 	width: 12px;
 	height: 12px;
@@ -225,7 +221,8 @@
 }
 
 /****
-		3-element borders:  ( dijitLeft + dijitStretch + dijitRight )
+	3-element borders:  ( dijitLeft + dijitStretch + dijitRight )
+	These were added for rounded corners on dijit.form.*Button but never actually used.
  ****/
 
 .dijitLeft {
@@ -1855,9 +1852,6 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .dj_ie8 .dijitSelect .dijitButtonText {
 	vertical-align: top;
 }
-.dijitSelect .dijitButtonNode {
-	text-align: left;
-}
 .dijitToolbar .dijitSelect {
 	margin: 0;
 }
@@ -1877,10 +1871,6 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 }
 .dijitSelectFixedWidth .dijitButtonContents {
 	width: 100%;
-}
-.dijitSelect .dijitArrowButton {
-	width: 16px;
-	padding: 0px 4px;
 }
 
 .dijitSelectMenu .dijitMenuItemIcon {
