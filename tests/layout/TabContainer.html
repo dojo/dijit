@@ -179,7 +179,7 @@
 					name: "initialIcon",
 					runTest: function(t){
 						var cp =  dijit.byId("cp4");
-						var menuTitle = dijit.byId("dijit_MenuItem_15").label;
+						var menuTitle = dijit.byId("cp7_stcMi").label;
 						
 						t.assertEqual('plusIcon', cp.controlButton.iconClass, "an icon image is displayed");
 						t.assertEqual('plus', menuTitle, "the menu's text label is 'plus'");
@@ -192,7 +192,7 @@
 						cp.set("iconClass", "noteIcon"); 
 						cp.set("title", "note");
 						
-						var menuTitle = dijit.byId("dijit_MenuItem_15").label;
+						var menuTitle = dijit.byId("cp7_stcMi").label;
 						
 						t.assertEqual('noteIcon', cp.controlButton.iconClass, "new icon is displayed in tab");
 						t.assertEqual('plus', menuTitle, "the menu's text label has changed");
@@ -215,7 +215,7 @@
 						cp.set('title', 'newTitle');
 						
 						var title = dojo.query("#tc1_tablist_cpTitle span.tabLabel")[0];
-						var menuTitle = dijit.byId("dijit_MenuItem_0").label;
+						var menuTitle = dijit.byId("cpTitle_stcMi").label;
 						
 						t.assertEqual('newTitle', innerText(title), "the tab's text label has changed");
 						t.assertEqual('newTitle', menuTitle, "the menu's text label has changed");
