@@ -1,19 +1,17 @@
-<span class="dijit dijitReset dijitLeft dijitInline"
-	><span class="dijitReset dijitRight dijitInline"
-		><span class="dijitReset dijitInline dijitButtonNode"
-			><span class="dijitReset dijitStretch dijitButtonContents"
-				dojoAttachEvent="ondijitclick:_onButtonClick"
-				dojoAttachPoint="titleNode,focusNode"
-				type="button" waiRole="button" waiState="labelledby-${id}_label"
-				><span class="dijitReset dijitInline dijitIcon" dojoAttachPoint="iconNode"></span
-				><span class="dijitReset dijitToggleButtonIconChar">&#10003;</span
-				><span class="dijitReset dijitInline dijitButtonText"
-					id="${id}_label"
-					dojoAttachPoint="containerNode"
-				></span
+<span class="dijit dijitReset dijitInline"
+	><span class="dijitReset dijitInline dijitButtonNode"
+		dojoAttachEvent="ondijitclick:_onButtonClick"
+		><span class="dijitReset dijitStretch dijitButtonContents"
+			dojoAttachPoint="titleNode,focusNode"
+			type="button" waiRole="button" waiState="labelledby-${id}_label"
+			><span class="dijitReset dijitInline dijitIcon" dojoAttachPoint="iconNode"></span
+			><span class="dijitReset dijitToggleButtonIconChar">&#10003;</span
+			><span class="dijitReset dijitInline dijitButtonText"
+				id="${id}_label"
+				dojoAttachPoint="containerNode"
 			></span
-			><input ${!nameAttrSetting} type="${type}" value="${value}" style="display:none !important;"
-				dojoAttachPoint="valueNode"
 		></span
 	></span
+	><input ${!nameAttrSetting} type="${type}" value="${value}" style="display:none !important;"
+		dojoAttachPoint="valueNode"
 ></span>
