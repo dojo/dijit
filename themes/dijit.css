@@ -1492,16 +1492,22 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .dijitSliderMoveableH {
 	right:0;
 }
+.dijitSliderMoveableV {
+	right:50%;
+}
 
 .dijit_a11y div.dijitSliderImageHandle,
 .dijitSliderImageHandle {
 	margin:0;
 	padding:0;
-	position:absolute !important;
+	position:relative !important;
 	border:8px solid gray;
 	width:0;
 	height:0;
 	cursor: pointer;
+}
+.dj_ie7 .dijitSliderImageHandle {
+	overflow: hidden; /* IE7 workaround to make slider handle VISIBLE */
 }
 .dijit_a11y .dijitSliderFocused .dijitSliderImageHandle {
 	border:4px solid #000;
@@ -1511,11 +1517,11 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 
 .dijitSliderImageHandleV {
 	top:-8px;
-	left:-6px;
+	right: -50%;
 }
 
 .dijitSliderImageHandleH {
-	left:-8px;
+	left:50%;
 	top:-5px;
 	vertical-align:top;
 }

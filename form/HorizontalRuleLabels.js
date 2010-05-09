@@ -35,8 +35,8 @@ dojo.declare("dijit.form.HorizontalRuleLabels", dijit.form.HorizontalRule,
 	constraints: {pattern:"#%"},
 
 	_positionPrefix: '<div class="dijitRuleLabelContainer dijitRuleLabelContainerH" style="left:',
-	_labelPrefix: '"><span class="dijitRuleLabel dijitRuleLabelH">',
-	_suffix: '</span></div>',
+	_labelPrefix: '"><div class="dijitRuleLabel dijitRuleLabelH">',
+	_suffix: '</div></div>',
 
 	_calcPosition: function(pos){
 		// summary:

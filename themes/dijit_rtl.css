@@ -60,11 +60,10 @@
 
 .dijitSliderRtl .dijitSliderImageHandleV {
 	left:auto;
-	right:-6px;
 }
 
-.dj_ie .dijitSliderRtl .dijitSliderImageHandleV {
-	right:-10px;
+.dijitSliderRtl .dijitSliderImageHandleH {
+	left:-50%;
 }
 
 .dijitSliderRtl .dijitSliderMoveableH {
