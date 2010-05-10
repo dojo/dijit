@@ -1618,8 +1618,8 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .dijitSliderDecoration {
 	text-align:center;
 }
-.dijitSlider TD {
-	position: relative; /* needed for IE+quirks+RTL+vertical (rendering bug) but add everywhere for custom styling consistency */
+.dijitSliderV TD {
+	position: relative; /* needed for IE+quirks+RTL+vertical (rendering bug) but add everywhere for custom styling consistency but this messes up IE horizontal sliders */
 }
 
 .dijitSliderDecorationH {
