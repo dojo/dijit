@@ -71,6 +71,11 @@ dojo.declare("dijit._HasDropDown",
 		//
 		dropDownPosition: ["below","above"],
 
+		// _stopClickEvents: Boolean
+		//		When set to false, the click events will not be stopped, in
+		//		case you want to use them in your subwidget
+		_stopClickEvents: true,
+
 		_onDropDownMouseDown: function(/*Event*/ e){
 			// summary:
 			//		Callback when the user mousedown's on the arrow icon
@@ -137,6 +142,13 @@ dojo.declare("dijit._HasDropDown",
 			}
 		},
 
+		_onDropDownClick: function(/*Event*/ e){
+			// the drop down was already opened on mousedown/keydown; just need to call stopEvent()
+			if(this._stopClickEvents){
+				dojo.stopEvent(e);
+			}			
+		},
+
 		_setupDropdown: function(){
 			// summary:
 			//		set up nodes and connect our mouse and keypress events
@@ -144,6 +156,7 @@ dojo.declare("dijit._HasDropDown",
 			this._popupStateNode = this._popupStateNode || this.focusNode || this._buttonNode;
 			this._aroundNode = this._aroundNode || this.domNode;
 			this.connect(this._buttonNode, "onmousedown", "_onDropDownMouseDown");
+			this.connect(this._buttonNode, "onclick", "_onDropDownClick");
 			this.connect(this._buttonNode, "onkeydown", "_onDropDownKeydown");
 			this.connect(this._buttonNode, "onkeyup", "_onKey");
 
