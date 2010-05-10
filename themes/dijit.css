@@ -1615,8 +1615,19 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	background-color:transparent;
 }
 
-.dijitSliderDecorationH {
+.dijitSliderDecoration {
 	text-align:center;
+}
+.dijitSlider TD {
+	position: relative; /* needed for IE+quirks+RTL+vertical (rendering bug) but add everywhere for custom styling consistency */
+}
+
+.dijitSliderDecorationH {
+	width: 100%;
+}
+
+.dijitSliderDecorationV {
+	height: 100%;
 }
 
 .dijitSliderButton {
