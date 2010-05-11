@@ -512,7 +512,30 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			lineHeight = "normal";
 		}
 		var userStyle = "";
-		this.style.replace(/(^|;)\s*(line-|font-?)[^;]+/ig, function(match){ userStyle += match.replace(/^;/ig,"") + ';'; });
+		var self = this;
+		this.style.replace(/(^|;)\s*(line-|font-?)[^;]+/ig, function(match){ 
+			match = match.replace(/^;/ig,"") + ';'; 
+			var s = match.split(":")[0];
+			if(s){
+				s = dojo.trim(s);
+				s = s.toLowerCase();
+				var i;
+				var sC = "";
+				for(i = 0; i < s.length; i++){
+					var c = s.charAt(i);
+					switch(c){
+						case "-":
+							i++;
+							c = s.charAt(i).toUpperCase();
+						default:
+							sC += c;
+					}
+				}
+				dojo.style(self.domNode, sC, "");
+			}
+			userStyle += match + ';'; 
+		});
+
 
 		// need to find any associated label element and update iframe document title
 		var label=dojo.query('label[for="'+this.id+'"]');
