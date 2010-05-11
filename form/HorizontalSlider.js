@@ -241,11 +241,15 @@ dojo.declare(
 	},
 
 	startup: function(){
+		if(this._started){ return; }
+
 		dojo.forEach(this.getChildren(), function(child){
 			if(this[child.container] != this.containerNode){
 				this[child.container].appendChild(child.domNode);
 			}
 		}, this);
+
+		this.inherited(arguments);
 	},
 
 	_typematicCallback: function(/*Number*/ count, /*Object*/ button, /*Event*/ e){
