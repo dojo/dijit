@@ -41,15 +41,12 @@
 		hr.spacer { border:0; background-color:#ededed; width:80%; height:1px; }
 
 		/* rules used to test custom setting of TextBox padding */
-		.noInputPad .dijitInputField {
-			padding: 0px !important;
-		}
-		.fiveInputPad .dijitInputField {
-			padding: 5px !important;
-		}
-		.tenInputPad .dijitInputField {
-			padding: 10px !important;
-		}
+		.inputPadding0 .dijitInputField { padding: 0px !important; }
+		.inputPadding1 .dijitInputField { padding: 1px !important; }
+		.inputPadding2 .dijitInputField { padding: 2px !important; }
+		.inputPadding3 .dijitInputField { padding: 3px !important; }
+		.inputPadding4 .dijitInputField { padding: 4px !important; }
+		.inputPadding5 .dijitInputField { padding: 5px !important; }
 	</style>
 
 	<!-- a check for stray globals: not needed! -->
@@ -147,6 +144,9 @@
 			console.debug("onChange for id = " + id + ", value: " + newValue);
 		}
 
+		// current setting (if there is one) to override theme default padding on TextBox based widgets
+		currentInputPadding = "";
+
 		function setTextBoxPadding(){
 			// summary:
 			//		Handler for when a MenuItem is clicked to set non-default padding for
@@ -157,13 +157,18 @@
 				this.set("checked", true);
 			}
 
-			// val will be "theme default", "0px", "5px", "10px"
+			// val will be "theme default", "0px", "1px", ..., "5px"
 			var val = this.get("label");
 			
-			// set class on body to get requested padding, and remove any previous class
-			dojo.toggleClass(dojo.body(), "noInputPad", val == "0px");
-			dojo.toggleClass(dojo.body(), "fiveInputPad", val == "5px");
-			dojo.toggleClass(dojo.body(), "tenInputPad", val == "10px");
+			// Set class on body to get requested padding, and remove any previously set class
+			if(currentInputPadding){
+				dojo.removeClass(dojo.body(), currentInputPadding);
+				currentInputPadding = "";
+			}
+			if(val != "theme default"){
+				currentInputPadding = "inputPadding" + val.replace("px", "");
+				dojo.addClass(dojo.body(), currentInputPadding);
+			}
 
 			// Clear previously checked MenuItem (radio-button effect).
 			dojo.forEach(this.getParent().getChildren(), function(mi){
@@ -395,12 +400,15 @@
 				</div>
 			</div>
 			<div dojoType="dijit.PopupMenuBarItem" id="inputPadding">
-				<span>Custom TextBox Padding</span>
+				<span>TextBox Padding</span>
 				<div dojoType="dijit.Menu" id="inputPaddingMenu">
 					<div dojoType="dijit.CheckedMenuItem" onClick="setTextBoxPadding" checked>theme default</div>
 					<div dojoType="dijit.CheckedMenuItem" onClick="setTextBoxPadding">0px</div>
+					<div dojoType="dijit.CheckedMenuItem" onClick="setTextBoxPadding">1px</div>
+					<div dojoType="dijit.CheckedMenuItem" onClick="setTextBoxPadding">2px</div>
+					<div dojoType="dijit.CheckedMenuItem" onClick="setTextBoxPadding">3px</div>
+					<div dojoType="dijit.CheckedMenuItem" onClick="setTextBoxPadding">4px</div>
 					<div dojoType="dijit.CheckedMenuItem" onClick="setTextBoxPadding">5px</div>
-					<div dojoType="dijit.CheckedMenuItem" onClick="setTextBoxPadding">10px</div>
 				</div>
 			</div>
 			<div dojoType="dijit.PopupMenuBarItem" id="help">
