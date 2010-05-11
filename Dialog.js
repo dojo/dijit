@@ -198,10 +198,13 @@ dojo.declare(
 						underlay.set(this.underlayAttrs);
 					}
 
-					var zIndex = 948 + dijit._dialogStack.length*2;
+					var ds = dijit._dialogStack,
+						zIndex = 948 + ds.length*2;
+					if(ds.length == 1){	// first dialog
+						underlay.show();
+					}
 					dojo.style(dijit._underlay.domNode, 'zIndex', zIndex);
 					dojo.style(this.domNode, 'zIndex', zIndex + 1);
-					underlay.show();
 				}),
 				onEnd: dojo.hitch(this, function(){
 					if(this.autofocus){
