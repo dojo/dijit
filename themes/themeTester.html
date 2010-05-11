@@ -374,8 +374,24 @@
 			<div dojoType="dijit.PopupMenuBarItem" id="dialogs">
 				<span>Dialogs</span>
 				<div dojoType="dijit.Menu" id="dialogMenu">
-					<div dojoType="dijit.MenuItem" onClick="dijit.byId('dialog1').show();">loading animation</div>
-					<div dojoType="dijit.MenuItem" onClick="dijit.byId('dialogAB').show();">action bar</div>
+					<div dojoType="dijit.MenuItem">
+						<script type="dojo/method" event="onClick">
+							var dlg = dijit.byId('dialog1');
+							dlg.show();
+							// avoid (trying to) restore focus to a closed menu, go to MenuBar instead
+							dlg._savedFocus = dojo.byId("header");
+						</script>
+						loading animation
+					</div>
+					<div dojoType="dijit.MenuItem">
+						<script type="dojo/method" event="onClick">
+							var dlg = dijit.byId('dialogAB');
+							dlg.show();
+							// avoid (trying to) restore focus to a closed menu, go to MenuBar instead
+							dlg._savedFocus = dojo.byId("header");
+						</script>
+						action bar
+					</div>
 				</div>
 			</div>
 			<div dojoType="dijit.PopupMenuBarItem" id="inputPadding">
