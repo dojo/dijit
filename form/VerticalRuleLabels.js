@@ -15,5 +15,8 @@ dojo.declare("dijit.form.VerticalRuleLabels", dijit.form.HorizontalRuleLabels,
 	_calcPosition: function(pos){
 		// Overrides HorizontalRuleLabel._calcPosition()
 		return 100-pos;
-	}
+	},
+
+	// needed to prevent labels from being reversed in RTL mode
+	_isHorizontal: false
 });
