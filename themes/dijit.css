@@ -362,6 +362,10 @@ DIV.dijitArrowButton {
 .dj_webkit TEXTAREA.dijitTextAreaDisabled {
 	color: #333; /* because WebKit lightens disabled input/textarea no matter what color you specify */
 }
+.dj_gecko .dijitTextBoxReadOnly INPUT,
+.dj_gecko .dijitTextBoxDisabled INPUT {
+	-moz-user-input: none; /* prevent focus of disabled textbox buttons */
+}
 
 .dijitPlaceHolder {
 	/* hint text that appears in a textbox until user starts typing */
