@@ -176,12 +176,11 @@ dojo.declare(
 			this.inherited(arguments);
 		},
 
-		_transition: function(/*Widget?*/newWidget, /*Widget?*/oldWidget){
+		_transition: function(/*dijit._Widget?*/newWidget, /*dijit._Widget?*/oldWidget, /*Boolean*/ animate){
 			// Overrides StackContainer._transition() to provide sliding of title bars etc.
 
 //TODO: should be able to replace this with calls to slideIn/slideOut
 			if(this._inTransition){ return; }
-			this._inTransition = true;
 			var animations = [];
 			var paneHeight = this._verticalSpace;
 			if(newWidget){
@@ -199,43 +198,60 @@ dojo.declare(
 				var newContents = newWidget.domNode;
 				dojo.addClass(newContents, "dijitVisible");
 				dojo.removeClass(newContents, "dijitHidden");
-				var newContentsOverflow = newContents.style.overflow;
-				newContents.style.overflow = "hidden";
-				animations.push(dojo.animateProperty({
-					node: newContents,
-					duration: this.duration,
-					properties: {
-						height: { start: 1, end: this._getTargetHeight(newContents) }
-					},
-					onEnd: dojo.hitch(this, function(){
-						newContents.style.overflow = newContentsOverflow;
-						delete this._inTransition;
-					})
-				}));
+				
+				if(animate){
+					var newContentsOverflow = newContents.style.overflow;
+					newContents.style.overflow = "hidden";
+					animations.push(dojo.animateProperty({
+						node: newContents,
+						duration: this.duration,
+						properties: {
+							height: { start: 1, end: this._getTargetHeight(newContents) }
+						},
+						onEnd: function(){
+							newContents.style.overflow = newContentsOverflow;
+						}
+					}));
+				}
 			}
 			if(oldWidget){
 				oldWidget._wrapperWidget.set("selected", false);
-				var oldContents = oldWidget.domNode,
-					oldContentsOverflow = oldContents.style.overflow;
-				oldContents.style.overflow = "hidden";
-				animations.push(dojo.animateProperty({
-					node: oldContents,
-					duration: this.duration,
-					properties: {
-						height: { start: this._getTargetHeight(oldContents), end: 1 }
-					},
-					onEnd: function(){
-						dojo.addClass(oldContents, "dijitHidden");
-						dojo.removeClass(oldContents, "dijitVisible");
-						oldContents.style.overflow = oldContentsOverflow;
-						if(oldWidget.onHide){
-							oldWidget.onHide();
+				var oldContents = oldWidget.domNode;
+				if(animate){
+					var oldContentsOverflow = oldContents.style.overflow;
+					oldContents.style.overflow = "hidden";
+					animations.push(dojo.animateProperty({
+						node: oldContents,
+						duration: this.duration,
+						properties: {
+							height: { start: this._getTargetHeight(oldContents), end: 1 }
+						},
+						onEnd: function(){
+							dojo.addClass(oldContents, "dijitHidden");
+							dojo.removeClass(oldContents, "dijitVisible");
+							oldContents.style.overflow = oldContentsOverflow;
+							if(oldWidget.onHide){
+								oldWidget.onHide();
+							}
 						}
+					}));
+				}else{
+					dojo.addClass(oldContents, "dijitHidden");
+					dojo.removeClass(oldContents, "dijitVisible");
+					if(oldWidget.onHide){
+						oldWidget.onHide();
 					}
-				}));
+				}
 			}
 
-			dojo.fx.combine(animations).play();
+			if(animate){
+				this._inTransition = true;
+				var combined = dojo.fx.combine(animations);
+				combined.onEnd = dojo.hitch(this, function(){
+					delete this._inTransition;
+				});
+				combined.play();
+			}			
 		},
 
 		// note: we are treating the container as controller here
@@ -401,7 +417,7 @@ dojo.declare("dijit.layout._AccordionButton",
 		//		Callback when someone clicks my title.
 		var parent = this.getParent();
 		if(!parent._inTransition){
-			parent.selectChild(this.contentWidget);
+			parent.selectChild(this.contentWidget, true);
 			dijit.focus(this.focusNode);
 		}
 	},

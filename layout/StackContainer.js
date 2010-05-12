@@ -161,7 +161,7 @@ dojo.declare(
 		}
 	},
 
-	selectChild: function(/*dijit._Widget|String*/ page){
+	selectChild: function(/*dijit._Widget|String*/ page, /*Boolean*/ animate){
 		// summary:
 		//		Show the given widget (which must be one of my children)
 		// page:
@@ -171,7 +171,7 @@ dojo.declare(
 
 		if(this.selectedChildWidget != page){
 			// Deselect old page and select new one
-			this._transition(page, this.selectedChildWidget);
+			this._transition(page, this.selectedChildWidget, animate);
 			this.selectedChildWidget = page;
 			dojo.publish(this.id+"-selectChild", [page]);
 
@@ -218,13 +218,13 @@ dojo.declare(
 	forward: function(){
 		// summary:
 		//		Advance to next page.
-		this.selectChild(this._adjacent(true));
+		this.selectChild(this._adjacent(true), true);
 	},
 
 	back: function(){
 		// summary:
 		//		Go back to previous page.
-		this.selectChild(this._adjacent(false));
+		this.selectChild(this._adjacent(false), true);
 	},
 
 	_onKeyPress: function(e){
