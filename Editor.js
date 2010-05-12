@@ -113,10 +113,6 @@ dojo.declare(
 				// a button such as undo/redo selects the entire editor.
 				dojo.style(this.domNode, "KhtmlUserSelect", "none");
 			}
-			if(dojo.isMoz){
-				// Ditto for Moz, see above.
-				dojo.style(this.domNode, "MozUserSelect", "none");
-			}
 			this.toolbar.startup();
 			this.onNormalizedDisplayChanged(); //update toolbar button status
 		},
