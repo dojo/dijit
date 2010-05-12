@@ -115,6 +115,8 @@ dojo.declare(
 				this.textbox.value = formattedValue;
 			}
 
+			this._updatePlaceHolder();
+
 			this.inherited(arguments, [filteredValue, priorityChange]);
 		},
 
