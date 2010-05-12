@@ -39,12 +39,22 @@ dojo.declare(
 		placeHolder: "",
 		
 		templateString: dojo.cache("dijit.form", "templates/TextBox.html"),
+		_singleNodeTemplate: '<input class="dijit dijitReset dijitLeft dijitInputField" dojoAttachPoint="textbox,focusNode" autocomplete="off" type="${type}" ${!nameAttrSetting} />',
+
 		baseClass: "dijitTextBox",
 
 		attributeMap: dojo.delegate(dijit.form._FormValueWidget.prototype.attributeMap, {
 			maxLength: "focusNode"
 		}),
 		
+		postMixInProperties: function(){
+			var type = this.type.toLowerCase();
+			if(this.templateString.toLowerCase() == "input" || ((type == "hidden" || type == "file") && this.templateString == dijit.form.TextBox.prototype.templateString)){
+				this.templateString = this._singleNodeTemplate;
+			}
+			this.inherited(arguments);
+		},
+
 		_setPlaceHolderAttr: function(v){
 			this.placeHolder = v;
 			if(!this._phspan){
