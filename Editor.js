@@ -566,7 +566,8 @@ dojo.declare(
 			//		Deals with saving undo; see editActionInterval parameter.
 			// tags:
 			//		private
-			var v=this.getValue(true);
+			// Avoid filtering to make sure selections restore.
+			var v = dijit._editor.getChildrenHtml(this.editNode);
 
 			this._undoedSteps=[];//clear undoed steps
 			this._steps.push({text: v, bookmark: this._getBookmark()});
