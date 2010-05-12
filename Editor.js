@@ -9,6 +9,7 @@ dojo.require("dijit._editor.range");
 dojo.require("dijit._Container");
 dojo.require("dojo.i18n");
 dojo.require("dijit.layout._LayoutWidget");
+dojo.require("dijit._editor.range");
 dojo.requireLocalization("dijit._editor", "commands");
 
 dojo.declare(
@@ -71,12 +72,10 @@ dojo.declare(
 		},
 
 		postCreate: function(){
-			//for custom undo/redo
-			if(this.customUndo){
-				dojo['require']("dijit._editor.range");
-				this._steps=this._steps.slice(0);
-				this._undoedSteps=this._undoedSteps.slice(0);
-			}
+			//for custom undo/redo, if enabled.
+			this._steps=this._steps.slice(0);
+			this._undoedSteps=this._undoedSteps.slice(0);
+
 			if(dojo.isArray(this.extraPlugins)){
 				this.plugins=this.plugins.concat(this.extraPlugins);
 			}
@@ -108,6 +107,16 @@ dojo.declare(
 			dojo.addClass(this.iframe, "dijitEditorIFrame");
 			dojo.attr(this.iframe, "allowTransparency", true);
 
+			if(dojo.isWebKit){
+				// Disable selecting the entire editor by inadvertant double-clicks.
+				// on buttons, title bar, etc.  Otherwise clicking too fast on
+				// a button such as undo/redo selects the entire editor.
+				dojo.style(this.domNode, "KhtmlUserSelect", "none");
+			}
+			if(dojo.isMoz){
+				// Ditto for Moz, see above.
+				dojo.style(this.domNode, "MozUserSelect", "none");
+			}
 			this.toolbar.startup();
 			this.onNormalizedDisplayChanged(); //update toolbar button status
 		},
@@ -436,35 +445,45 @@ dojo.declare(
 			//		Handler for editor undo (ex: ctrl-z) operation
 			// tags:
 			//		private
-//			console.log('undo');
-			this.endEditing(true);
-			var s=this._steps.pop();
-			if(this._steps.length>0){
-				this.focus();
-				this._changeToStep(s,this._steps[this._steps.length-1]);
-				this._undoedSteps.push(s);
-				this.onDisplayChanged();
-				return true;
-			}
-			return false;
+			//console.log('undo');
+			var ret = false;
+			if(!this._undoRedoActive){
+				this._undoRedoActive = true;
+				this.endEditing(true);
+				var s=this._steps.pop();
+				if(s && this._steps.length>0){
+					this.focus();
+					this._changeToStep(s,this._steps[this._steps.length-1]);
+					this._undoedSteps.push(s);
+					this.onDisplayChanged();
+					delete this._undoRedoActive;
+					ret = true;
+				}
+				delete this._undoRedoActive;
+			}	
+			return ret;
 		},
 		redo: function(){
 			// summary:
 			//		Handler for editor redo (ex: ctrl-y) operation
 			// tags:
 			//		private
-
-//			console.log('redo');
-			this.endEditing(true);
-			var s=this._undoedSteps.pop();
-			if(s && this._steps.length>0){
-				this.focus();
-				this._changeToStep(this._steps[this._steps.length-1],s);
-				this._steps.push(s);
-				this.onDisplayChanged();
-				return true;
+			//console.log('redo');
+			var ret = false;
+			if(!this._undoRedoActive){
+				this._undoRedoActive = true;
+				this.endEditing(true);
+				var s=this._undoedSteps.pop();
+				if(s && this._steps.length>0){
+					this.focus();
+					this._changeToStep(this._steps[this._steps.length-1],s);
+					this._steps.push(s);
+					this.onDisplayChanged();
+					ret = true;
+				}
+				delete this._undoRedoActive;
 			}
-			return false;
+			return ret;
 		},
 		endEditing: function(ignore_caret){
 			// summary:
@@ -534,7 +553,11 @@ dojo.declare(
 			// tags:
 			//		private
 			if(this._steps.length === 0){
-				this._steps.push({'text':this.savedContent,'bookmark':this._getBookmark()});
+				// You want to use the editor content without post filtering
+				// to make sure selection restores right for the 'initial' state.
+				// and undo is called.  So not using this.savedContent, as it was 'processed'
+				// and the line-up for selections may have been altered.
+				this._steps.push({'text':dijit._editor.getChildrenHtml(this.editNode),'bookmark':this._getBookmark()});
 			}
 		},
 		_endEditing: function(ignore_caret){
