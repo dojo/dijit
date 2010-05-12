@@ -66,9 +66,11 @@ dojo.declare("dijit._Container",
 				widget = this.getChildren()[widget];
 			}
 
-			if(widget && widget.domNode){
+			if(widget){
 				var node = widget.domNode;
-				node.parentNode.removeChild(node); // detach but don't destroy
+				if(node && node.parentNode){
+					node.parentNode.removeChild(node); // detach but don't destroy
+				}
 			}
 		},
 

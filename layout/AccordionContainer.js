@@ -76,8 +76,11 @@ dojo.declare(
 			// Implement _LayoutWidget.layout() virtual method.
 			// Set the height of the open pane based on what room remains.
 
-			var openPane = this.selectedChildWidget,
-				openPaneContainer = openPane._wrapperWidget.domNode,
+			var openPane = this.selectedChildWidget;
+			
+			if(!openPane){ return;}
+
+			var openPaneContainer = openPane._wrapperWidget.domNode,
 				openPaneContainerMargin = dojo._getMarginExtents(openPaneContainer),
 				openPaneContainerPadBorder = dojo._getPadBorderExtents(openPaneContainer),
 				mySize = this._contentBox;
@@ -151,12 +154,12 @@ dojo.declare(
 		removeChild: function(child){
 			// Overrides _LayoutWidget.removeChild().
 
-			this.inherited(arguments);
-
-			// destroy wrapper widget after child, because child tries to detach itself from it's parent
+			// destroy wrapper widget first, before StackContainer.getChildren() call
 			child._wrapperWidget.destroy();
 			delete child._wrapperWidget;
 			dojo.removeClass(child.domNode, "dijitHidden");
+
+			this.inherited(arguments);
 		},
 
 		getChildren: function(){

@@ -2,7 +2,7 @@
 	"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-	<title>Accordion Widget Demo</title>
+	<title>Accordion Widget Automated Test</title>
 
 	<!-- only needed for test files: -->
 	<style type="text/css">
@@ -34,7 +34,7 @@
 					{
 						name: "create",
 						runTest: function(t){
-							accordion = new dijit.layout.AccordionContainer({style: "width: 400px; height: 400px;"}, dojo.byId("accordionShell"));
+							accordion = new dijit.layout.AccordionContainer({style: "width: 400px; height: 400px;"}).placeAt(dojo.body());
 
 							dojo.forEach([ "pane 1", "pane 2", "pane 3" ], function(title, i){
 								var content = new dijit.layout.ContentPane({id: title, title: title, selected: i==1});
@@ -158,6 +158,64 @@
 					}
 				]
 			);
+			doh.register("zero children",
+				[
+					{
+						name: "create w/no children",
+						runTest: function(t){
+							accordion = new dijit.layout.AccordionContainer({style: "width: 400px; height: 400px;"}).placeAt(dojo.body());
+							accordion.startup();
+							var children = accordion.getChildren();
+							t.is(0, children.length, "no children");
+							accordion.resize();
+							t.t(true, "resize ran w/out exception");
+						}
+					},
+					{
+						name: "add children",
+						runTest: function(t){
+							dojo.forEach([ "pane 10", "pane 11"], function(title, i){
+								var content = new dijit.layout.ContentPane({id: title, title: title});
+								content.containerNode.innerHTML = "this is " + title;
+								accordion.addChild(content);
+							});
+							var children = accordion.getChildren();
+							t.is(2, children.length, "2 children");
+						}
+					},
+					{
+						name: "remove all children",
+						runTest: function(t){
+							var pane10 = dijit.byId("pane 10"),
+								pane11 = dijit.byId("pane 11");
+
+							t.is(pane10, accordion.selectedChildWidget, "pane 10 initially selected");
+
+							accordion.removeChild(pane10);
+							t.is(pane11, accordion.selectedChildWidget, "after pane 10 removed, pane 11 selected");
+
+							accordion.removeChild(pane11);
+							t.f(accordion.selectedChildWidget, "after pane 11 removed, no pane selected");
+							var children = accordion.getChildren();
+							t.is(0, children.length, "all children removed");
+						}
+					},
+					{
+						name: "add back children",
+						runTest: function(t){
+							dojo.forEach([ "pane 12", "pane 13"], function(title, i){
+								var content = new dijit.layout.ContentPane({id: title, title: title});
+								content.containerNode.innerHTML = "this is " + title;
+								accordion.addChild(content);
+							});
+
+							var children = accordion.getChildren();
+							t.is(2, children.length, "two new children");
+							t.is(dijit.byId("pane 12"), accordion.selectedChildWidget, "pane 12 selected");
+						}
+					}
+				]
+			);
 
 			doh.run();
 		});
@@ -165,9 +223,7 @@
 </head>
 <body class="tundra" style="padding: 50px;">
 
-	<h1 class="testTitle">AccordionContainer Tests</h1>
+	<h1 class="testTitle">AccordionContainer Automated Tests</h1>
 
-	<h2>Programatically created:</h2>
-	<div id="accordionShell"></div>
 </body>
 </html>
