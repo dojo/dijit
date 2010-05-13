@@ -511,6 +511,10 @@ DIV.dijitArrowButton {
 	left: 0;
 	right: auto;
 }
+.dj_iequirks .dijitSpinner .dijitSpinnerButtonContainer .dijitArrowButton {
+	width: auto;
+	height: auto;
+}
 .dijit_a11y .dijitSpinnerButtonContainer .dijitArrowButton {
 	overflow: visible !important;
 }
@@ -526,6 +530,9 @@ DIV.dijitArrowButton {
 .dijitSpinner .dijitArrowButtonInner {
 	margin: auto;
 	height: 100% !important;
+}
+.dj_iequirks .dijitSpinner .dijitArrowButtonInner {
+	height: auto !important;
 }
 
 .dj_ie .dijitSpinner .dijitArrowButtonInnerHalfHeight {
