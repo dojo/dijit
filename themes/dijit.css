@@ -314,7 +314,8 @@ TABLE.dijitComboButton { /* TODO: why not add dijitReset class to ComboButton? *
 	border-width: 0;
 }
 
-.dijitButtonNode, .dijitButtonNode * {
+.dijitButtonNode,
+.dijitButtonNode * {
 	cursor: pointer;
 }
 
@@ -480,7 +481,7 @@ DIV.dijitArrowButton {
 	position: relative !important;
 	overflow: hidden;
 }
-.dijitSpinnerButtonContainer INPUT {
+.dijitSpinner .dijitSpinnerButtonInner {
 	width:1em;
 	visibility:hidden !important; /* just a sizing element */
 	overflow-x:hidden;

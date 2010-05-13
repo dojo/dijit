@@ -25,10 +25,6 @@
 .claro .dijitInputField .dijitPlaceHolder {
 	padding: 2px;
 }
-.claro .dijitTextBox .dijitInputField {
-	padding-top: 2px;
-	padding-bottom: 2px;
-}
 
 .claro .dijitTextBox,
 .claro .dijitTextBox .dijitButtonNode {
