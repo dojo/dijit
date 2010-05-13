@@ -429,6 +429,7 @@ DIV.dijitArrowButton {
 .dj_ie6 INPUT.dijitTextBox,
 .dj_iequirks .dijitTextBox INPUT.dijitValidationInner,
 .dj_iequirks .dijitTextBox INPUT.dijitArrowButtonInner,
+.dj_iequirks .dijitTextBox INPUT.dijitSpinnerButtonInner,
 .dj_iequirks .dijitTextBox INPUT.dijitInputInner,
 .dj_iequirks INPUT.dijitTextBox {
 	line-height: 100%; /* IE7 problem where the icon is vertically way too low w/o this */
@@ -465,10 +466,6 @@ DIV.dijitArrowButton {
 	/* dividing line between input area and up/down button(s) for ComboBox and Spinner */
 	border: solid black !important;
 	border-width: 0 0 0 1px !important;
-}
-
-.dj_iequirks .dijitSpinnerButtonContainer {
-	padding: 1px 0px;
 }
 
 .dj_ie .dijitToolbar .dijitComboBox {
