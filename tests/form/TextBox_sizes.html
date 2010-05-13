@@ -1,37 +1,57 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
 		"http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<html dir="ltr">
 <head>
 	<title>dijit.form.TextBox size tests</title>
 
 	<style type="text/css">
 		@import "../../../dojo/resources/dojo.css";
-		@import "../css/dijitTests.css";
-		TD {
+		@import "../../themes/dijit.css";
+		@import "../../themes/dijit_rtl.css";
+		@import "../../themes/tundra/Common.css";
+		@import "../../themes/tundra/Common_rtl.css";
+		@import "../../themes/tundra/form/Button.css";
+		@import "../../themes/tundra/form/Button_rtl.css";
+		@import "../../themes/tundra/form/Common.css";
+		@import "../../themes/tundra/form/Common_rtl.css";
+		@import "../../themes/claro/Common.css";
+		@import "../../themes/claro/Common_rtl.css";
+		@import "../../themes/claro/form/Button.css";
+		@import "../../themes/claro/form/Button_rtl.css";
+		@import "../../themes/claro/form/Common.css";
+		@import "../../themes/claro/form/Common_rtl.css";
+		@import "../../themes/soria/Common.css";
+		@import "../../themes/soria/Common_rtl.css";
+		@import "../../themes/soria/form/Button.css";
+		@import "../../themes/soria/form/Button_rtl.css";
+		@import "../../themes/soria/form/Common.css";
+		@import "../../themes/soria/form/Common_rtl.css";
+		@import "../../themes/nihilo/Common.css";
+		@import "../../themes/nihilo/Common_rtl.css";
+		@import "../../themes/nihilo/form/Button.css";
+		@import "../../themes/nihilo/form/Button_rtl.css";
+		@import "../../themes/nihilo/form/Common.css";
+		@import "../../themes/nihilo/form/Common_rtl.css";
+
+		#table TD {
 			padding: 1px;
 			background-color: pink;
-			font-size: 12pt;
-			font-family: monospace;
+			font-size: 100%;
 		}
-		TABLE, TD, .dijit {
+		TABLE#table, #table TD, #table .dijit {
 			border-color: black !important;
 			margin: 0px !important;
 		}
-		.dijitInputField {
+		.padded .dijitInputField {
 			padding: 10px !important;
+		}
+		.unPadded .dijitInputField {
+			padding: 0px !important;
 		}
 	</style>
 
-	<!-- required: a default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../themes/tundra/tundra.css">
-
-	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="parseOnLoad: true, isDebug: true"></script>
-
-	<!-- not needed, for testing alternate themes -->
-	<script type="text/javascript" src="../_testCommon.js"></script>
-
 
 	<script type="text/javascript">
 		dojo.require("doh.runner");
@@ -40,13 +60,71 @@
 		dojo.require("dijit.form.NumberTextBox");
 		dojo.require("dijit.form.FilteringSelect");
 		dojo.require("dijit.form.NumberSpinner");
+		dojo.require("dijit.form.Button");
 
 		dojo.addOnLoad(function(){
+
+			var padding = "padded";
+			var theme = "tundra";
+			var direction = "ltr";
+			var fontSize = "12pt";
+			var fontFamily = "monospace";
+
+			var str = window.location.href.substr(window.location.href.indexOf("?")+1).split(/#/);
+			var ary  = str[0].split(/&/);
+			if(window.location.href.indexOf("?") > -1){
+				for(var i=0; i<ary.length; i++){
+					var split = ary[i].split("="),
+						key = split[0],
+						value = split[1].replace(/[^\w]/g, "");	// replace() to prevent XSS attack
+					switch(key){
+						case "locale":
+							// locale string | null
+							dojo.locale = dojo.config.locale = locale = value;
+							break;
+						case "dir":
+						case "direction":
+							// rtl | ltr
+							direction = value;
+							break;
+						case "theme":
+							// tundra | soria | nihilo | claro | a11y
+							theme = value;
+							break;
+						case "a11y": // included for backward compat
+							theme = "a11y";
+							break;
+						case "size":
+						case "fontsize":
+						case "fontSize":
+							// size string (e.g 12px)
+							fontSize = value;
+							break;
+						case "family":
+						case "fontfamily":
+						case "fontFamily":
+							// family string (e.g Courier)
+							fontFamily = value;
+							break;
+						case "padding":
+							// padded | unPadded | default
+							padding = value;
+							break;
+					}
+				}
+			}
+
+			dijit.byId('padding').set('value', padding, true);
+			dijit.byId('theme').set('value', theme, true);
+			dijit.byId('direction').set('value', direction, true);
+			dijit.byId('fontSize').set('value', fontSize, true);
+			dijit.byId('fontFamily').set('value', fontFamily, true);
 
 			var textbox = dijit.byId("textbox");
 			var validation = dijit.byId("validation");
 			var combobox = dijit.byId("combobox");
 			var spinner = dijit.byId("spinner");
+			var table = dojo.byId("table");
 
 			var compareToTextBox = function(attr){
 				try{
@@ -101,13 +179,13 @@
 
 			var createErrors = function(){
 				textbox._hasBeenBlurred = true;
-				textbox.set('value', "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwzyz");
+				textbox.set('value', "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz");
 				validation._hasBeenBlurred = true;
-				validation.set('displayedValue', "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwzyz");
+				validation.set('displayedValue', "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz");
 				combobox._hasBeenBlurred = true;
-				combobox.set('displayedValue', "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwzyz");
+				combobox.set('displayedValue', "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz");
 				spinner._hasBeenBlurred = true;
-				spinner.set('displayedValue', "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwzyz");
+				spinner.set('displayedValue', "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz");
 			};
 
 			doh.register("create normal boxes", {
@@ -120,7 +198,7 @@
 					validation.set('value', 23);
 					combobox.set('value', "KY");
 					spinner.set('value', 32);
-					setTimeout(dojo.hitch(d, "callback", true), 500);
+					setTimeout(dojo.hitch(d, "callback", true), 500); // slow down to let onChange events fire
 					return d;
 				}
  			});
@@ -139,10 +217,18 @@
 							var paddingRight = Math.abs(inputPos.w - paddedBoxPos.w) - paddingLeft;
 							var paddingTop = Math.abs(inputPos.y - paddedBoxPos.y);
 							var paddingBottom = Math.abs(inputPos.h - paddedBoxPos.h) - paddingTop;
-							doh.t(Math.abs(paddingLeft-10) <= 1, "left padding("+paddingLeft+") should be 10");
-							doh.t(Math.abs(paddingRight-10) <= 1, "right padding("+paddingRight+") should be 10");
-							doh.t(Math.abs(paddingTop-10) <= 1, "top padding("+paddingTop+") should be 10");
-							doh.t(Math.abs(paddingBottom-10) <= 1, "bottom padding("+paddingBottom+") should be 10");
+							var pad = undefined;
+							if(dojo.hasClass(table, "padded")){
+								pad = 10;
+							}else if(dojo.hasClass(table, "unPadded")){
+								pad = 0;
+							}else{
+								return;
+							}
+							doh.t(Math.abs(paddingLeft-pad) <= 1, "left padding("+paddingLeft+") should be "+pad);
+							doh.t(Math.abs(paddingRight-pad) <= 1, "right padding("+paddingRight+") should be "+pad);
+							doh.t(Math.abs(paddingTop-pad) <= 1, "top padding("+paddingTop+") should be "+pad);
+							doh.t(Math.abs(paddingBottom-pad) <= 1, "bottom padding("+paddingBottom+") should be "+pad);
 						}
 					},
 					{
@@ -224,10 +310,18 @@
 							var paddingRight = Math.abs(inputPos.w - paddedBoxPos.w) - paddingLeft;
 							var paddingTop = Math.abs(inputPos.y - paddedBoxPos.y);
 							var paddingBottom = Math.abs(inputPos.h - paddedBoxPos.h) - paddingTop;
-							doh.t(Math.abs(paddingLeft-10) <= 1, "left padding("+paddingLeft+") should be 10");
-							doh.t(Math.abs(paddingRight-10) <= 1, "right padding("+paddingRight+") should be 10");
-							doh.t(Math.abs(paddingTop-10) <= 1, "top padding("+paddingTop+") should be 10");
-							doh.t(Math.abs(paddingBottom-10) <= 1, "bottom padding("+paddingBottom+") should be 10");
+							var pad = undefined;
+							if(dojo.hasClass(table, "padded")){
+								pad = 10;
+							}else if(dojo.hasClass(table, "unPadded")){
+								pad = 0;
+							}else{
+								return;
+							}
+							doh.t(Math.abs(paddingLeft-pad) <= 1, "left padding("+paddingLeft+") should be "+pad);
+							doh.t(Math.abs(paddingRight-pad) <= 1, "right padding("+paddingRight+") should be "+pad);
+							doh.t(Math.abs(paddingTop-pad) <= 1, "top padding("+paddingTop+") should be "+pad);
+							doh.t(Math.abs(paddingBottom-pad) <= 1, "bottom padding("+paddingBottom+") should be "+pad);
 						}
 					},
 					{
@@ -284,45 +378,144 @@
 
 	<h1 class="testTitle">dijit.form.TextBox size tests</h1>
 
-		<table rules="all" cellpadding="0" cellspacing="0" border="2" frame="border">
-			<tr>
-				<td style="font-size:1px;overflow:hidden;">&nbsp;</td>
-				<td style="font-size:1px;overflow:hidden;">&nbsp;</td>
-				<td></td>
-				<td style="font-size:1px;overflow:hidden;">&nbsp;</td>
-			</tr>
-			<tr>
-				<td>TextBox</td>
-				<td></td>
-				<td><input dojoType="dijit.form.TextBox" type="text" name="textbox" id="textbox" value="text"></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>NumberTextBox</td>
-				<td></td>
-				<td><input dojoType="dijit.form.NumberTextBox" type="text" name="validation" id="validation" value="54" required="true"></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>FilteringSelect</td>
-				<td></td>
-				<td><select id="combobox" name="combobox" dojoType="dijit.form.FilteringSelect" required="true">
-					<option value="KY">Kentucky</option>
-				</select></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>NumberSpinner</td>
-				<td></td>
-				<td><div dojoType="dijit.form.NumberSpinner" type="text" name="spinner" id="spinner" value="45" required="true"></div></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td style="font-size:1px;overflow:hidden;">&nbsp;</td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-		</table>
+	<table class="padded" id="table" rules="all" cellpadding="0" cellspacing="0" border="2" frame="border" style="font-family:monospace;font-size:12pt;">
+		<tr>
+			<td style="font-size:1px;overflow:hidden;">&nbsp;</td>
+			<td style="font-size:1px;overflow:hidden;">&nbsp;</td>
+			<td></td>
+			<td style="font-size:1px;overflow:hidden;">&nbsp;</td>
+		</tr>
+		<tr>
+			<td>TextBox</td>
+			<td></td>
+			<td><input dojoType="dijit.form.TextBox" type="text" id="textbox" value="text"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>NumberTextBox</td>
+			<td></td>
+			<td><input dojoType="dijit.form.NumberTextBox" type="text" id="validation" value="54" required="true"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>FilteringSelect</td>
+			<td></td>
+			<td><select dojoType="dijit.form.FilteringSelect" id="combobox" required="true">
+				<option value="KY">Kentucky</option>
+			</select></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>NumberSpinner</td>
+			<td></td>
+			<td><div dojoType="dijit.form.NumberSpinner" type="text" id="spinner" value="45" required="true"></div></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>INPUT type=file</td>
+			<td></td>
+			<td><input dojoType="dijit.form.TextBox" type="file" id="file"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="font-size:1px;overflow:hidden;">&nbsp;</td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</table><br>
+	<table style="display:block;">
+	<tr><td style="text-align:right;">Font family:
+	<select dojoType="dijit.form.ComboBox" id="fontFamily" style="font-size:14pt;" value="">
+		<script type="dojo/method" event="onChange" args="fontFamily">
+			var table = dojo.byId('table');
+			table.style.fontFamily = fontFamily;
+			if(dojo.isIE){
+				dojo.query('INPUT', table).forEach(function(node){
+					node.style.fontFamily = fontFamily;
+				});
+			}
+		</script>
+		<option>monospace</option>
+		<option selected>Courier</option>
+		<option>Helvetica</option>
+		<option>Times</option>
+		<option>system,fixed</option>
+	</select></td></tr>
+	<tr><td style="text-align:right;">Font size:
+	<select dojoType="dijit.form.ComboBox" id="fontSize" style="font-size:14pt;" value="">
+		<script type="dojo/method" event="onChange" args="fontSize">
+			var table = dojo.byId('table');
+			table.style.fontSize = fontSize;
+		</script>
+		<option>small</option>
+		<option>medium</option>
+		<option>xx-large</option>
+		<option>8pt</option>
+		<option>20px</option>
+		<option>1cm</option>
+		<option>1em</option>
+		<option>200%</option>
+	</select></td></tr>
+	<tr><td style="text-align:right;">Padding:
+	<select dojoType="dijit.form.FilteringSelect" id="padding" style="font-size:14pt;" required="false" value="">
+		<script type="dojo/method" event="onChange" args="padding">
+			var table = dojo.byId('table');
+			dojo.removeClass(table, "padded");
+			dojo.removeClass(table, "unPadded");
+			dojo.removeClass(table, "default");
+			dojo.addClass(table, padding);
+		</script>
+		<option value="default">default</option>
+		<option value="padded">padded</option>
+		<option value="unPadded">unPadded</option>
+	</select></td></tr>
+	<tr><td style="text-align:right;">Direction:
+	<select dojoType="dijit.form.FilteringSelect" id="direction" style="font-size:14pt;" required="false" value="">
+		<script type="dojo/method" event="onChange" args="direction">
+			var table = dojo.byId('table');
+			dojo.query('.dijitTextBox', table).forEach(function(node){
+				node.style.direction = direction;
+				node.parentNode.style.direction = direction;
+				dojo.forEach(node.className.split(' '), function(cls){
+					if(cls.indexOf('Rtl') > 0){
+						dojo.removeClass(node, cls);
+					}
+				});
+				if(direction == "rtl"){
+					dojo.forEach(node.className.split(' '), function(cls){
+						if(cls.indexOf('Box') > 0){
+							cls = cls.substr(0, cls.indexOf('Box')+3) + "Rtl" + cls.substr(cls.indexOf('Box')+3);
+						}else{
+							cls = cls + "Rtl";
+						}
+						dojo.addClass(node, cls);
+					});
+				}
+			});
+		</script>
+		<option value="ltr">left-to-right</option>
+		<option value="rtl">right-to-left</option>
+	</select></td></tr>
+	<tr><td style="text-align:right;">Theme:
+	<select dojoType="dijit.form.FilteringSelect" id="theme" style="font-size:14pt;" required="false" value="">
+		<script type="dojo/method" event="onChange" args="theme">
+			var body = dojo.body();
+			if(theme == "a11y"){ theme="dijit_a11y"; }
+			dojo.removeClass(body, "tundra");
+			dojo.removeClass(body, "soria");
+			dojo.removeClass(body, "nihilo");
+			dojo.removeClass(body, "claro");
+			dojo.removeClass(body, "dijit_a11y");
+			dojo.addClass(body, theme);
+		</script>
+		<option value="tundra">tundra</option>
+		<option value="soria">soria</option>
+		<option value="nihilo">nihilo</option>
+		<option value="claro">claro</option>
+		<option value="a11y">a11y</option>
+	</select></td></tr>
+	</table>
+	<button dojoType="dijit.form.Button" onclick="doh.run()">Run tests</button>
 </body>
 </html>

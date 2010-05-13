@@ -55,13 +55,9 @@
 	position:relative;
 }
 
+.dj_ie INPUT.dijitTextBox,
 .dj_ie .dijitTextBox INPUT {
 	font-size: 100%;
-}
-.dijitTextBox INPUT.dijitValidationInner,
-.dijitTextBox INPUT.dijitArrowButtonInner {
-	#line-height: 100%; /* IE7 (and somewhat an IE6) problem where the icon is not centered vertically w/o this */
-	#overflow: hidden; /* IE6 combobox button won't go to the bottom w/o this */
 }
 .dijitTextBox .dijitSpinnerButtonContainer,
 .dijitTextBox .dijitArrowButtonContainer,
@@ -420,9 +416,22 @@ DIV.dijitArrowButton {
 	#letter-spacing: -5em !important;
 	#text-align: right !important;
 }
-.dj_iequirks .dijitTextBox INPUT {
-	line-height: normal; /* makes the heights a little taller than 100% */
-	height: 100% !important; /* 100% and not auto needed for IE+quirks */
+.dj_ie .dijitTextBox INPUT,
+.dj_ie INPUT.dijitTextBox {
+	overflow-y: visible; /* INPUTs need help expanding when padding is added or line-height is adjusted */
+	line-height: normal; /* strict mode */
+}
+.dj_ie7 .dijitTextBox INPUT.dijitValidationInner,
+.dj_ie7 .dijitTextBox INPUT.dijitArrowButtonInner {
+	line-height: 86%; /* IE7 problem where the icon is vertically too low w/o this - real input stays at normal */
+}
+.dj_ie6 .dijitTextBox INPUT,
+.dj_ie6 INPUT.dijitTextBox,
+.dj_iequirks .dijitTextBox INPUT.dijitValidationInner,
+.dj_iequirks .dijitTextBox INPUT.dijitArrowButtonInner,
+.dj_iequirks .dijitTextBox INPUT.dijitInputInner,
+.dj_iequirks INPUT.dijitTextBox {
+	line-height: 100%; /* IE7 problem where the icon is vertically way too low w/o this */
 }
 .dijit_a11y INPUT.dijitValidationInner,
 .dijit_a11y INPUT.dijitArrowButtonInner {
@@ -477,7 +486,7 @@ DIV.dijitArrowButton {
 .dijitSpinnerButtonContainer INPUT {
 	width:1em;
 	visibility:hidden !important; /* just a sizing element */
-	overflow:hidden;
+	overflow-x:hidden;
 }
 .dijitComboBox .dijitButtonNode,
 .dijitSpinnerButtonContainer .dijitButtonNode {
