@@ -110,7 +110,9 @@ dojo.declare(
 
 		templateString: dojo.cache("dijit.form", "templates/ComboBox.html"),
 
-		baseClass:"dijitTextBox dijitComboBox",
+		_buttonInputDisabled: dojo.isIE ? "disabled" : "", // allows IE to disallow focus, but Firefox cannot be disabled for mousedown events
+
+		baseClass: "dijitTextBox dijitComboBox",
 
 		// Set classes like dijitDownArrowButtonHover depending on
 		// mouse action over button node
