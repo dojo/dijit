@@ -6,15 +6,15 @@
 	overflow: hidden;
 	position: relative;
 	width: auto;
-	padding: 1px 2px;
+	padding: 0 2px;
 }
-.dj_ie6 .claro .dijitSpinnerButtonContainer {
-	padding: 0 2px 2px; /* rendering workaround */
+.claro .dijitSpinnerButtonContainer .dijitSpinnerButtonInner {
+	border-width: 1px 0; /* reserve space to match the claro combobox button border with border and not padding to make IE happier */
+	border-style: solid none;
 }
 
 /* button */
 .claro .dijitSpinner .dijitArrowButton {
-	height: 49%;
 	width:auto;
 	background-color: #ebeef4;
 	background-image: url("images/formHighlight.png");
@@ -25,9 +25,6 @@
 .dj_iequirks .claro .dijitSpinner .dijitArrowButton {
 	overflow: visible; /* 0 height w/o this */
 }
-.dj_ie6 .claro .dijitSpinner .dijitArrowButton {
-	padding-bottom: 1px; /* needed in a11y sizing to account for the border sizing */
-}
 
 .claro .dijitSpinner .dijitSpinnerButtonInner {
 	width: 15px;
@@ -35,6 +32,7 @@
 /* up & down button icons */
 .claro .dijitSpinner .dijitArrowButtonInner {
 	border:solid 1px #fff;
+	border-bottom-width: 0; /* 2 top borders = 1 top+bottom border in ComboBox */
 	background-image: url("images/commonFormArrows.png");
 	background-repeat: no-repeat;
 	height: 100%;

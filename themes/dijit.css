@@ -155,7 +155,7 @@
 	background-image:none !important;
 }
 .dijit_a11y .dijitIcon,
-.dijit_a11y div.dijitArrowButtonInner,
+.dijit_a11y div.dijitArrowButtonInner, /* is this only for Spinner?  if so, it should be deleted */
 .dijit_a11y span.dijitArrowButtonInner,
 .dijit_a11y img.dijitArrowButtonInner,
 .dijit_a11y .dijitCalendarIncrementControl {
@@ -163,7 +163,9 @@
 	 * exception for INPUT.dijitArrowButtonInner, because the icon and character are controlled by the same node */
 	display: none;
 }
-
+.dijitSpinner DIV.dijitArrowButtonInner {
+	display: block; /* override previous rule */
+}
 
 .dijit_a11y .dijitA11ySideArrow {
 	display: inline !important; /* display text instead */
@@ -458,7 +460,7 @@ DIV.dijitArrowButton {
 	/* dividing line between input area and up/down button(s) for ComboBox and Spinner */
 	border-width: 0;
 }
-.dj_ie6 .dijit_a11y .dijitSpinner .dijitSpinnerButtonContainer .dijitButtonNode {
+.dj_ie .dijit_a11y .dijitSpinner .dijitSpinnerButtonContainer .dijitButtonNode {
 	clear: both; /* IE workaround */
 }
 .dijit_a11y .dijitTextBox .dijitValidationContainer,
@@ -494,10 +496,35 @@ DIV.dijitArrowButton {
 	border: 0 none !important;
 }
 .dijit_a11y .dijitTextBox .dijitSpinnerButtonContainer,
+.dijit_a11y .dijitSpinner .dijitArrowButtonInner,
 .dijit_a11y .dijitSpinnerButtonContainer INPUT {
 	width: 1em !important;
 }
-
+.dijit_a11y .dijitSpinner .dijitArrowButtonInner {
+	margin: 0 auto !important; /* should auto-center */
+}
+.dj_ie .dijit_a11y .dijitSpinner .dijitArrowButtonInner .dijitInputField {
+	padding-left: 0.3em !important;
+	padding-right: 0.3em !important;
+	margin-left: 0.3em !important;
+	margin-right: 0.3em !important;
+	width: 1.4em !important;
+}
+.dj_ie7 .dijit_a11y .dijitSpinner .dijitArrowButtonInner .dijitInputField {
+	padding-left: 0.0em !important; /* manually center INPUT: character is .5em and total width = 1em */
+	padding-right: 0.0em !important;
+	width: 1em !important;
+}
+.dj_ie6 .dijit_a11y .dijitSpinner .dijitArrowButtonInner .dijitInputField {
+	margin-left: 0.1em !important;
+	margin-right: 0.1em !important;
+	width: 1em !important;
+}
+.dj_iequirks .dijit_a11y .dijitSpinner .dijitArrowButtonInner .dijitInputField {
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+	width: 2em !important;
+}
 .dijitSpinner .dijitSpinnerButtonContainer .dijitArrowButton {
 	/* note: .dijitInputLayoutContainer makes this rule override .dijitArrowButton settings
 	 * for dijit.form.Button
@@ -514,7 +541,6 @@ DIV.dijitArrowButton {
 }
 .dj_iequirks .dijitSpinner .dijitSpinnerButtonContainer .dijitArrowButton {
 	width: auto;
-	height: auto;
 }
 .dijit_a11y .dijitSpinnerButtonContainer .dijitArrowButton {
 	overflow: visible !important;
@@ -525,23 +551,33 @@ DIV.dijitArrowButton {
 }
 .dijitSpinner .dijitSpinnerButtonContainer .dijitUpArrowButton {
 	#bottom: 50%;	/* otherwise (on some machines) top arrow icon too close to splitter border (IE6/7) */
-	#margin-bottom: -1px !important; /* same size as the bottom with a border */
 	top: 0;
 }
 .dijitSpinner .dijitArrowButtonInner {
 	margin: auto;
-	height: 100% !important;
-}
-.dj_iequirks .dijitSpinner .dijitArrowButtonInner {
+	overflow-x: hidden;
 	height: auto !important;
 }
-
-.dj_ie .dijitSpinner .dijitArrowButtonInnerHalfHeight {
-	zoom: 50%; /* emulate height:50% */
+.dijitSpinner .dijitArrowButtonInner .dijitInputField {
+	-moz-transform: scale(0.5);
+	-moz-transform-origin: center top;
+	-webkit-transform: scale(0.5);
+	-webkit-transform-origin: center top;
+	-o-transform: scale(0.5);
+	-o-transform-origin: center top;
+	transform: scale(0.5);
+	transform-origin: left top;
 	padding-top: 0;
 	padding-bottom: 0;
 	padding-left: 0 !important;
 	padding-right: 0 !important;
+	width: 100%;
+}
+.dj_ie .dijitSpinner .dijitArrowButtonInner .dijitInputField {
+	zoom: 50%; /* emulate transform: scale(0.5) */
+}
+.dijitSpinner .dijitSpinnerButtonContainer .dijitArrowButtonInner {
+	overflow: hidden;
 }
 
 .dijit_a11y .dijitSpinner .dijitSpinnerButtonContainer .dijitArrowButton {
@@ -550,9 +586,12 @@ DIV.dijitArrowButton {
 .dj_iequirks .dijit_a11y .dijitSpinner .dijitSpinnerButtonContainer .dijitArrowButton {
 	width: 1em; /* matches .dijit_a11y .dijitTextBox .dijitSpinnerButtonContainer rule - 100% is the whole screen width in quirks */
 }
-.dijit_a11y .dijitSpinner .dijitArrowButton .dijitArrowButtonChar {
-	font-size: 0.5em;
+.dijitSpinner .dijitArrowButtonInner .dijitInputField {
+	visibility: hidden;
+}
+.dijit_a11y .dijitSpinner .dijitArrowButtonInner .dijitInputField {
 	vertical-align:top;
+	visibility: visible;
 }
 .dijit_a11y .dijitSpinnerButtonContainer {
 	width: 1em;
@@ -1867,12 +1906,12 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 }
 
 .dijitArrowButtonChar {
-	display:none !important;
+        display:none !important;
 }
 .dijit_a11y .dijitArrowButtonChar {
-	display:inline !important;
+        display:inline !important;
 }
-.dijit_a11y .dijitSpinner .dijitArrowButtonInner,
+
 .dijit_a11y .dijitDropDownButton .dijitArrowButtonInner,
 .dijit_a11y .dijitComboButton .dijitArrowButtonInner {
 	display:none !important;

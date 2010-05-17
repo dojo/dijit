@@ -44,6 +44,12 @@
 			border-color: black !important;
 			margin: 0px !important;
 		}
+		.dj_ie8 #table .dijit {
+			vertical-align: top; /* needed for IE8 strict */
+		}
+		.dj_iequirks #table .dijit {
+			vertical-align: auto; /* needed for IE8 quirks */
+		}
 		.padded .dijitInputField {
 			padding: 10px !important;
 		}
@@ -71,6 +77,8 @@
 			var direction = "ltr";
 			var fontSize = "12pt";
 			var fontFamily = "monospace";
+
+			dijit.byId("theme").isRealA11y = dojo.hasClass(dojo.body(), "dijit_a11y");
 
 			var str = window.location.href.substr(window.location.href.indexOf("?")+1).split(/#/);
 			var ary  = str[0].split(/&/);
@@ -134,9 +142,9 @@
 					var validationPos = dojo.position(validation.domNode);
 					var comboboxPos = dojo.position(combobox.domNode);
 					var spinnerPos = dojo.position(spinner.domNode);
-					doh.t(textboxPos[attr] == validationPos[attr] &&
-						textboxPos[attr] == comboboxPos[attr] &&
-						textboxPos[attr] == spinnerPos[attr],
+					doh.t(Math.round(textboxPos[attr]) == Math.round(validationPos[attr]) &&
+						Math.round(textboxPos[attr]) == Math.round(comboboxPos[attr]) &&
+						Math.round(textboxPos[attr]) == Math.round(spinnerPos[attr]),
 						"Expected same " + attr + ":" + textboxPos[attr] + '/' + validationPos[attr] + '/' + comboboxPos[attr] + '/' + spinnerPos[attr]
 					);
 				}catch(e){
@@ -150,9 +158,9 @@
 					var validationPos = dojo.position(validation.domNode.parentNode);
 					var comboboxPos = dojo.position(combobox.domNode.parentNode);
 					var spinnerPos = dojo.position(spinner.domNode.parentNode);
-					doh.t(textboxPos[attr] == validationPos[attr] &&
-						textboxPos[attr] == comboboxPos[attr] &&
-						textboxPos[attr] == spinnerPos[attr],
+					doh.t(Math.round(textboxPos[attr]) == Math.round(validationPos[attr]) &&
+						Math.round(textboxPos[attr]) == Math.round(comboboxPos[attr]) &&
+						Math.round(textboxPos[attr]) == Math.round(spinnerPos[attr]),
 						"Expected same parent " + attr + ":" + textboxPos[attr] + '/' + validationPos[attr] + '/' + comboboxPos[attr] + '/' + spinnerPos[attr]
 					);
 				}catch(e){
@@ -192,15 +200,15 @@
 
 			doh.register("create normal boxes", {
 				name: "setup",
-				timeout: 2000,
+				timeout: 9000,
 				runTest: function(){
 					var d = new doh.Deferred();
 					/* create errors, then insert good values to exercise the widget rendering */
 					createErrors();
 					validation.set('value', 23);
-					combobox.set('value', "KY");
 					spinner.set('value', 32);
-					setTimeout(dojo.hitch(d, "callback", true), 500); // slow down to let onChange events fire
+					combobox.onChange = function(v){ if(v == "KY"){ d.callback(true); combobox.onChange = function(){}; }};
+					combobox.set('value', "KY");
 					return d;
 				}
  			});
@@ -212,6 +220,7 @@
 				doh.register("valid internal offsets", [
 					{
 						name: "textbox: " + widgetName,
+						timeout: 1000,
 						runTest: function(){
 							var paddedBoxPos = dojo.position(widget.focusNode.parentNode);
 							var inputPos = dojo.position(widget.focusNode);
@@ -235,6 +244,7 @@
 					},
 					{
 						name: "padded box: " + widgetName,
+						timeout: 1000,
 						runTest: function(){
 							var domNodePos = dojo.position(widget.domNode);
 							var paddedBoxPos = dojo.position(widget.focusNode.parentNode);
@@ -248,6 +258,7 @@
 					},
 					{
 						name: "button: " + widgetName,
+						timeout: 1000,
 						runTest: function(){
 							if(widgetName == "dijitTextBox" || widgetName == "dijitValidationTextBox"){ return; }
 							var paddedBoxPos = dojo.position(widget.focusNode.parentNode);
@@ -268,10 +279,12 @@
 
 			doh.register("create errors", {
 				name: "setup",
+				timeout: 9000,
 				runTest: function(){
 					var d = new doh.Deferred();
 					createErrors();
-					setTimeout(dojo.hitch(d, "callback", true), 500);
+					textbox.onChange = function(v){ d.callback(true); textbox.onChange = function(){}; };
+					textbox.set('value', textbox.get('value')+' ');
 					return d;
 				}
 			});
@@ -281,6 +294,7 @@
 			doh.register("check button sizes", [
 				{
 					name: "ComboBox",
+					timeout: 1000,
 					runTest: function(){
 						var inputPos = dojo.position(combobox.focusNode.parentNode);
 						var arrowPos = dojo.position(combobox.downArrowNode);
@@ -289,6 +303,7 @@
 				},
 				{
 					name: "Spinner",
+					timeout: 1000,
 					runTest: function(){
 						// use offsetHeight since the buttons could be truncated by overflow:hidden
 						var inputHeight = spinner.focusNode.parentNode.offsetHeight;
@@ -305,6 +320,7 @@
 				doh.register("error internal offsets", [
 					{
 						name: "textbox: " + widgetName,
+						timeout: 1000,
 						runTest: function(){
 							var paddedBoxPos = dojo.position(widget.focusNode.parentNode);
 							var inputPos = dojo.position(widget.focusNode);
@@ -328,6 +344,7 @@
 					},
 					{
 						name: "padded box: " + widgetName,
+						timeout: 1000,
 						runTest: function(){
 							var domNodePos = dojo.position(widget.domNode);
 							var paddedBoxPos = dojo.position(widget.focusNode.parentNode);
@@ -341,6 +358,7 @@
 					},
 					{
 						name: "validation node: " + widgetName,
+						timeout: 1000,
 						runTest: function(){
 							if(widget.state != "Error"){ return; }
 							var validationNode = dojo.query(".dijitValidationContainer", widget.domNode)[0];
@@ -359,6 +377,7 @@
 					},
 					{
 						name: "button: " + widgetName,
+						timeout: 1000,
 						runTest: function(){
 							if(widget.state != "Error" || widgetName == "dijitValidationTextBox"){ return; }
 							var validationNode = dojo.query(".dijitValidationContainer", widget.domNode)[0];
@@ -454,7 +473,7 @@
 		<option>medium</option>
 		<option>xx-large</option>
 		<option>8pt</option>
-		<option>20px</option>
+		<option>21px</option>
 		<option>1cm</option>
 		<option>1em</option>
 		<option>200%</option>
@@ -462,11 +481,7 @@
 	<tr><td style="text-align:right;">Padding:
 	<select dojoType="dijit.form.FilteringSelect" id="padding" style="font-size:14pt;" required="false" value="">
 		<script type="dojo/method" event="onChange" args="padding">
-			var table = dojo.byId('table');
-			dojo.removeClass(table, "padded");
-			dojo.removeClass(table, "unPadded");
-			dojo.removeClass(table, "default");
-			dojo.addClass(table, padding);
+			dojo.byId('table').className = padding;
 		</script>
 		<option value="default">default</option>
 		<option value="padded">padded</option>
@@ -502,14 +517,8 @@
 	<tr><td style="text-align:right;">Theme:
 	<select dojoType="dijit.form.FilteringSelect" id="theme" style="font-size:14pt;" required="false" value="">
 		<script type="dojo/method" event="onChange" args="theme">
-			var body = dojo.body();
 			if(theme == "a11y"){ theme="dijit_a11y"; }
-			dojo.removeClass(body, "tundra");
-			dojo.removeClass(body, "soria");
-			dojo.removeClass(body, "nihilo");
-			dojo.removeClass(body, "claro");
-			dojo.removeClass(body, "dijit_a11y");
-			dojo.addClass(body, theme);
+			dojo.body().className = theme + ((this.isRealA11y && theme != "dijit_a11y") ? " dijit_a11y" : "");
 		</script>
 		<option value="tundra">tundra</option>
 		<option value="soria">soria</option>
