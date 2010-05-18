@@ -77,12 +77,6 @@
 	background:#fff;
 }
 
-.tundra .dijitTab .dijitClosable .dijitTabCloseIcon {
-	background: url("../images/tabClose.png") no-repeat right top;
-	width: 12px;
-	height: 12px;
-}
-
 .tundra .dijitTab .tabLabel {
 	/* make sure tabs w/close button and w/out close button are same height, even w/small (<12px) font */
 	min-height: 12px;
@@ -120,17 +114,19 @@
 
 /* Close button */
 
-.tundra .dijitTab .dijitTabCloseIcon {
-	background-image : url("../images/tabClose.png");
+.tundra .dijitTabCloseButton {
+	background: url("../images/tabClose.png") no-repeat right top;
+	width: 12px;
+	height: 12px;
 }
-.dj_ie6 .tundra .dijitTab .dijitTabCloseIcon {
+.dj_ie6 .tundra .dijitTabCloseButton {
 	background-image : url("../images/tabClose.gif");
 }
 
-.tundra .dijitTabCloseButtonHover .dijitTabCloseIcon {
+.tundra .dijitTabCloseButtonHover {
 	background-image : url("../images/tabCloseHover.png");
 }
-.dj_ie6 .tundra .dijitTabCloseButtonHover .dijitTabCloseIcon {
+.dj_ie6 .tundra .dijitTabCloseButtonHover {
 	background-image : url("../images/tabCloseHover.gif");
 }
 

@@ -65,8 +65,7 @@
 }
 
 /* checked tab*/
-.nihilo .dijitTabChecked,
-.nihilo .dijitTabCloseButtonChecked
+.nihilo .dijitTabChecked
 {
 	/* the selected tab (with or without hover) */
 	background: url("../images/tabContainerSprite.gif") no-repeat 0px -0px;
@@ -118,20 +117,20 @@
 
 
 /* Close button */
-.nihilo .dijitTab .dijitTabCloseIcon {
+.nihilo .dijitTabCloseButton {
 	background: url("../images/spriteRoundedIconsSmall.png") no-repeat -60px top;
 	width: 15px;
 	height: 15px;
 	margin-top: -1px;
 }
 
-.dj_ie6 .nihilo .dijitTab .dijitTabCloseIcon {
+.dj_ie6 .nihilo .dijitTabCloseButton {
 	background: url("../images/spriteRoundedIconsSmall.gif") no-repeat -60px top;
 }
-.nihilo .dijitTabCloseButtonHover .dijitTabCloseIcon {
+.nihilo .dijitTabCloseButtonHover {
 	background: url("../images/spriteRoundedIconsSmall.png") no-repeat -60px -15px;
 }
-.dj_ie6 .nihilo .dijitTabCloseButtonHover .dijitTabCloseIcon {
+.dj_ie6 .nihilo .dijitTabCloseButtonHover {
 	background: url("../images/spriteRoundedIconsSmall.gif") no-repeat -60px -15px;
 }
 
@@ -250,9 +249,7 @@
 	background: url("../images/tabBottomHoverC.gif") repeat-x bottom left;
 }
 
-.nihilo .dijitTabContainerBottom-tabs .dijitTabChecked,
-.nihilo .dijitTabContainerBottom-tabs .dijitTabCloseButtonChecked
-{
+.nihilo .dijitTabContainerBottom-tabs .dijitTabChecked {
 	/* the selected tab (with or without hover) */
 	background: url("../images/tabBottomActiveSpriteLR.gif") no-repeat bottom left;
 }

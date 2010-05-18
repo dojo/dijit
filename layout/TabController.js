@@ -118,11 +118,6 @@ dojo.declare("dijit.layout._TabButton",
 			var _nlsResources = dojo.i18n.getLocalization("dijit", "common");
 			if(this.closeNode){
 				dojo.attr(this.closeNode,"title", _nlsResources.itemClose);
-				if (dojo.isIE<8){
-					// IE<8 needs title set directly on image.  Only set for IE since alt=""
-					// for this node and WCAG 2.0 does not allow title when alt=""
-					dojo.attr(this.closeIcon, "title", _nlsResources.itemClose);
-				}
 			}
 			// add context menu onto title button
 			var _nlsResources = dojo.i18n.getLocalization("dijit", "common");

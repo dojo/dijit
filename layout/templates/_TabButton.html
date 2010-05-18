@@ -4,11 +4,10 @@
         	<div waiRole="presentation" dojoAttachPoint='focusNode'>
 		        <img src="${_blankGif}" alt="" class="dijitIcon" dojoAttachPoint='iconNode' waiRole="presentation"/>
 		        <span dojoAttachPoint='containerNode' class='tabLabel'></span>
-		        <span class="dijitTabCloseButton" dojoAttachPoint='closeNode'
-		        		dojoAttachEvent='onclick: onClickCloseButton'>
-		        	<img src="${_blankGif}" alt="" dojoAttachPoint='closeIcon' class='dijitTabCloseIcon' waiRole="presentation"/>
-		            <span dojoAttachPoint='closeText' class='dijitTabCloseText'>x</span>
-		        </span>
+		        <span class="dijitInline dijitTabCloseButton dijitTabCloseIcon" dojoAttachPoint='closeNode'
+		        		dojoAttachEvent='onclick: onClickCloseButton' waiRole="presentation">
+		            <span dojoAttachPoint='closeText' class='dijitTabCloseText'>x</span
+		        ></span>
 			</div>
         </div>
     </div>

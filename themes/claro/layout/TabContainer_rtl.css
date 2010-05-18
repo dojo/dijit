@@ -11,13 +11,6 @@
 	display: block;
 	left: 0;
 }
-.dj_ie7 .claro .dijitTabRtl .dijitTabCloseText,
-.dj_iequirks .claro .dijitTabRtl .dijitTabCloseText {
-	width: 0;
-	height: 0;
-	overflow: hidden;
-	float: left;
-}
 .dj_ie7 .claro .dijitTabContainerTop-tabs .dijitTabRtl,
 .dj_ie7 .claro .dijitTabContainerTop-tabs .dijitTabCheckedRtl {
 	top: 1px;
@@ -40,9 +33,9 @@
 	/*Make the .tablabel have width in ie6 with haslayout property, fix Close icon position bug*/
 	zoom:1;
 }
-.dj_ie6 .claro .dijitTabRtl .dijitTabCloseIcon,
-.dj_ie7 .claro .dijitTabRtl .dijitTabCloseIcon,
-.dj_iequirks .claro .dijitTabRtl .dijitTabCloseIcon {
+.dj_ie6 .claro .dijitTabRtl .dijitTabCloseButton,
+.dj_ie7 .claro .dijitTabRtl .dijitTabCloseButton,
+.dj_iequirks .claro .dijitTabRtl .dijitTabCloseButton {
 	margin-right:5px;
 }
 

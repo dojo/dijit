@@ -15,20 +15,16 @@
 	border-color: #b5bcc7;
 }
 .claro .dijitTabCloseButton {
-	margin-left: 0;
-}
-.claro .dijitTabCloseIcon {
 	background: url("images/tabClose.png") no-repeat;
 	width: 14px;
 	height: 14px;
 	margin-left: 5px;
-	margin-top:-1px;
 	margin-right:-3px;
 }
-.claro .dijitTabCloseButtonHover .dijitTabCloseIcon {
+.claro .dijitTabCloseButtonHover {
 	background-position:-14px;
 }
-.claro .dijitTabCloseButtonActive .dijitTabCloseIcon {
+.claro .dijitTabCloseButtonActive {
 	background-position:-28px;
 }
 .claro .dijitTabSpacer {

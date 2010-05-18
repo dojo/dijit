@@ -75,8 +75,7 @@
 }
 
 /* checked tab*/
-.soria .dijitTabChecked,
-.soria .dijitTabCloseButtonChecked
+.soria .dijitTabChecked
 {
 	/* the selected tab (with or without hover) */
 	background: url("../images/tabContainerSprite.gif") no-repeat 0px -0px;
@@ -124,20 +123,20 @@
 
 
 /* Close Button */
-.soria .dijitTab .dijitTabCloseIcon {
+.soria .dijitTabCloseButton {
 	width: 15px;
 	height: 15px;
 	background: url("../images/spriteRoundedIconsSmall.png") no-repeat -60px top;
 	margin-top: -1px;
 }
-.dj_ie6 .soria .dijitTab .dijitClosable .dijitTabCloseIcon {
+.dj_ie6 .soria .dijitTabCloseButton {
 	background: url("../images/spriteRoundedIconsSmall.gif") no-repeat -60px top;
 }
 
-.soria .dijitTabCloseButtonHover .dijitTabCloseIcon {
+.soria .dijitTabCloseButtonHover {
 	background: url("../images/spriteRoundedIconsSmall.png") no-repeat -60px -15px;
 }
-.dj_ie6 .soria .dijitTabCloseButtonHover .dijitTabCloseIcon {
+.dj_ie6 .soria .dijitTabCloseButtonHover {
 	background: url("../images/spriteRoundedIconsSmall.gif") no-repeat -60px -15px;
 }
 
@@ -254,9 +253,7 @@
 	background: url("../images/tabBottomHoverC.gif") repeat-x bottom left;
 }
 
-.soria .dijitTabContainerBottom-tabs .dijitTabChecked,
-.soria .dijitTabContainerBottom-tabs .dijitTabCloseButtonChecked
-{
+.soria .dijitTabContainerBottom-tabs .dijitTabChecked {
 	/* the selected tab (with or without hover) */
 	background: url("../images/tabBottomActiveSpriteLR.gif") no-repeat bottom left;
 }
