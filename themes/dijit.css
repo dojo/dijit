@@ -1904,8 +1904,8 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	display:inline !important;
 	visibility:hidden;
 }
-.dj_ie6 .dijitToggleButtonIconChar {
-	font-family: "Arial Unicode MS";	/* otherwise the checkmark appears as a box */
+.dj_ie6 .dijitToggleButtonIconChar, .dj_ie6 .tabStripButton .dijitButtonText {
+	font-family: "Arial Unicode MS";	/* otherwise the a11y character (checkmark, arrow, etc.) appears as a box */
 }
 .dijit_a11y .dijitToggleButtonChecked .dijitToggleButtonIconChar {
 	display: inline !important; /* In high contrast mode, display the check symbol */
