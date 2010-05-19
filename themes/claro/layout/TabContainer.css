@@ -294,37 +294,31 @@
 	height:15px;
 	width:15px;
 	margin: 0 auto;
-	background:url("../form/images/arrows.gif") no-repeat 0px 0px;
-	background-color: transparent;	
+	background:url("../form/images/buttonArrows.png") no-repeat -75px 50%;
+	background-color: transparent;
 }
 .claro .dijitTabStripSlideRightIcon{
-	background-position: 0px -30px;
+	background-position: -24px 50%;
 }
 .claro .dijitTabStripMenuIcon {
-	background-position: 0px -15px;
+	background-position: -51px 50%;
 }
 
 /*disabled styles for tab strip buttons*/
 .claro .dijitTabListContainer-top .tabStripButtonDisabled,
 .claro .dijitTabListContainer-bottom .tabStripButtonDisabled {
-	/* 3 element selector so background-image: ... rule doesn't need !important */
-	background-color:#DDDDDD;
-	background-image:url(../form/images/button_grad_d.png);
-	border:1px solid #C9C9C9;
-}
-.claro .tabStripButtonDisabled .dijitTabInnerDiv {
-	background:none;
+	background-color:#dddddd;
+	border:1px solid #c9c9c9;
 }
 .claro .tabStripButtonDisabled .dijitTabStripSlideLeftIcon {
-	background-position: 0px -60px;
+	background-position:-175px 50%;
 }
 .claro .tabStripButtonDisabled .dijitTabStripSlideRightIcon {
-	background-position: 0px -90px;
+	background-position: -124px 50%;
 }
 .claro .tabStripButtonDisabled .dijitTabStripMenuIcon {
-	background-position: 0px -75px;
-}
-
+	background-position: -151px 50%;
+} 
 /* Nested Tabs */
 .claro .dijitTabContainerNested .dijitTabListWrapper {
 	height: auto;
