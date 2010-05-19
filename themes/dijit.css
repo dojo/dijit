@@ -556,6 +556,9 @@ DIV.dijitArrowButton {
 .dijitSpinner .dijitArrowButtonInner {
 	margin: auto;
 	overflow-x: hidden;
+	height: 100% !important;
+}
+.dj_iequirks .dijitSpinner .dijitArrowButtonInner {
 	height: auto !important;
 }
 .dijitSpinner .dijitArrowButtonInner .dijitInputField {
