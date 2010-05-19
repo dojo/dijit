@@ -70,11 +70,11 @@ dojo.declare(
 	baseClass: "dijitSlider",
 
 	// Apply CSS classes to up/down arrows and handle per mouse state
-    cssStateNodes: {
-       incrementButton: "dijitSliderIncrementButton",
-       decrementButton: "dijitSliderDecrementButton",
-       focusNode: "dijitSliderThumb"
-   },
+	cssStateNodes: {
+		incrementButton: "dijitSliderIncrementButton",
+		decrementButton: "dijitSliderDecrementButton",
+		focusNode: "dijitSliderThumb"
+	},
 
 	_mousePixelCoord: "pageX",
 	_pixelCount: "w",
