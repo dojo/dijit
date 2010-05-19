@@ -16,11 +16,11 @@
 	top: 1px;
 }
 .dj_ie7 .claro .tabStripButtonRtl .dijitButtonContents,
+.dj_ie8 .claro .tabStripButtonRtl .dijitButtonContents,	/* needed for IE8 quirks, but breaks IE6 quirks */
 .dj_ie6 .claro .dijitTabContainerTop-tabs .dijitTabRtl .dijitTabInnerDiv,
 .dj_ie6 .claro .dijitTabContainerBottom-tabs .dijitTabRtl .dijitTabInnerDiv,
 .dj_ie7 .claro .dijitTabContainerTop-tabs .dijitTabRtl .dijitTabInnerDiv,
 .dj_ie7 .claro .dijitTabContainerBottom-tabs .dijitTabRtl .dijitTabInnerDiv,
-.dj_iequirks .claro .tabStripButtonRtl .dijitButtonContents,
 .dj_iequirks .claro .dijitTabContainerTop-tabs .dijitTabRtl .dijitTabInnerDiv,
 .dj_iequirks .claro .dijitTabContainerBottom-tabs .dijitTabRtl .dijitTabInnerDiv {
 	float:left;
