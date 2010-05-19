@@ -1,4 +1,24 @@
-/** Toolbar **/
+/* Toolbar 
+ * 
+ * Styling Toolbar means styling the toolbar container and the widget inside toolbar  (dijitToolbar)
+ * 
+ * 1. toolbar (default styling): 
+ * 		.dijitTreeRow - for background-color, border
+ *
+ * 2. widget inside toolbar
+ * 		.dijitToolbar .dijitButtonNode   - mainly for Button widget background-color, border
+ * 					  .dijitComboButton  - mainly for ComboButton background-color, border
+ * 					  .dijitDropDownButton  - mainly for DropDownButton background-color, border
+ * 					  .dijitToggleButton  - mainly for ToggleButton background-color, border
+ * 		
+ * 3. hovered widget inside toolbar (ie, mouse hover on the widget inside)
+ * 			.dijitToolbar .dijitButtonNodeHover  - mainly for hovered Button widget background-color, border
+ * 				also for .dijitComboButtonHover .dijitDropDownButtonHover .dijitToggleButtonHover
+ * 
+ * 4. actived widget inside toolbar (ie, mouse down on the widget inside)
+ * 			.dijitToolbar .dijitButtonNodeActive  - mainly for actived Button widget background-color, border
+ * 				also for .dijitComboButtonActive .dijitDropDownButtonActive .dijitToggleButtonActive
+ */
 
 .claro .dijitToolbar {
 	border-bottom: 1px solid #b5bcc7;

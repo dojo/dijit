@@ -1,4 +1,34 @@
-/* Dialog */
+/* Dialog 
+ * 
+ * Styling Dialog includes two sections: Dialog and Tooltip & TooltipDialog
+ * 
+ * Dialog:
+ * 1. Dialog (default styling): 
+ * 		.dijitDialog - for border, shadow
+ *
+ * 2. Dialog title 
+ * 		.dijitDialogTitleBar - for background-color, border
+ * 		.dijitDialogTitle - for font
+ * 
+ * 3. Dialog content 
+ * 		.dijitDialogPaneContent - for background-color, border
+ * 		.dijitDialogPaneContentArea - for padding, margin
+ * 
+ * 4. Dialog action bar 
+ * 		.dijitDialogPaneActionBar - for background-color, border, padding
+ * 
+ * 5. Dialog underlay 
+ * 		.dijitDialogUnderlay - for background-color
+ * 
+ * 
+ * Tooltip & TooltipDialog:
+ * 1. tooltip content container: 
+ * 		.dijitTooltipContainer - for background-color, border, padding
+ *
+ * 2. tooltip connector: 
+ * 		.dijitTooltipConnector - for position, size, background
+ * 
+ */
 
 .claro .dijitDialog {
 	border: 1px solid #769dc0;

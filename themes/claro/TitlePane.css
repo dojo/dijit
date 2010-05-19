@@ -1,4 +1,27 @@
-/* TitlePane */
+/* TitlePane 
+ * 
+ * Styling TitlePane means styling the TitlePane title and its content container  (dijitTitlePane)
+ * 
+ * TitlePane title:
+ * 1. TitlePane title (default styling): 
+ * 		.dijitTitlePaneTitle - for background-color, border, padding
+ *
+ * 2. hovered TitlePane title (ie, mouse hover on a title bar)
+ * 		.dijitTitlePaneTitleHover - for background-color, border
+ * 
+ * 3. active TitlePane title (ie, mouse down on a title bar)
+ * 		.dijitTreeRowActive - for background-color, border
+ * 
+ * 
+ * TitlePane Content Container:
+ * 1. inner container: 
+ * 		.dijitTitlePaneContentOuter - for background-color, border, padding
+ *
+ * 2. inner container: 
+ * 		.dijitTitlePaneContentInner - for border, padding
+ * 
+ */
+
 .claro .dijitTitlePaneTitle {
 	background-color: #e6e6e7;
 	background-image: url("images/titlebar.png");

@@ -1,4 +1,28 @@
-/* Tree */
+/* Tree 
+ * 
+ * Styling Tree mostly means styling the TreeRow (dijitTreeRow)
+ * There are 4 basic states to style:
+ * 
+ * Tree Row:
+ * 1. tree row (default styling): 
+ * 		.dijitTreeRow - for background-color, border
+ *
+ * 2. hovered tree row (ie, mouse hover on a tree row)
+ * 		.dijitTreeRowHover - for background-color, border
+ * 
+ * 3. active tree row (ie, mouse down on a tree row)
+ * 		.dijitTreeRowActive - for background-color, border
+ * 
+ * 4. selected tree row
+ * 		dijitTreeRowSelected - for background-color, border
+ * 
+ * Tree Expando:
+ * 	    dijitTreeExpando - for background-image, border, size
+ * 
+ * Drag and Drop on TreeNodes: (insert line on dijitTreeContent node so it's aligned w/ target element
+ * 		.dijitTreeNode .dojoDndItemBefore - for border
+ * 		.dijitTreeNode .dojoDndItemAfter  - for border
+ */
 
 .claro .dijitTreeNode {
     zoom: 1;	/* force layout on IE (TODO: may not be needed anymore) */

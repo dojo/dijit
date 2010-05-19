@@ -1,3 +1,56 @@
+/* Slider 
+ * 
+ * Styling Slider mainly includes styling the Slider progress bar (dijitSliderProgressBar)
+ * 
+ * Slider progress bar:
+ * 1. Slider progress bar (default styling): 
+ * 		.dijitSliderProgressBarH(horizontal) - for background, border
+ * 		.dijitSliderLeftBumper - for background, border
+ * 		.dijitSliderRightBumper - for background, border
+ * 		.dijitSliderProgressBarV(vertical) - for background, border
+ * 		.dijitSliderTopBumper - for background, border
+ * 		.dijitSliderBottomtBumper - for background, border
+ * 
+ * 2. hovered Slider progress bar (ie, mouse hover on progress bar)
+ * 		.dijitSliderHover .dijitSliderProgressBarH(horizontal) - for background, border
+ * 
+ * 3. focused Slider progress bar (ie, mouse focused on progress bar)
+ * 		.dijitSliderFocused .dijitSliderProgressBarH(horizontal) - for background, border
+ * 
+ * 4. disabled/read-only Slider progress bar 
+ * 		.dijitSliderDisabled .dijitSliderProgressBarH(horizontal) - for background, border
+ * 
+ * 
+ * Slider Thumbs:
+ * 1. Slider Thumbs (default styling): 
+ * 		.dijitSliderImageHandleH(horizontal) - for background, border
+ * 		.dijitSliderImageHandleV(vertical) - for background, border
+ * 
+ * 2. hovered Slider Thumbs (ie, mouse hover on slider thumbs)
+ * 		.dijitSliderHover .dijitSliderImageHandleH(horizontal) - for background, border
+ * 
+ * 3. focused Slider progress bar (ie, mouse focused on slider thumbs)
+ * 		.dijitSliderFocused .dijitSliderImageHandleV(vertical) - for background, border
+ * 
+ * 
+ * Slider Increment/Decrement Buttons:
+ * 1. Slider Increment/Decrement Buttons (default styling): 
+ * 		.dijitSliderDecrementIconH(horizontal) - for background, border
+ * 		.dijitSliderIncrementIconH(horizontal) - for background, border
+ * 		.dijitSliderDecrementIconV(vertical) - for background, border
+ * 		.dijitSliderIncrementIconV(vertical) - for background, border
+ * 
+ * 2. hovered Slider Increment/Decrement Buttons (ie, mouse hover on Buttons)
+ * 		.dijitSliderHover .dijitSliderDecrementIconH(horizontal) - for background, border
+ * 
+ * 3. active Slider Increment/Decrement Buttons (ie, mouse down on Buttons)
+ * 		.dijitSliderActive .dijitSliderIncrementIconV(vertical) - for background, border
+ * 
+ * 4. disabled/read-only Slider Increment/Decrement Buttons
+ * 		.dijitSliderDisabled .dijitSliderDecrementIconH(horizontal) - for background
+ * 		.dijitSliderReadOnly .dijitSliderIncrementIconV(vertical) - for background
+ */
+
 .claro .dijitSliderBar {
 	border-style: solid;
 	outline: 1px;
