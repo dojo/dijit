@@ -468,7 +468,8 @@
 
 .nihilo .dijitTabStripIcon {
 	height: 14px;
-	background: url(../images/spriteRoundedIconsSmall.png) no-repeat left top ;
+	width: 14px;
+	background: url(../images/spriteRoundedIconsSmall.png) no-repeat left top;
 }
 
 .dj_ie6 .nihilo .dijitTabStripIcon {
