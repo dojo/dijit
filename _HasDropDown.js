@@ -386,8 +386,8 @@ dojo.declare("dijit._HasDropDown",
 			//		protected
 
 			if(this._opened){
-				dijit.popup.close(this.dropDown);
 				if(focus){ this.focus(); }
+				dijit.popup.close(this.dropDown);
 				this._opened = false;
 				this.state = "";
 			}
