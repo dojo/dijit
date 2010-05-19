@@ -203,7 +203,8 @@ dojo.declare("dijit.InlineEditBox",
 		this._savedTabIndex = dojo.attr(this.displayNode, "tabIndex") || "0";
 
 		if(this.wrapperWidget){
-			this.wrapperWidget.editWidget.set("displayedValue" in this.editorParams ? "displayedValue" : "value", this.value);
+			var ew = this.wrapperWidget.editWidget;
+			ew.set("displayedValue" in ew ? "displayedValue" : "value", this.value);
 		}else{
 			// Placeholder for edit widget
 			// Put place holder (and eventually editWidget) before the display node so that it's positioned correctly
