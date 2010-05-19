@@ -466,11 +466,6 @@
 	padding-top: 4px;
 }
 
-.nihilo .dijitTabContainer .tabStripButton {
-	/* float need width set */
-	width: 21px;
-}
-
 .nihilo .dijitTabStripIcon {
 	height: 14px;
 	background: url(../images/spriteRoundedIconsSmall.png) no-repeat left top ;

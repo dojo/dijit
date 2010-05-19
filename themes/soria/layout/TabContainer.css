@@ -484,11 +484,6 @@
 	background: transparent;
 }
 
-.soria .dijitTabContainer .tabStripButton {
-	/* float need width set */
-	width: 21px;
-}
-
 .soria .dijitTabStripIcon {
 	height: 14px;
 	background: url(../images/spriteRoundedIconsSmall.png) no-repeat left top ;

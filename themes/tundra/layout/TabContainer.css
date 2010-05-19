@@ -315,11 +315,6 @@
 	padding-bottom: 4px;
 }
 
-.tundra .tabStripButton {
-	/* TODO: instead of hardcoded value set to inline display and let layoutChildren() measure? */
-	width: 21px;
-}
-
 .tundra .dijitTabStripIcon {
 	height: 14px;
 	background: url(../images/spriteRoundedIconsSmall.png) no-repeat left top ;
