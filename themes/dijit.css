@@ -1573,8 +1573,14 @@ DIV.dijitTabDisabled, .dj_ie DIV.dijitTabDisabled {
 	height:0;
 	cursor: pointer;
 }
+.dj_iequirks .dijit_a11y .dijitSliderImageHandle {
+	font-size: 0;
+}
 .dj_ie7 .dijitSliderImageHandle {
-	overflow: hidden; /* IE7 workaround to make slider handle VISIBLE */
+	overflow: hidden; /* IE7 workaround to make slider handle VISIBLE in non-a11y mode */
+}
+.dj_ie7 .dijit_a11y .dijitSliderImageHandle {
+	overflow: visible; /* IE7 workaround to make slider handle VISIBLE in a11y mode */
 }
 .dijit_a11y .dijitSliderFocused .dijitSliderImageHandle {
 	border:4px solid #000;
