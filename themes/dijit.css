@@ -21,6 +21,9 @@
 	font: inherit;
 	color: inherit;
 }
+.dijit_a11y .dijitReset {
+	-moz-appearance: none; /* remove predefined high-contrast styling in Firefox */
+}
 
 .dijitInline {
 	/*  To inline block elements.
@@ -101,8 +104,8 @@
 	padding: 0;
 }
 .dijit_a11y .dijitPopup,
-.dijit_ally .dijitPopup div,
-.dijit_a11y .dijitPopup table,
+.dijit_ally .dijitPopup DIV,
+.dijit_a11y .dijitPopup TABLE,
 .dijit_a11y .dijitTooltipContainer {
 	background-color: white !important;
 }
@@ -155,9 +158,9 @@
 	background-image:none !important;
 }
 .dijit_a11y .dijitIcon,
-.dijit_a11y div.dijitArrowButtonInner, /* is this only for Spinner?  if so, it should be deleted */
-.dijit_a11y span.dijitArrowButtonInner,
-.dijit_a11y img.dijitArrowButtonInner,
+.dijit_a11y DIV.dijitArrowButtonInner, /* is this only for Spinner?  if so, it should be deleted */
+.dijit_a11y SPAN.dijitArrowButtonInner,
+.dijit_a11y IMG.dijitArrowButtonInner,
 .dijit_a11y .dijitCalendarIncrementControl {
 	/* hide icon nodes in high contrast mode; when necesary they will be replaced by character equivalents
 	 * exception for INPUT.dijitArrowButtonInner, because the icon and character are controlled by the same node */
@@ -381,7 +384,7 @@ DIV.dijitArrowButton {
 }
 
 /* rules for webkit to deal with fuzzy blue focus border */
-.dijitTextBox input:focus {
+.dijitTextBox INPUT:focus {
 	outline: none;	/* blue fuzzy line looks wrong on combobox or something w/validation icon showing */
 }
 .dijitTextBoxFocused {
@@ -1334,7 +1337,7 @@ img.dijitColorPaletteUnder {
 	border-right: 0px;
 }
 
-div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
+DIV.dijitTabDisabled, .dj_ie DIV.dijitTabDisabled {
 	cursor: auto;
 }
 
@@ -1560,7 +1563,7 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	right:50%;
 }
 
-.dijit_a11y div.dijitSliderImageHandle,
+.dijit_a11y DIV.dijitSliderImageHandle,
 .dijitSliderImageHandle {
 	margin:0;
 	padding:0;
