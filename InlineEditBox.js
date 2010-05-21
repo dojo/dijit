@@ -383,11 +383,19 @@ dojo.declare(
 		var cls = dojo.getObject(this.editor);
 
 		// Copy the style from the source
-		// Don't copy ALL properties though, just the necessary/applicable ones
-		var srcStyle = this.sourceStyle;
-		var editStyle = "line-height:" + srcStyle.lineHeight + ";";
+		// Don't copy ALL properties though, just the necessary/applicable ones.
+		// wrapperStyle/destStyle code is to workaround IE bug where getComputedStyle().fontSize
+		// is a relative value like 200%, rather than an absolute value like 24px, and
+		// the 200% can refer *either* to a setting on the node or it's ancestor (see #11175)
+		var srcStyle = this.sourceStyle,
+			editStyle = "line-height:" + srcStyle.lineHeight + ";",
+			destStyle = dojo.getComputedStyle(this.domNode);
 		dojo.forEach(["Weight","Family","Size","Style"], function(prop){
-			editStyle += "font-"+prop+":"+srcStyle["font"+prop]+";";
+			var textStyle = srcStyle["font"+prop],
+				wrapperStyle = destStyle["font"+prop];
+			if(wrapperStyle != textStyle){
+				editStyle += "font-"+prop+":"+srcStyle["font"+prop]+";";
+			}
 		}, this);
 		dojo.forEach(["marginTop","marginBottom","marginLeft", "marginRight"], function(prop){
 			this.domNode.style[prop] = srcStyle[prop];
