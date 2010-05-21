@@ -48,6 +48,7 @@
 		dojo.require("dijit.form.DateTextBox");
 		dojo.require("dijit.form.TimeTextBox");
 		dojo.require("dijit.form.FilteringSelect");
+		dojo.require("dijit.form.Select");
 		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.InlineEditBox");
 		dojo.require("dijit.Menu");
@@ -73,12 +74,12 @@
 			execute="alert('submitted w/args:\n' + dojo.toJson(arguments[0], true));">
 			<table>
 				<tr>
-					<td><label for="user">User:</label></td>
-					<td><div dojoType=dijit.InlineEditBox type="text" name="user" id="user">inline</div></td>
+					<td><label for="inline">InlineEditBox:</label></td>
+					<td><div dojoType=dijit.InlineEditBox type="text" name="inline" id="inline">inline</div></td>
 				</tr>
 				<tr>
-					<td><label for="pwd">Password:</label></td>
-					<td><input dojoType=dijit.form.TextBox type="password" name="pwd" id="pwd"></td>
+					<td><label for="text">TextBox:</label></td>
+					<td><input dojoType=dijit.form.TextBox name="text" id="text"></td>
 				</tr>
 				<tr>
 					<td><label for="date2">Date:</label></td>
@@ -89,7 +90,7 @@
 					<td><input dojoType=dijit.form.TimeTextBox name="time" id="time2"></td>
 				</tr>
 				<tr>
-					<td><label for="combo">Pizza:</label></td>
+					<td><label for="combo">FilteringSelect:</label></td>
 					<td>
 						<select dojoType=dijit.form.FilteringSelect name="combo" id="combo" hasDownArrow="true">
 							<option value="cheese">cheese</option>
@@ -99,8 +100,18 @@
 					</td>
 				</tr>
 				<tr>
+					<td><label for="select">Select:</label></td>
+					<td>
+						<select dojoType=dijit.form.Select name="select" id="select">
+							<option value="olives">olives</option>
+							<option value="peppers">peppers</option>
+							<option value="tomatoes">tomatoes</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
 					<td colspan="2" align="center">
-						<button dojoType=dijit.form.Button type="submit" name="submit">Order</button>
+						<button dojoType=dijit.form.Button type="submit" name="submit" id="submit">Order</button>
 					</td>
 				</tr>
 			</table>

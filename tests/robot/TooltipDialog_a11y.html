@@ -21,10 +21,6 @@
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_TooltipDialog.html');
 
-				function testOK(deferred, delay){
-					doh.robot.sequence(dojo.hitch(deferred, "callback", true), delay? delay : 1);
-				}
-
 				doh.register("TooltipDialog normal operation", [
 					{
 						name: "basic navigation",

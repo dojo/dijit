@@ -95,7 +95,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		}
 
 		// Create the dropDown widget
-		this.dropDown = new dijit.form._SelectMenu();
+		this.dropDown = new dijit.form._SelectMenu({id: this.id + "_menu"});
 		dojo.addClass(this.dropDown.domNode, this.baseClass + "Menu");
 	},
 
