@@ -27,90 +27,137 @@
 
 				doh.register("TooltipDialog normal operation", [
 					{
-						name: "programmatically opened",
+						name: "basic navigation",
 						timeout: 10000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							var button = dijit.byId("tooltipDlgButton");
-							var inlineBox;
+							
+							// open TooltipDialog
 							doh.robot.sequence(function(){
 								button.focus();
-								button.openDropDown();
 							}, 1000, 1000);
-							doh.robot.sequence(d.getTestCallback(function(){
-								doh.t(button._opened, "TooltipDialog should be showing after programmatically opened");
-								button.closeDropDown(true);
+							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.t(button._opened, "TooltipDialog should be showing");
 							}), 1000);
-							return d;
-						}
-					},
-					{
-						name: "closes on Esc",
-						timeout: 10000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							var button = dijit.byId("tooltipDlgButton");
-							var inlineBox;
-							doh.robot.sequence(function(){
-								button.focus();
-								button.openDropDown();
-							}, 1000, 1000);
+
+							// shift-tab should loop around to last field
+							doh.robot.keyPress(dojo.keys.TAB, 500, {shift: true});
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.is("submit", dojo.global.dijit._curFocus.id, "focused on button");
+							}), 1000);
+
+							// tab should loop around to first field
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.is("inline", dojo.global.dijit._curFocus.id, "focused on InlineEditBox");
+							}), 1000);
+
+							// close TooltipDialog
 							doh.robot.keyPress(dojo.keys.ESCAPE, 500, {});
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(button._opened, "TooltipDialog should not be showing after Esc");
 							}), 1000);
 							return d;
 						}
-					}
-				]);
-
-				doh.register("interacton with InlineEditBox autosave", [
+					},
 					{
-						name: "InlineEditBox edit mode then Esc",
+						name: "nested popup",
 						timeout: 10000,
 						runTest: function(){
 							var d = new doh.Deferred();
-							var button = dijit.byId("tooltipDlgButton");
-							var inlineBox, initialValue;
+
+							var button = dijit.byId("tooltipDlgButton"),
+								select = dijit.byId("combo");
+							
+							// open TooltipDialog, advance to FilteringSelect
 							doh.robot.sequence(function(){
 								button.focus();
-								button.openDropDown();
-								inlineBox = dijit.byId("user");
-								initialValue = inlineBox.get("value");
-								inlineBox.edit();
-							}, 1000, 1000);
-							doh.robot.keyPress(dojo.keys.ESCAPE, 1000, {});
-							doh.robot.sequence(d.getTestCallback(function(){
+							}, 500);
+							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+
+							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(button._opened, "TooltipDialog should be showing");
-								doh.f(inlineBox.editing, "Esc should have exited edit mode");
-								doh.is(initialValue, inlineBox.get("value"), "initial value was inline");
-								button.closeDropDown(true);
+								doh.is("combo", dojo.global.dijit._curFocus.id, "focused on combo");
 							}), 1000);
+
+							// pick second option
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 0, {});
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 1000, {});
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.t(button._opened, "TooltipDialog should still be showing");
+								doh.is("pepperoni", select.get("value"), "selected pepperoni");
+							}), 1000);
+
+							// close TooltipDialog
+							doh.robot.keyPress(dojo.keys.ESCAPE, 0, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.f(button._opened, "TooltipDialog closed");
+							}), 500);
+
 							return d;
 						}
-					},
+					}
+				]);
+
+				doh.register("interacton with autosave InlineEditBox", [
 					{
 						name: "InlineEditBox edit mode, change value, then Esc",
 						timeout: 10000,
 						runTest: function(){
 							var d = new doh.Deferred();
-							var button = dijit.byId("tooltipDlgButton");
-							var inlineBox, initialValue;
+
+							var button = dijit.byId("tooltipDlgButton"),
+								inlineEditBox = dijit.byId("inline"),
+								initialValue = inlineEditBox.get("value");
+							
+							// open TooltipDialog
 							doh.robot.sequence(function(){
 								button.focus();
-								button.openDropDown();
-								inlineBox = dijit.byId("user");
-								initialValue = inlineBox.get("value");
-								inlineBox.edit();
-							}, 1000, 1000);
-							doh.robot.typeKeys("esc", 1000, 600);
-							doh.robot.keyPress(dojo.keys.ESCAPE, 100, {});
-							doh.robot.sequence(d.getTestCallback(function(){
+							}, 500);
+							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
+
+							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(button._opened, "TooltipDialog should be showing");
-								doh.f(inlineBox.editing, "Esc should have exited edit mode");
-								doh.is(initialValue, inlineBox.get("value"), "value should revert back to inline");
-								button.closeDropDown(true);
+								doh.f(inlineEditBox.editing, "InlineEditBox not in edit mode yet");
 							}), 1000);
+
+							// edit InlineEditBox
+							doh.robot.keyPress(dojo.keys.SPACE, 0, {});
+
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.t(button._opened, "TooltipDialog should still be showing");
+								doh.t(inlineEditBox.editing, "InlineEditBox in edit mode");
+							}), 1000);
+
+							// type something
+							doh.robot.typeKeys("esc", 0, 600);
+
+							// abort edit
+							doh.robot.keyPress(dojo.keys.ESCAPE, 500, {});
+
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.t(button._opened, "TooltipDialog should still still be showing");
+								doh.f(inlineEditBox.editing, "Esc should have exited InlineEditBox edit mode");
+								doh.is(initialValue, inlineEditBox.get("value"), "initial value was inline");
+							}), 1000);
+
+							// close TooltipDialog
+							doh.robot.keyPress(dojo.keys.ESCAPE, 0, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.f(button._opened, "TooltipDialog closed");
+							}), 500);
+
 							return d;
 						}
 					},
@@ -119,22 +166,48 @@
 						timeout: 10000,
 						runTest: function(){
 							var d = new doh.Deferred();
-							var button = dijit.byId("tooltipDlgButton");
-							var inlineBox;
+
+							var button = dijit.byId("tooltipDlgButton"),
+								inlineEditBox = dijit.byId("inline");
+							
+							// open TooltipDialog
 							doh.robot.sequence(function(){
 								button.focus();
-								button.openDropDown();
-								inlineBox = dijit.byId("user");
-								inlineBox.edit();
-							}, 1000, 1000);
-							doh.robot.typeKeys("tab", 1000, 600);
-							doh.robot.keyPress(dojo.keys.TAB, 100, {});
-							doh.robot.sequence(d.getTestCallback(function(){
+							}, 500);
+							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
+
+							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(button._opened, "TooltipDialog should be showing");
-								doh.f(inlineBox.editing, "Tab should have exited edit mode");
-								doh.is('tab', inlineBox.get("value"), "value should have changed to tab");
-								button.closeDropDown(true);
+								doh.f(inlineEditBox.editing, "InlineEditBox not in edit mode yet");
 							}), 1000);
+
+							// edit InlineEditBox
+							doh.robot.keyPress(dojo.keys.SPACE, 0, {});
+
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.t(button._opened, "TooltipDialog should still be showing");
+								doh.t(inlineEditBox.editing, "InlineEditBox in edit mode");
+							}), 1000);
+
+							// type something
+							doh.robot.typeKeys("tab", 0, 600);
+
+							// save edit
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.t(button._opened, "TooltipDialog should still still be showing");
+								doh.f(inlineEditBox.editing, "Tab should have exited InlineEditBox edit mode");
+								doh.is("tab", inlineEditBox.get("value"), "value changed to tab");
+							}), 1000);
+
+							// close TooltipDialog
+							doh.robot.keyPress(dojo.keys.ESCAPE, 0, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.f(button._opened, "TooltipDialog closed");
+							}), 500);
+
 							return d;
 						}
 					},
@@ -143,22 +216,48 @@
 						timeout: 10000,
 						runTest: function(){
 							var d = new doh.Deferred();
-							var button = dijit.byId("tooltipDlgButton");
-							var inlineBox;
+
+							var button = dijit.byId("tooltipDlgButton"),
+								inlineEditBox = dijit.byId("inline");
+							
+							// open TooltipDialog
 							doh.robot.sequence(function(){
 								button.focus();
-								button.openDropDown();
-								inlineBox = dijit.byId("user");
-								inlineBox.edit();
-							}, 1000, 1000);
-							doh.robot.typeKeys("enter", 1000, 1000);
-							doh.robot.keyPress(dojo.keys.ENTER, 100, {});
-							doh.robot.sequence(d.getTestCallback(function(){
+							}, 500);
+							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
+
+							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(button._opened, "TooltipDialog should be showing");
-								doh.f(inlineBox.editing, "Enter should have exited edit mode");
-								doh.is('enter', inlineBox.get("value"), "value should have changed to enter");
-								button.closeDropDown(true);
-							}), 2000);
+								doh.f(inlineEditBox.editing, "InlineEditBox not in edit mode yet");
+							}), 1000);
+
+							// edit InlineEditBox
+							doh.robot.keyPress(dojo.keys.SPACE, 0, {});
+
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.t(button._opened, "TooltipDialog should still be showing");
+								doh.t(inlineEditBox.editing, "InlineEditBox in edit mode");
+							}), 1000);
+
+							// type something
+							doh.robot.typeKeys("enter", 0, 600);
+
+							// save edit
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.t(button._opened, "TooltipDialog should still still be showing");
+								doh.f(inlineEditBox.editing, "Tab should have exited InlineEditBox edit mode");
+								doh.is("enter", inlineEditBox.get("value"), "value changed to enter");
+							}), 1000);
+
+							// close TooltipDialog
+							doh.robot.keyPress(dojo.keys.ESCAPE, 0, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.f(button._opened, "TooltipDialog closed");
+							}), 500);
+
 							return d;
 						}
 					},
@@ -168,19 +267,19 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							var button = dijit.byId("tooltipDlgButton");
-							var inlineBox;
+							var inlineEditBox;
 							doh.robot.sequence(function(){
 								button.focus();
 								button.openDropDown();
-								inlineBox = dijit.byId("user");
-								inlineBox.edit();
+								inlineEditBox = dijit.byId("inline");
+								inlineEditBox.edit();
 							}, 1000, 1000);
 							doh.robot.keyPress(dojo.keys.ESCAPE, 1000, {});
 							doh.robot.keyPress(dojo.keys.ENTER, 1000, {});
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(button._opened, "TooltipDialog should be showing");
-								doh.t(inlineBox.editing, "Enter should have reentered edit mode");
-								inlineBox.cancel(true);
+								doh.t(inlineEditBox.editing, "Enter should have reentered edit mode");
+								inlineEditBox.cancel(true);
 								button.closeDropDown(true);
 							}), 2000);
 							return d;
@@ -192,20 +291,20 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							var button = dijit.byId("tooltipDlgButton");
-							var inlineBox;
+							var inlineEditBox;
 							doh.robot.sequence(function(){
 								button.focus();
 								button.openDropDown();
-								inlineBox = dijit.byId("user");
-								inlineBox.edit();
+								inlineEditBox = dijit.byId("inline");
+								inlineEditBox.edit();
 							}, 1000, 1000);
 							doh.robot.typeKeys("enter", 1000, 1000);
 							doh.robot.keyPress(dojo.keys.ENTER, 200, {});
 							doh.robot.keyPress(dojo.keys.ENTER, 1000, {});
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(button._opened, "TooltipDialog should be showing");
-								doh.t(inlineBox.editing, "2nd Enter should have reentered edit mode");
-								inlineBox.cancel(true);
+								doh.t(inlineEditBox.editing, "2nd Enter should have reentered edit mode");
+								inlineEditBox.cancel(true);
 								button.closeDropDown(true);
 							}), 2000);
 							return d;
@@ -217,12 +316,12 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							var button = dijit.byId("tooltipDlgButton");
-							var inlineBox;
+							var inlineEditBox;
 							doh.robot.sequence(function(){
 								button.focus();
 								button.openDropDown();
-								inlineBox = dijit.byId("user");
-								inlineBox.edit();
+								inlineEditBox = dijit.byId("inline");
+								inlineEditBox.edit();
 							}, 1000, 1000);
 							doh.robot.typeKeys("tab", 1000, 600);
 							doh.robot.keyPress(dojo.keys.TAB, 100, {});
@@ -230,8 +329,8 @@
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(button._opened, "TooltipDialog should be showing");
-								doh.t(inlineBox.editing, "Enter after shift+Tab should have reentered edit mode");
-								inlineBox.cancel(true);
+								doh.t(inlineEditBox.editing, "Enter after shift+Tab should have reentered edit mode");
+								inlineEditBox.cancel(true);
 								button.closeDropDown(true);
 							}), 2000);
 							return d;
