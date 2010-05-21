@@ -195,12 +195,12 @@
 								height1 = href1.domNode.offsetHeight;
 							}), 1500);
 
-							// Then the real content should be loaded and height should change to accomodate it
+							// Then the real content should be loaded and height should change to accommodate it
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.isNot("Loading...", dojo.trim(innerText(href1.containerNode)), "actual content");
 								height2 = href1.domNode.offsetHeight;
 								doh.t(height2 > height1, "expected height increase, actually went from " + height1 + " to " + height2);
-							}), 2000);
+							}), 3000);
 
 							return d;
 						}
