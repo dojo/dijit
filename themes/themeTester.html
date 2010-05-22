@@ -279,7 +279,7 @@
 </head>
 <body class="claro">
 	<!-- basic preloader: -->
-	<div id="loader"><div id="loaderInner">Loading themeTester ... </div></div>
+	<div id="loader"><div id="loaderInner" style="direction:ltr;">Loading themeTester ... </div></div>
 
 	<!-- data for tree and combobox -->
 	<div dojoType="dojo.data.ItemFileReadStore" jsId="continentStore"
@@ -865,47 +865,49 @@
 
 			<div id="textareaTab" dojoType="dijit.layout.ContentPane" title="Textarea" style="padding:10px;">
 
+				<!--	&#8234; and &#8236; are inserted solely for testing purposes to mark the beginning and end of left-to-right text so that
+					cogniscent browsers don't render garbled punctuation nor exhibit strange home/end key behavior while in right-to-left mode -->
 				<h2>dijit.form.Textarea</h2>
 				<p>Enabled:</p>
-				<textarea dojoType="dijit.form.Textarea" name="areText">This text area will expand and contract as you type text.
+				<textarea dojoType="dijit.form.Textarea" name="areText">This text area will expand and contract as you type &#8234;text.&#8236;
 
-				Lorem ipsum dolor sit amet,
-				consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
-				dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci
-				tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+Lorem ipsum dolor sit &#8234;amet,&#8236;
+consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
+dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci
+tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo &#8234;consequat.&#8236;
 				</textarea>
 
 				<br>
 				<p>Disabled:</p>
 				<textarea dojoType="dijit.form.Textarea" name="areText2" disabled>This text
-				area is disabled and you shouldn't be able to type in it.
+				area is disabled and you shouldn't be able to type in &#8234;it.&#8236;
 				</textarea>
 
 
 				<h2>dijit.form.SimpleTextarea</h2>
 				<p></p>
 				<p>Enabled:</p>
-				<textarea dojoType="dijit.form.SimpleTextarea" name="areText">This text area has a constant height and displays a scrollbar when necessary.
+				<textarea dojoType="dijit.form.SimpleTextarea" name="areText">This text area has a constant height and displays a scrollbar when &#8234;necessary.&#8236;
 
-				Lorem ipsum dolor sit amet,
-				consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
-				dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci
-				tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis
-				autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat,
-				vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio
-				dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait
-				nulla facilisi.
+Lorem ipsum dolor sit &#8234;amet,&#8236;
+consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
+dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci
+tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis
+autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie &#8234;consequat,&#8236;
+vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio
+dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait
+nulla &#8234;facilisi.&#8236;
 				</textarea>
 
 				<p>Disabled:</p>
-				<textarea dojoType="dijit.form.SimpleTextarea" name="areText2" disabled>Lorem ipsum dolor sit amet,
+				<textarea dojoType="dijit.form.SimpleTextarea" name="areText2" disabled>Lorem ipsum dolor sit &#8234;amet,&#8236;
 				consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
 				dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci
 				tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis
-				autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat,
+				autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie &#8234;consequat,&#8236;
 				vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio
 				dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait
-				nulla facilisi.
+				nulla &#8234;facilisi.&#8236;
 				</textarea>
 			</div><!-- end of Textarea tab -->
 
@@ -1098,8 +1100,8 @@
 
 				(HTML before)
 				<p id="areaEditable" dojoType="dijit.InlineEditBox" editor="dijit.form.Textarea" autoSave="false">
-					I'm one big paragraph.  Go ahead and edit me.  I dare you.
-					The quick brown fox jumped over the lazy dog.  Blah blah blah blah blah blah blah ...
+					I'm one big &#8234;paragraph.&#8236;  Go ahead and edit &#8234;me.&#8236;  I dare &#8234;you.&#8236;
+					The quick brown fox jumped over the lazy &#8234;dog.&#8236;  Blah blah blah blah blah blah &#8234;blah ...&#8236;
 				</p>
 				(HTML after)
 
