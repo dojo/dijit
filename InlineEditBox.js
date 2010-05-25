@@ -418,9 +418,9 @@ dojo.declare(
 		var ew = (this.editWidget = new cls(editorParams, this.editorPlaceholder));
 
 		if(this.inlineEditBox.autoSave){
-			// Hide the save/cancel buttons since saving is done by simply tabbing away or
+			// Remove the save/cancel buttons since saving is done by simply tabbing away or
 			// selecting a value from the drop down list
-			this.buttonContainer.style.display="none";
+			dojo.destroy(this.buttonContainer);
 
 			// Selecting a value from a drop down list causes an onChange event and then we save
 			this.connect(ew, "onChange", "_onChange");

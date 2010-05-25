@@ -346,12 +346,7 @@
 							doh.robot.typeKeys("tab", 1000, 600);
 
 							// tab forward, then back (first tab will cancel edit)
-							doh.robot.keyPress(dojo.keys.TAB, 100, {});			
-							if(dojo.isWebKit < 532){
-								// workaround safari 4 bug (not present in latest webkit):
-								// tab focuses the InlineEditBox, not the next field
-								doh.robot.keyPress(dojo.keys.TAB, 100, {});
-							}	
+							doh.robot.keyPress(dojo.keys.TAB, 100, {});	
 							doh.robot.keyPress(dojo.keys.TAB, 1000, {shift:true});
 
 							// re-enter edit mode
