@@ -259,7 +259,11 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 
-										doh.robot.keyPress(dojo.keys.END, 200);
+										if(dojo.isMac){
+											doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 200, {meta:true});
+										}else{
+											doh.robot.keyPress(dojo.keys.END, 200);
+										}
 										doh.robot.keyPress(dojo.keys.BACKSPACE, 200);
 
 										doh.robot.sequence(d.getTestCallback(function(){
