@@ -259,13 +259,23 @@ dojo.declare("dijit.InlineEditBox",
 
 		this.inherited(arguments);
 		if(!this.editing){
+			/* causes IE focus problems, see TooltipDialog_a11y.html...
 			setTimeout(dojo.hitch(this, function(){
 				if(this.wrapperWidget){
 					this.wrapperWidget.destroy();
 					delete this.wrapperWidget;
 				}
 			}), 0);
+			*/
 		}
+	},
+
+	destroy: function(){
+		if(this.wrapperWidget){
+			this.wrapperWidget.destroy();
+			delete this.wrapperWidget;
+		}
+		this.inherited(arguments);
 	},
 
 	_showText: function(/*Boolean*/ focus){

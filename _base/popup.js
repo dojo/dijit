@@ -74,33 +74,47 @@ dijit.popup = {
 	_beginZIndex: 1000,
 
 	_idGen: 1,
-	
-	// _wrappers:
-	//		Cache of wrapper nodes and iframes.  Each element in this
-	//		array is a [div, iframe].
-	_wrappers: [],
-
 
 	moveOffScreen: function(/*DomNode*/ node){
 		// summary:
-		//		Moves node offscreen without hiding it (so that all layout widgets included 
-		//		in this node can still layout properly)
+		//		Initialization for nodes that will be used as popups
 		//
 		// description:
-		//		Attaches node to dojo.doc.body, and
-		//		positions it off screen, but not display:none, so that
+		//		Puts node inside a wrapper <div>, and
+		//		positions wrapper div off screen, but not display:none, so that
 		//		the widget doesn't appear in the page flow and/or cause a blank
 		//		area at the bottom of the viewport (making scrollbar longer), but
 		//		initialization of contained widgets works correctly
 
-		var s = node.style;
-		s.visibility = "hidden";	// so TAB key doesn't navigate to hidden popup
-		s.position = "absolute";
-		s.top = "-9999px";
-		if(s.display == "none"){
-			s.display="";
+		var wrapper = node.parentNode;
+
+		// Create a wrapper widget for when this node (in the future) will be used as a popup.
+		// This is done early because of IE bugs where creating/moving DOM nodes causes focus
+		// to go wonky, see tests/robot/Toolbar.html to reproduce
+		if(!wrapper || !dojo.hasClass(wrapper, "dijitPopup")){
+			wrapper = dojo.create("div",{
+				"class":"dijitPopup",
+				style:{
+					visibility:"hidden",
+					top: "-9999px"
+				}
+			}, dojo.body());
+			dijit.setWaiRole(wrapper, "presentation");
+			wrapper.appendChild(node);
 		}
-		dojo.body().appendChild(node);
+
+
+		var s = node.style;
+		s.display = "";
+		s.visibility = "";
+		s.position = "";
+		s.top = "0px";
+
+		dojo.style(wrapper, {
+			visibility: "hidden",
+			// prevent transient scrollbar causing misalign (#5776), and initial flash in upper left (#10111)
+			top: "-9999px"
+		});
 	},
 
 	getTopPopup: function(){
@@ -139,55 +153,37 @@ dijit.popup = {
 			around = args.around,
 			id = (args.around && args.around.id) ? (args.around.id+"_dropdown") : ("popup_"+this._idGen++);
 
-		// make wrapper div to hold widget and possibly hold iframe behind it.
-		// we can't attach the iframe as a child of the widget.domNode because
-		// widget.domNode might be a <table>, <ul>, etc.
 
-		var wrapperobj = this._wrappers.pop(), wrapper, iframe;
-		if(!wrapperobj){
-			wrapper = dojo.create("div",{
-				"class":"dijitPopup"
-			}, dojo.body());
-			dijit.setWaiRole(wrapper, "presentation");
-		}else{
-			// recycled a old wrapper, so that we don't need to reattach the iframe
-			// which is slow even if the iframe is empty, see #10167
-			wrapper = wrapperobj[0];
-			iframe = wrapperobj[1];
+		// The wrapper may have already been created, but in case it wasn't, create here
+		var wrapper = widget.domNode.parentNode;
+		if(!wrapper || !dojo.hasClass(wrapper, "dijitPopup")){
+			this.moveOffScreen(widget.domNode);
+			wrapper = widget.domNode.parentNode;
 		}
 
-		dojo.attr(wrapper,{
+		dojo.attr(wrapper, {
 			id: id,
-			style:{
-				zIndex: this._beginZIndex + stack.length,
-				visibility:"hidden",
-				// prevent transient scrollbar causing misalign (#5776), and initial flash in upper left (#10111)
-				top: "-9999px"
+			style: {
+				zIndex: this._beginZIndex + stack.length
 			},
 			"class": "dijitPopup " + (widget.baseClass || widget["class"] || "").split(" ")[0] +"Popup",
 			dijitPopupParent: args.parent ? args.parent.id : ""
 		});
 
-		var s = widget.domNode.style;
-		s.display = "";
-		s.visibility = "";
-		s.position = "";
-		s.top = "0px";
-		wrapper.appendChild(widget.domNode);
-
-		if(!iframe){
-			iframe = new dijit.BackgroundIframe(wrapper);
-		}else{
-			iframe.resize(wrapper)
+		if(dojo.isIE || dojo.isMoz){
+			var iframe = wrapper.childNodes[1];
+			if(!iframe){
+				iframe = new dijit.BackgroundIframe(wrapper);
+			}
 		}
 
-		// position the wrapper node
+		// position the wrapper node and make it visible
 		var best = around ?
 			dijit.placeOnScreenAroundElement(wrapper, around, orient, widget.orient ? dojo.hitch(widget, "orient") : null) :
 			dijit.placeOnScreen(wrapper, args, orient == 'R' ? ['TR','BR','TL','BL'] : ['TL','BL','TR','BR'], args.padding);
 
 		wrapper.style.visibility = "visible";
-		// TODO: use effects to fade in wrapper
+		widget.domNode.style.visibility = "visible";	// counteract effects from _HasDropDown
 
 		var handlers = [];
 
@@ -262,17 +258,13 @@ dijit.popup = {
 			}
 			dojo.forEach(top.handlers, dojo.disconnect);
 
-			// Move the widget offscreen, unless it has already been destroyed in above onClose() etc.
+			// Move the widget plus it's wrapper off screen, unless it has already been destroyed in above onClose() etc.
 			if(widget && widget.domNode){
 				this.moveOffScreen(widget.domNode);
+			}else{
+				dojo.destroy(wrapper);
 			}
                         
-			// recycle the wrapper plus iframe, so we prevent reattaching iframe everytime an popup opens
-			// don't use moveOffScreen which would also reattach the wrapper to body, which causes reloading of iframe
-			wrapper.style.top = "-9999px";
-			wrapper.style.visibility = "hidden";
-			this._wrappers.push([wrapper,iframe]);
-
 			if(onClose){
 				onClose();
 			}
