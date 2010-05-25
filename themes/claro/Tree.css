@@ -5,23 +5,22 @@
  * 
  * Tree Row:
  * 1. tree row (default styling): 
- * 		.dijitTreeRow - for background-color, border
+ * 		.dijitTreeRow - styles for each row of the tree
  *
- * 2. hovered tree row (ie, mouse hover on a tree row)
- * 		.dijitTreeRowHover - for background-color, border
+ * 2. hovered tree row (mouse hover on a tree row)
+ * 		.dijitTreeRowHover - styles when mouse over on one row
  * 
- * 3. active tree row (ie, mouse down on a tree row)
- * 		.dijitTreeRowActive - for background-color, border
+ * 3. active tree row (mouse down on a tree row)
+ * 		.dijitTreeRowActive - styles when mouse down on one row
  * 
  * 4. selected tree row
- * 		dijitTreeRowSelected - for background-color, border
+ * 		dijitTreeRowSelected - style when the row has been selected
  * 
  * Tree Expando:
- * 	    dijitTreeExpando - for background-image, border, size
+ * 	    dijitTreeExpando - the expando at the left of the text of each tree row
  * 
- * Drag and Drop on TreeNodes: (insert line on dijitTreeContent node so it's aligned w/ target element
- * 		.dijitTreeNode .dojoDndItemBefore - for border
- * 		.dijitTreeNode .dojoDndItemAfter  - for border
+ * Drag and Drop on TreeNodes: (insert line on dijitTreeContent node so it'll aligned w/ target element)
+ * 		.dijitTreeNode .dojoDndItemBefore/.dojoDndItemAfter - use border style simulate a separate line
  */
 
 .claro .dijitTreeNode {

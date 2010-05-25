@@ -4,30 +4,29 @@
  * 
  * Dialog:
  * 1. Dialog (default styling): 
- * 		.dijitDialog - for border, shadow
+ * 		.dijitDialog - styles for dialog's bounding box
  *
  * 2. Dialog title 
- * 		.dijitDialogTitleBar - for background-color, border
- * 		.dijitDialogTitle - for font
+ * 		.dijitDialogTitleBar - styles for the title container at the top of dialog
+ * 		.dijitDialogTitle - the text container in dialog title
  * 
  * 3. Dialog content 
- * 		.dijitDialogPaneContent - for background-color, border
- * 		.dijitDialogPaneContentArea - for padding, margin
+ * 		.dijitDialogPaneContent - main container for content area and action bar
+ * 		.dijitDialogPaneContentArea - styles for content container
  * 
  * 4. Dialog action bar 
- * 		.dijitDialogPaneActionBar - for background-color, border, padding
+ * 		.dijitDialogPaneActionBar - styles for action buttons lie at the bottom of dialog pane content
  * 
  * 5. Dialog underlay 
- * 		.dijitDialogUnderlay - for background-color
+ * 		.dijitDialogUnderlay - div under the dialog which used for separate dialog and page content
  * 
  * 
  * Tooltip & TooltipDialog:
  * 1. tooltip content container: 
- * 		.dijitTooltipContainer - for background-color, border, padding
+ * 		.dijitTooltipContainer - tooltip content container
  *
  * 2. tooltip connector: 
- * 		.dijitTooltipConnector - for position, size, background
- * 
+ * 		.dijitTooltipConnector - tooltip anchor includes 4 direction(up, down, left, right)
  */
 
 .claro .dijitDialog {

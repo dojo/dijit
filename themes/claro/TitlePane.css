@@ -4,22 +4,18 @@
  * 
  * TitlePane title:
  * 1. TitlePane title (default styling): 
- * 		.dijitTitlePaneTitle - for background-color, border, padding
+ * 		.dijitTitlePaneTitle - TitlePane's title div style: background-color, border
  *
  * 2. hovered TitlePane title (ie, mouse hover on a title bar)
- * 		.dijitTitlePaneTitleHover - for background-color, border
+ * 		.dijitTitlePaneTitleHover - styles when mouse hover on the title div
  * 
  * 3. active TitlePane title (ie, mouse down on a title bar)
- * 		.dijitTreeRowActive - for background-color, border
+ * 		.dijitTitlePaneTitleActive - styles when mouse down on the title div
  * 
  * 
  * TitlePane Content Container:
- * 1. inner container: 
- * 		.dijitTitlePaneContentOuter - for background-color, border, padding
- *
- * 2. inner container: 
- * 		.dijitTitlePaneContentInner - for border, padding
- * 
+ * 1. outer/inner container: 
+ * 		.dijitTitlePaneContentOuter / dijitTitlePaneContentInner - styles for the content outer div
  */
 
 .claro .dijitTitlePaneTitle {
