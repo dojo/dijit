@@ -315,6 +315,11 @@ TABLE.dijitComboButton { /* TODO: why not add dijitReset class to ComboButton? *
 	text-align:center;
 	white-space: nowrap;
 }
+.dj_webkit .dijitSpinner .dijitSpinnerButtonContainer {
+	/* apparent WebKit bug where messing with the font coupled with line-height:normal X 2 (dijitReset & dijitButtonNode)
+	can be different than just a single line-height:normal, visible in InlineEditBox/Spinner */
+	line-height:inherit;
+}
 .dijitTextBox .dijitButtonNode {
 	border-width: 0;
 }
