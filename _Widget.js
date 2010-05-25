@@ -823,7 +823,8 @@ dojo.declare("dijit._Widget", null, {
 
 		// Print deprecation warning but only once per calling function
 		if(dojo.config.isDebug){
-			var alreadyCalledHash = arguments.callee._ach || (arguments.callee._ach = {}), caller = arguments.callee.caller.toString();
+			var alreadyCalledHash = arguments.callee._ach || (arguments.callee._ach = {}),
+				caller = (arguments.callee.caller || "unknown caller").toString();
 			if(!alreadyCalledHash[caller]){
 				dojo.deprecated(this.declaredClass + "::attr() is deprecated. Use get() or set() instead, called from " +
 				caller, "", "2.0");
