@@ -328,20 +328,37 @@
 						timeout: 10000,
 						runTest: function(){
 							var d = new doh.Deferred();
-							var button = dijit.byId("tooltipDlgButton");
-							var inlineEditBox;
+
+							var button = dijit.byId("tooltipDlgButton"),
+								inlineEditBox = dijit.byId("inline");
+
+							// open TooltipDialog
 							doh.robot.sequence(function(){
 								button.focus();
-								button.openDropDown();
-								inlineEditBox = dijit.byId("inline");
-								inlineEditBox.edit();
 							}, 1000, 1000);
-							doh.robot.typeKeys("tab", 1000, 600);
-							doh.robot.keyPress(dojo.keys.TAB, 100, {});
-							doh.robot.keyPress(dojo.keys.TAB, 1000, {shift:true});
-							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
-							doh.robot.sequence(d.getTestCallback(function(){
+							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
+							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(button._opened, "TooltipDialog should be showing");
+							}), 1000);
+
+							// start editing
+							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
+							doh.robot.typeKeys("tab", 1000, 600);
+
+							// tab forward, then back (first tab will cancel edit)
+							doh.robot.keyPress(dojo.keys.TAB, 100, {});			
+							if(dojo.isWebKit < 532){
+								// workaround safari 4 bug (not present in latest webkit):
+								// tab focuses the InlineEditBox, not the next field
+								doh.robot.keyPress(dojo.keys.TAB, 100, {});
+							}	
+							doh.robot.keyPress(dojo.keys.TAB, 1000, {shift:true});
+
+							// re-enter edit mode
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(button._opened, "TooltipDialog should still be showing");
 								doh.t(inlineEditBox.editing, "Enter after shift+Tab should have reentered edit mode");
 								inlineEditBox.cancel(true);
 								button.closeDropDown(true);
