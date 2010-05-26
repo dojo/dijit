@@ -59,3 +59,19 @@
 .dj_ie6 .dijitTabContainerBottomRtl .dijitTabStripIcon {
    position: relative;
 }
+
+
+.dj_ie6-rtl .claro .dijitTabContainerTop-tabs {	
+	/* this strange rule prevents IE6 bug in themeTester.html?dir=rtl upon closing
+	 * "Closable" tab, where the other tabs disappear
+	 */
+	padding-left: 3px;
+}
+
+.dj_iequirks-rtl .claro .dijitTabListWrapper {
+	/* this strange rule prevents IE6 bug in themeTesterQuirk.html?dir=rtl upon closing
+	 * "Closable" tab, where the other tabs disappear
+	 */
+	border-left: 1px solid #fff;
+	border-right: 1px solid #fff;
+}

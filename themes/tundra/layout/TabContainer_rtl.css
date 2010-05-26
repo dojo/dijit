@@ -38,3 +38,14 @@
 	/* without this the tab label and icon become invisible, as though they were set to visibility:hidden */
 	width : 0.1% !important;
 }
+
+
+
+.dj_iequirks-rtl .tundra .dijitTabContainerTopNone,
+.dj_iequirks-rtl .tundra .dijitTabContainerBottomNone {
+	/* this strange rule prevents IE6 bug in themeTesterQuirk.html?dir=rtl upon closing
+	 * "Closable" tab, where the other tabs disappear
+	 */
+	border-left: 1px solid #fff;
+	border-right: 1px solid #fff;
+}
