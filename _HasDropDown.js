@@ -322,7 +322,7 @@ dojo.declare("dijit._HasDropDown",
 				var mb = dojo.marginBox(ddNode);
 				var overHeight = (this.maxHeight && mb.h > this.maxHeight);
 				dojo.style(ddNode, {
-					overflowx: "hidden",
+					overflowX: "hidden",
 					overflowY: overHeight ? "auto" : "hidden"
 				});
 				if(overHeight){
