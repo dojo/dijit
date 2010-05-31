@@ -37,7 +37,7 @@
 } 
 
 .claro .dijitDialogPaneContent {
-	background: #fff url("images/dialogContentareaShadow.png") repeat-x top left;
+	background: #fff repeat-x top left;
 	border-top: 1px solid #769dc0;
 	padding:10px 8px;
 	position: relative;
