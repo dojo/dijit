@@ -7,10 +7,6 @@
 	background-color: #fff;
 	background-image:none;
 }
-.dj_gecko .claro {
-	/* prevent extra-small font on editor when View/Zoom/small + zoom-text-only selected */
-	font-size: 11px;
-}
 
 /* Headings */
 h1 {
