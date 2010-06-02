@@ -64,7 +64,7 @@
 							pane2.set("content", "");// pass undefined on purpose
 						},
 						runTest: function(t){
-							t.assertEqual(0, dijit._Container.prototype.getChildren.call(pane2).length);
+							t.assertEqual(0, dijit._Widget.prototype.getChildren.call(pane2).length);
 							t.assertEqual("", pane2.domNode.innerHTML)
 						}
 					},
@@ -88,7 +88,7 @@
 							pane2.set("content", div);
 						},
 						runTest: function(t){
-							t.assertEqual(1, dijit._Container.prototype.getChildren.call(pane2).length);
+							t.assertEqual(1, dijit._Widget.prototype.getChildren.call(pane2).length);
 						},
 						tearDown: function(t){
 							pane2.set("content", ""); // clear content for next test
@@ -106,7 +106,7 @@
 							pane2.set("content", div.childNodes);
 						},
 						runTest: function(t){
-							t.assertEqual(2, dijit._Container.prototype.getChildren.call(pane2).length);
+							t.assertEqual(2, dijit._Widget.prototype.getChildren.call(pane2).length);
 
 							//regular DOM check
 							var children = pane2.domNode.childNodes;
@@ -169,7 +169,7 @@
 							var d = new tests.Deferred();
 							setTimeout(d.getTestCallback(
 								function(){
-									t.assertEqual(1, dijit._Container.prototype.getChildren.call(pane2).length);
+									t.assertEqual(1, dijit._Widget.prototype.getChildren.call(pane2).length);
 								})
 							, 1500);
 							return d;

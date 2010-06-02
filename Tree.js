@@ -287,7 +287,7 @@ dojo.declare(
 		// Orphan all my existing children.
 		// If items contains some of the same items as before then we will reattach them.
 		// Don't call this.removeChild() because that will collapse the tree etc.
-		this.getChildren().forEach(function(child){
+		dojo.forEach(this.getChildren(), function(child){
 			dijit._Container.prototype.removeChild.call(this, child);
 		}, this);
 
