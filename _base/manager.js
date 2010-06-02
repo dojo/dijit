@@ -406,8 +406,13 @@ dojo.declare("dijit.WidgetSet", null, {
 		var first, last, lowest, lowestTabindex, highest, highestTabindex;
 		var walkTree = function(/*DOMNode*/parent){
 			dojo.query("> *", parent).forEach(function(child){
-				var isShown = shown(child);
-				if(isShown && isTabNavigable(child)){
+				// Skip hidden elements, and also non-HTML elements (those in custom namespaces) in IE,
+				// since show() invokes getAttribute("type"), which crash on VML nodes in IE.
+				if((dojo.isIE && child.scopeName!=="HTML") || !shown(child)){
+					return;
+				}
+
+				if(isTabNavigable(child)){
 					var tabindex = attr(child, "tabIndex");
 					if(!hasAttr(child, "tabIndex") || tabindex == 0){
 						if(!first){ first = child; }
@@ -423,7 +428,9 @@ dojo.declare("dijit.WidgetSet", null, {
 						}
 					}
 				}
-				if(isShown && child.nodeName.toUpperCase() != 'SELECT'){ walkTree(child) }
+				if(child.nodeName.toUpperCase() != 'SELECT'){
+					walkTree(child);
+				}
 			});
 		};
 		if(shown(root)){ walkTree(root) }
