@@ -19,7 +19,7 @@
 	var d = dojo,
 		theme = false,
 		testMode = null,
-		defTheme = "tundra";
+		defTheme = "claro";
 
 	if(window.location.href.indexOf("?") > -1){
 		var str = window.location.href.substr(window.location.href.indexOf("?")+1).split(/#/);
@@ -47,8 +47,8 @@
 		}
 	}
 
-	// If URL specifies a non-tundra theme then pull in those theme CSS files and modify
-	// <body> to point to that new theme instead of tundra.
+	// If URL specifies a non-claro theme then pull in those theme CSS files and modify
+	// <body> to point to that new theme instead of claro.
 	//
 	// Also defer parsing and any dojo.addOnLoad() calls that the test file makes
 	// until the CSS has finished loading.
