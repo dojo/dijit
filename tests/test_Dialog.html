@@ -54,10 +54,10 @@
 			if(!thirdDlg){
 				var pane = dojo.byId('thirdDialog');
 				// should specify a width on dialogs with <p> tags, otherwise they get too wide
-				pane.style.width = "300px";
 				thirdDlg = new dijit.Dialog({
 					id: "dialog3",
-					title: "Programatic Dialog Creation"
+					title: "Programatic Dialog Creation",
+					style: {width: '300px'}
 				},pane);
 			}
 			setTimeout(function(){ thirdDlg.show(); },"3000");
