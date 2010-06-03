@@ -82,6 +82,7 @@ Splitters and gutters:
 	background:none;
 	border:0;
 	width:5px;
+	margin: 0;
 }
 
 .claro .dijitSplitterV .dijitSplitterThumb {
@@ -89,17 +90,15 @@ Splitters and gutters:
 	height:19px;
 	left:2px;
 	width:1px;
+	margin: 0;
 }
 
 /* hovered splitter */
 .claro .dijitSplitterHHover {
 	font-size: 1px;
-	-moz-opacity: 1;
-	opacity: 1;
-	filter: Alpha(Opacity=100);
-	margin: 0;
 	background: url("images/splitterHorizontalHover.png") no-repeat center top;
 }
+
 
 .claro .dijitSplitterHHover .dijitSplitterThumb {
 	background:#769dc0 none;
@@ -107,10 +106,6 @@ Splitters and gutters:
 
 .claro .dijitSplitterVHover {
 	font-size: 1px;
-	-moz-opacity: 1;
-	opacity: 1;
-	filter: Alpha(Opacity=100);
-	margin: 0;
 	background: url("images/splitterVerticalHover.png") no-repeat center left;
 }
 
@@ -118,15 +113,16 @@ Splitters and gutters:
 	background:#769dc0 none;
 }
 
+.dj_ie6 .dijitSplitterHHover,
+.dj_ie6 .claro .dijitSplitterVHover {
+	background-color:#cfe9ff;
+	background-image:none;
+}
 
 /* active splitter */
 .claro .dijitSplitterHActive {
 	font-size: 1px;
 	background-color:#abd4fb;
-	-moz-opacity: .6;
-	opacity: .6;
-	filter: Alpha(Opacity=60);
-	margin: 0;
 	border-top:blue;
 
 }
@@ -134,8 +130,5 @@ Splitters and gutters:
 .claro .dijitSplitterVActive {
 	font-size: 1px;
 	background-color:#abd4fb;
-	-moz-opacity: .6;
-	opacity: .6;
-	filter: Alpha(Opacity=60);
-	margin: 0;
+
 }
