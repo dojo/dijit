@@ -45,7 +45,9 @@ There are three areas of styling for the Menu:
 	background-repeat:repeat-y;
 	background-color:#fff;
 	border: 1px solid #769dc0;
-	margin-top: -2px;
+
+	/* so adjoining borders of MenuBar/ComboBox and Menu overlap, avoiding double border */
+	margin: -1px 0;
 }
 .claro .dijitMenuBar .dijitMenuItem {  
 	padding: 6px 10px 7px;
