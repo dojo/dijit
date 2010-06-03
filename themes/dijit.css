@@ -1269,7 +1269,10 @@ img.dijitColorPaletteUnder {
 .dijit_a11y .dijitCheckedMenuItemIcon {
 	display: none;
 }
-
+.dj_ie .dijit_a11y .dijitMenuBar .dijitMenuItem {
+	/* so bottom border of MenuBar appears on IE7 in high-contrast mode */
+	margin: 0px;
+}
 
 /* StackContainer */
 
