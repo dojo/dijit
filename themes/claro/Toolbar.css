@@ -48,6 +48,9 @@
 	-webkit-transition-property:background-color;
 	-webkit-transition-duration:.3s, .35s;
 }
+.claro .dijitToolbar .dijitComboButton .dijitButtonNode{
+	padding: 3px 2px 3px 2px;	/* make the ComboButton in toolbar more stable when mouse hovering */
+}
 .dj_ie .claro .dijitToolbar .dijitButtonNode {
 	background-color: transparent;   /* for IE, which doesn't understand rgba(...) */
 }
