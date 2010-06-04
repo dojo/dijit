@@ -37,6 +37,9 @@
 	/* inner container for finished portion when in 'tile' (image) mode */
 	background:#9dcfff url("images/progressBarFull.png") repeat-x top;	
 }
+.dj_ie6 .claro .dijitProgressBarTile {
+	background-image: none;
+} 
 .claro .dijitProgressBarFull {
 	border-right:1px solid #769dc0;
 }
