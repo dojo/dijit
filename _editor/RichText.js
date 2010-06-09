@@ -1734,12 +1734,12 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 	},
 	_normalizeFontStyle: function(/* String */ html){
 		// summary:
-		//		Convert <strong> and <em> to <b> and <i>.
+		//		Convert 'strong' and 'em' to 'b' and 'i'.
 		// description:
 		//		Moz can not handle strong/em tags correctly, so to help
-		//		mozilla and also to normalize output, convert them to <b> and <i>.
+		//		mozilla and also to normalize output, convert them to 'b' and 'i'.
 		//
-		//		Note the IE generates <strong> and <em> rather than <b> and <i>
+		//		Note the IE generates 'strong' and 'em' rather than 'b' and 'i'
 		// tags:
 		//		private
 		return html.replace(/<(\/)?strong([ \>])/gi, '<$1b$2')
