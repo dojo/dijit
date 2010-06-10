@@ -296,7 +296,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		//		node.
 		// description:
 		//		Sets up the editing area asynchronously. This will result in
-		//		the creation and replacement with an <iframe>.
+		//		the creation and replacement with an iframe.
 		//
 		//		A dojo.Deferred object is created at this.onLoadDeferred, and
 		//		users may attach to it to be informed when the rich-text area
@@ -1597,7 +1597,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 
 	escapeXml: function(/*String*/ str, /*Boolean*/ noSingleQuotes){
 		// summary:
-		//		Adds escape sequences for special characters in XML: &<>"'
+		//		Adds escape sequences for special characters in XML.
 		//		Optionally skips escapes for single quotes
 		// tags:
 		//		private
@@ -1765,7 +1765,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 
 	_inserthorizontalruleImpl: function(argument){
 		// summary:
-		//		This function implements the insertion of HTML <HR> tags.
+		//		This function implements the insertion of HTML 'HR' tags.
 		//		into a point on the page.  IE doesn't to it right, so
 		//		we have to use an alternate form
 		// argument:
@@ -1780,7 +1780,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 
 	_unlinkImpl: function(argument){
 		// summary:
-		//		This function implements the unlink of an <a> tag.
+		//		This function implements the unlink of an 'a' tag.
 		// argument:
 		//		arguments to the exec command, if any.
 		// tags:
