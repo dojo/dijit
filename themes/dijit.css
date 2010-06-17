@@ -185,7 +185,8 @@
 	padding: 1px;
 }
 .dijit_a11y .dijitCalendarSelectedDate .dijitCalendarDateLabel {
-	border: solid 1px black;
+	border-style: dotted !important;
+	border-width: 1px;
 	padding: 0px;
 }
 .dijit_a11y .dijitCalendarDateTemplate {
