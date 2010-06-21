@@ -534,11 +534,11 @@
 						// this test is very timing-sensitive
 						// preload states.json for slow networks
 						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 1000);
-						doh.robot.sequence(function(){ dojo.global.slowStateStore.log = []; }, 2000); // clear log of query on * messages
+						doh.robot.sequence(function(){ dojo.global.slowStateStore.log = []; }, 2000, 100); // clear log of query on * messages
 
 						// Filter drop down list to entries starting with "C"
-						doh.robot.keyPress("c", 10);
-						doh.robot.keyPress("o", 300);	// 300ms > searchDelay, so C* query has been sent (but not yet returned results) when the o is typed
+						doh.robot.typeKeys("c", 500, 100);
+						doh.robot.typeKeys("o", 300, 100); // 300ms > searchDelay, so C* query has been sent (but not yet returned results) when the o is typed
 
 						doh.robot.sequence(d.getTestCallback(function(){
 							// The query "C*" should be canceled when "Co*" is started
@@ -577,10 +577,10 @@
 						var combo = dijit.byId("slow");
 
 						combo.focusNode.focus();
-						doh.robot.sequence(function(){ combo.set("value", null); }, 1000);
+						doh.robot.sequence(function(){ combo.set("value", null); }, 1000, 100); // wait for focus
 
 						// Start to filter drop down list to entries starting with "Co"
-						doh.robot.typeKeys("Co", 100, 50);
+						doh.robot.typeKeys("Co", 500, 100);
 
 						// But then hit ENTER after we've started the query to the data store, but
 						// before the data store returns query results... that should cancel the query.
@@ -639,7 +639,7 @@
 						doh.robot.keyPress(dojo.keys.TAB, 1000);
 
 						doh.robot.sequence(d.getTestCallback(function(){
-							doh.is("combo3_disable", dojo.global.dijit._curFocus.id, "focused on 'enable' button after disabled combo");
+							doh.is("combobox4", dojo.global.dijit._curFocus.id, "focused on 'enable' button after disabled combo");
 						}), 1000);
 
 						return d;

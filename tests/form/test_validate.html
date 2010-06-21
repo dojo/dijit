@@ -433,10 +433,10 @@
 			<div class="testExample">
 				<input id="q24" type="text" name="readOnly" class="medium" readOnly value="cannot type here"
 					dojoType="dijit.form.TextBox">
-				<input type="button" id="removereadonly" onclick="dijit.byId('q24').set('readOnly',false);" value="Remove readOnly">
-				<input type="button" onclick="dijit.byId('q24').set('readOnly',true);" value="Set readOnly">
-				<input type="button" id="removedisabled" onclick="dijit.byId('q24').set('disabled',false);" value="Remove disabled">
-				<input type="button" onclick="dijit.byId('q24').set('disabled',true);" value="Set disabled">
+				<input type="button" id="removereadonly" onclick="dijit.byId('q24').set('readOnly',false);" value="Remove readOnly" tabIndex="-1">
+				<input type="button" onclick="dijit.byId('q24').set('readOnly',true);" value="Set readOnly" tabIndex="-1">
+				<input type="button" id="removedisabled" onclick="dijit.byId('q24').set('disabled',false);" value="Remove disabled" tabIndex="-1">
+				<input type="button" onclick="dijit.byId('q24').set('disabled',true);" value="Set disabled" tabIndex="-1">
 			</div>
 			<div class="dojoTitlePaneLabel">
 				<label for="q25">initially disabled ValidationTextBox</label>
@@ -445,10 +445,10 @@
 			<div class="testExample">
 				<input id="q25" type="text" name="disabled" class="medium" disabled value="cannot type here"
 					dojoType="dijit.form.ValidationTextBox">
-				<input type="button" onclick="dijit.byId('q25').set('readOnly',false);" value="Remove readOnly">
-				<input type="button" onclick="dijit.byId('q25').set('readOnly',true);" value="Set readOnly">
-				<input type="button" onclick="dijit.byId('q25').set('disabled',false);" value="Remove disabled">
-				<input type="button" onclick="dijit.byId('q25').set('disabled',true);" value="Set disabled">
+				<input type="button" onclick="dijit.byId('q25').set('readOnly',false);" value="Remove readOnly" tabIndex="-1">
+				<input type="button" onclick="dijit.byId('q25').set('readOnly',true);" value="Set readOnly" tabIndex="-1">
+				<input type="button" onclick="dijit.byId('q25').set('disabled',false);" value="Remove disabled" tabIndex="-1">
+				<input type="button" onclick="dijit.byId('q25').set('disabled',true);" value="Set disabled" tabIndex="-1">
 			</div>
 
 		        <script>
@@ -466,8 +466,8 @@
 		        </script>
 
 			<div>
-				<button name="button" onclick="alert(document.displayData()); return false;">view data</button>
-				<input type="submit" name="submit" />
+				<button name="button" onclick="alert(document.displayData()); return false;" tabIndex="-1">view data</button>
+				<input type="submit" name="submit"  tabIndex="-1"/>
 			</div>
 
 		</form>

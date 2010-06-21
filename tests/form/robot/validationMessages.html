@@ -32,18 +32,18 @@
 								doh.register(name, [
 								{
 									name: name + " first focus, empty value",
-									timeout: 2000,
+									timeout: 5000,
 									runTest: function(){
 										var d = new doh.Deferred();
 
-										doh.robot.mouseMoveAt(textbox.focusNode, 200);
+										doh.robot.mouseMoveAt(textbox.focusNode, 0, 1000);
 										doh.robot.mouseClick({left: true}, 200);
 
 										doh.robot.sequence(d.getTestCallback(function(){
 											doh.is(!required, textbox.isValid(false), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is(promptMessage, textbox._message, "tooltip");
-										}), 200);
+										}), 1000);
 
 										return d;
 									}
@@ -162,7 +162,7 @@
 											doh.is(!required, textbox.isValid(false), "isValid");
 											doh.is(!required, !textbox.state, "state");
 											doh.is("", textbox._message, "tooltip");
-										}), 200);
+										}), 500);
 
 										return d;
 									}
@@ -179,7 +179,7 @@
 											doh.is(!required, textbox.isValid(false), "isValid");
 											doh.is(!required, !textbox.state, "state");
 											doh.is(required? (missingMessage||invalidMessage||promptMessage) : promptMessage, textbox._message, "tooltip");
-										}), 200);
+										}), 500);
 
 										return d;
 									}
@@ -231,7 +231,7 @@
 											doh.is(!rangeBound, textbox.isValid(false), "isValid");
 											doh.is(!rangeBound, !textbox.state, "state");
 											doh.is("", textbox._message, "tooltip");
-										}), 200);
+										}), 500);
 
 										return d;
 									}
@@ -248,7 +248,7 @@
 											doh.is(!rangeBound, textbox.isValid(false), "isValid");
 											doh.is(!rangeBound, !textbox.state, "state");
 											doh.is(rangeBound? textbox.rangeMessage : promptMessage, textbox._message, "tooltip");
-										}), 200);
+										}), 500);
 
 										return d;
 									}
@@ -305,7 +305,7 @@
 											doh.is(!required, textbox.isValid(false), "isValid");
 											doh.is(!required, !textbox.state, "state");
 											doh.is("", textbox._message, "tooltip");
-										}), 200);
+										}), 500);
 
 										return d;
 									}
@@ -322,7 +322,7 @@
 											doh.is(!required, textbox.isValid(false), "isValid");
 											doh.is(!required, !textbox.state, "state");
 											doh.is(required? (missingMessage||invalidMessage||promptMessage) : promptMessage, textbox._message, "tooltip");
-										}), 200, 1000);
+										}), 500, 1000);
 
 										return d;
 									}
