@@ -38,7 +38,7 @@
 	'fontSize': 'Lettergrootte',
 	'fontName': 'Lettertype',
 	'tabIndent': 'Inspringen',
-	"fullScreen": "Volledig scherm afwisselen",
+	"fullScreen": "Volledig scherm in-/uitschakelen",
 	"viewSource": "HTML-bron bekijken",
 	"print": "Afdrukken",
 	"newPage": "Nieuwe pagina",

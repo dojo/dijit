@@ -7,7 +7,7 @@
 	set: "Nastavi",
 	currentWindow: "Trenutno okno",
 	parentWindow: "Nadrejeno okno",
-	topWindow: "Okno na vrhu",
+	topWindow: "Najvišje okno",
 	newWindow: "Novo okno"
 })
 

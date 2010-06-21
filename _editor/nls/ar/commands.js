@@ -39,7 +39,7 @@
 	'fontName': 'اسم طاقم الطباعة',
 	'tabIndent': 'ازاحة للداخل باستخدام Tab',
 	"fullScreen": "تبديل الشاشة الكاملة",
-	"viewSource": "مشاهدة مصدر HTML ",
+	"viewSource": "\u202bمشاهدة مصدر HTML\u202c",
 	"print": "‏طباعة‏",
 	"newPage": "صفحة جديدة",
 	/* Error messages */

@@ -7,7 +7,7 @@
 	set: "設定",
 	currentWindow: "現行視窗",
 	parentWindow: "上層視窗",
-	topWindow: "最上層視窗",
+	topWindow: "最上面的視窗",
 	newWindow: "新視窗"
 })
 

@@ -7,7 +7,7 @@
 	set: "Instellen",
 	currentWindow: "Huidig venster",
 	parentWindow: "Hoofdvenster",
-	topWindow: "Werkvenster",
+	topWindow: "Bovenste venster",
 	newWindow: "Nieuw venster"
 })
 

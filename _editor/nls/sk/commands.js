@@ -38,7 +38,7 @@
 	'fontSize': 'Veľkosť písma',
 	'fontName': 'Názov písma',
 	'tabIndent': 'Odsadenie tabulátora',
-	"fullScreen": "Prepnúť na celoobrazovkové zobrazenie",
+	"fullScreen": "Zobraziť na celú obrazovku",
 	"viewSource": "Zobraziť zdrojový kód HTML ",
 	"print": "Tlačiť",
 	"newPage": "Nová stránka ",
