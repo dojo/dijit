@@ -888,6 +888,10 @@ body .dijitAlignClient { position: absolute; }
 	overflow: hidden;
 	display: block;
 }
+.dj_ff3 .dijit_a11y div.dijitSplitter:focus {
+	outline-style:dotted;
+	outline-width: 2px;
+}
 
 .dijitSplitPane {
 	position: absolute;
