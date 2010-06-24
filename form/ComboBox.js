@@ -170,6 +170,17 @@ dojo.declare(
 			}
 		},
 
+		_onInput: function(/*Event*/ evt){
+			// summary:
+			//		Handles paste events
+			if(!this.searchTimer && (evt.type == 'paste'/*IE|WebKit*/ || evt.type == 'input'/*Firefox*/) && this._lastInput != this.textbox.value){
+				this.searchTimer = setTimeout(dojo.hitch(this, function(){
+					this._onKeyPress({charOrCode: 229}); // fake IME key to cause a search
+				}), 100); // long delay that will probably be preempted by keyboard input
+			}
+			this.inherited(arguments);
+		},
+
 		_onKeyPress: function(/*Event*/ evt){
 			// summary:
 			//		Handles keyboard events
