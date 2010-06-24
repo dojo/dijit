@@ -116,10 +116,13 @@ dojo.declare(
 		//		True to allow user to open/close pane by clicking title bar.
 		this.toggleable = canToggle;
 		dijit.setWaiRole(this.focusNode, canToggle ? "button" : "heading");
-		dojo.attr(this.focusNode, "tabIndex", canToggle ? this.tabIndex : "-1");
 		if(canToggle){
 			// TODO: if canToggle is switched from true false shouldn't we remove this setting?
 			dijit.setWaiState(this.focusNode, "controls", this.id+"_pane");
+			dojo.attr(this.focusNode, "tabIndex", this.tabIndex);
+		}
+		else{
+			dojo.removeAttr(this.focusNode, "tabIndex");
 		}
 		this._setCss();
 	},
