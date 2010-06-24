@@ -1202,6 +1202,7 @@ img.dijitColorPaletteUnder {
 	opacity:0.3;
 	cursor:default;
 }
+.dj_ie .dijit_a11y .dijitMenuItemDisabled,
 .dj_ie .dijit_a11y .dijitMenuItemDisabled td,
 .dj_ie .dijitMenuItemDisabled *,
 .dj_ie .dijitMenuItemDisabled td {
