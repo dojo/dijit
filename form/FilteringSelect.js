@@ -45,6 +45,12 @@ dojo.declare(
 			return this._isvalid || (!this.required && this.get('displayedValue') == ""); // #5974
 		},
 
+		_refreshState: function(){
+			if(!this.searchTimer){ // state will be refreshed after results are returned
+				this.inherited(arguments);
+			}
+		},
+
 		_callbackSetLabel: function(	/*Array*/ result,
 						/*Object*/ dataObject,
 						/*Boolean?*/ priorityChange){
