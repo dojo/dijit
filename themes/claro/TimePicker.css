@@ -61,7 +61,9 @@
 	white-space: nowrap;
 }
 .claro .dijitTimePickerTickHover,
-.claro .dijitTimePickerMarkerHover {
+.claro .dijitTimePickerMarkerHover,
+.claro .dijitTimePickerMarkerSelected,
+.claro .dijitTimePickerTickSelected {
 	background-color: #83c0fa;
 	color:#000;
 	border:solid 1px #b5bcc7;
@@ -70,12 +72,13 @@
 }
 .claro .dijitTimePickerMarkerSelected,
 .claro .dijitTimePickerTickSelected {
-	background-color: #83c0fa;
-	color:#000;
-	border:solid 1px #b5bcc7;
-	margin-left:-7px;
-	margin-right:-7px;
 	font-size: 1em;
+	}
+.dj_ie .claro .dijitTimePickerTickHover,
+.dj_ie .claro .dijitTimePickerMarkerHover,
+.dj_ie .claro .dijitTimePickerMarkerSelected,
+.dj_ie .claro .dijitTimePickerTickSelected  {
+	width: 114%;
 }
 .dj_ie6 .claro .dijitTimePickerTickHover,
 .dj_ie6 .claro .dijitTimePickerMarkerHover,
@@ -88,7 +91,6 @@
 	padding:1px;
 	margin:0px;
 }
-
 .claro .dijitTimePicker .dijitButtonNode {
 	border-left:none;
 	border-right:none;
