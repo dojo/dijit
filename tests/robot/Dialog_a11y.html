@@ -204,7 +204,7 @@
 					},
 
 					{
-						name: "cancel dialog",
+						name: "close via ESC",
 						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -260,6 +260,47 @@
 								doh.t(data, "got submit data");
 								doh.is("Ted", data.name, "Name");
 								doh.is("America", data.loc, "Location");
+							}), 1000);
+
+							return d;
+						}
+					}
+				]);
+
+				doh.register("dijit.Dialog keyboard tests (cancel via Cancel button)",[
+					{
+						name: "close Dialog via Cancel button",
+						timeout: 15000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// Test which callbacks are called on cancel
+							var executed = false, canceled = false;
+							dojo.connect(dijit.byId("ABDlg1"), "execute", function(vals){
+								executed = true;
+							});
+							dojo.connect(dijit.byId("ABDlg1"), "onCancel", function(){
+								canceled = true;
+							});
+
+							// Open the dialog
+							doh.robot.sequence(function(){
+								dojo.byId("ABDlg1Btn").focus();
+							}, 500);
+							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
+
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.t(isVisible("ABDlg1"), "dialog opened");
+							}), 1000);
+
+							// Cancel
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(isHidden("ABDlg1"), "dialog closed on cancel");
+								doh.t(canceled, "cancel callback was called");
+								doh.f(executed, "execute callback wasn't called");
 							}), 1000);
 
 							return d;
