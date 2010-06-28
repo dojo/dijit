@@ -5,6 +5,8 @@ dojo.require("dojo.date.locale");
 dojo.require("dojo.date.stamp");
 dojo.require("dijit.form.ValidationTextBox");
 
+new Date("X"); // workaround for #11279, new Date("") == NaN
+
 /*=====
 dojo.declare(
 	"dijit.form._DateTimeTextBox.__Constraints",
