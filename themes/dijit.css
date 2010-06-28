@@ -92,6 +92,12 @@
 	line-height:1px;
 }
 
+.dijitOffScreen {
+	position: absolute !important;
+	visibility: hidden !important;
+	top: -10000px !important;
+}
+
 /*
  * Popup items have a wrapper div (dijitPopup)
  * with the real popup inside, and maybe an iframe too
