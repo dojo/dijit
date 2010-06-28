@@ -121,8 +121,8 @@
 			var submitForm = function(name, testValues){
 				return {
 					name: name,
-				        timeout: 5000,
-				        runTest: function(){
+					timeout: 5000,
+					runTest: function(){
 						var d = new doh.Deferred();
 						submittedValues = function(formValues){
 							d.getTestCallback(function(){
@@ -138,17 +138,36 @@
 				};
 			};
 
+			// delay produces a "test" which simply waits for ms milliseconds.
+			// this is necessary for IE, which gets confused by multiple quick submits.
+			var delay = function(ms){
+				return {
+					name: "delay for IE's sake",
+					timeout: 50000,
+					runTest: function(){
+						var d = new doh.Deferred();
+						setTimeout(function(){
+							d.callback(true);
+						}, ms);
+						console.log("set timeout");
+						return d;
+					}
+				};
+			};
+
 			doh.register("CheckBox values",
 				[
 					function getValues(){
 						doh.is( dojo.toJson(originalGet), dojo.toJson(formWidget.get('value')) );
 					},
 					submitForm("original submit", originalSubmit),
+					delay(500),
 					function setValues(){
 						formWidget.set('value', change);
 						doh.is( dojo.toJson(changedGet), dojo.toJson(formWidget.get('value')) );
 					},
 					submitForm("changed submit", changedSubmit),
+					delay(500),
 					function resetValues(){
 						formWidget.reset();
 						doh.is( dojo.toJson(originalGet), dojo.toJson(formWidget.get('value')), "reset to original values" );
@@ -196,7 +215,7 @@
 	<!--    to test form submission, you'll need to create an action handler similar to
 		http://www.utexas.edu/teamweb/cgi-bin/generic.cgi -->
 	<form dojoType="dijit.form.Form" id="myForm"
-		encType="multipart/form-data" action="../formAction.html" method="" target="_formSubmitIframe">
+			action="../formAction.html" method="" target="_formSubmitIframe">
 		<input type="checkbox" id="cb0" checked/>
 			<label for="cb0">cb0: Vanilla (non-dojo) checkbox (for comparison purposes)</label>
 		<br>
