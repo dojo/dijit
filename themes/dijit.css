@@ -1992,6 +1992,7 @@ DIV.dijitTabDisabled, .dj_ie DIV.dijitTabDisabled {
 	padding: 0px;
 	background: transparent none;
 	white-space: nowrap;
+	text-align: left;
 }
 .dijitSelectFixedWidth .dijitButtonContents {
 	width: 100%;

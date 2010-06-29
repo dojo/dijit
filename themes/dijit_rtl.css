@@ -119,3 +119,8 @@
 	left: auto;
 	right: 0;
 }
+
+/* Select */
+.dijitSelectRtl .dijitButtonContents {
+	text-align: right;
+}
