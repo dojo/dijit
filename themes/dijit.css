@@ -93,9 +93,10 @@
 }
 
 .dijitOffScreen {
-	position: absolute !important;
-	visibility: hidden !important;
-	top: -10000px !important;
+	position: absolute;
+	visibility: hidden;
+	left: 50%;
+	top: -10000px;
 }
 
 /*
