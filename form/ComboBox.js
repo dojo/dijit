@@ -423,7 +423,7 @@ dojo.declare(
 			// then need to reposition the drop down (wrapper) so (all of) the drop down still
 			// appears underneath the ComboBox.domNode
 			if(newwidth < this.domNode.offsetWidth){
-				this._popupWidget.domNode.parentNode.style.left = dojo.position(this.domNode).x + "px";
+				this._popupWidget.domNode.parentNode.style.left = dojo.position(this.domNode, true).x + "px";
 			}
 
 			dijit.setWaiState(this.comboNode, "expanded", "true");
