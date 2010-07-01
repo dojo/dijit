@@ -196,7 +196,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		if(this.domNode.offsetWidth == 0){
 			return;
 		}
-		
+
 		// Save the dimensions to be used when a child is renamed.
 		this._dim = dim;
 
@@ -223,6 +223,9 @@ dojo.declare("dijit.layout.ScrollingTabController",
 
 		// set proper scroll so that selected tab is visible
 		if(this._selectedTab){
+			if(this._anim && this._anim.status() == "playing"){
+				this._anim.stop();
+			}
 			var w = this.scrollNode,
 				sl = this._convertToScrollLeft(this._getScrollForSelectedTab());
 			w.scrollLeft = sl;
@@ -230,6 +233,8 @@ dojo.declare("dijit.layout.ScrollingTabController",
 
 		// Enable/disabled left right buttons depending on whether or not user can scroll to left or right
 		this._setButtonClass(this._getScroll());
+		
+		this._postResize = true;
 	},
 
 	_getScroll: function(){
@@ -266,8 +271,9 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		var tab = this.pane2button[page.id];
 		if(!tab || !page){return;}
 
+		// Scroll to the selected tab, except on startup, when scrolling is handled in resize()
 		var node = tab.domNode;
-		if(node != this._selectedTab){
+		if(this._postResize && node != this._selectedTab){
 			this._selectedTab = node;
 
 			var sl = this._getScroll();
