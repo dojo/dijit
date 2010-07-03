@@ -456,10 +456,6 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		ifr.setAttribute('src', s);
 		this.editingArea.appendChild(ifr);
 
-		if(dojo.isSafari){ // Safari seems to always append iframe with src=about:blank
-			setTimeout(function(){ifr.setAttribute('src', s);},0);
-		}
-
 		// TODO: this is a guess at the default line-height, kinda works
 		if(dn.nodeName == "LI"){
 			dn.lastChild.style.marginTop = "-1.2em";
