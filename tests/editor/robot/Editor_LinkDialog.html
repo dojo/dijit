@@ -673,7 +673,7 @@
 							var edPlugins = editor._plugins, i;
 							for(i = 0; i < edPlugins.length; i++){
 								var p = edPlugins[i];
-								if(p.declaredClass === "dijit._editor.plugins.ImgLinkDialog"){
+								if(p.declaredClass === "dijit._editor.plugins.LinkDialog"){
 									ldPlugin = p;
 									break;
 								}
@@ -697,10 +697,19 @@
 								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
 								var value = editor.get("value");
 
+								doh.robot.sequence(d.getTestErrback(function(){
+									doh.assertTrue(ldPlugin && ldPlugin.dropDown && ldPlugin.dropDown.domNode, "found TooltipDialog");
+									doh.assertTrue(isHidden(ldPlugin.dropDown.domNode),  "tooltip dialog is hidden");
+								}));
+
+								// Double click
 								doh.robot.mouseMoveAt(node, 500);
 								doh.robot.mouseClick({left:true}, 100);
 								doh.robot.mouseClick({left:true}, 100);
+
 								doh.robot.sequence(d.getTestCallback(function(){
+									doh.assertTrue(isVisible(ldPlugin.dropDown.domNode),  "tooltip dialog is visible");
+
 									var f = dijit.getFocus();
 									if(f.node){
 										var w = dijit.getEnclosingWidget(f.node);
@@ -1058,10 +1067,19 @@
 								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
 								var value = editor.get("value");
 
+								doh.robot.sequence(d.getTestErrback(function(){
+									doh.assertTrue(ldPlugin && ldPlugin.dropDown && ldPlugin.dropDown.domNode, "found TooltipDialog");
+									doh.assertTrue(isHidden(ldPlugin.dropDown.domNode),  "tooltip dialog is hidden");
+								}));
+
+								// Double click
 								doh.robot.mouseMoveAt(node, 500);
 								doh.robot.mouseClick({left:true}, 100);
 								doh.robot.mouseClick({left:true}, 100);
+
 								doh.robot.sequence(d.getTestCallback(function(){
+									doh.assertTrue(isVisible(ldPlugin.dropDown.domNode),  "tooltip dialog is visible");
+
 									var f = dijit.getFocus();
 									if(f.node){
 										var w = dijit.getEnclosingWidget(f.node);
