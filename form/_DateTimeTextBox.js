@@ -162,6 +162,7 @@ dojo.declare(
 					id: this.id + "_popup",
 					dir: textBox.dir,
 					lang: textBox.lang,
+					value: this.get('value') || new this.dateClassObj(),
 					constraints: textBox.constraints,
 
 					datePackage: textBox.datePackage,
@@ -177,7 +178,6 @@ dojo.declare(
 						);
 					}
 				});
-				this._picker.set('value', this.get('value') || new this.dateClassObj());
 			}
 			if(!this._opened){
 				// Open drop down.  Align left sides of input box and drop down, even in RTL mode,
