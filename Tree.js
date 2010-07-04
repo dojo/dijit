@@ -500,6 +500,8 @@ dojo.declare(
 
 	// path: String[] or Item[]
 	//		Full path from rootNode to selected node expressed as array of items or array of ids.
+	//		Since setting the path may be asynchronous (because ofwaiting on dojo.data), set("path", ...)
+	//		returns a Deferred to indicate when the set is complete.
 	path: [],
 
 	// selectedItem: [readonly] Item
@@ -801,18 +803,25 @@ dojo.declare(
 		//		Select the tree node identified by passed path.
 		// path:
 		//		Array of items or item id's
+		// returns:
+		//		Deferred to indicate when the set is complete
+
+		var d = new dojo.Deferred();
 
 		this._selectNode(null);
-		if(!path || !path.length){ return; }
+		if(!path || !path.length){
+			d.resolve(true);
+			return d;
+		}
 
 		// If this is called during initialization, defer running until Tree has finished loading
 		this._loadDeferred.addCallback(dojo.hitch(this, function(){
 			if(!this.rootNode){
-				console.debug("!this.rootNode");
+				d.reject(new Error("!this.rootNode"));
 				return;
 			}
 			if(path[0] !== this.rootNode.item && (dojo.isString(path[0]) && path[0] != this.model.getIdentity(this.rootNode.item))){
-				console.error(this, ":path[0] doesn't match this.rootNode.item.  Maybe you are using the wrong tree.");
+				d.reject(new Error(this.id + ":path[0] doesn't match this.rootNode.item.  Maybe you are using the wrong tree."));
 				return;
 			}
 			path.shift();
@@ -844,11 +853,16 @@ dojo.declare(
 				}else{
 					// Final destination node, select it
 					this._selectNode(node);
+					
+					// signal that path setting is finished
+					d.resolve(true);
 				}
 			}
 
 			this._expandNode(node).addCallback(dojo.hitch(this, advance));
 		}));
+			
+		return d;
 	},
 
 	_getPathAttr: function(){
