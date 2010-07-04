@@ -67,9 +67,6 @@ dojo.declare(
 				// tags:
 				//		private
 
-				// add a node that will be promoted to the button widget
-				var refNode = dojo.doc.createElement("span");
-				this.domNode.appendChild(refNode);
 				// create an instance of the button widget
 				var cls = dojo.getObject(this.buttonWidget);
 				var button = new cls({
@@ -81,7 +78,7 @@ dojo.declare(
 					iconClass: page.iconClass,
 					closeButton: page.closable,
 					title: page.tooltip
-				}, refNode);
+				});
 				dijit.setWaiState(button.focusNode,"selected", "false");
 				this.pane2handles[page.id] = [
 					this.connect(page, 'set', function(name, value){
