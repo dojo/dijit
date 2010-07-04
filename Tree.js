@@ -647,6 +647,12 @@ dojo.declare(
 	postMixInProperties: function(){
 		this.tree = this;
 
+		if(this.autoExpand){
+			// There's little point in saving opened/closed state of nodes for a Tree
+			// that initially opens all it's nodes.
+			this.persist = false;
+		}
+
 		this._itemNodesMap={};
 
 		if(!this.cookieName){
