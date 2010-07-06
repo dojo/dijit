@@ -56,6 +56,7 @@
 
 	<h2>Accordion from markup:</h2>
 
+	<input id="beforeMarkupAccordion" value="for tabIndex testing">
 	<div dojoType="dijit.layout.AccordionContainer" id="markupAccordion"
 		style="width: 400px; height: 300px; overflow: hidden">
 		<div dojoType="dijit.layout.ContentPane" selected="true"
@@ -97,7 +98,7 @@
 			title="Lazy Load Pane" iconClass="dijitEditorIcon dijitEditorIconCopy" href="tab1.html"
 			style="margin: 5px;"></div>
 
-		<div dojoType="dijit.layout.BorderContainer" title="BorderContainer Pane" iconClass="dijitEditorIcon dijitEditorIconPaste">
+		<div dojoType="dijit.layout.BorderContainer" id="borderContainerPane" title="BorderContainer Pane" iconClass="dijitEditorIcon dijitEditorIconPaste">
 			<div dojoType="dijit.layout.ContentPane" region="left" style="width:50%" splitter="true">
 			1Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 			Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
@@ -130,7 +131,7 @@
 			</div>
 		</div>
 
-		<div dojoType="dijit.layout.ContentPane" title="Embedded layout widgets" iconClass="dijitEditorIcon dijitEditorIconCut">
+		<div dojoType="dijit.layout.ContentPane" id="embeddedLayoutPane" title="Embedded layout widgets" iconClass="dijitEditorIcon dijitEditorIconCut">
 			<p>
 				The pane has some text, plus two embedded layout widgets, which should
 				appear correctly even though the pane is initially hidden.
@@ -210,6 +211,7 @@
 			</p>
 		</div>
 	</div>
+	<input id="afterMarkupAccordion" value="for tabIndex testing">
 	<button onclick="dijit.byId('pane1').set('title', 'My First Pane');">Change title of first pane</button>
 	<button onclick="dijit.byId('pane1').set('iconClass', 'plusIcon');">Change icon of first pane</button>
 	<button onclick="dijit.byId('markupAccordion').removeChild(dijit.byId('lazyLoadPane'));">Remove lazy-load pane</button>
