@@ -210,6 +210,16 @@ dojo.declare(
 						},
 						onEnd: function(){
 							newContents.style.overflow = newContentsOverflow;
+
+							// Kick IE to workaround layout bug, see #11415
+							if(dojo.isIE){
+								setTimeout(function(){
+									dojo.removeClass(newContents.parentNode, "dijitAccordionInnerContainerFocused");
+									setTimeout(function(){
+										dojo.addClass(newContents.parentNode, "dijitAccordionInnerContainerFocused");
+									}, 0);
+								}, 0);
+							}
 						}
 					}));
 				}
