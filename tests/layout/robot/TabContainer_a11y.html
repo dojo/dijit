@@ -193,9 +193,11 @@
 					}
 				]);
 
-				// Run test about opening context menu via keyboard, except on safari/mac where that isn't
-				// possible (#9927)
-				if(!dojo.isMac || !dojo.isWebKit){
+				// Run test about opening context menu via keyboard, except on:
+				//	- safari/mac where it doesn't work unless VoiceOver is turned on (#9927)
+				//	- webkit/win, where in suite mode (runTests.html), F10 triggers context menu
+				//		in both the iframe and the outer window
+				if(!dojo.isWebKit){
 					doh.register("closing tabs via context menu", {
 						name: "close tab through context menu",
 						timeout: 10000,
