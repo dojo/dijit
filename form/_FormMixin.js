@@ -15,15 +15,17 @@ dojo.declare("dijit.form._FormMixin", null,
 
 /*=====
     // value: Object
-	//		Name/value hash for each form element.
-	//		If there are multiple elements w/the same name, value is an array,
-	//		unless they are radio buttons in which case value is a scalar since only
-	//		one can be checked at a time.
+	//		Name/value hash for each child widget with a name and value.
+	//		Child widgets without names are not part of the hash.
+	// 
+	//		If there are multiple child widgets w/the same name, value is an array,
+	//		unless they are radio buttons in which case value is a scalar (since only
+	//		one radio button can be checked at a time).
 	//
-	//		If the name is a dot separated list (like a.b.c.d), it's a nested structure.
-	//		Only works on widget form elements.
-	// example:
-	//	| { name: "John Smith", interests: ["sports", "movies"] }
+	//		If a child widget's name is a dot separated list (like a.b.c.d), it's a nested structure.
+	//
+	//		Example:
+	//	|	{ name: "John Smith", interests: ["sports", "movies"] }
 =====*/
 
 	//	TODO:
@@ -376,7 +378,7 @@ dojo.declare("dijit.form._FormMixin", null,
 			// we connect to validate - so that it better reflects the states
 			// of the widgets - also, we only connect if it has a validate
 			// function (to avoid too many unneeded connections)
-			var conns = this._changeConnections = [];
+			var conns = (this._changeConnections = []);
 			dojo.forEach(dojo.filter(this.getDescendants(),
 				function(item){ return item.validate; }
 			),
