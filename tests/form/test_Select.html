@@ -33,8 +33,10 @@
 			var numChanges = 0;
 			var addNum = 10;
 
-			// Set to true to run perf tests - note SLOW to run
-			var testPerformance = false;
+			// Add test=true to the URL to run unit tests.
+			// Add testPerformance=true to the URL to run performance tests - note SLOW to run
+			var test = /mode=test/i.test(window.location.href),
+				testPerformance = /mode=benchmark/i.test(window.location.href);
 
 			// Data and stores here for store-based selects
 			var data = {
@@ -95,8 +97,8 @@
 				});
 				programmaticDisabled.placeAt('testProgramatic');
 
-				doh.register("functionality",
-					[
+				if(test){
+					doh.register("API", [
 						{
 							name: "test_set",
 							timeout: 5000,
@@ -111,7 +113,7 @@
 
 								setTimeout(function(){ try{ // allow onChange to fire
 
-									// set s1 to non-existant value, which (currently) makess the Select pick
+									// set s1 to non-existing value, which (currently) makes the Select pick
 									// the first option in the drop down
 									s1.set("value", "UT");
 									t.is("TN", s1.value);
@@ -124,7 +126,37 @@
 								return d;
 							}
 						},
-	
+						{
+							name: 'test_disabled',
+							runTest: function(t){
+								t.is(testDisabled.disabled, true);
+							}
+						},
+						{
+							name: 'test_programmatic',
+							runTest: function(t){
+								t.is(programmatic.options.length, 2);
+								t.is(programmaticDisabled.options.length, 2);
+								t.is(programmaticDisabled.disabled, true);
+							}
+						},
+
+						// Test that destroying a Select destroys the internal Menu and MenuItems too
+						{
+							name: "test_destroy",
+							timeout: 5000,
+							runTest: function(t){
+								var oldCnt = dijit.registry.length;
+									
+								s1.destroy();
+
+								var newCnt = dijit.registry.length;
+								t.t(newCnt < oldCnt + 3, "should have destroyed many widgets, went from " + oldCnt + " to " + newCnt);
+							}
+						}
+					]);
+
+					doh.register("data store", [
 						// Tests that when the currently selected item is changed in the data store,
 						// the change is reflected in the Select widget
 						function test_changeSelected(t){
@@ -205,23 +237,9 @@
 							s12.setStore(store2);
 							t.is("DE", s12.value);
 							t.is(7, s12.getOptions().length);
-						},
-						{
-							name: 'test_disabled',
-							runTest: function(t){
-								t.is(testDisabled.disabled, true);
-							}
-						},
-						{
-							name: 'test_programmatic',
-							runTest: function(t){
-								t.is(programmatic.options.length, 2);
-								t.is(programmaticDisabled.options.length, 2);
-								t.is(programmaticDisabled.disabled, true);
-							}
 						}
-					]
-				);
+					]);
+				}
 
 				if(testPerformance){			
 					doh.register("performance", [
@@ -284,12 +302,20 @@
 					]);
 				}
 
-				doh.run();
+				if(test || testPerformance){
+					doh.run();
+				}
 			});
 		</script>
 	</head>
 	<body class="claro">
 		<h1 class="testTitle">Test: dijit.form.Select</h1>
+
+		<p>
+			Note: load <a href="test_Select.html?mode=test">test_Select.html?mode=test</a> to run unit tests, or
+			<a href="test_Select.html?mode=benchmark">test_Select.html?mode=benchmark</a> to run performance tests.
+		</p>
+
 		<h2>HTML select for comparison</h2>
 		<form method="get" id="htmlForm" action="get">
 			<label for="htmlSelect">Four options:</label>
@@ -303,7 +329,7 @@
 			<select id="htmlSelect2">
 			</select>
 		</form>
-		<h2>Automated test</h2>
+		<h2>dijit.form.Select</h2>
 		<form dojoType="dijit.form.Form" jsId="form" method="get">
 			<h4 class="testSubtitle">Setting Defaults</h4>
 			<label for="s1">Test One: </label>
