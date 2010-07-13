@@ -32,9 +32,9 @@
 			var numOptions = 0;
 			var numChanges = 0;
 			var addNum = 10;
-			var testType;
-			// Uncomment below line to run perf tests - note SLOW to run
-			// testType = "perf";
+
+			// Set to true to run perf tests - note SLOW to run
+			var testPerformance = false;
 
 			// Data and stores here for store-based selects
 			var data = {
@@ -95,20 +95,27 @@
 				});
 				programmaticDisabled.placeAt('testProgramatic');
 
-				doh.register("tests",
+				doh.register("functionality",
 					[
 						{
-							name: "test_setValue",
+							name: "test_set",
 							timeout: 5000,
 							runTest: function(t){
 								var d = new doh.Deferred();
 								t.is(dojo.toJson({s1:"VA", s2:"CA", s3:"AL", s4: "AK", s5: "move", s6: "", s7:"NY", s8:"AL",
 									s9:"CT", s10:"AL", s11:"AL", s12: "AL"}), dojo.toJson(form.get("value")));
+									
+								// set s1 to a valid value
 								s1.set("value", "WA");
 								t.is("WA", s1.value);
+
 								setTimeout(function(){ try{ // allow onChange to fire
+
+									// set s1 to non-existant value, which (currently) makess the Select pick
+									// the first option in the drop down
 									s1.set("value", "UT");
 									t.is("TN", s1.value);
+
 									setTimeout(function(){ try{ // allow onChange to fire
 										t.is(2, numChanges);
 										d.callback(true);
@@ -117,6 +124,9 @@
 								return d;
 							}
 						},
+	
+						// Tests that when the currently selected item is changed in the data store,
+						// the change is reflected in the Select widget
 						function test_changeSelected(t){
 							t.is("AL", s11.value);
 							t.is(wrapLabel("Alabama"), s11.containerNode.innerHTML.toLowerCase().replace(/ */g, ""));
@@ -124,85 +134,68 @@
 							t.is("AK", s11.value);
 							t.is(wrapLabel("Alaska"), s11.containerNode.innerHTML.toLowerCase().replace(/ */g, ""));
 							var d = new doh.Deferred();
-							var cb = function(item){
-								try{
+							writeStore.fetchItemByIdentity({
+								identity: "AK",
+								onItem: d.getTestCallback(function(item){
 									writeStore.setValue(item, "label", "North Pole");
-									s11.loadDropDown(function(){
-										try{
-											t.is("AK", s11.value);
-											t.is(wrapLabel("North Pole"), s11.containerNode.innerHTML.toLowerCase().replace(/ */g, ""));
-											d.callback(true);
-										}catch(e){ d.errback(e);}
-									});
-								}
-								catch(e){
-									d.errback(e);
-								}
-							}
-							writeStore.fetchItemByIdentity({identity: "AK", onItem: cb});
+									t.is(wrapLabel("North Pole"), s11.containerNode.innerHTML.toLowerCase().replace(/ */g, ""), "select displayed value updated");
+								})
+							});
 							return d;
 						},
+
+						// Test that a delete of the non-selected item will remove that item from the Select's
+						// list of options.
 						function test_deleteNonSelected(t){
 							t.is(7, s11.getOptions().length);
 							t.is("AK", s11.value);
 							var d = new doh.Deferred();
-							var cb = function(item){
-								try{
-									t.is(7, s11.getOptions().length);
+							writeStore.fetchItemByIdentity({
+								identity: "AZ",
+								onItem: d.getTestCallback(function(item){
 									writeStore.deleteItem(item);
-									s11.loadDropDown(function(){
-										try{
-											t.is("AK", s11.value);
-											t.is(6, s11.getOptions().length);
-											d.callback(true);
-										}catch(e){ d.errback(e);}
-									});
-								}catch (e){
-									d.errback(e);
-								}
-							}
-							writeStore.fetchItemByIdentity({identity: "AZ", onItem: cb});
+									t.is(6, s11.getOptions().length);
+								})
+							});
 							return d;
 						},
+
+						// Test that a delete of the selected item will remove that item from the Select's
+						// list of options, and switch to a new selected item
 						function test_deleteSelected(t){
 							t.is(6, s11.getOptions().length);
 							t.is("AK", s11.value);
 							var d = new doh.Deferred();
-							var cb = function(item){
-								try{
+							writeStore.fetchItemByIdentity({
+								identity: "AK",
+								onItem: d.getTestCallback(function(item){
 									writeStore.deleteItem(item);
-									window.setTimeout(function(){
-										try{
-											t.is("AL", s11.value);
-											d.callback(true);
-										}catch(e){d.errback(e);}
-									}, 100);
-								}catch (e){
-									d.errback(e);
-								}
-							}
-							writeStore.fetchItemByIdentity({identity: "AK", onItem: cb});
+									t.is("AL", s11.value);
+									t.is(5, s11.getOptions().length);
+								})
+							});
 							return d;
 						},
+
+						// Test that new items added to the data store appear in the select's options
 						function test_newItem(t){
 							t.is(5, s11.getOptions().length);
-							t.is("AL", s11.value);
-							s11.set("value", "NY");
-							t.is("AL", s11.value);
+							t.is("AL", s11.value);	
+
 							var d = new doh.Deferred();
 							writeStore.newItem({value: "NY", label: "New York"});
-							window.setTimeout(function(){
-								try{
+							setTimeout(d.getTestCallback(function(){
 									t.is(6, s11.getOptions().length);
 									s11.set("value", "NY");
 									t.is("NY", s11.value);
-									d.callback(true);
-								} catch (e) {
-									d.errback(e);
-								}
-							}, 100);
+							}), 100);
+
 							return d;
 						},
+
+						// Test that a Select's store can be changed
+						// TODO: should be supported/tested through set("store", ...), although
+						// I guess that wouldn't allow setting the selected item at the same time.
 						function test_setStore(t){
 							t.is("AL", s12.value);
 							s12.setStore(store2, "FL");
@@ -214,8 +207,27 @@
 							t.is(7, s12.getOptions().length);
 						},
 						{
+							name: 'test_disabled',
+							runTest: function(t){
+								t.is(testDisabled.disabled, true);
+							}
+						},
+						{
+							name: 'test_programmatic',
+							runTest: function(t){
+								t.is(programmatic.options.length, 2);
+								t.is(programmaticDisabled.options.length, 2);
+								t.is(programmaticDisabled.disabled, true);
+							}
+						}
+					]
+				);
+
+				if(testPerformance){			
+					doh.register("performance", [
+						{
 							name: "test_performance_single",
-							testType: testType,
+							testType: "perf",
 							trialDuration: 100,
 							trialIterations: 100,
 							trialDelay: 100,
@@ -227,12 +239,12 @@
 						},
 						{
 							name: "test_performance_separate",
-							testType: testType,
+							testType: "perf",
 							trialDuration: 100,
 							trialIterations: 100,
 							trialDelay: 100,
 							setUp: function(t){
-								var opts = t.options = [];
+								var opts = (t.options = []);
 								for(var i = 0; i < addNum; i++){
 									opts.push({value: i + "", label: "Option " + (i + 1)});
 								}
@@ -251,12 +263,12 @@
 						},
 						{
 							name: "test_performance_batch",
-							testType: testType,
+							testType: "perf",
 							trialDuration: 100,
 							trialIterations: 100,
 							trialDelay: 100,
 							setUp: function(t){
-								var opts = t.options = [];
+								var opts = (t.options = []);
 								for(var i = 0; i < addNum; i++){
 									opts.push({value: i + "", label: "Option " + (i + 1)});
 								}
@@ -268,23 +280,10 @@
 							tearDown: function(t){
 								delete t.options;
 							}
-						},
-						{
-							name: 'test_disabled',
-							runTest: function(t){
-								t.is(testDisabled.disabled, true);
-							}
-						},
-						{
-							name: 'test_programmatic',
-							runTest: function(t){
-								t.is(programmatic.options.length, 2);
-								t.is(programmaticDisabled.options.length, 2);
-								t.is(programmaticDisabled.disabled, true);
-							}
 						}
-					]
-				);
+					]);
+				}
+
 				doh.run();
 			});
 		</script>
