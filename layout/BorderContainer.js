@@ -105,6 +105,7 @@ dojo.declare(
 			if((child.splitter || this.gutters) && !this._splitters[region]){
 				var _Splitter = dojo.getObject(child.splitter ? this._splitterClass : "dijit.layout._Gutter");
 				var splitter = new _Splitter({
+					id: child.id + "_splitter",
 					container: this,
 					child: child,
 					region: region,
