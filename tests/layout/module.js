@@ -13,6 +13,8 @@ try{
 	doh.registerUrl("dijit.tests.layout.AccordionContainer", dojo.moduleUrl("dijit", "tests/layout/AccordionContainer.html"), 99999999);
 	doh.registerUrl("dijit.tests.layout.robot.AccordionContainer_a11y", dojo.moduleUrl("dijit","tests/layout/robot/AccordionContainer_a11y.html"), 99999999);
 	doh.registerUrl("dijit.tests.layout.robot.AccordionContainer_mouse", dojo.moduleUrl("dijit","tests/layout/robot/AccordionContainer_mouse.html"), 99999999);
+
+	doh.registerUrl("dijit.tests.layout.robot.BorderContainer", dojo.moduleUrl("dijit", "tests/layout/robot/BorderContainer.html"), 99999999); 
 }catch(e){
 	doh.debug(e);
 }

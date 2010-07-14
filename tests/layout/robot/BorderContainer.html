@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>doh.robot BorderContainer Test</title>
+
+		<style>
+			@import "../../../../util/doh/robot/robot.css";
+		</style>
+
+		<!-- required: dojo.js -->
+		<script type="text/javascript" src="../../../../dojo/dojo.js"
+			djConfig="isDebug: true"></script>
+
+		<!-- functions to help test -->
+		<script type="text/javascript" src="../../helpers.js"></script>
+
+		<script type="text/javascript">
+			dojo.require("dijit.robotx");
+
+			function checkInside(/*Widget*/ child, /*Widget*/ parent){
+				// summary:
+				//		Test that child is fully inside of parent
+				var cp = dojo.position(child.domNode),
+					pp = dojo.position(parent.domNode);
+
+				doh.t(
+					cp.y > pp.y && cp.y+cp.h < pp.y+pp.h &&
+					cp.x > pp.x && cp.x+cp.w < pp.x+pp.w,
+					child.region + " inside " + parent.id + dojo.toJson(cp) + dojo.toJson(pp)
+				);
+			}
+			function checkAbove(/*String*/ comment, /*Widget*/ above, /*Widget*/ below){
+				// summary:
+				//		Test that child is fully inside of parent
+
+				var ap = dojo.position(above.domNode, true),
+					bp = dojo.position(below.domNode, true);
+
+				doh.t(ap.y+ap.h < bp.y,
+					comment + " " + above.region + " above " + below.region + dojo.toJson(ap) + dojo.toJson(bp)
+				);
+			}
+			function checkLeft(/*String*/ comment, /*Widget*/ left, /*Widget*/ right){
+				// summary:
+				//		Test that child is fully inside of parent
+
+				var lp = dojo.position(left.domNode, true),
+					rp = dojo.position(right.domNode, true);
+
+				doh.t(lp.x+lp.w < rp.x,
+					comment + " " + left.region + " to left of " + right.region + dojo.toJson(lp) + dojo.toJson(rp)
+				);
+			}
+
+			function checkBCpanes(/*BorderContainer*/ bc){
+				// summary:
+				//		Check that all the panes in this BorderContainer are in sane
+				//		positions relative to each other
+				var children = bc.getChildren(),
+					regions = {};
+
+				// Check all panes inside BorderContainer
+				dojo.forEach(children, function(child){
+					checkInside(child, bc);
+					regions[child.region] = child;
+				});
+
+				// Check pane positions relative to each other
+				dojo.forEach(children, function(child){
+					switch(child.region){
+						case "top":
+							dojo.forEach(bc.design == "sidebar" ? ["center", "bottom"] : ["left", "center", "right", "bottom"], function(region){
+								if(regions[region]){
+									checkAbove(bc.id, child, regions[region]);
+								}
+							});
+							break;
+						case "bottom":
+							dojo.forEach(bc.design == "sidebar" ? ["center", "top"] : ["left", "center", "right", "top"], function(region){
+								if(regions[region]){
+									checkAbove(bc.id, regions[region], child);
+								}
+							});
+							break;
+						case "left":
+							dojo.forEach(bc.design == "sidebar" ? ["top", "center", "bottom", "right"] : ["right"], function(region){
+								if(regions[region]){
+									checkLeft(bc.id, child, regions[region]);
+								}
+							});
+							break;
+						case "right":
+							dojo.forEach(bc.design == "sidebar" ? ["top", "center", "bottom", "left"] : ["left"], function(region){
+								if(regions[region]){
+									checkLeft(bc.id, regions[region], child);
+								}
+							});
+							break;
+					}
+				});
+				
+			}
+			dojo.addOnLoad(function(){
+				doh.robot.initRobot('../test_BorderContainer.html');
+
+				doh.register("API", [
+					function initialConditions(){
+						checkBCpanes(dijit.byId("border1"));
+						checkBCpanes(dijit.byId("border2"));
+					},
+					function addRemovePanes(){
+						// current size of panes
+						var oLeft = dojo.position(dojo.byId("border1-left")),
+							oCenter = dojo.position(dojo.byId("border1-center")),
+							oRight = dojo.position(dojo.byId("border1-right")),
+							oBottom = dojo.position(dojo.byId("border1-bottom"));
+
+						// remove top pane... should expand left/center/right
+						dijit.byId("border1").removeChild(dijit.byId("border1-top"));
+
+						// new size of panes
+						var nLeft = dojo.position(dojo.byId("border1-left")),
+							nCenter = dojo.position(dojo.byId("border1-center")),
+							nRight = dojo.position(dojo.byId("border1-right")),
+							nBottom = dojo.position(dojo.byId("border1-bottom"));
+
+						doh.t(nLeft.h > oLeft.h, "left height increased");
+						doh.t(nCenter.h > oCenter.h, "center height increased");
+						doh.t(nRight.h > oRight.h, "left height increased");
+						doh.is(oBottom.h, nBottom.h, "bottom height didn't change");
+
+						// remove left pane... should just expand center pane
+						dijit.byId("border1").removeChild(dijit.byId("border1-left"));
+
+						// new size of panes
+						var nnCenter = dojo.position(dojo.byId("border1-center")),
+							nnRight = dojo.position(dojo.byId("border1-right")),
+							nnBottom = dojo.position(dojo.byId("border1-bottom"));
+
+						doh.t(nnCenter.w > nCenter.w, "center width increased");
+						doh.is(dojo.toJson(nRight), dojo.toJson(nnRight), "right stayed same");
+						doh.is(dojo.toJson(nBottom), dojo.toJson(nnBottom), "bottom stayed same");
+
+						// check that all panes sane
+						checkBCpanes(dijit.byId("border1"));
+
+						// put back left pane as the top pane
+						// Due to #11430 need to clear style info on the pane first
+						dijit.byId("border1-left").set({
+							region: "top",
+							style: {top: "auto", bottom: "auto", left: "auto", right: "auto", width: "auto", height: "auto"}
+						});
+						dijit.byId("border1").addChild(dijit.byId("border1-left"));
+
+						// check that all panes sane
+						checkBCpanes(dijit.byId("border1"));
+					}
+				]);
+				
+				doh.run();
+			});
+		</script>
+	</head>
+</html>
