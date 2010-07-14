@@ -1217,7 +1217,7 @@ img.dijitColorPaletteUnder {
 
 .dijitMenuItemDisabled * {
 	/* for a disabled menu item, just set it to mostly transparent */
-	opacity:0.3;
+	opacity:0.5;
 	cursor:default;
 }
 .dj_ie .dijit_a11y .dijitMenuItemDisabled,
