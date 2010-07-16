@@ -220,6 +220,39 @@
 							"Pacifica is last child");
 					},
 
+					function topLevelItemModify(){
+						// Modify a top level item so it's no longer top level.
+						// ForestStoreModel needs to realize that the top level children have changed and notify Tree.
+
+						myStore.fetchItemByIdentity({
+							identity: 'PA',
+							onItem: function(item){
+								// in real life we would need to give the item a parent,
+								// but this is enough for testing
+								myStore.setValue(item, 'type', 'country');
+							}
+						})
+
+						var children = myTree.rootNode.getChildren();
+						doh.is(5, children.length, "five children again");
+					},
+
+					function nestedItemModify(){
+						// Modify a nested item so it matches the query for top level items in the tree.
+						// ForestStoreModel needs to realize that the top level children have changed and notify Tree.
+
+						myStore.fetchItemByIdentity({
+							identity: 'PA',
+							onItem: function(item){
+								// in real life we would need to give the item a parent,
+								// but this is enough for testing
+								myStore.setValue(item, 'type', 'continent');
+							}
+						})
+
+						var children = myTree.rootNode.getChildren();
+						doh.is(6, children.length, "six children again");
+					},
 
 					function destroyTree(){
 						// Just running this to make sure we don't get an exception
