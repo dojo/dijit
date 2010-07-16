@@ -452,6 +452,10 @@ dojo.declare("dijit.layout._ScrollingTabControllerButton",
 
 		// Override inherited tabIndex: 0 from dijit.form.Button, because user shouldn't be
 		// able to tab to the left/right/menu buttons
-		tabIndex: "-1"
+		tabIndex: "",
+
+		// Similarly, override FormWidget.isFocusable() because clicking a button shouldn't focus it
+		// either (this override avoids focus() call in FormWidget.js)
+		isFocusable: function(){ return false; }
 	}
 );

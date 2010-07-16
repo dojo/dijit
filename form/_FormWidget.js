@@ -101,7 +101,9 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 				}
 			}, this);
 		}else{
-			this.focusNode.setAttribute('tabIndex', this.tabIndex);
+			if(this.tabIndex != ""){
+				this.focusNode.setAttribute('tabIndex', this.tabIndex);
+			}
 		}
 	},
 
