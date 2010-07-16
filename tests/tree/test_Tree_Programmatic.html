@@ -37,6 +37,16 @@
 				rootLabel: "Earth",
 				childrenAttrs: ["children"]
 			});
+			dojo.mixin(myModel, {
+				onLeaveRoot: function(item){
+					// modify item so it doesn't match the {type:'continent'} query
+					myStore.setValue(item, "type", "country");
+				},
+				onAddToRoot: function(item){
+					// modify item so it matches the {type:'continent'} query
+					myStore.setValue(item, "type", "continent");					
+				}
+			});
 		});
 
 		function createTree(){
