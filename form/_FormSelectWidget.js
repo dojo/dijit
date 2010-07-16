@@ -231,41 +231,42 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 
 		// Add our new options
 		if(store){
-			var cb = function(items){
-				if(this.sortByLabel && !fetchArgs.sort && items.length){
-					items.sort(dojo.data.util.sorter.createSortFunction([{
-						attribute: store.getLabelAttributes(items[0])[0]
-					}], store));
-				}
-
-				if(fetchArgs.onFetch){
-					items = fetchArgs.onFetch(items);
-				}
-				// TODO: Add these guys as a batch, instead of separately
-				dojo.forEach(items, function(i){
-					this._addOptionForItem(i);
-				}, this);
-
-				// Set our value (which might be undefined), and then tweak
-				// it to send a change event with the real value
-				this._loadingStore = false;
-				this.set("value", (("_pendingValue" in this) ? this._pendingValue : selectedValue));
-				delete this._pendingValue;
-
-				if(!this.loadChildrenOnOpen){
-					this._loadChildren();
-				}else{
-					this._pseudoLoadChildren(items);
-				}
-				this._fetchedWith = opts;
-				this._lastValueReported = this.multiple ? [] : null;
-				this._onChangeActive = true;
-				this.onSetStore();
-				this._handleOnChange(this.value);
-			};
-			var opts = dojo.mixin({onComplete:cb, scope: this}, fetchArgs);
 			this._loadingStore = true;
-			store.fetch(opts);
+			store.fetch(dojo.delegate(fetchArgs, {
+				onComplete: function(items, opts){
+					if(this.sortByLabel && !fetchArgs.sort && items.length){
+						items.sort(dojo.data.util.sorter.createSortFunction([{
+							attribute: store.getLabelAttributes(items[0])[0]
+						}], store));
+					}
+	
+					if(fetchArgs.onFetch){
+						items = fetchArgs.onFetch.call(this, items, opts);
+					}
+					// TODO: Add these guys as a batch, instead of separately
+					dojo.forEach(items, function(i){
+						this._addOptionForItem(i);
+					}, this);
+	
+					// Set our value (which might be undefined), and then tweak
+					// it to send a change event with the real value
+					this._loadingStore = false;
+					this.set("value", "_pendingValue" in this ? this._pendingValue : selectedValue);
+					delete this._pendingValue;
+	
+					if(!this.loadChildrenOnOpen){
+						this._loadChildren();
+					}else{
+						this._pseudoLoadChildren(items);
+					}
+					this._fetchedWith = opts;
+					this._lastValueReported = this.multiple ? [] : null;
+					this._onChangeActive = true;
+					this.onSetStore();
+					this._handleOnChange(this.value);
+				},
+				scope: this
+			}));
 		}else{
 			delete this._fetchedWith;
 		}
