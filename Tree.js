@@ -814,58 +814,69 @@ dojo.declare(
 
 		var d = new dojo.Deferred();
 
-		this._selectNode(null);
-		if(!path || !path.length){
-			d.resolve(true);
-			return d;
-		}
-
 		// If this is called during initialization, defer running until Tree has finished loading
 		this._loadDeferred.addCallback(dojo.hitch(this, function(){
 			if(!this.rootNode){
 				d.reject(new Error("!this.rootNode"));
 				return;
 			}
-			if(path[0] !== this.rootNode.item && (dojo.isString(path[0]) && path[0] != this.model.getIdentity(this.rootNode.item))){
-				d.reject(new Error(this.id + ":path[0] doesn't match this.rootNode.item.  Maybe you are using the wrong tree."));
-				return;
-			}
-			path.shift();
 
-			var node = this.rootNode;
+			// As we pop each id from path[], node is set to the TreeNode that matches that id.
+			// Starts as null which conceptually means "the parent of the Tree's root node".
+			var node = null;
 
 			function advance(){
 				// summary:
-				// 		Called when "node" has completed loading and expanding.   Pop the next item from the path
-				//		(which must be a child of "node") and advance to it, and then recurse.
+				// 		Pop the next item from path[] and advance to it, and then recurse.
+				// description:
+				//		When node is null, path[] is absolute, and the first entry in path[] must refer to
+				//		the root of the Tree.
+				//
+				//		When node is a TreeNode, path[] is relative to that TreeNode.
 
-				// Set item and identity to next item in path (node is pointing to the item that was popped
-				// from the path _last_ time.
-				var item = path.shift(),
-					identity = dojo.isString(item) ? item : this.model.getIdentity(item);
-
-				// Change "node" from previous item in path to the item we just popped from path
-				dojo.some(this._itemNodesMap[identity], function(n){
-					if(n.getParent() == node){
-						node = n;
-						return true;
-					}
-					return false;
-				});
-
-				if(path.length){
-					// Need to do more expanding
-					this._expandNode(node).addCallback(dojo.hitch(this, advance));
-				}else{
+				if(!path || !path.length){
 					// Final destination node, select it
 					this._selectNode(node);
 					
 					// signal that path setting is finished
 					d.resolve(true);
+					
+					return;
+				}
+
+				// Set item and identity to next item in path
+				var item = path.shift(),
+					identity = dojo.isString(item) ? item : this.model.getIdentity(item);
+
+				if(node){
+					// node is pointing to the item that was popped from the path _last_ time.
+					// Expand that TreeNode and then reset node to point that TreeNode's child matching "item".
+					this._expandNode(node).addCallback(dojo.hitch(this, function(){
+						dojo.some(this._itemNodesMap[identity], function(n){
+							if(n.getParent() == node){
+								node = n;
+								return true;
+							}
+							return false;
+						});
+
+						dojo.hitch(this, advance)();
+					}));
+				}else{
+					// First time in this func, first element in path[] presumably refers to the root of the Tree.
+					// Make node point to that TreeNode.
+					if(item !== this.rootNode.item && (dojo.isString(item) && item != this.model.getIdentity(this.rootNode.item))){
+						d.reject(new Error(this.id + ":path[0] doesn't match this.rootNode.item.  Maybe you are using the wrong tree."));
+						return;
+					}
+					node = this.rootNode;
+
+					dojo.hitch(this, advance)();
 				}
 			}
 
-			this._expandNode(node).addCallback(dojo.hitch(this, advance));
+			// Start traversing path[] till we get to the node we want.   
+			dojo.hitch(this, advance)();
 		}));
 			
 		return d;

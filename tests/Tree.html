@@ -138,6 +138,24 @@
 						}
 					},
 
+					function setPathToNull(){
+						var d = new doh.Deferred;
+
+						myTree2.set("path", []).addCallback(d.getTestCallback(function(){
+							doh.is(null, myTree2.selectedNode, "no selected node");
+						}));
+						return d;
+					},
+
+					function setPathToRoot(){
+						var d = new doh.Deferred;
+
+						myTree2.set("path", ["earth"]).addCallback(d.getTestCallback(function(){
+							doh.is(myTree2.rootNode, myTree2.selectedNode, "selected root node");
+						}));
+						return d;
+					},
+
 					function itemUpdate(){
 						// Test that Tree noticed when data store items change, and updates accordingly
 
