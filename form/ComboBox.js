@@ -92,7 +92,7 @@ dojo.declare(
 		//		This specifies what query ComboBox/FilteringSelect sends to the data store,
 		//		based on what the user has typed.  Changing this expression will modify
 		//		whether the drop down shows only exact matches, a "starting with" match,
-		//		etc.   Use it in conjunction with highlightMatch.
+		//		etc.  Use it in conjunction with highlightMatch.
 		//		dojo.data query expression pattern.
 		//		`${0}` will be substituted for the user text.
 		//		`*` is used for wildcards.
@@ -282,7 +282,7 @@ dojo.declare(
 					break;
 
 				default:
-					// Non char keys (F1-F12 etc..)  shouldn't open list.
+					// Non char keys (F1-F12 etc..) shouldn't open list.
 					// Ascii characters and IME input (Chinese, Japanese etc.) should.
 					// On IE and safari, IME input produces keycode == 229, and we simulate
 					// it on firefox by attaching to compositionend event (see compositionend method)
@@ -474,13 +474,13 @@ dojo.declare(
 
 		_setItemAttr: function(/*item*/ item, /*Boolean?*/ priorityChange, /*String?*/ displayedValue){
 			// summary:
-			//              Set the displayed valued in the input box, and the hidden value
-			//              that gets submitted, based on a dojo.data store item.
+			//		Set the displayed valued in the input box, and the hidden value
+			//		that gets submitted, based on a dojo.data store item.
 			// description:
-			//              Users shouldn't call this function; they should be calling
-			//              attr('item', value)
+			//		Users shouldn't call this function; they should be calling
+			//		set('item', value)
 			// tags:
-			//              private
+			//		private
 			if(!displayedValue){ displayedValue = this.labelFunc(item, this.store); }
 			this.value = this._getValueField() != this.searchAttr? this.store.getIdentity(item) : displayedValue;
 			this.item = item;
@@ -612,7 +612,7 @@ dojo.declare(
 		},
 
 		_getValueField: function(){
-			// summmary:
+			// summary:
 			//		Helper for postMixInProperties() to set this.value based on data inlined into the markup.
 			//		Returns the attribute name in the item (in dijit.form._ComboBoxDataStore) to use as the value.
 			return this.searchAttr;
@@ -756,11 +756,11 @@ dojo.declare(
 
 		labelFunc: function(/*item*/ item, /*dojo.data.store*/ store){
 			// summary:
-			//              Computes the label to display based on the dojo.data store item.
+			//		Computes the label to display based on the dojo.data store item.
 			// returns:
-			//              The label that the ComboBox should display
+			//		The label that the ComboBox should display
 			// tags:
-			//              private
+			//		private
 
 			// Use toString() because XMLStore returns an XMLItem whereas this
 			// method is expected to return a String (#9354)
@@ -1165,7 +1165,7 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 			this.root = root;
 		}
 		dojo.query("> option", root).forEach(function(node){
-			//	TODO: this was added in #3858 but unclear why/if it's needed;  doesn't seem to be.
+			//	TODO: this was added in #3858 but unclear why/if it's needed; doesn't seem to be.
 			//	If it is needed then can we just hide the select itself instead?
 			//node.style.display="none";
 			node.innerHTML = dojo.trim(node.innerHTML);
