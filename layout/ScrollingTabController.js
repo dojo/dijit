@@ -78,6 +78,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 			menuItem = new dijit.MenuItem({
 				id: page.id + "_stcMi",
 				label: page.title,
+				iconClass: page.iconClass,
 				dir: page.dir,
 				lang: page.lang,
 				onClick: dojo.hitch(this, function(){
@@ -93,7 +94,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		this.pane2handles[page.id].push(
 			this.connect(this.pane2button[page.id], "set", function(name, value){
 				if(this._postStartup){
-					if(name == "label"){
+					if(name == "label" || name == "iconClass"){
 						if(menuItem){
 							menuItem.set(name, value);
 						}

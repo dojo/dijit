@@ -178,24 +178,30 @@
 				{
 					name: "initialIcon",
 					runTest: function(t){
-						var cp =  dijit.byId("cp4");
-						var menuTitle = dijit.byId("cp7_stcMi").label;
+						var cp =  dijit.byId("cp4"),
+							menu = dijit.byId("cp4_stcMi");
 						
-						t.assertEqual('plusIcon', cp.controlButton.iconClass, "an icon image is displayed");
-						t.assertEqual('plus', menuTitle, "the menu's text label is 'plus'");
+						t.assertEqual('tab1', innerText(cp.controlButton.containerNode), "tab label");
+						t.assertEqual('plusIcon', cp.controlButton.iconClass, "tab icon");
+						t.assertEqual('tab1', menu.label, "menu label");
+						t.assertEqual('plusIcon', menu.iconClass, "menu icon");
 					}
 				},
 				{
 					name: "changeIcon",
 					runTest: function(t){
-						var cp =  dijit.byId("cp4");
-						cp.set("iconClass", "noteIcon"); 
-						cp.set("title", "note");
+						var cp =  dijit.byId("cp4"),
+							menu = dijit.byId("cp4_stcMi");
+
+						cp.set({
+							"title": "note",
+							"iconClass": "noteIcon"
+						});
 						
-						var menuTitle = dijit.byId("cp7_stcMi").label;
-						
+						t.assertEqual('note', innerText(cp.controlButton.containerNode), "the tab's label has changed");
 						t.assertEqual('noteIcon', cp.controlButton.iconClass, "new icon is displayed in tab");
-						t.assertEqual('plus', menuTitle, "the menu's text label has changed");
+						t.assertEqual('note', menu.label, "the menu's label has changed");
+						t.assertEqual('noteIcon', menu.iconClass, "new icon is displayed in menu too");
 					}
 				},
 				{
