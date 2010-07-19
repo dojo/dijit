@@ -81,7 +81,7 @@
 			var _timer = setInterval(function(){
 				var report = getProgressReport();
 				report.addCallback(function(response){
-					bar.update({progress: response});
+					bar.set({progress: response});
 					if(response == "100%"){
 						clearInterval(_timer);
 						_timer = null;
@@ -92,13 +92,13 @@
 		}
 
 		function setParameters(){
-			dijit.byId("setTestBar").update({maximum: dojo.byId("maximum").value, progress: dojo.byId("progressValue").value});
+			dijit.byId("setTestBar").set({maximum: dojo.byId("maximum").value, progress: dojo.byId("progressValue").value});
 		}
 
 		function keyUpHandler(){
-			dijit.byId("testBar").update({progress:dojo.byId("test").value.length});
-			dijit.byId("testBarInt").update({progress:dojo.byId("test").value.length});
-			dijit.byId("smallTestBar").update({progress:dojo.byId("test").value.length});
+			dijit.byId("testBar").set({progress:dojo.byId("test").value.length});
+			dijit.byId("testBarInt").set({progress:dojo.byId("test").value.length});
+			dijit.byId("smallTestBar").set({progress:dojo.byId("test").value.length});
 		}
 	</script>
 </head>

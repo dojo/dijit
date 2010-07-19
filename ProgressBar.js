@@ -16,10 +16,6 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 	// |		 places="0"
 	// |		 progress="..." maximum="...">
 	// |	</div>
-	//
-	// description:
-	//		Note that the progress bar is updated via (a non-standard)
-	//		update() method, rather than via attr() like other widgets.
 
 	// progress: [const] String (Percentage or Number)
 	//		Number or percentage indicating amount of task completed.
@@ -68,7 +64,8 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 
 	update: function(/*Object?*/attributes){
 		// summary:
-		//		Change attributes of ProgressBar, similar to set(hash).
+		//		Change attributes of ProgressBar, similar to set(hash).  Users should call
+		//		set() rather than calling this method directly.
 		//
 		// attributes:
 		//		May provide progress and/or maximum properties on this parameter;
@@ -146,6 +143,6 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 		// summary:
 		//		Callback fired when progress updates.
 		// tags:
-		//		progress
+		//		extension
 	}
 });
