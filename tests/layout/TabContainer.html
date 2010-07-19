@@ -333,15 +333,38 @@
 				{
 					name: "nested",
 					runTest: function(t){
-						var tc = dijit.byId("tcNestedParent");
+						var parent = dijit.byId("tcNestedParent"),
+							child = dijit.byId("tcNestedChild");
 
-						t.f(tc.nested, "parent TabContainer is not nested");
+						t.f(parent.nested, "parent TabContainer is not nested");
 						
-						var children = tc.getChildren();
+						var children = parent.getChildren();
 						t.is(2, children.length, "parent TabContainer has multiple children");
 						
 						t.t(children[1].nested, "second child of parent TabContainer has nested tabs");
 						t.t(dojo.hasClass("tcNestedChild_tablist", "dijitTabContainerTabListNested"), "nested CSS applied");
+						
+						// test that when TabButtons overflow to 2 rows, the content area is reduced
+						parent.selectChild(dijit.byId("tcNestedChild"));
+						var content = dojo.query(".dijitTabPaneWrapper", "tcNestedChild")[0],
+							height0 = dojo.position(content).h;
+
+						var newGrandchildren = [];
+						for(var i=0; i<10; i++){
+							var gc = new dijit.layout.ContentPane({
+								title: "additional child #" + i,
+								content: "hello world " + i
+							});
+							newGrandchildren.push(gc);
+							child.addChild(gc);
+						}
+						var height1 = dojo.position(content).h;
+						doh.t(height1 < height0, "content area size reduced ", height1, height0);
+
+						// and that size increases back when children are removed
+						dojo.forEach(newGrandchildren, dojo.hitch(child, "removeChild"));
+						var height2 = dojo.position(content).h;
+						doh.is(height0, height2, "after deleting extra children height restored to original");
 					}
 				},
 				{
@@ -446,7 +469,7 @@
 		</div>
 	</div>
 	
-	<div dojoType="dijit.layout.TabContainer" style="width: 400px; height: 100px;" id="tcNestedParent">
+	<div dojoType="dijit.layout.TabContainer" style="width: 400px; height: 300px;" id="tcNestedParent">
 		<div dojoType="dijit.layout.TabContainer" title="Tab 1" nested="true" id="tcNestedChild">
 			<div dojoType="dijit.layout.ContentPane" title="My first inner tab" selected="true">
 				Lorem ipsum and all around...
