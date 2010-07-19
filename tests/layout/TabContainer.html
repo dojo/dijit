@@ -2,7 +2,7 @@
 	"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-	<title>TabContainer Test</title>
+	<title>TabContainer DOH Test</title>
 
 	<style>
 		@import "../../../dojo/resources/dojo.css";
@@ -98,10 +98,10 @@
 					runTest: function(t){
 						var tc = dijit.byId("tc1");
 						var cp1 = new dijit.layout.ContentPane({
-								id: "newTab1",
-						         title: "newTab1",
-						         content: "newTab1 content"
-						    });
+							id: "newTab1",
+							title: "newTab1",
+							content: "newTab1 content"
+						});
 						tc.addChild(cp1);
 						
 						var tabLabels = dijit.byId("tc1").getChildren();
@@ -119,10 +119,10 @@
 						var tc = dijit.byId("tc1");
 						
 						var cp2 = new dijit.layout.ContentPane({
-						         id: "newTab2",
-						         title: "newTab2",
-						         content: "newTab2 content"
-							});
+							id: "newTab2",
+							title: "newTab2",
+							content: "newTab2 content"
+						});
 						tc.addChild(cp2);
 						
 						var left = dojo.byId("tc1_tablist_leftBtn");
@@ -155,18 +155,18 @@
 						tc.selectChild(cp);
 						
 						setTimeout(d.getTestCallback(function(){
-								var cpLeft = dojo.byId("tc1_tablist_leftBtn");
-								var left = dojo.position(cpLeft).x + dojo.position(cpLeft).w;
+							var cpLeft = dojo.byId("tc1_tablist_leftBtn");
+							var left = dojo.position(cpLeft).x + dojo.position(cpLeft).w;
 
-								var cpRight = dojo.byId("tc1_tablist_rightBtn");
-								var right = dojo.position(cpRight).x;
+							var cpRight = dojo.byId("tc1_tablist_rightBtn");
+							var right = dojo.position(cpRight).x;
 
-								var tab = dijit.byId("tc1_tablist_newTab1");
-								var tabLeft = dojo.position(tab.domNode).x;
-								var tabRight = dojo.position(tab.domNode).x + dojo.position(tab.domNode).w;
+							var tab = dijit.byId("tc1_tablist_newTab1");
+							var tabLeft = dojo.position(tab.domNode).x;
+							var tabRight = dojo.position(tab.domNode).x + dojo.position(tab.domNode).w;
 								
-								var isTabVisible = ((tabLeft > left) && (tabRight < right));
-								doh.t(isTabVisible, "verify chosen tab is in viewable area");
+							var isTabVisible = ((tabLeft > left) && (tabRight < right));
+							doh.t(isTabVisible, "verify chosen tab is in viewable area");
 						}), 1000);
 						
 						return d;
@@ -178,7 +178,7 @@
 				{
 					name: "initialIcon",
 					runTest: function(t){
-						var cp =  dijit.byId("cp4"),
+						var cp = dijit.byId("cp4"),
 							menu = dijit.byId("cp4_stcMi");
 						
 						t.assertEqual('tab1', innerText(cp.controlButton.containerNode), "tab label");
@@ -190,7 +190,7 @@
 				{
 					name: "changeIcon",
 					runTest: function(t){
-						var cp =  dijit.byId("cp4"),
+						var cp = dijit.byId("cp4"),
 							menu = dijit.byId("cp4_stcMi");
 
 						cp.set({
@@ -207,7 +207,7 @@
 				{
 					name: "noTitle",
 					runTest: function(t){
-						var cp =  dijit.byId("cp7");
+						var cp = dijit.byId("cp7");
 						t.assertFalse(cp.controlButton.showLabel, "an icon exists, but there is no text label");
 					}
 				}
@@ -244,7 +244,7 @@
 						var menuLabels = dijit.byId("tc1_tablist_menu").getChildren();
 						
 						t.assertEqual(5, childPanes.length, "verify there are now only 4 tabs instead of 5");
-						t.assertEqual(5,  menuLabels.length, "verify there are now only 4 menu items instead of 5");
+						t.assertEqual(5, menuLabels.length, "verify there are now only 4 menu items instead of 5");
 						t.assertTrue(cp.domNode, "verify that the deleted tab's content pane still exists on the page");
 
 						var label = dojo.byId("#tc1_tablist_cpTitle");
@@ -286,7 +286,7 @@
 						var cp2 = dijit.byId("cp5");
 						
 						t.assertTrue(cp.controlButton.closeButton, "close button is displayed");
-						t.assertFalse(cp2.controlButton.closeButton, "close button is displayed");
+						t.assertFalse(cp2.controlButton.closeButton, "close button is not displayed");
 					}
 				}
 			]);		
@@ -382,104 +382,104 @@
 </head>
 <body class="claro">
 
-	<h1 class="testTitle">Dijit layout.TabContainer tests</h1>
+	<h1 class="testTitle">Dijit layout.TabContainer DOH tests</h1>
 	
 	<div dojoType="dijit.layout.TabContainer" style="width: 300px; height: 100px;" id="tc1">
-	  <div dojoType="dijit.layout.ContentPane" title="tab1" id="cpTitle" selected="true">
-	    Lorem ipsum and all around...
-	  </div>
-	  <div dojoType="dijit.layout.ContentPane" title="tab2">
-	    Lorem ipsum and all around - second...
-	  </div>
-	  <div dojoType="dijit.layout.ContentPane" id="t3" title="tab3" closable="true">
-	    Lorem ipsum and all around - last...
-	  </div>
-		 <div dojoType="dijit.layout.ContentPane" title="tab4" closable="true">
-		    Lorem ipsum and all around - last...
-		  </div>
+		<div dojoType="dijit.layout.ContentPane" title="tab1" id="cpTitle" selected="true">
+			Lorem ipsum and all around...
+		</div>
+		<div dojoType="dijit.layout.ContentPane" title="tab2">
+			Lorem ipsum and all around - second...
+		</div>
+		<div dojoType="dijit.layout.ContentPane" id="t3" title="tab3" closable="true">
+			Lorem ipsum and all around - third...
+		</div>
+		<div dojoType="dijit.layout.ContentPane" title="tab4" closable="true">
+			Lorem ipsum and all around - last...
+		</div>
 	</div>
 	
 	<div dojoType="dijit.layout.TabContainer" style="width: 300px; height: 100px;" id="tc2">
-	  <div dojoType="dijit.layout.ContentPane" id="cp1" title="tab1" selected="true">
-	    Lorem ipsum and all around...
-	  </div>
-	  <div dojoType="dijit.layout.ContentPane" id="cp2" title="tab2">
-	    Lorem ipsum and all around - second...
-	  </div>
-	  <div dojoType="dijit.layout.ContentPane" id="cp3" title="tab3" closable="true">
-	    Lorem ipsum and all around - last...
-	  </div>
+		<div dojoType="dijit.layout.ContentPane" id="cp1" title="tab1" selected="true">
+			Lorem ipsum and all around...
+		</div>
+		<div dojoType="dijit.layout.ContentPane" id="cp2" title="tab2">
+			Lorem ipsum and all around - second...
+		</div>
+		<div dojoType="dijit.layout.ContentPane" id="cp3" title="tab3" closable="true">
+			Lorem ipsum and all around - last...
+		</div>
 	</div>
 	
 	<div dojoType="dijit.layout.TabContainer" style="width: 300px; height: 100px;" id="tc3">
-	  	<div dojoType="dijit.layout.ContentPane" id="cp4" title="tab1" selected="true" iconClass="plusIcon">
-	    	Lorem ipsum and all around...
-	  	</div>
-	  	<div dojoType="dijit.layout.ContentPane" id="cp5" title="tab2">
-	    	 Lorem ipsum and all around - last...
-	            <br />
-	            <br />
-	            <br />
-	            Hmmm even more expanding tabs......
-	  	</div>
-	  	<div dojoType="dijit.layout.ContentPane" id="cp6" title="tab3" closable="true">
-	    	Lorem ipsum and all around - last...
-	  	</div>
+		<div dojoType="dijit.layout.ContentPane" id="cp4" title="tab1" selected="true" iconClass="plusIcon">
+			Lorem ipsum and all around...
+		</div>
+		<div dojoType="dijit.layout.ContentPane" id="cp5" title="tab2">
+			 Lorem ipsum and all around - last...
+			<br />
+			<br />
+			<br />
+			Hmmm even more expanding tabs......
+		</div>
+		<div dojoType="dijit.layout.ContentPane" id="cp6" title="tab3" closable="true">
+			Lorem ipsum and all around - last...
+		</div>
 		<div dojoType="dijit.layout.ContentPane" id="cp7" title="plus" closable="true" iconClass="plusIcon" showTitle="false">
-	    	Lorem ipsum and all around - last...
-	  	</div>
+			Lorem ipsum and all around - last...
+		</div>
 		<div dojoType="dijit.layout.ContentPane" id="cp8" title="tab4" closable="true">
-	    	Lorem ipsum and all around - last...
-	  	</div>
+			Lorem ipsum and all around - last...
+		</div>
 		<div dojoType="dijit.layout.ContentPane" id="cp9" title="tab5" closable="true">
-	    	Lorem ipsum and all around - last...
-	  	</div>
+			Lorem ipsum and all around - last...
+		</div>
 		<div dojoType="dijit.layout.ContentPane" id="cp10" title="tab6" closable="true">
-	    	Lorem ipsum and all around - last...
-	  	</div>
+			Lorem ipsum and all around - last...
+		</div>
 	</div>
 	
 	<div dojoType="dijit.layout.TabContainer" style="width: 400px; height: 100px;" id="tcNested">
-	    <div dojoType="dijit.layout.TabContainer" title="Tab 1" nested="true">
-	        <div dojoType="dijit.layout.ContentPane" title="My first inner tab" selected="true">
-	            Lorem ipsum and all around...
-	        </div>
-	        <div dojoType="dijit.layout.ContentPane" title="My second inner tab">
-	            Lorem ipsum and all around - second...
-	        </div>
-	        <div dojoType="dijit.layout.ContentPane" title="My last inner tab">
-	            Lorem ipsum and all around - last...
-	        </div>
-	    </div>
-	    <div dojoType="dijit.layout.TabContainer" title="Tab 2" nested="true">
-	        <div dojoType="dijit.layout.ContentPane" title="My first inner tab" selected="true">
-	            Lorem ipsum and all around...
-	        </div>
-	        <div dojoType="dijit.layout.ContentPane" title="My second inner tab">
-	            Lorem ipsum and all around - second...
-	        </div>
-	        <div dojoType="dijit.layout.ContentPane" title="My last inner tab">
-	            Lorem ipsum and all around - last...
-	        </div>
-	    </div>
+		<div dojoType="dijit.layout.TabContainer" title="Tab 1" nested="true">
+			<div dojoType="dijit.layout.ContentPane" title="My first inner tab" selected="true">
+				Lorem ipsum and all around...
+			</div>
+			<div dojoType="dijit.layout.ContentPane" title="My second inner tab">
+				Lorem ipsum and all around - second...
+			</div>
+			<div dojoType="dijit.layout.ContentPane" title="My last inner tab">
+				Lorem ipsum and all around - last...
+			</div>
+		</div>
+		<div dojoType="dijit.layout.TabContainer" title="Tab 2" nested="true">
+			<div dojoType="dijit.layout.ContentPane" title="My first inner tab" selected="true">
+				Lorem ipsum and all around...
+			</div>
+			<div dojoType="dijit.layout.ContentPane" title="My second inner tab">
+				Lorem ipsum and all around - second...
+			</div>
+			<div dojoType="dijit.layout.ContentPane" title="My last inner tab">
+				Lorem ipsum and all around - last...
+			</div>
+		</div>
 	</div>
 	
 	<div dojoType="dijit.layout.TabContainer" id="tcDoLayout" style="width: 100%;" doLayout="false">
-	        <div dojoType="dijit.layout.ContentPane" title="My first tab" selected="true">
-	            Lorem ipsum and all around...
-	        </div>
-	        <div dojoType="dijit.layout.ContentPane" title="My second tab" closable="true">
-	            Lorem ipsum and all around - second...
-	            <br />
-	            Hmmm expanding tabs......
-	        </div>
-	        <div dojoType="dijit.layout.ContentPane" title="My last tab">
-	            Lorem ipsum and all around - last...
-	            <br />
-	            <br />
-	            <br />
-	            Hmmm even more expanding tabs......
-	        </div>
-	    </div>
-	</body>
+		<div dojoType="dijit.layout.ContentPane" title="My first tab" selected="true">
+			Lorem ipsum and all around...
+		</div>
+		<div dojoType="dijit.layout.ContentPane" title="My second tab" closable="true">
+			Lorem ipsum and all around - second...
+			<br />
+			Hmmm expanding tabs......
+		</div>
+		<div dojoType="dijit.layout.ContentPane" title="My last tab">
+			Lorem ipsum and all around - last...
+			<br />
+			<br />
+			<br />
+			Hmmm even more expanding tabs......
+		</div>
+	</div>
+</body>
 </html>
