@@ -721,10 +721,6 @@ DIV.dijitArrowButton {
 	height:1.6em;
 }
 
-.dijitProgressBarIndeterminate .dijitProgressBarLabel {
-	visibility:hidden;
-}
-
 .dijitProgressBarIndeterminate .dijitProgressBarTile {
 	/* animated gif for 'indeterminate' mode */
 }

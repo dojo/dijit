@@ -41,6 +41,11 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 	// 		If true: show that a process is underway but that the amount completed is unknown.
 	indeterminate: false,
 
+	// label: String?
+	//		Label on progress bar.   Defaults to percentage for determinate progress bar and
+	//		blank for indeterminate progress bar.
+	label:"",
+
 	// name: String
 	//		this is the field name (for a form) if set. This needs to be set if you want to use
 	//		this widget in a dijit.form.Form widget (such as dijit.Dialog)
@@ -63,7 +68,7 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 
 	update: function(/*Object?*/attributes){
 		// summary:
-		//		Change attributes of ProgressBar, similar to attr(hash).
+		//		Change attributes of ProgressBar, similar to set(hash).
 		//
 		// attributes:
 		//		May provide progress and/or maximum properties on this parameter;
@@ -72,19 +77,18 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 		// example:
 		//	|	myProgressBar.update({'indeterminate': true});
 		//	|	myProgressBar.update({'progress': 80});
+		//	|	myProgressBar.update({'indeterminate': true, label:"Loading ..." })
 
 		// TODO: deprecate this method and use set() instead
 
 		dojo.mixin(this, attributes || {});
 		var tip = this.internalProgress;
-		var percent = 1, classFunc;
+		var percent = 1;
 		if(this.indeterminate){
-			classFunc = "addClass";
 			dijit.removeWaiState(tip, "valuenow");
 			dijit.removeWaiState(tip, "valuemin");
 			dijit.removeWaiState(tip, "valuemax");
 		}else{
-			classFunc = "removeClass";
 			if(String(this.progress).indexOf("%") != -1){
 				percent = Math.min(parseFloat(this.progress)/100, 1);
 				this.progress = percent * this.maximum;
@@ -92,14 +96,15 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 				this.progress = Math.min(this.progress, this.maximum);
 				percent = this.progress / this.maximum;
 			}
-			var text = this.report(percent);
-			this.label.firstChild.nodeValue = text;
+
 			dijit.setWaiState(tip, "describedby", this.label.id);
 			dijit.setWaiState(tip, "valuenow", this.progress);
 			dijit.setWaiState(tip, "valuemin", 0);
 			dijit.setWaiState(tip, "valuemax", this.maximum);
 		}
-		dojo[classFunc](this.domNode, "dijitProgressBarIndeterminate");
+		this.labelNode.innerHTML = this.report(percent);
+
+		dojo.toggleClass(this.domNode, "dijitProgressBarIndeterminate", this.indeterminate);
 		tip.style.width = (percent * 100) + "%";
 		this.onChange();
 	},
@@ -116,6 +121,16 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 		return this.progress;
 	},
 
+	_setLabelAttr: function(label){
+		this.label = label;
+		this.update();
+	},
+
+	_setIndeterminateAttr: function(indeterminate){
+		this.indeterminate = indeterminate;
+		this.update();
+	},
+
 	report: function(/*float*/percent){
 		// summary:
 		//		Generates message to show inside progress bar (normally indicating amount of task completed).
@@ -123,7 +138,8 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 		// tags:
 		//		extension
 
-		return dojo.number.format(percent, { type: "percent", places: this.places, locale: this.lang });
+		return this.label ? this.label :
+				(this.indeterminate ? "&nbsp;" : dojo.number.format(percent, { type: "percent", places: this.places, locale: this.lang }));
 	},
 
 	onChange: function(){
