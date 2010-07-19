@@ -42,6 +42,8 @@ dojo.declare("dijit._KeyNavContainer",
 			var next = dojo.hitch(this, this.focusNext);
 			dojo.forEach(prevKeyCodes, function(code){ keyCodes[code] = prev; });
 			dojo.forEach(nextKeyCodes, function(code){ keyCodes[code] = next; });
+			keyCodes[dojo.keys.HOME] = dojo.hitch(this, "focusFirstChild");
+			keyCodes[dojo.keys.END] = dojo.hitch(this, "focusLastChild");
 			this.connect(this.domNode, "onkeypress", "_onContainerKeypress");
 			this.connect(this.domNode, "onfocus", "_onContainerFocus");
 		},
@@ -73,6 +75,17 @@ dojo.declare("dijit._KeyNavContainer",
 			// tags:
 			//		protected
 			var child = this._getFirstFocusableChild();
+			if(child){ // edge case: Menu could be empty or hidden
+				this.focusChild(child);
+			}
+		},
+
+		focusLastChild: function(){
+			// summary:
+			//		Focus the last focusable child in the container.
+			// tags:
+			//		protected
+			var child = this._getLastFocusableChild();
 			if(child){ // edge case: Menu could be empty or hidden
 				this.focusChild(child);
 			}
@@ -198,6 +211,12 @@ dojo.declare("dijit._KeyNavContainer",
 			// summary:
 			//		Returns first child that can be focused
 			return this._getNextFocusableChild(null, 1);	// dijit._Widget
+		},
+
+		_getLastFocusableChild: function(){
+			// summary:
+			//		Returns last child that can be focused
+			return this._getNextFocusableChild(null, -1);	// dijit._Widget
 		},
 
 		_getNextFocusableChild: function(child, dir){
