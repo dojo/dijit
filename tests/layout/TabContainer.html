@@ -47,7 +47,7 @@
 	
 						tc.destroyRecursive();
 	
-						t.assertEqual(dijit.registry.length, num);
+						t.is(dijit.registry.length, num);
 					}
 				},
 	
@@ -60,7 +60,7 @@
 						var tc = new dijit.layout.TabContainer({ id:"createWithMenu", useMenu:true }).placeAt(dojo.body());
 						
 						var numCreatedMenus = dijit.registry.byClass("dijit.Menu").length;
-						t.assertEqual(numMenus + 1, numCreatedMenus);
+						t.is(numMenus + 1, numCreatedMenus);
 	
 						tc.destroyRecursive();
 					}
@@ -74,7 +74,7 @@
 						var tc = new dijit.layout.TabContainer({ id:"createWithoutMenu", useMenu:false }).placeAt(dojo.body());
 						
 						var numCreatedMenus = dijit.registry.byClass("dijit.Menu").length;
-						t.assertEqual(numMenus, numCreatedMenus);
+						t.is(numMenus, numCreatedMenus);
 	
 						tc.destroyRecursive();
 					}
@@ -85,7 +85,7 @@
 					name: 'checkTabLabels',
 					runTest: function(t){
 						var tabLabels = dojo.query("#tc1 .tabLabel");
-						t.assertEqual(4, tabLabels.length);
+						t.is(4, tabLabels.length);
 					}
 				}
 			]);
@@ -107,8 +107,8 @@
 						var tabLabels = dijit.byId("tc1").getChildren();
 						var menuLabels = dijit.byId("tc1_tablist_menu").getChildren();
 						
-						t.assertEqual(5, tabLabels.length, "there are 5 tabs");
-						t.assertEqual(5, menuLabels.length, "there are 5 menu items");
+						t.is(5, tabLabels.length, "there are 5 tabs");
+						t.is(5, menuLabels.length, "there are 5 menu items");
 					}
 				},
 				
@@ -129,13 +129,13 @@
 						var right = dojo.byId("tc1_tablist_rightBtn");						
 						var menu = dojo.byId("tc1_tablist_menuBtn");
 
-						t.assertTrue(left, "verify left scroll button exists");
-						t.assertTrue(right, "verify right scroll button exists");
-						t.assertTrue(menu, "verify dropdown menu button exists");
+						t.t(left, "verify left scroll button exists");
+						t.t(right, "verify right scroll button exists");
+						t.t(menu, "verify dropdown menu button exists");
 							
-						t.assertTrue(isVisible(left), "left scroll is displayed");
-						t.assertTrue(isVisible(right), "right scroll is displayed");
-						t.assertTrue(isVisible(menu), "menu is displayed");	
+						t.t(isVisible(left), "left scroll is displayed");
+						t.t(isVisible(right), "right scroll is displayed");
+						t.t(isVisible(menu), "menu is displayed");	
 					}
 				}
 			]);
@@ -181,10 +181,10 @@
 						var cp = dijit.byId("cp4"),
 							menu = dijit.byId("cp4_stcMi");
 						
-						t.assertEqual('tab1', innerText(cp.controlButton.containerNode), "tab label");
-						t.assertEqual('plusIcon', cp.controlButton.iconClass, "tab icon");
-						t.assertEqual('tab1', menu.label, "menu label");
-						t.assertEqual('plusIcon', menu.iconClass, "menu icon");
+						t.is('tab1', innerText(cp.controlButton.containerNode), "tab label");
+						t.is('plusIcon', cp.controlButton.iconClass, "tab icon");
+						t.is('tab1', menu.label, "menu label");
+						t.is('plusIcon', menu.iconClass, "menu icon");
 					}
 				},
 				{
@@ -198,17 +198,17 @@
 							"iconClass": "noteIcon"
 						});
 						
-						t.assertEqual('note', innerText(cp.controlButton.containerNode), "the tab's label has changed");
-						t.assertEqual('noteIcon', cp.controlButton.iconClass, "new icon is displayed in tab");
-						t.assertEqual('note', menu.label, "the menu's label has changed");
-						t.assertEqual('noteIcon', menu.iconClass, "new icon is displayed in menu too");
+						t.is('note', innerText(cp.controlButton.containerNode), "the tab's label has changed");
+						t.is('noteIcon', cp.controlButton.iconClass, "new icon is displayed in tab");
+						t.is('note', menu.label, "the menu's label has changed");
+						t.is('noteIcon', menu.iconClass, "new icon is displayed in menu too");
 					}
 				},
 				{
 					name: "noTitle",
 					runTest: function(t){
 						var cp = dijit.byId("cp7");
-						t.assertFalse(cp.controlButton.showLabel, "an icon exists, but there is no text label");
+						t.f(cp.controlButton.showLabel, "an icon exists, but there is no text label");
 					}
 				}
 			]);
@@ -223,8 +223,8 @@
 						var title = dojo.query("#tc1_tablist_cpTitle span.tabLabel")[0];
 						var menuTitle = dijit.byId("cpTitle_stcMi").label;
 						
-						t.assertEqual('newTitle', innerText(title), "the tab's text label has changed");
-						t.assertEqual('newTitle', menuTitle, "the menu's text label has changed");
+						t.is('newTitle', innerText(title), "the tab's text label has changed");
+						t.is('newTitle', menuTitle, "the menu's text label has changed");
 					}
 				}
 			]);
@@ -243,12 +243,12 @@
 						var childPanes = tc1.getChildren();
 						var menuLabels = dijit.byId("tc1_tablist_menu").getChildren();
 						
-						t.assertEqual(5, childPanes.length, "verify there are now only 4 tabs instead of 5");
-						t.assertEqual(5, menuLabels.length, "verify there are now only 4 menu items instead of 5");
-						t.assertTrue(cp.domNode, "verify that the deleted tab's content pane still exists on the page");
+						t.is(5, childPanes.length, "verify there are now only 4 tabs instead of 5");
+						t.is(5, menuLabels.length, "verify there are now only 4 menu items instead of 5");
+						t.t(cp.domNode, "verify that the deleted tab's content pane still exists on the page");
 
 						var label = dojo.byId("#tc1_tablist_cpTitle");
-						t.assertFalse(label, "verify that deleted tab's label does not exist");
+						t.f(label, "verify that deleted tab's label does not exist");
 					}
 				},
 				
@@ -271,9 +271,9 @@
 						var right = dijit.byId("tc3_tablist_rightBtn").domNode;
 						var menu = dijit.byId("tc3_tablist_menuBtn").domNode;
 						
-						t.assertTrue(isHidden(left), "left scroll is hidden");
-						t.assertTrue(isHidden(right), "right scroll is hidden");
-						t.assertTrue(isHidden(menu), "menu is hidden");
+						t.t(isHidden(left), "left scroll is hidden");
+						t.t(isHidden(right), "right scroll is hidden");
+						t.t(isHidden(menu), "menu is hidden");
 					}
 				}
 			]);
@@ -285,8 +285,8 @@
 						var cp = dijit.byId("cp6");
 						var cp2 = dijit.byId("cp5");
 						
-						t.assertTrue(cp.controlButton.closeButton, "close button is displayed");
-						t.assertFalse(cp2.controlButton.closeButton, "close button is not displayed");
+						t.t(cp.controlButton.closeButton, "close button is displayed");
+						t.f(cp2.controlButton.closeButton, "close button is not displayed");
 					}
 				}
 			]);		
@@ -302,7 +302,7 @@
 							topContent = dojo.query(".dijitTabPaneWrapper", "tc1")[0],
 							topTabsPos = dojo.position(topTabs),
 							topContentPos = dojo.position(topContent);
-						t.assertTrue(topTabsPos.y + topTabsPos.h <= topContentPos.y, "top tabs above content " +
+						t.t(topTabsPos.y + topTabsPos.h <= topContentPos.y, "top tabs above content " +
 							dojo.toJson(topTabsPos) + dojo.toJson(topContentPos));
 
 						// left tabs to left of content
@@ -310,7 +310,7 @@
 							leftContent = dojo.query(".dijitTabPaneWrapper", "leftTabs")[0],
 							leftTabsPos = dojo.position(leftTabs),
 							leftContentPos = dojo.position(leftContent);
-						t.assertTrue(leftTabsPos.x + Math.floor(leftTabsPos.w) <= leftContentPos.x, "left tabs before content " +
+						t.t(leftTabsPos.x + Math.floor(leftTabsPos.w) <= leftContentPos.x, "left tabs before content " +
 							dojo.toJson(leftTabsPos) + dojo.toJson(leftContentPos));
 
 						// right tabs to right of content
@@ -318,7 +318,7 @@
 							rightContent = dojo.query(".dijitTabPaneWrapper", "rightTabs")[0],
 							rightTabsPos = dojo.position(rightTabs),
 							rightContentPos = dojo.position(rightContent);
-						t.assertTrue(rightTabsPos.x >= rightContentPos.x + rightContentPos.w, "right tabs after content " +
+						t.t(rightTabsPos.x >= rightContentPos.x + rightContentPos.w, "right tabs after content " +
 							dojo.toJson(rightTabsPos) + dojo.toJson(rightContentPos));
 
 						// bottom tabs below content
@@ -326,7 +326,7 @@
 							bottomContent = dojo.query(".dijitTabPaneWrapper", "bottomTabs")[0],
 							bottomTabsPos = dojo.position(bottomTabs),
 							bottomContentPos = dojo.position(bottomContent);
-						t.assertTrue(bottomTabsPos.y >= bottomContentPos.y + bottomContentPos.h, "bottom tabs below content " +
+						t.t(bottomTabsPos.y >= bottomContentPos.y + bottomContentPos.h, "bottom tabs below content " +
 							dojo.toJson(bottomTabsPos) + dojo.toJson(bottomContentPos));
 					}
 				},
@@ -335,13 +335,13 @@
 					runTest: function(t){
 						var tc = dijit.byId("tcNestedParent");
 
-						t.assertFalse(tc.nested, "parent TabContainer is not nested");
+						t.f(tc.nested, "parent TabContainer is not nested");
 						
 						var children = tc.getChildren();
-						t.assertEqual(2, children.length, "parent TabContainer has multiple children");
+						t.is(2, children.length, "parent TabContainer has multiple children");
 						
-						t.assertTrue(children[1].nested, "second child of parent TabContainer has nested tabs");
-						t.assertTrue(dojo.hasClass("tcNestedChild_tablist", "dijitTabContainerTabListNested"), "nested CSS applied");
+						t.t(children[1].nested, "second child of parent TabContainer has nested tabs");
+						t.t(dojo.hasClass("tcNestedChild_tablist", "dijitTabContainerTabListNested"), "nested CSS applied");
 					}
 				},
 				{
@@ -357,8 +357,8 @@
 						tc.selectChild(cps[2]);
 						var height3 = tc.domNode.offsetHeight;
 
-						t.assertTrue(height1 < height2, "height 1 < height 2" + height1 + " < " + height2);
-						t.assertTrue(height2 < height3, "height 2 < height 3" + height2 + " < " + height3);
+						t.t(height1 < height2, "height 1 < height 2" + height1 + " < " + height2);
+						t.t(height2 < height3, "height 2 < height 3" + height2 + " < " + height3);
 					}
 				},
 				{
@@ -374,9 +374,9 @@
 						tc.selectChild(cps[2]);
 						var height3 = tc.domNode.offsetHeight;
 
-						t.assertEqual(height1, height2);
-						t.assertEqual(height2, height3);
-						t.assertTrue(height1 > 10, "make sure height measurement is giving something reasonable");
+						t.is(height1, height2);
+						t.is(height2, height3);
+						t.t(height1 > 10, "make sure height measurement is giving something reasonable");
 					}
 				}
 				
