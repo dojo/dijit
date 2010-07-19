@@ -100,7 +100,7 @@
 						}
 					},
 					{
-						name: "move through parent tabs from nested tabs",
+						name: "shift-TAB to parent tabs from nested tabs",
 						timeout: 10000,
 						runTest: function(t){
 								var d = new doh.Deferred();
@@ -138,6 +138,37 @@
 									doh.is('inlined_tablist_subtab3', dojo.global.dijit._curFocus.id);
 								}), 500);
 								
+								return d;
+						}
+					},
+					{
+						name: "test HOME/END keys",
+						timeout: 10000,
+						runTest: function(t){
+								var d = new doh.Deferred();
+								
+								doh.robot.sequence(function(){
+									dojo.byId("mainTabContainer_tablist_tab3href").focus();
+								}, 500, 500);
+
+								// HOME key
+								doh.robot.keyPress(dojo.keys.HOME, 500, {});
+								doh.robot.sequence(d.getTestErrback(function(){
+									doh.is('mainTabContainer_tablist_tab1', dojo.global.dijit._curFocus.id);
+								}), 500);
+
+								// END key
+								doh.robot.keyPress(dojo.keys.END, 500, {});
+								doh.robot.sequence(d.getTestErrback(function(){
+									doh.is('mainTabContainer_tablist_embedded', dojo.global.dijit._curFocus.id);
+								}), 500);
+
+								// just to make sure that left/right arrows are still working
+								doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
+								doh.robot.sequence(d.getTestCallback(function(){
+									doh.is('mainTabContainer_tablist_tab4href', dojo.global.dijit._curFocus.id);
+								}), 500);
+
 								return d;
 						}
 					}

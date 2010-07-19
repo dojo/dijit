@@ -221,6 +221,14 @@ dojo.declare(
 						case k.PAGE_DOWN:
 							if(e.ctrlKey){ forward = true; }
 							break;
+						case k.HOME:
+						case k.END:
+							var children = this.getChildren();
+							if(children && children.length){
+								children[e.charOrCode == k.HOME ? 0 : children.length-1].onClick();
+							}
+							dojo.stopEvent(e);
+							break;
 						case k.DELETE:
 							if(this._currentChild.closable){
 								this.onCloseButtonClick(this._currentChild);
@@ -240,7 +248,7 @@ dojo.declare(
 								}
 							}
 					}
-					// handle page navigation
+					// handle next/previous page navigation (left/right arrow, etc.)
 					if(forward !== null){
 						this.adjacent(forward).onClick();
 						dojo.stopEvent(e);
