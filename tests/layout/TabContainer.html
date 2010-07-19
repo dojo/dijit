@@ -293,50 +293,72 @@
 
 			doh.register("layoutTests", [
 				{
-					name: "topLeftRightBottom",
+					name: "tabPosition",
 					runTest: function(t){
 						var tc = dijit.byId("tc1");
 
-						// TODO: should test actual positions of tabs vs. content, not just settings
-						t.assertEqual('top', tc.tabPosition, "tabs are on the top of the container");
-						
-						tc.set("tabPosition", "left");						
-						t.assertEqual('left', tc.tabPosition, "tabs are on the left of the container");
-						
-						tc.set("tabPosition", "right");						
-						t.assertEqual('right', tc.tabPosition, "tabs are on the right of the container");
-						
-						tc.set("tabPosition", "bottom");						
-						t.assertEqual('bottom', tc.tabPosition, "tabs are on the bottom of the container");
+						// top tabs above content
+						var topTabs = dojo.byId("tc1_tablist"),
+							topContent = dojo.query(".dijitTabPaneWrapper", "tc1")[0],
+							topTabsPos = dojo.position(topTabs),
+							topContentPos = dojo.position(topContent);
+						t.assertTrue(topTabsPos.y + topTabsPos.h <= topContentPos.y, "top tabs above content " +
+							dojo.toJson(topTabsPos) + dojo.toJson(topContentPos));
+
+						// left tabs to left of content
+						var leftTabs = dojo.byId("leftTabs_tablist"),
+							leftContent = dojo.query(".dijitTabPaneWrapper", "leftTabs")[0],
+							leftTabsPos = dojo.position(leftTabs),
+							leftContentPos = dojo.position(leftContent);
+						t.assertTrue(leftTabsPos.x + Math.floor(leftTabsPos.w) <= leftContentPos.x, "left tabs before content " +
+							dojo.toJson(leftTabsPos) + dojo.toJson(leftContentPos));
+
+						// right tabs to right of content
+						var rightTabs = dojo.byId("rightTabs_tablist"),
+							rightContent = dojo.query(".dijitTabPaneWrapper", "rightTabs")[0],
+							rightTabsPos = dojo.position(rightTabs),
+							rightContentPos = dojo.position(rightContent);
+						t.assertTrue(rightTabsPos.x >= rightContentPos.x + rightContentPos.w, "right tabs after content " +
+							dojo.toJson(rightTabsPos) + dojo.toJson(rightContentPos));
+
+						// bottom tabs below content
+						var bottomTabs = dojo.byId("bottomTabs_tablist"),
+							bottomContent = dojo.query(".dijitTabPaneWrapper", "bottomTabs")[0],
+							bottomTabsPos = dojo.position(bottomTabs),
+							bottomContentPos = dojo.position(bottomContent);
+						t.assertTrue(bottomTabsPos.y >= bottomContentPos.y + bottomContentPos.h, "bottom tabs below content " +
+							dojo.toJson(bottomTabsPos) + dojo.toJson(bottomContentPos));
 					}
 				},
 				{
 					name: "nested",
 					runTest: function(t){
-						var tc = dijit.byId("tcNested");
+						var tc = dijit.byId("tcNestedParent");
 
-						// TODO: check that nested CSS class applied in the right place
 						t.assertFalse(tc.nested, "parent TabContainer is not nested");
 						
 						var children = tc.getChildren();
 						t.assertEqual(2, children.length, "parent TabContainer has multiple children");
 						
 						t.assertTrue(children[1].nested, "second child of parent TabContainer has nested tabs");
+						t.assertTrue(dojo.hasClass("tcNestedChild_tablist", "dijitTabContainerTabListNested"), "nested CSS applied");
 					}
 				},
 				{
 					name: "doLayoutFalse",
 					runTest: function(t){
-						var tc = dijit.byId("tcDoLayout");
+						var tc = dijit.byId("tcNoLayout");
 						var cps = tc.getChildren();
 
-						// TODO: should check that height of TabContainer itself changes when different
-						// tabs are selected
+						tc.selectChild(cps[0]);
+						var height1 = tc.domNode.offsetHeight;
 						tc.selectChild(cps[1]);
-						var height1 = cps[0]._contentBox.h;
-						var height2 = cps[1]._contentBox.h;
-						
-						t.assertTrue(height1 < height2, "height changes with the content length");
+						var height2 = tc.domNode.offsetHeight;
+						tc.selectChild(cps[2]);
+						var height3 = tc.domNode.offsetHeight;
+
+						t.assertTrue(height1 < height2, "height 1 < height 2" + height1 + " < " + height2);
+						t.assertTrue(height2 < height3, "height 2 < height 3" + height2 + " < " + height3);
 					}
 				},
 				{
@@ -344,35 +366,20 @@
 					runTest: function(t){
 						var tc = dijit.byId("tc3");
 						var cps = tc.getChildren();
-						
-						// TODO: should check that height of TabContainer itself stays constant when different
-						// tabs are selected
+
+						tc.selectChild(cps[0]);
+						var height1 = tc.domNode.offsetHeight;
 						tc.selectChild(cps[1]);
-						var height1 = cps[0]._contentBox.h;
-						var height2 = cps[1]._contentBox.h;
-						
-						t.assertTrue(height1 === height2, "height does not change with the content length");
+						var height2 = tc.domNode.offsetHeight;
+						tc.selectChild(cps[2]);
+						var height3 = tc.domNode.offsetHeight;
+
+						t.assertEqual(height1, height2);
+						t.assertEqual(height2, height3);
+						t.assertTrue(height1 > 10, "make sure height measurement is giving something reasonable");
 					}
 				}
 				
-			]);
-			doh.register("destroy widget", [
-				// TODO: looks like this can be moved up to be part of top group, creationAndDestruction?
-				{
-					name: 'destroyRecursive',
-					runTest: function(t){
-						var tcAmount = dijit.registry.byClass("dijit.layout.TabContainer").length - 1;
-
-						var tc = dijit.byId("tc1");
-						tc.destroyRecursive();
-						
-						var tc1 = dojo.query("#tc1");
-						var tcNewAmount = dijit.registry.byClass("dijit.layout.TabContainer").length;
-
-						t.assertEqual(0, tc1.length, "the html for the TabContainer is removed from the page");
-						t.assertEqual(tcAmount, tcNewAmount, "the amount of TabContainers on the page");
-					}
-				}
 			]);
 			doh.run();
 
@@ -439,8 +446,8 @@
 		</div>
 	</div>
 	
-	<div dojoType="dijit.layout.TabContainer" style="width: 400px; height: 100px;" id="tcNested">
-		<div dojoType="dijit.layout.TabContainer" title="Tab 1" nested="true">
+	<div dojoType="dijit.layout.TabContainer" style="width: 400px; height: 100px;" id="tcNestedParent">
+		<div dojoType="dijit.layout.TabContainer" title="Tab 1" nested="true" id="tcNestedChild">
 			<div dojoType="dijit.layout.ContentPane" title="My first inner tab" selected="true">
 				Lorem ipsum and all around...
 			</div>
@@ -464,7 +471,7 @@
 		</div>
 	</div>
 	
-	<div dojoType="dijit.layout.TabContainer" id="tcDoLayout" style="width: 100%;" doLayout="false">
+	<div dojoType="dijit.layout.TabContainer" id="tcNoLayout" style="width: 100%;" doLayout="false">
 		<div dojoType="dijit.layout.ContentPane" title="My first tab" selected="true">
 			Lorem ipsum and all around...
 		</div>
@@ -481,5 +488,45 @@
 			Hmmm even more expanding tabs......
 		</div>
 	</div>
+	<br />
+
+	<div dojoType="dijit.layout.TabContainer" id="leftTabs" style="width: 500px; height: 200px;"  tabPosition="left-h">
+		<div dojoType="dijit.layout.ContentPane" title="My first tab" selected="true">
+			Left tabs
+		</div>
+		<div dojoType="dijit.layout.ContentPane" title="My second tab" closable="true">
+			Lorem ipsum and all around - second...
+		</div>
+		<div dojoType="dijit.layout.ContentPane" title="My last tab">
+			Lorem ipsum and all around - last...
+		</div>
+	</div>
+	<br />
+
+	<div dojoType="dijit.layout.TabContainer" id="rightTabs" style="width: 500px; height: 200px;"  tabPosition="right-h">
+		<div dojoType="dijit.layout.ContentPane" title="My first tab" selected="true">
+			Right tabs
+		</div>
+		<div dojoType="dijit.layout.ContentPane" title="My second tab" closable="true">
+			Lorem ipsum and all around - second...
+		</div>
+		<div dojoType="dijit.layout.ContentPane" title="My last tab">
+			Lorem ipsum and all around - last...
+		</div>
+	</div>
+	<br />
+
+	<div dojoType="dijit.layout.TabContainer" id="bottomTabs" style="width: 500px; height: 200px;"  tabPosition="bottom">
+		<div dojoType="dijit.layout.ContentPane" title="My first tab" selected="true">
+			Bottom tabs
+		</div>
+		<div dojoType="dijit.layout.ContentPane" title="My second tab" closable="true">
+			Lorem ipsum and all around - second...
+		</div>
+		<div dojoType="dijit.layout.ContentPane" title="My last tab">
+			Lorem ipsum and all around - last...
+		</div>
+	</div>
+
 </body>
 </html>
