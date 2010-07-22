@@ -122,7 +122,14 @@
 
 									setTimeout(function(){ try{ // allow onChange to fire
 										t.is(2, numChanges);
-										d.callback(true);
+										
+										// prevent onChange from firing
+										s1.set("value", "FL", false);
+										
+										setTimeout(function(){ try{ // allow onChange to fire if it's wrong
+											t.is(2, numChanges);
+											d.callback(true);
+										}catch(e){ d.errback(e); }}, 0)
 									}catch(e){ d.errback(e); }}, 0);
 								}catch(e){ d.errback(e); }}, 0);
 								return d;

@@ -378,7 +378,6 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 				dijit.setWaiState(child.domNode, "selected", isSelected);
 			}, this);
 		}
-		this._handleOnChange(this.value);
 	},
 
 	_getValueFromOpts: function(){
