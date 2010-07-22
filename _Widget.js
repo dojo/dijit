@@ -160,7 +160,7 @@ dojo.declare("dijit._Widget", null, {
 	//		Changes to widget attributes listed in attributeMap will be
 	//		reflected into the DOM.
 	//
-	//		For example, calling attr('title', 'hello')
+	//		For example, calling set('title', 'hello')
 	//		on a TitlePane will automatically cause the TitlePane's DOM to update
 	//		with the new title.
 	//
