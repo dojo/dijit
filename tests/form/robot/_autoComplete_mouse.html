@@ -166,7 +166,7 @@
 							doh.is(isComboBox ? "New Jersey (NJ)" : "NJ", dijit.byId("setvaluetest").get("value"),
 								"selected New Jersey from drop down");
 							var count = dijit.byId("setvaluetest").labelFuncCounts['NJ'];
-							doh.is(4, count, "custom labelFunc was called " + count + " times (expected 4)");
+							doh.is(3, count, "# custom labelFunc calls");
 						}), 1000, 500);
 
 						return d;
@@ -191,7 +191,7 @@
 							doh.is(isComboBox ? "New Jersey (NJ)" : "NJ", dijit.byId("setvaluetest").get("value"),
 								"New Jersey still set after blur");
 							var count = dijit.byId("setvaluetest").labelFuncCounts['NJ'];
-							doh.is(4, count, "custom labelFunc was called " + count + " times (expected 4, unchanged after blur)");
+							doh.is(3, count, "# custom labelFunc calls (expected 3, unchanged after blur)");
 						}), 1000, 500);
 
 						return d;

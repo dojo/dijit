@@ -735,7 +735,7 @@
 					combo:"labelFunc",
 					runTest:function(){
 						// labelFunc makes Texas texas
-						return robot_a11ySelectValue((this.combo = dijit.byId(this.combo)), "Texas", isComboBox? "texas" : "TX", "texas");
+						return robot_a11ySelectValue((this.combo = dijit.byId(this.combo)), "texas", isComboBox? "texas" : "TX", "texas");
 					},
 					tearDown:function(){
 						this.combo.set("value", isComboBox? "Texas" : "TX");

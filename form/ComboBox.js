@@ -504,7 +504,8 @@ dojo.declare(
 				this.item = undefined;
 				this.value = '';
 			}else{
-				newValue = this.labelFunc(node.item, this.store);
+				newValue = node.innerText || node.textContent || "";
+				// newValue = this.store.getValue(node.item, this.searchAttr).toString();
 				this.set('item', node.item, false, newValue);
 			}
 			// get the text that the user manually entered (cut off autocompleted text)
@@ -698,8 +699,8 @@ dojo.declare(
 		},
 
 		_getMenuLabelFromItem: function(/*Item*/ item){
-			var label = this.labelAttr? this.store.getValue(item, this.labelAttr) : this.labelFunc(item, this.store);
-			var labelType = this.labelType;
+			var label = this.labelFunc(item, this.store),
+				labelType = this.labelType;
 			// If labelType is not "text" we don't want to screw any markup ot whatever.
 			if(this.highlightMatch != "none" && this.labelType == "text" && this._lastInput){
 				label = this.doHighlight(label, this._escapeHtml(this._lastInput));
@@ -764,7 +765,7 @@ dojo.declare(
 
 			// Use toString() because XMLStore returns an XMLItem whereas this
 			// method is expected to return a String (#9354)
-			return store.getValue(item, this.searchAttr).toString(); // String
+			return store.getValue(item, this.labelAttr || this.searchAttr).toString(); // String
 		}
 	}
 );
