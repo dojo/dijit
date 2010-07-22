@@ -182,7 +182,6 @@ dojo.declare(
 //TODO: should be able to replace this with calls to slideIn/slideOut
 			if(this._inTransition){ return; }
 			var animations = [];
-			var paneHeight = this._verticalSpace;
 			if(newWidget){
 				newWidget._wrapperWidget.set("selected", true);
 
