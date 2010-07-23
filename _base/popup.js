@@ -234,9 +234,10 @@ dijit.popup = {
 		return best;
 	},
 
-	close: function(/*dijit._Widget*/ popup){
+	close: function(/*dijit._Widget?*/ popup){
 		// summary:
-		//		Close specified popup and any popups that it parented
+		//		Close specified popup and any popups that it parented.
+		//		If no popup is specified, closes all popups.
 
 		var stack = this._stack;
 
@@ -245,7 +246,8 @@ dijit.popup = {
 		// a popup would cause others to close too.  Thus if we are trying to close B in [A,B,C]
 		// closing C might close B indirectly and then the while() condition will run where stack==[A]...
 		// so the while condition is constructed defensively.
-		while(dojo.some(stack, function(elem){return elem.widget == popup;})){
+		while((popup && dojo.some(stack, function(elem){return elem.widget == popup;})) ||
+			(!popup && stack.length)){
 			var top = stack.pop(),
 				wrapper = top.wrapper,
 				iframe = top.iframe,
@@ -364,3 +366,22 @@ dojo.extend(dijit.BackgroundIframe, {
 		}
 	}
 });
+
+
+// Resizing browser window displaces the popup from the around node, and perhaps
+// even moves the around node off the screen.  Can either close the drop down, or reposition it.
+// Unclear which action is better -- repositioning seems better except for the problem
+// when the around node is moved off the screen -- but for now I just close the
+// drop down.   Repositioning would be difficult to implement because widgets like
+// ComboBox have special code for sizing the drop down depending on available real estate.
+dojo.connect(window, "onresize", dojo.hitch(dijit.popup, "close", null));
+
+
+// Similarly, scrolling causes drop down positioning problems.
+// Scrolling can happen on nested <div>'s or the browser window itself.
+// It can be done by clicking the scroll bar, or by moving the mouse wheel.
+// onscroll doesn't bubble, but luckily onmousewheel does bubble, and scrolling
+// a nested div by a mouse click will close the drop down just by virtue
+// of the document being clicked
+dojo.connect(window, "onscroll", dojo.hitch(dijit.popup, "close", null));
+dojo.connect(document, dojo.isMozilla ? "DOMMouseScroll" : "onmousewheel", dojo.hitch(dijit.popup, "close", null));
