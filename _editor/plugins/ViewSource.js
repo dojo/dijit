@@ -233,6 +233,13 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 
 				//Trigger a check for command enablement/disablement.
 				this.editor.onNormalizedDisplayChanged();
+
+				this.editor.__oldGetValue = this.editor.getValue;
+				this.editor.getValue = dojo.hitch(this, function() {
+					var txt = this.sourceArea.value;
+					txt = this._filter(txt);
+					return txt;
+				});
 			}else{
 				// First check that we were in source view before doing anything.
 				// corner case for being called with a value of false and we hadn't
@@ -242,6 +249,11 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 				}
 				dojo.disconnect(this._resizeHandle);
 				delete this._resizeHandle;
+
+				if(this.editor.__oldGetValue){
+					this.editor.getValue = this.editor.__oldGetValue;
+					delete this.editor.__oldGetValue;
+				}
 
 				// Restore all the plugin buttons state.
 				ed.queryCommandEnabled = ed._sourceQueryCommandEnabled;
