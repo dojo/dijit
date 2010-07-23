@@ -934,6 +934,30 @@
 				}
 			]);
 
+			doh.register("onChange", [
+				{
+					timeout:6000,
+					name:"11062",
+					runTest:function(){
+						var d = new doh.Deferred();
+						var combo = dijit.byId("progCombo");
+						var status = "not called";
+						var connectHandle = combo.connect(combo, "onChange", function(){
+							status = "called";
+						});
+						combo.focusNode.focus();
+						doh.robot.keyPress(dojo.keys.TAB, 500); // blur
+
+						doh.robot.sequence(d.getTestCallback(function(){
+							combo.disconnect(connectHandle);
+							doh.is("not called", status, "onChange should not have been called");
+						}), 500);
+
+						return d;
+					}
+				}
+			]);
+
 			doh.run();
 		});
 	</script>

@@ -289,7 +289,7 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 		// Update our reset value if it hasn't yet been set (because this.set()
 		// is only called when there *is* a value)
 		if(this._resetValue === undefined){
-			this._resetValue = this.value;
+			this._lastValueReported = this._resetValue = this.value;
 		}
 	},
 
