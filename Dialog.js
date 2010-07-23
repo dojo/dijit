@@ -248,7 +248,11 @@ dojo.declare(
 							}
 						}
 
-						dijit.focus(focus);
+						try{
+							dijit.focus(focus);
+						}catch(e){
+							/* focus() will fail if user opened the dialog by clicking a non-focusable element */
+						}
 					}
 				})
 			 });
