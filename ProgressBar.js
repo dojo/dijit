@@ -14,15 +14,19 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 	// example:
 	// |	<div dojoType="ProgressBar"
 	// |		 places="0"
-	// |		 progress="..." maximum="...">
+	// |		 value="..." maximum="...">
 	// |	</div>
 
-	// progress: [const] String (Percentage or Number)
+	// progress: String (Percentage or Number)
+	//		Number or percentage indicating amount of task completed.
+	// 		Deprecated.   Use "value" instead.
+	progress: "0",
+
+	// value: String (Percentage or Number)
 	//		Number or percentage indicating amount of task completed.
 	// 		With "%": percentage value, 0% <= progress <= 100%, or
 	// 		without "%": absolute value, 0 <= progress <= maximum
-	// TODO: rename to value for 2.0
-	progress: "0",
+	value: "0",
 
 	// maximum: [const] Float
 	//		Max sample number
@@ -64,17 +68,17 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 
 	update: function(/*Object?*/attributes){
 		// summary:
-		//		Change attributes of ProgressBar, similar to set(hash).  Users should call
+		//		Internal method to change attributes of ProgressBar, similar to set(hash).  Users should call
 		//		set() rather than calling this method directly.
-		//
 		// attributes:
 		//		May provide progress and/or maximum properties on this parameter;
 		//		see attribute specs for details.
-		//
 		// example:
 		//	|	myProgressBar.update({'indeterminate': true});
 		//	|	myProgressBar.update({'progress': 80});
 		//	|	myProgressBar.update({'indeterminate': true, label:"Loading ..." })
+		// tags:
+		//		private
 
 		// TODO: deprecate this method and use set() instead
 

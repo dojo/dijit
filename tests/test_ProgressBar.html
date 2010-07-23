@@ -42,13 +42,13 @@
 			// note that programmatic instantiation doesn't pull any parameters from the srcNodeRef, not even id
 			var theBar = new dijit.ProgressBar({id: "testBar", width: 400, maximum: 256, duration: 2000,
 				report:function(percent){
-					return dojo.string.substitute("${0} out of ${1} max chars", [this.progress, this.maximum]);
+					return dojo.string.substitute("${0} out of ${1} max chars", [this.value, this.maximum]);
 				}
 			}, dojo.byId("testBar"));
 
 			dojo.byId("test").value="";
 			dojo.byId("progressValue").focus();
-			dojo.byId("progressValue").value = dijit.byId("setTestBar").progress;
+			dojo.byId("progressValue").value = dijit.byId("setTestBar").value;
 			dojo.byId("maximum").value = dijit.byId("setTestBar").maximum;
 			dojo.connect(dojo.byId("test"), "onkeyup", null, keyUpHandler);
 			dojo.connect(dojo.byId("set"), "onclick", null, setParameters);
@@ -81,7 +81,7 @@
 			var _timer = setInterval(function(){
 				var report = getProgressReport();
 				report.addCallback(function(response){
-					bar.set({progress: response});
+					bar.set({value: response});
 					if(response == "100%"){
 						clearInterval(_timer);
 						_timer = null;
@@ -92,13 +92,13 @@
 		}
 
 		function setParameters(){
-			dijit.byId("setTestBar").set({maximum: dojo.byId("maximum").value, progress: dojo.byId("progressValue").value});
+			dijit.byId("setTestBar").set({maximum: dojo.byId("maximum").value, value: dojo.byId("progressValue").value});
 		}
 
 		function keyUpHandler(){
-			dijit.byId("testBar").set({progress:dojo.byId("test").value.length});
-			dijit.byId("testBarInt").set({progress:dojo.byId("test").value.length});
-			dijit.byId("smallTestBar").set({progress:dojo.byId("test").value.length});
+			dijit.byId("testBar").set({value:dojo.byId("test").value.length});
+			dijit.byId("testBarInt").set({value:dojo.byId("test").value.length});
+			dijit.byId("smallTestBar").set({value:dojo.byId("test").value.length});
 		}
 	</script>
 </head>
@@ -114,7 +114,7 @@
 	<input type="button" name="set" id="set" value="set!" />
 	<br>
 	<div style="width:400px"
-		maximum="200" id="setTestBar" progress="20" dojoType="dijit.ProgressBar"></div>
+		maximum="200" id="setTestBar" value="20" dojoType="dijit.ProgressBar"></div>
 
 	<h3>Test 2</h3>
 	Write here: <input type="text" value="" name="test" maxLength="256" id="test" style="width:300"/>
@@ -134,15 +134,15 @@
 	<h3>Test 3</h3>
 	No explicit maximum (both 50%)
 	<div style="width:400px"
-		id="implied1" progress="50" dojoType="dijit.ProgressBar"></div>
+		id="implied1" value="50" dojoType="dijit.ProgressBar"></div>
 	<br />
 	<div style="width:400px"
-		id="implied2" progress="50%" dojoType="dijit.ProgressBar"></div>
+		id="implied2" value="50%" dojoType="dijit.ProgressBar"></div>
 
 	<h3>Test 4</h3>
 	<input type="button" name="startTimer" id="startTimer" value="Start Timer" />
 	<div style="width:400px" id="timerBar"
-		maximum="100" progress="0" dojoType="dijit.ProgressBar"></div>
+		maximum="100" value="0" dojoType="dijit.ProgressBar"></div>
 
 	<h3>Test 5 - indeterminate progess</h3>
 	<input type="button" name="setIndeterminate1True" id="setIndeterminate1True" value="Make Indeterminate" 
@@ -158,7 +158,7 @@
 	<input type="button" name="setIndeterminate2False" id="setIndeterminate2FalseLabel" value="Make Indeterminate With Label"
 		onclick="dijit.byId('indeterminateBar2').set({indeterminate: true, label: 'Loading...'});" />
 	
-	<div style="width:400px" progress="50" id="indeterminateBar2"
+	<div style="width:400px" value="50" id="indeterminateBar2"
 		dojoType="dijit.ProgressBar"></div>
 
 </body>
