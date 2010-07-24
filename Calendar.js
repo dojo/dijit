@@ -402,9 +402,16 @@ dojo.declare(
 //TODO: use typematic
 //TODO: skip disabled dates without ending up in a loop
 //TODO: could optimize by avoiding populate grid when month does not change
-		_onKeyPress: function(/*Event*/evt){
+		handleKey: function(/*Event*/ evt){
 			// summary:
-			//		Provides keyboard navigation of calendar
+			//		Provides keyboard navigation of calendar.
+			// description:
+			//		Called from _onKeyPress() to handle keypress on a stand alone Calendar,
+			//		and also from `dijit.form._DateTimeTextBox` to pass a keypress event 
+			//		from the `dijit.form.DateTextBox` to be handled in this widget
+			// returns:
+			//		False if the key was recognized as a navigation key,
+			//		to indicate that the event was handled by Calendar and shouldn't be propogated
 			// tags:
 			//		protected
 			var dk = dojo.keys,
@@ -442,27 +449,47 @@ dojo.declare(
 					break;
 				case dk.ENTER:
 					this.onValueSelected(this.get('value'));
+					this.onExecute();	// signal to close drop down
 					break;
-				case dk.ESCAPE:
-					//TODO
 				default:
-					return;
+					return true;
 			}
-			dojo.stopEvent(evt);
 
 			if(interval){
 				newValue = this.dateFuncObj.add(newValue, interval, increment);
 			}
 
 			this.set("value", newValue);
+
+			return false;
+		},
+
+		_onKeyPress: function(/*Event*/ evt){
+			// summary:
+			//		For handling keypress events on a stand alone calendar
+			if(!this.handleKey(evt)){
+				dojo.stopEvent(evt);
+			}
+		},
+
+		onExecute: function(){
+			// summary:
+			//		Signal to DateTextBox (when Calendar is a drop down from DateTextBox)
+			//		that the user has pressed the enter key, indicating to close the drop down.
+			// tags:
+			//		protected
+
+			// Maybe _HasDropDown should monitor for ENTER key directly instead?
+			// In any case this is needed because every arrow key generates an onChange()
+			// event, and we don't want that to close the drop down.
 		},
 
 		onValueSelected: function(/*Date*/ date){
 			// summary:
 			//		Notification that a date cell was selected.  It may be the same as the previous value.
 			// description:
-			//      Used by `dijit.form._DateTimeTextBox` (and thus `dijit.form.DateTextBox`)
-			//      to get notification when the user has clicked a date.
+			//      Formerly used by `dijit.form._DateTimeTextBox` (and thus `dijit.form.DateTextBox`)
+			//      to get notification when the user has clicked a date.  Now onExecute() (above) is used.
 			// tags:
 			//      protected
 		},
