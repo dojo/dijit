@@ -338,19 +338,27 @@ dojo.declare("dijit._TimePicker",
 			if(!tdate || this.isDisabledDate(tdate)){ return; }
 			this._highlighted_option = null;
 			this.set('value', tdate);
+			this.onChange(tdate);
 			this.onValueSelected(tdate);
+		},
+
+		onChange: function(/*Date*/ time){
+			// summary:
+			//		Notification that a time was selected.  It may be the same as the previous value.
+			// tags:
+			//      public
+			console.log("onChange");
 		},
 
 		onValueSelected: function(/*Date*/ time){
 			// summary:
-			//		Notification that a time was selected.  It may be the same as the previous value.
+			//		Deprecated.  Notification that a time was selected.  It may be the same as the previous value.
 			// description:
-			//      Used by `dijit.form._DateTimeTextBox` (and thus `dijit.form.TimeTextBox`)
+			//      Formerly used by `dijit.form._DateTimeTextBox` (and thus `dijit.form.TimeTextBox`)
 			//      to get notification when the user has clicked a time.
 			// tags:
 			//      protected
 		},
-
 
 		_highlightOption: function(/*node*/ node, /*Boolean*/ highlight){
 			// summary:
