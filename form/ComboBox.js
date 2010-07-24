@@ -335,6 +335,7 @@ dojo.declare(
 			){
 				return;
 			}
+			var wasSelected = this._popupWidget._highlighted_option && dojo.hasClass(this._popupWidget._highlighted_option, "dijitMenuItemSelected");
 			this._popupWidget.clearResultList();
 			if(!results.length && !this._maxOptions){ // this condition needs to match !this._isvalid set in FilteringSelect::_openResultList
 				this._hideResultList();
@@ -367,8 +368,10 @@ dojo.declare(
 				}else if(-1 == dataObject.direction){
 					this._popupWidget.highlightLastOption();
 				}
-				this._announceOption(this._popupWidget.getHighlightedOption());
-			}else if(this.autoComplete && !this._prev_key_backspace /*&& !dataObject.direction*/
+				if(wasSelected){
+					this._announceOption(this._popupWidget.getHighlightedOption());
+				}
+			}else if(this.autoComplete && !this._prev_key_backspace
 				// when the user clicks the arrow button to show the full list,
 				// startSearch looks for "*".
 				// it does not make sense to autocomplete
@@ -908,6 +911,7 @@ dojo.declare(
 			while(this.domNode.childNodes.length>2){
 				this.domNode.removeChild(this.domNode.childNodes[this.domNode.childNodes.length-2]);
 			}
+			this._blurOptionNode();
 		},
 
 		_onMouseDown: function(/*Event*/ evt){
@@ -918,8 +922,10 @@ dojo.declare(
 			if(evt.target === this.domNode || !this._highlighted_option){
 				return;
 			}else if(evt.target == this.previousButton){
+				this._blurOptionNode();
 				this.onPage(-1);
 			}else if(evt.target == this.nextButton){
+				this._blurOptionNode();
 				this.onPage(1);
 			}else{
 				var tgt = evt.target;

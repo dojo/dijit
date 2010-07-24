@@ -30,6 +30,15 @@
 		}
 		isComboBox = testWidget=="dijit.form.ComboBox";
 		dojo.addOnLoad(function(){
+			var pageSize, combo;
+
+			var findMenuItem = function(combo, text){
+				var node = combo._popupWidget.domNode.firstChild;
+				while(((node.innerText || node.textContent).indexOf(text)<0) && node.nextSibling){
+					node = node.nextSibling;
+				}
+				return node;
+			}
 
 			doh.robot.initRobot('../_autoComplete.html?testWidget='+testWidget);
 
@@ -62,88 +71,87 @@
 					runTest:function(){
 						var d = new doh.Deferred();
 
-						var combo = dijit.byId("setvaluetest");
+						combo = dijit.byId("setvaluetest");
 
 						// Open drop down
-						doh.robot.mouseMoveAt(combo.downArrowNode, 500, 500);
-						doh.robot.mouseClick({left:true}, 500);
+						doh.robot.mouseMoveAt(combo.downArrowNode, 1, 0);
+						doh.robot.mouseClick({left:true}, 1000);
 
 						doh.robot.sequence(d.getTestCallback(function(){
-							var list = dojo.byId("setvaluetest_popup"),
+							var list = combo._popupWidget.domNode,
 								entries = dojo.query("li", list).filter(isVisible);
 							doh.t(isVisible(list), "list is visible");
 							doh.is(31, entries.length, "30 elements plus next button");
-						}), 1000, 500);
+						}), 1000, 1000);
 
 						return d;
 					}
 				},
 
 				{
-					timeout:6000,
+					timeout:9000,
 					name:"next page",
 					runTest:function(){
 						var d = new doh.Deferred();
 
-						var list = dojo.byId("setvaluetest_popup"),
-							moreEntriesButton = dojo.query(":last-child", list)[0];
+						combo = dijit.byId("setvaluetest");
+						var list = combo._popupWidget.domNode;
 
 						doh.t(isVisible(list), "list is still visible");
-						doh.t(moreEntriesButton, "found more entries button");
 
-						doh.robot.mouseMoveAt(moreEntriesButton, 500, 500);
-						doh.robot.mouseClick({left:true}, 500);
+						dojo.window.scrollIntoView(combo._popupWidget.nextButton);
+						doh.robot.mouseMoveAt(combo._popupWidget.nextButton, 1, 0);
+						doh.robot.mouseClick({left:true}, 1000);
 
 						doh.robot.sequence(d.getTestCallback(function(){
-							var list = dojo.byId("setvaluetest_popup"),
-								entries = dojo.query("li", list).filter(isVisible);
+							var entries = dojo.query("li", list).filter(isVisible);
 								doh.is("Minnesota (MN)", innerText(entries[1]));
-						}), 1000, 500);
+						}), 1500, 1000);
 
 						return d;
 					}
 				},
 
 				{
-					timeout:6000,
+					timeout:9000,
 					name:"last page",
 					runTest:function(){
 						var d = new doh.Deferred();
 
-						var moreEntriesButton = dojo.query(":last-child", dojo.byId("setvaluetest_popup"))[0];
-
-						doh.robot.mouseMoveAt(moreEntriesButton, 500, 500);
-						doh.robot.mouseClick({left:true}, 500);
+						combo = dijit.byId("setvaluetest");
+						dojo.window.scrollIntoView(combo._popupWidget.nextButton);
+						doh.robot.mouseMoveAt(combo._popupWidget.nextButton, 1, 0);
+						doh.robot.mouseClick({left:true}, 1000);
 
 						doh.robot.sequence(d.getTestCallback(function(){
-							var list = dojo.byId("setvaluetest_popup"),
+							var list = combo._popupWidget.domNode,
 								entries = dojo.query("li", list).filter(isVisible);
 								doh.is(2, entries.length, "previous choices + wyoming");
 								doh.is("Wyoming (WY)", innerText(entries[1]));
-						}), 1000, 500);
+						}), 1500, 1000);
 
 						return d;
 					}
 				},
 
 				{
-					timeout:6000,
+					timeout:9000,
 					name:"previous page",
 					runTest:function(){
 						var d = new doh.Deferred();
 
-						var previousEntriesButton = dojo.query(":first-child", dojo.byId("setvaluetest_popup"))[0];
-
-						doh.robot.mouseMoveAt(previousEntriesButton, 500, 500);
-						doh.robot.mouseClick({left:true}, 500);
+						combo = dijit.byId("setvaluetest");
+						dojo.window.scrollIntoView(combo._popupWidget.previousButton);
+						doh.robot.mouseMoveAt(combo._popupWidget.previousButton, 0, 0);
+						doh.robot.mouseClick({left:true}, 1000);
 
 						doh.robot.sequence(d.getTestCallback(function(){
-							var list = dojo.byId("setvaluetest_popup"),
+							var list = combo._popupWidget.domNode,
 								entries = dojo.query("li", list);
 								doh.is(32, entries.length, "30 states, plus next and previous button");
 								doh.is("Minnesota (MN)", innerText(entries[1]));
 								doh.is("Wisconsin (WI)", innerText(entries[30]));
-						}), 1000, 500);
+						}), 1500, 1000);
 
 						return d;
 					}
@@ -155,11 +163,11 @@
 					runTest:function(){
 						var d = new doh.Deferred();
 
-						var list = dojo.byId("setvaluetest_popup"),
-							entries = dojo.query("li", list),
-							nj = entries[8];
+						combo = dijit.byId("setvaluetest");
+						var nj = findMenuItem(combo, "New Jersey (NJ)");
+						dojo.window.scrollIntoView(nj);
 
-						doh.robot.mouseMoveAt(nj, 500, 500);
+						doh.robot.mouseMoveAt(function(){ return nj }, 500, 0);
 						doh.robot.mouseClick({left:true}, 500);
 
 						doh.robot.sequence(d.getTestCallback(function(){
@@ -179,12 +187,12 @@
 					runTest:function(){
 						var d = new doh.Deferred();
 
-						var combo = dijit.byId("setvaluetest");
+						combo = dijit.byId("setvaluetest");
 						// focus combo
-						doh.robot.mouseMoveAt(combo.focusNode, 500, 500);
+						doh.robot.mouseMoveAt(combo.focusNode, 500, 0);
 						doh.robot.mouseClick({left:true}, 500);
 						// blur
-						doh.robot.mouseMoveAt('sv1_4', 500, 500);
+						doh.robot.mouseMoveAt('sv1_4', 500, 0);
 						doh.robot.mouseClick({left:true}, 500);
 
 						doh.robot.sequence(d.getTestCallback(function(){
@@ -206,10 +214,10 @@
 					timeout:6000,
 					name: "focus by mouse",
 					runTest:function(){
-						var d = new doh.Deferred(),
-							combo = dijit.byId("combo3");
+						var d = new doh.Deferred();
+						combo = dijit.byId("combo3");
 
-						doh.robot.mouseMoveAt(combo.focusNode, 500, 500);
+						doh.robot.mouseMoveAt(combo.focusNode, 500, 0);
 						doh.robot.mouseClick({left:true}, 500);
 
 						doh.robot.sequence(d.getTestCallback(function(){
@@ -225,11 +233,11 @@
 					timeout:6000,
 					name:"dropdown button",
 					runTest:function(){
-						var d = new doh.Deferred(),
-							combo = dijit.byId("combo3");
+						var d = new doh.Deferred();
+						combo = dijit.byId("combo3");
 
 						// Press Arrow Button
-						doh.robot.mouseMoveAt(combo.downArrowNode, 500, 500);
+						doh.robot.mouseMoveAt(combo.downArrowNode, 500, 0);
 						doh.robot.mouseClick({left:true}, 500);
 
 						// Assert that nothing happened
@@ -251,13 +259,13 @@
 					combo: "labelFunc",
 					handle: null,
 					setUp: function(){
-						this.combo = dijit.byId(this.combo);
+						combo = dijit.byId(this.combo);
 					},
 					runTest: function(){ // very hard to hit due to timing
 						var d = new doh.Deferred();
 						dojo.byId("native").scrollIntoView(false); // force to bottom of screen
 						// jump through hoops to increase the odds of hitting the problem
-						handle = this.combo.connect(this.combo, 'open', // when this.open() is called, set up 1 time event handlers
+						handle = combo.connect(combo, 'open', // when this.open() is called, set up 1 time event handlers
 							function(){
 								var popup = dijit.byId("labelFunc_popup"); // combobox results
 								var old = dojo.global.dojo._setMarginBox; // menu is about to be shrunk to fit the viewport, so stop this
@@ -276,14 +284,14 @@
 								}), 1000, 500);
 							}
 						);
-						doh.robot.mouseMoveAt(this.combo.downArrowNode, 1000, 500);
+						doh.robot.mouseMoveAt(combo.downArrowNode, 1000, 0);
 						doh.robot.mousePress({left:true}, 500) // mousedown on the arrow image
 
 						return d;
 					},
 					tearDown: function(){
-						this.combo.disconnect(handle);
-						this.combo._hideResultList();
+						combo.disconnect(handle);
+						combo._hideResultList();
 					}
 				}
 			]);
@@ -294,16 +302,16 @@
 					name: "untouched blank value and required",
 					combo: "japanese",
 					setUp: function(){
-						this.combo = dijit.byId(this.combo);
+						combo = dijit.byId(this.combo);
 					},
 					runTest: function(){
-						doh.is("", this.combo.get("value"), "value");
-						doh.is("", this.combo.get('displayedValue'), "displayedValue");
-						doh.f(this.combo.isValid(), "isValid");
-						doh.is("", this.combo.state, "state");
+						doh.is("", combo.get("value"), "value");
+						doh.is("", combo.get('displayedValue'), "displayedValue");
+						doh.f(combo.isValid(), "isValid");
+						doh.is("", combo.state, "state");
 					},
 					tearDown: function(){
-						this.combo._hideResultList();
+						combo._hideResultList();
 					}
 				},
 				{
@@ -311,56 +319,61 @@
 					name: "blurred blank value and required",
 					combo: "japanese",
 					setUp: function(){
-						this.combo = dijit.byId(this.combo);
+						combo = dijit.byId(this.combo);
 					},
 					runTest: function(){
 						var d = new doh.Deferred();
-						doh.robot.mouseMoveAt(this.combo.focusNode, 500, 500);
+						doh.robot.mouseMoveAt(combo.focusNode, 500, 0);
 						doh.robot.mouseClick({left:true}, 500);
 						doh.robot.keyPress(dojo.keys.TAB, 1000);
 
 						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-							doh.is("", this.combo.get("value"), "value");
-							doh.is("", this.combo.get('displayedValue'), "displayedValue");
-							doh.f(this.combo.isValid(), "isValid");
-							doh.is("Error", this.combo.state, "state");
+							doh.is("", combo.get("value"), "value");
+							doh.is("", combo.get('displayedValue'), "displayedValue");
+							doh.f(combo.isValid(), "isValid");
+							doh.is("Error", combo.state, "state");
 						})), 1000, 500);
 						return d;
 					},
 					tearDown: function(){
-						this.combo._hideResultList();
+						combo._hideResultList();
 					}
 				}
 			]);
 			
 			doh.register("placeHolder", [
 				{
-					timeout: 3000,
+					timeout: 6000,
 					name: "focus/blur",
 					combo: "placeholdertest",
 					setUp: function(){
-						this.combo = dijit.byId(this.combo);
+						combo = dijit.byId(this.combo);
 					},
 					runTest: function(){
 						var d = new doh.Deferred();
-						doh.is("", this.combo.get("value"), "value");
-						doh.is("", this.combo.get('displayedValue'), "displayedValue");
-						doh.is("Select a New England State", this.combo._phspan.innerHTML, "_phspan.innerHTML");
-						doh.isNot("none", this.combo._phspan.style.display, "_phspan.style.display");
+						doh.is("", combo.get("value"), "value");
+						doh.is("", combo.get('displayedValue'), "displayedValue");
+						doh.is("Select a New England State", combo._phspan.innerHTML, "_phspan.innerHTML");
+						doh.isNot("none", combo._phspan.style.display, "_phspan.style.display 1");
 
-						this.combo.focus();
-						doh.is("none", this.combo._phspan.style.display, "_phspan.style.display");
+						doh.robot.mouseMoveAt(combo.focusNode, 0, 0);
+						doh.robot.mouseClick({left:true}, 500);
+
+						doh.robot.sequence(d.getTestErrback(function(){
+							doh.is("none", combo._phspan.style.display, "_phspan.style.display 2");
 						
-						doh.robot.keyPress(dojo.keys.TAB, 500, {});
-						doh.robot.sequence(d.getTestCallback(dojo.hitch(this,function(){
-							doh.is("", this.combo.get("value"), "value");
-							doh.is("", this.combo.get('displayedValue'), "displayedValue");
-							doh.isNot("none", this.combo._phspan.style.display, "_phspan.style.display");
-						})), 500);
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("", combo.get("value"), "value");
+								doh.is("", combo.get('displayedValue'), "displayedValue");
+								doh.isNot("none", combo._phspan.style.display, "_phspan.style.display 3");
+							}), 1000, 500);
+						}), 1500, 500);
 						return d;
 					},
 					tearDown: function(){
-						this.combo._hideResultList();
+						combo._hideResultList();
 					}
 				},
 				{
@@ -368,26 +381,119 @@
 					name: "select a value",
 					combo: "placeholdertest",
 					setUp: function(){
-						this.combo = dijit.byId(this.combo);
+						combo = dijit.byId(this.combo);
 					},
 					runTest: function(){
 						var d = new doh.Deferred(), value = isComboBox?'Connecticut':'ct';
-						this.combo.set("value",value);
-						doh.is(value, this.combo.get("value"), "selected Connecticut from drop down");
+						combo.set("value", value);
+						doh.is(value, combo.get("value"), "selected Connecticut from drop down");
 
-						this.combo.focus();
-						doh.is("none", this.combo._phspan.style.display, "_phspan.style.display 1");
+						doh.robot.mouseMoveAt(combo.focusNode, 500, 0);
+						doh.robot.mouseClick({left:true}, 500);
+
+						doh.robot.sequence(d.getTestErrback(function(){
+							doh.is("none", combo._phspan.style.display, "_phspan.style.display 1");
 						
-						doh.robot.keyPress(dojo.keys.TAB, 500, {});
-						doh.robot.sequence(d.getTestCallback(dojo.hitch(this,function(){
-							doh.is(value, this.combo.get("value"), "value");
-							doh.is("none", this.combo._phspan.style.display, "_phspan.style.display 2");
-							doh.is('Connecticut', this.combo.textbox.value, "textbox.value 2");
-						})), 500);
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(value, combo.get("value"), "value");
+								doh.is("none", combo._phspan.style.display, "_phspan.style.display 2");
+								doh.is('Connecticut', combo.textbox.value, "textbox.value 2");
+							}), 1000, 500);
+						}), 1000, 500);
 						return d;
 					},
 					tearDown: function(){
-						this.combo._hideResultList();
+						combo._hideResultList();
+					}
+				}
+			]);
+
+			// Test more choices
+			doh.register("Select More choices", [
+				{
+					timeout:10000,
+					name:"no auto-complete",
+					setUp: function(){
+						combo = dijit.byId("setvaluetest");
+						pageSize = combo.get('pageSize');
+						combo.set('pageSize', 1);
+						combo.set('displayedValue', null, false);
+					},
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						doh.robot.mouseMoveAt(combo.focusNode, 500, 0);
+						doh.robot.mouseClick({left:true}, 500);
+
+						doh.robot.typeKeys("a", 1500); // open dropdown
+
+						doh.robot.mouseMoveAt(function(){ return combo._popupWidget.nextButton }, 1000, 0); // move to More choices
+						doh.robot.mouseClick({left:true}, 1500);
+
+						doh.robot.sequence(d.getTestCallback(function(){
+							// Check that drop down list has disappeared
+							var list = combo._popupWidget.domNode;
+							doh.t(list && isVisible(list), "drop down is visible");
+							doh.is(combo._popupWidget.getHighlightedOption(), findMenuItem(combo, "Alaska"), "Alaska is selected");
+
+							doh.t(combo._focused, "widget is focused");
+
+							// Since the user down arrowed thru the choices, the value should be the current selection
+							doh.is('a', combo.focusNode.value);
+							if(!isComboBox){
+								doh.f(combo.isValid(true), "FilteringSelect should be invalid");
+							}
+						}), 1500, 500);
+
+						return d;
+					},
+					tearDown: function(){
+						combo.set('pageSize', pageSize);
+						combo._hideResultList();
+					}
+				},
+				{
+					timeout:10000,
+					name:"auto-complete",
+					setUp: function(){
+						combo = dijit.byId("datatest");
+						pageSize = combo.get('pageSize');
+						combo.set('pageSize', 1);
+						combo.set('displayedValue', null, false);
+					},
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						doh.robot.mouseMoveAt(combo.focusNode, 500, 0);
+						doh.robot.mouseClick({left:true}, 500);
+
+						doh.robot.typeKeys("a", 1500); // open dropdown
+
+						doh.robot.mouseMoveAt(function(){ return combo._popupWidget.nextButton }, 1000, 0); // move to More choices
+						doh.robot.mouseClick({left:true}, 1000);
+
+						doh.robot.sequence(d.getTestCallback(function(){
+							// Check that drop down list has disappeared
+							var list = combo._popupWidget.domNode;
+							doh.t(list && isVisible(list), "drop down is visible");
+							doh.is(combo._popupWidget.getHighlightedOption(), findMenuItem(combo, "Alaska"), "Alaska is selected");
+
+							doh.t(combo._focused, "widget is focused");
+
+							// Since the user down arrowed thru the choices, the value should be the current selection
+							doh.is('Alabama', combo.focusNode.value);
+							if(!isComboBox){
+								doh.t(combo.isValid(true), "FilteringSelect should be valid");
+							}
+						}), 1500, 500);
+
+						return d;
+					},
+					tearDown: function(){
+						combo.set('pageSize', pageSize);
+						combo._hideResultList();
 					}
 				}
 			]);
