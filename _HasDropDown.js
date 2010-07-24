@@ -157,8 +157,8 @@ dojo.declare("dijit._HasDropDown",
 			this._aroundNode = this._aroundNode || this.domNode;
 			this.connect(this._buttonNode, "onmousedown", "_onDropDownMouseDown");
 			this.connect(this._buttonNode, "onclick", "_onDropDownClick");
-			this.connect(this._buttonNode, "onkeydown", "_onDropDownKeydown");
-			this.connect(this._buttonNode, "onkeyup", "_onKey");
+			this.connect(this.focusNode, "onkeydown", "_onDropDownKeydown");
+			this.connect(this.focusNode, "onkeyup", "_onKey");
 
 			// If we have a _setStateClass function (which happens when
 			// we are a form widget), then we need to connect our open/close
@@ -214,11 +214,11 @@ dojo.declare("dijit._HasDropDown",
 				if(d.handleKey(e) === false){ return; }
 			}
 			if(d && this._opened && e.keyCode == dojo.keys.ESCAPE){
-				this.toggleDropDown();
-			}else if(d && !this._opened && 
+				this.closeDropDown();
+			}else if(!this._opened && 
 					(e.keyCode == dojo.keys.DOWN_ARROW || e.keyCode == dojo.keys.ENTER || e.keyCode == dojo.keys.SPACE)){
 				this.toggleDropDown();
-				if(d.focus){
+				if(d && d.focus){
 					setTimeout(dojo.hitch(d, "focus"), 1);
 				}
 			}
@@ -260,9 +260,6 @@ dojo.declare("dijit._HasDropDown",
 			//		protected
 
 			if(this.disabled || this.readOnly){ return; }
-			this.focus();
-			var dropDown = this.dropDown;
-			if(!dropDown){ return; }
 			if(!this._opened){
 				// If we aren't loaded, load it first so there isn't a flicker
 				if(!this.isLoaded()){

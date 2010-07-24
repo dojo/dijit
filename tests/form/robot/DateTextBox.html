@@ -122,10 +122,10 @@
 						timeout: 60000,
 						runTest: function(){
 							var d = new doh.Deferred();
-							doh.robot.sequence(function(){
-								changes = [];
-								american.focus();
-							}, 500);
+							changes = [];
+
+							doh.robot.mouseMoveAt(american.domNode, 500);
+							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								var calendar = dojo.byId("american_popup");
@@ -403,24 +403,25 @@
 					},
 
 					{
-						name: "calendar",
+						name: "labels",
 						timeout: 60000,
 						runTest: function(){
 							var d = new doh.Deferred();
-							doh.robot.sequence(function(){
-								german.set('value', new Date(2006, 9, 15));	// 10/15/2006
-								german.focus();
-							}, 500);
+
+							german.set('value', new Date(2006, 9, 15));	// 10/15/2006
+
+							doh.robot.mouseMoveAt(german.domNode, 500);
+							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-								var calendar = dojo.byId("german_popup");
+								var calendar = dijit.byId("german_popup");
 
 								// Calendar exists and is shown
 								doh.t(calendar, "calendar popup exists");
 								doh.t(isVisible(calendar), "calendar is visible");
 
 								// Month label
-								doh.is("Oktober", innerText(dijit.byNode(calendar).monthLabelNode));
+								doh.is("Oktober", innerText(calendar.monthLabelNode));
 
 								// Day labels
 								var dayLabels = dojo.query(".dijitCalendarDayLabelTemplate", calendar.domNode);

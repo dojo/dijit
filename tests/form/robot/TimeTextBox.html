@@ -29,8 +29,9 @@
 							var d = new doh.Deferred(),
 								w = dijit.byId('q1');
 	
-							// focus field, thus opening drop down		
-							w.focus();
+							// click field, thus opening drop down		
+							doh.robot.mouseMoveAt(w.domNode, 500);
+							doh.robot.mouseClick({left:true}, 500);
 	
 							// advance from 5:45PM to 6PM, and select
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 1000, {});
@@ -55,9 +56,10 @@
 							var d = new doh.Deferred(),
 								w = dijit.byId('q2');
 	
-							// focus field, thus opening drop down		
-							w.focus();
-	
+							// click field, thus opening drop down		
+							doh.robot.mouseMoveAt(w.domNode, 500);
+							doh.robot.mouseClick({left:true}, 500);
+		
 							// close drop down
 							doh.robot.keyPress(dojo.keys.ESCAPE, 1500, {});
 							

@@ -4,6 +4,7 @@ dojo.require("dojo.date");
 dojo.require("dojo.date.locale");
 dojo.require("dojo.date.stamp");
 dojo.require("dijit.form.ValidationTextBox");
+dojo.require("dijit._HasDropDown");
 
 new Date("X"); // workaround for #11279, new Date("") == NaN
 
@@ -22,10 +23,20 @@ dojo.declare(
 
 dojo.declare(
 	"dijit.form._DateTimeTextBox",
-	dijit.form.RangeBoundTextBox,
+	[ dijit.form.RangeBoundTextBox, dijit._HasDropDown ],
 	{
 		// summary:
 		//		Base class for validating, serializable, range-bound date or time text box.
+
+		templateString: dojo.cache("dijit.form", "templates/DropDownBox.html"),
+
+		// hasDownArrow: [const] Boolean
+		//		Set this textbox to display a down arrow button, to open the drop down list.
+		hasDownArrow: true,
+
+		// openOnClick: Boolean
+		//		Set to true to open drop down upon clicking anywhere on the textbox.
+		openOnClick: true,
 
 		// constraints: dijit.form._DateTimeTextBox.__Constraints
 		//		Despite the name, this parameter specifies both constraints on the input
@@ -48,6 +59,9 @@ dojo.declare(
 		// Override _FormWidget.compare() to work for dates/times
 		compare: dojo.date.compare,
 
+		// flag to _HasDropDown to make drop down Calendar width == <input> width
+		forceWidth: true,
+
 		format: function(/*Date*/ value, /*dojo.date.locale.__FormatOptions*/ constraints){
 			// summary:
 			//		Formats the value as a Date, according to specified locale (second argument)
@@ -57,7 +71,7 @@ dojo.declare(
 			return this.dateLocaleModule.format(value, constraints);
 		},
 
-		parse: function(/*String*/ value, /*dojo.date.locale.__FormatOptions*/ constraints){
+		"parse": function(/*String*/ value, /*dojo.date.locale.__FormatOptions*/ constraints){
 			// summary:
 			//		Parses as string as a Date, according to constraints
 			// tags:
@@ -102,6 +116,21 @@ dojo.declare(
 			this.regExpGen = this.dateLocaleModule.regexp;
 		},
 
+		buildRendering: function(){
+			this.inherited(arguments);
+			
+			// If openOnClick is true, we basically just want to treat the whole widget as the
+			// button.   We need to do that also if the actual drop down button will be hidden,
+			// so that there's a mouse method for opening the drop down.
+			if(this.openOnClick || !this.hasDownArrow){
+				this._buttonNode = this.domNode;
+			}
+
+			if(!this.hasDownArrow){
+				this._buttonNode.style.display = "none";
+			}
+		},
+
 		_setConstraintsAttr: function(/* Object */ constraints){
 			constraints.selector = this._selector;
 			constraints.fullYear = true; // see #5465 - always format with 4-digit years
@@ -109,13 +138,6 @@ dojo.declare(
 			if(typeof constraints.min == "string"){ constraints.min = fromISO(constraints.min); }
  			if(typeof constraints.max == "string"){ constraints.max = fromISO(constraints.max); }
 			this.inherited(arguments, [constraints]);
-		},
-
-		_onFocus: function(/*Event*/ evt){
-			// summary:
-			//		open the popup
-			this._open();
-			this.inherited(arguments);
 		},
 
 		_setValueAttr: function(/*Date*/ value, /*Boolean?*/ priorityChange, /*String?*/ formattedValue){
@@ -130,90 +152,53 @@ dojo.declare(
 				}
 			}
 			this.inherited(arguments, [value, priorityChange, formattedValue]);
-			if(this._picker){
+			if(this.dropDown){
 				// #3948: fix blank date on popup only
 				if(!value){value = new this.dateClassObj();}
-				this._picker.set('value', value);
+				this.dropDown.set('value', value);
 			}
 		},
 
-		_open: function(){
-			// summary:
-			//		opens the TimePicker, and sets the onValueSelected value
-
-			if(this.disabled || this.readOnly || !this.popupClass){return;}
-
-			var textBox = this;
-
-			if(!this._picker){
-				var PopupProto = dojo.getObject(this.popupClass, false);
-				this._picker = new PopupProto({
-					onValueSelected: function(value){
-						if(textBox._tabbingAway){
-							delete textBox._tabbingAway;
-						}else{
-							textBox.focus(); // focus the textbox before the popup closes to avoid reopening the popup
-						}
-						setTimeout(dojo.hitch(textBox, "_close"), 1); // allow focus time to take
-
-						// this will cause InlineEditBox and other handlers to do stuff so make sure it's last
-						dijit.form._DateTimeTextBox.superclass._setValueAttr.call(textBox, value, true);
-					},
-					id: this.id + "_popup",
-					dir: textBox.dir,
-					lang: textBox.lang,
-					value: this.get('value') || new this.dateClassObj(),
-					constraints: textBox.constraints,
-
-					datePackage: textBox.datePackage,
-
-					isDisabledDate: function(/*Date*/ date){
-						// summary:
-						// 	disables dates outside of the min/max of the _DateTimeTextBox
-						var compare = dojo.date.compare;
-						var constraints = textBox.constraints;
-						return constraints && (
-							(constraints.min && compare(constraints.min, date, textBox._selector) > 0) ||
-							(constraints.max && compare(constraints.max, date, textBox._selector) < 0)
-						);
+		openDropDown: function(/*Function*/ callback){
+			// rebuild drop down every time, so that constraints get copied (#6002)
+			if(this.dropDown){
+				this.dropDown.destroy();
+			}
+			var PopupProto = dojo.getObject(this.popupClass, false),
+				textBox = this;
+			this.dropDown = new PopupProto({
+				onValueSelected: function(value){
+					if(textBox._tabbingAway){
+						delete textBox._tabbingAway;
+					}else{
+						textBox.focus(); // focus the textbox before the popup closes to avoid reopening the popup
 					}
-				});
-			}
-			if(!this._opened){
-				// Open drop down.  Align left sides of input box and drop down, even in RTL mode,
-				// otherwise positioning thrown off when the drop down width is changed in marginBox call below (#10676)
-				dijit.popup.open({
-					parent: this,
-					popup: this._picker,
-					orient: {'BL':'TL', 'TL':'BL'},
-					around: this.domNode,
-					onCancel: dojo.hitch(this, this._close),
-					onClose: function(){ textBox._opened=false; }
-				});
-				this._opened=true;
-			}
+					setTimeout(dojo.hitch(textBox, "closeDropDown"), 1); // allow focus time to take
 
-			dojo.marginBox(this._picker.domNode,{ w:this.domNode.offsetWidth });
-		},
+					// this will cause InlineEditBox and other handlers to do stuff so make sure it's last
+					dijit.form._DateTimeTextBox.superclass._setValueAttr.call(textBox, value, true);
+				},
+				id: this.id + "_popup",
+				dir: textBox.dir,
+				lang: textBox.lang,
+				value: this.get('value') || new this.dateClassObj(),
+				constraints: textBox.constraints,
 
-		_close: function(){
-			if(this._opened){
-				dijit.popup.close(this._picker);
-				this._opened=false;
-			}
-		},
+				datePackage: textBox.datePackage,
 
-		_onBlur: function(){
-			// summary:
-			//		Called magically when focus has shifted away from this widget and it's dropdown
-			this._close();
-			if(this._picker){
-				// teardown so that constraints will be rebuilt next time (redundant reference: #6002)
-				this._picker.destroy();
-				delete this._picker;
-			}
+				isDisabledDate: function(/*Date*/ date){
+					// summary:
+					// 	disables dates outside of the min/max of the _DateTimeTextBox
+					var compare = dojo.date.compare;
+					var constraints = textBox.constraints;
+					return constraints && (
+						(constraints.min && compare(constraints.min, date, textBox._selector) > 0) ||
+						(constraints.max && compare(constraints.max, date, textBox._selector) < 0)
+					);
+				}
+			});
+
 			this.inherited(arguments);
-			// don't focus on <input>.  the user has explicitly focused on something else.
 		},
 
 		_getDisplayedValueAttr: function(){
@@ -222,49 +207,6 @@ dojo.declare(
 
 		_setDisplayedValueAttr: function(/*String*/ value, /*Boolean?*/ priorityChange){
 			this._setValueAttr(this.parse(value, this.constraints), priorityChange, value);
-		},
-
-		destroy: function(){
-			if(this._picker){
-				this._picker.destroy();
-				delete this._picker;
-			}
-			this.inherited(arguments);
-		},
-
-		postCreate: function(){
-			this.inherited(arguments);
-			this.connect(this.focusNode, 'onkeypress', this._onKeyPress);
-			this.connect(this.focusNode, 'onclick', this._open);
-		},
-
-		_onKeyPress: function(/*Event*/ e){
-			// summary:
-			//		Handler for keypress events
-
-			var p = this._picker, dk = dojo.keys;
-			// Handle the key in the picker, if it has a handler.  If the handler
-			// returns false, then don't handle any other keys.
-			if(p && this._opened && p.handleKey){
-				if(p.handleKey(e) === false){ return; }
-			}
-			if(this._opened && e.charOrCode == dk.ESCAPE && !(e.shiftKey || e.ctrlKey || e.altKey || e.metaKey)){
-				this._close();
-				dojo.stopEvent(e);
-			}else if(!this._opened && e.charOrCode == dk.DOWN_ARROW){
-				this._open();
-				dojo.stopEvent(e);
-			}else if(e.charOrCode === dk.TAB){
-				this._tabbingAway = true;
-			}else if(this._opened && (e.keyChar || e.charOrCode === dk.BACKSPACE || e.charOrCode == dk.DELETE)){
-				// Replace the element - but do it after a delay to allow for
-				// filtering to occur
-				setTimeout(dojo.hitch(this, function(){
-					if(this._picker && this._opened){
-						dijit.placeOnScreenAroundElement(p.domNode.parentNode, this.domNode, {'BL':'TL', 'TL':'BL'}, p.orient ? dojo.hitch(p, "orient") : null);
-					}
-				}), 1);
-			}
 		}
 	}
 );

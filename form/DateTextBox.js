@@ -16,7 +16,7 @@ dojo.declare(
 		//		Example:
 		// |	<input dojotype='dijit.form.DateTextBox' value='2009-01-20'>
 
-		baseClass: "dijitTextBox dijitDateTextBox",
+		baseClass: "dijitTextBox dijitComboBox dijitDateTextBox",
 		popupClass: "dijit.Calendar",
 		_selector: "date",
 

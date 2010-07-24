@@ -451,13 +451,7 @@ dojo.declare("dijit._TimePicker",
 			// tags:
 			//		protected
 			var dk = dojo.keys;
-			if(e.keyChar || e.charOrCode === dk.BACKSPACE || e.charOrCode == dk.DELETE){
-				// Set a timeout to kick off our filter
-				setTimeout(dojo.hitch(this, function(){
-					this._filterString = e.target.value.toLowerCase();
-					this._showText();
-				}),1);
-			}else if(e.charOrCode == dk.DOWN_ARROW || e.charOrCode == dk.UP_ARROW){
+			if(e.keyCode == dk.DOWN_ARROW || e.keyCode == dk.UP_ARROW){
 				dojo.stopEvent(e);
 				// Figure out which option to highlight now and then highlight it
 				if(this._highlighted_option && !this._highlighted_option.parentNode){
@@ -468,12 +462,12 @@ dojo.declare("dijit._TimePicker",
 				if(!tgt){
 					tgt = timeMenu.childNodes[0];
 				}else if(timeMenu.childNodes.length){
-					if(e.charOrCode == dk.DOWN_ARROW && !tgt.nextSibling){
+					if(e.keyCode == dk.DOWN_ARROW && !tgt.nextSibling){
 						this._onArrowDown();
-					}else if(e.charOrCode == dk.UP_ARROW && !tgt.previousSibling){
+					}else if(e.keyCode == dk.UP_ARROW && !tgt.previousSibling){
 						this._onArrowUp();
 					}
-					if(e.charOrCode == dk.DOWN_ARROW){
+					if(e.keyCode == dk.DOWN_ARROW){
 						tgt = tgt.nextSibling;
 					}else{
 						tgt = tgt.previousSibling;
@@ -481,11 +475,18 @@ dojo.declare("dijit._TimePicker",
 				}
 				this._highlightOption(tgt, true);
 				this._keyboardSelected = tgt;
-			}else if(this._highlighted_option && (e.charOrCode == dk.ENTER || e.charOrCode === dk.TAB)){
+			}else if(this._highlighted_option && (e.keyCode == dk.ENTER || e.keyCode === dk.TAB)){
 				// Accept the currently-highlighted option as the value
-				if(!this._keyboardSelected && e.charOrCode === dk.TAB){ return; } // mouse hover followed by TAB is NO selection
-				if(e.charOrCode == dk.ENTER){dojo.stopEvent(e);}
+				if(!this._keyboardSelected && e.keyCode === dk.TAB){ return; } // mouse hover followed by TAB is NO selection
+				if(e.keyCode == dk.ENTER){dojo.stopEvent(e);}
 				this._onOptionSelected({target: this._highlighted_option});
+			}else{
+				// For user input (typing in digits to the time), or backspacing, adjust our
+				// drop down list by setting a timeout to kick off our filter
+				setTimeout(dojo.hitch(this, function(){
+					this._filterString = e.target.value.toLowerCase();
+					this._showText();
+				}),1);				
 			}
 		}
 	}
