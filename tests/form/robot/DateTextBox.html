@@ -117,7 +117,7 @@
 							doh.robot.mouseMoveAt(german.domNode, 500);
 							doh.robot.mouseClick({left:true}, 500);
 
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								var calendar = dijit.byId("german_popup");
 
 								// calendar exists and is shown
@@ -137,7 +137,7 @@
 								doh.is("F", innerText(dayLabels[4]), "day 4");
 								doh.is("S", innerText(dayLabels[5]), "day 5");
 								doh.is("S", innerText(dayLabels[6]), "day 6");
-							})), 1000);
+							}), 1000);
 
 							return d;
 						}
@@ -160,14 +160,14 @@
 						}, 500);
 						doh.robot.typeKeys('1/3/2005', 500, 1600);
 						doh.robot.keyPress(dojo.keys.TAB, 500, {});
-						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+						doh.robot.sequence(d.getTestCallback(function(){
 							var value = american.get('value');
 							doh.is(0, dojo.date.compare(new Date(2005, 0, 3), value), 'actual value is ' + value);
 							doh.is(1, changes.length, 'one onchange event');	// #9018
 							doh.is(0, dojo.date.compare(new Date(2005, 0, 3), changes[0]),
 									'value reported by onchange: ' + changes[0] +
 									', should be ' + new Date(2005, 0, 3));
-						})), 1000);
+						}), 1000);
 						return d;
 					}
 				});
@@ -191,7 +191,7 @@
 							}), 500);
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
 
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								calendar = dijit.byId("american_popup");
 
 								// calendar exists and is shown
@@ -213,7 +213,7 @@
 
 								// focus still on <input>
 								doh.is("american", dojo.global.dijit._curFocus.id, "focus on <input>")
-							})), 1000);
+							}), 1000);
 
 							return d;
 						}
@@ -229,7 +229,7 @@
 							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
 							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
 
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								// calendar still exists and is shown
 								doh.t(calendar, "calendar popup exists");
 								doh.t(isVisible(calendar), "calendar is visible");
@@ -241,7 +241,7 @@
 
 								// focus still on <input>
 								doh.is("american", dojo.global.dijit._curFocus.id, "focus on <input>")
-							})), 1000);
+							}), 500);
 
 							return d;
 						}
@@ -256,7 +256,7 @@
 
 							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
 
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								// calendar still exists and is shown
 								doh.t(calendar, "calendar popup exists");
 								doh.t(isVisible(calendar), "calendar is visible");
@@ -268,7 +268,7 @@
 
 								// focus still on <input>
 								doh.is("american", dojo.global.dijit._curFocus.id, "focus on <input>")
-							})), 1000);
+							}), 500);
 
 							return d;
 						}
@@ -286,7 +286,7 @@
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
 
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								// calendar still exists and is shown
 								doh.t(calendar, "calendar popup exists");
 								doh.t(isVisible(calendar), "calendar is visible");
@@ -301,7 +301,7 @@
 
 								// focus still on <input>
 								doh.is("american", dojo.global.dijit._curFocus.id, "focus on <input>")
-							})), 1000);
+							}), 500);
 
 							return d;
 						}
@@ -318,7 +318,7 @@
 							doh.robot.keyPress(dojo.keys.UP_ARROW, 500, {});
 							doh.robot.keyPress(dojo.keys.UP_ARROW, 500, {});
 
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								// calendar still exists and is shown
 								doh.t(calendar, "calendar popup exists");
 								doh.t(isVisible(calendar), "calendar is visible");
@@ -333,7 +333,7 @@
 
 								// focus still on <input>
 								doh.is("american", dojo.global.dijit._curFocus.id, "focus on <input>")
-							})), 1000);
+							}), 500);
 
 							return d;
 						}
@@ -349,7 +349,7 @@
 							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 500, {});
 							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 500, {});
 
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								// calendar still exists and is shown
 								doh.t(calendar, "calendar popup exists");
 								doh.t(isVisible(calendar), "calendar is visible");
@@ -364,7 +364,7 @@
 
 								// focus still on <input>
 								doh.is("american", dojo.global.dijit._curFocus.id, "focus on <input>")
-							})), 500);
+							}), 500);
 
 							return d;
 						}
@@ -379,7 +379,7 @@
 
 							doh.robot.keyPress(dojo.keys.PAGE_UP, 500, {});
 
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								// calendar still exists and is shown
 								doh.t(calendar, "calendar popup exists");
 								doh.t(isVisible(calendar), "calendar is visible");
@@ -394,7 +394,7 @@
 
 								// focus still on <input>
 								doh.is("american", dojo.global.dijit._curFocus.id, "focus on <input>")
-							})), 500);
+							}), 500);
 
 							return d;
 						}
@@ -417,7 +417,7 @@
 								doh.robot.keyPress(dojo.keys.PAGE_DOWN, 500, {ctrl: true});
 							}
 
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								// calendar still exists and is shown
 								doh.t(calendar, "calendar popup exists");
 								doh.t(isVisible(calendar), "calendar is visible");
@@ -436,7 +436,7 @@
 
 								// focus still on <input>
 								doh.is("american", dojo.global.dijit._curFocus.id, "focus on <input>")
-							})), 500);
+							}), 500);
 
 							return d;
 						}
@@ -458,7 +458,7 @@
 								doh.robot.keyPress(dojo.keys.PAGE_UP, 500, {ctrl: true});
 							}
 
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								// calendar still exists and is shown
 								doh.t(calendar, "calendar popup exists");
 								doh.t(isVisible(calendar), "calendar is visible");
@@ -480,7 +480,7 @@
 
 								// focus still on <input>
 								doh.is("american", dojo.global.dijit._curFocus.id, "focus on <input>")
-							})), 500);
+							}), 500);
 
 							return d;
 						}
@@ -495,7 +495,7 @@
 
 							doh.robot.keyPress(dojo.keys.HOME, 500, {});
 
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								// calendar still exists and is shown
 								doh.t(calendar, "calendar popup exists");
 								doh.t(isVisible(calendar), "calendar is visible");
@@ -507,7 +507,7 @@
 
 								// focus still on <input>
 								doh.is("american", dojo.global.dijit._curFocus.id, "focus on <input>")
-							})), 1000);
+							}), 500);
 
 							return d;
 						}
@@ -522,7 +522,7 @@
 
 							doh.robot.keyPress(dojo.keys.END, 500, {});
 
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								// calendar still exists and is shown
 								doh.t(calendar, "calendar popup exists");
 								doh.t(isVisible(calendar), "calendar is visible");
@@ -534,7 +534,7 @@
 
 								// focus still on <input>
 								doh.is("american", dojo.global.dijit._curFocus.id, "focus on <input>")
-							})), 1000);
+							}), 500);
 
 							return d;
 						}
@@ -551,7 +551,7 @@
 							// select
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is('6/30/2006', american.get('displayedValue'), 'displayed value of american');
 
 								var expectedVal = new Date(2006, 5, 30);	// 6/30/2006
@@ -562,7 +562,7 @@
 
 								// focus is on <input> (actually it hasn't moved from the <input> since we started there)
 								doh.is("american", dojo.global.dijit._curFocus.id, "focus on <input>")
-							})), 1000);
+							}), 1000);
 
 							return d;
 						}
@@ -576,10 +576,10 @@
 
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(1, changes.length, "no new onchange events");	// #9018
 								doh.is("german", dojo.global.dijit._curFocus.id, "tabbed from american to german")
-							})), 1000);
+							}), 1000);
 							return d;
 						}
 					}
@@ -603,7 +603,7 @@
 							doh.robot.mouseMoveAt(american.domNode, 500);
 							doh.robot.mouseClick({left:true}, 500);
 
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								var calendar = dijit.byId("american_popup");
 
 								// calendar exists and is shown
@@ -622,7 +622,7 @@
 								var selectedDays = dojo.query(".dijitCalendarSelectedDate", calendar.domNode);
 								doh.is(1, selectedDays.length, "one day selected");
 								doh.is("10", innerText(selectedDays[0]), "correct day is selected");
-							})), 1000);
+							}), 1000);
 
 							return d;
 						}
@@ -641,14 +641,14 @@
 							doh.robot.mouseMoveAt(nextMonthButtons[0], 500);
 							doh.robot.mouseClick({left:true}, 500);
 
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								// calendar still exists and is shown
 								doh.t(calendar, "calendar popup exists");
 								doh.t(isVisible(calendar), "calendar is visible");
 
 								// calendar moved to the next month
 								doh.is("June", innerText(calendar.monthLabelNode), "moved from may to june");
-							})), 1000);
+							}), 500);
 
 							return d;
 						}
@@ -671,7 +671,7 @@
 							doh.robot.mouseMoveAt(july, 500);
 							doh.robot.mouseRelease({left:true}, 500);
 
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								// calendar still exists and is shown
 								doh.t(calendar, "calendar popup exists");
 								doh.t(isVisible(calendar), "calendar is visible");
@@ -686,7 +686,7 @@
 								doh.is("1", innerText(firstRowDays[5]), "sixth day is june 1");
 
 								calendar._adjustDisplay("month", -1);
-							})), 1000);
+							}), 500);
 
 							return d;
 						}
@@ -706,7 +706,7 @@
 							doh.robot.mouseMoveAt(nextYearButtons[0], 500);
 							doh.robot.mouseClick({left:true}, 500);
 
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								// calendar still exists and is shown
 								doh.t(calendar, "calendar popup exists");
 								doh.t(isVisible(calendar), "calendar is visible");
@@ -715,7 +715,7 @@
 								var yearNodes = dojo.query(".dijitCalendarSelectedYear", calendar.domNode);
 								doh.is(1, yearNodes.length, "found year node");
 								doh.is("2006", innerText(yearNodes[0]), "moved from 2005 to 2006");
-							})), 1000);
+							}), 500);
 
 							return d;
 						}
@@ -736,11 +736,11 @@
 							doh.robot.mouseMoveAt(nextYearButtons[0], 500);
 							doh.robot.mouseClick({left:true}, 500);
 
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								dojo.query(".dijitCalendarDateTemplate", calendar.domNode).forEach(function(node){
 									doh.t(dojo.hasClass(node, 'dijitCalendarDisabledDate'), 'every day in 2007 is disabled');
 								});
-							})), 1000);
+							}), 500);
 
 							return d;
 						}
@@ -761,11 +761,11 @@
 							doh.robot.mouseMoveAt(previousYearButtons[0], 500);
 							doh.robot.mouseClick({left:true}, 500);
 
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								dojo.query(".dijitCalendarDateTemplate", calendar.domNode).forEach(function(node){
 									doh.f(dojo.hasClass(node, 'dijitCalendarDisabledDate'), "every day in 2006 is enabled");
 								});
-							})), 1000);
+							}), 500);
 
 							return d;
 						}
@@ -806,9 +806,9 @@
 							doh.is("15", innerText(day), "found june 15");
 							doh.robot.mouseMoveAt(day, 500);
 
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(dojo.hasClass(day, 'dijitCalendarHoveredDate'), "hovered date has hover class");
-							})), 500);
+							}), 500);
 
 							return d;
 						}
@@ -825,7 +825,7 @@
 							// select June 15
 							doh.robot.mouseClick({left:true}, 500);
 
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is('6/15/2006', american.get('displayedValue'), 'displayed value of american');
 
 								var expectedVal = new Date(2006, 5, 15);	// 6/15/2006
@@ -833,7 +833,7 @@
 
 								doh.is(1, changes.length, "onchange event fired");
 								doh.is(0, dojo.date.compare(expectedVal, changes[0]), 'onchange of american: ' + changes[0]);
-							})), 1000);
+							}), 1000);
 
 							return d;
 						}
@@ -847,9 +847,9 @@
 
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(1, changes.length, "no new onchange events");	// #9018
-							})), 1000);
+							}), 1000);
 							return d;
 						}
 					}
