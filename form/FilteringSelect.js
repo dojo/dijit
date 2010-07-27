@@ -160,6 +160,7 @@ dojo.declare(
 			// for reverse lookup, and when that completes (after an XHR request)
 			// will call setValueAttr()... but that shouldn't trigger an onChange()
 			// event, even when it happens after creation has finished
+			if(label == null){ label = ''; }
 			if(!this._created){
 				priorityChange = false;
 			}
