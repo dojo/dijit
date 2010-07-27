@@ -344,6 +344,7 @@ dojo.declare(
 			if(node && !dojo.hasClass(node, "dijitCalendarDisabledDate")){
 				this.set('value', node.dijitDateValue);
 				this.onValueSelected(this.get('value'));
+				this.onExecute();	// signal to close drop down
 			}
 		},
 
@@ -436,7 +437,7 @@ dojo.declare(
 					increment = 1;
 					//fallthrough...
 				case dk.PAGE_UP:
-					interval = evt.ctrlKey ? "year" : "month";
+					interval = evt.ctrlKey || evt.altKey ? "year" : "month";
 					break;
 				case dk.END:
 					// go to the next month
