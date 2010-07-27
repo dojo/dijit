@@ -183,12 +183,13 @@ dojo.declare(
 				lang: textBox.lang,
 				value: this.get('value') || new this.dateClassObj(),
 				constraints: textBox.constraints,
+				filterString: textBox.filterString,	// for TimeTextBox, to filter times shown
 
 				datePackage: textBox.datePackage,
 
 				isDisabledDate: function(/*Date*/ date){
 					// summary:
-					// 	disables dates outside of the min/max of the _DateTimeTextBox
+					//		disables dates outside of the min/max of the _DateTimeTextBox
 					var compare = dojo.date.compare;
 					var constraints = textBox.constraints;
 					return constraints && (

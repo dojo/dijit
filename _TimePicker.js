@@ -95,21 +95,24 @@ dojo.declare("dijit._TimePicker",
 =====*/
 		serialize: dojo.date.stamp.toISOString,
 
-		// _filterString: string
+/*=====
+		// filterString: string
 		//		The string to filter by
-		_filterString: "",
+		filterString: "",
+=====*/
 
 		setValue: function(/*Date*/ value){
 			// summary:
-			//		Deprecated.  Used attr('value') instead.
+			//		Deprecated.  Used set('value') instead.
 			// tags:
 			//		deprecated
 			dojo.deprecated("dijit._TimePicker:setValue() is deprecated.  Use set('value', ...) instead.", "", "2.0");
 			this.set('value', value);
 		},
+
 		_setValueAttr: function(/*Date*/ date){
 			// summary:
-			//		Hook so attr('value', ...) works.
+			//		Hook so set('value', ...) works.
 			// description:
 			//		Set the value of the TimePicker.
 			//		Redraws the TimePicker around the new date.
@@ -119,29 +122,11 @@ dojo.declare("dijit._TimePicker",
 			this._showText();
 		},
 
-		onOpen: function(best){
+		_setFilterStringAttr: function(val){
 			// summary:
-			//		This is called by the popup manager when a TimeTextBox is displayed on the screen
-			// best:
-			//		Whether it is being displayed above or below the `dijit.form.TimeTextBox`
-			// tags:
-			//		protected
-			if(this._beenOpened && this.domNode.parentNode){
-				// We've been opened before - so set our filter to to the
-				// currently-displayed value (or empty string if it's already
-				// valid)
-				var p = dijit.byId(this.domNode.parentNode.dijitPopupParent);
-				if(p){
-					var val = p.get('displayedValue');
-					if(val && !p.parse(val, p.constraints)){
-						this._filterString = val;
-					}else{
-						this._filterString = "";
-					}
-					this._showText();
-				}
-			}
-			this._beenOpened = true;
+			//		Called by TimeTextBox to filter the values shown in my list
+			this.filterString = val;
+			this._showText();
 		},
 
 		isDisabledDate: function(/*Date*/ dateObject, /*String?*/ locale){
@@ -208,20 +193,13 @@ dojo.declare("dijit._TimePicker",
 			// absolute max number of increments.
 			this._maxIncrement = (60 * 60 * 24) / clickableIncrementSeconds;
 
-			// find the nodes we should display based on our filter
+			// Find the nodes we should display based on our filter.
+			// Limit to 10 nodes displayed as a half-hearted attempt to stop drop down from overlapping <input>.
 			var before = this._getFilteredNodes(0, this._totalIncrements >> 1, true);
 			var after = this._getFilteredNodes(0, this._totalIncrements >> 1, false);
-			if(before.length < this._totalIncrements >> 1){
-				before = before.slice(before.length / 2);
-				after = after.slice(0, after.length / 2);
-			}
+			before = before.slice(Math.min(this._totalIncrements >> 1, 5));
+			after = after.slice(0, Math.min(this._totalIncrements >> 1, 5));
 			dojo.forEach(before.concat(after), function(n){this.timeMenu.appendChild(n);}, this);
-
-			// TODO:
-			// I commented this out because it
-			// causes problems for a TimeTextBox in a Dialog, or as the editor of an InlineEditBox,
-			// because the timeMenu node isn't visible yet. -- Bill (Bug #????)
-			// dijit.focus(this.timeMenu);
 		},
 
 		postCreate: function(){
@@ -294,7 +272,7 @@ dojo.declare("dijit._TimePicker",
 				date.setFullYear(1970,0,1); // make sure each time is for the same date
 			}
 			var dateString = dojo.date.locale.format(date, this.constraints);
-			if(this._filterString && dateString.toLowerCase().indexOf(this._filterString) !== 0){
+			if(this.filterString && dateString.toLowerCase().indexOf(this.filterString) !== 0){
 				// Doesn't match the filter - return null
 				return null;
 			}
@@ -488,13 +466,6 @@ dojo.declare("dijit._TimePicker",
 				if(!this._keyboardSelected && e.keyCode === dk.TAB){ return; } // mouse hover followed by TAB is NO selection
 				if(e.keyCode == dk.ENTER){dojo.stopEvent(e);}
 				this._onOptionSelected({target: this._highlighted_option});
-			}else{
-				// For user input (typing in digits to the time), or backspacing, adjust our
-				// drop down list by setting a timeout to kick off our filter
-				setTimeout(dojo.hitch(this, function(){
-					this._filterString = e.target.value.toLowerCase();
-					this._showText();
-				}),1);				
 			}
 		}
 	}
