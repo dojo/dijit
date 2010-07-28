@@ -1059,7 +1059,6 @@
 						combo.set('value', value, true);
 						doh.robot.sequence(d.getTestCallback(function(){
 							combo.disconnect(connectHandle);
-							combo._pendingOnChange = false;
 							doh.is("not called", status, "onChange should not have been called");
 						}), 500);
 						return d;
@@ -1081,7 +1080,6 @@
 						combo.set('value', value2, false);
 						doh.robot.sequence(d.getTestCallback(function(){
 							combo.disconnect(connectHandle);
-							combo._pendingOnChange = false;
 							doh.is("not called", status, "onChange should not have been called");
 						}), 500);
 						return d;
@@ -1104,7 +1102,6 @@
 						combo.set('value', value2);
 						doh.robot.sequence(d.getTestCallback(function(){
 							combo.disconnect(connectHandle);
-							combo._pendingOnChange = false;
 							doh.is("called with "+value2, status, "onChange should have been called with "+value2);
 						}), 500);
 						return d;
@@ -1128,8 +1125,7 @@
 						combo.set('value', value2, true);
 						doh.robot.sequence(d.getTestCallback(function(){
 							combo.disconnect(connectHandle);
-							combo._pendingOnChange = false;
-							doh.is("called with "+value2, status, "onChange should have been called with "+value2);
+							doh.is("not called", status, "onChange should not have been called");
 						}), 500);
 						return d;
 					}
@@ -1150,7 +1146,6 @@
 						combo.set('value', value, true);
 						doh.robot.sequence(d.getTestCallback(function(){
 							combo.disconnect(connectHandle);
-							combo._pendingOnChange = false;
 							doh.is("not called", status, "onChange should not have been called");
 						}), 500);
 					}
@@ -1173,7 +1168,6 @@
 						combo.set('value', value1, false);
 						doh.robot.sequence(d.getTestCallback(function(){
 							combo.disconnect(connectHandle);
-							combo._pendingOnChange = false;
 							doh.is("called with "+value2, status, "onChange should have been called with "+value2);
 						}), 500);
 					}
@@ -1194,7 +1188,6 @@
 						combo.set('value', value2, true);
 						doh.robot.sequence(d.getTestCallback(function(){
 							combo.disconnect(connectHandle);
-							combo._pendingOnChange = false;
 							doh.is("called with "+value2, status, "onChange should have been called with true"+value2);
 						}), 500);
 					}
