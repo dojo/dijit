@@ -51,7 +51,7 @@ dojo.declare(
 		
 		postMixInProperties: function(){
 			var type = this.type.toLowerCase();
-			if(this.templateString.toLowerCase() == "input" || ((type == "hidden" || type == "file") && this.templateString == dijit.form.TextBox.prototype.templateString)){
+			if(this.templateString && this.templateString.toLowerCase() == "input" || ((type == "hidden" || type == "file") && this.templateString == dijit.form.TextBox.prototype.templateString)){
 				this.templateString = this._singleNodeTemplate;
 			}
 			this.inherited(arguments);
