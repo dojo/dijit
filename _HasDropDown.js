@@ -157,8 +157,7 @@ dojo.declare("dijit._HasDropDown",
 			this._aroundNode = this._aroundNode || this.domNode;
 			this.connect(this._buttonNode, "onmousedown", "_onDropDownMouseDown");
 			this.connect(this._buttonNode, "onclick", "_onDropDownClick");
-			this.connect(this.focusNode, "onkeydown", "_onDropDownKeydown");
-			this.connect(this.focusNode, "onkeyup", "_onKey");
+			this.connect(this.focusNode, "onkeypress", "_onKey");
 
 			// If we have a _setStateClass function (which happens when
 			// we are a form widget), then we need to connect our open/close
@@ -198,17 +197,16 @@ dojo.declare("dijit._HasDropDown",
 			this.inherited(arguments);
 		},
 
-		_onDropDownKeydown: function(/*Event*/ e){
-			if(e.keyCode == dojo.keys.DOWN_ARROW || e.keyCode == dojo.keys.ENTER || e.keyCode == dojo.keys.SPACE){
-				e.preventDefault();	// stop IE screen jump
-			}
-		},
-
 		_onKey: function(/*Event*/ e){
 			// summary:
 			//		Callback when the user presses a key while focused on the button node
 
+			if(e.keyCode == dojo.keys.DOWN_ARROW || e.keyCode == dojo.keys.ENTER || e.keyCode == dojo.keys.SPACE){
+				e.preventDefault();	// stop IE screen jump
+			}
+
 			if(this.disabled || this.readOnly){ return; }
+
 			var d = this.dropDown;
 			if(d && this._opened && d.handleKey){
 				if(d.handleKey(e) === false){ return; }
