@@ -340,12 +340,6 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		return this._lastValue;
 	},
 
-	undo: function(){
-		// summary:
-		//		restore the value to the last value passed to onChange
-		this._setValueAttr(this._lastValueReported, false);
-	},
-
 	_loadChildren: function(){
 		// summary:
 		//		Loads the children represented by this widget's options.
