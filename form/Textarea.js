@@ -20,6 +20,10 @@ dojo.declare(
 	// |	<textarea dojoType="dijit.form.TextArea">...</textarea>
 
 
+	// TODO: for 2.0, rename this to ExpandingTextArea, and rename SimpleTextarea to Textarea
+
+	baseClass: "dijitTextBox dijitTextArea dijitExpandingTextArea",
+
 	// Override SimpleTextArea.cols to default to width:100%, for backward compatibility
 	cols: "",
 

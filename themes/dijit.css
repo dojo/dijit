@@ -1860,6 +1860,12 @@ DIV.dijitTabDisabled, .dj_ie DIV.dijitTabDisabled {
 	width:auto;
 }
 
+.dijitExpandingTextArea {
+	/* for auto exanding textarea (called Textarea currently, rename for 2.0) don't want to display the grip to resize */
+	resize: none;
+}
+
+
 /* Toolbar
  * Note that other toolbar rules (for objects in toolbars) are scattered throughout this file.
  */
