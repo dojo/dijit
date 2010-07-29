@@ -213,12 +213,14 @@ dojo.declare("dijit._HasDropDown",
 			}
 			if(d && this._opened && e.keyCode == dojo.keys.ESCAPE){
 				this.closeDropDown();
+				dojo.stopEvent(e);
 			}else if(!this._opened && 
 					(e.keyCode == dojo.keys.DOWN_ARROW || e.keyCode == dojo.keys.ENTER || e.keyCode == dojo.keys.SPACE)){
 				this.toggleDropDown();
 				if(d && d.focus){
 					setTimeout(dojo.hitch(d, "focus"), 1);
 				}
+				dojo.stopEvent(e);
 			}
 		},
 

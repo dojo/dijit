@@ -152,11 +152,12 @@
 					},
 
 					{
-						name: "close date drop down",
+						name: "open and close date drop down",
 						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
 							doh.robot.keyPress(dojo.keys.ESCAPE, 500, {});
 
 							doh.robot.sequence(d.getTestCallback(function(){
