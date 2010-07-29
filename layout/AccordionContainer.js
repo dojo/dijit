@@ -195,8 +195,6 @@ dojo.declare(
 				}
 
 				var newContents = newWidget.domNode;
-				dojo.addClass(newContents, "dijitVisible");
-				dojo.removeClass(newContents, "dijitHidden");
 				
 				if(animate){
 					var newContentsOverflow = newContents.style.overflow;
@@ -235,21 +233,13 @@ dojo.declare(
 						properties: {
 							height: { start: this._getTargetHeight(oldContents), end: 1 }
 						},
-						onEnd: function(){
-							dojo.addClass(oldContents, "dijitHidden");
-							dojo.removeClass(oldContents, "dijitVisible");
+						onEnd: dojo.hitch(this, function(){
+							this._hideChild(oldWidget);
 							oldContents.style.overflow = oldContentsOverflow;
-							if(oldWidget.onHide){
-								oldWidget.onHide();
-							}
-						}
+						})
 					}));
 				}else{
-					dojo.addClass(oldContents, "dijitHidden");
-					dojo.removeClass(oldContents, "dijitVisible");
-					if(oldWidget.onHide){
-						oldWidget.onHide();
-					}
+					this._hideChild(oldWidget);
 				}
 			}
 
