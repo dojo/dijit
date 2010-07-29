@@ -537,7 +537,7 @@ dojo.declare(
 				return;
 			}
 			dojo.stopEvent(evt);
-			this.focus();
+			setTimeout(dojo.hitch(this, "focus"), 0); // IE can't focus from within an event handler
 			if(this._isShowingNow){
 				this._hideResultList();
 			}else{
@@ -606,6 +606,7 @@ dojo.declare(
 					//		reader knows which menu option to shout
 					dataObject.direction = direction;
 					this._fetchHandle = this.store.fetch(dataObject);
+					this.focus();
 				};
 				this._nextSearch = this._popupWidget.onPage = dojo.hitch(this, nextSearch, this._fetchHandle);
 			}, query, this), this.searchDelay);
