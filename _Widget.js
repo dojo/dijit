@@ -1007,7 +1007,7 @@ dojo.declare("dijit._Widget", null, {
 					dc(obj, "onkeyup", this, function(e){
 						//console.log(this.id + ": onkeyup, e.target = ", e.target, ", lastKeyDownNode was ", dijit._lastKeyDownNode, ", equality is ", (e.target === dijit._lastKeyDownNode));
 						if( (e.keyCode == d.keys.ENTER || e.keyCode == d.keys.SPACE) &&
-							e.target === dijit._lastKeyDownNode &&
+							e.target == dijit._lastKeyDownNode &&	// === breaks greasemonkey
 							!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey){
 								//need reset here or have problems in FF when focus returns to trigger element after closing popup/alert
 								dijit._lastKeyDownNode = null;
