@@ -32,7 +32,7 @@ dojo.declare(
 		//		Specifies number of search results per page (before hitting "next" button)
 		pageSize: Infinity,
 
-		// store: Object
+		// store: [const] Object
 		//		Reference to data provider object used by this ComboBox
 		store: null,
 
