@@ -145,20 +145,16 @@
 		maximum="100" value="0" dojoType="dijit.ProgressBar"></div>
 
 	<h3>Test 5 - indeterminate progess</h3>
-	<input type="button" name="setIndeterminate1True" id="setIndeterminate1True" value="Make Indeterminate" 
-		onclick="dijit.byId('indeterminateBar1').set({indeterminate: true});" />
-	<input type="button" name="setIndeterminate1False" id="setIndeterminate1False" value="Make Determinate"
-		onclick="dijit.byId('indeterminateBar1').set({indeterminate: false});" />
-	<div style="width:400px" indeterminate="true" id="indeterminateBar1"
-		dojoType="dijit.ProgressBar"></div>
-	<input type="button" name="setIndeterminate2True" id="setIndeterminate2True" value="Make Indeterminate"
-		onclick="dijit.byId('indeterminateBar2').set({indeterminate: true, label: ''});" />
-	<input type="button" name="setIndeterminate2False" id="setIndeterminate2False" value="Make Determinate"
-		onclick="dijit.byId('indeterminateBar2').set({indeterminate: false});" />
-	<input type="button" name="setIndeterminate2False" id="setIndeterminate2FalseLabel" value="Make Indeterminate With Label"
-		onclick="dijit.byId('indeterminateBar2').set({indeterminate: true, label: 'Loading...'});" />
+	<input type="button" value="Make Indeterminate (default blank label)"
+		onclick="dijit.byId('indeterminateBar').set({indeterminate: true, label: ''});" />
+	<input type="button" value="Make Determinate (default percentage label)"
+		onclick="dijit.byId('indeterminateBar').set({indeterminate: false, label: ''});" />
+	<input type="button" value="Make Indeterminate With Label"
+		onclick="dijit.byId('indeterminateBar').set({indeterminate: true, label: 'Loading...'});" />
+	<input type="button" value="Make Determinate With Label"
+		onclick="dijit.byId('indeterminateBar').set({indeterminate: false, label: 'Loading...'});" />
 	
-	<div style="width:400px" value="50" id="indeterminateBar2"
+	<div style="width:400px" value="50" id="indeterminateBar"
 		dojoType="dijit.ProgressBar"></div>
 
 </body>
