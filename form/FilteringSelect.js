@@ -32,8 +32,6 @@ dojo.declare(
 		//			- List can be specified either as a static list or via a javascript
 		//				function (that can get the list from a server)
 
-		_isvalid: true,
-
 		// required: Boolean
 		//		True (default) if user is required to enter a value into this field.
 		required: true,
@@ -42,7 +40,7 @@ dojo.declare(
 
 		isValid: function(){
 			// Overrides ValidationTextBox.isValid()
-			return this._isvalid || (!this.required && this.get('displayedValue') == ""); // #5974
+			return this.item || (!this.required && this.get('displayedValue') == ""); // #5974
 		},
 
 		_refreshState: function(){
@@ -70,7 +68,6 @@ dojo.declare(
 				//#3285: change CSS to indicate error
 				this.valueNode.value = "";
 				dijit.form.TextBox.superclass._setValueAttr.call(this, "", priorityChange || (priorityChange === undefined && !this._focused));
-				this._isvalid = false;
 				this.validate(this._focused);
 				this.item = null;
 			}else{
@@ -86,7 +83,6 @@ dojo.declare(
 				return;
 			}
 			if(this.item === undefined){ // item == undefined for keyboard search
-				this._isvalid = results.length != 0 || this._maxOptions != 0; // result.length==0 && maxOptions != 0 implies the nextChoices item selected but then the datastore returned 0 more entries
 				this.validate(true);
 			}
 			dijit.form.ComboBoxMixin.prototype._openResultList.apply(this, arguments);
@@ -139,7 +135,6 @@ dojo.declare(
 			//		attr('item', value)
 			// tags:
 			//		private
-			this._isvalid = true;
 			this.inherited(arguments);
 			this.valueNode.value = this.value;
 			this._lastDisplayedValue = this.textbox.value;
@@ -200,7 +195,6 @@ dojo.declare(
 
 		postMixInProperties: function(){
 			this.inherited(arguments);
-			this._isvalid = !this.required;
 		},
 
 		undo: function(){

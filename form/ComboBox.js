@@ -337,7 +337,7 @@ dojo.declare(
 			}
 			var wasSelected = this._popupWidget._highlighted_option && dojo.hasClass(this._popupWidget._highlighted_option, "dijitMenuItemSelected");
 			this._popupWidget.clearResultList();
-			if(!results.length && !this._maxOptions){ // this condition needs to match !this._isvalid set in FilteringSelect::_openResultList
+			if(!results.length && !this._maxOptions){ // if no results and not just the previous choices button
 				this._hideResultList();
 				return;
 			}
