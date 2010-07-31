@@ -1059,6 +1059,7 @@
 						combo.set('value', value, true);
 						doh.robot.sequence(d.getTestCallback(function(){
 							combo.disconnect(connectHandle);
+							combo._pendingOnChange = false;
 							doh.is("not called", status, "onChange should not have been called");
 						}), 500);
 						return d;
@@ -1080,6 +1081,7 @@
 						combo.set('value', value2, false);
 						doh.robot.sequence(d.getTestCallback(function(){
 							combo.disconnect(connectHandle);
+							combo._pendingOnChange = false;
 							doh.is("not called", status, "onChange should not have been called");
 						}), 500);
 						return d;
@@ -1102,6 +1104,7 @@
 						combo.set('value', value2);
 						doh.robot.sequence(d.getTestCallback(function(){
 							combo.disconnect(connectHandle);
+							combo._pendingOnChange = false;
 							doh.is("called with "+value2, status, "onChange should have been called with "+value2);
 						}), 500);
 						return d;
@@ -1125,7 +1128,8 @@
 						combo.set('value', value2, true);
 						doh.robot.sequence(d.getTestCallback(function(){
 							combo.disconnect(connectHandle);
-							doh.is("not called", status, "onChange should not have been called");
+							combo._pendingOnChange = false;
+							doh.is("called with "+value2, status, "onChange should have been called with "+value2);
 						}), 500);
 						return d;
 					}
@@ -1146,6 +1150,7 @@
 						combo.set('value', value, true);
 						doh.robot.sequence(d.getTestCallback(function(){
 							combo.disconnect(connectHandle);
+							combo._pendingOnChange = false;
 							doh.is("not called", status, "onChange should not have been called");
 						}), 500);
 					}
@@ -1168,6 +1173,7 @@
 						combo.set('value', value1, false);
 						doh.robot.sequence(d.getTestCallback(function(){
 							combo.disconnect(connectHandle);
+							combo._pendingOnChange = false;
 							doh.is("called with "+value2, status, "onChange should have been called with "+value2);
 						}), 500);
 					}
@@ -1188,7 +1194,30 @@
 						combo.set('value', value2, true);
 						doh.robot.sequence(d.getTestCallback(function(){
 							combo.disconnect(connectHandle);
+							combo._pendingOnChange = false;
 							doh.is("called with "+value2, status, "onChange should have been called with true"+value2);
+						}), 500);
+					}
+				},
+				{
+					timeout:2000,
+					name:"10988.7",
+					runTest:function(){
+						var d = new doh.Deferred();
+						var combo = dijit.byId("progCombo");
+						var value1 = isComboBox ? 'Kentucky' : 'KY';
+						var value2 = isComboBox ? 'Texas' : 'TX';
+						combo._lastValueReported = combo._lastValue = value2;
+						var status = "not called";
+						var connectHandle = combo.connect(combo, "onChange", function(v){
+							status = "called with " + v;
+						});
+						combo.set('value', value1, false);
+						combo.set('value', value1, true);
+						doh.robot.sequence(d.getTestCallback(function(){
+							combo.disconnect(connectHandle);
+							combo._pendingOnChange = false;
+							doh.is("called with "+value1, status, "onChange should have been called with "+value1);
 						}), 500);
 					}
 				}

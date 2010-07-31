@@ -175,14 +175,18 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 		//		onChange is only called form priorityChange=true events.
 		// tags:
 		//		private
+		this._lastValue = newValue;
 		if(this._lastValueReported == undefined && (priorityChange === null || !this._onChangeActive)){
 			// this block executes not for a change, but during initialization,
 			// and is used to store away the original value (or for ToggleButton, the original checked state)
 			this._resetValue = this._lastValueReported = newValue;
 		}
-		if((this.intermediateChanges || priorityChange || priorityChange === undefined) &&
-				(typeof newValue != typeof this._lastValue || this.compare(newValue, this._lastValue) != 0)){
+		this._pendingOnChange = this._pendingOnChange
+			|| (typeof newValue != typeof this._lastValueReported)
+			|| (this.compare(newValue, this._lastValueReported) != 0);
+		if((this.intermediateChanges || priorityChange || priorityChange === undefined) && this._pendingOnChange){
 			this._lastValueReported = newValue;
+			this._pendingOnChange = false;
 			if(this._onChangeActive){
 				if(this._onChangeHandle){
 					clearTimeout(this._onChangeHandle);
@@ -191,13 +195,11 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 				// also the onChange handler can safely adjust focus, etc
 				this._onChangeHandle = setTimeout(dojo.hitch(this,
 					function(){
-						this._pendingOnChange = false;
 						this._onChangeHandle = null;
 						this.onChange(newValue);
 					}), 0); // try to collapse multiple onChange's fired faster than can be processed
 			}
 		}
-		this._lastValue = newValue;
 	},
 
 	create: function(){

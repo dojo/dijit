@@ -132,12 +132,11 @@
 				onBlur="dojo.byId('b1').value=dijit.byId('setvaluetest').value"
 				pageSize="30"
 		>
-			<script type="dojo/method" event="onChange">
+			<script type="dojo/method" event="onChange" args="newValue">
 				if(this.lastlabelFuncMsg){
 					console.info(this.lastlabelFuncMsg);
 					this.lastlabelFuncMsg = '';
 				}
-				var newValue = arguments[0];
 				dojo.byId('oc1').value = newValue;
 				var itemLabel;
 				if(this.item === null){
@@ -159,9 +158,7 @@
 				}
 				dojo.byId('i1').value = itemLabel;
 			</script>
-			<script type="dojo/method" event="labelFunc">
-				var item = arguments[0];
-				var store = arguments[1];
+			<script type="dojo/method" event="labelFunc" args="item, store">
 				var label = store.getValue(item, this.searchAttr);
 				var value = store.getValue(item, 'value');
 				if(!this.labelFuncCount){ this.labelFuncCount = 0; }

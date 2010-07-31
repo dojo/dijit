@@ -1,17 +1,19 @@
 // Helper methods for automated testing
 
 function isVisible(node){
-		if(node.domNode){ node = node.domNode; }
-		return (dojo.style(node, "display") != "none") &&
-				(dojo.style(node, "visibility") != "hidden") &&
-				(dojo.position(node).y + (dojo._getBorderExtents(node).t || 0) >= 0); // border check is for claro prone to shifting the border offscreen
+	var p;
+	if(node.domNode){ node = node.domNode; }
+	return (dojo.style(node, "display") != "none") &&
+		(dojo.style(node, "visibility") != "hidden") &&
+		(p = dojo.position(node), p.y + p.h >= 0 && p.x + p.w >= 0);
 }
 
 function isHidden(node){
-		if(node.domNode){ node = node.domNode; }
-		return (dojo.style(node, "display") == "none") ||
-				(dojo.style(node, "visibility") == "hidden") ||
-				(dojo.position(node).y < 0); // + dojo.position(node).h ??
+	var p;
+	if(node.domNode){ node = node.domNode; }
+	return (dojo.style(node, "display") == "none") ||
+		(dojo.style(node, "visibility") == "hidden") ||
+		(p = dojo.position(node), p.y + p.h < 0 || p.x + p.w < 0);
 }
 
 function innerText(node){
