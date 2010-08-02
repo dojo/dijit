@@ -201,10 +201,6 @@ dojo.declare("dijit._HasDropDown",
 			// summary:
 			//		Callback when the user presses a key while focused on the button node
 
-			if(e.charOrCode == dojo.keys.DOWN_ARROW || e.charOrCode == dojo.keys.ENTER || e.charOrCode == dojo.keys.SPACE){
-				e.preventDefault();	// stop IE screen jump
-			}
-
 			if(this.disabled || this.readOnly){ return; }
 
 			var d = this.dropDown;
