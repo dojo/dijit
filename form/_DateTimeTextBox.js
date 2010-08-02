@@ -88,13 +88,17 @@ dojo.declare(
 			return dojo.date.stamp.toISOString(val, options);
 		},
 
+		// dropDownDefaultValue : Date
+		//		The default value to focus in the popupClass widget when the textbox value is empty.
+		dropDownDefaultValue : new Date(""), // invalid defers to datePackage (dojo.date) which returns now=Date() by default
+
 		// value: Date
 		//		The value of this widget as a JavaScript Date object.  Use get("value") / set("value", val) to manipulate.
 		//		When passed to the parser in markup, must be specified according to `dojo.date.stamp.fromISOString`
 		value: new Date(""),	// value.toString()="NaN"
 		_blankValue: null,	// used by filter() when the textbox is blank
 
-		//	popupClass: [protected extension] String
+		// popupClass: [protected extension] String
 		//		Name of the popup widget class used to select a date/time.
 		//		Subclasses should specify this.
 		popupClass: "", // default is no popup = text only
@@ -114,6 +118,7 @@ dojo.declare(
 			this.datePackage = args.datePackage || this.datePackage;
 			this.dateLocaleModule = dojo.getObject(this.datePackage + ".locale", false);
 			this.regExpGen = this.dateLocaleModule.regexp;
+			this._invalidDate = dijit.form._DateTimeTextBox.prototype.value.toString();
 		},
 
 		buildRendering: function(){
@@ -140,11 +145,34 @@ dojo.declare(
 			this.inherited(arguments, [constraints]);
 		},
 
+		_isInvalidDate: function(/*Date*/ value){
+			// summary:
+			//		Runs various tests on the value, checking for invalid conditions
+			// tags:
+			//		private
+			return !value || isNaN(value) || typeof value != "object" || value.toString() == this._invalidDate;
+		},
+
+		_dropDownValue: function(){
+			// summary:
+			//		Returns a date to send to the dropdown widget by consulting an ordered list of sources
+			// tags:
+			//		private
+			var value = this.get('value');
+			if(this._isInvalidDate(value)){
+				value = this.get('dropDownDefaultValue');
+				if(this._isInvalidDate(value)){
+					value = new this.dateClassObj();
+				}
+			}
+			return value;
+		},
+
 		_setValueAttr: function(/*Date*/ value, /*Boolean?*/ priorityChange, /*String?*/ formattedValue){
 			// summary:
 			//		Sets the date on this textbox.  Note that `value` must be like a Javascript Date object.
 			if(value !== undefined){
-				if(!value || value.toString() == dijit.form._DateTimeTextBox.prototype.value.toString()){
+				if(this._isInvalidDate(value)){
 					value = null;
 				}
 				if(value instanceof Date && !(this.dateClassObj instanceof Date)){
@@ -153,9 +181,8 @@ dojo.declare(
 			}
 			this.inherited(arguments, [value, priorityChange, formattedValue]);
 			if(this.dropDown){
-				// #3948: fix blank date on popup only
-				if(!value){value = new this.dateClassObj();}
-				this.dropDown.set('value', value);
+				// don't set blank date on popup widget
+				this.dropDown.set('value', this._dropDownValue());
 			}
 		},
 
@@ -181,7 +208,7 @@ dojo.declare(
 				id: this.id + "_popup",
 				dir: textBox.dir,
 				lang: textBox.lang,
-				value: this.get('value') || new this.dateClassObj(),
+				value: this._dropDownValue(),
 				constraints: textBox.constraints,
 				filterString: textBox.filterString,	// for TimeTextBox, to filter times shown
 

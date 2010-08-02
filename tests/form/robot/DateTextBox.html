@@ -585,7 +585,7 @@
 					}
 				]);
 
-/* TODO: add key-repeat tests after key repeat is working */
+// TODO: add key-repeat tests after key repeat is working
 
 				doh.register("mouse: drop down", [
 					function setUp(){
@@ -715,7 +715,7 @@
 								var yearNodes = dojo.query(".dijitCalendarSelectedYear", calendar.domNode);
 								doh.is(1, yearNodes.length, "found year node");
 								doh.is("2006", innerText(yearNodes[0]), "moved from 2005 to 2006");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -851,6 +851,48 @@
 								doh.is(1, changes.length, "no new onchange events");	// #9018
 							}), 1000);
 							return d;
+						}
+					}
+				]);
+
+				doh.register("focused popup value", [
+					{
+						name: "today",
+						timeout: 6000,
+						runTest: function(){
+							german.closeDropDown();
+							german.set('value', null);
+							german.set("dropDownDefaultValue", null);
+							german.openDropDown();
+							var today = new Date();
+							var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", german.dropDown.domNode);
+							doh.is(today.getFullYear(), innerText(selectedYearButtons[0]), "current year is selected");
+						}
+					},
+					{
+						name: "dropDownDefaultValue",
+						timeout: 6000,
+						runTest: function(){
+							german.closeDropDown();
+							german.set("dropDownDefaultValue", new Date(2000,11,21));
+							german.set('value', null);
+							german.openDropDown();
+							var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", german.dropDown.domNode);
+							doh.is("2000", innerText(selectedYearButtons[0]), "specified default year is selected");
+						}
+					},
+					{
+						name: "textbox value",
+						timeout: 6000,
+						runTest: function(){
+							german.closeDropDown();
+							german.set("dropDownDefaultValue", new Date(2000,11,21));
+							german.set('value', new Date(1900,10,25));
+							german.openDropDown();
+							var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", german.dropDown.domNode);
+							doh.is("1900", innerText(selectedYearButtons[0]), "textbox year is selected");
+							german.closeDropDown();
+							german.set('value', null);
 						}
 					}
 				]);
