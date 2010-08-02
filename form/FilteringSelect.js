@@ -76,6 +76,7 @@ dojo.declare(
 		},
 
 		_openResultList: function(/*Object*/ results, /*Object*/ dataObject){
+			// Callback when a data store query completes.
 			// Overrides ComboBox._openResultList()
 
 			// #3285: tap into search callback to see if user's query resembles a match
@@ -90,7 +91,7 @@ dojo.declare(
 
 		_getValueAttr: function(){
 			// summary:
-			//		Hook for attr('value') to work.
+			//		Hook for get('value') to work.
 
 			// don't get the textbox value but rather the previously set hidden value.
 			// Use this.valueNode.value which isn't always set for other MappedTextBox widgets until blur
@@ -104,7 +105,7 @@ dojo.declare(
 
 		_setValueAttr: function(/*String*/ value, /*Boolean?*/ priorityChange){
 			// summary:
-			//		Hook so attr('value', value) works.
+			//		Hook so set('value', value) works.
 			// description:
 			//		Sets the value of the select.
 			//		Also sets the label to the corresponding value by reverse lookup.
@@ -132,7 +133,7 @@ dojo.declare(
 			//		that gets submitted, based on a dojo.data store item.
 			// description:
 			//		Users shouldn't call this function; they should be calling
-			//		attr('item', value)
+			//		set('item', value)
 			// tags:
 			//		private
 			this.inherited(arguments);
@@ -146,7 +147,7 @@ dojo.declare(
 
 		_setDisplayedValueAttr: function(/*String*/ label, /*Boolean?*/ priorityChange){
 			// summary:
-			//		Hook so attr('displayedValue', label) works.
+			//		Hook so set('displayedValue', label) works.
 			// description:
 			//		Sets textbox to display label. Also performs reverse lookup
 			//		to set the hidden value.
@@ -161,7 +162,7 @@ dojo.declare(
 			}
 
 			if(this.store){
-				this._hideResultList();
+				this.closeDropDown();
 				var query = dojo.clone(this.query); // #6196: populate query with user-specifics
 				// escape meta characters of dojo.data.util.filter.patternToRegExp().
 				this._lastQuery = query[this.searchAttr] = this._getDisplayQueryString(label);

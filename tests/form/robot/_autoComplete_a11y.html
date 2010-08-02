@@ -46,14 +46,14 @@
 				doh.robot.typeKeys(text.replace(/^./, ""), 1500);
 				doh.robot.keyPress(dojo.keys.ENTER, 1500);
 				doh.robot.sequence(function(){
-					if(combo.get("value") == value && combo.focusNode.value == expectedText && !combo._isShowingNow && !combo.itemError){
+					if(combo.get("value") == value && combo.focusNode.value == expectedText && !combo._opened && !combo.itemError){
 						d.callback(true);
 					}else{
-						if(combo._isShowingNow){
+						if(combo._opened){
 							// menu could arrive after Enter keypress if it is not thrown out
 							// TODO: is this still needed?   I've got explicit tests in the "race condition"
 							// section to make sure this doesn't happen, and it doesn't seem to be.
-							combo._hideResultList();
+							combo.closeDropDown();
 							d.errback(combo.id+" had a menu that did not close after an Enter keypress.");
 						}else{
 							d.errback(combo.id+" was supposed to have a value of "+value+" (actually "+combo.get("value")+"). Text is "+combo.focusNode.value+" (expected "+expectedText+")");
@@ -64,7 +64,7 @@
 			};
 
 			var findMenuItem = function(combo, text){
-				var node = combo._popupWidget.domNode.firstChild;
+				var node = combo.dropDown.domNode.firstChild;
 				while(((node.innerText || node.textContent).indexOf(text)<0) && node.nextSibling){
 					node = node.nextSibling;
 				}
@@ -85,8 +85,8 @@
 				doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500);
 				var repeat = function(){
 					var node = findMenuItem(combo, text);
-					var isMoreChoices = node == combo._popupWidget.nextButton;
-					var selected = combo._popupWidget.getHighlightedOption() || combo._popupWidget.domNode.firstChild;
+					var isMoreChoices = node == combo.dropDown.nextButton;
+					var selected = combo.dropDown.getHighlightedOption() || combo.dropDown.domNode.firstChild;
 					while(selected != node){
 						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 300);
 						selected = selected.nextSibling;
@@ -961,7 +961,7 @@
 							// Check that drop down list has disappeared
 							var list = dojo.byId("setvaluetest_popup");
 							doh.t(list && isVisible(list), "drop down is visible");
-							doh.is(combo._popupWidget.getHighlightedOption(), findMenuItem(combo, "Alaska"), "Alaska is selected");
+							doh.is(combo.dropDown.getHighlightedOption(), findMenuItem(combo, "Alaska"), "Alaska is selected");
 
 							doh.t(combo._focused, "widget is focused");
 
@@ -976,7 +976,7 @@
 					},
 					tearDown: function(){
 						combo.set('pageSize', pageSize);
-						combo._hideResultList();
+						combo.closeDropDown();
 					}
 				},
 				{
@@ -1002,7 +1002,7 @@
 							// Check that drop down list has disappeared
 							var list = dojo.byId("datatest_popup");
 							doh.t(list && isVisible(list), "drop down is visible");
-							doh.is(combo._popupWidget.getHighlightedOption(), findMenuItem(combo, "Alaska"), "Alaska is selected");
+							doh.is(combo.dropDown.getHighlightedOption(), findMenuItem(combo, "Alaska"), "Alaska is selected");
 
 							doh.t(combo._focused, "widget is focused");
 
@@ -1017,7 +1017,7 @@
 					},
 					tearDown: function(){
 						combo.set('pageSize', pageSize);
-						combo._hideResultList();
+						combo.closeDropDown();
 					}
 				}
 			]);

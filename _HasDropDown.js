@@ -51,8 +51,9 @@ dojo.declare("dijit._HasDropDown",
 		forceWidth: false,
 
 		// maxHeight: [protected] Integer
-		//		The max height for our dropdown.  Set to 0 for no max height.
-		//		any dropdown taller than this will have scrollbars
+		//		The max height for our dropdown.
+		//		Any dropdown taller than this will have scrollbars.
+		//		Set to 0 for no max height, or -1 to limit height to available space in viewport
 		maxHeight: 0,
 
 		// dropDownPosition: [const] String[]
@@ -185,7 +186,7 @@ dojo.declare("dijit._HasDropDown",
 			this.inherited(arguments);
 		},
 
-		destroyDescendants: function(){
+		destroy: function(){
 			if(this.dropDown){
 				// Destroy the drop down, unless it's already been destroyed.  This can happen because
 				// the drop down is a direct child of <body> even though it's logically my child.
@@ -246,7 +247,8 @@ dojo.declare("dijit._HasDropDown",
 		loadDropDown: function(/* Function */ loadCallback){
 			// summary:
 			//		Loads the data for the dropdown, and at some point, calls
-			//		the given callback
+			//		the given callback.   This is basically a callback when the
+			//		user presses the down arrow button to open the drop down.
 			// tags:
 			//		protected
 
@@ -255,6 +257,8 @@ dojo.declare("dijit._HasDropDown",
 
 		toggleDropDown: function(){
 			// summary:
+			//		Callback when the user presses the down arrow button or presses
+			//		the down arrow key to open/close the drop down.
 			//		Toggle the drop-down widget; if it is up, close it, if not, open it
 			// tags:
 			//		protected
@@ -275,8 +279,10 @@ dojo.declare("dijit._HasDropDown",
 
 		openDropDown: function(){
 			// summary:
-			//		Opens the dropdown for this widget - it returns the
-			//		return value of dijit.popup.open
+			//		Opens the dropdown for this widget.   To be called only when this.dropDown
+			//		has been created and is ready to display (ie, it's data is loaded).
+			// returns:
+			//		return value of dijit.popup.open()
 			// tags:
 			//		protected
 
@@ -314,16 +320,26 @@ dojo.declare("dijit._HasDropDown",
 					myStyle.height = "";
 				}
 				dojo.style(ddNode, myStyle);
-				
+
+				// Figure out maximum height allowed (if there is a height restriction)
+				var maxHeight = this.maxHeight;
+				if(maxHeight == -1){
+					// limit height to space available in viewport either above or below my domNode
+					// (whichever side has more room)
+					var viewport = dojo.window.getBox(),
+						position = dojo.position(this.domNode, false);
+					maxHeight = Math.floor(Math.max(position.y, viewport.h - (position.y + position.h)));
+				}
+
 				// Get size of drop down, and determine if vertical scroll bar needed
 				var mb = dojo.marginBox(ddNode);
-				var overHeight = (this.maxHeight && mb.h > this.maxHeight);
+				var overHeight = (maxHeight && mb.h > maxHeight);
 				dojo.style(ddNode, {
 					overflowX: "hidden",
 					overflowY: overHeight ? "auto" : "hidden"
 				});
 				if(overHeight){
-					mb.h = this.maxHeight;
+					mb.h = maxHeight;
 					if("w" in mb){
 						mb.w += 16;	// room for vertical scrollbar
 					}
@@ -365,13 +381,12 @@ dojo.declare("dijit._HasDropDown",
 					dojo.attr(self._popupStateNode, "popupActive", false);
 					dojo.removeClass(self._popupStateNode, "dijitHasDropDownOpen");
 					self._opened = false;
-					self.state = "";
 				}
 			});
 			dojo.attr(this._popupStateNode, "popupActive", "true");
 			dojo.addClass(self._popupStateNode, "dijitHasDropDownOpen");
 			this._opened=true;
-			this.state="Opened";
+
 			// TODO: set this.checked and call setStateClass(), to affect button look while drop down is shown
 			return retVal;
 		},
@@ -386,7 +401,6 @@ dojo.declare("dijit._HasDropDown",
 				if(focus){ this.focus(); }
 				dijit.popup.close(this.dropDown);
 				this._opened = false;
-				this.state = "";
 			}
 		}
 

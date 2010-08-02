@@ -8,12 +8,13 @@ dojo.require("dijit._CssStateMixin");
 
 dojo.require("dijit.form._FormWidget");
 dojo.require("dijit.form.ValidationTextBox");
+dojo.require("dijit._HasDropDown");
 
 dojo.requireLocalization("dijit.form", "ComboBox");
 
 dojo.declare(
 	"dijit.form.ComboBoxMixin",
-	null,
+	dijit._HasDropDown,
 	{
 		// summary:
 		//		Implements the base functionality for `dijit.form.ComboBox`/`dijit.form.FilteringSelect`
@@ -108,16 +109,19 @@ dojo.declare(
 		//		Defaults to true.
 		hasDownArrow: true,
 
-		templateString: dojo.cache("dijit.form", "templates/ComboBox.html"),
+		templateString: dojo.cache("dijit.form", "templates/DropDownBox.html"),
 
 		baseClass: "dijitTextBox dijitComboBox",
 
 		// Set classes like dijitDownArrowButtonHover depending on
 		// mouse action over button node
 		cssStateNodes: {
-			"downArrowNode": "dijitDownArrowButton"
+			"_buttonNode": "dijitDownArrowButton"
 		},
 
+		// Flags to _HasDropDown to limit height of drop down to make it fit in viewport
+		maxHeight: -1,
+		
 		_getCaretPos: function(/*DomNode*/ element){
 			// khtml 3.5.2 has selection* methods as does webkit nightlies from 2005-06-22
 			var pos = 0;
@@ -155,7 +159,7 @@ dojo.declare(
 			// Additional code to set disabled state of ComboBox node.
 			// Overrides _FormValueWidget._setDisabledAttr() or ValidationTextBox._setDisabledAttr().
 			this.inherited(arguments);
-			dijit.setWaiState(this.comboNode, "disabled", value);
+			dijit.setWaiState(this.domNode, "disabled", value);
 		},
 
 		_abortQuery: function(){
@@ -175,29 +179,39 @@ dojo.declare(
 			//		Handles paste events
 			if(!this.searchTimer && (evt.type == 'paste'/*IE|WebKit*/ || evt.type == 'input'/*Firefox*/) && this._lastInput != this.textbox.value){
 				this.searchTimer = setTimeout(dojo.hitch(this, function(){
-					this._onKeyPress({charOrCode: 229}); // fake IME key to cause a search
+					this._onKey({charOrCode: 229}); // fake IME key to cause a search
 				}), 100); // long delay that will probably be preempted by keyboard input
 			}
 			this.inherited(arguments);
 		},
 
-		_onKeyPress: function(/*Event*/ evt){
+		_onKey: function(/*Event*/ evt){
 			// summary:
 			//		Handles keyboard events
+
 			var key = evt.charOrCode;
+
 			// except for cutting/pasting case - ctrl + x/v
 			if(evt.altKey || ((evt.ctrlKey || evt.metaKey) && (key != 'x' && key != 'v')) || key == dojo.keys.SHIFT){
 				return; // throw out weird key combinations and spurious events
 			}
+			
 			var doSearch = false;
-			var searchFunction = "_startSearchFromInput";
-			var pw = this._popupWidget;
+			var pw = this.dropDown;
 			var dk = dojo.keys;
 			var highlighted = null;
 			this._prev_key_backspace = false;
 			this._abortQuery();
-			if(this._isShowingNow){
-				pw.handleKey(key);
+
+			// _HasDropDown will do some of the work:
+			//		1. when drop down is not yet shown:
+			//			- if user presses the down arrow key, call loadDropDown()
+			//		2. when drop down is already displayed:
+			//			- on ESC key, call closeDropDown()
+			//			- otherwise, call dropDown.handleKey() to process the keystroke
+			this.inherited(arguments);
+
+			if(this._opened){
 				highlighted = pw.getHighlightedOption();
 			}
 			switch(key){
@@ -205,10 +219,9 @@ dojo.declare(
 				case dk.DOWN_ARROW:
 				case dk.PAGE_UP:
 				case dk.UP_ARROW:
-					if(!this._isShowingNow){
-						doSearch = true;
-						searchFunction = "_startSearchAll";
-					}else{
+					// Keystroke caused ComboBox_menu to move to a different item.
+					// Copy new item to <input> box.
+					if(this._opened){
 						this._announceOption(highlighted);
 					}
 					dojo.stopEvent(evt);
@@ -252,26 +265,21 @@ dojo.declare(
 					if(highlighted){
 						this._selectOption();
 					}
-					if(this._isShowingNow){
+					if(this._opened){
 						this._lastQuery = null; // in case results come back later
-						this._hideResultList();
+						this.closeDropDown();
 					}
 					break;
 
 				case ' ':
 					if(highlighted){
+						// user is effectively clicking a choice in the drop down menu
 						dojo.stopEvent(evt);
 						this._selectOption();
-						this._hideResultList();
+						this.closeDropDown();
 					}else{
+						// user typed a space into the input box, treat as normal character
 						doSearch = true;
-					}
-					break;
-
-				case dk.ESCAPE:
-					if(this._isShowingNow){
-						dojo.stopEvent(evt);
-						this._hideResultList();
 					}
 					break;
 
@@ -292,7 +300,7 @@ dojo.declare(
 				// need to wait a tad before start search so that the event
 				// bubbles through DOM and we have value visible
 				this.item = undefined; // undefined means item needs to be set
-				this.searchTimer = setTimeout(dojo.hitch(this, searchFunction),1);
+				this.searchTimer = setTimeout(dojo.hitch(this, "_startSearchFromInput"),1);
 			}
 		},
 
@@ -328,6 +336,12 @@ dojo.declare(
 		},
 
 		_openResultList: function(/*Object*/ results, /*Object*/ dataObject){
+			// summary:
+			//		Callback when a search completes.
+			// description:
+			//		1. generates drop-down list and calls _showResultList() to display it
+			//		2. if this result list is from user pressing "more choices"/"previous choices"
+			//			then tell screen reader to announce new option
 			this._fetchHandle = null;
 			if(	this.disabled ||
 				this.readOnly ||
@@ -335,13 +349,12 @@ dojo.declare(
 			){
 				return;
 			}
-			var wasSelected = this._popupWidget._highlighted_option && dojo.hasClass(this._popupWidget._highlighted_option, "dijitMenuItemSelected");
-			this._popupWidget.clearResultList();
+			var wasSelected = this.dropDown._highlighted_option && dojo.hasClass(this.dropDown._highlighted_option, "dijitMenuItemSelected");
+			this.dropDown.clearResultList();
 			if(!results.length && !this._maxOptions){ // if no results and not just the previous choices button
-				this._hideResultList();
+				this.closeDropDown();
 				return;
 			}
-
 
 			// Fill in the textbox with the first item from the drop down list,
 			// and highlight the characters that were auto-completed. For
@@ -350,7 +363,7 @@ dojo.declare(
 			// highlighted.
 
 			dataObject._maxOptions = this._maxOptions;
-			var nodes = this._popupWidget.createOptions(
+			var nodes = this.dropDown.createOptions(
 				results,
 				dataObject,
 				dojo.hitch(this, "_getMenuLabelFromItem")
@@ -364,12 +377,12 @@ dojo.declare(
 			//		shouting the next choice
 			if(dataObject.direction){
 				if(1 == dataObject.direction){
-					this._popupWidget.highlightFirstOption();
+					this.dropDown.highlightFirstOption();
 				}else if(-1 == dataObject.direction){
-					this._popupWidget.highlightLastOption();
+					this.dropDown.highlightLastOption();
 				}
 				if(wasSelected){
-					this._announceOption(this._popupWidget.getHighlightedOption());
+					this._announceOption(this.dropDown.getHighlightedOption());
 				}
 			}else if(this.autoComplete && !this._prev_key_backspace
 				// when the user clicks the arrow button to show the full list,
@@ -382,62 +395,43 @@ dojo.declare(
 		},
 
 		_showResultList: function(){
-			this._hideResultList();
+			// summary:
+			//		Display the drop down if not already displayed, or if it is displayed, then
+			//		reposition it if necessary (reposition may be necessary if drop down's height changed).
+
+			this.closeDropDown(true);
+
 			// hide the tooltip
 			this.displayMessage("");
 
-			// Position the list and if it's too big to fit on the screen then
-			// size it to the maximum possible height
-			// Our dear friend IE doesnt take max-height so we need to
-			// calculate that on our own every time
+			this.openDropDown();
 
-			// TODO: want to redo this, see
-			//		http://trac.dojotoolkit.org/ticket/3272
-			//	and
-			//		http://trac.dojotoolkit.org/ticket/4108
-
-
-			// natural size of the list has changed, so erase old
-			// width/height settings, which were hardcoded in a previous
-			// call to this function (via dojo.marginBox() call)
-			dojo.style(this._popupWidget.domNode, {width: "", height: ""});
-
-			var best = this.open();
-			// #3212:
-			//		only set auto scroll bars if necessary prevents issues with
-			//		scroll bars appearing when they shouldn't when node is made
-			//		wider (fractional pixels cause this)
-			var popupbox = dojo.marginBox(this._popupWidget.domNode);
-			this._popupWidget.domNode.style.overflow =
-				((best.h == popupbox.h) && (best.w == popupbox.w)) ? "hidden" : "auto";
-			// #4134:
-			//		borrow TextArea scrollbar test so content isn't covered by
-			//		scrollbar and horizontal scrollbar doesn't appear
-			var newwidth = best.w;
-			if(best.h < this._popupWidget.domNode.scrollHeight){
-				newwidth += 16;
-			}
-			dojo.marginBox(this._popupWidget.domNode, {
-				h: best.h,
-				w: Math.max(newwidth, this.domNode.offsetWidth)
-			});
-			
-			// If we increased the width of drop down to match the width of ComboBox.domNode,
-			// then need to reposition the drop down (wrapper) so (all of) the drop down still
-			// appears underneath the ComboBox.domNode
-			if(newwidth < this.domNode.offsetWidth){
-				this._popupWidget.domNode.parentNode.style.left = dojo.position(this.domNode, true).x + "px";
-			}
-
-			dijit.setWaiState(this.comboNode, "expanded", "true");
+			dijit.setWaiState(this.domNode, "expanded", "true");
 		},
 
-		_hideResultList: function(){
+		loadDropDown: function(/*Function*/ callback){
+			// Overrides _HasDropDown.loadDropDown().
+			// This is called when user has pressed button icon or pressed the down arrow key
+			// to open the drop down.
+
+			this.item = undefined; // undefined means item needs to be set
+			this._startSearchAll();
+		},
+
+		isLoaded: function(){
+			// signal to _HasDropDown that it needs to call loadDropDown() to load the
+			// drop down asynchronously before displaying it
+			return false;
+		},
+
+		closeDropDown: function(){
+			// Overrides _HasDropDown.closeDropDown().  Closes the drop down (assuming that it's open).
+			// This method is the callback when the user types ESC or clicking
+			// the button icon while the drop down is open.  It's also called by other code.
 			this._abortQuery();
-			if(this._isShowingNow){
-				dijit.popup.close(this._popupWidget);
-				this._isShowingNow=false;
-				dijit.setWaiState(this.comboNode, "expanded", "false");
+			if(this._opened){
+				this.inherited(arguments);
+				dijit.setWaiState(this.domNode, "expanded", "false");
 				dijit.removeWaiState(this.focusNode,"activedescendant");
 			}
 		},
@@ -449,7 +443,7 @@ dojo.declare(
 			//		if value is now more choices or previous choices, revert
 			//		the value
 			var newvalue = this.get('displayedValue');
-			var pw = this._popupWidget;
+			var pw = this.dropDown;
 			if(pw && (
 				newvalue == pw._messages["previousMessage"] ||
 				newvalue == pw._messages["nextMessage"]
@@ -471,7 +465,7 @@ dojo.declare(
 		_onBlur: function(){
 			// summary:
 			//		Called magically when focus has shifted away from this widget and it's drop down
-			this._hideResultList();
+			this.closeDropDown();
 			this.inherited(arguments);
 		},
 
@@ -501,8 +495,8 @@ dojo.declare(
 			}
 			// pull the text value from the item attached to the DOM node
 			var newValue;
-			if(node == this._popupWidget.nextButton ||
-				node == this._popupWidget.previousButton){
+			if(node == this.dropDown.nextButton ||
+				node == this.dropDown.previousButton){
 				newValue = node.innerHTML;
 				this.item = undefined;
 				this.value = '';
@@ -525,26 +519,9 @@ dojo.declare(
 			if(evt){
 				this._announceOption(evt.target);
 			}
-			this._hideResultList();
+			this.closeDropDown();
 			this._setCaretPos(this.focusNode, this.focusNode.value.length);
 			dijit.form._FormValueWidget.prototype._setValueAttr.call(this, this.value, true); // set this.value and fire onChange
-		},
-
-		_onArrowMouseDown: function(evt){
-			// summary:
-			//		Callback when arrow is clicked
-			if(this.disabled || this.readOnly){
-				return;
-			}
-			dojo.stopEvent(evt);
-			setTimeout(dojo.hitch(this, "focus"), 0); // IE can't focus from within an event handler
-			if(this._isShowingNow){
-				this._hideResultList();
-			}else{
-				// forces full population of results, if they click
-				// on the arrow it means they want to see more options
-				this._startSearchAll();
-			}
 		},
 
 		_startSearchAll: function(){
@@ -560,9 +537,12 @@ dojo.declare(
 		},
 
 		_startSearch: function(/*String*/ key){
-			if(!this._popupWidget){
+			// summary:
+			//		Starts a search for elements matching key (key=="" means to return all items),
+			//		and calls _openResultList() when the search completes, to display the results.
+			if(!this.dropDown){
 				var popupId = this.id + "_popup";
-				this._popupWidget = new dijit.form._ComboBoxMenu({
+				this.dropDown = new dijit.form._ComboBoxMenu({
 					onChange: dojo.hitch(this, this._selectOption),
 					id: popupId,
 					dir: this.dir
@@ -591,7 +571,7 @@ dojo.declare(
 					onError: function(errText){
 						_this._fetchHandle = null;
 						console.error('dijit.form.ComboBox: ' + errText);
-						dojo.hitch(_this, "_hideResultList")();
+						_this.closeDropDown();
 					},
 					start: 0,
 					count: this.pageSize
@@ -608,7 +588,7 @@ dojo.declare(
 					this._fetchHandle = this.store.fetch(dataObject);
 					this.focus();
 				};
-				this._nextSearch = this._popupWidget.onPage = dojo.hitch(this, nextSearch, this._fetchHandle);
+				this._nextSearch = this.dropDown.onPage = dojo.hitch(this, nextSearch, this._fetchHandle);
 			}, query, this), this.searchDelay);
 		},
 
@@ -637,7 +617,7 @@ dojo.declare(
 
 			// 229 is the code produced by IE and safari while pressing keys during
 			// IME input mode
-			this._onKeyPress({charOrCode: 229});
+			this._onKey({charOrCode: 229});
 		},
 
 		//////////// INITIALIZATION METHODS ///////////////////////////////////////
@@ -680,24 +660,15 @@ dojo.declare(
 			//		protected
 
 			if(!this.hasDownArrow){
-				this.downArrowNode.style.display = "none";
+				this._buttonNode.style.display = "none";
 			}
 
 			// find any associated label element and add to ComboBox node.
 			var label=dojo.query('label[for="'+this.id+'"]');
 			if(label.length){
 				label[0].id = (this.id+"_label");
-				var cn=this.comboNode;
-				dijit.setWaiState(cn, "labelledby", label[0].id);
+				dijit.setWaiState(this.domNode, "labelledby", label[0].id);
 
-			}
-			this.inherited(arguments);
-		},
-
-		uninitialize: function(){
-			if(this._popupWidget && !this._popupWidget._destroyed){
-				this._hideResultList();
-				this._popupWidget.destroy();
 			}
 			this.inherited(arguments);
 		},
@@ -737,19 +708,6 @@ dojo.declare(
 			str = String(str).replace(/&/gm, "&amp;").replace(/</gm, "&lt;")
 				.replace(/>/gm, "&gt;").replace(/"/gm, "&quot;");
 			return str; // string
-		},
-
-		open: function(){
-			// summary:
-			//		Opens the drop down menu.  TODO: rename to _open.
-			// tags:
-			//		private
-			this._isShowingNow=true;
-			return dijit.popup.open({
-				popup: this._popupWidget,
-				around: this.domNode,
-				parent: this
-			});
 		},
 
 		reset: function(){
@@ -921,6 +879,8 @@ dojo.declare(
 
 		_onMouseUp: function(/*Event*/ evt){
 			if(evt.target === this.domNode || !this._highlighted_option){
+				// !this._highlighted_option check to prevent immediate selection when menu appears on top
+				// of <input>, see #9898.   note thate _HasDropDown also has code to prevent this.
 				return;
 			}else if(evt.target == this.previousButton){
 				this._blurOptionNode();
@@ -1093,20 +1053,25 @@ dojo.declare(
 			return (ho && ho.parentNode) ? ho : null;
 		},
 
-		handleKey: function(key){
-			switch(key){
+		handleKey: function(evt){
+			// summary:
+			//		Handle keystroke event forwarded from ComboBox, returning false if it's
+			//		a keystroke I recognize and process, true otherwise.
+			switch(evt.charOrCode){
 				case dojo.keys.DOWN_ARROW:
 					this._highlightNextOption();
-					break;
+					return false;
 				case dojo.keys.PAGE_DOWN:
 					this.pageDown();
-					break;
+					return false;
 				case dojo.keys.UP_ARROW:
 					this._highlightPrevOption();
-					break;
+					return false;
 				case dojo.keys.PAGE_UP:
 					this.pageUp();
-					break;
+					return false;
+				default:
+					return true;
 			}
 		}
 	}
@@ -1134,7 +1099,7 @@ dojo.declare(
 
 		_setValueAttr: function(/*String*/ value, /*Boolean?*/ priorityChange, /*String?*/ displayedValue){
 			// summary:
-			//		Hook so attr('value', value) works.
+			//		Hook so set('value', value) works.
 			// description:
 			//		Sets the value of the select.
 			this.item = null; // value not looked up in store
