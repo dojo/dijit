@@ -205,7 +205,11 @@ dojo.declare("dijit._HasDropDown",
 
 			var d = this.dropDown;
 			if(d && this._opened && d.handleKey){
-				if(d.handleKey(e) === false){ return; }
+				if(d.handleKey(e) === false){
+					/* false return code means that the drop down handled the key */
+					dojo.stopEvent(e);
+					return;
+				}
 			}
 			if(d && this._opened && e.charOrCode == dojo.keys.ESCAPE){
 				this.closeDropDown();
