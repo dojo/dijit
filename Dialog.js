@@ -82,12 +82,12 @@ dojo.declare(
 		//		False will disable autofocusing. Default: true
 		autofocus: true,
 
-		// _firstFocusItem: [private] [readonly] DomNode
+		// _firstFocusItem: [private readonly] DomNode
 		//		The pointer to the first focusable node in the dialog.
 		//		Set by `dijit._DialogMixin._getFocusItems`.
 		_firstFocusItem: null,
 
-		// _lastFocusItem: [private] [readonly] DomNode
+		// _lastFocusItem: [private readonly] DomNode
 		//		The pointer to which node has focus prior to our dialog.
 		//		Set by `dijit._DialogMixin._getFocusItems`.
 		_lastFocusItem: null,
@@ -139,7 +139,7 @@ dojo.declare(
 			// summary:
 			//		Called when data has been loaded from an href.
 			//		Unlike most other callbacks, this function can be connected to (via `dojo.connect`)
-			//		but should *not* be overriden.
+			//		but should *not* be overridden.
 			// tags:
 			//		callback
 
@@ -191,24 +191,11 @@ dojo.declare(
 				node: node,
 				duration: this.duration,
 				beforeBegin: dojo.hitch(this, function(){
-					var underlay = dijit._underlay;
-					if(!underlay){
-						underlay = dijit._underlay = new dijit.DialogUnderlay(this.underlayAttrs);
-					}else{
-						underlay.set(this.underlayAttrs);
-					}
-
-					var ds = dijit._dialogStack,
-						zIndex = 948 + ds.length*2;
-					if(ds.length == 1){	// first dialog
-						underlay.show();
-					}
-					dojo.style(dijit._underlay.domNode, 'zIndex', zIndex);
-					dojo.style(this.domNode, 'zIndex', zIndex + 1);
+					dijit._DialogLevelManager.show(this, this.underlayAttrs);
 				}),
 				onEnd: dojo.hitch(this, function(){
 					if(this.autofocus){
-						// find focusable Items each time dialog is shown since if dialog contains a widget the
+						// find focusable items each time dialog is shown since if dialog contains a widget the
 						// first focusable items can change
 						this._getFocusItems(this.domNode);
 						dijit.focus(this._firstFocusItem);
@@ -221,39 +208,8 @@ dojo.declare(
 				duration: this.duration,
 				onEnd: dojo.hitch(this, function(){
 					node.style.display = "none";
-
-					// Restore the previous dialog in the stack, or if this is the only dialog
-					// then restore to original page
-					var ds = dijit._dialogStack;
-					if(ds.length == 0){
-						dijit._underlay.hide();
-					}else{
-						dojo.style(dijit._underlay.domNode, 'zIndex', 948 + ds.length*2);
-						dijit._underlay.set(ds[ds.length-1].underlayAttrs);
-					}
-
-					// Restore focus to wherever it was before this dialog was displayed
-					if(this.refocus){
-						var focus = this._savedFocus;
-
-						// If we are returning control to a previous dialog but for some reason
-						// that dialog didn't have a focused field, set focus to first focusable item.
-						// This situation could happen if two dialogs appeared at nearly the same time,
-						// since a dialog doesn't set it's focus until the fade-in is finished.
-						if(ds.length > 0){
-							var pd = ds[ds.length-1];
-							if(!dojo.isDescendant(focus.node, pd.domNode)){
-								pd._getFocusItems(pd.domNode);
-								focus = pd._firstFocusItem;
-							}
-						}
-
-						try{
-							dijit.focus(focus);
-						}catch(e){
-							/* focus() will fail if user opened the dialog by clicking a non-focusable element */
-						}
-					}
+					dijit._DialogLevelManager.hide(this);
+					this.onHide();
 				})
 			 });
 		},
@@ -267,12 +223,6 @@ dojo.declare(
 			if(this._fadeOut && this._fadeOut.status() == "playing"){
 				wasPlaying = true;
 				this._fadeOut.stop();
-			}
-			
-			// Hide the underlay, unless the underlay widget has already been destroyed
-			// because we are being called during page unload (when all widgets are destroyed)
-			if((this.open || wasPlaying) && !dijit._underlay._destroyed){
-				dijit._underlay.hide();
 			}
 
 			if(this._moveable){
@@ -359,12 +309,6 @@ dojo.declare(
 			// tags:
 			//		private
 
-			var ds = dijit._dialogStack;
-			if(ds[ds.length-1] != this){
-				// console.debug(this.id + ': skipping because', this, 'is not the active dialog');
-				return;
-			}
-
 			if(evt.charOrCode){
 				var dk = dojo.keys;
 				var node = evt.target;
@@ -435,7 +379,7 @@ dojo.declare(
 					this._oldViewport = viewport;
 				}
 			}));
-			this._modalconnects.push(dojo.connect(dojo.doc.documentElement, "onkeypress", this, "_onKey"));
+			this._modalconnects.push(dojo.connect(this.domNode, "onkeypress", this, "_onKey"));
 
 			dojo.style(this.domNode, {
 				opacity:0,
@@ -447,10 +391,8 @@ dojo.declare(
 
 			this._size();
 			this._position();
-			dijit._dialogStack.push(this);
-			this._fadeIn.play();
 
-			this._savedFocus = dijit.getFocus(this);
+			this._fadeIn.play();
 		},
 
 		hide: function(){
@@ -458,19 +400,12 @@ dojo.declare(
 			//		Hide the dialog
 
 			// if we haven't been initialized yet then we aren't showing and we can just return
-			// or if we aren't the active dialog, don't allow us to close yet
-			var ds = dijit._dialogStack;
-			if(!this._alreadyInitialized || this != ds[ds.length-1]){
+			if(!this._alreadyInitialized){
 				return;
 			}
-
 			if(this._fadeIn.status() == "playing"){
 				this._fadeIn.stop();
 			}
-
-			// throw away current active dialog from stack -- making the previous dialog or the node on the original page active
-			ds.pop();
-
 			this._fadeOut.play();
 
 			if(this._scrollConnected){
@@ -483,8 +418,6 @@ dojo.declare(
 				delete this._relativePosition;
 			}
 			this.open = false;
-
-			this.onHide();
 		},
 
 		layout: function(){
@@ -502,9 +435,7 @@ dojo.declare(
 
 		destroy: function(){
 			dojo.forEach(this._modalconnects, dojo.disconnect);
-			if(this.refocus && this.open){
-				setTimeout(dojo.hitch(dijit,"focus",this._savedFocus), 25);
-			}
+			dijit._DialogLevelManager.hide(this);
 			this.inherited(arguments);
 		}
 	}
@@ -516,8 +447,122 @@ dojo.declare(
 	{}
 );
 
-// Stack of currenctly displayed dialogs, layered on top of each other
-dijit._dialogStack = [];
+dijit._DialogLevelManager = {
+	// summary:
+	//		Controls the various active "levels" on the page, starting with the
+	//		stuff initially visible on the page (at z-index 0), and then having an entry for
+	//		each Dialog shown.
+
+	show: function(/*dijit._Widget*/ dialog, /*Object*/ underlayAttrs){
+		// summary:
+		//		Call right before fade-in animation for new dialog.
+		//		Saves current focus, displays/adjusts underlay for new dialog,
+		//		and sets the z-index of the dialog itself.
+		//
+		//		New dialog will be displayed on top of all currently displayed dialogs.
+		//
+		//		Caller is responsible for setting focus in new dialog after the fade-in
+		//		animation completes.
+
+		var ds = dijit._dialogStack;
+
+		// Save current focus
+		ds[ds.length-1].focus = dijit.getFocus(dialog);
+
+		// Display the underlay, or if already displayed then adjust for this new dialog
+		var underlay = dijit._underlay;
+		if(!underlay){
+			underlay = dijit._underlay = new dijit.DialogUnderlay(underlayAttrs);
+		}else{
+			underlay.set(dialog.underlayAttrs);
+		}
+
+		// Set z-index a bit above previous dialog
+		var zIndex = ds[ds.length-1].dialog ? ds[ds.length-1].zIndex + 2 : 950;
+		if(ds.length == 1){	// first dialog
+			underlay.show();
+		}
+		dojo.style(dijit._underlay.domNode, 'zIndex', zIndex - 1);
+
+		// Dialog
+		dojo.style(dialog.domNode, 'zIndex', zIndex);
+
+		ds.push({dialog: dialog, underlayAttrs: underlayAttrs, zIndex: zIndex});
+	},
+
+	hide: function(/*dijit._Widget*/ dialog){
+		// summary:
+		//		Called when the specified dialog is hidden/destroyed, after the fade-out
+		//		animation ends, in order to reset page focus, fix the underlay, etc.
+		//		If the specified dialog isn't open then does nothing.
+		//
+		//		Caller is responsible for either setting display:none on the dialog domNode,
+		//		or calling dijit.popup.moveOffScreen(), or removing it from the page DOM.
+
+		var ds = dijit._dialogStack;
+
+		if(ds[ds.length-1].dialog == dialog){
+			// Removing the top (or only) dialog in the stack, return focus
+			// to previous dialog
+
+			ds.pop();
+
+			var pd = ds[ds.length-1];	// the new active dialog (or the base page itself)
+
+			// Adjust underlay
+			if(ds.length == 1){
+				// Returning to original page.
+				// Hide the underlay, unless the underlay widget has already been destroyed
+				// because we are being called during page unload (when all widgets are destroyed)
+				if(!dijit._underlay._destroyed){
+					dijit._underlay.hide();
+				}
+			}else{
+				// Popping back to previous dialog, adjust underlay
+				dojo.style(dijit._underlay.domNode, 'zIndex', pd.zIndex - 1);
+				dijit._underlay.set(pd.underlayAttrs);
+			}
+
+			// Adjust focus
+			if(dialog.refocus){
+				// If we are returning control to a previous dialog but for some reason
+				// that dialog didn't have a focused field, set focus to first focusable item.
+				// This situation could happen if two dialogs appeared at nearly the same time,
+				// since a dialog doesn't set it's focus until the fade-in is finished.
+				var focus = pd.focus;
+				if(!focus || (pd.dialog && !dojo.isDescendant(focus.node, pd.dialog.domNode))){
+					pd.dialog._getFocusItems(pd.domNode);
+					focus = pd.dialog._firstFocusItem;
+				}
+	
+				try{
+					dijit.focus(focus);
+				}catch(e){
+					/* focus() will fail if user opened the dialog by clicking a non-focusable element */
+				}
+			}
+		}else{
+			// Removing a dialog out of order (#9944, #10705).
+			// Don't need to mess with underlay or z-index or anything.
+			var idx = dojo.indexOf(dojo.map(ds, function(elem){return elem.dialog}), dialog);
+			if(idx != -1){
+				ds.splice(idx, 1);			
+			}
+		}
+	}
+};
+
+// Stack representing the various active "levels" on the page, starting with the
+// stuff initially visible on the page (at z-index 0), and then having an entry for
+// each Dialog shown.
+// Each element in stack has form {
+//		dialog: dialogWidget,
+//		focus: returnFromGetFocus(),
+//		underlayAttrs: attributes to set on underlay (when this widget is active)
+// }
+dijit._dialogStack = [
+	{dialog: null, focus: null, underlayAttrs: null}	// entry for stuff at z-index: 0
+];
 
 // For back-compat.  TODO: remove in 2.0
 dojo.require("dijit.TooltipDialog");
