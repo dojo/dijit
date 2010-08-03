@@ -25,8 +25,9 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 	// value: String (Percentage or Number)
 	//		Number or percentage indicating amount of task completed.
 	// 		With "%": percentage value, 0% <= progress <= 100%, or
-	// 		without "%": absolute value, 0 <= progress <= maximum
-	value: "0",
+	// 		without "%": absolute value, 0 <= progress <= maximum.
+	//		Infinity means that the progress bar is indeterminate.
+	value: "",
 
 	// maximum: [const] Float
 	//		Max sample number
@@ -119,7 +120,7 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 	},
 
 	_getValueAttr: function(){
-		return this.progress;
+		return this.indeterminate ? Infinity : this.progress;
 	},
 
 	_setLabelAttr: function(label){
