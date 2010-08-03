@@ -204,7 +204,7 @@ dojo.declare("dijit._HasDropDown",
 
 			if(this.disabled || this.readOnly){ return; }
 
-			var d = this.dropDown;
+			var d = this.dropDown, target = e.target;
 			if(d && this._opened && d.handleKey){
 				if(d.handleKey(e) === false){
 					/* false return code means that the drop down handled the key */
@@ -216,7 +216,10 @@ dojo.declare("dijit._HasDropDown",
 				this.closeDropDown();
 				dojo.stopEvent(e);
 			}else if(!this._opened && 
-					(e.charOrCode == dojo.keys.DOWN_ARROW || e.charOrCode == dojo.keys.ENTER || e.charOrCode == " ")){
+					(e.charOrCode == dojo.keys.DOWN_ARROW || e.charOrCode == dojo.keys.ENTER || 
+						//ignore space if the event is for a text input
+						(e.charOrCode == " " && ((target.tagName || "").toLowerCase() !== 'input' ||
+						     (target.type && target.type.toLowerCase() !== 'text'))))){
 				this.toggleDropDown();
 				if(d && d.focus){
 					setTimeout(dojo.hitch(d, "focus"), 1);
