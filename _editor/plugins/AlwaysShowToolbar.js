@@ -1,5 +1,7 @@
 dojo.provide("dijit._editor.plugins.AlwaysShowToolbar");
 
+dojo.require("dijit._editor._Plugin");
+
 dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", dijit._editor._Plugin,
 	{
 	// summary:

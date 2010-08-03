@@ -1,6 +1,7 @@
 dojo.provide("dijit._editor.plugins.EnterKeyHandling");
 
 dojo.require("dojo.window");
+dojo.require("dijit._editor._Plugin");
 
 dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 	// summary:
