@@ -35,6 +35,7 @@ dojo.declare(
 		// value: Date
 		//		The currently selected Date
 		value: new Date(),
+		// TODO: for 2.0 make this a string (ISO format) rather than a Date
 
 		// datePackage: String
 		//		JavaScript namespace to find Calendar routines.  Uses Gregorian Calendar routines
@@ -48,7 +49,15 @@ dojo.declare(
 		// tabIndex: Integer
 		//		Order fields are traversed when user hits the tab key
 		tabIndex: "0",
-		
+
+/*=====
+		// currentFocus: Date
+		//		Date object containing the currently focused date, or the date which would be focused
+		//		if the calendar itself was focused.   Also indicates which year and month to display,
+		//		i.e. the current "page" the calendar is on.
+		currentFocus: new Date(),
+=====*/
+
 		baseClass:"dijitCalendar",
 
 		// Set node classes for various mouse events, see dijit._CssStateMixin for more details 
@@ -59,13 +68,9 @@ dojo.declare(
 			"nextYearLabelNode": "dijitCalendarNextYear"			
 		},
 
-		attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
-			tabIndex: "domNode"
- 		}),
-
 		setValue: function(/*Date*/ value){
 			// summary:
-			//      Deprecated.   Used attr('value', ...) instead.
+			//      Deprecated.   Use set('value', ...) instead.
 			// tags:
 			//      deprecated
 			dojo.deprecated("dijit.Calendar:setValue() is deprecated.  Use set('value', ...) instead.", "", "2.0");
@@ -74,7 +79,7 @@ dojo.declare(
 
 		_getValueAttr: function(){
 			// summary:
-			//		Support getter attr('value')
+			//		Support get('value')
 			var value = new this.dateClassObj(this.value);
 			value.setHours(0, 0, 0, 0); // return midnight, local time for back-compat
 
@@ -86,9 +91,9 @@ dojo.declare(
 			return value;
 		},
 
-		_setValueAttr: function(/*Date*/ value){
+		_setValueAttr: function(/*Date*/ value, /*Boolean*/ priorityChange){
 			// summary:
-			//		Support setter attr("value", ...)
+			//		Support set("value", ...)
 			// description:
 			// 		Set the current date and update the UI.  If the date is disabled, the value will
 			//		not change, but the display will change to the corresponding month.
@@ -97,15 +102,22 @@ dojo.declare(
 			if(!this.value || this.dateFuncObj.compare(value, this.value)){
 				value = new this.dateClassObj(value);
 				value.setHours(1); // to avoid issues when DST shift occurs at midnight, see #8521, #9366
-				this.displayMonth = new this.dateClassObj(value);
+				this.currentFocus = new this.dateClassObj(value);
 				if(!this.isDisabledDate(value, this.lang)){
 					this.value = value;
-					this.onChange(this.get('value'));
+					if(priorityChange || typeof priorityChange == "undefined"){
+						this.onChange(this.get('value'));
+						this.onValueSelected(this.get('value'));	// remove in 2.0
+					}
 				}
 				dojo.attr(this.domNode, "aria-label",
 					this.dateLocaleModule.format(value,
 						{selector:"date", formatLength:"full"}));
 				this._populateGrid();
+
+				// Focus on the new value.   Arguably this should only happen when there isn't a current
+				// focus.
+				this.set("currentFocus", value);
 			}
 		},
 
@@ -126,8 +138,10 @@ dojo.declare(
 			//      Fills in the calendar grid with each day (1-31)
 			// tags:
 			//      private
-			var month = this.displayMonth;
+
+			var month = new this.dateClassObj(this.currentFocus);
 			month.setDate(1);
+
 			var firstDay = month.getDay(),
 				daysInMonth = this.dateFuncObj.getDaysInMonth(month),
 				daysInPreviousMonth = this.dateFuncObj.getDaysInMonth(this.dateFuncObj.add(month, "month", -1)),
@@ -177,7 +191,8 @@ dojo.declare(
 				}
 
 				template.className = clazz + "Month dijitCalendarDateTemplate";
-				template.dijitDateValue = date.valueOf();
+				template.dijitDateValue = date.valueOf();				// original code
+				dojo.attr(template, "dijitDateValue", date.valueOf());	// so I can dojo.query() it
 				var label = dojo.query(".dijitCalendarDateLabel", template)[0],
 					text = date.getDateLocalized ? date.getDateLocalized(this.lang) : date.getDate();
 				this._setText(label, text);
@@ -201,7 +216,7 @@ dojo.declare(
 					this.dateLocaleModule.format(d, {selector:'year', locale:this.lang}));
 			}, this);
 
-			// Set up repeating mouse behavior
+			// Set up repeating mouse behavior for increment/decrement of months/years
 			var _this = this;
 			var typematic = function(nodeProp, dateProp, adj){
 //FIXME: leaks (collects) listeners if populateGrid is called multiple times.  Do this once?
@@ -273,7 +288,7 @@ dojo.declare(
 			}, this);
 
 			this.value = null;
-			this.set('value', dateObj);
+			this.set('value', dateObj, false);
 		},
 
 		_onMenuHover: function(e){
@@ -290,8 +305,45 @@ dojo.declare(
 			//      Number of months or years
 			// tags:
 			//      private
-			this.displayMonth = this.dateFuncObj.add(this.displayMonth, part, amount);
+			this._setCurrentFocusAttr(this.dateFuncObj.add(this.currentFocus, part, amount));
+		},
+
+		_setCurrentFocusAttr: function(/*Date*/ date, /*Boolean*/ forceFocus){
+			// summary:
+			//		If the calendar currently has focus, then focuses specified date,
+			//		changing the currently displayed month/year if necessary.
+			//		If the calendar doesn't have focus, updates currently
+			//		displayed month/year, and sets the cell that will get focus.
+			// forceFocus:
+			//		If true, will focus() the cell even if calendar itself doesn't have focus
+
+			var oldFocus = this._currentFocus,
+				oldCell = oldFocus ? dojo.query("[dijitDateValue=" + this._currentFocus.valueOf() + "]", this.domNode)[0] : null;
+
+			this.currentFocus = date;
+
+			// TODO: only re-populate grid when month/year has changed
 			this._populateGrid();
+
+			// set tabIndex=0 on new cell, and focus it (but only if Calendar itself is focused)
+			var newCell = dojo.query("[dijitDateValue=" + date.valueOf() + "]", this.domNode)[0];
+			dojo.attr(newCell, "tabIndex", 0);
+			if(this._focused || forceFocus){
+				newCell.focus();
+			}
+
+			// set tabIndex=-1 on old focusable cell
+			if(oldCell){
+				dojo.attr(oldCell, "tabIndex", -1);
+			}
+		},
+
+		focus: function(){
+			// summary:
+			//		Focus the calendar by focusing one of the calendar cells
+			var value = this._currentFocus || this.value || new this.dateClassObj();
+			value.setHours(1); // to avoid issues when DST shift occurs at midnight, see #8521, #9366
+			this._setCurrentFocusAttr(value, true);
 		},
 
 		_onMonthToggle: function(/*Event*/ evt){
@@ -308,7 +360,7 @@ dojo.declare(
 				// so that they are horizontally aligned
 				var dim = {
 					width: coords.w + "px",
-					top: -this.displayMonth.getMonth() * coords.h + "px"
+					top: -this.currentFocus.getMonth() * coords.h + "px"
 				};
 				if((dojo.isIE && dojo.isQuirks) || dojo.isIE < 7){
 					dim.left = -coords.w/2 + "px";
@@ -330,7 +382,7 @@ dojo.declare(
 			// tags:
 			//      protected
 			this._onMonthToggle(evt);
-			this.displayMonth.setMonth(dojo.attr(evt.target, "month"));
+			this.currentFocus.setMonth(dojo.attr(evt.target, "month"));
 			this._populateGrid();
 		},
 
@@ -343,8 +395,6 @@ dojo.declare(
 			for(var node = evt.target; node && !node.dijitDateValue; node = node.parentNode);
 			if(node && !dojo.hasClass(node, "dijitCalendarDisabledDate")){
 				this.set('value', node.dijitDateValue);
-				this.onValueSelected(this.get('value'));
-				this.onExecute();	// signal to close drop down
 			}
 		},
 
@@ -401,8 +451,6 @@ dojo.declare(
 		},
 
 //TODO: use typematic
-//TODO: skip disabled dates without ending up in a loop
-//TODO: could optimize by avoiding populate grid when month does not change
 		handleKey: function(/*Event*/ evt){
 			// summary:
 			//		Provides keyboard navigation of calendar.
@@ -418,7 +466,7 @@ dojo.declare(
 			var dk = dojo.keys,
 				increment = -1,
 				interval,
-				newValue = this.value;
+				newValue = this.currentFocus;
 			switch(evt.keyCode){
 				case dk.RIGHT_ARROW:
 					increment = 1;
@@ -446,11 +494,12 @@ dojo.declare(
 					interval = "day";
 					//fallthrough...
 				case dk.HOME:
-					newValue = new Date(newValue).setDate(1);
+					newValue = new this.dateClassObj(newValue);
+					newValue.setDate(1);
 					break;
 				case dk.ENTER:
-					this.onValueSelected(this.get('value'));
-					this.onExecute();	// signal to close drop down
+				case dk.SPACE:
+					this.set("value", this.currentFocus);
 					break;
 				default:
 					return true;
@@ -460,7 +509,7 @@ dojo.declare(
 				newValue = this.dateFuncObj.add(newValue, interval, increment);
 			}
 
-			this.set("value", newValue);
+			this._setCurrentFocusAttr(newValue);
 
 			return false;
 		},
@@ -471,18 +520,6 @@ dojo.declare(
 			if(!this.handleKey(evt)){
 				dojo.stopEvent(evt);
 			}
-		},
-
-		onExecute: function(){
-			// summary:
-			//		Signal to DateTextBox (when Calendar is a drop down from DateTextBox)
-			//		that the user has pressed the enter key, indicating to close the drop down.
-			// tags:
-			//		protected
-
-			// Maybe _HasDropDown should monitor for ENTER key directly instead?
-			// In any case this is needed because every arrow key generates an onChange()
-			// event, and we don't want that to close the drop down.
 		},
 
 		onValueSelected: function(/*Date*/ date){

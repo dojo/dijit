@@ -211,8 +211,8 @@
 								doh.is(1, selectedDays.length, "one day selected");
 								doh.is("10", innerText(selectedDays[0]), "correct day is selected");
 
-								// focus still on <input>
-								doh.is("american", dojo.global.dijit._curFocus.id, "focus on <input>")
+								// focus moved to the calendar
+								doh.is(10, innerText(dojo.global.dijit._curFocus), "focus on selected calendar cell")
 							}), 1000);
 
 							return d;
@@ -234,13 +234,13 @@
 								doh.t(calendar, "calendar popup exists");
 								doh.t(isVisible(calendar), "calendar is visible");
 
-								// day changed
+								// selected day not changed (because no ENTER/SPACE)
 								var selectedDays = dojo.query(".dijitCalendarSelectedDate", calendar.domNode);
 								doh.is(1, selectedDays.length, "one day selected");
-								doh.is("12", innerText(selectedDays[0]), "correct day is selected");
+								doh.is(10, innerText(selectedDays[0]), "correct day is selected");
 
-								// focus still on <input>
-								doh.is("american", dojo.global.dijit._curFocus.id, "focus on <input>")
+								// focus still on the calendar, moved forward 2 days
+								doh.is(12, innerText(dojo.global.dijit._curFocus), "focus")
 							}), 500);
 
 							return d;
@@ -261,13 +261,8 @@
 								doh.t(calendar, "calendar popup exists");
 								doh.t(isVisible(calendar), "calendar is visible");
 
-								// day changed
-								var selectedDays = dojo.query(".dijitCalendarSelectedDate", calendar.domNode);
-								doh.is(1, selectedDays.length, "one day selected");
-								doh.is("11", innerText(selectedDays[0]), "correct day is selected");
-
-								// focus still on <input>
-								doh.is("american", dojo.global.dijit._curFocus.id, "focus on <input>")
+								// focus still on the calendar, moved back 1 day
+								doh.is(11, innerText(dojo.global.dijit._curFocus), "focus")
 							}), 500);
 
 							return d;
@@ -294,13 +289,8 @@
 								// should have advanced to next month
 								doh.is("June", innerText(calendar.monthLabelNode), "month changed");
 
-								// day changed
-								var selectedDays = dojo.query(".dijitCalendarSelectedDate", calendar.domNode);
-								doh.is(1, selectedDays.length, "one day selected");
-								doh.is("8", innerText(selectedDays[0]), "correct day is selected");
-
-								// focus still on <input>
-								doh.is("american", dojo.global.dijit._curFocus.id, "focus on <input>")
+								// and focused day changed
+								doh.is(8, innerText(dojo.global.dijit._curFocus), "focus")
 							}), 500);
 
 							return d;
@@ -326,13 +316,8 @@
 								// should have scrolled back to previous month
 								doh.is("May", innerText(calendar.monthLabelNode), "month changed");
 
-								// day changed
-								var selectedDays = dojo.query(".dijitCalendarSelectedDate", calendar.domNode);
-								doh.is(1, selectedDays.length, "one day selected");
-								doh.is("18", innerText(selectedDays[0]), "correct day is selected");
-
-								// focus still on <input>
-								doh.is("american", dojo.global.dijit._curFocus.id, "focus on <input>")
+								// focused day still the same
+								doh.is(18, innerText(dojo.global.dijit._curFocus), "focus")
 							}), 500);
 
 							return d;
@@ -354,16 +339,11 @@
 								doh.t(calendar, "calendar popup exists");
 								doh.t(isVisible(calendar), "calendar is visible");
 
-								// same day
-								var selectedDays = dojo.query(".dijitCalendarSelectedDate", calendar.domNode);
-								doh.is(1, selectedDays.length, "one day selected");
-								doh.is("18", innerText(selectedDays[0]), "correct day is selected");
+								// focused day still the same
+								doh.is(18, innerText(dojo.global.dijit._curFocus), "focus")
 
 								// month changed
 								doh.is("July", innerText(calendar.monthLabelNode), "month changed");
-
-								// focus still on <input>
-								doh.is("american", dojo.global.dijit._curFocus.id, "focus on <input>")
 							}), 500);
 
 							return d;
@@ -384,16 +364,11 @@
 								doh.t(calendar, "calendar popup exists");
 								doh.t(isVisible(calendar), "calendar is visible");
 
-								// same day
-								var selectedDays = dojo.query(".dijitCalendarSelectedDate", calendar.domNode);
-								doh.is(1, selectedDays.length, "one day selected");
-								doh.is("18", innerText(selectedDays[0]), "correct day is selected");
+								// focused day still the same
+								doh.is(18, innerText(dojo.global.dijit._curFocus), "focus")
 
 								// month changed
 								doh.is("June", innerText(calendar.monthLabelNode), "month changed");
-
-								// focus still on <input>
-								doh.is("american", dojo.global.dijit._curFocus.id, "focus on <input>")
 							}), 500);
 
 							return d;
@@ -407,24 +382,16 @@
 							var d = new doh.Deferred();
 							var calendar = dijit.byId("american_popup");
 
-							if(dojo.isMac && dojo.isFF){
-								// doesn't work on mac/FF, see #11483
-								doh.robot.sequence(d.getTestErrback(function(){
-									calendar.set("value", new Date(2007, 5, 18));
-								}), 500);
-							}else{
-								doh.robot.keyPress(dojo.keys.PAGE_DOWN, 500, {ctrl: true});
-								doh.robot.keyPress(dojo.keys.PAGE_DOWN, 500, {ctrl: true});
-							}
+							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 500, {ctrl: true});
+							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 500, {ctrl: true});
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// calendar still exists and is shown
 								doh.t(calendar, "calendar popup exists");
 								doh.t(isVisible(calendar), "calendar is visible");
 
-								// day not selected since all days in 2007 are disabled
-								var selectedDays = dojo.query(".dijitCalendarSelectedDate", calendar.domNode);
-								doh.is(0, selectedDays.length, "no day selected");
+								// focused day still the same (focused even though disabled)
+								doh.is(18, innerText(dojo.global.dijit._curFocus), "focus")
 
 								// same month
 								doh.is("June", innerText(calendar.monthLabelNode), "same month");
@@ -433,9 +400,6 @@
 								var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", calendar.domNode);
 								doh.is(1, selectedYearButtons.length, "current year is shown");
 								doh.is("2007", innerText(selectedYearButtons[0]), "year changed");
-
-								// focus still on <input>
-								doh.is("american", dojo.global.dijit._curFocus.id, "focus on <input>")
 							}), 500);
 
 							return d;
@@ -449,37 +413,23 @@
 							var d = new doh.Deferred();
 							var calendar = dijit.byId("american_popup");
 
-							if(dojo.isMac && dojo.isFF){
-								// doesn't work on mac/FF, see #11483
-								doh.robot.sequence(d.getTestErrback(function(){
-									calendar.set("value", new Date(2005, 5, 18));	// see #11484
-								}), 500);
-							}else{
-								doh.robot.keyPress(dojo.keys.PAGE_UP, 500, {ctrl: true});
-							}
+							doh.robot.keyPress(dojo.keys.PAGE_UP, 500, {ctrl: true});
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// calendar still exists and is shown
 								doh.t(calendar, "calendar popup exists");
 								doh.t(isVisible(calendar), "calendar is visible");
 
-								// same day
-								var selectedDays = dojo.query(".dijitCalendarSelectedDate", calendar.domNode);
-								doh.is(1, selectedDays.length, "one day selected");
-								doh.is("18", innerText(selectedDays[0]), "correct day is selected");
+								// focused day still the same
+								doh.is(18, innerText(dojo.global.dijit._curFocus), "focus")
 
 								// same month
 								doh.is("June", innerText(calendar.monthLabelNode), "same month");
 
 								// year changed
-								// due to #11484 this selects 2005 rather than 2006
 								var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", calendar.domNode);
 								doh.is(1, selectedYearButtons.length, "current year is shown");
-								doh.is("2005", innerText(selectedYearButtons[0]), "year changed");
-								calendar.set("value", new Date(2006, 5, 18));
-
-								// focus still on <input>
-								doh.is("american", dojo.global.dijit._curFocus.id, "focus on <input>")
+								doh.is("2006", innerText(selectedYearButtons[0]), "year changed");
 							}), 500);
 
 							return d;
@@ -500,13 +450,8 @@
 								doh.t(calendar, "calendar popup exists");
 								doh.t(isVisible(calendar), "calendar is visible");
 
-								// day changed
-								var selectedDays = dojo.query(".dijitCalendarSelectedDate", calendar.domNode);
-								doh.is(1, selectedDays.length, "one day selected");
-								doh.is("1", innerText(selectedDays[0]), "correct day is selected");
-
-								// focus still on <input>
-								doh.is("american", dojo.global.dijit._curFocus.id, "focus on <input>")
+								// focused on first day of month
+								doh.is(1, innerText(dojo.global.dijit._curFocus), "focus")
 							}), 500);
 
 							return d;
@@ -527,13 +472,8 @@
 								doh.t(calendar, "calendar popup exists");
 								doh.t(isVisible(calendar), "calendar is visible");
 
-								// day changed
-								var selectedDays = dojo.query(".dijitCalendarSelectedDate", calendar.domNode);
-								doh.is(1, selectedDays.length, "one day selected");
-								doh.is("30", innerText(selectedDays[0]), "correct day is selected");
-
-								// focus still on <input>
-								doh.is("american", dojo.global.dijit._curFocus.id, "focus on <input>")
+								// focused on last day of month
+								doh.is(30, innerText(dojo.global.dijit._curFocus), "focus")
 							}), 500);
 
 							return d;
@@ -560,7 +500,7 @@
 								doh.is(1, changes.length, "onchange event fired");
 								doh.is(0, dojo.date.compare(expectedVal, changes[0]), 'onchange of american: ' + changes[0]);
 
-								// focus is on <input> (actually it hasn't moved from the <input> since we started there)
+								// focus moved back to <input>
 								doh.is("american", dojo.global.dijit._curFocus.id, "focus on <input>")
 							}), 1000);
 
@@ -877,6 +817,7 @@
 							german.set("dropDownDefaultValue", new Date(2000,11,21));
 							german.set('value', null);
 							german.openDropDown();
+							// TODO: change dropDownDefaultVal to select right month year but not select a day
 							var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", german.dropDown.domNode);
 							doh.is("2000", innerText(selectedYearButtons[0]), "specified default year is selected");
 						}

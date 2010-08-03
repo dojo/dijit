@@ -45,25 +45,69 @@
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
+
 							doh.robot.sequence(function(){
 								// monitor onchange events
 								changes = [];
-								cal1.domNode.focus();
+								cal1.focus();
 							}, 500);
 
+							// Initial conditions
+							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
+								// 16th is selected
+								var selected = dojo.query(".dijitCalendarSelectedDate", cal1.domNode);
+								doh.is(1, selected.length, "one selected node");
+								doh.is("16", innerText(selected[0]));
+
+								// initial focus is on selected value
+								doh.is("16", innerText(dojo.global.dijit._curFocus));
+
+								// and get("value") working
+								doh.is(0, dojo.date.compare(new Date(2009, 8, 16), cal1.get('value')), 'get("value")');
+							})), 0);
+
+							// Mouse moves around focus without changing value
 							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
-							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
-							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
-							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
-							doh.robot.keyPress(dojo.keys.UP_ARROW, 500, {});
-							doh.robot.keyPress(dojo.keys.UP_ARROW, 500, {});
+							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
+								// focus moved from 16 to 17
+								doh.is(17, innerText(dojo.global.dijit._curFocus));
+
+								doh.is(0, dojo.date.compare(new Date(2009, 8, 16), cal1.get('value')), 'value unchanged');
+								
+								// 16th is still selected
+								var selected = dojo.query(".dijitCalendarSelectedDate", cal1.domNode);
+								doh.is(1, selected.length, "one selected node");
+								doh.is("16", innerText(selected[0]));								
+							})), 500);
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 0, {});
+							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
+								doh.is(18, innerText(dojo.global.dijit._curFocus));
+							})), 500);
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 0, {});
+							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
+								doh.is(25, innerText(dojo.global.dijit._curFocus));
+							})), 500);
+							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 0, {});
+							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
+								doh.is(24, innerText(dojo.global.dijit._curFocus));
+							})), 500);
+							doh.robot.keyPress(dojo.keys.UP_ARROW, 0, {});
+							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
+								doh.is(17, innerText(dojo.global.dijit._curFocus));
+							})), 500);
+							doh.robot.keyPress(dojo.keys.UP_ARROW, 0, {});
+							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
+								doh.is(10, innerText(dojo.global.dijit._curFocus));
+							})), 500);
+							doh.robot.keyPress(dojo.keys.ENTER, 0, {});
+
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								var value = cal1.get('value');
 								doh.is(0, dojo.date.compare(new Date(2009, 8, 10), value), 'actual value is ' + value);
-								doh.is(6, changes.length, 'six onchange events');
-								doh.is(0, dojo.date.compare(new Date(2009, 8, 17), changes[0]),
+								doh.is(1, changes.length, 'onchange events');
+								doh.is(0, dojo.date.compare(new Date(2009, 8, 10), changes[0]),
 										'value reported by onchange: ' + changes[0] +
-										', should be ' + new Date(2009, 8, 17));
+										', should be ' + new Date(2009, 8, 10));
 							})), 1000);
 							return d;
 						}
@@ -78,16 +122,46 @@
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
+
 							doh.robot.sequence(function(){
-								// monitor onchange events
-								cal1.domNode.focus();
+								cal1.focus();
 							}, 500);
 
 							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 500, {});
+							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
+								// focus moved from jan 31 to feb 29
+								doh.is(29, innerText(dojo.global.dijit._curFocus));
+
+								doh.is(0, dojo.date.compare(new Date(2008, 0, 31), cal1.get('value')), 'value unchanged (first page down)');
+
+								// month label should have changed
+								var monthLabel = dojo.query(".dijitCalendarMonthLabel.dijitVisible", cal1.domNode);
+								doh.is(1, monthLabel.length, "one month label");
+								doh.is("February", innerText(monthLabel[0]));
+
+								// jan 31 from previous month still visible, should be shown as selected
+								var selected = dojo.query(".dijitCalendarSelectedDate", cal1.domNode);
+								doh.is(1, selected.length, "no selected node");
+							})), 500);
+
+							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 500, {});
+							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
+								// focus moved from jan 31 to feb 29
+								doh.is(29, innerText(dojo.global.dijit._curFocus));
+
+								doh.is(0, dojo.date.compare(new Date(2008, 0, 31), cal1.get('value')), 'value unchanged (second page down)');
+								
+								// since january no longer visible, no selected date should be visible
+								var selected = dojo.query(".dijitCalendarSelectedDate", cal1.domNode);
+								doh.is(0, selected.length, "no selected node");
+							})), 500);
+
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								var value = cal1.get('value');
-								doh.is(0, dojo.date.compare(new Date(2008, 1, 29), value), 'actual value is ' + value);
+								doh.is(0, dojo.date.compare(new Date(2008, 2, 29), value), 'actual value is ' + value);
 							})), 1000);
+
 							return d;
 						}
 					},
@@ -101,19 +175,22 @@
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
+
 							doh.robot.sequence(function(){
-								// monitor onchange events
-								cal1.domNode.focus();
+								cal1.focus();
 							}, 500);
 
 							doh.robot.keyPress(dojo.keys.END, 500, {});
 							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 500, {ctrl:true});
 							doh.robot.keyPress(dojo.keys.PAGE_UP, 500, {ctrl:true});
 							doh.robot.keyPress(dojo.keys.PAGE_UP, 500, {ctrl:true});
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {ctrl:true});
+
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								var value = cal1.get('value');
 								doh.is(0, dojo.date.compare(new Date(2007, 1, 28), value), 'actual value is ' + value);
 							})), 1000);
+
 							return d;
 						}
 					}

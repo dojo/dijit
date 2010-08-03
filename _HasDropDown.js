@@ -221,6 +221,7 @@ dojo.declare("dijit._HasDropDown",
 						(e.charOrCode == " " && ((target.tagName || "").toLowerCase() !== 'input' ||
 						     (target.type && target.type.toLowerCase() !== 'text'))))){
 				this.toggleDropDown();
+				d = this.dropDown;	// drop down may not exist until toggleDropDown() call
 				if(d && d.focus){
 					setTimeout(dojo.hitch(d, "focus"), 1);
 				}
@@ -397,6 +398,8 @@ dojo.declare("dijit._HasDropDown",
 		closeDropDown: function(/*Boolean*/ focus){
 			// summary:
 			//		Closes the drop down on this widget
+			// focus:
+			//		If true, refocuses the button widget
 			// tags:
 			//		protected
 

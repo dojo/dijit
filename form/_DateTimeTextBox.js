@@ -194,14 +194,7 @@ dojo.declare(
 			var PopupProto = dojo.getObject(this.popupClass, false),
 				textBox = this;
 			this.dropDown = new PopupProto({
-				onValueSelected: function(value){
-					if(textBox._tabbingAway){
-						delete textBox._tabbingAway;
-					}else{
-						textBox.focus(); // focus the textbox before the popup closes to avoid reopening the popup
-					}
-					setTimeout(dojo.hitch(textBox, "closeDropDown"), 1); // allow focus time to take
-
+				onChange: function(value){
 					// this will cause InlineEditBox and other handlers to do stuff so make sure it's last
 					dijit.form._DateTimeTextBox.superclass._setValueAttr.call(textBox, value, true);
 				},

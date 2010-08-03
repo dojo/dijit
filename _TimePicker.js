@@ -317,7 +317,6 @@ dojo.declare("dijit._TimePicker",
 			this._highlighted_option = null;
 			this.set('value', tdate);
 			this.onChange(tdate);
-			this.onValueSelected(tdate);
 		},
 
 		onChange: function(/*Date*/ time){
@@ -325,17 +324,6 @@ dojo.declare("dijit._TimePicker",
 			//		Notification that a time was selected.  It may be the same as the previous value.
 			// tags:
 			//      public
-			console.log("onChange");
-		},
-
-		onValueSelected: function(/*Date*/ time){
-			// summary:
-			//		Deprecated.  Notification that a time was selected.  It may be the same as the previous value.
-			// description:
-			//      Formerly used by `dijit.form._DateTimeTextBox` (and thus `dijit.form.TimeTextBox`)
-			//      to get notification when the user has clicked a time.
-			// tags:
-			//      protected
 		},
 
 		_highlightOption: function(/*node*/ node, /*Boolean*/ highlight){
@@ -461,11 +449,13 @@ dojo.declare("dijit._TimePicker",
 				}
 				this._highlightOption(tgt, true);
 				this._keyboardSelected = tgt;
+				return false;
 			}else if(this._highlighted_option && (e.charOrCode == dk.ENTER || e.charOrCode === dk.TAB)){
 				// Accept the currently-highlighted option as the value
 				if(!this._keyboardSelected && e.charOrCode === dk.TAB){ return; } // mouse hover followed by TAB is NO selection
 				if(e.charOrCode == dk.ENTER){dojo.stopEvent(e);}
 				this._onOptionSelected({target: this._highlighted_option});
+				return false;
 			}
 		}
 	}
