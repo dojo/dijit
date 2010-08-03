@@ -42,7 +42,7 @@
 			// note that programmatic instantiation doesn't pull any parameters from the srcNodeRef, not even id
 			var theBar = new dijit.ProgressBar({id: "testBar", width: 400, maximum: 256, duration: 2000,
 				report:function(percent){
-					return dojo.string.substitute("${0} out of ${1} max chars", [this.value, this.maximum]);
+					return dojo.string.substitute("${0} out of ${1} max chars", [this.get('value'), this.maximum]);
 				}
 			}, dojo.byId("testBar"));
 
