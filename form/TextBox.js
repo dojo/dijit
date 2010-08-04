@@ -237,8 +237,6 @@ dojo.declare(
 		},
 
 		postCreate: function(){
-			// setting the value here is needed since value="" in the template causes "undefined"
-			// and setting in the DOM (instead of the JS object) helps with form reset actions
 			if(dojo.isIE){ // IE INPUT tag fontFamily has to be set directly using STYLE
 				var s = dojo.getComputedStyle(this.domNode);
 				if(s){
@@ -253,8 +251,13 @@ dojo.declare(
 					}
 				}
 			}
+
+			// setting the value here is needed since value="" in the template causes "undefined"
+			// and setting in the DOM (instead of the JS object) helps with form reset actions
 			this.textbox.setAttribute("value", this.textbox.value); // DOM and JS values shuld be the same
+
 			this.inherited(arguments);
+
 			if(dojo.isMoz || dojo.isOpera){
 				this.connect(this.textbox, "oninput", this._onInput);
 			}else{
@@ -378,14 +381,12 @@ dijit.selectInputText = function(/*DomNode*/element, /*Number?*/ start, /*Number
 	dijit.focus(element);
 	if(_document["selection"] && dojo.body()["createTextRange"]){ // IE
 		if(element.createTextRange){
-			var range = element.createTextRange();
-			with(range){
-				collapse(true);
-				moveStart("character", -99999); // move to 0
-				moveStart("character", start); // delta from 0 is the correct position
-				moveEnd("character", stop-start);
-				select();
-			}
+			var r = element.createTextRange();
+			r.collapse(true);
+			r.moveStart("character", -99999); // move to 0
+			r.moveStart("character", start); // delta from 0 is the correct position
+			r.moveEnd("character", stop-start);
+			r.select();
 		}
 	}else if(_window["getSelection"]){
 		if(element.setSelectionRange){
