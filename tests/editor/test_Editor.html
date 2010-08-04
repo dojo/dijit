@@ -49,6 +49,9 @@
 				value: "Custom Initial Content."
 			}, "programmatic3");
 
+			var progEditor = new dijit.Editor({
+				contentPreFilters: [function(txt) { return txt; }]		
+			}, "programmatic4");
 		});
 
 	</script>
@@ -204,5 +207,8 @@
 
 	<br><br>    
 	<div id="programmatic3">This div will become a programmatic editor in addOnLoad with creation-defined default content.</div>
+	<br><br>
+	<div id="programmatic4">This div will become a programmatic editor in addOnLoad with creation-defined and custom filters.</div>
+
 </body>
 </html>

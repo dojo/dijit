@@ -177,6 +177,32 @@
 						tearDown: function(){
 							if(editor0){editor0.set("value", value);}
 						}
+					},
+					{
+						name: "Verify custom filters passed in constructor are not lost",
+						timeout: 20000,
+						setUp: function(){
+							editor0 = dijit.byId("programmatic4");
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+							try{
+								//Focus on the editor window
+								dojo.window.scrollIntoView(editor0.domNode);
+								doh.robot.mouseMoveAt(editor0.iframe, 500, null, 10, 10);
+								doh.robot.mouseClick({left:true}, 500);
+								doh.robot.sequence(d.getTestCallback(function(){
+									//Now check the state!
+									doh.assertTrue(editor0.contentPreFilters.length > 1);
+								}), 1000);
+							}catch(e){
+								d.errback(e);
+							}
+							return d;
+						},
+						tearDown: function(){
+							if(editor0){editor0.set("value", value);}
+						}
 					}
 				]);
 				doh.run();

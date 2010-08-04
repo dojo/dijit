@@ -85,22 +85,6 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		this.events = [].concat(this.events);
 
 		this._keyHandlers = {};
-		this.contentPreFilters.push(dojo.hitch(this, "_preFixUrlAttributes"));
-		if(dojo.isMoz){
-			this.contentPreFilters.push(this._normalizeFontStyle);
-			this.contentPostFilters.push(this._removeMozBogus);
-		}
-		if(dojo.isWebKit){
-			// Try to clean up WebKit bogus artifacts.  The inserted classes
-			// made by WebKit sometimes messes things up.
-			this.contentPreFilters.push(this._removeWebkitBogus);
-			this.contentPostFilters.push(this._removeWebkitBogus);
-		}
-		if(dojo.isIE){
-			// IE generates <strong> and <em> but we want to normalize to <b> and <i>
-			this.contentPostFilters.push(this._normalizeFontStyle);
-		}
-		//this.contentDomPostFilters.push(this._postDomFixUrlAttributes);
 
 		if(params && dojo.isString(params.value)){
 			this.value = params.value;
@@ -175,6 +159,23 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			console.warn("RichText should not be used with the TEXTAREA tag.  See dijit._editor.RichText docs.");
 		}
 
+		// Push in the builtin filters now, making them the first executed, but not over-riding anything
+		// users passed in.  See: #6062 
+                this.contentPreFilters = [dojo.hitch(this, "_preFixUrlAttributes")].concat(this.contentPreFilters);
+                if(dojo.isMoz){
+                        this.contentPreFilters = [this._normalizeFontStyle].concat(this.contentPreFilters);
+                        this.contentPostFilters = [this._removeMozBogus].concat(this.contentPostFilters);
+                }
+                if(dojo.isWebKit){
+                        // Try to clean up WebKit bogus artifacts.  The inserted classes
+                        // made by WebKit sometimes messes things up.
+                        this.contentPreFilters = [this._removeWebkitBogus].concat(this.contentPreFilters);
+                        this.contentPostFilters = [this._removeWebkitBogus].concat(this.contentPostFilters);
+                }
+                if(dojo.isIE){
+                        // IE generates <strong> and <em> but we want to normalize to <b> and <i>
+                        this.contentPostFilters = [this._normalizeFontStyle].concat(this.contentPostFilters);
+                }
 		this.inherited(arguments);
 
 		dojo.publish(dijit._scopeName + "._editor.RichText::init", [this]);
