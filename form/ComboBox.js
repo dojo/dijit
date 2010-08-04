@@ -113,6 +113,11 @@ dojo.declare(
 
 		baseClass: "dijitTextBox dijitComboBox",
 
+		// dropDownClass: [protected extension] String
+		//		Name of the dropdown widget class used to select a date/time.
+		//		Subclasses should specify this.
+		dropDownClass: "dijit.form._ComboBoxMenu",
+
 		// Set classes like dijitDownArrowButtonHover depending on
 		// mouse action over button node
 		cssStateNodes: {
@@ -541,8 +546,9 @@ dojo.declare(
 			//		Starts a search for elements matching key (key=="" means to return all items),
 			//		and calls _openResultList() when the search completes, to display the results.
 			if(!this.dropDown){
-				var popupId = this.id + "_popup";
-				this.dropDown = new dijit.form._ComboBoxMenu({
+				var popupId = this.id + "_popup",
+				dropDownConstructor = dojo.getObject(this.dropDownClass, false);
+				this.dropDown = new dropDownConstructor({
 					onChange: dojo.hitch(this, this._selectOption),
 					id: popupId,
 					dir: this.dir
