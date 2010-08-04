@@ -143,6 +143,7 @@ dojo.declare(
 
 	removeChild: function(/*dijit._Widget*/ child){
 		// Override _LayoutWidget.removeChild().
+
 		var region = child.region;
 		var splitter = this._splitters[region];
 		if(splitter){
@@ -156,7 +157,18 @@ dojo.declare(
 		if(this._started){
 			this._layoutChildren();
 		}
+
+		// Clean up whatever style changes we made to the child pane.
+		// Unclear how height and width should be handled.
 		dojo.removeClass(child.domNode, this.baseClass+"Pane");
+		dojo.style(child.domNode, {
+			top: "auto",
+			bottom: "auto",
+			left: "auto",
+			right: "auto",
+			position: "static"
+		});
+		dojo.style(child.domNode, region == "top" || region == "bottom" ? "width" : "height", "auto");
 	},
 
 	getChildren: function(){
