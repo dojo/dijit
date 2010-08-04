@@ -34,6 +34,7 @@
 							doh.robot.mouseClick({left: true}, 1000);
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(isVisible("tooltipDlg"), "TooltipDialog should be showing");
+								doh.is("inline", dojo.global.dijit._curFocus.id, "focus on InlineEditBox (first field in TooltipDialog)")
 							}), 1000);
 
 							// open Select
