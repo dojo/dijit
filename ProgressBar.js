@@ -84,12 +84,12 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 		// TODO: deprecate this method and use set() instead
 
 		dojo.mixin(this, attributes || {});
-		var tip = this.internalProgress;
+		var tip = this.internalProgress, ap = this.domNode;
 		var percent = 1;
 		if(this.indeterminate){
-			dijit.removeWaiState(tip, "valuenow");
-			dijit.removeWaiState(tip, "valuemin");
-			dijit.removeWaiState(tip, "valuemax");
+			dijit.removeWaiState(ap, "valuenow");
+			dijit.removeWaiState(ap, "valuemin");
+			dijit.removeWaiState(ap, "valuemax");
 		}else{
 			if(String(this.progress).indexOf("%") != -1){
 				percent = Math.min(parseFloat(this.progress)/100, 1);
@@ -99,10 +99,10 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 				percent = this.progress / this.maximum;
 			}
 
-			dijit.setWaiState(tip, "describedby", this.label.id);
-			dijit.setWaiState(tip, "valuenow", this.progress);
-			dijit.setWaiState(tip, "valuemin", 0);
-			dijit.setWaiState(tip, "valuemax", this.maximum);
+			dijit.setWaiState(ap, "describedby", this.labelNode.id);
+			dijit.setWaiState(ap, "valuenow", this.progress);
+			dijit.setWaiState(ap, "valuemin", 0);
+			dijit.setWaiState(ap, "valuemax", this.maximum);
 		}
 		this.labelNode.innerHTML = this.report(percent);
 
