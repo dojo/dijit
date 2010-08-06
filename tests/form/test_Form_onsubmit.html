@@ -33,6 +33,12 @@
 		dojo.require("dijit.form.Textarea");
 		dojo.require("dijit.form.SimpleTextarea");
 		dojo.require("dijit.Editor");
+		dojo.require("dijit.form.TextBox");
+		
+		function submittedValues(values){
+			console.log('actual submitted values: ' + dojo.toJson(values));
+			dijit.byId("textbox").set('value',dojo.fromJson(dojo.toJson(values)).plopcombo);
+		}
 	</script>
 
 </head>
@@ -40,59 +46,64 @@
 
 	<h1 class="testTitle">Form Widget Unit Test</h1>
 	<form dojoType="dijit.form.Form" id="myForm1"
-		encType="multipart/form-data" action="" method="GET"
+		encType="multipart/form-data" action="../formAction.html" method="" target="_formSubmitIframe"
 		onSubmit="dojo.stopEvent(arguments[0]);"
 		onReset="dojo.stopEvent(arguments[0]);">
 		<h3>This form shouldn't submit, nor reset</h3>
-		<select name="plop.combo" dojoType="dijit.form.ComboBox">
+		<select id="combo1" name="plopcombo" dojoType="dijit.form.ComboBox">
 			<option value="one">one</option>
 			<option value="two">two</option>
 			<option value="three">three</option>
 		</select>
-		<button dojoType=dijit.form.Button type="submit">Submit</button>
-		<button dojoType=dijit.form.Button type="reset">Reset</button>
+		<button id="submit1" dojoType=dijit.form.Button type="submit">Submit</button>
+		<button id="reset1" dojoType=dijit.form.Button type="reset">Reset</button>
 	</form>
 
 	<form dojoType="dijit.form.Form" id="myForm2"
-		encType="multipart/form-data" action="" method="GET"
+		encType="multipart/form-data" action="../formAction.html" method="" target="_formSubmitIframe"
 		onSubmit="return false;"
 		onReset="return false;">
 		<h3>This form shouldn't submit, nor reset</h3>
-		<select name="plop.combo" dojoType="dijit.form.ComboBox">
+		<select id="combo2" name="plopcombo" dojoType="dijit.form.ComboBox">
 			<option value="one">one</option>
 			<option value="two">two</option>
 			<option value="three">three</option>
 		</select>
-		<button dojoType=dijit.form.Button type="submit">Submit</button>
-		<button dojoType=dijit.form.Button type="reset">Reset</button>
+		<button id="submit2" dojoType=dijit.form.Button type="submit">Submit</button>
+		<button id="reset2" dojoType=dijit.form.Button type="reset">Reset</button>
 	</form>
 
 	<form dojoType="dijit.form.Form" id="myForm3"
-		encType="multipart/form-data" action="" method="GET"
+		encType="multipart/form-data" action="../formAction.html" method="" target="_formSubmitIframe"
 		onSubmit="return true;"
 		onReset="return true;">
 		<h3>This form <em>should</em> submit and reset</h3>
-		<select name="plop.combo" dojoType="dijit.form.ComboBox">
+		<select id="combo3" name="plopcombo" dojoType="dijit.form.ComboBox">
 			<option value="one">one</option>
 			<option value="two">two</option>
 			<option value="three">three</option>
 		</select>
-		<button dojoType=dijit.form.Button type="submit">Submit</button>
-		<button dojoType=dijit.form.Button type="reset">Reset</button>
+		<button id="submit3" dojoType=dijit.form.Button type="submit">Submit</button>
+		<button id="reset3" dojoType=dijit.form.Button type="reset">Reset</button>
 	</form>
 
 	<form dojoType="dijit.form.Form" id="myForm4"
-		encType="multipart/form-data" action="" method="GET"
+		encType="multipart/form-data" action="../formAction.html" method="" target="_formSubmitIframe"
 		onSubmit="void(0)"
 		onReset="void(0)">
 		<h3>This form <em>should</em> submit and reset</h3>
-		<select name="plop.combo" dojoType="dijit.form.ComboBox">
+		<select id="combo4" name="plopcombo" dojoType="dijit.form.ComboBox">
 			<option value="one">one</option>
 			<option value="two">two</option>
 			<option value="three">three</option>
 		</select>
-		<button dojoType=dijit.form.Button type="submit">Submit</button>
-		<button dojoType=dijit.form.Button type="reset">Reset</button>
+		<button id="submit4" dojoType=dijit.form.Button type="submit">Submit</button>
+		<button id="reset4" dojoType=dijit.form.Button type="reset">Reset</button>
 	</form>
+	
+	<h3>Submitted value:</h3>
+	<input dojoType="dijit.form.TextBox" type="text" id="textbox" />
+	
+	<iframe name="_formSubmitIframe" src="about:blank" onload="if(this.values)submittedValues(this.values)" style="display:none;"></iframe>
 </body>
 </html>

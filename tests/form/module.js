@@ -23,6 +23,8 @@ try{
 	doh.registerUrl("dijit.tests.form.robot.FilteringSelect_mouse", dojo.moduleUrl("dijit","tests/form/robot/_autoComplete_mouse.html"+(userArgs+"&testWidget=dijit.form.FilteringSelect").replace(/^&/,"?")), 99999999);
 	doh.registerUrl("dijit.tests.form.robot.FilteringSelect_a11y", dojo.moduleUrl("dijit","tests/form/robot/_autoComplete_a11y.html"+(userArgs+"&testWidget=dijit.form.FilteringSelect").replace(/^&/,"?")), 99999999);
 
+	doh.registerUrl("dijit.tests.form.robot.Form_onsubmit", dojo.moduleUrl("dijit","tests/form/robot/Form_onsubmit.html"+userArgs), 99999999);
+
 	doh.registerUrl("dijit.tests.form.robot.SimpleTextarea", dojo.moduleUrl("dijit","tests/form/robot/SimpleTextarea.html"+userArgs), 99999999);
 	
 	doh.registerUrl("dijit.tests.form.robot.Slider_mouse", dojo.moduleUrl("dijit","tests/form/robot/Slider_mouse.html"+userArgs), 99999999);
