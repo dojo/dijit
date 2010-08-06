@@ -83,10 +83,14 @@ dojo.declare(
 			if(dataObject.query[this.searchAttr] != this._lastQuery){
 				return;
 			}
+			dijit.form.ComboBoxMixin.prototype._openResultList.apply(this, arguments);
+
 			if(this.item === undefined){ // item == undefined for keyboard search
+				// If the search returned no items that means that the user typed
+				// in something invalid (and they can't make it valid by typing more characters),
+				// so flag the FilteringSelect as being in an invalid state
 				this.validate(true);
 			}
-			dijit.form.ComboBoxMixin.prototype._openResultList.apply(this, arguments);
 		},
 
 		_getValueAttr: function(){

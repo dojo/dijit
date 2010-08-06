@@ -419,7 +419,6 @@ dojo.declare(
 			// This is called when user has pressed button icon or pressed the down arrow key
 			// to open the drop down.
 
-			this.item = undefined; // undefined means item needs to be set
 			this._startSearchAll();
 		},
 
