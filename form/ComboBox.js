@@ -483,7 +483,17 @@ dojo.declare(
 			//		set('item', value)
 			// tags:
 			//		private
-			if(!displayedValue){ displayedValue = this.labelFunc(item, this.store); }
+			if(!displayedValue){
+				// Use labelFunc() to get displayedValue.  But it may return HTML so need to convert to plain text.   
+				var label = this.labelFunc(item, this.store);
+				if(this.labelType == "html"){
+					var span = this._helperSpan;
+					span.innerHTML = label;
+					displayedValue = span.innerText || span.textContent;
+				}else{
+					displayedValue = label;					
+				}
+			}
 			this.value = this._getValueField() != this.searchAttr? this.store.getIdentity(item) : displayedValue;
 			this.item = item;
 			dijit.form.ComboBox.superclass._setValueAttr.call(this, this.value, priorityChange, displayedValue);
@@ -656,6 +666,10 @@ dojo.declare(
 					}
 				}
 			}
+
+			// used to convert HTML to plain text
+			this._helperSpan = dojo.create("span");
+
 			this.inherited(arguments);
 		},
 
@@ -676,6 +690,11 @@ dojo.declare(
 				dijit.setWaiState(this.domNode, "labelledby", label[0].id);
 
 			}
+			this.inherited(arguments);
+		},
+
+		destroy: function(){
+			dojo.destroy(this._helperSpan);
 			this.inherited(arguments);
 		},
 

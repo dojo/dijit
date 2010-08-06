@@ -40,7 +40,7 @@ dojo.declare("dijit._editor.plugins._FontDropDown",
 
 	postMixInProperties: function(){
 		// summary:
-		//		Over-ride to misin specific properties.
+		//		Over-ride to set specific properties.
 		this.inherited(arguments);
 
 		this.strings = dojo.i18n.getLocalization("dijit._editor", "FontChoice");
@@ -264,7 +264,7 @@ dojo.declare("dijit._editor.plugins._FormatBlockDropDown", dijit._editor.plugins
 		//		The 'insert value' associated with a name
 		// name: String
 		//		The text name of the value
-		if(this.plainText){
+		if(this.plainText || value == "noFormat"){
 			return name;
 		}else{
 			return "<" + value + ">" + name + "</" + value + ">";

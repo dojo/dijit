@@ -751,6 +751,35 @@
 						var d = robot_typeValue((this.combo = dijit.byId(this.combo)), "Alabama", isComboBox? "alabama" : "AL", "alabama");
 						return d;
 					}
+				},
+
+				{
+					timeout:60000,
+					name: "richtext",
+					runTest: function(){
+						var d = new doh.Deferred(),
+							w = dijit.byId("richtexttest");
+
+						// testing that input has right data
+						doh.is("h1", w.focusNode.value, "initial HTML label converted to plain text");
+						w.set("value", "h2");
+						doh.is("h2", w.focusNode.value, "set() converted to plain text");
+
+						w.focus();
+						
+						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 100);
+
+						doh.robot.sequence(d.getTestCallback(function(){
+							var list = dojo.byId("richtexttest_popup");
+							doh.t(list, "drop down exists");
+							doh.t(isVisible(list), "drop down is visible");
+
+							var entries = dojo.query("li", list).filter(isVisible);
+							doh.is("<h1>h1</h1>", dojo.trim(entries[0].innerHTML), "list #1 is rich text");
+						}), 500);
+
+						return d;
+					}
 				}
 			]);
 
