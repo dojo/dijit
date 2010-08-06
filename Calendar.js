@@ -50,13 +50,11 @@ dojo.declare(
 		//		Order fields are traversed when user hits the tab key
 		tabIndex: "0",
 
-/*=====
 		// currentFocus: Date
 		//		Date object containing the currently focused date, or the date which would be focused
 		//		if the calendar itself was focused.   Also indicates which year and month to display,
 		//		i.e. the current "page" the calendar is on.
-		currentFocus: new Date(),
-=====*/
+		currentFocus: null,
 
 		baseClass:"dijitCalendar",
 
@@ -80,8 +78,10 @@ dojo.declare(
 		_getValueAttr: function(){
 			// summary:
 			//		Support get('value')
+
+			// this.value is set to 1AM, but return midnight, local time for back-compat
 			var value = new this.dateClassObj(this.value);
-			value.setHours(0, 0, 0, 0); // return midnight, local time for back-compat
+			value.setHours(0, 0, 0, 0);
 
 			// If daylight savings pushes midnight to the previous date, fix the Date
 			// object to point at 1am so it will represent the correct day. See #9366
@@ -101,23 +101,21 @@ dojo.declare(
 			//      protected
 			if(!this.value || this.dateFuncObj.compare(value, this.value)){
 				value = new this.dateClassObj(value);
-				value.setHours(1); // to avoid issues when DST shift occurs at midnight, see #8521, #9366
-				this.currentFocus = new this.dateClassObj(value);
+				value.setHours(1, 0, 0, 0); // round to nearest day (1am to avoid issues when DST shift occurs at midnight, see #8521, #9366)
+
 				if(!this.isDisabledDate(value, this.lang)){
 					this.value = value;
+
+					// Set focus cell to the new value.   Arguably this should only happen when there isn't a current
+					// focus point.   This will also repopulate the grid, showing the new selected value (and possibly
+					// new month/year).
+					this.set("currentFocus", value);
+
 					if(priorityChange || typeof priorityChange == "undefined"){
 						this.onChange(this.get('value'));
 						this.onValueSelected(this.get('value'));	// remove in 2.0
 					}
 				}
-				dojo.attr(this.domNode, "aria-label",
-					this.dateLocaleModule.format(value,
-						{selector:"date", formatLength:"full"}));
-				this._populateGrid();
-
-				// Focus on the new value.   Arguably this should only happen when there isn't a current
-				// focus.
-				this.set("currentFocus", value);
 			}
 		},
 
@@ -247,12 +245,20 @@ dojo.declare(
 		},
 
 		postMixInProperties: function(){
-			// parser.instantiate sometimes passes in NaN for IE.  Use default value in prototype instead.
+			// Parser.instantiate sometimes passes in NaN for IE.  Use default value in prototype instead.
+			// TODO: remove this for 2.0 (thanks to #11511)
 			if(isNaN(this.value)){ delete this.value; }
+
+			if(!this.currentFocus){
+				// tabbing into Calendar should focus on the selected date, unless caller has explicitly
+				// specified a different month/date to focus
+				this.currentFocus = this.value;
+			}
+
 			this.inherited(arguments);
 		},
 
-		postCreate: function(){
+		buildRendering: function(){
 			this.inherited(arguments);
 			dojo.setSelectable(this.domNode, false);
 
@@ -317,8 +323,12 @@ dojo.declare(
 			// forceFocus:
 			//		If true, will focus() the cell even if calendar itself doesn't have focus
 
-			var oldFocus = this._currentFocus,
-				oldCell = oldFocus ? dojo.query("[dijitDateValue=" + this._currentFocus.valueOf() + "]", this.domNode)[0] : null;
+			var oldFocus = this.currentFocus,
+				oldCell = oldFocus ? dojo.query("[dijitDateValue=" + oldFocus.valueOf() + "]", this.domNode)[0] : null;
+
+			// round specified value to nearest day (1am to avoid issues when DST shift occurs at midnight, see #8521, #9366)			
+			date = new this.dateClassObj(date);
+			date.setHours(1, 0, 0, 0); 
 
 			this.currentFocus = date;
 
@@ -327,14 +337,18 @@ dojo.declare(
 
 			// set tabIndex=0 on new cell, and focus it (but only if Calendar itself is focused)
 			var newCell = dojo.query("[dijitDateValue=" + date.valueOf() + "]", this.domNode)[0];
-			dojo.attr(newCell, "tabIndex", 0);
+			newCell.setAttribute("tabIndex", this.tabIndex);
 			if(this._focused || forceFocus){
 				newCell.focus();
 			}
 
 			// set tabIndex=-1 on old focusable cell
-			if(oldCell){
-				dojo.attr(oldCell, "tabIndex", -1);
+			if(oldCell && oldCell != newCell){
+				if(dojo.isWebKit){	// see #11064 about webkit bug
+					oldCell.setAttribute("tabIndex", "-1");
+				}else{
+					oldCell.removeAttribute("tabIndex");				
+				}
 			}
 		},
 
@@ -342,7 +356,6 @@ dojo.declare(
 			// summary:
 			//		Focus the calendar by focusing one of the calendar cells
 			var value = this._currentFocus || this.value || new this.dateClassObj();
-			value.setHours(1); // to avoid issues when DST shift occurs at midnight, see #8521, #9366
 			this._setCurrentFocusAttr(value, true);
 		},
 
