@@ -38,6 +38,10 @@ dojo.declare(
 
 		_lastDisplayedValue: "",
 
+		_isValidSubset: function(){
+			return this._opened;
+		},
+
 		isValid: function(){
 			// Overrides ValidationTextBox.isValid()
 			return this.item || (!this.required && this.get('displayedValue') == ""); // #5974
@@ -68,8 +72,8 @@ dojo.declare(
 				//#3285: change CSS to indicate error
 				this.valueNode.value = "";
 				dijit.form.TextBox.superclass._setValueAttr.call(this, "", priorityChange || (priorityChange === undefined && !this._focused));
-				this.validate(this._focused);
 				this.item = null;
+				this.validate(this._focused);
 			}else{
 				this.set('item', result[0], priorityChange);
 			}
