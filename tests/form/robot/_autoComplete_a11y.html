@@ -194,6 +194,7 @@
 					}
 				}
 			);
+
 			var comboIds=['setvaluetest','datatest','combo3','combobox4','arrowless','descending'];
 			for(var i=0; i<comboIds.length; i++){
 				doh.register("query input by name",{
@@ -1182,6 +1183,7 @@
 							combo._pendingOnChange = false;
 							doh.is("not called", status, "onChange should not have been called");
 						}), 500);
+						return d;
 					}
 				},
 				{
@@ -1205,6 +1207,7 @@
 							combo._pendingOnChange = false;
 							doh.is("called with "+value2, status, "onChange should have been called with "+value2);
 						}), 500);
+						return d;
 					}
 				},
 				{
@@ -1226,6 +1229,7 @@
 							combo._pendingOnChange = false;
 							doh.is("called with "+value2, status, "onChange should have been called with true"+value2);
 						}), 500);
+						return d;
 					}
 				},
 				{
@@ -1248,6 +1252,23 @@
 							combo._pendingOnChange = false;
 							doh.is("called with "+value1, status, "onChange should have been called with "+value1);
 						}), 500);
+						return d;
+					}
+				}
+			]);
+
+			doh.register("destroy", [
+				{
+					timeout: 1000,
+					name: "destroy",
+					runTest: function(){
+						var d = new doh.Deferred();
+						doh.robot.sequence(d.getTestCallback(function(){
+							dijit.byId("combo_01").destroy();
+							doh.is(undefined, dojo.byId("combo_01"), 'widget was removed');
+							doh.f(dojo.byId('destroyDiv').firstChild, 'container node is empty');
+						}), 0);
+						return d;
 					}
 				}
 			]);
