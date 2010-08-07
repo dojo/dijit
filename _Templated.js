@@ -111,11 +111,9 @@ dojo.declare("dijit._Templated",
 			if(this.widgetsInTemplate){
 				// Make sure dojoType is used for parsing widgets in template.
 				// The dojo.parser.query could be changed from multiversion support.
-				var parser = dojo.parser, qry, attr;
-				if(parser._query != "[dojoType]"){
-					qry = parser._query;
+				var parser = dojo.parser, attr;
+				if(parser._attrName != "dojoType"){
 					attr = parser._attrName;
-					parser._query = "[dojoType]";
 					parser._attrName = "dojoType";
 				}
 
@@ -126,8 +124,7 @@ dojo.declare("dijit._Templated",
 				}));
 
 				// Restore the query.
-				if(qry){
-					parser._query = qry;
+				if(attr){
 					parser._attrName = attr;
 				}
 

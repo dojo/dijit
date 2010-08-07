@@ -42,7 +42,7 @@ dojo.declare(
 		//		Despite the name, this parameter specifies both constraints on the input
 		//		(including starting/ending dates/times allowed) as well as
 		//		formatting options like whether the date is displayed in long (ex: December 25, 2005)
-		//		or short (ex: 12/25/2005) format.   See `dijit.form._DateTimeTextBox.__Constraints` for details.
+		//		or short (ex: 12/25/2005) format.	See `dijit.form._DateTimeTextBox.__Constraints` for details.
 		/*=====
 		constraints: {},
 		======*/
@@ -52,7 +52,7 @@ dojo.declare(
 		regExpGen: dojo.date.locale.regexp,
 
 		// datePackage: String
-		//	JavaScript namespace to find calendar routines.  Uses Gregorian calendar routines
+		//	JavaScript namespace to find calendar routines.	 Uses Gregorian calendar routines
 		//	at dojo.date, by default.
 		datePackage: "dojo.date",
 
@@ -125,7 +125,7 @@ dojo.declare(
 			this.inherited(arguments);
 			
 			// If openOnClick is true, we basically just want to treat the whole widget as the
-			// button.   We need to do that also if the actual drop down button will be hidden,
+			// button.	 We need to do that also if the actual drop down button will be hidden,
 			// so that there's a mouse method for opening the drop down.
 			if(this.openOnClick || !this.hasDownArrow){
 				this._buttonNode = this.domNode;
@@ -141,7 +141,7 @@ dojo.declare(
 			constraints.fullYear = true; // see #5465 - always format with 4-digit years
 			var fromISO = dojo.date.stamp.fromISOString;
 			if(typeof constraints.min == "string"){ constraints.min = fromISO(constraints.min); }
- 			if(typeof constraints.max == "string"){ constraints.max = fromISO(constraints.max); }
+			if(typeof constraints.max == "string"){ constraints.max = fromISO(constraints.max); }
 			this.inherited(arguments, [constraints]);
 		},
 
@@ -168,10 +168,13 @@ dojo.declare(
 			return value;
 		},
 
-		_setValueAttr: function(/*Date*/ value, /*Boolean?*/ priorityChange, /*String?*/ formattedValue){
+		_setValueAttr: function(/*Date|String*/ value, /*Boolean?*/ priorityChange, /*String?*/ formattedValue){
 			// summary:
-			//		Sets the date on this textbox.  Note that `value` must be like a Javascript Date object.
+			//		Sets the date on this textbox. Note: value can be a JavaScript Date literal or a string to be parsed.
 			if(value !== undefined){
+				if(typeof value == "string"){
+					value = dojo.date.stamp.fromISOString(value);
+				}
 				if(this._isInvalidDate(value)){
 					value = null;
 				}
@@ -203,7 +206,7 @@ dojo.declare(
 				lang: textBox.lang,
 				value: this._dropDownValue(),
 				constraints: textBox.constraints,
-				filterString: textBox.filterString,	// for TimeTextBox, to filter times shown
+				filterString: textBox.filterString, // for TimeTextBox, to filter times shown
 
 				datePackage: textBox.datePackage,
 

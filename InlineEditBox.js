@@ -52,12 +52,12 @@ dojo.declare("dijit.InlineEditBox",
 	//		rather than plain text (ex: `dijit.Editor`)
 	renderAsHtml: false,
 
-	// editor: String
-	//		Class name for Editor widget
+	// editor: String|Function
+	//		Class name (or reference to the Class) for Editor widget
 	editor: "dijit.form.TextBox",
 
-	// editorWrapper: String
-	//		Class name for widget that wraps the editor widget, displaying save/cancel
+	// editorWrapper: String|Function
+	//		Class name (or reference to the Class) for widget that wraps the editor widget, displaying save/cancel
 	//		buttons.
 	editorWrapper: "dijit._InlineEditor",
 
@@ -212,7 +212,7 @@ dojo.declare("dijit.InlineEditBox",
 			var placeholder = dojo.create("span", null, this.domNode, "before");
 
 			// Create the editor wrapper (the thing that holds the editor widget and the save/cancel buttons)
-			var ewc = dojo.getObject(this.editorWrapper);
+			var ewc = typeof this.editorWrapper == "string" ? dojo.getObject(this.editorWrapper) : this.editorWrapper;
 			this.wrapperWidget = new ewc({
 				value: this.value,
 				buttonSave: this.buttonSave,
@@ -390,7 +390,7 @@ dojo.declare(
 
 	postCreate: function(){
 		// Create edit widget in place in the template
-		var cls = dojo.getObject(this.editor);
+		var cls = typeof this.editor == "string" ? dojo.getObject(this.editor) : this.editor;
 
 		// Copy the style from the source
 		// Don't copy ALL properties though, just the necessary/applicable ones.

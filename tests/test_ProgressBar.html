@@ -18,6 +18,7 @@
 		.smallred .dijitProgressBarLabel {
 			display:none;
 		}
+		#html5ish, #html5ish2 { width:500px; }
 	</style>
 
 	<!-- required: a default dijit theme: -->
@@ -54,6 +55,12 @@
 			dojo.connect(dojo.byId("set"), "onclick", null, setParameters);
 			dojo.connect(dojo.byId("startTimer"), "onclick", null,
 				function(){ remoteProgress(dijit.byId("timerBar")); } );
+				
+			// test 7
+			new dijit.ProgressBar({
+				style:"width:400px",
+				indeterminate:true
+			}, "pi");
 		}
 
 		// An example of polling on a separate (heartbeat) server thread.  This is useful when the progress
@@ -156,6 +163,13 @@
 	
 	<div style="width:400px" value="50" id="indeterminateBar"
 		dojoType="dijit.ProgressBar"></div>
+
+	<h3>Test 6 - data-dojo-type</h3>
+	<div id="html5ish" data-dojo-type="dijit.ProgressBar" data-dojo-props="indeterminate:true"></div>
+	<div id="html5ish2" data-dojo-type="dijit.ProgressBar" data-dojo-props="value:10"></div>
+
+	<h3>Test 7 - programatic indeterminate</h3>
+	<div id="pi"></div>
 
 </body>
 </html>
