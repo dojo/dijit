@@ -20,6 +20,9 @@
 	<!-- only needed for alternate theme testing: -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
+	<!-- helper methods -->
+	<script type="text/javascript" src="../helpers.js"></script>
+
 	<script type="text/javascript">
 		dojo.require("doh.runner");
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
@@ -54,12 +57,16 @@
 						name: "initially open pane",
 						runTest: function(t){
 							// Pane 2 is initially open
-							var openPanes = dojo.query(".dijitAccordionInnerContainer > .dijitVisible", accordion.containerNode);
+							var openPanes = dojo.query(".dijitAccordionChildWrapper > *", accordion.containerNode).filter(function(node){
+								return node.parentNode.style.display != "none";
+							});
 							t.is(1, openPanes.length, "exactly one open pane");
 							t.is("pane 2", dijit.byNode(openPanes[0]).title, "pane 2 is initially open");
 
 							// And others are closed
-							var closedPanes = dojo.query(".dijitAccordionInnerContainer > .dijitHidden", accordion.containerNode);
+							var closedPanes = dojo.query(".dijitAccordionChildWrapper > *", accordion.containerNode).filter(function(node){
+								return node.parentNode.style.display == "none";
+							});
 							t.is(2, closedPanes.length, "n-1 closed panes");
 						}
 					},
@@ -114,12 +121,16 @@
 						name: "initially open pane (checking again)",
 						runTest: function(t){
 							// Pane 2 is initially open
-							var openPanes = dojo.query(".dijitAccordionInnerContainer > .dijitVisible", accordion.containerNode);
+							var openPanes = dojo.query(".dijitAccordionChildWrapper > *", accordion.containerNode).filter(function(node){
+								return node.parentNode.style.display != "none";
+							});
 							t.is(1, openPanes.length, "exactly one open pane");
 							t.is("pane 2", dijit.byNode(openPanes[0]).title, "pane 2 is initially open");
 
 							// And others are closed
-							var closedPanes = dojo.query(".dijitAccordionInnerContainer > .dijitHidden", accordion.containerNode);
+							var closedPanes = dojo.query(".dijitAccordionChildWrapper > *", accordion.containerNode).filter(function(node){
+								return node.parentNode.style.display == "none";
+							});
 							t.is(3, closedPanes.length, "n-1 closed panes");
 						}
 					},
@@ -137,12 +148,16 @@
 							setTimeout(d.getTestCallback(
 								function(){
 									// Pane 3 is now open
-									var openPanes = dojo.query(".dijitAccordionInnerContainer > .dijitVisible", accordion.containerNode);
+									var openPanes = dojo.query(".dijitAccordionChildWrapper > *", accordion.containerNode).filter(function(node){
+										return node.parentNode.style.display != "none";
+									});
 									t.is(1, openPanes.length, "exactly one open pane");
 									t.is("pane 3", dijit.byNode(openPanes[0]).title, "pane 3 is now open");
 
 									// And others are closed
-									var closedPanes = dojo.query(".dijitAccordionInnerContainer > .dijitHidden", accordion.containerNode);
+									var closedPanes = dojo.query(".dijitAccordionChildWrapper > *", accordion.containerNode).filter(function(node){
+										return node.parentNode.style.display == "none";
+									});
 									t.is(3, closedPanes.length, "n-1 closed panes");
 								})
 							, 300);
