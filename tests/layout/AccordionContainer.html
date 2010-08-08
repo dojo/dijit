@@ -136,31 +136,51 @@
 					},
 					{
 						name: "select new pane",
+						runTest: function(t){
+							// Selecting pane 3 should open it and close pane 1
+
+							// select w/out animation
+							accordion.selectChild(dijit.byId('pane 3'));
+
+							// Pane 3 is now open
+							var openPanes = dojo.query(".dijitAccordionChildWrapper > *", accordion.containerNode).filter(function(node){
+								return node.parentNode.style.display != "none";
+							});
+							t.is(1, openPanes.length, "exactly one open pane");
+							t.is("pane 3", dijit.byNode(openPanes[0]).title, "pane 3 is now open");
+
+							// And others are closed
+							var closedPanes = dojo.query(".dijitAccordionChildWrapper > *", accordion.containerNode).filter(function(node){
+								return node.parentNode.style.display == "none";
+							});
+							t.is(3, closedPanes.length, "n-1 closed panes");
+						}
+					},
+					{
+						name: "select new pane with animation",
 						timeout: 3000,
 						setUp: function(t){
 							// Note that this kicks off an animation so it might be a while before the
 							// bottom setTimeout() fires, likely longer than the 300ms specified
-							accordion.selectChild(dijit.byId('pane 3'));
+							accordion.selectChild(dijit.byId('pane 2'), true);
 						},
 						runTest: function(t){
-							// Selecting pane 3 should open it and close pane 1
+							// Selecting pane 2 should open it and close pane 3
 							var d = new doh.Deferred();
-							setTimeout(d.getTestCallback(
-								function(){
-									// Pane 3 is now open
-									var openPanes = dojo.query(".dijitAccordionChildWrapper > *", accordion.containerNode).filter(function(node){
-										return node.parentNode.style.display != "none";
-									});
-									t.is(1, openPanes.length, "exactly one open pane");
-									t.is("pane 3", dijit.byNode(openPanes[0]).title, "pane 3 is now open");
+							setTimeout(d.getTestCallback(function(){
+								// Pane 2 is now open
+								var openPanes = dojo.query(".dijitAccordionChildWrapper > *", accordion.containerNode).filter(function(node){
+									return node.parentNode.style.display != "none";
+								});
+								t.is(1, openPanes.length, "exactly one open pane");
+								t.is("pane 2", dijit.byNode(openPanes[0]).title, "pane 3 is now open");
 
-									// And others are closed
-									var closedPanes = dojo.query(".dijitAccordionChildWrapper > *", accordion.containerNode).filter(function(node){
-										return node.parentNode.style.display == "none";
-									});
-									t.is(3, closedPanes.length, "n-1 closed panes");
-								})
-							, 300);
+								// And others are closed
+								var closedPanes = dojo.query(".dijitAccordionChildWrapper > *", accordion.containerNode).filter(function(node){
+									return node.parentNode.style.display == "none";
+								});
+								t.is(3, closedPanes.length, "n-1 closed panes");
+							}), 300);
 							return d;
 						}
 					},
@@ -232,6 +252,104 @@
 				]
 			);
 
+			// This section tests that the animation doesn't leave residual height=... settings on the
+			// node that interfere with future operations
+			doh.register("animation",
+				[
+					{
+						name: "create",
+						runTest: function(t){
+							accordion = new dijit.layout.AccordionContainer({style: "width: 400px; height: 400px;"}).placeAt(dojo.body());
+
+							dojo.forEach([ "pane 1", "pane 2", "pane 3" ], function(title, i){
+								var content = new dijit.layout.ContentPane({id: title, title: title, selected: i==1});
+								content.containerNode.innerHTML = "this is " + title;
+								accordion.addChild(content);
+							});
+							accordion.startup();
+
+							// make sure size of selected child is correct						
+							doh.t(dojo.position(accordion.selectedChildWidget.domNode).h > 300, "child height > 300");
+							doh.t(dojo.position(accordion.selectedChildWidget.domNode).h < 400, "child height < 400");
+							doh.is(dojo.marginBox(accordion.selectedChildWidget.domNode).h, dojo.contentBox(accordion.selectedChildWidget._wrapperWidget.containerNode).h, "child height vs. wrapper height")
+						}
+					},
+					{
+						name: "select new pane with animation",
+						timeout: 3000,
+						setUp: function(t){
+							// Note that this kicks off an animation so it might be a while before the
+							// bottom setTimeout() fires, likely longer than the 300ms specified
+							accordion.selectChild(dijit.byId('pane 2'), true);
+						},
+						runTest: function(t){
+							// Selecting pane 2 should open it and close pane 3
+							var d = new doh.Deferred();
+							setTimeout(d.getTestCallback(function(){
+								doh.is("pane 2", accordion.selectedChildWidget.title);
+
+								// make sure size of selected child is correct						
+								doh.t(dojo.position(accordion.selectedChildWidget.domNode).h > 300, "child height > 300");
+								doh.t(dojo.position(accordion.selectedChildWidget.domNode).h < 400, "child height < 400");
+								doh.is(dojo.marginBox(accordion.selectedChildWidget.domNode).h, dojo.contentBox(accordion.selectedChildWidget._wrapperWidget.containerNode).h, "child height vs. wrapper height")
+							}), 300);
+							return d;
+						}
+					},
+
+					// Make sure that the animation didn't leave a residual height: 1px that affect
+					// pane #1 when it is reselected w/out an animation
+					{
+						name: "remove pane #2, reselecting pane #1",
+						runTest: function(t){
+							accordion.removeChild(dijit.byId("pane 2"));
+
+							doh.is("pane 1", accordion.selectedChildWidget.title);
+
+							// make sure size of selected child is correct						
+							doh.t(dojo.position(accordion.selectedChildWidget.domNode).h > 300, "child height > 300");
+							doh.t(dojo.position(accordion.selectedChildWidget.domNode).h < 400, "child height < 400");
+							doh.is(dojo.marginBox(accordion.selectedChildWidget.domNode).h, dojo.contentBox(accordion.selectedChildWidget._wrapperWidget.containerNode).h, "child height vs. wrapper height")
+						}
+					},
+					{
+						name: "select pane #3 with animation",
+						timeout: 3000,
+						setUp: function(t){
+							// Note that this kicks off an animation so it might be a while before the
+							// bottom setTimeout() fires, likely longer than the 300ms specified
+							accordion.selectChild(dijit.byId('pane 3'), true);
+						},
+						runTest: function(t){
+							// Selecting pane 2 should open it and close pane 3
+							var d = new doh.Deferred();
+							setTimeout(d.getTestCallback(function(){
+								doh.is("pane 3", accordion.selectedChildWidget.title);
+
+								// make sure size of selected child is correct						
+								doh.t(dojo.position(accordion.selectedChildWidget.domNode).h > 300, "child height > 300");
+								doh.t(dojo.position(accordion.selectedChildWidget.domNode).h < 400, "child height < 400");
+								doh.is(dojo.marginBox(accordion.selectedChildWidget.domNode).h, dojo.contentBox(accordion.selectedChildWidget._wrapperWidget.containerNode).h, "child height vs. wrapper height")
+							}), 300);
+							return d;
+						}
+					},
+
+					// Make sure that the wipe-in animation didn't leave a residual height: 300px type
+					// setting that will interfere with resizing
+					{
+						name: "resize",
+						timeout: 3000,
+						runTest: function(t){
+							accordion.resize({h: 200});
+
+							// make sure size of selected child is correct						
+							doh.t(dojo.position(accordion.selectedChildWidget.domNode).h > 100, "child height > 150");
+							doh.t(dojo.position(accordion.selectedChildWidget.domNode).h < 200, "child height < 200");
+							doh.is(dojo.marginBox(accordion.selectedChildWidget.domNode).h, dojo.contentBox(accordion.selectedChildWidget._wrapperWidget.containerNode).h, "child height vs. wrapper height")
+						}
+					}
+				]);
 			doh.run();
 		});
 	</script>
