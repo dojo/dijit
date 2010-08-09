@@ -1,7 +1,8 @@
 <div class="dijitTabListContainer-${tabPosition}" style="visibility:hidden">
-	<div dojoType="dijit.layout._ScrollingTabControllerButton"
+	<div dojoType="dijit.layout._ScrollingTabControllerMenuButton"
 			class="tabStripButton-${tabPosition}"
-			id="${id}_menuBtn" iconClass="dijitTabStripMenuIcon"
+			id="${id}_menuBtn" containerId="${containerId}" iconClass="dijitTabStripMenuIcon"
+			dropDownPosition="below-alt, above-alt"
 			dojoAttachPoint="_menuBtn" showLabel=false>&#9660;</div>
 	<div dojoType="dijit.layout._ScrollingTabControllerButton"
 			class="tabStripButton-${tabPosition}"

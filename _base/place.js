@@ -317,11 +317,17 @@ dijit.getPopupAroundAlignment = function(/*Array*/ position, /*Boolean*/ leftToR
 			case "before":
 				align[leftToRight ? "BL" : "BR"] = leftToRight ? "BR" : "BL";
 				break;
+			case "below-alt":
+				leftToRight = !leftToRight;
+				// fall through
 			case "below":
 				// first try to align left borders, next try to align right borders (or reverse for RTL mode)
 				align[leftToRight ? "BL" : "BR"] = leftToRight ? "TL" : "TR";
 				align[leftToRight ? "BR" : "BL"] = leftToRight ? "TR" : "TL";
 				break;
+			case "above-alt":
+				leftToRight = !leftToRight;
+				// fall through
 			case "above":
 			default:
 				// first try to align left borders, next try to align right borders (or reverse for RTL mode)

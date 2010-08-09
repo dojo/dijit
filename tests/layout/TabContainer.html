@@ -50,35 +50,6 @@
 						t.is(dijit.registry.length, num);
 					}
 				},
-	
-				// Tests that creating a TabContainer creates the list-of-tabs Menu.
-				// (Note though that TabContainer doesn't need to create that Menu until the user presses the show-menu Button)
-				{
-					name: 'createWithMenu',
-					runTest: function(t){
-						var numMenus = dijit.registry.byClass("dijit.Menu").length;
-						var tc = new dijit.layout.TabContainer({ id:"createWithMenu", useMenu:true }).placeAt(dojo.body());
-						
-						var numCreatedMenus = dijit.registry.byClass("dijit.Menu").length;
-						t.is(numMenus + 1, numCreatedMenus);
-	
-						tc.destroyRecursive();
-					}
-				},
-	
-				// Tests that creating a TabContainer with useMenu=false doesn't create a list-of-tabs Menu.
-				{
-					name: 'createWithoutMenu',
-					runTest: function(t){
-						var numMenus = dijit.registry.byClass("dijit.Menu").length;
-						var tc = new dijit.layout.TabContainer({ id:"createWithoutMenu", useMenu:false }).placeAt(dojo.body());
-						
-						var numCreatedMenus = dijit.registry.byClass("dijit.Menu").length;
-						t.is(numMenus, numCreatedMenus);
-	
-						tc.destroyRecursive();
-					}
-				},
 				
 				// Check that tab labels for initial tabs are created
 				{
@@ -92,7 +63,7 @@
 			
 			doh.register("addingTabs", [
 
-				// Test that adding a pane creates new tab button and new menu item
+				// Test that adding a pane creates new tab button
 				{
 					name: 'add new tab',
 					runTest: function(t){
@@ -105,10 +76,8 @@
 						tc.addChild(cp1);
 						
 						var tabLabels = dijit.byId("tc1").getChildren();
-						var menuLabels = dijit.byId("tc1_tablist_menu").getChildren();
 						
 						t.is(5, tabLabels.length, "there are 5 tabs");
-						t.is(5, menuLabels.length, "there are 5 menu items");
 					}
 				},
 				
@@ -133,9 +102,9 @@
 						t.t(right, "verify right scroll button exists");
 						t.t(menu, "verify dropdown menu button exists");
 							
-						t.t(isVisible(left), "left scroll is displayed");
-						t.t(isVisible(right), "right scroll is displayed");
-						t.t(isVisible(menu), "menu is displayed");	
+						t.t(isVisible(left), "left scroll button is displayed");
+						t.t(isVisible(right), "right scroll button is displayed");
+						t.t(isVisible(menu), "menu button is displayed");	
 					}
 				}
 			]);
@@ -178,20 +147,16 @@
 				{
 					name: "initialIcon",
 					runTest: function(t){
-						var cp = dijit.byId("cp4"),
-							menu = dijit.byId("cp4_stcMi");
+						var cp = dijit.byId("cp4");
 						
 						t.is('tab1', innerText(cp.controlButton.containerNode), "tab label");
 						t.is('plusIcon', cp.controlButton.iconClass, "tab icon");
-						t.is('tab1', menu.label, "menu label");
-						t.is('plusIcon', menu.iconClass, "menu icon");
 					}
 				},
 				{
 					name: "changeIcon",
 					runTest: function(t){
-						var cp = dijit.byId("cp4"),
-							menu = dijit.byId("cp4_stcMi");
+						var cp = dijit.byId("cp4");
 
 						cp.set({
 							"title": "note",
@@ -200,8 +165,6 @@
 						
 						t.is('note', innerText(cp.controlButton.containerNode), "the tab's label has changed");
 						t.is('noteIcon', cp.controlButton.iconClass, "new icon is displayed in tab");
-						t.is('note', menu.label, "the menu's label has changed");
-						t.is('noteIcon', menu.iconClass, "new icon is displayed in menu too");
 					}
 				},
 				{
@@ -221,17 +184,15 @@
 						cp.set('title', 'newTitle');
 						
 						var title = dojo.query("#tc1_tablist_cpTitle span.tabLabel")[0];
-						var menuTitle = dijit.byId("cpTitle_stcMi").label;
 						
 						t.is('newTitle', innerText(title), "the tab's text label has changed");
-						t.is('newTitle', menuTitle, "the menu's text label has changed");
 					}
 				}
 			]);
 
 			doh.register("deletingTabs", [
 
-				// Check that deleting a pane removes the tab button, menu item, etc.
+				// Check that deleting a pane removes the tab button
 				{
 					name: 'deleteTab',
 					runTest: function(t){
@@ -241,10 +202,8 @@
 						tc1.removeChild(cp);
 						
 						var childPanes = tc1.getChildren();
-						var menuLabels = dijit.byId("tc1_tablist_menu").getChildren();
 						
 						t.is(5, childPanes.length, "verify there are now only 4 tabs instead of 5");
-						t.is(5, menuLabels.length, "verify there are now only 4 menu items instead of 5");
 						t.t(cp.domNode, "verify that the deleted tab's content pane still exists on the page");
 
 						var label = dojo.byId("#tc1_tablist_cpTitle");
@@ -290,6 +249,41 @@
 					}
 				}
 			]);		
+
+			doh.register("menu", {
+				name: "menu",
+				runTest: function(t){
+					var tc1 = dijit.byId("tc1"),
+						children = tc1.getChildren();
+				
+					// add an icon and change the title just for testing that the icon and label appear in the menu
+					children[0].set({
+						title: "new title",
+						iconClass: "noteIcon"
+					});
+						
+					var menuBtn = dijit.byId("tc1_tablist_menuBtn");
+					menuBtn.toggleDropDown();
+
+					var menu = dijit.byId("tc1_menu");
+					doh.t(isVisible(menu), "menu exists and is visible");
+					doh.is(menu.getChildren().length, children.length, "# of menu children");
+					doh.is("new title", innerText(menu.getChildren()[0].containerNode));
+					doh.is("noteIcon", menu.getChildren()[0].iconClass);
+				},
+				tearDown: function(){
+					var tc1 = dijit.byId("tc1"),
+						children = tc1.getChildren();
+
+					children[0].set({
+						title: "old title",
+						iconClass: ""
+					});
+
+					var menuBtn = dijit.byId("tc1_tablist_menuBtn");
+					menuBtn.closeDropDown();
+				}
+			});
 
 			doh.register("layoutTests", [
 				{
