@@ -33,11 +33,13 @@ try{
 	doh.registerUrl("dijit.tests.form.robot.Spinner_mouse", dojo.moduleUrl("dijit","tests/form/robot/Spinner_mouse.html"+userArgs), 99999999);
 	doh.registerUrl("dijit.tests.form.robot.Spinner_a11y", dojo.moduleUrl("dijit","tests/form/robot/Spinner_a11y.html"+userArgs), 99999999);
 
-	doh.registerUrl("dijit.tests.form.CheckBox", dojo.moduleUrl("dijit", "tests/form/test_CheckBox.html"), 99999999);
+	doh.registerUrl("dijit.tests.form.CheckBox", dojo.moduleUrl("dijit", "tests/form/test_CheckBox.html"+userArgs), 99999999);
 
 	doh.registerUrl("dijit.tests.form.robot.Textarea", dojo.moduleUrl("dijit","tests/form/robot/Textarea.html"+userArgs), 99999999);
 
 	doh.registerUrl("dijit.tests.form.robot.validationMessages", dojo.moduleUrl("dijit","tests/form/robot/validationMessages.html"+userArgs), 99999999);
+
+	doh.registerUrl("dijit.tests.form.verticalAlign", dojo.moduleUrl("dijit","tests/form/test_verticalAlign.html"+userArgs), 99999999);
 
 	doh.registerUrl("dijit.tests.form.TextBox_sizes.tundra.ltr", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=tundra&dir=ltr"), 99999999);
 	doh.registerUrl("dijit.tests.form.TextBox_sizes.tundra.rtl", dojo.moduleUrl("dijit", "tests/form/TextBox_sizes.html?theme=tundra&dir=rtl"), 99999999);
