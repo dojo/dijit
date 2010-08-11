@@ -3,10 +3,10 @@
 	insertImageTitle: "Proprietăţi imagine",
 	url: "URL:",
 	text: "Descriere:",
-	target: "Ţintă:",
-	set: "Setare",
-	currentWindow: "Fereastra curentă",
-	parentWindow: "Fereastra părinte",
+	target: "Destinaţie:",
+	set: "Set",
+	currentWindow: "Fereastră curentă",
+	parentWindow: "Fereastră părinte",
 	topWindow: "Fereastra cea mai de sus",
 	newWindow: "Fereastră nouă"
 })
