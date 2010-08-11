@@ -135,9 +135,9 @@ dojo.declare(
 		this.inherited(arguments);
 		// tweak textarea style to reduce browser differences
 		dojo.style(this.textbox, { overflowY: 'hidden', overflowX: 'auto', boxSizing: 'border-box', MsBoxSizing: 'border-box', WebkitBoxSizing: 'border-box', MozBoxSizing: 'border-box' });
-		this.connect(this.textbox, "onscroll", this._onInput);
-		this.connect(this.textbox, "onresize", this._onInput);
-		this.connect(this.textbox, "onfocus", this._onInput); // useful when a previous estimate was off a bit
+		this.connect(this.textbox, "onscroll", "_onInput");
+		this.connect(this.textbox, "onresize", "_onInput");
+		this.connect(this.textbox, "onfocus", "_onInput"); // useful when a previous estimate was off a bit
 		this._setTimeoutHandle = setTimeout(dojo.hitch(this, "resize"), 0);
 	},
 

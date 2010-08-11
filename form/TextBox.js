@@ -259,12 +259,12 @@ dojo.declare(
 			this.inherited(arguments);
 
 			if(dojo.isMoz || dojo.isOpera){
-				this.connect(this.textbox, "oninput", this._onInput);
+				this.connect(this.textbox, "oninput", "_onInput");
 			}else{
-				this.connect(this.textbox, "onkeydown", this._onInput);
-				this.connect(this.textbox, "onkeyup", this._onInput);
-				this.connect(this.textbox, "onpaste", this._onInput);
-				this.connect(this.textbox, "oncut", this._onInput);
+				this.connect(this.textbox, "onkeydown", "_onInput");
+				this.connect(this.textbox, "onkeyup", "_onInput");
+				this.connect(this.textbox, "onpaste", "_onInput");
+				this.connect(this.textbox, "oncut", "_onInput");
 			}
 		},
 
