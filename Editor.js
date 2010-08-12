@@ -28,7 +28,7 @@ dojo.declare(
 		//		a few limitations.  Note: this widget should not be used with the HTML
 		//		&lt;TEXTAREA&gt; tag -- see dijit._editor.RichText for details.
 
-		// plugins: Object[]
+		// plugins: [const] Object[]
 		//		A list of plugin names (as strings) or instances (as objects)
 		//		for this widget.
 		//
@@ -36,7 +36,7 @@ dojo.declare(
 		//	|	plugins="['bold',{name:'dijit._editor.plugins.FontChoice', command:'fontName', generic:true}]"
 		plugins: null,
 
-		// extraPlugins: Object[]
+		// extraPlugins: [const] Object[]
 		//		A list of extra plugin names which will be appended to plugins array
 		extraPlugins: null,
 
@@ -190,7 +190,7 @@ dojo.declare(
 			}
 			/*
 			else{
-				// do nothing, the editor is already laid out correctly.   The user has probably specified
+				// do nothing, the editor is already laid out correctly.  The user has probably specified
 				// the height parameter, which was used to set a size on the iframe
 			}
 			*/
@@ -267,7 +267,7 @@ dojo.declare(
 		},
 		onBeforeDeactivate: function(e){
 			// summary:
-			//		Called on IE right before focus is lost.   Saves the selected range.
+			//		Called on IE right before focus is lost.  Saves the selected range.
 			// tags:
 			//		private
 			if(this.customUndo){
@@ -317,12 +317,15 @@ dojo.declare(
 				this._editTimer = setTimeout(dojo.hitch(this, this.endEditing), this._editInterval);
 			}
 		},
+
+		// TODO: declaring these in the prototype is meaningless, just create in the constructor/postCreate
 		_steps:[],
 		_undoedSteps:[],
+
 		execCommand: function(cmd){
 			// summary:
 			//		Main handler for executing any commands to the editor, like paste, bold, etc.
-			//      Called by plugins, but not meant to be called by end users.
+			//		Called by plugins, but not meant to be called by end users.
 			// tags:
 			//		protected
 			if(this.customUndo && (cmd == 'undo' || cmd == 'redo')){
@@ -334,7 +337,7 @@ dojo.declare(
 				}
 				var r;
 				try{
-					r = this.inherited('execCommand', arguments);
+					r = this.inherited(arguments);
 					if(dojo.isWebKit && cmd == 'paste' && !r){ //see #4598: safari does not support invoking paste from js
 						throw { code: 1011 }; // throw an object like Mozilla's error
 					}
@@ -358,13 +361,13 @@ dojo.declare(
 		queryCommandEnabled: function(cmd){
 			// summary:
 			//		Returns true if specified editor command is enabled.
-			//      Used by the plugins to know when to highlight/not highlight buttons.
+			//		Used by the plugins to know when to highlight/not highlight buttons.
 			// tags:
 			//		protected
 			if(this.customUndo && (cmd == 'undo' || cmd == 'redo')){
 				return cmd == 'undo' ? (this._steps.length > 1) : (this._undoedSteps.length > 0);
 			}else{
-				return this.inherited('queryCommandEnabled',arguments);
+				return this.inherited(arguments);
 			}
 		},
 		_moveToBookmark: function(b){
@@ -551,7 +554,7 @@ dojo.declare(
 			if(this._steps.length === 0){
 				// You want to use the editor content without post filtering
 				// to make sure selection restores right for the 'initial' state.
-				// and undo is called.  So not using this.savedContent, as it was 'processed'
+				// and undo is called.  So not using this.value, as it was 'processed'
 				// and the line-up for selections may have been altered.
 				this._steps.push({'text':dijit._editor.getChildrenHtml(this.editNode),'bookmark':this._getBookmark()});
 			}
@@ -652,7 +655,7 @@ dojo.declare(
 			//		protected
 
 			//this._saveSelection();
-			this.inherited('_onBlur',arguments);
+			this.inherited(arguments);
 			this.endEditing(true);
 		},
 		_saveSelection: function(){

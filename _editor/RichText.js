@@ -15,7 +15,7 @@ if(!dojo.config["useXDomain"] || dojo.config["allowXdRichTextSave"]){
 	if(dojo._postLoad){
 		(function(){
 			var savetextarea = dojo.doc.createElement('textarea');
-			savetextarea.id = dijit._scopeName + "._editor.RichText.savedContent";
+			savetextarea.id = dijit._scopeName + "._editor.RichText.value";
 			dojo.style(savetextarea, {
 				display:'none',
 				position:'absolute',
@@ -28,7 +28,7 @@ if(!dojo.config["useXDomain"] || dojo.config["allowXdRichTextSave"]){
 	}else{
 		//dojo.body() is not available before onLoad is fired
 		try{
-			dojo.doc.write('<textarea id="' + dijit._scopeName + '._editor.RichText.savedContent" ' +
+			dojo.doc.write('<textarea id="' + dijit._scopeName + '._editor.RichText.value" ' +
 				'style="display:none;position:absolute;top:-100px;left:-100px;height:3px;width:3px;overflow:hidden;"></textarea>');
 		}catch(e){ }
 	}
@@ -113,10 +113,6 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 	//		semicolon (";") separated list of css files for the editing area
 	styleSheets: "",
 
-	// _content: [private] String
-	//		temporary content storage
-	_content: "",
-
 	// height: String
 	//		Set height to fix the editor at a specific height, with scrolling.
 	//		By default, this is 300px.  If you want to have the editor always
@@ -161,21 +157,21 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 
 		// Push in the builtin filters now, making them the first executed, but not over-riding anything
 		// users passed in.  See: #6062 
-                this.contentPreFilters = [dojo.hitch(this, "_preFixUrlAttributes")].concat(this.contentPreFilters);
-                if(dojo.isMoz){
-                        this.contentPreFilters = [this._normalizeFontStyle].concat(this.contentPreFilters);
-                        this.contentPostFilters = [this._removeMozBogus].concat(this.contentPostFilters);
-                }
-                if(dojo.isWebKit){
-                        // Try to clean up WebKit bogus artifacts.  The inserted classes
-                        // made by WebKit sometimes messes things up.
-                        this.contentPreFilters = [this._removeWebkitBogus].concat(this.contentPreFilters);
-                        this.contentPostFilters = [this._removeWebkitBogus].concat(this.contentPostFilters);
-                }
-                if(dojo.isIE){
-                        // IE generates <strong> and <em> but we want to normalize to <b> and <i>
-                        this.contentPostFilters = [this._normalizeFontStyle].concat(this.contentPostFilters);
-                }
+		this.contentPreFilters = [dojo.hitch(this, "_preFixUrlAttributes")].concat(this.contentPreFilters);
+		if(dojo.isMoz){
+				this.contentPreFilters = [this._normalizeFontStyle].concat(this.contentPreFilters);
+				this.contentPostFilters = [this._removeMozBogus].concat(this.contentPostFilters);
+		}
+		if(dojo.isWebKit){
+				// Try to clean up WebKit bogus artifacts.  The inserted classes
+				// made by WebKit sometimes messes things up.
+				this.contentPreFilters = [this._removeWebkitBogus].concat(this.contentPreFilters);
+				this.contentPostFilters = [this._removeWebkitBogus].concat(this.contentPostFilters);
+		}
+		if(dojo.isIE){
+				// IE generates <strong> and <em> but we want to normalize to <b> and <i>
+				this.contentPostFilters = [this._normalizeFontStyle].concat(this.contentPostFilters);
+		}
 		this.inherited(arguments);
 
 		dojo.publish(dijit._scopeName + "._editor.RichText::init", [this]);
@@ -312,7 +308,6 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		if(!this.isClosed){ this.close(); }
 		dojo.publish(dijit._scopeName + "._editor.RichText::open", [ this ]);
 
-		this._content = "";
 		if(arguments.length == 1 && element.nodeName){ // else unchanged
 			this.domNode = element;
 		}
@@ -365,6 +360,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 
 			if(ta.form){
 				dojo.connect(ta.form, "onsubmit", this, function(){
+					// Copy value to the <textarea> so it gets submitted along with form.
 					// FIXME: should we be calling close() here instead?
 					ta.value = this.getValue();
 				});
@@ -378,7 +374,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		this._oldHeight = content.h;
 		this._oldWidth = content.w;
 
-		this.savedContent = html;
+		this.value = html;
 
 		// If we're a list item we have to put in a blank line to force the
 		// bullet to nicely align at the top of text
@@ -398,7 +394,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		// in a hidden <textarea> (which contains the data for all the editors on this page),
 		// so get editor value from there
 		if(this.name !== "" && (!dojo.config["useXDomain"] || dojo.config["allowXdRichTextSave"])){
-			var saveTextarea = dojo.byId(dijit._scopeName + "._editor.RichText.savedContent");
+			var saveTextarea = dojo.byId(dijit._scopeName + "._editor.RichText.value");
 			if(saveTextarea.value !== ""){
 				var datas = saveTextarea.value.split(this._SEPARATOR), i=0, dat;
 				while((dat=datas[i++])){
@@ -662,9 +658,9 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 
 	_mozSettingProps: {'styleWithCSS':false},
 	_setDisabledAttr: function(/*Boolean*/ value){
-		this.disabled = value;
-		if(!this.isLoaded){ return; } // this method requires init to be complete
 		value = !!value;
+		this._set("disabled", value);
+		if(!this.isLoaded){ return; } // this method requires init to be complete
 		if(dojo.isIE || dojo.isWebKit || dojo.isOpera){
 			var preventIEfocus = dojo.isIE && (this.isLoaded || !this.focusOnLoad);
 			if(preventIEfocus){ this.editNode.unselectable = "on"; }
@@ -752,10 +748,10 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}
 
 		if(dojo.isWebKit){
-			//WebKit sometimes doesn't fire right on selections, so the toolbar
-			//doesn't update right.  Therefore, help it out a bit with an additional
-			//listener.  A mouse up will typically indicate a display change, so fire this
-			//and get the toolbar to adapt.  Reference: #9532
+			// WebKit sometimes doesn't fire right on selections, so the toolbar
+			// doesn't update right.  Therefore, help it out a bit with an additional
+			// listener.  A mouse up will typically indicate a display change, so fire this
+			// and get the toolbar to adapt.  Reference: #9532
 			this._webkitListener = this.connect(this.document, "onmouseup", "onDisplayChanged");
 		}
 
@@ -775,7 +771,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 
 		// Set up a function to allow delaying the setValue until a callback is fired
 		// This ensures extensions like dijit.Editor have a way to hold the value set 
-		// until plugins load (and do things like register filters.
+		// until plugins load (and do things like register filters).
 		var setContent = dojo.hitch(this, function(){
 			this.setValue(html);
 			if(this.onLoadDeferred){
@@ -788,7 +784,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 				dojo.addOnLoad(dojo.hitch(this, function(){ setTimeout(dojo.hitch(this, "focus"), this.updateInterval); }));
 			}
 			// Save off the initial content now
-			this.savedContent = this.getValue(true);
+			this.value = this.getValue(true);
 		});
 		if(this.setValueDeferred){
 			this.setValueDeferred.addCallback(setContent);
@@ -847,7 +843,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		// summary:
 		//		Handler for onkeyup event
 		// tags:
-		//      callback
+		//		callback
 		return;
 	},
 
@@ -861,7 +857,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 	},
 	_setValueAttr: function(/*String*/ value){
 		// summary:
-		//      Registers that attr("value", foo) should call setValue(foo)
+		//		Registers that attr("value", foo) should call setValue(foo)
 		this.setValue(value);
 	},
 	_setDisableSpellCheckAttr: function(/*Boolean*/ disabled){
@@ -873,7 +869,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 				dojo.attr(this.document.body, "spellcheck", !disabled);
 			}));
 		}
-		this.disableSpellCheck = disabled;
+		this._set("disableSpellCheck", disabled);
 	},
 
 	onKeyPress: function(e){
@@ -963,13 +959,14 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		// console.info('_onBlur')
 
 		this.inherited(arguments);
-		var _c=this.getValue(true);
 
-		if(_c!=this.savedContent){
-			this.onChange(_c);
-			this.savedContent=_c;
+		var newValue = this.getValue(true);
+		if(newValue != this.value){
+			this.onChange(newValue);
 		}
+		this._set("value", newValue);
 	},
+
 	_onFocus: function(/*Event*/ e){
 		// summary:
 		//		Called from focus manager when focus has moved into this editor
@@ -985,7 +982,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}
 	},
 
-	// TODO: why is this needed - should we deprecate this ?
+	// TODO: remove in 2.0
 	blur: function(){
 		// summary:
 		//		Remove focus from this instance.
@@ -1047,6 +1044,9 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			this._updateHandler = dojo.hitch(this,"onNormalizedDisplayChanged");
 		}
 		this._updateTimer = setTimeout(this._updateHandler, this.updateInterval);
+		
+		// Technically this should trigger a call to watch("value", ...) registered handlers,
+		// but getValue() is too slow to call on every keystroke so we don't.
 	},
 	onNormalizedDisplayChanged: function(){
 		// summary:
@@ -1392,8 +1392,8 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 	getValue: function(/*Boolean?*/ nonDestructive){
 		// summary:
 		//		Return the current content of the editing area (post filters
-		//		are applied).  Users should call attr('value') instead.
-		//	nonDestructive:
+		//		are applied).  Users should call get('value') instead.
+		// nonDestructive:
 		//		defaults to false. Should the post-filtering be run over a copy
 		//		of the live DOM? Most users should pass "true" here unless they
 		//		*really* know that none of the installed filters are going to
@@ -1444,7 +1444,9 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			node.innerHTML = html;
 			this._preDomFilterContent(node);
 		}
+
 		this.onDisplayChanged();
+		this._set("value", this.getValue(true));
 	},
 
 	replaceValue: function(/*String*/ html){
@@ -1476,6 +1478,8 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			//so for now, use setValue for IE too
 			this.setValue(html);
 		}
+
+		this._set("value", this.getValue(true));
 	},
 
 	_preFilterContent: function(/*String*/ html){
@@ -1535,11 +1539,11 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		//		the DOM which is passed is run through each of the
 		//		contentPostFilters functions.
 		//
-		//	dom:
+		// dom:
 		//		a node, set of nodes, which to filter using each of the current
 		//		members of the contentDomPostFilters and contentPostFilters arrays.
 		//
-		//	nonDestructive:
+		// nonDestructive:
 		//		defaults to "false". If true, ensures that filtering happens on
 		//		a clone of the passed-in content and not the actual node
 		//		itself.
@@ -1584,7 +1588,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		// tags:
 		//		private
 
-		var saveTextarea = dojo.byId(dijit._scopeName + "._editor.RichText.savedContent");
+		var saveTextarea = dojo.byId(dijit._scopeName + "._editor.RichText.value");
 		if(saveTextarea.value){
 			saveTextarea.value += this._SEPARATOR;
 		}
@@ -1624,7 +1628,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		return dijit._editor.getChildrenHtml(dom);
 	},
 
-	close: function(/*Boolean*/ save){
+	close: function(/*Boolean?*/ save){
 		// summary:
 		//		Kills the editor and optionally writes back the modified contents to the
 		//		element from which it originated.
@@ -1636,8 +1640,9 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		if(this.isClosed){return false; }
 
 		if(!arguments.length){ save = true; }
-		this._content = this.getValue();
-		var changed = (this.savedContent != this._content);
+		if(save){
+			this._set("value", this.getValue(true));
+		}
 
 		// line height is squashed for iframes
 		// FIXME: why was this here? if (this.iframe){ this.domNode.style.lineHeight = null; }
@@ -1645,7 +1650,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		if(this.interval){ clearInterval(this.interval); }
 
 		if(this._webkitListener){
-			//Cleaup of WebKit fix: #9532
+			// Cleaup of WebKit fix: #9532
 			this.disconnect(this._webkitListener);
 			delete this._webkitListener;
 		}
@@ -1669,23 +1674,12 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 				s.overflow = this.__overflow;
 				this.__overflow = null;
 			}
-			this.textarea.value = save ? this._content : this.savedContent;
+			this.textarea.value = this.value;
 			dojo.destroy(this.domNode);
 			this.domNode = this.textarea;
 		}else{
-			// if(save){
-			// why we treat moz differently? comment out to fix #1061
-			//		if(dojo.isMoz){
-			//			var nc = dojo.doc.createElement("span");
-			//			this.domNode.appendChild(nc);
-			//			nc.innerHTML = this.editNode.innerHTML;
-			//		}else{
-			//			this.domNode.innerHTML = this._content;
-			//		}
-			// }
-
 			// Note that this destroys the iframe
-			this.domNode.innerHTML = save ? this._content : this.savedContent;
+			this.domNode.innerHTML = this.value;
 		}
 		delete this.iframe;
 
@@ -1704,8 +1698,6 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		this.document = null;
 		this.editingArea = null;
 		this.editorObject = null;
-
-		return changed; // Boolean: whether the content has been modified
 	},
 
 	destroy: function(){
