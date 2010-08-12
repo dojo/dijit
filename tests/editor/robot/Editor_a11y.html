@@ -185,10 +185,15 @@
 
 							dojo.window.scrollIntoView(editor1.domNode);
 
+							// Write "hello" in editor and also make sure there's something in the system
+							// clipboard, so that the paste button in the toolbar is guaranteed to be enabled.
+							// (otherwise the two RIGHT_ARROW commands below will overshoot the bold button
+							// and end up on the italic button)
 							doh.robot.sequence(function(){
 								editor1.focus();
 							}, 500);
 							doh.robot.keyPress("a", 500, metaKey);	// select all
+							doh.robot.keyPress("c", 500, dojo.isMac ? {meta: true} : {ctrl: true});	// copy into clipboard
 							doh.robot.typeKeys("hello ", 500);		// and erase (by typing something new)
 
 							// Go to toolbar and turn on bold.
@@ -199,6 +204,7 @@
 							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500);
 							doh.robot.keyPress(dojo.keys.SPACE, 500);
 
+							// Focus and caret should be back after "hello ", type "world" in bold
 							doh.robot.typeKeys("world", 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
