@@ -30,11 +30,9 @@
 				queue.push(arguments);
 				return;
 			}
-			with(widget.domNode.style){
-				borderStyle="solid";
-				outlineStyle="solid";
-
-			}
+			var s = widget.domNode.style;
+			s.borderStyle="solid";
+			s.outlineStyle="solid";
 			animation = dojo.animateProperty({
 				node: widget.domNode,
 				duration: 50,
@@ -73,6 +71,13 @@
 				}
 			});
 			dojo.subscribe("focusNode", function(node){ console.log("focused on node " + (node?(node.id||node.tagName):"nothing"));});
+
+			// Focus notification also comes through watch() on each widget
+			dijit.registry.forEach(function(widget){
+				widget.watch("focused", function(name, oldValue, newValue){
+					console.log(this.id + "." + name + ": " + oldValue + " ---> " + newValue);
+				});
+			}, this);
 		});
 	</script>
 	<style>

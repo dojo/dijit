@@ -4,6 +4,7 @@ dojo.provide("dijit._Widget");
 dojo.require( "dijit._base" );
 //>>excludeEnd("dijitBaseExclude");
 
+dojo.require("dojo.Stateful");
 
 // This code is to assist deferring dojo.connect() calls in widgets (connecting to events on the widgets'
 // DOM nodes) until someone actually needs to monitor that event.
@@ -60,7 +61,7 @@ var _attrReg = {},	// cached results from getSetterAttributes
 		return _attrReg[dc] || [];	// String[]
 	};
 
-dojo.declare("dijit._Widget", null, {
+dojo.declare("dijit._Widget", dojo.Stateful, {
 	// summary:
 	//		Base class for all Dijit widgets.
 
@@ -153,6 +154,11 @@ dojo.declare("dijit._Widget", null, {
 	//		startup() has completed.
 	_started: false,
 =====*/
+
+	// focused: [readonly] Boolean
+	//		This widget or a widget it contains has focus, or is "active" because
+	//		it was recently clicked.
+	focused: false,
 
 	// attributeMap: [protected] Object
 	//		attributeMap sets up a "binding" between attributes (aka properties)
@@ -904,9 +910,7 @@ dojo.declare("dijit._Widget", null, {
 			if(name in this.attributeMap){
 				this._attrToDom(name, value);
 			}
-			var oldValue = this[name];
-			// FIXME: what about function assignments? Any way to connect() here?
-			this[name] = value;
+			this._set(name, value);
 		}
 		return result || this;
 	},
@@ -927,6 +931,17 @@ dojo.declare("dijit._Widget", null, {
 			s: "_set"+uc+"Attr",
 			g: "_get"+uc+"Attr"
 		});
+	},
+
+	_set: function(/*String*/ name, /*anything*/ value){
+		// summary:
+		//		Helper function to set new value for specified attribute, and call handlers
+		//		registered with watch().
+		var oldValue = this[name];
+		this[name] = value;
+		if(this._watchCallbacks){
+			this._watchCallbacks(name, oldValue, value);
+		}
 	},
 
 	toString: function(){

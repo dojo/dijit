@@ -22,6 +22,8 @@
 				function resetEvents(){
 					focusEvents = {};
 					blurEvents = {};
+					focusedState = {};
+					focusedWatchLog = {};
 				}
 				resetEvents();
 
@@ -29,11 +31,24 @@
 
 					function setUp(){
 						dojo.forEach(["form", "fieldset1", "fieldset2", "select", "editor"], function(id){
-							dojo.connect(dijit.byId(id), "_onFocus", function(){
+							var w = dijit.byId(id);
+
+							// old API is to connect to onFocus/onBlur (remove in 2.0)
+							dojo.connect(w, "onFocus", function(){
 								focusEvents[id] = true;
 							});
-							dojo.connect(dijit.byId(id), "_onBlur", function(){
+							dojo.connect(w, "onBlur", function(){
 								blurEvents[id] = true;
+							});
+
+							// new API is to watch "focused" attribute
+							w.watch("focused", function(name, oldValue, newValue){
+								// keep track of current state
+								focusedState[name] = newValue;
+
+								// keep log of every watch notification
+								var nvs = newValue ? "focused" : "blurred";
+								focusedWatchLog[name] = !focusedWatchLog[name] ? nvs : focusedWatchLog[name] + ", " + nvs;
 							});
 						});
 					},
@@ -59,6 +74,9 @@
 								// And that the dijit.form.Form widget is marked as
 								// being "in focus"
 								doh.t(focusEvents["form"], "form focused");
+								
+								// And that it got one watch event
+								doh.is("focused", focusedWatchLog["form"], "watch callback");
 							}), 500);
 
 							return d;
@@ -92,6 +110,10 @@
 								doh.f(blurEvents["form"], "form wasn't blurred");
 								doh.t(focusEvents["fieldset1"], "fieldset1 focused");
 								doh.t(focusEvents["select"], "select focused");
+								
+								doh.f(focusedWatchLog["form"], "form watch callback (no new notification)");
+								doh.is("focused", focusedWatchLog["fieldset1"], "fieldset watch callback");
+								doh.is("focused", focusedWatchLog["select"], "select watch callback");
 							}), 500);
 
 							return d;
@@ -120,6 +142,11 @@
 								doh.f(blurEvents["form"], "form wasn't blurred");
 								doh.t(blurEvents["fieldset1"], "fieldset no longer focused");
 								doh.t(focusEvents["editor"], "editor focused");
+
+								doh.f(focusedWatchLog["form"], "form watch callback (no new notification)");
+								doh.is("blurred", focusedWatchLog["fieldset1"], "fieldset watch callback, no longer focused");
+								doh.is("blurred", focusedWatchLog["select"], "select watch callback, no longer focused");
+								doh.is("focused", focusedWatchLog["editor"], "editor watch callback");
 							}), 500);
 
 							return d;
@@ -147,6 +174,11 @@
 								doh.is("form", stack[0], "grandparent of spinner");
 								doh.is("fieldset2", stack[1], "parent of spinner");
 								doh.is("spinner", stack[2], "spinner itself (last in stack)");
+
+								// check watch callbacks
+								doh.is("focused", focusedWatchLog["form"], "grandparent of spinner (watch)");
+								doh.is("focused", focusedWatchLog["fieldset2"], "parent of spinner (watch)");
+								doh.is("focused", focusedWatchLog["spinner"], "spinner (watch)");
 							}), 500);
 
 							return d;
