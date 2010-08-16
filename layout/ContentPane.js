@@ -330,8 +330,9 @@ dojo.declare(
 		//		the same API.
 
 		// For the TabContainer --> BorderContainer --> ContentPane case, _onShow() is
-		// never called, so resize() is our trigger to do the initial href download.
-		if(!this._wasShown){
+		// never called, so resize() is our trigger to do the initial href download (see [20099]).
+		// However, don't load href for closed TitlePanes.
+		if(!this._wasShown && this.open !== false){
 			this._onShow();
 		}
 
