@@ -70,9 +70,9 @@
 							doh.robot.mouseClick({left: true}, 1000);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("date", dojo.global.dijit._curFocus.id, "focus is on the date field");
 								var calDomNode= dojo.query(".dijitCalendarContainer");
 								doh.t(calDomNode.length == 1 && isVisible(calDomNode[0]), "calendar is being shown");
+                                doh.is("17", innerText(dojo.global.dijit._curFocus), "focus is on the calendar");
 							}), 1000);
 
 							return d;
