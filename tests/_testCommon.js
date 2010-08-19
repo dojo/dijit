@@ -17,6 +17,7 @@
 
 (function(){
 	var d = dojo,
+		dir = "",
 		theme = false,
 		testMode = null,
 		defTheme = "claro";
@@ -36,6 +37,7 @@
 				case "dir":
 					// rtl | null
 					document.getElementsByTagName("html")[0].dir = value;
+					dir = value;		
 					break;
 				case "theme":
 					// tundra | soria | nihilo | claro | null
@@ -52,7 +54,7 @@
 	//
 	// Also defer parsing and any dojo.addOnLoad() calls that the test file makes
 	// until the CSS has finished loading.
-	if(theme || testMode){
+	if(theme || testMode || dir){
 
 		if(theme){
 			var themeCss = d.moduleUrl("dijit.themes",theme+"/"+theme+".css");
@@ -83,6 +85,12 @@
 					if(n){ d.destroy(n); }
 			}
 			if(testMode){ d.addClass(b, testMode); }
+
+			if(dir == "rtl"){
+				// pretend all the labels are in an RTL language, because
+				// that affects how they lay out relative to inline form widgets
+				dojo.query("label").attr("dir", "rtl");
+			}
 
 			// Defer parsing and addOnLoad() execution until the specified CSS loads.
 			if(dojo.config._deferParsing){
