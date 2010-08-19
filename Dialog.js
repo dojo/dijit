@@ -471,7 +471,7 @@ dijit._DialogLevelManager = {
 
 		// Display the underlay, or if already displayed then adjust for this new dialog
 		var underlay = dijit._underlay;
-		if(!underlay){
+		if(!underlay || underlay._destroyed){
 			underlay = dijit._underlay = new dijit.DialogUnderlay(underlayAttrs);
 		}else{
 			underlay.set(dialog.underlayAttrs);
