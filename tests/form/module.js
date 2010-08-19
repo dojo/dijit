@@ -25,6 +25,8 @@ try{
 
 	doh.registerUrl("dijit.tests.form.robot.Form_onsubmit", dojo.moduleUrl("dijit","tests/form/robot/Form_onsubmit.html"+userArgs), 99999999);
 
+	doh.registerUrl("dijit.tests.form.robot.MultiSelect", dojo.moduleUrl("dijit","tests/form/robot/MultiSelect.html"+userArgs), 99999999);
+
 	doh.registerUrl("dijit.tests.form.robot.SimpleTextarea", dojo.moduleUrl("dijit","tests/form/robot/SimpleTextarea.html"+userArgs), 99999999);
 	
 	doh.registerUrl("dijit.tests.form.robot.Slider_mouse", dojo.moduleUrl("dijit","tests/form/robot/Slider_mouse.html"+userArgs), 99999999);
