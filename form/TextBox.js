@@ -238,18 +238,21 @@ dojo.declare(
 
 		postCreate: function(){
 			if(dojo.isIE){ // IE INPUT tag fontFamily has to be set directly using STYLE
-				var s = dojo.getComputedStyle(this.domNode);
-				if(s){
-					var ff = s.fontFamily;
-					if(ff){
-						var inputs = this.domNode.getElementsByTagName("INPUT");
-						if(inputs){
-							for(var i=0; i < inputs.length; i++){
-								inputs[i].style.fontFamily = ff;
+				// the setTimeout gives IE a chance to render the TextBox and to deal with font inheritance
+				setTimeout(dojo.hitch(this, function(){
+					var s = dojo.getComputedStyle(this.domNode);
+					if(s){
+						var ff = s.fontFamily;
+						if(ff){
+							var inputs = this.domNode.getElementsByTagName("INPUT");
+							if(inputs){
+								for(var i=0; i < inputs.length; i++){
+									inputs[i].style.fontFamily = ff;
+								}
 							}
 						}
 					}
-				}
+				}), 0);
 			}
 
 			// setting the value here is needed since value="" in the template causes "undefined"

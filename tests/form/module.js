@@ -6,6 +6,7 @@ try{
 	doh.registerUrl("dijit.tests.form.robot.Button_mouse", dojo.moduleUrl("dijit","tests/form/robot/Button_mouse.html"+userArgs), 99999999);
 	doh.registerUrl("dijit.tests.form.robot.Button_a11y", dojo.moduleUrl("dijit","tests/form/robot/Button_a11y.html"+userArgs), 99999999);
 
+	doh.registerUrl("dijit.tests.form.test_validate", dojo.moduleUrl("dijit","tests/form/test_validate.html"+userArgs), 99999999);
 	doh.registerUrl("dijit.tests.form.robot.test_validate", dojo.moduleUrl("dijit","tests/form/robot/test_validate.html"+userArgs), 99999999);
 
 	doh.registerUrl("dijit.tests.form.robot.DateTextBox", dojo.moduleUrl("dijit","tests/form/robot/DateTextBox.html"+userArgs), 99999999);

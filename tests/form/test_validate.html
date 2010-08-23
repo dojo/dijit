@@ -40,6 +40,13 @@
 			#widget_q26 .dijitInputField {
 				padding:10px !important;
 			}
+
+			BODY DIV {
+				font-family: Courier;
+			}
+			.monospace .dijitTextBox {
+				font-family: monospace;
+			}
 		</style>
 
 		<!-- required: the default dijit theme: -->
@@ -53,6 +60,7 @@
 		<script type="text/javascript" src="../_testCommon.js"></script>
 
 		<script type="text/javascript">
+			dojo.require("doh.runner");
 			dojo.require("dijit.dijit"); // optimize: load dijit layer
 			dojo.require("dijit.form.TextBox");
 			dojo.require("dijit.form.ValidationTextBox");
@@ -60,6 +68,37 @@
 			dojo.require("dijit.form.CurrencyTextBox");
 			dojo.require("dojo.currency");
 			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+
+			dojo.addOnLoad(function(){
+
+				new dijit.form.TextBox({id: 'monospace1', disabled: true, value: 'M|M:monospace?'}, 'monospace1');
+				new dijit.form.TextBox({id: 'monospace2', disabled: true, value: 'M|M:monospace?'}).placeAt('widget_monospace1', 'after');
+
+			        doh.register("font inheritance", [
+					{
+			        	        name: "with srcNodeRef",
+			        	        runTest: function(){
+							var d = new doh.Deferred();
+							setTimeout(d.getTestCallback(function(){
+								doh.is("monospace", dojo.style('monospace1', "fontFamily"));
+							}), 0);
+							return d;
+						}
+					},
+					{
+			        	        name: "without srcNodeRef",
+			        	        runTest: function(){
+							var d = new doh.Deferred();
+							setTimeout(d.getTestCallback(function(){
+								doh.is("monospace", dojo.style('monospace2', "fontFamily"));
+							}), 0);
+							return d;
+						}
+					}
+				]);
+
+				doh.run();
+			});
 		</script>
 	</head>
 
@@ -489,5 +528,9 @@
 		</p>
 		<button onclick="dijit.Tooltip.defaultPosition=['above', 'below'];">above, below</button>
 		<button onclick="dijit.Tooltip.defaultPosition=['after', 'before'];">after, before (default)</button>
+
+		<div class="monospace">
+			<input id="monospace1">
+		</div>
 	</body>
 </html>
