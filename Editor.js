@@ -232,8 +232,8 @@ dojo.declare(
 			var offsetHeight = b.offsetHeight;
 			var offsetLeft = b.offsetLeft;
 
-			//Check for vertical scroller click.
-			bodyDir = b.dir?b.dir.toLowerCase():""
+			// Check for vertical scroller click.
+			bodyDir = b.dir ? b.dir.toLowerCase() : "";
 			if(bodyDir != "rtl"){
 				if(clientWidth < offsetWidth && e.x > clientWidth && e.x < offsetWidth){ 
 					// Check the click was between width and offset width, if so, scroller
