@@ -122,7 +122,7 @@
 	<form id="form1" action="#" method="GET">
 
 		<p>Option tags, autoComplete=false, selectOnClick=true, default value of California, pageSize=30, custom labelFunc method</p>
-		<label for="setvaluetest">US State test 1</label> (200% Courier font):
+		<label for="setvaluetest">US State test 1 (200% Courier font):</label>
 		<select id="setvaluetest"
 				name="state1"
 				dojoType="$testWidget"
@@ -251,7 +251,7 @@
 			url="../_data/dijits.json"></div>
 
 		<p>Data store, autoComplete=true:</p>
-		<label for="datatest">US State test 2</label> (8pt font):
+		<label for="datatest">US State test 2 (8pt font):</label>
 		<input dojoType="$testWidget"
 				value="$-setvaluetest-CA"
 				store="stateStore"
@@ -264,7 +264,7 @@
 		<br>onChange:<input id="value2" disabled value="not fired yet!" autocomplete="off">
 		<hr>
 		<p>Artificially slowed-down data store, autoComplete=true:</p>
-		<label for="slow">US State test slow</label>:
+		<label for="slow">US State test slow:</label>
 		<input dojoType="$testWidget"
 				value="$-setvaluetest-CA"
 				store="slowStateStore"
@@ -277,7 +277,7 @@
 		<button id="slowDestroy" onclick="dijit.byId('slow').destroy();return false">Destroy widget to test in-flight query cancel</button>
 		<hr>
 
-		<label for="datatestDijit">Dijit List test #1</label> (150% font):
+		<label for="datatestDijit">Dijit List test #1 (150% font):</label>
 		<input dojoType="$testWidget"
 				value="dijit.Editor"
 				store="dijitStore"
@@ -290,7 +290,7 @@
 		<hr>
 
 		<p>Initially disabled, url, autoComplete=false:</p>
-		<label for="combo3">US State test 3: </label>
+		<label for="combo3">US State test 3:</label>
 	 	<input id="combo3"
 	 			dojoType="$testWidget"
 	 			value="$-setvaluetest-CA"
@@ -308,7 +308,7 @@
 		</div>
 		<hr>
 		<p>Data store, autoComplete=false required=true and highlightMatch="none"</p>
-		<label for="combobox4">US State test 4: </label>
+		<label for="combobox4">US State test 4:</label>
 		<input dojoType="$testWidget"
 				value=""
 				store="stateStore"
@@ -490,7 +490,7 @@
 		<hr>
 
 		<p>Rich text label</p>
-		<label for="richtexttest">Rich text labels in drop down</label>:
+		<label for="richtexttest">Rich text labels in drop down:</label>
 		<select id="richtexttest"
 				name="richtexttest"
 				dojoType="$testWidget"
