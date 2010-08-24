@@ -159,10 +159,9 @@ dojo.declare("dijit.layout._LayoutWidget",
 			// tags:
 			//		protected extension
 
-			dojo.addClass(child.domNode, this.baseClass+"-child");
-			if(child.baseClass){
-				dojo.addClass(child.domNode, this.baseClass+"-"+child.baseClass);
-			}
+			var cls = this.baseClass + "-child " 
+				+ (child.baseClass ? this.baseClass + "-" + child.baseClass : "");
+			dojo.addClass(child.domNode, cls);
 		},
 
 		addChild: function(/*dijit._Widget*/ child, /*Integer?*/ insertIndex){
@@ -175,10 +174,11 @@ dojo.declare("dijit.layout._LayoutWidget",
 
 		removeChild: function(/*dijit._Widget*/ child){
 			// Overrides _Container.removeChild() to remove class added by _setupChild()
-			dojo.removeClass(child.domNode, this.baseClass+"-child");
-			if(child.baseClass){
-				dojo.removeClass(child.domNode, this.baseClass+"-"+child.baseClass);
-			}
+			var cls = this.baseClass + "-child" 
+					+ (child.baseClass ? 
+						" " + this.baseClass + "-" + child.baseClass : "");
+			dojo.removeClass(child.domNode, cls);
+			
 			this.inherited(arguments);
 		}
 	}

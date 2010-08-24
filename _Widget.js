@@ -721,9 +721,8 @@ dojo.declare("dijit._Widget", dojo.Stateful, {
 		// tags:
 		//		protected
 		var mapNode = this[this.attributeMap["class"] || 'domNode'];
-		dojo.removeClass(mapNode, this["class"])
+		dojo.replaceClass(mapNode, value, this["class"]);
 		this["class"] = value;
-		dojo.addClass(mapNode, value);
 	},
 
 	_setStyleAttr: function(/*String||Object*/ value){
@@ -806,8 +805,7 @@ dojo.declare("dijit._Widget", dojo.Stateful, {
 					mapNode.innerHTML = value;
 					break;
 				case "class":
-					dojo.removeClass(mapNode, this[attr]);
-					dojo.addClass(mapNode, value);
+					dojo.replaceClass(mapNode, value, this[attr]);
 					break;
 			}
 		}, this);

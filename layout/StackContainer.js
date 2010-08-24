@@ -97,8 +97,7 @@ dojo.declare(
 
 		this.inherited(arguments);
 
-		dojo.removeClass(child.domNode, "dijitVisible");
-		dojo.addClass(child.domNode, "dijitHidden");
+		dojo.replaceClass(child.domNode, "dijitHidden", "dijitVisible");
 
 		// remove the title attribute so it doesn't show up when i hover
 		// over a node
@@ -247,8 +246,7 @@ dojo.declare(
 		page.isLastChild = (page == children[children.length-1]);
 		page.selected = true;
 
-		dojo.removeClass(page.domNode, "dijitHidden");
-		dojo.addClass(page.domNode, "dijitVisible");
+		dojo.replaceClass(page.domNode, "dijitVisible", "dijitHidden");
 
 		page._onShow();
 	},
@@ -258,8 +256,7 @@ dojo.declare(
 		//		Hide the specified child by changing it's CSS, and call _onHide() so
 		//		it's notified.
 		page.selected=false;
-		dojo.removeClass(page.domNode, "dijitVisible");
-		dojo.addClass(page.domNode, "dijitHidden");
+		dojo.replaceClass(page.domNode, "dijitHidden", "dijitVisible");
 
 		page.onHide();
 	},

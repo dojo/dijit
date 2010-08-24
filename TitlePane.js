@@ -193,12 +193,10 @@ dojo.declare(
 		//		private
 
 		var node = this.titleBarNode || this.focusNode;
-
-		if(this._titleBarClass){
-			dojo.removeClass(node, this._titleBarClass);
-		}
+		var oldCls = this._titleBarClass;
 		this._titleBarClass = "dijit" + (this.toggleable ? "" : "Fixed") + (this.open ? "Open" : "Closed");
-		dojo.addClass(node, this._titleBarClass);
+		dojo.replaceClass(node, this._titleBarClass, oldCls || "");
+
 		this.arrowNodeInner.innerHTML = this.open ? "-" : "+";
 	},
 

@@ -146,14 +146,11 @@ dojo.declare(
 
 		var clsName = "_" + lower + "Class";
 		var nodeName = lower + "Node";
+		var oldCls = this[clsName];
 
-		if(this[clsName]){
-			dojo.removeClass(this[nodeName], this[clsName]);
- 		}
 		this[clsName] = this.tree["get" + upper + "Class"](item, this.isExpanded);
-		if(this[clsName]){
-			dojo.addClass(this[nodeName], this[clsName]);
- 		}
+		dojo.replaceClass(this[nodeName], this[clsName] || "", oldCls || "");
+ 
 		dojo.style(this[nodeName], this.tree["get" + upper + "Style"](item, this.isExpanded) || {});
  	},
 
@@ -183,8 +180,7 @@ dojo.declare(
 			idx = processing ? 0 : (this.isExpandable ?	(this.isExpanded ? 1 : 2) : 3);
 
 		// apply the appropriate class to the expando node
-		dojo.removeClass(this.expandoNode, styles);
-		dojo.addClass(this.expandoNode, styles[idx]);
+		dojo.replaceClass(this.expandoNode, styles[idx], styles);
 
 		// provide a non-image based indicator for images-off mode
 		this.expandoNodeText.innerHTML = _a11yStates[idx];

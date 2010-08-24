@@ -110,8 +110,7 @@ dojo.declare("dijit.tree._dndContainer",
 			var prefix = "dojoDnd" + type;
 			var state = type.toLowerCase() + "State";
 			//dojo.replaceClass(this.node, prefix + newState, prefix + this[state]);
-			dojo.removeClass(this.node, prefix + this[state]);
-			dojo.addClass(this.node, prefix + newState);
+			dojo.replaceClass(this.node, prefix + newState, prefix + this[state]);
 			this[state] = newState;
 		},
 
