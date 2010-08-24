@@ -437,7 +437,7 @@ dojo.declare("dijit._Widget", dojo.Stateful, {
 			this._applyAttributes();
 
 			var source = this.srcNodeRef;
-			if(source && source.parentNode){
+			if(source && source.parentNode && this.domNode !== source){
 				source.parentNode.replaceChild(this.domNode, source);
 			}
 
