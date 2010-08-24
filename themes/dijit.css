@@ -55,7 +55,9 @@
 	#zoom: 1;
 	overflow: hidden;
 	float: none !important; /* needed by FF to squeeze the INPUT in */
-	position:relative;
+	position: relative;
+	vertical-align: middle;
+	#display: inline;
 }
 
 .dj_ie INPUT.dijitTextBox,
