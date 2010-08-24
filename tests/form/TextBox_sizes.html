@@ -297,7 +297,7 @@
 					timeout: 1000,
 					runTest: function(){
 						var inputPos = dojo.position(combobox.focusNode.parentNode);
-						var arrowPos = dojo.position(combobox.downArrowNode);
+						var arrowPos = dojo.position(combobox._buttonNode);
 						doh.t(Math.abs(inputPos.h-arrowPos.h) <= 1, "ComboBox button height (" + arrowPos.h + ") is same as input height (" + inputPos.h + ")");
 					}
 				},
