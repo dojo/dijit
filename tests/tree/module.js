@@ -5,7 +5,10 @@ try{
 		test_robot = true;
 
 	doh.registerUrl("dijit.tests.Tree", dojo.moduleUrl("dijit", "tests/Tree.html"), 99999999);
-	doh.registerUrl("dijit.tests.Tree_with_JRS", dojo.moduleUrl("dijit", "tests/Tree_with_JRS.html"), 99999999);
+	
+	// comment out until #11621 is fixed
+	//doh.registerUrl("dijit.tests.Tree_with_JRS", dojo.moduleUrl("dijit", "tests/Tree_with_JRS.html"), 99999999);
+
 	if(test_robot){
 		doh.registerUrl("dijit.tests.robot.Tree_a11y", dojo.moduleUrl("dijit","tests/robot/Tree_a11y.html"+userArgs), 99999999);
 		doh.registerUrl("dijit.tests.robot.Tree_DnD", dojo.moduleUrl("dijit","tests/robot/Tree_dnd.html"+userArgs), 99999999);
