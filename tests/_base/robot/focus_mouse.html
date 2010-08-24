@@ -30,7 +30,7 @@
 				doh.register("Dijit focus manager tests", [
 
 					function setUp(){
-						dojo.forEach(["form", "fieldset1", "fieldset2", "select", "editor"], function(id){
+						dojo.forEach(["form", "fieldset1", "fieldset2", "select", "editor", "spinner"], function(id){
 							var w = dijit.byId(id);
 
 							// old API is to connect to onFocus/onBlur (remove in 2.0)
@@ -48,7 +48,7 @@
 
 								// keep log of every watch notification
 								var nvs = newValue ? "focused" : "blurred";
-								focusedWatchLog[name] = !focusedWatchLog[name] ? nvs : focusedWatchLog[name] + ", " + nvs;
+								focusedWatchLog[w.id] = !focusedWatchLog[w.id] ? nvs : focusedWatchLog[w.id] + ", " + nvs;
 							});
 						});
 					},
@@ -176,7 +176,7 @@
 								doh.is("spinner", stack[2], "spinner itself (last in stack)");
 
 								// check watch callbacks
-								doh.is("focused", focusedWatchLog["form"], "grandparent of spinner (watch)");
+								doh.f(focusedWatchLog["form"], "grandparent of spinner stayed focused, so no new watch event (watch)");
 								doh.is("focused", focusedWatchLog["fieldset2"], "parent of spinner (watch)");
 								doh.is("focused", focusedWatchLog["spinner"], "spinner (watch)");
 							}), 500);
