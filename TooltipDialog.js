@@ -67,6 +67,13 @@ dojo.declare(
 				this._currentOrientClass = c;
 			},
 
+			focus: function(){
+				// summary:
+				//		Focus on first field
+				this._getFocusItems(this.containerNode);
+				dijit.focus(this._firstFocusItem);
+			},
+
 			onOpen: function(/*Object*/ pos){
 				// summary:
 				//		Called when dialog is displayed.
@@ -76,11 +83,6 @@ dojo.declare(
 
 				this.orient(this.domNode,pos.aroundCorner, pos.corner);
 				this._onShow(); // lazy load trigger
-
-				if(this.autofocus){
-					this._getFocusItems(this.containerNode);
-					dijit.focus(this._firstFocusItem);
-				}
 			},
 
 			onClose: function(){
