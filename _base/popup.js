@@ -1,5 +1,6 @@
 dojo.provide("dijit._base.popup");
 
+dojo.require("dojo.window");
 dojo.require("dijit._base.focus");
 dojo.require("dijit._base.place");
 dojo.require("dijit._base.window");
@@ -374,8 +375,20 @@ dojo.extend(dijit.BackgroundIframe, {
 // when the around node is moved off the screen -- but for now I just close the
 // drop down.   Repositioning would be difficult to implement because widgets like
 // ComboBox have special code for sizing the drop down depending on available real estate.
-dojo.connect(window, "onresize", dojo.hitch(dijit.popup, "close", null));
-
+(function(){
+	var oldSize = {};
+	dojo.addOnLoad(function(){
+		oldSize = dojo.window.getBox();
+	});
+	dojo.connect(window, "onresize", function(){
+		var newSize = dojo.window.getBox();
+		// if() guards against spurious IE resize events
+		if(newSize.h != oldSize.h || newSize.w != oldSize.w){
+			oldSize = newSize;
+			dijit.popup.close();
+		}
+	});
+})();
 
 // Similarly, scrolling causes drop down positioning problems.
 // Scrolling can happen on nested <div>'s or the browser window itself.
