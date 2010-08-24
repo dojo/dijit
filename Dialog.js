@@ -177,7 +177,7 @@ dojo.declare(
 				this._moveable = (dojo.isIE == 6) ?
 					new dojo.dnd.TimedMoveable(node, { handle: this.titleBar }) :	// prevent overload, see #5285
 					new dojo.dnd.Moveable(node, { handle: this.titleBar, timeout: 0 });
-				dojo.subscribe("/dnd/move/stop",this,"_endDrag");
+				this._dndListener = dojo.subscribe("/dnd/move/stop",this,"_endDrag");
 			}else{
 				dojo.addClass(node,"dijitDialogFixed");
 			}
@@ -212,23 +212,6 @@ dojo.declare(
 					this.onHide();
 				})
 			 });
-		},
-
-		uninitialize: function(){
-			var wasPlaying = false;
-			if(this._fadeIn && this._fadeIn.status() == "playing"){
-				wasPlaying = true;
-				this._fadeIn.stop();
-			}
-			if(this._fadeOut && this._fadeOut.status() == "playing"){
-				wasPlaying = true;
-				this._fadeOut.stop();
-			}
-
-			if(this._moveable){
-				this._moveable.destroy();
-			}
-			this.inherited(arguments);
 		},
 
 		_size: function(){
@@ -434,8 +417,22 @@ dojo.declare(
 		},
 
 		destroy: function(){
+			if(this._fadeIn && this._fadeIn.status() == "playing"){
+				this._fadeIn.stop();
+			}
+			if(this._fadeOut && this._fadeOut.status() == "playing"){
+				this._fadeOut.stop();
+			}
+			if(this._moveable){
+				this._moveable.destroy();
+			}
+			if(this._dndListener){
+				dojo.unsubscribe(this._dndListener);
+			}
 			dojo.forEach(this._modalconnects, dojo.disconnect);
+
 			dijit._DialogLevelManager.hide(this);
+
 			this.inherited(arguments);
 		}
 	}
