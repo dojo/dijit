@@ -70,9 +70,9 @@
 							doh.robot.mouseClick({left: true}, 1000);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								var calDomNode= dojo.query(".dijitCalendarContainer");
+								var calDomNode = dojo.query(".dijitCalendarContainer");
 								doh.t(calDomNode.length == 1 && isVisible(calDomNode[0]), "calendar is being shown");
-								doh.is("17", innerText(dojo.global.dijit._curFocus), "focus is on the calendar");
+								doh.t(dojo.isDescendant(dojo.global.dijit._curFocus, calDomNode[0]), "focus is on the calendar");
 							}), 1000);
 
 							return d;
