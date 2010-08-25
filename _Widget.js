@@ -1018,7 +1018,7 @@ dojo.declare("dijit._Widget", dojo.Stateful, {
 							// Stop event to prevent scrolling on space key in IE.
 							// But don't do this for _HasDropDown because it surpresses the onkeypress
 							// event needed to open the drop down when the user presses the SPACE key.
-							if(!("openDropDown" in this)){
+							if(!("openDropDown" in this && obj == this._buttonNode)){
 								e.preventDefault();
 							}
 						}
