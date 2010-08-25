@@ -98,8 +98,8 @@ dojo.declare(
 			// get cumulative height of all the unselected title bars
 			var totalCollapsedHeight = 0;
 			dojo.forEach(this.getChildren(), function(child){
-	            if(child != openPane){
-					totalCollapsedHeight += dojo.marginBox(child._wrapperWidget.domNode).h;
+				if(child != openPane){
+					totalCollapsedHeight += dojo._getMarginSize(child._wrapperWidget.domNode).h;
 				}
 			});
 			this._verticalSpace = mySize.h - totalCollapsedHeight - wrapperDomNodeMargin.h 
@@ -436,7 +436,7 @@ dojo.declare("dijit.layout._AccordionButton",
 	getTitleHeight: function(){
 		// summary:
 		//		Returns the height of the title dom node.
-		return dojo.marginBox(this.domNode).h;	// Integer
+		return dojo._getMarginSize(this.domNode).h;	// Integer
 	},
 
 	// TODO: maybe the parent should set these methods directly rather than forcing the code

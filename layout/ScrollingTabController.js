@@ -120,7 +120,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		this._buttons = dojo.query("> .tabStripButton", this.domNode).filter(function(btn){
 			if((this.useMenu && btn == this._menuBtn.domNode) ||
 				(this.useSlider && (btn == this._rightBtn.domNode || btn == this._leftBtn.domNode))){
-				this._btnWidth += dojo.marginBox(btn).w;
+				this._btnWidth += dojo._getMarginSize(btn).w;
 				return true;
 			}else{
 				dojo.style(btn, "display", "none");

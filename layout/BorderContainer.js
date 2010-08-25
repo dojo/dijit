@@ -124,7 +124,7 @@ dojo.declare(
 
 	_computeSplitterThickness: function(region){
 		this._splitterThickness[region] = this._splitterThickness[region] ||
-			dojo.marginBox(this._splitters[region])[(/top|bottom/.test(region) ? 'h' : 'w')];
+			dojo._getMarginSize(this._splitters[region])[(/top|bottom/.test(region) ? 'h' : 'w')];
 	},
 
 	layout: function(){
@@ -241,19 +241,19 @@ dojo.declare(
 		// (except when the user drags a splitter).
 		if(this._top){
 			topStyle = (changedRegion == "top" || layoutTopBottom) && this._top.style;
-			topHeight = changedRegion == "top" ? changedRegionSize : dojo.marginBox(this._top).h;
+			topHeight = changedRegion == "top" ? changedRegionSize : dojo._getMarginSize(this._top).h;
 		}
 		if(this._left){
 			leftStyle = (changedRegion == "left" || layoutSides) && this._left.style;
-			leftWidth = changedRegion == "left" ? changedRegionSize : dojo.marginBox(this._left).w;
+			leftWidth = changedRegion == "left" ? changedRegionSize : dojo._getMarginSize(this._left).w;
 		}
 		if(this._right){
 			rightStyle = (changedRegion == "right" || layoutSides) && this._right.style;
-			rightWidth = changedRegion == "right" ? changedRegionSize : dojo.marginBox(this._right).w;
+			rightWidth = changedRegion == "right" ? changedRegionSize : dojo._getMarginSize(this._right).w;
 		}
 		if(this._bottom){
 			bottomStyle = (changedRegion == "bottom" || layoutTopBottom) && this._bottom.style;
-			bottomHeight = changedRegion == "bottom" ? changedRegionSize : dojo.marginBox(this._bottom).h;
+			bottomHeight = changedRegion == "bottom" ? changedRegionSize : dojo._getMarginSize(this._bottom).h;
 		}
 
 		var splitters = this._splitters;
@@ -514,7 +514,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		// I can expand up to the edge of the opposite pane, or if there's no opposite pane, then to
 		// edge of BorderContainer
 		var available = dojo.contentBox(this.container.domNode)[dim] -
-				(oppNode ? dojo.marginBox(oppNode)[dim] : 0) -
+				(oppNode ? dojo._getMarginSize(oppNode)[dim] : 0) -
 				20 - thickness * 2;
 
 		return Math.min(this.child.maxSize, available);
@@ -623,7 +623,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 //				this.inherited(arguments);
 				return;
 		}
-		var childSize = dojo.marginBox(this.child.domNode)[ horizontal ? 'h' : 'w' ] + this._factor * tick;
+		var childSize = dojo._getMarginSize(this.child.domNode)[ horizontal ? 'h' : 'w' ] + this._factor * tick;
 		this.container._layoutChildren(this.region, Math.max(Math.min(childSize, this._computeMaxSize()), this.child.minSize));
 		dojo.stopEvent(e);
 	},

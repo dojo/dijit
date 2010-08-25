@@ -52,7 +52,7 @@ dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", dijit._editor._Plugin,
 		if(!e.isLoaded){ return; }
 		if(e.height){ return; }
 
-		var height = dojo.marginBox(e.editNode).h;
+		var height = dojo._getMarginSize(e.editNode).h;
 		if(dojo.isOpera){
 			height = e.editNode.scrollHeight;
 		}
@@ -62,7 +62,7 @@ dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", dijit._editor._Plugin,
 		//height maybe zero in some cases even though the content is not empty,
 		//we try the height of body instead
 		if(!height){
-			height = dojo.marginBox(e.document.body).h;
+			height = dojo._getMarginSize(e.document.body).h;
 		}
 
 		if(height == 0){
@@ -112,7 +112,7 @@ dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", dijit._editor._Plugin,
 		if(scrollPos > this._scrollThreshold && scrollPos < this._scrollThreshold+this._lastHeight){
 			// dojo.debug(scrollPos);
 			if(!this._fixEnabled){
-				var tdnbox = dojo.marginBox(tdn);
+				var tdnbox = dojo._getMarginSize(tdn);
 				this.editor.iframe.style.marginTop = tdnbox.h+"px";
 
 				if(isIE6){

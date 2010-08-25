@@ -103,7 +103,7 @@ dijit._place = function(/*DomNode*/ node, /* Array */ choices, /* Function */ la
 		var oldVis = style.visibility;
 		style.visibility = "hidden";
 		style.display = "";
-		var mb = dojo.marginBox(node);
+		var mb = dojo._getMarginSize(node);
 		style.display = oldDisplay;
 		style.visibility = oldVis;
 

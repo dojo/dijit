@@ -336,7 +336,7 @@ dojo.declare("dijit._HasDropDown",
 				}
 
 				// Get size of drop down, and determine if vertical scroll bar needed
-				var mb = dojo.marginBox(ddNode);
+				var mb = dojo._getMarginSize(ddNode);
 				var overHeight = (maxHeight && mb.h > maxHeight);
 				dojo.style(ddNode, {
 					overflowX: "hidden",
@@ -350,8 +350,6 @@ dojo.declare("dijit._HasDropDown",
 				}else{
 					delete mb.h;
 				}
-				delete mb.t;
-				delete mb.l;
 
 				// Adjust dropdown width to match or be larger than my width
 				if(this.forceWidth){

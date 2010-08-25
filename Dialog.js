@@ -237,7 +237,7 @@ dojo.declare(
 				});
 			}
 
-			var mb = dojo.marginBox(this.domNode);
+			var mb = dojo._getMarginSize(this.domNode);
 			var viewport = dojo.window.getBox();
 			if(mb.w >= viewport.w || mb.h >= viewport.h){
 				// Reduce size of dialog contents so that dialog fits in viewport

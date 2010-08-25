@@ -185,7 +185,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 				}
 
 				this.sourceArea.value = html;
-				var is = dojo.marginBox(ed.iframe.parentNode);
+				var is = dojo._getMarginSize(ed.iframe.parentNode);
 
 				dojo.marginBox(this.sourceArea, {
 					w: is.w,
