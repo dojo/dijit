@@ -1014,7 +1014,13 @@ dojo.declare("dijit._Widget", dojo.Stateful, {
 							!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey){
 							// needed on IE for when focus changes between keydown and keyup - otherwise dropdown menus do not work
 							dijit._lastKeyDownNode = e.target;
-							e.preventDefault();		// stop event to prevent scrolling on space key in IE
+							
+							// Stop event to prevent scrolling on space key in IE.
+							// But don't do this for _HasDropDown because it surpresses the onkeypress
+							// event needed to open the drop down when the user presses the SPACE key.
+							if(!("openDropDown" in this)){
+								e.preventDefault();
+							}
 						}
 			 		}),
 					dc(obj, "onkeyup", this, function(e){
