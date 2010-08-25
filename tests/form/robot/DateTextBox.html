@@ -149,13 +149,12 @@
 					timeout: 60000,
 					setUp: function(){
 						// clear the field
-						american.set('value', null);
+						changes = [];
+						american.set('value', null, false);
 					},
 					runTest: function(){
 						var d = new doh.Deferred();
 						doh.robot.sequence(function(){
-							// monitor onchange events
-							changes = [];
 							american.focus();
 						}, 500);
 						doh.robot.typeKeys('1/3/2005', 500, 1600);
@@ -175,7 +174,8 @@
 				doh.register("keyboard: drop down", [
 					function setUp(){
 						// set to may 10
-						american.set('value', new Date(2005, 4, 10));
+						changes = [];
+						american.set('value', new Date(2005, 4, 10), false);
 					},
 
 					{
@@ -184,7 +184,6 @@
 						runTest: function(){
 							var d = new doh.Deferred(),
 								calendar;
-							changes = [];
 
 							doh.robot.sequence(d.getTestErrback(function(){
 								american.focus();
@@ -213,6 +212,8 @@
 
 								// focus moved to the calendar
 								doh.is(10, innerText(dojo.global.dijit._curFocus), "focus on selected calendar cell")
+
+								doh.is(0, changes.length, "no onchange events yet");
 							}), 1000);
 
 							return d;
@@ -241,6 +242,8 @@
 
 								// focus still on the calendar, moved forward 2 days
 								doh.is(12, innerText(dojo.global.dijit._curFocus), "focus")
+
+								doh.is(0, changes.length, "no onchange events yet");
 							}), 500);
 
 							return d;
@@ -263,6 +266,8 @@
 
 								// focus still on the calendar, moved back 1 day
 								doh.is(11, innerText(dojo.global.dijit._curFocus), "focus")
+
+								doh.is(0, changes.length, "no onchange events yet");
 							}), 500);
 
 							return d;
@@ -291,6 +296,8 @@
 
 								// and focused day changed
 								doh.is(8, innerText(dojo.global.dijit._curFocus), "focus")
+
+								doh.is(0, changes.length, "no onchange events yet");
 							}), 500);
 
 							return d;
@@ -318,6 +325,8 @@
 
 								// focused day still the same
 								doh.is(18, innerText(dojo.global.dijit._curFocus), "focus")
+
+								doh.is(0, changes.length, "no onchange events yet");
 							}), 500);
 
 							return d;
@@ -344,6 +353,8 @@
 
 								// month changed
 								doh.is("July", innerText(calendar.monthLabelNode), "month changed");
+
+								doh.is(0, changes.length, "no onchange events yet");
 							}), 500);
 
 							return d;
@@ -369,6 +380,8 @@
 
 								// month changed
 								doh.is("June", innerText(calendar.monthLabelNode), "month changed");
+
+								doh.is(0, changes.length, "no onchange events yet");
 							}), 500);
 
 							return d;
@@ -400,6 +413,8 @@
 								var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", calendar.domNode);
 								doh.is(1, selectedYearButtons.length, "current year is shown");
 								doh.is("2007", innerText(selectedYearButtons[0]), "year changed");
+
+								doh.is(0, changes.length, "no onchange events yet");
 							}), 500);
 
 							return d;
@@ -430,6 +445,8 @@
 								var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", calendar.domNode);
 								doh.is(1, selectedYearButtons.length, "current year is shown");
 								doh.is("2006", innerText(selectedYearButtons[0]), "year changed");
+
+								doh.is(0, changes.length, "no onchange events yet");
 							}), 500);
 
 							return d;
@@ -452,6 +469,8 @@
 
 								// focused on first day of month
 								doh.is(1, innerText(dojo.global.dijit._curFocus), "focus")
+
+								doh.is(0, changes.length, "no onchange events yet");
 							}), 500);
 
 							return d;
@@ -474,6 +493,8 @@
 
 								// focused on last day of month
 								doh.is(30, innerText(dojo.global.dijit._curFocus), "focus")
+
+								doh.is(0, changes.length, "no onchange events yet");
 							}), 500);
 
 							return d;
@@ -485,8 +506,6 @@
 						timeout: 60000,
 						runTest: function(){
 							var d = new doh.Deferred();
-
-							doh.is(0, changes.length, "no onchange events yet");
 
 							// select
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
@@ -525,12 +544,13 @@
 					}
 				]);
 
-// TODO: add key-repeat tests after key repeat is working
+// TODO: add key-repeat tests
 
 				doh.register("mouse: drop down", [
 					function setUp(){
 						// clear the field
-						american.set('value', new Date(2005, 4, 10));
+						changes = [];
+						american.set('value', new Date(2005, 4, 10), false);
 					},
 
 					{
@@ -538,7 +558,10 @@
 						timeout: 60000,
 						runTest: function(){
 							var d = new doh.Deferred();
-							changes = [];
+
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.is(0, changes.length, "no onchange events yet #1");
+							}), 500);
 
 							doh.robot.mouseMoveAt(american.domNode, 500);
 							doh.robot.mouseClick({left:true}, 500);
@@ -562,6 +585,8 @@
 								var selectedDays = dojo.query(".dijitCalendarSelectedDate", calendar.domNode);
 								doh.is(1, selectedDays.length, "one day selected");
 								doh.is("10", innerText(selectedDays[0]), "correct day is selected");
+
+								doh.is(0, changes.length, "no onchange events yet #2");
 							}), 1000);
 
 							return d;
@@ -588,6 +613,8 @@
 
 								// calendar moved to the next month
 								doh.is("June", innerText(calendar.monthLabelNode), "moved from may to june");
+
+								doh.is(0, changes.length, "no onchange events yet");
 							}), 500);
 
 							return d;
@@ -625,7 +652,10 @@
 								doh.is("26", innerText(firstRowDays[0]), "first day is june 26");
 								doh.is("1", innerText(firstRowDays[5]), "sixth day is june 1");
 
+								// TODO: remove this call (modifying tests below, accordingly)
 								calendar._adjustDisplay("month", -1);
+
+								doh.is(0, changes.length, "no onchange events yet");
 							}), 500);
 
 							return d;
@@ -655,6 +685,8 @@
 								var yearNodes = dojo.query(".dijitCalendarSelectedYear", calendar.domNode);
 								doh.is(1, yearNodes.length, "found year node");
 								doh.is("2006", innerText(yearNodes[0]), "moved from 2005 to 2006");
+
+								doh.is(0, changes.length, "no onchange events yet");
 							}), 1000);
 
 							return d;
@@ -680,6 +712,7 @@
 								dojo.query(".dijitCalendarDateTemplate", calendar.domNode).forEach(function(node){
 									doh.t(dojo.hasClass(node, 'dijitCalendarDisabledDate'), 'every day in 2007 is disabled');
 								});
+								doh.is(0, changes.length, "no onchange events yet");
 							}), 500);
 
 							return d;
@@ -705,6 +738,7 @@
 								dojo.query(".dijitCalendarDateTemplate", calendar.domNode).forEach(function(node){
 									doh.f(dojo.hasClass(node, 'dijitCalendarDisabledDate'), "every day in 2006 is enabled");
 								});
+								doh.is(0, changes.length, "no onchange events yet");
 							}), 500);
 
 							return d;
@@ -727,6 +761,7 @@
 
 							dojo.query("TD", rows[5]).forEach(function(node){
 								doh.t(dojo.hasClass(node, 'dijitCalendarNextMonth'), "last row is for next month");
+								doh.is(0, changes.length, "no onchange events yet");
 							});
 						}
 					},
@@ -748,6 +783,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(dojo.hasClass(day, 'dijitCalendarHoveredDate'), "hovered date has hover class");
+								doh.is(0, changes.length, "no onchange events yet");
 							}), 500);
 
 							return d;
@@ -759,8 +795,6 @@
 						timeout: 60000,
 						runTest: function(){
 							var d = new doh.Deferred();
-
-							doh.is(0, changes.length, "no onchange events yet");
 
 							// select June 15
 							doh.robot.mouseClick({left:true}, 500);

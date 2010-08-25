@@ -185,7 +185,7 @@ dojo.declare(
 			this.inherited(arguments, [value, priorityChange, formattedValue]);
 			if(this.dropDown){
 				// don't set blank date on popup widget
-				this.dropDown.set('value', this._dropDownValue());
+				this.dropDown.set('value', this._dropDownValue(), false);
 			}
 		},
 
