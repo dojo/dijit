@@ -396,5 +396,19 @@ dojo.extend(dijit.BackgroundIframe, {
 // onscroll doesn't bubble, but luckily onmousewheel does bubble, and scrolling
 // a nested div by a mouse click will close the drop down just by virtue
 // of the document being clicked
-dojo.connect(window, "onscroll", dojo.hitch(dijit.popup, "close", null));
+(function(){
+	var oldScroll = {};
+	dojo.addOnLoad(function(){
+		oldScroll = dojo.window.getBox();
+	});
+	dojo.connect(window, "onscroll", function(){
+		var newScroll = dojo.window.getBox();
+		// if() guards against spurious IE onscroll events
+		if(newScroll.t != oldScroll.t || newScroll.l != oldScroll.l){
+			oldScroll = newScroll;
+			dijit.popup.close();
+		}
+	});
+})();
+
 dojo.connect(document, dojo.isMozilla ? "DOMMouseScroll" : "onmousewheel", dojo.hitch(dijit.popup, "close", null));
