@@ -64,12 +64,12 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 		"<label for='${id}_urlInput'>${url}</label>",
 		"</td><td>",
 		"<input dojoType='dijit.form.ValidationTextBox' required='true' " +
-		"id='${id}_urlInput' name='urlInput' intermediateChanges='true'>",
+		"id='${id}_urlInput' name='urlInput' intermediateChanges='true'/>",
 		"</td></tr><tr><td>",
 		"<label for='${id}_textInput'>${text}</label>",
 		"</td><td>",
 		"<input dojoType='dijit.form.ValidationTextBox' required='true' id='${id}_textInput' " +
-		"name='textInput' intermediateChanges='true'>",
+		"name='textInput' intermediateChanges='true'/>",
 		"</td></tr><tr><td>",
 		"<label for='${id}_targetSelect'>${target}</label>",
 		"</td><td>",
@@ -363,12 +363,12 @@ dojo.declare("dijit._editor.plugins.ImgLinkDialog", [dijit._editor.plugins.LinkD
 		"<label for='${id}_urlInput'>${url}</label>",
 		"</td><td>",
 		"<input dojoType='dijit.form.ValidationTextBox' regExp='${urlRegExp}' " +
-		"required='true' id='${id}_urlInput' name='urlInput' intermediateChanges='true'>",
+		"required='true' id='${id}_urlInput' name='urlInput' intermediateChanges='true'/>",
 		"</td></tr><tr><td>",
 		"<label for='${id}_textInput'>${text}</label>",
 		"</td><td>",
 		"<input dojoType='dijit.form.ValidationTextBox' required='false' id='${id}_textInput' " +
-		"name='textInput' intermediateChanges='true'>",
+		"name='textInput' intermediateChanges='true'/>",
 		"</td></tr><tr><td>",
 		"</td><td>",
 		"</td></tr><tr><td colspan='2'>",
