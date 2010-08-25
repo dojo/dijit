@@ -776,7 +776,7 @@
 							doh.t(isVisible(list), "drop down is visible");
 
 							var entries = dojo.query("li", list).filter(isVisible);
-							doh.is("<h1>h1</h1>", dojo.trim(entries[0].innerHTML), "list #1 is rich text");
+							doh.is("<h1>h1</h1>", dojo.trim(entries[0].innerHTML).toLowerCase(), "list #1 is rich text");
 						}), 500);
 
 						return d;
