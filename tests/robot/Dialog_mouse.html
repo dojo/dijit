@@ -135,22 +135,22 @@
 							});
 
 							// Open the dialog
-							doh.robot.mouseMoveAt("dialog1button", 500);
-							doh.robot.mouseClick({left: true}, 1000);
+							doh.robot.mouseMoveAt("dialog1button", 500, 1);
+							doh.robot.mouseClick({left: true}, 500);
 
 							// Enter some info
-							doh.robot.mouseMoveAt("name", 2000);
-							doh.robot.mouseClick({left: true}, 1000);
-							doh.robot.typeKeys("Ted", 500);
+							doh.robot.mouseMoveAt("name", 500, 1);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.typeKeys("Ted", 500, 600);
 
-							doh.robot.mouseMoveAt("loc", 500);
-							doh.robot.mouseClick({left: true}, 1000);
-							doh.robot.typeKeys("America", 500);
+							doh.robot.mouseMoveAt("loc", 500, 1);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.typeKeys("America", 500, 1400);
 
 
 							// Submit
-							doh.robot.mouseMoveAt("ok", 500);
-							doh.robot.mouseClick({left: true}, 1000);
+							doh.robot.mouseMoveAt("ok", 500, 1);
+							doh.robot.mouseClick({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isHidden("dialog1"), "dialog 1 was closed on submit");
