@@ -177,7 +177,7 @@ dojo.declare("dijit._TimePicker",
 			var visibleRangeSeconds = sinceMidnight(this._visibleRangeDate);
 
 			// round reference date to previous visible increment
-			var time = this.value.getTime();
+			var time = (this.value || this.currentFocus).getTime();
 			this._refDate = new Date(time - time % (visibleIncrementSeconds*1000));
 			this._refDate.setFullYear(1970,0,1); // match parse defaults
 
@@ -295,7 +295,7 @@ dojo.declare("dijit._TimePicker",
 				// set disabled
 				dojo.addClass(div, this.baseClass+"ItemDisabled");
 			}
-			if(!dojo.date.compare(this.value, date, this.constraints.selector)){
+			if(this.value && !dojo.date.compare(this.value, date, this.constraints.selector)){
 				div.selected = true;
 				dojo.addClass(div, this.baseClass+"ItemSelected");
 				if(dojo.hasClass(div, this.baseClass+"Marker")){

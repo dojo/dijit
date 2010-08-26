@@ -32,6 +32,7 @@
 						// refs to DateTextBox widgets
 				    	american = dijit.byId('american');
 				    	german = dijit.byId('german');
+				    	pattern = dijit.byId('pattern');
 
 				    	// setup onChange handler to monitor onChange calls on american textbox
 						dojo.connect(american, 'onChange', function(val){
@@ -829,45 +830,133 @@
 					}
 				]);
 
+				// Tests that drop down displays correct year/month, and that correct cell is focused,
+				// based on this.value and this.dropDownDefaultValue
 				doh.register("focused popup value", [
 					{
 						name: "today",
 						timeout: 6000,
-						runTest: function(){
+						setUp: function(){
 							german.closeDropDown();
 							german.set('value', null);
 							german.set("dropDownDefaultValue", null);
-							german.openDropDown();
-							var today = new Date();
-							var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", german.dropDown.domNode);
-							doh.is(today.getFullYear(), innerText(selectedYearButtons[0]), "current year is selected");
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							german.focus();
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								var today = new Date();
+	
+								var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", german.dropDown.domNode);
+								doh.is(today.getFullYear(), innerText(selectedYearButtons[0]), "current year is selected");
+	
+								var selectedDates = dojo.query(".dijitCalendarSelectedDate", german.dropDown.domNode);
+								doh.is(0, selectedDates.length, "no selected date");
+							}), 500);
+
+							return d;
+						},
+						tearDown: function(){
+							german.closeDropDown();
 						}
 					},
 					{
 						name: "dropDownDefaultValue",
 						timeout: 6000,
-						runTest: function(){
+						setUp: function(){
 							german.closeDropDown();
-							german.set("dropDownDefaultValue", new Date(2000,11,21));
 							german.set('value', null);
-							german.openDropDown();
-							// TODO: change dropDownDefaultVal to select right month year but not select a day
-							var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", german.dropDown.domNode);
-							doh.is("2000", innerText(selectedYearButtons[0]), "specified default year is selected");
+							german.set("dropDownDefaultValue", new Date(2000,11,21));
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							german.focus();
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", german.dropDown.domNode);
+								doh.is("2000", innerText(selectedYearButtons[0]), "specified default year is selected");
+	
+								var selectedDates = dojo.query(".dijitCalendarSelectedDate", german.dropDown.domNode);
+								doh.is(0, selectedDates.length, "no selected date");
+	
+								doh.is("21", innerText(dojo.global.dijit._curFocus), "but focused on the 21st");
+							}), 500);
+
+							return d;
+						},
+						tearDown: function(){
+							german.closeDropDown();
 						}
 					},
+
+					// Testing that value overrides dropDownDefaultValue
 					{
 						name: "textbox value",
 						timeout: 6000,
-						runTest: function(){
+						setUp: function(){
 							german.closeDropDown();
 							german.set("dropDownDefaultValue", new Date(2000,11,21));
 							german.set('value', new Date(1900,10,25));
-							german.openDropDown();
-							var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", german.dropDown.domNode);
-							doh.is("1900", innerText(selectedYearButtons[0]), "textbox year is selected");
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							german.focus();
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", german.dropDown.domNode);
+								doh.is("1900", innerText(selectedYearButtons[0]), "textbox year is selected");
+	
+								var selectedDates = dojo.query(".dijitCalendarSelectedDate", german.dropDown.domNode);
+								doh.is(1, selectedDates.length, "one selected date");
+								doh.is("25", innerText(selectedDates[0]), "25th is selected");
+	
+								doh.is("25", innerText(dojo.global.dijit._curFocus), "and also focused on the 25th");
+							}), 500);
+
+							return d;
+						},
+						tearDown: function(){
 							german.closeDropDown();
-							german.set('value', null);
+						}
+					}
+				]);
+
+				// Testing that canceling an edit doesn't select anything
+				doh.register("cancel", [
+					{
+						name: "no value",
+						timeout: 6000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.f(pattern.get("value"), "initially blank");
+
+							// open the drop down
+							doh.robot.mouseMoveAt("pattern", 500);
+							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.sequence(d.getTestErrback(function(){
+								var calendar = dijit.byId("pattern_popup");
+								doh.t(calendar, "calendar popup exists");
+								doh.t(isVisible(calendar), "calendar is visible");
+							}), 500);
+
+							// close the drop down
+							doh.robot.mouseMoveAt("pattern", 500, pattern.domNode.offsetWidth + 20, pattern.domNode.offsetHeight/2);
+							doh.robot.mouseClick({left:true}, 500);			
+							doh.robot.sequence(d.getTestCallback(function(){
+								var calendar = dijit.byId("pattern_popup");
+								doh.f(calendar && isVisible(calendar), "calendar popup destroyed or hidden");
+								doh.f(pattern.get("value"), "no value set into DateTextBox")
+							}), 500);
+
+							return d;
 						}
 					}
 				]);

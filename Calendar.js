@@ -33,8 +33,8 @@ dojo.declare(
 		templateString: dojo.cache("dijit", "templates/Calendar.html"),
 
 		// value: Date
-		//		The currently selected Date
-		value: new Date(),
+		//		The currently selected Date, initially set to invalid date to indicate no selection.
+		value: new Date(""),
 		// TODO: for 2.0 make this a string (ISO format) rather than a Date
 
 		// datePackage: String
@@ -54,7 +54,7 @@ dojo.declare(
 		//		Date object containing the currently focused date, or the date which would be focused
 		//		if the calendar itself was focused.   Also indicates which year and month to display,
 		//		i.e. the current "page" the calendar is on.
-		currentFocus: null,
+		currentFocus: new Date(),
 
 		baseClass:"dijitCalendar",
 
@@ -64,6 +64,16 @@ dojo.declare(
 			"incrementMonth": "dijitCalendarArrow",
 			"previousYearLabelNode": "dijitCalendarPreviousYear",
 			"nextYearLabelNode": "dijitCalendarNextYear"			
+		},
+
+		_isValidDate: function(/*Date*/ value){
+			// summary:
+			//		Runs various tests on the value, checking that it's a valid date, rather
+			//		than blank or NaN.
+			// tags:
+			//		private
+			return value && !isNaN(value) && typeof value == "object" &&
+				value.toString() != this.constructor.prototype.value.toString();
 		},
 
 		setValue: function(/*Date*/ value){
@@ -91,31 +101,43 @@ dojo.declare(
 			return value;
 		},
 
-		_setValueAttr: function(/*Date*/ value, /*Boolean*/ priorityChange){
+		_setValueAttr: function(/*Date|Number*/ value, /*Boolean*/ priorityChange){
 			// summary:
 			//		Support set("value", ...)
 			// description:
 			// 		Set the current date and update the UI.  If the date is disabled, the value will
 			//		not change, but the display will change to the corresponding month.
+			// value:
+			//		Either a Date or the number of seconds since 1970.
 			// tags:
 			//      protected
-			if(!this.value || this.dateFuncObj.compare(value, this.value)){
-				value = new this.dateClassObj(value);
-				value.setHours(1, 0, 0, 0); // round to nearest day (1am to avoid issues when DST shift occurs at midnight, see #8521, #9366)
-
-				if(!this.isDisabledDate(value, this.lang)){
-					this.value = value;
-
-					// Set focus cell to the new value.   Arguably this should only happen when there isn't a current
-					// focus point.   This will also repopulate the grid, showing the new selected value (and possibly
-					// new month/year).
-					this.set("currentFocus", value);
-
-					if(priorityChange || typeof priorityChange == "undefined"){
-						this.onChange(this.get('value'));
-						this.onValueSelected(this.get('value'));	// remove in 2.0
+			if(value){
+				// convert from Number to Date, or make copy of Date object so that setHours() call below
+				// doesn't affect original value
+				value = new this.dateClassObj(value);				
+			}
+			if(this._isValidDate(value)){
+				if(!this._isValidDate(this.value) || this.dateFuncObj.compare(value, this.value)){
+					value.setHours(1, 0, 0, 0); // round to nearest day (1am to avoid issues when DST shift occurs at midnight, see #8521, #9366)
+	
+					if(!this.isDisabledDate(value, this.lang)){
+						this.value = value;
+	
+						// Set focus cell to the new value.   Arguably this should only happen when there isn't a current
+						// focus point.   This will also repopulate the grid, showing the new selected value (and possibly
+						// new month/year).
+						this.set("currentFocus", value);
+	
+						if(priorityChange || typeof priorityChange == "undefined"){
+							this.onChange(this.get('value'));
+							this.onValueSelected(this.get('value'));	// remove in 2.0
+						}
 					}
 				}
+			}else{
+				// clear value, and repopulate grid (to deselect the previously selected day) without changing currentFocus
+				this.value = null;
+				this.set("currentFocus", this.currentFocus);
 			}
 		},
 
@@ -249,12 +271,6 @@ dojo.declare(
 			// TODO: remove this for 2.0 (thanks to #11511)
 			if(isNaN(this.value)){ delete this.value; }
 
-			if(!this.currentFocus){
-				// tabbing into Calendar should focus on the selected date, unless caller has explicitly
-				// specified a different month/date to focus
-				this.currentFocus = this.value;
-			}
-
 			this.inherited(arguments);
 		},
 
@@ -283,7 +299,7 @@ dojo.declare(
 				this._setText(label, dayNames[(i + dayOffset) % 7]);
 			}, this);
 
-			var dateObj = new this.dateClassObj(this.value);
+			var dateObj = new this.dateClassObj(this.currentFocus);
 			// Fill in spacer/month dropdown element with all the month names (invisible) so that the maximum width will affect layout
 			var monthNames = this.dateLocaleModule.getNames('months', 'wide', 'standAlone', this.lang, dateObj);
 			cloneClass(".dijitCalendarMonthLabelTemplate", monthNames.length-1);
@@ -293,8 +309,7 @@ dojo.declare(
 				dojo.place(node.cloneNode(true), this.monthLabelSpacer);
 			}, this);
 
-			this.value = null;
-			this.set('value', dateObj, false);
+			this.set('currentFocus', dateObj, false);	// draw the grid to the month specified by currentFocus
 		},
 
 		_onMenuHover: function(e){
@@ -326,7 +341,7 @@ dojo.declare(
 			var oldFocus = this.currentFocus,
 				oldCell = oldFocus ? dojo.query("[dijitDateValue=" + oldFocus.valueOf() + "]", this.domNode)[0] : null;
 
-			// round specified value to nearest day (1am to avoid issues when DST shift occurs at midnight, see #8521, #9366)			
+			// round specified value to nearest day (1am to avoid issues when DST shift occurs at midnight, see #8521, #9366)
 			date = new this.dateClassObj(date);
 			date.setHours(1, 0, 0, 0); 
 
@@ -355,8 +370,7 @@ dojo.declare(
 		focus: function(){
 			// summary:
 			//		Focus the calendar by focusing one of the calendar cells
-			var value = this._currentFocus || this.value || new this.dateClassObj();
-			this._setCurrentFocusAttr(value, true);
+			this._setCurrentFocusAttr(this.currentFocus, true);
 		},
 
 		_onMonthToggle: function(/*Event*/ evt){
@@ -556,7 +570,7 @@ dojo.declare(
 			//		support multiple (concurrently) selected dates
 			// tags:
 			//		protected extension
-			return !this.dateFuncObj.compare(dateObject, this.value, "date")
+			return this._isValidDate(this.value) && !this.dateFuncObj.compare(dateObject, this.value, "date")
 		},
 
 		isDisabledDate: function(/*Date*/ dateObject, /*String?*/ locale){

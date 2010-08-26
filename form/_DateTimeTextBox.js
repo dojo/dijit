@@ -38,12 +38,12 @@ dojo.declare(
 		//		Set to true to open drop down upon clicking anywhere on the textbox.
 		openOnClick: true,
 
+		/*=====
 		// constraints: dijit.form._DateTimeTextBox.__Constraints
 		//		Despite the name, this parameter specifies both constraints on the input
 		//		(including starting/ending dates/times allowed) as well as
 		//		formatting options like whether the date is displayed in long (ex: December 25, 2005)
 		//		or short (ex: 12/25/2005) format.	See `dijit.form._DateTimeTextBox.__Constraints` for details.
-		/*=====
 		constraints: {},
 		======*/
 
@@ -90,7 +90,7 @@ dojo.declare(
 
 		// dropDownDefaultValue : Date
 		//		The default value to focus in the popupClass widget when the textbox value is empty.
-		dropDownDefaultValue : new Date(""), // invalid defers to datePackage (dojo.date) which returns now=Date() by default
+		dropDownDefaultValue : new Date(),
 
 		// value: Date
 		//		The value of this widget as a JavaScript Date object.  Use get("value") / set("value", val) to manipulate.
@@ -153,21 +153,6 @@ dojo.declare(
 			return !value || isNaN(value) || typeof value != "object" || value.toString() == this._invalidDate;
 		},
 
-		_dropDownValue: function(){
-			// summary:
-			//		Returns a date to send to the dropdown widget by consulting an ordered list of sources
-			// tags:
-			//		private
-			var value = this.get('value');
-			if(this._isInvalidDate(value)){
-				value = this.get('dropDownDefaultValue');
-				if(this._isInvalidDate(value)){
-					value = new this.dateClassObj();
-				}
-			}
-			return value;
-		},
-
 		_setValueAttr: function(/*Date|String*/ value, /*Boolean?*/ priorityChange, /*String?*/ formattedValue){
 			// summary:
 			//		Sets the date on this textbox. Note: value can be a JavaScript Date literal or a string to be parsed.
@@ -184,9 +169,16 @@ dojo.declare(
 			}
 			this.inherited(arguments, [value, priorityChange, formattedValue]);
 			if(this.dropDown){
-				// don't set blank date on popup widget
-				this.dropDown.set('value', this._dropDownValue(), false);
+				this.dropDown.set('value', value, false);
 			}
+		},
+
+		_setDropDownDefaultValueAttr: function(/*Date*/ val){
+			if(this._isInvalidDate(val)){
+				// convert null setting into today's date, since there needs to be *some* default at all times.		
+				 val = new this.dateClassObj()
+			}
+			this.dropDownDefaultValue = val;
 		},
 
 		openDropDown: function(/*Function*/ callback){
@@ -204,7 +196,8 @@ dojo.declare(
 				id: this.id + "_popup",
 				dir: textBox.dir,
 				lang: textBox.lang,
-				value: this._dropDownValue(),
+				value: this.value,
+				currentFocus: !this._isInvalidDate(this.value) ? this.value : this.dropDownDefaultValue,
 				constraints: textBox.constraints,
 				filterString: textBox.filterString, // for TimeTextBox, to filter times shown
 

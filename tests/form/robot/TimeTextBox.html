@@ -72,7 +72,7 @@
 							// focus field... drop down shouldn't open yet
 							w.focus();
 							doh.robot.sequence(d.getTestErrback(function(){
-								var popup = dijit.byId('q1_popup');
+								var popup = dijit.byId('q2_popup');
 								doh.t(!popup || isHidden(popup), "popup hidden");
 							}), 500);
 		
