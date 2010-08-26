@@ -179,12 +179,14 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container, 
 
 		// the child widget from srcNodeRef is the dropdown widget.  Insert it in the page DOM,
 		// make it invisible, and store a reference to pass to the popup code.
-		if(!this.dropDown){
+		if(!this.dropDown && this.dropDownContainer){
 			var dropDownNode = dojo.query("[widgetId]", this.dropDownContainer)[0];
 			this.dropDown = dijit.byNode(dropDownNode);
 			delete this.dropDownContainer;
 		}
-		dijit.popup.moveOffScreen(this.dropDown.domNode);
+		if(this.dropDown){
+			dijit.popup.moveOffScreen(this.dropDown.domNode);
+		}
 
 		this.inherited(arguments);
 	},
@@ -193,7 +195,7 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container, 
 		// Returns whether or not we are loaded - if our dropdown has an href,
 		// then we want to check that.
 		var dropDown = this.dropDown;
-		return (!dropDown.href || dropDown.isLoaded);
+		return (!!dropDown && (!dropDown.href || dropDown.isLoaded));
 	},
 
 	loadDropDown: function(){
