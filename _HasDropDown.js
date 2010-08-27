@@ -150,23 +150,12 @@ dojo.declare("dijit._HasDropDown",
 			}			
 		},
 
-		_setupDropdown: function(){
-			// summary:
-			//		set up nodes and connect our mouse and keypress events
+		buildRendering: function(){
+			this.inherited(arguments);
+
 			this._buttonNode = this._buttonNode || this.focusNode || this.domNode;
 			this._popupStateNode = this._popupStateNode || this.focusNode || this._buttonNode;
 			this._aroundNode = this._aroundNode || this.domNode;
-			this.connect(this._buttonNode, "onmousedown", "_onDropDownMouseDown");
-			this.connect(this._buttonNode, "onclick", "_onDropDownClick");
-			this.connect(this.focusNode, "onkeypress", "_onKey");
-
-			// If we have a _setStateClass function (which happens when
-			// we are a form widget), then we need to connect our open/close
-			// functions to it
-			if(this._setStateClass){
-				this.connect(this, "openDropDown", "_setStateClass");
-				this.connect(this, "closeDropDown", "_setStateClass");
-			}
 
 			// Add a class to the "dijitDownArrowButton" type class to _buttonNode so theme can set direction of arrow
 			// based on where drop down will normally appear
@@ -182,8 +171,22 @@ dojo.declare("dijit._HasDropDown",
 		},
 
 		postCreate: function(){
-			this._setupDropdown();
+			// summary:
+			//		set up nodes and connect our mouse and keypress events
+
 			this.inherited(arguments);
+
+			this.connect(this._buttonNode, "onmousedown", "_onDropDownMouseDown");
+			this.connect(this._buttonNode, "onclick", "_onDropDownClick");
+			this.connect(this.focusNode, "onkeypress", "_onKey");
+
+			// If we have a _setStateClass function (which happens when
+			// we are a form widget), then we need to connect our open/close
+			// functions to it
+			if(this._setStateClass){
+				this.connect(this, "openDropDown", "_setStateClass");
+				this.connect(this, "closeDropDown", "_setStateClass");
+			}
 		},
 
 		destroy: function(){

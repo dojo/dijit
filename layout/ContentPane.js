@@ -138,17 +138,14 @@ dojo.declare(
 	},
 
 	buildRendering: function(){
-		// Overrides Widget.buildRendering().
-		// Since we have no template we need to set this.containerNode ourselves.
-		// For subclasses of ContentPane do have a template, does nothing.
 		this.inherited(arguments);
+
+		// Since we have no template we need to set this.containerNode ourselves, to make getChildren() work.
+		// For subclasses of ContentPane that do have a template, does nothing.
 		if(!this.containerNode){
-			// make getDescendants() work
 			this.containerNode = this.domNode;
 		}
-	},
 
-	postCreate: function(){
 		// remove the title attribute so it doesn't show up when hovering
 		// over a node  (TODO: remove in 2.0, no longer needed after #11490)
 		this.domNode.title = "";
@@ -156,8 +153,6 @@ dojo.declare(
 		if(!dojo.attr(this.domNode,"role")){
 			dijit.setWaiRole(this.domNode, "group");
 		}
-
-		dojo.addClass(this.domNode, this.baseClass);
 	},
 
 	startup: function(){

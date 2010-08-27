@@ -20,11 +20,12 @@ dojo.declare("dijit.Toolbar",
 	baseClass: "dijitToolbar",
 
 	postCreate: function(){
+		this.inherited(arguments);
+
 		this.connectKeyNavHandlers(
 			this.isLeftToRight() ? [dojo.keys.LEFT_ARROW] : [dojo.keys.RIGHT_ARROW],
 			this.isLeftToRight() ? [dojo.keys.RIGHT_ARROW] : [dojo.keys.LEFT_ARROW]
 		);
-		this.inherited(arguments);
 	},
 
 	startup: function(){

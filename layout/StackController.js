@@ -26,11 +26,18 @@ dojo.declare(
 			//		The name of the button widget to create to correspond to each page
 			buttonWidget: "dijit.layout._StackButton",
 
-			postCreate: function(){
-				dijit.setWaiRole(this.domNode, "tablist");
-
+			constructor: function(){
 				this.pane2button = {};		// mapping from pane id to buttons
-				this.pane2handles = {};		// mapping from pane id to this.connect() handles
+				this.pane2handles = {};		// mapping from pane id to this.connect() handles				
+			},
+
+			buildRendering: function(){
+				this.inherited(arguments);
+				dijit.setWaiRole(this.domNode, "tablist");	// TODO: unneeded?   it's in template above.
+			},
+
+			postCreate: function(){
+				this.inherited(arguments);
 
 				// Listen to notifications from StackContainer
 				this.subscribe(this.containerId+"-startup", "onStartup");
@@ -282,9 +289,9 @@ dojo.declare("dijit.layout._StackButton",
 		// Probably we should be calling this.startupKeyNavChildren() instead.
 		tabIndex: "-1",
 
-		postCreate: function(/*Event*/ evt){
-			dijit.setWaiRole((this.focusNode || this.domNode), "tab");
+		buildRendering: function(/*Event*/ evt){
 			this.inherited(arguments);
+			dijit.setWaiRole((this.focusNode || this.domNode), "tab");
 		},
 
 		onClick: function(/*Event*/ evt){

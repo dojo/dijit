@@ -78,7 +78,6 @@ dojo.declare("dijit._Templated",
 			}, this);
 		},
 
-		// method over-ride
 		buildRendering: function(){
 			// summary:
 			//		Construct the UI for this widget from a template, setting this.domNode.
@@ -103,6 +102,10 @@ dojo.declare("dijit._Templated",
 			}
 
 			this.domNode = node;
+
+			// Call down to _Widget.buildRendering() to get base classes assigned
+			// TODO: change the baseClass assignment to attributeMap
+			this.inherited(arguments);
 
 			// recurse through the node, looking for, and attaching to, our
 			// attachment points and events, which should be defined on the template node.

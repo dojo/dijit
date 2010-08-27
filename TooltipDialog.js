@@ -45,10 +45,13 @@ dojo.declare(
 
 			templateString: dojo.cache("dijit", "templates/TooltipDialog.html"),
 
+			_setTitleAttr: function(/*String*/ title){
+				this.containerNode.title = (this.title = title);
+			},
+
 			postCreate: function(){
 				this.inherited(arguments);
 				this.connect(this.containerNode, "onkeypress", "_onKey");
-				this.containerNode.title = this.title;
 			},
 
 			orient: function(/*DomNode*/ node, /*String*/ aroundCorner, /*String*/ corner){

@@ -20,7 +20,7 @@ dojo.declare(
 	// tags:
 	//		private
 
-	// item: dojo.data.Item
+	// item: [const] dojo.data.Item
 	//		the dojo.data entry this tree represents
 	item: null,
 
@@ -62,7 +62,7 @@ dojo.declare(
 		tooltip: {node: "rowNode", type: "attribute", attribute: "title"}
 	}),
 
-	postCreate: function(){
+	buildRendering: function(){
 		this.inherited(arguments);
 
 		// set expand icon for leaf

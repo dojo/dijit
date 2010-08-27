@@ -237,7 +237,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 									this.lang).missingMessage;
 	},
 
-	postCreate: function(){
+	buildRendering: function(){
 		this.inherited(arguments);
 		if(this.tableNode.style.width){
 			dojo.addClass(this.domNode, this.baseClass + "FixedWidth");

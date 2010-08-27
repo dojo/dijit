@@ -513,7 +513,22 @@ dojo.declare("dijit._Widget", dojo.Stateful, {
 		//		method.
 		// tags:
 		//		protected
-		this.domNode = this.srcNodeRef || dojo.create('div');
+
+		if(!this.domNode){
+			// Create root node if it wasn't created by _Templated
+			this.domNode = this.srcNodeRef || dojo.create('div');
+		}
+
+		// baseClass is a single class name or occasionally a space-separated list of names.
+		// Add those classes to the DOMNode.  If RTL mode then also add with Rtl suffix.		
+		// TODO: do this in attributeMap (need to enhance attributeMap)
+		if(this.baseClass){
+			var classes = this.baseClass.split(" ");
+			if(!this.isLeftToRight()){
+				classes = classes.concat( dojo.map(classes, function(name){ return name+"Rtl"; }));
+			}
+			dojo.addClass(this.domNode, classes);
+		}
 	},
 
 	postCreate: function(){
@@ -525,16 +540,6 @@ dojo.declare("dijit._Widget", dojo.Stateful, {
 		//		node dimensions or placement.
 		// tags:
 		//		protected
-
-		// baseClass is a single class name or occasionally a space-separated list of names.
-		// Add those classes to the DOMNod.  If RTL mode then also add with Rtl suffix.		
-		if(this.baseClass){
-			var classes = this.baseClass.split(" ");
-			if(!this.isLeftToRight()){
-				classes = classes.concat( dojo.map(classes, function(name){ return name+"Rtl"; }));
-			}
-			dojo.addClass(this.domNode, classes);
-		}
 	},
 
 	startup: function(){

@@ -22,10 +22,9 @@ dojo.declare("dijit.layout._LayoutWidget",
 		//		children widgets, setting their size, when they become visible.
 		isLayoutContainer: true,
 
-		postCreate: function(){
-			dojo.addClass(this.domNode, "dijitContainer");
-
+		buildRendering: function(){
 			this.inherited(arguments);
+			dojo.addClass(this.domNode, "dijitContainer");
 		},
 
 		startup: function(){

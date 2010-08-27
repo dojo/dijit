@@ -104,7 +104,7 @@ dojo.declare(
 		//		Set true if the ComboBox/FilteringSelect should ignore case when matching possible items
 		ignoreCase: true,
 
-		// hasDownArrow: [const] Boolean
+		// hasDownArrow: Boolean
 		//		Set this textbox to have a down arrow button, to display the drop down list.
 		//		Defaults to true.
 		hasDownArrow: true,
@@ -678,10 +678,6 @@ dojo.declare(
 			// tags:
 			//		protected
 
-			if(!this.hasDownArrow){
-				this._buttonNode.style.display = "none";
-			}
-
 			// find any associated label element and add to ComboBox node.
 			var label=dojo.query('label[for="'+this.id+'"]');
 			if(label.length){
@@ -695,6 +691,11 @@ dojo.declare(
 		destroy: function(){
 			dojo.destroy(this._helperSpan);
 			this.inherited(arguments);
+		},
+
+		_setHasDownArrowAttr: function(val){
+			this.hasDownArrow = val;
+			this._buttonNode.style.display = val ? "" : "none";
 		},
 
 		_getMenuLabelFromItem: function(/*Item*/ item){
@@ -777,8 +778,16 @@ dojo.declare(
 		baseClass: "dijitComboBoxMenu",
 
 		postMixInProperties: function(){
-			this._messages = dojo.i18n.getLocalization("dijit.form", "ComboBox", this.lang);
 			this.inherited(arguments);
+			this._messages = dojo.i18n.getLocalization("dijit.form", "ComboBox", this.lang);
+		},
+
+		buildRendering: function(){
+			this.inherited(arguments);
+
+			// fill in template with i18n messages
+			this.previousButton.innerHTML = this._messages["previousMessage"];
+			this.nextButton.innerHTML = this._messages["nextMessage"];
 		},
 
 		_setValueAttr: function(/*Object*/ value){
@@ -799,13 +808,6 @@ dojo.declare(
 			//		Notifies ComboBox/FilteringSelect that user clicked to advance to next/previous page.
 			// tags:
 			//		callback
-		},
-
-		postCreate: function(){
-			// fill in template with i18n messages
-			this.previousButton.innerHTML = this._messages["previousMessage"];
-			this.nextButton.innerHTML = this._messages["nextMessage"];
-			this.inherited(arguments);
 		},
 
 		onClose: function(){

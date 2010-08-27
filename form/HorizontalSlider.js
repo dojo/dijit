@@ -19,15 +19,15 @@ dojo.declare(
 	// Overrides FormValueWidget.value to indicate numeric value
 	value: 0,
 
-	// showButtons: Boolean
+	// showButtons: [const] Boolean
 	//		Show increment/decrement buttons at the ends of the slider?
 	showButtons: true,
 
-	// minimum:: Integer
+	// minimum:: [const] Integer
 	//		The minimum value the slider can be set to.
 	minimum: 0,
 
-	// maximum: Integer
+	// maximum: [const] Integer
 	//		The maximum value the slider can be set to.
 	maximum: 100,
 
@@ -260,10 +260,28 @@ dojo.declare(
 		}
 	},
 
-	postCreate: function(){
+	buildRendering: function(){
+		this.inherited(arguments);
 		if(this.showButtons){
-			this.incrementButton.style.display="";
-			this.decrementButton.style.display="";
+			this.incrementButton.style.display = "";
+			this.decrementButton.style.display = "";
+		}
+
+		// find any associated label element and add to slider focusnode.
+		var label=dojo.query('label[for="'+this.id+'"]');
+		if(label.length){
+			label[0].id = (this.id+"_label");
+			dijit.setWaiState(this.focusNode, "labelledby", label[0].id);
+		}
+
+		dijit.setWaiState(this.focusNode, "valuemin", this.minimum);
+		dijit.setWaiState(this.focusNode, "valuemax", this.maximum);
+	},
+
+	postCreate: function(){
+		this.inherited(arguments);
+
+		if(this.showButtons){
 			this._connects.push(dijit.typematic.addMouseListener(
 				this.decrementButton, this, "_typematicCallback", 25, 500));
 			this._connects.push(dijit.typematic.addMouseListener(
@@ -275,18 +293,8 @@ dojo.declare(
 		var mover = dojo.declare(dijit.form._SliderMover, {
 			widget: this
 		});
-
 		this._movable = new dojo.dnd.Moveable(this.sliderHandle, {mover: mover});
-		// find any associated label element and add to slider focusnode.
-		var label=dojo.query('label[for="'+this.id+'"]');
-		if(label.length){
-			label[0].id = (this.id+"_label");
-			dijit.setWaiState(this.focusNode, "labelledby", label[0].id);
-		}
-		dijit.setWaiState(this.focusNode, "valuemin", this.minimum);
-		dijit.setWaiState(this.focusNode, "valuemax", this.maximum);
 
-		this.inherited(arguments);
 		this._layoutHackIE7();
 	},
 

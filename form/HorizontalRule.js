@@ -35,7 +35,9 @@ dojo.declare("dijit.form.HorizontalRule", [dijit._Widget, dijit._Templated],
 	//		VerticalRule will override this...
 	_isHorizontal: true,
 
-	postCreate: function(){
+	buildRendering: function(){
+		this.inherited(arguments);
+
 		var innerHTML;
 		if(this.count == 1){
 			innerHTML = this._genHTML(50, 0);

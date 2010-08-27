@@ -60,7 +60,7 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 		dojo.moduleUrl("dijit", "themes/a11y/indeterminate_progress.gif"),
 
 	// public functions
-	postCreate: function(){
+	buildRendering: function(){
 		this.inherited(arguments);
 		this.indeterminateHighContrastImage.setAttribute("src",
 			this._indeterminateHighContrastImagePath.toString());

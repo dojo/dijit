@@ -388,7 +388,9 @@ dojo.declare(
 		}, this);
 	},
 
-	postCreate: function(){
+	buildRendering: function(){
+		this.inherited(arguments);
+
 		// Create edit widget in place in the template
 		var cls = typeof this.editor == "string" ? dojo.getObject(this.editor) : this.editor;
 
@@ -425,13 +427,21 @@ dojo.declare(
 			lang: this.lang
 		});
 		editorParams[ "displayedValue" in cls.prototype ? "displayedValue" : "value"] = this.value;
-		var ew = (this.editWidget = new cls(editorParams, this.editorPlaceholder));
+		this.editWidget = new cls(editorParams, this.editorPlaceholder);
 
 		if(this.inlineEditBox.autoSave){
 			// Remove the save/cancel buttons since saving is done by simply tabbing away or
 			// selecting a value from the drop down list
 			dojo.destroy(this.buttonContainer);
+		}
+	},
 
+	postCreate: function(){
+		this.inherited(arguments);
+
+		var ew = this.editWidget;
+
+		if(this.inlineEditBox.autoSave){
 			// Selecting a value from a drop down list causes an onChange event and then we save
 			this.connect(ew, "onChange", "_onChange");
 
@@ -441,7 +451,7 @@ dojo.declare(
 			this.connect(ew, "onKeyPress", "_onKeyPress");
 		}else{
 			// If possible, enable/disable save button based on whether the user has changed the value
-			if("intermediateChanges" in cls.prototype){
+			if("intermediateChanges" in ew){
 				ew.set("intermediateChanges", true);
 				this.connect(ew, "onChange", "_onIntermediateChange");
 				this.saveButton.set("disabled", true);

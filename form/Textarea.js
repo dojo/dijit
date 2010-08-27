@@ -131,10 +131,16 @@ dojo.declare(
 		this.resize();
 	},
 
-	postCreate: function(){
+	buildRendering: function(){
 		this.inherited(arguments);
+
 		// tweak textarea style to reduce browser differences
 		dojo.style(this.textbox, { overflowY: 'hidden', overflowX: 'auto', boxSizing: 'border-box', MsBoxSizing: 'border-box', WebkitBoxSizing: 'border-box', MozBoxSizing: 'border-box' });
+	},
+
+	postCreate: function(){
+		this.inherited(arguments);
+
 		this.connect(this.textbox, "onscroll", "_onInput");
 		this.connect(this.textbox, "onresize", "_onInput");
 		this.connect(this.textbox, "onfocus", "_onInput"); // useful when a previous estimate was off a bit

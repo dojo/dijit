@@ -29,7 +29,6 @@ dojo.declare(
 			// Setup fade-in and fade-out functions.
 			this.fadeIn = dojo.fadeIn({ node: this.domNode, duration: this.duration, onEnd: dojo.hitch(this, "_onShow") });
 			this.fadeOut = dojo.fadeOut({ node: this.domNode, duration: this.duration, onEnd: dojo.hitch(this, "_onHide") });
-
 		},
 
 		show: function(/*String*/ innerHTML, /*DomNode*/ aroundNode, /*String[]?*/ position, /*Boolean*/ rtl){
@@ -217,7 +216,8 @@ dojo.declare(
 			}
 		},
 
-		postCreate: function(){
+		buildRendering: function(){
+			this.inherited(arguments);
 			dojo.addClass(this.domNode,"dijitTooltipData");
 		},
 

@@ -34,10 +34,18 @@ dojo.declare("dijit.form.SimpleTextarea",
 
 	postMixInProperties: function(){
 		// Copy value from srcNodeRef, unless user specified a value explicitly (or there is no srcNodeRef)
+		// TODO: parser will handle this in 2.0
 		if(!this.value && this.srcNodeRef){
 			this.value = this.srcNodeRef.value;
 		}
 		this.inherited(arguments);
+	},
+
+	buildRendering: function(){
+		this.inherited(arguments);
+		if(dojo.isIE && this.cols){ // attribute selectors is not supported in IE6
+			dojo.addClass(this.textbox, "dijitTextAreaCols");
+		}
 	},
 
 	filter: function(/*String*/ value){
@@ -47,13 +55,6 @@ dojo.declare("dijit.form.SimpleTextarea",
 			value = value.replace(/\r/g,"");
 		}
 		return this.inherited(arguments);
-	},
-
-	postCreate: function(){
-		this.inherited(arguments);
-		if(dojo.isIE && this.cols){ // attribute selectors is not supported in IE6
-			dojo.addClass(this.textbox, "dijitTextAreaCols");
-		}
 	},
 
 	_previousValue: "",

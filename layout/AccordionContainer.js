@@ -61,10 +61,10 @@ dojo.declare(
 =====*/
 		baseClass: "dijitAccordionContainer",
 
-		postCreate: function(){
-			this.domNode.style.overflow = "hidden";
+		buildRendering: function(){
 			this.inherited(arguments);
-			dijit.setWaiRole(this.domNode, "tablist");
+			this.domNode.style.overflow = "hidden";		// TODO: put this in dijit.css
+			dijit.setWaiRole(this.domNode, "tablist");	// TODO: put this in template
 		},
 
 		startup: function(){
@@ -425,12 +425,16 @@ dojo.declare("dijit.layout._AccordionButton",
 		return this.parent;
 	},
 
+	buildRendering: function(){
+		this.inherited(arguments);
+		var titleTextNodeId = this.id.replace(' ','_');
+		dojo.attr(this.titleTextNode, "id", titleTextNodeId+"_title");
+		dijit.setWaiState(this.focusNode, "labelledby", dojo.attr(this.titleTextNode, "id"));
+	},
+
 	postCreate: function(){
 		this.inherited(arguments);
 		dojo.setSelectable(this.domNode, false);
-		var titleTextNodeId = dojo.attr(this.domNode,'id').replace(' ','_');
-		dojo.attr(this.titleTextNode, "id", titleTextNodeId+"_title");
-		dijit.setWaiState(this.focusNode, "labelledby", dojo.attr(this.titleTextNode, "id"));
 	},
 
 	getTitleHeight: function(){

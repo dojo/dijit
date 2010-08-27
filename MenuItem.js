@@ -50,9 +50,8 @@ dojo.declare("dijit.MenuItem",
 			}
 		},
 
-		postCreate: function(){
+		buildRendering: function(){
 			this.inherited(arguments);
-			dojo.setSelectable(this.domNode, false);
 			var label = this.id+"_text";
 			dojo.attr(this.containerNode, "id", label);
 			if(this.accelKeyNode){
@@ -60,6 +59,11 @@ dojo.declare("dijit.MenuItem",
 				label += " " + this.id + "_accel";
 			}
 			dijit.setWaiState(this.domNode, "labelledby", label);
+		},
+
+		postCreate: function(){
+			this.inherited(arguments);
+			dojo.setSelectable(this.domNode, false);
 		},
 
 		_onHover: function(){

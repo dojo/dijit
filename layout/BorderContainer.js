@@ -60,6 +60,11 @@ dojo.declare(
 	// 		Optional hook to override the default Splitter widget used by BorderContainer
 	_splitterClass: "dijit.layout._Splitter",
 
+	constructor: function(){
+		this._splitters = {};
+		this._splitterThickness = {};
+	},
+
 	postMixInProperties: function(){
 		// change class name to indicate that BorderContainer is being used purely for
 		// layout (like LayoutContainer) rather than for pretty formatting.
@@ -67,13 +72,6 @@ dojo.declare(
 			this.baseClass += "NoGutter";
 		}
 		this.inherited(arguments);
-	},
-
-	postCreate: function(){
-		this.inherited(arguments);
-
-		this._splitters = {};
-		this._splitterThickness = {};
 	},
 
 	startup: function(){
@@ -480,16 +478,19 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 
 	templateString: '<div class="dijitSplitter" dojoAttachEvent="onkeypress:_onKeyPress,onmousedown:_startDrag,onmouseenter:_onMouse,onmouseleave:_onMouse" tabIndex="0" waiRole="separator"><div class="dijitSplitterThumb"></div></div>',
 
-	postCreate: function(){
+	postMixInProperties: function(){
 		this.inherited(arguments);
-		this.horizontal = /top|bottom/.test(this.region);
-		dojo.addClass(this.domNode, "dijitSplitter" + (this.horizontal ? "H" : "V"));
-//		dojo.addClass(this.child.domNode, "dijitSplitterPane");
-//		dojo.setSelectable(this.domNode, false); //TODO is this necessary?
 
+		this.horizontal = /top|bottom/.test(this.region);		
 		this._factor = /top|left/.test(this.region) ? 1 : -1;
-
 		this._cookieName = this.container.id + "_" + this.region;
+	},
+
+	buildRendering: function(){
+		this.inherited(arguments);
+
+		dojo.addClass(this.domNode, "dijitSplitter" + (this.horizontal ? "H" : "V"));
+
 		if(this.container.persist){
 			// restore old size
 			var persistSize = dojo.cookie(this._cookieName);
@@ -651,8 +652,13 @@ dojo.declare("dijit.layout._Gutter", [dijit._Widget, dijit._Templated ],
 
 	templateString: '<div class="dijitGutter" waiRole="presentation"></div>',
 
-	postCreate: function(){
+	postMixInProperties: function(){
+		this.inherited(arguments);
 		this.horizontal = /top|bottom/.test(this.region);
+	},
+
+	buildRendering: function(){
+		this.inherited(arguments);
 		dojo.addClass(this.domNode, "dijitGutter" + (this.horizontal ? "H" : "V"));
 	}
 });

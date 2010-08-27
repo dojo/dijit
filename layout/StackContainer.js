@@ -38,10 +38,14 @@ dojo.declare(
 	selectedChildWidget: null,
 =====*/
 
-	postCreate: function(){
+	buildRendering: function(){
 		this.inherited(arguments);
 		dojo.addClass(this.domNode, "dijitLayoutContainer");
 		dijit.setWaiRole(this.containerNode, "tabpanel");
+	},
+
+	postCreate: function(){
+		this.inherited(arguments);
 		this.connect(this.domNode, "onkeypress", this._onKeyPress);
 	},
 

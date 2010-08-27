@@ -44,7 +44,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		"class": "containerNode"
 	}),
 
-	postCreate: function(){
+	buildRendering: function(){
 		this.inherited(arguments);
 		var n = this.domNode;
 

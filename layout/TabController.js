@@ -85,9 +85,8 @@ dojo.declare("dijit.layout._TabButton",
 		}
 	},
 
-	postCreate: function(){
+	buildRendering: function(){
 		this.inherited(arguments);
-		dojo.setSelectable(this.containerNode, false);
 
 		// If a custom icon class has not been set for the
 		// tab icon, set its width to one pixel. This ensures
@@ -97,6 +96,11 @@ dojo.declare("dijit.layout._TabButton",
 		if(this.iconNode.className == "dijitTabButtonIcon"){
 			dojo.style(this.iconNode, "width", "1px");
 		}
+	},
+
+	postCreate: function(){
+		this.inherited(arguments);
+		dojo.setSelectable(this.containerNode, false);
 	},
 
 	startup: function(){
