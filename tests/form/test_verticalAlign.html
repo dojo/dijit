@@ -48,8 +48,8 @@
 					doh.t(Math.abs(mid - native_mid) <= 1, "native y:h = " + native_pos.y + ":" + native_pos.h + ", " + className + " y:h = " + pos.y + ":" + pos.h);
 				}
 				var
-					native = dojo.byId(pre+"_native"),
-					native_pos = dojo.position(native),
+					nativeNode = dojo.byId(pre+"_native"),
+					native_pos = dojo.position(nativeNode),
 					native_mid = native_pos.y + (native_pos.h >> 1);
 
 				compare2native("Button");
