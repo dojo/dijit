@@ -271,7 +271,7 @@ dojo.declare("dijit.InlineEditBox",
 	},
 
 	destroy: function(){
-		if(this.wrapperWidget){
+		if(this.wrapperWidget && !this.wrapperWidget._destroyed){
 			this.wrapperWidget.destroy();
 			delete this.wrapperWidget;
 		}
