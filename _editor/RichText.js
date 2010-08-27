@@ -1187,7 +1187,6 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 
 		command = this._normalizeCommand(command, argument);
 
-
 		if(argument !== undefined){
 			if(command == "heading"){
 				throw new Error("unimplemented");
@@ -1866,6 +1865,58 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}
 		return rv;
 	},
+	
+	_boldImpl: function(argument){
+		// summary:
+		//		This function implements an over-ride of the bold command.
+		// argument:
+		//		Not used, operates by selection.
+		// tags:
+		//		protected
+		if(dojo.isIE){
+			this._adaptIESelection()
+		}
+		return this.document.execCommand("bold", false, argument);
+	},
+	
+	_italicImpl: function(argument){
+		// summary:
+		//		This function implements an over-ride of the italic command.
+		// argument:
+		//		Not used, operates by selection.
+		// tags:
+		//		protected
+		if(dojo.isIE){
+			this._adaptIESelection()
+		}
+		return this.document.execCommand("italic", false, argument);
+	},
+
+	_underlineImpl: function(argument){
+		// summary:
+		//		This function implements an over-ride of the underline command.
+		// argument:
+		//		Not used, operates by selection.
+		// tags:
+		//		protected
+		if(dojo.isIE){
+			this._adaptIESelection()
+		}
+		return this.document.execCommand("underline", false, argument);
+	},
+	
+	_strikethroughImpl: function(argument){
+		// summary:
+		//		This function implements an over-ride of the strikethrough command.
+		// argument:
+		//		Not used, operates by selection.
+		// tags:
+		//		protected
+		if(dojo.isIE){
+			this._adaptIESelection()
+		}
+		return this.document.execCommand("strikethrough", false, argument);
+	},
 
 	getHeaderHeight: function(){
 		// summary:
@@ -1895,5 +1946,82 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			} 
 		}
 		return h; // Number
+	},
+	
+	_isNodeEmpty: function(node, startOffset) {
+		// summary:
+		//		Function to test if a node is devoid of real content.
+		// node:
+		//		The node to check.
+		// tags: 
+		//		private.
+		if (node.nodeType == 1/*element*/){
+			if (node.childNodes.length > 0){
+				return this._isNodeEmpty(node.childNodes[0], startOffset);
+			}
+			return true;
+		} else if (node.nodeType == 3/*text*/){
+			return (node.nodeValue.substring(startOffset) == "");
+		}
+		return false;
+	},
+	
+	_removeStartingRangeFromRange: function(node, range){
+		// summary:
+		//		Function to adjust selection range by removing the current 
+		//		start node.
+		// node:
+		//		The node to remove from the starting range.
+		// range:
+		//		The range to adapt.
+		// tags:
+		//		private
+		if(node.nextSibling){
+			range.setStart(node.nextSibling,0);
+		}else{
+			var parent = node.parentNode;
+			while(parent && parent.nextSibling == null){
+				//move up the tree until we find a parent that has another node, that node will be the next node
+				parent = parent.parentNode;
+			}
+			if(parent){
+				range.setStart(parent.nextSibling,0);
+			} 
+		}
+		return range;
+	},
+	
+	_adaptIESelection: function(){
+		// summary:
+		//		Function to adapt the IE range by removing leading 'newlines'
+		//		Needed to fix issue with bold/italics/underline not working if 
+		//		range included leading 'newlines'.
+		//		In IE, if a user starts a selection at the very end of a line, 
+		//		then the native browser commands will fail to execute correctly.   
+		//		To work around the issue,  we can remove all empty nodes from 
+		//		the start of the range selection.
+		var selection = dijit.range.getSelection(this.window);
+		if(selection && selection.rangeCount){				
+			var range = selection.getRangeAt(0);
+			var firstNode = range.startContainer;
+			var startOffset = range.startOffset;
+						
+			while(firstNode.nodeType == 3/*text*/ && startOffset >= firstNode.length && firstNode.nextSibling) {
+				//traverse the text nodes until we get to the one that is actually highlighted
+				startOffset = startOffset - firstNode.length;
+				firstNode = firstNode.nextSibling;
+			}
+						
+			//Remove the starting ranges until the range does not start with an empty node.
+			var lastNode=null;
+			while(this._isNodeEmpty(firstNode, startOffset) && firstNode != lastNode){
+				lastNode =firstNode; //this will break the loop in case we can't find the next sibling
+				range = this._removeStartingRangeFromRange(firstNode, range); //move the start container to the next node in the range
+				firstNode = range.startContainer;
+				startOffset = 0; //start at the beginning of the new starting range
+			}
+			selection.removeAllRanges();// this will work as long as users cannot select multiple ranges. I have not been able to do that in the editor.
+			selection.addRange(range);
+		}
 	}
 });
