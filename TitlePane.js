@@ -67,17 +67,14 @@ dojo.declare(
 	}),
 
 	postCreate: function(){
-		if(!this.open){
-			this.hideNode.style.display = this.wipeNode.style.display = "none";
-		}
-		
+		this.inherited(arguments);
+
 		// Hover and focus effect on title bar, except for non-toggleable TitlePanes
 		// This should really be controlled from _setToggleableAttr() but _CssStateMixin
 		// doesn't provide a way to disconnect a previous _trackMouseState() call
 		if(this.toggleable){
 			this._trackMouseState(this.titleBarNode, "dijitTitlePaneTitle");
 		}
-		this._setCss();
 		dojo.setSelectable(this.titleNode, false);
 
 		// setup open/close animations
@@ -96,34 +93,62 @@ dojo.declare(
 				hideNode.style.display="none";
 			}
 		});
-		this.inherited(arguments);
 	},
 
-	_setOpenAttr: function(/* Boolean */ open){
+	_setOpenAttr: function(/*Boolean*/ open, /*Boolean*/ animate){
 		// summary:
-		//		Hook to make attr("open", boolean) control the open/closed state of the pane.
+		//		Hook to make set("open", boolean) control the open/closed state of the pane.
 		// open: Boolean
 		//		True if you want to open the pane, false if you want to close it.
-		if(this.open !== open){ this.toggle(); }
-		dijit.setWaiState(this.containerNode,"hidden", this.open ? "false" : "true");
-		dijit.setWaiState(this.focusNode, "pressed", this.open ? "true" : "false");
+
+		dojo.forEach([this._wipeIn, this._wipeOut], function(animation){
+			if(animation && animation.status() == "playing"){
+				animation.stop();
+			}
+		});
+
+		if(animate){
+			var anim = this[open ? "_wipeIn" : "_wipeOut"];
+			anim.play();
+		}else{
+			this.hideNode.style.display = this.wipeNode.style.display = open ? "" : "none";
+		}
+
+		// load content (if this is the first time we are opening the TitlePane
+		// and content is specified as an href, or href was set when hidden)
+		if(this._started){
+			if(open){
+				this._onShow();
+			}else{
+				this.onHide();
+			}
+		}
+
+		this.arrowNodeInner.innerHTML = open ? "-" : "+";
+
+		dijit.setWaiState(this.containerNode,"hidden", open ? "false" : "true");
+		dijit.setWaiState(this.focusNode, "pressed", open ? "true" : "false");
+
+		this.open = open;
+
+		this._setCss();
 	},
 
 	_setToggleableAttr: function(/* Boolean */ canToggle){
 		// summary:
-		//		Hook to make attr("canToggle", boolean) work.
+		//		Hook to make set("canToggle", boolean) work.
 		// canToggle: Boolean
 		//		True to allow user to open/close pane by clicking title bar.
 		this.toggleable = canToggle;
 		dijit.setWaiRole(this.focusNode, canToggle ? "button" : "heading");
 		if(canToggle){
-			// TODO: if canToggle is switched from true false shouldn't we remove this setting?
+			// TODO: if canToggle is switched from true to false shouldn't we remove this setting?
 			dijit.setWaiState(this.focusNode, "controls", this.id+"_pane");
 			dojo.attr(this.focusNode, "tabIndex", this.tabIndex);
-		}
-		else{
+		}else{
 			dojo.removeAttr(this.focusNode, "tabIndex");
 		}
+
 		this._setCss();
 	},
 
@@ -161,29 +186,7 @@ dojo.declare(
 		// tags:
 		//		private
 
-		dojo.forEach([this._wipeIn, this._wipeOut], function(animation){
-			if(animation && animation.status() == "playing"){
-				animation.stop();
-			}
-		});
-
-		var anim = this[this.open ? "_wipeOut" : "_wipeIn"]
-		if(anim){
-			anim.play();
-		}else{
-			this.hideNode.style.display = this.open ? "" : "none";
-		}
-		this.open =! this.open;
-
-		// load content (if this is the first time we are opening the TitlePane
-		// and content is specified as an href, or href was set when hidden)
-		if(this.open){
-			this._onShow();
-		}else{
-			this.onHide();
-		}
-
-		this._setCss();
+		this._setOpenAttr(!this.open, true);
 	},
 
 	_setCss: function(){
