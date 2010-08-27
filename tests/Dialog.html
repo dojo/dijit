@@ -357,6 +357,69 @@
 						}
 					}
 				});
+
+				var slow, fast;
+				doh.register("fast double show", [
+					function create(){
+						console.log("creating slow, fast");
+						var d = new doh.Deferred();
+						slow = new dijit.Dialog({
+							id: "slow",
+							title: "Dialog C",
+							content:
+								"Hello world " +
+								"<button type='button' id='slowOK' onfocus='slowFocused=true;'>OK</button>" +
+								"<button type='button' id='slowCancel'>Cancel</button>",
+							duration: 500
+						});
+						fast = new dijit.Dialog({
+							id: "fast",
+							title: "dialog D",
+							content:
+								"<button type='button'>OK</button>",
+							duration: 100
+						});
+						
+					},
+					{
+						name: "show Dialog C then show Dialog D before Dialog C fade-in completes",
+						timeout: 20000,
+						runTest: function(){
+							var d = new doh.Deferred();
+	
+							slow.show();
+							
+							setTimeout(d.getTestErrback(function(){
+								fast.show();
+							}), slow.duration / 2)
+							
+							setTimeout(d.getTestCallback(function(){
+								doh.t(isVisible(slow), "dialog C visible");
+								doh.t(isVisible(fast), "dialog D visible");
+								doh.f(dojo.global.slowFocused, "dialog C never got focus")
+							}), slow.duration * 2)
+							return d;
+						}
+					},
+
+					{
+						name: "close dialogD",
+						timeout: 20000,
+						runTest: function(){
+							var d = new doh.Deferred();
+	
+							fast.hide();
+							
+							setTimeout(d.getTestCallback(function(){
+								doh.is("slowOK", dojo.global.dijit._curFocus.id, "focused to dialog C");
+								doh.t(dojo.global.slowFocused, "onfocus handler working");
+							}), fast.duration * 2)
+
+							return d;
+						}
+					}
+				]);
+
 				doh.run();
 			});
 	</script>

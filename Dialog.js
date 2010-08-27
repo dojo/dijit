@@ -146,7 +146,7 @@ dojo.declare(
 			// when href is specified we need to reposition the dialog after the data is loaded
 			// and find the focusable elements
 			this._position();
-			if(this.autofocus){
+			if(this.autofocus && dijit._DialogLevelManager.isTop(this)){
 				this._getFocusItems(this.domNode);
 				dijit.focus(this._firstFocusItem);
 			}
@@ -194,7 +194,7 @@ dojo.declare(
 					dijit._DialogLevelManager.show(this, this.underlayAttrs);
 				}),
 				onEnd: dojo.hitch(this, function(){
-					if(this.autofocus){
+					if(this.autofocus && dijit._DialogLevelManager.isTop(this)){
 						// find focusable items each time dialog is shown since if dialog contains a widget the
 						// first focusable items can change
 						this._getFocusItems(this.domNode);
@@ -528,7 +528,7 @@ dijit._DialogLevelManager = {
 				// since a dialog doesn't set it's focus until the fade-in is finished.
 				var focus = pd.focus;
 				if(!focus || (pd.dialog && !dojo.isDescendant(focus.node, pd.dialog.domNode))){
-					pd.dialog._getFocusItems(pd.domNode);
+					pd.dialog._getFocusItems(pd.dialog.domNode);
 					focus = pd.dialog._firstFocusItem;
 				}
 	
@@ -546,6 +546,13 @@ dijit._DialogLevelManager = {
 				ds.splice(idx, 1);			
 			}
 		}
+	},
+
+	isTop: function(/*dijit._Widget*/ dialog){
+		// summary:
+		//		Returns true if specified Dialog is the top in the task
+		var ds = dijit._dialogStack;
+		return ds[ds.length-1].dialog == dialog;
 	}
 };
 
