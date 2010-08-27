@@ -390,25 +390,4 @@ dojo.extend(dijit.BackgroundIframe, {
 	});
 })();
 
-// Similarly, scrolling causes drop down positioning problems.
-// Scrolling can happen on nested <div>'s or the browser window itself.
-// It can be done by clicking the scroll bar, or by moving the mouse wheel.
-// onscroll doesn't bubble, but luckily onmousewheel does bubble, and scrolling
-// a nested div by a mouse click will close the drop down just by virtue
-// of the document being clicked
-(function(){
-	var oldScroll = {};
-	dojo.addOnLoad(function(){
-		oldScroll = dojo.window.getBox();
-	});
-	dojo.connect(window, "onscroll", function(){
-		var newScroll = dojo.window.getBox();
-		// if() guards against spurious IE onscroll events
-		if(newScroll.t != oldScroll.t || newScroll.l != oldScroll.l){
-			oldScroll = newScroll;
-			dijit.popup.close();
-		}
-	});
-})();
-
 dojo.connect(document, dojo.isMozilla ? "DOMMouseScroll" : "onmousewheel", dojo.hitch(dijit.popup, "close", null));
