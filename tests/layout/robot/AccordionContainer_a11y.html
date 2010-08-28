@@ -20,7 +20,7 @@
 
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_AccordionContainer.html');
-				doh.register("Accordion A11Y tests",[
+				doh.register("Accordion A11Y tests", [
 					{
 						name: "basic operation",
 						timeout: 10000,
@@ -60,6 +60,25 @@
 						}
 					}
 				]);
+										
+				doh.register("destroy", {
+					name: "destroy",
+					runTest: function(){
+						try{
+							var html='<div dojoType="dijit.layout.AccordionContainer" id="Accordion">' +
+							 	'<div dojoType="dijit.layout.ContentPane" title="first" id="first">first</div>' +
+							 	'<div dojoType="dijit.layout.ContentPane" title="second" id="second">second</div>' +
+								'</div>';
+							dijit.byId("accPane").set("content", html);
+							dijit.byId("accPane").set("content", html); //setting the content twice will initiate a destroy
+							dijit.byId("Accordion").destroy();
+							doh.t(true);
+						} catch(e) {
+							doh.t(false, "exception " + e + " in destroy");
+						}
+						doh.is(undefined, dojo.byId("Accordion"));
+					}
+				});
 				
 				doh.run();
 			});

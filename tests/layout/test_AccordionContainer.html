@@ -39,6 +39,14 @@
 		dojo.addOnLoad(function(){
 			dojo.subscribe("focusNode", function(node){ console.log("focused on " + (node?(node.id||node.tagName):"nothing"));});
 		});
+		
+		function createAccordion(){
+			var html='<div dojoType="dijit.layout.AccordionContainer" id="Accordion">' +
+				 	'<div dojoType="dijit.layout.ContentPane" title="first" id="first">first</div>' +
+				 	'<div dojoType="dijit.layout.ContentPane" title="second" id="second">second</div>' +
+					'</div>';
+			dijit.byId("accPane").set("content",html);
+		}
 	</script>
 
 	<style type="text/css">
@@ -303,6 +311,14 @@
 			</p>
 		</div>
 	</div>
+	
+	<br><br>
+	<h2>Accordion container destroy</h2>
+	<div dojoType="dijit.layout.ContentPane" id="accPane">
+	</div>
+	Click the button twice - it will work correctly unless there was a problem destroying the accordion, in which case the second time
+	the Accordion will not be created and you will see an error like <b>Tried to register widget with id==first_button but that id is already registered</b><br/>
+	<button type="button" onclick="createAccordion()">create Accordion</button>
 
 </body>
 </html>
