@@ -13,7 +13,6 @@ try{
 	doh.registerUrl("dijit.tests.form.robot.TimeTextBox", dojo.moduleUrl("dijit","tests/form/robot/TimeTextBox.html"+userArgs), 99999999);
 
 	doh.registerUrl("dijit.tests.form.Form", dojo.moduleUrl("dijit", "tests/form/Form.html"), 99999999);
-	doh.registerUrl("dijit.tests.form.robot.Form", dojo.moduleUrl("dijit","tests/form/robot/Form.html"+userArgs), 99999999);
 
 	doh.registerUrl("dijit.tests.form.Select", dojo.moduleUrl("dijit", "tests/form/test_Select.html?mode=test"), 99999999);
 	doh.registerUrl("dijit.tests.form.robot.Select", dojo.moduleUrl("dijit", "tests/form/robot/Select.html"), 99999999);

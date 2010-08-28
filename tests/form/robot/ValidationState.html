@@ -34,7 +34,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("notes", 500);
+							doh.robot.mouseMoveAt("notes", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.typeKeys("my notes", 500, 1000);
 
@@ -50,12 +50,14 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("name", 500);
+							doh.robot.mouseMoveAt("name", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.typeKeys("my name", 500, 1000);
 							
-							doh.robot.mouseMoveAt("birth", 500);
+							doh.robot.mouseMoveAt("birth", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.mouseMoveAt("name", 100, 1); // avoid double click by moving mouse
+							doh.robot.mouseMoveAt("birth", 100, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.sequence(function(){ dijit.byId('birth').set('value', null) }, 1000); 
 							doh.robot.typeKeys("1/1/2010", 500, 1000);
@@ -72,7 +74,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("reset", 500);
+							doh.robot.mouseMoveAt("reset", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -87,13 +89,15 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("birth", 500);
+							doh.robot.mouseMoveAt("birth", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.mouseMoveAt("name", 100, 1); // avoid double click by moving mouse
+							doh.robot.mouseMoveAt("birth", 100, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.sequence(function(){ dijit.byId('birth').set('value', null) }, 1000); 
 							doh.robot.typeKeys("1/1/2010", 500, 1000);
 							
-							doh.robot.mouseMoveAt("disable", 500);
+							doh.robot.mouseMoveAt("disable", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -108,7 +112,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("enable", 500);
+							doh.robot.mouseMoveAt("enable", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -123,9 +127,9 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("reset", 500);
+							doh.robot.mouseMoveAt("reset", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
-							doh.robot.mouseMoveAt("addMoreFields", 500);
+							doh.robot.mouseMoveAt("addMoreFields", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -140,7 +144,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("lastName", 500);
+							doh.robot.mouseMoveAt("lastName", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.typeKeys("my last name", 500, 1000);
 
@@ -156,7 +160,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("color", 500);
+							doh.robot.mouseMoveAt("color", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.sequence(function(){ dijit.byId('color').set('value', null) }, 1000); 
 							doh.robot.keyPress(dojo.keys.TAB, 1000, {});
