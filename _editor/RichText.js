@@ -1948,19 +1948,19 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		return h; // Number
 	},
 	
-	_isNodeEmpty: function(node, startOffset) {
+	_isNodeEmpty: function(node, startOffset){
 		// summary:
 		//		Function to test if a node is devoid of real content.
 		// node:
 		//		The node to check.
 		// tags: 
 		//		private.
-		if (node.nodeType == 1/*element*/){
-			if (node.childNodes.length > 0){
+		if(node.nodeType == 1/*element*/){
+			if(node.childNodes.length > 0){
 				return this._isNodeEmpty(node.childNodes[0], startOffset);
 			}
 			return true;
-		} else if (node.nodeType == 3/*text*/){
+		}else if(node.nodeType == 3/*text*/){
 			return (node.nodeValue.substring(startOffset) == "");
 		}
 		return false;
@@ -2006,7 +2006,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			var firstNode = range.startContainer;
 			var startOffset = range.startOffset;
 						
-			while(firstNode.nodeType == 3/*text*/ && startOffset >= firstNode.length && firstNode.nextSibling) {
+			while(firstNode.nodeType == 3/*text*/ && startOffset >= firstNode.length && firstNode.nextSibling){
 				//traverse the text nodes until we get to the one that is actually highlighted
 				startOffset = startOffset - firstNode.length;
 				firstNode = firstNode.nextSibling;

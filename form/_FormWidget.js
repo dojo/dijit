@@ -239,7 +239,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 			// Set a global event to handle mouseup, so it fires properly
 			// even if the cursor leaves this.domNode before the mouse up event.
 			var mouseUpConnector = this.connect(dojo.body(), "onmouseup", function(){
-				if (this.isFocusable()) {
+				if(this.isFocusable()){
 					this.focus();
 				}
 				this.disconnect(mouseUpConnector);

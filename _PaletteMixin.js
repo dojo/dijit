@@ -60,7 +60,7 @@ dojo.declare("dijit._PaletteMixin",
 	//	 dyeClass should implements dijit.Dye interface
 	dyeClass: '',
 
-	_preparePalette: function(choices, titles) {
+	_preparePalette: function(choices, titles){
 		// summary:
 		//		Subclass must call _preparePalette() from postCreate(), passing in the tooltip
 		//		for each cell

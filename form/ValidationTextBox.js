@@ -209,7 +209,7 @@ dojo.declare(
 			// parse the regexp and produce a new regexp that matches valid subsets
 			// if the regexp is .* then there's no use in matching subsets since everything is valid
 			if(p != ".*"){ this.regExp.replace(/\\.|\[\]|\[.*?[^\\]{1}\]|\{.*?\}|\(\?[=:!]|./g,
-				function (re){
+				function(re){
 					switch(re.charAt(0)){
 						case '{':
 						case '+':

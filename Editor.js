@@ -698,7 +698,7 @@ dojo.declare(
 			if(!this.disabled && value){
 				// Disable editor: disable all enabled buttons and remember that list
 				this._buttonEnabledPlugins = dojo.filter(this._plugins, function(p){
-					if (p && p.button && !p.button.get("disabled")) {
+					if(p && p.button && !p.button.get("disabled")){
 						p.button.set("disabled", true);
 						return true;
 					}
@@ -750,7 +750,7 @@ dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
 			p = new _p({ buttonClass: dijit.form.ToggleButton, command: name });
 			break;
 		case "|":
-			p = new _p({ button: new dijit.ToolbarSeparator(), setEditor: function(editor) {this.editor = editor;} });
+			p = new _p({ button: new dijit.ToolbarSeparator(), setEditor: function(editor){this.editor = editor;} });
 	}
 //	console.log('name',name,p);
 	o.plugin=p;

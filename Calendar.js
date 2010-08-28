@@ -455,7 +455,7 @@ dojo.declare(
 			// if mouse out occurs moving from <td> to <span> inside <td>, ignore it
 			if(evt.relatedTarget && evt.relatedTarget.parentNode == this._currentNode){ return; }
 			var cls = "dijitCalendarHoveredDate";
-			if(dojo.hasClass(this._currentNode, "dijitCalendarActiveDate")) {
+			if(dojo.hasClass(this._currentNode, "dijitCalendarActiveDate")){
 				cls += " dijitCalendarActiveDate";
 			}
 			dojo.removeClass(this._currentNode, cls);
