@@ -429,6 +429,10 @@ dojo.declare(
 	// id of the TabContainer itself
 	containerId: "",
 
+	// -1 so user can't tab into the button, but so that button can still be focused programatically.
+	// Because need to move focus to the button (or somewhere) before the menu is hidden or IE6 will crash.
+	tabIndex: "-1",
+
 	isLoaded: function(){
 		// recreate menu every time, in case the TabContainer's list of children (or their icons/labels) have changed
 		return false;
@@ -457,7 +461,7 @@ dojo.declare(
 		callback();
 	},
 
-	closeDropDown: function(){
+	closeDropDown: function(/*Boolean*/ focus){
 		this.inherited(arguments);
 		if(this.dropDown){
 			this.dropDown.destroyRecursive();
