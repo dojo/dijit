@@ -1,0 +1,334 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>doh.robot BorderContainer complex Test</title>
+
+		<style>
+			@import "../../../../util/doh/robot/robot.css";
+		</style>
+
+		<!-- required: dojo.js -->
+		<script type="text/javascript" src="../../../../dojo/dojo.js"
+			djConfig="isDebug: true"></script>
+
+		<!-- functions to help test -->
+		<script type="text/javascript" src="../../helpers.js"></script>
+		<script type="text/javascript" src="./borderContainerTestFunctions.js"></script>
+
+		<script type="text/javascript">
+			dojo.require("dijit.robotx");
+
+			dojo.addOnLoad(function(){
+				doh.robot.initRobot('../test_BorderContainer_complex.html');
+
+				doh.register("API", [
+					function initialConditions(){
+						checkBCpanes(dijit.byId("border1"));
+					}
+				]);
+
+				//test some basic functionality of the complex widgets to get a feel for whether they work inside the border container
+				doh.register("tabContainer", [
+					{
+						name: "tab2Selected",
+						runTest: function(t){
+							doh.t(dijit.byId("tab2").selected);
+							doh.f(dijit.byId("tab1").selected);
+							doh.f(dijit.byId("tab3").selected);
+							doh.f(dijit.byId("tab4").selected);
+							doh.f(dijit.byId("tab5").selected);
+							doh.f(dijit.byId("tab6").selected);
+						}
+					},
+					{
+						name: "allTabsCanBeShowWhenSelected",
+						timeout: 25000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							var passed = true;
+							doh.robot.mouseMoveAt("mainTabContainer_tablist_tab1", 500);
+							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.sequence(function(){
+													// verify tab button is selected
+													passed = 'mainTabContainer_tablist_tab1' == dojo.global.dijit._curFocus.id;
+													if('mainTabContainer_tablist_tab1' != dojo.global.dijit._curFocus.id) console.error("FAILED: verify tab1 is in its chosen state and focused");
+													
+													// verify pane is shown
+													passed = passed && ("tab1" == dijit.byId("mainTabContainer").selectedChildWidget.id);
+													if("tab1" != dijit.byId("mainTabContainer").selectedChildWidget.id) console.error("FAILED: verify that the appropiate contentpane is displayed");
+													
+													var visible = isVisible(dijit.byId("tab1"));
+													var hidden = isHidden(dijit.byId("tab2"));
+													passed = passed && visible && hidden;
+													
+													if(!visible) console.error("FAILED: tab1 is not visible");
+													if(!hidden) console.error("FAILED: tab2 is not hidden");
+							}, 1000); 
+							
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
+							doh.robot.sequence(function(){
+													// verify tab button is selected
+													passed = passed && ('mainTabContainer_tablist_tab2' == dojo.global.dijit._curFocus.id);
+													if('mainTabContainer_tablist_tab2' != dojo.global.dijit._curFocus.id) console.error("FAILED: verify tab2 is in its chosen state and focused");
+													
+													// verify pane is shown
+													passed = passed && ("tab2" == dijit.byId("mainTabContainer").selectedChildWidget.id);
+													if("tab2" != dijit.byId("mainTabContainer").selectedChildWidget.id) console.error("FAILED: verify that the appropiate contentpane is displayed");
+													
+													var visible = isVisible(dijit.byId("tab2"));
+													var hidden = isHidden(dijit.byId("tab1"));
+													passed = passed && visible && hidden;
+													
+													if(!visible) console.error("FAILED: tab2 is not visible");
+													if(!hidden) console.error("FAILED: tab1 is not hidden");
+							}, 2000);
+							
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
+							doh.robot.sequence(function(){
+													// verify tab button is selected
+													passed = passed && ('mainTabContainer_tablist_tab3' == dojo.global.dijit._curFocus.id);
+													if('mainTabContainer_tablist_tab3' != dojo.global.dijit._curFocus.id) console.error("FAILED: verify tab3 is in its chosen state and focused");
+													
+													// verify pane is shown
+													passed = passed && ("tab3" == dijit.byId("mainTabContainer").selectedChildWidget.id);
+													if("tab3" != dijit.byId("mainTabContainer").selectedChildWidget.id) console.error("FAILED: verify that the appropiate contentpane is displayed");
+													
+													var visible = isVisible(dijit.byId("tab3"));
+													var hidden = isHidden(dijit.byId("tab2"));
+													passed = passed && visible && hidden;
+													
+													if(!visible) console.error("FAILED: tab3 is not visible");
+													if(!hidden) console.error("FAILED: tab2 is not hidden");
+							}, 2000);
+							
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
+							doh.robot.sequence(function(){
+													// verify tab button is selected
+													passed = passed && ('mainTabContainer_tablist_tab4' == dojo.global.dijit._curFocus.id);
+													if('mainTabContainer_tablist_tab4' != dojo.global.dijit._curFocus.id) console.error("FAILED: verify tab4 is in its chosen state and focused");
+													
+													// verify pane is shown
+													passed = passed && ("tab4" == dijit.byId("mainTabContainer").selectedChildWidget.id);
+													if("tab4" != dijit.byId("mainTabContainer").selectedChildWidget.id) console.error("FAILED: verify that the appropiate contentpane is displayed");
+													
+													var visible = isVisible(dijit.byId("tab4"));
+													var hidden = isHidden(dijit.byId("tab3"));
+													passed = passed && visible && hidden;
+													
+													if(!visible) console.error("FAILED: tab4 is not visible");
+													if(!hidden) console.error("FAILED: tab3 is not hidden");
+							}, 2000);
+							
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
+							doh.robot.sequence(function(){
+													// verify tab button is selected
+													passed = passed && ('mainTabContainer_tablist_tab5' == dojo.global.dijit._curFocus.id);
+													if('mainTabContainer_tablist_tab5' != dojo.global.dijit._curFocus.id) console.error("FAILED: verify tab5 is in its chosen state and focused");
+													
+													// verify pane is shown
+													passed = passed && ("tab5" == dijit.byId("mainTabContainer").selectedChildWidget.id);
+													if("tab5" != dijit.byId("mainTabContainer").selectedChildWidget.id) console.error("FAILED: verify that the appropiate contentpane is displayed");
+													
+													var visible = isVisible(dijit.byId("tab5"));
+													var hidden = isHidden(dijit.byId("tab4"));
+													passed = passed && visible && hidden;
+													
+													if(!visible) console.error("FAILED: tab5 is not visible");
+													if(!hidden) console.error("FAILED: tab4 is not hidden");
+							}, 2000);
+							
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
+							doh.robot.sequence(function(){
+													// verify tab button is selected
+													passed = passed && ('mainTabContainer_tablist_tab6' == dojo.global.dijit._curFocus.id);
+													if('mainTabContainer_tablist_tab6' != dojo.global.dijit._curFocus.id) console.error("FAILED: verify tab6 is in its chosen state and focused");
+													
+													// verify pane is shown
+													passed = passed && ("tab6" == dijit.byId("mainTabContainer").selectedChildWidget.id);
+													if("tab6" != dijit.byId("mainTabContainer").selectedChildWidget.id) console.error("FAILED: verify that the appropiate contentpane is displayed");
+													
+													var visible = isVisible(dijit.byId("tab6"));
+													var hidden = isHidden(dijit.byId("tab5"));
+													passed = passed && visible && hidden;
+													
+													if(!visible) console.error("FAILED: tab6 is not visible");
+													if(!hidden) console.error("FAILED: tab5 is not hidden");
+							}, 2000);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(passed); 
+							}), 1000);
+							
+							return d;
+						}
+					}					
+				]);
+				
+				doh.register("accordionContainer", [
+					{
+						name: "pane1Selected",
+						runTest: function(t){
+							doh.t(dijit.byId("ap1").selected);
+							doh.f(dijit.byId("ap2").selected);
+							doh.f(dijit.byId("ap3").selected);
+						}
+					},
+					{
+						name: "allPanesCanBeShowWhenSelected",
+						timeout: 10000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							var passed = true;
+							doh.robot.mouseMoveAt("ap1_button", 500);
+							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.sequence(function(){
+													// verify tab button is selected
+													passed = 'ap1_button' == dojo.global.dijit._curFocus.parentNode.id;
+													if('ap1_button' != dojo.global.dijit._curFocus.parentNode.id) console.error("FAILED: verify ap1 is in its chosen state and focused");
+													
+													// verify pane is shown
+													passed = passed && ("ap1" == dijit.byId("ac1").selectedChildWidget.id);
+													if("ap1" != dijit.byId("ac1").selectedChildWidget.id) console.error("FAILED: verify that the appropiate contentpane is displayed");
+													
+													var visible = isVisible(dijit.byId("ap1"));
+													var hidden = isHidden(dijit.byId("ap2"));
+													passed = passed && visible && hidden;
+													
+													if(!visible) console.error("FAILED: ap1 is not visible");
+													if(!hidden) console.error("FAILED: ap2 is not hidden");
+							}, 2000); 
+							
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+							doh.robot.sequence(function(){
+													// verify tab button is selected
+													passed = passed && ('ap2_button' == dojo.global.dijit._curFocus.parentNode.id);
+													if('ap2_button' != dojo.global.dijit._curFocus.parentNode.id) console.error("FAILED: verify ap2 is in its chosen state and focused");
+													
+													// verify pane is shown
+													passed = passed && ("ap2" == dijit.byId("ac1").selectedChildWidget.id);
+													if("ap2" != dijit.byId("ac1").selectedChildWidget.id) console.error("FAILED: verify that the appropiate contentpane is displayed");
+													
+													var visible = isVisible(dijit.byId("ap2"));
+													var hidden = isHidden(dijit.byId("ap1"));
+													passed = passed && visible && hidden;
+													
+													if(!visible) console.error("FAILED: ap2 is not visible");
+													if(!hidden) console.error("FAILED: ap1 is not hidden");
+							}, 2000);
+							
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+							doh.robot.sequence(function(){
+													// verify tab button is selected
+													passed = passed && ('ap3_button' == dojo.global.dijit._curFocus.parentNode.id);
+													if('ap3_button' != dojo.global.dijit._curFocus.parentNode.id) console.error("FAILED: verify ap3 is in its chosen state and focused");
+													
+													// verify pane is shown
+													passed = passed && ("ap3" == dijit.byId("ac1").selectedChildWidget.id);
+													if("ap3" != dijit.byId("ac1").selectedChildWidget.id) console.error("FAILED: verify that the appropiate contentpane is displayed");
+													
+													var visible = isVisible(dijit.byId("ap3"));
+													var hidden = isHidden(dijit.byId("ap2"));
+													passed = passed && visible && hidden;
+													
+													if(!visible) console.error("FAILED: ap3 is not visible");
+													if(!hidden) console.error("FAILED: ap2 is not hidden");
+							}, 2000);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(passed); 
+							}), 1000);
+							
+							return d;
+						}
+					},
+					{
+						name: "resize accordion",
+						timeout: 10000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+
+							var accordion = dojo.position(dojo.byId("ac1"));
+							var centerPane = dojo.position(dojo.byId("mainCP"));
+
+							// Drag slider to shrink pane 
+							var size = dojo.position("ac1_splitter");
+							doh.robot.mouseMoveAt("ac1_splitter", 500);
+							doh.robot.mousePress({left: true}, 500);
+							doh.robot.mouseMoveAt("ac1_splitter", 500, 100, size.w/2+30, size.h/2);
+							doh.robot.mouseRelease({left: true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								//test that the margin box for the accordion pane grows the same size as the splitter moved
+								var newAccordion = dojo.position(dojo.byId("ac1"));
+								doh.is(newAccordion.w, accordion.w+30);
+								
+								//test that the center content got smaller by the same size that the splitter moved
+								var newCenterPane = dojo.position(dojo.byId("mainCP"));
+								doh.is(newCenterPane.w, centerPane.w-30);
+							}), 500);
+
+							return d;
+						}
+					}
+				]);
+				
+				doh.register("filteringSelect", [
+					{
+						name: "changeValue",
+						timeout: 10000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							var changed = false;
+							dijit.byId("filteringSelect").set("onChange", function(e){changed = true; });
+							
+							doh.robot.mouseMoveAt("filteringSelect", 500);
+							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(changed);
+							}), 1000);
+							
+							return d;
+						}
+					}
+				]); 
+				
+				doh.register("editor", [
+					{
+						name: "changeValue",
+						timeout: 10000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+														
+							doh.robot.sequence(function(){
+													var editor = dijit.byId("editor1");
+													editor.setValue("<div id='myDiv'>This is my new text</div>");
+							}, 1000); 
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var myDiv = dijit.byId("editor1").editNode.childNodes[0];
+								if(myDiv.id=="myDiv") {
+									doh.t(isVisible(myDiv));
+								} else {
+									doh.t(false);
+								}
+							}), 1000);
+							
+							return d;
+						}
+					}
+				]);
+				
+				doh.run();
+			});
+		</script>
+	</head>
+</html>
