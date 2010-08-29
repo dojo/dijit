@@ -15,6 +15,7 @@ try{
 	doh.registerUrl("dijit.tests.layout.robot.AccordionContainer_mouse", dojo.moduleUrl("dijit","tests/layout/robot/AccordionContainer_mouse.html"), 99999999);
 
 	doh.registerUrl("dijit.tests.layout.robot.BorderContainer", dojo.moduleUrl("dijit", "tests/layout/robot/BorderContainer.html"), 99999999); 
+	doh.registerUrl("dijit.tests.layout.robot.BorderContainer_full", dojo.moduleUrl("dijit", "tests/layout/robot/BorderContainer_full.html"), 99999999); 
 	doh.registerUrl("dijit.tests.layout.robot.BorderContainer_complex", dojo.moduleUrl("dijit", "tests/layout/robot/BorderContainer_complex.html"), 99999999); 
 
 }catch(e){

@@ -37,13 +37,13 @@
 </head>
 <body class="claro">
 	<div dojoType="dijit.layout.BorderContainer" design="sidebar" id="main">
-		<div dojoType="dijit.layout.ContentPane" region="leading" style="background-color: #acb386; width: 100px;">
+		<div id="main-leading" dojoType="dijit.layout.ContentPane" region="leading" style="background-color: #acb386; width: 100px;">
 			leading
 		</div>
-		<div dojoType="dijit.layout.ContentPane" region="top" style="background-color: #b39b86; height: 100px;">
+		<div id="main-top" dojoType="dijit.layout.ContentPane" region="top" style="background-color: #b39b86; height: 100px;">
 			top bar
 		</div>
-		<div dojoType="dijit.layout.ContentPane" region="center" style="background-color: #f5ffbf; padding: 10px;">
+		<div id="main-center" dojoType="dijit.layout.ContentPane" region="center" style="background-color: #f5ffbf; padding: 10px;">
 			main panel with <a href="http://www.dojotoolkit.org/">a link</a>.<br />
 			(to check we're copying children around properly).<br />
 			<select dojoType="dijit.form.FilteringSelect">
@@ -53,10 +53,10 @@
 			</select>
 			Here's some text that comes AFTER the combo box.
 		</div>
-		<div dojoType="dijit.layout.ContentPane" region="bottom" style="background-color: #b39b86; height: 100px;" splitter="true">
+		<div id="main-bottom" dojoType="dijit.layout.ContentPane" region="bottom" style="background-color: #b39b86; height: 100px;" splitter="true">
 			bottom bar
 		</div>
-		<div dojoType="dijit.layout.ContentPane" region="trailing" style="background-color: #acb386; width: 100px;" splitter="true">
+		<div id="main-trailing" dojoType="dijit.layout.ContentPane" region="trailing" style="background-color: #acb386; width: 100px;" splitter="true">
 			trailing
 		</div>
 	</div>
