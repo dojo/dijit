@@ -18,6 +18,7 @@ try{
 	doh.registerUrl("dijit.tests.layout.robot.BorderContainer_full", dojo.moduleUrl("dijit", "tests/layout/robot/BorderContainer_full.html"), 99999999); 
 	doh.registerUrl("dijit.tests.layout.robot.BorderContainer_complex", dojo.moduleUrl("dijit", "tests/layout/robot/BorderContainer_complex.html"), 99999999); 
 
+	doh.registerUrl("dijit.tests.layout.robot.BorderContainer_nested", dojo.moduleUrl("dijit", "tests/layout/robot/BorderContainer_nested.html"), 99999999); 
 }catch(e){
 	doh.debug(e);
 }

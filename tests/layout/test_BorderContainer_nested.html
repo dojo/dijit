@@ -31,8 +31,8 @@
 	<h2 class="testTitle">dijit.layout.BorderContainer tests</h2>
 	<p>Basic layout</p>
 
-	<div dojoType="dijit.layout.TabContainer" style="width:800px;height:600px;">
-		<div dojoType="dijit.layout.BorderContainer" title="Tab 1"
+	<div id="tc" dojoType="dijit.layout.TabContainer" style="width:800px;height:600px;">
+		<div id="bc1" dojoType="dijit.layout.BorderContainer" title="Tab 1"
 			style="border: 2px solid black; width: 90%; height: 500px; padding: 10px;">
 			<div dojoType="dijit.layout.ContentPane" region="left" style="background-color: #acb386; width: 100px;">
 				left
@@ -73,7 +73,7 @@
 				</div>
 			</div>
 		</div>
-		<div dojoType="dijit.layout.BorderContainer" title="Tab 2">
+		<div id="bc2" dojoType="dijit.layout.BorderContainer" title="Tab 2">
 			<div dojoType="dijit.layout.ContentPane" region="left" splitter="true" style="background-color: #770; width: 100px;">
 				left
 			</div>
