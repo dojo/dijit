@@ -154,7 +154,9 @@ dojo.declare(
 		removeChild: function(child){
 			// Overrides _LayoutWidget.removeChild().
 
-			// destroy wrapper widget first, before StackContainer.getChildren() call
+			// Destroy wrapper widget first, before StackContainer.getChildren() call.
+			// Replace wrapper widget with true child widget (ContentPane etc.)
+			dojo.place(child.domNode, child._wrapperWidget.domNode, "after");
 			child._wrapperWidget.destroy();
 			delete child._wrapperWidget;
 			dojo.removeClass(child.domNode, "dijitHidden");

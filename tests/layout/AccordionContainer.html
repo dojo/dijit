@@ -217,6 +217,27 @@
 				]
 			);
 
+			doh.register("destroy", {
+				name: "destroy",
+				runTest: function(){
+					var accPane = new dijit.layout.ContentPane({
+						id: "accPane",
+						onContentError: function(msg){
+							throw new Error(msg);
+						}
+					}).placeAt(dojo.body());
+					var html='<div dojoType="dijit.layout.AccordionContainer" id="Accordion" style="height: 300px;">' +
+						 	'<div dojoType="dijit.layout.ContentPane" title="first" id="first">' +
+								'<div dojoType=dijit.form.Button id=myButton>hello world</div></div>' +
+						 	'<div dojoType="dijit.layout.ContentPane" title="second" id="second">second</div>' +
+							'</div>';
+					accPane.set("content", html);
+					accPane.set("content", html); //setting the content twice will initiate a destroy
+					dijit.byId("Accordion").destroy();
+					doh.is(undefined, dojo.byId("Accordion"));
+				}
+			});
+
 			doh.run();
 		});
 	</script>
