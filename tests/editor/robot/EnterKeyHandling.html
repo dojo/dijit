@@ -85,6 +85,7 @@
 								var value = br.get('value');
 								value = value.replace(/&nbsp;/g, "");
 								value = value.replace(/ /g, "");
+								value = value.replace(/\xA0/g, "");
 								var val = br.get("value");
 								doh.is('ab345<br/>ab345<br/>ab345<br/>ab345<br/>',
 										value,
