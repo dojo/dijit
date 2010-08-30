@@ -233,12 +233,15 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 							var startNode = doc.createTextNode(txt.substring(0, range.startOffset));
 							var endNode = doc.createTextNode(txt.substring(range.startOffset));
 							var brNode = doc.createElement("br");
+							if(endNode.nodeValue == "" && dojo.isWebKit){
+								endNode = doc.createTextNode('\xA0')
+							}
 							dojo.place(startNode, rs, "after");
 							dojo.place(brNode, startNode, "after");
 							dojo.place(endNode, brNode, "after");
 							dojo.destroy(rs);
 							newrange = dijit.range.create(dojo.gobal);
-							newrange.setStartBefore(endNode,0);
+							newrange.setStart(endNode,0);
 							selection.removeAllRanges();
 							selection.addRange(newrange);
 						});
@@ -264,12 +267,15 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 								var startNode = doc.createTextNode(txt.substring(0, range.startOffset));
 								var endNode = doc.createTextNode(txt.substring(range.startOffset));
 								var brNode = doc.createElement("br");
+								if(endNode.nodeValue == "" && dojo.isWebKit){
+									endNode = doc.createTextNode('\xA0')
+								}
 								dojo.place(startNode, rs, "after");
 								dojo.place(brNode, startNode, "after");
 								dojo.place(endNode, brNode, "after");
 								dojo.destroy(rs);
 								newrange = dijit.range.create(dojo.gobal);
-								newrange.setStartBefore(endNode,0);
+								newrange.setStart(endNode,0);
 								selection.removeAllRanges();
 								selection.addRange(newrange);
 							});

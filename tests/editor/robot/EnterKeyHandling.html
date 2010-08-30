@@ -71,22 +71,23 @@
 							
 							doh.robot.mouseMoveAt(br.iframe, 500);
 							doh.robot.mouseClick({left:true}, 500);
-
+							doh.robot.keyPress(dojo.keys.BACKSPACE, 500, {});
+							
 							// tab to the MenuBar... then focus should automatically shift to "File" menu,
 							for(var i=0; i<4; i++){
 								doh.robot.typeKeys("ab345", 500);
-								i<3 && doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+								doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 							}
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is('ab345<br/>ab345<br/>ab345<br/>ab345',
-									dom2string(br.editNode),
-									"innerHTML of editor (should have each line separated by <br/>");
-
 								// get('value') should call the post-filter which recombines the separate <p> nodes into bigger
 								// paragraphs.
-								doh.is('ab345<br/>ab345<br/>ab345<br/>ab345',
-										br.get('value'),
+								var value = br.get('value');
+								value = value.replace(/&nbsp;/g, "");
+								value = value.replace(/ /g, "");
+								var val = br.get("value");
+								doh.is('ab345<br/>ab345<br/>ab345<br/>ab345<br/>',
+										value,
 										"get('value')");
 							}), 1000);
 
