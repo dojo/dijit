@@ -706,7 +706,7 @@ dojo.declare(
 				label = this.doHighlight(label, this._escapeHtml(this._lastInput));
 				labelType = "html";
 			}
-			return {html: labelType == "html", label: label};
+			return { html: labelType == "html", label: label };
 		},
 
 		doHighlight: function(/*String*/label, /*String*/find){
@@ -717,13 +717,16 @@ dojo.declare(
 			// tags:
 			//		protected
 
-			// Add greedy when this.highlightMatch == "all"
-			var modifiers = "i"+(this.highlightMatch == "all"?"g":"");
-			var escapedLabel = this._escapeHtml(label);
+			var
+				// Add (g)lobal modifier when this.highlightMatch == "all" and (i)gnorecase when this.ignoreCase == true
+				modifiers = (this.ignoreCase ? "i" : "") + (this.highlightMatch == "all" ? "g" : ""),
+				i = this.queryExpr.indexOf("${0}");
 			find = dojo.regexp.escapeString(find); // escape regexp special chars
-			var ret = escapedLabel.replace(new RegExp("(^|\\s)("+ find +")", modifiers),
-					'$1<span class="dijitComboBoxHighlightMatch">$2</span>');
-			return ret;// returns String, (almost) valid HTML (entities encoded)
+			return this._escapeHtml(label).replace(
+				// prepend ^ when this.queryExpr == "${0}*" and append $ when this.queryExpr == "*${0}"
+				new RegExp((i == 0 ? "^" : "") + "("+ find +")" + (i == (this.queryExpr.length - 4) ? "$" : ""), modifiers),
+				'<span class="dijitComboBoxHighlightMatch">$1</span>'
+			); // returns String, (almost) valid HTML (entities encoded)
 		},
 
 		_escapeHtml: function(/*string*/str){

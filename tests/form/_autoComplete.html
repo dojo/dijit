@@ -555,7 +555,7 @@
 	  <option>problem</option>
 	</select>
 	
-	<div id="destroyDiv"
+	Destroy test:<div id="destroyDiv"
 		><select name="state" 
 				id="combo_01" 
 				dojoType="$testWidget" 
@@ -571,6 +571,46 @@
 			<option value="AP">Armed Forces Pacific</option>
 		</select
 	></div>
+
+	<br>
+	<fieldset style="position:relative;border:1px solid black;display:inline;">
+		<span style="position:absolute;">Highlight test</span>
+		<div style="border:0;margin:1.5em;">
+			<nobr>
+			ignoreCase:<select onchange="dijit.byId('highlight').set('ignoreCase', this.value=='true')">
+				<option value="true" selected>true</option>
+				<option value="false">false</option>
+			</select>
+			highlightMatch:<select onchange="dijit.byId('highlight').set('highlightMatch', this.value)">
+				<option value="first" selected>first</option>
+				<option value="all">all</option>
+				<option value="none">none</option>
+			</select>
+			queryExpr:<select onchange="dijit.byId('highlight').set('queryExpr', this.value)">
+				<option value="${0}*" selected>${0}*</option>
+				<option value="*${0}*">*${0}*</option>
+				<option value="*${0}">*${0}</option>
+			</select>
+			</nobr>
+			<br>
+			<nobr>
+			Highlight test:<select id="highlight"
+					dojoType="$testWidget"
+					ignoreCase="true"
+					highlightMatch="first"
+					autoComplete="false"
+					required="false"
+					labelType="text"
+					onBlur="this.set('value',null)"
+					value="">
+				<option value="AA">AA</option>
+				<option value="Aa">Aa</option>
+				<option value="aA">aA</option>
+				<option value="aa">aa</option>
+			</select>
+			</nobr>
+		</div>
+	</fieldset>
 
 	<div id="debugbox"></div>
 	<!-- maintain state of combo box if user presses back/forward button -->

@@ -65,7 +65,7 @@
 
 			var findMenuItem = function(combo, text){
 				var node = combo.dropDown.domNode.firstChild;
-				while(((node.innerText || node.textContent).indexOf(text)<0) && node.nextSibling){
+				while(innerText(node).indexOf(text) < 0 && node.nextSibling){
 					node = node.nextSibling;
 				}
 				return node;
@@ -1272,6 +1272,52 @@
 					}
 				}
 			]);
+
+			dojo.forEach(
+				[
+					{ attrs: { ignoreCase:true,  highlightMatch:"first", queryExpr:"${0}*"  }, results: { AA: "<>A<>A", Aa: "<>A<>a", aA: "<>a<>A", aa: "<>a<>a" } },
+					{ attrs: { ignoreCase:false, highlightMatch:"first", queryExpr:"${0}*"  }, results: { aA: "<>a<>A", aa: "<>a<>a" } },
+					{ attrs: { ignoreCase:true,  highlightMatch:"all",   queryExpr:"${0}*"  }, results: { AA: "<>A<>A", Aa: "<>A<>a", aA: "<>a<>A", aa: "<>a<>a" } },
+					{ attrs: { ignoreCase:true,  highlightMatch:"all",   queryExpr:"*${0}*" }, results: { AA: "<>A<><>A<>", Aa: "<>A<><>a<>", aA: "<>a<><>A<>", aa: "<>a<><>a<>" } },
+					{ attrs: { ignoreCase:false, highlightMatch:"all",   queryExpr:"*${0}*" }, results: { Aa: "A<>a<>", aA: "<>a<>A", aa: "<>a<><>a<>" } },
+					{ attrs: { ignoreCase:false, highlightMatch:"none",  queryExpr:"*${0}*" }, results: { Aa: "Aa", aA: "aA", aa: "aa" } },
+					{ attrs: { ignoreCase:true,  highlightMatch:"all",   queryExpr:"*${0}"  }, results: { AA: "A<>A<>", Aa: "A<>a<>", aA: "a<>A<>", aa: "a<>a<>" } },
+					{ attrs: { ignoreCase:false, highlightMatch:"first", queryExpr:"*${0}"  }, results: { Aa: "A<>a<>", aa: "a<>a<>" } }
+				], function(test){
+					doh.register("highlight", [
+						{
+							timeout: 6000,
+							name: dojo.toJson(test.attrs),
+							setUp: function(){
+								combo = dijit.byId("highlight");
+								dojo.mixin(combo, test.attrs);
+								combo.focusNode.focus();
+							},
+							runTest: function(){
+								var d = new doh.Deferred();
+								doh.robot.keyPress(dojo.keys.BACKSPACE, 1000);
+								doh.robot.typeKeys("a", 1, 100);
+								doh.robot.sequence(d.getTestCallback(function(){
+									dojo.forEach(["AA","Aa","aA","aa"], function(idx){
+										var item = findMenuItem(combo, idx);
+										if(idx in test.results){
+											var expected = test.results[idx];
+											var actual = item.innerHTML.replace(/\/?span\s*[^>]*/ig, "");
+											doh.is(expected, actual, idx);
+										}else{
+											doh.t(item == combo.dropDown.nextButton, "too many menu items: " + idx);
+										}
+									});
+								}), 1000, 500);
+								return d;
+							},
+							tearDown: function(){
+								combo.closeDropDown();
+							}
+						}
+					]);
+				}
+			);
 
 			doh.run();
 		});
