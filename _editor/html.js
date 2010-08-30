@@ -128,7 +128,7 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 						case 'area':
 						case 'basefont':
 							// These should all be singly closed
-							output += ' />';
+							output += '/>';
 							break;
 						default:
 							// Assume XML style separate closure for everything else.
