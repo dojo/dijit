@@ -11,7 +11,7 @@ dojo.declare("dijit.Toolbar",
 	//		A Toolbar widget, used to hold things like `dijit.Editor` buttons
 
 	templateString:
-		'<div class="dijit" waiRole="toolbar" tabIndex="${tabIndex}" dojoAttachPoint="containerNode">' +
+		'<div class="dijit" role="toolbar" tabIndex="${tabIndex}" dojoAttachPoint="containerNode">' +
 		//	'<table style="table-layout: fixed" class="dijitReset dijitToolbarTable">' + // factor out style
 		//		'<tr class="dijitReset" dojoAttachPoint="containerNode"></tr>'+
 		//	'</table>' +

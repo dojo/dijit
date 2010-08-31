@@ -476,7 +476,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 	//		otherwise, the size doesn't change until you drop the splitter (by mouse-up)
 	live: true,
 
-	templateString: '<div class="dijitSplitter" dojoAttachEvent="onkeypress:_onKeyPress,onmousedown:_startDrag,onmouseenter:_onMouse,onmouseleave:_onMouse" tabIndex="0" waiRole="separator"><div class="dijitSplitterThumb"></div></div>',
+	templateString: '<div class="dijitSplitter" dojoAttachEvent="onkeypress:_onKeyPress,onmousedown:_startDrag,onmouseenter:_onMouse,onmouseleave:_onMouse" tabIndex="0" role="separator"><div class="dijitSplitterThumb"></div></div>',
 
 	postMixInProperties: function(){
 		this.inherited(arguments);
@@ -650,7 +650,7 @@ dojo.declare("dijit.layout._Gutter", [dijit._Widget, dijit._Templated ],
 	// tags:
 	//		private
 
-	templateString: '<div class="dijitGutter" waiRole="presentation"></div>',
+	templateString: '<div class="dijitGutter" role="presentation"></div>',
 
 	postMixInProperties: function(){
 		this.inherited(arguments);

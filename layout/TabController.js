@@ -21,7 +21,7 @@ dojo.declare("dijit.layout.TabController",
 	// tags:
 	//		private
 
-	templateString: "<div wairole='tablist' dojoAttachEvent='onkeypress:onkeypress'></div>",
+	templateString: "<div role='tablist' dojoAttachEvent='onkeypress:onkeypress'></div>",
 
 	// tabPosition: String
 	//		Defines where tabs go relative to the content.

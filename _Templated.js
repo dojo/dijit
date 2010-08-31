@@ -224,6 +224,7 @@ dojo.declare("dijit._Templated",
 				}
 
 				// waiRole, waiState
+				// TODO: remove this in 2.0, templates are now using role=... and aria-XXX=... attributes directicly
 				var role = getAttrFunc(baseNode, "waiRole");
 				if(role){
 					dijit.setWaiRole(baseNode, role);
