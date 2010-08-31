@@ -59,7 +59,6 @@
 		}
 
 		function watchSplitters(bc) {
-
 			var out = dojo.byId("watchedOutput");
 			var moveConnects = {};
 			dojo.forEach(["top", "left"], function(region) {
@@ -84,9 +83,27 @@
 				});
 			})
 		}
-		dojo.addOnLoad(function() {
+
+		var bc, cp1, cp2, cp3;
+        dojo.addOnLoad(function(){
 			watchSplitters( dijit.byId("watchedBC") );
-		})
+				
+			bc = new dijit.layout.BorderContainer({style:'height:400px;width:500px;border:1px solid black'}, dojo.byId('main'));
+
+			cp1 = new dijit.layout.ContentPane({region:'top',style:'height:100px;background-color:red',splitter:true, id:"cp1"});
+			cp1.domNode.innerHTML = "top pane";
+			bc.addChild(cp1);
+
+			cp2 = new dijit.layout.ContentPane({region:'center',style:'background-color:green', id:'cp2'});
+			cp2.domNode.innerHTML = "center pane";
+			bc.addChild(cp2);
+
+			cp3 = new dijit.layout.ContentPane({region:'left', splitter: true, style:'width: 100px;', id:'cp3'});
+			cp3.domNode.innerHTML = "left pane";
+			
+			bc.startup();
+        });
+
 	</script>
 </head>
 <body class="claro">
@@ -237,5 +254,13 @@
 	<p>Splitter coords output:</p>
 	<div id="watchedOutput" style="border: 1px solid #999">nothing moving</div>
 
+	
+	<h2 class="testTitle">dijit.layout.BorderContainer programmatic test</h2>
+	<div id='main'></div>
+
+	<button id="addLeft" onclick="bc.addChild(cp3);">add left pane</button>
+	<button id="removeLeft" onclick="bc.removeChild(cp3);">remove left pane</button>
+	<button id="addTop" onclick="bc.addChild(cp1);">add top pane</button>
+	<button id="removeTop" onclick="bc.removeChild(cp1);">remove top pane</button>
 </body>
 </html>

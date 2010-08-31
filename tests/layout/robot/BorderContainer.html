@@ -26,6 +26,7 @@
 					function initialConditions(){
 						checkBCpanes(dijit.byId("border1"));
 						checkBCpanes(dijit.byId("border2"));
+						checkBCpanes(dijit.byId("main"));
 					},
 
 					function resize(){
@@ -261,6 +262,94 @@
 								doh.t(nSize.w > oSize.w, "expanded trailing pane");
 							}), 500);
 
+							return d;
+						}
+					}
+				]);
+				
+				doh.register("addRemovePanes", [
+					{
+						name: "addLeftPane",
+						timeout: 10000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+									
+							doh.robot.mouseMoveAt("addLeft", 500);		
+							doh.robot.mouseClick({left:true}, 500);							
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								checkBCpanes(dijit.byId("main"));
+								doh.t(isVisible(dijit.byId("cp3")));
+							}), 1000);
+							
+							return d;
+						}
+					},
+					{
+						name: "removeTopPane",
+						timeout: 10000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+									
+							doh.robot.mouseMoveAt("removeTop", 500);		
+							doh.robot.mouseClick({left:true}, 500);							
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								checkBCpanes(dijit.byId("main"));
+								doh.f(isVisible(dijit.byId("cp1")));
+							}), 1000);
+							
+							return d;
+						}
+					},
+					{
+						name: "removeLeftPane",
+						timeout: 10000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+									
+							doh.robot.mouseMoveAt("removeLeft", 500);		
+							doh.robot.mouseClick({left:true}, 500);							
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								checkBCpanes(dijit.byId("main"));
+								doh.f(isVisible(dijit.byId("cp3")));
+							}), 1000);
+							
+							return d;
+						}
+					},
+					{
+						name: "addLeftPane2",
+						timeout: 10000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+									
+							doh.robot.mouseMoveAt("addLeft", 500);		
+							doh.robot.mouseClick({left:true}, 500);							
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								checkBCpanes(dijit.byId("main"));
+								doh.t(isVisible(dijit.byId("cp3")));
+							}), 1000);
+							
+							return d;
+						}
+					},
+					{
+						name: "addTopPane",
+						timeout: 10000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+									
+							doh.robot.mouseMoveAt("addTop", 500);		
+							doh.robot.mouseClick({left:true}, 500);							
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								checkBCpanes(dijit.byId("main"));
+								doh.t(isVisible(dijit.byId("cp1")));
+							}), 1000);
+							
 							return d;
 						}
 					}
