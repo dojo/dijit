@@ -18,17 +18,27 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 	//			* blockModeForEnter=DIV
 	//			* blockModeForEnter=P
 	//
-	//		In blockModeForEnter=P, the ENTER key semantically means "start a new
-	//		paragraph", whereas shift-ENTER means  "new line in the current paragraph".
-	//		For example:
+	//		In blockModeForEnter=P, the ENTER key starts a new
+	//		paragraph, and shift-ENTER starts a new line in the current paragraph.
+	//		For example, the input:
 	//
 	//		|	first paragraph <shift-ENTER>
 	//		|	second line of first paragraph <ENTER>
-	//		|
 	//		|	second paragraph
 	//
-	//		In BR and DIV mode other, the ENTER key means to go to a new line in the
-	//		current paragraph (P tag), and users [visually] create a new paragraph by pressing ENTER twice.
+	//		will generate:
+	//
+	//		|	<p>
+	//		|		first paragraph
+	//		|		<br/>
+	//		|		second line of first paragraph
+	//		|	</p>
+	//		|	<p>
+	//		|		second paragraph
+	//		|	</p>
+	//
+	//		In BR and DIV mode, the ENTER key conceptually goes to a new line in the
+	//		current paragraph, and users conceptually create a new paragraph by pressing ENTER twice.
 	//		For example, if the user enters text into an editor like this:
 	//
 	//		|		one <ENTER>
@@ -58,23 +68,6 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 	//		|		<div>four</div>
 	//		|		<div>five</div>
 	//		|		<div>six</div>
-	//
-	//		Additional notes:  blockNodeForEnter=BR
-	//		--------------------
-	//		On IE, FireFox, and Webkit based editors (Safari, Chrome), typing the above keystrokes in the editor will internally produce DOM of:
-	//
-	//		|		one
-	//		|		<br>
-	//		|		two
-	//		|		<br>
-	//		|		three
-	//		|		<br>
-	//		|		four
-	//		|		<br>
-	//		|		five
-	//		|		<br>
-	//		|		six
-	//
 
 	// blockNodeForEnter: String
 	//		This property decides the behavior of Enter key. It can be either P,
