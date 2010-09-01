@@ -177,7 +177,7 @@ dojo.declare(
 				this._moveable = (dojo.isIE == 6) ?
 					new dojo.dnd.TimedMoveable(node, { handle: this.titleBar }) :	// prevent overload, see #5285
 					new dojo.dnd.Moveable(node, { handle: this.titleBar, timeout: 0 });
-				dojo.subscribe("/dnd/move/stop",this,"_endDrag");
+				this._dndListener = dojo.subscribe("/dnd/move/stop",this,"_endDrag");
 			}else{
 				dojo.addClass(node,"dijitDialogFixed");
 			}
@@ -500,6 +500,9 @@ dojo.declare(
 			dojo.forEach(this._modalconnects, dojo.disconnect);
 			if(this.refocus && this.open){
 				setTimeout(dojo.hitch(dijit,"focus",this._savedFocus), 25);
+			}
+			if(this._dndListener){
+				dojo.unsubscribe(this._dndListener);
 			}
 			this.inherited(arguments);
 		}
