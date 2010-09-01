@@ -33,7 +33,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 	multiple: false,
 
 	// options: dijit.form.__SelectOption[]
-	//		The set of options for our select item.	 Roughly corresponds to
+	//		The set of options for our select item.  Roughly corresponds to
 	//		the html <option> tag.
 	options: null,
 
@@ -64,9 +64,9 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 
 	// loadChildrenOnOpen: boolean
 	//		By default loadChildren is called when the items are fetched from the
-	//		store.	This property allows delaying loadChildren (and the creation
-	//		of the options/menuitems) until the user opens the click the button.
-	//		dropdown
+	//		store.  This property allows delaying loadChildren (and the creation
+	//		of the options/menuitems) until the user clicks the button to open the
+	//		dropdown.
 	loadChildrenOnOpen: false,
 
 	getOptions: function(/* anything */ valueOrIdx){
@@ -89,7 +89,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		//		If not passed a value, then all options will be returned
 		//
 		// returns:
-		//		The option corresponding with the given value or index.	 null
+		//		The option corresponding with the given value or index.  null
 		//		is returned if any of the following are true:
 		//			- A string value is passed in which doesn't exist
 		//			- An index is passed in which is outside the bounds of the array of options
@@ -137,7 +137,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 
 	addOption: function(/* dijit.form.__SelectOption, dijit.form.__SelectOption[] */ option){
 		// summary:
-		//		Adds an option or options to the end of the select.	 If value
+		//		Adds an option or options to the end of the select.  If value
 		//		of the option is empty or missing, a separator is created instead.
 		//		Passing in an array of options will yield slightly better performance
 		//		since the children are only loaded once.
@@ -161,7 +161,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		if(!dojo.isArray(valueOrIdx)){ valueOrIdx = [valueOrIdx]; }
 		var oldOpts = this.getOptions(valueOrIdx);
 		dojo.forEach(oldOpts, function(i){
-			// We can get null back in our array - if our option was not found.	 In
+			// We can get null back in our array - if our option was not found.  In
 			// that case, we don't want to blow up...
 			if(i){
 				this.options = dojo.filter(this.options, function(node, idx){
@@ -175,7 +175,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 
 	updateOption: function(/* dijit.form.__SelectOption, dijit.form.__SelectOption[] */ newOption){
 		// summary:
-		//		Updates the values of the given option.	 The option to update
+		//		Updates the values of the given option.  The option to update
 		//		is matched based on the value of the entered option.  Passing
 		//		in an array of new options will yeild better performance since
 		//		the children will only be loaded once.
@@ -418,7 +418,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 
 	_getOptionObjForItem: function(item){
 		// summary:
-		//		Returns an option object based off the given item.	The "value"
+		//		Returns an option object based off the given item.  The "value"
 		//		of the option item will be the identity of the item, the "label"
 		//		of the option will be the label of the item.  If the item contains
 		//		children, the children value of the item will be set
@@ -466,7 +466,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 								value: (node.getAttribute("data-" + dojo._scopeName + "-value") || node.getAttribute("value")),
 								label: String(node.innerHTML),
 								// FIXME: disabled and selected are not valid on complex markup children (which is why we're 
-								// looking for data-dojo-value above. perhaps we should data-dojo-props="" this whole thing?)
+								// looking for data-dojo-value above.  perhaps we should data-dojo-props="" this whole thing?)
 								// decide before 1.6
 								selected: node.getAttribute("selected") || false,
 								disabled: node.getAttribute("disabled") || false 
@@ -523,7 +523,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 	_addOptionItem: function(/* dijit.form.__SelectOption */ option){
 		// summary:
 		//		User-overridable function which, for the given option, adds an
-		//		item to the select.	 If the option doesn't have a value, then a
+		//		item to the select.  If the option doesn't have a value, then a
 		//		separator is added in that place.  Make sure to store the option
 		//		in the created option widget.
 	},
@@ -537,7 +537,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 	_setDisplay: function(/*String or String[]*/ newDisplay){
 		// summary:
 		//		Overridable function which will set the display for the
-		//		widget.	 newDisplay is either a string (in the case of
+		//		widget.  newDisplay is either a string (in the case of
 		//		single selects) or array of strings (in the case of multi-selects)
 	},
 

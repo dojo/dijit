@@ -43,7 +43,7 @@ dojo.declare(
 		//		Despite the name, this parameter specifies both constraints on the input
 		//		(including starting/ending dates/times allowed) as well as
 		//		formatting options like whether the date is displayed in long (ex: December 25, 2005)
-		//		or short (ex: 12/25/2005) format.	See `dijit.form._DateTimeTextBox.__Constraints` for details.
+		//		or short (ex: 12/25/2005) format.  See `dijit.form._DateTimeTextBox.__Constraints` for details.
 		constraints: {},
 		======*/
 
@@ -125,7 +125,7 @@ dojo.declare(
 			this.inherited(arguments);
 			
 			// If openOnClick is true, we basically just want to treat the whole widget as the
-			// button.	 We need to do that also if the actual drop down button will be hidden,
+			// button.  We need to do that also if the actual drop down button will be hidden,
 			// so that there's a mouse method for opening the drop down.
 			if(this.openOnClick || !this.hasDownArrow){
 				this._buttonNode = this.domNode;

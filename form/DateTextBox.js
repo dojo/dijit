@@ -22,7 +22,8 @@ dojo.declare(
 
 		// value: Date
 		//		The value of this widget as a JavaScript Date object, with only year/month/day specified.
-		//		If specified in markup, use the format specified in `dojo.date.stamp.fromISOString`
+		//		If specified in markup, use the format specified in `dojo.date.stamp.fromISOString`.
+		//		set("value", ...) accepts either a Date object or a string.
 		value: new Date("")	// value.toString()="NaN"
 	}
 );
