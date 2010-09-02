@@ -114,10 +114,14 @@ dojo.declare("dijit._Templated",
 			if(this.widgetsInTemplate){
 				// Make sure dojoType is used for parsing widgets in template.
 				// The dojo.parser.query could be changed from multiversion support.
-				var parser = dojo.parser, attr;
+				var parser = dojo.parser, attr, attrData;
 				if(parser._attrName != "dojoType"){
 					attr = parser._attrName;
 					parser._attrName = "dojoType";
+				}
+				if(parser._attrData != "data-dojo-"){
+					attrData = parser._attrData;
+					parser._attrData = "data-dojo-";
 				}
 
 				// Store widgets that we need to start at a later point in time
@@ -129,6 +133,9 @@ dojo.declare("dijit._Templated",
 				// Restore the query.
 				if(attr){
 					parser._attrName = attr;
+				}
+				if(attrData){
+					parser._attrData = attrData;
 				}
 
 				this._supportingWidgets = dijit.findWidgets(node);
@@ -158,6 +165,8 @@ dojo.declare("dijit._Templated",
 		_attachTemplateNodes: function(rootNode, getAttrFunc){
 			// summary:
 			//		Iterate through the template and attach functions and nodes accordingly.
+			//		Alternately, if rootNode is an array of widgets, then will process dojoAttachPoint
+			//		etc. for those widgets.
 			// description:
 			//		Map widget properties and functions to the handlers specified in
 			//		the dom node and it's descendants. This function iterates over all
@@ -180,11 +189,11 @@ dojo.declare("dijit._Templated",
 			var x = dojo.isArray(rootNode) ? 0 : -1;
 			for(; x<nodes.length; x++){
 				var baseNode = (x == -1) ? rootNode : nodes[x];
-				if(this.widgetsInTemplate && getAttrFunc(baseNode, "dojoType")){
+				if(this.widgetsInTemplate && (getAttrFunc(baseNode, "dojoType") || getAttrFunc(baseNode, "data-dojo-type"))){
 					continue;
 				}
 				// Process dojoAttachPoint
-				var attachPoint = getAttrFunc(baseNode, "dojoAttachPoint");
+				var attachPoint = getAttrFunc(baseNode, "dojoAttachPoint") || getAttrFunc(baseNode, "data-dojo-attach-point");
 				if(attachPoint){
 					var point, points = attachPoint.split(/\s*,\s*/);
 					while((point = points.shift())){
@@ -198,7 +207,7 @@ dojo.declare("dijit._Templated",
 				}
 
 				// Process dojoAttachEvent
-				var attachEvent = getAttrFunc(baseNode, "dojoAttachEvent");
+				var attachEvent = getAttrFunc(baseNode, "dojoAttachEvent") || getAttrFunc(baseNode, "data-dojo-attach-event");;
 				if(attachEvent){
 					// NOTE: we want to support attributes that have the form
 					// "domEvent: nativeEvent; ..."
