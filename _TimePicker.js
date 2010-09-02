@@ -137,7 +137,7 @@ dojo.declare("dijit._TimePicker",
 			return false; // Boolean
 		},
 
-		_getFilteredNodes: function(/*number*/ start, /*number*/ maxNum, /*Boolean*/ before){
+		_getFilteredNodes: function(/*number*/ start, /*number*/ maxNum, /*Boolean*/ before, /*DOMnode*/ lastNode){
 			// summary:
 			//		Returns an array of nodes with the filter applied.  At most maxNum nodes
 			//		will be returned - but fewer may be returned as well.  If the
@@ -145,15 +145,27 @@ dojo.declare("dijit._TimePicker",
 			//		before the given index
 			// tags:
 			//		private
-			var nodes = [], n, i = start, max = this._maxIncrement + Math.abs(i),
-				chk = before?-1:1, dec = before?1:0, inc = before?0:1;
+			var
+				nodes = [],
+				lastValue = lastNode ? lastNode.date : this._refDate,
+				n,
+				i = start,
+				max = this._maxIncrement + Math.abs(i),
+				chk = before ? -1 : 1,
+				dec = before ? 1 : 0,
+				inc = 1 - dec;
 			do{
 				i = i - dec;
 				n = this._createOption(i);
-				if(n){nodes.push(n);}
+				if(n){
+					if((before && n.date > lastValue) || (!before && n.date < lastValue)){
+						break; // don't wrap
+					}
+					nodes[before ? "unshift" : "push"](n);
+					lastValue = n.date;
+				}
 				i = i + inc;
 			}while(nodes.length < maxNum && (i*chk) < max);
-			if(before){ nodes.reverse(); }
 			return nodes;
 		},
 
@@ -162,24 +174,25 @@ dojo.declare("dijit._TimePicker",
 			//		Displays the relevant choices in the drop down list
 			// tags:
 			//		private
-			this.timeMenu.innerHTML = "";
 			var fromIso = dojo.date.stamp.fromISOString;
-			this._clickableIncrementDate=fromIso(this.clickableIncrement);
-			this._visibleIncrementDate=fromIso(this.visibleIncrement);
-			this._visibleRangeDate=fromIso(this.visibleRange);
+			this.timeMenu.innerHTML = "";
+			this._clickableIncrementDate = fromIso(this.clickableIncrement);
+			this._visibleIncrementDate = fromIso(this.visibleIncrement);
+			this._visibleRangeDate = fromIso(this.visibleRange);
 			// get the value of the increments and the range in seconds (since 00:00:00) to find out how many divs to create
-			var sinceMidnight = function(/*Date*/ date){
-				return date.getHours() * 60 * 60 + date.getMinutes() * 60 + date.getSeconds();
-			};
+			var
+				sinceMidnight = function(/*Date*/ date){
+					return date.getHours() * 60 * 60 + date.getMinutes() * 60 + date.getSeconds();
+				},
+				clickableIncrementSeconds = sinceMidnight(this._clickableIncrementDate),
+				visibleIncrementSeconds = sinceMidnight(this._visibleIncrementDate),
+				visibleRangeSeconds = sinceMidnight(this._visibleRangeDate),
 
-			var clickableIncrementSeconds = sinceMidnight(this._clickableIncrementDate);
-			var visibleIncrementSeconds = sinceMidnight(this._visibleIncrementDate);
-			var visibleRangeSeconds = sinceMidnight(this._visibleRangeDate);
+				// round reference date to previous visible increment
+				time = (this.value || this.currentFocus).getTime();
 
-			// round reference date to previous visible increment
-			var time = (this.value || this.currentFocus).getTime();
 			this._refDate = new Date(time - time % (visibleIncrementSeconds*1000));
-			this._refDate.setFullYear(1970,0,1); // match parse defaults
+			this._refDate.setFullYear(1970, 0, 1); // match parse defaults
 
 			// assume clickable increment is the smallest unit
 			this._clickableIncrement = 1;
@@ -193,19 +206,18 @@ dojo.declare("dijit._TimePicker",
 			// absolute max number of increments.
 			this._maxIncrement = (60 * 60 * 24) / clickableIncrementSeconds;
 
-			// Find the nodes we should display based on our filter.
-			// Limit to 10 nodes displayed as a half-hearted attempt to stop drop down from overlapping <input>.
-			var before = this._getFilteredNodes(0, this._totalIncrements >> 1, true);
-			var after = this._getFilteredNodes(0, this._totalIncrements >> 1, false);
-			before = before.slice(Math.min(this._totalIncrements >> 1, 5));
-			after = after.slice(0, Math.min(this._totalIncrements >> 1, 5));
-			dojo.forEach(before.concat(after), function(n){this.timeMenu.appendChild(n);}, this);
+			var
+				// Find the nodes we should display based on our filter.
+				// Limit to 10 nodes displayed as a half-hearted attempt to stop drop down from overlapping <input>.
+				after = this._getFilteredNodes(0, Math.min(this._totalIncrements >> 1, 10) - 1),
+				before = this._getFilteredNodes(0, Math.min(this._totalIncrements, 10) - after.length, true, after[0]);
+			dojo.forEach(before.concat(after), function(n){ this.timeMenu.appendChild(n); }, this);
 		},
 
 		postCreate: function(){
 			// instantiate constraints
 			if(this.constraints === dijit._TimePicker.prototype.constraints){
-				this.constraints={};
+				this.constraints = {};
 			}
 
 			// brings in visibleRange, increments, etc.
@@ -213,35 +225,13 @@ dojo.declare("dijit._TimePicker",
 
 			// dojo.date.locale needs the lang in the constraints as locale
 			if(!this.constraints.locale){
-				this.constraints.locale=this.lang;
+				this.constraints.locale = this.lang;
 			}
 
 			// assign typematic mouse listeners to the arrow buttons
 			this.connect(this.timeMenu, dojo.isIE ? "onmousewheel" : 'DOMMouseScroll', "_mouseWheeled");
-			var _this = this;
-			var typematic = function(){
-				_this._connects.push(
-					dijit.typematic.addMouseListener.apply(null, arguments)
-				);
-			};
-			typematic(this.upArrow,this,this._onArrowUp, 1.0, 50);
-			typematic(this.downArrow,this,this._onArrowDown, 1.0, 50);
-
-			// Connect some callback functions to the hover event of the arrows
-			var triggerFx = function(cb){
-				return function(cnt){
-					// don't run on the first firing
-					if(cnt > 0){cb.call(this, arguments);}
-				};
-			};
-			var hoverFx = function(node, cb){
-				return function(e){
-					dojo.stopEvent(e);
-					dijit.typematic.trigger(e, this, node, triggerFx(cb), node, 1.0, 50);
-				};
-			};
-			this.connect(this.upArrow, "onmouseover", hoverFx(this.upArrow, this._onArrowUp));
-			this.connect(this.downArrow, "onmouseover", hoverFx(this.downArrow, this._onArrowDown));
+			this._connects.push(dijit.typematic.addMouseListener(this.upArrow, this, "_onArrowUp", 33, 250));
+			this._connects.push(dijit.typematic.addMouseListener(this.downArrow, this, "_onArrowDown", 33, 250));
 
 			this.inherited(arguments);
 		},
@@ -269,7 +259,7 @@ dojo.declare("dijit._TimePicker",
 				date.getMinutes() + incrementDate.getMinutes() * index,
 				date.getSeconds() + incrementDate.getSeconds() * index);
 			if(this.constraints.selector == "time"){
-				date.setFullYear(1970,0,1); // make sure each time is for the same date
+				date.setFullYear(1970, 0, 1); // make sure each time is for the same date
 			}
 			var dateString = dojo.date.locale.format(date, this.constraints);
 			if(this.filterString && dateString.toLowerCase().indexOf(this.filterString) !== 0){
@@ -280,7 +270,7 @@ dojo.declare("dijit._TimePicker",
 			var div = dojo.create("div", {"class": this.baseClass+"Item"});
 			div.date = date;
 			div.index = index;
-			dojo.create('div',{
+			dojo.create('div', {
 				"class": this.baseClass + "ItemInner",
 				innerHTML: dateString
 			}, div);
@@ -394,7 +384,7 @@ dojo.declare("dijit._TimePicker",
 			if(typeof count == "number" && count == -1){ return; } // typematic end
 			if(!this.timeMenu.childNodes.length){ return; }
 			var index = this.timeMenu.childNodes[0].index;
-			var divs = this._getFilteredNodes(index, 1, true);
+			var divs = this._getFilteredNodes(index, 1, true, this.timeMenu.childNodes[0]);
 			if(divs.length){
 				this.timeMenu.removeChild(this.timeMenu.childNodes[this.timeMenu.childNodes.length - 1]);
 				this.timeMenu.insertBefore(divs[0], this.timeMenu.childNodes[0]);
@@ -411,7 +401,7 @@ dojo.declare("dijit._TimePicker",
 			if(typeof count == "number" && count == -1){ return; } // typematic end
 			if(!this.timeMenu.childNodes.length){ return; }
 			var index = this.timeMenu.childNodes[this.timeMenu.childNodes.length - 1].index + 1;
-			var divs = this._getFilteredNodes(index, 1, false);
+			var divs = this._getFilteredNodes(index, 1, false, this.timeMenu.childNodes[this.timeMenu.childNodes.length - 1]);
 			if(divs.length){
 				this.timeMenu.removeChild(this.timeMenu.childNodes[0]);
 				this.timeMenu.appendChild(divs[0]);

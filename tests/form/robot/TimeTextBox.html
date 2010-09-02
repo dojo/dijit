@@ -74,10 +74,10 @@
 							doh.robot.sequence(d.getTestErrback(function(){
 								var popup = dijit.byId('q2_popup');
 								doh.t(!popup || isHidden(popup), "popup hidden");
-							}), 500);
+							}), 1000);
 		
 							// do partial input
-							doh.robot.typeKeys('12', 1000, 600);
+							doh.robot.typeKeys('12', 500, 100);
 
 							doh.robot.sequence(d.getTestErrback(function(){
 								// partial input shouldn't be flagged as an error, because probably
@@ -92,19 +92,18 @@
 
 								// drop down list should be filtered to times starting with 12:,
 								// and they should appear in chronological order
-								// see #11485 about sorting order
 								var popup = dijit.byId("q2_popup"),
 									children = dojo.query(".dijitTimePickerItem", popup.domNode);
 								doh.is(8, children.length, "# of items in drop down");
-								doh.is("12:15 PM", innerText(children[0]));
-								doh.is("12:30 PM", innerText(children[1]));
-								doh.is("12:45 PM", innerText(children[2]));
-								doh.is("12:00 AM", innerText(children[3]));
-								doh.is("12:15 AM", innerText(children[4]));
-								doh.is("12:30 AM", innerText(children[5]));
-								doh.is("12:45 AM", innerText(children[6]));
-								doh.is("12:00 PM", innerText(children[7]));
-							}), 500);
+								doh.is("12:00 AM", innerText(children[0]));
+								doh.is("12:15 AM", innerText(children[1]));
+								doh.is("12:30 AM", innerText(children[2]));
+								doh.is("12:45 AM", innerText(children[3]));
+								doh.is("12:00 PM", innerText(children[4]));
+								doh.is("12:15 PM", innerText(children[5]));
+								doh.is("12:30 PM", innerText(children[6]));
+								doh.is("12:45 PM", innerText(children[7]));
+							}), 1000);
 
 							// tab away to close drop down
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
@@ -113,7 +112,7 @@
 								doh.t(!popup || isHidden(popup), "popup hidden");
 								
 								doh.is("q3", dojo.global.dijit._curFocus.id, "tab moved to next input widget");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -130,8 +129,7 @@
 								toClick;
 	
 							// click field, thus opening drop down
-							console.log("move to ", w.domNode, dojo.position(w.domNode));
-							doh.robot.mouseMoveAt(w.domNode, 500);
+							doh.robot.mouseMoveAt(w.domNode, 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 	
 							doh.robot.sequence(d.getTestErrback(function(){
@@ -142,7 +140,7 @@
 							}), 500);
 
 							// click 6:45, thus selecting it and closing drop down
-							doh.robot.mouseMoveAt(function(){return toClick[0]; }, 500);
+							doh.robot.mouseMoveAt(function(){return toClick[0]; }, 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
