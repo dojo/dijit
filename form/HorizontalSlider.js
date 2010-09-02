@@ -156,8 +156,8 @@ dojo.declare(
 
 	_setValueAttr: function(/*Number*/ value, /*Boolean, optional*/ priorityChange){
 		// summary:
-		//		Hook so attr('value', value) works.
-		this.valueNode.value = this.value = value;
+		//		Hook so set('value', value) works.
+		this.valueNode.value = (this.value = value);
 		dijit.setWaiState(this.focusNode, "valuenow", value);
 		this.inherited(arguments);
 		var percent = (value - this.minimum) / (this.maximum - this.minimum);
@@ -268,7 +268,7 @@ dojo.declare(
 		}
 
 		// find any associated label element and add to slider focusnode.
-		var label=dojo.query('label[for="'+this.id+'"]');
+		var label = dojo.query('label[for="'+this.id+'"]');
 		if(label.length){
 			label[0].id = (this.id+"_label");
 			dijit.setWaiState(this.focusNode, "labelledby", label[0].id);

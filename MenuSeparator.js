@@ -12,7 +12,8 @@ dojo.declare("dijit.MenuSeparator",
 
 		templateString: dojo.cache("dijit", "templates/MenuSeparator.html"),
 
-		postCreate: function(){
+		buildRendering: function(){
+			this.inherited(arguments);
 			dojo.setSelectable(this.domNode, false);
 		},
 

@@ -432,10 +432,6 @@ dojo.declare("dijit.layout._AccordionButton",
 		var titleTextNodeId = this.id.replace(' ','_');
 		dojo.attr(this.titleTextNode, "id", titleTextNodeId+"_title");
 		dijit.setWaiState(this.focusNode, "labelledby", dojo.attr(this.titleTextNode, "id"));
-	},
-
-	postCreate: function(){
-		this.inherited(arguments);
 		dojo.setSelectable(this.domNode, false);
 	},
 

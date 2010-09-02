@@ -59,10 +59,6 @@ dojo.declare("dijit.MenuItem",
 				label += " " + this.id + "_accel";
 			}
 			dijit.setWaiState(this.domNode, "labelledby", label);
-		},
-
-		postCreate: function(){
-			this.inherited(arguments);
 			dojo.setSelectable(this.domNode, false);
 		},
 

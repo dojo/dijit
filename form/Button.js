@@ -83,18 +83,19 @@ dojo.declare("dijit.form.Button",
 		}
 	},
 
+	buildRendering: function(){
+		this.inherited(arguments);
+		dojo.setSelectable(this.focusNode, false);
+	},
+
 	_fillContent: function(/*DomNode*/ source){
 		// Overrides _Templated._fillContent().
 		// If button label is specified as srcNodeRef.innerHTML rather than
 		// this.params.label, handle it here.
+		// TODO: remove the method in 2.0, parser will do it all for me
 		if(source && (!this.params || !("label" in this.params))){
 			this.set('label', source.innerHTML);
 		}
-	},
-
-	postCreate: function(){
-		dojo.setSelectable(this.focusNode, false);
-		this.inherited(arguments);
 	},
 
 	_setShowLabelAttr: function(val){

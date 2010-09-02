@@ -96,10 +96,7 @@ dojo.declare("dijit.layout._TabButton",
 		if(this.iconNode.className == "dijitTabButtonIcon"){
 			dojo.style(this.iconNode, "width", "1px");
 		}
-	},
 
-	postCreate: function(){
-		this.inherited(arguments);
 		dojo.setSelectable(this.containerNode, false);
 	},
 

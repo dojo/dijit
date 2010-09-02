@@ -450,6 +450,11 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		this._oValue = (keywordArgs || {}).value || null;
 	},
 
+	buildRendering: function(){
+		this.inherited(arguments);
+		dojo.setSelectable(this.focusNode, false);
+	},
+
 	_fillContent: function(){
 		// summary:
 		//		Loads our options and sets up our dropdown correctly.  We
@@ -484,7 +489,6 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		// summary:
 		//		sets up our event handling that we need for functioning
 		//		as a select
-		dojo.setSelectable(this.focusNode, false);
 		this.inherited(arguments);
 
 		// Make our event connections for updating state

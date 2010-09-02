@@ -66,6 +66,11 @@ dojo.declare(
 		id:""
 	}),
 
+	buildRendering: function(){
+		this.inherited(arguments);
+		dojo.setSelectable(this.titleNode, false);
+	},
+
 	postCreate: function(){
 		this.inherited(arguments);
 
@@ -75,7 +80,6 @@ dojo.declare(
 		if(this.toggleable){
 			this._trackMouseState(this.titleBarNode, "dijitTitlePaneTitle");
 		}
-		dojo.setSelectable(this.titleNode, false);
 
 		// setup open/close animations
 		var hideNode = this.hideNode, wipeNode = this.wipeNode;
