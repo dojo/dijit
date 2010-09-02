@@ -13,16 +13,24 @@ dojo.declare(
 	"dijit.layout.ContentPane", dijit._Widget,
 {
 	// summary:
-	//		A widget that acts as a container for mixed HTML and widgets, and includes an Ajax interface
-	// description:
-	//		A widget that can be used as a stand alone widget
-	//		or as a base class for other widgets.
+	//	A widget containing an HTML fragment, specified inline
+	//	or by uri.  Fragment may include widgets.
 	//
-	//		Handles replacement of document fragment using either external uri or javascript
-	//		generated markup or DOM content, instantiating widgets within that content.
-	//		Don't confuse it with an iframe, it only needs/wants document fragments.
-	//		It's useful as a child of LayoutContainer, SplitContainer, or TabContainer.
-	//		But note that those classes can contain any widget as a child.
+	// description:
+	//	This widget embeds a document fragment in the page, specified
+	//	either by uri, javascript generated markup or DOM reference.
+	//	Any widgets within this content are instantiated and managed,
+	//	but laid out according to the HTML structure.  Unlike IFRAME,
+	//	ContentPane embeds a document fragment as would be found
+	//	inside the BODY tag of a full HTML document.  It should not
+	//	contain the HTML, HEAD, or BODY tags.
+	//	For more advanced functionality with scripts and
+	//	stylesheets, see dojox.layout.ContentPane.  This widget may be
+	//	used stand alone or as a base class for other widgets.
+	//	ContentPane is useful as a child of other layout containers
+	//	such as BorderContainer or TabContainer, but note that those
+	//	widgets can contain any widget as a child.
+	//
 	// example:
 	//		Some quick samples:
 	//		To change the innerHTML use .set('content', '<b>new content</b>')
