@@ -48,7 +48,7 @@ dojo.declare(
 			switch(evt.keyCode){
 				case dojo.keys.ENTER:
 				case dojo.keys.TAB:
-				case dojo.keys.ESC:
+				case dojo.keys.ESCAPE:
 				case dojo.keys.DOWN_ARROW:
 				case dojo.keys.UP_ARROW:
 					// these keys have special meaning

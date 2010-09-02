@@ -23,7 +23,7 @@
 
 				doh.register("keyboard", [
 					{
-						name: "basic",
+						name: "select",
 						timeout: 60000,
 						runTest: function(){
 							var d = new doh.Deferred(),
@@ -53,6 +53,40 @@
 
 								var val = dojo.date.stamp.toISOString(w.get('value'), {selector: "time"});	
 								doh.is(val, "T18:00:00", "6PM was selected");
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "cancel",
+						timeout: 60000,
+						runTest: function(){
+							var d = new doh.Deferred(),
+								w = dijit.byId('q1');
+	
+							// focus field... drop down shouldn't open yet
+							w.focus();
+							doh.robot.sequence(d.getTestErrback(function(){
+								var popup = dijit.byId('q1_popup');
+								doh.t(!popup || isHidden(popup), "popup hidden");
+							}), 500);
+
+							// open drop down
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 1000, {});
+							doh.robot.sequence(d.getTestErrback(function(){
+								var popup = dijit.byId('q1_popup');
+								doh.t(popup && isVisible(popup), "popup visible");
+							}), 500);
+	
+							// close drop down
+							doh.robot.keyPress(dojo.keys.ESCAPE, 500, {});
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var popup = dijit.byId('q1_popup');
+								doh.t(!popup || isHidden(popup), "popup hidden");
+
+								var val = dojo.date.stamp.toISOString(w.get('value'), {selector: "time"});	
+								doh.is(val, "T18:00:00", "same value as before");
 							}), 500);
 							return d;
 						}
@@ -121,7 +155,7 @@
 
 				doh.register("mouse", [
 					{
-						name: "basic",
+						name: "select",
 						timeout: 60000,
 						runTest: function(){
 							var d = new doh.Deferred(),
