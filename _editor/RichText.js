@@ -390,6 +390,10 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		this.footer = dn.ownerDocument.createElement("div");
 		dn.appendChild(this.footer);
 
+		if(!this.name){
+			this.name = this.id + "_AUTOGEN";
+		}
+
 		// User has pressed back/forward button so we lost the text in the editor, but it's saved
 		// in a hidden <textarea> (which contains the data for all the editors on this page),
 		// so get editor value from there
@@ -401,15 +405,26 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 					var data = dat.split(":");
 					if(data[0] == this.name){
 						html = data[1];
-						datas.splice(i, 1);	// TODO: this has no effect
+						datas = datas.splice(i, 1);	
+						saveTextarea.value = datas.join(this._SEPARATOR);
 						break;
 					}
 				}
 			}
 
-			// TODO: this is troublesome if this editor has been destroyed, should have global handler.
-			// TODO: need to clear <textarea> in global handler
-			dojo.addOnUnload(dojo.hitch(this, "_saveContent"));
+			if(!dijit._editor._globalSaveHandler){
+				dijit._editor._globalSaveHandler = {};
+				dojo.addOnUnload(function() {
+					var id;
+					for(id in dijit._editor._globalSaveHandler){
+						var f = dijit._editor._globalSaveHandler[id];
+						if(dojo.isFunction(f)){
+							f();
+						} 
+					}
+				});
+			}
+			dijit._editor._globalSaveHandler[this.id] = dojo.hitch(this, "_saveContent");
 		}
 
 		this.isClosed = false;
@@ -1702,6 +1717,9 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 	destroy: function(){
 		if(!this.isClosed){ this.close(false); }
 		this.inherited(arguments);
+		if(dijit._editor._globalSaveHandler){
+			delete dijit._editor._globalSaveHandler[this.id];
+		}
 	},
 
 	_removeMozBogus: function(/* String */ html){
