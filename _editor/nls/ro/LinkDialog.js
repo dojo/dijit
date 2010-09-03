@@ -4,10 +4,10 @@
 	url: "URL:",
 	text: "Descriere:",
 	target: "Destinaţie:",
-	set: "Set",
-	currentWindow: "Fereastră curentă",
-	parentWindow: "Fereastră părinte",
+	set: "Setare",
+	currentWindow: "Fereastra curentă",
+	parentWindow: "Fereastra părinte",
 	topWindow: "Fereastra cea mai de sus",
-	newWindow: "Fereastră nouă"
+	newWindow: "Fereastra nouă"
 })
 
