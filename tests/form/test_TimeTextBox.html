@@ -47,14 +47,36 @@
 			dojo.require("dojo.currency");
 			dojo.require("dojo.date.locale");
 			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+
+			formValue = null;
+	
+			function displayData() {
+				var f = document.getElementById("form1");
+				var s = "";
+				for (var i = 0; i < f.elements.length; i++) {
+						var elem = f.elements[i];
+						if (elem.name == "button")  { continue; }
+						s += elem.name + ": " + elem.value + "\n";
+				}
+				console.log(s);
+				formValue = s;
+			}
 		</script>
 	</head>
 
 	<body class="claro">
 		<h1 class="testTitle">Test TimeTextBox Widget</h1>
-		<!--	to test form submission, you'll need to create an action handler similar to
-			http://www.utexas.edu/teamweb/cgi-bin/generic.cgi -->
-		<form id="form1" action="" name="example" method="">
+		<!--
+			To really test form submission, you'll need to create an action handler similar to
+			http://www.utexas.edu/teamweb/cgi-bin/generic.cgi.   This just logs the form values
+			to the console.
+		 -->
+		<form id="form1" action="" name="example" method="" onsubmit="displayData(); return false;">
+
+			<div>
+				<input type="submit" name="submit" value="fake submit"/>
+			</div>
+			<br/>
 
 			<div class="dojoTitlePaneLabel">
 				<label for="q1">Time using local conventions with seconds</label>
@@ -149,24 +171,6 @@
 					constraints="{formatLength:'short'}"
 					required="true"
 					invalidMessage="" />
-			</div>
-
-			<script>
-				function displayData() {
-						var f = document.getElementById("form1");
-						var s = "";
-						for (var i = 0; i < f.elements.length; i++) {
-								var elem = f.elements[i];
-								if (elem.name == "button")  { continue; }
-								s += elem.name + ": " + elem.value + "\n";
-						}
-						alert(s);
-				}
-			</script>
-
-			<div>
-				<button name="button" onclick="displayData(); return false;">view data</button>
-				<input type="submit" name="submit" />
 			</div>
 
 		</form>

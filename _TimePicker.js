@@ -293,6 +293,10 @@ dojo.declare("dijit._TimePicker",
 				}else{
 					dojo.addClass(div, this.baseClass+"TickSelected");
 				}
+
+				// Initially highlight the current value.   User can change highlight by up/down arrow keys
+				// or mouse movement.
+				this._highlightOption(div, true);
 			}
 			return div;
 		},
@@ -318,7 +322,7 @@ dojo.declare("dijit._TimePicker",
 
 		_highlightOption: function(/*node*/ node, /*Boolean*/ highlight){
 			// summary:
-			//		Turns on/off hover effect on a node based on mouse out/over event
+			//		Turns on/off highlight effect on a node based on mouse out/over event
 			// tags:
 			//		private
 			if(!node){return;}
@@ -440,12 +444,20 @@ dojo.declare("dijit._TimePicker",
 				this._highlightOption(tgt, true);
 				this._keyboardSelected = tgt;
 				return false;
-			}else if(this._highlighted_option && (e.charOrCode == dk.ENTER || e.charOrCode === dk.TAB)){
+			}else if(e.charOrCode == dk.ENTER || e.charOrCode === dk.TAB){
+				// mouse hover followed by TAB is NO selection
+				if(!this._keyboardSelected && e.charOrCode === dk.TAB){
+					return true;	// true means don't call stopEvent()
+				}
+
 				// Accept the currently-highlighted option as the value
-				if(!this._keyboardSelected && e.charOrCode === dk.TAB){ return; } // mouse hover followed by TAB is NO selection
-				if(e.charOrCode == dk.ENTER){dojo.stopEvent(e);}
-				this._onOptionSelected({target: this._highlighted_option});
-				return false;
+				if(this._highlighted_option){
+					this._onOptionSelected({target: this._highlighted_option});
+				}
+
+				// Call stopEvent() for ENTER key so that form doesn't submit,
+				// but not for TAB, so that TAB does switch focus
+				return e.charOrCode === dk.TAB;
 			}
 		}
 	}

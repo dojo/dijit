@@ -219,9 +219,10 @@ dojo.declare("dijit._HasDropDown",
 				this.closeDropDown();
 				dojo.stopEvent(e);
 			}else if(!this._opened && 
-					(e.charOrCode == dojo.keys.DOWN_ARROW || e.charOrCode == dojo.keys.ENTER || 
-						//ignore space if the event is for a text input
-						(e.charOrCode == " " && ((target.tagName || "").toLowerCase() !== 'input' ||
+					(e.charOrCode == dojo.keys.DOWN_ARROW ||
+						( (e.charOrCode == dojo.keys.ENTER || e.charOrCode == " ") &&
+						  //ignore enter and space if the event is for a text input
+						  ((target.tagName || "").toLowerCase() !== 'input' ||
 						     (target.type && target.type.toLowerCase() !== 'text'))))){
 				this.toggleDropDown();
 				d = this.dropDown;	// drop down may not exist until toggleDropDown() call

@@ -112,6 +112,25 @@
 			widget.set('disabled',!widget.disabled);
 			button.innerHTML= widget.disabled ? "Enable" : "Disable";
 		}
+
+		function getValue() {
+			var f = document.getElementById("form1");
+			var s = "";
+			for (var i = 0; i < f.elements.length; i++) {
+				var elem = f.elements[i];
+				if (elem.nodeName.toLowerCase() == "button" || elem.type=="submit" || elem.type=="button")  { continue; }
+				s += elem.name + ": " + elem.value + "\n";
+			}
+			return s;
+		}
+
+		// formSubmitted flag is for benefit of DOH test harneess
+		formSubmitted = false;
+		function onFormSubmit(){
+			formSubmitted = true;
+			console.log(getValue());
+			return false;
+		}
 	</script>
 </head>
 
@@ -119,7 +138,18 @@
 
 	<h1 class="testTitle" id="title"></h1>
 	<script>dojo.byId('title').appendChild(document.createTextNode(testWidget+" Unit Test"))</script>
-	<form id="form1" action="#" method="GET">
+	<form id="form1" action="#" method="GET" onsubmit="return onFormSubmit();">
+		
+		<!--
+			Need a submit button like this (rather than onsubmit handler on <form>) to get
+			IE to submit when the ENTER key is pressed.
+			
+			And (at least on IE8) when ComboBox_a11y.html is run via runTests.html,
+			it only seems to work if the button is at the top of the form, not at the bottom.
+		-->
+		<button type="cancel">reset</button>
+		<button type="submit">fake submit</button><br/>
+		<hr>
 
 		<p>Option tags, autoComplete=false, selectOnClick=true, default value of California, pageSize=30, custom labelFunc method</p>
 		<label for="setvaluetest">US State test 1 (200% Courier font):</label>
@@ -274,7 +304,7 @@
 				id="slow"
 		>
 		<br>onChange:<input id="ocSlow" disabled value="not fired yet!" autocomplete="off">
-		<button id="slowDestroy" onclick="dijit.byId('slow').destroy();return false">Destroy widget to test in-flight query cancel</button>
+		<button id="slowDestroy" type="button" onclick="dijit.byId('slow').destroy();return false">Destroy widget to test in-flight query cancel</button>
 		<hr>
 
 		<label for="datatestDijit">Dijit List test #1 (150% font):</label>
@@ -304,7 +334,7 @@
 		>
 		<br>onChange:<input id="value3" disabled value="not fired yet!" autocomplete="off">
 		<div>
-			<button id="combo3_disable" onclick='toggleDisabled("combo3_disable", "combo3"); return false;' tabIndex="-1">Enable</button>
+			<button id="combo3_disable" type="button" onclick='toggleDisabled("combo3_disable", "combo3"); return false;' tabIndex="-1">Enable</button>
 		</div>
 		<hr>
 		<p>Data store, autoComplete=false required=true and highlightMatch="none"</p>
@@ -508,21 +538,6 @@
 		<hr>
 
 		<input type="button" value="Create one in a window" onclick="var win=window.open(window.location);">
-		<input type="submit">
-		<script>
-			// so robot can get to it easily
-			document.displayData=function() {
-				var f = document.getElementById("form1");
-				var s = "";
-				for (var i = 0; i < f.elements.length; i++) {
-					var elem = f.elements[i];
-					if (elem.nodeName.toLowerCase() == "button" || elem.type=="submit" || elem.type=="button")  { continue; }
-					s += elem.name + ": " + elem.value + "\n";
-				}
-				return s;
-			}
-		</script>
-		<button name="button" onclick="alert(document.displayData()); return false;">view data</button>
 
 	</form>
 	

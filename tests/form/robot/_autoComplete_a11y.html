@@ -303,6 +303,48 @@
 				}
 			]);
 
+			// Test that enter key submits the form, but only when the drop down is closed
+			doh.register("enter key", {
+				timeout:60000,
+				name:"submit",
+				runTest:function(){
+					dojo.global.formSubmitted = false;
+					var d = new doh.Deferred();
+					var combo = dijit.byId("setvaluetest");	
+					combo.focus();
+
+					// Initial conditions:
+					doh.robot.sequence(d.getTestErrback(function(){
+						var popup = dijit.byId('setvaluetest_popup');
+						doh.t(!popup || isHidden(popup), "popup hidden");
+					}), 500);
+
+					// Down arrow opens the drop down
+					doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500);
+					doh.robot.sequence(d.getTestErrback(function(){
+						var popup = dijit.byId('setvaluetest_popup');
+						doh.t(popup && isVisible(popup), "popup visible");
+					}), 500);
+
+					// Enter key should select value and close drop down but not submit form
+					doh.robot.keyPress(dojo.keys.ENTER, 500);
+					doh.robot.sequence(d.getTestErrback(function(){
+						var popup = dijit.byId('setvaluetest_popup');
+						doh.t(!popup || isHidden(popup), "popup hidden");
+						doh.f(dojo.global.formSubmitted, "form not submitted yet")
+					}), 500);
+
+					// Enter key again should submit form
+					doh.robot.keyPress(dojo.keys.ENTER, 500);
+					doh.robot.sequence(d.getTestCallback(function(){
+						var popup = dijit.byId('setvaluetest_popup');
+						doh.t(!popup || isHidden(popup), "popup hidden");
+						doh.t(dojo.global.formSubmitted, "form submitted")
+					}), 500);
+
+					return d;
+				}
+			});
 
 			doh.register("drop down navigation / keyboard", [
 				// Select a value from the drop down using the keyboard,
@@ -567,7 +609,7 @@
 				},
 
 				// Test that drop down doesn't show up after ENTER keypress, and also that
-				// searchDelay is preventing intemediate queries.
+				// searchDelay is preventing intermediate queries.
 				{
 					timeout:60000,
 					name:"pressing enter before search returns",
@@ -578,6 +620,7 @@
 						var d = new doh.Deferred();
 						var combo = dijit.byId("slow");
 
+						dojo.global.formSubmitted = false;
 						combo.focusNode.focus();
 						doh.robot.sequence(function(){ combo.set("value", null); }, 1000, 100); // wait for focus
 
@@ -595,7 +638,12 @@
 								doh.is(6, len, "query was issued for 'Co' but canceled");
 								doh.is("cancel ", log[1].type + " " + log[1].query.name);
 								doh.is("cancel Co*", log[3].type + " " + log[3].query.name);
+								doh.is("start Co", log[4].type + " " + log[4].query.name);	// trying to lookup ID for item named "co"
 								doh.is("end Co", log[5].type + " " + log[5].query.name);
+								
+								// also, form should not have submitted because the FilteringSelect
+								// is still trying to fill in it's item value
+								doh.f(dojo.global.formSubmitted, "form not submitted");
 							}else{ // this will look more like the IF block above once #6022 is committed
 								doh.is(2, len, "query was issued for 'Co' but canceled");
 								doh.is("cancel Co*", log[1].type + " " + log[1].query.name);

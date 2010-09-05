@@ -47,13 +47,66 @@
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 1000, {});
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 							
-							doh.robot.sequence(d.getTestCallback(function(){
+							doh.robot.sequence(d.getTestErrback(function(){
 								var popup = dijit.byId('q1_popup');
 								doh.t(!popup || isHidden(popup), "popup hidden");
 
 								var val = dojo.date.stamp.toISOString(w.get('value'), {selector: "time"});	
 								doh.is(val, "T18:00:00", "6PM was selected");
+
+								doh.is(null, dojo.global.formValue, "no form submit");
 							}), 500);
+
+							// ENTER key while drop down is closed should submit the form
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.isNot(null, dojo.global.formValue, "form was submitted");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "select original value",
+						timeout: 60000,
+						runTest: function(){
+							var d = new doh.Deferred(),
+								w = dijit.byId('q1');
+	
+							dojo.global.formValue = null;
+
+							// focus field... drop down shouldn't open yet
+							w.focus();
+							doh.robot.sequence(d.getTestErrback(function(){
+								var popup = dijit.byId('q1_popup');
+								doh.t(!popup || isHidden(popup), "popup hidden");
+							}), 500);
+
+							// open drop down
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 1000, {});
+							doh.robot.sequence(d.getTestErrback(function(){
+								var popup = dijit.byId('q1_popup');
+								doh.t(popup && isVisible(popup), "popup visible");
+							}), 500);
+	
+							// select the initial value
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+							doh.robot.sequence(d.getTestErrback(function(){
+								var popup = dijit.byId('q1_popup');
+								doh.t(!popup || isHidden(popup), "popup hidden");
+
+								var val = dojo.date.stamp.toISOString(w.get('value'), {selector: "time"});	
+								doh.is(val, "T18:00:00", "6PM was selected (again)");
+
+								doh.is(null, dojo.global.formValue, "no form submit");
+							}), 500);
+
+							// ENTER key while drop down is closed should submit the form
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.isNot(null, dojo.global.formValue, "form was submitted");
+							}), 500);
+
 							return d;
 						}
 					},
@@ -63,7 +116,9 @@
 						runTest: function(){
 							var d = new doh.Deferred(),
 								w = dijit.byId('q1');
-	
+
+							dojo.global.formValue = null;
+
 							// focus field... drop down shouldn't open yet
 							w.focus();
 							doh.robot.sequence(d.getTestErrback(function(){

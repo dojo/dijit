@@ -253,8 +253,12 @@ dojo.declare(
 						this._setCaretPos(this.focusNode, this.focusNode.value.length); // move cursor to end and cancel highlighting
 					}
 					// default case:
+					// if enter pressed while drop down is open, or for FilteringSelect,
+					// if we are in the middle of a query to convert a directly typed in value to an item,
 					// prevent submit, but allow event to bubble
-					evt.preventDefault();
+					if(this._opened || this._fetchHandle){
+						evt.preventDefault();
+					}
 					// fall through
 
 				case dk.TAB:
