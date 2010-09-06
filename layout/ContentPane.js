@@ -50,7 +50,7 @@ dojo.declare(
 /*=====
 	// content: String || DomNode || NodeList || dijit._Widget
 	//		The innerHTML of the ContentPane.
-	//		Note that the initialization parameter / argument to attr("content", ...)
+	//		Note that the initialization parameter / argument to set("content", ...)
 	//		can be a String, DomNode, Nodelist, or _Widget.
 	content: "",
 =====*/
@@ -87,7 +87,7 @@ dojo.declare(
 	// isLoaded: [readonly] Boolean
 	//		True if the ContentPane has data in it, either specified
 	//		during initialization (via href or inline content), or set
-	//		via attr('content', ...) / attr('href', ...)
+	//		via set('content', ...) / set('href', ...)
 	//
 	//		False if it doesn't have any content, or if ContentPane is
 	//		still in the process of downloading href.
@@ -118,9 +118,9 @@ dojo.declare(
 	isLayoutContainer: true,
 
 	// onLoadDeferred: [readonly] dojo.Deferred
-	//		This is the `dojo.Deferred` returned by attr('href', ...) and refresh().
+	//		This is the `dojo.Deferred` returned by set('href', ...) and refresh().
 	//		Calling onLoadDeferred.addCallback() or addErrback() registers your
-	//		callback to be called only once, when the prior attr('href', ...) call or
+	//		callback to be called only once, when the prior set('href', ...) call or
 	//		the initial href parameter to the constructor finishes loading.
 	//
 	//		This is different than an onLoad() handler which gets called any time any href is loaded.
@@ -231,14 +231,14 @@ dojo.declare(
 	},
 	_setHrefAttr: function(/*String|Uri*/ href){
 		// summary:
-		//		Hook so attr("href", ...) works.
+		//		Hook so set("href", ...) works.
 		// description:
 		//		Reset the (external defined) content of this pane and replace with new url
 		//		Note: It delays the download until widget is shown if preload is false.
 		//	href:
 		//		url to the page you want to get, must be within the same domain as your mainpage
 
-		// Cancel any in-flight requests (an attr('href') will cancel any in-flight attr('href', ...))
+		// Cancel any in-flight requests (a set('href', ...) will cancel any in-flight set('href', ...))
 		this.cancel();
 
 		this.onLoadDeferred = new dojo.Deferred(dojo.hitch(this, "cancel"));
@@ -266,7 +266,7 @@ dojo.declare(
 	},
 	_setContentAttr: function(/*String|DomNode|Nodelist*/data){
 		// summary:
-		//		Hook to make attr("content", ...) work.
+		//		Hook to make set("content", ...) work.
 		//		Replaces old content with data content, include style classes from old content
 		//	data:
 		//		the new Content may be String, DomNode or NodeList
@@ -278,7 +278,7 @@ dojo.declare(
 		// refresh should only work if we downloaded the content
 		this.href = "";
 
-		// Cancel any in-flight requests (an attr('content') will cancel any in-flight attr('href', ...))
+		// Cancel any in-flight requests (a set('content', ...) will cancel any in-flight set('href', ...))
 		this.cancel();
 
 		// Even though user is just setting content directly, still need to define an onLoadDeferred
@@ -287,13 +287,13 @@ dojo.declare(
 
 		this._setContent(data || "");
 
-		this._isDownloaded = false; // mark that content is from a attr('content') not an attr('href')
+		this._isDownloaded = false; // mark that content is from a set('content') not a set('href')
 
 		return this.onLoadDeferred; 	// dojo.Deferred
 	},
 	_getContentAttr: function(){
 		// summary:
-		//		Hook to make attr("content") work
+		//		Hook to make get("content") work
 		return this.containerNode.innerHTML;
 	},
 
@@ -639,7 +639,7 @@ dojo.declare(
 		//		call resize() or layout() on them.
 		// description:
 		//		Should be called on initialization and also whenever we get new content
-		//		(from an href, or from attr('content', ...))... but deferred until
+		//		(from an href, or from set('content', ...))... but deferred until
 		//		the ContentPane is visible
 
 		if(this.doLayout){
