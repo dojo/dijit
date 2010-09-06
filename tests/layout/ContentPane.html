@@ -29,6 +29,8 @@
 		dojo.require("dijit.layout._LayoutWidget");
 		dojo.require("dijit._Templated");
 		dojo.require("dijit.layout.StackContainer");
+		dojo.require("dojo.parser");
+		dojo.require("dijit.Dialog");
 
 		// create a do nothing, only for test widget
 		dojo.declare("dijit.TestWidget",
@@ -840,6 +842,22 @@
 				]
 			);
 
+			// Test that popup widgets in a ContentPane are created and deleted correctly
+			doh.register("popup test", [
+				function create(){
+					dojo.parser.parse(dojo.byId("popupTest"));
+					doh.t(dijit.byId("popupPane"), "popup ContentPane created");
+					doh.t(dijit.byId("dialog"), "dialog created");
+					doh.is(dojo.body(), dijit.byId("dialog").domNode.parentNode, "dialog child of <body>");
+				},
+				function destroy(){
+					dijit.byId("popupPane").destroyRecursive();
+					doh.f(dijit.byId("popupPane"), "popup ContentPane destroyed");
+					doh.f(dijit.byId("dialog"), "dialog widget destroyed");
+					doh.f(dojo.byId("dialog"), "dialog DOMNode gone too");
+				}
+			]);
+
 			doh.run();
 		});
 	</script>
@@ -875,5 +893,13 @@
 	<div id="outside" dojoType="dijit._Widget"></div>
 	<div id="outsideCont" dojoType="dijit.TestContained"></div>
 
+	<!-- for testing popup widgets inside of a content pane -->
+	<div id="popupTest">
+		<div id="popupPane" dojoType="dijit.layout.ContentPane">
+			<div id="dialog" dojoType="dijit.Dialog">
+				hello world
+			</div>
+		</div>
+	</div>
 </body>
 </html>

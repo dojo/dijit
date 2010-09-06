@@ -123,7 +123,8 @@ dojo.declare(
 	//		callback to be called only once, when the prior set('href', ...) call or
 	//		the initial href parameter to the constructor finishes loading.
 	//
-	//		This is different than an onLoad() handler which gets called any time any href is loaded.
+	//		This is different than an onLoad() handler which gets called any time any href
+	//		or content is loaded.
 	onLoadDeferred: null,
 
 	// Override _Widget's attributeMap because we don't want the title attribute (used to specify
@@ -133,16 +134,26 @@ dojo.declare(
 		title: []
 	}),
 
+	// Flag to parser that I'll parse my contents, so it shouldn't.
+	stopParser: true,
+
+	constructor: function(params, srcNodeRef){
+		// Convert a srcNodeRef argument into a content parameter, so that the original contents are
+		// processed in the same way as contents set via set("content", ...)
+		if(srcNodeRef && !("href" in params) && !("content" in params)){
+			var df = dojo.doc.createDocumentFragment();
+			while(srcNodeRef.firstChild){
+				df.appendChild(srcNodeRef.firstChild);
+			}
+			params.content = df;
+		}
+	},
+
 	postMixInProperties: function(){
 		this.inherited(arguments);
 		var messages = dojo.i18n.getLocalization("dijit", "loading", this.lang);
 		this.loadingMessage = dojo.string.substitute(this.loadingMessage, messages);
 		this.errorMessage = dojo.string.substitute(this.errorMessage, messages);
-
-		// Detect if we were initialized with data
-		if(!this.href && this.srcNodeRef && this.srcNodeRef.innerHTML){
-			this.isLoaded = true;
-		}
 	},
 
 	buildRendering: function(){
@@ -242,6 +253,7 @@ dojo.declare(
 		this.cancel();
 
 		this.onLoadDeferred = new dojo.Deferred(dojo.hitch(this, "cancel"));
+		this.onLoadDeferred.addCallback(dojo.hitch(this, "onLoad"));
 
 		this.href = href;
 
@@ -284,6 +296,12 @@ dojo.declare(
 		// Even though user is just setting content directly, still need to define an onLoadDeferred
 		// because the _onLoadHandler() handler is still getting called from setContent()
 		this.onLoadDeferred = new dojo.Deferred(dojo.hitch(this, "cancel"));
+		if(this._created){
+			// For back-compat reasons, call onLoad() for set('content', ...)
+			// calls but not for content specified in srcNodeRef (ie: <div dojoType=ContentPane>...</div>)
+			// or as initialization parameter (ie: new ContentPane({content: ...})
+			this.onLoadDeferred.addCallback(dojo.hitch(this, "onLoad"));
+		}
 
 		this._setContent(data || "");
 
@@ -435,6 +453,7 @@ dojo.declare(
 		this.cancel();
 
 		this.onLoadDeferred = new dojo.Deferred(dojo.hitch(this, "cancel"));
+		this.onLoadDeferred.addCallback(dojo.hitch(this, "onLoad"));
 		this._load();
 		return this.onLoadDeferred;
 	},
@@ -489,7 +508,6 @@ dojo.declare(
 		this.isLoaded = true;
 		try{
 			this.onLoadDeferred.callback(data);
-			this.onLoad(data);
 		}catch(e){
 			console.error('Error '+this.widgetId+' running custom onLoad code: ' + e.message);
 		}
@@ -544,7 +562,7 @@ dojo.declare(
 		delete this._singleChild;
 	},
 
-	_setContent: function(cont, isFakeContent){
+	_setContent: function(/*String|DocumentFragment*/ cont, /*Boolean*/ isFakeContent){
 		// summary:
 		//		Insert the content into the container node
 
@@ -590,6 +608,10 @@ dojo.declare(
 		// setter params must be pulled afresh from the ContentPane each time
 		delete this._contentSetterParams;
 
+		if(this.doLayout){
+			this._checkIfSingleChild();
+		}
+
 		if(!isFakeContent){
 			// Startup each top level child widget (and they will start their children, recursively)
 			dojo.forEach(this.getChildren(), function(child){
@@ -599,12 +621,12 @@ dojo.declare(
 				}
 			}, this);
 
-			// Call resize() on each of my child layout widgets,
-			// or resize() on my single child layout widget...
-			// either now (if I'm currently visible)
-			// or when I become visible
-			this._scheduleLayout();
-
+			if(this._started){
+				// Call resize() on each of my child layout widgets,
+				// or resize() on my single child layout widget...
+				// either now (if I'm currently visible) or when I become visible
+				this._scheduleLayout();
+			}
 			this._onLoadHandler(cont);
 		}
 	},
@@ -641,10 +663,6 @@ dojo.declare(
 		//		Should be called on initialization and also whenever we get new content
 		//		(from an href, or from set('content', ...))... but deferred until
 		//		the ContentPane is visible
-
-		if(this.doLayout){
-			this._checkIfSingleChild();
-		}
 
 		if(this._singleChild && this._singleChild.resize){
 			var cb = this._contentBox || dojo.contentBox(this.containerNode);
