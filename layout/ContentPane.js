@@ -13,23 +13,23 @@ dojo.declare(
 	"dijit.layout.ContentPane", dijit._Widget,
 {
 	// summary:
-	//	A widget containing an HTML fragment, specified inline
-	//	or by uri.  Fragment may include widgets.
+	//		A widget containing an HTML fragment, specified inline
+	//		or by uri.  Fragment may include widgets.
 	//
 	// description:
-	//	This widget embeds a document fragment in the page, specified
-	//	either by uri, javascript generated markup or DOM reference.
-	//	Any widgets within this content are instantiated and managed,
-	//	but laid out according to the HTML structure.  Unlike IFRAME,
-	//	ContentPane embeds a document fragment as would be found
-	//	inside the BODY tag of a full HTML document.  It should not
-	//	contain the HTML, HEAD, or BODY tags.
-	//	For more advanced functionality with scripts and
-	//	stylesheets, see dojox.layout.ContentPane.  This widget may be
-	//	used stand alone or as a base class for other widgets.
-	//	ContentPane is useful as a child of other layout containers
-	//	such as BorderContainer or TabContainer, but note that those
-	//	widgets can contain any widget as a child.
+	//		This widget embeds a document fragment in the page, specified
+	//		either by uri, javascript generated markup or DOM reference.
+	//		Any widgets within this content are instantiated and managed,
+	//		but laid out according to the HTML structure.  Unlike IFRAME,
+	//		ContentPane embeds a document fragment as would be found
+	//		inside the BODY tag of a full HTML document.  It should not
+	//		contain the HTML, HEAD, or BODY tags.
+	//		For more advanced functionality with scripts and
+	//		stylesheets, see dojox.layout.ContentPane.  This widget may be
+	//		used stand alone or as a base class for other widgets.
+	//		ContentPane is useful as a child of other layout containers
+	//		such as BorderContainer or TabContainer, but note that those
+	//		widgets can contain any widget as a child.
 	//
 	// example:
 	//		Some quick samples:
