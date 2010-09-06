@@ -27,9 +27,9 @@
  *      .dijitCalendarNextYearHover / .dijitCalendarPreviousYearHover - states e.g. hover,active
  *      
  * 5. Dropdown Month Menu
- * 		.dijitCalendarMonthContainer .dijitMenu - menu container     
- * 		.dijitCalendarMonthContainer .dijitMenu .dijitCalendarMonthLabel - month label in menu item
- * 		.dijitCalendarMonthContainer .dijitMenu .dijitMenuItemHover - menu item hover state
+ * 		.dijitCalendarMonthMenu - menu container     
+ * 		.dijitCalendarMonthMenu .dijitCalendarMonthLabel - month label in menu item
+ * 		.dijitCalendarMonthMenu .dijitCalendarMonthLabelHover - menu item hover state
  */
 
 .claro .dijitCalendar {
@@ -59,13 +59,10 @@
 	padding-bottom:4px;
 	vertical-align:middle;
 }
-.claro .dijitCalendarMonthLabelSpacer {
-	display:none;
-}
 .claro .dijitCalendarMonthLabel {
 	color:#000000;
 	font-size: 1.091em;
-	display: block;
+	padding: 0px 4px;
 }
 
 /* next/previous month arrows */
@@ -232,23 +229,34 @@
 
 /* End Disabled Calendar Style */
 
+/* Styling for month DropDownButton */
+
+.claro .dijitCalendar .dijitDropDownButton {
+	margin: 0px;
+}
+.claro .dijitCalendar .dijitButtonText {
+	padding: 0px;
+}
+.claro .dijitCalendar .dijitDropDownButton .dijitButtonNode {
+	background-color: transparent;
+	background-image: none;
+	padding: 0px;
+}
+
 /* Styling for month drop down list */
 
-.claro .dijitCalendarMonthContainer .dijitMenu{
-	/* top: 20px !important modifying date drop down so it appears below, instead of over, the current date */
-	top: 20px !important;
-	left: 0px;
+.claro .dijitCalendarMonthMenu {
 	border-color: #769dc0;
 	background-color: #fff;
 	text-align:center;
 	background-image: none;
 }
-.claro .dijitCalendarMonthContainer .dijitMenu .dijitCalendarMonthLabel{
+.claro .dijitCalendarMonthMenu .dijitCalendarMonthLabel {
 	border-top: solid 1px #fff;
 	border-bottom: solid 1px #fff;
-	padding: 2px 20px;
+	padding: 2px 0px;
 }
-.claro .dijitCalendarMonthContainer .dijitMenu .dijitMenuItemHover {
+.claro .dijitCalendarMonthMenu .dijitCalendarMonthLabelHover {
 	background-color: #abd6ff;
 	border-color: #769dc0;
 	border-width:1px 0px;

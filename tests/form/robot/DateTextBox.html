@@ -126,7 +126,7 @@
 								doh.t(isVisible(calendar), "calendar is visible");
 
 								// Month label
-								doh.is("Oktober", innerText(calendar.monthLabelNode));
+								doh.is("Oktober", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]));
 
 								// Day labels
 								var dayLabels = dojo.query(".dijitCalendarDayLabelTemplate", calendar.domNode);
@@ -199,7 +199,7 @@
 								doh.t(isVisible(calendar), "calendar is visible");
 
 								// calendar is on the right month
-								doh.is("May", innerText(calendar.monthLabelNode), "calendar starts on month selected in input box");
+								doh.is("May", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "calendar starts on month selected in input box");
 
 								// and the right year
 								var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", calendar.domNode);
@@ -293,7 +293,7 @@
 								doh.t(isVisible(calendar), "calendar is visible");
 
 								// should have advanced to next month
-								doh.is("June", innerText(calendar.monthLabelNode), "month changed");
+								doh.is("June", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "month changed");
 
 								// and focused day changed
 								doh.is(8, innerText(dojo.global.dijit._curFocus), "focus")
@@ -322,7 +322,7 @@
 								doh.t(isVisible(calendar), "calendar is visible");
 
 								// should have scrolled back to previous month
-								doh.is("May", innerText(calendar.monthLabelNode), "month changed");
+								doh.is("May", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "month changed");
 
 								// focused day still the same
 								doh.is(18, innerText(dojo.global.dijit._curFocus), "focus")
@@ -353,7 +353,7 @@
 								doh.is(18, innerText(dojo.global.dijit._curFocus), "focus")
 
 								// month changed
-								doh.is("July", innerText(calendar.monthLabelNode), "month changed");
+								doh.is("July", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "month changed");
 
 								doh.is(0, changes.length, "no onchange events yet");
 							}), 500);
@@ -380,7 +380,7 @@
 								doh.is(18, innerText(dojo.global.dijit._curFocus), "focus")
 
 								// month changed
-								doh.is("June", innerText(calendar.monthLabelNode), "month changed");
+								doh.is("June", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "month changed");
 
 								doh.is(0, changes.length, "no onchange events yet");
 							}), 500);
@@ -408,7 +408,7 @@
 								doh.is(18, innerText(dojo.global.dijit._curFocus), "focus")
 
 								// same month
-								doh.is("June", innerText(calendar.monthLabelNode), "same month");
+								doh.is("June", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "same month");
 
 								// year changed
 								var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", calendar.domNode);
@@ -440,7 +440,7 @@
 								doh.is(18, innerText(dojo.global.dijit._curFocus), "focus")
 
 								// same month
-								doh.is("June", innerText(calendar.monthLabelNode), "same month");
+								doh.is("June", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "same month");
 
 								// year changed
 								var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", calendar.domNode);
@@ -575,7 +575,7 @@
 								doh.t(isVisible(calendar), "calendar is visible");
 
 								// calendar is on the right month
-								doh.is("May", innerText(calendar.monthLabelNode), "calendar starts on month selected in input box");
+								doh.is("May", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "calendar starts on month selected in input box");
 
 								// and the right year
 								var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", calendar.domNode);
@@ -613,7 +613,7 @@
 								doh.t(isVisible(calendar), "calendar is visible");
 
 								// calendar moved to the next month
-								doh.is("June", innerText(calendar.monthLabelNode), "moved from may to june");
+								doh.is("June", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "moved from may to june");
 
 								doh.is(0, changes.length, "no onchange events yet");
 							}), 500);
@@ -629,15 +629,15 @@
 							var d = new doh.Deferred();
 							var calendar = dijit.byId("american_popup");
 
-							doh.t("monthLabelNode" in calendar, "found month label");
-							doh.t(calendar.monthDropDown, "month dropdown exists");
-							doh.f(isVisible(calendar.monthDropDown), "month dropdown is not visible");
+							doh.is(1, dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode).length, "found month label");
+							doh.t(calendar.monthDropDownButton.dropDown, "month dropdown exists");
+							doh.f(isVisible(calendar.monthDropDownButton.dropDown), "month dropdown is not visible");
 
-							doh.robot.mouseMoveAt(calendar.monthLabelNode, 500);
-							doh.robot.mousePress({left:true}, 500);
-							var july = dojo.query("[month=6]", calendar.monthDropDown)[0];
+							doh.robot.mouseMoveAt(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0], 500);
+							doh.robot.mouseClick({left:true}, 500);
+							var july = dojo.query("[month=6]", calendar.monthDropDownButton.dropDown.domNode)[0];
 							doh.robot.mouseMoveAt(july, 500);
-							doh.robot.mouseRelease({left:true}, 500);
+							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// calendar still exists and is shown
@@ -645,7 +645,7 @@
 								doh.t(isVisible(calendar), "calendar is visible");
 
 								// calendar moved to the next month
-								doh.is("July", innerText(calendar.monthLabelNode), "moved from june to july");
+								doh.is("July", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "moved from june to july");
 								var rows = dojo.query("TR.dijitCalendarWeekTemplate", calendar.domNode),
 									firstRowDays = dojo.query("TD", rows[0]);
 								doh.is(7, firstRowDays.length, "7 days in first row");

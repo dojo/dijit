@@ -1121,6 +1121,7 @@ img.dijitColorPaletteUnder {
 }
 .dijitCalendarContainer th, .dijitCalendarContainer td {
 	padding: 0;
+	vertical-align: middle;
 }
 
 .dijitCalendarNextYear {
@@ -1157,6 +1158,11 @@ img.dijitColorPaletteUnder {
   	visibility: hidden;
 }
 
+/* Styling for month drop down list */
+
+.dijitCalendarMonthMenu .dijitCalendarMonthLabel {
+	text-align:center;
+}
 
 /* Menu */
 

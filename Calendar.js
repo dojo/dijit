@@ -7,6 +7,7 @@ dojo.require("dojo.date.locale");
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
 dojo.require("dijit._CssStateMixin");
+dojo.require("dijit.form.DropDownButton");
 
 dojo.declare(
 	"dijit.Calendar",
@@ -31,6 +32,7 @@ dojo.declare(
 		//	|	<div dojoType="dijit.Calendar"></div>
 
 		templateString: dojo.cache("dijit", "templates/Calendar.html"),
+		widgetsInTemplate: true,
 
 		// value: Date
 		//		The currently selected Date, initially set to invalid date to indicate no selection.
@@ -218,14 +220,17 @@ dojo.declare(
 				this._setText(label, text);
 			}, this);
 
-			// Fill in localized month name
+			// Repopulate month drop down list based on current year.
+			// Need to do this to hide leap months in Hebrew calendar.
 			var monthNames = this.dateLocaleModule.getNames('months', 'wide', 'standAlone', this.lang, month);
-			this._setText(this.monthLabelNode, monthNames[month.getMonth()]);
-			// Repopulate month list based on current year (Hebrew calendar)
-			dojo.query(".dijitCalendarMonthLabelTemplate", this.domNode).forEach(function(node, i){
-				dojo.toggleClass(node, "dijitHidden", !(i in monthNames)); // hide leap months (Hebrew)
-				this._setText(node, monthNames[i]);
-			}, this);
+			this.monthDropDownButton.dropDown.set("months", monthNames);
+
+			// Set name of current month and also fill in spacer element with all the month names 
+			// (invisible) so that the maximum width will affect layout.   But not on IE6 because then
+			// the center <TH> overlaps the right <TH> (due to a browser bug).
+			this.monthDropDownButton.containerNode.innerHTML =
+				(dojo.isIE == 6 ? "" : "<div class='dijitSpacer'>" + this.monthDropDownButton.dropDown.domNode.innerHTML + "</div>") + 
+				"<div class='dijitCalendarMonthLabel dijitCalendarCurrentMonthLabel'>" +  monthNames[month.getMonth()] + "</div>";
 
 			// Fill in localized prev/current/next years
 			var y = month.getFullYear() - 1;
@@ -300,21 +305,13 @@ dojo.declare(
 			}, this);
 
 			var dateObj = new this.dateClassObj(this.currentFocus);
-			// Fill in spacer/month dropdown element with all the month names (invisible) so that the maximum width will affect layout
-			var monthNames = this.dateLocaleModule.getNames('months', 'wide', 'standAlone', this.lang, dateObj);
-			cloneClass(".dijitCalendarMonthLabelTemplate", monthNames.length-1);
-			dojo.query(".dijitCalendarMonthLabelTemplate", this.domNode).forEach(function(node, i){
-				dojo.attr(node, "month", i);
-				if(i in monthNames){ this._setText(node, monthNames[i]); }
-				dojo.place(node.cloneNode(true), this.monthLabelSpacer);
-			}, this);
+
+			this.monthDropDownButton.dropDown = new dijit.Calendar._MonthDropDown({
+				id: this.id + "_mdd",
+				onChange: dojo.hitch(this, "_onMonthSelect")
+			});
 
 			this.set('currentFocus', dateObj, false);	// draw the grid to the month specified by currentFocus
-		},
-
-		_onMenuHover: function(e){
-			dojo.stopEvent(e);
-			dojo.toggleClass(e.target, "dijitMenuItemHover");
 		},
 
 		_adjustDisplay: function(/*String*/ part, /*int*/ amount){
@@ -373,43 +370,12 @@ dojo.declare(
 			this._setCurrentFocusAttr(this.currentFocus, true);
 		},
 
-		_onMonthToggle: function(/*Event*/ evt){
+		_onMonthSelect: function(/*Number*/ month){
 			// summary:
-			//      Handler for when user triggers or dismisses the month list
+			//      Handler for when user selects a month from the drop down list
 			// tags:
 			//      protected
-			dojo.stopEvent(evt);
-
-			if(evt.type == "mousedown"){
-				var coords = dojo.position(this.monthLabelNode);
-//				coords.y -= dojo.position(this.domNode, true).y;
-				// Size the dropdown's width to match the label in the widget
-				// so that they are horizontally aligned
-				var dim = {
-					width: coords.w + "px",
-					top: -this.currentFocus.getMonth() * coords.h + "px"
-				};
-				if((dojo.isIE && dojo.isQuirks) || dojo.isIE < 7){
-					dim.left = -coords.w/2 + "px";
-				}
-				dojo.style(this.monthDropDown, dim);
-				this._popupHandler = this.connect(document, "onmouseup", "_onMonthToggle");
-			}else{
-				this.disconnect(this._popupHandler);
-				delete this._popupHandler;
-			}
-
-			dojo.toggleClass(this.monthDropDown, "dijitHidden");
-			dojo.toggleClass(this.monthLabelNode, "dijitVisible");
-		},
-
-		_onMonthSelect: function(/*Event*/ evt){
-			// summary:
-			//      Handler for when user selects a month from a list
-			// tags:
-			//      protected
-			this._onMonthToggle(evt);
-			this.currentFocus.setMonth(dojo.attr(evt.target, "month"));
+			this.currentFocus.setMonth(month);
 			this._populateGrid();
 		},
 
@@ -596,3 +562,35 @@ dojo.declare(
 		}
 	}
 );
+
+dojo.declare("dijit.Calendar._MonthDropDown", [dijit._Widget, dijit._Templated], {
+	// summary:
+	//		The month drop down
+
+	// months: String[]
+	//		List of names of months, possibly w/some undefined entries for Hebrew leap months
+	//		(ex: ["January", "February", undefined, "April", ...])
+	months: [],
+
+	templateString: "<div class='dijitCalendarMonthMenu dijitMenu' " +
+		"dojoAttachEvent='onclick:_onClick,onmouseover:_onMenuHover,onmouseout:_onMenuHover'></div>",
+
+	_setMonthsAttr: function(/*String[]*/ months){
+		this.domNode.innerHTML = dojo.map(months, function(month, idx){
+				return month ? "<div class='dijitCalendarMonthLabel' month='" + idx +"'>" + month + "</div>" : "";
+			}).join("");
+	},
+
+	_onClick: function(/*Event*/ evt){
+		this.onChange(dojo.attr(evt.target, "month"));
+	},
+
+	onChange: function(/*Number*/ month){
+		// summary:
+		//		Callback when month is selected from drop down
+	},
+
+	_onMenuHover: function(evt){
+		dojo.toggleClass(evt.target, "dijitCalendarMonthLabelHover", evt.type == "mouseover");
+	}
+});

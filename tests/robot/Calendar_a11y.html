@@ -244,7 +244,7 @@
 								doh.is(0, dojo.date.compare(new Date(2008, 0, 31), cal1.get('value')), 'value unchanged (first page down)');
 
 								// month label should have changed
-								var monthLabel = dojo.query(".dijitCalendarMonthLabel.dijitVisible", cal1.domNode);
+								var monthLabel = dojo.query(".dijitCalendarCurrentMonthLabel", cal1.domNode);
 								doh.is(1, monthLabel.length, "one month label");
 								doh.is("February", innerText(monthLabel[0]));
 

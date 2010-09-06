@@ -155,7 +155,6 @@ dojo.declare("dijit._HasDropDown",
 
 			this._buttonNode = this._buttonNode || this.focusNode || this.domNode;
 			this._popupStateNode = this._popupStateNode || this.focusNode || this._buttonNode;
-			this._aroundNode = this._aroundNode || this.domNode;
 
 			// Add a class to the "dijitDownArrowButton" type class to _buttonNode so theme can set direction of arrow
 			// based on where drop down will normally appear
@@ -294,9 +293,10 @@ dojo.declare("dijit._HasDropDown",
 			// tags:
 			//		protected
 
-			var dropDown = this.dropDown;
-			var ddNode = dropDown.domNode;
-			var self = this;
+			var dropDown = this.dropDown,
+				ddNode = dropDown.domNode,
+				aroundNode = this._aroundNode || this.domNode,
+				self = this;
 
 			// Prepare our popup's height and honor maxHeight if it exists.
 
@@ -335,7 +335,7 @@ dojo.declare("dijit._HasDropDown",
 					// limit height to space available in viewport either above or below my domNode
 					// (whichever side has more room)
 					var viewport = dojo.window.getBox(),
-						position = dojo.position(this.domNode, false);
+						position = dojo.position(aroundNode, false);
 					maxHeight = Math.floor(Math.max(position.y, viewport.h - (position.y + position.h)));
 				}
 
@@ -357,9 +357,9 @@ dojo.declare("dijit._HasDropDown",
 
 				// Adjust dropdown width to match or be larger than my width
 				if(this.forceWidth){
-					mb.w = this.domNode.offsetWidth;
+					mb.w = aroundNode.offsetWidth;
 				}else if(this.autoWidth){
-					mb.w = Math.max(mb.w, this.domNode.offsetWidth);
+					mb.w = Math.max(mb.w, aroundNode.offsetWidth);
 				}else{
 					delete mb.w;
 				}
@@ -375,7 +375,7 @@ dojo.declare("dijit._HasDropDown",
 			var retVal = dijit.popup.open({
 				parent: this,
 				popup: dropDown,
-				around: this._aroundNode,
+				around: aroundNode,
 				orient: dijit.getPopupAroundAlignment((this.dropDownPosition && this.dropDownPosition.length) ? this.dropDownPosition : ["below"],this.isLeftToRight()),
 				onExecute: function(){
 					self.closeDropDown(true);
