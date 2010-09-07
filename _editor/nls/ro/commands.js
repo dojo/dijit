@@ -3,24 +3,24 @@
 	'copy': 'Copiere',
 	'cut': 'Tăiere',
 	'delete': 'Ştergere',
-	'indent': 'Indentare',
+	'indent': 'Micşorare indent',
 	'insertHorizontalRule': 'Linie delimitatoare',
 	'insertOrderedList': 'Listă numerotată',
 	'insertUnorderedList': 'Listă cu marcator',
 	'italic': 'Cursiv',
 	'justifyCenter': 'Aliniere centru',
-	'justifyFull': 'Justify',
+	'justifyFull': 'Aliniere stânga-dreapta',
 	'justifyLeft': 'Aliniere stânga',
 	'justifyRight': 'Aliniere dreapta',
-	'outdent': 'Outdent',
+	'outdent': 'Mărire indent',
 	'paste': 'Lipire',
-	'redo': 'Refacere',
+	'redo': 'Refacere acţiune',
 	'removeFormat': 'Înlăturare format',
 	'selectAll': 'Selectează tot',
-	'strikethrough': 'Tăiere',
+	'strikethrough': 'Tăiere text cu o linie',
 	'subscript': 'Scriere indice inferior',
 	'superscript': 'Scriere indice superior',
-	'underline': 'Liniuţă de subliniere',
+	'underline': 'Subliniere',
 	'undo': 'Anulare acţiune',
 	'unlink': 'Înlăturare legătură',
 	'createLink': 'Creare legătură',
@@ -43,6 +43,5 @@
 	"print": "Tipărire",
 	"newPage": "Pagină nouă",
 	/* Error messages */
-	'systemShortcut': 'Acţiunea "${0}" este disponibilă în browser-ul dvs. doar utilizând o comandă rapidă de la tastatură. Utilizaţi ${1}.'
+	'systemShortcut': 'Acţiunea "${0}" este disponibilă în browser doar utilizând o comandă rapidă de la tastatură. Utilizaţi ${1}.'
 })
-
