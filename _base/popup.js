@@ -76,46 +76,57 @@ dijit.popup = {
 
 	_idGen: 1,
 
-	moveOffScreen: function(/*DomNode*/ node){
+	// TODO: in 2.0 change signature to always take widget
+	moveOffScreen: function(/*Widget || DomNode*/ widget){
 		// summary:
-		//		Initialization for nodes that will be used as popups
+		//		Initialization for widgets that will be used as popups
 		//
 		// description:
-		//		Puts node inside a wrapper <div>, and
-		//		positions wrapper div off screen, but not display:none, so that
+		//		Puts widget inside a wrapper DIV (if not already in one), and
+		//		positions wrapper DIV off screen, but not display:none, so that
 		//		the widget doesn't appear in the page flow and/or cause a blank
 		//		area at the bottom of the viewport (making scrollbar longer), but
 		//		initialization of contained widgets works correctly
 
-		var wrapper = node.parentNode;
+		var wrapper = widget.declaredClass ? widget._popupWrapper : (dojo.hasClass(widget.parentNode, "dijitPopup") && widget.parentNode),
+			node = widget.domNode || widget;
 
-		// Create a wrapper widget for when this node (in the future) will be used as a popup.
-		// This is done early because of IE bugs where creating/moving DOM nodes causes focus
-		// to go wonky, see tests/robot/Toolbar.html to reproduce
-		if(!wrapper || !dojo.hasClass(wrapper, "dijitPopup")){
+		if(wrapper){
+			// Widget already is encased in popup wrapper, just move wrapper off screen
+			dojo.style(wrapper, {
+				visibility: "hidden",
+				// prevent transient scrollbar causing misalign (#5776), and initial flash in upper left (#10111)
+				top: "-9999px"
+			});
+		}else{
+			// Create an offscreen wrapper <div> for when this widget (in the future) will be used as a popup.
+			// This is done early because of IE bugs where creating/moving DOM nodes causes focus
+			// to go wonky, see tests/robot/Toolbar.html to reproduce
 			wrapper = dojo.create("div",{
 				"class":"dijitPopup",
 				style:{
 					visibility:"hidden",
+					// prevent transient scrollbar causing misalign (#5776), and initial flash in upper left (#10111)
 					top: "-9999px"
-				}
+				},
+				role: "presentation"
 			}, dojo.body());
-			dijit.setWaiRole(wrapper, "presentation");
 			wrapper.appendChild(node);
+
+			var s = node.style;
+			s.display = "";
+			s.visibility = "";
+			s.position = "";
+			s.top = "0px";
+
+			if(widget.declaredClass){		// TODO: in 2.0 change signature to always take widget, then remove if()
+				widget._popupWrapper = wrapper;
+				dojo.connect(widget, "destroy", function(){
+					dojo.destroy(wrapper);
+					delete widget._popupWrapper;
+				});
+			}
 		}
-
-
-		var s = node.style;
-		s.display = "";
-		s.visibility = "";
-		s.position = "";
-		s.top = "0px";
-
-		dojo.style(wrapper, {
-			visibility: "hidden",
-			// prevent transient scrollbar causing misalign (#5776), and initial flash in upper left (#10111)
-			top: "-9999px"
-		});
 	},
 
 	getTopPopup: function(){
@@ -162,11 +173,10 @@ dijit.popup = {
 		}
 
 		// The wrapper may have already been created, but in case it wasn't, create here
-		var wrapper = widget.domNode.parentNode;
-		if(!wrapper || !dojo.hasClass(wrapper, "dijitPopup")){
-			this.moveOffScreen(widget.domNode);
-			wrapper = widget.domNode.parentNode;
+		if(!widget._popupWrapper){
+			this.moveOffScreen(widget);
 		}
+		var wrapper = widget._popupWrapper;
 
 		dojo.attr(wrapper, {
 			id: id,
@@ -178,9 +188,9 @@ dijit.popup = {
 		});
 
 		if(dojo.isIE || dojo.isMoz){
-			var iframe = wrapper.childNodes[1];
-			if(!iframe){
-				iframe = new dijit.BackgroundIframe(wrapper);
+			if(!widget.bgIframe){
+				// setting widget.bgIframe triggers cleanup in _Widget.destroy()
+				widget.bgIframe = new dijit.BackgroundIframe(wrapper);
 			}
 		}
 
@@ -223,8 +233,6 @@ dijit.popup = {
 		}));
 
 		stack.push({
-			wrapper: wrapper,
-			iframe: iframe,
 			widget: widget,
 			parent: args.parent,
 			onExecute: args.onExecute,
@@ -256,8 +264,6 @@ dijit.popup = {
 		while((popup && dojo.some(stack, function(elem){return elem.widget == popup;})) ||
 			(!popup && stack.length)){
 			var top = stack.pop(),
-				wrapper = top.wrapper,
-				iframe = top.iframe,
 				widget = top.widget,
 				onClose = top.onClose;
 
@@ -269,9 +275,7 @@ dijit.popup = {
 
 			// Move the widget plus it's wrapper off screen, unless it has already been destroyed in above onClose() etc.
 			if(widget && widget.domNode){
-				this.moveOffScreen(widget.domNode);
-			}else{
-				dojo.destroy(wrapper);
+				this.moveOffScreen(widget);
 			}
                         
 			if(onClose){
@@ -281,9 +285,12 @@ dijit.popup = {
 	}
 };
 
+// TODO: remove dijit._frames, it isn't being used much, since popups never release their
+// iframes (see [22236])
 dijit._frames = new function(){
 	// summary:
 	//		cache of iframes
+
 	var queue = [];
 
 	this.pop = function(){
@@ -304,7 +311,7 @@ dijit._frames = new function(){
 				iframe.className = "dijitBackgroundIframe";
 				dojo.style(iframe, "opacity", 0.1);
 			}
-			iframe.tabIndex = -1; // Magic to prevent iframe from getting focus on tab keypress - as style didnt work.
+			iframe.tabIndex = -1; // Magic to prevent iframe from getting focus on tab keypress - as style didn't work.
 			dijit.setWaiRole(iframe,"presentation");
 		}
 		return iframe;

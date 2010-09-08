@@ -93,14 +93,8 @@ dojo.declare(
 			// summary:
 			//		Hides the dialog underlay
 			this.bgIframe.destroy();
+			delete this.bgIframe;
 			this.domNode.style.display = "none";
-		},
-
-		uninitialize: function(){
-			if(this.bgIframe){
-				this.bgIframe.destroy();
-			}
-			this.inherited(arguments);
 		}
 	}
 );
