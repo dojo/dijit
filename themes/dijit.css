@@ -165,7 +165,7 @@
 .dijit_a11y SPAN.dijitArrowButtonInner,
 .dijit_a11y IMG.dijitArrowButtonInner,
 .dijit_a11y .dijitCalendarIncrementControl {
-	/* hide icon nodes in high contrast mode; when necesary they will be replaced by character equivalents
+	/* hide icon nodes in high contrast mode; when necessary they will be replaced by character equivalents
 	 * exception for INPUT.dijitArrowButtonInner, because the icon and character are controlled by the same node */
 	display: none;
 }
@@ -1426,15 +1426,6 @@ DIV.dijitTabDisabled, .dj_ie DIV.dijitTabDisabled {
 .dijit_a11y .dijitTabCloseText {
 	display: inline;
 }
-
-.dijit_a11y .dijitTabChecked {
-	/* the selected tab */
-	border-style:dashed !important;
-}
-
-.dijit_a11y .dijitTabInnerDiv {
-	border-left:none !important;
- }
 
 .dijitTabPane,
 .dijitStackContainer-child,
