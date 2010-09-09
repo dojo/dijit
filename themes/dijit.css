@@ -112,12 +112,6 @@
 	border: 0;
 	padding: 0;
 }
-.dijit_a11y .dijitPopup,
-.dijit_a11y .dijitPopup DIV,
-.dijit_a11y .dijitPopup TABLE,
-.dijit_a11y .dijitTooltipContainer {
-	background-color: white !important;
-}
 
 .dijitPositionOnly {
 	/* Null out all position-related properties */
