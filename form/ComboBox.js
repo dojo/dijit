@@ -301,8 +301,7 @@ dojo.declare(
 				default:
 					// Non char keys (F1-F12 etc..) shouldn't open list.
 					// Ascii characters and IME input (Chinese, Japanese etc.) should.
-					// On IE and safari, IME input produces keycode == 229, and we simulate
-					// it on firefox by attaching to compositionend event (see compositionend method)
+					//IME input produces keycode == 229.
 					doSearch = typeof key == 'string' || key == 229;
 			}
 			if(doSearch){
@@ -620,23 +619,6 @@ dojo.declare(
 			//		Helper for postMixInProperties() to set this.value based on data inlined into the markup.
 			//		Returns the attribute name in the item (in dijit.form._ComboBoxDataStore) to use as the value.
 			return this.searchAttr;
-		},
-
-		/////////////// Event handlers /////////////////////
-
-		// FIXME: For 2.0, rename to "_compositionEnd"
-		compositionend: function(/*Event*/ evt){
-			// summary:
-			//		When inputting characters using an input method, such as
-			//		Asian languages, it will generate this event instead of
-			//		onKeyDown event.
-			//		Note: this event is only triggered in FF (not in IE/safari)
-			// tags:
-			//		private
-
-			// 229 is the code produced by IE and safari while pressing keys during
-			// IME input mode
-			this._onKey({charOrCode: 229});
 		},
 
 		//////////// INITIALIZATION METHODS ///////////////////////////////////////
