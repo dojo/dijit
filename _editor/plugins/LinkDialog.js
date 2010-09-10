@@ -279,10 +279,11 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 		if(a && a.tagName.toLowerCase() === this.tag){
 			url = a.getAttribute('_djrealurl') || a.getAttribute('href');
 			target = a.getAttribute('target') || "_self";
-			text = a.textContent || a.innerText;
+			dojo.withGlobal(this.editor.window, "selectElementChildren", dijit._editor.selection, [a, true]);
+			text = dojo.withGlobal(this.editor.window, "getSelectedHtml", dijit._editor.selection, null);
 			dojo.withGlobal(this.editor.window, "selectElement", dijit._editor.selection, [a, true]);
 		}else{
-			text = dojo.withGlobal(this.editor.window, dijit._editor.selection.getSelectedText);
+			text = dojo.withGlobal(this.editor.window, dijit._editor.selection.getSelectedHtml);
 		}
 		return {urlInput: url || '', textInput: text || '', targetSelect: target || ''}; //Object;
 	},
