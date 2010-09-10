@@ -17,7 +17,6 @@
 			dojo.require("dijit.layout._LayoutWidget");
 
 			dojo.addOnLoad(function(){
-				var testW;
 				doh.register("t",
 					[
 						{
@@ -148,9 +147,20 @@
 							runTest: function(t){
 								validateTest5WidgetDestroy(t, test5WidgetProgrammatic);
 							}
+						},
+						{
+							// Test that dojoAttachPoint inside of a ContentPane (inside of a template) works
+							name: "ContentPane",
+							runTest: function(){
+								var testW = dijit.byId("missing");
+								doh.t(testW, "widget was created");
+								doh.t(testW.missingButton, "dojoAttachPoint created");
+								doh.is("dijit.form.Button", testW.missingButton.declaredClass, "and it's to a widget")
+							}
 						}
 					]
 				);
+
 				doh.run();
 			});
 		</script>
@@ -231,7 +241,7 @@
 		<xmp id="Test4Template" style="display:none;">
 			<div>
 				<div data-dojo-type="dijit.layout.TabContainer" data-dojo-props="style: {height: '5em'}" data-dojo-attach-point="tabCont">
-					<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title: 'Tab 1'}" data-dojo-attach-point="tab1">
+					<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title: 'Tab 1'" data-dojo-attach-point="tab1">
 						pane 1
 					</div>
 					<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title: 'Tab 2'" data-dojo-attach-point="tab2">
@@ -445,6 +455,17 @@
 		</script>
 		<div data-dojo-type="Test5Widget" data-dojo-props="id: 'test5Widget'"></div>
 
+		<script>
+			dojo.declare("Missing", [dijit._Widget, dijit._Templated], {
+				templateString: '<div>' +
+									'<div data-dojo-type="dijit.layout.ContentPane">' +
+										'<div data-dojo-type="dijit.form.Button" data-dojo-attach-point="missingButton">Missing...</div>' +
+									'</div>' +
+								'</div>',
+				widgetsInTemplate: true
+			});
+		</script>
+		<div data-dojo-type="Missing" data-dojo-props="id: 'missing'"></div>
 	</body>
 </html>
 

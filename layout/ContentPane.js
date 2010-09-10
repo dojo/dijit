@@ -4,7 +4,6 @@ dojo.require("dijit._Widget");
 dojo.require("dijit._Contained");
 dojo.require("dijit.layout._LayoutWidget");	// for dijit.layout.marginBox2contentBox()
 
-dojo.require("dojo.parser");
 dojo.require("dojo.string");
 dojo.require("dojo.html");
 dojo.requireLocalization("dijit", "loading");
@@ -139,7 +138,7 @@ dojo.declare(
 
 	constructor: function(params, srcNodeRef){
 		// Convert a srcNodeRef argument into a content parameter, so that the original contents are
-		// processed in the same way as contents set via set("content", ...)
+		// processed in the same way as contents set via set("content", ...).
 		if(srcNodeRef && !("href" in params) && !("content" in params)){
 			var df = dojo.doc.createDocumentFragment();
 			while(srcNodeRef.firstChild){

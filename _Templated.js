@@ -127,6 +127,7 @@ dojo.declare("dijit._Templated",
 				// Store widgets that we need to start at a later point in time
 				var cw = (this._startupWidgets = dojo.parser.parse(node, {
 					noStart: !this._earlyTemplatedStartup,
+					template: true,
 					inherited: {dir: this.dir, lang: this.lang}
 				}));
 
