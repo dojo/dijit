@@ -9,6 +9,7 @@ try{
 	doh.registerUrl("dijit.tests.editor.robot.Misc", dojo.moduleUrl("dijit","tests/editor/robot/Editor_misc.html"+userArgs), 99999999);
 
 	// Plugins
+	doh.registerUrl("dijit.tests.editor.robot.CustomPlugin", dojo.moduleUrl("dijit","tests/editor/robot/CustomPlugin.html"+userArgs), 99999999);
 	doh.registerUrl("dijit.tests.editor.robot.EnterKeyHandling", dojo.moduleUrl("dijit","tests/editor/robot/EnterKeyHandling.html"+userArgs), 99999999);
 	doh.registerUrl("dijit.tests.editor.robot.FullScreen", dojo.moduleUrl("dijit","tests/editor/robot/Editor_FullScreen.html"+userArgs), 99999999);
 	doh.registerUrl("dijit.tests.editor.robot.ViewSource", dojo.moduleUrl("dijit","tests/editor/robot/Editor_ViewSource.html"+userArgs), 99999999);

@@ -68,14 +68,19 @@
 					}
 					if(this.source){
 						this.sourceArea.value = this.editor.getValue();
+						dojo.style(this.sourceArea, "borderWidth", dojo.style(this.editor.editingArea, "borderStyle") == "none" ? "0" : dojo.style(this.editor.editingArea, "borderWidth"));
 						dojo.marginBox(this.sourceArea, dojo.marginBox(this.editor.editingArea));
+						if(dojo.isIE){
+							//work around IE oddity with offsetParent mismatch
+							var p = dojo.position(this.editor.editingArea);
+							dojo.style(this.sourceArea, { left: p.x, top: p.y });
+						}
 					}else{
 						this.editor.setValue(this.sourceArea.value);
 						this.sourceArea.style.top = "-999px";
 					}
 
-					this.editor.set('disabled', this.source); // conditionally disable toolbar -- FIXME. Doesn't work.
-					this.button.set('label', this.source ? "View WYSIWYG" : this.editor.commands[this.command]); // note: should be localized
+					this.button.set('label', this.source ? "View WYSIWYG" : this.editor.commands["htmlToggle"]); // note: should be localized
 				}
 			}
 		);
