@@ -26,7 +26,7 @@
 				doh.register("setup", {
 					name: "setup",
 					timeout: 20000,
-					setUp: function(){
+					runTest: function(){
 						setup();
 					}
 				});
@@ -331,6 +331,145 @@
 					}
 				]);
 
+				doh.register("multi-dnd", [
+					{
+						name: "click on a new node and drag should select it",
+						timeout: 15000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							// Find the fruitsTreeNode category
+							var fruitsTreeNode = findTreeNode("itemTree", "Fruits");
+							var cerealsTreeNode = findTreeNode("itemTree", "Cereals");
+							var tree = dijit.byId("itemTree");
+							
+							// click fruit item
+							doh.robot.mouseMoveAt(fruitsTreeNode.rowNode, 500, 500);
+							doh.robot.mouseClick({left: true}, 500);
+							
+							// drag cereal node to fruits node
+							doh.robot.mouseMoveAt(cerealsTreeNode.rowNode, 500, 500);
+							doh.robot.mousePress({left: true}, 500);
+							doh.robot.mouseMoveAt(fruitsTreeNode.rowNode, 500, 1000);
+							doh.robot.mouseRelease({left: true}, 500);
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(fruitsTreeNode == cerealsTreeNode.getParent());
+							}), 1000);
+							
+							return d;
+						}
+					},
+					{
+						name: "drag parent and child to another child should do nothing",
+						timeout: 15000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							// Find the fruitsTreeNode category
+							var citrusTreeNode = findTreeNode("itemTree", "Citrus"), 
+							  citrusParent = citrusTreeNode.getParent(),
+							  orangeTreeNode = findTreeNode("itemTree", "Orange"),
+							  appleTreeNode = findTreeNode("itemTree", "Apple"),
+							  tree = dijit.byId("itemTree");
+							
+							doh.is(citrusTreeNode, orangeTreeNode.getParent(), 'orange is child of citrus');
+							
+							// click Citrus item
+							doh.robot.mouseMoveAt(citrusTreeNode.rowNode, 500, 500);
+							doh.robot.mouseClick({left: true}, 500);
+							
+							// ctrl-click Orange item
+							doh.robot.mouseMoveAt(orangeTreeNode.rowNode, 500, 500);
+							doh.robot.keyDown(dojo.keys.CTRL, 500);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.keyUp(dojo.keys.CTRL, 500);
+							
+							// drag to Apple Foods
+							doh.robot.mousePress({left: true}, 500);
+							doh.robot.mouseMoveAt(appleTreeNode.rowNode, 500, 500);
+							doh.robot.mouseRelease({left: true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(citrusParent, citrusTreeNode.getParent(), 'citrus parent should not change');
+								doh.is(citrusTreeNode, orangeTreeNode.getParent(), 'orange should still be under citrus');
+							}), 1000);
+							
+							return d;
+						}
+					},
+					{
+						name: "drag parent and child should only reparent parent",
+						timeout: 15000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							// Find the fruitsTreeNode category
+							var citrusTreeNode = findTreeNode("itemTree", "Citrus");
+							var orangeTreeNode = findTreeNode("itemTree", "Orange");
+							var cerealsTreeNode = findTreeNode("itemTree", "Cereals");
+							var tree = dijit.byId("itemTree");
+							
+							doh.is(citrusTreeNode, orangeTreeNode.getParent(), 'orange is child of citrus');
+							
+							// click Citrus item
+							doh.robot.mouseMoveAt(citrusTreeNode.rowNode, 500, 500);
+							doh.robot.mouseClick({left: true}, 500);
+							
+							// ctrl-click Orange item
+							doh.robot.mouseMoveAt(orangeTreeNode.rowNode, 500, 500);
+							doh.robot.keyDown(dojo.keys.CTRL, 500);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.keyUp(dojo.keys.CTRL, 500);
+							
+							// drag to Cereals Foods
+							doh.robot.mousePress({left: true}, 500);
+							doh.robot.mouseMoveAt(cerealsTreeNode.rowNode, 500, 500);
+							doh.robot.mouseRelease({left: true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(cerealsTreeNode, citrusTreeNode.getParent(), 'citrus should be under cereals');
+								doh.is(citrusTreeNode, orangeTreeNode.getParent(), 'orange should still be under citrus');
+							}), 1000);
+							
+							return d;
+						}
+					},
+					{
+						name: "drag multiple items",
+						timeout: 15000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							// Find the fruitsTreeNode category
+							var vegetablesTreeNode = findTreeNode("itemTree", "Vegetables");
+							var cerealsTreeNode = findTreeNode("itemTree", "Cereals");
+							var foodsTreeNode = findTreeNode("itemTree", "Foods");
+							var tree = dijit.byId("itemTree");
+							
+							// click Vegetables item
+							doh.robot.mouseMoveAt(vegetablesTreeNode.rowNode, 500, 500);
+							doh.robot.mouseClick({left: true}, 500);
+							
+							// ctrl-click cereals item
+							doh.robot.mouseMoveAt(cerealsTreeNode.rowNode, 500, 500);
+							doh.robot.keyDown(dojo.keys.CTRL, 500);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.keyUp(dojo.keys.CTRL, 500);
+							
+							// drag to root item Foods
+							doh.robot.mousePress({left: true}, 500);
+							doh.robot.mouseMoveAt(foodsTreeNode.rowNode, 500, 500);
+							doh.robot.mouseRelease({left: true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(foodsTreeNode, vegetablesTreeNode.getParent());
+								doh.is(foodsTreeNode, cerealsTreeNode.getParent());
+							}), 1000);
+							
+							return d;
+						}
+					}
+				]);
 				// TODO: test icon and highlighting when valid drop target and invalid target (another item)
 
 				doh.run();

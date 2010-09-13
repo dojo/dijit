@@ -1,0 +1,185 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>doh.robot Tree selector Test</title>
+
+		<style>
+			@import "../../../util/doh/robot/robot.css";
+		</style>
+
+		<!-- required: dojo.js -->
+		<script type="text/javascript" src="../../../dojo/dojo.js"
+			djConfig="isDebug: true, parseOnLoad: true"></script>
+
+		<!-- functions to help test -->
+		<script type="text/javascript" src="../helpers.js"></script>
+		<script type="text/javascript" src="Tree_dnd.js"></script>
+
+		<script type="text/javascript">
+			dojo.require("dojo.window");
+			dojo.require("dijit.robotx");
+
+			function clickItem(modifiers){
+				var i;
+				for(i = 0; i < modifiers.length; i++){
+					doh.robot.keyDown(modifiers[i], 500);
+				}
+				doh.robot.mouseClick({left: true}, 500);
+				for(i = modifiers.length - 1; i >= 0; i--){
+					doh.robot.keyUp(modifiers[i], 500);
+				}
+			}
+
+			function getSelected(tree){
+				//in IE, for(var i in object) will not honor the order the properties are set
+				//(it's in the order properties are first set even delete a property won't 
+				//change it)
+				var selected = tree.dndController.getSelectedTreeNodes();
+				selected.sort(function(a, b){return a.item.id<b.item.id?-1:1});
+				return selected;
+			}
+			function _getCtrlShiftTest(keys){
+				return function(){
+					var d = new doh.Deferred();
+					
+					// Find the fruitsTreeNode category
+					var fruitsTreeNode = findTreeNode("itemTree", "Fruits");
+					var tree = dijit.byId("itemTree");
+					
+					// click fruit item
+					doh.robot.mouseMoveAt(fruitsTreeNode.rowNode, 500, 1000);
+					doh.robot.mouseClick({left: true}, 500);
+					
+					// shift-click Cereals item
+					var cerealsTreeNode = findTreeNode("itemTree", "Cereals");
+					var vegetablesTreeNode = findTreeNode("itemTree", "Vegetables");
+					doh.robot.mouseMoveAt(cerealsTreeNode.rowNode, 500, 1000);
+					clickItem(keys);
+					
+					doh.robot.sequence(d.getTestErrback(function(){
+						var selected = getSelected(tree);
+						
+						doh.is(3, selected.length);
+						doh.is(fruitsTreeNode, selected[0]);
+						doh.is(vegetablesTreeNode, selected[1]);
+						doh.is(cerealsTreeNode, selected[2]);
+						doh.is(fruitsTreeNode, tree.dndController.anchor, 'anchor should not change 1');
+						
+						// shift-click Cereals item
+						doh.robot.mouseMoveAt(vegetablesTreeNode.rowNode, 500, 300);
+						clickItem(keys);
+						
+						doh.robot.sequence(d.getTestCallback(function(){
+							var selected = getSelected(tree);
+							doh.is(2, selected.length);
+							doh.is(fruitsTreeNode, selected[0]);
+							doh.is(vegetablesTreeNode, selected[1]);
+							doh.is(fruitsTreeNode, tree.dndController.anchor, 'anchor should not change 2');
+						}), 500);
+					}), 500);
+					
+					
+					return d;
+				};
+			}
+			dojo.addOnLoad(function(){
+				var controller = '', ind=window.location.href.indexOf("?controller=");
+				
+				if(ind > -1){
+					controller = window.location.href.substr(ind + 12);
+					controller = controller.split('&')[0];
+				}
+				doh.robot.initRobot('../tree/test_Tree_DnD.html?testController=' + controller);
+
+				doh.register("setup", {
+					name: "setup",
+					timeout: 20000,
+					runTest: function(){
+						setup();
+					}
+				});
+
+				doh.register("item selection", [{
+						name: "select/deselect a single item",
+						timeout: 15000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							// Find the fruitsTreeNode category
+							var fruitsTreeNode = findTreeNode("itemTree", "Fruits");
+							var tree = dijit.byId("itemTree");
+							
+							// click fruit item
+							doh.robot.mouseMoveAt(fruitsTreeNode.rowNode, 500, 1000);
+							doh.robot.mouseClick({left: true}, 500);
+							
+							doh.robot.sequence(d.getTestErrback(function(){
+								var selected = getSelected(tree);
+								
+								doh.is(1, selected.length);
+								doh.is(fruitsTreeNode, selected[0]);
+
+								//ctrl-click the item to deselect it
+								clickItem([dojo.keys.CTRL]);
+								
+								doh.robot.sequence(d.getTestCallback(function(){
+									var selected = getSelected(tree);
+									
+									doh.is(0, selected.length);
+								}), 500);
+							}), 500);
+							
+							
+							return d;
+						}
+				},
+				{
+						name: "ctrl select",
+						timeout: 15000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							// Find the fruitsTreeNode category
+							var fruitsTreeNode = findTreeNode("itemTree", "Fruits");
+							var tree = dijit.byId("itemTree");
+							
+							// click fruit item
+							doh.robot.mouseMoveAt(fruitsTreeNode.rowNode, 500, 1000);
+							doh.robot.mouseClick({left: true}, 500);
+							
+							// ctrl-click Cereals item
+							var cerealsTreeNode = findTreeNode("itemTree", "Cereals");
+							doh.robot.mouseMoveAt(cerealsTreeNode.rowNode, 500, 1000);
+							clickItem([dojo.keys.CTRL]);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var selected = getSelected(tree);
+								
+								doh.is(2, selected.length);
+								doh.is(fruitsTreeNode, selected[0]);
+								doh.is(cerealsTreeNode, selected[1]);
+								doh.is(cerealsTreeNode, tree.dndController.anchor, 'anchor should be the Cereals item');
+							}), 500);
+							
+							
+							return d;
+						}
+				},
+				{
+						name: "shift select",
+						timeout: 15000,
+						runTest: _getCtrlShiftTest([dojo.keys.SHIFT])
+				},
+				{
+						name: "ctrl shift select",
+						timeout: 15000,
+						runTest: _getCtrlShiftTest([dojo.keys.CTRL, dojo.keys.SHIFT])
+				}
+				]);
+				
+				doh.run();
+			});
+		</script>
+	</head>
+</html>

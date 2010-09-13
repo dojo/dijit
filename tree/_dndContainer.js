@@ -63,9 +63,9 @@ dojo.declare("dijit.tree._dndContainer",
 			// tags:
 			//		protected
 
-			var node = this.selection[key],
+			var widget = this.selection[key],
 				ret = {
-					data: dijit.getEnclosingWidget(node),
+					data: widget,
 					type: ["treeNode"]
 				};
 
@@ -87,8 +87,7 @@ dojo.declare("dijit.tree._dndContainer",
 			//		Called when mouse is moved over a TreeNode
 			// tags:
 			//		protected
-			this.current = widget.rowNode;
-			this.currentWidget = widget;
+			this.current = widget;
 		},
 
 		onMouseOut: function(/*TreeNode*/ widget, /*Event*/ evt){
@@ -97,7 +96,6 @@ dojo.declare("dijit.tree._dndContainer",
 			// tags:
 			//		protected
 			this.current = null;
-			this.currentWidget = null;
 		},
 
 		_changeState: function(type, newState){

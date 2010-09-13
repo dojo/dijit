@@ -12,6 +12,9 @@ try{
 	if(test_robot){
 		doh.registerUrl("dijit.tests.robot.Tree_a11y", dojo.moduleUrl("dijit","tests/robot/Tree_a11y.html"+userArgs), 99999999);
 		doh.registerUrl("dijit.tests.robot.Tree_DnD", dojo.moduleUrl("dijit","tests/robot/Tree_dnd.html"+userArgs), 99999999);
+		doh.registerUrl("dijit.tests.robot.Tree_selector", dojo.moduleUrl("dijit","tests/robot/Tree_selector.html"+userArgs), 99999999);
+		doh.registerUrl("dijit.tests.robot.Tree_selector_only", 
+			dojo.moduleUrl("dijit","tests/robot/Tree_selector.html?controller=selector&"+userArgs.substr(1)), 99999999);
 		doh.registerUrl("dijit.tests.robot.Tree_DnD_multiParent", dojo.moduleUrl("dijit","tests/robot/Tree_dnd_multiParent.html"+userArgs), 99999999);
 	}
 }catch(e){

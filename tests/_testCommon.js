@@ -20,7 +20,8 @@
 		dir = "",
 		theme = false,
 		testMode = null,
-		defTheme = "claro";
+		defTheme = "claro",
+		vars={};
 
 	if(window.location.href.indexOf("?") > -1){
 		var str = window.location.href.substr(window.location.href.indexOf("?")+1).split(/#/);
@@ -46,7 +47,11 @@
 				case "a11y":
 					if(value){ testMode = "dijit_a11y"; }
 			}
+			vars[key] = value;
 		}
+	}
+	d._getVar = function(k, def){
+		return vars[k] || def;
 	}
 
 	// If URL specifies a non-claro theme then pull in those theme CSS files and modify

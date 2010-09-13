@@ -9,6 +9,11 @@
 		@import "../css/dijitTests.css";
 		@import "../../../dojo/resources/dnd.css";
 		@import "../../../dojo/tests/dnd/dndDefault.css";
+		
+		.dojoDndItemSelected,
+		.dojoDndItemAnchor{
+			background-color: #D8EDFF !important;
+		}
 	</style>
 
 	<!-- required: the default dijit theme: -->
@@ -26,7 +31,12 @@
 		dojo.require("dojo.data.ItemFileWriteStore");
 		dojo.require("dijit.Tree");
 		dojo.require("dijit.tree.TreeStoreModel");
-		dojo.require("dijit.tree.dndSource");
+		
+		var testController = dojo._getVar("testController", "")=="selector"?"dijit.tree._dndSelector":"dijit.tree.dndSource";
+
+		dijit.Tree.prototype.dndController = testController;
+		
+		dojo.require(testController);
 		dojo.require("dijit.Menu");
 		dojo.require("dijit.form.Button");
 
@@ -187,7 +197,7 @@
 			<div dojoType="dijit.tree.TreeStoreModel" jsId="catModel"
 				store="myStore" query="{id: '0'}"></div>
 			<div class="container" dojoType="dijit.Tree" id="collectionsTree" model="catModel"
-				getLabel="catTreeCustomLabel"  dndController="dijit.tree.dndSource" betweenThreshold="5"
+				getLabel="catTreeCustomLabel" betweenThreshold="5"
 				checkAcceptance="dndAccept" checkItemAcceptance="collectionTreeCheckItemAcceptance" getIconClass="getIcon"
 				persist="false"></div>
 		</td>
@@ -202,7 +212,7 @@
 				store="myStore" query="{id: '0'}" childrenAttrs="items, children"></div>
 			<div class="container" dojoType="dijit.Tree" id="itemTree"
 				model="itemModel"
-				dndController="dijit.tree.dndSource" checkAcceptance="dndAccept" checkItemAcceptance="itemTreeCheckItemAcceptance"
+				checkAcceptance="dndAccept" checkItemAcceptance="itemTreeCheckItemAcceptance"
 				dragThreshold="8"
 				getIconClass="getIcon"
 				persist="false"></div>
