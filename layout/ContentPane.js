@@ -663,6 +663,12 @@ dojo.declare(
 		//		(from an href, or from set('content', ...))... but deferred until
 		//		the ContentPane is visible
 
+		// Call _checkIfSingleChild() again in case app has manually mucked w/the content
+		// of the ContentPane (rather than changing it through the set("content", ...) API.
+		if(this.doLayout){
+			this._checkIfSingleChild();
+		}
+
 		if(this._singleChild && this._singleChild.resize){
 			var cb = this._contentBox || dojo.contentBox(this.containerNode);
 
