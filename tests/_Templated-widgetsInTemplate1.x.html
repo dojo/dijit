@@ -151,6 +151,17 @@
 							runTest: function(t){
 								validateTest5WidgetDestroy(t, test5WidgetProgrammatic);
 							}
+						},
+						{
+							// Test that dojoAttachPoint inside of a ContentPane (inside of a template) works
+							name: "ContentPane",
+							runTest: function(){
+								var testW = dijit.byId("missing");
+								doh.t(testW, "widget was created");
+								doh.t(testW.missingButton, "dojoAttachPoint created");
+								doh.is("dijit.form.Button", testW.missingButton.declaredClass, "and it's to a widget")
+								doh.t(dijit.byId("missingButtonId"), "nested widget also registered by id");
+							}
 						}
 					]
 				);
@@ -468,6 +479,18 @@
 	</script>
 	<div dojoType="Test5Widget" id="test5Widget" ></div>
 
+	<script>
+		dojo.declare("Missing", [dijit._Widget, dijit._Templated], {
+			templateString: '<div>' +
+								'<div dojoType="dijit.layout.ContentPane">' +
+									'<div dojoType="dijit.form.Button" id="missingButtonId" ' +
+									'dojoAttachPoint="missingButton">Missing...</div>' +
+								'</div>' +
+							'</div>',
+			widgetsInTemplate: true
+		});
+	</script>
+	<div dojoType="Missing" id="missing"></div>
 	</body>
 </html>
 

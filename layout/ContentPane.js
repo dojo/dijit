@@ -136,12 +136,11 @@ dojo.declare(
 	// Flag to parser that I'll parse my contents, so it shouldn't.
 	stopParser: true,
 
-	/*=====
-	// template: Boolean
+	// template: [private] Boolean
 	//		Flag from the parser that this ContentPane is inside a template
 	//		so the contents are pre-parsed.
-	template: false
-	=====*/
+	// (TODO: this declaration can be commented out in 2.0)
+	template: false,
 
 	constructor: function(params, srcNodeRef){
 		// Convert a srcNodeRef argument into a content parameter, so that the original contents are
