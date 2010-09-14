@@ -136,10 +136,17 @@ dojo.declare(
 	// Flag to parser that I'll parse my contents, so it shouldn't.
 	stopParser: true,
 
+	/*=====
+	// template: Boolean
+	//		Flag from the parser that this ContentPane is inside a template
+	//		so the contents are pre-parsed.
+	template: false
+	=====*/
+
 	constructor: function(params, srcNodeRef){
 		// Convert a srcNodeRef argument into a content parameter, so that the original contents are
-		// processed in the same way as contents set via set("content", ...).
-		if(srcNodeRef && !("href" in params) && !("content" in params)){
+		// processed in the same way as contents set via set("content", ...), calling the parser etc.
+		if((!params || !params.template) && srcNodeRef && !("href" in params) && !("content" in params)){
 			var df = dojo.doc.createDocumentFragment();
 			while(srcNodeRef.firstChild){
 				df.appendChild(srcNodeRef.firstChild);

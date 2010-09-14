@@ -156,6 +156,7 @@
 								doh.t(testW, "widget was created");
 								doh.t(testW.missingButton, "dojoAttachPoint created");
 								doh.is("dijit.form.Button", testW.missingButton.declaredClass, "and it's to a widget")
+								doh.t(dijit.byId("missingButtonId"), "nested widget also registered by id");
 							}
 						}
 					]
@@ -459,7 +460,8 @@
 			dojo.declare("Missing", [dijit._Widget, dijit._Templated], {
 				templateString: '<div>' +
 									'<div data-dojo-type="dijit.layout.ContentPane">' +
-										'<div data-dojo-type="dijit.form.Button" data-dojo-attach-point="missingButton">Missing...</div>' +
+										'<div data-dojo-type="dijit.form.Button" data-dojo-props="id: \'missingButtonId\'" ' +
+										'data-dojo-attach-point="missingButton">Missing...</div>' +
 									'</div>' +
 								'</div>',
 				widgetsInTemplate: true
