@@ -27,6 +27,14 @@
 	border-left-width: 0px !important;
 	border-left-style: none !important;
 }
+
+.dijit_a11y .dijitToolbar .dijitTextBoxRtl .dijitValidationContainer,
+.dijitTextBoxRtl .dijitSpinnerButtonContainer,
+.dijitComboBoxRtl .dijitArrowButtonContainer  {
+	border-right-width: 0px !important;
+	border-right-style: none !important;
+}
+	
 .dijit_a11y .dijitTextBoxRtl .dijitValidationContainer,
 .dijit_a11y .dijitTextBoxRtl .dijitSpinnerButtonContainer,
 .dijit_a11y .dijitComboBoxRtl .dijitArrowButtonContainer {

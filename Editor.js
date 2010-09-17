@@ -71,6 +71,18 @@ dojo.declare(
 			}
 		},
 
+		postMixInProperties: function() {
+			// summary:
+			//	Extension to make sure a deferred is in place before certain functions
+			//	execute, like making sure all the plugins are properly inserted.
+
+			// Set up a deferred so that the value isn't applied to the editor
+			// until all the plugins load, needed to avoid timing condition
+			// reported in #10537.
+			this.setValueDeferred = new dojo.Deferred();
+			this.inherited(arguments);
+		},
+	
 		postCreate: function(){
 			//for custom undo/redo, if enabled.
 			this._steps=this._steps.slice(0);
@@ -79,11 +91,6 @@ dojo.declare(
 			if(dojo.isArray(this.extraPlugins)){
 				this.plugins=this.plugins.concat(this.extraPlugins);
 			}
-
-			// Set up a deferred so that the value isn't applied to the editor 
-			// until all the plugins load, needed to avoid timing condition
-			// reported in #10537.
-			this.setValueDeferred = new dojo.Deferred();
 
 			this.inherited(arguments);
 
@@ -693,27 +700,34 @@ dojo.declare(
 			this.endEditing(true);
 			this.inherited(arguments);
 		},
-
+		
 		_setDisabledAttr: function(/*Boolean*/ value){
-			if(!this.disabled && value){
-				// Disable editor: disable all enabled buttons and remember that list
-				this._buttonEnabledPlugins = dojo.filter(this._plugins, function(p){
-					if(p && p.button && !p.button.get("disabled")){
-						p.button.set("disabled", true);
-						return true;
-					}
-					return false;
-				});
-			}else if(this.disabled && !value){
-				// Enable editor: we only want to enable the buttons that should be
-				// enabled (for example, the outdent button shouldn't be enabled if the current
-				// text can't be outdented).
-				dojo.forEach(this._buttonEnabledPlugins, function(p){
-					p.button.attr("disabled", false);
-					p.updateState && p.updateState();	// just in case something changed, like caret position
-				});
+			var disableFunc = dojo.hitch(this, function(){
+				if((!this.disabled && value) || (!this._buttonEnabledPlugins && value)){
+					// Disable editor: disable all enabled buttons and remember that list
+					this._buttonEnabledPlugins = dojo.filter(this._plugins, function(p){
+						if(p && p.button && !p.button.get("disabled")){
+							p.button.set("disabled", true);
+							return true;
+						}
+						return false;
+					});
+				}else if(this.disabled && !value){
+					// Enable editor: we only want to enable the buttons that should be
+					// enabled (for example, the outdent button shouldn't be enabled if the current
+					// text can't be outdented).
+					dojo.forEach(this._buttonEnabledPlugins, function(p){
+						p.button.attr("disabled", false);
+						p.updateState && p.updateState();	// just in case something changed, like caret position
+					});
+					delete this._buttonEnabledPlugins;
+				}
+			});
+			if(this.setValueDeferred && this.setValueDeferred.fired < 0){
+				this.setValueDeferred.addCallback(disableFunc);
+			}else{
+				disableFunc();
 			}
-			
 			this.inherited(arguments);
 		},
 		
