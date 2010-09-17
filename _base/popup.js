@@ -168,7 +168,7 @@ dijit.popup = {
 		// If we are opening a new popup that isn't a child of a currently opened popup, then 
 		// close currently opened popup(s).   This should happen automatically when the old popups
 		// gets the _onBlur() event, except that the _onBlur() event isn't reliable on IE, see [22198].
-		while(stack.length && !dojo.isDescendant(args.parent.domNode, stack[stack.length-1].widget.domNode)){
+		while(stack.length && (!args.parent || !dojo.isDescendant(args.parent.domNode, stack[stack.length-1].widget.domNode))){
 			dijit.popup.close(stack[stack.length-1].widget);
 		}
 
