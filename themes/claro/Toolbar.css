@@ -168,3 +168,8 @@
 	background-color:#f5f5f5;
 	border-bottom: 1px solid #d3d3d3;
 }
+
+.claro .dijitEditorDisabled .dijitToolbar .dijitComboBox .dijitArrowButtonInner {
+	background-position:0 50%;
+}
+
