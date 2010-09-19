@@ -176,7 +176,7 @@
 					function setUp(){
 						// set to may 10
 						changes = [];
-						american.set('value', new Date(2005, 4, 10), false);
+						american.set('displayedValue', "", false);
 					},
 
 					{
@@ -189,6 +189,7 @@
 							doh.robot.sequence(d.getTestErrback(function(){
 								american.focus();
 							}), 500);
+							doh.robot.typeKeys("5/10/2005", 500);
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -551,7 +552,7 @@
 					function setUp(){
 						// clear the field
 						changes = [];
-						american.set('value', new Date(2005, 4, 10), false);
+						american.set('displayedValue', "", false);
 					},
 
 					{
@@ -565,6 +566,34 @@
 							}), 500);
 
 							doh.robot.mouseMoveAt(american.domNode, 500);
+							doh.robot.mouseClick({left:true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var calendar = dijit.byId("american_popup");
+
+								// drop down automatically opened on click
+								doh.t(calendar, "calendar popup exists");
+								doh.t(isVisible(calendar), "calendar is visible");
+
+								doh.is(0, changes.length, "no onchange events yet #2");
+							}), 1000);
+
+							return d;
+						}
+					},
+					
+					{
+						name: "close and reopen",
+						timeout: 60000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// Close drop down and then type a value
+							doh.robot.keyPress(dojo.keys.ESCAPE, 500, {});
+							doh.robot.typeKeys("5/10/2005", 500);
+							
+							// And open dropdown again (manually)
+							doh.robot.mouseMoveAt(american._buttonNode, 500);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -653,9 +682,6 @@
 								doh.is("26", innerText(firstRowDays[0]), "first day is june 26");
 								doh.is("1", innerText(firstRowDays[5]), "sixth day is june 1");
 
-								// TODO: remove this call (modifying tests below, accordingly)
-								calendar._adjustDisplay("month", -1);
-
 								doh.is(0, changes.length, "no onchange events yet");
 							}), 500);
 
@@ -726,7 +752,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							// Move back another year, dates should be enabled again
+							// Move back a year, dates should be enabled again
 							var calendar = dijit.byId("american_popup"),
 								previousYearButtons = dojo.query(".dijitCalendarPreviousYear", calendar.domNode);
 
@@ -757,13 +783,12 @@
 							var firstRowDays = dojo.query("TD", rows[0]);
 							doh.is(7, firstRowDays.length, "7 days in first row");
 							doh.t(dojo.hasClass(firstRowDays[0], "dijitCalendarPreviousMonth"), "previous month class applied");
-							doh.is("28", innerText(firstRowDays[0]), "first day is may 28");
-							doh.is("1", innerText(firstRowDays[4]), "fifth day is june 1");
+							doh.is("25", innerText(firstRowDays[0]), "first day is june 25");
+							doh.is("1", innerText(firstRowDays[6]), "seventh day is july 1");
 
-							dojo.query("TD", rows[5]).forEach(function(node){
-								doh.t(dojo.hasClass(node, 'dijitCalendarNextMonth'), "last row is for next month");
-								doh.is(0, changes.length, "no onchange events yet");
-							});
+							var lastRowDays = dojo.query("TD", rows[5]);
+							doh.t(dojo.hasClass(lastRowDays[3], 'dijitCalendarNextMonth'), "last row is for next month");
+							doh.is(0, changes.length, "no onchange events yet");
 						}
 					},
 
@@ -776,10 +801,10 @@
 							var calendar = dijit.byId("american_popup"),
 								rows = dojo.query("TR.dijitCalendarWeekTemplate", calendar.domNode),
 								thirdRowDays = dojo.query("TD", rows[2]),
-								day = thirdRowDays[4];
+								day = thirdRowDays[6];
 
 							// hover June 15
-							doh.is("15", innerText(day), "found june 15");
+							doh.is("15", innerText(day), "found july 15");
 							doh.robot.mouseMoveAt(day, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -801,9 +826,9 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is('6/15/2006', american.get('displayedValue'), 'displayed value of american');
+								doh.is('7/15/2006', american.get('displayedValue'), 'displayed value of american');
 
-								var expectedVal = new Date(2006, 5, 15);	// 6/15/2006
+								var expectedVal = new Date(2006, 6, 15);	// 7/15/2006
 								doh.is(0, dojo.date.compare(expectedVal, american.get('value')), 'wire value of american: ' + american.get('value'));
 
 								doh.is(1, changes.length, "onchange event fired");
@@ -998,7 +1023,7 @@
 						}
 					},
 
-					// Switching to Februrary to test that movement works even though there is no Feb 31st.
+					// Switching to February to test that movement works even though there is no Feb 31st.
 					{
 						name: "switch to february",
 						timeout: 60000,

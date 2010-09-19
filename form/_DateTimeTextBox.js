@@ -187,7 +187,8 @@ dojo.declare(
 				this.dropDown.destroy();
 			}
 			var PopupProto = dojo.getObject(this.popupClass, false),
-				textBox = this;
+				textBox = this,
+				value = this.get("value");
 			this.dropDown = new PopupProto({
 				onChange: function(value){
 					// this will cause InlineEditBox and other handlers to do stuff so make sure it's last
@@ -196,8 +197,8 @@ dojo.declare(
 				id: this.id + "_popup",
 				dir: textBox.dir,
 				lang: textBox.lang,
-				value: this.value,
-				currentFocus: !this._isInvalidDate(this.value) ? this.value : this.dropDownDefaultValue,
+				value: value,
+				currentFocus: !this._isInvalidDate(value) ? value : this.dropDownDefaultValue,
 				constraints: textBox.constraints,
 				filterString: textBox.filterString, // for TimeTextBox, to filter times shown
 
