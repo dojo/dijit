@@ -184,7 +184,7 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container, 
 			this.dropDown = dijit.byNode(dropDownNode);
 			delete this.dropDownContainer;
 		}
-		dijit.popup.moveOffScreen(this.dropDown.domNode);
+		dijit.popup.moveOffScreen(this.dropDown);
 
 		this.inherited(arguments);
 	},
