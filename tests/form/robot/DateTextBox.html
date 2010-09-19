@@ -961,6 +961,127 @@
 					}
 				]);
 
+				doh.register("month drop down edge case", [
+					function setUp(){
+						american.set('value', new Date(2010, 11, 31), false);
+					},
+
+					{
+						name: "initial popup display",
+						timeout: 60000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveAt(american.domNode, 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								var calendar = dijit.byId("american_popup");
+
+								// calendar exists and is shown
+								doh.t(calendar, "calendar popup exists");
+								doh.t(isVisible(calendar), "calendar is visible");
+
+								// calendar is on the right month
+								doh.is("December", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "calendar starts on month selected in input box");
+
+								// and the right year
+								var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", calendar.domNode);
+								doh.is(1, selectedYearButtons.length, "current year is shown");
+								doh.is("2010", innerText(selectedYearButtons[0]), "current year");
+
+								// and the currently focused date is the 31'st
+								doh.is("31", innerText(dojo.global.dijit._curFocus), "correct day is focused");
+							}), 1000);
+
+							return d;
+						}
+					},
+
+					// Switching to Februrary to test that movement works even though there is no Feb 31st.
+					{
+						name: "switch to february",
+						timeout: 60000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var calendar = dijit.byId("american_popup");
+
+							doh.is(1, dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode).length, "found month label");
+							doh.t(calendar.monthDropDownButton.dropDown, "month dropdown exists");
+							doh.f(isVisible(calendar.monthDropDownButton.dropDown), "month dropdown is not visible");
+
+							doh.robot.mouseMoveAt(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0], 500);
+							doh.robot.mouseClick({left:true}, 500);
+							var feb = dojo.query("[month=1]", calendar.monthDropDownButton.dropDown.domNode)[0];
+							doh.robot.mouseMoveAt(feb, 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								// calendar still exists and is shown
+								doh.t(calendar, "calendar popup exists");
+								doh.t(isVisible(calendar), "calendar is visible");
+
+								// calendar moved to feb 2010
+								doh.is("February", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "moved from june to july");
+								var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", calendar.domNode);
+								doh.is(1, selectedYearButtons.length, "current year is shown");
+								doh.is("2010", innerText(selectedYearButtons[0]), "current year");
+							}), 500);
+
+							return d;
+						}
+					},
+
+					// Switching to December to make sure that drop down isn't cut off
+					{
+						name: "switch back to december",
+						timeout: 60000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var calendar = dijit.byId("american_popup");
+
+							doh.is(1, dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode).length, "found month label");
+							doh.t(calendar.monthDropDownButton.dropDown, "month dropdown exists");
+							doh.f(isVisible(calendar.monthDropDownButton.dropDown), "month dropdown is not visible");
+
+							doh.robot.mouseMoveAt(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0], 500);
+							doh.robot.mouseClick({left:true}, 500);
+							var dec = dojo.query("[month=11]", calendar.monthDropDownButton.dropDown.domNode)[0];
+							doh.robot.mouseMoveAt(dec, 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								// calendar still exists and is shown
+								doh.t(calendar, "calendar popup exists");
+								doh.t(isVisible(calendar), "calendar is visible");
+
+								// calendar moved to dec 2010
+								doh.is("December", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "moved from june to july");
+								var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", calendar.domNode);
+								doh.is(1, selectedYearButtons.length, "current year is shown");
+								doh.is("2010", innerText(selectedYearButtons[0]), "current year");
+							}), 500);
+
+							return d;
+						}
+					},
+
+					{
+						name: "cancel",
+						timeout: 60000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.keyPress(dojo.keys.ESCAPE, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+							}), 5);
+
+							return d;
+						}
+					}
+				]);
+
 				doh.run();
 			});
 		</script>
