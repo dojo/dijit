@@ -723,11 +723,7 @@ dojo.declare(
 					delete this._buttonEnabledPlugins;
 				}
 			});
-			if(this.setValueDeferred && this.setValueDeferred.fired < 0){
-				this.setValueDeferred.addCallback(disableFunc);
-			}else{
-				disableFunc();
-			}
+			this.setValueDeferred.addCallback(disableFunc);
 			this.inherited(arguments);
 		},
 		
