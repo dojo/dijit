@@ -104,6 +104,10 @@
 	border: 1px solid #fff;
 }
 
+.claro .dijitToolbar .dijitComboBox .dijitArrowButtonInner {
+	border: none;
+}
+
 .claro .dijitTextBox .dijitInputField {
 	padding-top: 1px; /* 1px and not 2px due to 1px padding on the INPUT */
 	padding-bottom: 1px;
