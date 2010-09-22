@@ -143,7 +143,8 @@ dojo.declare("dijit.tree._dndSelector",
 			// tags:
 			//		protected
 
-			if(!this.current){ return; }
+			// ignore click on expando node
+			if(!this.current || this.tree.isExpandoNode( e.target, this.current)){ return; }
 
 			if(e.button == dojo.mouseButtons.RIGHT){ return; }	// ignore right-click
 

@@ -1184,12 +1184,17 @@ dojo.declare(
 		}
 	},
 
+	isExpandoNode: function(node, widget){
+		// summary:
+		//		check whether a dom node is the expandoNode for a particular TreeNode widget
+		return dojo.isDescendant(node, widget.expandoNode);
+	},
 	_onClick: function(/*TreeNode*/ nodeWidget, /*Event*/ e){
 		// summary:
 		//		Translates click events into commands for the controller to process
 
 		var domElement = e.target,
-			isExpandoClick = (domElement == nodeWidget.expandoNode || domElement == nodeWidget.expandoNodeText);
+			isExpandoClick = this.isExpandoNode(domElement, nodeWidget);
 
 		if( (this.openOnClick && nodeWidget.isExpandable) || isExpandoClick ){
 			// expando node was clicked, or label of a folder node was clicked; open it
