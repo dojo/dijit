@@ -1,7 +1,7 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-	"http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>Testing MultiSelect form widget | The Dojo Toolkit</title>
 
 	<style type="text/css">
@@ -22,11 +22,11 @@
 
 
 	<!-- required: the default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro.css">
+	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro.css"/>
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
-		djConfig="isDebug: true, parseOnLoad: true"></script>
+		data-dojo-config="isDebug: true, parseOnLoad: true"></script>
 
 	<!-- only needed for alternate theme testing: -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
@@ -58,7 +58,7 @@
 				n.innerHTML = i;
 			}
 
-			// turn any non-dojoType selects into widgets programatically:
+			// turn any non-data-dojo-type selects into widgets programatically:
 			dojo.query("select").forEach(function(n){
 				if(!dijit.byNode(n)){
 					var foo = new dijit.form.MultiSelect({ name: n.name }, n);
@@ -108,7 +108,7 @@
 			<div>
 				<div id="sel1" role="presentation">
 					<label for="select">First list:</label><br>
-					<select id="select" multiple="true" size="7" name="easing" tabindex="1">
+					<select id="select" multiple size="7" name="easing" tabindex="1">
 						<option class="clone" value="dojo._defaultEasing">dojo._defaultEasing</option>
 					</select>
 				</div>
@@ -120,12 +120,12 @@
 				</div>
 				<div id="sel2" role="presentation">
 					<label for="select2">Second list:</label><br>
-					<select id="select2" multiple="true" size="7" name="second">
+					<select id="select2" multiple size="7" name="second">
 					</select>
 				</div>
 			</div>
 
-			<br style="clear: both;"><br>
+			<br style="clear: both;"/><br>
 
 			<button class='invert' id="i1">invert first list</button>
 			<button class="invert" id="i2">invert second list</button>
@@ -136,11 +136,11 @@
 
 		<h3><label for="select3">markup:</label></h3>
 
-		<select id="select3" multiple="true" name="select3"
-			dojoType="dijit.form.MultiSelect"
-			style="height:200px; width:175px; border:5px solid #ededed;">
+		<select id="select3" multiple data-dojo-type="dijit.form.MultiSelect"
+			data-dojo-props='multiple:true, name:"select3",
+			style:"height:200px; width:175px; border:5px solid #ededed;"'>
 
-			<option value="TN" selected="true">Tennessee</option>
+			<option value="TN" selected>Tennessee</option>
 			<option value="VA">Virginia</option>
 			<option value="WA">Washington</option>
 			<option value="FL">Florida</option>
