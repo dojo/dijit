@@ -293,7 +293,7 @@ dojo.declare(
 		// customUndo: Boolean
 		//		Whether we shall use custom undo/redo support instead of the native
 		//		browser support. By default, we now use custom undo.  It works better
-		//		than native browser support and provides a conssitent behavior across
+		//		than native browser support and provides a consistent behavior across
 		//		browsers with a minimal performance hit.  We already had the hit on 
 		//		the slowest browser, IE, anyway.
 		customUndo: true,
