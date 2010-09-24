@@ -114,12 +114,12 @@
 			</div>
 			<div class="testExample">
 				<input id="q01" data-dojo-type="dijit.form.TextBox"
-					data-dojo-props='type:"text", name:"firstname", value:"testing testing", style:"width: 700px;", tabIndex:2,
+					data-dojo-props='type:"text", name:"firstname", value:"testing testing", style:"width: 700px;", tabIndex:"2",
 					trim:true,
 					selectOnClick:true,
-					onfocus:function(){ console.log("user onfocus handler") },
-					onblur:function(){ console.log("user onblur handler") },
-				        onChange:function(){ dojo.byId("oc1").value=arguments[0] },
+					onFocus:function(){ console.log("user onfocus handler") },
+					onBlur:function(){ console.log("user onblur handler") },
+				        onChange:function(v){ dojo.byId("oc1").value=v },
 					intermediateChanges:true,
 					propercase:true '/>
 				<br>onChange:<input id="oc1" size="34" disabled value="not fired yet!" autocomplete="off"/>
@@ -144,13 +144,13 @@
 			</div>
 			<div class="testExample">
 				<input id="q03" data-dojo-type="dijit.form.NumberTextBox"
-					data-dojo-props='type:"text", name:"age", tabIndex:1,
+					data-dojo-props='type:"text", name:"age", tabIndex:"1",
 					promptMessage:"(optional) Enter an age between 0 and 120",
 					maxLength:"3",
 					class:"small",
 					constraints:{places:0,min:0,max:120},
                                         onChange:function(){ dojo.byId("oc3").value=""+arguments[0] },
-					tooltipPosition:"above, below"
+					tooltipPosition:["above", "below"]
                                 '/>
 				onChange:<input id="oc3" size="14" disabled value="not fired yet!" autocomplete="off"/>
 				<span style='white-space:nowrap;'>
@@ -281,7 +281,7 @@
 
 			<div class="testExample">
 				<input id="q08" data-dojo-type="dijit.form.CurrencyTextBox"
-					data-dojo-props='type:"text", name:"income1", class:"medium", value:"54775.53",
+					data-dojo-props='type:"text", name:"income1", class:"medium", value:54775.53,
 					required:true,
 					constraints:{fractional:true},
 					currency:"USD",
@@ -294,7 +294,7 @@
 				euro currency (local format) fractional part is optional:
 				<input id="q08eur" data-dojo-type="dijit.form.CurrencyTextBox"
 					data-dojo-props='type:"text", name:"income2",
-					class:"medium", value:"54775.53",
+					class:"medium", value:54775.53,
 					required:true,
 					currency:"EUR",
 					invalidMessage:"Invalid amount.  Include cents." '/>EUR

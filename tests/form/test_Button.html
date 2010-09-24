@@ -74,11 +74,11 @@
 		<button data-dojo-type="dijit.form.Button" data-dojo-props='id:"1465", onClick:function(){ console.log("clicked simple"); }, iconClass:"plusIcon", value:"Create"'>
 			Create
 		</button>
-		<span data-dojo-type="dijit.Tooltip" data-dojo-props='connectId:"1465"'>tooltip on button</span>
+		<span data-dojo-type="dijit.Tooltip" data-dojo-props='connectId:["1465"]'>tooltip on button</span>
 		<button data-dojo-type="dijit.form.Button" data-dojo-props='id:"1467", title:"view title", onClick:function(){ console.log("clicked simple") }'>
 			View
 		</button>
-		<span data-dojo-type="dijit.Tooltip" data-dojo-props='connectId:"1466"'>tooltip on button</span>
+		<span data-dojo-type="dijit.Tooltip" data-dojo-props='connectId:["1466"]'>tooltip on button</span>
 		<button id="comboCreate" data-dojo-type="dijit.form.ComboButton" data-dojo-props='optionsTitle:"save options", onClick:function(){ console.log("clicked combo save") },
 				iconClass:"plusIcon", title:"creative title"'>
 			<span>Create</span>
@@ -159,7 +159,7 @@
 	<button id="combo_default" data-dojo-type="dijit.form.ComboButton" data-dojo-props='optionsTitle:"save options", onClick:function(){ console.log("clicked combo save") },
 			iconClass:"plusBlockIcon"'>
 		<span>Default (below)</span>
-		<span data-dojo-type="dijit.Menu" data-dojo-props='tyle:"display: none;"'>
+		<span data-dojo-type="dijit.Menu" data-dojo-props='style:"display: none;"'>
 			<span data-dojo-type="dijit.MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconSave",
 				onClick:function(){ console.log("not actually saving anything, just a test!") }'>Save</span>
 			<span data-dojo-type="dijit.MenuItem"
@@ -237,18 +237,18 @@
 	<p>Short button, tall buttons, big buttons, small buttons...
 	These buttons size to their content (just like &lt;button&gt;).</p>
 	<div class="box">
-		<button data-dojo-type="dijit.form.Button" data-dojo-props='onclick:function(){ console.log("big"); }, iconClass:"flatScreenIcon"'>
+		<button data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){ console.log("big"); }, iconClass:"flatScreenIcon"'>
 			<span style="font-size:xx-large">big</span>
 		</button>
-		<button id="smallButton1" data-dojo-type="dijit.form.Button" data-dojo-props='onclick:function(){ console.log("small"); }'>
+		<button id="smallButton1" data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){ console.log("small"); }'>
 			<img src="../images/arrowSmall.gif" width="15" height="5"/>
 			<span style="font-size:x-small">small</span>
 		</button>
-		<button data-dojo-type="dijit.form.Button" data-dojo-props='onclick:function(){ console.log("long"); }'>
+		<button data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){ console.log("long"); }'>
 			<img src="../images/tube.gif" width="150" height="16"/>
 			long
 		</button>
-		<button data-dojo-type="dijit.form.Button" data-dojo-props='onclick:function(){ console.log("tall"); }, width2height:"0.1"'>
+		<button data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){ console.log("tall"); }'>
 			<img src="../images/tubeTall.gif" height="75" width="35"/><br>
 			<span style="font-size:medium">tall</span>
 		</button>
@@ -258,13 +258,13 @@
 	<h2>Customized buttons</h2>
 	<p>Dojo users can customize styles.  Here's an example:</p>
 	<div class="box">
-		<button data-dojo-type="dijit.form.Button" data-dojo-props='baseClass:"acmeButton", onclick:function(){ console.log("short"); }'>
+		<button data-dojo-type="dijit.form.Button" data-dojo-props='baseClass:"acmeButton", onClick:function(){ console.log("short"); }'>
 			short
 		</button>
-		<button data-dojo-type="dijit.form.Button" data-dojo-props='baseClass:"acmeButton", onclick:function(){ console.log("longer"); }'>
+		<button data-dojo-type="dijit.form.Button" data-dojo-props='baseClass:"acmeButton", onClick:function(){ console.log("longer"); }'>
 			bit longer
 		</button>
-		<button data-dojo-type="dijit.form.Button" data-dojo-props='baseClass:"acmeButton", onclick:function(){ console.log("longer yet"); }'>
+		<button data-dojo-type="dijit.form.Button" data-dojo-props='baseClass:"acmeButton", onClick:function(){ console.log("longer yet"); }'>
 			ridiculously long
 		</button>
 		<div style="clear: both;"></div>
@@ -274,15 +274,15 @@
 	(Ticket <a href="http://trac.dojotoolkit.org/ticket/403">#403</a>)
 	</p>
 	<div class="box">
-		<button data-dojo-type="dijit.form.Button" data-dojo-props='onclick:function(){ dojo.byId("hiddenNode").style.display="inline"; }'>
+		<button data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){ dojo.byId("hiddenNode").style.display="inline"; }'>
 			Show Hidden Buttons
 		</button>
 	</div>
 	<div class="box" style="display:none;" id="hiddenNode">
-		<button data-dojo-type="dijit.form.Button" data-dojo-props='onclick:function(){ console.log("clicked simple") }, iconClass:"plusIcon"'>
+		<button data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){ console.log("clicked simple") }, iconClass:"plusIcon"'>
 			Create
 		</button>
-		<button data-dojo-type="dijit.form.Button" data-dojo-props='onclick:function(){ console.log("clicked simple") }, iconClass:"plusIcon"'>
+		<button data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){ console.log("clicked simple") }, iconClass:"plusIcon"'>
 			Create
 		</button>
 	</div>
@@ -430,12 +430,12 @@
 		<button id="Plain" data-dojo-type="dijit.form.Button" data-dojo-props='name:"Plain", type:"submit", value:"Plain Submit", label:"Plain Submit"'></button>
 		<button id="Combo" data-dojo-type="dijit.form.ComboButton" data-dojo-props='name:"Combo", type:"submit", value:"Combo Submit", label:"Combo Submit"'>
 			<span data-dojo-type="dijit.Menu" data-dojo-props='style:"display:none;"'>
-				<span id="ComboMenuItem" data-dojo-type="dijit.MenuItem" data-dojo-props='onclick:function(){ dijit.byId("myForm").submit() }'>Combo MenuItem Submit</span>
+				<span id="ComboMenuItem" data-dojo-type="dijit.MenuItem" data-dojo-props='onClick:function(){ dijit.byId("myForm").submit() }'>Combo MenuItem Submit</span>
 			</span>
 		</button>
 		<button id="DropDown" data-dojo-type="dijit.form.DropDownButton" data-dojo-props='name:"DropDown", type:"submit", value:"DropDown Submit", label:"DropDown Submit"'>
 			<span data-dojo-type="dijit.Menu" data-dojo-props='style:"display:none;"'>
-				<span id="DropDownMenuItem" data-dojo-type="dijit.MenuItem" data-dojo-props='onclick:function(){ dijit.byId("myForm").submit() }'>DropDown MenuItem Submit</span>
+				<span id="DropDownMenuItem" data-dojo-type="dijit.MenuItem" data-dojo-props='onClick:function(){ dijit.byId("myForm").submit() }'>DropDown MenuItem Submit</span>
 			</span>
 		</button>
 		<button id="Disabled" data-dojo-type="dijit.form.Button" data-dojo-props='name:"Disabled", type:"submit", disabled:true, value:"Disabled Submit", label:"Disabled Submit"'></button>

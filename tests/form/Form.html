@@ -465,7 +465,7 @@ line 2</textarea>
 					<td>Fixed size textarea</td>
 					<td>st1</td>
 					<td>
-						<textarea id="st1" data-dojo-type="dijit.form.SimpleTextarea" data-dojo-props='name:"st1", rows:5, cols:50'>
+						<textarea id="st1" data-dojo-type="dijit.form.SimpleTextarea" data-dojo-props='name:"st1", rows:"5", cols:"50"'>
 simple line 1
 simple line 2</textarea>
 					</td>
@@ -475,7 +475,7 @@ simple line 2</textarea>
 					<td>Editor widget</td>
 					<td>richtext</td>
 					<td>
-						<div id="editor" data-dojo-type="dijit.Editor" data-dojo-props='name:"richtext", pluginsConfig:function(){ [{items:["bold","italic"]}] }'><h1>original</h1><p>This is the default content</p></div>
+						<div id="editor" data-dojo-type="dijit.Editor" data-dojo-props='name:"richtext", plugins:["bold", "italic"]'><h1>original</h1><p>This is the default content</p></div>
 					</td>
 				</tr>
 
@@ -539,7 +539,7 @@ simple line 2</textarea>
 		<button data-dojo-type="dijit.form.Button" data-dojo-props='type:"button", onClick:function(){ dijit.byId("myForm").reset() }'>reset()</button>
 	</form>
 <button data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",
-onclick:function(){ dijit.byId("myForm").submit() }'>Submit programmatically</button>
+onClick:function(){ dijit.byId("myForm").submit() }'>Submit programmatically</button>
 
 <iframe name="formSubmitIframe" src="about:blank" onload="if(this.values)submittedValues(this.values)" style="display:none;"></iframe>
 </body>

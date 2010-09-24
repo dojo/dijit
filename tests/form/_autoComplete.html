@@ -201,7 +201,7 @@
 				autoComplete:false,
 				selectOnClick:true,
 				onBlur:function(){ dojo.byId("b1").value=dijit.byId("setvaluetest").value },
-				pageSize:"30",
+				pageSize:30,
 				labelFunc:setValueTestLabelFunc,
 				onChange:setValueTestOnChange
 		'>
@@ -357,7 +357,7 @@
 				style:"width:50%;font-family:Courier;",
 				autoComplete:false,
 				selectOnClick:true,
-				pageSize:"5",
+				pageSize:5,
 				title:"New England States"
 		'>
 			<option value="ct">Connecticut</option>
@@ -394,7 +394,7 @@
 				style:"width:50%;font-size:200%;font-family:Courier;",
 				autoComplete:true,
 				onChange:function(){ dojo.byId("oc1").value=arguments[0] },
-				pageSize:"30",
+				pageSize:30,
 				fetchProperties:{sort:[{attribute: "name", descending: true}]}
 		'>
 			<option value="AL">Alabama</option>
@@ -538,7 +538,7 @@
 			style:"width:50%;font-family:Courier;",
 			autoComplete:false,
 			selectOnClick:true,
-			pageSize:"5",
+			pageSize:5,
 			placeHolder:"Select a New England State",
 			value:""
 	'>

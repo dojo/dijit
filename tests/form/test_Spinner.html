@@ -45,7 +45,7 @@
 			<label for="integerspinner1">Spinbox #1: </label><br>
 			<input id="integerspinner1" data-dojo-type="dijit.form.NumberSpinner"
 				data-dojo-props='onChange:function(){ dojo.byId("oc1").value=arguments[0] },
-				value:"900",
+				value:900,
 				class:"bigFont",
 				constraints:{max:1550,places:0},
 				name:"integerspinner1"
@@ -61,9 +61,9 @@
 			<label for="integerspinner2">Spinbox with custom styling (width=50%, 200% Courier font): </label>
 			<input id="integerspinner2" data-dojo-type="dijit.form.NumberSpinner"
 				data-dojo-props='style:"font-size:200%;font-family:Courier;border:1px solid blue;width:50%;",
-				value:"1000",
-				smallDelta:"10",
-				largeDelta:"100",
+				value:1000,
+				smallDelta:10,
+				largeDelta:100,
 				constraints:{min:9,max:1550,places:0},
 				name:"integerspinner2"
 				'/>
@@ -80,9 +80,9 @@
 			initial value=+1.0, smalldelta=0.1, largedelta=1.0, min=-10.9, max=155, places=1, maxLength=20, exponent=false<br>
 			<label for="realspinner1">Real Number Spinbox #1: </label><br>
 			<input id="realspinner1" data-dojo-type="dijit.form.NumberSpinner"
-				data-dojo-props='value:"1.0",
-				smallDelta:"0.1",
-				largeDelta:"1.0",
+				data-dojo-props='value:1.0,
+				smallDelta:0.1,
+				largeDelta:1.0,
 				constraints:{min:-10.9,max:155,places:1,round:true,exponent:false},
 				maxLength:"20",
 				name:"realspinner1"
@@ -92,9 +92,9 @@
 			<p>
 			<label for="spinnerMinOnly">Spinner with no maximum, 1 decimal place: </label><br>
 			<input id="spinnerMinOnly" data-dojo-type="dijit.form.NumberSpinner"
-				data-dojo-props='value:"1.0",
-				smallDelta:"0.1",
-				largeDelta:"1.0",
+				data-dojo-props='value:1.0,
+				smallDelta:0.1,
+				largeDelta:1.0,
 				constraints:{min:-10.9,places:1,round:false},
 				maxLength:"20",
 				name:"spinnerMinOnly"
