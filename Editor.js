@@ -292,12 +292,12 @@ dojo.declare(
 
 		// customUndo: Boolean
 		//		Whether we shall use custom undo/redo support instead of the native
-		//		browser support. By default, we only enable customUndo for IE, as it
-		//		has broken native undo/redo support. Note: the implementation does
-		//		support other browsers which have W3C DOM2 Range API implemented.
-		//		It was also enabled on WebKit, to fix undo/redo enablement. (#9613)
-		customUndo: dojo.isIE || dojo.isWebKit,
-
+		//		browser support. By default, we now use custom undo.  It works better
+		//		than native browser support and provides a conssitent behavior across
+		//		browsers with a minimal performance hit.  We already had the hit on 
+		//		the slowest browser, IE, anyway.
+		customUndo: true,
+		
 		// editActionInterval: Integer
 		//		When using customUndo, not every keystroke will be saved as a step.
 		//		Instead typing (including delete) will be grouped together: after
@@ -699,6 +699,27 @@ dojo.declare(
 			//		protected
 			this.endEditing(true);
 			this.inherited(arguments);
+		},
+		
+		replaceValue: function(/*String*/ html){
+			// summary:
+			//		over-ride of replaceValue to support custom undo and stack maintainence.
+			// tags:
+			//		protected
+			if(!this.customUndo){
+				this.inherited(arguments);
+			}else{
+				if(this.isClosed){
+					this.setValue(html);
+				}else{
+					this.beginEditing();
+					if(!html){
+						html = "&nbsp;"
+					}
+					this.setValue(html);
+					this.endEditing();
+				}
+			}				
 		},
 		
 		_setDisabledAttr: function(/*Boolean*/ value){

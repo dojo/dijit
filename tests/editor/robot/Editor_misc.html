@@ -183,6 +183,7 @@
 						timeout: 20000,
 						setUp: function(){
 							editor0 = dijit.byId("programmatic4");
+							value = editor0.get("value");
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -194,6 +195,41 @@
 								doh.robot.sequence(d.getTestCallback(function(){
 									//Now check the state!
 									doh.assertTrue(editor0.contentPreFilters.length > 1);
+								}), 1000);
+							}catch(e){
+								d.errback(e);
+							}
+							return d;
+						},
+						tearDown: function(){
+							if(editor0){editor0.set("value", value);}
+						}
+					},
+					{
+						name: "Test replaceValue.",
+						timeout: 20000,
+						setUp: function(){
+							editor0 = dijit.byId("programmatic4");
+							value = editor0.get("value");
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+							try{
+								//Focus on the editor window
+								dojo.window.scrollIntoView(editor0.domNode);
+								dojo.style(editor0.domNode, "display", "none");
+								editor0.replaceValue("New Value");
+								dojo.style(editor0.domNode, "display", "none");
+								doh.robot.sequence(d.getTestCallback(function(){
+									//Now check the state!
+									dojo.style(editor0.domNode, "display", "");
+									dojo.window.scrollIntoView(editor0.domNode);
+									var newValue = editor0.get("value");
+									editor0.undo();
+									var curValue = editor0.get("value");
+									doh.assertTrue(newValue.indexOf(value) < 0, "Verifying content changed with no trace of old content.");
+									doh.assertTrue(curValue != newValue, "Verify that undo undid the change.");
+									doh.assertTrue(curValue == value, "Verify original value was restored.");
 								}), 1000);
 							}catch(e){
 								d.errback(e);
