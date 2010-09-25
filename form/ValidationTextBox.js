@@ -116,7 +116,7 @@ dojo.declare(
 		_isEmpty: function(value){
 			// summary:
 			//		Checks for whitespace
-			return /^\s*$/.test(value); // Boolean
+			return (this.trim ? /^\s*$/ : /^$/).test(value); // Boolean
 		},
 
 		getErrorMessage: function(/*Boolean*/ isFocused){
@@ -150,6 +150,9 @@ dojo.declare(
 			var isValidSubset = !isValid && !isEmpty && isFocused && this._isValidSubset();
 			this.state = ((isValid || ((!this._hasBeenBlurred || isFocused) && isEmpty) || isValidSubset) && this._maskValidSubsetError) ? "" : "Error";
 			if(this.state == "Error"){ this._maskValidSubsetError = isFocused; } // we want the error to show up afer a blur and refocus
+console.log('value = ['+this.textbox.value+'], isFocused = ' + isFocused + ', hasBeenBlurred = ' + this._hasBeenBlurred +
+', isvalid = ' + isValid + ', isValidSubset = ' + isValidSubset + ', isEmpty = ' + isEmpty + ', state = ' + this.state +
+', maskValidSubsetError = ' + this._maskValidSubsetError);
 			this._setStateClass();
 			dijit.setWaiState(this.focusNode, "invalid", isValid ? "false" : "true");
 			if(isFocused){
