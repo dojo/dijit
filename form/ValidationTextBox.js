@@ -116,7 +116,7 @@ dojo.declare(
 		_isEmpty: function(value){
 			// summary:
 			//		Checks for whitespace
-			return /^\s*$/.test(value); // Boolean
+			return (this.trim ? /^\s*$/ : /^$/).test(value); // Boolean
 		},
 
 		getErrorMessage: function(/*Boolean*/ isFocused){
