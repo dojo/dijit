@@ -25,13 +25,9 @@
 </head>
 <body class="claro">
 	<div style="border: 1px dotted black;">
-		<div dojoType="dijit.Editor"
-			extraPlugins="['toggleDir','|','dijit._editor.plugins.ToggleDir','|',{name:'dijit._editor.plugins.ToggleDir'}]">
-			<ol>
-				<li>the toggleDir plugin provides an extra button on the toolbar to switch text direction (BiDi) of the
-					edited document.  Useful when right-to-left languages like Hebrew and Arabic are combined with
-					left-to-right languages like English.</li>
-			</ol>
+		<div id="ed0" dojoType="dijit.Editor" extraPlugins="['dijit._editor.plugins.ToggleDir']">
+			<ol><li>the toggleDir plugin provides an extra button to switch text direction (BiDi). Useful when right-to-left 
+					languages are used with left-to-right languages.</li></ol>
 		</div>
 	</div>
 </body>

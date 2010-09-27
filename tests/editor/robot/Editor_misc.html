@@ -24,7 +24,66 @@
 				var editor0;
 				var height;
 				var value;
+				var editor1;
+				var editor1OrigionalBackgroundColor;
 				doh.register("Miscellaneous_tests", [
+					{
+						name: "addStylesheet",
+						timeout: 3000,
+						setUp: function(){
+							editor1 = dijit.byId("editor1");
+							editor1.setValue("<h1>header one</h1>");
+							var editorTextNode = editor1.editNode.firstChild;
+							editor1OrigionalBackgroundColor = dojo.getComputedStyle(editorTextNode).backgroundColor;
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+							try{
+								//Focus on the editor window
+								dojo.window.scrollIntoView(editor1.domNode);
+								doh.robot.mouseMoveAt("addStyleSheet", 500);
+								doh.robot.mouseClick({left:true}, 500);
+
+ 								doh.robot.sequence(d.getTestCallback(function(){
+									var editorTextNode = editor1.editNode.firstChild;
+									var backgroundColor = dojo.getComputedStyle(editorTextNode).backgroundColor;
+									var borderStyle = dojo.getComputedStyle(editorTextNode).borderBottomStyle;
+									var borderWidth = dojo.getComputedStyle(editorTextNode).borderBottomWidth;
+									doh.is("header one", editorTextNode.innerHTML);
+									doh.t(backgroundColor==="rgb(255, 0, 0)" || backgroundColor==="red" || backgroundColor==="#ff0000");
+									doh.is("solid", borderStyle);
+									doh.is("1px", borderWidth);
+								}), 1000);
+							}catch(e){
+								d.errback(e);
+							}
+							return d;
+						}
+					},
+					{
+						name: "removeStylesheet",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							try{
+								//Focus on the editor window
+								dojo.window.scrollIntoView(editor1.domNode);
+								doh.robot.mouseMoveAt("addStyleSheet", 500);
+								doh.robot.mouseMoveAt("removeStyleSheet", 500);
+								doh.robot.mouseClick({left:true}, 500);
+
+ 								doh.robot.sequence(d.getTestCallback(function(){
+									var editorNodeText = editor1.editNode.firstChild;
+									var backgroundColor = dojo.getComputedStyle(editorNodeText).backgroundColor;
+									doh.is("header one", editorNodeText.innerHTML);
+									doh.is(editor1OrigionalBackgroundColor, backgroundColor);
+								}), 1000);
+							}catch(e){
+								d.errback(e);
+							}
+							return d;
+						}
+					},
 					{
 						name: "Test AutoExpanding Edtor",
 						timeout: 20000,

@@ -16,6 +16,10 @@ try{
 	doh.registerUrl("dijit.tests.editor.robot.NewPage", dojo.moduleUrl("dijit","tests/editor/robot/Editor_NewPage.html"+userArgs), 99999999);
 	doh.registerUrl("dijit.tests.editor.robot.LinkDialog", dojo.moduleUrl("dijit","tests/editor/robot/Editor_LinkDialog.html"+userArgs), 99999999);
 	doh.registerUrl("dijit.tests.editor.robot.FontChoice", dojo.moduleUrl("dijit","tests/editor/robot/Editor_FontChoice.html"+userArgs), 99999999);
+	doh.registerUrl("dijit.tests.editor.robot.ToggleDir", dojo.moduleUrl("dijit","tests/editor/robot/ToggleDir.html"+userArgs), 99999999);
+	doh.registerUrl("dijit.tests.editor.robot.ToggleDir_rtl", dojo.moduleUrl("dijit","tests/editor/robot/ToggleDir_rtl.html"+userArgs), 99999999);
+	doh.registerUrl("dijit.tests.editor.robot.TabIndent", dojo.moduleUrl("dijit","tests/editor/robot/TabIndent.html"+userArgs), 99999999);
+	
 	if(!dojo.isWebKit){
 		// The back button on webkit is URL for the browser itself, restarting the entire test suite,
 		// rather than just for the iframe holding the test file (BackForwardState.html and BackForwardStateHelper.html)
