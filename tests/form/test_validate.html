@@ -114,12 +114,12 @@
 			</div>
 			<div class="testExample">
 				<input id="q01" data-dojo-type="dijit.form.TextBox"
-					data-dojo-props='type:"text", name:"firstname", value:"testing testing", style:"width: 700px;", tabIndex:"2",
+					data-dojo-props='name:"firstname", value:"testing testing", style:"width: 700px;", tabIndex:"2",
 					trim:true,
 					selectOnClick:true,
-					onFocus:function(){ console.log("user onfocus handler") },
-					onBlur:function(){ console.log("user onblur handler") },
-					onChange:function(v){ dojo.byId("oc1").value=v },
+					onFocus:function(){ console.log("user onfocus handler"); },
+					onBlur:function(){ console.log("user onblur handler"); },
+					onChange:function(v){ dojo.byId("oc1").value=v; },
 					intermediateChanges:true,
 					propercase:true '/>
 				<br>onChange:<input id="oc1" size="34" disabled value="not fired yet!" autocomplete="off"/>
@@ -129,11 +129,11 @@
 
 			<div class="dojoTitlePaneLabel">
 				<label for="q02">Last Name:  </label>
-				<span class="noticeMessage"> TextBox class, Attributes: {trim: true, uppercase: true, class: 'verylong'}, all letters converted to upper case. </span>
+				<span class="noticeMessage"> TextBox class, Attributes: {trim: true, uppercase: true, "class": 'verylong'}, all letters converted to upper case. </span>
 			</div>
 			<div class="testExample">
 				<input id="q02" data-dojo-type="dijit.form.TextBox"
-					data-dojo-props='type:"text", name:"lastname", value:"testing testing", class:"verylong",
+					data-dojo-props='name:"lastname", value:"testing testing", "class":"verylong",
 					trim:true,
 					uppercase:true '/>
 			</div>
@@ -144,12 +144,12 @@
 			</div>
 			<div class="testExample">
 				<input id="q03" data-dojo-type="dijit.form.NumberTextBox"
-					data-dojo-props='type:"text", name:"age", tabIndex:"1",
+					data-dojo-props='name:"age", tabIndex:"1",
 					promptMessage:"(optional) Enter an age between 0 and 120",
 					maxLength:"3",
-					class:"small",
+					"class":"small",
 					constraints:{places:0,min:0,max:120},
-					onChange:function(){ dojo.byId("oc3").value=""+arguments[0] },
+					onChange:function(val){ dojo.byId("oc3").value=""+val; },
 					tooltipPosition:["above", "below"]
 				'/>
 				onChange:<input id="oc3" size="14" disabled value="not fired yet!" autocomplete="off"/>
@@ -169,7 +169,7 @@
 			</div>
 			<div class="testExample">
 				<input id="fav" data-dojo-type="dijit.form.NumberTextBox"
-					data-dojo-props='type:"text", name:"fav", class:"small",
+					data-dojo-props='name:"fav", "class":"small",
 					maxLength:"3",
 					constraints:{places:0,min:1,max:100},
 					regExpGen:function(){ return "\\d+" },
@@ -181,11 +181,11 @@
 			<div class="dojoTitlePaneLabel">
 				<label for="q04">Occupation:  </label>
 				<span class="noticeMessage">ValidationTextBox class,
-					Attributes: {lowercase: true, required: true, class: verylong, style: font-size: 15pt;}. Displays a prompt message if field is blank.</span>
+					Attributes: {lowercase: true, required: true, "class": verylong, style: font-size: 15pt;}. Displays a prompt message if field is blank.</span>
 			</div>
 			<div class="testExample">
 				<input id="q04" data-dojo-type="dijit.form.ValidationTextBox"
-					data-dojo-props='type:"text", name:"occupation", class:"verylong", style:"font-size:15pt;",
+					data-dojo-props='name:"occupation", "class":"verylong", style:"font-size:15pt;",
 					lowercase:true,
 					required:true,
 					promptMessage:"Enter an occupation" '/>
@@ -212,7 +212,7 @@
 			required: true,
 			editOptions:{pattern:'#,##0'},
 			invalidMessage: "Invalid elevation.",
-			onChange: function(){dojo.byId('oc5').value=arguments[0]},
+			onChange: function(val){dojo.byId('oc5').value = val; },
 			"class": "medium"
 		};
 		var w = new dijit.form.NumberTextBox(props, "q05");
@@ -281,11 +281,11 @@
 
 			<div class="testExample">
 				<input id="q08" data-dojo-type="dijit.form.CurrencyTextBox"
-					data-dojo-props='type:"text", name:"income1", class:"medium", value:54775.53,
+					data-dojo-props='name:"income1", "class":"medium", value:54775.53,
 					required:true,
 					constraints:{fractional:true},
 					currency:"USD",
-					onChange:function(){ dojo.byId("oc8").value=arguments[0] },
+					onChange:function(val){ dojo.byId("oc8").value = val; },
 					invalidMessage:"Invalid amount.  Cents are MANDATORY." '/>USD
 				&nbsp;onChange:<input id="oc8" size="15" disabled value="not fired yet!" autocomplete="off"/>
 			</div>
@@ -293,8 +293,8 @@
 			<div class="testExample">
 				euro currency (local format) fractional part is optional:
 				<input id="q08eur" data-dojo-type="dijit.form.CurrencyTextBox"
-					data-dojo-props='type:"text", name:"income2",
-					class:"medium", value:54775.53,
+					data-dojo-props='name:"income2",
+					"class":"medium", value:54775.53,
 					required:true,
 					currency:"EUR",
 					invalidMessage:"Invalid amount.  Include cents." '/>EUR
@@ -430,8 +430,8 @@
 			</div>
 			<div class="testExample">
 				<input id="q22" data-dojo-type="dijit.form.ValidationTextBox"
-					data-dojo-props='type:"text", name:"phone", class:"medium", value:"someTestString",
-					regExp:"[\w]+",
+					data-dojo-props='name:"phone", "class":"medium", value:"someTestString",
+					regExp:"[\\w]+",
 					required:true,
 					invalidMessage:"Invalid Non-Space Text."'/>
 			</div>
@@ -441,7 +441,7 @@
 				<span class="noticeMessage">(just a test that type attribute is obeyed) </span>
 			</div>
 			<div class="testExample">
-				<input id="q23" data-dojo-type="dijit.form.TextBox" data-dojo-props='type:"password", name:"password", class:"medium"
+				<input id="q23" data-dojo-type="dijit.form.TextBox" data-dojo-props='type:"password", name:"password", "class":"medium"
 					'/>
 			</div>
 
@@ -472,8 +472,8 @@
 				<span class="noticeMessage">a test that readOnly and disabled are understood for TextBox</span>
 			</div>
 			<div class="testExample">
-				<input id="q24" type="text" name="readOnly" class="medium" readOnly value="cannot type here"
-					data-dojo-type="dijit.form.TextBox"/>
+				<input id="q24" data-dojo-type="dijit.form.TextBox"
+					data-dojo-props='name: "readOnly", "class": "medium", readOnly: true, value: "cannot type here" '/>
 				<input type="button" id="removereadonly" onclick="dijit.byId('q24').set('readOnly',false);" value="Remove readOnly" tabIndex="-1"/>
 				<input type="button" onclick="dijit.byId('q24').set('readOnly',true);" value="Set readOnly" tabIndex="-1"/>
 				<input type="button" id="removedisabled" onclick="dijit.byId('q24').set('disabled',false);" value="Remove disabled" tabIndex="-1"/>
@@ -484,8 +484,8 @@
 				<span class="noticeMessage">a test that disabled is understood for ValidationTextBox</span>
 			</div>
 			<div class="testExample">
-				<input id="q25" type="text" name="disabled" class="medium" disabled value="cannot type here"
-					data-dojo-type="dijit.form.ValidationTextBox"/>
+				<input id="q25" data-dojo-type="dijit.form.ValidationTextBox"
+					data-dojo-props='name: "disabled", "class": "medium", disabled: true, value: "cannot type here" '/>
 				<input type="button" onclick="dijit.byId('q25').set('readOnly',false);" value="Remove readOnly" tabIndex="-1"/>
 				<input type="button" onclick="dijit.byId('q25').set('readOnly',true);" value="Set readOnly" tabIndex="-1"/>
 				<input type="button" onclick="dijit.byId('q25').set('disabled',false);" value="Remove disabled" tabIndex="-1"/>
@@ -517,7 +517,7 @@
 				<span class="noticeMessage">a test that placeholder works for TextBox.  10px padding added for testing.</span>
 		</div>
 		<div class="testExample">
-			<input id="q26" data-dojo-type="dijit.form.TextBox" data-dojo-props='type:"text", placeHolder:"placeholder is here", name:"placeHolder", value:""
+			<input id="q26" data-dojo-type="dijit.form.TextBox" data-dojo-props='placeHolder:"placeholder is here", name:"placeHolder", value:""
 						'/>
 		</div>
 		<h2>Tooltip positioning</h2>
