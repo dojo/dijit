@@ -44,7 +44,7 @@
 			initial value=900, no delta specified, no min specified, max=1550, onChange captured, big font<br>
 			<label for="integerspinner1">Spinbox #1: </label><br>
 			<input id="integerspinner1" data-dojo-type="dijit.form.NumberSpinner"
-				data-dojo-props='onChange:function(){ dojo.byId("oc1").value=arguments[0] },
+				data-dojo-props='onChange:function(val){ dojo.byId("oc1").value = val; },
 				value:900,
 				class:"bigFont",
 				constraints:{max:1550,places:0},

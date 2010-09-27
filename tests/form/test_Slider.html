@@ -92,7 +92,7 @@
 		<br>initial value=10, min=0, max=100, pageIncrement=100, onChange event triggers input box value change immediately<br>
 		<strong>Horizontal Slider Example</strong>
 		<div id="slider1" data-dojo-type="dijit.form.HorizontalSlider" data-dojo-props='name:"horizontal1",
-			onChange:function(){ dojo.byId("slider1input").value=dojo.number.format(arguments[0]/100,{places:1,pattern:"#%"}); },
+			onChange:function(val){ dojo.byId("slider1input").value=dojo.number.format(val/100,{places:1,pattern:"#%"}); },
 			value:10,
 			maximum:100,
 			minimum:0,
@@ -120,7 +120,7 @@
 		<br>initial value=10, min=0, max=100, onChange event triggers input box value change when you mouse up or tab away<br>
 		<strong>Vertical Slider Example</strong>
 		<div id="slider2" data-dojo-type="dijit.form.VerticalSlider" data-dojo-props='name:"vertical1",
-			onChange:function(){ dojo.byId("slider2input").value=arguments[0]; },
+			onChange:function(val){ dojo.byId("slider2input").value = val; },
 			value:10,
 			maximum:100,
 			minimum:0,
@@ -173,7 +173,7 @@
 		<h1>horizontal, with buttons, disabled (to show styling):</h1>
 
 		<div id="sliderH2" data-dojo-type="dijit.form.HorizontalSlider" data-dojo-props='name:"horizontalH2",
-			onChange:function(){ dojo.byId("slider1input").value=arguments[0]; },
+			onChange:function(val){ dojo.byId("slider1input").value = val; },
 			value:10,
 			maximum:100,
 			minimum:0,

@@ -47,8 +47,8 @@
 
 	<h1 class="testTitle">Form Widget Unit Test</h1>
 	<form id="myForm1" data-dojo-type="dijit.form.Form" data-dojo-props='encType:"multipart/form-data", action:"../formAction.html", method:"", target:"formSubmitIframe",
-		onSubmit:function(){ dojo.stopEvent(arguments[0]); },
-		onReset:function(){ dojo.stopEvent(arguments[0]); }'>
+		onSubmit:function(e){ dojo.stopEvent(e); },
+		onReset:function(e){ dojo.stopEvent(e); }'>
 		<h3>This form shouldn't submit, nor reset</h3>
 		<select id="combo1" data-dojo-type="dijit.form.ComboBox" data-dojo-props='name:"plopcombo" '>
 			<option value="one">one</option>

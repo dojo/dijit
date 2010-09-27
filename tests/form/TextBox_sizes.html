@@ -498,7 +498,7 @@
 		<option>system,fixed</option>
 	</select></td></tr>
 	<tr><td class="layout" style="text-align:right;">Font size:
-	<select id="fontSize" data-dojo-type="dijit.form.ComboBox" data-dojo-props='style:"font-size:14pt;", value:"", onChange:function(){ table.style.fontSize=arguments[0] }'>
+	<select id="fontSize" data-dojo-type="dijit.form.ComboBox" data-dojo-props='style:"font-size:14pt;", value:"", onChange:function(val){ table.style.fontSize = val; }'>
 		<option>small</option>
 		<option>medium</option>
 		<option>xx-large</option>
@@ -509,7 +509,7 @@
 		<option>200%</option>
 	</select></td></tr>
 	<tr><td class="layout" style="text-align:right;">Padding:
-	<select id="padding" data-dojo-type="dijit.form.FilteringSelect" data-dojo-props='style:"font-size:14pt;", required:false, value:"", onChange:function(){ table.className=arguments[0] }'>
+	<select id="padding" data-dojo-type="dijit.form.FilteringSelect" data-dojo-props='style:"font-size:14pt;", required:false, value:"", onChange:function(val){ table.className = val; }'>
 		<option value="default">default</option>
 		<option value="padded">padded</option>
 		<option value="unPadded">unPadded</option>

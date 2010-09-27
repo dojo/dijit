@@ -46,7 +46,7 @@
 
 			<label for="simple">dijit.form.Textarea, inline with maxLength=50:</label>
 			<textarea id="simple" data-dojo-type="dijit.form.Textarea" data-dojo-props='name:"simpleTextArea", maxLength:"50", style:"width:33%;",
-	         		onChange:function(){ dojo.byId("ocSimple").value=arguments[0] },
+	         		onChange:function(val){ dojo.byId("ocSimple").value = val; },
 	         		onFocus:function(){ console.log("user focus handler") },
 	         		onBlur:function(){ console.log("user blur handler") }
 				'>this is a very simple resizable text area</textarea>

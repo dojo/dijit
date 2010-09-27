@@ -41,7 +41,7 @@
 		<textarea id="ta1" data-dojo-type="dijit.form.SimpleTextarea" data-dojo-props='name:"ta1", rows:"5", cols:"50",
 			onFocus:function(){ console.log("user focus handler") },
 			onBlur:function(){ console.log("user blur handler") },
-		        onChange:function(){ dojo.byId("oc1").value=""+arguments[0] },
+			onChange:function(val){ dojo.byId("oc1").value = "" + val; },
 			selectOnClick:true
 		'>
 			shichashaw, textarea text baw.

@@ -88,7 +88,7 @@
 					data-dojo-props='type:"text", name:"time1", value:"T17:45:00",
 					constraints:{formatLength:"medium"},
 					required:true,
-					onChange:function(){ dojo.byId("oc1").value=arguments[0] },
+					onChange:function(val){ dojo.byId("oc1").value = val; },
 					invalidMessage:"Invalid time." '/>
 				onChange:<input id="oc1" size="34" disabled value="not fired yet!" autocomplete="off"/>
 			</div>
@@ -155,7 +155,7 @@
 					data-dojo-props='type:"text", name:"time6",
 					constraints:{formatLength:"medium",min:"T00:00:00",max:"T12:00:00"},
 					required:true,
-					onChange:function(){ dojo.byId("oc6").value=arguments[0] },
+					onChange:function(val){ dojo.byId("oc6").value = val; },
 					invalidMessage:"Invalid time." '/>
 				onChange:<input id="oc6" size="34" disabled value="not fired yet!" autocomplete="off"/>
 			</div>
