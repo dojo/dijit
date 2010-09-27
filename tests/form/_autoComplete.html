@@ -67,19 +67,6 @@
 			dojo.query('[data-dojo-type="$testWidget"]').forEach(function(node){
 				node.setAttribute('data-dojo-type', testWidget);
 			});
-			// substitute value=$-id-val by locating <select id="id"><option value="val">val</option></select>
-			dojo.query('*[data-dojo-props*="$-"]').forEach(function(node){
-				var props = node.getAttribute('data-dojo-props');
-				var value = dojo.fromJson("{"+props+"}").value;
-				var attrs = value.split("-");
-				var id = attrs[1];
-				var val = attrs[2];
-				if(testWidget == "dijit.form.ComboBox"){
-					val = dojo.query("> option[value='"+val+"']", id)[0].innerHTML;
-				}
-				props = props.replace(/[$]-\w*-\w*/, val);
-				node.setAttribute('data-dojo-props', props);
-			});
 			dojo.parser.parse(dojo.body());
 			store = new dojo.data.ItemFileReadStore({url: dojo.moduleUrl("dijit.tests._data", "states.json")});
 			combo = new testClass({
@@ -286,8 +273,8 @@
 		<p>Data store, autoComplete=true:</p>
 		<label for="datatest">US State test 2 (8pt font):</label>
 		<input id="datatest" data-dojo-type="$testWidget"
-				data-dojo-props='value:"$-setvaluetest-CA",
-				store:"stateStore",
+				data-dojo-props='value: (testWidget == "dijit.form.ComboBox") ? "California" : "CA",
+				store:stateStore,
 				searchAttr:"name",
 				style:"width: 200px; font-size: 8pt;",
 				name:"state2",
@@ -298,8 +285,8 @@
 		<p>Artificially slowed-down data store, autoComplete=true:</p>
 		<label for="slow">US State test slow:</label>
 		<input id="slow" data-dojo-type="$testWidget"
-				data-dojo-props='value:"$-setvaluetest-CA",
-				store:"slowStateStore",
+				data-dojo-props='value: (testWidget == "dijit.form.ComboBox") ? "California" : "CA",
+				store:slowStateStore,
 				searchAttr:"name",
 				name:"stateSlow",
 				onChange:function(){ dojo.byId("ocSlow").value=arguments[0] }
@@ -311,7 +298,7 @@
 		<label for="datatestDijit">Dijit List test #1 (150% font):</label>
 		<input id="datatestDijit" data-dojo-type="$testWidget"
 				data-dojo-props='value:"dijit.Editor",
-				store:"dijitStore",
+				store:dijitStore,
 				searchAttr:"className",
 				style:"width: 200px; font-size: 150%;",
 				name:"dijitList1"
@@ -322,8 +309,8 @@
 		<p>Initially disabled, url, autoComplete=false:</p>
 		<label for="combo3">US State test 3:</label>
 	 	<input id="combo3" data-dojo-type="$testWidget"
-	 			data-dojo-props='value:"$-setvaluetest-CA",
-				store:"stateStore",
+	 			data-dojo-props='value:(testWidget == "dijit.form.ComboBox") ? "California" : "CA",
+				store:stateStore,
 				searchAttr:"name",
 				style:"width: 300px;",
 				name:"state3",
@@ -340,7 +327,7 @@
 		<label for="combobox4">US State test 4:</label>
 		<input id="combobox4" data-dojo-type="$testWidget"
 				data-dojo-props='value:"",
-				store:"stateStore",
+				store:stateStore,
 				searchAttr:"name",
 				style:"width: 300px;",
 				name:"state4",
@@ -369,8 +356,8 @@
 		<hr>
 		<p>No arrow, data store which searches and highlights matches anywhere in the string</p>
 	 	<input id="arrowless" data-dojo-type="$testWidget"
-				data-dojo-props='value:"$-setvaluetest-CA",
-				store:"stateStore",
+				data-dojo-props='value: (testWidget == "dijit.form.ComboBox") ? "California" : "CA",
+				store:stateStore,
 				searchAttr:"name",
 				queryExpr:"*${0}*",
 				name:"state5",
@@ -494,9 +481,9 @@
 		<p>Custom labelFunc (value in textbox should be lower case when onChange is called), autoComplete=true, prompt message when field is blank:</p>
 		<label for="labelFunc">custom label function</label>
 		<input id="labelFunc" data-dojo-type="$testWidget"
-				data-dojo-props='value:"$-setvaluetest-OR",
+				data-dojo-props='value: (testWidget == "dijit.form.ComboBox") ? "Oregon" : "OR",
 				labelFunc:myLabelFunc,
-				store:"stateStore",
+				store:stateStore,
 				name:"labelFunc",
 				autoComplete:true,
 				labelAttr:"label",
