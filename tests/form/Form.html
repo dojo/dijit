@@ -395,10 +395,10 @@
 					<td>CheckBox widget</td>
 					<td>cb2</td>
 					<td>
-						<input data-dojo-type="dijit.form.CheckBox" data-dojo-props='type:"checkbox", name:"cb2", value:"1" '/> 1
-						<input data-dojo-type="dijit.form.CheckBox" data-dojo-props='type:"checkbox", name:"cb2", value:"2", checked:true '/> 2
-						<input data-dojo-type="dijit.form.CheckBox" data-dojo-props='type:"checkbox", name:"cb2", value:"3", checked:true '/> 3
-						<input data-dojo-type="dijit.form.CheckBox" data-dojo-props='type:"checkbox", name:"cb2", value:"4" '/> 4
+						<input data-dojo-type="dijit.form.CheckBox" data-dojo-props='name:"cb2", value:"1" '/> 1
+						<input data-dojo-type="dijit.form.CheckBox" data-dojo-props='name:"cb2", value:"2", checked:true '/> 2
+						<input data-dojo-type="dijit.form.CheckBox" data-dojo-props='name:"cb2", value:"3", checked:true '/> 3
+						<input data-dojo-type="dijit.form.CheckBox" data-dojo-props='name:"cb2", value:"4" '/> 4
 					</td>
 				</tr>
 
@@ -418,10 +418,10 @@
 				<tr>
 				<td>Radio widget</td><td>r2</td>
 				<td id="radio-cells">
-				<input data-dojo-type="dijit.form.RadioButton" data-dojo-props='type:"radio", name:"r2", value:"1" '/> 1
-				<input data-dojo-type="dijit.form.RadioButton" data-dojo-props='type:"radio", name:"r2", value:"2", checked:true '/> 2
-				<input data-dojo-type="dijit.form.RadioButton" data-dojo-props='type:"radio", name:"r2", value:"3"'/> 3
-				<input data-dojo-type="dijit.form.RadioButton" data-dojo-props='type:"radio", name:"r2", value:"4" '/> 4
+				<input data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"r2", value:"1" '/> 1
+				<input data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"r2", value:"2", checked:true '/> 2
+				<input data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"r2", value:"3"'/> 3
+				<input data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"r2", value:"4" '/> 4
 				<input type="button" onclick="dojo.query('INPUT[type=radio]','radio-cells').forEach(function(n){dijit.getEnclosingWidget(n).set('checked',false);});return true;" value="Unset all radio buttons"/>
 				</td>
 				</tr>

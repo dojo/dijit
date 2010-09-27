@@ -233,7 +233,7 @@
 		<input id="cb4" data-dojo-type="dijit.form.CheckBox" data-dojo-props='name:"cb4", readOnly:true, checked:true'/>
 			<label for="cb4">cb4: readOnly checkbox, turned on</label>
 		<br>
-		<input id="cb5" data-dojo-type="dijit.form.CheckBox" data-dojo-props='name:"cb5", type:"checkbox", value:"", onClick:function(){ console.log("clicked cb5") }'/>
+		<input id="cb5" data-dojo-type="dijit.form.CheckBox" data-dojo-props='name:"cb5", value:"", onClick:function(){ console.log("clicked cb5"); }'/>
 			<label for="cb5">cb5: normal checkbox, with specified value="", clicking generates console log messages</label>
 			<button type=button onclick="alert(dijit.byId('cb5').get('value'));">get('value')</button>
 		<br>
@@ -253,22 +253,22 @@
 	</p>
 		<p>
 			<span>Radio group #1:</span>
-			<input id="g1rb1" data-dojo-type="dijit.form.RadioButton" data-dojo-props='type:"radio", name:"g[1]", value:"news" '/>
+			<input id="g1rb1" data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"g[1]", value:"news" '/>
 			<label for="g1rb1">news</label>
-			<input id="g1rb2" data-dojo-type="dijit.form.RadioButton" data-dojo-props='type:"radio", name:"g[1]", value:"talk", checked:true'/>
+			<input id="g1rb2" data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"g[1]", value:"talk", checked:true'/>
 			<label for="g1rb2">talk</label>
-			<input id="g1rb3" data-dojo-type="dijit.form.RadioButton" data-dojo-props='type:"radio", name:"g[1]", value:"weather", disabled:true'/>
+			<input id="g1rb3" data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"g[1]", value:"weather", disabled:true'/>
 			<label for="g1rb3">weather</label>
 			<input type="button" onclick='dijit.byId("g1rb3").set("disabled",false);' value="enable weather" />
 			<input type="button" onclick='dijit.byId("g1rb3").set("disabled",true);' value="disable weather" />
 		</p>
 		<p>
 			<span>Radio group #2: (no default value, and has breaks)</span><br>
-			<input id="g2rb1" data-dojo-type="dijit.form.RadioButton" data-dojo-props='type:"radio", name:"g2", value:"top40" '/>
+			<input id="g2rb1" data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"g2", value:"top40" '/>
 			<label for="g2rb1">top 40</label><br>
-			<input id="g2rb2" data-dojo-type="dijit.form.RadioButton" data-dojo-props='type:"radio", name:"g2", value:"oldies" '/>
+			<input id="g2rb2" data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"g2", value:"oldies" '/>
 			<label for="g2rb2">oldies</label><br>
-			<input id="g2rb3" data-dojo-type="dijit.form.RadioButton" data-dojo-props='type:"radio", name:"g2", value:"country" '/>
+			<input id="g2rb3" data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"g2", value:"country" '/>
 			<label for="g2rb3">country</label><br>
 			(Note if using keyboard: tab to navigate, and use arrow or space to select)
 		</p>
@@ -290,18 +290,18 @@
 		These 6 radio buttons have the same name but are in separate forms so they can be selected independently.
 		<form>
 			1:
-			<input id='b1' data-dojo-type="dijit.form.RadioButton" data-dojo-props='type:"radio", name:"a1", value:"1"'/><label for='b1'>b1</label>
-			<input id='b2' data-dojo-type="dijit.form.RadioButton" data-dojo-props='type:"radio", name:"a1", value:"2"'/><label for='b2'>b2</label>
+			<input id='b1' data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"a1", value:"1"'/><label for='b1'>b1</label>
+			<input id='b2' data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"a1", value:"2"'/><label for='b2'>b2</label>
 		</form>
 		<form>
 			2:
-			<input id='c1' data-dojo-type="dijit.form.RadioButton" data-dojo-props='type:"radio", name:"a1", value:"1"'/><label for='c1'>c1</label>
-			<input id='c2' data-dojo-type="dijit.form.RadioButton" data-dojo-props='type:"radio", name:"a1", value:"2"'/><label for='c2'>c2</label>
+			<input id='c1' data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"a1", value:"1"'/><label for='c1'>c1</label>
+			<input id='c2' data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"a1", value:"2"'/><label for='c2'>c2</label>
 		</form>
 		<div>
 			3:
-			<input id='d1' data-dojo-type="dijit.form.RadioButton" data-dojo-props='type:"radio", name:"a1", value:"1"'/><label for='d1'>d1</label>
-			<input id='d2' data-dojo-type="dijit.form.RadioButton" data-dojo-props='type:"radio", name:"a1", value:"2"'/><label for='d2'>d2</label>
+			<input id='d1' data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"a1", value:"1"'/><label for='d1'>d1</label>
+			<input id='d2' data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"a1", value:"2"'/><label for='d2'>d2</label>
 		</div>
 	</div>
 
