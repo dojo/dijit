@@ -1,7 +1,7 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-	"http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html>
 <head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>TabContainer DOH Test</title>
 
 	<style>
@@ -10,11 +10,11 @@
 	</style>
 
 	<!-- required: the default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro.css">
+	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro.css"/>
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
-		djConfig="isDebug: true, parseOnLoad: true"></script>
+		data-dojo-config="isDebug: true, parseOnLoad: true"></script>
 	<script type="text/javascript" src="../helpers.js"></script>
 
 	<!-- only needed for alternate theme testing: do NOT use in your code! -->
@@ -408,96 +408,96 @@
 
 	<h1 class="testTitle">Dijit layout.TabContainer DOH tests</h1>
 	
-	<div dojoType="dijit.layout.TabContainer" style="width: 300px; height: 100px;" id="tc1">
-		<div dojoType="dijit.layout.ContentPane" title="tab1" id="cpTitle" selected="true">
+	<div id="tc1" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='style:"width: 300px; height: 100px;" '>
+		<div id="cpTitle" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"tab1", selected:true'>
 			Lorem ipsum and all around...
 		</div>
-		<div dojoType="dijit.layout.ContentPane" title="tab2">
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"tab2"'>
 			Lorem ipsum and all around - second...
 		</div>
-		<div dojoType="dijit.layout.ContentPane" id="t3" title="tab3" closable="true">
+		<div id="t3" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"tab3", closable:true'>
 			Lorem ipsum and all around - third...
 		</div>
-		<div dojoType="dijit.layout.ContentPane" title="tab4" closable="true">
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"tab4", closable:true'>
 			Lorem ipsum and all around - last...
 		</div>
 	</div>
 	
-	<div dojoType="dijit.layout.TabContainer" style="width: 300px; height: 100px;" id="tc2">
-		<div dojoType="dijit.layout.ContentPane" id="cp1" title="tab1" selected="true">
+	<div id="tc2" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='style:"width: 300px; height: 100px;" '>
+		<div id="cp1" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"tab1", selected:true'>
 			Lorem ipsum and all around...
 		</div>
-		<div dojoType="dijit.layout.ContentPane" id="cp2" title="tab2">
+		<div id="cp2" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"tab2"'>
 			Lorem ipsum and all around - second...
 		</div>
-		<div dojoType="dijit.layout.ContentPane" id="cp3" title="tab3" closable="true">
+		<div id="cp3" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"tab3", closable:true'>
 			Lorem ipsum and all around - last...
 		</div>
 	</div>
 	
-	<div dojoType="dijit.layout.TabContainer" style="width: 300px; height: 100px;" id="tc3">
-		<div dojoType="dijit.layout.ContentPane" id="cp4" title="tab1" selected="true" iconClass="plusIcon">
+	<div id="tc3" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='style:"width: 300px; height: 100px;" '>
+		<div id="cp4" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"tab1", selected:true, iconClass:"plusIcon"'>
 			Lorem ipsum and all around...
 		</div>
-		<div dojoType="dijit.layout.ContentPane" id="cp5" title="tab2">
+		<div id="cp5" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"tab2"'>
 			 Lorem ipsum and all around - last...
 			<br />
 			<br />
 			<br />
 			Hmmm even more expanding tabs......
 		</div>
-		<div dojoType="dijit.layout.ContentPane" id="cp6" title="tab3" closable="true">
+		<div id="cp6" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"tab3", closable:true'>
 			Lorem ipsum and all around - last...
 		</div>
-		<div dojoType="dijit.layout.ContentPane" id="cp7" title="plus" closable="true" iconClass="plusIcon" showTitle="false">
+		<div id="cp7" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"plus", closable:true, iconClass:"plusIcon", showTitle:false'>
 			Lorem ipsum and all around - last...
 		</div>
-		<div dojoType="dijit.layout.ContentPane" id="cp8" title="tab4" closable="true">
+		<div id="cp8" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"tab4", closable:true'>
 			Lorem ipsum and all around - last...
 		</div>
-		<div dojoType="dijit.layout.ContentPane" id="cp9" title="tab5" closable="true">
+		<div id="cp9" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"tab5", closable:true'>
 			Lorem ipsum and all around - last...
 		</div>
-		<div dojoType="dijit.layout.ContentPane" id="cp10" title="tab6" closable="true">
+		<div id="cp10" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"tab6", closable:true'>
 			Lorem ipsum and all around - last...
 		</div>
 	</div>
 	
-	<div dojoType="dijit.layout.TabContainer" style="width: 400px; height: 300px;" id="tcNestedParent">
-		<div dojoType="dijit.layout.TabContainer" title="Tab 1" nested="true" id="tcNestedChild">
-			<div dojoType="dijit.layout.ContentPane" title="My first inner tab" selected="true">
+	<div id="tcNestedParent" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='style:"width: 400px; height: 300px;" '>
+		<div id="tcNestedChild" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='title:"Tab 1", nested:true '>
+			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"My first inner tab", selected:true'>
 				Lorem ipsum and all around...
 			</div>
-			<div dojoType="dijit.layout.ContentPane" title="My second inner tab">
+			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"My second inner tab"'>
 				Lorem ipsum and all around - second...
 			</div>
-			<div dojoType="dijit.layout.ContentPane" title="My last inner tab">
+			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"My last inner tab"'>
 				Lorem ipsum and all around - last...
 			</div>
 		</div>
-		<div dojoType="dijit.layout.TabContainer" title="Tab 2" nested="true">
-			<div dojoType="dijit.layout.ContentPane" title="My first inner tab" selected="true">
+		<div data-dojo-type="dijit.layout.TabContainer" data-dojo-props='title:"Tab 2", nested:true'>
+			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"My first inner tab", selected:true'>
 				Lorem ipsum and all around...
 			</div>
-			<div dojoType="dijit.layout.ContentPane" title="My second inner tab">
+			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"My second inner tab"'>
 				Lorem ipsum and all around - second...
 			</div>
-			<div dojoType="dijit.layout.ContentPane" title="My last inner tab">
+			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"My last inner tab"'>
 				Lorem ipsum and all around - last...
 			</div>
 		</div>
 	</div>
 	
-	<div dojoType="dijit.layout.TabContainer" id="tcNoLayout" style="width: 100%;" doLayout="false">
-		<div dojoType="dijit.layout.ContentPane" title="My first tab" selected="true">
+	<div id="tcNoLayout" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='style:"width: 100%;", doLayout:false'>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"My first tab", selected:true'>
 			Lorem ipsum and all around...
 		</div>
-		<div dojoType="dijit.layout.ContentPane" title="My second tab" closable="true">
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"My second tab", closable:true'>
 			Lorem ipsum and all around - second...
 			<br />
 			Hmmm expanding tabs......
 		</div>
-		<div dojoType="dijit.layout.ContentPane" title="My last tab">
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"My last tab"'>
 			Lorem ipsum and all around - last...
 			<br />
 			<br />
@@ -507,40 +507,40 @@
 	</div>
 	<br />
 
-	<div dojoType="dijit.layout.TabContainer" id="leftTabs" style="width: 500px; height: 200px;"  tabPosition="left-h">
-		<div dojoType="dijit.layout.ContentPane" title="My first tab" selected="true">
+	<div id="leftTabs" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='style:"width: 500px; height: 200px;",  tabPosition:"left-h"'>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"My first tab", selected:true'>
 			Left tabs
 		</div>
-		<div dojoType="dijit.layout.ContentPane" title="My second tab" closable="true">
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"My second tab", closable:true'>
 			Lorem ipsum and all around - second...
 		</div>
-		<div dojoType="dijit.layout.ContentPane" title="My last tab">
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"My last tab"'>
 			Lorem ipsum and all around - last...
 		</div>
 	</div>
 	<br />
 
-	<div dojoType="dijit.layout.TabContainer" id="rightTabs" style="width: 500px; height: 200px;"  tabPosition="right-h">
-		<div dojoType="dijit.layout.ContentPane" title="My first tab" selected="true">
+	<div id="rightTabs" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='style:"width: 500px; height: 200px;",  tabPosition:"right-h"'>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"My first tab", selected:true'>
 			Right tabs
 		</div>
-		<div dojoType="dijit.layout.ContentPane" title="My second tab" closable="true">
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"My second tab", closable:true'>
 			Lorem ipsum and all around - second...
 		</div>
-		<div dojoType="dijit.layout.ContentPane" title="My last tab">
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"My last tab"'>
 			Lorem ipsum and all around - last...
 		</div>
 	</div>
 	<br />
 
-	<div dojoType="dijit.layout.TabContainer" id="bottomTabs" style="width: 500px; height: 200px;"  tabPosition="bottom">
-		<div dojoType="dijit.layout.ContentPane" title="My first tab" selected="true">
+	<div id="bottomTabs" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='style:"width: 500px; height: 200px;",  tabPosition:"bottom"'>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"My first tab", selected:true'>
 			Bottom tabs
 		</div>
-		<div dojoType="dijit.layout.ContentPane" title="My second tab" closable="true">
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"My second tab", closable:true'>
 			Lorem ipsum and all around - second...
 		</div>
-		<div dojoType="dijit.layout.ContentPane" title="My last tab">
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"My last tab"'>
 			Lorem ipsum and all around - last...
 		</div>
 	</div>

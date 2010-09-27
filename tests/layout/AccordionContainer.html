@@ -1,7 +1,7 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-	"http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html>
 <head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>Accordion Widget Automated Test</title>
 
 	<!-- only needed for test files: -->
@@ -11,11 +11,11 @@
 	</style>
 
 	<!-- required: the default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro.css">
+	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro.css"/>
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
-		djConfig="isDebug: true, parseOnLoad: true"></script>
+		data-dojo-config="isDebug: true, parseOnLoad: true"></script>
 
 	<!-- only needed for alternate theme testing: -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
@@ -361,10 +361,10 @@
 							throw new Error(msg);
 						}
 					}).placeAt(dojo.body());
-					var html='<div dojoType="dijit.layout.AccordionContainer" id="Accordion" style="height: 300px;">' +
-						 	'<div dojoType="dijit.layout.ContentPane" title="first" id="first">' +
-								'<div dojoType=dijit.form.Button id=myButton>hello world</div></div>' +
-						 	'<div dojoType="dijit.layout.ContentPane" title="second" id="second">second</div>' +
+					var html='<div data-dojo-type="dijit.layout.AccordionContainer" id="Accordion" style="height: 300px;">' +
+						 	'<div data-dojo-type="dijit.layout.ContentPane" title="first" id="first">' +
+								'<div data-dojo-type=dijit.form.Button id=myButton>hello world</div></div>' +
+						 	'<div data-dojo-type="dijit.layout.ContentPane" title="second" id="second">second</div>' +
 							'</div>';
 					accPane.set("content", html);
 					accPane.set("content", html); //setting the content twice will initiate a destroy

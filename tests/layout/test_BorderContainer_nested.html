@@ -1,6 +1,7 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html>
 <head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>dijit.layout.BorderContainer Test</title>
 
 	<style type="text/css">
@@ -9,11 +10,11 @@
 	</style>
 
 	<!-- required: the default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro.css">
+	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro.css"/>
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
-		djConfig="isDebug: true, parseOnLoad: true"></script>
+		data-dojo-config="isDebug: true, parseOnLoad: true"></script>
 
 	<!-- only needed for alternate theme testing: do NOT use in your code! -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
@@ -31,40 +32,40 @@
 	<h2 class="testTitle">dijit.layout.BorderContainer tests</h2>
 	<p>Basic layout</p>
 
-	<div id="tc" dojoType="dijit.layout.TabContainer" style="width:800px;height:600px;">
-		<div id="bc1" dojoType="dijit.layout.BorderContainer" title="Tab 1"
-			style="border: 2px solid black; width: 90%; height: 500px; padding: 10px;">
-			<div dojoType="dijit.layout.ContentPane" region="left" style="background-color: #acb386; width: 100px;">
+	<div id="tc" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='style:"width:800px;height:600px;"'>
+		<div id="bc1" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='title:"Tab 1",
+			style:"border: 2px solid black; width: 90%; height: 500px; padding: 10px;"'>
+			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"left", style:"background-color: #acb386; width: 100px;"'>
 				left
 			</div>
-			<div dojoType="dijit.layout.ContentPane" region="right" style="background-color: #acb386; width: 100px;">
+			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"right", style:"background-color: #acb386; width: 100px;"'>
 				right
 			</div>
-			<div dojoType="dijit.layout.ContentPane" region="top" style="background-color: #b39b86; height: 100px;">
+			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"top", style:"background-color: #b39b86; height: 100px;"'>
 				top bar
 			</div>
-			<div dojoType="dijit.layout.ContentPane" region="bottom" style="background-color: #b39b86; height: 100px;">
+			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"bottom", style:"background-color: #b39b86; height: 100px;"'>
 				bottom bar
 			</div>
 
-			<div dojoType="dijit.layout.BorderContainer" region="center" design="sidebar"
-				style="border: 2px solid black; padding: 0px;">
-				<div dojoType="dijit.layout.ContentPane" region="left" style="background-color: #acb386; width: 100px;">
+			<div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='region:"center", design:"sidebar",
+				style:"border: 2px solid black; padding: 0px;"'>
+				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"left", style:"background-color: #acb386; width: 100px;"'>
 					left
 				</div>
-				<div dojoType="dijit.layout.ContentPane" region="right" style="background-color: #acb386; width: 100px;">
+				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"right", style:"background-color: #acb386; width: 100px;"'>
 					right
 				</div>
-				<div dojoType="dijit.layout.ContentPane" region="top" style="background-color: #b39b86; height: 100px;">
+				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"top", style:"background-color: #b39b86; height: 100px;"'>
 					top bar
 				</div>
-				<div dojoType="dijit.layout.ContentPane" region="bottom" style="background-color: #b39b86; height: 100px;">
+				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"bottom", style:"background-color: #b39b86; height: 100px;"'>
 					bottom bar
 				</div>
-				<div dojoType="dijit.layout.ContentPane" region="center" style="background-color: #f5ffbf; padding: 10px;">
+				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"center", style:"background-color: #f5ffbf; padding: 10px;"'>
 					main panel with <a href="http://www.dojotoolkit.org/">a link</a>.<br />
 					(to check we're copying children around properly).<br />
-					<select dojoType="dijit.form.FilteringSelect">
+					<select data-dojo-type="dijit.form.FilteringSelect">
 						<option value="1">foo</option>
 						<option value="2">bar</option>
 						<option value="3">baz</option>
@@ -73,38 +74,38 @@
 				</div>
 			</div>
 		</div>
-		<div id="bc2" dojoType="dijit.layout.BorderContainer" title="Tab 2">
-			<div dojoType="dijit.layout.ContentPane" region="left" splitter="true" style="background-color: #770; width: 100px;">
+		<div id="bc2" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='title:"Tab 2"'>
+			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"left", splitter:true, style:"background-color: #770; width: 100px;"'>
 				left
 			</div>
-			<div dojoType="dijit.layout.ContentPane" region="right" splitter="true" style="background-color: #077; width: 100px;">
+			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"right", splitter:true, style:"background-color: #077; width: 100px;"'>
 				right
 			</div>
-			<div dojoType="dijit.layout.ContentPane" region="top" splitter="true" style="background-color: #700; height: 100px;">
+			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"top", splitter:true, style:"background-color: #700; height: 100px;"'>
 				top bar
 			</div>
-			<div dojoType="dijit.layout.ContentPane" region="bottom" splitter="true" style="background-color: #007; height: 100px;">
+			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"bottom", splitter:true, style:"background-color: #007; height: 100px;"'>
 				bottom bar
 			</div>
 
-			<div dojoType="dijit.layout.BorderContainer" region="center" design="sidebar"
-				style="border: 2px solid black; padding: 0px;">
-				<div dojoType="dijit.layout.ContentPane" region="left" style="background-color: #acb386; width: 100px;">
+			<div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='region:"center", design:"sidebar",
+				style:"border: 2px solid black; padding: 0px;"'>
+				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"left", style:"background-color: #acb386; width: 100px;"'>
 					left
 				</div>
-				<div dojoType="dijit.layout.ContentPane" region="right" style="background-color: #acb386; width: 100px;">
+				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"right", style:"background-color: #acb386; width: 100px;"'>
 					right
 				</div>
-				<div dojoType="dijit.layout.ContentPane" region="top" style="background-color: #b39b86; height: 100px;">
+				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"top", style:"background-color: #b39b86; height: 100px;"'>
 					top bar
 				</div>
-				<div dojoType="dijit.layout.ContentPane" region="bottom" style="background-color: #b39b86; height: 100px;">
+				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"bottom", style:"background-color: #b39b86; height: 100px;"'>
 					bottom bar
 				</div>
-				<div dojoType="dijit.layout.ContentPane" region="center" style="background-color: #f5ffbf; padding: 10px;">
+				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"center", style:"background-color: #f5ffbf; padding: 10px;"'>
 					main panel with <a href="http://www.dojotoolkit.org/">a link</a>.<br />
 					(to check we're copying children around properly).<br />
-					<select dojoType="dijit.form.FilteringSelect">
+					<select data-dojo-type="dijit.form.FilteringSelect">
 						<option value="1">foo</option>
 						<option value="2">bar</option>
 						<option value="3">baz</option>

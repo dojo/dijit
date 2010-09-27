@@ -1,7 +1,7 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-	"http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html>
 <head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>ContentPane Test</title>
 
 	<style>
@@ -23,11 +23,11 @@
 	</style>
 
 	<!-- required: the default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro.css">
+	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro.css"/>
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
-		djConfig="isDebug: true, parseOnLoad: true"></script>
+		data-dojo-config="isDebug: true, parseOnLoad: true"></script>
 
 	<!-- only needed for alternate theme testing: do NOT use in your code! -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
@@ -46,17 +46,17 @@
 	<h1 class="testTitle">Dijit layout.ContentPane tests</h1>
 
 	<!-- works: -->
-	<div dojoType="dijit.layout.TabContainer" style="height:200px;">
-		<div dojoType="dijit.layout.ContentPane" href="_lorem.html" title="one" refreshOnShow="false"></div>
-		<div dojoType="dijit.layout.ContentPane" href="_lorem.html" title="two" refreshOnShow="false"></div>
-		<div dojoType="dijit.layout.ContentPane" href="_lorem.html" title="three" refreshOnShow="false"></div>
+	<div data-dojo-type="dijit.layout.TabContainer" data-dojo-props='style:"height:200px;"'>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='href:"_lorem.html", title:"one", refreshOnShow:false'></div>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='href:"_lorem.html", title:"two", refreshOnShow:false'></div>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='href:"_lorem.html", title:"three", refreshOnShow:false'></div>
 	</div>
 
 	<!-- does not work yet: -->
-    <div dojoType="dijit.layout.AccordionContainer" style="height:200px; width:400px;">
-		<div dojoType="dijit.layout.ContentPane" title="one" refreshOnShow="false" href="_lorem.html"></div>
-		<div dojoType="dijit.layout.ContentPane" title="two" refreshOnShow="true" href="_lorem.html"></div>
-		<div dojoType="dijit.layout.ContentPane" title="three" refreshOnShow="false" href="_lorem.html"></div>
+    <div data-dojo-type="dijit.layout.AccordionContainer" data-dojo-props='style:"height:200px; width:400px;"'>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"one", refreshOnShow:false, href:"_lorem.html"'></div>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"two", refreshOnShow:true, href:"_lorem.html"'></div>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"three", refreshOnShow:false, href:"_lorem.html"'></div>
 	</div>
 
 

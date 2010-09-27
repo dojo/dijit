@@ -1,7 +1,7 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-		"http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html>
 <head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>ContentPane DOH test</title>
 	<style type="text/css">
 		@import "../../../dojo/resources/dojo.css";
@@ -20,7 +20,7 @@
 	</style>
 
 	<script type="text/javascript" src="../../../dojo/dojo.js"
-		djConfig="isDebug: true"></script>
+		data-dojo-config="isDebug: true"></script>
 	<script type="text/javascript">
 		dojo.require("doh.runner");
 		dojo.require("dijit.layout.ContentPane");
@@ -86,7 +86,7 @@
 						setUp: function(t){
 							var div = dojo.doc.createElement('div');
 							div.innerHTML = "set('content', [DOMNode] )";
-							div.setAttribute('dojoType', 'dijit.TestWidget');
+							div.setAttribute('data-dojo-type', 'dijit.TestWidget');
 							pane2.set("content", div);
 						},
 						runTest: function(t){
@@ -100,9 +100,9 @@
 						name: "setContent_NodeList",
 						setUp: function(t){
 							var div = dojo.doc.createElement('div');
-							div.innerHTML = "<div dojotype='dijit.TestWidget'>above</div>"
+							div.innerHTML = "<div data-dojo-type='dijit.TestWidget'>above</div>"
 											+"Testing!<div><p><span><b>Deep nested</b></span></p></div>"
-											+"<div dojotype='dijit.TestWidget'>below</div>";
+											+"<div data-dojo-type='dijit.TestWidget'>below</div>";
 
 							var list = div.childNodes;
 							pane2.set("content", div.childNodes);
@@ -125,9 +125,9 @@
 						},
 						runTest: function(t){
 							var div = dojo.doc.createElement('div');
-							div.innerHTML = "<div dojotype='dijit.TestWidget'>above</div>"
+							div.innerHTML = "<div data-dojo-type='dijit.TestWidget'>above</div>"
 										+"Testing!<div><p><span><b>Deep nested</b></span></p></div>"
-										+"<div dojotype='dijit.TestWidget'>below</div>";
+										+"<div data-dojo-type='dijit.TestWidget'>below</div>";
 
 							var list = new dojo.NodeList();
 							dojo.forEach(div.childNodes, function(n){
@@ -609,7 +609,7 @@
 						name: "simple",
 						setUp: function(t){
 							pane5 = new dijit.layout.ContentPane({
-								content:"<div dojoType='dijit.layout.StackContainer'></div>"
+								content:"<div data-dojo-type='dijit.layout.StackContainer'></div>"
 							}, dojo.byId("pane5"));
 							console.log(pane5);
 						},
@@ -627,7 +627,7 @@
 						setUp: function(t){
 							pane5 = new dijit.layout.ContentPane({
 								content:
-									"<div dojoType='dijit.layout.StackContainer'></div>",
+									"<div data-dojo-type='dijit.layout.StackContainer'></div>",
 								doLayout: false
 							}, dojo.byId("pane5"));
 						},
@@ -645,7 +645,7 @@
 							pane5 = new dijit.layout.ContentPane({
 								content:
 									"<span>hello world</span>" +
-									"<div dojoType='dijit.layout.StackContainer'></div>"
+									"<div data-dojo-type='dijit.layout.StackContainer'></div>"
 							}, dojo.byId("pane5"));
 						},
 						runTest: function(t){
@@ -662,8 +662,8 @@
 						setUp: function(t){
 							pane5 = new dijit.layout.ContentPane({
 								content:
-									"<div dojoType='dijit.layout.StackContainer'></div>" +
-									"<div dojoType='dijit.layout.StackContainer'></div>"
+									"<div data-dojo-type='dijit.layout.StackContainer'></div>" +
+									"<div data-dojo-type='dijit.layout.StackContainer'></div>"
 							}, dojo.byId("pane5"));
 						},
 						runTest: function(t){
@@ -680,8 +680,8 @@
 						setUp: function(t){
 							pane5 = new dijit.layout.ContentPane({
 								content:
-									"<div dojoType='dojo.data.ItemFileReadStore' jsId='dd'></div>" +
-									"<div dojoType='dijit.layout.StackContainer' id='sc'></div>"
+									"<div data-dojo-type='dojo.data.ItemFileReadStore' jsId='dd'></div>" +
+									"<div data-dojo-type='dijit.layout.StackContainer' id='sc'></div>"
 							}, dojo.byId("pane5"));
 						},
 						runTest: function(t){
@@ -701,7 +701,7 @@
 							pane5 = new dijit.layout.ContentPane({
 								content:
 									"<scri" + "pt></scri" + "pt>" +
-									"<div dojoType='dijit.layout.StackContainer' id='sc'></div>"
+									"<div data-dojo-type='dijit.layout.StackContainer' id='sc'></div>"
 							}, dojo.byId("pane5"));
 						},
 						runTest: function(t){
@@ -741,11 +741,11 @@
 							container.set('content',
 								'<span>plain non-widget content</span>' +
 								'<div><span>' +
-									'<div id="zero" dojoType="dijit.TestContained"></div>' +
-									'<div id="one" dojoType="dijit.TestContained"></div>' +
+									'<div id="zero" data-dojo-type="dijit.TestContained"></div>' +
+									'<div id="one" data-dojo-type="dijit.TestContained"></div>' +
 								'</span></div>' +
-								'<div id="two" dojoType="dijit.TestContained"></div>' +
-								'<div id="three" dojoType="dijit._Widget"></div>'
+								'<div id="two" data-dojo-type="dijit.TestContained"></div>' +
+								'<div id="three" data-dojo-type="dijit._Widget"></div>'
 							);
 
 							// Since ContentPane is a container it should call startup
@@ -783,11 +783,11 @@
 							hiddenCP.set('content',
 								'<span>plain non-widget content</span>' +
 								'<div><span>' +
-									'<div id="deferredZero" dojoType="dijit.TestContained"></div>' +
-									'<div id="deferredOne" dojoType="dijit.TestContained"></div>' +
+									'<div id="deferredZero" data-dojo-type="dijit.TestContained"></div>' +
+									'<div id="deferredOne" data-dojo-type="dijit.TestContained"></div>' +
 								'</span></div>' +
-								'<div id="deferredTwo" dojoType="dijit.TestContained"></div>' +
-								'<div id="deferredThree" dojoType="dijit._Widget"></div>'
+								'<div id="deferredTwo" data-dojo-type="dijit.TestContained"></div>' +
+								'<div id="deferredThree" data-dojo-type="dijit._Widget"></div>'
 							);
 
 							t.f(dijit.byId('deferredTwo')._resized, "not resized yet");
@@ -867,36 +867,36 @@
 	<h3>Test designed to run on localhost (minimize impact from network latency)</h3>
 
 	<h4>This should NOT be parsed automatically</h4>
-	<div dojoType="dijit.layout.ContentPane" class="box" id="pane1">
-		<div dojoType='dijit.TestWidget'>If this has a different background and a red border, the page parsed when it shouldn't</div>
+	<div id="pane1" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='class:"box" '>
+		<div data-dojo-type='dijit.TestWidget'>If this has a different background and a red border, the page parsed when it shouldn't</div>
 	</div>
 	<br/><h3>Testing ContentPane</h3>
 	<div id='pane2' class='box'>
 		Even though the entire page isn't scanned for widgets,
 		any sub widgets of a ContentPane will be created when a ContentPane is created<br/>
-		<span id="zero" dojoType='dijit.TestWidget'>This should have a backgroundcolor and a border</span>
-		<div id="one" dojoType="dijit._Widget"></div>
-		<div id="two" dojoType="dijit._Widget"></div>
-		<div id="three" dojoType="dijit._Widget"></div>
+		<span id="2_zero" data-dojo-type='dijit.TestWidget'>This should have a backgroundcolor and a border</span>
+		<div id="2_one" data-dojo-type="dijit._Widget"></div>
+		<div id="2_two" data-dojo-type="dijit._Widget"></div>
+		<div id="2_three" data-dojo-type="dijit._Widget"></div>
 	</div>
 	<br/><br/>
 	<div id='stackcontainer'></div>
 	<div id="pane5"></div>
 
 	<!-- for container tests -->
-	<div id="container" dojoType="dijit.layout.ContentPane">
-		<div id="zero" dojoType="dijit.TestContained"></div>
-		<div id="one" dojoType="dijit.TestContained"></div>
-		<div id="two" dojoType="dijit.TestContained"></div>
-		<div id="three" dojoType="dijit._Widget"></div>
+	<div id="container" data-dojo-type="dijit.layout.ContentPane">
+		<div id="zero" data-dojo-type="dijit.TestContained"></div>
+		<div id="one" data-dojo-type="dijit.TestContained"></div>
+		<div id="two" data-dojo-type="dijit.TestContained"></div>
+		<div id="three" data-dojo-type="dijit._Widget"></div>
 	</div>
-	<div id="outside" dojoType="dijit._Widget"></div>
-	<div id="outsideCont" dojoType="dijit.TestContained"></div>
+	<div id="outside" data-dojo-type="dijit._Widget"></div>
+	<div id="outsideCont" data-dojo-type="dijit.TestContained"></div>
 
 	<!-- for testing popup widgets inside of a content pane -->
 	<div id="popupTest">
-		<div id="popupPane" dojoType="dijit.layout.ContentPane">
-			<div id="dialog" dojoType="dijit.Dialog">
+		<div id="popupPane" data-dojo-type="dijit.layout.ContentPane">
+			<div id="dialog" data-dojo-type="dijit.Dialog">
 				hello world
 			</div>
 		</div>
