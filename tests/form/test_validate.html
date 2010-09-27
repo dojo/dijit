@@ -74,10 +74,10 @@
 				new dijit.form.TextBox({id: 'monospace1', disabled: true, value: 'M|M:monospace?'}, 'monospace1');
 				new dijit.form.TextBox({id: 'monospace2', disabled: true, value: 'M|M:monospace?'}).placeAt('widget_monospace1', 'after');
 
-			        doh.register("font inheritance", [
+				doh.register("font inheritance", [
 					{
-			        	        name: "with srcNodeRef",
-			        	        runTest: function(){
+						name: "with srcNodeRef",
+						runTest: function(){
 							var d = new doh.Deferred();
 							setTimeout(d.getTestCallback(function(){
 								doh.is("monospace", dojo.style('monospace1', "fontFamily"));
@@ -86,8 +86,8 @@
 						}
 					},
 					{
-			        	        name: "without srcNodeRef",
-			        	        runTest: function(){
+						name: "without srcNodeRef",
+						runTest: function(){
 							var d = new doh.Deferred();
 							setTimeout(d.getTestCallback(function(){
 								doh.is("monospace", dojo.style('monospace2', "fontFamily"));
@@ -119,7 +119,7 @@
 					selectOnClick:true,
 					onFocus:function(){ console.log("user onfocus handler") },
 					onBlur:function(){ console.log("user onblur handler") },
-				        onChange:function(v){ dojo.byId("oc1").value=v },
+					onChange:function(v){ dojo.byId("oc1").value=v },
 					intermediateChanges:true,
 					propercase:true '/>
 				<br>onChange:<input id="oc1" size="34" disabled value="not fired yet!" autocomplete="off"/>
@@ -149,9 +149,9 @@
 					maxLength:"3",
 					class:"small",
 					constraints:{places:0,min:0,max:120},
-                                        onChange:function(){ dojo.byId("oc3").value=""+arguments[0] },
+					onChange:function(){ dojo.byId("oc3").value=""+arguments[0] },
 					tooltipPosition:["above", "below"]
-                                '/>
+				'/>
 				onChange:<input id="oc3" size="14" disabled value="not fired yet!" autocomplete="off"/>
 				<span style='white-space:nowrap;'>
 				<button id="q03_valid" type=button onclick="dijit.byId('q03').set('value', 120);">set value to 120</button>
@@ -285,7 +285,7 @@
 					required:true,
 					constraints:{fractional:true},
 					currency:"USD",
-				        onChange:function(){ dojo.byId("oc8").value=arguments[0] },
+					onChange:function(){ dojo.byId("oc8").value=arguments[0] },
 					invalidMessage:"Invalid amount.  Cents are MANDATORY." '/>USD
 				&nbsp;onChange:<input id="oc8" size="15" disabled value="not fired yet!" autocomplete="off"/>
 			</div>
@@ -454,17 +454,17 @@
 			</div>
 
 			<script>
-					// See if we can make a widget in script and attach it to the DOM ourselves.
-					dojo.addOnLoad(function(){
-							var props = {
-									name: "ticket1651",
-									id: "mname",
-									templateString: null, // #11493
-									templatePath: dojo.moduleUrl('dijit.form', 'templates/TextBox.html'),
-									value: null
-							};
-							var w = new dijit.form.TextBox(props, "ticket1651");
-					});
+				// See if we can make a widget in script and attach it to the DOM ourselves.
+				dojo.addOnLoad(function(){
+					var props = {
+							name: "ticket1651",
+							id: "mname",
+							templateString: null, // #11493
+							templatePath: dojo.moduleUrl('dijit.form', 'templates/TextBox.html'),
+							value: null
+					};
+					var w = new dijit.form.TextBox(props, "ticket1651");
+				});
 			</script>
 
 			<div class="dojoTitlePaneLabel">
@@ -492,7 +492,7 @@
 				<input type="button" onclick="dijit.byId('q25').set('disabled',true);" value="Set disabled" tabIndex="-1"/>
 			</div>
 
-		        <script>
+			<script>
 				// so robot can get to it easily
 				document.displayData=function() {
 					var f = document.getElementById("form1");
@@ -504,7 +504,7 @@
 					}
 					return s;
 				}
-		        </script>
+			</script>
 
 			<div>
 				<button name="button" onclick="alert(document.displayData()); return false;" tabIndex="-1">view data</button>
