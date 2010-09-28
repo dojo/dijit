@@ -237,11 +237,9 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 									this.lang).missingMessage;
 	},
 
-	buildRendering: function(){
+	_setStyleAttr: function(/*String||Object*/ value){
 		this.inherited(arguments);
-		if(this.tableNode.style.width){
-			dojo.addClass(this.domNode, this.baseClass + "FixedWidth");
-		}
+		dojo.toggleClass(this.domNode, this.baseClass + "FixedWidth", !!this.tableNode.style.width);
 	},
 
 	isLoaded: function(){

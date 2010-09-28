@@ -732,7 +732,7 @@ dojo.declare("dijit._Widget", dojo.Stateful, {
 
 	_setStyleAttr: function(/*String||Object*/ value){
 		// summary:
-		//		Sets the style attribut of the widget according to value,
+		//		Sets the style attribute of the widget according to value,
 		//		which is either a hash like {height: "5px", width: "3px"}
 		//		or a plain string
 		// description:
