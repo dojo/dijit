@@ -680,16 +680,16 @@
 						setUp: function(t){
 							pane5 = new dijit.layout.ContentPane({
 								content:
-									"<div data-dojo-type='dojo.data.ItemFileReadStore' jsId='dd'></div>" +
+									"<div data-dojo-type='dojo.data.ItemFileReadStore' data-dojo-id='dd'></div>" +
 									"<div data-dojo-type='dijit.layout.StackContainer' id='sc'></div>"
 							}, dojo.byId("pane5"));
 						},
 						runTest: function(t){
 							// there are two children but one is invisible, so the other should be marked
 							// for layout/resize along w/the ContentPane
-							t.assertTrue(dd);
-							t.assertTrue(dijit.byId("sc"));
-							t.assertEqual(pane5._singleChild, dijit.byId("sc"));
+							t.assertTrue(dd, "dd exists");
+							t.assertTrue(dijit.byId("sc"), "sc exists");
+							t.assertEqual(dijit.byId("sc"), pane5._singleChild, "pane5._singleChild");
 						},
 						tearDown: function(t){
 							pane5.destroyRecursive();
