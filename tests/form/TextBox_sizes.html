@@ -490,7 +490,7 @@
 	</script>
 	<table style="display:block;">
 	<tr><td class="layout" style="text-align:right;">Font family:
-	<select id="fontFamily" data-dojo-type="dijit.form.ComboBox" data-dojo-props='style:"font-size:14pt;", value:"", onChange:fontFamilyOnChange'>
+	<select id="fontFamily" data-dojo-type="dijit.form.ComboBox" data-dojo-props='style:{fontSize:"14pt"}, value:"", onChange:fontFamilyOnChange'>
 		<option>monospace</option>
 		<option selected>Courier</option>
 		<option>Helvetica</option>
@@ -498,7 +498,7 @@
 		<option>system,fixed</option>
 	</select></td></tr>
 	<tr><td class="layout" style="text-align:right;">Font size:
-	<select id="fontSize" data-dojo-type="dijit.form.ComboBox" data-dojo-props='style:"font-size:14pt;", value:"", onChange:function(val){ table.style.fontSize = val; }'>
+	<select id="fontSize" data-dojo-type="dijit.form.ComboBox" data-dojo-props='style:{fontSize:"14pt"}, value:"", onChange:function(val){ table.style.fontSize = val; }'>
 		<option>small</option>
 		<option>medium</option>
 		<option>xx-large</option>
@@ -509,18 +509,18 @@
 		<option>200%</option>
 	</select></td></tr>
 	<tr><td class="layout" style="text-align:right;">Padding:
-	<select id="padding" data-dojo-type="dijit.form.FilteringSelect" data-dojo-props='style:"font-size:14pt;", required:false, value:"", onChange:function(val){ table.className = val; }'>
+	<select id="padding" data-dojo-type="dijit.form.FilteringSelect" data-dojo-props='style:{fontSize:"14pt"}, required:false, value:"", onChange:function(val){ table.className = val; }'>
 		<option value="default">default</option>
 		<option value="padded">padded</option>
 		<option value="unPadded">unPadded</option>
 	</select></td></tr>
 	<tr><td class="layout" style="text-align:right;">Direction:
-	<select id="direction" data-dojo-type="dijit.form.FilteringSelect" data-dojo-props='style:"font-size:14pt;", required:false, value:"", onChange:directionOnChange'>
+	<select id="direction" data-dojo-type="dijit.form.FilteringSelect" data-dojo-props='style:{fontSize:"14pt"}, required:false, value:"", onChange:directionOnChange'>
 		<option value="ltr">left-to-right</option>
 		<option value="rtl">right-to-left</option>
 	</select></td></tr>
 	<tr><td class="layout" style="text-align:right;">Theme:
-	<select id="theme" data-dojo-type="dijit.form.FilteringSelect" data-dojo-props='style:"font-size:14pt;", required:false, value:"", onChange:themeOnChange'>
+	<select id="theme" data-dojo-type="dijit.form.FilteringSelect" data-dojo-props='style:{fontSize:"14pt"}, required:false, value:"", onChange:themeOnChange'>
 		<option value="tundra">tundra</option>
 		<option value="soria">soria</option>
 		<option value="nihilo">nihilo</option>
@@ -528,6 +528,6 @@
 		<option value="a11y">a11y</option>
 	</select></td></tr>
 	</table>
-	<button data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){ doh.run() }'>Run tests</button>
+	<button data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){ doh.run(); }'>Run tests</button>
 </body>
 </html>

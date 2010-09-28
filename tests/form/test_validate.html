@@ -114,7 +114,7 @@
 			</div>
 			<div class="testExample">
 				<input id="q01" data-dojo-type="dijit.form.TextBox"
-					data-dojo-props='name:"firstname", value:"testing testing", style:"width: 700px;", tabIndex:"2",
+					data-dojo-props='name:"firstname", value:"testing testing", style:{width:"700px"}, tabIndex:"2",
 					trim:true,
 					selectOnClick:true,
 					onFocus:function(){ console.log("user onfocus handler"); },
@@ -185,7 +185,7 @@
 			</div>
 			<div class="testExample">
 				<input id="q04" data-dojo-type="dijit.form.ValidationTextBox"
-					data-dojo-props='name:"occupation", "class":"verylong", style:"font-size:15pt;",
+					data-dojo-props='name:"occupation", "class":"verylong", style:{fontSize:"15pt"},
 					lowercase:true,
 					required:true,
 					promptMessage:"Enter an occupation" '/>

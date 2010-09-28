@@ -45,10 +45,10 @@
 			<br>
 
 			<label for="simple">dijit.form.Textarea, inline with maxLength=50:</label>
-			<textarea id="simple" data-dojo-type="dijit.form.Textarea" data-dojo-props='name:"simpleTextArea", maxLength:"50", style:"width:33%;",
+			<textarea id="simple" data-dojo-type="dijit.form.Textarea" data-dojo-props='name:"simpleTextArea", maxLength:"50", style:{width:"33%"},
 	         		onChange:function(val){ dojo.byId("ocSimple").value = val; },
-	         		onFocus:function(){ console.log("user focus handler") },
-	         		onBlur:function(){ console.log("user blur handler") }
+	         		onFocus:function(){ console.log("user focus handler"); },
+	         		onBlur:function(){ console.log("user blur handler"); }
 				'>this is a very simple resizable text area</textarea>
 			onChange:<textarea id="ocSimple" readOnly>not fired yet!</textarea>
 			<br>
@@ -59,7 +59,7 @@
 			</textarea>
 			<br>
 
-			<div data-dojo-type="dijit.layout.TabContainer" data-dojo-props='persist:true, tabStrip:true, style:"width: 100%; height: 20em;"'>
+			<div data-dojo-type="dijit.layout.TabContainer" data-dojo-props='persist:true, tabStrip:true, style:{width:"100%", height:"20em"}'>
 				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Tab 1"'>
 					<label for="programmatic">dijit.form.Textarea in TabContainer, programmatically created with custom styling:</label><br>
 					<textarea id="programmatic"></textarea>
@@ -76,7 +76,7 @@
 						name: "programmaticTextArea",
 						cols: "60",
 						value: "created programatically with custom border, padding, margin",
-						style: "border:5px solid gray;padding:11px;margin:7px;"
+						style: {border:"5px solid gray", padding:"11px", margin:"7px"}
 					}, "programmatic");
 				});
 			</script>

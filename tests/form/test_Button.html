@@ -82,7 +82,7 @@
 		<button id="comboCreate" data-dojo-type="dijit.form.ComboButton" data-dojo-props='optionsTitle:"save options", onClick:function(){ console.log("clicked combo save") },
 				iconClass:"plusIcon", title:"creative title"'>
 			<span>Create</span>
-			<span id="createMenu" data-dojo-type="dijit.Menu" data-dojo-props='style:"display: none;"'>
+			<span id="createMenu" data-dojo-type="dijit.Menu"'>
 				<span data-dojo-type="dijit.MenuItem"  data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconSave",
 					onClick:function(){ console.log("not actually saving anything, just a test!") }'>Create blank</span>
 				<span data-dojo-type="dijit.MenuItem"
@@ -117,13 +117,13 @@
 		</button>
 		<button id="color" data-dojo-type="dijit.form.DropDownButton" data-dojo-props='iconClass:"noteIcon", value:"color"'>
 			<span>Color</span>
-			<span id="colorPalette" data-dojo-type="dijit.ColorPalette" data-dojo-props='style:"display: none", palette:"3x4",
-				onChange:function(){ console.log(this.value); }'></span>
+			<span id="colorPalette" data-dojo-type="dijit.ColorPalette"
+				data-dojo-props='palette:"3x4", onChange:function(val){ console.log(val); }'></span>
 		</button>
 		<button id="save" data-dojo-type="dijit.form.ComboButton" data-dojo-props='optionsTitle:"save options", onClick:function(){ console.log("clicked combo save") },
 				iconClass:"plusBlockIcon"'>
 			<span>Save</span>
-			<span id="saveMenu" data-dojo-type="dijit.Menu" data-dojo-props='style:"display: none;"'>
+			<span id="saveMenu" data-dojo-type="dijit.Menu">
 				<span id="saveMenuItem" data-dojo-type="dijit.MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconSave",
 					onClick:function(){ console.log("not actually saving anything, just a test!") }'>Save</span>
 				<span id="saveAs" data-dojo-type="dijit.MenuItem" data-dojo-props='onClick:function(){ console.log("not actually saving anything, just a test!") }'>Save As</span>
@@ -137,29 +137,29 @@
 	<h2>DropDownButtons with different drop down positions</h2>
 	<button id="dropdown_default" data-dojo-type="dijit.form.DropDownButton" data-dojo-props='iconClass:"noteIcon", value:"color"'>
 		<span>Default (below)</span>
-		<span data-dojo-type="dijit.ColorPalette" data-dojo-props='style:"display: none", palette:"3x4",
-			onChange:function(){ console.log(this.value); }'></span>
+		<span data-dojo-type="dijit.ColorPalette"
+			data-dojo-props='palette:"3x4", onChange:function(val){ console.log(val); }'></span>
 	</button>
 	<button id="dropdown_up" data-dojo-type="dijit.form.DropDownButton" data-dojo-props='dropDownPosition:["above"], iconClass:"noteIcon", value:"color"'>
 		<span>Above</span>
-		<span data-dojo-type="dijit.ColorPalette" data-dojo-props='style:"display: none", palette:"3x4",
-			onChange:function(){ console.log(this.value); }'></span>
+		<span data-dojo-type="dijit.ColorPalette"
+			data-dojo-props='palette:"3x4", onChange:function(val){ console.log(val); }'></span>
 	</button>
 	<button id="dropdown_before" data-dojo-type="dijit.form.DropDownButton" data-dojo-props='dropDownPosition:["before"], iconClass:"noteIcon", value:"color"'>
 		<span>Before</span>
-		<span data-dojo-type="dijit.ColorPalette" data-dojo-props='style:"display: none", palette:"3x4",
-			onChange:function(){ console.log(this.value); }'></span>
+		<span data-dojo-type="dijit.ColorPalette"
+			data-dojo-props='palette:"3x4", onChange:function(val){ console.log(val); }'></span>
 	</button>
 	<button id="dropdown_after" data-dojo-type="dijit.form.DropDownButton" data-dojo-props='dropDownPosition:["after"], iconClass:"noteIcon", value:"color"'>
 		<span>After</span>
-		<span data-dojo-type="dijit.ColorPalette" data-dojo-props='style:"display: none", palette:"3x4",
-			onChange:function(){ console.log(this.value); }'></span>
+		<span data-dojo-type="dijit.ColorPalette"
+			data-dojo-props='palette:"3x4", onChange:function(val){ console.log(val); }'></span>
 	</button>
 	<h2>ComboButtons with different drop down positions</h2>
 	<button id="combo_default" data-dojo-type="dijit.form.ComboButton" data-dojo-props='optionsTitle:"save options", onClick:function(){ console.log("clicked combo save") },
 			iconClass:"plusBlockIcon"'>
 		<span>Default (below)</span>
-		<span data-dojo-type="dijit.Menu" data-dojo-props='style:"display: none;"'>
+		<span data-dojo-type="dijit.Menu">
 			<span data-dojo-type="dijit.MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconSave",
 				onClick:function(){ console.log("not actually saving anything, just a test!") }'>Save</span>
 			<span data-dojo-type="dijit.MenuItem"
@@ -169,7 +169,7 @@
 	<button id="combo_above" data-dojo-type="dijit.form.ComboButton" data-dojo-props='dropDownPosition:["above"], optionsTitle:"save options", onClick:function(){ console.log("clicked combo save") },
 			iconClass:"plusBlockIcon"'>
 		<span>Up</span>
-		<span data-dojo-type="dijit.Menu" data-dojo-props='style:"display: none;"'>
+		<span data-dojo-type="dijit.Menu">
 			<span data-dojo-type="dijit.MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconSave",
 				onClick:function(){ console.log("not actually saving anything, just a test!") }'>Save</span>
 			<span data-dojo-type="dijit.MenuItem"
@@ -179,7 +179,7 @@
 	<button id="combo_before" data-dojo-type="dijit.form.ComboButton" data-dojo-props='dropDownPosition:["before"], optionsTitle:"save options", onClick:function(){ console.log("clicked combo save") },
 			iconClass:"plusBlockIcon"'>
 		<span>Before</span>
-		<span data-dojo-type="dijit.Menu" data-dojo-props='style:"display: none;"'>
+		<span data-dojo-type="dijit.Menu">
 			<span data-dojo-type="dijit.MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconSave",
 				onClick:function(){ console.log("not actually saving anything, just a test!") }'>Save</span>
 			<span data-dojo-type="dijit.MenuItem"
@@ -189,7 +189,7 @@
 	<button id="combo_after" data-dojo-type="dijit.form.ComboButton" data-dojo-props='dropDownPosition:["after"], optionsTitle:"save options", onClick:function(){ console.log("clicked combo save") },
 			iconClass:"plusBlockIcon"'>
 		<span>After</span>
-		<span data-dojo-type="dijit.Menu" data-dojo-props='style:"display: none;"'>
+		<span data-dojo-type="dijit.Menu">
 			<span data-dojo-type="dijit.MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconSave",
 				onClick:function(){ console.log("not actually saving anything, just a test!") }'>Save</span>
 			<span data-dojo-type="dijit.MenuItem"
@@ -205,14 +205,14 @@
 		</button>
 				<div data-dojo-type="dijit.form.DropDownButton" data-dojo-props='iconClass:"noteIcon", showLabel:false, title:"color title"'>
 			<span>Color</span>
-			<div id="colorPalette2" data-dojo-type="dijit.ColorPalette" data-dojo-props='style:"display: none", palette:"3x4",
-				onChange:function(){ console.log(this.value); }'>
+			<div id="colorPalette2" data-dojo-type="dijit.ColorPalette"
+				data-dojo-props='palette:"3x4", onChange:function(val){ console.log(val); }'>
 			</div>
 	</div>
 	<div data-dojo-type="dijit.form.ComboButton" data-dojo-props='optionsTitle:"save options", title:"save title", onClick:function(){ console.log("clicked combo save") },
 				iconClass:"plusBlockIcon", showLabel:false'>
 			<span>Save</span>
-			<div id="saveMenu2" data-dojo-type="dijit.Menu" data-dojo-props='style:"display: none;"'>
+			<div id="saveMenu2" data-dojo-type="dijit.Menu">
 				<div data-dojo-type="dijit.MenuItem"  data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconSave",
 					onClick:function(){ console.log("not actually saving anything, just a test!") }'>Save</div>
 				<div data-dojo-type="dijit.MenuItem"
@@ -433,12 +433,12 @@
 	<form id="myForm" data-dojo-type="dijit.form.Form" data-dojo-props='encType:"multipart/form-data", action:"../formAction.html", method:"", target:"formSubmitIframe"'>
 		<button id="Plain" data-dojo-type="dijit.form.Button" data-dojo-props='name:"Plain", type:"submit", value:"Plain Submit", label:"Plain Submit"'></button>
 		<button id="Combo" data-dojo-type="dijit.form.ComboButton" data-dojo-props='name:"Combo", type:"submit", value:"Combo Submit", label:"Combo Submit"'>
-			<span data-dojo-type="dijit.Menu" data-dojo-props='style:"display:none;"'>
+			<span data-dojo-type="dijit.Menu">
 				<span id="ComboMenuItem" data-dojo-type="dijit.MenuItem" data-dojo-props='onClick:function(){ dijit.byId("myForm").submit() }'>Combo MenuItem Submit</span>
 			</span>
 		</button>
 		<button id="DropDown" data-dojo-type="dijit.form.DropDownButton" data-dojo-props='name:"DropDown", type:"submit", value:"DropDown Submit", label:"DropDown Submit"'>
-			<span data-dojo-type="dijit.Menu" data-dojo-props='style:"display:none;"'>
+			<span data-dojo-type="dijit.Menu">
 				<span id="DropDownMenuItem" data-dojo-type="dijit.MenuItem" data-dojo-props='onClick:function(){ dijit.byId("myForm").submit() }'>DropDown MenuItem Submit</span>
 			</span>
 		</button>

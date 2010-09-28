@@ -184,7 +184,7 @@
 		</script>
 		<select id="setvaluetest" data-dojo-type="$testWidget"
 				data-dojo-props='name:"state1",
-				style:"width:50%;font-size:200%;font-family:Courier;",
+				style:{width:"50%", fontSize:"200%", fontFamily:"Courier"},
 				autoComplete:false,
 				selectOnClick:true,
 				onBlur:function(){ dojo.byId("b1").value=dijit.byId("setvaluetest").value },
@@ -276,7 +276,7 @@
 				data-dojo-props='value: (testWidget == "dijit.form.ComboBox") ? "California" : "CA",
 				store:stateStore,
 				searchAttr:"name",
-				style:"width: 200px; font-size: 8pt;",
+				style:{width:"200px", fontSize:"8pt"},
 				name:"state2",
 				onChange:setVal2
 				'/>
@@ -300,7 +300,7 @@
 				data-dojo-props='value:"dijit.Editor",
 				store:dijitStore,
 				searchAttr:"className",
-				style:"width: 200px; font-size: 150%;",
+				style:{width:"200px",fontSize:"150%"},
 				name:"dijitList1"
 				'/>
 		<span>Hey look, this one is kind of useful.</span>
@@ -312,7 +312,7 @@
 	 			data-dojo-props='value:(testWidget == "dijit.form.ComboBox") ? "California" : "CA",
 				store:stateStore,
 				searchAttr:"name",
-				style:"width: 300px;",
+				style:{width:"300px"},
 				name:"state3",
 				autoComplete:false,
 				onChange:setVal3,
@@ -329,7 +329,7 @@
 				data-dojo-props='value:"",
 				store:stateStore,
 				searchAttr:"name",
-				style:"width: 300px;",
+				style:{width:"300px"},
 				name:"state4",
 				onChange:setVal4,
 				autoComplete:false,
@@ -341,7 +341,7 @@
 		<p>test that title used as label is preserved on input</p>
 		<select id="preservetitletest" data-dojo-type="$testWidget"
 				data-dojo-props='name:"titletest",
-				style:"width:50%;font-family:Courier;",
+				style:{width:"50%", fontFamily:"Courier"},
 				autoComplete:false,
 				selectOnClick:true,
 				pageSize:5,
@@ -378,7 +378,7 @@
 		<p>With option tags, autoComplete=true, pageSize=30, and a descending sort.</p>
 		<select id="descending" data-dojo-type="$testWidget"
 				data-dojo-props='name:"descending",
-				style:"width:50%;font-size:200%;font-family:Courier;",
+				style:{width:"50%",fontSize:"200%",fontFamily:"Courier"},
 				autoComplete:true,
 				pageSize:30,
 				fetchProperties:{sort:[{attribute: "name", descending: true}]}
@@ -467,7 +467,7 @@
 		<p>Japanese</p>
 		<p>Try typing &#x6771;&#x533A; (East), &#x897F;&#x533A; (West), &#x5317;&#x533A; (North), &#x5357;&#x533A; (South) and a few choices will pop up.</p>
 		<label for="japanese">Japanese list:</label>
-		<select id="japanese" data-dojo-type="$testWidget" data-dojo-props='name:"japanese", style:"width: 300px;", autoComplete:true, required:true, value:""'>
+		<select id="japanese" data-dojo-type="$testWidget" data-dojo-props='name:"japanese", style:{width:"300px"}, autoComplete:true, required:true, value:""'>
 			<option value="nanboku">&#x5357;&#x5317; (Nanboku)</option>
 			<option value="touzai">&#x6771;&#x897F; (Touzai)</option>
 			<option value="toukyou">&#x6771;&#x4EAC; (Tokyo)</option>
@@ -521,7 +521,7 @@
 	<p>test placeholder</p>
 	<select id="placeholdertest" data-dojo-type="$testWidget"
 			data-dojo-props='name:"placetest",
-			style:"width:50%;font-family:Courier;",
+			style:{width:"50%",fontFamily:"Courier"},
 			autoComplete:false,
 			selectOnClick:true,
 			pageSize:5,
@@ -549,7 +549,7 @@
 		><select id="combo_01" data-dojo-type="$testWidget" 
 				data-dojo-props='name:"state", 
 				disabled:true,
-				style:"width: 300px;",
+				style:{width:"300px"},
 				autoComplete:false'>
 			<option value="AL">Alabama</option>
 			<option value="AK">Alaska</option>
