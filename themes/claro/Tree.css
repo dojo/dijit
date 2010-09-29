@@ -32,7 +32,7 @@
 .claro .dijitTreeRow {
 	/* so insert line shows up on IE when dropping after a target element */
 	padding: 4px 1px 2px 0px;
-	margin-left: 1px;
+	margin: 0px 1px;	/* replaced by border for selected/hovered row */
 	background-image: url("images/commonHighlight.png");
 	background-position:0px 0px;
 	background-repeat:repeat-x;
@@ -50,14 +50,14 @@
 	background-repeat:repeat-x;
 	background-color:#d8edff;
 	padding: 3px 0px 1px;
-	margin-left: 0px;
+	margin: 0px;
 	border:solid 1px #c3e2fd;
 	color:#000;
 }
 .claro .dijitTreeRowHover {
 	background-color:#abd6ff;
 	padding: 3px 0px 1px;
-	margin-left: 0px;
+	margin: 0px;
 	border:solid 1px #769dc0;
 	color:#000;
 	-webkit-transition-duration:.25s ; 
