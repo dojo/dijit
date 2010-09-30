@@ -136,6 +136,10 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 	//		so they can be saved into a single <textarea> node.  See "name" attribute.
 	_SEPARATOR: "@@**%%__RICHTEXTBOUNDRY__%%**@@",
 
+	// _NAME_CONTENT_SEP: [private] String
+	//		USed to separate name from content.  Just a colon isn't safe.
+	_NAME_CONTENT_SEP: "@@**%%:%%**@@",
+
 	// onLoadDeferred: [protected] dojo.Deferred
 	//		Deferred which is fired when the editor finishes loading
 	onLoadDeferred: null,
@@ -402,7 +406,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			if(saveTextarea.value !== ""){
 				var datas = saveTextarea.value.split(this._SEPARATOR), i=0, dat;
 				while((dat=datas[i++])){
-					var data = dat.split(":");
+					var data = dat.split(this._NAME_CONTENT_SEP);
 					if(data[0] == this.name){
 						html = data[1];
 						datas = datas.splice(i, 1);	
@@ -1606,7 +1610,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		if(saveTextarea.value){
 			saveTextarea.value += this._SEPARATOR;
 		}
-		saveTextarea.value += this.name + ":" + this.getValue(true);
+		saveTextarea.value += this.name + this._NAME_CONTENT_SEP + this.getValue(true);
 	},
 
 
