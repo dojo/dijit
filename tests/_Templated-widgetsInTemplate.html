@@ -1,8 +1,10 @@
+<!DOCTYPE html>
 <html>
 	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
 		<title>testing widgetsInTemplate support</title>
 		<script type="text/javascript" src="../../dojo/dojo.js"
-			djConfig="parseOnLoad: true, isDebug: true"></script>
+			data-dojo-config="parseOnLoad: true, isDebug: true"></script>
 		<script type="text/javascript">
 			dojo.require("doh.runner");
 			dojo.require("dojo.parser");
@@ -172,15 +174,15 @@
 	</head>
 	<body class="claro">
 		<h1>testing widgetsInTemplate support</h1>
-		<xmp id="Test1Template" style="display:none;">
+		<textarea id="Test1Template" style="display:none;">
 			<div>
 				<div data-dojo-attach-point="normalNode">normal node</div>
 				<button data-dojo-attach-point="buttonWidget" data-dojo-attach-event="onClick:onClick" data-dojo-type="dijit.form.Button">button #1</button>
 				<div data-dojo-attach-point="checkboxWidget" data-dojo-attach-event="onClick:onClick" data-dojo-type="dijit.form.CheckBox"></div> checkbox #1
-				<div data-dojo-attach-point="progressBarWidget" data-dojo-attach-event="onChange:onClick" style="width:400px"
-					data-dojo-type="dijit.ProgressBar" data-dojo-props="value: 20, maximum: 200"></div>
+				<div data-dojo-attach-point="progressBarWidget" data-dojo-attach-event="onChange:onClick"
+					data-dojo-type="dijit.ProgressBar" data-dojo-props='value: 20, maximum: 200, style: "width:400px;"'></div>
 			</div>
-		</xmp>
+		</textarea>
 		<script>
 			dojo.declare('Test1Widget',
 				[dijit._Widget, dijit._Templated],
@@ -188,7 +190,7 @@
 				widgetsInTemplate: true,
 		//		isContainer: true,
 
-				templateString: dojo.byId('Test1Template').textContent || dojo.byId('Test1Template').innerText,
+				templateString: dojo.byId('Test1Template').value,
 				onClick: function(e){
 					if(e.target){
 						alert('onClick widgetId='+e.target.id);
@@ -206,19 +208,19 @@
 		<div data-dojo-type="Test1Widget" data-dojo-props="id: 'test1Widget'"></div>
 	
 	
-		<xmp id="Test3Template" style="display:none;">
+		<textarea id="Test3Template" style="display:none;">
 			<div>
 				<div data-dojo-attach-point="checkboxWidget" data-dojo-type="dijit.form.CheckBox"></div> checkbox #3
 				<div data-dojo-attach-point="containerNode"></div>
 			</div>
-		</xmp>
+		</textarea>
 		<script>
 			dojo.declare('Test3Widget',
 				[dijit._Widget, dijit._Templated],
 			{
 				widgetsInTemplate: true,
 
-				templateString: dojo.byId('Test3Template').textContent || dojo.byId('Test3Template').innerText
+				templateString: dojo.byId('Test3Template').value,
 			});
 		</script>
 		<div data-dojo-type="Test3Widget" data-dojo-props="id: 'test3Widget'">
@@ -239,7 +241,7 @@
 		</div>
 
 		<!-- Test templated widget containing layout widgets in template -->
-		<xmp id="Test4Template" style="display:none;">
+		<textarea id="Test4Template" style="display:none;">
 			<div>
 				<div data-dojo-type="dijit.layout.TabContainer" data-dojo-props="style: {height: '5em'}" data-dojo-attach-point="tabCont">
 					<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title: 'Tab 1'" data-dojo-attach-point="tab1">
@@ -250,14 +252,14 @@
 					</div>
 				</div>
 			</div>
-		</xmp>
+		</textarea>
 		<script>
 			dojo.declare('Test4Widget',
 				[dijit._Widget, dijit._Templated],
 			{
 				widgetsInTemplate: true,
 	
-				templateString: dojo.byId('Test4Template').textContent || dojo.byId('Test4Template').innerText
+				templateString: dojo.byId('Test4Template').value,
 			});
 	
 			var test4WidgetProgrammatic;
@@ -283,7 +285,7 @@
 		<div data-dojo-type="Test4Widget" data-dojo-props="id: 'test4Widget'"></div>
 	
 		<!-- Test templated widget containing container and nested widgets in template -->
-		<xmp id="Test5Template" style="display:none;">
+		<textarea id="Test5Template" style="display:none;">
 			<div>
 				<div data-dojo-type="TestLayoutWidget" data-dojo-attach-point="layout">
 					<div data-dojo-type="TestCtndWidget" data-dojo-attach-point="layChild1"></div>
@@ -309,7 +311,7 @@
 					</div>
 				</div>
 			</div>
-		</xmp>
+		</textarea>
 		<script>
 			dojo.declare('TestLayoutWidget', dijit.layout._LayoutWidget, {
 				startup: function(){
@@ -393,7 +395,7 @@
 			{
 				widgetsInTemplate: true,
 	
-				templateString: dojo.byId('Test5Template').textContent || dojo.byId('Test5Template').innerText,
+				templateString: dojo.byId('Test5Template').value,
 				startup: function(){
 					if(this._started){
 						this._doubleStarted = true;
@@ -470,4 +472,3 @@
 		<div data-dojo-type="Missing" data-dojo-props="id: 'missing'"></div>
 	</body>
 </html>
-

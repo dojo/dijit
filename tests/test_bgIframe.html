@@ -1,7 +1,8 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-	"http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html>
 <head>
+
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 
 	<title>Dojo Toolkit - Background Iframe test</title>
 	<style type="text/css">
@@ -10,11 +11,11 @@
 	</style>
 
 	<!-- required: a default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/claro/claro.css">
+	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/claro/claro.css"/>
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../dojo/dojo.js"
-		djConfig="parseOnLoad: true, isDebug: true"></script>
+		data-dojo-config="parseOnLoad: true, isDebug: true"></script>
 
 	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="_testCommon.js"></script>
@@ -33,24 +34,23 @@
 
 </head>
 <body class="claro">
-	<span dojoType="dijit.Tooltip" connectId="one" id="one_tooltip">
+	<span id="one_tooltip" data-dojo-type="dijit.Tooltip" data-dojo-props='connectId:["one"]'>
 		This is one tooltip.
 	</span>
-	<span dojoType="dijit.Tooltip" connectId="two" id="two_tooltip">
+	<span id="two_tooltip" data-dojo-type="dijit.Tooltip" data-dojo-props='connectId:["two"]'>
 		This is another tooltip.  A little longer...
 	</span>
-	<button dojoType="dijit.form.Button">
+	<button data-dojo-type="dijit.form.Button">
 		Show Dialog
-		<script type="dojo/connect" event="onClick">
+		<script type="dojo/connect" data-dojo-event="onClick">
 			dialog.show();
 		</script>
 	</button>
 	<table>
-		<tbody>
 			<tr>
 				<td></td>
 				<td>
-					<input dojoType="dijit.form.DateTextBox" type="text" />
+					<input data-dojo-type="dijit.form.DateTextBox" data-dojo-props='type:"text" '/>
 				</td>
 			</tr>
 			<tr>
@@ -72,6 +72,7 @@
 					<div id="two">Mouse over this to see a different tooltip</div>
 				</td>
 				<td>
+					<!-- TODO: remove the applet tag which is deprecated -->
 					<applet width="400" height="400" code="DOHRobot.class" archive="../../util/doh/robot/DOHRobot.jar">
 						<param name="mayscript" value="false">
 						<param name="scriptable" value="false">
@@ -79,9 +80,8 @@
 					</applet>
 				</td>
 			</tr>
-		</tbody>
 	</table>
-	<div id="dialog" jsId="dialog" dojoType="dijit.Dialog">
+	<div id="dialog" data-dojo-id="dialog" data-dojo-type="dijit.Dialog">
 		Hello!
 	</div>
 </body>

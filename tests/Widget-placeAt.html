@@ -1,7 +1,8 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-        "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html>
 <head>
+
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 
 	<title>_Widget.placeAt tests</title>
 
@@ -12,10 +13,10 @@
 	</style>
 
 	<!-- required: a default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/claro/claro.css">
+	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/claro/claro.css"/>
 
 	<!-- required: load the dojo base -->
-	<script type="text/javascript" src="../../dojo/dojo.js" djConfig="isDebug:true, parseOnLoad: true" ></script>
+	<script type="text/javascript" src="../../dojo/dojo.js" data-dojo-config="isDebug:true, parseOnLoad: true" ></script>
 	<!-- for theme-switching, only for dijit -->
 	<script type="text/javascript" src="../../dijit/tests/_testCommon.js"></script>
 
@@ -123,11 +124,11 @@
 	</div>
 
 	<h2>BorderContainer sample</h2>
-	<div id="bc1" dojoType="dijit.layout.BorderContainer" style="width:600px; height:400px">
-		<div dojoType="dijit.layout.ContentPane" region="center">
-			<button id="addStuff" dojoType="dijit.form.Button">
+	<div id="bc1" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='style:"width:600px; height:400px"'>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"center"'>
+			<button id="addStuff" data-dojo-type="dijit.form.Button">
 				Add Stuff
-				<script type="dojo/method" event="onClick">
+				<script type="dojo/method" data-dojo-event="onClick">
 					this.set("disabled", true);
 					var bc = dijit.byId("bc1");
 

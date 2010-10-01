@@ -1,10 +1,9 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-	"http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 	<title>Dojo Toolkit - ProgressBar test</title>
 
-	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1"/>
 
 	<style type="text/css">
 		@import "../../dojo/resources/dojo.css";
@@ -22,11 +21,11 @@
 	</style>
 
 	<!-- required: a default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/claro/claro.css">
+	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/claro/claro.css"/>
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../dojo/dojo.js"
-		djConfig="parseOnLoad: true, isDebug: true"></script>
+		data-dojo-config="parseOnLoad: true, isDebug: true"></script>
 
 	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="_testCommon.js"></script>
@@ -120,8 +119,8 @@
 	<br>
 	<input type="button" name="set" id="set" value="set!" />
 	<br>
-	<div style="width:400px"
-		maximum="200" id="setTestBar" value="20" dojoType="dijit.ProgressBar"></div>
+	<div id="setTestBar" data-dojo-type="dijit.ProgressBar" data-dojo-props='style:"width:400px",
+		maximum:200, value:"20" '></div>
 
 	<h3>Test 2</h3>
 	Write here: <input type="text" value="" name="test" maxLength="256" id="test" style="width:300"/>
@@ -131,25 +130,24 @@
 	<br />
 	Small, without text and background image:
 	<br />
-	<div style="width:400px; height:10px" class="smallred"
-		maximum="256" id="smallTestBar" dojoType="dijit.ProgressBar"></div>
+	<div id="smallTestBar" data-dojo-type="dijit.ProgressBar" data-dojo-props='style:"width:400px; height:10px", class:"smallred",
+		maximum:256'></div>
 	<br />
 	Show decimal place:
-	<div places="1" style="width:400px"
-		maximum="256" id="testBarInt" dojoType="dijit.ProgressBar"></div>
+	<div id="testBarInt" data-dojo-type="dijit.ProgressBar" data-dojo-props='places:1, style:"width:400px",
+		maximum:256'></div>
 
 	<h3>Test 3</h3>
 	No explicit maximum (both 50%)
-	<div style="width:400px"
-		id="implied1" value="50" dojoType="dijit.ProgressBar"></div>
+	<div id="implied1" data-dojo-type="dijit.ProgressBar" data-dojo-props='style:"width:400px",
+		value:"50" '></div>
 	<br />
-	<div style="width:400px"
-		id="implied2" value="50%" dojoType="dijit.ProgressBar"></div>
+	<div id="implied2" data-dojo-type="dijit.ProgressBar" data-dojo-props='style:"width:400px",
+		value:"50%" '></div>
 
 	<h3>Test 4</h3>
 	<input type="button" name="startTimer" id="startTimer" value="Start Timer" />
-	<div style="width:400px" id="timerBar"
-		maximum="100" value="0" dojoType="dijit.ProgressBar"></div>
+	<div id="timerBar" data-dojo-type="dijit.ProgressBar" data-dojo-props='style:"width:400px", maximum:100, value:"0" '></div>
 
 	<h3>Test 5 - indeterminate progess</h3>
 	<input type="button" value="Make Indeterminate (default blank label)"
@@ -161,8 +159,7 @@
 	<input type="button" value="Make Determinate With Label"
 		onclick="dijit.byId('indeterminateBar').set({indeterminate: false, label: 'Loading...'});" />
 	
-	<div style="width:400px" value="50" id="indeterminateBar"
-		dojoType="dijit.ProgressBar"></div>
+	<div id="indeterminateBar" data-dojo-type="dijit.ProgressBar" data-dojo-props='style:"width:400px", value:"50" '></div>
 
 	<h3>Test 6 - data-dojo-type</h3>
 	<div id="html5ish" data-dojo-type="dijit.ProgressBar" data-dojo-props="indeterminate:true"></div>

@@ -1,10 +1,10 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-        "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html>
 <head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>Styling The Tree to have Headers</title>
 
-	<style someProperty="text/css">
+	<style type="text/css">
 		@import "../../../dojo/dojo/resources/dojo.css";
 		@import "../../../dojo/dijit/css/dijitTests.css";
 		@import "../../../dojo/dojo/resources/dnd.css";
@@ -53,12 +53,12 @@
 	</style>
 
 	<!-- required: the default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/soria/soria.css">
+	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/soria/soria.css"/>
 
 	<!-- required: dojo.js -->
 
 	<script type="text/javascript" src="../../../dojo/dojo.js"
-		djConfig="parseOnLoad: true"></script>
+		data-dojo-config="parseOnLoad: true"></script>
 
 	<script type="text/javascript">
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
@@ -80,15 +80,12 @@
 </head>
 <body class="soria">
 
-	<div dojoType="dojo.data.ItemFileWriteStore" jsId="treeStore"
-		url="places.json"></div>
+	<div data-dojo-id="treeStore" data-dojo-type="dojo.data.ItemFileWriteStore" data-dojo-props='url:"places.json"'></div>
 
-	<div
-		dojoType="dijit.tree.TreeStoreModel"
-		jsId="treeModel"
-		store="treeStore"
-		query="{id:'root'}"
-		childrenAttrs="children"></div>
+	<div data-dojo-id="treeModel" data-dojo-type="dijit.tree.TreeStoreModel"
+		data-dojo-props='store:treeStore,
+		query:{id:"root"},
+		childrenAttrs:["children"]'></div>
 
 	<h1 class="testTitle">Styling a Tree to appear like an expandable list</h1>
 	<p>
@@ -96,18 +93,16 @@
 		To do this, you must specify the getRowClass function
 	</p>
 
-	<div
-		dojoType="dijit.Tree"
-		id="placeTree"
-		model="treeModel"
-		showRoot="false"
+	<div id="placeTree" data-dojo-type="dijit.Tree"
+		data-dojo-props='model:treeModel,
+		showRoot:false,
 
-		getRowClass="getRowClass"
+		getRowClass:getRowClass,
 
-		class="listTree"
-		openOnClick="true"
-		persist="false"
-	></div>
+		class:"listTree",
+		openOnClick:true,
+		persist:false
+	'></div>
 
 	</body>
 </html>

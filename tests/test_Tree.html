@@ -1,7 +1,7 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-		"http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html>
 <head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>Dijit Tree Test</title>
 
 	<style type="text/css">
@@ -10,16 +10,16 @@
 	</style>
 
 	<!-- required: a default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/claro/claro.css">
+	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/claro/claro.css"/>
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../dojo/dojo.js"
-		djConfig="parseOnLoad: true, isDebug: true"></script>
+		data-dojo-config="parseOnLoad: true, isDebug: true"></script>
 
 	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="_testCommon.js"></script>
 
-	<script language="JavaScript" type="text/javascript">
+	<script type="text/javascript">
 		dojo.require("dojo.data.ItemFileReadStore");
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.Tree");
@@ -34,27 +34,24 @@
 
 	<h1 class="testTitle">Dijit Tree Test</h1>
 
-	<div dojoType="dojo.data.ItemFileReadStore" jsId="continentStore"
-		url="_data/countries.json"></div>
-	<div dojoType="dijit.tree.ForestStoreModel" jsId="continentModel"
-		store="continentStore" query="{type:'continent'}"
-		rootId="continentRoot" rootLabel="Continents" childrenAttrs="children"></div>
+	<div data-dojo-id="continentStore" data-dojo-type="dojo.data.ItemFileReadStore" data-dojo-props='url:"_data/countries.json"'></div>
+	<div data-dojo-id="continentModel" data-dojo-type="dijit.tree.ForestStoreModel" data-dojo-props='store:continentStore, query:{type:"continent"},
+		rootId:"continentRoot", rootLabel:"Continents", childrenAttrs:["children"]'></div>
 
 	<h2>Tree with hardcoded root node (not corresponding to any item in the store)</h2>
 	<p>
 		Clicking a folder node will open/close it (openOnclick==true),
 		and clicking a leaf node will log a message to the console.
 	</p>
-	<div dojoType="dijit.Tree" id="mytree"
-		model="continentModel" openOnClick="true" onLoad="console.log('loaded mytree (first tree)');">
-		<script type="dojo/method" event="onClick" args="item">
+	<div id="mytree" data-dojo-type="dijit.Tree" data-dojo-props='model:continentModel, openOnClick:true, onLoad:function(){ console.log("loaded mytree (first tree)"); }'>
+		<script type="dojo/method" data-dojo-event="onClick" data-dojo-args="item">
 			console.log("Execute of node " + continentStore.getLabel(item)
 				+", population=" + continentStore.getValue(item, "population"));
 		</script>
-		<script type="dojo/method" event="onOpen" args="item">
+		<script type="dojo/method" data-dojo-event="onOpen" data-dojo-args="item">
 			console.log("Open of node " + continentStore.getLabel(item)||"root");
 		</script>
-		<script type="dojo/method" event="onClose" args="item">
+		<script type="dojo/method" data-dojo-event="onClose" data-dojo-args="item">
 			console.log("Close of node " + continentStore.getLabel(item)||"root");
 		</script>
 	</div>
@@ -63,40 +60,39 @@
 
 	<h2>A rootless tree (no "continents" node) with context menus, and custom icons</h2>
 
-	<ul dojoType="dijit.Menu" id="tree_menu" style="display: none;">
-		<li dojoType="dijit.MenuItem" onClick="console.log('Hello world');">Enabled Item</li>
-		<li dojoType="dijit.MenuItem" disabled="true">Disabled Item</li>
-		<li dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCut"
-			onClick="console.log('not actually cutting anything, just a test!')">Cut</li>
-		<li dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCopy"
-			onClick="console.log('not actually copying anything, just a test!')">Copy</li>
-		<li dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconPaste"
-			onClick="console.log('not actually pasting anything, just a test!')">Paste</li>
-		<li dojoType="dijit.PopupMenuItem">
+	<ul id="tree_menu" data-dojo-type="dijit.Menu" data-dojo-props='style:"display: none;"'>
+		<li data-dojo-type="dijit.MenuItem" data-dojo-props='onClick:function(){ console.log("Hello world"); }'>Enabled Item</li>
+		<li data-dojo-type="dijit.MenuItem" data-dojo-props='disabled:true'>Disabled Item</li>
+		<li data-dojo-type="dijit.MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconCut",
+			onClick:function(){ console.log("not actually cutting anything, just a test!") }'>Cut</li>
+		<li data-dojo-type="dijit.MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconCopy",
+			onClick:function(){ console.log("not actually copying anything, just a test!") }'>Copy</li>
+		<li data-dojo-type="dijit.MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconPaste",
+			onClick:function(){ console.log("not actually pasting anything, just a test!") }'>Paste</li>
+		<li data-dojo-type="dijit.PopupMenuItem">
 			<span>Enabled Submenu</span>
-			<ul dojoType="dijit.Menu" id="submenu2">
-				<li dojoType="dijit.MenuItem" onClick="console.log('Submenu 1!')">Submenu Item One</li>
-				<li dojoType="dijit.MenuItem" onClick="console.log('Submenu 2!')">Submenu Item Two</li>
-				<li dojoType="dijit.PopupMenuItem">
+			<ul id="submenu2" data-dojo-type="dijit.Menu" >
+				<li data-dojo-type="dijit.MenuItem" data-dojo-props='onClick:function(){ console.log("Submenu 1!") }'>Submenu Item One</li>
+				<li data-dojo-type="dijit.MenuItem" data-dojo-props='onClick:function(){ console.log("Submenu 2!") }'>Submenu Item Two</li>
+				<li data-dojo-type="dijit.PopupMenuItem">
 					<span>Deeper Submenu</span>
-					<ul dojoType="dijit.Menu" id="submenu4">
-						<li dojoType="dijit.MenuItem" onClick="console.log('Sub-submenu 1!')">Sub-sub-menu Item One</li>
-						<li dojoType="dijit.MenuItem" onClick="console.log('Sub-submenu 2!')">Sub-sub-menu Item Two</li>
+					<ul id="submenu4" data-dojo-type="dijit.Menu" >
+						<li data-dojo-type="dijit.MenuItem" data-dojo-props='onClick:function(){ console.log("Sub-submenu 1!") }'>Sub-sub-menu Item One</li>
+						<li data-dojo-type="dijit.MenuItem" data-dojo-props='onClick:function(){ console.log("Sub-submenu 2!") }'>Sub-sub-menu Item Two</li>
 					</ul>
 				</li>
 			</ul>
 		</li>
-		<li dojoType="dijit.PopupMenuItem" disabled="true">
+		<li data-dojo-type="dijit.PopupMenuItem" data-dojo-props='disabled:true'>
 			<span>Disabled Submenu</span>
-			<ul dojoType="dijit.Menu" id="submenu3" style="display: none;">
-				<li dojoType="dijit.MenuItem" onClick="console.log('Submenu 1!')">Submenu Item One</li>
-				<li dojoType="dijit.MenuItem" onClick="console.log('Submenu 2!')">Submenu Item Two</li>
+			<ul id="submenu3" data-dojo-type="dijit.Menu" data-dojo-props='style:"display: none;"'>
+				<li data-dojo-type="dijit.MenuItem" data-dojo-props='onClick:function(){ console.log("Submenu 1!") }'>Submenu Item One</li>
+				<li data-dojo-type="dijit.MenuItem" data-dojo-props='onClick:function(){ console.log("Submenu 2!") }'>Submenu Item Two</li>
 			</ul>
 		</li>
 	</ul>
 
-	<div dojoType="dijit.Tree" id="tree2"
-		model="continentModel" showRoot="false" openOnClick="true"onLoad="console.log('loaded tree2 (second tree)');">
+	<div id="tree2" data-dojo-type="dijit.Tree" data-dojo-props='model:continentModel, showRoot:false, openOnClick:true,onLoad:function(){ console.log("loaded tree2 (second tree)"); }'>
 
 		<script type="dojo/connect">
 			var menu = dijit.byId("tree_menu");
@@ -117,12 +113,12 @@
 				// IMPLEMENT CUSTOM MENU BEHAVIOR HERE
 			});
 		</script>
-		<script type="dojo/method" event="getIconClass" args="item, opened">
+		<script type="dojo/method" data-dojo-event="getIconClass" data-dojo-args="item, opened">
            return (item == this.model.root || continentStore.getValue(item, "type") == "continent") ?
                    (opened ? "customFolderOpenedIcon" : "customFolderClosedIcon") :
                     "noteIcon";
 		</script>
-		<script type="dojo/method" event="onClick" args="item">
+		<script type="dojo/method" data-dojo-event="onClick" data-dojo-args="item">
 			console.log("Execute of node " + this.model.getLabel(item)
 				+", population=" + continentStore.getValue(item, "population"));
 		</script>
@@ -133,17 +129,17 @@
 		Double-Clicking a folder node will open/close it (openOnDblClick==true),
 		and clicking or Double Clicking a leaf node will log a message to the console.
 	</p>
-	<div dojoType="dijit.Tree" id="mytree3" store="continentStore" query="{type:'continent'}"
-		label="Continents" openOnClick="false" openOnDblClick="true"
-		autoExpand="true" onLoad="console.log('loaded mytree3 (third tree)');">
-		<script type="dojo/method" event="getLabelStyle" args="item,opened">
+	<div id="mytree3" data-dojo-type="dijit.Tree" data-dojo-props='store:continentStore, query:{type:"continent"},
+		label:"Continents", openOnClick:false, openOnDblClick:true,
+		autoExpand:true, onLoad:function(){ console.log("loaded mytree3 (third tree)"); }'>
+		<script type="dojo/method" data-dojo-event="getLabelStyle" data-dojo-args="item,opened">
 			if(item && continentStore.getValue(item,"type") == "continent"){
 				return {color: "red"};
 			}else{
 				return {color: "green"};
 			}
 		</script>
-		<script type="dojo/method" event="getIconStyle" args="item,opened">
+		<script type="dojo/method" data-dojo-event="getIconStyle" data-dojo-args="item,opened">
 			if(item && continentStore.getValue(item,"type") == "continent"){
 				return {
 					backgroundImage: "url('images/flatScreen.gif')",
@@ -154,16 +150,16 @@
 				return null;
 			}
 		</script>
-		<script type="dojo/method" event="getIconClass" args="item, opened">
+		<script type="dojo/method" data-dojo-event="getIconClass" data-dojo-args="item, opened">
 	       if (!item || continentStore.getValue(item, "type") != "continent")
 				return (!item || this.model.mayHaveChildren(item)) ? (opened ? "dijitFolderOpened" : "dijitFolderClosed") : "dijitLeaf"
 	       	else
 	       		return "";
 		</script>
-		<script type="dojo/method" event="getTooltip" args="item,opened">
+		<script type="dojo/method" data-dojo-event="getTooltip" data-dojo-args="item,opened">
 			return item && ("Tooltip for " + this.model.getLabel(item));
 		</script>
-		<script type="dojo/method" event="onDblClick" args="item">
+		<script type="dojo/method" data-dojo-event="onDblClick" data-dojo-args="item">
 			console.log("Execute of node " + this.model.getLabel(item)
 				+", population=" + continentStore.getValue(item, "population"));
 		</script>

@@ -1,8 +1,10 @@
+<!DOCTYPE html>
 <html>
 	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>_Templated tests</title>
 		<script type="text/javascript" src="../../dojo/dojo.js"
-			djConfig="parseOnLoad: true, isDebug: true"></script>
+			data-dojo-config="parseOnLoad: true, isDebug: true"></script>
 		<script type="text/javascript">
 			dojo.require("doh.runner");
 
@@ -62,7 +64,7 @@
 					attributeMap: {foo: "", style: "", bar: "buttonNode"},
 					templateString: "<div style='border: 1px solid red'>" +
 										"<button dojoAttachPoint='buttonNode,focusNode'>hi</button>" +
-										'<span><input dojoAttachPoint="inputNode" value="input"></span>' +
+										'<span><input dojoAttachPoint="inputNode" value="input"/></span>' +
 										"<span dojoAttachPoint='containerNode'></span>" +
 									"</div>"
 				});
@@ -175,9 +177,9 @@
 							dojo.declare("ParentThing", [dijit._Widget, dijit._Templated], {
 								widgetsInTemplate:true,
 								templateString: "<div>" +
-													"<span dojoType='SubThing'>a</span>" +
-													"<div dojoType='dijit.layout.LayoutContainer'>" +
-														"<span dojoType='SubThing'>b</span>" +
+													"<span data-dojo-type='SubThing'>a</span>" +
+													"<div data-dojo-type='dijit.layout.LayoutContainer'>" +
+														"<span data-dojo-type='SubThing'>b</span>" +
 													"</div>" +
 												"</div>",
 								postCreate:function(){

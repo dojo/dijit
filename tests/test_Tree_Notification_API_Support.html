@@ -1,7 +1,7 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-		"http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html>
 <head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>Dijit Tree Test</title>
 
 	<style type="text/css">
@@ -28,16 +28,16 @@
 	</style>
 
 	<!-- required: a default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/claro/claro.css">
+	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/claro/claro.css"/>
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../dojo/dojo.js"
-		djConfig="parseOnLoad: true, isDebug: true"></script>
+		data-dojo-config="parseOnLoad: true, isDebug: true"></script>
 
 	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="_testCommon.js"></script>
 
-	<script language="JavaScript" type="text/javascript">
+	<script type="text/javascript">
 		dojo.require("dojo.dnd.Source");
 		dojo.require("dojo.data.ItemFileWriteStore");
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
@@ -220,49 +220,47 @@
 
 	<h1 class="testTitle">Dijit Tree Test - dojo.data.Notification API support</h1>
 
-	<div dojoType="dojo.data.ItemFileWriteStore" jsId="store"
-		url="../tests/_data/treeTest.json"></div>
-	<div dojoType="dijit.tree.TreeStoreModel" jsId="model"
-		store="store" query="{id:'root'}"></div>
-	<div dojoType="dijit.Tree" id="myTree" model="model" onClick="onSelectItem"></div>
+	<div data-dojo-id="store" data-dojo-type="dojo.data.ItemFileWriteStore" data-dojo-props='url:"../tests/_data/treeTest.json"'></div>
+	<div data-dojo-id="model" data-dojo-type="dijit.tree.TreeStoreModel" data-dojo-props='store:store, query:{id:"root"}'></div>
+	<div id="myTree" data-dojo-type="dijit.Tree" data-dojo-props='model:"model", onClick:onSelectItem'></div>
 
 	<br />
 	<h2>Selected Item:</h2>
 	<div class="box">
-		<label for="uLabel">Name:</label>				<input id="uLabel" width="50" value="Enter Node Label"  autocomplete="off"/><br />
-		<label for="uSomeProperty">Description:</label> <input id="uSomeProperty" width="50" value="Some Test Property"  autocomplete="off"/><br /><br />
+		<label for="uLabel">Name:</label><input type="text" id="uLabel" size="50" value="Enter Node Label"  autocomplete="off"/><br />
+		<label for="uSomeProperty">Description:</label> <input type="text" id="uSomeProperty" size="50" value="Some Test Property"  autocomplete="off"/><br /><br />
 		<div style="float:left; margin-right: 2em;">
-			<label for="uChildren">Children (in order):</label>
-			<div dojoType="dojo.dnd.Source" class="container" id="uChildren" jsId="uChildrenDragSource"></div>
+			<label>Children (in order):</label>
+			<div id="uChildren" data-dojo-id="uChildrenDragSource" data-dojo-type="dojo.dnd.Source" data-dojo-props='class:"container" '></div>
 		</div>
 		<div style="float:left">
-			<label for="uPotentialChildren">Potential Children:</label>
-			<div dojoType="dojo.dnd.Source" class="container" id="uPotentialChildren" jsId="uPotentialChildrenDragSource"></div>
+			<label>Potential Children:</label>
+			<div id="uPotentialChildren" data-dojo-id="uPotentialChildrenDragSource" data-dojo-type="dojo.dnd.Source" data-dojo-props='class:"container" '></div>
 		</div>
 		<div class="clear">(drag and drop items to adjust list of children, and order of those children)</div>
 	</div>
-	<div dojoType="dijit.form.Button" iconClass="noteIcon" onClick="updateItem();">Update Item</div>
-	<div dojoType="dijit.form.Button" iconClass="noteIcon" onClick="deleteItem();">Delete Item</div>
+	<div data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"noteIcon", onClick:function(){ updateItem(); }'>Update Item</div>
+	<div data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"noteIcon", onClick:function(){ deleteItem(); }'>Delete Item</div>
 
 	<h2>New Item</h2>
 	<p>Enter an Id, Name, and optionally a description to be added as a new item to the store.  Upon successful addition, the tree will recieve notification of this event and respond accordingly.  If you select a node the item will be added to that node, otherwise the item will be added to the tree root. "Id" is the identifer here and as such must be unique for all items in the store.</p>
 	<div class="box">
-		<label for="nId">Id:</label>					<input id="nId" width="50" value="Enter Item Id"  autocomplete="off"/><br />
-		<label for="nLabel">Name:</label>				<input id="nLabel" width="50" value="Enter Item Name"  autocomplete="off"/><br />
-		<label for="nSomeProperty">Description:</label> <input id="nSomeProperty" width="50" value="Enter Some Property Value"  autocomplete="off"/><br /><br />
-		<label for="nParent">Parent:</label>			<input id="nParent" readonly autocomplete="off"/><br /><br />
+		<label for="nId">Id:</label><input type="text" id="nId" size="50" value="Enter Item Id"  autocomplete="off"/><br />
+		<label for="nLabel">Name:</label><input type="text" id="nLabel" size="50" value="Enter Item Name"  autocomplete="off"/><br />
+		<label for="nSomeProperty">Description:</label> <input type="text" id="nSomeProperty" size="50" value="Enter Some Property Value"  autocomplete="off"/><br /><br />
+		<label for="nParent">Parent:</label><input type="text" id="nParent" readonly autocomplete="off"/><br /><br />
 		<div style="float:left; margin-right: 2em;">
 			Children (in order):
-			<div dojoType="dojo.dnd.Source" class="container" id="nChildren" jsId="nChildrenDragSource"></div>
+			<div id="nChildren" data-dojo-id="nChildrenDragSource" data-dojo-type="dojo.dnd.Source" data-dojo-props='class:"container" '></div>
 		</div>
 		<div style="float:left">
-			<label for="nPotentialChildren">Potential Children:</label>
-			<div dojoType="dojo.dnd.Source" class="container" id="nPotentialChildren" jsId="nPotentialChildrenDragSource"></div>
+			<label>Potential Children:</label>
+			<div id="nPotentialChildren" data-dojo-id="nPotentialChildrenDragSource" data-dojo-type="dojo.dnd.Source" data-dojo-props='class:"container" '></div>
 		</div>
 		<div class="clear">(drag and drop items to adjust list of children, and order of those children)</div>
 	</div>
 
-	<div dojoType="dijit.form.Button" iconClass="noteIcon" onClick="newItem();">Add Item to Store</div>
+	<div data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"noteIcon", onClick:function(){ newItem(); }'>Add Item to Store</div>
 	<br />
 
 	<h2>Data in flat form</h2>
@@ -270,13 +268,13 @@
 		flat view of the items in the data store.
 		TODO: use the table widget from the mail demo, or dojox.Grid
 	-->
-	<div dojoType="dijit.Declaration" widgetClass="ItemRow" defaults="{ item: {}, itemId: 'thud', label: 'foo', someProperty: 'foo', children: {} }">
+	<div data-dojo-type="dijit.Declaration" data-dojo-props='widgetClass:"ItemRow", defaults:{ item: {}, itemId: "thud", label: "foo", someProperty: "foo", children: {} }'>
 		Id: ${itemId}, Label: ${label}
 
 		Children:
-		<span class="dijitInline" dojoAttachPoint="childrenContainerNode"></span>
+		<span class="dijitInline" data-dojo-attach-point="childrenContainerNode"></span>
 
-		<script type='dojo/connect' event='postCreate'>
+		<script type='dojo/connect' data-dojo-event='postCreate'>
 			var children =
 				dojo.map(this.children, function(childItem){
 					return "<span class='itemReference'>" + store.getLabel(childItem) + "</span>";
@@ -287,7 +285,3 @@
 	<div id="itemsTable"></div>
 	</body>
 </html>
-
-
-
-
