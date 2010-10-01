@@ -24,10 +24,11 @@
 				doh.register("keyboard", [
 					{
 						name: "select",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred(),
 								w = dijit.byId('q1');
+							dojo.global.formValue = null;
 	
 							// focus field... drop down shouldn't open yet
 							w.focus();
@@ -68,7 +69,7 @@
 					},
 					{
 						name: "select original value",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred(),
 								w = dijit.byId('q1');
@@ -112,7 +113,7 @@
 					},
 					{
 						name: "cancel",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred(),
 								w = dijit.byId('q1');
@@ -148,7 +149,7 @@
 					},
 					{
 						name: "partial input",
-						timeout: 60000,
+						timeout: 6000,
 						setUp: function(){
 							// clear the field
 							var w = dijit.byId('q2');
@@ -166,7 +167,7 @@
 							}), 1000);
 		
 							// do partial input
-							doh.robot.typeKeys('12', 500, 100);
+							doh.robot.typeKeys('12', 500, 400);
 
 							doh.robot.sequence(d.getTestErrback(function(){
 								// partial input shouldn't be flagged as an error, because probably
@@ -208,10 +209,11 @@
 					}
 				]);
 
+				var handler, q5;
 				doh.register("mouse", [
 					{
 						name: "select",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred(),
 								w = dijit.byId('q1'),
@@ -239,6 +241,28 @@
 								doh.is(val, "T18:45:00", "should be 6:45PM");
 							}), 500);
 							return d;
+						}
+					},
+					{
+						name: "constraints propagation",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							q5 = dijit.byId('q5');
+							handler = q5.connect(q5.focusNode, 'onmouseup', d.getTestCallback(function(){
+								// drop down list should be filtered to 1 hour and 15 minute increments
+								var popup = dijit.byId("q5_popup"),
+									children = dojo.query(".dijitTimePickerItem", popup.domNode);
+								doh.is(4, children.length, "# of items in drop down");
+							}));
+							// click field, thus opening drop down
+							doh.robot.mouseMoveAt(q5.focusNode, 500, 1);
+							doh.robot.mouseClick({left:true}, 500);
+							return d;
+						},
+						tearDown: function(){
+							q5.disconnect(handler);
+							q5.closeDropDown();
 						}
 					}
 				]);
