@@ -989,7 +989,9 @@ dojo.declare("dijit._Widget", dojo.Stateful, {
 		//		Provide widget-specific analog to dojo.connect, except with the
 		//		implicit use of this widget as the target object.
 		//		This version of connect also provides a special "ondijitclick"
-		//		event which triggers on a click or space or enter keyup
+		//		event which triggers on a click or space or enter keyup.
+		//		Events connected with `this.connect` are disconnected upon
+		//		destruction. 
 		// returns:
 		//		A handle that can be passed to `disconnect` in order to disconnect before
 		//		the widget is destroyed.
