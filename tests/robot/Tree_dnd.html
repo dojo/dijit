@@ -107,11 +107,11 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							var fruitsTreeNode = findTreeNode("itemTree", "Fruits");
+							var fruitsTreeNode = findTreeNode("itemTree", "Fruits"),
 								appleTreeNode = findTreeNode("itemTree", "Apple"),
 								citrusTreeNode = findTreeNode("itemTree", "Citrus");
 
-							// Drag "Apple" into Citrus .
+							// Drag "Apple" into "Citrus".
 							doh.robot.mouseMoveAt(appleTreeNode.labelNode, 0, 500);
 							doh.robot.mousePress({left: true}, 500);
 							doh.robot.mouseMoveAt(citrusTreeNode.labelNode, 500, 1000);
@@ -380,9 +380,9 @@
 							
 							// ctrl-click Orange item
 							doh.robot.mouseMoveAt(orangeTreeNode.rowNode, 500, 500);
-							doh.robot.keyDown(dojo.keys.CTRL, 500);
+							doh.robot.keyDown(dojo.isMac ? dojo.keys.META : dojo.keys.CTRL, 500);
 							doh.robot.mouseClick({left: true}, 500);
-							doh.robot.keyUp(dojo.keys.CTRL, 500);
+							doh.robot.keyUp(dojo.isMac ? dojo.keys.META : dojo.keys.CTRL, 500);
 							
 							// drag to Apple Foods
 							doh.robot.mousePress({left: true}, 500);
@@ -411,17 +411,17 @@
 							
 							doh.is(citrusTreeNode, orangeTreeNode.getParent(), 'orange is child of citrus');
 							
-							// click Citrus item
+							// click Citrus category
 							doh.robot.mouseMoveAt(citrusTreeNode.rowNode, 500, 500);
 							doh.robot.mouseClick({left: true}, 500);
 							
 							// ctrl-click Orange item
 							doh.robot.mouseMoveAt(orangeTreeNode.rowNode, 500, 500);
-							doh.robot.keyDown(dojo.keys.CTRL, 500);
+							doh.robot.keyDown(dojo.isMac ? dojo.keys.META : dojo.keys.CTRL, 500);
 							doh.robot.mouseClick({left: true}, 500);
-							doh.robot.keyUp(dojo.keys.CTRL, 500);
+							doh.robot.keyUp(dojo.isMac ? dojo.keys.META : dojo.keys.CTRL, 500);
 							
-							// drag to Cereals Foods
+							// drag to Cereals category
 							doh.robot.mousePress({left: true}, 500);
 							doh.robot.mouseMoveAt(cerealsTreeNode.rowNode, 500, 500);
 							doh.robot.mouseRelease({left: true}, 500);
@@ -452,9 +452,9 @@
 							
 							// ctrl-click cereals item
 							doh.robot.mouseMoveAt(cerealsTreeNode.rowNode, 500, 500);
-							doh.robot.keyDown(dojo.keys.CTRL, 500);
+							doh.robot.keyDown(dojo.isMac ? dojo.keys.META : dojo.keys.CTRL, 500);
 							doh.robot.mouseClick({left: true}, 500);
-							doh.robot.keyUp(dojo.keys.CTRL, 500);
+							doh.robot.keyUp(dojo.isMac ? dojo.keys.META : dojo.keys.CTRL, 500);
 							
 							// drag to root item Foods
 							doh.robot.mousePress({left: true}, 500);
