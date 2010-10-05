@@ -194,9 +194,9 @@
 				is set to 5, so if you are near the top or bottom of a node the drop will be above or below it.
 			</p>
 			<div data-dojo-id="catModel" data-dojo-type="dijit.tree.TreeStoreModel" data-dojo-props='store:myStore, query:{id: "0"}'></div>
-			<div id="collectionsTree" class="container" data-dojo-type="dijit.Tree" data-dojo-props='model:catModel,
-				getLabel:"catTreeCustomLabel", betweenThreshold:"5",
-				checkAcceptance:"dndAccept", checkItemAcceptance:"collectionTreeCheckItemAcceptance", getIconClass:"getIcon",
+			<div id="collectionsTree" data-dojo-type="dijit.Tree" data-dojo-props='"class":"container", model:catModel,
+				getLabel:catTreeCustomLabel, betweenThreshold:5,
+				checkAcceptance:dndAccept, checkItemAcceptance:collectionTreeCheckItemAcceptance, getIconClass:getIcon,
 				persist:false'></div>
 		</td>
 		<td>
@@ -206,11 +206,11 @@
 				Can also move items within this tree. The drag threshold is set to 8, so you have a few pixels
 				of buffer before drag operations start.
 			</p>
-			<div data-dojo-id="itemModel" data-dojo-type="dijit.tree.TreeStoreModel" data-dojo-props='store:myStore, query:{id: "0"}, childrenAttrs:"items, children"'></div>
-			<div id="itemTree" data-dojo-type="dijit.Tree" class="container" data-dojo-props='model:itemModel,
-				checkAcceptance:"dndAccept", checkItemAcceptance:"itemTreeCheckItemAcceptance",
-				dragThreshold:"8",
-				getIconClass:"getIcon",
+			<div data-dojo-id="itemModel" data-dojo-type="dijit.tree.TreeStoreModel" data-dojo-props='store:myStore, query:{id: "0"}, childrenAttrs:["items", "children"]'></div>
+			<div id="itemTree" data-dojo-type="dijit.Tree" data-dojo-props='"class":"container", model:itemModel,
+				checkAcceptance:dndAccept, checkItemAcceptance:itemTreeCheckItemAcceptance,
+				dragThreshold:8,
+				getIconClass:getIcon,
 				persist:false'></div>
 		</td>
 	</tr>
