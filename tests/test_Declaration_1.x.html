@@ -27,7 +27,7 @@
 		dojo.require("doh.runner");
 
 		dojo.addOnLoad(function(){
-			doh.register("dijit.Declaration", [
+			doh.register("dijit.Declaration_1.x", [
 				function parse(){
 					// run parser inside of DOH so we can tell if there are any exceptions
 					dojo.parser.parse();
@@ -42,7 +42,7 @@
 				function basicTests(){	
 					// test <script type="dojo/method">	
 					doh.t(HideButton.prototype.myHandler, "myHandler method added to HideButton prototype");
-					doh.t(HideButton2.prototype.myHandler, "myHandler method added to HideButton prototype");
+					doh.t(HideButton2.prototype.myHandler, "myHandler method added to HideButton2 prototype");
 	
 					// test prototype extension	
 					doh.t(mPrototypeExecuted, "m prototype executed");
