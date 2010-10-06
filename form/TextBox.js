@@ -357,9 +357,12 @@ dojo.declare(
 			}
 
 			this._updatePlaceHolder();
-			
-			this._refreshState();
+
+			// call this.inherited() before refreshState(), since this.inherited() will possibly scroll the viewport
+			// (to scroll the TextBox into view), which will affect how _refreshState() positions the tooltip 			
 			this.inherited(arguments);
+
+			this._refreshState();
 		},
 
 		reset: function(){

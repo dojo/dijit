@@ -742,7 +742,7 @@ DIV.dijitArrowButton {
 	z-index: 2000;
 	display: block;
 	/* make visible but off screen */
-	left: 50%;
+	left: 0px;
 	top: -10000px;
 	overflow: visible;
 }

@@ -1,0 +1,1272 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>doh.robot tooltip place Test</title>
+
+		<style>
+			@import "../../../util/doh/robot/robot.css";
+		</style>
+
+		<!-- required: dojo.js -->
+		<script type="text/javascript" src="../../../dojo/dojo.js"
+			djConfig="isDebug: true, parseOnLoad: true"></script>
+
+		<script type="text/javascript">
+			dojo.require("dijit.dijit"); // optimize: load dijit layer
+			dojo.require("dijit.robotx");
+			
+			//Verify the following is true:
+			//	1. The tooltip is displayed to the right or the left of the textbox
+			//	2. The tooltip arrow is next to the textbox and pointing in the correct direction
+			//	3. The user can view the entire tooltip on the screen OR the tootip is displayed on the side with the largest width available
+			//	4. If the tooltip is not completely visible, verify that it uses all available height
+			function testRightOrLeft(textbox){
+				//find the tooltip
+				var textboxPos = dojo.position(textbox.domNode);
+				var tooltipConnector = dojo.query("div[dojoattachpoint='connectorNode']");
+				var tooltipConnectorPos = dojo.position(tooltipConnector[0]);
+				var tooltipAndConnectorPos = dojo.position(tooltipConnector[0].parentNode);
+
+				var yDiff = 0;
+				if(tooltipConnector[0].style.top) tooltipConnectorPos.y = tooltipConnectorPos.y - 3;
+				var yDiff = textboxPos.y - tooltipConnectorPos.y;
+				var yAxisValid = yDiff <= 1 && yDiff >= 0; //tooltip arrow is at a similar y coord as the box
+				doh.t(yAxisValid, "Y axis is invalid. yDiff was: "+yDiff);
+				
+				var xDiff = textboxPos.x - tooltipAndConnectorPos.x - tooltipAndConnectorPos.w;
+				var toTheLeft = xDiff >= -0.5 && xDiff < 2;	
+				
+				xDiff = tooltipAndConnectorPos.x - textboxPos.x - textboxPos.w;
+				var toTheRight = xDiff >= -0.5 && xDiff < 2;
+				
+				doh.t(toTheLeft || toTheRight, "The tooltip was not to the left or right");				
+				
+				var tooltip = dojo.query("div[dojoattachpoint='containerNode']");
+				var tooltipPos = dojo.position(tooltip[0]);
+
+				var view = dojo.window.getBox();
+				var isIE6 = dojo.isIE < 7;
+				//verify the entire width is utilized.  Small tooltips will not utilize the entire witdth.
+				if(doh._currentGroup!="tooltip_left_right_small" && !isIE6 && !dojo.isOpera) {
+					if(toTheLeft){
+						doh.t(tooltipAndConnectorPos.w + 3/*space in between arrow and textbox*/ >= textboxPos.x, "The entire width was not utilized to the left");						
+					}else{
+						doh.t(tooltipAndConnectorPos.w + 3/*space in between arrow and textbox*/ >= view.w - tooltipAndConnectorPos.x, "The entire width was not utilized to the right");
+					}
+				}
+				
+				//If we cannot view the entire tooltip, verify they side with the most space was choosen and the entire height was utilized.
+				var canViewEntireTooltip = (tooltipAndConnectorPos.x + tooltipAndConnectorPos.w <= view.w) && 
+				                           (tooltipPos.y + tooltipPos.h <= view.h);
+				if(!canViewEntireTooltip && !isIE6 && !dojo.isOpera){
+					if(toTheLeft){
+						//verify there is more space on the left than the right
+						doh.t(textboxPos.x >= (view.w - textboxPos.x - textboxPos.w), "There is not more space on the left than the right");	
+					}else{
+						doh.t(textboxPos.x <= (view.w - textboxPos.x - textboxPos.w), "There is not more space on the right than the left");
+					}
+					//verify the entire height is utilized
+					doh.t(tooltipPos.h >= view.h, "The entire height was not utilized");
+				}
+			}
+			
+			function testAboveBelow(textbox){
+				var textboxPos = dojo.position(textbox.domNode);
+				var tooltipConnector = dojo.query("div[dojoattachpoint='connectorNode']");
+				var tooltipConnectorPos = dojo.position(tooltipConnector[0]);
+				var tooltipAndConnectorPos = dojo.position(tooltipConnector[0].parentNode);
+				
+				var xDiff = 0;
+				var xAxisValid = textboxPos.x  <= tooltipConnectorPos.x && tooltipConnectorPos.x <= (textboxPos.x + textboxPos.w);
+				doh.t(xAxisValid, "X axis is invalid");
+				
+				var yDiff = textboxPos.y - tooltipAndConnectorPos.y - tooltipAndConnectorPos.h;
+				var above = yDiff >= -0.5 && yDiff < 1;
+				
+				yDiff = tooltipAndConnectorPos.y - textboxPos.y - textboxPos.h;
+				var below = yDiff >= -0.5 && yDiff < 1;
+				
+				doh.t(above || below);
+			}
+
+			dojo.addOnLoad(function(){
+				doh.robot.initRobot('../test_Tooltip_placement.html');
+
+				doh.register("tooltip_left_right", [
+					{
+						name: "test1",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							//If windows are very small (in IE6) sometimes they will not get clicked on because they aren't in view
+							doh.robot.sequence(function(){ dijit.byId("test1").focus();
+							}, 500);
+							
+							doh.robot.keyPress("a", 1000);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test1"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test2",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test2").focus();
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test2"));
+							}), 500);
+							return d;
+							//doh.f(true);
+						}
+					},
+					{
+						name: "test3",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test3").focus();
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test3"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test4",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test4").focus();
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test4"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test5",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test5").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test5"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test6",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test6").focus();
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test6"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test8",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test8").focus();
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test8"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test9",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test9").focus();
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test9"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test10",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test10").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test10"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test11",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test11").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test11"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test12",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test12").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test12"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test13",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test13").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test13"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test14",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test14").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test14"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test15",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test15").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test15"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test16",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test16").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test16"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test17",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test17").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test17"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test18",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test18").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test18"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test19",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test19").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test19"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test20",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test20").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test20"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test21",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test21").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test21"));
+							}), 500);
+							return d;
+						}
+					}
+				]);
+				
+				doh.register("tooltip_left_right_small", [
+					{
+						name: "test1_lrs",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							doh.robot.sequence(function(){ dijit.byId("test1").focus();}, 500);
+							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500);
+							doh.robot.keyPress(dojo.keys.DELETE, 500);
+							
+							doh.robot.mouseMoveAt("test7", 500);
+							doh.robot.mouseClick({left:true}, 500);
+							
+							doh.robot.sequence(function(){ dijit.byId("test1").focus();}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test1"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test2_lrs",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test2").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test2"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test3_lrs",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test3").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test3"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test4_lrs",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test4").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test4"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test5_lrs",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test5").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test5"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test6_lrs",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test6").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test6"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test8_lrs",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test8").focus();
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test8"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test9_lrs",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test9").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test9"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test10_lrs",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test10").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test10"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test11_lrs",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test11").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test11"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test12_lrs",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test12").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test12"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test13_lrs",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test13").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test13"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test14_lrs",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test14").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test14"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test15_lrs",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test15").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test15"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test16_lrs",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test16").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test16"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test17_lrs",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test17").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test17"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test18_lrs",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test18").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test18"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test19_lrs",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test19").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test19"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test20_lrs",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test20").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test20"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test21_lrs",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test21").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId("test21"));
+							}), 500);
+							return d;
+						}
+					}
+				]);
+				
+				doh.register("tooltip_above_below_small", [
+					{
+						name: "test1_abs",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							doh.robot.mouseMoveAt("aboveBelowButton", 500);
+							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.sequence(function(){ dijit.byId("test1").focus();}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test1"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test2_abs",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test2").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test2"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test3_abs",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test3").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test3"));
+							}), 500);
+							return d;
+						}
+					},{
+						name: "test4_abs",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test4").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test4"));
+							}), 500);
+							return d;
+						}
+					},{
+						name: "test5_abs",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test5").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test5"));
+							}), 500);
+							return d;
+						}
+					},{
+						name: "test6_abs",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test6").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test6"));
+							}), 500);
+							return d;
+						}
+					},{
+						name: "test8_abs",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test8").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test8"));
+							}), 500);
+							return d;
+						}
+					},{
+						name: "test9_abs",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test9").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test9"));
+							}), 500);
+							return d;
+						}
+					},{
+						name: "test10_abs",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test10").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test10"));
+							}), 500);
+							return d;
+						}
+					},{
+						name: "test11_abs",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test11").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test11"));
+							}), 500);
+							return d;
+						}
+					},{
+						name: "test12_abs",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test12").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test12"));
+							}), 500);
+							return d;
+						}
+					},{
+						name: "test13_abs",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test13").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test13"));
+							}), 500);
+							return d;
+						}
+					},{
+						name: "test14_abs",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test14").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test14"));
+							}), 500);
+							return d;
+						}
+					},{
+						name: "test15_abs",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test15").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test15"));
+							}), 500);
+							return d;
+						}
+					},{
+						name: "test16_abs",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test16").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test16"));
+							}), 500);
+							return d;
+						}
+					},{
+						name: "test17_abs",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test17").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test17"));
+							}), 500);
+							return d;
+						}
+					},{
+						name: "test18_abs",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test18").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test18"));
+							}), 500);
+							return d;
+						}
+					},{
+						name: "test19_abs",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test19").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test19"));
+							}), 500);
+							return d;
+						}
+					},{
+						name: "test20_abs",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test20").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test20"));
+							}), 500);
+							return d;
+						}
+					},{
+						name: "test21_abs",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							dijit.byId("test21").focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test21"));
+							}), 500);
+							return d;
+						}
+					}
+				]);
+				
+				doh.register("tooltip_above_below", [
+					{
+						name: "test1_ab",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							doh.robot.sequence(function(){ dijit.byId("test1").focus();}, 500);
+							doh.robot.keyPress("a", 1000);
+							doh.robot.sequence(function(){ dijit.byId("test1").focus();}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test1"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test2_ab",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							doh.robot.sequence(function(){ dijit.byId("test2").focus();}, 500);
+							doh.robot.keyPress("a", 1000);
+							doh.robot.sequence(function(){ dijit.byId("test2").focus();}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test2"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test3_ab",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							doh.robot.sequence(function(){ dijit.byId("test3").focus();}, 500);
+							doh.robot.keyPress("a", 1000);
+							doh.robot.sequence(function(){ dijit.byId("test3").focus();}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test3"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test4_ab",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							doh.robot.sequence(function(){ dijit.byId("test4").focus();}, 500);
+							doh.robot.keyPress("a", 1000);
+							doh.robot.sequence(function(){ dijit.byId("test4").focus();}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test4"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test5_ab",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							
+							
+							
+							
+							doh.robot.sequence(function(){ dijit.byId("test5").focus();}, 500);
+							doh.robot.keyPress("a", 1000);
+							doh.robot.sequence(function(){ dijit.byId("test5").focus();}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test5"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test6_ab",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							doh.robot.sequence(function(){ dijit.byId("test6").focus();}, 500);
+							doh.robot.keyPress("a", 1000);
+							doh.robot.sequence(function(){ dijit.byId("test6").focus();}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test6"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test8_ab",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							doh.robot.sequence(function(){ dijit.byId("test8").focus();}, 500);
+							doh.robot.keyPress("a", 1000);
+							doh.robot.sequence(function(){ dijit.byId("test8").focus();}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test8"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test9_ab",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							doh.robot.sequence(function(){ dijit.byId("test9").focus();}, 500);
+							doh.robot.keyPress("a", 1000);
+							doh.robot.sequence(function(){ dijit.byId("test9").focus();}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test9"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test10_ab",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							doh.robot.sequence(function(){ dijit.byId("test10").focus();}, 500);
+							doh.robot.keyPress("a", 1000);
+							doh.robot.sequence(function(){ dijit.byId("test10").focus();}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test10"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test11_ab",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							doh.robot.sequence(function(){ dijit.byId("test11").focus();}, 500);
+							doh.robot.keyPress("a", 1000);
+							doh.robot.sequence(function(){ dijit.byId("test11").focus();}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test11"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test12_ab",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							doh.robot.sequence(function(){ dijit.byId("test12").focus();}, 500);
+							doh.robot.keyPress("a", 1000);
+							doh.robot.sequence(function(){ dijit.byId("test12").focus();}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test12"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test13_ab",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							doh.robot.sequence(function(){ dijit.byId("test13").focus();}, 500);
+							doh.robot.keyPress("a", 1000);
+							doh.robot.sequence(function(){ dijit.byId("test13").focus();}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test13"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test14_ab",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							doh.robot.sequence(function(){ dijit.byId("test14").focus();}, 500);
+							doh.robot.keyPress("a", 1000);
+							doh.robot.sequence(function(){ dijit.byId("test14").focus();}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test14"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test15_ab",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							doh.robot.sequence(function(){ dijit.byId("test15").focus();}, 500);
+							doh.robot.keyPress("a", 1000);
+							doh.robot.sequence(function(){ dijit.byId("test15").focus();}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test15"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test16_ab",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							doh.robot.sequence(function(){ dijit.byId("test16").focus();}, 500);
+							doh.robot.keyPress("a", 1000);
+							doh.robot.sequence(function(){ dijit.byId("test16").focus();}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test16"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test17_ab",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							doh.robot.sequence(function(){ dijit.byId("test17").focus();}, 500);
+							doh.robot.keyPress("a", 1000);
+							doh.robot.sequence(function(){ dijit.byId("test17").focus();}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test17"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test18_ab",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							doh.robot.sequence(function(){ dijit.byId("test18").focus();}, 500);
+							doh.robot.keyPress("a", 1000);
+							doh.robot.sequence(function(){ dijit.byId("test18").focus();}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test18"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test19_ab",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							doh.robot.sequence(function(){ dijit.byId("test19").focus();}, 500);
+							doh.robot.keyPress("a", 1000);
+							doh.robot.sequence(function(){ dijit.byId("test19").focus();}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test19"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test20_ab",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							doh.robot.sequence(function(){ dijit.byId("test20").focus();}, 500);
+							doh.robot.keyPress("a", 1000);
+							doh.robot.sequence(function(){ dijit.byId("test20").focus();}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test20"));
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "test21_ab",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+														
+							doh.robot.sequence(function(){ dijit.byId("test21").focus();}, 500);
+							doh.robot.keyPress("a", 1000);
+							doh.robot.sequence(function(){ dijit.byId("test21").focus();}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId("test21"));
+							}), 500);
+							return d;
+						}
+					}
+				]);
+				doh.run();
+			});
+		</script>
+	</head>
+</html>
