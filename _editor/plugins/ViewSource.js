@@ -144,35 +144,10 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 				html = this._filter(html);
 				ed.set("value", html);
 				this._pluginList = [];
-				this._disabledPlugins = dojo.filter(edPlugins, function(p){
+				dojo.forEach(edPlugins, function(p){
 					// Turn off any plugins not controlled by queryCommandenabled.
-					if(p && p.button && !p.button.get("disabled") &&
-						!(p instanceof dijit._editor.plugins.ViewSource)){
-						p._vs_updateState = p.updateState;
-						p.updateState = function(){
-							return false;
-						};
-						p.button.set("disabled", true);
-						if(p.command){
-							// FF has a weird behavior when spellcheck is off,
-							// queryCommandValue() returns true on the doc, and as such
-							// toggles 'on' some actions.  So, we need to explictly 
-							// toggle them off.  TODO:  Add a disable API to _Plugin.js
-							// It would aleviate the need for this.
-							switch(p.command){
-								case "bold":
-								case "italic":
-								case "underline":
-								case "strikethrough":
-								case "superscript":
-								case "subscript":
-									p.button.set("checked", false);
-									break;
-								default:
-									break;
-							}
-						}
-						return true;
+					if(!(p instanceof dijit._editor.plugins.ViewSource)){
+						p.set("disabled", true)
 					}
 				});
 
@@ -265,15 +240,11 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 					ed.endEditing();
 				}
 
-				dojo.forEach(this._disabledPlugins, function(p){
+				dojo.forEach(edPlugins, function(p){
 					// Turn back on any plugins we turned off.
-					p.button.set("disabled", false);
-					if(p._vs_updateState){
-						p.updateState = p._vs_updateState;
-					}
+					p.set("disabled", false);
 				});
 
-				this._disabledPlugins = null;
 				dojo.style(this.sourceArea, "display", "none");
 				dojo.style(ed.iframe, "display", "block");
 				delete ed._sourceQueryCommandEnabled;
@@ -296,6 +267,12 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 		}catch(e){
 			console.log(e);
 		}
+	},
+	
+	updateState: function(){
+		// summary:
+		//		Over-ride for button state control for disabled to work.
+		this.button.set("disabled", this.get("disabled"));
 	},
 
 	_resize: function(){

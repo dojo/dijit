@@ -391,6 +391,12 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 			}, 100);
 		}
 	},
+	
+	updateState: function(){
+		// summary:
+		//		Over-ride for button state control for disabled to work.
+		this.button.set("disabled", this.get("disabled"));
+	},
 
 	destroy: function(){
 		// summary:

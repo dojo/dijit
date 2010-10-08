@@ -726,22 +726,14 @@ dojo.declare(
 			var disableFunc = dojo.hitch(this, function(){
 				if((!this.disabled && value) || (!this._buttonEnabledPlugins && value)){
 					// Disable editor: disable all enabled buttons and remember that list
-					this._buttonEnabledPlugins = dojo.filter(this._plugins, function(p){
-						if(p && p.button && !p.button.get("disabled")){
-							p.button.set("disabled", true);
-							return true;
-						}
-						return false;
+					dojo.forEach(this._plugins, function(p){
+						p.set("disabled", true);
 					});
 				}else if(this.disabled && !value){
-					// Enable editor: we only want to enable the buttons that should be
-					// enabled (for example, the outdent button shouldn't be enabled if the current
-					// text can't be outdented).
-					dojo.forEach(this._buttonEnabledPlugins, function(p){
-						p.button.attr("disabled", false);
-						p.updateState && p.updateState();	// just in case something changed, like caret position
+					// Restore plugins to being active.
+					dojo.forEach(this._plugins, function(p){
+						p.set("disabled", false);
 					});
-					delete this._buttonEnabledPlugins;
 				}
 			});
 			this.setValueDeferred.addCallback(disableFunc);

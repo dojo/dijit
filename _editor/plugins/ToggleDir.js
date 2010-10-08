@@ -36,8 +36,9 @@ dojo.declare("dijit._editor.plugins.ToggleDir",
 		},
 
 		updateState: function(){
-			// Override _Plugin.updateState() to do nothing, since we don't need to react to changes in the
-			// editor like arrow keys etc.
+			// summary:
+			//		Over-ride for button state control for disabled to work.
+			this.button.set("disabled", this.get("disabled"));
 		},
 
 		_setRtl: function(rtl){

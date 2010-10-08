@@ -501,7 +501,11 @@ dojo.declare("dijit._editor.plugins.FontChoice", dijit._editor._Plugin,{
 		var _e = this.editor;
 		var _c = this.command;
 		if(!_e || !_e.isLoaded || !_c.length){ return; }
+		
 		if(this.button){
+			var disabled = this.get("disabled");
+			this.button.set("disabled", disabled);
+			if(disabled){ return; }
 			var value;
 			try{
 				value = _e.queryCommandValue(_c) || "";

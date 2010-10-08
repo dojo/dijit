@@ -45,6 +45,16 @@ dojo.declare("dijit._editor.plugins.Print",dijit._editor._Plugin,{
 			})
 		);
 	},
+	
+	updateState: function(){
+		// summary:
+		//		Over-ride for button state control for disabled to work.
+		var disabled = this.get("disabled");
+		if(!this.editor.iframe.contentWindow["print"]){
+			disabled = true;
+		}
+		this.button.set("disabled", disabled);
+	},
 
 	_print: function(){
 		// summary:
