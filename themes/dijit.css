@@ -1031,6 +1031,7 @@ img.dijitColorPaletteUnder {
 	font-size: 1px;
 	vertical-align: middle;
 	text-align: center;
+	background: none;
 }
 .dijitColorPalette .dijitPaletteImg {
 	/* transparent (but clickable) <img> node inside of each <td>, overlaying the color swatch.
