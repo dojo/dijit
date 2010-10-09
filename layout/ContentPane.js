@@ -32,12 +32,11 @@ dojo.declare(
 	//
 	// example:
 	//		Some quick samples:
-	//		To change the innerHTML use .set('content', '<b>new content</b>')
+	//		To change the innerHTML: cp.set('content', '<b>new content</b>')
 	//
-	//		Or you can send it a NodeList, .set('content', dojo.query('div [class=selected]', userSelection))
-	//		please note that the nodes in NodeList will copied, not moved
+	//		Or you can send it a NodeList: cp.set('content', dojo.query('div [class=selected]', userSelection))
 	//
-	//		To do a ajax update use .set('href', url)
+	//		To do an ajax update: cp.set('href', url)
 
 	// href: String
 	//		The href of the content that displays now.
