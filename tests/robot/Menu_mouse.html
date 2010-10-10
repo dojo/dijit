@@ -377,7 +377,6 @@
 						name: "MenuBar navigation with BOTH mouse and keyboard",
 						timeout: 20000,
 						runTest: function(){
-						    if(!(dojo.isSafari < 4)){ // doesn't support keyboard navigation
 							var d = new doh.Deferred();
 
 							// click random point on screen
@@ -419,7 +418,6 @@
 							}), 1000);
 
 							return d;
-						    }
 						}
 					}
 				]);

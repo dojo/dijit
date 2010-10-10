@@ -36,9 +36,9 @@ dojo.declare(
 			newH += textarea.offsetHeight - textarea.clientHeight - ((dojo.isIE < 8 && this._strictMode) ? dojo._getPadBorderExtents(textarea).h : 0);
 		}else if(dojo.isMoz){
 			newH += textarea.offsetHeight - textarea.clientHeight; // creates room for horizontal scrollbar
-		}else if(dojo.isWebKit && !(dojo.isSafari < 4)){ // Safari 4.0 && Chrome
+		}else if(dojo.isWebKit){
 			newH += dojo._getBorderExtents(textarea).h;
-		}else{ // Safari 3.x and Opera 9.6
+		}else{ // Opera 9.6 (TODO: test if this is still needed)
 			newH += dojo._getPadBorderExtents(textarea).h;
 		}
 		return newH;
