@@ -1133,14 +1133,12 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		var mozilla = 1 << 1;
 		var webkit = 1 << 2;
 		var opera = 1 << 3;
-		var webkit420 = 1 << 4;
 
 		function isSupportedBy(browsers){
 			return {
 				ie: Boolean(browsers & ie),
 				mozilla: Boolean(browsers & mozilla),
 				webkit: Boolean(browsers & webkit),
-				webkit420: Boolean(browsers & webkit420),
 				opera: Boolean(browsers & opera)
 			};
 		}
@@ -1162,7 +1160,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			case "insertorderedlist": case "insertunorderedlist":
 			case "indent": case "outdent": case "formatblock":
 			case "inserthtml": case "undo": case "redo": case "strikethrough": case "tabindent":
-				supportedBy = isSupportedBy(mozilla | ie | opera | webkit420);
+				supportedBy = isSupportedBy(mozilla | ie | opera | webkit);
 				break;
 
 			case "blockdirltr": case "blockdirrtl":
@@ -1171,7 +1169,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 				supportedBy = isSupportedBy(ie);
 				break;
 			case "cut": case "copy": case "paste":
-				supportedBy = isSupportedBy( ie | mozilla | webkit420);
+				supportedBy = isSupportedBy( ie | mozilla | webkit);
 				break;
 
 			case "inserttable":
@@ -1190,7 +1188,6 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		return (dojo.isIE && supportedBy.ie) ||
 			(dojo.isMoz && supportedBy.mozilla) ||
 			(dojo.isWebKit && supportedBy.webkit) ||
-			(dojo.isWebKit > 420 && supportedBy.webkit420) ||
 			(dojo.isOpera && supportedBy.opera);	// Boolean return true if the command is supported, false otherwise
 	},
 
