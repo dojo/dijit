@@ -120,7 +120,7 @@
 
 							// Delete "world" and the space before it
 							doh.robot.keyPress(dojo.keys.DELETE,500);
-							if(!dojo.isSafari&&!dojo.isChrome){
+							if(!dojo.isSafari && !(dojo.isChrome && dojo.isMac)){
 								// they delete the space too?
 								doh.robot.keyPress(dojo.keys.BACKSPACE,500);
 							}
