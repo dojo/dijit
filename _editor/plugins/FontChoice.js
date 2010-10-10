@@ -482,10 +482,6 @@ dojo.declare("dijit._editor.plugins.FontChoice", dijit._editor._Plugin,{
 			}else{
 				this.editor.execCommand(this.command, choice);
 			}
-			
-			// Enable custom undo for webkit, needed for noFormat to work properly
-			// and still undo.
-			this.editor.customUndo = this.editor.customUndo || dojo.isWebKit;
 		});
 	},
 
