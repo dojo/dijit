@@ -1,0 +1,211 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>doh.robot TabContainer Prog Test</title>
+
+		<style>
+			@import "../../../../util/doh/robot/robot.css";
+		</style>
+
+		<!-- required: dojo.js -->
+		<script type="text/javascript" src="../../../../dojo/dojo.js"
+			djConfig="isDebug: true"></script>
+
+		<!-- functions to help test -->
+		<script type="text/javascript" src="../../helpers.js"></script>
+
+		<script type="text/javascript">
+			dojo.require("dijit.robotx");	
+			dojo.addOnLoad(function(){
+				doh.robot.initRobot('../test_TabContainer_prog.html');
+				doh.register("Tab container programmatic",[
+					{
+						name: "createEmptyTabContainer",
+						timeout: 2000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							doh.robot.mouseMoveAt('createEmpty', 500);
+							doh.robot.mouseClick({left: true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var emptyTC = dijit.byId("emptyTC");
+								var children = emptyTC.getChildren();
+								doh.is(0, children.length);
+								doh.t(isVisible(emptyTC));
+								
+								var pos = dojo.position(emptyTC.domNode);
+								var heightDiff = 200 - pos.h;
+								var widthDiff = 500 - pos.w;
+								doh.t(-0.01 < heightDiff && heightDiff < 0.01);
+								doh.t(-0.01 < widthDiff && widthDiff < 0.01);
+							}), 500);
+							
+							return d;
+						}
+					},
+					{
+						name: "addTabToEmptyTabContainer",
+						timeout: 2000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							doh.robot.mouseMoveAt('addTab', 500);
+							doh.robot.mouseClick({left: true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var tc = dijit.byId("emptyTC");
+								var children = tc.getChildren();
+								doh.is(1, children.length);
+								doh.is("Tab1", children[0].title);
+								doh.is("Contents of Tab 1", tc.selectedChildWidget.domNode.innerHTML);
+
+								doh.t(isVisible(tc.tablist.containerNode.childNodes[0]));
+							}), 500);
+							
+							return d;
+						}
+					},
+					{
+						name: "add2ndTabToEmptyTabContainer",
+						timeout: 3000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							doh.robot.mouseMoveAt('addTab', 500);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.mouseMoveAt('select2ndTab', 500);
+							doh.robot.mouseClick({left: true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var tc = dijit.byId("emptyTC");
+								var children = tc.getChildren();
+								doh.is(2, children.length);
+								doh.is("Tab2", children[1].title);
+								doh.is("Contents of Tab 2", tc.selectedChildWidget.domNode.innerHTML);
+								
+								doh.t(isVisible(tc.tablist.containerNode.childNodes[1]));
+							}), 500);
+							
+							return d;
+						}
+					},
+					{
+						name: "remove2ndTabToEmptyTabContainer",
+						timeout: 3000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							doh.robot.mouseMoveAt('remove2ndTab', 500);
+							doh.robot.mouseClick({left: true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var tc = dijit.byId("emptyTC");
+								var children = tc.getChildren();
+								doh.is(1, children.length);
+								doh.is("Tab1", children[0].title);
+								doh.is("Contents of Tab 1", tc.selectedChildWidget.domNode.innerHTML);
+							}), 1000);
+							
+							return d;
+						}
+					},
+					{
+						name: "createTabContainerWith2Tabs",
+						timeout: 4000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							doh.robot.mouseMoveAt('createWith2Tabs', 500);
+							doh.robot.mouseClick({left: true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var tc = dijit.byId("tc2");
+								dijit.scrollIntoView(tc.domNode);
+								
+								var children = tc.getChildren();
+								doh.is(2, children.length);
+								doh.is("Tab 3", children[0].title);
+								doh.is("Contents of Tab 3", tc.selectedChildWidget.domNode.innerHTML);
+								doh.t(isVisible(tc), "Tab container is not visible");
+								
+								var pos = dojo.position(tc.domNode);
+								var heightDiff = 200 - pos.h;
+								var widthDiff = 500 - pos.w;
+								doh.t(-0.01 < heightDiff && heightDiff < 0.01, "heightDiff: " + heightDiff);
+								doh.t(-0.01 < widthDiff && widthDiff < 0.01, "widthDiff: " + widthDiff);
+							}), 2000);
+							
+							return d;
+						}
+					},
+					{
+						name: "addTabToTabContainerWith2Tabs",
+						timeout: 2000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							doh.robot.mouseMoveAt('addTab', 500);
+							doh.robot.mouseClick({left: true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var tc = dijit.byId("tc2");
+								var children = tc.getChildren();
+								doh.is(3, children.length);
+								doh.is("Tab 3", children[0].title);
+								doh.is("Contents of Tab 3", tc.selectedChildWidget.domNode.innerHTML);
+								
+								dijit.scrollIntoView(tc.domNode);
+								doh.t(isVisible(tc.tablist.containerNode.childNodes[2]), "new tab is not visible");
+							}), 500);
+							
+							return d;
+						}
+					},
+					{
+						name: "select2ndTabInTabContainerWith2Tabs",
+						timeout: 2000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							doh.robot.mouseMoveAt('select2ndTab', 500);
+							doh.robot.mouseClick({left: true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var tc = dijit.byId("tc2");
+								var children = tc.getChildren();
+								doh.is(3, children.length);
+								doh.is("Tab 4", children[1].title);
+								doh.is("Contents of Tab 4", tc.selectedChildWidget.domNode.innerHTML);
+							}), 500);
+							
+							return d;
+						}
+					},
+					{
+						name: "remove2ndTabInTabContainerWith2Tabs",
+						timeout: 2000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							doh.robot.mouseMoveAt('remove2ndTab', 500);
+							doh.robot.mouseClick({left: true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var tc = dijit.byId("tc2");
+								var children = tc.getChildren();
+								doh.is(2, children.length);
+								doh.is("Contents of Tab 3", tc.selectedChildWidget.domNode.innerHTML);
+							}), 500);
+							
+							return d;
+						}
+					}
+					
+				]);			
+				doh.run();
+			});
+		</script>
+	</head>
+</html>

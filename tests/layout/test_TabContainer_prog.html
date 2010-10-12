@@ -27,8 +27,9 @@
 		var tab = 1;
 
 		var tc, cp;
-		function create(initialTabs){
-			tc = new dijit.layout.TabContainer({style:'height:200px;width:500px;'}, dojo.byId('main'));
+		function create(initialTabs, id){
+			tc = new dijit.layout.TabContainer({id:id, style:'height:200px;width:500px;'});
+			dojo.place(tc.domNode, dojo.byId('main'), "after");
 
 			for(var i=0; i<initialTabs; i++){
 				cp = new dijit.layout.ContentPane({title: 'Tab ' + tab});
@@ -51,11 +52,11 @@
 	<div id='main'>
 	</div>
 
-	<button onclick="create(0)">create empty tab container</button>
-	<button onclick="create(2)">create tab container w/2 tabs</button>
+	<button id="createEmpty" onclick="create(0, 'emptyTC')">create empty tab container</button>
+	<button id="createWith2Tabs" onclick="create(2, 'tc2')">create tab container w/2 tabs</button>
 
-	<button onclick="tc.selectChild(tc.getChildren()[1]);">select second tab</button>
-	<button onclick="tc.removeChild(tc.getChildren()[1]);">remove second tab</button>
-	<button onclick="addTab();">add tab</button>
+	<button id="select2ndTab" onclick="tc.selectChild(tc.getChildren()[1]);">select second tab</button>
+	<button id="remove2ndTab" onclick="tc.removeChild(tc.getChildren()[1]);">remove second tab</button>
+	<button id="addTab" onclick="addTab();">add tab</button>
 </body>
 </html>

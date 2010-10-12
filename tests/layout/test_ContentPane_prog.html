@@ -30,6 +30,7 @@
 
 		dojo.addOnLoad(function(){
 			cp = new dijit.layout.ContentPane({
+				id: "cp1",
 				content: "hello world",
 				style: "border: solid black thin;"
 			});
@@ -42,8 +43,8 @@
 
 	<h1 class="testTitle">Dijit layout.ContentPane programmatic tests</h1>
 
-	<button onclick="cp.set('content', 'good night, sweet prince')">set content</button>
-	<button onclick="cp.set('href', 'doc0.html')">set href</button>
+	<button id="setContentButton" onclick="cp.set('content', 'good night, sweet prince')">set content</button>
+	<button id="setHrefButton" onclick="cp.set('href', 'doc0.html')">set href</button>
 
 </body>
 </html>

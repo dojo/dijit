@@ -46,7 +46,7 @@
 		var tab = 6;
 
         function addTab(){
-			cp = new dijit.layout.ContentPane({title: 'Tab' + tab, closable: true});
+			cp = new dijit.layout.ContentPane({id: 'newTab', title: 'Tab' + tab, closable: true});
 			cp.domNode.innerHTML = "Contents of Tab " + tab++;
 			dijit.byId("mainTabContainer").addChild(cp);
         }
@@ -64,8 +64,8 @@
 		With doLayout=false mode tabs only (the default) tabPosition=top is supported.
 	</p>
 
-	<button onclick="addTab();">add tab</button>
-	<button onclick="dijit.byId('mainTabContainer').destroyRecursive();">destroy tab container</button>
+	<button id="addTab" onclick="addTab();">add tab</button>
+	<button id="destroyTabContainer" onclick="dijit.byId('mainTabContainer').destroyRecursive();">destroy tab container</button>
 
 	<div id="mainTabContainer" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='doLayout:false, style:"width: 700px;"'>
 
@@ -73,15 +73,15 @@
 
 		<div id="tab2" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='href:"tab2.html", refreshOnShow:true, title:"Tab 2", selected:true'></div>
 
-		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Tab 3"'>
-			<h1>I am tab 3</h1>
-			<p>And I was already part of the page! That's cool, no?</p>
+		<div id="tab3" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Tab 3"'>
+			<h1 id="h3">I am tab 3</h1>
+			<p id="p3">And I was already part of the page! That's cool, no?</p>
 			<span id="foo">tooltip on this span</span>
 			<div data-dojo-type="dijit.Tooltip" data-dojo-props='connectId:["foo"]'>I'm a tooltip!</div>
-			<button data-dojo-type="dijit.form.Button">I'm a button </button>
+			<button id="b3" data-dojo-type="dijit.form.Button">I'm a button </button>
 			<br>
-			<button data-dojo-type="dijit.form.Button">So am I!</button>
-			<p>
+			<button id="b4" data-dojo-type="dijit.form.Button">So am I!</button>
+			<p id="p4">
 			Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
 			semper sagittis velit. Cras in mi. Duis porta mauris ut ligula. Proin
 			porta rutrum lacus. Etiam consequat scelerisque quam. Nulla facilisi.
@@ -89,7 +89,7 @@
 			Sed molestie tortor at ipsum. Morbi dictum rutrum magna. Sed vitae
 			risus.
 			</p>
-			<p>Aliquam vitae enim. Duis scelerisque metus auctor est venenatis
+			<p id="p5">Aliquam vitae enim. Duis scelerisque metus auctor est venenatis
 			imperdiet. Fusce dignissim porta augue. Nulla vestibulum. Integer lorem
 			nunc, ullamcorper a, commodo ac, malesuada sed, dolor. Aenean id mi in
 			massa bibendum suscipit. Integer eros. Nullam suscipit mauris. In
@@ -104,15 +104,15 @@
 			</p>
 		</div>
 
-		<div data-dojo-type="dijit.layout.TabContainer" data-dojo-props='title:"Inlined Sub TabContainer", doLayout:false, nested:true'>
+		<div id="tab4" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='title:"Tab 4", doLayout:false, nested:true'>
 			<a data-dojo-type="dijit.layout.LinkPane" data-dojo-props='href:"tab1.html"'>SubTab 1</a>
 			<a data-dojo-type="dijit.layout.LinkPane" data-dojo-props='href:"tab2.html", selected:true'>SubTab 2</a>
 		</div>
 
-		<a data-dojo-type="dijit.layout.LinkPane" data-dojo-props='href:"tab3_noLayout.html", doLayout:false'>Sub TabContainer from href</a>
+		<a id="tab5" data-dojo-type="dijit.layout.LinkPane" data-dojo-props='href:"tab3_noLayout.html", doLayout:false'>Tab 5</a>
 	</div>
 
-	<p>
+	<p id="textAfterTabContainer1">
 		Some text here.  This should appear directly below the TabContainer,
 		and the position will change based on the current height of the TabContainer.
 	</p>
@@ -124,15 +124,15 @@
 
 		<div id="atab2" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='href:"tab2.html", refreshOnShow:true, title:"Tab 2", selected:true'></div>
 
-		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Tab 3"'>
-			<h1>I am tab 3</h1>
-			<p>And I was already part of the page! That's cool, no?</p>
+		<div id="atab3" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Tab 3"'>
+			<h1 id="h4">I am tab 3</h1>
+			<p id="p6">And I was already part of the page! That's cool, no?</p>
 			<span id="foo2">tooltip on this span</span>
 			<div data-dojo-type="dijit.Tooltip" data-dojo-props='connectId:["foo2"]'>I'm a tooltip!</div>
-			<button data-dojo-type="dijit.form.Button">I'm a button </button>
+			<button id="b5" data-dojo-type="dijit.form.Button">I'm a button </button>
 			<br>
-			<button data-dojo-type="dijit.form.Button">So am I!</button>
-			<p>
+			<button id="b6" data-dojo-type="dijit.form.Button">So am I!</button>
+			<p id="p7">
 			Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
 			semper sagittis velit. Cras in mi. Duis porta mauris ut ligula. Proin
 			porta rutrum lacus. Etiam consequat scelerisque quam. Nulla facilisi.
@@ -140,7 +140,7 @@
 			Sed molestie tortor at ipsum. Morbi dictum rutrum magna. Sed vitae
 			risus.
 			</p>
-			<p>Aliquam vitae enim. Duis scelerisque metus auctor est venenatis
+			<p id="p8">Aliquam vitae enim. Duis scelerisque metus auctor est venenatis
 			imperdiet. Fusce dignissim porta augue. Nulla vestibulum. Integer lorem
 			nunc, ullamcorper a, commodo ac, malesuada sed, dolor. Aenean id mi in
 			massa bibendum suscipit. Integer eros. Nullam suscipit mauris. In
@@ -155,15 +155,15 @@
 			</p>
 		</div>
 
-		<div data-dojo-type="dijit.layout.TabContainer" data-dojo-props='title:"Inlined Sub TabContainer", nested:true, doLayout:false'>
+		<div id="atab4" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='title:"Tab 4", nested:true, doLayout:false'>
 			<a data-dojo-type="dijit.layout.LinkPane" data-dojo-props='href:"tab1.html"'>SubTab 1</a>
 			<a data-dojo-type="dijit.layout.LinkPane" data-dojo-props='href:"tab2.html", selected:true'>SubTab 2</a>
 		</div>
 
-		<a data-dojo-type="dijit.layout.LinkPane" data-dojo-props='href:"tab3_noLayout.html", doLayout:false'>Sub TabContainer from href</a>
+		<a id="atab5" data-dojo-type="dijit.layout.LinkPane" data-dojo-props='href:"tab3_noLayout.html", doLayout:false'>Tab 5</a>
 	</div>
 
-	<p>
+	<p id="textAfterTabContainer2">
 		Some text here.  This should appear directly below the TabContainer,
 		and the position will change based on the current height of the TabContainer.
 	</p>

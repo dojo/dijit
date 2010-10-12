@@ -1,0 +1,257 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>doh.robot TabContainer Remote Test</title>
+
+		<style>
+			@import "../../../../util/doh/robot/robot.css";
+		</style>
+
+		<!-- required: dojo.js -->
+		<script type="text/javascript" src="../../../../dojo/dojo.js"
+			djConfig="isDebug: true"></script>
+
+		<!-- functions to help test -->
+		<script type="text/javascript" src="../../helpers.js"></script>
+
+		<script type="text/javascript">
+			dojo.require("dijit.robotx");	
+			
+			function checkLoading(domNode){
+				if(domNode.firstChild.innerHTML == "Loading...") {
+					return true;
+				}
+				return false;
+			}
+			
+			dojo.addOnLoad(function(){
+				doh.robot.initRobot('../test_TabContainer_remote.html');
+				doh.register("Tab container remote",[
+					{
+						name: "tab1InitialLoading",
+						timeout: 6000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							var wasLoading = false;
+							
+							doh.robot.mouseMoveAt('ttabs_tablist_ttab1', 500);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.sequence(function(){ wasLoading = checkLoading(dojo.byId("ttab1")); }, 500); 
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(wasLoading);
+								
+								var tabContent = dojo.byId("ttab1").innerHTML.substring(0, 6);
+								doh.is("IT WAS", tabContent);
+							}), 4000);
+							
+							return d;
+						}
+					},
+					{
+						name: "tab2InitialLoading",
+						timeout: 6000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							var wasLoading = false;
+							
+							doh.robot.mouseMoveAt('ttabs_tablist_ttab2', 500);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.sequence(function(){ wasLoading = checkLoading(dojo.byId("ttab2")); }, 500); 
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								//Test html insert into tabTitile
+								var tab2 = dojo.byId("ttabs_tablist_ttab2");
+								var tabLabel = dojo.query("i", tab2)[0].innerHTML;
+								doh.is("refreshOnShow", tabLabel);
+								
+								doh.t(wasLoading);
+								
+								var tabContent = dojo.byId("ttab2").innerHTML.substring(0, 5);
+								doh.is("There", tabContent);
+							}), 4000);
+							
+							return d;
+						}
+					},
+					{
+						name: "tab3InitialLoading",
+						timeout: 6000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							var wasLoading = false;
+							
+							doh.robot.mouseMoveAt('ttabs_tablist_ttab3', 500);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.sequence(function(){ wasLoading = checkLoading(dojo.byId("ttab3")); }, 500); 
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var tab3 = dojo.byId("ttabs_tablist_ttab3");
+								var tabLabel = dojo.query("b", tab3)[0].innerHTML;
+								doh.is("Tab 3", tabLabel);
+								
+								doh.t(wasLoading);
+								
+								var tabContent = dojo.byId("ttab3").innerHTML.substring(0, 6);
+								doh.is("It was", tabContent);
+							}), 4000);
+							
+							return d;
+						}
+					},
+					{
+						name: "tab1Refresh",
+						timeout: 3000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							var wasLoading = false;
+							
+							doh.robot.mouseMoveAt('ttabs_tablist_ttab1', 500);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.sequence(function(){ wasLoading = checkLoading(dojo.byId("ttab1")); }, 500); 
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.f(wasLoading);
+								
+								var tabContent = dojo.byId("ttab1").innerHTML.substring(0, 6);
+								doh.is("IT WAS", tabContent);
+							}), 1000);
+							
+							return d;
+						}
+					},
+					{
+						name: "tab2Refresh",
+						timeout: 6000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							var wasLoading = false;
+							
+							doh.robot.mouseMoveAt('ttabs_tablist_ttab2', 500);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.sequence(function(){ wasLoading = checkLoading(dojo.byId("ttab2")); }, 500); 
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(wasLoading);
+								
+								var tabContent = dojo.byId("ttab2").innerHTML.substring(0, 5);
+								doh.is("There", tabContent);
+							}), 4000);
+							
+							return d;
+						}
+					},
+					{
+						name: "tab3Refresh",
+						timeout: 3000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							var wasLoading = false;
+							
+							doh.robot.mouseMoveAt('ttabs_tablist_ttab3', 500);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.sequence(function(){ wasLoading = checkLoading(dojo.byId("ttab3")); }, 500); 
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.f(wasLoading);
+								
+								var tabContent = dojo.byId("ttab3").innerHTML.substring(0, 6);
+								doh.is("It was", tabContent);
+							}), 1000);
+							
+							return d;
+						}
+					},
+					{
+						name: "createTab4NoRefresh",
+						timeout: 7000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							var wasLoading = false;
+							
+							doh.robot.mouseMoveAt('createTab', 500);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.mouseMoveAt('ttabs_tablist_ttab4', 500);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.sequence(function(){ wasLoading = checkLoading(dojo.byId("ttab4")); }, 500); 
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(wasLoading);
+							}), 4000);
+							
+							return d;
+						}
+					},
+					{
+						name: "createTab5Refresh",
+						timeout: 7000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							var wasLoading = false;
+							
+							doh.robot.mouseMoveAt('createTab', 500);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.mouseMoveAt('ttabs_tablist_ttab5', 500);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.sequence(function(){ wasLoading = checkLoading(dojo.byId("ttab5")); }, 500); 
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(wasLoading);
+							}), 4000);
+							
+							return d;
+						}
+					},
+					{
+						name: "tab4Refresh",
+						timeout: 3000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							var wasLoading = false;
+							
+							doh.robot.mouseMoveAt('ttabs_tablist_ttab4', 500);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.sequence(function(){ wasLoading = checkLoading(dojo.byId("ttab3")); }, 500); 
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.f(wasLoading);
+							}), 1000);
+							
+							return d;
+						}
+					},
+					{
+						name: "tab5Refresh",
+						timeout: 6000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							var wasLoading = false;
+							
+							doh.robot.mouseMoveAt('ttabs_tablist_ttab5', 500);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.sequence(function(){ wasLoading = checkLoading(dojo.byId("ttab5")); }, 500); 
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(wasLoading);
+							}), 4000);
+							
+							return d;
+						}
+					}
+				]);			
+				doh.run();
+			});
+		</script>
+	</head>
+</html>

@@ -28,7 +28,7 @@
 
 </head>
 <body class="claro">
-	<h2>Dijit layout.LayoutContainer tests</h2>
+	<h2 id="heading" >Dijit layout.LayoutContainer tests</h2>
 
 	<p>Basic layout. Tabindex=&quot;0&quot; added to each pane to test for tab order matching source code order.  Tab order
 	should be:  left, right, top, middle/main, bottom</p>
@@ -36,16 +36,16 @@
 	<div dojoType="dijit.layout.LayoutContainer"
 		style="border: 2px solid black; width: 90%; height: 300px; padding: 10px;"
 	>
-		<div dojoType="dijit.layout.ContentPane" layoutAlign="left" style="background-color: #acb386; width: 100px;" tabindex="0">
+		<div dojoType="dijit.layout.ContentPane" id="leftcp_layout1" layoutAlign="left" style="background-color: #acb386; width: 100px;" tabindex="0">
 			left
 		</div>
-		<div dojoType="dijit.layout.ContentPane" layoutAlign="right" style="background-color: #acb386;"  tabindex="0">
+		<div dojoType="dijit.layout.ContentPane" id="rightcp_layout1" layoutAlign="right" style="background-color: #acb386;"  tabindex="0">
 			right
 		</div>
-		<div dojoType="dijit.layout.ContentPane" layoutAlign="top" style="background-color: #b39b86; "  tabindex="0">
+		<div dojoType="dijit.layout.ContentPane" id="topcp_layout1" layoutAlign="top" style="background-color: #b39b86; "  tabindex="0">
 			top bar
 		</div>
-		<div dojoType="dijit.layout.ContentPane" layoutAlign="client" style="background-color: #f5ffbf; padding: 10px;"  tabindex="0">
+		<div dojoType="dijit.layout.ContentPane" id="centercp_layout1" layoutAlign="client" style="background-color: #f5ffbf; padding: 10px;"  tabindex="0">
 			main panel with <a href="http://www.dojotoolkit.org/">a link</a>.<br />
 			(to check we're copying children around properly).<br />
 			<select dojoType="dijit.form.FilteringSelect">
@@ -56,7 +56,7 @@
 			Here's some text that comes AFTER the combo box.
 		</div>
 
-		<div dojoType="dijit.layout.ContentPane" layoutAlign="bottom" style="background-color: #b39b86;"  tabindex="0">
+		<div dojoType="dijit.layout.ContentPane" id="bottomcp_layout1" layoutAlign="bottom" style="background-color: #b39b86;"  tabindex="0">
 			bottom bar
 		</div>
 
@@ -68,21 +68,21 @@
 	<div dojoType="dijit.layout.LayoutContainer"
 		style="border: 2px solid black; width: 90%; height: 300px; padding: 10px;"
 	>
-		<div dojoType="dijit.layout.ContentPane" layoutAlign="left" style="background-color: #acb386; width: 100px; margin: 5px;" tabindex="0">
+		<div dojoType="dijit.layout.ContentPane" id="leftcp_layout2" layoutAlign="left" style="background-color: #acb386; width: 100px; margin: 5px;" tabindex="0">
 			left
 		</div>
-		<div dojoType="dijit.layout.ContentPane" layoutAlign="top" style="background-color: #b39b86;  margin: 5px;" tabindex="0">
+		<div dojoType="dijit.layout.ContentPane" id="topcp_layout2" layoutAlign="top" style="background-color: #b39b86;  margin: 5px;" tabindex="0">
 			top bar
 		</div>
-		<div dojoType="dijit.layout.ContentPane" layoutAlign="bottom" style="background-color: #b39b86; margin: 5px;" tabindex="0">
+		<div dojoType="dijit.layout.ContentPane" id="bottomcp_layout2" layoutAlign="bottom" style="background-color: #b39b86; margin: 5px;" tabindex="0">
 
 			bottom bar
 		</div>
-		<div dojoType="dijit.layout.ContentPane" layoutAlign="left" style="background-color: #eeeeee; width: 100px; margin: 5px;" tabindex="0">
+		<div dojoType="dijit.layout.ContentPane" id="centerLeftcp_layout2" layoutAlign="left" style="background-color: #eeeeee; width: 100px; margin: 5px;" tabindex="0">
 			inner left
 		</div>
 
-		<div dojoType="dijit.layout.ContentPane" layoutAlign="client" style="background-color: #f5ffbf; padding: 10px; margin: 5px;" tabindex="0">
+		<div dojoType="dijit.layout.ContentPane" id="centercp_layout2" layoutAlign="client" style="background-color: #f5ffbf; padding: 10px; margin: 5px;" tabindex="0">
 			main panel with <a href="http://www.dojotoolkit.org/">a link</a>.<br />
 
 			(to check we're copying children around properly).<br />
@@ -93,7 +93,7 @@
 			</select>
 			Here's some text that comes AFTER the combo box.
 		</div>
-		<div dojoType="dijit.layout.ContentPane" layoutAlign="right" style="background-color: #eeeeee; width: 100px; margin: 5px;" tabindex="0">
+		<div dojoType="dijit.layout.ContentPane" id="centerRightcp_layout2" layoutAlign="right" style="background-color: #eeeeee; width: 100px; margin: 5px;" tabindex="0">
 			inner right
 		</div>
 	</div>
@@ -103,21 +103,21 @@
 	<div dojoType="dijit.layout.LayoutContainer"
 		style="border: 2px solid black; width: 90%; height: 300px; padding: 10px;"
 	>
-		<div dojoType="dijit.layout.ContentPane" layoutAlign="left" style="background-color: #acb386; width: 100px; margin: 5px;" tabindex="0">
+		<div dojoType="dijit.layout.ContentPane" id="leftcp_layout3" layoutAlign="left" style="background-color: #acb386; width: 100px; margin: 5px;" tabindex="0">
 			left
 		</div>
 		<div dojoType="dijit.layout.ContentPane" layoutAlign="client" style="margin: 5px;" >
 			<div dojoType="dijit.layout.LayoutContainer"	style="height:90%;border: 2px solid black;padding: 10px;">
 
-				<div dojoType="dijit.layout.ContentPane" layoutAlign="top" style="background-color: #b39b86;  margin: 5px;" tabindex="0">
+				<div dojoType="dijit.layout.ContentPane" id="topcp_layout3" layoutAlign="top" style="background-color: #b39b86;  margin: 5px;" tabindex="0">
 					top bar
 				</div>
 				<div dojoType="dijit.layout.ContentPane" layoutAlign="client" style="margin: 5px;">
 					<div dojoType="dijit.layout.LayoutContainer"	style="height:80%;border: 2px solid black;padding: 10px;">
-						<div dojoType="dijit.layout.ContentPane" layoutAlign="left" style="background-color: #eeeeee; width: 100px; margin: 5px;" tabindex="0">
+						<div dojoType="dijit.layout.ContentPane" id="centerLeftcp_layout3" layoutAlign="left" style="background-color: #eeeeee; width: 100px; margin: 5px;" tabindex="0">
 							inner left
 						</div>
-						<div dojoType="dijit.layout.ContentPane" layoutAlign="client" style="background-color: #f5ffbf; padding: 10px; margin: 5px;" tabindex="0">
+						<div dojoType="dijit.layout.ContentPane" id="centercp_layout3" layoutAlign="client" style="background-color: #f5ffbf; padding: 10px; margin: 5px;" tabindex="0">
 							main panel with <a href="http://www.dojotoolkit.org/">a link</a>.<br />
 							(to check we're copying children around properly).<br />
 							<select dojoType="dijit.form.FilteringSelect">
@@ -127,12 +127,12 @@
 							</select>
 							Here's some text that comes AFTER the combo box.
 						</div>
-						<div dojoType="dijit.layout.ContentPane" layoutAlign="right" style="background-color: #eeeeee; width: 100px; margin: 5px;" tabindex="0">
+						<div dojoType="dijit.layout.ContentPane" id="centerRightcp_layout3" layoutAlign="right" style="background-color: #eeeeee; width: 100px; margin: 5px;" tabindex="0">
 							inner right
 						</div>
 					</div>
 				</div>
-				<div dojoType="dijit.layout.ContentPane" layoutAlign="bottom" style="background-color: #b39b86; margin: 5px;" tabindex="0"	>
+				<div dojoType="dijit.layout.ContentPane" id="bottomcp_layout3" layoutAlign="bottom" style="background-color: #b39b86; margin: 5px;" tabindex="0"	>
 					bottom bar
 				</div>
 			</div>
