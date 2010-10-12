@@ -59,7 +59,7 @@ dojo.declare(
 			this.aroundNode = aroundNode;
 		},
 
-		orient: function(/* DomNode */ node, /* String */ aroundCorner, /* String */ tooltipCorner, /*Object*/ spaceAvailable){			
+		orient: function(/*DomNode*/ node, /*String*/ aroundCorner, /*String*/ tooltipCorner, /*Object*/ spaceAvailable, /*Object*/ aroundNodeCoords){			
 			// summary:
 			//		Private function to set CSS for tooltip node based on which position it's in.
 			//		This is called by the dijit popup code.   It will also reduce the tooltip's
@@ -102,14 +102,23 @@ dojo.declare(
 			}
 			
 			//reposition the tooltip connector.  
-			var mb = dojo.marginBox(node);
 			if(tooltipCorner.charAt(0) == 'B' && aroundCorner.charAt(0) == 'B'){
+				var mb = dojo.marginBox(node);
 				var tooltipConnectorHeight = this.connectorNode.offsetHeight;
 				if(mb.h > spaceAvailable.h){
-					this.connectorNode.style.top = spaceAvailable.h-tooltipConnectorHeight+"px";
+					// The tooltip starts at the top of the page and will extend past the aroundNode
+					var aroundNodePlacement = spaceAvailable.h - (aroundNodeCoords.h / 2) - (tooltipConnectorHeight / 2);
+					this.connectorNode.style.top = aroundNodePlacement + "px";
+					this.connectorNode.style.bottom = "";
 				}else{
-					this.connectorNode.style.top = ""; //reset to default
+					// The tooltip's bottom is in line with the aroundNode bottom.
+					this.connectorNode.style.bottom = (aroundNodeCoords.h / 2) - (tooltipConnectorHeight / 2) + "px";
+					this.connectorNode.style.top = "";
 				}
+			}else{
+				// reset the tooltip back to the defaults
+				this.connectorNode.style.top = "";
+				this.connectorNode.style.bottom = "";
 			}
 			
 			return Math.max(0, size.w - tooltipSpaceAvaliableWidth);

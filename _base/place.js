@@ -63,7 +63,7 @@ dijit.placeOnScreen = function(
 	return dijit._place(node, choices);
 }
 
-dijit._place = function(/*DomNode*/ node, /* Array */ choices, /* Function */ layoutNode){
+dijit._place = function(/*DomNode*/ node, choices, layoutNode, /*Object*/ aroundNodeCoords){
 	// summary:
 	//		Given a list of spots to put node, put it at the first spot where it fits,
 	//		of if it doesn't fit anywhere then the place with the least overflow
@@ -77,6 +77,8 @@ dijit._place = function(/*DomNode*/ node, /* Array */ choices, /* Function */ la
 	//		tell them that their width is limited to a certain amount.   layoutNode() may return a value expressing
 	//		how much the popup had to be modified to fit into the available space.   This is used to determine
 	//		what the best placement is.
+	// aroundNodeCoords: Object
+	//		Size of aroundNode, ex: {w: 200, h: 50}
 
 	// get {x: 10, y: 10, w: 100, h:100} type obj representing position of
 	// viewport over document
@@ -105,7 +107,7 @@ dijit._place = function(/*DomNode*/ node, /* Array */ choices, /* Function */ la
 		// (need to do this in order to get an accurate size for the node, because
 		// a tooltip's size changes based on position, due to triangle)
 		if(layoutNode){
-			var res = layoutNode(node, choice.aroundCorner, corner, spaceAvailable);
+			var res = layoutNode(node, choice.aroundCorner, corner, spaceAvailable, aroundNodeCoords);
 			overflow = typeof res == "undefined" ? 0 : res;
 		}
 
@@ -149,7 +151,7 @@ dijit._place = function(/*DomNode*/ node, /* Array */ choices, /* Function */ la
 	// In case the best position is not the last one we checked, need to call
 	// layoutNode() again.
 	if(best.overflow && layoutNode){
-		layoutNode(node, best.aroundCorner, best.corner, best.spaceAvailable);
+		layoutNode(node, best.aroundCorner, best.corner, best.spaceAvailable, aroundNodeCoords);
 	}
 
 	// And then position the node.   Do this last, after the layoutNode() above
@@ -279,8 +281,8 @@ dijit._placeOnScreenAroundRect = function(
 			}
 		});
 	}
-
-	return dijit._place(node, choices, layoutNode);
+	
+	return dijit._place(node, choices, layoutNode, {w: width, h: height});
 };
 
 dijit.placementRegistry= new dojo.AdapterRegistry();

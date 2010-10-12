@@ -28,10 +28,12 @@
 				var tooltipConnectorPos = dojo.position(tooltipConnector[0]);
 				var tooltipAndConnectorPos = dojo.position(tooltipConnector[0].parentNode);
 
+				var middleOfTextbox = textboxPos.y + (textboxPos.h / 2);
+				var middleOfTooltipConnector = tooltipConnectorPos.y + (tooltipConnectorPos.h /2);
+				
 				var yDiff = 0;
-				if(tooltipConnector[0].style.top) tooltipConnectorPos.y = tooltipConnectorPos.y - 3;
-				var yDiff = textboxPos.y - tooltipConnectorPos.y;
-				var yAxisValid = yDiff <= 1 && yDiff >= 0; //tooltip arrow is at a similar y coord as the box
+				var yDiff = middleOfTextbox - middleOfTooltipConnector;
+				var yAxisValid = yDiff <= 1 && yDiff >= -1; //tooltip arrow is at a similar y coord as the box
 				doh.t(yAxisValid, "Y axis is invalid. yDiff was: "+yDiff);
 				
 				var xDiff = textboxPos.x - tooltipAndConnectorPos.x - tooltipAndConnectorPos.w;

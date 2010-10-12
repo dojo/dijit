@@ -189,7 +189,6 @@
 .claro .dijitTooltipLeft .dijitTooltipConnector {
 	/* the arrow piece for tooltips to the left of an element, bottom borders aligned */
 	right: 0px;
-	bottom: 3px;
 	background-position:0px 0%;
 	width:16px;
 	height:14px;
@@ -201,7 +200,6 @@
 .claro .dijitTooltipRight .dijitTooltipConnector {
 	/* the arrow piece for tooltips to the right of an element, bottom borders aligned */
 	left: 0px;
-	bottom: 3px;
 	background-position:-48px 0%;
 	width:16px;
 	height:14px;
