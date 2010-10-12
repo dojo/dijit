@@ -93,6 +93,7 @@
 			}
 
 			dojo.addOnLoad(function(){
+				var widget, handler;
 				doh.robot.initRobot('../test_Tooltip_placement.html');
 
 				// init tests for each group
@@ -101,16 +102,23 @@
 					timeout: 4000,
 					runTest: function(){
 						var d = new doh.Deferred();
-						
-						//If windows are very small (in IE6) sometimes they will not get clicked on because they aren't in view
-						doh.robot.sequence(function(){ dijit.byId("test1").focus(); }, 500);
-						
-						doh.robot.keyPress("a", 1000);
+						widget = dijit.byId("test1");
 
-						doh.robot.sequence(d.getTestCallback(function(){
-							testRightOrLeft(dijit.byId("test1"));
-						}), 500);
+						dojo.byId("aboveBelowButton").focus();
+						widget.set('value', null);
+
+						handler = widget.connect(widget, 'displayMessage',
+						        function(){
+						                setTimeout(d.getTestCallback(function(){
+									testRightOrLeft(widget);
+						                }), 150);
+						        });
+						widget.focusNode.focus();
+						
 						return d;
+					},
+					tearDown: function(){
+						widget.disconnect(handler);
 					}
 				}];
 				var tooltip_left_right_small = [{
@@ -119,18 +127,16 @@
 					runTest: function(){
 						var d = new doh.Deferred();
 						
-						doh.robot.sequence(function(){ dijit.byId("test1").focus();}, 500);
-						doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500);
-						doh.robot.keyPress(dojo.keys.DELETE, 500);
+						var widget = dijit.byId("test1");
+						widget.set('value', null);
 						
-						doh.robot.mouseMoveAt("test7", 500);
-						doh.robot.mouseClick({left:true}, 500);
+						dijit.byId("test7").focusNode.focus();
 						
-						doh.robot.sequence(function(){ dijit.byId("test1").focus();}, 500);
+						doh.robot.sequence(function(){ widget.focusNode.focus();}, 500);
 
 						doh.robot.sequence(d.getTestCallback(function(){
-							testRightOrLeft(dijit.byId("test1"));
-						}), 500);
+							testRightOrLeft(widget);
+						}), 1000);
 						return d;
 					}
 				}];
@@ -140,13 +146,14 @@
 					runTest: function(){
 						var d = new doh.Deferred();
 						
+						var widget = dijit.byId("test1");
 						doh.robot.mouseMoveAt("aboveBelowButton", 500);
 						doh.robot.mouseClick({left:true}, 500);
-						doh.robot.sequence(function(){ dijit.byId("test1").focus();}, 500);
+						doh.robot.sequence(function(){ widget.focusNode.focus();}, 500);
 
 						doh.robot.sequence(d.getTestCallback(function(){
-							testAboveBelow(dijit.byId("test1"));
-						}), 500);
+							testAboveBelow(widget);
+						}), 1000);
 						return d;
 					}
 				}];
@@ -155,21 +162,28 @@
 					timeout: 5000,
 					runTest: function(){
 						var d = new doh.Deferred();
-						
-						doh.robot.sequence(function(){ dijit.byId("test1").focus();}, 500);
-						doh.robot.keyPress("a", 1000);
-						doh.robot.sequence(function(){ dijit.byId("test1").focus();}, 500);
+						widget = dijit.byId("test1");
 
-						doh.robot.sequence(d.getTestCallback(function(){
-							testAboveBelow(dijit.byId("test1"));
-						}), 500);
+						widget.set('value', "a");
+
+						handler = widget.connect(widget, 'displayMessage',
+						        function(){
+						                setTimeout(d.getTestCallback(function(){
+									testAboveBelow(widget);
+						                }), 150);
+						        });
+
+						widget.focusNode.focus();
+
 						return d;
+					},
+					tearDown: function(){
+						widget.disconnect(handler);
 					}
 				}];
 
 				// rest of tests
 				for(var i=2; i<=21; i++){
-					// FIXME: why do we omit the big textbox?
 					if(i==7){ continue; }
 					tooltip_left_right.push({
 						name: "test"+i,
@@ -177,13 +191,22 @@
 						timeout: 3000,
 						runTest: function(){
 							var d = new doh.Deferred();
-							var widget = this.widget;
-							doh.robot.sequence(function(){ dijit.byId(widget).focus(); }, 500);
+							widget = dijit.byId(this.widget);
+
+							widget.set('value', null);
+
+							handler = widget.connect(widget, 'displayMessage',
+							        function(){
+							                setTimeout(d.getTestCallback(function(){
+										testRightOrLeft(widget);
+							                }), 150);
+							        });
+							widget.focusNode.focus();
 							
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId(widget));
-							}), 500);
 							return d;
+						},
+						tearDown: function(){
+							widget.disconnect(handler);
 						}
 					});
 					tooltip_left_right_small.push({
@@ -192,13 +215,20 @@
 						timeout: 3000,
 						runTest: function(){
 							var d = new doh.Deferred();
-							var widget = this.widget;
-							doh.robot.sequence(function(){ dijit.byId(widget).focus(); }, 500);
+							widget = dijit.byId(this.widget);
 
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId(widget));
-							}), 500);
+							handler = widget.connect(widget, 'displayMessage',
+							        function(){
+							                setTimeout(d.getTestCallback(function(){
+										testRightOrLeft(widget);
+							                }), 150);
+							        });
+							widget.focusNode.focus();
+
 							return d;
+						},
+						tearDown: function(){
+							widget.disconnect(handler);
 						}
 					});
 					tooltip_above_below_small.push({
@@ -207,13 +237,20 @@
 						timeout: 3000,
 						runTest: function(){
 							var d = new doh.Deferred();
-							var widget = this.widget;
-							doh.robot.sequence(function(){ dijit.byId(widget).focus(); }, 500);
+							widget = dijit.byId(this.widget);
 
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId(widget));
-							}), 500);
+							handler = widget.connect(widget, 'displayMessage',
+							        function(){
+							                setTimeout(d.getTestCallback(function(){
+										testAboveBelow(widget);
+							                }), 150);
+							        });
+							widget.focusNode.focus();
+
 							return d;
+						},
+						tearDown: function(){
+							widget.disconnect(handler);
 						}
 					});
 					tooltip_above_below.push({
@@ -222,15 +259,23 @@
 						timeout: 5000,
 						runTest: function(){
 							var d = new doh.Deferred();
-							var widget = this.widget;
-							doh.robot.sequence(function(){ dijit.byId(widget).focus();}, 500);
-							doh.robot.keyPress("a", 1000);
-							doh.robot.sequence(function(){ dijit.byId(widget).focus();}, 500);
+							widget = dijit.byId(this.widget);
 
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId(widget));
-							}), 500);
+							widget.set('value', "a");
+
+							handler = widget.connect(widget, 'displayMessage',
+							        function(){
+							                setTimeout(d.getTestCallback(function(){
+										testAboveBelow(widget);
+							                }), 150);
+							        });
+
+							widget.focusNode.focus();
+
 							return d;
+						},
+						tearDown: function(){
+							widget.disconnect(handler);
 						}
 					});
 				}

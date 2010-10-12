@@ -23,6 +23,7 @@
 		dojo.require("dijit.form.ValidationTextBox");
 		
 		dojo.addOnLoad(function(){
+			dijit._MasterTooltip.prototype.duration = 0.05; // speed up tooltip fading
 			var view = dojo.window.getBox();
 			var width = view.w;
 			
