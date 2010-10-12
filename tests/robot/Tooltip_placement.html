@@ -95,1178 +95,150 @@
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_Tooltip_placement.html');
 
-				doh.register("tooltip_left_right", [
-					{
-						name: "test1",
+				// init tests for each group
+				var tooltip_left_right = [{
+					name: "test1",
+					timeout: 4000,
+					runTest: function(){
+						var d = new doh.Deferred();
+						
+						//If windows are very small (in IE6) sometimes they will not get clicked on because they aren't in view
+						doh.robot.sequence(function(){ dijit.byId("test1").focus(); }, 500);
+						
+						doh.robot.keyPress("a", 1000);
+
+						doh.robot.sequence(d.getTestCallback(function(){
+							testRightOrLeft(dijit.byId("test1"));
+						}), 500);
+						return d;
+					}
+				}];
+				var tooltip_left_right_small = [{
+					name: "test1_lrs",
+					timeout: 6000,
+					runTest: function(){
+						var d = new doh.Deferred();
+						
+						doh.robot.sequence(function(){ dijit.byId("test1").focus();}, 500);
+						doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500);
+						doh.robot.keyPress(dojo.keys.DELETE, 500);
+						
+						doh.robot.mouseMoveAt("test7", 500);
+						doh.robot.mouseClick({left:true}, 500);
+						
+						doh.robot.sequence(function(){ dijit.byId("test1").focus();}, 500);
+
+						doh.robot.sequence(d.getTestCallback(function(){
+							testRightOrLeft(dijit.byId("test1"));
+						}), 500);
+						return d;
+					}
+				}];
+				var tooltip_above_below_small = [{
+					name: "test1_abs",
+					timeout: 3000,
+					runTest: function(){
+						var d = new doh.Deferred();
+						
+						doh.robot.mouseMoveAt("aboveBelowButton", 500);
+						doh.robot.mouseClick({left:true}, 500);
+						doh.robot.sequence(function(){ dijit.byId("test1").focus();}, 500);
+
+						doh.robot.sequence(d.getTestCallback(function(){
+							testAboveBelow(dijit.byId("test1"));
+						}), 500);
+						return d;
+					}
+				}];
+				var tooltip_above_below = [{
+					name: "test1_ab",
+					timeout: 5000,
+					runTest: function(){
+						var d = new doh.Deferred();
+						
+						doh.robot.sequence(function(){ dijit.byId("test1").focus();}, 500);
+						doh.robot.keyPress("a", 1000);
+						doh.robot.sequence(function(){ dijit.byId("test1").focus();}, 500);
+
+						doh.robot.sequence(d.getTestCallback(function(){
+							testAboveBelow(dijit.byId("test1"));
+						}), 500);
+						return d;
+					}
+				}];
+
+				// rest of tests
+				for(var i=2; i<=21; i++){
+					// FIXME: why do we omit the big textbox?
+					if(i==7){ continue; }
+					tooltip_left_right.push({
+						name: "test"+i,
+						widget: "test"+i,
 						timeout: 3000,
 						runTest: function(){
 							var d = new doh.Deferred();
+							var widget = this.widget;
+							doh.robot.sequence(function(){ dijit.byId(widget).focus(); }, 500);
 							
-							//If windows are very small (in IE6) sometimes they will not get clicked on because they aren't in view
-							doh.robot.sequence(function(){ dijit.byId("test1").focus();
-							}, 500);
-							
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId(widget));
+							}), 500);
+							return d;
+						}
+					});
+					tooltip_left_right_small.push({
+						name: "test"+i+"_lrs",
+						widget: "test"+i,
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var widget = this.widget;
+							doh.robot.sequence(function(){ dijit.byId(widget).focus(); }, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testRightOrLeft(dijit.byId(widget));
+							}), 500);
+							return d;
+						}
+					});
+					tooltip_above_below_small.push({
+						name: "test"+i+"_abs",
+						widget: "test"+i,
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var widget = this.widget;
+							doh.robot.sequence(function(){ dijit.byId(widget).focus(); }, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								testAboveBelow(dijit.byId(widget));
+							}), 500);
+							return d;
+						}
+					});
+					tooltip_above_below.push({
+						name: "test"+i+"_ab",
+						widget: "test"+i,
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var widget = this.widget;
+							doh.robot.sequence(function(){ dijit.byId(widget).focus();}, 500);
 							doh.robot.keyPress("a", 1000);
+							doh.robot.sequence(function(){ dijit.byId(widget).focus();}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test1"));
+								testAboveBelow(dijit.byId(widget));
 							}), 500);
 							return d;
 						}
-					},
-					{
-						name: "test2",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test2").focus();
-							
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test2"));
-							}), 500);
-							return d;
-							//doh.f(true);
-						}
-					},
-					{
-						name: "test3",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test3").focus();
-							
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test3"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test4",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test4").focus();
-							
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test4"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test5",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test5").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test5"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test6",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test6").focus();
-							
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test6"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test8",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test8").focus();
-							
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test8"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test9",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test9").focus();
-							
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test9"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test10",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test10").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test10"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test11",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test11").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test11"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test12",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test12").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test12"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test13",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test13").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test13"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test14",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test14").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test14"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test15",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test15").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test15"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test16",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test16").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test16"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test17",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test17").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test17"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test18",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test18").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test18"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test19",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test19").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test19"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test20",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test20").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test20"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test21",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test21").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test21"));
-							}), 500);
-							return d;
-						}
-					}
-				]);
+					});
+				}
 				
-				doh.register("tooltip_left_right_small", [
-					{
-						name: "test1_lrs",
-						timeout: 4000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							doh.robot.sequence(function(){ dijit.byId("test1").focus();}, 500);
-							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500);
-							doh.robot.keyPress(dojo.keys.DELETE, 500);
-							
-							doh.robot.mouseMoveAt("test7", 500);
-							doh.robot.mouseClick({left:true}, 500);
-							
-							doh.robot.sequence(function(){ dijit.byId("test1").focus();}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test1"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test2_lrs",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test2").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test2"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test3_lrs",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test3").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test3"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test4_lrs",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test4").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test4"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test5_lrs",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test5").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test5"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test6_lrs",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test6").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test6"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test8_lrs",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test8").focus();
-							
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test8"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test9_lrs",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test9").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test9"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test10_lrs",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test10").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test10"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test11_lrs",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test11").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test11"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test12_lrs",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test12").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test12"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test13_lrs",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test13").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test13"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test14_lrs",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test14").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test14"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test15_lrs",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test15").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test15"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test16_lrs",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test16").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test16"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test17_lrs",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test17").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test17"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test18_lrs",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test18").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test18"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test19_lrs",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test19").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test19"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test20_lrs",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test20").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test20"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test21_lrs",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test21").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testRightOrLeft(dijit.byId("test21"));
-							}), 500);
-							return d;
-						}
-					}
-				]);
-				
-				doh.register("tooltip_above_below_small", [
-					{
-						name: "test1_abs",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							doh.robot.mouseMoveAt("aboveBelowButton", 500);
-							doh.robot.mouseClick({left:true}, 500);
-							doh.robot.sequence(function(){ dijit.byId("test1").focus();}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test1"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test2_abs",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test2").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test2"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test3_abs",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test3").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test3"));
-							}), 500);
-							return d;
-						}
-					},{
-						name: "test4_abs",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test4").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test4"));
-							}), 500);
-							return d;
-						}
-					},{
-						name: "test5_abs",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test5").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test5"));
-							}), 500);
-							return d;
-						}
-					},{
-						name: "test6_abs",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test6").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test6"));
-							}), 500);
-							return d;
-						}
-					},{
-						name: "test8_abs",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test8").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test8"));
-							}), 500);
-							return d;
-						}
-					},{
-						name: "test9_abs",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test9").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test9"));
-							}), 500);
-							return d;
-						}
-					},{
-						name: "test10_abs",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test10").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test10"));
-							}), 500);
-							return d;
-						}
-					},{
-						name: "test11_abs",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test11").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test11"));
-							}), 500);
-							return d;
-						}
-					},{
-						name: "test12_abs",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test12").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test12"));
-							}), 500);
-							return d;
-						}
-					},{
-						name: "test13_abs",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test13").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test13"));
-							}), 500);
-							return d;
-						}
-					},{
-						name: "test14_abs",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test14").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test14"));
-							}), 500);
-							return d;
-						}
-					},{
-						name: "test15_abs",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test15").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test15"));
-							}), 500);
-							return d;
-						}
-					},{
-						name: "test16_abs",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test16").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test16"));
-							}), 500);
-							return d;
-						}
-					},{
-						name: "test17_abs",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test17").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test17"));
-							}), 500);
-							return d;
-						}
-					},{
-						name: "test18_abs",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test18").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test18"));
-							}), 500);
-							return d;
-						}
-					},{
-						name: "test19_abs",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test19").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test19"));
-							}), 500);
-							return d;
-						}
-					},{
-						name: "test20_abs",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test20").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test20"));
-							}), 500);
-							return d;
-						}
-					},{
-						name: "test21_abs",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							dijit.byId("test21").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test21"));
-							}), 500);
-							return d;
-						}
-					}
-				]);
-				
-				doh.register("tooltip_above_below", [
-					{
-						name: "test1_ab",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							doh.robot.sequence(function(){ dijit.byId("test1").focus();}, 500);
-							doh.robot.keyPress("a", 1000);
-							doh.robot.sequence(function(){ dijit.byId("test1").focus();}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test1"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test2_ab",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							doh.robot.sequence(function(){ dijit.byId("test2").focus();}, 500);
-							doh.robot.keyPress("a", 1000);
-							doh.robot.sequence(function(){ dijit.byId("test2").focus();}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test2"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test3_ab",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							doh.robot.sequence(function(){ dijit.byId("test3").focus();}, 500);
-							doh.robot.keyPress("a", 1000);
-							doh.robot.sequence(function(){ dijit.byId("test3").focus();}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test3"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test4_ab",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							doh.robot.sequence(function(){ dijit.byId("test4").focus();}, 500);
-							doh.robot.keyPress("a", 1000);
-							doh.robot.sequence(function(){ dijit.byId("test4").focus();}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test4"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test5_ab",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							
-							
-							
-							
-							doh.robot.sequence(function(){ dijit.byId("test5").focus();}, 500);
-							doh.robot.keyPress("a", 1000);
-							doh.robot.sequence(function(){ dijit.byId("test5").focus();}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test5"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test6_ab",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							doh.robot.sequence(function(){ dijit.byId("test6").focus();}, 500);
-							doh.robot.keyPress("a", 1000);
-							doh.robot.sequence(function(){ dijit.byId("test6").focus();}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test6"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test8_ab",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							doh.robot.sequence(function(){ dijit.byId("test8").focus();}, 500);
-							doh.robot.keyPress("a", 1000);
-							doh.robot.sequence(function(){ dijit.byId("test8").focus();}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test8"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test9_ab",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							doh.robot.sequence(function(){ dijit.byId("test9").focus();}, 500);
-							doh.robot.keyPress("a", 1000);
-							doh.robot.sequence(function(){ dijit.byId("test9").focus();}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test9"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test10_ab",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							doh.robot.sequence(function(){ dijit.byId("test10").focus();}, 500);
-							doh.robot.keyPress("a", 1000);
-							doh.robot.sequence(function(){ dijit.byId("test10").focus();}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test10"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test11_ab",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							doh.robot.sequence(function(){ dijit.byId("test11").focus();}, 500);
-							doh.robot.keyPress("a", 1000);
-							doh.robot.sequence(function(){ dijit.byId("test11").focus();}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test11"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test12_ab",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							doh.robot.sequence(function(){ dijit.byId("test12").focus();}, 500);
-							doh.robot.keyPress("a", 1000);
-							doh.robot.sequence(function(){ dijit.byId("test12").focus();}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test12"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test13_ab",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							doh.robot.sequence(function(){ dijit.byId("test13").focus();}, 500);
-							doh.robot.keyPress("a", 1000);
-							doh.robot.sequence(function(){ dijit.byId("test13").focus();}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test13"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test14_ab",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							doh.robot.sequence(function(){ dijit.byId("test14").focus();}, 500);
-							doh.robot.keyPress("a", 1000);
-							doh.robot.sequence(function(){ dijit.byId("test14").focus();}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test14"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test15_ab",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							doh.robot.sequence(function(){ dijit.byId("test15").focus();}, 500);
-							doh.robot.keyPress("a", 1000);
-							doh.robot.sequence(function(){ dijit.byId("test15").focus();}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test15"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test16_ab",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							doh.robot.sequence(function(){ dijit.byId("test16").focus();}, 500);
-							doh.robot.keyPress("a", 1000);
-							doh.robot.sequence(function(){ dijit.byId("test16").focus();}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test16"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test17_ab",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							doh.robot.sequence(function(){ dijit.byId("test17").focus();}, 500);
-							doh.robot.keyPress("a", 1000);
-							doh.robot.sequence(function(){ dijit.byId("test17").focus();}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test17"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test18_ab",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							doh.robot.sequence(function(){ dijit.byId("test18").focus();}, 500);
-							doh.robot.keyPress("a", 1000);
-							doh.robot.sequence(function(){ dijit.byId("test18").focus();}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test18"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test19_ab",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							doh.robot.sequence(function(){ dijit.byId("test19").focus();}, 500);
-							doh.robot.keyPress("a", 1000);
-							doh.robot.sequence(function(){ dijit.byId("test19").focus();}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test19"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test20_ab",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							
-							doh.robot.sequence(function(){ dijit.byId("test20").focus();}, 500);
-							doh.robot.keyPress("a", 1000);
-							doh.robot.sequence(function(){ dijit.byId("test20").focus();}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test20"));
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "test21_ab",
-						timeout: 3000,
-						runTest: function(){
-							var d = new doh.Deferred();
-														
-							doh.robot.sequence(function(){ dijit.byId("test21").focus();}, 500);
-							doh.robot.keyPress("a", 1000);
-							doh.robot.sequence(function(){ dijit.byId("test21").focus();}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								testAboveBelow(dijit.byId("test21"));
-							}), 500);
-							return d;
-						}
-					}
-				]);
+				doh.register("tooltip_left_right", tooltip_left_right);
+				doh.register("tooltip_left_right_small", tooltip_left_right_small);
+				doh.register("tooltip_above_below_small", tooltip_above_below_small);
+				doh.register("tooltip_above_below", tooltip_above_below);
 				doh.run();
 			});
 		</script>
