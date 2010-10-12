@@ -39,7 +39,7 @@
 			dojo.attr(input,"tabIndex","0");
 			dlg.containerNode.appendChild(input);
 
-			var btn = new dijit.form.Button({ label: "Close" });
+			var btn = new dijit.form.Button({ id:"destroyButton", label: "Close" });
 			dlg.containerNode.appendChild(btn.domNode);
 
 			dojo.connect(btn, "onClick", function(){
@@ -61,7 +61,7 @@
 
 	<input id="testInput" name="foo" value="bar" />
 
-	<button data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){ createAndShow() }'>Show Dialog</button>
+	<button id="showDialog" data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){ createAndShow() }'>Show Dialog</button>
 
 </body>
 </html>

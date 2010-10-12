@@ -10,7 +10,8 @@ try{
 	doh.registerUrl("dijit.tests.Dialog", dojo.moduleUrl("dijit","tests/Dialog.html"+userArgs), 99999999);
 	doh.registerUrl("dijit.tests.robot.Dialog_mouse", dojo.moduleUrl("dijit","tests/robot/Dialog_mouse.html"+userArgs), 99999999);
 	doh.registerUrl("dijit.tests.robot.Dialog_a11y", dojo.moduleUrl("dijit","tests/robot/Dialog_a11y.html"+userArgs), 99999999);
-
+	doh.registerUrl("dijit.tests.robot.Dialog_focusDestroy", dojo.moduleUrl("dijit","tests/robot/Dialog_focusDestroy.html"+userArgs), 99999999);
+	
 	doh.registerUrl("dijit.tests.robot.Tooltip_mouse", dojo.moduleUrl("dijit","tests/robot/Tooltip_mouse.html"+userArgs), 99999999);
 	doh.registerUrl("dijit.tests.robot.Tooltip_a11y", dojo.moduleUrl("dijit","tests/robot/Tooltip_a11y.html"+userArgs), 99999999);
 	doh.registerUrl("dijit.tests.robot.Tooltip_placement", dojo.moduleUrl("dijit","tests/robot/Tooltip_placement.html"+userArgs), 99999999);
