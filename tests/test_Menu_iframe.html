@@ -33,9 +33,9 @@
 		End of div.
 	</div>
 	<br>
-	<button onclick="dojo.byId('iframe').src='layout/doc0.html'">reset contents to doc0.html</button>
-	<button onclick="button2();">reset contents to 'bill was here'</button>
-	<button onclick="dijit.byId('menu').unBindDomNode('iframe')">detach menu</button>
-	<button onclick="dijit.byId('menu').bindDomNode('iframe')">re-attach menu</button>
+	<button id="resetToDoc" onclick="dojo.byId('iframe').src='layout/doc0.html'">reset contents to doc0.html</button>
+	<button id="resetToBill" onclick="button2();">reset contents to 'bill was here'</button>
+	<button id="detachMenu" onclick="dijit.byId('menu').unBindDomNode('iframe')">detach menu</button>
+	<button id="reattachMenu" onclick="dijit.byId('menu').bindDomNode('iframe')">re-attach menu</button>
 </body>
 </html>
