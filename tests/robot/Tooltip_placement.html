@@ -15,7 +15,7 @@
 		<script type="text/javascript">
 			dojo.require("dijit.dijit"); // optimize: load dijit layer
 			dojo.require("dijit.robotx");
-			
+		
 			//Verify the following is true:
 			//	1. The tooltip is displayed to the right or the left of the textbox
 			//	2. The tooltip arrow is next to the textbox and pointing in the correct direction
@@ -24,26 +24,25 @@
 			function testRightOrLeft(textbox){
 				//find the tooltip
 				var textboxPos = dojo.position(textbox.domNode);
-				var tooltipConnector = dojo.query("div[dojoattachpoint='connectorNode']");
-				var tooltipConnectorPos = dojo.position(tooltipConnector[0]);
-				var tooltipAndConnectorPos = dojo.position(tooltipConnector[0].parentNode);
+				var tooltipConnectorPos = dojo.position(dojo.query(".dijitTooltipConnector")[0]);
+				var tooltipContainerPos = dojo.position(dojo.query(".dijitTooltip")[0]);
 
 				var middleOfTextbox = textboxPos.y + (textboxPos.h / 2);
 				var middleOfTooltipConnector = tooltipConnectorPos.y + (tooltipConnectorPos.h /2);
-				
+			
 				var yDiff = 0;
 				var yDiff = middleOfTextbox - middleOfTooltipConnector;
 				var yAxisValid = yDiff <= 1 && yDiff >= -1; //tooltip arrow is at a similar y coord as the box
 				doh.t(yAxisValid, "Y axis is invalid. yDiff was: "+yDiff);
-				
-				var xDiff = textboxPos.x - tooltipAndConnectorPos.x - tooltipAndConnectorPos.w;
-				var toTheLeft = xDiff >= -0.5 && xDiff < 2;	
-				
-				xDiff = tooltipAndConnectorPos.x - textboxPos.x - textboxPos.w;
+			
+				var xDiff = textboxPos.x - tooltipContainerPos.x - tooltipContainerPos.w;
+				var toTheLeft = xDiff >= -0.5 && xDiff < 2;
+			
+				xDiff = tooltipContainerPos.x - textboxPos.x - textboxPos.w;
 				var toTheRight = xDiff >= -0.5 && xDiff < 2;
-				
-				doh.t(toTheLeft || toTheRight, "The tooltip was not to the left or right");				
-				
+
+				doh.t(toTheLeft || toTheRight, "The tooltip was not to the left or right");
+
 				var tooltip = dojo.query("div[dojoattachpoint='containerNode']");
 				var tooltipPos = dojo.position(tooltip[0]);
 
@@ -52,19 +51,19 @@
 				//verify the entire width is utilized.  Small tooltips will not utilize the entire witdth.
 				if(doh._currentGroup!="tooltip_left_right_small" && !isIE6 && !dojo.isOpera) {
 					if(toTheLeft){
-						doh.t(tooltipAndConnectorPos.w + 3/*space in between arrow and textbox*/ >= textboxPos.x, "The entire width was not utilized to the left");						
+						doh.t(tooltipContainerPos.w + 3/*space in between arrow and textbox*/ >= textboxPos.x, "The entire width was not utilized to the left");					
 					}else{
-						doh.t(tooltipAndConnectorPos.w + 3/*space in between arrow and textbox*/ >= view.w - tooltipAndConnectorPos.x, "The entire width was not utilized to the right");
+						doh.t(tooltipContainerPos.w + 3/*space in between arrow and textbox*/ >= view.w - tooltipContainerPos.x, "The entire width was not utilized to the right");
 					}
 				}
-				
+			
 				//If we cannot view the entire tooltip, verify they side with the most space was choosen and the entire height was utilized.
-				var canViewEntireTooltip = (tooltipAndConnectorPos.x + tooltipAndConnectorPos.w <= view.w) && 
+				var canViewEntireTooltip = (tooltipContainerPos.x + tooltipContainerPos.w <= view.w) && 
 				                           (tooltipPos.y + tooltipPos.h <= view.h);
 				if(!canViewEntireTooltip && !isIE6 && !dojo.isOpera){
 					if(toTheLeft){
 						//verify there is more space on the left than the right
-						doh.t(textboxPos.x >= (view.w - textboxPos.x - textboxPos.w), "There is not more space on the left than the right");	
+						doh.t(textboxPos.x >= (view.w - textboxPos.x - textboxPos.w), "There is not more space on the left than the right");
 					}else{
 						doh.t(textboxPos.x <= (view.w - textboxPos.x - textboxPos.w), "There is not more space on the right than the left");
 					}
@@ -72,23 +71,22 @@
 					doh.t(tooltipPos.h >= view.h, "The entire height was not utilized");
 				}
 			}
-			
+		
 			function testAboveBelow(textbox){
 				var textboxPos = dojo.position(textbox.domNode);
-				var tooltipConnector = dojo.query("div[dojoattachpoint='connectorNode']");
-				var tooltipConnectorPos = dojo.position(tooltipConnector[0]);
-				var tooltipAndConnectorPos = dojo.position(tooltipConnector[0].parentNode);
-				
+				var tooltipConnectorPos = dojo.position(dojo.query(".dijitTooltipConnector")[0]);
+				var tooltipContainerPos = dojo.position(dojo.query(".dijitTooltip")[0]);
+			
 				var xDiff = 0;
 				var xAxisValid = textboxPos.x  <= tooltipConnectorPos.x && tooltipConnectorPos.x <= (textboxPos.x + textboxPos.w);
 				doh.t(xAxisValid, "X axis is invalid");
-				
-				var yDiff = textboxPos.y - tooltipAndConnectorPos.y - tooltipAndConnectorPos.h;
+			
+				var yDiff = textboxPos.y - tooltipContainerPos.y - tooltipContainerPos.h;
 				var above = yDiff >= -0.5 && yDiff < 1;
-				
-				yDiff = tooltipAndConnectorPos.y - textboxPos.y - textboxPos.h;
+			
+				yDiff = tooltipContainerPos.y - textboxPos.y - textboxPos.h;
 				var below = yDiff >= -0.5 && yDiff < 1;
-				
+			
 				doh.t(above || below);
 			}
 
@@ -114,7 +112,7 @@
 						                }), 150);
 						        });
 						widget.focusNode.focus();
-						
+					
 						return d;
 					},
 					tearDown: function(){
@@ -126,12 +124,12 @@
 					timeout: 6000,
 					runTest: function(){
 						var d = new doh.Deferred();
-						
+					
 						var widget = dijit.byId("test1");
 						widget.set('value', null);
-						
+					
 						dijit.byId("test7").focusNode.focus();
-						
+					
 						doh.robot.sequence(function(){ widget.focusNode.focus();}, 500);
 
 						doh.robot.sequence(d.getTestCallback(function(){
@@ -145,7 +143,7 @@
 					timeout: 3000,
 					runTest: function(){
 						var d = new doh.Deferred();
-						
+					
 						var widget = dijit.byId("test1");
 						doh.robot.mouseMoveAt("aboveBelowButton", 500);
 						doh.robot.mouseClick({left:true}, 500);
@@ -199,10 +197,11 @@
 							        function(){
 							                setTimeout(d.getTestCallback(function(){
 										testRightOrLeft(widget);
-							                }), 150);
+							                }), 900);
 							        });
+							dojo.window.scrollIntoView(widget.focusNode);
 							widget.focusNode.focus();
-							
+						
 							return d;
 						},
 						tearDown: function(){
@@ -279,7 +278,7 @@
 						}
 					});
 				}
-				
+
 				doh.register("tooltip_left_right", tooltip_left_right);
 				doh.register("tooltip_left_right_small", tooltip_left_right_small);
 				doh.register("tooltip_above_below_small", tooltip_above_below_small);
