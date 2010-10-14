@@ -224,20 +224,26 @@ dojo.declare("dijit._TimePicker",
 			// dijit.focus(this.timeMenu);
 		},
 
-		postCreate: function(){
-			// instantiate constraints
-			if(this.constraints === dijit._TimePicker.prototype.constraints){
-				this.constraints={};
-			}
+		constructor: function(){
+			this.constraints = {}; // create instance object
+		},
 
+		postMixInProperties: function(){
+		        this.inherited(arguments);
+			this._setConstraintsAttr(this.constraints); // this needs to happen now (and later) due to codependency on _set*Attr calls
+		},
+
+		_setConstraintsAttr: function(/* Object */ constraints){
 			// brings in visibleRange, increments, etc.
-			dojo.mixin(this, this.constraints);
+			dojo.mixin(this, constraints);
 
 			// dojo.date.locale needs the lang in the constraints as locale
-			if(!this.constraints.locale){
-				this.constraints.locale=this.lang;
+			if(!constraints.locale){
+				constraints.locale = this.lang;
 			}
+		},
 
+		postCreate: function(){
 			// assign typematic mouse listeners to the arrow buttons
 			this.connect(this.timeMenu, dojo.isIE ? "onmousewheel" : 'DOMMouseScroll', "_mouseWheeled");
 			var _this = this;
@@ -490,4 +496,3 @@ dojo.declare("dijit._TimePicker",
 		}
 	}
 );
-

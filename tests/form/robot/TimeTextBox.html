@@ -74,6 +74,31 @@
 					}
 				]);
 
+				var handler, q5;
+				doh.register("mouse", [
+					{
+						name: "constraints propagation",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							q5 = dijit.byId('q5');
+							handler = q5.connect(q5.focusNode, 'onmouseup', d.getTestCallback(function(){
+								// drop down list should be filtered to 1 hour and 15 minute increments
+								var popup = dijit.byId("q5_popup"),
+									children = dojo.query(".dijitTimePickerItem", popup.domNode);
+								doh.is(4, children.length, "# of items in drop down");
+							}));
+							// click field, thus opening drop down
+							doh.robot.mouseMoveAt(q5.focusNode, 500, 1);
+							doh.robot.mouseClick({left:true}, 500);
+							return d;
+						},
+						tearDown: function(){
+							q5.disconnect(handler);
+						}
+					}
+				]);
+
 				doh.run();
 			});
 		</script>
