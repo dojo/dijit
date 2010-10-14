@@ -14,6 +14,10 @@ dojo.declare(
 		//		Flag to parser to leave alone the script tags contained inside of me
 		_noScript: true,
 
+		// stopParser: [private] Boolean
+		//		Flag to parser to not try and parse widgets declared inside of me
+		stopParser: true,
+
 		// widgetClass: String
 		//		Name of class being declared, ex: "acme.myWidget"
 		widgetClass: "",

@@ -105,12 +105,12 @@
 		<p>thinger blah stuff ${foo}</p>
 
 		<div data-dojo-type="dijit.ProgressBar" data-dojo-props='style:"width:400px", maximum:200,
-			progress:"${progress}" '></div>
+			progress:${progress}'></div>
 		<p data-dojo-attach-point='baz'>baz thud</p>
 	</div>
 
-	<div data-dojo-id="m1" data-dojo-type="m" data-dojo-props='foo:"blah", progress:"50"'></div>
-	<div data-dojo-id="m2" data-dojo-type="m" data-dojo-props='foo:"thinger", progress:"73"'></div>
+	<div data-dojo-id="m1" data-dojo-type="m" data-dojo-props='foo:"blah", progress:50'></div>
+	<div data-dojo-id="m2" data-dojo-type="m" data-dojo-props='foo:"thinger", progress:73'></div>
 
 	<h3>Using dojo/connect:</h3>
 	<div data-dojo-type="dijit.Declaration" data-dojo-props='widgetClass:"foo", defaults:{ foo: "thud", progress: 10 }'>
@@ -121,7 +121,7 @@
 		<p>thinger blah stuff ${foo}</p>
 
 		<div data-dojo-type="dijit.ProgressBar" data-dojo-props='style:"width:400px", maximum:200,
-			progress:"${progress}" '></div>
+			progress:${progress}'></div>
 		<p data-dojo-attach-point='baz'>baz thud</p>
 	</div>
 
