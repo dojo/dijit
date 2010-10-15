@@ -5,15 +5,15 @@
 		<title>doh.robot Tree DnD Test</title>
 
 		<style>
-			@import "../../../util/doh/robot/robot.css";
+			@import "../../../../util/doh/robot/robot.css";
 		</style>
 
 		<!-- required: dojo.js -->
-		<script type="text/javascript" src="../../../dojo/dojo.js"
+		<script type="text/javascript" src="../../../../dojo/dojo.js"
 			djConfig="isDebug: true, parseOnLoad: true"></script>
 
 		<!-- functions to help test -->
-		<script type="text/javascript" src="../helpers.js"></script>
+		<script type="text/javascript" src="../../helpers.js"></script>
 		<script type="text/javascript" src="Tree_dnd.js"></script>
 
 		<script type="text/javascript">
@@ -21,7 +21,7 @@
 			dojo.require("dijit.robotx");
 
 			dojo.addOnLoad(function(){
-				doh.robot.initRobot('../tree/test_Tree_DnD.html');
+				doh.robot.initRobot('../test_Tree_DnD.html');
 
 				doh.register("setup", {
 					name: "setup",

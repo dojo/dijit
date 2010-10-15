@@ -5,23 +5,23 @@
 	<title>dijit.Tree Automatic Tests</title>
 
 	<style type="text/css">
-		@import "../../dojo/resources/dojo.css";
-		@import "../../dojo/resources/dnd.css";
-		@import "../../dojo/tests/dnd/dndDefault.css";
-		@import "css/dijitTests.css";
+		@import "../../../dojo/resources/dojo.css";
+		@import "../../../dojo/resources/dnd.css";
+		@import "../../../dojo/tests/dnd/dndDefault.css";
+		@import "../css/dijitTests.css";
 	</style>
 
 	<!-- required: a default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/claro/claro.css">
+	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro.css">
 
 	<!-- required: dojo.js -->
-	<script type="text/javascript" src="../../dojo/dojo.js"
+	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="parseOnLoad: true, isDebug: true"></script>
 
 	<!-- not needed, for testing alternate themes -->
-	<script type="text/javascript" src="_testCommon.js"></script>
+	<script type="text/javascript" src="../_testCommon.js"></script>
 
-	<script type="text/javascript" src="helpers.js"></script>
+	<script type="text/javascript" src="../helpers.js"></script>
 
 	<script type="text/javascript">
 		dojo.require("doh.runner");
@@ -36,7 +36,7 @@
 				[
 					function create(){
 						var d = new doh.Deferred;
-			 			myStore = new dojo.data.ItemFileWriteStore({url:'_data/countries.json'});
+			 			myStore = new dojo.data.ItemFileWriteStore({url:'../_data/countries.json'});
 			 			doh.t(myStore, "store created");
 
 						myModel = new dijit.tree.ForestStoreModel({
