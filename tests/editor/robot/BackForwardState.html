@@ -27,6 +27,16 @@
 
 				doh.register("back button restore", [
 					{
+						name: "setup",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							// FIXME: actually wait for the editors to appear!
+							doh.robot.sequence(function(){ d.callback(true); },4000);
+							return d;
+						}
+					},
+					{
 						name: "set editor value",
 						timeout: 10000,
 						runTest: function(){

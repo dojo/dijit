@@ -28,6 +28,16 @@
 				var editor1OrigionalBackgroundColor;
 				doh.register("Miscellaneous_tests", [
 					{
+						name: "setup",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							// FIXME: actually wait for the editors to appear!
+							doh.robot.sequence(function(){ d.callback(true); },4000);
+							return d;
+						}
+					},
+					{
 						name: "addStylesheet",
 						timeout: 3000,
 						setUp: function(){

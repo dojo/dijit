@@ -22,6 +22,16 @@
 				doh.robot.initRobot('../test_CustomPlugin.html');
 
 				doh.register("isVisible", [
+					{
+						name: "setup",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							// FIXME: actually wait for the editors to appear!
+							doh.robot.sequence(function(){ d.callback(true); },4000);
+							return d;
+						}
+					},
 					function initialConditions(){
 						var pluginIcon = dojo.query(".customIcon")[0];
 						doh.t(isVisible(pluginIcon));

@@ -83,7 +83,7 @@
 							}), 1000);
 
 							// start editing InlineEditBox
-							doh.robot.mouseMoveAt("inline", 0);
+							doh.robot.mouseMoveAt("inline", 0, 500, 10, 5);
 							doh.robot.mouseClick({left: true}, 1000);
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(isVisible("tooltipDlg"), "TooltipDialog should still be showing");

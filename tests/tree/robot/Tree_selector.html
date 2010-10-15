@@ -147,7 +147,11 @@
 							// click fruit item
 							doh.robot.mouseMoveAt(fruitsTreeNode.rowNode, 500, 1000);
 							doh.robot.mouseClick({left: true}, 500);
-							
+
+							doh.robot.sequence(function(){
+								dijit.scrollIntoView("itemTree");
+							}, 500);
+
 							// ctrl-click Cereals item
 							var cerealsTreeNode = findTreeNode("itemTree", "Cereals");
 							doh.robot.mouseMoveAt(cerealsTreeNode.rowNode, 500, 1000);

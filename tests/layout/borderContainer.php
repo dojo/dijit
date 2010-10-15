@@ -8,7 +8,7 @@
 	// sized=true means that it will add a width/height to the BorderContainer
 ?>
 <div data-dojo-type="dijit.layout.BorderContainer"
-	id="<?=$id?>BorderContainer"
+	id="<?php echo $id?>BorderContainer"
 	<?php
 		if($_GET['sized']){
 			print "style='width: 300px; height: 300px;'";
@@ -21,12 +21,12 @@
 	<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"center", onLoad:myOnLoad'>
 		But it also has some nested layout widgets, and when this file is loaded the TabContainer and
 		BorderContainer below should get resize() called on them
-		<div data-dojo-type="dijit.layout.TabContainer" id="<?=$id?>InnerTabContainer"
+		<div data-dojo-type="dijit.layout.TabContainer" id="<?php echo $id?>InnerTabContainer"
 			data-dojo-props='style:"width: 300px; height: 300px;"'>
-			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Tab 1"'><?=$id?> tab1</div>
-			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Tab 2"'><?=$id?> tab2</div>
+			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Tab 1"'><?php echo $id?> tab1</div>
+			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Tab 2"'><?php echo $id?> tab2</div>
 		</div>
-		<div data-dojo-type="dijit.layout.BorderContainer" id="<?=$id?>InnerBorderContainer"
+		<div data-dojo-type="dijit.layout.BorderContainer" id="<?php echo $id?>InnerBorderContainer"
 			data-dojo-props='style:"width: 300px; height: 300px;"'>
 			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"center"'>inner border container</div>
 		</div>

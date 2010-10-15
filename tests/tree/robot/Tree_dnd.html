@@ -27,7 +27,13 @@
 					name: "setup",
 					timeout: 20000,
 					runTest: function(){
+						var d = new doh.Deferred();
 						setup();
+						// FIXME: wait until tree data is ready
+						doh.robot.sequence(function(){
+							d.callback(true);
+						},5000);
+						return d;
 					}
 				});
 
@@ -110,7 +116,7 @@
 							var fruitsTreeNode = findTreeNode("itemTree", "Fruits"),
 								appleTreeNode = findTreeNode("itemTree", "Apple"),
 								citrusTreeNode = findTreeNode("itemTree", "Citrus");
-
+							dijit.scrollIntoView("itemTree");
 							// Drag "Apple" into "Citrus".
 							doh.robot.mouseMoveAt(appleTreeNode.labelNode, 0, 500);
 							doh.robot.mousePress({left: true}, 500);

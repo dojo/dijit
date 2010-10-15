@@ -90,10 +90,7 @@
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
-
-							dijit.byId("select").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
+							handle = dojo.connect(dijit.byId("select").focusNode, "onfocus", d.getTestCallback(function(){
 								// Focus goes to an <input> node deep inside of select.domNode,
 								// but that <input> node has the id of the widget
 								doh.is(dojo.byId("select"), dojo.global.dijit._curFocus);
@@ -114,9 +111,13 @@
 								doh.f(focusedWatchLog["form"], "form watch callback (no new notification)");
 								doh.is("focused", focusedWatchLog["fieldset1"], "fieldset watch callback");
 								doh.is("focused", focusedWatchLog["select"], "select watch callback");
-							}), 500);
+							}));
+							dijit.byId("select").focus();
 
 							return d;
+						},
+						tearDown: function(){
+							dojo.disconnect(handle);
 						}
 					},
 					{
@@ -183,15 +184,15 @@
 
 							return d;
 						}
-					},
-
+					}/*,
+					// FIXME: this test is invalid because focus is not designed to change on mouse click to the first item in the menu
 					{
 						name: "combo button menu",
 						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							var button = dojo.query("#button .dijitDownArrowButton")[0];
+							var button = dijit.byId('button').focusNode;
 							doh.t(button, "found drop down button");
 
 							doh.robot.mouseMoveAt(button);
@@ -199,7 +200,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// Focus goes to an first item in the drop down menu
-								doh.is(dojo.byId("mi1"), dojo.global.dijit._curFocus);
+								doh.is(dojo.byId("mi1").id, dojo.global.dijit._curFocus.id);
 
 								// The focus stack should show the ComboBox plus all parent widgets
 								var stack = dojo.global.dijit._activeStack;
@@ -210,11 +211,14 @@
 								doh.is("button", stack[2], "combobutton");
 								doh.is("menu", stack[3], "menu");
 								doh.is("mi1", stack[4], "menuitem");
-							}), 1000);
+							}), 500);
 
 							return d;
+						},
+						tearDown: function(){
+							dojo.disconnect(handle);
 						}
-					}
+					}*/
 
 /*
 					// Commented out because

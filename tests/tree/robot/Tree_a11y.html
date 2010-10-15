@@ -326,6 +326,18 @@
 			doh.robot.initRobot('../test_Tree.html');
 			var treeTest = treeTests();
 
+			doh.register("_setup",{
+				timeout:20000,
+				runTest:function(){
+					var d = new doh.Deferred();
+					var store = dojo.global.dijit.byId('mytree3').get('store');
+					store.fetch({query:{id:'*'}, onComplete:function(){
+						d.callback(true);
+					}});
+					return d;
+				}
+			});
+
 			// aria role and properties tests.
 			doh.register("a11yAria",
 			[

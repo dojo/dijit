@@ -283,7 +283,7 @@
 							var d = new doh.Deferred();
 							
 							var changed = false;
-							dijit.byId("filteringSelect").set("onChange", function(e){changed = true; });
+							dijit.byId("filteringSelect").connect(dijit.byId("filteringSelect"), "onChange", function(e){d.callback(true); });
 							
 							doh.robot.mouseMoveAt("filteringSelect", 500);
 							doh.robot.mouseClick({left:true}, 500);
@@ -291,10 +291,6 @@
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
-							
-							doh.robot.sequence(d.getTestCallback(function(){
-								doh.t(changed);
-							}), 1000);
 							
 							return d;
 						}

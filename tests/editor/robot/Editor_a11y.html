@@ -39,18 +39,30 @@
 				var editor0,
 					editor1, editor1oldValue, editor1newValue, editor1onChange = "no onchange event yet";
 
-				doh.register("setup", function setup(){
-					editor0 = dijit.byId("editor0");
+				doh.register("setup", [
+					{
+						name: "setup",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							// FIXME: actually wait for the editors to appear!
+							doh.robot.sequence(function(){
+								editor0 = dijit.byId("editor0");
 
-					editor1 = dijit.byId("editor1");					
-					editor1.watch("value", function(attr, oldVal, newVal){
-						editor1oldValue = normalize(oldVal);
-						editor1newValue = normalize(newVal);
-					});
-					editor1.onChange = function(newValue){
-						editor1onChange = normalize(newValue);
-					};
-				});
+								editor1 = dijit.byId("editor1");					
+								editor1.watch("value", function(attr, oldVal, newVal){
+									editor1oldValue = normalize(oldVal);
+									editor1newValue = normalize(newVal);
+								});
+								editor1.onChange = function(newValue){
+									editor1onChange = normalize(newValue);
+								};
+								d.callback(true);
+							}, 4000);
+							return d;
+						}
+					}
+				]);
 
 				doh.register("keyboard shortcuts", [
 					{

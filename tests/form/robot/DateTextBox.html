@@ -565,7 +565,7 @@
 								doh.is(0, changes.length, "no onchange events yet #1");
 							}), 500);
 
-							doh.robot.mouseMoveAt(american.domNode, 500);
+							doh.robot.mouseMoveAt(american.focusNode, 500);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -997,7 +997,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt(american.domNode, 500);
+							doh.robot.mouseMoveAt(american.focusNode, 500);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){

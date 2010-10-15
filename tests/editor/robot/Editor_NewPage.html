@@ -28,6 +28,16 @@
 
 				doh.register("NewPage_tests", [
 					{
+						name: "setup",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							// FIXME: actually wait for the editors to appear!
+							doh.robot.sequence(function(){ d.callback(true); },4000);
+							return d;
+						}
+					},
+					{
 						name: "Mouse: Click new page clears editor",
 						timeout: 20000,
 						setUp: function(){

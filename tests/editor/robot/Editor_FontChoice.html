@@ -39,6 +39,21 @@
 				}
 				// Verify that the formatBlock, fontSize, and fontName
 				// plugins correctly display the format / font-size / font-name of the selected text.
+				doh.register("init",[{
+					timeout:5000,
+					runTest:function(){
+						var d = new doh.Deferred();
+						function waitForReady(){
+							if(value){ return; }
+							editor = dijit.byId("editor0");
+							value = editor.get("value");
+							if(value){ d.callback(true); }
+						}
+						for(var i=0; i<5000; i+=500){
+							setTimeout(waitForReady,i);
+						}
+					}
+				}]);
 				doh.register("FontChoice: verify current format/font-size/font-name",
 					dojo.map(
 						[
