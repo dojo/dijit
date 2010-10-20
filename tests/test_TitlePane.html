@@ -14,7 +14,7 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../dojo/dojo.js"
-		data-dojo-config="parseOnLoad: true, isDebug: true"></script>
+		data-dojo-config="parseOnLoad: false, isDebug: true"></script>
 
 	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="_testCommon.js"></script>
@@ -57,7 +57,7 @@
 							    '</div>' +
 							'</div>'
 		});
-    dojo.parser.instantiate([dojo.attr("test7", "dojoType", "dijit.TestTitlePane")]);
+    dojo.parser.parse();
 
     });
 	</script>
