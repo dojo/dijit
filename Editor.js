@@ -1,16 +1,4 @@
-dojo.provide("dijit.Editor");
-dojo.require("dijit._editor.RichText");
-
-dojo.require("dijit.Toolbar");
-dojo.require("dijit.ToolbarSeparator");
-dojo.require("dijit._editor._Plugin");
-dojo.require("dijit._editor.plugins.EnterKeyHandling");
-dojo.require("dijit._editor.range");
-dojo.require("dijit._Container");
-dojo.require("dojo.i18n");
-dojo.require("dijit.layout._LayoutWidget");
-dojo.require("dijit._editor.range");
-dojo.requireLocalization("dijit._editor", "commands");
+define("dijit/Editor", ["dojo", "dijit", "dijit/_editor/RichText", "dijit/Toolbar", "dijit/ToolbarSeparator", "dijit/_editor/_Plugin", "dijit/_editor/plugins/EnterKeyHandling", "dijit/_editor/range", "dijit/_Container", "dojo/i18n", "dijit/layout/_LayoutWidget", "dijit/_editor/range", "i18n!dijit/_editor/nls/commands"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.Editor",
@@ -197,7 +185,7 @@ dojo.declare(
 			}
 			/*
 			else{
-				// do nothing, the editor is already laid out correctly.  The user has probably specified
+				// do nothing, the editor is already laid out correctly.   The user has probably specified
 				// the height parameter, which was used to set a size on the iframe
 			}
 			*/
@@ -239,7 +227,7 @@ dojo.declare(
 			var offsetHeight = b.offsetHeight;
 			var offsetLeft = b.offsetLeft;
 
-			// Check for vertical scroller click.
+			//Check for vertical scroller click.
 			bodyDir = b.dir ? b.dir.toLowerCase() : "";
 			if(bodyDir != "rtl"){
 				if(clientWidth < offsetWidth && e.x > clientWidth && e.x < offsetWidth){ 
@@ -274,7 +262,7 @@ dojo.declare(
 		},
 		onBeforeDeactivate: function(e){
 			// summary:
-			//		Called on IE right before focus is lost.  Saves the selected range.
+			//		Called on IE right before focus is lost.   Saves the selected range.
 			// tags:
 			//		private
 			if(this.customUndo){
@@ -297,7 +285,7 @@ dojo.declare(
 		//		browsers with a minimal performance hit.  We already had the hit on 
 		//		the slowest browser, IE, anyway.
 		customUndo: true,
-		
+
 		// editActionInterval: Integer
 		//		When using customUndo, not every keystroke will be saved as a step.
 		//		Instead typing (including delete) will be grouped together: after
@@ -332,7 +320,7 @@ dojo.declare(
 		execCommand: function(cmd){
 			// summary:
 			//		Main handler for executing any commands to the editor, like paste, bold, etc.
-			//		Called by plugins, but not meant to be called by end users.
+			//      Called by plugins, but not meant to be called by end users.
 			// tags:
 			//		protected
 			if(this.customUndo && (cmd == 'undo' || cmd == 'redo')){
@@ -368,7 +356,7 @@ dojo.declare(
 		queryCommandEnabled: function(cmd){
 			// summary:
 			//		Returns true if specified editor command is enabled.
-			//		Used by the plugins to know when to highlight/not highlight buttons.
+			//      Used by the plugins to know when to highlight/not highlight buttons.
 			// tags:
 			//		protected
 			if(this.customUndo && (cmd == 'undo' || cmd == 'redo')){
@@ -700,7 +688,7 @@ dojo.declare(
 			this.endEditing(true);
 			this.inherited(arguments);
 		},
-		
+
 		replaceValue: function(/*String*/ html){
 			// summary:
 			//		over-ride of replaceValue to support custom undo and stack maintainence.
@@ -725,16 +713,16 @@ dojo.declare(
 		_setDisabledAttr: function(/*Boolean*/ value){
 			var disableFunc = dojo.hitch(this, function(){
 				if((!this.disabled && value) || (!this._buttonEnabledPlugins && value)){
-					// Disable editor: disable all enabled buttons and remember that list
+				// Disable editor: disable all enabled buttons and remember that list
 					dojo.forEach(this._plugins, function(p){
 						p.set("disabled", true);
-					});
-				}else if(this.disabled && !value){
+				});
+			}else if(this.disabled && !value){
 					// Restore plugins to being active.
 					dojo.forEach(this._plugins, function(p){
 						p.set("disabled", false);
-					});
-				}
+				});
+			}
 			});
 			this.setValueDeferred.addCallback(disableFunc);
 			this.inherited(arguments);
@@ -773,8 +761,12 @@ dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
 			p = new _p({ buttonClass: dijit.form.ToggleButton, command: name });
 			break;
 		case "|":
-			p = new _p({ button: new dijit.ToolbarSeparator(), setEditor: function(editor){this.editor = editor;} });
+			p = new _p({ button: new dijit.ToolbarSeparator(), setEditor: function(editor) {this.editor = editor;} });
 	}
 //	console.log('name',name,p);
 	o.plugin=p;
+});
+
+
+return dijit.Editor;
 });

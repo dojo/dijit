@@ -1,12 +1,4 @@
-dojo.provide("dijit._editor.plugins.ViewSource");
-
-dojo.require("dojo.window");
-dojo.require("dojo.i18n");
-
-dojo.require("dijit._editor._Plugin");
-dojo.require("dijit.form.Button");
-
-dojo.requireLocalization("dijit._editor", "commands");
+define("dijit/_editor/plugins/ViewSource", ["dojo", "dijit", "dojo/window", "dojo/i18n", "dijit/_editor/_Plugin", "dijit/form/Button", "i18n!dijit/_editor/nls/commands"], function(dojo, dijit) {
 
 dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 	// summary:
@@ -268,7 +260,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 			console.log(e);
 		}
 	},
-	
+
 	updateState: function(){
 		// summary:
 		//		Over-ride for button state control for disabled to work.
@@ -543,4 +535,8 @@ dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
 			stripIFrames: ("stripIFrames" in o.args)?o.args.stripIFrames:true
 		});
 	}
+});
+
+
+return dijit._editor.plugins.ViewSource;
 });

@@ -1,11 +1,4 @@
-dojo.provide("dijit.form.ValidationTextBox");
-
-dojo.require("dojo.i18n");
-
-dojo.require("dijit.form.TextBox");
-dojo.require("dijit.Tooltip");
-
-dojo.requireLocalization("dijit.form", "validate");
+define("dijit/form/ValidationTextBox", ["dojo", "dijit", "dojo/i18n", "dijit/form/TextBox", "dijit/Tooltip", "i18n!dijit/form/nls/validate"], function(dojo, dijit) {
 
 /*=====
 	dijit.form.ValidationTextBox.__Constraints = function(){
@@ -209,7 +202,7 @@ dojo.declare(
 			// parse the regexp and produce a new regexp that matches valid subsets
 			// if the regexp is .* then there's no use in matching subsets since everything is valid
 			if(p != ".*"){ this.regExp.replace(/\\.|\[\]|\[.*?[^\\]{1}\]|\{.*?\}|\(\?[=:!]|./g,
-				function(re){
+				function (re){
 					switch(re.charAt(0)){
 						case '{':
 						case '+':
@@ -465,3 +458,7 @@ dojo.declare(
 		}
 	}
 );
+
+
+return dijit.form.ValidationTextBox;
+});

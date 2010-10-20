@@ -1,6 +1,4 @@
-dojo.provide("dijit.form.SimpleTextarea");
-
-dojo.require("dijit.form.TextBox");
+define("dijit/form/SimpleTextarea", ["dojo", "dijit", "dijit/form/TextBox"], function(dojo, dijit) {
 
 dojo.declare("dijit.form.SimpleTextarea",
 	dijit.form.TextBox,
@@ -89,4 +87,8 @@ dojo.declare("dijit.form.SimpleTextarea",
 		}
 		this.inherited(arguments);
 	}
+});
+
+
+return dijit.form.SimpleTextarea;
 });

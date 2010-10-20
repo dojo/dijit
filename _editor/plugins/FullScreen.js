@@ -1,12 +1,4 @@
-dojo.provide("dijit._editor.plugins.FullScreen");
-
-dojo.require("dojo.window");
-dojo.require("dojo.i18n");
-
-dojo.require("dijit._editor._Plugin");
-dojo.require("dijit.form.Button");
-
-dojo.requireLocalization("dijit._editor", "commands");
+define("dijit/_editor/plugins/FullScreen", ["dojo", "dijit", "dojo/window", "dojo/i18n", "dijit/_editor/_Plugin", "dijit/form/Button", "i18n!dijit/_editor/nls/commands"], function(dojo, dijit) {
 
 dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 	// summary:
@@ -391,7 +383,7 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 			}, 100);
 		}
 	},
-	
+
 	updateState: function(){
 		// summary:
 		//		Over-ride for button state control for disabled to work.
@@ -429,4 +421,8 @@ dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
 			zIndex: ("zIndex" in o.args)?o.args.zIndex:500
 		});
 	}
+});
+
+
+return dijit._editor.plugins.FullScreen;
 });

@@ -1,5 +1,4 @@
-dojo.provide("dijit._KeyNavContainer");
-dojo.require("dijit._Container");
+define("dijit/_KeyNavContainer", ["dojo", "dijit", "dijit/_Container"], function(dojo, dijit) {
 
 dojo.declare("dijit._KeyNavContainer",
 	dijit._Container,
@@ -246,3 +245,7 @@ dojo.declare("dijit._KeyNavContainer",
 		}
 	}
 );
+
+
+return dijit._KeyNavContainer;
+});

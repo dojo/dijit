@@ -1,3 +1,5 @@
+define("i18n!dijit/_editor/nls/ko/commands",
+//begin v1.x content
 ({
 	'bold': '굵은체',
 	'copy': '복사',
@@ -46,3 +48,5 @@
 	'systemShortcut': '"${0}" 조치는 브라우저에서 키보드 단축키를 이용해서만 사용할 수 있습니다. ${1}을(를) 사용하십시오.'
 })
 
+//end v1.x content
+);

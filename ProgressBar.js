@@ -1,10 +1,4 @@
-dojo.provide("dijit.ProgressBar");
-
-dojo.require("dojo.fx");
-dojo.require("dojo.number");
-
-dojo.require("dijit._Widget");
-dojo.require("dijit._Templated");
+define("dijit/ProgressBar", ["dojo", "dijit", "dojo/fx", "dojo/number", "dijit/_Widget", "dijit/_Templated"], function(dojo, dijit) {
 
 dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 	// summary:
@@ -150,4 +144,8 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 		// tags:
 		//		extension
 	}
+});
+
+
+return dijit.ProgressBar;
 });

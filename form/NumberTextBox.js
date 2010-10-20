@@ -1,7 +1,4 @@
-dojo.provide("dijit.form.NumberTextBox");
-
-dojo.require("dijit.form.ValidationTextBox");
-dojo.require("dojo.number");
+define("dijit/form/NumberTextBox", ["dojo", "dijit", "dijit/form/ValidationTextBox", "dojo/number"], function(dojo, dijit) {
 
 /*=====
 dojo.declare(
@@ -246,3 +243,7 @@ dojo.declare("dijit.form.NumberTextBox",
 		//				allowed on input, and number of places displayed when blurred (see `constraints` parameter).
 	}
 );
+
+
+return dijit.form.NumberTextBox;
+});

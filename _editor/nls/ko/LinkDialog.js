@@ -1,3 +1,5 @@
+define("i18n!dijit/_editor/nls/ko/LinkDialog",
+//begin v1.x content
 ({
 	createLinkTitle: "링크 특성",
 	insertImageTitle: "이미지 특성",
@@ -11,3 +13,5 @@
 	newWindow: "새 창"
 })
 
+//end v1.x content
+);

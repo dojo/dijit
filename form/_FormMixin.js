@@ -1,6 +1,4 @@
-dojo.provide("dijit.form._FormMixin");
-
-dojo.require("dojo.window");
+define("dijit/form/_FormMixin", ["dojo", "dijit", "dojo/window"], function(dojo, dijit) {
 
 dojo.declare("dijit.form._FormMixin", null,
 	{
@@ -405,3 +403,7 @@ dojo.declare("dijit.form._FormMixin", null,
 			this.connectChildren();
 		}
 	});
+
+
+return dijit.form._FormMixin;
+});

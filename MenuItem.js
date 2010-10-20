@@ -1,9 +1,4 @@
-dojo.provide("dijit.MenuItem");
-
-dojo.require("dijit._Widget");
-dojo.require("dijit._Templated");
-dojo.require("dijit._Contained");
-dojo.require("dijit._CssStateMixin");
+define("dijit/MenuItem", ["dojo", "dijit", "dijit/_Widget", "dijit/_Templated", "dijit/_Contained", "dijit/_CssStateMixin"], function(dojo, dijit) {
 
 dojo.declare("dijit.MenuItem",
 		[dijit._Widget, dijit._Templated, dijit._Contained, dijit._CssStateMixin],
@@ -186,3 +181,7 @@ dojo.declare("dijit.MenuItem",
 			dojo.attr(this.containerNode,'colSpan',value?"1":"2");
 		}
 	});
+
+
+return dijit.MenuItem;
+});

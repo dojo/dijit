@@ -1,7 +1,4 @@
-dojo.provide("dijit.form.CurrencyTextBox");
-
-dojo.require("dojo.currency");
-dojo.require("dijit.form.NumberTextBox");
+define("dijit/form/CurrencyTextBox", ["dojo", "dijit", "dojo/currency", "dijit/form/NumberTextBox"], function(dojo, dijit) {
 
 /*=====
 dojo.declare(
@@ -81,3 +78,7 @@ dojo.declare(
 		}
 	}
 );
+
+
+return dijit.form.CurrencyTextBox;
+});

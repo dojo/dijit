@@ -1,29 +1,4 @@
-dojo.provide("dijit.tree._dndSelector");
-dojo.require("dojo.dnd.common");
-dojo.require("dijit.tree._dndContainer");
-
-dijit.tree._compareNodes = function(n1, n2){
-	if(n1 === n2){
-		return 0;
-	}
-	
-	if('sourceIndex' in document.documentElement){ //IE
-		//TODO: does not yet work if n1 and/or n2 is a text node
-		return n1.sourceIndex - n2.sourceIndex;
-	}else if('compareDocumentPosition' in document.documentElement){ //FF, Opera
-		return n1.compareDocumentPosition(n2) & 2 ? 1: -1;
-	}else if(document.createRange){ //Webkit
-		var r1 = doc.createRange();
-		r1.setStartBefore(n1);
-
-		var r2 = doc.createRange();
-		r2.setStartBefore(n2);
-
-		return r1.compareBoundaryPoints(r1.END_TO_END, r2);
-	}else{
-		throw Error("dijit.tree._compareNodes don't know how to compare two different nodes in this browser");
-	}
-};
+define("dijit/tree/_dndSelector", ["dojo", "dijit", "dojo/dnd/common", "dijit/tree/_dndContainer"], function(dojo, dijit) {
 
 dojo.declare("dijit.tree._dndSelector",
 	dijit.tree._dndContainer,
@@ -171,8 +146,8 @@ dojo.declare("dijit.tree._dndSelector",
 				}else{
 					this.selectNone();
 					this.addTreeNode(treeNode, true);
-				}
-			}else{
+					}
+				}else{
 				if(e.shiftKey && this.anchor){
 					var cr = dijit.tree._compareNodes(this.anchor.rowNode, treeNode.rowNode), 
 					  begin, end, anchor = this.anchor;
@@ -184,7 +159,7 @@ dojo.declare("dijit.tree._dndSelector",
 						}else{ //current is before anchor
 							begin = treeNode;
 							end = anchor;
-						}
+								}
 
 						this.selectNone();
 
@@ -197,9 +172,9 @@ dojo.declare("dijit.tree._dndSelector",
 							begin = this.tree._getNextNode(begin);
 						}
 					} //else the anchor is the same as current, do nothing
-				}else{
+					}else{
 					if(!copy){
-						this.selectNone();
+							this.selectNone();
 					}
 
 					this.addTreeNode(treeNode, true);
@@ -225,8 +200,8 @@ dojo.declare("dijit.tree._dndSelector",
 			if(dojo.isCopyKey(e)){
 				this.removeTreeNode(this.current);
 			}else{
-				this.selectNone();
-				if(this.current){
+			this.selectNone();
+			if(this.current){
 					this.addTreeNode(this.current, true);
 				}
 			}
@@ -248,4 +223,8 @@ dojo.declare("dijit.tree._dndSelector",
 				f.call(o, this.getItem(id), id, this);
 			}
 		}
+});
+
+
+return dijit.tree._dndSelector;
 });

@@ -1,6 +1,4 @@
-dojo.provide("dijit.form.MultiSelect");
-
-dojo.require("dijit.form._FormWidget");
+define("dijit/form/MultiSelect", ["dojo", "dijit", "dijit/form/_FormWidget"], function(dojo, dijit) {
 
 dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 	// summary:
@@ -105,4 +103,8 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 	postCreate: function(){
 		this._onChange();
 	}
+});
+
+
+return dijit.form.MultiSelect;
 });

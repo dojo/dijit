@@ -1,14 +1,4 @@
-dojo.provide("dijit.Tree");
-
-dojo.require("dojo.fx");
-dojo.require("dojo.DeferredList");
-
-dojo.require("dijit._Widget");
-dojo.require("dijit._Templated");
-dojo.require("dijit._Container");
-dojo.require("dijit._Contained");
-dojo.require("dijit._CssStateMixin");
-dojo.require("dojo.cookie");
+define("dijit/Tree", ["dojo", "dijit", "dojo/fx", "dojo/DeferredList", "dijit/_Widget", "dijit/_Templated", "dijit/_Container", "dijit/_Contained", "dijit/_CssStateMixin", "dojo/cookie", "dijit/tree/TreeStoreModel", "dijit/tree/ForestStoreModel"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit._TreeNode",
@@ -848,13 +838,13 @@ dojo.declare(
 					// node is pointing to the item that was popped from the path _last_ time.
 					// Expand that TreeNode and then reset node to point that TreeNode's child matching "item".
 					this._expandNode(node).addCallback(dojo.hitch(this, function(){
-						dojo.some(this._itemNodesMap[identity], function(n){
-							if(n.getParent() == node){
-								node = n;
-								return true;
-							}
-							return false;
-						});
+				dojo.some(this._itemNodesMap[identity], function(n){
+					if(n.getParent() == node){
+						node = n;
+						return true;
+					}
+					return false;
+				});
 
 						dojo.hitch(this, advance)();
 					}));
@@ -866,7 +856,7 @@ dojo.declare(
 						return;
 					}
 					node = this.rootNode;
-
+					
 					dojo.hitch(this, advance)();
 				}
 			}
@@ -1608,5 +1598,7 @@ dojo.declare(
 });
 
 // For back-compat.  TODO: remove in 2.0
-dojo.require("dijit.tree.TreeStoreModel");
-dojo.require("dijit.tree.ForestStoreModel");
+
+
+return dijit.Tree;
+});

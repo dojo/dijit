@@ -1,10 +1,4 @@
-dojo.provide("dijit.form._DateTimeTextBox");
-
-dojo.require("dojo.date");
-dojo.require("dojo.date.locale");
-dojo.require("dojo.date.stamp");
-dojo.require("dijit.form.ValidationTextBox");
-dojo.require("dijit._HasDropDown");
+define("dijit/form/_DateTimeTextBox", ["dojo", "dijit", "dojo/date", "dojo/date/locale", "dojo/date/stamp", "dijit/form/ValidationTextBox", "dijit/_HasDropDown"], function(dojo, dijit) {
 
 new Date("X"); // workaround for #11279, new Date("") == NaN
 
@@ -43,7 +37,7 @@ dojo.declare(
 		//		Despite the name, this parameter specifies both constraints on the input
 		//		(including starting/ending dates/times allowed) as well as
 		//		formatting options like whether the date is displayed in long (ex: December 25, 2005)
-		//		or short (ex: 12/25/2005) format.  See `dijit.form._DateTimeTextBox.__Constraints` for details.
+		//		or short (ex: 12/25/2005) format.   See `dijit.form._DateTimeTextBox.__Constraints` for details.
 		constraints: {},
 		======*/
 
@@ -52,7 +46,7 @@ dojo.declare(
 		regExpGen: dojo.date.locale.regexp,
 
 		// datePackage: String
-		//	JavaScript namespace to find calendar routines.	 Uses Gregorian calendar routines
+		//	JavaScript namespace to find calendar routines.  Uses Gregorian calendar routines
 		//	at dojo.date, by default.
 		datePackage: "dojo.date",
 
@@ -98,7 +92,7 @@ dojo.declare(
 		value: new Date(""),	// value.toString()="NaN"
 		_blankValue: null,	// used by filter() when the textbox is blank
 
-		// popupClass: [protected extension] String
+		//	popupClass: [protected extension] String
 		//		Name of the popup widget class used to select a date/time.
 		//		Subclasses should specify this.
 		popupClass: "", // default is no popup = text only
@@ -141,7 +135,7 @@ dojo.declare(
 			constraints.fullYear = true; // see #5465 - always format with 4-digit years
 			var fromISO = dojo.date.stamp.fromISOString;
 			if(typeof constraints.min == "string"){ constraints.min = fromISO(constraints.min); }
-			if(typeof constraints.max == "string"){ constraints.max = fromISO(constraints.max); }
+ 			if(typeof constraints.max == "string"){ constraints.max = fromISO(constraints.max); }
 			this.inherited(arguments, [constraints]);
 		},
 
@@ -177,7 +171,7 @@ dojo.declare(
 			if(this._isInvalidDate(val)){
 				// convert null setting into today's date, since there needs to be *some* default at all times.		
 				 val = new this.dateClassObj()
-			}
+						}
 			this.dropDownDefaultValue = val;
 		},
 
@@ -191,30 +185,30 @@ dojo.declare(
 				value = this.get("value");
 			this.dropDown = new PopupProto({
 				onChange: function(value){
-					// this will cause InlineEditBox and other handlers to do stuff so make sure it's last
-					dijit.form._DateTimeTextBox.superclass._setValueAttr.call(textBox, value, true);
-				},
-				id: this.id + "_popup",
-				dir: textBox.dir,
-				lang: textBox.lang,
+						// this will cause InlineEditBox and other handlers to do stuff so make sure it's last
+						dijit.form._DateTimeTextBox.superclass._setValueAttr.call(textBox, value, true);
+					},
+					id: this.id + "_popup",
+					dir: textBox.dir,
+					lang: textBox.lang,
 				value: value,
 				currentFocus: !this._isInvalidDate(value) ? value : this.dropDownDefaultValue,
-				constraints: textBox.constraints,
+					constraints: textBox.constraints,
 				filterString: textBox.filterString, // for TimeTextBox, to filter times shown
 
-				datePackage: textBox.datePackage,
+					datePackage: textBox.datePackage,
 
-				isDisabledDate: function(/*Date*/ date){
-					// summary:
-					//		disables dates outside of the min/max of the _DateTimeTextBox
-					var compare = dojo.date.compare;
-					var constraints = textBox.constraints;
-					return constraints && (
-						(constraints.min && compare(constraints.min, date, textBox._selector) > 0) ||
-						(constraints.max && compare(constraints.max, date, textBox._selector) < 0)
-					);
-				}
-			});
+					isDisabledDate: function(/*Date*/ date){
+						// summary:
+						// 	disables dates outside of the min/max of the _DateTimeTextBox
+						var compare = dojo.date.compare;
+						var constraints = textBox.constraints;
+						return constraints && (
+							(constraints.min && compare(constraints.min, date, textBox._selector) > 0) ||
+							(constraints.max && compare(constraints.max, date, textBox._selector) < 0)
+						);
+					}
+				});
 
 			this.inherited(arguments);
 		},
@@ -228,3 +222,7 @@ dojo.declare(
 		}
 	}
 );
+
+
+return dijit.form._DateTimeTextBox;
+});

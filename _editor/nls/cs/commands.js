@@ -1,3 +1,5 @@
+define("i18n!dijit/_editor/nls/cs/commands",
+//begin v1.x content
 ({
 	'bold': 'Tučné',
 	'copy': 'Kopírovat',
@@ -46,3 +48,5 @@
 	'systemShortcut': 'Akce "${0}" je v prohlížeči dostupná pouze prostřednictvím klávesové zkratky. Použijte klávesovou zkratku ${1}.'
 })
 
+//end v1.x content
+);

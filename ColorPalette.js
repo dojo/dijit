@@ -1,13 +1,4 @@
-dojo.provide("dijit.ColorPalette");
-
-dojo.require("dijit._Widget");
-dojo.require("dijit._Templated");
-dojo.require("dojo.colors");
-dojo.require("dojo.i18n");
-
-dojo.require("dijit._PaletteMixin");
-
-dojo.requireLocalization("dojo", "colors");
+define("dijit/ColorPalette", ["dojo", "dijit", "dijit/_Widget", "dijit/_Templated", "dojo/colors", "dojo/i18n", "dijit/_PaletteMixin", "i18n!dojo/nls/colors"], function(dojo, dijit) {
 
 dojo.declare("dijit.ColorPalette",
 	[dijit._Widget, dijit._Templated, dijit._PaletteMixin],
@@ -107,3 +98,7 @@ dojo.declare("dijit._Color", dojo.Color,
 		}
 	}
 );
+
+
+return dijit.ColorPalette;
+});

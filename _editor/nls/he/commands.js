@@ -1,3 +1,5 @@
+define("i18n!dijit/_editor/nls/he/commands",
+//begin v1.x content
 ({
 	'bold': 'מודגש',
 	'copy': 'עותק',
@@ -48,3 +50,5 @@
 	'appleKey':'\u2318${0}‎' // "command" or open-apple key on Macintosh
 })
 
+//end v1.x content
+);

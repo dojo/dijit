@@ -1,3 +1,5 @@
+define("i18n!dijit/_editor/nls/el/LinkDialog",
+//begin v1.x content
 ({
 	createLinkTitle: "Ιδιότητες σύνδεσης",
 	insertImageTitle: "Ιδιότητες εικόνας",
@@ -11,3 +13,5 @@
 	newWindow: "Νέο παράθυρο"
 })
 
+//end v1.x content
+);

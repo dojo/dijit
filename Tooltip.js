@@ -1,7 +1,4 @@
-dojo.provide("dijit.Tooltip");
-
-dojo.require("dijit._Widget");
-dojo.require("dijit._Templated");
+define("dijit/Tooltip", ["dojo", "dijit", "dijit/_Widget", "dijit/_Templated"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit._MasterTooltip",
@@ -423,3 +420,7 @@ dojo.declare(
 //		that the drop down and tooltip don't overlap, even when the viewport is scrolled so that there
 //		is only room below (or above) the target node, but not both.
 dijit.Tooltip.defaultPosition = ["after", "before"];
+
+
+return dijit.Tooltip;
+});

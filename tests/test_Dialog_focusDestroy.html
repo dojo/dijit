@@ -29,8 +29,12 @@
 		dojo.require("dijit.Dialog");
 		dojo.require("dijit.form.Button");
 
+    //-sie
+    //the dojo.required code might not be here yet!
+    dojo.addOnLoad(function() {
+
 		// make dojo.toJson() print dates correctly (this feels a bit dirty)
-		function createAndShow() {
+		createAndShow= function() {
 			var node = document.createElement("div");
 			dojo.body().appendChild(node);
 			var dlg = new dijit.Dialog({ title: "test input focus" }, node);
@@ -49,6 +53,8 @@
 			});
 			dlg.show();
 		}
+
+    });
 	</script>
 </head>
 <body class="claro">

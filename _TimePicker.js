@@ -1,7 +1,4 @@
-dojo.provide("dijit._TimePicker");
-
-dojo.require("dijit.form._FormWidget");
-dojo.require("dojo.date.locale");
+define("dijit/_TimePicker", ["dojo", "dijit", "dijit/form/_FormWidget", "dojo/date/locale"], function(dojo, dijit) {
 
 /*=====
 dojo.declare(
@@ -80,7 +77,7 @@ dojo.declare("dijit._TimePicker",
 
 		// constraints: dijit._TimePicker.__Constraints
 		//		Specifies valid range of times (start time, end time)
-		constraints: {},
+		constraints:{},
 
 /*=====
 		serialize: function(val, options){
@@ -126,7 +123,7 @@ dojo.declare("dijit._TimePicker",
 			// summary:
 			//		Called by TimeTextBox to filter the values shown in my list
 			this.filterString = val;
-			this._showText();
+					this._showText();
 		},
 
 		isDisabledDate: function(/*Date*/ dateObject, /*String?*/ locale){
@@ -176,23 +173,23 @@ dojo.declare("dijit._TimePicker",
 			//		private
 			var fromIso = dojo.date.stamp.fromISOString;
 			this.timeMenu.innerHTML = "";
-			this._clickableIncrementDate = fromIso(this.clickableIncrement);
-			this._visibleIncrementDate = fromIso(this.visibleIncrement);
-			this._visibleRangeDate = fromIso(this.visibleRange);
+			this._clickableIncrementDate=fromIso(this.clickableIncrement);
+			this._visibleIncrementDate=fromIso(this.visibleIncrement);
+			this._visibleRangeDate=fromIso(this.visibleRange);
 			// get the value of the increments and the range in seconds (since 00:00:00) to find out how many divs to create
 			var
 				sinceMidnight = function(/*Date*/ date){
-					return date.getHours() * 60 * 60 + date.getMinutes() * 60 + date.getSeconds();
+				return date.getHours() * 60 * 60 + date.getMinutes() * 60 + date.getSeconds();
 				},
 				clickableIncrementSeconds = sinceMidnight(this._clickableIncrementDate),
 				visibleIncrementSeconds = sinceMidnight(this._visibleIncrementDate),
 				visibleRangeSeconds = sinceMidnight(this._visibleRangeDate),
 
-				// round reference date to previous visible increment
+			// round reference date to previous visible increment
 				time = (this.value || this.currentFocus).getTime();
 
 			this._refDate = new Date(time - time % (visibleIncrementSeconds*1000));
-			this._refDate.setFullYear(1970, 0, 1); // match parse defaults
+			this._refDate.setFullYear(1970,0,1); // match parse defaults
 
 			// assume clickable increment is the smallest unit
 			this._clickableIncrement = 1;
@@ -211,7 +208,7 @@ dojo.declare("dijit._TimePicker",
 				// Limit to 10 nodes displayed as a half-hearted attempt to stop drop down from overlapping <input>.
 				after = this._getFilteredNodes(0, Math.min(this._totalIncrements >> 1, 10) - 1),
 				before = this._getFilteredNodes(0, Math.min(this._totalIncrements, 10) - after.length, true, after[0]);
-			dojo.forEach(before.concat(after), function(n){ this.timeMenu.appendChild(n); }, this);
+			dojo.forEach(before.concat(after), function(n){this.timeMenu.appendChild(n);}, this);
 		},
 
 		constructor: function(){
@@ -265,7 +262,7 @@ dojo.declare("dijit._TimePicker",
 				date.getMinutes() + incrementDate.getMinutes() * index,
 				date.getSeconds() + incrementDate.getSeconds() * index);
 			if(this.constraints.selector == "time"){
-				date.setFullYear(1970, 0, 1); // make sure each time is for the same date
+				date.setFullYear(1970,0,1); // make sure each time is for the same date
 			}
 			var dateString = dojo.date.locale.format(date, this.constraints);
 			if(this.filterString && dateString.toLowerCase().indexOf(this.filterString) !== 0){
@@ -276,7 +273,7 @@ dojo.declare("dijit._TimePicker",
 			var div = dojo.create("div", {"class": this.baseClass+"Item"});
 			div.date = date;
 			div.index = index;
-			dojo.create('div', {
+			dojo.create('div',{
 				"class": this.baseClass + "ItemInner",
 				innerHTML: dateString
 			}, div);
@@ -458,8 +455,8 @@ dojo.declare("dijit._TimePicker",
 
 				// Accept the currently-highlighted option as the value
 				if(this._highlighted_option){
-					this._onOptionSelected({target: this._highlighted_option});
-				}
+				this._onOptionSelected({target: this._highlighted_option});
+			}
 
 				// Call stopEvent() for ENTER key so that form doesn't submit,
 				// but not for TAB, so that TAB does switch focus
@@ -469,3 +466,6 @@ dojo.declare("dijit._TimePicker",
 	}
 );
 
+
+return dijit._TimePicker;
+});

@@ -1,4 +1,4 @@
-dojo.provide("dijit._Widget");
+define("dijit/_Widget", ["dojo", "dijit", "dijit/_base"], function(dojo, dijit) {
 
 //>>excludeStart("dijitBaseExclude", kwArgs.customDijitBase == "true");
 dojo.require( "dijit._base" );
@@ -516,7 +516,7 @@ dojo.declare("dijit._Widget", dojo.Stateful, {
 
 		if(!this.domNode){
 			// Create root node if it wasn't created by _Templated
-			this.domNode = this.srcNodeRef || dojo.create('div');
+		this.domNode = this.srcNodeRef || dojo.create('div');
 		}
 
 		// baseClass is a single class name or occasionally a space-separated list of names.
@@ -1218,3 +1218,7 @@ dojo.declare("dijit._Widget", dojo.Stateful, {
 });
 
 })();
+
+
+return dijit._Widget;
+});

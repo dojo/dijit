@@ -1,10 +1,4 @@
-dojo.provide("dijit._editor.plugins.NewPage");
-
-dojo.require("dijit._editor._Plugin");
-dojo.require("dijit.form.Button");
-dojo.require("dojo.i18n");
-
-dojo.requireLocalization("dijit._editor", "commands");
+define("dijit/_editor/plugins/NewPage", ["dojo", "dijit", "dijit/_editor/_Plugin", "dijit/form/Button", "dojo/i18n", "i18n!dijit/_editor/nls/commands"], function(dojo, dijit) {
 
 dojo.declare("dijit._editor.plugins.NewPage",dijit._editor._Plugin,{
 	// summary:
@@ -40,7 +34,7 @@ dojo.declare("dijit._editor.plugins.NewPage",dijit._editor._Plugin,{
 		this.editor = editor;
 		this._initButton();
 	},
-	
+
 	updateState: function(){
 		// summary:
 		//		Over-ride for button state control for disabled to work.
@@ -68,4 +62,8 @@ dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
 			content: ("content" in o.args)?o.args.content:"<br>"
 		});
 	}
+});
+
+
+return dijit._editor.plugins.NewPage;
 });

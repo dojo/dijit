@@ -1,3 +1,5 @@
+define("i18n!dijit/_editor/nls/ru/FontChoice",
+//begin v1.x content
 ({
 	fontSize: "Размер",
 	fontName: "Шрифт",
@@ -23,3 +25,5 @@
 	6: "очень большой",
 	7: "самый большой"
 })
+//end v1.x content
+);

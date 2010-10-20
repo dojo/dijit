@@ -1,3 +1,5 @@
+define("i18n!dijit/_editor/nls/it/commands",
+//begin v1.x content
 ({
 	'bold': 'Grassetto',
 	'copy': 'Copia',
@@ -46,3 +48,5 @@
 	'systemShortcut': 'La azione "${0}" è disponibile solo nel browser tramite un tasto di scelta rapida. Utilizzare ${1}.'
 })
 
+//end v1.x content
+);

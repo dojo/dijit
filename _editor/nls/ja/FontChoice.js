@@ -1,3 +1,5 @@
+define("i18n!dijit/_editor/nls/ja/FontChoice",
+//begin v1.x content
 ({
 	fontSize: "サイズ",
 	fontName: "フォント",
@@ -23,3 +25,5 @@
 	6: "特大",
 	7: "超特大"
 })
+//end v1.x content
+);

@@ -1,4 +1,4 @@
-dojo.provide("dijit.tree.TreeStoreModel");
+define("dijit/tree/TreeStoreModel", ["dojo", "dijit"], function(dojo, dijit) {
 
 dojo.declare(
 		"dijit.tree.TreeStoreModel",
@@ -361,3 +361,5 @@ dojo.declare(
 	});
 
 
+return dijit.tree.TreeStoreModel;
+});

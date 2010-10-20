@@ -27,6 +27,10 @@
 			dojo.require("dijit.layout.ContentPane");
 			dojo.require("dijit.layout.LinkPane");
 
+      //-sie
+      //the dojo.required code might not be here yet!
+      dojo.addOnLoad(function() {
+
 			// declare a simple widget to use as a base test:
 			dojo.declare("test._Widget",dijit._Widget,{
 				message:"",
@@ -84,6 +88,8 @@
 			//dojo.addOnLoad(function(){
 			//	setTimeout(init,25);
 			//});
+
+      });
 		</script>
 	</head>
 	<body class="claro">

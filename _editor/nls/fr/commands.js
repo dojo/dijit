@@ -1,3 +1,5 @@
+define("i18n!dijit/_editor/nls/fr/commands",
+//begin v1.x content
 ({
 	'bold': 'Gras',
 	'copy': 'Copier',
@@ -46,3 +48,5 @@
 	'systemShortcut': 'Action "${0}" uniquement disponible dans votre navigateur via un raccourci clavier. Utilisez ${1}.'
 })
 
+//end v1.x content
+);

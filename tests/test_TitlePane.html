@@ -35,6 +35,10 @@
 			return Math.floor(Math.random() * 3) + 3;
 		}
 
+    //-sie
+    //the dojo.required code might not be here yet!
+    dojo.addOnLoad(function() {
+
 		dojo.declare("dijit.TestTitlePane", dijit.TitlePane, {
 			templateString: '<div class="dijitTitlePane">' +
 							'    <div class="dijitTitlePaneTitle" dojoAttachPoint="titleBarNode" style="cursor: default;">' +
@@ -53,6 +57,9 @@
 							    '</div>' +
 							'</div>'
 		});
+    dojo.parser.instantiate([dojo.attr("test7", "dojoType", "dijit.TestTitlePane")]);
+
+    });
 	</script>
 </head>
 <body class="claro">

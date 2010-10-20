@@ -1,10 +1,6 @@
-dojo.provide("dijit.Menu");
-
-dojo.require("dojo.window");
-
-dojo.require("dijit._Widget");
-dojo.require("dijit._KeyNavContainer");
-dojo.require("dijit._Templated");
+define("dijit/Menu", ["dojo", "dijit", "dojo/window", "dijit/_Widget", "dijit/_KeyNavContainer", "dijit/_Templated", 
+  "dijit/MenuItem", "dijit/PopupMenuItem", "dijit/CheckedMenuItem", "dijit/MenuSeparator"], // Back-compat (TODO: remove in 2.0)
+function(dojo, dijit) {
 
 dojo.declare("dijit._MenuBase",
 	[dijit._Widget, dijit._Templated, dijit._KeyNavContainer],
@@ -690,10 +686,5 @@ dojo.declare("dijit.Menu",
 }
 );
 
-// Back-compat (TODO: remove in 2.0)
-dojo.require("dijit.MenuItem");
-dojo.require("dijit.PopupMenuItem");
-dojo.require("dijit.CheckedMenuItem");
-dojo.require("dijit.MenuSeparator");
-
-
+return dijit.Menu;
+});

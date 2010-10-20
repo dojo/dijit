@@ -24,6 +24,12 @@
 		dojo.require("dijit.ColorPalette");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
+    //-sie
+    // this test requires one or both of the "es-mx" and "en-us" localizations for
+    // dojo/colors be loaded, depending upon the default locale. Recall, in the sie version,
+    // i18n bundles are loaded asynchronously
+    dojo.req && dojo.req("i18n!dojo/nls/en-us/colors", "i18n!dojo/nls/es-mx/colors");
+
 		var palette;
 		dojo.addOnLoad(function(){
             var date0 = new Date();

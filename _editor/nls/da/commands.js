@@ -1,3 +1,5 @@
+define("i18n!dijit/_editor/nls/da/commands",
+//begin v1.x content
 ({
 	'bold': 'Fed',
 	'copy': 'Kopiér',
@@ -47,3 +49,5 @@
 	'ctrlKey':'Ctrl+${0}'
 })
 
+//end v1.x content
+);

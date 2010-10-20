@@ -1,9 +1,4 @@
-dojo.provide("dijit.TooltipDialog");
-
-dojo.require("dijit.layout.ContentPane");
-dojo.require("dijit._Templated");
-dojo.require("dijit.form._FormMixin");
-dojo.require("dijit._DialogMixin");
+define("dijit/TooltipDialog", ["dojo", "dijit", "dijit/layout/ContentPane", "dijit/_Templated", "dijit/form/_FormMixin", "dijit/_DialogMixin"], function(dojo, dijit) {
 
 dojo.declare(
 		"dijit.TooltipDialog",
@@ -132,3 +127,7 @@ dojo.declare(
 			}
 		}
 	);
+
+
+return dijit.TooltipDialog;
+});

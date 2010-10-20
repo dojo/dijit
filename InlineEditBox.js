@@ -1,13 +1,4 @@
-dojo.provide("dijit.InlineEditBox");
-
-dojo.require("dojo.i18n");
-
-dojo.require("dijit._Widget");
-dojo.require("dijit._Container");
-dojo.require("dijit.form.Button");
-dojo.require("dijit.form.TextBox");
-
-dojo.requireLocalization("dijit", "common");
+define("dijit/InlineEditBox", ["dojo", "dijit", "dojo/i18n", "dijit/_Widget", "dijit/_Container", "dijit/form/Button", "dijit/form/TextBox", "i18n!dijit/nls/common"], function(dojo, dijit) {
 
 dojo.declare("dijit.InlineEditBox",
 	dijit._Widget,
@@ -569,4 +560,8 @@ dojo.declare(
 			}
 		}), 0);
 	}
+});
+
+
+return dijit.InlineEditBox;
 });

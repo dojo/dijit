@@ -1,4 +1,6 @@
-dojo.provide("dijit._editor.selection");
+define("dijit/_editor/selection", ["dojo", "dijit"], function(dojo, dijit) {
+
+dojo.getObject("_editor.selection", true, dijit);
 
 // FIXME:
 //		all of these methods branch internally for IE. This is probably
@@ -347,4 +349,7 @@ dojo.mixin(dijit._editor.selection, {
 		return false; // boolean
 	}
 
+});
+
+return dijit._editor.selection;
 });

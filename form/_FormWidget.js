@@ -1,10 +1,4 @@
-dojo.provide("dijit.form._FormWidget");
-
-dojo.require("dojo.window");
-
-dojo.require("dijit._Widget");
-dojo.require("dijit._Templated");
-dojo.require("dijit._CssStateMixin");
+define("dijit/form/_FormWidget", ["dojo", "dijit", "dojo/window", "dijit/_Widget", "dijit/_Templated", "dijit/_CssStateMixin"], function(dojo, dijit) {
 
 dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._CssStateMixin],
 	{
@@ -102,8 +96,8 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 			}, this);
 		}else{
 			if(this.tabIndex != ""){
-				this.focusNode.setAttribute('tabIndex', this.tabIndex);
-			}
+			this.focusNode.setAttribute('tabIndex', this.tabIndex);
+		}
 		}
 	},
 
@@ -239,7 +233,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 			// Set a global event to handle mouseup, so it fires properly
 			// even if the cursor leaves this.domNode before the mouse up event.
 			var mouseUpConnector = this.connect(dojo.body(), "onmouseup", function(){
-				if(this.isFocusable()){
+				if (this.isFocusable()) {
 					this.focus();
 				}
 				this.disconnect(mouseUpConnector);
@@ -362,4 +356,8 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 			}
 		}
 	}
+});
+
+
+return dijit.form._FormWidget;
 });

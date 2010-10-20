@@ -1,8 +1,7 @@
-dojo.provide("dijit._editor.plugins.TabIndent");
+define("dijit/_editor/plugins/TabIndent", ["dojo", "dijit", "dijit/_editor/_Plugin", "dijit/form/ToggleButton"], function(dojo, dijit) {
+
 dojo.experimental("dijit._editor.plugins.TabIndent");
 
-dojo.require("dijit._editor._Plugin");
-dojo.require("dijit.form.ToggleButton");
 
 dojo.declare("dijit._editor.plugins.TabIndent",
 	dijit._editor._Plugin,
@@ -53,4 +52,8 @@ dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
 	case "tabIndent":
 		o.plugin = new dijit._editor.plugins.TabIndent({command: o.args.name});
 	}
+});
+
+
+return dijit._editor.plugins.TabIndent;
 });

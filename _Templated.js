@@ -1,9 +1,4 @@
-dojo.provide("dijit._Templated");
-
-dojo.require("dijit._Widget");
-dojo.require("dojo.string");
-dojo.require("dojo.parser");
-dojo.require("dojo.cache");
+define("dijit/_Templated", ["dojo", "dijit", "dijit/_Widget", "dojo/string", "dojo/parser", "dojo/cache"], function(dojo, dijit) {
 
 dojo.declare("dijit._Templated",
 	null,
@@ -343,4 +338,8 @@ dojo.extend(dijit._Widget,{
 	dojoAttachPoint: "",
 	waiRole: "",
 	waiState:""
+});
+
+
+return dijit._Templated;
 });

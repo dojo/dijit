@@ -1,6 +1,4 @@
-dojo.provide("dijit.CheckedMenuItem");
-
-dojo.require("dijit.MenuItem");
+define("dijit/CheckedMenuItem", ["dojo", "dijit", "dijit/MenuItem"], function(dojo, dijit) {
 
 dojo.declare("dijit.CheckedMenuItem",
 		dijit.MenuItem,
@@ -41,3 +39,7 @@ dojo.declare("dijit.CheckedMenuItem",
 			this.inherited(arguments);
 		}
 	});
+
+
+return dijit.CheckedMenuItem;
+});

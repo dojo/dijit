@@ -1,7 +1,4 @@
-dojo.provide("dijit.layout.BorderContainer");
-
-dojo.require("dijit.layout._LayoutWidget");
-dojo.require("dojo.cookie");
+define("dijit/layout/BorderContainer", ["dojo", "dijit", "dijit/layout/_LayoutWidget", "dojo/cookie", "dijit/_Templated"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.layout.BorderContainer",
@@ -444,8 +441,6 @@ dojo.extend(dijit._Widget, {
 	maxSize: Infinity
 });
 
-dojo.require("dijit._Templated");
-
 dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 {
 	// summary:
@@ -661,4 +656,8 @@ dojo.declare("dijit.layout._Gutter", [dijit._Widget, dijit._Templated ],
 		this.inherited(arguments);
 		dojo.addClass(this.domNode, "dijitGutter" + (this.horizontal ? "H" : "V"));
 	}
+});
+
+
+return dijit.layout.BorderContainer;
 });

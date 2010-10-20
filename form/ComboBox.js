@@ -1,16 +1,4 @@
-dojo.provide("dijit.form.ComboBox");
-
-dojo.require("dojo.window");
-dojo.require("dojo.regexp");
-dojo.require("dojo.data.util.simpleFetch");
-dojo.require("dojo.data.util.filter");
-dojo.require("dijit._CssStateMixin");
-
-dojo.require("dijit.form._FormWidget");
-dojo.require("dijit.form.ValidationTextBox");
-dojo.require("dijit._HasDropDown");
-
-dojo.requireLocalization("dijit.form", "ComboBox");
+define("dijit/form/ComboBox", ["dojo", "dijit", "dojo/window", "dojo/regexp", "dojo/data/util/simpleFetch", "dojo/data/util/filter", "dijit/_CssStateMixin", "dijit/form/_FormWidget", "dijit/form/ValidationTextBox", "dijit/_HasDropDown", "i18n!dijit/form/nls/ComboBox"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.form.ComboBoxMixin",
@@ -93,7 +81,7 @@ dojo.declare(
 		//		This specifies what query ComboBox/FilteringSelect sends to the data store,
 		//		based on what the user has typed.  Changing this expression will modify
 		//		whether the drop down shows only exact matches, a "starting with" match,
-		//		etc.  Use it in conjunction with highlightMatch.
+		//		etc.   Use it in conjunction with highlightMatch.
 		//		dojo.data query expression pattern.
 		//		`${0}` will be substituted for the user text.
 		//		`*` is used for wildcards.
@@ -257,7 +245,7 @@ dojo.declare(
 					// if we are in the middle of a query to convert a directly typed in value to an item,
 					// prevent submit, but allow event to bubble
 					if(this._opened || this._fetchHandle){
-						evt.preventDefault();
+					evt.preventDefault();
 					}
 					// fall through
 
@@ -299,7 +287,7 @@ dojo.declare(
 					break;
 
 				default:
-					// Non char keys (F1-F12 etc..) shouldn't open list.
+					// Non char keys (F1-F12 etc..)  shouldn't open list.
 					// Ascii characters and IME input (Chinese, Japanese etc.) should.
 					//IME input produces keycode == 229.
 					doSearch = typeof key == 'string' || key == 229;
@@ -421,7 +409,7 @@ dojo.declare(
 			// Overrides _HasDropDown.loadDropDown().
 			// This is called when user has pressed button icon or pressed the down arrow key
 			// to open the drop down.
-
+			
 			this._startSearchAll();
 		},
 
@@ -478,13 +466,13 @@ dojo.declare(
 
 		_setItemAttr: function(/*item*/ item, /*Boolean?*/ priorityChange, /*String?*/ displayedValue){
 			// summary:
-			//		Set the displayed valued in the input box, and the hidden value
-			//		that gets submitted, based on a dojo.data store item.
+			//              Set the displayed valued in the input box, and the hidden value
+			//              that gets submitted, based on a dojo.data store item.
 			// description:
-			//		Users shouldn't call this function; they should be calling
+			//              Users shouldn't call this function; they should be calling
 			//		set('item', value)
 			// tags:
-			//		private
+			//              private
 			if(!displayedValue){
 				// Use labelFunc() to get displayedValue.  But it may return HTML so need to convert to plain text.   
 				var label = this.labelFunc(item, this.store);
@@ -692,7 +680,7 @@ dojo.declare(
 				label = this.doHighlight(label, this._escapeHtml(this._lastInput));
 				labelType = "html";
 			}
-			return { html: labelType == "html", label: label };
+			return {html: labelType == "html", label: label};
 		},
 
 		doHighlight: function(/*String*/label, /*String*/find){
@@ -733,11 +721,11 @@ dojo.declare(
 
 		labelFunc: function(/*item*/ item, /*dojo.data.store*/ store){
 			// summary:
-			//		Computes the label to display based on the dojo.data store item.
+			//              Computes the label to display based on the dojo.data store item.
 			// returns:
-			//		The label that the ComboBox should display
+			//              The label that the ComboBox should display
 			// tags:
-			//		private
+			//              private
 
 			// Use toString() because XMLStore returns an XMLItem whereas this
 			// method is expected to return a String (#9354)
@@ -1153,7 +1141,7 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 			this.root = root;
 		}
 		dojo.query("> option", root).forEach(function(node){
-			//	TODO: this was added in #3858 but unclear why/if it's needed; doesn't seem to be.
+			//	TODO: this was added in #3858 but unclear why/if it's needed;  doesn't seem to be.
 			//	If it is needed then can we just hide the select itself instead?
 			//node.style.display="none";
 			node.innerHTML = dojo.trim(node.innerHTML);
@@ -1234,3 +1222,7 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 });
 //Mix in the simple fetch implementation to this class.
 dojo.extend(dijit.form._ComboBoxDataStore,dojo.data.util.simpleFetch);
+
+
+return dijit.form.ComboBox;
+});

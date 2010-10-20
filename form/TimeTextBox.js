@@ -1,7 +1,4 @@
-dojo.provide("dijit.form.TimeTextBox");
-
-dojo.require("dijit._TimePicker");
-dojo.require("dijit.form._DateTimeTextBox");
+define("dijit/form/TimeTextBox", ["dojo", "dijit", "dijit/_TimePicker", "dijit/form/_DateTimeTextBox"], function(dojo, dijit) {
 
 /*=====
 dojo.declare(
@@ -42,7 +39,7 @@ dojo.declare(
 
 		_onKey: function(evt){
 			this.inherited(arguments);
-			
+
 			// If the user has backspaced or typed some numbers, then filter the result list
 			// by what they typed.  Maybe there's a better way to detect this, like _handleOnChange()?
 			switch(evt.keyCode){
@@ -74,3 +71,6 @@ dojo.declare(
 		}
 	}
 );
+
+return dijit.form.TimeTextBox;
+});

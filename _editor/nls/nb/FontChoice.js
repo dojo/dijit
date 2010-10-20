@@ -1,3 +1,5 @@
+define("i18n!dijit/_editor/nls/nb/FontChoice",
+//begin v1.x content
 ({
 	fontSize: "Størrelse",
 	fontName: "Skrift",
@@ -23,3 +25,5 @@
 	6: "x-stor",
 	7: "xx-stor"
 })
+//end v1.x content
+);

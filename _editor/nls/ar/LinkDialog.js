@@ -1,3 +1,5 @@
+define("i18n!dijit/_editor/nls/ar/LinkDialog",
+//begin v1.x content
 ({
 	createLinkTitle: "خصائص الوصلة",
 	insertImageTitle: "خصائص الصورة",
@@ -11,3 +13,5 @@
 	newWindow: "نافذة جديدة"
 })
 
+//end v1.x content
+);

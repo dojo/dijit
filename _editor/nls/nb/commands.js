@@ -1,3 +1,5 @@
+define("i18n!dijit/_editor/nls/nb/commands",
+//begin v1.x content
 ({
 	'bold': 'Fet',
 	'copy': 'Kopier',
@@ -46,3 +48,5 @@
 	'systemShortcut': 'Handlingen "${0}" er bare tilgjengelig i nettleseren ved hjelp av en tastatursnarvei. Bruk ${1}.'
 })
 
+//end v1.x content
+);

@@ -1,8 +1,4 @@
-dojo.provide("dijit.Toolbar");
-
-dojo.require("dijit._Widget");
-dojo.require("dijit._KeyNavContainer");
-dojo.require("dijit._Templated");
+define("dijit/Toolbar", ["dojo", "dijit", "dijit/_Widget", "dijit/_KeyNavContainer", "dijit/_Templated", "dijit/ToolbarSeparator"], function(dojo, dijit) {
 
 dojo.declare("dijit.Toolbar",
 	[dijit._Widget, dijit._Templated, dijit._KeyNavContainer],
@@ -39,4 +35,7 @@ dojo.declare("dijit.Toolbar",
 );
 
 // For back-compat, remove for 2.0
-dojo.require("dijit.ToolbarSeparator");
+
+
+return dijit.Toolbar;
+});

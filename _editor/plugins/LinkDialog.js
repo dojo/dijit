@@ -1,17 +1,4 @@
-dojo.provide("dijit._editor.plugins.LinkDialog");
-
-dojo.require("dijit._Widget");
-dojo.require("dijit._Templated");
-dojo.require("dijit._editor._Plugin");
-dojo.require("dijit.TooltipDialog");
-dojo.require("dijit.form.Button");
-dojo.require("dijit.form.ValidationTextBox");
-dojo.require("dijit.form.Select");
-dojo.require("dijit._editor.range");
-dojo.require("dojo.i18n");
-dojo.require("dojo.string");
-dojo.requireLocalization("dijit", "common");
-dojo.requireLocalization("dijit._editor", "LinkDialog");
+define("dijit/_editor/plugins/LinkDialog", ["dojo", "dijit", "dijit/_Widget", "dijit/_Templated", "dijit/_editor/_Plugin", "dijit/TooltipDialog", "dijit/form/Button", "dijit/form/ValidationTextBox", "dijit/form/Select", "dijit/_editor/range", "dojo/i18n", "dojo/string", "i18n!dijit/nls/common", "i18n!dijit/_editor/nls/LinkDialog"], function(dojo, dijit) {
 
 dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 	// summary:
@@ -499,4 +486,8 @@ dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
 			o.plugin = new dijit._editor.plugins.ImgLinkDialog({command: o.args.name});
 			break;
 	}
+});
+
+
+return dijit._editor.plugins.LinkDialog;
 });

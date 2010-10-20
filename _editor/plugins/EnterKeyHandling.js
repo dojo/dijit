@@ -1,8 +1,4 @@
-dojo.provide("dijit._editor.plugins.EnterKeyHandling");
-
-dojo.require("dojo.window");
-dojo.require("dijit._editor._Plugin");
-dojo.require("dijit._editor.range");
+define("dijit/_editor/plugins/EnterKeyHandling", ["dojo", "dijit", "dojo/window", "dijit/_editor/_Plugin", "dijit/_editor/range"], function(dojo, dijit) {
 
 dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 	// summary:
@@ -95,7 +91,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 			// So, try to just have a common mode and be consistent.  Which means 
 			// we need to enable customUndo, if not already enabled.
 			this.editor.customUndo = true;
-			editor.onLoadDeferred.addCallback(dojo.hitch(this,function(d){
+				editor.onLoadDeferred.addCallback(dojo.hitch(this,function(d){
 				this.connect(editor.document, "onkeypress", function(e){
 					if(e.charOrCode == dojo.keys.ENTER){
 						// Just do it manually.  The handleEnterKey has a shift mode that
@@ -107,8 +103,8 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 						}
 					}
 				});
-				return d;
-			}));
+					return d;
+				}));
 		}else if(this.blockNodeForEnter){
 			// add enter key handler
 			// FIXME: need to port to the new event code!!
@@ -203,21 +199,21 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 					range = selection.getRangeAt(0);
 				}
 				if(dijit.range.atBeginningOfContainer(header, range.startContainer, range.startOffset)){
-					br=doc.createElement('br');
-					newrange = dijit.range.create(this.editor.window);
-					header.insertBefore(br,header.firstChild);
-					newrange.setStartBefore(br.nextSibling);
-					selection.removeAllRanges();
-					selection.addRange(newrange);
+						br=doc.createElement('br');
+						newrange = dijit.range.create(this.editor.window);
+						header.insertBefore(br,header.firstChild);
+						newrange.setStartBefore(br.nextSibling);
+						selection.removeAllRanges();
+						selection.addRange(newrange);
 				}else if(dijit.range.atEndOfContainer(header, range.startContainer, range.startOffset)){
 					newrange = dijit.range.create(this.editor.window);
 					br=doc.createElement('br');
-					header.appendChild(br);
-					header.appendChild(doc.createTextNode('\xA0'));
-					newrange.setStart(header.lastChild,0);
+						header.appendChild(br);
+						header.appendChild(doc.createTextNode('\xA0'));
+						newrange.setStart(header.lastChild,0);
 					selection.removeAllRanges();
 					selection.addRange(newrange);
-				}else{
+					}else{
 					rs = range.startContainer;
 					if(rs && rs.nodeType == 3){
 						// Text node, we have to split it.
@@ -228,15 +224,15 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 							var brNode = doc.createElement("br");
 							if(endNode.nodeValue == "" && dojo.isWebKit){
 								endNode = doc.createTextNode('\xA0')
-							}
+					}
 							dojo.place(startNode, rs, "after");
 							dojo.place(brNode, startNode, "after");
 							dojo.place(endNode, brNode, "after");
 							dojo.destroy(rs);
 							newrange = dijit.range.create(dojo.gobal);
 							newrange.setStart(endNode,0);
-							selection.removeAllRanges();
-							selection.addRange(newrange);
+					selection.removeAllRanges();
+					selection.addRange(newrange);
 						});
 						return false;
 					}
@@ -277,9 +273,9 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 						}
 					}
 				}else{
-					// don't change this: do not call this.execCommand, as that may have other logic in subclass
-					dijit._editor.RichText.prototype.execCommand.call(this.editor, 'inserthtml', '<br>');
-				}
+				// don't change this: do not call this.execCommand, as that may have other logic in subclass
+				dijit._editor.RichText.prototype.execCommand.call(this.editor, 'inserthtml', '<br>');
+			}
 			}
 			return false;
 		}
@@ -480,5 +476,8 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 		if(!para.childNodes.length){
 			para.innerHTML=this.bogusHtmlContent;
 		}
-	}
+				}
+});
+
+return dijit._editor.plugins.EnterKeyHandling;
 });

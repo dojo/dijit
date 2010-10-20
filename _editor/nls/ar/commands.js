@@ -1,3 +1,5 @@
+define("i18n!dijit/_editor/nls/ar/commands",
+//begin v1.x content
 ({
 	'bold': 'عري~ض',
 	'copy': 'نسخ',
@@ -47,3 +49,5 @@
 	'ctrlKey':'ctrl+${0}'
 })
 
+//end v1.x content
+);

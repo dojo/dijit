@@ -1,4 +1,4 @@
-dojo.provide("dijit._base.wai");
+define("dijit/_base/wai", ["dojo", "dijit"], function(dojo, dijit) {
 
 dijit.wai = {
 	onload: function(){
@@ -71,7 +71,7 @@ dojo.mixin(dijit, {
 		// description:
 		//		Replace existing role attribute with new role.
 
-		dojo.attr(elem, "role", role);
+			dojo.attr(elem, "role", role);
 	},
 
 	removeWaiRole: function(/*Element*/ elem, /*String*/ role){
@@ -130,4 +130,8 @@ dojo.mixin(dijit, {
 
 		elem.removeAttribute("aria-"+state);
 	}
+});
+
+
+return dijit;
 });

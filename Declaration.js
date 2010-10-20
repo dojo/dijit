@@ -1,6 +1,4 @@
-dojo.provide("dijit.Declaration");
-dojo.require("dijit._Widget");
-dojo.require("dijit._Templated");
+define("dijit/Declaration", ["dojo", "dijit", "dijit/_Widget", "dijit/_Templated"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.Declaration",
@@ -48,7 +46,7 @@ dojo.declare(
 				var evt = s.getAttribute("event") || s.getAttribute("data-dojo-event"),
 					func = dojo.parser._functionFromScript(s);
 				if(evt){
-					propList[evt] = func;
+				propList[evt] = func;
 				}else{
 					connects.push(s);
 				}
@@ -92,3 +90,7 @@ dojo.declare(
 		}
 	}
 );
+
+
+return dijit.Declaration;
+});

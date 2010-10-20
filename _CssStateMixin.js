@@ -1,5 +1,4 @@
-dojo.provide("dijit._CssStateMixin");
-
+define("dijit/_CssStateMixin", ["dojo", "dijit"], function(dojo, dijit) {
 
 dojo.declare("dijit._CssStateMixin", [], {
 	// summary:
@@ -249,4 +248,8 @@ dojo.declare("dijit._CssStateMixin", [], {
 			}
 		});
 	}
+});
+
+
+return dijit._CssStateMixin;
 });

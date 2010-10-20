@@ -1,9 +1,4 @@
-dojo.provide("dijit.layout.ScrollingTabController");
-
-dojo.require("dijit.layout.TabController");
-dojo.require("dijit.Menu");
-dojo.require("dijit.form.Button");
-dojo.require("dijit._HasDropDown");
+define("dijit/layout/ScrollingTabController", ["dojo", "dijit", "dijit/layout/TabController", "dijit/Menu", "dijit/form/Button", "dijit/_HasDropDown"], function(dojo, dijit) {
 
 dojo.declare("dijit.layout.ScrollingTabController",
 	dijit.layout.TabController,
@@ -406,12 +401,12 @@ dojo.declare("dijit.layout.ScrollingTabController",
 
 
 dojo.declare("dijit.layout._ScrollingTabControllerButtonMixin", null, {
-	baseClass: "dijitTab tabStripButton",
+		baseClass: "dijitTab tabStripButton",
 
-	templateString: dojo.cache("dijit.layout","templates/_ScrollingTabControllerButton.html"),
+		templateString: dojo.cache("dijit.layout","templates/_ScrollingTabControllerButton.html"),
 
-	// Override inherited tabIndex: 0 from dijit.form.Button, because user shouldn't be
-	// able to tab to the left/right/menu buttons
+		// Override inherited tabIndex: 0 from dijit.form.Button, because user shouldn't be
+		// able to tab to the left/right/menu buttons
 	tabIndex: "",
 
 	// Similarly, override FormWidget.isFocusable() because clicking a button shouldn't focus it
@@ -468,4 +463,7 @@ dojo.declare(
 			delete this.dropDown;
 		}
 	}
+});
+
+return dijit.layout.ScrollingTabController;
 });

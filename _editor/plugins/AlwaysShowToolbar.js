@@ -1,6 +1,4 @@
-dojo.provide("dijit._editor.plugins.AlwaysShowToolbar");
-
-dojo.require("dijit._editor._Plugin");
+define("dijit/_editor/plugins/AlwaysShowToolbar", ["dojo", "dijit", "dijit/_editor/_Plugin"], function(dojo, dijit) {
 
 dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", dijit._editor._Plugin,
 	{
@@ -176,4 +174,8 @@ dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", dijit._editor._Plugin,
 			dojo.removeClass(this.editor.header, 'dijitIEFixedToolbar');
 		}
 	}
+});
+
+
+return dijit._editor.plugins.AlwaysShowToolbar;
 });

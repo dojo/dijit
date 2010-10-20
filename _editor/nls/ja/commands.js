@@ -1,3 +1,5 @@
+define("i18n!dijit/_editor/nls/ja/commands",
+//begin v1.x content
 ({
 	'bold': '太字',
 	'copy': 'コピー',
@@ -45,3 +47,5 @@
 	/* Error messages */
 	'systemShortcut': '"${0}" アクションを使用できるのは、ブラウザーでキーボードショートカットを使用する場合のみです。 ${1} を使用してください。'
 })
+//end v1.x content
+);

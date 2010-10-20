@@ -1,3 +1,5 @@
+define("i18n!dijit/_editor/nls/zh-tw/FontChoice",
+//begin v1.x content
 ({
 	fontSize: "大小",
 	fontName: "字型",
@@ -23,3 +25,5 @@
 	6: "較大",
 	7: "最大"
 })
+//end v1.x content
+);

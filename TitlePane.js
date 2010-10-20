@@ -1,10 +1,4 @@
-dojo.provide("dijit.TitlePane");
-
-dojo.require("dojo.fx");
-
-dojo.require("dijit._Templated");
-dojo.require("dijit.layout.ContentPane");
-dojo.require("dijit._CssStateMixin");
+define("dijit/TitlePane", ["dojo", "dijit", "dojo/fx", "dijit/_Templated", "dijit/layout/ContentPane", "dijit/_CssStateMixin"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.TitlePane",
@@ -73,7 +67,7 @@ dojo.declare(
 
 	postCreate: function(){
 		this.inherited(arguments);
-
+		
 		// Hover and focus effect on title bar, except for non-toggleable TitlePanes
 		// This should really be controlled from _setToggleableAttr() but _CssStateMixin
 		// doesn't provide a way to disconnect a previous _trackMouseState() call
@@ -242,4 +236,8 @@ dojo.declare(
 		dojo.deprecated("dijit.TitlePane.setTitle() is deprecated.  Use set('title', ...) instead.", "", "2.0");
 		this.set("title", title);
 	}
+});
+
+
+return dijit.TitlePane;
 });

@@ -1,7 +1,4 @@
-dojo.provide("dijit.tree.dndSource");
-
-dojo.require("dijit.tree._dndSelector");
-dojo.require("dojo.dnd.Manager");
+define("dijit/tree/dndSource", ["dojo", "dijit", "dijit/tree/_dndSelector", "dojo/dnd/Manager"], function(dojo, dijit) {
 
 /*=====
 dijit.tree.__SourceArgs = function(){
@@ -530,4 +527,8 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 		//		Changes source's state based on "copy" status
 		this._changeState("Source", copy ? "Copied" : "Moved");
 	}
+});
+
+
+return dijit.tree.dndSource;
 });

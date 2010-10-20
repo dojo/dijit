@@ -1,7 +1,4 @@
-dojo.provide("dijit.layout._TabContainerBase");
-
-dojo.require("dijit.layout.StackContainer");
-dojo.require("dijit._Templated");
+define("dijit/layout/_TabContainerBase", ["dojo", "dijit", "dijit/layout/StackContainer", "dijit/_Templated"], function(dojo, dijit) {
 
 dojo.declare("dijit.layout._TabContainerBase",
 	[dijit.layout.StackContainer, dijit._Templated],
@@ -128,3 +125,6 @@ dojo.declare("dijit.layout._TabContainerBase",
 	}
 });
 
+
+return dijit.layout._TabContainerBase;
+});

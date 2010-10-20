@@ -1,9 +1,4 @@
-dojo.provide("dijit.layout.StackContainer");
-
-dojo.require("dijit._Templated");
-dojo.require("dijit.layout._LayoutWidget");
-dojo.requireLocalization("dijit", "common");
-dojo.require("dojo.cookie");
+define("dijit/layout/StackContainer", ["dojo", "dijit", "dijit/_Templated", "dijit/layout/_LayoutWidget", "i18n!dijit/nls/common", "dojo/cookie", "dijit/layout/StackController"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.layout.StackContainer",
@@ -288,7 +283,6 @@ dojo.declare(
 });
 
 // For back-compat, remove for 2.0
-dojo.require("dijit.layout.StackController");
 
 
 // These arguments can be specified for the children of a StackContainer.
@@ -316,4 +310,8 @@ dojo.extend(dijit._Widget, {
 	//		When true, display title of this widget as tab label etc., rather than just using
 	//		icon specified in iconClass
 	showTitle: true
+});
+
+
+return dijit.layout.StackContainer;
 });

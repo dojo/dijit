@@ -1,7 +1,4 @@
-dojo.provide("dijit.form.HorizontalRule");
-
-dojo.require("dijit._Widget");
-dojo.require("dijit._Templated");
+define("dijit/form/HorizontalRule", ["dojo", "dijit", "dijit/_Widget", "dijit/_Templated"], function(dojo, dijit) {
 
 dojo.declare("dijit.form.HorizontalRule", [dijit._Widget, dijit._Templated],
 {
@@ -60,4 +57,8 @@ dojo.declare("dijit.form.HorizontalRule", [dijit._Widget, dijit._Templated],
 		}
 		this.domNode.innerHTML = innerHTML;
 	}
+});
+
+
+return dijit.form.HorizontalRule;
 });

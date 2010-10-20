@@ -1,7 +1,4 @@
-dojo.provide("dijit.form.DateTextBox");
-
-dojo.require("dijit.Calendar");
-dojo.require("dijit.form._DateTimeTextBox");
+define("dijit/form/DateTextBox", ["dojo", "dijit", "dijit/Calendar", "dijit/form/_DateTimeTextBox"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.form.DateTextBox",
@@ -27,3 +24,7 @@ dojo.declare(
 		value: new Date("")	// value.toString()="NaN"
 	}
 );
+
+
+return dijit.form.DateTextBox;
+});

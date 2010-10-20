@@ -1,8 +1,4 @@
-dojo.provide("dijit.layout._LayoutWidget");
-
-dojo.require("dijit._Widget");
-dojo.require("dijit._Container");
-dojo.require("dijit._Contained");
+define("dijit/layout/_LayoutWidget", ["dojo", "dijit", "dijit/_Widget", "dijit/_Container", "dijit/_Contained"], function(dojo, dijit) {
 
 dojo.declare("dijit.layout._LayoutWidget",
 	[dijit._Widget, dijit._Container, dijit._Contained],
@@ -273,3 +269,7 @@ dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 	};
 
 })();
+
+
+return dijit.layout._LayoutWidget;
+});

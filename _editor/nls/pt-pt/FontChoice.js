@@ -1,3 +1,5 @@
+define("i18n!dijit/_editor/nls/pt-pt/FontChoice",
+//begin v1.x content
 ({
 	fontSize: "Tamanho",
 	fontName: "Tipo de letra",
@@ -23,3 +25,5 @@
 	6: "xl",
 	7: "xxl"
 })
+//end v1.x content
+);

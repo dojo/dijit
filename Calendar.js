@@ -1,13 +1,4 @@
-dojo.provide("dijit.Calendar");
-
-dojo.require("dojo.cldr.supplemental");
-dojo.require("dojo.date");
-dojo.require("dojo.date.locale");
-
-dojo.require("dijit._Widget");
-dojo.require("dijit._Templated");
-dojo.require("dijit._CssStateMixin");
-dojo.require("dijit.form.DropDownButton");
+define("dijit/Calendar", ["dojo", "dijit", "dojo/cldr/supplemental", "dojo/date", "dojo/date/locale", "dijit/_Widget", "dijit/_Templated", "dijit/_CssStateMixin", "dijit/form/DropDownButton"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.Calendar",
@@ -51,7 +42,7 @@ dojo.declare(
 		// tabIndex: Integer
 		//		Order fields are traversed when user hits the tab key
 		tabIndex: "0",
-
+		
 		// currentFocus: Date
 		//		Date object containing the currently focused date, or the date which would be focused
 		//		if the calendar itself was focused.   Also indicates which year and month to display,
@@ -116,14 +107,14 @@ dojo.declare(
 			if(value){
 				// convert from Number to Date, or make copy of Date object so that setHours() call below
 				// doesn't affect original value
-				value = new this.dateClassObj(value);				
+				value = new this.dateClassObj(value);
 			}
 			if(this._isValidDate(value)){
 				if(!this._isValidDate(this.value) || this.dateFuncObj.compare(value, this.value)){
 					value.setHours(1, 0, 0, 0); // round to nearest day (1am to avoid issues when DST shift occurs at midnight, see #8521, #9366)
 	
-					if(!this.isDisabledDate(value, this.lang)){
-						this.value = value;
+				if(!this.isDisabledDate(value, this.lang)){
+					this.value = value;
 	
 						// Set focus cell to the new value.   Arguably this should only happen when there isn't a current
 						// focus point.   This will also repopulate the grid, showing the new selected value (and possibly
@@ -131,10 +122,10 @@ dojo.declare(
 						this.set("currentFocus", value);
 	
 						if(priorityChange || typeof priorityChange == "undefined"){
-							this.onChange(this.get('value'));
+					this.onChange(this.get('value'));
 							this.onValueSelected(this.get('value'));	// remove in 2.0
 						}
-					}
+				}
 				}
 			}else{
 				// clear value, and repopulate grid (to deselect the previously selected day) without changing currentFocus
@@ -351,15 +342,15 @@ dojo.declare(
 			newCell.setAttribute("tabIndex", this.tabIndex);
 			if(this._focused || forceFocus){
 				newCell.focus();
-			}
+				}
 
 			// set tabIndex=-1 on old focusable cell
 			if(oldCell && oldCell != newCell){
 				if(dojo.isWebKit){	// see #11064 about webkit bug
 					oldCell.setAttribute("tabIndex", "-1");
-				}else{
+			}else{
 					oldCell.removeAttribute("tabIndex");				
-				}
+			}
 			}
 		},
 
@@ -424,7 +415,7 @@ dojo.declare(
 			// if mouse out occurs moving from <td> to <span> inside <td>, ignore it
 			if(evt.relatedTarget && evt.relatedTarget.parentNode == this._currentNode){ return; }
 			var cls = "dijitCalendarHoveredDate";
-			if(dojo.hasClass(this._currentNode, "dijitCalendarActiveDate")){
+			if(dojo.hasClass(this._currentNode, "dijitCalendarActiveDate")) {
 				cls += " dijitCalendarActiveDate";
 			}
 			dojo.removeClass(this._currentNode, cls);
@@ -596,4 +587,6 @@ dojo.declare("dijit.Calendar._MonthDropDown", [dijit._Widget, dijit._Templated],
 	_onMenuHover: function(evt){
 		dojo.toggleClass(evt.target, "dijitCalendarMonthLabelHover", evt.type == "mouseover");
 	}
+});
+
 });

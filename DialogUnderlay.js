@@ -1,9 +1,4 @@
-dojo.provide("dijit.DialogUnderlay");
-
-dojo.require("dojo.window");
-
-dojo.require("dijit._Widget");
-dojo.require("dijit._Templated");
+define("dijit/DialogUnderlay", ["dojo", "dijit", "dojo/window", "dijit/_Widget", "dijit/_Templated"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.DialogUnderlay",
@@ -98,3 +93,7 @@ dojo.declare(
 		}
 	}
 );
+
+
+return dijit.DialogUnderlay;
+});

@@ -1,6 +1,4 @@
-dojo.provide("dijit.form._Spinner");
-
-dojo.require("dijit.form.ValidationTextBox");
+define("dijit/form/_Spinner", ["dojo", "dijit", "dijit/form/ValidationTextBox"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.form._Spinner",
@@ -114,4 +112,8 @@ dojo.declare(
 			this._connects.push(dijit.typematic.addListener(this.upArrowNode, this.textbox, {charOrCode:dojo.keys.PAGE_UP,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout, this.minimumTimeout));
 			this._connects.push(dijit.typematic.addListener(this.downArrowNode, this.textbox, {charOrCode:dojo.keys.PAGE_DOWN,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout, this.minimumTimeout));
 		}
+});
+
+
+return dijit.form._Spinner;
 });

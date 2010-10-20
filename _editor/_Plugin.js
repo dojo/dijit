@@ -1,6 +1,4 @@
-dojo.provide("dijit._editor._Plugin");
-dojo.require("dijit._Widget");
-dojo.require("dijit.form.Button");
+define("dijit/_editor/_Plugin", ["dojo", "dijit", "dijit/_Widget", "dijit/form/Button"], function(dojo, dijit) {
 
 dojo.declare("dijit._editor._Plugin", null, {
 	// summary
@@ -42,7 +40,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 	//		that is added to the toolbar to control this plugin.
 	//		This is used to instantiate the button, unless `button` itself is specified directly.
 	buttonClass: dijit.form.Button,
-	
+
 	// disabled: Boolean
 	//		Flag to indicate if this plugin has been disabled and should do nothing
 	//		helps control button state, amoung other things.  Set via the setter api.
@@ -209,7 +207,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 		if(typeof name === "object"){
 			for(var x in name){
 				this.set(x, name[x]); 
-			}
+	}
 			return this;
 		}
 		var names = this._getAttrNames(name);
@@ -221,7 +219,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 		}
 		return result || this;
 	},
-	
+
 	get: function(name){
 		// summary:
 		//		Get a property from a plugin.
@@ -243,7 +241,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 		var names = this._getAttrNames(name);
 		return this[names.g] ? this[names.g]() : this[name];
 	},
-	
+
 	_setDisabledAttr: function(disabled){
 		// summary:
 		//		Function to set the plugin state and call updateState to make sure the 
@@ -274,4 +272,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 		var oldValue = this[name];
 		this[name] = value;
 	}	
+});
+
+return dijit._editor._Plugin;
 });

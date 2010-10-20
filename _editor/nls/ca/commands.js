@@ -1,3 +1,5 @@
+define("i18n!dijit/_editor/nls/ca/commands",
+//begin v1.x content
 ({
 	'bold': 'Negreta',
 	'copy': 'Copia',
@@ -47,3 +49,5 @@
 	'ctrlKey':'control+${0}'
 })
 
+//end v1.x content
+);

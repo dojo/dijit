@@ -1,8 +1,4 @@
-dojo.provide("dijit.form.Button");
-
-dojo.require("dijit.form._FormWidget");
-dojo.require("dijit._Container");
-dojo.require("dijit._HasDropDown");
+define("dijit/form/Button", ["dojo", "dijit", "dijit/form/_FormWidget", "dijit/_Container", "dijit/_HasDropDown"], function(dojo, dijit) {
 
 dojo.declare("dijit.form.Button",
 	dijit.form._FormWidget,
@@ -336,4 +332,8 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 		// set checked state to original setting
 		this.set('checked', this.params.checked || false);
 	}
+});
+
+
+return dijit.form.Button;
 });

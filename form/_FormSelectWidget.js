@@ -1,7 +1,4 @@
-dojo.provide("dijit.form._FormSelectWidget");
-
-dojo.require("dijit.form._FormWidget");
-dojo.require("dojo.data.util.sorter");
+define("dijit/form/_FormSelectWidget", ["dojo", "dijit", "dijit/form/_FormWidget", "dojo/data/util/sorter"], function(dojo, dijit) {
 
 /*=====
 dijit.form.__SelectOption = function(){
@@ -10,7 +7,7 @@ dijit.form.__SelectOption = function(){
 	//		place a separator at that location
 	// label: String
 	//		The label for our option.  It can contain html tags.
-	// selected: Boolean
+	//  selected: Boolean
 	//		Whether or not we are a selected option
 	// disabled: Boolean
 	//		Whether or not this specific option is disabled
@@ -34,7 +31,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 
 	// options: dijit.form.__SelectOption[]
 	//		The set of options for our select item.  Roughly corresponds to
-	//		the html <option> tag.
+	//      the html <option> tag.
 	options: null,
 
 	// store: dojo.data.api.Identity
@@ -234,36 +231,36 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 			this._loadingStore = true;
 			store.fetch(dojo.delegate(fetchArgs, {
 				onComplete: function(items, opts){
-					if(this.sortByLabel && !fetchArgs.sort && items.length){
-						items.sort(dojo.data.util.sorter.createSortFunction([{
-							attribute: store.getLabelAttributes(items[0])[0]
-						}], store));
-					}
-	
-					if(fetchArgs.onFetch){
+				if(this.sortByLabel && !fetchArgs.sort && items.length){
+					items.sort(dojo.data.util.sorter.createSortFunction([{
+						attribute: store.getLabelAttributes(items[0])[0]
+					}], store));
+				}
+
+				if(fetchArgs.onFetch){
 						items = fetchArgs.onFetch.call(this, items, opts);
-					}
-					// TODO: Add these guys as a batch, instead of separately
-					dojo.forEach(items, function(i){
-						this._addOptionForItem(i);
-					}, this);
-	
-					// Set our value (which might be undefined), and then tweak
-					// it to send a change event with the real value
-					this._loadingStore = false;
+				}
+				// TODO: Add these guys as a batch, instead of separately
+				dojo.forEach(items, function(i){
+					this._addOptionForItem(i);
+				}, this);
+
+				// Set our value (which might be undefined), and then tweak
+				// it to send a change event with the real value
+				this._loadingStore = false;
 					this.set("value", "_pendingValue" in this ? this._pendingValue : selectedValue);
-					delete this._pendingValue;
-	
-					if(!this.loadChildrenOnOpen){
-						this._loadChildren();
-					}else{
-						this._pseudoLoadChildren(items);
-					}
-					this._fetchedWith = opts;
-					this._lastValueReported = this.multiple ? [] : null;
-					this._onChangeActive = true;
-					this.onSetStore();
-					this._handleOnChange(this.value);
+				delete this._pendingValue;
+
+				if(!this.loadChildrenOnOpen){
+					this._loadChildren();
+				}else{
+					this._pseudoLoadChildren(items);
+				}
+				this._fetchedWith = opts;
+				this._lastValueReported = this.multiple ? [] : null;
+				this._onChangeActive = true;
+				this.onSetStore();
+				this._handleOnChange(this.value);
 				},
 				scope: this
 			}));
@@ -469,11 +466,11 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 							}
 							return { 
 								value: (node.getAttribute("data-" + dojo._scopeName + "-value") || node.getAttribute("value")),
-								label: String(node.innerHTML),
+										label: String(node.innerHTML),
 								// FIXME: disabled and selected are not valid on complex markup children (which is why we're 
 								// looking for data-dojo-value above.  perhaps we should data-dojo-props="" this whole thing?)
 								// decide before 1.6
-								selected: node.getAttribute("selected") || false,
+										selected: node.getAttribute("selected") || false,
 								disabled: node.getAttribute("disabled") || false 
 							};
 						}, this) : [];
@@ -572,4 +569,8 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		//		notification that the store has finished loading and all options
 		//		from that store are available
 	}
+});
+
+
+return dijit.form._FormSelectWidget;
 });

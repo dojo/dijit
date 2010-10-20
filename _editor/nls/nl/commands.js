@@ -1,3 +1,5 @@
+define("i18n!dijit/_editor/nls/nl/commands",
+//begin v1.x content
 ({
 	'bold': 'Vet',
 	'copy': 'Kopiëren',
@@ -46,3 +48,5 @@
 	'systemShortcut': 'De actie "${0}" is alleen beschikbaar in uw browser via een sneltoetscombinatie. Gebruik ${1}.'
 })
 
+//end v1.x content
+);

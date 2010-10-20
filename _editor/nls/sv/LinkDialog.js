@@ -1,3 +1,5 @@
+define("i18n!dijit/_editor/nls/sv/LinkDialog",
+//begin v1.x content
 ({
 	createLinkTitle: "Länkegenskaper",
 	insertImageTitle: "Bildegenskaper",
@@ -11,3 +13,5 @@
 	newWindow: "nytt fönster"
 })
 
+//end v1.x content
+);

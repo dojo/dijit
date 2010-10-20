@@ -1,8 +1,4 @@
-dojo.provide("dijit.form.Form");
-
-dojo.require("dijit._Widget");
-dojo.require("dijit._Templated");
-dojo.require("dijit.form._FormMixin");
+define("dijit/form/Form", ["dojo", "dijit", "dijit/_Widget", "dijit/_Templated", "dijit/form/_FormMixin"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.form.Form",
@@ -175,3 +171,7 @@ dojo.declare(
 		}
 	}
 );
+
+
+return dijit.form.Form;
+});

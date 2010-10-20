@@ -1,9 +1,4 @@
-dojo.provide("dijit._base.popup");
-
-dojo.require("dojo.window");
-dojo.require("dijit._base.focus");
-dojo.require("dijit._base.place");
-dojo.require("dijit._base.window");
+define("dijit/_base/popup", ["dojo", "dijit", "dijit/_base/focus", "dijit/_base/place", "dijit/_base/window"], function(dojo, dijit) {
 
 /*=====
 dijit.popup.__OpenArgs = function(){
@@ -100,8 +95,8 @@ dijit.popup = {
 			});
 		}else{
 			// Create an offscreen wrapper <div> for when this widget (in the future) will be used as a popup.
-			// This is done early because of IE bugs where creating/moving DOM nodes causes focus
-			// to go wonky, see tests/robot/Toolbar.html to reproduce
+		// This is done early because of IE bugs where creating/moving DOM nodes causes focus
+		// to go wonky, see tests/robot/Toolbar.html to reproduce
 			wrapper = dojo.create("div",{
 				"class":"dijitPopup",
 				style:{
@@ -113,18 +108,18 @@ dijit.popup = {
 			}, dojo.body());
 			wrapper.appendChild(node);
 
-			var s = node.style;
-			s.display = "";
-			s.visibility = "";
-			s.position = "";
-			s.top = "0px";
+		var s = node.style;
+		s.display = "";
+		s.visibility = "";
+		s.position = "";
+		s.top = "0px";
 
 			if(widget.declaredClass){		// TODO: in 2.0 change signature to always take widget, then remove if()
 				widget._popupWrapper = wrapper;
 				dojo.connect(widget, "destroy", function(){
 					dojo.destroy(wrapper);
 					delete widget._popupWrapper;
-				});
+		});
 			}
 		}
 	},
@@ -392,7 +387,7 @@ dojo.extend(dijit.BackgroundIframe, {
 	var oldSize = {};
 	dojo.addOnLoad(function(){
 		oldSize = dojo.window.getBox();
-	});
+});
 	dojo.connect(window, "onresize", function(){
 		var newSize = dojo.window.getBox();
 		// if() guards against spurious IE resize events
@@ -404,3 +399,6 @@ dojo.extend(dijit.BackgroundIframe, {
 })();
 
 dojo.connect(document, dojo.isMozilla ? "DOMMouseScroll" : "onmousewheel", dojo.hitch(dijit.popup, "close", null));
+
+return dijit.popup;
+});

@@ -1,12 +1,7 @@
-dojo.provide("dijit.layout.TabController");
-
-dojo.require("dijit.layout.StackController");
+define("dijit/layout/TabController", ["dojo", "dijit", "dijit/layout/StackController", "dijit/Menu", "dijit/MenuItem", "i18n!dijit/nls/common"], function(dojo, dijit) {
 
 // Menu is used for an accessible close button, would be nice to have a lighter-weight solution
-dojo.require("dijit.Menu");
-dojo.require("dijit.MenuItem");
 
-dojo.requireLocalization("dijit", "common");
 
 dojo.declare("dijit.layout.TabController",
 	dijit.layout.StackController,
@@ -162,4 +157,8 @@ dojo.declare("dijit.layout._TabButton",
 		}
 		this.inherited(arguments);
 	}
+});
+
+
+return dijit.layout.TabController;
 });

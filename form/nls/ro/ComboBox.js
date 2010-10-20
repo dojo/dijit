@@ -1,5 +1,9 @@
+define("i18n!dijit/form/nls/ro/ComboBox",
+//begin v1.x content
 ({
 		previousMessage: "Alegeri anterioare",
 		nextMessage: "Mai multe alegeri"
 })
 
+//end v1.x content
+);

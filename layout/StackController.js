@@ -1,10 +1,4 @@
-dojo.provide("dijit.layout.StackController");
-
-dojo.require("dijit._Widget");
-dojo.require("dijit._Templated");
-dojo.require("dijit._Container");
-dojo.require("dijit.form.ToggleButton");
-dojo.requireLocalization("dijit", "common");
+define("dijit/layout/StackController", ["dojo", "dijit", "dijit/_Widget", "dijit/_Templated", "dijit/_Container", "dijit/form/ToggleButton", "i18n!dijit/nls/common"], function(dojo, dijit) {
 
 dojo.declare(
 		"dijit.layout.StackController",
@@ -28,7 +22,7 @@ dojo.declare(
 
 			constructor: function(){
 				this.pane2button = {};		// mapping from pane id to buttons
-				this.pane2handles = {};		// mapping from pane id to this.connect() handles				
+				this.pane2handles = {};		// mapping from pane id to this.connect() handles
 			},
 
 			buildRendering: function(){
@@ -313,3 +307,6 @@ dojo.declare("dijit.layout._StackButton",
 		}
 	});
 
+
+return dijit.layout.StackController;
+});

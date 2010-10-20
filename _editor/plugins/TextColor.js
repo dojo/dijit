@@ -1,7 +1,4 @@
-dojo.provide("dijit._editor.plugins.TextColor");
-
-dojo.require("dijit._editor._Plugin");
-dojo.require("dijit.ColorPalette");
+define("dijit/_editor/plugins/TextColor", ["dojo", "dijit", "dijit/_editor/_Plugin", "dijit/ColorPalette"], function(dojo, dijit) {
 
 dojo.declare("dijit._editor.plugins.TextColor", dijit._editor._Plugin, {
 	// summary:
@@ -91,4 +88,8 @@ dojo.subscribe(dijit._scopeName + ".Editor.getPlugin", null, function(o){
 				command: o.args.name
 			});
 	}
+});
+
+
+return dijit._editor.plugins.TextColor;
 });

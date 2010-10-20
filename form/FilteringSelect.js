@@ -1,6 +1,4 @@
-dojo.provide("dijit.form.FilteringSelect");
-
-dojo.require("dijit.form.ComboBox");
+define("dijit/form/FilteringSelect", ["dojo", "dijit", "dijit/form/ComboBox"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.form.FilteringSelect",
@@ -211,3 +209,7 @@ dojo.declare(
 		}
 	}
 );
+
+
+return dijit.form.FilteringSelect;
+});

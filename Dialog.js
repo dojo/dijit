@@ -1,4 +1,20 @@
-dojo.provide("dijit.Dialog");
+define("dijit/Dialog", ["dojo", "dijit", 
+  "dojo/dnd/move", 
+  "dojo/dnd/TimedMoveable", 
+  "dojo/fx", 
+  "dojo/window", 
+  "dijit/_Widget", 
+  "dijit/_Templated", 
+  "dijit/_CssStateMixin", 
+  "dijit/form/_FormMixin", 
+  "dijit/_DialogMixin", 
+  "dijit/DialogUnderlay", 
+  "dijit/layout/ContentPane", 
+  "i18n!dijit/nls/common",
+  "dijit/TooltipDialog"], // For back-compat.  TODO: remove in 2.0
+function(dojo, dijit) {
+
+
 
 dojo.require("dojo.dnd.move");
 dojo.require("dojo.dnd.TimedMoveable");
@@ -568,5 +584,5 @@ dijit._dialogStack = [
 	{dialog: null, focus: null, underlayAttrs: null}	// entry for stuff at z-index: 0
 ];
 
-// For back-compat.  TODO: remove in 2.0
-dojo.require("dijit.TooltipDialog");
+return dijit.dialog;
+});

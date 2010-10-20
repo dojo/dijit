@@ -1,6 +1,4 @@
-dojo.provide("dijit.tree._dndContainer");
-dojo.require("dojo.dnd.common");
-dojo.require("dojo.dnd.Container");
+define("dijit/tree/_dndContainer", ["dojo", "dijit", "dojo/dnd/common", "dojo/dnd/Container"], function(dojo, dijit) {
 
 dojo.declare("dijit.tree._dndContainer",
 	null,
@@ -147,4 +145,8 @@ dojo.declare("dijit.tree._dndContainer",
 			//		protected
 			this._changeState("Container", "");
 		}
+});
+
+
+return dijit.tree._dndContainer;
 });

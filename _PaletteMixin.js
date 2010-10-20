@@ -1,5 +1,4 @@
-dojo.provide("dijit._PaletteMixin");
-dojo.require("dijit._CssStateMixin");
+define("dijit/_PaletteMixin", ["dojo", "dijit", "dijit/_CssStateMixin"], function(dojo, dijit) {
 
 dojo.declare("dijit._PaletteMixin",
 	[dijit._CssStateMixin],
@@ -60,7 +59,7 @@ dojo.declare("dijit._PaletteMixin",
 	//	 dyeClass should implements dijit.Dye interface
 	dyeClass: '',
 
-	_preparePalette: function(choices, titles){
+	_preparePalette: function(choices, titles) {
 		// summary:
 		//		Subclass must call _preparePalette() from postCreate(), passing in the tooltip
 		//		for each cell
@@ -311,3 +310,7 @@ dojo.declare("dijit.Dye",
 	}
 );
 =====*/
+
+
+return dijit._PaletteMixin;
+});

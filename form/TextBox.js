@@ -1,6 +1,4 @@
-dojo.provide("dijit.form.TextBox");
-
-dojo.require("dijit.form._FormWidget");
+define("dijit/form/TextBox", ["dojo", "dijit", "dijit/form/_FormWidget"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.form.TextBox",
@@ -240,18 +238,18 @@ dojo.declare(
 			if(dojo.isIE){ // IE INPUT tag fontFamily has to be set directly using STYLE
 				// the setTimeout gives IE a chance to render the TextBox and to deal with font inheritance
 				setTimeout(dojo.hitch(this, function(){
-					var s = dojo.getComputedStyle(this.domNode);
-					if(s){
-						var ff = s.fontFamily;
-						if(ff){
-							var inputs = this.domNode.getElementsByTagName("INPUT");
-							if(inputs){
-								for(var i=0; i < inputs.length; i++){
-									inputs[i].style.fontFamily = ff;
-								}
+				var s = dojo.getComputedStyle(this.domNode);
+				if(s){
+					var ff = s.fontFamily;
+					if(ff){
+						var inputs = this.domNode.getElementsByTagName("INPUT");
+						if(inputs){
+							for(var i=0; i < inputs.length; i++){
+								inputs[i].style.fontFamily = ff;
 							}
 						}
 					}
+				}
 				}), 0);
 			}
 
@@ -357,7 +355,7 @@ dojo.declare(
 			}
 
 			this._updatePlaceHolder();
-
+			
 			// call this.inherited() before refreshState(), since this.inherited() will possibly scroll the viewport
 			// (to scroll the TextBox into view), which will affect how _refreshState() positions the tooltip 			
 			this.inherited(arguments);
@@ -400,3 +398,7 @@ dijit.selectInputText = function(/*DomNode*/element, /*Number?*/ start, /*Number
 		}
 	}
 };
+
+
+return dijit.form.TextBox;
+});

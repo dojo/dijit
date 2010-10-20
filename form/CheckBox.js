@@ -1,6 +1,4 @@
-dojo.provide("dijit.form.CheckBox");
-
-dojo.require("dijit.form.ToggleButton");
+define("dijit/form/CheckBox", ["dojo", "dijit", "dijit/form/ToggleButton"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.form.CheckBox",
@@ -190,3 +188,7 @@ dojo.declare(
 		}
 	}
 );
+
+
+return dijit.form.CheckBox;
+});

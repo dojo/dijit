@@ -1,11 +1,4 @@
-dojo.provide("dijit.form.HorizontalSlider");
-
-dojo.require("dijit.form._FormWidget");
-dojo.require("dijit._Container");
-dojo.require("dojo.dnd.move");
-dojo.require("dijit.form.Button");
-dojo.require("dojo.number");
-dojo.require("dojo._base.fx");
+define("dijit/form/HorizontalSlider", ["dojo", "dijit", "dijit/form/_FormWidget", "dijit/_Container", "dojo/dnd/move", "dijit/form/Button", "dojo/number", "dojo/_base/fx"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.form.HorizontalSlider",
@@ -263,8 +256,8 @@ dojo.declare(
 	buildRendering: function(){
 		this.inherited(arguments);
 		if(this.showButtons){
-			this.incrementButton.style.display = "";
-			this.decrementButton.style.display = "";
+			this.incrementButton.style.display="";
+			this.decrementButton.style.display="";
 		}
 
 		// find any associated label element and add to slider focusnode.
@@ -332,3 +325,5 @@ dojo.declare("dijit.form._SliderMover",
 });
 
 
+return dijit.form.HorizontalSlider;
+});

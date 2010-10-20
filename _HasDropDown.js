@@ -1,7 +1,4 @@
-dojo.provide("dijit._HasDropDown");
-
-dojo.require("dijit._base.place");
-dojo.require("dijit._Widget");
+define("dijit/_HasDropDown", ["dojo", "dijit", "dijit/_base/place", "dijit/_Widget"], function(dojo, dijit) {
 
 dojo.declare("dijit._HasDropDown",
 	null,
@@ -212,7 +209,7 @@ dojo.declare("dijit._HasDropDown",
 					/* false return code means that the drop down handled the key */
 					dojo.stopEvent(e);
 					return;
-				}
+			}
 			}
 			if(d && this._opened && e.charOrCode == dojo.keys.ESCAPE){
 				this.closeDropDown();
@@ -328,7 +325,7 @@ dojo.declare("dijit._HasDropDown",
 					myStyle.height = "";
 				}
 				dojo.style(ddNode, myStyle);
-
+				
 				// Figure out maximum height allowed (if there is a height restriction)
 				var maxHeight = this.maxHeight;
 				if(maxHeight == -1){
@@ -414,3 +411,7 @@ dojo.declare("dijit._HasDropDown",
 
 	}
 );
+
+
+return dijit._HasDropDown;
+});

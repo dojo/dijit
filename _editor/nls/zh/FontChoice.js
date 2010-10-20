@@ -1,3 +1,5 @@
+define("i18n!dijit/_editor/nls/zh/FontChoice",
+//begin v1.x content
 ({
 	fontSize: "大小",
 	fontName: "字体",
@@ -23,3 +25,5 @@
 	6: "XL 号",
 	7: "XXL 号"
 })
+//end v1.x content
+);

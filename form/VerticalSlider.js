@@ -1,6 +1,4 @@
-dojo.provide("dijit.form.VerticalSlider");
-
-dojo.require("dijit.form.HorizontalSlider");
+define("dijit/form/VerticalSlider", ["dojo", "dijit", "dijit/form/HorizontalSlider"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.form.VerticalSlider",
@@ -30,3 +28,6 @@ dojo.declare(
 	}
 });
 
+
+return dijit.form.VerticalSlider;
+});

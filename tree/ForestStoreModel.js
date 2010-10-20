@@ -1,6 +1,4 @@
-dojo.provide("dijit.tree.ForestStoreModel");
-
-dojo.require("dijit.tree.TreeStoreModel");
+define("dijit/tree/ForestStoreModel", ["dojo", "dijit", "dijit/tree/TreeStoreModel"], function(dojo, dijit) {
 
 dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 	// summary:
@@ -269,3 +267,5 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 });
 
 
+return dijit.tree.ForestStoreModel;
+});

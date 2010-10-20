@@ -1,11 +1,4 @@
-dojo.provide("dijit.form.Select");
-
-dojo.require("dijit.form._FormSelectWidget");
-dojo.require("dijit._HasDropDown");
-dojo.require("dijit.Menu");
-dojo.require("dijit.Tooltip");
-
-dojo.requireLocalization("dijit.form", "validate");
+define("dijit/form/Select", ["dojo", "dijit", "dijit/form/_FormSelectWidget", "dijit/_HasDropDown", "dijit/Menu", "dijit/Tooltip", "i18n!dijit/form/nls/validate"], function(dojo, dijit) {
 
 dojo.declare("dijit.form._SelectMenu", dijit.Menu, {
 	// summary:
@@ -273,4 +266,8 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		}
 		this.inherited(arguments);
 	}
+});
+
+
+return dijit.form.Select;
 });

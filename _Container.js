@@ -1,4 +1,4 @@
-dojo.provide("dijit._Container");
+define("dijit/_Container", ["dojo", "dijit"], function(dojo, dijit) {
 
 dojo.declare("dijit._Container",
 	null,
@@ -130,3 +130,7 @@ dojo.declare("dijit._Container",
 		}
 	}
 );
+
+
+return dijit._Container;
+});

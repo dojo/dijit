@@ -1,12 +1,6 @@
-dojo.provide("dijit.layout.AccordionContainer");
+define("dijit/layout/AccordionContainer", ["dojo", "dijit", "dijit/_Container", "dijit/_Templated", "dijit/_CssStateMixin", "dijit/layout/StackContainer", "dijit/layout/ContentPane", "dijit/layout/AccordionPane"], function(dojo, dijit) {
 
-dojo.require("dijit._Container");
-dojo.require("dijit._Templated");
-dojo.require("dijit._CssStateMixin");
-dojo.require("dijit.layout.StackContainer");
-dojo.require("dijit.layout.ContentPane");
-
-dojo.require("dijit.layout.AccordionPane");	// for back compat, remove for 2.0
+//dojo.require("dijit.layout.AccordionPane ");	// for back compat, remove for 2.0
 
 // Design notes:
 //
@@ -98,7 +92,7 @@ dojo.declare(
 			// get cumulative height of all the unselected title bars
 			var totalCollapsedHeight = 0;
 			dojo.forEach(this.getChildren(), function(child){
-				if(child != openPane){
+	            if(child != openPane){
 					totalCollapsedHeight += dojo._getMarginSize(child._wrapperWidget.domNode).h;
 				}
 			});
@@ -241,7 +235,7 @@ dojo.declare(
 				}
 			}
 
-			if(animate){
+				if(animate){
 				var newContents = newWidget._wrapperWidget.containerNode,
 					oldContents = oldWidget._wrapperWidget.containerNode;
 
@@ -257,20 +251,20 @@ dojo.declare(
 
 				this._animation = new dojo.Animation({
 					node: newContents,
-					duration: this.duration,
+						duration: this.duration,
 					curve: [1, this._verticalSpace - animationHeightOverhead - 1],
 					onAnimate: function(value){
 						value = Math.floor(value);	// avoid fractional values
 						newContents.style.height = value + "px";
 						oldContents.style.height = (self._verticalSpace - animationHeightOverhead - value) + "px";
-					},
-					onEnd: function(){
+						},
+						onEnd: function(){
 						delete self._animation;
 						newContents.style.height = "auto";
 						oldWidget._wrapperWidget.containerNode.style.display = "none";
 						oldContents.style.height = "auto";
 						self._hideChild(oldWidget);
-					}
+			}
 				});
 				this._animation.onStop = this._animation.onEnd;
 				this._animation.play();
@@ -330,7 +324,7 @@ dojo.declare("dijit.layout._AccordionInnerContainer",
 		isContainer: true,
 		isLayoutContainer: true,
 
-		buildRendering: function(){
+		buildRendering: function(){			
 			// Builds a template like:
 			//	<div class=dijitAccordionInnerContainer>
 			//		Button
@@ -447,8 +441,8 @@ dojo.declare("dijit.layout._AccordionButton",
 		// summary:
 		//		Callback when someone clicks my title.
 		var parent = this.getParent();
-		parent.selectChild(this.contentWidget, true);
-		dijit.focus(this.focusNode);
+			parent.selectChild(this.contentWidget, true);
+			dijit.focus(this.focusNode);
 	},
 
 	_onTitleKeyPress: function(/*Event*/ evt){
@@ -461,4 +455,8 @@ dojo.declare("dijit.layout._AccordionButton",
 		dijit.setWaiState(this.focusNode, "selected", isSelected);
 		this.focusNode.setAttribute("tabIndex", isSelected ? "0" : "-1");
 	}
+});
+
+
+return dijit.layout.AccordionContainer;
 });

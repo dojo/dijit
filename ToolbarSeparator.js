@@ -1,7 +1,4 @@
-dojo.provide("dijit.ToolbarSeparator");
-
-dojo.require("dijit._Widget");
-dojo.require("dijit._Templated");
+define("dijit/ToolbarSeparator", ["dojo", "dijit", "dijit/_Widget", "dijit/_Templated"], function(dojo, dijit) {
 
 dojo.declare("dijit.ToolbarSeparator",
 		[ dijit._Widget, dijit._Templated ],
@@ -24,3 +21,5 @@ dojo.declare("dijit.ToolbarSeparator",
 	});
 
 
+return dijit.ToolbarSeparator;
+});

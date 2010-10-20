@@ -1,12 +1,4 @@
-dojo.provide("dijit.layout.ContentPane");
-
-dojo.require("dijit._Widget");
-dojo.require("dijit._Contained");
-dojo.require("dijit.layout._LayoutWidget");	// for dijit.layout.marginBox2contentBox()
-
-dojo.require("dojo.string");
-dojo.require("dojo.html");
-dojo.requireLocalization("dijit", "loading");
+define("dijit/layout/ContentPane", ["dojo", "dijit", "dijit/_Widget", "dijit/_Contained", "dijit/layout/_LayoutWidget", "dojo/string", "dojo/html", "i18n!dijit/nls/loading"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.layout.ContentPane", dijit._Widget,
@@ -626,10 +618,10 @@ dojo.declare(
 			}, this);
 
 			if(this._started){
-				// Call resize() on each of my child layout widgets,
-				// or resize() on my single child layout widget...
+			// Call resize() on each of my child layout widgets,
+			// or resize() on my single child layout widget...
 				// either now (if I'm currently visible) or when I become visible
-				this._scheduleLayout();
+			this._scheduleLayout();
 			}
 			this._onLoadHandler(cont);
 		}
@@ -752,4 +744,8 @@ dojo.declare(
 		// tags:
 		//		callback
 	}
+});
+
+
+return dijit.layout.ContentPane;
 });

@@ -1,3 +1,5 @@
+define("i18n!dijit/_editor/nls/hu/FontChoice",
+//begin v1.x content
 ({
 	fontSize: "Méret",
 	fontName: "Betűtípus",
@@ -23,3 +25,5 @@
 	6: "x-nagy",
 	7: "xx-nagy"
 })
+//end v1.x content
+);

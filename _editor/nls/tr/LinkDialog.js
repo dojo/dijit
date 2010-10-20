@@ -1,3 +1,5 @@
+define("i18n!dijit/_editor/nls/tr/LinkDialog",
+//begin v1.x content
 ({
 	createLinkTitle: "Bağlantı Özellikleri",
 	insertImageTitle: "Resim Özellikleri",
@@ -11,3 +13,5 @@
 	newWindow: "Yeni Pencere"
 })
 
+//end v1.x content
+);

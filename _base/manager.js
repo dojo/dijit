@@ -1,4 +1,4 @@
-dojo.provide("dijit._base.manager");
+define("dijit/_base/manager", ["dojo", "dijit"], function(dojo, dijit) {
 
 dojo.declare("dijit.WidgetSet", null, {
 	// summary:
@@ -466,3 +466,7 @@ dojo.declare("dijit.WidgetSet", null, {
 	dijit.defaultDuration = dojo.config["defaultDuration"] || 200;
 
 })();
+
+
+return dijit;
+});

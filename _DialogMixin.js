@@ -1,6 +1,4 @@
-dojo.provide("dijit._DialogMixin");
-
-dojo.require("dijit._Widget");
+define("dijit/_DialogMixin", ["dojo", "dijit", "dijit/_Widget"], function(dojo, dijit) {
 
 dojo.declare("dijit._DialogMixin", null,
 	{
@@ -73,3 +71,7 @@ dojo.declare("dijit._DialogMixin", null,
 		}
 	}
 );
+
+
+return dijit._DialogMixin;
+});

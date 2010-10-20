@@ -1,8 +1,4 @@
-dojo.provide("dijit._base.place");
-
-dojo.require("dojo.window");
-dojo.require("dojo.AdapterRegistry");
-
+define("dijit/_base/place", ["dojo", "dijit", "dojo/window", "dojo/AdapterRegistry"], function(dojo, dijit) {
 
 dijit.getViewport = function(){
 	// summary:
@@ -281,7 +277,7 @@ dijit._placeOnScreenAroundRect = function(
 			}
 		});
 	}
-	
+
 	return dijit._place(node, choices, layoutNode, {w: width, h: height});
 };
 
@@ -363,3 +359,7 @@ dijit.getPopupAroundAlignment = function(/*Array*/ position, /*Boolean*/ leftToR
 	});
 	return align;
 };
+
+
+return dijit;
+});

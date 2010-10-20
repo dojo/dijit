@@ -1,3 +1,5 @@
+define("i18n!dijit/_editor/nls/pl/FontChoice",
+//begin v1.x content
 ({
 	fontSize: "Wielkość",
 	fontName: "Czcionka",
@@ -23,3 +25,5 @@
 	6: "większa",
 	7: "największa"
 })
+//end v1.x content
+);

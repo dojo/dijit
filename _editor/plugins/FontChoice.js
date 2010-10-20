@@ -1,13 +1,4 @@
-dojo.provide("dijit._editor.plugins.FontChoice");
-
-dojo.require("dijit._editor._Plugin");
-dojo.require("dijit._editor.range");
-dojo.require("dijit._editor.selection");
-dojo.require("dijit.form.FilteringSelect");
-dojo.require("dojo.data.ItemFileReadStore");
-dojo.require("dojo.i18n");
-
-dojo.requireLocalization("dijit._editor", "FontChoice");
+define("dijit/_editor/plugins/FontChoice", ["dojo", "dijit", "dijit/_editor/_Plugin", "dijit/_editor/range", "dijit/_editor/selection", "dijit/form/FilteringSelect", "dojo/data/ItemFileReadStore", "dojo/i18n", "i18n!dijit/_editor/nls/FontChoice"], function(dojo, dijit) {
 
 dojo.declare("dijit._editor.plugins._FontDropDown",
 	[dijit._Widget, dijit._Templated],{
@@ -570,4 +561,8 @@ dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
 			plainText: o.args.plainText?o.args.plainText:false
 		});
 	}
+});
+
+
+return dijit._editor.plugins.FontChoice;
 });

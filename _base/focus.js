@@ -1,7 +1,4 @@
-dojo.provide("dijit._base.focus");
-
-dojo.require("dojo.window");
-dojo.require("dijit._base.manager");	// for dijit.isTabNavigable()
+define("dijit/_base/focus", ["dojo", "dijit", "dojo/window", "dijit/_base/manager"], function(dojo, dijit) {
 
 // summary:
 //		These functions are used to query or set the focus and selection.
@@ -513,4 +510,8 @@ dojo.addOnLoad(function(){
 			handle = null;
 		})
 	}
+});
+
+
+return dijit;
 });

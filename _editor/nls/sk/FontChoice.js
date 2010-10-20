@@ -1,3 +1,5 @@
+define("i18n!dijit/_editor/nls/sk/FontChoice",
+//begin v1.x content
 ({
 	fontSize: "Veľkosť",
 	fontName: "Písmo",
@@ -24,3 +26,5 @@
 	7: "xx-large"
 })
 
+//end v1.x content
+);

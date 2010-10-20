@@ -1,6 +1,8 @@
-dojo.provide("dijit.robotx");
-dojo.require("dijit.robot");
-dojo.require("dojo.robotx");
+define("dijit/robotx", ["dojo", "dijit", "dijit/robot", "dojo/robotx"], function(dojo, dijit_) {
+
+//WARNING: This module depends on GLOBAL dijit being set for v1.5 code; therefore the lexical variable that
+//references "dijit" has been renamed to "dijit_"
+
 dojo.experimental("dijit.robotx");
 (function(){
 var __updateDocument = doh.robot._updateDocument;
@@ -16,3 +18,7 @@ dojo.mixin(doh.robot,{
 });
 
 })();
+
+
+return dijit_;
+});
