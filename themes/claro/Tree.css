@@ -97,7 +97,8 @@
 .claro .dijitTreeRowHover .dijitTreeExpandoClosed {
 	background-position: -17px 0px;
 }
-.claro .dijitTreeExpandoLeaf{
+.claro .dijitTreeExpandoLeaf,
+.dj_ie6 .claro .dijitTreeExpandoLeaf {
 	background-image:none;
 }
 .claro .dijitTreeExpandoLoading {
