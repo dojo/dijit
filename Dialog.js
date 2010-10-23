@@ -1,34 +1,6 @@
-define("dijit/Dialog", ["dojo", "dijit", 
-  "dojo/dnd/move", 
-  "dojo/dnd/TimedMoveable", 
-  "dojo/fx", 
-  "dojo/window", 
-  "dijit/_Widget", 
-  "dijit/_Templated", 
-  "dijit/_CssStateMixin", 
-  "dijit/form/_FormMixin", 
-  "dijit/_DialogMixin", 
-  "dijit/DialogUnderlay", 
-  "dijit/layout/ContentPane", 
-  "i18n!dijit/nls/common",
-  "dijit/TooltipDialog"], // For back-compat.  TODO: remove in 2.0
-function(dojo, dijit) {
+define("dijit/Dialog", ["dojo", "dijit", "dojo/dnd/move", "dojo/dnd/TimedMoveable", "dojo/fx", "dojo/window", "dijit/_Widget", "dijit/_Templated", "dijit/_CssStateMixin", "dijit/form/_FormMixin",  "dijit/_DialogMixin", "dijit/DialogUnderlay", "dijit/layout/ContentPane", "i18n!dijit/nls/common", "dijit/TooltipDialog"], function(dojo, dijit) {
 
-
-
-dojo.require("dojo.dnd.move");
-dojo.require("dojo.dnd.TimedMoveable");
-dojo.require("dojo.fx");
-dojo.require("dojo.window");
-
-dojo.require("dijit._Widget");
-dojo.require("dijit._Templated");
-dojo.require("dijit._CssStateMixin");
-dojo.require("dijit.form._FormMixin");
-dojo.require("dijit._DialogMixin");
-dojo.require("dijit.DialogUnderlay");
-dojo.require("dijit.layout.ContentPane");
-dojo.requireLocalization("dijit", "common");
+//dijit/TooltipDialog for back-compat.  TODO: remove in 2.0
 
 /*=====
 dijit._underlay = function(kwArgs){

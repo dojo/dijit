@@ -1,6 +1,6 @@
-define("dijit/Menu", ["dojo", "dijit", "dojo/window", "dijit/_Widget", "dijit/_KeyNavContainer", "dijit/_Templated", 
-  "dijit/MenuItem", "dijit/PopupMenuItem", "dijit/CheckedMenuItem", "dijit/MenuSeparator"], // Back-compat (TODO: remove in 2.0)
-function(dojo, dijit) {
+define("dijit/Menu", ["dojo", "dijit", "dojo/window", "dijit/_Widget", "dijit/_KeyNavContainer", "dijit/_Templated", "dijit/MenuItem", "dijit/PopupMenuItem", "dijit/CheckedMenuItem", "dijit/MenuSeparator"], function(dojo, dijit) {
+
+// "dijit/MenuItem", "dijit/PopupMenuItem", "dijit/CheckedMenuItem", "dijit/MenuSeparator" for Back-compat (TODO: remove in 2.0)
 
 dojo.declare("dijit._MenuBase",
 	[dijit._Widget, dijit._Templated, dijit._KeyNavContainer],

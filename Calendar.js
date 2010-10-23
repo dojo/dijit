@@ -589,4 +589,5 @@ dojo.declare("dijit.Calendar._MonthDropDown", [dijit._Widget, dijit._Templated],
 	}
 });
 
+return dijit.Calendar;
 });
