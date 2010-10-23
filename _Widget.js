@@ -939,10 +939,10 @@ dojo.declare("dijit._Widget", dojo.Stateful, {
 	_set: function(/*String*/ name, /*anything*/ value){
 		// summary:
 		//		Helper function to set new value for specified attribute, and call handlers
-		//		registered with watch().
+		//		registered with watch() if the value has changed.
 		var oldValue = this[name];
 		this[name] = value;
-		if(this._watchCallbacks){
+		if(this._watchCallbacks && value !== oldValue){
 			this._watchCallbacks(name, oldValue, value);
 		}
 	},
