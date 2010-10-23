@@ -1,17 +1,23 @@
 define("dijit/_editor/RichText", ["dojo", "dijit", "dijit/_Widget", "dijit/_CssStateMixin", "dijit/_editor/selection", "dijit/_editor/range", "dijit/_editor/html"], function(dojo, dijit) {
 
-(!dojo.config["useXDomain"] || dojo.config["allowXdRichTextSave"]) && dojo.addOnLoad(function() {
-	var savetextarea = dojo.doc.createElement('textarea');
-	savetextarea.id = dijit._scopeName + "._editor.RichText.savedContent";
-	dojo.style(savetextarea, {
-		display:'none',
-		position:'absolute',
-		top:"-100px",
-		height:"3px",
-		width:"3px"
+// used to restore content when user leaves this page then comes back.
+// Feature is always available for non-xdomain build; set 
+// dojo.config.allowXdRichTextSave = true to get fro xdomain build
+if(!dojo.config["useXDomain"] || dojo.config["allowXdRichTextSave"]){
+	dojo.addOnLoad(function(){
+		var savetextarea = dojo.doc.createElement('textarea');
+		savetextarea.id = dijit._scopeName + "._editor.RichText.value";
+		dojo.style(savetextarea, {
+			display:'none',
+			position:'absolute',
+			top:"-100px",
+			height:"3px",
+			width:"3px",
+			overflow:"hidden"
+		});
+		dojo.body().appendChild(savetextarea);
 	});
-	dojo.body().appendChild(savetextarea);
-});
+}
 
 dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 	constructor: function(params){
