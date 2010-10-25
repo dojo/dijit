@@ -1,4 +1,4 @@
-define("dijit/_Widget", ["dojo", "dijit", "dijit/_base"], function(dojo, dijit) {
+define("dijit/_Widget", ["dojo", "dijit", "dijit/_base", "dojo/Stateful"], function(dojo, dijit) {
 
 //>>excludeStart("dijitBaseExclude", kwArgs.customDijitBase == "true");
 dojo.require( "dijit._base" );
