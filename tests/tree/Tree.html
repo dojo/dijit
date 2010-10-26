@@ -29,7 +29,17 @@
 		dojo.require("dojo.data.ItemFileWriteStore");
 		dojo.require("dijit.Tree");
 		dojo.require("dijit.tree.ForestStoreModel");
+		dojo.require("dijit.tree.TreeStoreModel");
 		dojo.require("dijit.tree.dndSource");
+		
+		function getRowClass(item, isExpanded) {
+			if (!item
+					|| !treeStore.isItem(item)
+					|| treeStore.getValue(item, "type") != "header") {
+				return null;
+			}
+			return "headerRow";
+		}
 
 		dojo.addOnLoad(function(){
 			doh.register("Tree tests",
@@ -78,30 +88,32 @@
 						return d;
 					},
 
-					function createWithPath(){
-						var d = new doh.Deferred;
-						myTree2 = new dijit.Tree({
-							id: "myTree2",
-							model: myModel,
-							persist: false,		// persist==true is too hard to test
-							dndController: "dijit.tree.dndSource",
-							path: ["earth", "EU", "IT"]
-						});
-						doh.t(myTree2, "myTree2 created");
+					{
+						name: "createWithPath",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred;
+							myTree2 = new dijit.Tree({
+								id: "myTree2",
+								model: myModel,
+								persist: false,		// persist==true is too hard to test
+								dndController: "dijit.tree.dndSource",
+								path: ["earth", "EU", "IT"]
+							});
+							doh.t(myTree2, "myTree2 created");
 
-						dojo.byId("container2").appendChild(myTree2.domNode);
-						myTree2.startup();
+							dojo.byId("container2").appendChild(myTree2.domNode);
+							myTree2.startup();
 
-						setTimeout(d.getTestCallback(function(){
-							// Give the tree time to load, and the do checks that it
-							// loaded correctly
-
-							doh.t(myTree2.rootNode, "root node exists");
-							doh.t(myTree2.rootNode.isExpanded, "root node is expanded");
-							doh.t(myTree2.rootNode.getChildren()[3].isExpanded, "europe node is expanded");
-							doh.is(myTree2.rootNode.getChildren()[3].getChildren()[3], myTree2.selectedNode, "selected correct node");
-						}), 750);
-						return d;
+							setTimeout(d.getTestCallback(function(){
+								doh.t(myTree2.rootNode, "root node exists");
+								doh.t(myTree2.rootNode.isExpanded, "root node is expanded");
+								doh.t(myTree2.rootNode.getChildren()[3].isExpanded, "europe node is expanded");
+								doh.is(myTree2.rootNode.getChildren()[3].getChildren()[3], myTree2.selectedNode, "selected correct node");
+							}), 2000);
+							
+							return d;
+						}
 					},
 
 					function copyPath(){
@@ -278,7 +290,6 @@
 						myTree.destroy();
  						myTree2.destroy();
 					}
-
 				]
 			);
 
@@ -286,15 +297,78 @@
 		});
 	</script>
 
+	<style type="text/css">
+		#custom .listTree {
+			width: 300px;
+		}
+		
+		#custom .headerRow {
+			background-color: #eee !important;
+		}
+		
+		#custom .headerRow .dijitTreeLabel {
+			font-weight: bold;
+		}
+
+		#custom .dijitTreeExpandoClosed,
+		#custom .dijitTreeExpandoOpened,
+		#custom .dijitFolderClosed,
+		#custom .dijitFolderOpened {
+			display: none;
+		}
+
+		#custom .dijitTreeExpandoLeaf,
+		#custom .dijitLeaf {
+			display: none;
+		}
+
+		#custom .dijitTreeIsLast,
+		#custom.dijitTreeNode,
+		#custom .dijitTreeRow {
+			padding-top: 4px;
+			border-bottom: 1px solid #bbb;
+			background: transparent;
+		}
+		
+		#custom .dojoDndItemAnchor,
+		#custom .dojoDndItemSelected {
+			background:#CCCCFF none repeat scroll 0 0;
+			color:black;
+		}
+		
+		#custom .dijitExpandoText {
+			display: none;
+		}
+
+	</style>
 </head>
 <body class="claro">
 
 	<h1 class="testTitle">Dijit.Tree automated tests</h1>
 	<div id="container"> <!--  tree will go here --></div>
 	<div id="container2"> <!--  tree2 will go here --></div>
+	
+	
+	<h1 class="testTitle">Styling a Tree to appear like an expandable list</h1>
+	<div data-dojo-id="treeStore" data-dojo-type="dojo.data.ItemFileWriteStore" data-dojo-props='url:"places.json"'></div>
+
+	<div data-dojo-id="treeModel" data-dojo-type="dijit.tree.TreeStoreModel"
+		data-dojo-props='store:treeStore,
+		query:{id:"root"},
+		childrenAttrs:["children"]'></div>
+	
+	<p>
+		This example shows how to style the dijit.Tree widget to look like an expandable list.
+		To do this, you must specify the getRowClass function
+	</p>
+
+	<div id="custom" data-dojo-type="dijit.Tree"
+		data-dojo-props='model:treeModel,
+		showRoot:false,
+		getRowClass:getRowClass,
+		"class":"listTree",
+		openOnClick:true,
+		persist:false
+	'></div>
 </body>
 </html>
-
-
-
-
