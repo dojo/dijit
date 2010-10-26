@@ -5,6 +5,8 @@ try{
 	doh.registerUrl("dijit.tests.layout.ContentPaneLayout", dojo.moduleUrl("dijit", "tests/layout/ContentPaneLayout.html"), 99999999);
 	doh.registerUrl("dijit.tests.layout.robot.ContentPane_prog", dojo.moduleUrl("dijit", "tests/layout/robot/ContentPane_prog.html"), 99999999); 
 
+	doh.registerUrl("dijit.tests.layout.robot.GUI", dojo.moduleUrl("dijit","tests/layout/robot/GUI.html"), 99999999);
+
 	doh.registerUrl("dijit.tests.layout.LayoutContainer_a11y", dojo.moduleUrl("dijit", "tests/layout/robot/LayoutContainer_a11y.html"), 99999999);
 
 	doh.registerUrl("dijit.tests.layout.NestedStackContainer", dojo.moduleUrl("dijit", "tests/layout/nestedStack.html"), 99999999); 

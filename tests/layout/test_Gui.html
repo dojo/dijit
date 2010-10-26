@@ -68,21 +68,21 @@
 			<div id="leftAccordion" data-dojo-type="dijit.layout.AccordionContainer"
 				data-dojo-props='minSize:20, style:"width: 300px;", region:"leading", splitter:true'>
 
-				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Popups and Alerts"'>
+				<div id="ac_pane1" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Popups and Alerts"'>
 				</div>
 
-				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Dojo Tree from Store"'>
+				<div id="ac_pane2" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Dojo Tree from Store"'>
 				</div>
 
-				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Calendar", selected:true'>
+				<div id="ac_pane3" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Calendar", selected:true'>
 				</div>
 
-				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Color Picker"'>
+				<div id="ac_pane4" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Color Picker"'>
 				</div>
 
 			</div><!-- end AccordionContainer -->
 
-			<div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='liveSplitters:false, region:"center"'>
+			<div id="centerSplit" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='liveSplitters:false, region:"center"'>
 				<!-- top tabs (marked as "center" to take up the main part of the BorderContainer) -->
 				<div id="topTabs1" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='region:"top", tabStrip:true, splitter:true, style:"height:200px;"'>
 
@@ -152,19 +152,19 @@
 					</div><!-- end of Textarea/Editor tab -->
 
 
-					<div data-dojo-type="dijit.layout.ContentPane"
+					<div id="titlePaneCP" data-dojo-type="dijit.layout.ContentPane"
 						data-dojo-props='title:"Title Pane in Content Pane",
 						doLayout:false,
 						style:"display:none;"'>
 
 						Here's some text, then a TitlePane:
-						<div data-dojo-type="dijit.TitlePane" data-dojo-props='title:"Color Picker"'>
+						<div id="tp" data-dojo-type="dijit.TitlePane" data-dojo-props='title:"Color Picker"'>
 							Hi friends of dijit
 						</div>
 						... and some more text.
 					</div>
 
-					<div data-dojo-type="dijit.layout.TabContainer" data-dojo-props='title:"TabContainer in Tab", nested:true, closable:true'>
+					<div id="tabContainerInTabCP" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='title:"TabContainer in Tab", nested:true, closable:true'>
 						<div id="basicFormTab1" data-dojo-type="dijit.layout.ContentPane"
 							data-dojo-props='title:"Basic Form Widgets 1",
 							style:"padding:10px; display:none;"'>
@@ -173,7 +173,7 @@
 						<div id="basicFormTab2" data-dojo-type="dijit.layout.ContentPane"
 							data-dojo-props='title:"Basic Form Widgets 2",
 							style:"padding:10px; display:none;"'>
-						    Hi friends of dijit
+						    Tab 2 content
 						</div>
 					</div>
 
@@ -191,7 +191,7 @@
 						</div>
 					</div>
 				</div><!-- end of region="center" TabContainer -->
-				<div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='liveSplitters:false, region:"center"'>
+				<div id="embeddedBC" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='liveSplitters:false, region:"center"'>
 					<div id="bottomTabs1" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='tabStrip:true,
 						tabPosition:"left-h", region:"top", style:"height: 50%;", splitter:true'>
 
