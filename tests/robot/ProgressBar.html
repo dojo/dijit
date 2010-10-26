@@ -1,0 +1,390 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>doh.robot ProgressBar Test</title>
+
+		<style>
+			@import "../../../util/doh/robot/robot.css";
+		</style>
+
+		<!-- required: dojo.js -->
+		<script type="text/javascript" src="../../../dojo/dojo.js"
+			djConfig="isDebug: true"></script>
+			
+		<!-- functions to help test -->
+		<script type="text/javascript" src="../helpers.js"></script>
+
+		<script type="text/javascript">
+			dojo.require("dijit.robotx");
+
+			dojo.addOnLoad(function(){
+				doh.robot.initRobot('../test_ProgressBar.html');
+					
+				doh.register("testProgressBar",[
+					{
+						name: "test4",
+						timeout: 7000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveAt("startTimer");
+							doh.robot.mouseClick({left:true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var progressBar = dijit.byId("timerBar");
+								doh.t(0 < progressBar.progress < 30);
+							}), 3500);
+							return d;
+						}
+					},
+					{
+						name: "test1Valid",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.sequence(function(){ dojo.byId('progressValue').value="58"; });
+							doh.robot.sequence(function(){ dojo.byId('maximum').value="100"; }, 500); 		
+							doh.robot.mouseMoveAt("set", 500);
+							doh.robot.mouseClick({left:true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var progressBar = dijit.byId("setTestBar");
+								doh.is("58", progressBar.progress);
+								doh.is("58%", dojo.byId("setTestBar_label").innerHTML);
+								var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+
+								var width = visualProgress.style.width;
+								width = width.substring(0, width.length-1);
+								doh.t(57 < width <= 58); //IE thinks the width is 57.99
+							}), 1000);
+							return d;
+						}
+					},
+					{
+						name: "test1InvalidPositive",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.sequence(function(){ dojo.byId('progressValue').value="101"; });
+							doh.robot.mouseMoveAt("set", 500);
+							doh.robot.mouseClick({left:true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var progressBar = dijit.byId("setTestBar");
+								doh.is("100", progressBar.progress);
+								doh.is("100%", dojo.byId("setTestBar_label").innerHTML);
+								var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+								doh.is("100%", visualProgress.style.width);
+							}), 1000);
+							return d;
+						}
+					},
+					{
+						name: "test1Zero",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.sequence(function(){ dojo.byId('progressValue').value="0"; });
+							doh.robot.mouseMoveAt("set", 500);
+							doh.robot.mouseClick({left:true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var progressBar = dijit.byId("setTestBar");
+								doh.is("0", progressBar.progress);
+								doh.is("0%", dojo.byId("setTestBar_label").innerHTML);
+								var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+								doh.is("0%", visualProgress.style.width);
+							}), 1000);
+							return d;
+						}
+					},
+					{
+						name: "test1OneHundred",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.sequence(function(){ dojo.byId('progressValue').value="100"; });
+							doh.robot.mouseMoveAt("set", 500);
+							doh.robot.mouseClick({left:true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var progressBar = dijit.byId("setTestBar");
+								doh.is("100", progressBar.progress);
+								doh.is("100%", dojo.byId("setTestBar_label").innerHTML);
+								var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+								doh.is("100%", visualProgress.style.width);
+							}), 1000);
+							return d;
+						}
+					},
+					{
+						name: "test2Chars",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveAt("test");
+							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.typeKeys("a", 500, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var progressBar = dijit.byId("testBar");
+								doh.is("1", progressBar.progress);
+								doh.is("1 out of 256 max chars", dojo.byId("testBar_label").innerHTML);
+								var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+								var width = visualProgress.style.width;
+								doh.is("0.39", width.substring(0,4));
+								
+								progressBar = dijit.byId("smallTestBar");
+								doh.is("1", progressBar.progress);
+								var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+								width = visualProgress.style.width;
+								doh.is("0.39", width.substring(0,4));
+								
+								progressBar = dijit.byId("testBarInt");
+								doh.is("1", progressBar.progress);
+								doh.is("0.4%", dojo.byId("testBarInt_label").innerHTML);
+								var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+								width = visualProgress.style.width;
+								doh.is("0.39", width.substring(0,4));
+							}), 3000);
+							return d;
+						}
+					},
+					{
+						name: "test2Chars2",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveAt("test");
+							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.typeKeys("bcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyza", 500, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var progressBar = dijit.byId("testBar");
+								doh.is("79", progressBar.progress);
+								doh.is("79 out of 256 max chars", dojo.byId("testBar_label").innerHTML);
+								var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+								width = visualProgress.style.width;
+								doh.is("30.8", width.substring(0,4));
+								
+								progressBar = dijit.byId("smallTestBar");
+								doh.is("79", progressBar.progress);
+								var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+								width = visualProgress.style.width;
+								doh.is("30.8", width.substring(0,4));
+								
+								progressBar = dijit.byId("testBarInt");
+								doh.is("79", progressBar.progress);
+								doh.is("30.9%", dojo.byId("testBarInt_label").innerHTML);
+								var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+								width = visualProgress.style.width;
+								doh.is("30.8", width.substring(0,4));
+							}), 5000);
+							return d;
+						}
+					},
+					{
+						name: "test2Chars3",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveAt("test");
+							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.typeKeys("bcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuv", 500, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var progressBar = dijit.byId("testBar");
+								doh.is("256", progressBar.progress);
+								doh.is("256 out of 256 max chars", dojo.byId("testBar_label").innerHTML);
+								var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+								doh.is("100%", visualProgress.style.width);
+								
+								progressBar = dijit.byId("smallTestBar");
+								doh.is("256", progressBar.progress);
+								var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+								doh.is("100%", visualProgress.style.width);
+								
+								progressBar = dijit.byId("testBarInt");
+								doh.is("256", progressBar.progress);
+								doh.is("100.0%", dojo.byId("testBarInt_label").innerHTML);
+								var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+								doh.is("100%", visualProgress.style.width);
+							}), 8000);
+							return d;
+						}
+					},
+					{
+						name: "test3",
+						runTest: function(){
+							var progressBar = dijit.byId("implied1");
+							doh.is("50", progressBar.progress);
+							doh.is("50%", dojo.byId("implied1_label").innerHTML);
+							var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+							doh.is("50%", visualProgress.style.width);
+								
+							progressBar = dijit.byId("implied2");
+							doh.is("50", progressBar.progress);
+							doh.is("50%", dojo.byId("implied2_label").innerHTML);
+							var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+							doh.is("50%", visualProgress.style.width);
+						}
+					},
+					{
+						name: "test5_1",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveAt("intermediateButton1");
+							doh.robot.mouseClick({left:true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var progressBar = dijit.byId("indeterminateBar");
+								var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+								doh.is("100%", visualProgress.style.width);
+								
+								var found = false;
+								var classList = progressBar.domNode.className.split(" ");
+								dojo.forEach(classList, function(aClass){
+									if(aClass == "dijitProgressBarIndeterminate") found = true;
+								});
+								doh.t(found);
+							}), 2000);
+							return d;
+						}
+					},
+					{
+						name: "test5_2",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveAt("labelButton1");
+							doh.robot.mouseClick({left:true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var progressBar = dijit.byId("indeterminateBar");
+								doh.is("50%", dojo.byId("indeterminateBar_label").innerHTML);
+								var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+								doh.is("50%", visualProgress.style.width);
+								
+								var found = false;
+								var classList = progressBar.domNode.className.split(" ");
+								dojo.forEach(classList, function(aClass){
+									if(aClass == "dijitProgressBarIndeterminate") found = true;
+								});
+								doh.f(found);
+							}), 2000);
+							return d;
+						}
+					},
+					{
+						name: "test5_3",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveAt("intermediateButton2");
+							doh.robot.mouseClick({left:true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var progressBar = dijit.byId("indeterminateBar");
+								doh.is("Loading...", dojo.byId("indeterminateBar_label").innerHTML);
+								var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+								doh.is("100%", visualProgress.style.width);
+								
+								var found = false;
+								var classList = progressBar.domNode.className.split(" ");
+								dojo.forEach(classList, function(aClass){
+									if(aClass == "dijitProgressBarIndeterminate") found = true;
+								});
+								doh.t(found);
+							}), 2000);
+							return d;
+						}
+					},
+					{
+						name: "test5_4",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveAt("labelButton2");
+							doh.robot.mouseClick({left:true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var progressBar = dijit.byId("indeterminateBar");
+								doh.is("Loading...", dojo.byId("indeterminateBar_label").innerHTML);
+								var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+								doh.is("50%", visualProgress.style.width);
+								
+								var found = false;
+								var classList = progressBar.domNode.className.split(" ");
+								dojo.forEach(classList, function(aClass){
+									if(aClass == "dijitProgressBarIndeterminate") found = true;
+								});
+								doh.f(found);
+							}), 2000);
+							return d;
+						}
+					},
+					{
+						name: "test6",
+						runTest: function(){
+							var progressBar = dijit.byId("html5ish");
+							var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+							doh.is("100%", visualProgress.style.width);
+								
+							var found = false;
+							var classList = progressBar.domNode.className.split(" ");
+							dojo.forEach(classList, function(aClass){
+								if(aClass == "dijitProgressBarIndeterminate") found = true;
+							});
+							doh.t(found);
+							
+							progressBar = dijit.byId("html5ish2");
+							doh.is("10%", dojo.byId("html5ish2_label").innerHTML);
+							var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+							doh.is("10%", visualProgress.style.width);
+								
+							var found = false;
+							var classList = progressBar.domNode.className.split(" ");
+							dojo.forEach(classList, function(aClass){
+								if(aClass == "dijitProgressBarIndeterminate") found = true;
+							});
+							doh.f(found);
+						}
+					},
+					{
+						name: "test7",
+						runTest: function(){
+							var progressBar = dijit.byId("pi");
+							var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+							doh.is("100%", visualProgress.style.width);
+								
+							var found = false;
+							var classList = progressBar.domNode.className.split(" ");
+							dojo.forEach(classList, function(aClass){
+								if(aClass == "dijitProgressBarIndeterminate") found = true;
+							});
+							doh.t(found);
+							
+							var progressBar = dijit.byId("timerBar");
+							doh.is("100", progressBar.progress, "Timer progress was " + progressBar.progress);
+						}
+					}
+				]);
+				
+				doh.run();
+			});
+		</script>
+	</head>
+</html>

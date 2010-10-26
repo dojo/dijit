@@ -47,7 +47,6 @@
 			}, dojo.byId("testBar"));
 
 			dojo.byId("test").value="";
-			dojo.byId("progressValue").focus();
 			dojo.byId("progressValue").value = dijit.byId("setTestBar").value;
 			dojo.byId("maximum").value = dijit.byId("setTestBar").maximum;
 			dojo.connect(dojo.byId("test"), "onkeyup", null, keyUpHandler);
@@ -130,8 +129,7 @@
 	<br />
 	Small, without text and background image:
 	<br />
-	<div id="smallTestBar" data-dojo-type="dijit.ProgressBar" data-dojo-props='style:"width:400px; height:10px", class:"smallred",
-		maximum:256'></div>
+	<div id="smallTestBar" data-dojo-type="dijit.ProgressBar" data-dojo-props='style:"width:400px; height:10px", "class":"smallred", maximum:256'></div>
 	<br />
 	Show decimal place:
 	<div id="testBarInt" data-dojo-type="dijit.ProgressBar" data-dojo-props='places:1, style:"width:400px",
@@ -150,13 +148,13 @@
 	<div id="timerBar" data-dojo-type="dijit.ProgressBar" data-dojo-props='style:"width:400px", maximum:100, value:"0" '></div>
 
 	<h3>Test 5 - indeterminate progess</h3>
-	<input type="button" value="Make Indeterminate (default blank label)"
+	<input id="intermediateButton1" type="button" value="Make Indeterminate (default blank label)"
 		onclick="dijit.byId('indeterminateBar').set({indeterminate: true, label: ''});" />
-	<input type="button" value="Make Determinate (default percentage label)"
+	<input id="labelButton1" type="button" value="Make Determinate (default percentage label)"
 		onclick="dijit.byId('indeterminateBar').set({indeterminate: false, label: ''});" />
-	<input type="button" value="Make Indeterminate With Label"
+	<input id="intermediateButton2" type="button" value="Make Indeterminate With Label"
 		onclick="dijit.byId('indeterminateBar').set({indeterminate: true, label: 'Loading...'});" />
-	<input type="button" value="Make Determinate With Label"
+	<input  id="labelButton2" type="button" value="Make Determinate With Label"
 		onclick="dijit.byId('indeterminateBar').set({indeterminate: false, label: 'Loading...'});" />
 	
 	<div id="indeterminateBar" data-dojo-type="dijit.ProgressBar" data-dojo-props='style:"width:400px", value:"50" '></div>
