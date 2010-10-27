@@ -125,9 +125,6 @@
 .nihilo .dijitTooltipLeft {
 	padding-right: 10px;
 }
-.dj_ie6 .nihilo .dijitTooltipLeft {
-	padding-left: 11px;
-}
 .nihilo .dijitTooltipLeft .dijitTooltipConnector {
 	/* the arrow piece for tooltips to the left of an element, bottom borders aligned */
 	right: 0px;

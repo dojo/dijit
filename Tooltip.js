@@ -85,13 +85,6 @@ dojo.declare(
 			var width = Math.min((Math.max(tooltipSpaceAvaliableWidth,1)), size.w);
 			var widthWasReduced = width < size.w;
 			
-			var isIE6 = dojo.isIE < 7;
-			if(isIE6){
-				//ie6 adds padding which will cause the tooltip arrow to be placed over top the around node if we do not account for it
-				if(width - dojo.style(this.domNode,"paddingLeft") > 0){
-					width = width - dojo.style(this.domNode,"paddingLeft");
-				}
-			}
 			this.domNode.style.width = width+"px";
 						
 			//Adjust width for tooltips that have a really long word or a nowrap setting
