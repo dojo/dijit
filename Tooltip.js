@@ -80,21 +80,28 @@ dojo.declare(
 				
 			// reduce tooltip's width to the amount of width available, so that it doesn't overflow screen
 			this.domNode.style.width = "auto";
-			var size = dojo.position(this.domNode);
-
-			var width = Math.min((Math.max(tooltipSpaceAvaliableWidth,1)), size.w);
+			var size = dojo.contentBox(this.domNode);
 			
-			if(width >= tooltipSpaceAvaliableWidth) { //Only change the width for tooltips that span multiple lines because the content is too big for the page	
-				var isIE6 = dojo.isIE < 7;
-				if(isIE6){
-					//ie6 adds padding which will cause the tooltip arrow to be placed over top the around node if we do not account for it
-					if(width - dojo.style(this.domNode,"paddingLeft") > 0){
-						this.domNode.style.width = width - dojo.style(this.domNode,"paddingLeft");
-					}else{
-						this.domNode.style.width = width;
-					}
-				}else{
-					this.domNode.style.width = width+"px";
+			var width = Math.min((Math.max(tooltipSpaceAvaliableWidth,1)), size.w);
+			var widthWasReduced = width < size.w;
+			
+			var isIE6 = dojo.isIE < 7;
+			if(isIE6){
+				//ie6 adds padding which will cause the tooltip arrow to be placed over top the around node if we do not account for it
+				if(width - dojo.style(this.domNode,"paddingLeft") > 0){
+					width = width - dojo.style(this.domNode,"paddingLeft");
+				}
+			}
+			this.domNode.style.width = width+"px";
+						
+			//Adjust width for tooltips that have a really long word or a nowrap setting
+			if(widthWasReduced){
+				this.containerNode.style.overflow = "auto"; //temp change to overflow to detect if our tooltip needs to be wider to support the content
+				var scrollWidth = this.containerNode.scrollWidth;
+				this.containerNode.style.overflow = "visible"; //change it back
+				if(scrollWidth > width){
+					scrollWidth = scrollWidth + dojo.style(this.domNode,"paddingLeft") + dojo.style(this.domNode,"paddingRight");
+					this.domNode.style.width = scrollWidth + "px";
 				}
 			}
 			

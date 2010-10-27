@@ -18,26 +18,18 @@
 		
 			//Verify the following is true:
 			//	1. The tooltip is displayed to the right or the left of the textbox
-			//	2. The tooltip arrow is next to the textbox and pointing in the correct direction
+			//	2. The tooltip arrow is next to the textbox
 			//	3. The user can view the entire tooltip on the screen OR the tootip is displayed on the side with the largest width available
 			//	4. If the tooltip is not completely visible, verify that it uses all available height
-			function testRightOrLeft(textbox){
-				//find the tooltip
+			function testRightOrLeft(textbox, verifyFullWidthIsUtilized){
+				verifyTooltipArrowPosition(textbox);
+			
 				var textboxPos = dojo.position(textbox.domNode);
-				var tooltipConnectorPos = dojo.position(dojo.query(".dijitTooltipConnector")[0]);
 				var tooltipContainerPos = dojo.position(dojo.query(".dijitTooltip")[0]);
-
-				var middleOfTextbox = textboxPos.y + (textboxPos.h / 2);
-				var middleOfTooltipConnector = tooltipConnectorPos.y + (tooltipConnectorPos.h /2);
-			
-				var yDiff = 0;
-				var yDiff = middleOfTextbox - middleOfTooltipConnector;
-				var yAxisValid = yDiff <= 1 && yDiff >= -1; //tooltip arrow is at a similar y coord as the box
-				doh.t(yAxisValid, "Y axis is invalid. yDiff was: "+yDiff);
-			
+				
 				var xDiff = textboxPos.x - tooltipContainerPos.x - tooltipContainerPos.w;
 				var toTheLeft = xDiff >= -0.5 && xDiff < 2;
-			
+
 				xDiff = tooltipContainerPos.x - textboxPos.x - textboxPos.w;
 				var toTheRight = xDiff >= -0.5 && xDiff < 2;
 
@@ -49,7 +41,7 @@
 				var view = dojo.window.getBox();
 				var isIE6 = dojo.isIE < 7;
 				//verify the entire width is utilized.  Small tooltips will not utilize the entire witdth.
-				if(doh._currentGroup!="tooltip_left_right_small" && !isIE6 && !dojo.isOpera) {
+				if(verifyFullWidthIsUtilized && !isIE6 && !dojo.isOpera) {
 					if(toTheLeft){
 						doh.t(tooltipContainerPos.w + 3/*space in between arrow and textbox*/ >= textboxPos.x, "The entire width was not utilized to the left");					
 					}else{
@@ -71,19 +63,51 @@
 					doh.t(tooltipPos.h >= view.h, "The entire height was not utilized");
 				}
 			}
+			
+			//Verify the tooltip arrow is next to the textbox
+			function verifyTooltipArrowPosition(textbox){
+				var textboxPos = dojo.position(textbox.domNode);
+				var tooltipConnectorPos = dojo.position(dojo.query(".dijitTooltipConnector")[0]);
+				
+				var middleOfTextbox = textboxPos.y + (textboxPos.h / 2);
+				var middleOfTooltipConnector = tooltipConnectorPos.y + (tooltipConnectorPos.h /2);
+
+				var yDiff = 0;
+				var yDiff = middleOfTextbox - middleOfTooltipConnector;
+				var yAxisValid = yDiff <= 1.5 && yDiff >= -1.5; //tooltip arrow is at a similar y coord as the box
+				doh.t(yAxisValid, "Y axis is invalid. yDiff was: "+yDiff);
+			}
+			
+			//Verify the following is true:
+			//	1. The tooltip arrow is next to the textbox
+			//	2. The text fits inside the tooltip
+			function testNoWrapOrLargeWords(textbox){
+				verifyTooltipArrowPosition(textbox);
+				
+				//Verify the text fits inside the tooltip
+				var tooltipContainer = dojo.query(".dijitTooltipContainer")[0];
+				tooltipContainer.style.overflow = "auto";
+				var scrollWidth = tooltipContainer.scrollWidth;
+				tooltipContainer.style.overflow = "visible"; //change it back
+				
+				var tooltipWidth = dojo.position(tooltipContainer).w;
+				doh.t(tooltipWidth >= scrollWidth);
+			}
 		
-			function testAboveBelow(textbox){
+			function testAboveBelow(textbox, verifyConnectorPosition){
 				var textboxPos = dojo.position(textbox.domNode);
 				var tooltipConnectorPos = dojo.position(dojo.query(".dijitTooltipConnector")[0]);
 				var tooltipContainerPos = dojo.position(dojo.query(".dijitTooltip")[0]);
+
+				if(verifyConnectorPosition){
+					var xAxisValid = textboxPos.x <= tooltipConnectorPos.x && tooltipConnectorPos.x <= (textboxPos.x + textboxPos.w);
+					doh.t(xAxisValid, "X axis is invalid");
+				}
 			
-				var xDiff = 0;
-				var xAxisValid = textboxPos.x  <= tooltipConnectorPos.x && tooltipConnectorPos.x <= (textboxPos.x + textboxPos.w);
-				doh.t(xAxisValid, "X axis is invalid");
-			
+				//verify the tooltip is above or below the textbox
 				var yDiff = textboxPos.y - tooltipContainerPos.y - tooltipContainerPos.h;
 				var above = yDiff >= -0.5 && yDiff < 1;
-			
+	
 				yDiff = tooltipContainerPos.y - textboxPos.y - textboxPos.h;
 				var below = yDiff >= -0.5 && yDiff < 1;
 			
@@ -95,6 +119,31 @@
 				doh.robot.initRobot('../test_Tooltip_placement.html');
 
 				// init tests for each group
+				var tooltip_left_right_tall_skinny = [{
+					name: "test1_tall_skinny",
+					timeout: 4000,
+					runTest: function(){
+						var d = new doh.Deferred();
+						widget = dijit.byId("test1_tall_skinny");
+
+						dojo.byId("aboveBelowButton").focus();
+						widget.set('value', null);
+
+						handler = widget.connect(widget, 'displayMessage',
+						        function(){
+						                setTimeout(d.getTestCallback(function(){
+											testRightOrLeft(widget, false);
+						                }), 150);
+						        });
+						dijit.byId("test7").focusNode.focus(); //hack for IE6.  test1 is not getting focus in IE6 if we don't focus something else first
+						widget.focusNode.focus();
+					
+						return d;
+					},
+					tearDown: function(){
+						widget.disconnect(handler);
+					}
+				}];
 				var tooltip_left_right = [{
 					name: "test1",
 					timeout: 4000,
@@ -108,9 +157,10 @@
 						handler = widget.connect(widget, 'displayMessage',
 						        function(){
 						                setTimeout(d.getTestCallback(function(){
-									testRightOrLeft(widget);
+											testRightOrLeft(widget, true);
 						                }), 150);
 						        });
+						dijit.byId("test7").focusNode.focus(); //hack for IE6.  test1 is not getting focus in IE6 if we don't focus something else first
 						widget.focusNode.focus();
 					
 						return d;
@@ -133,7 +183,7 @@
 						doh.robot.sequence(function(){ widget.focusNode.focus();}, 500);
 
 						doh.robot.sequence(d.getTestCallback(function(){
-							testRightOrLeft(widget);
+							testRightOrLeft(widget, false);
 						}), 1000);
 						return d;
 					}
@@ -150,7 +200,7 @@
 						doh.robot.sequence(function(){ widget.focusNode.focus();}, 500);
 
 						doh.robot.sequence(d.getTestCallback(function(){
-							testAboveBelow(widget);
+							testAboveBelow(widget, true);
 						}), 1000);
 						return d;
 					}
@@ -167,8 +217,32 @@
 						handler = widget.connect(widget, 'displayMessage',
 						        function(){
 						                setTimeout(d.getTestCallback(function(){
-									testAboveBelow(widget);
-						                }), 150);
+											testAboveBelow(widget, true);
+						                }), 1000);
+						        });
+
+						widget.focusNode.focus();
+
+						return d;
+					},
+					tearDown: function(){
+						widget.disconnect(handler);
+					}
+				}];
+				var tooltip_above_below_tall_skinny = [{
+					name: "test1_ab_tall_skinny",
+					timeout: 5000,
+					runTest: function(){
+						var d = new doh.Deferred();
+						widget = dijit.byId("test1_tall_skinny");
+
+						widget.set('value', "a");
+
+						handler = widget.connect(widget, 'displayMessage',
+						        function(){
+						                setTimeout(d.getTestCallback(function(){
+											testAboveBelow(widget, true);
+						                }), 1000);
 						        });
 
 						widget.focusNode.focus();
@@ -183,6 +257,31 @@
 				// rest of tests
 				for(var i=2; i<=21; i++){
 					if(i==7){ continue; }
+					tooltip_left_right_tall_skinny.push({
+						name: "test"+i+"_tall_skinny",
+						widget: "test"+i+"_tall_skinny",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							widget = dijit.byId(this.widget);
+
+							widget.set('value', null);
+
+							handler = widget.connect(widget, 'displayMessage',
+							        function(){
+							                setTimeout(d.getTestCallback(function(){
+												testRightOrLeft(widget, false);
+							                }), 900);
+							        });
+							dojo.window.scrollIntoView(widget.focusNode);
+							widget.focusNode.focus();
+						
+							return d;
+						},
+						tearDown: function(){
+							widget.disconnect(handler);
+						}
+					});
 					tooltip_left_right.push({
 						name: "test"+i,
 						widget: "test"+i,
@@ -196,7 +295,13 @@
 							handler = widget.connect(widget, 'displayMessage',
 							        function(){
 							                setTimeout(d.getTestCallback(function(){
-										testRightOrLeft(widget);
+												var id = widget.id;
+												if(id=="test3" || id=="test6" || id=="test8" || id=="test9" || id=="test13" || id=="test16" || id=="test21"){
+													//These are the nowrap tests and therefore we should only verify the arrow is pointing to the textbox
+													testNoWrapOrLargeWords(widget);
+												}else{
+													testRightOrLeft(widget, true);
+												}
 							                }), 900);
 							        });
 							dojo.window.scrollIntoView(widget.focusNode);
@@ -219,7 +324,7 @@
 							handler = widget.connect(widget, 'displayMessage',
 							        function(){
 							                setTimeout(d.getTestCallback(function(){
-										testRightOrLeft(widget);
+												testRightOrLeft(widget, false);
 							                }), 150);
 							        });
 							widget.focusNode.focus();
@@ -241,7 +346,7 @@
 							handler = widget.connect(widget, 'displayMessage',
 							        function(){
 							                setTimeout(d.getTestCallback(function(){
-										testAboveBelow(widget);
+												testAboveBelow(widget, true);
 							                }), 150);
 							        });
 							widget.focusNode.focus();
@@ -265,8 +370,39 @@
 							handler = widget.connect(widget, 'displayMessage',
 							        function(){
 							                setTimeout(d.getTestCallback(function(){
-										testAboveBelow(widget);
-							                }), 150);
+												var id = widget.id;
+												if(id=="test3" || id=="test6" || id=="test8" || id=="test9" || id=="test13" || id=="test16" || id=="test21"){
+													//These are the nowrap tests and therefore we should only verify the arrow is pointing to the textbox (in most cases it's off the screen)
+													testAboveBelow(widget, false);
+												}else{
+													testAboveBelow(widget, true);
+												}
+							                }), 500);
+							        });
+
+							widget.focusNode.focus();
+
+							return d;
+						},
+						tearDown: function(){
+							widget.disconnect(handler);
+						}
+					});
+					tooltip_above_below_tall_skinny.push({
+						name: "test"+i+"_ab_tall_skinny",
+						widget: "test"+i+"_tall_skinny",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							widget = dijit.byId(this.widget);
+
+							widget.set('value', "a");
+
+							handler = widget.connect(widget, 'displayMessage',
+							        function(){
+							                setTimeout(d.getTestCallback(function(){
+												testAboveBelow(widget, true);
+							                }), 500);
 							        });
 
 							widget.focusNode.focus();
@@ -279,10 +415,12 @@
 					});
 				}
 
+				doh.register("tooltip_left_right_tall_skinny", tooltip_left_right_tall_skinny);
 				doh.register("tooltip_left_right", tooltip_left_right);
 				doh.register("tooltip_left_right_small", tooltip_left_right_small);
 				doh.register("tooltip_above_below_small", tooltip_above_below_small);
 				doh.register("tooltip_above_below", tooltip_above_below);
+				doh.register("tooltip_above_below_tall_skinny", tooltip_above_below_tall_skinny);
 				doh.run();
 			});
 		</script>
