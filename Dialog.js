@@ -556,5 +556,5 @@ dijit._dialogStack = [
 	{dialog: null, focus: null, underlayAttrs: null}	// entry for stuff at z-index: 0
 ];
 
-return dijit.dialog;
+return dijit.Dialog;
 });

@@ -4,7 +4,6 @@ define("dijit/_Widget", ["dojo", "dijit", "dijit/_base", "dojo/Stateful"], funct
 dojo.require( "dijit._base" );
 //>>excludeEnd("dijitBaseExclude");
 
-dojo.require("dojo.Stateful");
 
 // This code is to assist deferring dojo.connect() calls in widgets (connecting to events on the widgets'
 // DOM nodes) until someone actually needs to monitor that event.
