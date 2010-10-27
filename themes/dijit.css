@@ -959,8 +959,8 @@ body .dijitAlignClient { position: absolute; }
 .dijitTitlePaneTitle {
 	cursor: pointer;
 }
-.dijitFixedOpen {
-	/* TitlePane that cannot be closed */
+.dijitFixedOpen, .dijitFixedClosed {
+	/* TitlePane that cannot be toggled */
 	cursor: default;
 }
 .dijitTitlePaneTitle * {
