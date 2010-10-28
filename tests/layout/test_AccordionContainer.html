@@ -317,6 +317,13 @@
 	Click the button twice - it will work correctly unless there was a problem destroying the accordion, in which case the second time
 	the Accordion will not be created and you will see an error like <b>Tried to register widget with id==first_button but that id is already registered</b><br/>
 	<button type="button" onclick="createAccordion()">create Accordion</button>
-
+	
+	<br><br>
+	<h2>Test refreshOnShow</h2>
+	<div data-dojo-type="dijit.layout.AccordionContainer" data-dojo-props='style:"height:300px; width:400px;"'>
+		<div id="ac_pane1" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"one", refreshOnShow:false, href:"getResponse.php?messId=4&amp;delay=1000"'></div>
+		<div id="ac_pane2" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"two", refreshOnShow:true, href:"getResponse.php?messId=4&amp;delay=4000"'></div>
+		<div id="ac_pane3" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"three", refreshOnShow:false, href:"getResponse.php?messId=4&amp;delay=4100"'></div>
+	</div>
 </body>
 </html>

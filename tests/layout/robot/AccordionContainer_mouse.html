@@ -17,6 +17,13 @@
 
 		<script type="text/javascript">
 			dojo.require("dijit.robotx");
+			
+			function checkLoading(domNode){
+				if(domNode.firstChild.innerHTML == "Loading...") {
+					return true;
+				}
+				return false;
+			}
 
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_AccordionContainer.html');
@@ -36,11 +43,99 @@
 
 							// Click open fourth pane
 							doh.robot.mouseMoveAt("embeddedLayoutPane_button_title", 500);
-							doh.robot.mouseClick({left: true}, 2000);
+							doh.robot.mouseClick({left: true}, 500);
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("embeddedLayoutPane", dojo.global.dijit.byId("markupAccordion").get("selectedChildWidget").id, "fourth pane is now selected");
-							}), 500);
+							}), 2000);
 
+							return d;
+						}
+					}
+				]);
+				
+				doh.register("Accordion refreshOnShow",[
+					{
+						name: "pane3InitialLoading",
+						timeout: 6000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							var wasLoading = false;
+							
+							doh.robot.mouseMoveAt('ac_pane3_button', 500);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.sequence(function(){ wasLoading = checkLoading(dojo.byId("ac_pane3")); }, 500); 
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(wasLoading);
+								
+								var tabContent = dojo.byId("ac_pane3").innerHTML.substring(0, 5);
+								doh.is("There", tabContent);
+							}), 4000);
+							
+							return d;
+						}
+					},
+					{
+						name: "pane2InitialLoading",
+						timeout: 6000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							var wasLoading = false;
+							
+							doh.robot.mouseMoveAt('ac_pane2_button', 500);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.sequence(function(){ wasLoading = checkLoading(dojo.byId("ac_pane2")); }, 500); 
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(wasLoading);
+								
+								var tabContent = dojo.byId("ac_pane2").innerHTML.substring(0, 5);
+								doh.is("There", tabContent);
+							}), 4000);
+							
+							return d;
+						}
+					},
+					{
+						name: "pane3Refresh",
+						timeout: 3000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							var wasLoading = false;
+							
+							doh.robot.mouseMoveAt('ac_pane3_button', 500);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.sequence(function(){ wasLoading = checkLoading(dojo.byId("ac_pane3")); }, 500); 
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.f(wasLoading);
+							}), 1000);
+							
+							return d;
+						}
+					},
+					{
+						name: "pane2Refresh",
+						timeout: 6000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							var wasLoading = false;
+							
+							doh.robot.mouseMoveAt('ac_pane2_button', 500);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.sequence(function(){ wasLoading = checkLoading(dojo.byId("ac_pane2")); }, 500); 
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(wasLoading);
+								
+								var tabContent = dojo.byId("ac_pane2").innerHTML.substring(0, 5);
+								doh.is("There", tabContent);
+							}), 4000);
+							
 							return d;
 						}
 					}
