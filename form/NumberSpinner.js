@@ -15,7 +15,7 @@ dojo.declare("dijit.form.NumberSpinner",
 	// example:
 	//	| new dijit.form.NumberSpinner({ constraints:{ max:300, min:100 }}, "someInput");
 
-	adjust: function(/* Object */val, /* Number*/delta){
+	adjust: function(/*Object*/ val, /*Number*/ delta){
 		// summary:
 		//		Change Number val by the given amount
 		// tags:

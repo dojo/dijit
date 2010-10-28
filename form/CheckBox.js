@@ -27,20 +27,20 @@ dojo.declare(
 
 		// type: [private] String
 		//		type attribute on <input> node.
-		//		Overrides `dijit.form.Button.type`.   Users should not change this value.
+		//		Overrides `dijit.form.Button.type`.  Users should not change this value.
 		type: "checkbox",
 
 		// value: String
 		//		As an initialization parameter, equivalent to value field on normal checkbox
 		//		(if checked, the value is passed as the value when form is submitted).
 		//
-		//		However, attr('value') will return either the string or false depending on
+		//		However, get('value') will return either the string or false depending on
 		//		whether or not the checkbox is checked.
 		//
-		//		attr('value', string) will check the checkbox and change the value to the
+		//		set('value', string) will check the checkbox and change the value to the
 		//		specified string
 		//
-		//		attr('value', boolean) will change the checked state.
+		//		set('value', boolean) will change the checked state.
 		value: "on",
 
 		// readOnly: Boolean
@@ -61,10 +61,10 @@ dojo.declare(
 			dijit.setWaiState(this.focusNode, "readonly", value);
 		},
 
-		_setValueAttr: function(/*String or Boolean*/ newValue, /*Boolean*/ priorityChange){
+		_setValueAttr: function(/*String|Boolean*/ newValue, /*Boolean*/ priorityChange){
 			// summary:
 			//		Handler for value= attribute to constructor, and also calls to
-			//		attr('value', val).
+			//		set('value', val).
 			// description:
 			//		During initialization, just saves as attribute to the <input type=checkbox>.
 			//
@@ -84,7 +84,7 @@ dojo.declare(
 		},
 		_getValueAttr: function(){
 			// summary:
-			//		Hook so attr('value') works.
+			//		Hook so get('value') works.
 			// description:
 			//		If the CheckBox is checked, returns the value attribute.
 			//		Otherwise returns false.

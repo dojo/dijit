@@ -147,7 +147,7 @@ dojo.declare(
 			}
 		},
 
-		onSubmit: function(/*Event?*/e){
+		onSubmit: function(/*Event?*/ e){
 			// summary:
 			//		Callback when user submits the form.
 			// description:

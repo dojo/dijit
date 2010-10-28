@@ -23,15 +23,15 @@ dojo.declare(
 		//		Converts the first character of each word to uppercase if true.
 		propercase: false,
 
-		//	maxLength: String
+		// maxLength: String
 		//		HTML INPUT tag maxLength declaration.
 		maxLength: "",
 
-		//	selectOnClick: [const] Boolean
+		// selectOnClick: [const] Boolean
 		//		If true, all text will be selected when focused with mouse
 		selectOnClick: false,
 
-		//	placeHolder: String
+		// placeHolder: String
 		//		Defines a hint to help users fill out the input field (as defined in HTML 5).
 		//		This should only contain plain text (no html markup).
 		placeHolder: "",
@@ -79,7 +79,7 @@ dojo.declare(
 
 		_getValueAttr: function(){
 			// summary:
-			//		Hook so attr('value') works as we like.
+			//		Hook so get('value') works as we like.
 			// description:
 			//		For `dijit.form.TextBox` this basically returns the value of the <input>.
 			//
@@ -92,7 +92,7 @@ dojo.declare(
 
 		_setValueAttr: function(value, /*Boolean?*/ priorityChange, /*String?*/ formattedValue){
 			// summary:
-			//		Hook so attr('value', ...) works.
+			//		Hook so set('value', ...) works.
 			//
 			// description:
 			//		Sets the value of the widget to "value" which can be of
@@ -135,7 +135,7 @@ dojo.declare(
 		//		(ex: Kentucky) and the serialized value (ex: KY) are different,
 		//		this represents the displayed value.
 		//
-		//		Setting 'displayedValue' through attr('displayedValue', ...)
+		//		Setting 'displayedValue' through set('displayedValue', ...)
 		//		updates 'value', and vice-versa.  Otherwise 'value' is updated
 		//		from 'displayedValue' periodically, like onBlur etc.
 		//
@@ -146,7 +146,7 @@ dojo.declare(
 
 		getDisplayedValue: function(){
 			// summary:
-			//		Deprecated.   Use set('displayedValue') instead.
+			//		Deprecated.  Use get('displayedValue') instead.
 			// tags:
 			//		deprecated
 			dojo.deprecated(this.declaredClass+"::getDisplayedValue() is deprecated. Use set('displayedValue') instead.", "", "2.0");
@@ -155,7 +155,7 @@ dojo.declare(
 
 		_getDisplayedValueAttr: function(){
 			// summary:
-			//		Hook so attr('displayedValue') works.
+			//		Hook so get('displayedValue') works.
 			// description:
 			//		Returns the displayed value (what the user sees on the screen),
 			// 		after filtering (ie, trimming spaces etc.).
@@ -164,21 +164,24 @@ dojo.declare(
 			//		is different from the serialized value that's actually
 			//		sent to the server (see dijit.form.ValidationTextBox.serialize)
 
+			// TODO: maybe we should update this.displayedValue on every keystroke so that we don't need
+			// this method
+			// TODO: this isn't really the displayed value when the user is typing
 			return this.filter(this.textbox.value);
 		},
 
-		setDisplayedValue: function(/*String*/value){
+		setDisplayedValue: function(/*String*/ value){
 			// summary:
-			//		Deprecated.   Use set('displayedValue', ...) instead.
+			//		Deprecated.  Use set('displayedValue', ...) instead.
 			// tags:
 			//		deprecated
 			dojo.deprecated(this.declaredClass+"::setDisplayedValue() is deprecated. Use set('displayedValue', ...) instead.", "", "2.0");
 			this.set('displayedValue', value);
 		},
 
-		_setDisplayedValueAttr: function(/*String*/value){
+		_setDisplayedValueAttr: function(/*String*/ value){
 			// summary:
-			//		Hook so attr('displayedValue', ...) works.
+			//		Hook so set('displayedValue', ...) works.
 			// description:
 			//		Sets the value of the visual element to the string "value".
 			//		The widget value is also set to a corresponding,
@@ -190,7 +193,7 @@ dojo.declare(
 			this._setValueAttr(this.get('value'), undefined, value);
 		},
 
-		format: function(/* String */ value, /* Object */ constraints){
+		format: function(/*String*/ value, /*Object*/ constraints){
 			// summary:
 			//		Replacable function to convert a value to a properly formatted string.
 			// tags:
@@ -198,7 +201,7 @@ dojo.declare(
 			return ((value == null || value == undefined) ? "" : (value.toString ? value.toString() : value));
 		},
 
-		parse: function(/* String */ value, /* Object */ constraints){
+		parse: function(/*String*/ value, /*Object*/ constraints){
 			// summary:
 			//		Replacable function to convert a formatted string to a value
 			// tags:
@@ -255,7 +258,7 @@ dojo.declare(
 
 			// setting the value here is needed since value="" in the template causes "undefined"
 			// and setting in the DOM (instead of the JS object) helps with form reset actions
-			this.textbox.setAttribute("value", this.textbox.value); // DOM and JS values shuld be the same
+			this.textbox.setAttribute("value", this.textbox.value); // DOM and JS values should be the same
 
 			this.inherited(arguments);
 
@@ -277,8 +280,8 @@ dojo.declare(
 			// description:
 			//		For MappedTextBox subclasses, this is called twice
 			// 			- once with the display value
-			//			- once the value as set/returned by attr('value', ...)
-			//		and attr('value'), ex: a Number for NumberTextBox.
+			//			- once the value as set/returned by set('value', ...)
+			//		and get('value'), ex: a Number for NumberTextBox.
 			//
 			//		In the latter case it does corrections like converting null to NaN.  In
 			//		the former case the NumberTextBox.filter() method calls this.inherited()
@@ -372,7 +375,7 @@ dojo.declare(
 	}
 );
 
-dijit.selectInputText = function(/*DomNode*/element, /*Number?*/ start, /*Number?*/ stop){
+dijit.selectInputText = function(/*DomNode*/ element, /*Number?*/ start, /*Number?*/ stop){
 	// summary:
 	//		Select text in the input element argument, from start (default 0), to stop (default end).
 

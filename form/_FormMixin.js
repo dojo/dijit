@@ -12,7 +12,7 @@ dojo.declare("dijit.form._FormMixin", null,
 	//		form widgets
 
 /*=====
-    // value: Object
+	// value: Object
 	//		Name/value hash for each child widget with a name and value.
 	//		Child widgets without names are not part of the hash.
 	// 
@@ -44,11 +44,11 @@ dojo.declare("dijit.form._FormMixin", null,
 		validate: function(){
 			// summary:
 			//		returns if the form is valid - same as isValid - but
-			//			provides a few additional (ui-specific) features.
-			//			1 - it will highlight any sub-widgets that are not
-			//				valid
-			//			2 - it will call focus() on the first invalid
-			//				sub-widget
+			//		provides a few additional (ui-specific) features.
+			//		1 - it will highlight any sub-widgets that are not
+			//			valid
+			//		2 - it will call focus() on the first invalid
+			//			sub-widget
 			var didFocus = false;
 			return dojo.every(dojo.map(this.getDescendants(), function(widget){
 				// Need to set this so that "required" widgets get their
@@ -69,9 +69,9 @@ dojo.declare("dijit.form._FormMixin", null,
 			dojo.deprecated(this.declaredClass+"::setValues() is deprecated. Use set('value', val) instead.", "", "2.0");
 			return this.set('value', val);
 		},
-		_setValueAttr: function(/*object*/obj){
+		_setValueAttr: function(/*Object*/ obj){
 			// summary:
-			//		Fill in form values from according to an Object (in the format returned by attr('value'))
+			//		Fill in form values from according to an Object (in the format returned by get('value'))
 
 			// generate map from name --> [list of widgets with that name]
 			var map = { };
@@ -149,7 +149,7 @@ dojo.declare("dijit.form._FormMixin", null,
 					return;		// like "continue"
 				}
 
-				// TODO: widget values (just call attr('value', ...) on the widget)
+				// TODO: widget values (just call set('value', ...) on the widget)
 
 				// TODO: maybe should call dojo.getNodeProp() instead
 				switch(element.type){
@@ -316,7 +316,7 @@ dojo.declare("dijit.form._FormMixin", null,
 	 		//		Returns true if all of the widgets are valid
 
 	 		// This also populate this._invalidWidgets[] array with list of invalid widgets...
-	 		// TODO: put that into separate function?   It's confusing to have that as a side effect
+	 		// TODO: put that into separate function?  It's confusing to have that as a side effect
 	 		// of a method named isValid().
 
 			this._invalidWidgets = dojo.filter(this.getDescendants(), function(widget){

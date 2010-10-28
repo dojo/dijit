@@ -207,7 +207,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 
 	isValid: function(/*Boolean*/ isFocused){
 		// summary:
-		//		Whether or not this is a valid value.   The only way a Select
+		//		Whether or not this is a valid value.  The only way a Select
 		//		can be invalid is when it's required but nothing is selected.
 		return (!this.required || !(/^\s*$/.test(this.value)));
 	},

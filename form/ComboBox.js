@@ -81,7 +81,7 @@ dojo.declare(
 		//		This specifies what query ComboBox/FilteringSelect sends to the data store,
 		//		based on what the user has typed.  Changing this expression will modify
 		//		whether the drop down shows only exact matches, a "starting with" match,
-		//		etc.   Use it in conjunction with highlightMatch.
+		//		etc.  Use it in conjunction with highlightMatch.
 		//		dojo.data query expression pattern.
 		//		`${0}` will be substituted for the user text.
 		//		`*` is used for wildcards.
@@ -131,7 +131,7 @@ dojo.declare(
 				tr.move("character",0);
 				ntr.move("character",0);
 				try{
-					// If control doesnt have focus, you get an exception.
+					// If control doesn't have focus, you get an exception.
 					// Seems to happen on reverse-tab, but can also happen on tab (seems to be a race condition - only happens sometimes).
 					// There appears to be no workaround for this - googled for quite a while.
 					ntr.setEndPoint("EndToEnd", tr);
@@ -466,15 +466,15 @@ dojo.declare(
 
 		_setItemAttr: function(/*item*/ item, /*Boolean?*/ priorityChange, /*String?*/ displayedValue){
 			// summary:
-			//              Set the displayed valued in the input box, and the hidden value
-			//              that gets submitted, based on a dojo.data store item.
+			//		Set the displayed valued in the input box, and the hidden value
+			//		that gets submitted, based on a dojo.data store item.
 			// description:
-			//              Users shouldn't call this function; they should be calling
+			//		Users shouldn't call this function; they should be calling
 			//		set('item', value)
 			// tags:
-			//              private
+			//		private
 			if(!displayedValue){
-				// Use labelFunc() to get displayedValue.  But it may return HTML so need to convert to plain text.   
+				// Use labelFunc() to get displayedValue.  But it may return HTML so need to convert to plain text.
 				var label = this.labelFunc(item, this.store);
 				if(this.labelType == "html"){
 					var span = this._helperSpan;
@@ -683,11 +683,11 @@ dojo.declare(
 			return {html: labelType == "html", label: label};
 		},
 
-		doHighlight: function(/*String*/label, /*String*/find){
+		doHighlight: function(/*String*/ label, /*String*/ find){
 			// summary:
 			//		Highlights the string entered by the user in the menu.  By default this
-			//		highlights the first occurence found. Override this method
-			//		to implement your custom highlighing.
+			//		highlights the first occurrence found. Override this method
+			//		to implement your custom highlighting.
 			// tags:
 			//		protected
 
@@ -703,7 +703,7 @@ dojo.declare(
 			); // returns String, (almost) valid HTML (entities encoded)
 		},
 
-		_escapeHtml: function(/*string*/str){
+		_escapeHtml: function(/*String*/ str){
 			// TODO Should become dojo.html.entities(), when exists use instead
 			// summary:
 			//		Adds escape sequences for special characters in XML: &<>"'
@@ -721,11 +721,11 @@ dojo.declare(
 
 		labelFunc: function(/*item*/ item, /*dojo.data.store*/ store){
 			// summary:
-			//              Computes the label to display based on the dojo.data store item.
+			//		Computes the label to display based on the dojo.data store item.
 			// returns:
-			//              The label that the ComboBox should display
+			//		The label that the ComboBox should display
 			// tags:
-			//              private
+			//		private
 
 			// Use toString() because XMLStore returns an XMLItem whereas this
 			// method is expected to return a String (#9354)
@@ -883,7 +883,7 @@ dojo.declare(
 		_onMouseUp: function(/*Event*/ evt){
 			if(evt.target === this.domNode || !this._highlighted_option){
 				// !this._highlighted_option check to prevent immediate selection when menu appears on top
-				// of <input>, see #9898.   note thate _HasDropDown also has code to prevent this.
+				// of <input>, see #9898.  Note that _HasDropDown also has code to prevent this.
 				return;
 			}else if(evt.target == this.previousButton){
 				this._blurOptionNode();
@@ -1149,13 +1149,13 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 
 	},
 
-	getValue: function(	/* item */ item,
-						/* attribute-name-string */ attribute,
-						/* value? */ defaultValue){
+	getValue: function(	/*item*/ item,
+						/*attribute-name-string*/ attribute,
+						/*value?*/ defaultValue){
 		return (attribute == "value") ? item.value : (item.innerText || item.textContent || '');
 	},
 
-	isItemLoaded: function(/* anything */ something){
+	isItemLoaded: function(/*anything*/ something){
 		return true;
 	},
 
@@ -1163,9 +1163,9 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 		return {"dojo.data.api.Read": true, "dojo.data.api.Identity": true};
 	},
 
-	_fetchItems: function(	/* Object */ args,
-							/* Function */ findCallback,
-							/* Function */ errorCallback){
+	_fetchItems: function(	/*Object*/ args,
+							/*Function*/ findCallback,
+							/*Function*/ errorCallback){
 		// summary:
 		//		See dojo.data.util.simpleFetch.fetch()
 		if(!args.query){ args.query = {}; }
@@ -1181,19 +1181,19 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 		findCallback(items, args);
 	},
 
-	close: function(/*dojo.data.api.Request || args || null */ request){
+	close: function(/*dojo.data.api.Request || args || null*/ request){
 		return;
 	},
 
-	getLabel: function(/* item */ item){
+	getLabel: function(/*item*/ item){
 		return item.innerHTML;
 	},
 
-	getIdentity: function(/* item */ item){
+	getIdentity: function(/*item*/ item){
 		return dojo.attr(item, "value");
 	},
 
-	fetchItemByIdentity: function(/* Object */ args){
+	fetchItemByIdentity: function(/*Object*/ args){
 		// summary:
 		//		Given the identity of an item, this method returns the item that has
 		//		that identity through the onItem callback.

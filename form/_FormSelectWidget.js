@@ -7,7 +7,7 @@ dijit.form.__SelectOption = function(){
 	//		place a separator at that location
 	// label: String
 	//		The label for our option.  It can contain html tags.
-	//  selected: Boolean
+	// selected: Boolean
 	//		Whether or not we are a selected option
 	// disabled: Boolean
 	//		Whether or not this specific option is disabled
@@ -25,13 +25,13 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 	//		This also provides the mechanism for reading the elements from
 	//		a store, if desired.
 
-	// multiple: Boolean
+	// multiple: [const] Boolean
 	//		Whether or not we are multi-valued
 	multiple: false,
 
 	// options: dijit.form.__SelectOption[]
 	//		The set of options for our select item.  Roughly corresponds to
-	//      the html <option> tag.
+	//		the html <option> tag.
 	options: null,
 
 	// store: dojo.data.api.Identity
@@ -53,20 +53,20 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 	//		iterated over (i.e. to filter even futher what you want to add)
 	onFetch: null,
 
-	// sortByLabel: boolean
+	// sortByLabel: Boolean
 	//		Flag to sort the options returned from a store by the label of
 	//		the store.
 	sortByLabel: true,
 
 
-	// loadChildrenOnOpen: boolean
+	// loadChildrenOnOpen: Boolean
 	//		By default loadChildren is called when the items are fetched from the
 	//		store.  This property allows delaying loadChildren (and the creation
 	//		of the options/menuitems) until the user clicks the button to open the
 	//		dropdown.
 	loadChildrenOnOpen: false,
 
-	getOptions: function(/* anything */ valueOrIdx){
+	getOptions: function(/*anything*/ valueOrIdx){
 		// summary:
 		//		Returns a given option (or options).
 		// valueOrIdx:
@@ -132,7 +132,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		return null; // null
 	},
 
-	addOption: function(/* dijit.form.__SelectOption, dijit.form.__SelectOption[] */ option){
+	addOption: function(/*dijit.form.__SelectOption|dijit.form.__SelectOption[]*/ option){
 		// summary:
 		//		Adds an option or options to the end of the select.  If value
 		//		of the option is empty or missing, a separator is created instead.
@@ -147,7 +147,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		this._loadChildren();
 	},
 
-	removeOption: function(/* string, dijit.form.__SelectOption, number, or array */ valueOrIdx){
+	removeOption: function(/*String|dijit.form.__SelectOption|Number|Array*/ valueOrIdx){
 		// summary:
 		//		Removes the given option or options.  You can remove by string
 		//		(in which case the value is removed), number (in which case the
@@ -170,7 +170,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		this._loadChildren();
 	},
 
-	updateOption: function(/* dijit.form.__SelectOption, dijit.form.__SelectOption[] */ newOption){
+	updateOption: function(/*dijit.form.__SelectOption|dijit.form.__SelectOption[]*/ newOption){
 		// summary:
 		//		Updates the values of the given option.  The option to update
 		//		is matched based on the value of the entered option.  Passing
@@ -186,9 +186,9 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		this._loadChildren();
 	},
 
-	setStore: function(/* dojo.data.api.Identity */ store,
-						/* anything? */ selectedValue,
-						/* Object? */ fetchArgs){
+	setStore: function(/*dojo.data.api.Identity*/ store,
+						/*anything?*/ selectedValue,
+						/*Object?*/ fetchArgs){
 		// summary:
 		//		Sets the store you would like to use with this select widget.
 		//		The selected value is the value of the new store to set.  This
@@ -270,7 +270,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		return oStore;	// dojo.data.api.Identity
 	},
 
-	_setValueAttr: function(/*anything*/ newValue, /*Boolean, optional*/ priorityChange){
+	_setValueAttr: function(/*anything*/ newValue, /*Boolean?*/ priorityChange){
 		// summary:
 		//		set the value of the widget.
 		//		If a string is passed, then we set our value from looking it up.
@@ -340,7 +340,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 	_loadChildren: function(){
 		// summary:
 		//		Loads the children represented by this widget's options.
-		//		reset the menu to make it "populatable on the next click
+		//		reset the menu to make it populatable on the next click
 		if(this._loadingStore){ return; }
 		dojo.forEach(this._getChildren(), function(child){
 			child.destroyRecursive();
@@ -399,17 +399,17 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 	},
 
 	// Internal functions to call when we have store notifications come in
-	_onNewItem: function(/* item */ item, /* Object? */ parentInfo){
+	_onNewItem: function(/*item*/ item, /*Object?*/ parentInfo){
 		if(!parentInfo || !parentInfo.parent){
 			// Only add it if we are top-level
 			this._addOptionForItem(item);
 		}
 	},
-	_onDeleteItem: function(/* item */ item){
+	_onDeleteItem: function(/*item*/ item){
 		var store = this.store;
 		this.removeOption(store.getIdentity(item));
 	},
-	_onSetItem: function(/* item */ item){
+	_onSetItem: function(/*item*/ item){
 		this.updateOption(this._getOptionObjForItem(item));
 	},
 
@@ -424,7 +424,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		return {value: value, label: label, item:item}; // dijit.form.__SelectOption
 	},
 
-	_addOptionForItem: function(/* item */ item){
+	_addOptionForItem: function(/*item*/ item){
 		// summary:
 		//		Creates (and adds) the option for the given item
 		var store = this.store;
@@ -440,7 +440,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		this.addOption(newOpt);
 	},
 
-	constructor: function(/* Object */ keywordArgs){
+	constructor: function(/*Object*/ keywordArgs){
 		// summary:
 		//		Saves off our value, if we have an initial one set so we
 		//		can use it if we have a store as well (see startup())
@@ -521,7 +521,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		this.inherited(arguments);
 	},
 
-	_addOptionItem: function(/* dijit.form.__SelectOption */ option){
+	_addOptionItem: function(/*dijit.form.__SelectOption*/ option){
 		// summary:
 		//		User-overridable function which, for the given option, adds an
 		//		item to the select.  If the option doesn't have a value, then a
@@ -529,7 +529,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		//		in the created option widget.
 	},
 
-	_removeOptionItem: function(/* dijit.form.__SelectOption */ option){
+	_removeOptionItem: function(/*dijit.form.__SelectOption*/ option){
 		// summary:
 		//		User-overridable function which, for the given option, removes
 		//		its item from the select.
@@ -555,7 +555,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		return this.getOptions(this.get("value"));
 	},
 
-	_pseudoLoadChildren: function(/* item[] */ items){
+	_pseudoLoadChildren: function(/*item[]*/ items){
 		// summary:
 		//		a function that will "fake" loading children, if needed, and
 		//		if we have set to not load children until the widget opens.

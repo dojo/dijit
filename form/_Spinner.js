@@ -15,7 +15,7 @@ dojo.declare(
 		defaultTimeout: 500,
 
 		// minimumTimeout: Number
-		//       minimum number of milliseconds that typematic event fires when held key or button is held
+		//		minimum number of milliseconds that typematic event fires when held key or button is held
 		minimumTimeout: 10,
 
 		// timeoutChangeRate: Number
@@ -25,11 +25,11 @@ dojo.declare(
 		timeoutChangeRate: 0.90,
 
 		// smallDelta: Number
-		//	  Adjust the value by this much when spinning using the arrow keys/buttons
+		//		Adjust the value by this much when spinning using the arrow keys/buttons
 		smallDelta: 1,
 
 		// largeDelta: Number
-		//	  Adjust the value by this much when spinning using the PgUp/Dn keys
+		//		Adjust the value by this much when spinning using the PgUp/Dn keys
 		largeDelta: 10,
 
 		templateString: dojo.cache("dijit.form", "templates/Spinner.html"),
@@ -43,7 +43,7 @@ dojo.declare(
 			"downArrowNode": "dijitDownArrowButton"
 		},
 
-		adjust: function(/* Object */ val, /*Number*/ delta){
+		adjust: function(/*Object*/ val, /*Number*/ delta){
 			// summary:
 			//		Overridable function used to adjust a primitive value(Number/Date/...) by the delta amount specified.
 			// 		The val is adjusted in a way that makes sense to the object type.

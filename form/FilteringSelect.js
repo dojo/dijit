@@ -51,7 +51,8 @@ dojo.declare(
 			}
 		},
 
-		_callbackSetLabel: function(	/*Array*/ result,
+		_callbackSetLabel: function(
+						/*Array*/ result,
 						/*Object*/ dataObject,
 						/*Boolean?*/ priorityChange){
 			// summary:

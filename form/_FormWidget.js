@@ -13,7 +13,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 	//
 	//		They also share some common methods.
 
-	// name: String
+	// name: [const] String
 	//		Name used when submitting form; same as "name" attribute or plain HTML elements
 	name: "",
 
@@ -103,7 +103,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 
 	setDisabled: function(/*Boolean*/ disabled){
 		// summary:
-		//		Deprecated.   Use set('disabled', ...) instead.
+		//		Deprecated.  Use set('disabled', ...) instead.
 		dojo.deprecated("setDisabled("+disabled+") is deprecated. Use set('disabled',"+disabled+") instead.", "", "2.0");
 		this.set('disabled', disabled);
 	},
@@ -117,7 +117,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 
 	isFocusable: function(){
 		// summary:
-		//		Tells if this widget is focusable or not.   Used internally by dijit.
+		//		Tells if this widget is focusable or not.  Used internally by dijit.
 		// tags:
 		//		protected
 		return !this.disabled && !this.readOnly && this.focusNode && (dojo.style(this.domNode, "display") != "none");
@@ -129,9 +129,9 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 		dijit.focus(this.focusNode);
 	},
 
-	compare: function(/*anything*/val1, /*anything*/val2){
+	compare: function(/*anything*/ val1, /*anything*/ val2){
 		// summary:
-		//		Compare 2 values (as returned by attr('value') for this widget).
+		//		Compare 2 values (as returned by get('value') for this widget).
 		// tags:
 		//		protected
 		if(typeof val1 == "number" && typeof val2 == "number"){
@@ -158,7 +158,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 	//		when the initial value is set.
 	_onChangeActive: false,
 
-	_handleOnChange: function(/*anything*/ newValue, /* Boolean? */ priorityChange){
+	_handleOnChange: function(/*anything*/ newValue, /*Boolean?*/ priorityChange){
 		// summary:
 		//		Called when the value of the widget is set.  Calls onChange() if appropriate
 		// newValue:
@@ -212,14 +212,14 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 
 	setValue: function(/*String*/ value){
 		// summary:
-		//		Deprecated.   Use set('value', ...) instead.
+		//		Deprecated.  Use set('value', ...) instead.
 		dojo.deprecated("dijit.form._FormWidget:setValue("+value+") is deprecated.  Use set('value',"+value+") instead.", "", "2.0");
 		this.set('value', value);
 	},
 
 	getValue: function(){
 		// summary:
-		//		Deprecated.   Use get('value') instead.
+		//		Deprecated.  Use get('value') instead.
 		dojo.deprecated(this.declaredClass+"::getValue() is deprecated. Use get('value') instead.", "", "2.0");
 		return this.get('value');
 	},
@@ -253,7 +253,7 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 
 	// Don't attempt to mixin the 'type', 'name' attributes here programatically -- they must be declared
 	// directly in the template as read by the parser in order to function. IE is known to specifically
-	// require the 'name' attribute at element creation time.   See #8484, #8660.
+	// require the 'name' attribute at element creation time.  See #8484, #8660.
 	// TODO: unclear what that {value: ""} is for; FormWidget.attributeMap copies value to focusNode,
 	// so maybe {value: ""} is so the value *doesn't* get copied to focusNode?
 	// Seems like we really want value removed from attributeMap altogether
@@ -289,9 +289,9 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 		}
 	},
 
-	_setValueAttr: function(/*anything*/ newValue, /*Boolean, optional*/ priorityChange){
+	_setValueAttr: function(/*anything*/ newValue, /*Boolean?*/ priorityChange){
 		// summary:
-		//		Hook so attr('value', value) works.
+		//		Hook so set('value', value) works.
 		// description:
 		//		Sets the value of the widget.
 		//		If the value has changed, then fire onChange event, unless priorityChange
@@ -302,7 +302,7 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 
 	_getValueAttr: function(){
 		// summary:
-		//		Hook so attr('value') works.
+		//		Hook so get('value') works.
 		return this._lastValue;
 	},
 

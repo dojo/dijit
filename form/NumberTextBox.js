@@ -37,7 +37,7 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 		//		Despite the name, this parameter specifies both constraints on the input
 		//		(including minimum/maximum allowed values) as well as
 		//		formatting options like places (the number of digits to display after
-		//		the decimal point).   See `dijit.form.NumberTextBox.__Constraints` for details.
+		//		the decimal point).  See `dijit.form.NumberTextBox.__Constraints` for details.
 		constraints: {},
 		======*/
 
@@ -45,10 +45,10 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 		//		The value of this NumberTextBox as a Javascript Number (i.e., not a String).
 		//		If the displayed value is blank, the value is NaN, and if the user types in
 		//		an gibberish value (like "hello world"), the value is undefined
-		//		(i.e. attr('value') returns undefined).
+		//		(i.e. get('value') returns undefined).
 		//
-		//		Symmetrically, attr('value', NaN) will clear the displayed value,
-		//		whereas attr('value', undefined) will have no effect.
+		//		Symmetrically, set('value', NaN) will clear the displayed value,
+		//		whereas set('value', undefined) will have no effect.
 		value: NaN,
 
 		// editOptions: [protected] Object
@@ -60,7 +60,7 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 		/*=====
 		_formatter: function(value, options){
 			// summary:
-			//		_formatter() is called by format().   It's the base routine for formatting a number,
+			//		_formatter() is called by format().  It's the base routine for formatting a number,
 			//		as a string, for example converting 12345 into "12,345".
 			// value: Number
 			//		The number to be converted into a string.
@@ -74,7 +74,7 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 		 =====*/
 		_formatter: dojo.number.format,
 
-		_setConstraintsAttr: function(/* Object */ constraints){
+		_setConstraintsAttr: function(/*Object*/ constraints){
 			var places = typeof constraints.places == "number"? constraints.places : 0;
 			if(places){ places++; } // decimal rounding errors take away another digit of precision
 			if(typeof constraints.max != "number"){
@@ -148,10 +148,10 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 			//		Otherwise it dispatches to the superclass's filter() method.
 			//
 			//		See `dijit.form.TextBox.filter` for more details.
-			return (value === null || value === '' || value === undefined) ? NaN : this.inherited(arguments); // attr('value', null||''||undefined) should fire onChange(NaN)
+			return (value === null || value === '' || value === undefined) ? NaN : this.inherited(arguments); // set('value', null||''||undefined) should fire onChange(NaN)
 		},
 
-		serialize: function(/*Number*/ value, /*Object?*/options){
+		serialize: function(/*Number*/ value, /*Object?*/ options){
 			// summary:
 			//		Convert value (a Number) into a canonical string (ie, how the number literal is written in javascript/java/C/etc.)
 			// tags:
@@ -159,9 +159,9 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 			return (typeof value != "number" || isNaN(value)) ? '' : this.inherited(arguments);
 		},
 
-		_setValueAttr: function(/*Number*/ value, /*Boolean?*/ priorityChange, /*String?*/formattedValue){
+		_setValueAttr: function(/*Number*/ value, /*Boolean?*/ priorityChange, /*String?*/ formattedValue){
 			// summary:
-			//		Hook so attr('value', ...) works.
+			//		Hook so set('value', ...) works.
 			if(value !== undefined && formattedValue === undefined){
 				formattedValue = String(value);
 				if(typeof value == "number"){
@@ -182,7 +182,7 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 
 		_getValueAttr: function(){
 			// summary:
-			//		Hook so attr('value') works.
+			//		Hook so get('value') works.
 			//		Returns Number, NaN for '', or undefined for unparsable text
 			var v = this.inherited(arguments); // returns Number for all values accepted by parse() or NaN for all other displayed values
 

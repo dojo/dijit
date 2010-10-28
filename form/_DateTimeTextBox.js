@@ -37,7 +37,7 @@ dojo.declare(
 		//		Despite the name, this parameter specifies both constraints on the input
 		//		(including starting/ending dates/times allowed) as well as
 		//		formatting options like whether the date is displayed in long (ex: December 25, 2005)
-		//		or short (ex: 12/25/2005) format.   See `dijit.form._DateTimeTextBox.__Constraints` for details.
+		//		or short (ex: 12/25/2005) format.  See `dijit.form._DateTimeTextBox.__Constraints` for details.
 		constraints: {},
 		======*/
 
@@ -46,8 +46,8 @@ dojo.declare(
 		regExpGen: dojo.date.locale.regexp,
 
 		// datePackage: String
-		//	JavaScript namespace to find calendar routines.  Uses Gregorian calendar routines
-		//	at dojo.date, by default.
+		//		JavaScript namespace to find calendar routines.	 Uses Gregorian calendar routines
+		//		at dojo.date, by default.
 		datePackage: "dojo.date",
 
 		// Override _FormWidget.compare() to work for dates/times
@@ -75,14 +75,14 @@ dojo.declare(
 		},
 
 		// Overrides ValidationTextBox.serialize() to serialize a date in canonical ISO format.
-		serialize: function(/*anything*/val, /*Object?*/options){
+		serialize: function(/*anything*/ val, /*Object?*/ options){
 			if(val.toGregorian){
 				val = val.toGregorian();
 			}
 			return dojo.date.stamp.toISOString(val, options);
 		},
 
-		// dropDownDefaultValue : Date
+		// dropDownDefaultValue: Date
 		//		The default value to focus in the popupClass widget when the textbox value is empty.
 		dropDownDefaultValue : new Date(),
 
@@ -90,9 +90,10 @@ dojo.declare(
 		//		The value of this widget as a JavaScript Date object.  Use get("value") / set("value", val) to manipulate.
 		//		When passed to the parser in markup, must be specified according to `dojo.date.stamp.fromISOString`
 		value: new Date(""),	// value.toString()="NaN"
+
 		_blankValue: null,	// used by filter() when the textbox is blank
 
-		//	popupClass: [protected extension] String
+		// popupClass: [protected extension] String
 		//		Name of the popup widget class used to select a date/time.
 		//		Subclasses should specify this.
 		popupClass: "", // default is no popup = text only
@@ -104,7 +105,7 @@ dojo.declare(
 		//		Subclass must specify this.
 		_selector: "",
 
-		constructor: function(/*Object*/args){
+		constructor: function(/*Object*/ args){
 			var dateClass = args.datePackage ? args.datePackage + ".Date" : "Date";
 			this.dateClassObj = dojo.getObject(dateClass, false);
 			this.value = new this.dateClassObj("");
@@ -130,7 +131,7 @@ dojo.declare(
 			}
 		},
 
-		_setConstraintsAttr: function(/* Object */ constraints){
+		_setConstraintsAttr: function(/*Object*/ constraints){
 			constraints.selector = this._selector;
 			constraints.fullYear = true; // see #5465 - always format with 4-digit years
 			var fromISO = dojo.date.stamp.fromISOString;

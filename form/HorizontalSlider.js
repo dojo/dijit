@@ -26,8 +26,8 @@ dojo.declare(
 
 	// discreteValues: Integer
 	//		If specified, indicates that the slider handle has only 'discreteValues' possible positions,
-	//      and that after dragging the handle, it will snap to the nearest possible position.
-	//      Thus, the slider has only 'discreteValues' possible values.
+	//		and that after dragging the handle, it will snap to the nearest possible position.
+	//		Thus, the slider has only 'discreteValues' possible values.
 	//
 	//		For example, if minimum=10, maxiumum=30, and discreteValues=3, then the slider handle has
 	//		three possible positions, representing values 10, 20, or 30.
@@ -35,13 +35,13 @@ dojo.declare(
 	//		If discreteValues is not specified or if it's value is higher than the number of pixels
 	//		in the slider bar, then the slider handle can be moved freely, and the slider's value will be
 	//		computed/reported based on pixel position (in this case it will likely be fractional,
-	//      such as 123.456789).
+	//		such as 123.456789).
 	discreteValues: Infinity,
 
 	// pageIncrement: Integer
 	//		If discreteValues is also specified, this indicates the amount of clicks (ie, snap positions)
-	//      that the slider handle is moved via pageup/pagedown keys.
-	//	If discreteValues is not specified, it indicates the number of pixels.
+	//		that the slider handle is moved via pageup/pagedown keys.
+	//		If discreteValues is not specified, it indicates the number of pixels.
 	pageIncrement: 2,
 
 	// clickSelect: Boolean
@@ -53,7 +53,7 @@ dojo.declare(
 	//		when clicking the slider bar to make the handle move.
 	slideDuration: dijit.defaultDuration,
 
-	// Flag to _Templated  (TODO: why is this here?   I see no widgets in the template.)
+	// Flag to _Templated  (TODO: why is this here?  I see no widgets in the template.)
 	widgetsInTemplate: true,
 
 	attributeMap: dojo.delegate(dijit.form._FormWidget.prototype.attributeMap, {
@@ -136,7 +136,7 @@ dojo.declare(
 		this._movable.onMouseDown(e);
 	},
 
-	_setPixelValue: function(/*Number*/ pixelValue, /*Number*/ maxPixels, /*Boolean, optional*/ priorityChange){
+	_setPixelValue: function(/*Number*/ pixelValue, /*Number*/ maxPixels, /*Boolean?*/ priorityChange){
 		if(this.disabled || this.readOnly){ return; }
 		pixelValue = pixelValue < 0 ? 0 : maxPixels < pixelValue ? maxPixels : pixelValue;
 		var count = this.discreteValues;
@@ -147,7 +147,7 @@ dojo.declare(
 		this._setValueAttr((this.maximum-this.minimum)*wholeIncrements/count + this.minimum, priorityChange);
 	},
 
-	_setValueAttr: function(/*Number*/ value, /*Boolean, optional*/ priorityChange){
+	_setValueAttr: function(/*Number*/ value, /*Boolean?*/ priorityChange){
 		// summary:
 		//		Hook so set('value', value) works.
 		this.valueNode.value = (this.value = value);
@@ -181,7 +181,7 @@ dojo.declare(
 		}
 	},
 
-	_bumpValue: function(signedChange, /*Boolean, optional*/ priorityChange){
+	_bumpValue: function(signedChange, /*Boolean?*/ priorityChange){
 		if(this.disabled || this.readOnly){ return; }
 		var s = dojo.getComputedStyle(this.sliderBarContainer);
 		var c = dojo._getContentBox(this.sliderBarContainer, s);

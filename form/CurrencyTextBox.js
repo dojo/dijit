@@ -37,11 +37,11 @@ dojo.declare(
 		//		the [ISO4217](http://en.wikipedia.org/wiki/ISO_4217) currency code, a three letter sequence like "USD"
 		currency: "",
 
+		/*=====
 		// constraints: dijit.form.CurrencyTextBox.__Constraints
 		//		Despite the name, this parameter specifies both constraints on the input
 		//		(including minimum/maximum allowed values) as well as
-		//		formatting options.   See `dijit.form.CurrencyTextBox.__Constraints` for details.
-		/*=====
+		//		formatting options.  See `dijit.form.CurrencyTextBox.__Constraints` for details.
 		constraints: {},
 		======*/
 		
@@ -58,7 +58,7 @@ dojo.declare(
 		// Override NumberTextBox._formatter to deal with currencies, ex: converts "123.45" to "$123.45"
 		_formatter: dojo.currency.format,
 
-		parse: function(/* String */ value, /* Object */ constraints){
+		parse: function(/*String*/ value, /*Object*/ constraints){
 			// summary:
 			// 		Parses string value as a Currency, according to the constraints object
 			// tags:
@@ -70,7 +70,7 @@ dojo.declare(
 			return v;
 		},
 
-		_setConstraintsAttr: function(/* Object */ constraints){
+		_setConstraintsAttr: function(/*Object*/ constraints){
 			if(!constraints.currency && this.currency){
 				constraints.currency = this.currency;
 			}

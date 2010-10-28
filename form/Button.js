@@ -124,7 +124,7 @@ dojo.declare("dijit.form.Button",
 
 	_setLabelAttr: function(/*String*/ content){
 		// summary:
-		//		Hook for attr('label', ...) to work.
+		//		Hook for set('label', ...) to work.
 		// description:
 		//		Set the label (text) of the button; takes an HTML string.
 		this.containerNode.innerHTML = this.label = content;
@@ -309,7 +309,7 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 		this.set('checked', !this.checked);
 	},
 
-	_setCheckedAttr: function(/*Boolean*/ value, /* Boolean? */ priorityChange){
+	_setCheckedAttr: function(/*Boolean*/ value, /*Boolean?*/ priorityChange){
 		this.checked = value;
 		dojo.attr(this.focusNode || this.domNode, "checked", value);
 		dijit.setWaiState(this.focusNode || this.domNode, "pressed", value);
@@ -318,7 +318,7 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 
 	setChecked: function(/*Boolean*/ checked){
 		// summary:
-		//		Deprecated.   Use set('checked', true/false) instead.
+		//		Deprecated.  Use set('checked', true/false) instead.
 		dojo.deprecated("setChecked("+checked+") is deprecated. Use set('checked',"+checked+") instead.", "", "2.0");
 		this.set('checked', checked);
 	},
