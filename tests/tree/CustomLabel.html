@@ -20,11 +20,48 @@
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">
+		dojo.require("doh.runner");
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dojo.data.ItemFileReadStore");
 		dojo.require("dijit.Tree");
 		dojo.require("dijit.tree.ForestStoreModel");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+		
+		dojo.addOnLoad(function(){
+			doh.register("Test custom label",
+				[
+					{
+						name: "testLabels",
+						timeout: 1000,
+						runTest: function(){
+							var d = new doh.Deferred;
+
+							setTimeout(d.getTestCallback(function(){
+								var nameTree = dijit.byId("nameTree");
+								var nameChildren = nameTree.rootNode.getChildren();
+								doh.is("Arizona", nameChildren[3].label);
+								doh.is("Colorado", nameChildren[9].label);
+								
+								var codeTree = dijit.byId("codeTree");
+								var codeChildren = codeTree.rootNode.getChildren();
+								doh.is("AZ", codeChildren[3].label);
+								doh.is("CO", codeChildren[9].label);
+								
+								var customTree = dijit.byId("customTree");
+								var customChildren = customTree.rootNode.getChildren();
+								doh.is("Arizona (AZ)", customChildren[3].label);
+								doh.is("Colorado (CO)", customChildren[9].label);
+							}), 500);
+							
+							return d;
+						}
+					}
+				]
+			);
+
+			doh.run();
+		});
+
 	</script>
 </head>
 <body class="claro">
