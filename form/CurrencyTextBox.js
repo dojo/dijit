@@ -58,14 +58,16 @@ dojo.declare(
 		// Override NumberTextBox._formatter to deal with currencies, ex: converts "123.45" to "$123.45"
 		_formatter: dojo.currency.format,
 
+		_parser: dojo.currency.parse,
+
 		parse: function(/*String*/ value, /*Object*/ constraints){
 			// summary:
 			// 		Parses string value as a Currency, according to the constraints object
 			// tags:
 			// 		protected extension
-			var v = dojo.currency.parse(value, constraints);
+			var v = this.inherited(arguments);
 			if(isNaN(v) && /\d+/.test(value)){ // currency parse failed, but it could be because they are using NumberTextBox format so try its parse
-				return this.inherited(arguments, [ value, dojo.mixin({}, constraints, this.editOptions) ]);
+				v = dojo.hitch(dojo.mixin({}, this, { _parser: dijit.form.NumberTextBox.prototype._parser }), "inherited")(arguments);
 			}
 			return v;
 		},

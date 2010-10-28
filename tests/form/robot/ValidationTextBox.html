@@ -461,7 +461,7 @@
 					},
 					{
 						name: "type_valid_dollarsign",
-						timeout: 60000,
+						timeout: 9000,
 						textbox: "q08",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
@@ -470,21 +470,26 @@
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
+							var textbox = this.textbox;
 							var onChange = dojo.byId('oc8');
 							doh.robot.typeKeys('$20000.01', 1000, 1800);
-							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
-								doh.is('$20000.01', this.textbox.focusNode.value, "focusNode.value");
-								doh.is(20000.01, this.textbox.get('value'), "get('value')");
-								doh.is(true, this.textbox.isValid(), "isValid()");
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.is('$20000.01', textbox.focusNode.value, "focusNode.value");
+								doh.is(20000.01, textbox.get('value'), "get('value')");
+								doh.is(true, textbox.isValid(), "isValid()");
 								doh.is('NaN', onChange.value);
+								var handler = textbox.connect(textbox, '_onBlur',
+									function(){
+										textbox.disconnect(handler);
+										setTimeout(d.getTestCallback(function(){
+											doh.is('$20,000.01', textbox.focusNode.value, "blurred focusNode.value");
+											doh.is(20000.01, textbox.get('value'), "blurred get('value')");
+											doh.is(true, textbox.isValid(), "blurred isValid()");
+											doh.is('20000.01', onChange.value);
+										}), 150);
+									});
 								dojo.byId("q01").focus();
-								doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-									doh.is('$20,000.01', this.textbox.focusNode.value, "focusNode.value");
-									doh.is(20000.01, this.textbox.get('value'), "get('value')");
-									doh.is(true, this.textbox.isValid(), "isValid()");
-									doh.is('20000.01', onChange.value);
-								})), 1000);
-							})), 1000);
+							}), 500);
 							return d;
 						}
 					},
@@ -606,12 +611,18 @@
 							var d = new doh.Deferred();
 							var onChange = dojo.byId('oc8');
 							doh.robot.typeKeys('-123.45', 1000, 1400);
-							doh.robot.keyPress(dojo.keys.TAB, 500, {});
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-								doh.is('($123.45)', this.textbox.focusNode.value, "focusNode.value");
-								doh.is(-123.45, this.textbox.get('value'), "get('value')");
-								doh.t(this.textbox.isValid(), "isValid()");
-							})), 1000);
+
+							var textbox = this.textbox;
+							var handler = textbox.connect(textbox, '_onBlur',
+								function(){
+									textbox.disconnect(handler);
+									setTimeout(d.getTestCallback(function(){
+										doh.is('($123.45)', textbox.focusNode.value, "focusNode.value");
+										doh.is(-123.45, textbox.get('value'), "get('value')");
+										doh.t(textbox.isValid(), "isValid()");
+									}), 150);
+								});
+							doh.robot.keyPress(dojo.keys.TAB, 100, {});
 							return d;
 						}
 					},
@@ -1082,15 +1093,17 @@
 							doh.is("", textWidget.get('value'), "get('value') 2");
 							doh.is("none", textWidget._phspan.style.display, "_phspan.style.display 1");
 							
+							var handler = textWidget.connect(textWidget, '_onBlur',
+								function(){
+									textWidget.disconnect(handler);
+									textWidget.set('value','xyz');
+									textWidget.reset();
+									setTimeout(d.getTestCallback(function(){
+										doh.is("", textWidget.get('value'), "get('value')");
+										doh.isNot("none", textWidget._phspan.style.display, "_phspan.style.display 2");
+									}), 150);
+								});
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
-							doh.robot.sequence(function(){
-								textWidget.set('value','xyz');
-								textWidget.reset();
-							}, 1000, 1000);
-							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("", textWidget.get('value'), "get('value')");
-								doh.isNot("none", textWidget._phspan.style.display, "_phspan.style.display 2");
-							}), 500);
 							
 							return d;
 						}
@@ -1102,6 +1115,57 @@
 							textWidget.set('placeHolder','placeholder is here');
 							textWidget.set('value','value');
 							doh.is("none", textWidget._phspan.style.display, "_phspan.style.display");
+						}
+					}
+				]);
+
+				doh.register("11889", [
+					{
+						name: "non-focused places:5",
+						timeout: 2000,
+						textbox: "q05",
+						setUp: function(){
+							this.textbox = dijit.byId(this.textbox);
+							this.textbox.set('constraints', { places: 5 });
+							this.textbox.set('editOptions', { places: "2,4" });
+						},
+						runTest: function(){
+							this.textbox.set('value', 1.625);
+							doh.is(1.625, this.textbox.get('value'), 'numeric value is unchanged');
+							doh.is('1.62500', this.textbox.get('displayedValue'), 'formatted displayed value');
+							doh.t(true, this.textbox.isValid(false), 'nonfocused is valid');
+						}
+					},
+					{
+						name: "focused places:2,4. blur to places:5",
+						timeout: 2000,
+						textbox: "q05",
+						setUp: function(){
+							this.textbox = dijit.byId(this.textbox);
+							this.textbox.set('constraints', { places: 5 });
+							this.textbox.set('editOptions', { places: "2,4" });
+							this.textbox.focus();
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+							var textbox = this.textbox;
+							textbox.set('value', 1.125);
+
+							doh.is(1.125, textbox.get('value'), 'numeric value is unchanged');
+							doh.is('1.125', textbox.get('displayedValue'), 'formatted displayed value');
+							doh.t(true, textbox.isValid(true), 'focused is valid');
+
+							var handler = textbox.connect(textbox, '_onBlur',
+								function(){
+									textbox.disconnect(handler);
+									setTimeout(d.getTestCallback(function(){
+										doh.is(1.125, textbox.get('value'), 'numeric value is unchanged');
+										doh.is('1.12500', textbox.get('displayedValue'), 'formatted displayed value');
+										doh.t(true, textbox.isValid(false), 'nonfocused is valid');
+									}), 150);
+								});
+							dojo.byId("q01").focus();
+							return d;
 						}
 					}
 				]);

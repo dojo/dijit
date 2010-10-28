@@ -14,8 +14,7 @@ dojo.declare(
 	//	|		{min:0,max:120}
 	//		To specify a field that must be an integer:
 	//	|		{fractional:false}
-	//		To specify a field where 0 to 3 decimal places are allowed on input,
-	//		but after the field is blurred the value is displayed with 3 decimal places:
+	//		To specify a field where 0 to 3 decimal places are allowed on input:
 	//	|		{places:'0,3'}
 });
 =====*/
@@ -121,7 +120,7 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 		},
 
 		/*=====
-		parse: function(value, constraints){
+		_parser: function(value, constraints){
 			// summary:
 			//		Parses the string value as a Number, according to constraints.
 			// value: String
@@ -134,7 +133,20 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 			return 123.45;		// Number
 		},
 		=====*/
-		parse: dojo.number.parse,
+		_parser: dojo.number.parse,
+
+		parse: function(/*String*/ value, /*dojo.number.__FormatOptions*/ constraints){
+			// summary:
+			//		Replacable function to convert a formatted string to a number value
+			// tags:
+			//		protected extension
+
+			var v = this._parser(value, dojo.mixin({}, constraints, (this.editOptions && this._focused) ? this.editOptions : {}));
+			if(this.editOptions && this._focused && isNaN(v)){
+				v = this._parser(value, constraints); // parse w/o editOptions: not technically needed but is nice for the user
+			}
+			return v;
+		},
 
 		_getDisplayedValueAttr: function(){
 			var v = this.inherited(arguments);
@@ -157,6 +169,11 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 			// tags:
 			//		protected
 			return (typeof value != "number" || isNaN(value)) ? '' : this.inherited(arguments);
+		},
+
+		_setBlurValue: function(){
+			var val = dojo.hitch(dojo.mixin({}, this, { _focused: true }), "get")('value'); // parse with editOptions
+			this._setValueAttr(val, true);
 		},
 
 		_setValueAttr: function(/*Number*/ value, /*Boolean?*/ priorityChange, /*String?*/ formattedValue){
