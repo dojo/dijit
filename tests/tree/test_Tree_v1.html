@@ -35,18 +35,17 @@
 	<div data-dojo-id="continentStore" data-dojo-type="dojo.data.ItemFileReadStore" data-dojo-props='url:"../_data/countries.json"'></div>
 
 	<h3>Tree with hardcoded root node (not corresponding to any item in the store)</h3>
-	<p>Clicking a folder node will open/close it (openOnclick==true), and clicking a leaf node will popup an alert.</p>
+	<p>Clicking a folder node will open/close it (openOnclick==true), and clicking a leaf node will change the display name of the leaf node.</p>
 	<div id="mytree" data-dojo-type="dijit.Tree" data-dojo-props='store:continentStore, query:{type:"continent"},
 		onFocus:function(){ console.log("user focus handler") },
 		onBlur:function(){ console.log("user blur handler") },
 		label:"Continents", openOnClick:true'>
 		<script type="dojo/method" data-dojo-event="onClick" data-dojo-args="item">
-			alert("Execute of node " + continentStore.getLabel(item)
-				+", population=" + continentStore.getValue(item, "population"));
+			this.getNodesByItem(item)[0].labelNode.innerHTML=item.name[0] + " was clicked";
 		</script>
 	</div>
 
-	<button onclick="dijit.byId('mytree').destroyRecursive();">destroy</button>
+	<button id="destroy" onclick="dijit.byId('mytree').destroyRecursive();">destroy</button>
 
 	<h2>A rootless tree (no "continents" node) with context menus, and custom icons</h2>
 
@@ -59,12 +58,12 @@
 			onClick:function(){ alert("not actually copying anything, just a test!") }'>Copy</li>
 		<li data-dojo-type="dijit.MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconPaste",
 			onClick:function(){ alert("not actually pasting anything, just a test!") }'>Paste</li>
-		<li data-dojo-type="dijit.PopupMenuItem">
+		<li id="popupSubMenu" data-dojo-type="dijit.PopupMenuItem">
 			<span>Enabled Submenu</span>
 			<ul id="submenu2" data-dojo-type="dijit.Menu" >
 				<li data-dojo-type="dijit.MenuItem" data-dojo-props='onClick:function(){ alert("Submenu 1!") }'>Submenu Item One</li>
 				<li data-dojo-type="dijit.MenuItem" data-dojo-props='onClick:function(){ alert("Submenu 2!") }'>Submenu Item Two</li>
-				<li data-dojo-type="dijit.PopupMenuItem">
+				<li id="deeperSubmenu" data-dojo-type="dijit.PopupMenuItem">
 					<span>Deeper Submenu</span>
 					<ul id="submenu4" data-dojo-type="dijit.Menu" >
 						<li data-dojo-type="dijit.MenuItem" data-dojo-props='onClick:function(){ alert("Sub-submenu 1!") }'>Sub-sub-menu Item One</li>
@@ -108,8 +107,8 @@
                     "noteIcon";
 		</script>
 		<script type="dojo/method" data-dojo-event="onClick" data-dojo-args="item">
-			alert("Execute of node " + continentStore.getLabel(item)
-				+", population=" + continentStore.getValue(item, "population"));
+			this.getNodesByItem(item)[0].labelNode.innerHTML = item.name[0] 
+				+ " (population: " + continentStore.getValue(item, "population") +")";
 		</script>
 </div>
 
