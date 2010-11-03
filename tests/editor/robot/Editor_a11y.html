@@ -26,6 +26,7 @@
 				// probably happen as pre and post filters on the editor
 				return str.
 					replace('<br/>', '').		// FF.  Because of EnterKeyHandling plugin?
+					replace('<br />', '').		// FF.  Because of EnterKeyHandling plugin?
 					replace(/^<p>/, '').replace(/<\/p>$/, '').		// Safari.  Because of EnterKeyHandling plugin?
 					replace(new RegExp(String.fromCharCode(160), "g"), " ");	// Safari: nbsp (char code 160) to normal space (char code 32)
 			}
