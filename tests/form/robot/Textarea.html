@@ -19,11 +19,22 @@
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_Textarea.html');
 
+				doh.register("init", function(){
+					// Wait for Textarea widgets to size themselves... it's done on a setTimeout(func, 0)
+					var d = new doh.Deferred();
+					setTimeout(function(){
+						d.callback();
+					}, 100);
+					return d;
+				});
+
 				doh.register("height tests", [
 					{
 						name: "initial height",
 						runTest: function(){
-							doh.t(dojo.marginBox("largeTextArea").h > dojo.marginBox("blank").h);
+							var blank = dojo.marginBox("blank").h,
+							large = dojo.marginBox("largeTextArea").h;
+							doh.t(large > blank, "blank: " + blank + ", large: " + large);
 						}
 					},
 					{
