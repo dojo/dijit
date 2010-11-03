@@ -122,9 +122,9 @@
 .claro .dijitTooltipContainer {
 	/* the part with the text */
 	background-color:#fff;
-	background-image:url("images/tooltip.png");
+	background-image:url("images/tooltipGradient.png");
 	background-repeat:repeat-x;
-	background-position:-575px 100%;
+	background-position:bottom;
 	border:1px solid #769DC0;
 	padding:6px 8px;
 	border-radius: 4px;
