@@ -20,6 +20,16 @@ dojo.declare("dijit.form._SelectMenu", dijit.Menu, {
 		dijit.setWaiRole(n,"presentation");
 		n.appendChild(o);
 	},
+
+	postCreate: function(){
+		// summary:
+		//              stop mousemove from selecting text on IE to be consistent with other browsers
+
+		this.inherited(arguments);
+
+		this.connect(this.domNode, "onmousemove", dojo.stopEvent);
+	},
+
 	resize: function(/*Object*/ mb){
 		// summary:
 		//		Overridden so that we are able to handle resizing our
@@ -228,6 +238,15 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		this.inherited(arguments);
 		this._missingMsg = dojo.i18n.getLocalization("dijit.form", "validate",
 									this.lang).missingMessage;
+	},
+
+	postCreate: function(){
+		// summary:
+		//              stop mousemove from selecting text on IE to be consistent with other browsers
+
+		this.inherited(arguments);
+
+		this.connect(this.domNode, "onmousemove", dojo.stopEvent);
 	},
 
 	_setStyleAttr: function(/*String||Object*/ value){

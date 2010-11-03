@@ -39,6 +39,14 @@
 						s8a_menu = dijit.byId('s8a_menu');
 						s8b = dijit.byId('s8b');
 						s8b_menu = dijit.byId('s8b_menu');
+
+						// preload menus since first load can take a while
+						var doNothing = function(){};
+						s1.loadDropDown(doNothing);
+						dijit.byId('s5').loadDropDown(doNothing);
+						dijit.byId('s6').loadDropDown(doNothing);
+						s8a.loadDropDown(doNothing);
+						s8b.loadDropDown(doNothing);
 				    }
 				);
 
@@ -50,7 +58,7 @@
 							var d = new doh.Deferred();
 
 							// click to open drop down
-							doh.robot.mouseMoveAt(s1.domNode, 500);
+							doh.robot.mouseMoveAt(s1.domNode, 1, 0);
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(isVisible(s1_menu), "drop down menu displayed after click");
@@ -68,7 +76,7 @@
 							doh.robot.mouseMoveAt(function(){
 								// function wrapper because Washington isn't defined until about sequence() runs
 								return Washington;
-							}, 500);
+							}, 1, 0);
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(isHidden(s1_menu), "clicking choice hides menu");
@@ -78,7 +86,7 @@
 							}), 500);
 
 							// click to open drop down again
-							doh.robot.mouseMoveAt(s1.domNode, 500);
+							doh.robot.mouseMoveAt(s1.domNode, 1, 0);
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(isVisible(s1_menu), "drop down menu displayed after third click");
@@ -109,7 +117,7 @@
 							var d = new doh.Deferred();
 
 							// mouse-down to open drop down
-							doh.robot.mouseMoveAt(s1.domNode, 500);
+							doh.robot.mouseMoveAt(s1.domNode, 1, 0);
 							doh.robot.mousePress({left:true}, 500);
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(isVisible(s1_menu), "drop down menu displayed after mouse down");
@@ -127,7 +135,7 @@
 							doh.robot.mouseMoveAt(function(){
 								// function wrapper because Washington isn't defined until above sequence() runs
 								return Washington;
-							}, 500);
+							}, 1, 0);
 							doh.robot.mouseRelease({left:true}, 500);
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(isHidden(s1_menu), "clicking choice hides menu");
@@ -137,7 +145,7 @@
 							}), 500);
 
 							// mouse down to open drop down again
-							doh.robot.mouseMoveAt(s1.domNode, 500);
+							doh.robot.mouseMoveAt(s1.domNode, 1, 0);
 							doh.robot.mousePress({left:true}, 500);
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(isVisible(s1_menu), "drop down menu displayed after second mouse down");
@@ -170,7 +178,7 @@
 							var d = new doh.Deferred();
 
 							// open drop down
-							doh.robot.mouseMoveAt(s8a.domNode, 500);
+							doh.robot.mouseMoveAt(s8a.domNode, 1, 0);
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(isVisible(s8a_menu.domNode), "drop down menu displayed after mouse down");
@@ -178,7 +186,7 @@
 								var pos = dojo.position(s8a_menu.domNode);
 								doh.t(pos.h >= 200, "height at least 200: " + pos.h);
 								doh.t(pos.h < 220, "height including borders not much more than 200: " + pos.h);
-							}), 500);
+							}), 1000);
 
 							// close drop down
 							doh.robot.mouseMove(10, 10, 500)
