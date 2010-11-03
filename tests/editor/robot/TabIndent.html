@@ -15,6 +15,7 @@
 		<script type="text/javascript" src="../../helpers.js"></script>
 
 		<script type="text/javascript">
+			dojo.require("dojo.DeferredList");
 			dojo.require("dijit.dijit"); // optimize: load dijit layer
 			dojo.require("dijit.robotx");
 
@@ -25,13 +26,12 @@
 					
 				doh.register("testTabIndent", [
 					{
-						name: "setup",
+						name: "wait for editors to load",
 						timeout: 5000,
 						runTest: function(){
-							var d = new doh.Deferred();
-							// FIXME: actually wait for the editors to appear!
-							doh.robot.sequence(function(){ d.callback(true); },4000);
-							return d;
+						    return new dojo.DeferredList(
+						        dijit.registry.filter(function(w){ return w.onLoadDeferred; }).map(function(w){ return w.onLoadDeferred; })
+						    );
 						}
 					},
 					{

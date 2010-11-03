@@ -16,6 +16,7 @@
 		<script type="text/javascript" src="../../helpers.js"></script>
 
 		<script type="text/javascript">
+			dojo.require("dojo.DeferredList");
 			dojo.require("dojo.window");
 			dojo.require("dijit.robotx");
 
@@ -37,23 +38,21 @@
 					}
 					doh.f(true, "didn't find plugin " + command);
 				}
+
+				
+				doh.register("init", {
+					name: "wait for editors to load",
+					timeout: 5000,
+					runTest: function(){
+					    return new dojo.DeferredList(
+					        dijit.registry.filter(function(w){ return w.onLoadDeferred; }).map(function(w){ return w.onLoadDeferred; })
+					    );
+					}
+				});
+
 				// Verify that the formatBlock, fontSize, and fontName
 				// plugins correctly display the format / font-size / font-name of the selected text.
-				doh.register("init",[{
-					timeout:5000,
-					runTest:function(){
-						var d = new doh.Deferred();
-						function waitForReady(){
-							if(value){ return; }
-							editor = dijit.byId("editor0");
-							value = editor.get("value");
-							if(value){ d.callback(true); }
-						}
-						for(var i=0; i<5000; i+=500){
-							setTimeout(waitForReady,i);
-						}
-					}
-				}]);
+
 				doh.register("FontChoice: verify current format/font-size/font-name",
 					dojo.map(
 						[
