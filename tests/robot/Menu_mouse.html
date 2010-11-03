@@ -126,21 +126,20 @@
 
 					{
 						name: "click copy",
-						timeout: 4000,
+						timeout: 2000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							var clicked = false;
-							dijit.byId("copy").onClick = function(){ clicked = true; };
-
-							doh.robot.mouseClick({left: true}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								doh.t(clicked, "copy was clicked");
+							var w = dijit.byId("copy");
+							var orig = w.onClick;
+							w.onClick = d.getTestCallback(function(){
+								w.onClick = orig;
 								doh.t(isHidden("editMenu"), "edit menu disappeared");
 								doh.f(dojo.hasClass("edit", "dijitMenuItemSelected"),
 									"Edit MenuBarItem should no longer have selected effect, actual class is: " + dojo.byId("edit").className);
-							}), 500);
+							});
+
+							doh.robot.mouseClick({left: true}, 1);
 
 							return d;
 						}
@@ -307,7 +306,7 @@
 				doh.register("More MenuBar mouse tests", [
 					{
 						name: "MenuBar selection and cancellation",
-						timeout: 20000,
+						timeout: 12000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -348,26 +347,46 @@
 								doh.t(isHidden("fileMenu"), "File menu should be hidden #2");
 							}), 500);
 
-							doh.robot.mouseClick({left: true}, 500); // click File
-							doh.robot.sequence(d.getTestErrback(function(){
-								doh.t(isVisible("fileMenu"), "File menu should be visible #2");
-							}), 1000);
-
-							doh.robot.mouseMoveAt("view", 0, 150); // #9846
-							doh.robot.mouseMoveAt("edit", 0, 75);
-							doh.robot.sequence(d.getTestErrback(function(){
-								doh.t(isHidden("fileMenu"), "File menu should be hidden #3");
-								doh.t(isVisible("editMenu"), "Edit menu should be visible");
-								var paste = dojo.position('paste');
-								doh.robot._mouseMove(paste.x + (paste.w >> 1), paste.y + paste.h + 20, false, 500);
-							}), 500, 1000);
-
-							// click point on screen under the Edit menu
-							doh.robot.mouseClick({left: true}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								doh.t(isHidden("editMenu"), "edit menu disappeared #2");
-							}), 1000);
+							doh.robot.sequence(function(){
+								var
+								fileMenu = dijit.byId("fileMenu"),
+								editMenu = dijit.byId("editMenu"),
+								handler = fileMenu.connect(fileMenu, 'onOpen',
+									function(){
+										fileMenu.disconnect(handler);
+										setTimeout(d.getTestErrback(function(){
+											doh.t(isVisible(fileMenu), "File menu should be visible #2");
+											handler = fileMenu.connect(fileMenu, 'onClose',
+												function(){
+													fileMenu.disconnect(handler);
+													setTimeout(d.getTestErrback(function(){
+														doh.t(isHidden(fileMenu), "File menu should be hidden #3");
+														handler = editMenu.connect(editMenu, 'onOpen',
+															function(){
+																editMenu.disconnect(handler);
+																setTimeout(d.getTestErrback(function(){
+																	doh.t(isVisible(editMenu), "Edit menu should be visible");
+																	handler = editMenu.connect(editMenu, 'onClose',
+																		function(){
+																			editMenu.disconnect(handler);
+																			setTimeout(d.getTestCallback(function(){
+																				doh.t(isHidden(editMenu), "Edit menu disappeared #2");
+																			}), 150);
+																		});
+																	var paste = dojo.position('paste');
+																	doh.robot._mouseMove(paste.x + (paste.w >> 1), paste.y + paste.h + 20, false, 1);
+																	// click point on screen under the Edit menu
+																	doh.robot.mouseClick({left: true}, 100);
+																}), 150);
+															});
+														doh.robot.mouseMoveAt("edit", 0, 1);
+													}), 150);
+												});
+											doh.robot.mouseMoveAt("view", 0, 1); // #9846
+										}), 150);
+									});
+							}, 1);
+							doh.robot.mouseClick({left: true}, 1); // click File that starts the event sequence above
 
 							return d;
 						}
