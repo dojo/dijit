@@ -19,11 +19,11 @@
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_Textarea.html');
 
-				doh.register("init", function(){
+				doh.register("init", function init(){
 					// Wait for Textarea widgets to size themselves... it's done on a setTimeout(func, 0)
 					var d = new doh.Deferred();
 					setTimeout(function(){
-						d.callback();
+						d.callback(true);
 					}, 100);
 					return d;
 				});
