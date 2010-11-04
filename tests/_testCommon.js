@@ -64,8 +64,8 @@
 		if(theme){
 			var themeCss = d.moduleUrl("dijit.themes",theme+"/"+theme+".css");
 			var themeCssRtl = d.moduleUrl("dijit.themes",theme+"/"+theme+"_rtl.css");
-			document.write('<link rel="stylesheet" type="text/css" href="'+themeCss+'">');
-			document.write('<link rel="stylesheet" type="text/css" href="'+themeCssRtl+'">');
+			document.write('<link rel="stylesheet" type="text/css" href="'+themeCss+'"/>');
+			document.write('<link rel="stylesheet" type="text/css" href="'+themeCssRtl+'"/>');
 		}
 
 		if(dojo.config.parseOnLoad){
