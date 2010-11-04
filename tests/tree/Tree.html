@@ -45,7 +45,7 @@
 			doh.register("Tree tests",
 				[
 					function create(){
-						var d = new doh.Deferred;
+						var d = new doh.Deferred();
 			 			myStore = new dojo.data.ItemFileWriteStore({url:'../_data/countries.json'});
 			 			doh.t(myStore, "store created");
 
@@ -92,7 +92,7 @@
 						name: "createWithPath",
 						timeout: 5000,
 						runTest: function(){
-							var d = new doh.Deferred;
+							var d = new doh.Deferred();
 							myTree2 = new dijit.Tree({
 								id: "myTree2",
 								model: myModel,
@@ -117,7 +117,7 @@
 					},
 
 					function copyPath(){
-						var d = new doh.Deferred;
+						var d = new doh.Deferred();
 
 						myTree.set("path", myTree2.get("path")).then(d.getTestCallback(function(){
 							doh.t(myTree.rootNode.isExpanded, "root node is expanded");
@@ -132,7 +132,7 @@
 						name: "copyPathByIds",
 						timeout: 5000,
 						runTest: function(){
-							var d = new doh.Deferred;
+							var d = new doh.Deferred();
 
 							myTree.set("path", ["earth", "NA", "CA", "Ottawa"]).then(d.getTestErrback(function(){
 								var path = dojo.map(myTree.get("path"), function(item){ return myTree.model.getIdentity(item); });
@@ -151,7 +151,7 @@
 					},
 
 					function setPathToNull(){
-						var d = new doh.Deferred;
+						var d = new doh.Deferred();
 
 						myTree2.set("path", []).addCallback(d.getTestCallback(function(){
 							doh.is(null, myTree2.selectedNode, "no selected node");
@@ -160,7 +160,7 @@
 					},
 
 					function setPathToRoot(){
-						var d = new doh.Deferred;
+						var d = new doh.Deferred();
 
 						myTree2.set("path", ["earth"]).addCallback(d.getTestCallback(function(){
 							doh.is(myTree2.rootNode, myTree2.selectedNode, "selected root node");
@@ -193,7 +193,7 @@
 					},
 
 					function openANode(){
-						var d = new doh.Deferred;
+						var d = new doh.Deferred();
 
 						var asia = myTree.rootNode.getChildren()[1];
 

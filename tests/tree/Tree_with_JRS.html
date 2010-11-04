@@ -35,7 +35,7 @@
 			doh.register("Tree tests",
 				[
 					function create(){
-						var d = new doh.Deferred;
+						var d = new doh.Deferred();
 			 			myStore = new dojox.data.JsonRestStore({target:"tree/", labelAttribute:"name"});
 
 			 			doh.t(myStore, "store created");
@@ -76,7 +76,7 @@
 
 					{
 						runTest: function openANode(){
-							var d = new doh.Deferred;
+							var d = new doh.Deferred();
 							
 							var first = myTree.rootNode.getChildren()[0];
 							
