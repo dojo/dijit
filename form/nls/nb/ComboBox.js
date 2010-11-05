@@ -1,4 +1,4 @@
-define("i18n!dijit/form/nls/nb/ComboBox",
+define(
 //begin v1.x content
 ({
 		previousMessage: "Tidligere valg",

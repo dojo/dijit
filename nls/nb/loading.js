@@ -1,4 +1,4 @@
-define("i18n!dijit/nls/nb/loading",
+define(
 //begin v1.x content
 ({
 	loadingState: "Laster inn...",

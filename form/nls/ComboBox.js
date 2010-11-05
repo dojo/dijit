@@ -1,4 +1,4 @@
-define("i18n!dijit/form/nls/ComboBox", { root: 
+define({ root: 
 //begin v1.x content
 ({
 		previousMessage: "Previous choices",

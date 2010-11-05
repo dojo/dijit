@@ -1,4 +1,4 @@
-define("i18n!dijit/nls/hu/loading",
+define(
 //begin v1.x content
 ({
 	loadingState: "Betöltés...",

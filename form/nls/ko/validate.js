@@ -1,4 +1,4 @@
-define("i18n!dijit/form/nls/ko/validate",
+define(
 //begin v1.x content
 ({
 	invalidMessage: "입력된 값이 올바르지 않습니다.",

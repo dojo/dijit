@@ -1,4 +1,4 @@
-define("i18n!dijit/nls/sl/common",
+define(
 //begin v1.x content
 ({
 	buttonOk: "V redu",

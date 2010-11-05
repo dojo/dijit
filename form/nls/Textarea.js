@@ -1,4 +1,4 @@
-define("i18n!dijit/form/nls/Textarea", { root:
+define({ root: 
 //begin v1.x content
 /* used by both the editor and textarea widgets to provide information to screen reader users */
 ({

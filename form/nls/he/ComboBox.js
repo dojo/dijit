@@ -1,4 +1,4 @@
-define("i18n!dijit/form/nls/he/ComboBox",
+define(
 //begin v1.x content
 ({
 		previousMessage: "האפשרויות הקודמות",

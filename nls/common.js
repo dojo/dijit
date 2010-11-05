@@ -1,4 +1,4 @@
-define("i18n!dijit/nls/common", { root: 
+define({ root: 
 //begin v1.x content
 ({
 	buttonOk: "OK",

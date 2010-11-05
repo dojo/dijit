@@ -1,4 +1,4 @@
-define("i18n!dijit/form/nls/nl/ComboBox",
+define(
 //begin v1.x content
 ({
 		previousMessage: "Eerdere opties",

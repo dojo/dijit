@@ -1,4 +1,4 @@
-define("i18n!dijit/form/nls/ar/validate",
+define(
 //begin v1.x content
 ({
 	invalidMessage: "القيمة التي تم ادخالها غير صحيحة.",

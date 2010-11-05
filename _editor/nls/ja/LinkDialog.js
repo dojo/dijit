@@ -1,4 +1,4 @@
-define("i18n!dijit/_editor/nls/ja/LinkDialog",
+define(
 //begin v1.x content
 ({
 	createLinkTitle: "リンク・プロパティー",

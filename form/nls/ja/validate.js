@@ -1,4 +1,4 @@
-define("i18n!dijit/form/nls/ja/validate",
+define(
 //begin v1.x content
 ({
 	invalidMessage: "入力した値は無効です。",

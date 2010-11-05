@@ -1,4 +1,4 @@
-define("i18n!dijit/form/nls/zh-tw/validate",
+define(
 //begin v1.x content
 ({
 	invalidMessage: "輸入的值無效。",

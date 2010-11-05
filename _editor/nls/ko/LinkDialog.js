@@ -1,4 +1,4 @@
-define("i18n!dijit/_editor/nls/ko/LinkDialog",
+define(
 //begin v1.x content
 ({
 	createLinkTitle: "링크 특성",

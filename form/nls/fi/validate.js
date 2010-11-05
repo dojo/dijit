@@ -1,4 +1,4 @@
-define("i18n!dijit/form/nls/fi/validate",
+define(
 //begin v1.x content
 ({
 	invalidMessage: "Annettu arvo ei kelpaa.",

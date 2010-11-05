@@ -1,4 +1,4 @@
-define("i18n!dijit/_editor/nls/ca/FontChoice",
+define(
 //begin v1.x content
 ({
 	fontSize: "Mida",

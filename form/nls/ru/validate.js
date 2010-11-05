@@ -1,4 +1,4 @@
-define("i18n!dijit/form/nls/ru/validate",
+define(
 //begin v1.x content
 ({
 	invalidMessage: "Указано недопустимое значение.",

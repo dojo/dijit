@@ -1,4 +1,4 @@
-define("i18n!dijit/_editor/nls/de/commands",
+define(
 //begin v1.x content
 ({
 	'bold': 'Fett',

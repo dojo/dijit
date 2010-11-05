@@ -1,4 +1,4 @@
-define("i18n!dijit/nls/es/common",
+define(
 //begin v1.x content
 ({
 	buttonOk: "Aceptar",

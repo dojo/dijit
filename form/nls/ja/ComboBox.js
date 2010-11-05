@@ -1,4 +1,4 @@
-define("i18n!dijit/form/nls/ja/ComboBox",
+define(
 //begin v1.x content
 ({
 		previousMessage: "以前の選択項目",

@@ -1,4 +1,4 @@
-define("i18n!dijit/form/nls/sk/validate",
+define(
 //begin v1.x content
 ({
 	invalidMessage: "Zadaná hodnota nie je platná.",

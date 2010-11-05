@@ -1,4 +1,4 @@
-define("i18n!dijit/form/nls/sv/validate",
+define(
 //begin v1.x content
 ({
 	invalidMessage: "Det angivna värdet är ogiltigt.",

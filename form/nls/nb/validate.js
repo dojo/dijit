@@ -1,4 +1,4 @@
-define("i18n!dijit/form/nls/nb/validate",
+define(
 //begin v1.x content
 ({
 	invalidMessage: "Den angitte verdien er ikke gyldig.",

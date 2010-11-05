@@ -1,4 +1,4 @@
-define("i18n!dijit/nls/ru/loading",
+define(
 //begin v1.x content
 ({
 	loadingState: "Загрузка...",

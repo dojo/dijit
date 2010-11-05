@@ -1,4 +1,4 @@
-define("i18n!dijit/form/nls/th/validate",
+define(
 //begin v1.x content
 ({
 	invalidMessage: "ค่าที่ป้อนไม่ถูกต้อง",

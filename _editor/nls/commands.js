@@ -1,4 +1,4 @@
-define("i18n!dijit/_editor/nls/commands", { root: 
+define({ root: 
 //begin v1.x content
 ({
 	'bold': 'Bold',

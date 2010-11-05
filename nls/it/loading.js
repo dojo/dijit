@@ -1,4 +1,4 @@
-define("i18n!dijit/nls/it/loading",
+define(
 //begin v1.x content
 ({
 	loadingState: "Caricamento in corso...",

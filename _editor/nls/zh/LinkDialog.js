@@ -1,4 +1,4 @@
-define("i18n!dijit/_editor/nls/zh/LinkDialog",
+define(
 //begin v1.x content
 ({
 	createLinkTitle: "链接属性",

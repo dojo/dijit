@@ -1,4 +1,4 @@
-define("i18n!dijit/nls/sv/loading",
+define(
 //begin v1.x content
 ({
 	loadingState: "Läser in...",

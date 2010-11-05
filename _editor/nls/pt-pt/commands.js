@@ -1,4 +1,4 @@
-define("i18n!dijit/_editor/nls/pt-pt/commands",
+define(
 //begin v1.x content
 ({
 	'bold': 'Negrito',

@@ -1,4 +1,4 @@
-define("i18n!dijit/_editor/nls/FontChoice", { root: 
+define({ root: 
 //begin v1.x content
 ({
 	fontSize: "Size",

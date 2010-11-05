@@ -1,4 +1,4 @@
-define("i18n!dijit/_editor/nls/zh/commands",
+define(
 //begin v1.x content
 ({
 	'bold': '粗体',

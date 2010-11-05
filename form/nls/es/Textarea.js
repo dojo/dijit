@@ -1,4 +1,4 @@
-define("i18n!dijit/form/nls/es/Textarea",
+define(
 //begin v1.x content
 ({
 	iframeEditTitle: 'área de edición',  // primary title for editable IFRAME, for screen readers when focus is in the editing area

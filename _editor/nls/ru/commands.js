@@ -1,4 +1,4 @@
-define("i18n!dijit/_editor/nls/ru/commands",
+define(
 //begin v1.x content
 ({
 	'bold': 'Полужирный',

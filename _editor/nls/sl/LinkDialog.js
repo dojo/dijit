@@ -1,4 +1,4 @@
-define("i18n!dijit/_editor/nls/sl/LinkDialog",
+define(
 //begin v1.x content
 ({
 	createLinkTitle: "Lastnosti povezave",

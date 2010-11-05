@@ -1,4 +1,4 @@
-define("i18n!dijit/nls/he/loading",
+define(
 //begin v1.x content
 ({
 	loadingState: "טעינה...‏",

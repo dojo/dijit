@@ -1,4 +1,4 @@
-define("i18n!dijit/nls/ar/loading",
+define(
 //begin v1.x content
 ({
 	loadingState: "جاري التحميل...",

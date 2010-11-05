@@ -1,4 +1,4 @@
-define("i18n!dijit/nls/zh/common",
+define(
 //begin v1.x content
 ({
 	buttonOk: "确定",

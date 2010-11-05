@@ -1,4 +1,4 @@
-define("i18n!dijit/form/nls/zh/ComboBox",
+define(
 //begin v1.x content
 ({
 		previousMessage: "先前选项",

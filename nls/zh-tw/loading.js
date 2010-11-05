@@ -1,4 +1,4 @@
-define("i18n!dijit/nls/zh-tw/loading",
+define(
 //begin v1.x content
 ({
 	loadingState: "載入中...",

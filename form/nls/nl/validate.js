@@ -1,4 +1,4 @@
-define("i18n!dijit/form/nls/nl/validate",
+define(
 //begin v1.x content
 ({
 	invalidMessage: "De opgegeven waarde is ongeldig.",

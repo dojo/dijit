@@ -1,4 +1,4 @@
-define("i18n!dijit/form/nls/sl/validate",
+define(
 //begin v1.x content
 ({
 	invalidMessage: "Vnesena vrednost ni veljavna.",

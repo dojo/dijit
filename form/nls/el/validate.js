@@ -1,4 +1,4 @@
-define("i18n!dijit/form/nls/el/validate",
+define(
 //begin v1.x content
 ({
 	invalidMessage: "Η τιμή που καταχωρήσατε δεν είναι έγκυρη.",

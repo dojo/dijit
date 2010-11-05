@@ -1,4 +1,4 @@
-define("i18n!dijit/nls/ko/common",
+define(
 //begin v1.x content
 ({
 	buttonOk: "확인",

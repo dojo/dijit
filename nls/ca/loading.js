@@ -1,4 +1,4 @@
-define("i18n!dijit/nls/ca/loading",
+define(
 //begin v1.x content
 ({
 	loadingState: "S'està carregant...",

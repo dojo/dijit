@@ -1,4 +1,4 @@
-define("i18n!dijit/nls/nl/loading",
+define(
 //begin v1.x content
 ({
 	loadingState: "Bezig met laden...",

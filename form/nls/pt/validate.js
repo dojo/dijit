@@ -1,4 +1,4 @@
-define("i18n!dijit/form/nls/pt/validate",
+define(
 //begin v1.x content
 ({
 	invalidMessage: "O valor inserido não é válido.",

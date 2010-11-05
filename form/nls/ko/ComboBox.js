@@ -1,4 +1,4 @@
-define("i18n!dijit/form/nls/ko/ComboBox",
+define(
 //begin v1.x content
 ({
 		previousMessage: "이전 선택사항",

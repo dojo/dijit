@@ -1,4 +1,4 @@
-define("i18n!dijit/form/nls/hu/validate",
+define(
 //begin v1.x content
 ({
 	invalidMessage: "A megadott érték érvénytelen.",

@@ -1,4 +1,4 @@
-define("i18n!dijit/_editor/nls/cs/commands",
+define(
 //begin v1.x content
 ({
 	'bold': 'Tučné',

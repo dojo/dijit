@@ -1,4 +1,4 @@
-define("i18n!dijit/_editor/nls/ca/commands",
+define(
 //begin v1.x content
 ({
 	'bold': 'Negreta',

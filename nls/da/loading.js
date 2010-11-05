@@ -1,4 +1,4 @@
-define("i18n!dijit/nls/da/loading",
+define(
 //begin v1.x content
 ({
 	loadingState: "Indlæser...",
