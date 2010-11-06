@@ -238,9 +238,9 @@
 							var paddingTop = Math.abs(inputPos.y - paddedBoxPos.y);
 							var paddingBottom = Math.abs(inputPos.h - paddedBoxPos.h) - paddingTop;
 							var pad = undefined;
-							if(dojo.hasClass(table, "padded")){
+							if(dojo.hasClass(testtable, "padded")){
 								pad = 10;
-							}else if(dojo.hasClass(table, "unPadded")){
+							}else if(dojo.hasClass(testtable, "unPadded")){
 								pad = 0;
 							}else{
 								return;
@@ -338,9 +338,9 @@
 							var paddingTop = Math.abs(inputPos.y - paddedBoxPos.y);
 							var paddingBottom = Math.abs(inputPos.h - paddedBoxPos.h) - paddingTop;
 							var pad = undefined;
-							if(dojo.hasClass(table, "padded")){
+							if(dojo.hasClass(testtable, "padded")){
 								pad = 10;
-							}else if(dojo.hasClass(table, "unPadded")){
+							}else if(dojo.hasClass(testtable, "unPadded")){
 								pad = 0;
 							}else{
 								return;
@@ -448,19 +448,19 @@
 		</tr>
 	</table><br>
 	<script type="text/javascript">
-		table = dojo.byId('table');
+		testtable = dojo.byId('table');
 
 		function fontFamilyOnChange(fontFamily){
-			table.style.fontFamily = fontFamily;
+			testtable.style.fontFamily = fontFamily;
 			if(dojo.isIE){
-				dojo.query('INPUT', table).forEach(function(node){
+				dojo.query('INPUT', testtable).forEach(function(node){
 					node.style.fontFamily = fontFamily;
 				});
 			}
 		}
 
 		function directionOnChange(direction){
-			dojo.query('.dijitTextBox', table).forEach(function(node){
+			dojo.query('.dijitTextBox', testtable).forEach(function(node){
 				node.style.direction = direction;
 				node.parentNode.style.direction = direction;
 				dojo.forEach(node.className.split(' '), function(cls){
@@ -498,7 +498,7 @@
 		<option>system,fixed</option>
 	</select></td></tr>
 	<tr><td class="layout" style="text-align:right;">Font size:
-	<select id="fontSize" data-dojo-type="dijit.form.ComboBox" data-dojo-props='style:{fontSize:"14pt"}, value:"", onChange:function(val){ table.style.fontSize = val; }'>
+	<select id="fontSize" data-dojo-type="dijit.form.ComboBox" data-dojo-props='style:{fontSize:"14pt"}, value:"", onChange:function(val){ testtable.style.fontSize = val; }'>
 		<option>small</option>
 		<option>medium</option>
 		<option>xx-large</option>
@@ -509,7 +509,7 @@
 		<option>200%</option>
 	</select></td></tr>
 	<tr><td class="layout" style="text-align:right;">Padding:
-	<select id="padding" data-dojo-type="dijit.form.FilteringSelect" data-dojo-props='style:{fontSize:"14pt"}, required:false, value:"", onChange:function(val){ table.className = val; }'>
+	<select id="padding" data-dojo-type="dijit.form.FilteringSelect" data-dojo-props='style:{fontSize:"14pt"}, required:false, value:"", onChange:function(val){ testtable.className = val; }'>
 		<option value="default">default</option>
 		<option value="padded">padded</option>
 		<option value="unPadded">unPadded</option>
