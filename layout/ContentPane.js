@@ -133,16 +133,18 @@ dojo.declare(
 	// (TODO: this declaration can be commented out in 2.0)
 	template: false,
 
-	constructor: function(params, srcNodeRef){
+	create: function(params, srcNodeRef){
 		// Convert a srcNodeRef argument into a content parameter, so that the original contents are
 		// processed in the same way as contents set via set("content", ...), calling the parser etc.
+		// Avoid modifying original params object since that breaks NodeList instantiation, see #11906.
 		if((!params || !params.template) && srcNodeRef && !("href" in params) && !("content" in params)){
 			var df = dojo.doc.createDocumentFragment();
 			while(srcNodeRef.firstChild){
 				df.appendChild(srcNodeRef.firstChild);
 			}
-			params.content = df;
+			params = dojo.delegate(params, {content: df});
 		}
+		this.inherited(arguments, [params, srcNodeRef]);
 	},
 
 	postMixInProperties: function(){
