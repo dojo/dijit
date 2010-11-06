@@ -800,9 +800,11 @@ dojo.declare(
 			//		Creates an option to appear on the popup menu subclassed by
 			//		`dijit.form.FilteringSelect`.
 
+			var menuitem = dojo.create("li", {
+				"class": "dijitReset dijitMenuItem" +(this.isLeftToRight() ? "" : " dijitMenuItemRtl"),
+				role: "option"
+			});
 			var labelObject = labelFunc(item);
-			var menuitem = dojo.doc.createElement("li");
-			dijit.setWaiRole(menuitem, "option");
 			if(labelObject.html){
 				menuitem.innerHTML = labelObject.label;
 			}else{
@@ -839,8 +841,6 @@ dojo.declare(
 			//		iterate over cache nondestructively
 			dojo.forEach(results, function(item, i){
 				var menuitem = this._createOption(item, labelFunc);
-				menuitem.className = "dijitReset dijitMenuItem" +
-					(this.isLeftToRight() ? "" : " dijitMenuItemRtl");
 				dojo.attr(menuitem, "id", this.id + i);
 				this.domNode.insertBefore(menuitem, this.nextButton);
 			}, this);
