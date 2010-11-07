@@ -595,13 +595,12 @@ dojo.declare(
 			cleanContent: this.cleanContent,
 			extractContent: this.extractContent,
 			parseContent: this.parseOnLoad,
+			startup: false,
 			dir: this.dir,
 			lang: this.lang
 		}, this._contentSetterParams || {});
 
-		dojo.mixin(setter, setterParams);
-
-		setter.set( (dojo.isObject(cont) && cont.domNode) ? cont.domNode : cont );
+		setter.set( (dojo.isObject(cont) && cont.domNode) ? cont.domNode : cont, setterParams );
 
 		// setter params must be pulled afresh from the ContentPane each time
 		delete this._contentSetterParams;
@@ -611,20 +610,18 @@ dojo.declare(
 		}
 
 		if(!isFakeContent){
-			// Startup each top level child widget (and they will start their children, recursively)
-			dojo.forEach(this.getChildren(), function(child){
-				// The parser has already called startup on all widgets *without* a getParent() method
-				if(!this.parseOnLoad || child.getParent){
-					child.startup();
-				}
-			}, this);
-
 			if(this._started){
-			// Call resize() on each of my child layout widgets,
-			// or resize() on my single child layout widget...
+				// Startup each top level child widget (and they will start their children, recursively)
+				dojo.forEach(this.getChildren(), function(child){
+					child.startup();
+				}, this);
+	
+				// Call resize() on each of my child layout widgets,
+				// or resize() on my single child layout widget...
 				// either now (if I'm currently visible) or when I become visible
-			this._scheduleLayout();
+				this._scheduleLayout();
 			}
+
 			this._onLoadHandler(cont);
 		}
 	},

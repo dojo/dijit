@@ -858,6 +858,32 @@
 				}
 			]);
 
+			// Test that startup() on child widgets is called at the correct time
+			doh.register("startup", [
+				function startupAfter(){
+					var cp1 = new dijit.layout.ContentPane({
+						content: "<div id='startup-c1' data-dojo-type='dijit.TestContained'></div>"
+					}).placeAt(dojo.body());
+					
+					var child = dijit.byId("startup-c1");
+					doh.t(child, "child widget created");
+					doh.f(child._started, "child widget not started yet");
+					
+					cp1.startup();
+					
+					doh.t(child._started, "starting ContentPane starts child widget");
+				},
+				function startupBefore(){
+					var cp2 = new dijit.layout.ContentPane({}).placeAt(dojo.body());
+					cp2.startup();
+					
+					cp2.set("content", "<div id='startup-c2' data-dojo-type='dijit.TestContained'></div>");
+					var child = dijit.byId("startup-c2");
+					doh.t(child, "child widget created");
+					doh.t(child._started, "child widget started");
+				}
+			]);
+
 			doh.run();
 		});
 	</script>
