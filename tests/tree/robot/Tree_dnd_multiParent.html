@@ -27,7 +27,13 @@
 					name: "setup",
 					timeout: 20000,
 					runTest: function(){
+						var d = new doh.Deferred();
 						setup();
+						// FIXME: wait until tree data is ready
+						doh.robot.sequence(function(){
+							d.callback(true);
+						},5000);
+						return d;
 					}
 				});
 
