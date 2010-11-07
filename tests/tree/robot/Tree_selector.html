@@ -96,7 +96,13 @@
 					name: "setup",
 					timeout: 20000,
 					runTest: function(){
+						var d = new doh.Deferred();
 						setup();
+						// FIXME: wait until tree data is ready
+						doh.robot.sequence(function(){
+							d.callback(true);
+						}, 250);
+						return d;
 					}
 				});
 
@@ -121,7 +127,7 @@
 								doh.is(fruitsTreeNode, selected[0]);
 
 								//ctrl-click the item to deselect it
-								clickItem([dojo.keys.CTRL]);
+								clickItem([dojo.isMac ? dojo.keys.META : dojo.keys.CTRL]);
 								
 								doh.robot.sequence(d.getTestCallback(function(){
 									var selected = getSelected(tree);
@@ -155,7 +161,7 @@
 							// ctrl-click Cereals item
 							var cerealsTreeNode = findTreeNode("itemTree", "Cereals");
 							doh.robot.mouseMoveAt(cerealsTreeNode.rowNode, 500, 1000);
-							clickItem([dojo.keys.CTRL]);
+							clickItem([dojo.isMac ? dojo.keys.META : dojo.keys.CTRL]);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
 								var selected = getSelected(tree);
@@ -178,7 +184,7 @@
 				{
 						name: "ctrl shift select",
 						timeout: 15000,
-						runTest: _getCtrlShiftTest([dojo.keys.CTRL, dojo.keys.SHIFT])
+						runTest: _getCtrlShiftTest([dojo.isMac ? dojo.keys.META : dojo.keys.CTRL, dojo.keys.SHIFT])
 				}
 				]);
 				
