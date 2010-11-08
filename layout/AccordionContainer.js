@@ -161,10 +161,14 @@ dojo.declare(
 			// Overrides _LayoutWidget.removeChild().
 
 			// Destroy wrapper widget first, before StackContainer.getChildren() call.
-			// Replace wrapper widget with true child widget (ContentPane etc.)
-			dojo.place(child.domNode, child._wrapperWidget.domNode, "after");
-			child._wrapperWidget.destroy();
-			delete child._wrapperWidget;
+			// Replace wrapper widget with true child widget (ContentPane etc.).
+			// This step only happens if the AccordionContainer has been started; otherwise there's no wrapper.
+			if(child._wrapperWidget){
+				dojo.place(child.domNode, child._wrapperWidget.domNode, "after");
+				child._wrapperWidget.destroy();
+				delete child._wrapperWidget;
+			}
+
 			dojo.removeClass(child.domNode, "dijitHidden");
 
 			this.inherited(arguments);
@@ -182,7 +186,13 @@ dojo.declare(
 				this._animation.stop();
 			}
 			dojo.forEach(this.getChildren(), function(child){
-				child._wrapperWidget.destroy();
+				// If AccordionContainer has been started, then each child has a wrapper widget which
+				// also needs to be destroyed.
+				if(child._wrapperWidget){
+					child._wrapperWidget.destroy();
+				}else{
+					child.destroyRecursive();
+				}
 			});
 			this.inherited(arguments);
 		},

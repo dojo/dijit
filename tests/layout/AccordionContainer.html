@@ -352,26 +352,42 @@
 				]
 			);
 
-			doh.register("destroy", {
-				name: "destroy",
-				runTest: function(){
-					var accPane = new dijit.layout.ContentPane({
+			doh.register("destroy", [
+				function setUp(){
+					accPane = new dijit.layout.ContentPane({
 						id: "accPane",
 						onContentError: function(msg){
 							throw new Error(msg);
 						}
 					}).placeAt(dojo.body());
-					var html='<div data-dojo-type="dijit.layout.AccordionContainer" id="Accordion" style="height: 300px;">' +
+					html='<div data-dojo-type="dijit.layout.AccordionContainer" id="Accordion" style="height: 300px;">' +
 						 	'<div data-dojo-type="dijit.layout.ContentPane" title="first" id="first">' +
 								'<div data-dojo-type=dijit.form.Button id=myButton>hello world</div></div>' +
 						 	'<div data-dojo-type="dijit.layout.ContentPane" title="second" id="second">second</div>' +
 							'</div>';
+				},
+
+				function destroyUnstarted(){
+					// Since the wrapper ContentPane hasn't been started yet, the Accordion won't be started, and wrapper
+					// (AccordionInnerContainer) widgets won't be created...
 					accPane.set("content", html);
+					doh.t(dojo.byId("Accordion"), "accordion created #1");
 					accPane.set("content", html); //setting the content twice will initiate a destroy
 					dijit.byId("Accordion").destroy();
-					doh.is(undefined, dojo.byId("Accordion"));
+					doh.is(undefined, dojo.byId("Accordion"), "accordion destroyed #1");
+				},
+				
+				function destroyStarted(){
+					// Try same tests again when wrapper ContentPane is started
+					accPane.startup();
+
+					accPane.set("content", html);
+					doh.t(dojo.byId("Accordion"), "accordion created #2");
+					accPane.set("content", html); //setting the content twice will initiate a destroy
+					dijit.byId("Accordion").destroy();
+					doh.is(undefined, dojo.byId("Accordion"), "accordion destroyed #2");
 				}
-			});
+			]);
 
 			doh.run();
 		});
