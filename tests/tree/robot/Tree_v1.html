@@ -27,6 +27,13 @@
 						var d = new doh.Deferred();
 						var store = dojo.global.dijit.byId('mytree').get('store');
 						store.fetch({query:{id:'*'}, onComplete:function(){
+							var tree = dijit.byId('mytree');
+							// expand/collpase tree to a standard state since it uses cookies for persistence
+							tree._expandNode(tree.rootNode);
+							dojo.forEach(tree.rootNode.getChildren(),
+								function(child){
+									tree._collapseNode(child);
+								});
 							d.callback(true);
 						}});
 						return d;
