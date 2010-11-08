@@ -79,7 +79,7 @@
 				dojo.query("#buttonTest").forEach(function(n){
 					dojo.query("button",n).instantiate(dijit.form.Button,{
 						onClick:function(){
-							console.log('clicked:',this.domNode);
+							this.containerNode.innerHTML = this.label + " was clicked";
 						}
 					});
 				});
@@ -97,28 +97,27 @@
 		<h1>dojo.NodeList.instantiate() tests: <span id="status">before</span></h1>
 
 			<h2>Some simple widgets:</h2>
-			<ul id="testList">
-					<li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li>
-			</ul>
-			<ul id="altList">
-					<li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li>
-			</ul>
+			<ul id="testList"
+				><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li
+			></ul>
+			<ul id="altList"
+				><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li
+			></ul>
 
 			<h2>A TabContainer:</h2>
-			<div id="container">
-				<div>pane1</div>
-				<div>pane2</div>
-				<div>pane3</div>
-			</div>
+			<div id="container"
+				><div>pane1</div
+				><div>pane2</div
+				><div>pane3</div
+			></div>
 
 			<h2>Some Buttons</h2>
-			<div id="buttonTest">
-				<button>button 1</button>
-				<button>button 2</button>
-				<button>button 3</button>
-				<button>button 4</button>
-				<button>button 5</button>
-			</div>
+			<div id="buttonTest"
+				><button id="b1">button 1</button
+				><button id="b2">button 2</button
+				><button id="b3">button 3</button
+				><button id="b4">button 4</button
+			></div>
 
 	</body>
 </html>

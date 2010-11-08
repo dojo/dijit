@@ -1,0 +1,215 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>doh.robot instantiate Test</title>
+
+		<style>
+			@import "../../../util/doh/robot/robot.css";
+		</style>
+
+		<!-- required: dojo.js -->
+		<script type="text/javascript" src="../../../dojo/dojo.js"
+			djConfig="isDebug: true, parseOnLoad: true"></script>
+
+		<script type="text/javascript" src="../../helpers.js"></script>
+
+		<script type="text/javascript">
+			dojo.require("dijit.dijit"); // optimize: load dijit layer
+			dojo.require("dijit.robotx");
+
+			dojo.addOnLoad(function(){
+				doh.robot.initRobot('../test_instantiate.html');
+
+				doh.register("Instantiate",
+				[
+					{
+						name: "initial conditions",
+						timeout: 1000,
+						runTest: function(){
+							var d = new doh.Deferred;
+
+							setTimeout(d.getTestCallback(function(){
+								//Test 1st unordered list
+								var li = dijit.byId("test__Widget_0");
+								doh.t(li, "test__Widget_0 does not exist");
+								doh.is("pointer", dojo.style("test__Widget_0", "cursor"));
+								doh.is("inner (test__Widget_0)", li.domNode.innerHTML);
+								
+								//Test 2nd unordered list
+								li = dijit.byId("test__Widget_12");
+								doh.t(li, "test__Widget_12 does not exist");
+								doh.is("pointer", dojo.style("test__Widget_12", "cursor"));
+								doh.is("innerwoot (test__Widget_12)", li.domNode.innerHTML);
+								
+								//Test tab container
+								var tc = dijit.byId("container");
+								doh.t(tc, "Tab container not exist");
+								
+								var tabs = tc.tablist.getChildren();
+								doh.is(3, tabs.length);
+								dojo.forEach(tabs, function(tab, i) { doh.is("tab"+(i+1), tab.label); })
+
+								var childrenContent = tc.containerNode.childNodes;
+								doh.is(3, childrenContent.length);
+								dojo.forEach(childrenContent, function(childrenContent, i) { doh.is("pane"+(i+1), childrenContent.innerHTML); })
+								
+								//Test buttons
+								var b1 = dijit.byId("b1");
+								doh.t(b1, "button 1 not exist");
+								doh.is("button 1", b1.label);
+								
+								var b2 = dijit.byId("b2");
+								doh.t(b2, "button 2 not exist");
+								doh.is("button 2", b2.label);
+								
+								var b3 = dijit.byId("b3");
+								doh.t(b3, "button 3 not exist");
+								doh.is("button 3", b3.label);
+								
+								var b4 = dijit.byId("b4");
+								doh.t(b4, "button 4 not exist");
+								doh.is("button 4", b4.label);
+							}), 500);
+							
+							return d;
+						}
+					}
+				]
+				);
+			
+				doh.register("Test widget actions", [
+					{
+						name: "ul1 onclick",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveAt("test__Widget_0", 500);
+							doh.robot.mouseClick({left:true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var testList = dojo.byId("testList");
+								doh.t(testList.lastChild.id == "test__Widget_0");
+							}), 1000);
+							return d;
+						}
+					},
+					{
+						name: "u12 onclick",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveAt("test__Widget_12", 500);
+							doh.robot.mouseClick({left:true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var altList = dojo.byId("altList");
+								doh.t(altList.lastChild.id == "test__Widget_12");
+							}), 1000);
+							return d;
+						}
+					},
+					{
+						name: "tab 2 click",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveAt("container_tablist_dijit_layout_ContentPane_1", 500);
+							doh.robot.mouseClick({left:true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var tc = dijit.byId("container");
+								doh.is("pane2", tc.selectedChildWidget.domNode.innerHTML);
+							}), 1000);
+							return d;
+						}
+					},
+					{
+						name: "tab 3 click",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveAt("container_tablist_dijit_layout_ContentPane_2", 500);
+							doh.robot.mouseClick({left:true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var tc = dijit.byId("container");
+								doh.is("pane3", tc.selectedChildWidget.domNode.innerHTML);
+							}), 1000);
+							return d;
+						}
+					},
+					{
+						name: "button 1 onclick",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveAt("b1", 500);
+							doh.robot.mouseClick({left:true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var buttonLabel = dijit.byId("b1").containerNode.innerHTML;
+								doh.is("button 1 was clicked", buttonLabel);
+							}), 1000);
+							return d;
+						}
+					},
+					{
+						name: "button 2 onclick",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveAt("b2", 500);
+							doh.robot.mouseClick({left:true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var buttonLabel = dijit.byId("b2").containerNode.innerHTML;
+								doh.is("button 2 was clicked", buttonLabel);
+							}), 1000);
+							return d;
+						}
+					},
+					{
+						name: "button 3 onclick",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveAt("b3", 500);
+							doh.robot.mouseClick({left:true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var buttonLabel = dijit.byId("b3").containerNode.innerHTML;
+								doh.is("button 3 was clicked", buttonLabel);
+							}), 1000);
+							return d;
+						}
+					},
+					{
+						name: "button 4 onclick",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveAt("b4", 500);
+							doh.robot.mouseClick({left:true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var buttonLabel = dijit.byId("b4").containerNode.innerHTML;
+								doh.is("button 4 was clicked", buttonLabel);
+							}), 1000);
+							return d;
+						}
+					}
+				]);
+				doh.run();
+			});
+		</script>
+	</head>
+</html>

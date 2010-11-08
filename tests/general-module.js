@@ -23,6 +23,8 @@ try{
 	doh.registerUrl("dijit.tests.robot.TooltipDialog_a11y", dojo.moduleUrl("dijit","tests/robot/TooltipDialog_a11y.html"+userArgs), 99999999);
 
 	doh.registerUrl("dijit.tests.robot.InlineEditBox", dojo.moduleUrl("dijit","tests/robot/InlineEditBox.html"+userArgs), 99999999);
+	
+	doh.registerUrl("dijit.tests.robot.Instantiate", dojo.moduleUrl("dijit","tests/robot/Instantiate.html"+userArgs), 99999999);
 
 	doh.registerUrl("dijit.tests.robot.ColorPalette", dojo.moduleUrl("dijit","tests/robot/ColorPalette.html"+userArgs), 99999999);
 
