@@ -115,7 +115,7 @@
 
 							german.set('value', new Date(2006, 9, 15));	// 10/15/2006
 
-							doh.robot.mouseMoveAt(german.domNode, 500);
+							doh.robot.mouseMoveAt(german.domNode, 0, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -155,10 +155,10 @@
 					},
 					runTest: function(){
 						var d = new doh.Deferred();
-						doh.robot.sequence(function(){
-							american.focus();
-						}, 500);
-						doh.robot.typeKeys('1/3/2005', 500, 1600);
+
+						american.focus();
+
+						doh.robot.typeKeys('1/3/2005', 1000, 1600);
 						doh.robot.keyPress(dojo.keys.TAB, 500, {});
 						doh.robot.sequence(d.getTestCallback(function(){
 							var value = american.get('value');
@@ -186,10 +186,9 @@
 							var d = new doh.Deferred(),
 								calendar;
 
-							doh.robot.sequence(d.getTestErrback(function(){
-								american.focus();
-							}), 500);
-							doh.robot.typeKeys("5/10/2005", 500);
+							american.focus();
+
+							doh.robot.typeKeys("5/10/2005", 1000, 1800);
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -565,7 +564,7 @@
 								doh.is(0, changes.length, "no onchange events yet #1");
 							}), 500);
 
-							doh.robot.mouseMoveAt(american.focusNode, 500);
+							doh.robot.mouseMoveAt(american.focusNode, 0, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -590,10 +589,10 @@
 
 							// Close drop down and then type a value
 							doh.robot.keyPress(dojo.keys.ESCAPE, 500, {});
-							doh.robot.typeKeys("5/10/2005", 500);
+							doh.robot.typeKeys("5/10/2005", 500, 1800);
 							
 							// And open dropdown again (manually)
-							doh.robot.mouseMoveAt(american._buttonNode, 500);
+							doh.robot.mouseMoveAt(american._buttonNode, 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -633,7 +632,7 @@
 
 							doh.is(1, nextMonthButtons.length, "found next month button");
 
-							doh.robot.mouseMoveAt(nextMonthButtons[0], 500);
+							doh.robot.mouseMoveAt(nextMonthButtons[0], 0, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -645,7 +644,7 @@
 								doh.is("June", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "moved from may to june");
 
 								doh.is(0, changes.length, "no onchange events yet");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -662,10 +661,12 @@
 							doh.t(calendar.monthDropDownButton.dropDown, "month dropdown exists");
 							doh.f(isVisible(calendar.monthDropDownButton.dropDown), "month dropdown is not visible");
 
-							doh.robot.mouseMoveAt(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0], 500);
+							doh.robot.mouseMoveAt(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0], 0, 1);
 							doh.robot.mouseClick({left:true}, 500);
-							var july = dojo.query("[month=6]", calendar.monthDropDownButton.dropDown.domNode)[0];
-							doh.robot.mouseMoveAt(july, 500);
+							
+							doh.robot.mouseMoveAt(function(){
+								return dojo.query("[month=6]", calendar.monthDropDownButton.dropDown.domNode)[0];
+							}, 1000, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -683,7 +684,7 @@
 								doh.is("1", innerText(firstRowDays[5]), "sixth day is june 1");
 
 								doh.is(0, changes.length, "no onchange events yet");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -700,7 +701,7 @@
 
 							doh.is(1, nextYearButtons.length, "found next year button");
 
-							doh.robot.mouseMoveAt(nextYearButtons[0], 500);
+							doh.robot.mouseMoveAt(nextYearButtons[0], 0, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -732,7 +733,7 @@
 
 							doh.is(1, nextYearButtons.length, "found next year button");
 
-							doh.robot.mouseMoveAt(nextYearButtons[0], 500);
+							doh.robot.mouseMoveAt(nextYearButtons[0], 0, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -758,7 +759,7 @@
 
 							doh.is(1, previousYearButtons.length, "found previous year button");
 
-							doh.robot.mouseMoveAt(previousYearButtons[0], 500);
+							doh.robot.mouseMoveAt(previousYearButtons[0], 0, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -805,7 +806,7 @@
 
 							// hover June 15
 							doh.is("15", innerText(day), "found july 15");
-							doh.robot.mouseMoveAt(day, 500);
+							doh.robot.mouseMoveAt(day, 0, 1);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(dojo.hasClass(day, 'dijitCalendarHoveredDate'), "hovered date has hover class");
@@ -964,7 +965,7 @@
 							doh.f(pattern.get("value"), "initially blank");
 
 							// open the drop down
-							doh.robot.mouseMoveAt("pattern", 500);
+							doh.robot.mouseMoveAt("pattern", 0, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.sequence(d.getTestErrback(function(){
 								var calendar = dijit.byId("pattern_popup");
@@ -973,7 +974,7 @@
 							}), 500);
 
 							// close the drop down
-							doh.robot.mouseMoveAt("pattern", 500, pattern.domNode.offsetWidth + 20, pattern.domNode.offsetHeight/2);
+							doh.robot.mouseMoveAt("pattern", 500, 1, pattern.domNode.offsetWidth + 20, pattern.domNode.offsetHeight/2);
 							doh.robot.mouseClick({left:true}, 500);			
 							doh.robot.sequence(d.getTestCallback(function(){
 								var calendar = dijit.byId("pattern_popup");
@@ -997,7 +998,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt(american.focusNode, 500);
+							doh.robot.mouseMoveAt(american.focusNode, 0, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -1035,10 +1036,12 @@
 							doh.t(calendar.monthDropDownButton.dropDown, "month dropdown exists");
 							doh.f(isVisible(calendar.monthDropDownButton.dropDown), "month dropdown is not visible");
 
-							doh.robot.mouseMoveAt(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0], 500);
+							doh.robot.mouseMoveAt(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0], 0, 1);
 							doh.robot.mouseClick({left:true}, 500);
-							var feb = dojo.query("[month=1]", calendar.monthDropDownButton.dropDown.domNode)[0];
-							doh.robot.mouseMoveAt(feb, 500);
+
+							doh.robot.mouseMoveAt(function(){
+								return dojo.query("[month=1]", calendar.monthDropDownButton.dropDown.domNode)[0];
+							}, 1000, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -1047,7 +1050,7 @@
 								doh.t(isVisible(calendar), "calendar is visible");
 
 								// calendar moved to feb 2010
-								doh.is("February", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "moved from june to july");
+								doh.is("February", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "moved from December to February");
 								var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", calendar.domNode);
 								doh.is(1, selectedYearButtons.length, "current year is shown");
 								doh.is("2010", innerText(selectedYearButtons[0]), "current year");
@@ -1069,10 +1072,12 @@
 							doh.t(calendar.monthDropDownButton.dropDown, "month dropdown exists");
 							doh.f(isVisible(calendar.monthDropDownButton.dropDown), "month dropdown is not visible");
 
-							doh.robot.mouseMoveAt(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0], 500);
+							doh.robot.mouseMoveAt(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0], 0, 1);
 							doh.robot.mouseClick({left:true}, 500);
-							var dec = dojo.query("[month=11]", calendar.monthDropDownButton.dropDown.domNode)[0];
-							doh.robot.mouseMoveAt(dec, 500);
+
+							doh.robot.mouseMoveAt(function(){
+								return dojo.query("[month=11]", calendar.monthDropDownButton.dropDown.domNode)[0];
+							}, 1000, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -1085,7 +1090,7 @@
 								var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", calendar.domNode);
 								doh.is(1, selectedYearButtons.length, "current year is shown");
 								doh.is("2010", innerText(selectedYearButtons[0]), "current year");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
