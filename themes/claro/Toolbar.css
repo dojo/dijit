@@ -116,45 +116,8 @@
 	padding: 1px;
 }
 
-
-/** hacks for browsers **/
-.dj_ie6 .claro .dijitToolbar .dijitButtonContents, 
-.dj_ie7 .claro .dijitToolbar .dijitButtonContents {
-	margin: -2px 0;
-	padding: 0;
-}
-
 .dj_ie6 .claro .dijitToolbar {
 	background-image: none;
-}
-
-.dj_ie6 .claro .dijitToolbar .dijitButtonNode {
-	margin: 1px; /* as transparent the border */
-	border: none;
-}
-
-.dj_ie6 .claro .dijitToolbar .dijitButtonHover .dijitButtonNode,
-.dj_ie6 .claro .dijitToolbar .dijitDropDownButtonHover .dijitButtonNode,
-.dj_ie6 .claro .dijitToolbar .dijitComboButton .dijitButtonNodeHover,
-.dj_ie6 .claro .dijitToolbar .dijitComboButton .dijitDownArrowButtonHover,
-.dj_ie6 .claro .dijitToolbar .dijitToggleButtonHover .dijitButtonNode,
-.dj_ie6 .claro .dijitToolbar .dijitButtonActive .dijitButtonNode,
-.dj_ie6 .claro .dijitToolbar .dijitDropDownButtonActive .dijitButtonNode,
-.dj_ie6 .claro .dijitToolbar .dijitComboButton .dijitButtonNodeActive,
-.dj_ie6 .claro .dijitToolbar .dijitComboButton .dijitDownArrowButtonActive,
-.dj_ie6 .claro .dijitToolbar .dijitToggleButtonActive .dijitButtonNode,
-.claro .dijitToolbar .dijitToggleButtonChecked .dijitButtonNode {
-	margin: 0;	/* remove margin and add a border */
-	border-width: 1px;
-	border-style: solid;
-	background-image: none;
-}
-
-.dj_ie6 .claro .dijitToolbar .dijitComboButton .dijitButtonNodeHover,
-.dj_ie6 .claro .dijitToolbar .dijitComboButton .dijitDownArrowButtonHover,
-.dj_ie6 .claro .dijitToolbar .dijitComboButton .dijitButtonNodeActive,
-.dj_ie6 .claro .dijitToolbar .dijitComboButton .dijitDownArrowButtonActive {
-	padding: 1px;	/* ComboButton use table td has no margin, so we minus padding 2px -> 1px for the 1px border. ie6... */
 }
 
 .claro .dijitToolbarSeparator {
