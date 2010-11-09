@@ -3,6 +3,11 @@ dojo.provide("dijit.tests.editor.module");
 try{
 	var userArgs = window.location.search.replace(/[\?&](dojoUrl|testUrl|testModule)=[^&]*/g,"").replace(/^&/,"?");
 
+	//inline doh tests
+	doh.registerUrl("dijit.tests.editor.nls_8859-2", dojo.moduleUrl("dijit","tests/editor/nls_8859-2.html"+userArgs), 99999999);
+	doh.registerUrl("dijit.tests.editor.nls_sjis", dojo.moduleUrl("dijit","tests/editor/nls_sjis.html"+userArgs), 99999999);
+	doh.registerUrl("dijit.tests.editor.nls_utf8", dojo.moduleUrl("dijit","tests/editor/nls_utf8.html"+userArgs), 99999999);
+	
 	// Base editor functionality
 	doh.registerUrl("dijit.tests.editor.robot.Editor_mouse", dojo.moduleUrl("dijit","tests/editor/robot/Editor_mouse.html"+userArgs), 99999999);
 	doh.registerUrl("dijit.tests.editor.robot.Editor_a11y", dojo.moduleUrl("dijit","tests/editor/robot/Editor_a11y.html"+userArgs), 99999999);
