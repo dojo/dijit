@@ -1,4 +1,4 @@
-define("dijit/layout/_TabContainerBase", ["dojo", "dijit", "dijit/layout/StackContainer", "dijit/_Templated"], function(dojo, dijit) {
+define("dijit/layout/_TabContainerBase", ["dojo", "dijit", "text!dijit/layout/templates/TabContainer.html", "dijit/layout/StackContainer", "dijit/_Templated"], function(dojo, dijit) {
 
 dojo.declare("dijit.layout._TabContainerBase",
 	[dijit.layout.StackContainer, dijit._Templated],

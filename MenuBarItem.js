@@ -1,4 +1,4 @@
-define("dijit/MenuBarItem", ["dojo", "dijit", "dijit/MenuItem"], function(dojo, dijit) {
+define("dijit/MenuBarItem", ["dojo", "dijit", "text!dijit/templates/MenuBarItem.html", "dijit/MenuItem"], function(dojo, dijit) {
 
 dojo.declare("dijit._MenuBarItemMixin", null, {
 	templateString: dojo.cache("dijit", "templates/MenuBarItem.html"),

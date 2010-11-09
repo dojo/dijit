@@ -1,4 +1,4 @@
-define("dijit/CheckedMenuItem", ["dojo", "dijit", "dijit/MenuItem"], function(dojo, dijit) {
+define("dijit/CheckedMenuItem", ["dojo", "dijit", "text!dijit/templates/CheckedMenuItem.html", "dijit/MenuItem"], function(dojo, dijit) {
 
 dojo.declare("dijit.CheckedMenuItem",
 		dijit.MenuItem,

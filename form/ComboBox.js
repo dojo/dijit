@@ -1,4 +1,4 @@
-define("dijit/form/ComboBox", ["dojo", "dijit", "dojo/window", "dojo/regexp", "dojo/data/util/simpleFetch", "dojo/data/util/filter", "dijit/_CssStateMixin", "dijit/form/_FormWidget", "dijit/form/ValidationTextBox", "dijit/_HasDropDown", "i18n!dijit/form/nls/ComboBox"], function(dojo, dijit) {
+define("dijit/form/ComboBox", ["dojo", "dijit", "text!dijit/templates/DropDownBox.html", "dojo/window", "dojo/regexp", "dojo/data/util/simpleFetch", "dojo/data/util/filter", "dijit/_CssStateMixin", "dijit/form/_FormWidget", "dijit/form/ValidationTextBox", "dijit/_HasDropDown", "i18n!dijit/form/nls/ComboBox"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.form.ComboBoxMixin",

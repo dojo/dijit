@@ -1,4 +1,4 @@
-define("dijit/Tree", ["dojo", "dijit", "dojo/fx", "dojo/DeferredList", "dijit/_Widget", "dijit/_Templated", "dijit/_Container", "dijit/_Contained", "dijit/_CssStateMixin", "dojo/cookie", "dijit/tree/TreeStoreModel", "dijit/tree/ForestStoreModel"], function(dojo, dijit) {
+define("dijit/Tree", ["dojo", "dijit", "text!dijit/templates/TreeNode.html", "text!dijit/templates/Tree.html", "dojo/fx", "dojo/DeferredList", "dijit/_Widget", "dijit/_Templated", "dijit/_Container", "dijit/_Contained", "dijit/_CssStateMixin", "dojo/cookie", "dijit/tree/TreeStoreModel", "dijit/tree/ForestStoreModel"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit._TreeNode",

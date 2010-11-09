@@ -1,4 +1,4 @@
-define("dijit/TitlePane", ["dojo", "dijit", "dojo/fx", "dijit/_Templated", "dijit/layout/ContentPane", "dijit/_CssStateMixin"], function(dojo, dijit) {
+define("dijit/TitlePane", ["dojo", "dijit", "text!dijit/templates/TitlePane.html", "dojo/fx", "dijit/_Templated", "dijit/layout/ContentPane", "dijit/_CssStateMixin"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.TitlePane",

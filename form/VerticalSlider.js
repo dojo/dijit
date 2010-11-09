@@ -1,4 +1,4 @@
-define("dijit/form/VerticalSlider", ["dojo", "dijit", "dijit/form/HorizontalSlider"], function(dojo, dijit) {
+define("dijit/form/VerticalSlider", ["dojo", "dijit", "text!dijit/templates/VerticalSlider.html", "dijit/form/HorizontalSlider"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.form.VerticalSlider",
