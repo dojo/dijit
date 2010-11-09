@@ -4,6 +4,8 @@ try{
 	var userArgs = window.location.search.replace(/[\?&](dojoUrl|testUrl|testModule)=[^&]*/g,"").replace(/^&/,"?");
 
 	// top level widget tests
+	doh.registerUrl("dijit.tests.robot.Bidi", dojo.moduleUrl("dijit","tests/robot/Bidi.html"+userArgs), 99999999);
+
 	doh.registerUrl("dijit.tests.robot.Menu_mouse", dojo.moduleUrl("dijit","tests/robot/Menu_mouse.html"+userArgs), 99999999);
 	doh.registerUrl("dijit.tests.robot.Menu_a11y", dojo.moduleUrl("dijit","tests/robot/Menu_a11y.html"+userArgs), 99999999);
 	doh.registerUrl("dijit.tests.robot.Menu_iframe", dojo.moduleUrl("dijit","tests/robot/Menu_iframe.html"+userArgs), 99999999);
