@@ -42,7 +42,7 @@
 													doh.is(!required, textbox.isValid(false), "isValid");
 													doh.is("", textbox.state, "state");
 													doh.is(promptMessage, textbox._message, "tooltip");
-												}), 150);
+												}), 250);
 											});
 										doh.robot.mouseMoveAt(textbox.focusNode, 0, 1);
 										doh.robot.mouseClick({left: true}, 0);
@@ -61,7 +61,7 @@
 													doh.is(!rangeBound, textbox.isValid(false), "isValid");
 													doh.is("", textbox.state, "state");
 													doh.is(promptMessage, textbox._message, "tooltip");
-												}), 150);
+												}), 250);
 											});
 										doh.robot.typeKeys("1", 0, 0);
 										return d;
@@ -79,7 +79,7 @@
 													doh.is(true, textbox.isValid(false), "isValid");
 													doh.is("", textbox.state, "state");
 													doh.is(promptMessage, textbox._message, "tooltip");
-												}), 150);
+												}), 250);
 											});
 										doh.robot.typeKeys("2", 0, 0);
 										return d;
@@ -97,7 +97,7 @@
 													doh.is(false, textbox.isValid(false), "isValid");
 													doh.is("Error", textbox.state, "state");
 													doh.is(invalidMessage||promptMessage, textbox._message, "tooltip");
-												}), 150);
+												}), 250);
 											});
 										doh.robot.typeKeys("a", 0, 0);
 										return d;
@@ -115,7 +115,7 @@
 													doh.is(true, textbox.isValid(false), "isValid");
 													doh.is("", textbox.state, "state");
 													doh.is(promptMessage, textbox._message, "tooltip");
-												}), 150);
+												}), 250);
 											});
 										doh.robot.keyPress(dojo.keys.BACKSPACE, 0);
 										return d;
@@ -133,7 +133,7 @@
 													doh.is(!rangeBound, textbox.isValid(false), "isValid");
 													doh.is("", textbox.state, "state");
 													doh.is(promptMessage, textbox._message, "tooltip");
-												}), 150);
+												}), 250);
 											});
 										doh.robot.keyPress(dojo.keys.BACKSPACE, 0);
 										return d;
@@ -151,7 +151,7 @@
 													doh.is(!required, textbox.isValid(false), "isValid");
 													doh.is("", textbox.state, "state");
 													doh.is(promptMessage, textbox._message, "tooltip");
-												}), 150);
+												}), 250);
 											});
 										doh.robot.keyPress(dojo.keys.BACKSPACE, 0);
 										return d;
@@ -169,7 +169,7 @@
 													doh.is(!required, textbox.isValid(false), "isValid");
 													doh.is(!required, !textbox.state, "state");
 													doh.is("", textbox._message, "tooltip");
-												}), 150);
+												}), 250);
 											});
 										doh.robot.keyPress(dojo.keys.TAB, 0);
 										return d;
@@ -187,7 +187,7 @@
 													doh.is(!required, textbox.isValid(false), "isValid");
 													doh.is(!required, !textbox.state, "state");
 													doh.is(required? (missingMessage||invalidMessage||promptMessage) : promptMessage, textbox._message, "tooltip");
-												}), 150);
+												}), 250);
 											});
 										doh.robot.keyPress(dojo.keys.TAB, 0, { shift:true });
 										return d;
@@ -205,7 +205,7 @@
 													doh.is(!rangeBound, textbox.isValid(false), "isValid");
 													doh.is("", textbox.state, "state");
 													doh.is(promptMessage, textbox._message, "tooltip");
-												}), 150);
+												}), 250);
 											});
 										doh.robot.typeKeys("1", 0, 0);
 										return d;
@@ -221,7 +221,7 @@
 												textbox.disconnect(handler); 
 												setTimeout(d.getTestCallback(function(){
 													doh.is("", textbox.state, "state");
-												}), 150);
+												}), 250);
 											});
 										doh.robot.typeKeys("2", 0, 0);
 										return d;
@@ -239,7 +239,7 @@
 													doh.is(!rangeBound, textbox.isValid(false), "isValid");
 													doh.is(!rangeBound, !textbox.state, "state");
 													doh.is(rangeBound? textbox.rangeMessage : promptMessage, textbox._message, "tooltip");
-												}), 150);
+												}), 250);
 											});
 										doh.robot.typeKeys("3", 0, 0);
 										return d;
@@ -257,7 +257,7 @@
 													doh.is(!rangeBound, textbox.isValid(false), "isValid");
 													doh.is(!rangeBound, !textbox.state, "state");
 													doh.is("", textbox._message, "tooltip");
-												}), 150);
+												}), 250);
 											});
 										doh.robot.keyPress(dojo.keys.TAB, 0);
 										return d;
@@ -275,7 +275,7 @@
 													doh.is(!rangeBound, textbox.isValid(false), "isValid");
 													doh.is(!rangeBound, !textbox.state, "state");
 													doh.is(rangeBound? textbox.rangeMessage : promptMessage, textbox._message, "tooltip");
-												}), 150);
+												}), 250);
 											});
 										doh.robot.keyPress(dojo.keys.TAB, 0, { shift:true });
 										return d;
@@ -295,7 +295,7 @@
 													doh.is("", textbox.state, "state");
 													doh.is(promptMessage, textbox._message, "tooltip");
 
-												}), 150);
+												}), 250);
 											});
 										if(dojo.isMac){
 											doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 0, {meta:true});
@@ -316,7 +316,7 @@
 												textbox.disconnect(handler); 
 												setTimeout(d.getTestCallback(function(){
 													doh.is("", textbox.state, "state");
-												}), 150);
+												}), 250);
 											});
 										doh.robot.keyPress(dojo.keys.BACKSPACE, 0);
 										return d;
@@ -334,7 +334,7 @@
 													doh.is(!required, textbox.isValid(false), "isValid");
 													doh.is("", textbox.state, "state");
 													doh.is(promptMessage, textbox._message, "tooltip");
-												}), 150);
+												}), 250);
 											});
 										doh.robot.keyPress(dojo.keys.BACKSPACE, 0);
 										return d;
@@ -352,7 +352,7 @@
 													doh.is(!required, textbox.isValid(false), "isValid");
 													doh.is(!required, !textbox.state, "state");
 													doh.is("", textbox._message, "tooltip");
-												}), 150);
+												}), 250);
 											});
 										doh.robot.keyPress(dojo.keys.TAB, 0);
 										return d;
@@ -370,7 +370,7 @@
 													doh.is(!required, textbox.isValid(false), "isValid");
 													doh.is(!required, !textbox.state, "state");
 													doh.is(required? (missingMessage||invalidMessage||promptMessage) : promptMessage, textbox._message, "tooltip");
-												}), 150);
+												}), 250);
 											});
 										doh.robot.keyPress(dojo.keys.TAB, 0, { shift:true });
 										return d;
