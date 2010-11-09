@@ -219,10 +219,12 @@
 							var d=new doh.Deferred();
 							submittedValues = function(values){
 								testSubmittedValues(d, original, values);
-								submittedValues = defaultSubmitHandler;
 							};
-							formWidget.containerNode.submit();
+							setTimeout(function(){ formWidget.containerNode.submit(); }, 1);
 							return d;
+						},
+						tearDown: function(){
+							submittedValues = defaultSubmitHandler;
 						}
 					},
 					function setValues(){
@@ -245,10 +247,12 @@
 							var d=new doh.Deferred();
 							submittedValues = function(values){
 								testSubmittedValues(d, dojo.mixin(changed,particalchanged), values);
-								submittedValues = defaultSubmitHandler;
 							};
-							formWidget.containerNode.submit();
+							setTimeout(function(){ formWidget.containerNode.submit(); }, 1);
 							return d;
+						},
+						tearDown: function(){
+							submittedValues = defaultSubmitHandler;
 						}
 					},
 					function resetTest(){

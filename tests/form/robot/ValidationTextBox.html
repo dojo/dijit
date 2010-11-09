@@ -478,7 +478,7 @@
 								doh.is(20000.01, textbox.get('value'), "get('value')");
 								doh.is(true, textbox.isValid(), "isValid()");
 								doh.is('NaN', onChange.value);
-								var handler = textbox.connect(textbox, '_onBlur',
+								var handler = textbox.connect(textbox, 'onChange',
 									function(){
 										textbox.disconnect(handler);
 										setTimeout(d.getTestCallback(function(){
@@ -486,7 +486,7 @@
 											doh.is(20000.01, textbox.get('value'), "blurred get('value')");
 											doh.is(true, textbox.isValid(), "blurred isValid()");
 											doh.is('20000.01', onChange.value);
-										}), 150);
+										}), 1);
 									});
 								dojo.byId("q01").focus();
 							}), 500);
