@@ -144,6 +144,7 @@ dojo.declare(
 			//		Internal function to handle click actions - need to check
 			//		readOnly, since button no longer does that check.
 			if(this.readOnly){
+				dojo.stopEvent(e);
 				return false;
 			}
 			return this.inherited(arguments);

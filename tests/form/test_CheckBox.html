@@ -23,7 +23,7 @@
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">
-		dojo.require("doh.runner"); // optimize: load dijit layer
+		dojo.require("doh.runner");
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.form.CheckBox");
 		dojo.require("dijit.form.RadioButton");
@@ -172,7 +172,12 @@
 						formWidget.reset();
 						doh.is( dojo.toJson(originalGet), dojo.toJson(formWidget.get('value')), "reset to original values" );
 					},
-					submitForm("reset submit", originalSubmit)
+					submitForm("reset submit", originalSubmit),
+					function readOnly(){
+						dijit.byId('cb4').focusNode.click();
+						doh.is( dojo.toJson(originalGet), dojo.toJson(formWidget.get('value')), "still have original values" );
+					},
+					submitForm("resubmit", originalSubmit)
 				]
 			);
 
