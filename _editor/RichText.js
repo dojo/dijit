@@ -1454,6 +1454,9 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}else{
 			html = this._preFilterContent(html);
 			var node = this.isClosed ? this.domNode : this.editNode;
+			if(html && dojo.isMoz && html.toLowerCase() == "<p></p>"){
+				html = "<p>&nbsp;</p>";
+			}
 
 			// Use &nbsp; to avoid webkit problems where editor is disabled until the user clicks it
 			if(!html && dojo.isWebKit){
