@@ -658,8 +658,9 @@ dojo.declare(
 			//		Save the currently selected text in _savedSelection attribute
 			// tags:
 			//		private
-			this._savedSelection=this._getBookmark();
-			//console.log('save selection',this._savedSelection,this);
+			try{
+				this._savedSelection=this._getBookmark();
+			}catch(e){ /* Squelch any errors that occur if selection save occurs due to being hidden simultaniously. */}
 		},
 		_restoreSelection: function(){
 			// summary:
@@ -729,14 +730,16 @@ dojo.declare(
 		},
 		
 		_setStateClass: function(){
-			this.inherited(arguments);
+			try{
+				this.inherited(arguments);
 			
-			// Let theme set the editor's text color based on editor enabled/disabled state.
-			// We need to jump through hoops because the main document (where the theme CSS is)
-			// is separate from the iframe's document.
-			if(this.document && this.document.body){
-				dojo.style(this.document.body, "color", dojo.style(this.iframe, "color"));
-			}
+				// Let theme set the editor's text color based on editor enabled/disabled state.
+				// We need to jump through hoops because the main document (where the theme CSS is)
+				// is separate from the iframe's document.
+				if(this.document && this.document.body){
+					dojo.style(this.document.body, "color", dojo.style(this.iframe, "color"));
+				}
+			}catch(e){ /* Squelch any errors caused by focus change if hidden during a state change */}
 		}
 	}
 );
