@@ -28,11 +28,14 @@
 							dojo.forEach(["", "m"], function(missingMessage){
 								var name = "t" + (rangeBound?1:0) + (required?1:0) + (promptMessage?1:0) + (invalidMessage?1:0) + (missingMessage?1:0);
 								var textbox = dijit.byId(name);
-								textbox.focusNode.scrollIntoView();
+
 								doh.register(name, [
 								{
 									name: name + " first focus, empty value",
 									timeout: 5000,
+									setUp:function(){
+										textbox.focusNode.scrollIntoView();
+									},
 									runTest: function(){
 										var d = new doh.Deferred();
 										var handler = textbox.connect(textbox.focusNode, 'onmouseup',
