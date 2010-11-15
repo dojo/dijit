@@ -319,7 +319,7 @@ dijit._frames = new function(){
 }();
 
 
-dijit.BackgroundIframe = function(/* DomNode */node){
+dijit.BackgroundIframe = function(/*DomNode*/ node){
 	// summary:
 	//		For IE/FF z-index schenanigans. id attribute is required.
 	//
@@ -330,7 +330,7 @@ dijit.BackgroundIframe = function(/* DomNode */node){
 
 	if(!node.id){ throw new Error("no id"); }
 	if(dojo.isIE || dojo.isMoz){
-		var iframe = dijit._frames.pop();
+		var iframe = (this.iframe = dijit._frames.pop());
 		node.appendChild(iframe);
 		if(dojo.isIE<7){
 			this.resize(node);
@@ -343,14 +343,13 @@ dijit.BackgroundIframe = function(/* DomNode */node){
 				height: '100%'
 			});
 		}
-		this.iframe = iframe;
 	}
 };
 
 dojo.extend(dijit.BackgroundIframe, {
 	resize: function(node){
 		// summary:
-		// 		resize the iframe so its the same size as node
+		// 		resize the iframe so it's the same size as node
 		// description:
 		//		this function is a no-op in all browsers except
 		//		IE6, which does not support 100% width/height 
