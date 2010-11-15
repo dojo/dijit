@@ -106,8 +106,10 @@ dojo.declare("dijit.layout._TabButton",
 		}, 1);
 	},
 
-	_setCloseButtonAttr: function(disp){
-		this.closeButton = disp;
+	_setCloseButtonAttr: function(/*Boolean*/ disp){
+		// summary:
+		//		Hide/show close button
+		this._set("closeButton", disp);
 		dojo.toggleClass(this.innerDiv, "dijitClosable", disp);
 		this.closeNode.style.display = disp ? "" : "none";
 		if(disp){
@@ -139,16 +141,16 @@ dojo.declare("dijit.layout._TabButton",
 	},
 	_setLabelAttr: function(/*String*/ content){
 		// summary:
-		//		Hook for attr('label', ...) to work.
+		//		Hook for set('label', ...) to work.
 		// description:
 		//		takes an HTML string.
 		//		Inherited ToggleButton implementation will Set the label (text) of the button; 
 		//		Need to set the alt attribute of icon on tab buttons if no label displayed
-			this.inherited(arguments);
-			if(this.showLabel == false && !this.params.title){
-				this.iconNode.alt = dojo.trim(this.containerNode.innerText || this.containerNode.textContent || '');
-			}
-		},
+		this.inherited(arguments);
+		if(this.showLabel == false && !this.params.title){
+			this.iconNode.alt = dojo.trim(this.containerNode.innerText || this.containerNode.textContent || '');
+		}
+	},
 
 	destroy: function(){
 		if(this._closeMenu){

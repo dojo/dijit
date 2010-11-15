@@ -18,12 +18,12 @@ dojo.declare("dijit.layout._TabContainerBase",
 
 	baseClass: "dijitTabContainer",
 
-	// tabStrip: Boolean
+	// tabStrip: [const] Boolean
 	//		Defines whether the tablist gets an extra class for layouting, putting a border/shading
-	//		around the set of tabs.
+	//		around the set of tabs.   Not supported by claro theme.
 	tabStrip: false,
 
-	// nested: Boolean
+	// nested: [const] Boolean
 	//		If true, use styling for a TabContainer nested inside another TabContainer.
 	//		For tundra etc., makes tabs look like links, and hides the outer
 	//		border since the outer TabContainer already has a border.

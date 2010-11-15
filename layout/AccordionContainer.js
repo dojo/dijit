@@ -209,7 +209,7 @@ dojo.declare(
 			this.inherited(arguments);
 		},
 
-		_transition: function(/*dijit._Widget?*/newWidget, /*dijit._Widget?*/oldWidget, /*Boolean*/ animate){
+		_transition: function(/*dijit._Widget?*/ newWidget, /*dijit._Widget?*/ oldWidget, /*Boolean*/ animate){
 			// Overrides StackContainer._transition() to provide sliding of title bars etc.
 
 			if(dojo.isIE < 8){
@@ -245,7 +245,7 @@ dojo.declare(
 				}
 			}
 
-				if(animate){
+			if(animate){
 				var newContents = newWidget._wrapperWidget.containerNode,
 					oldContents = oldWidget._wrapperWidget.containerNode;
 
@@ -274,7 +274,7 @@ dojo.declare(
 						oldWidget._wrapperWidget.containerNode.style.display = "none";
 						oldContents.style.height = "auto";
 						self._hideChild(oldWidget);
-			}
+					}
 				});
 				this._animation.onStop = this._animation.onEnd;
 				this._animation.play();
@@ -377,7 +377,7 @@ dojo.declare("dijit.layout._AccordionInnerContainer",
 		},
 
 		_setSelectedAttr: function(/*Boolean*/ isSelected){
-			this.selected = isSelected;
+			this._set("selected", isSelected);
 			this.button.set("selected", isSelected);
 			if(isSelected){
 				var cw = this.contentWidget;
@@ -460,7 +460,7 @@ dojo.declare("dijit.layout._AccordionButton",
 	},
 
 	_setSelectedAttr: function(/*Boolean*/ isSelected){
-		this.selected = isSelected;
+		this._set("selected", isSelected);
 		dijit.setWaiState(this.focusNode, "expanded", isSelected);
 		dijit.setWaiState(this.focusNode, "selected", isSelected);
 		this.focusNode.setAttribute("tabIndex", isSelected ? "0" : "-1");

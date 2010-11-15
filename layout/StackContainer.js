@@ -170,7 +170,7 @@ dojo.declare(
 		if(this.selectedChildWidget != page){
 			// Deselect old page and select new one
 			this._transition(page, this.selectedChildWidget, animate);
-			this.selectedChildWidget = page;
+			this._set("selectedChildWidget", page);
 			dojo.publish(this.id+"-selectChild", [page]);
 
 			if(this.persist){
@@ -179,7 +179,7 @@ dojo.declare(
 		}
 	},
 
-	_transition: function(/*dijit._Widget*/newWidget, /*dijit._Widget*/oldWidget){
+	_transition: function(/*dijit._Widget*/ newWidget, /*dijit._Widget*/ oldWidget, /*Boolean*/ animate){
 		// summary:
 		//		Hide the old widget and display the new widget.
 		//		Subclasses should override this.
@@ -243,7 +243,7 @@ dojo.declare(
 		var children = this.getChildren();
 		page.isFirstChild = (page == children[0]);
 		page.isLastChild = (page == children[children.length-1]);
-		page.selected = true;
+		page._set("selected", true);
 
 		dojo.replaceClass(page.domNode, "dijitVisible", "dijitHidden");
 
@@ -274,7 +274,7 @@ dojo.declare(
 		}
 	},
 
-	destroyDescendants: function(/*Boolean*/preserveDom){
+	destroyDescendants: function(/*Boolean*/ preserveDom){
 		dojo.forEach(this.getChildren(), function(child){
 			this.removeChild(child);
 			child.destroyRecursive(preserveDom);

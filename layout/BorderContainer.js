@@ -37,13 +37,13 @@ dojo.declare(
 	//			- "sidebar" where the left and right sides extend from top to bottom.
 	design: "headline",
 
-	// gutters: Boolean
+	// gutters: [const] Boolean
 	//		Give each pane a border and margin.
 	//		Margin determined by domNode.paddingLeft.
 	//		When false, only resizable panes have a gutter (i.e. draggable splitter) for resizing.
 	gutters: true,
 
-	// liveSplitters: Boolean
+	// liveSplitters: [const] Boolean
 	//		Specifies whether splitters resize as you drag (true) or only upon mouseup (false)
 	liveSplitters: true,
 
@@ -117,7 +117,7 @@ dojo.declare(
 		}
 	},
 
-	_computeSplitterThickness: function(region){
+	_computeSplitterThickness: function(/*String*/ region){
 		this._splitterThickness[region] = this._splitterThickness[region] ||
 			dojo._getMarginSize(this._splitters[region])[(/top|bottom/.test(region) ? 'h' : 'w')];
 	},
@@ -460,7 +460,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 	//		Pointer to the pane associated with this splitter
 	child: null,
 
-	// region: String
+	// region: [const] String
 	//		Region of pane associated with this splitter.
 	//		"top", "bottom", "left", "right".
 	region: null,
@@ -634,7 +634,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 	}
 });
 
-dojo.declare("dijit.layout._Gutter", [dijit._Widget, dijit._Templated ],
+dojo.declare("dijit.layout._Gutter", [dijit._Widget, dijit._Templated],
 {
 	// summary:
 	// 		Just a spacer div to separate side pane from center pane.

@@ -13,7 +13,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 
 	templateString: dojo.cache("dijit.layout", "templates/ScrollingTabController.html"),
 
-	// useMenu:[const] Boolean
+	// useMenu: [const] Boolean
 	//		True if a menu should be used to select tabs when they are too
 	//		wide to fit the TabContainer, false otherwise.
 	useMenu: true,
@@ -23,7 +23,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 	//		wide to fit the TabContainer, false otherwise.
 	useSlider: true,
 
-	// tabStripClass: String
+	// tabStripClass: [const] String
 	//		The css class to apply to the tab strip, if it is visible.
 	tabStripClass: "",
 
@@ -72,6 +72,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 
 		// update the menuItem label when the button label is updated
 		this.pane2handles[page.id].push(
+			// TODO: use watch() here (but need support in _Widget for automatic unwatch() call on destroy
 			this.connect(this.pane2button[page.id], "set", function(name, value){
 				if(this._postStartup){
 					if(name == "label" || name == "iconClass"){
@@ -293,7 +294,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		return pos;
 	},
 
-	createSmoothScroll : function(x){
+	createSmoothScroll: function(x){
 		// summary:
 		//		Creates a dojo._Animation object that smoothly scrolls the tab list
 		//		either to a fixed horizontal pixel value, or to the selected tab.
@@ -339,7 +340,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		return anim; // dojo._Animation
 	},
 
-	_getBtnNode: function(e){
+	_getBtnNode: function(/*Event*/ e){
 		// summary:
 		//		Gets a button DOM node from a mouse click event.
 		// e:
@@ -351,7 +352,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		return n;
 	},
 
-	doSlideRight: function(e){
+	doSlideRight: function(/*Event*/ e){
 		// summary:
 		//		Scrolls the menu to the right.
 		// e:
@@ -359,7 +360,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		this.doSlide(1, this._getBtnNode(e));
 	},
 
-	doSlideLeft: function(e){
+	doSlideLeft: function(/*Event*/ e){
 		// summary:
 		//		Scrolls the menu to the left.
 		// e:
@@ -367,7 +368,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		this.doSlide(-1,this._getBtnNode(e));
 	},
 
-	doSlide: function(direction, node){
+	doSlide: function(/*Number*/ direction, /*DomNode*/ node){
 		// summary:
 		//		Scrolls the tab list to the left or right by 75% of the widget width.
 		// direction:
@@ -386,7 +387,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		this.createSmoothScroll(to).play();
 	},
 
-	_setButtonClass: function(scroll){
+	_setButtonClass: function(/*Number*/ scroll){
 		// summary:
 		//		Disables the left scroll button if the tabs are scrolled all the way to the left,
 		//		or the right scroll button in the opposite case.
@@ -401,9 +402,9 @@ dojo.declare("dijit.layout.ScrollingTabController",
 
 
 dojo.declare("dijit.layout._ScrollingTabControllerButtonMixin", null, {
-		baseClass: "dijitTab tabStripButton",
+	baseClass: "dijitTab tabStripButton",
 
-		templateString: dojo.cache("dijit.layout","templates/_ScrollingTabControllerButton.html"),
+	templateString: dojo.cache("dijit.layout","templates/_ScrollingTabControllerButton.html"),
 
 		// Override inherited tabIndex: 0 from dijit.form.Button, because user shouldn't be
 		// able to tab to the left/right/menu buttons

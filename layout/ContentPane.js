@@ -253,7 +253,7 @@ dojo.declare(
 		this.onLoadDeferred = new dojo.Deferred(dojo.hitch(this, "cancel"));
 		this.onLoadDeferred.addCallback(dojo.hitch(this, "onLoad"));
 
-		this.href = href;
+		this._set("href", href);
 
 		// _setHrefAttr() is called during creation and by the user, after creation.
 		// only in the second case do we actually load the URL; otherwise it's done in startup()
@@ -286,7 +286,7 @@ dojo.declare(
 
 		// clear href so we can't run refresh and clear content
 		// refresh should only work if we downloaded the content
-		this.href = "";
+		this._set("href", "");
 
 		// Cancel any in-flight requests (a set('content', ...) will cancel any in-flight set('href', ...))
 		this.cancel();
@@ -503,7 +503,7 @@ dojo.declare(
 	_onLoadHandler: function(data){
 		// summary:
 		//		This is called whenever new content is being loaded
-		this.isLoaded = true;
+		this._set("isLoaded", true);
 		try{
 			this.onLoadDeferred.callback(data);
 		}catch(e){
@@ -514,7 +514,7 @@ dojo.declare(
 	_onUnloadHandler: function(){
 		// summary:
 		//		This is called whenever the content is being unloaded
-		this.isLoaded = false;
+		this._set("isLoaded", false);
 		try{
 			this.onUnload();
 		}catch(e){
@@ -630,7 +630,7 @@ dojo.declare(
 		this.onLoadDeferred.errback(err);
 
 		// shows user the string that is returned by on[type]Error
-		// overide on[type]Error and return your own string to customize
+		// override on[type]Error and return your own string to customize
 		var errText = this['on' + type + 'Error'].call(this, err);
 		if(consoleText){
 			console.error(consoleText, err);
