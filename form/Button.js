@@ -98,7 +98,7 @@ dojo.declare("dijit.form.Button",
 		if(this.containerNode){
 			dojo.toggleClass(this.containerNode, "dijitDisplayNone", !val);
 		}
-		this.showLabel = val;
+		this._set("showLabel", val);
 	},
 
 	onClick: function(/*Event*/ e){
@@ -127,7 +127,8 @@ dojo.declare("dijit.form.Button",
 		//		Hook for set('label', ...) to work.
 		// description:
 		//		Set the label (text) of the button; takes an HTML string.
-		this.containerNode.innerHTML = this.label = content;
+		this._set("label", content);
+		this.containerNode.innerHTML = content;
 		if(this.showLabel == false && !this.params.title){
 			this.titleNode.title = dojo.trim(this.containerNode.innerText || this.containerNode.textContent || '');
 		}
@@ -310,7 +311,7 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 	},
 
 	_setCheckedAttr: function(/*Boolean*/ value, /*Boolean?*/ priorityChange){
-		this.checked = value;
+		this._set("checked", value);
 		dojo.attr(this.focusNode || this.domNode, "checked", value);
 		dijit.setWaiState(this.focusNode || this.domNode, "pressed", value);
 		this._handleOnChange(value, priorityChange);

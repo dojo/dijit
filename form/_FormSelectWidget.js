@@ -215,7 +215,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 					dojo.connect(store, "onSet", this, "_onSetItem")
 				];
 			}
-			this.store = store;
+			this._set("store", store);
 		}
 
 		// Turn off change notifications while we make all these changes
@@ -231,36 +231,36 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 			this._loadingStore = true;
 			store.fetch(dojo.delegate(fetchArgs, {
 				onComplete: function(items, opts){
-				if(this.sortByLabel && !fetchArgs.sort && items.length){
-					items.sort(dojo.data.util.sorter.createSortFunction([{
-						attribute: store.getLabelAttributes(items[0])[0]
-					}], store));
-				}
-
-				if(fetchArgs.onFetch){
-						items = fetchArgs.onFetch.call(this, items, opts);
-				}
-				// TODO: Add these guys as a batch, instead of separately
-				dojo.forEach(items, function(i){
-					this._addOptionForItem(i);
-				}, this);
-
-				// Set our value (which might be undefined), and then tweak
-				// it to send a change event with the real value
-				this._loadingStore = false;
-					this.set("value", "_pendingValue" in this ? this._pendingValue : selectedValue);
-				delete this._pendingValue;
-
-				if(!this.loadChildrenOnOpen){
-					this._loadChildren();
-				}else{
-					this._pseudoLoadChildren(items);
-				}
-				this._fetchedWith = opts;
-				this._lastValueReported = this.multiple ? [] : null;
-				this._onChangeActive = true;
-				this.onSetStore();
-				this._handleOnChange(this.value);
+					if(this.sortByLabel && !fetchArgs.sort && items.length){
+						items.sort(dojo.data.util.sorter.createSortFunction([{
+							attribute: store.getLabelAttributes(items[0])[0]
+						}], store));
+					}
+	
+					if(fetchArgs.onFetch){
+							items = fetchArgs.onFetch.call(this, items, opts);
+					}
+					// TODO: Add these guys as a batch, instead of separately
+					dojo.forEach(items, function(i){
+						this._addOptionForItem(i);
+					}, this);
+	
+					// Set our value (which might be undefined), and then tweak
+					// it to send a change event with the real value
+					this._loadingStore = false;
+						this.set("value", "_pendingValue" in this ? this._pendingValue : selectedValue);
+					delete this._pendingValue;
+	
+					if(!this.loadChildrenOnOpen){
+						this._loadChildren();
+					}else{
+						this._pseudoLoadChildren(items);
+					}
+					this._fetchedWith = opts;
+					this._lastValueReported = this.multiple ? [] : null;
+					this._onChangeActive = true;
+					this.onSetStore();
+					this._handleOnChange(this.value);
 				},
 				scope: this
 			}));
@@ -269,6 +269,9 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		}
 		return oStore;	// dojo.data.api.Identity
 	},
+
+	// TODO: implement set() and watch() for store and query, although not sure how to handle
+	// setting them individually rather than together (as in setStore() above)
 
 	_setValueAttr: function(/*anything*/ newValue, /*Boolean?*/ priorityChange){
 		// summary:
@@ -328,13 +331,6 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 			return null;
 		}, this);
 		return this.multiple ? ret : ret[0];
-	},
-
-	_getValueDeprecated: false, // remove when _FormWidget:getValue is removed
-	getValue: function(){
-		// summary:
-		//		get the value of the widget.
-		return this._lastValue;
 	},
 
 	_loadChildren: function(){

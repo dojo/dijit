@@ -56,7 +56,7 @@ dojo.declare(
 		}),
 
 		_setReadOnlyAttr: function(/*Boolean*/ value){
-			this.readOnly = value;
+			this._set("readOnly", value);
 			dojo.attr(this.focusNode, 'readOnly', value);
 			dijit.setWaiState(this.focusNode, "readonly", value);
 		},
@@ -74,7 +74,7 @@ dojo.declare(
 			//		specified as "value" when the CheckBox was constructed (ex: <input
 			//		dojoType="dijit.CheckBox" value="chicken">)
 			if(typeof newValue == "string"){
-				this.value = newValue;
+				this._set("value", newValue);
 				dojo.attr(this.focusNode, 'value', newValue);
 				newValue = true;
 			}
@@ -121,7 +121,7 @@ dojo.declare(
 			this.set('checked', this.params.checked || false);
 
 			// Handle unlikely event that the <input type=checkbox> value attribute has changed
-			this.value = this.params.value || "on";
+			this._set("value", this.params.value || "on");
 			dojo.attr(this.focusNode, 'value', this.value);
 		},
 

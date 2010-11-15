@@ -72,6 +72,10 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 	//		Shows current state (ie, validation result) of input (Normal, Warning, or Error)
 	state: "",
 
+	// message: String
+	//		Currently displayed error/prompt message
+	message: "",
+
 	//	tooltipPosition: String[]
 	//		See description of dijit.Tooltip.defaultPosition for details on this parameter.
 	tooltipPosition: [],
@@ -201,12 +205,12 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		//		set the value.
 		
 		var isValid = this.isValid(isFocused);
-		this.state = isValid ? "" : "Error";
+		this._set("state", isValid ? "" : "Error");
 		this._setStateClass();
 		dijit.setWaiState(this.focusNode, "invalid", isValid ? "false" : "true");
 		var message = isValid ? "" : this._missingMsg;
-		if(this._message !== message){
-			this._message = message;
+		if(this.message !== message){
+			this._set("message", message);
 			dijit.hideTooltip(this.domNode);
 			if(message){
 				dijit.showTooltip(message, this.domNode, this.tooltipPosition, !this.isLeftToRight());
@@ -227,9 +231,9 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		//		Overridden so that the state will be cleared.
 		this.inherited(arguments);
 		dijit.hideTooltip(this.domNode);
-		this.state = "";
+		this._set("state", "");
 		this._setStateClass();
-		delete this._message;
+		this._set("message", "")
 	},
 
 	postMixInProperties: function(){
@@ -242,7 +246,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 
 	postCreate: function(){
 		// summary:
-		//              stop mousemove from selecting text on IE to be consistent with other browsers
+		//		stop mousemove from selecting text on IE to be consistent with other browsers
 
 		this.inherited(arguments);
 

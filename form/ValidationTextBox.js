@@ -47,6 +47,12 @@ dojo.declare(
 		// 		Set to "" to use the invalidMessage instead.
 		missingMessage: "$_unset_$",
 
+		// message: String
+		//		Currently error/prompt message.
+		//		When using the default tooltip implementation, this will only be
+		//		displayed when the field is focused.
+		message: "",
+
 		// constraints: dijit.form.ValidationTextBox.__Constraints
 		//		user-defined object needed to pass parameters to the validator functions
 		constraints: {},
@@ -141,25 +147,23 @@ dojo.declare(
 			if(isValid){ this._maskValidSubsetError = true; }
 			var isEmpty = this._isEmpty(this.textbox.value);
 			var isValidSubset = !isValid && !isEmpty && isFocused && this._isValidSubset();
-			this.state = ((isValid || ((!this._hasBeenBlurred || isFocused) && isEmpty) || isValidSubset) && this._maskValidSubsetError) ? "" : "Error";
-			if(this.state == "Error"){ this._maskValidSubsetError = isFocused; } // we want the error to show up afer a blur and refocus
+			this._set("state", ((isValid || ((!this._hasBeenBlurred || isFocused) && isEmpty) || isValidSubset) && this._maskValidSubsetError) ? "" : "Error");
+			if(this.state == "Error"){ this._maskValidSubsetError = isFocused; } // we want the error to show up after a blur and refocus
 			this._setStateClass();
 			dijit.setWaiState(this.focusNode, "invalid", isValid ? "false" : "true");
+
+			if(this.state == "Error"){
+				message = this.getErrorMessage(true);
+			}else{
+				message = this.getPromptMessage(true); // show the prompt whenever there's no error
+			}
 			if(isFocused){
-				if(this.state == "Error"){
-					message = this.getErrorMessage(true);
-				}else{
-					message = this.getPromptMessage(true); // show the prompt whever there's no error
-				}
 				this._maskValidSubsetError = true; // since we're focused, always mask warnings
 			}
-			this.displayMessage(message);
+			this.set("message", message);
+
 			return isValid;
 		},
-
-		// _message: String
-		//		Currently displayed message
-		_message: "",
 
 		displayMessage: function(/*String*/ message){
 			// summary:
@@ -167,10 +171,8 @@ dojo.declare(
 			//		By default uses a tooltip.
 			// tags:
 			//		extension
-			if(this._message == message){ return; }
-			this._message = message;
 			dijit.hideTooltip(this.domNode);
-			if(message){
+			if(message && this._focused){
 				dijit.showTooltip(message, this.domNode, this.tooltipPosition, !this.isLeftToRight());
 			}
 		},
@@ -191,7 +193,7 @@ dojo.declare(
 			if(!constraints.locale && this.lang){
 				constraints.locale = this.lang;
 			}
-			this.constraints = constraints;
+			this._set("constraints", constraints);
 			this._computePartialRE();
 		},
 
@@ -248,9 +250,14 @@ dojo.declare(
 		},
 
 		_setRequiredAttr: function(/*Boolean*/ value){
-			this.required = value;
+			this._set("required", value);
 			dijit.setWaiState(this.focusNode, "required", value);
 			this._refreshState();
+		},
+
+		_setMessageAttr: function(/*String*/ message){
+			this._set("message", message);
+			this.displayMessage(message);
 		},
 
 		reset:function(){
@@ -261,7 +268,10 @@ dojo.declare(
 		},
 
 		_onBlur: function(){
+			// the message still exists but for back-compat, and to erase the tooltip
+			// (if the message is being displayed as a tooltip), call displayMessage('')
 			this.displayMessage('');
+
 			this.inherited(arguments);
 		}
 	}

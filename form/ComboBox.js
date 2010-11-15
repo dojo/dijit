@@ -484,9 +484,9 @@ dojo.declare(
 					displayedValue = label;					
 				}
 			}
-			this.value = this._getValueField() != this.searchAttr? this.store.getIdentity(item) : displayedValue;
-			this.item = item;
-			dijit.form.ComboBox.superclass._setValueAttr.call(this, this.value, priorityChange, displayedValue);
+			var value = this._getValueField() != this.searchAttr? this.store.getIdentity(item) : displayedValue;
+			this._set("item", item);
+			dijit.form.ComboBox.superclass._setValueAttr.call(this, value, priorityChange, displayedValue);
 		},
 
 		_announceOption: function(/*Node*/ node){
@@ -632,7 +632,7 @@ dojo.declare(
 				// by the selected attribute of an option tag
 				// IE6 does not set value, Opera sets value = selectedIndex
 				if(!("value" in this.params)){
-					var item = this.store.fetchSelectedItem();
+					var item = (this.item = this.store.fetchSelectedItem());
 					if(item){
 						var valueField = this._getValueField();
 						this.value = valueField != this.searchAttr? this.store.getValue(item, valueField) : this.labelFunc(item, this.store);
@@ -1105,7 +1105,7 @@ dojo.declare(
 			//		Hook so set('value', value) works.
 			// description:
 			//		Sets the value of the select.
-			this.item = null; // value not looked up in store
+			this._set("item", null); // value not looked up in store
 			if(!value){ value = ''; } // null translates to blank
 			dijit.form.ValidationTextBox.prototype._setValueAttr.call(this, value, priorityChange, displayedValue);
 		}

@@ -56,8 +56,7 @@ dojo.declare(
 						/*Object*/ dataObject,
 						/*Boolean?*/ priorityChange){
 			// summary:
-			//		Callback function that dynamically sets the label of the
-			//		ComboBox
+			//		Callback from dojo.data after lookup of user entered value finishes
 
 			// setValue does a synchronous lookup,
 			// so it calls _callbackSetLabel directly,
@@ -67,11 +66,11 @@ dojo.declare(
 				return;
 			}
 			if(!result.length){
-				//#3268: do nothing on bad input
+				//#3268: don't modify display value on bad input
 				//#3285: change CSS to indicate error
 				this.valueNode.value = "";
 				dijit.form.TextBox.superclass._setValueAttr.call(this, "", priorityChange || (priorityChange === undefined && !this._focused));
-				this.item = null;
+				this._set("item", null);
 				this.validate(this._focused);
 			}else{
 				this.set('item', result[0], priorityChange);
@@ -158,21 +157,32 @@ dojo.declare(
 			// description:
 			//		Sets textbox to display label. Also performs reverse lookup
 			//		to set the hidden value.
+			//
+			//		Doesn't work as expected when the FilteringSelect has a custom labelFunc(), since in that case
+			//		it's impossible to do a reverse lookup (from label --> item) without a full data store scan.
+			//		App must call set("displayedValue", ...) with the intended item.searchAttr, rather than
+			//		labelFunc(item).
 
-			// When this is called during initialization it'll ping the datastore
-			// for reverse lookup, and when that completes (after an XHR request)
-			// will call setValueAttr()... but that shouldn't trigger an onChange()
-			// event, even when it happens after creation has finished
 			if(label == null){ label = ''; }
+
+			// This is called at initialization along with every custom setter.
+			// Usually (or always?) the call can be ignored.   If it needs to be
+			// processed then at least make sure that the XHR request doesn't trigger an onChange()
+			// event, even when it returns after creation has finished
 			if(!this._created){
+				if(!("displayveValue" in this.params)){
+					return;
+				}
 				priorityChange = false;
 			}
 
+			// Do a reverse lookup to map the specified displayedValue to the hidden value.
+			// Note that if there's a custom labelFunc() this code 
 			if(this.store){
 				this.closeDropDown();
 				var query = dojo.clone(this.query); // #6196: populate query with user-specifics
 				// escape meta characters of dojo.data.util.filter.patternToRegExp().
-				this._lastQuery = query[this.searchAttr] = this._getDisplayQueryString(label);
+				this._lastQuery = query[this.labelAttr || this.searchAttr] = this._getDisplayQueryString(label);
 				// if the label is not valid, the callback will never set it,
 				// so the last valid value will get the warning textbox set the
 				// textbox value now so that the impending warning will make
@@ -199,10 +209,6 @@ dojo.declare(
 				dojo.mixin(fetch, this.fetchProperties);
 				this._fetchHandle = this.store.fetch(fetch);
 			}
-		},
-
-		postMixInProperties: function(){
-			this.inherited(arguments);
 		},
 
 		undo: function(){

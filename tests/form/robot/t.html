@@ -23,14 +23,14 @@
 
 			// track tooltip currently being displayed (if any)
 			var tooltip;
-			dojo.connect(dijit, "showTooltip", function(msg){ tooltip = msg; });
-			dojo.connect(dijit, "hideTooltip", function(msg){ tooltip = ""; });
+			dojo.connect(dijit, "showTooltip", function(msg){ tooltip = msg; console.log("show tooltip = " + msg); });
+			dojo.connect(dijit, "hideTooltip", function(msg){ tooltip = ""; console.log("hide tooltip");});
 
-			dojo.forEach([false, true], function(rangeBound){
-				dojo.forEach([false, true], function(required){
-					dojo.forEach(["", "p"], function(promptMessage){
-						dojo.forEach(["", "i"], function(invalidMessage){
-							dojo.forEach(["", "m"], function(missingMessage){
+			dojo.forEach([true], function(rangeBound){
+				dojo.forEach([true], function(required){
+					dojo.forEach(["p"], function(promptMessage){
+						dojo.forEach(["i"], function(invalidMessage){
+							dojo.forEach(["m"], function(missingMessage){
 								var name = "t" + (rangeBound?1:0) + (required?1:0) + (promptMessage?1:0) + (invalidMessage?1:0) + (missingMessage?1:0);
 								var textbox = dijit.byId(name);
 

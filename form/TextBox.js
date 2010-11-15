@@ -56,7 +56,7 @@ dojo.declare(
 		},
 
 		_setPlaceHolderAttr: function(v){
-			this.placeHolder = v;
+			this._set("placeHolder", v);
 			if(!this._phspan){
 				this._attachPoints.push('_phspan');
 				/* dijitInputField class gives placeHolder same padding as the input field
@@ -123,6 +123,7 @@ dojo.declare(
 			}
 			if(formattedValue != null && formattedValue != undefined && ((typeof formattedValue) != "number" || !isNaN(formattedValue)) && this.textbox.value != formattedValue){
 				this.textbox.value = formattedValue;
+				this._set("displayedValue", this.get("displayedValue"));
 			}
 
 			this._updatePlaceHolder();
@@ -189,8 +190,15 @@ dojo.declare(
 
 			if(value === null || value === undefined){ value = '' }
 			else if(typeof value != "string"){ value = String(value) }
+
 			this.textbox.value = value;
-			this._setValueAttr(this.get('value'), undefined, value);
+
+			// sets the serialized value to something corresponding to specified displayedValue
+			// (if possible), and also updates the textbox.value, for example converting "123"
+			// to "123.00"
+			this._setValueAttr(this.get('value'), undefined);
+
+			this._set("displayedValue", this.get('displayedValue'));
 		},
 
 		format: function(/*String*/ value, /*Object*/ constraints){

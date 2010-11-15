@@ -70,7 +70,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 	},
 
 	_setDisabledAttr: function(/*Boolean*/ value){
-		this.disabled = value;
+		this._set("disabled", value);
 		dojo.attr(this.focusNode, 'disabled', value);
 		if(this.valueNode){
 			dojo.attr(this.valueNode, 'disabled', value);
@@ -169,7 +169,6 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 		//		onChange is only called form priorityChange=true events.
 		// tags:
 		//		private
-		this._lastValue = newValue;
 		if(this._lastValueReported == undefined && (priorityChange === null || !this._onChangeActive)){
 			// this block executes not for a change, but during initialization,
 			// and is used to store away the original value (or for ToggleButton, the original checked state)
@@ -296,14 +295,15 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 		//		Sets the value of the widget.
 		//		If the value has changed, then fire onChange event, unless priorityChange
 		//		is specified as null (or false?)
-		this.value = newValue;
 		this._handleOnChange(newValue, priorityChange);
 	},
 
-	_getValueAttr: function(){
+	_handleOnChange: function(/*anything*/ newValue, /*Boolean?*/ priorityChange){
 		// summary:
-		//		Hook so get('value') works.
-		return this._lastValue;
+		//		Called when the value of the widget has changed.  Saves the new value in this.value,
+		//		and calls onChange() if appropriate.   See _FormWidget._handleOnChange() for details.
+		this._set("value", newValue);
+		this.inherited(arguments);
 	},
 
 	undo: function(){

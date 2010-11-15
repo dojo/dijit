@@ -150,7 +150,8 @@ dojo.declare(
 	_setValueAttr: function(/*Number*/ value, /*Boolean?*/ priorityChange){
 		// summary:
 		//		Hook so set('value', value) works.
-		this.valueNode.value = (this.value = value);
+		this._set("value", value);
+		this.valueNode.value = value;
 		dijit.setWaiState(this.focusNode, "valuenow", value);
 		this.inherited(arguments);
 		var percent = (value - this.minimum) / (this.maximum - this.minimum);
@@ -174,8 +175,7 @@ dojo.declare(
 				properties: props
 			})
 			this._inProgressAnim.play();
-		}
-		else{
+		}else{
 			progressBar.style[this._progressPixelSize] = (percent*100) + "%";
 			remainingBar.style[this._progressPixelSize] = ((1-percent)*100) + "%";
 		}

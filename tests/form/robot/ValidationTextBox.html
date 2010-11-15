@@ -16,6 +16,10 @@
 		<script type="text/javascript">
 			dojo.require("dijit.robotx");
 
+			function fixNbsp(val){
+				return typeof val == "string" ? val.replace(/\xA0/g, " ") : val;
+			}
+
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_validate.html');
 
@@ -54,66 +58,127 @@
 					}
 				});
 
-				var _setvaluetest = function(textbox, setVal, focusVal, attrVal, isValid, chgVal, required){
-					textbox = dijit.byId(textbox);
-					if(required !== undefined){
-						textbox.set('required', required);
-					}
-					textbox.set('value', setVal);
-					doh.is(focusVal, textbox.focusNode.value, "focusNode.value");
-					doh.is(attrVal, textbox.get('value'), "get('value')");
-					doh.is(typeof attrVal, typeof textbox.get('value'), "typeof get('value')");
-					doh.is(isValid, textbox.isValid(), "isValid()");
-					var d = new doh.Deferred();
-					var onChange = dojo.byId('oc3');
-					doh.robot.sequence(d.getTestCallback(function(){
-						doh.is(chgVal.toString(), onChange.value, "onChange.value");
-					}), 500);
-					return d;
-				};
+				var watchHandle, onChangeHandle;
 
-				doh.register("setvaluetest", [
-					{
-						name: "valid_max",
-						timeout: 1000,
-						runTest: function(){ return _setvaluetest('q03', 120, 120, 120, true, 120); }
-					},
+				function setTest(testName, textbox, setDict, watchExpected, unchangedExpected, isValid, onChangeExpected){
+					// summary:
+					//		Generate test to call set("value", ...) and check response
+					// textbox: String
+					//		id of TextBox widget
+					// setDict: Dictionary
+					//		Value to pass to textbox.set(), such as {value: "123"} or {displayedValue: "1,234"}.
+					// watchExpected: Dictionary
+					//		Expected changes in state of TextBox, such as
+					//			{value: 1234, displayedValue: "1,234"}
+					//		Checks that watch() returns these values.
+					//		Also checks that textbox is actually displaying displayedValue
+					// unchangedExpected: Dictionary
+					//		Attributes of textbox that shouldn't change/be reported by watch(), and their values
+					//			{value: 1234, displayedValue: "1,234"}
+					//		Checks that watch() returns these values.
+					//		Also checks that textbox is actually displaying displayedValue
+					// isValid: Boolean
+					//		Checks return of textbox.isValid().   TODO: this should be watchable.
+					// onChangeExpected:
+					//		Check that onChange reports this value
 
-					{
-						name: "out_of_range_max",
-						timeout: 1000,
-						runTest: function(){ return _setvaluetest('q03', 121, 121, 121, false, 121); }
-					},
 
-					{
-						name: "valid_min",
+					return {
+						name: testName,
 						timeout: 1000,
-						runTest: function(){ return _setvaluetest('q03', 0, 0, 0, true, 0); }
-					},
+						runTest: function(){
 
-					{
-						name: "out_of_range_min",
-						timeout: 1000,
-						runTest: function(){ return _setvaluetest('q03', -1, -1, -1, false, -1); }
-					},
+							textbox = dijit.byId(textbox);
+		
+							// expectedState is a combination of the attributes that we expect to change
+							// and the attributes that we expect not to change
+							var expectedState = dojo.delegate(watchExpected, unchangedExpected);
 
-					{
-						name: "invalid",
-						timeout: 1000,
-						runTest: function(){ return _setvaluetest('q03', 'two', 'two', undefined, false, 'undefined'); }
-					},
+							// save all notifications from watch()		
+							var watchActual = {};
+							watchHandle = textbox.watch("*", function(attr, oldVal, newVal){
+									console.log(textbox.id + ": " + attr + ": " + oldVal + " --> " + newVal);
+									watchActual[attr] = fixNbsp(newVal);
+								});
 
-					{
-						name: "null_required",
-						timeout: 1000,
-						runTest: function(){ return _setvaluetest('q03', null, '', NaN, false, NaN, true); }
-					},
+							// and monitor onChange() calls too
+							var onChangeActual;
+							if(onChangeExpected){
+								onChangeHandle = dojo.connect(textbox, "onChange", function(newVal){
+									onChangeActual = fixNbsp(newVal);
+								});
+							}
 
-					{
-						name: "null_notrequired",
-						timeout: 1000,
-						runTest: function(){ return _setvaluetest('q03', null, '', NaN, true, NaN, false); }
-					}
+							// do the set
+							textbox.set(setDict);
+							
+							doh.is(expectedState.displayedValue, fixNbsp(textbox.focusNode.value), "focusNode.value");
+		
+							doh.is(isValid, textbox.isValid(), "isValid()");
+		
+							var d = new doh.Deferred();
+		
+							doh.robot.sequence(d.getTestCallback(function(){
+								// test that onChange() was called correctly
+								if(onChangeExpected){
+									doh.is(onChangeExpected, onChangeActual, "onChange()");
+								}
+								
+								// check that watch() callbacks were called
+								for(attr in watchExpected){
+									doh.t(attr in watchActual, "watch(" + attr + ") fired");
+									doh.is(watchExpected[attr], watchActual[attr], "watch(" + attr + ")")
+									doh.is(typeof watchExpected[attr], typeof watchActual[attr], "typeof watch(" + attr + ")")
+								}
+		
+								// check that direct get(...) calls are also working, for both the attributes
+								// that were supposed to change and the attributes that weren't supposed to change
+								for(attr in expectedState){
+									doh.is(expectedState[attr], fixNbsp(textbox.get(attr)), "get(" + attr + ")")
+									doh.is(typeof expectedState[attr], typeof textbox.get(attr), "typeof get(" + attr + ")")
+								}
+
+								// check that watch() didn't report attributes as changed when they didn't change
+								for(attr in unchangedExpected){
+									doh.f(attr in watchActual, attr + " shouldn't have been reported as changed by watch " + 
+										watchActual[attr]);
+								}
+							}), 50);		
+		
+							return d;
+						},
+						tearDown: function(){
+							watchHandle.unwatch();
+							watchHandle = null;
+							if(onChangeHandle){
+								dojo.disconnect(onChangeHandle);
+								onChangeHandle = null;
+							}
+						}
+					};
+				}
+
+				doh.register("set('value')", [
+					// test valid and invalid settings of value
+					setTest("valid_max", 'q03', {value: 120}, {value: 120, displayedValue: "120"}, {}, true),
+					setTest("out_of_range_max",'q03', {value: 121}, {value: 121, displayedValue: "121", state: "Error"}, {}, false),
+					setTest("valid_min", 'q03', {value: 0}, {value: 0, displayedValue: "0", state: ""}, {}, true),
+					setTest("out_of_range_min", 'q03', {value: -1}, {value: -1, displayedValue: "-1", state: "Error"}, {}, false),
+					setTest("invalid", 'q03', {value: 'two'}, {value: undefined, displayedValue: 'two'}, {}, false),
+					setTest("null_required", 'q03', {required: true, value: null},
+							{required: true, value: NaN, displayedValue: ''}, {state: "Error"}, false),	
+					setTest("null_notrequired", 'q03', {required: false, value: null}, {}, {displayedValue: ''}, true),
+
+					// test formatting of value vs. displayed value
+					setTest("number format", 'q05', {value: 1234}, {value: 1234, displayedValue: "1,234"}, {}, true),
+					setTest("currency format", 'q08', {value: 1234}, {value: 1234, displayedValue: "$1,234.00"}, {}, true)
+				]);
+
+				doh.register("set('displayedValue')", [
+					// test formatting of value vs. displayed value, in reverse
+					setTest("number format", 'q05', {displayedValue: "4,321"}, {value: 4321, displayedValue: "4,321"}, {}, true),
+					setTest("european currency format", 'q08eurde', {displayedValue: "4.321,98"},
+						{value: 4321.98, displayedValue: "4.321,98 €"}, {}, true)
 				]);
 
 				doh.register("intermediatechanges", {
@@ -213,7 +278,7 @@
 
 				doh.register("errorStyle", [
 					{
-						name: "beforeClick",
+						name: "beforeFocus",
 						textbox: "q04",
 						runTest: function(){
 							this.textbox = dijit.byId(this.textbox);
@@ -223,7 +288,7 @@
 					},
 
 					{
-						name: "afterClick",
+						name: "focus",
 						textbox: "q04",
 						timeout: 60000,
 						runTest: function(){
@@ -273,8 +338,12 @@
 
 				doh.register("commaformat", [
 					{
-						name: "beforeClick",
+						name: "beforeFocus",
 						textbox: "q05",
+						setUp: function(){
+							this.textbox = dijit.byId(this.textbox);
+							this.textbox.set('value', 3000);
+						},
 						runTest: function(){
 							this.textbox = dijit.byId(this.textbox);
 							doh.is('3,000', this.textbox.focusNode.value, "focusNode.value");
@@ -284,13 +353,12 @@
 					},
 
 					{
-						name: "click",
+						name: "focus",
 						timeout: 60000,
 						textbox: "q05",
 						runTest: function(){
 							var d = new doh.Deferred();
 							this.textbox = dijit.byId(this.textbox);
-							var onChange = dojo.byId('oc5');
 							doh.robot.sequence(dojo.hitch(this, function(){
 								this.textbox.focusNode.focus();
 							}), 500);
@@ -299,7 +367,6 @@
 								doh.is('3,000', this.textbox.focusNode.value, "focusNode.value");
 								doh.is('3000', this.textbox.get('value'), "get('value')");
 								doh.is(true, this.textbox.isValid(), "isValid()");
-								doh.is('not fired yet!', onChange.value);
 							})), 500);
 							return d;
 						}
@@ -398,10 +465,11 @@
 
 				doh.register("currencyFormat", [
 					{
-						name: "beforeClick",
+						name: "beforeFocus",
 						textbox: "q08",
 						runTest: function(){
 							this.textbox = dijit.byId(this.textbox);
+							this.textbox.set("value", 54775.53);
 							doh.is('$54,775.53', this.textbox.focusNode.value, "focusNode.value");
 							doh.is('54775.53', this.textbox.get('value'), "get('value')");
 							doh.is(true, this.textbox.isValid(), "isValid()");
@@ -409,7 +477,7 @@
 					},
 
 					{
-						name: "click",
+						name: "focus",
 						timeout: 60000,
 						textbox: "q08",
 						setUp: function(){
@@ -424,7 +492,6 @@
 								doh.is('54775.53', this.textbox.focusNode.value, "focusNode.value");
 								doh.is('54775.53', this.textbox.get('value'), "get('value')");
 								doh.is(true, this.textbox.isValid(), "isValid()");
-								doh.is('not fired yet!', onChange.value);
 							})), 500);
 							return d;
 						}
@@ -1008,7 +1075,7 @@
 						}
 					}
 				]);
-				
+
 				doh.register("placeholder", [
 					{
 						name: "textbox",
