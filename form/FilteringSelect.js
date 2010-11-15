@@ -168,9 +168,9 @@ dojo.declare(
 			// This is called at initialization along with every custom setter.
 			// Usually (or always?) the call can be ignored.   If it needs to be
 			// processed then at least make sure that the XHR request doesn't trigger an onChange()
-			// event, even when it returns after creation has finished
+			// event, even if it returns after creation has finished
 			if(!this._created){
-				if(!("displayveValue" in this.params)){
+				if(!("displayedValue" in this.params)){
 					return;
 				}
 				priorityChange = false;

@@ -39,27 +39,32 @@
 				if(!value) value = text;
 				if(!expectedText) expectedText = text;
 				var d = new doh.Deferred();
+
+				// setup watch() on "value" and "displayedValue"
+				var dv, v;					
+				var h1 = combo.watch("displayedValue", function(name, oldVal, newVal){ dv = newVal; });
+				var h2 = combo.watch("value", function(name, oldVal, newVal){ v = newVal; });
+
 				combo.focusNode.focus();
 				combo.itemError = false;
 				doh.robot.sequence(function(){ combo.set("value", null); }, 500);
 				doh.robot.typeKeys(text.replace(/^(.).*$/, "$1"), 500);
 				doh.robot.typeKeys(text.replace(/^./, ""), 1500);
 				doh.robot.keyPress(dojo.keys.ENTER, 1500);
-				doh.robot.sequence(function(){
-					if(combo.get("value") == value && combo.focusNode.value == expectedText && !combo._opened && !combo.itemError){
-						d.callback(true);
-					}else{
-						if(combo._opened){
-							// menu could arrive after Enter keypress if it is not thrown out
-							// TODO: is this still needed?   I've got explicit tests in the "race condition"
-							// section to make sure this doesn't happen, and it doesn't seem to be.
-							combo.closeDropDown();
-							d.errback(combo.id+" had a menu that did not close after an Enter keypress.");
-						}else{
-							d.errback(combo.id+" was supposed to have a value of "+value+" (actually "+combo.get("value")+"). Text is "+combo.focusNode.value+" (expected "+expectedText+")");
-						}
-					}
-				}, 2000);
+
+				doh.robot.sequence(d.getTestCallback(function(){
+					// general tests
+					doh.is(value, combo.get("value"), "combo.get(value)");
+					doh.is(expectedText, combo.focusNode.value, "expectedText");
+					doh.f(combo._opened, "not opened");
+					doh.f(combo.itemError, "no itemError");
+					
+					// watch() tests
+					doh.is(expectedText, dv, "watch of displayedValue");
+					doh.is(value, v, "watch of value");
+					h1.unwatch();
+					h2.unwatch();
+				}), 2000);
 				return d;
 			};
 
@@ -76,6 +81,12 @@
 				if(!value) value = text;
 				if(!expectedText) expectedText = text;
 				var d = new doh.Deferred();
+
+				// setup watch() on "value", "displayedValue", "item"
+				var dv, v, i;					
+				var h1 = combo.watch("displayedValue", function(name, oldVal, newVal){ dv = newVal; });
+				var h2 = combo.watch("value", function(name, oldVal, newVal){ v = newVal; });
+				var h3 = combo.watch("item", function(name, oldVal, newVal){ i = newVal; });
 
 				combo.focusNode.focus();
 				combo.itemError = false;
@@ -96,13 +107,20 @@
 						// can go faster since the data will have loaded by now
 						doh.robot.sequence(repeat, 1000);
 					}else{
-						doh.robot.sequence(function(){
-							if(combo.get("value") == value && combo.focusNode.value == expectedText && !combo.itemError){
-								d.callback(true);
-							}else{
-								d.errback(combo.id+" was supposed to have a value of "+value+" (actually "+combo.get("value")+"). Text is "+combo.focusNode.value+" (expected "+expectedText+")");
-							}
-						}, 500);
+						doh.robot.sequence(d.getTestCallback(function(){
+							doh.is(value, combo.get("value"), "combo.get(value)");
+							doh.is(expectedText, combo.focusNode.value, "expectedText");
+							doh.f(combo._opened, "not opened");
+							doh.f(combo.itemError, "no itemError");
+							
+							// watch() tests
+							doh.is(expectedText, dv, "watch of displayedValue");
+							doh.is(value, v, "watch of value");
+							doh.is(v, combo.store.getIdentity(i), "watch of item");
+							h1.unwatch();
+							h2.unwatch();
+							h3.unwatch();
+						}), 500);
 					}
 
 				};
@@ -212,12 +230,19 @@
 			doh.register("set('displayedValue', ...)", [
 				// Set displayedValue to Kentucky.
 				// This should be a valid assignment.
+				// TODO: this test is goofy since oc1 has a labelFunc, set("displayedValue", "Kentucky")
+				// ends up setting the displayed value to "Kentucky (KY)".   Is this what we really wanted to test?
 				{
 					timeout:5000,
 					name:"valid",
 					runTest:function(){
 						var d = new doh.Deferred(),
 							combo = dijit.byId("setvaluetest");
+						
+						var dv, v;	
+						combo.watch("displayedValue", function(name, oldVal, newVal){ dv = newVal; });
+						combo.watch("value", function(name, oldVal, newVal){ v = newVal; });
+
 						combo.set('displayedValue', 'Kentucky');
 						doh.robot.sequence(d.getTestCallback(function(){
 							var oc1=dojo.byId('oc1');
@@ -226,6 +251,8 @@
 							if(!isComboBox){
 								doh.t(combo.isValid(), "isValid()");
 							}
+							doh.is(isComboBox ? "Kentucky" : "KY", v, "watch of value")
+							doh.is("Kentucky (KY)", dv, "watch of displayedValue")
 						}), 900);
 						return d;
 					}
@@ -275,7 +302,7 @@
 					}
 				}
 
-				// TODO: test some other get("value") calls
+				// TODO: test some other set("value") calls
 			]);
 
 			doh.register("direct input", [

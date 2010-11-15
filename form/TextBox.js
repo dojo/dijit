@@ -243,6 +243,9 @@ dojo.declare(
 				setTimeout(function(){ _this._handleOnChange(_this.get('value'), false); }, 0);
 			}
 			this._refreshState();
+
+			// In case someone is watch()'ing for changes to displayedValue		
+			this._set("displayedValue", this.get("displayedValue"));
 		},
 
 		postCreate: function(){
