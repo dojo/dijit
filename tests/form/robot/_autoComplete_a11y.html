@@ -116,7 +116,7 @@
 							// watch() tests
 							doh.is(expectedText, dv, "watch of displayedValue");
 							doh.is(value, v, "watch of value");
-							doh.is(v, combo.store.getIdentity(i), "watch of item");
+							doh.is(v, isComboBox ? combo.labelFunc(i, combo.store) : combo.store.getIdentity(i), "watch of item");
 							h1.unwatch();
 							h2.unwatch();
 							h3.unwatch();
@@ -252,7 +252,7 @@
 								doh.t(combo.isValid(), "isValid()");
 							}
 							doh.is(isComboBox ? "Kentucky" : "KY", v, "watch of value")
-							doh.is("Kentucky (KY)", dv, "watch of displayedValue")
+							doh.is(isComboBox ? "Kentucky" : "Kentucky (KY)", dv, "watch of displayedValue")
 						}), 900);
 						return d;
 					}
