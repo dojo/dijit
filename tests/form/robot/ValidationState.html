@@ -20,6 +20,17 @@
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_validationState.html');
 
+				// execute some test as soon as the node is clicked
+				var clickThenTest = function(id, fcn){
+					var node = ( dijit.byId(id) || {} ).domNode || dojo.byId(id);
+					var handler = dojo.connect(node, 'onmouseup', null, function(){
+						dojo.disconnect(handler);
+						setTimeout(fcn, 1);
+					});
+					doh.robot.mouseMoveAt(node, 1, 1);
+					doh.robot.mouseClick({left:true}, 500);
+				};
+
 				doh.register("FormValidationState", [
 					{
 						name: "formLoadInvalid",
@@ -33,13 +44,13 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("notes", 500, 1);
-							doh.robot.mouseClick({left:true}, 500);
-							doh.robot.typeKeys("my notes", 500, 1000);
+							clickThenTest("notes", function(){
+								doh.robot.typeKeys("my notes", 1, 1200);
 
-							doh.robot.sequence(d.getTestCallback(function(){
-								doh.t(dijit.byId("submitButton").get("disabled"));
-							}), 1000);
+								doh.robot.sequence(d.getTestCallback(function(){
+									doh.t(dijit.byId("submitButton").get("disabled"));
+								}), 1000);
+							});
 							return d;
 						}
 					},
@@ -49,21 +60,20 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("name", 500, 1);
-							doh.robot.mouseClick({left:true}, 500);
-							doh.robot.typeKeys("my name", 500, 1000);
-							
-							doh.robot.mouseMoveAt("birth", 500, 1);
-							doh.robot.mouseClick({left:true}, 500);
-							doh.robot.mouseMoveAt("name", 100, 1); // avoid double click by moving mouse
-							doh.robot.mouseMoveAt("birth", 100, 1);
-							doh.robot.mouseClick({left:true}, 500);
-							doh.robot.sequence(function(){ dijit.byId('birth').set('value', null) }, 1000); 
-							doh.robot.typeKeys("1/1/2010", 500, 1000);
+							clickThenTest("name", function(){
+								doh.robot.typeKeys("my name", 1, 1000);
+								clickThenTest("birth", function(){
+									doh.robot.mouseMoveAt("name", 1, 1); // avoid double click by moving mouse
+									clickThenTest("birth", function(){
+										dijit.byId('birth').set('value', null); 
+										doh.robot.typeKeys("1/1/2010", 1, 1200);
 
-							doh.robot.sequence(d.getTestCallback(function(){
-								doh.t(dijit.byId("submitButton").get("disabled"));
-							}), 1000);
+										doh.robot.sequence(d.getTestCallback(function(){
+											doh.t(dijit.byId("submitButton").get("disabled"));
+										}), 1000);
+									});
+								});
+							});
 							return d;
 						}
 					},
@@ -73,12 +83,11 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("reset", 500, 1);
-							doh.robot.mouseClick({left:true}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								doh.f(dijit.byId("submitButton").get("disabled"));
-							}), 1000);
+							clickThenTest("reset", function(){
+								setTimeout(d.getTestCallback(function(){
+									doh.f(dijit.byId("submitButton").get("disabled"));
+								}), 1000);
+							});
 							return d;
 						}
 					},
@@ -88,20 +97,18 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("birth", 500, 1);
-							doh.robot.mouseClick({left:true}, 500);
-							doh.robot.mouseMoveAt("name", 100, 1); // avoid double click by moving mouse
-							doh.robot.mouseMoveAt("birth", 100, 1);
-							doh.robot.mouseClick({left:true}, 500);
-							doh.robot.sequence(function(){ dijit.byId('birth').set('value', null) }, 1000); 
-							doh.robot.typeKeys("1/1/2010", 500, 1000);
-							
-							doh.robot.mouseMoveAt("disable", 500, 1);
-							doh.robot.mouseClick({left:true}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								doh.f(dijit.byId("submitButton").get("disabled"));
-							}), 1000);
+							clickThenTest("birth", function(){
+								doh.robot.mouseMoveAt("name", 1, 1); // avoid double click by moving mouse
+								clickThenTest("birth", function(){
+									dijit.byId('birth').set('value', null); 
+									doh.robot.typeKeys("1/1/2010", 1, 1200);
+									clickThenTest("disable", function(){
+										setTimeout(d.getTestCallback(function(){
+											doh.f(dijit.byId("submitButton").get("disabled"));
+										}), 1000);
+									});
+								});
+							});
 							return d;
 						}
 					},
@@ -111,12 +118,11 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("enable", 500, 1);
-							doh.robot.mouseClick({left:true}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								doh.t(dijit.byId("submitButton").get("disabled"));
-							}), 1000);
+							clickThenTest("enable", function(){
+								setTimeout(d.getTestCallback(function(){
+									doh.t(dijit.byId("submitButton").get("disabled"));
+								}), 1000);
+							});
 							return d;
 						}
 					},
@@ -126,14 +132,13 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("reset", 500, 1);
-							doh.robot.mouseClick({left:true}, 500);
-							doh.robot.mouseMoveAt("addMoreFields", 500, 1);
-							doh.robot.mouseClick({left:true}, 500);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								doh.t(dijit.byId("submitButton").get("disabled"));
-							}), 1000);
+							clickThenTest("reset", function(){
+								clickThenTest("addMoreFields", function(){
+									setTimeout(d.getTestCallback(function(){
+										doh.t(dijit.byId("submitButton").get("disabled"));
+									}), 1000);
+								});
+							});
 							return d;
 						}
 					},
@@ -143,13 +148,12 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("lastName", 500, 1);
-							doh.robot.mouseClick({left:true}, 500);
-							doh.robot.typeKeys("my last name", 500, 1000);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								doh.f(dijit.byId("submitButton").get("disabled"));
-							}), 1000);
+							clickThenTest("lastName", function(){
+								doh.robot.typeKeys("my last name", 1, 1800);
+								setTimeout(d.getTestCallback(function(){
+									doh.f(dijit.byId("submitButton").get("disabled"));
+								}), 1000);
+							});
 							return d;
 						}
 					},
@@ -159,18 +163,18 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("color", 500, 1);
-							doh.robot.mouseClick({left:true}, 500);
-							doh.robot.sequence(function(){ dijit.byId('color').set('value', null) }, 1000); 
-							doh.robot.keyPress(dojo.keys.TAB, 1000, {});
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								doh.t(dijit.byId("submitButton").get("disabled"));
-							}), 1000);
+							clickThenTest("color", function(){
+								dijit.byId('color').set('value', null); 
+								doh.robot.keyPress(dojo.keys.TAB, 1, {});
+								doh.robot.sequence(d.getTestCallback(function(){
+									doh.t(dijit.byId("submitButton").get("disabled"));
+								}), 1000);
+							});
 							return d;
 						}
 					}
 				]);
+
 				doh.run();
 			});
 		</script>

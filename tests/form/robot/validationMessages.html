@@ -26,6 +26,14 @@
 			dojo.connect(dijit, "showTooltip", function(msg){ tooltip = msg; });
 			dojo.connect(dijit, "hideTooltip", function(msg){ tooltip = ""; });
 
+			function testOn(evt, widget, deferred, callback, delay){
+				var handler = widget.connect(widget.focusNode, "on"+evt,
+					function(){
+						widget.disconnect(handler); 
+						setTimeout(deferred.getTestCallback(callback), delay||250);
+					});
+			}
+
 			dojo.forEach([false, true], function(rangeBound){
 				dojo.forEach([false, true], function(required){
 					dojo.forEach(["", "p"], function(promptMessage){
@@ -43,15 +51,11 @@
 									},
 									runTest: function(){
 										var d = new doh.Deferred();
-										var handler = textbox.connect(textbox.focusNode, 'onmouseup',
-											function(){
-												textbox.disconnect(handler); 
-												setTimeout(d.getTestCallback(function(){
-													doh.is(!required, textbox.isValid(false), "isValid");
-													doh.is("", textbox.state, "state");
-													doh.is(promptMessage, tooltip, "tooltip");
-												}), 250);
-											});
+										testOn('mouseup', textbox, d, function(){
+											doh.is(!required, textbox.isValid(false), "isValid");
+											doh.is("", textbox.state, "state");
+											doh.is(promptMessage, tooltip, "tooltip");
+										});
 										doh.robot.mouseMoveAt(textbox.focusNode, 0, 1);
 										doh.robot.mouseClick({left: true}, 0);
 										return d;
@@ -59,330 +63,270 @@
 								},
 								{
 									name: name + " first valid character",
-									timeout: 5000,
+									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										var handler = textbox.connect(textbox.focusNode, 'onkeyup',
-											function(){
-												textbox.disconnect(handler); 
-												setTimeout(d.getTestCallback(function(){
-													doh.is(!rangeBound, textbox.isValid(false), "isValid");
-													doh.is("", textbox.state, "state");
-													doh.is(promptMessage, tooltip, "tooltip");
-												}), 250);
-											});
+										testOn('keyup', textbox, d, function(){
+											doh.is(!rangeBound, textbox.isValid(false), "isValid");
+											doh.is("", textbox.state, "state");
+											doh.is(promptMessage, tooltip, "tooltip");
+										});
 										doh.robot.typeKeys("1", 0, 0);
 										return d;
 									}
 								},
 								{
 									name: name + " second valid character",
-									timeout: 5000,
+									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										var handler = textbox.connect(textbox.focusNode, 'onkeyup',
-											function(){
-												textbox.disconnect(handler); 
-												setTimeout(d.getTestCallback(function(){
-													doh.is(true, textbox.isValid(false), "isValid");
-													doh.is("", textbox.state, "state");
-													doh.is(promptMessage, tooltip, "tooltip");
-												}), 250);
-											});
+										testOn('keyup', textbox, d, function(){
+											doh.is(true, textbox.isValid(false), "isValid");
+											doh.is("", textbox.state, "state");
+											doh.is(promptMessage, tooltip, "tooltip");
+										});
 										doh.robot.typeKeys("2", 0, 0);
 										return d;
 									}
 								},
 								{
 									name: name + " first invalid character",
-									timeout: 5000,
+									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										var handler = textbox.connect(textbox.focusNode, 'onkeyup',
-											function(){
-												textbox.disconnect(handler); 
-												setTimeout(d.getTestCallback(function(){
-													doh.is(false, textbox.isValid(false), "isValid");
-													doh.is("Error", textbox.state, "state");
-													doh.is(invalidMessage||promptMessage, tooltip, "tooltip");
-												}), 250);
-											});
+										testOn('keyup', textbox, d, function(){
+											doh.is(false, textbox.isValid(false), "isValid");
+											doh.is("Error", textbox.state, "state");
+											doh.is(invalidMessage||promptMessage, tooltip, "tooltip");
+										});
 										doh.robot.typeKeys("a", 0, 0);
 										return d;
 									}
 								},
 								{
 									name: name + " delete invalid character",
-									timeout: 5000,
+									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										var handler = textbox.connect(textbox.focusNode, 'onkeyup',
-											function(){
-												textbox.disconnect(handler); 
-												setTimeout(d.getTestCallback(function(){
-													doh.is(true, textbox.isValid(false), "isValid");
-													doh.is("", textbox.state, "state");
-													doh.is(promptMessage, tooltip, "tooltip");
-												}), 250);
-											});
+										testOn('keyup', textbox, d, function(){
+											doh.is(true, textbox.isValid(false), "isValid");
+											doh.is("", textbox.state, "state");
+											doh.is(promptMessage, tooltip, "tooltip");
+										});
 										doh.robot.keyPress(dojo.keys.BACKSPACE, 0);
 										return d;
 									}
 								},
 								{
 									name: name + " delete last valid character",
-									timeout: 5000,
+									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										var handler = textbox.connect(textbox.focusNode, 'onkeyup',
-											function(){
-												textbox.disconnect(handler); 
-												setTimeout(d.getTestCallback(function(){
-													doh.is(!rangeBound, textbox.isValid(false), "isValid");
-													doh.is("", textbox.state, "state");
-													doh.is(promptMessage, tooltip, "tooltip");
-												}), 250);
-											});
+										testOn('keyup', textbox, d, function(){
+											doh.is(!rangeBound, textbox.isValid(false), "isValid");
+											doh.is("", textbox.state, "state");
+											doh.is(promptMessage, tooltip, "tooltip");
+										});
 										doh.robot.keyPress(dojo.keys.BACKSPACE, 0);
 										return d;
 									}
 								},
 								{
 									name: name + " delete first valid character",
-									timeout: 5000,
+									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										var handler = textbox.connect(textbox.focusNode, 'onkeyup',
-											function(){
-												textbox.disconnect(handler); 
-												setTimeout(d.getTestCallback(function(){
-													doh.is(!required, textbox.isValid(false), "isValid");
-													doh.is("", textbox.state, "state");
-													doh.is(promptMessage, tooltip, "tooltip");
-												}), 250);
-											});
+										testOn('keyup', textbox, d, function(){
+											doh.is(!required, textbox.isValid(false), "isValid");
+											doh.is("", textbox.state, "state");
+											doh.is(promptMessage, tooltip, "tooltip");
+										});
 										doh.robot.keyPress(dojo.keys.BACKSPACE, 0);
 										return d;
 									}
 								},
 								{
 									name: name + " tab from empty",
-									timeout: 5000,
+									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										var handler = textbox.connect(textbox.focusNode, 'onblur',
-											function(){
-												textbox.disconnect(handler); 
-												setTimeout(d.getTestCallback(function(){
-													doh.is(!required, textbox.isValid(false), "isValid");
-													doh.is(!required, !textbox.state, "state");
-													doh.is("", tooltip, "no tooltip");
-													doh.is(required? (missingMessage||invalidMessage||promptMessage) : promptMessage, textbox.message, "message");
-												}), 250);
-											});
+										testOn('blur', textbox, d, function(){
+											doh.is(!required, textbox.isValid(false), "isValid");
+											doh.is(!required, !textbox.state, "state");
+											doh.is("", tooltip, "no tooltip");
+											doh.is(required? (missingMessage||invalidMessage||promptMessage) : promptMessage, textbox.message, "message");
+										});
 										doh.robot.keyPress(dojo.keys.TAB, 0);
 										return d;
 									}
 								},
 								{
 									name: name + " tab back to empty",
-									timeout: 5000,
+									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										var handler = textbox.connect(textbox.focusNode, 'onfocus',
-											function(){
-												textbox.disconnect(handler); 
-												setTimeout(d.getTestCallback(function(){
-													doh.is(!required, textbox.isValid(false), "isValid");
-													doh.is(!required, !textbox.state, "state");
-													doh.is(required? (missingMessage||invalidMessage||promptMessage) : promptMessage, tooltip, "tooltip");
-												}), 250);
-											});
+										testOn('focus', textbox, d, function(){
+											doh.is(!required, textbox.isValid(false), "isValid");
+											doh.is(!required, !textbox.state, "state");
+											doh.is(required? (missingMessage||invalidMessage||promptMessage) : promptMessage, tooltip, "tooltip");
+										});
 										doh.robot.keyPress(dojo.keys.TAB, 0, { shift:true });
 										return d;
 									}
 								},
 								{
 									name: name + " first valid character after refocus",
-									timeout: 5000,
+									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										var handler = textbox.connect(textbox.focusNode, 'onkeyup',
-											function(){
-												textbox.disconnect(handler); 
-												setTimeout(d.getTestCallback(function(){
-													doh.is(!rangeBound, textbox.isValid(false), "isValid");
-													doh.is("", textbox.state, "state");
-													doh.is(promptMessage, tooltip, "tooltip");
-												}), 250);
-											});
+										testOn('keyup', textbox, d, function(){
+											doh.is(!rangeBound, textbox.isValid(false), "isValid");
+											doh.is("", textbox.state, "state");
+											doh.is(promptMessage, tooltip, "tooltip");
+										});
 										doh.robot.typeKeys("1", 0, 0);
 										return d;
 									}
 								},
 								{
 									name: name + " 2nd valid character after refocus",
-									timeout: 5000,
+									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										var handler = textbox.connect(textbox.focusNode, 'onkeyup',
-											function(){
-												textbox.disconnect(handler); 
-												setTimeout(d.getTestCallback(function(){
-													doh.is("", textbox.state, "state");
-												}), 250);
-											});
+										testOn('keyup', textbox, d, function(){
+											doh.is("", textbox.state, "state");
+										});
 										doh.robot.typeKeys("2", 0, 0);
 										return d;
 									}
 								},
 								{
 									name: name + " out of range after refocus",
-									timeout: 5000,
+									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										var handler = textbox.connect(textbox.focusNode, 'onkeyup',
-											function(){
-												textbox.disconnect(handler); 
-												setTimeout(d.getTestCallback(function(){
-													doh.is(!rangeBound, textbox.isValid(false), "isValid");
-													doh.is(!rangeBound, !textbox.state, "state");
-													doh.is(rangeBound? textbox.rangeMessage : promptMessage, tooltip, "tooltip");
-												}), 250);
-											});
+										testOn('keyup', textbox, d, function(){
+											doh.is(!rangeBound, textbox.isValid(false), "isValid");
+											doh.is(!rangeBound, !textbox.state, "state");
+											doh.is(rangeBound? textbox.rangeMessage : promptMessage, tooltip, "tooltip");
+										});
 										doh.robot.typeKeys("3", 0, 0);
 										return d;
 									}
 								},
 								{
 									name: name + " tab from out of range",
-									timeout: 5000,
+									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										var handler = textbox.connect(textbox.focusNode, 'onblur',
-											function(){
-												textbox.disconnect(handler); 
-												setTimeout(d.getTestCallback(function(){
-													doh.is(!rangeBound, textbox.isValid(false), "isValid");
-													doh.is(!rangeBound, !textbox.state, "state");
-													doh.is("", tooltip, "no tooltip");
-													doh.is(rangeBound? textbox.rangeMessage : promptMessage, textbox.message, "message");
-												}), 250);
-											});
+										testOn('blur', textbox, d, function(){
+											doh.is(!rangeBound, textbox.isValid(false), "isValid");
+											doh.is(!rangeBound, !textbox.state, "state");
+											doh.is("", tooltip, "no tooltip");
+											doh.is(rangeBound? textbox.rangeMessage : promptMessage, textbox.message, "message");
+										});
 										doh.robot.keyPress(dojo.keys.TAB, 0);
 										return d;
 									}
 								},
 								{
 									name: name + " tab back to out of range",
-									timeout: 5000,
+									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										var handler = textbox.connect(textbox.focusNode, 'onfocus',
-											function(){
-												textbox.disconnect(handler); 
-												setTimeout(d.getTestCallback(function(){
-													doh.is(!rangeBound, textbox.isValid(false), "isValid");
-													doh.is(!rangeBound, !textbox.state, "state");
-													doh.is(rangeBound? textbox.rangeMessage : promptMessage, tooltip, "tooltip");
-												}), 250);
-											});
+										testOn('focus', textbox, d, function(){
+											doh.is(!rangeBound, textbox.isValid(false), "isValid");
+											doh.is(!rangeBound, !textbox.state, "state");
+											doh.is(rangeBound? textbox.rangeMessage : promptMessage, tooltip, "tooltip");
+										});
 										doh.robot.keyPress(dojo.keys.TAB, 0, { shift:true });
 										return d;
 									}
 								},
 								{
-									name: name + " delete out of range character",
-									timeout: 5000,
+									name: name + " position input caret to end",
+									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										var handler = textbox.connect(textbox.focusNode, 'onkeyup',
-											function(){
-												if(textbox.focusNode.value == "123"){ return; } // not after BKSP
-												textbox.disconnect(handler); 
-												setTimeout(d.getTestCallback(function(){
-													doh.is(true, textbox.isValid(false), "isValid");
-													doh.is("", textbox.state, "state");
-													doh.is(promptMessage, tooltip, "tooltip");
-
-												}), 250);
-											});
+										testOn('keyup', textbox, d, function(){
+											doh.is(!rangeBound, textbox.isValid(false), "isValid");
+											doh.is(!rangeBound, !textbox.state, "state");
+											doh.is(rangeBound? textbox.rangeMessage : promptMessage, tooltip, "tooltip");
+										});
 										if(dojo.isMac){
 											doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 0, {meta:true});
 										}else{
 											doh.robot.keyPress(dojo.keys.END, 0);
 										}
+										return d;
+									}
+								},
+								{
+									name: name + " delete out of range character",
+									timeout: 2000,
+									runTest: function(){
+										var d = new doh.Deferred();
+										testOn('keyup', textbox, d, function(){
+											doh.is(true, textbox.isValid(false), "isValid");
+											doh.is("", textbox.state, "state");
+											doh.is(promptMessage, tooltip, "tooltip");
+
+										});
 										doh.robot.keyPress(dojo.keys.BACKSPACE, 0);
 										return d;
 									}
 								},
 								{
 									name: name + " delete last in-range character",
-									timeout: 5000,
+									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										var handler = textbox.connect(textbox.focusNode, 'onkeyup',
-											function(){
-												textbox.disconnect(handler); 
-												setTimeout(d.getTestCallback(function(){
-													doh.is("", textbox.state, "state");
-												}), 250);
-											});
+										testOn('keyup', textbox, d, function(){
+											doh.is("", textbox.state, "state");
+										});
 										doh.robot.keyPress(dojo.keys.BACKSPACE, 0);
 										return d;
 									}
 								},
 								{
 									name: name + " delete remaining character",
-									timeout: 5000,
+									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										var handler = textbox.connect(textbox.focusNode, 'onkeyup',
-											function(){
-												textbox.disconnect(handler); 
-												setTimeout(d.getTestCallback(function(){
-													doh.is(!required, textbox.isValid(false), "isValid");
-													doh.is("", textbox.state, "state");
-													doh.is(promptMessage, tooltip, "tooltip");
-												}), 250);
-											});
+										testOn('keyup', textbox, d, function(){
+											doh.is(!required, textbox.isValid(false), "isValid");
+											doh.is("", textbox.state, "state");
+											doh.is(promptMessage, tooltip, "tooltip");
+										});
 										doh.robot.keyPress(dojo.keys.BACKSPACE, 0);
 										return d;
 									}
 								},
 								{
 									name: name + " tab from empty 2",
-									timeout: 5000,
+									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										var handler = textbox.connect(textbox.focusNode, 'onblur',
-											function(){
-												textbox.disconnect(handler); 
-												setTimeout(d.getTestCallback(function(){
-													doh.is(!required, textbox.isValid(false), "isValid");
-													doh.is(!required, !textbox.state, "state");
-													doh.is("", tooltip, "no tooltip");
-													doh.is(required? (missingMessage||invalidMessage||promptMessage) : promptMessage, textbox.message, "message");
-												}), 250);
-											});
+										testOn('blur', textbox, d, function(){
+											doh.is(!required, textbox.isValid(false), "isValid");
+											doh.is(!required, !textbox.state, "state");
+											doh.is("", tooltip, "no tooltip");
+											doh.is(required? (missingMessage||invalidMessage||promptMessage) : promptMessage, textbox.message, "message");
+										});
 										doh.robot.keyPress(dojo.keys.TAB, 0);
 										return d;
 									}
 								},
 								{
 									name: name + " tab back to empty 2",
-									timeout: 5000,
+									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										var handler = textbox.connect(textbox.focusNode, 'onfocus',
-											function(){
-												textbox.disconnect(handler); 
-												setTimeout(d.getTestCallback(function(){
-													doh.is(!required, textbox.isValid(false), "isValid");
-													doh.is(!required, !textbox.state, "state");
-													doh.is(required? (missingMessage||invalidMessage||promptMessage) : promptMessage, tooltip, "tooltip");
-												}), 250);
-											});
+										testOn('focus', textbox, d, function(){
+											doh.is(!required, textbox.isValid(false), "isValid");
+											doh.is(!required, !textbox.state, "state");
+											doh.is(required? (missingMessage||invalidMessage||promptMessage) : promptMessage, tooltip, "tooltip");
+										});
 										doh.robot.keyPress(dojo.keys.TAB, 0, { shift:true });
 										return d;
 									}
