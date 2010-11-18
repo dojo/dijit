@@ -202,65 +202,65 @@ dojo.declare(
 		//		the tooltip is displayed.
 		showDelay: 400,
 
-		// connectId: [const] String[]
-		//		Id's of domNodes to attach the tooltip to.
-		//		When user hovers over any of the specified dom nodes, the tooltip will appear.
-		//
-		//		Note: Currently connectId can only be specified on initialization, it cannot
-		//		be changed via attr('connectId', ...)
-		//
-		//		Note: in 2.0 this will be renamed to connectIds for less confusion.
-		connectId: [],
+		// connectId: String|String[]
+		//		Id of domNode(s) to attach the tooltip to.
+		//		When user hovers over specified dom node, the tooltip will appear.
+		connectId: "",
 
 		// position: String[]
 		//		See description of `dijit.Tooltip.defaultPosition` for details on position parameter.
 		position: [],
 
-		constructor: function(){
-			// Map id's of nodes I'm connected to to a list of the this.connect() handles
-			this._nodeConnectionsById = {};
-		},
-
-		_setConnectIdAttr: function(newIds){
-			for(var oldId in this._nodeConnectionsById){
-				this.removeTarget(oldId);
-			}
-			dojo.forEach(dojo.isArrayLike(newIds) ? newIds : [newIds], this.addTarget, this);
-		},
-
-		_getConnectIdAttr: function(){
-			var ary = [];
-			for(var id in this._nodeConnectionsById){
-				ary.push(id);
-			}
-			return ary;
-		},
-
-		addTarget: function(/*DOMNODE || String*/ id){
+		_setConnectIdAttr: function(/*String*/ newId){
 			// summary:
-			//		Attach tooltip to specified node, if it's not already connected
-			var node = dojo.byId(id);
-			if(!node){ return; }
-			if(node.id in this._nodeConnectionsById){ return; }//Already connected
+			//		Connect to node(s) (specified by id)
 
-			this._nodeConnectionsById[node.id] = [
-				this.connect(node, "onmouseenter", "_onTargetMouseEnter"),
-				this.connect(node, "onmouseleave", "_onTargetMouseLeave"),
-				this.connect(node, "onfocus", "_onTargetFocus"),
-				this.connect(node, "onblur", "_onTargetBlur")
-			];
+			// Remove connections to old nodes (if there are any)
+			dojo.forEach(this._connections || [], function(nested){
+				dojo.forEach(nested, dojo.hitch(this, "disconnect"));
+			}, this);
+
+			// Make connections to nodes in newIds.
+			var ary = dojo.isArrayLike(newId) ? newId : (newId ? [newId] : []);
+			this._connections = dojo.map(ary, function(id){
+				var node = dojo.byId(id);
+				return [
+					this.connect(node, "onmouseenter", "_onTargetMouseEnter"),
+					this.connect(node, "onmouseleave", "_onTargetMouseLeave"),
+					this.connect(node, "onfocus", "_onTargetFocus"),
+					this.connect(node, "onblur", "_onTargetBlur")
+				];
+			}, this);
+	
+			this._set("connectId", newId);
+
+			this._connectIds = ary;	// save as array
+		},
+
+		addTarget: function(/*DOMNODE || String*/ node){
+			// summary:
+			//		Attach tooltip to specified node if it's not already connected
+
+			// TODO: remove in 2.0 and just use set("connectId", ...) interface
+
+			var id = node.id || node;		
+			if(dojo.indexOf(this._connectIds, id) == -1){
+				this.set("connectId", this._connectIds.concat(id));
+			}
 		},
 
 		removeTarget: function(/*DOMNODE || String*/ node){
 			// summary:
 			//		Detach tooltip from specified node
 
-			// map from DOMNode back to plain id string
-			var id = node.id || node;
-
-			if(id in this._nodeConnectionsById){
-				dojo.forEach(this._nodeConnectionsById[id], this.disconnect, this);
-				delete this._nodeConnectionsById[id];
+			// TODO: remove in 2.0 and just use set("connectId", ...) interface
+			
+			var id = node.id || node,	// map from DOMNode back to plain id string
+				idx = dojo.indexOf(this._connectIds, id);
+			if(idx >= 0){
+				// remove id (modifies original this._connectIds but that's OK in this case)
+				this._connectIds.splice(idx, 1);
+				this.set("connectId", this._connectIds);
 			}
 		},
 
