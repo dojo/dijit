@@ -65,8 +65,6 @@ editorIcons.css contains references to the dijit editor widget icons. There are 
 .dijitEditorIconRemoveFormat { background-position: -774px; }
 .dijitEditorIconFullScreen { background-position: -792px; }
 .dijitEditorIconWikiword { background-position: -810px; }
-.dijitEditorIconParaLeftToRight { background-position: -828px; }
-.dijitEditorIconParaRightToLeft { background-position: -846px; } 
 /* .dijitEditorIconToggleDir { background-position: -540px; ;} - 03172010: This icon was not in dijit.editor but is in dojox.editor. */
 
 /* no longer in the editor toolbar:  .dijitEditorIconToggleDir { background-position: -540px;  padding: 0; margin: 0; color:#555555;
