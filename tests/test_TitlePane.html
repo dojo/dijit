@@ -35,31 +35,29 @@
 			return Math.floor(Math.random() * 3) + 3;
 		}
 
-    //-sie
-    //the dojo.required code might not be here yet!
-    dojo.addOnLoad(function() {
-
-		dojo.declare("dijit.TestTitlePane", dijit.TitlePane, {
-			templateString: '<div class="dijitTitlePane">' +
-							'    <div class="dijitTitlePaneTitle" dojoAttachPoint="titleBarNode" style="cursor: default;">' +
-							        '<span dojoAttachEvent="onclick:toggle,onkeypress: _onTitleKey" tabindex="0"' +
-							                'role="button" dojoAttachPoint="focusNode,arrowNode" style="cursor: pointer;">' +
-										'<img src="${_blankGif}" alt="" class="dijitArrowNode" role="presentation"/>' +
-										'<span dojoAttachPoint="arrowNodeInner" class="dijitArrowNodeInner"></span>' +
-									 '</span>' +
-							        '<span dojoAttachPoint="titleNode" class="dijitTitlePaneTextNode"></span>' +
-							    '</div>' +
-							    '<div class="dijitTitlePaneContentOuter" dojoAttachPoint="hideNode">' +
-							        '<div class="dijitReset" dojoAttachPoint="wipeNode">' +
-							            '<div class="dijitTitlePaneContentInner" dojoAttachPoint="containerNode" role="region" tabindex="-1">' +
-							            '</div>' +
-							        '</div>' +
-							    '</div>' +
-							'</div>'
-		});
-    dojo.parser.parse();
-
-    });
+	    dojo.addOnLoad(function() {
+	
+			dojo.declare("dijit.TestTitlePane", dijit.TitlePane, {
+				templateString: '<div class="dijitTitlePane">' +
+								'    <div class="dijitTitlePaneTitle" dojoAttachPoint="titleBarNode" style="cursor: default;">' +
+								        '<span dojoAttachEvent="onclick:toggle,onkeypress: _onTitleKey" tabindex="0"' +
+								                'role="button" dojoAttachPoint="focusNode,arrowNode" style="cursor: pointer;">' +
+											'<img src="${_blankGif}" alt="" class="dijitArrowNode" role="presentation"/>' +
+											'<span dojoAttachPoint="arrowNodeInner" class="dijitArrowNodeInner"></span>' +
+										 '</span>' +
+								        '<span dojoAttachPoint="titleNode" class="dijitTitlePaneTextNode"></span>' +
+								    '</div>' +
+								    '<div class="dijitTitlePaneContentOuter" dojoAttachPoint="hideNode">' +
+								        '<div class="dijitReset" dojoAttachPoint="wipeNode">' +
+								            '<div class="dijitTitlePaneContentInner" dojoAttachPoint="containerNode" role="region" tabindex="-1">' +
+								            '</div>' +
+								        '</div>' +
+								    '</div>' +
+								'</div>'
+			});
+	
+		    dojo.parser.parse();
+	    });
 	</script>
 </head>
 <body class="claro">
@@ -93,7 +91,7 @@
 	<br>
 
 	<h1>Test #3: initially closed pane</h1>
-	<div id="closed" data-dojo-type="dijit.TitlePane" data-dojo-props='title:"Initially closed pane", open:false, style:"width:200px;"'>
+	<div id="closed" data-dojo-type="dijit.TitlePane" data-dojo-props='title:"Initially closed pane", open:false, style:"width:500px;"'>
 		<form>
 			<label for="age2">Age: </label><input id="age2"/><br>
 			<label for="discount">Discount card </label><input type="checkbox" id="discount"/><br>
