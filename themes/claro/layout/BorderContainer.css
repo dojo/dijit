@@ -36,10 +36,6 @@ Splitters and gutters:
 	padding: 5px;
 }
 
-BODY > .dijitBorderContainer {
-	border: 0 !important;
-}
-
 .claro .dijitSplitContainer-child,
 .claro .dijitBorderContainer-child {
 	/* By default put borders on all children of BorderContainer,
