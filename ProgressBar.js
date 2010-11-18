@@ -11,7 +11,7 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 	// |		 value="..." maximum="...">
 	// |	</div>
 
-	// progress: String (Percentage or Number)
+	// progress: [const] String (Percentage or Number)
 	//		Number or percentage indicating amount of task completed.
 	// 		Deprecated.   Use "value" instead.
 	progress: "0",
@@ -34,6 +34,7 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 	// indeterminate: [const] Boolean
 	// 		If false: show progress value (number or percentage).
 	// 		If true: show that a process is underway but that the amount completed is unknown.
+	// 		Deprecated.   Use "value" instead.
 	indeterminate: false,
 
 	// label: String?
@@ -53,7 +54,13 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 	_indeterminateHighContrastImagePath:
 		dojo.moduleUrl("dijit", "themes/a11y/indeterminate_progress.gif"),
 
-	// public functions
+	postMixInProperties: function(){
+		this.inherited(arguments);
+		if(!("value" in this.params)){
+			this.value = this.indeterminate ? Infinity : this.progress;
+		}
+	},
+
 	buildRendering: function(){
 		this.inherited(arguments);
 		this.indeterminateHighContrastImage.setAttribute("src",
@@ -64,7 +71,7 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 	update: function(/*Object?*/attributes){
 		// summary:
 		//		Internal method to change attributes of ProgressBar, similar to set(hash).  Users should call
-		//		set() rather than calling this method directly.
+		//		set("value", ...) rather than calling this method directly.
 		// attributes:
 		//		May provide progress and/or maximum properties on this parameter;
 		//		see attribute specs for details.
@@ -106,6 +113,7 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 	},
 
 	_setValueAttr: function(v){
+		this._set("value", v);
 		if(v == Infinity){
 			this.update({indeterminate:true});
 		}else{
@@ -113,16 +121,13 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 		}
 	},
 
-	_getValueAttr: function(){
-		return this.indeterminate ? Infinity : this.progress;
-	},
-
 	_setLabelAttr: function(label){
-		this.label = label;
+		this._set("label", label);
 		this.update();
 	},
 
 	_setIndeterminateAttr: function(indeterminate){
+		// Deprecated, use set("value", ...) instead
 		this.indeterminate = indeterminate;
 		this.update();
 	},

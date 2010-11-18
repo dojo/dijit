@@ -124,7 +124,7 @@ dojo.declare("dijit._KeyNavContainer",
 				this._onChildBlur(this.focusedChild);
 			}
 			widget.focus(last ? "end" : "start");
-			this.focusedChild = widget;
+			this._set("focusedChild", widget);
 		},
 
 		_startupChild: function(/*dijit._Widget*/ widget){

@@ -49,7 +49,7 @@ dojo.declare(
 			"aria-describedby":""
 		}),
 
-		// open: Boolean
+		// open: [readonly] Boolean
 		//		True if Dialog is currently displayed on screen.
 		open: false,
 

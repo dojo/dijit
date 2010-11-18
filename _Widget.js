@@ -726,7 +726,7 @@ dojo.declare("dijit._Widget", dojo.Stateful, {
 		//		protected
 		var mapNode = this[this.attributeMap["class"] || 'domNode'];
 		dojo.replaceClass(mapNode, value, this["class"]);
-		this["class"] = value;
+		this._set("class", value);
 	},
 
 	_setStyleAttr: function(/*String||Object*/ value){
@@ -755,7 +755,7 @@ dojo.declare("dijit._Widget", dojo.Stateful, {
 			}
 		}
 
-		this.style = value;
+		this._set("style", value);
 	},
 
 	setAttribute: function(/*String*/ attr, /*anything*/ value){

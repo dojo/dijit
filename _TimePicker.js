@@ -115,15 +115,15 @@ dojo.declare("dijit._TimePicker",
 			//		Redraws the TimePicker around the new date.
 			// tags:
 			//		protected
-			this.value = date;
+			this._set("value", date);
 			this._showText();
 		},
 
 		_setFilterStringAttr: function(val){
 			// summary:
 			//		Called by TimeTextBox to filter the values shown in my list
-			this.filterString = val;
-					this._showText();
+			this._set("filterString", val);
+			this._showText();
 		},
 
 		isDisabledDate: function(/*Date*/ dateObject, /*String?*/ locale){

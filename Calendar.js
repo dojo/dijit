@@ -113,23 +113,23 @@ dojo.declare(
 				if(!this._isValidDate(this.value) || this.dateFuncObj.compare(value, this.value)){
 					value.setHours(1, 0, 0, 0); // round to nearest day (1am to avoid issues when DST shift occurs at midnight, see #8521, #9366)
 	
-				if(!this.isDisabledDate(value, this.lang)){
-					this.value = value;
-	
+					if(!this.isDisabledDate(value, this.lang)){
+						this._set("value", value);
+		
 						// Set focus cell to the new value.   Arguably this should only happen when there isn't a current
 						// focus point.   This will also repopulate the grid, showing the new selected value (and possibly
 						// new month/year).
 						this.set("currentFocus", value);
 	
 						if(priorityChange || typeof priorityChange == "undefined"){
-					this.onChange(this.get('value'));
+							this.onChange(this.get('value'));
 							this.onValueSelected(this.get('value'));	// remove in 2.0
 						}
-				}
+					}
 				}
 			}else{
 				// clear value, and repopulate grid (to deselect the previously selected day) without changing currentFocus
-				this.value = null;
+				this._set("value", null);
 				this.set("currentFocus", this.currentFocus);
 			}
 		},
@@ -332,7 +332,7 @@ dojo.declare(
 			date = new this.dateClassObj(date);
 			date.setHours(1, 0, 0, 0); 
 
-			this.currentFocus = date;
+			this._set("currentFocus", date);
 
 			// TODO: only re-populate grid when month/year has changed
 			this._populateGrid();
@@ -342,15 +342,15 @@ dojo.declare(
 			newCell.setAttribute("tabIndex", this.tabIndex);
 			if(this._focused || forceFocus){
 				newCell.focus();
-				}
+			}
 
 			// set tabIndex=-1 on old focusable cell
 			if(oldCell && oldCell != newCell){
 				if(dojo.isWebKit){	// see #11064 about webkit bug
 					oldCell.setAttribute("tabIndex", "-1");
-			}else{
-					oldCell.removeAttribute("tabIndex");				
-			}
+				}else{
+						oldCell.removeAttribute("tabIndex");				
+				}
 			}
 		},
 

@@ -17,7 +17,7 @@ dojo.declare("dijit.ColorPalette",
 	// |	picker.startup();
 
 
-	// palette: String
+	// palette: [const] String
 	//		Size of grid, either "7x10" or "3x4".
 	palette: "7x10",
 

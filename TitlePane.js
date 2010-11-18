@@ -127,17 +127,17 @@ dojo.declare(
 		dijit.setWaiState(this.containerNode,"hidden", open ? "false" : "true");
 		dijit.setWaiState(this.focusNode, "pressed", open ? "true" : "false");
 
-		this.open = open;
+		this._set("open", open);
 
 		this._setCss();
 	},
 
-	_setToggleableAttr: function(/* Boolean */ canToggle){
+	_setToggleableAttr: function(/*Boolean*/ canToggle){
 		// summary:
-		//		Hook to make set("canToggle", boolean) work.
+		//		Hook to make set("toggleable", boolean) work.
 		// canToggle: Boolean
 		//		True to allow user to open/close pane by clicking title bar.
-		this.toggleable = canToggle;
+
 		dijit.setWaiRole(this.focusNode, canToggle ? "button" : "heading");
 		if(canToggle){
 			// TODO: if canToggle is switched from true to false shouldn't we remove this setting?
@@ -147,12 +147,14 @@ dojo.declare(
 			dojo.removeAttr(this.focusNode, "tabIndex");
 		}
 
+		this._set("toggleable", canToggle);
+
 		this._setCss();
 	},
 
-	_setContentAttr: function(content){
+	_setContentAttr: function(/*String|DomNode|Nodelist*/ content){
 		// summary:
-		//		Hook to make attr("content", ...) work.
+		//		Hook to make set("content", ...) work.
 		// 		Typically called when an href is loaded.  Our job is to make the animation smooth.
 
 		if(!this.open || !this._wipeOut || this._wipeOut.status() == "playing"){

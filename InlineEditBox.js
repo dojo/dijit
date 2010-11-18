@@ -138,7 +138,6 @@ dojo.declare("dijit.InlineEditBox",
 		// summary:
 		//		Hook to make set("disabled", ...) work.
 		//		Set disabled state of widget.
-		this.disabled = disabled;
 		dijit.setWaiState(this.domNode, "disabled", disabled);
 		if(disabled){
 			this.displayNode.removeAttribute("tabIndex");
@@ -146,6 +145,7 @@ dojo.declare("dijit.InlineEditBox",
 			this.displayNode.setAttribute("tabIndex", 0);
 		}
 		dojo.toggleClass(this.displayNode, "dijitInlineEditBoxDisplayModeDisabled", disabled);
+		this._set("disabled", disabled);
 	},
 
 	_onMouseOver: function(){
@@ -319,11 +319,10 @@ dojo.declare("dijit.InlineEditBox",
 		// 		Hook to make set("value", ...) work.
 		//		Inserts specified HTML value into this node, or an "input needed" character if node is blank.
 
-		this.value = val = dojo.trim(val);
-		if(!this.renderAsHtml){
-			val = val.replace(/&/gm, "&amp;").replace(/</gm, "&lt;").replace(/>/gm, "&gt;").replace(/"/gm, "&quot;").replace(/\n/g, "<br>");
-		}
-		this.displayNode.innerHTML = val || this.noValueIndicator;
+		val = dojo.trim(val);
+		var renderVal = this.renderAsHtml ? val : val.replace(/&/gm, "&amp;").replace(/</gm, "&lt;").replace(/>/gm, "&gt;").replace(/"/gm, "&quot;").replace(/\n/g, "<br>");
+		this.displayNode.innerHTML = renderVal || this.noValueIndicator;
+		this._set("value", val);
 	},
 
 	getValue: function(){

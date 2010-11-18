@@ -16,16 +16,16 @@ dojo.declare(
 		//		Flag to parser to not try and parse widgets declared inside of me
 		stopParser: true,
 
-		// widgetClass: String
+		// widgetClass: [const] String
 		//		Name of class being declared, ex: "acme.myWidget"
 		widgetClass: "",
 
-		// propList: Object
+		// propList: [const] Object
 		//		Set of attributes for this widget along with default values, ex:
 		//		{delay: 100, title: "hello world"}
 		defaults: null,
 
-		// mixins: String[]
+		// mixins: [const] String[]
 		//		List containing the prototype for this widget, and also any mixins,
 		//		ex: ["dijit._Widget", "dijit._Container"]
 		mixins: [],
@@ -46,7 +46,7 @@ dojo.declare(
 				var evt = s.getAttribute("event") || s.getAttribute("data-dojo-event"),
 					func = dojo.parser._functionFromScript(s);
 				if(evt){
-				propList[evt] = func;
+					propList[evt] = func;
 				}else{
 					connects.push(s);
 				}

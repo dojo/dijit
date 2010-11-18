@@ -36,10 +36,12 @@ dojo.declare(
 
 		_setDialogIdAttr: function(id){
 			dojo.attr(this.node, "id", id + "_underlay");
+			this._set("dialogId", id);
 		},
 
 		_setClassAttr: function(clazz){
 			this.node.className = "dijitDialogUnderlay " + clazz;
+			this._set("class", clazz);
 		},
 
 		postCreate: function(){

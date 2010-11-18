@@ -41,7 +41,8 @@ dojo.declare(
 			templateString: dojo.cache("dijit", "templates/TooltipDialog.html"),
 
 			_setTitleAttr: function(/*String*/ title){
-				this.containerNode.title = (this.title = title);
+				this.containerNode.title = title;
+				this._set("title", title)
 			},
 
 			postCreate: function(){

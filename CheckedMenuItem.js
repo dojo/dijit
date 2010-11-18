@@ -17,7 +17,7 @@ dojo.declare("dijit.CheckedMenuItem",
 			//		Sets the class and state for the check box.
 			dojo.toggleClass(this.domNode, "dijitCheckedMenuItemChecked", checked);
 			dijit.setWaiState(this.domNode, "checked", checked);
-			this.checked = checked;
+			this._set("checked", checked);
 		},
 
 		onChange: function(/*Boolean*/ checked){

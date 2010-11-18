@@ -26,23 +26,23 @@ dojo.declare("dijit._PaletteMixin",
 	//		Index of the currently selected cell. Initially, none selected
 	_selectedCell: -1,
 
+/*=====
 	// _currentFocus: [private] DomNode
 	//		The currently focused cell (if the palette itself has focus), or otherwise
 	//		the cell to be focused when the palette itself gets focus.
 	//		Different from value, which represents the selected (i.e. clicked) cell.
-/*=====
 	_currentFocus: null,
 =====*/
 
+/*=====
 	// _xDim: [protected] Integer
 	//		This is the number of cells horizontally across.
-/*=====
 	_xDim: null,
 =====*/
 
+/*=====
 	// _yDim: [protected] Integer
 	//		This is the number of cells vertically down.
-/*=====
 	_yDim: null,
 =====*/
 
@@ -213,8 +213,7 @@ dojo.declare("dijit._PaletteMixin",
 		//		Optional parameter used to tell the select whether or not to fire
 		//		onChange event.
 		
-		// clear old value and selected cell
-		this.value = null;
+		// clear old selected cell
 		if(this._selectedCell >= 0){
 			dojo.removeClass(this._cells[this._selectedCell].node, "dijitPaletteCellSelected");
 		}
@@ -225,7 +224,6 @@ dojo.declare("dijit._PaletteMixin",
 			for(var i = 0; i < this._cells.length; i++){
 				if(value == this._cells[i].dye.getValue()){
 					this._selectedCell = i;
-					this.value = value;
 
 					dojo.addClass(this._cells[i].node, "dijitPaletteCellSelected");
 
@@ -237,6 +235,9 @@ dojo.declare("dijit._PaletteMixin",
 				}
 			}
 		}
+		
+		// record new value, or null if no matching cell
+		this._set("value", this._selectedCell >= 0 ? value : null);
 	},
 
 	onChange: function(value){
