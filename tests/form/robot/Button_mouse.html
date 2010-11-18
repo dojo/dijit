@@ -28,9 +28,9 @@
 							var d = new doh.Deferred();
 
 							var clicked = false;
-							dijit.byId("1467").set("onClick", function(){ clicked = true; });
+							dijit.byId("1466").set("onClick", function(){ clicked = true; });
 
-							doh.robot.mouseMoveAt("1467", 500);
+							doh.robot.mouseMoveAt("1466", 500);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -281,13 +281,13 @@
 					{
 						name: "icon",
 						runTest: function(){
-							doh.f(dojo.hasClass(dijit.byId("1467").iconNode, "plusIcon"), "doesn't plus icon class");
-							dijit.byId("1467").set("iconClass", "plusIcon");
-							doh.t(dojo.hasClass(dijit.byId("1467").iconNode, "plusIcon"), "has plus icon class");
+							doh.f(dojo.hasClass(dijit.byId("1466").iconNode, "plusIcon"), "doesn't plus icon class");
+							dijit.byId("1466").set("iconClass", "plusIcon");
+							doh.t(dojo.hasClass(dijit.byId("1466").iconNode, "plusIcon"), "has plus icon class");
 
 							// switching icon erases old one
-							dijit.byId("1467").set("iconClass", "noteIcon");
-							doh.f(dojo.hasClass(dijit.byId("1467").iconNode, "plusIcon"), "doesn't plus icon class");
+							dijit.byId("1466").set("iconClass", "noteIcon");
+							doh.f(dojo.hasClass(dijit.byId("1466").iconNode, "plusIcon"), "doesn't plus icon class");
 						}
 					},
 
