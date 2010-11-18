@@ -72,7 +72,6 @@ dojo.declare(
 		// description:
 		//		0 for top level nodes, 1 for their children, 2 for their
 		//		grandchildren, etc.
-		this.indent = indent;
 
 		// Math.max() is to prevent negative padding on hidden root node (when indent == -1)
 		var pixels = (Math.max(indent, 0) * this.tree._nodePixelIndent) + "px";
@@ -83,6 +82,8 @@ dojo.declare(
 		dojo.forEach(this.getChildren(), function(child){
 			child.set("indent", indent+1);
 		});
+		
+		this._set("indent", indent);
 	},
 
 	markProcessing: function(){
@@ -512,7 +513,7 @@ dojo.declare(
 	persist: true,
 
 	// autoExpand: Boolean
-	//		Fully expand the tree on load.   Overrides `persist`
+	//		Fully expand the tree on load.   Overrides `persist`.
 	autoExpand: false,
 
 	// dndController: [protected] String
@@ -784,12 +785,6 @@ dojo.declare(
 		this._selectNode((nodes && nodes[0]) || null);	//select the first item
 	},
 
-	_getSelectedItemAttr: function(){
-		// summary:
-		//		Return item related to selected tree node.
-		return this.selectedNode && this.selectedNode.item;
-	},
-
 	_setPathAttr: function(/*Item[] || String[]*/ path){
 		// summary:
 		//		Select the tree node identified by passed path.
@@ -866,20 +861,6 @@ dojo.declare(
 		}));
 			
 		return d;
-	},
-
-	_getPathAttr: function(){
-		// summary:
-		//		Return an array of items that is the path to selected tree node.
-		if(!this.selectedNode){ return; }
-		var res = [];
-		var treeNode = this.selectedNode;
-		while(treeNode && treeNode !== this.rootNode){
-			res.unshift(treeNode.item);
-			treeNode = treeNode.getParent();
-		}
-		res.unshift(this.rootNode.item);
-		return res;
 	},
 
 	////////////// Data store related functions //////////////////////
@@ -1401,7 +1382,8 @@ dojo.declare(
 
 	_selectNode: function(/*_tree.Node*/ node){
 		// summary:
-		//		Mark specified node as select, and unmark currently selected node.
+		//		Mark specified node as selected, and unmark currently selected node.
+		//		Also updates selectedNode, selectedItem, and path attributes.
 		// tags:
 		//		protected
 
@@ -1411,7 +1393,25 @@ dojo.declare(
 		if(node){
 			node.setSelected(true);
 		}
-		this.selectedNode = node;
+		
+		// Save and announce newly selected node
+		this._set("selectedNode", node);
+
+		// Save and announce item for newly selected node
+		this._set("selectedItem", node && node.item);
+
+		// Save and announce path to newly selected node
+		if(node){
+			var path = [];
+			while(node && node !== this.rootNode){
+				path.unshift(node.item);
+				node = node.getParent();
+			}
+			path.unshift(this.rootNode.item);
+			this._set("path", path);
+		}else{
+			this._set("path", null);
+		}
 	},
 
 	_onNodeFocus: function(/*dijit._Widget*/ node){
