@@ -166,19 +166,21 @@ dojo.declare("dijit.MenuItem",
 			// summary:
 			//		Hook for attr('disabled', ...) to work.
 			//		Enable or disable this menu item.
-			this.disabled = value;
+
 			dijit.setWaiState(this.focusNode, 'disabled', value ? 'true' : 'false');
+			this._set("disabled", value);
 		},
 		_setAccelKeyAttr: function(/*String*/ value){
 			// summary:
 			//		Hook for attr('accelKey', ...) to work.
 			//		Set accelKey on this menu item.
-			this.accelKey=value;
 
 			this.accelKeyNode.style.display=value?"":"none";
 			this.accelKeyNode.innerHTML=value;
 			//have to use colSpan to make it work in IE
 			dojo.attr(this.containerNode,'colSpan',value?"1":"2");
+			
+			this._set("accelKey", value);
 		}
 	});
 

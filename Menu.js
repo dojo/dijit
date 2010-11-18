@@ -407,7 +407,7 @@ dojo.declare("dijit.Menu",
 			this.bindDomNode(dojo.body());
 		}else{
 			// TODO: should have _setTargetNodeIds() method to handle initialization and a possible
-			// later attr('targetNodeIds', ...) call.   There's also a problem that targetNodeIds[]
+			// later set('targetNodeIds', ...) call.   There's also a problem that targetNodeIds[]
 			// gets stale after calls to bindDomNode()/unBindDomNode() as it still is just the original list (see #9610)
 			dojo.forEach(this.targetNodeIds, this.bindDomNode, this);
 		}
