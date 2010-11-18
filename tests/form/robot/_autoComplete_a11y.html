@@ -36,8 +36,8 @@
 			var arrowlessComboBoxes=['arrowless'];
 
 			var robot_typeValue = function(combo, text, value, expectedText){
-				if(!value) value = text;
-				if(!expectedText) expectedText = text;
+				if(value===undefined) value = text;
+				if(expectedText===undefined) expectedText = text;
 				var d = new doh.Deferred();
 
 				// setup watch() on "value" and "displayedValue"
@@ -126,33 +126,6 @@
 				};
 				// first time, wait for the data to come in
 				doh.robot.sequence(repeat, 3000);
-				return d;
-			};
-
-			// Enter an invalid value into the ComboBox/FilteringSelect, and test
-			// that FilteringSelect flags it as an error (but ComboBox allows it)
-			var errorTest = function(){
-				robot_typeValue((this.combo = dijit.byId(this.combo)), "zxcxarax");
-				var d = new doh.Deferred();
-				doh.robot.sequence(dojo.hitch(this, function(){
-					if(isComboBox){
-						if(this.combo.isValid() && this.combo.get("value") == "zxcxarax" && !this.combo.itemError){
-							d.callback(true);
-						}else{
-							d.errback(new Error("Good value flagged as bad in ComboBox"));
-						}
-					}else{
-						if(!this.combo.isValid() && this.combo.get("value") == "" && !this.combo.itemError){
-							d.callback(true);
-						}else{
-							if(this.combo.isValid()){
-								d.errback(new Error("Bad value permitted in FilteringSelect. Value is: "+this.combo.get("value")+", text is:"+this.combo.focusNode.value));
-							}else{
-								d.errback(new Error("Expected value of '', got "+this.combo.get("value")));
-							}
-						}
-					}
-				}), 2000);
 				return d;
 			};
 
@@ -322,7 +295,25 @@
 					name:"invalid value",
 					combo:"setvaluetest",
 					runTest:function(){
-						return (dojo.hitch(this, errorTest))();
+						return robot_typeValue((this.combo = dijit.byId(this.combo)), "zxcxarax", isComboBox?"zxcxarax":"");
+					}
+				},
+				
+				// Check on the invalid value from the previous test
+				{
+					timeout:60000,
+					name:"invalid value 2",
+					combo:"setvaluetest",
+					runTest:function(){
+						this.combo = dijit.byId(this.combo);
+						if(isComboBox){
+							doh.is("zxcxarax", this.combo.get("value"), "Expected value of zxcxarax, got "+this.combo.get("value")+", text is:"+this.combo.focusNode.value);
+							doh.t(this.combo.isValid(), "Bad value not permitted in ComboBox. Value is: "+this.combo.get("value")+", text is:"+this.combo.focusNode.value);
+						}else{
+							doh.is("", this.combo.get("value"), "Expected value of '', got "+this.combo.get("value")+", text is:"+this.combo.focusNode.value);
+							doh.t(!this.combo.isValid(), "Bad value permitted in FilteringSelect. Value is: "+this.combo.get("value")+", text is:"+this.combo.focusNode.value);
+						}
+						doh.t(!this.combo.itemError, "Should not have an itemError");
 					},
 					tearDown:function(){
 						this.combo.set("value", isComboBox?"Alaska":"AK");
