@@ -77,6 +77,7 @@
 							st1: "simple line 1\nsimple line 2",
 							richtext: "<h1>original</h1><p>This is the default content</p>",
 							filename: "",
+							requiredWidget: "",
 							readOnlyWidget: "Should be returned",
 							duplicate: ["first", "second", "third"]
 						};
@@ -94,10 +95,11 @@
 							st1: "new simple line 1\nnew simple line 2",
 							richtext: "<h1>changed</h1><p>This is the changed content set by set('value', ...')</p>",
 							filename: "",
+							requiredWidget: "abc",
 							readOnlyWidget: "Should be returned",
 							duplicate: ["1", "2", "3"]
 						};
-		var particalchanged = {
+		var partialChange = {
 							foo: {bar: {baz: {quux: d("2006-01-01")} } },
 							available: {from: d("2006-11-02"), to: d("2007-11-02")},
 							plop: {combo: "two"},
@@ -116,6 +118,7 @@
 							st1: "simple line 1\nsimple line 2",
 							richtext: "<h1>changed</h1><p>This is the changed content set by set('value', ...')</p>", // not a form element, so not reset
 							filename: "",
+							requiredWidget: "",
 							readOnlyWidget: "Should be returned",
 							duplicate: ["first", "second", "third"]
 						};
@@ -231,8 +234,8 @@
 						formWidget.set('value', changed);
 						doh.is( dojo.toJson(changed), dojo.toJson(formWidget.get('value')) );
 
-						formWidget.set('value', particalchanged);
-						doh.is( dojo.toJson(dojo.mixin(changed,particalchanged)), dojo.toJson(formWidget.get('value')) );
+						formWidget.set('value', partialChange);
+						doh.is( dojo.toJson(dojo.mixin(changed,partialChange)), dojo.toJson(formWidget.get('value')) );
 					},
 					function nameAttributeSurvived(){  // ticket:4753
 						var radios = dojo.query("INPUT[type=radio]", "radio-cells").forEach(
@@ -246,7 +249,7 @@
 					        runTest:function(){
 							var d=new doh.Deferred();
 							submittedValues = function(values){
-								testSubmittedValues(d, dojo.mixin(changed,particalchanged), values);
+								testSubmittedValues(d, dojo.mixin(changed,partialChange), values);
 							};
 							setTimeout(function(){ formWidget.containerNode.submit(); }, 1);
 							return d;
@@ -264,9 +267,6 @@
 						delete formWidget._onResetReturn;
 						doh.is( dojo.toJson(reset), dojo.toJson(formWidget.get('value')), "reset permitted" );
 					},
-					function testValidate(){
-						doh.is(formWidget.validate(), true);
-					},
 					function resetEditor(){ // reset editor so that refresh will pass all tests
 						dijit.byId('editor').set('value', original.richtext);
 						// FF3 sticks in some tabs and newlines that mess up the equality check
@@ -278,7 +278,7 @@
 				]
 			);
 
-			doh.register("watch('value')", [
+			false && doh.register("watch('value')", [
 				// Setup watch("value", ...)
 				function setUp(){
 					var d = new doh.Deferred();
@@ -473,10 +473,15 @@
 			]);
 
 			doh.register("watch('state')", [
-				// Setup watch("value", ...)
-				function setUp(){
-					var d = new doh.Deferred();
+				// fill in something in required field so that form is valid
+				function makeValid(){
+					doh.f(formWidget.isValid(), "form isn't valid (due to required but empty)");
+					dijit.byId("rw").set("value", "abc");
+					doh.t(formWidget.isValid(), "form is now valid");
+				},
 
+				// Setup watch("state", ...)
+				function setUp(){
 					// Setup globals to reflect return from watch("value"), ...
 					calls = 0;
 					oldVal = null;
@@ -495,7 +500,8 @@
 				},
 
 				// Start typing a value into the DateTextBox while it's focused.
-				// The incomplete value shouldn't trigger a change to Error state			
+				// The incomplete value should trigger a change to Error state even though
+				// user is still focused
 				function partialInput(){
 					var d = new doh.Deferred();
 
@@ -505,22 +511,45 @@
 					dijit.byId("dtb1").validate(true);
 					
 					setTimeout(d.getTestCallback(function(){
-						doh.is(0, calls, "no watch(state) calls");
+						doh.is(1, calls, "one watch(state) calls");
+						doh.is("", oldVal, "old state");
+						doh.is("Error", newVal, "new state");
 					}), 50);
 					
 					return d;
 				},
 
-				// But an error value should trigger the Form.state change, even before blur		
+				// Finishing the input will change state back to ""
+				function finishInput(){
+					var d = new doh.Deferred();
+
+					calls = 0;
+
+					// Simulate the typing and validation checking since this isn't a robot test
+					dojo.byId("dtb1").value = "12/31/2012";
+					dijit.byId("dtb1").validate(true);
+					
+					setTimeout(d.getTestCallback(function(){
+						doh.is(1, calls, "another watch(state) calls");
+						doh.is("Error", oldVal, "old state");
+						doh.is("", newVal, "new state");
+					}), 50);
+					
+					return d;
+				},
+
+				// An error value should trigger the Form.state change, even before blur		
 				function errorInput(){
 					var d = new doh.Deferred();
+
+					calls = 0;
 
 					// Simulate the typing and validation checking since this isn't a robot test
 					dojo.byId("dtb1").value = "12/a";
 					dijit.byId("dtb1").validate(true);
 					
 					setTimeout(d.getTestCallback(function(){
-						doh.is(1, calls, "one watch(state) call");
+						doh.is(1, calls, "another watch(state) call");
 						doh.is("", oldVal, "old state");
 						doh.is("Error", newVal, "new state");
 						doh.f(validState, "onValidStateChange(false) called")
@@ -568,7 +597,26 @@
 				}
 			]);
 
-			// TODO: test validate()
+			doh.register("validate()", function validate(){
+				formWidget.set("value", original);
+
+				// make the second and third DateTextBoxes invalid
+				dojo.byId("dtb2").value = "12/a";
+				dijit.byId("dtb2").validate(true);
+				dojo.byId("dtb3").value = "12/a";
+				dijit.byId("dtb3").validate(true);
+
+				// Since the required but empty ValidationTextBox has never been focused,
+				// it's not yet marked in an error state
+				doh.f(dojo.hasClass(dojo.byId("widget_rw"), "dijitValidationTextBoxError"), "required but empty not yet marked as error");
+
+				// validate() should focus the first DateTextBox and highlight
+				// the two invalid DateTextBoxes and the required but empty ValidationTextBox.
+				formWidget.validate();
+				
+				doh.t(dojo.hasClass(dojo.byId("widget_rw"), "dijitValidationTextBoxError"), "required but empty marked as error");
+				doh.is("dtb2", dijit._curFocus.id, "focused on first invalid DateTextBox");
+			});
 
 			doh.run();
 		});
@@ -783,6 +831,13 @@ simple line 2</textarea>
 					</td>
 				</tr>
 				<tr>
+					<td>Required Widget</td>
+					<td>requiredWidget</td>
+					<td>
+						<input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props='id: "rw", name:"requiredWidget", required:true, value:""'/>
+					</td>
+				</tr>
+				<tr>
 					<td>Disabled Widget</td>
 					<td>disabledWidget</td>
 					<td>
@@ -793,7 +848,7 @@ simple line 2</textarea>
 					<td>Disabled Required Widget</td>
 					<td>disabledRequiredWidget</td>
 					<td>
-						<input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props='name:"disabledRequiredWidget", disabled:true, required:true, value:""'/>
+						<input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props='id: "drw", name:"disabledRequiredWidget", disabled:true, required:true, value:""'/>
 					</td>
 				</tr>
 				<tr>

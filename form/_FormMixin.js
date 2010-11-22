@@ -1,7 +1,6 @@
 define("dijit/form/_FormMixin", ["dojo", "dijit", "dojo/window"], function(dojo, dijit) {
 
-dojo.declare("dijit.form._FormMixin", null,
-	{
+dojo.declare("dijit.form._FormMixin", null, {
 	// summary:
 	//		Mixin for containers of form widgets (i.e. widgets that represent a single value
 	//		and can be children of a <form> node or dijit.form.Form widget)
@@ -26,10 +25,10 @@ dojo.declare("dijit.form._FormMixin", null,
 	//	|	{ name: "John Smith", interests: ["sports", "movies"] }
 =====*/
 
-		// state: [readonly] String
-		//		Shows current state (ie, validation result) of child form widgets ("Error" or "").
-		//		Will be "Error" if one or more of the child widgets is in an error state.
-		state: "",
+	// state: [readonly] String
+	//		Will be "Error" if one or more of the child widgets has an invalid value,
+	//		or is required but blank.   Otherwise, "".
+	state: "",
 
 	//	TODO:
 	//	* Repeater
@@ -336,12 +335,13 @@ dojo.declare("dijit.form._FormMixin", null,
 			//		Deprecated.  Will be removed in 2.0.  Use watch("state", ...) instead.
 		},
 
-		_widgetValidChange: function(/*dijit._Widget*/ widget, /*String*/ attr, /*String*/ oldVal, /*String*/ newVal){
+		_widgetValidChange: function(/*dijit._Widget*/ widget){
 			// summary:
 			//		Called whenever a validation widget re-validates (i.e. on every keystroke), or becomes enabled/disabled.
 			//		Updates valid state, if needed.
 
-			var valid = widget.get("state") == "",
+			// don't use get("state") since it returns "" for never-focused required but blank fields
+			var valid = widget.isValid(),	
 				enabled = !widget.get("disabled");
 
 			// Remove widget from _invalidWidgets if it's valid or disabled
@@ -408,9 +408,12 @@ dojo.declare("dijit.form._FormMixin", null,
 			),
 			function(widget){
 				// We are interested in whenever the widget is validated - or
-				// whenever the disabled attribute on that widget is changed
+				// whenever the disabled attribute on that widget is changed.
+
+				// Can't use watch("state") because never-focused required but blank ValidationTextBox have
+				// state=="" rather than state=="Error", yet they should prevent form submission.
 				
-				conns.push(widget.watch("state", dojo.hitch(_this, "_widgetValidChange", widget)));
+				conns.push(_this.connect(widget, "validate", dojo.hitch(_this, "_widgetValidChange", widget)));
 				conns.push(widget.watch("disabled", dojo.hitch(_this, "_widgetValidChange", widget)));
 			});
 
@@ -445,7 +448,6 @@ dojo.declare("dijit.form._FormMixin", null,
 
 					// Disabling/enabling a child widget should remove it's value from this.value.
 					// Again, this code could be more efficient, doing simple thing for now.
-					// TODO: want to do a watch("disabled") here instead
 					conns.push(widget.watch("disabled", onChange));
 				}
 			);
