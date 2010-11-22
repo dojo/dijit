@@ -26,6 +26,11 @@ dojo.declare("dijit.form._FormMixin", null,
 	//	|	{ name: "John Smith", interests: ["sports", "movies"] }
 =====*/
 
+		// state: [readonly] String
+		//		Shows current state (ie, validation result) of child form widgets ("Error" or "").
+		//		Will be "Error" if one or more of the child widgets is in an error state.
+		state: "",
+
 	//	TODO:
 	//	* Repeater
 	//	* better handling for arrays.  Often form elements have names with [] like
@@ -181,6 +186,9 @@ dojo.declare("dijit.form._FormMixin", null,
 				}
 	  		});
 	  		*/
+			
+			// Note: no need to call this._set("value", ...) as the child updates will trigger onChange events
+			// which I am monitoring.
 		},
 
 		getValues: function(){
@@ -189,17 +197,18 @@ dojo.declare("dijit.form._FormMixin", null,
 		},
 		_getValueAttr: function(){
 			// summary:
-			// 		Returns Object representing form values.
+			// 		Returns Object representing form values.   See description of `value` for details.
 			// description:
-			//		Returns name/value hash for each form element.
-			//		If there are multiple elements w/the same name, value is an array,
-			//		unless they are radio buttons in which case value is a scalar since only
-			//		one can be checked at a time.
+
+			// The value is updated into this.value every time a child has an onChange event,
+			// so in the common case this function could just return this.value.   However,
+			// that wouldn't work when:
 			//
-			//		If the name is a dot separated list (like a.b.c.d), creates a nested structure.
-			//		Only works on widget form elements.
-			// example:
-			//		| { name: "John Smith", interests: ["sports", "movies"] }
+			// 1. User presses return key to submit a form.  That doesn't fire an onchange event,
+			// and even if it did it would come too late due to the setTimout(..., 0) in _handleOnChange()
+			//
+			// 2. app for some reason calls this.get("value") while the user is typing into a
+			// form field.   Not sure if that case needs to be supported or not.
 
 			// get widget values
 			var obj = { };
@@ -207,7 +216,7 @@ dojo.declare("dijit.form._FormMixin", null,
 				var name = widget.name;
 				if(!name || widget.disabled){ return; }
 
-				// Single value widget (checkbox, radio, or plain <input> type widget
+				// Single value widget (checkbox, radio, or plain <input> type widget)
 				var value = widget.get('value');
 
 				// Store widget's value(s) as a scalar, except for checkboxes which are automatically arrays
@@ -310,72 +319,89 @@ dojo.declare("dijit.form._FormMixin", null,
 			return obj;
 		},
 
-		// TODO: ComboBox might need time to process a recently input value.  This should be async?
 	 	isValid: function(){
 	 		// summary:
-	 		//		Returns true if all of the widgets are valid
+	 		//		Returns true if all of the widgets are valid.
+			//		Deprecated, will be removed in 2.0.  Use get("state") instead.
 
-	 		// This also populate this._invalidWidgets[] array with list of invalid widgets...
-	 		// TODO: put that into separate function?  It's confusing to have that as a side effect
-	 		// of a method named isValid().
-
-			this._invalidWidgets = dojo.filter(this.getDescendants(), function(widget){
-				return !widget.disabled && widget.isValid && !widget.isValid();
-	 		});
-			return !this._invalidWidgets.length;
+			return this._invalidWidgets.length === 0;
 		},
-
 
 		onValidStateChange: function(isValid){
 			// summary:
 			//		Stub function to connect to if you want to do something
 			//		(like disable/enable a submit button) when the valid
 			//		state changes on the form as a whole.
+			//
+			//		Deprecated.  Will be removed in 2.0.  Use watch("state", ...) instead.
 		},
 
-		_widgetChange: function(widget){
+		_widgetValidChange: function(/*dijit._Widget*/ widget, /*String*/ attr, /*String*/ oldVal, /*String*/ newVal){
 			// summary:
-			//		Connected to a widget's onChange function - update our
-			//		valid state, if needed.
-			var isValid = this._lastValidState;
-			if(!widget || this._lastValidState === undefined){
-				// We have passed a null widget, or we haven't been validated
-				// yet - let's re-check all our children
-				// This happens when we connect (or reconnect) our children
-				isValid = this.isValid();
-				if(this._lastValidState === undefined){
-					// Set this so that we don't fire an onValidStateChange
-					// the first time
-					this._lastValidState = isValid;
-				}
-			}else if(widget.isValid){
-				this._invalidWidgets = dojo.filter(this._invalidWidgets || [], function(w){
+			//		Called whenever a validation widget re-validates (i.e. on every keystroke), or becomes enabled/disabled.
+			//		Updates valid state, if needed.
+
+			var valid = widget.get("state") == "",
+				enabled = !widget.get("disabled");
+
+			// Remove widget from _invalidWidgets if it's valid or disabled
+			if(valid || !enabled){
+				this._invalidWidgets = dojo.filter(this._invalidWidgets, function(w){
 					return (w != widget);
 				}, this);
-				if(!widget.isValid() && !widget.get("disabled")){
-					this._invalidWidgets.push(widget);
-				}
-				isValid = (this._invalidWidgets.length === 0);
 			}
+
+			// Add widget to _invalidWidgets if it's invalid and enabled
+			else if(!valid && enabled){
+				this._invalidWidgets.push(widget);
+			}
+
+			// Notifications.   onValidStateChange() code will be removed in 2.0.
+			var isValid = (this._invalidWidgets.length === 0);
+			this._set("state", isValid ? "" : "Error");
 			if(isValid !== this._lastValidState){
 				this._lastValidState = isValid;
 				this.onValidStateChange(isValid);
 			}
 		},
 
+		disconnectChildren: function(){
+			// summary:
+			//		Remove connections to monitor changes to children's value, error state, and disabled state,
+			//		in order to update Form.value and Form.state.
+			dojo.forEach(this._changeConnections || [], function(conn){
+				if(conn.unwatch){
+					conn.unwatch();
+				}else{
+					_this.disconnect(conn);
+				}
+			});
+		},
+
 		connectChildren: function(){
 			// summary:
-			//		Connects to the onChange function of all children to
-			//		track valid state changes.  You can call this function
-			//		directly, ex. in the event that you programmatically
-			//		add a widget to the form *after* the form has been
+			//		Setup connections to monitor changes to children's value, error state, and disabled state,
+			//		in order to update Form.value and Form.state.
+			//
+			//		You can call this function directly, ex. in the event that you
+			//		programmatically add a widget to the form *after* the form has been
 			//		initialized.
-			dojo.forEach(this._changeConnections, dojo.hitch(this, "disconnect"));
+
 			var _this = this;
 
-			// we connect to validate - so that it better reflects the states
-			// of the widgets - also, we only connect if it has a validate
-			// function (to avoid too many unneeded connections)
+			// Remove old connections, if any
+			this.disconnectChildren();
+
+			// (Re)set this.value and this.state
+			this.value = this.get("value");
+			this._invalidWidgets = dojo.filter(this.getDescendants(), function(widget){
+				return !widget.disabled && widget.isValid && !widget.isValid();
+	 		});
+			this._lastValidState = !this._invalidWidgets.length;
+			this.state = this._invalidWidgets.length ? "Error" : "";
+
+			// Monitor changes to error state and disabled state in order to update
+			// Form.state
 			var conns = (this._changeConnections = []);
 			dojo.forEach(dojo.filter(this.getDescendants(),
 				function(item){ return item.validate; }
@@ -383,25 +409,61 @@ dojo.declare("dijit.form._FormMixin", null,
 			function(widget){
 				// We are interested in whenever the widget is validated - or
 				// whenever the disabled attribute on that widget is changed
-				conns.push(_this.connect(widget, "validate",
-									dojo.hitch(_this, "_widgetChange", widget)));
-				conns.push(_this.connect(widget, "_setDisabledAttr",
-									dojo.hitch(_this, "_widgetChange", widget)));
+				
+				conns.push(widget.watch("state", dojo.hitch(_this, "_widgetValidChange", widget)));
+				conns.push(widget.watch("disabled", dojo.hitch(_this, "_widgetValidChange", widget)));
 			});
 
-			// Call the widget change function to update the valid state, in
-			// case something is different now.
-			this._widgetChange(null);
+			// And monitor calls to child.onChange so we can update this.value
+			var onChange = function(){
+				// summary:
+				//		Called when child's value or disabled state changes
+				
+				// Use setTimeout() to collapse value changes in multiple children into a single
+				// update to my value.   Multiple updates will occur on:
+				//	1. Form.set()
+				//	2. Form.reset()
+				//	3. user selecting a radio button (which will de-select another radio button,
+				//		 causing two onChange events)
+				if(_this._onChangeDelayTimer){
+					clearTimeout(_this._onChangeDelayTimer);
+				}
+				_this._onChangeDelayTimer = setTimeout(function(){
+					delete _this._onChangeDelayTimer;
+					_this._set("value", _this.get("value"));
+				}, 10);
+			};
+			dojo.forEach(
+				dojo.filter(this.getDescendants(), function(item){ return item.onChange; } ),
+				function(widget){
+					// When a child widget's value changes,
+					// the efficient thing to do is to just update that one attribute in this.value,
+					// but that gets a little complicated when a checkbox is checked/unchecked
+					// since this.value["checkboxName"] contains an array of all the checkboxes w/the same name.
+					// Doing simple thing for now.
+					conns.push(_this.connect(widget, "onChange", onChange));
+
+					// Disabling/enabling a child widget should remove it's value from this.value.
+					// Again, this code could be more efficient, doing simple thing for now.
+					// TODO: want to do a watch("disabled") here instead
+					conns.push(widget.watch("disabled", onChange));
+				}
+			);
 		},
 
 		startup: function(){
 			this.inherited(arguments);
-			// Initialize our valid state tracking.  Needs to be done in startup
-			// because it's not guaranteed that our children are initialized
-			// yet.
-			this._changeConnections = [];
+
+			// Initialize value and valid/invalid state tracking.  Needs to be done in startup()
+			// so that children are initialized.
 			this.connectChildren();
+		},
+
+		destroy: function(){
+			this.disconectChildren();
+			this.inherited(arguments);
 		}
+
 	});
 
 

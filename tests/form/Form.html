@@ -69,8 +69,8 @@
 							foo: {bar: {baz: {quux: d("2007-12-30")} } },
 							available: {from: d("2005-01-02"), to: d("2006-01-02")},
 							plop: {combo: "one"},
-							cb2: ["2", "3"],
-							r2: "2",
+							cb: ["2", "3"],
+							r: "2",
 							ms1: ["VA", "WA"],
 							h1: "hidden",
 							t1: "line 1\nline 2",
@@ -86,8 +86,8 @@
 							foo: {bar: {baz: {quux: d("2005-01-01")} } },
 							available: {from: d("2005-11-02"), to: d("2006-11-02")},
 							plop: {combo: "three"},
-							cb2: ["4"],
-							r2: "1",
+							cb: ["4"],
+							r: "1",
 							ms1: ["FL", "CA"],
 							h1: "still hidden",
 							t1: "new line 1\nnew line 2",
@@ -101,15 +101,15 @@
 							foo: {bar: {baz: {quux: d("2006-01-01")} } },
 							available: {from: d("2006-11-02"), to: d("2007-11-02")},
 							plop: {combo: "two"},
-							cb2: ["2"]
+							cb: ["2"]
 		};
 		// we reset the form to these values
 		var reset =	{
 							foo: {bar: {baz: {quux: d("2007-12-30")} } },
 							available: {from: d("2005-01-02"), to: d("2006-01-02")},
 							plop: {combo: "one"},
-							cb2: ["2", "3"],
-							r2: "2",
+							cb: ["2", "3"],
+							r: "2",
 							ms1: ["VA", "WA"],
 							h1: "hidden",
 							t1: "line 1\nline 2",
@@ -130,9 +130,9 @@
 						var queried=dojo.query("input[checked]");
 						doh.t(queried.length>0,"dojo.query could not find checked widgets.");
 						doh.is(3,queried.length,"expected: 3 checked widgets, got: "+queried.length);
-						doh.is(dojo.byId('dijit_form_CheckBox_1'),queried[0],"Expected 2nd checkbox.");
-						doh.is(dojo.byId('dijit_form_CheckBox_2'),queried[1],"Expected 3rd checkbox.");
-						doh.is(dojo.byId('dijit_form_RadioButton_1'),queried[2],"Expected 2nd radio button.");
+						doh.is(dojo.byId('cb_2'),queried[0],"Expected 2nd checkbox.");
+						doh.is(dojo.byId('cb_3'),queried[1],"Expected 3rd checkbox.");
+						doh.is(dojo.byId('r_2'),queried[2],"Expected 2nd radio button.");
 					}
 				}
 			]);
@@ -142,8 +142,8 @@
 					[
 						"foo.bar.baz.quux","available.from","available.to", // DateTextBox
 						"plop.combo", // ComboBox
-						"cb2", // CheckBox
-						"r2", // RadioButton
+						"cb", // CheckBox
+						"r", // RadioButton
 						//"ms1", // MultiSelect
 						"h1", // plain hidden input
 						//"t1", "st1", // TextArea
@@ -172,8 +172,8 @@
 					doh.is(testValues.available.from.json(), formValues['available.from']);
 					doh.is(testValues.available.to.json(), formValues['available.to']);
 					doh.is(testValues.plop.combo, formValues['plop.combo']);
-					doh.is(testValues.cb2, formValues.cb2);
-					doh.is(testValues.r2, formValues.r2);
+					doh.is(testValues.cb, formValues.cb);
+					doh.is(testValues.r, formValues.r);
 					doh.is(testValues.ms1, formValues.ms1);
 					doh.is(testValues.h1, formValues.h1);
 					doh.is(testValues.t1, formValues.t1);
@@ -182,7 +182,7 @@
 					doh.is(testValues.readOnlyWidget, formValues.readOnlyWidget);
 				})();
 			};
-			doh.register("dijit.form.Form",
+			doh.register("general tests",
 				[
 					{
 						name: "setUp",
@@ -237,7 +237,7 @@
 					function nameAttributeSurvived(){  // ticket:4753
 						var radios = dojo.query("INPUT[type=radio]", "radio-cells").forEach(
 							function(r) {
-								doh.is( r.name, "r2" );
+								doh.is( r.name, "r" );
 							});
 					},
 					{
@@ -277,6 +277,298 @@
 					}
 				]
 			);
+
+			doh.register("watch('value')", [
+				// Setup watch("value", ...)
+				function setUp(){
+					var d = new doh.Deferred();
+
+					// Setup globals to reflect return from watch("value"), ...
+					calls = 0;
+					oldVal = null;
+					newVal = null;
+
+					handle = formWidget.watch("value", function(name, oldV, newV){
+						calls++;
+						oldVal = oldV;
+						newVal = newV;
+					});
+				},
+
+				// Change the DateTextBox values through Form.set("value", ...)
+				// and see if Form.watch("value", ...) does the right thing					
+				function formSet(){
+					var d = new doh.Deferred();
+
+					formWidget.set("value", {
+						foo: {bar: {baz: {quux: "1967-10-20"} } },
+						available: {from: "1967-11-09"}
+					});
+					
+					setTimeout(d.getTestCallback(function(){
+						doh.is(1, calls, "exactly one watch(value) call");
+						doh.is('2007-12-30', dojo.date.stamp.toISOString(oldVal.foo.bar.baz.quux, {selector: 'date'}), "old value");
+						doh.is('1967-10-20', dojo.date.stamp.toISOString(newVal.foo.bar.baz.quux, {selector: 'date'}), "new value");
+						doh.is('1967-11-09', dojo.date.stamp.toISOString(newVal.available.from, {selector: 'date'}), "new value2");
+					}), 50);
+					
+					return d;
+				},
+
+				// Change the DateTextBox value directly
+				// and see if Form.watch("value", ...) does the right thing					
+				function directSet(){
+					var d = new doh.Deferred();
+
+					calls = 0;
+					dijit.byId("dtb1").set("value", "1981-10-12");
+					
+					setTimeout(d.getTestCallback(function(){
+						doh.is(1, calls, "exactly one watch(value) call");
+						doh.is('1967-10-20', dojo.date.stamp.toISOString(oldVal.foo.bar.baz.quux, {selector: 'date'}), "old value");
+						doh.is('1981-10-12', dojo.date.stamp.toISOString(newVal.foo.bar.baz.quux, {selector: 'date'}), "new value");
+					}), 50);
+					
+					return d;
+				},
+
+				// Change the CheckBox values through Form.set("value", ...)
+				// and see if Form.watch("value", ...) does the right thing					
+				function checkboxSet(){
+					var d = new doh.Deferred();
+
+					calls = 0;
+					formWidget.set("value", {cb: [1,4]});
+					
+					setTimeout(d.getTestCallback(function(){
+						doh.is(1, calls, "exactly one watch(value) call");
+
+						doh.is(2, oldVal.cb.length, "number of checkboxes previously checked");
+						doh.is(2, oldVal.cb[0], "old checkboxes, first checked");
+						doh.is(3, oldVal.cb[1], "old checkboxes, second checked");
+
+						doh.is(2, newVal.cb.length, "number of checkboxes currently checked");
+						doh.is(1, newVal.cb[0], "new checkboxes, first checked");
+						doh.is(4, newVal.cb[1], "new checkboxes, second checked");
+					}), 50);
+					
+					return d;
+				},
+
+				// Uncheck a CheckBox directly
+				// and see if Form.watch("value", ...) does the right thing					
+				function directCheckBoxUncheck(){
+					var d = new doh.Deferred();
+
+					calls = 0;
+					dijit.byId("cb_1").set("checked", false);
+					
+					setTimeout(d.getTestCallback(function(){
+						doh.is(1, calls, "exactly one watch(value) call");
+
+						doh.is(2, oldVal.cb.length, "number of checkboxes previously checked");
+						doh.is(1, oldVal.cb[0], "old checkboxes, first checked");
+						doh.is(4, oldVal.cb[1], "old checkboxes, second checked");
+
+						doh.is(1, newVal.cb.length, "number of checkboxes currently checked");
+						doh.is(4, newVal.cb[0], "new checkboxes, first checked");
+					}), 50);
+					
+					return d;
+				},
+
+				// Check a CheckBox directly
+				// and see if Form.watch("value", ...) does the right thing					
+				function directCheckBoxCheck(){
+					var d = new doh.Deferred();
+
+					calls = 0;
+					dijit.byId("cb_2").set("checked", true);
+					
+					setTimeout(d.getTestCallback(function(){
+						doh.is(1, calls, "exactly one watch(value) call");
+
+						doh.is(1, oldVal.cb.length, "number of checkboxes previously checked");
+						doh.is(4, oldVal.cb[0], "old checkboxes, first checked");
+
+						// the new array should be [2,4] not [4,2] because the order the checkboxes
+						// were checked shouldn't matter; the value needs to be canonical
+						doh.is(2, newVal.cb.length, "number of checkboxes currently checked");
+						doh.is(2, newVal.cb[0], "new checkboxes, first checked");
+						doh.is(4, newVal.cb[1], "new checkboxes, second checked");
+					}), 50);
+					
+					return d;
+				},
+
+				// Change the selected RadioButton through Form.set("value", ...)
+				// and see if Form.watch("value", ...) does the right thing					
+				function radioSet(){
+					var d = new doh.Deferred();
+
+					calls = 0;
+					formWidget.set("value", {r: 3});
+					
+					setTimeout(d.getTestCallback(function(){
+						doh.is(1, calls, "exactly one watch(value) call");
+						doh.is(2, oldVal.r, "old selected radio button");
+						doh.is(3, newVal.r, "new selected radio button");
+					}), 50);
+
+					return d;
+				},
+
+				// Change the selected RadioButton directly
+				// and see if Form.watch("value", ...) does the right thing					
+				function radioDirectSet(){
+					var d = new doh.Deferred();
+
+					calls = 0;
+					dijit.byId("r_1").set("checked", true);
+
+					setTimeout(d.getTestCallback(function(){
+						doh.is(1, calls, "exactly one watch(value) call");
+						doh.is(3, oldVal.r, "old selected radio button");
+						doh.is(1, newVal.r, "new selected radio button");
+					}), 50);
+					
+					return d;
+				},
+
+				// Disabling a widget should remove it from the value
+				function disableWidget(){
+					var d = new doh.Deferred();
+
+					calls = 0;
+					dijit.byId("dtb1").set("disabled", true);
+					
+					setTimeout(d.getTestCallback(function(){
+						doh.is(1, calls, "one watch(value) call");
+						doh.t(dojo.getObject("foo.bar.baz.quux", false, oldVal) !== undefined, "attribute used to exist");
+						doh.t(dojo.getObject("foo.bar.baz.quux", false, newVal) === undefined, "attribute no longer exists");
+					}), 50);
+					
+					return d;
+				},
+
+				// Enabling a widget should add it back to the value
+				function enableWidget(){
+					var d = new doh.Deferred();
+
+					calls = 0;
+					dijit.byId("dtb1").set("disabled", false);
+					
+					setTimeout(d.getTestCallback(function(){
+						doh.is(1, calls, "one watch(value) call");
+						doh.t(dojo.getObject("foo.bar.baz.quux", false, oldVal) === undefined, "attribute didn't used to exist");
+						doh.t(dojo.getObject("foo.bar.baz.quux", false, newVal) !== undefined, "attribute now exists");
+					}), 50);
+					
+					return d;
+				},
+
+				function tearDown(){
+					handle.unwatch();
+				}
+			]);
+
+			doh.register("watch('state')", [
+				// Setup watch("value", ...)
+				function setUp(){
+					var d = new doh.Deferred();
+
+					// Setup globals to reflect return from watch("value"), ...
+					calls = 0;
+					oldVal = null;
+					newVal = null;
+
+					handle = formWidget.watch("state", function(name, oldV, newV){
+						calls++;
+						oldVal = oldV;
+						newVal = newV;
+					});
+
+					validState = true;
+					dojo.connect(formWidget, "onValidStateChange", function(val){
+						validState = val;
+					});
+				},
+
+				// Start typing a value into the DateTextBox while it's focused.
+				// The incomplete value shouldn't trigger a change to Error state			
+				function partialInput(){
+					var d = new doh.Deferred();
+
+					// Simulate the typing and validation checking since this isn't a robot test
+					dojo.byId("dtb1").focus();
+					dojo.byId("dtb1").value = "12/";
+					dijit.byId("dtb1").validate(true);
+					
+					setTimeout(d.getTestCallback(function(){
+						doh.is(0, calls, "no watch(state) calls");
+					}), 50);
+					
+					return d;
+				},
+
+				// But an error value should trigger the Form.state change, even before blur		
+				function errorInput(){
+					var d = new doh.Deferred();
+
+					// Simulate the typing and validation checking since this isn't a robot test
+					dojo.byId("dtb1").value = "12/a";
+					dijit.byId("dtb1").validate(true);
+					
+					setTimeout(d.getTestCallback(function(){
+						doh.is(1, calls, "one watch(state) call");
+						doh.is("", oldVal, "old state");
+						doh.is("Error", newVal, "new state");
+						doh.f(validState, "onValidStateChange(false) called")
+					}), 50);
+					
+					return d;
+				},
+
+				// Disabling the widget in error state should make the form valid
+				function disableErrorWidget(){
+					var d = new doh.Deferred();
+
+					calls = 0;
+					dijit.byId("dtb1").set("disabled", true);
+					
+					setTimeout(d.getTestCallback(function(){
+						doh.is(1, calls, "one watch(state) call");
+						doh.is("Error", oldVal, "old state");
+						doh.is("", newVal, "new state");
+						doh.t(formWidget.isValid(), "isValid");
+					}), 50);
+					
+					return d;
+				},
+
+				// Enabling the widget in error state should make the form invalid again
+				function enableErrorWidget(){
+					var d = new doh.Deferred();
+
+					calls = 0;
+					dijit.byId("dtb1").set("disabled", false);
+					
+					setTimeout(d.getTestCallback(function(){
+						doh.is(1, calls, "one watch(state) call");
+						doh.is("", oldVal, "old state");
+						doh.is("Error", newVal, "new state");
+						doh.f(formWidget.isValid(), "isValid");
+					}), 50);
+					
+					return d;
+				},
+
+				function tearDown(){
+					handle.unwatch();
+				}
+			]);
+
+			// TODO: test validate()
 
 			doh.run();
 		});
@@ -340,22 +632,22 @@
 					<td>foo.bar.baz.quux</td>
 					<td>
 						<div data-dojo-type="dijit.layout.ContentPane">
-						<input data-dojo-type="dijit.form.DateTextBox" data-dojo-props='type:"text", name:"foo.bar.baz.quux", value:"2007-12-30" '/>
+						<input data-dojo-type="dijit.form.DateTextBox" data-dojo-props='id:"dtb1", name:"foo.bar.baz.quux", value:"2007-12-30" '/>
 						</div>
 					</td>
 				</tr>
 				<tr>
-					<td>DateTextBox 1</td>
+					<td>DateTextBox 2</td>
 					<td>available.from</td>
 					<td>
-						<input data-dojo-type="dijit.form.DateTextBox" data-dojo-props='type:"text", name:"available.from", value:"2005-01-02" '/>
+						<input data-dojo-type="dijit.form.DateTextBox" data-dojo-props='id:"dtb2", name:"available.from", value:"2005-01-02" '/>
 					</td>
 				</tr>
 				<tr>
-					<td>DateTextBox 2</td>
+					<td>DateTextBox 3</td>
 					<td>available.to</td>
 					<td>
-						<input data-dojo-type="dijit.form.DateTextBox" data-dojo-props='type:"text", name:"available.to", value:"2006-01-02" '/>
+						<input data-dojo-type="dijit.form.DateTextBox" data-dojo-props='id:"dtb3", name:"available.to", value:"2006-01-02" '/>
 					</td>
 				</tr>
 				<tr>
@@ -397,12 +689,12 @@
 
 				<tr>
 					<td>CheckBox widget</td>
-					<td>cb2</td>
+					<td>cb</td>
 					<td>
-						<input data-dojo-type="dijit.form.CheckBox" data-dojo-props='name:"cb2", value:"1" '/> 1
-						<input data-dojo-type="dijit.form.CheckBox" data-dojo-props='name:"cb2", value:"2", checked:true '/> 2
-						<input data-dojo-type="dijit.form.CheckBox" data-dojo-props='name:"cb2", value:"3", checked:true '/> 3
-						<input data-dojo-type="dijit.form.CheckBox" data-dojo-props='name:"cb2", value:"4" '/> 4
+						<input data-dojo-type="dijit.form.CheckBox" data-dojo-props='id: "cb_1", name:"cb", value:"1" '/> 1
+						<input data-dojo-type="dijit.form.CheckBox" data-dojo-props='id: "cb_2", name:"cb", value:"2", checked:true '/> 2
+						<input data-dojo-type="dijit.form.CheckBox" data-dojo-props='id: "cb_3", name:"cb", value:"3", checked:true '/> 3
+						<input data-dojo-type="dijit.form.CheckBox" data-dojo-props='id: "cb_4", name:"cb", value:"4" '/> 4
 					</td>
 				</tr>
 
@@ -420,12 +712,12 @@
 				-->
 
 				<tr>
-				<td>Radio widget</td><td>r2</td>
+				<td>Radio widget</td><td>r</td>
 				<td id="radio-cells">
-				<input data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"r2", value:"1" '/> 1
-				<input data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"r2", value:"2", checked:true '/> 2
-				<input data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"r2", value:"3"'/> 3
-				<input data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"r2", value:"4" '/> 4
+				<input data-dojo-type="dijit.form.RadioButton" data-dojo-props='id:"r_1", name:"r", value:"1" '/> 1
+				<input data-dojo-type="dijit.form.RadioButton" data-dojo-props='id:"r_2", name:"r", value:"2", checked:true '/> 2
+				<input data-dojo-type="dijit.form.RadioButton" data-dojo-props='id:"r_3", name:"r", value:"3"'/> 3
+				<input data-dojo-type="dijit.form.RadioButton" data-dojo-props='id:"r_4", name:"r", value:"4" '/> 4
 				<input type="button" onclick="dojo.query('INPUT[type=radio]','radio-cells').forEach(function(n){dijit.getEnclosingWidget(n).set('checked',false);});return true;" value="Unset all radio buttons"/>
 				</td>
 				</tr>
