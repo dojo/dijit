@@ -462,7 +462,7 @@ dojo.declare("dijit.form._FormMixin", null, {
 		},
 
 		destroy: function(){
-			this.disconectChildren();
+			this.disconnectChildren();
 			this.inherited(arguments);
 		}
 
