@@ -120,6 +120,13 @@
 	background-image: none;
 }
 
+.claro .dijitToolbar .dijitToggleButtonChecked .dijitButtonNode {
+	margin: 0;	/* remove margin and add a border */
+	border-width: 1px;
+	border-style: solid;
+	background-image: none;
+}
+
 .claro .dijitToolbarSeparator {
 	/* separator icon in the editor sprite */
 	background: url('../../icons/images/editorIconsEnabled.png');
