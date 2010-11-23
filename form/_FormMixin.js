@@ -369,9 +369,9 @@ dojo.declare("dijit.form._FormMixin", null, {
 				if(conn.unwatch){
 					conn.unwatch();
 				}else{
-					_this.disconnect(conn);
+					this.disconnect(conn);
 				}
-			});
+			}, this);
 		},
 
 		connectChildren: function(/*Boolean*/ inStartup){
