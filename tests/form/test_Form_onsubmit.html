@@ -45,7 +45,8 @@
 </head>
 <body class="claro">
 
-	<h1 class="testTitle">Form Widget Unit Test</h1>
+	<h1 class="testTitle">Form Widget Submit Test</h1>
+	<p>Tests dojo.stopEvent() etc. calls inside dijit.form.Form onSubmit and onReset callbacks.</p>
 	<form id="myForm1" data-dojo-type="dijit.form.Form" data-dojo-props='encType:"multipart/form-data", action:"../formAction.html", method:"", target:"formSubmitIframe",
 		onSubmit:function(e){ dojo.stopEvent(e); },
 		onReset:function(e){ dojo.stopEvent(e); }'>

@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-		<title>Test Form Validation State</title>
+		<title>dijit.form.Form Valid/Invalid State Test</title>
 
 		<style type="text/css">
 			@import "../../../dojo/resources/dojo.css";
@@ -30,7 +30,11 @@
 	</head>
 
 	<body class="claro">
-		<h1 class="testTitle">Dijit Validation State</h1>
+		<h1 class="testTitle">dijit.form.Form Valid/Invalid State Test</h1>
+		<p>
+			Tests that dijit.form.Form correctly changes state from valid to invalid (as indicated by disabled/enabled submit button)
+			according to child widget state.
+		</p>
 		<form id="form1" data-dojo-type="dijit.form.Form" data-dojo-props='action:"", name:"example", method:""'>
 			<table>
 				<tr>
@@ -81,10 +85,12 @@
 			</button>
 			<button id="addMoreFields" data-dojo-type="dijit.form.Button" >
 				<script type="dojo/method" data-dojo-event="onClick">
-					new dijit.form.FilteringSelect({name: "color",
+					new dijit.form.FilteringSelect({id: "color",
+													name: "color",
 													required: true},
 													dojo.byId("color"));
-					new dijit.form.ValidationTextBox({name: "lastName",
+					new dijit.form.ValidationTextBox({id: "lastName",
+													name: "lastName",
 													required: true},
 													dojo.byId("lastName"));
 					dojo.byId("newRow").style.display = "";

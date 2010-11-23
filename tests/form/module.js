@@ -13,6 +13,8 @@ try{
 	doh.registerUrl("dijit.tests.form.robot.TimeTextBox", dojo.moduleUrl("dijit","tests/form/robot/TimeTextBox.html"+userArgs), 99999999);
 
 	doh.registerUrl("dijit.tests.form.Form", dojo.moduleUrl("dijit", "tests/form/Form.html"), 99999999);
+	doh.registerUrl("dijit.tests.form.robot.FormState", dojo.moduleUrl("dijit","tests/form/robot/Form_state.html"+userArgs), 99999999);
+	doh.registerUrl("dijit.tests.form.robot.Form_onsubmit", dojo.moduleUrl("dijit","tests/form/robot/Form_onsubmit.html"+userArgs), 99999999);
 
 	doh.registerUrl("dijit.tests.form.Select", dojo.moduleUrl("dijit", "tests/form/test_Select.html?mode=test"), 99999999);
 	doh.registerUrl("dijit.tests.form.robot.Select", dojo.moduleUrl("dijit", "tests/form/robot/Select.html"), 99999999);
@@ -22,8 +24,6 @@ try{
 
 	doh.registerUrl("dijit.tests.form.robot.FilteringSelect_mouse", dojo.moduleUrl("dijit","tests/form/robot/_autoComplete_mouse.html"+(userArgs+"&testWidget=dijit.form.FilteringSelect").replace(/^&/,"?")), 99999999);
 	doh.registerUrl("dijit.tests.form.robot.FilteringSelect_a11y", dojo.moduleUrl("dijit","tests/form/robot/_autoComplete_a11y.html"+(userArgs+"&testWidget=dijit.form.FilteringSelect").replace(/^&/,"?")), 99999999);
-
-	doh.registerUrl("dijit.tests.form.robot.Form_onsubmit", dojo.moduleUrl("dijit","tests/form/robot/Form_onsubmit.html"+userArgs), 99999999);
 
 	doh.registerUrl("dijit.tests.form.robot.MultiSelect", dojo.moduleUrl("dijit","tests/form/robot/MultiSelect.html"+userArgs), 99999999);
 
@@ -40,8 +40,6 @@ try{
 	doh.registerUrl("dijit.tests.form.robot.Textarea", dojo.moduleUrl("dijit","tests/form/robot/Textarea.html"+userArgs), 99999999);
 
 	doh.registerUrl("dijit.tests.form.robot.validationMessages", dojo.moduleUrl("dijit","tests/form/robot/validationMessages.html"+userArgs), 99999999);
-
-	doh.registerUrl("dijit.tests.form.robot.ValidationState", dojo.moduleUrl("dijit","tests/form/robot/ValidationState.html"+userArgs), 99999999);
 
 	doh.registerUrl("dijit.tests.form.verticalAlign", dojo.moduleUrl("dijit","tests/form/test_verticalAlign.html"+userArgs), 99999999);
 
