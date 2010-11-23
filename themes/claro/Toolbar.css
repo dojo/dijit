@@ -111,19 +111,16 @@
 }
 /* toggle button checked status */
 .claro .dijitToolbar .dijitToggleButtonChecked .dijitButtonNode {
+	margin: 0;	/* remove margin and add a border */
+	border-width: 1px;
+	border-style: solid;
+	background-image: none;
 	border-color: #769dc0;
 	background-color:#fff;
 	padding: 1px;
 }
 
 .dj_ie6 .claro .dijitToolbar {
-	background-image: none;
-}
-
-.claro .dijitToolbar .dijitToggleButtonChecked .dijitButtonNode {
-	margin: 0;	/* remove margin and add a border */
-	border-width: 1px;
-	border-style: solid;
 	background-image: none;
 }
 
