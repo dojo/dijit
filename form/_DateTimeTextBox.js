@@ -168,6 +168,14 @@ dojo.declare(
 			}
 		},
 
+		_set: function(attr, value){
+			// Avoid spurious watch() notifications when value is changed to new Date object w/the same value
+			if(attr == "value" && this.value instanceof Date && dojo.date.compare(value, this.value) == 0){
+				return;
+			}
+			this.inherited(arguments);
+		},
+
 		_setDropDownDefaultValueAttr: function(/*Date*/ val){
 			if(this._isInvalidDate(val)){
 				// convert null setting into today's date, since there needs to be *some* default at all times.		

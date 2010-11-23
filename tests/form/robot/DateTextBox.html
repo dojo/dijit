@@ -24,8 +24,8 @@
 				// refs to DateTextBox widgets
 				var american, german;
 
-				// log of calls to onChange handler
-				var changes = [];
+				// log of calls to onChange handler, and watch(value)
+				var changes = [], watches = [];
 
 				doh.register("setup",
 					function setUp(){
@@ -38,6 +38,10 @@
 						dojo.connect(american, 'onChange', function(val){
 							console.log('onchange w/value: ', val);
 							changes.push(val);
+						});
+						
+						american.watch("value", function(attr, oldV, newV){
+							watches.push(newV);
 						});
 				    }
 				);
@@ -151,10 +155,13 @@
 					setUp: function(){
 						// clear the field
 						changes = [];
+						watches = [];
 						american.set('value', null, false);
 					},
 					runTest: function(){
 						var d = new doh.Deferred();
+
+						doh.is(1, watches.length, 'one watch(value) event from the set("value")');
 
 						american.focus();
 
@@ -164,8 +171,12 @@
 							var value = american.get('value');
 							doh.is(0, dojo.date.compare(new Date(2005, 0, 3), value), 'actual value is ' + value);
 							doh.is(1, changes.length, 'one onchange event');	// #9018
+							doh.is(2, watches.length, 'one watch(value) event from the onblur');
 							doh.is(0, dojo.date.compare(new Date(2005, 0, 3), changes[0]),
 									'value reported by onchange: ' + changes[0] +
+									', should be ' + new Date(2005, 0, 3));
+							doh.is(0, dojo.date.compare(new Date(2005, 0, 3), watches[1]),
+									'value reported by watch(value): ' + watches[1] +
 									', should be ' + new Date(2005, 0, 3));
 						}), 1000);
 						return d;
@@ -177,6 +188,7 @@
 						// set to may 10
 						changes = [];
 						american.set('displayedValue', "", false);
+						watches = [];	// put after set() so we can ignore the watch() published by set()
 					},
 
 					{
@@ -215,6 +227,7 @@
 								doh.is(10, innerText(dojo.global.dijit._curFocus), "focus on selected calendar cell")
 
 								doh.is(0, changes.length, "no onchange events yet");
+								doh.is(0, watches.length, "no watch(value) events yet");
 							}), 1000);
 
 							return d;
@@ -245,6 +258,7 @@
 								doh.is(12, innerText(dojo.global.dijit._curFocus), "focus")
 
 								doh.is(0, changes.length, "no onchange events yet");
+								doh.is(0, watches.length, "no watch(value) events yet");
 							}), 500);
 
 							return d;
@@ -269,6 +283,7 @@
 								doh.is(11, innerText(dojo.global.dijit._curFocus), "focus")
 
 								doh.is(0, changes.length, "no onchange events yet");
+								doh.is(0, watches.length, "no watch(value) events yet");
 							}), 500);
 
 							return d;
@@ -299,6 +314,7 @@
 								doh.is(8, innerText(dojo.global.dijit._curFocus), "focus")
 
 								doh.is(0, changes.length, "no onchange events yet");
+								doh.is(0, watches.length, "no watch(value) events yet");
 							}), 500);
 
 							return d;
@@ -328,6 +344,7 @@
 								doh.is(18, innerText(dojo.global.dijit._curFocus), "focus")
 
 								doh.is(0, changes.length, "no onchange events yet");
+								doh.is(0, watches.length, "no watch(value) events yet");
 							}), 500);
 
 							return d;
@@ -356,6 +373,7 @@
 								doh.is("July", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "month changed");
 
 								doh.is(0, changes.length, "no onchange events yet");
+								doh.is(0, watches.length, "no watch(value) events yet");
 							}), 500);
 
 							return d;
@@ -383,6 +401,7 @@
 								doh.is("June", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "month changed");
 
 								doh.is(0, changes.length, "no onchange events yet");
+								doh.is(0, watches.length, "no watch(value) events yet");
 							}), 500);
 
 							return d;
@@ -416,6 +435,7 @@
 								doh.is("2007", innerText(selectedYearButtons[0]), "year changed");
 
 								doh.is(0, changes.length, "no onchange events yet");
+								doh.is(0, watches.length, "no watch(value) events yet");
 							}), 500);
 
 							return d;
@@ -448,6 +468,7 @@
 								doh.is("2006", innerText(selectedYearButtons[0]), "year changed");
 
 								doh.is(0, changes.length, "no onchange events yet");
+								doh.is(0, watches.length, "no watch(value) events yet");
 							}), 500);
 
 							return d;
@@ -472,6 +493,7 @@
 								doh.is(1, innerText(dojo.global.dijit._curFocus), "focus")
 
 								doh.is(0, changes.length, "no onchange events yet");
+								doh.is(0, watches.length, "no watch(value) events yet");
 							}), 500);
 
 							return d;
@@ -496,6 +518,7 @@
 								doh.is(30, innerText(dojo.global.dijit._curFocus), "focus")
 
 								doh.is(0, changes.length, "no onchange events yet");
+								doh.is(0, watches.length, "no watch(value) events yet");
 							}), 500);
 
 							return d;
@@ -518,7 +541,9 @@
 								doh.is(0, dojo.date.compare(expectedVal, american.get('value')), 'wire value of american: ' + american.get('value'));
 
 								doh.is(1, changes.length, "onchange event fired");
+								doh.is(1, watches.length, "watch(value) event fired");
 								doh.is(0, dojo.date.compare(expectedVal, changes[0]), 'onchange of american: ' + changes[0]);
+								doh.is(0, dojo.date.compare(expectedVal, watches[0]), 'watch(value) of american: ' + watches[0]);
 
 								// focus moved back to <input>
 								doh.is("american", dojo.global.dijit._curFocus.id, "focus on <input>")
@@ -538,6 +563,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(1, changes.length, "no new onchange events");	// #9018
+								doh.is(1, watches.length, "no new watch(value) events yet");
 								doh.is("german", dojo.global.dijit._curFocus.id, "tabbed from american to german")
 							}), 1000);
 							return d;
@@ -552,6 +578,7 @@
 						// clear the field
 						changes = [];
 						american.set('displayedValue', "", false);
+						watches = [];	// do it here to ignore watch() notification for above set() call
 					},
 
 					{
@@ -562,6 +589,7 @@
 
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.is(0, changes.length, "no onchange events yet #1");
+								doh.is(0, watches.length, "no watch(value) events yet #1");
 							}), 500);
 
 							doh.robot.mouseMoveAt(american.focusNode, 0, 1);
@@ -575,6 +603,7 @@
 								doh.t(isVisible(calendar), "calendar is visible");
 
 								doh.is(0, changes.length, "no onchange events yet #2");
+								doh.is(0, watches.length, "no watch(value) events yet #2");
 							}), 1000);
 
 							return d;
@@ -615,7 +644,8 @@
 								doh.is(1, selectedDays.length, "one day selected");
 								doh.is("10", innerText(selectedDays[0]), "correct day is selected");
 
-								doh.is(0, changes.length, "no onchange events yet #2");
+								doh.is(0, changes.length, "no onchange events yet");
+								doh.is(0, watches.length, "no watch(value) events yet");
 							}), 1000);
 
 							return d;
@@ -644,6 +674,7 @@
 								doh.is("June", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "moved from may to june");
 
 								doh.is(0, changes.length, "no onchange events yet");
+								doh.is(0, watches.length, "no watch(value) events yet");
 							}), 1000);
 
 							return d;
@@ -684,6 +715,7 @@
 								doh.is("1", innerText(firstRowDays[5]), "sixth day is june 1");
 
 								doh.is(0, changes.length, "no onchange events yet");
+								doh.is(0, watches.length, "no watch(value) events yet");
 							}), 1000);
 
 							return d;
@@ -715,6 +747,7 @@
 								doh.is("2006", innerText(yearNodes[0]), "moved from 2005 to 2006");
 
 								doh.is(0, changes.length, "no onchange events yet");
+								doh.is(0, watches.length, "no watch(value) events yet");
 							}), 1000);
 
 							return d;
@@ -741,6 +774,7 @@
 									doh.t(dojo.hasClass(node, 'dijitCalendarDisabledDate'), 'every day in 2007 is disabled');
 								});
 								doh.is(0, changes.length, "no onchange events yet");
+								doh.is(0, watches.length, "no watch(value) events yet");
 							}), 500);
 
 							return d;
@@ -767,6 +801,7 @@
 									doh.f(dojo.hasClass(node, 'dijitCalendarDisabledDate'), "every day in 2006 is enabled");
 								});
 								doh.is(0, changes.length, "no onchange events yet");
+								doh.is(0, watches.length, "no watch(value) events yet");
 							}), 500);
 
 							return d;
@@ -790,6 +825,7 @@
 							var lastRowDays = dojo.query("TD", rows[5]);
 							doh.t(dojo.hasClass(lastRowDays[3], 'dijitCalendarNextMonth'), "last row is for next month");
 							doh.is(0, changes.length, "no onchange events yet");
+							doh.is(0, watches.length, "no watch(value) events yet");
 						}
 					},
 
@@ -811,6 +847,7 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(dojo.hasClass(day, 'dijitCalendarHoveredDate'), "hovered date has hover class");
 								doh.is(0, changes.length, "no onchange events yet");
+								doh.is(0, watches.length, "no watch(value) events yet");
 							}), 500);
 
 							return d;
@@ -833,7 +870,9 @@
 								doh.is(0, dojo.date.compare(expectedVal, american.get('value')), 'wire value of american: ' + american.get('value'));
 
 								doh.is(1, changes.length, "onchange event fired");
+								doh.is(1, watches.length, "watch(value) event fired");
 								doh.is(0, dojo.date.compare(expectedVal, changes[0]), 'onchange of american: ' + changes[0]);
+								doh.is(0, dojo.date.compare(expectedVal, watches[0]), 'watch(value) of american: ' + watches[0]);
 							}), 1000);
 
 							return d;
@@ -850,6 +889,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(1, changes.length, "no new onchange events");	// #9018
+								doh.is(1, watches.length, "no new watch(value) events");
 							}), 1000);
 							return d;
 						}

@@ -941,7 +941,7 @@ dojo.declare("dijit._Widget", dojo.Stateful, {
 		//		registered with watch() if the value has changed.
 		var oldValue = this[name];
 		this[name] = value;
-		if(this._watchCallbacks && value !== oldValue){
+		if(this._watchCallbacks && this._created && value !== oldValue){
 			this._watchCallbacks(name, oldValue, value);
 		}
 	},
