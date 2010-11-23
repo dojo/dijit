@@ -5,6 +5,9 @@ try{
 
 	doh.registerUrl("dijit.tests.form.robot.Button_mouse", dojo.moduleUrl("dijit","tests/form/robot/Button_mouse.html"+userArgs), 99999999);
 	doh.registerUrl("dijit.tests.form.robot.Button_a11y", dojo.moduleUrl("dijit","tests/form/robot/Button_a11y.html"+userArgs), 99999999);
+	
+	doh.registerUrl("dijit.tests.form.robot.CheckBox_mouse", dojo.moduleUrl("dijit","tests/form/robot/CheckBox_mouse.html"+userArgs), 99999999);
+	doh.registerUrl("dijit.tests.form.robot.CheckBox_a11y", dojo.moduleUrl("dijit","tests/form/robot/CheckBox_a11y.html"+userArgs), 99999999);
 
 	doh.registerUrl("dijit.tests.form.test_validate", dojo.moduleUrl("dijit","tests/form/test_validate.html"+userArgs), 99999999);
 	doh.registerUrl("dijit.tests.form.robot.ValidationTextBox", dojo.moduleUrl("dijit","tests/form/robot/ValidationTextBox.html"+userArgs), 99999999);
@@ -34,8 +37,6 @@ try{
 
 	doh.registerUrl("dijit.tests.form.robot.Spinner_mouse", dojo.moduleUrl("dijit","tests/form/robot/Spinner_mouse.html"+userArgs), 99999999);
 	doh.registerUrl("dijit.tests.form.robot.Spinner_a11y", dojo.moduleUrl("dijit","tests/form/robot/Spinner_a11y.html"+userArgs), 99999999);
-
-	doh.registerUrl("dijit.tests.form.CheckBox", dojo.moduleUrl("dijit", "tests/form/test_CheckBox.html"+userArgs), 99999999);
 
 	doh.registerUrl("dijit.tests.form.robot.Textarea", dojo.moduleUrl("dijit","tests/form/robot/Textarea.html"+userArgs), 99999999);
 

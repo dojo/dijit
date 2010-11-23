@@ -42,195 +42,22 @@
 			dojo.byId("onvaluechangedoutput").innerHTML = value;
 		}
 
-		// These are the values assigned to the widgets in the page's HTML
-		var originalGet = {
-			cb1: [],
-			cb2: ["on"],
-			cb4: ["on"],
-			cb5: [],
-			cb6: ["on"],
-			cb7: [],
-			'g[1]': "talk",
-			g2: null
-		};
-
-		var originalSubmit = {
-			cb2: "on",
-			cb4: "on",
-			cb6: "on",
-			'g[1]': "talk"
-		};
-
-		// attempt to change these values
-		var change = {
-			cb1: ["foo"],
-			cb2: [],
-			cb3: ["on"],
-			cb4: [],
-			cb5: ["on"],
-			cb6: ["foo"],
-			'g[1]': "weather",
-			g2: "country"
-		};
-
-		// changed values
-		var changedGet = {
-			cb1: ["foo"],
-			cb2: [],
-			cb4: [],
-			cb5: ["on"],
-			cb6: [],
-			cb7: [],
-			'g[1]': null,
-			g2: "country"
-		};
-
-		var changedSubmit = {
-			cb1: "foo",
-			cb5: "on",
-			g2: "country"
-		};
-
 		dojo.addOnLoad(function(){
 			var params = {id: "cb6", name: "cb6", checked: true };
-			var widget = new dijit.form.CheckBox(params, "cb6");
+			new dijit.form.CheckBox(params, "cb6");
+			
+			new dijit.form.RadioButton({
+				id:"g4rb1",
+				checked: true,
+				value: "tea",
+				name: "drink"
+			}, "radioOne");
+			new dijit.form.RadioButton({
+				id:"g4rb2",
+				value: "coffee",
+				name: "drink"
+			}, "radioTwo");
 
-			// should be able to query for all of the inputs, including hidden ones
-			doh.register("query input by checked state", [
-				{
-					name: "query checked",
-					runTest: function(){
-						var queried=dojo.query("input[checked]", dojo.byId('myForm'));
-						doh.is(5,queried.length,"expected: 5 checked widgets, got: "+queried.length);
-					}
-				}
-			]);
-
-			doh.register("query input by name", [
-				{
-					name: "query name",
-					runTest: function(){
-						var queried=dojo.query("input[name]", dojo.byId('myForm'));
-						doh.is(13,queried.length,"expected: 13 named widgets, got: "+queried.length);
-					}
-				}
-			]);
-
-			var formWidget = dijit.byId("myForm");
-
-			var submitForm = function(name, testValues){
-				return {
-					name: name,
-					timeout: 5000,
-					runTest: function(){
-						var d = new doh.Deferred();
-						submittedValues = function(formValues){
-							d.getTestCallback(function(){
-								for(var i in originalGet){ doh.is(testValues[i], formValues[i], i); }
-							})();
-						};
-						formWidget.submit();
-						return d;
-					},
-					tearDown: function(){
-						submittedValues = defaultSubmitHandler;
-					}
-				};
-			};
-
-			// delay produces a "test" which simply waits for ms milliseconds.
-			// this is necessary for IE, which gets confused by multiple quick submits.
-			var delay = function(ms){
-				return {
-					name: "delay for IE's sake",
-					timeout: 50000,
-					runTest: function(){
-						var d = new doh.Deferred();
-						setTimeout(function(){
-							d.callback(true);
-						}, ms);
-						console.log("set timeout");
-						return d;
-					}
-				};
-			};
-
-			doh.register("CheckBox values",
-				[
-					function getValues(){
-						doh.is( dojo.toJson(originalGet), dojo.toJson(formWidget.get('value')) );
-					},
-					submitForm("original submit", originalSubmit),
-					delay(500),
-					function setValues(){
-						formWidget.set('value', change);
-						doh.is( dojo.toJson(changedGet), dojo.toJson(formWidget.get('value')) );
-					},
-					submitForm("changed submit", changedSubmit),
-					delay(500),
-					function resetValues(){
-						formWidget.reset();
-						doh.is( dojo.toJson(originalGet), dojo.toJson(formWidget.get('value')), "reset to original values" );
-					},
-					submitForm("reset submit", originalSubmit),
-					function readOnly(){
-						dijit.byId('cb4').focusNode.click();
-						doh.is( dojo.toJson(originalGet), dojo.toJson(formWidget.get('value')), "still have original values" );
-					},
-					submitForm("resubmit", originalSubmit)
-				]
-			);
-
-			doh.register("CheckBox onChange",
-				[
-					function fireOnChange(){
-						var d = new doh.Deferred();
-						var cb = dijit.byId('cb2');
-						var lastOnChange = dojo.byId('oncheckedoutput').innerHTML;
-						cb.set('checked', !cb.get('checked'));
-						setTimeout(d.getTestCallback(function(){
-							doh.isNot(lastOnChange, dojo.byId('oncheckedoutput').innerHTML);
-						}), 0);
-						return d;
-					},
-
-					function skipOnChange(){
-						var d = new doh.Deferred();
-						var cb = dijit.byId('cb2');
-						var lastOnChange = dojo.byId('oncheckedoutput').innerHTML;
-						cb.set('checked', !cb.get('checked'), false);
-						setTimeout(d.getTestCallback(function(){
-							doh.is(lastOnChange, dojo.byId('oncheckedoutput').innerHTML);
-						}), 0);
-						return d;
-					}
-				]
-			);
-
-			doh.register("CheckBox watch",
-				[
-					function w(){
-						var cb = dijit.byId('cb2');
-						cb.set("checked", true);
-						
-						var oldWatch, newWatch;
-						cb.watch("checked", function(name, o, n){
-							oldWatch = o;
-							newWatch = n;
-						});
-
-						cb.set("checked", false);
-						doh.t(oldWatch, "old value was checked");
-						doh.f(newWatch, "new value is unchecked");
-
-						cb.set("checked", true);
-						doh.f(oldWatch, "old value was unchecked");
-						doh.t(newWatch, "new value is checked");
-					}
-				]
-			);
-
-			doh.run();
 		});
 	</script>
 </head>
@@ -287,7 +114,7 @@
 			<label for="g1rb2">talk</label>
 			<input id="g1rb3" data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"g[1]", value:"weather", disabled:true'/>
 			<label for="g1rb3">weather</label>
-			<input type="button" onclick='dijit.byId("g1rb3").set("disabled",false);' value="enable weather" />
+			<input type="button" id="enableWeatherButton" onclick='dijit.byId("g1rb3").set("disabled",false);' value="enable weather" />
 			<input type="button" onclick='dijit.byId("g1rb3").set("disabled",true);' value="disable weather" />
 		</p>
 		<p>
@@ -332,7 +159,14 @@
 			<input id='d2' data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"a1", value:"2"'/><label for='d2'>d2</label>
 		</div>
 	</div>
-
+	
+	<p>
+		<span>Programmatic radio buttons:</span>
+		<form id="myform">
+			<input type="radio" name="drink" id="radioOne" checked value="tea"/> <label for="radioOne">Tea</label> <br />
+			<input type="radio" name="drink" id="radioTwo" checked value="coffee"/> <label for="radioTwo">Coffee</label> <br />
+		</form>
+	</p>
 <iframe name="formSubmitIframe" src="about:blank" onload="if(this.values)submittedValues(this.values)" style="display:none;"></iframe>
 </body>
 </html>
