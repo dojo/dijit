@@ -359,10 +359,6 @@ dojo.declare("dijit.form._FormMixin", null, {
 			// Notifications.   onValidStateChange() code will be removed in 2.0.
 			var isValid = (this._invalidWidgets.length === 0);
 			this._set("state", isValid ? "" : "Error");
-			if(isValid !== this._lastValidState){
-				this._lastValidState = isValid;
-				this.onValidStateChange(isValid);
-			}
 		},
 
 		disconnectChildren: function(){
@@ -378,7 +374,7 @@ dojo.declare("dijit.form._FormMixin", null, {
 			});
 		},
 
-		connectChildren: function(){
+		connectChildren: function(/*Boolean*/ inStartup){
 			// summary:
 			//		Setup connections to monitor changes to children's value, error state, and disabled state,
 			//		in order to update Form.value and Form.state.
@@ -392,13 +388,13 @@ dojo.declare("dijit.form._FormMixin", null, {
 			// Remove old connections, if any
 			this.disconnectChildren();
 
-			// (Re)set this.value and this.state
-			this.value = this.get("value");
+			// (Re)set this.value and this.state.   Send watch() notifications but not on startup.
+			var set = inStartup ? function(name, val){ this[name] = val; } : dojo.hitch(this, "_set");
+			set("value", this.get("value"));
 			this._invalidWidgets = dojo.filter(this.getDescendants(), function(widget){
 				return !widget.disabled && widget.isValid && !widget.isValid();
 	 		});
-			this._lastValidState = !this._invalidWidgets.length;
-			this.state = this._invalidWidgets.length ? "Error" : "";
+			set("state", this._invalidWidgets.length ? "Error" : "");
 
 			// Monitor changes to error state and disabled state in order to update
 			// Form.state
@@ -458,7 +454,10 @@ dojo.declare("dijit.form._FormMixin", null, {
 
 			// Initialize value and valid/invalid state tracking.  Needs to be done in startup()
 			// so that children are initialized.
-			this.connectChildren();
+			this.connectChildren(true);
+
+			// Make state change call onValidStateChange(), will be removed in 2.0
+			this.watch("state", function(attr, oldVal, newVal){ this.onValidStateChange(newVal == ""); });	
 		},
 
 		destroy: function(){
