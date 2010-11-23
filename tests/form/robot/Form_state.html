@@ -2,7 +2,7 @@
 		"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
-		<title>doh.robot ValidationState Test</title>
+		<title>doh.robot Form Valid/Invalid State Test</title>
 
 		<style>
 			@import "../../../../util/doh/robot/robot.css";
@@ -17,8 +17,11 @@
 		<script type="text/javascript">
 			dojo.require("dijit.robotx");
 
+			// Some of these tests are duplicated in Form.html, maybe the Form.html watch(state) and validate()
+			// tests groups should be moved here.
+
 			dojo.addOnLoad(function(){
-				doh.robot.initRobot('../test_validationState.html');
+				doh.robot.initRobot('../test_Form_State.html');
 
 				// execute some test as soon as the node is clicked
 				var clickThenTest = function(id, fcn){
