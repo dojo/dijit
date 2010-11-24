@@ -435,6 +435,10 @@ dojo.declare("dijit._Widget", dojo.Stateful, {
 			// Copy attributes listed in attributeMap into the [newly created] DOM for the widget.
 			this._applyAttributes();
 
+			// If srcNodeRef was specified, then swap out original srcNode for this widget's DOM tree.
+			// For 2.0, move this after postCreate().  postCreate() shouldn't depend on the
+			// widget being attached to the DOM since it isn't when a widget is created programatically like
+			// new MyWidget({}).   See #11635.
 			var source = this.srcNodeRef;
 			if(source && source.parentNode && this.domNode !== source){
 				source.parentNode.replaceChild(this.domNode, source);

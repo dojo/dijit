@@ -29,7 +29,11 @@ dojo.declare("dijit._CssStateMixin", [], {
 	//		is hovered, etc.
 	cssStateNodes: {},
 
-	postCreate: function(){
+	_applyAttributes: function(){
+		// This code would typically be in postCreate(), but putting in _applyAttributes() for
+		// performance: so the class changes happen before DOM is inserted into the document.
+		// Change back to postCreate() in 2.0.  See #11635.
+
 		this.inherited(arguments);
 
 		// Automatically monitor mouse events (essentially :hover and :active) on this.domNode
@@ -38,15 +42,8 @@ dojo.declare("dijit._CssStateMixin", [], {
 		}, this);
 		
 		// Monitoring changes to disabled, readonly, etc. state, and update CSS class of root node
-		this.connect(this, "set", function(name, value){
-			if(arguments.length >= 2 && {disabled: true, readOnly: true, checked:true, selected:true}[name]){
-				this._setStateClass();
-			}
-		});
-
-		// The widget coming in/out of the focus change affects it's state
-		dojo.forEach(["_onFocus", "_onBlur"], function(ap){
-			this.connect(this, ap, "_setStateClass");
+		dojo.forEach(["disabled", "readOnly", "checked", "selected", "focused"], function(attr){
+			this.watch(attr, dojo.hitch(this, "_setStateClass"));
 		}, this);
 
 		// Events on sub nodes within the widget
