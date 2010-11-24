@@ -42,7 +42,7 @@ dojo.declare("dijit._CssStateMixin", [], {
 		}, this);
 		
 		// Monitoring changes to disabled, readonly, etc. state, and update CSS class of root node
-		dojo.forEach(["disabled", "readOnly", "checked", "selected", "focused"], function(attr){
+		dojo.forEach(["disabled", "readOnly", "checked", "selected", "focused", "state"], function(attr){
 			this.watch(attr, dojo.hitch(this, "_setStateClass"));
 		}, this);
 

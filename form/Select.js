@@ -206,7 +206,6 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		
 		var isValid = this.isValid(isFocused);
 		this._set("state", isValid ? "" : "Error");
-		this._setStateClass();
 		dijit.setWaiState(this.focusNode, "invalid", isValid ? "false" : "true");
 		var message = isValid ? "" : this._missingMsg;
 		if(this.message !== message){
@@ -232,7 +231,6 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		this.inherited(arguments);
 		dijit.hideTooltip(this.domNode);
 		this._set("state", "");
-		this._setStateClass();
 		this._set("message", "")
 	},
 

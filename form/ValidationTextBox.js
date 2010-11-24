@@ -149,7 +149,6 @@ dojo.declare(
 			var isValidSubset = !isValid && !isEmpty && isFocused && this._isValidSubset();
 			this._set("state", ((isValid || ((!this._hasBeenBlurred || isFocused) && isEmpty) || isValidSubset) && this._maskValidSubsetError) ? "" : "Error");
 			if(this.state == "Error"){ this._maskValidSubsetError = isFocused; } // we want the error to show up after a blur and refocus
-			this._setStateClass();
 			dijit.setWaiState(this.focusNode, "invalid", isValid ? "false" : "true");
 
 			if(this.state == "Error"){
