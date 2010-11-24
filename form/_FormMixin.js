@@ -365,13 +365,8 @@ dojo.declare("dijit.form._FormMixin", null, {
 			// summary:
 			//		Remove connections to monitor changes to children's value, error state, and disabled state,
 			//		in order to update Form.value and Form.state.
-			dojo.forEach(this._changeConnections || [], function(conn){
-				if(conn.unwatch){
-					conn.unwatch();
-				}else{
-					this.disconnect(conn);
-				}
-			}, this);
+			dojo.forEach(this._childConnections || [], dojo.hitch(this, "disconnect"));
+			dojo.forEach(this._childWatches || [], function(w){ w.unwatch(); });
 		},
 
 		connectChildren: function(/*Boolean*/ inStartup){
@@ -398,7 +393,8 @@ dojo.declare("dijit.form._FormMixin", null, {
 
 			// Monitor changes to error state and disabled state in order to update
 			// Form.state
-			var conns = (this._changeConnections = []);
+			var conns = (this._childConnections = []),
+				watches = (this._childWatches = []);
 			dojo.forEach(dojo.filter(this.getDescendants(),
 				function(item){ return item.validate; }
 			),
@@ -410,7 +406,7 @@ dojo.declare("dijit.form._FormMixin", null, {
 				// state=="" rather than state=="Error", yet they should prevent form submission.
 				
 				conns.push(_this.connect(widget, "validate", dojo.hitch(_this, "_widgetValidChange", widget)));
-				conns.push(widget.watch("disabled", dojo.hitch(_this, "_widgetValidChange", widget)));
+				watches.push(widget.watch("disabled", dojo.hitch(_this, "_widgetValidChange", widget)));
 			});
 
 			// And monitor calls to child.onChange so we can update this.value
@@ -444,7 +440,7 @@ dojo.declare("dijit.form._FormMixin", null, {
 
 					// Disabling/enabling a child widget should remove it's value from this.value.
 					// Again, this code could be more efficient, doing simple thing for now.
-					conns.push(widget.watch("disabled", onChange));
+					watches.push(widget.watch("disabled", onChange));
 				}
 			);
 		},
