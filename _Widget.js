@@ -775,9 +775,6 @@ dojo.declare("dijit._Widget", dojo.Stateful, {
 		// summary:
 		//		Reflect a widget attribute (title, tabIndex, duration etc.) to
 		//		the widget DOM, as specified in attributeMap.
-		//
-		// description:
-		//		Also sets this["attr"] to the new value.
 		//		Note some attributes like "type"
 		//		cannot be processed this way as they are not mutable.
 		//
@@ -817,7 +814,6 @@ dojo.declare("dijit._Widget", dojo.Stateful, {
 					break;
 			}
 		}, this);
-		this[attr] = value;
 	},
 
 	attr: function(/*String|Object*/name, /*Object?*/value){

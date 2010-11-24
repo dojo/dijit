@@ -193,6 +193,30 @@
 					}
 				]
 			);
+
+			doh.register("child events", function childEvents(t){
+				accordion = new dijit.layout.AccordionContainer({style: "width: 400px; height: 400px;"}).placeAt(dojo.body());
+
+				dojo.forEach([ "a", "b", "c" ], function(title, i){
+					var content = new dijit.layout.ContentPane({id: title, title: title, selected: i==1});
+					content.containerNode.innerHTML = "this is " + title;
+					accordion.addChild(content);
+				});
+				accordion.startup();
+
+				// Change title of a pane, should change corresponding button label			
+				dijit.byId("b").set("title", "b changed");
+				var titles = dojo.query(".dijitAccordionText", accordion.domNode);
+				t.is(3, titles.length, "number of titles");
+				t.is("b changed", titles[1].innerHTML);
+
+				// Change tooltip of a pane, should change corresponding button tooltip			
+				dijit.byId("c").set("tooltip", "c tooltip changed");
+				titles = dojo.query(".dijitAccordionText", accordion.domNode);
+				t.is(3, titles.length, "number of titles");
+				t.is("c tooltip changed", titles[2].title);
+			});
+
 			doh.register("zero children",
 				[
 					{

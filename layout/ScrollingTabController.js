@@ -70,21 +70,17 @@ dojo.declare("dijit.layout.ScrollingTabController",
 	onAddChild: function(page, insertIndex){
 		this.inherited(arguments);
 
-		// update the menuItem label when the button label is updated
-		this.pane2handles[page.id].push(
-			// TODO: use watch() here (but need support in _Widget for automatic unwatch() call on destroy
-			this.connect(this.pane2button[page.id], "set", function(name, value){
-				if(this._postStartup){
-					if(name == "label" || name == "iconClass"){
-						// The changed label will have changed the width of the
-						// buttons, so do a resize
-						if(this._dim){
-							this.resize(this._dim);
-						}
+		// changes to the tab button label or iconClass will have changed the width of the
+		// buttons, so do a resize
+		dojo.forEach(["label", "iconClass"], function(attr){
+			this.pane2watches[page.id].push(
+				this.pane2button[page.id].watch(attr, dojo.hitch(this, function(name, oldValue, newValue){
+					if(this._postStartup && this._dim){
+						this.resize(this._dim);
 					}
-				}
-			})
-		);
+				}))
+			);
+		}, this);
 
 		// Increment the width of the wrapper when a tab is added
 		// This makes sure that the buttons never wrap.

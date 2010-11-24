@@ -368,12 +368,20 @@ dojo.declare("dijit.layout._AccordionInnerContainer",
 
 		postCreate: function(){
 			this.inherited(arguments);
-			this.connect(this.contentWidget, 'set', function(name, value){
-				var mappedName = {title: "label", tooltip: "title", iconClass: "iconClass"}[name];
-				if(mappedName){
-					this.button.set(mappedName, value);
-				}
-			}, this);
+
+			// Map changes in content widget's title etc. to changes in the button
+			var button = this.button;
+			this._contentWidgetWatches = [
+				this.contentWidget.watch('title', dojo.hitch(this, function(name, oldValue, newValue){
+					button.set("label", newValue);
+				})),
+				this.contentWidget.watch('tooltip', dojo.hitch(this, function(name, oldValue, newValue){
+					button.set("title", newValue);
+				})),
+				this.contentWidget.watch('iconClass', dojo.hitch(this, function(name, oldValue, newValue){
+					button.set("iconClass", newValue);
+				}))
+			];
 		},
 
 		_setSelectedAttr: function(/*Boolean*/ isSelected){
@@ -392,7 +400,9 @@ dojo.declare("dijit.layout._AccordionInnerContainer",
 
 		destroy: function(){
 			this.button.destroyRecursive();
-			
+
+			dojo.forEach(this._contentWidgetWatches || [], function(w){ w.unwatch(); });
+
 			delete this.contentWidget._buttonWidget;
 			delete this.contentWidget._wrapperWidget;
 
