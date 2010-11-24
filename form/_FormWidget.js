@@ -80,8 +80,8 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 		if(value){
 			// reset these, because after the domNode is disabled, we can no longer receive
 			// mouse related events, see #4200
-			this._hovering = false;
-			this._active = false;
+			this._set("hovering", false);
+			this._set("active", false);
 
 			// clear tab stop(s) on this widget's focusable node(s)  (ComboBox has two focusable nodes)
 			var attachPointNames = "tabIndex" in this.attributeMap ? this.attributeMap.tabIndex : "focusNode";

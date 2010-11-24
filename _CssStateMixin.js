@@ -29,6 +29,14 @@ dojo.declare("dijit._CssStateMixin", [], {
 	//		is hovered, etc.
 	cssStateNodes: {},
 
+	// hovering: [readonly] Boolean
+	//		True if cursor is over this widget
+	hovering: false,
+	
+	// active: [readonly] Boolean
+	//		True if mouse was pressed while over this widget, and hasn't been released yet
+	active: false,
+
 	_applyAttributes: function(){
 		// This code would typically be in postCreate(), but putting in _applyAttributes() for
 		// performance: so the class changes happen before DOM is inserted into the document.
@@ -42,7 +50,7 @@ dojo.declare("dijit._CssStateMixin", [], {
 		}, this);
 		
 		// Monitoring changes to disabled, readonly, etc. state, and update CSS class of root node
-		dojo.forEach(["disabled", "readOnly", "checked", "selected", "focused", "state"], function(attr){
+		dojo.forEach(["disabled", "readOnly", "checked", "selected", "focused", "state", "hovering", "active"], function(attr){
 			this.watch(attr, dojo.hitch(this, "_setStateClass"));
 		}, this);
 
@@ -51,44 +59,42 @@ dojo.declare("dijit._CssStateMixin", [], {
 			this._trackMouseState(this[ap], this.cssStateNodes[ap]);
 		}
 		// Set state initially; there's probably no hover/active/focus state but widget might be
-		// disabled/readonly so we want to set CSS classes for those conditions.
+		// disabled/readonly/checked/selected so we want to set CSS classes for those conditions.
 		this._setStateClass();
 	},
 
 	_cssMouseEvent: function(/*Event*/ event){
 		// summary:
-		//	Sets _hovering and _active properties depending on mouse state,
-		//	then calls _setStateClass() to set appropriate CSS classes for this.domNode.
+		//	Sets hovering and active properties depending on mouse state,
+		//	which triggers _setStateClass() to set appropriate CSS classes for this.domNode.
 
 		if(!this.disabled){
 			switch(event.type){
 				case "mouseenter":
 				case "mouseover":	// generated on non-IE browsers even though we connected to mouseenter
-					this._hovering = true;
-					this._active = this._mouseDown;
+					this._set("hovering", true);
+					this._set("active", this._mouseDown);
 					break;
 
 				case "mouseleave":
 				case "mouseout":	// generated on non-IE browsers even though we connected to mouseleave
-					this._hovering = false;
-					this._active = false;
+					this._set("hovering", false);
+					this._set("active", false);
 					break;
 
 				case "mousedown" :
-					this._active = true;
+					this._set("active", true);
 					this._mouseDown = true;
 					// Set a global event to handle mouseup, so it fires properly
 					// even if the cursor leaves this.domNode before the mouse up event.
 					// Alternately could set active=false on mouseout.
 					var mouseUpConnector = this.connect(dojo.body(), "onmouseup", function(){
-						this._active = false;
 						this._mouseDown = false;
-						this._setStateClass();
+						this._set("active", false);
 						this.disconnect(mouseUpConnector);
 					});
 					break;
 			}
-			this._setStateClass();
 		}
 	},
 
@@ -111,7 +117,7 @@ dojo.declare("dijit._CssStateMixin", [], {
 		//			- Selected - ex: currently selected tab will have this.selected==true
 		//
 		//		In addition, it may have one or more of the following states,
-		//		based on this.disabled and flags set in _onMouse (this._active, this._hovering, this._focused):
+		//		based on this.disabled and flags set in _onMouse (this.active, this.hovering) and from focus manager (this.focused):
 		//			- Disabled	- if the widget is disabled
 		//			- Active		- if the mouse (or space/enter key?) is being pressed down
 		//			- Focused		- if the widget has focus
@@ -144,9 +150,9 @@ dojo.declare("dijit._CssStateMixin", [], {
 		}else if(this.readOnly){
 			multiply("ReadOnly");
 		}else{
-			if(this._active){
+			if(this.active){
 				multiply("Active");
-			}else if(this._hovering){
+			}else if(this.hovering){
 				multiply("Hover");
 			}
 		}
@@ -239,11 +245,8 @@ dojo.declare("dijit._CssStateMixin", [], {
 
 		// Just in case widget is enabled/disabled while it has focus/hover/active state.
 		// Maybe this is overkill.
-		this.connect(this, "set", function(name, value){
-			if(name == "disabled" || name == "readOnly"){
-				setClass();
-			}
-		});
+		this.watch("disabled", setClass);
+		this.watch("readOnly", setClass);
 	}
 });
 

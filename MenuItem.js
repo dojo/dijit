@@ -77,11 +77,10 @@ dojo.declare("dijit.MenuItem",
 			// then unselect it
 			this.getParent().onItemUnhover(this);
 
-			// _onUnhover() is called when the menu is hidden (collapsed), due to clicking
-			// a MenuItem and having it execut.  When that happens, FF and IE don't generate
-			// an onmouseout event for the MenuItem, so give _CssStateMixin some help
-			this._hovering = false;
-			this._setStateClass();
+			// When menu is hidden (collapsed) due to clicking a MenuItem and having it execute,
+			// FF and IE don't generate an onmouseout event for the MenuItem.
+			// So, help out _CssStateMixin in this case.
+			this._set("hovering", false);
 		},
 
 		_onClick: function(evt){
