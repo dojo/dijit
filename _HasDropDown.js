@@ -175,14 +175,6 @@ dojo.declare("dijit._HasDropDown",
 			this.connect(this._buttonNode, "onmousedown", "_onDropDownMouseDown");
 			this.connect(this._buttonNode, "onclick", "_onDropDownClick");
 			this.connect(this.focusNode, "onkeypress", "_onKey");
-
-			// If we have a _setStateClass function (which happens when
-			// we are a form widget), then we need to connect our open/close
-			// functions to it
-			if(this._setStateClass){
-				this.connect(this, "openDropDown", "_setStateClass");
-				this.connect(this, "closeDropDown", "_setStateClass");
-			}
 		},
 
 		destroy: function(){
