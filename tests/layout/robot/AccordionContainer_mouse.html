@@ -18,13 +18,6 @@
 		<script type="text/javascript">
 			dojo.require("dijit.robotx");
 			
-			function checkLoading(domNode){
-				if(domNode.firstChild.innerHTML == "Loading...") {
-					return true;
-				}
-				return false;
-			}
-
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_AccordionContainer.html');
 				doh.register("Accordion Mouse tests",[
@@ -35,14 +28,14 @@
 							var d = new doh.Deferred();
 
 							// Click open second pane
-							doh.robot.mouseMoveAt("lazyLoadPane_button_title", 500);
+							doh.robot.mouseMoveAt("lazyLoadPane_button_title", 500, 1);
 							doh.robot.mouseClick({left: true}, 500);
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.is("lazyLoadPane", dojo.global.dijit.byId("markupAccordion").get("selectedChildWidget").id, "second pane is now selected");
 							}), 500);
 
 							// Click open fourth pane
-							doh.robot.mouseMoveAt("embeddedLayoutPane_button_title", 500);
+							doh.robot.mouseMoveAt("embeddedLayoutPane_button_title", 500, 1);
 							doh.robot.mouseClick({left: true}, 500);
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("embeddedLayoutPane", dojo.global.dijit.byId("markupAccordion").get("selectedChildWidget").id, "fourth pane is now selected");
@@ -53,91 +46,80 @@
 					}
 				]);
 				
+				function testLoad(id){
+					var d = new doh.Deferred(),
+					loadingContent,
+					widget = dijit.byId(id),
+					contentNode = dojo.byId(id),
+					handler = widget.connect(widget, "onDownloadEnd",
+						function(){
+                					widget.disconnect(handler);
+                					setTimeout(d.getTestCallback(
+								function(){
+									doh.is(widget.loadingMessage.replace(/<[^>]*>/g, ""), loadingContent);
+									var tabContent = innerText(contentNode).substring(0, 5);
+									doh.is("There", tabContent);
+								}
+							), 1); // return from handler, then test
+						}
+					);
+					widget.ioMethod = function(args){
+						loadingContent = innerText(contentNode);
+						delete widget.ioMethod;
+						return dojo.xhrGet(args);
+					};
+
+					doh.robot.mouseMoveAt(id+'_button', 500, 1);
+					doh.robot.mouseClick({left: true}, 500);
+
+					return d;
+				}
+
 				doh.register("Accordion refreshOnShow",[
 					{
 						name: "pane3InitialLoading",
-						timeout: 6000,
-						runTest: function(t){
-							var d = new doh.Deferred();
-							
-							var wasLoading = false;
-							
-							doh.robot.mouseMoveAt('ac_pane3_button', 500);
-							doh.robot.mouseClick({left: true}, 500);
-							doh.robot.sequence(function(){ wasLoading = checkLoading(dojo.byId("ac_pane3")); }, 500); 
-							
-							doh.robot.sequence(d.getTestCallback(function(){
-								doh.t(wasLoading);
-								
-								var tabContent = dojo.byId("ac_pane3").innerHTML.substring(0, 5);
-								doh.is("There", tabContent);
-							}), 4000);
-							
-							return d;
-						}
+						timeout: 9000,
+						runTest: function(){ return testLoad("ac_pane3"); }
 					},
 					{
 						name: "pane2InitialLoading",
-						timeout: 6000,
-						runTest: function(t){
-							var d = new doh.Deferred();
-							
-							var wasLoading = false;
-							
-							doh.robot.mouseMoveAt('ac_pane2_button', 500);
-							doh.robot.mouseClick({left: true}, 500);
-							doh.robot.sequence(function(){ wasLoading = checkLoading(dojo.byId("ac_pane2")); }, 500); 
-							
-							doh.robot.sequence(d.getTestCallback(function(){
-								doh.t(wasLoading);
-								
-								var tabContent = dojo.byId("ac_pane2").innerHTML.substring(0, 5);
-								doh.is("There", tabContent);
-							}), 4000);
-							
-							return d;
-						}
+						timeout: 9000,
+						runTest: function(){ return testLoad("ac_pane2"); }
 					},
 					{
 						name: "pane3Refresh",
-						timeout: 3000,
+						timeout: 5000,
 						runTest: function(t){
-							var d = new doh.Deferred();
+							var d = new doh.Deferred(),
+							wasLoading = false,
+							widget = dijit.byId("ac_pane3"),
+							loadhandler = widget.connect(widget, "onDownloadStart",
+								function(){
+                							widget.disconnect(loadhandler);
+									wasLoading = true;
+								}
+							),
+							showhandler = widget.connect(widget, "_onShow",
+								function(){
+                							widget.disconnect(showhandler);
+									setTimeout(d.getTestCallback(
+										function(){
+											doh.f(wasLoading, "should not have reloaded")
+										}
+									), 1000);
+								}
+							);
 							
-							var wasLoading = false;
-							
-							doh.robot.mouseMoveAt('ac_pane3_button', 500);
+							doh.robot.mouseMoveAt('ac_pane3_button', 500, 1);
 							doh.robot.mouseClick({left: true}, 500);
-							doh.robot.sequence(function(){ wasLoading = checkLoading(dojo.byId("ac_pane3")); }, 500); 
-							
-							doh.robot.sequence(d.getTestCallback(function(){
-								doh.f(wasLoading);
-							}), 1000);
 							
 							return d;
 						}
 					},
 					{
 						name: "pane2Refresh",
-						timeout: 6000,
-						runTest: function(t){
-							var d = new doh.Deferred();
-							
-							var wasLoading = false;
-							
-							doh.robot.mouseMoveAt('ac_pane2_button', 500);
-							doh.robot.mouseClick({left: true}, 500);
-							doh.robot.sequence(function(){ wasLoading = checkLoading(dojo.byId("ac_pane2")); }, 500); 
-							
-							doh.robot.sequence(d.getTestCallback(function(){
-								doh.t(wasLoading);
-								
-								var tabContent = dojo.byId("ac_pane2").innerHTML.substring(0, 5);
-								doh.is("There", tabContent);
-							}), 4000);
-							
-							return d;
-						}
+						timeout: 9000,
+						runTest: function(){ return testLoad("ac_pane2"); }
 					}
 				]);
 				
