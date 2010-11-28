@@ -29,7 +29,7 @@
 		for(var i=0; i<ary.length; i++){
 			var split = ary[i].split("="),
 				key = split[0],
-				value = split[1].replace(/[^\w]/g, "");	// replace() to prevent XSS attack
+				value = (split[1]||'').replace(/[^\w]/g, "");	// replace() to prevent XSS attack
 			switch(key){
 				case "locale":
 					// locale string | null
