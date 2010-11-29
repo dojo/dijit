@@ -270,9 +270,9 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 	}),
 
 	_setReadOnlyAttr: function(/*Boolean*/ value){
-		this.readOnly = value;
 		dojo.attr(this.focusNode, 'readOnly', value);
 		dijit.setWaiState(this.focusNode, "readonly", value);
+		this._set("readOnly", value);
 	},
 
 	postCreate: function(){
