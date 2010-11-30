@@ -53,7 +53,7 @@
 										var d = new doh.Deferred();
 										testOn('mouseup', textbox, d, function(){
 											doh.is(!required, textbox.isValid(false), "isValid");
-											doh.is("", textbox.state, "state");
+											doh.is(required ? "Incomplete" : "", textbox.state, "state");
 											doh.is(promptMessage, tooltip, "tooltip");
 										});
 										doh.robot.mouseMoveAt(textbox.focusNode, 0, 1);
@@ -68,7 +68,7 @@
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
 											doh.is(!rangeBound, textbox.isValid(false), "isValid");
-											doh.is("", textbox.state, "state");
+											doh.is(rangeBound ? "Incomplete" : "", textbox.state, "state");
 											doh.is(promptMessage, tooltip, "tooltip");
 										});
 										doh.robot.typeKeys("1", 0, 0);
@@ -124,7 +124,7 @@
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
 											doh.is(!rangeBound, textbox.isValid(false), "isValid");
-											doh.is("", textbox.state, "state");
+											doh.is(rangeBound ? "Incomplete" : "", textbox.state, "state");
 											doh.is(promptMessage, tooltip, "tooltip");
 										});
 										doh.robot.keyPress(dojo.keys.BACKSPACE, 0);
@@ -138,7 +138,7 @@
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
 											doh.is(!required, textbox.isValid(false), "isValid");
-											doh.is("", textbox.state, "state");
+											doh.is(required ? "Incomplete" : "", textbox.state, "state");
 											doh.is(promptMessage, tooltip, "tooltip");
 										});
 										doh.robot.keyPress(dojo.keys.BACKSPACE, 0);
@@ -152,7 +152,7 @@
 										var d = new doh.Deferred();
 										testOn('blur', textbox, d, function(){
 											doh.is(!required, textbox.isValid(false), "isValid");
-											doh.is(!required, !textbox.state, "state");
+											doh.is(required ? "Error" : "", textbox.state, "state");
 											doh.is("", tooltip, "no tooltip");
 											doh.is(required? (missingMessage||invalidMessage||promptMessage) : promptMessage, textbox.message, "message");
 										});
@@ -167,7 +167,7 @@
 										var d = new doh.Deferred();
 										testOn('focus', textbox, d, function(){
 											doh.is(!required, textbox.isValid(false), "isValid");
-											doh.is(!required, !textbox.state, "state");
+											doh.is(required ? "Error" : "", textbox.state, "state");
 											doh.is(required? (missingMessage||invalidMessage||promptMessage) : promptMessage, tooltip, "tooltip");
 										});
 										doh.robot.keyPress(dojo.keys.TAB, 0, { shift:true });
@@ -181,7 +181,7 @@
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
 											doh.is(!rangeBound, textbox.isValid(false), "isValid");
-											doh.is("", textbox.state, "state");
+											doh.is(rangeBound ? "Incomplete" : "", textbox.state, "state");
 											doh.is(promptMessage, tooltip, "tooltip");
 										});
 										doh.robot.typeKeys("1", 0, 0);
@@ -207,7 +207,7 @@
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
 											doh.is(!rangeBound, textbox.isValid(false), "isValid");
-											doh.is(!rangeBound, !textbox.state, "state");
+											doh.is(rangeBound ? "Error" : "", textbox.state, "state");
 											doh.is(rangeBound? textbox.rangeMessage : promptMessage, tooltip, "tooltip");
 										});
 										doh.robot.typeKeys("3", 0, 0);
@@ -221,7 +221,7 @@
 										var d = new doh.Deferred();
 										testOn('blur', textbox, d, function(){
 											doh.is(!rangeBound, textbox.isValid(false), "isValid");
-											doh.is(!rangeBound, !textbox.state, "state");
+											doh.is(rangeBound ? "Error" : "", textbox.state, "state");
 											doh.is("", tooltip, "no tooltip");
 											doh.is(rangeBound? textbox.rangeMessage : promptMessage, textbox.message, "message");
 										});
@@ -236,7 +236,7 @@
 										var d = new doh.Deferred();
 										testOn('focus', textbox, d, function(){
 											doh.is(!rangeBound, textbox.isValid(false), "isValid");
-											doh.is(!rangeBound, !textbox.state, "state");
+											doh.is(rangeBound ? "Error" : "", textbox.state, "state");
 											doh.is(rangeBound? textbox.rangeMessage : promptMessage, tooltip, "tooltip");
 										});
 										doh.robot.keyPress(dojo.keys.TAB, 0, { shift:true });
@@ -250,7 +250,7 @@
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
 											doh.is(!rangeBound, textbox.isValid(false), "isValid");
-											doh.is(!rangeBound, !textbox.state, "state");
+											doh.is(rangeBound ? "Error" : "", textbox.state, "state");
 											doh.is(rangeBound? textbox.rangeMessage : promptMessage, tooltip, "tooltip");
 										});
 										if(dojo.isMac){
@@ -282,7 +282,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is("", textbox.state, "state");
+											doh.is(rangeBound ? "Incomplete" : "", textbox.state, "state");
 										});
 										doh.robot.keyPress(dojo.keys.BACKSPACE, 0);
 										return d;
@@ -295,7 +295,7 @@
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
 											doh.is(!required, textbox.isValid(false), "isValid");
-											doh.is("", textbox.state, "state");
+											doh.is(required ? "Incomplete" : "", textbox.state, "state");
 											doh.is(promptMessage, tooltip, "tooltip");
 										});
 										doh.robot.keyPress(dojo.keys.BACKSPACE, 0);
@@ -309,7 +309,7 @@
 										var d = new doh.Deferred();
 										testOn('blur', textbox, d, function(){
 											doh.is(!required, textbox.isValid(false), "isValid");
-											doh.is(!required, !textbox.state, "state");
+											doh.is(required ? "Error" : "", textbox.state, "state");
 											doh.is("", tooltip, "no tooltip");
 											doh.is(required? (missingMessage||invalidMessage||promptMessage) : promptMessage, textbox.message, "message");
 										});
@@ -324,7 +324,7 @@
 										var d = new doh.Deferred();
 										testOn('focus', textbox, d, function(){
 											doh.is(!required, textbox.isValid(false), "isValid");
-											doh.is(!required, !textbox.state, "state");
+											doh.is(required ? "Error" : "", textbox.state, "state");
 											doh.is(required? (missingMessage||invalidMessage||promptMessage) : promptMessage, tooltip, "tooltip");
 										});
 										doh.robot.keyPress(dojo.keys.TAB, 0, { shift:true });

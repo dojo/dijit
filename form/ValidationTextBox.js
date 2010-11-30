@@ -72,7 +72,7 @@ dojo.declare(
 		},
 
 		// state: [readonly] String
-		//		Shows current state (ie, validation result) of input (Normal, Warning, or Error)
+		//		Shows current state (ie, validation result) of input (""=Normal, Incomplete, or Error)
 		state: "",
 
 		// tooltipPosition: String[]
@@ -146,18 +146,18 @@ dojo.declare(
 			var isValid = this.disabled || this.isValid(isFocused);
 			if(isValid){ this._maskValidSubsetError = true; }
 			var isEmpty = this._isEmpty(this.textbox.value);
-			var isValidSubset = !isValid && !isEmpty && isFocused && this._isValidSubset();
-			this._set("state", ((isValid || ((!this._hasBeenBlurred || isFocused) && isEmpty) || isValidSubset) && this._maskValidSubsetError) ? "" : "Error");
-			if(this.state == "Error"){ this._maskValidSubsetError = isFocused; } // we want the error to show up after a blur and refocus
+			var isValidSubset = !isValid && isFocused && this._isValidSubset();
+			this._set("state", isValid ? "" : (((((!this._hasBeenBlurred || isFocused) && isEmpty) || isValidSubset) && this._maskValidSubsetError) ? "Incomplete" : "Error"));
 			dijit.setWaiState(this.focusNode, "invalid", isValid ? "false" : "true");
 
 			if(this.state == "Error"){
+				this._maskValidSubsetError = isFocused && isValidSubset; // we want the error to show up after a blur and refocus
 				message = this.getErrorMessage(true);
+			}else if(this.state == "Incomplete"){
+				message = this.getPromptMessage(true); // show the prompt whenever there's no error
+				this._maskValidSubsetError = !this._hasBeenBlurred || isFocused; // no Incomplete warnings while focused
 			}else{
 				message = this.getPromptMessage(true); // show the prompt whenever there's no error
-			}
-			if(isFocused){
-				this._maskValidSubsetError = true; // since we're focused, always mask warnings
 			}
 			this.set("message", message);
 

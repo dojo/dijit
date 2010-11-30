@@ -282,7 +282,7 @@
 						textbox: "q04",
 						runTest: function(){
 							this.textbox = dijit.byId(this.textbox);
-							doh.is('', this.textbox.get('state'));
+							doh.is('Incomplete', this.textbox.get('state'));
 							doh.is(false, this.textbox.isValid(), "isValid()");
 						}
 					},
@@ -294,9 +294,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							this.textbox = dijit.byId(this.textbox);
-							doh.robot.sequence(dojo.hitch(this, function(){
-								this.textbox.focusNode.focus();
-							}), 500);
+							this.textbox.focusNode.focus();
 							doh.robot.sequence(dojo.hitch(this, function(){
 								dojo.byId("q01").focus();
 							}), 1000);	// time for promptMessage to appear on q04 (IE6 takes a while due to iframe)
@@ -359,9 +357,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							this.textbox = dijit.byId(this.textbox);
-							doh.robot.sequence(dojo.hitch(this, function(){
-								this.textbox.focusNode.focus();
-							}), 500);
+							this.textbox.focusNode.focus();
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								// comma should disappear on click, value shouldn't change
 								doh.is('3,000', this.textbox.focusNode.value, "focusNode.value");
@@ -891,7 +887,7 @@
 								textbox = dijit.byId("q24");
 
 							//  Clicking shouldn't have any effect since it's disabled
-							doh.robot.mouseMoveAt(textbox.focusNode, 500, 500);
+							doh.robot.mouseMoveAt(textbox.focusNode, 500, 1);
 							doh.robot.mouseClick({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
@@ -937,7 +933,7 @@
 
 							textbox.set('value', 'Testing');
 							//  Clicking shouldn't have any effect since it's disabled
-							doh.robot.mouseMoveAt(textbox.focusNode, 500, 500);
+							doh.robot.mouseMoveAt(textbox.focusNode, 500, 1);
 							doh.robot.mouseClick({left: true}, 500);
 							doh.robot.typeKeys("abc", 1000, 600);
 
@@ -959,7 +955,7 @@
 
 							textbox.set('value', 'Testing');
 							//  Clicking shouldn't have any effect since it's disabled
-							doh.robot.mouseMoveAt(textbox.focusNode, 500, 500);
+							doh.robot.mouseMoveAt(textbox.focusNode, 500, 1);
 							doh.robot.mouseClick({left: true}, 500);
 							doh.robot.mouseClick({left: true}, 1000);
 							var oldValue = textbox.get('value');
@@ -984,7 +980,7 @@
 
 							textbox.set('value', 'Testing');
 							//  Clicking shouldn't have any effect since it's disabled
-							doh.robot.mouseMoveAt(textbox.focusNode, 500, 500);
+							doh.robot.mouseMoveAt(textbox.focusNode, 500, 1);
 							doh.robot.mouseClick({left: true}, 500);
 							doh.robot.mouseClick({left: true}, 1000);
 							doh.robot.keyPress(dojo.keys.TAB, 1000);
@@ -1009,7 +1005,7 @@
 
 							textbox.set('value', 'Testing');
 							//  Clicking shouldn't have any effect since it's disabled
-							doh.robot.mouseMoveAt(textbox.focusNode, 500, 500);
+							doh.robot.mouseMoveAt(textbox.focusNode, 500, 1);
 							doh.robot.mouseClick({left: true}, 500);
 							doh.robot.mouseClick({left: true}, 1000);
 							doh.robot.keyPress(dojo.keys.TAB, 1000);
@@ -1037,9 +1033,9 @@
 
 							textbox.set('value', 'MMMMMMM');
 							//  Clicking shouldn't have any effect since it's disabled
-							doh.robot.mouseMoveAt(textbox.focusNode, 500, 500, 3, 6);
+							doh.robot.mouseMoveAt(textbox.focusNode, 500, 1, 3, 6);
 							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt(textbox.focusNode, 500, 500, 10, 6);
+							doh.robot.mouseMoveAt(textbox.focusNode, 500, 1, 10, 6);
 							doh.robot.mouseRelease({left: true}, 500);
 							doh.robot.typeKeys("abc", 500, 600);
 
@@ -1101,7 +1097,7 @@
 							textWidget.set('value','');
 							
 							//  Clicking into the input should hide _phspan
-							doh.robot.mouseMoveAt(textWidget.focusNode, 500, 500);
+							doh.robot.mouseMoveAt(textWidget.focusNode, 500, 1);
 							doh.robot.mouseClick({left: true}, 500);
 							
 							doh.robot.sequence(d.getTestErrback(function(){
@@ -1126,7 +1122,7 @@
 							textWidget.set('value','');
 							
 							//  Clicking into the input should hide _phspan
-							doh.robot.mouseMoveAt(textWidget.focusNode, 500, 500);
+							doh.robot.mouseMoveAt(textWidget.focusNode, 500, 1);
 							doh.robot.mouseClick({left: true}, 500);
 							
 							doh.robot.sequence(d.getTestErrback(function(){
