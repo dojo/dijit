@@ -316,7 +316,7 @@
 						doh.is("", combo.get("value"), "value");
 						doh.is("", combo.get('displayedValue'), "displayedValue");
 						doh.f(combo.isValid(), "isValid");
-						doh.is("", combo.state, "state");
+						doh.is("Incomplete", combo.state, "state");
 					},
 					tearDown: function(){
 						combo.closeDropDown();
