@@ -500,7 +500,7 @@
 				},
 
 				// Start typing a value into the DateTextBox while it's focused.
-				// The incomplete value should trigger a change to Error state even though
+				// The incomplete value should trigger a change of the Form to Incomplete state even though
 				// user is still focused
 				function partialInput(){
 					var d = new doh.Deferred();
@@ -513,7 +513,7 @@
 					setTimeout(d.getTestCallback(function(){
 						doh.is(1, calls, "one watch(state) calls");
 						doh.is("", oldVal, "old state");
-						doh.is("Error", newVal, "new state");
+						doh.is("Incomplete", newVal, "new state");
 					}), 50);
 					
 					return d;
@@ -531,7 +531,7 @@
 					
 					setTimeout(d.getTestCallback(function(){
 						doh.is(1, calls, "another watch(state) calls");
-						doh.is("Error", oldVal, "old state");
+						doh.is("Incomplete", oldVal, "old state");
 						doh.is("", newVal, "new state");
 					}), 50);
 					

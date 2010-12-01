@@ -27,7 +27,8 @@ dojo.declare("dijit.form._FormMixin", null, {
 
 	// state: [readonly] String
 	//		Will be "Error" if one or more of the child widgets has an invalid value,
-	//		or is required but blank.   Otherwise, "".
+	//		"Incomplete" if not all of the required child widgets are filled in.  Otherwise, "",
+	//		which indicates that the form is ready to be submitted.
 	state: "",
 
 	//	TODO:
@@ -323,7 +324,7 @@ dojo.declare("dijit.form._FormMixin", null, {
 	 		//		Returns true if all of the widgets are valid.
 			//		Deprecated, will be removed in 2.0.  Use get("state") instead.
 
-			return this._invalidWidgets.length === 0;
+			return this.state == "";
 		},
 
 		onValidStateChange: function(isValid){
@@ -335,30 +336,15 @@ dojo.declare("dijit.form._FormMixin", null, {
 			//		Deprecated.  Will be removed in 2.0.  Use watch("state", ...) instead.
 		},
 
-		_widgetValidChange: function(/*dijit._Widget*/ widget){
+		_getState: function(){
 			// summary:
-			//		Called whenever a validation widget re-validates (i.e. on every keystroke), or becomes enabled/disabled.
-			//		Updates valid state, if needed.
+			//		Compute what this.state should be based on state of children
+			var states = dojo.map(this._descendants, function(w){
+				return w.get("state") || "";
+			});
 
-			// don't use get("state") since it returns "" for never-focused required but blank fields
-			var valid = widget.isValid(),	
-				enabled = !widget.get("disabled");
-
-			// Remove widget from _invalidWidgets if it's valid or disabled
-			if(valid || !enabled){
-				this._invalidWidgets = dojo.filter(this._invalidWidgets, function(w){
-					return (w != widget);
-				}, this);
-			}
-
-			// Add widget to _invalidWidgets if it's invalid and enabled
-			else if(!valid && enabled){
-				this._invalidWidgets.push(widget);
-			}
-
-			// Notifications.   onValidStateChange() code will be removed in 2.0.
-			var isValid = (this._invalidWidgets.length === 0);
-			this._set("state", isValid ? "" : "Error");
+			return dojo.indexOf(states, "Error") >= 0 ? "Error" :
+				dojo.indexOf(states, "Incomplete") >= 0 ? "Incomplete" : "";
 		},
 
 		disconnectChildren: function(){
@@ -383,30 +369,28 @@ dojo.declare("dijit.form._FormMixin", null, {
 			// Remove old connections, if any
 			this.disconnectChildren();
 
+			this._descendants = this.getDescendants();
+
 			// (Re)set this.value and this.state.   Send watch() notifications but not on startup.
-			var set = inStartup ? function(name, val){ this[name] = val; } : dojo.hitch(this, "_set");
+			var set = inStartup ? function(name, val){ _this[name] = val; } : dojo.hitch(this, "_set");
 			set("value", this.get("value"));
-			this._invalidWidgets = dojo.filter(this.getDescendants(), function(widget){
-				return !widget.disabled && widget.isValid && !widget.isValid();
-	 		});
-			set("state", this._invalidWidgets.length ? "Error" : "");
+			set("state", this._getState());
 
 			// Monitor changes to error state and disabled state in order to update
 			// Form.state
 			var conns = (this._childConnections = []),
 				watches = (this._childWatches = []);
-			dojo.forEach(dojo.filter(this.getDescendants(),
+			dojo.forEach(dojo.filter(this._descendants,
 				function(item){ return item.validate; }
 			),
 			function(widget){
-				// We are interested in whenever the widget is validated - or
+				// We are interested in whenever the widget changes validity state - or
 				// whenever the disabled attribute on that widget is changed.
-
-				// Can't use watch("state") because never-focused required but blank ValidationTextBox have
-				// state=="" rather than state=="Error", yet they should prevent form submission.
-				
-				conns.push(_this.connect(widget, "validate", dojo.hitch(_this, "_widgetValidChange", widget)));
-				watches.push(widget.watch("disabled", dojo.hitch(_this, "_widgetValidChange", widget)));
+				dojo.forEach(["state", "disabled"], function(attr){
+					watches.push(widget.watch(attr, function(attr, oldVal, newVal){
+						_this.set("state", _this._getState());
+					}));
+				});
 			});
 
 			// And monitor calls to child.onChange so we can update this.value
@@ -429,7 +413,7 @@ dojo.declare("dijit.form._FormMixin", null, {
 				}, 10);
 			};
 			dojo.forEach(
-				dojo.filter(this.getDescendants(), function(item){ return item.onChange; } ),
+				dojo.filter(this._descendants, function(item){ return item.onChange; } ),
 				function(widget){
 					// When a child widget's value changes,
 					// the efficient thing to do is to just update that one attribute in this.value,
