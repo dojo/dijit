@@ -28,7 +28,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("startTimer");
+							doh.robot.mouseMoveAt("startTimer", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -46,7 +46,7 @@
 
 							doh.robot.sequence(function(){ dojo.byId('progressValue').value="58"; });
 							doh.robot.sequence(function(){ dojo.byId('maximum').value="100"; }, 500); 		
-							doh.robot.mouseMoveAt("set", 500);
+							doh.robot.mouseMoveAt("set", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -69,7 +69,7 @@
 							var d = new doh.Deferred();
 
 							doh.robot.sequence(function(){ dojo.byId('progressValue').value="101"; });
-							doh.robot.mouseMoveAt("set", 500);
+							doh.robot.mouseMoveAt("set", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -89,7 +89,7 @@
 							var d = new doh.Deferred();
 
 							doh.robot.sequence(function(){ dojo.byId('progressValue').value="0"; });
-							doh.robot.mouseMoveAt("set", 500);
+							doh.robot.mouseMoveAt("set", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -109,7 +109,7 @@
 							var d = new doh.Deferred();
 
 							doh.robot.sequence(function(){ dojo.byId('progressValue').value="100"; });
-							doh.robot.mouseMoveAt("set", 500);
+							doh.robot.mouseMoveAt("set", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -128,9 +128,9 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("test");
+							doh.robot.mouseMoveAt("test", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
-							doh.robot.typeKeys("a", 500, 500);
+							doh.robot.typeKeys("a", 500, 200);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
 								var progressBar = dijit.byId("testBar");
@@ -152,7 +152,7 @@
 								var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
 								width = visualProgress.style.width;
 								doh.is("0.39", width.substring(0,4));
-							}), 3000);
+							}), 1000);
 							return d;
 						}
 					},
@@ -160,64 +160,74 @@
 						name: "test2Chars2",
 						timeout: 10000,
 						runTest: function(){
-							var d = new doh.Deferred();
+							var
+								d = new doh.Deferred(),
+								text = "bbdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxycc",
+								progressBar = dijit.byId("testBar"),
+								inputBox = dojo.byId("test"),
+								handler = progressBar.connect(progressBar, "onChange", function(){
+									if(inputBox.value.indexOf(text) < 0){ return; }
+									progressBar.disconnect(handler);
+									setTimeout(d.getTestCallback(function(){
+										doh.is("79", progressBar.progress);
+										doh.is("79 out of 256 max chars", dojo.byId("testBar_label").innerHTML);
+										var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+										width = visualProgress.style.width;
+										doh.is("30.8", width.substring(0,4));
 
-							doh.robot.mouseMoveAt("test");
+										progressBar = dijit.byId("smallTestBar");
+										doh.is("79", progressBar.progress);
+										var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+										width = visualProgress.style.width;
+										doh.is("30.8", width.substring(0,4));
+
+										progressBar = dijit.byId("testBarInt");
+										doh.is("79", progressBar.progress);
+										doh.is("30.9%", dojo.byId("testBarInt_label").innerHTML);
+										var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+										width = visualProgress.style.width;
+										doh.is("30.8", width.substring(0,4));
+									}), 1);
+								});
+							doh.robot.mouseMoveAt("test", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
-							doh.robot.typeKeys("bcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyza", 500, 500);
-							
-							doh.robot.sequence(d.getTestCallback(function(){
-								var progressBar = dijit.byId("testBar");
-								doh.is("79", progressBar.progress);
-								doh.is("79 out of 256 max chars", dojo.byId("testBar_label").innerHTML);
-								var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
-								width = visualProgress.style.width;
-								doh.is("30.8", width.substring(0,4));
-								
-								progressBar = dijit.byId("smallTestBar");
-								doh.is("79", progressBar.progress);
-								var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
-								width = visualProgress.style.width;
-								doh.is("30.8", width.substring(0,4));
-								
-								progressBar = dijit.byId("testBarInt");
-								doh.is("79", progressBar.progress);
-								doh.is("30.9%", dojo.byId("testBarInt_label").innerHTML);
-								var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
-								width = visualProgress.style.width;
-								doh.is("30.8", width.substring(0,4));
-							}), 5000);
+							doh.robot.typeKeys(text, 500, 500);
 							return d;
 						}
 					},
 					{
 						name: "test2Chars3",
-						timeout: 10000,
+						timeout: 20000,
 						runTest: function(){
-							var d = new doh.Deferred();
+							var
+								d = new doh.Deferred(),
+								text = "zzdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstyy",
+								progressBar = dijit.byId("testBar"),
+								inputBox = dojo.byId("test"),
+								handler = progressBar.connect(progressBar, "onChange", function(){
+									if(inputBox.value.indexOf(text) < 0){ return; }
+									progressBar.disconnect(handler);
+									setTimeout(d.getTestCallback(function(){
+										doh.is("256", progressBar.progress);
+										doh.is("256 out of 256 max chars", dojo.byId("testBar_label").innerHTML);
+										var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+										doh.is("100%", visualProgress.style.width);
 
-							doh.robot.mouseMoveAt("test");
+										progressBar = dijit.byId("smallTestBar");
+										doh.is("256", progressBar.progress);
+										var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+										doh.is("100%", visualProgress.style.width);
+
+										progressBar = dijit.byId("testBarInt");
+										doh.is("256", progressBar.progress);
+										doh.is("100.0%", dojo.byId("testBarInt_label").innerHTML);
+										var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+										doh.is("100%", visualProgress.style.width);
+									}), 1);
+								});
+							doh.robot.mouseMoveAt("test", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
-							doh.robot.typeKeys("bcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuv", 500, 500);
-							
-							doh.robot.sequence(d.getTestCallback(function(){
-								var progressBar = dijit.byId("testBar");
-								doh.is("256", progressBar.progress);
-								doh.is("256 out of 256 max chars", dojo.byId("testBar_label").innerHTML);
-								var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
-								doh.is("100%", visualProgress.style.width);
-								
-								progressBar = dijit.byId("smallTestBar");
-								doh.is("256", progressBar.progress);
-								var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
-								doh.is("100%", visualProgress.style.width);
-								
-								progressBar = dijit.byId("testBarInt");
-								doh.is("256", progressBar.progress);
-								doh.is("100.0%", dojo.byId("testBarInt_label").innerHTML);
-								var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
-								doh.is("100%", visualProgress.style.width);
-							}), 8000);
+							doh.robot.typeKeys(text, 500, 500);
 							return d;
 						}
 					},
@@ -243,7 +253,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("intermediateButton1");
+							doh.robot.mouseMoveAt("intermediateButton1", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -257,7 +267,7 @@
 									if(aClass == "dijitProgressBarIndeterminate") found = true;
 								});
 								doh.t(found);
-							}), 2000);
+							}), 1000);
 							return d;
 						}
 					},
@@ -267,7 +277,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("labelButton1");
+							doh.robot.mouseMoveAt("labelButton1", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -282,7 +292,7 @@
 									if(aClass == "dijitProgressBarIndeterminate") found = true;
 								});
 								doh.f(found);
-							}), 2000);
+							}), 1000);
 							return d;
 						}
 					},
@@ -292,7 +302,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("intermediateButton2");
+							doh.robot.mouseMoveAt("intermediateButton2", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -307,7 +317,7 @@
 									if(aClass == "dijitProgressBarIndeterminate") found = true;
 								});
 								doh.t(found);
-							}), 2000);
+							}), 1000);
 							return d;
 						}
 					},
@@ -317,7 +327,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("labelButton2");
+							doh.robot.mouseMoveAt("labelButton2", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -332,7 +342,7 @@
 									if(aClass == "dijitProgressBarIndeterminate") found = true;
 								});
 								doh.f(found);
-							}), 2000);
+							}), 1000);
 							return d;
 						}
 					},
@@ -378,7 +388,7 @@
 							doh.t(found);
 							
 							var progressBar = dijit.byId("timerBar");
-							doh.is("100", progressBar.progress, "Timer progress was " + progressBar.progress);
+							doh.t(80 < progressBar.progress <= 100, "Timer progress was " + progressBar.progress);
 						}
 					}
 				]);
