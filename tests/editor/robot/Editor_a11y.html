@@ -67,7 +67,7 @@
 				doh.register("keyboard shortcuts", [
 					{
 						name: "bold/italic",
-						timeout: 10000,
+						timeout: 15000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -78,20 +78,20 @@
 								editor1.focus();
 							}, 500);
 							doh.robot.keyPress("a", 500, metaKey);	// select all
-							doh.robot.typeKeys("hello ", 500);		// and erase (by typing something new)
+							doh.robot.typeKeys("hello ", 500, 750);		// and erase (by typing something new)
 							doh.robot.keyPress("b", 500, metaKey);	// start bold
-							doh.robot.typeKeys("bold", 500);
+							doh.robot.typeKeys("bold", 500, 600);
 							doh.robot.keyPress("b", 500, metaKey);	// stop bold
-							doh.robot.typeKeys(" and ", 500);
+							doh.robot.typeKeys(" and ", 500, 750);
 							doh.robot.keyPress("i", 500, metaKey);	// start italic
-							doh.robot.typeKeys("exciting", 500);
+							doh.robot.typeKeys("exciting", 500, 1200);
 							doh.robot.keyPress("i", 500, metaKey);	// stop italic
-							doh.robot.typeKeys(" new world.", 500);
+							doh.robot.typeKeys(" new world.", 500, 1650);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								var val = normalize(editor1.get('value'));
 								doh.is("hello <b>bold</b> and <i>exciting</i> new world.", val);
-							}), 1500);
+							}), 500);
 
 							return d;
 						}
@@ -204,7 +204,7 @@
 				doh.register("toolbar navigation", [
 					{
 						name: "bold",
-						timeout: 10000,
+						timeout: 15000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -217,20 +217,20 @@
 							doh.robot.sequence(function(){
 								editor1.focus();
 							}, 500);
-							doh.robot.keyPress("a", 500, metaKey);	// select all
+							doh.robot.keyPress("a", 1000, metaKey);	// select all
 							doh.robot.keyPress("c", 500, dojo.isMac ? {meta: true} : {ctrl: true});	// copy into clipboard
-							doh.robot.typeKeys("hello ", 500);		// and erase (by typing something new)
+							doh.robot.typeKeys("hello ", 500, 900);		// and erase (by typing something new)
 
 							// Go to toolbar and turn on bold.
 							// We only have to right-arrow twice because it skips the vertical divider bars
 							// and also skips cut and copy (they are disabled b/c nothing is selected)
 							doh.robot.keyPress(dojo.keys.TAB, 500, {shift: true});
-							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500);
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 1000);
 							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500);
 							doh.robot.keyPress(dojo.keys.SPACE, 500);
 
 							// Focus and caret should be back after "hello ", type "world" in bold
-							doh.robot.typeKeys("world", 500);
+							doh.robot.typeKeys("world", 1000, 750);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// Get the value and try to do some normalization to make all browsers look
@@ -238,7 +238,7 @@
 								// probably happen as pre and post filters on the editor
 								var val = normalize(editor1.get('value'));
 								doh.is("hello <b>world</b>", val);
-							}), 1000);
+							}), 500);
 
 							return d;
 						}
@@ -287,7 +287,7 @@
 							}), 500);
 
 							doh.robot.keyPress("a", 500, metaKey);	// select all
-							doh.robot.typeKeys("tabbing test", 500);		// and replace with "tabbing test"
+							doh.robot.typeKeys("tabbing test", 500, 1800);		// and replace with "tabbing test"
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// just here to make deferred fire
