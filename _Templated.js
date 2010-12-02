@@ -107,32 +107,13 @@ dojo.declare("dijit._Templated",
 			this._attachTemplateNodes(node);
 
 			if(this.widgetsInTemplate){
-				// Make sure dojoType is used for parsing widgets in template.
-				// The dojo.parser.query could be changed from multiversion support.
-				var parser = dojo.parser, attr, attrData;
-				if(parser._attrName != "dojoType"){
-					attr = parser._attrName;
-					parser._attrName = "dojoType";
-				}
-				if(parser._attrData != "data-dojo-"){
-					attrData = parser._attrData;
-					parser._attrData = "data-dojo-";
-				}
-
 				// Store widgets that we need to start at a later point in time
 				var cw = (this._startupWidgets = dojo.parser.parse(node, {
 					noStart: !this._earlyTemplatedStartup,
 					template: true,
-					inherited: {dir: this.dir, lang: this.lang}
+					inherited: {dir: this.dir, lang: this.lang},
+					scope: "dojo"	// even in multi-version mode templates use dojoType/data-dojo-type
 				}));
-
-				// Restore the query.
-				if(attr){
-					parser._attrName = attr;
-				}
-				if(attrData){
-					parser._attrData = attrData;
-				}
 
 				this._supportingWidgets = dijit.findWidgets(node);
 
