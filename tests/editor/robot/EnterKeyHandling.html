@@ -58,6 +58,8 @@
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../EnterKeyHandling.html');
 
+				var metaKey = {ctrl: true}
+				
 				// Tests for BR mode
 				doh.register("blockNodeForEnter=BR", [
 					{
@@ -96,7 +98,6 @@
 								value = value.replace(/&nbsp;/g, "");
 								value = value.replace(/ /g, "");
 								value = value.replace(/\xA0/g, "");
-								var val = br.get("value");
 								doh.is('ab345<br/>ab345<br/>ab345<br/>ab345<br/>',
 										value,
 										"get('value')");
@@ -104,7 +105,77 @@
 
 							return d;
 						}
-					}
+					}/*,
+					{
+						name: "copy and paste",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var br = dijit.byId("br");
+							br.set("value", "");
+							br.focus();
+							
+							doh.robot.mouseMoveAt(br.iframe, 500);
+							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.keyPress(dojo.keys.BACKSPACE, 500, {});
+								
+							doh.robot.typeKeys("testingCopyAndPaste", 500);
+							doh.robot.keyPress("a", 500, metaKey);	// select all
+							doh.robot.keyPress("c", 500, metaKey);	// copy
+							doh.robot.keyPress("v", 500, metaKey);	// paste
+							doh.robot.keyPress("v", 500, metaKey);	// paste
+							doh.robot.keyPress("v", 500, metaKey);	// paste
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {shift: false});
+							doh.robot.sequence(d.getTestCallback(function(){
+								// get('value') should call the post-filter which recombines the separate <p> nodes into bigger
+								// paragraphs.
+								var value = br.get('value');
+								value = value.replace(/ /g, "");
+								doh.is('testingCopyAndPastetestingCopyAndPastetestingCopyAndPaste<br/>',
+										value,
+										"get('value')");
+							}), 1000);
+							return d;
+						}
+					},
+					{
+						name: "copy and paste split",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var br = dijit.byId("br");
+							br.set("value", "");
+							br.focus();
+							
+							doh.robot.mouseMoveAt(br.iframe, 500);
+							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.keyPress(dojo.keys.BACKSPACE, 500, {});
+								
+							doh.robot.typeKeys("testingCopyAndPaste", 500);
+							doh.robot.keyPress("a", 500, metaKey);	// select all
+							doh.robot.keyPress("c", 500, metaKey);	// copy
+							doh.robot.keyPress("v", 500, metaKey);	// paste
+							doh.robot.keyPress("v", 500, metaKey);	// paste
+							doh.robot.keyPress("v", 500, metaKey);	// paste
+							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+							doh.robot.sequence(d.getTestCallback(function(){
+								// get('value') should call the post-filter which recombines the separate <p> nodes into bigger
+								// paragraphs.
+								var value = br.get('value');
+								value = value.replace(/ /g, "");
+								doh.is('testingCopyAndPastetestingCopyAndPastetestingCopyAndP<br/>aste',
+										value,
+										"get('value')");
+							}), 1000);
+							return d;
+						}
+					}*/
 				]);
 				doh.register("Split tests", [
 					{
@@ -180,7 +251,75 @@
 
 							return d;
 						}
+					},
+					{
+						name: "copy and paste DIV",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
 
+							var editor = dijit.byId("div3");
+							dojo.window.scrollIntoView(editor.iframe);
+							editor.set("value", "");
+							editor.focus();
+							
+							doh.robot.mouseMoveAt(editor.iframe, 500);
+							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.keyPress(dojo.keys.BACKSPACE, 500, {});
+								
+							doh.robot.typeKeys("testingCopyAndPaste", 500);
+							doh.robot.keyPress("a", 500, metaKey);	// select all
+							doh.robot.keyPress("c", 500, metaKey);	// copy
+							doh.robot.keyPress("v", 500, metaKey);	// paste
+							doh.robot.keyPress("v", 500, metaKey);	// paste
+							doh.robot.keyPress("v", 500, metaKey);	// paste
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+							doh.robot.sequence(d.getTestCallback(function(){
+								var value = editor.get('value');
+								value = value.replace(/ /g, "");
+								doh.is('<div>testingCopyAndPastetestingCopyAndPastetestingCopyAndPaste</div><div></div>',
+										value,
+										"get('value')");
+							}), 1000);
+							return d;
+						}
+					},
+					{
+						name: "copy and paste DIV split",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var editor = dijit.byId("div3");
+							dojo.window.scrollIntoView(editor.iframe);
+							editor.set("value", "");
+							editor.focus();
+							
+							doh.robot.mouseMoveAt(editor.iframe, 500);
+							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.keyPress(dojo.keys.BACKSPACE, 500, {});
+								
+							doh.robot.typeKeys("testingCopyAndPaste", 500);
+							doh.robot.keyPress("a", 500, metaKey);	// select all
+							doh.robot.keyPress("c", 500, metaKey);	// copy
+							doh.robot.keyPress("v", 500, metaKey);	// paste
+							doh.robot.keyPress("v", 500, metaKey);	// paste
+							doh.robot.keyPress("v", 500, metaKey);	// paste
+							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+							doh.robot.sequence(d.getTestCallback(function(){
+								// get('value') should call the post-filter which recombines the separate <p> nodes into bigger
+								// paragraphs.
+								var value = editor.get('value');
+								doh.is('<div>testingCopyAndPastetestingCopyAndPastetestingCopyAndP</div><div>aste</div>',
+										value,
+										"get('value')");
+							}), 1000);
+							return d;
+						}
 					},
 					{
 						name: "Test p line split",
@@ -215,6 +354,75 @@
 								doh.assertTrue(val.indexOf("<p><b>s</b>") > 0);
 							}), 500);
 
+							return d;
+						}
+					},
+					{
+						name: "copy and paste P",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var editor = dijit.byId("p2");
+							dojo.window.scrollIntoView(editor.iframe);
+							editor.set("value", "");
+							editor.focus();
+							
+							doh.robot.mouseMoveAt(editor.iframe, 500);
+							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.keyPress(dojo.keys.BACKSPACE, 500, {});
+								
+							doh.robot.typeKeys("testingCopyAndPaste", 500);
+							doh.robot.keyPress("a", 500, metaKey);	// select all
+							doh.robot.keyPress("c", 500, metaKey);	// copy
+							doh.robot.keyPress("v", 500, metaKey);	// paste
+							doh.robot.keyPress("v", 500, metaKey);	// paste
+							doh.robot.keyPress("v", 500, metaKey);	// paste
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+							doh.robot.sequence(d.getTestCallback(function(){
+								var value = editor.get('value');
+								value = value.replace(/ /g, "");
+								doh.is('<p>testingCopyAndPastetestingCopyAndPastetestingCopyAndPaste</p><p></p>',
+										value,
+										"get('value')");
+							}), 1000);
+							return d;
+						}
+					},
+					{
+						name: "copy and paste P split",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var editor = dijit.byId("p2");
+							dojo.window.scrollIntoView(editor.iframe);
+							editor.set("value", "");
+							editor.focus();
+							
+							doh.robot.mouseMoveAt(editor.iframe, 500);
+							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.keyPress(dojo.keys.BACKSPACE, 500, {});
+								
+							doh.robot.typeKeys("testingCopyAndPaste", 500);
+							doh.robot.keyPress("a", 500, metaKey);	// select all
+							doh.robot.keyPress("c", 500, metaKey);	// copy
+							doh.robot.keyPress("v", 500, metaKey);	// paste
+							doh.robot.keyPress("v", 500, metaKey);	// paste
+							doh.robot.keyPress("v", 500, metaKey);	// paste
+							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+							doh.robot.sequence(d.getTestCallback(function(){
+								// get('value') should call the post-filter which recombines the separate <p> nodes into bigger
+								// paragraphs.
+								var value = editor.get('value');
+								doh.is('<p>testingCopyAndPastetestingCopyAndPastetestingCopyAndP</p><p>aste</p>',
+										value,
+										"get('value')");
+							}), 1000);
 							return d;
 						}
 					}

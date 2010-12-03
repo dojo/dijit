@@ -213,7 +213,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 						newrange.setStart(header.lastChild,0);
 					selection.removeAllRanges();
 					selection.addRange(newrange);
-					}else{
+				}else{
 					rs = range.startContainer;
 					if(rs && rs.nodeType == 3){
 						// Text node, we have to split it.
@@ -224,15 +224,15 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 							var brNode = doc.createElement("br");
 							if(endNode.nodeValue == "" && dojo.isWebKit){
 								endNode = doc.createTextNode('\xA0')
-					}
+							}
 							dojo.place(startNode, rs, "after");
 							dojo.place(brNode, startNode, "after");
 							dojo.place(endNode, brNode, "after");
 							dojo.destroy(rs);
 							newrange = dijit.range.create(dojo.gobal);
 							newrange.setStart(endNode,0);
-					selection.removeAllRanges();
-					selection.addRange(newrange);
+							selection.removeAllRanges();
+							selection.addRange(newrange);
 						});
 						return false;
 					}
@@ -285,9 +285,9 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 						}
 					}
 				}else{
-				// don't change this: do not call this.execCommand, as that may have other logic in subclass
-				dijit._editor.RichText.prototype.execCommand.call(this.editor, 'inserthtml', '<br>');
-			}
+					// don't change this: do not call this.execCommand, as that may have other logic in subclass
+					dijit._editor.RichText.prototype.execCommand.call(this.editor, 'inserthtml', '<br>');
+				}
 			}
 			return false;
 		}
@@ -350,8 +350,16 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 
 		var newblock = doc.createElement(this.blockNodeForEnter);
 		newblock.innerHTML=this.bogusHtmlContent;
-		this.removeTrailingBr(block.blockNode);
-		if(dijit.range.atEndOfContainer(block.blockNode, range.endContainer, range.endOffset)){
+		this.removeTrailingBr(block.blockNode);	
+		var endOffset = range.endOffset;
+		var node = range.endContainer;
+		if(node.length < endOffset){
+			//We are not checking the right node, try to locate the correct one
+			var ret = this._adjustNodeAndOffset(node, endOffset);
+			node = ret.node;
+			endOffset = ret.offset;
+		}
+		if(dijit.range.atEndOfContainer(block.blockNode, node, endOffset)){
 			if(block.blockNode === block.blockContainer){
 				block.blockNode.appendChild(newblock);
 			}else{
@@ -401,9 +409,17 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 			if(rs && rs.nodeType == 3){
 				// Text node, we have to split it.
 				var nodeToMove, tNode;
+				endOffset = range.endOffset;
+				if(rs.length < endOffset){
+					//We are not splitting the right node, try to locate the correct one
+					ret = this._adjustNodeAndOffset(rs, endOffset);
+					rs = ret.node;
+					endOffset = ret.offset;
+				}
+				
 				txt = rs.nodeValue;
-				var startNode = doc.createTextNode(txt.substring(0, range.startOffset));
-				var endNode = doc.createTextNode(txt.substring(range.startOffset, txt.length));
+				var startNode = doc.createTextNode(txt.substring(0, endOffset));
+				var endNode = doc.createTextNode(txt.substring(endOffset, txt.length));
 
 				// Place the split, then remove original nodes.
 				dojo.place(startNode, rs, "before");
@@ -468,6 +484,25 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 		}
 		return _letBrowserHandle;
 	},
+	
+	_adjustNodeAndOffset: function(/*DomNode*/node, /*Int*/offset){
+		// summary: 
+		//              In the case there are multiple text nodes in a row the offset may not be within the node.  If the offset is larger than the node length, it will attempt to find 
+		//              the next text sibling until it locates the text node in which the offset refers to
+		// node: 
+		//              The node to check. 
+		// offset: 
+		//              The position to find within the text node
+		// tags:  
+		//              private. 
+		while(node.length < offset && node.nextSibling && node.nextSibling.nodeType==3){  
+			//Adjust the offset and node in the case of multiple text nodes in a row
+			offset = offset - node.length;
+			node = node.nextSibling;
+		}
+		var ret = {"node": node, "offset": offset};
+		return ret;
+	},
 
 	removeTrailingBr: function(container){
 		// summary:
@@ -488,7 +523,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 		if(!para.childNodes.length){
 			para.innerHTML=this.bogusHtmlContent;
 		}
-				}
+	}
 });
 
 return dijit._editor.plugins.EnterKeyHandling;
