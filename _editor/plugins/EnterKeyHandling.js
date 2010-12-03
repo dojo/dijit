@@ -253,20 +253,32 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 							// Text node, we have to split it.
 							txt = rs.nodeValue;
 							dojo.withGlobal(this.editor.window, function(){
+								var endEmpty = false;
 								var startNode = doc.createTextNode(txt.substring(0, range.startOffset));
 								var endNode = doc.createTextNode(txt.substring(range.startOffset));
 								var brNode = doc.createElement("br");
-								if(endNode.nodeValue == "" && dojo.isWebKit){
-									endNode = doc.createTextNode('\xA0')
+								if(!endNode.length){
+									endNode = doc.createTextNode('\xA0');
+									endEmpty = true;
 								}
-								dojo.place(startNode, rs, "after");
+								if(startNode.length){
+									dojo.place(startNode, rs, "after");
+								}else{
+									startNode = rs;
+								}				
 								dojo.place(brNode, startNode, "after");
 								dojo.place(endNode, brNode, "after");
 								dojo.destroy(rs);
 								newrange = dijit.range.create(dojo.gobal);
 								newrange.setStart(endNode,0);
+								newrange.setEnd(endNode, endNode.length);
 								selection.removeAllRanges();
 								selection.addRange(newrange);
+								if(endEmpty && !dojo.isWebKit){
+									dijit._editor.selection.remove();	
+								}else{
+									dijit._editor.selection.collapse(true);
+								}
 							});
 						}else{
 							dijit._editor.RichText.prototype.execCommand.call(this.editor, 'inserthtml', '<br>');
