@@ -59,25 +59,9 @@
 				indeterminate:true
 			}, "pi");
 
-			doh.register("testProgressBar",[
+			doh.register("ProgressBar",[
 				{
-					name: "test4",
-					timeout: 7000,
-					runTest: function(){
-						var d = new doh.Deferred();
-
-						remoteProgress(dijit.byId("timerBar"));
-						
-						setTimeout(d.getTestCallback(function(){
-							var progressBar = dijit.byId("timerBar");
-							doh.t(0 < progressBar.progress < 30);
-						}), 3500);
-						return d;
-					}
-				},
-				{
-					name: "test1Valid",
-					timeout: 4000,
+					name: "set valid value",
 					runTest: function(){
 						var progressBar = dijit.byId("setTestBar");
 						progressBar.set({maximum: 100, value: 58});
@@ -92,8 +76,7 @@
 					}
 				},
 				{
-					name: "test1InvalidPositive",
-					timeout: 4000,
+					name: "set value too high",
 					runTest: function(){
 						var d = new doh.Deferred();
 
@@ -107,8 +90,7 @@
 					}
 				},
 				{
-					name: "test1Zero",
-					timeout: 4000,
+					name: "set zero value",
 					runTest: function(){
 						var d = new doh.Deferred();
 
@@ -122,8 +104,7 @@
 					}
 				},
 				{
-					name: "test1OneHundred",
-					timeout: 4000,
+					name: "set max value",
 					runTest: function(){
 						var d = new doh.Deferred();
 
@@ -137,95 +118,19 @@
 					}
 				},
 				{
-					name: "test2Chars",
-					timeout: 10000,
+					name: "report callback",
 					runTest: function(){
-						dijit.byId("testBar").set({value:1});
-						dijit.byId("testBarInt").set({value:1});
-						dijit.byId("smallTestBar").set({value:1});
-
 						var progressBar = dijit.byId("testBar");
-						doh.is("1", progressBar.progress);
-						doh.is("1 out of 256 max chars", dojo.byId("testBar_label").innerHTML);
-						var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
-						var width = visualProgress.style.width;
-						doh.is("0.39", width.substring(0,4));
-						
-						progressBar = dijit.byId("smallTestBar");
-						doh.is("1", progressBar.progress);
-						var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
-						width = visualProgress.style.width;
-						doh.is("0.39", width.substring(0,4));
-						
-						progressBar = dijit.byId("testBarInt");
-						doh.is("1", progressBar.progress);
-						doh.is("0.4%", dojo.byId("testBarInt_label").innerHTML);
-						var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
-						width = visualProgress.style.width;
-						doh.is("0.39", width.substring(0,4));
-					}
-				},
-				{
-					name: "test2Chars2",
-					timeout: 10000,
-					runTest: function(){
-						for(var i=2; i<=79; i++){
-							dijit.byId("testBar").set({value:i});
-							dijit.byId("testBarInt").set({value:i});
-							dijit.byId("smallTestBar").set({value:i});
-						}
-
-						var progressBar = dijit.byId("testBar");
+						progressBar.set({value: 79});
 						doh.is("79", progressBar.progress);
 						doh.is("79 out of 256 max chars", dojo.byId("testBar_label").innerHTML);
 						var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
 						width = visualProgress.style.width;
 						doh.is("30.8", width.substring(0,4));
-
-						progressBar = dijit.byId("smallTestBar");
-						doh.is("79", progressBar.progress);
-						var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
-						width = visualProgress.style.width;
-						doh.is("30.8", width.substring(0,4));
-
-						progressBar = dijit.byId("testBarInt");
-						doh.is("79", progressBar.progress);
-						doh.is("30.9%", dojo.byId("testBarInt_label").innerHTML);
-						var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
-						width = visualProgress.style.width;
-						doh.is("30.8", width.substring(0,4));
 					}
 				},
 				{
-					name: "test2Chars3",
-					timeout: 20000,
-					runTest: function(){
-						for(var i=80; i<=256; i++){
-							dijit.byId("testBar").set({value:i});
-							dijit.byId("testBarInt").set({value:i});
-							dijit.byId("smallTestBar").set({value:i});
-						}
-						
-						var progressBar = dijit.byId("testBar");
-						doh.is("256", progressBar.progress);
-						doh.is("256 out of 256 max chars", dojo.byId("testBar_label").innerHTML);
-						var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
-						doh.is("100%", visualProgress.style.width);
-
-						progressBar = dijit.byId("smallTestBar");
-						doh.is("256", progressBar.progress);
-						var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
-						doh.is("100%", visualProgress.style.width);
-
-						progressBar = dijit.byId("testBarInt");
-						doh.is("256", progressBar.progress);
-						doh.is("100.0%", dojo.byId("testBarInt_label").innerHTML);
-						var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
-						doh.is("100%", visualProgress.style.width);
-					}
-				},
-				{
-					name: "test3",
+					name: "default maximum",
 					runTest: function(){
 						var progressBar = dijit.byId("implied1");
 						doh.is("50", progressBar.progress);
@@ -241,8 +146,7 @@
 					}
 				},
 				{
-					name: "test5_1",
-					timeout: 4000,
+					name: "set indeterminate, no label",
 					runTest: function(){
 						var progressBar = dijit.byId("indeterminateBar");
 						progressBar.set({indeterminate: true, label: ''});
@@ -253,8 +157,7 @@
 					}
 				},
 				{
-					name: "test5_2",
-					timeout: 4000,
+					name: "set determinate, no label",
 					runTest: function(){
 						var progressBar = dijit.byId("indeterminateBar");
 						progressBar.set({indeterminate: false, label: ''});	
@@ -266,8 +169,7 @@
 					}
 				},
 				{
-					name: "test5_3",
-					timeout: 4000,
+					name: "set indeterminate, custom label",
 					runTest: function(){
 						var d = new doh.Deferred();
 
@@ -281,8 +183,7 @@
 					}
 				},
 				{
-					name: "test5_4",
-					timeout: 4000,
+					name: "set determinate, custom label",
 					runTest: function(){
 						var progressBar = dijit.byId("indeterminateBar");
 						progressBar.set({indeterminate: false, label: 'Loading...'});
@@ -294,7 +195,7 @@
 					}
 				},
 				{
-					name: "test6",
+					name: "html5 parser syntax",
 					runTest: function(){
 						var progressBar = dijit.byId("html5ish");
 						var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
@@ -311,7 +212,7 @@
 					}
 				},
 				{
-					name: "test7",
+					name: "programmatic indeterminate",
 					runTest: function(){
 						var progressBar = dijit.byId("pi");
 						var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
