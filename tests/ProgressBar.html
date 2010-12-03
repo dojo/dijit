@@ -195,23 +195,6 @@
 					}
 				},
 				{
-					name: "html5 parser syntax",
-					runTest: function(){
-						var progressBar = dijit.byId("html5ish");
-						var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
-						doh.is("100%", visualProgress.style.width);
-							
-						doh.t(dojo.hasClass(progressBar.domNode, "dijitProgressBarIndeterminate"), "html5ish has class dijitProgressBarIndeterminate");
-						
-						progressBar = dijit.byId("html5ish2");
-						doh.is("10%", dojo.byId("html5ish2_label").innerHTML);
-						var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
-						doh.is("10%", visualProgress.style.width);
-							
-						doh.f(dojo.hasClass(progressBar.domNode, "dijitProgressBarIndeterminate"), "html5ish2 doesn't have class dijitProgressBarIndeterminate");
-					}
-				},
-				{
 					name: "programmatic indeterminate",
 					runTest: function(){
 						var progressBar = dijit.byId("pi");
@@ -327,11 +310,7 @@
 	
 	<div id="indeterminateBar" data-dojo-type="dijit.ProgressBar" data-dojo-props='style:"width:400px", value:"50" '></div>
 
-	<h3>Test 6 - data-dojo-type</h3>
-	<div id="html5ish" data-dojo-type="dijit.ProgressBar" data-dojo-props="indeterminate:true"></div>
-	<div id="html5ish2" data-dojo-type="dijit.ProgressBar" data-dojo-props="value:10"></div>
-
-	<h3>Test 7 - programatic indeterminate</h3>
+	<h3>Test 6 - programatic indeterminate</h3>
 	<div id="pi"></div>
 
 </body>
