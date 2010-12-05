@@ -24,11 +24,11 @@
 				doh.register("test layout 1", [
 					{
 						name: "tab1",
-						timeout: 4000,
+						timeout: 6000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("heading", 1000);
+							doh.robot.mouseMoveAt("heading", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.keyPress(dojo.keys.TAB, 1000, {});
 							
@@ -38,7 +38,7 @@
 								doh.f(dijit.byId("topcp_layout1").focused);
 								doh.f(dijit.byId("centercp_layout1").focused);
 								doh.f(dijit.byId("bottomcp_layout1").focused);
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -49,7 +49,7 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							doh.robot.keyPress(dojo.keys.TAB, 1000, {});
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(dijit.byId("leftcp_layout1").focused);
@@ -57,7 +57,7 @@
 								doh.f(dijit.byId("topcp_layout1").focused);
 								doh.f(dijit.byId("centercp_layout1").focused);
 								doh.f(dijit.byId("bottomcp_layout1").focused);
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -68,7 +68,7 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							doh.robot.keyPress(dojo.keys.TAB, 1000, {});
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(dijit.byId("leftcp_layout1").focused);
@@ -76,7 +76,7 @@
 								doh.t(dijit.byId("topcp_layout1").focused);
 								doh.f(dijit.byId("centercp_layout1").focused);
 								doh.f(dijit.byId("bottomcp_layout1").focused);
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -87,7 +87,7 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							doh.robot.keyPress(dojo.keys.TAB, 1000, {});
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(dijit.byId("leftcp_layout1").focused);
@@ -95,18 +95,18 @@
 								doh.f(dijit.byId("topcp_layout1").focused);
 								doh.t(dijit.byId("centercp_layout1").focused);
 								doh.f(dijit.byId("bottomcp_layout1").focused);
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
 					},
 					{
 						name: "tab5",
-						timeout: 5000,
+						timeout: 7000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							if(!dojo.isOpera)  doh.robot.keyPress(dojo.keys.TAB, 1000, {}); // Tab to the link on the center pane
+							if(!dojo.isOpera)  doh.robot.keyPress(dojo.keys.TAB, 500, {}); // Tab to the link on the center pane
 							doh.robot.keyPress(dojo.keys.TAB, 1000, {}); // Tab to the input on the center pane
 							doh.robot.keyPress(dojo.keys.TAB, 1000, {}); // Tab to the bottom pane
 							
@@ -116,7 +116,7 @@
 								doh.f(dijit.byId("topcp_layout1").focused);
 								doh.f(dijit.byId("centercp_layout1").focused);
 								doh.t(dijit.byId("bottomcp_layout1").focused);
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -126,11 +126,11 @@
 				doh.register("test layout 2", [
 					{
 						name: "tab1_l2",
-						timeout: 2000,
+						timeout: 3000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							doh.robot.keyPress(dojo.keys.TAB, 1000, {});
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(dijit.byId("leftcp_layout2").focused);
@@ -139,14 +139,14 @@
 								doh.f(dijit.byId("centerLeftcp_layout2").focused);
 								doh.f(dijit.byId("centercp_layout2").focused);
 								doh.f(dijit.byId("centerRightcp_layout2").focused);
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
 					},
 					{
 						name: "tab2_l2",
-						timeout: 2000,
+						timeout: 3000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
@@ -166,11 +166,11 @@
 					},
 					{
 						name: "tab3_l2",
-						timeout: 2000,
+						timeout: 3000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							doh.robot.keyPress(dojo.keys.TAB, 1000, {});
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(dijit.byId("leftcp_layout2").focused);
@@ -179,18 +179,18 @@
 								doh.f(dijit.byId("centerLeftcp_layout2").focused);
 								doh.f(dijit.byId("centercp_layout2").focused);
 								doh.f(dijit.byId("centerRightcp_layout2").focused);
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
 					},
 					{
 						name: "tab4_l2",
-						timeout: 2000,
+						timeout: 3000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							doh.robot.keyPress(dojo.keys.TAB, 1000, {});
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(dijit.byId("leftcp_layout2").focused);
@@ -199,18 +199,18 @@
 								doh.t(dijit.byId("centerLeftcp_layout2").focused);
 								doh.f(dijit.byId("centercp_layout2").focused);
 								doh.f(dijit.byId("centerRightcp_layout2").focused);
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
 					},
 					{
 						name: "tab5_l2",
-						timeout: 2000,
+						timeout: 3000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							doh.robot.keyPress(dojo.keys.TAB, 1000, {});
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(dijit.byId("leftcp_layout2").focused);
@@ -219,18 +219,18 @@
 								doh.f(dijit.byId("centerLeftcp_layout2").focused);
 								doh.t(dijit.byId("centercp_layout2").focused);
 								doh.f(dijit.byId("centerRightcp_layout2").focused);
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
 					},
 					{
 						name: "tab6_l2",
-						timeout: 4000,
+						timeout: 7000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							if(!dojo.isOpera)  doh.robot.keyPress(dojo.keys.TAB, 1000, {}); // Tab to the link on the center pane
+							if(!dojo.isOpera)  doh.robot.keyPress(dojo.keys.TAB, 500, {}); // Tab to the link on the center pane
 							doh.robot.keyPress(dojo.keys.TAB, 1000, {}); // Tab to the input on the center pane
 							doh.robot.keyPress(dojo.keys.TAB, 1000, {});
 							
@@ -241,7 +241,7 @@
 								doh.f(dijit.byId("centerLeftcp_layout2").focused);
 								doh.f(dijit.byId("centercp_layout2").focused);
 								doh.t(dijit.byId("centerRightcp_layout2").focused);
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -251,11 +251,11 @@
 				doh.register("test layout 3", [
 					{
 						name: "tab1_l3",
-						timeout: 2000,
+						timeout: 3000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							doh.robot.keyPress(dojo.keys.TAB, 1000, {});
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(dijit.byId("leftcp_layout3").focused);
@@ -264,18 +264,18 @@
 								doh.f(dijit.byId("centercp_layout3").focused);
 								doh.f(dijit.byId("centerRightcp_layout3").focused);
 								doh.f(dijit.byId("bottomcp_layout3").focused);
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
 					},
 					{
 						name: "tab2_l3",
-						timeout: 2000,
+						timeout: 3000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							doh.robot.keyPress(dojo.keys.TAB, 1000, {});
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(dijit.byId("leftcp_layout3").focused);
@@ -284,18 +284,18 @@
 								doh.f(dijit.byId("centercp_layout3").focused);
 								doh.f(dijit.byId("centerRightcp_layout3").focused);
 								doh.f(dijit.byId("bottomcp_layout3").focused);
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
 					},
 					{
 						name: "tab3_l3",
-						timeout: 2000,
+						timeout: 3000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							doh.robot.keyPress(dojo.keys.TAB, 1000, {});
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(dijit.byId("leftcp_layout3").focused);
@@ -304,18 +304,18 @@
 								doh.f(dijit.byId("centercp_layout3").focused);
 								doh.f(dijit.byId("centerRightcp_layout3").focused);
 								doh.f(dijit.byId("bottomcp_layout3").focused);
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
 					},
 					{
 						name: "tab4_l3",
-						timeout: 2000,
+						timeout: 3000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							doh.robot.keyPress(dojo.keys.TAB, 1000, {});
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(dijit.byId("leftcp_layout3").focused);
@@ -324,18 +324,18 @@
 								doh.t(dijit.byId("centercp_layout3").focused);
 								doh.f(dijit.byId("centerRightcp_layout3").focused);
 								doh.f(dijit.byId("bottomcp_layout3").focused);
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
 					},
 					{
 						name: "tab5_l3",
-						timeout: 4000,
+						timeout: 7000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							if(!dojo.isOpera) doh.robot.keyPress(dojo.keys.TAB, 1000, {}); // Tab to the link on the center pane
+							if(!dojo.isOpera) doh.robot.keyPress(dojo.keys.TAB, 500, {}); // Tab to the link on the center pane
 							doh.robot.keyPress(dojo.keys.TAB, 1000, {}); // Tab to the input on the center pane
 							doh.robot.keyPress(dojo.keys.TAB, 1000, {});
 							
@@ -346,18 +346,18 @@
 								doh.f(dijit.byId("centercp_layout3").focused);
 								doh.t(dijit.byId("centerRightcp_layout3").focused);
 								doh.f(dijit.byId("bottomcp_layout3").focused);
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
 					},
 					{
 						name: "tab6_l3",
-						timeout: 2000,
+						timeout: 3000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							doh.robot.keyPress(dojo.keys.TAB, 1000, {});
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(dijit.byId("leftcp_layout3").focused);
@@ -366,7 +366,7 @@
 								doh.f(dijit.byId("centercp_layout3").focused);
 								doh.f(dijit.byId("centerRightcp_layout3").focused);
 								doh.t(dijit.byId("bottomcp_layout3").focused);
-							}), 500);
+							}), 1000);
 
 							return d;
 						}

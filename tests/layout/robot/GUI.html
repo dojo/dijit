@@ -36,11 +36,11 @@
 				doh.register("test_left_accordion", [
 					{
 						name: "open ac pane 2",
-						timeout: 3000,
+						timeout: 4000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 														
-							doh.robot.mouseMoveAt("ac_pane2_button", 500);
+							doh.robot.mouseMoveAt("ac_pane2_button", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -57,19 +57,19 @@
 				doh.register("test_Top_Tab_Container", [
 					{
 						name: "open top tab 2",
-						timeout: 6000,
+						timeout: 9000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 							
 							//Drag splitter to the left to make more room for the tab container
-							doh.robot.mouseMoveAt("leftAccordion_splitter", 500);
+							doh.robot.mouseMoveAt("leftAccordion_splitter", 500, 1);
 							doh.robot.mousePress({left: true}, 500);
 							doh.robot.mouseMoveAt("leftAccordion_splitter", 500, 100, -100, 100);
 							doh.robot.mouseRelease({left: true}, 500);
 							
-							doh.robot.mouseMoveAt("topTabs1_tablist_tabAccordion", 500);
+							doh.robot.mouseMoveAt("topTabs1_tablist_tabAccordion", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
-							doh.robot.mouseMoveAt("dijit_layout_ContentPane_2_button", 500);
+							doh.robot.mouseMoveAt("dijit_layout_ContentPane_2_button", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -82,17 +82,17 @@
 					},
 					{
 						name: "open top tab 3",
-						timeout: 6000,
+						timeout: 9000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 							
-							doh.robot.mouseMoveAt("topTabs1_tablist_textareaTab", 500);
+							doh.robot.mouseMoveAt("topTabs1_tablist_textareaTab", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
-							doh.robot.mouseMoveAt("dijit_layout_ContentPane_6_button", 500);
+							doh.robot.mouseMoveAt("dijit_layout_ContentPane_6_button", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							//Drag splitter down to make more room for the tab container
-							doh.robot.mouseMoveAt("topTabs1_splitter", 500);
+							doh.robot.mouseMoveAt("topTabs1_splitter", 500, 1);
 							doh.robot.mousePress({left: true}, 500);
 							doh.robot.mouseMoveAt("topTabs1_splitter", 500, 100, 100, 100);
 							doh.robot.mouseRelease({left: true}, 500);
@@ -109,11 +109,11 @@
 					},
 					{
 						name: "open top tab 3 and close nested tab",
-						timeout: 3000,
+						timeout: 4000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 							
-							doh.robot.mouseMoveAt(dijit.byId("accTabs_tablist_bbtab3").closeNode, 500);
+							doh.robot.mouseMoveAt(dijit.byId("accTabs_tablist_bbtab3").closeNode, 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 														
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -125,13 +125,13 @@
 					},
 					{
 						name: "open top tab 4",
-						timeout: 4000,
+						timeout: 5000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 							
-							doh.robot.mouseMoveAt("topTabs1_tablist_titlePaneCP", 500);
+							doh.robot.mouseMoveAt("topTabs1_tablist_titlePaneCP", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
-							doh.robot.mouseMoveAt("dijit_layout_ContentPane_6_button", 500);
+							doh.robot.mouseMoveAt("dijit_layout_ContentPane_6_button", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -149,7 +149,7 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 							
-							doh.robot.mouseMoveAt(dijit.byId("tp").focusNode, 500);
+							doh.robot.mouseMoveAt(dijit.byId("tp").focusNode, 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -163,13 +163,13 @@
 					},
 					{
 						name: "open top tab 5",
-						timeout: 4000,
+						timeout: 5000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 							
-							doh.robot.mouseMoveAt("topTabs1_tablist_tabContainerInTabCP", 500);
+							doh.robot.mouseMoveAt("topTabs1_tablist_tabContainerInTabCP", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
-							doh.robot.mouseMoveAt("tabContainerInTabCP_tablist_basicFormTab2", 500);
+							doh.robot.mouseMoveAt("tabContainerInTabCP_tablist_basicFormTab2", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -185,12 +185,12 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 							
-							doh.robot.mouseMoveAt(dijit.byId("topTabs1_tablist_tabContainerInTabCP").closeNode, 500);
+							doh.robot.mouseMoveAt(dijit.byId("topTabs1_tablist_tabContainerInTabCP").closeNode, 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(undefined, dijit.byId("topTabs1_tablist_tabContainerInTabCP"));
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -205,12 +205,12 @@
 							var d = new doh.Deferred();
 														
 							//Drag splitter up to make more room for the tab container
-							doh.robot.mouseMoveAt("topTabs1_splitter", 500);
+							doh.robot.mouseMoveAt("topTabs1_splitter", 500, 1);
 							doh.robot.mousePress({left: true}, 500);
 							doh.robot.mouseMoveAt("topTabs1_splitter", 500, 100, 100, -200);
 							doh.robot.mouseRelease({left: true}, 500);
 							
-							doh.robot.mouseMoveAt("bottomTabs1_tablist_btabB", 500);
+							doh.robot.mouseMoveAt("bottomTabs1_tablist_btabB", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -218,23 +218,23 @@
 								checkInside(dijit.byId("bottomTabs2"), dijit.byId("embeddedBC"));
 								doh.t(isVisible(dijit.byId("btabB").domNode), "Tab 2 is not visible");
 								doh.t(isHidden(dijit.byId("btabA").domNode), "Tab 1 is not hidden");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
 					},
 					{
 						name: "close tab 3",
-						timeout: 2000,
+						timeout: 4000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 														
-							doh.robot.mouseMoveAt(dijit.byId("bottomTabs1_tablist_btabC").closeNode, 500);
+							doh.robot.mouseMoveAt(dijit.byId("bottomTabs1_tablist_btabC").closeNode, 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(undefined, dijit.byId("bottomTabs1_tablist_btabC"));
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -249,7 +249,7 @@
 							var d = new doh.Deferred();
 														
 							//Drag splitter up to make more room for the tab container
-							doh.robot.mouseMoveAt("bottomTabs_splitter", 500);
+							doh.robot.mouseMoveAt("bottomTabs_splitter", 500, 1);
 							doh.robot.mousePress({left: true}, 500);
 							doh.robot.mouseMoveAt("bottomTabs_splitter", 500, 100, 100, -200);
 							doh.robot.mouseRelease({left: true}, 500);
@@ -260,18 +260,18 @@
 								doh.t(isVisible(dijit.byId("btabAA").domNode));
 								doh.t(isVisible(dijit.byId("dijit_layout_ContentPane_10").domNode));
 								doh.t(isVisible(dijit.byId("dijit_layout_ContentPane_10_splitter").domNode));
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
 					},
 					{
 						name: "test2",
-						timeout: 2000,
+						timeout: 4000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 							
-							doh.robot.mouseMoveAt("bottomTabs_tablist_btab2", 500);
+							doh.robot.mouseMoveAt("bottomTabs_tablist_btab2", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -281,23 +281,23 @@
 								doh.t(isHidden(dijit.byId("btabAA").domNode));
 								doh.t(isHidden(dijit.byId("dijit_layout_ContentPane_10").domNode));
 								doh.t(isHidden(dijit.byId("dijit_layout_ContentPane_10_splitter").domNode));
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
 					},
 					{
 						name: "test3",
-						timeout: 2000,
+						timeout: 4000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 							
-							doh.robot.mouseMoveAt(dijit.byId("bottomTabs_tablist_btab3").closeNode, 500);
+							doh.robot.mouseMoveAt(dijit.byId("bottomTabs_tablist_btab3").closeNode, 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(undefined, dijit.byId("bottomTabs_tablist_btab3"));
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
