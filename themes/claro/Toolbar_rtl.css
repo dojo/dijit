@@ -1,0 +1,26 @@
+/* Toolbar RTL */
+.claro .dijitToolbarRtl .dijitComboButtonHover .dijitButtonNodeHover {
+	border-right: none;
+	padding-right: 2px;
+	border-left: solid 1px #769dc0;
+	padding-left: 1px;
+}
+.claro .dijitToolbarRtl .dijitComboButtonHover .dijitDownArrowButtonHover {
+	border-left: none;
+	padding-left: 2px;
+	border-right: solid 1px #769dc0;
+	padding-right: 1px;
+}
+
+.claro .dijitToolbarRtl .dijitComboButtonActive .dijitButtonNodeActive {
+	border-right: none;
+	padding-right: 2px;
+	border-left: solid 1px #769dc0;
+	padding-left: 1px;
+}
+.claro .dijitToolbarRtl .dijitComboButtonActive .dijitDownArrowButtonActive {
+	border-left: none;
+	padding-left: 2px;
+	border-right: solid 1px #769dc0;
+	padding-right: 1px;
+}
