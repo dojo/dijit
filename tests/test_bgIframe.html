@@ -21,9 +21,6 @@
 	<script type="text/javascript" src="_testCommon.js"></script>
 
 	<script type="text/javascript">
-		// adding this for IE
-		doh = { robot: {}, run: function(){} };
-
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.Dialog");
 		dojo.require("dijit.form.DateTextBox");
@@ -34,13 +31,19 @@
 
 </head>
 <body class="claro">
-	<span id="one_tooltip" data-dojo-type="dijit.Tooltip" data-dojo-props='connectId:["one"]'>
+	<span data-dojo-type="dijit.Tooltip" data-dojo-props='connectId:["one_applet"]'>
 		This is one tooltip.
 	</span>
-	<span id="two_tooltip" data-dojo-type="dijit.Tooltip" data-dojo-props='connectId:["two"]'>
+	<span data-dojo-type="dijit.Tooltip" data-dojo-props='connectId:["two_applet"]'>
 		This is another tooltip.  A little longer...
 	</span>
-	<button data-dojo-type="dijit.form.Button">
+	<span data-dojo-type="dijit.Tooltip" data-dojo-props='connectId:["one_xapp"]'>
+		This is one tooltip.
+	</span>
+	<span data-dojo-type="dijit.Tooltip" data-dojo-props='connectId:["two_xapp"]'>
+		This is another tooltip.  A little longer...
+	</span>
+	<button id="showDialog" data-dojo-type="dijit.form.Button">
 		Show Dialog
 		<script type="dojo/connect" data-dojo-event="onClick">
 			dialog.show();
@@ -50,7 +53,7 @@
 			<tr>
 				<td></td>
 				<td>
-					<input data-dojo-type="dijit.form.DateTextBox" data-dojo-props='type:"text" '/>
+					<input id="dateText_applet" data-dojo-type="dijit.form.DateTextBox" data-dojo-props='type:"text" '/>
 				</td>
 			</tr>
 			<tr>
@@ -60,24 +63,54 @@
 						when the dialog is displayed.
 						But the dialog's iframe shouldn't make it disappear because they shouldn't overlap.
 					</div>
-					<select>
+					<select id="dropDown_applet">
 						<option>cat</option>
 						<option>dog</option>
 						<option>mouse</option>
 					</select>
-					<br /><br />
+					<br><br>
 
-					<div id="one">Mouse over this to see the tooltip</div>
-					<br />
-					<div id="two">Mouse over this to see a different tooltip</div>
+					<div id="one_applet">Mouse over this to see the tooltip</div>
+					<br>
+					<div id="two_applet">Mouse over this to see a different tooltip</div>
 				</td>
-				<td>
+				<td id="applet_td">
 					<!-- TODO: remove the applet tag which is deprecated -->
-					<applet width="400" height="400" code="DOHRobot.class" archive="../../util/doh/robot/DOHRobot.jar">
+					<applet id="applet" width="400" height="300" code="javax.swing.JApplet">
 						<param name="mayscript" value="false">
 						<param name="scriptable" value="false">
 						<param name="initial_focus" value="false">
 					</applet>
+				</td>
+			</tr>
+	</table>
+	<table>
+			<tr>
+				<td></td>
+				<td>
+					<input id="dateText_xapp" data-dojo-type="dijit.form.DateTextBox" data-dojo-props='type:"text" '/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div style="width: 200px;">
+						This select will disappear on IE6
+						when the dialog is displayed.
+						But the dialog's iframe shouldn't make it disappear because they shouldn't overlap.
+					</div>
+					<select id="dropDown_xapp">
+						<option>cat</option>
+						<option>dog</option>
+						<option>mouse</option>
+					</select>
+					<br><br>
+
+					<div id="one_xapp">Mouse over this to see the tooltip</div>
+					<br>
+					<div id="two_xapp">Mouse over this to see a different tooltip</div>
+				</td>
+				<td>
+					<embed id="xapp" src="../../dojox/av/resources/video.swf" width="400" height="300" />
 				</td>
 			</tr>
 	</table>

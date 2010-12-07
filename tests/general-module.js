@@ -35,6 +35,8 @@ try{
 
 	doh.registerUrl("dijit.tests.robot.Toolbar", dojo.moduleUrl("dijit","tests/robot/Toolbar.html"+userArgs), 99999999);
 
+	doh.registerUrl("dijit.tests.robot.BgIframe", dojo.moduleUrl("dijit","tests/robot/BgIframe.html"+userArgs), 99999999); 
+
 }catch(e){
 	doh.debug(e);
 }
