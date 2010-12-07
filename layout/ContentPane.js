@@ -357,29 +357,7 @@ dojo.declare(
 
 		this._resizeCalled = true;
 
-		// Set margin box size, unless it wasn't specified, in which case use current size.
-		if(changeSize){
-			dojo.marginBox(this.domNode, changeSize);
-		}
-
-		// Compute content box size of containerNode in case we [later] need to size our single child.
-		var cn = this.containerNode;
-		if(cn === this.domNode){
-			// If changeSize or resultSize was passed to this method and this.containerNode ==
-			// this.domNode then we can compute the content-box size without querying the node,
-			// which is more reliable (similar to LayoutWidget.resize) (see for example #9449).
-			var mb = resultSize || {};
-			dojo.mixin(mb, changeSize || {}); // changeSize overrides resultSize
-			if(!("h" in mb) || !("w" in mb)){
-				mb = dojo.mixin(dojo.marginBox(cn), mb); // just use dojo.marginBox() to fill in missing values
-			}
-			this._contentBox = dijit.layout.marginBox2contentBox(cn, mb);
-		}else{
-			this._contentBox = dojo.contentBox(cn);
-		}
-
-		// Make my children layout, or size my single child widget
-		this._layoutChildren();
+		this._scheduleLayout(changeSize, resultSize);		
 	},
 
 	_isShown: function(){
@@ -424,11 +402,9 @@ dojo.declare(
 				this.refresh();
 			}
 		}else{
-			// If we are the child of a layout widget then the layout widget will call resize() on
-			// us, and then we will size our child/children.   Otherwise, we need to do it now.
-			if(!this._childOfLayoutWidget && this._needLayout){
+			if(this._needLayout){
 				// If a layout has been scheduled for when we become visible, do it now
-				this._layoutChildren();
+				this._layout(this._changeSize, this._resultSize);
 			}
 		}
 
@@ -639,25 +615,49 @@ dojo.declare(
 		}
 	},
 
-	_scheduleLayout: function(){
+	_scheduleLayout: function(changeSize, resultSize){
 		// summary:
-		//		Call resize() on each of my child layout widgets, either now
+		//		Resize myself, and call resize() on each of my child layout widgets, either now
 		//		(if I'm currently visible) or when I become visible
 		if(this._isShown()){
-			this._layoutChildren();
+			this._layout(changeSize, resultSize);
 		}else{
 			this._needLayout = true;
+			this._changeSize = changeSize;
+			this._resultSize = resultSize;
 		}
 	},
 
-	_layoutChildren: function(){
+	_layout: function(changeSize, resultSize){
 		// summary:
-		//		Since I am a Container widget, each of my children expects me to
+		//		Resize myself according to optional changeSize/resultSize parameters, like a layout widget.
+		//		Also, since I am a Container widget, each of my children expects me to
 		//		call resize() or layout() on them.
-		// description:
+		//
 		//		Should be called on initialization and also whenever we get new content
 		//		(from an href, or from set('content', ...))... but deferred until
 		//		the ContentPane is visible
+
+		// Set margin box size, unless it wasn't specified, in which case use current size.
+		if(changeSize){
+			dojo.marginBox(this.domNode, changeSize);
+		}
+
+		// Compute content box size of containerNode in case we [later] need to size our single child.
+		var cn = this.containerNode;
+		if(cn === this.domNode){
+			// If changeSize or resultSize was passed to this method and this.containerNode ==
+			// this.domNode then we can compute the content-box size without querying the node,
+			// which is more reliable (similar to LayoutWidget.resize) (see for example #9449).
+			var mb = resultSize || {};
+			dojo.mixin(mb, changeSize || {}); // changeSize overrides resultSize
+			if(!("h" in mb) || !("w" in mb)){
+				mb = dojo.mixin(dojo.marginBox(cn), mb); // just use dojo.marginBox() to fill in missing values
+			}
+			this._contentBox = dijit.layout.marginBox2contentBox(cn, mb);
+		}else{
+			this._contentBox = dojo.contentBox(cn);
+		}
 
 		// Call _checkIfSingleChild() again in case app has manually mucked w/the content
 		// of the ContentPane (rather than changing it through the set("content", ...) API.
