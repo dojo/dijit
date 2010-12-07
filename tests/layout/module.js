@@ -6,10 +6,10 @@ try{
 
 	doh.registerUrl("dijit.tests.layout.robot.GUI", dojo.moduleUrl("dijit","tests/layout/robot/GUI.html"), 99999999);
 
-	doh.registerUrl("dijit.tests.layout.LayoutContainer_a11y", dojo.moduleUrl("dijit", "tests/layout/robot/LayoutContainer_a11y.html"), 99999999);
+	doh.registerUrl("dijit.tests.layout.LayoutContainer", dojo.moduleUrl("dijit", "tests/layout/LayoutContainer.html"), 99999999);
 
 	doh.registerUrl("dijit.tests.layout.NestedStackContainer", dojo.moduleUrl("dijit", "tests/layout/nestedStack.html"), 99999999); 
-	doh.registerUrl("dijit.tests.layout.StackContainer_mouse", dojo.moduleUrl("dijit", "tests/layout/robot/StackContainer_mouse.html"), 99999999); 
+	doh.registerUrl("dijit.tests.layout.robot.StackContainer_mouse", dojo.moduleUrl("dijit", "tests/layout/robot/StackContainer_mouse.html"), 99999999); 
 
 	doh.registerUrl("dijit.tests.layout.TabContainer", dojo.moduleUrl("dijit", "tests/layout/TabContainer.html"), 99999999);
 	doh.registerUrl("dijit.tests.layout.robot.TabContainer_a11y", dojo.moduleUrl("dijit","tests/layout/robot/TabContainer_a11y.html"), 99999999);
