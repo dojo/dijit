@@ -25,6 +25,7 @@
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.Tooltip");
 		dojo.require("dijit.ColorPalette");
+		dojo.require("dijit.form.DateTextBox");
 		dojo.addOnLoad(function(){
 			console.log("on load func");
 			var tt = new dijit.Tooltip({label:"programmatically created tooltip", connectId:["programmaticTest"]});
@@ -69,6 +70,9 @@
 			<td>
 				Set background color:
 			</td>
+			<td>
+				Prompt message test (for quirks mode):
+			</td>
 		</tr>
 		<tr>
 			<td>
@@ -81,9 +85,14 @@
 			<td>
 				<div data-dojo-type="dijit.ColorPalette" data-dojo-props='onChange:function(){ dojo.query("body").style("background", arguments[0]); }'></div>
 			</td>
+			<td>
+				<input data-dojo-type="dijit.form.DateTextBox" data-dojo-props='id: "dtb", value: "2010-12-15", promptMessage: "Please Enter a date in dd/MM/yyyy format", style:"width: 8em;"'>				
+			</td>
 		</tr>
 	</table>
-	<div><span id="one" class="tt" tabindex="0"> focusable text </span>
+	<input value="input, no tooltip"/>
+	<div>
+		<span id="one" class="tt" tabindex="0"> focusable text </span>
 		<span id="one_tooltip" data-dojo-type="dijit.Tooltip" data-dojo-props='connectId:["one"]'>
 			<b>
 				<span style="color: blue;">rich formatting</span>
