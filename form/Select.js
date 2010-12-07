@@ -1,4 +1,4 @@
-define("dijit/form/Select", ["dojo", "dijit", "text!dijit/templates/Select.html", "dijit/form/_FormSelectWidget", "dijit/_HasDropDown", "dijit/Menu", "dijit/Tooltip", "i18n!dijit/form/nls/validate"], function(dojo, dijit) {
+define("dijit/form/Select", ["dojo", "dijit", "text!dijit/form/templates/Select.html", "dijit/form/_FormSelectWidget", "dijit/_HasDropDown", "dijit/Menu", "dijit/Tooltip", "i18n!dijit/form/nls/validate"], function(dojo, dijit) {
 
 dojo.declare("dijit.form._SelectMenu", dijit.Menu, {
 	// summary:

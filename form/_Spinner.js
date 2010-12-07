@@ -1,4 +1,4 @@
-define("dijit/form/_Spinner", ["dojo", "dijit", "text!dijit/templates/Spinner.html", "dijit/form/ValidationTextBox"], function(dojo, dijit) {
+define("dijit/form/_Spinner", ["dojo", "dijit", "text!dijit/form/templates/Spinner.html", "dijit/form/ValidationTextBox"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.form._Spinner",

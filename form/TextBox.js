@@ -1,4 +1,4 @@
-define("dijit/form/TextBox", ["dojo", "dijit", "text!dijit/templates/TextBox.html", "dijit/form/_FormWidget"], function(dojo, dijit) {
+define("dijit/form/TextBox", ["dojo", "dijit", "text!dijit/form/templates/TextBox.html", "dijit/form/_FormWidget"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.form.TextBox",
