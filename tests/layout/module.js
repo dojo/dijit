@@ -3,7 +3,6 @@ dojo.provide("dijit.tests.layout.module");
 try{
 	doh.registerUrl("dijit.tests.layout.ContentPane", dojo.moduleUrl("dijit", "tests/layout/ContentPane.html"), 99999999);
 	doh.registerUrl("dijit.tests.layout.ContentPaneLayout", dojo.moduleUrl("dijit", "tests/layout/ContentPaneLayout.html"), 99999999);
-	doh.registerUrl("dijit.tests.layout.robot.ContentPane_prog", dojo.moduleUrl("dijit", "tests/layout/robot/ContentPane_prog.html"), 99999999); 
 
 	doh.registerUrl("dijit.tests.layout.robot.GUI", dojo.moduleUrl("dijit","tests/layout/robot/GUI.html"), 99999999);
 
