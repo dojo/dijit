@@ -398,6 +398,67 @@
 				}
 				
 			]);
+			var tabId = 1;
+	        function addTab(tc){
+				// summary:
+				//		Add a tab to specified TabContainer
+				var cp = new dijit.layout.ContentPane({
+					title: 'Tab' + tabId,
+					content: "Contents of Tab " + tabId++
+				});
+				tc.addChild(cp);
+	        }
+
+			doh.register("empty tab container",[
+				function createEmptyTabContainer(){
+					var emptyTC = new dijit.layout.TabContainer({id:"emptyTC", style:'height:200px;width:500px;'});
+					dojo.place(emptyTC.domNode, dojo.body());
+					emptyTC.startup();
+
+					var children = emptyTC.getChildren();
+					doh.is(0, children.length);
+					doh.t(isVisible(emptyTC));
+					
+					var pos = dojo.position(emptyTC.domNode);
+					var heightDiff = 200 - pos.h;
+					var widthDiff = 500 - pos.w;
+					doh.t(-0.01 < heightDiff && heightDiff < 0.01);
+					doh.t(-0.01 < widthDiff && widthDiff < 0.01);
+				},
+				function addTabToEmptyTabContainer(){
+					var tc = dijit.byId("emptyTC");
+					addTab(tc);							
+
+					var children = tc.getChildren();
+					doh.is(1, children.length);
+					doh.is("Tab1", children[0].title);
+					doh.is("Contents of Tab 1", tc.selectedChildWidget.domNode.innerHTML);
+
+					doh.t(isVisible(tc.tablist.containerNode.childNodes[0]));
+				},
+				function add2ndTabToEmptyTabContainer(){
+					var tc = dijit.byId("emptyTC");
+					addTab(tc);							
+					tc.selectChild(tc.getChildren()[1]);							
+
+					var children = tc.getChildren();
+					doh.is(2, children.length);
+					doh.is("Tab2", children[1].title);
+					doh.is("Contents of Tab 2", tc.selectedChildWidget.domNode.innerHTML);
+					
+					doh.t(isVisible(tc.tablist.containerNode.childNodes[1]));
+				},
+				function remove2ndTabToEmptyTabContainer(){
+					var tc = dijit.byId("emptyTC");
+					tc.removeChild(tc.getChildren()[1]);							
+
+					var children = tc.getChildren();
+					doh.is(1, children.length);
+					doh.is("Tab1", children[0].title);
+					doh.is("Contents of Tab 1", tc.selectedChildWidget.domNode.innerHTML);
+				}
+			]);			
+
 			doh.run();
 
 		});
