@@ -19,6 +19,9 @@ try{
 
 	doh.registerUrl("dijit.tests.Declaration", dojo.moduleUrl("dijit","tests/test_Declaration.html"), 99999999);
 	doh.registerUrl("dijit.tests.Declaration_1.x", dojo.moduleUrl("dijit","tests/test_Declaration_1.x.html"), 99999999);
+
+	// Miscellaneous
+	doh.registerUrl("dijit.tests.NodeList-instantiate", dojo.moduleUrl("dijit","tests/NodeList-instantiate.html"+userArgs), 99999999);
 }catch(e){
 	doh.debug(e);
 }
