@@ -44,8 +44,9 @@
 
 			dojo.require("dojo.parser");	  // scan page for widgets and instantiate them
 
-			function myHandler(id,newValue){
-				console.debug("onChange for id = " + id + ", value: " + newValue);
+			function myHandler(widget, newValue){
+				widget._onChangeValue = newValue;
+				console.debug("onChange for id = " + widget.id + ", value: " + newValue);
 			};
 			/*
 			dojo.addOnLoad(function(){
@@ -81,7 +82,7 @@
 
 		<h2>Form Letter with blanks</h2>
 		<div class="letter">
-			<h3 id="editable" data-dojo-type="dijit.InlineEditBox" data-dojo-props='onChange:function(){ myHandler(this.id,arguments[0]) }, autoSave:true, title:"company name"'></h3>
+			<h3 id="editable" data-dojo-type="dijit.InlineEditBox" data-dojo-props='value:"markup value", onChange:function(){ myHandler(this,arguments[0]) }, autoSave:true, title:"company name"'></h3>
 			<p>
 				Dear <span id="MrSmith" data-dojo-type="dijit.InlineEditBox" data-dojo-props='width:"200px", title:"recipient name"'></span>,
 			</p>
@@ -109,7 +110,7 @@
 
 		<h2>Form Letter with <span id="predefined">predefined values</span>, and no auto-save</h2>
 		<div class="letter">
-			<h3 id="editable2" data-dojo-type="dijit.InlineEditBox" data-dojo-props='onChange:function(){ myHandler(this.id,arguments[0]) }, autoSave:false, title:"company name"'>
+			<h3 id="editable2" data-dojo-type="dijit.InlineEditBox" data-dojo-props='onChange:function(){ myHandler(this,arguments[0]) }, autoSave:false, title:"company name"'>
 				Bob Vance Refrigeration
 			</h3>
 			<p>
@@ -161,7 +162,7 @@
 		(before plain inline) <fieldset class="dijitInline"><div style="width: 400px;">hello world</div></fieldset> (after plain inline)
 		<br>
 		(before editable inline)
-		<fieldset class="dijitInline"><div data-dojo-type="dijit.InlineEditBox" data-dojo-props='onChange:function(){ myHandler(this.id,arguments[0]) }, width:"400px", style:"width: 400px;"'>
+		<fieldset class="dijitInline"><div data-dojo-type="dijit.InlineEditBox" data-dojo-props='onChange:function(){ myHandler(this,arguments[0]) }, width:"400px", style:"width: 400px;"'>
 			hello world
 		</div></fieldset>
 		(after editable inline)

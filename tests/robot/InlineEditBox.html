@@ -24,7 +24,7 @@
 
 				function moveAndClick(node) {
 					doh.robot.mouseMoveAt(node, 500, 1);
-					doh.robot.mouseClick({left: true}, 100);
+					doh.robot.mouseClick({left: true}, 500);
 				}
 
 				doh.register("dijit.InlineEditBox autosave tests", [
@@ -53,16 +53,19 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							var inlineBox = dijit.byId("dollar_as");
+							var displayedValue, isValid;
 							moveAndClick(inlineBox.domNode);
 							doh.robot.typeKeys("dollar", 1000, 1200); // invalid
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
-							doh.robot.sequence(d.getTestErrback(function(){
+							doh.robot.sequence(function(){
 								var currencyTextBox = inlineBox.wrapperWidget.editWidget;
-								doh.is('dollar', currencyTextBox.get("displayedValue"), "displayedValue");
-								doh.f(currencyTextBox.isValid(), "!isValid");
-							}), 1000);
+								displayedValue = currencyTextBox.get("displayedValue");
+								isValid = currencyTextBox.isValid();
+							}, 1000);
 							doh.robot.keyPress(dojo.keys.ESCAPE, 500, {});
 							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is('dollar', displayedValue, "displayedValue");
+								doh.f(isValid, "!isValid");
 								doh.is('', inlineBox.get("value"), "value");
 							}), 1000);
 							return d;
@@ -134,6 +137,8 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							var inlineBox = dijit.byId("editable");
+							var initialOnChange = inlineBox._onChangeValue;
+							inlineBox.set("value", "");
 							moveAndClick(inlineBox.domNode);
 							doh.robot.typeKeys("editable", 1000, 1600);
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
@@ -148,9 +153,24 @@
 							doh.robot.typeKeys(" again", 1000, 1200);
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(undefined, initialOnChange, "no onChange value");
 								doh.is('$567.00', dijit.byId("dollar_as").get("value"), "value");
 								doh.is('editable again', inlineBox.get("value"), "value");
+								doh.is('editable again', inlineBox._onChangeValue, "onChange value");
 							}), 1000);
+							return d;
+						}
+					},
+					{
+						name: "onChange test",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var inlineBox = dijit.byId("editable");
+							inlineBox.set("value", "programmatic value");
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("programmatic value", inlineBox._onChangeValue, "programmatic set causes onChange");
+							}), 500);
 							return d;
 						}
 					},

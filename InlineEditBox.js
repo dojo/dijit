@@ -299,9 +299,6 @@ dojo.declare("dijit.InlineEditBox",
 		var value = ww.getValue();
 		this.set('value', value); // display changed, formatted value
 
-		// tell the world that we have changed
-		setTimeout(dojo.hitch(this, "onChange", value), 0); // setTimeout prevents browser freeze for long-running event handlers
-
 		this._showText(focus); // set focus as needed
 	},
 
@@ -323,6 +320,11 @@ dojo.declare("dijit.InlineEditBox",
 		var renderVal = this.renderAsHtml ? val : val.replace(/&/gm, "&amp;").replace(/</gm, "&lt;").replace(/>/gm, "&gt;").replace(/"/gm, "&quot;").replace(/\n/g, "<br>");
 		this.displayNode.innerHTML = renderVal || this.noValueIndicator;
 		this._set("value", val);
+
+		if(this._started){
+			// tell the world that we have changed
+			setTimeout(dojo.hitch(this, "onChange", val), 0); // setTimeout prevents browser freeze for long-running event handlers
+		}
 	},
 
 	getValue: function(){
