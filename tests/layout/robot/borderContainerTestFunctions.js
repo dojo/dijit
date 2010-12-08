@@ -5,14 +5,14 @@
 					pp = dojo.position(parent.domNode, true);
 
 				doh.t(
-					cp.y > pp.y && cp.y+cp.h < pp.y+pp.h &&
-					cp.x > pp.x && cp.x+cp.w < pp.x+pp.w,
+					cp.y >= pp.y && cp.y+cp.h <= pp.y+pp.h &&
+					cp.x >= pp.x && cp.x+cp.w <= pp.x+pp.w,
 					child.region + " inside " + parent.id + dojo.toJson(cp) + dojo.toJson(pp)
 				);
 			}
 			function checkAbove(/*String*/ comment, /*Widget*/ above, /*Widget*/ below){
 				// summary:
-				//		Test that child is fully inside of parent
+				//		Test that child is fully above parent
 
 				var ap = dojo.position(above.domNode, true),
 					bp = dojo.position(below.domNode, true);
@@ -23,7 +23,7 @@
 			}
 			function checkLeft(/*String*/ comment, /*Widget*/ left, /*Widget*/ right){
 				// summary:
-				//		Test that child is fully inside of parent
+				//		Test that child is fully left of parent
 
 				var lp = dojo.position(left.domNode, true),
 					rp = dojo.position(right.domNode, true);

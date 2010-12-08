@@ -28,11 +28,10 @@ Splitters and gutters:
 .dijitSplitterVHover .dijitSplitterThumb - for background-color of a hovered thumb on a vertical splitter
 .dijitSplitterHActive - for background-color of an active horizontal splitter
 .dijitSplitterVActive - for background-color of an active horizontal splitter
-
-
 */
+
 .claro .dijitBorderContainer {
-	border: 1px #b5bcc7 solid;
+	/* matches the width of the splitters between panes */
 	padding: 5px;
 }
 
@@ -56,9 +55,9 @@ Splitters and gutters:
 
 }
 .claro .dijitBorderContainer-dijitBorderContainer {
-	/* also, make nested BorderContainers look like a single big widget with lots of splitters */
-	border: 1px #b5bcc7 solid;
-	padding: 5px;
+	/* make nested BorderContainers look like a single big widget with lots of splitters */
+	border: 0px;
+	padding: 0px;
 }
 
 /* Splitters and gutters */
