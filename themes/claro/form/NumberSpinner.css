@@ -34,7 +34,7 @@
 /* button */
 .claro .dijitSpinner .dijitArrowButton {
 	width:auto;
-	background-color: #ebeef4;
+	background-color: #efefef;
 	background-image: url("images/formHighlight.png");
 	background-position:0px 0px;
 	background-repeat:repeat-x;
@@ -86,7 +86,7 @@
 .claro .dijitSpinner .dijitUpArrowButtonHover,
 .claro .dijitSpinner .dijitDownArrowButtonHover,
 .claro .dijitSpinnerFocused .dijitArrowButton {
-	background-color: #a0d1ff;
+	background-color: #abd6ff;
 }
 
 .claro .dijitSpinner .dijitUpArrowButtonHover .dijitArrowButtonInner {
@@ -104,7 +104,7 @@
 /* mouse down status */
 .claro .dijitSpinner .dijitDownArrowButtonActive,
 .claro .dijitSpinner .dijitUpArrowButtonActive {
-	background-color: #3299f9;
+	background-color: #7dbefa;
 	background-position:0px -177px;
 }
 .claro .dijitSpinner .dijitUpArrowButtonActive .dijitArrowButtonInner,
@@ -125,7 +125,7 @@
 /* disabled */
 
 .claro .dijitSpinnerDisabled .dijitArrowButtonInner {
-	background-color: #f1f1f1;
+	background-color: #efefef;
 }
 .claro .dijitSpinnerDisabled .dijitUpArrowButton .dijitArrowButtonInner {
 	background-position:-104px;

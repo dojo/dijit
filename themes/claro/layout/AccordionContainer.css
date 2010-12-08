@@ -32,7 +32,7 @@
 	border:none;
 }
 .claro .dijitAccordionInnerContainer {
-	background-color: #e6e6e7;	/* gray, for closed pane */
+	background-color: #efefef;	/* gray, for closed pane */
 	border:solid 1px #b5bcc7;
 	margin-bottom:1px;
 	-webkit-transition-property:background-color,border;
@@ -48,6 +48,9 @@
 	min-height:17px;
 	color:#4a4a4a;
 }
+.claro .dijitAccordionTitleHover {
+	color:#000;
+}
 .dj_ie6 .claro .dijitAccordionTitle {
 	background-image: none;
 }
@@ -56,7 +59,7 @@
 	 * done by setting margin
 	 */
 	background-color:#fff;
-	border:1px solid #92bce1;
+	border:1px solid #769dc0;
 	margin: 0px 2px 2px;
 }
 	
@@ -68,7 +71,7 @@
 /* Active state for closed pane */
 
 .claro .dijitAccordionInnerContainerActive {
-	border:1px solid #769DC0;
+	border:1px solid #769dc0;
 	background-color:#7dbefa;
 	-webkit-transition-duration:.1s;
 }
@@ -80,8 +83,8 @@
 /* Open pane */
 
 .claro .dijitAccordionInnerContainerSelected {
-	border-color:#92bce1;
-	background-color: #cde8ff;
+	border-color:#769dc0;
+	background-color: #cfe5fa;
 }
 .claro .dijitAccordionInnerContainerSelected .dijitAccordionTitle {
 	color:#000;
@@ -97,15 +100,17 @@
 
 .claro .dijitAccordionInnerContainerHover,
 .claro .dijitAccordionInnerContainerSelectedActive {
-	border:1px solid #769DC0;
-	background-color:#9dcfff;
+	border:1px solid #769dc0;
+	background-color:#abd6ff;
 	-webkit-transition-duration:.2s;
+	
 }
 
 .claro .dijitAccordionInnerContainerSelectedHover .dijitAccordionChildWrapper,
 .claro .dijitAccordionInnerContainerSelectedActive .dijitAccordionChildWrapper {
 	background-color:#ffffff;
-	border:1px solid #769DC0 !important;
+	border:1px solid #769dc0 !important;
 	-webkit-box-shadow:inset 0px 0px 3px rgba(0, 0, 0, .25);
 	-moz-box-shadow:inset 0px 0px 3px rgba(0, 0, 0, .25);
+	
 }

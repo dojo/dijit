@@ -35,7 +35,7 @@
 }
 .claro .dijitProgressBarTile {
 	/* inner container for finished portion when in 'tile' (image) mode */
-	background:#9dcfff url("images/progressBarFull.png") repeat-x top;	
+	background:#abd6ff url("images/progressBarFull.png") repeat-x top;	
 }
 .dj_ie6 .claro .dijitProgressBarTile {
 	background-image: none;
@@ -45,9 +45,9 @@
 }
 .claro .dijitProgressBarLabel {
 	/* Set to a color that contrasts with both the "Empty" and "Full" parts. */
-	color:#293a4b;
+	color:#000;
 }
 .claro .dijitProgressBarIndeterminate .dijitProgressBarTile {
 	/* use an animated gif for the progress bar in 'indeterminate' mode */
-	background:#cad2de url("images/progressBarAnim.gif") repeat-x top;
+	background:#efefef url("images/progressBarAnim.gif") repeat-x top;
 } 

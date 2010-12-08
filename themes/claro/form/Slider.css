@@ -118,7 +118,7 @@
 }
 .claro .dijitSliderDisabled .dijitSliderProgressBarH,
 .claro .dijitSliderDisabled .dijitSliderLeftBumper{
-	background-color: #cdcdcd;
+	background-color: #d3d3d3;
 	background-image:none;
 }
 .claro .dijitSliderDisabled .dijitSliderRemainingBarH,
@@ -175,7 +175,7 @@
 }
 .claro .dijitSliderDisabled .dijitSliderProgressBarV,
 .claro .dijitSliderDisabled .dijitSliderBottomBumper{
-	background-color: #cdcdcd;
+	background-color: #d3d3d3;
 }
 .claro .dijitSliderDisabled .dijitSliderRemainingBarV,
 .claro .dijitSliderDisabled .dijitSliderTopBumper{
@@ -248,7 +248,7 @@
 .claro .dijitSliderIncrementIconV {
 	background-image: url('images/commonFormArrows.png');
 	background-repeat:no-repeat;
-	background-color: #e9ecf2;
+	background-color: #efefef;
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
 	border: solid 1px #b5bcc7;
@@ -307,14 +307,14 @@
 .claro .dijitSliderButtonContainerH .dijitSliderDecrementButtonHover,
 .claro .dijitSliderButtonContainerV .dijitSliderIncrementButtonHover,
 .claro .dijitSliderButtonContainerH .dijitSliderIncrementButtonHover {
-	background-color: #cce3fc;
+	background-color: #cfe5fa;
 }
 .claro .dijitSliderButtonContainerV .dijitSliderDecrementButtonActive,
 .claro .dijitSliderButtonContainerH .dijitSliderDecrementButtonActive,
 .claro .dijitSliderButtonContainerV .dijitSliderIncrementButtonActive,
 .claro .dijitSliderButtonContainerH .dijitSliderIncrementButtonActive {
-	background-color: #a5d0fc;
-	border-color:#6591b9;
+	background-color: #abd6ff;
+	border-color:#769dc0;
 }
 .claro .dijitSliderButtonInner {
 	visibility: hidden;
@@ -324,27 +324,27 @@
 }
 .claro .dijitSliderReadOnly *,.claro .dijitSliderDisabled * {
 	border-color: #d3d3d3;
-	color: #bdbdbd;
+	color: #818181;
 }
 .claro .dijitSliderReadOnly .dijitSliderDecrementIconH,
 .claro .dijitSliderDisabled .dijitSliderDecrementIconH {
 	background-position:-321px 50%;
-	background-color:#e9e9e9;
+	background-color:#efefef;
 }
 .claro .dijitSliderReadOnly .dijitSliderIncrementIconH,
 .claro .dijitSliderDisabled .dijitSliderIncrementIconH {
 	background-position:-215px 50%;
-	background-color:#e9e9e9;
+	background-color:#efefef;
 }
 .claro .dijitSliderReadOnly .dijitSliderDecrementIconV,
 .claro .dijitSliderDisabled .dijitSliderDecrementIconV {
 	background-position:-3px 49%;
-	background-color:#e9e9e9;
+	background-color:#efefef;
 }
 .claro .dijitSliderReadOnly .dijitSliderIncrementIconV,
 .claro .dijitSliderDisabled .dijitSliderIncrementIconV {
 	background-position:-107px 49%;
-	background-color:#e9e9e9;
+	background-color:#efefef;
 }
 
 .dj_ie6 .claro .dijitSlider .dijitSliderProgressBarH,

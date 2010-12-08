@@ -20,7 +20,7 @@
 
 .claro .dijitToolbar {
 	border-bottom: 1px solid #b5bcc7;
-	background-color: #f1f1f1;
+	background-color: #efefef;
 	background-image: url("images/commonHighlight.png");
 	background-position:0px 0px;
 	background-repeat:repeat-x;
@@ -156,7 +156,7 @@
 /* Toolbar inside of disabled Editor */
 .claro .dijitDisabled .dijitToolbar {
 	background:none;
-	background-color:#f5f5f5;
+	background-color:#efefef;
 	border-bottom: 1px solid #d3d3d3;
 }
 

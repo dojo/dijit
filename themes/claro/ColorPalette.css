@@ -23,7 +23,7 @@
 
 .claro  .dijitColorPalette {
 	outline: 1px solid #769dc0; 
-	border: 1px solid #c0ccdf;
+	border: 1px solid #b5bcc7;
 	background:#fff;
 
 	-moz-border-radius: 0px;
@@ -33,7 +33,7 @@
 	/* transparent (but clickable) <img> node inside of each <td>, overlaying the color swatch.
 	 * displays border around a color swatch
 	 * overrides border color in dijit.css */
-	border: 1px solid #cecece;
+	border: 1px solid #d3d3d3;
 }
 .claro .dijitColorPalette .dijitPaletteCellHover .dijitPaletteImg {
 	border: 1px solid #000;

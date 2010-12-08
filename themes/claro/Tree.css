@@ -48,10 +48,10 @@
 
 .claro .dijitTreeRowSelected {
 	background-repeat:repeat-x;
-	background-color:#d8edff;
+	background-color:#cfe5fa;
 	padding: 3px 0px 1px;
 	margin: 0px;
-	border:solid 1px #c3e2fd;
+	border:solid 1px #cfe5fa;
 	color:#000;
 }
 .claro .dijitTreeRowHover {
@@ -116,8 +116,8 @@
 	border-top: none;
 }
 .claro .dijitTreeNode .dojoDndItemBefore .dijitTreeContent {
-	border-top: 2px solid #369;
+	border-top: 2px solid #769dc0;
 }
 .claro .dijitTreeNode .dojoDndItemAfter .dijitTreeContent {
-	border-bottom: 2px solid #369;
+	border-bottom: 2px solid #769dc0;
 }

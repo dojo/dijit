@@ -43,8 +43,8 @@
 	margin-bottom: 3.272em; 
 	line-height: 1.636em; 
 	padding: 1.636em; 
-	border-top: 1px solid #ccc; 
-	border-bottom: 1px solid #ccc;
+	border-top: 1px solid #d3d3d3; 
+	border-bottom: 1px solid #d3d3d3;
 }
 
 .claro ol li, .claro ul li { 
@@ -59,7 +59,7 @@
 	*font-size:100%;
 	font-family:inherit; 
 	background-color: #efefef; 
-	border: 1px solid #ccc;
+	border: 1px solid #d3d3d3;
 }
 
 .claro pre { 
@@ -82,7 +82,7 @@
 .claro table.dojoTabular { 
 	border-collapse: collapse; 
 	border-spacing: 0; 
-	border: 1px solid #ccc; 
+	border: 1px solid #d3d3d3; 
 	margin: 0 1.5em;
 }
 
@@ -93,7 +93,7 @@
 
 .claro table.dojoTabular thead, .claro table.dojoTabular tfoot { 
 	background-color: #efefef; 
-	border: 1px solid #ccc; 
+	border: 1px solid #d3d3d3; 
 	border-width: 1px 0; 
 }
 

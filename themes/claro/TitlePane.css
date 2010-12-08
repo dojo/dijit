@@ -19,13 +19,12 @@
  */
 
 .claro .dijitTitlePaneTitle {
-	background-color: #e6e6e7;
+	background-color: #efefef;
 	background-image: url("images/titlebar.png");
 	background-repeat:repeat-x;
 	border:1px solid #b5bcc7;
 	padding: 0px 7px 3px 7px;
 	min-height:17px;
-	color:#131313;
 }
 .dj_ie6 .claro .dijitTitlePaneTitle {
 	background-image: none;

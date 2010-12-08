@@ -12,7 +12,7 @@
  * 		.dijitButtonText
  * 
  * 3. Arrows - only for DropDownButton and ComboButton
- * 	     There are total four diredtions arrows - down, left, right, up:
+ * 	     There are total four directions arrows - down, left, right, up:
  * 		.dijitArrowButtonInner - down arrow by default
  *      .dijitLeftArrowButton .dijitArrowButtonInner - left arrow
  *      .dijitRightArrowButton .dijitArrowButtonInner - right arrow
@@ -42,7 +42,7 @@
 	background-image: url("images/button.png");
 	background-position: center top;
 	background-repeat: repeat-x;
-	background-color: #e4f2ff;
+	background-color: #e9f4fe;
 	border-radius: 4px;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
@@ -92,9 +92,9 @@
 	text-align: center;
 }
 
-.claro .dijitDisabled .dijitButtonText {
-	color: #7F7F7F;
-}
+
+
+
 
 /* hover status */
 .claro .dijitButtonHover .dijitButtonNode,
@@ -102,7 +102,7 @@
 .claro .dijitComboButton .dijitButtonNodeHover, 
 .claro .dijitComboButton .dijitDownArrowButtonHover,
 .claro .dijitToggleButtonHover .dijitButtonNode {
-	background-color: #afd9ff;
+	background-color: #abd6ff;
 	color:#000;
  	-webkit-transition-duration:.2s;
 }
@@ -112,7 +112,7 @@
 .claro .dijitDropDownButtonActive .dijitButtonNode,
 .claro .dijitComboButtonActive .dijitButtonNode,
 .claro .dijitToggleButtonActive .dijitButtonNode {
-	background-color: #99cfff;
+	background-color: #abd6ff;
 	box-shadow:0px 0px 0px rgba(0,0,0,0);
 	-webkit-box-shadow:0px 0px 0px rgba(0,0,0,0);
 	-moz-box-shadow: 0px 0px 0px rgba(0,0,0,0);
@@ -133,9 +133,9 @@
 .claro .dijitComboButtonDisabled .dijitButtonNode,
 .claro .dijitToggleButtonDisabled .dijitButtonNode { 
 	background-position:0px -149px;
-	background-color: #e3e3e3;
-	border: solid 1px #c9c9c9;
-	color: #696969;
+	background-color: #efefef;
+	border: solid 1px #d3d3d3;
+	color: #818181;
 	box-shadow:0px 0px 0px rgba(0,0,0,0);
 	-webkit-box-shadow:0px 0px 0px rgba(0,0,0,0);
 	-moz-box-shadow: 0px 0px 0px rgba(0,0,0,0);

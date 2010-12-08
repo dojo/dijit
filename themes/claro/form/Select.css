@@ -24,7 +24,7 @@
 /* normal status */
 .claro .dijitSelect {
 	border: 1px solid #b5bcc7;
-	background-color: #f7fcff;
+	background-color: #fff;
 	border-collapse: separate;
 }
 .dj_ie6 .claro .dijitSelect,
@@ -41,7 +41,7 @@
 	padding: 0;
 	border: 1px solid #fff;	/* inner white border on button node */
 	border-top:none;
-	background-color:#ebeef4;
+	background-color:#efefef;
 	background-image: url("images/formHighlight.png");
 	background-repeat:repeat-x;
 }
@@ -63,7 +63,7 @@
 }
 
 .claro .dijitSelectHover .dijitButtonContents {
-	border-color:#81a5c6;
+	border-color:#769dc0;
 }
 
 .claro .dijitSelectHover .dijitArrowButton {
@@ -78,7 +78,7 @@
 	border: 1px solid #769dc0;
 }
 .claro .dijitSelectFocused .dijitButtonContents {
-	border-color:#81a5c6;
+	border-color:#769dc0;
 }
 .claro .dijitSelectFocused .dijitArrowButton {
 	background-color:#7dbefa;
