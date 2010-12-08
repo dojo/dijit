@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title>TabContainer Remote Loading Test</title>
+
+	<style type="text/css">
+		@import "../../../dojo/resources/dojo.css";
+		@import "../css/dijitTests.css";
+	</style>
+
+	<!-- required: the default dijit theme: -->
+	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro.css"/>
+
+	<!-- required: dojo.js -->
+	<script type="text/javascript" src="../../../dojo/dojo.js"
+		data-dojo-config="isDebug: true, parseOnLoad: false"></script>
+
+	<!-- only needed for alternate theme testing: do NOT use in your code! -->
+	<script type="text/javascript" src="../_testCommon.js"></script>
+
+	<script type="text/javascript">
+		dojo.require("doh.runner");
+		dojo.require("dijit.dijit"); // optimize: load dijit layer
+		dojo.require("dijit.layout.ContentPane");
+		dojo.require("dijit.layout.TabContainer");
+		dojo.require("dijit.Tooltip");
+		dojo.require("dijit.layout.LinkPane");
+		dojo.require("dijit.form.Button");
+		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+
+		var tabCounter;
+		function testClose(pane, tab){
+			// remove html from title
+			var title = dojo.trim(tab.title.replace(/<\/?[a-z][a-z0-9]*[^>]*>/ig, ""));
+			return confirm("Please confirm that you want tab "+title+" closed");
+		}
+
+		function createTab(){
+			if(!tabCounter){ tabCounter = 3; }
+
+			var title = '<img src="../images/plus.gif" style="background-color:#95B7D3;"/> Tab ' +(++tabCounter);
+			var refreshOnShow = !!(tabCounter % 2);
+
+			var newTab = new dijit.layout.ContentPane({
+				id: "ttab" + tabCounter,
+				title: title + (refreshOnShow ? ' <i>refreshOnShow</i>': ''),
+				closable:true,
+				refreshOnShow: refreshOnShow,
+				href: 'getResponse.php?delay=1000&messId='+randomMessageId()
+					+"&message="+encodeURI("<h1>Programmatically created Tab "+tabCounter+"</h1>")
+			}, dojo.doc.createElement('div'));
+
+			dijit.byId('ttabs').addChild(newTab);
+
+			newTab.startup();
+		}
+
+		function isLoading(domNode){
+			return domNode.firstChild.innerHTML == "Loading...";
+		}
+
+		dojo.addOnLoad(function(){
+			doh.register("Tab container remote",[
+				function parse(){
+					dojo.parser.parse();
+				},
+				{
+					name: "tab1InitialLoading",
+					timeout: 6000,
+					runTest: function(t){
+						var d = new doh.Deferred();
+						
+						dijit.byId("ttabs").selectChild(dijit.byId("ttab1"));	
+
+						setTimeout(d.getTestErrback(function(){
+							doh.t(isLoading(dojo.byId("ttab1")), "loading");
+						}), 500); 
+						
+						setTimeout(d.getTestCallback(function(){
+							var tabContent = dojo.byId("ttab1").innerHTML.substring(0, 6);
+							doh.is("IT WAS", tabContent);
+						}), 2000);
+						
+						return d;
+					}
+				},
+				{
+					name: "tab2InitialLoading",
+					timeout: 6000,
+					runTest: function(t){
+						var d = new doh.Deferred();
+						
+						dijit.byId("ttabs").selectChild(dijit.byId("ttab2"));	
+
+						setTimeout(d.getTestErrback(function(){
+							doh.t(isLoading(dojo.byId("ttab2")), "loading");
+						}), 500); 
+						
+						setTimeout(d.getTestCallback(function(){
+							var tabContent = dojo.byId("ttab2").innerHTML.substring(0, 5);
+							doh.is("There", tabContent);
+						}), 2000);
+						
+						return d;
+					}
+				},
+				{
+					name: "tab3InitialLoading",
+					timeout: 6000,
+					runTest: function(t){
+						var d = new doh.Deferred();
+						
+						dijit.byId("ttabs").selectChild(dijit.byId("ttab3"));	
+						
+						setTimeout(d.getTestErrback(function(){
+							doh.t(isLoading(dojo.byId("ttab3")), "loading");
+						}), 500); 
+						
+						setTimeout(d.getTestCallback(function(){
+							doh.is("It was", tabContent);
+						}), 2000);
+						
+						return d;
+					}
+				},
+				{
+					name: "tab1NoRefresh",
+					timeout: 3000,
+					runTest: function(t){
+						var d = new doh.Deferred();
+						
+						dijit.byId("ttabs").selectChild(dijit.byId("ttab1"));	
+
+						setTimeout(d.getTestCallback(function(){
+							doh.f(isLoading(dojo.byId("ttab1")), "not reloading");
+							var tabContent = dojo.byId("ttab1").innerHTML.substring(0, 6);
+							doh.is("IT WAS", tabContent);
+						}), 500);
+						
+						return d;
+					}
+				},
+				{
+					name: "tab2Refresh",
+					timeout: 6000,
+					runTest: function(t){
+						var d = new doh.Deferred();
+						
+						var wasLoading = false;
+						
+						dijit.byId("ttabs").selectChild(dijit.byId("ttab2"));	
+						
+						setTimeout(d.getTestErrback(function(){
+							doh.t(isLoading(dojo.byId("ttab2")), "reloading");
+						}), 500); 
+
+						setTimeout(d.getTestCallback(function(){
+							var tabContent = dojo.byId("ttab2").innerHTML.substring(0, 5);
+							doh.is("There", tabContent);
+						}), 2000);
+						
+						return d;
+					}
+				},
+				{
+					name: "tab3NoRefresh",
+					timeout: 3000,
+					runTest: function(t){
+						var d = new doh.Deferred();
+						
+						dijit.byId("ttabs").selectChild(dijit.byId("ttab3"));	
+						
+						setTimeout(d.getTestCallback(function(){
+							doh.f(isLoading(dojo.byId("ttab1")), "not reloading");
+							var tabContent = dojo.byId("ttab3").innerHTML.substring(0, 6);
+							doh.is("It was", tabContent);
+						}), 1000);
+						
+						return d;
+					}
+				},
+				{
+					name: "createTab4NoRefresh",
+					timeout: 7000,
+					runTest: function(t){
+						var d = new doh.Deferred();
+						
+						createTab();
+
+						dijit.byId("ttabs").selectChild(dijit.byId("ttab4"));	
+
+						setTimeout(d.getTestErrback(function(){
+							doh.t(isLoading(dojo.byId("ttab4")), "loading");
+						}), 500); 
+					
+						setTimeout(d.getTestCallback(function(){
+							// just delaying until tab finishes loading
+						}), 2000);
+						return d;
+					}
+				},
+				{
+					name: "createTab5Refresh",
+					timeout: 7000,
+					runTest: function(t){
+						var d = new doh.Deferred();
+
+						createTab();
+
+						dijit.byId("ttabs").selectChild(dijit.byId("ttab5"));	
+
+						setTimeout(d.getTestErrback(function(){
+							doh.t(isLoading(dojo.byId("ttab5")), "loading");
+						}), 500); 
+						
+						setTimeout(d.getTestCallback(function(){
+							// just delaying until tab finishes loading
+						}), 2000);
+						
+						return d;
+					}
+				},
+				{
+					name: "tab4NoRefresh",
+					timeout: 3000,
+					runTest: function(t){
+						var d = new doh.Deferred();
+						
+						dijit.byId("ttabs").selectChild(dijit.byId("ttab4"));	
+
+						setTimeout(d.getTestCallback(function(){
+							doh.f(isLoading(dojo.byId("ttab4")), "no reload");
+						}), 500); 
+						
+						return d;
+					}
+				},
+				{
+					name: "tab5Refresh",
+					timeout: 6000,
+					runTest: function(t){
+						var d = new doh.Deferred();
+						
+						dijit.byId("ttabs").selectChild(dijit.byId("ttab5"));	
+
+						setTimeout(d.getTestCallback(function(){
+							doh.t(isLoading(dojo.byId("ttab5")), "reloading");
+						}), 500); 
+						
+						return d;
+					}
+				}
+			]);			
+			doh.run();
+		});
+	</script>
+</head>
+<body class="claro">
+
+	<h1 class="testTitle">Dijit layout.TabContainer (delayed) remote tests</h1>
+
+	<p>These tabs are made up of external content. Loading is delayed to make it easier to see if refreshOnShow and preload = 'false' is working.<br/>
+	The tabs also tests to insert html in the Tab title
+	</p>
+
+	<div id="createTab" data-dojo-type='dijit.form.Button' data-dojo-props='onClick:function(){ createTab() }'>Create a Tab</div>
+	<div id="ttabs" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='tabPosition:"top", style:"width: 100%; height: 20em;"'>
+		<a id="ttab1" data-dojo-type="dijit.layout.LinkPane"
+			data-dojo-props='href:"getResponse.php?messId=3&amp;delay=1000",
+			closable:true
+		'><img src='../images/copy.gif'/> Tab1</a>
+		<a id="ttab2" data-dojo-type="dijit.layout.LinkPane"
+			data-dojo-props='href:"getResponse.php?messId=4&amp;delay=1000",
+			refreshOnShow:true, title:"Tab 2 ",
+			selected:true,
+			closable:true
+		'><i>refreshOnShow</i>
+			<img src='../images/cut.gif'/>
+		</a>
+		<a id="ttab3" data-dojo-type="dijit.layout.LinkPane"
+			data-dojo-props='href:"getResponse.php?messId=5&amp;delay=1000",
+			onClose:testClose,
+			closable:true
+		'>
+			<b>Tab 3</b>
+			<img src='../images/paste.gif'/>
+		</a>
+	</div>
+</body>
+</html>
