@@ -12,10 +12,10 @@ try{
 	doh.registerUrl("dijit.tests.layout.robot.StackContainer_mouse", dojo.moduleUrl("dijit", "tests/layout/robot/StackContainer_mouse.html"), 99999999); 
 
 	doh.registerUrl("dijit.tests.layout.TabContainer", dojo.moduleUrl("dijit", "tests/layout/TabContainer.html"), 99999999);
+	doh.registerUrl("dijit.tests.layout.TabContainer_prog", dojo.moduleUrl("dijit","tests/layout/TabContainer_prog.html"), 99999999);
 	doh.registerUrl("dijit.tests.layout.robot.TabContainer_a11y", dojo.moduleUrl("dijit","tests/layout/robot/TabContainer_a11y.html"), 99999999);
 	doh.registerUrl("dijit.tests.layout.robot.TabContainer_mouse", dojo.moduleUrl("dijit","tests/layout/robot/TabContainer_mouse.html"), 99999999);
 	doh.registerUrl("dijit.tests.layout.robot.TabContainer_noLayout", dojo.moduleUrl("dijit","tests/layout/robot/TabContainer_noLayout.html"), 99999999);
-	doh.registerUrl("dijit.tests.layout.robot.TabContainer_prog", dojo.moduleUrl("dijit","tests/layout/robot/TabContainer_prog.html"), 99999999);
 	doh.registerUrl("dijit.tests.layout.TabContainer-remote", dojo.moduleUrl("dijit","tests/layout/TabContainer-remote.html"), 99999999);
 	doh.registerUrl("dijit.tests.layout.TabContainerTitlePane", dojo.moduleUrl("dijit","tests/layout/TabContainerTitlePane.html"), 99999999);
 	
