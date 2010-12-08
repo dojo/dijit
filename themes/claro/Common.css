@@ -14,7 +14,7 @@
 
 /* The highlight is shown in the ComboBox menu. */
 .claro .dijitComboBoxHighlightMatch {
-	background-color:red;
+	background-color: #abd6ff;
 }
 
 .claro .dijitFocusedLabel {
