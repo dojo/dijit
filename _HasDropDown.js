@@ -293,7 +293,6 @@ dojo.declare("dijit._HasDropDown",
 			// ie, dependent on how much space is available (BK)
 
 			if(!this._preparedNode){
-				dijit.popup.moveOffScreen(dropDown);
 				this._preparedNode = true;			
 				// Check if we have explicitly set width and height on the dropdown widget dom node
 				if(ddNode.style.width){
@@ -329,6 +328,7 @@ dojo.declare("dijit._HasDropDown",
 				}
 
 				// Get size of drop down, and determine if vertical scroll bar needed
+				dijit.popup.moveOffScreen(dropDown);	// temporarily make visibility:hidden rather than display:none so we get the size
 				var mb = dojo._getMarginSize(ddNode);
 				var overHeight = (maxHeight && mb.h > maxHeight);
 				dojo.style(ddNode, {

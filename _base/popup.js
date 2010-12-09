@@ -71,59 +71,77 @@ dijit.popup = {
 
 	_idGen: 1,
 
-	// TODO: in 2.0 change signature to always take widget
-	moveOffScreen: function(/*Widget || DomNode*/ widget){
+	_createWrapper: function(/*Widget || DomNode*/ widget){
 		// summary:
-		//		Initialization for widgets that will be used as popups
-		//
-		// description:
-		//		Puts widget inside a wrapper DIV (if not already in one), and
-		//		positions wrapper DIV off screen, but not display:none, so that
-		//		the widget doesn't appear in the page flow and/or cause a blank
-		//		area at the bottom of the viewport (making scrollbar longer), but
-		//		initialization of contained widgets works correctly
+		//		Initialization for widgets that will be used as popups.
+		//		Puts widget inside a wrapper DIV (if not already in one),
+		//		and returns pointer to that wrapper DIV.
 
 		var wrapper = widget.declaredClass ? widget._popupWrapper : (dojo.hasClass(widget.parentNode, "dijitPopup") && widget.parentNode),
 			node = widget.domNode || widget;
 
-		if(wrapper){
-			// Widget already is encased in popup wrapper, just move wrapper off screen
-			dojo.style(wrapper, {
-				visibility: "hidden",
-				// prevent transient scrollbar causing misalign (#5776), and initial flash in upper left (#10111)
-				top: "-9999px"
-			});
-		}else{
-			// Create an offscreen wrapper <div> for when this widget (in the future) will be used as a popup.
-		// This is done early because of IE bugs where creating/moving DOM nodes causes focus
-		// to go wonky, see tests/robot/Toolbar.html to reproduce
+		if(!wrapper){
+			// Create wrapper <div> for when this widget [in the future] will be used as a popup.
+			// This is done early because of IE bugs where creating/moving DOM nodes causes focus
+			// to go wonky, see tests/robot/Toolbar.html to reproduce
 			wrapper = dojo.create("div",{
 				"class":"dijitPopup",
-				style:{
-					visibility:"hidden",
-					// prevent transient scrollbar causing misalign (#5776), and initial flash in upper left (#10111)
-					top: "-9999px"
-				},
+				style:{ display: "none"},
 				role: "presentation"
 			}, dojo.body());
 			wrapper.appendChild(node);
 
-		var s = node.style;
-		s.display = "";
-		s.visibility = "";
-		s.position = "";
-		s.top = "0px";
+			var s = node.style;
+			s.display = "";
+			s.visibility = "";
+			s.position = "";
+			s.top = "0px";
 
 			if(widget.declaredClass){		// TODO: in 2.0 change signature to always take widget, then remove if()
 				widget._popupWrapper = wrapper;
 				dojo.connect(widget, "destroy", function(){
 					dojo.destroy(wrapper);
 					delete widget._popupWrapper;
-		});
+				});
 			}
 		}
+		
+		return wrapper;
 	},
 
+	moveOffScreen: function(/*Widget || DomNode*/ widget){
+		// summary:
+		//		Moves the popup widget off-screen.
+		//		Do not use this method to hide popups when not in use, because
+		//		that will create an accessibility issue: the offscreen popup is
+		//		still in the tabbing order.
+
+		// Create wrapper if not already there
+		var wrapper = this._createWrapper(widget);
+
+		dojo.style(wrapper, {
+			visibility: "hidden",
+			top: "-9999px",		// prevent transient scrollbar causing misalign (#5776), and initial flash in upper left (#10111)
+			display: ""
+		});
+	},
+
+	hide: function(/*dijit._Widget*/ widget){
+		// summary:
+		//		Hide this popup widget (until it is ready to be shown).
+		//		Initialization for widgets that will be used as popups
+		//
+		// 		Also puts widget inside a wrapper DIV (if not already in one)
+		//
+		//		If popup widget needs to layout it should
+		//		do so when it is made visible, and popup._onShow() is called.
+
+		// Create wrapper if not already there
+		var wrapper = this._createWrapper(widget);
+
+		dojo.style(wrapper, "display", "none");
+	},
+		
 	getTopPopup: function(){
 		// summary:
 		//		Compute the closest ancestor popup that's *not* a child of another popup.
@@ -167,11 +185,9 @@ dijit.popup = {
 			dijit.popup.close(stack[stack.length-1].widget);
 		}
 
-		// The wrapper may have already been created, but in case it wasn't, create here
-		if(!widget._popupWrapper){
-			this.moveOffScreen(widget);
-		}
-		var wrapper = widget._popupWrapper;
+		// Get pointer to popup wrapper, and create wrapper if it doesn't exist
+		var wrapper = this._createWrapper(widget);
+
 
 		dojo.attr(wrapper, {
 			id: id,
@@ -194,6 +210,7 @@ dijit.popup = {
 			dijit.placeOnScreenAroundElement(wrapper, around, orient, widget.orient ? dojo.hitch(widget, "orient") : null) :
 			dijit.placeOnScreen(wrapper, args, orient == 'R' ? ['TR','BR','TL','BL'] : ['TL','BL','TR','BR'], args.padding);
 
+		wrapper.style.display = "";
 		wrapper.style.visibility = "visible";
 		widget.domNode.style.visibility = "visible";	// counteract effects from _HasDropDown
 
@@ -268,9 +285,9 @@ dijit.popup = {
 			}
 			dojo.forEach(top.handlers, dojo.disconnect);
 
-			// Move the widget plus it's wrapper off screen, unless it has already been destroyed in above onClose() etc.
+			// Hide the widget and it's wrapper unless it has already been destroyed in above onClose() etc.
 			if(widget && widget.domNode){
-				this.moveOffScreen(widget);
+				this.hide(widget);
 			}
                         
 			if(onClose){

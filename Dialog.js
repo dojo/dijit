@@ -481,7 +481,7 @@ dijit._DialogLevelManager = {
 		//		If the specified dialog isn't open then does nothing.
 		//
 		//		Caller is responsible for either setting display:none on the dialog domNode,
-		//		or calling dijit.popup.moveOffScreen(), or removing it from the page DOM.
+		//		or calling dijit.popup.hide(), or removing it from the page DOM.
 
 		var ds = dijit._dialogStack;
 
