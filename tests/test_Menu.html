@@ -45,6 +45,7 @@
 		dojo.require("dijit.PopupMenuBarItem");
 		dojo.require("dijit.MenuSeparator");
 		dojo.require("dijit.ColorPalette");
+		dojo.require("dijit.form.TextBox");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 	</script>
 
@@ -332,6 +333,7 @@
 					<li>"Navigation bar" Menu widget on left, a.k.a vertical MenuBar
 					<li>MenuBar on top
 					<li>page level context menu (right-click anywhere on page)
+					<li>form widget context menu (right-click on textbox widget)</li>
 					<li>left click context menu (left click on input on far right)
 					<li>Example of programatically created menu
 					<li>Note: while some accelerator (shortcut) keys are displayed in the context menu, they are not actually hooked up to the corresponding actions (if any), they need to be setup explicitly by the user
@@ -355,7 +357,8 @@
 						<option>bleed through</option>
 						<option>on IE6</option>
 					</select>
-					<button id=button>push me</button>
+					<button id=button>push me</button><br>
+					<input data-dojo-type="dijit.form.TextBox" id="formwidget" data-dojo-props='style:"width:25em;", value:"dijit.form._FormWidget focus test"'/>
 				</form>
 
 			    <div id="prog_menu" style="clear: both; border:1px solid blue; padding:10px; margin:20px 0;">
