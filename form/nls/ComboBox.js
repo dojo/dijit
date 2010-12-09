@@ -21,6 +21,7 @@ define({ root:
 "nl": true,
 "nb": true,
 "ko": true,
+"kk": true,
 "ja": true,
 "it": true,
 "hu": true,
