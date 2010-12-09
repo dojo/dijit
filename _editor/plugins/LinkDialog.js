@@ -190,7 +190,10 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 	_setContent: function(staticPanel){
 		// summary:
 		//		Helper for _initButton above.   Not sure why it's a separate method.
-		this.dropDown.set('content', staticPanel);
+		this.dropDown.set({
+			parserScope: "dojo",		// make parser search for dojoType/data-dojo-type even if page is multi-version
+			content: staticPanel
+		});
 	},
 
 	_checkValues: function(args){

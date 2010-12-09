@@ -54,6 +54,13 @@ dojo.declare(
 	//		Parse content and create the widgets, if any.
 	parseOnLoad: true,
 
+	// parserScope: String
+	//		Flag passed to parser.  Root for attribute names to search for.   If scopeName is dojo,
+	//		will search for data-dojo-type (or dojoType).  For backwards compatibility
+	//		reasons defaults to dojo._scopeName (which is "dojo" except when
+	//		multi-version support is used, when it will be something like dojo16, dojo20, etc.)
+	parserScope: dojo._scopeName,
+
 	// preventCache: Boolean
 	//		Prevent caching of data from href's by appending a timestamp to the href.
 	preventCache: false,
@@ -571,6 +578,7 @@ dojo.declare(
 			cleanContent: this.cleanContent,
 			extractContent: this.extractContent,
 			parseContent: this.parseOnLoad,
+			parserScope: this.parserScope,
 			startup: false,
 			dir: this.dir,
 			lang: this.lang
