@@ -57,9 +57,7 @@
 									"<input id='dlg1_inputG'><br>" +
 									"<input id='dlg1_inputH'><br>"
 							});
-							dlg1.show();
-
-							setTimeout(d.getTestCallback(function(){
+							dlg1.show().then(d.getTestCallback(function(){
 								doh.t(isVisible(dlg1), "dialog 1 is visible");
 
 								var dialog1Z = dojo.style(dlg1.domNode, "zIndex"),
@@ -69,7 +67,7 @@
 									") above underlay (zIndex=" + underlayZ + ")");
 
 								doh.is("dlg1_inputA", dojo.global.dijit._curFocus.id, "focus is on the first field");
-							}), 2000);
+							}));
 
 							return d;
 						}
@@ -94,9 +92,7 @@
 									"<input id='dlg2_inputE'><br>" +
 									"<input id='dlg2_inputF'><br>"
 							});
-							dlg2.show();
-
-							setTimeout(d.getTestCallback(function(){
+							dlg2.show().then(d.getTestCallback(function(){
 								doh.t(isVisible(dlg2), "dialog 2 is visible");
 
 								var dialog1Z = dojo.style(dlg1.domNode, "zIndex"),
@@ -109,7 +105,7 @@
 									") above underlay (zIndex=" + underlayZ + ")");
 
 								doh.is("dlg2_inputA", dojo.global.dijit._curFocus.id, "focus is on the first field");
-							}), 2000);
+							}));
 
 							return d;
 						}
@@ -160,9 +156,7 @@
 									"<input id='dlg3_inputD'><br>"
 
 							});
-							dlg3.show();
-
-							setTimeout(d.getTestCallback(function(){
+							dlg3.show().then(d.getTestCallback(function(){
 								doh.t(isVisible(dlg3), "dialog 3 is visible");
 
 								// Even though a dialog was deleted, the zIndex of the dialog 3
@@ -177,7 +171,7 @@
 									") above underlay (zIndex=" + underlayZ + ")");
 
 								doh.is("dlg3_inputA", dojo.global.dijit._curFocus.id, "focus is on the first field");
-							}), 2000);
+							}));
 
 							return d;
 						}
@@ -198,9 +192,7 @@
 									"<input id='dlg4_inputA'><br>" +
 									"<input id='dlg4_inputB'>"
 							});
-							dlg4.show();
-
-							setTimeout(d.getTestCallback(function(){
+							dlg4.show().then(d.getTestCallback(function(){
 								doh.t(isVisible(dlg4), "dialog 4 is visible");
 
 								var dialog3Z = dojo.style(dlg3.domNode, "zIndex"),
@@ -212,7 +204,7 @@
 									") above underlay (zIndex=" + underlayZ + ")");
 
 								doh.is("dlg4_inputA", dojo.global.dijit._curFocus.id, "focus is on the first field");
-							}), 2000);
+							}));
 
 							return d;
 						}
@@ -225,9 +217,7 @@
 								dlg3 = dijit.byId("dlg3"),
 								dlg4 = dijit.byId("dlg4");
 
-							dlg3.hide();
-
-							setTimeout(d.getTestCallback(function(){
+							dlg3.hide().then(d.getTestCallback(function(){
 								doh.t(isVisible(dlg4), "dialog 4 is still visible");
 								doh.t(isVisible(dojo.global.dijit._underlay), "underlay is still visible");
 
@@ -239,7 +229,7 @@
 								doh.t(dialog4Z > underlayZ, "dialog4 (zIndex=" + dialog4Z +
 									") above underlay (zIndex=" + underlayZ + ")");
 
-							}), 2000);
+							}));
 
 							return d;
 						}
@@ -255,9 +245,7 @@
 
 							// Closing fourth dialog should move focus to second dialog,
 							// since we already destroyed the third dialog
-							dlg4.hide();
-
-							setTimeout(d.getTestCallback(function(){
+							dlg4.hide().then(d.getTestCallback(function(){
 								doh.t(isHidden(dlg4), "dialog 4 is hidden");
 								doh.t(isHidden(dlg3), "dialog 3 is hidden");
 								doh.t(isVisible(dlg2), "dialog 2 is visible");
@@ -268,7 +256,7 @@
 									") above underlay (zIndex=" + underlayZ + ")");
 
 								doh.is("dlg2_inputA", dojo.global.dijit._curFocus.id, "focus is on the first field");
-							}), 2000);
+							}));
 
 							return d;
 						}
@@ -282,14 +270,12 @@
 
 							// Since we already destroyed first dialog, closing second dialog should hide underlay and
 							// revert focus to the main page
-							dlg2.hide();
-
-							setTimeout(d.getTestCallback(function(){
+							dlg2.hide().then(d.getTestCallback(function(){
 								doh.t(isHidden(dlg2), "dialog 4 is hidden");
 								doh.t(isHidden(dojo.global.dijit._underlay), "underlay hidden");
 
 								doh.is("button", dojo.global.dijit._curFocus.id, "focus is on the main page");
-							}), 2000);
+							}));
 
 							return d;
 						}
