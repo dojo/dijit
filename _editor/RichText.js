@@ -134,8 +134,10 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 	//		USed to separate name from content.  Just a colon isn't safe.
 	_NAME_CONTENT_SEP: "@@**%%:%%**@@",
 
-	// onLoadDeferred: [protected] dojo.Deferred
-	//		Deferred which is fired when the editor finishes loading
+	// onLoadDeferred: [readonly] dojo.Deferred
+	//		Deferred which is fired when the editor finishes loading.
+	//		Call myEditor.onLoadDeferred.then(callback) it to be informed
+	//		when the rich-text area initialization is finalized.
 	onLoadDeferred: null,
 
 	// isTabIndent: Boolean
@@ -292,10 +294,6 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		// description:
 		//		Sets up the editing area asynchronously. This will result in
 		//		the creation and replacement with an iframe.
-		//
-		//		A dojo.Deferred object is created at this.onLoadDeferred, and
-		//		users may attach to it to be informed when the rich-text area
-		//		initialization is finalized.
 		// tags:
 		//		private
 
