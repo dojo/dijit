@@ -47,7 +47,7 @@
 				title: title + (refreshOnShow ? ' <i>refreshOnShow</i>': ''),
 				closable:true,
 				refreshOnShow: refreshOnShow,
-				href: 'getResponse.php?delay=1000&messId='+randomMessageId()
+				href: 'getResponse.php?delay=1000&messId='+tabCounter
 					+"&message="+encodeURI("<h1>Programmatically created Tab "+tabCounter+"</h1>")
 			}, dojo.doc.createElement('div'));
 
@@ -118,6 +118,7 @@
 						}), 500); 
 						
 						setTimeout(d.getTestCallback(function(){
+							var tabContent = dojo.byId("ttab3").innerHTML.substring(0, 6);
 							doh.is("It was", tabContent);
 						}), 2000);
 						
