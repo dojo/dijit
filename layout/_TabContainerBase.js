@@ -107,7 +107,12 @@ dojo.declare("dijit.layout._TabContainerBase",
 		}else{
 			// just layout the tab controller, so it can position left/right buttons etc.
 			if(this.tablist.resize){
-				this.tablist.resize({w: dojo.contentBox(this.domNode).w});
+				//make the tabs zero width so that they don't interfere with width calc, then reset
+				var s = this.tablist.domNode.style;
+				s.width="0";
+				var width = dojo.contentBox(this.domNode).w;
+				s.width="";
+				this.tablist.resize({w: width});
 			}
 
 			// and call resize() on the selected pane just to tell it that it's been made visible
