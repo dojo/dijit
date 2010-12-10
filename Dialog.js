@@ -1,6 +1,6 @@
 define("dijit/Dialog", ["dojo", "dijit", "text!dijit/templates/Dialog.html", "dojo/dnd/move", "dojo/dnd/TimedMoveable", "dojo/fx", "dojo/window", "dijit/_Widget", "dijit/_Templated", "dijit/_CssStateMixin", "dijit/form/_FormMixin",  "dijit/_DialogMixin", "dijit/DialogUnderlay", "dijit/layout/ContentPane", "i18n!dijit/nls/common", "dijit/TooltipDialog"], function(dojo, dijit) {
 
-//dijit/TooltipDialog for back-compat.  TODO: remove in 2.0
+// dijit/TooltipDialog required for back-compat.  TODO: remove in 2.0
 
 /*=====
 dijit._underlay = function(kwArgs){
@@ -173,32 +173,6 @@ dojo.declare(
 				dialogId: this.id,
 				"class": dojo.map(this["class"].split(/\s/), function(s){ return s+"_underlay"; }).join(" ")
 			};
-
-			this._fadeIn = dojo.fadeIn({
-				node: node,
-				duration: this.duration,
-				beforeBegin: dojo.hitch(this, function(){
-					dijit._DialogLevelManager.show(this, this.underlayAttrs);
-				}),
-				onEnd: dojo.hitch(this, function(){
-					if(this.autofocus && dijit._DialogLevelManager.isTop(this)){
-						// find focusable items each time dialog is shown since if dialog contains a widget the
-						// first focusable items can change
-						this._getFocusItems(this.domNode);
-						dijit.focus(this._firstFocusItem);
-					}
-				})
-			 });
-
-			this._fadeOut = dojo.fadeOut({
-				node: node,
-				duration: this.duration,
-				onEnd: dojo.hitch(this, function(){
-					node.style.display = "none";
-					dijit._DialogLevelManager.hide(this);
-					this.onHide();
-				})
-			 });
 		},
 
 		_size: function(){
@@ -325,6 +299,8 @@ dojo.declare(
 		show: function(){
 			// summary:
 			//		Display the dialog
+			// returns: dojo.Deferred
+			//		Deferred object that resolves when the display animation is complete
 			if(this.open){ return; }
 
 			// first time we show the dialog, there's some initialization stuff to do
@@ -333,8 +309,8 @@ dojo.declare(
 				this._alreadyInitialized=true;
 			}
 
-			if(this._fadeOut.status() == "playing"){
-				this._fadeOut.stop();
+			if(this._fadeOutDeferred){
+				this._fadeOutDeferred.cancel();
 			}
 
 			this._modalconnects.push(dojo.connect(window, "onscroll", this, "layout"));
@@ -362,21 +338,68 @@ dojo.declare(
 			this._size();
 			this._position();
 
-			this._fadeIn.play();
+			// fade-in Animation object, setup below
+			var fadeIn;
+
+			this._fadeInDeferred = new dojo.Deferred(dojo.hitch(this, function(){
+				fadeIn.stop();
+				delete this._fadeInDeferred;
+			}));
+
+			fadeIn = dojo.fadeIn({
+				node: this.domNode,
+				duration: this.duration,
+				beforeBegin: dojo.hitch(this, function(){
+					dijit._DialogLevelManager.show(this, this.underlayAttrs);
+				}),
+				onEnd: dojo.hitch(this, function(){
+					if(this.autofocus && dijit._DialogLevelManager.isTop(this)){
+						// find focusable items each time dialog is shown since if dialog contains a widget the
+						// first focusable items can change
+						this._getFocusItems(this.domNode);
+						dijit.focus(this._firstFocusItem);
+					}
+					this._fadeInDeferred.callback(true);
+					delete this._fadeInDeferred;
+				})
+			}).play();
+			
+			return this._fadeInDeferred;
 		},
 
 		hide: function(){
 			// summary:
 			//		Hide the dialog
+			// returns: dojo.Deferred
+			//		Deferred object that resolves when the hide animation is complete
 
 			// if we haven't been initialized yet then we aren't showing and we can just return
 			if(!this._alreadyInitialized){
 				return;
 			}
-			if(this._fadeIn.status() == "playing"){
-				this._fadeIn.stop();
+			if(this._fadeInDeferred){
+				this._fadeInDeferred.cancel();
 			}
-			this._fadeOut.play();
+
+			// fade-in Animation object, setup below
+			var fadeOut;
+
+			this._fadeOutDeferred = new dojo.Deferred(dojo.hitch(this, function(){
+				fadeOut.stop();
+				delete this._fadeOutDeferred;
+			}));
+
+			fadeOut = dojo.fadeOut({
+				node: this.domNode,
+				duration: this.duration,
+				onEnd: dojo.hitch(this, function(){
+					this.domNode.style.display = "none";
+					dijit._DialogLevelManager.hide(this);
+					this.onHide();
+					this._fadeOutDeferred.callback(true);
+					delete this._fadeOutDeferred;
+				})
+			 }).play();
 
 			if(this._scrollConnected){
 				this._scrollConnected = false;
@@ -388,6 +411,8 @@ dojo.declare(
 				delete this._relativePosition;
 			}
 			this._set("open", false);
+
+			return this._fadeOutDeferred;
 		},
 
 		layout: function(){
@@ -404,11 +429,11 @@ dojo.declare(
 		},
 
 		destroy: function(){
-			if(this._fadeIn && this._fadeIn.status() == "playing"){
-				this._fadeIn.stop();
+			if(this._fadeInDeferred){
+				this._fadeInDeferred.cancel();
 			}
-			if(this._fadeOut && this._fadeOut.status() == "playing"){
-				this._fadeOut.stop();
+			if(this._fadeOutDeferred){
+				this._fadeOutDeferred.cancel();
 			}
 			if(this._moveable){
 				this._moveable.destroy();
