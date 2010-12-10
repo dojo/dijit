@@ -251,11 +251,20 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 						rs = range.startContainer;
 						if(rs && rs.nodeType == 3){
 							// Text node, we have to split it.
-							txt = rs.nodeValue;
-							dojo.withGlobal(this.editor.window, function(){
+							dojo.withGlobal(this.editor.window, dojo.hitch(this, function(){
 								var endEmpty = false;
-								var startNode = doc.createTextNode(txt.substring(0, range.startOffset));
-								var endNode = doc.createTextNode(txt.substring(range.startOffset));
+							
+								var offset = range.startOffset;
+								if(rs.length < offset){
+									//We are not splitting the right node, try to locate the correct one
+									ret = this._adjustNodeAndOffset(rs, offset);
+									rs = ret.node;
+									offset = ret.offset;
+								}
+								txt = rs.nodeValue;
+				
+								var startNode = doc.createTextNode(txt.substring(0, offset));
+								var endNode = doc.createTextNode(txt.substring(offset));
 								var brNode = doc.createElement("br");
 								if(!endNode.length){
 									endNode = doc.createTextNode('\xA0');
@@ -279,7 +288,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 								}else{
 									dijit._editor.selection.collapse(true);
 								}
-							});
+							}));
 						}else{
 							dijit._editor.RichText.prototype.execCommand.call(this.editor, 'inserthtml', '<br>');
 						}
