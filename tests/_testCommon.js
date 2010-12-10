@@ -91,6 +91,15 @@
 			}
 			if(testMode){ d.addClass(b, testMode); }
 
+			// Claro has it's own reset css but for other themes using dojo/resources/dojo.css
+			if(theme){
+				dojo.query("style").forEach(function(node){
+					if(/claro\/document.css/.test(node.innerHTML)){
+						node.innerHTML = node.innerHTML.replace("themes/claro/document.css",
+							"../dojo/resources/dojo.css");
+					}
+				});				
+			}
 			if(dir == "rtl"){
 				// pretend all the labels are in an RTL language, because
 				// that affects how they lay out relative to inline form widgets

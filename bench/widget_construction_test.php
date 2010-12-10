@@ -5,7 +5,7 @@
 	<head>
 		<title>test of various synchronous page searching methods</title>
 		<style type="text/css">
-			@import "../../dojo/resources/dojo.css";
+			@import "../themes/claro/document.css";
 			@import "../themes/tundra/tundra.css";
 		</style>
 		<script type="text/javascript" src="../../dojo/dojo.js"

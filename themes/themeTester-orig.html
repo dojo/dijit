@@ -8,7 +8,7 @@
 	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/claro/claro.css"/>
 
 	<style type="text/css">
-		@import "../../dojo/resources/dojo.css";
+		@import "../themes/claro/document.css";
 		@import "../tests/css/dijitTests.css";
 
 		html, body { height: 100%; width: 100%; padding: 0; border: 0; }
@@ -919,14 +919,14 @@ nulla &#8234;facilisi.&#8236;
 					causes editor to become VERY tall, and size to a normal height when selected (like the
 					dijit.form.TextArea in "Form Feel" Tab), but in reverse. refs #3980 and is maybe new bug?
 				-->
-				<div height="175" dojoType="dijit.Editor" extraPlugins="['|', 'createLink', 'fontName']" styleSheets="../../dojo/resources/dojo.css">
+				<div height="175" dojoType="dijit.Editor" extraPlugins="['|', 'createLink', 'fontName']" styleSheets="../themes/claro/document.css">
 					<ul>
 						<li>Lorem <a href="http://dojotoolkit.org">and a link</a>, what do you think?</li>
 						<li>This is the Editor with a Toolbar attached.</li>
 					</ul>
 				</div>
 				<p>Disabled:</p>
-				<div height="175" dojoType="dijit.Editor" extraPlugins="['|', 'createLink', 'fontName']" styleSheets="../../dojo/resources/dojo.css" disabled="true">
+				<div height="175" dojoType="dijit.Editor" extraPlugins="['|', 'createLink', 'fontName']" styleSheets="../themes/claro/document.css" disabled="true">
 					<ul>
 						<li>Lorem <a href="http://dojotoolkit.org">and a link</a>, what do you think?</li>
 						<li>This is the Editor with a Toolbar attached.</li>
