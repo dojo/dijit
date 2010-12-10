@@ -51,7 +51,9 @@ dojo.declare(
 		datePackage: "dojo.date",
 
 		// Override _FormWidget.compare() to work for dates/times
-		compare: dojo.date.compare,
+		compare: function(/*Date*/ val1, /*Date*/ val2){
+			return dojo.date.compare(val1, val2, this._selector);
+		},
 
 		// flag to _HasDropDown to make drop down Calendar width == <input> width
 		forceWidth: true,
@@ -170,7 +172,7 @@ dojo.declare(
 
 		_set: function(attr, value){
 			// Avoid spurious watch() notifications when value is changed to new Date object w/the same value
-			if(attr == "value" && this.value instanceof Date && dojo.date.compare(value, this.value) == 0){
+			if(attr == "value" && this.value instanceof Date && this.compare(value, this.value) == 0){
 				return;
 			}
 			this.inherited(arguments);
@@ -210,12 +212,7 @@ dojo.declare(
 					isDisabledDate: function(/*Date*/ date){
 						// summary:
 						// 	disables dates outside of the min/max of the _DateTimeTextBox
-						var compare = dojo.date.compare;
-						var constraints = textBox.constraints;
-						return constraints && (
-							(constraints.min && compare(constraints.min, date, textBox._selector) > 0) ||
-							(constraints.max && compare(constraints.max, date, textBox._selector) < 0)
-						);
+						return !textBox.rangeCheck(date, textBox.constraints);
 					}
 				});
 
