@@ -356,7 +356,7 @@ dojo.declare(
 				display:""
 			});
 
-			this.open = true;
+			this._set("open", true);
 			this._onShow(); // lazy load trigger
 
 			this._size();
@@ -387,7 +387,7 @@ dojo.declare(
 			if(this._relativePosition){
 				delete this._relativePosition;
 			}
-			this.open = false;
+			this._set("open", false);
 		},
 
 		layout: function(){
