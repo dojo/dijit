@@ -201,9 +201,12 @@
 	color:black !important;
 }
 .dijit_a11y .dijitButtonNode {
-	border-color: black!important;
-	border-style: outset!important;
-	border-width: medium!important;
+	border: black outset medium !important;
+
+	/* In claro, hovering a toolbar button reduces padding and adds a border.
+	 * Not needed in a11y mode since Toolbar buttons always have a border.
+	 */
+	padding: 0 !important;
 }
 
 .dijit_a11y .dijitTextBoxReadOnly .dijitInputField,
