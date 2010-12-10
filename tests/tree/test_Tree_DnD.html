@@ -96,13 +96,16 @@
 			return label + ' (' + num+ ')';
 		}
 
-		//on item tree , we only want to drop on containers, or the root node itself, not on items in the containers
-		function itemTreeCheckItemAcceptance(node,source) {
+		//on item tree , we want to drop on containers, the root node itself, or between items in the containers
+		function itemTreeCheckItemAcceptance(node,source,position) {
 			source.forInSelectedItems(function(item){
-				console.log("testing to drop item of type " + item.type[0] + " and data " + item.data);
+				console.log("testing to drop item of type " + item.type[0] + " and data " + item.data + ", position " + position);
 			});
 			var item = dijit.getEnclosingWidget(node).item;
 			if (item && (item.root || myStore.hasAttribute(item,"numberOfItems"))){
+				return true;
+			}
+			if (position != "over") {
 				return true;
 			}
 			return false;
@@ -133,14 +136,12 @@
 
 	<style>
 		.myFolder{
-			display: "block";
 			width: 16px;
 			height: 16px;
 			background: blue;
 		}
 
 		.myItem{
-			display: "block";
 			width: 16px;
 			height: 16px;
 			background: green;
@@ -202,14 +203,15 @@
 		<td>
 			<h2>Collection</h2>
 			<p>
-				Drop items from above list onto this tree, but only on to categories; should fail to let you drop on other items.
-				Can also move items within this tree. The drag threshold is set to 8, so you have a few pixels
+				Drop items from above list onto this tree, only on to categories or between other items; should fail to let you drop on other items.
+				Can also move items within this tree. The drag threshold is set to 8, between threshold is set to 5, so you have a few pixels
 				of buffer before drag operations start.
 			</p>
 			<div data-dojo-id="itemModel" data-dojo-type="dijit.tree.TreeStoreModel" data-dojo-props='store:myStore, query:{id: "0"}, childrenAttrs:["items", "children"]'></div>
 			<div id="itemTree" data-dojo-type="dijit.Tree" data-dojo-props='"class":"container", model:itemModel,
 				checkAcceptance:dndAccept, checkItemAcceptance:itemTreeCheckItemAcceptance,
 				dragThreshold:8,
+				betweenThreshold:5,
 				getIconClass:getIcon,
 				persist:false'></div>
 		</td>
