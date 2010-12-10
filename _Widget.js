@@ -453,6 +453,8 @@ dojo.declare("dijit._Widget", dojo.Stateful, {
 		}
 
 		if(this.domNode){
+			// Note: for 2.0 may want to rename widgetId to dojo._scopeName + "_widgetId",
+			// assuming that dojo._scopeName even exists in 2.0
 			this.domNode.setAttribute("widgetId", this.id);
 		}
 		this.postCreate();

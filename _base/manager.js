@@ -255,7 +255,10 @@ dojo.declare("dijit.WidgetSet", null, {
 				if(node.nodeType == 1){
 					var widgetId = node.getAttribute("widgetId");
 					if(widgetId){
-						outAry.push(hash[widgetId]);
+						var widget = hash[widgetId];
+						if(widget){	// may be null on page w/multiple dojo's loaded
+							outAry.push(widget);
+						}
 					}else{
 						getChildrenHelper(node);
 					}
