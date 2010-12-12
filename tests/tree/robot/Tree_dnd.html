@@ -61,7 +61,7 @@
 							dojo.window.scrollIntoView(fruitsTreeNode.domNode);
 
 							// Drag "Apple" onto Fruits.
-							doh.robot.mouseMoveAt("1001", 0, 1000);
+							doh.robot.mouseMoveAt("1001", 500, 1);
 							doh.robot.mousePress({left: true}, 500);
 							doh.robot.mouseMoveAt(fruitsTreeNode.labelNode, 500, 2000);
 
@@ -118,7 +118,7 @@
 								citrusTreeNode = findTreeNode("itemTree", "Citrus");
 							dijit.scrollIntoView("itemTree");
 							// Drag "Apple" into "Citrus".
-							doh.robot.mouseMoveAt(appleTreeNode.labelNode, 0, 500);
+							doh.robot.mouseMoveAt(appleTreeNode.labelNode, 500, 1);
 							doh.robot.mousePress({left: true}, 500);
 							doh.robot.mouseMoveAt(citrusTreeNode.labelNode, 500, 1000);
 							doh.robot.mouseMoveAt(citrusTreeNode.labelNode, 500, 1000);// If prev. mouseMove caused scroll, readjust
@@ -171,9 +171,9 @@
 
 							// Drag 'Cereals' and drop near top edge of 'Vegetables'.
 							// It should become Vegetables' prior-sibling
-							doh.robot.mouseMoveAt(cerealsTreeNode.domNode, 500, 1000);
+							doh.robot.mouseMoveAt(cerealsTreeNode.domNode, 500, 1);
 							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 500, 1000, 50, 2);
+							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 500, 1000, 50, 3);
 							doh.robot.mouseRelease({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -209,7 +209,7 @@
 							var d = new doh.Deferred();
 
 							var fruitsTreeNode = findTreeNode("collectionsTree", "Fruits (2)");
-							doh.robot.mouseMoveAt(fruitsTreeNode.expandoNode, 500, 1000);
+							doh.robot.mouseMoveAt(fruitsTreeNode.expandoNode, 0, 1);
 							doh.robot.mouseClick({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -235,7 +235,7 @@
 
 							// Drag 'Vegetables' and drop near bottom edge of 'Citrus'.
 							// It should become Citrus' prior-sibling
-							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 500, 1000);
+							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 500, 1);
 							doh.robot.mousePress({left: true}, 500);
 							doh.robot.mouseMoveAt(citrusTreeNode.domNode, 1000, 2000, 50, citrusTreeNodeSize.h - 2);
 							doh.robot.mouseRelease({left: true}, 500);
@@ -284,7 +284,7 @@
 							var vegetablesTreeNode = findTreeNode("collectionsTree", "Vegetables (0)");
 								foodsTreeNode = dijit.byId("itemTree").rootNode;
 
-							doh.robot.mouseMoveAt(vegetablesTreeNode.labelNode, 0, 500);
+							doh.robot.mouseMoveAt(vegetablesTreeNode.labelNode, 0, 1);
 							doh.robot.mousePress({left: true}, 500);
 							doh.robot.mouseMoveAt(foodsTreeNode.labelNode, 500, 1000);
 							doh.robot.mouseRelease({left: true}, 500);
@@ -319,7 +319,7 @@
 
 							var orangeTreeNode = findTreeNode("itemTree", "Orange");
 
-							doh.robot.mouseMoveAt(orangeTreeNode.labelNode, 0, 500);
+							doh.robot.mouseMoveAt(orangeTreeNode.labelNode, 0, 1);
 							doh.robot.mousePress({left: true}, 500);
 							doh.robot.mouseRelease({left: true}, 500);
 
@@ -350,7 +350,8 @@
 
 							// Drag "Banana" before Orange.
 							var destTreeNode = findTreeNode("itemTree", "Orange");
-							doh.robot.mouseMoveAt("1003", 0, 500); /* 1003=Banana */
+							dojo.window.scrollIntoView(destTreeNode.labelNode);
+							doh.robot.mouseMoveAt("1003", 500, 1); // 1003=Banana
 							doh.robot.mousePress({left: true}, 500);
 							doh.robot.mouseMoveAt(destTreeNode.labelNode, 1000, 2000, 0,  -2);
 							doh.robot.mouseRelease({left: true}, 500);
@@ -383,9 +384,10 @@
 
 							// Drag "Tomato" after Banana.
 							var destTreeNode = findTreeNode("itemTree", "Banana");
-							doh.robot.mouseMoveAt("1004", 0, 500); /* 1004=Tomato */
+							dojo.window.scrollIntoView(destTreeNode.labelNode);
+							doh.robot.mouseMoveAt("1004", 500, 1); // 1004=Tomato
 							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt(destTreeNode.labelNode, 1000, 2000, 0,  16);
+							doh.robot.mouseMoveAt(destTreeNode.labelNode, 1000, 2000, 0, dojo.position(destTreeNode.labelNode).h);
 							doh.robot.mouseRelease({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -418,7 +420,8 @@
 
 							// Drag "Pepper" before Orange.
 							var destTreeNode = findTreeNode("itemTree", "Orange");
-							doh.robot.mouseMoveAt("1005", 0, 500); /* 1005=Pepper */
+							dojo.window.scrollIntoView(destTreeNode.labelNode);
+							doh.robot.mouseMoveAt("1005", 500, 1); // 1005=Pepper
 							doh.robot.mousePress({left: true}, 500);
 							doh.robot.mouseMoveAt(destTreeNode.labelNode, 1000, 2000, 0,  -2);
 							doh.robot.mouseRelease({left: true}, 500);
@@ -455,9 +458,10 @@
 
 							// Drag "Wheat" after Orange.
 							var destTreeNode = findTreeNode("itemTree", "Orange");
-							doh.robot.mouseMoveAt("1006", 0, 500); /* 1006=Wheat */
+							dojo.window.scrollIntoView(destTreeNode.labelNode);
+							doh.robot.mouseMoveAt("1006", 500, 1); // 1006=Wheat
 							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt(destTreeNode.labelNode, 1000, 2000, 0,  16);
+							doh.robot.mouseMoveAt(destTreeNode.labelNode, 1000, 2000, 0, dojo.position(destTreeNode.labelNode).h);
 							doh.robot.mouseRelease({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -494,9 +498,10 @@
 
 							// Drag "Corn" before Apple.
 							var destTreeNode = findTreeNode("itemTree", "Apple");
-							doh.robot.mouseMoveAt("1007", 0, 500); /* 1007=Corn */
+							dojo.window.scrollIntoView(destTreeNode.labelNode);
+							doh.robot.mouseMoveAt("1007", 500, 1); // 1007=Corn
 							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt(destTreeNode.labelNode, 1000, 2000, 0,  -2);
+							doh.robot.mouseMoveAt(destTreeNode.labelNode, 1000, 2000, 0, -2);
 							doh.robot.mouseRelease({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -535,9 +540,10 @@
 
 							// Drag "Spinach" after Apple.
 							var destTreeNode = findTreeNode("itemTree", "Apple");
-							doh.robot.mouseMoveAt("1008", 0, 500); /* 1008=Spinach */
+							dojo.window.scrollIntoView(findTreeNode("itemTree", "Cereals").labelNode);
+							doh.robot.mouseMoveAt("1008", 500, 1); // 1008=Spinach
 							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt(destTreeNode.labelNode, 1000, 2000, 0,  16);
+							doh.robot.mouseMoveAt(destTreeNode.labelNode, 1000, 2000, 0, dojo.position(destTreeNode.labelNode).h);
 							doh.robot.mouseRelease({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -578,25 +584,25 @@
 						timeout: 15000,
 						runTest: function(){
 							var d = new doh.Deferred();
-							
+
 							// Find the fruitsTreeNode category
 							var fruitsTreeNode = findTreeNode("itemTree", "Fruits");
 							var cerealsTreeNode = findTreeNode("itemTree", "Cereals");
 							var tree = dijit.byId("itemTree");
-							
+
 							// click fruit item
-							doh.robot.mouseMoveAt(fruitsTreeNode.rowNode, 500, 500);
+							doh.robot.mouseMoveAt(fruitsTreeNode.rowNode, 0, 1);
 							doh.robot.mouseClick({left: true}, 500);
-							
+
 							// drag cereal node to fruits node
-							doh.robot.mouseMoveAt(cerealsTreeNode.rowNode, 500, 500);
+							doh.robot.mouseMoveAt(cerealsTreeNode.rowNode, 0, 1);
 							doh.robot.mousePress({left: true}, 500);
 							doh.robot.mouseMoveAt(fruitsTreeNode.rowNode, 500, 1000);
 							doh.robot.mouseRelease({left: true}, 500);
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(fruitsTreeNode == cerealsTreeNode.getParent());
 							}), 1000);
-							
+
 							return d;
 						}
 					},
@@ -605,36 +611,36 @@
 						timeout: 15000,
 						runTest: function(){
 							var d = new doh.Deferred();
-							
+
 							// Find the fruitsTreeNode category
 							var citrusTreeNode = findTreeNode("itemTree", "Citrus"), 
 							  citrusParent = citrusTreeNode.getParent(),
 							  orangeTreeNode = findTreeNode("itemTree", "Orange"),
 							  appleTreeNode = findTreeNode("itemTree", "Apple"),
 							  tree = dijit.byId("itemTree");
-							
+
 							doh.is(citrusTreeNode, orangeTreeNode.getParent(), 'orange is child of citrus');
-							
+
 							// click Citrus item
-							doh.robot.mouseMoveAt(citrusTreeNode.rowNode, 500, 500);
+							doh.robot.mouseMoveAt(citrusTreeNode.rowNode, 0, 1);
 							doh.robot.mouseClick({left: true}, 500);
-							
+
 							// ctrl-click Orange item
-							doh.robot.mouseMoveAt(orangeTreeNode.rowNode, 500, 500);
+							doh.robot.mouseMoveAt(orangeTreeNode.rowNode, 0, 1);
 							doh.robot.keyDown(dojo.isMac ? dojo.keys.META : dojo.keys.CTRL, 500);
 							doh.robot.mouseClick({left: true}, 500);
 							doh.robot.keyUp(dojo.isMac ? dojo.keys.META : dojo.keys.CTRL, 500);
-							
+
 							// drag to Apple Foods
 							doh.robot.mousePress({left: true}, 500);
 							doh.robot.mouseMoveAt(appleTreeNode.rowNode, 500, 500);
 							doh.robot.mouseRelease({left: true}, 500);
-							
+
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(citrusParent, citrusTreeNode.getParent(), 'citrus parent should not change');
 								doh.is(citrusTreeNode, orangeTreeNode.getParent(), 'orange should still be under citrus');
 							}), 1000);
-							
+
 							return d;
 						}
 					},
@@ -643,35 +649,35 @@
 						timeout: 15000,
 						runTest: function(){
 							var d = new doh.Deferred();
-							
+
 							// Find the fruitsTreeNode category
 							var citrusTreeNode = findTreeNode("itemTree", "Citrus");
 							var orangeTreeNode = findTreeNode("itemTree", "Orange");
 							var cerealsTreeNode = findTreeNode("itemTree", "Cereals");
 							var tree = dijit.byId("itemTree");
-							
+
 							doh.is(citrusTreeNode, orangeTreeNode.getParent(), 'orange is child of citrus');
-							
+
 							// click Citrus category
-							doh.robot.mouseMoveAt(citrusTreeNode.rowNode, 500, 500);
+							doh.robot.mouseMoveAt(citrusTreeNode.rowNode, 0, 1);
 							doh.robot.mouseClick({left: true}, 500);
-							
+
 							// ctrl-click Orange item
-							doh.robot.mouseMoveAt(orangeTreeNode.rowNode, 500, 500);
+							doh.robot.mouseMoveAt(orangeTreeNode.rowNode, 0, 1);
 							doh.robot.keyDown(dojo.isMac ? dojo.keys.META : dojo.keys.CTRL, 500);
 							doh.robot.mouseClick({left: true}, 500);
 							doh.robot.keyUp(dojo.isMac ? dojo.keys.META : dojo.keys.CTRL, 500);
-							
+
 							// drag to Cereals category
 							doh.robot.mousePress({left: true}, 500);
 							doh.robot.mouseMoveAt(cerealsTreeNode.rowNode, 500, 500);
 							doh.robot.mouseRelease({left: true}, 500);
-							
+
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(cerealsTreeNode, citrusTreeNode.getParent(), 'citrus should be under cereals');
 								doh.is(citrusTreeNode, orangeTreeNode.getParent(), 'orange should still be under citrus');
 							}), 1000);
-							
+
 							return d;
 						}
 					},
@@ -680,33 +686,33 @@
 						timeout: 15000,
 						runTest: function(){
 							var d = new doh.Deferred();
-							
+
 							// Find the fruitsTreeNode category
 							var vegetablesTreeNode = findTreeNode("itemTree", "Vegetables");
 							var cerealsTreeNode = findTreeNode("itemTree", "Cereals");
 							var foodsTreeNode = findTreeNode("itemTree", "Foods");
 							var tree = dijit.byId("itemTree");
-							
+
 							// click Vegetables item
-							doh.robot.mouseMoveAt(vegetablesTreeNode.rowNode, 500, 500);
+							doh.robot.mouseMoveAt(vegetablesTreeNode.rowNode, 0, 1);
 							doh.robot.mouseClick({left: true}, 500);
-							
+
 							// ctrl-click cereals item
-							doh.robot.mouseMoveAt(cerealsTreeNode.rowNode, 500, 500);
+							doh.robot.mouseMoveAt(cerealsTreeNode.rowNode, 0, 1);
 							doh.robot.keyDown(dojo.isMac ? dojo.keys.META : dojo.keys.CTRL, 500);
 							doh.robot.mouseClick({left: true}, 500);
 							doh.robot.keyUp(dojo.isMac ? dojo.keys.META : dojo.keys.CTRL, 500);
-							
+
 							// drag to root item Foods
 							doh.robot.mousePress({left: true}, 500);
 							doh.robot.mouseMoveAt(foodsTreeNode.rowNode, 500, 500);
 							doh.robot.mouseRelease({left: true}, 500);
-							
+
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(foodsTreeNode, vegetablesTreeNode.getParent());
 								doh.is(foodsTreeNode, cerealsTreeNode.getParent());
 							}), 1000);
-							
+
 							return d;
 						}
 					}
