@@ -61,13 +61,13 @@
 								// Focus on the editor window
 								dojo.window.scrollIntoView(editor.domNode);
 								editor.focus();
-								doh.robot.mouseMoveAt(editor.iframe, 500);
+								doh.robot.mouseMoveAt(editor.iframe, 1000, 1);
 								doh.robot.mouseClick({left:true}, 500);
 
 								// Find the fullscreen plugin, we'll need it.
 								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
 								var value = editor.get("value");
-								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
+								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
 								var url, desc;
 								doh.robot.sequence(function(){
@@ -76,7 +76,7 @@
 									url.set("value", "http://example.com/");
 									desc.set("value", "This is my example link.");
 								},2000);
-								doh.robot.mouseMoveAt(function(){return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode;}, 500);
+								doh.robot.mouseMoveAt(function(){return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode;}, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									// Now check the state!
@@ -119,13 +119,13 @@
 								// Focus on the editor window
 								dojo.window.scrollIntoView(editor.domNode);
 								editor.focus();
-								doh.robot.mouseMoveAt(editor.iframe, 500);
+								doh.robot.mouseMoveAt(editor.iframe, 1000, 1);
 								doh.robot.mouseClick({left:true}, 500);
 
 								// Find the fullscreen plugin, we'll need it.
 								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
 								var value = editor.get("value");
-								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
+								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
 
 								var url, target, desc;
@@ -137,7 +137,7 @@
 									desc.set("value", "This is my example link.");
 									target.set("value", "_blank");
 								},2000);
-								doh.robot.mouseMoveAt(function(){return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode;}, 500);
+								doh.robot.mouseMoveAt(function(){return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode;}, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									// Now check the state!
@@ -180,13 +180,13 @@
 								// Focus on the editor window
 								dojo.window.scrollIntoView(editor.domNode);
 								editor.focus();
-								doh.robot.mouseMoveAt(editor.iframe, 500);
+								doh.robot.mouseMoveAt(editor.iframe, 1000, 1);
 								doh.robot.mouseClick({left:true}, 500);
 
 								// Find the fullscreen plugin, we'll need it.
 								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
 								var value = editor.get("value");
-								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
+								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
 
 								var url, desc, target;
@@ -198,7 +198,7 @@
 									desc.set("value", "This is my example link.");
 									target.set("value", "_blank");
 								},2000);
-								doh.robot.mouseMoveAt(function(){return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode;}, 500);
+								doh.robot.mouseMoveAt(function(){return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode;}, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									// Now check the state!
@@ -241,13 +241,13 @@
 								// Focus on the editor window
 								dojo.window.scrollIntoView(editor.domNode);
 								editor.focus();
-								doh.robot.mouseMoveAt(editor.iframe, 500);
+								doh.robot.mouseMoveAt(editor.iframe, 1000, 1);
 								doh.robot.mouseClick({left:true}, 500);
 
 								// Find the fullscreen plugin, we'll need it.
 								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
 								var value = editor.get("value");
-								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
+								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
 
 								var url, desc, target;
@@ -259,7 +259,7 @@
 									desc.set("value", "This is my example relative link.");
 									target.set("value", "_blank");
 								},2000);
-								doh.robot.mouseMoveAt(function(){return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode;}, 500);
+								doh.robot.mouseMoveAt(function(){return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode;}, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									// Now check the state!
@@ -304,7 +304,7 @@
 								// Focus on the editor window
 								dojo.window.scrollIntoView(editor.domNode);
 								editor.focus();
-								doh.robot.mouseMoveAt(editor.iframe, 500);
+								doh.robot.mouseMoveAt(editor.iframe, 1000, 1);
 								doh.robot.mouseClick({left:true}, 500);
 
 								// Find the fullscreen plugin, we'll need it.
@@ -315,7 +315,7 @@
 									// Okay, select the text of the hyperlink so we can then perform an edit on it.
 									editor._sCall("selectElement", [node]);
 								},500);
-								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
+								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
 								var url, desc, target, oldUrl, oldDesc;
 								doh.robot.sequence(function(){
@@ -330,7 +330,7 @@
 									desc.set("value", oldDesc + "_2");
 									target.set("value", "_blank");
 								}, 2000);
-								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode; }, 500);
+								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode; }, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									// Now check the state!
@@ -378,7 +378,7 @@
 								// Focus on the editor window
 								dojo.window.scrollIntoView(editor.domNode);
 								editor.focus();
-								doh.robot.mouseMoveAt(editor.iframe, 500);
+								doh.robot.mouseMoveAt(editor.iframe, 1000, 1);
 								doh.robot.mouseClick({left:true}, 500);
 
 								// Find the fullscreen plugin, we'll need it.
@@ -389,7 +389,7 @@
 									// Okay, select the text of the hyperlink so we can then perform an edit on it.
 									editor._sCall("selectElement", [node]);
 								},500);
-								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
+								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
 								var url, desc, target, oldDesc;
 								doh.robot.sequence(function(){
@@ -405,7 +405,7 @@
 									var setButton = dijit.byId(ldPlugin._uniqueId + "_setButton");
 									doh.assertTrue(setButton.get("disabled"));
 								}, 500);
-								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_cancelButton").domNode; }, 500);
+								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_cancelButton").domNode; }, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									// Now check the state!
@@ -444,12 +444,12 @@
 								// Focus on the editor window
 								dojo.window.scrollIntoView(editor.domNode);
 								editor.focus();
-								doh.robot.mouseMoveAt(editor.iframe, 500);
+								doh.robot.mouseMoveAt(editor.iframe, 1000, 1);
 								doh.robot.mouseClick({left:true}, 500);
 
 								// Find the fullscreen plugin, we'll need it.
 								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
-								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
+								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
 
 								var url, desc, target;
@@ -466,9 +466,9 @@
 									var setButton = dijit.byId(ldPlugin._uniqueId + "_setButton");
 									doh.assertTrue(setButton.get("disabled"));
 								}, 500);
-								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_cancelButton").domNode; }, 500);
+								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_cancelButton").domNode; }, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
-								doh.robot.mouseMoveAt(editor.iframe, 500, null, 0, 0);
+								doh.robot.mouseMoveAt(editor.iframe, 500, 0, 0, 0);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									// Now check the state!
@@ -508,12 +508,12 @@
 								// Focus on the editor window
 								dojo.window.scrollIntoView(editor.domNode);
 								editor.focus();
-								doh.robot.mouseMoveAt(editor.iframe, 500);
+								doh.robot.mouseMoveAt(editor.iframe, 1000, 1);
 								doh.robot.mouseClick({left:true}, 500);
 
 								// Find the fullscreen plugin, we'll need it.
 								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
-								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
+								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
 
 								var url, desc, target;
@@ -530,9 +530,9 @@
 									var setButton = dijit.byId(ldPlugin._uniqueId + "_setButton");
 									doh.assertTrue(!setButton.get("disabled"));
 								}, 500);
-								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode; }, 500);
+								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode; }, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
-								doh.robot.mouseMoveAt(editor.iframe, 500, null, 0, 0);
+								doh.robot.mouseMoveAt(editor.iframe, 500, 0, 0, 0);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									// Now check the state!
@@ -571,12 +571,12 @@
 								// Focus on the editor window
 								dojo.window.scrollIntoView(editor.domNode);
 								editor.focus();
-								doh.robot.mouseMoveAt(editor.iframe, 500);
+								doh.robot.mouseMoveAt(editor.iframe, 1000, 1);
 								doh.robot.mouseClick({left:true}, 500);
 
 								// Find the fullscreen plugin, we'll need it.
 								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
-								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
+								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
 
 								var url, desc, target;
@@ -593,9 +593,9 @@
 									var setButton = dijit.byId(ldPlugin._uniqueId + "_setButton");
 									doh.assertTrue(!setButton.get("disabled"));
 								}, 500);
-								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode; }, 500);
+								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode; }, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
-								doh.robot.mouseMoveAt(editor.iframe, 500, null, 0, 0);
+								doh.robot.mouseMoveAt(editor.iframe, 500, 0, 0, 0);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									// Now check the state!
@@ -634,12 +634,12 @@
 								// Focus on the editor window
 								dojo.window.scrollIntoView(editor.domNode);
 								editor.focus();
-								doh.robot.mouseMoveAt(editor.iframe, 500);
+								doh.robot.mouseMoveAt(editor.iframe, 1000, 1);
 								doh.robot.mouseClick({left:true}, 500);
 
 								// Find the fullscreen plugin, we'll need it.
 								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
-								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
+								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
 
 								var url, desc, target;
@@ -656,9 +656,9 @@
 									var setButton = dijit.byId(ldPlugin._uniqueId + "_setButton");
 									doh.assertTrue(setButton.get("disabled"));
 								}, 500);
-								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_cancelButton").domNode; }, 500);
+								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_cancelButton").domNode; }, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
-								doh.robot.mouseMoveAt(editor.iframe, 500, null, 0, 0);
+								doh.robot.mouseMoveAt(editor.iframe, 500, 0, 0, 0);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									var newVal = editor.get("value");
@@ -699,7 +699,7 @@
 								// Focus on the editor window
 								dojo.window.scrollIntoView(editor.domNode);
 								editor.focus();
-								doh.robot.mouseMoveAt(editor.iframe, 500);
+								doh.robot.mouseMoveAt(editor.iframe, 1000, 1);
 								doh.robot.mouseClick({left:true}, 500);
 								
 
@@ -713,7 +713,7 @@
 								}));
 
 								// Double click
-								doh.robot.mouseMoveAt(node, 500);
+								doh.robot.mouseMoveAt(node, 500, 1);
 								doh.robot.mouseClick({left:true}, 100);
 								doh.robot.mouseClick({left:true}, 100);
 
@@ -739,6 +739,7 @@
 							return d;
 						},
 						tearDown: function(){
+							ldPlugin.dropDown.onCancel();
 							if(editor){editor.set("value", value);}
 						}
 					}
@@ -768,13 +769,13 @@
 								// Focus on the editor window
 								dojo.window.scrollIntoView(editor.domNode);
 								editor.focus();
-								doh.robot.mouseMoveAt(editor.iframe, 500);
+								doh.robot.mouseMoveAt(editor.iframe, 1000, 1);
 								doh.robot.mouseClick({left:true}, 500);
 
 								// Find the fullscreen plugin, we'll need it.
 								doh.assertTrue(ldPlugin !== null, "Verifying the image dialog.");
 								var value = editor.get("value");
-								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
+								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
 
 								var url, desc;
@@ -784,15 +785,15 @@
 									url.set("value", "./sample2.jpg");
 									desc.set("value", "This is my example image 2.");
 								},2000);
-								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode; }, 500);
+								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode; }, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									// Now check the state!
 									var newVal = editor.get("value");
 									doh.assertTrue(newVal !== value, "Verify the contents have changed.");
-									doh.assertFalse(new RegExp("<li><img").test(newVal), "Verifying insert did not occur in the top li (IE test for selection restore.)");
-									doh.assertTrue(new RegExp("src=(\"|\').*/sample2.jpg(\"|\')").test(newVal), "Verifying URL has been inserted.");
-									doh.assertTrue(new RegExp("alt=(\"|\')This is my example image 2.(\"|\')").test(newVal), "Verifying alt description has been inserted.");
+									doh.assertFalse(new RegExp("<li><img").test(newVal), "Verifying insert did not occur in the top li (IE test for selection restore.): " + newVal);
+									doh.assertTrue(new RegExp("src=(\"|\').*/sample2.jpg(\"|\')").test(newVal), "Verifying URL has been inserted: " + newVal);
+									doh.assertTrue(new RegExp("alt=(\"|\')This is my example image 2.(\"|\')").test(newVal), "Verifying alt description has been inserted: " + newVal);
 								}), 2000);
 							}catch(e){
 								d.errback(e);
@@ -826,13 +827,13 @@
 								// Focus on the editor window
 								dojo.window.scrollIntoView(editor.domNode);
 								editor.focus();
-								doh.robot.mouseMoveAt(editor.iframe, 500);
+								doh.robot.mouseMoveAt(editor.iframe, 1000, 1);
 								doh.robot.mouseClick({left:true}, 500);
 
 								// Find the fullscreen plugin, we'll need it.
 								doh.assertTrue(ldPlugin !== null, "Verifying the image dialog.");
 								var value = editor.get("value");
-								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
+								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
 
 								var url, desc;
@@ -842,7 +843,7 @@
 									url.set("value", "example.com/example.jpg");
 									desc.set("value", "This is my example image.");
 								},2000);
-								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode; }, 500);
+								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode; }, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									// Now check the state!
@@ -887,7 +888,7 @@
 								// Focus on the editor window
 								dojo.window.scrollIntoView(editor.domNode);
 								editor.focus();
-								doh.robot.mouseMoveAt(editor.iframe, 500);
+								doh.robot.mouseMoveAt(editor.iframe, 1000, 1);
 								doh.robot.mouseClick({left:true}, 500);
 
 								// Find the fullscreen plugin, we'll need it.
@@ -895,7 +896,7 @@
 								var value = editor.get("value");
 
 								doh.robot.sequence(function(){editor._sCall("selectElement", [node]);}, 500);
-								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
+								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
 								var url, desc, oldDesc;
 								doh.robot.sequence(function(){
@@ -905,7 +906,7 @@
 									url.set("value", "./sample2.jpg");
 									desc.set("value", oldDesc + "_2");
 								}, 2000);
-								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode; }, 500);
+								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode; }, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									// Now check the state!
@@ -952,7 +953,7 @@
 								// Focus on the editor window
 								dojo.window.scrollIntoView(editor.domNode);
 								editor.focus();
-								doh.robot.mouseMoveAt(editor.iframe, 500);
+								doh.robot.mouseMoveAt(editor.iframe, 1000, 1);
 								doh.robot.mouseClick({left:true}, 500);
 
 								// Find the fullscreen plugin, we'll need it.
@@ -960,7 +961,7 @@
 								var value = editor.get("value");
 
 								doh.robot.sequence(function(){editor._sCall("selectElement", [node]);}, 500);
-								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
+								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
 								var url, desc, oldDesc;
 								doh.robot.sequence(function(){
@@ -975,7 +976,7 @@
 									var setButton = dijit.byId(ldPlugin._uniqueId + "_setButton");
 									doh.assertFalse(setButton.get("disabled"));
 								}, 500);
-								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode; }, 500);
+								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode; }, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									// Now check the state!
@@ -1022,14 +1023,14 @@
 								// Focus on the editor window
 								dojo.window.scrollIntoView(editor.domNode);
 								editor.focus();
-								doh.robot.mouseMoveAt(editor.iframe, 500);
+								doh.robot.mouseMoveAt(editor.iframe, 1000, 1);
 								doh.robot.mouseClick({left:true}, 500);
 
 								// Find the fullscreen plugin, we'll need it.
 								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
 								var value = editor.get("value");
 
-								doh.robot.mouseMoveAt(node, 500);
+								doh.robot.mouseMoveAt(node, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									var selectedElement = editor._sCall("getSelectedElement", [null]);
@@ -1072,7 +1073,7 @@
 								// Focus on the editor window
 								dojo.window.scrollIntoView(editor.domNode);
 								editor.focus();
-								doh.robot.mouseMoveAt(editor.iframe, 500);
+								doh.robot.mouseMoveAt(editor.iframe, 1000, 1);
 								doh.robot.mouseClick({left:true}, 500);
 								
 
@@ -1086,7 +1087,7 @@
 								}));
 
 								// Double click
-								doh.robot.mouseMoveAt(node, 500);
+								doh.robot.mouseMoveAt(node, 500, 1);
 								doh.robot.mouseClick({left:true}, 100);
 								doh.robot.mouseClick({left:true}, 100);
 
@@ -1112,6 +1113,7 @@
 							return d;
 						},
 						tearDown: function(){
+							ldPlugin.dropDown.onCancel();
 							if(editor){editor.set("value", value);}
 						}
 					}
