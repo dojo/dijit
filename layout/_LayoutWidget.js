@@ -210,7 +210,8 @@ dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 		dojo.mixin(widget, dim);
 	};
 
-	dijit.layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ dim, /*Object[]*/ children){
+	dijit.layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ dim, /*Widget[]*/ children,
+			/*String?*/ changedRegionId, /*Number?*/ changedRegionSize){
 		// summary
 		//		Layout a bunch of child dom nodes within a parent dom node
 		// container:
@@ -218,7 +219,16 @@ dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 		// dim:
 		//		{l, t, w, h} object specifying dimensions of container into which to place children
 		// children:
-		//		an array like [ {domNode: foo, layoutAlign: "bottom" }, {domNode: bar, layoutAlign: "client"} ]
+		//		an array of Widgets or at least objects containing:
+		//			* domNode: pointer to DOM node to position
+		//			* region or layoutAlign: position to place DOM node
+		//			* resize(): (optional) method to set size of node
+		//			* id: (optional) Id of widgets, referenced from resize object, below.
+		// changedRegionId:
+		//		If specified, the slider for the region with the specified id has been dragged, and thus
+		//		the region's height or width should be adjusted according to changedRegionSize
+		// changedRegionSize:
+		//		See changedRegionId.
 
 		// copy dim because we are going to modify it
 		dim = dojo.mixin({}, dim);
@@ -227,14 +237,14 @@ dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 
 		// Move "client" elements to the end of the array for layout.  a11y dictates that the author
 		// needs to be able to put them in the document in tab-order, but this algorithm requires that
-		// client be last.
-		children = dojo.filter(children, function(item){ return item.layoutAlign != "client"; })
-			.concat(dojo.filter(children, function(item){ return item.layoutAlign == "client"; }));
+		// client be last.    TODO: move these lines to LayoutContainer?   Unneeded other places I think.
+		children = dojo.filter(children, function(item){ return item.region != "center" && item.layoutAlign != "client"; })
+			.concat(dojo.filter(children, function(item){ return item.region == "center" || item.layoutAlign == "client"; }));
 
 		// set positions/sizes
 		dojo.forEach(children, function(child){
 			var elm = child.domNode,
-				pos = child.layoutAlign;
+				pos = (child.region || child.layoutAlign);
 
 			// set elem to upper left corner of unused space; may move it later
 			var elmStyle = elm.style;
@@ -244,10 +254,20 @@ dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 
 			dojo.addClass(elm, "dijitAlign" + capitalize(pos));
 
+			// Size adjustments to make to this child widget
+			var sizeSetting = {};
+
+			// Check for optional size adjustment due to splitter drag (height adjustment for top/bottom align
+			// panes and width adjustment for left/right align panes.
+			if(changedRegionId && changedRegionId == child.id){
+				sizeSetting[child.region == "top" || child.region == "bottom" ? "h" : "w"] = changedRegionSize;
+			}
+
 			// set size && adjust record of remaining space.
 			// note that setting the width of a <div> may affect its height.
 			if(pos == "top" || pos == "bottom"){
-				size(child, { w: dim.w });
+				sizeSetting.w = dim.w;
+				size(child, sizeSetting);
 				dim.h -= child.h;
 				if(pos == "top"){
 					dim.t += child.h;
@@ -255,14 +275,15 @@ dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 					elmStyle.top = dim.t + dim.h + "px";
 				}
 			}else if(pos == "left" || pos == "right"){
-				size(child, { h: dim.h });
+				sizeSetting.h = dim.h;
+				size(child, sizeSetting);
 				dim.w -= child.w;
 				if(pos == "left"){
 					dim.l += child.w;
 				}else{
 					elmStyle.left = dim.l + dim.w + "px";
 				}
-			}else if(pos == "client"){
+			}else if(pos == "client" || pos == "center"){
 				size(child, dim);
 			}
 		});
