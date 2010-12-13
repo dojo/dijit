@@ -172,7 +172,10 @@ dojo.declare(
 
 		_set: function(attr, value){
 			// Avoid spurious watch() notifications when value is changed to new Date object w/the same value
-			if(attr == "value" && this.value instanceof Date && this.compare(value, this.value) == 0){
+			if(attr == "value"
+				&& this.value instanceof Date
+				&& ((this._isInvalidDate(this.value) && this._isInvalidDate(value))
+				  	|| this.compare(value, this.value) == 0)){
 				return;
 			}
 			this.inherited(arguments);
