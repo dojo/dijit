@@ -115,14 +115,13 @@
 							return d;
 						}
 					},
-
 					function copyPath(){
 						var d = new doh.Deferred();
 
 						myTree.set("path", myTree2.get("path")).then(d.getTestCallback(function(){
 							doh.t(myTree.rootNode.isExpanded, "root node is expanded");
 							doh.t(myTree.rootNode.getChildren()[3].isExpanded, "europe node is expanded");
-							doh.is(myTree.rootNode.getChildren()[3].getChildren()[3], myTree.selectedNode, "selected correct node");
+							doh.is(myTree.rootNode.getChildren()[3].getChildren()[3], myTree.get("selectedNode"), "selected correct node");
 						}));
 
 						return d;
@@ -142,7 +141,7 @@
 									doh.t(myTree2.rootNode.isExpanded, "root node is expanded");
 									doh.t(myTree2.rootNode.getChildren()[4].isExpanded, "north america node is expanded");
 									doh.t(myTree2.rootNode.getChildren()[4].getChildren()[1].isExpanded, "canada node is expanded");
-									doh.is(myTree2.rootNode.getChildren()[4].getChildren()[1].getChildren()[0], myTree2.selectedNode, "selected correct node");
+									doh.is(myTree2.rootNode.getChildren()[4].getChildren()[1].getChildren()[0], myTree2.get("selectedNode"), "selected correct node");
 								}));
 							}));
 
@@ -154,7 +153,7 @@
 						var d = new doh.Deferred();
 
 						myTree2.set("path", []).addCallback(d.getTestCallback(function(){
-							doh.is(null, myTree2.selectedNode, "no selected node");
+							doh.is(null, myTree2.get("selectedNode"), "no selected node");
 						}));
 						return d;
 					},
@@ -163,11 +162,22 @@
 						var d = new doh.Deferred();
 
 						myTree2.set("path", ["earth"]).addCallback(d.getTestCallback(function(){
-							doh.is(myTree2.rootNode, myTree2.selectedNode, "selected root node");
+							doh.is(myTree2.rootNode, myTree2.get("selectedNode"), "selected root node");
 						}));
 						return d;
 					},
 
+					function setPaths(){
+						var d = new doh.Deferred();
+						
+						myTree2.set("paths", [["earth","AF","KE","Nairobi"],
+											  ["earth","NA","MX","Guadalajara"]]).addCallback(d.getTestCallback(function(){
+								  var ids = dojo.map(myTree2.selectedItems, function(x){return myTree2.model.getIdentity(x);}).sort();
+								  doh.is(["Guadalajara", "Nairobi"], ids);
+							  }));
+						return d;
+					},
+ 
 					function itemUpdate(){
 						// Test that Tree noticed when data store items change, and updates accordingly
 

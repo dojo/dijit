@@ -1,4 +1,4 @@
-define("dijit/Tree", ["dojo", "dijit", "text!dijit/templates/TreeNode.html", "text!dijit/templates/Tree.html", "dojo/fx", "dojo/DeferredList", "dijit/_Widget", "dijit/_Templated", "dijit/_Container", "dijit/_Contained", "dijit/_CssStateMixin", "dojo/cookie", "dijit/tree/TreeStoreModel", "dijit/tree/ForestStoreModel"], function(dojo, dijit) {
+define("dijit/Tree", ["dojo", "dijit", "text!dijit/templates/TreeNode.html", "text!dijit/templates/Tree.html", "dojo/fx", "dojo/DeferredList", "dijit/_Widget", "dijit/_Templated", "dijit/_Container", "dijit/_Contained", "dijit/_CssStateMixin", "dojo/cookie", "dijit/tree/TreeStoreModel", "dijit/tree/ForestStoreModel", "dijit/tree/_dndSelector"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit._TreeNode",
@@ -64,6 +64,9 @@ dojo.declare(
 		if(this.isExpandable){
 			dijit.setWaiState(this.labelNode, "expanded", this.isExpanded);
 		}
+
+		//aria-selected should be false on all selectable elements.
+		this.setSelected(false);
 	},
 
 	_setIndentAttr: function(indent){
@@ -358,6 +361,22 @@ dojo.declare(
 		return new dojo.DeferredList(defs);	// dojo.Deferred
 	},
 
+	getTreePath: function(){
+		var node = this;
+		var path = [];
+		while(node && node !== this.tree.rootNode){
+				path.unshift(node.item);
+				node = node.getParent();
+		}
+		path.unshift(this.tree.rootNode.item);
+
+		return path;
+	},
+
+	getIdentity: function() {
+		return this.tree.model.getIdentity(this.item);
+	},
+
 	removeChild: function(/* treeNode */ node){
 		this.inherited(arguments);
 
@@ -485,17 +504,25 @@ dojo.declare(
 	//		One ore more attributes that holds children of a tree node
 	childrenAttr: ["children"],
 
-	// path: String[] or Item[]
-	//		Full path from rootNode to selected node expressed as array of items or array of ids.
-	//		Since setting the path may be asynchronous (because ofwaiting on dojo.data), set("path", ...)
+	// paths: String[][] or Item[][]
+	//		Full paths from rootNode to selected nodes expressed as array of items or array of ids.
+	//		Since setting the paths may be asynchronous (because ofwaiting on dojo.data), set("paths", ...)
 	//		returns a Deferred to indicate when the set is complete.
+	paths: [],
+	
+	// path: String[] or Item[]
+	//      Backward compatible singular variant of paths.
 	path: [],
 
-	// selectedItem: [readonly] Item
-	//		The currently selected item in this tree.
-	//		This property can only be set (via set('selectedItem', ...)) when that item is already
+	// selectedItems: [readonly] Item[]
+	//		The currently selected items in this tree.
+	//		This property can only be set (via set('selectedItems', ...)) when that item is already
 	//		visible in the tree.   (I.e. the tree has already been expanded to show that node.)
-	//		Should generally use `path` attribute to set the selected item instead.
+	//		Should generally use `paths` attribute to set the selected items instead.
+	selectedItems: null,
+
+	// selectedItem: [readonly] Item
+	//      Backward compatible singular variant of selectedItems.
 	selectedItem: null,
 
 	// openOnClick: Boolean
@@ -519,7 +546,8 @@ dojo.declare(
 	// dndController: [protected] String
 	//		Class name to use as as the dnd controller.  Specifying this class enables DnD.
 	//		Generally you should specify this as "dijit.tree.dndSource".
-	dndController: null,
+	//      Default of "dijit.tree._dndSelector" handles selection only (no actual DnD).
+	dndController: "dijit.tree._dndSelector",
 
 	// parameters to pull off of the tree and pass on to the dndController as its params
 	dndParams: ["onDndDrop","itemCreator","onDndCancel","checkAcceptance", "checkItemAcceptance", "dragThreshold", "betweenThreshold"],
@@ -773,95 +801,103 @@ dojo.declare(
 	},
 
 	_setSelectedItemAttr: function(/*dojo.data.Item or id*/ item){
-		// summary:
-		//		Select a tree node related to passed item.
-		//		WARNING: if model use multi-parented items or desired tree node isn't already loaded
-		//		behavior is undefined. Use set('path', ...) instead.
+		this.set('selectedItems', [item]);
+	},
 
-		var oldValue = this.get("selectedItem");
-		var identity = (!item || dojo.isString(item)) ? item : this.model.getIdentity(item);
-		if(identity == oldValue ? this.model.getIdentity(oldValue) : null){ return; }
-		var nodes = this._itemNodesMap[identity];
-		this._selectNode((nodes && nodes[0]) || null);	//select the first item
+	_setSelectedItemsAttr: function(/*dojo.data.Items or ids*/ items){
+		// summary:
+		//		Select tree nodes related to passed items.
+		//		WARNING: if model use multi-parented items or desired tree node isn't already loaded
+		//		behavior is undefined. Use set('paths', ...) instead.
+		var tree = this;
+		this._loadDeferred.addCallback( dojo.hitch(this, function(){
+			var identities = dojo.map(items, function(item){
+				return (!item || dojo.isString(item)) ? item : tree.model.getIdentity(item);
+			});
+			var nodes = [];
+			dojo.forEach(identities, function(id){
+				nodes = nodes.concat(tree._itemNodesMap[id] || []);
+			});
+			this.set('selectedNodes', nodes);
+		}));
 	},
 
 	_setPathAttr: function(/*Item[] || String[]*/ path){
 		// summary:
-		//		Select the tree node identified by passed path.
-		// path:
-		//		Array of items or item id's
+		//      Singular variant of _setPathsAttr
+		if(path.length) {
+			return this.set("paths", [path]);
+		} else {
+			//Empty list is interpreted as "select nothing"
+			return this.set("paths", []);
+		}
+	},
+	
+	_setPathsAttr: function(/*Item[][] || String[][]*/ paths){
+		// summary:
+		//		Select the tree nodes identified by passed paths.
+		// paths:
+		//		Array of arrays of items or item id's
 		// returns:
 		//		Deferred to indicate when the set is complete
+		var tree = this;
 
-		var d = new dojo.Deferred();
-
-		// If this is called during initialization, defer running until Tree has finished loading
-		this._loadDeferred.addCallback(dojo.hitch(this, function(){
-			if(!this.rootNode){
-				d.reject(new Error("!this.rootNode"));
-				return;
-			}
-
-			// As we pop each id from path[], node is set to the TreeNode that matches that id.
-			// Starts as null which conceptually means "the parent of the Tree's root node".
-			var node = null;
-
-			function advance(){
-				// summary:
-				// 		Pop the next item from path[] and advance to it, and then recurse.
-				// description:
-				//		When node is null, path[] is absolute, and the first entry in path[] must refer to
-				//		the root of the Tree.
-				//
-				//		When node is a TreeNode, path[] is relative to that TreeNode.
-
-				if(!path || !path.length){
-					// Final destination node, select it
-					this._selectNode(node);
-					
-					// signal that path setting is finished
-					d.resolve(true);
-					
-					return;
-				}
-
-				// Set item and identity to next item in path
-				var item = path.shift(),
-					identity = dojo.isString(item) ? item : this.model.getIdentity(item);
-
-				if(node){
-					// node is pointing to the item that was popped from the path _last_ time.
-					// Expand that TreeNode and then reset node to point that TreeNode's child matching "item".
-					this._expandNode(node).addCallback(dojo.hitch(this, function(){
-				dojo.some(this._itemNodesMap[identity], function(n){
-					if(n.getParent() == node){
-						node = n;
-						return true;
-					}
-					return false;
-				});
-
-						dojo.hitch(this, advance)();
-					}));
-				}else{
-					// First time in this func, first element in path[] presumably refers to the root of the Tree.
-					// Make node point to that TreeNode.
-					if(item !== this.rootNode.item && (dojo.isString(item) && item != this.model.getIdentity(this.rootNode.item))){
-						d.reject(new Error(this.id + ":path[0] doesn't match this.rootNode.item.  Maybe you are using the wrong tree."));
-						return;
-					}
-					node = this.rootNode;
-					
-					dojo.hitch(this, advance)();
-				}
-			}
-
-			// Start traversing path[] till we get to the node we want.   
-			dojo.hitch(this, advance)();
-		}));
+		// We may need to wait for some nodes to expand, so setting
+		// each path will involve a Deferred. We bring those deferreds
+		// together witha DeferredList.
+		return new dojo.DeferredList(dojo.map(paths, function(path){ 
+			var d = new dojo.Deferred();
 			
-		return d;
+			// normalize path to use identity
+			path = dojo.map(path, function(item){
+				return dojo.isString(item) ? item : tree.model.getIdentity(item);
+			});
+
+			if(path.length){
+				// Wait for the tree to load, if it hasn't already.
+				tree._loadDeferred.addCallback(function(){ selectPath(path, [tree.rootNode], d); });
+			}else{
+				d.errback("Empty path");
+			}
+			return d;
+		})).addCallback(setNodes);
+
+		function selectPath(path, nodes, def){
+			// Traverse path; the next path component should be among "nodes".
+			var nextPath = path.shift();
+			var nextNode = dojo.filter(nodes, function(node){
+				return node.getIdentity() == nextPath;
+			})[0];
+			if(!!nextNode){
+				if(path.length){
+					tree._expandNode(nextNode).addCallback(function(){ selectPath(path, nextNode.getChildren(), def); });
+				}else{
+					//Successfully reached the end of this path
+					def.callback(nextNode);
+				}
+			} else {
+				def.errback("Could not expand path at " + nextPath);
+			}
+		}
+		
+		function setNodes(newNodes){
+			//After all expansion is finished, set the selection to
+			//the set of nodes successfully found.
+			tree.set("selectedNodes", dojo.map(
+				dojo.filter(newNodes,function(x){return x[0];}),
+				function(x){return x[1];}));
+		}
 	},
+
+	_setSelectedNodeAttr: function(node){
+		this.set('selectedNodes', [node]);
+	},
+	_setSelectedNodesAttr: function(nodes){
+		this._loadDeferred.addCallback( dojo.hitch(this, function(){
+			this.dndController.setSelection(nodes);
+		}));
+	},
+
 
 	////////////// Data store related functions //////////////////////
 	// These just get passed to the model; they are here for back-compat
@@ -966,7 +1002,7 @@ dojo.declare(
 		if(!treeNode){ return; }
 
 		var key = e.charOrCode;
-		if(typeof key == "string"){	// handle printables (letter navigation)
+		if(typeof key == "string" && key != " "){	// handle printables (letter navigation)
 			// Check for key navigation.
 			if(!e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey){
 				this._onLetterKeyNav( { node: treeNode, key: key.toLowerCase() } );
@@ -985,6 +1021,11 @@ dojo.declare(
 				// setup table mapping keys to events
 				map = {};
 				map[dk.ENTER]="_onEnterKey";
+				//On WebKit based browsers, the combination ctrl-enter
+				//does not get passed through. To allow accessible
+				//multi-select on those browsers, the space key is
+				//also used for selection.
+				map[dk.SPACE]= map[" "] = "_onEnterKey";
 				map[this.isLeftToRight() ? dk.LEFT_ARROW : dk.RIGHT_ARROW]="_onLeftArrow";
 				map[this.isLeftToRight() ? dk.RIGHT_ARROW : dk.LEFT_ARROW]="_onRightArrow";
 				map[dk.UP_ARROW]="_onUpArrow";
@@ -1002,7 +1043,7 @@ dojo.declare(
 
 	_onEnterKey: function(/*Object*/ message, /*Event*/ evt){
 		this._publish("execute", { item: message.item, node: message.node } );
-		this._selectNode(message.node);
+		this.dndController.userSelect(message.node, dojo.isCopyKey( message.evt ), message.evt.shiftKey);
 		this.onClick(message.item, message.node, evt);
 	},
 
@@ -1177,9 +1218,6 @@ dojo.declare(
 			this.onClick(nodeWidget.item, nodeWidget, e);
 			this.focusNode(nodeWidget);
 		}
-		if(!isExpandoClick){
-			this._selectNode(nodeWidget);
-		}
 		dojo.stopEvent(e);
 	},
 	_onDblClick: function(/*TreeNode*/ nodeWidget, /*Event*/ e){
@@ -1198,9 +1236,6 @@ dojo.declare(
 			this._publish("execute", { item: nodeWidget.item, node: nodeWidget, evt: e } );
 			this.onDblClick(nodeWidget.item, nodeWidget, e);
 			this.focusNode(nodeWidget);
-		}
-		if(!isExpandoClick){
-			this._selectNode(nodeWidget);
 		}
 		dojo.stopEvent(e);
 	},
@@ -1378,40 +1413,6 @@ dojo.declare(
 
 		// set focus so that the label will be voiced using screen readers
 		dijit.focus(node.labelNode);
-	},
-
-	_selectNode: function(/*_tree.Node*/ node){
-		// summary:
-		//		Mark specified node as selected, and unmark currently selected node.
-		//		Also updates selectedNode, selectedItem, and path attributes.
-		// tags:
-		//		protected
-
-		if(this.selectedNode && !this.selectedNode._destroyed){
-			this.selectedNode.setSelected(false);
-		}
-		if(node){
-			node.setSelected(true);
-		}
-		
-		// Save and announce newly selected node
-		this._set("selectedNode", node);
-
-		// Save and announce item for newly selected node
-		this._set("selectedItem", node && node.item);
-
-		// Save and announce path to newly selected node
-		if(node){
-			var path = [];
-			while(node && node !== this.rootNode){
-				path.unshift(node.item);
-				node = node.getParent();
-			}
-			path.unshift(this.rootNode.item);
-			this._set("path", path);
-		}else{
-			this._set("path", null);
-		}
 	},
 
 	_onNodeFocus: function(/*dijit._Widget*/ node){

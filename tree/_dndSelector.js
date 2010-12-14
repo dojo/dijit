@@ -25,6 +25,8 @@ dojo.declare("dijit.tree._dndSelector",
 			this.selection={};
 			this.anchor = null;
 
+			dijit.setWaiState(this.tree.domNode, "multiselect", !this.singular);
+
 			this.events.push(
 				dojo.connect(this.tree.domNode, "onmousedown", this,"onMouseDown"),
 				dojo.connect(this.tree.domNode, "onmouseup", this,"onMouseUp"),
@@ -56,10 +58,8 @@ dojo.declare("dijit.tree._dndSelector",
 			//		Unselects all items
 			// tags:
 			//		private
-			var sel = this.selection;
-			for(var i in sel){
-				this.removeTreeNode(sel[i]);
-			}
+
+			this.setSelection([]);
 			return this;	// self
 		},
 
@@ -77,15 +77,8 @@ dojo.declare("dijit.tree._dndSelector",
 			// isAnchor: Boolean
 			//		Whether the node should become anchor.
 
-			if(isAnchor){
-				if(this.anchor == node){
-					return node;
-				}
-				this.anchor = node;
-			}
-
-			this._addItemClass(node.rowNode, "Selected");
-			this.selection[node.id] = node;
+			this.setSelection(this.getSelectedTreeNodes().concat( [node] ));
+			if(isAnchor){ this.anchor = node; }
 			return node;
 		},
 		removeTreeNode: function(/*dijit._TreeNode*/node){
@@ -93,12 +86,7 @@ dojo.declare("dijit.tree._dndSelector",
 			//		remove node from current selection
 			// node: Node
 			//		node to remove
-
-			this._removeItemClass(node.rowNode, "Selected");
-			if(this.anchor == node){
-				delete this.anchor;
-			}
-			delete this.selection[node.id];
+			this.setSelection(this._setDifference(this.getSelectedTreeNodes(), [node]))
 			return node;
 		},
 		isTreeNodeSelected: function(/*dijit._TreeNode*/node){
@@ -108,6 +96,61 @@ dojo.declare("dijit.tree._dndSelector",
 			//		the node to check whether it's in the current selection
 
 			return node.id && !!this.selection[node.id];
+		},
+		setSelection: function(/*dijit._treeNode[]*/ newSelection){
+			// summary
+			//      set the list of selected nodes to be exactly newSelection. All changes to the 
+			//      selection should be passed through this function, which ensures that derived 
+			//      attributes are kept up to date. Anchor will be deleted if it has been removed 
+			//      from the selection, but no new anchor will be added by this function.
+			// newSelection: Node[]
+			//      list of tree nodes to make selected
+			var oldSelection = this.getSelectedTreeNodes();
+			dojo.forEach(this._setDifference(oldSelection, newSelection), dojo.hitch(this, function(node){
+				node.setSelected(false);
+				if(this.anchor == node){
+					delete this.anchor;
+				}
+				delete this.selection[node.id];
+			}));
+			dojo.forEach(this._setDifference(newSelection, oldSelection), dojo.hitch(this, function(node){
+				node.setSelected(true);
+				this.selection[node.id] = node;
+			}));
+			this._updateSelectionProperties();
+		},
+		_setDifference: function(xs,ys){
+			// summary 
+			//      Returns a copy of xs which lacks any objects
+			//      occurring in ys. Checks for membership by
+			//      modifying and then reading the object, so it will
+			//      not properly handle sets of numbers or strings.
+			
+			dojo.forEach(ys, function(y){ y.__exclude__ = true; });
+			var ret = dojo.filter(xs, function(x){ return !x.__exclude__; });
+
+			// clean up after ourselves.
+			dojo.forEach(ys, function(y){ delete y['__exclude__'] });
+			return ret;
+		},
+		_updateSelectionProperties: function() {
+			// summary
+			//      Update the following tree properties from the current selection:
+			//      path[s], selectedItem[s], selectedNode[s]
+			
+			var selected = this.getSelectedTreeNodes();
+			var paths = [], nodes = [];
+			dojo.forEach(selected, function(node) {
+				nodes.push(node);
+				paths.push(node.getTreePath());
+			});
+			var items = dojo.map(nodes,function(node) { return node.item; });
+			this.tree._set("paths", paths);
+			this.tree._set("path", paths[0] || []);
+			this.tree._set("selectedNodes", nodes);
+			this.tree._set("selectedNode", nodes[0] || null);
+			this.tree._set("selectedItems", items);
+			this.tree._set("selectedItem", items[0] || null);
 		},
 		// mouse events
 		onMouseDown: function(e){
@@ -137,49 +180,7 @@ dojo.declare("dijit.tree._dndSelector",
 			}else{
 				this._doDeselect = false;
 			}
-			
-			if(this.singular){
-				if(this.anchor == treeNode){
-					if(dojo.isCopyKey(e)){
-						this.selectNone();
-					}
-				}else{
-					this.selectNone();
-					this.addTreeNode(treeNode, true);
-					}
-				}else{
-				if(e.shiftKey && this.anchor){
-					var cr = dijit.tree._compareNodes(this.anchor.rowNode, treeNode.rowNode), 
-					  begin, end, anchor = this.anchor;
-					
-					if(cr){ //anchor is not the same as current
-						if(cr < 0){ //current is after anchor
-							begin = anchor;
-							end = treeNode;
-						}else{ //current is before anchor
-							begin = treeNode;
-							end = anchor;
-								}
-
-						this.selectNone();
-
-						//add everything betweeen begin and end inclusively
-						while(begin){
-							this.addTreeNode(begin, begin === anchor);
-							if(begin === end){
-								break;
-							}
-							begin = this.tree._getNextNode(begin);
-						}
-					} //else the anchor is the same as current, do nothing
-					}else{
-					if(!copy){
-							this.selectNone();
-					}
-
-					this.addTreeNode(treeNode, true);
-				}
-			}
+			this.userSelect(treeNode, copy, e.shiftKey);
 		},
 
 		onMouseUp: function(e){
@@ -197,14 +198,7 @@ dojo.declare("dijit.tree._dndSelector",
 			// the deselection logic here, the user can drags an already selected item.
 			if(!this._doDeselect){ return; }
 			this._doDeselect = false;
-			if(dojo.isCopyKey(e)){
-				this.removeTreeNode(this.current);
-			}else{
-			this.selectNone();
-			if(this.current){
-					this.addTreeNode(this.current, true);
-				}
-			}
+			this.userSelect(this.current, dojo.isCopyKey( e ), e.shiftKey);
 		},
 		onMouseMove: function(e){
 			// summary
@@ -213,6 +207,59 @@ dojo.declare("dijit.tree._dndSelector",
 			//		mouse event
 			this._doDeselect = false;
 		},
+
+		userSelect: function(node, multi, range){
+			// summary:
+			//		Add or remove the given node from selection, responding 
+			//      to a user action such as a click or keypress.
+			// multi: Boolean
+			//		Indicates whether this is meant to be a multi-select action (e.g. ctrl-click)
+			// range: Boolean
+			//		Indicates whether this is meant to be a ranged action (e.g. shift-click)
+			// tags:
+			//		protected
+
+			if(this.singular){
+				if(this.anchor == node && multi){
+					this.selectNone();
+				}else{
+					this.setSelection([node]);
+					this.anchor = node;
+				}
+			}else{
+				if(range && this.anchor){
+					var cr = dijit.tree._compareNodes(this.anchor.rowNode, node.rowNode), 
+					begin, end, anchor = this.anchor;
+					
+					if(cr < 0){ //current is after anchor
+						begin = anchor;
+						end = node;
+					}else{ //current is before anchor
+						begin = node;
+						end = anchor;
+					}
+					nodes = [];
+					//add everything betweeen begin and end inclusively
+					while(begin != end) { 
+						nodes.push(begin)
+						begin = this.tree._getNextNode(begin);
+					} 
+					nodes.push(end)
+
+					this.setSelection(nodes);
+				}else{
+				    if( this.selection[ node.id ] && multi ) {
+						this.removeTreeNode( node );
+				    } else if(multi) {
+						this.addTreeNode(node, true);
+					} else {
+						this.setSelection([node]);
+						this.anchor = node;
+				    }
+				}
+			}
+		},
+
 		forInSelectedItems: function(/*Function*/ f, /*Object?*/ o){
 			// summary:
 			//		Iterates over selected items;
