@@ -668,6 +668,12 @@ dojo.declare(
 			this._contentBox = dojo.contentBox(cn);
 		}
 
+		this._layoutChildren();
+
+		delete this._needLayout;
+	},
+	
+	_layoutChildren: function(){
 		// Call _checkIfSingleChild() again in case app has manually mucked w/the content
 		// of the ContentPane (rather than changing it through the set("content", ...) API.
 		if(this.doLayout){
@@ -689,7 +695,6 @@ dojo.declare(
 				}
 			});
 		}
-		delete this._needLayout;
 	},
 
 	// EVENT's, should be overide-able
