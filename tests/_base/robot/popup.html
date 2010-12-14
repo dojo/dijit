@@ -169,10 +169,9 @@
 								var d = new doh.Deferred();
 		
 								dojo.byId("inputAtEnd").focus();
-								doh.robot.typeKeys("end", 500);	
 								doh.robot.sequence(d.getTestErrback(function(){
 									// Just to make sure that focus is on the input
-									doh.is("end", dojo.byId("inputAtEnd").value);
+									doh.is("inputAtEnd", dojo.global.dijit._curFocus && dojo.global.dijit._curFocus.id);
 								}), 500);
 	
 								doh.robot.keyPress(dojo.keys.TAB, 500, {});
@@ -195,10 +194,9 @@
 								doh.robot.sequence(function(){
 									dojo.byId("inputAtStart").focus();
 								}, 500);
-								doh.robot.typeKeys("start", 500);
 								doh.robot.sequence(d.getTestErrback(function(){
 									// Just to make sure that focus is on the input
-									doh.is("start", dojo.byId("inputAtStart").value);
+									doh.is("inputAtStart", dojo.global.dijit._curFocus && dojo.global.dijit._curFocus.id);
 								}), 500);
 	
 								doh.robot.keyPress(dojo.keys.TAB, 500, {shift: true});
