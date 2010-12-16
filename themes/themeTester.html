@@ -14,7 +14,7 @@
 	<style type="text/css">
 		html, body { height: 100%; width: 100%; padding: 0; border: 0; }
 		#main { height: 100%; width: 100%; border: 0; }
-		#header { margin: 0px; }
+		#header { margin: 0; }
 		#leftAccordion { width: 25%; }
 		#bottomTabs { height: 40%; }
 		#hs-1width {
@@ -151,9 +151,6 @@
 			console.debug("onChange for id = " + id + ", value: " + newValue);
 		}
 
-		// current setting (if there is one) to override theme default padding on TextBox based widgets
-		currentInputPadding = "";
-		
 		// various function ripped out of inline script type=dojo/* blocks
 		function showDialog(){
 			var dlg = dijit.byId('dialog1');
@@ -169,36 +166,41 @@
 			dlg._savedFocus = dojo.byId("header");
 		}
 
-		function setTextBoxPadding(){
-			// summary:
-			//		Handler for when a MenuItem is clicked to set non-default padding for
-			//		TextBox widgets
-
-			// Effectively ignore clicks on the	 currently checked MenuItem
-			if(!this.get("checked")){
-				this.set("checked", true);
-			}
-
-			// val will be "theme default", "0px", "1px", ..., "5px"
-			var val = this.get("label");
+		(function(){
+			// current setting (if there is one) to override theme default padding on TextBox based widgets
+			var currentInputPadding = "";
 			
-			// Set class on body to get requested padding, and remove any previously set class
-			if(currentInputPadding){
-				dojo.removeClass(dojo.body(), currentInputPadding);
-				currentInputPadding = "";
-			}
-			if(val != "theme default"){
-				currentInputPadding = "inputPadding" + val.replace("px", "");
-				dojo.addClass(dojo.body(), currentInputPadding);
-			}
-
-			// Clear previously checked MenuItem (radio-button effect).
-			dojo.forEach(this.getParent().getChildren(), function(mi){
-				if(mi != this){
-					mi.set("checked", false);
+			function setTextBoxPadding(){
+				// summary:
+				//		Handler for when a MenuItem is clicked to set non-default padding for
+				//		TextBox widgets
+	
+				// Effectively ignore clicks on the	 currently checked MenuItem
+				if(!this.get("checked")){
+					this.set("checked", true);
 				}
-			}, this);
-		}
+	
+				// val will be "theme default", "0px", "1px", ..., "5px"
+				var val = this.get("label");
+				
+				// Set class on body to get requested padding, and remove any previously set class
+				if(currentInputPadding){
+					dojo.removeClass(dojo.body(), currentInputPadding);
+					currentInputPadding = "";
+				}
+				if(val != "theme default"){
+					currentInputPadding = "inputPadding" + val.replace("px", "");
+					dojo.addClass(dojo.body(), currentInputPadding);
+				}
+	
+				// Clear previously checked MenuItem (radio-button effect).
+				dojo.forEach(this.getParent().getChildren(), function(mi){
+					if(mi != this){
+						mi.set("checked", false);
+					}
+				}, this);
+			}
+		})();
 
 		dojo.addOnLoad(function() {
 
@@ -404,7 +406,7 @@
 				<span>Dialogs</span>
 				<div data-dojo-type="dijit.Menu" id="dialogMenu">
 					<div data-dojo-type="dijit.MenuItem" data-dojo-props="onClick: showDialog">slow loading</div>
-					<div data-dojo-type="dijit.MenuItem" data-dojo-props="onCLick: showDialogAb">action bar</div>
+					<div data-dojo-type="dijit.MenuItem" data-dojo-props="onClick: showDialogAb">action bar</div>
 				</div>
 			</div>
 			<div data-dojo-type="dijit.PopupMenuBarItem" id="inputPadding">
@@ -527,7 +529,7 @@
 
 			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='selected:true, title:"Calendar"'>
 				<!-- calendar widget pane -->
-				<input id="calendar1" data-dojo-type="dijit.Calendar" data-dojo-rops="onChange: function(){ myHandler(this.id,arguments[0]); }">
+				<input id="calendar1" data-dojo-type="dijit.Calendar" data-dojo-props="onChange: function(){ myHandler(this.id,arguments[0]); }">
 			</div>
 
 			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Color Picker"'>
