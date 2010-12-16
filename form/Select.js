@@ -82,7 +82,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 
 	// emptyLabel: string
 	//		What to display in an "empty" dropdown
-	emptyLabel: "",
+	emptyLabel: "&nbsp;",
 
 	// _isLoaded: Boolean
 	//		Whether or not we have been loaded
@@ -96,11 +96,11 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		// summary:
 		//		Set the value to be the first, or the selected index
 		this.inherited(arguments);
+		// set value from selected option
 		if(this.options.length && !this.value && this.srcNodeRef){
-			var si = this.srcNodeRef.selectedIndex;
-			this.value = this.options[si != -1 ? si : 0].value;
+			var si = this.srcNodeRef.selectedIndex || 0; // || 0 needed for when srcNodeRef is not a SELECT
+			this.value = this.options[si >= 0 ? si : 0].value;
 		}
-
 		// Create the dropDown widget
 		this.dropDown = new dijit.form._SelectMenu({id: this.id + "_menu"});
 		dojo.addClass(this.dropDown.domNode, this.baseClass + "Menu");
@@ -110,7 +110,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		// summary:
 		//		For the given option, return the menu item that should be
 		//		used to display it.  This can be overridden as needed
-		if(!option.value){
+		if(!option.value && !option.label){
 			// We are a separator (no label set for it)
 			return new dijit.MenuSeparator();
 		}else{
@@ -118,7 +118,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 			var click = dojo.hitch(this, "_setValueAttr", option);
 			var item = new dijit.MenuItem({
 				option: option,
-				label: option.label,
+				label: option.label || this.emptyLabel,
 				onClick: click,
 				disabled: option.disabled || false
 			});
@@ -172,7 +172,6 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 			this._updateSelection();
 		}
 
-		var len = this.options.length;
 		this._isLoaded = false;
 		this._childrenLoaded = true;
 
@@ -190,10 +189,9 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 	_setDisplay: function(/*String*/ newDisplay){
 		// summary:
 		//		sets the display for the given value (or values)
-		this.containerNode.innerHTML = '<span class="dijitReset dijitInline ' + this.baseClass + 'Label">' +
-					(newDisplay || this.emptyLabel || "&nbsp;") +
-					'</span>';
-		dijit.setWaiState(this.focusNode, "valuetext", (newDisplay || this.emptyLabel || "&nbsp;") );
+		var lbl = newDisplay || this.emptyLabel;
+		this.containerNode.innerHTML = '<span class="dijitReset dijitInline ' + this.baseClass + 'Label">' + lbl + '</span>';
+		dijit.setWaiState(this.focusNode, "valuetext", lbl);
 	},
 
 	validate: function(/*Boolean*/ isFocused){
@@ -222,7 +220,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		// summary:
 		//		Whether or not this is a valid value.  The only way a Select
 		//		can be invalid is when it's required but nothing is selected.
-		return (!this.required || !(/^\s*$/.test(this.value)));
+		return (!this.required || this.value === 0 || !(/^\s*$/.test(this.value || ""))); // handle value is null or undefined
 	},
 
 	reset: function(){

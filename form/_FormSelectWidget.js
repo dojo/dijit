@@ -162,7 +162,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 			// that case, we don't want to blow up...
 			if(i){
 				this.options = dojo.filter(this.options, function(node, idx){
-					return (node.value !== i.value);
+					return (node.value !== i.value || node.label !== i.label);
 				});
 				this._removeOptionItem(i);
 			}
