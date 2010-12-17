@@ -319,8 +319,7 @@
 								var value = editor.get('value');
 								value = value.replace(/\xA0/g, "");
 								var expVal = dojo.isWebKit? 'testingCopyAndPastetestingCopyAndPastetestingCopyAndP<div>aste</div>' : '<div>testingCopyAndPastetestingCopyAndPastetestingCopyAndP</div><div>aste</div>';
-								
-								doh.is(,
+								doh.is(expVal,
 									value,
 									"get('value')");
 							}), 1000);
