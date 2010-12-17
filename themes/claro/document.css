@@ -1,3 +1,4 @@
+@import url("../../../dojo/resources/dojo.css");
 /* ======= Styling for the document itself (overriding dojo.css) ======== */
 .claro {
   font-family: Verdana, Arial, Helvetica, sans-serif;
@@ -7,9 +8,6 @@
 /* Headings */
 .claro h1 {
   font-size: 1.545em;
-  font-weight: normal;
-  line-height: 1em;
-  margin-top: 1em;
   margin-bottom: 0.727em;
 }
 .claro h2 {
@@ -25,73 +23,19 @@
 .claro h6 {
   font-size: 1.091em;
   font-weight: normal;
-  line-height: 1.5em;
-  margin-top: 1.5em;
-  margin-bottom: 0;
 }
 /* paragraphs, quotes and lists */
 .claro p {
-  font-size: 1em;
   line-height: 1.3em;
-}
-.claro blockquote {
-  font-size: 0.916em;
-  margin-top: 3.272em;
-  margin-bottom: 3.272em;
-  line-height: 1.636em;
-  padding: 1.636em;
-  border-top: 1px solid #d3d3d3;
-  border-bottom: 1px solid #d3d3d3;
-}
-.claro ol li, .claro ul li {
-  font-size: 1em;
-  line-height: 1.5em;
-  margin: 0;
 }
 /* pre and code */
 .claro pre, .claro code {
-  font-size: 115%;
-  *font-size: 100%;
   font-family: inherit;
   background-color: #efefef;
   border: 1px solid #d3d3d3;
 }
-.claro pre {
-  border-width: 1px 0;
-  padding: 1.5em;
-}
-/*
-	Tables
-
-	Note that these table definitions make the assumption that you are using tables
-	to display tabular data, and NOT using tables as layout mechanisms.  If you are
-	using tables for layout, you will probably want to override these rules with
-	more specific ones.
-
-	These definitions make tabular data look presentable, particularly when presented
-	inline with paragraphs.
-*/
-.claro table {
-  font-size: 100%;
-}
-.claro table.dojoTabular {
-  border-collapse: collapse;
-  border-spacing: 0;
-  border: 1px solid #d3d3d3;
-  margin: 0 1.5em;
-}
-.claro .dojoTabular th {
-  text-align: center;
-  font-weight: bold;
-}
+/* tables */
 .claro table.dojoTabular thead, .claro table.dojoTabular tfoot {
   background-color: #efefef;
   border: 1px solid #d3d3d3;
-  border-width: 1px 0;
-}
-.claro table.dojoTabular thead tr th,
-.claro table.dojoTabular thead tr td,
-.claro table.dojoTabular tbody tr td,
-.claro table.dojoTabular tfoot tr td {
-  padding: 0.25em 0.5em;
 }
