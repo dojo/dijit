@@ -110,7 +110,7 @@ dojo.declare(
 
 				dojo.place(this._splitters[region].domNode, child.domNode, "after");
 
-				// Splitters arent added as Contained children, so we need to call startup explicitly
+				// Splitters aren't added as Contained children, so we need to call startup explicitly
 				splitter.startup();
 			}
 			child.region = region;
@@ -368,7 +368,8 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 			max = childStart + maxIncrease,
 			min = this.child.minSize || 20,
 			region = this.region,
-			splitterStart = parseInt(this.domNode.style[region == "top" || region == "bottom" ? "top" : "left"], 10),
+			splitterAttr = region == "top" || region == "bottom" ? "top" : "left",	// style attribute of splitter to adjust
+			splitterStart = parseInt(splitterStyle[splitterAttr], 10),
 			resize = this._resize,
 			childNode = this.child.domNode,
 			layoutFunc = dojo.hitch(this.container, this.container._layoutChildren),
@@ -384,7 +385,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 					layoutFunc(region, boundChildSize);
 				}
 				// TODO: setting style directly (usually) sets content box size, need to set margin box size
-				splitterStyle[region] = factor * delta + splitterStart + (boundChildSize - childSize) + "px";
+				splitterStyle[splitterAttr] = delta + splitterStart + (boundChildSize - childSize) + "px";
 			}),
 			dojo.connect(de, "ondragstart", dojo.stopEvent),
 			dojo.connect(dojo.body(), "onselectstart", dojo.stopEvent),
