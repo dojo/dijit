@@ -278,7 +278,7 @@
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 							doh.robot.sequence(d.getTestCallback(function(){
 								var value = editor.get('value');
-								value = value.replace(/ /g, "");
+								value = value.replace(/\xA0/g, "");
 								var expVal = dojo.isWebKit? 'testingCopyAndPastetestingCopyAndPastetestingCopyAndPaste</div><div>' : '<div>testingCopyAndPastetestingCopyAndPastetestingCopyAndPaste</div><div></div>';
 								doh.is(expVal,
 										value,
@@ -317,6 +317,7 @@
 								// get('value') should call the post-filter which recombines the separate <p> nodes into bigger
 								// paragraphs.
 								var value = editor.get('value');
+								value = value.replace(/\xA0/g, "");
 								doh.is('<div>testingCopyAndPastetestingCopyAndPastetestingCopyAndP</div><div>aste</div>',
 									value,
 									"get('value')");
@@ -384,7 +385,7 @@
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 							doh.robot.sequence(d.getTestCallback(function(){
 								var value = editor.get('value');
-								value = value.replace(/ /g, "");
+								value = value.replace(/\xA0/g, "");
 								doh.is('<p>testingCopyAndPastetestingCopyAndPastetestingCopyAndPaste</p><p></p>',
 									value,
 									"get('value')");
@@ -422,6 +423,7 @@
 								// get('value') should call the post-filter which recombines the separate <p> nodes into bigger
 								// paragraphs.
 								var value = editor.get('value');
+								value = value.replace(/\xA0/g, "");
 								doh.is('<p>testingCopyAndPastetestingCopyAndPastetestingCopyAndP</p><p>aste</p>',
 										value,
 										"get('value')");
