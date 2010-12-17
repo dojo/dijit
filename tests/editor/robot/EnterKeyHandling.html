@@ -279,7 +279,8 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								var value = editor.get('value');
 								value = value.replace(/ /g, "");
-								doh.is('<div>testingCopyAndPastetestingCopyAndPastetestingCopyAndPaste</div><div></div>',
+								var expVal = dojo.isWebKit? 'testingCopyAndPastetestingCopyAndPastetestingCopyAndPaste</div><div>' : '<div>testingCopyAndPastetestingCopyAndPastetestingCopyAndPaste</div><div></div>';
+								doh.is(expVal,
 										value,
 										"get('value')");
 							}), 1000);
