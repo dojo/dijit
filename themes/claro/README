@@ -1,0 +1,30 @@
+These are "less" files that compile into the CSS of claro.   See http://lesscss.org/
+and https://github.com/cloudhead/less.js/ for detailed instructions
+
+To install less version 2:
+
+1. install Node.js:  http://nodejs.org/#download   (./configure, make, make install)
+2. download less from https://github.com/cloudhead/less.js/archives/master
+
+-----------
+
+To compile a single file:
+  $ /less_dir/bin/lessc Calendar.less Calendar.css
+  
+You will need to put the path to lessc depending on where you downloaded it.
+
+To compile all the files:
+
+  $ for file in *.less */*.less; do echo === $file; /less_dir/bin/lessc $file $(echo $file |sed s/.less/.css/); done
+  
+PC users will need Cygwin or some UNIX toolkit.
+
+-------
+Alternately, you can install less version 1, but I'd rather not use it for checked in files
+since it breaks a part a lot of rules into multiple rules, causing spurious diffs.
+
+To install on a mac:
+  $ sudo gem install less
+  
+On Windows or Linux, make sure you have ruby and ruby-gems installed first.
+If you need help installing ruby please check out ruby-lang.org for more details.

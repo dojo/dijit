@@ -17,150 +17,142 @@
  * 4. actived widget inside toolbar (ie, mouse down on the widget inside)
  * 			.dijitToolbar .dijitButtonNodeActive  - mouse down on Button widget
  */
-
 .claro .dijitToolbar {
-	border-bottom: 1px solid #b5bcc7;
-	background-color: #efefef;
-	background-image: url("images/commonHighlight.png");
-	background-position:0px 0px;
-	background-repeat:repeat-x;
-	padding: 2px 0px 2px 4px;
-	zoom: 1;
+  border-bottom: 1px solid #b5bcc7;
+  background-color: #efefef;
+  background-image: url("images/commonHighlight.png");
+  background-position: 0px 0px;
+  background-repeat: repeat-x;
+  padding: 2px 0px 2px 4px;
+  zoom: 1;
 }
-
 .claro .dijitToolbar label {
-	padding: 0px 3px 0 6px;
+  padding: 0px 3px 0 6px;
 }
-
 /** override claro/form/Button.css **/
 .claro .dijitToolbar .dijitButtonNode {
-	border-width: 0px;	/* on hover/active, border-->1px, padding-->1px */
-	padding: 2px;
-	border-radius: 2px;	
-	-moz-border-radius: 2px;	
-	-webkit-border-radius: 2px;	
-	-moz-box-shadow: none;
-	-webkit-box-shadow: none;
-	-webkit-transition-property:background-color;
-	-webkit-transition-duration:.3s, .35s;
+  border-width: 0px;
+  /* on hover/active, border-->1px, padding-->1px */
 
-	background-image: url("images/commonHighlight.png");
-	background-position:0 -30px;
-	background-repeat:repeat-x;
-	background-color:rgba(171,214,255,0);
+  padding: 2px;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  -webkit-transition-property: background-color;
+  -webkit-transition-duration: .3s, .35s;
+  background-image: url("images/commonHighlight.png");
+  background-position: 0 -30px;
+  background-repeat: repeat-x;
+  background-color: rgba(171, 214, 255, 0);
 }
 .dj_ie .claro .dijitToolbar .dijitButtonNode {
-	background-color: transparent;   /* for IE, which doesn't understand rgba(...) */
+  background-color: transparent;
+  /* for IE, which doesn't understand rgba(...) */
+
 }
 .dj_ie6 .claro .dijitToolbar .dijitButtonNode {
-	background: none;	/* because background-color: transparent above doesn't work */
-}
+  background: none;
+  /* because background-color: transparent above doesn't work */
 
+}
 .claro .dijitToolbar .dijitComboButton .dijitStretch {
-	/* no rounded border on side adjacent to arrow */
-	-moz-border-radius: 2px 0px 0px 2px;
-	-webkit-border-top-left-radius: 2px;
-	-webkit-border-top-right-radius: 0px;
-	-webkit-border-bottom-right-radius: 0px;
-	-webkit-border-bottom-left-radius: 2px;
+  /* no rounded border on side adjacent to arrow */
+
+  -moz-border-radius: 2px 0px 0px 2px;
+  -webkit-border-top-left-radius: 2px;
+  -webkit-border-top-right-radius: 0px;
+  -webkit-border-bottom-right-radius: 0px;
+  -webkit-border-bottom-left-radius: 2px;
 }
 .claro .dijitToolbar .dijitComboButton .dijitArrowButton {
-	/* no rounded border on side adjacent to button */
-	-moz-border-radius: 0px 2px 2px 0px;
-	-webkit-border-top-left-radius: 0px;
-	-webkit-border-top-right-radius: 2px;
-	-webkit-border-bottom-right-radius: 2px;
-	-webkit-border-bottom-left-radius: 0px;
-}
+  /* no rounded border on side adjacent to button */
 
+  -moz-border-radius: 0px 2px 2px 0px;
+  -webkit-border-top-left-radius: 0px;
+  -webkit-border-top-right-radius: 2px;
+  -webkit-border-bottom-right-radius: 2px;
+  -webkit-border-bottom-left-radius: 0px;
+}
 .claro .dijitToolbar .dijitComboBox .dijitButtonNode {
-	padding: 0px;
+  padding: 0px;
 }
-
 /* hover status */
 .claro .dijitToolbar .dijitButtonHover .dijitButtonNode,
 .claro .dijitToolbar .dijitDropDownButtonHover .dijitButtonNode,
 .claro .dijitToolbar .dijitToggleButtonHover .dijitButtonNode,
 .claro .dijitToolbar .dijitComboButtonHover .dijitButtonNode {
-	background-position:0 0;
-	border-width:1px;
-	background-color: #abd6ff;
-	padding: 1px;
+  background-position: 0 0;
+  border-width: 1px;
+  background-color: #abd6ff;
+  padding: 1px;
 }
-.claro .dijitToolbar .dijitComboButtonHover .dijitButtonNode,
-.claro .dijitToolbar .dijitComboButtonHover .dijitDownArrowButton {
-	background-position:0 0;
-	background-color: #F4FFFF;
+.claro .dijitToolbar .dijitComboButtonHover .dijitButtonNode, .claro .dijitToolbar .dijitComboButtonHover .dijitDownArrowButton {
+  background-position: 0 0;
+  background-color: #f4ffff;
 }
-.claro .dijitToolbar .dijitComboButtonHover .dijitButtonNodeHover,
-.claro .dijitToolbar .dijitComboButtonHover .dijitDownArrowButtonHover {
-	background-color: #abd6ff;
+.claro .dijitToolbar .dijitComboButtonHover .dijitButtonNodeHover, .claro .dijitToolbar .dijitComboButtonHover .dijitDownArrowButtonHover {
+  background-color: #abd6ff;
 }
-
 /* active status */
-.claro .dijitToolbar .dijitButtonActive .dijitButtonNode,
-.claro .dijitToolbar .dijitDropDownButtonActive .dijitButtonNode,
-.claro .dijitToolbar .dijitToggleButtonActive .dijitButtonNode {
-	border-width: 1px;
-	background-color:#7dbefa;
-	background-position:0px -177px;
-	padding: 1px;
+.claro .dijitToolbar .dijitButtonActive .dijitButtonNode, .claro .dijitToolbar .dijitDropDownButtonActive .dijitButtonNode, .claro .dijitToolbar .dijitToggleButtonActive .dijitButtonNode {
+  border-width: 1px;
+  background-color: #7dbefa;
+  background-position: 0px -177px;
+  padding: 1px;
 }
 .claro .dijitToolbar .dijitComboButtonActive {
-	-webkit-transition-duration:.2s;
-	border-width: 1px;
-	padding: 0px;
+  -webkit-transition-duration: .2s;
+  border-width: 1px;
+  padding: 0px;
 }
-.claro .dijitToolbar .dijitComboButtonActive .dijitButtonNode,
-.claro .dijitToolbar .dijitComboButtonActive .dijitDownArrowButton {
-	background-color: #F4FFFF;
-	background-position:0px -177px;
-	padding: 2px;
+.claro .dijitToolbar .dijitComboButtonActive .dijitButtonNode, .claro .dijitToolbar .dijitComboButtonActive .dijitDownArrowButton {
+  background-color: #f4ffff;
+  background-position: 0px -177px;
+  padding: 2px;
 }
 .claro .dijitToolbar .dijitComboButtonActive .dijitButtonNodeActive {
-	background-color: #7dbefa;
+  background-color: #7dbefa;
 }
 .claro .dijitToolbar .dijitComboButtonActive .dijitDownArrowButtonActive {
-	background-color: #7dbefa;
+  background-color: #7dbefa;
 }
-
 /* Avoid double border between button and arrow */
-.claro .dijitToolbar .dijitComboButtonHover .dijitDownArrowButton,
-.claro .dijitToolbar .dijitComboButtonActive .dijitDownArrowButton {
-	border-left-width: 0px;
+.claro .dijitToolbar .dijitComboButtonHover .dijitDownArrowButton, .claro .dijitToolbar .dijitComboButtonActive .dijitDownArrowButton {
+  border-left-width: 0px;
 }
 .claro .dijitToolbar .dijitComboButtonHover .dijitDownArrowButton {
-	padding-left: 2px;		/* since there's no left border, don't reduce from 2px --> 1px */
-}
+  padding-left: 2px;
+  /* since there's no left border, don't reduce from 2px --> 1px */
 
+}
 /* toggle button checked status */
 .claro .dijitToolbar .dijitToggleButtonChecked .dijitButtonNode {
-	margin: 0;	/* remove margin and add a border */
-	border-width: 1px;
-	border-style: solid;
-	background-image: none;
-	border-color: #769dc0;
-	background-color:#fff;
-	padding: 1px;
-}
+  margin: 0;
+  /* remove margin and add a border */
 
+  border-width: 1px;
+  border-style: solid;
+  background-image: none;
+  border-color: #769dc0;
+  background-color: #ffffff;
+  padding: 1px;
+}
 .dj_ie6 .claro .dijitToolbar {
-	background-image: none;
+  background-image: none;
 }
-
 .claro .dijitToolbarSeparator {
-	/* separator icon in the editor sprite */
-	background: url('../../icons/images/editorIconsEnabled.png');
-}
+  /* separator icon in the editor sprite */
 
+  background: url('../../icons/images/editorIconsEnabled.png');
+}
 /* Toolbar inside of disabled Editor */
 .claro .dijitDisabled .dijitToolbar {
-	background:none;
-	background-color:#efefef;
-	border-bottom: 1px solid #d3d3d3;
+  background: none;
+  background-color: #efefef;
+  border-bottom: 1px solid #d3d3d3;
 }
-
 .claro .dijitToolbar .dijitComboBoxDisabled .dijitArrowButtonInner {
-	background-position:0 50%;
+  background-position: 0 50%;
 }
-

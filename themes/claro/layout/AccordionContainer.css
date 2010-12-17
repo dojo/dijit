@@ -27,90 +27,87 @@
  * 		.dijitAccordionInnerContainerHover, .dijitAccordionInnerContainerSelectedActive - for background-color, border
  * 		.dijitAccordionInnerContainerHover .dijitAccordionTitle - for text color
  */
-
 .claro .dijitAccordionContainer {
-	border:none;
+  border: none;
 }
 .claro .dijitAccordionInnerContainer {
-	background-color: #efefef;	/* gray, for closed pane */
-	border:solid 1px #b5bcc7;
-	margin-bottom:1px;
-	-webkit-transition-property:background-color,border;
- 	-webkit-transition-duration:.3s;
-	-webkit-transition-timing-function:linear;
+  background-color: #efefef;
+  /* gray, for closed pane */
+
+  border: solid 1px #b5bcc7;
+  margin-bottom: 1px;
+  -webkit-transition-property: background-color, border;
+  -webkit-transition-duration: .3s;
+  -webkit-transition-timing-function: linear;
 }
 .claro .dijitAccordionTitle {
-	background-color: transparent;	/* pick up color from dijitAccordionInnerContainer */
-	background-image: url("images/accordion.png");
-	background-position:0px 0px;
-	background-repeat:repeat-x;
-	padding: 5px 7px 2px 7px;
-	min-height:17px;
-	color:#4a4a4a;
+  background-color: transparent;
+  /* pick up color from dijitAccordionInnerContainer */
+
+  background-image: url("images/accordion.png");
+  background-position: 0px 0px;
+  background-repeat: repeat-x;
+  padding: 5px 7px 2px 7px;
+  min-height: 17px;
+  color: #4a4a4a;
 }
 .claro .dijitAccordionTitleHover {
-	color:#000;
+  color: #000000;
 }
 .dj_ie6 .claro .dijitAccordionTitle {
-	background-image: none;
+  background-image: none;
 }
 .claro .dijitAccordionContainer .dijitAccordionChildWrapper {
-	/* this extends the blue trim styling of the title bar to wrapping around the node.
+  /* this extends the blue trim styling of the title bar to wrapping around the node.
 	 * done by setting margin
 	 */
-	background-color:#fff;
-	border:1px solid #769dc0;
-	margin: 0px 2px 2px;
+
+  background-color: #ffffff;
+  border: 1px solid #769dc0;
+  margin: 0px 2px 2px;
 }
-	
 .claro .dijitAccordionContainer .dijitAccordionContainer-child {
-	/* this is affecting the child widget itself */
-	padding: 9px;
+  /* this is affecting the child widget itself */
+
+  padding: 9px;
 }
-
 /* Active state for closed pane */
-
 .claro .dijitAccordionInnerContainerActive {
-	border:1px solid #769dc0;
-	background-color:#7dbefa;
-	-webkit-transition-duration:.1s;
+  border: 1px solid #769dc0;
+  background-color: #7dbefa;
+  -webkit-transition-duration: .1s;
 }
 .claro .dijitAccordionInnerContainerActive .dijitAccordionTitle {
-	background-position:0px -136px;
-	color:#000;
+  background-position: 0px -136px;
+  color: #000000;
 }
-
-/* Open pane */
-
+/* Open (a.k.a. selected) pane */
 .claro .dijitAccordionInnerContainerSelected {
-	border-color:#769dc0;
-	background-color: #cfe5fa;
+  border-color: #769dc0;
+  background-color: #cfe5fa;
 }
 .claro .dijitAccordionInnerContainerSelected .dijitAccordionTitle {
-	color:#000;
-	background-position: 0 0;	/* avoid effect when clicking the title of the open pane */
-}
+  color: #000000;
+  background-position: 0 0;
+  /* avoid effect when clicking the title of the open pane */
 
+}
 /* Hovering open or closed pane */
-
 .claro .dijitAccordionInnerContainerHover dijitAccordionTitle {
-	/* both open and closed */
-	color:#000;
-}
+  /* both open and closed */
 
-.claro .dijitAccordionInnerContainerHover,
-.claro .dijitAccordionInnerContainerSelectedActive {
-	border:1px solid #769dc0;
-	background-color:#abd6ff;
-	-webkit-transition-duration:.2s;
-	
+  color: #000000;
 }
+.claro .dijitAccordionInnerContainerHover, .claro .dijitAccordionInnerContainerSelectedActive {
+  /* note: clicking the currently selected Accordion pane should have no effect, so treating same as hover. */
 
-.claro .dijitAccordionInnerContainerSelectedHover .dijitAccordionChildWrapper,
-.claro .dijitAccordionInnerContainerSelectedActive .dijitAccordionChildWrapper {
-	background-color:#ffffff;
-	border:1px solid #769dc0 !important;
-	-webkit-box-shadow:inset 0px 0px 3px rgba(0, 0, 0, .25);
-	-moz-box-shadow:inset 0px 0px 3px rgba(0, 0, 0, .25);
-	
+  border: 1px solid #769dc0;
+  background-color: #abd6ff;
+  -webkit-transition-duration: .2s;
+}
+.claro .dijitAccordionInnerContainerSelectedHover .dijitAccordionChildWrapper, .claro .dijitAccordionInnerContainerSelectedActive .dijitAccordionChildWrapper {
+  background-color: #ffffff;
+  border: 1px solid #769dc0 !important;
+  -webkit-box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.25);
 }

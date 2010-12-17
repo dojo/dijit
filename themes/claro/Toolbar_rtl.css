@@ -1,38 +1,36 @@
 /* Toolbar RTL */
-
 /* Repeated rules from Toolbar.css to override rule from Button_rtl.css, which is loaded after Toolbar.css */
 .claro .dijitToolbar .dijitComboButtonRtl .dijitButtonNode {
-	border-width: 0px;
-	padding: 2px;
+  border-width: 0px;
+  padding: 2px;
 }
-.claro .dijitToolbar .dijitComboButtonRtlHover .dijitButtonNode,
-.claro .dijitToolbar .dijitComboButtonRtlActive .dijitButtonNode {
-	border-width: 1px;
-	padding: 1px;
+.claro .dijitToolbar .dijitComboButtonRtlHover .dijitButtonNode, .claro .dijitToolbar .dijitComboButtonRtlActive .dijitButtonNode {
+  border-width: 1px;
+  padding: 1px;
 }
-
 .claro .dijitToolbar .dijitComboButtonRtl .dijitStretch {
-	/* no rounded border on side adjacent to arrow */
-	-moz-border-radius: 0px 2px 2px 0px;
-	-webkit-border-top-left-radius: 0px;
-    -webkit-border-top-right-radius: 2px;
-    -webkit-border-bottom-right-radius: 2px;
-    -webkit-border-bottom-left-radius: 0px;	
+  /* no rounded border on side adjacent to arrow */
+
+  -moz-border-radius: 0px 2px 2px 0px;
+  -webkit-border-top-left-radius: 0px;
+  -webkit-border-top-right-radius: 2px;
+  -webkit-border-bottom-right-radius: 2px;
+  -webkit-border-bottom-left-radius: 0px;
 }
 .claro .dijitToolbar .dijitComboButton .dijitArrowButton {
-	/* no rounded border on side adjacent to button */
-	-moz-border-radius:  2px 0px 0px  2px;
-	-webkit-border-top-left-radius:2px;
-    -webkit-border-top-right-radius:0px;
-    -webkit-border-bottom-right-radius:0px;
-    -webkit-border-bottom-left-radius:2px;
-}
+  /* no rounded border on side adjacent to button */
 
-.claro .dijitToolbar .dijitComboButtonRtlHover .dijitArrowButton,
-.claro .dijitToolbar .dijitComboButtonRtlActive .dijitArrowButton {
-	/* border between button and arrow */
-	border-left-width: 1px;
-	border-right-width: 0px;
-	padding-left: 1px;
-	padding-right: 2px;
+  -moz-border-radius: 2px 0px 0px  2px;
+  -webkit-border-top-left-radius: 2px;
+  -webkit-border-top-right-radius: 0px;
+  -webkit-border-bottom-right-radius: 0px;
+  -webkit-border-bottom-left-radius: 2px;
+}
+.claro .dijitToolbar .dijitComboButtonRtlHover .dijitArrowButton, .claro .dijitToolbar .dijitComboButtonRtlActive .dijitArrowButton {
+  /* border between button and arrow */
+
+  border-left-width: 1px;
+  border-right-width: 0px;
+  padding-left: 1px;
+  padding-right: 2px;
 }

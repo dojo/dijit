@@ -29,105 +29,81 @@ Splitters and gutters:
 .dijitSplitterHActive - for background-color of an active horizontal splitter
 .dijitSplitterVActive - for background-color of an active horizontal splitter
 */
-
 .claro .dijitBorderContainer {
-	/* matches the width of the splitters between panes */
-	padding: 5px;
-}
+  /* matches the width of the splitters between panes */
 
-.claro .dijitSplitContainer-child,
-.claro .dijitBorderContainer-child {
-	/* By default put borders on all children of BorderContainer,
+  padding: 5px;
+}
+.claro .dijitSplitContainer-child, .claro .dijitBorderContainer-child {
+  /* By default put borders on all children of BorderContainer,
 	 *  to give illusion of borders on the splitters themselves.
 	 */
-	border: 1px #b5bcc7 solid;
-}
 
+  border: 1px #b5bcc7 solid;
+}
 .claro .dijitBorderContainer-dijitTabContainerTop,
 .claro .dijitBorderContainer-dijitTabContainerBottom,
 .claro .dijitBorderContainer-dijitTabContainerLeft,
 .claro .dijitBorderContainer-dijitTabContainerRight,
 .claro .dijitBorderContainer-dijitAccordionContainer {
-	/* except that TabContainer defines borders on it's sub-nodes (tablist and dijitTabPaneWrapper),
+  /* except that TabContainer defines borders on it's sub-nodes (tablist and dijitTabPaneWrapper),
 	 * so override rule setting border on domNode
 	 */
-	 border: none;
 
+  border: none;
 }
 .claro .dijitBorderContainer-dijitBorderContainer {
-	/* make nested BorderContainers look like a single big widget with lots of splitters */
-	border: 0px;
-	padding: 0px;
-}
+  /* make nested BorderContainers look like a single big widget with lots of splitters */
 
+  border: 0px;
+  padding: 0px;
+}
 /* Splitters and gutters */
-
-.claro .dijitSplitterH,
-.claro .dijitGutterH {
-	background:none;
-	border:0;
-	height:5px;
+.claro .dijitSplitterH, .claro .dijitGutterH {
+  background: none;
+  border: 0;
+  height: 5px;
 }
-
 .claro .dijitSplitterH .dijitSplitterThumb {
-	background:#b5bcc7 none;
-	height:1px;
-	top:2px;
-	width:19px;
+  background: #b5bcc7 none;
+  height: 1px;
+  top: 2px;
+  width: 19px;
 }
-
-.claro .dijitSplitterV,
-.claro .dijitGutterV {
-	background:none;
-	border:0;
-	width:5px;
-	margin: 0;
+.claro .dijitSplitterV, .claro .dijitGutterV {
+  background: none;
+  border: 0;
+  width: 5px;
+  margin: 0;
 }
-
 .claro .dijitSplitterV .dijitSplitterThumb {
-	background:#b5bcc7 none;
-	height:19px;
-	left:2px;
-	width:1px;
-	margin: 0;
+  background: #b5bcc7 none;
+  height: 19px;
+  left: 2px;
+  width: 1px;
+  margin: 0;
 }
-
 /* hovered splitter */
 .claro .dijitSplitterHHover {
-	font-size: 1px;
-	background: url("images/splitterHorizontalHover.png") no-repeat center top;
+  font-size: 1px;
+  background: url("images/splitterHorizontalHover.png") no-repeat center top;
 }
-
-
 .claro .dijitSplitterHHover .dijitSplitterThumb {
-	background:#769dc0 none;
+  background: #769dc0 none;
 }
-
 .claro .dijitSplitterVHover {
-	font-size: 1px;
-	background: url("images/splitterVerticalHover.png") no-repeat center left;
+  font-size: 1px;
+  background: url("images/splitterVerticalHover.png") no-repeat center left;
 }
-
 .claro .dijitSplitterVHover .dijitSplitterThumb {
-	background:#769dc0 none;
+  background: #769dc0 none;
 }
-
-.dj_ie6 .dijitSplitterHHover,
-.dj_ie6 .claro .dijitSplitterVHover {
-	background-color:#cfe5fa;
-	background-image:none;
+.dj_ie6 .dijitSplitterHHover, .dj_ie6 .claro .dijitSplitterVHover {
+  background-color: #cfe5fa;
+  background-image: none;
 }
-
 /* active splitter */
-.claro .dijitSplitterHActive {
-	font-size: 1px;
-	background-color:#abd6ff;
-	border-top:blue;
-
-}
-
-.claro .dijitSplitterVActive {
-	font-size: 1px;
-	background-color:#abd6ff;
-
+.claro .dijitSplitterHActive, .claro .dijitSplitterVActive {
+  font-size: 1px;
+  background-color: #abd6ff;
 }
