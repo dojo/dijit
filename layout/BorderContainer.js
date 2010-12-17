@@ -335,27 +335,6 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		}
 	},
 
-	_computeMaxSize: function(){
-		// summary:
-		//		Compute the maximum size that my corresponding pane can be set to
-
-		var dim = this.horizontal ? 'h' : 'w',
-			thickness = this.container._splitterThickness[this.region];
-			
-		// Get DOMNode of opposite pane, if an opposite pane exists.
-		// Ex: if I am the _Splitter for the left pane, then get the right pane.
-		var flip = {left:'right', right:'left', top:'bottom', bottom:'top', leading:'trailing', trailing:'leading'},
-			oppNode = this.container["_" + flip[this.region]];
-		
-		// I can expand up to the edge of the opposite pane, or if there's no opposite pane, then to
-		// edge of BorderContainer
-		var available = dojo.contentBox(this.container.domNode)[dim] -
-				(oppNode ? dojo._getMarginSize(oppNode)[dim] : 0) -
-				20 - thickness * 2;
-
-		return Math.min(this.child.maxSize, available);
-	},
-
 	_startDrag: function(e){
 		if(!this.cover){
 			this.cover = dojo.doc.createElement('div');
@@ -379,14 +358,15 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 
 		//Performance: load data info local vars for onmousevent function closure
 		var factor = this._factor,
-			max = this._computeMaxSize(),
-			min = this.child.minSize || 20,
 			isHorizontal = this.horizontal,
 			axis = isHorizontal ? "pageY" : "pageX",
 			pageStart = e[axis],
 			splitterStyle = this.domNode.style,
 			dim = isHorizontal ? 'h' : 'w',
 			childStart = dojo.marginBox(this.child.domNode)[dim],
+			maxIncrease = Math.min(this.child.maxSize, dojo.marginBox(this.container._center)[dim]),	// can expand until center is crushed to 0
+			max = childStart + maxIncrease,
+			min = this.child.minSize || 20,
 			region = this.region,
 			splitterStart = parseInt(this.domNode.style[region == "top" || region == "bottom" ? "top" : "left"], 10),
 			resize = this._resize,
@@ -403,6 +383,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 				if(resize || forceResize){
 					layoutFunc(region, boundChildSize);
 				}
+				// TODO: setting style directly (usually) sets content box size, need to set margin box size
 				splitterStyle[region] = factor * delta + splitterStart + (boundChildSize - childSize) + "px";
 			}),
 			dojo.connect(de, "ondragstart", dojo.stopEvent),
