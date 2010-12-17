@@ -184,7 +184,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 		//		private
 
 		var selection, range, newrange, doc=this.editor.document,br,rs,txt;
-		if(e.shiftKey){		// shift+enter always generates <br>
+		if(e.shiftKey){		// shift+enter always generates <br>			
 			var parent = dojo.withGlobal(this.editor.window, "getParentElement", dijit._editor.selection);
 			var header = dijit.range.getAncestor(parent,this.blockNodes);
 			if(header){
@@ -222,6 +222,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 							var startNode = doc.createTextNode(txt.substring(0, range.startOffset));
 							var endNode = doc.createTextNode(txt.substring(range.startOffset));
 							var brNode = doc.createElement("br");
+							
 							if(endNode.nodeValue == "" && dojo.isWebKit){
 								endNode = doc.createTextNode('\xA0')
 							}
@@ -249,6 +250,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 							range = selection.getRangeAt(0);
 						}
 						rs = range.startContainer;
+						var startNode, endNode, brNode;	
 						if(rs && rs.nodeType == 3){
 							// Text node, we have to split it.
 							dojo.withGlobal(this.editor.window, dojo.hitch(this, function(){
@@ -263,13 +265,15 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 								}
 								txt = rs.nodeValue;
 				
-								var startNode = doc.createTextNode(txt.substring(0, offset));
-								var endNode = doc.createTextNode(txt.substring(offset));
-								var brNode = doc.createElement("br");
+								startNode = doc.createTextNode(txt.substring(0, offset));
+								endNode = doc.createTextNode(txt.substring(offset));
+								brNode = doc.createElement("br");
+								
 								if(!endNode.length){
 									endNode = doc.createTextNode('\xA0');
 									endEmpty = true;
 								}
+								
 								if(startNode.length){
 									dojo.place(startNode, rs, "after");
 								}else{
@@ -290,7 +294,18 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 								}
 							}));
 						}else{
-							dijit._editor.RichText.prototype.execCommand.call(this.editor, 'inserthtml', '<br>');
+							dojo.withGlobal(this.editor.window, dojo.hitch(this, function(){
+								var brNode = doc.createElement("br");
+								rs.appendChild(brNode);
+								var endNode = doc.createTextNode('\xA0');
+								rs.appendChild(endNode);
+								newrange = dijit.range.create(dojo.global);
+								newrange.setStart(endNode,0);
+								newrange.setEnd(endNode, endNode.length);
+								selection.removeAllRanges();
+								selection.addRange(newrange);
+								dijit._editor.selection.collapse(true);
+							}));
 						}
 					}
 				}else{

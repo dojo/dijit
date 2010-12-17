@@ -496,7 +496,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		// The contents inside of <body>.  The real contents are set later via a call to setValue().
 		var html = "";
 		var setBodyId = true;
-		if(dojo.isIE || (!this.height && !dojo.isMoz)){
+		if(dojo.isIE || dojo.isWebKit || (!this.height && !dojo.isMoz)){
 			// In auto-expand mode, need a wrapper div for AlwaysShowToolbar plugin to correctly
 			// expand/contract the editor as the content changes.
 			html = "<div id='dijitEditorBody'></div>";
@@ -588,7 +588,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			// But in fixed height mode we want both x/y scrollers.  Also, if it's using wrapping div and in auto-expand
 			// (Mainly IE) we need to kill the y scroller on body and html.
 			(!setBodyId && !this.height ? "\tbody,html {overflow-y: hidden;}\n" : ""),
-			"\t#dijitEditorBody{overflow-x: auto; overflow-y:" + (this.height ? "auto;" : "hidden;") + "}\n",
+			"\t#dijitEditorBody{overflow-x: auto; overflow-y:" + (this.height ? "auto;" : "hidden;") + " outline: 0px;}\n",
 			"\tli > ul:-moz-first-node, li > ol:-moz-first-node{ padding-top: 1.2em; }\n",
 			"\tli{ min-height:1.2em; }\n",
 			"</style>\n",
@@ -728,7 +728,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			this.window.__registeredWindow = true;
 			this._iframeRegHandle = dijit.registerIframe(this.iframe);
 		}
-		if(!dojo.isIE && (this.height || dojo.isMoz)){
+		if(!dojo.isIE && !dojo.isWebKit && (this.height || dojo.isMoz)){
 			this.editNode=this.document.body;
 		}else{
 			// there's a wrapper div around the content, see _getIframeDocTxt().
@@ -766,15 +766,23 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 				delete this._cursorToStart;
 			}); 
 		}
-
+		
 		if(dojo.isWebKit){
 			//WebKit sometimes doesn't fire right on selections, so the toolbar
 			//doesn't update right.  Therefore, help it out a bit with an additional
 			//listener.  A mouse up will typically indicate a display change, so fire this
 			//and get the toolbar to adapt.  Reference: #9532
 			this._webkitListener = this.connect(this.document, "onmouseup", "onDisplayChanged");
+			this.connect(this.document, "onmousedown", function(e){
+				var t = e.target;
+				if(t && (t === this.document.body || t === this.document)){
+					// Since WebKit uses the inner DIV, we need to check and set position.
+					// See: #12024 as to why the change was made.
+					setTimeout(dojo.hitch(this, "placeCursorAtEnd"), 0);
+				}
+			});
 		}
-
+		
 		if(dojo.isIE){
 			// Try to make sure 'hidden' elements aren't visible in edit mode (like browsers other than IE
 			// do).  See #9103

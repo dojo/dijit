@@ -133,14 +133,9 @@
 								var value = br.get('value');
 								value = value.replace(/ /g, "");
 								
-								if(dojo.isWebKit){
-									//Skip test
-									console.log("SKIPPING TEST: The test is skipped because the browser is webkit. See ticket #12024.");
-								}else{
-									doh.is('testingCopyAndPastetestingCopyAndPastetestingCopyAndPaste<br/>',
-											value,
-											"get('value')");
-								}
+								doh.is('testingCopyAndPastetestingCopyAndPastetestingCopyAndPaste<br/>',
+										value,
+										"get('value')");
 							}), 1000);
 							return d;
 						}
@@ -175,14 +170,9 @@
 								// paragraphs.
 								var value = br.get('value');
 								value = value.replace(/ /g, "");
-								if(dojo.isWebKit){
-									//Skip test
-									console.log("SKIPPING TEST: The test is skipped because the browser is webkit. See ticket #12024.");
-								}else{
-									doh.is('testingCopyAndPastetestingCopyAndPastetestingCopyAndP<br/>aste',
-											value,
-											"get('value')");
-								}
+								doh.is('testingCopyAndPastetestingCopyAndPastetestingCopyAndP<br/>aste',
+										value,
+										"get('value')");
 							}), 1000);
 							return d;
 						}
@@ -288,14 +278,9 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								var value = editor.get('value');
 								value = value.replace(/ /g, "");
-								if(dojo.isWebKit){
-									//Skip test
-									console.log("SKIPPING TEST: The test is skipped because the browser is webkit. See ticket #12024.");
-								}else{
-									doh.is('<div>testingCopyAndPastetestingCopyAndPastetestingCopyAndPaste</div><div></div>',
-											value,
-											"get('value')");
-								}
+								doh.is('<div>testingCopyAndPastetestingCopyAndPastetestingCopyAndPaste</div><div></div>',
+										value,
+										"get('value')");
 							}), 1000);
 							return d;
 						}
@@ -330,14 +315,9 @@
 								// get('value') should call the post-filter which recombines the separate <p> nodes into bigger
 								// paragraphs.
 								var value = editor.get('value');
-								if(dojo.isWebKit){
-									//Skip test
-									console.log("SKIPPING TEST: The test is skipped because the browser is webkit. See ticket #12024.");
-								}else{
-									doh.is('<div>testingCopyAndPastetestingCopyAndPastetestingCopyAndP</div><div>aste</div>',
-											value,
-											"get('value')");
-								}
+								doh.is('<div>testingCopyAndPastetestingCopyAndPastetestingCopyAndP</div><div>aste</div>',
+									value,
+									"get('value')");
 							}), 1000);
 							return d;
 						}
@@ -403,14 +383,9 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								var value = editor.get('value');
 								value = value.replace(/ /g, "");
-								if(dojo.isWebKit){
-									//Skip test
-									console.log("SKIPPING TEST: The test is skipped because the browser is webkit. See ticket #12024.");
-								}else{
-									doh.is('<p>testingCopyAndPastetestingCopyAndPastetestingCopyAndPaste</p><p></p>',
-											value,
-											"get('value')");
-								}
+								doh.is('<p>testingCopyAndPastetestingCopyAndPastetestingCopyAndPaste</p><p></p>',
+									value,
+									"get('value')");
 							}), 1000);
 							return d;
 						}
@@ -445,14 +420,9 @@
 								// get('value') should call the post-filter which recombines the separate <p> nodes into bigger
 								// paragraphs.
 								var value = editor.get('value');
-								if(dojo.isWebKit){
-									//Skip test
-									console.log("SKIPPING TEST: The test is skipped because the browser is webkit. See ticket #12024.");
-								}else{
-									doh.is('<p>testingCopyAndPastetestingCopyAndPastetestingCopyAndP</p><p>aste</p>',
-											value,
-											"get('value')");
-								}
+								doh.is('<p>testingCopyAndPastetestingCopyAndPastetestingCopyAndP</p><p>aste</p>',
+										value,
+										"get('value')");
 							}), 1000);
 							return d;
 						}
