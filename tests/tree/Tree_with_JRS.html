@@ -32,75 +32,82 @@
 		dojo.require("dijit.tree.dndSource");
 
 		dojo.addOnLoad(function(){
+			var handler, myTree;
 			doh.register("Tree tests",
 				[
-					function create(){
-						var d = new doh.Deferred();
-			 			myStore = new dojox.data.JsonRestStore({target:"./", labelAttribute:"name"});
-
-			 			doh.t(myStore, "store created");
-
-						myModel = new dijit.tree.ForestStoreModel({
-							store: myStore,
-							deferItemLoadingUntilExpand: true,
-							query: "treeTestRoot",
-							childrenAttrs: ["children"]
-						});
-						doh.t(myModel, "model created");
-
-						myTree = new dijit.Tree({
-							id: "myTree",
-							model: myModel,
-							"label": "Example",
-							persist: false,		// persist==true is too hard to test
-							dndController: "dijit.tree.dndSource" 
-						});
-						doh.t(myTree, "tree created");
-
-						dojo.byId("container").appendChild(myTree.domNode);
-						myTree.startup();
-
-						setTimeout(d.getTestCallback(function(){
-							// Give the tree time to load, and the do checks that it
-							// loaded correctly
-							doh.t(myTree.rootNode, "root node exists");
-							doh.t(myTree.rootNode.isExpanded, "root node is expanded");
-
-							var children = myTree.rootNode.getChildren();
-							doh.is(5, children.length, "six children");
-							doh.is("node1", children[0].label, "first child");
-							doh.f(children[0].isExpanded, "first child not expanded");
-						}), 500);
-						return d;
-					},
-
 					{
-						runTest: function openANode(){
-							var d = new doh.Deferred();
-							
-							var first = myTree.rootNode.getChildren()[0];
-							
+						timeout: 3000,
+						name: "create",
+						runTest: function(){
+							var
+								d = new doh.Deferred(),
+			 					myStore = new dojox.data.JsonRestStore({target:"./", labelAttribute:"name"}),
+								myModel = new dijit.tree.ForestStoreModel({
+									store: myStore,
+									deferItemLoadingUntilExpand: true,
+									query: "treeTestRoot",
+									childrenAttrs: ["children"]
+								});
+							myTree = new dijit.Tree({
+								id: "myTree",
+								model: myModel,
+								"label": "Example",
+								persist: false,		// persist==true is too hard to test
+								dndController: "dijit.tree.dndSource" 
+							});
+							doh.t(myTree, "tree created");
+
+							dojo.byId("container").appendChild(myTree.domNode);
+							handler = myTree.connect(myTree, "onOpen",
+								d.getTestCallback(function(){
+									// Give the tree time to load, and the do checks that it
+									// loaded correctly
+									doh.t(myTree.rootNode, "root node exists");
+									doh.t(myTree.rootNode.isExpanded, "root node is expanded");
+
+									var children = myTree.rootNode.getChildren();
+									doh.is(5, children.length, "six children");
+									doh.is("node1", children[0].label, "first child");
+									doh.f(children[0].isExpanded, "first child not expanded");
+								})
+							);
+							myTree.startup();
+							return d;
+						},
+						tearDown: function(){
+							myTree.disconnect(handler);
+						}
+					},
+					{
+						timeout: 2000,
+						name: "open a node",
+						runTest: function(){
+							var
+								d = new doh.Deferred(),
+								first = myTree.rootNode.getChildren()[0],
+								runNext = function(){
+									var firstFirst = first.getChildren()[0];
+									runNext = d.getTestCallback(function(){
+										var children = firstFirst.getChildren();
+										doh.is(2, children.length, "two children");
+										doh.is("node1.1.1", children[0].label, "first child");
+									});
+									myTree._onExpandoClick({
+										node: firstFirst
+									});
+								};
+							handler = myTree.connect(myTree, "onOpen",
+								function(){ runNext(); });
+
 							myTree._onExpandoClick({
 								node: first
 							});
-							setTimeout(function(){
-								var firstFirst = first.getChildren()[0];
-								myTree._onExpandoClick({
-									node: firstFirst
-								});
-								
-								setTimeout(d.getTestCallback(function(){
-									// Give the tree time to load the children, and the do checks that it
-									// loaded correctly
-									
-									var children = firstFirst.getChildren();
-									doh.is(2, children.length, "two children");
-									doh.is("node1.1.1", children[0].label, "first child");
-								}), 500);
-							}, 500);
+
 							return d;
 						},
-						timeout: 2000
+						tearDown: function(){
+							myTree.disconnect(handler);
+						}
 					}
 				]
 			);
