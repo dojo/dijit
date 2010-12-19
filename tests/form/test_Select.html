@@ -23,9 +23,9 @@
 
 		<script type="text/javascript" src="../helpers.js"></script>
 
-	    <script type="text/javascript">
+		<script type="text/javascript">
 			dojo.require("doh.runner");
-	        dojo.require("dojo.parser");
+			dojo.require("dojo.parser");
 			dojo.require("dijit.form.Select");
 			dojo.require("dijit.form.Button");
 			dojo.require("dijit.form.Form");
@@ -106,7 +106,7 @@
 							timeout: 5000,
 							runTest: function(t){
 								var d = new doh.Deferred();
-								t.is("VA", dojo.toJson(form.get("value")).s1, "initial value");
+								t.is("VA", form.get("value").s1, "initial value");
 								s1.set("value", "WA"); // set s1 to a valid value
 								t.is("WA", s1.value);
 
