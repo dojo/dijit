@@ -1,4 +1,4 @@
-<table cellspacing="0" cellpadding="0" class="dijitCalendarContainer" role="grid" dojoAttachEvent="onkeypress: _onKeyPress">
+<table cellspacing="0" cellpadding="0" class="dijitCalendarContainer" role="grid" dojoAttachEvent="onkeypress: _onKeyPress" aria-labelledby="${id}_year">
 	<thead>
 		<tr class="dijitReset dijitCalendarMonthContainer" valign="top">
 			<th class='dijitReset dijitCalendarArrow' dojoAttachPoint="decrementMonth">
@@ -29,7 +29,7 @@
 			<td class='dijitReset' valign="top" colspan="7">
 				<h3 class="dijitCalendarYearLabel">
 					<span dojoAttachPoint="previousYearLabelNode" class="dijitInline dijitCalendarPreviousYear"></span>
-					<span dojoAttachPoint="currentYearLabelNode" class="dijitInline dijitCalendarSelectedYear"></span>
+					<span dojoAttachPoint="currentYearLabelNode" class="dijitInline dijitCalendarSelectedYear" id="${id}_year"></span>
 					<span dojoAttachPoint="nextYearLabelNode" class="dijitInline dijitCalendarNextYear"></span>
 				</h3>
 			</td>
