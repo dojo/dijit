@@ -9,27 +9,5 @@ dijit["dijit-all"] = {
 };
 =====*/
 
-
-
-
-// Editor
-
-
-
-// Form widgets
-
-// Button widgets
-
-// TextBox widgets
-
-// Select widgets
-
-// Slider widgets
-
-// Textarea widgets
-
-// Layout widgets
-
-
 return dijit;
 });
