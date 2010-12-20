@@ -16,12 +16,12 @@
 
 /* The highlight is shown in the ComboBox menu.  TODO: move to form/Common.less */
 .claro .dijitComboBoxHighlightMatch {
-	background-color: @matchedTextBackgroundColor;
+	background-color: @select-matchedtext-background-color;
 }
 
 .claro .dijitFocusedLabel {
 	/* for checkboxes or radio buttons, hatch border around the corresponding label, to indicate focus */
-	outline: 1px dotted @focusOutlineColor;
+	outline: 1px dotted @focus-outline-color;
 }
 
 .claro .dijitContentPaneLoading {
@@ -39,15 +39,15 @@
 /* Drag and Drop */
 .claro .dojoDndItemBefore,
 .claro .dojoDndItemAfter{
-	border-top: 1px solid @dndDropSeparatorColor;
+	border-top: 1px solid @dnd-dropseparator-color;
 }
 .claro .dojoDndItemOver {
 	cursor:pointer;
 	}
 .claro table.dojoDndAvatar {
-	border: 1px solid @borderColor;
+	border: 1px solid @border-color;
 	border-collapse: collapse;
-	background-color: @dndAvatarBackgroundColor;
+	background-color: @dnd-avatar-background-color;
 	-webkit-box-shadow:0px 1px 3px rgba(0, 0, 0, .25);
 }
 .claro .dojoDndAvatarHeader td	{ 
@@ -63,18 +63,18 @@
 	padding: 5px;
 }
 .claro.dojoDndMove .dojoDndAvatarHeader	{
-	background-color: @dndAvatarHeaderBackgroundColor; 
+	background-color: @dnd-avatar-header-background-color; 
 	background-position:2px -103px;
 }
 .claro.dojoDndCopy .dojoDndAvatarHeader	{
-	background-color: @dndAvatarHeaderBackgroundColor; 
+	background-color: @dnd-avatar-header-background-color; 
 	background-position:2px -68px;
 }
 .claro.dojoDndMove .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{
-	background-color: @dndAvatarCanDropHeaderBackgroundColor; 
+	background-color: @dnd-avatar-candrop-header-background-color; 
 	background-position:2px -33px;
 }
 .claro.dojoDndCopy .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{
-	background-color: @dndAvatarCanDropHeaderBackgroundColor;
+	background-color: @dnd-avatar-candrop-header-background-color;
 	background-position:2px 2px;
 }

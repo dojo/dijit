@@ -21,10 +21,10 @@
 @import "variables";
 
 .claro .dijitTitlePaneTitle {
-	background-color: @unselectedBackgroundColor;	// TODO: Mailed Jason, shouldn't this toggle to @selectedBackgroundColor when pane opened?
+	background-color: @unselected-background-color;	// TODO: Mailed Jason, shouldn't this toggle to @selected-background-color when pane opened?
 	background-image: url("images/titlebar.png");
 	background-repeat:repeat-x;
-	border:1px solid @borderColor;
+	border:1px solid @border-color;
 	padding: 0px 7px 3px 7px;
 	min-height:17px;
 }
@@ -32,12 +32,12 @@
 	background-image: none;
 }
 .claro .dijitTitlePaneTitleHover {
-	background-color: @hoveredBackgroundColor;
-	border-color: @hoveredBorderColor;
+	background-color: @hovered-background-color;
+	border-color: @hovered-border-color;
 }
 .claro .dijitTitlePaneTitleActive {
-	background-color: @pressedBackgroundColor;
-	border-color: @pressedBorderColor;
+	background-color: @pressed-background-color;
+	border-color: @pressed-border-color;
 	background-position:0px -136px;
 }
 .claro .dijitTitlePaneTitleFocus {
@@ -57,11 +57,11 @@
 	background-position: -14px 0px;
 }
 .claro .dijitTitlePaneFocused .dijitTitlePaneTextNode {
-	color:@textColor;	/* TODO: do we need this?   we usually don't change text color on focus */
+	color:@text-color;	/* TODO: do we need this?   we usually don't change text color on focus */
 }
 .claro .dijitTitlePaneContentOuter {
-	background: @paneBackgroundColor;
-	border:1px solid @borderColor;
+	background: @pane-background-color;
+	border:1px solid @border-color;
 	border-top:none;
 }
 .claro .dijitTitlePaneContentInner {

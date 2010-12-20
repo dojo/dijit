@@ -21,13 +21,13 @@
 	padding:3px 3px 1px 10px;
 }
 .claro .dijitEditorIFrame {
-	background-color: @textboxBackgroundColor;
+	background-color: @textbox-background-color;
 }
 .claro .dijitEditor {
-	border: 1px solid @borderColor;
+	border: 1px solid @border-color;
 }
 .claro .dijitEditor .dijitEditorIFrameContainer{
-	background-color: @textboxBackgroundColor;
+	background-color: @textbox-background-color;
 	background-image: url('form/images/textBox_back.png');
 	background-repeat:repeat-x;
 }
@@ -36,24 +36,24 @@
 }
 .claro .dijitEditorHover .dijitEditorIFrameContainer,
 .claro .dijitEditorHover .dijitEditorIFrameContainer .dijitEditorIFrame{
-	background-color: @textboxHoveredBackgroundColor;
+	background-color: @textbox-hovered-background-color;
 }
 .claro .dijitEditorFocused .dijitEditorIFrameContainer,
 .claro .dijitEditorFocused .dijitEditorIFrameContainer .dijitEditorIFrame{
 	/* TODO: contradicts rule above, which background-color do you want? */
-	background-color: @textboxFocusedBackgroundColor;
+	background-color: @textbox-focused-background-color;
 }
 
 
 /* Disabled */
 .claro .dijitEditorDisabled {
-	border: 1px solid @disabledBorderColor;
-	color: @disabledTextColor;
+	border: 1px solid @disabled-border-color;
+	color: @disabled-text-color;
 }
 
 .claro .dijitDisabled .dijitEditorIFrame,
 .claro .dijitDisabled .dijitEditorIFrameContainer,
 .claro .dijitDisabled .dijitEditorIFrameContainer .dijitEditorIFrame {
-	background-color: @textboxDisabledBackgroundColor;
+	background-color: @textbox-disabled-background-color;
 	background-image: none;
 }

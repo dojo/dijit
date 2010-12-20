@@ -25,8 +25,8 @@
 
 .claro  .dijitColorPalette {
 	outline: 1px solid #769dc0; 	// TODO: Mailed Jason.  It's strange to have an outline rather than border, is this intentional?
-	border: 1px solid @borderColor;
-	background:@colorPaletteBackgroundColor;
+	border: 1px solid @border-color;
+	background:@colorpalette-background-color;
 
 	-moz-border-radius: 0px;
 }
@@ -35,12 +35,12 @@
 	/* transparent (but clickable) <img> node inside of each <td>, overlaying the color swatch.
 	 * displays border around a color swatch
 	 * overrides border color in dijit.css */
-	border: 1px solid @minorBorderColor;
+	border: 1px solid @minor-border-color;
 }
 .claro .dijitColorPalette .dijitPaletteCellHover .dijitPaletteImg {
-	border: 1px solid @swatchHoveredBorderColor;
+	border: 1px solid @swatch-hovered-border-color;
 }
 .claro .dijitColorPalette .dijitPaletteCellActive .dijitPaletteImg,
 .claro .dijitColorPalette .dijitPaletteCellSelected .dijitPaletteImg {
-	border: 2px solid @swatchSelectedBorderColor;
+	border: 2px solid @swatch-selected-border-color;
 }

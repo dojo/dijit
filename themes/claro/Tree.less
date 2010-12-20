@@ -50,27 +50,27 @@
 
 .claro .dijitTreeRowSelected {
 	background-repeat:repeat-x;
-	background-color:@selectedBackgroundColor;
+	background-color:@selected-background-color;
 	padding: 3px 0px 1px;
 	margin: 0px;
-	border:solid 1px #cfe5fa;	// TODO.  Sent Jason mail asking if this can be marked @selectedBorderColor.
-	color:@selectedTextColor;
+	border:solid 1px #cfe5fa;	// TODO.  Sent Jason mail asking if this can be marked @selected-border-color.
+	color:@selected-text-color;
 }
 .claro .dijitTreeRowHover {
-	background-color:@hoveredBackgroundColor;
+	background-color:@hovered-background-color;
 	padding: 3px 0px 1px;
 	margin: 0px;
-	border:solid 1px @hoveredBorderColor;
-	color:@hoveredTextColor;
+	border:solid 1px @hovered-border-color;
+	color:@hovered-text-color;
 	-webkit-transition-duration:.25s ; 
 }
 .claro .dijitTreeRowActive {
-	background-color:@pressedBackgroundColor;
+	background-color:@pressed-background-color;
 	background-position:0px -177px;
 	padding: 3px 0px 1px;
 	margin-left: 0px;
-	border:solid 1px @pressedBorderColor;
-	color:@selectedTextColor;
+	border:solid 1px @pressed-border-color;
+	color:@selected-text-color;
 }
 .dj_ie6 .claro .dijitTreeRowActive {
 	background-image: none;
@@ -118,8 +118,8 @@
 	border-top: none;
 }
 .claro .dijitTreeNode .dojoDndItemBefore .dijitTreeContent {
-	border-top: 2px solid @dndDropSeparatorColor;		// TODO: normal separator is just 1px, why is this 2px?
+	border-top: 2px solid @dnd-dropseparator-color;		// TODO: normal separator is just 1px, why is this 2px?
 }
 .claro .dijitTreeNode .dojoDndItemAfter .dijitTreeContent {
-	border-bottom: 2px solid @dndDropSeparatorColor;	// TODO: normal separator is just 1px, why is this 2px?
+	border-bottom: 2px solid @dnd-dropseparator-color;	// TODO: normal separator is just 1px, why is this 2px?
 }

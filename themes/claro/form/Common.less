@@ -7,10 +7,10 @@
 /* 'dijitTextBox' refers to 'dijit(TextBox|DateTextBox|CurrencyTextBox|...)' */
 
 .claro .dijitTextBoxError .dijitValidationContainer {
-	background-color: @validationIconBackgroundColor;
+	background-color: @erroricon-background-color;
 	background-image: url('images/error.png');
 	background-position: top center;
-	border: solid @validationIconBackgroundColor 0px;
+	border: solid @erroricon-background-color 0px;
 	border-left-width: 1px;
 	width: 9px;
 }
@@ -31,22 +31,22 @@
 .claro .dijitTextBox,
 .claro .dijitTextBox .dijitButtonNode {
 	/* color for (outer) border on *TextBox widgets, and border between input and buttons on ComboBox and Spinner */
-	border-color: @borderColor;
+	border-color: @border-color;
 	-webkit-transition-property:background-color, border;
  	-webkit-transition-duration:.35s;
 }
 .claro .dijitTextBox {
-	background-color: @textboxBackgroundColor;
+	background-color: @textbox-background-color;
 }
 
 /* hover */
 .claro .dijitTextBoxHover,
 .claro .dijitTextBoxHover .dijitButtonNode {
-	border-color: @hoveredBorderColor;
+	border-color: @hovered-border-color;
  	-webkit-transition-duration:.25s;
 }
 .claro .dijitTextBoxHover {
-	background-color: @textboxHoveredBackgroundColor;
+	background-color: @textbox-hovered-background-color;
 	background-image: url('images/textBox_back.png');
 	background-repeat: repeat-x;
 }
@@ -54,43 +54,43 @@
 /* error state */
 .claro .dijitTextBoxError,
 .claro .dijitTextBoxError .dijitButtonNode {
-	border-color: @errorBorderColor;
+	border-color: @error-border-color;
 }
 .claro .dijitTextBoxError,
 .claro .dijitTextBoxError .dijitInputContainer {
-	background-color: @textboxErrorBackgroundColor;
+	background-color: @textbox-error-background-color;
 }
 
 /* focused state */
 .claro .dijitTextBoxFocused,
 .claro .dijitTextBoxFocused .dijitButtonNode {
-	border-color:@focusedBorderColor;
+	border-color:@focused-border-color;
  	-webkit-transition-duration:.1s;
 }
 .claro .dijitTextBoxFocused {
-	background-color: @textboxFocusedBackgroundColor;
+	background-color: @textbox-focused-background-color;
 	background-image: url('images/textBox_back.png');
 	background-repeat: repeat-x;
 }
 .claro .dijitTextBoxFocused .dijitInputContainer {
-	background: @textboxFocusedBackgroundColor;
+	background: @textbox-focused-background-color;
 }
 
 .claro .dijitTextBoxErrorFocused,
 .claro .dijitTextBoxErrorFocused .dijitButtonNode {
-	border-color: @errorFocusedBorderColor;
+	border-color: @error-focused-border-color;
 }
 
 /* disabled state */
 .claro .dijitTextBoxDisabled,
 .claro .dijitTextBoxDisabled .dijitButtonNode {
-	border-color: @disabledBorderColor;
+	border-color: @disabled-border-color;
 }
 .claro .dijitTextBoxDisabled,
 .claro .dijitTextBoxDisabled .dijitInputContainer {
-	background-color: @textboxDisabledBackgroundColor;
+	background-color: @textbox-disabled-background-color;
 	background-image: none;
-	color: @disabledTextColor;
+	color: @disabled-text-color;
 }
 
 /*========================= for special widgets =========================*/
@@ -104,7 +104,7 @@
 	margin: 0px;
 	width:16px;
 	height:100%;
-	border: 1px solid @arrowButtonInnerBorderColor;
+	border: 1px solid @arrowbutton-inner-border-color;
 }
 
 .claro .dijitToolbar .dijitComboBox .dijitArrowButtonInner {
@@ -124,14 +124,14 @@
 }
 
 .claro .dijitComboBox .dijitButtonNode {
-	background-color: @arrowButtonBackgroundColor;
+	background-color: @arrowbutton-background-color;
 	background-image: url("images/formHighlight.png");
 	background-repeat:repeat-x;
 }
 
 /* hover state */
 .claro .dijitComboBoxHover .dijitButtonNode {
-	background-color:@arrowbuttonHoveredBackgroundColor;
+	background-color:@arrowbutton-hovered-background-color;
 }
 .claro .dijitComboBoxHover .dijitArrowButtonInner {
 	background-position:-70px 53%;
@@ -153,7 +153,7 @@
 	/* specific selector set to override background-position setting from Button.js
 	 * (.claro .dijitComboBoxDisabled .dijitArrowButtonInner) */
 	background-position:0px 50%;
-	background-color:@disabledBackgroundColor;
+	background-color:@disabled-background-color;
 }
 
 /*========================= hacks for browsers =========================*/

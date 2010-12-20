@@ -32,15 +32,15 @@
 @import "variables";
 
 .claro .dijitDialog {
-	border: 1px solid @popupBorderColor;
+	border: 1px solid @popup-border-color;
 	box-shadow:0px 1px 5px rgba(0,0,0,0.25);
 	-webkit-box-shadow:0px 1px 5px rgba(0,0,0,0.25);
 	-moz-box-shadow: 0px 1px 5px rgba(0,0,0,0.25);
 } 
 
 .claro .dijitDialogPaneContent {
-	background: @paneBackgroundColor repeat-x top left;
-	border-top: 1px solid @popupBorderColor;
+	background: @pane-background-color repeat-x top left;
+	border-top: 1px solid @popup-border-color;
 	padding:10px 8px;
 	position: relative;
 }
@@ -55,10 +55,10 @@
 
 .claro .dijitDialogPaneActionBar {
 	/* gray bar at bottom of dialog with OK/Cancel buttons */
-	background-color: @barBackgroundColor;
+	background-color: @bar-background-color;
 	padding: 3px 5px 2px 7px;
 	text-align: right;
-	border-top: 1px solid @minorBorderColor;
+	border-top: 1px solid @minor-border-color;
 	margin: 10px -8px -10px;
 }
 .claro .dijitDialogPaneActionBar .dijitButton {
@@ -67,9 +67,9 @@
 
 .claro .dijitDialogTitleBar {
 	/* outer container for the titlebar of the dialog */
-	border: 1px solid @dialogTitleBarBorderColor;
+	border: 1px solid @dialog-titlebar-border-color;
 	border-top:none;
-	background-color: @dialogTitleBarBackgroundColor;
+	background-color: @dialog-titlebar-background-color;
 	background-image: url("images/titlebar.png");
 	background-repeat:repeat-x;
 	padding: 5px 7px 4px 7px;
@@ -123,11 +123,11 @@
 
 .claro .dijitTooltipContainer {
 	/* the part with the text */
-	background-color:@popupBackgroundColor;
+	background-color:@popup-background-color;
 	background-image:url("images/tooltipGradient.png");
 	background-repeat:repeat-x;
 	background-position:bottom;
-	border:1px solid @popupBorderColor;
+	border:1px solid @popup-border-color;
 	padding:6px 8px;
 	border-radius: 4px;
 	-webkit-border-radius: 4px;
@@ -205,5 +205,5 @@
 }
 
 .claro .dijitDialogUnderlay {
-	background: @dialogUnderlayColor;
+	background: @dialog-underlay-color;
 }

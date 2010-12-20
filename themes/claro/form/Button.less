@@ -39,12 +39,12 @@
 .claro .dijitComboButton .dijitButtonNode,
 .claro .dijitToggleButton .dijitButtonNode {
 	/* rules for the dijit.form.*Button widgets (see also ComboButton section below) */
-	border: 1px solid @buttonBorderColor;
+	border: 1px solid @button-border-color;
 	padding:2px 4px 4px 4px;
 	background-image: url("images/button.png");
 	background-position: center top;
 	background-repeat: repeat-x;
-	background-color: @buttonBackgroundColor;
+	background-color: @button-background-color;
 	border-radius: 4px;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
@@ -104,8 +104,8 @@
 .claro .dijitComboButton .dijitButtonNodeHover, 
 .claro .dijitComboButton .dijitDownArrowButtonHover,
 .claro .dijitToggleButtonHover .dijitButtonNode {
-	background-color: @buttonHoveredBackgroundColor;
-	color:@textColor;
+	background-color: @button-hovered-background-color;
+	color:@text-color;
  	-webkit-transition-duration:.2s;
 }
 
@@ -114,7 +114,7 @@
 .claro .dijitDropDownButtonActive .dijitButtonNode,
 .claro .dijitComboButtonActive .dijitButtonNode,
 .claro .dijitToggleButtonActive .dijitButtonNode {
-	background-color: @buttonPressedBackgroundColor;
+	background-color: @button-pressed-background-color;
 	box-shadow:0px 0px 0px rgba(0,0,0,0);
 	-webkit-box-shadow:0px 0px 0px rgba(0,0,0,0);
 	-moz-box-shadow: 0px 0px 0px rgba(0,0,0,0);
@@ -135,9 +135,9 @@
 .claro .dijitComboButtonDisabled .dijitButtonNode,
 .claro .dijitToggleButtonDisabled .dijitButtonNode { 
 	background-position:0px -149px;
-	background-color: @disabledBackgroundColor;
-	border: solid 1px @disabledBorderColor;
-	color: @disabledTextColor;
+	background-color: @disabled-background-color;
+	border: solid 1px @disabled-border-color;
+	color: @disabled-text-color;
 	box-shadow:0px 0px 0px rgba(0,0,0,0);
 	-webkit-box-shadow:0px 0px 0px rgba(0,0,0,0);
 	-moz-box-shadow: 0px 0px 0px rgba(0,0,0,0);

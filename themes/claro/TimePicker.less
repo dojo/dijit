@@ -29,7 +29,7 @@
 	-webkit-border-radius: 0;
 }
 .claro .dijitTimePicker{
-	border:1px @borderColor solid;
+	border:1px @border-color solid;
 	border-top:none;
 	border-bottom:none;
 	background-color:#fff;	/* TODO: useless?   Appears to be overridden by settings on individual elements */
@@ -39,8 +39,8 @@
 	background-image: url("images/commonHighlight.png");
 	background-position:0px -1px;
 	background-repeat:repeat-x;
-	border-top:solid 1px @borderColor;
-	border-bottom:solid 1px @borderColor;
+	border-top:solid 1px @border-color;
+	border-bottom:solid 1px @border-color;
 	margin-right:-1px;
 	margin-left:-1px;
 	margin-top:-1px;
@@ -51,13 +51,13 @@
 }
 .claro .dijitTimePickerTick {
 	/* minor value */
-	color:@timePickerMinorValueTextColor;
-	background-color:@timePickerMinorValueBackgroundColor;
+	color:@timepicker-minorvalue-text-color;
+	background-color:@timepicker-minorvalue-background-color;
 	font-size:0.818em;
 }
 .claro .dijitTimePickerMarker {
 	/* major value - 1:00, 2:00, times on the hour */
-	background-color: @timePickerMajorValueBackgroundColor;
+	background-color: @timepicker-majorvalue-background-color;
 	font-size: 1em;
 	white-space: nowrap;
 }
@@ -65,11 +65,11 @@
 .claro .dijitTimePickerMarkerHover,
 .claro .dijitTimePickerMarkerSelected,
 .claro .dijitTimePickerTickSelected {
-	background-color: @timePickerHoveredValueBackgroundColor;
-	border:solid 1px @borderColor;
+	background-color: @timepicker-value-hovered-background-color;
+	border:solid 1px @border-color;
 	margin-left:-7px;
 	margin-right:-7px;
-	color:@timePickerHoveredTextColor;
+	color:@timepicker-value-hovered-text-color;
 }
 .claro .dijitTimePickerMarkerSelected,
 .claro .dijitTimePickerTickSelected {
@@ -95,8 +95,8 @@
 .claro .dijitTimePicker .dijitButtonNode {
 	border-left:none;
 	border-right:none;
-	border-color:@borderColor;
-	background-color: @unselectedBackgroundColor;
+	border-color:@border-color;
+	background-color: @unselected-background-color;
 	background-image: url("images/commonHighlight.png");
 	background-position:0px -1px;
 	background-repeat:repeat-x;
@@ -116,7 +116,7 @@
 /* hover */
 .claro .dijitTimePicker .dijitUpArrowHover, 
 .claro .dijitTimePicker .dijitDownArrowHover {
-	background-color: @timePickerArrowHoveredBackgroundColor;
+	background-color: @timepicker-arrow-hovered-background-color;
 }
 .claro .dijitTimePicker .dijitUpArrowHover .dijitArrowButtonInner {
 	background-position:-175px 45%;

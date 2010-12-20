@@ -25,8 +25,8 @@
 
 /* normal status */
 .claro .dijitSelect {
-	border: 1px solid @borderColor;
-	background-color: @textboxBackgroundColor;
+	border: 1px solid @border-color;
+	background-color: @textbox-background-color;
 	border-collapse: separate;
 }
 .dj_ie6 .claro .dijitSelect,
@@ -35,15 +35,15 @@
 }
 
 .claro .dijitSelect .dijitButtonContents {
-	border: 0px solid @borderColor;
+	border: 0px solid @border-color;
 	border-right-width: 1px;
 }
 
 .claro .dijitSelect .dijitArrowButton {
 	padding: 0;
-	border: 1px solid @arrowButtonInnerBorderColor;
+	border: 1px solid @arrowbutton-inner-border-color;
 	border-top:none;
-	background-color: @arrowButtonBackgroundColor;
+	background-color: @arrowbutton-background-color;
 	background-image: url("images/formHighlight.png");
 	background-repeat:repeat-x;
 }
@@ -58,18 +58,18 @@
 
 /* hover status */
 .claro .dijitSelectHover {
-	border: 1px solid @hoveredBorderColor;
-	background-color: @textboxHoveredBackgroundColor;
+	border: 1px solid @hovered-border-color;
+	background-color: @textbox-hovered-background-color;
 	background-image: url('images/textBox_back.png');
 	background-repeat: repeat-x;
 }
 
 .claro .dijitSelectHover .dijitButtonContents {
-	border-color:@hoveredBorderColor;
+	border-color:@hovered-border-color;
 }
 
 .claro .dijitSelectHover .dijitArrowButton {
-	background-color:@arrowbuttonHoveredBackgroundColor;
+	background-color:@arrowbutton-hovered-background-color;
 }
 .claro .dijitSelectHover .dijitArrowButton .dijitArrowButtonInner {
 	background-position:-70px 70%;
@@ -77,10 +77,10 @@
 
 /* focused status */
 .claro .dijitSelectFocused {
-	border: 1px solid @focusedBorderColor;
+	border: 1px solid @focused-border-color;
 }
 .claro .dijitSelectFocused .dijitButtonContents {
-	border-color:@focusedBorderColor;
+	border-color:@focused-border-color;
 }
 .claro .dijitSelectFocused .dijitArrowButton {
 	background-color:#7dbefa;		// TODO.  Mailed Jason about inconsistent ComboBox/Spinner behavior.
@@ -95,13 +95,13 @@
 
 /* disable status */
 .claro .dijitSelectDisabled {
-	border: 1px solid @disabledBorderColor;
-	background-color: @disabledBackgroundColor;
+	border: 1px solid @disabled-border-color;
+	background-color: @disabled-background-color;
 	background-image: none;
-	color: @disabledTextColor;
+	color: @disabled-text-color;
 }
 .claro .dijitSelectDisabled .dijitArrowButton { 
-	background-color: @disabledBackgroundColor;
+	background-color: @disabled-background-color;
 }
 .claro .dijitSelectDisabled .dijitArrowButton .dijitArrowButtonInner {
 	background-position:0px 70%
@@ -121,5 +121,5 @@
 }
 
 .claro .dijitSelectMenu .dijitMenuSeparatorTop {
-	border-bottom:1px solid @focusedBorderColor;
+	border-bottom:1px solid @focused-border-color;
 }
