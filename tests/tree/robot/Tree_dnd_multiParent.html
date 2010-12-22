@@ -23,18 +23,26 @@
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_Tree_DnD.html');
 
-				doh.register("setup", {
-					name: "setup",
-					timeout: 20000,
-					runTest: function(){
-						var d = new doh.Deferred();
-						setup();
-						// FIXME: wait until tree data is ready
-						doh.robot.sequence(function(){
-							d.callback(true);
-						},5000);
-						return d;
-					}
+				dojo.forEach(["collectionsTree", "itemTree"], function(id){
+					doh.register("setup " + id, {
+						name: id,
+						timeout: 10000,
+						runTest: function(){
+							var
+								tree = dijit.byId(id),
+								d, handler;
+							if(!tree.rootNode){
+								d = new doh.Deferred();
+								handler = tree.connect(tree, "onLoad",
+									function(){
+										tree.disconnect(handler);
+										d.callback(true);
+									}
+								);
+								return d;
+							}
+						}
+					});
 				});
 
 				doh.register("multi-parent tests", [
@@ -42,17 +50,15 @@
 						name: "add 'Fruits' as parent of vegetables",
 						timeout: 10000,
 						runTest: function(){
-							var d = new doh.Deferred();
-
-							var vegetablesTreeNode = findTreeNodeByPath("collectionsTree", ["Vegetables (0)"]),	// the left tree
-								foodsTreeNode = dijit.byId("itemTree").rootNode,								// right tree
-								fruitsTreeNode = findTreeNodeByPath("itemTree", ["Fruits"]);					// right tree
+							var
+								d = new doh.Deferred(),
+								vegetablesTreeNode = findTreeNodeByPath("collectionsTree", ["Vegetables (0)"]),	// the left tree
+								fruitsTreeNode = findTreeNodeByPath("itemTree", ["Fruits"]);	// right tree
 
 							// (Try to) make sure drag source and drop source are both in viewport
-							dojo.window.scrollIntoView(fruitsTreeNode.domNode);
-
+							dojo.global.scrollTo(0, 9000); // scroll to bottom to try and prevent the DnD code from autoscrolling
+							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 500, 1);
 							// Drag and Drop, *copying* in order to add a parent rather than change
-							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 500, 1000);
 							doh.robot.keyDown(dojo.keys.copyKey, 500);
 							if(dojo.isMac){
 								// I can't get DOH robot to generate the mousePress event w/metaKey=true so
@@ -62,8 +68,9 @@
 									dojo.global.dojo.isCopyKey = function(){ return true; }
 								});
 							}
+
 							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt(fruitsTreeNode.labelNode, 500, 2000);
+							doh.robot.mouseMoveAt(fruitsTreeNode.labelNode, 500, 1000);
 							doh.robot.mouseRelease({left: true}, 500);
 							doh.robot.keyUp(dojo.keys.copyKey, 500);
 							if(dojo.isMac){
@@ -109,18 +116,17 @@
 						name: "move Foods/Vegetables to Foods/Cereal/Vegetables",
 						timeout: 10000,
 						runTest: function(){
-							var d = new doh.Deferred();
-
-							var vegetablesTreeNode = findTreeNodeByPath("itemTree", ["Vegetables"]),
+							var
+								d = new doh.Deferred(),
+								vegetablesTreeNode = findTreeNodeByPath("itemTree", ["Vegetables"]),
 								cerealsTreeNode = findTreeNodeByPath("itemTree", ["Cereals"]);
 
 							// (Try to) make sure drag source and drop source are both in viewport
-							dojo.window.scrollIntoView(cerealsTreeNode.domNode);
-
+							dojo.global.scrollTo(0, 9000); // scroll to bottom to try and prevent the DnD code from autoscrolling
 							// Drag and Drop
-							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 0, 1000);
+							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 500, 1);
 							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt(cerealsTreeNode.labelNode, 500, 1000);
+							doh.robot.mouseMoveAt(cerealsTreeNode.domNode, 500, 1000);
 							doh.robot.mouseRelease({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -156,16 +162,16 @@
 						name: "move Fruits/Vegetables to Fruits/Citrus",
 						timeout: 10000,
 						runTest: function(){
-							var d = new doh.Deferred();
-
-							var vegetablesTreeNode = findTreeNodeByPath("itemTree", ["Fruits", "Vegetables"]),
+							var
+								d = new doh.Deferred(),
+								vegetablesTreeNode = findTreeNodeByPath("itemTree", ["Fruits", "Vegetables"]),
 								citrusTreeNode = findTreeNodeByPath("itemTree", ["Fruits", "Citrus"]);
 
 							// (Try to) make sure drag source and drop source are both in viewport
-							dojo.window.scrollIntoView(vegetablesTreeNode.domNode);
+							doh.robot.mouseMoveAt("itemTree", 500, 1);
 
 							// Drag and Drop
-							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 0, 1000);
+							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 500, 1);
 							doh.robot.mousePress({left: true}, 500);
 							doh.robot.mouseMoveAt(citrusTreeNode.labelNode, 500, 1000);
 							doh.robot.mouseRelease({left: true}, 500);
@@ -206,13 +212,17 @@
 						name: "drop banana on fruits",
 						timeout: 10000,
 						runTest: function(){
-							var d = new doh.Deferred();
+							var
+								d = new doh.Deferred(),
+								fruitsTreeNode = findTreeNodeByPath("itemTree", ["Fruits"]);	// right tree
 
-							var fruitsTreeNode = findTreeNodeByPath("itemTree", ["Fruits"]);					// right tree
-
-							doh.robot.mouseMoveAt(dojo.byId("1003"), 500, 1000);
+							doh.robot.mouseMoveAt(fruitsTreeNode.labelNode, 500, 1); // scroll destination into view
+							doh.robot.mouseMoveAt(dojo.byId("1003").parentNode, 500, 1, 0, 0); // move to source parent node to help prevent DnD autoscrolling
+							doh.robot.mouseMoveAt(dojo.byId("1003"), 500, 1); // move to source banana node
 							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt(fruitsTreeNode.labelNode, 500, 2000);
+							doh.robot.mouseMoveAt(dojo.byId("1004"), 500, 1); // move just a little to start the DnD operation before scrolling
+							doh.robot.mouseMoveAt("itemTree", 500, 1000, 0, 0); // go to target parent top to allow for better scrolling of the destination
+							doh.robot.mouseMoveAt(fruitsTreeNode.labelNode, 500, 1000);
 							doh.robot.mouseRelease({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -237,13 +247,19 @@
 						name: "drop banana on cereal",
 						timeout: 10000,
 						runTest: function(){
-							var d = new doh.Deferred();
+							var
+								d = new doh.Deferred(),
+								cerealsTreeNode = findTreeNodeByPath("itemTree", ["Cereals"]);					// right tree
 
-							var cerealsTreeNode = findTreeNodeByPath("itemTree", ["Cereals"]);					// right tree
-
-							doh.robot.mouseMoveAt(dojo.byId("1003"), 500, 1000);
+							doh.robot.mouseMoveAt(dojo.byId("1003").parentNode, 500, 1, 0, 0); // move to source parent node to help prevent DnD autoscrolling
+							doh.robot.mouseMoveAt(dojo.byId("1003"), 500, 1); // move to source banana node
 							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt(cerealsTreeNode.labelNode, 500, 2000);
+							doh.robot.mouseMoveAt(dojo.byId("1004"), 500, 1); // move just a little to start the DnD operation before scrolling
+							doh.robot.mouseMoveAt("itemTree", 500, 1000, 0, 0); // go to target parent top to allow for better scrolling of the destination
+							doh.robot.sequence(function(){
+								dojo.global.scrollTo(0, 9000); // scroll to bottom to try and prevent the DnD code from autoscrolling
+							}, 1000);
+							doh.robot.mouseMoveAt(cerealsTreeNode.labelNode, 1000, 1000);
 							doh.robot.mouseRelease({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
