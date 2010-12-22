@@ -21,7 +21,6 @@
  *		adds border for active or selected state
  */
 .claro  .dijitColorPalette {
-  outline: 1px solid #769dc0;
   border: 1px solid #b5bcc7;
   background: #ffffff;
   -moz-border-radius: 0px;
