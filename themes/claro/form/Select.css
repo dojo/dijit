@@ -17,7 +17,7 @@
  * 		.dijitSelectHover|.dijitSelectFocused|.dijitSelectDisabled .* - for border, padding and background-color|image 
  */
 .claro .dijitSelect .dijitButtonText {
-  padding: 0px 5px 2px 5px;
+  padding: 2px;
 }
 /* normal status */
 .claro .dijitSelect {
@@ -102,8 +102,7 @@
 .claro .dijitSelectMenu td.dijitMenuItemLabel {
   /* line up menu text with text in select box (in LTR and RTL modes) */
 
-  padding-left: 5px;
-  padding-right: 5px;
+  padding: 2px;
 }
 .claro .dijitSelectMenu .dijitMenuSeparatorTop {
   border-bottom: 1px solid #769dc0;

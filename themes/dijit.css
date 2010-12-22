@@ -460,6 +460,10 @@ DIV.dijitArrowButton {
 	/* dividing line between input area and up/down button(s) for ComboBox and Spinner */
 	border-width: 0 0 0 1px !important; /* !important needed due to wayward ".theme .dijitButtonNode" rules */
 }
+.dijitComboBoxMenu {
+	/* Drop down menu is implemented as <ul> <li/> <li/> ... but we don't want circles before each item */
+	list-style-type: none;
+}
 .dijitSpinner .dijitSpinnerButtonContainer .dijitButtonNode {
 	/* dividing line between input area and up/down button(s) for ComboBox and Spinner */
 	border-width: 0;
