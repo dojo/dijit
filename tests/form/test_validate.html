@@ -473,7 +473,7 @@
 			</div>
 			<div class="testExample">
 				<input id="q24" data-dojo-type="dijit.form.TextBox"
-					data-dojo-props='name: "readOnly", "class": "medium", readOnly: true, value: "cannot type here" '/>
+					data-dojo-props='name: "readOnly", "class": "medium", readOnly: true, value: "cannot type here", title: "hint text" '/>
 				<input type="button" id="removereadonly" onclick="dijit.byId('q24').set('readOnly',false);" value="Remove readOnly" tabIndex="-1"/>
 				<input type="button" onclick="dijit.byId('q24').set('readOnly',true);" value="Set readOnly" tabIndex="-1"/>
 				<input type="button" id="removedisabled" onclick="dijit.byId('q24').set('disabled',false);" value="Remove disabled" tabIndex="-1"/>
