@@ -148,15 +148,13 @@
 	background-position:-70px 53%;
 }
 
-/* Arrow Button change when drop down is open.
- * (TODO: trigger this from drop down being open, not focus)
- */
-.claro .dijitComboBoxFocused .dijitButtonNode {
-	background-color:#7dbefa;		// TODO.  Mailed Jason about inconsistent ComboBox/Spinner behavior.
+/* Arrow Button change when drop down is open */
+.claro .dijitComboBox .dijitHasDropDownOpen {	// .dijitHasDropDown is on dijitArrowButton node
+	background-color: @pressed-background-color;
 	background-position:0px -177px;
-	padding: 1px;		// Since no border on arrow button on focus
+	padding: 1px;		// Since no border on arrow button (see rule below)
 }	
-.claro .dijitComboBoxFocused .dijitArrowButtonInner {
+.claro .dijitComboBox .dijitHasDropDownOpen .dijitArrowButtonInner {
 	background-position:-70px 53%;
 	border: 0px none;
 }
@@ -182,9 +180,9 @@
 .dj_ie6 .claro .dijitComboBox .dijitButtonNode {
 	background-image: none;
 }
-.dj_borderbox .claro .dijitComboBox .dijitArrowButtonInner {
+.dj_borderbox .claro .dijitComboBox .dijitHasDropDownOpen .dijitArrowButtonInner {
 	width:18px;				// quirks mode means border-box sizing, so 18px with the border (same as 16px without border)
 }
-.dj_borderbox .claro .dijitComboBoxFocused .dijitArrowButtonInner {
+.dj_borderbox .claro .dijitComboBoxFocused .dijitHasDropDownOpen .dijitArrowButtonInner {
 	width:16px;				// when no border, then back to 16px just like content-box sizing
 }
