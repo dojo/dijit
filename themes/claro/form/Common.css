@@ -114,13 +114,13 @@
 .claro .dijitComboBoxHover .dijitArrowButtonInner {
   background-position: -70px 53%;
 }
-/* focused state */
-.claro .dijitComboBoxFocused .dijitButtonNode {
+/* Arrow Button change when drop down is open */
+.claro .dijitComboBox .dijitHasDropDownOpen {
   background-color: #7dbefa;
   background-position: 0px -177px;
   padding: 1px;
 }
-.claro .dijitComboBoxFocused .dijitArrowButtonInner {
+.claro .dijitComboBox .dijitHasDropDownOpen .dijitArrowButtonInner {
   background-position: -70px 53%;
   border: 0px none;
 }
@@ -143,9 +143,9 @@
 .dj_ie6 .claro .dijitTextBox, .dj_ie6 .claro .dijitComboBox .dijitButtonNode {
   background-image: none;
 }
-.dj_quirks .claro .dijitComboBox .dijitArrowButtonInner {
+.dj_borderbox .claro .dijitComboBox .dijitHasDropDownOpen .dijitArrowButtonInner {
   width: 18px;
 }
-.dj_quirks .claro .dijitComboBoxFocused .dijitArrowButtonInner {
+.dj_borderbox .claro .dijitComboBoxFocused .dijitHasDropDownOpen .dijitArrowButtonInner {
   width: 16px;
 }
