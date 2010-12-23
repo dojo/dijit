@@ -168,7 +168,9 @@
 											dojo.global.dojo.withGlobal(editor.window, function() {
 												// Select the text, collapse to the start of it
 												dijit._editor.selection.selectElementChildren(p);
-												dijit._editor.selection.collapse(true);
+												// Disable collapse.  Webkit changed behavior so it now requires
+												// a selection.
+												if(!dojo.isWebKit){ dijit._editor.selection.collapse(true) };
 												
 												// Set the format / font-size / font-name plugin to the new value
 												// TODO: use mouse/keyboard to set the value
