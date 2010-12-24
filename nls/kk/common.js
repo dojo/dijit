@@ -1,7 +1,7 @@
 define(
 //begin v1.x content
 ({
-	buttonOk: "OK",
+	buttonOk: "Жарайды",
 	buttonCancel: "Болдырмау",
 	buttonSave: "Сақтау",
 	itemClose: "Жабу"
