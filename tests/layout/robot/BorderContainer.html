@@ -115,11 +115,6 @@
 						checkBCpanes(dijit.byId("border1"));
 
 						// put back left pane as the top pane
-						// Due to #11430 need to clear style info on the pane first
-						dijit.byId("border1-left").set({
-							region: "top",
-							style: {top: "auto", bottom: "auto", left: "auto", right: "auto", width: "auto", height: "auto"}
-						});
 						dijit.byId("border1").addChild(dijit.byId("border1-left"));
 
 						// check that all panes sane
