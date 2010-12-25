@@ -335,6 +335,17 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		}
 	},
 
+	_computeMaxSize: function(){
+		// summary:
+		//		Return the maximum size that my corresponding pane can be set to
+
+		var dim = this.horizontal ? 'h' : 'w',
+			childSize = dojo.marginBox(this.child.domNode)[dim],
+			spaceAvailable = dojo.marginBox(this.container._center)[dim];	// can expand until center is crushed to 0
+
+		return Math.min(this.child.maxSize, childSize + spaceAvailable);
+	},
+
 	_startDrag: function(e){
 		if(!this.cover){
 			this.cover = dojo.doc.createElement('div');
@@ -364,8 +375,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 			splitterStyle = this.domNode.style,
 			dim = isHorizontal ? 'h' : 'w',
 			childStart = dojo.marginBox(this.child.domNode)[dim],
-			maxIncrease = Math.min(this.child.maxSize, dojo.marginBox(this.container._center)[dim]),	// can expand until center is crushed to 0
-			max = childStart + maxIncrease,
+			max = this._computeMaxSize(),
 			min = this.child.minSize || 20,
 			region = this.region,
 			splitterAttr = region == "top" || region == "bottom" ? "top" : "left",	// style attribute of splitter to adjust
