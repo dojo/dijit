@@ -15,13 +15,15 @@ dojo.declare(
 	//		include optional splitters (splitter="true") to make them resizable by the user.  The remaining
 	//		space is designated for the center region.
 	//
-	//		NOTE: Splitters must not be more than 50 pixels in width.
-	//
 	//		The outer size must be specified on the BorderContainer node.  Width must be specified for the sides
 	//		and height for the top and bottom, respectively.  No dimensions should be specified on the center;
 	//		it will fill the remaining space.  Regions named "leading" and "trailing" may be used just like
 	//		"left" and "right" except that they will be reversed in right-to-left environments.
 	//
+	//		For complex layouts, multiple children can be specified for a single region.   In this case, the
+	//		layoutPriority flag on the children determines which child is closer to the edge (low layoutPriority)
+	//		and which child is closer to the center (high layoutPriority).   layoutPriority can also be used
+	//		instead of the design attribute to conrol layout precedence of horizontal vs. vertical panes.
 	// example:
 	// |	<div dojoType="dijit.layout.BorderContainer" design="sidebar" gutters="false"
 	// |            style="width: 400px; height: 300px;">
@@ -56,11 +58,6 @@ dojo.declare(
 	// _splitterClass: String
 	// 		Optional hook to override the default Splitter widget used by BorderContainer
 	_splitterClass: "dijit.layout._Splitter",
-
-	constructor: function(){
-		this._splitters = {};
-		this._splitterThickness = {};
-	},
 
 	postMixInProperties: function(){
 		// change class name to indicate that BorderContainer is being used purely for
@@ -213,21 +210,28 @@ dojo.declare(
 
 		// Generate list of wrappers of my children in the order that I want layoutChildren()
 		// to process them (i.e. from the outside to the inside)
-		var wrappers = dojo.map(this.getChildren(), function(child){
+		var wrappers = dojo.map(this.getChildren(), function(child, idx){
 			return {
 				pane: child,
-				firstPriority: child.region == "center" ? Infinity : 0,
-				secondPriority: (this.design == "sidebar" ? 1 : -1) * (/top|bottom/.test(child.region) ? 1 : -1)
+				weight: [
+					child.region == "center" ? Infinity : 0,
+					child.layoutPriority,
+					(this.design == "sidebar" ? 1 : -1) * (/top|bottom/.test(child.region) ? 1 : -1),
+					idx
+				]
 			};
 		}, this);
 		wrappers.sort(function(a, b){
-			var res = a.firstPriority != b.firstPriority ?
-				a.firstPriority - b.firstPriority :
-				a.secondPriority - b.secondPriority;
-			return res;
+			var aw = a.weight, bw = b.weight;
+			for(var i=0; i<aw.length; i++){
+				if(aw[i] != bw[i]){
+					return aw[i] - bw[i];
+				}
+			}
+			return 0;
 		});
 
-		// Make new list, combining the external children with splitters and gutters
+		// Make new list, combining the externally specified children with splitters and gutters
 		var childrenAndSplitters = [];
 		dojo.forEach(wrappers, function(wrapper){
 			var pane = wrapper.pane;
@@ -271,6 +275,12 @@ dojo.extend(dijit._Widget, {
 	//		Values: "top", "bottom", "leading", "trailing", "left", "right", "center".
 	//		See the `dijit.layout.BorderContainer` description for details.
 	region: '',
+
+	// layoutPriority: [const] Number
+	//		Parameter for children of `dijit.layout.BorderContainer`.
+	//		Children with a higher layoutPriority will be placed closer to the BorderContainer center,
+	//		between children with a lower layoutPriority.
+	layoutPriority: 0,
 
 	// splitter: [const] Boolean
 	//		Parameter for child of `dijit.layout.BorderContainer` where region != "center".
@@ -403,7 +413,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 					layoutFunc(boundChildSize);
 				}
 				// TODO: setting style directly (usually) sets content box size, need to set margin box size
-				splitterStyle[splitterAttr] = delta + splitterStart + (boundChildSize - childSize) + "px";
+				splitterStyle[splitterAttr] = delta + splitterStart + factor*(boundChildSize - childSize) + "px";
 			}),
 			dojo.connect(de, "ondragstart", dojo.stopEvent),
 			dojo.connect(dojo.body(), "onselectstart", dojo.stopEvent),
@@ -487,7 +497,6 @@ dojo.declare("dijit.layout._Gutter", [dijit._Widget, dijit._Templated],
 
 	templateString: '<div class="dijitGutter" role="presentation"></div>',
 
-	// TODO: unneeded?   why set this.horizontal?
 	postMixInProperties: function(){
 		this.inherited(arguments);
 		this.horizontal = /top|bottom/.test(this.region);

@@ -22,33 +22,36 @@
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_BorderContainer_nested.html');
 
-				doh.register("API", [
-					function initialConditions(){
-						checkBCpanes(dijit.byId("bc1"));
-						doh.t(isVisible(dijit.byId("bc1")));
-						checkInside(dijit.byId("bc1"), dijit.byId("tc"));
-					}
-				]);
-				
-				doh.register("testTab2", [
-					{
-						name: "tab2",
-						timeout: 10000,
-						runTest: function(t){
-							var d = new doh.Deferred();
-									
-							doh.robot.mouseMoveAt("tc_tablist_bc2", 500);		
-							doh.robot.mouseClick({left:true}, 500);							
-							
-							doh.robot.sequence(d.getTestCallback(function(){
-								checkBCpanes(dijit.byId("bc2"));
-								doh.t(isVisible(dijit.byId("bc2")));
-								checkInside(dijit.byId("bc2"), dijit.byId("tc"));
-							}), 1000);
-							
-							return d;
-						}
-					}
+				doh.register("initial layout", [
+					function nestedBC(){
+						checkBCpanes(dijit.byId("nbc"));
+						doh.t(isVisible(dijit.byId("nbc")));
+						checkInside("nbc", "tc");
+					},
+					function layoutPriorityBC(){
+						dijit.byId("tc").selectChild(dijit.byId("pbc"));	
+						doh.t(isVisible(dijit.byId("pbc")), "second pane visible");
+
+						// Check layout of BorderContainer panes relative to each other
+						checkAbove("top bar above second top bar", "top1", "top2");
+						checkAbove("second top bar above inner top bar", "top2", "top3");
+						checkLeft("outer left vs. inner left", "left1", "left2");
+						checkLeft("inner left vs. inner top", "left2", "top3");
+						checkLeft("inner left vs. inner bottom", "left2", "bottom3");
+						checkAbove("inner top vs. center", "top3", "center");
+						checkAbove("center vs. inner bottom", "center", "bottom3");
+						checkLeft("inner right vs. inner top", "top3", "right2");
+						checkLeft("inner right vs. center", "center", "right2");
+						checkAbove("inner bottom bar above second bottom bar", "bottom3", "bottom2");
+						checkAbove("second bottom bar above bottom bar", "bottom2", "bottom1");
+
+						// Check that all panes within BC borders
+						var children = dijit.byId("pbc").getChildren();
+						doh.is(11, children.length, "# of children");
+						dojo.forEach(children, function(child){
+							checkInside(child, dijit.byId("pbc"));
+						});
+					}							
 				]);
 				
 				doh.run();
