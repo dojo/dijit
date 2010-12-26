@@ -90,13 +90,10 @@ dojo.declare(
 			if(region == "leading"){ region = ltr ? "left" : "right"; }
 			if(region == "trailing"){ region = ltr ? "right" : "left"; }
 
-			this["_"+region+"Widget"] = child;
-			this["_"+region] = child.domNode;			//FIXME: redundant?
-
 			// Create draggable splitter for resizing pane,
 			// or alternately if splitter=false but BorderContainer.gutters=true then
 			// insert dummy div just for spacing
-			if((child.splitter || this.gutters) && !this._splitters[region]){
+			if((child.splitter || this.gutters) && !child._splitterWidget){
 				var _Splitter = dojo.getObject(child.splitter ? this._splitterClass : "dijit.layout._Gutter");
 				var splitter = new _Splitter({
 					id: child.id + "_splitter",
@@ -106,25 +103,19 @@ dojo.declare(
 					live: this.liveSplitters
 				});
 				splitter.isSplitter = true;
-				this._splitters[region] = splitter;
+				child._splitterWidget = splitter;
 
-				dojo.place(this._splitters[region].domNode, child.domNode, "after");
+				dojo.place(splitter.domNode, child.domNode, "after");
 
 				// Splitters aren't added as Contained children, so we need to call startup explicitly
 				splitter.startup();
 			}
-			child.region = region;
+			child.region = region;	// TODO: technically wrong since it overwrites "trailing" with "left" etc.
 		}
-	},
-
-	_computeSplitterThickness: function(/*String*/ region){
-		this._splitterThickness[region] = this._splitterThickness[region] ||
-			dojo._getMarginSize(this._splitters[region].domNode)[(/top|bottom/.test(region) ? 'h' : 'w')];
 	},
 
 	layout: function(){
 		// Implement _LayoutWidget.layout() virtual method.
-		for(var region in this._splitters){ this._computeSplitterThickness(region); }
 		this._layoutChildren();
 	},
 
@@ -140,15 +131,12 @@ dojo.declare(
 		// Override _LayoutWidget.removeChild().
 
 		var region = child.region;
-		var splitter = this._splitters[region];
+		var splitter = child._splitterWidget
 		if(splitter){
 			splitter.destroy();
-			delete this._splitters[region];
-			delete this._splitterThickness[region];
+			delete child._splitterWidget;
 		}
 		this.inherited(arguments);
-		delete this["_"+region];
-		delete this["_" +region+"Widget"];
 		
 		if(this._started){
 			this._layoutChildren();
@@ -173,10 +161,15 @@ dojo.declare(
 		});
 	},
 
+	// TODO: remove in 2.0
 	getSplitter: function(/*String*/region){
 		// summary:
 		//		Returns the widget responsible for rendering the splitter associated with region
-		return this._splitters[region];
+		// tags:
+		//		deprecated
+		return dojo.filter(this.getChildren(), function(child){
+			return child.region == region;
+		})[0]._splitterWidget;
 	},
 
 	resize: function(newSize, currentSize){
@@ -197,7 +190,7 @@ dojo.declare(
 		this.inherited(arguments);
 	},
 
-	_layoutChildren: function(/*String?*/ changedRegion, /*Number?*/ changedRegionSize){
+	_layoutChildren: function(/*String?*/ changedChildId, /*Number?*/ changedChildSize){
 		// summary:
 		//		This is the main routine for setting size/position of each child.
 		// description:
@@ -207,11 +200,10 @@ dojo.declare(
 		//		With changedRegion specified (as "left", "top", "bottom", or "right"),
 		//		it changes that region's width/height to changedRegionSize and
 		//		then resizes other regions that were affected.
-		// changedRegion:
-		//		The region should be changed because splitter was dragged.
-		//		"left", "right", "top", or "bottom".
-		// changedRegionSize:
-		//		The new width/height (in pixels) to make changedRegion
+		// changedChildId:
+		//		Id of the child which should be resized because splitter was dragged.
+		// changedChildSize:
+		//		The new width/height (in pixels) to make specified child
 
 		if(!this._borderBox || !this._borderBox.h){
 			// We are currently hidden, or we haven't been sized by our parent yet.
@@ -219,16 +211,31 @@ dojo.declare(
 			return;
 		}
 
-		// Generate list of my children in the order that I want layoutChildren()
+		// Generate list of wrappers of my children in the order that I want layoutChildren()
 		// to process them (i.e. from the outside to the inside)
-		var splitters = this._splitters,
-			candidates =
-				(this.design == "sidebar") ?
-				[this._leftWidget, splitters.left, this._rightWidget, splitters.right,
-					this._topWidget, splitters.top, this._bottomWidget, splitters.bottom, this._centerWidget] :
-				[this._topWidget, splitters.top, this._bottomWidget, splitters.bottom,
-					this._leftWidget, splitters.left, this._rightWidget, splitters.right, this._centerWidget],
-			children = dojo.filter(candidates, function(w){ return w; });	// in case there's no left/top/etc. pane
+		var wrappers = dojo.map(this.getChildren(), function(child){
+			return {
+				pane: child,
+				firstPriority: child.region == "center" ? Infinity : 0,
+				secondPriority: (this.design == "sidebar" ? 1 : -1) * (/top|bottom/.test(child.region) ? 1 : -1)
+			};
+		}, this);
+		wrappers.sort(function(a, b){
+			var res = a.firstPriority != b.firstPriority ?
+				a.firstPriority - b.firstPriority :
+				a.secondPriority - b.secondPriority;
+			return res;
+		});
+
+		// Make new list, combining the external children with splitters and gutters
+		var childrenAndSplitters = [];
+		dojo.forEach(wrappers, function(wrapper){
+			var pane = wrapper.pane;
+			childrenAndSplitters.push(pane);
+			if(pane._splitterWidget){
+				childrenAndSplitters.push(pane._splitterWidget);
+			}
+		});
 
 		// Compute the box in which to lay out my children
 		var dim = {
@@ -239,17 +246,18 @@ dojo.declare(
 		};
 
 		// Layout the children, possibly changing size due to a splitter drag
-		dijit.layout.layoutChildren(this.domNode, dim, children,
-			changedRegion ? this["_"+changedRegion+"Widget"].id : null, changedRegionSize);
+		dijit.layout.layoutChildren(this.domNode, dim, childrenAndSplitters,
+			changedChildId, changedChildSize);
 	},
 
 	destroy: function(){
-		for(var region in this._splitters){
-			var splitter = this._splitters[region];
-			splitter.destroy();
-		}
-		delete this._splitters;
-		delete this._splitterThickness;
+		dojo.forEach(this.getChildren(), function(child){
+			var splitter = child._splitterWidget;
+			if(splitter){
+				splitter.destroy();
+			}
+			delete child._splitterWidget;
+		});
 		this.inherited(arguments);
 	}
 });
@@ -341,7 +349,8 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 
 		var dim = this.horizontal ? 'h' : 'w',
 			childSize = dojo.marginBox(this.child.domNode)[dim],
-			spaceAvailable = dojo.marginBox(this.container._center)[dim];	// can expand until center is crushed to 0
+			center = dojo.filter(this.container.getChildren(), function(child){ return child.region == "center";})[0],
+			spaceAvailable = dojo.marginBox(center.domNode)[dim];	// can expand until center is crushed to 0
 
 		return Math.min(this.child.maxSize, childSize + spaceAvailable);
 	},
@@ -381,8 +390,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 			splitterAttr = region == "top" || region == "bottom" ? "top" : "left",	// style attribute of splitter to adjust
 			splitterStart = parseInt(splitterStyle[splitterAttr], 10),
 			resize = this._resize,
-			childNode = this.child.domNode,
-			layoutFunc = dojo.hitch(this.container, this.container._layoutChildren),
+			layoutFunc = dojo.hitch(this.container, "_layoutChildren", this.child.id),
 			de = dojo.doc;
 
 		this._handlers = (this._handlers || []).concat([
@@ -392,7 +400,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 					boundChildSize = Math.max(Math.min(childSize, max), min);
 
 				if(resize || forceResize){
-					layoutFunc(region, boundChildSize);
+					layoutFunc(boundChildSize);
 				}
 				// TODO: setting style directly (usually) sets content box size, need to set margin box size
 				splitterStyle[splitterAttr] = delta + splitterStart + (boundChildSize - childSize) + "px";
@@ -452,7 +460,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 				return;
 		}
 		var childSize = dojo._getMarginSize(this.child.domNode)[ horizontal ? 'h' : 'w' ] + this._factor * tick;
-		this.container._layoutChildren(this.region, Math.max(Math.min(childSize, this._computeMaxSize()), this.child.minSize));
+		this.container._layoutChildren(this.child.id, Math.max(Math.min(childSize, this._computeMaxSize()), this.child.minSize));
 		dojo.stopEvent(e);
 	},
 
@@ -479,6 +487,7 @@ dojo.declare("dijit.layout._Gutter", [dijit._Widget, dijit._Templated],
 
 	templateString: '<div class="dijitGutter" role="presentation"></div>',
 
+	// TODO: unneeded?   why set this.horizontal?
 	postMixInProperties: function(){
 		this.inherited(arguments);
 		this.horizontal = /top|bottom/.test(this.region);
