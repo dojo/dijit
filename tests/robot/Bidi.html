@@ -217,11 +217,11 @@
 								doh.is("ltr", dijit.byId("ltr_tc_cp").dir);
 
 								var combo = dojo.query("input[value='dijit']", dojo.byId("ltr_tc_cp"))[0];
-								var arrow = dojo.query("div[dojoattachpoint='_buttonNode']", dojo.byId("ltr_tc_cp"))[0];
+								var arrow = dojo.query(".dijitButtonNode", dojo.byId("ltr_tc_cp"))[0];
 								checkLeft(combo, arrow);
 
 								combo = dojo.query("input[value='dijit']", dojo.byId("rtl_tc_cp"))[0];
-								arrow = dojo.query("div[dojoattachpoint='_buttonNode']", dojo.byId("rtl_tc_cp"))[0];
+								arrow = dojo.query(".dijitButtonNode", dojo.byId("rtl_tc_cp"))[0];
 								checkLeft(arrow, combo);
 							}), 500);
 							return d;
@@ -237,11 +237,11 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								var rowNodes = dojo.query("div[dojoattachpoint='rowNode']", dojo.byId("ltr_tc_tree"));
+								var rowNodes = dojo.query(".dijitTreeRow", dojo.byId("ltr_tc_tree"));
 
 								dojo.forEach(rowNodes, function(rowNode){
-									var expando = dojo.query("img[dojoattachpoint='expandoNode']", rowNode)[0];
-									var label = dojo.query("span[dojoattachpoint='contentNode']", rowNode)[0];
+									var expando = dojo.query(".dijitTreeExpando", rowNode)[0];
+									var label = dojo.query(".dijitTreeContent", rowNode)[0];
 									checkLeft(expando, label);
 								});
 							}), 1000);
@@ -249,7 +249,7 @@
 						}
 					},
 					{
-						name: "ltr_tree_tab",
+						name: "rtl_tree_tab",
 						timeout: 3000,
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -258,11 +258,11 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								var rowNodes = dojo.query("div[dojoattachpoint='rowNode']", dojo.byId("rtl_tc_tree"));
+								var rowNodes = dojo.query(".dijitTreeRow", dojo.byId("rtl_tc_tree"));
 
 								dojo.forEach(rowNodes, function(rowNode){
-									var expando = dojo.query("img[dojoattachpoint='expandoNode']", rowNode)[0];
-									var label = dojo.query("span[dojoattachpoint='contentNode']", rowNode)[0];
+									var expando = dojo.query(".dijitTreeExpando", rowNode)[0];
+									var label = dojo.query(".dijitTreeContent", rowNode)[0];
 									checkLeft(label, expando);
 								});
 							}), 1000);
