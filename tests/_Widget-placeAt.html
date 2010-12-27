@@ -23,7 +23,7 @@
 	<script type="text/javascript">
 		dojo.require("doh.runner");
 
-		// load componenets need for this test
+		// load components need for this test
 		dojo.require("dijit.form.Button");
 		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.layout.ContentPane");
@@ -37,7 +37,7 @@
 			doh.register("dijit.tests.placeAt",
 				[
 					function placeAsDOMNodeChild(){
-						// create a tabcontainer
+						// create a TabContainer
 						tc = new dijit.layout.TabContainer({
 							style: "height:200px; width:200px"
 						}, "tabContainerThinger").placeAt("container");
@@ -46,7 +46,7 @@
 					},
 
 					function placeAsWidgetChild(){
-						// add the child to the tabcontainer now:
+						// add the child to the TabContainer now:
 						pane1 = new dijit.layout.ContentPane({ title:"empty" }).placeAt(tc);
 
 						doh.is(pane1, tc.getChildren()[0], "pane1 is child of TabContainer");
@@ -82,9 +82,9 @@
 					},
 
 					function placeBefore(){
-						// and a button, this time we'll place it before the tabcontainer's dom
+						// and a button, this time we'll place it before the TabContainer's dom
 						var otherButton = new dijit.form.Button({
-							label:"destroy tabContainer",
+							label:"destroy TabContainer",
 							onClick:function(){
 								tc.destroyRecursive();
 							}
@@ -100,9 +100,22 @@
 						// Add top and left pane
 						dijit.byId("addStuff").onClick();
 
-						var bc = dijit.byId("bc1");
-						doh.is("<p>wowzers</p>", bc._left.innerHTML.toLowerCase(), "left pane");
-						doh.is("<div>some html text</div>", bc._top.innerHTML.toLowerCase(), "top pane");
+						var bc = dijit.byId("bc1"),
+							children = bc.getChildren();
+							
+						doh.is(3, children.length);
+						
+						var bcPos = dojo.position(bc.domNode),
+							center = dijit.byId("center"),
+							centerPos = dojo.position(center.domNode),
+							left = dojo.filter(children, function(child){ return child.region == "left";})[0],
+							leftPos = dojo.position(left.domNode),
+							top =  dojo.filter(children, function(child){ return child.region == "top";})[0];
+
+						doh.t(leftPos.x >= bcPos.x, "left in BorderContainer");
+						doh.t(centerPos.x >= leftPos.x + leftPos.w, "left vs. center horizontal");
+						doh.is("<p>wowzers</p>", left.domNode.innerHTML.toLowerCase(), "left pane");
+						doh.is("<div>some html text</div>", top.domNode.innerHTML.toLowerCase(), "top pane");
 					}
 				]
 			);
@@ -125,7 +138,7 @@
 
 	<h2>BorderContainer sample</h2>
 	<div id="bc1" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='style:"width:600px; height:400px"'>
-		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"center"'>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='id:"center", region:"center"'>
 			<button id="addStuff" data-dojo-type="dijit.form.Button">
 				Add Stuff
 				<script type="dojo/method" data-dojo-event="onClick">
