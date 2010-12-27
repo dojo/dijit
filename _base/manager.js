@@ -348,29 +348,25 @@ dojo.declare("dijit.WidgetSet", null, {
 				return true;
 			case "iframe":
 				// If it's an editor <iframe> then it's tab navigable.
-				//TODO: feature detect "designMode" in elem.contentDocument?
-				if(dojo.isMoz){
-					try{
-						return elem.contentDocument.designMode == "on";
-					}catch(err){
-						return false;
+				var body;
+				try{
+					// non-IE
+					var contentDocument = elem.contentDocument;
+					if("designMode" in contentDocument && contentDocument.designMode == "on"){
+						return true;
 					}
-				}else if(dojo.isWebKit){
-					var doc = elem.contentDocument,
-						body = doc && doc.body;
-					return body && body.contentEditable == 'true';
-				}else{
+					body = contentDocument.body;
+				}catch(e1){
 					// contentWindow.document isn't accessible within IE7/8
 					// if the iframe.src points to a foreign url and this
 					// page contains an element, that could get focus
 					try{
-						doc = elem.contentWindow.document;
-						body = doc && doc.body;
-						return body && body.firstChild && body.firstChild.contentEditable == 'true';
-					}catch(e){
+						body = elem.contentWindow.document.body;
+					}catch(e2){
 						return false;
 					}
 				}
+				return body.contentEditable == 'true' || (body.firstChild && body.firstChild.contentEditable == 'true');
 			default:
 				return elem.contentEditable == 'true';
 		}
