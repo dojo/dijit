@@ -91,7 +91,7 @@
 			><div id="toolbar1.dialog" data-dojo-type="dijit.form.DropDownButton" data-dojo-props='iconClass:"plusIcon", showLabel:true'>
 				<span>TooltipDialog</span>
 				<div id="tooltipDlg" data-dojo-type="dijit.TooltipDialog" data-dojo-props='title:"Enter Login information",
-					execute:function(){ console.log("submitted w/args:\n" + dojo.toJson(arguments[0], true)); }'>
+					execute:function(args){ console.log("submitted w/args:\n" + dojo.toJson(args, true)); }'>
 					<table>
 						<tr>
 							<td><label for="user">User:</label></td>

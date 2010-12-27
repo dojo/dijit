@@ -72,7 +72,7 @@
 			"aria-describedby":"intro",
 			onFocus:function(){ console.log("user focus handler") },
 			onBlur:function(){ console.log("user blur handler") },
-			execute:function(){ console.log("submitted w/args:\n" + dojo.toJson(arguments[0], true)); }'>
+			execute:function(args){ console.log("submitted w/args:\n" + dojo.toJson(args, true)); }'>
 		<div id="intro" style="width:30em;">Introductory information spoken by screen reader if aria-describedby is
 		added to the declaration of dialog above with value equal to the id of the container element for this text. This technique
 		will work in Dojo 1.4. </div>
@@ -191,7 +191,7 @@
 	<div id="dialog6" data-dojo-type="dijit.Dialog" data-dojo-props='title:"File Dialog",
 			onFocus:function(){ console.log("user focus handler") },
 			onBlur:function(){ console.log("user blur handler") },
-			execute:function(){ alert("submitted w/args:\n" + dojo.toJson(arguments[0], true)); }, style:"min-width: 350px"'>
+			execute:function(args){ alert("submitted w/args:\n" + dojo.toJson(args, true)); }, style:"min-width: 350px"'>
 		<!-- note: style="min-width: 350px" to workaround FF bug where width is too short, see http://bugs.dojotoolkit.org/ticket/5976 -->
 			<label for="afile">ID File: </label>
 			<input id="afile" data-dojo-type="dijit.form.TextBox" data-dojo-props='type:"file", name:"afile" '/>
@@ -300,7 +300,7 @@
 			onExecute:function(){ console.log("OK button pressed") },
 			onCancel:function(){ console.log("Cancel button pressed") },
 			"aria-describedby":"intro",
-			execute:function(){ console.log("submitted w/args:\n" + dojo.toJson(arguments[0], true)); }'>
+			execute:function(args){ console.log("submitted w/args:\n" + dojo.toJson(args, true)); }'>
 		<div class="dijitDialogPaneContentArea">
 			<div id="ABintro1" style="width:30em;">Introductory information spoken by screen reader if aria-describedby is
 			added to the declaration of dialog above with value equal to the id of the container element for this text. This technique
@@ -320,7 +320,7 @@
 			"aria-describedby":"intro",
 			onFocus:function(){ console.log("user focus handler") },
 			onBlur:function(){ console.log("user blur handler") },
-			execute:function(){ console.log("submitted w/args:\n" + dojo.toJson(arguments[0], true)); }'>
+			execute:function(args){ console.log("submitted w/args:\n" + dojo.toJson(args, true)); }'>
 				
 		<div class="dijitDialogPaneContentArea">
 			<div id="NABintro" style="width:30em;">Introductory information spoken by screen reader if aria-describedby is
