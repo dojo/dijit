@@ -254,7 +254,7 @@ dojo.declare(
 		// summary:
 		//		Hide the specified child by changing it's CSS, and call _onHide() so
 		//		it's notified.
-		page.selected=false;
+		page._set("selected", false);
 		dojo.replaceClass(page.domNode, "dijitHidden", "dijitVisible");
 
 		page.onHide();
