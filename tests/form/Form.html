@@ -17,7 +17,7 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
-		data-dojo-config="isDebug: true, parseOnLoad: true"></script>
+		data-dojo-config="isDebug: true"></script>
 
 	<!-- only needed for alternate theme testing: -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
@@ -25,6 +25,7 @@
 	<script type="text/javascript">
 		dojo.require("doh.runner");
 		dojo.require("dojo.date");
+		dojo.require("dojo.parser");
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.form.Form");
 		dojo.require("dijit.layout.ContentPane");
@@ -125,6 +126,12 @@
 
 		dojo.addOnLoad(function(){
 
+			doh.register("parse", function(){
+				dojo.parser.parse();
+
+				formWidget = dijit.byId("myForm");
+			});
+
 			// should be able to query for all of the inputs, including hidden ones
 			doh.register("query input by checked state", [
 				{
@@ -168,7 +175,6 @@
 			);
 
 			var resetready=false;
-			var formWidget = dijit.byId("myForm");
 			var testSubmittedValues = function(deferred, testValues, formValues){
 				deferred.getTestCallback(function(){
 					doh.is(testValues.foo.bar.baz.quux.json(), formValues['foo.bar.baz.quux']);

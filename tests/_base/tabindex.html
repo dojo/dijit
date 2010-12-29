@@ -9,15 +9,20 @@
 		@import "../../themes/claro/claro.css";
 	</style>
 	<script type="text/javascript" src="../../../dojo/dojo.js"
-		data-dojo-config="isDebug: true, parseOnLoad: true"></script>
+		data-dojo-config="isDebug: true"></script>
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">
 		dojo.require("doh.runner");
+		dojo.require("dojo.parser");
 		dojo.require("dijit.dijit");
 		dojo.require("dijit.Editor");
 
 		dojo.addOnLoad(function(){
+			doh.register("parse", function(){
+				dojo.parser.parse();
+			});
+
 			doh.register("dijit.tabindex",
 				[
 					function isTabNavigable(t){
@@ -126,6 +131,7 @@
 					}
 				]
 			);
+
 			doh.run();
 		});
 

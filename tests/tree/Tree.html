@@ -16,7 +16,7 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
-		djConfig="parseOnLoad: true, isDebug: true"></script>
+		djConfig="isDebug: true"></script>
 
 	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
@@ -25,6 +25,7 @@
 
 	<script type="text/javascript">
 		dojo.require("doh.runner");
+		dojo.require("dojo.parser");
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dojo.data.ItemFileWriteStore");
 		dojo.require("dijit.Tree");
@@ -42,6 +43,10 @@
 		}
 
 		dojo.addOnLoad(function(){
+			doh.register("parse", function(){
+				dojo.parser.parse();
+			});
+
 			doh.register("Tree tests",
 				[
 					function create(){

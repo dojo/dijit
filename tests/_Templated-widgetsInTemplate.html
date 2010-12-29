@@ -4,9 +4,10 @@
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
 		<title>testing widgetsInTemplate support</title>
 		<script type="text/javascript" src="../../dojo/dojo.js"
-			data-dojo-config="parseOnLoad: true, isDebug: true"></script>
+			data-dojo-config="isDebug: true"></script>
 		<script type="text/javascript">
 			dojo.require("doh.runner");
+
 			dojo.require("dojo.parser");
 
 			dojo.require("dijit.form.Button");
@@ -19,7 +20,11 @@
 			dojo.require("dijit.layout._LayoutWidget");
 
 			dojo.addOnLoad(function(){
-				doh.register("t",
+				doh.register("parse", function(){
+					dojo.parser.parse();
+				});
+
+				doh.register("_Templated-widgetsInTemplate",
 					[
 						{
 							name: "data-dojo-attach-point",
@@ -94,7 +99,7 @@
 							}
 						},
 						{
-							// Check that programmatic widget with layout widgets in template is correctly created and rendered
+							// Check that programatic widget with layout widgets in template is correctly created and rendered
 							name: "programmatic widget with layout widgets",
 							runTest: function(t){
 								validateTest4Widget(t, test4WidgetProgrammatic);

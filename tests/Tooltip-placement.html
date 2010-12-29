@@ -16,88 +16,95 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../dojo/dojo.js"
-		data-dojo-config="parseOnLoad: true, isDebug: true"></script>
+		data-dojo-config="isDebug: true"></script>
 
 	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="_testCommon.js"></script>
 	<script type="text/javascript">
 		dojo.require("doh.runner");
+		dojo.require("dojo.parser");
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.form.ValidationTextBox");
 		
 		dojo.addOnLoad(function(){
-			dijit._MasterTooltip.prototype.duration = 0.05; // speed up tooltip fading
-			var view = dojo.window.getBox();
-			var width = view.w;
-			var height = view.h;
-			
-			if(width < 600){
-				//Make the larger tooltips smaller so they fit on the page and pass all tests
-				dijit.byId("test2").promptMessage="really really really really really really really really really really really really really really really really really really really really";
-				dijit.byId("test5").promptMessage="really really really really really really really really really really really really really really really really really really really really";
-				dijit.byId("test12").promptMessage="really really really really really really really really really really really really really really really really really really really really";
-				dijit.byId("test17").promptMessage="really really really really really really really really really really really really really really really really really really really really";
-				dijit.byId("test19").promptMessage="really really really really really really really really really really really really really really really really really really really really";
-			}else if(width > 1200){
-				//Make a shorter tooltip longer in order to span the whole width
-				dijit.byId("test1").promptMessage="really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really<br><br><br><br><br><br><br><br><br><br><br><br><br><br>a"
-				dijit.byId("test4").promptMessage="really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really<br><br><br><br><br><br><br><br><br>a"
-				dijit.byId("test10").promptMessage="really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really<br><br><br><br><br><br><br><br><br>a"
-				dijit.byId("test20").promptMessage="really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really<br><br><br><br><br><br><br><br><br>a"
-			}
-			
-			if(height < 600){
-				//Make the taller tooltips shorter
-				for(var i=1;i<22;i++) {
-					if(i==7){
-						//skip
-					}else{
-						dijit.byId("test"+i+"_tall_skinny").promptMessage="<br><br><br><br>a";
+			doh.register("parse", function(){
+				dojo.parser.parse();
+			});
+
+			doh.register("other setup", function(){
+				dijit._MasterTooltip.prototype.duration = 0.05; // speed up tooltip fading
+				var view = dojo.window.getBox();
+				var width = view.w;
+				var height = view.h;
+				
+				if(width < 600){
+					//Make the larger tooltips smaller so they fit on the page and pass all tests
+					dijit.byId("test2").promptMessage="really really really really really really really really really really really really really really really really really really really really";
+					dijit.byId("test5").promptMessage="really really really really really really really really really really really really really really really really really really really really";
+					dijit.byId("test12").promptMessage="really really really really really really really really really really really really really really really really really really really really";
+					dijit.byId("test17").promptMessage="really really really really really really really really really really really really really really really really really really really really";
+					dijit.byId("test19").promptMessage="really really really really really really really really really really really really really really really really really really really really";
+				}else if(width > 1200){
+					//Make a shorter tooltip longer in order to span the whole width
+					dijit.byId("test1").promptMessage="really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really<br><br><br><br><br><br><br><br><br><br><br><br><br><br>a"
+					dijit.byId("test4").promptMessage="really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really<br><br><br><br><br><br><br><br><br>a"
+					dijit.byId("test10").promptMessage="really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really<br><br><br><br><br><br><br><br><br>a"
+					dijit.byId("test20").promptMessage="really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really<br><br><br><br><br><br><br><br><br>a"
+				}
+				
+				if(height < 600){
+					//Make the taller tooltips shorter
+					for(var i=1;i<22;i++) {
+						if(i==7){
+							//skip
+						}else{
+							dijit.byId("test"+i+"_tall_skinny").promptMessage="<br><br><br><br>a";
+						}
 					}
 				}
-			}
-			
-			dijit.byId("test1").set("style", "width:"+width*(0.3)+"px");
-			dijit.byId("test1_tall_skinny").set("style", "width:"+width*(0.3)+"px");
-			dijit.byId("test2").set("style", "width:"+width*(0.6)+"px");
-			dijit.byId("test2_tall_skinny").set("style", "width:"+width*(0.6)+"px");
-			dijit.byId("test3").set("style", "width:"+width*(0.9)+"px");
-			dijit.byId("test3_tall_skinny").set("style", "width:"+width*(0.9)+"px");
-			dijit.byId("test4").set("style", "width:"+width*(0.3)+"px");
-			dijit.byId("test4_tall_skinny").set("style", "width:"+width*(0.3)+"px");
-			dijit.byId("test5").set("style", "width:"+width*(0.6)+"px");
-			dijit.byId("test5_tall_skinny").set("style", "width:"+width*(0.6)+"px");
-			dijit.byId("test6").set("style", "width:"+width*(0.9)+"px");
-			dijit.byId("test6_tall_skinny").set("style", "width:"+width*(0.9)+"px");
-			dijit.byId("test7").set("style", "width:"+width*(1.1)+"px");
-			dijit.byId("test8").set("style", "width:"+width*(0.2)+"px");
-			dijit.byId("test8_tall_skinny").set("style", "width:"+width*(0.2)+"px");
-			dijit.byId("test9").set("style", "width:"+width*(0.3)+"px");
-			dijit.byId("test9_tall_skinny").set("style", "width:"+width*(0.3)+"px");
-			dijit.byId("test10").set("style", "width:"+width*(0.6)+"px");
-			dijit.byId("test10_tall_skinny").set("style", "width:"+width*(0.6)+"px");
-			dijit.byId("test11").set("style", "width:"+width*(0.9)+"px");
-			dijit.byId("test11_tall_skinny").set("style", "width:"+width*(0.9)+"px");
-			dijit.byId("test12").set("style", "width:"+width*(0.3)+"px");
-			dijit.byId("test12_tall_skinny").set("style", "width:"+width*(0.3)+"px");
-			dijit.byId("test13").set("style", "width:"+width*(0.6)+"px");
-			dijit.byId("test13_tall_skinny").set("style", "width:"+width*(0.6)+"px");
-			dijit.byId("test14").set("style", "width:"+width*(0.9)+"px");
-			dijit.byId("test14_tall_skinny").set("style", "width:"+width*(0.9)+"px");
-			dijit.byId("test15").set("style", "width:"+width*(0.9)+"px");
-			dijit.byId("test15_tall_skinny").set("style", "width:"+width*(0.9)+"px");
-			dijit.byId("test16").set("style", "width:"+width*(0.3)+"px");
-			dijit.byId("test16_tall_skinny").set("style", "width:"+width*(0.3)+"px");
-			dijit.byId("test17").set("style", "width:"+width*(0.6)+"px");
-			dijit.byId("test17_tall_skinny").set("style", "width:"+width*(0.6)+"px");
-			dijit.byId("test18").set("style", "width:"+width*(0.9)+"px");
-			dijit.byId("test18_tall_skinny").set("style", "width:"+width*(0.9)+"px");
-			dijit.byId("test19").set("style", "width:"+width*(0.3)+"px");
-			dijit.byId("test19_tall_skinny").set("style", "width:"+width*(0.3)+"px");
-			dijit.byId("test20").set("style", "width:"+width*(0.6)+"px");
-			dijit.byId("test20_tall_skinny").set("style", "width:"+width*(0.6)+"px");
-			dijit.byId("test21").set("style", "width:"+width*(0.9)+"px");
-			dijit.byId("test21_tall_skinny").set("style", "width:"+width*(0.9)+"px");
+				
+				dijit.byId("test1").set("style", "width:"+width*(0.3)+"px");
+				dijit.byId("test1_tall_skinny").set("style", "width:"+width*(0.3)+"px");
+				dijit.byId("test2").set("style", "width:"+width*(0.6)+"px");
+				dijit.byId("test2_tall_skinny").set("style", "width:"+width*(0.6)+"px");
+				dijit.byId("test3").set("style", "width:"+width*(0.9)+"px");
+				dijit.byId("test3_tall_skinny").set("style", "width:"+width*(0.9)+"px");
+				dijit.byId("test4").set("style", "width:"+width*(0.3)+"px");
+				dijit.byId("test4_tall_skinny").set("style", "width:"+width*(0.3)+"px");
+				dijit.byId("test5").set("style", "width:"+width*(0.6)+"px");
+				dijit.byId("test5_tall_skinny").set("style", "width:"+width*(0.6)+"px");
+				dijit.byId("test6").set("style", "width:"+width*(0.9)+"px");
+				dijit.byId("test6_tall_skinny").set("style", "width:"+width*(0.9)+"px");
+				dijit.byId("test7").set("style", "width:"+width*(1.1)+"px");
+				dijit.byId("test8").set("style", "width:"+width*(0.2)+"px");
+				dijit.byId("test8_tall_skinny").set("style", "width:"+width*(0.2)+"px");
+				dijit.byId("test9").set("style", "width:"+width*(0.3)+"px");
+				dijit.byId("test9_tall_skinny").set("style", "width:"+width*(0.3)+"px");
+				dijit.byId("test10").set("style", "width:"+width*(0.6)+"px");
+				dijit.byId("test10_tall_skinny").set("style", "width:"+width*(0.6)+"px");
+				dijit.byId("test11").set("style", "width:"+width*(0.9)+"px");
+				dijit.byId("test11_tall_skinny").set("style", "width:"+width*(0.9)+"px");
+				dijit.byId("test12").set("style", "width:"+width*(0.3)+"px");
+				dijit.byId("test12_tall_skinny").set("style", "width:"+width*(0.3)+"px");
+				dijit.byId("test13").set("style", "width:"+width*(0.6)+"px");
+				dijit.byId("test13_tall_skinny").set("style", "width:"+width*(0.6)+"px");
+				dijit.byId("test14").set("style", "width:"+width*(0.9)+"px");
+				dijit.byId("test14_tall_skinny").set("style", "width:"+width*(0.9)+"px");
+				dijit.byId("test15").set("style", "width:"+width*(0.9)+"px");
+				dijit.byId("test15_tall_skinny").set("style", "width:"+width*(0.9)+"px");
+				dijit.byId("test16").set("style", "width:"+width*(0.3)+"px");
+				dijit.byId("test16_tall_skinny").set("style", "width:"+width*(0.3)+"px");
+				dijit.byId("test17").set("style", "width:"+width*(0.6)+"px");
+				dijit.byId("test17_tall_skinny").set("style", "width:"+width*(0.6)+"px");
+				dijit.byId("test18").set("style", "width:"+width*(0.9)+"px");
+				dijit.byId("test18_tall_skinny").set("style", "width:"+width*(0.9)+"px");
+				dijit.byId("test19").set("style", "width:"+width*(0.3)+"px");
+				dijit.byId("test19_tall_skinny").set("style", "width:"+width*(0.3)+"px");
+				dijit.byId("test20").set("style", "width:"+width*(0.6)+"px");
+				dijit.byId("test20_tall_skinny").set("style", "width:"+width*(0.6)+"px");
+				dijit.byId("test21").set("style", "width:"+width*(0.9)+"px");
+				dijit.byId("test21_tall_skinny").set("style", "width:"+width*(0.9)+"px");
+			});
 
 			//Verify the following is true:
 			//	1. The tooltip is displayed to the right or the left of the textbox

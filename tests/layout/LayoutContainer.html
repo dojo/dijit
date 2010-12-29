@@ -13,7 +13,7 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
-		djConfig="isDebug: true, parseOnLoad: true"></script>
+		djConfig="isDebug: true"></script>
 
 	<!-- only needed for alternate theme testing: do NOT use in your code! -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
@@ -64,6 +64,10 @@
 		}
 
 		dojo.addOnLoad(function(){
+			doh.register("parse", function(){
+				dojo.parser.parse();
+			});
+
 			doh.register("LayoutContainer", [
 				function basic(){
 					var lc = dijit.byId("basic");

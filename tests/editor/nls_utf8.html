@@ -13,7 +13,7 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
-		data-dojo-config="parseOnLoad: true, isDebug: true"></script>
+		data-dojo-config="isDebug: true"></script>
 
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
@@ -25,29 +25,33 @@
 		
 		dojo.addOnLoad(function(){
 			 
+			doh.register("parse", function(){
+				dojo.parser.parse();
+			});
+
 			 doh.register("test value", [
-					{
-						name: "test value",
-						timeout: 10000,
-						runTest: function(){
-							var d = new doh.Deferred();
+				{
+					name: "test value",
+					timeout: 10000,
+					runTest: function(){
+						var d = new doh.Deferred();
 
+						
+						setTimeout(d.getTestCallback(function(){
+							var value = dijit.byId('editor').get('value');
+							doh.is("日本語", value );
 							
-							setTimeout(d.getTestCallback(function(){
-								var value = dijit.byId('editor').get('value');
-								doh.is("日本語", value );
-								
-								dijit.byId('editor').set('value', 'こんにちは');
-								value = dijit.byId('editor').get('value');
-								doh.is("こんにちは", value );
-								
-								dijit.byId('editor').set('value', '日本語');
-							}), 2000);
+							dijit.byId('editor').set('value', 'こんにちは');
+							value = dijit.byId('editor').get('value');
+							doh.is("こんにちは", value );
+							
+							dijit.byId('editor').set('value', '日本語');
+						}), 2000);
 
-							return d;
-						}
+						return d;
 					}
-				]);
+				}
+			]);
 
 			doh.run();
 		});

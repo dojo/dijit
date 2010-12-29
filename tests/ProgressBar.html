@@ -25,7 +25,7 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../dojo/dojo.js"
-		data-dojo-config="parseOnLoad: true, isDebug: true"></script>
+		data-dojo-config="isDebug: true"></script>
 
 	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="_testCommon.js"></script>
@@ -38,26 +38,35 @@
 		dojo.require("doh.runner");
 
 		dojo.addOnLoad(function go(){
-			// note that programmatic instantiation doesn't pull any parameters from the srcNodeRef, not even id
-			var theBar = new dijit.ProgressBar({id: "testBar", width: 400, maximum: 256, duration: 2000,
-				report:function(percent){
-					return dojo.string.substitute("${0} out of ${1} max chars", [this.get('value'), this.maximum]);
-				}
-			}, dojo.byId("testBar"));
+			doh.register("parse", function(){
+				dojo.parser.parse();
+			});
 
-			dojo.byId("test").value="";
-			dojo.byId("progressValue").value = dijit.byId("setTestBar").value;
-			dojo.byId("maximum").value = dijit.byId("setTestBar").maximum;
-			dojo.connect(dojo.byId("test"), "onkeyup", null, keyUpHandler);
-			dojo.connect(dojo.byId("set"), "onclick", null, setParameters);
-			dojo.connect(dojo.byId("startTimer"), "onclick", null,
-				function(){ remoteProgress(dijit.byId("timerBar")); } );
-				
-			// test 7
-			new dijit.ProgressBar({
-				style:"width:400px",
-				indeterminate:true
-			}, "pi");
+			doh.register("other setup", function(){
+				// Stuff from the original test file.   Not sure if this is needed now that
+				// the test is automated.
+
+				// note that programmatic instantiation doesn't pull any parameters from the srcNodeRef, not even id
+				var theBar = new dijit.ProgressBar({id: "testBar", width: 400, maximum: 256, duration: 2000,
+					report:function(percent){
+						return dojo.string.substitute("${0} out of ${1} max chars", [this.get('value'), this.maximum]);
+					}
+				}, dojo.byId("testBar"));
+	
+				dojo.byId("test").value="";
+				dojo.byId("progressValue").value = dijit.byId("setTestBar").value;
+				dojo.byId("maximum").value = dijit.byId("setTestBar").maximum;
+				dojo.connect(dojo.byId("test"), "onkeyup", null, keyUpHandler);
+				dojo.connect(dojo.byId("set"), "onclick", null, setParameters);
+				dojo.connect(dojo.byId("startTimer"), "onclick", null,
+					function(){ remoteProgress(dijit.byId("timerBar")); } );
+					
+				// test 7
+				new dijit.ProgressBar({
+					style:"width:400px",
+					indeterminate:true
+				}, "pi");
+			});
 
 			doh.register("ProgressBar",[
 				{

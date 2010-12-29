@@ -6,24 +6,28 @@
 
 	<title>Container</title>
 
-	<script type="text/javascript" src="../../dojo/dojo.js" data-dojo-config="isDebug: true, parseOnLoad: true"></script>
+	<script type="text/javascript" src="../../dojo/dojo.js" data-dojo-config="isDebug: true"></script>
 	<script type="text/javascript">
 		dojo.require("doh.runner");
 		dojo.require("dijit._Widget");
 		dojo.require("dijit._Container");
 		dojo.require("dijit._Contained");
 
-		dojo.declare("dijit.TestContainer",
-			[dijit._Widget, dijit._Container], { }
-		);
-
-		dojo.declare("dijit.TestContained",
-			[dijit._Widget, dijit._Contained], {}
-		);
-
 		dojo.require("dojo.parser");
 
 		dojo.addOnLoad(function(){
+			dojo.declare("dijit.TestContainer",
+				[dijit._Widget, dijit._Container], { }
+			);
+	
+			dojo.declare("dijit.TestContained",
+				[dijit._Widget, dijit._Contained], {}
+			);
+
+			doh.register("parse", function(){
+				dojo.parser.parse();
+			});
+
 			doh.register("dijit._Container",
 				[
 					{
@@ -91,6 +95,7 @@
 					}
 				]
 			);
+
 			doh.run();
 		});
 

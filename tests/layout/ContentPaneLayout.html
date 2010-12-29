@@ -15,9 +15,12 @@
 	</style>
 
 	<script type="text/javascript" src="../../../dojo/dojo.js"
-		data-dojo-config="isDebug: true, parseOnLoad: true"></script>
+		data-dojo-config="isDebug: true"></script>
+
 	<script type="text/javascript">
 		dojo.require("doh.runner");
+		dojo.require("dojo.parser");
+
 		dojo.require("dijit._Widget");
 		dojo.require("dijit._Templated");
 		dojo.require("dijit.layout.ContentPane");
@@ -30,18 +33,6 @@
 		dojo.require("dijit.form.ComboBox");
 		dojo.require("dijit.form.Button");
 
-		// create a do nothing, only for test widget
-		dojo.declare("ResizableWidget",
-			[dijit._Widget, dijit._Templated], {
-			templateString: "<span class='resizableWidget'>resizable widget</span>",
-			_resized: 0,
-			_resizeArgs: null,
-			resize: function(){
-				this._resized++;
-				this._resizeArgs = arguments;
-			}
-		});
-
 		// Keep track of which panes have had a load event, and how
 		// many load events have occured for those panes
 		var loadEvents = {
@@ -53,11 +44,27 @@
 
 		dojo.addOnLoad(function(){
 
+			// create a do nothing, only for test widget
+			dojo.declare("ResizableWidget",
+				[dijit._Widget, dijit._Templated], {
+				templateString: "<span class='resizableWidget'>resizable widget</span>",
+				_resized: 0,
+				_resizeArgs: null,
+				resize: function(){
+					this._resized++;
+					this._resizeArgs = arguments;
+				}
+			});
+	
 			// Keep track of the number of startup() calls to every widget.
 			// Since the href's widgets haven't been created yet we monitor startup() calls on the prototype
 			var startups = {};
 			dojo.connect(dijit._Widget.prototype, "startup", function(){
 				startups[this.id] = (startups[this.id] || 0) + 1;
+			});
+
+			doh.register("parse", function(){
+				dojo.parser.parse();
 			});
 
 			// Test that ContentPanes calls startup() on child widgets appropriately
