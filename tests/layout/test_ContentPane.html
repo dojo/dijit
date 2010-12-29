@@ -9,7 +9,7 @@
 		@import "../css/dijitTests.css";
 
 		.box {
-		  position: relative;
+			position: relative;
 			background-color: white;
 			border: 2px solid black;
 			padding: 8px;
@@ -154,26 +154,26 @@
 	<h1 class="testTitle">Dijit layout.ContentPane tests</h1>
 		<p>pre-container paragraph</p>
 
-		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='class:"box"'>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='"class":"box"'>
 			some text (top-level container)
 
-			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='class:"box"'>
+			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='"class":"box"'>
 
 				text in the inner container (1)
 
-				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='class:"box", href:"tab2.html"'>
+				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='"class":"box", href:"tab2.html"'>
 					hi
 				</div>
 
 				text in the inner container (2)
 
-				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='class:"box"'>
+				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='"class":"box"'>
 					inner-inner 2
 				</div>
 
 				text in the inner container (3)
 
-				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='class:"box"'>
+				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='"class":"box"'>
 					inner-inner 3
 				</div>
 
@@ -186,22 +186,22 @@
 
 		<p>mid-container paragraph</p>
 
-		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='class:"box"'>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='"class":"box"'>
 			2nd top-level container
 		</div>
 
 		<p>post-container paragraph</p>
 
-		<div id="test" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='class:"box", href:"combotab.html" '>
+		<div id="test" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='"class":"box", href:"combotab.html" '>
 			<p style='background-color:yellow;border:1px solid red;text-align:center;'>This text should automatically be replaced by downloaded content from combotab.html</p>
 		</div>
 
 		<hr/>
 		<p>ContentPanes used by the unit tests to verify functionality
-		<div id='parsedPane' data-dojo-type="dijit.layout.ContentPane" data-dojo-props='class:"box" '>
+		<div id='parsedPane' data-dojo-type="dijit.layout.ContentPane" data-dojo-props='"class":"box" '>
 			Some Content Here
 		</div>
-		<div id='dialogContainer' data-dojo-type="dijit.layout.ContentPane" data-dojo-props='class:"box" '>
+		<div id='dialogContainer' data-dojo-type="dijit.layout.ContentPane" data-dojo-props='"class":"box" '>
 			<div id="parserTest" data-dojo-type="dijit.TestWidget" ></div>
 		</div>
 	</body>
