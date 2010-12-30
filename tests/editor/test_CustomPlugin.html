@@ -14,7 +14,7 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
-		data-dojo-config="parseOnLoad: true, isDebug: true"></script>
+		data-dojo-config="isDebug: true"></script>
 
 	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
@@ -39,58 +39,62 @@
 		dojo.require("dijit._editor._Plugin");
 		dojo.require("dojo.string");
 
-		dojo.declare("MyPlugin",
-			dijit._editor._Plugin,
-			{
-				buttonClass: dijit.form.ToggleButton,
-				useDefaultCommand: false,
-
-				_initButton: function(){
-					this.command = "htmlToggle";
-					this.editor.commands[this.command] = "View HTML source"; // note: should be localized
-					this.iconClassPrefix = "customIcon";
-					this.inherited(arguments);
-					delete this.command; // kludge so setEditor doesn't make the button invisible
-					this.connect(this.button, "onClick", this._toggleSource);
-				},
-
-				destroy: function(f){
-					this.inherited(arguments);
-					if(this.sourceArea){ dojo.destroy(this.sourceArea); }
-				},
-
-				_toggleSource: function(){
-					this.source = !this.source;
-					if(!this.sourceArea){
-						this.sourceArea = dojo.doc.createElement('textarea');
-						this.sourceArea.style.position = 'absolute';
-						dojo.place(this.sourceArea, this.editor.domNode, "last");
-					}
-					if(this.source){
-						this.sourceArea.value = this.editor.getValue();
-						dojo.style(this.sourceArea, "borderWidth", dojo.style(this.editor.editingArea, "borderStyle") == "none" ? "0" : dojo.style(this.editor.editingArea, "borderWidth"));
-						dojo.marginBox(this.sourceArea, dojo.marginBox(this.editor.editingArea));
-						if(dojo.isIE){
-							//work around IE oddity with offsetParent mismatch
-							var p = dojo.position(this.editor.editingArea);
-							dojo.style(this.sourceArea, { left: p.x, top: p.y });
+		dojo.addOnLoad(function(){
+			dojo.declare("MyPlugin",
+				dijit._editor._Plugin,
+				{
+					buttonClass: dijit.form.ToggleButton,
+					useDefaultCommand: false,
+	
+					_initButton: function(){
+						this.command = "htmlToggle";
+						this.editor.commands[this.command] = "View HTML source"; // note: should be localized
+						this.iconClassPrefix = "customIcon";
+						this.inherited(arguments);
+						delete this.command; // kludge so setEditor doesn't make the button invisible
+						this.connect(this.button, "onClick", this._toggleSource);
+					},
+	
+					destroy: function(f){
+						this.inherited(arguments);
+						if(this.sourceArea){ dojo.destroy(this.sourceArea); }
+					},
+	
+					_toggleSource: function(){
+						this.source = !this.source;
+						if(!this.sourceArea){
+							this.sourceArea = dojo.doc.createElement('textarea');
+							this.sourceArea.style.position = 'absolute';
+							dojo.place(this.sourceArea, this.editor.domNode, "last");
 						}
-					}else{
-						this.editor.setValue(this.sourceArea.value);
-						this.sourceArea.style.top = "-999px";
+						if(this.source){
+							this.sourceArea.value = this.editor.getValue();
+							dojo.style(this.sourceArea, "borderWidth", dojo.style(this.editor.editingArea, "borderStyle") == "none" ? "0" : dojo.style(this.editor.editingArea, "borderWidth"));
+							dojo.marginBox(this.sourceArea, dojo.marginBox(this.editor.editingArea));
+							if(dojo.isIE){
+								//work around IE oddity with offsetParent mismatch
+								var p = dojo.position(this.editor.editingArea);
+								dojo.style(this.sourceArea, { left: p.x, top: p.y });
+							}
+						}else{
+							this.editor.setValue(this.sourceArea.value);
+							this.sourceArea.style.top = "-999px";
+						}
+	
+						this.button.set('label', this.source ? "View WYSIWYG" : this.editor.commands["htmlToggle"]); // note: should be localized
 					}
-
-					this.button.set('label', this.source ? "View WYSIWYG" : this.editor.commands["htmlToggle"]); // note: should be localized
 				}
-			}
-		);
-
-		/* the following code registers my plugin */
-		dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
-			if(o.plugin){ return; }
-			if(o.args.name == "MyPlugin"){
-				return new MyPlugin({});
-			}
+			);
+	
+			/* the following code registers my plugin */
+			dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
+				if(o.plugin){ return; }
+				if(o.args.name == "MyPlugin"){
+					return new MyPlugin({});
+				}
+			});
+			
+			dojo.parser.parse();
 		});
 	</script>
 </head>

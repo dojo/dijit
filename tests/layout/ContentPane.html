@@ -32,14 +32,14 @@
 		dojo.require("dojo.parser");
 		dojo.require("dijit.Dialog");
 
-		// create a do nothing, only for test widget
-		dojo.declare("dijit.TestWidget",
-			[dijit._Widget, dijit._Templated], {
-			templateString: "<span class='dijitTestWidget'></span>"
-		});
-
 
 		dojo.addOnLoad(function(){
+			// create a do nothing, only for test widget
+			dojo.declare("dijit.TestWidget",
+				[dijit._Widget, dijit._Templated], {
+				templateString: "<span class='dijitTestWidget'></span>"
+			});
+
 			doh.register("pane1",
 				[
 					{

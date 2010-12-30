@@ -6,26 +6,30 @@
 
 	<title>Test Dijit Internal Event: "ondijitclick"</title>
 
-	<script type="text/javascript" src="../../dojo/dojo.js" data-dojo-config="isDebug: true, parseOnLoad: true"></script>
+	<script type="text/javascript" src="../../dojo/dojo.js" data-dojo-config="isDebug: true"></script>
 	<script type="text/javascript">
 		dojo.require("dijit._Widget");
 		dojo.require("dojo.parser");
 
-		dojo.declare("dijit.WidgetWithOndijitclick",
-			dijit._Widget,
-			{
-				clickCount: 0,
-				onClick: function(){
-				},
-				_onClick: function() {
-					console.log(this.id + ": ondijitclick");
-					this.onClick();
-				},
-				postCreate: function() {
-					this.connect(this.domNode, "ondijitclick", "_onClick");
+		dojo.addOnLoad(function(){
+			dojo.declare("dijit.WidgetWithOndijitclick",
+				dijit._Widget,
+				{
+					clickCount: 0,
+					onClick: function(){
+					},
+					_onClick: function() {
+						console.log(this.id + ": ondijitclick");
+						this.onClick();
+					},
+					postCreate: function() {
+						this.connect(this.domNode, "ondijitclick", "_onClick");
+					}
 				}
-			}
-		);
+			);
+
+			dojo.parser.parse();
+		});
 	</script>
 	<style>
 		div {

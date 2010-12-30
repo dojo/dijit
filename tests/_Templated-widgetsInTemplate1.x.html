@@ -1,6 +1,10 @@
 <html>
 	<head>
 		<title>testing widgetsInTemplate support</title>
+		<style type="text/css">
+			@import "../themes/claro/document.css";
+			@import "../themes/claro/claro.css";
+		</style>
 		<script type="text/javascript" src="../../dojo/dojo.js"
 			djConfig="isDebug: true"></script>
 		<script type="text/javascript">
@@ -20,6 +24,202 @@
 			dojo.addOnLoad(function(){
 				var testW;
 
+				dojo.declare('Test1Widget',
+					[dijit._Widget, dijit._Templated],
+				{
+					widgetsInTemplate: true,
+	
+					templateString: dojo.byId('Test1Template').textContent || dojo.byId('Test1Template').innerText,
+					onClick: function(e){
+						if(e.target){
+							alert('onClick widgetId='+e.target.id);
+						}else{
+							if(e._counter == undefined){
+								e._counter = 1;
+							}else{
+								e._counter++;
+							}
+						}
+					}
+				});
+
+				dojo.declare('Test2Widget',
+					[dijit._Widget, dijit._Templated],
+				{
+					widgetsInTemplate: true,
+	
+					templateString: dojo.byId('Test2Template').textContent || dojo.byId('Test2Template').innerText
+				});
+
+				dojo.declare('Test4Widget',
+					[dijit._Widget, dijit._Templated],
+				{
+					widgetsInTemplate: true,
+		
+					templateString: dojo.byId('Test4Template').textContent || dojo.byId('Test4Template').innerText
+				});
+		
+				function validateTest4Widget(t, testW) {
+					var selectedTab = dojo.query(".dijitTabChecked", testW.domNode)[0];
+					var selectedPane = dojo.query(".dijitTabPane.dijitVisible", testW.domNode)[0];
+					var tabBox = selectedTab ? dojo.contentBox(selectedTab) : null;
+					var paneBox = selectedPane ? dojo.contentBox(selectedPane) : null;
+					t.t(tabBox && tabBox.w > 0 && tabBox.h > 0, "tabBox && tabBox.w > 0 && tabBox.h > 0");
+					t.t(paneBox && paneBox.w > 0 && paneBox.h > 0, "paneBox && paneBox.w > 0 && paneBox.h");
+					// Check that everything got started
+					t.t(testW._started, "testW._started");
+					t.t(testW.tabCont._started, "tabCont._started");
+					t.t(testW.tab1._started, "tab1._started");
+					t.t(testW.tab2._started, "tab2._started");
+				}
+
+				dojo.declare('TestLayoutWidget', dijit.layout._LayoutWidget, {
+					startup: function(){
+						if(this._started){
+							this._doubleStarted = true;
+						}
+						this.inherited(arguments);
+					},
+					destroy: function(){
+						if(this._destroyed){
+							this._doubleDestroyed = true;
+						}
+						this.inherited(arguments);
+						this._destroyed = true;
+					}
+				});
+				dojo.declare('TestCtnrWidget', [dijit._Widget, dijit._Container], {
+					startup: function(){
+						if(this._started){
+							this._doubleStarted = true;
+						}
+						this.inherited(arguments);
+					},
+					destroy: function(){
+						if(this._destroyed){
+							this._doubleDestroyed = true;
+						}
+						this.inherited(arguments);
+						this._destroyed = true;
+					}
+				});
+				dojo.declare('TestCtndWidget', [dijit._Widget, dijit._Contained], {
+					startup: function(){
+						if(this._started){
+							this._doubleStarted = true;
+						}
+						this.inherited(arguments);
+					},
+					destroy: function(){
+						if(this._destroyed){
+							this._doubleDestroyed = true;
+						}
+						this.inherited(arguments);
+						this._destroyed = true;
+					}
+				});
+				dojo.declare('TestNonCtnrWidget', [dijit._Widget, dijit._Templated], {
+					templateString: "<div dojoAttachPoint=containerNode></div>",
+					startup: function(){
+						if(this._started){
+							this._doubleStarted = true;
+						}
+						this.inherited(arguments);
+					},
+					destroy: function(){
+						if(this._destroyed){
+							this._doubleDestroyed = true;
+						}
+						this.inherited(arguments);
+						this._destroyed = true;
+					}
+				});
+				dojo.declare('TestStubWidget', dijit._Widget, {
+					startup: function(){
+						if(this._started){
+							this._doubleStarted = true;
+						}
+						this.inherited(arguments);
+					},
+					destroy: function(){
+						if(this._destroyed){
+							this._doubleDestroyed = true;
+						}
+						this.inherited(arguments);
+						this._destroyed = true;
+					}
+				});
+		
+				dojo.declare('Test5Widget',
+					[dijit._Widget, dijit._Templated],
+				{
+					widgetsInTemplate: true,
+		
+					templateString: dojo.byId('Test5Template').textContent || dojo.byId('Test5Template').innerText,
+					startup: function(){
+						if(this._started){
+							this._doubleStarted = true;
+						}
+						this.inherited(arguments);
+					},
+					destroy: function(){
+						if(this._destroyed){
+							this._doubleDestroyed = true;
+						}
+						this.inherited(arguments);
+						this._destroyed = true;
+					}
+				});
+		
+				function getTestWidgets(testW){
+					return [
+						testW,
+						testW.layout,
+						testW.layChild1,
+						testW.layChild2,
+						testW.container,
+						testW.contained1,
+						testW.contained2,
+						testW.nonContainer,
+						testW.nonContained1,
+						testW.nonContained2,
+						testW.threeLevel,
+						testW.secondLevel,
+						testW.bottomLevel,
+						testW.anotherThree,
+						testW.anotherSecond,
+						testW.anotherBottom,
+						testW.stub1
+					];
+				}
+		
+				function validateTest5Widget(t, testW) {
+					// Check that everything got started, but not double-started
+					dojo.forEach(getTestWidgets(testW), function(w){
+						t.t(w._started, "w._started: " + w);
+						t.is(undefined, w._doubleStarted, "w._doubleStarted: " + w);
+					});
+				}
+		
+				function validateTest5WidgetDestroy(t, testW) {
+					var savedWidgets = getTestWidgets(testW);
+					testW.destroy();
+					dojo.forEach(savedWidgets, function(w, idx){
+						t.t(w._destroyed, "w._destroyed: " + w);
+						t.is(undefined, w._doubleDestroyed, "w._doubleDestroyed: " + w);
+					});
+				}
+
+				dojo.declare("Missing", [dijit._Widget, dijit._Templated], {
+					templateString: '<div>' +
+										'<div dojoType="dijit.layout.ContentPane">' +
+											'<div dojoType="dijit.form.Button" id="missingButtonId" ' +
+											'dojoAttachPoint="missingButton">Missing...</div>' +
+										'</div>' +
+									'</div>',
+					widgetsInTemplate: true
+				});
+	
 				doh.register("parse", function(){
 					dojo.parser.parse();
 				});
@@ -106,6 +306,8 @@
 							// Check that programmatic widget with layout widgets in template is correctly created and rendered
 							name: "programmatic widget with layout widgets",
 							runTest: function(t){
+								test4WidgetProgrammatic = new Test4Widget({dir: "ltr"}).placeAt("test4Widget", "after");
+								test4WidgetProgrammatic.startup();
 								validateTest4Widget(t, test4WidgetProgrammatic);
 							}
 						},
@@ -142,6 +344,8 @@
 							// Check that programmatic widget with other widgets in template is correctly started
 							name: "programmatic widget with many child widgets",
 							runTest: function(t){
+								test5WidgetProgrammatic = new Test5Widget().placeAt("test5Widget", "after");
+								test5WidgetProgrammatic.startup();
 								validateTest5Widget(t, test5WidgetProgrammatic);
 							}
 						},
@@ -175,10 +379,6 @@
 				doh.run();
 			});
 		</script>
-	<style type="text/css">
-		@import "../themes/claro/document.css";
-		@import "../themes/claro/claro.css";
-	</style>
 	</head>
 	<body class="claro">
 		<h1>testing widgetsInTemplate support</h1>
@@ -191,28 +391,6 @@
 					maximum="200" progress="20" dojoType="dijit.ProgressBar"></div>
 			</div>
 		</xmp>
-		<script>
-			dojo.declare('Test1Widget',
-				[dijit._Widget, dijit._Templated],
-			{
-				widgetsInTemplate: true,
-		//		isContainer: true,
-
-				templateString: dojo.byId('Test1Template').textContent || dojo.byId('Test1Template').innerText,
-				onClick: function(e){
-					if(e.target){
-						alert('onClick widgetId='+e.target.id);
-					}else{
-						if(e._counter == undefined){
-							e._counter = 1;
-						}else{
-							e._counter++;
-						}
-					}
-				}
-			});
-		</script>
-	<!-- can use widget immediately in markup - no parsing occurs until document loaded and scripts run -->
 	<div dojoType="Test1Widget" id="test1Widget" ></div>
 
 	<!-- TODO: this is a strange test; the containerNode shouldn't have any contents as they will be overwritten -->
@@ -224,15 +402,6 @@
 			</div>
 		</div>
 	</xmp>
-		<script>
-			dojo.declare('Test2Widget',
-				[dijit._Widget, dijit._Templated],
-			{
-				widgetsInTemplate: true,
-
-				templateString: dojo.byId('Test2Template').textContent || dojo.byId('Test2Template').innerText
-			});
-		</script>
 	<div dojoType="Test2Widget" id="test2Widget" ><button dojoAttachPoint="buttonWidget" dojoType="dijit.form.Button">button #2</button></div>
 
 
@@ -281,35 +450,6 @@
 			</div>
 		</div>
 	</xmp>
-	<script>
-		dojo.declare('Test4Widget',
-			[dijit._Widget, dijit._Templated],
-		{
-			widgetsInTemplate: true,
-
-			templateString: dojo.byId('Test4Template').textContent || dojo.byId('Test4Template').innerText
-		});
-
-		var test4WidgetProgrammatic;
-		dojo.addOnLoad(function(){
-			test4WidgetProgrammatic = new Test4Widget({dir: "ltr"}).placeAt("test4Widget", "after");
-			test4WidgetProgrammatic.startup();
-		});
-
-		function validateTest4Widget(t, testW) {
-			var selectedTab = dojo.query(".dijitTabChecked", testW.domNode)[0];
-			var selectedPane = dojo.query(".dijitTabPane.dijitVisible", testW.domNode)[0];
-			var tabBox = selectedTab ? dojo.contentBox(selectedTab) : null;
-			var paneBox = selectedPane ? dojo.contentBox(selectedPane) : null;
-			t.t(tabBox && tabBox.w > 0 && tabBox.h > 0, "tabBox && tabBox.w > 0 && tabBox.h > 0");
-			t.t(paneBox && paneBox.w > 0 && paneBox.h > 0, "paneBox && paneBox.w > 0 && paneBox.h");
-			// Check that everything got started
-			t.t(testW._started, "testW._started");
-			t.t(testW.tabCont._started, "tabCont._started");
-			t.t(testW.tab1._started, "tab1._started");
-			t.t(testW.tab2._started, "tab2._started");
-		}
-	</script>
 	<div dojoType="Test4Widget" id="test4Widget" ></div>
 
 	<!-- Test templated widget containing container and nested widgets in template -->
@@ -340,163 +480,8 @@
 			</div>
 		</div>
 	</xmp>
-	<script>
-		dojo.declare('TestLayoutWidget', dijit.layout._LayoutWidget, {
-			startup: function(){
-				if(this._started){
-					this._doubleStarted = true;
-				}
-				this.inherited(arguments);
-			},
-			destroy: function(){
-				if(this._destroyed){
-					this._doubleDestroyed = true;
-				}
-				this.inherited(arguments);
-				this._destroyed = true;
-			}
-		});
-		dojo.declare('TestCtnrWidget', [dijit._Widget, dijit._Container], {
-			startup: function(){
-				if(this._started){
-					this._doubleStarted = true;
-				}
-				this.inherited(arguments);
-			},
-			destroy: function(){
-				if(this._destroyed){
-					this._doubleDestroyed = true;
-				}
-				this.inherited(arguments);
-				this._destroyed = true;
-			}
-		});
-		dojo.declare('TestCtndWidget', [dijit._Widget, dijit._Contained], {
-			startup: function(){
-				if(this._started){
-					this._doubleStarted = true;
-				}
-				this.inherited(arguments);
-			},
-			destroy: function(){
-				if(this._destroyed){
-					this._doubleDestroyed = true;
-				}
-				this.inherited(arguments);
-				this._destroyed = true;
-			}
-		});
-		dojo.declare('TestNonCtnrWidget', [dijit._Widget, dijit._Templated], {
-			templateString: "<div dojoAttachPoint=containerNode></div>",
-			startup: function(){
-				if(this._started){
-					this._doubleStarted = true;
-				}
-				this.inherited(arguments);
-			},
-			destroy: function(){
-				if(this._destroyed){
-					this._doubleDestroyed = true;
-				}
-				this.inherited(arguments);
-				this._destroyed = true;
-			}
-		});
-		dojo.declare('TestStubWidget', dijit._Widget, {
-			startup: function(){
-				if(this._started){
-					this._doubleStarted = true;
-				}
-				this.inherited(arguments);
-			},
-			destroy: function(){
-				if(this._destroyed){
-					this._doubleDestroyed = true;
-				}
-				this.inherited(arguments);
-				this._destroyed = true;
-			}
-		});
-
-		dojo.declare('Test5Widget',
-			[dijit._Widget, dijit._Templated],
-		{
-			widgetsInTemplate: true,
-
-			templateString: dojo.byId('Test5Template').textContent || dojo.byId('Test5Template').innerText,
-			startup: function(){
-				if(this._started){
-					this._doubleStarted = true;
-				}
-				this.inherited(arguments);
-			},
-			destroy: function(){
-				if(this._destroyed){
-					this._doubleDestroyed = true;
-				}
-				this.inherited(arguments);
-				this._destroyed = true;
-			}
-		});
-
-		var test5WidgetProgrammatic;
-		dojo.addOnLoad(function(){
-			test5WidgetProgrammatic = new Test5Widget().placeAt("test5Widget", "after");
-			test5WidgetProgrammatic.startup();
-		});
-
-		function getTestWidgets(testW){
-			return [
-				testW,
-				testW.layout,
-				testW.layChild1,
-				testW.layChild2,
-				testW.container,
-				testW.contained1,
-				testW.contained2,
-				testW.nonContainer,
-				testW.nonContained1,
-				testW.nonContained2,
-				testW.threeLevel,
-				testW.secondLevel,
-				testW.bottomLevel,
-				testW.anotherThree,
-				testW.anotherSecond,
-				testW.anotherBottom,
-				testW.stub1
-			];
-		}
-
-		function validateTest5Widget(t, testW) {
-			// Check that everything got started, but not double-started
-			dojo.forEach(getTestWidgets(testW), function(w){
-				t.t(w._started, "w._started: " + w);
-				t.is(undefined, w._doubleStarted, "w._doubleStarted: " + w);
-			});
-		}
-
-		function validateTest5WidgetDestroy(t, testW) {
-			var savedWidgets = getTestWidgets(testW);
-			testW.destroy();
-			dojo.forEach(savedWidgets, function(w, idx){
-				t.t(w._destroyed, "w._destroyed: " + w);
-				t.is(undefined, w._doubleDestroyed, "w._doubleDestroyed: " + w);
-			});
-		}
-	</script>
 	<div dojoType="Test5Widget" id="test5Widget" ></div>
 
-	<script>
-		dojo.declare("Missing", [dijit._Widget, dijit._Templated], {
-			templateString: '<div>' +
-								'<div dojoType="dijit.layout.ContentPane">' +
-									'<div dojoType="dijit.form.Button" id="missingButtonId" ' +
-									'dojoAttachPoint="missingButton">Missing...</div>' +
-								'</div>' +
-							'</div>',
-			widgetsInTemplate: true
-		});
-	</script>
 	<div dojoType="Missing" id="missing"></div>
 	</body>
 </html>

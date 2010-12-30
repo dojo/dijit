@@ -28,7 +28,7 @@
 
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../dojo/dojo.js"
-			data-dojo-config="isDebug: true, parseOnLoad: true"></script>
+			data-dojo-config="isDebug: true"></script>
 
 		<!-- only needed for alternate theme testing: -->
 		<script type="text/javascript" src="../_testCommon.js"></script>
@@ -38,105 +38,108 @@
 			dojo.require("dijit.form.Button");
 			dojo.require("dijit.layout.ContentPane");
 			dojo.require("dijit.layout.BorderContainer");
-			dojo.declare("my.BorderContainer",dijit.layout.BorderContainer,{
-
-				opts: {
-					// single pane view
-					"a":{
-						panes: [
-							{ id: "pane0", sizeable:false, region:"center", style: { width:"100%", height:"100%" } },
-							{ id: "pane1", hidden:true },
-							{ id: "pane2", hidden:true },
-							{ id: "pane3", hidden:true }
-						]
-					},
-					// top / bottom view
-					"ah":{
-						panes: [
-							{ id: "pane0", sizeable:false, region:"center", style: { width:"100%", height:"50%" } },
-							{ id: "pane1", sizeable:true, region:"bottom", style: { width:"100%", height:"50%" } },
-							{ id: "pane2", hidden:true },
-							{ id: "pane3", hidden:true }
-						]
-					},
-					// left / right view
-					"av":{
-						panes: [
-							{ id: "pane0", sizeable:true, region:"left", style: { width:"50%", height:"100%" } },
-							{ id: "pane1", sizeable:false, region:"center", style: { width:"50%", height:"100%" } },
-							{ id: "pane2", hidden:true },
-							{ id: "pane3", hidden:true }
-						]
-					}
-
-				},
-
-				_clearSplitters: function(){
-					// cleanup all splitters on the page
-					dojo.query(".dijitSplitter",this.domNode).forEach(function(n){
-						dijit.byNode(n).destroy();
-					});
-					dojo.query(".dijitSplitterCover").forEach(dojo.destroy);
-					delete this._splitters;
-					this._splitters = {};
-				},
-
-				setLayoutENUM: function(lay){
-					// set the layout to a predefined setup
-					if(this._layoutSetting != lay){
-
-						this._layoutSetting = lay;
-						var struct = this.opts[lay] || false;
-						this._clearSplitters();
-
-						dojo.forEach(struct.panes,function(pane,i){
-							// setup each pane
-							var d = dijit.byId(pane.id);
-							d.region = pane.region || "center";
-							d.splitter = pane.sizeable;
-							if(pane.minSize){ d.minSize = pane.minSize; }
-							if(pane.maxSize){ d.maxSize = pane.maxSize; }
-							if(pane.hidden){
-								// reset this widget to our hidden holder node
-								this.extractChild(d,dojo.byId("holder"));
-								d.splitter = null;
-								d.region = null;
-								d.maxSize = null;
-								d.minSize = null;
-							}else{
-								if(pane.style){
-									// object setter via style only in trunk:
-									dojo.style(d.domNode,pane.style);
-								}
-								this.addChild(d,i);
-							}
-						},this);
-					}
-					this.layout();
-				},
-
-				extractChild: function(/*dijit._Widget*/ child, /*DomNode*/ node){
-					// a non-destructive cleanup for the bordercontainer.
-					// cleanup a widget, and append it's domNode to some
-					// other node in the dom
-					var region = child.region;
-					var splitter = this._splitters[region];
-					if(splitter){
-						dijit.byNode(splitter).destroy();
-						delete this._splitters[region];
-					}
-					delete this["_"+region];
-					node.appendChild(child.domNode);
-					if(this._started){
-						this._layoutChildren();
-					}
-					return child.domNode;
-				}
-			});
 
 			var open = false;
 
 			dojo.addOnLoad(function(){
+				dojo.declare("my.BorderContainer",dijit.layout.BorderContainer,{
+	
+					opts: {
+						// single pane view
+						"a":{
+							panes: [
+								{ id: "pane0", sizeable:false, region:"center", style: { width:"100%", height:"100%" } },
+								{ id: "pane1", hidden:true },
+								{ id: "pane2", hidden:true },
+								{ id: "pane3", hidden:true }
+							]
+						},
+						// top / bottom view
+						"ah":{
+							panes: [
+								{ id: "pane0", sizeable:false, region:"center", style: { width:"100%", height:"50%" } },
+								{ id: "pane1", sizeable:true, region:"bottom", style: { width:"100%", height:"50%" } },
+								{ id: "pane2", hidden:true },
+								{ id: "pane3", hidden:true }
+							]
+						},
+						// left / right view
+						"av":{
+							panes: [
+								{ id: "pane0", sizeable:true, region:"left", style: { width:"50%", height:"100%" } },
+								{ id: "pane1", sizeable:false, region:"center", style: { width:"50%", height:"100%" } },
+								{ id: "pane2", hidden:true },
+								{ id: "pane3", hidden:true }
+							]
+						}
+	
+					},
+	
+					_clearSplitters: function(){
+						// cleanup all splitters on the page
+						dojo.query(".dijitSplitter",this.domNode).forEach(function(n){
+							dijit.byNode(n).destroy();
+						});
+						dojo.query(".dijitSplitterCover").forEach(dojo.destroy);
+						delete this._splitters;
+						this._splitters = {};
+					},
+	
+					setLayoutENUM: function(lay){
+						// set the layout to a predefined setup
+						if(this._layoutSetting != lay){
+	
+							this._layoutSetting = lay;
+							var struct = this.opts[lay] || false;
+							this._clearSplitters();
+	
+							dojo.forEach(struct.panes,function(pane,i){
+								// setup each pane
+								var d = dijit.byId(pane.id);
+								d.region = pane.region || "center";
+								d.splitter = pane.sizeable;
+								if(pane.minSize){ d.minSize = pane.minSize; }
+								if(pane.maxSize){ d.maxSize = pane.maxSize; }
+								if(pane.hidden){
+									// reset this widget to our hidden holder node
+									this.extractChild(d,dojo.byId("holder"));
+									d.splitter = null;
+									d.region = null;
+									d.maxSize = null;
+									d.minSize = null;
+								}else{
+									if(pane.style){
+										// object setter via style only in trunk:
+										dojo.style(d.domNode,pane.style);
+									}
+									this.addChild(d,i);
+								}
+							},this);
+						}
+						this.layout();
+					},
+	
+					extractChild: function(/*dijit._Widget*/ child, /*DomNode*/ node){
+						// a non-destructive cleanup for the bordercontainer.
+						// cleanup a widget, and append it's domNode to some
+						// other node in the dom
+						var region = child.region;
+						var splitter = this._splitters[region];
+						if(splitter){
+							dijit.byNode(splitter).destroy();
+							delete this._splitters[region];
+						}
+						delete this["_"+region];
+						node.appendChild(child.domNode);
+						if(this._started){
+							this._layoutChildren();
+						}
+						return child.domNode;
+					}
+				});
+	
+				dojo.parser.parse();
+
 				// make buttons
 				dojo.forEach(["a","av","ah"],function(n){
 

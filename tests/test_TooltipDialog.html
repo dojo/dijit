@@ -11,22 +11,22 @@
 		body { font-family : sans-serif; }
 		form { margin-bottom : 0; }
 		table { border: none; }
-		.tundra .tooltipLink .dijitButtonNode,
-		.tundra .tooltipLink .dijitButtonNode .dijitDropDownButtonHover,
-		.tundra .buttonLink .dijitButtonNode,
-		.tundra .buttonLink .dijitButtonHover .dijitButtonNode {
-				background: none !important;
-				border:none;
+		.claro .tooltipLink .dijitButtonNode,
+		.claro .tooltipLink .dijitButtonNode .dijitDropDownButtonHover,
+		.claro .buttonLink .dijitButtonNode,
+		.claro .buttonLink .dijitButtonHover .dijitButtonNode {
+			background: none !important;
+			border:none;
 		}
-		.tundra .tooltipLink .dijitArrowButtonInner {
+		.claro .tooltipLink .dijitArrowButtonInner {
 			display:none;
 		}
-		.tundra .tooltipLink button,
-		.tundra .tooltipLink button .dijitButtonText,
-		.tundra .buttonLink button .dijitButtonText {
-				text-decoration:underline !important;
-				color:blue;
-				display:inline;
+		.claro .tooltipLink button,
+		.claro .tooltipLink button .dijitButtonText,
+		.claro .buttonLink button .dijitButtonText {
+			text-decoration:underline !important;
+			color:blue;
+			display:inline;
 		}
 	</style>
 
@@ -35,7 +35,7 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../dojo/dojo.js"
-		data-dojo-config="parseOnLoad: true, isDebug: true"></script>
+		data-dojo-config="isDebug: true"></script>
 
 	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="_testCommon.js"></script>
@@ -54,14 +54,18 @@
 		dojo.require("dijit.Menu");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
-		// create a do nothing, only for test widget
-		dojo.declare("dijit.TestWidget",
-			[dijit._Widget, dijit._Templated], {
-			templateString: "<div style='margin: 10px; border: inset #700 4px; padding: 5px;' dojoAttachPoint='containerNode'></div>"
-		});
-
 		// make dojo.toJson() print dates correctly (this feels a bit dirty)
 		Date.prototype.json = function(){ return dojo.date.stamp.toISOString(this, {selector: 'date'});};
+
+		dojo.addOnLoad(function(){
+			// create a do nothing, only for test widget
+			dojo.declare("dijit.TestWidget",
+				[dijit._Widget, dijit._Templated], {
+				templateString: "<div style='margin: 10px; border: inset #700 4px; padding: 5px;' dojoAttachPoint='containerNode'></div>"
+			});
+
+			dojo.parser.parse();
+		});
 	</script>
 </head>
 <body class="claro">

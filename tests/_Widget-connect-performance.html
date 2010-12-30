@@ -12,11 +12,11 @@
 		dojo.require("dijit._Widget");
 		dojo.require("dojo.parser");
 
-		dojo.declare("dijit.MyWidget", dijit._Widget, {
-			_eventHandler: function(){}
-		});
-
 		dojo.addOnLoad(function(){
+			dojo.declare("dijit.MyWidget", dijit._Widget, {
+				_eventHandler: function(){}
+			});
+
 			doh.register("parse", function(){
 				dojo.parser.parse();
 			});
