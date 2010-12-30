@@ -22,7 +22,7 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
-		data-dojo-config="isDebug: true, parseOnLoad: true"></script>
+		data-dojo-config="isDebug: true"></script>
 
 	<!-- only needed for alternate theme testing: do NOT use in your code! -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
@@ -38,16 +38,20 @@
 		dojo.require("dijit.InlineEditBox");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
-		// create a do nothing, only for test widget
-		dojo.declare("dijit.TestWidget",
-			[dijit._Widget, dijit._Templated], {
-			templateString: "<span class='dojoxTestWidget'></span>"
-		});
-
 		dojo.addOnLoad(function(){
 
-			var pane1 = dijit.byId('parsedPane');
-			var dialogCtrPane = dijit.byId("dialogContainer");
+			// create a do nothing, only for test widget
+			dojo.declare("dijit.TestWidget",
+				[dijit._Widget, dijit._Templated], {
+				templateString: "<span class='dojoxTestWidget'></span>"
+			});
+
+			doh.register("parse", function(){
+				dojo.parser.parse();				
+
+				pane1 = dijit.byId('parsedPane');
+				dialogCtrPane = dijit.byId("dialogContainer");
+			});
 
 			doh.register("basicChecks", [
 			{
