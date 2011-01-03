@@ -41,25 +41,6 @@ if(dojo.isIE){
 
 (function(){
 
-var _attrReg = {},	// cached results from getSetterAttributes
-	getSetterAttributes = function(widget){
-		// summary:
-		//		Returns list of attributes with custom setters for specified widget
-		var dc = widget.declaredClass;
-		if(!_attrReg[dc]){
-			var r = [],
-				attrs,
-				proto = widget.constructor.prototype;
-			for(var fxName in proto){
-				if(dojo.isFunction(proto[fxName]) && (attrs = fxName.match(/^_set([a-zA-Z]*)Attr$/)) && attrs[1]){
-					r.push(attrs[1].charAt(0).toLowerCase() + attrs[1].substr(1));
-				}
-			}
-			_attrReg[dc] = r;
-		}
-		return _attrReg[dc] || [];	// String[]
-	};
-
 dojo.declare("dijit._Widget", dojo.Stateful, {
 	// summary:
 	//		Base class for all Dijit widgets.
@@ -493,11 +474,28 @@ dojo.declare("dijit._Widget", dojo.Stateful, {
 		}
 
 		// And also any attributes with custom setters
-		dojo.forEach(getSetterAttributes(this), function(a){
+		dojo.forEach(this._getSetterAttributes(), function(a){
 			if(!(a in this.attributeMap)){
 				condAttrApply(a, this);
 			}
 		}, this);
+	},
+
+	_getSetterAttributes: function(){
+		// summary:
+		//		Returns list of attributes with custom setters for this widget
+		var ctor = this.constructor;
+		if(!ctor._setterAttrs){
+			var r = (ctor._setterAttrs = []),
+				attrs,
+				proto = ctor.prototype;
+			for(var fxName in proto){
+				if(dojo.isFunction(proto[fxName]) && (attrs = fxName.match(/^_set([a-zA-Z]*)Attr$/)) && attrs[1]){
+					r.push(attrs[1].charAt(0).toLowerCase() + attrs[1].substr(1));
+				}
+			}
+		}
+		return ctor._setterAttrs;	// String[]
 	},
 
 	postMixInProperties: function(){
