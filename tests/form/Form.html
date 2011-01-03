@@ -223,13 +223,13 @@
 					},
 					{
 						name:"testSubmit",
-					        timeout:10000,
+					        timeout:5000,
 					        runTest:function(){
 							var d=new doh.Deferred();
 							submittedValues = function(values){
 								testSubmittedValues(d, original, values);
 							};
-							setTimeout(function(){ formWidget.containerNode.submit(); }, 1);
+							setTimeout(function(){ formWidget.containerNode.submit(); }, 1000);
 							return d;
 						},
 						tearDown: function(){
@@ -251,13 +251,13 @@
 					},
 					{
 					        name:"postSubmit",
-					        timeout:10000,
+					        timeout:5000,
 					        runTest:function(){
 							var d=new doh.Deferred();
 							submittedValues = function(values){
 								testSubmittedValues(d, dojo.mixin(changed,partialChange), values);
 							};
-							setTimeout(function(){ formWidget.containerNode.submit(); }, 1);
+							setTimeout(function(){ formWidget.containerNode.submit(); }, 1000);
 							return d;
 						},
 						tearDown: function(){
