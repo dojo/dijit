@@ -255,6 +255,7 @@
 										});
 										if(dojo.isMac){
 											doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 0, {meta:true});
+											doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 0); // trigger keyup
 										}else{
 											doh.robot.keyPress(dojo.keys.END, 0);
 										}
