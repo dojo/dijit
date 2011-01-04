@@ -125,8 +125,10 @@
 							dojo.global.scrollTo(0, 9000); // scroll to bottom to try and prevent the DnD code from autoscrolling
 							// Drag and Drop
 							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 500, 1);
-							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt(cerealsTreeNode.domNode, 500, 1000);
+							doh.robot.mouseClick({left: true}, 500); // helps prevent screen jitter
+							doh.robot.mousePress({left: true}, 1000);
+							doh.robot.mouseMoveAt(vegetablesTreeNode.labelNode, 500, 500, 0, 0); // move mouse slightly to trigger DnD
+							doh.robot.mouseMoveAt(cerealsTreeNode.domNode, 500, 500);
 							doh.robot.mouseRelease({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -167,13 +169,12 @@
 								vegetablesTreeNode = findTreeNodeByPath("itemTree", ["Fruits", "Vegetables"]),
 								citrusTreeNode = findTreeNodeByPath("itemTree", ["Fruits", "Citrus"]);
 
-							// (Try to) make sure drag source and drop source are both in viewport
-							doh.robot.mouseMoveAt("itemTree", 500, 1);
-
 							// Drag and Drop
-							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 500, 1);
-							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt(citrusTreeNode.labelNode, 500, 1000);
+							doh.robot.mouseMoveAt(vegetablesTreeNode.labelNode, 500, 1);
+							doh.robot.mouseClick({left: true}, 500); // helps prevent screen jitter
+							doh.robot.mousePress({left: true}, 1000);
+							doh.robot.mouseMoveAt(vegetablesTreeNode.labelNode, 500, 500, 0, 0); // move mouse slightly to trigger DnD
+							doh.robot.mouseMoveAt(citrusTreeNode.labelNode, 500, 500);
 							doh.robot.mouseRelease({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -216,13 +217,12 @@
 								d = new doh.Deferred(),
 								fruitsTreeNode = findTreeNodeByPath("itemTree", ["Fruits"]);	// right tree
 
-							doh.robot.mouseMoveAt(fruitsTreeNode.labelNode, 500, 1); // scroll destination into view
 							doh.robot.mouseMoveAt(dojo.byId("1003").parentNode, 500, 1, 0, 0); // move to source parent node to help prevent DnD autoscrolling
 							doh.robot.mouseMoveAt(dojo.byId("1003"), 500, 1); // move to source banana node
 							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt(dojo.byId("1004"), 500, 1); // move just a little to start the DnD operation before scrolling
-							doh.robot.mouseMoveAt("itemTree", 500, 1000, 0, 0); // go to target parent top to allow for better scrolling of the destination
-							doh.robot.mouseMoveAt(fruitsTreeNode.labelNode, 500, 1000);
+							doh.robot.mouseMoveAt(dojo.byId("1003"), 500, 500, 0, 0); // move just a little to start the DnD operation before scrolling
+							doh.robot.mouseMoveAt("itemTree", 500, 1, 0, 0); // go to target parent top to allow for better scrolling of the destination
+							doh.robot.mouseMoveAt(fruitsTreeNode.labelNode, 1000, 500);
 							doh.robot.mouseRelease({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -254,12 +254,12 @@
 							doh.robot.mouseMoveAt(dojo.byId("1003").parentNode, 500, 1, 0, 0); // move to source parent node to help prevent DnD autoscrolling
 							doh.robot.mouseMoveAt(dojo.byId("1003"), 500, 1); // move to source banana node
 							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt(dojo.byId("1004"), 500, 1); // move just a little to start the DnD operation before scrolling
-							doh.robot.mouseMoveAt("itemTree", 500, 1000, 0, 0); // go to target parent top to allow for better scrolling of the destination
+							doh.robot.mouseMoveAt(dojo.byId("1003"), 500, 500, 0, 0); // move just a little to start the DnD operation before scrolling
 							doh.robot.sequence(function(){
 								dojo.global.scrollTo(0, 9000); // scroll to bottom to try and prevent the DnD code from autoscrolling
-							}, 1000);
-							doh.robot.mouseMoveAt(cerealsTreeNode.labelNode, 1000, 1000);
+							}, 500);
+							doh.robot.mouseMoveAt("itemTree", 500, 1, 0, 0); // go to target parent top to allow for better scrolling of the destination
+							doh.robot.mouseMoveAt(cerealsTreeNode.labelNode, 1000, 500);
 							doh.robot.mouseRelease({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -285,7 +285,6 @@
 							return d;
 						}
 					}
-
 				]);
 
 				doh.run();
