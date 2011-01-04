@@ -169,7 +169,7 @@ dojo.declare(
 
 		if(this.selectedChildWidget != page){
 			// Deselect old page and select new one
-			this._transition(page, this.selectedChildWidget, animate);
+			var d = this._transition(page, this.selectedChildWidget, animate);
 			this._set("selectedChildWidget", page);
 			dojo.publish(this.id+"-selectChild", [page]);
 
@@ -177,6 +177,8 @@ dojo.declare(
 				dojo.cookie(this.id + "_selectedChild", this.selectedChildWidget.id);
 			}
 		}
+
+		return d;		// If child has an href, promise that fires when the child's href finishes loading
 	},
 
 	_transition: function(/*dijit._Widget*/ newWidget, /*dijit._Widget*/ oldWidget, /*Boolean*/ animate){
@@ -188,7 +190,7 @@ dojo.declare(
 		if(oldWidget){
 			this._hideChild(oldWidget);
 		}
-		this._showChild(newWidget);
+		var d = this._showChild(newWidget);
 
 		// Size the new widget, in case this is the first time it's being shown,
 		// or I have been resized since the last time it was shown.
@@ -202,6 +204,8 @@ dojo.declare(
 				newWidget.resize();
 			}
 		}
+
+		return d;	// If child has an href, promise that fires when the child's href finishes loading
 	},
 
 	_adjacent: function(/*Boolean*/ forward){
@@ -216,13 +220,13 @@ dojo.declare(
 	forward: function(){
 		// summary:
 		//		Advance to next page.
-		this.selectChild(this._adjacent(true), true);
+		return this.selectChild(this._adjacent(true), true);
 	},
 
 	back: function(){
 		// summary:
 		//		Go back to previous page.
-		this.selectChild(this._adjacent(false), true);
+		return this.selectChild(this._adjacent(false), true);
 	},
 
 	_onKeyPress: function(e){
@@ -240,6 +244,8 @@ dojo.declare(
 		// summary:
 		//		Show the specified child by changing it's CSS, and call _onShow()/onShow() so
 		//		it can do any updates it needs regarding loading href's etc.
+		// returns:
+		//		Promise that fires when page has finished showing, or true if there's no href
 		var children = this.getChildren();
 		page.isFirstChild = (page == children[0]);
 		page.isLastChild = (page == children[children.length-1]);
@@ -247,7 +253,7 @@ dojo.declare(
 
 		dojo.replaceClass(page.domNode, "dijitVisible", "dijitHidden");
 
-		page._onShow();
+		return page._onShow() || true;
 	},
 
 	_hideChild: function(/*dijit._Widget*/ page){

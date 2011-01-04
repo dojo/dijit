@@ -371,19 +371,15 @@
 					return dojo.xhrGet(args);
 				};
 
-				dijit.byId(parentId).selectChild(childId);
-
-				child.onLoadDeferred.then(
-					function(){
-    					setTimeout(d.getTestCallback(
-							function(){
-								doh.is(child.loadingMessage.replace(/<[^>]*>/g, ""), loadingContent, "loading message");
-								var startOfActualContent = innerText(contentNode).substring(0, startOfExpectedContent.length);
-								doh.is(startOfExpectedContent, startOfActualContent, "expected content");
-							}
-						), 1); // return from handler, then test
-					}
-				);
+				dojo.when(dijit.byId(parentId).selectChild(child), function(){
+					setTimeout(d.getTestCallback(
+						function(){
+							doh.is(child.loadingMessage.replace(/<[^>]*>/g, ""), loadingContent, "loading message");
+							var startOfActualContent = innerText(contentNode).substring(0, startOfExpectedContent.length);
+							doh.is(startOfExpectedContent, startOfActualContent, "expected content");
+						}
+					), 1); // return from handler, then test
+				});
 
 				return d;
 			}
@@ -446,11 +442,7 @@
 
 						var d = new doh.Deferred();
 
-						st.selectChild(pane3);
-						doh.is(0, pane3UnloadCnt,
-							"unload shouldn't have been called b/c no initial contents (#1)");
-
-						pane3.onLoadDeferred.then(function(){
+						dojo.when(st.selectChild(pane3), function(){
 							setTimeout(d.getTestCallback(function(){
 								doh.t(pane3.isLoaded, "pane3.isLoaded");
 								doh.is(1, pane3LoadCnt, "onload was called");
@@ -459,6 +451,9 @@
 									"unload shouldn't have been called b/c no initial contents (#2)");
 							}), 1);
 						});
+
+						doh.is(0, pane3UnloadCnt,
+							"unload shouldn't have been called b/c no initial contents (#1)");
 
 						return d;
 					}
@@ -478,10 +473,10 @@
 					},
 					runTest: function(t){
 						var d = new doh.Deferred();
-						st.back();
-						st.forward();	// show pane #3
 
-						pane3.onLoadDeferred.then(function(){
+						// Show pane 3 again and see if events fire
+						st.back();
+						st.forward().then(function(){
 							setTimeout(d.getTestCallback(function(){
 								doh.t(tmp._unload_fired, "unload was fired");
 								doh.t(tmp._load_fired, "load was fired");

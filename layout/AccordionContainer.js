@@ -200,7 +200,7 @@ dojo.declare(
 		_showChild: function(child){
 			// Override StackContainer._showChild() to set visibility of _wrapperWidget.containerNode
 			child._wrapperWidget.containerNode.style.display="block";
-			this.inherited(arguments);
+			return this.inherited(arguments);
 		},
 
 		_hideChild: function(child){
@@ -228,7 +228,7 @@ dojo.declare(
 			if(newWidget){
 				newWidget._wrapperWidget.set("selected", true);
 
-				this._showChild(newWidget);	// prepare widget to be slid in
+				var d = this._showChild(newWidget);	// prepare widget to be slid in
 
 				// Size the new widget, in case this is the first time it's being shown,
 				// or I have been resized since the last time it was shown.
@@ -278,7 +278,9 @@ dojo.declare(
 				});
 				this._animation.onStop = this._animation.onEnd;
 				this._animation.play();
-			}			
+			}
+
+			return d;	// If child has an href, promise that fires when the widget has finished loading
 		},
 
 		// note: we are treating the container as controller here

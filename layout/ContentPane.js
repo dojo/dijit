@@ -407,7 +407,7 @@ dojo.declare(
 			if(!this._xhrDfd && // if there's an href that isn't already being loaded
 				(!this.isLoaded || this._hrefChanged || this.refreshOnShow)
 			){
-				this.refresh();
+				var d = this.refresh();
 			}
 		}else{
 			if(this._needLayout){
@@ -421,6 +421,8 @@ dojo.declare(
 		// Need to keep track of whether ContentPane has been shown (which is different than
 		// whether or not it's currently visible).
 		this._wasShown = true;
+		
+		return d;		// If child has an href, promise that fires when the load is complete
 	},
 
 	refresh: function(){
@@ -437,7 +439,7 @@ dojo.declare(
 		this.onLoadDeferred = new dojo.Deferred(dojo.hitch(this, "cancel"));
 		this.onLoadDeferred.addCallback(dojo.hitch(this, "onLoad"));
 		this._load();
-		return this.onLoadDeferred;
+		return this.onLoadDeferred;		// If child has an href, promise that fires when refresh is complete
 	},
 
 	_load: function(){
