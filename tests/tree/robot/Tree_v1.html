@@ -43,16 +43,16 @@
 				doh.register("Test tree 1", [
 					{
 						name: "expand first child",
-						timeout: 4000,
+						timeout: 7000,
 						runTest: function(){
 							var d = new doh.Deferred();
 														
 							var myTree = dijit.byId("mytree");
 							var children = myTree.rootNode.getChildren();
 								
-							doh.robot.mouseMoveAt(children[0].contentNode, 500);
+							doh.robot.mouseMoveAt(children[0].contentNode, 500, 1);
 							doh.robot.mouseClick({left: true}, 500);
-							doh.robot.mouseMoveAt(children[4].contentNode, 1000);
+							doh.robot.mouseMoveAt(children[4].contentNode, 1000, 1);
 							doh.robot.mouseClick({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -64,7 +64,7 @@
 					},
 					{
 						name: "click Africa's first child",
-						timeout: 4000,
+						timeout: 7000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							
@@ -72,10 +72,10 @@
 							var rootChildren = myTree.rootNode.getChildren();
 							var africaChildren = rootChildren[0].getChildren();
 							var naChildren = rootChildren[4].getChildren();
-							doh.robot.mouseMoveAt(naChildren[0].contentNode, 500);
+							doh.robot.mouseMoveAt(naChildren[0].contentNode, 500, 1);
 							doh.robot.mouseClick({left: true}, 500);
 							
-							doh.robot.mouseMoveAt(africaChildren[0].contentNode, 1000);
+							doh.robot.mouseMoveAt(africaChildren[0].contentNode, 1000, 1);
 							doh.robot.mouseClick({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -86,7 +86,7 @@
 					},
 					{
 						name: "click Mexico's first child",
-						timeout: 3000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							
@@ -95,7 +95,7 @@
 							var naChildren = rootChildren[4].getChildren();
 							var mexicoChildren = naChildren[0].getChildren();
 							
-							doh.robot.mouseMoveAt(mexicoChildren[0].contentNode, 500);
+							doh.robot.mouseMoveAt(mexicoChildren[0].contentNode, 500, 1);
 							doh.robot.mouseClick({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -106,7 +106,7 @@
 					},
 					{
 						name: "close tree nodes",
-						timeout: 4000,
+						timeout: 7000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							
@@ -114,13 +114,13 @@
 							var rootChildren = myTree.rootNode.getChildren();
 							var naChildren = rootChildren[4].getChildren();
 							
-							doh.robot.mouseMoveAt(naChildren[0].contentNode, 500);
+							doh.robot.mouseMoveAt(naChildren[0].contentNode, 500, 1);
 							doh.robot.mouseClick({left: true}, 500);
 							
-							doh.robot.mouseMoveAt(rootChildren[4].contentNode, 500);
+							doh.robot.mouseMoveAt(rootChildren[4].contentNode, 500, 1);
 							doh.robot.mouseClick({left: true}, 500);
 							
-							doh.robot.mouseMoveAt(rootChildren[0].contentNode, 500);
+							doh.robot.mouseMoveAt(rootChildren[0].contentNode, 500, 1);
 							doh.robot.mouseClick({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -133,11 +133,11 @@
 					},
 					{
 						name: "Destroy tree",
-						timeout: 3000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							
-							doh.robot.mouseMoveAt("destroy", 500);
+							doh.robot.mouseMoveAt("destroy", 500, 1);
 							doh.robot.mouseClick({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -161,7 +161,7 @@
 							var children = myTree.rootNode.getChildren();
 							
 							var ex = children[0].expandoNode;
-							doh.robot.mouseMoveAt(children[0].expandoNode, 500);
+							doh.robot.mouseMoveAt(children[0].expandoNode, 500, 1);
 							doh.robot.mouseClick({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -176,14 +176,14 @@
 					},
 					{
 						name: "click Africa",
-						timeout: 3000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							
 							var myTree = dijit.byId("tree2");
 							var rootChildren = myTree.rootNode.getChildren();
 														
-							doh.robot.mouseMoveAt(rootChildren[0].contentNode, 500);
+							doh.robot.mouseMoveAt(rootChildren[0].contentNode, 500, 1);
 							doh.robot.mouseClick({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -201,7 +201,7 @@
 							var myTree = dijit.byId("tree2");
 							var children = myTree.rootNode.getChildren();
 							
-							doh.robot.mouseMoveAt(children[1].expandoNode, 500);
+							doh.robot.mouseMoveAt(children[1].expandoNode, 500, 1);
 							doh.robot.mouseClick({right: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -216,11 +216,11 @@
 					},
 					{
 						name: "open sub menu 1",
-						timeout: 2000,
+						timeout: 3000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							
-							doh.robot.mouseMoveAt("popupSubMenu", 500);
+							doh.robot.mouseMoveAt("popupSubMenu", 500, 1);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								var menu = dijit.byId("tree_menu");
@@ -233,11 +233,11 @@
 					},
 					{
 						name: "open deeper sub menu",
-						timeout: 2000,
+						timeout: 3000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							
-							doh.robot.mouseMoveAt("deeperSubmenu", 500);
+							doh.robot.mouseMoveAt("deeperSubmenu", 500, 1);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								var menu = dijit.byId("tree_menu");
@@ -252,7 +252,7 @@
 					},
 					{
 						name: "close tree nodes",
-						timeout: 5000,
+						timeout: 9000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							
@@ -263,7 +263,7 @@
 							doh.robot.keyPress(dojo.keys.ESCAPE, 1000, {}, true);
 							doh.robot.keyPress(dojo.keys.ESCAPE, 1000, {}, true);
 							
-							doh.robot.mouseMoveAt(children[0].expandoNode, 500);
+							doh.robot.mouseMoveAt(children[0].expandoNode, 500, 1);
 							doh.robot.mouseClick({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){

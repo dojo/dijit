@@ -337,6 +337,27 @@
 					}
 				]);
 
+				// special function to allow dragging within a very short test window
+				function dragSourceToItemTree(srcId, destId, after){
+					var
+						child = dojo.global.dojo.byId(srcId),
+						parent = child.parentNode,
+						childPos = dojo.position(child),
+						parentPos = dojo.position(parent),
+						destTreeNode = findTreeNode("itemTree", destId);
+					dojo.window.scrollIntoView(parent);
+					parent.scrollTop += childPos.y + childPos.h - parentPos.y - parentPos.h;
+					doh.robot.mouseMoveAt(srcId, 500, 1);
+					doh.robot.mousePress({left: true}, 500);
+					doh.robot.mouseMoveAt(srcId, 1000, 500, (childPos.w >> 1) + 2, childPos.h >> 1); // start drag before scrolling to dest
+					doh.robot.sequence(function(){
+						dojo.window.scrollIntoView("itemTree");
+					}, 0);
+					doh.robot.mouseMoveAt(destTreeNode.labelNode, 500, 1); // move to dest center
+					doh.robot.mouseMoveAt(destTreeNode.labelNode, 500, 500, 0, after ? dojo.position(destTreeNode.labelNode).h : -2); // move either just above or below dest
+					doh.robot.mouseRelease({left: true}, 500);
+				}
+
 				//=================
 				// Testing drag before and after items
 				// Dragging from an external source and dropping onto the Tree, creating a duplicate of the dragged item
@@ -349,12 +370,7 @@
 							var d = new doh.Deferred();
 
 							// Drag "Banana" before Orange.
-							var destTreeNode = findTreeNode("itemTree", "Orange");
-							dojo.window.scrollIntoView(destTreeNode.labelNode);
-							doh.robot.mouseMoveAt("1003", 500, 1); // 1003=Banana
-							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt(destTreeNode.labelNode, 1000, 2000, 0,  -2);
-							doh.robot.mouseRelease({left: true}, 500);
+							dragSourceToItemTree("1003", "Orange", !"after");
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// Check that data store update was reflected in the tree
@@ -383,12 +399,7 @@
 							var d = new doh.Deferred();
 
 							// Drag "Tomato" after Banana.
-							var destTreeNode = findTreeNode("itemTree", "Banana");
-							dojo.window.scrollIntoView(destTreeNode.labelNode);
-							doh.robot.mouseMoveAt("1004", 500, 1); // 1004=Tomato
-							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt(destTreeNode.labelNode, 1000, 2000, 0, dojo.position(destTreeNode.labelNode).h);
-							doh.robot.mouseRelease({left: true}, 500);
+							dragSourceToItemTree("1004", "Banana", "after");
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// Check that data store update was reflected in the tree
@@ -419,12 +430,7 @@
 							var d = new doh.Deferred();
 
 							// Drag "Pepper" before Orange.
-							var destTreeNode = findTreeNode("itemTree", "Orange");
-							dojo.window.scrollIntoView(destTreeNode.labelNode);
-							doh.robot.mouseMoveAt("1005", 500, 1); // 1005=Pepper
-							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt(destTreeNode.labelNode, 1000, 2000, 0,  -2);
-							doh.robot.mouseRelease({left: true}, 500);
+							dragSourceToItemTree("1005", "Orange", !"after");
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// Check that data store update was reflected in the tree
@@ -457,12 +463,7 @@
 							var d = new doh.Deferred();
 
 							// Drag "Wheat" after Orange.
-							var destTreeNode = findTreeNode("itemTree", "Orange");
-							dojo.window.scrollIntoView(destTreeNode.labelNode);
-							doh.robot.mouseMoveAt("1006", 500, 1); // 1006=Wheat
-							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt(destTreeNode.labelNode, 1000, 2000, 0, dojo.position(destTreeNode.labelNode).h);
-							doh.robot.mouseRelease({left: true}, 500);
+							dragSourceToItemTree("1006", "Orange", "after");
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// Check that data store update was reflected in the tree
@@ -497,12 +498,7 @@
 							var d = new doh.Deferred();
 
 							// Drag "Corn" before Apple.
-							var destTreeNode = findTreeNode("itemTree", "Apple");
-							dojo.window.scrollIntoView(destTreeNode.labelNode);
-							doh.robot.mouseMoveAt("1007", 500, 1); // 1007=Corn
-							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt(destTreeNode.labelNode, 1000, 2000, 0, -2);
-							doh.robot.mouseRelease({left: true}, 500);
+							dragSourceToItemTree("1007", "Apple", !"after");
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// Check that data store update was reflected in the tree
@@ -539,12 +535,7 @@
 							var d = new doh.Deferred();
 
 							// Drag "Spinach" after Apple.
-							var destTreeNode = findTreeNode("itemTree", "Apple");
-							dojo.window.scrollIntoView(findTreeNode("itemTree", "Cereals").labelNode);
-							doh.robot.mouseMoveAt("1008", 500, 1); // 1008=Spinach
-							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt(destTreeNode.labelNode, 1000, 2000, 0, dojo.position(destTreeNode.labelNode).h);
-							doh.robot.mouseRelease({left: true}, 500);
+							dragSourceToItemTree("1008", "Apple", "after");
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// Check that data store update was reflected in the tree
