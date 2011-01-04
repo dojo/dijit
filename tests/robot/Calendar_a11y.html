@@ -35,7 +35,7 @@
 						timeout: 10000,
 						setUp: function(){
 							// refs to Calendar widget
-					    	cal1 = dijit.byId('calendar1');
+						    	cal1 = dijit.byId('calendar1');
 							cal1.set("value", new Date(2009, 8, 16));
 
 							dojo.byId("before").focus();
@@ -44,7 +44,7 @@
 							var d = new doh.Deferred();
 
 							// Tab in
-							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+							doh.robot.keyPress(dojo.keys.TAB, 1000, {});
 							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
 								doh.is(16, innerText(dojo.global.dijit._curFocus), "first tab goes to selected day");
 							})), 500);
@@ -143,7 +143,7 @@
 						timeout: 10000,
 						setUp: function(){
 							// refs to Calendar widget
-					    	cal1 = dijit.byId('calendar1');
+						    	cal1 = dijit.byId('calendar1');
 							cal1.set("value", new Date(2009, 8, 16));
 
 					    	// setup onChange handler to monitor onChange calls on cal1
@@ -173,7 +173,7 @@
 
 								// and get("value") working
 								doh.is(0, dojo.date.compare(new Date(2009, 8, 16), cal1.get('value')), 'get("value")');
-							})), 0);
+							})), 1000);
 
 							// Mouse moves around focus without changing value
 							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
@@ -226,7 +226,7 @@
 						timeout: 5000,
 						setUp: function(){
 							// refs to Calendar widget
-					    	cal1 = dijit.byId('calendar1');
+					   	 	cal1 = dijit.byId('calendar1');
 							cal1.set("value", new Date(2008, 0, 31));
 						},
 						runTest: function(){
@@ -236,7 +236,7 @@
 								cal1.focus();
 							}, 500);
 
-							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 500, {});
+							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 1000, {});
 							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
 								// focus moved from jan 31 to feb 29
 								doh.is(29, innerText(dojo.global.dijit._curFocus));
@@ -279,7 +279,7 @@
 						timeout: 5000,
 						setUp: function(){
 							// refs to Calendar widget
-					    	cal1 = dijit.byId('calendar1');
+						    	cal1 = dijit.byId('calendar1');
 							cal1.set("value", new Date(2008, 1, 15));
 						},
 						runTest: function(){
@@ -289,11 +289,13 @@
 								cal1.focus();
 							}, 500);
 
-							doh.robot.keyPress(dojo.keys.END, 500, {});
-							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 500, {ctrl:true});
-							doh.robot.keyPress(dojo.keys.PAGE_UP, 500, {ctrl:true});
-							doh.robot.keyPress(dojo.keys.PAGE_UP, 500, {ctrl:true});
-							doh.robot.keyPress(dojo.keys.ENTER, 500, {ctrl:true});
+							doh.robot.keyPress(dojo.keys.END, 1000, {});
+							// Chrome switches tabs with ctrl+page up/down (not even a keydown is generated), yet not Safari.
+							// I don't see a way to do feature-detection since browser window focus is lost.
+							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 500, dojo.isChrome ? {alt:true} : {ctrl:true});
+							doh.robot.keyPress(dojo.keys.PAGE_UP, 500, dojo.isChrome ? {alt:true} : {ctrl:true});
+							doh.robot.keyPress(dojo.keys.PAGE_UP, 500, dojo.isChrome ? {alt:true} : {ctrl:true});
+							doh.robot.keyPress(dojo.keys.ENTER, 500);
 
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								var value = cal1.get('value');

@@ -29,7 +29,7 @@ try{
 	
 	doh.registerUrl("dijit.tests.robot.ColorPalette", dojo.moduleUrl("dijit","tests/robot/ColorPalette.html"+userArgs), 999999);
 
-	doh.registerUrl("dijit.tests.robot.Calendar_a11y", dojo.moduleUrl("dijit","tests/robot/Calendar_a11y"+userArgs), 999999);
+	doh.registerUrl("dijit.tests.robot.Calendar_a11y", dojo.moduleUrl("dijit","tests/robot/Calendar_a11y.html"+userArgs), 999999);
 
 	doh.registerUrl("dijit.tests.robot.TitlePane", dojo.moduleUrl("dijit","tests/robot/TitlePane.html"+userArgs), 999999);
 
