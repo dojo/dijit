@@ -83,6 +83,25 @@
 				]
 			);
 
+			doh.register("setter calls on creation", function(){
+				// Make sure setters are called even for anonymous classes (#12122),
+				// and even when there's no value explicitly specified in the parameters
+				var fooSetterCalled,
+					Widget1 = dojo.declare([dijit._Widget], {}),
+				    Widget2 = dojo.declare([dijit._Widget], {
+						foo: 345,
+				        _setFooAttr: function(val){
+							fooSetterCalled = val;
+				            this.foo = val;
+				        }
+				    });
+				
+				new Widget1();
+				new Widget2();
+				
+				doh.is(345, fooSetterCalled, "fooSetterCalled");
+			});
+	
 			doh.run();
 		});
 
