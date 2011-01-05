@@ -98,7 +98,7 @@
 					}
 				]);
 
-				// Check that toolbar buttons are highlighted/not highlighted (etc.) based on
+				// Check that toolbar buttons are depressed/not depressed (etc.) based on
 				// where caret is in document
 				doh.register("toolbar state", [
 					{
@@ -120,9 +120,17 @@
 								doh.is("no onchange event yet", editor1onChange, "onChange not called");
 							}), 500);
 							doh.robot.keyPress(dojo.keys.TAB, 500);	// goes to content
+						}
+					},
+					{
+						name: "no buttons depressed",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
 
-
-							doh.robot.keyPress(dojo.keys.HOME, 500);
+							doh.robot.sequence(function(){
+								editor1.placeCursorAtStart();
+							}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								var toolbar = editor1.toolbar;
@@ -141,7 +149,7 @@
 						}
 					},
 					{
-						name: "bold higlighted",
+						name: "bold button depressed",
 						timeout: 10000,
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -170,7 +178,7 @@
 						}
 					},
 					{
-						name: "italic higlighted",
+						name: "italic button depressed",
 						timeout: 10000,
 						runTest: function(){
 							var d = new doh.Deferred();
