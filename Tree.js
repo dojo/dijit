@@ -199,7 +199,9 @@ dojo.declare(
 		// set when the animation completes instead
 		this.isExpanded = true;
 		dijit.setWaiState(this.labelNode, "expanded", "true");
-		dijit.setWaiRole(this.containerNode, "group");
+		if(this.tree.showRoot || this !== this.tree.rootNode){
+			dijit.setWaiRole(this.containerNode, "group");
+		}
 		dojo.addClass(this.contentNode,'dijitTreeContentExpanded');
 		this._setExpando();
 		this._updateItemClasses(this.item);
@@ -765,6 +767,12 @@ dojo.declare(
 				}));
 				if(!this.showRoot){
 					rn.rowNode.style.display="none";
+					// if root is not visible, move tree role to the invisible
+					// root node's containerNode, see #12135
+					dijit.setWaiRole(this.domNode, 'presentation');
+					
+					dijit.setWaiRole(rn.labelNode, 'presentation');
+					dijit.setWaiRole(rn.containerNode, 'tree');
 				}
 				this.domNode.appendChild(rn.domNode);
 				var identity = this.model.getIdentity(item);
