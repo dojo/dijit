@@ -1041,10 +1041,10 @@ dojo.declare(
 		}
 	},
 
-	_onEnterKey: function(/*Object*/ message, /*Event*/ evt){
+	_onEnterKey: function(/*Object*/ message){
 		this._publish("execute", { item: message.item, node: message.node } );
 		this.dndController.userSelect(message.node, dojo.isCopyKey( message.evt ), message.evt.shiftKey);
-		this.onClick(message.item, message.node, evt);
+		this.onClick(message.item, message.node, message.evt);
 	},
 
 	_onDownArrow: function(/*Object*/ message){
