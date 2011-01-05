@@ -27,13 +27,6 @@
 						var d = new doh.Deferred();
 						var store = dojo.global.dijit.byId('mytree').get('store');
 						store.fetch({query:{id:'*'}, onComplete:function(){
-							var tree = dijit.byId('mytree');
-							// expand/collpase tree to a standard state since it uses cookies for persistence
-							tree._expandNode(tree.rootNode);
-							dojo.forEach(tree.rootNode.getChildren(),
-								function(child){
-									tree._collapseNode(child);
-								});
 							d.callback(true);
 						}});
 						return d;
@@ -135,17 +128,10 @@
 						name: "Destroy tree",
 						timeout: 4000,
 						runTest: function(){
-							var d = new doh.Deferred();
-							
-							doh.robot.mouseMoveAt("destroy", 500, 1);
-							doh.robot.mouseClick({left: true}, 500);
+							dijit.byId("mytree").destroy();
 
-							doh.robot.sequence(d.getTestCallback(function(){
-								var myTree = dijit.byId("mytree");
-								doh.is(undefined, myTree, "tree was not desroyed");
-								doh.is(undefined, dojo.byId("mytree"), 'widget was removed');
-							}), 1000);
-							return d;
+							doh.is(undefined, dijit.byId("mytree"), "tree was not destroyed");
+							doh.is(undefined, dojo.byId("mytree"), 'widget was removed');
 						}
 					}
 				]);
