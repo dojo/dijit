@@ -374,6 +374,26 @@
 					]
 				);
 
+				// Test that "this" referenced from data-dojo-props can refer to the hosting widget
+				doh.register("data-dojo-props this", function(){
+					var host = dojo.declare([dijit._Widget, dijit._Templated], {
+						widgetsInTemplate: true,
+						obj: {hello: "world"},
+						templateString:
+							"<div>" +
+								"<div data-dojo-type='dijit._Widget' data-dojo-props='hostObj: this.obj'" +
+								" data-dojo-attach-point='subWidget'></div>" +
+							"</div>"
+					});
+					
+					var hostWidget = new host(),
+						subWidget = hostWidget && hostWidget.subWidget;
+					doh.isNot(undefined, hostWidget, "created host widget");
+					doh.isNot(undefined, subWidget, "created sub widget");
+					doh.isNot(undefined, subWidget.hostObj, "sub widget got hostObj defined");
+					doh.is("world", subWidget.hostObj.hello, "object is correct")
+				});
+
 				doh.run();
 			});
 		</script>
