@@ -106,23 +106,6 @@
 							plop: {combo: "two"},
 							cb: ["2"]
 		};
-		// we reset the form to these values
-		var reset =	{
-							foo: {bar: {baz: {quux: d("2007-12-30")} } },
-							available: {from: d("2005-01-02"), to: d("2006-01-02")},
-							plop: {combo: "one"},
-							cb: ["2", "3"],
-							r: "2",
-							ms1: ["VA", "WA"],
-							h1: "hidden",
-							t1: "line 1\nline 2",
-							st1: "simple line 1\nsimple line 2",
-							richtext: "<h1>changed</h1><p>This is the changed content set by set('value', ...')</p>", // not a form element, so not reset
-							filename: "",
-							requiredWidget: "",
-							readOnlyWidget: "Should be returned",
-							duplicate: ["first", "second", "third"]
-						};
 
 		dojo.addOnLoad(function(){
 
@@ -267,19 +250,11 @@
 					function resetTest(){
 						formWidget._onResetReturn = false;
 						formWidget.reset();
-						doh.isNot( dojo.toJson(reset), dojo.toJson(formWidget.get('value')), "reset stopped");
+						doh.isNot( dojo.toJson(original), dojo.toJson(formWidget.get('value')), "onReset false");
 						formWidget._onResetReturn = true;
 						formWidget.reset();
 						delete formWidget._onResetReturn;
-						doh.is( dojo.toJson(reset), dojo.toJson(formWidget.get('value')), "reset permitted" );
-					},
-					function resetEditor(){ // reset editor so that refresh will pass all tests
-						dijit.byId('editor').set('value', original.richtext);
-						// FF3 sticks in some tabs and newlines that mess up the equality check
-						// Need better way to compare two HTML trees but for now do this.
-						var values = formWidget.get('value');
-						values.richtext = values.richtext.replace(/[\n\t]/, "", "g");
-						doh.is( dojo.toJson(original), dojo.toJson(values) );
+						doh.is( dojo.toJson(original), dojo.toJson(formWidget.get('value')), "onReset true" );
 					}
 				]
 			);
@@ -825,7 +800,7 @@ simple line 2</textarea>
 					<td>Editor widget</td>
 					<td>richtext</td>
 					<td>
-						<div id="editor" data-dojo-type="dijit.Editor" data-dojo-props='name:"richtext", plugins:["bold", "italic"]'><h1>original</h1><p>This is the default content</p></div>
+						<textarea id="editor" name="richtext" data-dojo-type="dijit.Editor" data-dojo-props='plugins:["bold", "italic"]'><h1>original</h1><p>This is the default content</p></textarea>
 					</td>
 				</tr>
 

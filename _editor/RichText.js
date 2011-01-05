@@ -355,9 +355,17 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			}
 
 			if(ta.form){
+				var resetValue = ta.value;
+				this.reset = function(){
+					var current = this.getValue();
+					if(current != resetValue){
+						this.replaceValue(resetValue);
+					}
+				};
 				dojo.connect(ta.form, "onsubmit", this, function(){
 					// Copy value to the <textarea> so it gets submitted along with form.
 					// FIXME: should we be calling close() here instead?
+					dojo.attr(ta, 'disabled', this.disabled); // don't submit the value if disabled
 					ta.value = this.getValue();
 				});
 			}
@@ -1664,7 +1672,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		// tags:
 		//		private
 
-		if(this.isClosed){return false; }
+		if(this.isClosed){ return; }
 
 		if(!arguments.length){ save = true; }
 		if(save){
