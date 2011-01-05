@@ -186,9 +186,9 @@
 	<div id="fifthDlg" data-dojo-type="dijit.Dialog" data-dojo-props='href:"layout/getResponse.php?delay=3000&amp;messId=3",
 		style:"width: 300px", title:"From HREF (slow network simulated)"'></div>
 
-	<button data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){ dijit.byId("dialog6").show() }'>Show File Dialog</button>
+	<button id="filebutton" data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){ dijit.byId("file").show() }'>Show File Dialog</button>
 
-	<div id="dialog6" data-dojo-type="dijit.Dialog" data-dojo-props='title:"File Dialog",
+	<div id="file" data-dojo-type="dijit.Dialog" data-dojo-props='title:"File Dialog",
 			onFocus:function(){ console.log("user focus handler") },
 			onBlur:function(){ console.log("user blur handler") },
 			execute:function(args){ alert("submitted w/args:\n" + dojo.toJson(args, true)); }, style:"min-width: 350px"'>
@@ -197,9 +197,9 @@
 			<input id="afile" data-dojo-type="dijit.form.TextBox" data-dojo-props='type:"file", name:"afile" '/>
 	</div>
 
-	<button data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){ dijit.byId("cantmove").show() }'>Show Unmovable</button>
+	<button id="unmovablebutton" data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){ dijit.byId("unmovable").show() }'>Show Unmovable</button>
 
-	<div id="cantmove" data-dojo-type="dijit.Dialog" data-dojo-props='title:"unmovable", draggable:false'>
+	<div id="unmovable" data-dojo-type="dijit.Dialog" data-dojo-props='title:"unmovable", draggable:false'>
 		<p>You should not be able to <br /> drag this dialog</p>
 	</div>
 
