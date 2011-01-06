@@ -1,8 +1,8 @@
-define("dijit/form/Form", ["dojo", "dijit", "dijit/_Widget", "dijit/_Templated", "dijit/form/_FormMixin"], function(dojo, dijit) {
+define("dijit/form/Form", ["dojo", "dijit", "dijit/_Widget", "dijit/_Templated", "dijit/form/_FormMixin", "dijit/layout/_ContentPaneResizeMixin"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.form.Form",
-	[dijit._Widget, dijit._Templated, dijit.form._FormMixin],
+	[dijit._Widget, dijit._Templated, dijit.form._FormMixin, dijit.layout._ContentPaneResizeMixin],
 	{
 		// summary:
 		//		Widget corresponding to HTML form tag, for validation and serialization

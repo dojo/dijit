@@ -10,7 +10,7 @@
 
 		.resizableWidget {
 			border: 1px dashed red;
-			background-color: #C0E209 ;
+			background-color: #C0E209;
 		}
 	</style>
 
@@ -27,6 +27,7 @@
 		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.layout.BorderContainer");
 		dojo.require("dijit.TitlePane");
+		dojo.require("dijit.form.Form");
 		dojo.require("dijit.Dialog");
 
 		// widgets used in doc loaded via href
@@ -34,7 +35,7 @@
 		dojo.require("dijit.form.Button");
 
 		// Keep track of which panes have had a load event, and how
-		// many load events have occured for those panes
+		// many load events have occurred for those panes
 		var loadEvents = {
 		};
 		function myOnLoad(){
@@ -47,12 +48,15 @@
 			// create a do nothing, only for test widget
 			dojo.declare("ResizableWidget",
 				[dijit._Widget, dijit._Templated], {
-				templateString: "<span class='resizableWidget'>resizable widget</span>",
+				templateString: "<span class='dijitInline resizableWidget'>resizable widget</span>",
 				_resized: 0,
 				_resizeArgs: null,
-				resize: function(){
+				resize: function(newSize){
 					this._resized++;
 					this._resizeArgs = arguments;
+					if(newSize){
+						dojo.marginBox(this.domNode, newSize);
+					}
 				}
 			});
 	
@@ -310,6 +314,39 @@
 							}), 4000);
 							return d;
 						}
+					},
+
+					// Test that resize() is called on resizable children hidden inside of a form widget
+					{
+						name: "multiple resizable elements hidden in form",
+						runTest: function(t){
+							var child1 = dijit.byId("resizableInForm1"),
+								child2 = dijit.byId("resizableInForm2");
+
+							doh.is(0, child1._resized, "child1 hasn't been shown yet so no resize events");
+							doh.is(0, child2._resized, "child2 hasn't been shown yet so no resize events");
+
+							dijit.byId("resizeTC").selectChild(dijit.byId("multipleResizableInForm"))
+
+							doh.t(child1._resized, "got resize event for child1");
+							doh.is(0, child1._resizeArgs && child1._resizeArgs.length, "no size specified for child1")
+							doh.t(child2._resized, "got resize event for child2");
+							doh.is(0, child2._resizeArgs && child2._resizeArgs.length, "no size specified for child2")
+						}
+					},
+
+					{
+						name: "single resizable element hidden in form",
+						runTest: function(t){
+							var child = dijit.byId("resizableInForm0");
+
+							doh.is(0, child._resized, "child hasn't been shown yet so no resize events");
+
+							dijit.byId("resizeTC").selectChild(dijit.byId("singleResizableInForm"))
+
+							doh.t(child._resized, "got resize event for child");
+							doh.is(1, child._resizeArgs && child._resizeArgs.length, "size specified")
+						}
 					}
 				]
 			);
@@ -548,7 +585,6 @@
 	<p>
 		Tests ContentPane in it's role as a layout widget, including as child of another layout widgets (especially TabContainer).
 	</p>
-	<hr>
 
 	<p>Tests that href gets loaded when ContentPane is first made visible:</p>
 	<div id="outerTC" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='style:"width: 880px; height: 200px;"'>
@@ -595,6 +631,17 @@
 				<span>hide the second widget to see if ContentPane can still find it</span>
 				<div id="multipleChildResizable2" data-dojo-type="ResizableWidget" ></div>
 				<span>ending text</span>
+			</div>
+		</div>
+		<div id="multipleResizableInForm" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Multiple resizable in form", onLoad:myOnLoad'>
+			<div data-dojo-type="dijit.form.Form">
+				<div id="resizableInForm1" data-dojo-type="ResizableWidget" ></div>
+				<div id="resizableInForm2" data-dojo-type="ResizableWidget" ></div>
+			</div>
+		</div>
+		<div id="singleResizableInForm" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Single resizable in form", onLoad:myOnLoad'>
+			<div data-dojo-type="dijit.form.Form">
+				<div id="resizableInForm0" data-dojo-type="ResizableWidget" ></div>
 			</div>
 		</div>
 		<div id="singleChildHref" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Href Single Child",
