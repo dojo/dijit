@@ -167,19 +167,21 @@
 							timeout: 10000,
 							runTest: function (){
 								var d = new doh.Deferred();
+								var focusId;
 		
 								dojo.byId("inputAtEnd").focus();
-								doh.robot.sequence(d.getTestErrback(function(){
+								doh.robot.sequence(function(){
 									// Just to make sure that focus is on the input
-									doh.is("inputAtEnd", dojo.global.dijit._curFocus && dojo.global.dijit._curFocus.id);
-								}), 500);
+									focusId = dojo.global.dijit._curFocus ? dojo.global.dijit._curFocus.id : null;
+								}, 1000);
 	
 								doh.robot.keyPress(dojo.keys.TAB, 500, {});
 		
 								// Focus should end up on URL bar etc., not on a hidden <input> or <button> in a popup
 								doh.robot.sequence(d.getTestCallback(function(){
+									doh.is("inputAtEnd", focusId);
 									doh.f(dojo.global.dijit._curFocus && dojo.isDescendant(dojo.global.dijit._curFocus, dojo.global.dojo.body()), "no focus inside viewport");
-								}), 500);
+								}), 1000);
 		
 								return d;
 							}
@@ -189,22 +191,24 @@
 							timeout: 10000,
 							runTest: function (){
 								var d = new doh.Deferred();
-		
+								var focusId;
+
 								doh.robot.keyPress(dojo.keys.TAB, 500, {shift: true});
 								doh.robot.sequence(function(){
 									dojo.byId("inputAtStart").focus();
-								}, 500);
-								doh.robot.sequence(d.getTestErrback(function(){
+								}, 1000);
+								doh.robot.sequence(function(){
 									// Just to make sure that focus is on the input
-									doh.is("inputAtStart", dojo.global.dijit._curFocus && dojo.global.dijit._curFocus.id);
-								}), 500);
+									focusId = dojo.global.dijit._curFocus ? dojo.global.dijit._curFocus.id : null;
+								}, 1000);
 	
 								doh.robot.keyPress(dojo.keys.TAB, 500, {shift: true});
 		
 								// Focus should end up on URL bar etc., not on a hidden <input> or <button> in a popup
 								doh.robot.sequence(d.getTestCallback(function(){
+									doh.is("inputAtStart", focusId);
 									doh.f(dojo.global.dijit._curFocus && dojo.isDescendant(dojo.global.dijit._curFocus, dojo.global.dojo.body()), "no focus inside viewport");
-								}), 500);
+								}), 1000);
 		
 								return d;
 							}
