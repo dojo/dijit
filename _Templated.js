@@ -47,8 +47,16 @@ dojo.declare("dijit._Templated",
  		_attachPoints: [],
  =====*/
 
+/*=====
+		// _attachEvents: [private] Handle[]
+		//		List of connections associated with dojoAttachEvent=... in the
+		//		template
+ 		_attachEvents: [],
+ =====*/
+
 		constructor: function(){
 			this._attachPoints = [];
+			this._attachEvents = [];
 		},
 
 		_stringRepl: function(tmpl){
@@ -205,7 +213,7 @@ dojo.declare("dijit._Templated",
 							if(!thisFunc){
 								thisFunc = event;
 							}
-							this.connect(baseNode, event, thisFunc);
+							this._attachEvents.push(this.connect(baseNode, event, thisFunc));
 						}
 					}
 				}
@@ -244,6 +252,10 @@ dojo.declare("dijit._Templated",
 			}, this);
 			this._attachPoints = [];
 
+			// And same for event handlers
+			dojo.forEach(this._attachEvents, this.disconnect, this);
+			this._attachEvents = [];
+			
 			this.inherited(arguments);
 		}
 	}
