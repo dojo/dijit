@@ -249,12 +249,12 @@
 							doh.robot.keyPress(dojo.keys.ESCAPE, 1000, {}, true);
 							doh.robot.keyPress(dojo.keys.ESCAPE, 1000, {}, true);
 							
-							doh.robot.mouseMoveAt(children[0].expandoNode, 500, 1);
-							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.mouseMoveAt(children[0].expandoNode, 1000, 1);
+							doh.robot.mouseClick({left: true}, 1000);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(children[0].isExpanded, "failed to close first node");
-							}), 500);
+							}), 1000);
 							return d;
 						}
 					}					
