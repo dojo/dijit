@@ -120,7 +120,7 @@ dojo.declare("dijit._Templated",
 					noStart: !this._earlyTemplatedStartup,
 					template: true,
 					inherited: {dir: this.dir, lang: this.lang},
-					propsThis: this,	// so data-dojo-type of widgets-in-the-template can reference "this" to refer to me
+					propsThis: this,	// so data-dojo-props of widgets in the template can reference "this" to refer to me
 					scope: "dojo"	// even in multi-version mode templates use dojoType/data-dojo-type
 				}));
 
