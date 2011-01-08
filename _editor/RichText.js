@@ -159,18 +159,18 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		// users passed in.  See: #6062 
 		this.contentPreFilters = [dojo.hitch(this, "_preFixUrlAttributes")].concat(this.contentPreFilters);
 		if(dojo.isMoz){
-				this.contentPreFilters = [this._normalizeFontStyle].concat(this.contentPreFilters);
-				this.contentPostFilters = [this._removeMozBogus].concat(this.contentPostFilters);
+			this.contentPreFilters = [this._normalizeFontStyle].concat(this.contentPreFilters);
+			this.contentPostFilters = [this._removeMozBogus].concat(this.contentPostFilters);
 		}
 		if(dojo.isWebKit){
-				// Try to clean up WebKit bogus artifacts.  The inserted classes
-				// made by WebKit sometimes messes things up.
-				this.contentPreFilters = [this._removeWebkitBogus].concat(this.contentPreFilters);
-				this.contentPostFilters = [this._removeWebkitBogus].concat(this.contentPostFilters);
+			// Try to clean up WebKit bogus artifacts.  The inserted classes
+			// made by WebKit sometimes messes things up.
+			this.contentPreFilters = [this._removeWebkitBogus].concat(this.contentPreFilters);
+			this.contentPostFilters = [this._removeWebkitBogus].concat(this.contentPostFilters);
 		}
 		if(dojo.isIE){
-				// IE generates <strong> and <em> but we want to normalize to <b> and <i>
-				this.contentPostFilters = [this._normalizeFontStyle].concat(this.contentPostFilters);
+			// IE generates <strong> and <em> but we want to normalize to <b> and <i>
+			this.contentPostFilters = [this._normalizeFontStyle].concat(this.contentPostFilters);
 		}
 		this.inherited(arguments);
 
@@ -222,7 +222,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 
 	// events: [private] String[]
 	//		 events which should be connected to the underlying editing area
-	events: ["onKeyPress", "onKeyDown", "onKeyUp", "onClick"],
+	events: ["onKeyPress", "onKeyDown", "onKeyUp"], // onClick handled specially
 
 	// captureEvents: [deprecated] String[]
 	//		 Events which should be connected to the underlying editing
@@ -757,6 +757,8 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			this.connect(ap, item.toLowerCase(), item);
 		}, this);
 
+		this.connect(ap, "onmouseup", "onClick"); // mouseup in the margin does not generate an onclick event
+
 		if(dojo.isIE){ // IE contentEditable
 			this.connect(this.document, "onmousedown", "_onIEMouseDown"); // #4996 fix focus
 
@@ -1262,8 +1264,11 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}
 		//see #4109
 		if(dojo.isWebKit){
-			if(command == "copy"){
-				command = "cut";
+			if(command == "cut" || command == "copy") {
+				// WebKit deems clipboard activity as a security threat and natively would return false
+				var sel = this.window.getSelection();
+				if(sel){ sel = sel.toString(); }
+				return !!sel;
 			}else if(command == "paste"){
 				return true;
 			}
