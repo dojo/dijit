@@ -98,7 +98,7 @@ dojo.declare(
 				}
 			}
 			
-			//reposition the tooltip connector.  
+			// Reposition the tooltip connector.  
 			if(tooltipCorner.charAt(0) == 'B' && aroundCorner.charAt(0) == 'B'){
 				var mb = dojo.marginBox(node);
 				var tooltipConnectorHeight = this.connectorNode.offsetHeight;
@@ -108,8 +108,9 @@ dojo.declare(
 					this.connectorNode.style.top = aroundNodePlacement + "px";
 					this.connectorNode.style.bottom = "";
 				}else{
-					// The tooltip's bottom is in line with the aroundNode bottom.
-					this.connectorNode.style.bottom = (aroundNodeCoords.h / 2) - (tooltipConnectorHeight / 2) + "px";
+					// Align center of connector with center of aroundNode, but don't let bottom
+					// of connector extend below bottom of tooltip content
+					this.connectorNode.style.bottom = Math.max(aroundNodeCoords.h/2 - tooltipConnectorHeight/2, 0) + "px";
 					this.connectorNode.style.top = "";
 				}
 			}else{
