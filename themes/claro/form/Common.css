@@ -107,11 +107,15 @@
   background-image: url("images/formHighlight.png");
   background-repeat: repeat-x;
 }
-/* hover state */
-.claro .dijitComboBoxHover .dijitButtonNode {
+/* Arrow "hover" effect:
+ * The arrow button should change color whenever the mouse is in a position such that clicking it
+ * will toggle the drop down.   That's either (1) anywhere over the ComboBox or (2) over the arrow
+ * button, depending on the openOnClick setting for the widget.
+ */
+.claro .dijitComboBoxOpenOnClickHover .dijitButtonNode, .claro .dijitComboBox .dijitDownArrowButtonHover {
   background-color: #abd6ff;
 }
-.claro .dijitComboBoxHover .dijitArrowButtonInner {
+.claro .dijitComboBoxOpenOnClickHover .dijitArrowButtonInner, .claro .dijitComboBox .dijitDownArrowButtonHover .dijitArrowButtonInner {
   background-position: -70px 53%;
 }
 /* Arrow Button change when drop down is open */

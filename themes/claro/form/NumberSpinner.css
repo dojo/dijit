@@ -85,10 +85,10 @@
   padding: 0;
 }
 /** hover & focused status **/
-.claro .dijitSpinnerHover .dijitUpArrowButton, .claro .dijitSpinnerHover .dijitDownArrowButton, .claro .dijitSpinnerFocused .dijitArrowButton {
+.claro .dijitUpArrowButtonActive, .claro .dijitDownArrowButtonActive {
   background-color: #abd6ff;
 }
-.claro .dijitUpArrowButtonActive, .claro .dijitDownArrowButtonActive {
+.claro .dijitSpinner .dijitUpArrowButtonHover, .claro .dijitSpinner .dijitDownArrowButtonHover, .claro .dijitSpinnerFocused .dijitArrowButton {
   background-color: #abd6ff;
 }
 .claro .dijitSpinner .dijitUpArrowButtonHover .dijitArrowButtonInner {

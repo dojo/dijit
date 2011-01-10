@@ -28,7 +28,7 @@ dojo.declare(
 		//		Set this textbox to display a down arrow button, to open the drop down list.
 		hasDownArrow: true,
 
-		// openOnClick: Boolean
+		// openOnClick: [const] Boolean
 		//		Set to true to open drop down upon clicking anywhere on the textbox.
 		openOnClick: true,
 
@@ -126,6 +126,7 @@ dojo.declare(
 			// so that there's a mouse method for opening the drop down.
 			if(this.openOnClick || !this.hasDownArrow){
 				this._buttonNode = this.domNode;
+				this.baseClass += " dijitComboBoxOpenOnClick";
 			}
 
 			if(!this.hasDownArrow){
