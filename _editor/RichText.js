@@ -1762,6 +1762,9 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		//		private
 		html = html.replace(/\sclass="webkit-block-placeholder"/gi, '');
 		html = html.replace(/\sclass="apple-style-span"/gi, '');
+		// For some reason copy/paste sometime adds extra meta tags for charset on
+		// webkit (chrome) on mac.They need to be removed.  See: #12007"
+		html = html.replace(/<meta charset=\"utf-8\" \/>/gi, '');
 		return html; // String
 	},
 	_normalizeFontStyle: function(/* String */ html){
