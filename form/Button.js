@@ -283,8 +283,9 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 		//		otherwise on arrow node
 		// position:
 		//		"start" or "end"
-		
-		dijit.focus(position == "start" ? this.titleNode : this._popupStateNode);
+		if(!this.disabled){
+			dijit.focus(position == "start" ? this.titleNode : this._popupStateNode);
+		}
 	}
 });
 

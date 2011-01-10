@@ -184,7 +184,7 @@
 				doh.register("intermediatechanges", {
 					name: "valid",
 					textbox: "q01",
-					timeout: 60000,
+					timeout: 9000,
 					setUp: function(){
 						this.textbox = dijit.byId(this.textbox);
 						this.textbox.set('value', '');
@@ -207,7 +207,7 @@
 				doh.register("allcaps", {
 					name: "valid",
 					textbox: "q02",
-					timeout: 60000,
+					timeout: 9000,
 					setUp: function(){
 						this.textbox = dijit.byId(this.textbox);
 						this.textbox.set('value', '');
@@ -231,7 +231,7 @@
 					{
 						name: "3chars",
 						textbox: "fav",
-						timeout: 60000,
+						timeout: 9000,
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
 							this.textbox.set('value', '');
@@ -252,7 +252,7 @@
 					{
 						name: "4chars",
 						textbox: "fav",
-						timeout: 60000,
+						timeout: 9000,
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
 							this.textbox.set('value', '');
@@ -290,7 +290,7 @@
 					{
 						name: "focus",
 						textbox: "q04",
-						timeout: 60000,
+						timeout: 9000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							this.textbox = dijit.byId(this.textbox);
@@ -309,7 +309,7 @@
 					{
 						name: "valid",
 						textbox: "q04",
-						timeout: 60000,
+						timeout: 9000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							this.textbox = dijit.byId(this.textbox);
@@ -352,7 +352,7 @@
 
 					{
 						name: "focus",
-						timeout: 60000,
+						timeout: 9000,
 						textbox: "q05",
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -370,7 +370,7 @@
 
 					{
 						name: "type_valid_nocomma",
-						timeout: 60000,
+						timeout: 9000,
 						textbox: "q05",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
@@ -400,7 +400,7 @@
 
 					{
 						name: "type_valid_comma",
-						timeout: 60000,
+						timeout: 9000,
 						textbox: "q05",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
@@ -430,7 +430,7 @@
 
 					{
 						name: "type_invalid_comma",
-						timeout: 60000,
+						timeout: 9000,
 						textbox: "q05",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
@@ -474,7 +474,7 @@
 
 					{
 						name: "focus",
-						timeout: 60000,
+						timeout: 9000,
 						textbox: "q08",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
@@ -495,7 +495,7 @@
 
 					{
 						name: "type_valid_number",
-						timeout: 60000,
+						timeout: 9000,
 						textbox: "q08",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
@@ -558,7 +558,7 @@
 					},
 					{
 						name: "missing required decimal",
-						timeout: 6000,
+						timeout: 9000,
 						textbox: "q08",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
@@ -579,7 +579,7 @@
 					},
 					{
 						name: "too few decimal digits",
-						timeout: 6000,
+						timeout: 9000,
 						textbox: "q08",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
@@ -600,7 +600,7 @@
 					},
 					{
 						name: "too many decimal digits",
-						timeout: 6000,
+						timeout: 9000,
 						textbox: "q08",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
@@ -621,7 +621,7 @@
 					},
 					{
 						name: "negative decimal",
-						timeout: 6000,
+						timeout: 9000,
 						textbox: "q08",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
@@ -642,7 +642,7 @@
 					},
 					{
 						name: "negative currency",
-						timeout: 6000,
+						timeout: 9000,
 						textbox: "q08",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
@@ -663,7 +663,7 @@
 					},
 					{
 						name: "convert negative decimal to negative currency",
-						timeout: 6000,
+						timeout: 9000,
 						textbox: "q08",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
@@ -691,7 +691,7 @@
 					},
 					{
 						name: "convert negative negative currency to negative decimal",
-						timeout: 6000,
+						timeout: 9000,
 						textbox: "q08",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
@@ -714,7 +714,7 @@
 					},
 					{
 						name: "exponent not allowed",
-						timeout: 6000,
+						timeout: 9000,
 						textbox: "q08",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
@@ -739,7 +739,7 @@
 
 				doh.register("euroformat", {
 					name: "type_1",
-					timeout: 60000,
+					timeout: 9000,
 					textbox: "q08eur",
 					setUp: function(){
 						this.textbox = dijit.byId(this.textbox);
@@ -764,7 +764,7 @@
 				doh.register("regexp", [
 					{
 						name: "valid",
-						timeout: 60000,
+						timeout: 9000,
 						textbox: "q22",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
@@ -785,7 +785,7 @@
 
 					{
 						name: "invalid",
-						timeout: 60000,
+						timeout: 9000,
 						textbox: "q22",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
@@ -807,7 +807,7 @@
 
 				doh.register("password", {
 					name: "type",
-					timeout: 60000,
+					timeout: 9000,
 					textbox: "q23",
 					setUp: function(){
 						this.textbox = dijit.byId(this.textbox);
@@ -828,22 +828,24 @@
 				doh.register("readonly", [
 					{
 						name: "readonly",
-						timeout: 60000,
+						timeout: 9000,
 						textbox: "q24",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
 							dojo.byId("mname").focus();
 						},
 						runTest: function(){
+							doh.t(this.textbox.isFocusable(), "readOnly is focusable");
 							var d = new doh.Deferred();
 
 							// Tab into element (readonly *can* be focused, although disabled can't)
-							doh.robot.keyPress(dojo.keys.TAB, 1000, {shift: true});
+							doh.robot.keyPress(dojo.keys.TAB, 1000);
 
 							// typing on a disabled element should have no effect
-							doh.robot.typeKeys('abc', 500, 600);
+							doh.robot.typeKeys('abc', 1000, 600);
 
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+								doh.is("q24", (dojo.global.dijit._curFocus||{}).id, "did focus");
 								doh.is('cannot type here', this.textbox.focusNode.value, "focusNode.value");
 								doh.is('cannot type here', this.textbox.get('value'), "get('value')");
 							})), 1000);
@@ -853,16 +855,20 @@
 
 					{
 						name: "write",
-						timeout: 60000,
+						timeout: 9000,
 						textbox: "q24",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
 							this.textbox.set('value', '');
 							this.textbox.set('readOnly', false);
-							this.textbox.focusNode.focus();
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
+
+							//  Click to focus
+							doh.robot.mouseMoveAt(this.textbox.focusNode, 500, 1);
+							doh.robot.mouseClick({left: true}, 500);
+
 							doh.robot.typeKeys('abc', 1000, 600);
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								doh.is('abc', this.textbox.focusNode.value, "focusNode.value");
@@ -876,18 +882,18 @@
 				doh.register("disabled", [
 					{
 						name: "click doesn't focus",
-						timeout: 60000,
+						timeout: 9000,
 						setUp: function(){
-							var textbox = dijit.byId("q24");
+							this.textbox = dijit.byId("q24");
 							dojo.byId("mname").focus();
-							textbox.set('disabled', true);
+							this.textbox.set('disabled', true);
 						},
 						runTest: function(){
-							var d = new doh.Deferred(),
-								textbox = dijit.byId("q24");
+							doh.f(this.textbox.isFocusable(), "disabled is not focusable");
+							var d = new doh.Deferred();
 
 							//  Clicking shouldn't have any effect since it's disabled
-							doh.robot.mouseMoveAt(textbox.focusNode, 500, 1);
+							doh.robot.mouseMoveAt(this.textbox.focusNode, 500, 1);
 							doh.robot.mouseClick({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
@@ -899,7 +905,7 @@
 
 					{
 						name: "tab jumps over",
-						timeout: 60000,
+						timeout: 9000,
 
 						setUp: function(){
 							var textbox = dijit.byId("q24");
@@ -1045,7 +1051,7 @@
 				doh.register("set constraints", [
 					{
 						name: "number",
-						timeout: 6000,
+						timeout: 9000,
 						runTest: function(){
 							var textWidget = dijit.byId("q05");
 							textWidget.set('value', 12345);
@@ -1056,7 +1062,7 @@
 					},
 					{
 						name: "currency",
-						timeout: 6000,
+						timeout: 9000,
 						runTest: function(){
 							var textWidget = dijit.byId("q08eurde");
 							textWidget.set('value', 12345.25);
@@ -1085,7 +1091,7 @@
 					},
 					{
 						name: "focus/blur textbox",
-						timeout: 6000,
+						timeout: 9000,
 						runTest: function(){
 							var d = new doh.Deferred(), textWidget = dijit.byId("q26");
 							textWidget.set('placeHolder','placeholder is here');
@@ -1110,7 +1116,7 @@
 					},
 					{
 						name: "type in textbox",
-						timeout: 6000,
+						timeout: 9000,
 						runTest: function(){
 							var d = new doh.Deferred(), textWidget = dijit.byId("q26");
 							textWidget.set('placeHolder','placeholder is here');
@@ -1135,7 +1141,7 @@
 					},
 					{
 						name: "reset textbox",
-						timeout: 6000,
+						timeout: 9000,
 						runTest: function(){
 							var textWidget = dijit.byId("q26"), d = new doh.Deferred();
 							textWidget.focus();

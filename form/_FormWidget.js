@@ -96,8 +96,8 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 			}, this);
 		}else{
 			if(this.tabIndex != ""){
-			this.focusNode.setAttribute('tabIndex', this.tabIndex);
-		}
+				this.focusNode.setAttribute('tabIndex', this.tabIndex);
+			}
 		}
 	},
 
@@ -120,13 +120,15 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 		//		Tells if this widget is focusable or not.  Used internally by dijit.
 		// tags:
 		//		protected
-		return !this.disabled && !this.readOnly && this.focusNode && (dojo.style(this.domNode, "display") != "none");
+		return !this.disabled && this.focusNode && (dojo.style(this.domNode, "display") != "none");
 	},
 
 	focus: function(){
 		// summary:
 		//		Put focus on this widget
-		dijit.focus(this.focusNode);
+		if(!this.disabled){
+			dijit.focus(this.focusNode);
+		}
 	},
 
 	compare: function(/*anything*/ val1, /*anything*/ val2){
