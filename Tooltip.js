@@ -108,9 +108,12 @@ dojo.declare(
 					this.connectorNode.style.top = aroundNodePlacement + "px";
 					this.connectorNode.style.bottom = "";
 				}else{
-					// Align center of connector with center of aroundNode, but don't let bottom
-					// of connector extend below bottom of tooltip content
-					this.connectorNode.style.bottom = Math.max(aroundNodeCoords.h/2 - tooltipConnectorHeight/2, 0) + "px";
+					// Align center of connector with center of aroundNode, except don't let bottom
+					// of connector extend below bottom of tooltip content, or top of connector
+					// extend past top of tooltip content
+					this.connectorNode.style.bottom = Math.min(
+						Math.max(aroundNodeCoords.h/2 - tooltipConnectorHeight/2, 0),
+						mb.h - tooltipConnectorHeight) + "px";
 					this.connectorNode.style.top = "";
 				}
 			}else{
