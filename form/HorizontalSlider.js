@@ -312,7 +312,8 @@ dojo.declare("dijit.form._SliderMover",
 			widget._setPixelValue_ = dojo.hitch(widget, "_setPixelValue");
 			widget._isReversed_ = widget._isReversed();
 		}
-		var pixelValue = e[widget._mousePixelCoord] - abspos[widget._startingPixelCoord];
+		var coordEvent = e.touches ? e.touches[0] : e, // if multitouch take first touch for coords
+			pixelValue = coordEvent[widget._mousePixelCoord] - abspos[widget._startingPixelCoord];
 		widget._setPixelValue_(widget._isReversed_ ? (abspos[widget._pixelCount]-pixelValue) : pixelValue, abspos[widget._pixelCount], false);
 	},
 
