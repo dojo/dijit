@@ -56,6 +56,10 @@ dojo.declare("dijit.InlineEditBox",
 	//		Set of parameters for editor, like {required: true}
 	editorParams: {},
 
+	// disabled: Boolean
+	//		If true, clicking the InlineEditBox to edit it will have no effect.
+	disabled: false,
+
 	onChange: function(value){
 		// summary:
 		//		Set this handler to be notified of changes to value.
