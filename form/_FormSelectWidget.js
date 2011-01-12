@@ -309,7 +309,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		var val = dojo.map(newValue, function(i){ return i.value; }),
 			disp = dojo.map(newValue, function(i){ return i.label; });
 
-		this.value = this.multiple ? val : val[0];
+		this._set("value", this.multiple ? val : val[0]);
 		this._setDisplay(this.multiple ? disp : disp[0]);
 		this._updateSelection();
 		this._handleOnChange(this.value, priorityChange);
@@ -351,7 +351,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 	_updateSelection: function(){
 		// summary:
 		//		Sets the "selected" class on the item for styling purposes
-		this.value = this._getValueFromOpts();
+		this._set("value", this._getValueFromOpts());
 		var val = this.value;
 		if(!dojo.isArray(val)){
 			val = [val];
@@ -472,9 +472,9 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 						}, this) : [];
 		}
 		if(!this.value){
-			this.value = this._getValueFromOpts();
+			this._set("value", this._getValueFromOpts());
 		}else if(this.multiple && typeof this.value == "string"){
-			this.value = this.value.split(",");
+			this_set("value", this.value.split(","));
 		}
 	},
 
