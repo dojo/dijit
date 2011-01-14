@@ -402,7 +402,13 @@ dojo.declare("dijit.WidgetSet", null, {
 		//		  positive tabIndex value
 		//		* the last element in document order with the highest
 		//		  positive tabIndex value
-		var first, last, lowest, lowestTabindex, highest, highestTabindex;
+		var first, last, lowest, lowestTabindex, highest, highestTabindex, radioSelected = {};
+		function radioName(node) {
+			// If this element is part of a radio button group, return the name for that group.
+			return node && node.tagName.toLowerCase() == "input" &&
+				node.type && node.type.toLowerCase() == "radio" &&
+				node.name && node.name.toLowerCase();
+		}
 		var walkTree = function(/*DOMNode*/parent){
 			dojo.query("> *", parent).forEach(function(child){
 				// Skip hidden elements, and also non-HTML elements (those in custom namespaces) in IE,
@@ -426,6 +432,10 @@ dojo.declare("dijit.WidgetSet", null, {
 							highest = child;
 						}
 					}
+					var rn = radioName(child);
+					if(dojo.attr(child, "checked") && rn) {
+						radioSelected[rn] = child;
+					}
 				}
 				if(child.nodeName.toUpperCase() != 'SELECT'){
 					walkTree(child);
@@ -433,7 +443,11 @@ dojo.declare("dijit.WidgetSet", null, {
 			});
 		};
 		if(shown(root)){ walkTree(root) }
-		return { first: first, last: last, lowest: lowest, highest: highest };
+		function rs(node) {
+			// substitute checked radio button for unchecked one, if there is a checked one with the same name.
+			return radioSelected[radioName(node)] || node;
+		}
+		return { first: rs(first), last: rs(last), lowest: rs(lowest), highest: rs(highest) };
 	}
 	dijit.getFirstInTabbingOrder = function(/*String|DOMNode*/ root){
 		// summary:

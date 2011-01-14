@@ -356,6 +356,20 @@
 	</iframe>
 				
 	</div>
+
+	<button id="RadioButtonDlgBtn" data-dojo-type="dijit.form.Button"  data-dojo-props='onClick:function(){ dijit.byId("RadioButtonDlg").show() }'>Show Dialog With Radio Button at End</button>
+	<div id="RadioButtonDlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Radio Button Dialog"'>
+	  <div class="dijitDialogPaneContentArea">
+	    <textarea id="textarea-radio-test" width="400" height="200"></textarea>
+	    <fieldset>
+	      <legend>Best Pet</legend>
+	      <input id="dograd" type="radio" name="pet" checked="checked"></input>
+	      <label for="dograd">Dog</label> -
+	      <input id="catrad" type="radio" name="pet"></input>
+	      <label for="catrad">Cat</label>
+	    </fieldset>
+	  </div>
+	</div>
 	
 	<p><b><i>(scroll down to see more links to click, for testing positioning / scroll handling)</i></b></p>
 

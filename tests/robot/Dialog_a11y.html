@@ -308,6 +308,43 @@
 
 							return d;
 						}
+					},
+
+					{
+						name: "radio button as last element",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// Click the button.  We do this manually rather than calling Dialog.show()
+							// so we can later test that focus is restored (to the previous position)
+							// when the dialog is closed
+							dojo.byId("RadioButtonDlgBtn").focus();
+							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
+
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.t(dojo.global.dijit._curFocus, "focus is somewhere #1");
+								doh.is("textarea-radio-test", dojo.global.dijit._curFocus.id, "focus is on the textarea");
+							}), 1000);
+
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.t(dojo.global.dijit._curFocus, "focus is somewhere #2");
+								doh.is("textarea-radio-test", dojo.global.dijit._curFocus.id, "focus wraps around back to the textarea");
+							}), 500);
+
+							// Esc key should close the dialog
+							doh.robot.keyPress(dojo.keys.ESCAPE, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(dojo.global.dijit._curFocus, "focus is somewhere #3");
+								doh.is("RadioButtonDlgBtn", dojo.global.dijit._curFocus.id, "focus is back on the button that opened the dialog");
+							}), 500);
+
+							return d;
+						}
 					}
 				]);
 
