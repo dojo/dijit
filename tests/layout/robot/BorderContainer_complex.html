@@ -47,7 +47,7 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 							
-							doh.robot.mouseMoveAt("mainTabContainer_tablist_tab1", 500);
+							doh.robot.mouseMoveAt("mainTabContainer_tablist_tab1", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -162,7 +162,7 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 							
-							doh.robot.mouseMoveAt("ap1_button", 500);
+							doh.robot.mouseMoveAt("ap1_button", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -211,7 +211,7 @@
 					},
 					{
 						name: "resize accordion",
-						timeout: 5000,
+						timeout: 6000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
@@ -220,10 +220,10 @@
 
 							// Drag slider to shrink pane 
 							var size = dojo.position("ac1_splitter");
-							doh.robot.mouseMoveAt("ac1_splitter", 500);
+							doh.robot.mouseMoveAt("ac1_splitter", 500, 1);
 							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt("ac1_splitter", 500, 100, size.w/2+30, size.h/2);
-							doh.robot.mouseRelease({left: true}, 500);
+							doh.robot.mouseMoveAt("ac1_splitter", 500, 500, size.w/2+30, size.h/2);
+							doh.robot.mouseRelease({left: true}, 1000);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
 								//test that the margin box for the accordion pane grows the same size as the splitter moved
@@ -233,7 +233,7 @@
 								//test that the center content got smaller by the same size that the splitter moved
 								var newCenterPane = dojo.position(dojo.byId("mainCP"));
 								doh.is(newCenterPane.w, centerPane.w-30);
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -250,7 +250,7 @@
 							var changed = false;
 							dijit.byId("filteringSelect").connect(dijit.byId("filteringSelect"), "onChange", function(e){d.callback(true); });
 							
-							doh.robot.mouseMoveAt("filteringSelect", 500);
+							doh.robot.mouseMoveAt("filteringSelect", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
