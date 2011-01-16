@@ -44,10 +44,9 @@
 						name: "drag 'Apple' over 'Fruits'",
 						timeout: 10000,
 						runTest: function(){
-							var d = new doh.Deferred();
-
-							// Find the fruitsTreeNode category
-							var fruitsTreeNode = findTreeNode("itemTree", "Fruits");
+							var
+								d = new doh.Deferred(),
+								fruitsTreeNode = findTreeNode("itemTree", "Fruits");
 							doh.f(fruitsTreeNode.isExpanded, "fruitsTreeNode is initially closed");
 							doh.t(fruitsTreeNode.isExpandable, "but has (or may have) children");
 
@@ -111,9 +110,9 @@
 						name: "drag 'Apple' from 'Fruits' to 'Citrus'",
 						timeout: 10000,
 						runTest: function(){
-							var d = new doh.Deferred();
-
-							var fruitsTreeNode = findTreeNode("itemTree", "Fruits"),
+							var
+								d = new doh.Deferred(),
+								fruitsTreeNode = findTreeNode("itemTree", "Fruits"),
 								appleTreeNode = findTreeNode("itemTree", "Apple"),
 								citrusTreeNode = findTreeNode("itemTree", "Citrus");
 							dijit.scrollIntoView("itemTree");
@@ -161,9 +160,9 @@
 						name: "drag 'Cereals' to be before 'Vegetables' (reordering)",
 						timeout: 10000,
 						runTest: function(){
-							var d = new doh.Deferred();
-
-							var vegetablesTreeNode = findTreeNode("collectionsTree", "Vegetables (0)"),
+							var
+								d = new doh.Deferred(),
+								vegetablesTreeNode = findTreeNode("collectionsTree", "Vegetables (0)"),
 								cerealsTreeNode = findTreeNode("collectionsTree", "Cereals (0)");
 
 							// (Try to) make sure drag source and drop source are both in viewport
@@ -187,7 +186,8 @@
 								doh.is("Vegetables", foodsItemChildren[2]);
 
 								// Check that data store update was reflected in the tree
-								var foodsTreeNode = findTreeNode("collectionsTree", "Foods (1)"),
+								var
+									foodsTreeNode = findTreeNode("collectionsTree", "Foods (1)"),
 									foodsTreeNodeChildren = foodsTreeNode.getChildren();
 								doh.is(3, foodsTreeNodeChildren.length, "3 TreeNode children")
 								doh.is("Fruits (2)", innerText(foodsTreeNodeChildren[0].labelNode));
@@ -206,9 +206,9 @@
 						name: "expand 'Fruits' TreeNode",
 						timeout: 10000,
 						runTest: function(){
-							var d = new doh.Deferred();
-
-							var fruitsTreeNode = findTreeNode("collectionsTree", "Fruits (2)");
+							var
+								d = new doh.Deferred(),
+								fruitsTreeNode = findTreeNode("collectionsTree", "Fruits (2)");
 							doh.robot.mouseMoveAt(fruitsTreeNode.expandoNode, 0, 1);
 							doh.robot.mouseClick({left: true}, 500);
 
@@ -224,9 +224,9 @@
 						name: "drag 'Vegetables' to be after 'Citrus' (reordering)",
 						timeout: 10000,
 						runTest: function(){
-							var d = new doh.Deferred();
-
-							var vegetablesTreeNode = findTreeNode("collectionsTree", "Vegetables (0)"),
+							var
+								d = new doh.Deferred(),
+								vegetablesTreeNode = findTreeNode("collectionsTree", "Vegetables (0)"),
 								citrusTreeNode = findTreeNode("collectionsTree", "Citrus (1)"),
 								citrusTreeNodeSize = dojo.contentBox(citrusTreeNode.domNode);
 
@@ -255,7 +255,8 @@
 								doh.is("Vegetables", fruitsItemChildren[1]);
 
 								// Check that data store update was reflected in the tree
-								var foodsTreeNode = findTreeNode("collectionsTree", "Foods (1)"),
+								var
+									foodsTreeNode = findTreeNode("collectionsTree", "Foods (1)"),
 									foodsTreeNodeChildren = foodsTreeNode.getChildren();
 								doh.is(2, foodsTreeNodeChildren.length, "2 TreeNode children for foods")
 								doh.is("Fruits (2)", innerText(foodsTreeNodeChildren[0].labelNode));
@@ -279,9 +280,9 @@
 						name: "move 'Vegetables' from left tree to right tree, from 'Fruits' to 'Foods'",
 						timeout: 10000,
 						runTest: function(){
-							var d = new doh.Deferred();
-
-							var vegetablesTreeNode = findTreeNode("collectionsTree", "Vegetables (0)");
+							var
+								d = new doh.Deferred(),
+								vegetablesTreeNode = findTreeNode("collectionsTree", "Vegetables (0)"),
 								foodsTreeNode = dijit.byId("itemTree").rootNode;
 
 							doh.robot.mouseMoveAt(vegetablesTreeNode.labelNode, 0, 1);
@@ -321,17 +322,13 @@
 
 							doh.robot.mouseMoveAt(orangeTreeNode.labelNode, 0, 1);
 							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseRelease({left: true}, 500);
-
-							doh.robot.mouseMoveAt("itemTree", 0, 500, 5, 50);
-							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt("itemTree", 0, 500, 5, 100);
+							doh.robot.mouseMoveAt("itemTree", 500, 500, 5, 100);
 							doh.robot.mouseRelease({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								var org = findTreeNode("itemTree", "Orange");
 								doh.t( org != null);
-							}), 500);
+							}), 1000);
 							return d;
 						}
 					}
@@ -354,7 +351,11 @@
 						dojo.window.scrollIntoView("itemTree");
 					}, 0);
 					doh.robot.mouseMoveAt(destTreeNode.labelNode, 500, 1); // move to dest center
-					doh.robot.mouseMoveAt(destTreeNode.labelNode, 500, 500, 0, after ? dojo.position(destTreeNode.labelNode).h : -2); // move either just above or below dest
+					doh.robot.mouseMoveAt(destTreeNode.labelNode, 500, 500, 0,
+						after
+							? (dojo.position(destTreeNode.domNode).h - dojo.position(destTreeNode.labelNode).y + dojo.position(destTreeNode.domNode).y - 1)
+							: -2
+					);
 					doh.robot.mouseRelease({left: true}, 500);
 				}
 
@@ -574,12 +575,11 @@
 						name: "click on a new node and drag should select it",
 						timeout: 15000,
 						runTest: function(){
-							var d = new doh.Deferred();
-
-							// Find the fruitsTreeNode category
-							var fruitsTreeNode = findTreeNode("itemTree", "Fruits");
-							var cerealsTreeNode = findTreeNode("itemTree", "Cereals");
-							var tree = dijit.byId("itemTree");
+							var
+								d = new doh.Deferred(),
+								fruitsTreeNode = findTreeNode("itemTree", "Fruits"),
+								cerealsTreeNode = findTreeNode("itemTree", "Cereals"),
+								tree = dijit.byId("itemTree");
 
 							// click fruit item
 							doh.robot.mouseMoveAt(fruitsTreeNode.rowNode, 0, 1);
@@ -601,14 +601,13 @@
 						name: "drag parent and child to another child should do nothing",
 						timeout: 15000,
 						runTest: function(){
-							var d = new doh.Deferred();
-
-							// Find the fruitsTreeNode category
-							var citrusTreeNode = findTreeNode("itemTree", "Citrus"), 
-							  citrusParent = citrusTreeNode.getParent(),
-							  orangeTreeNode = findTreeNode("itemTree", "Orange"),
-							  appleTreeNode = findTreeNode("itemTree", "Apple"),
-							  tree = dijit.byId("itemTree");
+							var
+								d = new doh.Deferred(),
+								citrusTreeNode = findTreeNode("itemTree", "Citrus"), 
+								citrusParent = citrusTreeNode.getParent(),
+								orangeTreeNode = findTreeNode("itemTree", "Orange"),
+								appleTreeNode = findTreeNode("itemTree", "Apple"),
+								tree = dijit.byId("itemTree");
 
 							doh.is(citrusTreeNode, orangeTreeNode.getParent(), 'orange is child of citrus');
 
@@ -639,13 +638,12 @@
 						name: "drag parent and child should only reparent parent",
 						timeout: 15000,
 						runTest: function(){
-							var d = new doh.Deferred();
-
-							// Find the fruitsTreeNode category
-							var citrusTreeNode = findTreeNode("itemTree", "Citrus");
-							var orangeTreeNode = findTreeNode("itemTree", "Orange");
-							var cerealsTreeNode = findTreeNode("itemTree", "Cereals");
-							var tree = dijit.byId("itemTree");
+							var
+								d = new doh.Deferred(),
+								citrusTreeNode = findTreeNode("itemTree", "Citrus"),
+								orangeTreeNode = findTreeNode("itemTree", "Orange"),
+								cerealsTreeNode = findTreeNode("itemTree", "Cereals"),
+								tree = dijit.byId("itemTree");
 
 							doh.is(citrusTreeNode, orangeTreeNode.getParent(), 'orange is child of citrus');
 
@@ -676,13 +674,12 @@
 						name: "drag multiple items",
 						timeout: 15000,
 						runTest: function(){
-							var d = new doh.Deferred();
-
-							// Find the fruitsTreeNode category
-							var vegetablesTreeNode = findTreeNode("itemTree", "Vegetables");
-							var cerealsTreeNode = findTreeNode("itemTree", "Cereals");
-							var foodsTreeNode = findTreeNode("itemTree", "Foods");
-							var tree = dijit.byId("itemTree");
+							var
+								d = new doh.Deferred(),
+								vegetablesTreeNode = findTreeNode("itemTree", "Vegetables"),
+								cerealsTreeNode = findTreeNode("itemTree", "Cereals"),
+								foodsTreeNode = findTreeNode("itemTree", "Foods"),
+								tree = dijit.byId("itemTree");
 
 							// click Vegetables item
 							doh.robot.mouseMoveAt(vegetablesTreeNode.rowNode, 0, 1);
