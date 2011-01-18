@@ -51,7 +51,17 @@
 				templateString: "<span class='dijitInline resizableWidget'>resizable widget</span>",
 				_resized: 0,
 				_resizeArgs: null,
+				
+				constructor: function(){
+					this.history = [];
+				},
+
+				startup: function(){
+					this.history.push("started");
+				},
+
 				resize: function(newSize){
+					this.history.push("resized");
 					this._resized++;
 					this._resizeArgs = arguments;
 					if(newSize){
@@ -324,7 +334,12 @@
 								child2 = dijit.byId("resizableInForm2");
 
 							doh.is(0, child1._resized, "child1 hasn't been shown yet so no resize events");
+							doh.is(1, child1.history.length, "child1 # of history events (before show)");
+							doh.is("started", child1.history[0], "child1 history");
+
 							doh.is(0, child2._resized, "child2 hasn't been shown yet so no resize events");
+							doh.is(1, child1.history.length, "child2 # of history events (before show)");
+							doh.is("started", child2.history[0], "child2 history");
 
 							dijit.byId("resizeTC").selectChild(dijit.byId("multipleResizableInForm"))
 
@@ -341,6 +356,8 @@
 							var child = dijit.byId("resizableInForm0");
 
 							doh.is(0, child._resized, "child hasn't been shown yet so no resize events");
+							doh.is(1, child.history.length, "child # of history events (before show)");
+							doh.is("started", child.history[0], "child history");
 
 							dijit.byId("resizeTC").selectChild(dijit.byId("singleResizableInForm"))
 

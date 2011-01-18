@@ -1,4 +1,4 @@
-define("dijit/layout/ContentPane", ["dojo", "dijit", "dijit/_Widget", "dijit/_Contained", "dijit/layout/_LayoutWidget", "dijit/layout/_ContentPaneResizeMixin", "dojo/string", "dojo/html", "i18n!dijit/nls/loading"], function(dojo, dijit) {
+define("dijit/layout/ContentPane", ["dojo", "dijit", "dijit/_Widget", "dijit/layout/_LayoutWidget", "dijit/layout/_ContentPaneResizeMixin", "dojo/string", "dojo/html", "i18n!dijit/nls/loading"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPaneResizeMixin], 
@@ -174,26 +174,14 @@ dojo.declare(
 		//		See `dijit.layout._LayoutWidget.startup` for description.
 		//		Although ContentPane doesn't extend _LayoutWidget, it does implement
 		//		the same API.
+
 		if(this._started){ return; }
 
-		var parent = dijit._Contained.prototype.getParent.call(this);
-		this._childOfLayoutWidget = parent && parent.isLayoutContainer;
-
-		// I need to call resize() on my child/children (when I become visible), unless
-		// I'm the child of a layout widget in which case my parent will call resize() on me and I'll do it then.
-		this._needLayout = !this._childOfLayoutWidget;
-
-		if(this.isLoaded){
-			dojo.forEach(this.getChildren(), function(child){
-				child.startup();
-			});
-		}
+		this.inherited(arguments);
 
 		if(this._isShown() || this.preload){
 			this._onShow();
 		}
-
-		this.inherited(arguments);
 	},
 
 	setHref: function(/*String|Uri*/ href){

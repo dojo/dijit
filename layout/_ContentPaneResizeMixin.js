@@ -1,4 +1,4 @@
-define("dijit/layout/_ContentPaneResizeMixin", ["dojo", "dijit"], function(dojo, dijit) {
+define("dijit/layout/_ContentPaneResizeMixin", ["dojo", "dijit", "dijit/_Contained"], function(dojo, dijit) {
 
 dojo.declare("dijit.layout._ContentPaneResizeMixin", null, {
 	// summary:
@@ -16,6 +16,28 @@ dojo.declare("dijit.layout._ContentPaneResizeMixin", null, {
 	//		Indicates that this widget will call resize() on it's child widgets
 	//		when they become visible.
 	isLayoutContainer: true,
+
+	startup: function(){
+		// summary:
+		//		See `dijit.layout._LayoutWidget.startup` for description.
+		//		Although ContentPane doesn't extend _LayoutWidget, it does implement
+		//		the same API.
+
+		if(this._started){ return; }
+
+		var parent = dijit._Contained.prototype.getParent.call(this);
+		this._childOfLayoutWidget = parent && parent.isLayoutContainer;
+
+		// I need to call resize() on my child/children (when I become visible), unless
+		// I'm the child of a layout widget in which case my parent will call resize() on me and I'll do it then.
+		this._needLayout = !this._childOfLayoutWidget;
+
+		dojo.forEach(this.getChildren(), function(child){
+			child.startup();
+		});
+
+		this.inherited(arguments);
+	},
 
 	_checkIfSingleChild: function(){
 		// summary:
@@ -91,7 +113,7 @@ dojo.declare("dijit.layout._ContentPaneResizeMixin", null, {
 
 		this._layoutChildren();
 
-		delete this._needLayout;	// set and used by ContentPane
+		delete this._needLayout;
 	},
 	
 	_layoutChildren: function(){
