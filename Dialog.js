@@ -301,7 +301,12 @@ dojo.declare(
 			//		Display the dialog
 			// returns: dojo.Deferred
 			//		Deferred object that resolves when the display animation is complete
+
 			if(this.open){ return; }
+
+			if(!this._started){
+				this.startup();
+			}
 
 			// first time we show the dialog, there's some initialization stuff to do
 			if(!this._alreadyInitialized){

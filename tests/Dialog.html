@@ -66,6 +66,10 @@
 								") above underlay (zIndex=" + underlayZ + ")");
 
 							doh.is("dlg1_inputA", dojo.global.dijit._curFocus.id, "focus is on the first field");
+
+							// For back-compat, startup() should be called on children even if Dialog.startup()
+							// isn't called explicitly.							
+							doh.t(dlg1._started, "dlg1 started");
 						}));
 
 						return d;
