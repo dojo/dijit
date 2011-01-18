@@ -91,12 +91,6 @@
 							doh.robot.mouseMoveAt("dijit_layout_ContentPane_6_button", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
-							//Drag splitter down to make more room for the tab container
-							doh.robot.mouseMoveAt("topTabs1_splitter", 500, 1);
-							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt("topTabs1_splitter", 500, 100, 100, 100);
-							doh.robot.mouseRelease({left: true}, 500);
-							
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isVisible(dijit.byId("tabAccordionContainer").domNode), "Accordion container is not visible");
 								doh.t(isVisible(dijit.byId("dijit_layout_ContentPane_6")), "Accordion tab 4 is not visible");
@@ -130,8 +124,6 @@
 							var d = new doh.Deferred();
 							
 							doh.robot.mouseMoveAt("topTabs1_tablist_titlePaneCP", 500, 1);
-							doh.robot.mouseClick({left:true}, 500);
-							doh.robot.mouseMoveAt("dijit_layout_ContentPane_6_button", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
