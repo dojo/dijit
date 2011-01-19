@@ -29,6 +29,7 @@ dojo.declare(
 
 		// promptMessage: String
 		//		If defined, display this hint string immediately on focus to the textbox, if empty.
+		//		Also displays if the textbox value is Incomplete (not yet valid but will be with additional input).
 		//		Think of this like a tooltip that tells the user what to do, not an error message
 		//		that tells the user what they've done wrong.
 		//
@@ -152,12 +153,12 @@ dojo.declare(
 
 			if(this.state == "Error"){
 				this._maskValidSubsetError = isFocused && isValidSubset; // we want the error to show up after a blur and refocus
-				message = this.getErrorMessage(true);
+				message = this.getErrorMessage(isFocused);
 			}else if(this.state == "Incomplete"){
-				message = this.getPromptMessage(true); // show the prompt whenever there's no error
+				message = this.getPromptMessage(isFocused); // show the prompt whenever the value is not yet complete 
 				this._maskValidSubsetError = !this._hasBeenBlurred || isFocused; // no Incomplete warnings while focused
-			}else{
-				message = this.getPromptMessage(true); // show the prompt whenever there's no error
+			}else if(isEmpty){
+				message = this.getPromptMessage(isFocused); // show the prompt whenever there's no error and no text
 			}
 			this.set("message", message);
 
