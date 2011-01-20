@@ -43,7 +43,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 
 	// disabled: Boolean
 	//		Flag to indicate if this plugin has been disabled and should do nothing
-	//		helps control button state, amoung other things.  Set via the setter api.
+	//		helps control button state, among other things.  Set via the setter api.
 	disabled: false,
 
 	getLabel: function(/*String*/key){
