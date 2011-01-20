@@ -6,6 +6,10 @@
 
 	<title>Dijit Theme Tester</title>
 
+	<script>
+		var startTime = new Date();
+	</script>
+
 	<!-- required: a default theme -->
 	<link rel="stylesheet" href="../themes/claro/document.css"/>
 	<link rel="stylesheet" href="../../dijit/themes/claro/claro.css"/>
@@ -88,7 +92,9 @@
 		dojo.require("dijit.ProgressBar");
 		dojo.require("dijit.TitlePane");
 		dojo.require("dijit.Tooltip");
+
 		dojo.require("dijit.Tree");
+		dojo.require("dijit.tree.ForestStoreModel");
 
 		dojo.require("dijit.MenuBar");
 		dojo.require("dijit.MenuBarItem");
@@ -130,26 +136,11 @@
 		dojo.require("dijit.layout.LinkPane");
 		dojo.require("dijit.Dialog");
 
-		// scan page for widgets and instantiate them
 		dojo.require("dojo.parser");
 
-		// require is redundant since this code is also pulled in by Date widgets
 		dojo.require("dojo.date.locale");
 
-		// for the Tree
 		dojo.require("dojo.data.ItemFileReadStore");
-
-		// for the colorpalette
-		function setColor(color){
-			var theSpan = dojo.byId("outputSpan");
-			dojo.style(theSpan,"color",color);
-			theSpan.innerHTML = color;
-		}
-
-		// for the calendar
-		function myHandler(id,newValue){
-			console.debug("onChange for id = " + id + ", value: " + newValue);
-		}
 
 		// various function ripped out of inline script type=dojo/* blocks
 		function showDialog(){
@@ -205,9 +196,11 @@
 
 		dojo.addOnLoad(function() {
 
-			var start = +new Date();
+			var loadCompleteTime = +new Date();
+			console.log("Total load time: " + (loadCompleteTime - startTime) + "ms");
+
 			dojo.parser.parse(dojo.byId('container'));
-			console.info("Total parse time: " + (+new Date() - start) + "ms");
+			console.info("Total parse time: " + (+new Date() - loadCompleteTime) + "ms");
 
 			dojo.byId('loaderInner').innerHTML += " done.";
 			setTimeout(function hideLoader(){
@@ -310,6 +303,8 @@
 	<!-- data for tree and combobox -->
 	<div data-dojo-type="dojo.data.ItemFileReadStore" data-dojo-id="continentStore"
 		data-dojo-props="url:'../tests/_data/countries.json'"></div>
+	<div data-dojo-id="continentModel" data-dojo-type="dijit.tree.ForestStoreModel" data-dojo-props='store:continentStore, query:{type:"continent"},
+		rootId:"continentRoot", rootLabel:"Continents", childrenAttrs:["children"]'></div>
 	<div data-dojo-type="dojo.data.ItemFileReadStore" data-dojo-id="stateStore"
 		data-dojo-props="url:'../tests/_data/states.json'"></div>
 	<!-- contentMenu popup -->												<!-- redundant display:none required here? -->
@@ -521,16 +516,25 @@
 			</div>
 			</div>
 
-			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Dojo Tree from Store"'>
+			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Tree"'>
 				<!-- tree widget -->
 				<div data-dojo-type="dijit.Tree" 
-					data-dojo-props="store: continentStore, query:{ type:'continent'}, label:'Continents', openOnClick:true"
+					data-dojo-props="model: continentModel, query:{ type:'continent'}, label:'Continents', openOnClick:true"
 				></div>
+			</div>
+
+			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title:'Rootless Tree'">
+				<div id="rootlessTree" data-dojo-type="dijit.Tree" data-dojo-props="
+					model:continentModel,
+					query:{ type:'continent' },
+					showRoot: false,
+					openOnClick:true
+				"></div>
 			</div>
 
 			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='selected:true, title:"Calendar"'>
 				<!-- calendar widget pane -->
-				<input id="calendar1" data-dojo-type="dijit.Calendar" data-dojo-props="onChange: function(){ myHandler(this.id,arguments[0]); }">
+				<input id="calendar1" data-dojo-type="dijit.Calendar">
 			</div>
 
 			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Color Picker"'>
@@ -549,80 +553,6 @@
 				<h2 class="testHeader">7x10</h2>
 				<div data-dojo-type="dijit.ColorPalette" data-dojo-props="onChange:setBackground"></div>
 			</div>
-			<div data-dojo-type="dijit.layout.TabContainer" data-dojo-props='useMenu:false, title:"Sliding TabContainer"' id="slidingTab">
-				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Information"'>
-					This tab container uses slide controls when the tabs are too wide to fit beside each other.
-					If you make the left column narrow enough, the slide controls should appear.
-				</div>
-				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title:'Rootless Tree', closable:true">
-					<div id="rootlessTree" data-dojo-type="dijit.Tree" data-dojo-props="
-						store:continentStore,
-						query:{ type:'continent' },
-						openOnClick:true
-					"></div>
-
-				</div>
-				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title:'Menu Bar', closable:true">
-					<div id="menubar" data-dojo-type="dijit.MenuBar">
-					<div data-dojo-type="dijit.PopupMenuBarItem" >
-						<span>File</span>
-						<div data-dojo-type="dijit.Menu">
-							<div data-dojo-type="dijit.MenuItem" data-dojo-props="iconClass:'dijitIconNewTask'">New</div>
-							<div data-dojo-type="dijit.MenuItem">Open</div>
-							<div data-dojo-type="dijit.MenuSeparator"></div>
-							<div data-dojo-type="dijit.MenuItem" data-dojo-props="iconClass:'dijitIconSave'">Save</div>
-							<div data-dojo-type="dijit.MenuItem">Save As...</div>
-						</div>
-					</div>
-					<div data-dojo-type="dijit.PopupMenuBarItem">
-						<span>Edit</span>
-						<div data-dojo-type="dijit.Menu" >
-							<div data-dojo-type="dijit.MenuItem" data-dojo-props="iconClass:'dijitIconCut'"
-								onClick="console.log('not actually cutting anything, just a test!')">Cut</div>
-							<div data-dojo-type="dijit.MenuItem" data-dojo-props="iconClass:'dijitIconCopy',
-								onClick:function(){ console.log('not actually copying anything, just a test!') }">Copy</div>
-							<div data-dojo-type="dijit.MenuItem" data-dojo-props="iconClass:'dijitIconPaste',
-								onClick:function(){ console.log('not actually pasting anything, just a test!') }">Paste</div>
-						</div>
-					</div>
-					<div data-dojo-type="dijit.PopupMenuBarItem">
-						<span>View</span>
-						<div data-dojo-type="dijit.Menu">
-							<div data-dojo-type="dijit.MenuItem">Normal</div>
-							<div data-dojo-type="dijit.MenuItem">Outline</div>
-							<div data-dojo-type="dijit.PopupMenuItem">
-								<span>Zoom</span>
-								<div data-dojo-type="dijit.Menu">
-									<div data-dojo-type="dijit.MenuItem">50%</div>
-									<div data-dojo-type="dijit.MenuItem">75%</div>
-									<div data-dojo-type="dijit.MenuItem">100%</div>
-									<div data-dojo-type="dijit.MenuItem">150%</div>
-									<div data-dojo-type="dijit.MenuItem">200%</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div data-dojo-type="dijit.PopupMenuBarItem">
-						<span>Help</span>
-						<div data-dojo-type="dijit.Menu">
-							<div data-dojo-type="dijit.MenuItem">Help Topics</div>
-							<div data-dojo-type="dijit.MenuItem">About Dijit</div>
-						</div>
-					</div>
-					<div data-dojo-type="dijit.PopupMenuBarItem" data-dojo-props="disabled:true">
-						<span>Disabled</span>
-						<div data-dojo-type="dijit.Menu">
-							<div data-dojo-type="dijit.MenuItem">You should not see this</div>
-						</div>
-					</div>
-					<div data-dojo-type="dijit.MenuBarItem" onclick="alert('no submenu, just a clickable MenuItem');">
-						Click me!
-					</div>
-				</div>
-				</div>
-			</div>
-
-
 		</div><!-- end AccordionContainer -->
 
 		<!-- top tabs (marked as "center" to take up the main part of the BorderContainer) -->
@@ -1031,7 +961,7 @@ nulla &#8234;facilisi.&#8236;
 				<h2 class="testTitle">dijit.InlineEditBox + dijit.form.TextBox on &lt;h3&gt;</h2>
 
 				(HTML before)
-				<h3 id="editable" style="font-size:larger;" data-dojo-type="dijit.InlineEditBox" data-dojo-props="onChange: function(){ myHandler(this.id,arguments[0]) }">
+				<h3 id="editable" style="font-size:larger;" data-dojo-type="dijit.InlineEditBox">
 					Edit me - I trigger the onChange callback
 				</h3>
 				(HTML after)
