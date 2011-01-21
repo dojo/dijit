@@ -157,14 +157,12 @@
 /****
 		A11Y
  ****/
-.dijit_a11y * {
-	background-image:none !important;
-}
 .dijit_a11y .dijitIcon,
 .dijit_a11y DIV.dijitArrowButtonInner, /* is this only for Spinner?  if so, it should be deleted */
 .dijit_a11y SPAN.dijitArrowButtonInner,
 .dijit_a11y IMG.dijitArrowButtonInner,
-.dijit_a11y .dijitCalendarIncrementControl {
+.dijit_a11y .dijitCalendarIncrementControl,
+.dijit_a11y .dijitTreeExpando {
 	/* hide icon nodes in high contrast mode; when necessary they will be replaced by character equivalents
 	 * exception for INPUT.dijitArrowButtonInner, because the icon and character are controlled by the same node */
 	display: none;
@@ -194,11 +192,6 @@
 }
 .dijit_a11y .dijitCalendarDateTemplate {
 	padding-bottom: 0.1em !important;	/* otherwise bottom border doesn't appear on IE */
-}
-
-.dijit_a11y .dijit * {
-	background:white !important;
-	color:black !important;
 }
 .dijit_a11y .dijitButtonNode {
 	border: black outset medium !important;
