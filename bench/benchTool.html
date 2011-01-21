@@ -97,11 +97,12 @@
 						case "parse" :
 						case "fastparse" :
 							var tmpString = [];
+							var tag = /Button/.test(aclass) ? "button" : (/Text/.test(aclass) ? "input" : "div");
 							for(var i=0; i<count; i++){
 								tmpString.push(
-								'<div ',
+								'<', tag, ' ',
 								 (theMethod == 'fastparse' ? 'data-dojo-type="' : 'dojoType="'),
-								aclass, '"></div>');
+								aclass, '"></', tag, '>');
 							}
 							tmpNode.innerHTML = tmpString.join("");
 							var tmpTimer = new Date().getTime();
