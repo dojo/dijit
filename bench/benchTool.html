@@ -88,16 +88,20 @@
 			var _error = false;
 			var count = theCount.value;
 			var aclass = theClass.value.toString();
-			var theMethod = (dojo.byId('parse').checked) ? "parse" : "create";
+			var theMethod = dojo.query("input[name=theMethod]").filter(function(node){ return node.checked; }).attr("value")[0];
 			var tmpNode = document.createElement('div');
 			try{
 				dojo.require(aclass);
 				dojo.addOnLoad(function(){
 					switch(theMethod){
 						case "parse" :
+						case "fastparse" :
 							var tmpString = [];
 							for(var i=0; i<count; i++){
-								tmpString.push('<div dojoType="', aclass, '"></div>');
+								tmpString.push(
+								'<div ',
+								 (theMethod == 'fastparse' ? 'data-dojo-type="' : 'dojoType="'),
+								aclass, '"></div>');
 							}
 							tmpNode.innerHTML = tmpString.join("");
 							var tmpTimer = new Date().getTime();
@@ -164,11 +168,18 @@
 		Class: <input type="text" name="dijit" id="classNode" value="dijit.form.Button"><br><br>
 		Count: <input type="text" name="count" id="countNode" value="100" size="4" ><br><br>
 
-		Method: <label for="parse">
-				<input type="radio" name="theMethod" value="parse" id="parse" checked="on"> Parse
+		Method:
+			<br>
+			<label for="parse">
+				<input type="radio" name="theMethod" value="parse" id="parse" checked="on"> Parse with 1.x dojoType syntax
 			</label>
+			<br>
+			<label for="fastparse">
+				<input type="radio" name="theMethod" value="fastparse" id="fastparse"> Parse with 2.0 data-dojo-type syntax
+			</label>
+			<br>
 			<label for="create">
-				<input type="radio" name="theMethod" value="create" id="create"> Create
+				<input type="radio" name="theMethod" value="create" id="create"> Create programatically
 			</label>
 
 		<br><br>
