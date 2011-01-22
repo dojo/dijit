@@ -1,5 +1,4 @@
-These are "less" files that compile into the CSS of claro.   See http://lesscss.org/
-and https://github.com/cloudhead/less.js/ for detailed instructions.
+These are "less" files that compile into the CSS of claro.
 
 ---------
 Installing and running on Windows:
@@ -13,7 +12,7 @@ Installing and running on Windows:
 	a) Go to https://github.com/cloudhead/less.js/archives/master, press download button, and select "download zip"
 	b) unzip the file into C:\
 
-2. Add node and lessc to your path.
+2. Add node and lessc environment variables:
 
     a) open Control Panel --> click System icon --> select Advanced tab --> click Environment variables button
     b) press "edit" on path
@@ -25,32 +24,29 @@ Installing and running on Windows:
 
 		C:\cloudhead-less.js-7fb09f\lib
 
-3. From the command prompt:
+4. To compile all the files:
 
-C:\> cd C:\myworkspace\dijit\themes\claro
-C:\> copy C:\cloudhead-less.js-7fb09f\bin\lessc .
-
-4. To compile a file (ex: compile Dialog.less --> Dialog.css):
-C:\> node lessc Dialog.less
+	C:\> cd C:\myworkspace\dijit\themes\claro
+	C:\> node compile.js
 
 --------
 To install/run less version 2 on mac:
 
-1. install Node.js
-	Go to http://nodejs.org/#download   (./configure, make, make install).
-	Alternately download a built copy from https://github.com/ajaxorg/node-builds
-2. download less from https://github.com/cloudhead/less.js/archives/master
-3. edit .bash_profile etc. to add node and lessc to path
+1. Install Node.js
+	Download a built copy from https://github.com/ajaxorg/node-builds.
+	Alternately, o to http://nodejs.org/#download   (./configure, make, make install).
+	
+2. Download less from https://github.com/cloudhead/less.js/archives/master
 
+3. Edit .bash_profile etc. to add node to your path, and lessc to NODE_PATH:
 
-To compile a single file:
-  $ lessc Calendar.less Calendar.css
-  
-You will need to put the path to lessc depending on where you downloaded it.
+	export PATH=$PATH:/opt/less/bin
+	export NODE_PATH=$NODE_PATH:/opt/less/lib
 
 To compile all the files:
 
-  $ for file in *.less */*.less; do echo === $file; /less_dir/bin/lessc $file $(echo $file |sed s/.less/.css/); done
+  $ cd dijit/themes/claro
+  $ node compile.js
 
 
 -------
@@ -62,3 +58,7 @@ To install on a mac:
   
 On Windows or Linux, make sure you have ruby and ruby-gems installed first.
 If you need help installing ruby please check out ruby-lang.org for more details.
+
+-----
+
+See http://lesscss.org/ and https://github.com/cloudhead/less.js/ for more information.
