@@ -209,7 +209,7 @@ dojo.declare(
 		// connectId: String|String[]
 		//		Id of domNode(s) to attach the tooltip to.
 		//		When user hovers over specified dom node, the tooltip will appear.
-		connectId: "",
+		connectId: [],
 
 		// position: String[]
 		//		See description of `dijit.Tooltip.defaultPosition` for details on position parameter.
@@ -228,12 +228,12 @@ dojo.declare(
 			var ary = dojo.isArrayLike(newId) ? newId : (newId ? [newId] : []);
 			this._connections = dojo.map(ary, function(id){
 				var node = dojo.byId(id);
-				return [
+				return node ? [
 					this.connect(node, "onmouseenter", "_onTargetMouseEnter"),
 					this.connect(node, "onmouseleave", "_onTargetMouseLeave"),
 					this.connect(node, "onfocus", "_onTargetFocus"),
 					this.connect(node, "onblur", "_onTargetBlur")
-				];
+				] : [];
 			}, this);
 	
 			this._set("connectId", newId);
