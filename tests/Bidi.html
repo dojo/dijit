@@ -14,7 +14,7 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../dojo/dojo.js"
-		data-dojo-config="parseOnLoad: true, extraLocale: ['en','ar','he'], isDebug: true"></script>
+		data-dojo-config="extraLocale: ['en','ar','he'], isDebug: true"></script>
 
 	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="_testCommon.js"></script>
@@ -47,9 +47,197 @@
 		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.layout.ContentPane");
 
-		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
-	</script>
+		dojo.require("dojo.parser");
 
+		dojo.require("doh.runner");
+
+		function checkLeft(/*Widget*/ left, /*Widget*/ right){
+			if(left.domNode) left = left.domNode;
+			if(right.domNode) right = right.domNode;
+
+			var lp = dojo.position(left, true),
+				rp = dojo.position(right, true);
+
+			doh.t(lp.x+lp.w-0.1 <= rp.x,
+				left.id + " to left of " + right.id + dojo.toJson(lp) + dojo.toJson(rp)
+			);
+		}
+
+		dojo.addOnLoad(function(){
+			doh.register("parse", function(){
+				dojo.parser.parse();
+			});
+
+			doh.register("Test bidi toolbar", [
+				{
+					name: "toolbar checkLeft",
+					runTest: function(){
+						//Check that the order of the menu buttons is correct
+						checkLeft(dijit.byId("ltr_ToolbarCutButton"), dijit.byId("ltr_ToolbarDropDown"));
+						checkLeft(dijit.byId("ltr_ToolbarDropDown"), dijit.byId("ltr_ToolbarColorDropDown"));
+						checkLeft(dijit.byId("ltr_ToolbarColorDropDown"), dijit.byId("ltr_ToolbarComboButton"));
+						checkLeft(dijit.byId("rtl_ToolbarComboButton"), dijit.byId("rtl_ToolbarColorDropDown"));
+						checkLeft(dijit.byId("rtl_ToolbarColorDropDown"), dijit.byId("rtl_ToolbarDropDown"));
+						checkLeft(dijit.byId("rtl_ToolbarDropDown"), dijit.byId("rtl_ToolbarCutButton"));
+					}
+				},
+				{
+					name: "ltr_ToolbarDropDown",
+					runTest: function(){
+						dijit.byId("ltr_ToolbarDropDown").openDropDown();
+
+						checkLeft(dojo.byId("ltr_l1"), dijit.byId("ltr_i1"));
+						checkLeft(dojo.byId("ltr_l2"), dijit.byId("ltr_i2"));
+						checkLeft(dojo.byId("ltr_l3"), dijit.byId("ltr_i3"));
+
+						doh.is("ltr", dojo.byId("widget_ltr_i1").dir);
+						doh.is("ltr", dojo.byId("widget_ltr_i2").dir);
+						doh.is("ltr", dojo.byId("widget_ltr_i3").dir);
+						doh.is("ltr", dijit.byId("ltr_button").dir);
+					}
+				},
+				{
+					name: "rtl_ToolbarDropDown",
+					runTest: function(){
+						dijit.byId("rtl_ToolbarDropDown").openDropDown();
+
+						checkLeft(dijit.byId("rtl_i1"), dojo.byId("rtl_l1"));
+						checkLeft(dijit.byId("rtl_i2"), dojo.byId("rtl_l2"));
+						checkLeft(dijit.byId("rtl_i3"), dojo.byId("rtl_l3"));
+
+						doh.is("rtl", dojo.byId("widget_rtl_i1").dir);
+						doh.is("rtl", dojo.byId("widget_rtl_i2").dir);
+						doh.is("rtl", dojo.byId("widget_rtl_i3").dir);
+						doh.is("rtl", dijit.byId("rtl_button").dir);
+					}
+				},
+				{
+					name: "ltr_ToolbarColorDropDown",
+					runTest: function(){
+						dijit.byId("ltr_ToolbarColorDropDown").openDropDown();
+
+						var white = dojo.query("img[alt='white']", dojo.byId("ltr_colorPalette"))[0];
+						var plum = dojo.query("img[alt='plum']", dojo.byId("ltr_colorPalette"))[0];
+						checkLeft(white, plum);
+					}
+				},
+				{
+					name: "rtl_ToolbarColorDropDown",
+					runTest: function(){
+						dijit.byId("rtl_ToolbarColorDropDown").openDropDown();
+
+						var white = dojo.query("img[alt='white']", dojo.byId("rtl_colorPalette"))[0];
+						var plum = dojo.query("img[alt='plum']", dojo.byId("rtl_colorPalette"))[0];
+						checkLeft(plum, white);
+					}
+				},
+				{
+					name: "ltr_ToolbarMenuDropDown",
+					runTest: function(){
+						dijit.byId("ltr_ToolbarComboButton").openDropDown();
+
+						var icon = dijit.byId("ltr_mi1").iconNode;
+						var label = dijit.byId("ltr_mi1").containerNode;
+						checkLeft(icon, label);
+					}
+				},
+				{
+					name: "ltr_Toolbar_nested_menu",
+					runTest: function(){
+						dijit.byId("ltr_popup_mi1")._onClick({preventDefault: function(){}, stopPropagation: function(){}});
+
+						var icon = dijit.byId("ltr_popup_mi1").iconNode;
+						var label = dijit.byId("ltr_popup_mi1").containerNode;
+						checkLeft(icon, label);
+					}
+				},
+				{
+					name: "rtl_ToolbarMenuDropDown",
+					runTest: function(){
+						dijit.byId("rtl_ToolbarComboButton").openDropDown();
+
+						var icon = dijit.byId("rtl_mi1").iconNode;
+						var label = dijit.byId("rtl_mi1").containerNode;
+						checkLeft(label, icon);
+					}
+				},
+				{
+					name: "rtl_Toolbar_nested_menu",
+					runTest: function(){
+						dijit.byId("rtl_popup_mi1")._onClick({preventDefault: function(){}, stopPropagation: function(){}});
+
+						var icon = dijit.byId("rtl_popup_mi1").iconNode;
+						var label = dijit.byId("rtl_popup_mi1").containerNode;
+						checkLeft(label, icon);
+					}
+				}
+			]);
+
+			doh.register("Test bidi tab container", [
+				{
+					name: "ltr TabContainer",
+					runTest: function(){
+						// Check that the order of the tabs is correct
+						checkLeft(dijit.byId("ltr_tc_tablist_ltr_tc_cp"), dijit.byId("ltr_tc_tablist_ltr_tc_tree"));
+
+						// Check the fields on each of the first tabs
+						doh.is("ltr", dijit.byId("ltr_tc_cp").dir);
+
+						var combo = dojo.query("input[value='dijit']", dojo.byId("ltr_tc_cp"))[0];
+						var arrow = dojo.query(".dijitButtonNode", dojo.byId("ltr_tc_cp"))[0];
+						checkLeft(combo, arrow);
+					}
+				},
+				{
+					name: "rtl TabContainer",
+					runTest: function(){
+						// Check that the order of the tabs is correct
+						checkLeft(dijit.byId("rtl_tc_tablist_rtl_tc_tree"), dijit.byId("rtl_tc_tablist_rtl_tc_cp"));
+
+						// Check the fields on each of the first tabs
+						doh.is("rtl", dijit.byId("rtl_tc_cp").dir);
+
+						combo = dojo.query("input[value='dijit']", dojo.byId("rtl_tc_cp"))[0];
+						arrow = dojo.query(".dijitButtonNode", dojo.byId("rtl_tc_cp"))[0];
+						checkLeft(arrow, combo);
+					}
+				}
+			]);
+
+			doh.register("Tree", [
+				{
+					name: "ltr_tree",
+					runTest: function(){
+						dijit.byId("ltr_tc").selectChild("ltr_tc_tree");
+
+						var rowNodes = dojo.query(".dijitTreeRow", dojo.byId("ltr_tc_tree"));
+
+						dojo.forEach(rowNodes, function(rowNode){
+							var expando = dojo.query(".dijitTreeExpando", rowNode)[0];
+							var label = dojo.query(".dijitTreeContent", rowNode)[0];
+							checkLeft(expando, label);
+						});
+					}
+				},
+				{
+					name: "rtl_tree",
+					runTest: function(){
+						dijit.byId("rtl_tc").selectChild("rtl_tc_tree");
+
+						var rowNodes = dojo.query(".dijitTreeRow", dojo.byId("rtl_tc_tree"));
+
+						dojo.forEach(rowNodes, function(rowNode){
+							var expando = dojo.query(".dijitTreeExpando", rowNode)[0];
+							var label = dojo.query(".dijitTreeContent", rowNode)[0];
+							checkLeft(label, expando);
+						});
+					}
+				}
+			]);
+
+			doh.run();
+		});
+	</script>
 </head>
 <body class="claro">
 
