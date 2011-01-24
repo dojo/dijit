@@ -1419,9 +1419,13 @@ DIV.dijitTabDisabled, .dj_ie DIV.dijitTabDisabled {
 	min-height: 15px;
 	display: inline-block;
 }
-.dj_ie6 .dijitTabButtonIcon {
-	/* because min-height (on tab-label, above) doesn't work on IE6 */
-	display: inline !important;
+.dijitNoIcon {
+	/* applied to <img>/<span> node when there is no icon specified */
+	display: none;
+}
+.dj_ie6 .dijitTab .dijitNoIcon {
+	/* because min-height (on .tabLabel, above) doesn't work on IE6 */
+	display: inline;
 	height: 15px;
 	width: 1px;
 }

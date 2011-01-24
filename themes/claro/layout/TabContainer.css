@@ -131,7 +131,7 @@
 /* for top tab padding. change height when status changes */
 .claro .dijitTabContainerTop-tabs .dijitTabContent {
   padding: 3px 8px 3px 4px;
-  border-bottom: 1px;
+  border-bottom-width: 0px;
   background-image: url("images/tabTop.png");
   background-position: 0px 0px;
   background-repeat: repeat-x;
@@ -141,9 +141,6 @@
 .claro .dijitTabContainerTop-tabs .dijitTabChecked .dijitTabContent {
   padding-bottom: 4px;
   padding-top: 6px;
-}
-.dj_ie .claro .dijitTabContainerTop-tabs .dijitTabChecked .dijitTabContent {
-  border-bottom: none;
 }
 /* normal status */
 .claro .dijitTabContainerTop-tabs .dijitTabInnerDiv {
