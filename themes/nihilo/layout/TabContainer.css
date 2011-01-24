@@ -134,17 +134,6 @@
 	background: url("../images/spriteRoundedIconsSmall.gif") no-repeat -60px -15px;
 }
 
-.nihilo .dijitTab .tabLabel {
-	/* make sure tabs w/close button and w/out close button are same height, even w/small (<15px) font */
-	min-height: 15px;
-	display: inline-block;
-}
-.dj_ie6 .nihilo .dijitTabButtonIcon {
-	/* because min-height doesn't work on IE6 */
-	height: 18px;
-	width: 1px;
-}
-
 /* ================================ */
 /* top tabs */
 .nihilo .dijitTabContainerTop-tabs {

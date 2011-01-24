@@ -1412,6 +1412,20 @@ DIV.dijitTabDisabled, .dj_ie DIV.dijitTabDisabled {
 	display:none;
 }
 
+.dijitTab .tabLabel {
+	/* make sure tabs w/close button and w/out close button are same height, even w/small (<15px) font.
+	 * assumes <=15px height for close button icon.
+	 */
+	min-height: 15px;
+	display: inline-block;
+}
+.dj_ie6 .dijitTabButtonIcon {
+	/* because min-height (on tab-label, above) doesn't work on IE6 */
+	display: inline !important;
+	height: 15px;
+	width: 1px;
+}
+
 /* images off, high-contrast mode styles */
 
 .dijit_a11y .dijitTabCloseButton {

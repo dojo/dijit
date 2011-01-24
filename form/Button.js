@@ -45,10 +45,8 @@ dojo.declare("dijit.form.Button",
 	templateString: dojo.cache("dijit.form", "templates/Button.html"),
 
 	attributeMap: dojo.delegate(dijit.form._FormWidget.prototype.attributeMap, {
-		value: "valueNode",
-		iconClass: { node: "iconNode", type: "class" }
+		value: "valueNode"
 	}),
-
 
 	_onClick: function(/*Event*/ e){
 		// summary:
@@ -132,6 +130,15 @@ dojo.declare("dijit.form.Button",
 		if(this.showLabel == false && !this.params.title){
 			this.titleNode.title = dojo.trim(this.containerNode.innerText || this.containerNode.textContent || '');
 		}
+	},
+
+	_setIconClassAttr: function(/*String*/ val){
+		// Custom method so that icon node is hidden when not in use, to avoid excess padding/margin
+		// appearing around it (even if it's a 0x0 sized <img node)
+	
+		dojo.replaceClass(this.iconNode, val, this.iconClass);
+		this.iconNode.style.display = val ? "" : "none";
+		this._set("iconClass", val);
 	}
 });
 
