@@ -384,6 +384,9 @@
 	border-color: rgba(118,157,192,0);
 	-webkit-transition-property:background-color, border-color;
  	-webkit-transition-duration:.3s;
+	border-radius: 2px;
+  	-moz-border-radius: 2px;
+  	-webkit-border-radius: 2px;
 }
 .claro .dijitTabContainerTabListNested .dijitTab .dijitTabInnerDiv {
 	/* 4 element selector to override box-shadow setting from above rule:
@@ -398,9 +401,6 @@
 }
 .claro .dijitTabContainerTabListNested .dijitTabHover .dijitTabContent {
 	background-color: @nestedtab-hovered-background-color;
-	border-radius: 2px 2px 2px 2px;
-	-moz-border-radius: 2px 2px 2px 2px;
-	-webkit-border-radius:2px;
 	border:solid 1px @nestedtab-hovered-border-color;
 	padding: 3px;
 	webkit-transition-duration:.2s;
@@ -409,18 +409,12 @@
 	text-decoration: none;
 }
 .claro .dijitTabContainerTabListNested .dijitTabActive .dijitTabContent {
-	border-radius: 2px 2px 2px 2px;
-	-moz-border-radius: 2px 2px 2px 2px;
-	-webkit-border-radius:2px;
 	border:solid 1px @nestedtab-selected-border-color;
 	padding: 3px;
 	background: @nestedtab-selected-background-color url("images/tabNested.png") repeat-x;
 	-webkit-transition-duration:.1s;
 }
 .claro .dijitTabContainerTabListNested .dijitTabChecked .dijitTabContent {
-	border-radius: 2px 2px 2px 2px;
-	-moz-border-radius: 2px 2px 2px 2px;
-	-webkit-border-radius:2px;
 	padding: 3px;
 	border:solid 1px @selected-border-color;
 	background-position: 0px 105px;
