@@ -1,4 +1,4 @@
-define("dijit/_HasDropDown", ["dojo", "dijit", "dijit/_base/place", "dijit/_Widget"], function(dojo, dijit) {
+define("dijit/_HasDropDown", ["dojo", "dijit", "dijit/_Widget"], function(dojo, dijit) {
 
 dojo.declare("dijit._HasDropDown",
 	null,
