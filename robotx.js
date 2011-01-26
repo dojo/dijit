@@ -12,7 +12,7 @@ dojo.mixin(doh.robot,{
 		__updateDocument();
 		var win = dojo.global;
 		if(win["dijit"]){
-			dijit = win.dijit;
+			window.dijit = win.dijit; // window reference needed for IE
 		}
 	}
 });
