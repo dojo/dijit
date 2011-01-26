@@ -3,6 +3,7 @@
   "directories": {
     "lib": "."
   },
+  "main":"./lib/main",
   "mappings": {
     "dojo": "https://github.com/dojo/dojo/zipball/1.0.2"
   },
