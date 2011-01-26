@@ -254,7 +254,8 @@ dojo.declare(
 			changedChildId, changedChildSize);
 	},
 
-	destroy: function(){
+	destroyRecursive: function(){
+		// Destroy splitters first, while getChildren() still works
 		dojo.forEach(this.getChildren(), function(child){
 			var splitter = child._splitterWidget;
 			if(splitter){
@@ -262,6 +263,8 @@ dojo.declare(
 			}
 			delete child._splitterWidget;
 		});
+
+		// Then destroy the real children, and myself
 		this.inherited(arguments);
 	}
 });

@@ -23,6 +23,7 @@ try{
 	doh.registerUrl("dijit.tests.layout.robot.AccordionContainer_a11y", dojo.moduleUrl("dijit","tests/layout/robot/AccordionContainer_a11y.html"), 999999);
 	doh.registerUrl("dijit.tests.layout.robot.AccordionContainer_mouse", dojo.moduleUrl("dijit","tests/layout/robot/AccordionContainer_mouse.html"), 999999);
 
+	doh.registerUrl("dijit.tests.layout.BorderContainer", dojo.moduleUrl("dijit", "tests/layout/BorderContainer.html"), 999999); 
 	doh.registerUrl("dijit.tests.layout.robot.BorderContainer", dojo.moduleUrl("dijit", "tests/layout/robot/BorderContainer.html"), 999999); 
 	doh.registerUrl("dijit.tests.layout.robot.BorderContainer_full", dojo.moduleUrl("dijit", "tests/layout/robot/BorderContainer_full.html"), 999999); 
 	doh.registerUrl("dijit.tests.layout.robot.BorderContainer_complex", dojo.moduleUrl("dijit", "tests/layout/robot/BorderContainer_complex.html"), 999999); 
