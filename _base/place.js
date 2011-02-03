@@ -203,11 +203,7 @@ dijit.placeOnScreenAroundNode = function(
 
 	// get coordinates of aroundNode
 	aroundNode = dojo.byId(aroundNode);
-	var oldDisplay = aroundNode.style.display;
-	aroundNode.style.display="";
-	// #3172: use the slightly tighter border box instead of marginBox
 	var aroundNodePos = dojo.position(aroundNode, true);
-	aroundNode.style.display=oldDisplay;
 
 	// place the node around the calculated rectangle
 	return dijit._placeOnScreenAroundRect(node,
