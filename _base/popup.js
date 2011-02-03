@@ -311,7 +311,7 @@ dijit._frames = new function(){
 			iframe = queue.pop();
 			iframe.style.display="";
 		}else{
-			if(dojo.isIE){
+			if(dojo.isIE < 9){
 				var burl = dojo.config["dojoBlankHtmlUrl"] || (dojo.moduleUrl("dojo", "resources/blank.html")+"") || "javascript:\"\"";
 				var html="<iframe src='" + burl + "'"
 					+ " style='position: absolute; left: 0px; top: 0px;"
