@@ -55,8 +55,8 @@ Splitters and gutters:
 .claro .dijitBorderContainer-dijitBorderContainer {
   /* make nested BorderContainers look like a single big widget with lots of splitters */
 
-  border: 0px;
-  padding: 0px;
+  border: 0;
+  padding: 0;
 }
 /* Splitters and gutters */
 .claro .dijitSplitterH, .claro .dijitGutterH {

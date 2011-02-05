@@ -24,14 +24,14 @@
 	/* combobox and spinner: line between the input area and the drop down button */
 	border-right-width: 1px !important;
 	border-right-style: solid !important;
-	border-left-width: 0px !important;
+	border-left-width: 0 !important;
 	border-left-style: none !important;
 }
 
 .dijit_a11y .dijitToolbar .dijitTextBoxRtl .dijitValidationContainer,
 .dijitTextBoxRtl .dijitSpinnerButtonContainer,
 .dijitComboBoxRtl .dijitArrowButtonContainer  {
-	border-right-width: 0px !important;
+	border-right-width: 0 !important;
 	border-right-style: none !important;
 }
 	
@@ -39,7 +39,7 @@
 .dijit_a11y .dijitTextBoxRtl .dijitSpinnerButtonContainer,
 .dijit_a11y .dijitComboBoxRtl .dijitArrowButtonContainer {
 	border-right: 1px solid black !important;
-	border-left: 0px none black !important;
+	border-left: 0 none black !important;
 }
 
 .dijitSpinnerRtl .dijitSpinnerButtonContainer .dijitArrowButton {
@@ -111,7 +111,7 @@
 /* TabContainer */
 
 .dijitTabRtl .dijitTabCloseButton {
-	margin-left: 0px;
+	margin-left: 0;
 	margin-right: 1em;
 }
 

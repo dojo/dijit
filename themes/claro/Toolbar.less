@@ -24,19 +24,19 @@
 	border-bottom: 1px solid @border-color;
 	background-color: @bar-background-color;
 	background-image: url("images/commonHighlight.png");
-	background-position:0px 0px;
+	background-position:0 0;
 	background-repeat:repeat-x;
-	padding: 2px 0px 2px 4px;
+	padding: 2px 0 2px 4px;
 	zoom: 1;
 }
 
 .claro .dijitToolbar label {
-	padding: 0px 3px 0 6px;
+	padding: 0 3px 0 6px;
 }
 
 /** override claro/form/Button.css **/
 .claro .dijitToolbar .dijitButtonNode {
-	border-width: 0px;	/* on hover/active, border-->1px, padding-->1px */
+	border-width: 0;	/* on hover/active, border-->1px, padding-->1px */
 	padding: 2px;
 	.border-radius(@toolbar-button-border-radius);
 	.box-shadow(none);
@@ -57,15 +57,15 @@
 
 .claro .dijitToolbar .dijitComboButton .dijitStretch {
 	/* no rounded border on side adjacent to arrow */
-	.border-radius(@toolbar-button-border-radius 0px 0px @toolbar-button-border-radius);
+	.border-radius(@toolbar-button-border-radius 0 0 @toolbar-button-border-radius);
 }
 .claro .dijitToolbar .dijitComboButton .dijitArrowButton {
 	/* no rounded border on side adjacent to button */
-	.border-radius(0px @toolbar-button-border-radius @toolbar-button-border-radius 0px);
+	.border-radius(0 @toolbar-button-border-radius @toolbar-button-border-radius 0);
 }
 
 .claro .dijitToolbar .dijitComboBox .dijitButtonNode {
-	padding: 0px;
+	padding: 0;
 }
 
 /* hover status */
@@ -94,18 +94,18 @@
 .claro .dijitToolbar .dijitToggleButtonActive .dijitButtonNode {
 	border-width: 1px;
 	background-color:@pressed-background-color;
-	background-position:0px -177px;
+	background-position:0 -177px;
 	padding: 1px;
 }
 .claro .dijitToolbar .dijitComboButtonActive {
 	-webkit-transition-duration:.2s;
 	border-width: 1px;
-	padding: 0px;
+	padding: 0;
 }
 .claro .dijitToolbar .dijitComboButtonActive .dijitButtonNode,
 .claro .dijitToolbar .dijitComboButtonActive .dijitDownArrowButton {
 	background-color: @toolbar-combobutton-hovered-unhoveredsection-background-color;
-	background-position:0px -177px;
+	background-position:0 -177px;
 	padding: 2px;
 }
 .claro .dijitToolbar .dijitComboButtonActive .dijitButtonNodeActive {
@@ -118,7 +118,7 @@
 /* Avoid double border between button and arrow */
 .claro .dijitToolbar .dijitComboButtonHover .dijitDownArrowButton,
 .claro .dijitToolbar .dijitComboButtonActive .dijitDownArrowButton {
-	border-left-width: 0px;
+	border-left-width: 0;
 }
 .claro .dijitToolbar .dijitComboButtonHover .dijitDownArrowButton {
 	padding-left: 2px;		/* since there's no left border, don't reduce from 2px --> 1px */

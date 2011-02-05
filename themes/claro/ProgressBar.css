@@ -25,7 +25,7 @@
  * 		sets animated gif for the progress bar in 'indeterminate' mode
  */
 .claro .dijitProgressBar {
-  margin: 2px 0px 2px 0px;
+  margin: 2px 0 2px 0;
 }
 .claro .dijitProgressBarEmpty {
   /* outer container and background of the bar that's not finished yet*/

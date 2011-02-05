@@ -23,8 +23,8 @@
 .claro  .dijitColorPalette {
   border: 1px solid #b5bcc7;
   background: #ffffff;
-  -moz-border-radius: 0px;
-  border-radius: 0px;
+  -moz-border-radius: 0;
+  border-radius: 0;
 }
 .claro .dijitColorPalette .dijitPaletteImg {
   /* transparent (but clickable) <img> node inside of each <td>, overlaying the color swatch.

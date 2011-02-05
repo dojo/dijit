@@ -38,7 +38,7 @@
 	border:solid 1px @border-color;
 	background-color: @calendar-background-color;
 	background-image:url("images/calendarContainerImages.png");
-	background-position:0px -448px;
+	background-position:0 -448px;
 	background-repeat:repeat-x;
 	text-align:center;
 	padding:6px 5px 3px 5px;
@@ -66,7 +66,7 @@
 .claro .dijitCalendarMonthLabel {
 	color: @text-color;
 	font-size: 1.091em;
-	padding: 0px 4px;
+	padding: 0 4px;
 }
 
 /* next/previous month arrows */
@@ -80,19 +80,19 @@
 	background-image: url("images/calendarArrows8bit.png");
 }
 .claro .dijitCalendarIncrease {
-	background-position:-18px 0px;
+	background-position:-18px 0;
 }
 .claro .dijitCalendarArrowHover .dijitCalendarDecrease {
-	background-position:-36px 0px;
+	background-position:-36px 0;
 }
 .claro .dijitCalendarArrowHover .dijitCalendarIncrease {
-	background-position:-55px 0px;
+	background-position:-55px 0;
 }
 .claro .dijitCalendarArrowActive .dijitCalendarDecrease {
-	background-position:-72px 0px;
+	background-position:-72px 0;
 }
 .claro .dijitCalendarArrowActive .dijitCalendarIncrease {
-	background-position:-91px 0px;
+	background-position:-91px 0;
 }
 .claro .dijitA11ySideArrow {
 	/* text +/- labels instead of arrow icons, for high contrast mode */
@@ -101,7 +101,7 @@
 
 
 .claro .dijitDayLabels th {
-	padding:0px 4px 0px 4px;
+	padding:0 4px 0 4px;
 	font-weight:bold;
 	text-align:center;
 }
@@ -116,10 +116,10 @@
 	text-align:center;
 	background-color:@calendar-currentmonth-background-color;
 	background-image:url("images/calendarContainerImages.png");
-	background-position:0px 0px;
+	background-position:0 0;
 	background-repeat:repeat-x;
 	border-bottom: 1px solid @minor-border-color;
-	padding-top:0px;
+	padding-top:0;
 	font-size:0.909em;
 	font-family: Arial;
 	font-weight:bold;
@@ -157,7 +157,7 @@
 	padding: 1px 2px 2px 2px;
 }
 .claro .dijitCalendarYearLabel {
-	padding:2px 0px 0px 0px;
+	padding:2px 0 0 0;
 	margin:0;
 }
 .claro .dijitCalendarYearLabel span {
@@ -165,7 +165,7 @@
 	vertical-align:middle;
 }
 .claro .dijitCalendarSelectedYear {
-	padding:0px 3px;
+	padding:0 3px;
 }
 .claro .dijitCalendarNextYear,
 .claro .dijitCalendarPreviousYear {
@@ -188,7 +188,7 @@
 .claro .dijitCalendarPreviousYearHover {
 	color:@hovered-text-color;
 	border:solid 1px @calendar-button-hovered-border-color;
-	padding: 0px 5px 0px 5px;	/* reduced by 1 to make room for border */
+	padding: 0 5px 0 5px;	/* reduced by 1 to make room for border */
 	background-color: @calendar-button-hovered-background-color;
 }
 /* End Hovered Calendar Style */
@@ -196,12 +196,12 @@
 .claro .dijitCalendarNextYearActive,
 .claro .dijitCalendarPreviousYearActive {
 	border: solid 1px @calendar-button-pressed-border-color;
-	padding: 0px 5px 0px 5px;	/* reduced by 1 to make room for border */
+	padding: 0 5px 0 5px;	/* reduced by 1 to make room for border */
 	background-color:@calendar-button-pressed-background-color;
 }
 .claro .dijitCalendarActiveDate .dijitCalendarDateLabel {
 	background-image:url("images/calendarContainerImages.png");
-	background-position:0px -300px;
+	background-position:0 -300px;
 	background-color: @calendar-date-pressed-background-color;
 	border:solid 1px @calendar-date-pressed-border-color;
 	-webkit-transition-duration:.1s;
@@ -223,7 +223,7 @@
 	
 	/* override hover effects above, hover and click on disabled date should have no effect */
 	background-color: transparent;
-	border-width: 0px;
+	border-width: 0;
 	padding: 4px 6px 4px 5px;
 	color: @disabled-text-color;
 }
@@ -233,18 +233,18 @@
 /* Styling for month DropDownButton */
 
 .claro .dijitCalendar .dijitDropDownButton {
-	margin: 0px;
+	margin: 0;
 }
 .claro .dijitCalendar .dijitButtonText {
-	padding: 1px 0px 3px;
+	padding: 1px 0 3px;
 	margin-right:-4px;
 }
 .claro .dijitCalendar .dijitDropDownButton .dijitButtonNode {
 	background-color: transparent;
 	background-image: none;
-	padding: 0px 3px 0px 2px;
+	padding: 0 3px 0 2px;
 	border:solid 1px @border-color;
-	.box-shadow(0px 0px 0px rgba(0,0,0,0));
+	.box-shadow(0 0 0 rgba(0,0,0,0));
 }
 .claro .dijitCalendar .dijitDropDownButtonHover .dijitButtonNode {
 	background-color: @calendar-button-hovered-background-color;
@@ -262,12 +262,12 @@
 .claro .dijitCalendarMonthMenu .dijitCalendarMonthLabel {
 	border-top: solid 1px @menu-background-color;		/* intentionally invisible until hover */
 	border-bottom: solid 1px @menu-background-color;
-	padding: 2px 0px;
+	padding: 2px 0;
 }
 .claro .dijitCalendarMonthMenu .dijitCalendarMonthLabelHover {
 	background-color: @hovered-background-color;
 	border-color: @hovered-border-color;
-	border-width:1px 0px;
+	border-width:1px 0;
 	background-image: url("images/commonHighlight.png");
 	background-repeat:repeat-x;
 }

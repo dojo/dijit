@@ -34,11 +34,11 @@ There are three areas of styling for the Menu:
 
 .claro .dijitMenuBar {
 	border: 1px solid @border-color;
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 	background-color: @bar-background-color;
 	background-image: url("images/commonHighlight.png");
-	background-position:0px 0px;
+	background-position:0 0;
 	background-repeat:repeat-x;
 }
 .dj_ie6 .claro .dijitMenuBar {
@@ -57,13 +57,13 @@ There are three areas of styling for the Menu:
 }
 .claro .dijitMenuBar .dijitMenuItem {  
 	padding: 6px 10px 7px;
-	background-position:0px 100px;
+	background-position:0 100px;
 	color:@unselected-text-color;
 	margin:-1px;
 }	
 .claro .dijitMenuItem {
 	background-image: url("images/menuHighlight.png");
-	background-position:0px -40px;
+	background-position:0 -40px;
 	background-repeat:repeat-x;
 }
 
@@ -71,7 +71,7 @@ There are three areas of styling for the Menu:
 .claro .dijitMenuTable {
 	border-collapse:separate;
 	border-spacing:0 0;
-	padding:0px;
+	padding:0;
 }
 .claro .dijitMenuItem td{
 	padding:1px;
@@ -81,12 +81,12 @@ There are three areas of styling for the Menu:
 .claro .dijitMenuPassive .dijitMenuItemSelected {
 	background-color: @hovered-background-color;
 	border:solid 1px @hovered-border-color;
-	background-position:0px 0px;
+	background-position:0 0;
 	color:@text-color;
 	padding: 5px 9px 6px;
 }
 .claro .dijitMenuPassive .dijitMenuItemActive{
-	background-position:0px -177px;
+	background-position:0 -177px;
 }
 .dj_ie6 .claro .dijitMenuItem,
 .dj_ie6 .claro .dijitMenuPassive .dijitMenuItem {
@@ -99,7 +99,7 @@ There are three areas of styling for the Menu:
 	border:solid 1px @hovered-border-color;
 	padding: 5px 9px 6px;
 	background-color: @hovered-background-color;
-	background-position:0px 0px;
+	background-position:0 0;
 	color:@hovered-text-color;
 }
 .dj_ie .claro .dijitMenuActive .dijitMenuItemHover,
@@ -112,14 +112,14 @@ There are three areas of styling for the Menu:
 }
 .claro .dijitMenuActive .dijitMenuItemActive{
 	background-color: @pressed-background-color;
-	background-position:0px -177px;
+	background-position:0 -177px;
 }
 .claro .dijitMenuItemActive {
-	background-position:0px -177px;
+	background-position:0 -177px;
 }
 .claro td.dijitMenuItemIconCell {
  padding: 2px;
- margin: 0px 0px 0px 4px;
+ margin: 0 0 0 4px;
 }
 .claro td.dijitMenuItemLabel {
 	padding-top: 5px;
@@ -129,7 +129,7 @@ There are three areas of styling for the Menu:
 	width: 7px;
 	height: 7px;
 	background-image: url('images/spriteArrows.png');
-	background-position: -14px 0px;
+	background-position: -14px 0;
 	margin-right:3px;
 }
 .claro .dijitMenuItemDisabled .dijitMenuItemIconCell {
@@ -164,13 +164,13 @@ There are three areas of styling for the Menu:
 
 /*ComboBox Menu*/
 .claro .dijitComboBoxMenu {
-	margin-left:0px;
+	margin-left:0;
 	background-image: none;
 }
 
 .claro .dijitComboBoxMenu .dijitMenuItem {
 	padding: @textbox-padding;	// Make drop down menu text line up with text in <input>.
-	border-width:1px 0px 1px 0px;
+	border-width:1px 0 1px 0;
 	border-style:solid;
 	border-color: @select-dropdownitem-background-color;
 }
@@ -180,7 +180,7 @@ There are three areas of styling for the Menu:
 	background-color:@hovered-background-color;
 }
 .claro .dijitComboBoxMenuActive .dijitMenuItemSelected {
-	background-position:0px -177px;
+	background-position:0 -177px;
 	background-color: @select-dropdownitem-hovered-background-color;	/* TODO: why is this a different color than normal .dijitMenuItemSelected? */
 }
 .claro .dijitMenuPreviousButton, .claro .dijitMenuNextButton {

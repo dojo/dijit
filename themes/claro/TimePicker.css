@@ -36,7 +36,7 @@
   /* dijitTimePickerItem refers to both Tick's (minor values like 2:15, 2:30, 2:45) and Marker's (major values like 2PM, 3PM) */
 
   background-image: url("images/commonHighlight.png");
-  background-position: 0px -1px;
+  background-position: 0 -1px;
   background-repeat: repeat-x;
   border-top: solid 1px #b5bcc7;
   border-bottom: solid 1px #b5bcc7;
@@ -93,7 +93,7 @@
 }
 .claro .dijitTimePickerTick .dijitTimePickerItemInner {
   padding: 1px;
-  margin: 0px;
+  margin: 0;
 }
 .claro .dijitTimePicker .dijitButtonNode {
   border-left: none;
@@ -101,7 +101,7 @@
   border-color: #b5bcc7;
   background-color: #efefef;
   background-image: url("images/commonHighlight.png");
-  background-position: 0px -1px;
+  background-position: 0 -1px;
   background-repeat: repeat-x;
 }
 .dj_ie6 .claro .dijitTimePicker .dijitButtonNode {

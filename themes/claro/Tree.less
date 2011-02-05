@@ -33,10 +33,10 @@
 }
 .claro .dijitTreeRow {
 	/* so insert line shows up on IE when dropping after a target element */
-	padding: 4px 1px 2px 0px;
-	margin: 0px 1px;	/* replaced by border for selected/hovered row */
+	padding: 4px 1px 2px 0;
+	margin: 0 1px;	/* replaced by border for selected/hovered row */
 	background-image: url("images/commonHighlight.png");
-	background-position:0px 0px;
+	background-position:0 0;
 	background-repeat:repeat-x;
 	border-color: rgba(118,157,192,0);
 	background-color: rgba(171,214,255,0);
@@ -51,24 +51,24 @@
 .claro .dijitTreeRowSelected {
 	background-repeat:repeat-x;
 	background-color:@selected-background-color;
-	padding: 3px 0px 1px;
-	margin: 0px;
+	padding: 3px 0 1px;
+	margin: 0;
 	border:solid 1px @selected-border-color;
 	color:@selected-text-color;
 }
 .claro .dijitTreeRowHover {
 	background-color:@hovered-background-color;
-	padding: 3px 0px 1px;
-	margin: 0px;
+	padding: 3px 0 1px;
+	margin: 0;
 	border:solid 1px @hovered-border-color;
 	color:@hovered-text-color;
 	-webkit-transition-duration:.25s ; 
 }
 .claro .dijitTreeRowActive {
 	background-color:@pressed-background-color;
-	background-position:0px -177px;
-	padding: 3px 0px 1px;
-	margin-left: 0px;
+	background-position:0 -177px;
+	padding: 3px 0 1px;
+	margin-left: 0;
 	border:solid 1px @pressed-border-color;
 	color:@selected-text-color;
 }
@@ -85,19 +85,19 @@
 	background-image: url('images/treeExpandImages.png');
     width: 16px;
     height: 16px;
-	background-position: -35px 0px;		/* for dijitTreeExpandoOpened */
+	background-position: -35px 0;		/* for dijitTreeExpandoOpened */
 }
 .dj_ie6 .claro .dijitTreeExpando {
 	background-image: url('images/treeExpandImages8bit.png');
 }
 .claro .dijitTreeRowHover .dijitTreeExpandoOpened {
-	background-position: -53px 0px;
+	background-position: -53px 0;
 }
 .claro .dijitTreeExpandoClosed {
-	background-position: 1px 0px;
+	background-position: 1px 0;
 }
 .claro .dijitTreeRowHover .dijitTreeExpandoClosed {
-	background-position: -17px 0px;
+	background-position: -17px 0;
 }
 .claro .dijitTreeExpandoLeaf,
 .dj_ie6 .claro .dijitTreeExpandoLeaf {

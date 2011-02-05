@@ -5,12 +5,12 @@
   background-color: #d46464;
   background-image: url('images/error.png');
   background-position: top center;
-  border: solid #d46464 0px;
+  border: solid #d46464 0;
   border-left-width: 1px;
   width: 9px;
 }
 .claro .dijitTextBoxError .dijitValidationIcon {
-  width: 0px;
+  width: 0;
   background-color: transparent !important;
   /* so the INPUT doesn't obscure the border in rtl+a11y */
 
@@ -87,7 +87,7 @@
   background-image: url("images/commonFormArrows.png");
   background-position: -35px 53%;
   background-repeat: no-repeat;
-  margin: 0px;
+  margin: 0;
   width: 16px;
   border: 1px solid #ffffff;
 }
@@ -100,7 +100,7 @@
 /* Add 1px vertical padding to the <input> where user types and the validation icon,
    to match the 1px border on arrow button */
 .claro .dijitTextBox .dijitInputInner, .claro .dijitTextBox .dijitValidationContainer {
-  padding: 1px 0px;
+  padding: 1px 0;
 }
 .claro .dijitComboBox .dijitButtonNode {
   background-color: #efefef;
@@ -121,19 +121,19 @@
 /* Arrow Button change when drop down is open */
 .claro .dijitComboBox .dijitHasDropDownOpen {
   background-color: #7dbefa;
-  background-position: 0px -177px;
+  background-position: 0 -177px;
   padding: 1px;
 }
 .claro .dijitComboBox .dijitHasDropDownOpen .dijitArrowButtonInner {
   background-position: -70px 53%;
-  border: 0px none;
+  border: 0 none;
 }
 /* disabled state */
 .claro div.dijitComboBoxDisabled .dijitArrowButtonInner {
   /* specific selector set to override background-position setting from Button.js
 	 * (.claro .dijitComboBoxDisabled .dijitArrowButtonInner) */
 
-  background-position: 0px 50%;
+  background-position: 0 50%;
   background-color: #efefef;
 }
 /*========================= hacks for browsers =========================*/

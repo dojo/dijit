@@ -46,11 +46,11 @@
 	background-repeat: repeat-x;
 	background-color: @button-background-color;
 	.border-radius(@button-border-radius);
-	.box-shadow(0px 1px 1px rgba(0,0,0,0.15));
+	.box-shadow(0 1px 1px rgba(0,0,0,0.15));
 }
 
 .claro .dijitComboButton .dijitArrowButton {
-	border-left-width: 0px;
+	border-left-width: 0;
 	padding: 4px 2px 4px 2px;	/* TODO: still needed? */
 }
 
@@ -70,7 +70,7 @@
 	background-position: -26px 53%;
 }
 .claro .dijitUpArrowButton .dijitArrowButtonInner {
-	background-position: 0px 53%;
+	background-position: 0 53%;
 }
 .claro .dijitDisabled .dijitArrowButtonInner {
 	background-position: -151px 53%;
@@ -111,7 +111,7 @@
 .claro .dijitComboButtonActive .dijitButtonNode,
 .claro .dijitToggleButtonActive .dijitButtonNode {
 	background-color: @button-pressed-background-color;
-	.box-shadow(0px 0px 0px rgba(0,0,0,0));
+	.box-shadow(0 0 0 rgba(0,0,0,0));
  	-webkit-transition-duration:.1s;
 }
 
@@ -128,14 +128,14 @@
 .claro .dijitDropDownButtonDisabled .dijitButtonNode,
 .claro .dijitComboButtonDisabled .dijitButtonNode,
 .claro .dijitToggleButtonDisabled .dijitButtonNode { 
-	background-position:0px -149px;
+	background-position:0 -149px;
 	background-color: @disabled-background-color;
 	border: solid 1px @disabled-border-color;
 	color: @disabled-text-color;
-	.box-shadow(0px 0px 0px rgba(0,0,0,0));
+	.box-shadow(0 0 0 rgba(0,0,0,0));
 }
 .claro .dijitComboButtonDisabled .dijitArrowButton{ 
-	border-left-width: 0px;
+	border-left-width: 0;
 }
 /* for ComboButton */
 .claro table.dijitComboButton {
@@ -147,8 +147,8 @@
 }
 
 .claro .dijitComboButton .dijitStretch {
-	.border-radius(@button-border-radius 0px 0px @button-border-radius);
+	.border-radius(@button-border-radius 0 0 @button-border-radius);
 }
 .claro .dijitComboButton .dijitArrowButton {
-	.border-radius(0px @button-border-radius @button-border-radius 0px);
+	.border-radius(0 @button-border-radius @button-border-radius 0);
 }

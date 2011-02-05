@@ -22,7 +22,7 @@
   background-image: url("images/titlebar.png");
   background-repeat: repeat-x;
   border: 1px solid #b5bcc7;
-  padding: 0px 7px 3px 7px;
+  padding: 0 7px 3px 7px;
   min-height: 17px;
 }
 .dj_ie6 .claro .dijitTitlePaneTitle {
@@ -35,7 +35,7 @@
 .claro .dijitTitlePaneTitleActive {
   background-color: #7dbefa;
   border-color: #769dc0;
-  background-position: 0px -136px;
+  background-position: 0 -136px;
 }
 .claro .dijitTitlePaneTitleFocus {
   margin-top: 3px;
@@ -48,10 +48,10 @@
   width: 7px;
 }
 .claro .dijitTitlePane .dijitOpen .dijitArrowNode {
-  background-position: 0px 0px;
+  background-position: 0 0;
 }
 .claro .dijitTitlePane .dijitClosed .dijitArrowNode {
-  background-position: -14px 0px;
+  background-position: -14px 0;
 }
 .claro .dijitTitlePaneFocused .dijitTitlePaneTextNode {
   color: #000000;

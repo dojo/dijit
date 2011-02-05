@@ -38,7 +38,7 @@
 	width:auto;
 	background-color: @arrowbutton-background-color;
 	background-image: url("images/formHighlight.png");
-	background-position:0px 0px;
+	background-position:0 0;
 	background-repeat:repeat-x;
 	overflow: hidden;
 }
@@ -65,7 +65,7 @@
 
 	/* override button.css (TODO: move to Common.css since ComboBox needs this too) */
 	display: block;
-	margin: -1px 0px -1px 0px;	/* compensate for inner border */
+	margin: -1px 0 -1px 0;	/* compensate for inner border */
 }
 
 .dj_ie6 .claro .dijitSpinner .dijitArrowButtonInner,
@@ -112,12 +112,12 @@
 .claro .dijitSpinner .dijitDownArrowButtonActive,
 .claro .dijitSpinner .dijitUpArrowButtonActive {
 	background-color: #7dbefa;		// TODO.  Mailed Jason about inconsistent ComboBox/Spinner behavior.
-	background-position:0px -177px;
+	background-position:0 -177px;
 }
 .claro .dijitSpinner .dijitUpArrowButtonActive .dijitArrowButtonInner,
 .claro .dijitSpinner .dijitDownArrowButtonActive .dijitArrowButtonInner {
 	/* hide inner border while button is depressed */
-	border: 0px;
+	border: 0;
 	padding: 1px;
 	margin-right:2px;
 	margin-bottom:1px;

@@ -29,7 +29,7 @@
   background-image: none;
 }
 .claro .dijitSelect .dijitButtonContents {
-  border: 0px solid #b5bcc7;
+  border: 0 solid #b5bcc7;
   border-right-width: 1px;
 }
 .claro .dijitSelect .dijitArrowButton {
@@ -72,9 +72,9 @@
 }
 .claro .dijitSelectFocused .dijitArrowButton {
   background-color: #7dbefa;
-  background-position: 0px -177px;
+  background-position: 0 -177px;
   border: none;
-  padding: 0px 1px;
+  padding: 0 1px;
 }
 .claro .dijitSelectFocused .dijitArrowButton .dijitArrowButtonInner {
   background-position: -70px 70%;
@@ -91,7 +91,7 @@
   background-color: #efefef;
 }
 .claro .dijitSelectDisabled .dijitArrowButton .dijitArrowButtonInner {
-  background-position: 0px 70%;
+  background-position: 0 70%;
 }
 /* Dropdown menu style for select */
 .claro .dijitSelectMenu td.dijitMenuItemIconCell, .claro .dijitSelectMenu td.dijitMenuArrowCell {

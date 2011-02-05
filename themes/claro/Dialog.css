@@ -30,9 +30,9 @@
  */
 .claro .dijitDialog {
   border: 1px solid #769dc0;
-  -webkit-box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
-  -moz-box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
-  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
 }
 .claro .dijitDialogPaneContent {
   background: #ffffff repeat-x top left;
@@ -72,7 +72,7 @@
 .claro .dijitDialogTitle {
   /* typography and styling of the dialog title */
 
-  padding: 0px 1px;
+  padding: 0 1px;
   font-size: 1.091em;
 }
 .claro .dijitDialogCloseIcon {
@@ -127,9 +127,9 @@
   padding: 6px 8px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
-  -moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
   font-size: 1em;
 }
 .dj_ie6 .claro .dijitTooltipContainer {
@@ -138,7 +138,7 @@
 .claro .dijitTooltipConnector {
   /* the arrow piece */
 
-  border: 0px;
+  border: 0;
   z-index: 2;
   background-image: url("images/tooltip.png");
   background-repeat: no-repeat;
@@ -158,18 +158,18 @@
 .claro .dijitTooltipBelow .dijitTooltipConnector {
   /* the arrow piece for tooltips below an element */
 
-  top: 0px;
+  top: 0;
   left: 3px;
-  background-position: -31px 0%;
+  background-position: -31px 0;
   width: 16px;
   height: 14px;
 }
 .claro .dijitTooltipAbove .dijitTooltipConnector {
   /* the arrow piece for tooltips above an element */
 
-  bottom: 0px;
+  bottom: 0;
   left: 3px;
-  background-position: -15px 0%;
+  background-position: -15px 0;
   width: 16px;
   height: 14px;
 }
@@ -182,8 +182,8 @@
 .claro .dijitTooltipLeft .dijitTooltipConnector {
   /* the arrow piece for tooltips to the left of an element, bottom borders aligned */
 
-  right: 0px;
-  background-position: 0px 0%;
+  right: 0;
+  background-position: 0 0;
   width: 16px;
   height: 14px;
 }
@@ -193,8 +193,8 @@
 .claro .dijitTooltipRight .dijitTooltipConnector {
   /* the arrow piece for tooltips to the right of an element, bottom borders aligned */
 
-  left: 0px;
-  background-position: -48px 0%;
+  left: 0;
+  background-position: -48px 0;
   width: 16px;
   height: 14px;
 }
