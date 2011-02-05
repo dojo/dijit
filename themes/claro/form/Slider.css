@@ -226,7 +226,7 @@
   background-repeat: no-repeat;
   background-color: #efefef;
   -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
+  border-radius: 2px;
   border: solid 1px #b5bcc7;
   font-size: 1px;
 }

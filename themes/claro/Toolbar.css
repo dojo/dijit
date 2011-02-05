@@ -35,11 +35,11 @@
   /* on hover/active, border-->1px, padding-->1px */
 
   padding: 2px;
-  border-radius: 2px;
   -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  -moz-box-shadow: none;
+  border-radius: 2px;
   -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
   -webkit-transition-property: background-color;
   -webkit-transition-duration: .3s, .35s;
   background-image: url("images/commonHighlight.png");
@@ -61,19 +61,13 @@
   /* no rounded border on side adjacent to arrow */
 
   -moz-border-radius: 2px 0px 0px 2px;
-  -webkit-border-top-left-radius: 2px;
-  -webkit-border-top-right-radius: 0px;
-  -webkit-border-bottom-right-radius: 0px;
-  -webkit-border-bottom-left-radius: 2px;
+  border-radius: 2px 0px 0px 2px;
 }
 .claro .dijitToolbar .dijitComboButton .dijitArrowButton {
   /* no rounded border on side adjacent to button */
 
   -moz-border-radius: 0px 2px 2px 0px;
-  -webkit-border-top-left-radius: 0px;
-  -webkit-border-top-right-radius: 2px;
-  -webkit-border-bottom-right-radius: 2px;
-  -webkit-border-bottom-left-radius: 0px;
+  border-radius: 0px 2px 2px 0px;
 }
 .claro .dijitToolbar .dijitComboBox .dijitButtonNode {
   padding: 0px;

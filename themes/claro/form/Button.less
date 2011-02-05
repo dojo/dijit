@@ -45,12 +45,8 @@
 	background-position: center top;
 	background-repeat: repeat-x;
 	background-color: @button-background-color;
-	border-radius: @button-border-radius;
-	-moz-border-radius: @button-border-radius;
-	-webkit-border-radius: @button-border-radius;
-	box-shadow:0px 1px 1px rgba(0,0,0,0.15);
-	-webkit-box-shadow:0px 1px 1px rgba(0,0,0,0.15);
-	-moz-box-shadow: 0px 1px 1px rgba(0,0,0,0.15);	
+	.border-radius(@button-border-radius);
+	.box-shadow(0px 1px 1px rgba(0,0,0,0.15));
 }
 
 .claro .dijitComboButton .dijitArrowButton {
@@ -115,9 +111,7 @@
 .claro .dijitComboButtonActive .dijitButtonNode,
 .claro .dijitToggleButtonActive .dijitButtonNode {
 	background-color: @button-pressed-background-color;
-	box-shadow:0px 0px 0px rgba(0,0,0,0);
-	-webkit-box-shadow:0px 0px 0px rgba(0,0,0,0);
-	-moz-box-shadow: 0px 0px 0px rgba(0,0,0,0);
+	.box-shadow(0px 0px 0px rgba(0,0,0,0));
  	-webkit-transition-duration:.1s;
 }
 
@@ -138,9 +132,7 @@
 	background-color: @disabled-background-color;
 	border: solid 1px @disabled-border-color;
 	color: @disabled-text-color;
-	box-shadow:0px 0px 0px rgba(0,0,0,0);
-	-webkit-box-shadow:0px 0px 0px rgba(0,0,0,0);
-	-moz-box-shadow: 0px 0px 0px rgba(0,0,0,0);
+	.box-shadow(0px 0px 0px rgba(0,0,0,0));
 }
 .claro .dijitComboButtonDisabled .dijitArrowButton{ 
 	border-left-width: 0px;
@@ -155,16 +147,8 @@
 }
 
 .claro .dijitComboButton .dijitStretch {
-	-moz-border-radius: @button-border-radius 0px 0px @button-border-radius;
-	-webkit-border-top-left-radius: @button-border-radius;
-	-webkit-border-top-right-radius: 0px;
-	-webkit-border-bottom-right-radius: 0px;
-	-webkit-border-bottom-left-radius: @button-border-radius;
+	.border-radius(@button-border-radius 0px 0px @button-border-radius);
 }
 .claro .dijitComboButton .dijitArrowButton {
-	-moz-border-radius: 0px @button-border-radius @button-border-radius 0px;
-	-webkit-border-top-left-radius: 0px;
-	-webkit-border-top-right-radius: @button-border-radius;
-	-webkit-border-bottom-right-radius: @button-border-radius;
-	-webkit-border-bottom-left-radius: 0px;
+	.border-radius(0px @button-border-radius @button-border-radius 0px);
 }

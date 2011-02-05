@@ -43,12 +43,11 @@
   background-position: center top;
   background-repeat: repeat-x;
   background-color: #e9f4fe;
-  border-radius: 4px;
   -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
   -webkit-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.15);
 }
 .claro .dijitComboButton .dijitArrowButton {
   border-left-width: 0px;
@@ -106,9 +105,9 @@
 .claro .dijitComboButtonActive .dijitButtonNode,
 .claro .dijitToggleButtonActive .dijitButtonNode {
   background-color: #abd6ff;
-  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
   -webkit-box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
   -moz-box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
   -webkit-transition-duration: .1s;
 }
 /* disabled status */
@@ -127,9 +126,9 @@
   background-color: #efefef;
   border: solid 1px #d3d3d3;
   color: #818181;
-  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
   -webkit-box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
   -moz-box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
 }
 .claro .dijitComboButtonDisabled .dijitArrowButton {
   border-left-width: 0px;
@@ -145,15 +144,9 @@
 }
 .claro .dijitComboButton .dijitStretch {
   -moz-border-radius: 4px 0px 0px 4px;
-  -webkit-border-top-left-radius: 4px;
-  -webkit-border-top-right-radius: 0px;
-  -webkit-border-bottom-right-radius: 0px;
-  -webkit-border-bottom-left-radius: 4px;
+  border-radius: 4px 0px 0px 4px;
 }
 .claro .dijitComboButton .dijitArrowButton {
   -moz-border-radius: 0px 4px 4px 0px;
-  -webkit-border-top-left-radius: 0px;
-  -webkit-border-top-right-radius: 4px;
-  -webkit-border-bottom-right-radius: 4px;
-  -webkit-border-bottom-left-radius: 0px;
+  border-radius: 0px 4px 4px 0px;
 }

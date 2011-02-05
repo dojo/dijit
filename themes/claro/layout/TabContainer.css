@@ -148,16 +148,16 @@
   background-position: 0px -248px;
   background-position: bottom;
   background-repeat: repeat-x;
-  box-shadow: 0px -1px 1px rgba(0, 0, 0, 0.04);
   -webkit-box-shadow: 0px -1px 1px rgba(0, 0, 0, 0.04);
   -moz-box-shadow: 0px -1px 1px rgba(0, 0, 0, 0.04);
+  box-shadow: 0px -1px 1px rgba(0, 0, 0, 0.04);
 }
 /* checked status */
 .claro .dijitTabContainerTop-tabs .dijitTabChecked .dijitTabInnerDiv {
   background-image: none;
-  box-shadow: 0px -1px 2px rgba(0, 0, 0, 0.05);
   -webkit-box-shadow: 0px -1px 2px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: 0px -1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px -1px 2px rgba(0, 0, 0, 0.05);
 }
 .claro .dijitTabContainerTop-tabs .dijitTabChecked .dijitTabContent {
   background-position: 0px -102px;
@@ -173,7 +173,7 @@
 }
 /* calculate the position and size */
 .claro .dijitTabContainerBottom-tabs .dijitTabContent {
-  padding: 3px 8px 4px 4px;
+  padding: 3px 6px;
   border-top-width: 0px;
   background-image: url("images/tabBottom.png");
   background-position: 0px -249px;
@@ -190,9 +190,9 @@
   background-image: url("images/tabBottom.png");
   background-position: top;
   background-repeat: repeat-x;
-  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.04);
   -webkit-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.04);
   -moz-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.04);
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.04);
 }
 /* checked status */
 .claro .dijitTabContainerBottom-tabs .dijitTabChecked .dijitTabContent {
@@ -205,9 +205,9 @@
 }
 .claro .dijitTabContainerBottom-tabs .dijitTabChecked .dijitTabInnerDiv {
   background-image: none;
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
   -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
 }
 /** end bottom tab **/
 /*************** left tab ***************/
@@ -239,9 +239,9 @@
 .claro .dijitTabContainerLeft-tabs .dijitTabChecked .dijitTabInnerDiv {
   background-position: 0px -179px;
   background-repeat: repeat-y;
-  box-shadow: -1px 0px 2px rgba(0, 0, 0, 0.05);
   -webkit-box-shadow: -1px 0px 2px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: -1px 0px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: -1px 0px 2px rgba(0, 0, 0, 0.05);
 }
 /** end left tab **/
 /*************** right tab ***************/
@@ -272,35 +272,27 @@
 }
 .claro .dijitTabContainerRight-tabs .dijitTabChecked .dijitTabInnerDiv {
   background-position: -348px -179px;
-  box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.07);
   -webkit-box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.07);
   -moz-box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.07);
+  box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.07);
 }
 /** end right tab **/
 /** round corner **/
 .claro .dijitTabContainerTop-tabs .dijitTabInnerDiv, .claro .dijitTabContainerTop-tabs .dijitTabContent {
-  border-radius: 2px 2px 0px 0px;
   -moz-border-radius: 2px 2px 0px 0px;
-  -webkit-border-top-left-radius: 2px;
-  -webkit-border-top-right-radius: 2px;
+  border-radius: 2px 2px 0px 0px;
 }
 .claro .dijitTabContainerBottom-tabs .dijitTabInnerDiv, .claro .dijitTabContainerBottom-tabs .dijitTabContent {
-  border-radius: 0px 0px 2px 2px;
   -moz-border-radius: 0px 0px 2px 2px;
-  -webkit-border-bottom-right-radius: 2px;
-  -webkit-border-bottom-left-radius: 2px;
+  border-radius: 0px 0px 2px 2px;
 }
 .claro .dijitTabContainerLeft-tabs .dijitTabInnerDiv, .claro .dijitTabContainerLeft-tabs .dijitTabContent {
-  border-radius: 2px 0px 0px 2px;
   -moz-border-radius: 2px 0px 0px 2px;
-  -webkit-border-top-left-radius: 2px;
-  -webkit-border-bottom-left-radius: 2px;
+  border-radius: 2px 0px 0px 2px;
 }
 .claro .dijitTabContainerRight-tabs .dijitTabInnerDiv, .claro .dijitTabContainerRight-tabs .dijitTabContent {
-  border-radius: 0px 2px 2px 0px;
   -moz-border-radius: 0px 2px 2px 0px;
-  -webkit-border-top-right-radius: 2px;
-  -webkit-border-bottom-right-radius: 2px;
+  border-radius: 0px 2px 2px 0px;
 }
 /************ left/right scroll buttons + menu button ************/
 .claro .tabStripButton {
@@ -371,9 +363,8 @@
   border-color: rgba(118, 157, 192, 0);
   -webkit-transition-property: background-color, border-color;
   -webkit-transition-duration: .3s;
-  border-radius: 2px;
   -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
+  border-radius: 2px;
 }
 .claro .dijitTabContainerTabListNested .dijitTab .dijitTabInnerDiv {
   /* 4 element selector to override box-shadow setting from above rule:
@@ -385,9 +376,9 @@
   top: 0px;
   /* to override top: 1px/-1px for normal tabs */
 
-  box-shadow: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
+  box-shadow: none;
 }
 .claro .dijitTabContainerTabListNested .dijitTabHover .dijitTabContent {
   background-color: #e9f4fe;

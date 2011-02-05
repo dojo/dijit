@@ -21,9 +21,8 @@
 /* override Button.css */
 .claro .dijitTimePicker .dijitButtonNode {
   padding: 0 0;
-  border-radius: 0;
   -moz-border-radius: 0;
-  -webkit-border-radius: 0;
+  border-radius: 0;
 }
 .claro .dijitTimePicker {
   border: 1px #b5bcc7 solid;

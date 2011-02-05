@@ -3,19 +3,11 @@
 /* Combo Button */
 
 .claro .dijitComboButtonRtl .dijitStretch {
-	-moz-border-radius: 0px @button-border-radius @button-border-radius 0px;
-	-webkit-border-top-left-radius: 0px;
-    -webkit-border-top-right-radius: @button-border-radius;
-    -webkit-border-bottom-right-radius: @button-border-radius;
-    -webkit-border-bottom-left-radius: 0px;	
+	.border-radius(0px @button-border-radius @button-border-radius 0px);
 }
 
 .claro .dijitComboButtonRtl .dijitArrowButton {
-	-moz-border-radius:  @button-border-radius 0px 0px  @button-border-radius;
-	-webkit-border-top-left-radius:@button-border-radius;
-    -webkit-border-top-right-radius:0px;
-    -webkit-border-bottom-right-radius:0px;
-    -webkit-border-bottom-left-radius:@button-border-radius;
+	.border-radius(@button-border-radius 0px 0px  @button-border-radius);
 	padding:3px 0px 4px;
 	border-left-width: 1px;
 	border-right-width: 0px;

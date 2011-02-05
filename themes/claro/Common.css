@@ -1,15 +1,15 @@
 /* ========= Styling rules to affect widgets ========= */
 .claro .dijitPopup {
-  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
   -webkit-box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
 }
 .claro .dijitTooltipDialogPopup {
   /* exception popups: do not use a shadow on these because they aren't rectangular */
 
-  box-shadow: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
+  box-shadow: none;
 }
 /* The highlight is shown in the ComboBox menu.  TODO: move to form/Common.less */
 .claro .dijitComboBoxHighlightMatch {
@@ -42,6 +42,8 @@
   border-collapse: collapse;
   background-color: #ffffff;
   -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
 }
 .claro .dojoDndAvatarHeader td {
   height: 20px;

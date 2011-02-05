@@ -144,3 +144,16 @@
 @document-text-color: #131313;									// Text color for document itself (text outside of widgets)
 @document-shadedsection-background-color: @bar-background-color;// background color used for <pre>, <code>, and table header rows
 @document-border-color: #d3d3d3;								// Border for <pre>, <code>, tables, etc.
+
+// Mixins
+
+.border-radius (@radius) {
+	-moz-border-radius: @radius;
+	border-radius: @radius;
+}
+
+.box-shadow (@value) {
+	-webkit-box-shadow: @value;
+	-moz-box-shadow: @value;
+	box-shadow: @value;
+}

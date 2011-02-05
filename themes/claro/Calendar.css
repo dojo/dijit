@@ -40,7 +40,7 @@
   text-align: center;
   padding: 6px 5px 3px 5px;
   -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
+  border-radius: 4px;
 }
 .dj_ie6 .claro .dijitCalendar {
   background-image: none;
@@ -243,9 +243,9 @@
   background-image: none;
   padding: 0px 3px 0px 2px;
   border: solid 1px #b5bcc7;
-  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
-  -webkit-box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  -webkit-box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
   -moz-box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
 }
 .claro .dijitCalendar .dijitDropDownButtonHover .dijitButtonNode {
   background-color: #e9f4fe;
