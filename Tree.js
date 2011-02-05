@@ -1580,7 +1580,6 @@ dojo.declare(
 	resize: function(changeSize){
 		if(changeSize){
 			dojo.marginBox(this.domNode, changeSize);
-			dojo.style(this.domNode, "overflow", "auto");	// for scrollbars
 		}
 
 		// The only JS sizing involved w/tree is the indentation, which is specified
