@@ -1436,10 +1436,6 @@ DIV.dijitTabDisabled, .dj_ie DIV.dijitTabDisabled {
 	background-image: none !important;
 	width: auto !important;
 	height: auto !important;
-	border: thin dotted;	/* non-hover state */
-}
-.dijit_a11y .dijitTabCloseButtonHover {
-	border:thin solid;	/* hover state */
 }
 
 .dijit_a11y .dijitTabCloseText {
