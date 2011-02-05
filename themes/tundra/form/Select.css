@@ -47,7 +47,7 @@
 
 /* Make the menu look more combobox-like */
 .tundra .dijitSelectMenu td {
-	padding: 0em;
+	padding: 0;
 }
 .tundra .dijitSelectMenu .dijitMenuItemLabel,
 .tundra .dijitSelectMenu .dijitMenuArrowCell {

@@ -45,7 +45,7 @@
 
 /* Make the menu look more combobox-like */
 .soria .dijitSelectMenu td {
-	padding: 0em;
+	padding: 0;
 }
 .soria .dijitSelectMenu .dijitMenuItemLabel,
 .soria .dijitSelectMenu .dijitMenuArrowCell {

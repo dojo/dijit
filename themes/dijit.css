@@ -512,8 +512,8 @@ DIV.dijitArrowButton {
 	width: 1.4em !important;
 }
 .dj_ie7 .dijit_a11y .dijitSpinner .dijitArrowButtonInner .dijitInputField {
-	padding-left: 0.0em !important; /* manually center INPUT: character is .5em and total width = 1em */
-	padding-right: 0.0em !important;
+	padding-left: 0 !important; /* manually center INPUT: character is .5em and total width = 1em */
+	padding-right: 0 !important;
 	width: 1em !important;
 }
 .dj_ie6 .dijit_a11y .dijitSpinner .dijitArrowButtonInner .dijitInputField {

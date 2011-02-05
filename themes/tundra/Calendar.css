@@ -48,7 +48,7 @@
 	background:white url("images/calendarDayLabel.png") repeat-x bottom;
 	font-weight:normal;
 	padding-top:.15em;
-	padding-bottom:0em;
+	padding-bottom:0;
 	border-top: 1px solid #eeeeee;
 	color:#293a4b;
 	text-align:center;
