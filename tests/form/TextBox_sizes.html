@@ -151,11 +151,9 @@
 					var validationPos = dojo.position(validation.domNode);
 					var comboboxPos = dojo.position(combobox.domNode);
 					var spinnerPos = dojo.position(spinner.domNode);
-					doh.t(Math.round(textboxPos[attr]) == Math.round(validationPos[attr]) &&
-						Math.round(textboxPos[attr]) == Math.round(comboboxPos[attr]) &&
-						Math.round(textboxPos[attr]) == Math.round(spinnerPos[attr]),
-						"Expected same " + attr + ":" + textboxPos[attr] + '/' + validationPos[attr] + '/' + comboboxPos[attr] + '/' + spinnerPos[attr]
-					);
+					doh.is(Math.round(textboxPos[attr]), Math.round(validationPos[attr]), "validationPos " + attr);
+					doh.is(Math.round(textboxPos[attr]), Math.round(comboboxPos[attr]), "comboboxPos " + attr);
+					doh.is(Math.round(textboxPos[attr]), Math.round(spinnerPos[attr]), "spinnerPos " + attr);
 				}catch(e){
 					throw e; // prevent consoles from including entire function text in output
 				}
@@ -167,11 +165,9 @@
 					var validationPos = dojo.position(validation.domNode.parentNode);
 					var comboboxPos = dojo.position(combobox.domNode.parentNode);
 					var spinnerPos = dojo.position(spinner.domNode.parentNode);
-					doh.t(Math.round(textboxPos[attr]) == Math.round(validationPos[attr]) &&
-						Math.round(textboxPos[attr]) == Math.round(comboboxPos[attr]) &&
-						Math.round(textboxPos[attr]) == Math.round(spinnerPos[attr]),
-						"Expected same parent " + attr + ":" + textboxPos[attr] + '/' + validationPos[attr] + '/' + comboboxPos[attr] + '/' + spinnerPos[attr]
-					);
+					doh.is(Math.round(textboxPos[attr]), Math.round(validationPos[attr]), "validationPos " + attr);
+					doh.is(Math.round(textboxPos[attr]), Math.round(comboboxPos[attr]), "comboboxPos " + attr);
+					doh.is(Math.round(textboxPos[attr]), Math.round(spinnerPos[attr]), "spinnerPos " + attr);
 				}catch(e){
 					throw e; // prevent consoles from including entire function text in output
 				}
@@ -269,7 +265,8 @@
 						name: "button: " + widgetName,
 						timeout: 1000,
 						runTest: function(){
-							if(widgetName == "dijitTextBox" || widgetName == "dijitValidationTextBox"){ return; }
+							if(widgetName == "dijitTextBox" || widgetName == "dijitValidationTextBox" ||
+								widgetName == "dijitNumberTextBox" || widgetName == "dijitCurrencyTextBox"){ return; }
 							var paddedBoxPos = dojo.position(widget.focusNode.parentNode);
 							var buttonNode = dojo.query(".dijitValidationContainer", widget.domNode)[0].previousSibling;
 							var buttonPos = dojo.position(buttonNode);
@@ -388,7 +385,8 @@
 						name: "button: " + widgetName,
 						timeout: 1000,
 						runTest: function(){
-							if(widget.state != "Error" || widgetName == "dijitValidationTextBox"){ return; }
+							if(widget.state != "Error" || widgetName == "dijitValidationTextBox" ||
+								widgetName == "dijitNumberTextBox" || widgetName == "dijitCurrencyTextBox"){ return; }
 							var validationNode = dojo.query(".dijitValidationContainer", widget.domNode)[0];
 							var buttonNode = dojo.query(".dijitValidationContainer", widget.domNode)[0].previousSibling;
 							var validationPos = dojo.position(validationNode);

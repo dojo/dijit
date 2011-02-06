@@ -258,6 +258,8 @@ dojo.declare("dijit.form.NumberTextBox",
 		//				but reappears after the field is blurred.
 		//			4. Formatting and constraints regarding the number of places (digits after the decimal point)
 		//				allowed on input, and number of places displayed when blurred (see `constraints` parameter).
+
+		baseClass: "dijitTextBox dijitNumberTextBox"
 	}
 );
 
