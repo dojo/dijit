@@ -457,6 +457,11 @@ DIV.dijitArrowButton {
 	/* dividing line between input area and up/down button(s) for ComboBox and Spinner */
 	border-width: 0 0 0 1px !important; /* !important needed due to wayward ".theme .dijitButtonNode" rules */
 }
+.dijitToolbar .dijitComboBox .dijitArrowButtonContainer {
+	/* overrides above rule plus mirror-image rule in dijit_rtl.css to have no divider when ComboBox in Toolbar */
+	border-width: 0 !important;
+}
+
 .dijitComboBoxMenu {
 	/* Drop down menu is implemented as <ul> <li/> <li/> ... but we don't want circles before each item */
 	list-style-type: none;
@@ -468,16 +473,9 @@ DIV.dijitArrowButton {
 .dj_ie .dijit_a11y .dijitSpinner .dijitSpinnerButtonContainer .dijitButtonNode {
 	clear: both; /* IE workaround */
 }
-.dijit_a11y .dijitTextBox .dijitValidationContainer,
-.dijit_a11y .dijitTextBox .dijitSpinnerButtonContainer,
-.dijit_a11y .dijitComboBox .dijitArrowButtonContainer {
-	/* dividing line between input area and up/down button(s) for ComboBox and Spinner */
-	border: solid black !important;
-	border-width: 0 0 0 1px !important;
-}
 
 .dj_ie .dijitToolbar .dijitComboBox {
-	/* make combobox buttons align porperly with other buttons in a toolbar */
+	/* make combobox buttons align properly with other buttons in a toolbar */
 	vertical-align: middle;
 }
 
