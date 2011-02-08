@@ -113,6 +113,7 @@ dojo.declare("dijit._CssStateMixin", [], {
 		//		The widget may have one or more of the following states, determined
 		//		by this.state, this.checked, this.valid, and this.selected:
 		//			- Error - ValidationTextBox sets this.state to "Error" if the current input value is invalid
+		//			- Incomplete - ValidationTextBox sets this.state to "Incomplete" if the current input value is not finished yet
 		//			- Checked - ex: a checkmark or a ToggleButton in a checked state, will have this.checked==true
 		//			- Selected - ex: currently selected tab will have this.selected==true
 		//
