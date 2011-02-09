@@ -27,9 +27,9 @@ dojo.declare(
 	// example:
 	// |	<div dojoType="dijit.layout.BorderContainer" design="sidebar" gutters="false"
 	// |            style="width: 400px; height: 300px;">
-	// |		<div dojoType="ContentPane" region="top">header text</div>
-	// |		<div dojoType="ContentPane" region="right" splitter="true" style="width: 200px;">table of contents</div>
-	// |		<div dojoType="ContentPane" region="center">client area</div>
+	// |		<div dojoType="dijit.layout.ContentPane" region="top">header text</div>
+	// |		<div dojoType="dijit.layout.ContentPane" region="right" splitter="true" style="width: 200px;">table of contents</div>
+	// |		<div dojoType="dijit.layout.ContentPane" region="center">client area</div>
 	// |	</div>
 
 	// design: String
