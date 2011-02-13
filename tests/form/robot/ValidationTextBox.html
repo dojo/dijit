@@ -96,7 +96,7 @@
 
 							// save all notifications from watch()		
 							var watchActual = {};
-							watchHandle = textbox.watch("*", function(attr, oldVal, newVal){
+							watchHandle = textbox.watch(function(attr, oldVal, newVal){
 									console.log(textbox.id + ": " + attr + ": " + oldVal + " --> " + newVal);
 									watchActual[attr] = fixNbsp(newVal);
 								});
