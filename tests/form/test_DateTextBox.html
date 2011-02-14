@@ -86,7 +86,7 @@
 			<div class="dojoTitlePaneLabel">
 				<label for="localLong"> Date (local format - long) </label>
 				<span class="noticeMessage">DateTextBox class,
-					Attributes: required="true", trim="true", constraints={min:'2004-01-01',max:'2006-12-31',formatLength:'long'}. Works for leap years</span>
+					Attributes: required="true", trim="true", openOnClick=false, constraints={min:'2004-01-01',max:'2006-12-31',formatLength:'long'}. Works for leap years</span>
 			</div>
 			<div class="testExample">
 				<input id="localLong" data-dojo-id="localLong" data-dojo-type="dijit.form.DateTextBox"
@@ -94,6 +94,7 @@
 					constraints:{min:"2004-01-01",max:"2006-12-31",formatLength:"long"},
 					required:true,
 					trim:true,
+					openOnClick:false,
 					onChange:function(val){ dojo.byId("oc2").value = val; },
 					onMouseEnter:eventHandler,
 					onMouseLeave:eventHandler,
@@ -125,7 +126,7 @@
 			<div class="dojoTitlePaneLabel">
 				<label for="german"> Date (German format)</label>
 				<span class="noticeMessage">DateTextBox class,
-					Attributes: lang="de-de", constraints={min:2004-01-01, max:2006-12-31}. Works for leap years.
+					Attributes: lang="de-de", hasDownArrow=false, constraints={min:2004-01-01, max:2006-12-31}. Works for leap years.
 					Prompt message whenever field is blank.
 				</span>
 			</div>
@@ -170,6 +171,7 @@
 					value: new Date(2006,10,29),
 					constraints: {min:new Date(2004,0,1),max:new Date(2006,11,31)},
 					lang: "de-de",
+					hasDownArrow: false,
 					onMouseEnter: eventHandler,
 					onMouseLeave: eventHandler,
 					onKeyDown: eventHandler,

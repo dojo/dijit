@@ -22,7 +22,7 @@
 				doh.robot.initRobot('../test_DateTextBox.html');
 
 				// refs to DateTextBox widgets
-				var american, german;
+				var american, german, localLong;
 
 				// log of calls to onChange handler, and watch(value)
 				var changes = [], watches = [];
@@ -32,6 +32,7 @@
 						// refs to DateTextBox widgets
 				    	american = dijit.byId('american');
 				    	german = dijit.byId('german');
+						localLong = dijit.byId('localLong');
 				    	pattern = dijit.byId('pattern');
 
 				    	// setup onChange handler to monitor onChange calls on american textbox
@@ -1146,6 +1147,37 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 							}), 5);
+
+							return d;
+						}
+					}
+				]);
+
+				doh.register("openOnClick=false", [
+					{
+						name: "click on input",
+						timeout: 60000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveAt(localLong.focusNode, 0, 1);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestErrback(function(){
+								var calendar = dijit.byId("localLong_popup");
+								doh.f(calendar && isVisible(calendar), "calendar isn't visible");
+								doh.is(localLong.focusNode, dojo.global.dijit._curFocus, "focused on input");
+							}), 1000);
+
+							doh.robot.mouseMoveAt(localLong._buttonNode, 0, 1);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								var calendar = dijit.byId("localLong_popup");
+
+								// calendar isn't displayed
+								doh.t(calendar && isVisible(calendar), "calendar is visible");
+							}), 1000);
 
 							return d;
 						}
