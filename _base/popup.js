@@ -411,7 +411,15 @@ dojo.extend(dijit.BackgroundIframe, {
 	});
 })();
 
-dojo.connect(document, dojo.isMozilla ? "DOMMouseScroll" : "onmousewheel", dojo.hitch(dijit.popup, "close", null));
+// On mousewheel, close open popups since the popup might go off screen or be separated from the aroundNode.
+// However, if the mousewheel is turned while the mouse is over the popup, it might just
+// be scrolling the popup itself, so err on the side of caution and don't scroll in that case.
+dojo.connect(document, dojo.isMozilla ? "DOMMouseScroll" : "onmousewheel", function(e){
+	var s = dijit.popup._stack;
+	while(s.length && !dojo.isDescendant(e.target, s[s.length-1].widget.domNode)){
+		dijit.popup.close(s[s.length-1].widget);
+	}
+});
 
 return dijit.popup;
 });
