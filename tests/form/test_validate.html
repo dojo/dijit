@@ -41,11 +41,12 @@
 				padding:10px !important;
 			}
 
-			BODY DIV {
-				font-family: Courier;
-			}
 			.monospace .dijitTextBox {
 				font-family: monospace;
+			}
+
+			.sans {
+				font-family: sans-serif;
 			}
 		</style>
 
@@ -73,10 +74,14 @@
 
 				new dijit.form.TextBox({id: 'monospace1', disabled: true, value: 'M|M:monospace?'}, 'monospace1');
 				new dijit.form.TextBox({id: 'monospace2', disabled: true, value: 'M|M:monospace?'}).placeAt('widget_monospace1', 'after');
+				
+				new dijit.form.TextBox({id: 'sans1', disabled: true, value: 'sans1'}, 'sans1');
+				new dijit.form.TextBox({id: 'sans2', disabled: true, value: 'sans2'}).placeAt('widget_sans1', 'after');
+
 
 				doh.register("font inheritance", [
 					{
-						name: "with srcNodeRef",
+						name: "with srcNodeRef, style on .dijitTextBox",
 						runTest: function(){
 							var d = new doh.Deferred();
 							setTimeout(d.getTestCallback(function(){
@@ -86,11 +91,31 @@
 						}
 					},
 					{
-						name: "without srcNodeRef",
+						name: "without srcNodeRef, style on .dijitTextBox",
 						runTest: function(){
 							var d = new doh.Deferred();
 							setTimeout(d.getTestCallback(function(){
 								doh.is("monospace", dojo.style('monospace2', "fontFamily"));
+							}), 0);
+							return d;
+						}
+					},
+					{
+						name: "with srcNodeRef, style inherited",
+						runTest: function(){
+							var d = new doh.Deferred();
+							setTimeout(d.getTestCallback(function(){
+								doh.is("sans-serif", dojo.style('sans1', "fontFamily"));
+							}), 0);
+							return d;
+						}
+					},
+					{
+						name: "without srcNodeRef, style inherited",
+						runTest: function(){
+							var d = new doh.Deferred();
+							setTimeout(d.getTestCallback(function(){
+								doh.is("sans-serif", dojo.style('sans2', "fontFamily"));
 							}), 0);
 							return d;
 						}
@@ -531,6 +556,9 @@
 
 		<div class="monospace">
 			<input id="monospace1"/>
+		</div>
+		<div class="sans">
+			<input id="sans1"/>
 		</div>
 	</body>
 </html>
