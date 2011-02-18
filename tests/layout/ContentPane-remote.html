@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-	<title>TabContainer Remote Loading Test</title>
+	<title>ContentPane Remote Loading Test</title>
 
 	<style type="text/css">
 		@import "../../themes/claro/document.css";
@@ -29,8 +29,10 @@
 		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.layout.AccordionContainer");
 		dojo.require("dijit.Tooltip");
+		dojo.require("dijit.TooltipDialog");
 		dojo.require("dijit.layout.LinkPane");
 		dojo.require("dijit.form.Button");
+		dojo.require("dijit.form.DropDownButton");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
 		var tabCounter;
@@ -549,6 +551,35 @@
 				}
 			]);
 
+			doh.register("TooltipDialog", [
+				// The preload=true TooltipDialog should already be loaded, or at least be loading,
+				// if it isn't already loading then this test will timeout.
+				function preloadTrue(){
+					var dlg = dijit.byId("preloadTooltipDlg");
+					if(!dlg.isLoaded){
+						var d = new doh.Deferred();
+						dlg.onLoadDeferred.then(function(){ d.callback(); });
+						return d;
+					}
+				},
+
+				// The preload=false TooltipDialog shouldn't load until opened.
+				function preloadFalse(){
+					// Check that it isn't loaded yet
+					var dlg = dijit.byId("noPreloadTooltipDlg");
+					doh.f(dlg.isLoaded, "didn't load yet");
+
+					// Open the dialog and then return Deferred waiting for it to load.
+					// If it doesn't load then this test will get a timeout.
+					var btn = dijit.byId("noPreloadTooltipDlgBtn");
+					btn.openDropDown();
+					doh.t(dlg.onLoadDeferred, "onLoadDeferred exists");
+					var d = new doh.Deferred();
+					dlg.onLoadDeferred.then(function(){ d.callback(); });
+					return d;
+				}
+			]);
+
 			doh.run();
 		});
 	</script>
@@ -597,6 +628,21 @@
 		<div id="ac_pane1" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"one", refreshOnShow:false, href:"getResponse.php?messId=4&amp;delay=1000"'></div>
 		<div id="ac_pane2" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"two", refreshOnShow:true, href:"getResponse.php?messId=4&amp;delay=4000"'></div>
 		<div id="ac_pane3" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"three", refreshOnShow:false, href:"getResponse.php?messId=4&amp;delay=4100"'></div>
+	</div>
+
+	<h2>TooltipDialog</h2>
+	<div data-dojo-type="dijit.layout.ContentPane">
+		<div id="preloadTooltipDlgBtn" data-dojo-type="dijit.form.DropDownButton">
+			<span>Show Preload TooltipDialog</span>
+			<div id="preloadTooltipDlg" data-dojo-type="dijit.TooltipDialog" data-dojo-props='title:"Enter Login information", preload: true, href: "doc1.html"'>
+			</div>
+		</div>
+	</div>
+
+	<div id="noPreloadTooltipDlgBtn" data-dojo-type="dijit.form.DropDownButton">
+		<span>Show No-Preload TooltipDialog</span>
+		<div id="noPreloadTooltipDlg" data-dojo-type="dijit.TooltipDialog" data-dojo-props='title:"Enter Login information", preload: false, href: "doc1.html"'>
+		</div>
 	</div>
 
 </body>

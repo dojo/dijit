@@ -179,7 +179,7 @@ dojo.declare(
 
 		this.inherited(arguments);
 
-		if(this._isShown() || this.preload){
+		if(this._isShown()){
 			this._onShow();
 		}
 	},
@@ -208,8 +208,9 @@ dojo.declare(
 		this._set("href", href);
 
 		// _setHrefAttr() is called during creation and by the user, after creation.
-		// only in the second case do we actually load the URL; otherwise it's done in startup()
-		if(this._created && (this.preload || this._isShown())){
+		// Assuming preload == false, only in the second case do we actually load the URL;
+		// otherwise it's done in startup(), and only if this widget is shown.
+		if(this.preload || (this._created && this._isShown())){
 			this._load();
 		}else{
 			// Set flag to indicate that href needs to be loaded the next time the
@@ -330,9 +331,9 @@ dojo.declare(
 		}else if("open" in this){
 			return this.open;		// for TitlePane, etc.
 		}else{
-			// TODO: with _childOfLayoutWidget check maybe this branch no longer necessary?
-			var node = this.domNode;
-			return (node.style.display != 'none') && (node.style.visibility != 'hidden') && !dojo.hasClass(node, "dijitHidden");
+			var node = this.domNode, parent = this.domNode.parentNode;
+			return (node.style.display != 'none') && (node.style.visibility != 'hidden') && !dojo.hasClass(node, "dijitHidden") &&
+					parent && (parent.style.display != 'none');
 		}
 	},
 
