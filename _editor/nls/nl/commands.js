@@ -45,4 +45,3 @@
 	/* Error messages */
 	'systemShortcut': 'De actie "${0}" is alleen beschikbaar in uw browser via een sneltoetscombinatie. Gebruik ${1}.'
 })
-

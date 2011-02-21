@@ -7,7 +7,7 @@
 	set: "设置",
 	currentWindow: "当前窗口",
 	parentWindow: "父窗口",
-	topWindow: "最顶部窗口",
-	newWindow: "新窗口"
+	topWindow: "顶层窗口",
+	newWindow: "新建窗口"
 })
 

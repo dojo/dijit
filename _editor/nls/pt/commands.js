@@ -10,9 +10,9 @@
 	'italic': 'Itálico',
 	'justifyCenter': 'Alinhar pelo Centro',
 	'justifyFull': 'Justificar',
-	'justifyLeft': 'Alinhar pela Esquerda',
-	'justifyRight': 'Alinhar pela Direita',
-	'outdent': 'Não-chanfrado',
+	'justifyLeft': 'Alinhar à Esquerda',
+	'justifyRight': 'Alinhar à Direita',
+	'outdent': 'Não chanfrado',
 	'paste': 'Colar',
 	'redo': 'Refazer',
 	'removeFormat': 'Remover Formato',
@@ -32,7 +32,7 @@
 	'tableProp': 'Propriedade da Tabela',
 	'htmlToggle': 'Origem HTML',
 	'foreColor': 'Cor do Primeiro Plano',
-	'hiliteColor': 'Cor de segundo plano',
+	'hiliteColor': 'Cor do Segundo Plano',
 	'plainFormatBlock': 'Estilo de Parágrafo',
 	'formatBlock': 'Estilo de Parágrafo',
 	'fontSize': 'Tamanho da Fonte',
@@ -40,9 +40,8 @@
 	'tabIndent': 'Recuo de Guia',
 	"fullScreen": "Comutar Tela Cheia",
 	"viewSource": "Visualizar Origem HTML",
-	"print": "Impressão",
+	"print": "Imprimir",
 	"newPage": "Nova Página",
 	/* Error messages */
-	'systemShortcut': 'A ação "${0}" está disponível em seu navegador apenas usando um atalho do teclado. Use ${1}.'
+	'systemShortcut': 'A ação "${0}" está disponível em seu navegador apenas usando um atalho de teclado. Use ${1}.'
 })
-

@@ -1,7 +1,7 @@
 ({
 	createLinkTitle: "Сілтеме сипаттары",
 	insertImageTitle: "Сурет сипаттары",
-	url: "URL:",
+	url: "URL мекенжайы:",
 	text: "Сипаттама:",
 	target: "Мақсат:",
 	set: "Орнату",
@@ -10,4 +10,3 @@
 	topWindow: "Ең жоғарғы терезе",
 	newWindow: "Жаңа терезе"
 })
-

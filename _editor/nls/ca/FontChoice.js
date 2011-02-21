@@ -9,6 +9,7 @@
 	cursive: "Cursiva",
 	fantasy: "Fantasia",
 
+	noFormat: "Cap",
 	p: "Paràgraf",
 	h1: "Títol",
 	h2: "Subtítol",
@@ -23,4 +24,3 @@
 	6: "x-gran",
 	7: "xx-gran"
 })
-

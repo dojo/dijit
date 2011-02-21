@@ -9,7 +9,7 @@
 	'insertUnorderedList': 'Naštevni seznam',
 	'italic': 'Ležeče',
 	'justifyCenter': 'Poravnaj na sredino',
-	'justifyFull': 'Obojestranska poravnava',
+	'justifyFull': 'Poravnaj obojestransko',
 	'justifyLeft': 'Poravnaj levo',
 	'justifyRight': 'Poravnaj desno',
 	'outdent': 'Viseč odstavek',
@@ -24,7 +24,7 @@
 	'undo': 'Razveljavi',
 	'unlink': 'Odstrani povezavo',
 	'createLink': 'Ustvari povezavo',
-	'toggleDir': 'Preklopi na usmeritev',
+	'toggleDir': 'Preklopi smer',
 	'insertImage': 'Vstavi sliko',
 	'insertTable': 'Vstavi/uredi tabelo',
 	'toggleTableBorder': 'Preklopi na rob tabele',
@@ -45,4 +45,3 @@
 	/* Error messages */
 	'systemShortcut': 'Dejanje "${0}" lahko v vašem brskalniku uporabite samo z bližnjico na tipkovnici. Uporabite ${1}.'
 })
-

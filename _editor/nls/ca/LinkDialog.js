@@ -2,7 +2,7 @@
 	createLinkTitle: "Propietats de l\'enllaç",
 	insertImageTitle: "Propietats de la imatge",
 	url: "URL:",
-	text: "Descipció:",
+	text: "Descripció:",
 	target: "Destinació:",
 	set: "Defineix",
 	currentWindow: "Finestra actual",
@@ -10,4 +10,3 @@
 	topWindow: "Finestra superior",
 	newWindow: "Finestra nova"
 })
-

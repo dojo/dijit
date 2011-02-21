@@ -5,9 +5,9 @@
 	text: "תיאור:",
 	target: "יעד:",
 	set: "הגדרה",
-	currentWindow: "חלון נוכחי ",
+	currentWindow: "חלון נוכחי",
 	parentWindow: "חלון אב",
-	topWindow: "חלון עליון ",
+	topWindow: "חלון עליון",
 	newWindow: "חלון חדש"
 })
 

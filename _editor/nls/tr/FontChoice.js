@@ -9,6 +9,7 @@
 	cursive: "el yazısı",
 	fantasy: "fantazi",
 
+	noFormat: "Yok",
 	p: "Paragraf",
 	h1: "Başlık",
 	h2: "Alt Başlık",

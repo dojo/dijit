@@ -30,7 +30,7 @@
 	'toggleTableBorder': 'Alternar contorno da tabela',
 	'deleteTable': 'Eliminar tabela',
 	'tableProp': 'Propriedades da tabela',
-	'htmlToggle': 'Origem HTML',
+	'htmlToggle': 'Código-fonte de HTML',
 	'foreColor': 'Cor de primeiro plano',
 	'hiliteColor': 'Cor de segundo plano',
 	'plainFormatBlock': 'Estilo de parágrafo',

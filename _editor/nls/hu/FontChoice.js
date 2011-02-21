@@ -9,6 +9,7 @@
 	cursive: "kurzív",
 	fantasy: "fantázia",
 
+	noFormat: "Nincs",
 	p: "Bekezdés",
 	h1: "Címsor",
 	h2: "Alcím",

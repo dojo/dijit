@@ -1,5 +1,4 @@
 ({
-		previousMessage: "Prejšnje možnosti",
-		nextMessage: "Dodatne možnosti"
+		previousMessage: "Prejšnje izbire",
+		nextMessage: "Dodatne izbire"
 })
-
