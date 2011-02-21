@@ -11,11 +11,12 @@ define(
 	cursive: "cursive",
 	fantasy: "fantasy",
 
+	noFormat: "Brez",
 	p: "Odstavek",
-	h1: "Naslov",
-	h2: "Podnaslov",
-	h3: "Pod podnaslov",
-	pre: "Vnaprej oblikovano",
+	h1: "Naslovni slog",
+	h2: "Podnaslovni slog",
+	h3: "Pod-podnaslovni slog",
+	pre: "Vnaprej oblikovan",
 
 	1: "xx-majhno",
 	2: "x-majhno",

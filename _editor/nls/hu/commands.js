@@ -47,6 +47,5 @@ define(
 	/* Error messages */
 	'systemShortcut': 'A(z) "${0}" művelet a böngészőben csak billentyűparancs használatával érhető el. Használja a következőt: ${1}.'
 })
-
 //end v1.x content
 );

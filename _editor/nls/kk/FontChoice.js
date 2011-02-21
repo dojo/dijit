@@ -9,11 +9,11 @@ define(
 	"sans-serif": "sans-serif",
 	monospace: "monospace",
 	cursive: "көлбеу",
-	fantasy: "fantasy",
+	fantasy: "қиял-ғажайып",
 
 	noFormat: "Ешбір",
 	p: "Еже",
-	h1: "Тақырып",
+	h1: "Үстіңгі деректеме",
 	h2: "Ішкі тақырып",
 	h3: "Ішкі-ішкі тақырып",
 	pre: "Алдын ала пішімделген",

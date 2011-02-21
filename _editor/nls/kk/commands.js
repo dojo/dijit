@@ -14,7 +14,7 @@ define(
 	'justifyFull': 'Туралау',
 	'justifyLeft': 'Сол жақ бойынша туралау',
 	'justifyRight': 'Оң жақ бойынша туралау',
-	'outdent': 'Солға ығысу',
+	'outdent': 'Шығыңқы',
 	'paste': 'Қою',
 	'redo': 'Қайтару',
 	'removeFormat': 'Пішімді алып тастау',
@@ -23,11 +23,11 @@ define(
 	'subscript': 'Жоласты',
 	'superscript': 'Жолүсті',
 	'underline': 'Асты сызылған',
-	'undo': 'Болдырмау',
-	'unlink': 'Сілтемені алып тастау',
+	'undo': 'Болдырмау ',
+	'unlink': 'Сілтемені жою',
 	'createLink': 'Сілтеме жасау',
 	'toggleDir': 'Бағытты қосу',
-	'insertImage': 'Суретті кірістіру',
+	'insertImage': 'Сурет кірістіру',
 	'insertTable': 'Кестені кірістіру/өңдеу',
 	'toggleTableBorder': 'Кесте жиегін қосу',
 	'deleteTable': 'Кестені жою',
@@ -49,4 +49,3 @@ define(
 })
 //end v1.x content
 );
-

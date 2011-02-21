@@ -11,6 +11,7 @@ define(
 	cursive: "cursive",
 	fantasy: "fantaisie",
 
+	noFormat: "Néant",
 	p: "Paragraphe",
 	h1: "En-tête",
 	h2: "Sous-en-tête",

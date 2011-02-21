@@ -3,7 +3,7 @@ define(
 ({
 	createLinkTitle: "Сілтеме сипаттары",
 	insertImageTitle: "Сурет сипаттары",
-	url: "URL:",
+	url: "URL мекенжайы:",
 	text: "Сипаттама:",
 	target: "Мақсат:",
 	set: "Орнату",
@@ -14,4 +14,3 @@ define(
 })
 //end v1.x content
 );
-

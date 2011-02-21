@@ -11,6 +11,7 @@ define(
 	cursive: "cursive",
 	fantasy: "fantasy",
 
+	noFormat: "Žádný",
 	p: "Odstavec",
 	h1: "Nadpis",
 	h2: "Podnadpis",

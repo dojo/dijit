@@ -11,6 +11,7 @@ define(
 	cursive: "Cursive",
 	fantasy: "Fantasy",
 
+	noFormat: "無",
 	p: "段落",
 	h1: "標題",
 	h2: "子標題",

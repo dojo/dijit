@@ -32,7 +32,7 @@ define(
 	'toggleTableBorder': 'Przełącz ramkę tabeli',
 	'deleteTable': 'Usuń tabelę',
 	'tableProp': 'Właściwość tabeli',
-	'htmlToggle': 'Źródło HTML',
+	'htmlToggle': 'Kod źródłowy HTML',
 	'foreColor': 'Kolor pierwszego planu',
 	'hiliteColor': 'Kolor tła',
 	'plainFormatBlock': 'Styl akapitu',

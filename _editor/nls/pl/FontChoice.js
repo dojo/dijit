@@ -11,6 +11,7 @@ define(
 	cursive: "kursywa",
 	fantasy: "fantazyjna",
 
+	noFormat: "Brak",
 	p: "Akapit",
 	h1: "Nagłówek",
 	h2: "Nagłówek 2-go poziomu",

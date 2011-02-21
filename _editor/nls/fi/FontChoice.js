@@ -11,6 +11,7 @@ define(
 	cursive: "cursive",
 	fantasy: "fantasy",
 
+	noFormat: "Ei mitään",
 	p: "Kappale",
 	h1: "Otsikko",
 	h2: "Alatason otsikko",
