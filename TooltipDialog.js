@@ -58,7 +58,7 @@ dojo.declare(
 				// tags:
 				//		protected
 				var newC = "dijitTooltipAB" + (corner.charAt(1) == 'L' ? "Left" : "Right")
-						+ " dijitTooltip" 
+						+ " dijitTooltip"
 						+ (corner.charAt(0) == 'T' ? "Below" : "Above");
 				
 				dojo.replaceClass(this.domNode, newC, this._currentOrientClass || "");

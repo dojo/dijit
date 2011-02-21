@@ -60,7 +60,7 @@ dojo.declare(
 						this.filterString = (val && !this.parse(val, this.constraints)) ? val.toLowerCase() : "";
 	
 						// close the drop down and reopen it, in order to filter the items shown in the list
-						// and also since the drop down may need to be repositioned if the number of list items has changed 
+						// and also since the drop down may need to be repositioned if the number of list items has changed
 						// and it's being displayed above the <input>
 						if(this._opened){
 							this.closeDropDown();

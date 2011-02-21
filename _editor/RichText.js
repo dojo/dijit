@@ -156,7 +156,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}
 
 		// Push in the builtin filters now, making them the first executed, but not over-riding anything
-		// users passed in.  See: #6062 
+		// users passed in.  See: #6062
 		this.contentPreFilters = [dojo.hitch(this, "_preFixUrlAttributes")].concat(this.contentPreFilters);
 		if(dojo.isMoz){
 			this.contentPreFilters = [this._normalizeFontStyle].concat(this.contentPreFilters);
@@ -409,7 +409,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 					var data = dat.split(this._NAME_CONTENT_SEP);
 					if(data[0] == this.name){
 						html = data[1];
-						datas = datas.splice(i, 1);	
+						datas = datas.splice(i, 1);
 						saveTextarea.value = datas.join(this._SEPARATOR);
 						break;
 					}
@@ -424,7 +424,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 						var f = dijit._editor._globalSaveHandler[id];
 						if(dojo.isFunction(f)){
 							f();
-						} 
+						}
 					}
 				});
 			}
@@ -474,7 +474,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 
 		if(dojo.isSafari <= 4){
 			var src = ifr.getAttribute("src");
-			if(!src || src.indexOf("javascript") == -1){ 
+			if(!src || src.indexOf("javascript") == -1){
 				// Safari 4 and earlier sometimes act oddly
 				// So we have to set it again.
 				setTimeout(function(){ifr.setAttribute('src', s);},0);
@@ -534,8 +534,8 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}
 		var userStyle = "";
 		var self = this;
-		this.style.replace(/(^|;)\s*(line-|font-?)[^;]+/ig, function(match){ 
-			match = match.replace(/^;/ig,"") + ';'; 
+		this.style.replace(/(^|;)\s*(line-|font-?)[^;]+/ig, function(match){
+			match = match.replace(/^;/ig,"") + ';';
 			var s = match.split(":")[0];
 			if(s){
 				s = dojo.trim(s);
@@ -554,7 +554,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 				}
 				dojo.style(self.domNode, sC, "");
 			}
-			userStyle += match + ';'; 
+			userStyle += match + ';';
 		});
 
 
@@ -572,7 +572,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			"\t\tmargin: -1px 0 0 0;\n", // remove extraneous vertical scrollbar on safari and firefox
 
 			// Set the html/body sizing.  Webkit always needs this, other browsers
-			// only set it when height is defined (not auto-expanding), otherwise 
+			// only set it when height is defined (not auto-expanding), otherwise
 			// scrollers do not appear.
 			((dojo.isWebKit)?"\t\twidth: 100%;\n":""),
 			((dojo.isWebKit)?"\t\theight: 100%;\n":""),
@@ -768,12 +768,12 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			this.editNode.style.zoom = 1.0;
 		}else{
 			this.connect(this.document, "onmousedown", function(){
-				// Clear the moveToStart focus, as mouse 
+				// Clear the moveToStart focus, as mouse
 				// down will set cursor point.  Required to properly
 				// work with selection/position driven plugins and clicks in
 				// the window. refs: #10678
 				delete this._cursorToStart;
-			}); 
+			});
 		}
 		
 		if(dojo.isWebKit){
@@ -807,7 +807,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		// Note that setValue() call will only work after isLoaded is set to true (above)
 
 		// Set up a function to allow delaying the setValue until a callback is fired
-		// This ensures extensions like dijit.Editor have a way to hold the value set 
+		// This ensures extensions like dijit.Editor have a way to hold the value set
 		// until plugins load (and do things like register filters).
 		var setContent = dojo.hitch(this, function(){
 			this.setValue(html);
@@ -1039,7 +1039,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			this.focusOnLoad = true;
 			return;
 		}
-		if(this._cursorToStart){ 
+		if(this._cursorToStart){
 			delete this._cursorToStart;
 			if(this.editNode.childNodes){
 				this.placeCursorAtStart(); // this calls focus() so return
@@ -1504,9 +1504,9 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}else if(this.window && this.window.getSelection){ // Moz
 			html = this._preFilterContent(html);
 			this.execCommand("selectall");
-			if(!html){ 
+			if(!html){
 				this._cursorToStart = true;
-				html = "&nbsp;"; 
+				html = "&nbsp;";
 			}
 			this.execCommand("inserthtml", html);
 			this._preDomFilterContent(this.editNode);
@@ -1983,13 +1983,13 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		//		The node to process the children of;
 		var h = 0;
 		if(node && node.childNodes){
-			// IE didn't compute it right when position was obtained on the node directly is some cases, 
+			// IE didn't compute it right when position was obtained on the node directly is some cases,
 			// so we have to walk over all the children manually.
-			var i; 
-			for(i = 0; i < node.childNodes.length; i++){ 
-				var size = dojo.position(node.childNodes[i]); 
-				h += size.h;   
-			} 
+			var i;
+			for(i = 0; i < node.childNodes.length; i++){
+				var size = dojo.position(node.childNodes[i]);
+				h += size.h;
+			}
 		}
 		return h; // Number
 	},
@@ -1999,7 +1999,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		//		Function to test if a node is devoid of real content.
 		// node:
 		//		The node to check.
-		// tags: 
+		// tags:
 		//		private.
 		if(node.nodeType == 1/*element*/){
 			if(node.childNodes.length > 0){
@@ -2014,7 +2014,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 	
 	_removeStartingRangeFromRange: function(node, range){
 		// summary:
-		//		Function to adjust selection range by removing the current 
+		//		Function to adjust selection range by removing the current
 		//		start node.
 		// node:
 		//		The node to remove from the starting range.
@@ -2032,7 +2032,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			}
 			if(parent){
 				range.setStart(parent.nextSibling,0);
-			} 
+			}
 		}
 		return range;
 	},
@@ -2040,14 +2040,14 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 	_adaptIESelection: function(){
 		// summary:
 		//		Function to adapt the IE range by removing leading 'newlines'
-		//		Needed to fix issue with bold/italics/underline not working if 
+		//		Needed to fix issue with bold/italics/underline not working if
 		//		range included leading 'newlines'.
-		//		In IE, if a user starts a selection at the very end of a line, 
-		//		then the native browser commands will fail to execute correctly.   
-		//		To work around the issue,  we can remove all empty nodes from 
+		//		In IE, if a user starts a selection at the very end of a line,
+		//		then the native browser commands will fail to execute correctly.
+		//		To work around the issue,  we can remove all empty nodes from
 		//		the start of the range selection.
 		var selection = dijit.range.getSelection(this.window);
-		if(selection && selection.rangeCount){				
+		if(selection && selection.rangeCount){
 			var range = selection.getRangeAt(0);
 			var firstNode = range.startContainer;
 			var startOffset = range.startOffset;

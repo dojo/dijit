@@ -99,9 +99,9 @@ dojo.declare("dijit.tree._dndSelector",
 		},
 		setSelection: function(/*dijit._treeNode[]*/ newSelection){
 			// summary
-			//      set the list of selected nodes to be exactly newSelection. All changes to the 
-			//      selection should be passed through this function, which ensures that derived 
-			//      attributes are kept up to date. Anchor will be deleted if it has been removed 
+			//      set the list of selected nodes to be exactly newSelection. All changes to the
+			//      selection should be passed through this function, which ensures that derived
+			//      attributes are kept up to date. Anchor will be deleted if it has been removed
 			//      from the selection, but no new anchor will be added by this function.
 			// newSelection: Node[]
 			//      list of tree nodes to make selected
@@ -120,7 +120,7 @@ dojo.declare("dijit.tree._dndSelector",
 			this._updateSelectionProperties();
 		},
 		_setDifference: function(xs,ys){
-			// summary 
+			// summary
 			//      Returns a copy of xs which lacks any objects
 			//      occurring in ys. Checks for membership by
 			//      modifying and then reading the object, so it will
@@ -210,7 +210,7 @@ dojo.declare("dijit.tree._dndSelector",
 
 		userSelect: function(node, multi, range){
 			// summary:
-			//		Add or remove the given node from selection, responding 
+			//		Add or remove the given node from selection, responding
 			//      to a user action such as a click or keypress.
 			// multi: Boolean
 			//		Indicates whether this is meant to be a multi-select action (e.g. ctrl-click)
@@ -228,7 +228,7 @@ dojo.declare("dijit.tree._dndSelector",
 				}
 			}else{
 				if(range && this.anchor){
-					var cr = dijit.tree._compareNodes(this.anchor.rowNode, node.rowNode), 
+					var cr = dijit.tree._compareNodes(this.anchor.rowNode, node.rowNode),
 					begin, end, anchor = this.anchor;
 					
 					if(cr < 0){ //current is after anchor
@@ -240,10 +240,10 @@ dojo.declare("dijit.tree._dndSelector",
 					}
 					nodes = [];
 					//add everything betweeen begin and end inclusively
-					while(begin != end) { 
+					while(begin != end) {
 						nodes.push(begin)
 						begin = this.tree._getNextNode(begin);
-					} 
+					}
 					nodes.push(end)
 
 					this.setSelection(nodes);

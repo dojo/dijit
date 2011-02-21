@@ -51,12 +51,12 @@ dojo.declare(
 
 		baseClass:"dijitCalendar",
 
-		// Set node classes for various mouse events, see dijit._CssStateMixin for more details 
+		// Set node classes for various mouse events, see dijit._CssStateMixin for more details
 		cssStateNodes: {
 			"decrementMonth": "dijitCalendarArrow",
 			"incrementMonth": "dijitCalendarArrow",
 			"previousYearLabelNode": "dijitCalendarPreviousYear",
-			"nextYearLabelNode": "dijitCalendarNextYear"			
+			"nextYearLabelNode": "dijitCalendarNextYear"
 		},
 
 		_isValidDate: function(/*Date*/ value){
@@ -216,11 +216,11 @@ dojo.declare(
 			var monthNames = this.dateLocaleModule.getNames('months', 'wide', 'standAlone', this.lang, month);
 			this.monthDropDownButton.dropDown.set("months", monthNames);
 
-			// Set name of current month and also fill in spacer element with all the month names 
+			// Set name of current month and also fill in spacer element with all the month names
 			// (invisible) so that the maximum width will affect layout.   But not on IE6 because then
 			// the center <TH> overlaps the right <TH> (due to a browser bug).
 			this.monthDropDownButton.containerNode.innerHTML =
-				(dojo.isIE == 6 ? "" : "<div class='dijitSpacer'>" + this.monthDropDownButton.dropDown.domNode.innerHTML + "</div>") + 
+				(dojo.isIE == 6 ? "" : "<div class='dijitSpacer'>" + this.monthDropDownButton.dropDown.domNode.innerHTML + "</div>") +
 				"<div class='dijitCalendarMonthLabel dijitCalendarCurrentMonthLabel'>" +  monthNames[month.getMonth()] + "</div>";
 
 			// Fill in localized prev/current/next years
@@ -330,7 +330,7 @@ dojo.declare(
 
 			// round specified value to nearest day (1am to avoid issues when DST shift occurs at midnight, see #8521, #9366)
 			date = new this.dateClassObj(date);
-			date.setHours(1, 0, 0, 0); 
+			date.setHours(1, 0, 0, 0);
 
 			this._set("currentFocus", date);
 
@@ -349,7 +349,7 @@ dojo.declare(
 				if(dojo.isWebKit){	// see #11064 about webkit bug
 					oldCell.setAttribute("tabIndex", "-1");
 				}else{
-						oldCell.removeAttribute("tabIndex");				
+						oldCell.removeAttribute("tabIndex");
 				}
 			}
 		},
@@ -443,7 +443,7 @@ dojo.declare(
 			//		Provides keyboard navigation of calendar.
 			// description:
 			//		Called from _onKeyPress() to handle keypress on a stand alone Calendar,
-			//		and also from `dijit.form._DateTimeTextBox` to pass a keypress event 
+			//		and also from `dijit.form._DateTimeTextBox` to pass a keypress event
 			//		from the `dijit.form.DateTextBox` to be handled in this widget
 			// returns:
 			//		False if the key was recognized as a navigation key,

@@ -59,7 +59,7 @@ dojo.declare("dijit._editor.plugins.TextColor", dijit._editor._Plugin, {
 		}
 
 		if(typeof value == "string"){
-			//if RGB value, convert to hex value	
+			//if RGB value, convert to hex value
 			if(value.indexOf("rgb")> -1){
 				value = dojo.colorFromRgb(value).toHex();
 			}

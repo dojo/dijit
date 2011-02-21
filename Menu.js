@@ -520,7 +520,7 @@ dojo.declare("dijit.Menu",
 						this._scheduleOpen(evt.target, iframe);	// no coords - open near target node
 					}
 				})
-			];	
+			];
 		});
 		binding.connects = cn ? doConnects(cn) : [];
 

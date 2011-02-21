@@ -853,7 +853,7 @@ dojo.declare(
 		// We may need to wait for some nodes to expand, so setting
 		// each path will involve a Deferred. We bring those deferreds
 		// together witha DeferredList.
-		return new dojo.DeferredList(dojo.map(paths, function(path){ 
+		return new dojo.DeferredList(dojo.map(paths, function(path){
 			var d = new dojo.Deferred();
 			
 			// normalize path to use identity

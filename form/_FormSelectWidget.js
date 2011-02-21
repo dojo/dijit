@@ -460,14 +460,14 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 							if(node.getAttribute("type") === "separator"){
 								return { value: "", label: "", selected: false, disabled: false };
 							}
-							return { 
+							return {
 								value: (node.getAttribute("data-" + dojo._scopeName + "-value") || node.getAttribute("value")),
 										label: String(node.innerHTML),
-								// FIXME: disabled and selected are not valid on complex markup children (which is why we're 
+								// FIXME: disabled and selected are not valid on complex markup children (which is why we're
 								// looking for data-dojo-value above.  perhaps we should data-dojo-props="" this whole thing?)
 								// decide before 1.6
 										selected: node.getAttribute("selected") || false,
-								disabled: node.getAttribute("disabled") || false 
+								disabled: node.getAttribute("disabled") || false
 							};
 						}, this) : [];
 		}

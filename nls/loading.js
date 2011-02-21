@@ -1,4 +1,4 @@
-define({ root: 
+define({ root:
 //begin v1.x content
 ({
 	loadingState: "Loading...",

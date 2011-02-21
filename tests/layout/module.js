@@ -10,8 +10,8 @@ try{
 
 	doh.registerUrl("dijit.tests.layout.LayoutContainer", dojo.moduleUrl("dijit", "tests/layout/LayoutContainer.html"), 999999);
 
-	doh.registerUrl("dijit.tests.layout.NestedStackContainer", dojo.moduleUrl("dijit", "tests/layout/nestedStack.html"), 999999); 
-	doh.registerUrl("dijit.tests.layout.robot.StackContainer_mouse", dojo.moduleUrl("dijit", "tests/layout/robot/StackContainer_mouse.html"), 999999); 
+	doh.registerUrl("dijit.tests.layout.NestedStackContainer", dojo.moduleUrl("dijit", "tests/layout/nestedStack.html"), 999999);
+	doh.registerUrl("dijit.tests.layout.robot.StackContainer_mouse", dojo.moduleUrl("dijit", "tests/layout/robot/StackContainer_mouse.html"), 999999);
 
 	doh.registerUrl("dijit.tests.layout.TabContainer", dojo.moduleUrl("dijit", "tests/layout/TabContainer.html"), 999999);
 	doh.registerUrl("dijit.tests.layout.robot.TabContainer_a11y", dojo.moduleUrl("dijit","tests/layout/robot/TabContainer_a11y.html"), 999999);
@@ -23,12 +23,12 @@ try{
 	doh.registerUrl("dijit.tests.layout.robot.AccordionContainer_a11y", dojo.moduleUrl("dijit","tests/layout/robot/AccordionContainer_a11y.html"), 999999);
 	doh.registerUrl("dijit.tests.layout.robot.AccordionContainer_mouse", dojo.moduleUrl("dijit","tests/layout/robot/AccordionContainer_mouse.html"), 999999);
 
-	doh.registerUrl("dijit.tests.layout.BorderContainer", dojo.moduleUrl("dijit", "tests/layout/BorderContainer.html"), 999999); 
-	doh.registerUrl("dijit.tests.layout.robot.BorderContainer", dojo.moduleUrl("dijit", "tests/layout/robot/BorderContainer.html"), 999999); 
-	doh.registerUrl("dijit.tests.layout.robot.BorderContainer_full", dojo.moduleUrl("dijit", "tests/layout/robot/BorderContainer_full.html"), 999999); 
-	doh.registerUrl("dijit.tests.layout.robot.BorderContainer_complex", dojo.moduleUrl("dijit", "tests/layout/robot/BorderContainer_complex.html"), 999999); 
+	doh.registerUrl("dijit.tests.layout.BorderContainer", dojo.moduleUrl("dijit", "tests/layout/BorderContainer.html"), 999999);
+	doh.registerUrl("dijit.tests.layout.robot.BorderContainer", dojo.moduleUrl("dijit", "tests/layout/robot/BorderContainer.html"), 999999);
+	doh.registerUrl("dijit.tests.layout.robot.BorderContainer_full", dojo.moduleUrl("dijit", "tests/layout/robot/BorderContainer_full.html"), 999999);
+	doh.registerUrl("dijit.tests.layout.robot.BorderContainer_complex", dojo.moduleUrl("dijit", "tests/layout/robot/BorderContainer_complex.html"), 999999);
 
-	doh.registerUrl("dijit.tests.layout.robot.BorderContainer_nested", dojo.moduleUrl("dijit", "tests/layout/robot/BorderContainer_nested.html"), 999999); 
+	doh.registerUrl("dijit.tests.layout.robot.BorderContainer_nested", dojo.moduleUrl("dijit", "tests/layout/robot/BorderContainer_nested.html"), 999999);
 }catch(e){
 	doh.debug(e);
 }

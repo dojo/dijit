@@ -308,7 +308,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		}
 
 		// baseClass is a single class name or occasionally a space-separated list of names.
-		// Add those classes to the DOMNode.  If RTL mode then also add with Rtl suffix.		
+		// Add those classes to the DOMNode.  If RTL mode then also add with Rtl suffix.
 		// TODO: make baseClass custom setter
 		if(this.baseClass){
 			var classes = this.baseClass.split(" ");
@@ -546,7 +546,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		// description:
 		//		Get a named property from a widget. The property may
 		//		potentially be retrieved via a getter method. If no getter is defined, this
-		// 		just retrieves the object's property.  
+		// 		just retrieves the object's property.
 		// 		For example, if the widget has a properties "foo"
 		//		and "bar" and a method named "_getFooAttr", calling:
 		//	|	myWidget.get("foo");
@@ -564,11 +564,11 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		// summary:
 		//		Set a property on a widget
 		//	name:
-		//		The property to set. 
+		//		The property to set.
 		//	value:
 		//		The value to set in the property.
 		// description:
-		//		Sets named properties on a widget which may potentially be handled by a 
+		//		Sets named properties on a widget which may potentially be handled by a
 		// 		setter in the widget.
 		// 		For example, if the widget has a properties "foo"
 		//		and "bar" and a method named "_setFooAttr", calling:
@@ -589,7 +589,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 
 		if(typeof name === "object"){
 			for(var x in name){
-				this.set(x, name[x]); 
+				this.set(x, name[x]);
 			}
 			return this;
 		}
@@ -673,7 +673,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		//		Provide widget-specific analog to dojo.connect, except with the
 		//		implicit use of this widget as the target object.
 		//		Events connected with `this.connect` are disconnected upon
-		//		destruction. 
+		//		destruction.
 		// returns:
 		//		A handle that can be passed to `disconnect` in order to disconnect before
 		//		the widget is destroyed.

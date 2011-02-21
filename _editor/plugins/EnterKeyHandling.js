@@ -3,8 +3,8 @@ define("dijit/_editor/plugins/EnterKeyHandling", ["dojo", "dijit", "dojo/window"
 dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 	// summary:
 	//		This plugin tries to make all browsers behave consistently with regard to
-	//		how ENTER behaves in the editor window.  It traps the ENTER key and alters 
-	//		the way DOM is constructed in certain cases to try to commonize the generated 
+	//		how ENTER behaves in the editor window.  It traps the ENTER key and alters
+	//		the way DOM is constructed in certain cases to try to commonize the generated
 	//		DOM and behaviors across browsers.
 	//
 	// description:
@@ -76,8 +76,8 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 	constructor: function(args){
 		if(args){
 			if("blockNodeForEnter" in args){
-				args.blockNodeForEnter = args.blockNodeForEnter.toUpperCase(); 
-			}	
+				args.blockNodeForEnter = args.blockNodeForEnter.toUpperCase();
+			}
 			dojo.mixin(this,args);
 		}
 	},
@@ -88,7 +88,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 		this.editor = editor;
 		if(this.blockNodeForEnter == 'BR'){
 			// While Moz has a mode tht mostly works, it's still a little different,
-			// So, try to just have a common mode and be consistent.  Which means 
+			// So, try to just have a common mode and be consistent.  Which means
 			// we need to enable customUndo, if not already enabled.
 			this.editor.customUndo = true;
 				editor.onLoadDeferred.addCallback(dojo.hitch(this,function(d){
@@ -184,7 +184,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 		//		private
 
 		var selection, range, newrange, doc=this.editor.document,br,rs,txt;
-		if(e.shiftKey){		// shift+enter always generates <br>			
+		if(e.shiftKey){		// shift+enter always generates <br>
 			var parent = dojo.withGlobal(this.editor.window, "getParentElement", dijit._editor.selection);
 			var header = dijit.range.getAncestor(parent,this.blockNodes);
 			if(header){
@@ -250,7 +250,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 							range = selection.getRangeAt(0);
 						}
 						rs = range.startContainer;
-						var startNode, endNode, brNode;	
+						var startNode, endNode, brNode;
 						if(rs && rs.nodeType == 3){
 							// Text node, we have to split it.
 							dojo.withGlobal(this.editor.window, dojo.hitch(this, function(){
@@ -278,7 +278,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 									dojo.place(startNode, rs, "after");
 								}else{
 									startNode = rs;
-								}				
+								}
 								dojo.place(brNode, startNode, "after");
 								dojo.place(endNode, brNode, "after");
 								dojo.destroy(rs);
@@ -288,7 +288,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 								selection.removeAllRanges();
 								selection.addRange(newrange);
 								if(endEmpty && !dojo.isWebKit){
-									dijit._editor.selection.remove();	
+									dijit._editor.selection.remove();
 								}else{
 									dijit._editor.selection.collapse(true);
 								}
@@ -374,7 +374,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 
 		var newblock = doc.createElement(this.blockNodeForEnter);
 		newblock.innerHTML=this.bogusHtmlContent;
-		this.removeTrailingBr(block.blockNode);	
+		this.removeTrailingBr(block.blockNode);
 		var endOffset = range.endOffset;
 		var node = range.endContainer;
 		if(node.length < endOffset){
@@ -457,7 +457,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 				while(parentC !== block.blockNode){
 					var tg = parentC.tagName;
 					var newTg = doc.createElement(tg);
-					// Clone over any 'style' data. 
+					// Clone over any 'style' data.
 					if(parentC.style){
 						if(newTg.style){
 							if(parentC.style.cssText){
@@ -510,16 +510,16 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 	},
 	
 	_adjustNodeAndOffset: function(/*DomNode*/node, /*Int*/offset){
-		// summary: 
-		//              In the case there are multiple text nodes in a row the offset may not be within the node.  If the offset is larger than the node length, it will attempt to find 
+		// summary:
+		//              In the case there are multiple text nodes in a row the offset may not be within the node.  If the offset is larger than the node length, it will attempt to find
 		//              the next text sibling until it locates the text node in which the offset refers to
-		// node: 
-		//              The node to check. 
-		// offset: 
+		// node:
+		//              The node to check.
+		// offset:
 		//              The position to find within the text node
-		// tags:  
-		//              private. 
-		while(node.length < offset && node.nextSibling && node.nextSibling.nodeType==3){  
+		// tags:
+		//              private.
+		while(node.length < offset && node.nextSibling && node.nextSibling.nodeType==3){
 			//Adjust the offset and node in the case of multiple text nodes in a row
 			offset = offset - node.length;
 			node = node.nextSibling;

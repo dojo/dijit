@@ -154,7 +154,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 			// tags:
 			//		protected extension
 
-			var cls = this.baseClass + "-child " 
+			var cls = this.baseClass + "-child "
 				+ (child.baseClass ? this.baseClass + "-" + child.baseClass : "");
 			dojo.addClass(child.domNode, cls);
 		},
@@ -169,8 +169,8 @@ dojo.declare("dijit.layout._LayoutWidget",
 
 		removeChild: function(/*dijit._Widget*/ child){
 			// Overrides _Container.removeChild() to remove class added by _setupChild()
-			var cls = this.baseClass + "-child" 
-					+ (child.baseClass ? 
+			var cls = this.baseClass + "-child"
+					+ (child.baseClass ?
 						" " + this.baseClass + "-" + child.baseClass : "");
 			dojo.removeClass(child.domNode, cls);
 			

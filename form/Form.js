@@ -107,8 +107,8 @@ dojo.declare(
 				preventDefault: function(){ // not IE
 							this.returnValue = false;
 						},
-				stopPropagation: function(){}, 
-				currentTarget: e ? e.target : this.domNode, 
+				stopPropagation: function(){},
+				currentTarget: e ? e.target : this.domNode,
 				target: e ? e.target : this.domNode
 			};
 			// if return value is not exactly false, and haven't called preventDefault(), then reset

@@ -49,7 +49,7 @@ dojo.declare(
 		//		Similar to disabled except readOnly form values are submitted.
 		readOnly: false,
 		
-		// the attributeMap should inherit from dijit.form._FormWidget.prototype.attributeMap 
+		// the attributeMap should inherit from dijit.form._FormWidget.prototype.attributeMap
 		// instead of ToggleButton as the icon mapping has no meaning for a CheckBox
 		attributeMap: dojo.delegate(dijit.form._FormWidget.prototype.attributeMap, {
 			readOnly: "focusNode"

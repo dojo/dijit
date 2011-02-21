@@ -56,7 +56,7 @@ dojo.declare(
 			this.aroundNode = aroundNode;
 		},
 
-		orient: function(/*DomNode*/ node, /*String*/ aroundCorner, /*String*/ tooltipCorner, /*Object*/ spaceAvailable, /*Object*/ aroundNodeCoords){			
+		orient: function(/*DomNode*/ node, /*String*/ aroundCorner, /*String*/ tooltipCorner, /*Object*/ spaceAvailable, /*Object*/ aroundNodeCoords){
 			// summary:
 			//		Private function to set CSS for tooltip node based on which position it's in.
 			//		This is called by the dijit popup code.   It will also reduce the tooltip's
@@ -98,7 +98,7 @@ dojo.declare(
 				}
 			}
 			
-			// Reposition the tooltip connector.  
+			// Reposition the tooltip connector.
 			if(tooltipCorner.charAt(0) == 'B' && aroundCorner.charAt(0) == 'B'){
 				var mb = dojo.marginBox(node);
 				var tooltipConnectorHeight = this.connectorNode.offsetHeight;
@@ -247,7 +247,7 @@ dojo.declare(
 
 			// TODO: remove in 2.0 and just use set("connectId", ...) interface
 
-			var id = node.id || node;		
+			var id = node.id || node;
 			if(dojo.indexOf(this._connectIds, id) == -1){
 				this.set("connectId", this._connectIds.concat(id));
 			}

@@ -23,7 +23,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 
 	// emailRegExp: [protected] String
 	//		Used for validating input as correct email address.  Taken from dojox.validate
-	emailRegExp:  "<?(mailto\\:)([!#-'*+\\-\\/-9=?A-Z^-~]+[.])*[!#-'*+\\-\\/-9=?A-Z^-~]+" /*username*/ + "@" +  
+	emailRegExp:  "<?(mailto\\:)([!#-'*+\\-\\/-9=?A-Z^-~]+[.])*[!#-'*+\\-\\/-9=?A-Z^-~]+" /*username*/ + "@" +
         "((?:(?:[\\da-zA-Z](?:[-\\da-zA-Z]{0,61}[\\da-zA-Z])?)\\.)+(?:[a-zA-Z](?:[-\\da-zA-Z]{0,6}[\\da-zA-Z])?)\\.?)|localhost|^[^-][a-zA-Z0-9_-]*>?",	// host.
 
 	// htmlTemplate: [protected] String
@@ -200,8 +200,8 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 		// summary:
 		//		Function to check the values in args and 'fix' them up as needed.
 		// args: Object
-		//		Content being set.		
-		// tags: 
+		//		Content being set.
+		// tags:
 		//		protected
 		if(args && args.urlInput){
 			args.urlInput = args.urlInput.replace(/"/g, "&quot;");
@@ -247,7 +247,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 			}
 		}
 		// make sure values are properly escaped, etc.
-		args = this._checkValues(args); 
+		args = this._checkValues(args);
 		this.editor.execCommand('inserthtml',
 			dojo.string.substitute(this.htmlTemplate, args));
 	},
@@ -435,11 +435,11 @@ dojo.declare("dijit._editor.plugins.ImgLinkDialog", [dijit._editor.plugins.LinkD
 
 	_checkValues: function(args){
 		// summary:
-		//		Function to check the values in args and 'fix' them up as needed 
+		//		Function to check the values in args and 'fix' them up as needed
 		//		(special characters in the url or alt text)
 		// args: Object
-		//		Content being set.		
-		// tags: 
+		//		Content being set.
+		// tags:
 		//		protected
 		if(args && args.urlInput){
 			args.urlInput = args.urlInput.replace(/"/g, "&quot;");

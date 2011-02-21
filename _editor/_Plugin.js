@@ -158,7 +158,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 				);
 			}else{
 				// hide button because editor doesn't support command (due to browser limitations)
-				this.button.domNode.style.display = "none";			
+				this.button.domNode.style.display = "none";
 			}
 		}
 
@@ -182,11 +182,11 @@ dojo.declare("dijit._editor._Plugin", null, {
 		// summary:
 		//		Set a property on a plugin
 		//	name:
-		//		The property to set. 
+		//		The property to set.
 		//	value:
 		//		The value to set in the property.
 		// description:
-		//		Sets named properties on a plugin which may potentially be handled by a 
+		//		Sets named properties on a plugin which may potentially be handled by a
 		// 		setter in the plugin.
 		// 		For example, if the plugin has a properties "foo"
 		//		and "bar" and a method named "_setFooAttr", calling:
@@ -206,7 +206,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 		//	This is equivalent to calling set(foo, "Howdy") and set(bar, 3)
 		if(typeof name === "object"){
 			for(var x in name){
-				this.set(x, name[x]); 
+				this.set(x, name[x]);
 	}
 			return this;
 		}
@@ -228,7 +228,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 		// description:
 		//		Get a named property from a plugin. The property may
 		//		potentially be retrieved via a getter method. If no getter is defined, this
-		// 		just retrieves the object's property.  
+		// 		just retrieves the object's property.
 		// 		For example, if the plugin has a properties "foo"
 		//		and "bar" and a method named "_getFooAttr", calling:
 		//	|	plugin.get("foo");
@@ -244,7 +244,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 
 	_setDisabledAttr: function(disabled){
 		// summary:
-		//		Function to set the plugin state and call updateState to make sure the 
+		//		Function to set the plugin state and call updateState to make sure the
 		//		button is updated appropriately.
 		this.disabled = disabled;
 		this.updateState();
@@ -271,7 +271,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 		//		Helper function to set new value for specified attribute
 		var oldValue = this[name];
 		this[name] = value;
-	}	
+	}
 });
 
 return dijit._editor._Plugin;

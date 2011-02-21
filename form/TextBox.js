@@ -244,7 +244,7 @@ dojo.declare(
 			}
 			this._refreshState();
 
-			// In case someone is watch()'ing for changes to displayedValue		
+			// In case someone is watch()'ing for changes to displayedValue
 			this._set("displayedValue", this.get("displayedValue"));
 		},
 
@@ -371,7 +371,7 @@ dojo.declare(
 			this._updatePlaceHolder();
 			
 			// call this.inherited() before refreshState(), since this.inherited() will possibly scroll the viewport
-			// (to scroll the TextBox into view), which will affect how _refreshState() positions the tooltip 			
+			// (to scroll the TextBox into view), which will affect how _refreshState() positions the tooltip
 			this.inherited(arguments);
 
 			this._refreshState();

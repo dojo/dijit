@@ -560,7 +560,7 @@ dijit._DialogLevelManager = {
 			// Don't need to mess with underlay or z-index or anything.
 			var idx = dojo.indexOf(dojo.map(ds, function(elem){return elem.dialog}), dialog);
 			if(idx != -1){
-				ds.splice(idx, 1);			
+				ds.splice(idx, 1);
 			}
 		}
 	},

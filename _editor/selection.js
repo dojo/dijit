@@ -324,7 +324,7 @@ dojo.mixin(dijit._editor.selection, {
 				}
 			}else if(doc.selection){
 				// Probably IE, so we can't use the range object as the pseudo
-				// range doesn't implement the boundry checking, we have to 
+				// range doesn't implement the boundry checking, we have to
 				// use IE specific crud.
 				range = doc.selection.createRange();
 				try{

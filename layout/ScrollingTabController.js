@@ -435,7 +435,7 @@ dojo.declare(
 			id: this.containerId + "_menu",
 			dir: this.dir,
 			lang: this.lang
-		});	
+		});
 		var container = dijit.byId(this.containerId);
 		dojo.forEach(container.getChildren(), function(page){
 			var menuItem = new dijit.MenuItem({

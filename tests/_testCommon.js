@@ -38,7 +38,7 @@
 				case "dir":
 					// rtl | null
 					document.getElementsByTagName("html")[0].dir = value;
-					dir = value;		
+					dir = value;
 					break;
 				case "theme":
 					// tundra | soria | nihilo | claro | null
@@ -98,7 +98,7 @@
 						node.innerHTML = node.innerHTML.replace("themes/claro/document.css",
 							"../dojo/resources/dojo.css");
 					}
-				});				
+				});
 			}
 			if(dir == "rtl"){
 				// pretend all the labels are in an RTL language, because

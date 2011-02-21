@@ -1,4 +1,4 @@
-define( 
+define(
 //begin v1.x content
 ({
 	createLinkTitle: "Lastnosti povezave",

@@ -200,8 +200,8 @@ dojo.declare(
 			// except what's needed for the header (toolbars) and footer (breadcrumbs, etc).
 			// A class was added to the iframe container and some themes style it, so we have to
 			// calc off the added margins and padding too. See tracker: #10662
-			var areaHeight = (this._contentBox.h - 
-				(this.getHeaderHeight() + this.getFooterHeight() + 
+			var areaHeight = (this._contentBox.h -
+				(this.getHeaderHeight() + this.getFooterHeight() +
 				 dojo._getPadBorderExtents(this.iframe.parentNode).h +
 				 dojo._getMarginExtents(this.iframe.parentNode).h));
 			this.editingArea.style.height = areaHeight + "px";
@@ -230,7 +230,7 @@ dojo.declare(
 			//Check for vertical scroller click.
 			bodyDir = b.dir ? b.dir.toLowerCase() : "";
 			if(bodyDir != "rtl"){
-				if(clientWidth < offsetWidth && e.x > clientWidth && e.x < offsetWidth){ 
+				if(clientWidth < offsetWidth && e.x > clientWidth && e.x < offsetWidth){
 					// Check the click was between width and offset width, if so, scroller
 					outsideClientArea = true;
 				}
@@ -249,7 +249,7 @@ dojo.declare(
 				}
 			}
 			if(!outsideClientArea){
-				delete this._cursorToStart; // Remove the force to cursor to start position. 
+				delete this._cursorToStart; // Remove the force to cursor to start position.
 				delete this._savedSelection; // new mouse position overrides old selection
 				if(e.target.tagName == "BODY"){
 					setTimeout(dojo.hitch(this, "placeCursorAtEnd"), 0);
@@ -282,7 +282,7 @@ dojo.declare(
 		//		Whether we shall use custom undo/redo support instead of the native
 		//		browser support. By default, we now use custom undo.  It works better
 		//		than native browser support and provides a consistent behavior across
-		//		browsers with a minimal performance hit.  We already had the hit on 
+		//		browsers with a minimal performance hit.  We already had the hit on
 		//		the slowest browser, IE, anyway.
 		customUndo: true,
 
@@ -455,7 +455,7 @@ dojo.declare(
 					ret = true;
 				}
 				delete this._undoRedoActive;
-			}	
+			}
 			return ret;
 		},
 		redo: function(){
@@ -709,7 +709,7 @@ dojo.declare(
 					this.setValue(html);
 					this.endEditing();
 				}
-			}				
+			}
 		},
 		
 		_setDisabledAttr: function(/*Boolean*/ value){

@@ -158,7 +158,7 @@ dojo.declare("dijit._PaletteMixin",
 		// tags:
 		//		private
 
-		var target = evt.currentTarget,	
+		var target = evt.currentTarget,
 			value = this._getDye(target).getValue();
 
 		// First focus the clicked cell, and then send onChange() notification.
@@ -168,8 +168,8 @@ dojo.declare("dijit._PaletteMixin",
 		// Use setTimeout because IE doesn't like changing focus inside of an event handler.
 		this._setCurrent(target);
 		setTimeout(dojo.hitch(this, function(){
-			dijit.focus(target);		
-			this._setValueAttr(value, true);		
+			dijit.focus(target);
+			this._setValueAttr(value, true);
 		}));
 
 		// workaround bug where hover class is not removed on popup because the popup is

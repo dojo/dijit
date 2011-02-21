@@ -372,7 +372,7 @@ dojo.declare("dijit._Widget", dijit._WidgetBase, {
 		//		This version of connect also provides a special "ondijitclick"
 		//		event which triggers on a click or space or enter keyup.
 		//		Events connected with `this.connect` are disconnected upon
-		//		destruction. 
+		//		destruction.
 		// returns:
 		//		A handle that can be passed to `disconnect` in order to disconnect before
 		//		the widget is destroyed.

@@ -91,7 +91,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 				if(dojo.isWebKit || dijit.hasDefaultTabStop(node)){	// see #11064 about webkit bug
 					node.setAttribute('tabIndex', "-1");
 				}else{
-					node.removeAttribute('tabIndex');				
+					node.removeAttribute('tabIndex');
 				}
 			}, this);
 		}else{

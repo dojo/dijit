@@ -155,7 +155,7 @@ dojo.declare(
 				this._maskValidSubsetError = isFocused && isValidSubset; // we want the error to show up after a blur and refocus
 				message = this.getErrorMessage(isFocused);
 			}else if(this.state == "Incomplete"){
-				message = this.getPromptMessage(isFocused); // show the prompt whenever the value is not yet complete 
+				message = this.getPromptMessage(isFocused); // show the prompt whenever the value is not yet complete
 				this._maskValidSubsetError = !this._hasBeenBlurred || isFocused; // no Incomplete warnings while focused
 			}else if(isEmpty){
 				message = this.getPromptMessage(isFocused); // show the prompt whenever there's no error and no text

@@ -14,7 +14,7 @@ dojo.declare("dijit.form._FormMixin", null, {
 	// value: Object
 	//		Name/value hash for each child widget with a name and value.
 	//		Child widgets without names are not part of the hash.
-	// 
+	//
 	//		If there are multiple child widgets w/the same name, value is an array,
 	//		unless they are radio buttons in which case value is a scalar (since only
 	//		one radio button can be checked at a time).
@@ -437,7 +437,7 @@ dojo.declare("dijit.form._FormMixin", null, {
 			this.connectChildren(true);
 
 			// Make state change call onValidStateChange(), will be removed in 2.0
-			this.watch("state", function(attr, oldVal, newVal){ this.onValidStateChange(newVal == ""); });	
+			this.watch("state", function(attr, oldVal, newVal){ this.onValidStateChange(newVal == ""); });
 		},
 
 		destroy: function(){

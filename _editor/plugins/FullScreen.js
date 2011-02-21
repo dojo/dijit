@@ -167,7 +167,7 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 		this.isFullscreen = full;
 
 		if(full){
-			//Parent classes can royally screw up this plugin, so we 
+			//Parent classes can royally screw up this plugin, so we
 			//have to set eveything to position static.
 			while(editorParent && editorParent !== dojo.body()){
 				dojo.addClass(editorParent, "dijitForceStatic");
@@ -376,7 +376,7 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 						// Resize if the original size wasn't set
 						// or wasn't in percent.  Timeout is to avoid
 						// an IE crash in unit testing.
-						setTimeout(dojo.hitch(this, function(){ed.resize({h: mb.h});}), 0);		
+						setTimeout(dojo.hitch(this, function(){ed.resize({h: mb.h});}), 0);
 					}
 				}
 				dojo.window.scrollIntoView(self.editor.toolbar.domNode);

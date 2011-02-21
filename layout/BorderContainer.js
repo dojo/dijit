@@ -337,7 +337,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 	postMixInProperties: function(){
 		this.inherited(arguments);
 
-		this.horizontal = /top|bottom/.test(this.region);		
+		this.horizontal = /top|bottom/.test(this.region);
 		this._factor = /top|left/.test(this.region) ? 1 : -1;
 		this._cookieName = this.container.id + "_" + this.region;
 	},
@@ -437,7 +437,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 				dojo.removeClass(this.cover, "dijitSplitterCoverActive");
 			}
 			if(this.fake){ dojo.destroy(this.fake); }
-			dojo.removeClass(this.domNode, "dijitSplitterActive dijitSplitter" 
+			dojo.removeClass(this.domNode, "dijitSplitterActive dijitSplitter"
 				+ (this.horizontal ? "H" : "V") + "Active dijitSplitterShadow");
 			this._drag(e); //TODO: redundant with onmousemove?
 			this._drag(e, true);

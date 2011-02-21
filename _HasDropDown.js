@@ -144,7 +144,7 @@ dojo.declare("dijit._HasDropDown",
 			// the drop down was already opened on mousedown/keydown; just need to call stopEvent()
 			if(this._stopClickEvents){
 				dojo.stopEvent(e);
-			}			
+			}
 		},
 
 		buildRendering: function(){
@@ -206,7 +206,7 @@ dojo.declare("dijit._HasDropDown",
 			if(d && this._opened && e.charOrCode == dojo.keys.ESCAPE){
 				this.closeDropDown();
 				dojo.stopEvent(e);
-			}else if(!this._opened && 
+			}else if(!this._opened &&
 					(e.charOrCode == dojo.keys.DOWN_ARROW ||
 						( (e.charOrCode == dojo.keys.ENTER || e.charOrCode == " ") &&
 						  //ignore enter and space if the event is for a text input
@@ -293,7 +293,7 @@ dojo.declare("dijit._HasDropDown",
 			// ie, dependent on how much space is available (BK)
 
 			if(!this._preparedNode){
-				this._preparedNode = true;			
+				this._preparedNode = true;
 				// Check if we have explicitly set width and height on the dropdown widget dom node
 				if(ddNode.style.width){
 					this._explicitDDWidth = true;

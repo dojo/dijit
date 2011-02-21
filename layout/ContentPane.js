@@ -1,7 +1,7 @@
 define("dijit/layout/ContentPane", ["dojo", "dijit", "dijit/_Widget", "dijit/layout/_LayoutWidget", "dijit/layout/_ContentPaneResizeMixin", "dojo/string", "dojo/html", "i18n!dijit/nls/loading"], function(dojo, dijit) {
 
 dojo.declare(
-	"dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPaneResizeMixin], 
+	"dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPaneResizeMixin],
 {
 	// summary:
 	//		A widget containing an HTML fragment, specified inline
@@ -310,7 +310,7 @@ dojo.declare(
 
 		this._resizeCalled = true;
 
-		this._scheduleLayout(changeSize, resultSize);		
+		this._scheduleLayout(changeSize, resultSize);
 	},
 
 	_isShown: function(){

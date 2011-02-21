@@ -481,7 +481,7 @@ dojo.declare(
 					span.innerHTML = label;
 					displayedValue = span.innerText || span.textContent;
 				}else{
-					displayedValue = label;					
+					displayedValue = label;
 				}
 			}
 			var value = this._getValueField() != this.searchAttr? this.store.getIdentity(item) : displayedValue;

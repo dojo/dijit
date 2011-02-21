@@ -278,14 +278,14 @@ dojo.declare("dijit._editor.plugins._FormatBlockDropDown", dijit._editor.plugins
 					end = range.endContainer;
 
 					// find containing nodes of start/end.
-					while(start && start !== editor.editNode && 
-						  start !== editor.document.body && 
+					while(start && start !== editor.editNode &&
+						  start !== editor.document.body &&
 						  start.nodeType !== 1){
 						start = start.parentNode;
 					}
 
-					while(end && end !== editor.editNode && 
-						  end !== editor.document.body && 
+					while(end && end !== editor.editNode &&
+						  end !== editor.document.body &&
 						  end.nodeType !== 1){
 						end = end.parentNode;
 					}
@@ -339,7 +339,7 @@ dojo.declare("dijit._editor.plugins._FormatBlockDropDown", dijit._editor.plugins
 							node = node.parentNode;
 						}
 
-						//Also look for all child nodes in the selection that may need to be 
+						//Also look for all child nodes in the selection that may need to be
 						//cleared of formatting
 						processChildren(start, clearNodes);
 						if(block) { clearNodes = [block].concat(clearNodes); }
@@ -375,7 +375,7 @@ dojo.declare("dijit._editor.plugins._FormatBlockDropDown", dijit._editor.plugins
 		if(editor.customUndo){
 			// So of course IE doesn't work right with paste-overs.
 			// We have to do this manually, which is okay since IE already uses
-			// customUndo and we turned it on for WebKit.  WebKit pasted funny, 
+			// customUndo and we turned it on for WebKit.  WebKit pasted funny,
 			// so couldn't use the execCommand approach
 			while(node.firstChild){
 				dojo.place(node.firstChild, node, "before");
@@ -384,11 +384,11 @@ dojo.declare("dijit._editor.plugins._FormatBlockDropDown", dijit._editor.plugins
 		}else{
 			// Everyone else works fine this way, a paste-over and is native
 			// undo friendly.
-			dojo.withGlobal(editor.window, 
+			dojo.withGlobal(editor.window,
 				 "selectElementChildren", dijit._editor.selection, [node]);
-			var html = 	dojo.withGlobal(editor.window, 
+			var html = 	dojo.withGlobal(editor.window,
 				 "getSelectedHtml", dijit._editor.selection, [null]);
-			dojo.withGlobal(editor.window, 
+			dojo.withGlobal(editor.window,
 				 "selectElement", dijit._editor.selection, [node]);
 			editor.execCommand("inserthtml", html||"");
 		}

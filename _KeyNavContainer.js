@@ -131,7 +131,7 @@ dojo.declare("dijit._KeyNavContainer",
 			// summary:
 			//		Setup for each child widget
 			// description:
-			//		Sets tabIndex=-1 on each child, so that the tab key will 
+			//		Sets tabIndex=-1 on each child, so that the tab key will
 			//		leave the container rather than visiting each child.
 			// tags:
 			//		private

@@ -177,7 +177,7 @@ dojo.declare(
 			}
 
 			// Do a reverse lookup to map the specified displayedValue to the hidden value.
-			// Note that if there's a custom labelFunc() this code 
+			// Note that if there's a custom labelFunc() this code
 			if(this.store){
 				this.closeDropDown();
 				var query = dojo.clone(this.query); // #6196: populate query with user-specifics
