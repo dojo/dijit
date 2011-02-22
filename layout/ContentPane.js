@@ -333,7 +333,7 @@ dojo.declare(
 		}else{
 			var node = this.domNode, parent = this.domNode.parentNode;
 			return (node.style.display != 'none') && (node.style.visibility != 'hidden') && !dojo.hasClass(node, "dijitHidden") &&
-					parent && (parent.style.display != 'none');
+					parent && parent.style && (parent.style.display != 'none');
 		}
 	},
 
