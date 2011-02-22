@@ -554,29 +554,43 @@
 			doh.register("TooltipDialog", [
 				// The preload=true TooltipDialog should already be loaded, or at least be loading,
 				// if it isn't already loading then this test will timeout.
-				function preloadTrue(){
-					var dlg = dijit.byId("preloadTooltipDlg");
-					if(!dlg.isLoaded){
-						var d = new doh.Deferred();
-						dlg.onLoadDeferred.then(function(){ d.callback(); });
-						return d;
+				{
+					name: "preload=true",
+					timeout: 5000,
+					runTest: function(t){
+						var dlg = dijit.byId("preloadTooltipDlg");
+						if(!dlg.isLoaded){
+							var d = new doh.Deferred();
+							dlg.onLoadDeferred.then(
+								function(){ d.callback(true); },
+								function(e){ d.errback(e); }
+							);
+							return d;
+						}
 					}
 				},
 
 				// The preload=false TooltipDialog shouldn't load until opened.
-				function preloadFalse(){
-					// Check that it isn't loaded yet
-					var dlg = dijit.byId("noPreloadTooltipDlg");
-					doh.f(dlg.isLoaded, "didn't load yet");
-
-					// Open the dialog and then return Deferred waiting for it to load.
-					// If it doesn't load then this test will get a timeout.
-					var btn = dijit.byId("noPreloadTooltipDlgBtn");
-					btn.openDropDown();
-					doh.t(dlg.onLoadDeferred, "onLoadDeferred exists");
-					var d = new doh.Deferred();
-					dlg.onLoadDeferred.then(function(){ d.callback(); });
-					return d;
+				{
+					name: "preload=false",
+					timeout: 5000,
+					runTest: function(){
+						// Check that it isn't loaded yet
+						var dlg = dijit.byId("noPreloadTooltipDlg");
+						doh.f(dlg.isLoaded, "didn't load yet");
+	
+						// Open the dialog and then return Deferred waiting for it to load.
+						// If it doesn't load then this test will get a timeout.
+						var btn = dijit.byId("noPreloadTooltipDlgBtn");
+						btn.openDropDown();
+						doh.t(dlg.onLoadDeferred, "onLoadDeferred exists");
+						var d = new doh.Deferred();
+						dlg.onLoadDeferred.then(
+							function(){ d.callback(true); },
+							function(e){ d.errback(e); }
+						);
+						return d;
+					}
 				}
 			]);
 
