@@ -201,7 +201,7 @@ dojo.declare("dijit._HasDropDown",
 					/* false return code means that the drop down handled the key */
 					dojo.stopEvent(e);
 					return;
-			}
+				}
 			}
 			if(d && this._opened && e.charOrCode == dojo.keys.ESCAPE){
 				this.closeDropDown();
@@ -225,8 +225,14 @@ dojo.declare("dijit._HasDropDown",
 			// summary:
 			//		Called magically when focus has shifted away from this widget and it's dropdown
 
-			this.closeDropDown();
-			// don't focus on button.  the user has explicitly focused on something else.
+			// Don't focus on button if the user has explicitly focused on something else (happens
+			// when user clicks another control causing the current popup to close)..
+			// But if focus is inside of the drop down then reset focus to me, because IE doesn't like
+			// it when you display:none a node with focus.
+			var focusMe = dijit._curFocus && this.dropDown && dojo.isDescendant(dijit._curFocus, this.dropDown.domNode);
+
+			this.closeDropDown(focusMe);
+
 			this.inherited(arguments);
 		},
 
@@ -327,8 +333,14 @@ dojo.declare("dijit._HasDropDown",
 					maxHeight = Math.floor(Math.max(position.y, viewport.h - (position.y + position.h)));
 				}
 
+				// Attach dropDown to DOM and make make visibility:hidden rather than display:none
+				// so we call startup() and also get the size
+				if(dropDown.startup && !dropDown._started){
+					dropDown.startup();
+				}
+
+				dijit.popup.moveOffScreen(dropDown);
 				// Get size of drop down, and determine if vertical scroll bar needed
-				dijit.popup.moveOffScreen(dropDown);	// temporarily make visibility:hidden rather than display:none so we get the size
 				var mb = dojo._getMarginSize(ddNode);
 				var overHeight = (maxHeight && mb.h > maxHeight);
 				dojo.style(ddNode, {

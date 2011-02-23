@@ -43,7 +43,7 @@
 	<script type="text/javascript">
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.TooltipDialog");
-		dojo.require("dijit.form.Button");
+		dojo.require("dijit.form.DropDownButton");
 		dojo.require("dijit.form.TextBox");
 		dojo.require("dijit.form.DateTextBox");
 		dojo.require("dijit.form.TimeTextBox");
@@ -52,7 +52,7 @@
 		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.InlineEditBox");
 		dojo.require("dijit.Menu");
-		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+		dojo.require("dojo.parser");
 
 		// make dojo.toJson() print dates correctly (this feels a bit dirty)
 		Date.prototype.json = function(){ return dojo.date.stamp.toISOString(this, {selector: 'date'});};
@@ -64,7 +64,46 @@
 				templateString: "<div style='margin: 10px; border: inset #700 4px; padding: 5px;' dojoAttachPoint='containerNode'></div>"
 			});
 
+			// scan page for widgets and instantiate them
 			dojo.parser.parse();
+
+			// Nested TooltipDialog that contains a nested Menu
+			var innerTtDialog = new dijit.TooltipDialog({
+				id: "innerTtDialog",
+				content:
+					'<div dojoType="dijit.Menu" id="navMenu"><div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCut" >Drama</div><div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCopy" >Comedy</div><div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconPaste" >Romance</div><div dojoType="dijit.MenuSeparator"></div><div dojoType="dijit.PopupMenuItem" id="popupMenuItem"><span>Action</span><div dojoType="dijit.Menu" id="submenu"><div dojoType="dijit.MenuItem">Diehard</div><div dojoType="dijit.MenuItem">Indiana Jones</div></div></div></div>'
+					+ '<label for="name">Name:</label> <input dojoType="dijit.form.TextBox" id="name" name="name"><br>' 
+					+ '<label for="hobby">Hobby:</label> <input dojoType="dijit.form.TextBox" id="hobby" name="hobby"><br>' 
+					+ '<button dojoType="dijit.form.Button" type="button">Save</button>'
+					+ '<div id="plaintext">plain text</div>'
+			 });
+
+			var innerDdBtn = new dijit.form.DropDownButton({
+				id: "innerDdBtn",
+				label: "Inner TooltipDialog (innerTtDialog)",
+				dropDown: innerTtDialog
+			});
+
+			var ddDialogCp = new dijit.layout.ContentPane({
+				id: "ddDialogCp",
+				title: '',
+				refreshOnShow: true
+			});
+			ddDialogCp.startup();
+			ddDialogCp.set("content", innerDdBtn);
+
+			var outerTtDialog = new dijit.TooltipDialog({
+			   id: "outerTtDialog",
+			   content:ddDialogCp
+			});
+
+			var launcherBtn = new dijit.form.DropDownButton({
+				id: "outerDdBtn",
+				label: "Nested TooltipDialog (ttDialog)",
+				dropDown: outerTtDialog
+			});
+
+			dojo.byId("dropdownButtonContainer").appendChild(launcherBtn.domNode);
 		});
 	</script>
 </head>
@@ -182,6 +221,9 @@
 	</div>
 </div>
 
+	<span id="dropdownButtonContainer">
+		<!-- programatically created nested TooltipDialog will be placed here -->
+	</span>
 
 	<p><b><i>(scroll down to see more links to click, for testing positioning / scroll handling)</i></b></p>
 

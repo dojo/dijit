@@ -320,15 +320,24 @@ dojo.declare("dijit._MenuBase",
 		// tags:
 		//		private
 		this._stopPopupTimer();
+
+		var fromItem = this.focusedChild && this.focusedChild.from_item;
+
+		if(this.currentPopup){
+			// If focus is on my child menu then move focus to me,
+			// because IE doesn't like it when you display:none a node with focus
+			if(dijit._curFocus && dojo.isDescendant(dijit._curFocus, this.currentPopup.domNode)){
+				this.focusedChild.focusNode.focus();
+			}
+			// Close all popups that are open and descendants of this menu
+			dijit.popup.close(this.currentPopup);
+			this.currentPopup = null;
+		}
+
 		if(this.focusedChild){ // unhighlight the focused item
 			this.focusedChild._setSelected(false);
 			this.focusedChild._onUnhover();
 			this.focusedChild = null;
-		}
-		if(this.currentPopup){
-			// Close all popups that are open and descendants of this menu
-			dijit.popup.close(this.currentPopup);
-			this.currentPopup = null;
 		}
 	},
 
