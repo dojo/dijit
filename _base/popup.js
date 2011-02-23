@@ -389,37 +389,5 @@ dojo.extend(dijit.BackgroundIframe, {
 	}
 });
 
-
-// Resizing browser window displaces the popup from the around node, and perhaps
-// even moves the around node off the screen.  Can either close the drop down, or reposition it.
-// Unclear which action is better -- repositioning seems better except for the problem
-// when the around node is moved off the screen -- but for now I just close the
-// drop down.   Repositioning would be difficult to implement because widgets like
-// ComboBox have special code for sizing the drop down depending on available real estate.
-(function(){
-	var oldSize = {};
-	dojo.addOnLoad(function(){
-		oldSize = dojo.window.getBox();
-});
-	dojo.connect(window, "onresize", function(){
-		var newSize = dojo.window.getBox();
-		// if() guards against spurious IE resize events
-		if(newSize.h != oldSize.h || newSize.w != oldSize.w){
-			oldSize = newSize;
-			dijit.popup.close();
-		}
-	});
-})();
-
-// On mousewheel, close open popups since the popup might go off screen or be separated from the aroundNode.
-// However, if the mousewheel is turned while the mouse is over the popup, it might just
-// be scrolling the popup itself, so err on the side of caution and don't scroll in that case.
-dojo.connect(document, dojo.isMozilla ? "DOMMouseScroll" : "onmousewheel", function(e){
-	var s = dijit.popup._stack;
-	while(s.length && !dojo.isDescendant(e.target, s[s.length-1].widget.domNode)){
-		dijit.popup.close(s[s.length-1].widget);
-	}
-});
-
 return dijit.popup;
 });
