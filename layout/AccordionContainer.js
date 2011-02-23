@@ -261,14 +261,14 @@ dojo.declare(
 
 				this._animation = new dojo.Animation({
 					node: newContents,
-						duration: this.duration,
+					duration: this.duration,
 					curve: [1, this._verticalSpace - animationHeightOverhead - 1],
 					onAnimate: function(value){
 						value = Math.floor(value);	// avoid fractional values
 						newContents.style.height = value + "px";
 						oldContents.style.height = (self._verticalSpace - animationHeightOverhead - value) + "px";
-						},
-						onEnd: function(){
+					},
+					onEnd: function(){
 						delete self._animation;
 						newContents.style.height = "auto";
 						oldWidget._wrapperWidget.containerNode.style.display = "none";
