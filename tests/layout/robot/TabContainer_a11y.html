@@ -105,10 +105,6 @@
 						runTest: function(t){
 								var d = new doh.Deferred();
 								
-								doh.robot.sequence(function(){
-									dojo.byId("inlined_tablist_tab2href").focus();
-								}, 500, 500);
-								
 								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
 								doh.robot.keyPress(dojo.keys.TAB, 750, {shift:true});
 								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
@@ -126,10 +122,6 @@
 						runTest: function(t){
 								var d = new doh.Deferred();
 								
-								doh.robot.sequence(function(){
-									dojo.byId("mainTabContainer_tablist_tab3href").focus();
-								}, 500, 500);
-								
 								doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
 								doh.robot.keyPress(dojo.keys.TAB, 750, {});	// give IE8 time to complete slide animation
 								
@@ -140,7 +132,10 @@
 								
 								return d;
 						}
-					},
+					}
+				]);
+
+				doh.register("HOME/END keys",[
 					{
 						name: "test HOME/END keys",
 						timeout: 10000,
