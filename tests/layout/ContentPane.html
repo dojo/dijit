@@ -419,7 +419,19 @@
 				}
 			]);
 
-			// Test that startup() on child widgets is called at the correct time
+			// Test that startup() on child widgets and plain JS objects is called at the correct time
+
+			var nwStartupCalls = 0;
+			dojo.declare("NonWidget", null, {
+				// summary: doesn't extend _Widget, used to test that startup() is still called
+				startup: function(){
+					if(!this._started){
+						nwStartupCalls++;
+						this._started = true;
+					}
+				}
+			});
+
 			doh.register("startup", [
 				function startupAfter(){
 					var cp1 = new dijit.layout.ContentPane({
@@ -442,6 +454,16 @@
 					var child = dijit.byId("startup-c2");
 					doh.t(child, "child widget created");
 					doh.t(child._started, "child widget started");
+				},
+
+				function nonWidget(){
+					// even non-widgets inside of ContentPane (like dojo.dnd.Source) should have
+					// startup called on them
+					dojo.parser.parse(dojo.byId("nonWidgetTest"));
+					doh.t(1, nwStartupCalls, "startup() on non-widgets called on parse");
+
+					nwp.set("content", "<div><div data-dojo-type='NonWidget' data-dojo-id='nw2'></div></div>");
+					doh.t(2, nwStartupCalls, "startup() called on non-widgets via set(content, ...)");
 				}
 			]);
 
@@ -487,5 +509,13 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- for testing non-widgets inside of a content pane -->
+	<div id="nonWidgetTest">
+		<div id="nonWidgetPane" data-dojo-type="dijit.layout.ContentPane" data-dojo-id="nwp">
+			<div data-dojo-type="NonWidget" data-dojo-id="nw1"></div>
+		</div>
+	</div>
+
 </body>
 </html>

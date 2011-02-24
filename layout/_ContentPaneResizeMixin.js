@@ -17,6 +17,26 @@ dojo.declare("dijit.layout._ContentPaneResizeMixin", null, {
 	//		when they become visible.
 	isLayoutContainer: true,
 
+	_startChildren: function(){
+		// summary:
+		//		Call startup() on all children including non _Widget ones like dojo.dnd.Source objects
+
+		// This starts all the widgets
+		dojo.forEach(this.getChildren(), function(child){
+			child.startup();
+		});
+
+		// And this catches stuff like dojo.dnd.Source
+		if(this._contentSetter){
+			dojo.forEach(this._contentSetter.parseResults, function(obj){
+				if(!obj._started && dojo.isFunction(obj.startup)){
+					obj.startup();
+					obj._started = true;
+				}
+			}, this);
+		}
+	},
+
 	startup: function(){
 		// summary:
 		//		See `dijit.layout._LayoutWidget.startup` for description.
@@ -32,9 +52,7 @@ dojo.declare("dijit.layout._ContentPaneResizeMixin", null, {
 		// I'm the child of a layout widget in which case my parent will call resize() on me and I'll do it then.
 		this._needLayout = !this._childOfLayoutWidget;
 
-		dojo.forEach(this.getChildren(), function(child){
-			child.startup();
-		});
+		this._startChildren();
 
 		this.inherited(arguments);
 	},

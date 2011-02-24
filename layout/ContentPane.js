@@ -544,9 +544,7 @@ dojo.declare(
 		if(!isFakeContent){
 			if(this._started){
 				// Startup each top level child widget (and they will start their children, recursively)
-				dojo.forEach(this.getChildren(), function(child){
-					child.startup();
-				}, this);
+				this._startChildren();
 	
 				// Call resize() on each of my child layout widgets,
 				// or resize() on my single child layout widget...
