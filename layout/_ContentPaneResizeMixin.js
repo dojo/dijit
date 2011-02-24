@@ -24,6 +24,7 @@ dojo.declare("dijit.layout._ContentPaneResizeMixin", null, {
 		// This starts all the widgets
 		dojo.forEach(this.getChildren(), function(child){
 			child.startup();
+			child._started = true;
 		});
 
 		// And this catches stuff like dojo.dnd.Source
