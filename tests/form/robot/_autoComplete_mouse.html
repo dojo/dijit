@@ -78,22 +78,14 @@
 						doh.robot.mouseClick({left:true}, 500);
 
 						doh.robot.sequence(d.getTestCallback(function(){
-							doh.t(isVisible(combo.dropDown.domNode), "list is visible");
+							var list = combo.dropDown.domNode,
+								entries = dojo.query("li", list).filter(isVisible);
+							doh.t(isVisible(list), "list is visible");
+							doh.is(31, entries.length, "30 elements plus next button");
+							doh.is("California (CA)", combo.focusNode.value, "displayed value hasn't changed");
 						}), 1500, 100);
 
 						return d;
-					}
-				},
-
-				{
-					timeout:6000,
-					name:"count entries",
-					runTest:function(){
-						combo = dijit.byId("setvaluetest");
-
-						var list = combo.dropDown.domNode,
-							entries = dojo.query("li", list).filter(isVisible);
-						doh.is(31, entries.length, "30 elements plus next button");
 					}
 				},
 
@@ -114,7 +106,8 @@
 
 						doh.robot.sequence(d.getTestCallback(function(){
 							var entries = dojo.query("li", list).filter(isVisible);
-								doh.is("Minnesota (MN)", innerText(entries[1]));
+							doh.is("Minnesota (MN)", innerText(entries[1]), "first entry on second page of drop down");
+							doh.is("California (CA)", combo.focusNode.value, "displayed value hasn't changed");
 						}), 1500, 1000);
 
 						return d;
@@ -135,8 +128,8 @@
 						doh.robot.sequence(d.getTestCallback(function(){
 							var list = combo.dropDown.domNode,
 								entries = dojo.query("li", list).filter(isVisible);
-								doh.is(2, entries.length, "previous choices + wyoming");
-								doh.is("Wyoming (WY)", innerText(entries[1]));
+							doh.is(2, entries.length, "previous choices + wyoming");
+							doh.is("Wyoming (WY)", innerText(entries[1]));
 						}), 1500, 1000);
 
 						return d;
@@ -157,9 +150,10 @@
 						doh.robot.sequence(d.getTestCallback(function(){
 							var list = combo.dropDown.domNode,
 								entries = dojo.query("li", list);
-								doh.is(32, entries.length, "30 states, plus next and previous button");
-								doh.is("Minnesota (MN)", innerText(entries[1]));
-								doh.is("Wisconsin (WI)", innerText(entries[30]));
+							doh.is(32, entries.length, "30 states, plus next and previous button");
+							doh.is("Minnesota (MN)", innerText(entries[1]));
+							doh.is("Wisconsin (WI)", innerText(entries[30]));
+							doh.is("California (CA)", combo.focusNode.value, "displayed value hasn't changed");
 						}), 1500, 1000);
 
 						return d;
@@ -212,6 +206,71 @@
 						}), 1000, 500);
 
 						return d;
+					}
+				}
+			]);
+
+			// Test clicking more choices / previous choices buttons doesn't affect value in <input> area
+			doh.register("auto-complete", [
+				{
+					timeout:10000,
+					name:"open drop down",
+					setUp: function(){
+						combo = dijit.byId("datatest");
+						pageSize = combo.get('pageSize');
+						combo.set('pageSize', 1);
+						combo.set('displayedValue', null, false);
+					},
+					runTest: function(){
+						var d = new doh.Deferred();
+						handle = dojo.connect(combo, "openDropDown", function(){
+							setTimeout(d.getTestCallback(function(){
+								var list = combo.dropDown.domNode;
+								doh.t(list && isVisible(list), "drop down is visible");
+	
+								// Clicking "more choices" shouldn't change value in ComboBox
+								doh.is('Alabama', combo.focusNode.value, "focus value");
+								if(!isComboBox){
+									doh.t(combo.isValid(true), "FilteringSelect should be valid");
+								}
+							}), 0);
+						});
+
+						doh.robot.mouseMoveAt(combo.focusNode, 500, 0);
+						doh.robot.mouseClick({left:true}, 500);
+
+						doh.robot.typeKeys("a", 1500); // will open dropdown
+
+						return d;
+					},
+					tearDown: function(){
+						dojo.disconnect(handle);
+					}
+				},
+				{
+					timeout:10000,
+					name:"click more choices",
+					runTest: function(){
+						var d = new doh.Deferred();
+						handle = dojo.connect(combo, "openDropDown", function(){
+							setTimeout(d.getTestCallback(function(){
+								var list = combo.dropDown.domNode;
+								doh.t(list && isVisible(list), "drop down is visible");
+								doh.is(findMenuItem(combo, "Alaska"), combo.dropDown.getHighlightedOption(), "Alaska is highlighted");
+	
+								doh.t(combo._focused, "widget is focused");
+							}), 0);
+						});
+
+						doh.robot.mouseMoveAt(combo.dropDown.nextButton, 1000, 0); // move to More choices
+						doh.robot.mouseClick({left:true}, 1000);	// will display new drop down
+					
+						return d;
+					},
+					tearDown: function(){
+						dojo.disconnect(handle);
+						combo.set('pageSize', pageSize);
+						combo.closeDropDown();
 					}
 				}
 			]);
@@ -413,93 +472,6 @@
 						return d;
 					},
 					tearDown: function(){
-						combo.closeDropDown();
-					}
-				}
-			]);
-
-			// Test more choices
-			doh.register("Select More choices", [
-				{
-					timeout:10000,
-					name:"no auto-complete",
-					setUp: function(){
-						combo = dijit.byId("setvaluetest");
-						pageSize = combo.get('pageSize');
-						combo.set('pageSize', 1);
-						combo.set('displayedValue', null, false);
-					},
-					runTest: function(){
-						var d = new doh.Deferred();
-
-						doh.robot.mouseMoveAt(combo.focusNode, 500, 500);
-						doh.robot.mouseClick({left:true}, 500);
-
-						doh.robot.typeKeys("a", 1000, 300); // open dropdown
-
-						doh.robot.mouseMoveAt(function(){ return combo.dropDown.nextButton }, 500, 0); // move to More choices
-						doh.robot.mouseClick({left:true}, 500);
-
-						doh.robot.sequence(d.getTestCallback(function(){
-							// Check that drop down list has not disappeared
-							var list = combo.dropDown.domNode;
-							doh.t(list && isVisible(list), "drop down is visible");
-							doh.is(combo.dropDown.getHighlightedOption(), findMenuItem(combo, "Alaska"), "Alaska is selected");
-
-							doh.t(combo._focused, "widget is focused");
-
-							doh.is('a', combo.focusNode.value); // have not used down arrow yet to change the selection
-							if(!isComboBox){
-								doh.f(combo.isValid(true), "FilteringSelect should be invalid");
-							}
-						}), 1500, 500);
-
-						return d;
-					},
-					tearDown: function(){
-						combo.set('pageSize', pageSize);
-						combo.closeDropDown();
-					}
-				},
-				{
-					timeout:10000,
-					name:"auto-complete",
-					setUp: function(){
-						combo = dijit.byId("datatest");
-						pageSize = combo.get('pageSize');
-						combo.set('pageSize', 1);
-						combo.set('displayedValue', null, false);
-					},
-					runTest: function(){
-						var d = new doh.Deferred();
-
-						doh.robot.mouseMoveAt(combo.focusNode, 500, 0);
-						doh.robot.mouseClick({left:true}, 500);
-
-						doh.robot.typeKeys("a", 1500); // open dropdown
-
-						doh.robot.mouseMoveAt(function(){ return combo.dropDown.nextButton }, 1000, 0); // move to More choices
-						doh.robot.mouseClick({left:true}, 1000);
-
-						doh.robot.sequence(d.getTestCallback(function(){
-							// Check that drop down list has disappeared
-							var list = combo.dropDown.domNode;
-							doh.t(list && isVisible(list), "drop down is visible");
-							doh.is(combo.dropDown.getHighlightedOption(), findMenuItem(combo, "Alaska"), "Alaska is selected");
-
-							doh.t(combo._focused, "widget is focused");
-
-							// Since the user down arrowed thru the choices, the value should be the current selection
-							doh.is('Alabama', combo.focusNode.value);
-							if(!isComboBox){
-								doh.t(combo.isValid(true), "FilteringSelect should be valid");
-							}
-						}), 1500, 500);
-
-						return d;
-					},
-					tearDown: function(){
-						combo.set('pageSize', pageSize);
 						combo.closeDropDown();
 					}
 				}
