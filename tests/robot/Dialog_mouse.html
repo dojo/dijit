@@ -29,14 +29,18 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
+							var oldOnClick = dijit.byId("dialog1button").onClick;
+							dijit.byId("dialog1button").onClick = function(){
+								dijit.byId("dialog1").show().then(d.getTestCallback(function(){
+									doh.t(isVisible("dialog1"), "dialog 1 has been made visible");
+									doh.is("name", dojo.global.dijit._curFocus.id, "focus is on the first field");
+								}));
+								dijit.byId("dialog1button").onClick = oldOnClick;
+							};
+
 							// Open the dialog
 							doh.robot.mouseMoveAt("dialog1button", 1000);
 							doh.robot.mouseClick({left: true}, 1000);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								doh.t(isVisible("dialog1"), "dialog 1 has been made visible");
-								doh.is("name", dojo.global.dijit._curFocus.id, "focus is on the first field");
-							}), 1000);
 
 							return d;
 						}
@@ -66,14 +70,17 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("date", 500);
-							doh.robot.mouseClick({left: true}, 1000);
+							onFocus(function(){
+								// Focus might first go to input, then to calendar, so wait for that
+								setTimeout(d.getTestCallback(function(){
+									var calDomNode = dojo.query(".dijitCalendarContainer");
+									doh.t(calDomNode.length == 1 && isVisible(calDomNode[0]), "calendar is being shown");
+									doh.t(dojo.isDescendant(dojo.global.dijit._curFocus, calDomNode[0]), "focus is on the calendar ");
+								}), 500);
+							});
 
-							doh.robot.sequence(d.getTestCallback(function(){
-								var calDomNode = dojo.query(".dijitCalendarContainer");
-								doh.t(calDomNode.length == 1 && isVisible(calDomNode[0]), "calendar is being shown");
-								doh.t(dojo.isDescendant(dojo.global.dijit._curFocus, calDomNode[0]), "focus is on the calendar");
-							}), 1000);
+							doh.robot.mouseMoveAt(function(){ return dojo.query(".dijitArrowButton", dijit.byId("date").domNode)[0]; }, 500);
+							doh.robot.mouseClick({left: true}, 1000);
 
 							return d;
 						}
@@ -104,14 +111,14 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
+							onFocus(d.getTestCallback(function(node){
+								doh.t(isHidden("dialog1"), "dialog 1 was closed");
+								doh.is("dialog1button", node.id, "focus returned to button");
+							}));
+
 							var button = dojo.query("#dialog1 .dijitDialogCloseIcon")[0];
 							doh.robot.mouseMoveAt(button, 500);
 							doh.robot.mouseClick({left: true}, 1000);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								doh.t(isHidden("dialog1"), "dialog 1 was closed");
-								doh.is("dialog1button", dojo.global.dijit._curFocus.id, "focus returned to button");
-							}), 1000);
 
 							return d;
 						}
@@ -146,7 +153,6 @@
 							doh.robot.mouseMoveAt("loc", 500, 1);
 							doh.robot.mouseClick({left: true}, 500);
 							doh.robot.typeKeys("America", 500, 1400);
-
 
 							// Submit
 							doh.robot.mouseMoveAt("ok", 500, 1);
