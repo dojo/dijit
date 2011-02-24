@@ -23,19 +23,7 @@
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_Tree_DnD.html');
 
-				doh.register("setup", {
-					name: "setup",
-					timeout: 20000,
-					runTest: function(){
-						var d = new doh.Deferred();
-						setup();
-						// FIXME: wait until tree data is ready
-						doh.robot.sequence(function(){
-							d.callback(true);
-						},5000);
-						return d;
-					}
-				});
+				setup();
 
 				// Dragging from an external source and dropping onto the Tree,
 				// creating a duplicate of the dragged item
@@ -170,7 +158,9 @@
 
 							// Drag 'Cereals' and drop near top edge of 'Vegetables'.
 							// It should become Vegetables' prior-sibling
-							doh.robot.mouseMoveAt(cerealsTreeNode.domNode, 500, 1);
+							// Note: if mousemove duration is too small itemTree doesn't get onmouseout event on IE6/7,
+							// causing subsequent JS exceptions
+							doh.robot.mouseMoveAt(cerealsTreeNode.domNode, 500, 100);
 							doh.robot.mousePress({left: true}, 500);
 							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 500, 1000, 50, 3);
 							doh.robot.mouseRelease({left: true}, 500);

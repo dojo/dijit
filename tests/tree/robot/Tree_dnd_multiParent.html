@@ -23,27 +23,7 @@
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_Tree_DnD.html');
 
-				dojo.forEach(["collectionsTree", "itemTree"], function(id){
-					doh.register("setup " + id, {
-						name: id,
-						timeout: 10000,
-						runTest: function(){
-							var
-								tree = dijit.byId(id),
-								d, handler;
-							if(!tree.rootNode){
-								d = new doh.Deferred();
-								handler = tree.connect(tree, "onLoad",
-									function(){
-										tree.disconnect(handler);
-										d.callback(true);
-									}
-								);
-								return d;
-							}
-						}
-					});
-				});
+				setup();
 
 				doh.register("multi-parent tests", [
 					{
@@ -122,13 +102,14 @@
 								cerealsTreeNode = findTreeNodeByPath("itemTree", ["Cereals"]);
 
 							dojo.global.scrollTo(0, 9000); // scroll to bottom to try and prevent the DnD code from autoscrolling
+
 							// Drag and Drop
 							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 500, 1);
 							doh.robot.mouseClick({left: true}, 500); // helps prevent screen jitter
 							doh.robot.mousePress({left: true}, 1000);
 							doh.robot.mouseMoveAt(vegetablesTreeNode.labelNode, 500, 500, 0, 0); // move mouse slightly to trigger DnD
-							doh.robot.mouseMoveAt(cerealsTreeNode.domNode, 500, 1); // double move to allow for autoscrolling jitter
-							doh.robot.mouseMoveAt(cerealsTreeNode.domNode, 500, 1);
+							doh.robot.mouseMoveAt(cerealsTreeNode.domNode, 500, 100); // double move to allow for autoscrolling jitter
+							doh.robot.mouseMoveAt(cerealsTreeNode.domNode, 500, 100);
 							doh.robot.mouseRelease({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){

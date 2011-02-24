@@ -3,16 +3,44 @@
  */
 
 function setup(){
-	// Disable auto-scrolling because otherwise the viewport scrolls as doh.robot.mouseMoveAt()
-	// moves the mouse, literally making the the drop target a moving target
-	// (and mouseMoveAt() doesn't take this possibility into account).
-	dojo.global.dojo.dnd.autoScrollNodes = function(){};
+	doh.register("setup screen", function(){		
+		// Hide boilerplate text so it's easier to drag on small screen
+		dojo.query("h1,h2,p").style("display", "none");
+	
+		// Disable auto-scrolling because otherwise the viewport scrolls as doh.robot.mouseMoveAt()
+		// moves the mouse, literally making the the drop target a moving target
+		// (and mouseMoveAt() doesn't take this possibility into account).
+		dojo.global.dojo.dnd.autoScrollNodes = function(){};
+	
+		// Scroll viewport to (try to) make sure that both tree and drag-source
+		// are simultaneously in view.
+		var scroll = dojo.position("1001").y;
+		dojo.body().parentNode.scrollTop = scroll;	// works on FF
+		dojo.body().scrollTop = scroll;	// works on safari
+	});
 
-	// Scroll viewport to (try to) make sure that both tree and drag-source
-	// are simultaneously in view.
-	var scroll = dojo.position("1001").y;
-	dojo.body().parentNode.scrollTop = scroll;	// works on FF
-	dojo.body().scrollTop = scroll;	// works on safari
+	// Wait for trees to load
+	doh.register("wait for load", dojo.map(["collectionsTree", "itemTree"], function(id){
+		return {
+			name: id,
+			timeout: 10000,
+			runTest: function(){
+				var
+					tree = dijit.byId(id),
+					d, handler;
+				if(!tree.rootNode){
+					d = new doh.Deferred();
+					handler = tree.connect(tree, "onLoad",
+						function(){
+							tree.disconnect(handler);
+							d.callback(true);
+						}
+					);
+					return d;
+				}
+			}
+		};
+	}));
 }
 
 function findTreeNode(/*String*/ treeId, /*String*/ label){
