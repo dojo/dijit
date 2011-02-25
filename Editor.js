@@ -1,4 +1,4 @@
-define("dijit/Editor", ["dojo", "dijit", "dijit/_editor/RichText", "dijit/Toolbar", "dijit/ToolbarSeparator", "dijit/_editor/_Plugin", "dijit/_editor/plugins/EnterKeyHandling", "dijit/_editor/range", "dijit/_Container", "dojo/i18n", "dijit/layout/_LayoutWidget", "dijit/_editor/range", "i18n!dijit/_editor/nls/commands"], function(dojo, dijit) {
+define("dijit/Editor", ["dojo", "dijit", "dijit/_editor/RichText", "dijit/Toolbar", "dijit/ToolbarSeparator", "dijit/_editor/_Plugin", "dijit/_editor/plugins/EnterKeyHandling", "dijit/_editor/range", "dijit/_Container", "dojo/i18n", "dijit/layout/_LayoutWidget", "i18n!dijit/_editor/nls/commands"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.Editor",
