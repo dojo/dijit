@@ -30,7 +30,7 @@ dojo.declare("dijit.layout._ContentPaneResizeMixin", null, {
 		// And this catches stuff like dojo.dnd.Source
 		if(this._contentSetter){
 			dojo.forEach(this._contentSetter.parseResults, function(obj){
-				if(!obj._started && dojo.isFunction(obj.startup)){
+				if(!obj._started && !obj._destroyed && dojo.isFunction(obj.startup)){
 					obj.startup();
 					obj._started = true;
 				}
