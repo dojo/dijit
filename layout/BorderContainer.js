@@ -90,7 +90,7 @@ dojo.declare(
 			// Create draggable splitter for resizing pane,
 			// or alternately if splitter=false but BorderContainer.gutters=true then
 			// insert dummy div just for spacing
-			if((child.splitter || this.gutters) && !child._splitterWidget){
+			if(region != "center" && (child.splitter || this.gutters) && !child._splitterWidget){
 				var _Splitter = dojo.getObject(child.splitter ? this._splitterClass : "dijit.layout._Gutter");
 				var splitter = new _Splitter({
 					id: child.id + "_splitter",
