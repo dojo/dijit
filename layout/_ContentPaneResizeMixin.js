@@ -17,27 +17,6 @@ dojo.declare("dijit.layout._ContentPaneResizeMixin", null, {
 	//		when they become visible.
 	isLayoutContainer: true,
 
-	_startChildren: function(){
-		// summary:
-		//		Call startup() on all children including non _Widget ones like dojo.dnd.Source objects
-
-		// This starts all the widgets
-		dojo.forEach(this.getChildren(), function(child){
-			child.startup();
-			child._started = true;
-		});
-
-		// And this catches stuff like dojo.dnd.Source
-		if(this._contentSetter){
-			dojo.forEach(this._contentSetter.parseResults, function(obj){
-				if(!obj._started && !obj._destroyed && dojo.isFunction(obj.startup)){
-					obj.startup();
-					obj._started = true;
-				}
-			}, this);
-		}
-	},
-
 	startup: function(){
 		// summary:
 		//		See `dijit.layout._LayoutWidget.startup` for description.
@@ -52,8 +31,6 @@ dojo.declare("dijit.layout._ContentPaneResizeMixin", null, {
 		// I need to call resize() on my child/children (when I become visible), unless
 		// I'm the child of a layout widget in which case my parent will call resize() on me and I'll do it then.
 		this._needLayout = !this._childOfLayoutWidget;
-
-		this._startChildren();
 
 		this.inherited(arguments);
 	},
