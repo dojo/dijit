@@ -446,10 +446,6 @@ DIV.dijitArrowButton {
 	cursor: default;
 }
 
-.dijitNumberTextBox INPUT.dijitInputInner, .dijitCurrencyTextBox INPUT.dijitInputInner, .dijitSpinner INPUT.dijitInputInner {
-	text-align: right;	/* so ones, tens, hundreds, thousands etc. line up */
-}
-
 /* ComboBox & Spinner */
 
 .dijitSpinner .dijitSpinnerButtonContainer,
