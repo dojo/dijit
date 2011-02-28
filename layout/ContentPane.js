@@ -97,12 +97,6 @@ dojo.declare(
 	// |	<div dojoType="dijit.layout.ContentPane" href="./bar" ioArgs="{timeout: 500}">
 	ioArgs: {},
 
-	// isContainer: [protected] Boolean
-	//		Indicates that this widget acts as a "parent" to the descendant widgets.
-	//		When the parent is started it will call startup() on the child widgets.
-	//		See also `isLayoutContainer`.
-	isContainer: true,
-
 	// onLoadDeferred: [readonly] dojo.Deferred
 	//		This is the `dojo.Deferred` returned by set('href', ...) and refresh().
 	//		Calling onLoadDeferred.addCallback() or addErrback() registers your
@@ -174,10 +168,7 @@ dojo.declare(
 		//		Call startup() on all children including non _Widget ones like dojo.dnd.Source objects
 
 		// This starts all the widgets
-		dojo.forEach(this.getChildren(), function(child){
-			child.startup();
-			child._started = true;
-		});
+		this.inherited(arguments);
 
 		// And this catches stuff like dojo.dnd.Source
 		if(this._contentSetter){
@@ -197,8 +188,6 @@ dojo.declare(
 		//		the same API.
 
 		if(this._started){ return; }
-
-		this._startChildren();
 
 		this.inherited(arguments);
 

@@ -5,6 +5,9 @@ dojo.declare("dijit.layout._ContentPaneResizeMixin", null, {
 	//		Resize() functionality of ContentPane.   If there's a single layout widget
 	//		child then it will call resize() with the same dimensions as the ContentPane.
 	//		Otherwise just calls resize on each child.
+	//
+	//		Also implements basic startup() functionality, where starting the parent
+	//		will start the children
 
 	// doLayout: Boolean
 	//		- false - don't adjust size of children
@@ -12,10 +15,27 @@ dojo.declare("dijit.layout._ContentPaneResizeMixin", null, {
 	//				however big the ContentPane is
 	doLayout: true,
 
+	// isContainer: [protected] Boolean
+	//		Indicates that this widget acts as a "parent" to the descendant widgets.
+	//		When the parent is started it will call startup() on the child widgets.
+	//		See also `isLayoutContainer`.
+	isContainer: true,
+
 	// isLayoutContainer: [protected] Boolean
 	//		Indicates that this widget will call resize() on it's child widgets
 	//		when they become visible.
 	isLayoutContainer: true,
+
+	_startChildren: function(){
+		// summary:
+		//		Call startup() on all children including non _Widget ones like dojo.dnd.Source objects
+
+		// This starts all the widgets
+		dojo.forEach(this.getChildren(), function(child){
+			child.startup();
+			child._started = true;
+		});
+	},
 
 	startup: function(){
 		// summary:
@@ -33,6 +53,8 @@ dojo.declare("dijit.layout._ContentPaneResizeMixin", null, {
 		this._needLayout = !this._childOfLayoutWidget;
 
 		this.inherited(arguments);
+
+		this._startChildren();
 	},
 
 	_checkIfSingleChild: function(){
