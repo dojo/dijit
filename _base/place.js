@@ -14,7 +14,7 @@ dijit.__Position = function(){
 	// y: Integer
 	//		vertical coordinate in pixels, relative to document body
 
-	thix.x = x;
+	this.x = x;
 	this.y = y;
 }
 =====*/
