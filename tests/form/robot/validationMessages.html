@@ -13,9 +13,11 @@
 
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../dojo/dojo.js"
-			data-dojo-config="isDebug: true, parseOnLoad: true"></script>
+			data-dojo-config="isDebug: true"></script>
 
 		<script type="text/javascript">
+			dojo.require("dojo.parser");
+
 			dojo.require("dijit.form.NumberTextBox");
 			dojo.require("dijit.robot");
 
@@ -34,19 +36,24 @@
 					});
 			}
 
+			doh.register("parse", function parse(){
+				dojo.parser.parse();
+			});
+
 			dojo.forEach([false, true], function(rangeBound){
 				dojo.forEach([false, true], function(required){
 					dojo.forEach(["", "p"], function(promptMessage){
 						dojo.forEach(["", "i"], function(invalidMessage){
 							dojo.forEach(["", "m"], function(missingMessage){
 								var name = "t" + (rangeBound?1:0) + (required?1:0) + (promptMessage?1:0) + (invalidMessage?1:0) + (missingMessage?1:0);
-								var textbox = dijit.byId(name);
+								var textbox;
 
 								doh.register(name, [
 								{
 									name: name + " first focus, empty value",
 									timeout: 5000,
 									setUp:function(){
+										textbox = dijit.byId(name);
 										textbox.focusNode.scrollIntoView();
 									},
 									runTest: function(){
