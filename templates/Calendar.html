@@ -16,13 +16,11 @@
 			</th>
 		</tr>
 		<tr>
-			<th class="dijitReset dijitCalendarDayLabelTemplate" role="columnheader"><span class="dijitCalendarDayLabel"></span></th>
+			${!dayCellsHtml}
 		</tr>
 	</thead>
 	<tbody dojoAttachEvent="onclick: _onDayClick, onmouseover: _onDayMouseOver, onmouseout: _onDayMouseOut, onmousedown: _onDayMouseDown, onmouseup: _onDayMouseUp" class="dijitReset dijitCalendarBodyContainer">
-		<tr class="dijitReset dijitCalendarWeekTemplate" role="row">
-			<td class="dijitReset dijitCalendarDateTemplate" role="gridcell"><span class="dijitCalendarDateLabel"></span></td>
-		</tr>
+			${!dateRowsHtml}
 	</tbody>
 	<tfoot class="dijitReset dijitCalendarYearContainer">
 		<tr>

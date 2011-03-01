@@ -1,4 +1,4 @@
-define("dijit/Calendar", ["dojo", "dijit", "text!dijit/templates/Calendar.html", "dojo/cldr/supplemental", "dojo/date", "dojo/date/locale", "dijit/_Widget", "dijit/_Templated", "dijit/_CssStateMixin", "dijit/form/DropDownButton"], function(dojo, dijit) {
+define("dijit/Calendar", ["dojo", "dijit", "text!dijit/templates/Calendar.html", "dojo/string", "dojo/cldr/supplemental", "dojo/date", "dojo/date/locale", "dijit/_Widget", "dijit/_Templated", "dijit/_CssStateMixin", "dijit/form/DropDownButton"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.Calendar",
@@ -22,8 +22,16 @@ dojo.declare(
 		// example:
 		//	|	<div dojoType="dijit.Calendar"></div>
 
+		// Template for main calendar
 		templateString: dojo.cache("dijit", "templates/Calendar.html"),
 		widgetsInTemplate: true,
+
+		// Template for cell for a day of the week (ex: M)
+		dowTemplateString: '<th class="dijitReset dijitCalendarDayLabelTemplate" role="columnheader"><span class="dijitCalendarDayLabel">${d}</span></th>',
+
+		// Templates for a single date (ex: 13), and for a row for a week (ex: 20 21 22 23 24 25 26)
+		dateTemplateString: '<td class="dijitReset" role="gridcell" dojoAttachPoint="dateCells"><span class="dijitCalendarDateLabel" dojoAttachPoint="dateLabels"></span></td>',
+		weekTemplateString: '<tr class="dijitReset dijitCalendarWeekTemplate" role="row">${d}${d}${d}${d}${d}${d}${d}</tr>',
 
 		// value: Date
 		//		The currently selected Date, initially set to invalid date to indicate no selection.
@@ -162,9 +170,12 @@ dojo.declare(
 				dayOffset = dojo.cldr.supplemental.getFirstDayOfWeek(this.lang);
 			if(dayOffset > firstDay){ dayOffset -= 7; }
 
+			// Mapping from date (as specified by number returned from Date.valueOf()) to corresponding <td>
+			this._date2cell = {};
+
 			// Iterate through dates in the calendar and fill in date numbers and style info
-			dojo.query(".dijitCalendarDateTemplate", this.domNode).forEach(function(template, i){
-				i += dayOffset;
+			dojo.forEach(this.dateCells, function(template, idx){
+				var i = idx + dayOffset;
 				var date = new this.dateClassObj(month),
 					number, clazz = "dijitCalendar", adj = 0;
 
@@ -204,11 +215,14 @@ dojo.declare(
 				}
 
 				template.className = clazz + "Month dijitCalendarDateTemplate";
-				template.dijitDateValue = date.valueOf();				// original code
-				dojo.attr(template, "dijitDateValue", date.valueOf());	// so I can dojo.query() it
-				var label = dojo.query(".dijitCalendarDateLabel", template)[0],
-					text = date.getDateLocalized ? date.getDateLocalized(this.lang) : date.getDate();
-				this._setText(label, text);
+
+				// Each cell has an associated integer value representing it's date
+				var dateVal = date.valueOf();
+				this._date2cell[dateVal] = template;
+				template.dijitDateValue = dateVal;
+
+				// Set Date string (ex: "13").
+				this._setText(this.dateLabels[idx], date.getDateLocalized ? date.getDateLocalized(this.lang) : date.getDate());
 			}, this);
 
 			// Repopulate month drop down list based on current year.
@@ -256,29 +270,25 @@ dojo.declare(
 		},
 
 		buildRendering: function(){
-			this.inherited(arguments);
-			dojo.setSelectable(this.domNode, false);
-
-			var cloneClass = dojo.hitch(this, function(clazz, n){
-				var template = dojo.query(clazz, this.domNode)[0];
-	 			for(var i=0; i<n; i++){
-					template.parentNode.appendChild(template.cloneNode(true));
-				}
+			// Markup for days of the week (referenced from template)
+			var d = this.dowTemplateString,
+				dayNames = this.dateLocaleModule.getNames('days', this.dayWidth, 'standAlone', this.lang),
+				dayOffset = dojo.cldr.supplemental.getFirstDayOfWeek(this.lang);
+			this.dayCellsHtml = dojo.string.substitute([d,d,d,d,d,d,d].join(""), {d: ""}, function(val, key){
+				return dayNames[dayOffset++ % 7]
 			});
 
-			// clone the day label and calendar day templates 6 times to make 7 columns
-			cloneClass(".dijitCalendarDayLabelTemplate", 6);
-			cloneClass(".dijitCalendarDateTemplate", 6);
+			// Markup for dates of the month (referenced from template), but without numbers filled in
+			var r = dojo.string.substitute(this.weekTemplateString, {d: this.dateTemplateString});
+			this.dateRowsHtml = [r,r,r,r,r,r].join("");
 
-			// now make 6 week rows
-			cloneClass(".dijitCalendarWeekTemplate", 5);
+			// Instantiate from template.
+			// dateCells and dateLabels arrays filled when _Templated parses my template.
+			this.dateCells = [];
+			this.dateLabels = [];
+			this.inherited(arguments);
 
-			// insert localized day names in the header
-			var dayNames = this.dateLocaleModule.getNames('days', this.dayWidth, 'standAlone', this.lang);
-			var dayOffset = dojo.cldr.supplemental.getFirstDayOfWeek(this.lang);
-			dojo.query(".dijitCalendarDayLabel", this.domNode).forEach(function(label, i){
-				this._setText(label, dayNames[(i + dayOffset) % 7]);
-			}, this);
+			dojo.setSelectable(this.domNode, false);
 
 			var dateObj = new this.dateClassObj(this.currentFocus);
 
@@ -326,7 +336,7 @@ dojo.declare(
 			//		If true, will focus() the cell even if calendar itself doesn't have focus
 
 			var oldFocus = this.currentFocus,
-				oldCell = oldFocus ? dojo.query("[dijitDateValue=" + oldFocus.valueOf() + "]", this.domNode)[0] : null;
+				oldCell = oldFocus && this._date2cell ? this._date2cell[oldFocus.valueOf()] : null;
 
 			// round specified value to nearest day (1am to avoid issues when DST shift occurs at midnight, see #8521, #9366)
 			date = new this.dateClassObj(date);
@@ -338,7 +348,7 @@ dojo.declare(
 			this._populateGrid();
 
 			// set tabIndex=0 on new cell, and focus it (but only if Calendar itself is focused)
-			var newCell = dojo.query("[dijitDateValue=" + date.valueOf() + "]", this.domNode)[0];
+			var newCell = this._date2cell[date.valueOf()];
 			newCell.setAttribute("tabIndex", this.tabIndex);
 			if(this._focused || forceFocus){
 				newCell.focus();
@@ -349,7 +359,7 @@ dojo.declare(
 				if(dojo.isWebKit){	// see #11064 about webkit bug
 					oldCell.setAttribute("tabIndex", "-1");
 				}else{
-						oldCell.removeAttribute("tabIndex");
+					oldCell.removeAttribute("tabIndex");
 				}
 			}
 		},
