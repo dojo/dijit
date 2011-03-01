@@ -328,7 +328,7 @@ dojo.declare(
 		},
 
 		buildRendering: function(){
-			// Overrides `dijit._Templated.buildRendering`
+			// Overrides `dijit._TemplatedMixin.buildRendering`
 
 			this.inherited(arguments);
 

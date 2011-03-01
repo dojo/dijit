@@ -1,7 +1,7 @@
-define("dijit/layout/_TabContainerBase", ["dojo", "dijit", "text!dijit/layout/templates/TabContainer.html", "dijit/layout/StackContainer", "dijit/_Templated"], function(dojo, dijit) {
+define("dijit/layout/_TabContainerBase", ["dojo", "dijit", "text!dijit/layout/templates/TabContainer.html", "dijit/layout/StackContainer", "dijit._TemplatedMixin"], function(dojo, dijit) {
 
 dojo.declare("dijit.layout._TabContainerBase",
-	[dijit.layout.StackContainer, dijit._Templated],
+	[dijit.layout.StackContainer, dijit._TemplatedMixin],
 	{
 	// summary:
 	//		Abstract base class for TabContainer.   Must define _makeController() to instantiate

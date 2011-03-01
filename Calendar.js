@@ -1,8 +1,8 @@
-define("dijit/Calendar", ["dojo", "dijit", "text!dijit/templates/Calendar.html", "dojo/string", "dojo/cldr/supplemental", "dojo/date", "dojo/date/locale", "dijit/_Widget", "dijit/_Templated", "dijit/_CssStateMixin", "dijit/form/DropDownButton"], function(dojo, dijit) {
+define("dijit/Calendar", ["dojo", "dijit", "text!dijit/templates/Calendar.html", "dojo/string", "dojo/cldr/supplemental", "dojo/date", "dojo/date/locale", "dijit/_Widget", "dijit._TemplatedMixin", "dijit._WidgetsInTemplateMixin", "dijit/_CssStateMixin", "dijit/form/DropDownButton"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.Calendar",
-	[dijit._Widget, dijit._Templated, dijit._CssStateMixin],
+	[dijit._Widget, dijit._TemplatedMixin, dijit._WidgetsInTemplateMixin, dijit._CssStateMixin],
 	{
 		// summary:
 		//		A simple GUI for choosing a date in the context of a monthly calendar.
@@ -567,7 +567,7 @@ dojo.declare(
 	}
 );
 
-dojo.declare("dijit.Calendar._MonthDropDown", [dijit._Widget, dijit._Templated], {
+dojo.declare("dijit.Calendar._MonthDropDown", [dijit._Widget, dijit._TemplatedMixin], {
 	// summary:
 	//		The month drop down
 

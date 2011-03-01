@@ -1,8 +1,8 @@
-define("dijit/layout/StackController", ["dojo", "dijit", "dijit/_Widget", "dijit/_Templated", "dijit/_Container", "dijit/form/ToggleButton", "i18n!dijit/nls/common"], function(dojo, dijit) {
+define("dijit/layout/StackController", ["dojo", "dijit", "dijit/_Widget", "dijit._TemplatedMixin", "dijit/_Container", "dijit/form/ToggleButton", "i18n!dijit/nls/common"], function(dojo, dijit) {
 
 dojo.declare(
 		"dijit.layout.StackController",
-		[dijit._Widget, dijit._Templated, dijit._Container],
+		[dijit._Widget, dijit._TemplatedMixin, dijit._Container],
 		{
 			// summary:
 			//		Set of buttons to select a page in a page list.

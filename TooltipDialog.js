@@ -1,8 +1,8 @@
-define("dijit/TooltipDialog", ["dojo", "dijit", "text!dijit/templates/TooltipDialog.html", "dijit/layout/ContentPane", "dijit/_Templated", "dijit/form/_FormMixin", "dijit/_DialogMixin"], function(dojo, dijit) {
+define("dijit/TooltipDialog", ["dojo", "dijit", "text!dijit/templates/TooltipDialog.html", "dijit/layout/ContentPane", "dijit._TemplatedMixin", "dijit/form/_FormMixin", "dijit/_DialogMixin"], function(dojo, dijit) {
 
 dojo.declare(
 		"dijit.TooltipDialog",
-		[dijit.layout.ContentPane, dijit._Templated, dijit.form._FormMixin, dijit._DialogMixin],
+		[dijit.layout.ContentPane, dijit._TemplatedMixin, dijit.form._FormMixin, dijit._DialogMixin],
 		{
 			// summary:
 			//		Pops up a dialog that appears like a Tooltip

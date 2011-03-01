@@ -1,4 +1,4 @@
-define("dijit/Declaration", ["dojo", "dijit", "dijit/_Widget", "dijit/_Templated"], function(dojo, dijit) {
+define("dijit/Declaration", ["dojo", "dijit", "dijit/_Widget", "dijit._TemplatedMixin", "dijit._WidgetsInTemplateMixin"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.Declaration",
@@ -57,9 +57,8 @@ dojo.declare(
 			// a bogus third argument to getObject(), confusing it)
 			this.mixins = this.mixins.length ?
 				dojo.map(this.mixins, function(name){ return dojo.getObject(name); } ) :
-				[ dijit._Widget, dijit._Templated ];
+				[ dijit._Widget, dijit._TemplatedMixin, dijit._WidgetsInTemplateMixin ];
 
-			propList.widgetsInTemplate = true;
 			propList._skipNodeCache = true;
 			propList.templateString = "<"+srcType+" class='"+src.className+"' dojoAttachPoint='"+(src.getAttribute("dojoAttachPoint") || '')+"' dojoAttachEvent='"+(src.getAttribute("dojoAttachEvent") || '')+"' >"+src.innerHTML.replace(/\%7B/g,"{").replace(/\%7D/g,"}")+"</"+srcType+">";
 

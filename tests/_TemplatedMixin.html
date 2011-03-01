@@ -11,7 +11,8 @@
 			dojo.require("dojo.parser");
 
 			dojo.require("dijit._Widget");
-			dojo.require("dijit._Templated");
+			dojo.require("dijit._TemplatedMixin");
+			dojo.require("dijit._WidgetsInTemplateMixin");
 
 			dojo.require("dijit.layout.LayoutContainer");
 
@@ -23,14 +24,14 @@
 
 			dojo.addOnLoad(function(){
 				// Template with no variables (should be cached as a DOM tree)
-				dojo.declare("SimpleTemplate", [dijit._Widget, dijit._Templated], {
+				dojo.declare("SimpleTemplate", [dijit._Widget, dijit._TemplatedMixin], {
 					attributeMap: {},
 					id: "test1",
 					templateString: "<button type='button'><span>hello &lt; world</span></button>"
 				});
 
 				// Template with variables
-				dojo.declare("VariableTemplate", [dijit._Widget, dijit._Templated], {
+				dojo.declare("VariableTemplate", [dijit._Widget, dijit._TemplatedMixin], {
 					attributeMap: {},
 					id: "test2",
 					num: 5,
@@ -41,7 +42,7 @@
 				});
 
 				// Template with ! variables (for literal substitution)
-				dojo.declare("ExclamationVariableTemplate", [dijit._Widget, dijit._Templated], {
+				dojo.declare("ExclamationVariableTemplate", [dijit._Widget, dijit._TemplatedMixin], {
 					attributeMap: {},
 					markup: "<span>hello world</span>",
 
@@ -49,7 +50,7 @@
 				});
 
 				// Template that starts with special node (has to be constructed inside a <tbody>)
-				dojo.declare("TableRowTemplate", [dijit._Widget, dijit._Templated], {
+				dojo.declare("TableRowTemplate", [dijit._Widget, dijit._TemplatedMixin], {
 					attributeMap: {},
 					id: "test3",
 					text: "bar",
@@ -57,12 +58,12 @@
 				});
 
 				// Illegal substitution variable name
-				dojo.declare("IllegalSubstitution", [dijit._Widget, dijit._Templated], {
+				dojo.declare("IllegalSubstitution", [dijit._Widget, dijit._TemplatedMixin], {
 					templateString: "<tr><td>${fake}</td></tr>"
 				});
 
 				// dojoAttachPoint
-				dojo.declare("AttachPoint", [dijit._Widget, dijit._Templated], {
+				dojo.declare("AttachPoint", [dijit._Widget, dijit._TemplatedMixin], {
 					attributeMap: {foo: "", style: "", bar: "buttonNode"},
 					templateString: "<div style='border: 1px solid red'>" +
 										"<button dojoAttachPoint='buttonNode,focusNode'>hi</button>" +
@@ -72,7 +73,7 @@
 				});
 
 				// dojoAttachEvent
-				dojo.declare("AttachEvent", [dijit._Widget, dijit._Templated], {
+				dojo.declare("AttachEvent", [dijit._Widget, dijit._TemplatedMixin], {
 					click: function(){ this.clickCalled=true; },
 					onfocus: function(){ this.focusCalled=true; },
 					focus2: function(){ this.focus2Called=true; },
@@ -184,8 +185,7 @@
 								}
 							});
 
-							dojo.declare("ParentThing", [dijit._Widget, dijit._Templated], {
-								widgetsInTemplate:true,
+							dojo.declare("ParentThing", [dijit._Widget, dijit._TemplatedMixin, dijit._WidgetsInTemplateMixin], {
 								templateString: "<div>" +
 													"<span data-dojo-type='SubThing'>a</span>" +
 													"<div data-dojo-type='dijit.layout.LayoutContainer'>" +

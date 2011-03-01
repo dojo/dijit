@@ -16,7 +16,7 @@
 		<script type="text/javascript">
 
 			dojo.require("dijit._Widget");
-			dojo.require("dijit._Templated");
+			dojo.require("dijit._TemplatedMixin");
 			dojo.require("dojo.parser");
 
 			var w;
@@ -101,7 +101,7 @@
 			dojo.addOnLoad(function(){
 				widgetClass = dojo.declare(
 					"Simple",
-					[dijit._Widget, dijit._Templated], {
+					[dijit._Widget, dijit._TemplatedMixin], {
 						templateString: '<div> Widget created: ${id} </div>'
 					}
 				);

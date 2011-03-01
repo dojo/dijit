@@ -12,8 +12,8 @@ try{
 	doh.registerUrl("dijit.tests.robot._Widget-ondijitclick_a11y", dojo.moduleUrl("dijit","tests/robot/_Widget-ondijitclick_a11y.html"), 999999);
 
 	// _Templated and other mixins
-	doh.registerUrl("dijit.tests._Templated", dojo.moduleUrl("dijit", "tests/_Templated.html"), 999999);
-	doh.registerUrl("dijit.tests._Templated-widgetsInTemplate", dojo.moduleUrl("dijit", "tests/_Templated-widgetsInTemplate.html"), 999999);
+	doh.registerUrl("dijit.tests._TemplatedMixin", dojo.moduleUrl("dijit", "tests/_TemplatedMixin.html"), 999999);
+	doh.registerUrl("dijit.tests._WidgetsInTemplateMixin", dojo.moduleUrl("dijit", "tests/_WidgetsInTemplateMixin.html"), 999999);
 	doh.registerUrl("dijit.tests._Templated-widgetsInTemplate1.x", dojo.moduleUrl("dijit", "tests/_Templated-widgetsInTemplate1.x.html"), 999999);
 	doh.registerUrl("dijit.tests._Container", dojo.moduleUrl("dijit", "tests/_Container.html"), 999999);
 

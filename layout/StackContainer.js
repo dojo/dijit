@@ -1,4 +1,4 @@
-define("dijit/layout/StackContainer", ["dojo", "dijit", "dijit/_Templated", "dijit/layout/_LayoutWidget", "i18n!dijit/nls/common", "dojo/cookie", "dijit/layout/StackController"], function(dojo, dijit) {
+define("dijit/layout/StackContainer", ["dojo", "dijit", "dijit/layout/_LayoutWidget", "i18n!dijit/nls/common", "dojo/cookie", "dijit/layout/StackController"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.layout.StackContainer",

@@ -1,6 +1,6 @@
-define("dijit/ProgressBar", ["dojo", "dijit", "text!dijit/templates/ProgressBar.html", "dojo/fx", "dojo/number", "dijit/_Widget", "dijit/_Templated"], function(dojo, dijit) {
+define("dijit/ProgressBar", ["dojo", "dijit", "text!dijit/templates/ProgressBar.html", "dojo/fx", "dojo/number", "dijit/_Widget", "dijit._TemplatedMixin"], function(dojo, dijit) {
 
-dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
+dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._TemplatedMixin], {
 	// summary:
 	//		A progress indication widget, showing the amount completed
 	//		(often the percentage completed) of a task.

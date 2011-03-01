@@ -1,8 +1,8 @@
-define("dijit/Tooltip", ["dojo", "dijit", "dijit/_Widget", "dijit/_Templated"], function(dojo, dijit) {
+define("dijit/Tooltip", ["dojo", "dijit", "dijit/_Widget", "dijit._TemplatedMixin"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit._MasterTooltip",
-	[dijit._Widget, dijit._Templated],
+	[dijit._Widget, dijit._TemplatedMixin],
 	{
 		// summary:
 		//		Internal widget that holds the actual tooltip markup,

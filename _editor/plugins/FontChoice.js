@@ -1,7 +1,7 @@
-define("dijit/_editor/plugins/FontChoice", ["dojo", "dijit", "dijit/_editor/_Plugin", "dijit/_editor/range", "dijit/_editor/selection", "dijit/form/FilteringSelect", "dojo/data/ItemFileReadStore", "dojo/i18n", "i18n!dijit/_editor/nls/FontChoice"], function(dojo, dijit) {
+define("dijit/_editor/plugins/FontChoice", ["dojo", "dijit", "dijit/_Widget", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin", "dijit/_editor/_Plugin", "dijit/_editor/range", "dijit/_editor/selection", "dijit/form/FilteringSelect", "dojo/data/ItemFileReadStore", "dojo/i18n", "i18n!dijit/_editor/nls/FontChoice"], function(dojo, dijit) {
 
 dojo.declare("dijit._editor.plugins._FontDropDown",
-	[dijit._Widget, dijit._Templated],{
+	[dijit._Widget, dijit._TemplatedMixin, dijit._WidgetsInTemplateMixin],{
 	// summary:
 	//		Base class for widgets that contains a label (like "Font:")
 	//		and a FilteringSelect drop down to pick a value.
@@ -10,10 +10,6 @@ dojo.declare("dijit._editor.plugins._FontDropDown",
 	// label: [public] String
 	//		The label to apply to this particular FontDropDown.
 	label: "",
-
-	// widgetsInTemplate: [public] boolean
-	//		Over-ride denoting the template has widgets to parse.
-	widgetsInTemplate: true,
 
 	// plainText: [public] boolean
 	//		Flag to indicate that the returned label should be plain text

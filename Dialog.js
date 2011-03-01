@@ -1,4 +1,4 @@
-define("dijit/Dialog", ["dojo", "dijit", "text!dijit/templates/Dialog.html", "dojo/dnd/move", "dojo/dnd/TimedMoveable", "dojo/fx", "dojo/window", "dijit/_Widget", "dijit/_Templated", "dijit/_CssStateMixin", "dijit/form/_FormMixin",  "dijit/_DialogMixin", "dijit/DialogUnderlay", "dijit/layout/ContentPane", "i18n!dijit/nls/common", "dijit/TooltipDialog"], function(dojo, dijit) {
+define("dijit/Dialog", ["dojo", "dijit", "text!dijit/templates/Dialog.html", "dojo/dnd/move", "dojo/dnd/TimedMoveable", "dojo/fx", "dojo/window", "dijit/_Widget", "dijit._TemplatedMixin", "dijit/_CssStateMixin", "dijit/form/_FormMixin",  "dijit/_DialogMixin", "dijit/DialogUnderlay", "dijit/layout/ContentPane", "i18n!dijit/nls/common", "dijit/TooltipDialog"], function(dojo, dijit) {
 
 // dijit/TooltipDialog required for back-compat.  TODO: remove in 2.0
 
@@ -15,7 +15,7 @@ dijit._underlay = function(kwArgs){
 =====*/
 dojo.declare(
 	"dijit._DialogBase",
-	[dijit._Templated, dijit.form._FormMixin, dijit._DialogMixin, dijit._CssStateMixin],
+	[dijit._TemplatedMixin, dijit.form._FormMixin, dijit._DialogMixin, dijit._CssStateMixin],
 	{
 		// summary:
 		//		A modal dialog Widget

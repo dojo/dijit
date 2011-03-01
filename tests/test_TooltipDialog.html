@@ -41,7 +41,8 @@
 	<script type="text/javascript" src="_testCommon.js"></script>
 
 	<script type="text/javascript">
-		dojo.require("dijit.dijit"); // optimize: load dijit layer
+		dojo.require("dijit._Widget");
+		dojo.require("dijit._TemplatedMixin");
 		dojo.require("dijit.TooltipDialog");
 		dojo.require("dijit.form.DropDownButton");
 		dojo.require("dijit.form.TextBox");
@@ -60,7 +61,7 @@
 		dojo.addOnLoad(function(){
 			// create a do nothing, only for test widget
 			dojo.declare("dijit.TestWidget",
-				[dijit._Widget, dijit._Templated], {
+				[dijit._Widget, dijit._TemplatedMixin], {
 				templateString: "<div style='margin: 10px; border: inset #700 4px; padding: 5px;' dojoAttachPoint='containerNode'></div>"
 			});
 

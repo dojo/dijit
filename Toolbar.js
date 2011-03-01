@@ -1,9 +1,9 @@
-define("dijit/Toolbar", ["dojo", "dijit", "dijit/_Widget", "dijit/_KeyNavContainer", "dijit/_Templated", "dijit/ToolbarSeparator"], function(dojo, dijit) {
+define("dijit/Toolbar", ["dojo", "dijit", "dijit/_Widget", "dijit/_KeyNavContainer", "dijit._TemplatedMixin", "dijit/ToolbarSeparator"], function(dojo, dijit) {
 
 // Note: require of ToolbarSeparator is for back-compat, remove for 2.0
 
 dojo.declare("dijit.Toolbar",
-	[dijit._Widget, dijit._Templated, dijit._KeyNavContainer],
+	[dijit._Widget, dijit._TemplatedMixin, dijit._KeyNavContainer],
 	{
 	// summary:
 	//		A Toolbar widget, used to hold things like `dijit.Editor` buttons

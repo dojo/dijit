@@ -1,4 +1,4 @@
-define("dijit/layout/BorderContainer", ["dojo", "dijit", "dijit/layout/_LayoutWidget", "dojo/cookie", "dijit/_Templated"], function(dojo, dijit) {
+define("dijit/layout/BorderContainer", ["dojo", "dijit", "dijit/layout/_LayoutWidget", "dojo/cookie", "dijit._TemplatedMixin"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.layout.BorderContainer",
@@ -302,7 +302,7 @@ dojo.extend(dijit._Widget, {
 	maxSize: Infinity
 });
 
-dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
+dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._TemplatedMixin ],
 {
 	// summary:
 	//		A draggable spacer between two items in a `dijit.layout.BorderContainer`.
@@ -487,7 +487,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 	}
 });
 
-dojo.declare("dijit.layout._Gutter", [dijit._Widget, dijit._Templated],
+dojo.declare("dijit.layout._Gutter", [dijit._Widget, dijit._TemplatedMixin],
 {
 	// summary:
 	// 		Just a spacer div to separate side pane from center pane.

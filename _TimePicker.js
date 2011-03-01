@@ -21,7 +21,7 @@ dojo.declare(
 =====*/
 
 dojo.declare("dijit._TimePicker",
-	[dijit._Widget, dijit._Templated],
+	[dijit._Widget, dijit._TemplatedMixin],
 	{
 		// summary:
 		//		A graphical time picker.

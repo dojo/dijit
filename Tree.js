@@ -1,8 +1,8 @@
-define("dijit/Tree", ["dojo", "dijit", "text!dijit/templates/TreeNode.html", "text!dijit/templates/Tree.html", "dojo/fx", "dojo/DeferredList", "dijit/_Widget", "dijit/_Templated", "dijit/_Container", "dijit/_Contained", "dijit/_CssStateMixin", "dojo/cookie", "dijit/tree/TreeStoreModel", "dijit/tree/ForestStoreModel", "dijit/tree/_dndSelector"], function(dojo, dijit) {
+define("dijit/Tree", ["dojo", "dijit", "text!dijit/templates/TreeNode.html", "text!dijit/templates/Tree.html", "dojo/fx", "dojo/DeferredList", "dijit/_Widget", "dijit._TemplatedMixin", "dijit/_Container", "dijit/_Contained", "dijit/_CssStateMixin", "dojo/cookie", "dijit/tree/TreeStoreModel", "dijit/tree/ForestStoreModel", "dijit/tree/_dndSelector"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit._TreeNode",
-	[dijit._Widget, dijit._Templated, dijit._Container, dijit._Contained, dijit._CssStateMixin],
+	[dijit._Widget, dijit._TemplatedMixin, dijit._Container, dijit._Contained, dijit._CssStateMixin],
 {
 	// summary:
 	//		Single node within a tree.   This class is used internally
@@ -470,7 +470,7 @@ dojo.declare(
 
 dojo.declare(
 	"dijit.Tree",
-	[dijit._Widget, dijit._Templated],
+	[dijit._Widget, dijit._TemplatedMixin],
 {
 	// summary:
 	//		This widget displays hierarchical data from a store.

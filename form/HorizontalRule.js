@@ -1,6 +1,6 @@
-define("dijit/form/HorizontalRule", ["dojo", "dijit", "dijit/_Widget", "dijit/_Templated"], function(dojo, dijit) {
+define("dijit/form/HorizontalRule", ["dojo", "dijit", "dijit/_Widget", "dijit._TemplatedMixin"], function(dojo, dijit) {
 
-dojo.declare("dijit.form.HorizontalRule", [dijit._Widget, dijit._Templated],
+dojo.declare("dijit.form.HorizontalRule", [dijit._Widget, dijit._TemplatedMixin],
 {
 	// summary:
 	//		Hash marks for `dijit.form.HorizontalSlider`

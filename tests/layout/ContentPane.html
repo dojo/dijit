@@ -23,20 +23,23 @@
 		data-dojo-config="isDebug: true"></script>
 	<script type="text/javascript">
 		dojo.require("doh.runner");
-		dojo.require("dijit.layout.ContentPane");
+
+		dojo.require("dojo.parser");
 		dojo.require("dojo.data.ItemFileReadStore");
+
+		dojo.require("dijit._Widget");
+		dojo.require("dijit._TemplatedMixin");
 		dojo.require("dijit._Container");
 		dojo.require("dijit.layout._LayoutWidget");
-		dojo.require("dijit._Templated");
 		dojo.require("dijit.layout.StackContainer");
-		dojo.require("dojo.parser");
+		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dijit.Dialog");
 
 
 		dojo.addOnLoad(function(){
 			// create a do nothing, only for test widget
 			dojo.declare("dijit.TestWidget",
-				[dijit._Widget, dijit._Templated], {
+				[dijit._Widget, dijit._TemplatedMixin], {
 				templateString: "<span class='dijitTestWidget'></span>"
 			});
 

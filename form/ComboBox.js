@@ -1,4 +1,4 @@
-define("dijit/form/ComboBox", ["dojo", "dijit", "text!dijit/form/templates/DropDownBox.html", "dojo/window", "dojo/regexp", "dojo/data/util/simpleFetch", "dojo/data/util/filter", "dijit/_CssStateMixin", "dijit/form/_FormWidget", "dijit/form/ValidationTextBox", "dijit/_HasDropDown", "i18n!dijit/form/nls/ComboBox"], function(dojo, dijit) {
+define("dijit/form/ComboBox", ["dojo", "dijit", "text!dijit/form/templates/DropDownBox.html", "dojo/window", "dojo/regexp", "dojo/data/util/simpleFetch", "dojo/data/util/filter", "dijit/_TemplatedMixin", "dijit/_CssStateMixin", "dijit/form/_FormWidget", "dijit/form/ValidationTextBox", "dijit/_HasDropDown", "i18n!dijit/form/nls/ComboBox"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.form.ComboBoxMixin",
@@ -736,7 +736,7 @@ dojo.declare(
 
 dojo.declare(
 	"dijit.form._ComboBoxMenu",
-	[dijit._Widget, dijit._Templated, dijit._CssStateMixin],
+	[dijit._Widget, dijit._TemplatedMixin, dijit._CssStateMixin],
 	{
 		// summary:
 		//		Focus-less menu for internal use in `dijit.form.ComboBox`

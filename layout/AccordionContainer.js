@@ -1,4 +1,4 @@
-define("dijit/layout/AccordionContainer", ["dojo", "dijit", "text!dijit/layout/templates/AccordionButton.html", "dijit/_Container", "dijit/_Templated", "dijit/_CssStateMixin", "dijit/layout/StackContainer", "dijit/layout/ContentPane", "dijit/layout/AccordionPane"], function(dojo, dijit) {
+define("dijit/layout/AccordionContainer", ["dojo", "dijit", "text!dijit/layout/templates/AccordionButton.html", "dijit/_Container", "dijit._TemplatedMixin", "dijit/_CssStateMixin", "dijit/layout/StackContainer", "dijit/layout/ContentPane", "dijit/layout/AccordionPane"], function(dojo, dijit) {
 
 //dojo.require("dijit.layout.AccordionPane ");	// for back compat, remove for 2.0
 
@@ -418,7 +418,7 @@ dojo.declare("dijit.layout._AccordionInnerContainer",
 });
 
 dojo.declare("dijit.layout._AccordionButton",
-	[dijit._Widget, dijit._Templated, dijit._CssStateMixin],
+	[dijit._Widget, dijit._TemplatedMixin, dijit._CssStateMixin],
 	{
 	// summary:
 	//		The title bar to click to open up an accordion pane.

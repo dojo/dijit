@@ -33,7 +33,8 @@
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">
-		dojo.require("dijit.dijit");
+		dojo.require("dijit._Widget");
+		dojo.require("dijit._TemplatedMixin");
 
 		function log(str){
 			console.log(str);
@@ -41,7 +42,7 @@
 
 		dojo.addOnLoad(function(){
 
-			dojo.declare("SimpleDropDownButton", [dijit._Widget, dijit._Templated], {
+			dojo.declare("SimpleDropDownButton", [dijit._Widget, dijit._TemplatedMixin], {
 				// summary:
 				//		A button that shows a popup.
 				//		Supply popup as parameter when instantiating this widget.
@@ -88,7 +89,7 @@
 				}
 			});
 
-			dojo.declare("SimpleChoiceWidget",  [dijit._Widget, dijit._Templated], {
+			dojo.declare("SimpleChoiceWidget",  [dijit._Widget, dijit._TemplatedMixin], {
 				// summary:
 				//		A list of values; select a value by pressing an entry in the list.
 
@@ -123,7 +124,7 @@
 				popup: choiceDropDown
 			}).placeAt(dojo.byId("widgets"));
 
-			dojo.declare("DialogWithPopupWidget",  [dijit._Widget, dijit._Templated], {
+			dojo.declare("DialogWithPopupWidget",  [dijit._Widget, dijit._TemplatedMixin], {
 				// summary:
 				//		This is a dialog that contains a button that spawns a drop down.
 				//		Supply popup as an argument to this widget.
@@ -175,7 +176,7 @@
 				})
 			}).placeAt(dojo.byId("widgets"));
 
-			dojo.declare("NestedPopupOpener",  [dijit._Widget, dijit._Templated], {
+			dojo.declare("NestedPopupOpener",  [dijit._Widget, dijit._TemplatedMixin], {
 				// summary:
 				//		Clicking a value in this list will open a nested popup.
 				//		Specify popup1 and popup2 as parameters to this widget.

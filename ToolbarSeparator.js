@@ -1,7 +1,7 @@
-define("dijit/ToolbarSeparator", ["dojo", "dijit", "dijit/_Widget", "dijit/_Templated"], function(dojo, dijit) {
+define("dijit/ToolbarSeparator", ["dojo", "dijit", "dijit/_Widget", "dijit._TemplatedMixin"], function(dojo, dijit) {
 
 dojo.declare("dijit.ToolbarSeparator",
-		[ dijit._Widget, dijit._Templated ],
+		[ dijit._Widget, dijit._TemplatedMixin ],
 		{
 		// summary:
 		//		A spacer between two `dijit.Toolbar` items

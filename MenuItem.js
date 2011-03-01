@@ -1,7 +1,7 @@
-define("dijit/MenuItem", ["dojo", "dijit", "text!dijit/templates/MenuItem.html", "dijit/_Widget", "dijit/_Templated", "dijit/_Contained", "dijit/_CssStateMixin"], function(dojo, dijit) {
+define("dijit/MenuItem", ["dojo", "dijit", "text!dijit/templates/MenuItem.html", "dijit/_Widget", "dijit._TemplatedMixin", "dijit/_Contained", "dijit/_CssStateMixin"], function(dojo, dijit) {
 
 dojo.declare("dijit.MenuItem",
-		[dijit._Widget, dijit._Templated, dijit._Contained, dijit._CssStateMixin],
+		[dijit._Widget, dijit._TemplatedMixin, dijit._Contained, dijit._CssStateMixin],
 		{
 		// summary:
 		//		A line item in a Menu Widget

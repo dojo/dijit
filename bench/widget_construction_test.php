@@ -13,12 +13,12 @@
 		<script type="text/javascript">
 			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 			dojo.require("dijit._Widget");
-			dojo.require("dijit._Templated");
+			dojo.require("dijit._TemplatedMixin");
 
 			/* dummy widget for benchmarking purposes */
 			dojo.declare(
 				"SimpleButton",
-				[ dijit._Widget, dijit._Templated ],
+				[ dijit._Widget, dijit._TemplatedMixin ],
 				function(){  },
 				{
 					label: "",

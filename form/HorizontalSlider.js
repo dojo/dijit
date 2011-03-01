@@ -53,9 +53,6 @@ dojo.declare(
 	//		when clicking the slider bar to make the handle move.
 	slideDuration: dijit.defaultDuration,
 
-	// Flag to _Templated  (TODO: why is this here?  I see no widgets in the template.)
-	widgetsInTemplate: true,
-
 	attributeMap: dojo.delegate(dijit.form._FormWidget.prototype.attributeMap, {
 		id: ""
 	}),

@@ -1,8 +1,8 @@
-define("dijit/TitlePane", ["dojo", "dijit", "text!dijit/templates/TitlePane.html", "dojo/fx", "dijit/_Templated", "dijit/layout/ContentPane", "dijit/_CssStateMixin"], function(dojo, dijit) {
+define("dijit/TitlePane", ["dojo", "dijit", "text!dijit/templates/TitlePane.html", "dojo/fx", "dijit._TemplatedMixin", "dijit/layout/ContentPane", "dijit/_CssStateMixin"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.TitlePane",
-	[dijit.layout.ContentPane, dijit._Templated, dijit._CssStateMixin],
+	[dijit.layout.ContentPane, dijit._TemplatedMixin, dijit._CssStateMixin],
 {
 	// summary:
 	//		A pane with a title on top, that can be expanded or collapsed.

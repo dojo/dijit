@@ -1,6 +1,6 @@
-define("dijit/form/_FormWidget", ["dojo", "dijit", "dojo/window", "dijit/_Widget", "dijit/_Templated", "dijit/_CssStateMixin"], function(dojo, dijit) {
+define("dijit/form/_FormWidget", ["dojo", "dijit", "dojo/window", "dijit/_Widget", "dijit._TemplatedMixin", "dijit/_CssStateMixin"], function(dojo, dijit) {
 
-dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._CssStateMixin],
+dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._TemplatedMixin, dijit._CssStateMixin],
 	{
 	// summary:
 	//		Base class for widgets corresponding to native HTML elements such as <checkbox> or <button>,

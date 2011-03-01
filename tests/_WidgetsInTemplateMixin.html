@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
-		<title>testing widgetsInTemplate support</title>
+		<title>WidgetsInTemplateMixin.js</title>
 
 		<style type="text/css">
 			@import "../themes/claro/document.css";
@@ -16,6 +16,9 @@
 
 			dojo.require("dojo.parser");
 
+			dojo.require("dijit._WidgetBase");
+			dojo.require("dijit._TemplatedMixin");
+			dojo.require("dijit._WidgetsInTemplateMixin");
 			dojo.require("dijit.form.Button");
 			dojo.require("dijit.form.CheckBox");
 			dojo.require("dijit.ProgressBar");
@@ -27,10 +30,8 @@
 
 			dojo.addOnLoad(function(){
 				dojo.declare('Test1Widget',
-					[dijit._Widget, dijit._Templated],
+					[dijit._WidgetBase, dijit._TemplatedMixin, dijit._WidgetsInTemplateMixin],
 				{
-					widgetsInTemplate: true,
-	
 					templateString: dojo.byId('Test1Template').value,
 					onClick: function(e){
 						if(e.target){
@@ -46,18 +47,14 @@
 				});
 
 				dojo.declare('Test3Widget',
-					[dijit._Widget, dijit._Templated],
+					[dijit._WidgetBase, dijit._TemplatedMixin, dijit._WidgetsInTemplateMixin],
 				{
-					widgetsInTemplate: true,
-	
 					templateString: dojo.byId('Test3Template').value
 				});
 
 				dojo.declare('Test4Widget',
-					[dijit._Widget, dijit._Templated],
+					[dijit._WidgetBase, dijit._TemplatedMixin, dijit._WidgetsInTemplateMixin],
 				{
-					widgetsInTemplate: true,
-		
 					templateString: dojo.byId('Test4Template').value
 				});
 		
@@ -90,7 +87,7 @@
 						this._destroyed = true;
 					}
 				});
-				dojo.declare('TestCtnrWidget', [dijit._Widget, dijit._Container], {
+				dojo.declare('TestCtnrWidget', [dijit._WidgetBase, dijit._Container], {
 					startup: function(){
 						if(this._started){
 							this._doubleStarted = true;
@@ -105,7 +102,7 @@
 						this._destroyed = true;
 					}
 				});
-				dojo.declare('TestCtndWidget', [dijit._Widget, dijit._Contained], {
+				dojo.declare('TestCtndWidget', [dijit._WidgetBase, dijit._Contained], {
 					startup: function(){
 						if(this._started){
 							this._doubleStarted = true;
@@ -120,7 +117,7 @@
 						this._destroyed = true;
 					}
 				});
-				dojo.declare('TestNonCtnrWidget', [dijit._Widget, dijit._Templated], {
+				dojo.declare('TestNonCtnrWidget', [dijit._WidgetBase, dijit._TemplatedMixin, dijit._WidgetsInTemplateMixin], {
 					templateString: "<div data-dojo-attach-point=containerNode></div>",
 					startup: function(){
 						if(this._started){
@@ -136,7 +133,7 @@
 						this._destroyed = true;
 					}
 				});
-				dojo.declare('TestStubWidget', dijit._Widget, {
+				dojo.declare('TestStubWidget', dijit._WidgetBase, {
 					startup: function(){
 						if(this._started){
 							this._doubleStarted = true;
@@ -153,10 +150,8 @@
 				});
 	
 				dojo.declare('Test5Widget',
-					[dijit._Widget, dijit._Templated],
+					[dijit._WidgetBase, dijit._TemplatedMixin, dijit._WidgetsInTemplateMixin],
 				{
-					widgetsInTemplate: true,
-		
 					templateString: dojo.byId('Test5Template').value,
 					startup: function(){
 						if(this._started){
@@ -173,14 +168,13 @@
 					}
 				});
 	
-				dojo.declare("Missing", [dijit._Widget, dijit._Templated], {
+				dojo.declare("Missing", [dijit._WidgetBase, dijit._TemplatedMixin, dijit._WidgetsInTemplateMixin], {
 					templateString: '<div>' +
 										'<div data-dojo-type="dijit.layout.ContentPane">' +
 											'<div data-dojo-type="dijit.form.Button" data-dojo-props="id: \'missingButtonId\'" ' +
 											'data-dojo-attach-point="missingButton">Missing...</div>' +
 										'</div>' +
-									'</div>',
-					widgetsInTemplate: true
+									'</div>'
 				});
 
 				function getTestWidgets(testW){
@@ -376,12 +370,11 @@
 
 				// Test that "this" referenced from data-dojo-props can refer to the hosting widget
 				doh.register("data-dojo-props this", function(){
-					var host = dojo.declare([dijit._Widget, dijit._Templated], {
-						widgetsInTemplate: true,
+					var host = dojo.declare([dijit._WidgetBase, dijit._TemplatedMixin, dijit._WidgetsInTemplateMixin], {
 						obj: {hello: "world"},
 						templateString:
 							"<div>" +
-								"<div data-dojo-type='dijit._Widget' data-dojo-props='hostObj: this.obj'" +
+								"<div data-dojo-type='dijit._WidgetBase' data-dojo-props='hostObj: this.obj'" +
 								" data-dojo-attach-point='subWidget'></div>" +
 							"</div>"
 					});
@@ -399,7 +392,7 @@
 		</script>
 	</head>
 	<body class="claro">
-		<h1>testing widgetsInTemplate support</h1>
+		<h1>WidgetsInTemplateMixin</h1>
 		<textarea id="Test1Template" style="display:none;">
 			<div>
 				<div data-dojo-attach-point="normalNode">normal node</div>

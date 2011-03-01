@@ -295,10 +295,8 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 
 	buildRendering: function(){
 		// summary:
-		//		Construct the UI for this widget, setting this.domNode
-		// description:
-		//		Most widgets will mixin `dijit._Templated`, which implements this
-		//		method.
+		//		Construct the UI for this widget, setting this.domNode.
+		//		Most widgets will mixin `dijit._TemplatedMixin`, which implements this method.
 		// tags:
 		//		protected
 

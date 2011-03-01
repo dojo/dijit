@@ -1,7 +1,7 @@
-define("dijit/layout/ScrollingTabController", ["dojo", "dijit", "text!dijit/layout/templates/ScrollingTabController.html", "text!dijit/layout/templates/_ScrollingTabControllerButton.html", "dijit/layout/TabController", "dijit/Menu", "dijit/form/Button", "dijit/_HasDropDown"], function(dojo, dijit) {
+define("dijit/layout/ScrollingTabController", ["dojo", "dijit", "text!dijit/layout/templates/ScrollingTabController.html", "text!dijit/layout/templates/_ScrollingTabControllerButton.html", "dijit/layout/TabController", "dijit/_WidgetsInTemplateMixin", "dijit/Menu", "dijit/form/Button", "dijit/_HasDropDown"], function(dojo, dijit) {
 
 dojo.declare("dijit.layout.ScrollingTabController",
-	dijit.layout.TabController,
+	[dijit.layout.TabController, dijit._WidgetsInTemplateMixin],
 	{
 	// summary:
 	//		Set of tabs with left/right arrow keys and a menu to switch between tabs not

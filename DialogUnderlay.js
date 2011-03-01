@@ -1,8 +1,8 @@
-define("dijit/DialogUnderlay", ["dojo", "dijit", "dojo/window", "dijit/_Widget", "dijit/_Templated"], function(dojo, dijit) {
+define("dijit/DialogUnderlay", ["dojo", "dijit", "dojo/window", "dijit/_Widget", "dijit._TemplatedMixin"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.DialogUnderlay",
-	[dijit._Widget, dijit._Templated],
+	[dijit._Widget, dijit._TemplatedMixin],
 	{
 		// summary:
 		//		The component that blocks the screen behind a `dijit.Dialog`

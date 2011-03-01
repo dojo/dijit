@@ -13,12 +13,13 @@
 
 	<script type="text/javascript">
 		dojo.require("doh.runner");
-		dojo.require("dojo.parser");
-		dojo.require("dijit.dijit");
+
+		dojo.require("dijit._Widget");
+		dojo.require("dijit._TemplatedMixin");
 
 		dojo.addOnLoad(function(){
 			dojo.declare("Baz",
-				[ dijit._Widget, dijit._Templated ],
+				[ dijit._Widget, dijit._TemplatedMixin ],
 				{
 					templateString: "<div><div dojoAttachPoint='nameNode'></div><span>${attr1}</span></div>",
 	
@@ -40,7 +41,7 @@
 				}
 			);
 			dojo.declare("Textbox",
-				[ dijit._Widget, dijit._Templated ],
+				[ dijit._Widget, dijit._TemplatedMixin ],
 				{
 					attributeMap: {id:"", dir:"", lang:"", "class":"", style:"", title:"", disabled: "", readonly: ""},
 					templateString: "<input>"
@@ -56,7 +57,7 @@
 				}
 			});
 	
-			dojo.declare("AttrMap", [dijit._Widget, dijit._Templated], {
+			dojo.declare("AttrMap", [dijit._Widget, dijit._TemplatedMixin], {
 				attributeMap: {foo: "", bar: "buttonNode", plainText: {node: "plainTextNode", type: "innerText"}},
 				templateString: "<div class='class1' style='border: 1px solid red; width: 456px'>" +
 									"<button dojoAttachPoint='buttonNode,focusNode'>hi</button>" +
@@ -64,10 +65,6 @@
 									"<span dojoAttachPoint='containerNode'></span>" +
 									"<span dojoAttachPoint='plainTextNode'>original plain text</span>" +
 								"</div>"
-			});
-
-			doh.register("parse", function(){
-				dojo.parser.parse();
 			});
 
 			doh.register("_Widget.attr",

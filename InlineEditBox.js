@@ -1,4 +1,4 @@
-define("dijit/InlineEditBox", ["dojo", "dijit", "text!dijit/templates/InlineEditBox.html", "dojo/i18n", "dijit/_Widget", "dijit/_Container", "dijit/form/Button", "dijit/form/TextBox", "i18n!dijit/nls/common"], function(dojo, dijit) {
+define("dijit/InlineEditBox", ["dojo", "dijit", "text!dijit/templates/InlineEditBox.html", "dojo/i18n", "dijit/_Widget", "dijit/_TemplatedMixin", "dijit._WidgetsInTemplateMixin", "dijit/_Container", "dijit/form/Button", "dijit/form/TextBox", "i18n!dijit/nls/common"], function(dojo, dijit) {
 
 dojo.declare("dijit.InlineEditBox",
 	dijit._Widget,
@@ -358,7 +358,7 @@ dojo.declare("dijit.InlineEditBox",
 
 dojo.declare(
 	"dijit._InlineEditor",
-	 [dijit._Widget, dijit._Templated],
+	 [dijit._Widget, dijit._TemplatedMixin, dijit._WidgetsInTemplateMixin],
 {
 	// summary:
 	// 		Internal widget used by InlineEditBox, displayed when in editing mode
@@ -374,7 +374,6 @@ dojo.declare(
 	//		Value as an HTML string or plain text string, depending on renderAsHTML flag
 
 	templateString: dojo.cache("dijit", "templates/InlineEditBox.html"),
-	widgetsInTemplate: true,
 
 	postMixInProperties: function(){
 		this.inherited(arguments);
