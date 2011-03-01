@@ -32,7 +32,8 @@ dojo.declare(
 		//		This class name is used on the DialogUnderlay node, in addition to dijitDialogUnderlay
 		"class": "",
 
-		attributeMap: { id: "domNode" },
+		// Map widget attributes to DOMNode attributes.
+		_mapIdAttr: "domNode",
 
 		_setDialogIdAttr: function(id){
 			dojo.attr(this.node, "id", id + "_underlay");

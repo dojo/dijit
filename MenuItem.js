@@ -10,10 +10,9 @@ dojo.declare("dijit.MenuItem",
 		// icon, label, and expand arrow (BiDi-dependent) indicating sub-menu
 		templateString: dojo.cache("dijit", "templates/MenuItem.html"),
 
-		attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
-			label: { node: "containerNode", type: "innerHTML" },
-			iconClass: { node: "iconNode", type: "class" }
-		}),
+		// Map widget attributes to DOMNode attributes.
+		_mapLabelAttr: { node: "containerNode", type: "innerHTML" },
+		_mapIconClassAttr: { node: "iconNode", type: "class" },
 
 		baseClass: "dijitMenuItem",
 

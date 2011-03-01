@@ -3,10 +3,8 @@ define("dijit/MenuBarItem", ["dojo", "dijit", "text!dijit/templates/MenuBarItem.
 dojo.declare("dijit._MenuBarItemMixin", null, {
 	templateString: dojo.cache("dijit", "templates/MenuBarItem.html"),
 
-	// overriding attributeMap because we don't have icon
-	attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
-		label: { node: "containerNode", type: "innerHTML" }
-	})
+	// Map widget attributes to DOMNode attributes.
+	_mapIconClassAttr: null	// overriding MenuItem because we don't have a place for an icon
 });
 
 dojo.declare("dijit.MenuBarItem", [dijit.MenuItem, dijit._MenuBarItemMixin], {

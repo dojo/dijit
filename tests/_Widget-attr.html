@@ -22,12 +22,9 @@
 				[ dijit._Widget, dijit._TemplatedMixin ],
 				{
 					templateString: "<div><div dojoAttachPoint='nameNode'></div><span>${attr1}</span></div>",
-	
-					attributeMap: {
-						name: {node: "nameNode", type: "innerHTML" }
-					},
-	
+
 					name: "howdy!",
+					_mapNameAttr: {node: "nameNode", type: "innerHTML" },
 	
 					attr1: 0,
 					_setAttr1Attr: function(value){
@@ -43,7 +40,15 @@
 			dojo.declare("Textbox",
 				[ dijit._Widget, dijit._TemplatedMixin ],
 				{
-					attributeMap: {id:"", dir:"", lang:"", "class":"", style:"", title:"", disabled: "", readonly: ""},
+					_mapIdAttr:"",
+					_mapDirAttr:"",
+					_mapLangAttr:"",
+					_mapClassAttr:"",
+					_mapStyleAttr:"",
+					_mapTitleAttr:"",
+					_mapDisabledAttr: "",
+					_mapReadonlyAttr: "",
+
 					templateString: "<input>"
 				}
 			);
@@ -59,6 +64,24 @@
 	
 			dojo.declare("AttrMap", [dijit._Widget, dijit._TemplatedMixin], {
 				attributeMap: {foo: "", bar: "buttonNode", plainText: {node: "plainTextNode", type: "innerText"}},
+				templateString: "<div class='class1' style='border: 1px solid red; width: 456px'>" +
+									"<button dojoAttachPoint='buttonNode,focusNode'>hi</button>" +
+									'<span><input dojoAttachPoint="inputNode" value="input"></span>' +
+									"<span dojoAttachPoint='containerNode'></span>" +
+									"<span dojoAttachPoint='plainTextNode'>original plain text</span>" +
+								"</div>"
+			});
+
+			dojo.declare("IndividualMaps", [dijit._Widget, dijit._TemplatedMixin], {
+				foo:"",
+				_mapFooAttr: "",
+
+				bar: "",
+				_mapBarAttr: "buttonNode",
+
+				plainText: "",
+				_mapPlainTextAttr: {node: "plainTextNode", type: "innerText"},
+
 				templateString: "<div class='class1' style='border: 1px solid red; width: 456px'>" +
 									"<button dojoAttachPoint='buttonNode,focusNode'>hi</button>" +
 									'<span><input dojoAttachPoint="inputNode" value="input"></span>' +
@@ -111,10 +134,10 @@
 					function domSetGet(){
 						// test setting widget attributes corresponding to DOM node attributes
 						var t = new Textbox();
-						doh.assertFalse(t.get("disabled"));
+						doh.f(t.get("disabled"));
 						t.set("disabled", true);
-						doh.assertTrue(dojo.attr(t.domNode, "disabled"));
-						doh.assertTrue(t.get("disabled"));
+						doh.t(dojo.attr(t.domNode, "disabled"));
+						doh.t(t.get("disabled"));
 					},
 
 					function domInnerHTML(){
@@ -126,6 +149,8 @@
 						doh.is("whatever", b2.get("name"));
 						doh.is("whatever", b2.nameNode.innerHTML);
 					},
+					
+					// Test deprecated attributeMap
 					function attributeMap(){
 						var widget = new AttrMap({
 							foo:"value1",
@@ -134,16 +159,36 @@
 							style:"height: 123px",
 							plainText: "hello world <>&;"
 						});
-						var wrapper = dojo.byId("attributeMapWrapper");
+						var wrapper = dojo.byId("wrapper");
 						wrapper.appendChild(widget.domNode);
 						doh.is("value1", widget.domNode.getAttribute("foo"));
 						doh.is("value2", widget.buttonNode.getAttribute("bar"));
-						doh.assertTrue(dojo.hasClass(widget.domNode, "class1"));
-						doh.assertTrue(dojo.hasClass(widget.domNode, "class2"));
+						doh.t(dojo.hasClass(widget.domNode, "class1"), "class1");
+						doh.t(dojo.hasClass(widget.domNode, "class2"), "class2");
+						doh.is("123px", dojo.style(widget.domNode).height);
+						doh.is("456px", dojo.style(widget.domNode).width);
+						doh.is("hello world &lt;&gt;&amp;;", widget.plainTextNode.innerHTML);
+					},
+
+					function individualMaps(){
+						var widget = new IndividualMaps({
+							foo:"value1",
+							bar:"value2",
+							"class":"class2",
+							style:"height: 123px",
+							plainText: "hello world <>&;"
+						});
+						var wrapper = dojo.byId("wrapper");
+						wrapper.appendChild(widget.domNode);
+						doh.is("value1", widget.domNode.getAttribute("foo"));
+						doh.is("value2", widget.buttonNode.getAttribute("bar"));
+						doh.t(dojo.hasClass(widget.domNode, "class1"), "class1");
+						doh.t(dojo.hasClass(widget.domNode, "class2"), "class2");
 						doh.is("123px", dojo.style(widget.domNode).height);
 						doh.is("456px", dojo.style(widget.domNode).width);
 						doh.is("hello world &lt;&gt;&amp;;", widget.plainTextNode.innerHTML);
 					}
+
 				]
 			);
 
@@ -154,6 +199,6 @@
 </head>
 <body>
 	<h1>Dijit Widget.get()/set() Unit Test</h1>
-	<div id="attributeMapWrapper"></div>
+	<div id="wrapper"></div>
 </body>
 </html>

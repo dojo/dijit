@@ -48,18 +48,17 @@ dojo.declare(
 
 		templateString: "<form dojoAttachPoint='containerNode' dojoAttachEvent='onreset:_onReset,onsubmit:_onSubmit' ${!nameAttrSetting}></form>",
 
-		attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
-			action: "",
-			method: "",
-			encType: "",
-			"accept-charset": "",
-			accept: "",
-			target: ""
-		}),
+		// Map widget attributes to DOMNode attributes.
+		_mapActionAttr: "",
+		_mapMethodAttr: "",
+		_mapEncTypeAttr: "",
+		"_mapAccept-charsetAttr": "",
+		_mapAcceptAttr: "",
+		_mapTargetAttr: "",
 
 		postMixInProperties: function(){
 			// Setup name=foo string to be referenced from the template (but only if a name has been specified)
-			// Unfortunately we can't use attributeMap to set the name due to IE limitations, see #8660
+			// Unfortunately we can't use _mapNameAttr to set the name due to IE limitations, see #8660
 			this.nameAttrSetting = this.name ? ("name='" + this.name + "'") : "";
 			this.inherited(arguments);
 		},

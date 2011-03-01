@@ -53,9 +53,8 @@ dojo.declare(
 	//		when clicking the slider bar to make the handle move.
 	slideDuration: dijit.defaultDuration,
 
-	attributeMap: dojo.delegate(dijit.form._FormWidget.prototype.attributeMap, {
-		id: ""
-	}),
+	// Map widget attributes to DOMNode attributes.
+	_mapIdAttr: "",		// Override _FormValueWidget which sends id to focusNode
 
 	baseClass: "dijitSlider",
 

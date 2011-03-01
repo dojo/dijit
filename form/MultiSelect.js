@@ -13,9 +13,8 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 
 	templateString: "<select multiple='true' ${!nameAttrSetting} dojoAttachPoint='containerNode,focusNode' dojoAttachEvent='onchange: _onChange'></select>",
 
-	attributeMap: dojo.delegate(dijit.form._FormWidget.prototype.attributeMap, {
-		size: "focusNode"
-	}),
+	// Map widget attributes to DOMNode attributes.
+	_mapSizeAttr: "focusNode",
 
 	reset: function(){
 		// summary:

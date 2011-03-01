@@ -41,13 +41,12 @@ dojo.declare(
 			closeButtonNode: "dijitDialogCloseIcon"
 		},
 
-		attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
-			title: [
-				{ node: "titleNode", type: "innerHTML" },
-				{ node: "titleBar", type: "attribute" }
-			],
-			"aria-describedby":""
-		}),
+		// Map widget attributes to DOMNode attributes.
+		_mapTitleAttr: [
+			{ node: "titleNode", type: "innerHTML" },
+			{ node: "titleBar", type: "attribute" }
+		],
+		"_mapAria-describedbyAttr": "",
 
 		// open: [readonly] Boolean
 		//		True if Dialog is currently displayed on screen.

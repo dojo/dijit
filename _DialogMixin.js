@@ -5,8 +5,6 @@ dojo.declare("dijit._DialogMixin", null,
 		// summary:
 		//		This provides functions useful to Dialog and TooltipDialog
 
-		attributeMap: dijit._Widget.prototype.attributeMap,
-
 		execute: function(/*Object*/ formContents){
 			// summary:
 			//		Callback when the user hits the submit button.

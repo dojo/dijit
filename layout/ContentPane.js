@@ -107,12 +107,10 @@ dojo.declare(
 	//		or content is loaded.
 	onLoadDeferred: null,
 
-	// Override _Widget's attributeMap because we don't want the title attribute (used to specify
+	// Override _Widget's _mapTitleAttr because we don't want the title attribute (used to specify
 	// tab labels) to be copied to ContentPane.domNode... otherwise a tooltip shows up over the
 	// entire pane.
-	attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
-		title: []
-	}),
+	_mapTitleAttr: null,
 
 	// Flag to parser that I'll parse my contents, so it shouldn't.
 	stopParser: true,

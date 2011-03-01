@@ -25,15 +25,17 @@
 			dojo.addOnLoad(function(){
 				// Template with no variables (should be cached as a DOM tree)
 				dojo.declare("SimpleTemplate", [dijit._Widget, dijit._TemplatedMixin], {
-					attributeMap: {},
 					id: "test1",
+					_mapIdAttr: null,	// override _Widget to not copy id to domNode
+
 					templateString: "<button type='button'><span>hello &lt; world</span></button>"
 				});
 
 				// Template with variables
 				dojo.declare("VariableTemplate", [dijit._Widget, dijit._TemplatedMixin], {
-					attributeMap: {},
 					id: "test2",
+					_mapIdAttr: null,	// override _Widget to not copy id to domNode
+
 					num: 5,
 					bool: false,
 					text: "hello <\"' world",
@@ -43,7 +45,6 @@
 
 				// Template with ! variables (for literal substitution)
 				dojo.declare("ExclamationVariableTemplate", [dijit._Widget, dijit._TemplatedMixin], {
-					attributeMap: {},
 					markup: "<span>hello world</span>",
 
 					templateString: "<div>${!markup}</div>"
@@ -51,9 +52,10 @@
 
 				// Template that starts with special node (has to be constructed inside a <tbody>)
 				dojo.declare("TableRowTemplate", [dijit._Widget, dijit._TemplatedMixin], {
-					attributeMap: {},
 					id: "test3",
+					_mapIdAttr: null,	// override _Widget to not copy id to domNode
 					text: "bar",
+
 					templateString: "<tr><td>${text}</td></tr>"
 				});
 
@@ -64,7 +66,6 @@
 
 				// dojoAttachPoint
 				dojo.declare("AttachPoint", [dijit._Widget, dijit._TemplatedMixin], {
-					attributeMap: {foo: "", style: "", bar: "buttonNode"},
 					templateString: "<div style='border: 1px solid red'>" +
 										"<button dojoAttachPoint='buttonNode,focusNode'>hi</button>" +
 										'<span><input dojoAttachPoint="inputNode" value="input"/></span>' +
@@ -89,7 +90,7 @@
 					dojo.parser.parse();
 				});
 
-				doh.register("dijit.tests._Templated.html",
+				doh.register("_TemplatedMixin",
 					[
 						function simple(t){
 							var widget=new SimpleTemplate();

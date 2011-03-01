@@ -174,7 +174,15 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 	//		- string --> { node: string, type: "attribute" }, for example:
 	//	|	"focusNode" ---> { node: "focusNode", type: "attribute" }
 	//		- "" --> { node: "domNode", type: "attribute" }
-	attributeMap: {id:"", dir:"", lang:"", "class":"", style:"", title:""},
+	attributeMap: {},
+
+	// Map widget attributes to DOMNode attributes.
+	_mapIdAttr: "",
+	_mapDirAttr: "",
+	_mapLangAttr: "",
+	_mapClassAttr: "",
+	_mapStyleAttr: "",
+	_mapTitleAttr: "",
 
 	// _blankGif: [protected] String
 	//		Path to a blank 1x1 image.
@@ -306,16 +314,26 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 			var attrs, proto = ctor.prototype;
 			for(var fxName in proto){
 				if(fxName in this.attributeMap){ continue; }
-				if(proto[fxName] && (attrs = fxName.match(/^_(set|map)([a-zA-Z]*)Attr$/)) && attrs[1]){
+				if((attrs = fxName.match(/^_(set|map)([a-zA-Z]*)Attr$/)) && attrs[1]){
 					list.push(attrs[2].charAt(0).toLowerCase() + attrs[2].substr(1));
 				}
 			}
 		}
 
 		// Call this.set() for each attribute found above that was either specified as parameter to constructor,
-		// or has a default non-null value
+		// or has a default non-null value.   For correlated attributes like value and displayedValue, the one
+		// specified as a parameter should take precedence, so apply attributes in this.params last.
+		// Particularly important for new DateTextBox({displayedValue: ...}) since DateTextBox's default value is
+		// NaN and thus is not ignored like a default value of "".
 		dojo.forEach(list, function(attr){
-			if((this.params && attr in this.params) || this[attr]){
+			if(this.params && attr in this.params){
+				return;		// skip this one, do it below
+			}else if(this[attr]){
+				this.set(attr, this[attr]);
+			}
+		}, this);
+		dojo.forEach(list, function(attr){
+			if(this.params && attr in this.params){
 				this.set(attr, this[attr]);
 			}
 		}, this);
@@ -495,7 +513,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		//		Custom setter for the CSS "class" attribute
 		// tags:
 		//		protected
-		var mapNode = this[this.attributeMap["class"] || 'domNode'];
+		var mapNode = this[this.attributeMap["class"] || this["_mapClassAttr"] || 'domNode'];
 		dojo.replaceClass(mapNode, value, this["class"]);
 		this._set("class", value);
 	},
@@ -511,7 +529,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		// tags:
 		//		protected
 
-		var mapNode = this[this.attributeMap.style || 'domNode'];
+		var mapNode = this[this.attributeMap["style"] || this["_mapStyleAttr"] || 'domNode'];
 
 		// Note: technically we should revert any style setting made in a previous call
 		// to his method, but that's difficult to keep track of.
@@ -540,7 +558,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		// tags:
 		//		private
 
-		commands = commands || this.attributeMap[attr];
+		commands = arguments.length >= 3 ? commands : this.attributeMap[attr];
 
 		dojo.forEach(dojo.isArray(commands) ? commands : [commands], function(command){
 
@@ -639,10 +657,11 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 			// use the explicit setter
 			var result = this[names.s].apply(this, Array.prototype.slice.call(arguments, 1));
 		}else{
-			if(this[names.m] || name in this.attributeMap){
-				// mapping from widget attribute to DOMNode attribute/value/etc.
-				// TODO: attributeMap code deprecated, remove in 2.0
-				this._attrToDom(name, value, name in this.attributeMap ? this.attributeMap[name] : this[names.m]);
+			// mapping from widget attribute to DOMNode attribute/value/etc.
+			// TODO: attributeMap code deprecated, remove in 2.0
+			var map = name in this.attributeMap ? this.attributeMap[name] : this[names.m];
+			if(map != null){
+				this._attrToDom(name, value, map);
 			}
 			this._set(name, value);
 		}
@@ -659,7 +678,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 
 		var apn = this._attrPairNames;
 		if(apn[name]){ return apn[name]; }
-		var uc = name.charAt(0).toUpperCase() + name.substr(1);
+		var uc = name.charAt(0).toUpperCase() + name.substr(1);	// TODO: in 2.0 should accept-charset-->AcceptCharset instead of -->Accept-charset?
 		return (apn[name] = {
 			n: name+"Node",
 			s: "_set"+uc+"Attr",

@@ -60,9 +60,8 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 
 	templateString: dojo.cache("dijit.form", "templates/Select.html"),
 
-	// attributeMap: Object
-	//		Add in our style to be applied to the focus node
-	attributeMap: dojo.mixin(dojo.clone(dijit.form._FormSelectWidget.prototype.attributeMap),{style:"tableNode"}),
+	// Map widget attributes to DOMNode attributes.
+	_mapStyleAttr: "tableNode",
 
 	// required: Boolean
 	//		Can be true or false, default is false.

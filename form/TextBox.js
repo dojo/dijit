@@ -43,10 +43,9 @@ dojo.declare(
 
 		baseClass: "dijitTextBox",
 
-		attributeMap: dojo.delegate(dijit.form._FormValueWidget.prototype.attributeMap, {
-			maxLength: "focusNode"
-		}),
-		
+		// Map widget attributes to DOMNode attributes.
+		_mapMaxLengthAttr: "focusNode",
+
 		postMixInProperties: function(){
 			var type = this.type.toLowerCase();
 			if(this.templateString && this.templateString.toLowerCase() == "input" || ((type == "hidden" || type == "file") && this.templateString == dijit.form.TextBox.prototype.templateString)){

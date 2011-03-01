@@ -102,7 +102,7 @@ dojo.declare("dijit._TemplatedMixin",
 			this.domNode = node;
 
 			// Call down to _Widget.buildRendering() to get base classes assigned
-			// TODO: change the baseClass assignment to attributeMap
+			// TODO: change the baseClass assignment to _mapBaseClassAttr
 			this.inherited(arguments);
 
 			// recurse through the node, looking for, and attaching to, our

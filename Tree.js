@@ -47,10 +47,9 @@ dojo.declare(
 		labelNode: "dijitTreeLabel"
 	},
 
-	attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
-		label: {node: "labelNode", type: "innerText"},
-		tooltip: {node: "rowNode", type: "attribute", attribute: "title"}
-	}),
+	// Map widget attributes to DOMNode attributes.
+	_mapLabelAttr: {node: "labelNode", type: "innerText"},
+	_mapTooltipAttr: {node: "rowNode", type: "attribute", attribute: "title"},
 
 	buildRendering: function(){
 		this.inherited(arguments);

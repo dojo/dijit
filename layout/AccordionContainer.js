@@ -427,11 +427,11 @@ dojo.declare("dijit.layout._AccordionButton",
 	//		private
 
 	templateString: dojo.cache("dijit.layout", "templates/AccordionButton.html"),
-	attributeMap: dojo.mixin(dojo.clone(dijit.layout.ContentPane.prototype.attributeMap), {
-		label: {node: "titleTextNode", type: "innerHTML" },
-		title: {node: "titleTextNode", type: "attribute", attribute: "title"},
-		iconClass: { node: "iconNode", type: "class" }
-	}),
+
+	// Map widget attributes to DOMNode attributes/innerHTML.
+	_mapLabelAttr: {node: "titleTextNode", type: "innerHTML" },
+	_mapTitleAttr: {node: "titleTextNode", type: "attribute", attribute: "title"},
+	_mapIconClassAttr: { node: "iconNode", type: "class" },
 
 	baseClass: "dijitAccordionTitle",
 

@@ -65,7 +65,7 @@ dojo.declare("dijit._Widget", dijit._WidgetBase, {
 	////////////////// DEFERRED CONNECTS ///////////////////
 
 	// _deferredConnects: [protected] Object
-	//		attributeMap addendum for event handlers that should be connected only on first use
+	//		event handlers that should be connected only on first use
 	_deferredConnects: {
 		onClick: "",
 		onDblClick: "",
@@ -220,12 +220,11 @@ dojo.declare("dijit._Widget", dijit._WidgetBase, {
 		// If a subclass has redefined a callback (ex: onClick) then assume it's being
 		// connected to manually.
 		this._deferredConnects = dojo.clone(this._deferredConnects);
-		for(var attr in this.attributeMap){
-			delete this._deferredConnects[attr]; // can't be in both attributeMap and _deferredConnects
-		}
 		for(attr in this._deferredConnects){
-			if(this[attr] !== dijit._connectOnUseEventHandler){
-				delete this._deferredConnects[attr];	// redefined, probably dojoAttachEvent exists
+			if(attr in this.attributeMap || // can't be in both attributeMap and _deferredConnects
+				this._getAttrNames(attr).m in this ||	// can't have custom _mapXXXAttr reference and be in _deferredConnects
+				this[attr] !== dijit._connectOnUseEventHandler){	// redefined, probably dojoAttachEvent exists
+				delete this._deferredConnects[attr];
 			}
 		}
 
