@@ -5,7 +5,45 @@ define("dijit/_WidgetBase", ["dojo", "dijit", "dijit/_base/manager", "dojo/State
 dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 	// summary:
 	//		Future base class for all Dijit widgets.
+	// description:
+	//		Future base class for all Dijit widgets.
 	//		_Widget extends this class adding support for various features needed by desktop.
+	//
+	//		Provides stubs for widget lifecycle methods for subclasses to extend, like postMixInProperties(), buildRendering(),
+	//		postCreate(), startup(), and destroy(), and also public API methods like set(), get(), and watch().
+	//
+	//		Widgets can provide custom setters/getters for widget attributes, which are called automatically by set(name, value).
+	//		For an attribute XXX, define methods _setXXXAttr() and/or _getXXXAttr().
+	//
+	//		You can also define mappings from a widget attribute XXX to the widget's DOMNodes,
+	//		by defining _mapXXXAttr attributes in the widget.
+	//
+	//		- DOM node attribute
+	// |		_mapFocusAttr: {node: "focusNode", type: "attribute"}
+	// 		Maps this.focus to this.focusNode.focus
+	//
+	//		- DOM node innerHTML
+	//	|		_mapTitleAttr: { node: "titleNode", type: "innerHTML" }
+	//		Maps this.title to this.titleNode.innerHTML
+	//
+	//		- DOM node innerText
+	//	|		_mapTitleAttr: { node: "titleNode", type: "innerText" }
+	//		Maps this.title to this.titleNode.innerText
+	//
+	//		- DOM node CSS class
+	// |		_mapMyClassAttr: { node: "domNode", type: "class" }
+	//		Maps this.myClass to this.domNode.className
+	//
+	//		If the value of _mapXXXAttr is an array, then each element in the array matches one of the
+	//		formats of the above list.
+	//
+	//		There are also some shorthands where the value is a simple string:
+	//
+	//	|	_mapValueAttr: "focusNode"
+	//		Maps this.value to this.focusNode.value
+	//
+	//	|	_mapTextLengthAttr: ""
+	//		Maps this.textLength to this.domNode.textLength
 
 	// id: [const] String
 	//		A unique, opaque ID string that can be assigned by users or by the
@@ -98,6 +136,9 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 =====*/
 
 	// attributeMap: [protected] Object
+	//		Deprecated.   Instead of attributeMap, widget should have a _mapXXXAttr attribute
+	//		for each XXX attribute to be mapped to the DOM.
+	//
 	//		attributeMap sets up a "binding" between attributes (aka properties)
 	//		of the widget and the widget's DOM.
 	//		Changes to widget attributes listed in attributeMap will be
@@ -235,52 +276,49 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 
 	_applyAttributes: function(){
 		// summary:
-		//		Step during widget creation to copy all widget attributes to the
-		//		DOM as per attributeMap and _setXXXAttr functions.
-		// description:
+		//		Step during widget creation to copy  widget attributes to the
+		//		DOM according to attributeMap and _mapXXXAttr objects, and also to call
+		//		custom _setXXXAttr() methods.
+		//
 		//		Skips over blank/false attribute values, unless they were explicitly specified
 		//		as parameters to the widget, since those are the default anyway,
 		//		and setting tabIndex="" is different than not setting tabIndex at all.
 		//
 		//		It processes the attributes in the attribute map first, and then
-		//		it goes through and processes the attributes for the _setXXXAttr
-		//		functions that have been specified
+		//		it goes through and processes the attributes with corresponding
+		//		_mapXXXAttr objects or _setXXXAttr() functions
 		// tags:
 		//		private
-		var condAttrApply = function(attr, scope){
-			if((scope.params && attr in scope.params) || scope[attr]){
-				scope.set(attr, scope[attr]);
+
+		// Get list of attributes where this.set(name, value) will do something beyond
+		// setting this[name] = value.  Specifically, attributes that have:
+		//		- associated _mapXXXAttr objects,
+		//		- associated _setXXXAttr() methods
+		//		- entries in attributeMap.
+		var ctor = this.constructor,
+			list = ctor._setterAttrs;
+		if(!list){
+			list = (ctor._setterAttrs = []);
+			for(var attr in this.attributeMap){
+				list.push(attr);
 			}
-		};
 
-		// Do the attributes in attributeMap
-		for(var attr in this.attributeMap){
-			condAttrApply(attr, this);
-		}
-
-		// And also any attributes with custom setters
-		dojo.forEach(this._getSetterAttributes(), function(a){
-			if(!(a in this.attributeMap)){
-				condAttrApply(a, this);
-			}
-		}, this);
-	},
-
-	_getSetterAttributes: function(){
-		// summary:
-		//		Returns list of attributes with custom setters for this widget
-		var ctor = this.constructor;
-		if(!ctor._setterAttrs){
-			var r = (ctor._setterAttrs = []),
-				attrs,
-				proto = ctor.prototype;
+			var attrs, proto = ctor.prototype;
 			for(var fxName in proto){
-				if(dojo.isFunction(proto[fxName]) && (attrs = fxName.match(/^_set([a-zA-Z]*)Attr$/)) && attrs[1]){
-					r.push(attrs[1].charAt(0).toLowerCase() + attrs[1].substr(1));
+				if(fxName in this.attributeMap){ continue; }
+				if(proto[fxName] && (attrs = fxName.match(/^_(set|map)([a-zA-Z]*)Attr$/)) && attrs[1]){
+					list.push(attrs[2].charAt(0).toLowerCase() + attrs[2].substr(1));
 				}
 			}
 		}
-		return ctor._setterAttrs;	// String[]
+
+		// Call this.set() for each attribute found above that was either specified as parameter to constructor,
+		// or has a default non-null value
+		dojo.forEach(list, function(attr){
+			if((this.params && attr in this.params) || this[attr]){
+				this.set(attr, this[attr]);
+			}
+		}, this);
 	},
 
 	postMixInProperties: function(){
@@ -491,17 +529,19 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		this._set("style", value);
 	},
 
-	_attrToDom: function(/*String*/ attr, /*String*/ value){
+	_attrToDom: function(/*String*/ attr, /*String*/ value, /*Object?*/ commands){
 		// summary:
 		//		Reflect a widget attribute (title, tabIndex, duration etc.) to
-		//		the widget DOM, as specified in attributeMap.
+		//		the widget DOM, as specified by commands parameter.
+		//		If commands isn't specified then it's looked up from attributeMap.
 		//		Note some attributes like "type"
 		//		cannot be processed this way as they are not mutable.
 		//
 		// tags:
 		//		private
 
-		var commands = this.attributeMap[attr];
+		commands = commands || this.attributeMap[attr];
+
 		dojo.forEach(dojo.isArray(commands) ? commands : [commands], function(command){
 
 			// Get target node and what we are doing to that node
@@ -578,6 +618,9 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		//		would be equivalent to writing:
 		//	|	widget.bar = 3;
 		//
+		//		Also performs mappings according from widget attributes to DOMNode
+		//		attributes according to _mapFooAttr properties of the widget.
+		//
 		//	set() may also be called with a hash of name/value pairs, ex:
 		//	|	myWidget.set({
 		//	|		foo: "Howdy",
@@ -596,9 +639,10 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 			// use the explicit setter
 			var result = this[names.s].apply(this, Array.prototype.slice.call(arguments, 1));
 		}else{
-			// if param is specified as DOM node attribute, copy it
-			if(name in this.attributeMap){
-				this._attrToDom(name, value);
+			if(this[names.m] || name in this.attributeMap){
+				// mapping from widget attribute to DOMNode attribute/value/etc.
+				// TODO: attributeMap code deprecated, remove in 2.0
+				this._attrToDom(name, value, name in this.attributeMap ? this.attributeMap[name] : this[names.m]);
 			}
 			this._set(name, value);
 		}
@@ -619,6 +663,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		return (apn[name] = {
 			n: name+"Node",
 			s: "_set"+uc+"Attr",
+			m: "_map"+uc+"Attr",
 			g: "_get"+uc+"Attr"
 		});
 	},
