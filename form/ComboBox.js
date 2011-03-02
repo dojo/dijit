@@ -451,7 +451,7 @@ dojo.declare(
 				this.set('displayedValue', newvalue);
 			}else{
 				if(this.value != this._lastValueReported){
-					dijit.form._FormValueWidget.prototype._setValueAttr.call(this, this.value, true);
+					this._handleOnChange(this.value, true);
 				}
 				this._refreshState();
 			}
@@ -473,20 +473,31 @@ dojo.declare(
 			//		set('item', value)
 			// tags:
 			//		private
-			if(!displayedValue){
-				// Use labelFunc() to get displayedValue.  But it may return HTML so need to convert to plain text.
-				var label = this.labelFunc(item, this.store);
-				if(this.labelType == "html"){
-					var span = this._helperSpan;
-					span.innerHTML = label;
-					displayedValue = span.innerText || span.textContent;
-				}else{
-					displayedValue = label;
+			var value = '';
+			if(item){
+				if(!displayedValue){
+					displayedValue = this._getItemText(item);
 				}
+				value = this._getValueField() != this.searchAttr? this.store.getIdentity(item) : displayedValue;
 			}
-			var value = this._getValueField() != this.searchAttr? this.store.getIdentity(item) : displayedValue;
 			this._set("item", item);
-			dijit.form.ComboBox.superclass._setValueAttr.call(this, value, priorityChange, displayedValue);
+			this.inherited("_setValueAttr", [value, priorityChange, displayedValue]);
+		},
+
+		_getItemText: function(/*item*/ item){
+			// summary:
+			//              Get the item's text label
+			// description:
+			//              Users shouldn't call this function; they should be calling
+			//              set('item', value)
+			// tags:
+			//              private
+			// Use labelFunc() to get displayedValue.  But it may return HTML so need to convert to plain text.
+			var label = this.labelFunc(item, this.store);
+			if(this.labelType == "html"){
+				label = label.replace(/<\/?[a-zA-Z][^>]*>/g, "");
+			}
+			return label;
 		},
 
 		_announceOption: function(/*Node*/ node){
@@ -526,7 +537,7 @@ dojo.declare(
 			}
 			this.closeDropDown();
 			this._setCaretPos(this.focusNode, this.focusNode.value.length);
-			dijit.form._FormValueWidget.prototype._setValueAttr.call(this, this.value, true); // set this.value and fire onChange
+			this._handleOnChange(this.value, true);
 		},
 
 		_startSearchAll: function(){
@@ -1107,7 +1118,7 @@ dojo.declare(
 			//		Sets the value of the select.
 			this._set("item", null); // value not looked up in store
 			if(!value){ value = ''; } // null translates to blank
-			dijit.form.ValidationTextBox.prototype._setValueAttr.call(this, value, priorityChange, displayedValue);
+			this.inherited(arguments);
 		}
 	}
 );

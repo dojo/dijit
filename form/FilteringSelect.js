@@ -68,9 +68,8 @@ dojo.declare(
 			if(!result.length){
 				//#3268: don't modify display value on bad input
 				//#3285: change CSS to indicate error
-				this.valueNode.value = "";
-				dijit.form.TextBox.superclass._setValueAttr.call(this, "", priorityChange || (priorityChange === undefined && !this._focused));
-				this._set("item", null);
+				this._set('value', '');
+				this.set("item", null, priorityChange || (priorityChange === undefined && !this._focused), this.textbox.value);
 				this.validate(this._focused);
 			}else{
 				this.set('item', result[0], priorityChange);
@@ -85,7 +84,7 @@ dojo.declare(
 			if(dataObject.query[this.searchAttr] != this._lastQuery){
 				return;
 			}
-			dijit.form.ComboBoxMixin.prototype._openResultList.apply(this, arguments);
+			this.inherited("_openResultList", arguments);
 
 			if(this.item === undefined){ // item == undefined for keyboard search
 				// If the search returned no items that means that the user typed
