@@ -24,7 +24,7 @@
 					templateString: "<div><div dojoAttachPoint='nameNode'></div><span>${attr1}</span></div>",
 
 					name: "howdy!",
-					_mapNameAttr: {node: "nameNode", type: "innerHTML" },
+					_setNameAttr: {node: "nameNode", type: "innerHTML" },
 	
 					attr1: 0,
 					_setAttr1Attr: function(value){
@@ -40,14 +40,14 @@
 			dojo.declare("Textbox",
 				[ dijit._Widget, dijit._TemplatedMixin ],
 				{
-					_mapIdAttr:"",
-					_mapDirAttr:"",
-					_mapLangAttr:"",
-					_mapClassAttr:"",
-					_mapStyleAttr:"",
-					_mapTitleAttr:"",
-					_mapDisabledAttr: "",
-					_mapReadonlyAttr: "",
+					_setIdAttr:"",
+					_setDirAttr:"",
+					_setLangAttr:"",
+					_setClassAttr: { node: "domNode", type: "class" },
+					_setStyleAttr:"",
+					_setTitleAttr:"",
+					_setDisabledAttr: "",
+					_setReadonlyAttr: "",
 
 					templateString: "<input>"
 				}
@@ -74,13 +74,13 @@
 
 			dojo.declare("IndividualMaps", [dijit._Widget, dijit._TemplatedMixin], {
 				foo:"",
-				_mapFooAttr: "",
+				_setFooAttr: "",
 
 				bar: "",
-				_mapBarAttr: "buttonNode",
+				_setBarAttr: "buttonNode",
 
 				plainText: "",
-				_mapPlainTextAttr: {node: "plainTextNode", type: "innerText"},
+				_setPlainTextAttr: {node: "plainTextNode", type: "innerText"},
 
 				templateString: "<div class='class1' style='border: 1px solid red; width: 456px'>" +
 									"<button dojoAttachPoint='buttonNode,focusNode'>hi</button>" +

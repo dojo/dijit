@@ -60,9 +60,6 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 
 	templateString: dojo.cache("dijit.form", "templates/Select.html"),
 
-	// Map widget attributes to DOMNode attributes.
-	_mapStyleAttr: "tableNode",
-
 	// required: Boolean
 	//		Can be true or false, default is false.
 	required: false,
@@ -250,7 +247,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 
 	_setStyleAttr: function(/*String||Object*/ value){
 		this.inherited(arguments);
-		dojo.toggleClass(this.domNode, this.baseClass + "FixedWidth", !!this.tableNode.style.width);
+		dojo.toggleClass(this.domNode, this.baseClass + "FixedWidth", !!this.domNode.style.width);
 	},
 
 	isLoaded: function(){

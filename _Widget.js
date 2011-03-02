@@ -222,7 +222,7 @@ dojo.declare("dijit._Widget", dijit._WidgetBase, {
 		this._deferredConnects = dojo.clone(this._deferredConnects);
 		for(attr in this._deferredConnects){
 			if(attr in this.attributeMap || // can't be in both attributeMap and _deferredConnects
-				this._getAttrNames(attr).m in this ||	// can't have custom _mapXXXAttr reference and be in _deferredConnects
+				this._getAttrNames(attr).s in this ||	// can't have custom _setXXXAttr reference and be in _deferredConnects
 				this[attr] !== dijit._connectOnUseEventHandler){	// redefined, probably dojoAttachEvent exists
 				delete this._deferredConnects[attr];
 			}

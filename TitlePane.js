@@ -55,8 +55,8 @@ dojo.declare(
 	templateString: dojo.cache("dijit", "templates/TitlePane.html"),
 
 	// Map widget attributes to DOMNode attributes.
-	_mapTitleAttr: { node: "titleNode", type: "innerHTML" },
-	_mapTooltipAttr: {node: "focusNode", type: "attribute", attribute: "title"},	// focusNode spans the entire width, titleNode doesn't
+	_setTitleAttr: { node: "titleNode", type: "innerHTML" },
+	_setTooltipAttr: {node: "focusNode", type: "attribute", attribute: "title"},	// focusNode spans the entire width, titleNode doesn't
 
 	buildRendering: function(){
 		this.inherited(arguments);

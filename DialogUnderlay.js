@@ -33,7 +33,7 @@ dojo.declare(
 		"class": "",
 
 		// Map widget attributes to DOMNode attributes.
-		_mapIdAttr: "domNode",
+		_setIdAttr: "domNode",
 
 		_setDialogIdAttr: function(id){
 			dojo.attr(this.node, "id", id + "_underlay");

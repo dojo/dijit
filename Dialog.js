@@ -42,11 +42,11 @@ dojo.declare(
 		},
 
 		// Map widget attributes to DOMNode attributes.
-		_mapTitleAttr: [
+		_setTitleAttr: [
 			{ node: "titleNode", type: "innerHTML" },
 			{ node: "titleBar", type: "attribute" }
 		],
-		"_mapAria-describedbyAttr": "",
+		"_setAria-describedbyAttr": "",
 
 		// open: [readonly] Boolean
 		//		True if Dialog is currently displayed on screen.

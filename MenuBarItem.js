@@ -4,7 +4,7 @@ dojo.declare("dijit._MenuBarItemMixin", null, {
 	templateString: dojo.cache("dijit", "templates/MenuBarItem.html"),
 
 	// Map widget attributes to DOMNode attributes.
-	_mapIconClassAttr: null	// overriding MenuItem because we don't have a place for an icon
+	_setIconClassAttr: null	// cancel MenuItem setter because we don't have a place for an icon
 });
 
 dojo.declare("dijit.MenuBarItem", [dijit.MenuItem, dijit._MenuBarItemMixin], {

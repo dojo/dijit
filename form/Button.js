@@ -45,7 +45,7 @@ dojo.declare("dijit.form.Button",
 	templateString: dojo.cache("dijit.form", "templates/Button.html"),
 
 	// Map widget attributes to DOMNode attributes.
-	_mapValueAttr: "valueNode",
+	_setValueAttr: "valueNode",
 
 	_onClick: function(/*Event*/ e){
 		// summary:
@@ -245,9 +245,9 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 	templateString: dojo.cache("dijit.form", "templates/ComboButton.html"),
 
 	// Map widget attributes to DOMNode attributes.
-	_mapIdAttr: "",	// override Button which puts id on the focusNode
-	_mapTabIndexAttr: ["focusNode", "titleNode"],
-	_mapTitleAttr: "titleNode",
+	_setIdAttr: "",	// override Button which puts id on the focusNode
+	_setTabIndexAttr: ["focusNode", "titleNode"],
+	_setTitleAttr: "titleNode",
 
 	// optionsTitle: String
 	//		Text that describes the options menu (accessibility)
@@ -310,7 +310,7 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 	checked: false,
 
 	// Map widget attributes to DOMNode attributes.
-	_mapCheckedAttr: "focusNode",
+	_setCheckedAttr: "focusNode",
 
 	_clicked: function(/*Event*/ evt){
 		this.set('checked', !this.checked);

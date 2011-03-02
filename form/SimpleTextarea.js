@@ -17,8 +17,8 @@ dojo.declare("dijit.form.SimpleTextarea",
 	baseClass: "dijitTextBox dijitTextArea",
 
 	// Map widget attributes to DOMNode attributes.
-	_mapRowsAttr: "textbox",
-	_mapColsAttr: "textbox",
+	_setRowsAttr: "textbox",
+	_setColsAttr: "textbox",
 
 	// rows: Number
 	//		The number of rows of text.

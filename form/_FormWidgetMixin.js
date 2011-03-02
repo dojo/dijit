@@ -2,7 +2,7 @@ define("dijit/form/_FormWidgetMixin", ["dojo", "dijit", "dojo/window"], function
 
 dojo.declare("dijit.form._FormWidgetMixin", null, {
 	// summary:
-	//		Base class for widgets corresponding to native HTML elements such as <checkbox> or <button>,
+	//		Mixin for widgets corresponding to native HTML elements such as <checkbox> or <button>,
 	//		which can be children of a <form> node or a `dijit.form.Form` widget.
 	//
 	// description:
@@ -47,15 +47,15 @@ dojo.declare("dijit.form._FormWidgetMixin", null, {
 
 	// Map widget attributes to DOMNode attributes.
 	// These mixins assume that the focus node is an INPUT, as many but not all _FormWidgets are.
-	_mapValueAttr: "focusNode",
-	_mapIdAttr: "focusNode",
-	_mapTabIndexAttr: "focusNode",
-	_mapAltAttr: "focusNode",
-	_mapTitleAttr: "focusNode",
+	_setValueAttr: "focusNode",
+	_setIdAttr: "focusNode",
+	_setTabIndexAttr: "focusNode",
+	_setAltAttr: "focusNode",
+	_setTitleAttr: "focusNode",
 
 	postMixInProperties: function(){
 		// Setup name=foo string to be referenced from the template (but only if a name has been specified)
-		// Unfortunately we can't use _mapNameAttr to set the name due to IE limitations, see #8660
+		// Unfortunately we can't use _setNameAttr to set the name due to IE limitations, see #8660
 		// Regarding escaping, see heading "Attribute values" in
 		// http://www.w3.org/TR/REC-html40/appendix/notes.html#h-B.3.2
 		this.nameAttrSetting = this.name ? ('name="' + this.name.replace(/'/g, "&quot;") + '"') : '';
@@ -83,7 +83,7 @@ dojo.declare("dijit.form._FormWidgetMixin", null, {
 
 			// clear tab stop(s) on this widget's focusable node(s)  (ComboBox has two focusable nodes)
 			var attachPointNames = "tabIndex" in this.attributeMap ? this.attributeMap.tabIndex :
-				("_mapTabIndexAttr" in this) ? this._mapTabIndexAttr : "focusNode";
+				("_setTabIndexAttr" in this) ? this._setTabIndexAttr : "focusNode";
 			dojo.forEach(dojo.isArray(attachPointNames) ? attachPointNames : [attachPointNames], function(attachPointName){
 				var node = this[attachPointName];
 				// complex code because tabIndex=-1 on a <div> doesn't work on FF
@@ -223,13 +223,13 @@ dojo.declare("dijit.form._FormWidgetMixin", null, {
 
 dojo.declare("dijit.form._FormValueMixin", dijit.form._FormWidgetMixin, {
 	// summary:
-	//		Base class for widgets corresponding to native HTML elements such as <input> or <select> that have user changeable values.
+	//		Mixin for widgets corresponding to native HTML elements such as <input> or <select> that have user changeable values.
 	// description:
-	//		Each _FormValueWidget represents a single input value, and has a (possibly hidden) <input> element,
+	//		Each _FormValueMixin represents a single input value, and has a (possibly hidden) <input> element,
 	//		to which it serializes it's input value, so that form submission (either normal submission or via FormBind?)
 	//		works as expected.
 
-	// Don't attempt _mapTypeAttr or _mapNameAttr -- name and type must be declared
+	// Don't attempt _setTypeAttr or _setNameAttr -- name and type must be declared
 	// directly in the template as read by the parser in order to function. IE is known to specifically
 	// require the 'name' attribute at element creation time.  See #8484, #8660.
 
@@ -238,9 +238,6 @@ dojo.declare("dijit.form._FormValueMixin", dijit.form._FormWidgetMixin, {
 	//		In markup, this is specified as "readOnly".
 	//		Similar to disabled except readOnly form values are submitted.
 	readOnly: false,
-
-	// Don't copy value to focus node, or anywhere
-	_mapValueAttr: null,
 
 	_setReadOnlyAttr: function(/*Boolean*/ value){
 		dojo.attr(this.focusNode, 'readOnly', value);

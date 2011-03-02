@@ -48,8 +48,8 @@ dojo.declare(
 	},
 
 	// Map widget attributes to DOMNode attributes.
-	_mapLabelAttr: {node: "labelNode", type: "innerText"},
-	_mapTooltipAttr: {node: "rowNode", type: "attribute", attribute: "title"},
+	_setLabelAttr: {node: "labelNode", type: "innerText"},
+	_setTooltipAttr: {node: "rowNode", type: "attribute", attribute: "title"},
 
 	buildRendering: function(){
 		this.inherited(arguments);

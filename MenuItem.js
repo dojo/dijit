@@ -11,8 +11,8 @@ dojo.declare("dijit.MenuItem",
 		templateString: dojo.cache("dijit", "templates/MenuItem.html"),
 
 		// Map widget attributes to DOMNode attributes.
-		_mapLabelAttr: { node: "containerNode", type: "innerHTML" },
-		_mapIconClassAttr: { node: "iconNode", type: "class" },
+		_setLabelAttr: { node: "containerNode", type: "innerHTML" },
+		_setIconClassAttr: { node: "iconNode", type: "class" },
 
 		baseClass: "dijitMenuItem",
 
