@@ -1,4 +1,4 @@
-define("dijit/DialogUnderlay", ["dojo", "dijit", "dojo/window", "dijit/_Widget", "dijit._TemplatedMixin"], function(dojo, dijit) {
+define("dijit/DialogUnderlay", ["dojo", "dijit", "dojo/window", "dijit/_Widget", "dijit/_TemplatedMixin"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.DialogUnderlay",

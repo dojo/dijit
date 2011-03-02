@@ -1,4 +1,4 @@
-define("dijit/MenuSeparator", ["dojo", "dijit", "text!dijit/templates/MenuSeparator.html", "dijit/_Widget", "dijit._TemplatedMixin", "dijit/_Contained"], function(dojo, dijit) {
+define("dijit/MenuSeparator", ["dojo", "dijit", "text!dijit/templates/MenuSeparator.html", "dijit/_Widget", "dijit/_TemplatedMixin", "dijit/_Contained"], function(dojo, dijit) {
 
 dojo.declare("dijit.MenuSeparator",
 		[dijit._Widget, dijit._TemplatedMixin, dijit._Contained],

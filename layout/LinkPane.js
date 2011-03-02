@@ -1,4 +1,4 @@
-define("dijit/layout/LinkPane", ["dojo", "dijit", "dijit/layout/ContentPane", "dijit._TemplatedMixin"], function(dojo, dijit) {
+define("dijit/layout/LinkPane", ["dojo", "dijit", "dijit/layout/ContentPane", "dijit/_TemplatedMixin"], function(dojo, dijit) {
 
 dojo.declare("dijit.layout.LinkPane",
 	[dijit.layout.ContentPane, dijit._TemplatedMixin],

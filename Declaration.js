@@ -1,4 +1,4 @@
-define("dijit/Declaration", ["dojo", "dijit", "dijit/_Widget", "dijit._TemplatedMixin", "dijit._WidgetsInTemplateMixin"], function(dojo, dijit) {
+define("dijit/Declaration", ["dojo", "dijit", "dijit/_Widget", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.Declaration",

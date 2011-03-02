@@ -1,4 +1,4 @@
-define("dijit/ProgressBar", ["dojo", "dijit", "text!dijit/templates/ProgressBar.html", "dojo/fx", "dojo/number", "dijit/_Widget", "dijit._TemplatedMixin"], function(dojo, dijit) {
+define("dijit/ProgressBar", ["dojo", "dijit", "text!dijit/templates/ProgressBar.html", "dojo/fx", "dojo/number", "dijit/_Widget", "dijit/_TemplatedMixin"], function(dojo, dijit) {
 
 dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._TemplatedMixin], {
 	// summary:

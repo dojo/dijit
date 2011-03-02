@@ -1,4 +1,4 @@
-define("dijit/layout/AccordionContainer", ["dojo", "dijit", "text!dijit/layout/templates/AccordionButton.html", "dijit/_Container", "dijit._TemplatedMixin", "dijit/_CssStateMixin", "dijit/layout/StackContainer", "dijit/layout/ContentPane", "dijit/layout/AccordionPane"], function(dojo, dijit) {
+define("dijit/layout/AccordionContainer", ["dojo", "dijit", "text!dijit/layout/templates/AccordionButton.html", "dijit/_Container", "dijit/_TemplatedMixin", "dijit/_CssStateMixin", "dijit/layout/StackContainer", "dijit/layout/ContentPane", "dijit/layout/AccordionPane"], function(dojo, dijit) {
 
 //dojo.require("dijit.layout.AccordionPane ");	// for back compat, remove for 2.0
 

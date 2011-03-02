@@ -1,4 +1,4 @@
-define("dijit/Tooltip", ["dojo", "dijit", "dijit/_Widget", "dijit._TemplatedMixin"], function(dojo, dijit) {
+define("dijit/Tooltip", ["dojo", "dijit", "dijit/_Widget", "dijit/_TemplatedMixin"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit._MasterTooltip",

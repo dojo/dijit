@@ -1,4 +1,4 @@
-define("dijit/Calendar", ["dojo", "dijit", "text!dijit/templates/Calendar.html", "dojo/string", "dojo/cldr/supplemental", "dojo/date", "dojo/date/locale", "dijit/_Widget", "dijit._TemplatedMixin", "dijit._WidgetsInTemplateMixin", "dijit/_CssStateMixin", "dijit/form/DropDownButton"], function(dojo, dijit) {
+define("dijit/Calendar", ["dojo", "dijit", "text!dijit/templates/Calendar.html", "dojo/string", "dojo/cldr/supplemental", "dojo/date", "dojo/date/locale", "dijit/_Widget", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin", "dijit/_CssStateMixin", "dijit/form/DropDownButton"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.Calendar",
