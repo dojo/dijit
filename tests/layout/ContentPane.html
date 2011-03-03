@@ -29,6 +29,7 @@
 
 		dojo.require("dijit._Widget");
 		dojo.require("dijit._TemplatedMixin");
+		dojo.require("dijit._WidgetsInTemplateMixin");
 		dojo.require("dijit._Container");
 		dojo.require("dijit.layout._LayoutWidget");
 		dojo.require("dijit.layout.StackContainer");
@@ -56,7 +57,7 @@
 				]
 			);
 
-			var pane2;
+			var pane2, MyWidget;
 
 			doh.registerGroup("pane2",
 				[
@@ -158,6 +159,25 @@
 
 							// reset back to default
 							pane2.extractContent = def;
+						}
+					},
+					{
+						name: "setContent_widget", // for #12348
+						setUp: function(t){
+							// declare a widget whose template contains a non-templated widget
+							MyWidget = dojo.declare([dijit._Widget, dijit._TemplatedMixin, dijit._WidgetsInTemplateMixin], {
+								templateString: '<div><div '
+									+ 'data-dojo-type="dijit.layout.StackContainer"></div></div>'
+							});
+						},
+						runTest: function(t){
+							var w = new MyWidget(), dfd = new doh.Deferred();
+							pane2.set("content", w).then(function(){
+									dfd.callback(true);
+								}, function(e){
+									dfd.errback(e);
+							});
+							return dfd;
 						}
 					}
 				]
