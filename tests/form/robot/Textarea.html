@@ -144,17 +144,19 @@
 								d = new doh.Deferred(),
 								modifier = dojo.isMac ? {meta: true} : {ctrl: true},
 								w = dijit.byId("blank"),
-								height1 = dojo.marginBox(w.domNode).h,
-								height2,
-								height3;
+								height1, height2, height3;
 
 							focusThenRun(w, function(){
+								doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+								doh.robot.sequence(function(){
+									height1 = dojo.marginBox(w.domNode).h;
+								}, 500);
 								// Cut text, height should decrease
 								doh.robot.keyPress("a", 1, modifier);
 								doh.robot.keyPress("x", 500, modifier);
 								doh.robot.sequence(function(){
 									height2 = dojo.marginBox(w.domNode).h;
-								}, 1000);
+								}, 500);
 
 								// Paste text, height should increase
 								doh.robot.keyPress("v", 500, modifier);
@@ -163,7 +165,7 @@
 									height3 = dojo.marginBox(w.domNode).h;
 									doh.t(height2 < height1, "height went from " + height1 + " to " + height2);
 									doh.t(height3 > height2, "height went from " + height2 + " to " + height3);
-								}), 1000);
+								}), 500);
 							});
 
 							return d;

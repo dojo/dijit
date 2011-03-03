@@ -55,7 +55,6 @@ dojo.declare("dijit.form.SimpleTextarea",
 		return this.inherited(arguments);
 	},
 
-	_previousValue: "",
 	_onInput: function(/*Event?*/ e){
 		// Override TextBox._onInput() to enforce maxLength restriction
 		if(this.maxLength){
@@ -63,7 +62,6 @@ dojo.declare("dijit.form.SimpleTextarea",
 			var value = this.textbox.value.replace(/\r/g,'');
 			var overflow = value.length - maxLength;
 			if(overflow > 0){
-				if(e){ dojo.stopEvent(e); }
 				var textarea = this.textbox;
 				if(textarea.selectionStart){
 					var pos = textarea.selectionStart;
@@ -83,7 +81,6 @@ dojo.declare("dijit.form.SimpleTextarea",
 					range.select();
 				}
 			}
-			this._previousValue = this.textbox.value;
 		}
 		this.inherited(arguments);
 	}

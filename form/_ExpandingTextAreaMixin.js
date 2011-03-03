@@ -1,0 +1,123 @@
+define("dijit/form/_ExpandingTextAreaMixin", ["dojo", "dijit"], function(dojo, dijit) {
+
+(function(){
+	// feature detection
+	var needsHelpShrinking;
+
+	dojo.declare("dijit.form._ExpandingTextAreaMixin", null, {
+		// summary:
+		//		Mixin for textarea widgets to add auto-expanding capability
+
+		_setValueAttr: function(){
+			this.inherited(arguments);
+			this.resize();
+		},
+
+		postCreate: function(){
+			this.inherited(arguments);
+			var textarea = this.textbox;
+
+			if(needsHelpShrinking == undefined){
+				var te = dojo.create('textarea', {rows:"5", cols:"20", value: ' ', style: {zoom:1, overflow:'hidden', visibility:'hidden', position:'absolute', border:"0px solid black", padding:"0px"}}, dojo.body(), "last");
+				needsHelpShrinking = te.scrollHeight >= te.clientHeight;
+				dojo.body().removeChild(te);
+			}
+			this.connect(textarea, "onscroll", "_resizeLater");
+			this.connect(textarea, "onresize", "_resizeLater");
+			this.connect(textarea, "onfocus", "_resizeLater");
+			textarea.style.overflowY = "hidden";
+			this._estimateHeight();
+			this._resizeLater();
+		},
+
+		_onInput: function(e){
+			this.inherited(arguments);
+			this.resize();
+		},
+
+		_estimateHeight: function(){
+			// summary:
+			// 		Approximate the height when the textarea is invisible with the number of lines in the text.
+			// 		Fails when someone calls setValue with a long wrapping line, but the layout fixes itself when the user clicks inside so . . .
+			// 		In IE, the resize event is supposed to fire when the textarea becomes visible again and that will correct the size automatically.
+			//
+			var textarea = this.textbox;
+			textarea.style.maxHeight = "";
+			textarea.style.height = "auto";
+			// #rows = #newlines+1
+			// Note: on Moz, the following #rows appears to be 1 too many.
+			// Actually, Moz is reserving room for the scrollbar.
+			// If you increase the font size, this behavior becomes readily apparent as the last line gets cut off without the +1.
+			textarea.rows = (textarea.value.match(/\n/g) || []).length + 2;
+		},
+
+		_resizeLater: function(){
+			var textarea = this.textbox;
+			textarea.scrollTop = 0;
+			if(this.resizeTimer){ clearTimeout(this.resizeTimer); }
+			this.resizeTimer = setTimeout(dojo.hitch(this, "_resize"), 0); // try to collapse multiple shrinks into 1 after inputis processed
+		},
+
+		_resize: function(){
+			var textarea = this.textbox;
+
+			function textareaScrollHeight(){
+				var empty = false;
+				if(textarea.value === ''){
+					textarea.value = ' ';
+					empty = true;
+				}
+				var sh = textarea.scrollHeight;
+				if(empty){ textarea.value = ''; }
+				return sh;
+			}
+
+			this.resizeTimer = null;
+			if(this.busyResizing){ return; }
+			this.busyResizing = true;
+			if(textareaScrollHeight() || textarea.offsetHeight){
+				var currentHeight = textarea.style.height;
+				if(!(/px/.test(currentHeight))){
+					currentHeight = textareaScrollHeight();
+					textarea.rows = 1;
+					textarea.style.maxHeight = textarea.style.height = currentHeight + "px";
+				}
+				var newH = parseInt(currentHeight) + textareaScrollHeight() - textarea.clientHeight;
+				var newHpx = newH + "px";
+				if(newHpx != textarea.style.maxHeight){
+					textarea.rows = 1;
+					textarea.style.maxHeight = textarea.style.height = newHpx;
+				}
+				if(needsHelpShrinking){
+					var scrollHeight = textareaScrollHeight();
+					textarea.style.height = "auto";
+					if(textareaScrollHeight() < scrollHeight){ // scrollHeight can shrink so now try a larger value
+						textarea.style.maxHeight = newH - scrollHeight + textareaScrollHeight() + "px";
+					}
+					textarea.style.height = textarea.style.maxHeight;
+				}
+			}else{
+				// hidden content of unknown size
+				this._estimateHeight();
+			}
+			this.busyResizing = false;
+		},
+
+		resize: function(){
+			// summary:
+			//		Resizes the textarea vertically (should be called after a style/value change)
+			this.textbox.scrollTop = 0;
+			if(this.resizeTimer){ clearTimeout(this.resizeTimer); }
+			this._resize();
+		},
+
+		destroy: function(){
+			if(this.resizeTimer){ clearTimeout(this.resizeTimer); }
+			if(this.shrinkTimer){ clearTimeout(this.shrinkTimer); }
+			this.inherited(arguments);
+		}
+	});
+})();
+
+return dijit.form._ExpandingTextAreaMixin;
+});

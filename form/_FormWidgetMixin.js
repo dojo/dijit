@@ -53,15 +53,6 @@ dojo.declare("dijit.form._FormWidgetMixin", null, {
 	_setAltAttr: "focusNode",
 	_setTitleAttr: "focusNode",
 
-	postMixInProperties: function(){
-		// Setup name=foo string to be referenced from the template (but only if a name has been specified)
-		// Unfortunately we can't use _setNameAttr to set the name due to IE limitations, see #8660
-		// Regarding escaping, see heading "Attribute values" in
-		// http://www.w3.org/TR/REC-html40/appendix/notes.html#h-B.3.2
-		this.nameAttrSetting = this.name ? ('name="' + this.name.replace(/'/g, "&quot;") + '"') : '';
-		this.inherited(arguments);
-	},
-
 	postCreate: function(){
 		this.inherited(arguments);
 		this.connect(this.domNode, "onmousedown", "_onMouseDown");
