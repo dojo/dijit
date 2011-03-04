@@ -42,7 +42,6 @@ define("dijit/form/_ExpandingTextAreaMixin", ["dojo", "dijit"], function(dojo, d
 			// 		In IE, the resize event is supposed to fire when the textarea becomes visible again and that will correct the size automatically.
 			//
 			var textarea = this.textbox;
-			textarea.style.maxHeight = "";
 			textarea.style.height = "auto";
 			// #rows = #newlines+1
 			// Note: on Moz, the following #rows appears to be 1 too many.
@@ -52,15 +51,12 @@ define("dijit/form/_ExpandingTextAreaMixin", ["dojo", "dijit"], function(dojo, d
 		},
 
 		_resizeLater: function(){
-			var textarea = this.textbox;
-			textarea.scrollTop = 0;
-			if(this.resizeTimer){ clearTimeout(this.resizeTimer); }
-			this.resizeTimer = setTimeout(dojo.hitch(this, "_resize"), 0); // try to collapse multiple shrinks into 1 after inputis processed
+			setTimeout(dojo.hitch(this, "resize"), 0);
 		},
 
-		_resize: function(){
-			var textarea = this.textbox;
-
+		resize: function(){
+			// summary:
+			//		Resizes the textarea vertically (should be called after a style/value change)
 			function textareaScrollHeight(){
 				var empty = false;
 				if(textarea.value === ''){
@@ -72,6 +68,9 @@ define("dijit/form/_ExpandingTextAreaMixin", ["dojo", "dijit"], function(dojo, d
 				return sh;
 			}
 
+			var textarea = this.textbox;
+			if(textarea.style.overflowY == "hidden"){ textarea.scrollTop = 0; }
+			if(this.resizeTimer){ clearTimeout(this.resizeTimer); }
 			this.resizeTimer = null;
 			if(this.busyResizing){ return; }
 			this.busyResizing = true;
@@ -80,35 +79,28 @@ define("dijit/form/_ExpandingTextAreaMixin", ["dojo", "dijit"], function(dojo, d
 				if(!(/px/.test(currentHeight))){
 					currentHeight = textareaScrollHeight();
 					textarea.rows = 1;
-					textarea.style.maxHeight = textarea.style.height = currentHeight + "px";
+					textarea.style.height = currentHeight + "px";
 				}
 				var newH = parseInt(currentHeight) + textareaScrollHeight() - textarea.clientHeight;
 				var newHpx = newH + "px";
-				if(newHpx != textarea.style.maxHeight){
+				if(newHpx != textarea.style.height){
 					textarea.rows = 1;
-					textarea.style.maxHeight = textarea.style.height = newHpx;
+					textarea.style.height = newHpx;
 				}
 				if(needsHelpShrinking){
 					var scrollHeight = textareaScrollHeight();
 					textarea.style.height = "auto";
 					if(textareaScrollHeight() < scrollHeight){ // scrollHeight can shrink so now try a larger value
-						textarea.style.maxHeight = newH - scrollHeight + textareaScrollHeight() + "px";
+						newHpx = newH - scrollHeight + textareaScrollHeight() + "px";
 					}
-					textarea.style.height = textarea.style.maxHeight;
+					textarea.style.height = newHpx;
 				}
+				textarea.style.overflowY = textareaScrollHeight() > textarea.clientHeight ? "auto" : "hidden";
 			}else{
 				// hidden content of unknown size
 				this._estimateHeight();
 			}
 			this.busyResizing = false;
-		},
-
-		resize: function(){
-			// summary:
-			//		Resizes the textarea vertically (should be called after a style/value change)
-			this.textbox.scrollTop = 0;
-			if(this.resizeTimer){ clearTimeout(this.resizeTimer); }
-			this._resize();
 		},
 
 		destroy: function(){
