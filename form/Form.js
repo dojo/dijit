@@ -52,7 +52,7 @@ dojo.declare(
 		_setActionAttr: "",
 		_setMethodAttr: "",
 		_setEncTypeAttr: "",
-		"_setAccept-charsetAttr": "",
+		_setAcceptCharsetAttr: "",
 		_setAcceptAttr: "",
 		_setTargetAttr: "",
 

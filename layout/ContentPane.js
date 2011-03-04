@@ -37,13 +37,11 @@ dojo.declare(
 	//		Changing href after creation doesn't have any effect; Use set('href', ...);
 	href: "",
 
-/*=====
 	// content: String || DomNode || NodeList || dijit._Widget
 	//		The innerHTML of the ContentPane.
 	//		Note that the initialization parameter / argument to set("content", ...)
 	//		can be a String, DomNode, Nodelist, or _Widget.
 	content: "",
-=====*/
 
 	// extractContent: Boolean
 	//		Extract visible content from inside of <body> .... </body>.

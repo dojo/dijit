@@ -21,7 +21,7 @@
 			dojo.declare("Baz",
 				[ dijit._Widget, dijit._TemplatedMixin ],
 				{
-					templateString: "<div><div dojoAttachPoint='nameNode'></div><span>${attr1}</span></div>",
+					templateString: "<div><div dojoAttachPoint='nameNode'></div><div dojoAttachPoint='nameWithDashesNode'></div><span>${attr1}</span></div>",
 
 					name: "howdy!",
 					_setNameAttr: {node: "nameNode", type: "innerHTML" },
@@ -34,6 +34,11 @@
 	
 					attr2: 0,
 					_getAttr2Attr: function(){
+					},
+
+					"name-with-dashes": "value of name with dashes",
+					_setNameWithDashesAttr: function(val){
+						this.nameWithDashesNode.innerHTML = val;
 					}
 				}
 			);
@@ -92,43 +97,52 @@
 
 			doh.register("_Widget.attr",
 				[
-					function attr(){
-						var b = new Baz();
+					// Test that setters are executed at widget construction
+					function construction(){
+						var b = new Baz().placeAt(dojo.body());
 
 						// widget attribute mapped to DOM node innerHTML
-						dojo.body().appendChild(b.domNode);
-						doh.is("howdy!", b.attr("name"));
-						doh.is("howdy!", b.nameNode.innerHTML);
+						doh.is("howdy!", b.attr("name"), "b.attr('name')");
+						doh.is("howdy!", b.nameNode.innerHTML, "innerHTML");
+
+						// custom (function) setters, with dashes
+						doh.is("value of name with dashes", b.nameWithDashesNode.innerHTML, "attr name w/dashes")
+					},
+
+					// Test deprecated attr() method				
+					function attr(){
+						var b = new Baz().placeAt(dojo.body());
+
+						// simple setting
 						b.attr("name", "thinger");
-						doh.is(b.attr("name"), "thinger");
-						doh.is(b.nameNode.innerHTML, "thinger");
+						doh.is("thinger", b.attr("name"), "b.attr('name')");
+						doh.is("thinger", b.nameNode.innerHTML, "innerHTML");
 
 						// hash setting
 						b.attr({
 							name: "bang",
 							foo: "zap"
 						});
-						doh.is("bang", b.attr("name"));
-						doh.is("zap", b.attr("foo"));
+						doh.is("bang", b.attr("name"), "hash set of bang");
+						doh.is("zap", b.attr("foo"), "hash set of zap");
 					},
-					function setGet(){
-						var b = new Baz();
 
-						// widget attribute mapped to DOM node innerHTML
-						dojo.body().appendChild(b.domNode);
-						doh.is("howdy!", b.get("name"));
-						doh.is("howdy!", b.nameNode.innerHTML);
+					// Test set() and get()
+					function setGet(){
+						var b = new Baz().placeAt(dojo.body());
+
+						// simple set
 						b.set("name", "thinger");
-						doh.is(b.get("name"), "thinger");
-						doh.is(b.nameNode.innerHTML, "thinger");
+						doh.is("thinger", b.get("name"), "b.get('name')");
+						doh.is("thinger", b.nameNode.innerHTML, "innerHTML");
 
 						// hash setting
 						b.set({
 							name: "bang",
 							foo: "zap"
 						});
-						doh.is("bang", b.get("name"));
-						doh.is("zap", b.get("foo"));
+						doh.is("bang", b.get("name"), "hash set of bang");
+						doh.is("zap", b.get("foo"), "hash set of bang");
 					},
 
 					function domSetGet(){

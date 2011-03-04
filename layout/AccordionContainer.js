@@ -428,9 +428,19 @@ dojo.declare("dijit.layout._AccordionButton",
 
 	templateString: dojo.cache("dijit.layout", "templates/AccordionButton.html"),
 
-	// Map widget attributes to DOMNode attributes/innerHTML.
+	// label: String
+	//		Title of the pane
+	label: "",
 	_setLabelAttr: {node: "titleTextNode", type: "innerHTML" },
+
+	// title: String
+	//		Tooltip that appears on hover
+	title: "",
 	_setTitleAttr: {node: "titleTextNode", type: "attribute", attribute: "title"},
+
+	// iconClassAttr: String
+	//		CSS class for icon to left of label
+	iconClassAttr: "",
 	_setIconClassAttr: { node: "iconNode", type: "class" },
 
 	baseClass: "dijitAccordionTitle",

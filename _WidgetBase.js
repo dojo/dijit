@@ -304,8 +304,9 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 			var attrs, proto = ctor.prototype;
 			for(var fxName in proto){
 				if(fxName in this.attributeMap){ continue; }
-				if((attrs = fxName.match(/^_set([a-zA-Z]*)Attr$/)) && attrs[1]){
-					list.push(attrs[1].charAt(0).toLowerCase() + attrs[1].substr(1));
+				var setterName = "_set" + fxName.replace(/^[a-z]|-[a-zA-Z]/g, function(c){ return c.charAt(c.length-1).toUpperCase(); }) + "Attr";
+				if(setterName in proto){
+					list.push(fxName);
 				}
 			}
 		}
@@ -656,7 +657,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 
 		var apn = this._attrPairNames;
 		if(apn[name]){ return apn[name]; }
-		var uc = name.charAt(0).toUpperCase() + name.substr(1);	// TODO: in 2.0 should accept-charset-->AcceptCharset instead of -->Accept-charset?
+		var uc = name.replace(/^[a-z]|-[a-zA-Z]/g, function(c){ return c.charAt(c.length-1).toUpperCase(); });
 		return (apn[name] = {
 			n: name+"Node",
 			s: "_set"+uc+"Attr",
