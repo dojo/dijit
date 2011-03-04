@@ -327,8 +327,9 @@
 					},
 
 					// Test that resize() is called on resizable children hidden inside of a form widget
+					// where the form widget is inside a layout container
 					{
-						name: "multiple resizable elements hidden in form",
+						name: "multiple resizable elements hidden in form in TabContainer",
 						runTest: function(t){
 							var child1 = dijit.byId("resizableInForm1"),
 								child2 = dijit.byId("resizableInForm2");
@@ -351,7 +352,7 @@
 					},
 
 					{
-						name: "single resizable element hidden in form",
+						name: "single resizable element hidden in form in TabContainer",
 						runTest: function(t){
 							var child = dijit.byId("resizableInForm0");
 
@@ -363,6 +364,53 @@
 
 							doh.t(child._resized, "got resize event for child");
 							doh.is(1, child._resizeArgs && child._resizeArgs.length, "size specified")
+						}
+					},
+
+					// Test that form where parent *isn't* a layout container calls startup() and resize()
+					// on it's child layout widgets
+					{
+						name: "single resizable element in form with size",
+						runTest: function(t){
+							var child = dijit.byId("fssc");
+							doh.t(child._resized, "got resize event for child");
+							doh.is(1, child._resizeArgs && child._resizeArgs.length, "size specified")
+						}
+					},
+					
+					{
+						name: "multiple resizable elements in form with size",
+						runTest: function(t){
+							var child1 = dijit.byId("fsmc1"),
+								child2 = dijit.byId("fsmc2");
+
+							doh.t(child1._resized, "got resize event for child1");
+							doh.is(0, child1._resizeArgs && child1._resizeArgs.length, "no size specified for child1")
+							doh.t(child2._resized, "got resize event for child2");
+							doh.is(0, child2._resizeArgs && child2._resizeArgs.length, "no size specified for child2")
+						}
+					},
+
+					{
+						name: "single resizable elements in form with no size, doLayout=false",
+						runTest: function(t){
+							var child = dijit.byId("fnsc");
+
+							doh.t(child._resized, "got resize event for child");
+							doh.is(0, child._resizeArgs && child._resizeArgs.length, "no size specified for child")
+						}
+					},
+
+					{
+						name: "multiple resizable elements in form with no size",
+						runTest: function(t){
+							var child1 = dijit.byId("fnmc1"),
+								child2 = dijit.byId("fnmc2");
+
+							doh.t(child1._resized, "got resize event for child1");
+							doh.is(0, child1._resizeArgs && child1._resizeArgs.length, "no size specified for child1")
+							doh.t(child2._resized, "got resize event for child2");
+							doh.is(0, child2._resizeArgs && child2._resizeArgs.length, "no size specified for child2")
 						}
 					}
 				]
@@ -597,13 +645,13 @@
 	</script>
 </head>
 <body class="claro">
-	<h2>dijit.layout.ContentPane layout related DOH test</h2>
+	<h1>dijit.layout.ContentPane layout related DOH test</h1>
 
 	<p>
 		Tests ContentPane in it's role as a layout widget, including as child of another layout widgets (especially TabContainer).
 	</p>
 
-	<p>Tests that href gets loaded when ContentPane is first made visible:</p>
+	<h2>Tests that href gets loaded when ContentPane is first made visible</h2>
 	<div id="outerTC" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='style:"width: 880px; height: 200px;"'>
 		<div id="pane1" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='href:"doc0.html", title:"Initially Selected", onLoad:myOnLoad'>
 			initially selected pane
@@ -634,7 +682,7 @@
 		</div>
 	</div>
 
-	<p>Tests for resizing in a layout container hierarchy:</p>
+	<h2>Tests for resizing in a layout container hierarchy</h2>
 	<div id="resizeTC" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='style:"width: 880px; height: 200px;"'>
 		<div id="resizePane1" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Initially Selected", onLoad:myOnLoad'>
 			initially selected pane
@@ -667,7 +715,40 @@
 			href:"multipleLayoutWidgets.php?id=multipleChildHref", onLoad:myOnLoad'></div>
 	</div>
 
-	<p>Tests that ContentPane resize doesn't trigger reload:</p>
+	
+	<h2>Size on Form, single nested layout widgets</h2>
+	<form data-dojo-type="dijit.form.Form" style="height:100px; width: 100px; border: medium inset gray; padding: 10px;" id="fss">
+		<div data-dojo-type="ResizableWidget" id="fssc">
+		</div>
+	</form>
+
+	<h2>Size on Form, multiple nested layout widget</h2>
+	<form data-dojo-type="dijit.form.Form" style="height:250px; width: 150px; border: medium inset gray; padding: 10px;" id="fsm">
+		<div data-dojo-type="ResizableWidget" style="width: 100px; height: 100px; border: 1px solid black;" id="fsmc1">
+			child #1 (100x100)
+		</div>
+		<div data-dojo-type="ResizableWidget" style="width: 100px; height: 100px; border: 1px solid black;" id="fsmc2">
+			child #2 (100x100)
+		</div>
+	</form>
+
+	<h2>No size on Form, single nested layout widgets</h2>
+	<form data-dojo-type="dijit.form.Form" style="border: medium inset gray; padding: 10px;" data-dojo-props="doLayout: false" id="fns">
+		<div data-dojo-type="ResizableWidget" style="height:200px; width: 400px;" id="fnsc">
+		</div>
+	</form>
+
+	<h2>No size on Form, multiple nested layout widget</h2>
+	<form data-dojo-type="dijit.form.Form" style="border: medium inset gray; padding: 10px;" id="fnm">
+		<div data-dojo-type="ResizableWidget" style="width: 100px; height: 100px; border: 1px solid black;" id="fnmc1">
+			child #1 (100x100)
+		</div>
+		<div data-dojo-type="ResizableWidget" style="width: 100px; height: 100px; border: 1px solid black;" id="fnmc2">
+			child #2 (100x100)
+		</div>
+	</form>
+
+	<h2>Tests that ContentPane resize doesn't trigger reload</h2>
 	<div id="reloadTC" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='style:"width: 880px; height: 200px;"'>
 		<div id="reloadTC_pane1" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='href:"doc0.html", title:"Initially Selected", onLoad:myOnLoad, refreshOnShow:true'>
 			initially selected pane
@@ -677,8 +758,8 @@
 		</div>
 	</div>
 
-	<p>Test the ContentPane loads href and resizes children (as per it's contract a layout widget)
-			when it's not a child of a layout container itself:</p>
+	<h2>Test the ContentPane loads href and resizes children (as per it's contract a layout widget)
+			when it's not a child of a layout container itself</h2>
 	<div id="ctpHsc" data-dojo-type="dijit.TitlePane" data-dojo-props='title:"Closed TitlePane Href Single Child", open:false,
 		href:"borderContainer.php?id=ctpHsc&amp;sized=true", onLoad:myOnLoad'></div>
 	<br><br>

@@ -1,4 +1,4 @@
-define("dijit/layout/_ContentPaneResizeMixin", ["dojo", "dijit", "dijit/_Contained"], function(dojo, dijit) {
+define("dijit/layout/_ContentPaneResizeMixin", ["dojo", "dijit", "dijit/_Contained", "dijit/layout/_LayoutWidget"], function(dojo, dijit) {
 
 dojo.declare("dijit.layout._ContentPaneResizeMixin", null, {
 	// summary:
@@ -55,6 +55,10 @@ dojo.declare("dijit.layout._ContentPaneResizeMixin", null, {
 		this.inherited(arguments);
 
 		this._startChildren();
+
+		if(this._isShown()){
+			this._onShow();
+		}
 	},
 
 	_checkIfSingleChild: function(){
@@ -156,6 +160,52 @@ dojo.declare("dijit.layout._ContentPaneResizeMixin", null, {
 				}
 			});
 		}
+	},
+
+	_isShown: function(){
+		// summary:
+		//		Returns true if the content is currently shown.
+		// description:
+		//		If I am a child of a layout widget then it actually returns true if I've ever been visible,
+		//		not whether I'm currently visible, since that's much faster than tracing up the DOM/widget
+		//		tree every call, and at least solves the performance problem on page load by deferring loading
+		//		hidden ContentPanes until they are first shown
+
+		if(this._childOfLayoutWidget){
+			// If we are TitlePane, etc - we return that only *IF* we've been resized
+			if(this._resizeCalled && "open" in this){
+				return this.open;
+			}
+			return this._resizeCalled;
+		}else if("open" in this){
+			return this.open;		// for TitlePane, etc.
+		}else{
+			var node = this.domNode, parent = this.domNode.parentNode;
+			return (node.style.display != 'none') && (node.style.visibility != 'hidden') && !dojo.hasClass(node, "dijitHidden") &&
+					parent && parent.style && (parent.style.display != 'none');
+		}
+	},
+
+	_onShow: function(){
+		// summary:
+		//		Called when the ContentPane is made visible
+		// description:
+		//		For a plain ContentPane, this is called on initialization, from startup().
+		//		If the ContentPane is a hidden pane of a TabContainer etc., then it's
+		//		called whenever the pane is made visible.
+		//
+		//		Does layout/resize of child widget(s)
+
+		if(this._needLayout){
+			// If a layout has been scheduled for when we become visible, do it now
+			this._layout(this._changeSize, this._resultSize);
+		}
+
+		this.inherited(arguments);
+
+		// Need to keep track of whether ContentPane has been shown (which is different than
+		// whether or not it's currently visible).
+		this._wasShown = true;
 	}
 });
 
