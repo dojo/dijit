@@ -90,6 +90,12 @@ dojo.declare(
 
 if(dojo.isIE){
 	dijit.form.TextBox = dojo.declare(dijit.form.TextBox, {
+		_isTextSelected: function(){
+			var range = dojo.doc.selection.createRange();
+			var parent = range.parentElement();
+			return parent == this.textbox && range.text.length == 0;
+		},
+
 		postCreate: function(){
 			this.inherited(arguments);
 			// IE INPUT tag fontFamily has to be set directly using STYLE
