@@ -224,13 +224,7 @@ dojo.declare("dijit._PaletteMixin",
 			for(var i = 0; i < this._cells.length; i++){
 				if(value == this._cells[i].dye.getValue()){
 					this._selectedCell = i;
-
 					dojo.addClass(this._cells[i].node, "dijitPaletteCellSelected");
-
-					if(priorityChange || priorityChange === undefined){
-						this.onChange(value);
-					}
-
 					break;
 				}
 			}
@@ -238,6 +232,10 @@ dojo.declare("dijit._PaletteMixin",
 		
 		// record new value, or null if no matching cell
 		this._set("value", this._selectedCell >= 0 ? value : null);
+
+		if(priorityChange || priorityChange === undefined){
+			this.onChange(value);
+		}
 	},
 
 	onChange: function(value){
