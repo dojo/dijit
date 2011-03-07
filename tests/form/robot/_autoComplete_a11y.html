@@ -399,7 +399,7 @@
 							doh.t(list, "drop down exists");
 							doh.t(isVisible(list), "drop down is visible");
 
-							var entries = dojo.query("li", list).filter(isVisible);
+							var entries = dojo.query(".dijitMenuItem", list).filter(isVisible);
 							doh.is(3, entries.length, "three entries in drop down: " + list.innerHTML);
 							doh.is("California (CA)", innerText(entries[0]), "list #1");
 							doh.is("Colorado (CO)", innerText(entries[1]), "list #2");
@@ -431,7 +431,7 @@
 							doh.t(list, "drop down exists");
 							doh.t(isVisible(list), "drop down is visible");
 
-							var entries = dojo.query("li", list).filter(isVisible);
+							var entries = dojo.query(".dijitMenuItem", list).filter(isVisible);
 							doh.is(2, entries.length, "three entries in drop down: " + list.innerHTML);
 							doh.is("Colorado (CO)", innerText(entries[0]), "list #1");
 							doh.is("Connecticut (CT)", innerText(entries[1]), "list #2");
@@ -457,7 +457,7 @@
 							doh.t(list, "drop down exists");
 							doh.t(isVisible(list), "drop down is visible");
 
-							var entries = dojo.query("li", list).filter(isVisible);
+							var entries = dojo.query(".dijitMenuItem", list).filter(isVisible);
 							doh.is(3, entries.length, "three entries in drop down: " + list.innerHTML);
 							doh.is("California (CA)", innerText(entries[0]), "list #1");
 							doh.is("Colorado (CO)", innerText(entries[1]), "list #2");
@@ -616,7 +616,7 @@
 							doh.t(list, "drop down exists");
 							doh.t(isVisible(list), "drop down is visible");
 
-							var entries = dojo.query("li", list).filter(isVisible);
+							var entries = dojo.query(".dijitMenuItem", list).filter(isVisible);
 							doh.is(2, entries.length, "two entries in drop down: " + list.innerHTML);
 							doh.is("Colorado", innerText(entries[0]), "list #1");
 							doh.is("Connecticut", innerText(entries[1]), "list #2");
@@ -841,7 +841,7 @@
 							doh.t(list, "drop down exists");
 							doh.t(isVisible(list), "drop down is visible");
 
-							var entries = dojo.query("li", list).filter(isVisible);
+							var entries = dojo.query(".dijitMenuItem", list).filter(isVisible);
 							doh.is("<h1>h1</h1>", dojo.trim(entries[0].innerHTML).toLowerCase(), "list #1 is rich text");
 						}), 500);
 
@@ -870,7 +870,7 @@
 							doh.t(list, "drop down exists");
 							doh.t(isVisible(list), "drop down is visible");
 
-							var entries = dojo.query("li", list).filter(isVisible);
+							var entries = dojo.query(".dijitMenuItem", list).filter(isVisible);
 							doh.is("United States of America", innerText(entries[0]), "list #1");
 						}), 900);
 
@@ -894,7 +894,7 @@
 							doh.t(list, "drop down exists");
 							doh.t(isVisible(list), "drop down is visible");
 
-							var entries = dojo.query("li", list).filter(isVisible);
+							var entries = dojo.query(".dijitMenuItem", list).filter(isVisible);
 							doh.is(2, entries.length, "two countries (but no continents) in drop down: " + list.innerHTML);
 							doh.is("Australia", innerText(entries[0]), "list #1");
 							doh.is("Argentina", innerText(entries[1]), "list #2");
@@ -1368,7 +1368,7 @@
 										var item = findMenuItem(combo, idx);
 										if(idx in test.results){
 											var expected = test.results[idx];
-											var actual = item.innerHTML.replace(/\/?span\s*[^>]*/ig, "");
+											var actual = item.innerHTML.replace(/\/?span\s*[^>]*@?/ig, "");
 											doh.is(expected, actual, idx);
 										}else{
 											doh.t(item == combo.dropDown.nextButton, "too many menu items: " + idx);

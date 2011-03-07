@@ -79,7 +79,7 @@
 
 						doh.robot.sequence(d.getTestCallback(function(){
 							var list = combo.dropDown.domNode,
-								entries = dojo.query("li", list).filter(isVisible);
+								entries = dojo.query(".dijitMenuItem", list).filter(isVisible);
 							doh.t(isVisible(list), "list is visible");
 							doh.is(31, entries.length, "30 elements plus next button");
 							doh.is("California (CA)", combo.focusNode.value, "displayed value hasn't changed");
@@ -105,7 +105,7 @@
 						doh.robot.mouseClick({left:true}, 1000);
 
 						doh.robot.sequence(d.getTestCallback(function(){
-							var entries = dojo.query("li", list).filter(isVisible);
+							var entries = dojo.query(".dijitMenuItem", list).filter(isVisible);
 							doh.is("Minnesota (MN)", innerText(entries[1]), "first entry on second page of drop down");
 							doh.is("California (CA)", combo.focusNode.value, "displayed value hasn't changed");
 						}), 1500, 1000);
@@ -127,7 +127,7 @@
 
 						doh.robot.sequence(d.getTestCallback(function(){
 							var list = combo.dropDown.domNode,
-								entries = dojo.query("li", list).filter(isVisible);
+								entries = dojo.query(".dijitMenuItem", list).filter(isVisible);
 							doh.is(2, entries.length, "previous choices + wyoming");
 							doh.is("Wyoming (WY)", innerText(entries[1]));
 						}), 1500, 1000);
@@ -149,7 +149,7 @@
 
 						doh.robot.sequence(d.getTestCallback(function(){
 							var list = combo.dropDown.domNode,
-								entries = dojo.query("li", list);
+								entries = dojo.query(".dijitMenuItem", list);
 							doh.is(32, entries.length, "30 states, plus next and previous button");
 							doh.is("Minnesota (MN)", innerText(entries[1]));
 							doh.is("Wisconsin (WI)", innerText(entries[30]));
