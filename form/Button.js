@@ -1,7 +1,7 @@
-define("dijit/form/Button", ["dojo", "dijit", "text!dijit/form/templates/Button.html", "text!dijit/form/templates/DropDownButton.html", "text!dijit/form/templates/ComboButton.html", "dijit/form/_FormWidget", "dijit/_Container", "dijit/_HasDropDown"], function(dojo, dijit) {
+define("dijit/form/Button", ["dojo", "dijit", "text!dijit/form/templates/Button.html", "text!dijit/form/templates/DropDownButton.html", "text!dijit/form/templates/ComboButton.html", "dijit/form/_FormWidget", "dijit/form/_ButtonMixin", "dijit/_Container", "dijit/_HasDropDown"], function(dojo, dijit) {
 
 dojo.declare("dijit.form.Button",
-	dijit.form._FormWidget,
+	[dijit.form._FormWidget, dijit.form._ButtonMixin],
 	{
 	// summary:
 	//		Basically the same thing as a normal HTML button, but with special styling.
@@ -15,12 +15,6 @@ dojo.declare("dijit.form.Button",
 	// example:
 	// |	var button1 = new dijit.form.Button({label: "hello world", onClick: foo});
 	// |	dojo.body().appendChild(button1.domNode);
-
-	// label: HTML String
-	//		Text to display in button.
-	//		If the label is hidden (showLabel=false) then and no title has
-	//		been specified, then label is also set as title attribute of icon.
-	label: "",
 
 	// showLabel: Boolean
 	//		Set this to true to hide the label text and display only the icon.
@@ -36,10 +30,6 @@ dojo.declare("dijit.form.Button",
 	//		Class to apply to DOMNode in button to make it display an icon
 	iconClass: "",
 
-	// type: String
-	//		Defines the type of button.  "button", "submit", or "reset".
-	type: "button",
-
 	baseClass: "dijitButton",
 
 	templateString: dojo.cache("dijit.form", "templates/Button.html"),
@@ -50,35 +40,15 @@ dojo.declare("dijit.form.Button",
 	_onClick: function(/*Event*/ e){
 		// summary:
 		//		Internal function to handle click actions
-		if(this.disabled){
-			return false;
-		}
-		this._clicked(); // widget click actions
-		return this.onClick(e); // user click actions
-	},
-
-	_onButtonClick: function(/*Event*/ e){
-		// summary:
-		//		Handler when the user activates the button portion.
-		if(this._onClick(e) === false){ // returning nothing is same as true
-			e.preventDefault(); // needed for checkbox
-		}else if(this.type == "submit" && !(this.valueNode||this.focusNode).form){ // see if a nonform widget needs to be signalled
-			for(var node=this.domNode; node.parentNode/*#5935*/; node=node.parentNode){
-				var widget=dijit.byNode(node);
-				if(widget && typeof widget._onSubmit == "function"){
-					widget._onSubmit(e);
-					break;
-				}
+		var ok = this.inherited(arguments);
+		if(ok){
+			if(this.valueNode){
+				this.valueNode.click();
+				e.preventDefault(); // cancel BUTTON click and continue with hidden INPUT click
+				// leave ok = true so that subclasses can do what they need to do
 			}
-		}else if(this.valueNode){
-			this.valueNode.click();
-			e.preventDefault(); // cancel BUTTON click and continue with hidden INPUT click
 		}
-	},
-
-	buildRendering: function(){
-		this.inherited(arguments);
-		dojo.setSelectable(this.focusNode, false);
+		return ok;
 	},
 
 	_fillContent: function(/*DomNode*/ source){
@@ -98,20 +68,6 @@ dojo.declare("dijit.form.Button",
 		this._set("showLabel", val);
 	},
 
-	onClick: function(/*Event*/ e){
-		// summary:
-		//		Callback for when button is clicked.
-		//		If type="submit", return true to perform submit, or false to cancel it.
-		// type:
-		//		callback
-		return true;		// Boolean
-	},
-
-	_clicked: function(/*Event*/ e){
-		// summary:
-		//		Internal overridable function for when the button is clicked
-	},
-
 	setLabel: function(/*String*/ content){
 		// summary:
 		//		Deprecated.  Use set('label', ...) instead.
@@ -119,13 +75,19 @@ dojo.declare("dijit.form.Button",
 		this.set("label", content);
 	},
 
+	_onButtonClick: function(e){
+		dojo.deprecated("dijit.form.Button._onButtonClick is deprecated.  Use _onClick instead.", "", "2.0");
+		return this._onClick(e);
+	},
+
 	_setLabelAttr: function(/*String*/ content){
 		// summary:
 		//		Hook for set('label', ...) to work.
 		// description:
 		//		Set the label (text) of the button; takes an HTML string.
-		this._set("label", content);
-		this.containerNode.innerHTML = content;
+		//		If the label is hidden (showLabel=false) then and no title has
+		//		been specified, then label is also set as title attribute of icon.
+		this.inherited(arguments);
 		if(this.showLabel == false && !this.params.title){
 			this.titleNode.title = dojo.trim(this.containerNode.innerText || this.containerNode.textContent || '');
 		}
@@ -312,8 +274,11 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 	// Map widget attributes to DOMNode attributes.
 	_setCheckedAttr: "focusNode",
 
-	_clicked: function(/*Event*/ evt){
-		this.set('checked', !this.checked);
+	_onClick: function(/*Event*/ evt){
+		var ret = this.inherited(arguments);
+		if(ret){
+			this.set('checked', !this.checked);
+		}
 	},
 
 	_setCheckedAttr: function(/*Boolean*/ value, /*Boolean?*/ priorityChange){

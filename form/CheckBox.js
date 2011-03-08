@@ -176,10 +176,12 @@ dojo.declare(
 			}
 		},
 
-		_clicked: function(/*Event*/ e){
-			if(!this.checked){
-				this.set('checked', true);
+		_onClick: function(/*Event*/ e){
+			if(this.checked){
+				dojo.stopEvent(e);
+				return false;
 			}
+			return this.inherited(arguments);
 		}
 	}
 );

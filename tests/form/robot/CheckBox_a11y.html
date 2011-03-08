@@ -133,9 +133,7 @@
 							var d = new doh.Deferred();
  
 							dijit.byId("g1rb2").focus();
-							doh.robot.sequence(function(){
-								dijit.byId("g1rb3").set("disabled",false);
-							}, 1000); 
+							dijit.byId("g1rb3").set("disabled",false);
 							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 1000);
 
 							doh.robot.sequence(d.getTestCallback(function(){
