@@ -995,13 +995,6 @@ body .dijitAlignClient { position: absolute; }
 	position: relative;
 }
 
-img.dijitColorPaletteUnder {
-	/* This single image contains the "icons" for every color in the color palette, and sits behind the transparent <table> */
-	border-style: none;
-	position: absolute;
-	left: 0;
-	top: 0;
-}
 .dijitColorPalette .dijitPaletteTable {
 	/* Table that holds the palette cells, and overlays image file with color swatches.
 	 * padding/margin to align table with image.
@@ -1023,26 +1016,27 @@ img.dijitColorPaletteUnder {
 }
 
 .dijitColorPalette .dijitPaletteCell {
-	/* <td> in the <table>, matching size of color swatches embedded in the img.dijitColorPaletteUnder */
-	height: 20px;
-	width: 20px;
+	/* <td> in the <table> */
 	font-size: 1px;
 	vertical-align: middle;
 	text-align: center;
 	background: none;
 }
 .dijitColorPalette .dijitPaletteImg {
-	/* transparent (but clickable) <img> node inside of each <td>, overlaying the color swatch.
-	 * displays border around a color swatch
-	 */
-	width: 16px;
-	height: 14px;
+	/* Called dijitPaletteImg for back-compat, this actually wraps the color swatch with a border and padding */
+	padding: 1px;		/* white area between gray border and color swatch */
 	border: 1px solid #999;
+	margin: 2px 1px;
 	cursor: default;
-	vertical-align: middle;
+	font-size: 1px;		/* prevent <span> from getting bigger just to hold a character */
 }
-.dj_iequirks .dijitColorPalette .dijitPaletteImg {
-	margin: 1px;	/* needed to fix spacing for ColorPalette in TooltipDialog on IE/quirks */
+.dj_gecko .dijitColorPalette .dijitPaletteImg {
+	padding-bottom: 0;	/* workaround rendering glitch on FF, it adds an extra pixel at the bottom */
+}
+.dijitColorPalette .dijitColorPaletteSwatch {
+	/* the actual part where the color is */
+	width: 14px;
+	height: 12px;
 }
 .dijitPaletteTable td {
 		padding: 0;
@@ -1055,6 +1049,7 @@ img.dijitColorPaletteUnder {
 .dijitColorPalette .dijitPaletteCellActive .dijitPaletteImg,
 .dijitColorPalette .dijitPaletteCellSelected .dijitPaletteImg {
 	border: 2px solid #000;
+	margin: 1px 0;	/* reduce margin to compensate for increased border */
 }
 
 
@@ -1062,14 +1057,6 @@ img.dijitColorPaletteUnder {
 .dijit_a11y .dijitColorPalette .dijitPaletteTable * {
 	/* table cells are to catch events, but the swatches are in the PaletteImg behind the table */
 	background-color: transparent !important;
-}
-.dj_gecko .dijit_a11y .dijitColorPalette .dijitPaletteCellFocused .dijitPaletteImg {
-	border: 3px dotted #000;	/* focus border on table cells broken in FF high contrast :-( */
-	margin: -1px;
-}
-
-.dijit_a11y  .dijitColorPalette .dijitPaletteCellHover .dijitPaletteImg {
-	border: 2px solid #000 !important;
 }
 
 /* AccordionContainer */
