@@ -35,7 +35,7 @@ dojo.declare("dijit.form.ComboBoxMixin", dijit.form._AutoCompleterMixin, {
 
 dojo.declare(
 	"dijit.form.ComboBox",
-	[dijit.form.ValidationTextBox, dijit.form.ComboBoxMixin, dijit.form._ComboBoxValueMixin],
+	[dijit.form.ValidationTextBox, dijit.form.ComboBoxMixin],
 	{
 		// summary:
 		//		Auto-completing text box, and base class for dijit.form.FilteringSelect.

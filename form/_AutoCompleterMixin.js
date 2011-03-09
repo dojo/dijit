@@ -220,7 +220,7 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 					// if we are in the middle of a query to convert a directly typed in value to an item,
 					// prevent submit, but allow event to bubble
 					if(this._opened || this._fetchHandle){
-					evt.preventDefault();
+						evt.preventDefault();
 					}
 					// fall through
 
@@ -449,9 +449,7 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 				}
 				value = this._getValueField() != this.searchAttr? this.store.getIdentity(item) : displayedValue;
 			}
-			this._set("item", item);
-			// this.inherited('_setValueAttr',...) does not work here
-			dijit.form._TextBoxMixin.prototype._setValueAttr.apply(this, [value, priorityChange, displayedValue]);
+			this.set('value', value, priorityChange, displayedValue, item);
 		},
 
 		_getItemText: function(/*item*/ item){
@@ -488,7 +486,6 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 				this.value = '';
 			}else{
 				newValue = node.innerText || node.textContent || "";
-				// newValue = this.store.getValue(node.item, this.searchAttr).toString();
 				this.set('item', node.item, false, newValue);
 			}
 			// get the text that the user manually entered (cut off autocompleted text)
@@ -557,7 +554,7 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 					onComplete: dojo.hitch(this, "_openResultList"),
 					onError: function(errText){
 						_this._fetchHandle = null;
-						console.error('dijit.form.ComboBox: ' + errText);
+						console.error(this.declaredClass + ' ' + errText);
 						_this.closeDropDown();
 					},
 					start: 0,
@@ -568,9 +565,8 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 
 				var nextSearch = function(dataObject, direction){
 					dataObject.start += dataObject.count*direction;
-					// #4091:
-					//		tell callback the direction of the paging so the screen
-					//		reader knows which menu option to shout
+					//	tell callback the direction of the paging so the screen
+					//	reader knows which menu option to shout
 					dataObject.direction = direction;
 					this._fetchHandle = this.store.fetch(dataObject);
 					this.focus();
@@ -702,21 +698,19 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 			// Use toString() because XMLStore returns an XMLItem whereas this
 			// method is expected to return a String (#9354)
 			return store.getValue(item, this.labelAttr || this.searchAttr).toString(); // String
+		},
+
+		_setValueAttr: function(/*String*/ value, /*Boolean?*/ priorityChange, /*String?*/ displayedValue, /*item?*/ item){
+			// summary:
+			//		Hook so set('value', value) works.
+			// description:
+			//		Sets the value of the select.
+			this._set("item", item||null); // value not looked up in store
+			if(!value){ value = ''; } // null translates to blank
+			this.inherited(arguments);
 		}
 	}
 );
-
-dojo.declare("dijit.form._ComboBoxValueMixin", null, {
-	_setValueAttr: function(/*String*/ value, /*Boolean?*/ priorityChange, /*String?*/ displayedValue){
-		// summary:
-		//		Hook so set('value', value) works.
-		// description:
-		//		Sets the value of the select.
-		this._set("item", null); // value not looked up in store
-		if(!value){ value = ''; } // null translates to blank
-		this.inherited(arguments);
-	}
-});
 
 return dijit.form._AutoCompleterMixin;
 });

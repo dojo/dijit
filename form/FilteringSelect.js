@@ -68,9 +68,7 @@ dojo.declare(
 			if(!result.length){
 				//#3268: don't modify display value on bad input
 				//#3285: change CSS to indicate error
-				this._set('value', '');
-				this.set("item", null, priorityChange || (priorityChange === undefined && !this._focused), this.textbox.value);
-				this.validate(this._focused);
+				this.set("value", '', priorityChange || (priorityChange === undefined && !this._focused), this.textbox.value, null);
 			}else{
 				this.set('item', result[0], priorityChange);
 			}
@@ -84,7 +82,7 @@ dojo.declare(
 			if(dataObject.query[this.searchAttr] != this._lastQuery){
 				return;
 			}
-			this.inherited("_openResultList", arguments);
+			this.inherited(arguments);
 
 			if(this.item === undefined){ // item == undefined for keyboard search
 				// If the search returned no items that means that the user typed
@@ -108,28 +106,36 @@ dojo.declare(
 			return "value";
 		},
 
-		_setValueAttr: function(/*String*/ value, /*Boolean?*/ priorityChange){
+		_setValueAttr: function(/*String*/ value, /*Boolean?*/ priorityChange, /*String?*/ displayedValue, /*item?*/ item){
 			// summary:
 			//		Hook so set('value', value) works.
 			// description:
 			//		Sets the value of the select.
 			//		Also sets the label to the corresponding value by reverse lookup.
 			if(!this._onChangeActive){ priorityChange = null; }
-			this._lastQuery = value;
 
-			if(value === null || value === ''){
-				this._setDisplayedValueAttr('', priorityChange);
-				return;
-			}
-
-			//#3347: fetchItemByIdentity if no keyAttr specified
-			var self = this;
-			this.store.fetchItemByIdentity({
-				identity: value,
-				onItem: function(item){
-					self._callbackSetLabel(item? [item] : [], undefined, priorityChange);
+			if(item === undefined){
+				if(value === null || value === ''){
+					value = '';
+					if(!dojo.isString(displayedValue)){
+						this._setDisplayedValueAttr(displayedValue||'', priorityChange);
+						return;
+					}
 				}
-			});
+
+				//#3347: fetchItemByIdentity if no keyAttr specified
+				var self = this;
+				this._lastQuery = value;
+				this.store.fetchItemByIdentity({
+					identity: value,
+					onItem: function(item){
+						self._callbackSetLabel(item? [item] : [], undefined, priorityChange);
+					}
+				});
+			}else{
+				this.valueNode.value = value;
+				this.inherited(arguments);
+			}
 		},
 
 		_setItemAttr: function(/*item*/ item, /*Boolean?*/ priorityChange, /*String?*/ displayedValue){
@@ -142,7 +148,6 @@ dojo.declare(
 			// tags:
 			//		private
 			this.inherited(arguments);
-			this.valueNode.value = this.value;
 			this._lastDisplayedValue = this.textbox.value;
 		},
 
