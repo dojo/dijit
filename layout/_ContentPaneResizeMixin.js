@@ -59,6 +59,19 @@ dojo.declare("dijit.layout._ContentPaneResizeMixin", null, {
 		if(this._isShown()){
 			this._onShow();
 		}
+
+		if(!this._childOfLayoutWidget){
+			// If my parent isn't a layout container, since my style *may be* width=height=100%
+			// or something similar (either set directly or via a CSS class),
+			// monitor when my size changes so that I can re-layout.
+			// For browsers where I can't directly monitor when my size changes,
+			// monitor when the viewport changes size, which *may* indicate a size change for me.
+			this.connect(dojo.isIE ? this.domNode : dojo.global, 'onresize', function(){
+				// Using function(){} closure to ensure no arguments to resize.
+				this._needLayout = !this._childOfLayoutWidget;
+				this.resize();
+			});
+		}
 	},
 
 	_checkIfSingleChild: function(){
@@ -99,7 +112,30 @@ dojo.declare("dijit.layout._ContentPaneResizeMixin", null, {
 		//		See `dijit.layout._LayoutWidget.resize` for description.
 		//		Although ContentPane doesn't extend _LayoutWidget, it does implement
 		//		the same API.
-		this._layout(changeSize, resultSize);
+
+		// For the TabContainer --> BorderContainer --> ContentPane case, _onShow() is
+		// never called, so resize() is our trigger to do the initial href download (see [20099]).
+		// However, don't load href for closed TitlePanes.
+		if(!this._wasShown && this.open !== false){
+			this._onShow();
+		}
+
+		this._resizeCalled = true;
+
+		this._scheduleLayout(changeSize, resultSize);
+	},
+
+	_scheduleLayout: function(changeSize, resultSize){
+		// summary:
+		//		Resize myself, and call resize() on each of my child layout widgets, either now
+		//		(if I'm currently visible) or when I become visible
+		if(this._isShown()){
+			this._layout(changeSize, resultSize);
+		}else{
+			this._needLayout = true;
+			this._changeSize = changeSize;
+			this._resultSize = resultSize;
+		}
 	},
 
 	_layout: function(changeSize, resultSize){

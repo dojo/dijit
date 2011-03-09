@@ -288,24 +288,6 @@ dojo.declare(
 		this.inherited(arguments);
 	},
 
-	resize: function(changeSize, resultSize){
-		// summary:
-		//		See `dijit.layout._LayoutWidget.resize` for description.
-		//		Although ContentPane doesn't extend _LayoutWidget, it does implement
-		//		the same API.
-
-		// For the TabContainer --> BorderContainer --> ContentPane case, _onShow() is
-		// never called, so resize() is our trigger to do the initial href download (see [20099]).
-		// However, don't load href for closed TitlePanes.
-		if(!this._wasShown && this.open !== false){
-			this._onShow();
-		}
-
-		this._resizeCalled = true;
-
-		this._scheduleLayout(changeSize, resultSize);
-	},
-
 	_onShow: function(){
 		// summary:
 		//		Called when the ContentPane is made visible
@@ -524,19 +506,6 @@ dojo.declare(
 			console.error(consoleText, err);
 		}else if(errText){// a empty string won't change current content
 			this._setContent(errText, true);
-		}
-	},
-
-	_scheduleLayout: function(changeSize, resultSize){
-		// summary:
-		//		Resize myself, and call resize() on each of my child layout widgets, either now
-		//		(if I'm currently visible) or when I become visible
-		if(this._isShown()){
-			this._layout(changeSize, resultSize);
-		}else{
-			this._needLayout = true;
-			this._changeSize = changeSize;
-			this._resultSize = resultSize;
 		}
 	},
 
