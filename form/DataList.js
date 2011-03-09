@@ -95,7 +95,7 @@ dojo.declare("dijit.form.DataList", null, {
 		// summary:
 		//		Get the option marked as selected, like `<option selected>`.
 		//		Not part of dojo.data API.
-		return dojo.query("option[selected]", this.domNode)[0] || dojo.query("option", this.domNode)[0];
+		return dojo.query("> option[selected]", this.domNode)[0] || dojo.query("> option", this.domNode)[0];
 	}
 });
 //Mix in the simple fetch implementation to this class.

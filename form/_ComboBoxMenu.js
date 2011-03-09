@@ -12,7 +12,7 @@ dojo.declare(
 		// tags:
 		//		private
 
-		templateString: "<div class='dijitReset dijitMenu dijitMenuActive' dojoAttachPoint='containerNode' style='overflow: \"auto\"; overflow-x: \"hidden\";'>"
+		templateString: "<div class='dijitReset dijitMenu' dojoAttachPoint='containerNode' style='overflow: \"auto\"; overflow-x: \"hidden\";'>"
 				+"<div class='dijitMenuItem dijitMenuPreviousButton' dojoAttachPoint='previousButton' role='option'></div>"
 				+"<div class='dijitMenuItem dijitMenuNextButton' dojoAttachPoint='nextButton' role='option'></div>"
 				+"</div>",
