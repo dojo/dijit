@@ -292,6 +292,10 @@ dojo.declare("dijit.layout._StackButton",
 		// Probably we should be calling this.startupKeyNavChildren() instead.
 		tabIndex: "-1",
 
+		// closeButton: Boolean
+		//		When true, display close button for this tab
+		closeButton: false,
+
 		buildRendering: function(/*Event*/ evt){
 			this.inherited(arguments);
 			dijit.setWaiRole((this.focusNode || this.domNode), "tab");
