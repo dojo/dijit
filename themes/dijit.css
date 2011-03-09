@@ -948,6 +948,11 @@ body .dijitAlignClient { position: absolute; }
 	overflow: hidden;
 }
 
+.dijitContentPaneLoading .dijitIconLoading,
+.dijitContentPaneError .dijitIconError {
+	margin-right: 9px;
+}
+
 /* TitlePane */
 
 .dijitTitlePane {

@@ -73,11 +73,11 @@ dojo.declare(
 
 	// loadingMessage: String
 	//		Message that shows while downloading
-	loadingMessage: "<span class='dijitContentPaneLoading'>${loadingState}</span>",
+	loadingMessage: "<span class='dijitContentPaneLoading'><span class='dijitInline dijitIconLoading'></span>${loadingState}</span>",
 
 	// errorMessage: String
 	//		Message that shows if an error occurs
-	errorMessage: "<span class='dijitContentPaneError'>${errorState}</span>",
+	errorMessage: "<span class='dijitContentPaneError'><span class='dijitInline dijitIconError'></span>${errorState}</span>",
 
 	// isLoaded: [readonly] Boolean
 	//		True if the ContentPane has data in it, either specified
