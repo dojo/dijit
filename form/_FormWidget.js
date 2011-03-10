@@ -37,12 +37,16 @@ dojo.declare("dijit.form._FormWidget",
 
 	postMixInProperties: function(){
 		// Setup name=foo string to be referenced from the template (but only if a name has been specified)
-		// Unfortunately we can't use _setNameAttr to set the name due to IE limitations, see #8660
+		// Unfortunately we can't use _setNameAttr to set the name due to IE limitations, see #8484, #8660.
 		// Regarding escaping, see heading "Attribute values" in
 		// http://www.w3.org/TR/REC-html40/appendix/notes.html#h-B.3.2
 		this.nameAttrSetting = this.name ? ('name="' + this.name.replace(/'/g, "&quot;") + '"') : '';
 		this.inherited(arguments);
-	}
+	},
+
+	// Override automatic assigning type --> focusNode, it causes exception on IE.
+	// Instead, type must be specified as ${type} in the template, as part of the original DOM
+	_setTypeAttr: null
 });
 
 dojo.declare("dijit.form._FormValueWidget", [dijit.form._FormWidget, dijit.form._FormValueMixin],
@@ -57,10 +61,6 @@ dojo.declare("dijit.form._FormValueWidget", [dijit.form._FormWidget, dijit.form.
 	// Don't attempt to mixin the 'type', 'name' attributes here programatically -- they must be declared
 	// directly in the template as read by the parser in order to function. IE is known to specifically
 	// require the 'name' attribute at element creation time.  See #8484, #8660.
-	// TODO: unclear what that {value: ""} is for; FormWidget.attributeMap copies value to focusNode,
-	// so maybe {value: ""} is so the value *doesn't* get copied to focusNode?
-	// Seems like we really want value removed from attributeMap altogether
-	// (although there's no easy way to do that now)
 
 	_layoutHackIE7: function(){
 		// summary:

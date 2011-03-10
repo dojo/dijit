@@ -27,7 +27,6 @@ dojo.declare("dijit.form._FormWidgetMixin", null, {
 	// type: [const] String
 	//		Corresponds to the native HTML <input> element's attribute.
 	type: "text",
-	_setTypeAttr: null,		// override automatic assigning type --> focusNode, it causes exception on IE
 
 	// tabIndex: Integer
 	//		Order fields are traversed when user hits the tab key
@@ -217,10 +216,6 @@ dojo.declare("dijit.form._FormValueMixin", dijit.form._FormWidgetMixin, {
 	//		Each _FormValueMixin represents a single input value, and has a (possibly hidden) <input> element,
 	//		to which it serializes it's input value, so that form submission (either normal submission or via FormBind?)
 	//		works as expected.
-
-	// Don't attempt _setTypeAttr or _setNameAttr -- name and type must be declared
-	// directly in the template as read by the parser in order to function. IE is known to specifically
-	// require the 'name' attribute at element creation time.  See #8484, #8660.
 
 	// readOnly: Boolean
 	//		Should this widget respond to user input?
