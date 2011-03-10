@@ -257,52 +257,5 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 	}
 });
 
-dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
-	// summary:
-	//		A button that can be in two states (checked or not).
-	//		Can be base class for things like tabs or checkbox or radio buttons
-
-	baseClass: "dijitToggleButton",
-
-	// checked: Boolean
-	//		Corresponds to the native HTML <input> element's attribute.
-	//		In markup, specified as "checked='checked'" or just "checked".
-	//		True if the button is depressed, or the checkbox is checked,
-	//		or the radio button is selected, etc.
-	checked: false,
-
-	_onClick: function(/*Event*/ evt){
-		var ret = this.inherited(arguments);
-		if(ret){
-			this.set('checked', !this.checked);
-		}
-	},
-
-	_setCheckedAttr: function(/*Boolean*/ value, /*Boolean?*/ priorityChange){
-		this._set("checked", value);
-		dojo.attr(this.focusNode || this.domNode, "checked", value);
-		dijit.setWaiState(this.focusNode || this.domNode, "pressed", value);
-		this._handleOnChange(value, priorityChange);
-	},
-
-	setChecked: function(/*Boolean*/ checked){
-		// summary:
-		//		Deprecated.  Use set('checked', true/false) instead.
-		dojo.deprecated("setChecked("+checked+") is deprecated. Use set('checked',"+checked+") instead.", "", "2.0");
-		this.set('checked', checked);
-	},
-
-	reset: function(){
-		// summary:
-		//		Reset the widget's value to what it was at initialization time
-
-		this._hasBeenBlurred = false;
-
-		// set checked state to original setting
-		this.set('checked', this.params.checked || false);
-	}
-});
-
-
 return dijit.form.Button;
 });
