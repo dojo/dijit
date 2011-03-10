@@ -1,4 +1,4 @@
-define("dijit/_editor/plugins/FullScreen", ["dojo", "dijit", "dojo/window", "dojo/i18n", "dijit/_editor/_Plugin", "dijit/form/Button", "i18n!dijit/_editor/nls/commands"], function(dojo, dijit) {
+define("dijit/_editor/plugins/FullScreen", ["dojo", "dijit", "dojo/window", "dojo/i18n", "dijit/_editor/_Plugin", "dijit/form/ToggleButton", "i18n!dijit/_editor/nls/commands"], function(dojo, dijit) {
 
 dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 	// summary:

@@ -1,4 +1,4 @@
-define("dijit/_editor/plugins/ViewSource", ["dojo", "dijit", "dojo/window", "dojo/i18n", "dijit/_editor/_Plugin", "dijit/form/Button", "i18n!dijit/_editor/nls/commands"], function(dojo, dijit) {
+define("dijit/_editor/plugins/ViewSource", ["dojo", "dijit", "dojo/window", "dojo/i18n", "dijit/_editor/_Plugin", "dijit/form/ToggleButton", "i18n!dijit/_editor/nls/commands"], function(dojo, dijit) {
 
 dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 	// summary:

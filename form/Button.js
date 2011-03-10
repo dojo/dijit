@@ -1,4 +1,4 @@
-define("dijit/form/Button", ["dojo", "dijit", "text!dijit/form/templates/Button.html", "text!dijit/form/templates/DropDownButton.html", "text!dijit/form/templates/ComboButton.html", "dijit/form/_FormWidget", "dijit/form/_ButtonMixin", "dijit/_Container", "dijit/_HasDropDown"], function(dojo, dijit) {
+define("dijit/form/Button", ["dojo", "dijit", "text!dijit/form/templates/Button.html", "dijit/form/_FormWidget", "dijit/form/_ButtonMixin", "dijit/_Container", "dijit/_HasDropDown"], function(dojo, dijit) {
 
 dojo.declare("dijit.form.Button",
 	[dijit.form._FormWidget, dijit.form._ButtonMixin],
@@ -75,11 +75,6 @@ dojo.declare("dijit.form.Button",
 		this.set("label", content);
 	},
 
-	_onButtonClick: function(e){
-		dojo.deprecated("dijit.form.Button._onButtonClick is deprecated.  Use _onClick instead.", "", "2.0");
-		return this._onClick(e);
-	},
-
 	_setLabelAttr: function(/*String*/ content){
 		// summary:
 		//		Hook for set('label', ...) to work.
@@ -101,159 +96,6 @@ dojo.declare("dijit.form.Button",
 			newVal = val || "dijitNoIcon";
 		dojo.replaceClass(this.iconNode, newVal, oldVal);
 		this._set("iconClass", val);
-	}
-});
-
-
-dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container, dijit._HasDropDown], {
-	// summary:
-	//		A button with a drop down
-	//
-	// example:
-	// |	<button dojoType="dijit.form.DropDownButton" label="Hello world">
-	// |		<div dojotype="dijit.Menu">...</div>
-	// |	</button>
-	//
-	// example:
-	// |	var button1 = new dijit.form.DropDownButton({ label: "hi", dropDown: new dijit.Menu(...) });
-	// |	dojo.body().appendChild(button1);
-	//
-
-	baseClass : "dijitDropDownButton",
-
-	templateString: dojo.cache("dijit.form" , "templates/DropDownButton.html"),
-
-	_fillContent: function(){
-		// Overrides Button._fillContent().
-		//
-		// My inner HTML contains both the button contents and a drop down widget, like
-		// <DropDownButton>  <span>push me</span>  <Menu> ... </Menu> </DropDownButton>
-		// The first node is assumed to be the button content. The widget is the popup.
-
-		if(this.srcNodeRef){ // programatically created buttons might not define srcNodeRef
-			//FIXME: figure out how to filter out the widget and use all remaining nodes as button
-			//	content, not just nodes[0]
-			var nodes = dojo.query("*", this.srcNodeRef);
-			dijit.form.DropDownButton.superclass._fillContent.call(this, nodes[0]);
-
-			// save pointer to srcNode so we can grab the drop down widget after it's instantiated
-			this.dropDownContainer = this.srcNodeRef;
-		}
-	},
-
-	startup: function(){
-		if(this._started){ return; }
-
-		// the child widget from srcNodeRef is the dropdown widget.  Insert it in the page DOM,
-		// make it invisible, and store a reference to pass to the popup code.
-		if(!this.dropDown && this.dropDownContainer){
-			var dropDownNode = dojo.query("[widgetId]", this.dropDownContainer)[0];
-			this.dropDown = dijit.byNode(dropDownNode);
-			delete this.dropDownContainer;
-		}
-		if(this.dropDown){
-			dijit.popup.hide(this.dropDown);
-		}
-
-		this.inherited(arguments);
-	},
-
-	isLoaded: function(){
-		// Returns whether or not we are loaded - if our dropdown has an href,
-		// then we want to check that.
-		var dropDown = this.dropDown;
-		return (!!dropDown && (!dropDown.href || dropDown.isLoaded));
-	},
-
-	loadDropDown: function(){
-		// Loads our dropdown
-		var dropDown = this.dropDown;
-		if(!dropDown){ return; }
-		if(!this.isLoaded()){
-			var handler = dojo.connect(dropDown, "onLoad", this, function(){
-				dojo.disconnect(handler);
-				this.openDropDown();
-			});
-			dropDown.refresh();
-		}else{
-			this.openDropDown();
-		}
-	},
-
-	isFocusable: function(){
-		// Overridden so that focus is handled by the _HasDropDown mixin, not by
-		// the _FormWidget mixin.
-		return this.inherited(arguments) && !this._mouseDown;
-	}
-});
-
-dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
-	// summary:
-	//		A combination button and drop-down button.
-	//		Users can click one side to "press" the button, or click an arrow
-	//		icon to display the drop down.
-	//
-	// example:
-	// |	<button dojoType="dijit.form.ComboButton" onClick="...">
-	// |		<span>Hello world</span>
-	// |		<div dojoType="dijit.Menu">...</div>
-	// |	</button>
-	//
-	// example:
-	// |	var button1 = new dijit.form.ComboButton({label: "hello world", onClick: foo, dropDown: "myMenu"});
-	// |	dojo.body().appendChild(button1.domNode);
-	//
-
-	templateString: dojo.cache("dijit.form", "templates/ComboButton.html"),
-
-	// Map widget attributes to DOMNode attributes.
-	_setIdAttr: "",	// override _FormWidgetMixin which puts id on the focusNode
-	_setTabIndexAttr: ["focusNode", "titleNode"],
-	_setTitleAttr: "titleNode",
-
-	// optionsTitle: String
-	//		Text that describes the options menu (accessibility)
-	optionsTitle: "",
-
-	baseClass: "dijitComboButton",
-
-	// Set classes like dijitButtonContentsHover or dijitArrowButtonActive depending on
-	// mouse action over specified node
-	cssStateNodes: {
-		"buttonNode": "dijitButtonNode",
-		"titleNode": "dijitButtonContents",
-		"_popupStateNode": "dijitDownArrowButton"
-	},
-
-	_focusedNode: null,
-
-	_onButtonKeyPress: function(/*Event*/ evt){
-		// summary:
-		//		Handler for right arrow key when focus is on left part of button
-		if(evt.charOrCode == dojo.keys[this.isLeftToRight() ? "RIGHT_ARROW" : "LEFT_ARROW"]){
-			dijit.focus(this._popupStateNode);
-			dojo.stopEvent(evt);
-		}
-	},
-
-	_onArrowKeyPress: function(/*Event*/ evt){
-		// summary:
-		//		Handler for left arrow key when focus is on right part of button
-		if(evt.charOrCode == dojo.keys[this.isLeftToRight() ? "LEFT_ARROW" : "RIGHT_ARROW"]){
-			dijit.focus(this.titleNode);
-			dojo.stopEvent(evt);
-		}
-	},
-	
-	focus: function(/*String*/ position){
-		// summary:
-		//		Focuses this widget to according to position, if specified,
-		//		otherwise on arrow node
-		// position:
-		//		"start" or "end"
-		if(!this.disabled){
-			dijit.focus(position == "start" ? this.titleNode : this._popupStateNode);
-		}
 	}
 });
 
