@@ -1,4 +1,4 @@
-define("dijit/form/FilteringSelect", ["dojo", "dijit", "dijit/form/ComboBox"], function(dojo, dijit) {
+define("dijit/form/FilteringSelect", ["dojo", "dijit", "dijit/form/MappedTextBox", "dijit/form/ComboBoxMixin"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.form.FilteringSelect",

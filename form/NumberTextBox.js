@@ -1,4 +1,4 @@
-define("dijit/form/NumberTextBox", ["dojo", "dijit", "dijit/form/ValidationTextBox", "dojo/number"], function(dojo, dijit) {
+define("dijit/form/NumberTextBox", ["dojo", "dijit", "dijit/form/RangeBoundTextBox", "dojo/number"], function(dojo, dijit) {
 
 /*=====
 dojo.declare(
