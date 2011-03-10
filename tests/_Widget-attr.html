@@ -78,12 +78,15 @@
 			});
 
 			dojo.declare("IndividualMaps", [dijit._Widget, dijit._TemplatedMixin], {
+				// Mapping foo to this.domNode.foo
 				foo:"",
 				_setFooAttr: "",
 
+				// Mapping bar to this.buttonNode.bar
 				bar: "",
 				_setBarAttr: "buttonNode",
 
+				// Mapping plainText to this.plainTextNode.innerHTML
 				plainText: "",
 				_setPlainTextAttr: {node: "plainTextNode", type: "innerText"},
 
@@ -148,10 +151,10 @@
 					function domSetGet(){
 						// test setting widget attributes corresponding to DOM node attributes
 						var t = new Textbox();
-						doh.f(t.get("disabled"));
+						doh.f(t.get("disabled"), "get('disabled')");
 						t.set("disabled", true);
-						doh.t(dojo.attr(t.domNode, "disabled"));
-						doh.t(t.get("disabled"));
+						doh.t(dojo.attr(t.domNode, "disabled"), "dojo.attr(t.domNode, 'disabled')");
+						doh.t(t.get("disabled"), "get('disabled')");
 					},
 
 					function domInnerHTML(){
@@ -160,8 +163,8 @@
 							foo: "blah",
 							name: "whatever"
 						});
-						doh.is("whatever", b2.get("name"));
-						doh.is("whatever", b2.nameNode.innerHTML);
+						doh.is("whatever", b2.get("name"), "get('name')");
+						doh.is("whatever", b2.nameNode.innerHTML, "innerHTML");
 					},
 					
 					// Test deprecated attributeMap
@@ -175,13 +178,13 @@
 						});
 						var wrapper = dojo.byId("wrapper");
 						wrapper.appendChild(widget.domNode);
-						doh.is("value1", widget.domNode.getAttribute("foo"));
-						doh.is("value2", widget.buttonNode.getAttribute("bar"));
+						doh.is("value1", widget.domNode.getAttribute("foo"), "widget.domNode.getAttribute('foo')");
+						doh.is("value2", widget.buttonNode.getAttribute("bar"), "widget.domNode.getAttribute('bar')");
 						doh.t(dojo.hasClass(widget.domNode, "class1"), "class1");
 						doh.t(dojo.hasClass(widget.domNode, "class2"), "class2");
-						doh.is("123px", dojo.style(widget.domNode).height);
-						doh.is("456px", dojo.style(widget.domNode).width);
-						doh.is("hello world &lt;&gt;&amp;;", widget.plainTextNode.innerHTML);
+						doh.is("123px", dojo.style(widget.domNode).height, "height");
+						doh.is("456px", dojo.style(widget.domNode).width, "width");
+						doh.is("hello world &lt;&gt;&amp;;", widget.plainTextNode.innerHTML, "innerHTML");
 					},
 
 					function individualMaps(){
@@ -194,13 +197,34 @@
 						});
 						var wrapper = dojo.byId("wrapper");
 						wrapper.appendChild(widget.domNode);
-						doh.is("value1", widget.domNode.getAttribute("foo"));
-						doh.is("value2", widget.buttonNode.getAttribute("bar"));
+						doh.is("value1", widget.domNode.getAttribute("foo"), "widget.domNode.getAttribute('foo')");
+						doh.is("value2", widget.buttonNode.getAttribute("bar"), "widget.domNode.getAttribute('bar')");
 						doh.t(dojo.hasClass(widget.domNode, "class1"), "class1");
 						doh.t(dojo.hasClass(widget.domNode, "class2"), "class2");
-						doh.is("123px", dojo.style(widget.domNode).height);
-						doh.is("456px", dojo.style(widget.domNode).width);
-						doh.is("hello world &lt;&gt;&amp;;", widget.plainTextNode.innerHTML);
+						doh.is("123px", dojo.style(widget.domNode).height, "height");
+						doh.is("456px", dojo.style(widget.domNode).width, "width");
+						doh.is("hello world &lt;&gt;&amp;;", widget.plainTextNode.innerHTML, "innerHTML");
+					},
+
+					// Test that certain attributes are automatically applied to focusNode or domNode
+					function autoMapping(){
+						// Mapping to this.domNode
+						var w = new dijit._Widget({
+							title: "dom title",
+							"aria-labelledby": "foo"
+						});
+						doh.is("dom title", dojo.attr(w.domNode, "title"), "domNode title")
+						doh.is("foo", dojo.attr(w.domNode, "aria-labelledby"), "domNode labelledby");
+
+						// Mapping to this.focusNode
+						var fw = (new dojo.declare([dijit._WidgetBase, dijit._TemplatedMixin], {
+							templateString: "<div><input data-dojo-attach-point='focusNode'/></div>"
+						}))({
+							title: "my title",
+							"aria-labelledby": "foo"
+						});
+						doh.is("my title", dojo.attr(fw.focusNode, "title"), "focusNode title")
+						doh.is("foo", dojo.attr(fw.focusNode, "aria-labelledby"), "focusNode labelledby");
 					}
 
 				]

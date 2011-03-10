@@ -35,7 +35,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 	//		go all the way to the left/right.
 	_minScroll: 5,
 
-	// Map widget attributes to DOMNode attributes.
+	// Override default behavior mapping class to DOMNode
 	_setClassAttr: { node: "containerNode", type: "class" },
 
 	buildRendering: function(){

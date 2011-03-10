@@ -302,6 +302,9 @@ dojo.declare(
 			this.nameAttrSetting = "";
 		},
 
+		// Override default behavior to assign name to focusNode
+		_setNameAttr: null,
+
 		serialize: function(/*anything*/ val, /*Object?*/ options){
 			// summary:
 			//		Overridable function used to convert the get('value') result to a canonical

@@ -54,7 +54,7 @@ dojo.declare(
 	slideDuration: dijit.defaultDuration,
 
 	// Map widget attributes to DOMNode attributes.
-	_setIdAttr: "",		// Override _FormValueWidget which sends id to focusNode
+	_setIdAttr: "",		// Override _FormWidget which sends id to focusNode
 
 	baseClass: "dijitSlider",
 

@@ -30,6 +30,7 @@ dojo.declare(
 	// title: String
 	//		Title of the pane
 	title: "",
+	_setTitleAttr: { node: "titleNode", type: "innerHTML" },	// override default where title becomes a hover tooltip
 
 	// open: Boolean
 	//		Whether pane is opened or closed.
@@ -54,8 +55,7 @@ dojo.declare(
 
 	templateString: dojo.cache("dijit", "templates/TitlePane.html"),
 
-	// Map widget attributes to DOMNode attributes.
-	_setTitleAttr: { node: "titleNode", type: "innerHTML" },
+	// Tooltip is defined in _WidgetBase but we need to handle the mapping to DOM here
 	_setTooltipAttr: {node: "focusNode", type: "attribute", attribute: "title"},	// focusNode spans the entire width, titleNode doesn't
 
 	buildRendering: function(){

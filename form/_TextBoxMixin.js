@@ -33,9 +33,6 @@ dojo.declare( "dijit.form._TextBoxMixin", null, {
 	//		This should only contain plain text (no html markup).
 	placeHolder: "",
 
-	// Map widget attributes to DOMNode attributes.
-	_setMaxLengthAttr: "focusNode",
-
 	_getValueAttr: function(){
 		// summary:
 		//		Hook so get('value') works as we like.

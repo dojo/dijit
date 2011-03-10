@@ -37,6 +37,14 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 	//
 	//		If the value of _setXXXAttr is an array, then each element in the array matches one of the
 	//		formats of the above list.
+	//
+	//		If the custom setter is null, no action is performed other than saving the new value
+	//		in the widget (in this).
+	//
+	//		If no custom setter is defined for an attribute, then it will be copied
+	//		to this.focusNode (if the widget defines a focusNode), or this.domNode otherwise.
+	//		That's only done though for attributes that match DOMNode attributes (title,
+	//		alt, aria-labelledby, etc.)
 
 	// id: [const] String
 	//		A unique, opaque ID string that can be assigned by users or by the
@@ -44,6 +52,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 	//		unique, the specified ID is ignored and the system-generated ID is
 	//		used instead.
 	id: "",
+	_setIdAttr: "domNode",	// to copy to this.domNode even for auto-generated id's
 
 	// lang: [const] String
 	//		Rarely used.  Overrides the default Dojo locale used to render this widget,
@@ -51,16 +60,19 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 	//		Value must be among the list of locales specified during by the Dojo bootstrap,
 	//		formatted according to [RFC 3066](http://www.ietf.org/rfc/rfc3066.txt) (like en-us).
 	lang: "",
+	_setLangAttr: "domNode",	// to set on domNode even when there's a focus node
 
 	// dir: [const] String
 	//		Bi-directional support, as defined by the [HTML DIR](http://www.w3.org/TR/html401/struct/dirlang.html#adef-dir)
 	//		attribute. Either left-to-right "ltr" or right-to-left "rtl".  If undefined, widgets renders in page's
 	//		default direction.
 	dir: "",
+	_setDirAttr: "domNode",	// to set on domNode even when there's a focus node
 
 	// class: String
 	//		HTML class attribute
 	"class": "",
+	_setClassAttr: { node: "domNode", type: "class" },
 
 	// style: String||Object
 	//		HTML style attributes as cssText string or name/value hash
@@ -168,13 +180,6 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 	//	|	"focusNode" ---> { node: "focusNode", type: "attribute" }
 	//		- "" --> { node: "domNode", type: "attribute" }
 	attributeMap: {},
-
-	// Map widget attributes to DOMNode attributes.
-	_setIdAttr: "",
-	_setDirAttr: "",
-	_setLangAttr: "",
-	_setClassAttr: { node: "domNode", type: "class" },
-	_setTitleAttr: "",
 
 	// _blankGif: [protected] String
 	//		Path to a blank 1x1 image.
@@ -311,8 +316,8 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 			}
 		}
 
-		// Call this.set() for each attribute found above that was either specified as parameter to constructor,
-		// or has a default non-null value.   For correlated attributes like value and displayedValue, the one
+		// Call this.set() for each attribute that was either specified as parameter to constructor,
+		// or was found above and has a default non-null value.   For correlated attributes like value and displayedValue, the one
 		// specified as a parameter should take precedence, so apply attributes in this.params last.
 		// Particularly important for new DateTextBox({displayedValue: ...}) since DateTextBox's default value is
 		// NaN and thus is not ignored like a default value of "".
@@ -323,11 +328,9 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 				this.set(attr, this[attr]);
 			}
 		}, this);
-		dojo.forEach(list, function(attr){
-			if(this.params && attr in this.params){
-				this.set(attr, this[attr]);
-			}
-		}, this);
+		for(var param in this.params){
+			this.set(param, this[param]);
+		}
 	},
 
 	postMixInProperties: function(){
@@ -636,9 +639,15 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 			// use the explicit setter
 			var result = setter.apply(this, Array.prototype.slice.call(arguments, 1));
 		}else{
-			// mapping from widget attribute to DOMNode attribute/value/etc.
-			// TODO: attributeMap code deprecated, remove in 2.0
-			var map = name in this.attributeMap ? this.attributeMap[name] : setter;
+			// Mapping from widget attribute to DOMNode attribute/value/etc.
+			// Map according to:
+			//		1. attributeMap setting, if one exists (TODO: attributeMap deprecated, remove in 2.0)
+			//		2. _setFooAttr: {...} type attribute in the widget (if one exists)
+			//		3. apply to focusNode or domNode if standard attribute name
+			var defaultNode = this.focusNode ? "focusNode" : "domNode",
+				map =	name in this.attributeMap ? this.attributeMap[name] :
+						names.s in this ? this[names.s] :
+						(name in this[defaultNode] || /^aria-/.test(name)) ? defaultNode : null;				
 			if(map != null){
 				this._attrToDom(name, value, map);
 			}

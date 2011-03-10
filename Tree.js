@@ -22,6 +22,7 @@ dojo.declare(
 	// label: String
 	//		Text of this tree node
 	label: "",
+	_setLabelAttr: {node: "labelNode", type: "innerText"},
 
 	// isExpandable: [private] Boolean
 	//		This node has children, so show the expando node (+ sign)
@@ -47,8 +48,7 @@ dojo.declare(
 		labelNode: "dijitTreeLabel"
 	},
 
-	// Map widget attributes to DOMNode attributes.
-	_setLabelAttr: {node: "labelNode", type: "innerText"},
+	// Tooltip is defined in _WidgetBase but we need to handle the mapping to DOM here
 	_setTooltipAttr: {node: "rowNode", type: "attribute", attribute: "title"},
 
 	buildRendering: function(){

@@ -13,9 +13,6 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 
 	templateString: "<select multiple='true' ${!nameAttrSetting} dojoAttachPoint='containerNode,focusNode' dojoAttachEvent='onchange: _onChange'></select>",
 
-	// Map widget attributes to DOMNode attributes.
-	_setSizeAttr: "focusNode",
-
 	reset: function(){
 		// summary:
 		//		Reset the widget's value to what it was at initialization time

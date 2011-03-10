@@ -207,7 +207,7 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 	templateString: dojo.cache("dijit.form", "templates/ComboButton.html"),
 
 	// Map widget attributes to DOMNode attributes.
-	_setIdAttr: "",	// override Button which puts id on the focusNode
+	_setIdAttr: "",	// override _FormWidgetMixin which puts id on the focusNode
 	_setTabIndexAttr: ["focusNode", "titleNode"],
 	_setTitleAttr: "titleNode",
 
@@ -270,9 +270,6 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 	//		True if the button is depressed, or the checkbox is checked,
 	//		or the radio button is selected, etc.
 	checked: false,
-
-	// Map widget attributes to DOMNode attributes.
-	_setCheckedAttr: "focusNode",
 
 	_onClick: function(/*Event*/ evt){
 		var ret = this.inherited(arguments);

@@ -46,7 +46,6 @@ dojo.declare(
 			{ node: "titleNode", type: "innerHTML" },
 			{ node: "titleBar", type: "attribute" }
 		],
-		_setAriaDescribedbyAttr: "",
 
 		// open: [readonly] Boolean
 		//		True if Dialog is currently displayed on screen.

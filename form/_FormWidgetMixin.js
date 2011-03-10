@@ -24,13 +24,15 @@ dojo.declare("dijit.form._FormWidgetMixin", null, {
 	//		Corresponds to the native HTML <input> element's attribute.
 	value: "",
 
-	// type: String
+	// type: [const] String
 	//		Corresponds to the native HTML <input> element's attribute.
 	type: "text",
+	_setTypeAttr: null,		// override automatic assigning type --> focusNode, it causes exception on IE
 
 	// tabIndex: Integer
 	//		Order fields are traversed when user hits the tab key
 	tabIndex: "0",
+	_setTabIndexAttr: "focusNode",	// force copy even when tabIndex default value, needed since Button is <span>
 
 	// disabled: Boolean
 	//		Should this widget respond to user input?
@@ -45,13 +47,9 @@ dojo.declare("dijit.form._FormWidgetMixin", null, {
 	//		On focus, should this widget scroll into view?
 	scrollOnFocus: true,
 
-	// Map widget attributes to DOMNode attributes.
-	// These mixins assume that the focus node is an INPUT, as many but not all _FormWidgets are.
-	_setValueAttr: "focusNode",
+	// Override _WidgetBase mapping id to this.domNode, needs to be on focusNode so <label> etc.
+	// works with screen reader
 	_setIdAttr: "focusNode",
-	_setTabIndexAttr: "focusNode",
-	_setAltAttr: "focusNode",
-	_setTitleAttr: "focusNode",
 
 	postCreate: function(){
 		this.inherited(arguments);

@@ -10,19 +10,17 @@ dojo.declare("dijit.MenuItem",
 		// icon, label, and expand arrow (BiDi-dependent) indicating sub-menu
 		templateString: dojo.cache("dijit", "templates/MenuItem.html"),
 
-		// Map widget attributes to DOMNode attributes.
-		_setLabelAttr: { node: "containerNode", type: "innerHTML" },
-		_setIconClassAttr: { node: "iconNode", type: "class" },
-
 		baseClass: "dijitMenuItem",
 
 		// label: String
 		//		Menu text
 		label: '',
+		_setLabelAttr: { node: "containerNode", type: "innerHTML" },
 
 		// iconClass: String
 		//		Class to apply to DOMNode to make it display an icon.
 		iconClass: "",
+		_setIconClassAttr: { node: "iconNode", type: "class" },
 
 		// accelKey: String
 		//		Text for the accelerator (shortcut) key combination.
