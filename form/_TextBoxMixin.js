@@ -2,7 +2,7 @@ define("dijit/form/_TextBoxMixin", ["dojo", "dijit"], function(dojo, dijit) {
 
 dojo.declare( "dijit.form._TextBoxMixin", null, {
 	// summary:
-	//		A base mixin for textbox form inputs
+	//		A mixin for textbox form input widgets
 
 	// trim: Boolean
 	//		Removes leading and trailing whitespace if true.  Default is false.
