@@ -1,8 +1,8 @@
-define("dijit/form/CheckBox", ["dojo", "dijit", "text!dijit/form/templates/CheckBox.html", "dijit/form/ToggleButton"], function(dojo, dijit) {
+define("dijit/form/CheckBox", ["dojo", "dijit", "text!dijit/form/templates/CheckBox.html", "dijit/form/ToggleButton", "dijit/form/_CheckBoxMixin"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.form.CheckBox",
-	dijit.form.ToggleButton,
+	[dijit.form.ToggleButton, dijit.form._CheckBoxMixin],
 	{
 		// summary:
 		// 		Same as an HTML checkbox, but with fancy styling.
@@ -25,36 +25,6 @@ dojo.declare(
 
 		baseClass: "dijitCheckBox",
 
-		// type: [private] String
-		//		type attribute on <input> node.
-		//		Overrides `dijit.form.Button.type`.  Users should not change this value.
-		type: "checkbox",
-
-		// value: String
-		//		As an initialization parameter, equivalent to value field on normal checkbox
-		//		(if checked, the value is passed as the value when form is submitted).
-		//
-		//		However, get('value') will return either the string or false depending on
-		//		whether or not the checkbox is checked.
-		//
-		//		set('value', string) will check the checkbox and change the value to the
-		//		specified string
-		//
-		//		set('value', boolean) will change the checked state.
-		value: "on",
-
-		// readOnly: Boolean
-		//		Should this widget respond to user input?
-		//		In markup, this is specified as "readOnly".
-		//		Similar to disabled except readOnly form values are submitted.
-		readOnly: false,
-		
-		_setReadOnlyAttr: function(/*Boolean*/ value){
-			this._set("readOnly", value);
-			dojo.attr(this.focusNode, 'readOnly', value);
-			dijit.setWaiState(this.focusNode, "readonly", value);
-		},
-
 		_setValueAttr: function(/*String|Boolean*/ newValue, /*Boolean*/ priorityChange){
 			// summary:
 			//		Handler for value= attribute to constructor, and also calls to
@@ -67,6 +37,9 @@ dojo.declare(
 			//		If passed a string, changes the value attribute of the CheckBox (the one
 			//		specified as "value" when the CheckBox was constructed (ex: <input
 			//		dojoType="dijit.CheckBox" value="chicken">)
+			//		widget.set('value', string) will check the checkbox and change the value to the
+			//		specified string
+			//		widget.set('value', boolean) will change the checked state.
 			if(typeof newValue == "string"){
 				this._set("value", newValue);
 				dojo.attr(this.focusNode, 'value', newValue);
@@ -85,38 +58,18 @@ dojo.declare(
 			return (this.checked ? this.value : false);
 		},
 
-		// Override dijit.form.Button._setLabelAttr() since we don't even have a containerNode.
-		// Normally users won't try to set label, except when CheckBox or RadioButton is the child of a dojox.layout.TabContainer
-		_setLabelAttr: undefined,
-
 		postMixInProperties: function(){
-			if(this.value == ""){
-				this.value = "on";
-			}
+			this.inherited(arguments);
 
 			// Need to set initial checked state as part of template, so that form submit works.
-			// dojo.attr(node, "checked", bool) doesn't work on IEuntil node has been attached
+			// dojo.attr(node, "checked", bool) doesn't work on IE until node has been attached
 			// to <body>, see #8666
 			this.checkedAttrSetting = this.checked ? "checked" : "";
-
-			this.inherited(arguments);
 		},
 
 		 _fillContent: function(/*DomNode*/ source){
 			// Override Button::_fillContent() since it doesn't make sense for CheckBox,
 			// since CheckBox doesn't even have a container
-		},
-
-		reset: function(){
-			// Override ToggleButton.reset()
-
-			this._hasBeenBlurred = false;
-
-			this.set('checked', this.params.checked || false);
-
-			// Handle unlikely event that the <input type=checkbox> value attribute has changed
-			this._set("value", this.params.value || "on");
-			dojo.attr(this.focusNode, 'value', this.value);
 		},
 
 		_onFocus: function(){
@@ -131,17 +84,6 @@ dojo.declare(
 				dojo.query("label[for='"+this.id+"']").removeClass("dijitFocusedLabel");
 			}
 			this.inherited(arguments);
-		},
-
-		_onClick: function(/*Event*/ e){
-			// summary:
-			//		Internal function to handle click actions - need to check
-			//		readOnly, since button no longer does that check.
-			if(this.readOnly){
-				dojo.stopEvent(e);
-				return false;
-			}
-			return this.inherited(arguments);
 		}
 	}
 );
