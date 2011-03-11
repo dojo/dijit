@@ -330,30 +330,64 @@ dojo.declare(
 					this.endEditing();
 					this._beginEditing();
 				}
-				var r;
-				var isClipboard = /copy|cut|paste/.test(cmd);
-				try{
-					r = this.inherited(arguments);
-					if(dojo.isWebKit && isClipboard && !r){ //see #4598: webkit does not guarantee clipboard support from js
-						throw { code: 1011 }; // throw an object like Mozilla's error
-					}
-				}catch(e){
-					//TODO: when else might we get an exception?  Do we need the Mozilla test below?
-					if(e.code == 1011 /* Mozilla: service denied */ && isClipboard){
-						// Warn user of platform limitation.  Cannot programmatically access clipboard. See ticket #4136
-						var sub = dojo.string.substitute,
-							accel = {cut:'X', copy:'C', paste:'V'};
-						alert(sub(this.commands.systemShortcut,
-							[this.commands[cmd], sub(this.commands[dojo.isMac ? 'appleKey' : 'ctrlKey'], [accel[cmd]])]));
-					}
-					r = false;
-				}
+				var r = this.inherited(arguments);
 				if(this.customUndo){
 					this._endEditing();
 				}
 				return r;
 			}
 		},
+		
+		_pasteImpl: function(){
+			// summary: 
+			//		Over-ride of paste command control to make execCommand cleaner
+			// tags:
+			//		Protected
+			return this._clipboardCommand("paste");
+		},
+		
+		_cutImpl: function(){
+			// summary: 
+			//		Over-ride of cut command control to make execCommand cleaner
+			// tags:
+			//		Protected
+			return this._clipboardCommand("cut");
+		},
+
+		_copyImpl: function(){
+			// summary: 
+			//		Over-ride of copy command control to make execCommand cleaner
+			// tags:
+			//		Protected
+			return this._clipboardCommand("copy");
+		},
+		
+		_clipboardCommand: function(cmd){
+			// summary:
+			//		Function to handle processing clipboard commands (or at least try to).
+			// tags:
+			//		Private
+			var r;
+			try{
+				// Try to exec the superclass exec-command and see if it works.
+				r = this.document.execCommand(cmd, false, null);
+				if(dojo.isWebKit && !r){ //see #4598: webkit does not guarantee clipboard support from js
+					throw { code: 1011 }; // throw an object like Mozilla's error
+				}
+			}catch(e){
+				//TODO: when else might we get an exception?  Do we need the Mozilla test below?
+				if(e.code == 1011 /* Mozilla: service denied */){
+					// Warn user of platform limitation.  Cannot programmatically access clipboard. See ticket #4136
+					var sub = dojo.string.substitute,
+						accel = {cut:'X', copy:'C', paste:'V'};
+					alert(sub(this.commands.systemShortcut,
+						[this.commands[cmd], sub(this.commands[dojo.isMac ? 'appleKey' : 'ctrlKey'], [accel[cmd]])]));
+				}
+				r = false;
+			}
+			return r;
+		},
+		
 		queryCommandEnabled: function(cmd){
 			// summary:
 			//		Returns true if specified editor command is enabled.
