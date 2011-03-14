@@ -1,7 +1,7 @@
 ({
 	createLinkTitle: "خصائص الوصلة",
 	insertImageTitle: "خصائص الصورة",
-	url: "عنوان URL:",
+	url: "‏عنوان URL:‏",
 	text: "الوصف:",
 	target: "الهدف:",
 	set: "تحديد",

@@ -31,8 +31,8 @@
 	'deleteTable': 'Supprimer le tableau',
 	'tableProp': 'Propriété du tableau',
 	'htmlToggle': 'Source HTML',
-	'foreColor': "Couleur d'avant-plan",
-	'hiliteColor': "Couleur d'arrière-plan",
+	'foreColor': 'Couleur d\'avant-plan',
+	'hiliteColor': 'Couleur d\'arrière-plan',
 	'plainFormatBlock': 'Style de paragraphe',
 	'formatBlock': 'Style de paragraphe',
 	'fontSize': 'Taille de police',
@@ -43,5 +43,5 @@
 	"print": "Imprimer",
 	"newPage": "Nouvelle page",
 	/* Error messages */
-	'systemShortcut': "L'action \"${0}\" est disponible dans votre navigateur uniquement, par le biais d'un raccourci-clavier. Utilisez ${1}."
+	'systemShortcut': 'L\'action "${0}" est disponible dans votre navigateur uniquement, par le biais d\'un raccourci-clavier. Utilisez ${1}.'
 })
