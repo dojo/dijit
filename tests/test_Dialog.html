@@ -61,6 +61,19 @@
 			dijit.byId('dialog1').show();
 			setTimeout(dojo.hitch(dijit.byId('fifthDlg'), 'show'), 1000);
 		}
+		
+		function showSelfDestructDlg(){
+			//for testing #12436
+			var dlg = new dijit.Dialog({
+				id: 'SelfDestructDlg',
+				title: 'Self-Destruct Dialog',
+				content: 'This dialog will destroy itself onHide.'
+			});
+			dlg.connect(dlg, 'onHide', function(){
+				this.destroyRecursive();
+			});
+			dlg.show();
+		}
 	</script>
 </head>
 <body class="claro">
@@ -370,6 +383,8 @@
 	    </fieldset>
 	  </div>
 	</div>
+	
+	<button id="SelfDestructDlgBtn" data-dojo-type="dijit.form.Button" data-dojo-props='onClick:showSelfDestructDlg'>Show Self-Destruct Dialog</button>
 	
 	<p><b><i>(scroll down to see more links to click, for testing positioning / scroll handling)</i></b></p>
 

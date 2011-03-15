@@ -391,6 +391,8 @@ dojo.declare(
 				fadeOut.stop();
 				delete this._fadeOutDeferred;
 			}));
+			// fire onHide when the promise resolves.
+			this._fadeOutDeferred.then(dojo.hitch(this, 'onHide'));
 
 			fadeOut = dojo.fadeOut({
 				node: this.domNode,
@@ -398,7 +400,6 @@ dojo.declare(
 				onEnd: dojo.hitch(this, function(){
 					this.domNode.style.display = "none";
 					dijit._DialogLevelManager.hide(this);
-					this.onHide();
 					this._fadeOutDeferred.callback(true);
 					delete this._fadeOutDeferred;
 				})
