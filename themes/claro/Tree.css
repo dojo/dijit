@@ -41,6 +41,7 @@
   margin: 0 1px;
   /* replaced by border for selected/hovered row */
 
+  background-color: none;
   background-color: transparent;
   background-color: rgba(171, 214, 255, 0);
   background-image: url("images/commonHighlight.png");
