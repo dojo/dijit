@@ -351,7 +351,7 @@ dijit.selectInputText = function(/*DomNode*/ element, /*Number?*/ start, /*Numbe
 	element = dojo.byId(element);
 	if(isNaN(start)){ start = 0; }
 	if(isNaN(stop)){ stop = element.value ? element.value.length : 0; }
-	dijit.focus(element);
+	element.focus();
 	dijit._setSelectionRange(element, start, stop);
 };
 

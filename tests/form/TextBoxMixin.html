@@ -184,7 +184,7 @@
 					name: "dijit",
 					timeout: 2000,
 					runTest: function(){
-						new dijit.form.TextBox({id:"dijit_programmatic", value:"No srcNodeRef"}).placeAt("dijit_programmatic_container", "first");
+						new dijit.form.TextBox({id:"dijit_programmatic", selectOnClick:true, value:"No srcNodeRef"}).placeAt("dijit_programmatic_container", "first");
 						var dijit_programmatic = dijit.byId('dijit_programmatic');
 						var focushandle = dijit_programmatic.connect(dijit_programmatic, '_onFocus',
 							function(){
@@ -206,7 +206,7 @@
 					name: "mobile",
 					timeout: 2000,
 					runTest: function(){
-						new dojox.mobile.TextBox({id:"mobile_programmatic", value:"No srcNodeRef"}).placeAt("mobile_programmatic_container", "first");
+						new dojox.mobile.TextBox({id:"mobile_programmatic", selectOnClick:true, value:"No srcNodeRef"}).placeAt("mobile_programmatic_container", "first");
 						var mobile_programmatic = dijit.byId('mobile_programmatic');
 						var focushandle = mobile_programmatic.connect(mobile_programmatic, '_onFocus',
 							function(){
