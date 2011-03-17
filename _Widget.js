@@ -39,8 +39,6 @@ if(dojo.isIE){
 	}, true);
 }
 
-(function(){
-
 dojo.declare("dijit._Widget", dijit._WidgetBase, {
 	// summary:
 	//		Base class for all Dijit widgets.
@@ -473,9 +471,6 @@ dojo.declare("dijit._Widget", dijit._WidgetBase, {
 		return true;		// Boolean
 	}
 });
-
-})();
-
 
 return dijit._Widget;
 });

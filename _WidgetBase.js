@@ -1,7 +1,5 @@
 define("dijit/_WidgetBase", ["dojo", "dijit", "dijit/_base/manager", "dojo/Stateful"], function(dojo, dijit) {
 
-(function(){
-
 dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 	// summary:
 	//		Future base class for all Dijit widgets.
@@ -857,9 +855,6 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		return this;
 	}
 });
-
-})();
-
 
 return dijit._WidgetBase;
 });
