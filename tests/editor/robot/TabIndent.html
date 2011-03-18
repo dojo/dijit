@@ -41,9 +41,9 @@
 							
 							var editor = dijit.byId("tiTest");
 							
-							doh.robot.sequence(function(){
+							doh.robot.sequence(d.getTestErrback(function(){
 								editor.setValue("<ol><li>a list item.</li><li>a list item2.</li></ol>");
-							},500);
+							}),500);
 							
 							doh.robot.mouseMoveAt(dojo.query(".dijitEditorIconTabIndent")[0], 1000);
 							doh.robot.mouseClick({left: true}, 500);
@@ -84,7 +84,7 @@
 							
 							var editor = dijit.byId("tiTest");
 							var origValue;
-							doh.robot.sequence(function(){ origValue = editor.getValue(); }, 1000); 
+							doh.robot.sequence(d.getTestErrback(function(){ origValue = editor.getValue(); }), 1000); 
 							doh.robot.mouseMoveAt(dojo.query(".dijitEditorIconTabIndent")[0], 1000);
 							doh.robot.mouseClick({left: true}, 500);
 							doh.robot.mouseMoveAt(editor.editNode, 500);
@@ -128,7 +128,7 @@
 							
 							var editor = dijit.byId("tiTest");
 							var origValue;
-							doh.robot.sequence(function(){ origValue = editor.getValue(); }, 1000); 
+							doh.robot.sequence(d.getTestErrback(function(){ origValue = editor.getValue(); }), 1000); 
 							doh.robot.mouseMoveAt(function(){ return editor.editNode }, 500);
 							doh.robot.mouseClick({left: true}, 500);
 							doh.robot.keyPress("m", 500, {ctrl: true});
