@@ -129,7 +129,7 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 			// Additional code to set disabled state of ComboBox node.
 			// Overrides _FormValueWidget._setDisabledAttr() or ValidationTextBox._setDisabledAttr().
 			this.inherited(arguments);
-			dijit.setWaiState(this.domNode, "disabled", value);
+			this.domNode.setAttribute("aria-disabled", value);
 		},
 
 		_abortQuery: function(){
@@ -371,7 +371,7 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 			//		reposition it if necessary (reposition may be necessary if drop down's height changed).
 			this.closeDropDown(true);
 			this.openDropDown();
-			dijit.setWaiState(this.domNode, "expanded", "true");
+			this.domNode.setAttribute("aria-expanded", "true");
 		},
 
 		loadDropDown: function(/*Function*/ callback){
@@ -395,8 +395,8 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 			this._abortQuery();
 			if(this._opened){
 				this.inherited(arguments);
-				dijit.setWaiState(this.domNode, "expanded", "false");
-				dijit.removeWaiState(this.focusNode,"activedescendant");
+				this.domNode.setAttribute("aria-expanded", "false");
+				this.focusNode.removeAttribute("aria-activedescendant");
 			}
 		},
 
@@ -491,7 +491,7 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 			// get the text that the user manually entered (cut off autocompleted text)
 			this.focusNode.value = this.focusNode.value.substring(0, this._lastInput.length);
 			// set up ARIA activedescendant
-			dijit.setWaiState(this.focusNode, "activedescendant", dojo.attr(node, "id"));
+			this.focusNode.setAttribute("aria-activedescendant", dojo.attr(node, "id"));
 			// autocomplete the rest of the option to announce change
 			this._autoCompleteText(newValue);
 		},
@@ -531,8 +531,8 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 					id: popupId,
 					dir: this.dir
 				});
-				dijit.removeWaiState(this.focusNode,"activedescendant");
-				dijit.setWaiState(this.textbox,"owns",popupId); // associate popup with textbox
+				this.focusNode.removeAttribute("aria-activedescendant");
+				this.textbox.setAttribute("aria-owns",popupId); // associate popup with textbox
 			}
 			// create a new query to prevent accidentally querying for a hidden
 			// value from FilteringSelect's keyField
@@ -634,7 +634,7 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 			var label=dojo.query('label[for="'+this.id+'"]');
 			if(label.length){
 				label[0].id = (this.id+"_label");
-				dijit.setWaiState(this.domNode, "labelledby", label[0].id);
+				this.domNode.setAttribute("aria-labelledby", label[0].id);
 
 			}
 			this.inherited(arguments);

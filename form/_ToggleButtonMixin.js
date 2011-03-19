@@ -21,7 +21,7 @@ dojo.declare("dijit.form._ToggleButtonMixin", null, {
 	_setCheckedAttr: function(/*Boolean*/ value, /*Boolean?*/ priorityChange){
 		this._set("checked", value);
 		dojo.attr(this.focusNode || this.domNode, "checked", value);
-		dijit.setWaiState(this.focusNode || this.domNode, "pressed", value);
+		(this.focusNode || this.domNode).setAttribute("aria-pressed", value);
 		this._handleOnChange(value, priorityChange);
 	},
 

@@ -31,7 +31,7 @@ dojo.declare("dijit.form._CheckBoxMixin", null,
 		_setReadOnlyAttr: function(/*Boolean*/ value){
 			this._set("readOnly", value);
 			dojo.attr(this.focusNode, 'readOnly', value);
-			dijit.setWaiState(this.focusNode, "readonly", value);
+			this.focusNode.setAttribute("aria-readonly", value);
 		},
 
 		// Override dijit.form.Button._setLabelAttr() since we don't even have a containerNode.

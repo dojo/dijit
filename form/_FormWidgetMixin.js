@@ -1,4 +1,4 @@
-define("dijit/form/_FormWidgetMixin", ["dojo", "dijit", "dojo/window", "dijit/_base/_waiMixin"], function(dojo, dijit) {
+define("dijit/form/_FormWidgetMixin", ["dojo", "dijit", "dojo/window"], function(dojo, dijit) {
 
 dojo.declare("dijit.form._FormWidgetMixin", null, {
 	// summary:
@@ -61,7 +61,7 @@ dojo.declare("dijit.form._FormWidgetMixin", null, {
 		if(this.valueNode){
 			dojo.attr(this.valueNode, 'disabled', value);
 		}
-		dijit.setWaiState(this.focusNode, "disabled", value);
+		this.focusNode.setAttribute("aria-disabled", value);
 
 		if(value){
 			// reset these, because after the domNode is disabled, we can no longer receive
@@ -225,7 +225,7 @@ dojo.declare("dijit.form._FormValueMixin", dijit.form._FormWidgetMixin, {
 
 	_setReadOnlyAttr: function(/*Boolean*/ value){
 		dojo.attr(this.focusNode, 'readOnly', value);
-		dijit.setWaiState(this.focusNode, "readonly", value);
+		this.focusNode.setAttribute("aria-readonly", value);
 		this._set("readOnly", value);
 	},
 
