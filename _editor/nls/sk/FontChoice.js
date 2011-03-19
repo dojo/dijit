@@ -11,6 +11,7 @@ define(
 	cursive: "cursive",
 	fantasy: "fantasy",
 
+	noFormat: "Žiadny",
 	p: "Odsek",
 	h1: "Hlavička",
 	h2: "Podhlavička",
@@ -25,6 +26,6 @@ define(
 	6: "x-large",
 	7: "xx-large"
 })
-
 //end v1.x content
 );
+
