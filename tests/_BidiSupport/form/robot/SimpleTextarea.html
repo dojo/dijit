@@ -196,7 +196,7 @@
 							focusThenRun(textarea, function(){
 								doh.robot.setClipboard("\u05d0\u05e0\u05d9\u0020\u05d0\u05d5\u05de\u05e8\u05ea\u003a\u0020");
 
-								doh.robot.keyPress(dojo.keys.HOME, 100, {});							
+								dojo.isMac ? doh.robot.keyPress("a", 100, {ctrl:true}): doh.robot.keyPress(dojo.keys.HOME, 100, {});	
 
 								doh.robot.keyPress("v", 400, modifier);
 								doh.robot.sequence(d.getTestCallback(function(){
