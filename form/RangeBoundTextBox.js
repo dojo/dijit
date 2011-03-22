@@ -117,6 +117,15 @@ dojo.declare(
 
 			dijit.setWaiState(this.focusNode, "valuenow", value);
 			this.inherited(arguments);
+		},
+
+		applyTextDir: function(/*Object*/ element, /*String*/ text){
+			// summary:
+			//		The function overridden in the _BidiSupport module,
+			//		originally used for setting element.dir according to this.textDir.
+			//		In this case does nothing.
+			//	tags:
+			//		protected.	
 		}
 	}
 );

@@ -469,7 +469,8 @@ dojo.declare(
 			parserScope: this.parserScope,
 			startup: false,
 			dir: this.dir,
-			lang: this.lang
+			lang: this.lang,
+			textDir: this.textDir
 		}, this._contentSetterParams || {});
 
 		setter.set( (dojo.isObject(cont) && cont.domNode) ? cont.domNode : cont, setterParams );

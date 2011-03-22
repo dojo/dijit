@@ -76,6 +76,7 @@ dojo.declare(
 					label: page.title,
 					dir: page.dir,
 					lang: page.lang,
+					textDir: page.textDir,
 					showLabel: page.showTitle,
 					iconClass: page.iconClass,
 					closeButton: page.closable,

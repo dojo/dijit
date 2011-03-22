@@ -67,6 +67,17 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 	dir: "",
 	_setDirAttr: "domNode",	// to set on domNode even when there's a focus node
 
+	// textDir: String
+	//		Bi-directional support,	the main variable which is responsible for the direction of the text.
+	//		The text direction can be different than the GUI direction by using this parameter in creation
+	//		of a widget.
+	// 		Allowed values:
+	//			1. "ltr"
+	//			2. "rtl"
+	//			3. "auto" - contextual the direction of a text defined by first strong letter.
+	//		By default is as the page direction.
+	textDir: "",
+
 	// class: String
 	//		HTML class attribute
 	"class": "",
@@ -853,8 +864,30 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 			dojo.place(this.domNode, reference, position);
 		}
 		return this;
+	},
+	
+	getTextDir: function(/*String*/ text,/*String*/ originalDir){
+		// summary:
+		//		Return direction of the text. 
+		//		The function overridden in the _BidiSupport module,
+		//		its main purpose is to calculate the direction of the
+		//		text, if was defined by the programmer through textDir.
+		//	tags:
+		//		protected.	
+		return originalDir;
+	},
+	
+	applyTextDir: function(/*Object*/ element, /*String*/ text){
+		// summary:
+		//		The function overridden in the _BidiSupport module,
+		//		originally used for setting element.dir according to this.textDir.
+		//		In this case does nothing.
+		//	tags:
+		//		protected.	
 	}
 });
+
+
 
 return dijit._WidgetBase;
 });

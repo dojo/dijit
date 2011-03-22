@@ -433,7 +433,8 @@ dojo.declare(
 		this.dropDown = new dijit.Menu({
 			id: this.containerId + "_menu",
 			dir: this.dir,
-			lang: this.lang
+			lang: this.lang,
+			textDir: this.textDir
 		});
 		var container = dijit.byId(this.containerId);
 		dojo.forEach(container.getChildren(), function(page){
@@ -443,6 +444,7 @@ dojo.declare(
 				iconClass: page.iconClass,
 				dir: page.dir,
 				lang: page.lang,
+				textDir: page.textDir,
 				onClick: function(){
 					container.selectChild(page);
 				}

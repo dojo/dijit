@@ -74,6 +74,10 @@ dojo.declare( "dijit.form._ComboBoxMenuMixin", null, {
 		if(menuitem.innerHTML == ""){
 			menuitem.innerHTML = "&nbsp;";
 		}
+
+		// update menuitem.dir if BidiSupport was required
+		this.applyTextDir(menuitem, (menuitem.innerText || menuitem.textContent || ""));
+
 		menuitem.item=item;
 		return menuitem;
 	},

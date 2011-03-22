@@ -106,6 +106,7 @@ dojo.declare("dijit.layout._TabButton",
 				id: this.id+"_Menu",
 				dir: this.dir,
 				lang: this.lang,
+				textDir: this.textDir,
 				targetNodeIds: [this.domNode]
 			});
 
@@ -113,6 +114,7 @@ dojo.declare("dijit.layout._TabButton",
 				label: _nlsResources.itemClose,
 				dir: this.dir,
 				lang: this.lang,
+				textDir: this.textDir,
 				onClick: dojo.hitch(this, "onClickCloseButton")
 			}));
 		}else{

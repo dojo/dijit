@@ -529,7 +529,8 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 				this.dropDown = new dropDownConstructor({
 					onChange: dojo.hitch(this, this._selectOption),
 					id: popupId,
-					dir: this.dir
+					dir: this.dir,		
+					textDir: this.textDir
 				});
 				this.focusNode.removeAttribute("aria-activedescendant");
 				this.textbox.setAttribute("aria-owns",popupId); // associate popup with textbox

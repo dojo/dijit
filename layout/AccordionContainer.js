@@ -122,6 +122,7 @@ dojo.declare(
 				id: child.id + "_wrapper",
 				dir: child.dir,
 				lang: child.lang,
+				textDir: child.textDir,
 				parent: this
 			});
 
@@ -357,6 +358,7 @@ dojo.declare("dijit.layout._AccordionInnerContainer",
 				title: child.tooltip,
 				dir: child.dir,
 				lang: child.lang,
+				textDir: child.textDir,
 				iconClass: child.iconClass,
 				id: child.id + "_button",
 				parent: this.parent
