@@ -276,7 +276,7 @@ dojo.declare("dijit.form._FormValueMixin", dijit.form._FormWidgetMixin, {
 	_onKeyDown: function(e){
 		if(e.keyCode == dojo.keys.ESCAPE && !(e.ctrlKey || e.altKey || e.metaKey)){
 			var te;
-			if(dojo.isIE){
+			if(dojo.isIE < 9 || (dojo.isIE && dojo.isQuirks)){
 				e.preventDefault(); // default behavior needs to be stopped here since keypress is too late
 				te = document.createEventObject();
 				te.keyCode = dojo.keys.ESCAPE;
