@@ -280,7 +280,7 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 	postCreate: function(){
 		this.inherited(arguments);
 
-		if(dojo.isIE){ // IE won't stop the event with keypress
+		if(dojo.isIE < 9 || (dojo.isIE && dojo.isQuirks)){ // IE won't stop the event with keypress
 			this.connect(this.focusNode || this.domNode, "onkeydown", this._onKeyDown);
 		}
 		// Update our reset value if it hasn't yet been set (because this.set()
