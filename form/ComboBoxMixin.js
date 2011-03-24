@@ -21,8 +21,8 @@ dojo.declare("dijit.form.ComboBoxMixin", dijit.form._AutoCompleterMixin, {
 			"_buttonNode": "dijitDownArrowButton"
 		},
 
-		_setHasDownArrowAttr: function(val){
-			this.hasDownArrow = val;
+		_setHasDownArrowAttr: function(/*Boolean*/ val){
+			this._set("hasDownArrow", val);
 			this._buttonNode.style.display = val ? "" : "none";
 		},
 

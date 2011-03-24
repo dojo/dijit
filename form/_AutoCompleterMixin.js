@@ -4,7 +4,7 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 		// summary:
 		//		A mixin that implements the base functionality for `dijit.form.ComboBox`/`dijit.form.FilteringSelect`
 		// description:
-		//		All widgets that mix in dijit.form.ComboBoxMixin must extend `dijit.form._FormValueWidget`.
+		//		All widgets that mix in dijit.form._AutoCompleterMixin must extend `dijit.form._FormValueWidget`.
 		// tags:
 		//		protected
 
@@ -454,12 +454,13 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 
 		_getItemText: function(/*item*/ item){
 			// summary:
-			//              Get the item's text label
+			//		Get the item's text label
 			// description:
-			//              Users shouldn't call this function; they should be calling
-			//              set('item', value)
+			//		Users shouldn't call this function; they should be calling
+			//		set('item', value)
 			// tags:
-			//              private
+			//		private
+
 			// Use labelFunc() to get displayedValue.  But it may return HTML so need to convert to plain text.
 			var label = this.labelFunc(item, this.store);
 			if(this.labelType == "html"){
