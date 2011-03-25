@@ -20,12 +20,12 @@
 
 			// These are the values assigned to the widgets in the page's HTML
 			var originalGet = {
-				cb1: {},
-				cb2: {"0":"on"},
-				cb4: {"0":"on"},
-				cb5: {},
-				cb6: {"0":"on"},
-				cb7: {},
+				cb1: [],
+				cb2: ["on"],
+				cb4: ["on"],
+				cb5: [],
+				cb6: ["on"],
+				cb7: [],
 				'g[1]': "talk",
 				g2: null
 			};
@@ -51,12 +51,12 @@
 
 			// changed values
 			var changedGet = {
-				cb1: {"0":"foo"},
-				cb2: {},
-				cb4: {},
-				cb5: {"0":"on"},
-				cb6: {},
-				cb7: {},
+				cb1: ["foo"],
+				cb2: [],
+				cb4: [],
+				cb5: ["on"],
+				cb6: [],
+				cb7: [],
 				'g[1]': null,
 				g2: "country"
 			};
@@ -115,7 +115,7 @@
 
 				doh.register("CheckBox values", [
 					function getValues(){
-						doh.is( dojo.toJson(originalGet), dojo.toJson(dijit.byId("myForm").get('value')) );
+						doh.is( dojo.toJson(originalGet), dojo.global.dojo.toJson(dijit.byId("myForm").get('value')) );
 					},
 					{
 						timeout:3000,
@@ -127,7 +127,7 @@
 							doh.robot.sequence(function(){ dijit.byId("myForm").set('value', change); }, 500); 
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is( dojo.toJson(changedGet), dojo.toJson(dijit.byId("myForm").get('value')) );
+								doh.is( dojo.toJson(changedGet), dojo.global.dojo.toJson(dijit.byId("myForm").get('value')) );
 							}), 1000);
 
 							return d;
@@ -143,7 +143,7 @@
 							doh.robot.sequence(function(){ dijit.byId("myForm").reset(); }, 500); 
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is( dojo.toJson(originalGet), dojo.toJson(dijit.byId("myForm").get('value')), "reset to original values" );
+								doh.is( dojo.toJson(originalGet), dojo.global.dojo.toJson(dijit.byId("myForm").get('value')), "reset to original values" );
 							}), 1000);
 
 							return d;
@@ -160,7 +160,7 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is( dojo.toJson(originalGet), dojo.toJson(dijit.byId("myForm").get('value')), "still have original values" );
+								doh.is( dojo.toJson(originalGet), dojo.global.dojo.toJson(dijit.byId("myForm").get('value')), "still have original values" );
 								submitForm("resubmit", originalSubmit);
 							}), 1000);
 
