@@ -410,7 +410,7 @@ dojo.declare(
 			var col = b.isCollapsed;
 			var r, sNode, eNode, sel;
 			if(mark){
-				if(dojo.isIE){
+				if(dojo.isIE < 9){
 					if(dojo.isArray(mark)){
 						//IE CONTROL, have to use the native bookmark.
 						bookmark = [];
@@ -538,7 +538,7 @@ dojo.declare(
 			var tmp=[];
 			if(b && b.mark){
 				var mark = b.mark;
-				if(dojo.isIE){
+				if(dojo.isIE < 9){
 					// Try to use the pseudo range API on IE for better accuracy.
 					var sel = dijit.range.getSelection(this.window);
 					if(!dojo.isArray(mark)){
