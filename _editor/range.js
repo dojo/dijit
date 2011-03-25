@@ -184,8 +184,6 @@ dijit.range.adjacentNoneTextNode=function(startnode, next){
 	return [node,len];
 }
 
-// IE9 seems to have this API, but isn't working as expected, disable.
-// TODO:  Revisit and make it work right.
 dijit.range._w3c = Boolean(window['getSelection']);
 dijit.range.create = function(/*Window?*/win){
 	if(dijit.range._w3c){
