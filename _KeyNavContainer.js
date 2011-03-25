@@ -123,6 +123,7 @@ dojo.declare("dijit._KeyNavContainer",
 			if(this.focusedChild && widget !== this.focusedChild){
 				this._onChildBlur(this.focusedChild);
 			}
+			widget.set("tabIndex", this.tabIndex);	// for IE focus outline to appear, must set tabIndex before focs
 			widget.focus(last ? "end" : "start");
 			this._set("focusedChild", widget);
 		},
