@@ -383,7 +383,8 @@
 						onContentError: function(msg){
 							throw new Error(msg);
 						}
-					}).placeAt(dojo.body());
+					});
+					accPane.placeAt(dojo.body());
 					html='<div data-dojo-type="dijit.layout.AccordionContainer" id="Accordion" style="height: 300px;">' +
 						 	'<div data-dojo-type="dijit.layout.ContentPane" title="first" id="first">' +
 								'<div data-dojo-type=dijit.form.Button id=myButton>hello world</div></div>' +
