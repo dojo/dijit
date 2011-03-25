@@ -144,7 +144,7 @@
 							}), 1000);
 							return d;
 						}
-					},
+					},					
 					{
 						name: "copy and paste split",
 						timeout: 10000,
@@ -188,6 +188,7 @@
 						}
 					}
 				]);
+				
 				doh.register("Split tests", [
 					{
 						name: "Test div line split",
@@ -263,6 +264,43 @@
 							return d;
 						}
 					},
+					{
+						name: "Test div line split font clone",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							// The initial input was a div with a line of text with a font tag in the middle.
+							// we want to focus on the font and enter there, splitting it.
+							var editor = dijit.byId("div4");
+							dojo.window.scrollIntoView(editor.iframe);
+							var node = dojo.withGlobal(editor.window, function(){
+								return dojo.byId("fontLine1");
+							});
+							
+							doh.robot.mouseMoveAt(editor.iframe, 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(function(){
+                                editor._sCall("selectElementChildren", [node]);
+							}, 500);
+							
+							//Keyboard kill the selection and shift position between i and s.
+							if(!dojo.isMoz || dojo.isMac) {doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100, {}); }
+							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 100, {});
+							doh.robot.keyPress(dojo.keys.ENTER, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								// Do tests here.
+								var val = editor.get("value");
+								// Check that it split the is into two and that the bold and div were properly split.
+								val = val.toLowerCase();
+								doh.assertTrue(/it <font\s+id="fontline1"\s+size\s*=\s*"\s*5?\s*">i<\/font><\/div>/.test(val),"font not set on first line");
+								doh.assertTrue(/<div><font\s+size\s*=\s*"\s*5?\s*">s<\/font>/.test(val),"font not set on split line");
+							}), 500);
+
+							return d;
+						}
+					},					
 					{
 						name: "copy and paste DIV",
 						timeout: 10000,
@@ -402,7 +440,7 @@
 							}), 1000);
 							return d;
 						}
-					},
+					},					
 					{
 						name: "copy and paste P split",
 						timeout: 10000,

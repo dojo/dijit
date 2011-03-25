@@ -183,7 +183,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 		// tags:
 		//		private
 
-		var selection, range, newrange, doc=this.editor.document,br,rs,txt;
+		var selection, range, newrange, startNode, endNode, brNode, doc=this.editor.document,br,rs,txt;
 		if(e.shiftKey){		// shift+enter always generates <br>
 			var parent = dojo.withGlobal(this.editor.window, "getParentElement", dijit._editor.selection);
 			var header = dijit.range.getAncestor(parent,this.blockNodes);
@@ -219,9 +219,9 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 						// Text node, we have to split it.
 						txt = rs.nodeValue;
 						dojo.withGlobal(this.editor.window, function(){
-							var startNode = doc.createTextNode(txt.substring(0, range.startOffset));
-							var endNode = doc.createTextNode(txt.substring(range.startOffset));
-							var brNode = doc.createElement("br");
+							startNode = doc.createTextNode(txt.substring(0, range.startOffset));
+							endNode = doc.createTextNode(txt.substring(range.startOffset));
+							brNode = doc.createElement("br");
 							
 							if(endNode.nodeValue == "" && dojo.isWebKit){
 								endNode = doc.createTextNode('\xA0')
@@ -250,7 +250,6 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 							range = selection.getRangeAt(0);
 						}
 						rs = range.startContainer;
-						var startNode, endNode, brNode;
 						if(rs && rs.nodeType == 3){
 							// Text node, we have to split it.
 							dojo.withGlobal(this.editor.window, dojo.hitch(this, function(){
@@ -430,7 +429,8 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 			
 			// Okay, we probably have to split.
 			rs = range.startContainer;
-			if(rs && rs.nodeType == 3){
+			var firstNodeMoved;
+			if(rs && rs.nodeType == 3){ 
 				// Text node, we have to split it.
 				var nodeToMove, tNode;
 				endOffset = range.endOffset;
@@ -442,8 +442,8 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 				}
 				
 				txt = rs.nodeValue;
-				var startNode = doc.createTextNode(txt.substring(0, endOffset));
-				var endNode = doc.createTextNode(txt.substring(endOffset, txt.length));
+				startNode = doc.createTextNode(txt.substring(0, endOffset));
+				endNode = doc.createTextNode(txt.substring(endOffset, txt.length));
 
 				// Place the split, then remove original nodes.
 				dojo.place(startNode, rs, "before");
@@ -465,7 +465,19 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 							}
 						}
 					}
-
+					// If font also need to clone over any font data. 
+					if(parentC.tagName === "FONT"){
+						if(parentC.color){
+							newTg.color = parentC.color;
+						}
+						if(parentC.face){
+							newTg.face = parentC.face;
+						}
+						if(parentC.size){  // this check was necessary on IE
+							newTg.size = parentC.size;
+						}
+					}
+					
 					nodeToMove = endNode;
 					while(nodeToMove){
 						tNode = nodeToMove.nextSibling;
@@ -486,6 +498,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 					// before moving the contents.
 					newblock.innerHTML = "";
 				}
+				firstNodeMoved = nodeToMove;
 				while(nodeToMove){
 					tNode = nodeToMove.nextSibling;
 					newblock.appendChild(nodeToMove);
@@ -495,20 +508,45 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 			
 			//lets move caret to the newly created block
 			newrange = dijit.range.create(this.editor.window);
-			newrange.setStart(newblock, 0);
-			selection.removeAllRanges();
-			selection.addRange(newrange);
-			if(this.editor.height){
-				dijit.scrollIntoView(newblock);
-			}
-			if(dojo.isMoz){
-				// press enter in middle of P may leave a trailing <br/>, let's remove it later
-				this._pressedEnterInBlock = block.blockNode;
+			var nodeForCursor;
+			var innerMostFirstNodeMoved = firstNodeMoved;
+			if(this.blockNodeForEnter !== 'BR'){
+				while(innerMostFirstNodeMoved){
+					nodeForCursor = innerMostFirstNodeMoved;
+					tNode = innerMostFirstNodeMoved.firstChild;
+					innerMostFirstNodeMoved = tNode;
+				}
+				if(nodeForCursor && nodeForCursor.parentNode){
+					newblock = nodeForCursor.parentNode;
+					newrange.setStart(newblock, 0);
+					selection.removeAllRanges();
+					selection.addRange(newrange);
+					if(this.editor.height){
+						dijit.scrollIntoView(newblock);
+					}
+					if(dojo.isMoz){
+						// press enter in middle of P may leave a trailing <br/>, let's remove it later
+						this._pressedEnterInBlock = block.blockNode;
+					}					
+				}else{
+					_letBrowserHandle = true;
+				}
+			}else{
+				newrange.setStart(newblock, 0);
+				selection.removeAllRanges();
+				selection.addRange(newrange);
+				if(this.editor.height){
+					dijit.scrollIntoView(newblock);
+				}
+				if(dojo.isMoz){
+					// press enter in middle of P may leave a trailing <br/>, let's remove it later
+					this._pressedEnterInBlock = block.blockNode;
+				}
 			}
 		}
 		return _letBrowserHandle;
 	},
-	
+
 	_adjustNodeAndOffset: function(/*DomNode*/node, /*Int*/offset){
 		// summary:
 		//              In the case there are multiple text nodes in a row the offset may not be within the node.  If the offset is larger than the node length, it will attempt to find
