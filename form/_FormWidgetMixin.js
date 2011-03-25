@@ -106,8 +106,8 @@ dojo.declare("dijit.form._FormWidgetMixin", null, {
 	focus: function(){
 		// summary:
 		//		Put focus on this widget
-		if(!this.disabled){
-			dijit.focus(this.focusNode);
+		if(!this.disabled && this.focusNode.focus){
+			try{ this.focusNode.focus(); }catch(e){}/*squelch errors from hidden nodes*/
 		}
 	},
 
