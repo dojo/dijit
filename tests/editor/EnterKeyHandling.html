@@ -63,6 +63,13 @@
 		<div>&nbsp;</div>
  	</div>
 
+ 	<h2>blockNodeforEnter='DIV' split test font clone</h2>
+	<div id="div4" data-dojo-type="dijit.Editor" data-dojo-props='plugins:[{name:"dijit._editor.plugins.EnterKeyHandling", blockNodeForEnter:"DIV"}, "viewsource"]'>
+		<div>&nbsp;</div>
+		<div id="lineOne">this is a line of text.  It <font id="fontLine1" size="5">is</font> intended to be split up by pressing enter.</div>
+		<div>&nbsp;</div>
+ 	</div>
+
  	<h2>blockNodeforEnter='P'</h2>
 	<div id="p" data-dojo-type="dijit.Editor" data-dojo-props='plugins:[{name:"dijit._editor.plugins.EnterKeyHandling", blockNodeForEnter:"P"}, "viewsource"]
 		'><p>para 1<br>line 2</p>
