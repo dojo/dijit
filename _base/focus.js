@@ -33,9 +33,6 @@ dojo.mixin(dijit, {
 		//		Retrieves a bookmark that can be used with moveToBookmark to return to the same range
 		var bm, rg, tg, sel = dojo.doc.selection, cf = dijit._curFocus;
 
-		// IE9 seems to have this flag, but doesn't work the same way/causes
-		// dijit.editor issues.  Disabling for now.
-		// TODO:  Revisit and get it working on IE too.
 		if(dojo.global.getSelection){
 			//W3C Range API for selections.
 			sel = dojo.global.getSelection();
