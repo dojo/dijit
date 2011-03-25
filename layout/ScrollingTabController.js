@@ -187,6 +187,10 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		this._setButtonClass(this._getScroll());
 		
 		this._postResize = true;
+
+		// Return my size so layoutChildren() can use it.
+		// Also avoids IE9 layout glitch on browser resize when scroll buttons present
+		return {h: this._contentBox.h, w: dim.w};
 	},
 
 	_getScroll: function(){

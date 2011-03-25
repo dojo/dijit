@@ -202,12 +202,18 @@ dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 
 	var size = function(widget, dim){
 		// size the child
-		widget.resize ? widget.resize(dim) : dojo.marginBox(widget.domNode, dim);
+		var newSize = widget.resize ? widget.resize(dim) : dojo.marginBox(widget.domNode, dim);
 
-		// record child's size, but favor our own numbers when we have them.
-		// the browser lies sometimes
-		dojo.mixin(widget, dojo.marginBox(widget.domNode));
-		dojo.mixin(widget, dim);
+		// record child's size
+		if(newSize){
+			// if the child returned it's new size then use that
+			dojo.mixin(widget, newSize);
+		}else{
+			// otherwise, call marginBox(), but favor our own numbers when we have them.
+			// the browser lies sometimes
+			dojo.mixin(widget, dojo.marginBox(widget.domNode));
+			dojo.mixin(widget, dim);
+		}
 	};
 
 	dijit.layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ dim, /*Widget[]*/ children,
@@ -250,7 +256,7 @@ dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 			var elmStyle = elm.style;
 			elmStyle.left = dim.l+"px";
 			elmStyle.top = dim.t+"px";
-			elmStyle.bottom = elmStyle.right = "auto";
+			elmStyle.position = "absolute";
 
 			dojo.addClass(elm, "dijitAlign" + capitalize(pos));
 
