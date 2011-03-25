@@ -598,7 +598,8 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			(!setBodyId && !this.height ? "\tbody,html {overflow-y: hidden;}\n" : ""),
 			"\t#dijitEditorBody{overflow-x: auto; overflow-y:" + (this.height ? "auto;" : "hidden;") + " outline: 0px;}\n",
 			"\tli > ul:-moz-first-node, li > ol:-moz-first-node{ padding-top: 1.2em; }\n",
-			"\tli{ min-height:1.2em; }\n",
+			// Can't set min-height in IE9, it puts layout on li, which puts move/resize handles.
+			(!dojo.isIE || dojo.isIE < 9 ? "\tli{ min-height:1.2em; }\n" : ""), 
 			"</style>\n",
 			this._applyEditingAreaStyleSheets(),"\n",
 			"</head>\n<body ",
