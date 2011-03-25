@@ -1500,13 +1500,16 @@ dojo.declare(
 
 		if(nodes){
 			dojo.forEach(nodes,function(node){
+				// Remove node from set of selected nodes (if it's selected)
+				this.dndController.removeTreeNode(node);
+
 				var parent = node.getParent();
 				if(parent){
 					// if node has not already been orphaned from a _onSetItem(parent, "children", ..) call...
 					parent.removeChild(node);
 				}
 				node.destroyRecursive();
-			});
+			}, this);
 			delete this._itemNodesMap[identity];
 		}
 	},
