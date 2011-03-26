@@ -240,6 +240,9 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		// The handle returned from Widget.subscribe() is the handle returned from dojo.subscribe()
 		this._subscribes = [];
 
+		// For widgets internal to this widget, invisible to calling code
+		this._supportingWidgets = [];
+
 		// mix in our passed parameters
 		if(this.srcNodeRef && (typeof this.srcNodeRef.id == "string")){ this.id = this.srcNodeRef.id; }
 		if(params){

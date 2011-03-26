@@ -1,8 +1,8 @@
-define("dijit/Calendar", ["dojo", "dijit", "text!dijit/templates/Calendar.html", "dojo/string", "dojo/cldr/supplemental", "dojo/date", "dojo/date/locale", "dijit/_Widget", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin", "dijit/_CssStateMixin", "dijit/form/DropDownButton"], function(dojo, dijit) {
+define("dijit/Calendar", ["dojo", "dijit", "text!dijit/templates/Calendar.html", "dojo/string", "dojo/cldr/supplemental", "dojo/date", "dojo/date/locale", "dijit/_Widget", "dijit/_TemplatedMixin", "dijit/_CssStateMixin", "dijit/form/DropDownButton"], function(dojo, dijit) {
 
 dojo.declare(
 	"dijit.Calendar",
-	[dijit._Widget, dijit._TemplatedMixin, dijit._WidgetsInTemplateMixin, dijit._CssStateMixin],
+	[dijit._Widget, dijit._TemplatedMixin, dijit._CssStateMixin],
 	{
 		// summary:
 		//		A simple GUI for choosing a date in the context of a monthly calendar.
@@ -292,10 +292,14 @@ dojo.declare(
 
 			var dateObj = new this.dateClassObj(this.currentFocus);
 
-			this.monthDropDownButton.dropDown = new dijit.Calendar._MonthDropDown({
-				id: this.id + "_mdd",
-				onChange: dojo.hitch(this, "_onMonthSelect")
-			});
+			this._supportingWidgets.push(this.monthDropDownButton = dijit.form.DropDownButton({
+				id: this.id + "_mddb",
+				tabIndex: "-1",
+				dropDown: new dijit.Calendar._MonthDropDown({
+					id: this.id + "_mdd",
+					onChange: dojo.hitch(this, "_onMonthSelect")
+				})
+			}, this.monthNode));
 
 			this.set('currentFocus', dateObj, false);	// draw the grid to the month specified by currentFocus
 
