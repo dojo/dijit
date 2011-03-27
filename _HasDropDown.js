@@ -80,6 +80,8 @@ dojo.declare("dijit._HasDropDown",
 
 			if(this.disabled || this.readOnly){ return; }
 
+			dojo.stopEvent(e);
+
 			this._docHandler = this.connect(dojo.doc, "onmouseup", "_onDropDownMouseUp");
 
 			this.toggleDropDown();
