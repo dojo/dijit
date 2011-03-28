@@ -210,6 +210,61 @@
 				}
 			]);
 
+
+			// For back-compat with 1.0 need to report click events, even clicks on the button
+			// (which by default is stopped in _HasDropDown)
+			// Remove for 2.0.
+			doh.register("onClick", [
+				{
+					timeout: 5000,
+					name: "click on button",
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						combo = dijit.byId("setvaluetest");
+						handle = dojo.connect(combo, "onClick", d.getTestCallback(function(){
+							// If we hit here it's OK, if no click event then fail with timeout
+							console.log("hit onClick callback");
+						}));
+
+						dijit.scrollIntoView(combo.domNode);
+
+						doh.robot.mouseMoveAt(combo._buttonNode, 1000, 0);
+						doh.robot.mouseClick({left:true}, 500);
+
+						return d;
+					},
+					tearDown: function(){
+						dojo.disconnect(handle);
+						combo.closeDropDown();
+					}
+				},
+				{
+					timeout: 5000,
+					name: "click on input",
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						combo = dijit.byId("setvaluetest");
+						handle = dojo.connect(combo, "onClick", d.getTestCallback(function(){
+							// If we hit here it's OK, if no click event then fail with timeout
+							console.log("hit onClick callback");
+						}));
+
+						dijit.scrollIntoView(combo.domNode);
+
+						doh.robot.mouseMoveAt(combo.focusNode, 1000, 0);
+						doh.robot.mouseClick({left:true}, 500);
+
+						return d;
+					},
+					tearDown: function(){
+						dojo.disconnect(handle);
+						combo.closeDropDown();
+					}
+				}
+			]);
+
 			// Test clicking more choices / previous choices buttons doesn't affect value in <input> area
 			doh.register("auto-complete", [
 				{
@@ -476,6 +531,7 @@
 					}
 				}
 			]);
+
 
 			doh.run();
 		});
