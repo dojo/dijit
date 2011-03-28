@@ -92,6 +92,9 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 		// Flags to _HasDropDown to limit height of drop down to make it fit in viewport
 		maxHeight: -1,
 		
+		// For backwards compatibility let onClick events propagate, even clicks on the down arrow button
+		_stopClickEvents: false,
+
 		_getCaretPos: function(/*DomNode*/ element){
 			// khtml 3.5.2 has selection* methods as does webkit nightlies from 2005-06-22
 			var pos = 0;

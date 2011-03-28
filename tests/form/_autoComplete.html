@@ -187,6 +187,7 @@
 				autoComplete:false,
 				selectOnClick:true,
 				onBlur:function(){ dojo.byId("b1").value=dijit.byId("setvaluetest").value },
+				onClick:function(){ console.log("onclick"); },
 				pageSize:30,
 				labelFunc:setValueTestLabelFunc,
 				onChange:setValueTestOnChange
