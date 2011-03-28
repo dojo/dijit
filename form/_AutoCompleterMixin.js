@@ -710,6 +710,20 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 			this._set("item", item||null); // value not looked up in store
 			if(!value){ value = ''; } // null translates to blank
 			this.inherited(arguments);
+		},
+		_setTextDirAttr: function(/*String*/ textDir){
+			// summary:
+			//		Setter for textDir, needed for the dropDown's textDir update. 
+			// description:
+			//		Users shouldn't call this function; they should be calling
+			//		set('textDir', value)
+			// tags:
+			//		private
+			this.inherited(arguments);
+			// update the drop down also (_ComboBoxMenuMixin)
+			if(this.dropDown){
+					this.dropDown._set("textDir", textDir);
+			}
 		}
 	}
 );
