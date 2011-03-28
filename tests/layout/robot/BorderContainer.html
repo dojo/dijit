@@ -89,6 +89,15 @@
 				]);
 
 				doh.register("keyboard", [
+					function setup(){
+						// Workaround FF4 bug where overflow:auto panes get focus even when
+						// they don't have a scrollbar, remove when
+						// https://bugzilla.mozilla.org/show_bug.cgi?id=616594 fixed
+						if(dojo.isFF == 4){
+							dojo.query(".dijitContentPane").style("overflow", "hidden");
+						}
+					},
+
 					{
 						name: "tabIndex",
 						timeout: 10000,
