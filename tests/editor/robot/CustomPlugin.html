@@ -33,7 +33,7 @@
 					},
 					function initialConditions(){
 						var pluginIcon = dojo.query(".customIcon")[0];
-						doh.t(isVisible(pluginIcon));
+						doh.t(isVisible(pluginIcon), "isVisible(pluginIcon)");
 					}
 				]);
 
@@ -55,13 +55,13 @@
 									foundClass = dojo.hasClass(parent, "dijitToggleButtonChecked");
 									parent = parent.parentNode;
 								}
-								doh.t(foundClass); //Test that the button was toggled after we pressed it
+								doh.t(foundClass, "foundClass"); //Test that the button was toggled after we pressed it
 								
 								var editor = dijit.byId("editor1");
 								dojo.forEach(editor._plugins, function(plugin){
 									if(plugin.name === "MyPlugin"){
 										var sourceArea = plugin.sourceArea;
-										doh.t(isVisible(sourceArea));
+										doh.t(isVisible(sourceArea), "isVisible(sourceArea)");
 									}
 								});
 							}), 1000);
@@ -85,13 +85,13 @@
 									foundClass = dojo.hasClass(parent, "dijitToggleButtonChecked");
 									parent = parent.parentNode;
 								}
-								doh.f(foundClass); //Test that the button was toggled off after we pressed it
+								doh.f(foundClass, "foundClass"); //Test that the button was toggled off after we pressed it
 								
 								var editor = dijit.byId("editor1");
 								dojo.forEach(editor._plugins, function(plugin){
 									if(plugin.name === "MyPlugin"){
 										var sourceArea = plugin.sourceArea;
-										doh.f(isVisible(sourceArea));
+										doh.f(isVisible(sourceArea), "isVisible(sourceArea)");
 									}
 								});
 							}), 1000);
