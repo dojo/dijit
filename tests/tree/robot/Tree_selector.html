@@ -193,16 +193,16 @@
 				}
 				doh.robot.initRobot('../test_Tree_DnD.html?testController=' + controller);
 
-				doh.register("setup", {
-					name: "setup",
+				setup();
+
+				doh.register("focus page", {
+					name: "focus page",
 					timeout: 20000,
 					runTest: function(){
 						var d = new doh.Deferred();
-						setup();
-						// FIXME: wait until tree data is ready
+						doh.robot.mouseClick({left:true}, 100);
 						doh.robot.sequence(function(){
                             //Focus the page, so tabbing will work.
-                            doh.robot.mouseClick({left:true}, 100);
 							d.callback(true);
 						}, 250);
 						return d;
