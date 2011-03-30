@@ -337,11 +337,11 @@ dojo.declare("dijit._HasDropDown",
 
 				// Attach dropDown to DOM and make make visibility:hidden rather than display:none
 				// so we call startup() and also get the size
-				if(dropDown.startup && !dropDown._started){
-					dropDown.startup();
-				}
-
 				dijit.popup.moveOffScreen(dropDown);
+
+				if(dropDown.startup && !dropDown._started){
+					dropDown.startup(); // this has to be done after being added to the DOM
+				}
 				// Get size of drop down, and determine if vertical scroll bar needed
 				var mb = dojo._getMarginSize(ddNode);
 				var overHeight = (maxHeight && mb.h > maxHeight);
