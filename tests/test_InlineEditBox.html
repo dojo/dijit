@@ -233,7 +233,7 @@ tortor pharetra congue. Suspendisse pulvinar.
 		<script type="text/javascript">
 			// See if we can make a widget in script
 			dojo.addOnLoad(function(){
-				var inlineWidget = new dijit.InlineEditBox({renderAsHtml: true}, 'programmatic');
+				var inlineWidget = new dijit.InlineEditBox({ renderAsHtml: true, onChange:myHandler }, 'programmatic');
  			});
 		</script>
 		<hr style="width:100%;"/>

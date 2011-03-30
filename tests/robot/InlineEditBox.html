@@ -162,7 +162,7 @@
 						}
 					},
 					{
-						name: "onChange test",
+						name: "onChange set value",
 						timeout: 2000,
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -170,6 +170,21 @@
 							inlineBox.set("value", "programmatic value");
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("programmatic value", inlineBox._onChangeValue, "programmatic set causes onChange");
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "onChange programmatic creation",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var inlineBox = dijit.byId("programmatic");
+							inlineBox.edit();
+							inlineBox.wrapperWidget.editWidget.set('value', 'changed');
+							inlineBox.save();
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("changed", inlineBox._onChangeValue, "editing causes onChange");
 							}), 500);
 							return d;
 						}

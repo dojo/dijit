@@ -221,6 +221,9 @@ dojo.declare("dijit.InlineEditBox",
 				save: dojo.hitch(this, "save"),
 				cancel: dojo.hitch(this, "cancel")
 			}, placeholder);
+			if(!this._started){
+				this.startup();
+			}
 		}
 		var ww = this.wrapperWidget;
 
