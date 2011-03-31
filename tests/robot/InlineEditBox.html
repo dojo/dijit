@@ -226,12 +226,13 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							var inlineBox = dijit.byId(test.id);
-							var handler = inlineBox.connect(inlineBox, 'edit',
-								function(){
-									inlineBox.disconnect(handler);
+							var handler = inlineBox.connect(inlineBox, 'edit', function(){
+								inlineBox.disconnect(handler);
+								var editWidget = inlineBox.wrapperWidget.editWidget;
+								handler = editWidget.connect(editWidget, '_onFocus', function(){
+									editWidget.disconnect(handler);
 									setTimeout(d.getTestErrback(function(){
 										doh.is(test.textValue, inlineBox.get("value"), "inline text value");
-										var editWidget = inlineBox.wrapperWidget.editWidget;
 										doh.t(isVisible(editWidget), "editor widget should visible");
 										var expected = test.widgetValue,
 											actual = editWidget.get("value");
@@ -248,6 +249,7 @@
 										moveAndClick(buttons[buttons.length-1]);
 									}), 1000);
 								});
+							});
 							moveAndClick(inlineBox.domNode);
 							return d;
 						}
