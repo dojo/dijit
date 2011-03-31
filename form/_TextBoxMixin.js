@@ -383,8 +383,10 @@ dijit.selectInputText = function(/*DomNode*/ element, /*Number?*/ start, /*Numbe
 	element = dojo.byId(element);
 	if(isNaN(start)){ start = 0; }
 	if(isNaN(stop)){ stop = element.value ? element.value.length : 0; }
-	element.focus();
-	dijit._setSelectionRange(element, start, stop);
+	try{
+		element.focus();
+		dijit._setSelectionRange(element, start, stop);
+	}catch(e){ /* squelch random errors (esp. on IE) from unexpected focus changes or DOM nodes being hidden */ }
 };
 
 return dijit.form._TextBoxMixin;
