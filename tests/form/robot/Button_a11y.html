@@ -37,21 +37,21 @@
 				doh.register("dijit.form.Button", [
 					{
 						name: "enabled",
-						timeout: 15000,
+						timeout: 5000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.sequence(function(){ dojo.byId("input").focus(); });
+							dojo.byId("input").focus();
 
 							var clicks = 0;
 							dijit.byId("T1465").set("onClick", function(){ clicks++; });
 
 
 							// tab into button to get focus
-							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+							doh.robot.keyPress(dojo.keys.TAB, 1000, {});
 
 							// and activate	with space / enter
-							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
+							doh.robot.keyPress(dojo.keys.SPACE, 1000, {});
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -62,7 +62,7 @@
 					},
 					{
 						name: "disabled no focus",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -76,7 +76,7 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								console.log("current focus is ", dojo.global.dijit._curFocus);
 								doh.is("comboCreate", dijit.getEnclosingWidget(dojo.global.dijit._curFocus).id, "focus jumped to combo create (left part of button)");
-							}), 500);
+							}), 1000);
 							return d;
 						}
 					}
@@ -85,7 +85,7 @@
 				doh.register("dijit.form.DropDownButton", [
 					{
 						name: "down arrow opens menu",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -102,7 +102,7 @@
 
 					{
 						name: "esc closes menu",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -117,7 +117,7 @@
 					},
 					{
 						name: "space opens menu",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -133,7 +133,7 @@
 
 					{
 						name: "space executes menu",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -148,7 +148,7 @@
 					},
 					{
 						name: "enter opens menu",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -164,7 +164,7 @@
 
 					{
 						name: "tab key closes popup, goes back to button",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -179,7 +179,7 @@
 					},
 					{
 						name: "enter opens menu again",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -195,7 +195,7 @@
 
 					{
 						name: "enter closes menu (#4772)",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -214,15 +214,13 @@
 				doh.register("dijit.form.ComboButton", [
 					{
 						name: "tab to button",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.sequence(function(){
-								dijit.byId("color").focus();
-							});
+							dijit.byId("color").focus();
 
-							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+							doh.robot.keyPress(dojo.keys.TAB, 1000, {});
 
 							var leftPart = dojo.query(".dijitButtonContents", dojo.byId("save"))[0];
 							doh.t(leftPart, "found left part of button");
@@ -237,7 +235,7 @@
 
 					{
 						name: "click button",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -255,7 +253,7 @@
 
 					{
 						name: "tab to drop down arrow",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -273,7 +271,7 @@
 
 					{
 						name: "down arrow opens menu",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -291,7 +289,7 @@
 
 					{
 						name: "esc closes menu",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -310,7 +308,7 @@
 
 					{
 						name: "enter key opens menu",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -325,7 +323,7 @@
 
 					{
 						name: "tab closes menu",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -344,25 +342,22 @@
 
 					{
 						name: "tab closes menu",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.sequence(function(){
-								// Focus element before "save" ComboButton
-								dijit.byId("color").focus();
-
-								// And disable the ComboButton
-								dijit.byId("save").set("disabled", true);
-							});
+							// Focus element before "save" ComboButton
+							dijit.byId("color").focus();
+							// And disable the ComboButton
+							dijit.byId("save").set("disabled", true);
 
 							// Tab should skip over the ComboButton entirely
-							doh.robot.keyPress(dojo.keys.TAB, 100, {});
+							doh.robot.keyPress(dojo.keys.TAB, 1000, {});
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								var focusedWidget = dijit.getEnclosingWidget(dojo.global.dijit._curFocus);
 								doh.isNot("save", focusedWidget && focusedWidget.id, "didn't focus on combo");
-							}), 500);
+							}), 1000);
 							return d;
 						}
 					}
@@ -371,7 +366,7 @@
 				doh.register("dijit.form.ToggleButton", [
 					{
 						name: "uncheck",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -385,10 +380,8 @@
 								watchNew = n;
 							});
 
-							doh.robot.sequence(function(){
-								dijit.byId("toggle1").focus();
-							});
-							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
+							dijit.byId("toggle1").focus();
+							doh.robot.keyPress(dojo.keys.SPACE, 1000, {});
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(checked, "toggle1 unchecked");
@@ -400,7 +393,7 @@
 					},
 					{
 						name: "check",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -414,10 +407,8 @@
 								watchNew = n;
 							});
 
-							doh.robot.sequence(function(){
-								dijit.byId("toggle1").focus();
-							});
-							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
+							dijit.byId("toggle1").focus();
+							doh.robot.keyPress(dojo.keys.SPACE, 1000, {});
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(checked, "toggle1 checked");
@@ -438,10 +429,8 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							submitCount = 0;
-							doh.robot.sequence(function(){
-								dijit.byId("bSubmit").focus();
-							});
-							doh.robot.keyPress(dojo.keys[key], 500, {});
+							dijit.byId("bSubmit").focus();
+							doh.robot.keyPress(dojo.keys[key], 1000, {});
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(1, submitCount, (key + ": # of times submit invoked " + submitCount));
@@ -459,16 +448,13 @@
 							resetCount = 0;
 							dijit.byId("testName").value = "";
 
-
-							doh.robot.sequence(function(){
-								dijit.byId("testName").focus();
-							},500);
-							doh.robot.typeKeys("test", 500, 2000);
+							dijit.byId("testName").focus();
+							doh.robot.typeKeys("test", 1000, 2000);
 
 							doh.robot.sequence(function(){
 								dijit.byId("bReset").focus();
-							},500);
-							doh.robot.keyPress(dojo.keys[key], 500, {});
+							}, 500);
+							doh.robot.keyPress(dojo.keys[key], 1000, {});
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(1, resetCount, (key + ": reset should be invoked 1 time. actual count = " + resetCount));
@@ -486,10 +472,8 @@
 					runTest: function(){
 						var d = new doh.Deferred();
 						submitCount = 0;
-						doh.robot.sequence(function(){
-							dijit.byId("testName").focus();
-						});
-						doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+						dijit.byId("testName").focus();
+						doh.robot.keyPress(dojo.keys.ENTER, 1000, {});
 
 						doh.robot.sequence(d.getTestCallback(function(){
 							doh.is(1, submitCount, "submitted via enter key on input");

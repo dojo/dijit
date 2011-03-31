@@ -345,9 +345,9 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is(nameBox.value, "Plain", "Plain name");
-								doh.is(valueBox.value, "Plain Submit", "Plain value");
-							}), 1000);
+								doh.is("Plain", nameBox.value, "Plain name");
+								doh.is("Plain Submit", valueBox.value, "Plain value");
+							}), 1500);
 
 							return d;
 						}
@@ -363,9 +363,9 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is(nameBox.value, "Combo", "Combo name");
-								doh.is(valueBox.value, "Combo Submit", "Combo value");
-							}), 1000);
+								doh.is("Combo", nameBox.value, "Combo name");
+								doh.is("Combo Submit", valueBox.value, "Combo value");
+							}), 1500);
 
 							return d;
 						}
@@ -383,9 +383,9 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is(nameBox.value, "INIT", "Combo Down Arrow name");
-								doh.is(valueBox.value, "INIT", "Combo Down Arrow value");
-							}), 1000);
+								doh.is("INIT", nameBox.value, "Combo Down Arrow name");
+								doh.is("INIT", valueBox.value, "Combo Down Arrow value");
+							}), 1500);
 
 							return d;
 						}
@@ -401,9 +401,9 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is(nameBox.value, "", "Combo Arrow name");
-								doh.is(valueBox.value, "", "Combo Arrow value");
-							}), 1000);
+								doh.is("", nameBox.value, "Combo Arrow name");
+								doh.is("", valueBox.value, "Combo Arrow value");
+							}), 1500);
 
 							return d;
 						}
@@ -419,9 +419,9 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is(nameBox.value, "DropDown", "DropDown name");
-								doh.is(valueBox.value, "DropDown Submit", "DropDown value");
-							}), 1000);
+								doh.is("DropDown", nameBox.value, "DropDown name");
+								doh.is("DropDown Submit", valueBox.value, "DropDown value");
+							}), 1500);
 
 							return d;
 						}
@@ -437,9 +437,9 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is(nameBox.value, "", "DropDown Arrow name");
-								doh.is(valueBox.value, "", "DropDown Arrow value");
-							}), 1000);
+								doh.is("", nameBox.value, "DropDown Arrow name");
+								doh.is("", valueBox.value, "DropDown Arrow value");
+							}), 1500);
 
 							return d;
 						}
@@ -455,8 +455,8 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is(nameBox.value, "INIT", "Disabled name");
-								doh.is(valueBox.value, "INIT", "Disabled value");
+								doh.is("INIT", nameBox.value, "Disabled name");
+								doh.is("INIT", valueBox.value, "Disabled value");
 							}), 1000);
 
 							return d;
