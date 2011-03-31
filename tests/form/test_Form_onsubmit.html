@@ -38,7 +38,7 @@
 		
 		function submittedValues(values){
 			console.log('actual submitted values: ' + dojo.toJson(values));
-			dijit.byId("textbox").set('value',dojo.fromJson(dojo.toJson(values)).plopcombo);
+			dijit.byId("textbox").set('value', dojo.fromJson(dojo.toJson(values)).plopcombo, true);
 		}
 	</script>
 
@@ -100,7 +100,7 @@
 	</form>
 	
 	<h3>Submitted value:</h3>
-	<input id="textbox" data-dojo-type="dijit.form.TextBox" data-dojo-props='type:"text" '/>
+	<input id="textbox" data-dojo-type="dijit.form.TextBox" data-dojo-props='type:"text"'/>
 	
 	<iframe name="formSubmitIframe" src="about:blank" onload="if(this.values)submittedValues(this.values)" style="display:none;"></iframe>
 </body>
