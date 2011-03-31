@@ -74,11 +74,11 @@
 	<p class="box">
 		<button id="button" onclick="console.log('clicked native button');">&lt;button&gt;</button>
 		<input id="input" type="button" value="&lt;input type='button'&gt;" onclick="console.log('clicked native input button');"/>
-		<button data-dojo-type="dijit.form.Button" data-dojo-props='id:"1465", onClick:function(){ console.log("clicked simple"); }, iconClass:"plusIcon", value:"Create"'>
+		<button data-dojo-type="dijit.form.Button" data-dojo-props='id:"T1465", onClick:function(){ console.log("clicked simple"); }, iconClass:"plusIcon", value:"Create"'>
 			Create
 		</button>
-		<span data-dojo-type="dijit.Tooltip" data-dojo-props='connectId:["1465"]'>tooltip on button</span>
-		<button data-dojo-type="dijit.form.Button" data-dojo-props='id:"1466", title:"view title", onClick:function(){ console.log("clicked simple"); }'>
+		<span data-dojo-type="dijit.Tooltip" data-dojo-props='connectId:["T1465"]'>tooltip on button</span>
+		<button data-dojo-type="dijit.form.Button" data-dojo-props='id:"T1466", title:"view title", onClick:function(){ console.log("clicked simple"); }'>
 			View
 		</button>
 		<button id="comboCreate" data-dojo-type="dijit.form.ComboButton" data-dojo-props='optionsTitle:"save options", onClick:function(){ console.log("clicked combo save") },
@@ -201,7 +201,7 @@
 	<h2>Buttons with no text label</h2>
 	<p>Buttons have showLabel=false so text is not displayed.  If no title attribute supplied, Should have label as title attribute displayed on mouse over</p>
 	<div class="box">
-		<button data-dojo-type="dijit.form.Button" data-dojo-props='id:"1467", title:"title attrib rather than label", onClick:function(){ console.log("clicked simple button with no text label"); },
+		<button data-dojo-type="dijit.form.Button" data-dojo-props='id:"T1467", title:"title attrib rather than label", onClick:function(){ console.log("clicked simple button with no text label"); },
 		iconClass:"plusIcon", showLabel:false'>
 		<span><b>Rich</b><i> Text</i> Test!</span>
 		</button>

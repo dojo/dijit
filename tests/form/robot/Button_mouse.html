@@ -23,14 +23,14 @@
 				doh.register("dijit.form.Button", [
 					{
 						name: "enabled",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
 							var clicked = false;
-							dijit.byId("1466").set("onClick", function(){ clicked = true; });
+							dijit.byId("T1466").set("onClick", function(){ clicked = true; });
 
-							doh.robot.mouseMoveAt("1466", 500);
+							doh.robot.mouseMoveAt("T1466", 500);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -41,7 +41,7 @@
 					},
 					{
 						name: "disabled",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -65,7 +65,7 @@
 				doh.register("dijit.form.DropDownButton", [
 					{
 						name: "click button",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -81,7 +81,7 @@
 
 					{
 						name: "click menu",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -100,7 +100,7 @@
 				doh.register("dijit.form.ComboButton", [
 					{
 						name: "click button",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -122,7 +122,7 @@
 
 					{
 						name: "click drop down button",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -141,7 +141,7 @@
 
 					{
 						name: "click menu",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -157,7 +157,7 @@
 
 					{
 						name: "disabled click button",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -184,7 +184,7 @@
 
 					{
 						name: "disabled click drop down button",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -208,7 +208,7 @@
 				doh.register("dijit.form.ToggleButton", [
 					{
 						name: "initially checked",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -227,7 +227,7 @@
 					},
 					{
 						name: "initially unchecked",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -246,7 +246,7 @@
 					},
 					{
 						name: "disabled",
-						timeout: 15000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -281,19 +281,19 @@
 					{
 						name: "icon",
 						runTest: function(){
-							doh.f(dojo.hasClass(dijit.byId("1466").iconNode, "plusIcon"), "doesn't plus icon class");
-							dijit.byId("1466").set("iconClass", "plusIcon");
-							doh.t(dojo.hasClass(dijit.byId("1466").iconNode, "plusIcon"), "has plus icon class");
+							doh.f(dojo.hasClass(dijit.byId("T1466").iconNode, "plusIcon"), "doesn't plus icon class");
+							dijit.byId("T1466").set("iconClass", "plusIcon");
+							doh.t(dojo.hasClass(dijit.byId("T1466").iconNode, "plusIcon"), "has plus icon class");
 
 							// switching icon erases old one
-							dijit.byId("1466").set("iconClass", "noteIcon");
-							doh.f(dojo.hasClass(dijit.byId("1466").iconNode, "plusIcon"), "doesn't plus icon class");
+							dijit.byId("T1466").set("iconClass", "noteIcon");
+							doh.f(dojo.hasClass(dijit.byId("T1466").iconNode, "plusIcon"), "doesn't plus icon class");
 						}
 					},
 
 					{
 						name: "disable",
-						timeout: 15000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -477,8 +477,8 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is(dojo.byId('onClickName').value, "RESET");
-							}), 500);
+								doh.is("RESET", dojo.byId('onClickName').value);
+							}), 1000);
 
 							return d;
 						}
@@ -495,8 +495,8 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is(dojo.byId('onClickName').value, "RESET");
-							}), 500);
+								doh.is("RESET", dojo.byId('onClickName').value);
+							}), 1000);
 
 							return d;
 						}
@@ -513,8 +513,8 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is(dojo.byId('onClickName').value, "2");
-							}), 500);
+								doh.is("2", dojo.byId('onClickName').value);
+							}), 1000);
 
 							return d;
 						}
@@ -531,8 +531,8 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is(dojo.byId('onClickName').value, "2");
-							}), 500);
+								doh.is("2", dojo.byId('onClickName').value);
+							}), 1000);
 
 							return d;
 						}
@@ -549,8 +549,8 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is(dojo.byId('onClickName').value, "RESET");
-							}), 500);
+								doh.is("RESET", dojo.byId('onClickName').value);
+							}), 1000);
 
 							return d;
 						}
@@ -567,8 +567,8 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is(dojo.byId('onClickName').value, "RESET");
-							}), 500);
+								doh.is("RESET", dojo.byId('onClickName').value);
+							}), 1000);
 
 							return d;
 						}
@@ -585,8 +585,8 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is(dojo.byId('onClickName').value, "RESET");
-							}), 500);
+								doh.is("RESET", dojo.byId('onClickName').value);
+							}), 1000);
 
 							return d;
 						}
@@ -603,8 +603,8 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is(dojo.byId('onClickName').value, "RESET");
-							}), 500);
+								doh.is("RESET", dojo.byId('onClickName').value);
+							}), 1000);
 
 							return d;
 						}
@@ -621,8 +621,8 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is(dojo.byId('onClickName').value, "RESET");
-							}), 500);
+								doh.is("RESET", dojo.byId('onClickName').value);
+							}), 1000);
 
 							return d;
 						}
@@ -639,8 +639,8 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is(dojo.byId('onClickName').value, "RESET");
-							}), 500);
+								doh.is("RESET", dojo.byId('onClickName').value);
+							}), 1000);
 
 							return d;
 						}

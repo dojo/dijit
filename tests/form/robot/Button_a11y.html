@@ -44,7 +44,7 @@
 							doh.robot.sequence(function(){ dojo.byId("input").focus(); });
 
 							var clicks = 0;
-							dijit.byId("1465").set("onClick", function(){ clicks++; });
+							dijit.byId("T1465").set("onClick", function(){ clicks++; });
 
 
 							// tab into button to get focus
@@ -66,9 +66,9 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.is("1465", dijit.getEnclosingWidget(dojo.global.dijit._curFocus).id, "focus starting on 1465");
+							doh.is("T1465", dijit.getEnclosingWidget(dojo.global.dijit._curFocus).id, "focus starting on 1465");
 
-							dijit.byId("1466").set("disabled", true);
+							dijit.byId("T1466").set("disabled", true);
 
 							// tab over disabled "View" button to "Create" combo-button
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
