@@ -243,8 +243,10 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		// For widgets internal to this widget, invisible to calling code
 		this._supportingWidgets = [];
 
-		// mix in our passed parameters
+		// this is here for back-compat, remove in 2.0 (but check NodeList-instantiate.html test)
 		if(this.srcNodeRef && (typeof this.srcNodeRef.id == "string")){ this.id = this.srcNodeRef.id; }
+
+		// mix in our passed parameters
 		if(params){
 			this.params = params;
 			dojo._mixin(this, params);

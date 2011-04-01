@@ -341,7 +341,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt('Plain', 500, 1);
+							doh.robot.mouseMoveAt('SubmitPlain', 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -359,7 +359,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt('Combo', 500, 1);
+							doh.robot.mouseMoveAt('SubmitCombo', 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -377,7 +377,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							var downArrowNode = dojo.query(".dijitDownArrowButton", dojo.byId("Combo"))[0];
+							var downArrowNode = dojo.query(".dijitDownArrowButton", dojo.byId("SubmitCombo"))[0];
 
 							doh.robot.mouseMoveAt(downArrowNode, 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
@@ -397,7 +397,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("ComboMenuItem", 500, 1);
+							doh.robot.mouseMoveAt("SubmitComboMenuItem", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -415,7 +415,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt('DropDown', 500, 1);
+							doh.robot.mouseMoveAt('SubmitDropDown', 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -433,7 +433,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt("DropDownMenuItem", 500, 1);
+							doh.robot.mouseMoveAt("SubmitDropDownMenuItem", 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -451,7 +451,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt('Disabled', 500, 1);
+							doh.robot.mouseMoveAt('SubmitDisabled', 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){

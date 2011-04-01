@@ -75,18 +75,6 @@ dojo.declare(
 			if(dojo.isIE){ this.domNode.encoding = value; }
 		},
 
-		postCreate: function(){
-			// IE tries to hide encType
-			// TODO: remove in 2.0, no longer necessary with data-dojo-params
-			if(dojo.isIE && this.srcNodeRef && this.srcNodeRef.attributes){
-				var item = this.srcNodeRef.attributes.getNamedItem('encType');
-				if(item && !item.specified && (typeof item.value == "string")){
-					this.set('encType', item.value);
-				}
-			}
-			this.inherited(arguments);
-		},
-
 		reset: function(/*Event?*/ e){
 			// summary:
 			//		restores all widget values back to their init values,
