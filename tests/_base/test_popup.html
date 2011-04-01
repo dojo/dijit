@@ -117,11 +117,11 @@
 
 			// Create a button that displays a simple drop down
 			choiceDropDown = new SimpleChoiceWidget();
-			choiceDropDownButton = new SimpleDropDownButton({
+			(choiceDropDownButton = new SimpleDropDownButton({
 				id: "choiceDropDownButton",
 				label: "show choice drop down",
 				popup: choiceDropDown
-			}).placeAt(dojo.byId("widgets"));
+			})).placeAt(dojo.byId("widgets"));
 
 			dojo.declare("DialogWithPopupWidget",  [dijit._Widget, dijit._Templated], {
 				// summary:
