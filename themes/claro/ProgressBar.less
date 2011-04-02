@@ -44,6 +44,8 @@
 } 
 .claro .dijitProgressBarFull {
 	border-right:1px solid @progressbar-border-color;
+	.transition-property(width);
+	.transition-duration(.25s);
 }
 .claro .dijitProgressBarLabel {
 	/* Set to a color that contrasts with both the "Empty" and "Full" parts. */

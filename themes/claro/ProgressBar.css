@@ -43,6 +43,12 @@
 }
 .claro .dijitProgressBarFull {
   border-right: 1px solid #769dc0;
+  -webkit-transition-property: width;
+  -moz-transition-property: width;
+  transition-property: width;
+  -webkit-transition-duration: 0.25s;
+  -moz-transition-duration: 0.25s;
+  transition-duration: 0.25s;
 }
 .claro .dijitProgressBarLabel {
   /* Set to a color that contrasts with both the "Empty" and "Full" parts. */
