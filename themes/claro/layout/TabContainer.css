@@ -80,18 +80,26 @@
 .claro .dijitTabInnerDiv {
   background-color: #efefef;
   -webkit-transition-property: background-color, border;
-  -webkit-transition-duration: .35s;
+  -moz-transition-property: background-color, border;
+  transition-property: background-color, border;
+  -webkit-transition-duration: 0.35s;
+  -moz-transition-duration: 0.35s;
+  transition-duration: 0.35s;
   color: #4a4a4a;
 }
 .claro .dijitTabHover .dijitTabInnerDiv {
   background-color: #abd6ff;
-  -webkit-transition-duration: .25s;
+  -webkit-transition-duration: 0.25s;
+  -moz-transition-duration: 0.25s;
+  transition-duration: 0.25s;
   color: #000000;
 }
 .claro .dijitTabActive .dijitTabInnerDiv {
   background-color: #7dbefa;
   color: #000000;
-  -webkit-transition-duration: .1s;
+  -webkit-transition-duration: 0.1s;
+  -moz-transition-duration: 0.1s;
+  transition-duration: 0.1s;
 }
 .claro .dijitTabChecked .dijitTabInnerDiv {
   background-color: #cfe5fa;
@@ -362,7 +370,11 @@
   padding: 4px;
   border-color: rgba(118, 157, 192, 0);
   -webkit-transition-property: background-color, border-color;
-  -webkit-transition-duration: .3s;
+  -moz-transition-property: background-color, border-color;
+  transition-property: background-color, border-color;
+  -webkit-transition-duration: 0.3s;
+  -moz-transition-duration: 0.3s;
+  transition-duration: 0.3s;
   -moz-border-radius: 2px;
   border-radius: 2px;
 }
@@ -384,7 +396,9 @@
   background-color: #e9f4fe;
   border: solid 1px #cfe5fa;
   padding: 3px;
-  webkit-transition-duration: .2s;
+  -webkit-transition-duration: 0.2s;
+  -moz-transition-duration: 0.2s;
+  transition-duration: 0.2s;
 }
 .claro .dijitTabContainerTabListNested .dijitTabHover .tabLabel {
   text-decoration: none;
@@ -393,7 +407,9 @@
   border: solid 1px #769dc0;
   padding: 3px;
   background: #abd6ff url("images/tabNested.png") repeat-x;
-  -webkit-transition-duration: .1s;
+  -webkit-transition-duration: 0.1s;
+  -moz-transition-duration: 0.1s;
+  transition-duration: 0.1s;
 }
 .claro .dijitTabContainerTabListNested .dijitTabChecked .dijitTabContent {
   padding: 3px;

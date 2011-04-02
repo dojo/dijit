@@ -80,19 +80,19 @@
 }
 .claro .dijitTabInnerDiv {
 	background-color:@unselected-background-color;
-	-webkit-transition-property:background-color, border;
- 	-webkit-transition-duration:.35s;
+	.transition-property(background-color, border);
+ 	.transition-duration(.35s);
 	color:@unselected-text-color;
 }
 .claro .dijitTabHover .dijitTabInnerDiv {
 	background-color:@hovered-background-color;
- 	-webkit-transition-duration:.25s;
+ 	.transition-duration(.25s);
 	color:@hovered-text-color;
 }
 .claro .dijitTabActive .dijitTabInnerDiv {
 	background-color:@pressed-background-color;
 	color:@selected-text-color;
-	-webkit-transition-duration:.1s;
+	.transition-duration(.1s);
 }
 .claro .dijitTabChecked .dijitTabInnerDiv {
 	background-color:@selected-background-color;
@@ -357,8 +357,8 @@
 	border: none;
 	padding: 4px;
 	border-color: rgba(118,157,192,0);
-	-webkit-transition-property:background-color, border-color;
- 	-webkit-transition-duration:.3s;
+	.transition-property(background-color, border-color);
+ 	.transition-duration(.3s);
 	.border-radius(2px);
 }
 .claro .dijitTabContainerTabListNested .dijitTab .dijitTabInnerDiv {
@@ -374,7 +374,7 @@
 	background-color: @nestedtab-hovered-background-color;
 	border:solid 1px @nestedtab-hovered-border-color;
 	padding: 3px;
-	webkit-transition-duration:.2s;
+	.transition-duration(.2s);
 }
 .claro .dijitTabContainerTabListNested .dijitTabHover .tabLabel {
 	text-decoration: none;
@@ -383,7 +383,7 @@
 	border:solid 1px @nestedtab-selected-border-color;
 	padding: 3px;
 	background: @nestedtab-selected-background-color url("images/tabNested.png") repeat-x;
-	-webkit-transition-duration:.1s;
+	.transition-duration(.1s);
 }
 .claro .dijitTabContainerTabListNested .dijitTabChecked .dijitTabContent {
 	padding: 3px;

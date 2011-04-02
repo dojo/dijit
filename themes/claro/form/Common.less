@@ -45,8 +45,8 @@
 .claro .dijitTextBox .dijitButtonNode {
 	/* color for (outer) border on *TextBox widgets, and border between input and buttons on ComboBox and Spinner */
 	border-color: @border-color;
-	-webkit-transition-property:background-color, border;
- 	-webkit-transition-duration:.35s;
+	.transition-property(background-color, border);
+ 	.transition-duration(.35s);
 }
 .claro .dijitTextBox {
 	background-color: @textbox-background-color;
@@ -56,7 +56,7 @@
 .claro .dijitTextBoxHover,
 .claro .dijitTextBoxHover .dijitButtonNode {
 	border-color: @hovered-border-color;
- 	-webkit-transition-duration:.25s;
+ 	.transition-duration(.25s);
 }
 .claro .dijitTextBoxHover {
 	background-color: @textbox-hovered-background-color;
@@ -78,7 +78,7 @@
 .claro .dijitTextBoxFocused,
 .claro .dijitTextBoxFocused .dijitButtonNode {
 	border-color:@focused-border-color;
- 	-webkit-transition-duration:.1s;
+ 	.transition-duration(.1s);
 }
 .claro .dijitTextBoxFocused {
 	background-color: @textbox-focused-background-color;

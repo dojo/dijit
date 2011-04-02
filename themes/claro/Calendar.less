@@ -141,8 +141,8 @@
 	padding:3px 5px 3px 4px;
 	border:solid 1px @calendar-currentmonth-background-color;	/* intentionally matches background-color, no visible border until hover/selection */
 	background-color:rgba(171,212,251,0);	/* transparent causes black-flash animation problem on webkit */
-	-webkit-transition-property:background-color, border;
- 	-webkit-transition-duration:.35s;
+	.transition-property(background-color, border);
+ 	.transition-duration(.35s);
 }
 .claro .dijitCalendarPreviousMonth .dijitCalendarDateLabel,
 .claro .dijitCalendarNextMonth .dijitCalendarDateLabel{
@@ -182,7 +182,7 @@
 	background-color:@hovered-background-color;
 	border:solid 1px @hovered-border-color;
 	color:@hovered-text-color;
-	-webkit-transition-duration:.2s;
+	.transition-duration(.2s);
 }
 .claro .dijitCalendarNextYearHover,
 .claro .dijitCalendarPreviousYearHover {
@@ -204,7 +204,7 @@
 	background-position:0 -300px;
 	background-color: @calendar-date-pressed-background-color;
 	border:solid 1px @calendar-date-pressed-border-color;
-	-webkit-transition-duration:.1s;
+	.transition-duration(.1s);
 }
 .dj_ie6 .claro .dijitCalendarActiveDate .dijitCalendarDateLabel {
 	background-image:none;

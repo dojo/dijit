@@ -34,7 +34,11 @@
 
   border-color: #b5bcc7;
   -webkit-transition-property: background-color, border;
-  -webkit-transition-duration: .35s;
+  -moz-transition-property: background-color, border;
+  transition-property: background-color, border;
+  -webkit-transition-duration: 0.35s;
+  -moz-transition-duration: 0.35s;
+  transition-duration: 0.35s;
 }
 .claro .dijitTextBox {
   background-color: #ffffff;
@@ -42,7 +46,9 @@
 /* hover */
 .claro .dijitTextBoxHover, .claro .dijitTextBoxHover .dijitButtonNode {
   border-color: #769dc0;
-  -webkit-transition-duration: .25s;
+  -webkit-transition-duration: 0.25s;
+  -moz-transition-duration: 0.25s;
+  transition-duration: 0.25s;
 }
 .claro .dijitTextBoxHover {
   background-color: #e9f4fe;
@@ -59,7 +65,9 @@
 /* focused state */
 .claro .dijitTextBoxFocused, .claro .dijitTextBoxFocused .dijitButtonNode {
   border-color: #769dc0;
-  -webkit-transition-duration: .1s;
+  -webkit-transition-duration: 0.1s;
+  -moz-transition-duration: 0.1s;
+  transition-duration: 0.1s;
 }
 .claro .dijitTextBoxFocused {
   background-color: #ffffff;

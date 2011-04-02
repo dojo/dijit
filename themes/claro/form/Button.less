@@ -30,8 +30,8 @@
 
 .claro .dijitButtonNode {
 	/* rules for dijit.form.*Button widgets and arrow nodes on ComboBox, Spinner etc. */
-	-webkit-transition-property:background-color;
- 	-webkit-transition-duration:.3s;
+	.transition-property(background-color);
+ 	.transition-duration(.3s);
 }
 
 .claro .dijitButton .dijitButtonNode,
@@ -102,7 +102,7 @@
 .claro .dijitToggleButtonHover .dijitButtonNode {
 	background-color: @button-hovered-background-color;
 	color:@text-color;
- 	-webkit-transition-duration:.2s;
+ 	.transition-duration(.2s);
 }
 
 /* checked status */
@@ -112,7 +112,7 @@
 .claro .dijitToggleButtonActive .dijitButtonNode {
 	background-color: @button-pressed-background-color;
 	.box-shadow(0 0 0 rgba(0,0,0,0));
- 	-webkit-transition-duration:.1s;
+ 	.transition-duration(.1s);
 }
 
 /* disabled status */
