@@ -29,7 +29,11 @@
   /* rules for dijit.form.*Button widgets and arrow nodes on ComboBox, Spinner etc. */
 
   -webkit-transition-property: background-color;
-  -webkit-transition-duration: .3s;
+  -moz-transition-property: background-color;
+  transition-property: background-color;
+  -webkit-transition-duration: 0.3s;
+  -moz-transition-duration: 0.3s;
+  transition-duration: 0.3s;
 }
 .claro .dijitButton .dijitButtonNode,
 .claro .dijitDropDownButton .dijitButtonNode,
@@ -97,7 +101,9 @@
 .claro .dijitToggleButtonHover .dijitButtonNode {
   background-color: #abd6ff;
   color: #000000;
-  -webkit-transition-duration: .2s;
+  -webkit-transition-duration: 0.2s;
+  -moz-transition-duration: 0.2s;
+  transition-duration: 0.2s;
 }
 /* checked status */
 .claro .dijitButtonActive .dijitButtonNode,
@@ -108,7 +114,9 @@
   -webkit-box-shadow: 0 0 0 rgba(0, 0, 0, 0);
   -moz-box-shadow: 0 0 0 rgba(0, 0, 0, 0);
   box-shadow: 0 0 0 rgba(0, 0, 0, 0);
-  -webkit-transition-duration: .1s;
+  -webkit-transition-duration: 0.1s;
+  -moz-transition-duration: 0.1s;
+  transition-duration: 0.1s;
 }
 /* disabled status */
 .claro .dijitButtonDisabled,

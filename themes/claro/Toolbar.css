@@ -41,7 +41,11 @@
   -moz-box-shadow: none;
   box-shadow: none;
   -webkit-transition-property: background-color;
-  -webkit-transition-duration: .3s, .35s;
+  -moz-transition-property: background-color;
+  transition-property: background-color;
+  -webkit-transition-duration: 0.3s, 0.35s;
+  -moz-transition-duration: 0.3s, 0.35s;
+  transition-duration: 0.3s, 0.35s;
   background-image: url("images/commonHighlight.png");
   background-position: 0 -30px;
   background-repeat: repeat-x;
@@ -97,7 +101,9 @@
   padding: 1px;
 }
 .claro .dijitToolbar .dijitComboButtonActive {
-  -webkit-transition-duration: .2s;
+  -webkit-transition-duration: 0.2s;
+  -moz-transition-duration: 0.2s;
+  transition-duration: 0.2s;
   border-width: 1px;
   padding: 0;
 }
