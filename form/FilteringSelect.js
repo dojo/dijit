@@ -160,12 +160,7 @@ dojo.declare(
 			//		Hook so set('displayedValue', label) works.
 			// description:
 			//		Sets textbox to display label. Also performs reverse lookup
-			//		to set the hidden value.
-			//
-			//		Doesn't work as expected when the FilteringSelect has a custom labelFunc(), since in that case
-			//		it's impossible to do a reverse lookup (from label --> item) without a full data store scan.
-			//		App must call set("displayedValue", ...) with the intended item.searchAttr, rather than
-			//		labelFunc(item).
+			//		to set the hidden value.  label should corresponding to item.searchAttr.
 
 			if(label == null){ label = ''; }
 
@@ -186,13 +181,14 @@ dojo.declare(
 				this.closeDropDown();
 				var query = dojo.clone(this.query); // #6196: populate query with user-specifics
 				// escape meta characters of dojo.data.util.filter.patternToRegExp().
-				this._lastQuery = query[this.labelAttr || this.searchAttr] = this._getDisplayQueryString(label);
-				// if the label is not valid, the callback will never set it,
-				// so the last valid value will get the warning textbox set the
+				this._lastQuery = query[this.searchAttr] = this._getDisplayQueryString(label);
+				// If the label is not valid, the callback will never set it,
+				// so the last valid value will get the warning textbox.   Set the
 				// textbox value now so that the impending warning will make
 				// sense to the user
 				this.textbox.value = label;
 				this._lastDisplayedValue = label;
+				this._set("displayedValue", label);	// for watch("displayedValue") notification
 				var _this = this;
 				var fetch = {
 					query: query,

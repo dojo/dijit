@@ -116,7 +116,7 @@
 							// watch() tests
 							doh.is(expectedText, dv, "watch of displayedValue");
 							doh.is(value, v, "watch of value");
-							doh.is(v, isComboBox ? combo.labelFunc(i, combo.store) : combo.store.getIdentity(i), "watch of item");
+							doh.is(value, isComboBox ? combo.store.getValue(i, combo.searchAttr) : combo.store.getIdentity(i), "watch of item");
 							h1.unwatch();
 							h2.unwatch();
 							h3.unwatch();
@@ -158,8 +158,8 @@
 					runTest:function(){
 						// Spot check of initial conditions of widgets and DOM nodes
 
-						doh.is("California (CA)", dijit.byId("setvaluetest").get("displayedValue"), "state1 displayed value");
-						doh.is(isComboBox ? "California (CA)" : "CA", dijit.byId("setvaluetest").get("value"), "state1 value");
+						doh.is("California", dijit.byId("setvaluetest").get("displayedValue"), "state1 displayed value");
+						doh.is(isComboBox ? "California" : "CA", dijit.byId("setvaluetest").get("value"), "state1 value");
 						doh.is("not fired yet!", dojo.byId("oc1").value, "state1 onChange hasn't fired");
 
 						// Test that dojo.query() finds hidden field, see #8660
@@ -203,8 +203,6 @@
 			doh.register("set('displayedValue', ...)", [
 				// Set displayedValue to Kentucky.
 				// This should be a valid assignment.
-				// TODO: this test is goofy since oc1 has a labelFunc, set("displayedValue", "Kentucky")
-				// ends up setting the displayed value to "Kentucky (KY)".   Is this what we really wanted to test?
 				{
 					timeout:5000,
 					name:"valid",
@@ -225,7 +223,7 @@
 								doh.t(combo.isValid(), "isValid()");
 							}
 							doh.is(isComboBox ? "Kentucky" : "KY", v, "watch of value")
-							doh.is(isComboBox ? "Kentucky" : "Kentucky (KY)", dv, "watch of displayedValue")
+							doh.is("Kentucky", dv, "watch of displayedValue")
 						}), 900);
 						return d;
 					}
@@ -285,7 +283,7 @@
 					name:"valid value",
 					combo:"setvaluetest",
 					runTest:function(){
-						return robot_typeValue(dijit.byId(this.combo), "California", isComboBox? undefined : "CA", isComboBox? undefined : "California (CA)");
+						return robot_typeValue(dijit.byId(this.combo), "California", isComboBox? undefined : "CA", isComboBox? undefined : "California");
 					}
 				},
 
@@ -372,7 +370,7 @@
 					name:"setvaluetest_a11y",
 					combo:"setvaluetest",
 					runTest:function(){
-						return robot_a11ySelectValue(dijit.byId(this.combo), "Texas", isComboBox? "Texas (TX)" : "TX", "Texas (TX)");
+						return robot_a11ySelectValue(dijit.byId(this.combo), "Texas", isComboBox? "Texas" : "TX", "Texas");
 					}
 				}
 			]);
@@ -796,14 +794,14 @@
 				}
 			]);
 
+			// Labelfunc tests.   See also initial tests on "setvaluetest" ComboBox.
 			doh.register("labelFunc", [
 				{
 					timeout:60000,
-					name:"labelFunc_a11y",
+					name:"labelFunc_keyboardSelect",
 					combo:"labelFunc",
 					runTest:function(){
-						// labelFunc makes Texas texas
-						return robot_a11ySelectValue((this.combo = dijit.byId(this.combo)), "texas", isComboBox? "texas" : "TX", "texas");
+						return robot_a11ySelectValue((this.combo = dijit.byId(this.combo)), "texas", isComboBox? "Texas" : "TX", "Texas");
 					},
 					tearDown:function(){
 						this.combo.set("value", isComboBox? "Texas" : "TX");
@@ -815,7 +813,7 @@
 					name:"labelFunc_type",
 					combo:"labelFunc",
 					runTest:function(){
-						var d = robot_typeValue((this.combo = dijit.byId(this.combo)), "Alabama", isComboBox? "alabama" : "AL", "alabama");
+						var d = robot_typeValue((this.combo = dijit.byId(this.combo)), "Alabama", isComboBox? "Alabama" : "AL", "Alabama");
 						return d;
 					}
 				},
@@ -828,9 +826,9 @@
 							w = dijit.byId("richtexttest");
 
 						// testing that input has right data
-						doh.is("h1", w.focusNode.value, "initial HTML label converted to plain text");
+						doh.is("h1", w.focusNode.value, "initial focus value");
 						w.set("value", "h2");
-						doh.is("h2", w.focusNode.value, "set() converted to plain text");
+						doh.is("h2", w.focusNode.value, "set() focus value");
 
 						w.focus();
 						
@@ -1062,7 +1060,7 @@
 							doh.t(combo._focused, "widget is focused");
 
 							// Since the user down arrowed thru the choices, the value should be the current selection
-							doh.is('Alaska (AK)', combo.focusNode.value);
+							doh.is('Alaska', combo.focusNode.value);
 							if(!isComboBox){
 								doh.t(combo.isValid(true), "FilteringSelect should be valid");
 							}

@@ -160,12 +160,6 @@
 					itemLabel = "undefined";
 					console.error(this.id + ' has an undefined item, onChange value = ' + newValue + ', widget value = ' + this.value + ', displayed Value = ' + this.textbox.value);
 					this.itemError = true;
-				}else{
-					itemLabel = this.labelFunc(this.item, this.store);
-					if(this.textbox.value != itemLabel){
-						console.error(this.id + ' has an inconsistent item value, item label = ' + itemLabel + ', onChange value = ' + newValue + ', widget value = ' + this.value + ', displayed Value = ' + this.textbox.value);
-						this.itemError = true;
-					}
 				}
 				dojo.byId('i1').value = itemLabel;
 			}
@@ -477,7 +471,7 @@
 			<option value="kitaku">&#x5317;&#x533A; (North)</option>
 		</select>
 		<hr>
-		<p>Custom labelFunc (value in textbox should be lower case when onChange is called), autoComplete=true, prompt message when field is blank:</p>
+		<p>Custom labelFunc (labels in lowercase), autoComplete=true, prompt message when field is blank:</p>
 		<label for="labelFunc">custom label function</label>
 		<input id="labelFunc" data-dojo-type="$testWidget"
 				data-dojo-props='value: (testWidget == "dijit.form.ComboBox") ? "Oregon" : "OR",

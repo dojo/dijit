@@ -82,7 +82,7 @@
 								entries = dojo.query(".dijitMenuItem", list).filter(isVisible);
 							doh.t(isVisible(list), "list is visible");
 							doh.is(31, entries.length, "30 elements plus next button");
-							doh.is("California (CA)", combo.focusNode.value, "displayed value hasn't changed");
+							doh.is("California", combo.focusNode.value, "displayed value hasn't changed");
 						}), 1500, 100);
 
 						return d;
@@ -107,7 +107,7 @@
 						doh.robot.sequence(d.getTestCallback(function(){
 							var entries = dojo.query(".dijitMenuItem", list).filter(isVisible);
 							doh.is("Minnesota (MN)", innerText(entries[1]), "first entry on second page of drop down");
-							doh.is("California (CA)", combo.focusNode.value, "displayed value hasn't changed");
+							doh.is("California", combo.focusNode.value, "displayed value hasn't changed");
 						}), 1500, 1000);
 
 						return d;
@@ -153,7 +153,7 @@
 							doh.is(32, entries.length, "30 states, plus next and previous button");
 							doh.is("Minnesota (MN)", innerText(entries[1]));
 							doh.is("Wisconsin (WI)", innerText(entries[30]));
-							doh.is("California (CA)", combo.focusNode.value, "displayed value hasn't changed");
+							doh.is("California", combo.focusNode.value, "displayed value hasn't changed");
 						}), 1500, 1000);
 
 						return d;
@@ -174,10 +174,10 @@
 						doh.robot.mouseClick({left:true}, 500);
 
 						doh.robot.sequence(d.getTestCallback(function(){
-							doh.is(isComboBox ? "New Jersey (NJ)" : "NJ", dijit.byId("setvaluetest").get("value"),
+							doh.is(isComboBox ? "New Jersey" : "NJ", dijit.byId("setvaluetest").get("value"),
 								"selected New Jersey from drop down");
 							var count = dijit.byId("setvaluetest").labelFuncCounts['NJ'];
-							doh.is(3, count, "# custom labelFunc calls");
+							doh.is(2, count, "# custom labelFunc calls");
 						}), 1000, 500);
 
 						return d;
@@ -199,10 +199,10 @@
 						doh.robot.mouseClick({left:true}, 500);
 
 						doh.robot.sequence(d.getTestCallback(function(){
-							doh.is(isComboBox ? "New Jersey (NJ)" : "NJ", dijit.byId("setvaluetest").get("value"),
+							doh.is(isComboBox ? "New Jersey" : "NJ", dijit.byId("setvaluetest").get("value"),
 								"New Jersey still set after blur");
 							var count = dijit.byId("setvaluetest").labelFuncCounts['NJ'];
-							doh.is(3, count, "# custom labelFunc calls (expected 3, unchanged after blur)");
+							doh.is(2, count, "# custom labelFunc calls unchanged after blur");
 						}), 1000, 500);
 
 						return d;

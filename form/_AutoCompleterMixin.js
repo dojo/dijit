@@ -448,28 +448,11 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 			var value = '';
 			if(item){
 				if(!displayedValue){
-					displayedValue = this._getItemText(item);
+					displayedValue = this.store.getValue(item, this.searchAttr);
 				}
 				value = this._getValueField() != this.searchAttr? this.store.getIdentity(item) : displayedValue;
 			}
 			this.set('value', value, priorityChange, displayedValue, item);
-		},
-
-		_getItemText: function(/*item*/ item){
-			// summary:
-			//		Get the item's text label
-			// description:
-			//		Users shouldn't call this function; they should be calling
-			//		set('item', value)
-			// tags:
-			//		private
-
-			// Use labelFunc() to get displayedValue.  But it may return HTML so need to convert to plain text.
-			var label = this.labelFunc(item, this.store);
-			if(this.labelType == "html"){
-				label = label.replace(/<\/?[a-zA-Z][^>]*>/g, "");
-			}
-			return label;
 		},
 
 		_announceOption: function(/*Node*/ node){
@@ -489,7 +472,7 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 				this.item = undefined;
 				this.value = '';
 			}else{
-				newValue = node.innerText || node.textContent || "";
+				newValue = this.store.getValue(node.item, this.searchAttr).toString();
 				this.set('item', node.item, false, newValue);
 			}
 			// get the text that the user manually entered (cut off autocompleted text)
@@ -621,7 +604,7 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 					var item = (this.item = this.store.fetchSelectedItem());
 					if(item){
 						var valueField = this._getValueField();
-						this.value = valueField != this.searchAttr? this.store.getValue(item, valueField) : this.labelFunc(item, this.store);
+						this.value = this.store.getValue(item, valueField);
 					}
 				}
 			}
