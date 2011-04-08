@@ -276,16 +276,16 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		// IE9 has a timing issue with doing this right after setting
 		// the inner HTML, so put a delay in.
 		var inject = dojo.hitch(this, function(){
-			div.blur();
-			dijit.focus(dojo.body());
 			var node = div.firstChild;
 			while(node){
-				dijit._editor.selection.selectElement(node.firstChild);
-				var nativename = node.tagName.toLowerCase();
-				this._local2NativeFormatNames[nativename] = document.queryCommandValue("formatblock");
-				this._native2LocalFormatNames[this._local2NativeFormatNames[nativename]] = nativename;
-				node = node.nextSibling.nextSibling;
-				//console.log("Mapped: ", nativename, " to: ", this._local2NativeFormatNames[nativename]);
+				try{
+					dijit._editor.selection.selectElement(node.firstChild);
+					var nativename = node.tagName.toLowerCase();
+					this._local2NativeFormatNames[nativename] = document.queryCommandValue("formatblock");
+					this._native2LocalFormatNames[this._local2NativeFormatNames[nativename]] = nativename;
+					node = node.nextSibling.nextSibling;
+					//console.log("Mapped: ", nativename, " to: ", this._local2NativeFormatNames[nativename]);
+				}catch(e) { /*Sqelch the occasional IE9 error */ }
 			}
 			div.parentNode.removeChild(div);
 			div.innerHTML = "";
@@ -2053,7 +2053,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		//		To work around the issue,  we can remove all empty nodes from
 		//		the start of the range selection.
 		var selection = dijit.range.getSelection(this.window);
-		if(selection && selection.rangeCount){
+		if(selection && selection.rangeCount && !selection.isCollapsed){
 			var range = selection.getRangeAt(0);
 			var firstNode = range.startContainer;
 			var startOffset = range.startOffset;
