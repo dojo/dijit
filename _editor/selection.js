@@ -204,7 +204,7 @@ dojo.mixin(dijit._editor.selection, {
 		// summary:
 		//		Function to delete the currently selected content from the document.
 		var sel = dojo.doc.selection;
-		if(dojo.isIE){
+		if(dojo.isIE < 9){
 			if(sel.type.toLowerCase() != "none"){
 				sel.clear();
 			}
@@ -269,7 +269,12 @@ dojo.mixin(dijit._editor.selection, {
 		element = dojo.byId(element);
 		if(dojo.isIE < 9 && dojo.body().createTextRange){
 			try{
-				range = dojo.body().createControlRange();
+				var tg = element.tagName ? element.tagName.toLowerCase() : "";
+				if(tg === "img" || tg === "table"){
+					range = dojo.body().createControlRange();
+				}else{
+					range = dojo.body().createRange();
+				}
 				range.addElement(element);
 				if(!nochangefocus){
 					range.select();
