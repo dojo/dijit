@@ -182,7 +182,6 @@ dojo.mixin(dijit._editor.selection, {
 		// beginning: Boolean
 		//		Boolean to indicate whether to collapse the cursor to the beginning of the selection or end.
 		if(window.getSelection){
-			console.log("ALALALA");
 			var selection = dojo.global.getSelection();
 			if(selection.removeAllRanges){ // Mozilla
 				if(beginning){
