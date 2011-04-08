@@ -10,7 +10,6 @@ define("dijit/_Templated", ["dojo", "dijit", "dijit/_TemplatedMixin", "dijit/_Wi
 		//		declared in markup inside it?  False by default.
 		widgetsInTemplate: false,
 
-
 		constructor: function(){
 			dojo.deprecated(this.declaredClass + ": dijit._Templated deprecated, use dijit._TemplatedMixin and if necessary dijit._WidgetsInTemplateMixin", "", "2.0");
 		},
