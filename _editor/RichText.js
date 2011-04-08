@@ -240,17 +240,18 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		//		Handle that here.
 		// tags:
 		//		private
-		if(this._editorCommandsLocalized){
+		if(dijit._editor._editorCommandsLocalized){
+			// Use the already generate cache of mappings.  
+			this._local2NativeFormatNames = dijit._editor._local2NativeFormatNames;
+			this._native2LocalFormatNames = dijit._editor._native2LocalFormatNames;
 			return;
 		}
-		this._editorCommandsLocalized = true;
-
+		dijit._editor._editorCommandsLocalized = true;
+		dijit._editor._local2NativeFormatNames = {};
+		dijit._editor._native2LocalFormatNames = {};
+		this._local2NativeFormatNames = dijit._editor._local2NativeFormatNames;
+		this._native2LocalFormatNames = dijit._editor._native2LocalFormatNames;
 		//in IE, names for blockformat is locale dependent, so we cache the values here
-
-		//if the normal way fails, we try the hard way to get the list
-
-		//do not use _cacheLocalBlockFormatNames here, as it will
-		//trigger security warning in IE7
 
 		//put p after div, so if IE returns Normal, we show it as paragraph
 		//We can distinguish p and div if IE returns Normal, however, in order to detect that,
@@ -260,31 +261,36 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		var localhtml = "", format, i=0;
 		while((format=formats[i++])){
 			//append a <br> after each element to separate the elements more reliably
-			if(format.charAt(1) != 'l'){
+			if(format.charAt(1) !== 'l'){
 				localhtml += "<"+format+"><span>content</span></"+format+"><br/>";
 			}else{
 				localhtml += "<"+format+"><li>content</li></"+format+"><br/>";
 			}
 		}
-		//queryCommandValue returns empty if we hide editNode, so move it out of screen temporary
-		var div = dojo.doc.createElement('div');
-		dojo.style(div, {
-			position: "absolute",
-			top: "-2000px"
+		// queryCommandValue returns empty if we hide editNode, so move it out of screen temporary
+		// Also, IE9 does weird stuff unless we do it inside the editor iframe.
+		var style = { position: "absolute", top: "0px", zIndex: 10, opacity: 0.01 };
+		var div = dojo.create('div', {style: style, innerHTML: localhtml});
+		dojo.body().appendChild(div);
+
+		// IE9 has a timing issue with doing this right after setting
+		// the inner HTML, so put a delay in.
+		var inject = dojo.hitch(this, function(){
+			div.blur();
+			dijit.focus(dojo.body());
+			var node = div.firstChild;
+			while(node){
+				dijit._editor.selection.selectElement(node.firstChild);
+				var nativename = node.tagName.toLowerCase();
+				this._local2NativeFormatNames[nativename] = document.queryCommandValue("formatblock");
+				this._native2LocalFormatNames[this._local2NativeFormatNames[nativename]] = nativename;
+				node = node.nextSibling.nextSibling;
+				//console.log("Mapped: ", nativename, " to: ", this._local2NativeFormatNames[nativename]);
+			}
+			div.parentNode.removeChild(div);
+			div.innerHTML = "";
 		});
-		dojo.doc.body.appendChild(div);
-		div.innerHTML = localhtml;
-		var node = div.firstChild;
-		while(node){
-			dijit._editor.selection.selectElement(node.firstChild);
-			dojo.withGlobal(this.window, "selectElement", dijit._editor.selection, [node.firstChild]);
-			var nativename = node.tagName.toLowerCase();
-			this._local2NativeFormatNames[nativename] = document.queryCommandValue("formatblock");
-			//this.queryCommandValue("formatblock");
-			this._native2LocalFormatNames[this._local2NativeFormatNames[nativename]] = nativename;
-			node = node.nextSibling.nextSibling;
-		}
-		dojo.body().removeChild(div);
+		setTimeout(inject, 0);
 	},
 
 	open: function(/*DomNode?*/ element){
@@ -829,7 +835,6 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}else{
 			setContent();
 		}
-
 	},
 
 	onKeyDown: function(/* Event */ e){
