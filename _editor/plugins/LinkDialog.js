@@ -76,7 +76,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 		// Override _Plugin._initButton() to initialize DropDownButton and TooltipDialog.
 		var _this = this;
 		this.tag = this.command == 'insertImage' ? 'img' : 'a';
-		var messages = dojo.mixin(dojo.i18n.getLocalization("dijit", "common", this.lang),
+		var messages = dojo.delegate(dojo.i18n.getLocalization("dijit", "common", this.lang),
 			dojo.i18n.getLocalization("dijit._editor", "LinkDialog", this.lang));
 		var dropDown = (this.dropDown = new dijit.TooltipDialog({
 			title: messages[this.command + "Title"],
