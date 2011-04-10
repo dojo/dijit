@@ -97,6 +97,7 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 	},
 
 	postCreate: function(){
+		this.inherited(arguments);
 		this._onChange();
 	}
 });
