@@ -52,7 +52,9 @@ dojo.declare(
 
 		// Override _FormWidget.compare() to work for dates/times
 		compare: function(/*Date*/ val1, /*Date*/ val2){
-			return dojo.date.compare(val1, val2, this._selector);
+			var isInvalid1 = this._isInvalidDate(val1);
+			var isInvalid2 = this._isInvalidDate(val2);
+			return isInvalid1 ? (isInvalid2 ? 0 : -1) : (isInvalid2 ? 1 : dojo.date.compare(val1, val2, this._selector));
 		},
 
 		// flag to _HasDropDown to make drop down Calendar width == <input> width
@@ -140,7 +142,7 @@ dojo.declare(
 			var fromISO = dojo.date.stamp.fromISOString;
 			if(typeof constraints.min == "string"){ constraints.min = fromISO(constraints.min); }
  			if(typeof constraints.max == "string"){ constraints.max = fromISO(constraints.max); }
-			this.inherited(arguments, [constraints]);
+			this.inherited(arguments);
 		},
 
 		_isInvalidDate: function(/*Date*/ value){
@@ -165,7 +167,7 @@ dojo.declare(
 					value = new this.dateClassObj(value);
 				}
 			}
-			this.inherited(arguments, [value, priorityChange, formattedValue]);
+			this.inherited(arguments);
 			if(this.dropDown){
 				this.dropDown.set('value', value, false);
 			}
@@ -173,10 +175,7 @@ dojo.declare(
 
 		_set: function(attr, value){
 			// Avoid spurious watch() notifications when value is changed to new Date object w/the same value
-			if(attr == "value"
-				&& this.value instanceof Date
-				&& ((this._isInvalidDate(this.value) && this._isInvalidDate(value))
-				  	|| this.compare(value, this.value) == 0)){
+			if(attr == "value" && this.value instanceof Date && this.compare(value, this.value) == 0){
 				return;
 			}
 			this.inherited(arguments);
