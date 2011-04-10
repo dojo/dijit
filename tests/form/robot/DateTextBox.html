@@ -86,6 +86,21 @@
 						american.set('displayedValue', '12/1/2008');
 						doh.f(american.isValid(), 'marked as invalid since out of range');
 						doh.is('12/1/2008', american.get('displayedValue'), 'displayed value of american');
+					},
+
+					function noInitialValue(){
+				    		var fromDate = dijit.byId('fromDate');
+						doh.is('', fromDate.get('displayedValue'), 'initially blank');
+						doh.is(dijit.form.DateTextBox.prototype.value, fromDate.value, 'default value');
+						var d = new doh.Deferred();
+						var today = new Date();
+						fromDate.set('value', today, true);
+						doh.robot.sequence(d.getTestCallback(function(){
+				    			var toDate = dijit.byId('toDate');
+							doh.is(today.toDateString(), fromDate.value.toDateString(), 'changed value');
+							doh.is(today.toDateString(), toDate.constraints.min.toDateString(), 'onChange');
+						}), 500);
+						return d;
 					}
 				]);
 
@@ -114,7 +129,7 @@
 
 					{
 						name: "labels",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -152,7 +167,7 @@
 
 				doh.register("keyboard: direct input", {
 					name: "direct input",
-					timeout: 60000,
+					timeout: 6000,
 					setUp: function(){
 						// clear the field
 						changes = [];
@@ -194,7 +209,7 @@
 
 					{
 						name: "initial popup display",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred(),
 								calendar;
@@ -202,7 +217,7 @@
 							american.focus();
 
 							doh.robot.typeKeys("5/10/2005", 1000, 1800);
-							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 700, {});
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								calendar = dijit.byId("american_popup");
@@ -237,7 +252,7 @@
 
 					{
 						name: "forward two days",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							var calendar = dijit.byId("american_popup");
@@ -260,7 +275,7 @@
 
 								doh.is(0, changes.length, "no onchange events yet");
 								doh.is(0, watches.length, "no watch(value) events yet");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -268,7 +283,7 @@
 
 					{
 						name: "back a day",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							var calendar = dijit.byId("american_popup");
@@ -285,7 +300,7 @@
 
 								doh.is(0, changes.length, "no onchange events yet");
 								doh.is(0, watches.length, "no watch(value) events yet");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -293,15 +308,15 @@
 
 					{
 						name: "forward four weeks",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							var calendar = dijit.byId("american_popup");
 
-							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
-							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
-							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
-							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 750, {});
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 750, {});
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 750, {});
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 750, {});
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// calendar still exists and is shown
@@ -316,7 +331,7 @@
 
 								doh.is(0, changes.length, "no onchange events yet");
 								doh.is(0, watches.length, "no watch(value) events yet");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -324,14 +339,14 @@
 
 					{
 						name: "back three weeks",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							var calendar = dijit.byId("american_popup");
 
-							doh.robot.keyPress(dojo.keys.UP_ARROW, 500, {});
-							doh.robot.keyPress(dojo.keys.UP_ARROW, 500, {});
-							doh.robot.keyPress(dojo.keys.UP_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.UP_ARROW, 750, {});
+							doh.robot.keyPress(dojo.keys.UP_ARROW, 750, {});
+							doh.robot.keyPress(dojo.keys.UP_ARROW, 750, {});
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// calendar still exists and is shown
@@ -346,7 +361,7 @@
 
 								doh.is(0, changes.length, "no onchange events yet");
 								doh.is(0, watches.length, "no watch(value) events yet");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -354,13 +369,13 @@
 
 					{
 						name: "forward two months",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							var calendar = dijit.byId("american_popup");
 
-							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 500, {});
-							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 500, {});
+							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 750, {});
+							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 750, {});
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// calendar still exists and is shown
@@ -375,7 +390,7 @@
 
 								doh.is(0, changes.length, "no onchange events yet");
 								doh.is(0, watches.length, "no watch(value) events yet");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -383,12 +398,12 @@
 
 					{
 						name: "back a month",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							var calendar = dijit.byId("american_popup");
 
-							doh.robot.keyPress(dojo.keys.PAGE_UP, 500, {});
+							doh.robot.keyPress(dojo.keys.PAGE_UP, 750, {});
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// calendar still exists and is shown
@@ -403,7 +418,7 @@
 
 								doh.is(0, changes.length, "no onchange events yet");
 								doh.is(0, watches.length, "no watch(value) events yet");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -411,13 +426,13 @@
 
 					{
 						name: "forward two years",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							var calendar = dijit.byId("american_popup");
 
-							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 500, {ctrl: true});
-							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 500, {ctrl: true});
+							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 750, {ctrl: true});
+							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 750, {ctrl: true});
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// calendar still exists and is shown
@@ -437,7 +452,7 @@
 
 								doh.is(0, changes.length, "no onchange events yet");
 								doh.is(0, watches.length, "no watch(value) events yet");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -445,12 +460,12 @@
 
 					{
 						name: "back a year",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							var calendar = dijit.byId("american_popup");
 
-							doh.robot.keyPress(dojo.keys.PAGE_UP, 500, {ctrl: true});
+							doh.robot.keyPress(dojo.keys.PAGE_UP, 750, {ctrl: true});
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// calendar still exists and is shown
@@ -470,7 +485,7 @@
 
 								doh.is(0, changes.length, "no onchange events yet");
 								doh.is(0, watches.length, "no watch(value) events yet");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -478,7 +493,7 @@
 
 					{
 						name: "first day of month",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							var calendar = dijit.byId("american_popup");
@@ -495,7 +510,7 @@
 
 								doh.is(0, changes.length, "no onchange events yet");
 								doh.is(0, watches.length, "no watch(value) events yet");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -503,7 +518,7 @@
 
 					{
 						name: "last day of month",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							var calendar = dijit.byId("american_popup");
@@ -520,7 +535,7 @@
 
 								doh.is(0, changes.length, "no onchange events yet");
 								doh.is(0, watches.length, "no watch(value) events yet");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -528,7 +543,7 @@
 
 					{
 						name: "select a date",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -556,7 +571,7 @@
 
 					{
 						name: "tab away",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -584,7 +599,7 @@
 
 					{
 						name: "initial popup display",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -613,7 +628,7 @@
 					
 					{
 						name: "close and reopen",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -655,7 +670,7 @@
 
 					{
 						name: "advance a month",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							var calendar = dijit.byId("american_popup"),
@@ -684,7 +699,7 @@
 
 					{
 						name: "advance a month with the menu dropdown",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							var calendar = dijit.byId("american_popup");
@@ -725,7 +740,7 @@
 
 					{
 						name: "advance a year",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -757,7 +772,7 @@
 
 					{
 						name: "check disabled dates",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -784,7 +799,7 @@
 
 					{
 						name: "check enabled dates",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -811,7 +826,7 @@
 
 					{
 						name: "check calendar display",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var calendar = dijit.byId("american_popup"),
 								rows = dojo.query("TR.dijitCalendarWeekTemplate", calendar.domNode);
@@ -832,7 +847,7 @@
 
 					{
 						name: "hover a date",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -857,7 +872,7 @@
 
 					{
 						name: "select a date",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -882,7 +897,7 @@
 
 					{
 						name: "tab away",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -1035,7 +1050,7 @@
 
 					{
 						name: "initial popup display",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -1068,7 +1083,7 @@
 					// Switching to February to test that movement works even though there is no Feb 31st.
 					{
 						name: "switch to february",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							var calendar = dijit.byId("american_popup");
@@ -1104,7 +1119,7 @@
 					// Switching to December to make sure that drop down isn't cut off
 					{
 						name: "switch back to december",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							var calendar = dijit.byId("american_popup");
@@ -1139,7 +1154,7 @@
 
 					{
 						name: "cancel",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -1156,7 +1171,7 @@
 				doh.register("openOnClick=false", [
 					{
 						name: "click on input",
-						timeout: 60000,
+						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
