@@ -172,7 +172,7 @@ dojo.declare("dijit._TemplatedMixin",
 				}
 
 				// Process dojoAttachEvent
-				var attachEvent = getAttrFunc(baseNode, "dojoAttachEvent") || getAttrFunc(baseNode, "data-dojo-attach-event");;
+				var attachEvent = getAttrFunc(baseNode, "dojoAttachEvent") || getAttrFunc(baseNode, "data-dojo-attach-event");
 				if(attachEvent){
 					// NOTE: we want to support attributes that have the form
 					// "domEvent: nativeEvent; ..."
@@ -215,7 +215,7 @@ dojo.declare("dijit._TemplatedMixin",
 	}
 );
 
-// key is either templatePath or templateString; object is either string or DOM tree
+// key is templateString; object is either string or DOM tree
 dijit._TemplatedMixin._templateCache = {};
 
 dijit._TemplatedMixin.getCachedTemplate = function(templateString, alwaysUseString){
