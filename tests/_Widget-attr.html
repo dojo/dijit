@@ -68,10 +68,12 @@
 						// Mapping to this.domNode
 						var w = new dijit._Widget({
 							title: "dom title",
-							"aria-labelledby": "foo"
+							"aria-labelledby": "foo",
+							role: "button"
 						});
 						doh.is("dom title", dojo.attr(w.domNode, "title"), "domNode title")
 						doh.is("foo", dojo.attr(w.domNode, "aria-labelledby"), "domNode labelledby");
+						doh.is("button", dojo.attr(w.domNode, "role"), "domNode role");
 
 						// Mapping to this.focusNode
 						var fw = (new dojo.declare([dijit._WidgetBase, dijit._TemplatedMixin], {

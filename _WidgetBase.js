@@ -661,7 +661,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 			var defaultNode = this.focusNode ? "focusNode" : "domNode",
 				map =	name in this.attributeMap ? this.attributeMap[name] :
 						names.s in this ? this[names.s] :
-						(name in this[defaultNode] || /^aria-/.test(name)) ? defaultNode : null;				
+						(name in this[defaultNode] || /^aria-|^role$/.test(name)) ? defaultNode : null;
 			if(map != null){
 				this._attrToDom(name, value, map);
 			}
