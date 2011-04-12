@@ -13,15 +13,6 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 
 	templateString: "<select multiple='true' ${!nameAttrSetting} dojoAttachPoint='containerNode,focusNode' dojoAttachEvent='onchange: _onChange'></select>",
 
-	reset: function(){
-		// summary:
-		//		Reset the widget's value to what it was at initialization time
-
-		// TODO: once we inherit from FormValueWidget this won't be needed
-		this._hasBeenBlurred = false;
-		this._setValueAttr(this._resetValue, true);
-	},
-
 	addSelected: function(/*dijit.form.MultiSelect*/ select){
 		// summary:
 		//		Move the selected nodes of a passed Select widget
@@ -42,6 +33,7 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 			select.domNode.scrollTop = 0;
 			select.domNode.scrollTop = oldscroll;
 		},this);
+		this._set('value', this.get('value'));
 	},
 
 	getSelected: function(){
@@ -64,7 +56,7 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 
 	multiple: true, // for Form
 
-	_setValueAttr: function(/*Array*/ values){
+	_setValueAttr: function(/*Array*/ values, /*Boolean?*/ priorityChange){
 		// summary:
 		//		Hook so set('value', values) works.
 		// description:
@@ -72,17 +64,19 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 		dojo.query("option",this.containerNode).forEach(function(n){
 			n.selected = (dojo.indexOf(values,n.value) != -1);
 		});
+		this.inherited(arguments);
 	},
 
-	invertSelection: function(onChange){
+	invertSelection: function(/*Boolean?*/ onChange){
 		// summary:
 		//		Invert the selection
 		// onChange: Boolean
-		//		If null, onChange is not fired.
+		//		If false, onChange is not fired.
+		var val = [];
 		dojo.query("option",this.containerNode).forEach(function(n){
-			n.selected = !n.selected;
+			if(!n.selected){ val.push(n.value); }
 		});
-		this._handleOnChange(this.get('value'), onChange == true);
+		this._setValueAttr(val, !(onChange === false || onChange == null));
 	},
 
 	_onChange: function(/*Event*/ e){
@@ -97,8 +91,8 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 	},
 
 	postCreate: function(){
+		this._set('value', this.get('value'));
 		this.inherited(arguments);
-		this._onChange();
 	}
 });
 

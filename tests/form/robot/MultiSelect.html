@@ -86,6 +86,7 @@
 							doh.robot.sequence(function(){ selectedValue2 = dijit.byId('select2').get('value');}, 1000); 
 
 							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("16", dijit.byId('select2').value.toString());
 								doh.is("16", selectedValue2[0]);
 							}), 1000);
 							return d;
@@ -112,6 +113,7 @@
 								doh.is("7", selectedValue[1]);
 								doh.is("19", selectedValue[2]);
 								doh.is("47", selectedValue[3]);
+								doh.is("3 7 19 47", dijit.byId('select').value.join(' '));
 							}), 1000);
 							return d;
 						}
@@ -235,6 +237,7 @@
 								doh.is(2, selected.length);
 								doh.is(selected[0], 'VA');
 								doh.is(selected[1], 'WA');
+								doh.is("VA WA", dijit.byId('select3').value.join(' '));
 							}), 1000);
 							return d;
 						}

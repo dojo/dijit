@@ -86,9 +86,9 @@
 
 			// there is only one debug button
 			dojo.query(".debug").connect("onclick",function(e){
-				console.log('select value:',dijit.byId("select").get('value'));
-				console.log('select2 value:',dijit.byId("select2").get('value'));
-				console.log('select3 value:',dijit.byId("select3").get('value'));
+				console.log('select value:',dijit.byId("select").get('value') + '/' + dijit.byId("select").value);
+				console.log('select2 value:',dijit.byId("select2").get('value') + '/' + dijit.byId("select2").value);
+				console.log('select3 value:',dijit.byId("select3").get('value') + '/' + dijit.byId("select3").value);
 			});
 
 			dojo.connect(dojo.byId("formSubmit"), "onclick", function(e){
