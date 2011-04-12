@@ -468,7 +468,7 @@ dojo.declare(
 				increment = -1,
 				interval,
 				newValue = this.currentFocus;
-			switch(evt.keyCode){
+			switch(evt.charOrCode){
 				case dk.RIGHT_ARROW:
 					increment = 1;
 					//fallthrough...
@@ -499,7 +499,7 @@ dojo.declare(
 					newValue.setDate(1);
 					break;
 				case dk.ENTER:
-				case dk.SPACE:
+				case " ":
 					this.set("value", this.currentFocus);
 					break;
 				default:

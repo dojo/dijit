@@ -265,7 +265,7 @@
 								doh.is(0, selected.length, "no selected node");
 							})), 500);
 
-							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								var value = cal1.get('value');
 								doh.is(0, dojo.date.compare(new Date(2008, 2, 29), value), 'actual value is ' + value);
