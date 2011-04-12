@@ -297,7 +297,7 @@
 							// Check that programatic widget with layout widgets in template is correctly created and rendered
 							name: "programmatic widget with layout widgets",
 							runTest: function(t){
-								test4WidgetProgrammatic = new Test4Widget({dir: "ltr"}).placeAt("test4Widget", "after");
+								test4WidgetProgrammatic = new Test4Widget({}).placeAt("test4Widget", "after");
 								test4WidgetProgrammatic.startup();
 								validateTest4Widget(t, test4WidgetProgrammatic);
 							}
@@ -315,7 +315,17 @@
 								// Check that generated HTML in DOM is same
 								var declNeutralHtml = declW.domNode.innerHTML.replace(/_\d+/g, "");
 								var progNeutralHtml = progW.domNode.innerHTML.replace(/_\d+/g, "");
-								doh.is(declNeutralHtml, progNeutralHtml, "progNeutralHtml");
+								if(declNeutralHtml != progNeutralHtml){
+									for(var i=0; i<declNeutralHtml.length; i++){
+										if(progNeutralHtml.charAt(i) != declNeutralHtml.charAt(i)){
+											console.log("***Difference starting at " + i);
+											console.log("declarative: " + declNeutralHtml.substr(Math.max(0, i-5), 50));
+											console.log("programmatic: " + progNeutralHtml.substr(Math.max(0, i-5), 50));
+											break;
+										}
+									}
+									doh.t(declNeutralHtml == progNeutralHtml, "declNeutralHtml == progNeutralHtml");
+								}
 
 								// Check that dimensions are same
 								var declBox = dojo.contentBox(declW.domNode);

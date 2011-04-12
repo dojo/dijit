@@ -34,7 +34,7 @@ define("dijit/_BidiSupport", ["dojo", "dijit"], function(dojo, dijit) {
 			// look for strong (directional) characters
 			var fdc = /[A-Za-z\u05d0-\u065f\u066a-\u06ef\u06fa-\u07ff\ufb1d-\ufdff\ufe70-\ufefc]/.exec(text);
 			// if found return the direction that defined by the character, else return widgets dir as defult.
-			return fdc ? ( fdc[0] <= 'z' ? "ltr" : "rtl" ) : this.dir;
+			return fdc ? ( fdc[0] <= 'z' ? "ltr" : "rtl" ) : this.dir ? this.dir : this.isLeftToRight() ? "ltr" : "rtl";
 		},
 		
 		applyTextDir: function(/*Object*/ element, /*String*/ text){

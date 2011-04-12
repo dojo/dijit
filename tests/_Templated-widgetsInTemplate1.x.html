@@ -308,7 +308,7 @@
 							// Check that programmatic widget with layout widgets in template is correctly created and rendered
 							name: "programmatic widget with layout widgets",
 							runTest: function(t){
-								test4WidgetProgrammatic = new Test4Widget({dir: "ltr"}).placeAt("test4Widget", "after");
+								test4WidgetProgrammatic = new Test4Widget({}).placeAt("test4Widget", "after");
 								test4WidgetProgrammatic.startup();
 								validateTest4Widget(t, test4WidgetProgrammatic);
 							}

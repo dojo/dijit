@@ -48,7 +48,7 @@
 						}
 					},				
 					{
-						name: "write on English in 'blankL'",
+						name: "write in English in 'blankL'",
 						timeout: 3000,
 
 						runTest: function(){
@@ -101,7 +101,7 @@
 						}
 					},
 					{
-						name: "write on English in 'blankR'",
+						name: "write in English in 'blankR'",
 						timeout: 3000,
 
 						runTest: function(){
@@ -150,7 +150,8 @@
 						},
 
 						runTest: function(){
-							doh.is(textarea.dir,textarea.focusNode.dir,"direction of :" + textarea.id);
+							doh.is(textarea.isLeftToRight() ? "ltr" : "rtl", textarea.focusNode.dir,
+									"direction of :" + textarea.id);
 						}
 					},
 					{

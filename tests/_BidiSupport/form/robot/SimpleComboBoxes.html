@@ -140,7 +140,7 @@
 						}
 					},	
 					{
-						name: "write on Hebrew in 'fruitRtl'",
+						name: "paste Hebrew in 'fruitRtl'",
 						timeout: 1200,
 
 						runTest: function(){
@@ -159,7 +159,7 @@
 					}
 				]);
 
-				doh.register("Test AUTO combo boxe", [
+				doh.register("Test AUTO ComboBox", [
 					{
 						name:"check drop down items text direction.",
 						timeout:60000,
@@ -283,25 +283,25 @@
 					}
 				]);
 				
-				doh.register("Test AUTO combo boxes", [
+				doh.register("Test AUTO ComboBox", [
 					{
 						name: "test auto-completion popup and input field for 'auto'",
 						timeout: 30000,
 
 						setUp: function(){
-							autoComplited = dijit.byId("fruitContextualAC");
+							autoCompleted = dijit.byId("fruitContextualAC");
 						},
 
 						runTest: function(){
 							var d = new doh.Deferred();
-							autoComplited.focusNode.focus();
+							autoCompleted.focusNode.focus();
 
 							// Filter drop down list to entries starting with ":"
-							doh.robot.sequence(function(){ autoComplited.set("value", null); }, 400);
+							doh.robot.sequence(function(){ autoCompleted.set("value", null); }, 400);
 							doh.robot.keyPress(":", 100);
 
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is("ltr", autoComplited.focusNode.dir, "input field of fruitContextualAC");
+								doh.is("ltr", autoCompleted.focusNode.dir, "input field of fruitContextualAC");
 								var entries = dojo.query("div", dojo.byId("fruitContextualAC_popup"));
 								doh.is("ltr", entries[1].dir, "list #1");
 								doh.is("rtl", entries[2].dir, "list #2");
@@ -310,23 +310,23 @@
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200);
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200);
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is("rtl",autoComplited.focusNode.dir, "input field of fruitContextualAC");
+								doh.is("rtl",autoCompleted.focusNode.dir, "input field of fruitContextualAC");
 							}), 200);
 							
-							doh.robot.sequence(function(){ autoComplited.set("value", null); }, 400);
+							doh.robot.sequence(function(){ autoCompleted.set("value", null); }, 400);
 							doh.robot.keyPress("@", 100);
 
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is("ltr", autoComplited.focusNode.dir, "input field of fruitContextualAC");
+								doh.is("ltr", autoCompleted.focusNode.dir, "input field of fruitContextualAC");
 								var entries = dojo.query("div", dojo.byId("fruitContextualAC_popup"));
 								doh.is("ltr", entries[1].dir, "list #1");
 							}), 900);
 
-							doh.robot.sequence(function(){ autoComplited.set("value", null); }, 400);
+							doh.robot.sequence(function(){ autoCompleted.set("value", null); }, 400);
 							doh.robot.keyPress("*", 100);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("rtl", autoComplited.focusNode.dir, "input field of fruitContextualAC");
+								doh.is("rtl", autoCompleted.focusNode.dir, "input field of fruitContextualAC");
 								var entries = dojo.query("div", dojo.byId("fruitContextualAC_popup"));
 								doh.is("rtl", entries[1].dir, "list #1");
 							}), 900);
@@ -335,23 +335,24 @@
 						}
 					},
 					{
-						name: "test auto-completion popup and input field for autoComplite:false",
-						timeout: 6000,
+						name: "test auto-completion popup and input field for autoComplete:false",
+						timeout: 12000,
 
 						setUp: function(){
-							notAutoComplited = dijit.byId("fruitContextual");
+							notAutoCompleted = dijit.byId("fruitContextual");
 						},
 
 						runTest: function(){
 							var d = new doh.Deferred();
-							notAutoComplited.focusNode.focus();
+							notAutoCompleted.focusNode.focus();
 
 							// Filter drop down list to entries starting with ":"
-							doh.robot.sequence(function(){ notAutoComplited.set("value", null); }, 400);
+							doh.robot.sequence(function(){ notAutoCompleted.set("value", null); }, 400);
 							doh.robot.keyPress(":", 300);
 
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is(notAutoComplited.dir, notAutoComplited.focusNode.dir, "false autoComplit - :");
+								doh.is(notAutoCompleted.isLeftToRight() ? "ltr" : "rtl",
+										notAutoCompleted.focusNode.dir, "false autoComplete - :");
 								var entries = dojo.query("div", dojo.byId("fruitContextual_popup"));
 								doh.is("ltr", entries[1].dir, "list #1 - :");
 								doh.is("rtl", entries[2].dir, "list #2 - :");
@@ -359,44 +360,46 @@
 
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200);
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is("ltr",notAutoComplited.focusNode.dir, "input field of fruitContextual - :");
+								doh.is("ltr",notAutoCompleted.focusNode.dir, "input field of fruitContextual - :");
 							}), 200);
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200);
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is("rtl",notAutoComplited.focusNode.dir, "input field of fruitContextual - :");
+								doh.is("rtl",notAutoCompleted.focusNode.dir, "input field of fruitContextual - :");
 							}), 200);
 
 							// Filter drop down list to entries starting with "@"							
 							doh.robot.sequence(function(){ 
-								notAutoComplited.set("value", null); 
+								notAutoCompleted.set("value", null); 
 							}, 400);
 							doh.robot.keyPress("@", 100);
 
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is(notAutoComplited.dir, notAutoComplited.focusNode.dir, "false autoComplit - @");
+								doh.is(notAutoCompleted.isLeftToRight() ? "ltr" : "rtl",
+										notAutoCompleted.focusNode.dir, "false autoComplete - @");
 								var entries = dojo.query("div", dojo.byId("fruitContextual_popup"));
 								doh.is("ltr", entries[1].dir, "list #1 - @");
 							}), 900);
 
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200);
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is("ltr",notAutoComplited.focusNode.dir, "input field of fruitContextual - :");
+								doh.is("ltr",notAutoCompleted.focusNode.dir, "input field of fruitContextual - :");
 							}), 200);
 
 
 							// Filter drop down list to entries starting with "*"
-							doh.robot.sequence(function(){ notAutoComplited.set("value", null); }, 400);
+							doh.robot.sequence(function(){ notAutoCompleted.set("value", null); }, 400);
 							doh.robot.keyPress("*", 100);
 
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is(notAutoComplited.dir, notAutoComplited.focusNode.dir, "false autoComplit - *");
+								doh.is(notAutoCompleted.isLeftToRight() ? "ltr" : "rtl",
+										notAutoCompleted.focusNode.dir, "false autoComplete - *");
 								var entries = dojo.query("div", dojo.byId("fruitContextual_popup"));
 								doh.is("rtl", entries[1].dir, "list #1 - *");
 							}), 900);
 
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200);
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("rtl",notAutoComplited.focusNode.dir, "input field of fruitContextual - :");
+								doh.is("rtl",notAutoCompleted.focusNode.dir, "input field of fruitContextual - :");
 							}), 200);
 
 							
