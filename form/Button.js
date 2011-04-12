@@ -83,7 +83,7 @@ dojo.declare("dijit.form.Button",
 		//		If the label is hidden (showLabel=false) then and no title has
 		//		been specified, then label is also set as title attribute of icon.
 		this.inherited(arguments);
-		if(this.showLabel == false && !this.params.title){
+		if(this.showLabel == false && !("title" in this.params)){
 			this.titleNode.title = dojo.trim(this.containerNode.innerText || this.containerNode.textContent || '');
 		}
 	},
