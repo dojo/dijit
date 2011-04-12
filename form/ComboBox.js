@@ -653,11 +653,6 @@ dojo.declare(
 			this.inherited(arguments);
 		},
 
-		destroy: function(){
-			dojo.destroy(this._helperSpan);
-			this.inherited(arguments);
-		},
-
 		_setHasDownArrowAttr: function(val){
 			this.hasDownArrow = val;
 			this._buttonNode.style.display = val ? "" : "none";
