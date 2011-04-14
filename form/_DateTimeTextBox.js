@@ -1,4 +1,18 @@
-define("dijit/form/_DateTimeTextBox", ["dojo", "dijit", "text!dijit/form/templates/DropDownBox.html", "dojo/date", "dojo/date/locale", "dojo/date/stamp", "dijit/form/RangeBoundTextBox", "dijit/_HasDropDown"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "dojo/text!./templates/DropDownBox.html",
+  "dojo/date",
+  "dojo/date/locale",
+  "dojo/date/stamp",
+  "./RangeBoundTextBox",
+  "../_HasDropDown"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/_DateTimeTextBox
+	//  summary:
+	//		TODOC
+	// 
+
 
 new Date("X"); // workaround for #11279, new Date("") == NaN
 

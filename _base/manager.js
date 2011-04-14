@@ -1,4 +1,9 @@
-define("dijit/_base/manager", ["dojo", "dijit"], function(dojo, dijit) {
+define(["dojo", ".."], function(dojo, dijit) {
+	//  module:
+	//    dijit/_base/manager
+	//  summary:
+	//		TODOC
+
 
 dojo.declare("dijit.WidgetSet", null, {
 	// summary:

@@ -1,4 +1,9 @@
-define("dijit/PopupMenuItem", ["dojo", "dijit", "dijit/MenuItem"], function(dojo, dijit) {
+define(["dojo", ".", "./MenuItem"], function(dojo, dijit) {
+	//  module:
+	//    dijit/PopupMenuItem
+	//  summary:
+	//		TODOC
+
 
 dojo.declare("dijit.PopupMenuItem",
 		dijit.MenuItem,

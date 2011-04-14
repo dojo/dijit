@@ -1,4 +1,21 @@
-define("dijit/InlineEditBox", ["dojo", "dijit", "text!dijit/templates/InlineEditBox.html", "dojo/i18n", "dijit/_Widget", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin", "dijit/_Container", "dijit/form/Button", "dijit/form/TextBox", "i18n!dijit/nls/common"], function(dojo, dijit) {
+define([
+  "dojo",
+  ".",
+  "dojo/text!./templates/InlineEditBox.html",
+  "dojo/i18n",
+  "./_Widget",
+  "./_TemplatedMixin",
+  "./_WidgetsInTemplateMixin",
+  "./_Container",
+  "./form/Button",
+  "./form/TextBox",
+  "dojo/i18n!./nls/common"], function(dojo, dijit) {
+	//  module:
+	//    dijit/InlineEditBox
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare("dijit.InlineEditBox",
 	dijit._Widget,

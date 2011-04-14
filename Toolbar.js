@@ -1,4 +1,16 @@
-define("dijit/Toolbar", ["dojo", "dijit", "dijit/_Widget", "dijit/_KeyNavContainer", "dijit/_TemplatedMixin", "dijit/ToolbarSeparator"], function(dojo, dijit) {
+define([
+  "dojo",
+  ".",
+  "./_Widget",
+  "./_KeyNavContainer",
+  "./_TemplatedMixin",
+  "./ToolbarSeparator"], function(dojo, dijit) {
+	//  module:
+	//    dijit/Toolbar
+	//  summary:
+	//		TODOC
+	// 
+
 
 // Note: require of ToolbarSeparator is for back-compat, remove for 2.0
 

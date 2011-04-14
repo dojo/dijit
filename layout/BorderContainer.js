@@ -1,4 +1,15 @@
-define("dijit/layout/BorderContainer", ["dojo", "dijit", "dijit/layout/_LayoutWidget", "dojo/cookie", "dijit/_TemplatedMixin"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "./_LayoutWidget",
+  "dojo/cookie",
+  "../_TemplatedMixin"], function(dojo, dijit) {
+	//  module:
+	//    dijit/layout/BorderContainer
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare(
 	"dijit.layout.BorderContainer",

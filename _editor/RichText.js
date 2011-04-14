@@ -1,32 +1,23 @@
-define("dijit/_editor/RichText", ["dojo", "dijit", "dijit/_Widget", "dijit/_CssStateMixin", "dijit/_editor/selection", "dijit/_editor/range", "dijit/_editor/html"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "../_Widget",
+  "../_CssStateMixin",
+  "./selection",
+  "./range",
+  "./html"], function(dojo, dijit) {
+	//  module:
+	//    dijit/_editor/RichText
+	//  summary:
+	//		TODOC
+	// 
 
-// used to restore content when user leaves this page then comes back
-// but do not try doing dojo.doc.write if we are using xd loading.
-// dojo.doc.write will only work if RichText.js is included in the dojo.js
-// file. If it is included in dojo.js and you want to allow rich text saving
-// for back/forward actions, then set dojo.config.allowXdRichTextSave = true.
-if(!dojo.config["useXDomain"] || dojo.config["allowXdRichTextSave"]){
-	if(dojo._postLoad){
-		(function(){
-			var savetextarea = dojo.doc.createElement('textarea');
-			savetextarea.id = dijit._scopeName + "._editor.RichText.value";
-			dojo.style(savetextarea, {
-				display:'none',
-				position:'absolute',
-				top:"-100px",
-				height:"3px",
-				width:"3px"
-			});
-			dojo.body().appendChild(savetextarea);
-		})();
-	}else{
-		//dojo.body() is not available before onLoad is fired
-		try{
-			dojo.doc.write('<textarea id="' + dijit._scopeName + '._editor.RichText.value" ' +
-				'style="display:none;position:absolute;top:-100px;left:-100px;height:3px;width:3px;overflow:hidden;"></textarea>');
-		}catch(e){ }
-	}
-}
+// if you want to allow for rich text saving with back/forward actions, you must add a text area to your page with
+// the id==dijit._scopeName + "._editor.RichText.value" (typically "dijit._editor.RichText.value). For example, 
+// something like this will work:
+//
+//	<textarea id="dijit._editor.RichText.value" style="display:none;position:absolute;top:-100px;left:-100px;height:3px;width:3px;overflow:hidden;"></textarea>
+//
 
 dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 	constructor: function(params){
@@ -1634,10 +1625,12 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		//		private
 
 		var saveTextarea = dojo.byId(dijit._scopeName + "._editor.RichText.value");
-		if(saveTextarea.value){
-			saveTextarea.value += this._SEPARATOR;
-		}
-		saveTextarea.value += this.name + this._NAME_CONTENT_SEP + this.getValue(true);
+    if(saveTextarea){
+		  if(saveTextarea.value){
+			  saveTextarea.value += this._SEPARATOR;
+	  	}
+		  saveTextarea.value += this.name + this._NAME_CONTENT_SEP + this.getValue(true);
+    }
 	},
 
 

@@ -1,4 +1,9 @@
-define("dijit/form/_ToggleButtonMixin", ["dojo", "dijit"], function(dojo, dijit) {
+define(["dojo", ".."], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/_ToggleButtonMixin
+	//  summary:
+	//		TODOC
+
 
 dojo.declare("dijit.form._ToggleButtonMixin", null, {
 	// summary:

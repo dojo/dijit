@@ -1,4 +1,22 @@
-define("dijit/_editor/plugins/FontChoice", ["dojo", "dijit", "dijit/_Widget", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin", "dijit/_editor/_Plugin", "dijit/_editor/range", "dijit/_editor/selection", "dijit/form/FilteringSelect", "dojo/data/ItemFileReadStore", "dojo/i18n", "i18n!dijit/_editor/nls/FontChoice"], function(dojo, dijit) {
+define([
+  "dojo",
+  "../..",
+  "../../_Widget",
+  "../../_TemplatedMixin",
+  "../../_WidgetsInTemplateMixin",
+  "../_Plugin",
+  "../range",
+  "../selection",
+  "../../form/FilteringSelect",
+  "dojo/data/ItemFileReadStore",
+  "dojo/i18n",
+  "dojo/i18n!../nls/FontChoice"], function(dojo, dijit) {
+	//  module:
+	//    dijit/_editor/plugins/FontChoice
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare("dijit._editor.plugins._FontDropDown",
 	[dijit._Widget, dijit._TemplatedMixin, dijit._WidgetsInTemplateMixin],{

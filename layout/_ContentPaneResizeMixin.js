@@ -1,4 +1,14 @@
-define("dijit/layout/_ContentPaneResizeMixin", ["dojo", "dijit", "dijit/_Contained", "dijit/layout/_LayoutWidget"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "../_Contained",
+  "./_LayoutWidget"], function(dojo, dijit) {
+	//  module:
+	//    dijit/layout/_ContentPaneResizeMixin
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare("dijit.layout._ContentPaneResizeMixin", null, {
 	// summary:

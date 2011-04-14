@@ -1,4 +1,9 @@
-define("dijit/robot", ["dojo", "dijit", "dojo/robot"], function(dojo, dijit) {
+define(["dojo", ".", "dojo/robot"], function(dojo, dijit) {
+	//  module:
+	//    dijit/robot
+	//  summary:
+	//		TODOC
+
 
 
 

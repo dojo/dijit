@@ -1,4 +1,19 @@
-define("dijit/ColorPalette", ["dojo", "dijit", "text!dijit/templates/ColorPalette.html", "dijit/_Widget", "dijit/_TemplatedMixin", "dojo/colors", "dojo/i18n", "dijit/_PaletteMixin", "i18n!dojo/nls/colors"], function(dojo, dijit) {
+define([
+  "dojo",
+  ".",
+  "dojo/text!./templates/ColorPalette.html",
+  "./_Widget",
+  "./_TemplatedMixin",
+  "dojo/colors",
+  "dojo/i18n",
+  "./_PaletteMixin",
+  "dojo/i18n!dojo/nls/colors"], function(dojo, dijit) {
+	//  module:
+	//    dijit/ColorPalette
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare("dijit.ColorPalette",
 	[dijit._Widget, dijit._TemplatedMixin, dijit._PaletteMixin],

@@ -1,4 +1,9 @@
-define("dijit/form/SimpleTextarea", ["dojo", "dijit", "dijit/form/TextBox"], function(dojo, dijit) {
+define(["dojo", "..", "./TextBox"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/SimpleTextarea
+	//  summary:
+	//		TODOC
+
 
 dojo.declare("dijit.form.SimpleTextarea",
 	dijit.form.TextBox,

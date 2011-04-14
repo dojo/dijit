@@ -1,4 +1,14 @@
-define("dijit/_editor/_Plugin", ["dojo", "dijit", "dijit/_Widget", "dijit/form/Button"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "../_Widget",
+  "../form/Button"], function(dojo, dijit) {
+	//  module:
+	//    dijit/_editor/_Plugin
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare("dijit._editor._Plugin", null, {
 	// summary

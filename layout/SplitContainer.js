@@ -1,4 +1,14 @@
-define("dijit/layout/SplitContainer", ["dojo", "dijit", "dojo/cookie", "dijit/layout/_LayoutWidget"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "dojo/cookie",
+  "./_LayoutWidget"], function(dojo, dijit) {
+	//  module:
+	//    dijit/layout/SplitContainer
+	//  summary:
+	//		TODOC
+	// 
+
 
 //
 // FIXME: make it prettier

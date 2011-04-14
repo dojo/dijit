@@ -1,4 +1,14 @@
-define("dijit/_base/focus", ["dojo", "dijit", "dojo/window", "dijit/_base/manager"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "dojo/window",
+  "./manager"], function(dojo, dijit) {
+	//  module:
+	//    dijit/_base/focus
+	//  summary:
+	//		TODOC
+	// 
+
 
 // summary:
 //		These functions are used to query or set the focus and selection.

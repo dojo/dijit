@@ -1,4 +1,17 @@
-define("dijit/layout/ContentPane", ["dojo", "dijit", "dijit/_Widget", "dijit/layout/_ContentPaneResizeMixin", "dojo/string", "dojo/html", "i18n!dijit/nls/loading"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "../_Widget",
+  "./_ContentPaneResizeMixin",
+  "dojo/string",
+  "dojo/html",
+  "dojo/i18n!../nls/loading"], function(dojo, dijit) {
+	//  module:
+	//    dijit/layout/ContentPane
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare(
 	"dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPaneResizeMixin],

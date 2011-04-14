@@ -1,4 +1,15 @@
-define("dijit/form/TextBox", ["dojo", "dijit", "text!dijit/form/templates/TextBox.html", "dijit/form/_FormWidget", "dijit/form/_TextBoxMixin"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "dojo/text!./templates/TextBox.html",
+  "./_FormWidget",
+  "./_TextBoxMixin"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/TextBox
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare(
 	"dijit.form.TextBox",

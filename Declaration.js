@@ -1,4 +1,15 @@
-define("dijit/Declaration", ["dojo", "dijit", "dijit/_Widget", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin"], function(dojo, dijit) {
+define([
+  "dojo",
+  ".",
+  "./_Widget",
+  "./_TemplatedMixin",
+  "./_WidgetsInTemplateMixin"], function(dojo, dijit) {
+	//  module:
+	//    dijit/Declaration
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare(
 	"dijit.Declaration",

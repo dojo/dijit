@@ -1,4 +1,14 @@
-define("dijit/ToolbarSeparator", ["dojo", "dijit", "dijit/_Widget", "dijit/_TemplatedMixin"], function(dojo, dijit) {
+define([
+  "dojo",
+  ".",
+  "./_Widget",
+  "./_TemplatedMixin"], function(dojo, dijit) {
+	//  module:
+	//    dijit/ToolbarSeparator
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare("dijit.ToolbarSeparator",
 		[ dijit._Widget, dijit._TemplatedMixin ],

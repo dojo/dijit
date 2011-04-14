@@ -1,4 +1,14 @@
-define("dijit/form/Textarea", ["dojo", "dijit", "dijit/form/SimpleTextarea", "dijit/form/_ExpandingTextAreaMixin"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "./SimpleTextarea",
+  "./_ExpandingTextAreaMixin"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/Textarea
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare(
 	"dijit.form.Textarea",

@@ -1,4 +1,14 @@
-define("dijit/form/CurrencyTextBox", ["dojo", "dijit", "dojo/currency", "dijit/form/NumberTextBox"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "dojo/currency",
+  "./NumberTextBox"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/CurrencyTextBox
+	//  summary:
+	//		TODOC
+	// 
+
 
 /*=====
 dojo.declare(

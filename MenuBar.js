@@ -1,4 +1,14 @@
-define("dijit/MenuBar", ["dojo", "dijit", "text!dijit/templates/MenuBar.html", "dijit/Menu"], function(dojo, dijit) {
+define([
+  "dojo",
+  ".",
+  "dojo/text!./templates/MenuBar.html",
+  "./Menu"], function(dojo, dijit) {
+	//  module:
+	//    dijit/MenuBar
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare("dijit.MenuBar", dijit._MenuBase, {
 	// summary:

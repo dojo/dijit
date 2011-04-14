@@ -1,4 +1,19 @@
-define("dijit/dijit", ["dojo", "dijit", "dijit/_base", "dojo/parser", "dijit/_Widget", "dijit/_TemplatedMixin", "dijit/_Container", "dijit/layout/_LayoutWidget", "dijit/form/_FormWidget"], function(dojo, dijit) {
+define([
+  "dojo",
+  ".",
+  "./_base",
+  "dojo/parser",
+  "./_Widget",
+  "./_TemplatedMixin",
+  "./_Container",
+  "./layout/_LayoutWidget",
+  "./form/_FormWidget"], function(dojo, dijit) {
+	//  module:
+	//    dijit/dijit
+	//  summary:
+	//		TODOC
+	// 
+
 
 /*=====
 dijit.dijit = {

@@ -1,4 +1,9 @@
-define("dijit/_BidiSupport", ["dojo", "dijit"], function(dojo, dijit) {
+define(["dojo", "."], function(dojo, dijit) {
+	//  module:
+	//    dijit/_BidiSupport
+	//  summary:
+	//		TODOC
+
 
 	dojo.require("dijit._WidgetBase");
 

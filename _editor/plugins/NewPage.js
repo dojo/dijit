@@ -1,4 +1,16 @@
-define("dijit/_editor/plugins/NewPage", ["dojo", "dijit", "dijit/_editor/_Plugin", "dijit/form/Button", "dojo/i18n", "i18n!dijit/_editor/nls/commands"], function(dojo, dijit) {
+define([
+  "dojo",
+  "../..",
+  "../_Plugin",
+  "../../form/Button",
+  "dojo/i18n",
+  "dojo/i18n!../nls/commands"], function(dojo, dijit) {
+	//  module:
+	//    dijit/_editor/plugins/NewPage
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare("dijit._editor.plugins.NewPage",dijit._editor._Plugin,{
 	// summary:

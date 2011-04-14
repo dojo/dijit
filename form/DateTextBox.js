@@ -1,4 +1,14 @@
-define("dijit/form/DateTextBox", ["dojo", "dijit", "dijit/Calendar", "dijit/form/_DateTimeTextBox"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "../Calendar",
+  "./_DateTimeTextBox"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/DateTextBox
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare(
 	"dijit.form.DateTextBox",

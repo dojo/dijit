@@ -1,4 +1,14 @@
-define("dijit/form/RadioButton", ["dojo", "dijit", "dijit/form/CheckBox", "dijit/form/_RadioButtonMixin"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "./CheckBox",
+  "./_RadioButtonMixin"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/RadioButton
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare(
 	"dijit.form.RadioButton",

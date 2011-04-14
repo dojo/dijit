@@ -1,4 +1,14 @@
-define("dijit/form/_FormSelectWidget", ["dojo", "dijit", "dijit/form/_FormWidget", "dojo/data/util/sorter"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "./_FormWidget",
+  "dojo/data/util/sorter"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/_FormSelectWidget
+	//  summary:
+	//		TODOC
+	// 
+
 
 /*=====
 dijit.form.__SelectOption = function(){

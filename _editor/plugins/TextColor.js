@@ -1,4 +1,15 @@
-define("dijit/_editor/plugins/TextColor", ["dojo", "dijit", "dijit/_editor/_Plugin", "dijit/form/DropDownButton", "dijit/ColorPalette"], function(dojo, dijit) {
+define([
+  "dojo",
+  "../..",
+  "../_Plugin",
+  "../../form/DropDownButton",
+  "../../ColorPalette"], function(dojo, dijit) {
+	//  module:
+	//    dijit/_editor/plugins/TextColor
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare("dijit._editor.plugins.TextColor", dijit._editor._Plugin, {
 	// summary:

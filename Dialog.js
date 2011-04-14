@@ -1,4 +1,26 @@
-define("dijit/Dialog", ["dojo", "dijit", "text!dijit/templates/Dialog.html", "dojo/dnd/move", "dojo/dnd/TimedMoveable", "dojo/fx", "dojo/window", "dijit/_Widget", "dijit/_TemplatedMixin", "dijit/_CssStateMixin", "dijit/form/_FormMixin",  "dijit/_DialogMixin", "dijit/DialogUnderlay", "dijit/layout/ContentPane", "i18n!dijit/nls/common", "dijit/TooltipDialog"], function(dojo, dijit) {
+define([
+  "dojo",
+  ".",
+  "dojo/text!./templates/Dialog.html",
+  "dojo/dnd/move",
+  "dojo/dnd/TimedMoveable",
+  "dojo/fx",
+  "dojo/window",
+  "./_Widget",
+  "./_TemplatedMixin",
+  "./_CssStateMixin",
+  "./form/_FormMixin",
+  "./_DialogMixin",
+  "./DialogUnderlay",
+  "./layout/ContentPane",
+  "dojo/i18n!./nls/common",
+  "./TooltipDialog"], function(dojo, dijit) {
+	//  module:
+	//    dijit/Dialog
+	//  summary:
+	//		TODOC
+	// 
+
 
 // dijit/TooltipDialog required for back-compat.  TODO: remove in 2.0
 

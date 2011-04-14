@@ -1,4 +1,9 @@
-define("dijit/layout/AccordionPane", ["dojo", "dijit", "dijit/layout/ContentPane"], function(dojo, dijit) {
+define(["dojo", "..", "./ContentPane"], function(dojo, dijit) {
+	//  module:
+	//    dijit/layout/AccordionPane
+	//  summary:
+	//		TODOC
+
 
 dojo.declare("dijit.layout.AccordionPane", dijit.layout.ContentPane, {
 	// summary:

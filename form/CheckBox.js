@@ -1,4 +1,15 @@
-define("dijit/form/CheckBox", ["dojo", "dijit", "text!dijit/form/templates/CheckBox.html", "dijit/form/ToggleButton", "dijit/form/_CheckBoxMixin"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "dojo/text!./templates/CheckBox.html",
+  "./ToggleButton",
+  "./_CheckBoxMixin"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/CheckBox
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare(
 	"dijit.form.CheckBox",

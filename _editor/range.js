@@ -1,4 +1,9 @@
-define("dijit/_editor/range", ["dojo", "dijit"], function(dojo, dijit) {
+define(["dojo", ".."], function(dojo, dijit) {
+	//  module:
+	//    dijit/_editor/range
+	//  summary:
+	//		TODOC
+
 
 dijit.range={};
 

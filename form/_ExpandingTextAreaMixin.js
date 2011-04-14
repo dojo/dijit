@@ -1,4 +1,9 @@
-define("dijit/form/_ExpandingTextAreaMixin", ["dojo", "dijit"], function(dojo, dijit) {
+define(["dojo", ".."], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/_ExpandingTextAreaMixin
+	//  summary:
+	//		TODOC
+
 
 (function(){
 	// feature detection

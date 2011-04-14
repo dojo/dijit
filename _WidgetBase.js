@@ -1,4 +1,14 @@
-define("dijit/_WidgetBase", ["dojo", "dijit", "dijit/_base/manager", "dojo/Stateful"], function(dojo, dijit) {
+define([
+  "dojo",
+  ".",
+  "./_base/manager",
+  "dojo/Stateful"], function(dojo, dijit) {
+	//  module:
+	//    dijit/_WidgetBase
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 	// summary:

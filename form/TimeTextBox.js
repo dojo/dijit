@@ -1,4 +1,14 @@
-define("dijit/form/TimeTextBox", ["dojo", "dijit", "dijit/_TimePicker", "dijit/form/_DateTimeTextBox"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "../_TimePicker",
+  "./_DateTimeTextBox"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/TimeTextBox
+	//  summary:
+	//		TODOC
+	// 
+
 
 /*=====
 dojo.declare(

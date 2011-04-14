@@ -1,4 +1,14 @@
-define("dijit/form/ComboButton", ["dojo", "dijit", "text!dijit/form/templates/ComboButton.html", "dijit/form/DropDownButton"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "dojo/text!./templates/ComboButton.html",
+  "./DropDownButton"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/ComboButton
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 	// summary:

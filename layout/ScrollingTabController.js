@@ -1,4 +1,19 @@
-define("dijit/layout/ScrollingTabController", ["dojo", "dijit", "text!dijit/layout/templates/ScrollingTabController.html", "text!dijit/layout/templates/_ScrollingTabControllerButton.html", "dijit/layout/TabController", "dijit/_WidgetsInTemplateMixin", "dijit/Menu", "dijit/form/Button", "dijit/_HasDropDown"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "dojo/text!./templates/ScrollingTabController.html",
+  "dojo/text!./templates/_ScrollingTabControllerButton.html",
+  "./TabController",
+  "../_WidgetsInTemplateMixin",
+  "../Menu",
+  "../form/Button",
+  "../_HasDropDown"], function(dojo, dijit) {
+	//  module:
+	//    dijit/layout/ScrollingTabController
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare("dijit.layout.ScrollingTabController",
 	[dijit.layout.TabController, dijit._WidgetsInTemplateMixin],

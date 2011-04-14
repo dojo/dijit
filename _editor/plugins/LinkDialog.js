@@ -1,4 +1,23 @@
-define("dijit/_editor/plugins/LinkDialog", ["dojo", "dijit", "dijit/_Widget", "dijit/_editor/_Plugin", "dijit/TooltipDialog", "dijit/form/DropDownButton", "dijit/form/ValidationTextBox", "dijit/form/Select", "dijit/_editor/range", "dojo/i18n", "dojo/string", "i18n!dijit/nls/common", "i18n!dijit/_editor/nls/LinkDialog"], function(dojo, dijit) {
+define([
+  "dojo",
+  "../..",
+  "../../_Widget",
+  "../_Plugin",
+  "../../TooltipDialog",
+  "../../form/DropDownButton",
+  "../../form/ValidationTextBox",
+  "../../form/Select",
+  "../range",
+  "dojo/i18n",
+  "dojo/string",
+  "dojo/i18n!../../nls/common",
+  "dojo/i18n!../nls/LinkDialog"], function(dojo, dijit) {
+	//  module:
+	//    dijit/_editor/plugins/LinkDialog
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 	// summary:

@@ -1,4 +1,17 @@
-define("dijit/layout/TabController", ["dojo", "dijit", "text!dijit/layout/templates/_TabButton.html", "dijit/layout/StackController", "dijit/Menu", "dijit/MenuItem", "i18n!dijit/nls/common"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "dojo/text!./templates/_TabButton.html",
+  "./StackController",
+  "../Menu",
+  "../MenuItem",
+  "dojo/i18n!../nls/common"], function(dojo, dijit) {
+	//  module:
+	//    dijit/layout/TabController
+	//  summary:
+	//		TODOC
+	// 
+
 
 // Menu is used for an accessible close button, would be nice to have a lighter-weight solution
 

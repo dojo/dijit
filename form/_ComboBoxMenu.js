@@ -1,4 +1,16 @@
-define("dijit/form/_ComboBoxMenu", ["dojo", "dijit", "dijit/form/_ComboBoxMenuMixin", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dijit/form/_ListMouseMixin"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "./_ComboBoxMenuMixin",
+  "../_WidgetBase",
+  "../_TemplatedMixin",
+  "./_ListMouseMixin"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/_ComboBoxMenu
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare(
 	"dijit.form._ComboBoxMenu",

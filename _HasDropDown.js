@@ -1,4 +1,9 @@
-define("dijit/_HasDropDown", ["dojo", "dijit", "dijit/_Widget"], function(dojo, dijit) {
+define(["dojo", ".", "./_Widget"], function(dojo, dijit) {
+	//  module:
+	//    dijit/_HasDropDown
+	//  summary:
+	//		TODOC
+
 
 dojo.declare("dijit._HasDropDown",
 	null,

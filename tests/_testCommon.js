@@ -14,8 +14,8 @@
 	you should NOT be using this in a production environment. include
 	your css and set your classes manually. for test purposes only ...
 */
+require(["dojo"], function(dojo){
 
-(function(){
 	var d = dojo,
 		dir = "",
 		theme = false,
@@ -119,5 +119,4 @@
 
 		});
 	}
-
-})();
+});

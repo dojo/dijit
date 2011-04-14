@@ -1,4 +1,16 @@
-define("dijit/form/Form", ["dojo", "dijit", "dijit/_Widget", "dijit/_TemplatedMixin", "dijit/form/_FormMixin", "dijit/layout/_ContentPaneResizeMixin"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "../_Widget",
+  "../_TemplatedMixin",
+  "./_FormMixin",
+  "../layout/_ContentPaneResizeMixin"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/Form
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare(
 	"dijit.form.Form",

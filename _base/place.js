@@ -1,4 +1,14 @@
-define("dijit/_base/place", ["dojo", "dijit", "dojo/window", "dojo/AdapterRegistry"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "dojo/window",
+  "dojo/AdapterRegistry"], function(dojo, dijit) {
+	//  module:
+	//    dijit/_base/place
+	//  summary:
+	//		TODOC
+	// 
+
 
 dijit.getViewport = function(){
 	// summary:

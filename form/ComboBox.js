@@ -1,4 +1,14 @@
-define("dijit/form/ComboBox", ["dojo", "dijit", "dijit/form/ValidationTextBox", "dijit/form/ComboBoxMixin"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "./ValidationTextBox",
+  "./ComboBoxMixin"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/ComboBox
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare(
 	"dijit.form.ComboBox",

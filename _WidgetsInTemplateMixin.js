@@ -1,4 +1,9 @@
-define("dijit/_WidgetsInTemplateMixin", ["dojo", "dijit", "dojo/parser"], function(dojo, dijit) {
+define(["dojo", ".", "dojo/parser"], function(dojo, dijit) {
+	//  module:
+	//    dijit/_WidgetsInTemplateMixin
+	//  summary:
+	//		TODOC
+
 
 dojo.declare("dijit._WidgetsInTemplateMixin",
 	null,

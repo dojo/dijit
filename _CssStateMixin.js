@@ -1,4 +1,9 @@
-define("dijit/_CssStateMixin", ["dojo", "dijit"], function(dojo, dijit) {
+define(["dojo", "."], function(dojo, dijit) {
+	//  module:
+	//    dijit/_CssStateMixin
+	//  summary:
+	//		TODOC
+
 
 dojo.declare("dijit._CssStateMixin", [], {
 	// summary:

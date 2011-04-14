@@ -1,4 +1,15 @@
-define("dijit/form/ComboBoxMixin", ["dojo", "dijit", "text!dijit/form/templates/DropDownBox.html", "dijit/form/_AutoCompleterMixin", "dijit/form/_ComboBoxMenu"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "dojo/text!./templates/DropDownBox.html",
+  "./_AutoCompleterMixin",
+  "./_ComboBoxMenu"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/ComboBoxMixin
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare("dijit.form.ComboBoxMixin", dijit.form._AutoCompleterMixin, {
 		// dropDownClass: [protected extension] String

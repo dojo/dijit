@@ -1,4 +1,21 @@
-define("dijit/Menu", ["dojo", "dijit", "text!dijit/templates/Menu.html", "dojo/window", "dijit/_Widget", "dijit/_KeyNavContainer", "dijit/_TemplatedMixin", "dijit/MenuItem", "dijit/PopupMenuItem", "dijit/CheckedMenuItem", "dijit/MenuSeparator"], function(dojo, dijit) {
+define([
+  "dojo",
+  ".",
+  "dojo/text!./templates/Menu.html",
+  "dojo/window",
+  "./_Widget",
+  "./_KeyNavContainer",
+  "./_TemplatedMixin",
+  "./MenuItem",
+  "./PopupMenuItem",
+  "./CheckedMenuItem",
+  "./MenuSeparator"], function(dojo, dijit) {
+	//  module:
+	//    dijit/Menu
+	//  summary:
+	//		TODOC
+	// 
+
 
 // "dijit/MenuItem", "dijit/PopupMenuItem", "dijit/CheckedMenuItem", "dijit/MenuSeparator" for Back-compat (TODO: remove in 2.0)
 

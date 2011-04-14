@@ -1,4 +1,15 @@
-define("dijit/_TemplatedMixin", ["dojo", "dijit", "dijit/_Widget", "dojo/string", "dojo/cache"], function(dojo, dijit) {
+define([
+  "dojo",
+  ".",
+  "./_Widget",
+  "dojo/string",
+  "dojo/cache"], function(dojo, dijit) {
+	//  module:
+	//    dijit/_TemplatedMixin
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare("dijit._TemplatedMixin",
 	null,

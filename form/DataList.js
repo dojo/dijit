@@ -1,4 +1,15 @@
-define("dijit/form/DataList", ["dojo", "dijit", "dijit/_WidgetBase", "dojo/data/util/simpleFetch", "dojo/data/util/filter" ], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "../_WidgetBase",
+  "dojo/data/util/simpleFetch",
+  "dojo/data/util/filter"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/DataList
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare("dijit.form.DataList", null, {
 	// summary:

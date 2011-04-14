@@ -1,4 +1,9 @@
-define("dijit/_KeyNavContainer", ["dojo", "dijit", "dijit/_Container"], function(dojo, dijit) {
+define(["dojo", ".", "./_Container"], function(dojo, dijit) {
+	//  module:
+	//    dijit/_KeyNavContainer
+	//  summary:
+	//		TODOC
+
 
 dojo.declare("dijit._KeyNavContainer",
 	dijit._Container,

@@ -1,4 +1,14 @@
-define("dijit/form/NumberSpinner", ["dojo", "dijit", "dijit/form/_Spinner", "dijit/form/NumberTextBox"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "./_Spinner",
+  "./NumberTextBox"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/NumberSpinner
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare("dijit.form.NumberSpinner",
 	[dijit.form._Spinner, dijit.form.NumberTextBoxMixin],

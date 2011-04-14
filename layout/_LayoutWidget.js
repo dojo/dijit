@@ -1,4 +1,15 @@
-define("dijit/layout/_LayoutWidget", ["dojo", "dijit", "dijit/_Widget", "dijit/_Container", "dijit/_Contained"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "../_Widget",
+  "../_Container",
+  "../_Contained"], function(dojo, dijit) {
+	//  module:
+	//    dijit/layout/_LayoutWidget
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare("dijit.layout._LayoutWidget",
 	[dijit._Widget, dijit._Container, dijit._Contained],

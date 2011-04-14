@@ -1,4 +1,9 @@
-define("dijit/_Contained", ["dojo", "dijit"], function(dojo, dijit) {
+define(["dojo", "."], function(dojo, dijit) {
+	//  module:
+	//    dijit/_Contained
+	//  summary:
+	//		TODOC
+
 
 dojo.declare("dijit._Contained",
 		null,

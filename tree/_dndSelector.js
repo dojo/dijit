@@ -1,4 +1,14 @@
-define("dijit/tree/_dndSelector", ["dojo", "dijit", "dojo/dnd/common", "dijit/tree/_dndContainer"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "dojo/dnd/common",
+  "./_dndContainer"], function(dojo, dijit) {
+	//  module:
+	//    dijit/tree/_dndSelector
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare("dijit.tree._dndSelector",
 	dijit.tree._dndContainer,

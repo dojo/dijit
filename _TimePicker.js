@@ -1,4 +1,15 @@
-define("dijit/_TimePicker", ["dojo", "dijit", "text!dijit/templates/TimePicker.html", "dijit/form/_FormWidget", "dojo/date/locale"], function(dojo, dijit) {
+define([
+  "dojo",
+  ".",
+  "dojo/text!./templates/TimePicker.html",
+  "./form/_FormWidget",
+  "dojo/date/locale"], function(dojo, dijit) {
+	//  module:
+	//    dijit/_TimePicker
+	//  summary:
+	//		TODOC
+	// 
+
 
 /*=====
 dojo.declare(

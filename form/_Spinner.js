@@ -1,4 +1,14 @@
-define("dijit/form/_Spinner", ["dojo", "dijit", "text!dijit/form/templates/Spinner.html", "dijit/form/RangeBoundTextBox"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "dojo/text!./templates/Spinner.html",
+  "./RangeBoundTextBox"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/_Spinner
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare(
 	"dijit.form._Spinner",

@@ -1,4 +1,23 @@
-define("dijit/Editor", ["dojo", "dijit", "dijit/_editor/RichText", "dijit/Toolbar", "dijit/ToolbarSeparator", "dijit/_editor/_Plugin", "dijit/_editor/plugins/EnterKeyHandling", "dijit/_editor/range", "dijit/_Container", "dojo/i18n", "dijit/layout/_LayoutWidget", "i18n!dijit/_editor/nls/commands", "dijit/form/ToggleButton"], function(dojo, dijit) {
+define([
+  "dojo",
+  ".",
+  "./_editor/RichText",
+  "./Toolbar",
+  "./ToolbarSeparator",
+  "./_editor/_Plugin",
+  "./_editor/plugins/EnterKeyHandling",
+  "./_editor/range",
+  "./_Container",
+  "dojo/i18n",
+  "./layout/_LayoutWidget",
+  "dojo/i18n!./_editor/nls/commands",
+  "./form/ToggleButton"], function(dojo, dijit) {
+	//  module:
+	//    dijit/Editor
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare(
 	"dijit.Editor",

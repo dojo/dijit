@@ -1,4 +1,15 @@
-define("dijit/_base/popup", ["dojo", "dijit", "dijit/_base/focus", "dijit/_base/place", "dijit/_base/window"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "./focus",
+  "./place",
+  "./window"], function(dojo, dijit) {
+	//  module:
+	//    dijit/_base/popup
+	//  summary:
+	//		TODOC
+	// 
+
 
 /*=====
 dijit.popup.__OpenArgs = function(){

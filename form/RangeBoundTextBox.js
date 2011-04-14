@@ -1,4 +1,9 @@
-define("dijit/form/RangeBoundTextBox", ["dojo", "dijit", "dijit/form/MappedTextBox"], function(dojo, dijit) {
+define(["dojo", "..", "./MappedTextBox"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/RangeBoundTextBox
+	//  summary:
+	//		TODOC
+
 
 /*=====
 	dijit.form.RangeBoundTextBox.__Constraints = function(){

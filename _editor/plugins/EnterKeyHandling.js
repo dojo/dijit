@@ -1,4 +1,15 @@
-define("dijit/_editor/plugins/EnterKeyHandling", ["dojo", "dijit", "dojo/window", "dijit/_editor/_Plugin", "dijit/_editor/range"], function(dojo, dijit) {
+define([
+  "dojo",
+  "../..",
+  "dojo/window",
+  "../_Plugin",
+  "../range"], function(dojo, dijit) {
+	//  module:
+	//    dijit/_editor/plugins/EnterKeyHandling
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 	// summary:

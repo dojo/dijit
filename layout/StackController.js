@@ -1,4 +1,17 @@
-define("dijit/layout/StackController", ["dojo", "dijit", "dijit/_Widget", "dijit/_TemplatedMixin", "dijit/_Container", "dijit/form/ToggleButton", "i18n!dijit/nls/common"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "../_Widget",
+  "../_TemplatedMixin",
+  "../_Container",
+  "../form/ToggleButton",
+  "dojo/i18n!../nls/common"], function(dojo, dijit) {
+	//  module:
+	//    dijit/layout/StackController
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare(
 		"dijit.layout.StackController",

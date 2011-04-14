@@ -1,4 +1,17 @@
-define("dijit/form/_AutoCompleterMixin", ["dojo", "dijit", "dojo/regexp", "i18n!dijit/form/nls/ComboBox", "dijit/form/_FormWidget", "dijit/form/DataList", "dijit/_HasDropDown"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "dojo/regexp",
+  "dojo/i18n!./nls/ComboBox",
+  "./_FormWidget",
+  "./DataList",
+  "../_HasDropDown"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/_AutoCompleterMixin
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 		// summary:

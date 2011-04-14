@@ -1,4 +1,17 @@
-define("dijit/form/Button", ["dojo", "dijit", "text!dijit/form/templates/Button.html", "dijit/form/_FormWidget", "dijit/form/_ButtonMixin", "dijit/_Container", "dijit/_HasDropDown"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "dojo/text!./templates/Button.html",
+  "./_FormWidget",
+  "./_ButtonMixin",
+  "../_Container",
+  "../_HasDropDown"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/Button
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare("dijit.form.Button",
 	[dijit.form._FormWidget, dijit.form._ButtonMixin],

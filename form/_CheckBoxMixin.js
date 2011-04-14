@@ -1,4 +1,9 @@
-define("dijit/form/_CheckBoxMixin", ["dojo", "dijit"], function(dojo, dijit) {
+define(["dojo", ".."], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/_CheckBoxMixin
+	//  summary:
+	//		TODOC
+
 
 dojo.declare("dijit.form._CheckBoxMixin", null,
 	{

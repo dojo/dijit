@@ -1,4 +1,18 @@
-define("dijit/form/HorizontalSlider", ["dojo", "dijit", "text!dijit/form/templates/HorizontalSlider.html", "dijit/form/_FormWidget", "dijit/_Container", "dojo/dnd/move", "dijit/form/Button", "dojo/number"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "dojo/text!./templates/HorizontalSlider.html",
+  "./_FormWidget",
+  "../_Container",
+  "dojo/dnd/move",
+  "./Button",
+  "dojo/number"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/HorizontalSlider
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare(
 	"dijit.form.HorizontalSlider",

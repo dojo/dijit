@@ -1,7 +1,13 @@
-define("dijit/_base/wai", ["dojo", "dijit", "dijit/_base/_waiMixin"], function(dojo, dijit) {
+define(["dojo", "..", "./_waiMixin"], function(dojo, dijit) {
+	//	module:
+	//		dijit/_base/wai
+	//	summary:
+	//		TODOC
 
-dijit.wai = {
-	onload: function(){
+// Test if computer is in high contrast mode.
+if(dojo.isIE || dojo.isMoz){	// NOTE: checking in Safari messes things up
+	// priority is 90 to run ahead of parser priority of 100
+	dojo.ready(90, function(){
 		// summary:
 		//		Detects if we are in high-contrast mode or not
 
@@ -35,15 +41,9 @@ dijit.wai = {
 				dojo.body().removeChild(div);
 			}
 		}
-	}
-};
-
-// Test if computer is in high contrast mode.
-// Make sure the a11y test runs first, before widgets are instantiated.
-if(dojo.isIE || dojo.isMoz){	// NOTE: checking in Safari messes things up
-	dojo._loaders.unshift(dijit.wai.onload);
+	});
 }
 
-
 return dijit;
+
 });

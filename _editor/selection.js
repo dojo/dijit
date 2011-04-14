@@ -1,4 +1,9 @@
-define("dijit/_editor/selection", ["dojo", "dijit"], function(dojo, dijit) {
+define(["dojo", ".."], function(dojo, dijit) {
+	//  module:
+	//    dijit/_editor/selection
+	//  summary:
+	//		TODOC
+
 
 dojo.getObject("_editor.selection", true, dijit);
 

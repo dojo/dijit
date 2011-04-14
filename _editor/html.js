@@ -1,4 +1,9 @@
-define("dijit/_editor/html", ["dojo", "dijit"], function(dojo, dijit) {
+define(["dojo", ".."], function(dojo, dijit) {
+	//  module:
+	//    dijit/_editor/html
+	//  summary:
+	//		TODOC
+
 dojo.getObject("_editor", true, dijit);
 
 dijit._editor.escapeXml=function(/*String*/str, /*Boolean?*/noSingleQuotes){

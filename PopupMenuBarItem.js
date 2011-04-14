@@ -1,4 +1,14 @@
-define("dijit/PopupMenuBarItem", ["dojo", "dijit", "dijit/PopupMenuItem", "dijit/MenuBarItem"], function(dojo, dijit) {
+define([
+  "dojo",
+  ".",
+  "./PopupMenuItem",
+  "./MenuBarItem"], function(dojo, dijit) {
+	//  module:
+	//    dijit/PopupMenuBarItem
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare("dijit.PopupMenuBarItem", [dijit.PopupMenuItem, dijit._MenuBarItemMixin], {
 	// summary:

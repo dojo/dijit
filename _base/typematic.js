@@ -1,4 +1,9 @@
-define("dijit/_base/typematic", ["dojo", "dijit"], function(dojo, dijit) {
+define(["dojo", ".."], function(dojo, dijit) {
+	//  module:
+	//    dijit/_base/typematic
+	//  summary:
+	//		TODOC
+
 
 dijit.typematic = {
 	// summary:

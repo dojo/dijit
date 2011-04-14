@@ -1,4 +1,9 @@
-define("dijit/_editor/plugins/AlwaysShowToolbar", ["dojo", "dijit", "dijit/_editor/_Plugin"], function(dojo, dijit) {
+define(["dojo", "../..", "../_Plugin"], function(dojo, dijit) {
+	//  module:
+	//    dijit/_editor/plugins/AlwaysShowToolbar
+	//  summary:
+	//		TODOC
+
 
 dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", dijit._editor._Plugin,
 	{

@@ -1,4 +1,9 @@
-define("dijit/_DialogMixin", ["dojo", "dijit", "dijit/_Widget"], function(dojo, dijit) {
+define(["dojo", ".", "./_Widget"], function(dojo, dijit) {
+	//  module:
+	//    dijit/_DialogMixin
+	//  summary:
+	//		TODOC
+
 
 dojo.declare("dijit._DialogMixin", null,
 	{

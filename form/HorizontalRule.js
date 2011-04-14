@@ -1,4 +1,14 @@
-define("dijit/form/HorizontalRule", ["dojo", "dijit", "dijit/_Widget", "dijit/_TemplatedMixin"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "../_Widget",
+  "../_TemplatedMixin"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/HorizontalRule
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare("dijit.form.HorizontalRule", [dijit._Widget, dijit._TemplatedMixin],
 {

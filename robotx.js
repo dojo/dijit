@@ -1,4 +1,14 @@
-define("dijit/robotx", ["dojo", "dijit", "dijit/robot", "dojo/robotx"], function(dojo, dijit_) {
+define([
+  "dojo",
+  ".",
+  "./robot",
+  "dojo/robotx"], function(dojo, dijit_) {
+	//  module:
+	//    dijit/robotx
+	//  summary:
+	//		TODOC
+	// 
+
 
 //WARNING: This module depends on GLOBAL dijit being set for v1.5 code; therefore the lexical variable that
 //references "dijit" has been renamed to "dijit_"

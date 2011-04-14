@@ -1,4 +1,9 @@
-define("dijit/form/_ListMouseMixin", ["dojo", "dijit", "dijit/form/_ListBase"], function(dojo, dijit) {
+define(["dojo", "..", "./_ListBase"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/_ListMouseMixin
+	//  summary:
+	//		TODOC
+
 
 dojo.declare( "dijit.form._ListMouseMixin", dijit.form._ListBase, {
 	// summary:

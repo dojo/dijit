@@ -1,4 +1,17 @@
-define("dijit/TooltipDialog", ["dojo", "dijit", "text!dijit/templates/TooltipDialog.html", "dijit/layout/ContentPane", "dijit/_TemplatedMixin", "dijit/form/_FormMixin", "dijit/_DialogMixin"], function(dojo, dijit) {
+define([
+  "dojo",
+  ".",
+  "dojo/text!./templates/TooltipDialog.html",
+  "./layout/ContentPane",
+  "./_TemplatedMixin",
+  "./form/_FormMixin",
+  "./_DialogMixin"], function(dojo, dijit) {
+	//  module:
+	//    dijit/TooltipDialog
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.declare(
 		"dijit.TooltipDialog",

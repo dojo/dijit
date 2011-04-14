@@ -1,4 +1,17 @@
-define("dijit/form/ValidationTextBox", ["dojo", "dijit", "text!dijit/form/templates/ValidationTextBox.html", "dojo/i18n", "dijit/form/TextBox", "dijit/Tooltip", "i18n!dijit/form/nls/validate"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "dojo/text!./templates/ValidationTextBox.html",
+  "dojo/i18n",
+  "./TextBox",
+  "../Tooltip",
+  "dojo/i18n!./nls/validate"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/ValidationTextBox
+	//  summary:
+	//		TODOC
+	// 
+
 
 /*=====
 	dijit.form.ValidationTextBox.__Constraints = function(){

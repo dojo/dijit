@@ -1,4 +1,14 @@
-define("dijit/form/NumberTextBox", ["dojo", "dijit", "dijit/form/RangeBoundTextBox", "dojo/number"], function(dojo, dijit) {
+define([
+  "dojo",
+  "..",
+  "./RangeBoundTextBox",
+  "dojo/number"], function(dojo, dijit) {
+	//  module:
+	//    dijit/form/NumberTextBox
+	//  summary:
+	//		TODOC
+	// 
+
 
 /*=====
 dojo.declare(

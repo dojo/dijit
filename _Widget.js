@@ -1,4 +1,14 @@
-define("dijit/_Widget", ["dojo", "dijit", "dijit/_WidgetBase", "dijit/_base"], function(dojo, dijit) {
+define([
+  "dojo",
+  ".",
+  "./_WidgetBase",
+  "./_base"], function(dojo, dijit) {
+	//  module:
+	//    dijit/_Widget
+	//  summary:
+	//		TODOC
+	// 
+
 
 
 ////////////////// DEFERRED CONNECTS ///////////////////

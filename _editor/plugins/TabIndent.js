@@ -1,4 +1,14 @@
-define("dijit/_editor/plugins/TabIndent", ["dojo", "dijit", "dijit/_editor/_Plugin", "dijit/form/ToggleButton"], function(dojo, dijit) {
+define([
+  "dojo",
+  "../..",
+  "../_Plugin",
+  "../../form/ToggleButton"], function(dojo, dijit) {
+	//  module:
+	//    dijit/_editor/plugins/TabIndent
+	//  summary:
+	//		TODOC
+	// 
+
 
 dojo.experimental("dijit._editor.plugins.TabIndent");
 
