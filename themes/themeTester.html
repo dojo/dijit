@@ -76,13 +76,14 @@
 	<script type="text/javascript">
 		require([
 			"dojo",
+			"dojo/parser",
+			"dojo/date/locale",
+			"dojo/data/ItemFileReadStore",
+			"dojo/dnd/Source",
 			"dijit",
 			//"dijit/tests/_testCommon",
 			"dijit/dijit",
-			"dijit/dijit-all",
-			"dojo/parser",
-			"dojo/date/locale",
-			"dojo/data/ItemFileReadStore"], function(dojo, dijit) {
+			"dijit/dijit-all"], function(dojo, dijit) {
 				// various function ripped out of inline script type=dojo/* blocks
 				showDialog= function(){
 					var dlg = dijit.byId('dialog1');
