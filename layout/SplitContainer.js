@@ -1,14 +1,14 @@
 define([
-  "dojo",
-  "..",
-  "dojo/cookie",
-  "./_LayoutWidget"], function(dojo, dijit) {
-	//  module:
-	//    dijit/layout/SplitContainer
-	//  summary:
-	//		TODOC
-	// 
+	"dojo",
+	"..",
+	"dojo/cookie",
+	"../_WidgetBase",
+  "./_LayoutWidget"], function(dojo, dijit){
 
+	// module:
+	//		dijit/layout/SplitContainer
+	// summary:
+	//		Deprecated.  Use `dijit.layout.BorderContainer` instead.
 
 //
 // FIXME: make it prettier
@@ -568,7 +568,7 @@ dojo.declare("dijit.layout.SplitContainer",
 // These arguments can be specified for the children of a SplitContainer.
 // Since any widget can be specified as a SplitContainer child, mix them
 // into the base widget class.  (This is a hack, but it's effective.)
-dojo.extend(dijit._Widget, {
+dojo.extend(dijit._WidgetBase, {
 	// sizeMin: [deprecated] Integer
 	//		Deprecated.  Parameter for children of `dijit.layout.SplitContainer`.
 	//		Minimum size (width or height) of a child of a SplitContainer.

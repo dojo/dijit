@@ -1,16 +1,16 @@
 define([
-  "dojo",
-  "..",
-  "./_LayoutWidget",
-  "dojo/i18n!../nls/common",
-  "dojo/cookie",
-  "./StackController"], function(dojo, dijit) {
-	//  module:
-	//    dijit/layout/StackContainer
-	//  summary:
-	//		TODOC
-	// 
+	"dojo",
+	"..",
+	"dojo/cookie",
+	"dojo/i18n!../nls/common",
+	"../_WidgetBase",
+	"./_LayoutWidget",
+	"./StackController"], function(dojo, dijit){
 
+	// module:
+	//		dijit/layout/StackContainer
+	// summary:
+	//		A container that has multiple children, but shows only one child at a time.
 
 dojo.declare(
 	"dijit.layout.StackContainer",
@@ -93,7 +93,7 @@ dojo.declare(
 
 	resize: function(){
 		// Resize is called when we are first made visible (it's called from startup()
-		// if we are initially visible).   If this is the first time we've been made
+		// if we are initially visible).  If this is the first time we've been made
 		// visible then show our first child.
 		var selected = this.selectedChildWidget;
 		if(selected && !this._hasBeenShown){
@@ -306,7 +306,7 @@ dojo.declare(
 // These arguments can be specified for the children of a StackContainer.
 // Since any widget can be specified as a StackContainer child, mix them
 // into the base widget class.  (This is a hack, but it's effective.)
-dojo.extend(dijit._Widget, {
+dojo.extend(dijit._WidgetBase, {
 	// selected: Boolean
 	//		Parameter for children of `dijit.layout.StackContainer` or subclasses.
 	//		Specifies that this widget should be the initially displayed pane.

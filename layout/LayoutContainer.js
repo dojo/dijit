@@ -1,8 +1,9 @@
-define(["dojo", "..", "./_LayoutWidget"], function(dojo, dijit) {
-	//  module:
-	//    dijit/layout/LayoutContainer
-	//  summary:
-	//		TODOC
+define(["dojo", "..", "../_WidgetBase", "./_LayoutWidget"], function(dojo, dijit){
+
+	// module:
+	//		dijit/layout/LayoutContainer
+	// summary:
+	//		Deprecated.  Use `dijit.layout.BorderContainer` instead.
 
 
 dojo.declare("dijit.layout.LayoutContainer",
@@ -70,7 +71,7 @@ dojo.declare("dijit.layout.LayoutContainer",
 // This argument can be specified for the children of a LayoutContainer.
 // Since any widget can be specified as a LayoutContainer child, mix it
 // into the base widget class.  (This is a hack, but it's effective.)
-dojo.extend(dijit._Widget, {
+dojo.extend(dijit._WidgetBase, {
 	// layoutAlign: String
 	//		"none", "left", "right", "bottom", "top", and "client".
 	//		See the LayoutContainer description for details on this parameter.

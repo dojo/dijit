@@ -1,15 +1,14 @@
 define([
-  "dojo",
-  ".",
-  "./_Widget",
-  "dojo/string",
-  "dojo/cache"], function(dojo, dijit) {
-	//  module:
-	//    dijit/_TemplatedMixin
-	//  summary:
-	//		TODOC
-	// 
+	"dojo",
+	".",
+	"./_WidgetBase",
+	"dojo/string",
+	"dojo/cache"], function(dojo, dijit) {
 
+	// module:
+	//		dijit/_TemplatedMixin
+	// summary:
+	//		Mixin for widgets that are instantiated from a template
 
 dojo.declare("dijit._TemplatedMixin",
 	null,
@@ -287,7 +286,7 @@ if(dojo.isIE){
 // These arguments can be specified for widgets which are used in templates.
 // Since any widget can be specified as sub widgets in template, mix it
 // into the base widget class.  (This is a hack, but it's effective.)
-dojo.extend(dijit._Widget,{
+dojo.extend(dijit._WidgetBase,{
 	dojoAttachEvent: "",
 	dojoAttachPoint: ""
 });

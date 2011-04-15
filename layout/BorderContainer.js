@@ -1,15 +1,15 @@
 define([
-  "dojo",
-  "..",
-  "./_LayoutWidget",
-  "dojo/cookie",
-  "../_TemplatedMixin"], function(dojo, dijit) {
-	//  module:
-	//    dijit/layout/BorderContainer
-	//  summary:
-	//		TODOC
-	// 
+	"dojo",
+	"..",
+	"dojo/cookie",
+	"../_WidgetBase",
+	"../_TemplatedMixin",
+	"./_LayoutWidget"], function(dojo, dijit){
 
+	// module:
+	//		dijit/layout/BorderContainer
+	// summary:
+	//		Provides layout in up to 5 regions, a mandatory center with optional borders along its 4 sides.
 
 dojo.declare(
 	"dijit.layout.BorderContainer",
@@ -283,7 +283,7 @@ dojo.declare(
 // This argument can be specified for the children of a BorderContainer.
 // Since any widget can be specified as a LayoutContainer child, mix it
 // into the base widget class.  (This is a hack, but it's effective.)
-dojo.extend(dijit._Widget, {
+dojo.extend(dijit._WidgetBase, {
 	// region: [const] String
 	//		Parameter for children of `dijit.layout.BorderContainer`.
 	//		Values: "top", "bottom", "leading", "trailing", "left", "right", "center".

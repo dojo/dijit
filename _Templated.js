@@ -1,17 +1,17 @@
 define([
-  "dojo",
-  ".",
-  "./_TemplatedMixin",
-  "./_WidgetsInTemplateMixin",
-  "dojo/string",
-  "dojo/parser",
-  "dojo/cache"], function(dojo, dijit) {
-	//  module:
-	//    dijit/_Templated
-	//  summary:
-	//		TODOC
-	// 
+	"dojo",
+	".",
+	"./_WidgetBase",
+	"./_TemplatedMixin",
+	"./_WidgetsInTemplateMixin",
+	"dojo/string",
+	"dojo/parser",
+	"dojo/cache"], function(dojo, dijit){
 
+	// module:
+	//		dijit/_Templated
+	// summary:
+	//		Deprecated mixin for widgets that are instantiated from a template.
 
 	dojo.declare("dijit._Templated", [dijit._TemplatedMixin, dijit._WidgetsInTemplateMixin], {
 		// summary:
@@ -58,7 +58,7 @@ define([
 	// These arguments can be specified for widgets which are used in templates.
 	// Since any widget can be specified as sub widgets in template, mix it
 	// into the base widget class.  (This is a hack, but it's effective.)
-	dojo.extend(dijit._Widget,{
+	dojo.extend(dijit._WidgetBase, {
 		waiRole: "",
 		waiState:""
 	});
