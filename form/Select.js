@@ -1,15 +1,16 @@
 define([
-  "dojo",
-  "..",
-  "dojo/text!./templates/Select.html",
-  "./_FormSelectWidget",
-  "../_HasDropDown",
-  "../Menu",
-  "../Tooltip",
-  "dojo/i18n!./nls/validate"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/Select
-	//  summary:
+	"dojo",
+	"..",
+	"dojo/text!./templates/Select.html",
+	"./_FormSelectWidget",
+	"../_HasDropDown",
+	"../Menu",
+	"../Tooltip",
+	"dojo/i18n!./nls/validate"], function(dojo, dijit) {
+
+	// module:
+	//		dijit/form/Select
+	// summary:
 	//		TODOC
 	// 
 
@@ -37,7 +38,7 @@ dojo.declare("dijit.form._SelectMenu", dijit.Menu, {
 
 	postCreate: function(){
 		// summary:
-		//              stop mousemove from selecting text on IE to be consistent with other browsers
+		//		stop mousemove from selecting text on IE to be consistent with other browsers
 
 		this.inherited(arguments);
 

@@ -1,23 +1,17 @@
 define([
-  "dojo",
-  ".",
-  "dojo/text!./templates/Menu.html",
-  "dojo/window",
-  "./_Widget",
-  "./_KeyNavContainer",
-  "./_TemplatedMixin",
-  "./MenuItem",
-  "./PopupMenuItem",
-  "./CheckedMenuItem",
-  "./MenuSeparator"], function(dojo, dijit) {
-	//  module:
-	//    dijit/Menu
-	//  summary:
-	//		TODOC
-	// 
+	"dojo",
+	".",
+	"dojo/text!./templates/Menu.html",
+	"dojo/window",
+	"./_Widget",
+	"./_KeyNavContainer",
+	"./_TemplatedMixin"], function(dojo, dijit) {
 
 
-// "dijit/MenuItem", "dijit/PopupMenuItem", "dijit/CheckedMenuItem", "dijit/MenuSeparator" for Back-compat (TODO: remove in 2.0)
+	// module:
+	//		dijit/Menu
+	// summary:
+	//		Includes dijit.Menu widget and base class dijit._MenuBase
 
 dojo.declare("dijit._MenuBase",
 	[dijit._Widget, dijit._TemplatedMixin, dijit._KeyNavContainer],
@@ -46,7 +40,7 @@ dojo.declare("dijit._MenuBase",
 		// summary:
 		//		Attach point for notification about when a menu item has been executed.
 		//		This is an internal mechanism used for Menus to signal to their parent to
-		//		close them, because they are about to execute the onClick handler.   In
+		//		close them, because they are about to execute the onClick handler.  In
 		//		general developers should not attach to or override this method.
 		// tags:
 		//		protected
@@ -273,7 +267,7 @@ dojo.declare("dijit._MenuBase",
 		if(popup.focus){
 			// If user is opening the popup via keyboard (right arrow, or down arrow for MenuBar),
 			// if the cursor happens to collide with the popup, it will generate an onmouseover event
-			// even though the mouse wasn't moved.   Use a setTimeout() to call popup.focus so that
+			// even though the mouse wasn't moved.  Use a setTimeout() to call popup.focus so that
 			// our focus() call overrides the onmouseover event, rather than vice-versa.  (#8742)
 			popup._focus_timer = setTimeout(dojo.hitch(popup, function(){
 				this._focus_timer = null;
@@ -284,7 +278,7 @@ dojo.declare("dijit._MenuBase",
 
 	_markActive: function(){
 		// summary:
-		//              Mark this menu's state as active.
+		//		Mark this menu's state as active.
 		//		Called when this Menu gets focus from:
 		//			1) clicking it (mouse or via space/arrow key)
 		//			2) being opened by a parent menu.
@@ -433,7 +427,7 @@ dojo.declare("dijit.Menu",
 			this.bindDomNode(dojo.body());
 		}else{
 			// TODO: should have _setTargetNodeIds() method to handle initialization and a possible
-			// later set('targetNodeIds', ...) call.   There's also a problem that targetNodeIds[]
+			// later set('targetNodeIds', ...) call.  There's also a problem that targetNodeIds[]
 			// gets stale after calls to bindDomNode()/unBindDomNode() as it still is just the original list (see #9610)
 			dojo.forEach(this.targetNodeIds, this.bindDomNode, this);
 		}
@@ -502,7 +496,7 @@ dojo.declare("dijit.Menu",
 
 		var cn;	// Connect node
 
-		// Support context menus on iframes.   Rather than binding to the iframe itself we need
+		// Support context menus on iframes.  Rather than binding to the iframe itself we need
 		// to bind to the <body> node inside the iframe.
 		if(node.tagName.toLowerCase() == "iframe"){
 			var iframe = node,
@@ -523,7 +517,7 @@ dojo.declare("dijit.Menu",
 		};
 
 		// Save info about binding in _bindings[], and make node itself record index(+1) into
-		// _bindings[] array.   Prefix w/_dijitMenu to avoid setting an attribute that may
+		// _bindings[] array.  Prefix w/_dijitMenu to avoid setting an attribute that may
 		// start with a number, which fails on FF/safari.
 		dojo.attr(node, "_dijitMenu" + this.id, this._bindings.push(binding));
 
