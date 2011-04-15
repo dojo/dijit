@@ -5,6 +5,8 @@ define([
 	"./_FormSelectWidget",
 	"../_HasDropDown",
 	"../Menu",
+	"../MenuItem",
+	"../MenuSeparator",
 	"../Tooltip",
 	"dojo/i18n!./nls/validate"], function(dojo, dijit) {
 
