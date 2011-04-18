@@ -8,11 +8,10 @@ define([
   "dojo/i18n",
   "./_PaletteMixin",
   "dojo/i18n!dojo/nls/colors"], function(dojo, dijit) {
-	//  module:
-	//    dijit/ColorPalette
-	//  summary:
+	// module:
+	//		dijit/ColorPalette
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit.ColorPalette",
@@ -125,7 +124,7 @@ dojo.declare("dijit._Color", dojo.Color, {
 			color: this.toHex(),
 			blankGif: blankGif,
 			alt: this._alias,
-			
+
 			// variables used for high contrast mode
 			image: this._imagePaths[this.palette].toString(),
 			left: this._col * -20 - 5,

@@ -3,11 +3,10 @@ define([
   "..",
   "./MappedTextBox",
   "./ComboBoxMixin"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/FilteringSelect
-	//  summary:
+	// module:
+	//		dijit/form/FilteringSelect
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare(

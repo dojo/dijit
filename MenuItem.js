@@ -6,11 +6,10 @@ define([
   "./_TemplatedMixin",
   "./_Contained",
   "./_CssStateMixin"], function(dojo, dijit) {
-	//  module:
-	//    dijit/MenuItem
-	//  summary:
+	// module:
+	//		dijit/MenuItem
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit.MenuItem",
@@ -188,7 +187,7 @@ dojo.declare("dijit.MenuItem",
 			this.accelKeyNode.innerHTML=value;
 			//have to use colSpan to make it work in IE
 			dojo.attr(this.containerNode,'colSpan',value?"1":"2");
-			
+
 			this._set("accelKey", value);
 		}
 	});

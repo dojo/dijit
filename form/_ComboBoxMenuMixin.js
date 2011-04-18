@@ -1,9 +1,8 @@
 define(["dojo", ".."], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/_ComboBoxMenuMixin
-	//  summary:
+	// module:
+	//		dijit/form/_ComboBoxMenuMixin
+	// summary:
 	//		TODOC
-
 
 dojo.declare( "dijit.form._ComboBoxMenuMixin", null, {
 	// summary:
@@ -14,7 +13,7 @@ dojo.declare( "dijit.form._ComboBoxMenuMixin", null, {
 	// _messages: Object
 	//		Holds "next" and "previous" text for paging buttons on drop down
 	_messages: null,
-	
+
 	postMixInProperties: function(){
 		this.inherited(arguments);
 		this._messages = dojo.i18n.getLocalization("dijit.form", "ComboBox", this.lang);

@@ -3,11 +3,10 @@ define([
   ".",
   "./_Widget",
   "./_TemplatedMixin"], function(dojo, dijit) {
-	//  module:
-	//    dijit/ToolbarSeparator
-	//  summary:
+	// module:
+	//		dijit/ToolbarSeparator
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit.ToolbarSeparator",

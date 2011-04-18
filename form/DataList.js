@@ -4,11 +4,10 @@ define([
   "../_WidgetBase",
   "dojo/data/util/simpleFetch",
   "dojo/data/util/filter"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/DataList
-	//  summary:
+	// module:
+	//		dijit/form/DataList
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit.form.DataList", null, {

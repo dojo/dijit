@@ -6,11 +6,10 @@ define([
   "../_Plugin",
   "../../form/ToggleButton",
   "dojo/i18n!../nls/commands"], function(dojo, dijit) {
-	//  module:
-	//    dijit/_editor/plugins/ViewSource
-	//  summary:
+	// module:
+	//		dijit/_editor/plugins/ViewSource
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
@@ -253,7 +252,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 				dojo.style(this.sourceArea, "display", "none");
 				dojo.style(ed.iframe, "display", "block");
 				delete ed._sourceQueryCommandEnabled;
-                
+
 				//Trigger a check for command enablement/disablement.
 				this.editor.onDisplayChanged();
 			}

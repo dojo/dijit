@@ -12,11 +12,10 @@ define([
   "dojo/string",
   "dojo/i18n!../../nls/common",
   "dojo/i18n!../nls/LinkDialog"], function(dojo, dijit) {
-	//  module:
-	//    dijit/_editor/plugins/LinkDialog
-	//  summary:
+	// module:
+	//		dijit/_editor/plugins/LinkDialog
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
@@ -345,7 +344,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 					 "selectElement",
 					 dijit._editor.selection, [t]);
 				this.editor.onDisplayChanged();
-				
+
 				setTimeout(dojo.hitch(this, function(){
 					// Focus shift outside the event handler.
 					// IE doesn't like focus changes in event handles.

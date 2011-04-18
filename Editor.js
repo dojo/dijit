@@ -12,11 +12,10 @@ define([
   "./layout/_LayoutWidget",
   "dojo/i18n!./_editor/nls/commands",
   "./form/ToggleButton"], function(dojo, dijit) {
-	//  module:
-	//    dijit/Editor
-	//  summary:
+	// module:
+	//		dijit/Editor
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare(
@@ -89,7 +88,7 @@ dojo.declare(
 			this.setValueDeferred = new dojo.Deferred();
 			this.inherited(arguments);
 		},
-	
+
 		postCreate: function(){
 			//for custom undo/redo, if enabled.
 			this._steps=this._steps.slice(0);
@@ -356,17 +355,17 @@ dojo.declare(
 				return r;
 			}
 		},
-		
+
 		_pasteImpl: function(){
-			// summary: 
+			// summary:
 			//		Over-ride of paste command control to make execCommand cleaner
 			// tags:
 			//		Protected
 			return this._clipboardCommand("paste");
 		},
-		
+
 		_cutImpl: function(){
-			// summary: 
+			// summary:
 			//		Over-ride of cut command control to make execCommand cleaner
 			// tags:
 			//		Protected
@@ -374,13 +373,13 @@ dojo.declare(
 		},
 
 		_copyImpl: function(){
-			// summary: 
+			// summary:
 			//		Over-ride of copy command control to make execCommand cleaner
 			// tags:
 			//		Protected
 			return this._clipboardCommand("copy");
 		},
-		
+
 		_clipboardCommand: function(cmd){
 			// summary:
 			//		Function to handle processing clipboard commands (or at least try to).
@@ -406,7 +405,7 @@ dojo.declare(
 			}
 			return r;
 		},
-		
+
 		queryCommandEnabled: function(cmd){
 			// summary:
 			//		Returns true if specified editor command is enabled.
@@ -764,7 +763,7 @@ dojo.declare(
 				}
 			}
 		},
-		
+
 		_setDisabledAttr: function(/*Boolean*/ value){
 			var disableFunc = dojo.hitch(this, function(){
 				if((!this.disabled && value) || (!this._buttonEnabledPlugins && value)){
@@ -782,11 +781,11 @@ dojo.declare(
 			this.setValueDeferred.addCallback(disableFunc);
 			this.inherited(arguments);
 		},
-		
+
 		_setStateClass: function(){
 			try{
 				this.inherited(arguments);
-			
+
 				// Let theme set the editor's text color based on editor enabled/disabled state.
 				// We need to jump through hoops because the main document (where the theme CSS is)
 				// is separate from the iframe's document.

@@ -1,9 +1,8 @@
 define(["dojo", ".", "./_CssStateMixin"], function(dojo, dijit) {
-	//  module:
-	//    dijit/_PaletteMixin
-	//  summary:
+	// module:
+	//		dijit/_PaletteMixin
+	// summary:
 	//		TODOC
-
 
 dojo.declare("dijit._PaletteMixin",
 	[dijit._CssStateMixin],
@@ -26,7 +25,7 @@ dojo.declare("dijit._PaletteMixin",
 	// value: String
 	//		Currently selected color/emoticon/etc.
 	value: null,
-	
+
 	// _selectedCell: [private] Integer
 	//		Index of the currently selected cell. Initially, none selected
 	_selectedCell: -1,
@@ -77,7 +76,7 @@ dojo.declare("dijit._PaletteMixin",
 
 		this._cells = [];
 		var url = this._blankGif;
-		
+
 		dyeClassObj = dyeClassObj || dojo.getObject(this.dyeClass);
 
 		for(var row=0; row < choices.length; row++){
@@ -86,7 +85,7 @@ dojo.declare("dijit._PaletteMixin",
 				var value = choices[row][col];
 				if(value){
 					var cellObject = new dyeClassObj(value, row, col);
-					
+
 					var cellNode = dojo.create("td", {
 						"class": this.cellClass,
 						tabIndex: "-1",
@@ -219,7 +218,7 @@ dojo.declare("dijit._PaletteMixin",
 		// priorityChange:
 		//		Optional parameter used to tell the select whether or not to fire
 		//		onChange event.
-		
+
 		// clear old selected cell
 		if(this._selectedCell >= 0){
 			dojo.removeClass(this._cells[this._selectedCell].node, "dijitPaletteCellSelected");
@@ -236,7 +235,7 @@ dojo.declare("dijit._PaletteMixin",
 				}
 			}
 		}
-		
+
 		// record new value, or null if no matching cell
 		this._set("value", this._selectedCell >= 0 ? value : null);
 

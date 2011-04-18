@@ -4,11 +4,10 @@ define([
   "dojo/text!./templates/DropDownBox.html",
   "./_AutoCompleterMixin",
   "./_ComboBoxMenu"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/ComboBoxMixin
-	//  summary:
+	// module:
+	//		dijit/form/ComboBoxMixin
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit.form.ComboBoxMixin", dijit.form._AutoCompleterMixin, {

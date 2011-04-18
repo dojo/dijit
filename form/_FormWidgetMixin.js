@@ -1,9 +1,8 @@
 define(["dojo", "..", "dojo/window"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/_FormWidgetMixin
-	//  summary:
+	// module:
+	//		dijit/form/_FormWidgetMixin
+	// summary:
 	//		TODOC
-
 
 dojo.declare("dijit.form._FormWidgetMixin", null, {
 	// summary:

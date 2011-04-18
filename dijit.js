@@ -8,11 +8,10 @@ define([
   "./_Container",
   "./layout/_LayoutWidget",
   "./form/_FormWidget"], function(dojo, dijit) {
-	//  module:
-	//    dijit/dijit
-	//  summary:
+	// module:
+	//		dijit/dijit
+	// summary:
 	//		TODOC
-	// 
 
 
 /*=====

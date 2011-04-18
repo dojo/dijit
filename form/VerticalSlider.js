@@ -3,11 +3,10 @@ define([
   "..",
   "dojo/text!./templates/VerticalSlider.html",
   "./HorizontalSlider"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/VerticalSlider
-	//  summary:
+	// module:
+	//		dijit/form/VerticalSlider
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare(

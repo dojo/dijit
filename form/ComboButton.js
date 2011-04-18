@@ -3,11 +3,10 @@ define([
   "..",
   "dojo/text!./templates/ComboButton.html",
   "./DropDownButton"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/ComboButton
-	//  summary:
+	// module:
+	//		dijit/form/ComboButton
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
@@ -67,7 +66,7 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 			dojo.stopEvent(evt);
 		}
 	},
-	
+
 	focus: function(/*String*/ position){
 		// summary:
 		//		Focuses this widget to according to position, if specified,

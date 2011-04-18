@@ -3,11 +3,10 @@ define([
   ".",
   "dojo/text!./templates/MenuBarItem.html",
   "./MenuItem"], function(dojo, dijit) {
-	//  module:
-	//    dijit/MenuBarItem
-	//  summary:
+	// module:
+	//		dijit/MenuBarItem
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit._MenuBarItemMixin", null, {

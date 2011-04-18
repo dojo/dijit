@@ -1,9 +1,8 @@
 define(["dojo", "..", "dojo/window"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/_FormMixin
-	//  summary:
+	// module:
+	//		dijit/form/_FormMixin
+	// summary:
 	//		TODOC
-
 
 dojo.declare("dijit.form._FormMixin", null, {
 	// summary:
@@ -191,7 +190,7 @@ dojo.declare("dijit.form._FormMixin", null, {
 				}
 	  		});
 	  		*/
-			
+
 			// Note: no need to call this._set("value", ...) as the child updates will trigger onChange events
 			// which I am monitoring.
 		},
@@ -402,7 +401,7 @@ dojo.declare("dijit.form._FormMixin", null, {
 			var onChange = function(){
 				// summary:
 				//		Called when child's value or disabled state changes
-				
+
 				// Use setTimeout() to collapse value changes in multiple children into a single
 				// update to my value.   Multiple updates will occur on:
 				//	1. Form.set()

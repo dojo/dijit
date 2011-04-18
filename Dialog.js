@@ -15,11 +15,10 @@ define([
   "./layout/ContentPane",
   "dojo/i18n!./nls/common",
   "./TooltipDialog"], function(dojo, dijit) {
-	//  module:
-	//    dijit/Dialog
-	//  summary:
+	// module:
+	//		dijit/Dialog
+	// summary:
 	//		TODOC
-	// 
 
 
 // dijit/TooltipDialog required for back-compat.  TODO: remove in 2.0
@@ -56,9 +55,9 @@ dojo.declare(
 		// |	foo.startup();
 
 		templateString: dojo.cache("dijit", "templates/Dialog.html"),
-		
+
 		baseClass: "dijitDialog",
-		
+
 		cssStateNodes: {
 			closeButtonNode: "dijitDialogCloseIcon"
 		},
@@ -388,7 +387,7 @@ dojo.declare(
 					delete this._fadeInDeferred;
 				})
 			}).play();
-			
+
 			return this._fadeInDeferred;
 		},
 
@@ -569,7 +568,7 @@ dijit._DialogLevelManager = {
 					pd.dialog._getFocusItems(pd.dialog.domNode);
 					focus = pd.dialog._firstFocusItem;
 				}
-	
+
 				try{
 					dijit.focus(focus);
 				}catch(e){

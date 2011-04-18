@@ -1,9 +1,8 @@
 define(["dojo", ".", "./_Container"], function(dojo, dijit) {
-	//  module:
-	//    dijit/_KeyNavContainer
-	//  summary:
+	// module:
+	//		dijit/_KeyNavContainer
+	// summary:
 	//		TODOC
-
 
 dojo.declare("dijit._KeyNavContainer",
 	dijit._Container,
@@ -124,7 +123,7 @@ dojo.declare("dijit._KeyNavContainer",
 			//		last one instead of the first one
 			// tags:
 			//		protected
-			
+
 			if(this.focusedChild && widget !== this.focusedChild){
 				this._onChildBlur(this.focusedChild);
 			}
@@ -141,9 +140,9 @@ dojo.declare("dijit._KeyNavContainer",
 			//		leave the container rather than visiting each child.
 			// tags:
 			//		private
-			
+
 			widget.set("tabIndex", "-1");
-			
+
 			this.connect(widget, "_onFocus", function(){
 				// Set valid tabIndex so tabbing away from widget goes to right place, see #10272
 				widget.set("tabIndex", this.tabIndex);

@@ -3,11 +3,10 @@ define([
   ".",
   "./_Widget",
   "./_TemplatedMixin"], function(dojo, dijit) {
-	//  module:
-	//    dijit/Tooltip
-	//  summary:
+	// module:
+	//		dijit/Tooltip
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare(
@@ -74,7 +73,7 @@ dojo.declare(
 			// tags:
 			//		protected
 			this.connectorNode.style.top = ""; //reset to default
-			
+
 			//Adjust the spaceAvailable width, without changing the spaceAvailable object
 			var tooltipSpaceAvaliableWidth = spaceAvailable.w - this.connectorNode.offsetWidth;
 
@@ -87,16 +86,16 @@ dojo.declare(
 					"BR-BL": "dijitTooltipRight",
 					"BL-BR": "dijitTooltipLeft"
 				}[aroundCorner + "-" + tooltipCorner];
-				
+
 			// reduce tooltip's width to the amount of width available, so that it doesn't overflow screen
 			this.domNode.style.width = "auto";
 			var size = dojo.contentBox(this.domNode);
-			
+
 			var width = Math.min((Math.max(tooltipSpaceAvaliableWidth,1)), size.w);
 			var widthWasReduced = width < size.w;
-			
+
 			this.domNode.style.width = width+"px";
-						
+
 			//Adjust width for tooltips that have a really long word or a nowrap setting
 			if(widthWasReduced){
 				this.containerNode.style.overflow = "auto"; //temp change to overflow to detect if our tooltip needs to be wider to support the content
@@ -107,7 +106,7 @@ dojo.declare(
 					this.domNode.style.width = scrollWidth + "px";
 				}
 			}
-			
+
 			// Reposition the tooltip connector.
 			if(tooltipCorner.charAt(0) == 'B' && aroundCorner.charAt(0) == 'B'){
 				var mb = dojo.marginBox(node);
@@ -131,7 +130,7 @@ dojo.declare(
 				this.connectorNode.style.top = "";
 				this.connectorNode.style.bottom = "";
 			}
-			
+
 			return Math.max(0, size.w - tooltipSpaceAvaliableWidth);
 		},
 
@@ -245,7 +244,7 @@ dojo.declare(
 					this.connect(node, "onblur", "_onTargetBlur")
 				] : [];
 			}, this);
-	
+
 			this._set("connectId", newId);
 
 			this._connectIds = ary;	// save as array
@@ -268,7 +267,7 @@ dojo.declare(
 			//		Detach tooltip from specified node
 
 			// TODO: remove in 2.0 and just use set("connectId", ...) interface
-			
+
 			var id = node.id || node,	// map from DOMNode back to plain id string
 				idx = dojo.indexOf(this._connectIds, id);
 			if(idx >= 0){

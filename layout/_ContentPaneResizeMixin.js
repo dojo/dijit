@@ -3,11 +3,10 @@ define([
   "..",
   "../_Contained",
   "./_LayoutWidget"], function(dojo, dijit) {
-	//  module:
-	//    dijit/layout/_ContentPaneResizeMixin
-	//  summary:
+	// module:
+	//		dijit/layout/_ContentPaneResizeMixin
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit.layout._ContentPaneResizeMixin", null, {
@@ -183,7 +182,7 @@ dojo.declare("dijit.layout._ContentPaneResizeMixin", null, {
 
 		delete this._needLayout;
 	},
-	
+
 	_layoutChildren: function(){
 		// Call _checkIfSingleChild() again in case app has manually mucked w/the content
 		// of the ContentPane (rather than changing it through the set("content", ...) API.

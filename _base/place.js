@@ -3,11 +3,10 @@ define([
   "..",
   "dojo/window",
   "dojo/AdapterRegistry"], function(dojo, dijit) {
-	//  module:
-	//    dijit/_base/place
-	//  summary:
+	// module:
+	//		dijit/_base/place
+	// summary:
 	//		TODOC
-	// 
 
 
 dijit.getViewport = function(){
@@ -150,7 +149,7 @@ dijit._place = function(/*DomNode*/ node, choices, layoutNode, /*Object*/ around
 				spaceAvailable: spaceAvailable
 			};
 		}
-		
+
 		return !overflow;
 	});
 
@@ -171,7 +170,7 @@ dijit._place = function(/*DomNode*/ node, choices, layoutNode, /*Object*/ around
 		s = node.style;
 	s.top = best.y + "px";
 	s[l ? "left" : "right"] = (l ? best.x : view.w - best.x - best.w) + "px";
-	
+
 	return best;
 }
 

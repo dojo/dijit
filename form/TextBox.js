@@ -4,11 +4,10 @@ define([
   "dojo/text!./templates/TextBox.html",
   "./_FormWidget",
   "./_TextBoxMixin"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/TextBox
-	//  summary:
+	// module:
+	//		dijit/form/TextBox
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare(
@@ -55,7 +54,7 @@ dojo.declare(
 			this._phspan.appendChild(document.createTextNode(v));
 			this._updatePlaceHolder();
 		},
-		
+
 		_updatePlaceHolder: function(){
 			if(this._phspan){
 				this._phspan.style.display=(this.placeHolder&&!this._focused&&!this.textbox.value)?"":"none";

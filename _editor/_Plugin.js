@@ -3,11 +3,10 @@ define([
   "..",
   "../_Widget",
   "../form/Button"], function(dojo, dijit) {
-	//  module:
-	//    dijit/_editor/_Plugin
-	//  summary:
+	// module:
+	//		dijit/_editor/_Plugin
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit._editor._Plugin", null, {
@@ -187,7 +186,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 		}
 		// console.debug("adding", this.button, "to:", toolbar);
 	},
-	
+
 	set: function(/* attribute */ name, /* anything */ value){
 		// summary:
 		//		Set a property on a plugin
@@ -259,7 +258,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 		this.disabled = disabled;
 		this.updateState();
 	},
-	
+
 	_getAttrNames: function(name){
 		// summary:
 		//		Helper function for get() and set().
@@ -275,7 +274,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 			g: "_get"+uc+"Attr"
 		});
 	},
-	
+
 	_set: function(/*String*/ name, /*anything*/ value){
 		// summary:
 		//		Helper function to set new value for specified attribute

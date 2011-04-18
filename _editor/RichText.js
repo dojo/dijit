@@ -6,14 +6,13 @@ define([
   "./selection",
   "./range",
   "./html"], function(dojo, dijit) {
-	//  module:
-	//    dijit/_editor/RichText
-	//  summary:
+	// module:
+	//		dijit/_editor/RichText
+	// summary:
 	//		TODOC
-	// 
 
 // if you want to allow for rich text saving with back/forward actions, you must add a text area to your page with
-// the id==dijit._scopeName + "._editor.RichText.value" (typically "dijit._editor.RichText.value). For example, 
+// the id==dijit._scopeName + "._editor.RichText.value" (typically "dijit._editor.RichText.value). For example,
 // something like this will work:
 //
 //	<textarea id="dijit._editor.RichText.value" style="display:none;position:absolute;top:-100px;left:-100px;height:3px;width:3px;overflow:hidden;"></textarea>
@@ -232,7 +231,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		// tags:
 		//		private
 		if(dijit._editor._editorCommandsLocalized){
-			// Use the already generate cache of mappings.  
+			// Use the already generate cache of mappings.
 			this._local2NativeFormatNames = dijit._editor._local2NativeFormatNames;
 			this._native2LocalFormatNames = dijit._editor._native2LocalFormatNames;
 			return;
@@ -382,7 +381,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		if(dn.nodeName && dn.nodeName == "LI"){
 			dn.innerHTML = " <br>";
 		}
-	
+
 		// Construct the editor div structure.
 		this.header = dn.ownerDocument.createElement("div");
 		dn.appendChild(this.header);
@@ -459,7 +458,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			if(dojo.isIE){
 				this._localizeEditorCommands();
 			}
-			
+
 			// Do final setup and set initial contents of editor
 			this.onLoad(html);
 		});
@@ -574,7 +573,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			((dojo.isWebKit)?"\t\twidth: 100%;\n":""),
 			((dojo.isWebKit)?"\t\theight: 100%;\n":""),
 			"\t}\n",
-			
+
 			// TODO: left positioning will cause contents to disappear out of view
 			//	   if it gets too wide for the visible area
 			"\tbody{\n",
@@ -588,7 +587,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			"\t\tline-height:", lineHeight,";\n",
 			"\t}\n",
 			"\tp{ margin: 1em 0; }\n",
-			
+
 			// Determine how scrollers should be applied.  In autoexpand mode (height = "") no scrollers on y at all.
 			// But in fixed height mode we want both x/y scrollers.  Also, if it's using wrapping div and in auto-expand
 			// (Mainly IE) we need to kill the y scroller on body and html.
@@ -596,7 +595,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			"\t#dijitEditorBody{overflow-x: auto; overflow-y:" + (this.height ? "auto;" : "hidden;") + " outline: 0px;}\n",
 			"\tli > ul:-moz-first-node, li > ol:-moz-first-node{ padding-top: 1.2em; }\n",
 			// Can't set min-height in IE9, it puts layout on li, which puts move/resize handles.
-			(!dojo.isIE ? "\tli{ min-height:1.2em; }\n" : ""), 
+			(!dojo.isIE ? "\tli{ min-height:1.2em; }\n" : ""),
 			"</style>\n",
 			this._applyEditingAreaStyleSheets(),"\n",
 			"</head>\n<body ",
@@ -773,7 +772,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 				delete this._cursorToStart;
 			});
 		}
-		
+
 		if(dojo.isWebKit){
 			//WebKit sometimes doesn't fire right on selections, so the toolbar
 			//doesn't update right.  Therefore, help it out a bit with an additional
@@ -789,7 +788,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 				}
 			});
 		}
-		
+
 		if(dojo.isIE){
 			// Try to make sure 'hidden' elements aren't visible in edit mode (like browsers other than IE
 			// do).  See #9103
@@ -1078,7 +1077,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			this._updateHandler = dojo.hitch(this,"onNormalizedDisplayChanged");
 		}
 		this._updateTimer = setTimeout(this._updateHandler, this.updateInterval);
-		
+
 		// Technically this should trigger a call to watch("value", ...) registered handlers,
 		// but getValue() is too slow to call on every keystroke so we don't.
 	},
@@ -1625,12 +1624,12 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		//		private
 
 		var saveTextarea = dojo.byId(dijit._scopeName + "._editor.RichText.value");
-    if(saveTextarea){
-		  if(saveTextarea.value){
-			  saveTextarea.value += this._SEPARATOR;
-	  	}
-		  saveTextarea.value += this.name + this._NAME_CONTENT_SEP + this.getValue(true);
-    }
+		if(saveTextarea){
+			if(saveTextarea.value){
+				saveTextarea.value += this._SEPARATOR;
+			}
+			saveTextarea.value += this.name + this._NAME_CONTENT_SEP + this.getValue(true);
+		}
 	},
 
 
@@ -1923,7 +1922,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}
 		return this.document.execCommand("bold", false, argument);
 	},
-	
+
 	_italicImpl: function(argument){
 		// summary:
 		//		This function implements an over-ride of the italic command.
@@ -1949,7 +1948,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}
 		return this.document.execCommand("underline", false, argument);
 	},
-	
+
 	_strikethroughImpl: function(argument){
 		// summary:
 		//		This function implements an over-ride of the strikethrough command.
@@ -1992,7 +1991,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}
 		return h; // Number
 	},
-	
+
 	_isNodeEmpty: function(node, startOffset){
 		// summary:
 		//		Function to test if a node is devoid of real content.
@@ -2010,7 +2009,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}
 		return false;
 	},
-	
+
 	_removeStartingRangeFromRange: function(node, range){
 		// summary:
 		//		Function to adjust selection range by removing the current
@@ -2035,7 +2034,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}
 		return range;
 	},
-	
+
 	_adaptIESelection: function(){
 		// summary:
 		//		Function to adapt the IE range by removing leading 'newlines'

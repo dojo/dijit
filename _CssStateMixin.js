@@ -1,9 +1,8 @@
 define(["dojo", "."], function(dojo, dijit) {
-	//  module:
-	//    dijit/_CssStateMixin
-	//  summary:
+	// module:
+	//		dijit/_CssStateMixin
+	// summary:
 	//		TODOC
-
 
 dojo.declare("dijit._CssStateMixin", [], {
 	// summary:
@@ -37,7 +36,7 @@ dojo.declare("dijit._CssStateMixin", [], {
 	// hovering: [readonly] Boolean
 	//		True if cursor is over this widget
 	hovering: false,
-	
+
 	// active: [readonly] Boolean
 	//		True if mouse was pressed while over this widget, and hasn't been released yet
 	active: false,
@@ -53,7 +52,7 @@ dojo.declare("dijit._CssStateMixin", [], {
 		dojo.forEach(["onmouseenter", "onmouseleave", "onmousedown"], function(e){
 			this.connect(this.domNode, e, "_cssMouseEvent");
 		}, this);
-		
+
 		// Monitoring changes to disabled, readonly, etc. state, and update CSS class of root node
 		dojo.forEach(["disabled", "readOnly", "checked", "selected", "focused", "state", "hovering", "active"], function(attr){
 			this.watch(attr, dojo.hitch(this, "_setStateClass"));

@@ -3,11 +3,10 @@ define([
   "..",
   "dojo/dnd/common",
   "dojo/dnd/Container"], function(dojo, dijit) {
-	//  module:
-	//    dijit/tree/_dndContainer
-	//  summary:
+	// module:
+	//		dijit/tree/_dndContainer
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.getObject("tree", true, dojo);
@@ -16,7 +15,7 @@ dijit.tree._compareNodes = function(n1, n2){
 	if(n1 === n2){
 		return 0;
 	}
-	
+
 	if('sourceIndex' in document.documentElement){ //IE
 		//TODO: does not yet work if n1 and/or n2 is a text node
 		return n1.sourceIndex - n2.sourceIndex;

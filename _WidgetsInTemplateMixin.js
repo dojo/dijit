@@ -1,9 +1,8 @@
 define(["dojo", ".", "dojo/parser"], function(dojo, dijit) {
-	//  module:
-	//    dijit/_WidgetsInTemplateMixin
-	//  summary:
+	// module:
+	//		dijit/_WidgetsInTemplateMixin
+	// summary:
 	//		TODOC
-
 
 dojo.declare("dijit._WidgetsInTemplateMixin",
 	null,
@@ -27,7 +26,7 @@ dojo.declare("dijit._WidgetsInTemplateMixin",
 
 		_beforeFillContent: function(){
 			if(this.widgetsInTemplate){
-				// Before copying over content, instantiate widgets in template				
+				// Before copying over content, instantiate widgets in template
 				var node = this.domNode;
 
 				var cw = (this._startupWidgets = dojo.parser.parse(node, {
@@ -37,9 +36,9 @@ dojo.declare("dijit._WidgetsInTemplateMixin",
 					propsThis: this,	// so data-dojo-props of widgets in the template can reference "this" to refer to me
 					scope: "dojo"	// even in multi-version mode templates use dojoType/data-dojo-type
 				}));
-	
+
 				this._supportingWidgets = dijit.findWidgets(node);
-	
+
 				this._attachTemplateNodes(cw, function(n,p){
 					return n[p];
 				});

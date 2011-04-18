@@ -3,11 +3,10 @@ define([
   ".",
   "./robot",
   "dojo/robotx"], function(dojo, dijit_) {
-	//  module:
-	//    dijit/robotx
-	//  summary:
+	// module:
+	//		dijit/robotx
+	// summary:
 	//		TODOC
-	// 
 
 
 //WARNING: This module depends on GLOBAL dijit being set for v1.5 code; therefore the lexical variable that

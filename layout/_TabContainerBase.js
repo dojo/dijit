@@ -4,11 +4,10 @@ define([
   "dojo/text!./templates/TabContainer.html",
   "./StackContainer",
   "../_TemplatedMixin"], function(dojo, dijit) {
-	//  module:
-	//    dijit/layout/_TabContainerBase
-	//  summary:
+	// module:
+	//		dijit/layout/_TabContainerBase
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit.layout._TabContainerBase",

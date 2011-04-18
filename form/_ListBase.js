@@ -1,9 +1,8 @@
 define(["dojo", "..", "dojo/window"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/_ListBase
-	//  summary:
+	// module:
+	//		dijit/form/_ListBase
+	// summary:
 	//		TODOC
-
 
 dojo.declare( "dijit.form._ListBase", null, {
 	// summary:

@@ -1,9 +1,8 @@
 define(["dojo", ".", "./_Widget"], function(dojo, dijit) {
-	//  module:
-	//    dijit/_HasDropDown
-	//  summary:
+	// module:
+	//		dijit/_HasDropDown
+	// summary:
 	//		TODOC
-
 
 dojo.declare("dijit._HasDropDown",
 	null,
@@ -329,7 +328,7 @@ dojo.declare("dijit._HasDropDown",
 					myStyle.height = "";
 				}
 				dojo.style(ddNode, myStyle);
-				
+
 				// Figure out maximum height allowed (if there is a height restriction)
 				var maxHeight = this.maxHeight;
 				if(maxHeight == -1){
@@ -371,7 +370,7 @@ dojo.declare("dijit._HasDropDown",
 				}else{
 					delete mb.w;
 				}
-				
+
 				// And finally, resize the dropdown to calculated height and width
 				if(dojo.isFunction(dropDown.resize)){
 					dropDown.resize(mb);

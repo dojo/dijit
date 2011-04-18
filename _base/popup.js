@@ -4,11 +4,10 @@ define([
   "./focus",
   "./place",
   "./window"], function(dojo, dijit) {
-	//  module:
-	//    dijit/_base/popup
-	//  summary:
+	// module:
+	//		dijit/_base/popup
+	// summary:
 	//		TODOC
-	// 
 
 
 /*=====
@@ -74,7 +73,7 @@ dijit.popup = {
 	//		Stack of currently popped up widgets.
 	//		(someone opened _stack[0], and then it opened _stack[1], etc.)
 	_stack: [],
-	
+
 	// _beginZIndex: Number
 	//		Z-index of the first popup.   (If first popup opens other
 	//		popups they get a higher z-index.)
@@ -116,7 +115,7 @@ dijit.popup = {
 				});
 			}
 		}
-		
+
 		return wrapper;
 	},
 
@@ -152,7 +151,7 @@ dijit.popup = {
 
 		dojo.style(wrapper, "display", "none");
 	},
-		
+
 	getTopPopup: function(){
 		// summary:
 		//		Compute the closest ancestor popup that's *not* a child of another popup.
@@ -300,7 +299,7 @@ dijit.popup = {
 			if(widget && widget.domNode){
 				this.hide(widget);
 			}
-                        
+
 			if(onClose){
 				onClose();
 			}

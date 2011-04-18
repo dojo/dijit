@@ -4,11 +4,10 @@ define([
   "../_Widget",
   "../_Container",
   "../_Contained"], function(dojo, dijit) {
-	//  module:
-	//    dijit/layout/_LayoutWidget
-	//  summary:
+	// module:
+	//		dijit/layout/_LayoutWidget
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit.layout._LayoutWidget",
@@ -184,7 +183,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 					+ (child.baseClass ?
 						" " + this.baseClass + "-" + child.baseClass : "");
 			dojo.removeClass(child.domNode, cls);
-			
+
 			this.inherited(arguments);
 		}
 	}

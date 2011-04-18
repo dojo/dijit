@@ -6,11 +6,10 @@ define([
   "dojo/number",
   "./_Widget",
   "./_TemplatedMixin"], function(dojo, dijit) {
-	//  module:
-	//    dijit/ProgressBar
-	//  summary:
+	// module:
+	//		dijit/ProgressBar
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._TemplatedMixin], {

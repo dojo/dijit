@@ -3,11 +3,10 @@ define([
   ".",
   "./PopupMenuItem",
   "./MenuBarItem"], function(dojo, dijit) {
-	//  module:
-	//    dijit/PopupMenuBarItem
-	//  summary:
+	// module:
+	//		dijit/PopupMenuBarItem
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit.PopupMenuBarItem", [dijit.PopupMenuItem, dijit._MenuBarItemMixin], {

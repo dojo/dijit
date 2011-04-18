@@ -3,11 +3,10 @@ define([
   "..",
   "./RangeBoundTextBox",
   "dojo/number"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/NumberTextBox
-	//  summary:
+	// module:
+	//		dijit/form/NumberTextBox
+	// summary:
 	//		TODOC
-	// 
 
 
 /*=====

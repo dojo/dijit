@@ -10,11 +10,10 @@ define([
   "./_TemplatedMixin",
   "./_CssStateMixin",
   "./form/DropDownButton"], function(dojo, dijit) {
-	//  module:
-	//    dijit/Calendar
-	//  summary:
+	// module:
+	//		dijit/Calendar
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare(
@@ -67,7 +66,7 @@ dojo.declare(
 		// tabIndex: Integer
 		//		Order fields are traversed when user hits the tab key
 		tabIndex: "0",
-		
+
 		// currentFocus: Date
 		//		Date object containing the currently focused date, or the date which would be focused
 		//		if the calendar itself was focused.   Also indicates which year and month to display,
@@ -137,15 +136,15 @@ dojo.declare(
 			if(this._isValidDate(value)){
 				if(!this._isValidDate(this.value) || this.dateFuncObj.compare(value, this.value)){
 					value.setHours(1, 0, 0, 0); // round to nearest day (1am to avoid issues when DST shift occurs at midnight, see #8521, #9366)
-	
+
 					if(!this.isDisabledDate(value, this.lang)){
 						this._set("value", value);
-		
+
 						// Set focus cell to the new value.   Arguably this should only happen when there isn't a current
 						// focus point.   This will also repopulate the grid, showing the new selected value (and possibly
 						// new month/year).
 						this.set("currentFocus", value);
-	
+
 						if(priorityChange || typeof priorityChange == "undefined"){
 							this.onChange(this.get('value'));
 							this.onValueSelected(this.get('value'));	// remove in 2.0
@@ -440,9 +439,9 @@ dojo.declare(
 			//      Handler for mouse out events on days, clears hovered style
 			// tags:
 			//      protected
-	
+
 			if(!this._currentNode){ return; }
-			
+
 			// if mouse out occurs moving from <td> to <span> inside <td>, ignore it
 			if(evt.relatedTarget && evt.relatedTarget.parentNode == this._currentNode){ return; }
 			var cls = "dijitCalendarHoveredDate";
@@ -452,7 +451,7 @@ dojo.declare(
 			dojo.removeClass(this._currentNode, cls);
 			this._currentNode = null;
 		},
-		
+
 		_onDayMouseDown: function(/*Event*/ evt){
 			var node = evt.target.parentNode;
 			if(node && node.dijitDateValue){
@@ -460,7 +459,7 @@ dojo.declare(
 				this._currentNode = node;
 			}
 		},
-		
+
 		_onDayMouseUp: function(/*Event*/ evt){
 			var node = evt.target.parentNode;
 			if(node && node.dijitDateValue){

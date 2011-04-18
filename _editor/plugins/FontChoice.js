@@ -11,11 +11,10 @@ define([
   "dojo/data/ItemFileReadStore",
   "dojo/i18n",
   "dojo/i18n!../nls/FontChoice"], function(dojo, dijit) {
-	//  module:
-	//    dijit/_editor/plugins/FontChoice
-	//  summary:
+	// module:
+	//		dijit/_editor/plugins/FontChoice
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit._editor.plugins._FontDropDown",
@@ -477,7 +476,7 @@ dojo.declare("dijit._editor.plugins.FontChoice", dijit._editor._Plugin,{
 			// User invoked change, since all internal updates set priorityChange to false and will
 			// not trigger an onChange event.
 			this.editor.focus();
-			
+
 			if(this.command == "fontName" && choice.indexOf(" ") != -1){ choice = "'" + choice + "'"; }
 
 			// Invoke, the editor already normalizes commands called through its
@@ -502,7 +501,7 @@ dojo.declare("dijit._editor.plugins.FontChoice", dijit._editor._Plugin,{
 		var _e = this.editor;
 		var _c = this.command;
 		if(!_e || !_e.isLoaded || !_c.length){ return; }
-		
+
 		if(this.button){
 			var disabled = this.get("disabled");
 			this.button.set("disabled", disabled);

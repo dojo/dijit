@@ -3,11 +3,10 @@ define([
   "..",
   "../_Widget",
   "../_TemplatedMixin"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/HorizontalRule
-	//  summary:
+	// module:
+	//		dijit/form/HorizontalRule
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit.form.HorizontalRule", [dijit._Widget, dijit._TemplatedMixin],

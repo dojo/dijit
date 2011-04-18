@@ -3,11 +3,10 @@ define([
   "..",
   "./ContentPane",
   "../_TemplatedMixin"], function(dojo, dijit) {
-	//  module:
-	//    dijit/layout/LinkPane
-	//  summary:
+	// module:
+	//		dijit/layout/LinkPane
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit.layout.LinkPane",

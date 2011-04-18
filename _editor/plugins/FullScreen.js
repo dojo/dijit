@@ -6,11 +6,10 @@ define([
   "../_Plugin",
   "../../form/ToggleButton",
   "dojo/i18n!../nls/commands"], function(dojo, dijit) {
-	//  module:
-	//    dijit/_editor/plugins/FullScreen
-	//  summary:
+	// module:
+	//		dijit/_editor/plugins/FullScreen
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
@@ -144,7 +143,7 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 		var extents = dojo._getPadBorderExtents(this.editor.domNode);
 		var fcpExtents = dojo._getPadBorderExtents(this.editor.iframe.parentNode);
 		var fcmExtents = dojo._getMarginExtents(this.editor.iframe.parentNode);
-		
+
 		var cHeight = vp.h - (hHeight + extents.h + fHeight);
 		dojo.marginBox(this.editor.iframe.parentNode, {
 			h: cHeight,
@@ -336,13 +335,13 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 				clearTimeout(this._rst);
 				this._rst = null;
 			}
-			
+
 			//Remove all position static class assigns.
 			while(editorParent && editorParent !== dojo.body()){
 				dojo.removeClass(editorParent, "dijitForceStatic");
 				editorParent = editorParent.parentNode;
 			}
-			
+
 			// Restore resize function
 			if(this._editorResizeHolder){
 				this.editor.resize = this._editorResizeHolder;

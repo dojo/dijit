@@ -4,11 +4,10 @@ define([
   "./_Widget",
   "./_TemplatedMixin",
   "./_WidgetsInTemplateMixin"], function(dojo, dijit) {
-	//  module:
-	//    dijit/Declaration
-	//  summary:
+	// module:
+	//		dijit/Declaration
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare(

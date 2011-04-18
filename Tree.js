@@ -14,11 +14,10 @@ define([
   "./tree/TreeStoreModel",
   "./tree/ForestStoreModel",
   "./tree/_dndSelector"], function(dojo, dijit) {
-	//  module:
-	//    dijit/Tree
-	//  summary:
+	// module:
+	//		dijit/Tree
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare(
@@ -105,7 +104,7 @@ dojo.declare(
 		dojo.forEach(this.getChildren(), function(child){
 			child.set("indent", indent+1);
 		});
-		
+
 		this._set("indent", indent);
 	},
 
@@ -164,7 +163,7 @@ dojo.declare(
 
 		this[clsName] = this.tree["get" + upper + "Class"](item, this.isExpanded);
 		dojo.replaceClass(this[nodeName], this[clsName] || "", oldCls || "");
- 
+
 		dojo.style(this[nodeName], this.tree["get" + upper + "Style"](item, this.isExpanded) || {});
  	},
 
@@ -531,7 +530,7 @@ dojo.declare(
 	//		Since setting the paths may be asynchronous (because ofwaiting on dojo.data), set("paths", ...)
 	//		returns a Deferred to indicate when the set is complete.
 	paths: [],
-	
+
 	// path: String[] or Item[]
 	//      Backward compatible singular variant of paths.
 	path: [],
@@ -790,7 +789,7 @@ dojo.declare(
 					// if root is not visible, move tree role to the invisible
 					// root node's containerNode, see #12135
 					dijit.setWaiRole(this.domNode, 'presentation');
-					
+
 					dijit.setWaiRole(rn.labelNode, 'presentation');
 					dijit.setWaiRole(rn.containerNode, 'tree');
 				}
@@ -860,7 +859,7 @@ dojo.declare(
 			return this.set("paths", []);
 		}
 	},
-	
+
 	_setPathsAttr: function(/*Item[][] || String[][]*/ paths){
 		// summary:
 		//		Select the tree nodes identified by passed paths.
@@ -875,7 +874,7 @@ dojo.declare(
 		// together witha DeferredList.
 		return new dojo.DeferredList(dojo.map(paths, function(path){
 			var d = new dojo.Deferred();
-			
+
 			// normalize path to use identity
 			path = dojo.map(path, function(item){
 				return dojo.isString(item) ? item : tree.model.getIdentity(item);
@@ -907,7 +906,7 @@ dojo.declare(
 				def.errback("Could not expand path at " + nextPath);
 			}
 		}
-		
+
 		function setNodes(newNodes){
 			//After all expansion is finished, set the selection to
 			//the set of nodes successfully found.

@@ -5,11 +5,10 @@ define([
   "../../form/Button",
   "dojo/i18n",
   "dojo/i18n!../nls/commands"], function(dojo, dijit) {
-	//  module:
-	//    dijit/_editor/plugins/Print
-	//  summary:
+	// module:
+	//		dijit/_editor/plugins/Print
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit._editor.plugins.Print",dijit._editor._Plugin,{

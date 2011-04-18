@@ -1,7 +1,7 @@
 define(["dojo", "..", "./_waiMixin"], function(dojo, dijit) {
-	//	module:
+	// module:
 	//		dijit/_base/wai
-	//	summary:
+	// summary:
 	//		TODOC
 
 // Test if computer is in high contrast mode.

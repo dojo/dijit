@@ -1,9 +1,8 @@
 define(["dojo", ".."], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/_TextBoxMixin
-	//  summary:
+	// module:
+	//		dijit/form/_TextBoxMixin
+	// summary:
 	//		TODOC
-
 
 dojo.declare( "dijit.form._TextBoxMixin", null, {
 	// summary:
@@ -144,7 +143,7 @@ dojo.declare( "dijit.form._TextBoxMixin", null, {
 		this._setValueAttr(this.get('value'), undefined);
 
 		this._set("displayedValue", this.get('displayedValue'));
-		
+
 		// textDir support
 		if(this.textDir == "auto"){
 			this.applyTextDir(this.focusNode, value);
@@ -201,7 +200,7 @@ dojo.declare( "dijit.form._TextBoxMixin", null, {
 
 		this._refreshState();
 
-		// In case someone is watch()'ing for changes to displayedValue		
+		// In case someone is watch()'ing for changes to displayedValue
 		this._set("displayedValue", this.get("displayedValue"));
 	},
 
@@ -339,7 +338,7 @@ dojo.declare( "dijit.form._TextBoxMixin", null, {
 			});
 		}
 		// call this.inherited() before refreshState(), since this.inherited() will possibly scroll the viewport
-		// (to scroll the TextBox into view), which will affect how _refreshState() positions the tooltip 			
+		// (to scroll the TextBox into view), which will affect how _refreshState() positions the tooltip
 		this.inherited(arguments);
 
 		this._refreshState();
@@ -353,15 +352,15 @@ dojo.declare( "dijit.form._TextBoxMixin", null, {
 	},
 	_setTextDirAttr: function(/*String*/ textDir){
 		// summary:
-		//		Setter for textDir. 
+		//		Setter for textDir.
 		// description:
 		//		Users shouldn't call this function; they should be calling
 		//		set('textDir', value)
 		// tags:
 		//		private
-		
+
 		// only if new textDir is different from the old one
-		// and on widgets creation. 
+		// and on widgets creation.
 		if(!this._created
 			|| this.textDir != textDir){
 				this._set("textDir", textDir);

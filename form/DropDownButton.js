@@ -5,11 +5,10 @@ define([
   "./Button",
   "../_Container",
   "../_HasDropDown"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/DropDownButton
-	//  summary:
+	// module:
+	//		dijit/form/DropDownButton
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container, dijit._HasDropDown], {

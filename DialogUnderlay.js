@@ -4,11 +4,10 @@ define([
   "dojo/window",
   "./_Widget",
   "./_TemplatedMixin"], function(dojo, dijit) {
-	//  module:
-	//    dijit/DialogUnderlay
-	//  summary:
+	// module:
+	//		dijit/DialogUnderlay
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare(

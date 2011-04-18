@@ -6,11 +6,10 @@ define([
   "../_TemplatedMixin",
   "../_CssStateMixin",
   "./_FormWidgetMixin"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/_FormWidget
-	//  summary:
+	// module:
+	//		dijit/form/_FormWidget
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit.form._FormWidget",

@@ -3,11 +3,10 @@ define([
   "..",
   "./_FormWidget",
   "dojo/data/util/sorter"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/_FormSelectWidget
-	//  summary:
+	// module:
+	//		dijit/form/_FormSelectWidget
+	// summary:
 	//		TODOC
-	// 
 
 
 /*=====
@@ -246,7 +245,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 							attribute: store.getLabelAttributes(items[0])[0]
 						}], store));
 					}
-	
+
 					if(fetchArgs.onFetch){
 							items = fetchArgs.onFetch.call(this, items, opts);
 					}
@@ -254,13 +253,13 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 					dojo.forEach(items, function(i){
 						this._addOptionForItem(i);
 					}, this);
-	
+
 					// Set our value (which might be undefined), and then tweak
 					// it to send a change event with the real value
 					this._loadingStore = false;
 						this.set("value", "_pendingValue" in this ? this._pendingValue : selectedValue);
 					delete this._pendingValue;
-	
+
 					if(!this.loadChildrenOnOpen){
 						this._loadChildren();
 					}else{

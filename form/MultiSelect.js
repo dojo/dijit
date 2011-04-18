@@ -1,9 +1,8 @@
 define(["dojo", "..", "./_FormWidget"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/MultiSelect
-	//  summary:
+	// module:
+	//		dijit/form/MultiSelect
+	// summary:
 	//		TODOC
-
 
 dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 	// summary:

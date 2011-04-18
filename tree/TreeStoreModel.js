@@ -1,9 +1,8 @@
 define(["dojo", ".."], function(dojo, dijit) {
-	//  module:
-	//    dijit/tree/TreeStoreModel
-	//  summary:
+	// module:
+	//		dijit/tree/TreeStoreModel
+	// summary:
 	//		TODOC
-
 
 dojo.declare(
 		"dijit.tree.TreeStoreModel",

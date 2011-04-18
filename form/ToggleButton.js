@@ -3,11 +3,10 @@ define([
   "..",
   "./Button",
   "./_ToggleButtonMixin"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/ToggleButton
-	//  summary:
+	// module:
+	//		dijit/form/ToggleButton
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit.form.ToggleButton", [dijit.form.Button, dijit.form._ToggleButtonMixin], {

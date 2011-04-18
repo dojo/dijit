@@ -5,11 +5,10 @@ define([
   "../_TemplatedMixin",
   "./_FormMixin",
   "../layout/_ContentPaneResizeMixin"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/Form
-	//  summary:
+	// module:
+	//		dijit/form/Form
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare(

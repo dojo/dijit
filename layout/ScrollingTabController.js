@@ -8,11 +8,10 @@ define([
   "../Menu",
   "../form/Button",
   "../_HasDropDown"], function(dojo, dijit) {
-	//  module:
-	//    dijit/layout/ScrollingTabController
-	//  summary:
+	// module:
+	//		dijit/layout/ScrollingTabController
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit.layout.ScrollingTabController",
@@ -200,7 +199,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 
 		// Enable/disabled left right buttons depending on whether or not user can scroll to left or right
 		this._setButtonClass(this._getScroll());
-		
+
 		this._postResize = true;
 
 		// Return my size so layoutChildren() can use it.

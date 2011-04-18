@@ -1,9 +1,8 @@
 define(["dojo", "."], function(dojo, dijit) {
-	//  module:
-	//    dijit/_Container
-	//  summary:
+	// module:
+	//		dijit/_Container
+	// summary:
 	//		TODOC
-
 
 dojo.declare("dijit._Container",
 	null,

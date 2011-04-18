@@ -7,11 +7,10 @@ define([
   "dojo/dnd/move",
   "./Button",
   "dojo/number"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/HorizontalSlider
-	//  summary:
+	// module:
+	//		dijit/form/HorizontalSlider
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare(

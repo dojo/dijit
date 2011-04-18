@@ -10,11 +10,10 @@ define([
   "./form/Button",
   "./form/TextBox",
   "dojo/i18n!./nls/common"], function(dojo, dijit) {
-	//  module:
-	//    dijit/InlineEditBox
-	//  summary:
+	// module:
+	//		dijit/InlineEditBox
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit.InlineEditBox",

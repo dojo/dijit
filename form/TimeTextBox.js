@@ -3,11 +3,10 @@ define([
   "..",
   "../_TimePicker",
   "./_DateTimeTextBox"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/TimeTextBox
-	//  summary:
+	// module:
+	//		dijit/form/TimeTextBox
+	// summary:
 	//		TODOC
-	// 
 
 
 /*=====
@@ -68,7 +67,7 @@ dojo.declare(
 						// it will be used in openDropDown()
 						var val = this.get('displayedValue');
 						this.filterString = (val && !this.parse(val, this.constraints)) ? val.toLowerCase() : "";
-	
+
 						// close the drop down and reopen it, in order to filter the items shown in the list
 						// and also since the drop down may need to be repositioned if the number of list items has changed
 						// and it's being displayed above the <input>

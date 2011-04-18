@@ -3,11 +3,10 @@ define([
   "../..",
   "../_Plugin",
   "../../form/ToggleButton"], function(dojo, dijit) {
-	//  module:
-	//    dijit/_editor/plugins/ToggleDir
-	//  summary:
+	// module:
+	//		dijit/_editor/plugins/ToggleDir
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.experimental("dijit._editor.plugins.ToggleDir");

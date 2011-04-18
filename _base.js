@@ -10,11 +10,10 @@ define([
   "./_base/typematic",
   "./_base/wai",
   "./_base/window"], function(dojo, dijit) {
-	//  module:
-	//    dijit/_base
-	//  summary:
+	// module:
+	//		dijit/_base
+	// summary:
 	//		TODOC
-	// 
 
 
 

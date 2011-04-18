@@ -3,11 +3,10 @@ define([
   "..",
   "dojo/window",
   "./manager"], function(dojo, dijit) {
-	//  module:
-	//    dijit/_base/focus
-	//  summary:
+	// module:
+	//		dijit/_base/focus
+	// summary:
 	//		TODOC
-	// 
 
 
 // summary:
@@ -294,7 +293,7 @@ dojo.mixin(dijit, {
 		var mousedownListener = function(evt){
 			dijit._justMouseDowned = true;
 			setTimeout(function(){ dijit._justMouseDowned = false; }, 0);
-			
+
 			// workaround weird IE bug where the click is on an orphaned node
 			// (first time clicking a Select/DropDownButton inside a TooltipDialog)
 			if(dojo.isIE && evt && evt.srcElement && evt.srcElement.parentNode == null){

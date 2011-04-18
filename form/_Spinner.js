@@ -3,11 +3,10 @@ define([
   "..",
   "dojo/text!./templates/Spinner.html",
   "./RangeBoundTextBox"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/_Spinner
-	//  summary:
+	// module:
+	//		dijit/form/_Spinner
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare(

@@ -6,11 +6,10 @@ define([
   "./_ButtonMixin",
   "../_Container",
   "../_HasDropDown"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/Button
-	//  summary:
+	// module:
+	//		dijit/form/Button
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit.form.Button",

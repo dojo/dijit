@@ -1,9 +1,8 @@
 define(["dojo", ".."], function(dojo, dijit) {
-	//  module:
-	//    dijit/_base/manager
-	//  summary:
+	// module:
+	//		dijit/_base/manager
+	// summary:
 	//		TODOC
-
 
 dojo.declare("dijit.WidgetSet", null, {
 	// summary:
@@ -238,7 +237,7 @@ dojo.declare("dijit.WidgetSet", null, {
 	dijit.getUniqueId = function(/*String*/widgetType){
 		// summary:
 		//		Generates a unique id for a given widgetType
-	
+
 		var id;
 		do{
 			id = widgetType + "_" +
@@ -247,14 +246,14 @@ dojo.declare("dijit.WidgetSet", null, {
 		}while(hash[id]);
 		return dijit._scopeName == "dijit" ? id : dijit._scopeName + "_" + id; // String
 	};
-	
+
 	dijit.findWidgets = function(/*DomNode*/ root){
 		// summary:
 		//		Search subtree under root returning widgets found.
 		//		Doesn't search for nested widgets (ie, widgets inside other widgets).
-	
+
 		var outAry = [];
-	
+
 		function getChildrenHelper(root){
 			for(var node = root.firstChild; node; node = node.nextSibling){
 				if(node.nodeType == 1){
@@ -270,20 +269,20 @@ dojo.declare("dijit.WidgetSet", null, {
 				}
 			}
 		}
-	
+
 		getChildrenHelper(root);
 		return outAry;
 	};
-	
+
 	dijit._destroyAll = function(){
 		// summary:
 		//		Code to destroy all widgets and do other cleanup on page unload
-	
+
 		// Clean up focus manager lingering references to widgets and nodes
 		dijit._curFocus = null;
 		dijit._prevFocus = null;
 		dijit._activeStack = [];
-	
+
 		// Destroy all the widgets, top down
 		dojo.forEach(dijit.findWidgets(dojo.body()), function(widget){
 			// Avoid double destroy of widgets like Menu that are attached to <body>
@@ -297,7 +296,7 @@ dojo.declare("dijit.WidgetSet", null, {
 			}
 		});
 	};
-	
+
 	if(dojo.isIE){
 		// Only run _destroyAll() for IE because we think it's only necessary in that case,
 		// and because it causes problems on FF.  See bug #3531 for details.
@@ -305,13 +304,13 @@ dojo.declare("dijit.WidgetSet", null, {
 			dijit._destroyAll();
 		});
 	}
-	
+
 	dijit.byNode = function(/*DOMNode*/ node){
 		// summary:
 		//		Returns the widget corresponding to the given DOMNode
 		return hash[node.getAttribute("widgetId")]; // dijit._Widget
 	};
-	
+
 	dijit.getEnclosingWidget = function(/*DOMNode*/ node){
 		// summary:
 		//		Returns the widget whose DOM tree contains the specified DOMNode, or null if
@@ -333,11 +332,11 @@ dojo.declare("dijit.WidgetSet", null, {
 			&& (s.display != "none")
 			&& (attr(elem, "type") != "hidden");
 	});
-	
+
 	dijit.hasDefaultTabStop = function(/*Element*/ elem){
 		// summary:
 		//		Tests if element is tab-navigable even without an explicit tabIndex setting
-	
+
 		// No explicit tabIndex setting, need to investigate node type
 		switch(elem.nodeName.toLowerCase()){
 			case "a":
@@ -376,11 +375,11 @@ dojo.declare("dijit.WidgetSet", null, {
 				return elem.contentEditable == 'true';
 		}
 	};
-	
+
 	var isTabNavigable = (dijit.isTabNavigable = function(/*Element*/ elem){
 		// summary:
 		//		Tests if an element is tab-navigable
-	
+
 		// TODO: convert (and rename method) to return effective tabIndex; will save time in _getTabNavigable()
 		if(attr(elem, "disabled")){
 			return false;
@@ -461,7 +460,7 @@ dojo.declare("dijit.WidgetSet", null, {
 		var elems = dijit._getTabNavigable(dojo.byId(root));
 		return elems.lowest ? elems.lowest : elems.first; // DomNode
 	};
-	
+
 	dijit.getLastInTabbingOrder = function(/*String|DOMNode*/ root){
 		// summary:
 		//		Finds the descendant of the specified root node
@@ -469,7 +468,7 @@ dojo.declare("dijit.WidgetSet", null, {
 		var elems = dijit._getTabNavigable(dojo.byId(root));
 		return elems.last ? elems.last : elems.highest; // DomNode
 	};
-	
+
 	/*=====
 	dojo.mixin(dijit, {
 		// defaultDuration: Integer
@@ -480,7 +479,7 @@ dojo.declare("dijit.WidgetSet", null, {
 		defaultDuration: 200
 	});
 	=====*/
-	
+
 	dijit.defaultDuration = dojo.config["defaultDuration"] || 200;
 
 })();

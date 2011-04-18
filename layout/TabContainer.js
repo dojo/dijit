@@ -4,11 +4,10 @@ define([
   "./_TabContainerBase",
   "./TabController",
   "./ScrollingTabController"], function(dojo, dijit) {
-	//  module:
-	//    dijit/layout/TabContainer
-	//  summary:
+	// module:
+	//		dijit/layout/TabContainer
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit.layout.TabContainer",

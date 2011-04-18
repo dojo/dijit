@@ -3,11 +3,10 @@ define([
   "..",
   "./_Spinner",
   "./NumberTextBox"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/NumberSpinner
-	//  summary:
+	// module:
+	//		dijit/form/NumberSpinner
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit.form.NumberSpinner",

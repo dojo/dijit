@@ -1,9 +1,8 @@
 define(["dojo", "..", "./ValidationTextBox"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/MappedTextBox
-	//  summary:
+	// module:
+	//		dijit/form/MappedTextBox
+	// summary:
 	//		TODOC
-
 
 dojo.declare(
 	"dijit.form.MappedTextBox",

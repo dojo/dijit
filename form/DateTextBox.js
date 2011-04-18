@@ -3,11 +3,10 @@ define([
   "..",
   "../Calendar",
   "./_DateTimeTextBox"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/DateTextBox
-	//  summary:
+	// module:
+	//		dijit/form/DateTextBox
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare(

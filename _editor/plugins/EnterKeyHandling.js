@@ -4,11 +4,10 @@ define([
   "dojo/window",
   "../_Plugin",
   "../range"], function(dojo, dijit) {
-	//  module:
-	//    dijit/_editor/plugins/EnterKeyHandling
-	//  summary:
+	// module:
+	//		dijit/_editor/plugins/EnterKeyHandling
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
@@ -233,7 +232,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 							startNode = doc.createTextNode(txt.substring(0, range.startOffset));
 							endNode = doc.createTextNode(txt.substring(range.startOffset));
 							brNode = doc.createElement("br");
-							
+
 							if(endNode.nodeValue == "" && dojo.isWebKit){
 								endNode = doc.createTextNode('\xA0')
 							}
@@ -265,7 +264,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 							// Text node, we have to split it.
 							dojo.withGlobal(this.editor.window, dojo.hitch(this, function(){
 								var endEmpty = false;
-							
+
 								var offset = range.startOffset;
 								if(rs.length < offset){
 									//We are not splitting the right node, try to locate the correct one
@@ -274,16 +273,16 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 									offset = ret.offset;
 								}
 								txt = rs.nodeValue;
-				
+
 								startNode = doc.createTextNode(txt.substring(0, offset));
 								endNode = doc.createTextNode(txt.substring(offset));
 								brNode = doc.createElement("br");
-								
+
 								if(!endNode.length){
 									endNode = doc.createTextNode('\xA0');
 									endEmpty = true;
 								}
-								
+
 								if(startNode.length){
 									dojo.place(startNode, rs, "after");
 								}else{
@@ -437,11 +436,11 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 					}
 				}
 			}
-			
+
 			// Okay, we probably have to split.
 			rs = range.startContainer;
 			var firstNodeMoved;
-			if(rs && rs.nodeType == 3){ 
+			if(rs && rs.nodeType == 3){
 				// Text node, we have to split it.
 				var nodeToMove, tNode;
 				endOffset = range.endOffset;
@@ -451,7 +450,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 					rs = ret.node;
 					endOffset = ret.offset;
 				}
-				
+
 				txt = rs.nodeValue;
 				startNode = doc.createTextNode(txt.substring(0, endOffset));
 				endNode = doc.createTextNode(txt.substring(endOffset, txt.length));
@@ -476,7 +475,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 							}
 						}
 					}
-					// If font also need to clone over any font data. 
+					// If font also need to clone over any font data.
 					if(parentC.tagName === "FONT"){
 						if(parentC.color){
 							newTg.color = parentC.color;
@@ -488,7 +487,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 							newTg.size = parentC.size;
 						}
 					}
-					
+
 					nodeToMove = endNode;
 					while(nodeToMove){
 						tNode = nodeToMove.nextSibling;
@@ -516,7 +515,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 					nodeToMove = tNode;
 				}
 			}
-			
+
 			//lets move caret to the newly created block
 			newrange = dijit.range.create(this.editor.window);
 			var nodeForCursor;
@@ -538,7 +537,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 					if(dojo.isMoz){
 						// press enter in middle of P may leave a trailing <br/>, let's remove it later
 						this._pressedEnterInBlock = block.blockNode;
-					}					
+					}
 				}else{
 					_letBrowserHandle = true;
 				}

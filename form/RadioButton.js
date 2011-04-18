@@ -3,11 +3,10 @@ define([
   "..",
   "./CheckBox",
   "./_RadioButtonMixin"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/RadioButton
-	//  summary:
+	// module:
+	//		dijit/form/RadioButton
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare(

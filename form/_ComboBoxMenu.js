@@ -5,11 +5,10 @@ define([
   "../_WidgetBase",
   "../_TemplatedMixin",
   "./_ListMouseMixin"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/_ComboBoxMenu
-	//  summary:
+	// module:
+	//		dijit/form/_ComboBoxMenu
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare(

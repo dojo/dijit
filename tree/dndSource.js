@@ -3,12 +3,10 @@ define([
   "..",
   "./_dndSelector",
   "dojo/dnd/Manager"], function(dojo, dijit) {
-	//  module:
-	//    dijit/tree/dndSource
-	//  summary:
+	// module:
+	//		dijit/tree/dndSource
+	// summary:
 	//		TODOC
-	// 
-
 
 /*=====
 dijit.tree.__SourceArgs = function(){

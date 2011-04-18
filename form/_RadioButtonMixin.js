@@ -1,9 +1,8 @@
 define(["dojo", ".."], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/_RadioButtonMixin
-	//  summary:
+	// module:
+	//		dijit/form/_RadioButtonMixin
+	// summary:
 	//		TODOC
-
 
 dojo.declare("dijit.form._RadioButtonMixin", null,
 	{

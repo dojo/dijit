@@ -4,11 +4,10 @@ define([
   "dojo/text!./templates/CheckBox.html",
   "./ToggleButton",
   "./_CheckBoxMixin"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/CheckBox
-	//  summary:
+	// module:
+	//		dijit/form/CheckBox
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare(

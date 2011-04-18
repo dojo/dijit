@@ -3,11 +3,10 @@ define([
   ".",
   "./_WidgetBase",
   "./_base"], function(dojo, dijit) {
-	//  module:
-	//    dijit/_Widget
-	//  summary:
+	// module:
+	//		dijit/_Widget
+	// summary:
 	//		TODOC
-	// 
 
 
 
@@ -68,7 +67,7 @@ dojo.declare("dijit._Widget", dijit._WidgetBase, {
 	//		Also, by loading code in dijit/_base, turns on:
 	//			- browser sniffing (putting browser id like .dj_ie on <html> node)
 	//			- high contrast mode sniffing (add .dijit_a11y class to <body> if machine is in high contrast mode)
-	
+
 
 	////////////////// DEFERRED CONNECTS ///////////////////
 
@@ -358,7 +357,7 @@ dojo.declare("dijit._Widget", dijit._WidgetBase, {
 			return this.get(name);
 		}
 	},
-	
+
 	////////////////// ONDIJITCLICK SUPPORT ///////////////////
 
 	// nodesWithKeyClick: [private] String[]
@@ -410,7 +409,7 @@ dojo.declare("dijit._Widget", dijit._WidgetBase, {
 							!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey){
 							// needed on IE for when focus changes between keydown and keyup - otherwise dropdown menus do not work
 							dijit._lastKeyDownNode = e.target;
-							
+
 							// Stop event to prevent scrolling on space key in IE.
 							// But don't do this for _HasDropDown because it surpresses the onkeypress
 							// event needed to open the drop down when the user presses the SPACE key.

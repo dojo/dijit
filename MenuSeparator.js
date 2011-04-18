@@ -5,11 +5,10 @@ define([
   "./_Widget",
   "./_TemplatedMixin",
   "./_Contained"], function(dojo, dijit) {
-	//  module:
-	//    dijit/MenuSeparator
-	//  summary:
+	// module:
+	//		dijit/MenuSeparator
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit.MenuSeparator",

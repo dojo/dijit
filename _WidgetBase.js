@@ -3,11 +3,10 @@ define([
   ".",
   "./_base/manager",
   "dojo/Stateful"], function(dojo, dijit) {
-	//  module:
-	//    dijit/_WidgetBase
-	//  summary:
+	// module:
+	//		dijit/_WidgetBase
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit._WidgetBase", dojo.Stateful, {
@@ -623,7 +622,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		var names = this._getAttrNames(name);
 		return this[names.g] ? this[names.g]() : this[name];
 	},
-	
+
 	set: function(name, value){
 		// summary:
 		//		Set a property on a widget
@@ -679,7 +678,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		}
 		return result || this;
 	},
-	
+
 	_attrPairNames: {},		// shared between all widgets
 	_getAttrNames: function(name){
 		// summary:
@@ -880,25 +879,25 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		}
 		return this;
 	},
-	
+
 	getTextDir: function(/*String*/ text,/*String*/ originalDir){
 		// summary:
-		//		Return direction of the text. 
+		//		Return direction of the text.
 		//		The function overridden in the _BidiSupport module,
 		//		its main purpose is to calculate the direction of the
 		//		text, if was defined by the programmer through textDir.
 		//	tags:
-		//		protected.	
+		//		protected.
 		return originalDir;
 	},
-	
+
 	applyTextDir: function(/*Object*/ element, /*String*/ text){
 		// summary:
 		//		The function overridden in the _BidiSupport module,
 		//		originally used for setting element.dir according to this.textDir.
 		//		In this case does nothing.
 		//	tags:
-		//		protected.	
+		//		protected.
 	}
 });
 

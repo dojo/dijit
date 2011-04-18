@@ -7,11 +7,10 @@ define([
   "dojo/date/stamp",
   "./RangeBoundTextBox",
   "../_HasDropDown"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/_DateTimeTextBox
-	//  summary:
+	// module:
+	//		dijit/form/_DateTimeTextBox
+	// summary:
 	//		TODOC
-	// 
 
 
 new Date("X"); // workaround for #11279, new Date("") == NaN

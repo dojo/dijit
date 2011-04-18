@@ -14,7 +14,6 @@ define([
 	//		dijit/form/Select
 	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit.form._SelectMenu", dijit.Menu, {
@@ -214,7 +213,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		//		Show missing or invalid messages if appropriate, and highlight textbox field.
 		//		Used when a select is initially set to no value and the user is required to
 		//		set the value.
-		
+
 		var isValid = this.isValid(isFocused);
 		this._set("state", isValid ? "" : "Error");
 		dijit.setWaiState(this.focusNode, "invalid", isValid ? "false" : "true");

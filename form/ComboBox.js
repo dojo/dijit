@@ -3,11 +3,10 @@ define([
   "..",
   "./ValidationTextBox",
   "./ComboBoxMixin"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/ComboBox
-	//  summary:
+	// module:
+	//		dijit/form/ComboBox
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare(

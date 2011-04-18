@@ -6,11 +6,10 @@ define([
   "../Menu",
   "../MenuItem",
   "dojo/i18n!../nls/common"], function(dojo, dijit) {
-	//  module:
-	//    dijit/layout/TabController
-	//  summary:
+	// module:
+	//		dijit/layout/TabController
+	// summary:
 	//		TODOC
-	// 
 
 
 // Menu is used for an accessible close button, would be nice to have a lighter-weight solution

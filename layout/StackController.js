@@ -6,11 +6,10 @@ define([
   "../_Container",
   "../form/ToggleButton",
   "dojo/i18n!../nls/common"], function(dojo, dijit) {
-	//  module:
-	//    dijit/layout/StackController
-	//  summary:
+	// module:
+	//		dijit/layout/StackController
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare(
@@ -108,7 +107,7 @@ dojo.declare(
 						button.set(buttonAttrList[idx], newVal);
 					});
 				});
-					
+
 				// connections so that clicking a tab button selects the corresponding page
 				this.pane2connects[page.id] = [
 					this.connect(button, 'onClick', dojo.hitch(this,"onButtonClick", page)),

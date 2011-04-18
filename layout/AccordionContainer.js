@@ -8,11 +8,10 @@ define([
   "./StackContainer",
   "./ContentPane",
   "./AccordionPane"], function(dojo, dijit) {
-	//  module:
-	//    dijit/layout/AccordionContainer
-	//  summary:
+	// module:
+	//		dijit/layout/AccordionContainer
+	// summary:
 	//		TODOC
-	// 
 
 
 //dojo.require("dijit.layout.AccordionPane ");	// for back compat, remove for 2.0
@@ -92,7 +91,7 @@ dojo.declare(
 			// Set the height of the open pane based on what room remains.
 
 			var openPane = this.selectedChildWidget;
-			
+
 			if(!openPane){ return;}
 
 			// space taken up by title, plus wrapper div (with border/margin) for open pane
@@ -156,7 +155,7 @@ dojo.declare(
 				if(!child._started){
 					child.startup();
 				}
-				
+
 				// Then stick the wrapper widget around the child widget
 				this._setupChild(child);
 
@@ -331,7 +330,7 @@ dojo.declare("dijit.layout._AccordionInnerContainer",
 		//		Internal widget placed as direct child of AccordionContainer.containerNode.
 		//		When other widgets are added as children to an AccordionContainer they are wrapped in
 		//		this widget.
-		
+
 /*=====
 		// buttonWidget: String
 		//		Name of class to use to instantiate title
@@ -363,7 +362,7 @@ dojo.declare("dijit.layout._AccordionInnerContainer",
 
 			// Create wrapper div, placed where the child is now
 			this.domNode = dojo.place("<div class='" + this.baseClass + "'>", this.contentWidget.domNode, "after");
-			
+
 			// wrapper div's first child is the button widget (ie, the title bar)
 			var child = this.contentWidget,
 				cls = dojo.getObject(this.buttonWidget);
@@ -378,7 +377,7 @@ dojo.declare("dijit.layout._AccordionInnerContainer",
 				id: child.id + "_button",
 				parent: this.parent
 			})).placeAt(this.domNode);
-			
+
 			// and then the actual content widget (changing it from prior-sibling to last-child),
 			// wrapped by a <div class=dijitAccordionChildWrapper>
 			this.containerNode = dojo.place("<div class='dijitAccordionChildWrapper' style='display:none'>", this.domNode);
@@ -427,7 +426,7 @@ dojo.declare("dijit.layout._AccordionInnerContainer",
 
 			this.inherited(arguments);
 		},
-		
+
 		destroyDescendants: function(){
 			// since getChildren isn't working for me, have to code this manually
 			this.contentWidget.destroyRecursive();

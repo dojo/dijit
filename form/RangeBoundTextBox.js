@@ -1,9 +1,8 @@
 define(["dojo", "..", "./MappedTextBox"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/RangeBoundTextBox
-	//  summary:
+	// module:
+	//		dijit/form/RangeBoundTextBox
+	// summary:
 	//		TODOC
-
 
 /*=====
 	dijit.form.RangeBoundTextBox.__Constraints = function(){
@@ -130,7 +129,7 @@ dojo.declare(
 			//		originally used for setting element.dir according to this.textDir.
 			//		In this case does nothing.
 			//	tags:
-			//		protected.	
+			//		protected.
 		}
 	}
 );

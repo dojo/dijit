@@ -3,11 +3,10 @@ define([
   "..",
   "dojo/dnd/common",
   "./_dndContainer"], function(dojo, dijit) {
-	//  module:
-	//    dijit/tree/_dndSelector
-	//  summary:
-	//		TODOC
-	// 
+	// module:
+	//		dijit/tree/_dndSelector
+    // summary:
+    //		TODOC
 
 
 dojo.declare("dijit.tree._dndSelector",
@@ -135,7 +134,7 @@ dojo.declare("dijit.tree._dndSelector",
 			//      occurring in ys. Checks for membership by
 			//      modifying and then reading the object, so it will
 			//      not properly handle sets of numbers or strings.
-			
+
 			dojo.forEach(ys, function(y){ y.__exclude__ = true; });
 			var ret = dojo.filter(xs, function(x){ return !x.__exclude__; });
 
@@ -147,7 +146,7 @@ dojo.declare("dijit.tree._dndSelector",
 			// summary
 			//      Update the following tree properties from the current selection:
 			//      path[s], selectedItem[s], selectedNode[s]
-			
+
 			var selected = this.getSelectedTreeNodes();
 			var paths = [], nodes = [];
 			dojo.forEach(selected, function(node) {
@@ -240,7 +239,7 @@ dojo.declare("dijit.tree._dndSelector",
 				if(range && this.anchor){
 					var cr = dijit.tree._compareNodes(this.anchor.rowNode, node.rowNode),
 					begin, end, anchor = this.anchor;
-					
+
 					if(cr < 0){ //current is after anchor
 						begin = anchor;
 						end = node;

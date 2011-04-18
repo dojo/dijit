@@ -6,11 +6,10 @@ define([
   "./_FormWidget",
   "./DataList",
   "../_HasDropDown"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/_AutoCompleterMixin
-	//  summary:
+	// module:
+	//		dijit/form/_AutoCompleterMixin
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
@@ -104,7 +103,7 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 
 		// Flags to _HasDropDown to limit height of drop down to make it fit in viewport
 		maxHeight: -1,
-		
+
 		// For backwards compatibility let onClick events propagate, even clicks on the down arrow button
 		_stopClickEvents: false,
 
@@ -179,7 +178,7 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 			if(evt.altKey || ((evt.ctrlKey || evt.metaKey) && (key != 'x' && key != 'v')) || key == dojo.keys.SHIFT){
 				return; // throw out weird key combinations and spurious events
 			}
-			
+
 			var doSearch = false;
 			var pw = this.dropDown;
 			var dk = dojo.keys;
@@ -394,7 +393,7 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 			// Overrides _HasDropDown.loadDropDown().
 			// This is called when user has pressed button icon or pressed the down arrow key
 			// to open the drop down.
-			
+
 			this._startSearchAll();
 		},
 
@@ -529,7 +528,7 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 				this.dropDown = new dropDownConstructor({
 					onChange: dojo.hitch(this, this._selectOption),
 					id: popupId,
-					dir: this.dir,		
+					dir: this.dir,
 					textDir: this.textDir
 				});
 				this.focusNode.removeAttribute("aria-activedescendant");
@@ -712,7 +711,7 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 		},
 		_setTextDirAttr: function(/*String*/ textDir){
 			// summary:
-			//		Setter for textDir, needed for the dropDown's textDir update. 
+			//		Setter for textDir, needed for the dropDown's textDir update.
 			// description:
 			//		Users shouldn't call this function; they should be calling
 			//		set('textDir', value)

@@ -3,11 +3,10 @@ define([
   "..",
   "./SimpleTextarea",
   "./_ExpandingTextAreaMixin"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/Textarea
-	//  summary:
+	// module:
+	//		dijit/form/Textarea
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare(

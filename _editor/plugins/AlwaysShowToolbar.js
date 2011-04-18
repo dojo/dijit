@@ -1,7 +1,7 @@
 define(["dojo", "../..", "../_Plugin"], function(dojo, dijit) {
-	//  module:
-	//    dijit/_editor/plugins/AlwaysShowToolbar
-	//  summary:
+	// module:
+	//		dijit/_editor/plugins/AlwaysShowToolbar
+	// summary:
 	//		TODOC
 
 

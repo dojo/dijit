@@ -3,11 +3,10 @@ define([
   ".",
   "dojo/text!./templates/CheckedMenuItem.html",
   "./MenuItem"], function(dojo, dijit) {
-	//  module:
-	//    dijit/CheckedMenuItem
-	//  summary:
+	// module:
+	//		dijit/CheckedMenuItem
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare("dijit.CheckedMenuItem",

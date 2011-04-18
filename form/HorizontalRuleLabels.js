@@ -1,9 +1,8 @@
 define(["dojo", "..", "./HorizontalRule"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/HorizontalRuleLabels
-	//  summary:
+	// module:
+	//		dijit/form/HorizontalRuleLabels
+	// summary:
 	//		TODOC
-
 
 dojo.declare("dijit.form.HorizontalRuleLabels", dijit.form.HorizontalRule,
 {

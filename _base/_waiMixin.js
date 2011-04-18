@@ -1,9 +1,8 @@
 define(["dojo", ".."], function(dojo, dijit) {
-	//  module:
-	//    dijit/_base/_waiMixin
-	//  summary:
+	// module:
+	//		dijit/_base/_waiMixin
+	// summary:
 	//		TODOC
-
 
 dojo.mixin(dijit, {
 	hasWaiRole: function(/*Element*/ elem, /*String?*/ role){

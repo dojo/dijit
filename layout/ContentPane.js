@@ -6,11 +6,10 @@ define([
   "dojo/string",
   "dojo/html",
   "dojo/i18n!../nls/loading"], function(dojo, dijit) {
-	//  module:
-	//    dijit/layout/ContentPane
-	//  summary:
+	// module:
+	//		dijit/layout/ContentPane
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare(
@@ -499,7 +498,7 @@ dojo.declare(
 			if(this._started){
 				// Startup each top level child widget (and they will start their children, recursively)
 				this._startChildren();
-	
+
 				// Call resize() on each of my child layout widgets,
 				// or resize() on my single child layout widget...
 				// either now (if I'm currently visible) or when I become visible

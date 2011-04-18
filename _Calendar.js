@@ -1,9 +1,8 @@
 define(["dojo", ".", "./Calendar"], function(dojo, dijit) {
-	//  module:
-	//    dijit/_Calendar
-	//  summary:
+	// module:
+	//		dijit/_Calendar
+	// summary:
 	//		TODOC
-
 
 dojo.deprecated("dijit._Calendar is deprecated", "dijit._Calendar moved to dijit.Calendar", 1.5);
 

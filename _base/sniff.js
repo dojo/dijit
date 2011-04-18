@@ -1,9 +1,8 @@
 define(["dojo", "..", "dojo/uacss"], function(dojo, dijit) {
-	//  module:
-	//    dijit/_base/sniff
-	//  summary:
+	// module:
+	//		dijit/_base/sniff
+	// summary:
 	//		TODOC
-
 
 // summary:
 //		Applies pre-set CSS classes to the top-level HTML node, see

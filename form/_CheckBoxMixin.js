@@ -1,9 +1,8 @@
 define(["dojo", ".."], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/_CheckBoxMixin
-	//  summary:
+	// module:
+	//		dijit/form/_CheckBoxMixin
+	// summary:
 	//		TODOC
-
 
 dojo.declare("dijit.form._CheckBoxMixin", null,
 	{
@@ -32,7 +31,7 @@ dojo.declare("dijit.form._CheckBoxMixin", null,
 		//		In markup, this is specified as "readOnly".
 		//		Similar to disabled except readOnly form values are submitted.
 		readOnly: false,
-		
+
 		_setReadOnlyAttr: function(/*Boolean*/ value){
 			this._set("readOnly", value);
 			dojo.attr(this.focusNode, 'readOnly', value);

@@ -1,9 +1,8 @@
 define(["dojo", ".."], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/_ExpandingTextAreaMixin
-	//  summary:
+	// module:
+	//		dijit/form/_ExpandingTextAreaMixin
+	// summary:
 	//		TODOC
-
 
 (function(){
 	// feature detection

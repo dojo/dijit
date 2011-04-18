@@ -3,11 +3,10 @@ define([
   "..",
   "dojo/currency",
   "./NumberTextBox"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/CurrencyTextBox
-	//  summary:
+	// module:
+	//		dijit/form/CurrencyTextBox
+	// summary:
 	//		TODOC
-	// 
 
 
 /*=====
@@ -54,7 +53,7 @@ dojo.declare(
 		//		formatting options.  See `dijit.form.CurrencyTextBox.__Constraints` for details.
 		constraints: {},
 		======*/
-		
+
 		baseClass: "dijitTextBox dijitCurrencyTextBox",
 
 		// Override regExpGen ValidationTextBox.regExpGen().... we use a reg-ex generating function rather

@@ -6,11 +6,10 @@ define([
   "./_TemplatedMixin",
   "./form/_FormMixin",
   "./_DialogMixin"], function(dojo, dijit) {
-	//  module:
-	//    dijit/TooltipDialog
-	//  summary:
+	// module:
+	//		dijit/TooltipDialog
+	// summary:
 	//		TODOC
-	// 
 
 
 dojo.declare(
@@ -73,7 +72,7 @@ dojo.declare(
 				var newC = "dijitTooltipAB" + (corner.charAt(1) == 'L' ? "Left" : "Right")
 						+ " dijitTooltip"
 						+ (corner.charAt(0) == 'T' ? "Below" : "Above");
-				
+
 				dojo.replaceClass(this.domNode, newC, this._currentOrientClass || "");
 				this._currentOrientClass = newC;
 			},

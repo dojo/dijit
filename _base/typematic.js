@@ -1,9 +1,8 @@
 define(["dojo", ".."], function(dojo, dijit) {
-	//  module:
-	//    dijit/_base/typematic
-	//  summary:
+	// module:
+	//		dijit/_base/typematic
+	// summary:
 	//		TODOC
-
 
 dijit.typematic = {
 	// summary:
@@ -15,7 +14,7 @@ dijit.typematic = {
 	_fireEventAndReload: function(){
 		this._timer = null;
 		this._callback(++this._count, this._node, this._evt);
-		
+
 		// Schedule next event, timer is at most minDelay (default 10ms) to avoid
 		// browser overload (particularly avoiding starving DOH robot so it never gets to send a mouseup)
 		this._currentTimeout = Math.max(

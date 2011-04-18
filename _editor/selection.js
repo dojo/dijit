@@ -1,7 +1,7 @@
 define(["dojo", ".."], function(dojo, dijit) {
-	//  module:
-	//    dijit/_editor/selection
-	//  summary:
+	// module:
+	//		dijit/_editor/selection
+	// summary:
 	//		TODOC
 
 

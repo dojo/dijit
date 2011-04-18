@@ -5,11 +5,10 @@ define([
   "./_KeyNavContainer",
   "./_TemplatedMixin",
   "./ToolbarSeparator"], function(dojo, dijit) {
-	//  module:
-	//    dijit/Toolbar
-	//  summary:
+	// module:
+	//		dijit/Toolbar
+	// summary:
 	//		TODOC
-	// 
 
 
 // Note: require of ToolbarSeparator is for back-compat, remove for 2.0

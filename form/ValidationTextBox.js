@@ -6,11 +6,10 @@ define([
   "./TextBox",
   "../Tooltip",
   "dojo/i18n!./nls/validate"], function(dojo, dijit) {
-	//  module:
-	//    dijit/form/ValidationTextBox
-	//  summary:
+	// module:
+	//		dijit/form/ValidationTextBox
+	// summary:
 	//		TODOC
-	// 
 
 
 /*=====
