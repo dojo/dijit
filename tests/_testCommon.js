@@ -95,8 +95,12 @@
 			if(theme){
 				dojo.query("style").forEach(function(node){
 					if(/claro\/document.css/.test(node.innerHTML)){
-						node.innerHTML = node.innerHTML.replace("themes/claro/document.css",
-							"../dojo/resources/dojo.css");
+						try{
+							node.innerHTML = node.innerHTML.replace("themes/claro/document.css",
+								"../dojo/resources/dojo.css");
+						}catch(e){
+							// fails on IE6-8 for some reason, works on IE9 and other browsers
+						}
 					}
 				});
 			}
