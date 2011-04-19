@@ -181,6 +181,7 @@ dojo.declare("dijit._HasDropDown",
 			this.connect(this._buttonNode, "onmousedown", "_onDropDownMouseDown");
 			this.connect(this._buttonNode, "onclick", "_onDropDownClick");
 			this.connect(this.focusNode, "onkeypress", "_onKey");
+			this.connect(this.focusNode, "onkeyup", "_onKeyUp");
 		},
 
 		destroy: function(){
@@ -218,12 +219,22 @@ dojo.declare("dijit._HasDropDown",
 						  //ignore enter and space if the event is for a text input
 						  ((target.tagName || "").toLowerCase() !== 'input' ||
 						     (target.type && target.type.toLowerCase() !== 'text'))))){
+				// Toggle the drop down, but wait until keyup so that the drop down doesn't
+				// get a stray keyup event, or in the case of key-repeat (because user held
+				// down key for too long), stray keydown events
+				this._toggleOnKeyUp = true;
+				dojo.stopEvent(e);
+			}
+		},
+
+		_onKeyUp: function(){
+			if(this._toggleOnKeyUp){
+				delete this._toggleOnKeyUp;
 				this.toggleDropDown();
-				d = this.dropDown;	// drop down may not exist until toggleDropDown() call
+				var d = this.dropDown;	// drop down may not exist until toggleDropDown() call
 				if(d && d.focus){
 					setTimeout(dojo.hitch(d, "focus"), 1);
 				}
-				dojo.stopEvent(e);
 			}
 		},
 
