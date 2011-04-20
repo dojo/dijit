@@ -160,6 +160,8 @@
 					itemLabel = "undefined";
 					console.error(this.id + ' has an undefined item, onChange value = ' + newValue + ', widget value = ' + this.value + ', displayed Value = ' + this.textbox.value);
 					this.itemError = true;
+				}else{
+					itemLabel = this.store.getValue(this.item, this.searchAttr).toString();
 				}
 				dojo.byId('i1').value = itemLabel;
 			}
