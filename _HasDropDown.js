@@ -1,12 +1,10 @@
-define(["dojo", ".", "./_Widget"], function(dojo, dijit) {
+define(["dojo", ".", "./_Widget"], function(dojo, dijit){
 	// module:
 	//		dijit/_HasDropDown
 	// summary:
-	//		TODOC
+	//		Mixin for widgets that need drop down ability.
 
-dojo.declare("dijit._HasDropDown",
-	null,
-	{
+	dojo.declare("dijit._HasDropDown", null, {
 		// summary:
 		//		Mixin for widgets that need drop down ability.
 
@@ -430,9 +428,7 @@ dojo.declare("dijit._HasDropDown",
 			}
 		}
 
-	}
-);
+	});
 
-
-return dijit._HasDropDown;
+	return dijit._HasDropDown;
 });

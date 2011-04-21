@@ -441,13 +441,6 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 			}
 		},
 
-		_onBlur: function(){
-			// summary:
-			//		Called magically when focus has shifted away from this widget and it's drop down
-			this.closeDropDown();
-			this.inherited(arguments);
-		},
-
 		_setItemAttr: function(/*item*/ item, /*Boolean?*/ priorityChange, /*String?*/ displayedValue){
 			// summary:
 			//		Set the displayed valued in the input box, and the hidden value
