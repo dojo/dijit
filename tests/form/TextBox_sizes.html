@@ -160,15 +160,26 @@
 				}
 			};
 
+			var attrMap = {
+				h: 'offsetHeight',
+				w: 'offsetWidth'
+			};
 			var compareToTextBoxParent = function(attr){
 				try{
 					var textboxPos = dojo.position(textbox.domNode.parentNode);
 					var validationPos = dojo.position(validation.domNode.parentNode);
 					var comboboxPos = dojo.position(combobox.domNode.parentNode);
 					var spinnerPos = dojo.position(spinner.domNode.parentNode);
-					doh.is(Math.round(textboxPos[attr]), Math.round(validationPos[attr]), "validationPos " + attr);
-					doh.is(Math.round(textboxPos[attr]), Math.round(comboboxPos[attr]), "comboboxPos " + attr);
-					doh.is(Math.round(textboxPos[attr]), Math.round(spinnerPos[attr]), "spinnerPos " + attr);
+					// IE9 sometimes reports getBoundingClientRect.bottom incorrectly for TD so also check offset*
+					doh.t(Math.round(textboxPos[attr]) == Math.round(validationPos[attr])
+						|| (textbox.domNode.parentNode[attrMap[attr]] > 0 && textbox.domNode.parentNode[attrMap[attr]] == validation.domNode.parentNode[attrMap[attr]]),
+						"validationPos " + attr + " " + textboxPos[attr] + " vs " + validationPos[attr]);
+					doh.t(Math.round(textboxPos[attr]) == Math.round(comboboxPos[attr])
+						|| (textbox.domNode.parentNode[attrMap[attr]] > 0 && textbox.domNode.parentNode[attrMap[attr]] == combobox.domNode.parentNode[attrMap[attr]]),
+						"comboboxPos " + attr + " " + textboxPos[attr] + " vs " + comboboxPos[attr]);
+					doh.t(Math.round(textboxPos[attr]) == Math.round(spinnerPos[attr])
+						|| (textbox.domNode.parentNode[attrMap[attr]] > 0 && textbox.domNode.parentNode[attrMap[attr]] == spinner.domNode.parentNode[attrMap[attr]]),
+						"spinnerPos " + attr + " " + textboxPos[attr] + " vs " + spinnerPos[attr]);
 				}catch(e){
 					throw e; // prevent consoles from including entire function text in output
 				}
@@ -374,7 +385,7 @@
 							var offset = Math.min(Math.abs(paddedBoxPos.x + paddedBoxPos.w - validationPos.x), Math.abs(validationPos.x + validationPos.w - paddedBoxPos.x));
 
 							// IE 6 float bug(s) causes a known 3px margin between input field & validation icon 
-							// Fix could be .dj_ie .dijitInputField { float:right; /* get rid of 3px margin */ }
+							// Fix could be .dj_ie .dijitInputField { float:right; }
 							// But this breaks even more the tests, dojo.position() bug?
 							if(dojo.isIE < 7 || dojo.isQuirks)
 								doh.t(offset <= 3, "padded textbox horizontally just left or right (" + offset + ") of validation node: valiation node x/w = " + validationPos.x+"/"+validationPos.w + ", pad box x/w = " + paddedBoxPos.x+"/"+paddedBoxPos.w);
