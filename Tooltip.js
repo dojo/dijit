@@ -58,6 +58,18 @@ define([
 			var pos = place.around(this.domNode, aroundNode,
 				position && position.length ? position : dijit.Tooltip.defaultPosition, !rtl, dojo.hitch(this, "orient"));
 
+			// Position the tooltip connector for middle alignment.
+			// This could not have been done in orient() since the tooltip wasn't positioned at that time.
+			var aroundNodeCoords;
+			if(pos.corner.charAt(0) == 'M' && pos.aroundCorner.charAt(0) == 'M'){
+				aroundNodeCoords = dojo.position(aroundNode, true);
+				this.connectorNode.style.top = aroundNodeCoords.y + ((aroundNodeCoords.h - this.connectorNode.offsetHeight) >> 1) - pos.y + "px";
+				this.connectorNode.style.left = "";
+			}else if(pos.corner.charAt(1) == 'M' && pos.aroundCorner.charAt(1) == 'M'){
+				aroundNodeCoords = dojo.position(aroundNode, true);
+				this.connectorNode.style.left = aroundNodeCoords.x + ((aroundNodeCoords.w - this.connectorNode.offsetWidth) >> 1) - pos.x + "px";
+			}
+
 			// show it
 			dojo.style(this.domNode, "opacity", 0);
 			this.fadeIn.play();
@@ -79,6 +91,10 @@ define([
 
 			node.className = "dijitTooltip " +
 				{
+					"MR-ML": "dijitTooltipRight",
+					"ML-MR": "dijitTooltipLeft",
+					"TM-BM": "dijitTooltipAbove",
+					"BM-TM": "dijitTooltipBelow",
 					"BL-TL": "dijitTooltipBelow dijitTooltipABLeft",
 					"TL-BL": "dijitTooltipAbove dijitTooltipABLeft",
 					"BR-TR": "dijitTooltipBelow dijitTooltipABRight",
@@ -113,7 +129,7 @@ define([
 				var tooltipConnectorHeight = this.connectorNode.offsetHeight;
 				if(mb.h > spaceAvailable.h){
 					// The tooltip starts at the top of the page and will extend past the aroundNode
-					var aroundNodePlacement = spaceAvailable.h - (aroundNodeCoords.h / 2) - (tooltipConnectorHeight / 2);
+					var aroundNodePlacement = spaceAvailable.h - ((aroundNodeCoords.h + tooltipConnectorHeight) >> 1);
 					this.connectorNode.style.top = aroundNodePlacement + "px";
 					this.connectorNode.style.bottom = "";
 				}else{
@@ -418,6 +434,8 @@ define([
 	//			  the case of RTL scripts like Hebrew and Arabic
 	//			* above: tooltip goes above target node
 	//			* below: tooltip goes below target node
+	//			* top: tooltip goes above target node but centered connector
+	//			* bottom: tooltip goes below target node but centered connector
 	//
 	//		The list is positions is tried, in order, until a position is found where the tooltip fits
 	//		within the viewport.

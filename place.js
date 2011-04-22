@@ -44,8 +44,16 @@ define([
 
 			// calculate amount of space available given specified position of node
 			var spaceAvailable = {
-				w: corner.charAt(1) == 'L' ? (view.l + view.w) - pos.x : pos.x - view.l,
-				h: corner.charAt(0) == 'T' ? (view.t + view.h) - pos.y : pos.y - view.t
+				w: {
+					'L': view.l + view.w - pos.x,
+					'R': pos.x - view.l,
+					'M': view.w
+				   }[corner.charAt(1)],
+				h: {
+					'T': view.t + view.h - pos.y,
+					'B': pos.y - view.t,
+					'M': view.h
+				   }[corner.charAt(0)]
 			};
 
 			// configure node to be displayed in given position relative to button
@@ -68,10 +76,21 @@ define([
 
 			// coordinates and size of node with specified corner placed at pos,
 			// and clipped by viewport
-			var startX = Math.max(view.l, corner.charAt(1) == 'L' ? pos.x : (pos.x - mb.w)),
-				startY = Math.max(view.t, corner.charAt(0) == 'T' ? pos.y : (pos.y - mb.h)),
-				endX = Math.min(view.l + view.w, corner.charAt(1) == 'L' ? (startX + mb.w) : pos.x),
-				endY = Math.min(view.t + view.h, corner.charAt(0) == 'T' ? (startY + mb.h) : pos.y),
+			var
+				startXpos = {
+					'L': pos.x,
+					'R': pos.x - mb.w,
+					'M': Math.max(view.l, Math.min(view.l + view.w, pos.x + (mb.w >> 1)) - mb.w) // M orientation is more flexible
+				}[corner.charAt(1)],
+				startYpos = {
+					'T': pos.y,
+					'B': pos.y - mb.h,
+					'M': Math.max(view.t, Math.min(view.t + view.h, pos.y + (mb.h >> 1)) - mb.h)
+				}[corner.charAt(0)],
+				startX = Math.max(view.l, startXpos),
+				startY = Math.max(view.t, startYpos),
+				endX = Math.min(view.l + view.w, startXpos + mb.w),
+				endY = Math.min(view.t + view.h, startYpos + mb.h),
 				width = endX - startX,
 				height = endY - startY;
 
@@ -244,19 +263,33 @@ define([
 					aroundCorner: aroundCorner,
 					corner: corner,
 					pos: {
-						x: x + (aroundCorner.charAt(1) == 'L' ? 0 : width),
-						y: y + (aroundCorner.charAt(0) == 'T' ? 0 : height)
+						x: {
+							'L': x,
+							'R': x + width,
+							'M': x + (width >> 1)
+						   }[aroundCorner.charAt(1)],
+						y: {
+							'T': y,
+							'B': y + height,
+							'M': y + (height >> 1)
+						   }[aroundCorner.charAt(0)]
 					}
 				})
 			}
 			dojo.forEach(positions, function(pos){
 				var ltr =  leftToRight;
 				switch(pos){
+					case "above-centered":
+						push("TM", "BM");
+						break;
+					case "below-centered":
+						push("BM", "TM");
+						break;
 					case "after":
 						ltr = !ltr;
 						// fall through
 					case "before":
-						push(ltr ? "BL" : "BR", ltr ? "BR" : "BL");
+						push(ltr ? "ML" : "MR", ltr ? "MR" : "ML");
 						break;
 					case "below-alt":
 						ltr = !ltr;
