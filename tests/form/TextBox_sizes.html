@@ -146,39 +146,30 @@
 			var combobox = dijit.byId("combobox");
 			var spinner = dijit.byId("spinner");
 
-			var compareToTextBox = function(attr){
+			var compareToTextBox = function(attr, isParent){
 				try{
-					var textboxPos = dojo.position(textbox.domNode);
-					var validationPos = dojo.position(validation.domNode);
-					var comboboxPos = dojo.position(combobox.domNode);
-					var spinnerPos = dojo.position(spinner.domNode);
-					doh.is(Math.round(textboxPos[attr]), Math.round(validationPos[attr]), "validationPos " + attr);
-					doh.is(Math.round(textboxPos[attr]), Math.round(comboboxPos[attr]), "comboboxPos " + attr);
-					doh.is(Math.round(textboxPos[attr]), Math.round(spinnerPos[attr]), "spinnerPos " + attr);
-				}catch(e){
-					throw e; // prevent consoles from including entire function text in output
-				}
-			};
-
-			var attrMap = {
-				h: 'offsetHeight',
-				w: 'offsetWidth'
-			};
-			var compareToTextBoxParent = function(attr){
-				try{
-					var textboxPos = dojo.position(textbox.domNode.parentNode);
-					var validationPos = dojo.position(validation.domNode.parentNode);
-					var comboboxPos = dojo.position(combobox.domNode.parentNode);
-					var spinnerPos = dojo.position(spinner.domNode.parentNode);
+				var
+					attrMap = {
+						h: 'offsetHeight',
+						w: 'offsetWidth'
+					},
+					textboxNode = isParent ? textbox.domNode.parentNode : textbox.domNode,
+					validationNode = isParent ? validation.domNode.parentNode : validation.domNode,
+					comboboxNode = isParent ? combobox.domNode.parentNode : combobox.domNode,
+					spinnerNode = isParent ? spinner.domNode.parentNode : spinner.domNode,
+					textboxPos = dojo.position(textboxNode),
+					validationPos = dojo.position(validationNode),
+					comboboxPos = dojo.position(comboboxNode),
+					spinnerPos = dojo.position(spinnerNode);
 					// IE9 sometimes reports getBoundingClientRect.bottom incorrectly for TD so also check offset*
 					doh.t(Math.round(textboxPos[attr]) == Math.round(validationPos[attr])
-						|| (textbox.domNode.parentNode[attrMap[attr]] > 0 && textbox.domNode.parentNode[attrMap[attr]] == validation.domNode.parentNode[attrMap[attr]]),
+						|| (attrMap[attr] && textboxNode[attrMap[attr]] > 0 && textboxNode[attrMap[attr]] == validationNode[attrMap[attr]]),
 						"validationPos " + attr + " " + textboxPos[attr] + " vs " + validationPos[attr]);
 					doh.t(Math.round(textboxPos[attr]) == Math.round(comboboxPos[attr])
-						|| (textbox.domNode.parentNode[attrMap[attr]] > 0 && textbox.domNode.parentNode[attrMap[attr]] == combobox.domNode.parentNode[attrMap[attr]]),
+						|| (attrMap[attr] && textboxNode[attrMap[attr]] > 0 && textboxNode[attrMap[attr]] == comboboxNode[attrMap[attr]]),
 						"comboboxPos " + attr + " " + textboxPos[attr] + " vs " + comboboxPos[attr]);
 					doh.t(Math.round(textboxPos[attr]) == Math.round(spinnerPos[attr])
-						|| (textbox.domNode.parentNode[attrMap[attr]] > 0 && textbox.domNode.parentNode[attrMap[attr]] == spinner.domNode.parentNode[attrMap[attr]]),
+						|| (attrMap[attr] && textboxNode[attrMap[attr]] > 0 && textboxNode[attrMap[attr]] == spinnerNode[attrMap[attr]]),
 						"spinnerPos " + attr + " " + textboxPos[attr] + " vs " + spinnerPos[attr]);
 				}catch(e){
 					throw e; // prevent consoles from including entire function text in output
@@ -192,7 +183,7 @@
 				},
 				{
 						name: "y",
-						runTest: function(){ compareToTextBoxParent("h"); }
+						runTest: function(){ compareToTextBox("h", true); }
 				},
 				{
 						name: "h",
