@@ -308,6 +308,17 @@
 					}
 				]);
 
+				doh.register("nested stackcontainer w/doLayout=false", [
+					function resizeCalled(){
+						var resizes = dojo.global.resizes;
+						doh.t(resizes["stack1"], "stack1 resized");
+						doh.t(resizes["stack2"], "stack2 resized");
+						doh.t(resizes["stack3"], "stack3 resized");
+						doh.t(resizes["stack4"], "stack4 resized");
+						doh.t(isVisible(dojo.byId("stack4")), "stack4 visible");
+					}
+				]);
+
 				doh.register("test stackcontainer prog", [
 					{
 						name: "page2_sc_prog",

@@ -247,8 +247,13 @@ dojo.declare(
 
 	layout: function(){
 		// Implement _LayoutWidget.layout() virtual method.
-		if(this.doLayout && this.selectedChildWidget && this.selectedChildWidget.resize){
-			this.selectedChildWidget.resize(this._containerContentBox || this._contentBox);
+		var child = this.selectedChildWidget;
+		if(child && child.resize){
+			if(this.doLayout){
+				child.resize(this._containerContentBox || this._contentBox);
+			}else{
+				child.resize();
+			}
 		}
 	},
 

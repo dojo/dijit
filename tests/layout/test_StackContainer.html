@@ -14,6 +14,10 @@
 		.dijit_a11y .dijitStackController .dijitToggleButtonChecked button {
 			border-style: dashed !important;
 		}
+		div.dijitStackContainer {
+			border: solid 1px black !important;	/* override .dijitStackContainer-child rule for no border */
+			padding: 3px;
+		}
 	</style>
 
 	<!-- required: the default dijit theme: -->
@@ -21,7 +25,7 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
-		data-dojo-config="isDebug: true, parseOnLoad: true"></script>
+		data-dojo-config="isDebug: true, parseOnLoad: false"></script>
 
 	<!-- only needed for alternate theme testing: do NOT use in your code! -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
@@ -36,7 +40,19 @@
 		dojo.require("dijit.form.Button");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
+		// Hash listing which objects have gotten a resize event
+		resizes = {};
+
 		dojo.addOnLoad(function(){
+			// track resize events
+			dojo.connect(dijit.layout.StackContainer.prototype, "resize", function(){
+				resizes[this.id] = true;
+			});
+
+			// parse declarative StackContainers
+			dojo.parser.parse();
+
+			// === programmatic instantiation
 			// make the container
 			var container = new dijit.layout.StackContainer({ id: "sc" },"myStackContainer2");
 			container.addChild(new dijit.layout.ContentPane({
@@ -185,10 +201,22 @@
 			</p>
 		</div>
 	</div>
-
 	<button id="previous2PR" data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){ dijit.byId("myStackContainerPR").back() }'>&lt;</button>
 	<span data-dojo-type="dijit.layout.StackController" data-dojo-props='containerId:"myStackContainerPR"'></span>
 	<button id="next2PR" data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){ dijit.byId("myStackContainerPR").forward() }'>&gt;</button>
+
+	<h1>Nested StackContainers w/doLayout=false</h1>
+	<p>"hello world" inner text should be visible</p>
+    <div id="stack1" dojoType="dijit.layout.StackContainer" doLayout="false">
+        <div id="stack2" dojoType="dijit.layout.StackContainer" doLayout="false">
+            <div id="stack3" dojoType="dijit.layout.StackContainer" doLayout="false">
+                <div id="stack4" dojoType="dijit.layout.StackContainer" doLayout="false">
+                    hello world
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 	<h1>Programmatic test</h1>
 
