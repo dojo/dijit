@@ -463,6 +463,34 @@
 				}
 			]);			
 
+			doh.register("tab label scrolling", [
+				function initialScroll(){
+					// Make sure that tab labels are scrolled so that selected tab visible
+					var tc = dijit.byId("scroll"),
+						tcPos = dojo.position("scroll");
+						labelPos = dojo.position("scroll_tablist_nine");
+					doh.t(tcPos.x < labelPos.x, "tcPos.x (" + tcPos.x + ") < labelPos.x (" + labelPos.x + ")");
+					doh.t(tcPos.x + tcPos.w > labelPos.x + labelPos.w,
+							"tcPos.x (" + tcPos.x + ") + tcPos.w (" + tcPos.w +
+							") < labelPos.x " + labelPos.x + " + labelPos.w + (" + labelPos.w + ")");
+				},
+				function selectATab(){
+					// Make sure that tab labels are scrolled so that selected tab visible
+					var d = new doh.Deferred();
+					var tc = dijit.byId("scroll");
+					tc.selectChild(dijit.byId("one"));
+					setTimeout(d.getTestCallback(function(){
+						var tcPos = dojo.position("scroll");
+							labelPos = dojo.position("scroll_tablist_one");
+						doh.t(tcPos.x < labelPos.x, "tcPos.x (" + tcPos.x + ") < labelPos.x (" + labelPos.x + ")");
+						doh.t(tcPos.x + tcPos.w > labelPos.x + labelPos.w,
+								"tcPos.x (" + tcPos.x + ") + tcPos.w (" + tcPos.w +
+								") < labelPos.x " + labelPos.x + " + labelPos.w + (" + labelPos.w + ")");
+					}), 500);
+
+					return d;
+				}
+			]);
 			doh.run();
 
 		});
@@ -596,6 +624,18 @@
 		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"My last tab"'>
 			Lorem ipsum and all around - last...
 		</div>
+	</div>
+
+	<div id="scroll" dojoType="dijit.layout.TabContainer" jsid="scroll" style="width: 300px; height:200px;">
+		<div dojoType="dijit.layout.ContentPane" title="One" jsid="one" id="one">One</div>
+		<div dojoType="dijit.layout.ContentPane" title="Two" jsid="two" id="two">Two</div>
+		<div dojoType="dijit.layout.ContentPane" title="Three" jsid="three" id="three">Three</div>
+		<div dojoType="dijit.layout.ContentPane" title="Four" jsid="four" id="four">Four</div>
+		<div dojoType="dijit.layout.ContentPane" title="Five" jsid="five" id="five">Five</div>
+		<div dojoType="dijit.layout.ContentPane" title="Six" jsid="six" id="six">Six</div>
+		<div dojoType="dijit.layout.ContentPane" title="Seven" jsid="seven" id="seven">Seven</div>
+		<div dojoType="dijit.layout.ContentPane" title="Eight" jsid="eight" id="eight">Eight</div>
+		<div dojoType="dijit.layout.ContentPane" selected="true" title="Nine" jsid="nine" id="nine">Nine</div>
 	</div>
 
 </body>

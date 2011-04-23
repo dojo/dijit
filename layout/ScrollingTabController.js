@@ -241,17 +241,21 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		var tab = this.pane2button[page.id];
 		if(!tab || !page){return;}
 
-		// Scroll to the selected tab, except on startup, when scrolling is handled in resize()
 		var node = tab.domNode;
-		if(this._postResize && node != this._selectedTab){
+
+		// Save the selection
+		if(node != this._selectedTab) {
 			this._selectedTab = node;
 
-			var sl = this._getScroll();
+			// Scroll to the selected tab, except on startup, when scrolling is handled in resize()
+			if(this._postResize){
+				var sl = this._getScroll();
 
-			if(sl > node.offsetLeft ||
-					sl + dojo.style(this.scrollNode, "width") <
-					node.offsetLeft + dojo.style(node, "width")){
-				this.createSmoothScroll().play();
+				if(sl > node.offsetLeft ||
+						sl + dojo.style(this.scrollNode, "width") <
+						node.offsetLeft + dojo.style(node, "width")){
+					this.createSmoothScroll().play();
+				}
 			}
 		}
 
