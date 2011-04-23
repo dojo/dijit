@@ -29,6 +29,7 @@
 
 	<!-- only needed for alternate theme testing: do NOT use in your code! -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
+	<script type="text/javascript" src="../helpers.js"></script>
 
 	<script type="text/javascript">
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
@@ -39,46 +40,105 @@
 		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.form.Button");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+		dojo.require('doh.runner');
 
 		// Hash listing which objects have gotten a resize event
 		resizes = {};
 
 		dojo.addOnLoad(function(){
 			// track resize events
-			dojo.connect(dijit.layout.StackContainer.prototype, "resize", function(){
-				resizes[this.id] = true;
+			dojo.connect(dijit.layout._LayoutWidget.prototype, "resize", function(){
+				resizes[this.id] = arguments;
 			});
 
-			// parse declarative StackContainers
-			dojo.parser.parse();
+			function click(/*String*/ id){
+				// Click dijit widget w/specified id
+				dijit.byId(id)._onClick({preventDefault: function(){}});
+			}
 
-			// === programmatic instantiation
-			// make the container
-			var container = new dijit.layout.StackContainer({ id: "sc" },"myStackContainer2");
-			container.addChild(new dijit.layout.ContentPane({
-					id: "page1Prog",
-					title: "Page 1",
-					content: "IT WAS the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way -- in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only"
-			}));
-			container.addChild(new dijit.layout.ContentPane({
-					id: "page2Prog",
-					title: "Page 2",
-					content: "There were a king with a large jaw and a queen with a plain face, on the throne of England; there were a king with a large jaw and a queen with a fair face, on the throne of France. In both countries it was clearer than crystal to the lords of the State preserves of loaves and fishes, that things in general were settled for ever."
-			}));
-			container.addChild(new dijit.layout.ContentPane({
-					id: "page3Prog",
-					title: "Page 3",
-					content: "It was the year of Our Lord one thousand seven hundred and seventy- five. Spiritual revelations were conceded to England at that favoured period, as at this. Mrs. Southcott had recently attained her five-and- twentieth blessed birthday, of whom a prophetic private in the Life Guards had heralded the sublime appearance by announcing that arrangements were made for the swallowing up of London and Westminster. Even the Cock-lane ghost had been laid only a round dozen of years, after rapping out its messages, as the spirits of this very year last past (supernaturally deficient in originality) rapped out theirs. Mere messages in the earthly order of events had lately come to the English Crown and People, from a congress of British subjects in America:"
-			}));
+			doh.register("setup", [
+				function parse(){
+					dojo.parser.parse();
+				},
+				function programmaticCreation(){
+					var container = new dijit.layout.StackContainer({ id: "sc" },"myStackContainer2");
+					container.addChild(new dijit.layout.ContentPane({
+							id: "page1Prog",
+							title: "Page 1",
+							content: "IT WAS the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way -- in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only"
+					}));
+					container.addChild(new dijit.layout.ContentPane({
+							id: "page2Prog",
+							title: "Page 2",
+							content: "There were a king with a large jaw and a queen with a plain face, on the throne of England; there were a king with a large jaw and a queen with a fair face, on the throne of France. In both countries it was clearer than crystal to the lords of the State preserves of loaves and fishes, that things in general were settled for ever."
+					}));
+					container.addChild(new dijit.layout.ContentPane({
+							id: "page3Prog",
+							title: "Page 3",
+							content: "It was the year of Our Lord one thousand seven hundred and seventy- five. Spiritual revelations were conceded to England at that favoured period, as at this. Mrs. Southcott had recently attained her five-and- twentieth blessed birthday, of whom a prophetic private in the Life Guards had heralded the sublime appearance by announcing that arrangements were made for the swallowing up of London and Westminster. Even the Cock-lane ghost had been laid only a round dozen of years, after rapping out its messages, as the spirits of this very year last past (supernaturally deficient in originality) rapped out theirs. Mere messages in the earthly order of events had lately come to the English Crown and People, from a congress of British subjects in America:"
+					}));
 
-			// make the controller
-			var controller = new dijit.layout.StackController({containerId: "sc"}, "holder");
+					// make the controller
+					var controller = new dijit.layout.StackController({containerId: "sc"}, "holder");
 
-			// start 'em up
- 			controller.startup();
- 			container.startup();
+					// start 'em up
+					controller.startup();
+					container.startup();
+				}
+			]);
+
+			doh.register("basic operation", [
+				function forward(){
+					click("next");
+					doh.t(isHidden(dojo.byId("page1")), "page1 hidden");
+					doh.t(isVisible(dojo.byId("page2")), "page2 visible");
+					doh.t(isHidden(dojo.byId("page3")), "page3 hidden");
+				},
+				function previous(){
+					click("previous");
+					doh.t(dijit.byId("previous").disabled, "disabled");
+					doh.t(isVisible(dojo.byId("page1")), "page1 visible");
+					doh.t(isHidden(dojo.byId("page2")), "page2 hidden");
+					doh.t(isHidden(dojo.byId("page3")), "page3 hidden");
+				},
+				function clickPage2(){
+					click("dijit_layout_StackController_0_page2");
+					doh.t(isHidden(dojo.byId("page1")), "page1 hidden");
+					doh.t(isVisible(dojo.byId("page2")), "page2 visible");
+					doh.t(isHidden(dojo.byId("page3")), "page3 hidden");
+				}
+			]);
+
+			doh.register("nested layout widgets", [
+				function nestedLayout(){
+					click("nextPR");
+					var bcPos = dojo.position("bc"),
+						tcPos = dojo.position("tc");
+
+					doh.t("bc" in resizes, "BorderContainer got resize");
+					doh.is(300, bcPos.w, "BorderContainer width");
+					doh.is(200, bcPos.h, "BorderContainer height");
+
+					doh.t("tc" in resizes, "TabContainer got resize");
+					doh.is(300, bcPos.w, "TabContainer width");
+					doh.is(200, bcPos.h, "TabContainer height");
+				}
+			]);
+
+			doh.register("nested stackcontainer w/doLayout=false", [
+				function resizeCalled(){
+					var resizes = dojo.global.resizes;
+					doh.t("stack1" in resizes, "stack1 resized");
+					doh.t("stack2" in resizes, "stack2 resized");
+					doh.t("stack3" in resizes, "stack3 resized");
+					doh.t("stack4" in resizes, "stack4 resized");
+					doh.t(isVisible(dojo.byId("stack4")), "stack4 visible");
+				}
+			]);
+
+			doh.run();
 		});
-		
+
 		function selected(page){
 			console.debug("page selected " + page.id);
 			var widget=dijit.byId("myStackContainer");
@@ -88,6 +148,7 @@
 			dijit.byId("next2").set("disabled", page.isLastChild);
 		}
 		dojo.subscribe("myStackContainer-selectChild", selected);
+
 	</script>
 </head>
 
