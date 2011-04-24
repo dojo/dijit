@@ -20,11 +20,11 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 	// description:
 	//		This plugin has three modes:
 	//
-	//			* blockModeForEnter=BR
-	//			* blockModeForEnter=DIV
-	//			* blockModeForEnter=P
+	//			* blockNodeForEnter=BR
+	//			* blockNodeForEnter=DIV
+	//			* blockNodeForEnter=P
 	//
-	//		In blockModeForEnter=P, the ENTER key starts a new
+	//		In blockNodeForEnter=P, the ENTER key starts a new
 	//		paragraph, and shift-ENTER starts a new line in the current paragraph.
 	//		For example, the input:
 	//
@@ -186,7 +186,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 
 	handleEnterKey: function(e){
 		// summary:
-		//		Handler for enter key events when blockModeForEnter is DIV or P.
+		//		Handler for enter key events when blockNodeForEnter is DIV or P.
 		// description:
 		//		Manually handle enter key event to make the behavior consistent across
 		//		all supported browsers. See class description for details.
