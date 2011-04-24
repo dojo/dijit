@@ -691,7 +691,7 @@ dojo.declare(
 
 		this._itemNodesMap={};
 
-		if(!this.cookieName){
+		if(!this.cookieName && this.id){
 			this.cookieName = this.id + "SaveStateCookie";
 		}
 
@@ -1539,9 +1539,9 @@ dojo.declare(
 	_initState: function(){
 		// summary:
 		//		Load in which nodes should be opened automatically
-		if(this.persist){
+		this._openedItemIds = {};
+		if(this.persist && this.cookieName){
 			var cookie = dojo.cookie(this.cookieName);
-			this._openedItemIds = {};
 			if(cookie){
 				dojo.forEach(cookie.split(','), function(item){
 					this._openedItemIds[item] = true;
