@@ -1,10 +1,10 @@
-define(["dojo", ".", "./_Widget"], function(dojo, dijit){
+define(["dojo", ".", "./_FocusMixin"], function(dojo, dijit){
 	// module:
 	//		dijit/_HasDropDown
 	// summary:
 	//		Mixin for widgets that need drop down ability.
 
-	dojo.declare("dijit._HasDropDown", null, {
+	dojo.declare("dijit._HasDropDown", dijit._FocusMixin, {
 		// summary:
 		//		Mixin for widgets that need drop down ability.
 
