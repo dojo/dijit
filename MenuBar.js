@@ -29,7 +29,7 @@ dojo.declare("dijit.MenuBar", dijit._MenuBase, {
 		);
 
 		// parameter to dijit.popup.open() about where to put popup (relative to this.domNode)
-		this._orient = this.isLeftToRight() ? {BL: 'TL'} : {BR: 'TR'};
+		this._orient = ["below"];
 	},
 
 	focusChild: function(item){

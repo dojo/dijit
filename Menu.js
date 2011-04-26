@@ -1,11 +1,12 @@
 define([
 	"dojo",
 	".",
+	"./popup",
 	"dojo/text!./templates/Menu.html",
 	"dojo/window",
 	"./_Widget",
 	"./_KeyNavContainer",
-	"./_TemplatedMixin"], function(dojo, dijit) {
+	"./_TemplatedMixin"], function(dojo, dijit, pm){
 
 
 	// module:
@@ -137,7 +138,7 @@ dojo.declare("dijit._MenuBase",
 				if(itemPopup.parentMenu){
 					itemPopup.parentMenu.currentPopup = null;
 				}
-				dijit.popup.close(itemPopup); // this calls onClose
+				pm.close(itemPopup); // this calls onClose
 			}, this.popupDelay);
 		}
 	},
@@ -237,18 +238,16 @@ dojo.declare("dijit._MenuBase",
 		if(popup.isShowingNow){ return; }
 		if(this.currentPopup){
 			this._stopPendingCloseTimer(this.currentPopup);
-			dijit.popup.close(this.currentPopup);
+			pm.close(this.currentPopup);
 		}
 		popup.parentMenu = this;
 		popup.from_item = from_item; // helps finding the parent item that should be focused for this popup
 		var self = this;
-		dijit.popup.open({
+		pm.open({
 			parent: this,
 			popup: popup,
 			around: from_item.domNode,
-			orient: this._orient || (this.isLeftToRight() ?
-									{'TR': 'TL', 'TL': 'TR', 'BR': 'BL', 'BL': 'BR'} :
-									{'TL': 'TR', 'TR': 'TL', 'BL': 'BR', 'BR': 'BL'}),
+			orient: this._orient || ["after", "before"],	// may want an after-topAligned instead?
 			onCancel: function(){ // called when the child menu is canceled
 				// set isActive=false (_closeChild vs _cleanUp) so that subsequent hovering will NOT open child menus
 				// which seems aligned with the UX of most applications (e.g. notepad, wordpad, paint shop pro)
@@ -341,7 +340,7 @@ dojo.declare("dijit._MenuBase",
 				this.focusedChild.focusNode.focus();
 			}
 			// Close all popups that are open and descendants of this menu
-			dijit.popup.close(this.currentPopup);
+			pm.close(this.currentPopup);
 			this.currentPopup = null;
 		}
 
@@ -677,9 +676,9 @@ dojo.declare("dijit.Menu",
 			if(self.refocus){
 				dijit.focus(savedFocus);
 			}
-			dijit.popup.close(self);
+			pm.close(self);
 		}
-		dijit.popup.open({
+		pm.open({
 			popup: this,
 			x: coords.x,
 			y: coords.y,
@@ -693,7 +692,7 @@ dojo.declare("dijit.Menu",
 			this.inherited('_onBlur', arguments);
 			// Usually the parent closes the child widget but if this is a context
 			// menu then there is no parent
-			dijit.popup.close(this);
+			pm.close(this);
 			// don't try to restore focus; user has clicked another part of the screen
 			// and set focus there
 		};
