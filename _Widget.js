@@ -1,12 +1,14 @@
 define([
-  "dojo",
-  ".",
-  "./_WidgetBase",
-  "./_base"], function(dojo, dijit) {
+	"dojo",
+	".",
+	"./_WidgetBase",
+	"./_FocusMixin",
+	"./_base"], function(dojo, dijit){
+
 	// module:
 	//		dijit/_Widget
 	// summary:
-	//		TODOC
+	//		Old base for widgets.   New widgets should extend _WidgetBase instead
 
 
 
@@ -48,7 +50,7 @@ if(dojo.isIE){
 	}, true);
 }
 
-dojo.declare("dijit._Widget", dijit._WidgetBase, {
+dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._FocusMixin], {
 	// summary:
 	//		Base class for all Dijit widgets.
 	//
@@ -263,14 +265,6 @@ dojo.declare("dijit._Widget", dijit._WidgetBase, {
 		}
 	},
 
-	////////////////// FOCUS RELATED ///////////////////
-	// _onFocus() and _onBlur() are called by the focus manager
-
-	// focused: [readonly] Boolean
-	//		This widget or a widget it contains has focus, or is "active" because
-	//		it was recently clicked.
-	focused: false,
-
 	isFocusable: function(){
 		// summary:
 		//		Return true if this widget can currently be focused
@@ -278,41 +272,11 @@ dojo.declare("dijit._Widget", dijit._WidgetBase, {
 		return this.focus && (dojo.style(this.domNode, "display") != "none");
 	},
 
-	onFocus: function(){
-		// summary:
-		//		Called when the widget becomes "active" because
-		//		it or a widget inside of it either has focus, or has recently
-		//		been clicked.
-		// tags:
-		//		callback
-	},
-
-	onBlur: function(){
-		// summary:
-		//		Called when the widget stops being "active" because
-		//		focus moved to something outside of it, or the user
-		//		clicked somewhere outside of it, or the widget was
-		//		hidden.
-		// tags:
-		//		callback
-	},
-
-	_onFocus: function(e){
-		// summary:
-		//		This is where widgets do processing for when they are active,
-		//		such as changing CSS classes.  See onFocus() for more details.
-		// tags:
-		//		protected
-		this.onFocus();
-	},
-
-	_onBlur: function(){
-		// summary:
-		//		This is where widgets do processing for when they stop being active,
-		//		such as changing CSS classes.  See onBlur() for more details.
-		// tags:
-		//		protected
-		this.onBlur();
+	_setFocusedAttr: function(val){
+		// Remove this method in 2.0 (or sooner), just here to set _focused == focused, for back compat
+		// (but since it's a private variable we aren't required to keep supporting it).
+		this._focused = val;
+		this._set("focused", val);
 	},
 
 	////////////////// DEPRECATED METHODS ///////////////////
