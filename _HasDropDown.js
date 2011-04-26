@@ -1,4 +1,4 @@
-define(["dojo", ".", "./_FocusMixin"], function(dojo, dijit){
+define(["dojo", ".", "./popup", "./_FocusMixin"], function(dojo, dijit, popup){
 	// module:
 	//		dijit/_HasDropDown
 	// summary:
@@ -350,7 +350,7 @@ define(["dojo", ".", "./_FocusMixin"], function(dojo, dijit){
 
 				// Attach dropDown to DOM and make make visibility:hidden rather than display:none
 				// so we call startup() and also get the size
-				dijit.popup.moveOffScreen(dropDown);
+				popup.moveOffScreen(dropDown);
 
 				if(dropDown.startup && !dropDown._started){
 					dropDown.startup(); // this has to be done after being added to the DOM
@@ -388,11 +388,11 @@ define(["dojo", ".", "./_FocusMixin"], function(dojo, dijit){
 				}
 			}
 
-			var retVal = dijit.popup.open({
+			var retVal = popup.open({
 				parent: this,
 				popup: dropDown,
 				around: aroundNode,
-				orient: dijit.getPopupAroundAlignment((this.dropDownPosition && this.dropDownPosition.length) ? this.dropDownPosition : ["below"],this.isLeftToRight()),
+				orient: this.dropDownPosition,
 				onExecute: function(){
 					self.closeDropDown(true);
 				},
@@ -423,7 +423,7 @@ define(["dojo", ".", "./_FocusMixin"], function(dojo, dijit){
 
 			if(this._opened){
 				if(focus){ this.focus(); }
-				dijit.popup.close(this.dropDown);
+				popup.close(this.dropDown);
 				this._opened = false;
 			}
 		}
