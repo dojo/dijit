@@ -1,12 +1,13 @@
 define([
-  "dojo",
-  ".",
-  "./_base/manager",
-  "dojo/Stateful"], function(dojo, dijit) {
+	"dojo",
+	".",
+	"./_base/manager",
+	"dojo/Stateful"], function(dojo, dijit){
+
 	// module:
 	//		dijit/_WidgetBase
 	// summary:
-	//		TODOC
+	//		Future base class for all Dijit widgets.
 
 
 dojo.declare("dijit._WidgetBase", dojo.Stateful, {
@@ -329,7 +330,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 				list.push(attr);
 			}
 
-			var attrs, proto = ctor.prototype;
+			var proto = ctor.prototype;
 			for(var fxName in proto){
 				if(fxName in this.attributeMap){ continue; }
 				var setterName = "_set" + fxName.replace(/^[a-z]|-[a-zA-Z]/g, function(c){ return c.charAt(c.length-1).toUpperCase(); }) + "Attr";
@@ -346,7 +347,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		// NaN and thus is not ignored like a default value of "".
 		dojo.forEach(list, function(attr){
 			if(this.params && attr in this.params){
-				return;		// skip this one, do it below
+				// skip this one, do it below
 			}else if(this[attr]){
 				this.set(attr, this[attr]);
 			}
@@ -835,7 +836,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		//		somewhere in the dom, and allow chaining.
 		//
 		// reference:
-		//		The String id of a domNode, a domNode reference, or a reference to a Widget posessing
+		//		The String id of a domNode, a domNode reference, or a reference to a Widget possessing
 		//		an addChild method.
 		//
 		// position:
@@ -900,8 +901,6 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		//		protected.
 	}
 });
-
-
 
 return dijit._WidgetBase;
 });
