@@ -1,20 +1,17 @@
-define(["dojo", "."], function(dojo, dijit) {
+define(["dojo", "./_WidgetBase"], function(dojo, _WidgetBase){
 	// module:
 	//		dijit/_BidiSupport
 	// summary:
-	//		TODOC
+	//		Module that deals with BIDI, special with the auto
+	//		direction if needed without changing the GUI direction.
+	//		Including this module will extend _WidgetBase with BIDI related methods.
+	// description:
+	//		There's a special need for displaying BIDI text in rtl direction
+	//		in ltr GUI, sometimes needed auto support.
+	//		In creation of widget, if it's want to activate this class,
+	//		the widget should define the "textDir".
 
-	dojo.require("dijit._WidgetBase");
-
-	dojo.extend(dijit._WidgetBase, {
-		// summary:
-		//		Class that deals with BIDI, special with the auto
-		//		direction if needed without changing the GUI direction.
-		// description:
-		//		There's a special need for displaying BIDI text in rtl direction
-		//		in ltr GUI, sometimes needed auto support.
-		//		In creation of widget, if it's want to activate this class,
-		//		the widget should define the "textDir".
+	dojo.extend(_WidgetBase, {
 
 		getTextDir: function(/*String*/ text){
 			// summary:
@@ -63,5 +60,5 @@ define(["dojo", "."], function(dojo, dijit) {
 		}
 	});
 
-	return dijit._BidiSupport;
+	return _WidgetBase;
 });
