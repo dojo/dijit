@@ -68,8 +68,10 @@ define([
 			var style = node.style;
 			var oldDisplay = style.display;
 			var oldVis = style.visibility;
-			style.visibility = "hidden";
-			style.display = "";
+			if(style.display == "none"){
+				style.visibility = "hidden";
+				style.display = "";
+			}
 			var mb = dojo.marginBox(node);
 			style.display = oldDisplay;
 			style.visibility = oldVis;
