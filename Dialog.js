@@ -1,43 +1,40 @@
 define([
-  "dojo",
-  ".",
-  "dojo/text!./templates/Dialog.html",
-  "dojo/dnd/move",
-  "dojo/dnd/TimedMoveable",
-  "dojo/fx",
-  "dojo/window",
-  "./_Widget",
-  "./_TemplatedMixin",
-  "./_CssStateMixin",
-  "./form/_FormMixin",
-  "./_DialogMixin",
-  "./DialogUnderlay",
-  "./layout/ContentPane",
-  "dojo/i18n!./nls/common",
-  "./TooltipDialog"], function(dojo, dijit) {
+	"dojo",
+	".",
+	"dojo/text!./templates/Dialog.html",
+	"dojo/dnd/move",
+	"dojo/dnd/TimedMoveable",
+	"dojo/fx",
+	"dojo/window",
+	"./_Widget",
+	"./_TemplatedMixin",
+	"./_CssStateMixin",
+	"./form/_FormMixin",
+	"./_DialogMixin",
+	"./DialogUnderlay",
+	"./layout/ContentPane",
+	"dojo/i18n!./nls/common"], function(dojo, dijit){
+
 	// module:
 	//		dijit/Dialog
 	// summary:
-	//		TODOC
+	//		A modal dialog Widget
 
 
-// dijit/TooltipDialog required for back-compat.  TODO: remove in 2.0
+	/*=====
+	dijit._underlay = function(kwArgs){
+		// summary:
+		//		A shared instance of a `dijit.DialogUnderlay`
+		//
+		// description:
+		//		A shared instance of a `dijit.DialogUnderlay` created and
+		//		used by `dijit.Dialog`, though never created until some Dialog
+		//		or subclass thereof is shown.
+	};
+	=====*/
 
-/*=====
-dijit._underlay = function(kwArgs){
-	// summary:
-	//		A shared instance of a `dijit.DialogUnderlay`
-	//
-	// description:
-	//		A shared instance of a `dijit.DialogUnderlay` created and
-	//		used by `dijit.Dialog`, though never created until some Dialog
-	//		or subclass thereof is shown.
-};
-=====*/
-dojo.declare(
-	"dijit._DialogBase",
-	[dijit._TemplatedMixin, dijit.form._FormMixin, dijit._DialogMixin, dijit._CssStateMixin],
-	{
+	dojo.declare("dijit._DialogBase",
+		[dijit._TemplatedMixin, dijit.form._FormMixin, dijit._DialogMixin, dijit._CssStateMixin], {
 		// summary:
 		//		A modal dialog Widget
 		//
@@ -472,138 +469,137 @@ dojo.declare(
 
 			this.inherited(arguments);
 		}
-	}
-);
+	});
 
-dojo.declare(
-	"dijit.Dialog",
-	[dijit.layout.ContentPane, dijit._DialogBase],
-	{}
-);
+	dojo.declare(
+		"dijit.Dialog",
+		[dijit.layout.ContentPane, dijit._DialogBase],
+		{}
+	);
 
-dijit._DialogLevelManager = {
-	// summary:
-	//		Controls the various active "levels" on the page, starting with the
-	//		stuff initially visible on the page (at z-index 0), and then having an entry for
-	//		each Dialog shown.
-
-	show: function(/*dijit._Widget*/ dialog, /*Object*/ underlayAttrs){
+	dijit._DialogLevelManager = {
 		// summary:
-		//		Call right before fade-in animation for new dialog.
-		//		Saves current focus, displays/adjusts underlay for new dialog,
-		//		and sets the z-index of the dialog itself.
-		//
-		//		New dialog will be displayed on top of all currently displayed dialogs.
-		//
-		//		Caller is responsible for setting focus in new dialog after the fade-in
-		//		animation completes.
+		//		Controls the various active "levels" on the page, starting with the
+		//		stuff initially visible on the page (at z-index 0), and then having an entry for
+		//		each Dialog shown.
 
-		var ds = dijit._dialogStack;
+		show: function(/*dijit._Widget*/ dialog, /*Object*/ underlayAttrs){
+			// summary:
+			//		Call right before fade-in animation for new dialog.
+			//		Saves current focus, displays/adjusts underlay for new dialog,
+			//		and sets the z-index of the dialog itself.
+			//
+			//		New dialog will be displayed on top of all currently displayed dialogs.
+			//
+			//		Caller is responsible for setting focus in new dialog after the fade-in
+			//		animation completes.
 
-		// Save current focus
-		ds[ds.length-1].focus = dijit.getFocus(dialog);
+			var ds = dijit._dialogStack;
 
-		// Display the underlay, or if already displayed then adjust for this new dialog
-		var underlay = dijit._underlay;
-		if(!underlay || underlay._destroyed){
-			underlay = dijit._underlay = new dijit.DialogUnderlay(underlayAttrs);
-		}else{
-			underlay.set(dialog.underlayAttrs);
-		}
+			// Save current focus
+			ds[ds.length-1].focus = dijit.getFocus(dialog);
 
-		// Set z-index a bit above previous dialog
-		var zIndex = ds[ds.length-1].dialog ? ds[ds.length-1].zIndex + 2 : 950;
-		if(ds.length == 1){	// first dialog
-			underlay.show();
-		}
-		dojo.style(dijit._underlay.domNode, 'zIndex', zIndex - 1);
+			// Display the underlay, or if already displayed then adjust for this new dialog
+			var underlay = dijit._underlay;
+			if(!underlay || underlay._destroyed){
+				underlay = dijit._underlay = new dijit.DialogUnderlay(underlayAttrs);
+			}else{
+				underlay.set(dialog.underlayAttrs);
+			}
 
-		// Dialog
-		dojo.style(dialog.domNode, 'zIndex', zIndex);
+			// Set z-index a bit above previous dialog
+			var zIndex = ds[ds.length-1].dialog ? ds[ds.length-1].zIndex + 2 : 950;
+			if(ds.length == 1){	// first dialog
+				underlay.show();
+			}
+			dojo.style(dijit._underlay.domNode, 'zIndex', zIndex - 1);
 
-		ds.push({dialog: dialog, underlayAttrs: underlayAttrs, zIndex: zIndex});
-	},
+			// Dialog
+			dojo.style(dialog.domNode, 'zIndex', zIndex);
 
-	hide: function(/*dijit._Widget*/ dialog){
-		// summary:
-		//		Called when the specified dialog is hidden/destroyed, after the fade-out
-		//		animation ends, in order to reset page focus, fix the underlay, etc.
-		//		If the specified dialog isn't open then does nothing.
-		//
-		//		Caller is responsible for either setting display:none on the dialog domNode,
-		//		or calling dijit.popup.hide(), or removing it from the page DOM.
+			ds.push({dialog: dialog, underlayAttrs: underlayAttrs, zIndex: zIndex});
+		},
 
-		var ds = dijit._dialogStack;
+		hide: function(/*dijit._Widget*/ dialog){
+			// summary:
+			//		Called when the specified dialog is hidden/destroyed, after the fade-out
+			//		animation ends, in order to reset page focus, fix the underlay, etc.
+			//		If the specified dialog isn't open then does nothing.
+			//
+			//		Caller is responsible for either setting display:none on the dialog domNode,
+			//		or calling dijit.popup.hide(), or removing it from the page DOM.
 
-		if(ds[ds.length-1].dialog == dialog){
-			// Removing the top (or only) dialog in the stack, return focus
-			// to previous dialog
+			var ds = dijit._dialogStack;
 
-			ds.pop();
+			if(ds[ds.length-1].dialog == dialog){
+				// Removing the top (or only) dialog in the stack, return focus
+				// to previous dialog
 
-			var pd = ds[ds.length-1];	// the new active dialog (or the base page itself)
+				ds.pop();
 
-			// Adjust underlay
-			if(ds.length == 1){
-				// Returning to original page.
-				// Hide the underlay, unless the underlay widget has already been destroyed
-				// because we are being called during page unload (when all widgets are destroyed)
-				if(!dijit._underlay._destroyed){
-					dijit._underlay.hide();
+				var pd = ds[ds.length-1];	// the new active dialog (or the base page itself)
+
+				// Adjust underlay
+				if(ds.length == 1){
+					// Returning to original page.
+					// Hide the underlay, unless the underlay widget has already been destroyed
+					// because we are being called during page unload (when all widgets are destroyed)
+					if(!dijit._underlay._destroyed){
+						dijit._underlay.hide();
+					}
+				}else{
+					// Popping back to previous dialog, adjust underlay
+					dojo.style(dijit._underlay.domNode, 'zIndex', pd.zIndex - 1);
+					dijit._underlay.set(pd.underlayAttrs);
+				}
+
+				// Adjust focus
+				if(dialog.refocus){
+					// If we are returning control to a previous dialog but for some reason
+					// that dialog didn't have a focused field, set focus to first focusable item.
+					// This situation could happen if two dialogs appeared at nearly the same time,
+					// since a dialog doesn't set it's focus until the fade-in is finished.
+					var focus = pd.focus;
+					if(!focus || (pd.dialog && !dojo.isDescendant(focus.node, pd.dialog.domNode))){
+						pd.dialog._getFocusItems(pd.dialog.domNode);
+						focus = pd.dialog._firstFocusItem;
+					}
+
+					try{
+						dijit.focus(focus);
+					}catch(e){
+						/* focus() will fail if user opened the dialog by clicking a non-focusable element */
+					}
 				}
 			}else{
-				// Popping back to previous dialog, adjust underlay
-				dojo.style(dijit._underlay.domNode, 'zIndex', pd.zIndex - 1);
-				dijit._underlay.set(pd.underlayAttrs);
-			}
-
-			// Adjust focus
-			if(dialog.refocus){
-				// If we are returning control to a previous dialog but for some reason
-				// that dialog didn't have a focused field, set focus to first focusable item.
-				// This situation could happen if two dialogs appeared at nearly the same time,
-				// since a dialog doesn't set it's focus until the fade-in is finished.
-				var focus = pd.focus;
-				if(!focus || (pd.dialog && !dojo.isDescendant(focus.node, pd.dialog.domNode))){
-					pd.dialog._getFocusItems(pd.dialog.domNode);
-					focus = pd.dialog._firstFocusItem;
-				}
-
-				try{
-					dijit.focus(focus);
-				}catch(e){
-					/* focus() will fail if user opened the dialog by clicking a non-focusable element */
+				// Removing a dialog out of order (#9944, #10705).
+				// Don't need to mess with underlay or z-index or anything.
+				var idx = dojo.indexOf(dojo.map(ds, function(elem){return elem.dialog}), dialog);
+				if(idx != -1){
+					ds.splice(idx, 1);
 				}
 			}
-		}else{
-			// Removing a dialog out of order (#9944, #10705).
-			// Don't need to mess with underlay or z-index or anything.
-			var idx = dojo.indexOf(dojo.map(ds, function(elem){return elem.dialog}), dialog);
-			if(idx != -1){
-				ds.splice(idx, 1);
-			}
+		},
+
+		isTop: function(/*dijit._Widget*/ dialog){
+			// summary:
+			//		Returns true if specified Dialog is the top in the task
+			var ds = dijit._dialogStack;
+			return ds[ds.length-1].dialog == dialog;
 		}
-	},
+	};
 
-	isTop: function(/*dijit._Widget*/ dialog){
-		// summary:
-		//		Returns true if specified Dialog is the top in the task
-		var ds = dijit._dialogStack;
-		return ds[ds.length-1].dialog == dialog;
-	}
-};
+	// Stack representing the various active "levels" on the page, starting with the
+	// stuff initially visible on the page (at z-index 0), and then having an entry for
+	// each Dialog shown.
+	// Each element in stack has form {
+	//		dialog: dialogWidget,
+	//		focus: returnFromGetFocus(),
+	//		underlayAttrs: attributes to set on underlay (when this widget is active)
+	// }
+	dijit._dialogStack = [
+		{dialog: null, focus: null, underlayAttrs: null}	// entry for stuff at z-index: 0
+	];
 
-// Stack representing the various active "levels" on the page, starting with the
-// stuff initially visible on the page (at z-index 0), and then having an entry for
-// each Dialog shown.
-// Each element in stack has form {
-//		dialog: dialogWidget,
-//		focus: returnFromGetFocus(),
-//		underlayAttrs: attributes to set on underlay (when this widget is active)
-// }
-dijit._dialogStack = [
-	{dialog: null, focus: null, underlayAttrs: null}	// entry for stuff at z-index: 0
-];
-
-return dijit.Dialog;
+	return dijit.Dialog;
 });
