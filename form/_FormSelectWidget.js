@@ -483,7 +483,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		if(!this.value){
 			this._set("value", this._getValueFromOpts());
 		}else if(this.multiple && typeof this.value == "string"){
-			this_set("value", this.value.split(","));
+			this._set("value", this.value.split(","));
 		}
 	},
 
