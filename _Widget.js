@@ -1,9 +1,10 @@
 define([
 	"dojo",
 	".",
+	"./a11yclick",
 	"./_WidgetBase",
 	"./_FocusMixin",
-	"./_base"], function(dojo, dijit){
+	"./_base"], function(dojo, dijit, a11yclick){
 
 	// module:
 	//		dijit/_Widget
@@ -25,30 +26,6 @@ dojo.connect(dojo, "_connect",
 
 dijit._connectOnUseEventHandler = function(/*Event*/ event){};
 
-////////////////// ONDIJITCLICK SUPPORT ///////////////////
-
-// Keep track of where the last keydown event was, to help avoid generating
-// spurious ondijitclick events when:
-// 1. focus is on a <button> or <a>
-// 2. user presses then releases the ENTER key
-// 3. onclick handler fires and shifts focus to another node, with an ondijitclick handler
-// 4. onkeyup event fires, causing the ondijitclick handler to fire
-dijit._lastKeyDownNode = null;
-if(dojo.isIE){
-	(function(){
-		var keydownCallback = function(evt){
-			dijit._lastKeyDownNode = evt.srcElement;
-		};
-		dojo.doc.attachEvent('onkeydown', keydownCallback);
-		dojo.addOnWindowUnload(function(){
-			dojo.doc.detachEvent('onkeydown', keydownCallback);
-		});
-	})();
-}else{
-	dojo.doc.addEventListener('keydown', function(evt){
-		dijit._lastKeyDownNode = evt.target;
-	}, true);
-}
 
 dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._FocusMixin], {
 	// summary:
@@ -322,13 +299,6 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._FocusMixin], {
 		}
 	},
 
-	////////////////// ONDIJITCLICK SUPPORT ///////////////////
-
-	// nodesWithKeyClick: [private] String[]
-	//		List of nodes that correctly handle click events via native browser support,
-	//		and don't need dijit's help
-	nodesWithKeyClick: ["input", "button"],
-
 	connect: function(
 			/*Object|null*/ obj,
 			/*String|Function*/ event,
@@ -356,47 +326,7 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._FocusMixin], {
 		// tags:
 		//		protected
 
-		var d = dojo,
-			dc = d._connect,
-			handles = this.inherited(arguments, [obj, event == "ondijitclick" ? "onclick" : event, method]);
-
-		if(event == "ondijitclick"){
-			// add key based click activation for unsupported nodes.
-			// do all processing onkey up to prevent spurious clicks
-			// for details see comments at top of this file where _lastKeyDownNode is defined
-			if(d.indexOf(this.nodesWithKeyClick, obj.nodeName.toLowerCase()) == -1){ // is NOT input or button
-				var m = d.hitch(this, method);
-				handles.push(
-					dc(obj, "onkeydown", this, function(e){
-						//console.log(this.id + ": onkeydown, e.target = ", e.target, ", lastKeyDownNode was ", dijit._lastKeyDownNode, ", equality is ", (e.target === dijit._lastKeyDownNode));
-						if((e.keyCode == d.keys.ENTER || e.keyCode == d.keys.SPACE) &&
-							!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey){
-							// needed on IE for when focus changes between keydown and keyup - otherwise dropdown menus do not work
-							dijit._lastKeyDownNode = e.target;
-
-							// Stop event to prevent scrolling on space key in IE.
-							// But don't do this for _HasDropDown because it surpresses the onkeypress
-							// event needed to open the drop down when the user presses the SPACE key.
-							if(!("openDropDown" in this && obj == this._buttonNode)){
-								e.preventDefault();
-							}
-						}
-			 		}),
-					dc(obj, "onkeyup", this, function(e){
-						//console.log(this.id + ": onkeyup, e.target = ", e.target, ", lastKeyDownNode was ", dijit._lastKeyDownNode, ", equality is ", (e.target === dijit._lastKeyDownNode));
-						if( (e.keyCode == d.keys.ENTER || e.keyCode == d.keys.SPACE) &&
-							e.target == dijit._lastKeyDownNode &&	// === breaks greasemonkey
-							!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey){
-								//need reset here or have problems in FF when focus returns to trigger element after closing popup/alert
-								dijit._lastKeyDownNode = null;
-								return m(e);
-						}
-					})
-				);
-			}
-		}
-
-		return handles;		// _Widget.Handle
+		return this.inherited(arguments, [obj, event == "ondijitclick" ? a11yclick : event, method]);
 	},
 
 	////////////////// MISCELLANEOUS METHODS ///////////////////

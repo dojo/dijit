@@ -445,8 +445,8 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		var d = dojo,
 			dfe = d.forEach,
 			dun = d.unsubscribe;
-		dfe(this._connects, function(array){
-			dfe(array, d.disconnect);
+		dfe(this._connects, function(handle){
+			d.disconnect(handle);
 		});
 		dfe(this._subscribes, function(handle){
 			dun(handle);
@@ -760,20 +760,21 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		// tags:
 		//		protected
 
-		var handles = [dojo._connect(obj, event, this, method)];
-		this._connects.push(handles);
-		return handles;		// _Widget.Handle
+		var handle = dojo.connect(obj, event, this, method);
+		this._connects.push(handle);
+		return handle;		// _Widget.Handle
 	},
 
-	disconnect: function(/* _Widget.Handle */ handles){
+	disconnect: function(handle){
 		// summary:
 		//		Disconnects handle created by `connect`.
 		//		Also removes handle from this widget's list of connects.
 		// tags:
 		//		protected
+
 		for(var i=0; i<this._connects.length; i++){
-			if(this._connects[i] == handles){
-				dojo.forEach(handles, dojo.disconnect);
+			if(this._connects[i] == handle){
+				dojo.disconnect(handle);
 				this._connects.splice(i, 1);
 				return;
 			}

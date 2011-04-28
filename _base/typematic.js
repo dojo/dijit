@@ -1,8 +1,11 @@
-define(["dojo", ".."], function(dojo, dijit) {
+define(["dojo", ".."], function(dojo, dijit){
 	// module:
 	//		dijit/_base/typematic
 	// summary:
-	//		TODOC
+	//		These functions are used to repetitively call a user specified callback
+	//		method when a specific key or mouse click over a specific DOM node is
+	//		held down for a specific amount of time.
+	//		Only 1 such event is allowed to occur on the browser page at 1 time.
 
 dijit.typematic = {
 	// summary:
@@ -112,7 +115,7 @@ dijit.typematic = {
 			keyObject.charOrCode = String.fromCharCode(keyObject.charCode);
 			dojo.deprecated("charCode attribute parameter for dijit.typematic.addKeyListener is deprecated. Use charOrCode instead.", "", "2.0");
 		}
-		return [
+		var handles = [
 			dojo.connect(node, "onkeypress", this, function(evt){
 				if(evt.charOrCode == keyObject.charOrCode &&
 				(keyObject.ctrlKey === undefined || keyObject.ctrlKey == evt.ctrlKey) &&
@@ -131,6 +134,7 @@ dijit.typematic = {
 				}
 			})
 		];
+		return { cancel: function(){ dojo.forEach(handles, function(h){ h.cancel(); }); } };
 	},
 
 	addMouseListener: function(/*DOMNode*/ node, /*Object*/ _this, /*Function*/ callback, /*Number*/ subsequentDelay, /*Number*/ initialDelay, /*Number?*/ minDelay){
@@ -140,7 +144,7 @@ dijit.typematic = {
 		// returns:
 		//		an array of dojo.connect handles
 		var dc = dojo.connect;
-		return [
+		var handles =  [
 			dc(node, "mousedown", this, function(evt){
 				dojo.stopEvent(evt);
 				dijit.typematic.trigger(evt, _this, node, callback, node, subsequentDelay, initialDelay, minDelay);
@@ -164,6 +168,7 @@ dijit.typematic = {
 				}
 			})
 		];
+		return { cancel: function(){ dojo.forEach(handles, function(h){ h.cancel(); }); } };
 	},
 
 	addListener: function(/*Node*/ mouseNode, /*Node*/ keyNode, /*Object*/ keyObject, /*Object*/ _this, /*Function*/ callback, /*Number*/ subsequentDelay, /*Number*/ initialDelay, /*Number?*/ minDelay){
@@ -177,8 +182,11 @@ dijit.typematic = {
 		//		the DOM node object to listen on for key events.
 		// returns:
 		//		an array of dojo.connect handles
-		return this.addKeyListener(keyNode, keyObject, _this, callback, subsequentDelay, initialDelay, minDelay).concat(
-			this.addMouseListener(mouseNode, _this, callback, subsequentDelay, initialDelay, minDelay));
+		var handles = [
+			this.addKeyListener(keyNode, keyObject, _this, callback, subsequentDelay, initialDelay, minDelay),
+			this.addMouseListener(mouseNode, _this, callback, subsequentDelay, initialDelay, minDelay)
+		];
+		return { cancel: function(){ dojo.forEach(handles, function(h){ h.cancel(); }); } };
 	}
 };
 
