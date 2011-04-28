@@ -344,7 +344,7 @@ dojo.declare(
 
 				// If node was previously opened then open it again now (this may trigger
 				// more data store accesses, recursively)
-				if(this.tree.autoExpand || this.tree._state(item)){
+				if(this.tree.autoExpand || this.tree._state(node)){
 					defs.push(tree._expandNode(node));
 				}
 			}, this);
@@ -1352,10 +1352,7 @@ dojo.declare(
 			node.collapse();
 			this.onClose(node.item, node);
 
-			if(node.item){
-				this._state(node.item,false);
-				this._saveState();
-			}
+			this._state(node, false);
 		}
 	},
 
@@ -1421,10 +1418,7 @@ dojo.declare(
 
 				this.onOpen(node.item, node);
 
-				if(item){
-					this._state(item, true);
-					this._saveState();
-				}
+				this._state(node, true);
 		}
 
 		return def;	// dojo.Deferred
@@ -1539,43 +1533,39 @@ dojo.declare(
 	_initState: function(){
 		// summary:
 		//		Load in which nodes should be opened automatically
-		this._openedItemIds = {};
+		this._openedNodes = {};
 		if(this.persist && this.cookieName){
 			var cookie = dojo.cookie(this.cookieName);
 			if(cookie){
 				dojo.forEach(cookie.split(','), function(item){
-					this._openedItemIds[item] = true;
+					this._openedNodes[item] = true;
 				}, this);
 			}
 		}
 	},
-	_state: function(item,expanded){
+	_state: function(node, expanded){
 		// summary:
-		//		Query or set expanded state for an item,
+		//		Query or set expanded state for an node
 		if(!this.persist){
 			return false;
 		}
-		var id=this.model.getIdentity(item);
+		var path = dojo.map(node.getTreePath(), function(item){
+				return this.model.getIdentity(item);
+			}, this).join("/");
 		if(arguments.length === 1){
-			return this._openedItemIds[id];
-		}
-		if(expanded){
-			this._openedItemIds[id] = true;
+			return this._openedNodes[path];
 		}else{
-			delete this._openedItemIds[id];
+			if(expanded){
+				this._openedNodes[path] = true;
+			}else{
+				delete this._openedNodes[path];
+			}
+			var ary = [];
+			for(var id in this._openedNodes){
+				ary.push(id);
+			}
+			dojo.cookie(this.cookieName, ary.join(","), {expires:365});
 		}
-	},
-	_saveState: function(){
-		// summary:
-		//		Create and save a cookie with the currently expanded nodes identifiers
-		if(!this.persist){
-			return;
-		}
-		var ary = [];
-		for(var id in this._openedItemIds){
-			ary.push(id);
-		}
-		dojo.cookie(this.cookieName, ary.join(","), {expires:365});
 	},
 
 	destroy: function(){
