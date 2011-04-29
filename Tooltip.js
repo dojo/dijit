@@ -36,7 +36,7 @@ define([
 			this.fadeOut = dojo.fadeOut({ node: this.domNode, duration: this.duration, onEnd: dojo.hitch(this, "_onHide") });
 		},
 
-		show: function(/*String*/ innerHTML, /*DomNode*/ aroundNode, /*String[]?*/ position, /*Boolean*/ rtl){
+		show: function(/*String*/ innerHTML, /*DomNode || dijit.__Rectangle*/ aroundNode, /*String[]?*/ position, /*Boolean*/ rtl){
 			// summary:
 			//		Display tooltip w/specified contents to right of specified node
 			//		(To left if there's no space on the right, or if rtl == true)
@@ -62,11 +62,15 @@ define([
 			// This could not have been done in orient() since the tooltip wasn't positioned at that time.
 			var aroundNodeCoords;
 			if(pos.corner.charAt(0) == 'M' && pos.aroundCorner.charAt(0) == 'M'){
-				aroundNodeCoords = dojo.position(aroundNode, true);
+				aroundNodeCoords = (typeof aroundNode == "string" || "offsetWidth" in aroundNode)
+					? dojo.position(aroundNode, true)
+					: aroundNode;
 				this.connectorNode.style.top = aroundNodeCoords.y + ((aroundNodeCoords.h - this.connectorNode.offsetHeight) >> 1) - pos.y + "px";
 				this.connectorNode.style.left = "";
 			}else if(pos.corner.charAt(1) == 'M' && pos.aroundCorner.charAt(1) == 'M'){
-				aroundNodeCoords = dojo.position(aroundNode, true);
+				aroundNodeCoords = (typeof aroundNode == "string" || "offsetWidth" in aroundNode)
+					? dojo.position(aroundNode, true)
+					: aroundNode;
 				this.connectorNode.style.left = aroundNodeCoords.x + ((aroundNodeCoords.w - this.connectorNode.offsetWidth) >> 1) - pos.x + "px";
 			}
 
@@ -197,7 +201,7 @@ define([
 
 	});
 
-	dijit.showTooltip = function(/*String*/ innerHTML, /*DomNode*/ aroundNode, /*String[]?*/ position, /*Boolean*/ rtl){
+	dijit.showTooltip = function(/*String*/ innerHTML, /*DomNode || dijit.__Rectangle*/ aroundNode, /*String[]?*/ position, /*Boolean*/ rtl){
 		// summary:
 		//		Display tooltip w/specified contents in specified position.
 		//		See description of dijit.Tooltip.defaultPosition for details on position parameter.
@@ -274,7 +278,7 @@ define([
 			}
 		},
 
-		removeTarget: function(/*DOMNODE || String*/ node){
+		removeTarget: function(/*DomNode || String*/ node){
 			// summary:
 			//		Detach tooltip from specified node
 

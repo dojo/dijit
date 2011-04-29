@@ -204,7 +204,7 @@ define([
 
 		around: function(
 			/*DomNode*/		node,
-			/*Object*/		anchor,
+			/*DomNode || dijit.__Rectangle*/anchor,
 			/*String[]*/	positions,
 			/*Boolean*/		leftToRight,
 			/*Function?*/	layoutNode){
