@@ -1,10 +1,10 @@
 define([
 	"dojo",
 	".",
-	"./a11yclick",
 	"./_WidgetBase",
+	"./_OnDijitClickMixin",
 	"./_FocusMixin",
-	"./_base"], function(dojo, dijit, a11yclick){
+	"./_base"], function(dojo, dijit){
 
 	// module:
 	//		dijit/_Widget
@@ -27,7 +27,7 @@ dojo.connect(dojo, "_connect",
 dijit._connectOnUseEventHandler = function(/*Event*/ event){};
 
 
-dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._FocusMixin], {
+dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, dijit._FocusMixin], {
 	// summary:
 	//		Base class for all Dijit widgets.
 	//
@@ -297,36 +297,6 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._FocusMixin], {
 		}else{ // getter
 			return this.get(name);
 		}
-	},
-
-	connect: function(
-			/*Object|null*/ obj,
-			/*String|Function*/ event,
-			/*String|Function*/ method){
-		// summary:
-		//		Connects specified obj/event to specified method of this object
-		//		and registers for disconnect() on widget destroy.
-		// description:
-		//		Provide widget-specific analog to dojo.connect, except with the
-		//		implicit use of this widget as the target object.
-		//		This version of connect also provides a special "ondijitclick"
-		//		event which triggers on a click or space or enter keyup.
-		//		Events connected with `this.connect` are disconnected upon
-		//		destruction.
-		// returns:
-		//		A handle that can be passed to `disconnect` in order to disconnect before
-		//		the widget is destroyed.
-		// example:
-		//	|	var btn = new dijit.form.Button();
-		//	|	// when foo.bar() is called, call the listener we're going to
-		//	|	// provide in the scope of btn
-		//	|	btn.connect(foo, "bar", function(){
-		//	|		console.debug(this.toString());
-		//	|	});
-		// tags:
-		//		protected
-
-		return this.inherited(arguments, [obj, event == "ondijitclick" ? a11yclick : event, method]);
 	},
 
 	////////////////// MISCELLANEOUS METHODS ///////////////////

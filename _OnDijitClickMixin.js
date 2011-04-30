@@ -1,9 +1,10 @@
 define(["dojo", "dojo/listen"], function(dojo, listen){
 
 	// module:
-	//		dijit/a11yclick
+	//		dijit/_OnDijitClickMixin
 	// summary:
-	//		Event to handle clicks by mouse, or by keyboard (SPACE/ENTER key)
+	//		Mixin so you can pass "ondijitclick" to this.connect() method,
+	//		as a way to handle clicks by mouse, or by keyboard (SPACE/ENTER key)
 
 
 	// Keep track of where the last keydown event was, to help avoid generating
@@ -29,8 +30,8 @@ define(["dojo", "dojo/listen"], function(dojo, listen){
 		}, true);
 	}
 
-	// Here's the custom a11yclick (a.k.a. ondijitclick) event
-	return function(node, listener){
+	// Custom a11yclick (a.k.a. ondijitclick) event
+	var a11yclick = function(node, listener){
 		if(/input|button/i.test(node.nodeName)){
 			// pass through, the browser already generates click event on SPACE/ENTER key
 			return function(node, listener){
@@ -83,4 +84,38 @@ define(["dojo", "dojo/listen"], function(dojo, listen){
 			};
 		}
 	};
+
+	dojo.declare("dijit._OnDijitClickMixin", null, {
+		connect: function(
+				/*Object|null*/ obj,
+				/*String|Function*/ event,
+				/*String|Function*/ method){
+			// summary:
+			//		Connects specified obj/event to specified method of this object
+			//		and registers for disconnect() on widget destroy.
+			// description:
+			//		Provide widget-specific analog to dojo.connect, except with the
+			//		implicit use of this widget as the target object.
+			//		This version of connect also provides a special "ondijitclick"
+			//		event which triggers on a click or space or enter keyup.
+			//		Events connected with `this.connect` are disconnected upon
+			//		destruction.
+			// returns:
+			//		A handle that can be passed to `disconnect` in order to disconnect before
+			//		the widget is destroyed.
+			// example:
+			//	|	var btn = new dijit.form.Button();
+			//	|	// when foo.bar() is called, call the listener we're going to
+			//	|	// provide in the scope of btn
+			//	|	btn.connect(foo, "bar", function(){
+			//	|		console.debug(this.toString());
+			//	|	});
+			// tags:
+			//		protected
+
+			return this.inherited(arguments, [obj, event == "ondijitclick" ? a11yclick : event, method]);
+		}
+	});
+
+	return dijit._OnDijitClickMixin;
 });
