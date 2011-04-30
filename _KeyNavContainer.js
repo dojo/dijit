@@ -1,12 +1,10 @@
-define(["dojo", ".", "./_Container"], function(dojo, dijit) {
+define(["dojo", ".", "./_Container", "./_FocusMixin"], function(dojo, dijit){
 	// module:
 	//		dijit/_KeyNavContainer
 	// summary:
-	//		TODOC
+	//		A _Container with keyboard navigation of its children.
 
-dojo.declare("dijit._KeyNavContainer",
-	dijit._Container,
-	{
+	dojo.declare("dijit._KeyNavContainer", [dijit._Container, dijit._FocusMixin], {
 
 		// summary:
 		//		A _Container with keyboard navigation of its children.
@@ -248,9 +246,7 @@ dojo.declare("dijit._KeyNavContainer",
 			// no focusable child found
 			return null;	// dijit._Widget
 		}
-	}
-);
+	});
 
-
-return dijit._KeyNavContainer;
+	return dijit._KeyNavContainer;
 });

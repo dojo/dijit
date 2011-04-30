@@ -242,13 +242,6 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 		}
 	},
 
-	isFocusable: function(){
-		// summary:
-		//		Return true if this widget can currently be focused
-		//		and false if not
-		return this.focus && (dojo.style(this.domNode, "display") != "none");
-	},
-
 	_setFocusedAttr: function(val){
 		// Remove this method in 2.0 (or sooner), just here to set _focused == focused, for back compat
 		// (but since it's a private variable we aren't required to keep supporting it).

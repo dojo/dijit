@@ -825,6 +825,13 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		return this.dir ? (this.dir == "ltr") : dojo._isBodyLtr(); //Boolean
 	},
 
+	isFocusable: function(){
+		// summary:
+		//		Return true if this widget can currently be focused
+		//		and false if not
+		return this.focus && (dojo.style(this.domNode, "display") != "none");
+	},
+
 	placeAt: function(/* String|DomNode|_Widget */reference, /* String?|Int? */position){
 		// summary:
 		//		Place this widget's domNode reference somewhere in the DOM based
