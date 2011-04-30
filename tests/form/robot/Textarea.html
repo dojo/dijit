@@ -21,7 +21,7 @@
 
 				// execute some test as soon as the widget gets focus
 				var focusThenRun = function(widget, fcn){
-					if(!widget._focused){
+					if(!widget.focused){
 						var handler = widget.connect(widget, '_onFocus', function(){
 							widget.disconnect(handler);
 							setTimeout(fcn, 1);

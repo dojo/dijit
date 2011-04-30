@@ -60,7 +60,7 @@ dojo.declare(
 		// than a straight regexp to deal with locale  (plus formatting options too?)
 		regExpGen: function(constraints){
 			// if focused, accept either currency data or NumberTextBox format
-			return '(' + (this._focused? this.inherited(arguments, [ dojo.mixin({}, constraints, this.editOptions) ]) + '|' : '')
+			return '(' + (this.focused ? this.inherited(arguments, [ dojo.mixin({}, constraints, this.editOptions) ]) + '|' : '')
 				+ dojo.currency.regexp(constraints) + ')';
 		},
 

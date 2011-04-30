@@ -370,7 +370,7 @@ dojo.declare(
 			// set tabIndex=0 on new cell, and focus it (but only if Calendar itself is focused)
 			var newCell = this._date2cell[date.valueOf()];
 			newCell.setAttribute("tabIndex", this.tabIndex);
-			if(this._focused || forceFocus){
+			if(this.focused || forceFocus){
 				newCell.focus();
 			}
 

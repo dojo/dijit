@@ -122,7 +122,7 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 			if(!("rangeCheck" in this && this.rangeCheck(value, constraints)) && constraints.exponent !== false && /\de[-+]?\d/i.test(formattedValue)){
 				return formattedValue;
 			}
-			if(this.editOptions && this._focused){
+			if(this.editOptions && this.focused){
 				constraints = dojo.mixin({}, constraints, this.editOptions);
 			}
 			return this._formatter(value, constraints);
@@ -150,8 +150,8 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 			// tags:
 			//		protected extension
 
-			var v = this._parser(value, dojo.mixin({}, constraints, (this.editOptions && this._focused) ? this.editOptions : {}));
-			if(this.editOptions && this._focused && isNaN(v)){
+			var v = this._parser(value, dojo.mixin({}, constraints, (this.editOptions && this.focused) ? this.editOptions : {}));
+			if(this.editOptions && this.focused && isNaN(v)){
 				v = this._parser(value, constraints); // parse w/o editOptions: not technically needed but is nice for the user
 			}
 			return v;
@@ -181,7 +181,7 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 		},
 
 		_setBlurValue: function(){
-			var val = dojo.hitch(dojo.mixin({}, this, { _focused: true }), "get")('value'); // parse with editOptions
+			var val = dojo.hitch(dojo.mixin({}, this, { focused: true }), "get")('value'); // parse with editOptions
 			this._setValueAttr(val, true);
 		},
 
@@ -231,7 +231,7 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 		isValid: function(/*Boolean*/ isFocused){
 			// Overrides dijit.form.RangeBoundTextBox.isValid to check that the editing-mode value is valid since
 			// it may not be formatted according to the regExp vaidation rules
-			if(!this._focused || this._isEmpty(this.textbox.value)){
+			if(!this.focused || this._isEmpty(this.textbox.value)){
 				return this.inherited(arguments);
 			}else{
 				var v = this.get('value');

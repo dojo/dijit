@@ -96,7 +96,7 @@ dojo.declare(
 			// summary:
 			//		Hook so set('value', ...) works.
 			this.inherited(arguments);
-			this.validate(this._focused);
+			this.validate(this.focused);
 		},
 
 		validator: function(/*anything*/ value, /*dijit.form.ValidationTextBox.__Constraints*/ constraints){
@@ -184,14 +184,14 @@ dojo.declare(
 			// tags:
 			//		extension
 			dijit.hideTooltip(this.domNode);
-			if(message && this._focused){
+			if(message && this.focused){
 				dijit.showTooltip(message, this.domNode, this.tooltipPosition, !this.isLeftToRight());
 			}
 		},
 
 		_refreshState: function(){
 			// Overrides TextBox._refreshState()
-			this.validate(this._focused);
+			this.validate(this.focused);
 			this.inherited(arguments);
 		},
 

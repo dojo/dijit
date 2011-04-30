@@ -57,7 +57,7 @@ dojo.declare(
 
 		_updatePlaceHolder: function(){
 			if(this._phspan){
-				this._phspan.style.display=(this.placeHolder&&!this._focused&&!this.textbox.value)?"":"none";
+				this._phspan.style.display=(this.placeHolder&&!this.focused&&!this.textbox.value)?"":"none";
 			}
 		},
 

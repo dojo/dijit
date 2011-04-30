@@ -162,7 +162,7 @@ dojo.declare("dijit._CssStateMixin", [], {
 			}
 		}
 
-		if(this._focused){
+		if(this.focused){
 			multiply("Focused");
 		}
 

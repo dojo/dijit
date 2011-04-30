@@ -978,7 +978,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		// tags:
 		//		protected
 
-		if(!this._focused && !this.disabled){
+		if(!this.focused && !this.disabled){
 			this.focus();
 		}
 	},

@@ -77,7 +77,7 @@ dojo.declare(
 			if(!result.length){
 				//#3268: don't modify display value on bad input
 				//#3285: change CSS to indicate error
-				this.set("value", '', priorityChange || (priorityChange === undefined && !this._focused), this.textbox.value, null);
+				this.set("value", '', priorityChange || (priorityChange === undefined && !this.focused), this.textbox.value, null);
 			}else{
 				this.set('item', result[0], priorityChange);
 			}

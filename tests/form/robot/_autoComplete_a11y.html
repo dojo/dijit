@@ -1057,7 +1057,7 @@
 							doh.t(list && isVisible(list), "drop down is visible");
 							doh.is(combo.dropDown.getHighlightedOption(), findMenuItem(combo, "Alaska"), "Alaska is selected");
 
-							doh.t(combo._focused, "widget is focused");
+							doh.t(combo.focused, "widget is focused");
 
 							// Since the user down arrowed thru the choices, the value should be the current selection
 							doh.is('Alaska', combo.focusNode.value);
@@ -1098,7 +1098,7 @@
 							doh.t(list && isVisible(list), "drop down is visible");
 							doh.is(combo.dropDown.getHighlightedOption(), findMenuItem(combo, "Alaska"), "Alaska is selected");
 
-							doh.t(combo._focused, "widget is focused");
+							doh.t(combo.focused, "widget is focused");
 
 							// Since the user down arrowed thru the choices, the value should be the current selection
 							doh.is('Alaska', combo.focusNode.value);
