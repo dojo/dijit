@@ -2,13 +2,12 @@ define([
 	"dojo",
 	"..",
 	"../place",
-	"dojo/window"], function(dojo, dijit, place) {
+	"dojo/window"], function(dojo, dijit, place){
 
-	//	module:
+	// module:
 	//		dijit/_base/place
-	//	summary:
+	// summary:
 	//		Back compatibility module, new code should use dijit/place directly instead of using this module.
-	//
 
 	dijit.getViewport = function(){
 		// summary:

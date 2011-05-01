@@ -2,7 +2,7 @@ define(["dojo", ".."], function(dojo, dijit) {
 	// module:
 	//		dijit/_base/manager
 	// summary:
-	//		TODOC
+	//		Many of the basic methods/classes used by dijit.
 
 dojo.declare("dijit.WidgetSet", null, {
 	// summary:
