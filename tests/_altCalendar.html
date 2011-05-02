@@ -1,4 +1,4 @@
-<table cellspacing="0" cellpadding="0" class="dijitCalendarContainer" role="grid" dojoAttachEvent="onkeypress: _onKeyPress">
+<table cellspacing="0" cellpadding="0" class="dijitCalendarContainer" role="grid">
 	<thead>
 		<tr class="dijitReset dijitCalendarMonthContainer" valign="top">
 			<th>			
@@ -12,7 +12,7 @@
 				<span dojoAttachPoint="increaseArrowNode" class="dijitA11ySideArrow">+</span>
 			</span></th>
 			<th class='dijitReset' colspan="6">
-				<div data-dojo-type="dijit.form.DropDownButton" data-dojo-attach-point="monthDropDownButton">
+				<div data-dojo-attach-point="monthNode">
 				</div>
 			</th>
 		</tr>
@@ -20,7 +20,7 @@
 			${!dayCellsHtml}
 		</tr>
 	</thead>
-	<tbody dojoAttachEvent="onclick: _onDayClick, onmouseover: _onDayMouseOver, onmouseout: _onDayMouseOut, onmousedown: _onDayMouseDown, onmouseup: _onDayMouseUp" class="dijitReset dijitCalendarBodyContainer">
+	<tbody dojoAttachPoint="dateRowsNode" dojoAttachEvent="onclick: _onDayClick" class="dijitReset dijitCalendarBodyContainer">
 		${!dateRowsHtml}
 	</tbody>
 	<tfoot class="dijitReset dijitCalendarYearContainer">

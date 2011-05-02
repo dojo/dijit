@@ -705,14 +705,14 @@
 							var calendar = dijit.byId("american_popup");
 
 							doh.is(1, dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode).length, "found month label");
-							doh.t(calendar.monthDropDownButton.dropDown, "month dropdown exists");
-							doh.f(isVisible(calendar.monthDropDownButton.dropDown), "month dropdown is not visible");
+							doh.t(calendar.monthWidget.dropDown, "month dropdown exists");
+							doh.f(isVisible(calendar.monthWidget.dropDown), "month dropdown is not visible");
 
 							doh.robot.mouseMoveAt(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0], 0, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.mouseMoveAt(function(){
-								return dojo.query("[month=6]", calendar.monthDropDownButton.dropDown.domNode)[0];
+								return dojo.query("[month=6]", calendar.monthWidget.dropDown.domNode)[0];
 							}, 1000, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
@@ -1089,14 +1089,14 @@
 							var calendar = dijit.byId("american_popup");
 
 							doh.is(1, dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode).length, "found month label");
-							doh.t(calendar.monthDropDownButton.dropDown, "month dropdown exists");
-							doh.f(isVisible(calendar.monthDropDownButton.dropDown), "month dropdown is not visible");
+							doh.t(calendar.monthWidget.dropDown, "month dropdown exists");
+							doh.f(isVisible(calendar.monthWidget.dropDown), "month dropdown is not visible");
 
 							doh.robot.mouseMoveAt(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0], 0, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.mouseMoveAt(function(){
-								return dojo.query("[month=1]", calendar.monthDropDownButton.dropDown.domNode)[0];
+								return dojo.query("[month=1]", calendar.monthWidget.dropDown.domNode)[0];
 							}, 1000, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
@@ -1125,14 +1125,14 @@
 							var calendar = dijit.byId("american_popup");
 
 							doh.is(1, dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode).length, "found month label");
-							doh.t(calendar.monthDropDownButton.dropDown, "month dropdown exists");
-							doh.f(isVisible(calendar.monthDropDownButton.dropDown), "month dropdown is not visible");
+							doh.t(calendar.monthWidget.dropDown, "month dropdown exists");
+							doh.f(isVisible(calendar.monthWidget.dropDown), "month dropdown is not visible");
 
 							doh.robot.mouseMoveAt(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0], 0, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.mouseMoveAt(function(){
-								return dojo.query("[month=11]", calendar.monthDropDownButton.dropDown.domNode)[0];
+								return dojo.query("[month=11]", calendar.monthWidget.dropDown.domNode)[0];
 							}, 1000, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
