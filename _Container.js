@@ -1,12 +1,10 @@
-define(["dojo", "."], function(dojo, dijit) {
+define(["dojo", "."], function(dojo, dijit){
 	// module:
 	//		dijit/_Container
 	// summary:
-	//		TODOC
+	//		Mixin for widgets that contain a set of widget children.
 
-dojo.declare("dijit._Container",
-	null,
-	{
+	dojo.declare("dijit._Container", null, {
 		// summary:
 		//		Mixin for widgets that contain a set of widget children.
 		// description:
@@ -60,7 +58,7 @@ dojo.declare("dijit._Container",
 			}
 		},
 
-		removeChild: function(/*Widget or int*/ widget){
+		removeChild: function(/*Widget|int*/ widget){
 			// summary:
 			//		Removes the passed widget instance from this widget but does
 			//		not destroy it.  You can also pass in an integer indicating
@@ -132,9 +130,7 @@ dojo.declare("dijit._Container",
 
 			this.inherited(arguments);
 		}
-	}
-);
+	});
 
-
-return dijit._Container;
+	return dijit._Container;
 });
