@@ -18,7 +18,7 @@ define([
 	};
 
 	/*=====
-	dijit.placeOnScreen: function(node, pos, corners, padding){
+	dijit.placeOnScreen = function(node, pos, corners, padding){
 		// summary:
 		//		Positions one of the node's corners at specified position
 		//		such that node is fully visible in viewport.
