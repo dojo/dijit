@@ -5,6 +5,7 @@ define([
   "../_Widget",
   "../_TemplatedMixin",
   "../_CssStateMixin",
+  "./_FormValueMixin",
   "./_FormWidgetMixin"], function(dojo, dijit) {
 	// module:
 	//		dijit/form/_FormWidget
