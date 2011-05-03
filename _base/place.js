@@ -23,6 +23,7 @@ define([
 		//		Positions one of the node's corners at specified position
 		//		such that node is fully visible in viewport.
 		//		Deprecated, new code should use dijit.place.at() instead.
+	};
 	=====*/
 	dijit.placeOnScreen = place.at;
 

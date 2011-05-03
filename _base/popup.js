@@ -106,7 +106,7 @@ var origOpen = popup.open;
 popup.open = function(/*dijit.popup.__OpenArgs*/ args){
 	// Convert old hash structure (ex: {"BL": "TL", ...}) of orient to format compatible w/new popup.open() API.
 	// Don't do conversion for:
-	//		- null parameter (that means to use the default positioning
+	//		- null parameter (that means to use the default positioning)
 	//		- "R" or "L" strings used to indicate positioning for context menus (when there is no around node)
 	//		- new format, ex: ["below", "above"]
 	//		- return value from deprecated dijit.getPopupAroundAlignment() method,
@@ -131,6 +131,7 @@ dijit.BackgroundIframe = function(node){
 	//		new dijit.BackgroundIframe(node)
 	//			Makes a background iframe as a child of node, that fills
 	//			area (and position) of node
+};
 =====*/
 dijit.BackgroundIframe = BackgroundIframe;
 
