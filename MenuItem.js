@@ -1,19 +1,22 @@
 define([
-  "dojo",
-  ".",
-  "dojo/text!./templates/MenuItem.html",
-  "./_Widget",
-  "./_TemplatedMixin",
-  "./_Contained",
-  "./_CssStateMixin"], function(dojo, dijit) {
+	"dojo",
+	".",
+	"dojo/text!./templates/MenuItem.html",
+	"./_WidgetBase",
+	"./_OnDijitClickMixin",
+	"./_FocusMixin",
+	"./_TemplatedMixin",
+	"./_Contained",
+	"./_CssStateMixin"], function(dojo, dijit){
+
 	// module:
 	//		dijit/MenuItem
 	// summary:
-	//		TODOC
+	//		A line item in a Menu Widget
 
 
 dojo.declare("dijit.MenuItem",
-		[dijit._Widget, dijit._TemplatedMixin, dijit._Contained, dijit._CssStateMixin],
+		[dijit._WidgetBase, dijit._OnDijitClickMixin, dijit._FocusMixin, dijit._TemplatedMixin, dijit._Contained, dijit._CssStateMixin],
 		{
 		// summary:
 		//		A line item in a Menu Widget
@@ -62,7 +65,7 @@ dojo.declare("dijit.MenuItem",
 				dojo.attr(this.accelKeyNode, "id", this.id + "_accel");
 				label += " " + this.id + "_accel";
 			}
-			dijit.setWaiState(this.domNode, "labelledby", label);
+			this.domNode.setAttribute("aria-labelledby", label);
 			dojo.setSelectable(this.domNode, false);
 		},
 
@@ -116,7 +119,7 @@ dojo.declare("dijit.MenuItem",
 					// needed for IE8 which won't scroll TR tags into view on focus yet calling scrollIntoView creates flicker (#10275)
 					this.containerNode.focus();
 				}
-				dijit.focus(this.focusNode);
+				this.focusNode.focus();
 			}catch(e){
 				// this throws on IE (at least) in some scenarios
 			}
@@ -175,7 +178,7 @@ dojo.declare("dijit.MenuItem",
 			//		Hook for attr('disabled', ...) to work.
 			//		Enable or disable this menu item.
 
-			dijit.setWaiState(this.focusNode, 'disabled', value ? 'true' : 'false');
+			this.focusNode.setAttribute('aria-disabled', value ? 'true' : 'false');
 			this._set("disabled", value);
 		},
 		_setAccelKeyAttr: function(/*String*/ value){

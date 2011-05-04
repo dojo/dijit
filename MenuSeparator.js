@@ -1,19 +1,17 @@
 define([
-  "dojo",
-  ".",
-  "dojo/text!./templates/MenuSeparator.html",
-  "./_Widget",
-  "./_TemplatedMixin",
-  "./_Contained"], function(dojo, dijit) {
+	"dojo",
+	".",
+	"dojo/text!./templates/MenuSeparator.html",
+	"./_WidgetBase",
+	"./_TemplatedMixin",
+	"./_Contained"], function(dojo, dijit){
+
 	// module:
 	//		dijit/MenuSeparator
 	// summary:
-	//		TODOC
+	//		A line between two menu items
 
-
-dojo.declare("dijit.MenuSeparator",
-		[dijit._Widget, dijit._TemplatedMixin, dijit._Contained],
-		{
+	dojo.declare("dijit.MenuSeparator", [dijit._WidgetBase, dijit._TemplatedMixin, dijit._Contained], {
 		// summary:
 		//		A line between two menu items
 
@@ -34,6 +32,5 @@ dojo.declare("dijit.MenuSeparator",
 		}
 	});
 
-
-return dijit.MenuSeparator;
+	return dijit.MenuSeparator;
 });

@@ -1,4 +1,4 @@
-define(["dojo", ".", "./MenuItem"], function(dojo, dijit) {
+define(["dojo", ".", "./MenuItem", "./hccss"], function(dojo, dijit){
 	// module:
 	//		dijit/PopupMenuItem
 	// summary:
@@ -48,7 +48,7 @@ dojo.declare("dijit.PopupMenuItem",
 			if(this.arrowWrapper){
 				dojo.style(this.arrowWrapper, "visibility", "");
 			}
-			dijit.setWaiState(this.focusNode, "haspopup", "true");
+			this.focusNode.setAttribute("aria-haspopup", "true");
 		},
 
 		destroyDescendants: function(){
