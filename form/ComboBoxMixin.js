@@ -1,16 +1,19 @@
 define([
-  "dojo",
-  "..",
-  "dojo/text!./templates/DropDownBox.html",
-  "./_AutoCompleterMixin",
-  "./_ComboBoxMenu"], function(dojo, dijit) {
+	"dojo",
+	"..",
+	"dojo/text!./templates/DropDownBox.html",
+	"./_AutoCompleterMixin",
+	"./_ComboBoxMenu"], function(dojo, dijit){
+
 	// module:
 	//		dijit/form/ComboBoxMixin
 	// summary:
-	//		TODOC
+	//		Provides main functionality of ComboBox widget
 
+	dojo.declare("dijit.form.ComboBoxMixin", dijit.form._AutoCompleterMixin, {
+		// summary:
+		//		Provides main functionality of ComboBox widget
 
-dojo.declare("dijit.form.ComboBoxMixin", dijit.form._AutoCompleterMixin, {
 		// dropDownClass: [protected extension] String
 		//		Name of the dropdown widget class used to select a date/time.
 		//		Subclasses should specify this.
@@ -41,7 +44,7 @@ dojo.declare("dijit.form.ComboBoxMixin", dijit.form._AutoCompleterMixin, {
 			this.displayMessage("");
 			this.inherited(arguments);
 		}
-});
+	});
 
-return dijit.form.ComboBoxMixin;
+	return dijit.form.ComboBoxMixin;
 });
