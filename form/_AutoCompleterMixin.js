@@ -1,18 +1,19 @@
 define([
-  "dojo",
-  "..",
-  "dojo/regexp",
-  "dojo/i18n!./nls/ComboBox",
-  "./_FormWidget",
-  "./DataList",
-  "../_HasDropDown"], function(dojo, dijit) {
+	"dojo",
+	"..",
+	"dojo/string",
+	"dojo/regexp",
+	"dojo/i18n!./nls/ComboBox",
+	"./DataList",
+	"../_HasDropDown"], function(dojo, dijit){
+
 	// module:
 	//		dijit/form/_AutoCompleterMixin
 	// summary:
-	//		TODOC
+	//		A mixin that implements the base functionality for `dijit.form.ComboBox`/`dijit.form.FilteringSelect`
 
 
-dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
+	dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 		// summary:
 		//		A mixin that implements the base functionality for `dijit.form.ComboBox`/`dijit.form.FilteringSelect`
 		// description:
@@ -716,8 +717,7 @@ dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
 					this.dropDown._set("textDir", textDir);
 			}
 		}
-	}
-);
+	});
 
-return dijit.form._AutoCompleterMixin;
+	return dijit.form._AutoCompleterMixin;
 });
