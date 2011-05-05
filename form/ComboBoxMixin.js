@@ -3,7 +3,8 @@ define([
 	"..",
 	"dojo/text!./templates/DropDownBox.html",
 	"./_AutoCompleterMixin",
-	"./_ComboBoxMenu"], function(dojo, dijit){
+	"./_ComboBoxMenu",
+	"dojo/store/DataStore"], function(dojo, dijit){
 
 	// module:
 	//		dijit/form/ComboBoxMixin
@@ -28,6 +29,15 @@ define([
 
 		baseClass: "dijitTextBox dijitComboBox",
 
+		/*=====
+		// store: [const] dojo.store.api.Store || dojo.data.api.Read
+		//		Reference to data provider object used by this ComboBox.
+		//
+		//		Should be dojo.store.api.Store, but dojo.data.api.Read supported
+		//		for backwards compatibility.
+		store: null,
+		=====*/
+
 		// Set classes like dijitDownArrowButtonHover depending on
 		// mouse action over button node
 		cssStateNodes: {
@@ -43,6 +53,26 @@ define([
 			// hide the tooltip
 			this.displayMessage("");
 			this.inherited(arguments);
+		},
+
+		postMixInProperties: function(){
+			// For backwards-compatibility, accept dojo.data store in addition to dojo.store.store.  Remove in 2.0
+			var labelAttr = (this.store && this.store._labelAttr) || "label";
+			if(this.store && !this.store.get){
+				this.store = new dojo.store.DataStore({store: this.store});
+			}
+			this.inherited(arguments);
+
+			// Also, user may try to access this.store.getValue(), like in a custom labelFunc() function.
+			dojo.mixin(this.store, {
+				getValue: function(item, attr){
+					return item[attr];
+				},
+				getLabel: function(item){
+					return item[labelAttr];
+				}
+			});
+
 		}
 	});
 

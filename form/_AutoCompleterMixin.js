@@ -3,6 +3,7 @@ define([
 	"..",
 	"dojo/string",
 	"dojo/regexp",
+	"dojo/data/util/filter",
 	"dojo/i18n!./nls/ComboBox",
 	"./DataList",
 	"../_HasDropDown"], function(dojo, dijit){
@@ -31,12 +32,12 @@ define([
 		//		Specifies number of search results per page (before hitting "next" button)
 		pageSize: Infinity,
 
-		// store: [const] Object
+		// store: [const] dojo.store.api.Store
 		//		Reference to data provider object used by this ComboBox
 		store: null,
 
 		// fetchProperties: Object
-		//		Mixin to the dojo.data store's fetch.
+		//		Mixin to the store's fetch.
 		//		For example, to set the sort order of the ComboBox menu, pass:
 		//	|	{ sort: [{attribute:"name",descending: true}] }
 		//		To override the default queryOptions so that deep=false, do:
@@ -155,7 +156,7 @@ define([
 				this.searchTimer = null;
 			}
 			if(this._fetchHandle){
-				if(this._fetchHandle.abort){ this._fetchHandle.abort(); }
+				if(this._fetchHandle.cancel){ this._fetchHandle.cancel(); }
 				this._fetchHandle = null;
 			}
 		},
@@ -322,7 +323,7 @@ define([
 			}
 		},
 
-		_openResultList: function(/*Object*/ results, /*Object*/ dataObject){
+		_openResultList: function(/*Object*/ results, /*Object*/ query, /*Object*/ options){
 			// summary:
 			//		Callback when a search completes.
 			// description:
@@ -332,13 +333,13 @@ define([
 			this._fetchHandle = null;
 			if(	this.disabled ||
 				this.readOnly ||
-				(dataObject.query[this.searchAttr] != this._lastQuery)
+				(query[this.searchAttr] !== this._lastQuery)	// TODO: better way to avoid getting unwanted notify
 			){
 				return;
 			}
 			var wasSelected = this.dropDown.getHighlightedOption();
 			this.dropDown.clearResultList();
-			if(!results.length && !this._maxOptions){ // if no results and not just the previous choices button
+			if(!results.length && options.start == 0){ // if no results and not just the previous choices button
 				this.closeDropDown();
 				return;
 			}
@@ -349,10 +350,9 @@ define([
 			// textbox would be changed to "California" and "ifornia" would be
 			// highlighted.
 
-			dataObject._maxOptions = this._maxOptions;
 			var nodes = this.dropDown.createOptions(
 				results,
-				dataObject,
+				options,
 				dojo.hitch(this, "_getMenuLabelFromItem")
 			);
 
@@ -362,10 +362,10 @@ define([
 			// #4091:
 			//		tell the screen reader that the paging callback finished by
 			//		shouting the next choice
-			if(dataObject.direction){
-				if(1 == dataObject.direction){
+			if(options.direction){
+				if(1 == options.direction){
 					this.dropDown.highlightFirstOption();
-				}else if(-1 == dataObject.direction){
+				}else if(-1 == options.direction){
 					this.dropDown.highlightLastOption();
 				}
 				if(wasSelected){
@@ -376,7 +376,7 @@ define([
 				// startSearch looks for "*".
 				// it does not make sense to autocomplete
 				// if they are just previewing the options available.
-				&& !/^[*]+$/.test(dataObject.query[this.searchAttr])){
+				&& !/^[*]+$/.test(query[this.searchAttr].toString())){
 					this._announceOption(nodes[1]); // 1st real item
 			}
 		},
@@ -454,9 +454,9 @@ define([
 			var value = '';
 			if(item){
 				if(!displayedValue){
-					displayedValue = this.store.getValue(item, this.searchAttr);
+					displayedValue = item[this.searchAttr];
 				}
-				value = this._getValueField() != this.searchAttr? this.store.getIdentity(item) : displayedValue;
+				value = this._getValueField() != this.searchAttr ? this.store.getIdentity(item) : displayedValue;
 			}
 			this.set('value', value, priorityChange, displayedValue, item);
 		},
@@ -478,7 +478,7 @@ define([
 				this.item = undefined;
 				this.value = '';
 			}else{
-				newValue = this.store.getValue(node.item, this.searchAttr).toString();
+				newValue = node.item[this.searchAttr].toString();
 				this.set('item', node.item, false, newValue);
 			}
 			// get the text that the user manually entered (cut off autocompleted text)
@@ -528,49 +528,62 @@ define([
 				this.focusNode.removeAttribute("aria-activedescendant");
 				this.textbox.setAttribute("aria-owns",popupId); // associate popup with textbox
 			}
-			// create a new query to prevent accidentally querying for a hidden
+			this._lastInput = key; // Store exactly what was entered by the user.
+
+			// Setup parameters to be passed to store.query().
+			// Create a new query to prevent accidentally querying for a hidden
 			// value from FilteringSelect's keyField
 			var query = dojo.clone(this.query); // #5970
-			this._lastInput = key; // Store exactly what was entered by the user.
-			this._lastQuery = query[this.searchAttr] = this._getQueryString(key);
+			var options = {
+				start: 0,
+				count: this.pageSize,
+				ignoreCase: this.ignoreCase,
+				deep: true
+			};
+			dojo.mixin(options, this.fetchProperties);
+
+			// Query on searchAttr is a regex (for benefit of dojo.store.MemoryStore),
+			// but with a toString() method to help JsonStore
+			var qs = this._getQueryString(key),
+				q = dojo.data.util.filter.patternToRegExp(qs, this.ignoreCase);	// "Co*" --> /^Co.*$/i
+			q.toString = function(){ return qs; };
+			this._lastQuery = query[this.searchAttr] = q;
+
+			// Function to run the query, wait for the results, and then call _openResultList()
+			var _this = this,
+				startQuery = function(){
+					var resPromise = _this._fetchHandle = _this.store.query(query, options);
+					dojo.when(resPromise, function(res, err){
+						if(err){
+							_this._fetchHandle = null;
+							console.error(_this.declaredClass + ' ' + err.toString());
+							_this.closeDropDown();
+						}else{
+							res.total = resPromise.total;
+							_this._openResultList(res, query, options);
+						}
+					});
+				};
+
 			// #5970: set _lastQuery, *then* start the timeout
 			// otherwise, if the user types and the last query returns before the timeout,
 			// _lastQuery won't be set and their input gets rewritten
-			this.searchTimer=setTimeout(dojo.hitch(this, function(query, _this){
-				this.searchTimer = null;
-				var fetch = {
-					queryOptions: {
-						ignoreCase: this.ignoreCase,
-						deep: true
-					},
-					query: query,
-					onBegin: dojo.hitch(this, "_setMaxOptions"),
-					onComplete: dojo.hitch(this, "_openResultList"),
-					onError: function(errText){
-						_this._fetchHandle = null;
-						console.error(this.declaredClass + ' ' + errText);
-						_this.closeDropDown();
-					},
-					start: 0,
-					count: this.pageSize
-				};
-				dojo.mixin(fetch, _this.fetchProperties);
-				this._fetchHandle = _this.store.fetch(fetch);
 
-				var nextSearch = function(dataObject, direction){
-					dataObject.start += dataObject.count*direction;
+			this.searchTimer = setTimeout(dojo.hitch(this, function(query, _this){
+				this.searchTimer = null;
+
+				startQuery();
+
+				// Setup method to handle clicking next/previous buttons to page through results
+				this._nextSearch = this.dropDown.onPage = function(direction){
+					options.start += options.count * direction;
 					//	tell callback the direction of the paging so the screen
 					//	reader knows which menu option to shout
-					dataObject.direction = direction;
-					this._fetchHandle = this.store.fetch(dataObject);
-					this.focus();
+					options.direction = direction;
+					startQuery();
+					_this.focus();
 				};
-				this._nextSearch = this.dropDown.onPage = dojo.hitch(this, nextSearch, this._fetchHandle);
 			}, query, this), this.searchDelay);
-		},
-
-		_setMaxOptions: function(size, request){
-			 this._maxOptions = size;
 		},
 
 		_getValueField: function(){
@@ -589,13 +602,11 @@ define([
 
 		postMixInProperties: function(){
 			if(!this.store){
-				// if user didn't specify store, then assume there are option tags
 				var srcNodeRef = this.srcNodeRef;
 				var list = this.list;
 				if(list){
 					this.store = dijit.byId(list);
-				}
-				if(!this.store){
+				}else{
 					// if user didn't specify store, then assume there are option tags
 					this.store = new dijit.form.DataList({}, srcNodeRef);
 				}
@@ -610,7 +621,7 @@ define([
 					var item = (this.item = this.store.fetchSelectedItem());
 					if(item){
 						var valueField = this._getValueField();
-						this.value = this.store.getValue(item, valueField);
+						this.value = item[valueField];
 					}
 				}
 			}
@@ -681,7 +692,7 @@ define([
 			this.inherited(arguments);
 		},
 
-		labelFunc: function(/*item*/ item, /*dojo.data.store*/ store){
+		labelFunc: function(/*item*/ item, /*dojo.store.api.Store*/ store){
 			// summary:
 			//		Computes the label to display based on the dojo.data store item.
 			// returns:
@@ -691,7 +702,7 @@ define([
 
 			// Use toString() because XMLStore returns an XMLItem whereas this
 			// method is expected to return a String (#9354)
-			return store.getValue(item, this.labelAttr || this.searchAttr).toString(); // String
+			return item[this.labelAttr || this.searchAttr].toString(); // String
 		},
 
 		_setValueAttr: function(/*String*/ value, /*Boolean?*/ priorityChange, /*String?*/ displayedValue, /*item?*/ item){
@@ -714,7 +725,7 @@ define([
 			this.inherited(arguments);
 			// update the drop down also (_ComboBoxMenuMixin)
 			if(this.dropDown){
-					this.dropDown._set("textDir", textDir);
+				this.dropDown._set("textDir", textDir);
 			}
 		}
 	});

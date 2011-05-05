@@ -7,11 +7,11 @@ define([
 	// module:
 	//		dijit/form/ComboBox
 	// summary:
-	//		Auto-completing text box, and base class for dijit.form.FilteringSelect.
+	//		Auto-completing text box
 
 	dojo.declare("dijit.form.ComboBox", [dijit.form.ValidationTextBox, dijit.form.ComboBoxMixin], {
 		// summary:
-		//		Auto-completing text box, and base class for dijit.form.FilteringSelect.
+		//		Auto-completing text box
 		//
 		// description:
 		//		The drop down box's values are populated from an class called

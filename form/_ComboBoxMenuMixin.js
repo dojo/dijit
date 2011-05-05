@@ -2,7 +2,7 @@ define(["dojo", ".."], function(dojo, dijit) {
 	// module:
 	//		dijit/form/_ComboBoxMenuMixin
 	// summary:
-	//		TODOC
+	//		Focus-less menu for internal use in `dijit.form.ComboBox`
 
 dojo.declare( "dijit.form._ComboBoxMenuMixin", null, {
 	// summary:
@@ -86,20 +86,19 @@ dojo.declare( "dijit.form._ComboBoxMenuMixin", null, {
 		return menuitem;
 	},
 
-	createOptions: function(results, dataObject, labelFunc){
+	createOptions: function(results, options, labelFunc){
 		// summary:
 		//		Fills in the items in the drop down list
 		// results:
-		//		Array of dojo.data items
-		// dataObject:
-		//		dojo.data store
+		//		Array of items
+		// options:
+		//		The options to the query function of the store
+		//
 		// labelFunc:
 		//		Function to produce a label in the drop down list from a dojo.data item
 
-		//this._dataObject=dataObject;
-		//this._dataObject.onComplete=dojo.hitch(comboBox, comboBox._openResultList);
 		// display "Previous . . ." button
-		this.previousButton.style.display = (dataObject.start == 0) ? "none" : "";
+		this.previousButton.style.display = (options.start == 0) ? "none" : "";
 		dojo.attr(this.previousButton, "id", this.id + "_prev");
 		// create options using _createOption function defined by parent
 		// ComboBox (or FilteringSelect) class
@@ -112,17 +111,17 @@ dojo.declare( "dijit.form._ComboBoxMenuMixin", null, {
 		}, this);
 		// display "Next . . ." button
 		var displayMore = false;
-		//Try to determine if we should show 'more'...
-		if(dataObject._maxOptions && dataObject._maxOptions != -1){
-			if((dataObject.start + dataObject.count) < dataObject._maxOptions){
+		// Try to determine if we should show 'more'...
+		if(results.total && !results.total.then && results.total != -1){
+			if((options.start + options.count) < results.total){
 				displayMore = true;
-			}else if((dataObject.start + dataObject.count) > dataObject._maxOptions && dataObject.count == results.length){
+			}else if((options.start + options.count) > results.total && options.count == results.length){
 				//Weird return from a datastore, where a start + count > maxOptions
 				// implies maxOptions isn't really valid and we have to go into faking it.
 				//And more or less assume more if count == results.length
 				displayMore = true;
 			}
-		}else if(dataObject.count == results.length){
+		}else if(options.count == results.length){
 			//Don't know the size, so we do the best we can based off count alone.
 			//So, if we have an exact match to count, assume more.
 			displayMore = true;

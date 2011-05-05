@@ -429,39 +429,17 @@
 							editor.focus();
 							doh.robot.mouseMoveAt(editor.iframe, 1000);
 							doh.robot.mouseClick({left:true}, 1000);
-							doh.robot.sequence(function(){
-								var i, passed = true, processed = 0;
-								for(i = 0; i < fcPlugin.length; i++){
+							doh.robot.sequence(d.getTestCallback(function(){
+								for(var i = 0; i < fcPlugin.length; i++){
 									var p = fcPlugin[i];
 									var store = p.button.select.store;
-									var onComplete = function(items){
-										try{
-											var j;
-											processed++;
-											for(j = 0; j < items.length; j++){
-												var item = items[j];
-												if(store.getValue(item, "name").indexOf("<") === 0){
-													console.log("failed on: " + store.getValue(item, "name"));
-													passed = false;
-												}
-											}
-											if(processed === fcPlugin.length){
-												if(passed){
-													d.callback(true);
-												}else{
-													d.errback(new Error("Non-plain text label!"));
-												}
-											}
-										}catch(e){
-											d.errback(e);
-										}
-									};
-									var onError = function(err){
-										d.errback(err);
+									var items = store.query();
+									for(var j = 0; j < items.length; j++){
+										var item = items[j];
+										doh.f(item.name.indexOf("<") === 0, "failed on: " + item.name);
 									}
-									store.fetch({query: {name: "*"}, onComplete: onComplete, onError: onError});
 								}
-							}, 1000);
+							}), 1000);
 
 							return d;
 						},
@@ -495,8 +473,7 @@
 							editor.focus();
 							doh.robot.mouseMoveAt(editor.iframe, 1000);
 							doh.robot.mouseClick({left:true}, 1000);
-							doh.robot.sequence(d.getTestErrback(function(){
-								var i, passed = true;
+							doh.robot.sequence(d.getTestCallback(function(){
 								var map = {
 									"sans-serif": false,
 									"serif": false,
@@ -505,32 +482,14 @@
 									"fantasy": false
 								}
 								var store = fcPlugin.button.select.store;
-								var onComplete = function(items){
-									try{
-										var j;
-										for(j = 0; j < items.length; j++){
-											var item = items[j];
-											map[store.getValue(item, "value")] = true;
-										}
-										for(j in map){
-											if(!map[j]){
-												passed = false;
-												break;
-											}
-										}
-										if(passed){
-											d.callback(true);
-										}else{
-											d.errback(new Error("Did not find all the generic names in the store."));
-										}
-									}catch(e){
-										d.errback(e);
-									}
-								};
-								var onError = function(err){
-									d.errback(err);
+								var items = store.query();
+								for(var j = 0; j < items.length; j++){
+									var item = items[j];
+									map[item.value] = true;
 								}
-								store.fetch({query: {value: "*"}, onComplete: onComplete, onError: onError});
+								for(j in map){
+									doh.t(map[j], j);
+								}
 							}), 1000);
 
 							return d;
@@ -565,40 +524,21 @@
 							editor.focus();
 							doh.robot.mouseMoveAt(editor.iframe, 1000);
 							doh.robot.mouseClick({left:true}, 1000);
-							doh.robot.sequence(d.getTestErrback(function(){
-								var i, passed = true;
+							doh.robot.sequence(d.getTestCallback(function(){
 								var map = {
 									"Verdana": false,
 									"Myriad": false,
 									"Garamond": false
 								}
 								var store = fcPlugin.button.select.store;
-								var onComplete = function(items){
-									try{
-										var j;
-										for(j = 0; j < items.length; j++){
-											var item = items[j];
-											map[store.getValue(item, "value")] = true;
-										}
-										for(j in map){
-											if(!map[j]){
-												passed = false;
-												break;
-											}
-										}
-										if(passed){
-											d.callback(true);
-										}else{
-											d.errback(new Error("Did not find all the generic names in the store."));
-										}
-									}catch(e){
-										d.errback(e);
-									}
-								};
-								var onError = function(err){
-									d.errback(err);
+								var items = store.query();
+								for(var j = 0; j < items.length; j++){
+									var item = items[j];
+									map[item.value] = true;
 								}
-								store.fetch({query: {value: "*"}, onComplete: onComplete, onError: onError});
+								for(j in map){
+									doh.t(map[j], j);
+								}
 							}), 1000);
 
 							return d;

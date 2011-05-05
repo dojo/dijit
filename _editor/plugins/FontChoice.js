@@ -1,20 +1,21 @@
 define([
-  "dojo",
-  "../..",
-  "../../_Widget",
-  "../../_TemplatedMixin",
-  "../../_WidgetsInTemplateMixin",
-  "../_Plugin",
-  "../range",
-  "../selection",
-  "../../form/FilteringSelect",
-  "dojo/data/ItemFileReadStore",
-  "dojo/i18n",
-  "dojo/i18n!../nls/FontChoice"], function(dojo, dijit) {
+	"dojo",
+	"../..",
+	"../../_Widget",
+	"../../_TemplatedMixin",
+	"../../_WidgetsInTemplateMixin",
+	"../_Plugin",
+	"../range",
+	"../selection",
+	"../../form/FilteringSelect",
+	"dojo/store/Memory",
+	"dojo/i18n",
+	"dojo/i18n!../nls/FontChoice"], function(dojo, dijit){
+
 	// module:
 	//		dijit/_editor/plugins/FontChoice
 	// summary:
-	//		TODOC
+	//		fontchoice, fontsize, and formatblock editor plugins
 
 
 dojo.declare("dijit._editor.plugins._FontDropDown",
@@ -64,21 +65,17 @@ dojo.declare("dijit._editor.plugins._FontDropDown",
 
 		// Initialize the list of items in the drop down by creating data store with items like:
 		// {value: 1, name: "xx-small", label: "<font size=1>xx-small</font-size>" }
-		var	items = dojo.map(this.values, function(value){
+		this.select.set("store", new dojo.store.Memory({
+			idProperty: "value",
+			data: dojo.map(this.values, function(value){
 				var name = this.strings[value] || value;
 				return {
 					label: this.getLabel(value, name),
 					name: name,
 					value: value
 				};
-			}, this);
-
-		this.select.store = new dojo.data.ItemFileReadStore({
-			data: {
-				identifier: "value",
-				items: items
-			}
-		});
+			}, this)
+		}));
 
 		this.select.set("value", "", false);
 		this.disabled = this.select.get("disabled");
