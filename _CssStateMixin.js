@@ -140,8 +140,9 @@ dojo.declare("dijit._CssStateMixin", [], {
 			multiply("Rtl");
 		}
 
+		var checkedState = this.checked == "mixed" ? "Mixed" : (this.checked ? "Checked" : "");
 		if(this.checked){
-			multiply("Checked");
+			multiply(checkedState);
 		}
 		if(this.state){
 			multiply(this.state);
