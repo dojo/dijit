@@ -464,7 +464,9 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		});
 
 		// Set the iframe's initial (blank) content.
-		var s = 'javascript:parent.' + dijit._scopeName + '.byId("'+this.id+'")._iframeSrc';
+		var iframeSrcRef = 'parent.' + dijit._scopeName + '.byId("'+this.id+'")._iframeSrc';
+		var s = 'javascript:(function(){try{return ' + iframeSrcRef + '}catch(e){document.open();document.domain="' + 
+				document.domain + '";document.write(' + iframeSrcRef + ');document.close();}})()';
 		ifr.setAttribute('src', s);
 		this.editingArea.appendChild(ifr);
 
