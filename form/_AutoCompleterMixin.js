@@ -5,8 +5,7 @@ define([
 	"dojo/regexp",
 	"dojo/data/util/filter",
 	"dojo/i18n!./nls/ComboBox",
-	"./DataList",
-	"../_HasDropDown"], function(dojo, dijit){
+	"./DataList"], function(dojo, dijit){
 
 	// module:
 	//		dijit/form/_AutoCompleterMixin
@@ -14,7 +13,7 @@ define([
 	//		A mixin that implements the base functionality for `dijit.form.ComboBox`/`dijit.form.FilteringSelect`
 
 
-	dojo.declare("dijit.form._AutoCompleterMixin", dijit._HasDropDown, {
+	dojo.declare("dijit.form._AutoCompleterMixin", null, {
 		// summary:
 		//		A mixin that implements the base functionality for `dijit.form.ComboBox`/`dijit.form.FilteringSelect`
 		// description:
@@ -254,6 +253,9 @@ define([
 					if(highlighted){
 						this._selectOption(highlighted);
 					}
+					// fall through
+
+				case dk.ESCAPE:
 					if(this._opened){
 						this._lastQuery = null; // in case results come back later
 						this.closeDropDown();
@@ -307,7 +309,7 @@ define([
 			// does text autoComplete the value in the textbox?
 			var caseFilter = this.ignoreCase? 'toLowerCase' : 'substr';
 			if(text[caseFilter](0).indexOf(this.focusNode.value[caseFilter](0)) == 0){
-				var cpos = this._getCaretPos(fn);
+				var cpos = this.autoComplete ? this._getCaretPos(fn) : fn.value.length;
 				// only try to extend if we added the last character at the end of the input
 				if((cpos+1) > fn.value.length){
 					// only add to input node as we would overwrite Capitalisation of chars
@@ -492,10 +494,10 @@ define([
 		_selectOption: function(/*DomNode*/ target){
 			// summary:
 			//		Menu callback function, called when an item in the menu is selected.
+			this.closeDropDown();
 			if(target){
 				this._announceOption(target);
 			}
-			this.closeDropDown();
 			this._setCaretPos(this.focusNode, this.focusNode.value.length);
 			this._handleOnChange(this.value, true);
 		},

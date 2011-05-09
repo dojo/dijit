@@ -4,6 +4,7 @@ define([
 	"dojo/text!./templates/DropDownBox.html",
 	"./_AutoCompleterMixin",
 	"./_ComboBoxMenu",
+	"../_HasDropDown",
 	"dojo/store/DataStore"], function(dojo, dijit){
 
 	// module:
@@ -11,7 +12,7 @@ define([
 	// summary:
 	//		Provides main functionality of ComboBox widget
 
-	dojo.declare("dijit.form.ComboBoxMixin", dijit.form._AutoCompleterMixin, {
+	dojo.declare("dijit.form.ComboBoxMixin", [dijit._HasDropDown, dijit.form._AutoCompleterMixin], {
 		// summary:
 		//		Provides main functionality of ComboBox widget
 
