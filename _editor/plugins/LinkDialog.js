@@ -350,6 +350,9 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 					// IE doesn't like focus changes in event handles.
 					this.button.set("disabled", false);
 					this.button.openDropDown();
+					if(this.button.dropDown.focus){
+						this.button.dropDown.focus();
+					}
 				}), 10);
 			}
 		}
@@ -491,6 +494,9 @@ dojo.declare("dijit._editor.plugins.ImgLinkDialog", [dijit._editor.plugins.LinkD
 					// IE doesn't like focus changes in event handles.
 					this.button.set("disabled", false);
 					this.button.openDropDown();
+					if(this.button.dropDown.focus){
+						this.button.dropDown.focus();
+					}
 				}), 10);
 			}
 		}
