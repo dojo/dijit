@@ -6,15 +6,14 @@ define([
   "../_TemplatedMixin",
   "../_CssStateMixin",
   "./StackContainer",
-  "./ContentPane",
-  "./AccordionPane"], function(dojo, dijit) {
+  "./ContentPane"], function(dojo, dijit) {
+
 	// module:
 	//		dijit/layout/AccordionContainer
 	// summary:
-	//		TODOC
+	//		Holds a set of panes where every pane's title is visible, but only one pane's content is visible at a time,
+	//		and switching between panes is visualized by sliding the other panes up/down.
 
-
-//dojo.require("dijit.layout.AccordionPane ");	// for back compat, remove for 2.0
 
 // Design notes:
 //

@@ -2,7 +2,7 @@ define(["dojo", "..", "./ContentPane"], function(dojo, dijit) {
 	// module:
 	//		dijit/layout/AccordionPane
 	// summary:
-	//		TODOC
+	//		Deprecated widget.   Use `dijit.layout.ContentPane` instead.
 
 dojo.declare("dijit.layout.AccordionPane", dijit.layout.ContentPane, {
 	// summary:
