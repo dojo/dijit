@@ -1,23 +1,19 @@
 define([
-  "dojo",
-  "..",
-  "dojo/text!./templates/_TabButton.html",
-  "./StackController",
-  "../Menu",
-  "../MenuItem",
-  "dojo/i18n!../nls/common"], function(dojo, dijit) {
-	// module:
-	//		dijit/layout/TabController
-	// summary:
-	//		TODOC
+	"dojo",
+	"..",
+	"dojo/text!./templates/_TabButton.html",
+	"./StackController",
+	"../Menu",	// Menu is used for an accessible close button, would be nice to have a lighter-weight solution
+	"../MenuItem",
+	"dojo/i18n!../nls/common"], function(dojo, dijit){
 
+// module:
+//		dijit/layout/TabController
+// summary:
+// 		Set of tabs (the things with titles and a close button, that you click to show a tab panel).
+//		Used internally by `dijit.layout.TabContainer`.
 
-// Menu is used for an accessible close button, would be nice to have a lighter-weight solution
-
-
-dojo.declare("dijit.layout.TabController",
-	dijit.layout.StackController,
-{
+dojo.declare("dijit.layout.TabController", dijit.layout.StackController, {
 	// summary:
 	// 		Set of tabs (the things with titles and a close button, that you click to show a tab panel).
 	//		Used internally by `dijit.layout.TabContainer`.
@@ -58,9 +54,7 @@ dojo.declare("dijit.layout.TabController",
 	}
 });
 
-dojo.declare("dijit.layout._TabButton",
-	dijit.layout._StackButton,
-	{
+dojo.declare("dijit.layout._TabButton", dijit.layout._StackButton, {
 	// summary:
 	//		A tab (the thing you click to select a pane).
 	// description:

@@ -1,12 +1,12 @@
 define([
-  "dojo",
-  "..",
-  "dojo/text!./templates/AccordionButton.html",
-  "../_Container",
-  "../_TemplatedMixin",
-  "../_CssStateMixin",
-  "./StackContainer",
-  "./ContentPane"], function(dojo, dijit) {
+	"dojo",
+	"..",
+	"dojo/text!./templates/AccordionButton.html",
+	"../_Container",
+	"../_TemplatedMixin",
+	"../_CssStateMixin",
+	"./StackContainer",
+	"./ContentPane"], function(dojo, dijit){
 
 	// module:
 	//		dijit/layout/AccordionContainer
@@ -15,31 +15,28 @@ define([
 	//		and switching between panes is visualized by sliding the other panes up/down.
 
 
-// Design notes:
-//
-// An AccordionContainer is a StackContainer, but each child (typically ContentPane)
-// is wrapped in a _AccordionInnerContainer.   This is hidden from the caller.
-//
-// The resulting markup will look like:
-//
-//	<div class=dijitAccordionContainer>
-//		<div class=dijitAccordionInnerContainer>	(one pane)
-//				<div class=dijitAccordionTitle>		(title bar) ... </div>
-//				<div class=dijtAccordionChildWrapper>   (content pane) </div>
-//		</div>
-//	</div>
-//
-// Normally the dijtAccordionChildWrapper is hidden for all but one child (the shown
-// child), so the space for the content pane is all the title bars + the one dijtAccordionChildWrapper,
-// which on claro has a 1px border plus a 2px bottom margin.
-//
-// During animation there are two dijtAccordionChildWrapper's shown, so we need
-// to compensate for that.
+	// Design notes:
+	//
+	// An AccordionContainer is a StackContainer, but each child (typically ContentPane)
+	// is wrapped in a _AccordionInnerContainer.   This is hidden from the caller.
+	//
+	// The resulting markup will look like:
+	//
+	//	<div class=dijitAccordionContainer>
+	//		<div class=dijitAccordionInnerContainer>	(one pane)
+	//				<div class=dijitAccordionTitle>		(title bar) ... </div>
+	//				<div class=dijtAccordionChildWrapper>   (content pane) </div>
+	//		</div>
+	//	</div>
+	//
+	// Normally the dijtAccordionChildWrapper is hidden for all but one child (the shown
+	// child), so the space for the content pane is all the title bars + the one dijtAccordionChildWrapper,
+	// which on claro has a 1px border plus a 2px bottom margin.
+	//
+	// During animation there are two dijtAccordionChildWrapper's shown, so we need
+	// to compensate for that.
 
-dojo.declare(
-	"dijit.layout.AccordionContainer",
-	dijit.layout.StackContainer,
-	{
+	dojo.declare("dijit.layout.AccordionContainer", dijit.layout.StackContainer, {
 		// summary:
 		//		Holds a set of panes where every pane's title is visible, but only one pane's content is visible at a time,
 		//		and switching between panes is visualized by sliding the other panes up/down.
@@ -430,80 +427,78 @@ dojo.declare("dijit.layout._AccordionInnerContainer",
 			// since getChildren isn't working for me, have to code this manually
 			this.contentWidget.destroyRecursive();
 		}
-});
+	});
 
-dojo.declare("dijit.layout._AccordionButton",
-	[dijit._Widget, dijit._TemplatedMixin, dijit._CssStateMixin],
-	{
-	// summary:
-	//		The title bar to click to open up an accordion pane.
-	//		Internal widget used by AccordionContainer.
-	// tags:
-	//		private
-
-	templateString: dojo.cache("dijit.layout", "templates/AccordionButton.html"),
-
-	// label: String
-	//		Title of the pane
-	label: "",
-	_setLabelAttr: {node: "titleTextNode", type: "innerHTML" },
-
-	// title: String
-	//		Tooltip that appears on hover
-	title: "",
-	_setTitleAttr: {node: "titleTextNode", type: "attribute", attribute: "title"},
-
-	// iconClassAttr: String
-	//		CSS class for icon to left of label
-	iconClassAttr: "",
-	_setIconClassAttr: { node: "iconNode", type: "class" },
-
-	baseClass: "dijitAccordionTitle",
-
-	getParent: function(){
+	dojo.declare("dijit.layout._AccordionButton", [dijit._Widget, dijit._TemplatedMixin, dijit._CssStateMixin], {
 		// summary:
-		//		Returns the AccordionContainer parent.
+		//		The title bar to click to open up an accordion pane.
+		//		Internal widget used by AccordionContainer.
 		// tags:
 		//		private
-		return this.parent;
-	},
 
-	buildRendering: function(){
-		this.inherited(arguments);
-		var titleTextNodeId = this.id.replace(' ','_');
-		dojo.attr(this.titleTextNode, "id", titleTextNodeId+"_title");
-		dijit.setWaiState(this.focusNode, "labelledby", dojo.attr(this.titleTextNode, "id"));
-		dojo.setSelectable(this.domNode, false);
-	},
+		templateString: dojo.cache("dijit.layout", "templates/AccordionButton.html"),
 
-	getTitleHeight: function(){
-		// summary:
-		//		Returns the height of the title dom node.
-		return dojo._getMarginSize(this.domNode).h;	// Integer
-	},
+		// label: String
+		//		Title of the pane
+		label: "",
+		_setLabelAttr: {node: "titleTextNode", type: "innerHTML" },
 
-	// TODO: maybe the parent should set these methods directly rather than forcing the code
-	// into the button widget?
-	_onTitleClick: function(){
-		// summary:
-		//		Callback when someone clicks my title.
-		var parent = this.getParent();
-			parent.selectChild(this.contentWidget, true);
-			dijit.focus(this.focusNode);
-	},
+		// title: String
+		//		Tooltip that appears on hover
+		title: "",
+		_setTitleAttr: {node: "titleTextNode", type: "attribute", attribute: "title"},
 
-	_onTitleKeyPress: function(/*Event*/ evt){
-		return this.getParent()._onKeyPress(evt, this.contentWidget);
-	},
+		// iconClassAttr: String
+		//		CSS class for icon to left of label
+		iconClassAttr: "",
+		_setIconClassAttr: { node: "iconNode", type: "class" },
 
-	_setSelectedAttr: function(/*Boolean*/ isSelected){
-		this._set("selected", isSelected);
-		dijit.setWaiState(this.focusNode, "expanded", isSelected);
-		dijit.setWaiState(this.focusNode, "selected", isSelected);
-		this.focusNode.setAttribute("tabIndex", isSelected ? "0" : "-1");
-	}
-});
+		baseClass: "dijitAccordionTitle",
+
+		getParent: function(){
+			// summary:
+			//		Returns the AccordionContainer parent.
+			// tags:
+			//		private
+			return this.parent;
+		},
+
+		buildRendering: function(){
+			this.inherited(arguments);
+			var titleTextNodeId = this.id.replace(' ','_');
+			dojo.attr(this.titleTextNode, "id", titleTextNodeId+"_title");
+			dijit.setWaiState(this.focusNode, "labelledby", dojo.attr(this.titleTextNode, "id"));
+			dojo.setSelectable(this.domNode, false);
+		},
+
+		getTitleHeight: function(){
+			// summary:
+			//		Returns the height of the title dom node.
+			return dojo._getMarginSize(this.domNode).h;	// Integer
+		},
+
+		// TODO: maybe the parent should set these methods directly rather than forcing the code
+		// into the button widget?
+		_onTitleClick: function(){
+			// summary:
+			//		Callback when someone clicks my title.
+			var parent = this.getParent();
+				parent.selectChild(this.contentWidget, true);
+				dijit.focus(this.focusNode);
+		},
+
+		_onTitleKeyPress: function(/*Event*/ evt){
+			return this.getParent()._onKeyPress(evt, this.contentWidget);
+		},
+
+		_setSelectedAttr: function(/*Boolean*/ isSelected){
+			this._set("selected", isSelected);
+			dijit.setWaiState(this.focusNode, "expanded", isSelected);
+			dijit.setWaiState(this.focusNode, "selected", isSelected);
+			this.focusNode.setAttribute("tabIndex", isSelected ? "0" : "-1");
+		}
+	});
 
 
-return dijit.layout.AccordionContainer;
+	return dijit.layout.AccordionContainer;
 });

@@ -1,22 +1,22 @@
 define([
-  "dojo",
-  "..",
-  "dojo/text!./templates/ScrollingTabController.html",
-  "dojo/text!./templates/_ScrollingTabControllerButton.html",
-  "./TabController",
-  "../_WidgetsInTemplateMixin",
-  "../Menu",
-  "../form/Button",
-  "../_HasDropDown"], function(dojo, dijit) {
-	// module:
-	//		dijit/layout/ScrollingTabController
-	// summary:
-	//		TODOC
+	"dojo",
+	"..",
+	"dojo/text!./templates/ScrollingTabController.html",
+	"dojo/text!./templates/_ScrollingTabControllerButton.html",
+	"./TabController",
+	"../_WidgetsInTemplateMixin",
+	"../Menu",
+	"../form/Button",
+	"../_HasDropDown"], function(dojo, dijit){
+
+// module:
+//		dijit/layout/ScrollingTabController
+// summary:
+//		Set of tabs with left/right arrow keys and a menu to switch between tabs not
+//		all fitting on a single row.
 
 
-dojo.declare("dijit.layout.ScrollingTabController",
-	[dijit.layout.TabController, dijit._WidgetsInTemplateMixin],
-	{
+dojo.declare("dijit.layout.ScrollingTabController", [dijit.layout.TabController, dijit._WidgetsInTemplateMixin], {
 	// summary:
 	//		Set of tabs with left/right arrow keys and a menu to switch between tabs not
 	//		all fitting on a single row.
@@ -244,7 +244,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		var node = tab.domNode;
 
 		// Save the selection
-		if(node != this._selectedTab) {
+		if(node != this._selectedTab){
 			this._selectedTab = node;
 
 			// Scroll to the selected tab, except on startup, when scrolling is handled in resize()

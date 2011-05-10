@@ -1,14 +1,12 @@
 define(["dojo", "..", "../_WidgetBase", "./_LayoutWidget"], function(dojo, dijit){
 
-	// module:
-	//		dijit/layout/LayoutContainer
-	// summary:
-	//		Deprecated.  Use `dijit.layout.BorderContainer` instead.
+// module:
+//		dijit/layout/LayoutContainer
+// summary:
+//		Deprecated.  Use `dijit.layout.BorderContainer` instead.
 
 
-dojo.declare("dijit.layout.LayoutContainer",
-	dijit.layout._LayoutWidget,
-	{
+dojo.declare("dijit.layout.LayoutContainer", dijit.layout._LayoutWidget, {
 	// summary:
 	//		Deprecated.  Use `dijit.layout.BorderContainer` instead.
 	//

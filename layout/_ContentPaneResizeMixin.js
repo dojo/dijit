@@ -1,12 +1,15 @@
 define([
-  "dojo",
-  "..",
-  "../_Contained",
-  "./_LayoutWidget"], function(dojo, dijit) {
-	// module:
-	//		dijit/layout/_ContentPaneResizeMixin
-	// summary:
-	//		TODOC
+	"dojo",
+	"..",
+	"../_Contained",
+	"./_LayoutWidget"], function(dojo, dijit){
+
+// module:
+//		dijit/layout/_ContentPaneResizeMixin
+// summary:
+//		Resize() functionality of ContentPane.   If there's a single layout widget
+//		child then it will call resize() with the same dimensions as the ContentPane.
+//		Otherwise just calls resize on each child.
 
 
 dojo.declare("dijit.layout._ContentPaneResizeMixin", null, {

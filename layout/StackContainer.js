@@ -7,15 +7,12 @@ define([
 	"./_LayoutWidget",
 	"./StackController"], function(dojo, dijit){
 
-	// module:
-	//		dijit/layout/StackContainer
-	// summary:
-	//		A container that has multiple children, but shows only one child at a time.
+// module:
+//		dijit/layout/StackContainer
+// summary:
+//		A container that has multiple children, but shows only one child at a time.
 
-dojo.declare(
-	"dijit.layout.StackContainer",
-	dijit.layout._LayoutWidget,
-	{
+dojo.declare("dijit.layout.StackContainer", dijit.layout._LayoutWidget, {
 	// summary:
 	//		A container that has multiple children, but shows only
 	//		one child at a time

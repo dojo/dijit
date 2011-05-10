@@ -6,15 +6,12 @@ define([
 	"../_TemplatedMixin",
 	"./_LayoutWidget"], function(dojo, dijit){
 
-	// module:
-	//		dijit/layout/BorderContainer
-	// summary:
-	//		Provides layout in up to 5 regions, a mandatory center with optional borders along its 4 sides.
+// module:
+//		dijit/layout/BorderContainer
+// summary:
+//		Provides layout in up to 5 regions, a mandatory center with optional borders along its 4 sides.
 
-dojo.declare(
-	"dijit.layout.BorderContainer",
-	dijit.layout._LayoutWidget,
-{
+dojo.declare("dijit.layout.BorderContainer", dijit.layout._LayoutWidget, {
 	// summary:
 	//		Provides layout in up to 5 regions, a mandatory center with optional borders along its 4 sides.
 	//

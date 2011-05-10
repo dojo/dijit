@@ -3,12 +3,12 @@ define([
 	"..",
 	"dojo/cookie",
 	"../_WidgetBase",
-  "./_LayoutWidget"], function(dojo, dijit){
+	"./_LayoutWidget"], function(dojo, dijit){
 
-	// module:
-	//		dijit/layout/SplitContainer
-	// summary:
-	//		Deprecated.  Use `dijit.layout.BorderContainer` instead.
+// module:
+//		dijit/layout/SplitContainer
+// summary:
+//		Deprecated.  Use `dijit.layout.BorderContainer` instead.
 
 //
 // FIXME: make it prettier
@@ -16,9 +16,7 @@ define([
 //
 
 
-dojo.declare("dijit.layout.SplitContainer",
-	dijit.layout._LayoutWidget,
-	{
+dojo.declare("dijit.layout.SplitContainer", dijit.layout._LayoutWidget, {
 	// summary:
 	//		Deprecated.  Use `dijit.layout.BorderContainer` instead.
 	// description:

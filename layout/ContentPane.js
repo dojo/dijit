@@ -1,20 +1,20 @@
 define([
-  "dojo",
-  "..",
-  "../_Widget",
-  "./_ContentPaneResizeMixin",
-  "dojo/string",
-  "dojo/html",
-  "dojo/i18n!../nls/loading"], function(dojo, dijit) {
-	// module:
-	//		dijit/layout/ContentPane
-	// summary:
-	//		TODOC
+	"dojo",
+	"..",
+	"../_Widget",
+	"./_ContentPaneResizeMixin",
+	"dojo/string",
+	"dojo/html",
+	"dojo/i18n!../nls/loading"], function(dojo, dijit){
+
+// module:
+//		dijit/layout/ContentPane
+// summary:
+//		A widget containing an HTML fragment, specified inline
+//		or by uri.  Fragment may include widgets.
 
 
-dojo.declare(
-	"dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPaneResizeMixin],
-{
+dojo.declare("dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPaneResizeMixin], {
 	// summary:
 	//		A widget containing an HTML fragment, specified inline
 	//		or by uri.  Fragment may include widgets.

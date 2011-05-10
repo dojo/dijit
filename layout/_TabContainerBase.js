@@ -1,18 +1,18 @@
 define([
-  "dojo",
-  "..",
-  "dojo/text!./templates/TabContainer.html",
-  "./StackContainer",
-  "../_TemplatedMixin"], function(dojo, dijit) {
-	// module:
-	//		dijit/layout/_TabContainerBase
-	// summary:
-	//		TODOC
+	"dojo",
+	"..",
+	"dojo/text!./templates/TabContainer.html",
+	"./StackContainer",
+	"../_TemplatedMixin"], function(dojo, dijit){
+
+// module:
+//		dijit/layout/_TabContainerBase
+// summary:
+//		Abstract base class for TabContainer.   Must define _makeController() to instantiate
+//		and return the widget that displays the tab labels
 
 
-dojo.declare("dijit.layout._TabContainerBase",
-	[dijit.layout.StackContainer, dijit._TemplatedMixin],
-	{
+dojo.declare("dijit.layout._TabContainerBase",[dijit.layout.StackContainer, dijit._TemplatedMixin], {
 	// summary:
 	//		Abstract base class for TabContainer.   Must define _makeController() to instantiate
 	//		and return the widget that displays the tab labels
