@@ -1,10 +1,10 @@
-define(["dojo", ".."], function(dojo, dijit) {
+define(["dojo", ".."], function(dojo, dijit){
+
 	// module:
 	//		dijit/form/_ExpandingTextAreaMixin
 	// summary:
-	//		TODOC
+	//		Mixin for textarea widgets to add auto-expanding capability
 
-(function(){
 	// feature detection
 	var needsHelpShrinking;
 
@@ -113,7 +113,6 @@ define(["dojo", ".."], function(dojo, dijit) {
 			this.inherited(arguments);
 		}
 	});
-})();
 
-return dijit.form._ExpandingTextAreaMixin;
+	return dijit.form._ExpandingTextAreaMixin;
 });
