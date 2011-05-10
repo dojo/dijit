@@ -1,10 +1,8 @@
-define(["dojo", ".", "dojo/robot"], function(dojo, dijit) {
+define(["dojo", ".", "dojo/robot"], function(dojo, dijit){
 	// module:
 	//		dijit/robot
 	// summary:
-	//		TODOC
+	//		Used to have code needed by robot test harness, but no longer
 
-
-
-return dijit;
+	return dijit;
 });
