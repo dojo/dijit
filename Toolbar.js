@@ -1,51 +1,45 @@
 define([
-  "dojo",
-  ".",
-  "./_Widget",
-  "./_KeyNavContainer",
-  "./_TemplatedMixin",
-  "./ToolbarSeparator"], function(dojo, dijit) {
+	"dojo",
+	".",
+	"./_Widget",
+	"./_KeyNavContainer",
+	"./_TemplatedMixin"], function(dojo, dijit){
+
 	// module:
 	//		dijit/Toolbar
 	// summary:
-	//		TODOC
-
-
-// Note: require of ToolbarSeparator is for back-compat, remove for 2.0
-
-dojo.declare("dijit.Toolbar",
-	[dijit._Widget, dijit._TemplatedMixin, dijit._KeyNavContainer],
-	{
-	// summary:
 	//		A Toolbar widget, used to hold things like `dijit.Editor` buttons
 
-	templateString:
-		'<div class="dijit" role="toolbar" tabIndex="${tabIndex}" dojoAttachPoint="containerNode">' +
-		//	'<table style="table-layout: fixed" class="dijitReset dijitToolbarTable">' + // factor out style
-		//		'<tr class="dijitReset" dojoAttachPoint="containerNode"></tr>'+
-		//	'</table>' +
-		'</div>',
+	dojo.declare("dijit.Toolbar", [dijit._Widget, dijit._TemplatedMixin, dijit._KeyNavContainer], {
+		// summary:
+		//		A Toolbar widget, used to hold things like `dijit.Editor` buttons
 
-	baseClass: "dijitToolbar",
+		templateString:
+			'<div class="dijit" role="toolbar" tabIndex="${tabIndex}" dojoAttachPoint="containerNode">' +
+			//	'<table style="table-layout: fixed" class="dijitReset dijitToolbarTable">' + // factor out style
+			//		'<tr class="dijitReset" dojoAttachPoint="containerNode"></tr>'+
+			//	'</table>' +
+			'</div>',
 
-	postCreate: function(){
-		this.inherited(arguments);
+		baseClass: "dijitToolbar",
 
-		this.connectKeyNavHandlers(
-			this.isLeftToRight() ? [dojo.keys.LEFT_ARROW] : [dojo.keys.RIGHT_ARROW],
-			this.isLeftToRight() ? [dojo.keys.RIGHT_ARROW] : [dojo.keys.LEFT_ARROW]
-		);
-	},
+		postCreate: function(){
+			this.inherited(arguments);
 
-	startup: function(){
-		if(this._started){ return; }
+			this.connectKeyNavHandlers(
+				this.isLeftToRight() ? [dojo.keys.LEFT_ARROW] : [dojo.keys.RIGHT_ARROW],
+				this.isLeftToRight() ? [dojo.keys.RIGHT_ARROW] : [dojo.keys.LEFT_ARROW]
+			);
+		},
 
-		this.startupKeyNavChildren();
+		startup: function(){
+			if(this._started){ return; }
 
-		this.inherited(arguments);
-	}
-}
-);
+			this.startupKeyNavChildren();
 
-return dijit.Toolbar;
+			this.inherited(arguments);
+		}
+	});
+
+	return dijit.Toolbar;
 });
