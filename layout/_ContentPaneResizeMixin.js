@@ -41,8 +41,10 @@ dojo.declare("dijit.layout._ContentPaneResizeMixin", null, {
 
 		// This starts all the widgets
 		dojo.forEach(this.getChildren(), function(child){
-			child.startup();
-			child._started = true;
+			if(!child._started){
+				child.startup();
+				child._started = true;
+			}
 		});
 	},
 
