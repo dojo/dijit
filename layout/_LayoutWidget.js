@@ -1,18 +1,20 @@
 define([
-  "dojo",
-  "..",
-  "../_Widget",
-  "../_Container",
-  "../_Contained"], function(dojo, dijit) {
+	"dojo",
+	"..",
+	"../_Widget",
+	"../_Container",
+	"../_Contained"], function(dojo, dijit){
+
 	// module:
 	//		dijit/layout/_LayoutWidget
 	// summary:
-	//		TODOC
+	//		_LayoutWidget Base class for a _Container widget which is responsible for laying out its children.
+	//		Widgets which mixin this code must define layout() to manage placement and sizing of the children.
+	//
+	//		Also, dijit.layout.marginBox2contentBox() and dijit.layout.layoutChildren()
 
 
-dojo.declare("dijit.layout._LayoutWidget",
-	[dijit._Widget, dijit._Container, dijit._Contained],
-	{
+	dojo.declare("dijit.layout._LayoutWidget", [dijit._Widget, dijit._Container, dijit._Contained], {
 		// summary:
 		//		Base class for a _Container widget which is responsible for laying out its children.
 		//		Widgets which mixin this code must define layout() to manage placement and sizing of the children.
@@ -186,31 +188,29 @@ dojo.declare("dijit.layout._LayoutWidget",
 
 			this.inherited(arguments);
 		}
-	}
-);
+	});
 
-dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
-	// summary:
-	//		Given the margin-box size of a node, return its content box size.
-	//		Functions like dojo.contentBox() but is more reliable since it doesn't have
-	//		to wait for the browser to compute sizes.
-	var cs = dojo.getComputedStyle(node);
-	var me = dojo._getMarginExtents(node, cs);
-	var pb = dojo._getPadBorderExtents(node, cs);
-	return {
-		l: dojo._toPixelValue(node, cs.paddingLeft),
-		t: dojo._toPixelValue(node, cs.paddingTop),
-		w: mb.w - (me.w + pb.w),
-		h: mb.h - (me.h + pb.h)
+	dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
+		// summary:
+		//		Given the margin-box size of a node, return its content box size.
+		//		Functions like dojo.contentBox() but is more reliable since it doesn't have
+		//		to wait for the browser to compute sizes.
+		var cs = dojo.getComputedStyle(node);
+		var me = dojo._getMarginExtents(node, cs);
+		var pb = dojo._getPadBorderExtents(node, cs);
+		return {
+			l: dojo._toPixelValue(node, cs.paddingLeft),
+			t: dojo._toPixelValue(node, cs.paddingTop),
+			w: mb.w - (me.w + pb.w),
+			h: mb.h - (me.h + pb.h)
+		};
 	};
-};
 
-(function(){
-	var capitalize = function(word){
+	function capitalize(word){
 		return word.substring(0,1).toUpperCase() + word.substring(1);
-	};
+	}
 
-	var size = function(widget, dim){
+	function size(widget, dim){
 		// size the child
 		var newSize = widget.resize ? widget.resize(dim) : dojo.marginBox(widget.domNode, dim);
 
@@ -224,7 +224,7 @@ dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 			dojo.mixin(widget, dojo.marginBox(widget.domNode));
 			dojo.mixin(widget, dim);
 		}
-	};
+	}
 
 	dijit.layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ dim, /*Widget[]*/ children,
 			/*String?*/ changedRegionId, /*Number?*/ changedRegionSize){
@@ -305,8 +305,6 @@ dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 		});
 	};
 
-})();
 
-
-return dijit.layout._LayoutWidget;
+	return dijit.layout._LayoutWidget;
 });
