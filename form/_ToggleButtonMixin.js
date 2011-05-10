@@ -17,10 +17,11 @@ dojo.declare("dijit.form._ToggleButtonMixin", null, {
 	checked: false,
 
 	_onClick: function(/*Event*/ evt){
-		var ret = this.inherited(arguments);
-		if(ret){
-			this.set('checked', !this.checked);
-		}
+		var original = this.checked;
+		this._set('checked', !original); // partially set the toggled value, assuming the toggle will work, so it can be overridden in the onclick handler
+		var ret = this.inherited(arguments); // the user could reset the value here
+		this.set('checked', ret ? this.checked : original); // officially set the toggled or user value, or reset it back
+		return ret;
 	},
 
 	_setCheckedAttr: function(/*Boolean*/ value, /*Boolean?*/ priorityChange){
