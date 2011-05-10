@@ -1,8 +1,9 @@
-define(["dojo", ".."], function(dojo, dijit) {
-	// module:
-	//		dijit/_editor/selection
-	// summary:
-	//		TODOC
+define(["dojo", ".."], function(dojo, dijit){
+
+// module:
+//		dijit/_editor/selection
+// summary:
+//		Text selection API
 
 
 dojo.getObject("_editor.selection", true, dijit);

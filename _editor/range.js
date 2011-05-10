@@ -1,8 +1,9 @@
-define(["dojo", ".."], function(dojo, dijit) {
-	// module:
-	//		dijit/_editor/range
-	// summary:
-	//		TODOC
+define(["dojo", ".."], function(dojo, dijit){
+
+// module:
+//		dijit/_editor/range
+// summary:
+//		W3C range API
 
 
 dijit.range={};

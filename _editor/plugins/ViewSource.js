@@ -1,18 +1,19 @@
 define([
-  "dojo",
-  "../..",
-  "dojo/window",
-  "dojo/i18n",
-  "../_Plugin",
-  "../../form/ToggleButton",
-  "dojo/i18n!../nls/commands"], function(dojo, dijit) {
-	// module:
-	//		dijit/_editor/plugins/ViewSource
-	// summary:
-	//		TODOC
+	"dojo",
+	"../..",
+	"dojo/window",
+	"dojo/i18n",
+	"../_Plugin",
+	"../../form/ToggleButton",
+	"dojo/i18n!../nls/commands"], function(dojo, dijit){
+
+// module:
+//		dijit/_editor/plugins/ViewSource
+// summary:
+//		This plugin provides a simple view source capability.
 
 
-dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
+dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin, {
 	// summary:
 	//		This plugin provides a simple view source capability.  When view
 	//		source mode is enabled, it disables all other buttons/plugins on the RTE.
@@ -214,7 +215,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 				this.editor.onNormalizedDisplayChanged();
 
 				this.editor.__oldGetValue = this.editor.getValue;
-				this.editor.getValue = dojo.hitch(this, function() {
+				this.editor.getValue = dojo.hitch(this, function(){
 					var txt = this.sourceArea.value;
 					txt = this._filter(txt);
 					return txt;

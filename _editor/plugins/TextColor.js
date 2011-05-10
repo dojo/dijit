@@ -1,13 +1,14 @@
 define([
-  "dojo",
-  "../..",
-  "../_Plugin",
-  "../../form/DropDownButton",
-  "../../ColorPalette"], function(dojo, dijit) {
-	// module:
-	//		dijit/_editor/plugins/TextColor
-	// summary:
-	//		TODOC
+	"dojo",
+	"../..",
+	"../_Plugin",
+	"../../form/DropDownButton",
+	"../../ColorPalette"], function(dojo, dijit){
+
+// module:
+//		dijit/_editor/plugins/TextColor
+// summary:
+//		This plugin provides dropdown color pickers for setting text color and background color
 
 
 dojo.declare("dijit._editor.plugins.TextColor", dijit._editor._Plugin, {

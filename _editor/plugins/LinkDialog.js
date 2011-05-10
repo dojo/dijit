@@ -1,21 +1,22 @@
 define([
-  "dojo",
-  "../..",
-  "../../_Widget",
-  "../_Plugin",
-  "../../TooltipDialog",
-  "../../form/DropDownButton",
-  "../../form/ValidationTextBox",
-  "../../form/Select",
-  "../range",
-  "dojo/i18n",
-  "dojo/string",
-  "dojo/i18n!../../nls/common",
-  "dojo/i18n!../nls/LinkDialog"], function(dojo, dijit) {
-	// module:
-	//		dijit/_editor/plugins/LinkDialog
-	// summary:
-	//		TODOC
+	"dojo",
+	"../..",
+	"../../_Widget",
+	"../_Plugin",
+	"../../TooltipDialog",
+	"../../form/DropDownButton",
+	"../../form/ValidationTextBox",
+	"../../form/Select",
+	"../range",
+	"dojo/i18n",
+	"dojo/string",
+	"dojo/i18n!../../nls/common",
+	"dojo/i18n!../nls/LinkDialog"], function(dojo, dijit){
+
+// module:
+//		dijit/_editor/plugins/LinkDialog
+// summary:
+//		Editor plugins: LinkDialog (for inserting links) and ImgLinkDialog (for inserting images)
 
 
 dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {

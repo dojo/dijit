@@ -1,12 +1,14 @@
 define([
-  "dojo",
-  "..",
-  "../_Widget",
-  "../form/Button"], function(dojo, dijit) {
-	// module:
-	//		dijit/_editor/_Plugin
-	// summary:
-	//		TODOC
+	"dojo",
+	"..",
+	"../_Widget",
+	"../form/Button"], function(dojo, dijit){
+
+// module:
+//		dijit/_editor/_Plugin
+// summary:
+//		Base class for a "plugin" to the editor, which is usually
+//		a single button on the Toolbar and some associated code
 
 
 dojo.declare("dijit._editor._Plugin", null, {

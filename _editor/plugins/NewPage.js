@@ -1,14 +1,16 @@
 define([
-  "dojo",
-  "../..",
-  "../_Plugin",
-  "../../form/Button",
-  "dojo/i18n",
-  "dojo/i18n!../nls/commands"], function(dojo, dijit) {
-	// module:
-	//		dijit/_editor/plugins/NewPage
-	// summary:
-	//		TODOC
+	"dojo",
+	"../..",
+	"../_Plugin",
+	"../../form/Button",
+	"dojo/i18n",
+	"dojo/i18n!../nls/commands"], function(dojo, dijit){
+
+// module:
+//		dijit/_editor/plugins/NewPage
+// summary:
+//		This plugin provides a simple 'new page' calability.  In other
+//		words, set content to some default user defined string.
 
 
 dojo.declare("dijit._editor.plugins.NewPage",dijit._editor._Plugin,{

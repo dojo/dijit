@@ -1,14 +1,16 @@
 define([
-  "dojo",
-  "../..",
-  "../_Plugin",
-  "../../form/Button",
-  "dojo/i18n",
-  "dojo/i18n!../nls/commands"], function(dojo, dijit) {
-	// module:
-	//		dijit/_editor/plugins/Print
-	// summary:
-	//		TODOC
+	"dojo",
+	"../..",
+	"../_Plugin",
+	"../../form/Button",
+	"dojo/i18n",
+	"dojo/i18n!../nls/commands"], function(dojo, dijit){
+
+// module:
+//		dijit/_editor/plugins/Print
+// summary:
+//		This plugin provides Print cabability to the editor.  When
+//		clicked, the document in the editor frame will be printed.
 
 
 dojo.declare("dijit._editor.plugins.Print",dijit._editor._Plugin,{

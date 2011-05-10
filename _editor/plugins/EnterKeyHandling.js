@@ -1,13 +1,17 @@
 define([
-  "dojo",
-  "../..",
-  "dojo/window",
-  "../_Plugin",
-  "../range"], function(dojo, dijit) {
-	// module:
-	//		dijit/_editor/plugins/EnterKeyHandling
-	// summary:
-	//		TODOC
+	"dojo",
+	"../..",
+	"dojo/window",
+	"../_Plugin",
+	"../range"], function(dojo, dijit){
+
+// module:
+//		dijit/_editor/plugins/EnterKeyHandling
+// summary:
+//		This plugin tries to make all browsers behave consistently with regard to
+//		how ENTER behaves in the editor window.  It traps the ENTER key and alters
+//		the way DOM is constructed in certain cases to try to commonize the generated
+//		DOM and behaviors across browsers.
 
 
 dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
@@ -94,7 +98,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 
 	setEditor: function(editor){
 		// Overrides _Plugin.setEditor().
-		if(this.editor === editor) { return; }
+		if(this.editor === editor){ return; }
 		this.editor = editor;
 		if(this.blockNodeForEnter == 'BR'){
 			// While Moz has a mode tht mostly works, it's still a little different,

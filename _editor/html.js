@@ -1,8 +1,9 @@
-define(["dojo", ".."], function(dojo, dijit) {
-	// module:
-	//		dijit/_editor/html
-	// summary:
-	//		TODOC
+define(["dojo", ".."], function(dojo, dijit){
+
+// module:
+//		dijit/_editor/html
+// summary:
+//		Utility functions used by editor
 
 dojo.getObject("_editor", true, dijit);
 

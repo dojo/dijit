@@ -12,14 +12,14 @@ define([
 	"dojo/i18n",
 	"dojo/i18n!../nls/FontChoice"], function(dojo, dijit){
 
-	// module:
-	//		dijit/_editor/plugins/FontChoice
-	// summary:
-	//		fontchoice, fontsize, and formatblock editor plugins
+// module:
+//		dijit/_editor/plugins/FontChoice
+// summary:
+//		fontchoice, fontsize, and formatblock editor plugins
 
 
 dojo.declare("dijit._editor.plugins._FontDropDown",
-	[dijit._Widget, dijit._TemplatedMixin, dijit._WidgetsInTemplateMixin],{
+	[dijit._Widget, dijit._TemplatedMixin, dijit._WidgetsInTemplateMixin], {
 	// summary:
 	//		Base class for widgets that contains a label (like "Font:")
 	//		and a FilteringSelect drop down to pick a value.
@@ -352,7 +352,7 @@ dojo.declare("dijit._editor.plugins._FormatBlockDropDown", dijit._editor.plugins
 						//Also look for all child nodes in the selection that may need to be
 						//cleared of formatting
 						processChildren(start, clearNodes);
-						if(block) { clearNodes = [block].concat(clearNodes); }
+						if(block){ clearNodes = [block].concat(clearNodes); }
 						unformatNodes(clearNodes);
 					}else{
 						// Probably a multi select, so we have to process it.  Whee.

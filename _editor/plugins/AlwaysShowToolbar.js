@@ -1,12 +1,16 @@
-define(["dojo", "../..", "../_Plugin"], function(dojo, dijit) {
-	// module:
-	//		dijit/_editor/plugins/AlwaysShowToolbar
-	// summary:
-	//		TODOC
+define(["dojo", "../..", "../_Plugin"], function(dojo, dijit){
+
+// module:
+//		dijit/_editor/plugins/AlwaysShowToolbar
+// summary:
+//		This plugin is required for Editors in auto-expand mode.
+//		It handles the auto-expansion as the user adds/deletes text,
+//		and keeps the editor's toolbar visible even when the top of the editor
+//		has scrolled off the top of the viewport (usually when editing a long
+//		document).
 
 
-dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", dijit._editor._Plugin,
-	{
+dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", dijit._editor._Plugin, {
 	// summary:
 	//		This plugin is required for Editors in auto-expand mode.
 	//		It handles the auto-expansion as the user adds/deletes text,

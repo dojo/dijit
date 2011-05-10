@@ -1,15 +1,17 @@
 define([
-  "dojo",
-  "..",
-  "../_Widget",
-  "../_CssStateMixin",
-  "./selection",
-  "./range",
-  "./html"], function(dojo, dijit) {
-	// module:
-	//		dijit/_editor/RichText
-	// summary:
-	//		TODOC
+	"dojo",
+	"..",
+	"../_Widget",
+	"../_CssStateMixin",
+	"./selection",
+	"./range",
+	"./html"], function(dojo, dijit){
+
+// module:
+//		dijit/_editor/RichText
+// summary:
+//		dijit._editor.RichText is the core of dijit.Editor, which provides basic
+//		WYSIWYG editing features.
 
 // if you want to allow for rich text saving with back/forward actions, you must add a text area to your page with
 // the id==dijit._scopeName + "._editor.RichText.value" (typically "dijit._editor.RichText.value). For example,
@@ -19,22 +21,22 @@ define([
 //
 
 dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
-	constructor: function(params){
-		// summary:
-		//		dijit._editor.RichText is the core of dijit.Editor, which provides basic
-		//		WYSIWYG editing features.
-		//
-		// description:
-		//		dijit._editor.RichText is the core of dijit.Editor, which provides basic
-		//		WYSIWYG editing features. It also encapsulates the differences
-		//		of different js engines for various browsers.  Do not use this widget
-		//		with an HTML &lt;TEXTAREA&gt; tag, since the browser unescapes XML escape characters,
-		//		like &lt;.  This can have unexpected behavior and lead to security issues
-		//		such as scripting attacks.
-		//
-		// tags:
-		//		private
+	// summary:
+	//		dijit._editor.RichText is the core of dijit.Editor, which provides basic
+	//		WYSIWYG editing features.
+	//
+	// description:
+	//		dijit._editor.RichText is the core of dijit.Editor, which provides basic
+	//		WYSIWYG editing features. It also encapsulates the differences
+	//		of different js engines for various browsers.  Do not use this widget
+	//		with an HTML &lt;TEXTAREA&gt; tag, since the browser unescapes XML escape characters,
+	//		like &lt;.  This can have unexpected behavior and lead to security issues
+	//		such as scripting attacks.
+	//
+	// tags:
+	//		private
 
+	constructor: function(params){
 		// contentPreFilters: Function(String)[]
 		//		Pre content filter function register array.
 		//		these filters will be executed before the actual
@@ -275,7 +277,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 					this._native2LocalFormatNames[this._local2NativeFormatNames[nativename]] = nativename;
 					node = node.nextSibling.nextSibling;
 					//console.log("Mapped: ", nativename, " to: ", this._local2NativeFormatNames[nativename]);
-				}catch(e) { /*Sqelch the occasional IE9 error */ }
+				}catch(e){ /*Sqelch the occasional IE9 error */ }
 			}
 			div.parentNode.removeChild(div);
 			div.innerHTML = "";
@@ -414,7 +416,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 
 			if(!dijit._editor._globalSaveHandler){
 				dijit._editor._globalSaveHandler = {};
-				dojo.addOnUnload(function() {
+				dojo.addOnUnload(function(){
 					var id;
 					for(id in dijit._editor._globalSaveHandler){
 						var f = dijit._editor._globalSaveHandler[id];
@@ -1261,7 +1263,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}
 		//see #4109
 		if(dojo.isWebKit){
-			if(command == "cut" || command == "copy") {
+			if(command == "cut" || command == "copy"){
 				// WebKit deems clipboard activity as a security threat and natively would return false
 				var sel = this.window.getSelection();
 				if(sel){ sel = sel.toString(); }
@@ -1684,7 +1686,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}
 
 		// line height is squashed for iframes
-		// FIXME: why was this here? if (this.iframe){ this.domNode.style.lineHeight = null; }
+		// FIXME: why was this here? if(this.iframe){ this.domNode.style.lineHeight = null; }
 
 		if(this.interval){ clearInterval(this.interval); }
 

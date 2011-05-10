@@ -1,15 +1,19 @@
 define([
-  "dojo",
-  "../..",
-  "dojo/window",
-  "dojo/i18n",
-  "../_Plugin",
-  "../../form/ToggleButton",
-  "dojo/i18n!../nls/commands"], function(dojo, dijit) {
-	// module:
-	//		dijit/_editor/plugins/FullScreen
-	// summary:
-	//		TODOC
+	"dojo",
+	"../..",
+	"dojo/window",
+	"dojo/i18n",
+	"../_Plugin",
+	"../../form/ToggleButton",
+	"dojo/i18n!../nls/commands"], function(dojo, dijit){
+
+// module:
+//		dijit/_editor/plugins/FullScreen
+// summary:
+//		This plugin provides FullScreen cabability to the editor.  When
+//		toggled on, it will render the editor into the full window and
+//		overlay everything.  It also binds to the hotkey: CTRL-SHIFT-F11
+//		for toggling fullscreen mode.
 
 
 dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
@@ -188,7 +192,7 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 
 			// Save off the resize function.  We want to kill its behavior.
 			this._editorResizeHolder = this.editor.resize;
-			ed.resize = function() {} ;
+			ed.resize = function(){} ;
 
 			// Try to constrain focus control.
 			ed._fullscreen_oldOnKeyDown = ed.onKeyDown;
