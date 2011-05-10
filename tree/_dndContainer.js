@@ -1,42 +1,42 @@
 define([
-  "dojo",
-  "..",
-  "dojo/dnd/common",
-  "dojo/dnd/Container"], function(dojo, dijit) {
+	"dojo",
+	"..",
+	"dojo/dnd/common",
+	"dojo/dnd/Container"], function(dojo, dijit){
+
 	// module:
 	//		dijit/tree/_dndContainer
 	// summary:
-	//		TODOC
+	//		This is a base class for `dijit.tree._dndSelector`, and isn't meant to be used directly.
+	//		It's modeled after `dojo.dnd.Container`.
 
 
-dojo.getObject("tree", true, dojo);
+	dojo.getObject("tree", true, dojo);
 
-dijit.tree._compareNodes = function(n1, n2){
-	if(n1 === n2){
-		return 0;
-	}
+	dijit.tree._compareNodes = function(n1, n2){
+		if(n1 === n2){
+			return 0;
+		}
 
-	if('sourceIndex' in document.documentElement){ //IE
-		//TODO: does not yet work if n1 and/or n2 is a text node
-		return n1.sourceIndex - n2.sourceIndex;
-	}else if('compareDocumentPosition' in document.documentElement){ //FF, Opera
-		return n1.compareDocumentPosition(n2) & 2 ? 1: -1;
-	}else if(document.createRange){ //Webkit
-		var r1 = doc.createRange();
-		r1.setStartBefore(n1);
+		if('sourceIndex' in document.documentElement){ //IE
+			//TODO: does not yet work if n1 and/or n2 is a text node
+			return n1.sourceIndex - n2.sourceIndex;
+		}else if('compareDocumentPosition' in document.documentElement){ //FF, Opera
+			return n1.compareDocumentPosition(n2) & 2 ? 1: -1;
+		}else if(document.createRange){ //Webkit
+			var r1 = doc.createRange();
+			r1.setStartBefore(n1);
 
-		var r2 = doc.createRange();
-		r2.setStartBefore(n2);
+			var r2 = doc.createRange();
+			r2.setStartBefore(n2);
 
-		return r1.compareBoundaryPoints(r1.END_TO_END, r2);
-	}else{
-		throw Error("dijit.tree._compareNodes don't know how to compare two different nodes in this browser");
-	}
-};
+			return r1.compareBoundaryPoints(r1.END_TO_END, r2);
+		}else{
+			throw Error("dijit.tree._compareNodes don't know how to compare two different nodes in this browser");
+		}
+	};
 
-dojo.declare("dijit.tree._dndContainer",
-	null,
-	{
+	dojo.declare("dijit.tree._dndContainer", null, {
 
 		// summary:
 		//		This is a base class for `dijit.tree._dndSelector`, and isn't meant to be used directly.
@@ -179,8 +179,8 @@ dojo.declare("dijit.tree._dndContainer",
 			//		protected
 			this._changeState("Container", "");
 		}
-});
+	});
 
 
-return dijit.tree._dndContainer;
+	return dijit.tree._dndContainer;
 });

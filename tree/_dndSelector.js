@@ -1,17 +1,17 @@
 define([
-  "dojo",
-  "..",
-  "dojo/dnd/common",
-  "./_dndContainer"], function(dojo, dijit) {
+	"dojo",
+	"..",
+	"dojo/dnd/common",
+	"./_dndContainer"], function(dojo, dijit){
+
 	// module:
 	//		dijit/tree/_dndSelector
     // summary:
-    //		TODOC
+	//		This is a base class for `dijit.tree.dndSource` , and isn't meant to be used directly.
+	//		It's based on `dojo.dnd.Selector`.
 
 
-dojo.declare("dijit.tree._dndSelector",
-	dijit.tree._dndContainer,
-	{
+	dojo.declare("dijit.tree._dndSelector", dijit.tree._dndContainer, {
 		// summary:
 		//		This is a base class for `dijit.tree.dndSource` , and isn't meant to be used directly.
 		//		It's based on `dojo.dnd.Selector`.
@@ -142,18 +142,18 @@ dojo.declare("dijit.tree._dndSelector",
 			dojo.forEach(ys, function(y){ delete y['__exclude__'] });
 			return ret;
 		},
-		_updateSelectionProperties: function() {
+		_updateSelectionProperties: function(){
 			// summary
 			//      Update the following tree properties from the current selection:
 			//      path[s], selectedItem[s], selectedNode[s]
 
 			var selected = this.getSelectedTreeNodes();
 			var paths = [], nodes = [];
-			dojo.forEach(selected, function(node) {
+			dojo.forEach(selected, function(node){
 				nodes.push(node);
 				paths.push(node.getTreePath());
 			});
-			var items = dojo.map(nodes,function(node) { return node.item; });
+			var items = dojo.map(nodes,function(node){ return node.item; });
 			this.tree._set("paths", paths);
 			this.tree._set("path", paths[0] || []);
 			this.tree._set("selectedNodes", nodes);
@@ -249,7 +249,7 @@ dojo.declare("dijit.tree._dndSelector",
 					}
 					nodes = [];
 					//add everything betweeen begin and end inclusively
-					while(begin != end) {
+					while(begin != end){
 						nodes.push(begin)
 						begin = this.tree._getNextNode(begin);
 					}
@@ -257,9 +257,9 @@ dojo.declare("dijit.tree._dndSelector",
 
 					this.setSelection(nodes);
 				}else{
-				    if( this.selection[ node.id ] && multi ) {
+				    if( this.selection[ node.id ] && multi ){
 						this.removeTreeNode( node );
-				    } else if(multi) {
+				    } else if(multi){
 						this.addTreeNode(node, true);
 					} else {
 						this.setSelection([node]);
@@ -279,8 +279,8 @@ dojo.declare("dijit.tree._dndSelector",
 				f.call(o, this.getItem(id), id, this);
 			}
 		}
-});
+	});
 
 
-return dijit.tree._dndSelector;
+	return dijit.tree._dndSelector;
 });

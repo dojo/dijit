@@ -1,8 +1,10 @@
-define(["dojo", "..", "./TreeStoreModel"], function(dojo, dijit) {
-	// module:
-	//		dijit/tree/ForestStoreModel
-	// summary:
-	//		TODOC
+define(["dojo", "..", "./TreeStoreModel"], function(dojo, dijit){
+
+// module:
+//		dijit/tree/ForestStoreModel
+// summary:
+//		Interface between a dijit.Tree and a dojo.data store that doesn't have a root item,
+//		a.k.a. a store that has multiple "top level" items.
 
 dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 	// summary:

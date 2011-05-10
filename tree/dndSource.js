@@ -1,12 +1,13 @@
 define([
-  "dojo",
-  "..",
-  "./_dndSelector",
-  "dojo/dnd/Manager"], function(dojo, dijit) {
-	// module:
-	//		dijit/tree/dndSource
-	// summary:
-	//		TODOC
+	"dojo",
+	"..",
+	"./_dndSelector",
+	"dojo/dnd/Manager"], function(dojo, dijit){
+
+// module:
+//		dijit/tree/dndSource
+// summary:
+//		Handles drag and drop operations (as a source or a target) for `dijit.Tree`
 
 /*=====
 dijit.tree.__SourceArgs = function(){
