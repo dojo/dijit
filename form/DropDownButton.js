@@ -4,7 +4,7 @@ define([
 	"dojo/text!./templates/DropDownButton.html",
 	"./Button",
 	"../_Container",
-	"../_HasDropDown"], function(dojo, dijit){
+	"../_HasDropDown"], function(dojo, dijit, template){
 
 // module:
 //		dijit/form/DropDownButton
@@ -28,7 +28,7 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container, 
 
 	baseClass : "dijitDropDownButton",
 
-	templateString: dojo.cache("dijit.form" , "templates/DropDownButton.html"),
+	templateString: template,
 
 	_fillContent: function(){
 		// Overrides Button._fillContent().

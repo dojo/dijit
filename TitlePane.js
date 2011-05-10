@@ -5,7 +5,7 @@ define([
 	"dojo/fx",
 	"./_TemplatedMixin",
 	"./layout/ContentPane",
-	"./_CssStateMixin"], function(dojo, dijit){
+	"./_CssStateMixin"], function(dojo, dijit, template){
 
 // module:
 //		dijit/TitlePane
@@ -63,7 +63,7 @@ dojo.declare("dijit.TitlePane", [dijit.layout.ContentPane, dijit._TemplatedMixin
 	//		The root className to be placed on this widget's domNode.
 	baseClass: "dijitTitlePane",
 
-	templateString: dojo.cache("dijit", "templates/TitlePane.html"),
+	templateString: template,
 
 	// Tooltip is defined in _WidgetBase but we need to handle the mapping to DOM here
 	_setTooltipAttr: {node: "focusNode", type: "attribute", attribute: "title"},	// focusNode spans the entire width, titleNode doesn't

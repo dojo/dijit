@@ -7,7 +7,7 @@ define([
 	"./_FocusMixin",
 	"./_TemplatedMixin",
 	"./_Contained",
-	"./_CssStateMixin"], function(dojo, dijit){
+	"./_CssStateMixin"], function(dojo, dijit, template){
 
 	// module:
 	//		dijit/MenuItem
@@ -23,7 +23,7 @@ define([
 
 		// Make 3 columns
 		// icon, label, and expand arrow (BiDi-dependent) indicating sub-menu
-		templateString: dojo.cache("dijit", "templates/MenuItem.html"),
+		templateString: template,
 
 		baseClass: "dijitMenuItem",
 

@@ -3,7 +3,7 @@ define([
 	".",
 	"dojo/text!./templates/TimePicker.html",
 	"./form/_FormWidget",
-	"dojo/date/locale"], function(dojo, dijit){
+	"dojo/date/locale"], function(dojo, dijit, template){
 
 	// module:
 	//		dijit/_TimePicker
@@ -37,7 +37,7 @@ define([
 		//		This widget is used internally by other widgets and is not available
 		//		as a standalone widget due to lack of accessibility support.
 
-		templateString: dojo.cache("dijit", "templates/TimePicker.html"),
+		templateString: template,
 
 		// baseClass: [protected] String
 		//		The root className to use for the various states of this widget

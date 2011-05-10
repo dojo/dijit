@@ -21,7 +21,7 @@ define([
 
 		// templatePath: [protected deprecated] String
 		//		Path to template (HTML file) for this widget relative to dojo.baseUrl.
-		//		Deprecated: use templateString with dojo.cache() instead.
+		//		Deprecated: use templateString with require([... "dojo/text!..."], ...) instead
 		templatePath: null,
 
 		// skipNodeCache: [protected] Boolean

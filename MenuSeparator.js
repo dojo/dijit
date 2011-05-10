@@ -4,7 +4,7 @@ define([
 	"dojo/text!./templates/MenuSeparator.html",
 	"./_WidgetBase",
 	"./_TemplatedMixin",
-	"./_Contained"], function(dojo, dijit){
+	"./_Contained"], function(dojo, dijit, template){
 
 	// module:
 	//		dijit/MenuSeparator
@@ -15,7 +15,7 @@ define([
 		// summary:
 		//		A line between two menu items
 
-		templateString: dojo.cache("dijit", "templates/MenuSeparator.html"),
+		templateString: template,
 
 		buildRendering: function(){
 			this.inherited(arguments);

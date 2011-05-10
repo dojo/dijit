@@ -3,9 +3,9 @@ define([
 	"..",
 	"dojo/text!./templates/_TabButton.html",
 	"./StackController",
-	"../Menu",	// Menu is used for an accessible close button, would be nice to have a lighter-weight solution
+	"../Menu",
 	"../MenuItem",
-	"dojo/i18n!../nls/common"], function(dojo, dijit){
+	"dojo/i18n!../nls/common"], function(dojo, dijit, template){
 
 // module:
 //		dijit/layout/TabController
@@ -72,7 +72,7 @@ dojo.declare("dijit.layout._TabButton", dijit.layout._StackButton, {
 		closeNode: "dijitTabCloseButton"
 	},
 
-	templateString: dojo.cache("dijit.layout","templates/_TabButton.html"),
+	templateString: template,
 
 	// Override _FormWidget.scrollOnFocus.
 	// Don't scroll the whole tab container into view when the button is focused.

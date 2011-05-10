@@ -2,7 +2,7 @@ define([
 	"dojo",
 	".",
 	"dojo/text!./templates/MenuBarItem.html",
-	"./MenuItem"], function(dojo, dijit){
+	"./MenuItem"], function(dojo, dijit, template){
 
 	// module:
 	//		dijit/MenuBarItem
@@ -11,7 +11,7 @@ define([
 
 
 	dojo.declare("dijit._MenuBarItemMixin", null, {
-		templateString: dojo.cache("dijit", "templates/MenuBarItem.html"),
+		templateString: template,
 
 		// Map widget attributes to DOMNode attributes.
 		_setIconClassAttr: null	// cancel MenuItem setter because we don't have a place for an icon

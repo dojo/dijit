@@ -5,7 +5,7 @@ define([
 	"dojo/i18n",
 	"./TextBox",
 	"../Tooltip",
-	"dojo/i18n!./nls/validate"], function(dojo, dijit){
+	"dojo/i18n!./nls/validate"], function(dojo, dijit, template){
 
 	// module:
 	//		dijit/form/ValidationTextBox
@@ -30,7 +30,7 @@ define([
 		// tags:
 		//		protected
 
-		templateString: dojo.cache("dijit.form", "templates/ValidationTextBox.html"),
+		templateString: template,
 		baseClass: "dijitTextBox dijitValidationTextBox",
 
 		// required: Boolean

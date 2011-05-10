@@ -6,7 +6,7 @@ define([
 	"dojo/date/locale",
 	"dojo/date/stamp",
 	"./RangeBoundTextBox",
-	"../_HasDropDown"], function(dojo, dijit){
+	"../_HasDropDown"], function(dojo, dijit, template){
 
 	// module:
 	//		dijit/form/_DateTimeTextBox
@@ -35,7 +35,7 @@ define([
 		// summary:
 		//		Base class for validating, serializable, range-bound date or time text box.
 
-		templateString: dojo.cache("dijit.form", "templates/DropDownBox.html"),
+		templateString: template,
 
 		// hasDownArrow: [const] Boolean
 		//		Set this textbox to display a down arrow button, to open the drop down list.

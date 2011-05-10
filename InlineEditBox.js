@@ -9,16 +9,16 @@ define([
 	"./_Container",
 	"./form/Button",
 	"./form/TextBox",
-	"dojo/i18n!./nls/common"], function(dojo, dijit){
+	"dojo/i18n!./nls/common"], function(dojo, dijit, template){
 
 // module:
 //		dijit/InlineEditBox
 // summary:
-//		An element with in-line edit capabilites
+//		An element with in-line edit capabilities
 
 dojo.declare("dijit.InlineEditBox", dijit._Widget, {
 	// summary:
-	//		An element with in-line edit capabilites
+	//		An element with in-line edit capabilities
 	//
 	// description:
 	//		Behavior for an existing node (`<p>`, `<div>`, `<span>`, etc.) so that
@@ -390,7 +390,7 @@ dojo.declare(
 	// value: String
 	//		Value as an HTML string or plain text string, depending on renderAsHTML flag
 
-	templateString: dojo.cache("dijit", "templates/InlineEditBox.html"),
+	templateString: template,
 
 	postMixInProperties: function(){
 		this.inherited(arguments);

@@ -3,7 +3,7 @@ define([
 	"..",
 	"dojo/text!./templates/TabContainer.html",
 	"./StackContainer",
-	"../_TemplatedMixin"], function(dojo, dijit){
+	"../_TemplatedMixin"], function(dojo, dijit, template){
 
 // module:
 //		dijit/layout/_TabContainerBase
@@ -39,7 +39,7 @@ dojo.declare("dijit.layout._TabContainerBase",[dijit.layout.StackContainer, diji
 	//		border since the outer TabContainer already has a border.
 	nested: false,
 
-	templateString: dojo.cache("dijit.layout", "templates/TabContainer.html"),
+	templateString: template,
 
 	postMixInProperties: function(){
 		// set class name according to tab position, ex: dijitTabContainerTop

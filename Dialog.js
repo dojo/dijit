@@ -13,7 +13,7 @@ define([
 	"./_DialogMixin",
 	"./DialogUnderlay",
 	"./layout/ContentPane",
-	"dojo/i18n!./nls/common"], function(dojo, dijit){
+	"dojo/i18n!./nls/common"], function(dojo, dijit, template){
 
 	// module:
 	//		dijit/Dialog
@@ -51,7 +51,7 @@ define([
 		// |	dojo.body().appendChild(foo.domNode);
 		// |	foo.startup();
 
-		templateString: dojo.cache("dijit", "templates/Dialog.html"),
+		templateString: template,
 
 		baseClass: "dijitDialog",
 

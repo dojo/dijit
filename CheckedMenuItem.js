@@ -2,7 +2,7 @@ define([
 	"dojo",
 	".",
 	"dojo/text!./templates/CheckedMenuItem.html", "./hccss",
-	"./MenuItem"], function(dojo, dijit){
+	"./MenuItem"], function(dojo, dijit, template){
 
 	// module:
 	//		dijit/CheckedMenuItem
@@ -13,7 +13,7 @@ define([
 		// summary:
 		//		A checkbox-like menu item for toggling on and off
 
-		templateString: dojo.cache("dijit", "templates/CheckedMenuItem.html"),
+		templateString: template,
 
 		// checked: Boolean
 		//		Our checked state

@@ -7,7 +7,7 @@ define([
 	"dojo/colors",
 	"dojo/i18n",
 	"./_PaletteMixin",
-	"dojo/i18n!dojo/nls/colors"], function(dojo, dijit){
+	"dojo/i18n!dojo/nls/colors"], function(dojo, dijit, template){
 
 // module:
 //		dijit/ColorPalette
@@ -53,7 +53,7 @@ dojo.declare("dijit.ColorPalette", [dijit._Widget, dijit._TemplatedMixin, dijit.
 
 	// templateString: String
 	//		The template of this widget.
-	templateString: dojo.cache("dijit", "templates/ColorPalette.html"),
+	templateString: template,
 
 	baseClass: "dijitColorPalette",
 

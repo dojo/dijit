@@ -13,7 +13,7 @@ define([
 	"dojo/cookie",
 	"./tree/TreeStoreModel",
 	"./tree/ForestStoreModel",
-	"./tree/_dndSelector"], function(dojo, dijit){
+	"./tree/_dndSelector"], function(dojo, dijit, treeNodeTemplate, treeTemplate){
 
 // module:
 //		dijit/Tree
@@ -59,7 +59,7 @@ dojo.declare(
 	//		then after dojo.data query it becomes "LOADING" and, finally "LOADED"
 	state: "UNCHECKED",
 
-	templateString: dojo.cache("dijit", "templates/TreeNode.html"),
+	templateString: treeNodeTemplate,
 
 	baseClass: "dijitTreeNode",
 
@@ -555,7 +555,7 @@ dojo.declare(
 	//		If true, double-clicking a folder node's label will open it, rather than calling onDblClick()
 	openOnDblClick: false,
 
-	templateString: dojo.cache("dijit", "templates/Tree.html"),
+	templateString: treeTemplate,
 
 	// persist: Boolean
 	//		Enables/disables use of cookies for state saving.

@@ -7,7 +7,7 @@ define([
 	"dojo/date",
 	"dojo/date/locale",
 	"./_WidgetBase",
-	"./_TemplatedMixin"], function(dojo, dijit){
+	"./_TemplatedMixin"], function(dojo, dijit, template){
 
 	// module:
 	//		dijit/CalendarLite
@@ -35,7 +35,7 @@ define([
 		//	|	<div data-dojo-type="dijit.CalendarLite"></div>
 
 		// Template for main calendar
-		templateString: dojo.cache("dijit", "templates/Calendar.html"),
+		templateString: template,
 
 		// Template for cell for a day of the week (ex: M)
 		dowTemplateString: '<th class="dijitReset dijitCalendarDayLabelTemplate" role="columnheader"><span class="dijitCalendarDayLabel">${d}</span></th>',

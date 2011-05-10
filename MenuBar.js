@@ -2,7 +2,7 @@ define([
 	"dojo",
 	".",
 	"dojo/text!./templates/MenuBar.html",
-	"./Menu"], function(dojo, dijit){
+	"./Menu"], function(dojo, dijit, template){
 
 // module:
 //		dijit/MenuBar
@@ -13,7 +13,7 @@ dojo.declare("dijit.MenuBar", dijit._MenuBase, {
 	// summary:
 	//		A menu bar, listing menu choices horizontally, like the "File" menu in most desktop applications
 
-	templateString: dojo.cache("dijit", "templates/MenuBar.html"),
+	templateString: template,
 
 	baseClass: "dijitMenuBar",
 

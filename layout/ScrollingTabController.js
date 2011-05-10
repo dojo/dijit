@@ -7,7 +7,7 @@ define([
 	"../_WidgetsInTemplateMixin",
 	"../Menu",
 	"../form/Button",
-	"../_HasDropDown"], function(dojo, dijit){
+	"../_HasDropDown"], function(dojo, dijit, tabControllerTemplate, buttonTemplate){
 
 // module:
 //		dijit/layout/ScrollingTabController
@@ -25,7 +25,7 @@ dojo.declare("dijit.layout.ScrollingTabController", [dijit.layout.TabController,
 	// tags:
 	//		private
 
-	templateString: dojo.cache("dijit.layout", "templates/ScrollingTabController.html"),
+	templateString: tabControllerTemplate,
 
 	// useMenu: [const] Boolean
 	//		True if a menu should be used to select tabs when they are too
@@ -421,7 +421,7 @@ dojo.declare("dijit.layout.ScrollingTabController", [dijit.layout.TabController,
 dojo.declare("dijit.layout._ScrollingTabControllerButtonMixin", null, {
 	baseClass: "dijitTab tabStripButton",
 
-	templateString: dojo.cache("dijit.layout","templates/_ScrollingTabControllerButton.html"),
+	templateString: buttonTemplate,
 
 		// Override inherited tabIndex: 0 from dijit.form.Button, because user shouldn't be
 		// able to tab to the left/right/menu buttons

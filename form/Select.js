@@ -8,7 +8,7 @@ define([
 	"../MenuItem",
 	"../MenuSeparator",
 	"../Tooltip",
-	"dojo/i18n!./nls/validate"], function(dojo, dijit){
+	"dojo/i18n!./nls/validate"], function(dojo, dijit, template){
 
 // module:
 //		dijit/form/Select
@@ -75,7 +75,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 
 	baseClass: "dijitSelect",
 
-	templateString: dojo.cache("dijit.form", "templates/Select.html"),
+	templateString: template,
 
 	// required: Boolean
 	//		Can be true or false, default is false.

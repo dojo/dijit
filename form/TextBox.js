@@ -3,7 +3,7 @@ define([
 	"..",
 	"dojo/text!./templates/TextBox.html",
 	"./_FormWidget",
-	"./_TextBoxMixin"], function(dojo, dijit){
+	"./_TextBoxMixin"], function(dojo, dijit, template){
 
 	// module:
 	//		dijit/form/TextBox
@@ -14,7 +14,7 @@ define([
 		// summary:
 		//		A base class for textbox form inputs
 
-		templateString: dojo.cache("dijit.form", "templates/TextBox.html"),
+		templateString: template,
 		_singleNodeTemplate: '<input class="dijit dijitReset dijitLeft dijitInputField" dojoAttachPoint="textbox,focusNode" autocomplete="off" type="${type}" ${!nameAttrSetting} />',
 
 		_buttonInputDisabled: dojo.isIE ? "disabled" : "", // allows IE to disallow focus, but Firefox cannot be disabled for mousedown events

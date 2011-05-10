@@ -5,7 +5,7 @@ define([
 	"./_FormWidget",
 	"./_ButtonMixin",
 	"../_Container",
-	"../_HasDropDown"], function(dojo, dijit){
+	"../_HasDropDown"], function(dojo, dijit, template){
 
 // module:
 //		dijit/form/Button
@@ -43,7 +43,7 @@ dojo.declare("dijit.form.Button", [dijit.form._FormWidget, dijit.form._ButtonMix
 
 	baseClass: "dijitButton",
 
-	templateString: dojo.cache("dijit.form", "templates/Button.html"),
+	templateString: template,
 
 	// Map widget attributes to DOMNode attributes.
 	_setValueAttr: "valueNode",

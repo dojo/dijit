@@ -3,7 +3,7 @@ define([
 	".",
 	"dojo/text!./templates/Menu.html",
 	"./_OnDijitClickMixin",
-	"./_MenuBase"], function(dojo, dijit){
+	"./_MenuBase"], function(dojo, dijit, template){
 
 	// module:
 	//		dijit/DropDownMenu
@@ -14,7 +14,7 @@ define([
 		// summary:
 		//		A menu, without features for context menu (Meaning, drop down menu)
 
-		templateString: dojo.cache("dijit", "templates/Menu.html"),
+		templateString: template,
 
 		baseClass: "dijitMenu",
 

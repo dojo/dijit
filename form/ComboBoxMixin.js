@@ -5,7 +5,7 @@ define([
 	"./_AutoCompleterMixin",
 	"./_ComboBoxMenu",
 	"../_HasDropDown",
-	"dojo/store/DataStore"], function(dojo, dijit){
+	"dojo/store/DataStore"], function(dojo, dijit, template){
 
 	// module:
 	//		dijit/form/ComboBoxMixin
@@ -26,7 +26,7 @@ define([
 		//		Defaults to true.
 		hasDownArrow: true,
 
-		templateString: dojo.cache("dijit.form", "templates/DropDownBox.html"),
+		templateString: template,
 
 		baseClass: "dijitTextBox dijitComboBox",
 

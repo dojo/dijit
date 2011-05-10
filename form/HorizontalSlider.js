@@ -6,7 +6,7 @@ define([
 	"../_Container",
 	"dojo/dnd/move",
 	"./Button",
-	"dojo/number"], function(dojo, dijit){
+	"dojo/number"], function(dojo, dijit, template){
 
 // module:
 //		dijit/form/HorizontalSlider
@@ -18,7 +18,7 @@ dojo.declare("dijit.form.HorizontalSlider", [dijit.form._FormValueWidget, dijit.
 	// summary:
 	//		A form widget that allows one to select a value with a horizontally draggable handle
 
-	templateString: dojo.cache('dijit.form','templates/HorizontalSlider.html'),
+	templateString: template,
 
 	// Overrides FormValueWidget.value to indicate numeric value
 	value: 0,

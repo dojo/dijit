@@ -1,9 +1,10 @@
 define([
 	"dojo",
 	".",
+	"dojo/text!./templates/Tooltip.html",
 	"./place",
 	"./_Widget",
-	"./_TemplatedMixin"], function(dojo, dijit, place){
+	"./_TemplatedMixin"], function(dojo, dijit, template, place){
 
 	// module:
 	//		dijit/Tooltip
@@ -24,7 +25,7 @@ define([
 		//		Milliseconds to fade in/fade out
 		duration: dijit.defaultDuration,
 
-		templateString: dojo.cache("dijit", "templates/Tooltip.html"),
+		templateString: template,
 
 		postCreate: function(){
 			dojo.body().appendChild(this.domNode);

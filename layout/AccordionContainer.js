@@ -6,7 +6,7 @@ define([
 	"../_TemplatedMixin",
 	"../_CssStateMixin",
 	"./StackContainer",
-	"./ContentPane"], function(dojo, dijit){
+	"./ContentPane"], function(dojo, dijit, template){
 
 	// module:
 	//		dijit/layout/AccordionContainer
@@ -317,11 +317,9 @@ define([
 				dojo.stopEvent(e);
 			}
 		}
-	}
-);
+	});
 
-dojo.declare("dijit.layout._AccordionInnerContainer",
-	[dijit._Widget, dijit._CssStateMixin], {
+	dojo.declare("dijit.layout._AccordionInnerContainer", [dijit._Widget, dijit._CssStateMixin], {
 		// summary:
 		//		Internal widget placed as direct child of AccordionContainer.containerNode.
 		//		When other widgets are added as children to an AccordionContainer they are wrapped in
@@ -436,7 +434,7 @@ dojo.declare("dijit.layout._AccordionInnerContainer",
 		// tags:
 		//		private
 
-		templateString: dojo.cache("dijit.layout", "templates/AccordionButton.html"),
+		templateString: template,
 
 		// label: String
 		//		Title of the pane

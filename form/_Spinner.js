@@ -2,7 +2,7 @@ define([
 	"dojo",
 	"..",
 	"dojo/text!./templates/Spinner.html",
-	"./RangeBoundTextBox"], function(dojo, dijit){
+	"./RangeBoundTextBox"], function(dojo, dijit, template){
 
 	// module:
 	//		dijit/form/_Spinner
@@ -39,7 +39,7 @@ define([
 		//		Adjust the value by this much when spinning using the PgUp/Dn keys
 		largeDelta: 10,
 
-		templateString: dojo.cache("dijit.form", "templates/Spinner.html"),
+		templateString: template,
 
 		baseClass: "dijitTextBox dijitSpinner",
 

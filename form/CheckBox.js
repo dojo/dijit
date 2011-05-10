@@ -3,7 +3,7 @@ define([
 	"..",
 	"dojo/text!./templates/CheckBox.html",
 	"./ToggleButton",
-	"./_CheckBoxMixin"], function(dojo, dijit){
+	"./_CheckBoxMixin"], function(dojo, dijit, template){
 
 	// module:
 	//		dijit/form/CheckBox
@@ -29,7 +29,7 @@ define([
 		//		In case 2, the regular html inputs are invisible but still used by
 		//		the user. They are turned quasi-invisible and overlay the background-image.
 
-		templateString: dojo.cache("dijit.form", "templates/CheckBox.html"),
+		templateString: template,
 
 		baseClass: "dijitCheckBox",
 

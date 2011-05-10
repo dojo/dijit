@@ -5,7 +5,7 @@ define([
 	"./layout/ContentPane",
 	"./_TemplatedMixin",
 	"./form/_FormMixin",
-	"./_DialogMixin"], function(dojo, dijit){
+	"./_DialogMixin"], function(dojo, dijit, template){
 
 	// module:
 	//		dijit/TooltipDialog
@@ -49,7 +49,7 @@ define([
 		//		Set by `dijit._DialogMixin._getFocusItems`.
 		_lastFocusItem: null,
 
-		templateString: dojo.cache("dijit", "templates/TooltipDialog.html"),
+		templateString: template,
 
 		_setTitleAttr: function(/*String*/ title){
 			this.containerNode.title = title;

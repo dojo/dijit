@@ -2,7 +2,7 @@ define([
 	"dojo",
 	"..",
 	"dojo/text!./templates/ComboButton.html",
-	"./DropDownButton"], function(dojo, dijit){
+	"./DropDownButton"], function(dojo, dijit, template){
 
 // module:
 //		dijit/form/ComboButton
@@ -26,7 +26,7 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 	// |	dojo.body().appendChild(button1.domNode);
 	//
 
-	templateString: dojo.cache("dijit.form", "templates/ComboButton.html"),
+	templateString: template,
 
 	// Map widget attributes to DOMNode attributes.
 	_setIdAttr: "",	// override _FormWidgetMixin which puts id on the focusNode

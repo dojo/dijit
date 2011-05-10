@@ -5,7 +5,7 @@ define([
 	"dojo/fx",
 	"dojo/number",
 	"./_Widget",
-	"./_TemplatedMixin"], function(dojo, dijit){
+	"./_TemplatedMixin"], function(dojo, dijit, template){
 
 // module:
 //		dijit/ProgressBar
@@ -61,7 +61,7 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._TemplatedMixin], {
 	//		this widget in a dijit.form.Form widget (such as dijit.Dialog)
 	name: '',
 
-	templateString: dojo.cache("dijit", "templates/ProgressBar.html"),
+	templateString: template,
 
 	// _indeterminateHighContrastImagePath: [private] dojo._URL
 	//		URL to image to use for indeterminate progress bar when display is in high contrast mode
