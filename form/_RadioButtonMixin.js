@@ -17,7 +17,7 @@ dojo.declare("dijit.form._RadioButtonMixin", null,
 		_getRelatedWidgets: function(){
 			// Private function needed to help iterate over all radio buttons in a group.
 			var ary = [];
-			dojo.query("INPUT[type=radio]", this.focusNode.form || dojo.doc).forEach( // can't use name= since dojo.query doesn't support [] in the name
+			dojo.query("input[type=radio]", this.focusNode.form || dojo.doc).forEach( // can't use name= since dojo.query doesn't support [] in the name
 				dojo.hitch(this, function(inputNode){
 					if(inputNode.name == this.name && inputNode.form == this.focusNode.form){
 						var widget = dijit.getEnclosingWidget(inputNode);
