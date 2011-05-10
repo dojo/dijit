@@ -2,10 +2,10 @@ define(
 	["dojo", "..", "../popup", "../BackgroundIframe"],
 	function(dojo, dijit, popup, BackgroundIframe){
 
-	// module:
-	//		dijit/_base/popup
-	// summary:
-	//		Old module for popups, new code should use dijit/popup directly
+// module:
+//		dijit/_base/popup
+// summary:
+//		Old module for popups, new code should use dijit/popup directly
 
 
 /*=====

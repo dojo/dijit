@@ -1,11 +1,12 @@
 define(["dojo", ".."], function(dojo, dijit){
-	// module:
-	//		dijit/_base/typematic
-	// summary:
-	//		These functions are used to repetitively call a user specified callback
-	//		method when a specific key or mouse click over a specific DOM node is
-	//		held down for a specific amount of time.
-	//		Only 1 such event is allowed to occur on the browser page at 1 time.
+
+// module:
+//		dijit/_base/typematic
+// summary:
+//		These functions are used to repetitively call a user specified callback
+//		method when a specific key or mouse click over a specific DOM node is
+//		held down for a specific amount of time.
+//		Only 1 such event is allowed to occur on the browser page at 1 time.
 
 dijit.typematic = {
 	// summary:
