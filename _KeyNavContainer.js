@@ -1,4 +1,5 @@
 define(["dojo", ".", "./_Container", "./_FocusMixin"], function(dojo, dijit){
+
 	// module:
 	//		dijit/_KeyNavContainer
 	// summary:

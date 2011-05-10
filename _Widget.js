@@ -6,10 +6,10 @@ define([
 	"./_FocusMixin",
 	"./_base"], function(dojo, dijit){
 
-	// module:
-	//		dijit/_Widget
-	// summary:
-	//		Old base for widgets.   New widgets should extend _WidgetBase instead
+// module:
+//		dijit/_Widget
+// summary:
+//		Old base for widgets.   New widgets should extend _WidgetBase instead
 
 
 

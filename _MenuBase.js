@@ -8,7 +8,6 @@ define([
 	"./_KeyNavContainer",
 	"./_TemplatedMixin"], function(dojo, dijit, pm){
 
-
 	// module:
 	//		dijit/_MenuBase
 	// summary:

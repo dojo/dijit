@@ -1,4 +1,5 @@
-define(["dojo"], function(dojo) {
+define(["dojo"], function(dojo){
+
 	// module:
 	//		dijit/hccss
 	// summary:

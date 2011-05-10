@@ -1,38 +1,37 @@
 define([
-  "dojo",
-  ".",
-  "dojo/text!./templates/TimePicker.html",
-  "./form/_FormWidget",
-  "dojo/date/locale"], function(dojo, dijit) {
+	"dojo",
+	".",
+	"dojo/text!./templates/TimePicker.html",
+	"./form/_FormWidget",
+	"dojo/date/locale"], function(dojo, dijit){
+
 	// module:
 	//		dijit/_TimePicker
 	// summary:
-	//		TODOC
+	//		A graphical time picker.
 
 
-/*=====
-dojo.declare(
-	"dijit._TimePicker.__Constraints",
-	dojo.date.locale.__FormatOptions,
-	{
-		// clickableIncrement: String
-		//		See `dijit._TimePicker.clickableIncrement`
-		clickableIncrement: "T00:15:00",
+	/*=====
+	dojo.declare(
+		"dijit._TimePicker.__Constraints",
+		dojo.date.locale.__FormatOptions,
+		{
+			// clickableIncrement: String
+			//		See `dijit._TimePicker.clickableIncrement`
+			clickableIncrement: "T00:15:00",
+	
+			// visibleIncrement: String
+			//		See `dijit._TimePicker.visibleIncrement`
+			visibleIncrement: "T01:00:00",
 
-		// visibleIncrement: String
-		//		See `dijit._TimePicker.visibleIncrement`
-		visibleIncrement: "T01:00:00",
+			// visibleRange: String
+			//		See `dijit._TimePicker.visibleRange`
+			visibleRange: "T05:00:00"
+		}
+	);
+	=====*/
 
-		// visibleRange: String
-		//		See `dijit._TimePicker.visibleRange`
-		visibleRange: "T05:00:00"
-	}
-);
-=====*/
-
-dojo.declare("dijit._TimePicker",
-	[dijit._Widget, dijit._TemplatedMixin],
-	{
+	dojo.declare("dijit._TimePicker", [dijit._Widget, dijit._TemplatedMixin], {
 		// summary:
 		//		A graphical time picker.
 		//		This widget is used internally by other widgets and is not available
@@ -473,9 +472,7 @@ dojo.declare("dijit._TimePicker",
 				return e.charOrCode === dk.TAB;
 			}
 		}
-	}
-);
+	});
 
-
-return dijit._TimePicker;
+	return dijit._TimePicker;
 });

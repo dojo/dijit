@@ -15,7 +15,7 @@ define([
 	//		A line item in a Menu Widget
 
 
-dojo.declare("dijit.MenuItem",
+	dojo.declare("dijit.MenuItem",
 		[dijit._WidgetBase, dijit._OnDijitClickMixin, dijit._FocusMixin, dijit._TemplatedMixin, dijit._Contained, dijit._CssStateMixin],
 		{
 		// summary:
@@ -196,5 +196,5 @@ dojo.declare("dijit.MenuItem",
 	});
 
 
-return dijit.MenuItem;
+	return dijit.MenuItem;
 });

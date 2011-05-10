@@ -8,7 +8,7 @@ define([
 	// module:
 	//		dijit/Tooltip
 	// summary:
-	//		TODOC
+	//		Defines dijit.Tooltip widget (to display a tooltip), showTooltip()/hideTooltip(), and _MasterTooltip
 
 
 	dojo.declare("dijit._MasterTooltip", [dijit._Widget, dijit._TemplatedMixin], {

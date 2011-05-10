@@ -1,13 +1,13 @@
 define([
-  "dojo",
-  ".",
-  "dojo/text!./templates/MenuBar.html",
-  "./Menu"], function(dojo, dijit) {
-	// module:
-	//		dijit/MenuBar
-	// summary:
-	//		TODOC
+	"dojo",
+	".",
+	"dojo/text!./templates/MenuBar.html",
+	"./Menu"], function(dojo, dijit){
 
+// module:
+//		dijit/MenuBar
+// summary:
+//		A menu bar, listing menu choices horizontally, like the "File" menu in most desktop applications
 
 dojo.declare("dijit.MenuBar", dijit._MenuBase, {
 	// summary:

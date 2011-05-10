@@ -1,12 +1,11 @@
-define(["dojo", ".", "dojo/parser"], function(dojo, dijit) {
+define(["dojo", ".", "dojo/parser"], function(dojo, dijit){
+
 	// module:
 	//		dijit/_WidgetsInTemplateMixin
 	// summary:
-	//		TODOC
+	//		Mixin to supplement _TemplatedMixin when template contains widgets
 
-dojo.declare("dijit._WidgetsInTemplateMixin",
-	null,
-	{
+	dojo.declare("dijit._WidgetsInTemplateMixin", null, {
 		// summary:
 		//		Mixin to supplement _TemplatedMixin when template contains widgets
 
@@ -53,8 +52,7 @@ dojo.declare("dijit._WidgetsInTemplateMixin",
 			});
 			this.inherited(arguments);
 		}
-	}
-);
+	});
 
-return dijit._WidgetsInTemplateMixin;
+	return dijit._WidgetsInTemplateMixin;
 });

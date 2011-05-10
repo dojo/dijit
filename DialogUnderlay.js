@@ -1,19 +1,16 @@
 define([
-  "dojo",
-  ".",
-  "dojo/window",
-  "./_Widget",
-  "./_TemplatedMixin"], function(dojo, dijit) {
+	"dojo",
+	".",
+	"dojo/window",
+	"./_Widget",
+	"./_TemplatedMixin"], function(dojo, dijit){
+
 	// module:
 	//		dijit/DialogUnderlay
 	// summary:
-	//		TODOC
+	//		The component that blocks the screen behind a `dijit.Dialog`
 
-
-dojo.declare(
-	"dijit.DialogUnderlay",
-	[dijit._Widget, dijit._TemplatedMixin],
-	{
+	dojo.declare("dijit.DialogUnderlay", [dijit._Widget, dijit._TemplatedMixin], {
 		// summary:
 		//		The component that blocks the screen behind a `dijit.Dialog`
 		//
@@ -101,9 +98,8 @@ dojo.declare(
 			delete this.bgIframe;
 			this.domNode.style.display = "none";
 		}
-	}
-);
+	});
 
 
-return dijit.DialogUnderlay;
+	return dijit.DialogUnderlay;
 });

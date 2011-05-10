@@ -1,15 +1,17 @@
 define([
-  "dojo",
-  ".",
-  "dojo/text!./templates/ProgressBar.html",
-  "dojo/fx",
-  "dojo/number",
-  "./_Widget",
-  "./_TemplatedMixin"], function(dojo, dijit) {
-	// module:
-	//		dijit/ProgressBar
-	// summary:
-	//		TODOC
+	"dojo",
+	".",
+	"dojo/text!./templates/ProgressBar.html",
+	"dojo/fx",
+	"dojo/number",
+	"./_Widget",
+	"./_TemplatedMixin"], function(dojo, dijit){
+
+// module:
+//		dijit/ProgressBar
+// summary:
+//		A progress indication widget, showing the amount completed
+//		(often the percentage completed) of a task.
 
 
 dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._TemplatedMixin], {

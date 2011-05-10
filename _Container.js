@@ -1,4 +1,5 @@
 define(["dojo", "."], function(dojo, dijit){
+
 	// module:
 	//		dijit/_Container
 	// summary:

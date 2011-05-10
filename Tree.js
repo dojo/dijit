@@ -1,23 +1,24 @@
 define([
-  "dojo",
-  ".",
-  "dojo/text!./templates/TreeNode.html",
-  "dojo/text!./templates/Tree.html",
-  "dojo/fx",
-  "dojo/DeferredList",
-  "./_Widget",
-  "./_TemplatedMixin",
-  "./_Container",
-  "./_Contained",
-  "./_CssStateMixin",
-  "dojo/cookie",
-  "./tree/TreeStoreModel",
-  "./tree/ForestStoreModel",
-  "./tree/_dndSelector"], function(dojo, dijit) {
-	// module:
-	//		dijit/Tree
-	// summary:
-	//		TODOC
+	"dojo",
+	".",
+	"dojo/text!./templates/TreeNode.html",
+	"dojo/text!./templates/Tree.html",
+	"dojo/fx",
+	"dojo/DeferredList",
+	"./_Widget",
+	"./_TemplatedMixin",
+	"./_Container",
+	"./_Contained",
+	"./_CssStateMixin",
+	"dojo/cookie",
+	"./tree/TreeStoreModel",
+	"./tree/ForestStoreModel",
+	"./tree/_dndSelector"], function(dojo, dijit){
+
+// module:
+//		dijit/Tree
+// summary:
+//		dijit.Tree widget, and interal dijit._TreeNode widget
 
 
 dojo.declare(
@@ -394,7 +395,7 @@ dojo.declare(
 		return path;
 	},
 
-	getIdentity: function() {
+	getIdentity: function(){
 		return this.tree.model.getIdentity(this.item);
 	},
 
@@ -852,7 +853,7 @@ dojo.declare(
 	_setPathAttr: function(/*Item[] || String[]*/ path){
 		// summary:
 		//      Singular variant of _setPathsAttr
-		if(path.length) {
+		if(path.length){
 			return this.set("paths", [path]);
 		} else {
 			//Empty list is interpreted as "select nothing"
@@ -1616,8 +1617,6 @@ dojo.declare(
 		return new dijit._TreeNode(args);
 	}
 });
-
-// For back-compat.  TODO: remove in 2.0
 
 
 return dijit.Tree;

@@ -1,12 +1,11 @@
-define(["dojo", ".", "./_CssStateMixin"], function(dojo, dijit) {
-	// module:
-	//		dijit/_PaletteMixin
-	// summary:
-	//		TODOC
+define(["dojo", ".", "./_CssStateMixin"], function(dojo, dijit){
 
-dojo.declare("dijit._PaletteMixin",
-	[dijit._CssStateMixin],
-	{
+// module:
+//		dijit/_PaletteMixin
+// summary:
+//		A keyboard accessible palette, for picking a color/emoticon/etc.
+
+dojo.declare("dijit._PaletteMixin", [dijit._CssStateMixin], {
 	// summary:
 	//		A keyboard accessible palette, for picking a color/emoticon/etc.
 	// description:
@@ -63,7 +62,7 @@ dojo.declare("dijit._PaletteMixin",
 	//	 dyeClass should implements dijit.Dye interface
 	dyeClass: '',
 
-	_preparePalette: function(choices, titles, dyeClassObj) {
+	_preparePalette: function(choices, titles, dyeClassObj){
 		// summary:
 		//		Subclass must call _preparePalette() from postCreate(), passing in the tooltip
 		//		for each cell

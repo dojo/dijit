@@ -1,8 +1,10 @@
-define(["dojo", "."], function(dojo, dijit) {
-	// module:
-	//		dijit/_CssStateMixin
-	// summary:
-	//		TODOC
+define(["dojo", "."], function(dojo, dijit){
+
+// module:
+//		dijit/_CssStateMixin
+// summary:
+//		Mixin for widgets to set CSS classes on the widget DOM nodes depending on hover/mouse press/focus
+//		state changes, and also higher-level state changes such becoming disabled or selected.
 
 dojo.declare("dijit._CssStateMixin", [], {
 	// summary:

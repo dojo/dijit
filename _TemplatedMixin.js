@@ -3,16 +3,14 @@ define([
 	".",
 	"./_WidgetBase",
 	"dojo/string",
-	"dojo/cache"], function(dojo, dijit) {
+	"dojo/cache"], function(dojo, dijit){
 
 	// module:
 	//		dijit/_TemplatedMixin
 	// summary:
 	//		Mixin for widgets that are instantiated from a template
 
-dojo.declare("dijit._TemplatedMixin",
-	null,
-	{
+	dojo.declare("dijit._TemplatedMixin", null, {
 		// summary:
 		//		Mixin for widgets that are instantiated from a template
 
@@ -222,74 +220,73 @@ dojo.declare("dijit._TemplatedMixin",
 			
 			this.inherited(arguments);
 		}
-	}
-);
-
-// key is templateString; object is either string or DOM tree
-dijit._TemplatedMixin._templateCache = {};
-
-dijit._TemplatedMixin.getCachedTemplate = function(templateString, alwaysUseString){
-	// summary:
-	//		Static method to get a template based on the templatePath or
-	//		templateString key
-	// templateString: String
-	//		The template
-	// alwaysUseString: Boolean
-	//		Don't cache the DOM tree for this template, even if it doesn't have any variables
-	// returns: Mixed
-	//		Either string (if there are ${} variables that need to be replaced) or just
-	//		a DOM tree (if the node can be cloned directly)
-
-	// is it already cached?
-	var tmplts = dijit._TemplatedMixin._templateCache;
-	var key = templateString;
-	var cached = tmplts[key];
-	if(cached){
-		try{
-			// if the cached value is an innerHTML string (no ownerDocument) or a DOM tree created within the current document, then use the current cached value
-			if(!cached.ownerDocument || cached.ownerDocument == dojo.doc){
-				// string or node of the same document
-				return cached;
-			}
-		}catch(e){ /* squelch */ } // IE can throw an exception if cached.ownerDocument was reloaded
-		dojo.destroy(cached);
-	}
-
-	templateString = dojo.string.trim(templateString);
-
-	if(alwaysUseString || templateString.match(/\$\{([^\}]+)\}/g)){
-		// there are variables in the template so all we can do is cache the string
-		return (tmplts[key] = templateString); //String
-	}else{
-		// there are no variables in the template so we can cache the DOM tree
-		var node = dojo._toDom(templateString);
-		if(node.nodeType != 1){
-			throw new Error("Invalid template: " + templateString);
-		}
-		return (tmplts[key] = node); //Node
-	}
-};
-
-if(dojo.isIE){
-	dojo.addOnWindowUnload(function(){
-		var cache = dijit._TemplatedMixin._templateCache;
-		for(var key in cache){
-			var value = cache[key];
-			if(typeof value == "object"){ // value is either a string or a DOM node template
-				dojo.destroy(value);
-			}
-			delete cache[key];
-		}
 	});
-}
 
-// These arguments can be specified for widgets which are used in templates.
-// Since any widget can be specified as sub widgets in template, mix it
-// into the base widget class.  (This is a hack, but it's effective.)
-dojo.extend(dijit._WidgetBase,{
-	dojoAttachEvent: "",
-	dojoAttachPoint: ""
-});
+	// key is templateString; object is either string or DOM tree
+	dijit._TemplatedMixin._templateCache = {};
 
-return dijit._TemplatedMixin;
+	dijit._TemplatedMixin.getCachedTemplate = function(templateString, alwaysUseString){
+		// summary:
+		//		Static method to get a template based on the templatePath or
+		//		templateString key
+		// templateString: String
+		//		The template
+		// alwaysUseString: Boolean
+		//		Don't cache the DOM tree for this template, even if it doesn't have any variables
+		// returns: Mixed
+		//		Either string (if there are ${} variables that need to be replaced) or just
+		//		a DOM tree (if the node can be cloned directly)
+
+		// is it already cached?
+		var tmplts = dijit._TemplatedMixin._templateCache;
+		var key = templateString;
+		var cached = tmplts[key];
+		if(cached){
+			try{
+				// if the cached value is an innerHTML string (no ownerDocument) or a DOM tree created within the current document, then use the current cached value
+				if(!cached.ownerDocument || cached.ownerDocument == dojo.doc){
+					// string or node of the same document
+					return cached;
+				}
+			}catch(e){ /* squelch */ } // IE can throw an exception if cached.ownerDocument was reloaded
+			dojo.destroy(cached);
+		}
+
+		templateString = dojo.string.trim(templateString);
+
+		if(alwaysUseString || templateString.match(/\$\{([^\}]+)\}/g)){
+			// there are variables in the template so all we can do is cache the string
+			return (tmplts[key] = templateString); //String
+		}else{
+			// there are no variables in the template so we can cache the DOM tree
+			var node = dojo._toDom(templateString);
+			if(node.nodeType != 1){
+				throw new Error("Invalid template: " + templateString);
+			}
+			return (tmplts[key] = node); //Node
+		}
+	};
+
+	if(dojo.isIE){
+		dojo.addOnWindowUnload(function(){
+			var cache = dijit._TemplatedMixin._templateCache;
+			for(var key in cache){
+				var value = cache[key];
+				if(typeof value == "object"){ // value is either a string or a DOM node template
+					dojo.destroy(value);
+				}
+				delete cache[key];
+			}
+		});
+	}
+
+	// These arguments can be specified for widgets which are used in templates.
+	// Since any widget can be specified as sub widgets in template, mix it
+	// into the base widget class.  (This is a hack, but it's effective.)
+	dojo.extend(dijit._WidgetBase,{
+		dojoAttachEvent: "",
+		dojoAttachPoint: ""
+	});
+
+	return dijit._TemplatedMixin;
 });

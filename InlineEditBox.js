@@ -1,24 +1,22 @@
 define([
-  "dojo",
-  ".",
-  "dojo/text!./templates/InlineEditBox.html",
-  "dojo/i18n",
-  "./_Widget",
-  "./_TemplatedMixin",
-  "./_WidgetsInTemplateMixin",
-  "./_Container",
-  "./form/Button",
-  "./form/TextBox",
-  "dojo/i18n!./nls/common"], function(dojo, dijit) {
-	// module:
-	//		dijit/InlineEditBox
-	// summary:
-	//		TODOC
+	"dojo",
+	".",
+	"dojo/text!./templates/InlineEditBox.html",
+	"dojo/i18n",
+	"./_Widget",
+	"./_TemplatedMixin",
+	"./_WidgetsInTemplateMixin",
+	"./_Container",
+	"./form/Button",
+	"./form/TextBox",
+	"dojo/i18n!./nls/common"], function(dojo, dijit){
 
+// module:
+//		dijit/InlineEditBox
+// summary:
+//		An element with in-line edit capabilites
 
-dojo.declare("dijit.InlineEditBox",
-	dijit._Widget,
-	{
+dojo.declare("dijit.InlineEditBox", dijit._Widget, {
 	// summary:
 	//		An element with in-line edit capabilites
 	//

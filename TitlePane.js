@@ -1,21 +1,19 @@
 define([
-  "dojo",
-  ".",
-  "dojo/text!./templates/TitlePane.html",
-  "dojo/fx",
-  "./_TemplatedMixin",
-  "./layout/ContentPane",
-  "./_CssStateMixin"], function(dojo, dijit) {
-	// module:
-	//		dijit/TitlePane
-	// summary:
-	//		TODOC
+	"dojo",
+	".",
+	"dojo/text!./templates/TitlePane.html",
+	"dojo/fx",
+	"./_TemplatedMixin",
+	"./layout/ContentPane",
+	"./_CssStateMixin"], function(dojo, dijit){
+
+// module:
+//		dijit/TitlePane
+// summary:
+//		A pane with a title on top, that can be expanded or collapsed.
 
 
-dojo.declare(
-	"dijit.TitlePane",
-	[dijit.layout.ContentPane, dijit._TemplatedMixin, dijit._CssStateMixin],
-{
+dojo.declare("dijit.TitlePane", [dijit.layout.ContentPane, dijit._TemplatedMixin, dijit._CssStateMixin], {
 	// summary:
 	//		A pane with a title on top, that can be expanded or collapsed.
 	//

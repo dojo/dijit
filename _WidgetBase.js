@@ -4,10 +4,10 @@ define([
 	"./_base/manager",
 	"dojo/Stateful"], function(dojo, dijit){
 
-	// module:
-	//		dijit/_WidgetBase
-	// summary:
-	//		Future base class for all Dijit widgets.
+// module:
+//		dijit/_WidgetBase
+// summary:
+//		Future base class for all Dijit widgets.
 
 
 dojo.declare("dijit._WidgetBase", dojo.Stateful, {

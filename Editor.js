@@ -1,27 +1,24 @@
 define([
-  "dojo",
-  ".",
-  "./_editor/RichText",
-  "./Toolbar",
-  "./ToolbarSeparator",
-  "./_editor/_Plugin",
-  "./_editor/plugins/EnterKeyHandling",
-  "./_editor/range",
-  "./_Container",
-  "dojo/i18n",
-  "./layout/_LayoutWidget",
-  "dojo/i18n!./_editor/nls/commands",
-  "./form/ToggleButton"], function(dojo, dijit) {
+	"dojo",
+	".",
+	"./_editor/RichText",
+	"./Toolbar",
+	"./ToolbarSeparator",
+	"./_editor/_Plugin",
+	"./_editor/plugins/EnterKeyHandling",
+	"./_editor/range",
+	"./_Container",
+	"dojo/i18n",
+	"./layout/_LayoutWidget",
+	"dojo/i18n!./_editor/nls/commands",
+	"./form/ToggleButton"], function(dojo, dijit){
+
 	// module:
 	//		dijit/Editor
 	// summary:
-	//		TODOC
+	//		A rich text Editing widget
 
-
-dojo.declare(
-	"dijit.Editor",
-	dijit._editor.RichText,
-	{
+	dojo.declare("dijit.Editor", dijit._editor.RichText, {
 		// summary:
 		//		A rich text Editing widget
 		//
@@ -77,7 +74,7 @@ dojo.declare(
 			}
 		},
 
-		postMixInProperties: function() {
+		postMixInProperties: function(){
 			// summary:
 			//	Extension to make sure a deferred is in place before certain functions
 			//	execute, like making sure all the plugins are properly inserted.
@@ -794,35 +791,33 @@ dojo.declare(
 				}
 			}catch(e){ /* Squelch any errors caused by focus change if hidden during a state change */}
 		}
-	}
-);
+	});
 
-// Register the "default plugins", ie, the built-in editor commands
-dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
-	if(o.plugin){ return; }
-	var args = o.args, p;
-	var _p = dijit._editor._Plugin;
-	var name = args.name;
-	switch(name){
-		case "undo": case "redo": case "cut": case "copy": case "paste": case "insertOrderedList":
-		case "insertUnorderedList": case "indent": case "outdent": case "justifyCenter":
-		case "justifyFull": case "justifyLeft": case "justifyRight": case "delete":
-		case "selectAll": case "removeFormat": case "unlink":
-		case "insertHorizontalRule":
-			p = new _p({ command: name });
-			break;
+	// Register the "default plugins", ie, the built-in editor commands
+	dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
+		if(o.plugin){ return; }
+		var args = o.args, p;
+		var _p = dijit._editor._Plugin;
+		var name = args.name;
+		switch(name){
+			case "undo": case "redo": case "cut": case "copy": case "paste": case "insertOrderedList":
+			case "insertUnorderedList": case "indent": case "outdent": case "justifyCenter":
+			case "justifyFull": case "justifyLeft": case "justifyRight": case "delete":
+			case "selectAll": case "removeFormat": case "unlink":
+			case "insertHorizontalRule":
+				p = new _p({ command: name });
+				break;
 
-		case "bold": case "italic": case "underline": case "strikethrough":
-		case "subscript": case "superscript":
-			p = new _p({ buttonClass: dijit.form.ToggleButton, command: name });
-			break;
-		case "|":
-			p = new _p({ button: new dijit.ToolbarSeparator(), setEditor: function(editor) {this.editor = editor;} });
-	}
-//	console.log('name',name,p);
-	o.plugin=p;
-});
+			case "bold": case "italic": case "underline": case "strikethrough":
+			case "subscript": case "superscript":
+				p = new _p({ buttonClass: dijit.form.ToggleButton, command: name });
+				break;
+			case "|":
+				p = new _p({ button: new dijit.ToolbarSeparator(), setEditor: function(editor){this.editor = editor;} });
+		}
+	//	console.log('name',name,p);
+		o.plugin=p;
+	});
 
-
-return dijit.Editor;
+	return dijit.Editor;
 });

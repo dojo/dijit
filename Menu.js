@@ -5,17 +5,14 @@ define([
 	"dojo/window",
 	"./_KeyNavContainer",
 	"./_TemplatedMixin",
-	"./DropDownMenu"], function(dojo, dijit, pm) {
+	"./DropDownMenu"], function(dojo, dijit, pm){
 
+// module:
+//		dijit/Menu
+// summary:
+//		Includes dijit.Menu widget and base class dijit._MenuBase
 
-	// module:
-	//		dijit/Menu
-	// summary:
-	//		Includes dijit.Menu widget and base class dijit._MenuBase
-
-dojo.declare("dijit.Menu",
-	dijit.DropDownMenu,
-	{
+dojo.declare("dijit.Menu", dijit.DropDownMenu, {
 	// summary
 	//		A context menu you can assign to multiple elements
 
@@ -295,8 +292,7 @@ dojo.declare("dijit.Menu",
  		dojo.forEach(this._bindings, function(b){ if(b){ this.unBindDomNode(b.node); } }, this);
  		this.inherited(arguments);
 	}
-}
-);
+});
 
 return dijit.Menu;
 });

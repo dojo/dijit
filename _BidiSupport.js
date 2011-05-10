@@ -1,4 +1,5 @@
 define(["dojo", "./_WidgetBase"], function(dojo, _WidgetBase){
+
 	// module:
 	//		dijit/_BidiSupport
 	// summary:

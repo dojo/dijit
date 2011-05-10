@@ -1,4 +1,5 @@
 define(["dojo", ".", "./popup", "./_FocusMixin"], function(dojo, dijit, popup){
+
 	// module:
 	//		dijit/_HasDropDown
 	// summary:

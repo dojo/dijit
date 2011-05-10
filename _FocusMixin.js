@@ -2,7 +2,7 @@ define([
 	"dojo",
 	".",
 	"./focus",
-	"./_WidgetBase"], function(dojo, dijit, focus) {
+	"./_WidgetBase"], function(dojo, dijit, focus){
 
 	// module:
 	//		dijit/_FocusMixin

@@ -1,22 +1,20 @@
 define([
-  "dojo",
-  ".",
-  "dojo/text!./templates/ColorPalette.html",
-  "./_Widget",
-  "./_TemplatedMixin",
-  "dojo/colors",
-  "dojo/i18n",
-  "./_PaletteMixin",
-  "dojo/i18n!dojo/nls/colors"], function(dojo, dijit) {
-	// module:
-	//		dijit/ColorPalette
-	// summary:
-	//		TODOC
+	"dojo",
+	".",
+	"dojo/text!./templates/ColorPalette.html",
+	"./_Widget",
+	"./_TemplatedMixin",
+	"dojo/colors",
+	"dojo/i18n",
+	"./_PaletteMixin",
+	"dojo/i18n!dojo/nls/colors"], function(dojo, dijit){
 
+// module:
+//		dijit/ColorPalette
+// summary:
+//		A keyboard accessible color-picking widget
 
-dojo.declare("dijit.ColorPalette",
-	[dijit._Widget, dijit._TemplatedMixin, dijit._PaletteMixin],
-	{
+dojo.declare("dijit.ColorPalette", [dijit._Widget, dijit._TemplatedMixin, dijit._PaletteMixin], {
 	// summary:
 	//		A keyboard accessible color-picking widget
 	// description:

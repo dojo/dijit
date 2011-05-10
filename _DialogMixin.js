@@ -1,11 +1,11 @@
-define(["dojo", ".", "./_Widget"], function(dojo, dijit) {
+define(["dojo", ".", "./_Widget"], function(dojo, dijit){
+
 	// module:
 	//		dijit/_DialogMixin
 	// summary:
-	//		TODOC
+	//		_DialogMixin provides functions useful to Dialog and TooltipDialog
 
-dojo.declare("dijit._DialogMixin", null,
-	{
+	dojo.declare("dijit._DialogMixin", null, {
 		// summary:
 		//		This provides functions useful to Dialog and TooltipDialog
 
@@ -65,9 +65,8 @@ dojo.declare("dijit._DialogMixin", null,
 			this._firstFocusItem = elems.lowest || elems.first || this.closeButtonNode || this.domNode;
 			this._lastFocusItem = elems.last || elems.highest || this._firstFocusItem;
 		}
-	}
-);
+	});
 
 
-return dijit._DialogMixin;
+	return dijit._DialogMixin;
 });

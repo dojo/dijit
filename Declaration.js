@@ -1,19 +1,17 @@
 define([
-  "dojo",
-  ".",
-  "./_Widget",
-  "./_TemplatedMixin",
-  "./_WidgetsInTemplateMixin"], function(dojo, dijit) {
+	"dojo",
+	".",
+	"./_Widget",
+	"./_TemplatedMixin",
+	"./_WidgetsInTemplateMixin"], function(dojo, dijit){
+
 	// module:
 	//		dijit/Declaration
 	// summary:
-	//		TODOC
+	//		The Declaration widget allows a developer to declare new widget
+	//		classes directly from a snippet of markup.
 
-
-dojo.declare(
-	"dijit.Declaration",
-	dijit._Widget,
-	{
+	dojo.declare("dijit.Declaration", dijit._Widget, {
 		// summary:
 		//		The Declaration widget allows a developer to declare new widget
 		//		classes directly from a snippet of markup.
@@ -97,9 +95,8 @@ dojo.declare(
 				dojo.connect(wc.prototype, evt, func);
 			});
 		}
-	}
-);
+	});
 
 
-return dijit.Declaration;
+	return dijit.Declaration;
 });

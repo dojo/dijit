@@ -1,12 +1,14 @@
 define(["dojo", ".", "./MenuItem", "./hccss"], function(dojo, dijit){
+
 	// module:
 	//		dijit/PopupMenuItem
 	// summary:
-	//		TODOC
+	//		An item in a Menu that spawn a drop down (usually a drop down menu)
 
-dojo.declare("dijit.PopupMenuItem",
-		dijit.MenuItem,
-		{
+	dojo.declare("dijit.PopupMenuItem", dijit.MenuItem, {
+		// summary:
+		//		An item in a Menu that spawn a drop down (usually a drop down menu)
+
 		_fillContent: function(){
 			// summary:
 			//		When Menu is declared in markup, this code gets the menu label and
@@ -65,5 +67,5 @@ dojo.declare("dijit.PopupMenuItem",
 	});
 
 
-return dijit.PopupMenuItem;
+	return dijit.PopupMenuItem;
 });
