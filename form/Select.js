@@ -8,12 +8,13 @@ define([
 	"../MenuItem",
 	"../MenuSeparator",
 	"../Tooltip",
-	"dojo/i18n!./nls/validate"], function(dojo, dijit) {
+	"dojo/i18n!./nls/validate"], function(dojo, dijit){
 
-	// module:
-	//		dijit/form/Select
-	// summary:
-	//		TODOC
+// module:
+//		dijit/form/Select
+// summary:
+//		This is a "styleable" select box - it is basically a DropDownButton which
+//		can take a <select> as its input.
 
 
 dojo.declare("dijit.form._SelectMenu", dijit.Menu, {

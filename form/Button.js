@@ -1,20 +1,19 @@
 define([
-  "dojo",
-  "..",
-  "dojo/text!./templates/Button.html",
-  "./_FormWidget",
-  "./_ButtonMixin",
-  "../_Container",
-  "../_HasDropDown"], function(dojo, dijit) {
-	// module:
-	//		dijit/form/Button
-	// summary:
-	//		TODOC
+	"dojo",
+	"..",
+	"dojo/text!./templates/Button.html",
+	"./_FormWidget",
+	"./_ButtonMixin",
+	"../_Container",
+	"../_HasDropDown"], function(dojo, dijit){
+
+// module:
+//		dijit/form/Button
+// summary:
+//		Button widget
 
 
-dojo.declare("dijit.form.Button",
-	[dijit.form._FormWidget, dijit.form._ButtonMixin],
-	{
+dojo.declare("dijit.form.Button", [dijit.form._FormWidget, dijit.form._ButtonMixin], {
 	// summary:
 	//		Basically the same thing as a normal HTML button, but with special styling.
 	// description:

@@ -1,11 +1,10 @@
-define(["dojo", ".."], function(dojo, dijit) {
+define(["dojo", ".."], function(dojo, dijit){
 	// module:
 	//		dijit/form/_CheckBoxMixin
 	// summary:
-	//		TODOC
+	// 		Mixin to provide widget functionality corresponding to an HTML checkbox
 
-dojo.declare("dijit.form._CheckBoxMixin", null,
-	{
+	dojo.declare("dijit.form._CheckBoxMixin", null, {
 		// summary:
 		// 		Mixin to provide widget functionality corresponding to an HTML checkbox
 		//
@@ -66,8 +65,7 @@ dojo.declare("dijit.form._CheckBoxMixin", null,
 			}
 			return this.inherited(arguments);
 		}
-	}
-);
+	});
 
-return dijit.form._CheckBoxMixin;
+	return dijit.form._CheckBoxMixin;
 });

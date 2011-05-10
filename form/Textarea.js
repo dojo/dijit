@@ -1,18 +1,18 @@
 define([
-  "dojo",
-  "..",
-  "./SimpleTextarea",
-  "./_ExpandingTextAreaMixin"], function(dojo, dijit) {
-	// module:
-	//		dijit/form/Textarea
-	// summary:
-	//		TODOC
+	"dojo",
+	"..",
+	"./SimpleTextarea",
+	"./_ExpandingTextAreaMixin"], function(dojo, dijit){
+
+// module:
+//		dijit/form/Textarea
+// summary:
+//		A textarea widget that adjusts it's height according to the amount of data.
 
 
 dojo.declare(
 	"dijit.form.Textarea",
-	[dijit.form.SimpleTextarea, dijit.form._ExpandingTextAreaMixin],
-	{
+	[dijit.form.SimpleTextarea, dijit.form._ExpandingTextAreaMixin], {
 	// summary:
 	//		A textarea widget that adjusts it's height according to the amount of data.
 	//

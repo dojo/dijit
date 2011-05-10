@@ -1,8 +1,9 @@
-define(["dojo", ".."], function(dojo, dijit) {
-	// module:
-	//		dijit/form/_TextBoxMixin
-	// summary:
-	//		TODOC
+define(["dojo", ".."], function(dojo, dijit){
+
+// module:
+//		dijit/form/_TextBoxMixin
+// summary:
+//		A mixin for textbox form input widgets
 
 dojo.declare( "dijit.form._TextBoxMixin", null, {
 	// summary:

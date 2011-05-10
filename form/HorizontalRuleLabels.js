@@ -1,11 +1,11 @@
-define(["dojo", "..", "./HorizontalRule"], function(dojo, dijit) {
-	// module:
-	//		dijit/form/HorizontalRuleLabels
-	// summary:
-	//		TODOC
+define(["dojo", "..", "./HorizontalRule"], function(dojo, dijit){
 
-dojo.declare("dijit.form.HorizontalRuleLabels", dijit.form.HorizontalRule,
-{
+// module:
+//		dijit/form/HorizontalRuleLabels
+// summary:
+//		Labels for `dijit.form.HorizontalSlider`
+
+dojo.declare("dijit.form.HorizontalRuleLabels", dijit.form.HorizontalRule, {
 	// summary:
 	//		Labels for `dijit.form.HorizontalSlider`
 

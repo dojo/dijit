@@ -1,13 +1,13 @@
-define(["dojo", "..", "./ValidationTextBox"], function(dojo, dijit) {
+define(["dojo", "..", "./ValidationTextBox"], function(dojo, dijit){
+
 	// module:
 	//		dijit/form/MappedTextBox
 	// summary:
-	//		TODOC
+	//		A dijit.form.ValidationTextBox subclass which provides a base class for widgets that have
+	//		a visible formatted display value, and a serializable
+	//		value in a hidden input field which is actually sent to the server.
 
-dojo.declare(
-	"dijit.form.MappedTextBox",
-	dijit.form.ValidationTextBox,
-	{
+	dojo.declare("dijit.form.MappedTextBox", dijit.form.ValidationTextBox, {
 		// summary:
 		//		A dijit.form.ValidationTextBox subclass which provides a base class for widgets that have
 		//		a visible formatted display value, and a serializable
@@ -75,8 +75,7 @@ dojo.declare(
 			this.valueNode.value = '';
 			this.inherited(arguments);
 		}
-	}
-);
+	});
 
-return dijit.form.MappedTextBox;
+	return dijit.form.MappedTextBox;
 });

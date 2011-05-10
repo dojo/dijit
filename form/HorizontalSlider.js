@@ -1,22 +1,20 @@
 define([
-  "dojo",
-  "..",
-  "dojo/text!./templates/HorizontalSlider.html",
-  "./_FormWidget",
-  "../_Container",
-  "dojo/dnd/move",
-  "./Button",
-  "dojo/number"], function(dojo, dijit) {
-	// module:
-	//		dijit/form/HorizontalSlider
-	// summary:
-	//		TODOC
+	"dojo",
+	"..",
+	"dojo/text!./templates/HorizontalSlider.html",
+	"./_FormWidget",
+	"../_Container",
+	"dojo/dnd/move",
+	"./Button",
+	"dojo/number"], function(dojo, dijit){
+
+// module:
+//		dijit/form/HorizontalSlider
+// summary:
+//		A form widget that allows one to select a value with a horizontally draggable handle
 
 
-dojo.declare(
-	"dijit.form.HorizontalSlider",
-	[dijit.form._FormValueWidget, dijit._Container],
-{
+dojo.declare("dijit.form.HorizontalSlider", [dijit.form._FormValueWidget, dijit._Container], {
 	// summary:
 	//		A form widget that allows one to select a value with a horizontally draggable handle
 

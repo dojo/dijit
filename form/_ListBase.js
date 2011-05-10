@@ -1,8 +1,9 @@
-define(["dojo", "..", "dojo/window"], function(dojo, dijit) {
-	// module:
-	//		dijit/form/_ListBase
-	// summary:
-	//		TODOC
+define(["dojo", "..", "dojo/window"], function(dojo, dijit){
+
+// module:
+//		dijit/form/_ListBase
+// summary:
+//		Focus-less menu to handle UI events consistently
 
 dojo.declare( "dijit.form._ListBase", null, {
 	// summary:

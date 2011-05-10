@@ -1,8 +1,10 @@
-define(["dojo", "..", "dojo/window"], function(dojo, dijit) {
-	// module:
-	//		dijit/form/_FormWidgetMixin
-	// summary:
-	//		TODOC
+define(["dojo", "..", "dojo/window"], function(dojo, dijit){
+
+// module:
+//		dijit/form/_FormWidgetMixin
+// summary:
+//		Mixin for widgets corresponding to native HTML elements such as <checkbox> or <button>,
+//		which can be children of a <form> node or a `dijit.form.Form` widget.
 
 return dojo.declare("dijit.form._FormWidgetMixin", null, {
 	// summary:
@@ -204,7 +206,7 @@ return dojo.declare("dijit.form._FormWidgetMixin", null, {
 			// Set a global event to handle mouseup, so it fires properly
 			// even if the cursor leaves this.domNode before the mouse up event.
 			var mouseUpConnector = this.connect(dojo.body(), "onmouseup", function(){
-				if (this.isFocusable()) {
+				if(this.isFocusable()){
 					this.focus();
 				}
 				this.disconnect(mouseUpConnector);
@@ -212,4 +214,5 @@ return dojo.declare("dijit.form._FormWidgetMixin", null, {
 		}
 	}
 });
+
 });

@@ -1,11 +1,11 @@
-define(["dojo", ".."], function(dojo, dijit) {
+define(["dojo", ".."], function(dojo, dijit){
+
 	// module:
 	//		dijit/form/_RadioButtonMixin
 	// summary:
-	//		TODOC
+	// 		Mixin to provide widget functionality for an HTML radio button
 
-dojo.declare("dijit.form._RadioButtonMixin", null,
-	{
+	dojo.declare("dijit.form._RadioButtonMixin", null, {
 		// summary:
 		// 		Mixin to provide widget functionality for an HTML radio button
 
@@ -57,8 +57,7 @@ dojo.declare("dijit.form._RadioButtonMixin", null,
 			}
 			return this.inherited(arguments);
 		}
-	}
-);
+	});
 
-return dijit.form._RadioButtonMixin;
+	return dijit.form._RadioButtonMixin;
 });

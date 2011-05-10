@@ -1,8 +1,9 @@
-define(["dojo", ".."], function(dojo, dijit) {
-	// module:
-	//		dijit/form/_ComboBoxMenuMixin
-	// summary:
-	//		Focus-less menu for internal use in `dijit.form.ComboBox`
+define(["dojo", ".."], function(dojo, dijit){
+
+// module:
+//		dijit/form/_ComboBoxMenuMixin
+// summary:
+//		Focus-less menu for internal use in `dijit.form.ComboBox`
 
 dojo.declare( "dijit.form._ComboBoxMenuMixin", null, {
 	// summary:

@@ -1,24 +1,22 @@
-define(["dojo", "..", "./MappedTextBox"], function(dojo, dijit) {
+define(["dojo", "..", "./MappedTextBox"], function(dojo, dijit){
+
 	// module:
 	//		dijit/form/RangeBoundTextBox
 	// summary:
-	//		TODOC
+	//		Base class for textbox form widgets which defines a range of valid values.
 
-/*=====
-	dijit.form.RangeBoundTextBox.__Constraints = function(){
-		// min: Number
-		//		Minimum signed value.  Default is -Infinity
-		// max: Number
-		//		Maximum signed value.  Default is +Infinity
-		this.min = min;
-		this.max = max;
-	}
-=====*/
+	/*=====
+		dijit.form.RangeBoundTextBox.__Constraints = function(){
+			// min: Number
+			//		Minimum signed value.  Default is -Infinity
+			// max: Number
+			//		Maximum signed value.  Default is +Infinity
+			this.min = min;
+			this.max = max;
+		}
+	=====*/
 
-dojo.declare(
-	"dijit.form.RangeBoundTextBox",
-	dijit.form.MappedTextBox,
-	{
+	dojo.declare("dijit.form.RangeBoundTextBox", dijit.form.MappedTextBox, {
 		// summary:
 		//		Base class for textbox form widgets which defines a range of valid values.
 
@@ -131,8 +129,7 @@ dojo.declare(
 			//	tags:
 			//		protected.
 		}
-	}
-);
+	});
 
-return dijit.form.RangeBoundTextBox;
+	return dijit.form.RangeBoundTextBox;
 });

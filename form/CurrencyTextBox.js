@@ -1,36 +1,34 @@
 define([
-  "dojo",
-  "..",
-  "dojo/currency",
-  "./NumberTextBox"], function(dojo, dijit) {
+	"dojo",
+	"..",
+	"dojo/currency",
+	"./NumberTextBox"], function(dojo, dijit){
+
 	// module:
 	//		dijit/form/CurrencyTextBox
 	// summary:
-	//		TODOC
+	//		A validating currency textbox
 
 
-/*=====
-dojo.declare(
-	"dijit.form.CurrencyTextBox.__Constraints",
-	[dijit.form.NumberTextBox.__Constraints, dojo.currency.__FormatOptions, dojo.currency.__ParseOptions], {
-	// summary:
-	//		Specifies both the rules on valid/invalid values (minimum, maximum,
-	//		number of required decimal places), and also formatting options for
-	//		displaying the value when the field is not focused (currency symbol,
-	//		etc.)
-	// description:
-	//		Follows the pattern of `dijit.form.NumberTextBox.constraints`.
-	//		In general developers won't need to set this parameter
-	// example:
-	//		To ensure that the user types in the cents (for example, 1.00 instead of just 1):
-	//	|		{fractional:true}
-});
-=====*/
+	/*=====
+	dojo.declare(
+		"dijit.form.CurrencyTextBox.__Constraints",
+		[dijit.form.NumberTextBox.__Constraints, dojo.currency.__FormatOptions, dojo.currency.__ParseOptions], {
+		// summary:
+		//		Specifies both the rules on valid/invalid values (minimum, maximum,
+		//		number of required decimal places), and also formatting options for
+		//		displaying the value when the field is not focused (currency symbol,
+		//		etc.)
+		// description:
+		//		Follows the pattern of `dijit.form.NumberTextBox.constraints`.
+		//		In general developers won't need to set this parameter
+		// example:
+		//		To ensure that the user types in the cents (for example, 1.00 instead of just 1):
+		//	|		{fractional:true}
+	});
+	=====*/
 
-dojo.declare(
-	"dijit.form.CurrencyTextBox",
-	dijit.form.NumberTextBox,
-	{
+	dojo.declare("dijit.form.CurrencyTextBox", dijit.form.NumberTextBox, {
 		// summary:
 		//		A validating currency textbox
 		// description:
@@ -87,9 +85,8 @@ dojo.declare(
 			}
 			this.inherited(arguments, [ dojo.currency._mixInDefaults(dojo.mixin(constraints, { exponent: false })) ]); // get places
 		}
-	}
-);
+	});
 
 
-return dijit.form.CurrencyTextBox;
+	return dijit.form.CurrencyTextBox;
 });

@@ -1,19 +1,17 @@
 define([
-  "dojo",
-  "..",
-  "dojo/text!./templates/CheckBox.html",
-  "./ToggleButton",
-  "./_CheckBoxMixin"], function(dojo, dijit) {
+	"dojo",
+	"..",
+	"dojo/text!./templates/CheckBox.html",
+	"./ToggleButton",
+	"./_CheckBoxMixin"], function(dojo, dijit){
+
 	// module:
 	//		dijit/form/CheckBox
 	// summary:
-	//		TODOC
+	//		Checkbox widget
 
 
-dojo.declare(
-	"dijit.form.CheckBox",
-	[dijit.form.ToggleButton, dijit.form._CheckBoxMixin],
-	{
+	dojo.declare("dijit.form.CheckBox", [dijit.form.ToggleButton, dijit.form._CheckBoxMixin], {
 		// summary:
 		// 		Same as an HTML checkbox, but with fancy styling.
 		//
@@ -95,8 +93,7 @@ dojo.declare(
 			}
 			this.inherited(arguments);
 		}
-	}
-);
+	});
 
-return dijit.form.CheckBox;
+	return dijit.form.CheckBox;
 });

@@ -1,18 +1,16 @@
 define([
-  "dojo",
-  "..",
-  "../Calendar",
-  "./_DateTimeTextBox"], function(dojo, dijit) {
+	"dojo",
+	"..",
+	"../Calendar",
+	"./_DateTimeTextBox"], function(dojo, dijit){
+
 	// module:
 	//		dijit/form/DateTextBox
 	// summary:
-	//		TODOC
+	//		A validating, serializable, range-bound date text box with a drop down calendar
 
 
-dojo.declare(
-	"dijit.form.DateTextBox",
-	dijit.form._DateTimeTextBox,
-	{
+	dojo.declare("dijit.form.DateTextBox", dijit.form._DateTimeTextBox, {
 		// summary:
 		//		A validating, serializable, range-bound date text box with a drop down calendar
 		//
@@ -31,9 +29,8 @@ dojo.declare(
 		//		If specified in markup, use the format specified in `dojo.date.stamp.fromISOString`.
 		//		set("value", ...) accepts either a Date object or a string.
 		value: new Date("")	// value.toString()="NaN"
-	}
-);
+	});
 
 
-return dijit.form.DateTextBox;
+	return dijit.form.DateTextBox;
 });

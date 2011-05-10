@@ -1,12 +1,13 @@
-define(["dojo", "..", "./TextBox"], function(dojo, dijit) {
-	// module:
-	//		dijit/form/SimpleTextarea
-	// summary:
-	//		TODOC
+define(["dojo", "..", "./TextBox"], function(dojo, dijit){
 
-dojo.declare("dijit.form.SimpleTextarea",
-	dijit.form.TextBox,
-	{
+// module:
+//		dijit/form/SimpleTextarea
+// summary:
+//		A simple textarea that degrades, and responds to
+// 		minimal LayoutContainer usage, and works with dijit.form.Form.
+//		Doesn't automatically size according to input, like Textarea.
+
+dojo.declare("dijit.form.SimpleTextarea", dijit.form.TextBox, {
 	// summary:
 	//		A simple textarea that degrades, and responds to
 	// 		minimal LayoutContainer usage, and works with dijit.form.Form.

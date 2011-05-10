@@ -1,30 +1,30 @@
-define(["dojo", "..", "./HorizontalRule"], function(dojo, dijit) {
+define(["dojo", "..", "./HorizontalRule"], function(dojo, dijit){
+
 	// module:
 	//		dijit/form/VerticalRule
 	// summary:
-	//		TODOC
-
-dojo.declare("dijit.form.VerticalRule", dijit.form.HorizontalRule,
-{
-	// summary:
 	//		Hash marks for the `dijit.form.VerticalSlider`
 
-	templateString: '<div class="dijitRuleContainer dijitRuleContainerV"></div>',
-	_positionPrefix: '<div class="dijitRuleMark dijitRuleMarkV" style="top:',
+	dojo.declare("dijit.form.VerticalRule", dijit.form.HorizontalRule, {
+		// summary:
+		//		Hash marks for the `dijit.form.VerticalSlider`
 
-/*=====
-	// container: String
-	//		This is either "leftDecoration" or "rightDecoration",
-	//		to indicate whether this rule goes to the left or to the right of the slider.
-	//		Note that on RTL system, "leftDecoration" would actually go to the right, and vice-versa.
-	container: "",
-=====*/
+		templateString: '<div class="dijitRuleContainer dijitRuleContainerV"></div>',
+		_positionPrefix: '<div class="dijitRuleMark dijitRuleMarkV" style="top:',
 
-	// Overrides HorizontalRule._isHorizontal
-	_isHorizontal: false
+	/*=====
+		// container: String
+		//		This is either "leftDecoration" or "rightDecoration",
+		//		to indicate whether this rule goes to the left or to the right of the slider.
+		//		Note that on RTL system, "leftDecoration" would actually go to the right, and vice-versa.
+		container: "",
+	=====*/
 
-});
+		// Overrides HorizontalRule._isHorizontal
+		_isHorizontal: false
+
+	});
 
 
-return dijit.form.VerticalRule;
+	return dijit.form.VerticalRule;
 });

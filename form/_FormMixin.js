@@ -1,46 +1,48 @@
-define(["dojo", "..", "dojo/window"], function(dojo, dijit) {
+define(["dojo", "..", "dojo/window"], function(dojo, dijit){
+
 	// module:
 	//		dijit/form/_FormMixin
 	// summary:
-	//		TODOC
-
-dojo.declare("dijit.form._FormMixin", null, {
-	// summary:
 	//		Mixin for containers of form widgets (i.e. widgets that represent a single value
 	//		and can be children of a <form> node or dijit.form.Form widget)
-	// description:
-	//		Can extract all the form widgets
-	//		values and combine them into a single javascript object, or alternately
-	//		take such an object and set the values for all the contained
-	//		form widgets
 
-/*=====
-	// value: Object
-	//		Name/value hash for each child widget with a name and value.
-	//		Child widgets without names are not part of the hash.
-	//
-	//		If there are multiple child widgets w/the same name, value is an array,
-	//		unless they are radio buttons in which case value is a scalar (since only
-	//		one radio button can be checked at a time).
-	//
-	//		If a child widget's name is a dot separated list (like a.b.c.d), it's a nested structure.
-	//
-	//		Example:
-	//	|	{ name: "John Smith", interests: ["sports", "movies"] }
-=====*/
+	dojo.declare("dijit.form._FormMixin", null, {
+		// summary:
+		//		Mixin for containers of form widgets (i.e. widgets that represent a single value
+		//		and can be children of a <form> node or dijit.form.Form widget)
+		// description:
+		//		Can extract all the form widgets
+		//		values and combine them into a single javascript object, or alternately
+		//		take such an object and set the values for all the contained
+		//		form widgets
 
-	// state: [readonly] String
-	//		Will be "Error" if one or more of the child widgets has an invalid value,
-	//		"Incomplete" if not all of the required child widgets are filled in.  Otherwise, "",
-	//		which indicates that the form is ready to be submitted.
-	state: "",
+	/*=====
+		// value: Object
+		//		Name/value hash for each child widget with a name and value.
+		//		Child widgets without names are not part of the hash.
+		//
+		//		If there are multiple child widgets w/the same name, value is an array,
+		//		unless they are radio buttons in which case value is a scalar (since only
+		//		one radio button can be checked at a time).
+		//
+		//		If a child widget's name is a dot separated list (like a.b.c.d), it's a nested structure.
+		//
+		//		Example:
+		//	|	{ name: "John Smith", interests: ["sports", "movies"] }
+	=====*/
 
-	//	TODO:
-	//	* Repeater
-	//	* better handling for arrays.  Often form elements have names with [] like
-	//	* people[3].sex (for a list of people [{name: Bill, sex: M}, ...])
-	//
-	//
+		// state: [readonly] String
+		//		Will be "Error" if one or more of the child widgets has an invalid value,
+		//		"Incomplete" if not all of the required child widgets are filled in.  Otherwise, "",
+		//		which indicates that the form is ready to be submitted.
+		state: "",
+
+		//	TODO:
+		//	* Repeater
+		//	* better handling for arrays.  Often form elements have names with [] like
+		//	* people[3].sex (for a list of people [{name: Bill, sex: M}, ...])
+		//
+		//
 
 		reset: function(){
 			dojo.forEach(this.getDescendants(), function(widget){
@@ -452,5 +454,5 @@ dojo.declare("dijit.form._FormMixin", null, {
 	});
 
 
-return dijit.form._FormMixin;
+	return dijit.form._FormMixin;
 });

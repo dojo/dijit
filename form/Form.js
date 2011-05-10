@@ -1,20 +1,19 @@
 define([
-  "dojo",
-  "..",
-  "../_Widget",
-  "../_TemplatedMixin",
-  "./_FormMixin",
-  "../layout/_ContentPaneResizeMixin"], function(dojo, dijit) {
+	"dojo",
+	"..",
+	"../_Widget",
+	"../_TemplatedMixin",
+	"./_FormMixin",
+	"../layout/_ContentPaneResizeMixin"], function(dojo, dijit){
+
 	// module:
 	//		dijit/form/Form
 	// summary:
-	//		TODOC
+	//		Widget corresponding to HTML form tag, for validation and serialization
 
 
-dojo.declare(
-	"dijit.form.Form",
-	[dijit._Widget, dijit._TemplatedMixin, dijit.form._FormMixin, dijit.layout._ContentPaneResizeMixin],
-	{
+	dojo.declare("dijit.form.Form",
+		[dijit._Widget, dijit._TemplatedMixin, dijit.form._FormMixin, dijit.layout._ContentPaneResizeMixin], {
 		// summary:
 		//		Widget corresponding to HTML form tag, for validation and serialization
 		//
@@ -159,9 +158,8 @@ dojo.declare(
 				this.containerNode.submit();
 			}
 		}
-	}
-);
+	});
 
 
-return dijit.form.Form;
+	return dijit.form.Form;
 });

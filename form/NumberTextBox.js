@@ -1,36 +1,35 @@
 define([
-  "dojo",
-  "..",
-  "./RangeBoundTextBox",
-  "dojo/number"], function(dojo, dijit) {
+	"dojo",
+	"..",
+	"./RangeBoundTextBox",
+	"dojo/number"], function(dojo, dijit){
+
 	// module:
 	//		dijit/form/NumberTextBox
 	// summary:
-	//		TODOC
+	//		A TextBox for entering numbers, with formatting and range checking
 
 
-/*=====
-dojo.declare(
-	"dijit.form.NumberTextBox.__Constraints",
-	[dijit.form.RangeBoundTextBox.__Constraints, dojo.number.__FormatOptions, dojo.number.__ParseOptions], {
-	// summary:
-	//		Specifies both the rules on valid/invalid values (minimum, maximum,
-	//		number of required decimal places), and also formatting options for
-	//		displaying the value when the field is not focused.
-	// example:
-	//		Minimum/maximum:
-	//		To specify a field between 0 and 120:
-	//	|		{min:0,max:120}
-	//		To specify a field that must be an integer:
-	//	|		{fractional:false}
-	//		To specify a field where 0 to 3 decimal places are allowed on input:
-	//	|		{places:'0,3'}
-});
-=====*/
+	/*=====
+	dojo.declare(
+		"dijit.form.NumberTextBox.__Constraints",
+		[dijit.form.RangeBoundTextBox.__Constraints, dojo.number.__FormatOptions, dojo.number.__ParseOptions], {
+		// summary:
+		//		Specifies both the rules on valid/invalid values (minimum, maximum,
+		//		number of required decimal places), and also formatting options for
+		//		displaying the value when the field is not focused.
+		// example:
+		//		Minimum/maximum:
+		//		To specify a field between 0 and 120:
+		//	|		{min:0,max:120}
+		//		To specify a field that must be an integer:
+		//	|		{fractional:false}
+		//		To specify a field where 0 to 3 decimal places are allowed on input:
+		//	|		{places:'0,3'}
+	});
+	=====*/
 
-dojo.declare("dijit.form.NumberTextBoxMixin",
-	null,
-	{
+	dojo.declare("dijit.form.NumberTextBoxMixin", null, {
 		// summary:
 		//		A mixin for all number textboxes
 		// tags:
@@ -246,12 +245,9 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 				}
 			}
 		}
-	}
-);
+	});
 
-dojo.declare("dijit.form.NumberTextBox",
-	[dijit.form.RangeBoundTextBox,dijit.form.NumberTextBoxMixin],
-	{
+	dojo.declare("dijit.form.NumberTextBox", [dijit.form.RangeBoundTextBox,dijit.form.NumberTextBoxMixin], {
 		// summary:
 		//		A TextBox for entering numbers, with formatting and range checking
 		// description:
@@ -269,9 +265,8 @@ dojo.declare("dijit.form.NumberTextBox",
 		//				allowed on input, and number of places displayed when blurred (see `constraints` parameter).
 
 		baseClass: "dijitTextBox dijitNumberTextBox"
-	}
-);
+	});
 
 
-return dijit.form.NumberTextBox;
+	return dijit.form.NumberTextBox;
 });

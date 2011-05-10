@@ -1,19 +1,16 @@
 define([
-  "dojo",
-  "..",
-  "dojo/text!./templates/TextBox.html",
-  "./_FormWidget",
-  "./_TextBoxMixin"], function(dojo, dijit) {
+	"dojo",
+	"..",
+	"dojo/text!./templates/TextBox.html",
+	"./_FormWidget",
+	"./_TextBoxMixin"], function(dojo, dijit){
+
 	// module:
 	//		dijit/form/TextBox
 	// summary:
-	//		TODOC
+	//		A base class for textbox form inputs
 
-
-dojo.declare(
-	"dijit.form.TextBox",
-	[dijit.form._FormValueWidget, dijit.form._TextBoxMixin],
-	{
+	dojo.declare("dijit.form.TextBox", [dijit.form._FormValueWidget, dijit.form._TextBoxMixin], {
 		// summary:
 		//		A base class for textbox form inputs
 
@@ -95,61 +92,60 @@ dojo.declare(
 			this.inherited(arguments);
 			this._updatePlaceHolder();
 		}
-	}
-);
+	});
 
-if(dojo.isIE){
-	dijit.form.TextBox = dojo.declare(dijit.form.TextBox, {
-		_isTextSelected: function(){
-			var range = dojo.doc.selection.createRange();
-			var parent = range.parentElement();
-			return parent == this.textbox && range.text.length == 0;
-		},
+	if(dojo.isIE){
+		dijit.form.TextBox = dojo.declare(dijit.form.TextBox, {
+			_isTextSelected: function(){
+				var range = dojo.doc.selection.createRange();
+				var parent = range.parentElement();
+				return parent == this.textbox && range.text.length == 0;
+			},
 
-		postCreate: function(){
-			this.inherited(arguments);
-			// IE INPUT tag fontFamily has to be set directly using STYLE
-			// the setTimeout gives IE a chance to render the TextBox and to deal with font inheritance
-			setTimeout(dojo.hitch(this, function(){
-				var s = dojo.getComputedStyle(this.domNode);
-				if(s){
-					var ff = s.fontFamily;
-					if(ff){
-						var inputs = this.domNode.getElementsByTagName("INPUT");
-						if(inputs){
-							for(var i=0; i < inputs.length; i++){
-								inputs[i].style.fontFamily = ff;
+			postCreate: function(){
+				this.inherited(arguments);
+				// IE INPUT tag fontFamily has to be set directly using STYLE
+				// the setTimeout gives IE a chance to render the TextBox and to deal with font inheritance
+				setTimeout(dojo.hitch(this, function(){
+					var s = dojo.getComputedStyle(this.domNode);
+					if(s){
+						var ff = s.fontFamily;
+						if(ff){
+							var inputs = this.domNode.getElementsByTagName("INPUT");
+							if(inputs){
+								for(var i=0; i < inputs.length; i++){
+									inputs[i].style.fontFamily = ff;
+								}
 							}
 						}
 					}
-				}
-			}), 0);
-		}
-	});
+				}), 0);
+			}
+		});
 
-	dijit._setSelectionRange = function(/*DomNode*/ element, /*Number?*/ start, /*Number?*/ stop){
-		if(element.createTextRange){
-			var r = element.createTextRange();
-			r.collapse(true);
-			r.moveStart("character", -99999); // move to 0
-			r.moveStart("character", start); // delta from 0 is the correct position
-			r.moveEnd("character", stop-start);
-			r.select();
-		}
-	}
-}
-
-if(dojo.isMoz){
-	dijit.form.TextBox = dojo.declare(dijit.form.TextBox, {
-		_onBlur: function(e){
-			this.inherited(arguments);
-			if(this.selectOnClick){
-			        // clear selection so that the next mouse click doesn't reselect
-				this.textbox.selectionStart = this.textbox.selectionEnd = undefined;
+		dijit._setSelectionRange = function(/*DomNode*/ element, /*Number?*/ start, /*Number?*/ stop){
+			if(element.createTextRange){
+				var r = element.createTextRange();
+				r.collapse(true);
+				r.moveStart("character", -99999); // move to 0
+				r.moveStart("character", start); // delta from 0 is the correct position
+				r.moveEnd("character", stop-start);
+				r.select();
 			}
 		}
-	});
-}
+	}
 
-return dijit.form.TextBox;
+	if(dojo.isMoz){
+		dijit.form.TextBox = dojo.declare(dijit.form.TextBox, {
+			_onBlur: function(e){
+				this.inherited(arguments);
+				if(this.selectOnClick){
+						// clear selection so that the next mouse click doesn't reselect
+					this.textbox.selectionStart = this.textbox.selectionEnd = undefined;
+				}
+			}
+		});
+	}
+
+	return dijit.form.TextBox;
 });

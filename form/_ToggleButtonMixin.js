@@ -1,8 +1,9 @@
-define(["dojo", ".."], function(dojo, dijit) {
-	// module:
-	//		dijit/form/_ToggleButtonMixin
-	// summary:
-	//		TODOC
+define(["dojo", ".."], function(dojo, dijit){
+
+// module:
+//		dijit/form/_ToggleButtonMixin
+// summary:
+//		A mixin to provide functionality to allow a button that can be in two states (checked or not).
 
 dojo.declare("dijit.form._ToggleButtonMixin", null, {
 	// summary:

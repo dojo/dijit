@@ -1,8 +1,9 @@
-define(["dojo", ".."], function(dojo, dijit) {
-	// module:
-	//		dijit/form/_ButtonMixin
-	// summary:
-	//		TODOC
+define(["dojo", ".."], function(dojo, dijit){
+
+// module:
+//		dijit/form/_ButtonMixin
+// summary:
+//		A mixin to add a thin standard API wrapper to a normal HTML button
 
 dojo.declare("dijit.form._ButtonMixin", null, {
 	// summary:

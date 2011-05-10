@@ -1,7 +1,7 @@
 define([
 	"dojo",
 	"..",
-	"dojo/store/Memory"], function(dojo, dijit) {
+	"dojo/store/Memory"], function(dojo, dijit){
 
 	// module:
 	//		dijit/form/DataList

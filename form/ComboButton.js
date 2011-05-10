@@ -1,13 +1,13 @@
 define([
-  "dojo",
-  "..",
-  "dojo/text!./templates/ComboButton.html",
-  "./DropDownButton"], function(dojo, dijit) {
-	// module:
-	//		dijit/form/ComboButton
-	// summary:
-	//		TODOC
+	"dojo",
+	"..",
+	"dojo/text!./templates/ComboButton.html",
+	"./DropDownButton"], function(dojo, dijit){
 
+// module:
+//		dijit/form/ComboButton
+// summary:
+//		A combination button and drop-down button.
 
 dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 	// summary:

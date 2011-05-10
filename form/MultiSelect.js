@@ -1,8 +1,10 @@
-define(["dojo", "..", "./_FormWidget"], function(dojo, dijit) {
-	// module:
-	//		dijit/form/MultiSelect
-	// summary:
-	//		TODOC
+define(["dojo", "..", "./_FormWidget"], function(dojo, dijit){
+
+// module:
+//		dijit/form/MultiSelect
+// summary:
+//		Widget version of a <select multiple=true> element,
+//		for selecting multiple options.
 
 dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 	// summary:

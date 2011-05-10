@@ -1,37 +1,37 @@
 define([
-  "dojo",
-  "..",
-  "dojo/text!./templates/DropDownBox.html",
-  "dojo/date",
-  "dojo/date/locale",
-  "dojo/date/stamp",
-  "./RangeBoundTextBox",
-  "../_HasDropDown"], function(dojo, dijit) {
+	"dojo",
+	"..",
+	"dojo/text!./templates/DropDownBox.html",
+	"dojo/date",
+	"dojo/date/locale",
+	"dojo/date/stamp",
+	"./RangeBoundTextBox",
+	"../_HasDropDown"], function(dojo, dijit){
+
 	// module:
 	//		dijit/form/_DateTimeTextBox
 	// summary:
-	//		TODOC
+	//		Base class for validating, serializable, range-bound date or time text box.
 
 
-new Date("X"); // workaround for #11279, new Date("") == NaN
+	new Date("X"); // workaround for #11279, new Date("") == NaN
 
-/*=====
-dojo.declare(
-	"dijit.form._DateTimeTextBox.__Constraints",
-	[dijit.form.RangeBoundTextBox.__Constraints, dojo.date.locale.__FormatOptions], {
-	// summary:
-	//		Specifies both the rules on valid/invalid values (first/last date/time allowed),
-	//		and also formatting options for how the date/time is displayed.
-	// example:
-	//		To restrict to dates within 2004, displayed in a long format like "December 25, 2005":
-	//	|		{min:'2004-01-01',max:'2004-12-31', formatLength:'long'}
-});
-=====*/
+	/*=====
+	dojo.declare(
+		"dijit.form._DateTimeTextBox.__Constraints",
+		[dijit.form.RangeBoundTextBox.__Constraints, dojo.date.locale.__FormatOptions], {
+		// summary:
+		//		Specifies both the rules on valid/invalid values (first/last date/time allowed),
+		//		and also formatting options for how the date/time is displayed.
+		// example:
+		//		To restrict to dates within 2004, displayed in a long format like "December 25, 2005":
+		//	|		{min:'2004-01-01',max:'2004-12-31', formatLength:'long'}
+	});
+	=====*/
 
-dojo.declare(
-	"dijit.form._DateTimeTextBox",
-	[ dijit.form.RangeBoundTextBox, dijit._HasDropDown ],
-	{
+	dojo.declare(
+		"dijit.form._DateTimeTextBox",
+		[dijit.form.RangeBoundTextBox, dijit._HasDropDown], {
 		// summary:
 		//		Base class for validating, serializable, range-bound date or time text box.
 
@@ -242,9 +242,8 @@ dojo.declare(
 		_setDisplayedValueAttr: function(/*String*/ value, /*Boolean?*/ priorityChange){
 			this._setValueAttr(this.parse(value, this.constraints), priorityChange, value);
 		}
-	}
-);
+	});
 
 
-return dijit.form._DateTimeTextBox;
+	return dijit.form._DateTimeTextBox;
 });

@@ -1,16 +1,17 @@
 define([
-  "dojo",
-  "..",
-  "dojo/window",
-  "../_Widget",
-  "../_TemplatedMixin",
-  "../_CssStateMixin",
-  "./_FormValueMixin",
-  "./_FormWidgetMixin"], function(dojo, dijit) {
-	// module:
-	//		dijit/form/_FormWidget
-	// summary:
-	//		TODOC
+	"dojo",
+	"..",
+	"dojo/window",
+	"../_Widget",
+	"../_TemplatedMixin",
+	"../_CssStateMixin",
+	"./_FormValueMixin",
+	"./_FormWidgetMixin"], function(dojo, dijit){
+
+// module:
+//		dijit/form/_FormWidget
+// summary:
+//		FormWidget and FormValueWidget
 
 
 dojo.declare("dijit.form._FormWidget",

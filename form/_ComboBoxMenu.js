@@ -1,20 +1,20 @@
 define([
-  "dojo",
-  "..",
-  "./_ComboBoxMenuMixin",
-  "../_WidgetBase",
-  "../_TemplatedMixin",
-  "./_ListMouseMixin"], function(dojo, dijit) {
+	"dojo",
+	"..",
+	"./_ComboBoxMenuMixin",
+	"../_WidgetBase",
+	"../_TemplatedMixin",
+	"./_ListMouseMixin"], function(dojo, dijit){
+
 	// module:
 	//		dijit/form/_ComboBoxMenu
 	// summary:
-	//		TODOC
+	//		Focus-less menu for internal use in `dijit.form.ComboBox`
 
 
-dojo.declare(
-	"dijit.form._ComboBoxMenu",
-	[dijit._WidgetBase, dijit._TemplatedMixin, dijit.form._ListMouseMixin, dijit.form._ComboBoxMenuMixin],
-	{
+	dojo.declare(
+		"dijit.form._ComboBoxMenu",
+		[dijit._WidgetBase, dijit._TemplatedMixin, dijit.form._ListMouseMixin, dijit.form._ComboBoxMenuMixin], {
 		// summary:
 		//		Focus-less menu for internal use in `dijit.form.ComboBox`
 		//              Abstract methods that must be defined externally:
@@ -116,8 +116,7 @@ dojo.declare(
 					return true;
 			}
 		}
-	}
-);
+	});
 
-return dijit.form._ComboBoxMenu;
+	return dijit.form._ComboBoxMenu;
 });

@@ -1,8 +1,9 @@
-define(["dojo", "..", "./_ListBase"], function(dojo, dijit) {
-	// module:
-	//		dijit/form/_ListMouseMixin
-	// summary:
-	//		TODOC
+define(["dojo", "..", "./_ListBase"], function(dojo, dijit){
+
+// module:
+//		dijit/form/_ListMouseMixin
+// summary:
+//		a Mixin to handle mouse events for a focus-less menu
 
 dojo.declare( "dijit.form._ListMouseMixin", dijit.form._ListBase, {
 	// summary:

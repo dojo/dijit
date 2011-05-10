@@ -1,25 +1,23 @@
 define([
-  "dojo",
-  "..",
-  "../_TimePicker",
-  "./_DateTimeTextBox"], function(dojo, dijit) {
+	"dojo",
+	"..",
+	"../_TimePicker",
+	"./_DateTimeTextBox"], function(dojo, dijit){
+
 	// module:
 	//		dijit/form/TimeTextBox
 	// summary:
-	//		TODOC
+	//		A validating, serializable, range-bound time text box with a drop down time picker
 
 
-/*=====
-dojo.declare(
-	"dijit.form.TimeTextBox.__Constraints",
-	[dijit.form._DateTimeTextBox.__Constraints, dijit._TimePicker.__Constraints]
-);
-=====*/
+	/*=====
+	dojo.declare(
+		"dijit.form.TimeTextBox.__Constraints",
+		[dijit.form._DateTimeTextBox.__Constraints, dijit._TimePicker.__Constraints]
+	);
+	=====*/
 
-dojo.declare(
-	"dijit.form.TimeTextBox",
-	dijit.form._DateTimeTextBox,
-	{
+	dojo.declare("dijit.form.TimeTextBox", dijit.form._DateTimeTextBox, {
 		// summary:
 		//		A validating, serializable, range-bound time text box with a drop down time picker
 
@@ -78,8 +76,7 @@ dojo.declare(
 					}), 0);
 			}
 		}
-	}
-);
+	});
 
-return dijit.form.TimeTextBox;
+	return dijit.form.TimeTextBox;
 });

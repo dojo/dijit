@@ -1,32 +1,30 @@
 define([
-  "dojo",
-  "..",
-  "dojo/text!./templates/ValidationTextBox.html",
-  "dojo/i18n",
-  "./TextBox",
-  "../Tooltip",
-  "dojo/i18n!./nls/validate"], function(dojo, dijit) {
+	"dojo",
+	"..",
+	"dojo/text!./templates/ValidationTextBox.html",
+	"dojo/i18n",
+	"./TextBox",
+	"../Tooltip",
+	"dojo/i18n!./nls/validate"], function(dojo, dijit){
+
 	// module:
 	//		dijit/form/ValidationTextBox
 	// summary:
-	//		TODOC
+	//		Base class for textbox widgets with the ability to validate content of various types and provide user feedback.
 
 
-/*=====
-	dijit.form.ValidationTextBox.__Constraints = function(){
-		// locale: String
-		//		locale used for validation, picks up value from this widget's lang attribute
-		// _flags_: anything
-		//		various flags passed to regExpGen function
-		this.locale = "";
-		this._flags_ = "";
-	}
-=====*/
+	/*=====
+		dijit.form.ValidationTextBox.__Constraints = function(){
+			// locale: String
+			//		locale used for validation, picks up value from this widget's lang attribute
+			// _flags_: anything
+			//		various flags passed to regExpGen function
+			this.locale = "";
+			this._flags_ = "";
+		}
+	=====*/
 
-dojo.declare(
-	"dijit.form.ValidationTextBox",
-	dijit.form.TextBox,
-	{
+	dojo.declare("dijit.form.ValidationTextBox", dijit.form.TextBox, {
 		// summary:
 		//		Base class for textbox widgets with the ability to validate content of various types and provide user feedback.
 		// tags:
@@ -216,7 +214,7 @@ dojo.declare(
 			// parse the regexp and produce a new regexp that matches valid subsets
 			// if the regexp is .* then there's no use in matching subsets since everything is valid
 			if(p != ".*"){ this.regExp.replace(/\\.|\[\]|\[.*?[^\\]{1}\]|\{.*?\}|\(\?[=:!]|./g,
-				function (re){
+				function(re){
 					switch(re.charAt(0)){
 						case '{':
 						case '+':
@@ -286,8 +284,7 @@ dojo.declare(
 
 			this.inherited(arguments);
 		}
-	}
-);
+	});
 
-return dijit.form.ValidationTextBox;
+	return dijit.form.ValidationTextBox;
 });

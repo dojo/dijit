@@ -2,7 +2,7 @@ define([
 	"dojo",
 	"..",
 	"./MappedTextBox",
-	"./ComboBoxMixin"], function(dojo, dijit) {
+	"./ComboBoxMixin"], function(dojo, dijit){
 
 	// module:
 	//		dijit/form/FilteringSelect

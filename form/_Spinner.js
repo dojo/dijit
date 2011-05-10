@@ -1,18 +1,16 @@
 define([
-  "dojo",
-  "..",
-  "dojo/text!./templates/Spinner.html",
-  "./RangeBoundTextBox"], function(dojo, dijit) {
+	"dojo",
+	"..",
+	"dojo/text!./templates/Spinner.html",
+	"./RangeBoundTextBox"], function(dojo, dijit){
+
 	// module:
 	//		dijit/form/_Spinner
 	// summary:
-	//		TODOC
+	//		Mixin for validation widgets with a spinner.
 
 
-dojo.declare(
-	"dijit.form._Spinner",
-	dijit.form.RangeBoundTextBox,
-	{
+	dojo.declare("dijit.form._Spinner", dijit.form.RangeBoundTextBox, {
 		// summary:
 		//		Mixin for validation widgets with a spinner.
 		// description:
@@ -121,8 +119,8 @@ dojo.declare(
 			this._connects.push(dijit.typematic.addListener(this.upArrowNode, this.textbox, {charOrCode:dojo.keys.PAGE_UP,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout, this.minimumTimeout));
 			this._connects.push(dijit.typematic.addListener(this.downArrowNode, this.textbox, {charOrCode:dojo.keys.PAGE_DOWN,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout, this.minimumTimeout));
 		}
-});
+	});
 
 
-return dijit.form._Spinner;
+	return dijit.form._Spinner;
 });
