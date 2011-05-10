@@ -105,7 +105,7 @@
 
 			var walkTreeToLeaf = function(inTree, inRootNode, /*array, optional*/ioPath){
 				var leaf = inRootNode;
-				if (ioPath){ ioPath.push(inRootNode); }
+				if(ioPath){ ioPath.push(inRootNode); }
 				if(inRootNode.isExpandable){
 					forceLoadChildItems(inRootNode, inTree);
 					inTree._expandNode(inRootNode);
@@ -267,7 +267,7 @@
 				var d = new doh.Deferred();
 				var tree = dijit.byId(inTreeId);
 				// assume (1) collapseAllButRoot(), and (2) focus is on a top level tree node.
-				for(var i = 0; i < arrowDownCount; i++) {
+				for(var i = 0; i < arrowDownCount; i++){
 					doh.robot.keyPress(dojo.keys.DOWN_ARROW, 300);
 				}
 				for(i = 0; i < arrowRightCount; i++){

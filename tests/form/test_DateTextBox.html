@@ -184,12 +184,12 @@
 			</script>
 
 			<script>
-				function displayData() {
+				function displayData(){
 					var f = document.getElementById("form1");
 					var s = "";
-					for (var i = 0; i < f.elements.length; i++) {
+					for(var i = 0; i < f.elements.length; i++){
 						var elem = f.elements[i];
-						if (elem.name == "button")  { continue; }
+						if(elem.name == "button")  { continue; }
 						s += elem.name + ": " + elem.value + "\n";
 					}
 					alert(s);

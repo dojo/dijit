@@ -30,7 +30,7 @@ CREATE TABLE `benchmarks` (
 
 */
 
-if (is_array($_POST)) {
+if(is_array($_POST)){
 
 	$username = '';
 	$password = '';
@@ -72,11 +72,11 @@ if (is_array($_POST)) {
 		print "Client: ".$ua."\n";
 		print "Dojo v".$dojov."\n";
 
-		if (is_array($string->dataSet)) {
+		if(is_array($string->dataSet)){
 			print "\nTest Results:";
 			// should client serialize a key, or is this safer?
 			$dataSet = md5(serialize($string));
-			foreach ($string->dataSet as $test) {
+			foreach ($string->dataSet as $test){
 				$data = array(
 					'dataSet' => $dataSet,
 					'useragent' => $ua,
@@ -93,32 +93,32 @@ if (is_array($_POST)) {
 			}
 		}
 
-		if (is_array($string->errors)) {
+		if(is_array($string->errors)){
 			// not saving errors at this point
 			print "\nErrors:";
-			foreach ($string->errors as $error) {
+			foreach ($string->errors as $error){
 				print_r($error);
 			}
 		}
 	print "</pre>";
 }
 
-function add_rec($table, $data) {
+function add_rec($table, $data){
 
-	if (!is_array($data)) { return FALSE; }
+	if(!is_array($data)){ return FALSE; }
 
 	$keys = array_keys($data);
 	$values = array_values($data);
 	$field=0;
 
-	for ($field;$field<sizeof($data);$field++) {
-		if (!ereg("^[0-9].*$",$keys[$field])) {
+	for($field;$field<sizeof($data);$field++){
+		if(!ereg("^[0-9].*$",$keys[$field])){
 			$sqlfields = $sqlfields.$keys[$field]."=\"".$values[$field]."\", ";
        		}
 	}
 	$sqlfields = (substr($sqlfields,0,(strlen($sqlfields)-2)));
 
-	if ($query = mysql_query("insert into $table set $sqlfields")) {
+	if($query = mysql_query("insert into $table set $sqlfields")){
 		$id = mysql_insert_id();
 		return ($id);
 	}else{

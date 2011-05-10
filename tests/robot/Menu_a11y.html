@@ -319,7 +319,7 @@
 
 				// Run test about opening context menu via keyboard, except on safari/mac where that isn't
 				// possible (#9927)
-				if (!dojo.isMac || !dojo.isWebKit) {
+				if(!dojo.isMac || !dojo.isWebKit){
 					doh.register("Context menu keyboard tests", [{
 						name: "open global context menu (keyboard)",
 						timeout: 5000,

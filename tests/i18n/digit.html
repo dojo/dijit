@@ -29,7 +29,7 @@
 		</script>
 
 		<script>
-			function gen4DateFormat(testCases, language, locale, date, short, shortCmt, medium, mediumCmt, long, longCmt, full, fullCmt) {
+			function gen4DateFormat(testCases, language, locale, date, short, shortCmt, medium, mediumCmt, long, longCmt, full, fullCmt){
 				testCases.push({
 				  attrs: {constraints: language.indexOf("hi") == 0 ? "{formatLength:'short', localeDigit: true}" : "{formatLength:'short'}", lang: language},
 				  desc: "Locale: <b>" + locale + "</b> Format: <b>Short</b>",
@@ -98,7 +98,7 @@
 		</p>
 
 		<script>
-		(function() {
+		(function(){
 
 			genFormatTestCases("Number Format", "dijit.form.NumberTextBox", [
 				{ attrs: {lang: "ar-eg"},

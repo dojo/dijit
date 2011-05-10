@@ -31,7 +31,7 @@
 				}
 			}
 
-			function pressEnter(modifiers) {
+			function pressEnter(modifiers){
 				var i;
 				for(i = 0; i < modifiers.length; i++){
 					doh.robot.keyDown(modifiers[i], 250);
@@ -46,14 +46,14 @@
 					doh.robot.keyUp(modifiers[i], 250);
 				}
 			}
-			function mouseSelect(tree, item, modifiers, k) {
+			function mouseSelect(tree, item, modifiers, k){
 				doh.robot.mouseMoveAt(item.domNode, 250, 200);
 				clickItem(modifiers);
 				doh.robot.sequence(k);
 			}
-			function keyboardSelect(tree, item, modifiers, k) {
+			function keyboardSelect(tree, item, modifiers, k){
 				var focused = dojo.query("#itemTree .dijitTreeLabelFocused");
-				if(!(focused.length > 0)) {
+				if(!(focused.length > 0)){
 					doh.robot.keyPress(dojo.keys.TAB, 250);
 					doh.robot.sequence(function(){ keyboardSelect(tree, item, modifiers, k); }, 250);
 					return;
@@ -61,8 +61,8 @@
 				
 				focused_node = focused[0].parentNode.parentNode.parentNode;
 				var diff = dojo.position(item.domNode).y - dojo.position(focused_node).y;
-				if(diff != 0) {
-					if(diff > 0) {
+				if(diff != 0){
+					if(diff > 0){
 						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500);
 					} else {
 						doh.robot.keyPress(dojo.keys.UP_ARROW, 500);
@@ -111,7 +111,7 @@
 				});
 				return d;
 			}
-			function testCtrlSelect(selector, clicker) {
+			function testCtrlSelect(selector, clicker){
 				var d = new doh.Deferred();
 				
 				// Find the fruitsTreeNode category
@@ -152,7 +152,7 @@
 					// select fruit item (no modifiers)
 					selector(tree, fruitsTreeNode, [], atFruits);
 
-					function atFruits() {
+					function atFruits(){
 						// shift-select Cereals item
                         selector(tree, cerealsTreeNode, keys, atCereals);
 					}

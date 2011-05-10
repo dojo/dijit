@@ -61,7 +61,7 @@
 					templateString: dojo.byId('Test4Template').textContent || dojo.byId('Test4Template').innerText
 				});
 		
-				function validateTest4Widget(t, testW) {
+				function validateTest4Widget(t, testW){
 					var selectedTab = dojo.query(".dijitTabChecked", testW.domNode)[0];
 					var selectedPane = dojo.query(".dijitTabPane.dijitVisible", testW.domNode)[0];
 					var tabBox = selectedTab ? dojo.contentBox(selectedTab) : null;
@@ -195,7 +195,7 @@
 					];
 				}
 		
-				function validateTest5Widget(t, testW) {
+				function validateTest5Widget(t, testW){
 					// Check that everything got started, but not double-started
 					dojo.forEach(getTestWidgets(testW), function(w){
 						t.t(w._started, "w._started: " + w);
@@ -203,7 +203,7 @@
 					});
 				}
 		
-				function validateTest5WidgetDestroy(t, testW) {
+				function validateTest5WidgetDestroy(t, testW){
 					var savedWidgets = getTestWidgets(testW);
 					testW.destroy();
 					dojo.forEach(savedWidgets, function(w, idx){

@@ -18,11 +18,11 @@
 					clickCount: 0,
 					onClick: function(){
 					},
-					_onClick: function() {
+					_onClick: function(){
 						console.log(this.id + ": ondijitclick");
 						this.onClick();
 					},
-					postCreate: function() {
+					postCreate: function(){
 						this.connect(this.domNode, "ondijitclick", "_onClick");
 					}
 				}

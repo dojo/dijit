@@ -229,7 +229,7 @@
 					},
 					function nameAttributeSurvived(){  // ticket:4753
 						var radios = dojo.query("INPUT[type=radio]", "radio-cells").forEach(
-							function(r) {
+							function(r){
 								doh.is( r.name, "r" );
 							});
 					},

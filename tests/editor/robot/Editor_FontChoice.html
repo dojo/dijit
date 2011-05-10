@@ -32,7 +32,7 @@
 					var edPlugins = editor._plugins, i;
 					for(i = 0; i < edPlugins.length; i++){
 						var p = edPlugins[i];
-						if (p.declaredClass === "dijit._editor.plugins.FontChoice" && p.command == command) {
+						if(p.declaredClass === "dijit._editor.plugins.FontChoice" && p.command == command){
 							return p;
 						}
 					}
@@ -89,15 +89,15 @@
 									doh.robot.mouseMoveAt(editor.iframe, 1000);
 									doh.robot.mouseClick({left:true}, 1000);
 	
-									doh.robot.sequence(d.getTestErrback(function() {
+									doh.robot.sequence(d.getTestErrback(function(){
 										// Find node w/specified id
-										var node = dojo.withGlobal(editor.window, function() { return dojo.byId(params.id); });
+										var node = dojo.withGlobal(editor.window, function(){ return dojo.byId(params.id); });
 										doh.is(params.id, node && node.id, "found " + params.id);
 
 										// Select the text, collapse to the start of it
 										// Using "dojo.global.dojo" to access the inner dojo, in test_FontChoice.html
 										// (not the one in this file), since that's the one that dijit is referencing.
-										dojo.global.dojo.withGlobal(editor.window, function() {
+										dojo.global.dojo.withGlobal(editor.window, function(){
 											dijit._editor.selection.selectElementChildren(node);
 											dijit._editor.selection.collapse(true);
 										});
@@ -159,10 +159,10 @@
 	
 									doh.robot.sequence(d.getTestErrback(function(){
 										// Find node
-										var p = dojo.withGlobal(editor.window, function() { return dojo.byId(params.id); });
+										var p = dojo.withGlobal(editor.window, function(){ return dojo.byId(params.id); });
 										doh.is(params.id, p && p.id, "found node");
 	
-										dojo.global.dojo.withGlobal(editor.window, function() {
+										dojo.global.dojo.withGlobal(editor.window, function(){
 											// Select the text, collapse to the start of it
 											dijit._editor.selection.selectElementChildren(p);
 											// Disable collapse.  Webkit changed behavior so it now requires
@@ -216,10 +216,10 @@
 							doh.t(fcPlugin !== null, "formatBlock was found");
 
 							doh.robot.sequence(d.getTestErrback(function(){
-								var p = dojo.withGlobal(editor.window, function() { return dojo.byId("text"); });
+								var p = dojo.withGlobal(editor.window, function(){ return dojo.byId("text"); });
 								doh.is("text", p && p.id, "found text");
 
-								dojo.global.dojo.withGlobal(editor.window, function() {
+								dojo.global.dojo.withGlobal(editor.window, function(){
 									// Select the text, collapse to the start of it
 									dijit._editor.selection.selectElementChildren(p);
 									dijit._editor.selection.collapse(true);
@@ -240,10 +240,10 @@
 
 							// Move to the next block and try to change it to h3 too.
 							doh.robot.sequence(d.getTestErrback(function(){
-								var p = dojo.withGlobal(editor.window, function() { return dojo.byId("text1"); });
+								var p = dojo.withGlobal(editor.window, function(){ return dojo.byId("text1"); });
 								doh.is("text1", p && p.id, "found text1");
 
-								dojo.global.dojo.withGlobal(editor.window, function() {
+								dojo.global.dojo.withGlobal(editor.window, function(){
 									// Select the text, collapse to the start of it
 									dijit._editor.selection.selectElementChildren(p);
 									dijit._editor.selection.collapse(true);
@@ -301,9 +301,9 @@
 							doh.t(fcPlugin !== null, "formatBlock was found");
 
 							doh.robot.sequence(d.getTestErrback(function(){
-								var p = dojo.withGlobal(editor.window, function() { return dojo.byId("text"); });
+								var p = dojo.withGlobal(editor.window, function(){ return dojo.byId("text"); });
 								doh.is("text", p && p.id, "found text");
-								dojo.global.dojo.withGlobal(editor.window, function() {
+								dojo.global.dojo.withGlobal(editor.window, function(){
 									// Select the text, collapse to the start of it
 									dijit._editor.selection.selectElementChildren(p);
 									dijit._editor.selection.collapse(true);
@@ -354,9 +354,9 @@
 							doh.t(fcPlugin !== null, "formatBlock was found");
 
 							doh.robot.sequence(d.getTestErrback(function(){
-								var p = dojo.withGlobal(editor.window, function() { return dojo.byId("text"); });
+								var p = dojo.withGlobal(editor.window, function(){ return dojo.byId("text"); });
 								doh.is("text", p && p.id, "found text");
-								dojo.global.dojo.withGlobal(editor.window, function() {
+								dojo.global.dojo.withGlobal(editor.window, function(){
 									// Select the text, collapse to the start of it
 									dijit._editor.selection.selectElementChildren(p);
 									dijit._editor.selection.collapse(true);
@@ -369,8 +369,8 @@
 							doh.robot.sequence(d.getTestErrback(function(){
 								// Select the children of the block and try to flatten the formatting.
 
-								var selection = dojo.withDoc(editor.document, function() { return dojo.byId("selectionContainer"); });
-								dojo.global.dojo.withGlobal(editor.window, function() {
+								var selection = dojo.withDoc(editor.document, function(){ return dojo.byId("selectionContainer"); });
+								dojo.global.dojo.withGlobal(editor.window, function(){
 									dojo.window.scrollIntoView(selection);
 									dijit._editor.selection.selectElementChildren(selection);
 								});
@@ -378,7 +378,7 @@
 							}), 1000);
 							doh.robot.sequence(d.getTestCallback(function(){
 								// Now check that the elements are all gone.
-								var selection = dojo.withDoc(editor.document, function() { return dojo.byId("selectionContainer"); });
+								var selection = dojo.withDoc(editor.document, function(){ return dojo.byId("selectionContainer"); });
 								doh.t(selection.childNodes.length > 0, "Checking that there are still child nodes.");
 
 								var i;

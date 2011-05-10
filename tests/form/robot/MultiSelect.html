@@ -17,14 +17,14 @@
 		<script type="text/javascript">
 			dojo.require("dijit.robotx");
 
-			function testInverted(allOptions, selected, newSelected) {
+			function testInverted(allOptions, selected, newSelected){
 				doh.is(allOptions.length, selected.length+newSelected.length); //newSelected + the no longer selected list size should be the same as the length of the whole list
 				dojo.forEach(allOptions, function(option){ //verify the selections were inverted
-					if(option.selected) {
+					if(option.selected){
 						//it must be in the newSelectedList
 						var found=false;
 						dojo.forEach(newSelected, function(ns){
-							if(option.value===ns) {
+							if(option.value===ns){
 								found=true;
 							}
 						});
@@ -33,7 +33,7 @@
 						//it better be in the origional selected list
 						var found=false;
 						dojo.forEach(selected, function(s){
-							if(option.value===s) {
+							if(option.value===s){
 								found=true;
 							}
 						});

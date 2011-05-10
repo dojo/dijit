@@ -184,7 +184,7 @@
 							spinner.set('value', initVal);
 							for(var i = 0; i < results.length; i++){
 								var aResult = results[i];
-								if(!(isNaN(aResult.expected) && isNaN(aResult.actual))) {
+								if(!(isNaN(aResult.expected) && isNaN(aResult.actual))){
 									doh.is(aResult.expected, aResult.actual, aResult.stroke);
 								}
 							}

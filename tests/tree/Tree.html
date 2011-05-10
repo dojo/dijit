@@ -33,10 +33,10 @@
 		dojo.require("dijit.tree.TreeStoreModel");
 		dojo.require("dijit.tree.dndSource");
 		
-		function getRowClass(item, isExpanded) {
-			if (!item
+		function getRowClass(item, isExpanded){
+			if(!item
 					|| !treeStore.isItem(item)
-					|| treeStore.getValue(item, "type") != "header") {
+					|| treeStore.getValue(item, "type") != "header"){
 				return null;
 			}
 			return "headerRow";

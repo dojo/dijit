@@ -157,7 +157,7 @@
 			}
 		</script>
 		<script type="dojo/method" data-dojo-event="getIconClass" data-dojo-args="item, opened">
-	       if (!item || continentStore.getValue(item, "type") != "continent")
+	       if(!item || continentStore.getValue(item, "type") != "continent")
 				return (!item || this.model.mayHaveChildren(item)) ? (opened ? "dijitFolderOpened" : "dijitFolderClosed") : "dijitLeaf"
 	       	else
 	       		return "";

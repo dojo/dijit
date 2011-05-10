@@ -44,7 +44,7 @@
 		Date.prototype.json = function(){ return dojo.date.stamp.toISOString(this, {selector: 'date'});};
 
 		var thirdDlg;
-		function createDialog() {
+		function createDialog(){
 			if(!thirdDlg){
 				var pane = dojo.byId('thirdDialog');
 				// should specify a width on dialogs with <p> tags, otherwise they get too wide
