@@ -281,13 +281,27 @@
 					{
 						name: "icon",
 						runTest: function(){
-							doh.f(dojo.hasClass(dijit.byId("T1466").iconNode, "plusIcon"), "doesn't plus icon class");
-							dijit.byId("T1466").set("iconClass", "plusIcon");
-							doh.t(dojo.hasClass(dijit.byId("T1466").iconNode, "plusIcon"), "has plus icon class");
+							// initial condition: no icon
+							doh.f(dojo.hasClass(dijit.byId("T1466").iconNode, "plusIcon"), "doesn't have plusIcon class");
+							doh.is("none", dojo.style(dijit.byId("T1466").iconNode, "display"), "initially hidden");
 
-							// switching icon erases old one
+							// no icon --> icon
+							dijit.byId("T1466").set("iconClass", "plusIcon");
+							doh.t(dojo.hasClass(dijit.byId("T1466").iconNode, "plusIcon"), "plusIcon class added");
+							doh.isNot("none", dojo.style(dijit.byId("T1466").iconNode, "display"), "became visible");
+
+							// switching icon
 							dijit.byId("T1466").set("iconClass", "noteIcon");
-							doh.f(dojo.hasClass(dijit.byId("T1466").iconNode, "plusIcon"), "doesn't plus icon class");
+							doh.f(dojo.hasClass(dijit.byId("T1466").iconNode, "plusIcon"), "plusIcon cleared");
+							doh.t(dojo.hasClass(dijit.byId("T1466").iconNode, "noteIcon"), "noteIcon added");
+
+							// initial conditions for buttons with icon
+							doh.t(dojo.hasClass(dijit.byId("dropDownNoLabel").iconNode, "noteIcon"),
+									"dropDownNoLabel: noteIcon set");
+							doh.t(dojo.hasClass(dijit.byId("comboNoLabel").iconNode, "plusBlockIcon"),
+									"comboNoLabel: plusBlockIcon set");
+							doh.t(isVisible(dijit.byId("comboNoLabel").iconNode),
+									"comboNoLabel: initially visible");
 						}
 					},
 

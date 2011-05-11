@@ -323,7 +323,7 @@ dojo.extend(dijit._WidgetBase, {
 	// iconClass: String
 	//		Parameter for children of `dijit.layout.StackContainer` or subclasses.
 	//		CSS Class specifying icon to use in label associated with this pane.
-	iconClass: "",
+	iconClass: "dijitNoIcon",
 
 	// showTitle: Boolean
 	//		Parameter for children of `dijit.layout.StackContainer` or subclasses.

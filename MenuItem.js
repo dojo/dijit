@@ -34,7 +34,7 @@ define([
 
 		// iconClass: String
 		//		Class to apply to DOMNode to make it display an icon.
-		iconClass: "",
+		iconClass: "dijitNoIcon",
 		_setIconClassAttr: { node: "iconNode", type: "class" },
 
 		// accelKey: String

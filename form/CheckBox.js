@@ -66,6 +66,9 @@ define([
 			return (this.checked ? this.value : false);
 		},
 
+		// Override behavior from Button, since we don't have an iconNode
+		_setIconClassAttr: null,
+
 		postMixInProperties: function(){
 			this.inherited(arguments);
 

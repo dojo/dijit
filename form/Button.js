@@ -39,7 +39,8 @@ dojo.declare("dijit.form.Button", [dijit.form._FormWidget, dijit.form._ButtonMix
 
 	// iconClass: String
 	//		Class to apply to DOMNode in button to make it display an icon
-	iconClass: "",
+	iconClass: "dijitNoIcon",
+	_setIconClassAttr: { node: "iconNode", type: "class" },
 
 	baseClass: "dijitButton",
 
@@ -97,16 +98,6 @@ dojo.declare("dijit.form.Button", [dijit.form._FormWidget, dijit.form._ButtonMix
 		if(this.showLabel == false && !("title" in this.params)){
 			this.titleNode.title = dojo.trim(this.containerNode.innerText || this.containerNode.textContent || '');
 		}
-	},
-
-	_setIconClassAttr: function(/*String*/ val){
-		// Custom method so that icon node is hidden when not in use, to avoid excess padding/margin
-		// appearing around it (even if it's a 0x0 sized <img> node)
-
-		var oldVal = this.iconClass || "dijitNoIcon",
-			newVal = val || "dijitNoIcon";
-		dojo.replaceClass(this.iconNode, newVal, oldVal);
-		this._set("iconClass", val);
 	}
 });
 
