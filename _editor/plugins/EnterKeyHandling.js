@@ -307,11 +307,20 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 								}
 							}));
 						}else{
+							var targetNode;
+							if(range.startOffset > 0){
+								targetNode = rs.childNodes[range.startOffset - 1];
+							}
 							dojo.withGlobal(this.editor.window, dojo.hitch(this, function(){
 								var brNode = doc.createElement("br");
-								rs.appendChild(brNode);
 								var endNode = doc.createTextNode('\xA0');
-								rs.appendChild(endNode);
+								if(!targetNode){
+									rs.appendChild(brNode);		
+									rs.appendChild(endNode);
+								}else{
+									dojo.place(brNode, targetNode, "after");
+									dojo.place(endNode, brNode, "after");
+								}									
 								newrange = dijit.range.create(dojo.global);
 								newrange.setStart(endNode,0);
 								newrange.setEnd(endNode, endNode.length);
