@@ -111,7 +111,7 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._TemplatedMixin], {
 				this.progress = percent * this.maximum;
 			}else{
 				this.progress = Math.min(this.progress, this.maximum);
-				percent = this.progress / this.maximum;
+				percent = this.maximum ? this.progress / this.maximum : 0;
 			}
 
 			dijit.setWaiState(ap, "describedby", this.labelNode.id);
