@@ -437,7 +437,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		var store = this.store;
 		if(!store.isItemLoaded(item)){
 			// We are not loaded - so let's load it and add later
-			store.loadItem({item: item, onComplete: function(i){
+			store.loadItem({item: item, onItem: function(i){
 				this._addOptionForItem(item);
 			},
 			scope: this});
