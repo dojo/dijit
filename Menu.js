@@ -3,8 +3,6 @@ define([
 	".",
 	"./popup",
 	"dojo/window",
-	"./_KeyNavContainer",
-	"./_TemplatedMixin",
 	"./DropDownMenu"], function(dojo, dijit, pm){
 
 // module:
