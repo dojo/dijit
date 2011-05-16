@@ -163,10 +163,12 @@ define(["dojo", ".", "./_Container", "./_FocusMixin"], function(dojo, dijit){
 			// Note that we can't use _onFocus() because switching focus from the
 			// _onFocus() handler confuses the focus.js code
 			// (because it causes _onFocusNode() to be called recursively)
+			// Also, _onFocus() would fire when focus went directly to a child widget due to mouse click.
 
-			// focus bubbles on Firefox,
-			// so just make sure that focus has really gone to the container
-			if(evt.target !== this.domNode){ return; }
+			// Ignore spurious focus events:
+			//	1. focus on a child widget bubbles on FF
+			//	2. on IE, clicking the scrollbar of a select dropdown moves focus from the focused child item to me
+			if(evt.target !== this.domNode || this.focusedChild){ return; }
 
 			this.focusFirstChild();
 
@@ -185,6 +187,7 @@ define(["dojo", ".", "./_Container", "./_FocusMixin"], function(dojo, dijit){
 			if(this.tabIndex){
 				dojo.attr(this.domNode, "tabIndex", this.tabIndex);
 			}
+			this.focusedChild = null;
 			this.inherited(arguments);
 		},
 
