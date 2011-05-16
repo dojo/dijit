@@ -135,18 +135,36 @@ define([
 		return best;
 	}
 
-	return {
-		/*=====
-		dijit.__Position = function(){
-			// x: Integer
-			//		horizontal coordinate in pixels, relative to document body
-			// y: Integer
-			//		vertical coordinate in pixels, relative to document body
+	/*=====
+	dijit.__Position = function(){
+		// x: Integer
+		//		horizontal coordinate in pixels, relative to document body
+		// y: Integer
+		//		vertical coordinate in pixels, relative to document body
 
-			this.x = x;
-			this.y = y;
-		}
-		=====*/
+		this.x = x;
+		this.y = y;
+	}
+	=====*/
+
+	/*=====
+	dijit.__Rectangle = function(){
+		// x: Integer
+		//		horizontal offset in pixels, relative to document body
+		// y: Integer
+		//		vertical offset in pixels, relative to document body
+		// w: Integer
+		//		width in pixels.   Can also be specified as "width" for backwards-compatibility.
+		// h: Integer
+		//		height in pixels.   Can also be specified as "height" from backwards-compatibility.
+
+		this.x = x;
+		this.y = y;
+		this.w = w;
+		this.h = h;
+	}
+	=====*/
+	return {
 
 		at: function(node, pos, corners, padding){
 			// summary:
@@ -183,24 +201,6 @@ define([
 
 			return _place(node, choices);
 		},
-
-		/*=====
-		dijit.__Rectangle = function(){
-			// x: Integer
-			//		horizontal offset in pixels, relative to document body
-			// y: Integer
-			//		vertical offset in pixels, relative to document body
-			// w: Integer
-			//		width in pixels.   Can also be specified as "width" for backwards-compatibility.
-			// h: Integer
-			//		height in pixels.   Can also be specified as "height" from backwards-compatibility.
-
-			this.x = x;
-			this.y = y;
-			this.w = w;
-			this.h = h;
-		}
-		=====*/
 
 		around: function(
 			/*DomNode*/		node,
@@ -255,7 +255,7 @@ define([
 
 			var x = anchor.x,
 				y = anchor.y,
-				width = "w" in anchor ? anchor.w : anchor.width;
+				width = "w" in anchor ? anchor.w : anchor.width,
 				height = "h" in anchor ? anchor.h : anchor.height;
 
 			// Convert positions arguments into choices argument for _place()
