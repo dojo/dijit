@@ -18,7 +18,7 @@ define([
 // module:
 //		dijit/Tree
 // summary:
-//		dijit.Tree widget, and interal dijit._TreeNode widget
+//		dijit.Tree widget, and internal dijit._TreeNode widget
 
 
 dojo.declare(
