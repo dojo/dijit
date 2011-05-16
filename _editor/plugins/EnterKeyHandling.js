@@ -308,8 +308,8 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 							}));
 						}else{
 							var targetNode;
-							if(range.startOffset > 0){
-								targetNode = rs.childNodes[range.startOffset - 1];
+							if(range.startOffset >= 0){
+								targetNode = rs.childNodes[range.startOffset];
 							}
 							dojo.withGlobal(this.editor.window, dojo.hitch(this, function(){
 								var brNode = doc.createElement("br");
@@ -318,7 +318,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 									rs.appendChild(brNode);		
 									rs.appendChild(endNode);
 								}else{
-									dojo.place(brNode, targetNode, "after");
+									dojo.place(brNode, targetNode, "before");
 									dojo.place(endNode, brNode, "after");
 								}									
 								newrange = dijit.range.create(dojo.global);
