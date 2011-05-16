@@ -2,9 +2,10 @@ define([
 	"dojo",
 	".",
 	"dojo/listen",
+	"dojo/aspect",
 	"dojo/Stateful",
 	"dojo/window",
-	"./_base/manager"], function(dojo, dijit, listen){
+	"./_base/manager"], function(dojo, dijit, listen, aspect){
 
 	// module:
 	//		dijit/focus
@@ -28,6 +29,20 @@ define([
 		// activeStack: dijit._Widget[]
 		//		List of currently active widgets (focused widget and it's ancestors)
 		activeStack: [],
+
+		constructor: function(){
+			// Don't leave curNode/prevNode pointing to bogus elements
+			var check = dojo.hitch(this, function(node){
+				if(dojo.isDescendant(this.curNode, node)){
+					this.set("curNode", null);
+				}
+				if(dojo.isDescendant(this.prevNode, node)){
+					this.set("prevNode", null);
+				}
+			});
+			aspect.before(dojo, "empty", check);
+			aspect.before(dojo, "destroy", check);
+		},
 
 		registerIframe: function(/*DomNode*/ iframe){
 			// summary:

@@ -67,10 +67,10 @@
 			var dlg = new dijit.Dialog({
 				id: 'SelfDestructDlg',
 				title: 'Self-Destruct Dialog',
-				content: 'This dialog will destroy itself onHide.'
-			});
-			dlg.connect(dlg, 'onHide', function(){
-				this.destroyRecursive();
+				content: 'This dialog will destroy itself onHide.<br/><input type="text" id="SelfDestructDlgInput" />',
+				onHide: function(){
+					this.destroyRecursive();
+				}
 			});
 			dlg.show();
 		}
@@ -376,16 +376,19 @@
 	    <textarea id="textarea-radio-test" width="400" height="200"></textarea>
 	    <fieldset>
 	      <legend>Best Pet</legend>
-	      <input id="dograd" type="radio" name="pet" checked="checked"></input>
+	      <input id="dograd" type="radio" name="pet" checked="checked"/>
 	      <label for="dograd">Dog</label> -
-	      <input id="catrad" type="radio" name="pet"></input>
+	      <input id="catrad" type="radio" name="pet"/>
 	      <label for="catrad">Cat</label>
 	    </fieldset>
 	  </div>
 	</div>
 	
 	<button id="SelfDestructDlgBtn" data-dojo-type="dijit.form.Button" data-dojo-props='onClick:showSelfDestructDlg'>Show Self-Destruct Dialog</button>
-	
+	<span id="SelfDestructDlgBtn2" style="border: 1px solid black;" onclick="showSelfDestructDlg();">Show Self-Destruct Dialog (unfocusable span)</span>
+
+	<button data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){ createDialog() }, title:"shows after 3 second delay, with blue background"'>Programatic Dialog (3 second delay)</button> |
+
 	<p><b><i>(scroll down to see more links to click, for testing positioning / scroll handling)</i></b></p>
 
 	<p>

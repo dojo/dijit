@@ -1,6 +1,7 @@
 define([
 	"dojo",
 	".",
+	"dijit/focus",
 	"dojo/text!./templates/Dialog.html",
 	"dojo/dnd/move",
 	"dojo/dnd/TimedMoveable",
@@ -13,7 +14,7 @@ define([
 	"./_DialogMixin",
 	"./DialogUnderlay",
 	"./layout/ContentPane",
-	"dojo/i18n!./nls/common"], function(dojo, dijit, template){
+	"dojo/i18n!./nls/common"], function(dojo, dijit, focus, template){
 
 	// module:
 	//		dijit/Dialog
@@ -497,7 +498,7 @@ define([
 			var ds = dijit._dialogStack;
 
 			// Save current focus
-			ds[ds.length-1].focus = dijit.getFocus(dialog);
+			ds[ds.length-1].focus = focus.curNode;
 
 			// Display the underlay, or if already displayed then adjust for this new dialog
 			var underlay = dijit._underlay;
@@ -560,15 +561,13 @@ define([
 					// This situation could happen if two dialogs appeared at nearly the same time,
 					// since a dialog doesn't set it's focus until the fade-in is finished.
 					var focus = pd.focus;
-					if(!focus || (pd.dialog && !dojo.isDescendant(focus.node, pd.dialog.domNode))){
+					if(pd.dialog && (!focus || !dojo.isDescendant(focus, pd.dialog.domNode))){
 						pd.dialog._getFocusItems(pd.dialog.domNode);
 						focus = pd.dialog._firstFocusItem;
 					}
 
-					try{
-						dijit.focus(focus);
-					}catch(e){
-						/* focus() will fail if user opened the dialog by clicking a non-focusable element */
+					if(focus){
+						focus.focus();
 					}
 				}
 			}else{

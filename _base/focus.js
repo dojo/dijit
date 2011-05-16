@@ -182,7 +182,7 @@ define(
 			var node = !dijit._curFocus || (menu && dojo.isDescendant(dijit._curFocus, menu.domNode)) ? dijit._prevFocus : dijit._curFocus;
 			return {
 				node: node,
-				bookmark: (node == dijit._curFocus) && dojo.withGlobal(openedForWindow || dojo.global, dijit.getBookmark),
+				bookmark: node && (node == dijit._curFocus) && dojo.withGlobal(openedForWindow || dojo.global, dijit.getBookmark),
 				openedForWindow: openedForWindow
 			}; // Object
 		},
