@@ -16,9 +16,6 @@ define([
 
 		templateString:
 			'<div class="dijit" role="toolbar" tabIndex="${tabIndex}" dojoAttachPoint="containerNode">' +
-			//	'<table style="table-layout: fixed" class="dijitReset dijitToolbarTable">' + // factor out style
-			//		'<tr class="dijitReset" dojoAttachPoint="containerNode"></tr>'+
-			//	'</table>' +
 			'</div>',
 
 		baseClass: "dijitToolbar",
@@ -30,14 +27,6 @@ define([
 				this.isLeftToRight() ? [dojo.keys.LEFT_ARROW] : [dojo.keys.RIGHT_ARROW],
 				this.isLeftToRight() ? [dojo.keys.RIGHT_ARROW] : [dojo.keys.LEFT_ARROW]
 			);
-		},
-
-		startup: function(){
-			if(this._started){ return; }
-
-			this.startupKeyNavChildren();
-
-			this.inherited(arguments);
 		}
 	});
 

@@ -11,9 +11,10 @@ define(["dojo", ".", "./_Container", "./_FocusMixin"], function(dojo, dijit){
 		//		A _Container with keyboard navigation of its children.
 		// description:
 		//		To use this mixin, call connectKeyNavHandlers() in
-		//		postCreate() and call startupKeyNavChildren() in startup().
+		//		postCreate().
 		//		It provides normalized keyboard and focusing code for Container
 		//		widgets.
+
 /*=====
 		// focusedChild: [protected] Widget
 		//		The currently focused child widget, or null if there isn't one
@@ -26,8 +27,6 @@ define(["dojo", ".", "./_Container", "./_FocusMixin"], function(dojo, dijit){
 		//		moved to the first item in the container.
 		tabIndex: "0",
 
-		_keyNavCodes: {},
-
 		connectKeyNavHandlers: function(/*dojo.keys[]*/ prevKeyCodes, /*dojo.keys[]*/ nextKeyCodes){
 			// summary:
 			//		Call in postCreate() to attach the keyboard handlers
@@ -39,9 +38,11 @@ define(["dojo", ".", "./_Container", "./_FocusMixin"], function(dojo, dijit){
 			// tags:
 			//		protected
 
+			// TODO: call this automatically from my own postCreate()
+
 			var keyCodes = (this._keyNavCodes = {});
-			var prev = dojo.hitch(this, this.focusPrev);
-			var next = dojo.hitch(this, this.focusNext);
+			var prev = dojo.hitch(this, "focusPrev");
+			var next = dojo.hitch(this, "focusNext");
 			dojo.forEach(prevKeyCodes, function(code){ keyCodes[code] = prev; });
 			dojo.forEach(nextKeyCodes, function(code){ keyCodes[code] = next; });
 			keyCodes[dojo.keys.HOME] = dojo.hitch(this, "focusFirstChild");
@@ -51,17 +52,16 @@ define(["dojo", ".", "./_Container", "./_FocusMixin"], function(dojo, dijit){
 		},
 
 		startupKeyNavChildren: function(){
-			// summary:
-			//		Call in startup() to set child tabindexes to -1
-			// tags:
-			//		protected
+			dojo.deprecated("startupKeyNavChildren() call no longer needed", "", "2.0");
+		},
+
+		startup: function(){
+			this.inherited(arguments);
 			dojo.forEach(this.getChildren(), dojo.hitch(this, "_startupChild"));
 		},
 
 		addChild: function(/*dijit._Widget*/ widget, /*int?*/ insertIndex){
-			// summary:
-			//		Add a child to our _Container
-			dijit._KeyNavContainer.superclass.addChild.apply(this, arguments);
+			this.inherited(arguments);
 			this._startupChild(widget);
 		},
 
@@ -76,10 +76,7 @@ define(["dojo", ".", "./_Container", "./_FocusMixin"], function(dojo, dijit){
 			//		Focus the first focusable child in the container.
 			// tags:
 			//		protected
-			var child = this._getFirstFocusableChild();
-			if(child){ // edge case: Menu could be empty or hidden
-				this.focusChild(child);
-			}
+			this.focusChild(this._getFirstFocusableChild());
 		},
 
 		focusLastChild: function(){
@@ -87,10 +84,7 @@ define(["dojo", ".", "./_Container", "./_FocusMixin"], function(dojo, dijit){
 			//		Focus the last focusable child in the container.
 			// tags:
 			//		protected
-			var child = this._getLastFocusableChild();
-			if(child){ // edge case: Menu could be empty or hidden
-				this.focusChild(child);
-			}
+			this.focusChild(this._getLastFocusableChild());
 		},
 
 		focusNext: function(){
@@ -98,8 +92,7 @@ define(["dojo", ".", "./_Container", "./_FocusMixin"], function(dojo, dijit){
 			//		Focus the next widget
 			// tags:
 			//		protected
-			var child = this._getNextFocusableChild(this.focusedChild, 1);
-			this.focusChild(child);
+			this.focusChild(this._getNextFocusableChild(this.focusedChild, 1));
 		},
 
 		focusPrev: function(){
@@ -108,13 +101,12 @@ define(["dojo", ".", "./_Container", "./_FocusMixin"], function(dojo, dijit){
 			//		(ex: go to the ComboButton icon section rather than button section)
 			// tags:
 			//		protected
-			var child = this._getNextFocusableChild(this.focusedChild, -1);
-			this.focusChild(child, true);
+			this.focusChild(this._getNextFocusableChild(this.focusedChild, -1), true);
 		},
 
 		focusChild: function(/*dijit._Widget*/ widget, /*Boolean*/ last){
 			// summary:
-			//		Focus widget.
+			//		Focus specified child widget.
 			// widget:
 			//		Reference to container's child widget
 			// last:
@@ -123,8 +115,10 @@ define(["dojo", ".", "./_Container", "./_FocusMixin"], function(dojo, dijit){
 			// tags:
 			//		protected
 
+			if(!widget){ return; }
+
 			if(this.focusedChild && widget !== this.focusedChild){
-				this._onChildBlur(this.focusedChild);
+				this._onChildBlur(this.focusedChild);	// used by _MenuBase
 			}
 			widget.set("tabIndex", this.tabIndex);	// for IE focus outline to appear, must set tabIndex before focs
 			widget.focus(last ? "end" : "start");
@@ -209,6 +203,7 @@ define(["dojo", ".", "./_Container", "./_FocusMixin"], function(dojo, dijit){
 			// summary:
 			//		Called when focus leaves a child widget to go
 			//		to a sibling widget.
+			//		Used by MenuBase.js (TODO: move code there)
 			// tags:
 			//		protected
 		},

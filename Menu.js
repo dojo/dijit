@@ -29,7 +29,7 @@ dojo.declare("dijit.Menu", dijit.DropDownMenu, {
 	contextMenuForWindow: false,
 
 	// leftClickToOpen: [const] Boolean
-	//		If true, menu will open on left click instead of right click, similiar to a file menu.
+	//		If true, menu will open on left click instead of right click, similar to a file menu.
 	leftClickToOpen: false,
 
 	// refocus: Boolean

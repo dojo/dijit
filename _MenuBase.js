@@ -6,6 +6,7 @@ define([
 	"./_WidgetBase",
 	"./_FocusMixin",
 	"./_KeyNavContainer",
+	"./_FocusMixin",
 	"./_TemplatedMixin"], function(dojo, dijit, pm){
 
 	// module:
@@ -14,7 +15,7 @@ define([
 	//		Base class for Menu and MenuBar
 
 dojo.declare("dijit._MenuBase",
-	[dijit._WidgetBase, dijit._FocusMixin, dijit._TemplatedMixin, dijit._KeyNavContainer],
+	[dijit._WidgetBase, dijit._FocusMixin, dijit._TemplatedMixin, dijit._KeyNavContainer, dijit._FocusMixin],
 {
 	// summary:
 	//		Base class for Menu and MenuBar
@@ -26,15 +27,6 @@ dojo.declare("dijit._MenuBase",
 	// popupDelay: Integer
 	//		number of milliseconds before hovering (without clicking) causes the popup to automatically open.
 	popupDelay: 500,
-
-	startup: function(){
-		if(this._started){ return; }
-
-		dojo.forEach(this.getChildren(), function(child){ child.startup(); });
-		this.startupKeyNavChildren();
-
-		this.inherited(arguments);
-	},
 
 	onExecute: function(){
 		// summary:

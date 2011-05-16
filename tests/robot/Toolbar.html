@@ -38,7 +38,7 @@
 							doh.t(toolbar3, "toolbar 3");
 							doh.t(toolbar4, "toolbar 4");
 							
-							// and that labels are shown except when showLabel=true
+							// and that labels are shown except when showLabel==false
 							var cutText = dojo.query(".dijitButtonText", dojo.byId("toolbar1.cut"))[0];
 							doh.is(0, cutText.offsetWidth, "cut button - text hidden");						
 
@@ -101,10 +101,10 @@
 							toolbar1Before.focus();
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
-								doh.is("toolbar1.italic", dojo.global.dijit._curFocus.id, "cut, first visit");
+								doh.is("toolbar1.italic", dojo.global.dijit._curFocus.id, "italic, first visit");
 							})), 1000);
 
-							// Remaining enabled positons that left/right arrow should navigate to (not including the initial leftmost button),
+							// Remaining enabled positions that left/right arrow should navigate to (not including the initial leftmost button),
 							var focusPoints = ["toolbar1.dialog", "toolbar1.combo_button", "toolbar1.combo_arrow", "toolbar1.insertorderedlist"];
 
 							// Use right arrow key to visit every enabled button (and for combobutton to hit left and right sides)
@@ -138,7 +138,7 @@
 							// Make sure that we can still shift-tab back to before the toolbar too
 							doh.robot.keyPress(dojo.keys.TAB, 500, {shift: true});
 							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
-								doh.is("toolbar1.italic", dojo.global.dijit._curFocus.id, "cut, after shift-tab back into toolbar");
+								doh.is("toolbar1.italic", dojo.global.dijit._curFocus.id, "italic, after shift-tab back into toolbar");
 							})), 1000);
 
 							doh.robot.keyPress(dojo.keys.TAB, 500, {shift: true});
