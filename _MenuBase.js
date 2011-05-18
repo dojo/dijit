@@ -9,10 +9,10 @@ define([
 	"./_FocusMixin",
 	"./_TemplatedMixin"], function(dojo, dijit, pm){
 
-	// module:
-	//		dijit/_MenuBase
-	// summary:
-	//		Base class for Menu and MenuBar
+// module:
+//		dijit/_MenuBase
+// summary:
+//		Base class for Menu and MenuBar
 
 dojo.declare("dijit._MenuBase",
 	[dijit._WidgetBase, dijit._FocusMixin, dijit._TemplatedMixin, dijit._KeyNavContainer, dijit._FocusMixin],
