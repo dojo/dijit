@@ -46,6 +46,13 @@ dojo.declare( "dijit.form._ComboBoxMenuMixin", null, {
 	},
 
 	// stubs
+	onChange: function(/*Number*/ direction){
+		// summary:
+		//		Notifies ComboBox/FilteringSelect that user selected an option.
+		// tags:
+		//		callback
+	},
+
 	onPage: function(/*Number*/ direction){
 		// summary:
 		//		Notifies ComboBox/FilteringSelect that user clicked to advance to next/previous page.

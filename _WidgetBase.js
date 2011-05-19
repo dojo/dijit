@@ -1,8 +1,10 @@
 define([
 	"dojo",
 	".",
+	"dojo/aspect",
+	"dojo/listen",
 	"./_base/manager",
-	"dojo/Stateful"], function(dojo, dijit){
+	"dojo/Stateful"], function(dojo, dijit, aspect, listen){
 
 // module:
 //		dijit/_WidgetBase
@@ -207,6 +209,17 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 
 	//////////// INITIALIZATION METHODS ///////////////////////////////////////
 
+	constructor: function(params){
+		// extract parameters like onMouseMove that should connect directly to this.domNode
+		this._toConnect = {};
+		for(var name in params){
+			if(/^on[A-Z]*/.test(name) && !(name in this)){
+				this._toConnect[name] = params[name];
+				delete params[name];
+			}
+		}
+	},
+
 	postscript: function(/*Object?*/params, /*DomNode|String*/srcNodeRef){
 		// summary:
 		//		Kicks off widget instantiation.  See create() for details.
@@ -400,6 +413,12 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		//		node dimensions or placement.
 		// tags:
 		//		protected
+
+		// perform connection from this.domNode to user specified handlers (ex: onMouseMove)
+		for(var name in this._toConnect){
+			this.on(name, this._toConnect[name]);
+		}
+		delete this._toConnect;
 	},
 
 	startup: function(){
@@ -709,6 +728,23 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		}
 	},
 
+	on: function(/*String*/ type, /*Function*/ func){
+		// summary:
+		//		Call function "func" when event "type" occurs, ex: myWidget.on("click", function(){ ... })
+		//		It's also implicitly called from dojo.connect(myWidget, "onClick", ...)
+
+		type = type.replace(/^on/, "");
+
+		// Look for and connect to onClick() type method in this widget.
+		// If no such method exists then just connect to equivalent event on this.domNode.
+		var connectFunc = "on" + type.charAt(0).toUpperCase() + type.substr(1);
+		if(this[connectFunc]){
+			return aspect.after(this, connectFunc, func, true);
+		}else{
+			return listen(this.domNode, type.toLowerCase(), dojo.hitch(this, func));
+		}
+	},
+
 	toString: function(){
 		// summary:
 		//		Returns a string that represents the widget
@@ -797,6 +833,8 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		//	|	btn.subscribe("/my/topic", function(v){
 		//	|		this.set("label", v);
 		//	|	});
+		// tags:
+		//		protected
 		var handle = dojo.subscribe(topic, this, method);
 
 		// return handles for Any widget that may need them
@@ -808,6 +846,8 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		// summary:
 		//		Unsubscribes handle created by this.subscribe.
 		//		Also removes handle from this widget's list of subscriptions
+		// tags:
+		//		protected
 		for(var i=0; i<this._subscribes.length; i++){
 			if(this._subscribes[i] == handle){
 				dojo.unsubscribe(handle);

@@ -219,6 +219,8 @@ define([
 		//		DropDownButton for the current month.    Displays name of current month
 		//		and a list of month names in the drop down
 
+		onMonthSelect: function(){ },
+
 		postCreate: function(){
 			this.inherited(arguments);
 			this.dropDown = new dijit.Calendar._MonthDropDown({
