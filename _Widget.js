@@ -196,10 +196,6 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 	},
 
 	on: function(/*String*/ type, /*Function*/ func){
-		// summary:
-		//		Call function "func" when event "type" occurs, ex: myWidget.on("click", function(){ ... })
-		//		It's also implicitly called from dojo.connect(myWidget, "onClick", ...)
-
 		type = type.replace(/^on/, "");
 		if(this["on" + type.charAt(0).toUpperCase() + type.substr(1)] === dijit._connectToDomNode){
 			return listen(this.domNode, type.toLowerCase(), func);
