@@ -136,6 +136,17 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 			var value = this._urlInput.get("value");
 			return this._urlRegExp.test(value) || this._emailRegExp.test(value);
 		});
+		
+		// Listen for enter and execute if valid.
+		this.connect(dropDown.domNode, "onkeypress", function(e){
+			if(e && e.charOrCode == dojo.keys.ENTER && 
+				!e.shiftKey && !e.metaKey && !e.ctrlKey && !e.altKey){
+				if(!this._setButton.get("disabled")){
+					dropDown.onExecute();
+					dropDown.execute(dropDown.get('value'));
+				}
+			}
+		});
 
 		this._connectTagEvents();
 		this.inherited(arguments);
