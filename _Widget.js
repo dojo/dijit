@@ -1,10 +1,11 @@
 define([
 	"dojo",
 	".",
+	"dojo/listen",
 	"./_WidgetBase",
 	"./_OnDijitClickMixin",
 	"./_FocusMixin",
-	"./_base"], function(dojo, dijit){
+	"./_base"], function(dojo, dijit, listen){
 
 // module:
 //		dijit/_Widget
@@ -12,12 +13,19 @@ define([
 //		Old base for widgets.   New widgets should extend _WidgetBase instead
 
 
+dijit._connectToDomNode = function(/*Event*/ event){
+	// summary:
+	//		If user connects to a widget method === this function, then they will
+	//		instead actually be connecting the equivalent event on this.domNode
+};
 
 dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, dijit._FocusMixin], {
 	// summary:
 	//		Base class for all Dijit widgets.
 	//
 	//		Extends _WidgetBase, adding support for:
+	//			- declaratively/programatically specifying widget initialization parameters like
+	//				onMouseMove="foo" that call foo when this.domNode gets a mousemove event
 	//			- ondijitclick
 	//				Support new dojoAttachEvent="ondijitclick: ..." that is triggered by a mouse click or a SPACE/ENTER keypress
 	//			- focus related functions
@@ -29,6 +37,176 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 	//		Also, by loading code in dijit/_base, turns on:
 	//			- browser sniffing (putting browser id like .dj_ie on <html> node)
 	//			- high contrast mode sniffing (add .dijit_a11y class to <body> if machine is in high contrast mode)
+
+
+	////////////////// DEFERRED CONNECTS ///////////////////
+
+	onClick: dijit._connectToDomNode,
+	/*=====
+	onClick: function(event){
+		// summary:
+		//		Connect to this function to receive notifications of mouse click events.
+		// event:
+		//		mouse Event
+		// tags:
+		//		callback
+	},
+	=====*/
+	onDblClick: dijit._connectToDomNode,
+	/*=====
+	onDblClick: function(event){
+		// summary:
+		//		Connect to this function to receive notifications of mouse double click events.
+		// event:
+		//		mouse Event
+		// tags:
+		//		callback
+	},
+	=====*/
+	onKeyDown: dijit._connectToDomNode,
+	/*=====
+	onKeyDown: function(event){
+		// summary:
+		//		Connect to this function to receive notifications of keys being pressed down.
+		// event:
+		//		key Event
+		// tags:
+		//		callback
+	},
+	=====*/
+	onKeyPress: dijit._connectToDomNode,
+	/*=====
+	onKeyPress: function(event){
+		// summary:
+		//		Connect to this function to receive notifications of printable keys being typed.
+		// event:
+		//		key Event
+		// tags:
+		//		callback
+	},
+	=====*/
+	onKeyUp: dijit._connectToDomNode,
+	/*=====
+	onKeyUp: function(event){
+		// summary:
+		//		Connect to this function to receive notifications of keys being released.
+		// event:
+		//		key Event
+		// tags:
+		//		callback
+	},
+	=====*/
+	onMouseDown: dijit._connectToDomNode,
+	/*=====
+	onMouseDown: function(event){
+		// summary:
+		//		Connect to this function to receive notifications of when the mouse button is pressed down.
+		// event:
+		//		mouse Event
+		// tags:
+		//		callback
+	},
+	=====*/
+	onMouseMove: dijit._connectToDomNode,
+	/*=====
+	onMouseMove: function(event){
+		// summary:
+		//		Connect to this function to receive notifications of when the mouse moves over nodes contained within this widget.
+		// event:
+		//		mouse Event
+		// tags:
+		//		callback
+	},
+	=====*/
+	onMouseOut: dijit._connectToDomNode,
+	/*=====
+	onMouseOut: function(event){
+		// summary:
+		//		Connect to this function to receive notifications of when the mouse moves off of nodes contained within this widget.
+		// event:
+		//		mouse Event
+		// tags:
+		//		callback
+	},
+	=====*/
+	onMouseOver: dijit._connectToDomNode,
+	/*=====
+	onMouseOver: function(event){
+		// summary:
+		//		Connect to this function to receive notifications of when the mouse moves onto nodes contained within this widget.
+		// event:
+		//		mouse Event
+		// tags:
+		//		callback
+	},
+	=====*/
+	onMouseLeave: dijit._connectToDomNode,
+	/*=====
+	onMouseLeave: function(event){
+		// summary:
+		//		Connect to this function to receive notifications of when the mouse moves off of this widget.
+		// event:
+		//		mouse Event
+		// tags:
+		//		callback
+	},
+	=====*/
+	onMouseEnter: dijit._connectToDomNode,
+	/*=====
+	onMouseEnter: function(event){
+		// summary:
+		//		Connect to this function to receive notifications of when the mouse moves onto this widget.
+		// event:
+		//		mouse Event
+		// tags:
+		//		callback
+	},
+	=====*/
+	onMouseUp: dijit._connectToDomNode,
+	/*=====
+	onMouseUp: function(event){
+		// summary:
+		//		Connect to this function to receive notifications of when the mouse button is released.
+		// event:
+		//		mouse Event
+		// tags:
+		//		callback
+	},
+	=====*/
+
+	constructor: function(params){
+		// extract parameters like onMouseMove that should connect directly to this.domNode
+		this._toConnect = {};
+		for(var name in params){
+			if(this[name] === dijit._connectToDomNode){
+				this._toConnect[name] = params[name];
+				delete params[name];
+			}
+		}
+	},
+
+	postCreate: function(){
+		this.inherited(arguments);
+
+		// perform connection from this.domNode to user specified handlers (ex: onMouseMove)
+		for(var name in this._toConnect){
+			this.on(name, dojo.hitch(this, this._toConnect[name]));
+		}
+		delete this._toConnect;
+	},
+
+	on: function(/*String*/ type, /*Function*/ func){
+		// summary:
+		//		Call function "func" when event "type" occurs, ex: myWidget.on("click", function(){ ... })
+		//		It's also implicitly called from dojo.connect(myWidget, "onClick", ...)
+
+		type = type.replace(/^on/, "");
+		if(this["on" + type.charAt(0).toUpperCase() + type.substr(1)] === dijit._connectToDomNode){
+			return listen(this.domNode, type.toLowerCase(), func);
+		}else{
+			return this.inherited(arguments);
+		}
+	},
 
 	_setFocusedAttr: function(val){
 		// Remove this method in 2.0 (or sooner), just here to set _focused == focused, for back compat

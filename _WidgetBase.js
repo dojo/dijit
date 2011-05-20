@@ -2,9 +2,8 @@ define([
 	"dojo",
 	".",
 	"dojo/aspect",
-	"dojo/listen",
 	"./_base/manager",
-	"dojo/Stateful"], function(dojo, dijit, aspect, listen){
+	"dojo/Stateful"], function(dojo, dijit, aspect){
 
 // module:
 //		dijit/_WidgetBase
@@ -209,17 +208,6 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 
 	//////////// INITIALIZATION METHODS ///////////////////////////////////////
 
-	constructor: function(params){
-		// extract parameters like onMouseMove that should connect directly to this.domNode
-		this._toConnect = {};
-		for(var name in params){
-			if(/^on[A-Z]/.test(name) && !(name in this)){
-				this._toConnect[name] = params[name];
-				delete params[name];
-			}
-		}
-	},
-
 	postscript: function(/*Object?*/params, /*DomNode|String*/srcNodeRef){
 		// summary:
 		//		Kicks off widget instantiation.  See create() for details.
@@ -413,12 +401,6 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		//		node dimensions or placement.
 		// tags:
 		//		protected
-
-		// perform connection from this.domNode to user specified handlers (ex: onMouseMove)
-		for(var name in this._toConnect){
-			this.on(name, dojo.hitch(this, this._toConnect[name]));
-		}
-		delete this._toConnect;
 	},
 
 	startup: function(){
@@ -730,19 +712,15 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 
 	on: function(/*String*/ type, /*Function*/ func){
 		// summary:
-		//		Call function "func" when event "type" occurs, ex: myWidget.on("click", function(){ ... })
-		//		It's also implicitly called from dojo.connect(myWidget, "onClick", ...)
+		//		Call specified function when event "type" occurs, ex: myWidget.on("click", function(){ ... }).
+		// description:
+		//		Call specified function when event "type" occurs, ex: myWidget.on("click", function(){ ... }).
+		//		It's also implicitly called from dojo.connect(myWidget, "onClick", ...).
+		//		Note that the function is not run in any particular scope, so if (for example) you want it to run in the
+		//		widget's scope you must do myWidget.on("click", dojo.hitch(myWidget, func)).
 
 		type = type.replace(/^on/, "");
-
-		// Look for and connect to onClick() type method in this widget.
-		// If no such method exists then just connect to equivalent event on this.domNode.
-		var connectFunc = "on" + type.charAt(0).toUpperCase() + type.substr(1);
-		if(this[connectFunc]){
-			return aspect.after(this, connectFunc, func, true);
-		}else{
-			return listen(this.domNode, type.toLowerCase(), func);
-		}
+		return aspect.after(this, "on" + type.charAt(0).toUpperCase() + type.substr(1), func, true);
 	},
 
 	toString: function(){
