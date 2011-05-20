@@ -213,7 +213,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		// extract parameters like onMouseMove that should connect directly to this.domNode
 		this._toConnect = {};
 		for(var name in params){
-			if(/^on[A-Z]*/.test(name) && !(name in this)){
+			if(/^on[A-Z]/.test(name) && !(name in this)){
 				this._toConnect[name] = params[name];
 				delete params[name];
 			}
@@ -416,7 +416,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 
 		// perform connection from this.domNode to user specified handlers (ex: onMouseMove)
 		for(var name in this._toConnect){
-			this.on(name, this._toConnect[name]);
+			this.on(name, dojo.hitch(this, this._toConnect[name]));
 		}
 		delete this._toConnect;
 	},
@@ -741,7 +741,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		if(this[connectFunc]){
 			return aspect.after(this, connectFunc, func, true);
 		}else{
-			return listen(this.domNode, type.toLowerCase(), dojo.hitch(this, func));
+			return listen(this.domNode, type.toLowerCase(), func);
 		}
 	},
 
