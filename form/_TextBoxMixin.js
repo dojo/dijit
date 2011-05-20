@@ -226,7 +226,7 @@ dojo.declare( "dijit.form._TextBoxMixin", null, {
 					case dojo.keys.ALT:
 					case dojo.keys.CTRL:
 					case dojo.keys.META:
-					case dojo.keys.CAPSLOCK:
+					case dojo.keys.CAPS_LOCK:
 						return;
 					default:
 						if(charCode >= 65 && charCode <= 90){ return; } // keydown for A-Z can be processed with keypress
