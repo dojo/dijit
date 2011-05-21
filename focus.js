@@ -1,11 +1,11 @@
 define([
 	"dojo",
 	".",
-	"dojo/listen",
+	"dojo/on",
 	"dojo/aspect",
 	"dojo/Stateful",
 	"dojo/window",
-	"./_base/manager"], function(dojo, dijit, listen, aspect){
+	"./_base/manager"], function(dojo, dijit, listen, aspect, Stateful){
 
 	// module:
 	//		dijit/focus
@@ -21,7 +21,7 @@ define([
 	//		Call focus.on("widget-blur", func) or focus.on("widget-focus", ...) to monitor when
 	//		when widgets become active/inactive
 
-	var FocusManager = dojo.declare([dojo.Stateful, listen.Evented], {
+	var FocusManager = dojo.declare([Stateful, listen.Evented], {
 		// curNode: DomNode
 		//		Currently focused item on screen
 		curNode: null,
