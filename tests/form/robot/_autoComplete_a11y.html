@@ -74,7 +74,7 @@
 					node = node.nextSibling;
 				}
 				return node;
-			}
+			};
 
 			// Select a value from the drop down using the keyboard, using "more choices" button to page as necessary
 			var robot_a11ySelectValue = function(combo, text, value, expectedText){
@@ -222,7 +222,7 @@
 							if(!isComboBox){
 								doh.t(combo.isValid(), "isValid()");
 							}
-							doh.is(isComboBox ? "Kentucky" : "KY", v, "watch of value")
+							doh.is(isComboBox ? "Kentucky" : "KY", v, "watch of value");
 							doh.is("Kentucky", dv, "watch of displayedValue")
 						}), 900);
 						return d;

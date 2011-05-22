@@ -240,7 +240,7 @@
 								doh.is("10", innerText(selectedDays[0]), "correct day is selected");
 
 								// focus moved to the calendar
-								doh.is(10, innerText(dojo.global.dijit._curFocus), "focus on selected calendar cell")
+								doh.is(10, innerText(dojo.global.dijit._curFocus), "focus on selected calendar cell");
 
 								doh.is(0, changes.length, "no onchange events yet");
 								doh.is(0, watches.length, "no watch(value) events yet");
@@ -271,7 +271,7 @@
 								doh.is(10, innerText(selectedDays[0]), "correct day is selected");
 
 								// focus still on the calendar, moved forward 2 days
-								doh.is(12, innerText(dojo.global.dijit._curFocus), "focus")
+								doh.is(12, innerText(dojo.global.dijit._curFocus), "focus");
 
 								doh.is(0, changes.length, "no onchange events yet");
 								doh.is(0, watches.length, "no watch(value) events yet");
@@ -296,7 +296,7 @@
 								doh.t(isVisible(calendar), "calendar is visible");
 
 								// focus still on the calendar, moved back 1 day
-								doh.is(11, innerText(dojo.global.dijit._curFocus), "focus")
+								doh.is(11, innerText(dojo.global.dijit._curFocus), "focus");
 
 								doh.is(0, changes.length, "no onchange events yet");
 								doh.is(0, watches.length, "no watch(value) events yet");
@@ -327,7 +327,7 @@
 								doh.is("June", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "month changed");
 
 								// and focused day changed
-								doh.is(8, innerText(dojo.global.dijit._curFocus), "focus")
+								doh.is(8, innerText(dojo.global.dijit._curFocus), "focus");
 
 								doh.is(0, changes.length, "no onchange events yet");
 								doh.is(0, watches.length, "no watch(value) events yet");
@@ -357,7 +357,7 @@
 								doh.is("May", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "month changed");
 
 								// focused day still the same
-								doh.is(18, innerText(dojo.global.dijit._curFocus), "focus")
+								doh.is(18, innerText(dojo.global.dijit._curFocus), "focus");
 
 								doh.is(0, changes.length, "no onchange events yet");
 								doh.is(0, watches.length, "no watch(value) events yet");
@@ -383,7 +383,7 @@
 								doh.t(isVisible(calendar), "calendar is visible");
 
 								// focused day still the same
-								doh.is(18, innerText(dojo.global.dijit._curFocus), "focus")
+								doh.is(18, innerText(dojo.global.dijit._curFocus), "focus");
 
 								// month changed
 								doh.is("July", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "month changed");
@@ -411,7 +411,7 @@
 								doh.t(isVisible(calendar), "calendar is visible");
 
 								// focused day still the same
-								doh.is(18, innerText(dojo.global.dijit._curFocus), "focus")
+								doh.is(18, innerText(dojo.global.dijit._curFocus), "focus");
 
 								// month changed
 								doh.is("June", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "month changed");
@@ -440,7 +440,7 @@
 								doh.t(isVisible(calendar), "calendar is visible");
 
 								// focused day still the same (focused even though disabled)
-								doh.is(18, innerText(dojo.global.dijit._curFocus), "focus")
+								doh.is(18, innerText(dojo.global.dijit._curFocus), "focus");
 
 								// same month
 								doh.is("June", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "same month");
@@ -473,7 +473,7 @@
 								doh.t(isVisible(calendar), "calendar is visible");
 
 								// focused day still the same
-								doh.is(18, innerText(dojo.global.dijit._curFocus), "focus")
+								doh.is(18, innerText(dojo.global.dijit._curFocus), "focus");
 
 								// same month
 								doh.is("June", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "same month");
@@ -506,7 +506,7 @@
 								doh.t(isVisible(calendar), "calendar is visible");
 
 								// focused on first day of month
-								doh.is(1, innerText(dojo.global.dijit._curFocus), "focus")
+								doh.is(1, innerText(dojo.global.dijit._curFocus), "focus");
 
 								doh.is(0, changes.length, "no onchange events yet");
 								doh.is(0, watches.length, "no watch(value) events yet");
@@ -531,7 +531,7 @@
 								doh.t(isVisible(calendar), "calendar is visible");
 
 								// focused on last day of month
-								doh.is(30, innerText(dojo.global.dijit._curFocus), "focus")
+								doh.is(30, innerText(dojo.global.dijit._curFocus), "focus");
 
 								doh.is(0, changes.length, "no onchange events yet");
 								doh.is(0, watches.length, "no watch(value) events yet");

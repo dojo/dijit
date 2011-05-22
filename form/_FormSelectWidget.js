@@ -147,7 +147,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 			}
 		}
 		if(typeof lookupValue == "number" && lookupValue >= 0 && lookupValue < l){
-			return this.options[lookupValue] // dijit.form.__SelectOption
+			return this.options[lookupValue]; // dijit.form.__SelectOption
 		}
 		return null; // null
 	},

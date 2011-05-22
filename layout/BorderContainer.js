@@ -143,7 +143,7 @@ dojo.declare("dijit.layout.BorderContainer", dijit.layout._LayoutWidget, {
 		// Override _LayoutWidget.removeChild().
 
 		var region = child.region;
-		var splitter = child._splitterWidget
+		var splitter = child._splitterWidget;
 		if(splitter){
 			splitter.destroy();
 			delete child._splitterWidget;

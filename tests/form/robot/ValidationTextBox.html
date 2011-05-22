@@ -127,14 +127,14 @@
 								// check that watch() callbacks were called
 								for(attr in watchExpected){
 									doh.t(attr in watchActual, "watch(" + attr + ") fired");
-									doh.is(watchExpected[attr], watchActual[attr], "watch(" + attr + ")")
+									doh.is(watchExpected[attr], watchActual[attr], "watch(" + attr + ")");
 									doh.is(typeof watchExpected[attr], typeof watchActual[attr], "typeof watch(" + attr + ")")
 								}
 		
 								// check that direct get(...) calls are also working, for both the attributes
 								// that were supposed to change and the attributes that weren't supposed to change
 								for(attr in expectedState){
-									doh.is(expectedState[attr], fixNbsp(textbox.get(attr)), "get(" + attr + ")")
+									doh.is(expectedState[attr], fixNbsp(textbox.get(attr)), "get(" + attr + ")");
 									doh.is(typeof expectedState[attr], typeof textbox.get(attr), "typeof get(" + attr + ")")
 								}
 

@@ -380,13 +380,13 @@
 						
 						setTimeout(d.getTestErrback(function(){
 							fast.show();
-						}), slow.duration / 2)
+						}), slow.duration / 2);
 						
 						setTimeout(d.getTestCallback(function(){
 							doh.t(isVisible(slow), "dialog C visible");
 							doh.t(isVisible(fast), "dialog D visible");
 							doh.f(dojo.global.slowFocused, "dialog C never got focus")
-						}), slow.duration * 2)
+						}), slow.duration * 2);
 						return d;
 					}
 				},
@@ -402,7 +402,7 @@
 						setTimeout(d.getTestCallback(function(){
 							doh.is("slowOK", dojo.global.dijit._curFocus.id, "focused to dialog C");
 							doh.t(dojo.global.slowFocused, "onfocus handler working");
-						}), fast.duration * 2)
+						}), fast.duration * 2);
 
 						return d;
 					}

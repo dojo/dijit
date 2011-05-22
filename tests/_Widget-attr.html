@@ -71,7 +71,7 @@
 							"aria-labelledby": "foo",
 							role: "button"
 						});
-						doh.is("dom title", dojo.attr(w.domNode, "title"), "domNode title")
+						doh.is("dom title", dojo.attr(w.domNode, "title"), "domNode title");
 						doh.is("foo", dojo.attr(w.domNode, "aria-labelledby"), "domNode labelledby");
 						doh.is("button", dojo.attr(w.domNode, "role"), "domNode role");
 
@@ -82,7 +82,7 @@
 							title: "my title",
 							"aria-labelledby": "foo"
 						});
-						doh.is("my title", dojo.attr(fw.focusNode, "title"), "focusNode title")
+						doh.is("my title", dojo.attr(fw.focusNode, "title"), "focusNode title");
 						doh.is("foo", dojo.attr(fw.focusNode, "aria-labelledby"), "focusNode labelledby");
 					},
 
@@ -96,7 +96,7 @@
 
 						var widget = new CustomSetters({
 							foo: 100
-						})
+						});
 
 						doh.is(105, widget.foo, "custom setter called at initialize time");
 						doh.is(95, widget.get("foo"), "custom getter called");

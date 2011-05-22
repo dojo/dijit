@@ -862,8 +862,8 @@ dojo.declare(
 		//      Singular variant of _setPathsAttr
 		if(path.length){
 			return this.set("paths", [path]);
-		} else {
-			//Empty list is interpreted as "select nothing"
+		}else{
+			// Empty list is interpreted as "select nothing"
 			return this.set("paths", []);
 		}
 	},
@@ -910,7 +910,7 @@ dojo.declare(
 					//Successfully reached the end of this path
 					def.callback(nextNode);
 				}
-			} else {
+			}else{
 				def.errback("Could not expand path at " + nextPath);
 			}
 		}

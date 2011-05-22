@@ -417,24 +417,28 @@ define([
 		//		* the last element in document order with the highest
 		//		  positive tabIndex value
 		var first, last, lowest, lowestTabindex, highest, highestTabindex, radioSelected = {};
+
 		function radioName(node){
 			// If this element is part of a radio button group, return the name for that group.
 			return node && node.tagName.toLowerCase() == "input" &&
 				node.type && node.type.toLowerCase() == "radio" &&
 				node.name && node.name.toLowerCase();
 		}
+
 		var walkTree = function(/*DOMNode*/parent){
 			dojo.query("> *", parent).forEach(function(child){
 				// Skip hidden elements, and also non-HTML elements (those in custom namespaces) in IE,
 				// since show() invokes getAttribute("type"), which crash on VML nodes in IE.
-				if((dojo.isIE && child.scopeName!=="HTML") || !shown(child)){
+				if((dojo.isIE && child.scopeName !== "HTML") || !shown(child)){
 					return;
 				}
 
 				if(isTabNavigable(child)){
 					var tabindex = attr(child, "tabIndex");
 					if(!hasAttr(child, "tabIndex") || tabindex == 0){
-						if(!first){ first = child; }
+						if(!first){
+							first = child;
+						}
 						last = child;
 					}else if(tabindex > 0){
 						if(!lowest || tabindex < lowestTabindex){
@@ -456,13 +460,16 @@ define([
 				}
 			});
 		};
-		if(shown(root)){ walkTree(root) }
+		if(shown(root)){
+			walkTree(root);
+		}
 		function rs(node){
 			// substitute checked radio button for unchecked one, if there is a checked one with the same name.
 			return radioSelected[radioName(node)] || node;
 		}
+
 		return { first: rs(first), last: rs(last), lowest: rs(lowest), highest: rs(highest) };
-	}
+	};
 	dijit.getFirstInTabbingOrder = function(/*String|DOMNode*/ root){
 		// summary:
 		//		Finds the descendant of the specified root node

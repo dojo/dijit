@@ -168,7 +168,7 @@ dojo.declare("dijit.layout.SplitContainer", dijit.layout._LayoutWidget, {
 		//		Remove sizer, but only if widget is really our child and
 		// we have at least one sizer to throw away
 		if(this.sizers.length){
-			var i=dojo.indexOf(this.getChildren(), widget)
+			var i = dojo.indexOf(this.getChildren(), widget);
 			if(i != -1){
 				if(i == this.sizers.length){
 					i--;

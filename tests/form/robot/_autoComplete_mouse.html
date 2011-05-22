@@ -34,11 +34,11 @@
 
 			var findMenuItem = function(combo, text){
 				var node = combo.dropDown.domNode.firstChild;
-				while(((node.innerText || node.textContent).indexOf(text)<0) && node.nextSibling){
+				while(((node.innerText || node.textContent).indexOf(text) < 0) && node.nextSibling){
 					node = node.nextSibling;
 				}
 				return node;
-			}
+			};
 
 			doh.robot.initRobot('../_autoComplete.html?testWidget='+testWidget);
 
@@ -407,7 +407,7 @@
 							}
 						);
 						doh.robot.mouseMoveAt(combo._buttonNode, 1000, 0);
-						doh.robot.mousePress({left:true}, 500) // mousedown on the arrow image
+						doh.robot.mousePress({left:true}, 500); // mousedown on the arrow image
 
 						return d;
 					},

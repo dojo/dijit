@@ -103,7 +103,7 @@ define([
 			//		remove node from current selection
 			// node: Node
 			//		node to remove
-			this.setSelection(this._setDifference(this.getSelectedTreeNodes(), [node]))
+			this.setSelection(this._setDifference(this.getSelectedTreeNodes(), [node]));
 			return node;
 		},
 		isTreeNodeSelected: function(/*dijit._TreeNode*/node){
@@ -258,18 +258,18 @@ define([
 					nodes = [];
 					//add everything betweeen begin and end inclusively
 					while(begin != end){
-						nodes.push(begin)
+						nodes.push(begin);
 						begin = this.tree._getNextNode(begin);
 					}
-					nodes.push(end)
+					nodes.push(end);
 
 					this.setSelection(nodes);
 				}else{
 				    if( this.selection[ node.id ] && multi ){
 						this.removeTreeNode( node );
-				    } else if(multi){
+				    }else if(multi){
 						this.addTreeNode(node, true);
-					} else {
+					}else{
 						this.setSelection([node]);
 						this.anchor = node;
 				    }

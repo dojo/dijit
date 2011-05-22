@@ -145,7 +145,7 @@ dojo.declare("dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPa
 		// Avoid modifying original params object since that breaks NodeList instantiation, see #11906.
 		if((!params || !params.template) && srcNodeRef && !("href" in params) && !("content" in params)){
 			var df = dojo.doc.createDocumentFragment();
-			srcNodeRef = dojo.byId(srcNodeRef)
+			srcNodeRef = dojo.byId(srcNodeRef);
 			while(srcNodeRef.firstChild){
 				df.appendChild(srcNodeRef.firstChild);
 			}

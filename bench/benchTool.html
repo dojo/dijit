@@ -48,7 +48,7 @@
 		dojo.require("dojo.parser");
 
 		// setup global variables
-		var masterResults = { clientNavigator: navigator.userAgent, dataSet: [], errors: [] }
+		var masterResults = { clientNavigator: navigator.userAgent, dataSet: [], errors: [] };
 		var isRunning = false;
 		var theCount, theClass, runner = null;
 		var testCount = 0;
@@ -64,7 +64,7 @@
 
 
 		function _toggleRunMsg(){
-			var newMsg = (isRunning) ? " Run Test " : " Running ..."
+			var newMsg = (isRunning) ? " Run Test " : " Running ...";
 			dojo.fx.chain([
 				dojo.fadeOut({
 					node:runner,

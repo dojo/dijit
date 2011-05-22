@@ -189,10 +189,14 @@ dojo.declare("dijit.form.HorizontalSlider", [dijit.form._FormValueWidget, dijit.
 			if(duration < 0){ duration = 0 - duration; }
 			props[this._progressPixelSize] = { start: start, end: percent*100, units:"%" };
 			this._inProgressAnim = dojo.animateProperty({ node: progressBar, duration: duration,
-				onAnimate: function(v){ remainingBar.style[_this._progressPixelSize] = (100-parseFloat(v[_this._progressPixelSize])) + "%"; },
-				onEnd: function(){ delete _this._inProgressAnim; },
+				onAnimate: function(v){
+					remainingBar.style[_this._progressPixelSize] = (100 - parseFloat(v[_this._progressPixelSize])) + "%";
+				},
+				onEnd: function(){
+					delete _this._inProgressAnim;
+				},
 				properties: props
-			})
+			});
 			this._inProgressAnim.play();
 		}else{
 			progressBar.style[this._progressPixelSize] = (percent*100) + "%";

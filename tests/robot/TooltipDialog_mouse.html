@@ -114,7 +114,7 @@
 							}), 1000);
 							
 							// click TextBox to get select to close
-							doh.robot.mouseMoveAt("text", 0)
+							doh.robot.mouseMoveAt("text", 0);
 							doh.robot.mouseClick({left: true}, 1000);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -277,7 +277,7 @@
 							var d = new doh.Deferred();
 							
 							// click TextBox to get submenu to close
-							doh.robot.mouseMoveAt("name", 0)
+							doh.robot.mouseMoveAt("name", 0);
 							doh.robot.mouseClick({left: true}, 1000);
 
 							doh.robot.sequence(d.getTestCallback(function(){

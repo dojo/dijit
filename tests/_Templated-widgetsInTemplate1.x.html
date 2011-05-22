@@ -372,7 +372,7 @@
 								var testW = dijit.byId("missing");
 								doh.t(testW, "widget was created");
 								doh.t(testW.missingButton, "dojoAttachPoint created");
-								doh.is("dijit.form.Button", testW.missingButton.declaredClass, "and it's to a widget")
+								doh.is("dijit.form.Button", testW.missingButton.declaredClass, "and it's to a widget");
 								doh.t(dijit.byId("missingButtonId"), "nested widget also registered by id");
 							}
 						}

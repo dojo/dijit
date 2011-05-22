@@ -52,7 +52,7 @@ require(["dojo"], function(dojo){
 	}
 	d._getVar = function(k, def){
 		return vars[k] || def;
-	}
+	};
 
 	// If URL specifies a non-claro theme then pull in those theme CSS files and modify
 	// <body> to point to that new theme instead of claro.

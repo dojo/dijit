@@ -60,7 +60,7 @@ define([
 			this.inherited(arguments);
 
 			// If I am a not being controlled by a parent layout widget...
-			var parent = this.getParent && this.getParent()
+			var parent = this.getParent && this.getParent();
 			if(!(parent && parent.isLayoutContainer)){
 				// Do recursive sizing and layout of all my descendants
 				// (passing in no argument to resize means that it has to glean the size itself)

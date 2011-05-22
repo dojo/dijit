@@ -27,10 +27,10 @@
 				var blurCountZ = 0;
 				var countFocus = function(){
 					focusCountZ++;
-				}
+				};
 				var countBlur = function(){
 					blurCountZ++;
-				}
+				};
 				var focusConnect;
 				var blurConnect;
 				var tabFocusSetup = function(inSpinnerId){
@@ -40,7 +40,7 @@
 					blurCountZ = 0;
 					focusConnect = spinner.connect(spinner.focusNode, "onfocus", countFocus);
 					blurConnect = spinner.connect(spinner.focusNode, "onblur", countBlur);
-				}
+				};
 
 				// Setup to test manipulation of spinner via keystrokes.
 				var results;	// array holding both expected value and actual value after each keypress
@@ -109,7 +109,7 @@
 					// reset <inSpinner> back to its initial value, and return
 					inSpinner.set('value', initVal);
 					return eVals;
-				}
+				};
 
 				// execute some test as soon as the widget gets focus
 				var focusThenRun = function(widget, fcn){
@@ -159,7 +159,7 @@
 						doh.robot.keyPress(dojo.keys.TAB, 1, {shift:true}); // blur
 					});
 					return d;
-				}
+				};
 
 				// common robot keystroke test function.
 				var a11yKeystrokeTest = function(inSpinnerId){
@@ -192,7 +192,7 @@
 						doh.robot.sequence(d.getTestCallback(testPresses), 1000, 1000);
 					});
 					return d;
-				}
+				};
 
 				doh.register("setUp",{
 					name: "setUp",
@@ -354,7 +354,7 @@
 							doh.is(dijit.getWaiState(spinner.focusNode, "valuemin"), spinner.constraints.min, spinner.id + ": aria-valuemin");
 							if(spinner.constraints.max){
 								doh.is(dijit.getWaiState(spinner.focusNode, "valuemax"), spinner.constraints.max, spinner.id + ": aria-valuemax");
-							} else {
+							}else{
 								doh.f(dijit.hasWaiState(spinner.focusNode, "valuemax"), spinner.id + ": aria-valuemax");
 							}
 						},
@@ -364,7 +364,7 @@
 							doh.is(dijit.getWaiState(spinner.focusNode, "valuemax"), spinner.constraints.max, spinner.id + ": aria-valuemax");
 							if(spinner.constraints.min){
 								doh.is(dijit.getWaiState(spinner.focusNode, "valuemin"), spinner.constraints.min, spinner.id + ": aria-valuemin");
-							} else {
+							}else{
 								doh.f(dijit.hasWaiState(spinner.focusNode, "valuemin"), spinner.id + ": aria-valuemin");
 							}
 						},
@@ -373,12 +373,12 @@
 							doh.isNot(spinner, null, "can't find 'integertextbox3'");
 							if(spinner.constraints.min){
 								doh.is(dijit.getWaiState(spinner.focusNode, "valuemin"), spinner.constraints.min, spinner.id + ": aria-valuemin");
-							} else {
+							}else{
 								doh.f(dijit.hasWaiState(spinner.focusNode, "valuemin"), spinner.id + ": aria-valuemin");
 							}
 							if(spinner.constraints.max){
 								doh.is(dijit.getWaiState(spinner.focusNode, "valuemax"), spinner.constraints.max, spinner.id + ": aria-valuemax");
-							} else {
+							}else{
 								doh.f(dijit.hasWaiState(spinner.focusNode, "valuemax"), spinner.id + ": aria-valuemax");
 							}
 						}

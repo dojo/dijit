@@ -315,7 +315,7 @@
 				var checkAtHomeEnd = function(){
 					tree.disconnect(focusConnect);
 					doh.is(expectedNode.label, actualNode.innerHTML);
-				}
+				};
 				doh.robot.sequence(d.getTestCallback(checkAtHomeEnd), 500);
 				return d;
 			};

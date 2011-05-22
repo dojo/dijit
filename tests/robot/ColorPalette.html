@@ -62,7 +62,7 @@
 								// test that focus is on top left cell
 								var focus = dojo.global.dijit._curFocus;
 								doh.t(focus, "something is focused");
-								var imgNode = focus.getElementsByTagName("img")[0]
+								var imgNode = focus.getElementsByTagName("img")[0];
 								doh.t(imgNode, "found image node");
                                 //
                                 var dye = big._getDye(focus);                                
@@ -91,7 +91,7 @@
 								var focus = dojo.global.dijit._curFocus;
 								doh.t(focus, "something is focused");
 								
-								var imgNode = focus.getElementsByTagName("img")[0]
+								var imgNode = focus.getElementsByTagName("img")[0];
 								doh.t(imgNode, "found image node");
                                 //
                                 var dye = big._getDye(focus);
@@ -219,7 +219,7 @@
 								// test that focus also got set
 								var focus = dojo.global.dijit._curFocus;
 								doh.t(focus, "something is focused");
-								var imgNode = focus.getElementsByTagName("img")[0]
+								var imgNode = focus.getElementsByTagName("img")[0];
 								doh.t(imgNode, "found image node");
 								var dye = small._getDye(focus);
 								doh.is("#008000", dye.getValue(), "focused");
