@@ -100,13 +100,11 @@ define([
 			// tags:
 			//		protected
 
-			var widget = this.selection[key],
-				ret = {
-					data: widget,
-					type: ["treeNode"]
-				};
-
-			return ret;	// dojo.dnd.Item
+			var widget = this.selection[key];
+			return {
+				data: widget,
+				type: ["treeNode"]
+			}; // dojo.dnd.Item
 		},
 
 		destroy: function(){

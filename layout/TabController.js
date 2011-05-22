@@ -142,7 +142,7 @@ dojo.declare("dijit.layout._TabButton", dijit.layout._StackButton, {
 		//		Inherited ToggleButton implementation will Set the label (text) of the button;
 		//		Need to set the alt attribute of icon on tab buttons if no label displayed
 		this.inherited(arguments);
-		if(this.showLabel == false && !this.params.title){
+		if(!this.showLabel && !this.params.title){
 			this.iconNode.alt = dojo.trim(this.containerNode.innerText || this.containerNode.textContent || '');
 		}
 	},

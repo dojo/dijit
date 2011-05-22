@@ -592,8 +592,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 			offset = offset - node.length;
 			node = node.nextSibling;
 		}
-		var ret = {"node": node, "offset": offset};
-		return ret;
+		return {"node": node, "offset": offset};
 	},
 
 	removeTrailingBr: function(container){

@@ -255,7 +255,7 @@ define([
 						begin = node;
 						end = anchor;
 					}
-					nodes = [];
+					var nodes = [];
 					//add everything betweeen begin and end inclusively
 					while(begin != end){
 						nodes.push(begin);

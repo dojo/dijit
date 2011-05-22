@@ -134,10 +134,9 @@ define([
 					var sel = dojo.global.getSelection();
 					if(sel && sel.removeAllRanges){
 						if(mark.pRange){
-							var r = mark;
-							var n = r.node;
-							n.selectionStart = r.start;
-							n.selectionEnd = r.end;
+							var n = mark.node;
+							n.selectionStart = mark.start;
+							n.selectionEnd = mark.end;
 						}else{
 							sel.removeAllRanges();
 							sel.addRange(mark);

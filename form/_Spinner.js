@@ -77,7 +77,6 @@ define([
 			// summary:
 			//		Handler for arrow button or arrow key being released
 			this._wheelTimer = null;
-			if(this.disabled || this.readOnly){ return; }
 		},
 
 		_typematicCallback: function(/*Number*/ count, /*DOMNode*/ node, /*Event*/ evt){

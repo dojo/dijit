@@ -254,8 +254,7 @@ define([
 			var offsetLeft = b.offsetLeft;
 
 			//Check for vertical scroller click.
-			bodyDir = b.dir ? b.dir.toLowerCase() : "";
-			if(bodyDir != "rtl"){
+			if(/^rtl$/i.test(b.dir || "")){
 				if(clientWidth < offsetWidth && e.x > clientWidth && e.x < offsetWidth){
 					// Check the click was between width and offset width, if so, scroller
 					outsideClientArea = true;

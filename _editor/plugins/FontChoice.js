@@ -96,8 +96,8 @@ dojo.declare("dijit._editor.plugins._FontDropDown",
 		//		Optional parameter used to tell the select whether or not to fire
 		//		onChange event.
 
-		//if the value is not a permitted value, just set empty string to prevent showing the warning icon
-		priorityChange = priorityChange !== false?true:false;
+		// if the value is not a permitted value, just set empty string to prevent showing the warning icon
+		priorityChange = priorityChange !== false;
 		this.select.set('value', dojo.indexOf(this.values,value) < 0 ? "" : value, priorityChange);
 		if(!priorityChange){
 			// Clear the last state in case of updateState calls.  Ref: #10466
@@ -176,7 +176,7 @@ dojo.declare("dijit._editor.plugins._FontNameDropDown", dijit._editor.plugins._F
 		//		Over-ride for the default action of setting the
 		//		widget value, maps the input to known values
 
-		priorityChange = priorityChange !== false?true:false;
+		priorityChange = priorityChange !== false;
 		if(this.generic){
 			var map = {
 				"Arial": "sans-serif",
@@ -231,7 +231,7 @@ dojo.declare("dijit._editor.plugins._FontSizeDropDown", dijit._editor.plugins._F
 		// summary:
 		//		Over-ride for the default action of setting the
 		//		widget value, maps the input to known values
-		priorityChange = priorityChange !== false?true:false;
+		priorityChange = priorityChange !== false;
 		if(value.indexOf && value.indexOf("px") != -1){
 			var pixels = parseInt(value, 10);
 			value = {10:1, 13:2, 16:3, 18:4, 24:5, 32:6, 48:7}[pixels] || value;

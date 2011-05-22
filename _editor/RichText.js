@@ -894,7 +894,6 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		//		Handler for onkeyup event
 		// tags:
 		//      callback
-		return;
 	},
 
 	setDisabled: function(/*Boolean*/ disabled){

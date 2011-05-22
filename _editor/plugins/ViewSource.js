@@ -145,12 +145,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin, {
 				// plugins to check their state.
 				ed._sourceQueryCommandEnabled = ed.queryCommandEnabled;
 				ed.queryCommandEnabled = function(cmd){
-					var lcmd = cmd.toLowerCase();
-					if(lcmd === "viewsource"){
-						return true;
-					}else{
-						return false;
-					}
+					return cmd.toLowerCase() === "viewsource";
 				};
 				this.editor.onDisplayChanged();
 				html = ed.get("value");

@@ -298,7 +298,6 @@ define([
 				// If we aren't loaded, load it first so there isn't a flicker
 				if(!this.isLoaded()){
 					this.loadDropDown(dojo.hitch(this, "openDropDown"));
-					return;
 				}else{
 					this.openDropDown();
 				}

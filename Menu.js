@@ -62,11 +62,10 @@ dojo.declare("dijit.Menu", dijit.DropDownMenu, {
 		//		Returns the window reference of the passed iframe
 		// tags:
 		//		private
-		var win = dojo.window.get(this._iframeContentDocument(iframe_el)) ||
+		return dojo.window.get(this._iframeContentDocument(iframe_el)) ||
 			// Moz. TODO: is this available when defaultView isn't?
 			this._iframeContentDocument(iframe_el)['__parent__'] ||
-			(iframe_el.name && dojo.doc.frames[iframe_el.name]) || null;
-		return win;	//	Window
+			(iframe_el.name && dojo.doc.frames[iframe_el.name]) || null;	//	Window
 	},
 
 	_iframeContentDocument: function(/* HTMLIFrameElement */iframe_el){
@@ -74,11 +73,10 @@ dojo.declare("dijit.Menu", dijit.DropDownMenu, {
 		//		Returns a reference to the document object inside iframe_el
 		// tags:
 		//		protected
-		var doc = iframe_el.contentDocument // W3
+		return iframe_el.contentDocument // W3
 			|| (iframe_el.contentWindow && iframe_el.contentWindow.document) // IE
 			|| (iframe_el.name && dojo.doc.frames[iframe_el.name] && dojo.doc.frames[iframe_el.name].document)
-			|| null;
-		return doc;	//	HTMLDocument
+			|| null;	//	HTMLDocument
 	},
 
 	bindDomNode: function(/*String|DomNode*/ node){

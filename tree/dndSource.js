@@ -380,21 +380,20 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 			this.isDragging = false;
 
 			// Compute the new parent item
-			var targetWidget = target;
 			var newParentItem;
 			var insertIndex;
-			newParentItem = (targetWidget && targetWidget.item) || tree.item;
+			newParentItem = (target && target.item) || tree.item;
 			if(this.dropPosition == "Before" || this.dropPosition == "After"){
 				// TODO: if there is no parent item then disallow the drop.
 				// Actually this should be checked during onMouseMove too, to make the drag icon red.
-				newParentItem = (targetWidget.getParent() && targetWidget.getParent().item) || tree.item;
+				newParentItem = (target.getParent() && target.getParent().item) || tree.item;
 				// Compute the insert index for reordering
-				insertIndex = targetWidget.getIndexInParent();
+				insertIndex = target.getIndexInParent();
 				if(this.dropPosition == "After"){
-					insertIndex = targetWidget.getIndexInParent() + 1;
+					insertIndex = target.getIndexInParent() + 1;
 				}
 			}else{
-				newParentItem = (targetWidget && targetWidget.item) || tree.item;
+				newParentItem = (target && target.item) || tree.item;
 			}
 
 			// If necessary, use this variable to hold array of hashes to pass to model.newItem()
@@ -446,7 +445,7 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 
 			// Expand the target node (if it's currently collapsed) so the user can see
 			// where their node was dropped.   In particular since that node is still selected.
-			this.tree._expandNode(targetWidget);
+			this.tree._expandNode(target);
 		}
 		this.onDndCancel();
 	},

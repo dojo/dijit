@@ -22,7 +22,7 @@
 		}
 
 		#resultsContainer {
-			padding-top: 0px;
+			padding-top: 0;
 		}
 
 		#results {  overflow:auto; min-height:100px; border:1px solid #ccc; color:darkred; padding:8px;  }
@@ -163,8 +163,7 @@
 		}
 
 		function doDebug(){
-			var key = escape(dojo.toJson(masterResults));
-			dojo.byId('hiddenHolder').value = key;
+			dojo.byId('hiddenHolder').value = escape(dojo.toJson(masterResults));
 			return true;
 		}
 
