@@ -381,7 +381,7 @@ DIV.dijitArrowButton {
 	outline: none;	/* blue fuzzy line looks wrong on combobox or something w/validation icon showing */
 }
 .dijitTextBoxFocused {
-	outline: auto 5px -webkit-focus-ring-color;
+	outline: 5px -webkit-focus-ring-color;
 }
 
 .dijitTextBox INPUT {
@@ -1211,7 +1211,7 @@ body .dijitAlignClient { position: absolute; }
 	border: 1px dotted black !important;
 }
 .dj_ff3 .dijit_a11y .dijitMenuItem td {
-	padding: none !important;
+	padding: 0 !important;
 	background:none !important;
 }
 .dijit_a11y .dijitMenuItemSelected .dijitMenuItemLabel {
