@@ -331,7 +331,7 @@
 				timeout:20000,
 				runTest:function(){
 					var d = new doh.Deferred();
-					var store = dojo.global.dijit.byId('mytree3').get('store');
+					var store = dijit.byId('mytree3').get('store');
 					store.fetch({query:{id:'*'}, onComplete:function(){
 						d.callback(true);
 					}});
