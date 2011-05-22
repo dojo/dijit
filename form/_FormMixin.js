@@ -1,4 +1,11 @@
-define(["dojo", "..", "dojo/window"], function(dojo, dijit){
+define([
+	"dojo/_base/kernel", // dojo.deprecated dojo.getObject dojo.setObject
+	"..",
+	"dojo/window", // dojo.window.scrollIntoView
+	"dojo/_base/array", // dojo.every dojo.filter dojo.forEach dojo.indexOf dojo.map
+	"dojo/_base/declare", // dojo.declare
+	"dojo/_base/lang" // dojo.hitch dojo.isArray
+], function(dojo, dijit){
 
 	// module:
 	//		dijit/form/_FormMixin

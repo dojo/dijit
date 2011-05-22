@@ -1,5 +1,5 @@
 define([
-	"dojo",
+	"dojo/_base/kernel",
 	"../..",
 	"../../_Widget",
 	"../_Plugin",
@@ -8,10 +8,16 @@ define([
 	"../../form/ValidationTextBox",
 	"../../form/Select",
 	"../range",
-	"dojo/i18n",
-	"dojo/string",
+	"dojo/i18n", // dojo.i18n.getLocalization
+	"dojo/string", // dojo.string.substitute
 	"dojo/i18n!../../nls/common",
-	"dojo/i18n!../nls/LinkDialog"], function(dojo, dijit){
+	"dojo/i18n!../nls/LinkDialog",
+	"dojo/_base/connect", // dojo.keys.ENTER
+	"dojo/_base/html", // dojo.attr
+	"dojo/_base/lang", // dojo.delegate dojo.hitch dojo.trim
+	"dojo/_base/sniff", // dojo.isIE
+	"dojo/_base/window" // dojo.withGlobal
+], function(dojo, dijit){
 
 // module:
 //		dijit/_editor/plugins/LinkDialog

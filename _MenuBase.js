@@ -1,5 +1,5 @@
 define([
-	"dojo",
+	"dojo/_base/kernel",
 	".",
 	"./popup",
 	"dojo/window",
@@ -7,7 +7,10 @@ define([
 	"./_FocusMixin",
 	"./_KeyNavContainer",
 	"./_FocusMixin",
-	"./_TemplatedMixin"], function(dojo, dijit, pm){
+	"./_TemplatedMixin",
+	"dojo/_base/html", // dojo.isDescendant dojo.replaceClass
+	"dojo/_base/lang" // dojo.hitch
+], function(dojo, dijit, pm){
 
 // module:
 //		dijit/_MenuBase

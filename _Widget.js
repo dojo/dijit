@@ -1,11 +1,13 @@
 define([
-	"dojo",
+	"dojo/_base/kernel", // dojo.config.isDebug dojo.deprecated
 	".",
 	"dojo/on",
 	"./_WidgetBase",
 	"./_OnDijitClickMixin",
 	"./_FocusMixin",
-	"./_base"], function(dojo, dijit, on){
+	"./_base",
+	"dojo/_base/lang" // dojo.hitch
+], function(dojo, dijit, on){
 
 // module:
 //		dijit/_Widget

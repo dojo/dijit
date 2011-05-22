@@ -1,4 +1,10 @@
-define(["dojo", "..", "./MappedTextBox"], function(dojo, dijit){
+define([
+	"dojo/_base/kernel",
+	"..",
+	"./MappedTextBox",
+	"dojo/_base/declare", // dojo.declare
+	"dojo/i18n" // dojo.i18n.getLocalization
+], function(dojo, dijit){
 
 	// module:
 	//		dijit/form/RangeBoundTextBox

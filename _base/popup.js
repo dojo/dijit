@@ -1,6 +1,10 @@
-define(
-	["dojo", "..", "../popup", "../BackgroundIframe"],
-	function(dojo, dijit, popup, BackgroundIframe){
+define([
+	"dojo/_base/kernel",
+	"..",
+	"../popup",
+	"../BackgroundIframe",
+	"dojo/_base/html" // dojo.hasClass
+], function(dojo, dijit, popup, BackgroundIframe){
 
 // module:
 //		dijit/_base/popup

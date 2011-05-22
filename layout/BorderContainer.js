@@ -1,10 +1,17 @@
 define([
-	"dojo",
+	"dojo/_base/kernel", // dojo.getObject
 	"..",
-	"dojo/cookie",
+	"dojo/cookie", // dojo.cookie
 	"../_WidgetBase",
 	"../_TemplatedMixin",
-	"./_LayoutWidget"], function(dojo, dijit){
+	"./_LayoutWidget",
+	"dojo/_base/array", // dojo.filter dojo.forEach dojo.map
+	"dojo/_base/connect", // dojo.connect dojo.disconnect dojo.keys
+	"dojo/_base/event", // dojo.stopEvent
+	"dojo/_base/html", // dojo.addClass dojo.destroy dojo.getComputedStyle dojo.marginBox dojo.place dojo.removeClass dojo.style dojo.toggleClass
+	"dojo/_base/lang", // dojo.hitch
+	"dojo/_base/window" // dojo.body dojo.doc dojo.doc.createElement
+], function(dojo, dijit){
 
 // module:
 //		dijit/layout/BorderContainer

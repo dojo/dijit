@@ -1,11 +1,14 @@
 define([
-	"dojo",
+	"dojo/_base/kernel", // dojo.mixin
 	".",
 	"dojo/text!./templates/ProgressBar.html",
 	"dojo/fx",
-	"dojo/number",
+	"dojo/number", // dojo.number.format
 	"./_Widget",
-	"./_TemplatedMixin"], function(dojo, dijit, template){
+	"./_TemplatedMixin",
+	"dojo/_base/html", // dojo.toggleClass
+	"dojo/_base/url" // dojo.moduleUrl
+], function(dojo, dijit, template){
 
 // module:
 //		dijit/ProgressBar

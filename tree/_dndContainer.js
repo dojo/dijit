@@ -1,8 +1,13 @@
 define([
-	"dojo",
+	"dojo/_base/kernel", // dojo.getObject dojo.mixin
 	"..",
 	"dojo/dnd/common",
-	"dojo/dnd/Container"], function(dojo, dijit){
+	"dojo/dnd/Container",
+	"dojo/_base/array", // dojo.forEach
+	"dojo/_base/connect", // dojo.connect dojo.disconnect
+	"dojo/_base/declare", // dojo.declare
+	"dojo/_base/html" // dojo.addClass dojo.removeClass dojo.replaceClass
+], function(dojo, dijit){
 
 	// module:
 	//		dijit/tree/_dndContainer

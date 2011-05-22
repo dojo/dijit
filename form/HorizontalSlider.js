@@ -1,12 +1,24 @@
 define([
-	"dojo",
+	"dojo/_base/kernel",
 	"..",
 	"dojo/text!./templates/HorizontalSlider.html",
 	"./_FormWidget",
 	"../_Container",
 	"dojo/dnd/move",
 	"./Button",
-	"dojo/number"], function(dojo, dijit, template){
+	"dojo/number",
+	"dojo/_base/array", // dojo.forEach
+	"dojo/_base/connect", // dojo.keys.DOWN_ARROW dojo.keys.END dojo.keys.HOME dojo.keys.LEFT_ARROW dojo.keys.PAGE_DOWN dojo.keys.PAGE_UP dojo.keys.RIGHT_ARROW dojo.keys.UP_ARROW
+	"dojo/_base/declare", // dojo.declare
+	"dojo/_base/event", // dojo.stopEvent
+	"dojo/_base/fx", // dojo.animateProperty
+	"dojo/_base/html", // dojo.getComputedStyle dojo.position
+	"dojo/_base/lang", // dojo.hitch
+	"dojo/_base/sniff", // dojo.isIE dojo.isMozilla
+	"dojo/dnd/Moveable", // dojo.dnd.Moveable
+	"dojo/dnd/Mover", // dojo.dnd.Mover dojo.dnd.Mover.prototype.destroy.apply
+	"dojo/query" // dojo.query
+], function(dojo, dijit, template){
 
 // module:
 //		dijit/form/HorizontalSlider

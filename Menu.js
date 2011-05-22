@@ -1,9 +1,17 @@
 define([
-	"dojo",
+	"dojo/_base/kernel",
 	".",
 	"./popup",
-	"dojo/window",
-	"./DropDownMenu"], function(dojo, dijit, pm){
+	"dojo/window", // dojo.window.get
+	"./DropDownMenu",
+	"dojo/_base/array", // dojo.forEach
+	"dojo/_base/connect", // dojo.connect dojo.disconnect dojo.keys.F10
+	"dojo/_base/event", // dojo.stopEvent
+	"dojo/_base/html", // dojo.attr dojo.byId dojo.getComputedStyle dojo.hasAttr dojo.isDescendant dojo.position dojo.removeAttr
+	"dojo/_base/lang", // dojo.hitch
+	"dojo/_base/sniff", // dojo.isIE dojo.isQuirks
+	"dojo/_base/window" // dojo.body dojo.doc.documentElement dojo.doc.frames dojo.withGlobal
+], function(dojo, dijit, pm){
 
 // module:
 //		dijit/Menu

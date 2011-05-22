@@ -1,9 +1,15 @@
 define([
-	"dojo",
+	"dojo/_base/kernel", // dojo.mixin
 	"..",
 	"../_Widget",
 	"../_Container",
-	"../_Contained"], function(dojo, dijit){
+	"../_Contained",
+	"dojo/_base/array", // dojo.filter dojo.forEach
+	"dojo/_base/declare", // dojo.declare
+	"dojo/_base/html", // dojo.addClass dojo.getComputedStyle dojo.marginBox dojo.removeClass
+	"dojo/_base/sniff", // dojo.isIE
+	"dojo/_base/window" // dojo.global
+], function(dojo, dijit){
 
 	// module:
 	//		dijit/layout/_LayoutWidget

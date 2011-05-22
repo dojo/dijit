@@ -1,4 +1,8 @@
-define(["dojo", "..", "../tree/dndSource"], function(dojo, dijit){
+define([
+	"dojo/_base/kernel", // dojo.deprecated
+	"..",
+	"../tree/dndSource"
+], function(dojo, dijit){
 	// module:
 	//		dijit/_tree/dndSource
 	// summary:

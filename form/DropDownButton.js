@@ -1,10 +1,13 @@
 define([
-	"dojo",
+	"dojo/_base/kernel",
 	"..",
 	"dojo/text!./templates/DropDownButton.html",
 	"./Button",
 	"../_Container",
-	"../_HasDropDown"], function(dojo, dijit, template){
+	"../_HasDropDown",
+	"dojo/_base/connect", // dojo.connect dojo.disconnect
+	"dojo/query" // dojo.query
+], function(dojo, dijit, template){
 
 // module:
 //		dijit/form/DropDownButton

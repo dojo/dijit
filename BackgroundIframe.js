@@ -1,4 +1,12 @@
-define(["dojo"], function(dojo){
+define([
+	"dojo/_base/kernel", // dojo.config
+	"dojo/_base/connect", // dojo.connect dojo.disconnect
+	"dojo/_base/html", // dojo.create dojo.style
+	"dojo/_base/lang", // dojo.extend
+	"dojo/_base/sniff", // dojo.isIE dojo.isMoz dojo.isQuirks
+	"dojo/_base/url", // dojo.moduleUrl
+	"dojo/_base/window" // dojo.doc.createElement
+], function(dojo){
 
 	// module:
 	//		dijit/BackgroundIFrame

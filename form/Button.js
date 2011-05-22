@@ -1,11 +1,14 @@
 define([
-	"dojo",
+	"dojo/_base/kernel", // dojo.deprecated
 	"..",
 	"dojo/text!./templates/Button.html",
 	"./_FormWidget",
 	"./_ButtonMixin",
 	"../_Container",
-	"../_HasDropDown"], function(dojo, dijit, template){
+	"../_HasDropDown",
+	"dojo/_base/html", // dojo.toggleClass
+	"dojo/_base/lang" // dojo.trim
+], function(dojo, dijit, template){
 
 // module:
 //		dijit/form/Button

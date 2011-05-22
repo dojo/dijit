@@ -1,11 +1,19 @@
 define([
-	"dojo",
+	"dojo/_base/kernel", // dojo.deprecated dojo.mixin
 	"..",
 	"../_Widget",
 	"./_ContentPaneResizeMixin",
-	"dojo/string",
-	"dojo/html",
-	"dojo/i18n!../nls/loading"], function(dojo, dijit){
+	"dojo/string", // dojo.string.substitute
+	"dojo/html", // dojo.html._ContentSetter dojo.html._emptyNode
+	"dojo/i18n!../nls/loading",
+	"dojo/_base/Deferred", // dojo.Deferred
+	"dojo/_base/array", // dojo.forEach
+	"dojo/_base/html", // dojo.attr dojo.byId
+	"dojo/_base/lang", // dojo.delegate dojo.hitch dojo.isFunction dojo.isObject
+	"dojo/_base/window", // dojo.body dojo.doc.createDocumentFragment
+	"dojo/_base/xhr", // dojo.xhrGet
+	"dojo/i18n" // dojo.i18n.getLocalization
+], function(dojo, dijit){
 
 // module:
 //		dijit/layout/ContentPane

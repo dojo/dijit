@@ -1,8 +1,11 @@
 define([
-	"dojo",
+	"dojo/_base/kernel",
 	"..",
 	"dojo/text!./templates/ComboButton.html",
-	"./DropDownButton"], function(dojo, dijit, template){
+	"./DropDownButton",
+	"dojo/_base/connect", // dojo.keys
+	"dojo/_base/event" // dojo.stopEvent
+], function(dojo, dijit, template){
 
 // module:
 //		dijit/form/ComboButton

@@ -1,9 +1,16 @@
 define([
-	"dojo",
+	"dojo/_base/kernel", // dojo.deprecated
 	"..",
-	"dojo/cookie",
+	"dojo/cookie", // dojo.cookie
 	"../_WidgetBase",
-	"./_LayoutWidget"], function(dojo, dijit){
+	"./_LayoutWidget",
+	"dojo/_base/array", // dojo.forEach dojo.indexOf dojo.some
+	"dojo/_base/connect", // dojo.connect dojo.disconnect
+	"dojo/_base/event", // dojo.stopEvent
+	"dojo/_base/html", // dojo.addClass dojo.create dojo.destroy dojo.marginBox dojo.position dojo.setSelectable dojo.style
+	"dojo/_base/sniff", // dojo.isMozilla
+	"dojo/_base/window" // dojo.doc.createElement dojo.doc.documentElement
+], function(dojo, dijit){
 
 // module:
 //		dijit/layout/SplitContainer

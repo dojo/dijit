@@ -1,9 +1,14 @@
 define([
-	"dojo",
+	"dojo/_base/kernel",
 	"..",
 	"dojo/text!./templates/CheckBox.html",
 	"./ToggleButton",
-	"./_CheckBoxMixin"], function(dojo, dijit, template){
+	"./_CheckBoxMixin",
+	"dojo/_base/NodeList", // .addClass .removeClass
+	"dojo/_base/declare", // dojo.declare
+	"dojo/_base/html", // dojo.attr
+	"dojo/query" // dojo.query
+], function(dojo, dijit, template){
 
 	// module:
 	//		dijit/form/CheckBox

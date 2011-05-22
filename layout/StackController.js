@@ -1,11 +1,18 @@
 define([
-	"dojo",
+	"dojo/_base/kernel", // dojo.getObject
 	"..",
 	"../_Widget",
 	"../_TemplatedMixin",
 	"../_Container",
 	"../form/ToggleButton",
-	"dojo/i18n!../nls/common"], function(dojo, dijit){
+	"dojo/i18n!../nls/common",
+	"dojo/_base/array", // dojo.forEach dojo.indexOf dojo.map
+	"dojo/_base/connect", // dojo.keys
+	"dojo/_base/declare", // dojo.declare
+	"dojo/_base/event", // dojo.stopEvent
+	"dojo/_base/lang", // dojo.hitch
+	"dojo/_base/sniff" // dojo.isIE
+], function(dojo, dijit){
 
 	// module:
 	//		dijit/layout/StackController

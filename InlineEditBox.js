@@ -1,15 +1,22 @@
 define([
-	"dojo",
+	"dojo/_base/kernel", // dojo.deprecated dojo.getObject
 	".",
 	"dojo/text!./templates/InlineEditBox.html",
-	"dojo/i18n",
+	"dojo/i18n", // dojo.i18n.getLocalization
 	"./_Widget",
 	"./_TemplatedMixin",
 	"./_WidgetsInTemplateMixin",
 	"./_Container",
 	"./form/Button",
 	"./form/TextBox",
-	"dojo/i18n!./nls/common"], function(dojo, dijit, template){
+	"dojo/i18n!./nls/common",
+	"dojo/_base/array", // dojo.forEach
+	"dojo/_base/connect", // dojo.keys.ENTER dojo.keys.ESCAPE
+	"dojo/_base/event", // dojo.stopEvent
+	"dojo/_base/html", // dojo.addClass dojo.attr dojo.create dojo.destroy dojo.getComputedStyle dojo.removeClass dojo.style dojo.toggleClass
+	"dojo/_base/lang", // dojo.delegate dojo.hitch dojo.trim
+	"dojo/_base/sniff" // dojo.isIE
+], function(dojo, dijit, template){
 
 // module:
 //		dijit/InlineEditBox

@@ -1,19 +1,26 @@
 define([
-	"dojo",
+	"dojo/_base/kernel", // dojo.deprecated dojo.getObject dojo.mixin
 	".",
 	"dojo/text!./templates/TreeNode.html",
 	"dojo/text!./templates/Tree.html",
-	"dojo/fx",
-	"dojo/DeferredList",
+	"dojo/fx", // dojo.fx.wipeIn dojo.fx.wipeOut
+	"dojo/DeferredList", // dojo.DeferredList
 	"./_Widget",
 	"./_TemplatedMixin",
 	"./_Container",
 	"./_Contained",
 	"./_CssStateMixin",
-	"dojo/cookie",
+	"dojo/cookie", // dojo.cookie
 	"./tree/TreeStoreModel",
 	"./tree/ForestStoreModel",
-	"./tree/_dndSelector"], function(dojo, dijit, treeNodeTemplate, treeTemplate){
+	"./tree/_dndSelector",
+	"dojo/_base/Deferred", // dojo.Deferred
+	"dojo/_base/array", // dojo.filter dojo.forEach dojo.map
+	"dojo/_base/connect", // dojo.isCopyKey dojo.keys dojo.publish
+	"dojo/_base/event", // dojo.stopEvent
+	"dojo/_base/html", // dojo.addClass dojo.isDescendant dojo.marginBox dojo.removeClass dojo.replaceClass dojo.style dojo.toggleClass
+	"dojo/_base/lang" // dojo.hitch dojo.isString
+], function(dojo, dijit, treeNodeTemplate, treeTemplate){
 
 // module:
 //		dijit/Tree

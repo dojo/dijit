@@ -1,11 +1,15 @@
 define([
-	"dojo",
+	"dojo/_base/kernel",
 	"..",
-	"dojo/cookie",
+	"dojo/cookie", // dojo.cookie
 	"dojo/i18n!../nls/common",
 	"../_WidgetBase",
 	"./_LayoutWidget",
-	"./StackController"], function(dojo, dijit){
+	"./StackController",
+	"dojo/_base/array", // dojo.forEach dojo.indexOf dojo.some
+	"dojo/_base/connect", // dojo.publish
+	"dojo/_base/html" // dojo.addClass dojo.replaceClass
+], function(dojo, dijit){
 
 // module:
 //		dijit/layout/StackContainer

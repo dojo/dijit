@@ -1,4 +1,15 @@
-define(["dojo", ".."], function(dojo, dijit){
+define([
+	"dojo/_base/kernel", // dojo.config
+	"..",
+	"dojo/_base/NodeList", // .forEach
+	"dojo/_base/array", // dojo.forEach dojo.map
+	"dojo/_base/declare", // dojo.declare
+	"dojo/_base/html", // dojo.attr dojo.byId dojo.hasAttr dojo.style
+	"dojo/_base/sniff", // dojo.isIE
+	"dojo/_base/unload", // dojo.addOnWindowUnload
+	"dojo/_base/window", // dojo.body dojo.global
+	"dojo/query" // dojo.query
+], function(dojo, dijit){
 
 	// module:
 	//		dijit/_base/manager

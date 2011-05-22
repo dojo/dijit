@@ -1,8 +1,14 @@
 define([
-	"dojo",
+	"dojo/_base/kernel",
 	"..",
 	"dojo/text!./templates/Spinner.html",
-	"./RangeBoundTextBox"], function(dojo, dijit, template){
+	"./RangeBoundTextBox",
+	"dojo/_base/connect", // dojo.keys dojo.keys.DOWN_ARROW dojo.keys.PAGE_DOWN dojo.keys.PAGE_UP dojo.keys.UP_ARROW
+	"dojo/_base/declare", // dojo.declare
+	"dojo/_base/event", // dojo.stopEvent
+	"dojo/_base/lang", // dojo.hitch
+	"dojo/_base/sniff" // dojo.isMozilla
+], function(dojo, dijit, template){
 
 	// module:
 	//		dijit/form/_Spinner

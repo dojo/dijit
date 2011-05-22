@@ -1,11 +1,15 @@
 define([
-	"dojo",
+	"dojo/_base/kernel",
 	"..",
 	"dojo/text!./templates/_TabButton.html",
 	"./StackController",
 	"../Menu",
 	"../MenuItem",
-	"dojo/i18n!../nls/common"], function(dojo, dijit, template){
+	"dojo/i18n!../nls/common",
+	"dojo/_base/html", // dojo.attr dojo.setSelectable dojo.toggleClass
+	"dojo/_base/lang", // dojo.hitch dojo.trim
+	"dojo/i18n" // dojo.i18n.getLocalization
+], function(dojo, dijit, template){
 
 // module:
 //		dijit/layout/TabController

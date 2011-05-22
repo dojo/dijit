@@ -1,12 +1,16 @@
 define([
-	"dojo",
+	"dojo/_base/kernel", // dojo.deprecated
 	".",
 	"./_WidgetBase",
 	"./_TemplatedMixin",
 	"./_WidgetsInTemplateMixin",
 	"dojo/string",
 	"dojo/parser",
-	"dojo/cache"], function(dojo, dijit){
+	"dojo/cache",
+	"dojo/_base/array", // dojo.forEach
+	"dojo/_base/declare", // dojo.declare
+	"dojo/_base/lang" // dojo.extend dojo.isArray
+], function(dojo, dijit){
 
 	// module:
 	//		dijit/_Templated

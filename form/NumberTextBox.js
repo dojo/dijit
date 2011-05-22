@@ -1,8 +1,11 @@
 define([
-	"dojo",
+	"dojo/_base/kernel", // dojo.mixin
 	"..",
 	"./RangeBoundTextBox",
-	"dojo/number"], function(dojo, dijit){
+	"dojo/number", // dojo.number._realNumberRegexp dojo.number.format dojo.number.parse dojo.number.regexp
+	"dojo/_base/declare", // dojo.declare
+	"dojo/_base/lang" // dojo.hitch
+], function(dojo, dijit){
 
 	// module:
 	//		dijit/form/NumberTextBox

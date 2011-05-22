@@ -1,8 +1,17 @@
 define([
-	"dojo",
+	"dojo/_base/kernel",
 	"..",
 	"./_FormWidget",
-	"dojo/data/util/sorter"], function(dojo, dijit){
+	"dojo/data/util/sorter", // dojo.data.util.sorter.createSortFunction
+	"dojo/_base/NodeList", // .map
+	"dojo/_base/array", // dojo.filter dojo.forEach dojo.map dojo.some
+	"dojo/_base/connect", // dojo.connect dojo.disconnect
+	"dojo/_base/html", // dojo.setSelectable dojo.toggleClass
+	"dojo/_base/lang", // dojo.delegate dojo.isArray dojo.isObject
+	"dojo/data/api/Identity", // dojo.data.api.Identity
+	"dojo/data/api/Notification", // dojo.data.api.Notification
+	"dojo/query" // dojo.query
+], function(dojo, dijit){
 
 // module:
 //		dijit/form/_FormSelectWidget

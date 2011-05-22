@@ -1,12 +1,14 @@
 define([
-	"dojo",
+	"dojo/_base/kernel", // dojo.getObject
 	"..",
 	"dojo/text!./templates/DropDownBox.html",
-	"dojo/date",
-	"dojo/date/locale",
-	"dojo/date/stamp",
+	"dojo/date", // dojo.date dojo.date.compare
+	"dojo/date/locale", // dojo.date.locale.regexp
+	"dojo/date/stamp", // dojo.date.stamp.fromISOString dojo.date.stamp.toISOString
 	"./RangeBoundTextBox",
-	"../_HasDropDown"], function(dojo, dijit, template){
+	"../_HasDropDown",
+	"dojo/_base/declare" // dojo.declare
+], function(dojo, dijit, template){
 
 	// module:
 	//		dijit/form/_DateTimeTextBox

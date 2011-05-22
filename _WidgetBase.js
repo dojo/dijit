@@ -1,9 +1,19 @@
 define([
-	"dojo",
+	"dojo/_base/kernel", // dojo.config.blankGif
 	".",
 	"dojo/aspect",
 	"./_base/manager",
-	"dojo/Stateful"], function(dojo, dijit, aspect){
+	"dojo/Stateful", // dojo.Stateful
+	"dojo/_base/NodeList", // .map
+	"dojo/_base/array", // dojo.forEach dojo.map
+	"dojo/_base/connect", // dojo.connect dojo.disconnect dojo.subscribe dojo.unsubscribe
+	"dojo/_base/declare", // dojo.declare
+	"dojo/_base/html", // dojo.addClass dojo.attr dojo.byId dojo.create dojo.destroy dojo.place dojo.removeAttr dojo.replaceClass dojo.style
+	"dojo/_base/lang", // dojo.hitch dojo.isArray dojo.isFunction dojo.isObject
+	"dojo/_base/url", // dojo.moduleUrl
+	"dojo/_base/window", // dojo.doc.createTextNode
+	"dojo/query" // dojo.query
+], function(dojo, dijit, aspect){
 
 // module:
 //		dijit/_WidgetBase

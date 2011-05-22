@@ -1,4 +1,10 @@
-define(["dojo", ".."], function(dojo, dijit){
+define([
+	"dojo/_base/kernel",
+	"..",
+	"dojo/_base/array", // dojo.every
+	"dojo/_base/lang", // dojo.isArray
+	"dojo/_base/window" // dojo.global
+], function(dojo, dijit){
 
 // module:
 //		dijit/_editor/range

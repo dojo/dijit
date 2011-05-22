@@ -1,4 +1,13 @@
-define(["dojo", ".."], function(dojo, dijit){
+define([
+	"dojo/_base/kernel", // dojo.mixin
+	"..",
+	"dojo/_base/array", // dojo.forEach
+	"dojo/_base/connect", // dojo.keys.ALT dojo.keys.CAPS_LOCK dojo.keys.CTRL dojo.keys.META dojo.keys.SHIFT
+	"dojo/_base/event", // dojo.stopEvent
+	"dojo/_base/html", // dojo.byId
+	"dojo/_base/lang", // dojo.hitch dojo.trim
+	"dojo/_base/window" // dojo.doc dojo.global
+], function(dojo, dijit){
 
 // module:
 //		dijit/form/_TextBoxMixin

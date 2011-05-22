@@ -1,12 +1,20 @@
 define([
-	"dojo",
+	"dojo/_base/kernel", // dojo.deprecated
 	".",
 	"dojo/date",
 	"dojo/date/locale",
 	"./CalendarLite",
 	"./_CssStateMixin",
 	"./hccss",
-	"./form/DropDownButton"], function(dojo, dijit){
+	"./form/DropDownButton",
+	"dojo/_base/array", // dojo.map
+	"dojo/_base/connect", // dojo.keys
+	"dojo/_base/declare", // dojo.declare
+	"dojo/_base/event", // dojo.stopEvent
+	"dojo/_base/html", // dojo.addClass dojo.attr dojo.hasClass dojo.removeClass dojo.toggleClass
+	"dojo/_base/lang", // dojo.hitch
+	"dojo/_base/sniff" // dojo.isIE
+], function(dojo, dijit){
 
 	// module:
 	//		dijit/Calendar

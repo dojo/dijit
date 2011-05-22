@@ -1,9 +1,12 @@
 define([
-	"dojo",
+	"dojo/_base/kernel",
 	".",
 	"./_Widget",
 	"./_KeyNavContainer",
-	"./_TemplatedMixin"], function(dojo, dijit){
+	"./_TemplatedMixin",
+	"dojo/_base/connect", // dojo.keys.LEFT_ARROW dojo.keys.RIGHT_ARROW
+	"dojo/_base/declare" // dojo.declare
+], function(dojo, dijit){
 
 	// module:
 	//		dijit/Toolbar

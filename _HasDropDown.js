@@ -1,4 +1,16 @@
-define(["dojo", ".", "./popup", "./_FocusMixin"], function(dojo, dijit, popup){
+define([
+	"dojo/_base/kernel",
+	".",
+	"./popup",
+	"./_FocusMixin",
+	"dojo/_base/connect", // dojo.keys.DOWN_ARROW dojo.keys.ENTER dojo.keys.ESCAPE
+	"dojo/_base/declare", // dojo.declare
+	"dojo/_base/event", // dojo.stopEvent
+	"dojo/_base/html", // dojo.addClass dojo.attr dojo.hasClass dojo.isDescendant dojo.marginBox dojo.position dojo.removeClass dojo.style
+	"dojo/_base/lang", // dojo.hitch dojo.isFunction
+	"dojo/_base/window", // dojo.doc
+	"dojo/window" // dojo.window.getBox
+], function(dojo, dijit, popup){
 
 	// module:
 	//		dijit/_HasDropDown

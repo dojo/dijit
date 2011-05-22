@@ -1,11 +1,13 @@
 define([
-	"dojo",
+	"dojo/_base/kernel",
 	"..",
 	"dojo/text!./templates/ValidationTextBox.html",
-	"dojo/i18n",
+	"dojo/i18n", // dojo.i18n.getLocalization
 	"./TextBox",
 	"../Tooltip",
-	"dojo/i18n!./nls/validate"], function(dojo, dijit, template){
+	"dojo/i18n!./nls/validate",
+	"dojo/_base/declare" // dojo.declare
+], function(dojo, dijit, template){
 
 	// module:
 	//		dijit/form/ValidationTextBox

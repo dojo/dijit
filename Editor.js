@@ -1,5 +1,5 @@
 define([
-	"dojo",
+	"dojo/_base/kernel", // dojo.getObject
 	".",
 	"./_editor/RichText",
 	"./Toolbar",
@@ -8,10 +8,21 @@ define([
 	"./_editor/plugins/EnterKeyHandling",
 	"./_editor/range",
 	"./_Container",
-	"dojo/i18n",
+	"dojo/i18n", // dojo.i18n.getLocalization
 	"./layout/_LayoutWidget",
 	"dojo/i18n!./_editor/nls/commands",
-	"./form/ToggleButton"], function(dojo, dijit){
+	"./form/ToggleButton",
+	"dojo/_base/Deferred", // dojo.Deferred
+	"dojo/_base/array", // dojo.forEach
+	"dojo/_base/connect", // dojo.keys dojo.keys.F1 dojo.keys.F15 dojo.keys.TAB dojo.publish dojo.subscribe
+	"dojo/_base/declare", // dojo.declare
+	"dojo/_base/event", // dojo.stopEvent
+	"dojo/_base/html", // dojo.addClass dojo.attr dojo.style
+	"dojo/_base/lang", // dojo.hitch dojo.isArray dojo.isFunction dojo.isString
+	"dojo/_base/sniff", // dojo.isIE dojo.isMac dojo.isWebKit
+	"dojo/_base/window", // dojo.withGlobal
+	"dojo/string" // dojo.string.substitute
+], function(dojo, dijit){
 
 	// module:
 	//		dijit/Editor

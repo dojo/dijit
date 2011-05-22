@@ -1,11 +1,19 @@
 define([
-	"dojo",
+	"dojo/_base/kernel",
 	".",
 	"dojo/on",
 	"dojo/aspect",
 	"dojo/Stateful",
-	"dojo/window",
-	"./_base/manager"], function(dojo, dijit, listen, aspect, Stateful){
+	"dojo/window", // dojo.window.get
+	"./_base/manager",
+	"dojo/_base/declare", // dojo.declare
+	"dojo/_base/html", // dojo.attr dojo.isDescendant
+	"dojo/_base/lang", // dojo.hitch
+	"dojo/_base/load", // dojo.addOnLoad
+	"dojo/_base/sniff", // dojo.isIE
+	"dojo/_base/unload", // dojo.addOnWindowUnload
+	"dojo/_base/window" // dojo.body
+], function(dojo, dijit, listen, aspect, Stateful){
 
 	// module:
 	//		dijit/focus

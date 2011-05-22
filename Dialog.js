@@ -1,12 +1,12 @@
 define([
-	"dojo",
+	"dojo/_base/kernel", // dojo.mixin
 	".",
 	"dijit/focus",
 	"dojo/text!./templates/Dialog.html",
 	"dojo/dnd/move",
-	"dojo/dnd/TimedMoveable",
+	"dojo/dnd/TimedMoveable", // dojo.dnd.TimedMoveable
 	"dojo/fx",
-	"dojo/window",
+	"dojo/window", // dojo.window.getBox
 	"./_Widget",
 	"./_TemplatedMixin",
 	"./_CssStateMixin",
@@ -14,7 +14,21 @@ define([
 	"./_DialogMixin",
 	"./DialogUnderlay",
 	"./layout/ContentPane",
-	"dojo/i18n!./nls/common"], function(dojo, dijit, focus, template){
+	"dojo/i18n!./nls/common",
+	"dojo/_base/Deferred", // dojo.Deferred
+	"dojo/_base/array", // dojo.forEach dojo.indexOf dojo.map
+	"dojo/_base/connect", // dojo.connect dojo.disconnect dojo.keys dojo.subscribe dojo.unsubscribe
+	"dojo/_base/declare", // dojo.declare
+	"dojo/_base/event", // dojo.stopEvent
+	"dojo/_base/fx", // dojo.fadeIn dojo.fadeOut
+	"dojo/_base/html", // dojo.addClass dojo.hasClass dojo.isDescendant dojo.position dojo.style
+	"dojo/_base/lang", // dojo.hitch
+	"dojo/_base/sniff", // dojo.isIE dojo.isOpera
+	"dojo/_base/window", // dojo.body
+	"dojo/dnd/Moveable", // dojo.dnd.Moveable
+	"dojo/fx", // .play
+	"dojo/i18n" // dojo.i18n.getLocalization
+], function(dojo, dijit, focus, template){
 
 	// module:
 	//		dijit/Dialog

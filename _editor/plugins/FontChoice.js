@@ -1,5 +1,5 @@
 define([
-	"dojo",
+	"dojo/_base/kernel",
 	"../..",
 	"../../_Widget",
 	"../../_TemplatedMixin",
@@ -8,9 +8,14 @@ define([
 	"../range",
 	"../selection",
 	"../../form/FilteringSelect",
-	"dojo/store/Memory",
-	"dojo/i18n",
-	"dojo/i18n!../nls/FontChoice"], function(dojo, dijit){
+	"dojo/store/Memory", // dojo.store.Memory
+	"dojo/i18n", // dojo.i18n.getLocalization
+	"dojo/i18n!../nls/FontChoice",
+	"dojo/_base/array", // dojo.indexOf dojo.map
+	"dojo/_base/html", // dojo.place
+	"dojo/_base/lang", // dojo.delegate dojo.hitch dojo.isString
+	"dojo/_base/window" // dojo.withGlobal
+], function(dojo, dijit){
 
 // module:
 //		dijit/_editor/plugins/FontChoice

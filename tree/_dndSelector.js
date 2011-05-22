@@ -1,8 +1,16 @@
 define([
-	"dojo",
+	"dojo/_base/kernel",
 	"..",
 	"dojo/dnd/common",
-	"./_dndContainer"], function(dojo, dijit){
+	"./_dndContainer",
+	"dojo/_base/array", // dojo.filter dojo.forEach dojo.map
+	"dojo/_base/connect", // dojo.connect dojo.isCopyKey
+	"dojo/_base/declare", // dojo.declare
+	"dojo/_base/event", // dojo.stopEvent
+	"dojo/_base/lang", // dojo.hitch
+	"dojo/_base/window", // dojo.global
+	"dojo/mouse" // dojo.mouseButtons.RIGHT
+], function(dojo, dijit){
 
 	// module:
 	//		dijit/tree/_dndSelector

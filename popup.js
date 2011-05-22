@@ -1,6 +1,17 @@
-define(
-	["dojo", ".", "./place", "./BackgroundIframe"],
-	function(dojo, dijit, place, BackgroundIframe){
+define([
+	"dojo/_base/kernel",
+	".",
+	"./place",
+	"./BackgroundIframe",
+	"dojo/_base/array", // dojo.forEach dojo.some
+	"dojo/_base/connect", // dojo.connect dojo.disconnect dojo.keys.ESCAPE dojo.keys.TAB
+	"dojo/_base/declare", // dojo.declare
+	"dojo/_base/event", // dojo.stopEvent
+	"dojo/_base/html", // dojo.attr dojo.create dojo.destroy dojo.isDescendant dojo.style
+	"dojo/_base/lang", // dojo.hitch
+	"dojo/_base/sniff", // dojo.isIE dojo.isMoz
+	"dojo/_base/window" // dojo.body
+], function(dojo, dijit, place, BackgroundIframe){
 
 	// module:
 	//		dijit/popup

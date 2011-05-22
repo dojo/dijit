@@ -1,5 +1,5 @@
 define([
-	"dojo",
+	"dojo/_base/kernel",
 	"..",
 	"dojo/text!./templates/ScrollingTabController.html",
 	"dojo/text!./templates/_ScrollingTabControllerButton.html",
@@ -7,7 +7,15 @@ define([
 	"../_WidgetsInTemplateMixin",
 	"../Menu",
 	"../form/Button",
-	"../_HasDropDown"], function(dojo, dijit, tabControllerTemplate, buttonTemplate){
+	"../_HasDropDown",
+	"dojo/_base/NodeList", // .filter
+	"dojo/_base/array", // dojo.forEach
+	"dojo/_base/html", // dojo.addClass dojo.contentBox dojo.hasClass dojo.style
+	"dojo/_base/lang", // dojo.hitch
+	"dojo/_base/sniff", // dojo.isIE dojo.isQuirks dojo.isWebKit
+	"dojo/fx", // .play
+	"dojo/query" // dojo.query
+], function(dojo, dijit, tabControllerTemplate, buttonTemplate){
 
 // module:
 //		dijit/layout/ScrollingTabController

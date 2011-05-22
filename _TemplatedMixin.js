@@ -1,9 +1,18 @@
 define([
-	"dojo",
+	"dojo/_base/kernel", // dojo.getObject
 	".",
 	"./_WidgetBase",
-	"dojo/string",
-	"dojo/cache"], function(dojo, dijit){
+	"dojo/string", // dojo.string.substitute dojo.string.trim
+	"dojo/cache",
+	"dojo/_base/array", // dojo.forEach
+	"dojo/_base/declare", // dojo.declare
+	"dojo/_base/html", // dojo.destroy
+	"dojo/_base/lang", // dojo.extend dojo.isArray dojo.isString dojo.trim
+	"dojo/_base/sniff", // dojo.isIE
+	"dojo/_base/unload", // dojo.addOnWindowUnload
+	"dojo/_base/window", // dojo.doc
+	"dojo/text" // dojo.cache
+], function(dojo, dijit){
 
 	// module:
 	//		dijit/_TemplatedMixin

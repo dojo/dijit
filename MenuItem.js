@@ -1,5 +1,5 @@
 define([
-	"dojo",
+	"dojo/_base/kernel", // dojo.deprecated
 	".",
 	"dojo/text!./templates/MenuItem.html",
 	"./_WidgetBase",
@@ -7,7 +7,12 @@ define([
 	"./_FocusMixin",
 	"./_TemplatedMixin",
 	"./_Contained",
-	"./_CssStateMixin"], function(dojo, dijit, template){
+	"./_CssStateMixin",
+	"dojo/_base/declare", // dojo.declare
+	"dojo/_base/event", // dojo.stopEvent
+	"dojo/_base/html", // dojo.attr dojo.setSelectable dojo.toggleClass
+	"dojo/_base/sniff" // dojo.isIE
+], function(dojo, dijit, template){
 
 	// module:
 	//		dijit/MenuItem

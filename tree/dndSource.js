@@ -1,8 +1,12 @@
 define([
-	"dojo",
+	"dojo/_base/kernel", // dojo.mixin
 	"..",
 	"./_dndSelector",
-	"dojo/dnd/Manager"], function(dojo, dijit){
+	"dojo/dnd/Manager", // dojo.dnd.manager
+	"dojo/_base/array", // dojo.forEach dojo.indexOf dojo.map
+	"dojo/_base/connect", // dojo.isCopyKey dojo.subscribe dojo.unsubscribe
+	"dojo/_base/html" // dojo.addClass dojo.position
+], function(dojo, dijit){
 
 // module:
 //		dijit/tree/dndSource

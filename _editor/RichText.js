@@ -1,11 +1,24 @@
 define([
-	"dojo",
+	"dojo/_base/kernel", // dojo.config dojo.deprecated
 	"..",
 	"../_Widget",
 	"../_CssStateMixin",
 	"./selection",
 	"./range",
-	"./html"], function(dojo, dijit){
+	"./html",
+	"dojo/_base/Deferred", // dojo.Deferred
+	"dojo/_base/NodeList", // .orphan
+	"dojo/_base/array", // dojo.forEach dojo.indexOf dojo.some
+	"dojo/_base/connect", // dojo.connect dojo.keys.BACKSPACE dojo.keys.TAB dojo.publish
+	"dojo/_base/event", // dojo.stopEvent
+	"dojo/_base/html", // dojo.addClass dojo.attr dojo.byId dojo.contentBox dojo.create dojo.destroy dojo.getComputedStyle dojo.place dojo.position dojo.removeClass dojo.style
+	"dojo/_base/lang", // dojo.clone dojo.hitch dojo.isArray dojo.isFunction dojo.isString dojo.trim
+	"dojo/_base/load", // dojo.addOnLoad
+	"dojo/_base/sniff", // dojo.isIE dojo.isMoz dojo.isOpera dojo.isSafari dojo.isWebKit
+	"dojo/_base/unload", // dojo.addOnUnload
+	"dojo/_base/window", // dojo.body dojo.doc.body.focus dojo.doc.createElement dojo.global.location dojo.withGlobal
+	"dojo/query" // dojo.query
+], function(dojo, dijit){
 
 // module:
 //		dijit/_editor/RichText

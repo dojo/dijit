@@ -1,11 +1,19 @@
 define([
-	"dojo",
+	"dojo/_base/kernel",
 	"../..",
-	"dojo/window",
-	"dojo/i18n",
+	"dojo/window", // dojo.window.getBox
+	"dojo/i18n", // dojo.i18n.getLocalization
 	"../_Plugin",
 	"../../form/ToggleButton",
-	"dojo/i18n!../nls/commands"], function(dojo, dijit){
+	"dojo/i18n!../nls/commands",
+	"dojo/_base/array", // dojo.forEach
+	"dojo/_base/connect", // dojo.connect dojo.disconnect dojo.keys.F12
+	"dojo/_base/event", // dojo.stopEvent
+	"dojo/_base/html", // dojo.attr dojo.create dojo.marginBox dojo.place dojo.position dojo.style
+	"dojo/_base/lang", // dojo.hitch
+	"dojo/_base/sniff", // dojo.isIE dojo.isWebKit
+	"dojo/_base/window" // dojo.body dojo.global
+], function(dojo, dijit){
 
 // module:
 //		dijit/_editor/plugins/ViewSource

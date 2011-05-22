@@ -1,10 +1,14 @@
 define([
-	"dojo",
+	"dojo/_base/kernel",
 	"..",
 	"./_ComboBoxMenuMixin",
 	"../_WidgetBase",
 	"../_TemplatedMixin",
-	"./_ListMouseMixin"], function(dojo, dijit){
+	"./_ListMouseMixin",
+	"dojo/_base/connect", // dojo.keys.DOWN_ARROW dojo.keys.PAGE_DOWN dojo.keys.PAGE_UP dojo.keys.UP_ARROW
+	"dojo/_base/declare", // dojo.declare
+	"dojo/_base/html" // dojo.addClass dojo.create dojo.removeClass dojo.style
+], function(dojo, dijit){
 
 	// module:
 	//		dijit/form/_ComboBoxMenu

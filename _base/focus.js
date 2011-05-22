@@ -1,6 +1,14 @@
-define(
-	["dojo", "..", "../focus", "./manager"],
-	function(dojo, dijit, focus){
+define([
+	"dojo/_base/kernel", // dojo.mixin
+	"..",
+	"../focus",
+	"./manager",
+	"dojo/_base/array", // dojo.forEach
+	"dojo/_base/connect", // dojo.publish
+	"dojo/_base/html", // dojo.isDescendant
+	"dojo/_base/lang", // dojo.isArray
+	"dojo/_base/window" // dojo.doc dojo.doc.selection dojo.global dojo.global.getSelection dojo.withGlobal
+], function(dojo, dijit, focus){
 
 	// module:
 	//		dijit/_base/focus

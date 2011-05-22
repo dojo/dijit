@@ -1,4 +1,12 @@
-define(["dojo", ".."], function(dojo, dijit){
+define([
+	"dojo/_base/kernel", // dojo.deprecated dojo.mixin
+	"..",
+	"dojo/_base/array", // dojo.forEach
+	"dojo/_base/connect", // dojo.connect
+	"dojo/_base/event", // dojo.stopEvent
+	"dojo/_base/lang", // dojo.hitch
+	"dojo/_base/sniff" // dojo.isIE
+], function(dojo, dijit){
 
 // module:
 //		dijit/_base/typematic

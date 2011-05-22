@@ -1,12 +1,21 @@
 define([
-	"dojo",
+	"dojo/_base/kernel", // dojo.getObject
 	"..",
 	"dojo/text!./templates/AccordionButton.html",
 	"../_Container",
 	"../_TemplatedMixin",
 	"../_CssStateMixin",
 	"./StackContainer",
-	"./ContentPane"], function(dojo, dijit, template){
+	"./ContentPane",
+	"dojo/_base/array", // dojo.forEach dojo.map
+	"dojo/_base/connect", // dojo.keys dojo.publish
+	"dojo/_base/declare", // dojo.declare
+	"dojo/_base/event", // dojo.stopEvent
+	"dojo/_base/fx", // dojo.Animation
+	"dojo/_base/html", // dojo.attr dojo.place dojo.removeClass dojo.setSelectable
+	"dojo/_base/lang", // dojo.hitch
+	"dojo/_base/sniff" // dojo.isIE
+], function(dojo, dijit, template){
 
 	// module:
 	//		dijit/layout/AccordionContainer

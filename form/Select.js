@@ -1,5 +1,5 @@
 define([
-	"dojo",
+	"dojo/_base/kernel",
 	"..",
 	"dojo/text!./templates/Select.html",
 	"./_FormSelectWidget",
@@ -8,7 +8,13 @@ define([
 	"../MenuItem",
 	"../MenuSeparator",
 	"../Tooltip",
-	"dojo/i18n!./nls/validate"], function(dojo, dijit, template){
+	"dojo/i18n!./nls/validate",
+	"dojo/_base/array", // dojo.forEach
+	"dojo/_base/event", // dojo.stopEvent
+	"dojo/_base/html", // dojo.addClass dojo.attr dojo.create dojo.marginBox dojo.removeClass dojo.toggleClass
+	"dojo/_base/lang", // dojo.hitch
+	"dojo/i18n" // dojo.i18n.getLocalization
+], function(dojo, dijit, template){
 
 // module:
 //		dijit/form/Select

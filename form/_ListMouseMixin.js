@@ -1,4 +1,9 @@
-define(["dojo", "..", "./_ListBase"], function(dojo, dijit){
+define([
+	"dojo/_base/kernel",
+	"..",
+	"./_ListBase",
+	"dojo/_base/event" // dojo.stopEvent
+], function(dojo, dijit){
 
 // module:
 //		dijit/form/_ListMouseMixin

@@ -1,4 +1,11 @@
-define(["dojo", "."], function(dojo, dijit){
+define([
+	"dojo/_base/kernel",
+	".",
+	"dojo/_base/array", // dojo.forEach dojo.map
+	"dojo/_base/html", // dojo.toggleClass
+	"dojo/_base/lang", // dojo.hitch
+	"dojo/_base/window" // dojo.body
+], function(dojo, dijit){
 
 // module:
 //		dijit/_CssStateMixin

@@ -1,6 +1,10 @@
 define([
-	"dojo",
-	"dojo/window"], function(dojo){
+	"dojo/_base/kernel",
+	"dojo/window", // dojo.window.getBox
+	"dojo/_base/array", // dojo.forEach dojo.map dojo.some
+	"dojo/_base/html", // dojo.marginBox dojo.position
+	"dojo/_base/window" // dojo.body
+], function(dojo){
 
 	// module:
 	//		dijit/place
