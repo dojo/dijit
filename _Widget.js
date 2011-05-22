@@ -1,11 +1,11 @@
 define([
 	"dojo",
 	".",
-	"dojo/listen",
+	"dojo/on",
 	"./_WidgetBase",
 	"./_OnDijitClickMixin",
 	"./_FocusMixin",
-	"./_base"], function(dojo, dijit, listen){
+	"./_base"], function(dojo, dijit, on){
 
 // module:
 //		dijit/_Widget
@@ -198,7 +198,7 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 	on: function(/*String*/ type, /*Function*/ func){
 		type = type.replace(/^on/, "");
 		if(this["on" + type.charAt(0).toUpperCase() + type.substr(1)] === dijit._connectToDomNode){
-			return listen(this.domNode, type.toLowerCase(), func);
+			return on(this.domNode, type.toLowerCase(), func);
 		}else{
 			return this.inherited(arguments);
 		}

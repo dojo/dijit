@@ -1,4 +1,4 @@
-define(["dojo", "dojo/listen"], function(dojo, listen){
+define(["dojo", "dojo/on"], function(dojo, on){
 
 	// module:
 	//		dijit/_OnDijitClickMixin
@@ -35,7 +35,7 @@ define(["dojo", "dojo/listen"], function(dojo, listen){
 		if(/input|button/i.test(node.nodeName)){
 			// pass through, the browser already generates click event on SPACE/ENTER key
 			return function(node, listener){
-				return listen(node, type, listener);
+				return on(node, type, listener);
 			};
 		}else{
 			// Don't fire the click event unless both the keydown and keyup occur on this node.
@@ -48,7 +48,7 @@ define(["dojo", "dojo/listen"], function(dojo, listen){
 						!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey;
 			}
 			var handles = [
-				listen(node, "keypress", function(e){
+				on(node, "keypress", function(e){
 					//console.log(this.id + ": onkeydown, e.target = ", e.target, ", lastKeyDownNode was ", lastKeyDownNode, ", equality is ", (e.target === lastKeyDownNode));
 					if(clickKey(e)){
 						// needed on IE for when focus changes between keydown and keyup - otherwise dropdown menus do not work
@@ -62,7 +62,7 @@ define(["dojo", "dojo/listen"], function(dojo, listen){
 					}
 				}),
 
-				listen(node, "keyup", function(e){
+				on(node, "keyup", function(e){
 					//console.log(this.id + ": onkeyup, e.target = ", e.target, ", lastKeyDownNode was ", lastKeyDownNode, ", equality is ", (e.target === lastKeyDownNode));
 					if(clickKey(e) && e.target == lastKeyDownNode){	// === breaks greasemonkey
 						//need reset here or have problems in FF when focus returns to trigger element after closing popup/alert
@@ -71,7 +71,7 @@ define(["dojo", "dojo/listen"], function(dojo, listen){
 					}
 				}),
 
-				listen(node, "click", function(e){
+				on(node, "click", function(e){
 					// and connect for mouse clicks too (or touch-clicks on mobile)
 					listener.call(this, e);
 				})
