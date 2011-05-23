@@ -263,8 +263,6 @@
 			doh.register("watch('value')", [
 				// Setup watch("value", ...)
 				function setUp(){
-					var d = new doh.Deferred();
-
 					// Setup globals to reflect return from watch("value"), ...
 					calls = 0;
 					oldVal = null;
@@ -282,6 +280,7 @@
 				function formSet(){
 					var d = new doh.Deferred();
 
+					calls = 0;
 					formWidget.set("value", {
 						foo: {bar: {baz: {quux: "1967-10-20"} } },
 						available: {from: "1967-11-09"}
