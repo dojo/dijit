@@ -84,6 +84,11 @@ define([
 		 =====*/
 		_formatter: dojo.number.format,
 
+		postMixInProperties: function(){
+			this.inherited(arguments);
+			this._set("type", "text"); // in case type="number" was specified which messes up parse/format
+		},
+
 		_setConstraintsAttr: function(/*Object*/ constraints){
 			var places = typeof constraints.places == "number"? constraints.places : 0;
 			if(places){ places++; } // decimal rounding errors take away another digit of precision

@@ -65,6 +65,11 @@ define([
 		//		at dojo.date, by default.
 		datePackage: "dojo.date",
 
+		postMixInProperties: function(){
+			this.inherited(arguments);
+			this._set("type", "text"); // in case type="date"|"time" was specified which messes up parse/format
+		},
+
 		// Override _FormWidget.compare() to work for dates/times
 		compare: function(/*Date*/ val1, /*Date*/ val2){
 			var isInvalid1 = this._isInvalidDate(val1);
