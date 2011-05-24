@@ -1,6 +1,7 @@
 define([
 	"dojo/_base/kernel",
 	".",
+	"dojo/touch",
 	"./popup",
 	"./_FocusMixin",
 	"dojo/_base/connect", // dojo.keys.DOWN_ARROW dojo.keys.ENTER dojo.keys.ESCAPE
@@ -10,7 +11,7 @@ define([
 	"dojo/_base/lang", // dojo.hitch dojo.isFunction
 	"dojo/_base/window", // dojo.doc
 	"dojo/window" // dojo.window.getBox
-], function(dojo, dijit, popup){
+], function(dojo, dijit, touch, popup){
 
 	// module:
 	//		dijit/_HasDropDown
@@ -92,12 +93,11 @@ define([
 		_onDropDownMouseDown: function(/*Event*/ e){
 			// summary:
 			//		Callback when the user mousedown's on the arrow icon
-
 			if(this.disabled || this.readOnly){ return; }
 
 			dojo.stopEvent(e);
 
-			this._docHandler = this.connect(dojo.doc, "onmouseup", "_onDropDownMouseUp");
+			this._docHandler = this.connect(dojo.doc, touch.release, "_onDropDownMouseUp");
 
 			this.toggleDropDown();
 		},
@@ -105,8 +105,8 @@ define([
 		_onDropDownMouseUp: function(/*Event?*/ e){
 			// summary:
 			//		Callback when the user lifts their mouse after mouse down on the arrow icon.
-			//		If the drop is a simple menu and the mouse is over the menu, we execute it, otherwise, we focus our
-			//		dropDown node.  If the event is missing, then we are not
+			//		If the drop down is a simple menu and the mouse is over the menu, we execute it, otherwise, we focus our
+			//		drop down widget.  If the event is missing, then we are not
 			//		a mouseup event.
 			//
 			//		This is useful for the common mouse movement pattern
@@ -155,10 +155,22 @@ define([
 				// don't steal our own focus.
 				window.setTimeout(dojo.hitch(dropDown, "focus"), 1);
 			}
+
+			this._justGotMouseUp = true;
+			setTimeout(dojo.hitch(this, function(){
+				this._justGotMouseUp = false;
+			}), 0);
 		},
 
 		_onDropDownClick: function(/*Event*/ e){
-			// the drop down was already opened on mousedown/keydown; just need to call stopEvent()
+			if(!this._justGotMouseUp){
+				// This branch fires on iPhone for ComboBox, because the button node is an <input> and doesn't
+				// generate touchstart/touchend events.   Pretend we just got a mouse down / mouse up.
+				this._onDropDownMouseDown(e);
+				this._onDropDownMouseUp(e);
+			}
+
+			// The drop down was already opened on mousedown/keydown; just need to call stopEvent().
 			if(this._stopClickEvents){
 				dojo.stopEvent(e);
 			}
@@ -189,7 +201,7 @@ define([
 
 			this.inherited(arguments);
 
-			this.connect(this._buttonNode, "onmousedown", "_onDropDownMouseDown");
+			this.connect(this._buttonNode, touch.press, "_onDropDownMouseDown");
 			this.connect(this._buttonNode, "onclick", "_onDropDownClick");
 			this.connect(this.focusNode, "onkeypress", "_onKey");
 			this.connect(this.focusNode, "onkeyup", "_onKeyUp");

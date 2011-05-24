@@ -1,12 +1,13 @@
 define([
 	"dojo/_base/kernel", // dojo.mixin
 	"..",
+	"dojo/touch",
 	"./_dndSelector",
 	"dojo/dnd/Manager", // dojo.dnd.manager
 	"dojo/_base/array", // dojo.forEach dojo.indexOf dojo.map
 	"dojo/_base/connect", // dojo.isCopyKey dojo.subscribe dojo.unsubscribe
 	"dojo/_base/html" // dojo.addClass dojo.position
-], function(dojo, dijit){
+], function(dojo, dijit, touch){
 
 // module:
 //		dijit/tree/dndSource
@@ -195,9 +196,9 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 
 	onMouseMove: function(e){
 		// summary:
-		//		Called for any onmousemove events over the Tree
+		//		Called for any onmousemove/ontouchmove events over the Tree
 		// e: Event
-		//		onmousemouse event
+		//		onmousemouse/ontouchmove event
 		// tags:
 		//		private
 		if(this.isDragging && this.targetState == "Disabled"){ return; }
@@ -233,9 +234,9 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 
 	onMouseDown: function(e){
 		// summary:
-		//		Event processor for onmousedown
+		//		Event processor for onmousedown/ontouchstart
 		// e: Event
-		//		onmousedown event
+		//		onmousedown/ontouchend event
 		// tags:
 		//		private
 		this.mouseDown = true;
@@ -247,9 +248,9 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 
 	onMouseUp: function(e){
 		// summary:
-		//		Event processor for onmouseup
+		//		Event processor for onmouseup/ontouchend
 		// e: Event
-		//		onmouseup event
+		//		onmouseup/ontouchend event
 		// tags:
 		//		private
 		if(this.mouseDown){

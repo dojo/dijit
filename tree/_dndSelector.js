@@ -1,6 +1,7 @@
 define([
 	"dojo/_base/kernel",
 	"..",
+	"dojo/touch",
 	"dojo/dnd/common",
 	"./_dndContainer",
 	"dojo/_base/array", // dojo.filter dojo.forEach dojo.map
@@ -9,8 +10,8 @@ define([
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/lang", // dojo.hitch
 	"dojo/_base/window", // dojo.global
-	"dojo/mouse" // dojo.mouseButtons.RIGHT
-], function(dojo, dijit){
+	"dojo/mouse" // dojo.mouseButtons.isLeft
+], function(dojo, dijit, touch){
 
 	// module:
 	//		dijit/tree/_dndSelector
@@ -45,9 +46,9 @@ define([
 			dijit.setWaiState(this.tree.domNode, "multiselect", !this.singular);
 
 			this.events.push(
-				dojo.connect(this.tree.domNode, "onmousedown", this,"onMouseDown"),
-				dojo.connect(this.tree.domNode, "onmouseup", this,"onMouseUp"),
-				dojo.connect(this.tree.domNode, "onmousemove", this,"onMouseMove")
+				dojo.connect(this.tree.domNode, touch.press, this,"onMouseDown"),
+				dojo.connect(this.tree.domNode, touch.release, this,"onMouseUp"),
+				dojo.connect(this.tree.domNode, touch.move, this,"onMouseMove")
 			);
 		},
 
@@ -172,16 +173,16 @@ define([
 		// mouse events
 		onMouseDown: function(e){
 			// summary:
-			//		Event processor for onmousedown
+			//		Event processor for onmousedown/ontouchstart
 			// e: Event
-			//		mouse event
+			//		onmousedown/ontouchstart event
 			// tags:
 			//		protected
 
 			// ignore click on expando node
-			if(!this.current || this.tree.isExpandoNode( e.target, this.current)){ return; }
+			if(!this.current || this.tree.isExpandoNode(e.target, this.current)){ return; }
 
-			if(e.button == dojo.mouseButtons.RIGHT){ return; }	// ignore right-click
+			if(!dojo.mouseButtons.isLeft(e)){ return; }	// ignore right-click
 
 			dojo.stopEvent(e);
 
@@ -202,9 +203,9 @@ define([
 
 		onMouseUp: function(e){
 			// summary:
-			//		Event processor for onmouseup
+			//		Event processor for onmouseup/ontouchend
 			// e: Event
-			//		mouse event
+			//		onmouseup/ontouchend event
 			// tags:
 			//		protected
 
@@ -219,9 +220,9 @@ define([
 		},
 		onMouseMove: function(e){
 			// summary
-			//		event processor for onmousemove
+			//		event processor for onmousemove/ontouchmove
 			// e: Event
-			//		mouse event
+			//		onmousemove/ontouchmove event
 			this._doDeselect = false;
 		},
 

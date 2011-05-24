@@ -140,6 +140,7 @@ define([
 					};
 				}else{
 					doc.body.addEventListener('mousedown', mousedownListener, true);
+					doc.body.addEventListener('touchstart', mousedownListener, true);
 					var focusListener = function(evt){
 						_this._onFocusNode(effectiveNode || evt.target);
 					};
@@ -151,6 +152,7 @@ define([
 
 					return function(){
 						doc.body.removeEventListener('mousedown', mousedownListener, true);
+						doc.body.removeEventListener('touchstart', mousedownListener, true);
 						doc.removeEventListener('focus', focusListener, true);
 						doc.removeEventListener('blur', blurListener, true);
 						doc = null;	// prevent memory leak (apparent circular reference via closure)

@@ -1,6 +1,7 @@
 define([
 	"dojo/_base/kernel", // dojo.getObject
 	".",
+	"dojo/touch",
 	"./_WidgetBase",
 	"dojo/string", // dojo.string.substitute dojo.string.trim
 	"dojo/cache",
@@ -12,7 +13,7 @@ define([
 	"dojo/_base/unload", // dojo.addOnWindowUnload
 	"dojo/_base/window", // dojo.doc
 	"dojo/text" // dojo.cache
-], function(dojo, dijit){
+], function(dojo, dijit, touch){
 
 	// module:
 	//		dijit/_TemplatedMixin
@@ -209,7 +210,8 @@ define([
 							if(!thisFunc){
 								thisFunc = event;
 							}
-							this._attachEvents.push(this.connect(baseNode, event, thisFunc));
+							// Map "press", "move" and "release" to dojo.keys.touch, dojo.keys.move, dojo.keys.release
+							this._attachEvents.push(this.connect(baseNode, touch[event] || event, thisFunc));
 						}
 					}
 				}
