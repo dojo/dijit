@@ -1261,38 +1261,24 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 	queryCommandEnabled: function(/*String*/ command){
 		// summary:
 		//		Check whether a command is enabled or not.
+		// command:
+		//		The command to execute
 		// tags:
 		//		protected
 		if(this.disabled || !this._disabledOK){ return false; }
+		
 		command = this._normalizeCommand(command);
-		if(dojo.isMoz || dojo.isWebKit){
-			if(command == "unlink"){ // mozilla returns true always
-				// console.debug(this._sCall("hasAncestorElement", ['a']));
-				return this._sCall("hasAncestorElement", ["a"]);
-			}else if(command == "inserttable"){
-				return true;
-			}
-		}
-		//see #4109
-		if(dojo.isWebKit){
-			if(command == "cut" || command == "copy"){
-				// WebKit deems clipboard activity as a security threat and natively would return false
-				var sel = this.window.getSelection();
-				if(sel){ sel = sel.toString(); }
-				return !!sel;
-			}else if(command == "paste"){
-				return true;
-			}
-		}
 
-		var elem = dojo.isIE ? this.document.selection.createRange() : this.document;
-		try{
-			return elem.queryCommandEnabled(command);
-		}catch(e){
-			//Squelch, occurs if editor is hidden on FF 3 (and maybe others.)
-			return false;
+		//Check to see if we have any over-rides for commands, they will be functions on this
+		//widget of the form _commandEnabledImpl.  If we don't, fall through to the basic native
+		//command of the browser.
+		var implFunc = "_" + command + "EnabledImpl";
+		
+		if(this[implFunc]){
+			return  this[implFunc](command);
+		}else{
+			return this._browserQueryCommandEnabled(command);
 		}
-
 	},
 
 	queryCommandState: function(command){
@@ -1804,13 +1790,152 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			.replace(/(?:(<img(?=\s).*?\ssrc=)("|')(.*?)\2)|(?:(<img\s.*?src=)([^"'][^ >]+))/gi,
 				'$1$4$2$3$5$2 _djrealurl=$2$3$5$2'); // String
 	},
-
+	
 	/*****************************************************************************
 		The following functions implement HTML manipulation commands for various
 		browser/contentEditable implementations.  The goal of them is to enforce
 		standard behaviors of them.
 	******************************************************************************/
 
+	/*** queryCommandEnabled implementations ***/
+	
+	_browserQueryCommandEnabled: function(command){
+		// summary:
+		//		Implementation to call to the native queryCommandEnabled of the browser.
+		// command:
+		//		The command to check.
+		// tags:
+		//		protected
+		if(!command) { return false }
+		var elem = dojo.isIE ? this.document.selection.createRange() : this.document;
+		try{
+			return elem.queryCommandEnabled(command);
+		}catch(e){
+			return false;
+		}
+	},
+	
+	_createlinkEnabledImpl: function(argument){
+		// summary:
+		//		This function implements the test for if the create link
+		//		command should be enabled or not.
+		// argument:
+		//		arguments to the exec command, if any.
+		// tags:
+		//		protected
+		var enabled = true;
+		if(dojo.isOpera){
+			var sel = this.window.getSelection();
+			if(sel.isCollapsed){
+				enabled = true;
+			}else{
+				enabled = this.document.queryCommandEnabled("createlink");
+			}
+		}else{
+			enabled = this._browserQueryCommandEnabled("createlink");
+		}
+		return enabled;
+	},
+
+	_unlinkEnabledImpl: function(argument){
+		// summary:
+		//		This function implements the test for if the unlin
+		//		command should be enabled or not.
+		// argument:
+		//		arguments to the exec command, if any.
+		// tags:
+		//		protected
+		var enabled = true;
+		if(dojo.isMoz || dojo.isWebKit){
+			if(command == "unlink"){ // mozilla returns true always
+				enabled = this._sCall("hasAncestorElement", ["a"]);
+			}
+		}else{
+			enabled = this._browserQueryCommandEnabled("unlink");
+		}
+		return enabled;
+	},
+
+	_inserttableEnabledImpl: function(argument){
+		// summary:
+		//		This function implements the test for if the inserttable 
+		//		command should be enabled or not.
+		// argument:
+		//		arguments to the exec command, if any.
+		// tags:
+		//		protected
+		var enabled = true;
+		if(dojo.isMoz || dojo.isWebKit){
+			enabled = true;
+		}else{
+			enabled = this._browserQueryCommandEnabled("inserttable");
+		}
+		return enabled;
+	},
+
+	_cutEnabledImpl: function(argument){
+		// summary:
+		//		This function implements the test for if the cut
+		//		command should be enabled or not.
+		// argument:
+		//		arguments to the exec command, if any.
+		// tags:
+		//		protected
+		var enabled = true;
+		if(dojo.isWebKit){
+			if(command == "cut" || command == "copy"){
+				// WebKit deems clipboard activity as a security threat and natively would return false
+				var sel = this.window.getSelection();
+				if(sel){ sel = sel.toString(); }
+				return !!sel;
+			}else if(command == "paste"){
+				return true;
+			}
+		}else{
+			enabled = this._browserQueryCommandEnabled("inserttable");
+		}
+		return enabled;
+	},
+	
+	_copyEnabledImpl: function(argument){
+		// summary:
+		//		This function implements the test for if the copy
+		//		command should be enabled or not.
+		// argument:
+		//		arguments to the exec command, if any.
+		// tags:
+		//		protected
+		var enabled = true;
+		if(dojo.isWebKit){
+			// WebKit deems clipboard activity as a security threat and natively would return false
+			var sel = this.window.getSelection();
+			if(sel){ sel = sel.toString(); }
+			enabled = !!sel;
+		}else{
+			enabled = this._browserQueryCommandEnabled("inserttable");
+		}
+		return enabled;
+	},
+
+	_pasteEnabledImpl: function(argument){
+		// summary:c
+		//		This function implements the test for if the paste
+		//		command should be enabled or not.
+		// argument:
+		//		arguments to the exec command, if any.
+		// tags:
+		//		protected
+		var enabled = true;
+		if(dojo.isWebKit){
+			return true;
+		}else{
+			enabled = this._browserQueryCommandEnabled("inserttable");
+		}
+		return enabled;
+	},
+	
+	/*** execCommand implementations ***/
+	
 	_inserthorizontalruleImpl: function(argument){
 		// summary:
 		//		This function implements the insertion of HTML 'HR' tags.
