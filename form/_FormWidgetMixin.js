@@ -100,7 +100,7 @@ return dojo.declare("dijit.form._FormWidgetMixin", null, {
 			}, this);
 		}else{
 			if(this.tabIndex != ""){
-				this.focusNode.setAttribute('tabIndex', this.tabIndex);
+				this.set('tabIndex', this.tabIndex);
 			}
 		}
 	},

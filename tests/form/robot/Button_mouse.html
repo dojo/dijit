@@ -202,6 +202,21 @@
 							}), 1000);
 							return d;
 						}
+					},
+					{
+						name: "tabIndex",
+						timeout: 1000,
+						runTest: function(){
+							var tabIndex = dijit.byId("save").focusNode.tabIndex;
+							doh.t(tabIndex !== 0, "disabled focusNode tabIndex");
+							var tabIndex = dijit.byId("save").titleNode.tabIndex;
+							doh.t(tabIndex !== 0, "disabled titleNode tabIndex");
+							dijit.byId("save").set("disabled", false);
+							var tabIndex = dijit.byId("save").focusNode.tabIndex;
+							doh.t(tabIndex === 0, "enabled focusNode tabIndex");
+							var tabIndex = dijit.byId("save").titleNode.tabIndex;
+							doh.t(tabIndex === 0, "enabled titleNode tabIndex");
+						}
 					}
 				]);
 
