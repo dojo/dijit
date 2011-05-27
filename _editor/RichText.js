@@ -1847,9 +1847,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		//		protected
 		var enabled = true;
 		if(dojo.isMoz || dojo.isWebKit){
-			if(command == "unlink"){ // mozilla returns true always
-				enabled = this._sCall("hasAncestorElement", ["a"]);
-			}
+			enabled = this._sCall("hasAncestorElement", ["a"]);
 		}else{
 			enabled = this._browserQueryCommandEnabled("unlink");
 		}
