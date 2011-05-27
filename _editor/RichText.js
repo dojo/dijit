@@ -1854,6 +1854,23 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		return enabled;
 	},
 
+	_unlinkEnabledImpl: function(argument){
+		// summary:
+		//		This function implements the test for if the unlin
+		//		command should be enabled or not.
+		// argument:
+		//		arguments to the exec command, if any.
+		// tags:
+		//		protected
+		var enabled = true;
+		if(dojo.isMoz || dojo.isWebKit){
+			enabled = this._sCall("hasAncestorElement", ["a"]);
+		}else{
+			enabled = this._browserQueryCommandEnabled("unlink");
+		}
+		return enabled;
+	},
+
 	_inserttableEnabledImpl: function(argument){
 		// summary:
 		//		This function implements the test for if the inserttable 
@@ -1881,16 +1898,12 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		//		protected
 		var enabled = true;
 		if(dojo.isWebKit){
-			if(command == "cut" || command == "copy"){
-				// WebKit deems clipboard activity as a security threat and natively would return false
-				var sel = this.window.getSelection();
-				if(sel){ sel = sel.toString(); }
-				return !!sel;
-			}else if(command == "paste"){
-				return true;
-			}
+			// WebKit deems clipboard activity as a security threat and natively would return false
+			var sel = this.window.getSelection();
+			if(sel){ sel = sel.toString(); }
+			enabled = !!sel;
 		}else{
-			enabled = this._browserQueryCommandEnabled("inserttable");
+			enabled = this._browserQueryCommandEnabled("cut");
 		}
 		return enabled;
 	},
@@ -1910,7 +1923,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			if(sel){ sel = sel.toString(); }
 			enabled = !!sel;
 		}else{
-			enabled = this._browserQueryCommandEnabled("inserttable");
+			enabled = this._browserQueryCommandEnabled("copy");
 		}
 		return enabled;
 	},
@@ -1927,7 +1940,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		if(dojo.isWebKit){
 			return true;
 		}else{
-			enabled = this._browserQueryCommandEnabled("inserttable");
+			enabled = this._browserQueryCommandEnabled("paste");
 		}
 		return enabled;
 	},
