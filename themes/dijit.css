@@ -860,13 +860,13 @@ body .dijitAlignClient { position: absolute; }
 	height: 7px;
 	border-top:1px;
 	border-bottom:1px;
-	cursor: ns-resize;
+	cursor: row-resize;
 }
 .dijitSplitterV {
 	width: 7px;
 	border-left:1px;
 	border-right:1px;
-	cursor: ew-resize;
+	cursor: col-resize;
 }
 .dijitSplitContainer {
 	position: relative;
@@ -886,8 +886,6 @@ body .dijitAlignClient { position: absolute; }
 .dijitSplitContainerSizerV {
 	position:absolute;
 	font-size: 1px;
-	cursor: move;
-	cursor: w-resize;
 	background-color: ThreeDFace;
 	border: 1px solid;
 	border-color: ThreeDHighlight ThreeDShadow ThreeDShadow ThreeDHighlight;
@@ -916,11 +914,12 @@ body .dijitAlignClient { position: absolute; }
 	margin: 0;
 }
 
-.dj_ie .dijitSplitterV, .dijitSplitContainerVirtualSizerH {
-	cursor: w-resize;
+.dijitSplitContainerSizerH, .dijitSplitContainerVirtualSizerH {
+	cursor: col-resize;
 }
-.dj_ie .dijitSplitterH, .dijitSplitContainerSizerV, .dijitSplitContainerVirtualSizerV {
-	cursor: n-resize;
+
+.dijitSplitContainerSizerV, .dijitSplitContainerVirtualSizerV {
+	cursor: row-resize;
 }
 
 .dijit_a11y .dijitSplitterH {
