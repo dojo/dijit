@@ -87,8 +87,8 @@ define([
 			];
 
 			return {
-				cancel: function(){
-					dojo.forEach(handles, function(h){ h.cancel(); });
+				remove: function(){
+					dojo.forEach(handles, function(h){ h.remove(); });
 				}
 			};
 		}
