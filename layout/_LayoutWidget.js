@@ -234,7 +234,7 @@ define([
 
 	dijit.layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ dim, /*Widget[]*/ children,
 			/*String?*/ changedRegionId, /*Number?*/ changedRegionSize){
-		// summary
+		// summary:
 		//		Layout a bunch of child dom nodes within a parent dom node
 		// container:
 		//		parent node

@@ -19,7 +19,7 @@ define([
 //		Includes dijit.Menu widget and base class dijit._MenuBase
 
 dojo.declare("dijit.Menu", dijit.DropDownMenu, {
-	// summary
+	// summary:
 	//		A context menu you can assign to multiple elements
 
 	constructor: function(){

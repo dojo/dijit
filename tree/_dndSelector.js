@@ -15,7 +15,7 @@ define([
 
 	// module:
 	//		dijit/tree/_dndSelector
-    // summary:
+	// summary:
 	//		This is a base class for `dijit.tree.dndSource` , and isn't meant to be used directly.
 	//		It's based on `dojo.dnd.Selector`.
 
@@ -88,7 +88,7 @@ define([
 			this.selection = this.anchor = null;
 		},
 		addTreeNode: function(/*dijit._TreeNode*/node, /*Boolean?*/isAnchor){
-			// summary
+			// summary:
 			//		add node to current selection
 			// node: Node
 			//		node to add
@@ -100,7 +100,7 @@ define([
 			return node;
 		},
 		removeTreeNode: function(/*dijit._TreeNode*/node){
-			// summary
+			// summary:
 			//		remove node from current selection
 			// node: Node
 			//		node to remove
@@ -108,7 +108,7 @@ define([
 			return node;
 		},
 		isTreeNodeSelected: function(/*dijit._TreeNode*/node){
-			// summary
+			// summary:
 			//		return true if node is currently selected
 			// node: Node
 			//		the node to check whether it's in the current selection
@@ -116,13 +116,13 @@ define([
 			return node.id && !!this.selection[node.id];
 		},
 		setSelection: function(/*dijit._treeNode[]*/ newSelection){
-			// summary
-			//      set the list of selected nodes to be exactly newSelection. All changes to the
-			//      selection should be passed through this function, which ensures that derived
-			//      attributes are kept up to date. Anchor will be deleted if it has been removed
-			//      from the selection, but no new anchor will be added by this function.
+			// summary:
+			//		set the list of selected nodes to be exactly newSelection. All changes to the
+			//		selection should be passed through this function, which ensures that derived
+			//		attributes are kept up to date. Anchor will be deleted if it has been removed
+			//		from the selection, but no new anchor will be added by this function.
 			// newSelection: Node[]
-			//      list of tree nodes to make selected
+			//		list of tree nodes to make selected
 			var oldSelection = this.getSelectedTreeNodes();
 			dojo.forEach(this._setDifference(oldSelection, newSelection), dojo.hitch(this, function(node){
 				node.setSelected(false);
@@ -138,11 +138,11 @@ define([
 			this._updateSelectionProperties();
 		},
 		_setDifference: function(xs,ys){
-			// summary
-			//      Returns a copy of xs which lacks any objects
-			//      occurring in ys. Checks for membership by
-			//      modifying and then reading the object, so it will
-			//      not properly handle sets of numbers or strings.
+			// summary:
+			//		Returns a copy of xs which lacks any objects
+			//		occurring in ys. Checks for membership by
+			//		modifying and then reading the object, so it will
+			//		not properly handle sets of numbers or strings.
 
 			dojo.forEach(ys, function(y){ y.__exclude__ = true; });
 			var ret = dojo.filter(xs, function(x){ return !x.__exclude__; });
@@ -152,9 +152,9 @@ define([
 			return ret;
 		},
 		_updateSelectionProperties: function(){
-			// summary
-			//      Update the following tree properties from the current selection:
-			//      path[s], selectedItem[s], selectedNode[s]
+			// summary:
+			//		Update the following tree properties from the current selection:
+			//		path[s], selectedItem[s], selectedNode[s]
 
 			var selected = this.getSelectedTreeNodes();
 			var paths = [], nodes = [];
@@ -182,7 +182,7 @@ define([
 			// ignore click on expando node
 			if(!this.current || this.tree.isExpandoNode(e.target, this.current)){ return; }
 
-			if(!dojo.mouseButtons.isLeft(e)){ return; }	// ignore right-click
+			if(!dojo.mouseButtons.isLeft(e)){ return; } // ignore right-click
 
 			dojo.stopEvent(e);
 
@@ -219,7 +219,7 @@ define([
 			this.userSelect(this.current, dojo.isCopyKey( e ), e.shiftKey);
 		},
 		onMouseMove: function(e){
-			// summary
+			// summary:
 			//		event processor for onmousemove/ontouchmove
 			// e: Event
 			//		onmousemove/ontouchmove event
@@ -229,7 +229,7 @@ define([
 		userSelect: function(node, multi, range){
 			// summary:
 			//		Add or remove the given node from selection, responding
-			//      to a user action such as a click or keypress.
+			//		to a user action such as a click or keypress.
 			// multi: Boolean
 			//		Indicates whether this is meant to be a multi-select action (e.g. ctrl-click)
 			// range: Boolean
@@ -266,14 +266,14 @@ define([
 
 					this.setSelection(nodes);
 				}else{
-				    if( this.selection[ node.id ] && multi ){
+					if( this.selection[ node.id ] && multi ){
 						this.removeTreeNode( node );
-				    }else if(multi){
+					}else if(multi){
 						this.addTreeNode(node, true);
 					}else{
 						this.setSelection([node]);
 						this.anchor = node;
-				    }
+					}
 				}
 			}
 		},

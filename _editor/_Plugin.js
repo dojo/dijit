@@ -16,7 +16,7 @@ define([
 
 
 dojo.declare("dijit._editor._Plugin", null, {
-	// summary
+	// summary:
 	//		Base class for a "plugin" to the editor, which is usually
 	//		a single button on the Toolbar and some associated code
 
