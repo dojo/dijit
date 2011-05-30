@@ -261,6 +261,14 @@
 			);
 
 			doh.register("watch('value')", [
+				// Set() calls fire onChange() on a timer, so set calls from above may have unfired onChange events.
+				// Avoid spurious watch() notifications by waiting for lingering onChange() events to fire.
+				function coolDown(){
+					var d = new doh.Deferred();
+					setTimeout(function(){ d.callback(); }, 100);
+					return d;
+				},
+
 				// Setup watch("value", ...)
 				function setUp(){
 					// Setup globals to reflect return from watch("value"), ...
@@ -279,7 +287,6 @@
 				// and see if Form.watch("value", ...) does the right thing					
 				function formSet(){
 					var d = new doh.Deferred();
-
 					calls = 0;
 					formWidget.set("value", {
 						foo: {bar: {baz: {quux: "1967-10-20"} } },
