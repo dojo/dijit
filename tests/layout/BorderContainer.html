@@ -40,6 +40,7 @@
 				function initialConditions(){
 					checkBCpanes(dijit.byId("border1"));
 					checkBCpanes(dijit.byId("border2"));
+					doh.is("auto", dojo.style("border1-left", "overflow"), "overflow on ContentPane should be auto");
 				},
 
 				function resize(){

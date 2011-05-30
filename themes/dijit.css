@@ -775,10 +775,10 @@ DIV.dijitArrowButton {
 	overflow: hidden;
 }
 
-body .dijitAlignTop,
-body .dijitAlignBottom,
-body .dijitAlignLeft,
-body .dijitAlignRight {
+.dijitAlignTop,
+.dijitAlignBottom,
+.dijitAlignLeft,
+.dijitAlignRight {
 	position: absolute;
 	overflow: hidden;
 }
@@ -786,7 +786,7 @@ body .dijitAlignRight {
 body .dijitAlignClient { position: absolute; }
 
 /*
- * BorderContaienr
+ * BorderContainer
  *
  * .dijitBorderContainer is a stylized layout where panes have border and margin.
  * .dijitBorderContainerNoGutter is a raw layout.
