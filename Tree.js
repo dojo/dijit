@@ -1605,7 +1605,7 @@ dojo.declare(
 		// The only JS sizing involved w/tree is the indentation, which is specified
 		// in CSS and read in through this dummy indentDetector node (tree must be
 		// visible and attached to the DOM to read this)
-		this._nodePixelIndent = dojo._getMarginSize(this.tree.indentDetector).w;
+		this._nodePixelIndent = dojo.position(this.tree.indentDetector).w;
 
 		if(this.tree.rootNode){
 			// If tree has already loaded, then reset indent for all the nodes
