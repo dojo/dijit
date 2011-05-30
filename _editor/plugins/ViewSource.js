@@ -168,13 +168,11 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin, {
 				}
 
 				this.sourceArea.value = html;
-				var is = dojo._getMarginSize(ed.iframe.parentNode);
 
-				dojo.marginBox(this.sourceArea, {
-					w: is.w,
-					h: is.h
-				});
-
+				// Since neither iframe nor textarea have margin, border, or padding,
+				// just set sizes equal
+				this.sourceArea.style.height = ed.iframe.style.height;
+				this.sourceArea.style.width = ed.iframe.style.width;
 				dojo.style(ed.iframe, "display", "none");
 				dojo.style(this.sourceArea, {
 					display: "block"
@@ -299,10 +297,9 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin, {
 		var containerMargin = dojo._getMarginExtents(ed.iframe.parentNode);
 
 		var extents = dojo._getPadBorderExtents(ed.domNode);
-		var mExtents = dojo._getMarginExtents(ed.domNode);
 		var edb = {
-			w: eb.w - (extents.w + mExtents.w),
-			h: eb.h - (tbH + extents.h + mExtents.h + fH)
+			w: eb.w - extents.w,
+			h: eb.h - (tbH + extents.h + + fH)
 		};
 
 		// Fullscreen gets odd, so we need to check for the FS plugin and
