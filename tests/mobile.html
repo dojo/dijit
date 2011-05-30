@@ -9,7 +9,7 @@
 		<script type="text/javascript" src="../../dojo/dojo.js" data-dojo-config="async: true"></script>
 
 		<script language="JavaScript" type="text/javascript">
-			require.ready([
+			require([
 				"dojo/_base/kernel",
 				"dojo/_base/json",
 				"dijit",
@@ -39,8 +39,8 @@
 
 				"dijit/Tree",
 				"dojo/data/ItemFileReadStore",
-				"dijit/tree/ForestStoreModel"
-
+				"dijit/tree/ForestStoreModel",
+				"dojo/domReady!"
 			], function(dojo, dijit){
 				dojo.parser.parse();
 			});

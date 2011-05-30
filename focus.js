@@ -9,7 +9,7 @@ define([
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html", // dojo.attr dojo.isDescendant
 	"dojo/_base/lang", // dojo.hitch
-	"dojo/_base/load", // dojo.addOnLoad
+	"dojo/ready", // dojo.addOnLoad
 	"dojo/_base/sniff", // dojo.isIE
 	"dojo/_base/unload", // dojo.addOnWindowUnload
 	"dojo/_base/window" // dojo.body
@@ -33,7 +33,7 @@ define([
 		// curNode: DomNode
 		//		Currently focused item on screen
 		curNode: null,
-	
+
 		// activeStack: dijit._Widget[]
 		//		List of currently active widgets (focused widget and it's ancestors)
 		activeStack: [],

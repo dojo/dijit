@@ -13,7 +13,7 @@ define([
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/html", // dojo.addClass dojo.attr dojo.byId dojo.contentBox dojo.create dojo.destroy dojo.getComputedStyle dojo.place dojo.position dojo.removeClass dojo.style
 	"dojo/_base/lang", // dojo.clone dojo.hitch dojo.isArray dojo.isFunction dojo.isString dojo.trim
-	"dojo/_base/load", // dojo.addOnLoad
+	"dojo/ready", // dojo.addOnLoad
 	"dojo/_base/sniff", // dojo.isIE dojo.isMoz dojo.isOpera dojo.isSafari dojo.isWebKit
 	"dojo/_base/unload", // dojo.addOnUnload
 	"dojo/_base/window", // dojo.body dojo.doc.body.focus dojo.doc.createElement dojo.global.location dojo.withGlobal
@@ -480,7 +480,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 
 		// Set the iframe's initial (blank) content.
 		var iframeSrcRef = 'parent.' + dijit._scopeName + '.byId("'+this.id+'")._iframeSrc';
-		var s = 'javascript:(function(){try{return ' + iframeSrcRef + '}catch(e){document.open();document.domain="' + 
+		var s = 'javascript:(function(){try{return ' + iframeSrcRef + '}catch(e){document.open();document.domain="' +
 				document.domain + '";document.write(' + iframeSrcRef + ');document.close();}})()';
 		ifr.setAttribute('src', s);
 		this.editingArea.appendChild(ifr);
@@ -1266,14 +1266,14 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		// tags:
 		//		protected
 		if(this.disabled || !this._disabledOK){ return false; }
-		
+
 		command = this._normalizeCommand(command);
 
 		//Check to see if we have any over-rides for commands, they will be functions on this
 		//widget of the form _commandEnabledImpl.  If we don't, fall through to the basic native
 		//command of the browser.
 		var implFunc = "_" + command + "EnabledImpl";
-		
+
 		if(this[implFunc]){
 			return  this[implFunc](command);
 		}else{
@@ -1790,7 +1790,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			.replace(/(?:(<img(?=\s).*?\ssrc=)("|')(.*?)\2)|(?:(<img\s.*?src=)([^"'][^ >]+))/gi,
 				'$1$4$2$3$5$2 _djrealurl=$2$3$5$2'); // String
 	},
-	
+
 	/*****************************************************************************
 		The following functions implement HTML manipulation commands for various
 		browser/contentEditable implementations.  The goal of them is to enforce
@@ -1798,7 +1798,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 	******************************************************************************/
 
 	/*** queryCommandEnabled implementations ***/
-	
+
 	_browserQueryCommandEnabled: function(command){
 		// summary:
 		//		Implementation to call to the native queryCommandEnabled of the browser.
@@ -1814,7 +1814,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			return false;
 		}
 	},
-	
+
 	_createlinkEnabledImpl: function(argument){
 		// summary:
 		//		This function implements the test for if the create link
@@ -1873,7 +1873,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 
 	_inserttableEnabledImpl: function(argument){
 		// summary:
-		//		This function implements the test for if the inserttable 
+		//		This function implements the test for if the inserttable
 		//		command should be enabled or not.
 		// argument:
 		//		arguments to the exec command, if any.
@@ -1907,7 +1907,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}
 		return enabled;
 	},
-	
+
 	_copyEnabledImpl: function(argument){
 		// summary:
 		//		This function implements the test for if the copy
@@ -1944,9 +1944,9 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}
 		return enabled;
 	},
-	
+
 	/*** execCommand implementations ***/
-	
+
 	_inserthorizontalruleImpl: function(argument){
 		// summary:
 		//		This function implements the insertion of HTML 'HR' tags.

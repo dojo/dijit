@@ -163,7 +163,7 @@
 					logWidgets();
 				};
 		
-				require.ready(function(){
+				dojo.ready(function(){
 					var loadCompleteTime = +new Date();
 					console.log("Total load time: " + (loadCompleteTime - startTime) + "ms");
 		
@@ -209,7 +209,7 @@
 					dojo.byId('themeData').innerHTML = tmpString;
 				});
 		
-				require.ready(function(){
+				dojo.ready(function(){
 					// It's the server's responsibility to localize the date displayed in the (non-edit) version of an InlineEditBox,
 					// but since we don't have a server we'll hack it in the client
 					dijit.byId("backgroundArea").set('value', dojo.date.locale.format(new Date(2005, 11, 30), { selector: 'date' }));

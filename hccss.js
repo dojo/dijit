@@ -1,7 +1,7 @@
 define([
 	"dojo/_base/kernel", // dojo.config.blankGif
 	"dojo/_base/html", // dojo.addClass dojo.create dojo.getComputedStyle
-	"dojo/_base/load", // dojo.ready
+	"dojo/ready", // dojo.ready
 	"dojo/_base/sniff", // dojo.isIE dojo.isMoz
 	"dojo/_base/url", // dojo.moduleUrl
 	"dojo/_base/window" // dojo.body

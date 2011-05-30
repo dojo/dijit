@@ -10,7 +10,7 @@
 		<script type="text/javascript" src="../../../dojo/dojo.js" data-dojo-config="async: true"></script>
 
 		<script language="JavaScript" type="text/javascript">
-			require.ready([
+			require([
 				"dojo/_base/kernel",
 				"dijit",
 				"dojo/parser",
@@ -35,7 +35,8 @@
 
 				"dijit/form/HorizontalSlider",
 				"dijit/form/HorizontalRule",
-				"dijit/form/HorizontalRuleLabels"
+				"dijit/form/HorizontalRuleLabels",
+				"dojo/domReady!"
 			], function(dojo, dijit){
 				dojo.parser.parse();
 			});

@@ -10,7 +10,7 @@
 		<script type="text/javascript" src="../../../dojo/dojo.js" data-dojo-config="async: true"></script>
 
 		<script language="JavaScript" type="text/javascript">
-			require.ready([
+			require([
 				"dojo/_base/kernel",
 				"dijit",
 				"dojo/parser",
@@ -18,7 +18,8 @@
 				"dijit/layout/ContentPane",
 				"dijit/layout/AccordionContainer",
 				"dijit/layout/BorderContainer",
-				"dijit/layout/TabContainer"
+				"dijit/layout/TabContainer",
+				"dojo/domReady!"
 			], function(dojo, dijit){
 				dojo.parser.parse();
 			});
