@@ -2,7 +2,6 @@ define([
 	"dojo/_base/kernel", // dojo.mixin
 	".",
 	"dojo/text!./templates/ProgressBar.html",
-	"dojo/fx",
 	"dojo/number", // dojo.number.format
 	"./_Widget",
 	"./_TemplatedMixin",

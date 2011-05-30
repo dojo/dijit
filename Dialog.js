@@ -3,10 +3,6 @@ define([
 	".",
 	"dijit/focus",
 	"dojo/text!./templates/Dialog.html",
-	"dojo/dnd/move",
-	"dojo/dnd/TimedMoveable", // dojo.dnd.TimedMoveable
-	"dojo/fx",
-	"dojo/window", // dojo.window.getBox
 	"./_Widget",
 	"./_TemplatedMixin",
 	"./_CssStateMixin",
@@ -25,8 +21,9 @@ define([
 	"dojo/_base/lang", // dojo.hitch
 	"dojo/_base/sniff", // dojo.isIE dojo.isOpera
 	"dojo/_base/window", // dojo.body
+	"dojo/window", // dojo.window.getBox
 	"dojo/dnd/Moveable", // dojo.dnd.Moveable
-	"dojo/fx", // .play
+	"dojo/dnd/TimedMoveable", // dojo.dnd.TimedMoveable
 	"dojo/i18n" // dojo.i18n.getLocalization
 ], function(dojo, dijit, focus, template){
 
