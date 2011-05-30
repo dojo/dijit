@@ -229,13 +229,13 @@ define([
 				});
 			}
 
-			var mb = dojo._getMarginSize(this.domNode);
+			var bb = dojo.position(this.domNode);
 			var viewport = dojo.window.getBox();
-			if(mb.w >= viewport.w || mb.h >= viewport.h){
+			if(bb.w >= viewport.w || bb.h >= viewport.h){
 				// Reduce size of dialog contents so that dialog fits in viewport
 
-				var w = Math.min(mb.w, Math.floor(viewport.w * 0.75)),
-					h = Math.min(mb.h, Math.floor(viewport.h * 0.75));
+				var w = Math.min(bb.w, Math.floor(viewport.w * 0.75)),
+					h = Math.min(bb.h, Math.floor(viewport.h * 0.75));
 
 				if(this._singleChild && this._singleChild.resize){
 					this._singleChildOriginalStyle = this._singleChild.domNode.style.cssText;
@@ -267,7 +267,7 @@ define([
 				var node = this.domNode,
 					viewport = dojo.window.getBox(),
 					p = this._relativePosition,
-					bb = p ? null : dojo._getBorderBox(node),
+					bb = p ? null : dojo.position(node),
 					l = Math.floor(viewport.l + (p ? p.x : (viewport.w - bb.w) / 2)),
 					t = Math.floor(viewport.t + (p ? p.y : (viewport.h - bb.h) / 2))
 				;
