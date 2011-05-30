@@ -143,7 +143,7 @@ dijit.typematic = {
 				}
 			})
 		];
-		return { remove: function(){ dojo.forEach(handles, function(h){ h.cancel(); }); } };
+		return { remove: function(){ dojo.forEach(handles, function(h){ h.remove(); }); } };
 	},
 
 	addMouseListener: function(/*DOMNode*/ node, /*Object*/ _this, /*Function*/ callback, /*Number*/ subsequentDelay, /*Number*/ initialDelay, /*Number?*/ minDelay){
@@ -177,7 +177,7 @@ dijit.typematic = {
 				}
 			})
 		];
-		return { remove: function(){ dojo.forEach(handles, function(h){ h.cancel(); }); } };
+		return { remove: function(){ dojo.forEach(handles, function(h){ h.remove(); }); } };
 	},
 
 	addListener: function(/*Node*/ mouseNode, /*Node*/ keyNode, /*Object*/ keyObject, /*Object*/ _this, /*Function*/ callback, /*Number*/ subsequentDelay, /*Number*/ initialDelay, /*Number?*/ minDelay){
@@ -195,7 +195,7 @@ dijit.typematic = {
 			this.addKeyListener(keyNode, keyObject, _this, callback, subsequentDelay, initialDelay, minDelay),
 			this.addMouseListener(mouseNode, _this, callback, subsequentDelay, initialDelay, minDelay)
 		];
-		return { remove: function(){ dojo.forEach(handles, function(h){ h.cancel(); }); } };
+		return { remove: function(){ dojo.forEach(handles, function(h){ h.remove(); }); } };
 	}
 };
 
