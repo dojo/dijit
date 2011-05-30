@@ -112,6 +112,9 @@ define([
 			var totalCollapsedHeight = 0;
 			dojo.forEach(this.getChildren(), function(child){
 	            if(child != openPane){
+					// Using dojo._getMarginSize() rather than dojo.position() since claro has 1px bottom margin
+					// to separate accordion panes.  Not sure that works perfectly, it's probably putting a 1px
+					// margin below the bottom pane (even though we don't want one).
 					totalCollapsedHeight += dojo._getMarginSize(child._wrapperWidget.domNode).h;
 				}
 			});
