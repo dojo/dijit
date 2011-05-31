@@ -259,8 +259,8 @@ define([
 
 			var x = anchor.x,
 				y = anchor.y,
-				width = "w" in anchor ? anchor.w : anchor.width,
-				height = "h" in anchor ? anchor.h : anchor.height;
+				width = "w" in anchor ? anchor.w : (anchor.w = anchor.width),
+				height = "h" in anchor ? anchor.h : (dojo.deprecated("place.around: dijit.__Rectangle: { x:"+x+", y:"+y+", height:"+anchor.height+", width:"+width+" } has been deprecated.  Please use { x:"+x+", y:"+y+", h:"+anchor.height+", w:"+width+" }", "", "2.0"), anchor.h = anchor.height);
 
 			// Convert positions arguments into choices argument for _place()
 			var choices = [];
