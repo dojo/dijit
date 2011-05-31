@@ -7,7 +7,7 @@ define([
 	"dojo/cache",
 	"dojo/_base/array", // dojo.forEach
 	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/html", // dojo.destroy
+	"dojo/_base/html", // dojo.destroy, dojo.toDom
 	"dojo/_base/lang", // dojo.extend dojo.isArray dojo.isString dojo.trim
 	"dojo/_base/sniff", // dojo.isIE
 	"dojo/_base/unload", // dojo.addOnWindowUnload
@@ -107,7 +107,7 @@ define([
 
 			var node;
 			if(dojo.isString(cached)){
-				node = dojo._toDom(this._stringRepl(cached));
+				node = dojo.toDom(this._stringRepl(cached));
 				if(node.nodeType != 1){
 					// Flag common problems such as templates with multiple top level nodes (nodeType == 11)
 					throw new Error("Invalid template: " + cached);
@@ -270,7 +270,7 @@ define([
 			return (tmplts[key] = templateString); //String
 		}else{
 			// there are no variables in the template so we can cache the DOM tree
-			var node = dojo._toDom(templateString);
+			var node = dojo.toDom(templateString);
 			if(node.nodeType != 1){
 				throw new Error("Invalid template: " + templateString);
 			}
