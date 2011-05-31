@@ -265,7 +265,7 @@
 				// Avoid spurious watch() notifications by waiting for lingering onChange() events to fire.
 				function coolDown(){
 					var d = new doh.Deferred();
-					setTimeout(function(){ d.callback(); }, 100);
+					setTimeout(function(){ d.callback(true); }, 100);
 					return d;
 				},
 
