@@ -475,7 +475,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		//		function.
 		var opts = this.options;
 		if(!opts){
-			opts = this.options = this.srcNodeRef ? dojo.query(">",
+			opts = this.options = this.srcNodeRef ? dojo.query("> *",
 						this.srcNodeRef).map(function(node){
 							if(node.getAttribute("type") === "separator"){
 								return { value: "", label: "", selected: false, disabled: false };
