@@ -168,19 +168,10 @@ define([
 			this.inherited(arguments);
 		},
 
-		_startDrag : function(){
-			// summary : 
-			//		Called on start of drag
-			this._isBeingDragged = true;
-		},
-
 		_endDrag: function(){
 			// summary:
 			//		Called after dragging the Dialog. Saves the position of the dialog in the viewport,
 			//		and also adjust position to be fully within the viewport, so user doesn't lose access to handle
-
-			this._isBeingDragged = false;
-
 			var nodePosition = dojo.position(this.domNode),
 				viewport = dojo.window.getBox();
 			nodePosition.y = Math.min(Math.max(nodePosition.y, 0), (viewport.h - nodePosition.h));
@@ -203,7 +194,6 @@ define([
 				this._moveable = (dojo.isIE == 6) ?
 					new dojo.dnd.TimedMoveable(node, { handle: this.titleBar }) :	// prevent overload, see #5285
 					new dojo.dnd.Moveable(node, { handle: this.titleBar, timeout: 0 });
-				this.connect(this._moveable, "onMoveStart", "_startDrag");
 				this.connect(this._moveable, "onMoveStop", "_endDrag");
 			}else{
 				dojo.addClass(node,"dijitDialogFixed");
@@ -270,9 +260,7 @@ define([
 			//		in the viewport has been determined (by dragging, for instance),
 			//		center the node. Otherwise, use the Dialog's stored relative offset,
 			//		and position the node to top: left: values based on the viewport.
-			// tags:
-			//		private
-			if(!this._isBeingDragged){
+			if(!dojo.hasClass(dojo.body(), "dojoMove")){	// don't do anything if called during auto-scroll
 				var node = this.domNode,
 					viewport = dojo.window.getBox(),
 					p = this._relativePosition,
