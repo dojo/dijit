@@ -166,7 +166,6 @@ define([
 
 		_onDropDownClick: function(/*Event*/ e){
 			if(dojo.isWebKit && !this._justGotMouseUp){
-				console.log("in if");
 				// This branch fires on iPhone for ComboBox, because the button node is an <input> and doesn't
 				// generate touchstart/touchend events.   Pretend we just got a mouse down / mouse up.
 				// The if(dojo.isWebKit) is necessary since IE gets spurious onclick events
