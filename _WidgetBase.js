@@ -253,13 +253,8 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		// store pointer to original DOM tree
 		this.srcNodeRef = dojo.byId(srcNodeRef);
 
-		// For garbage collection.  An array of handles returned by Widget.connect()
-		// Each handle returned from Widget.connect() is an array of handles from dojo.connect()
+		// For garbage collection.  An array of listener handles returned by this.connect() / this.subscribe()
 		this._connects = [];
-
-		// For garbage collection.  An array of handles returned by Widget.subscribe()
-		// The handle returned from Widget.subscribe() is the handle returned from dojo.subscribe()
-		this._subscribes = [];
 
 		// For widgets internal to this widget, invisible to calling code
 		this._supportingWidgets = [];
@@ -453,24 +448,22 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 
 		this._beingDestroyed = true;
 		this.uninitialize();
-		var d = dojo,
-			dfe = d.forEach,
-			dun = d.unsubscribe;
-		dfe(this._connects, function(handle){
-			d.disconnect(handle);
-		});
-		dfe(this._subscribes, function(handle){
-			dun(handle);
-		});
+
+		// remove dojo.connect() and dojo.subscribe() listeners
+		var c;
+		while(c = this._connects.pop()){
+			c.remove();
+		}
 
 		// destroy widgets created as part of template, etc.
-		dfe(this._supportingWidgets || [], function(w){
+		var w;
+		while(w = this._supportingWidgets.pop()){
 			if(w.destroyRecursive){
 				w.destroyRecursive();
 			}else if(w.destroy){
 				w.destroy();
 			}
-		});
+		}
 
 		this.destroyRendering(preserveDom);
 		dijit.registry.remove(this.id);
@@ -798,7 +791,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 
 		for(var i=0; i<this._connects.length; i++){
 			if(this._connects[i] == handle){
-				dojo.disconnect(handle);
+				handle.remove();
 				this._connects.splice(i, 1);
 				return;
 			}
@@ -824,10 +817,8 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		// tags:
 		//		protected
 		var handle = dojo.subscribe(topic, this, method);
-
-		// return handles for Any widget that may need them
-		this._subscribes.push(handle);
-		return handle;
+		this._connects.push(handle);
+		return handle;		// _Widget.Handle
 	},
 
 	unsubscribe: function(/*Object*/ handle){
@@ -836,13 +827,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		//		Also removes handle from this widget's list of subscriptions
 		// tags:
 		//		protected
-		for(var i=0; i<this._subscribes.length; i++){
-			if(this._subscribes[i] == handle){
-				dojo.unsubscribe(handle);
-				this._subscribes.splice(i, 1);
-				return;
-			}
-		}
+		this.disconnect(handle);
 	},
 
 	isLeftToRight: function(){
