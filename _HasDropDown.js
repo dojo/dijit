@@ -150,10 +150,16 @@ define([
 					}
 				}
 			}
-			if(this._opened && dropDown.focus && dropDown.autoFocus !== false){
-				// Focus the dropdown widget - do it on a delay so that we
-				// don't steal our own focus.
-				window.setTimeout(dojo.hitch(dropDown, "focus"), 1);
+			if(this._opened){
+				if(dropDown.focus && dropDown.autoFocus !== false){
+					// Focus the dropdown widget - do it on a delay so that we
+					// don't steal our own focus.
+					window.setTimeout(dojo.hitch(dropDown, "focus"), 1);
+				}
+			}else{
+				// The drop down arrow icon probably can't receive focus, but widget itself should get focus.
+				// setTimeout() needed to make it work on IE (test DateTextBox)
+				setTimeout(dojo.hitch(this, "focus"), 0);
 			}
 
 			if(dojo.isWebKit){

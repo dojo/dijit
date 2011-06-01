@@ -191,6 +191,80 @@
 					}
 				]);
 
+				doh.register("DateTextBox", [
+					{
+						name: "open TooltipDialog",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveAt("tooltipDlgButton", 1000);
+							doh.robot.mouseClick({left: true}, 1000);
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(isVisible("tooltipDlg"), "TooltipDialog visible");
+								doh.is("inline", dojo.global.dijit._curFocus.id, "focus on InlineEditBox (first field in TooltipDialog)")
+							}), 1000);
+						}
+					},
+
+					{
+						name: "open DateTextBox by clicking arrow",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred(),
+								date = dijit.byId("date2");
+
+							// click arrow to open
+							doh.robot.mouseMoveAt(function(){
+								return dojo.query(".dijitArrowButton", date.domNode)[0];
+							}, 0);
+							doh.robot.mouseClick({left: true}, 1000);
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(isVisible("tooltipDlg"), "TooltipDialog should still be showing");
+								doh.t(isVisible("date2_popup"), "Calendar showing too");
+							}), 1000);
+
+							return d;
+						}
+					},
+
+					{
+						name: "close DateTextBox by clicking arrow",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred(),
+								date = dijit.byId("date2");
+
+							// click arrow to open
+							doh.robot.mouseMoveAt(function(){
+								return dojo.query(".dijitArrowButton", date.domNode)[0];
+							}, 0);
+							doh.robot.mouseClick({left: true}, 1000);
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(isVisible("tooltipDlg"), "TooltipDialog should still be showing");
+								doh.f(isVisible("date_popup"), "calendar closed");
+							}), 1000);
+						}
+					},
+
+					{
+						name: "close TooltipDialog",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMove(10, 10, 0);
+							doh.robot.mouseClick({left: true}, 1000);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(isHidden("tooltipDlg"), "Tooltip dialog closed");
+							}), 500);
+
+							return d;
+						}
+					}
+				]);
+
 				doh.register("Menu", [
 					{
 						name: "open outer TooltipDialog",

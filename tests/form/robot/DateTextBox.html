@@ -919,14 +919,13 @@
 						name: "today",
 						timeout: 6000,
 						setUp: function(){
-							german.closeDropDown();
+							german.closeDropDown(true);	// close drop down and focus widget
 							german.set('value', null);
 							german.set("dropDownDefaultValue", null);
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							german.focus();
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -942,21 +941,20 @@
 							return d;
 						},
 						tearDown: function(){
-							german.closeDropDown();
+							german.closeDropDown(true);
 						}
 					},
 					{
 						name: "dropDownDefaultValue",
 						timeout: 6000,
 						setUp: function(){
-							german.closeDropDown();
+							german.closeDropDown(true);
 							german.set('value', null);
 							german.set("dropDownDefaultValue", new Date(2000,11,21));
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							german.focus();
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -972,7 +970,7 @@
 							return d;
 						},
 						tearDown: function(){
-							german.closeDropDown();
+							german.closeDropDown(true);
 						}
 					},
 
@@ -981,14 +979,13 @@
 						name: "textbox value",
 						timeout: 6000,
 						setUp: function(){
-							german.closeDropDown();
+							german.closeDropDown(true);
 							german.set("dropDownDefaultValue", new Date(2000,11,21));
 							german.set('value', new Date(1900,10,25));
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							german.focus();
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -1005,7 +1002,7 @@
 							return d;
 						},
 						tearDown: function(){
-							german.closeDropDown();
+							german.closeDropDown(true);
 						}
 					}
 				]);

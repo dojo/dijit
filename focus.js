@@ -118,9 +118,14 @@ define([
 					targetWindow.document.body.attachEvent('onmousedown', mousedownListener);
 					var activateListener = function(evt){
 						// IE reports that nodes like <body> have gotten focus, even though they have tabIndex=-1,
-						// Should consider those more like a mouse-click than a focus....
-						if(evt.srcElement.tagName.toLowerCase() != "#document" &&
-							dijit.isTabNavigable(evt.srcElement)){
+						// ignore those events
+						var tag = evt.srcElement.tagName.toLowerCase();
+						if(tag == "#document" || tag == "body"){ return; }
+
+						// Previous code called _onTouchNode() for any activate event on a non-focusable node.   Can
+						// probably just ignore such an event as it will be handled by onmousedown handler above, but
+						// leaving the code for now.
+						if(dijit.isTabNavigable(evt.srcElement)){
 							_this._onFocusNode(effectiveNode || evt.srcElement);
 						}else{
 							_this._onTouchNode(effectiveNode || evt.srcElement);
