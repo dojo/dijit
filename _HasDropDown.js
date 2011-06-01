@@ -1,6 +1,7 @@
 define([
 	"dojo/_base/kernel",
 	".",
+	"dojo/has",
 	"dojo/touch",
 	"./popup",
 	"./_FocusMixin",
@@ -11,7 +12,7 @@ define([
 	"dojo/_base/lang", // dojo.hitch dojo.isFunction
 	"dojo/_base/window", // dojo.doc
 	"dojo/window" // dojo.window.getBox
-], function(dojo, dijit, touch, popup){
+], function(dojo, dijit, has, touch, popup){
 
 	// module:
 	//		dijit/_HasDropDown
@@ -162,7 +163,7 @@ define([
 				setTimeout(dojo.hitch(this, "focus"), 0);
 			}
 
-			if(dojo.isWebKit){
+			if(has("ios")){
 				this._justGotMouseUp = true;
 				setTimeout(dojo.hitch(this, function(){
 					this._justGotMouseUp = false;
@@ -171,10 +172,10 @@ define([
 		},
 
 		_onDropDownClick: function(/*Event*/ e){
-			if(dojo.isWebKit && !this._justGotMouseUp){
+			if(has("ios") && !this._justGotMouseUp){
 				// This branch fires on iPhone for ComboBox, because the button node is an <input> and doesn't
 				// generate touchstart/touchend events.   Pretend we just got a mouse down / mouse up.
-				// The if(dojo.isWebKit) is necessary since IE gets spurious onclick events
+				// The if(has("ios") is necessary since IE and desktop safari get spurious onclick events
 				// when there are nested tables (specifically, clicking on a table that holds a dijit.form.Select,
 				// but not on the Select itself, causes an onclick event on the Select)
 				this._onDropDownMouseDown(e);
