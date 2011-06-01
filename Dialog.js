@@ -168,14 +168,25 @@ define([
 			this.inherited(arguments);
 		},
 
-		_endDrag: function(e){
+		_startDrag : function(){
+			// summary : 
+			//		Called on start of drag
+			this._isBeingDragged = true;
+		},
+
+		_endDrag: function(){
 			// summary:
-			//		Called after dragging the Dialog. Saves the position of the dialog in the viewport.
-			// tags:
-			//		private
-			if(e && e.node && e.node === this.domNode){
-				this._relativePosition = dojo.position(e.node);
-			}
+			//		Called after dragging the Dialog. Saves the position of the dialog in the viewport,
+			//		and also adjust position to be fully within the viewport, so user doesn't lose access to handle
+
+			this._isBeingDragged = false;
+
+			var nodePosition = dojo.position(this.domNode),
+				viewport = dojo.window.getBox();
+			nodePosition.y = Math.min(Math.max(nodePosition.y, 0), (viewport.h - nodePosition.h));
+			nodePosition.x = Math.min(Math.max(nodePosition.x, 0), (viewport.w - nodePosition.w));
+			this._relativePosition = nodePosition;
+			this._position();
 		},
 
 		_setup: function(){
@@ -192,7 +203,8 @@ define([
 				this._moveable = (dojo.isIE == 6) ?
 					new dojo.dnd.TimedMoveable(node, { handle: this.titleBar }) :	// prevent overload, see #5285
 					new dojo.dnd.Moveable(node, { handle: this.titleBar, timeout: 0 });
-				this._dndListener = dojo.subscribe("/dnd/move/stop",this,"_endDrag");
+				this.connect(this._moveable, "onMoveStart", "_startDrag");
+				this.connect(this._moveable, "onMoveStop", "_endDrag");
 			}else{
 				dojo.addClass(node,"dijitDialogFixed");
 			}
@@ -260,7 +272,7 @@ define([
 			//		and position the node to top: left: values based on the viewport.
 			// tags:
 			//		private
-			if(!dojo.hasClass(dojo.body(),"dojoMove")){
+			if(!this._isBeingDragged){
 				var node = this.domNode,
 					viewport = dojo.window.getBox(),
 					p = this._relativePosition,
@@ -471,9 +483,6 @@ define([
 			}
 			if(this._moveable){
 				this._moveable.destroy();
-			}
-			if(this._dndListener){
-				dojo.unsubscribe(this._dndListener);
 			}
 			dojo.forEach(this._modalconnects, dojo.disconnect);
 
