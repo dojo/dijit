@@ -12,24 +12,84 @@ define([
 	"dojo/ready", // dojo.addOnLoad
 	"dojo/_base/sniff", // dojo.isIE
 	"dojo/_base/unload", // dojo.addOnWindowUnload
-	"dojo/_base/window" // dojo.body
-], function(dojo, dijit, listen, aspect, Stateful){
+	"dojo/_base/window", // dojo.body
+	"dijit/_base/manager"	// dijit.byId, dijit.isTabNavigable
+], function(dojo, dijit, on, aspect, Stateful){
 
 	// module:
 	//		dijit/focus
 	// summary:
 	//		Returns a singleton that tracks the currently focused node, and which widgets are currently "active".
-	//
-	//		A widget is considered active if it or a descendant widget has focus,
-	//		or if a non-focusable node of this widget or a descendant was recently clicked.
-	//
-	//		Call focus.watch("curNode", callback) to track the current focused DOMNode,
-	//		or focus.watch("activeStack", callback) to track the currently focused stack of widgets.
-	//
-	//		Call focus.on("widget-blur", func) or focus.on("widget-focus", ...) to monitor when
-	//		when widgets become active/inactive
 
-	var FocusManager = dojo.declare([Stateful, listen.Evented], {
+/*=====
+	dijit.focus = {
+		// summary:
+		//		Tracks the currently focused node, and which widgets are currently "active".
+		//		Access via require(["dijit/focus"], function(focus){ ... }).
+		//
+		//		A widget is considered active if it or a descendant widget has focus,
+		//		or if a non-focusable node of this widget or a descendant was recently clicked.
+		//
+		//		Call focus.watch("curNode", callback) to track the current focused DOMNode,
+		//		or focus.watch("activeStack", callback) to track the currently focused stack of widgets.
+		//
+		//		Call focus.on("widget-blur", func) or focus.on("widget-focus", ...) to monitor when
+		//		when widgets become active/inactive
+
+		// curNode: DomNode
+		//		Currently focused item on screen
+		curNode: null,
+
+		// activeStack: dijit._Widget[]
+		//		List of currently active widgets (focused widget and it's ancestors)
+		activeStack: [],
+
+		registerIframe: function(iframe){
+			// summary:
+			//		Registers listeners on the specified iframe so that any click
+			//		or focus event on that iframe (or anything in it) is reported
+			//		as a focus/click event on the <iframe> itself.
+			// description:
+			//		Currently only used by editor.
+			// returns:
+			//		Handle to pass to unregisterIframe()
+		},
+
+		unregisterIframe: function(handle){
+			// summary:
+			//		Unregisters listeners on the specified iframe created by registerIframe.
+			//		After calling be sure to delete or null out the handle itself.
+			// handle:
+			//		Handle returned by registerIframe()
+		},
+
+		registerWin: function(targetWindow, effectiveNode){
+			// summary:
+			//		Registers listeners on the specified window (either the main
+			//		window or an iframe's window) to detect when the user has clicked somewhere
+			//		or focused somewhere.
+			// description:
+			//		Users should call registerIframe() instead of this method.
+			// targetWindow: Window?
+			//		If specified this is the window associated with the iframe,
+			//		i.e. iframe.contentWindow.
+			// effectiveNode: DOMNode?
+			//		If specified, report any focus events inside targetWindow as
+			//		an event on effectiveNode, rather than on evt.target.
+			// returns:
+			//		Handle to pass to unregisterWin()
+		},
+
+		unregisterWin: function(handle){
+			// summary:
+			//		Unregisters listeners on the specified window (either the main
+			//		window or an iframe's window) according to handle returned from registerWin().
+			//		After calling be sure to delete or null out the handle itself.
+		}
+	};
+=====*/
+
+	var FocusManager = dojo.declare([Stateful, on.Evented], {
 		// curNode: DomNode
 		//		Currently focused item on screen
 		curNode: null,
