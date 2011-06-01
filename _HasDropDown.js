@@ -156,16 +156,22 @@ define([
 				window.setTimeout(dojo.hitch(dropDown, "focus"), 1);
 			}
 
-			this._justGotMouseUp = true;
-			setTimeout(dojo.hitch(this, function(){
-				this._justGotMouseUp = false;
-			}), 0);
+			if(dojo.isWebKit){
+				this._justGotMouseUp = true;
+				setTimeout(dojo.hitch(this, function(){
+					this._justGotMouseUp = false;
+				}), 0);
+			}
 		},
 
 		_onDropDownClick: function(/*Event*/ e){
-			if(!this._justGotMouseUp){
+			if(dojo.isWebKit && !this._justGotMouseUp){
+				console.log("in if");
 				// This branch fires on iPhone for ComboBox, because the button node is an <input> and doesn't
 				// generate touchstart/touchend events.   Pretend we just got a mouse down / mouse up.
+				// The if(dojo.isWebKit) is necessary since IE gets spurious onclick events
+				// when there are nested tables (specifically, clicking on a table that holds a dijit.form.Select,
+				// but not on the Select itself, causes an onclick event on the Select)
 				this._onDropDownMouseDown(e);
 				this._onDropDownMouseUp(e);
 			}
@@ -202,12 +208,7 @@ define([
 			this.inherited(arguments);
 
 			this.connect(this._buttonNode, touch.press, "_onDropDownMouseDown");
-			if(dojo.isWebKit){
-				// This code is only needed on webkit, and is harmful on IE where it causes spurious onclick events
-				// when there are nested tables (specifically, clicking on a table that holds a dijit.form.Select,
-				// but not on the Select itself, causes an onclick event on the Select)
-				this.connect(this._buttonNode, "onclick", "_onDropDownClick");
-			}
+			this.connect(this._buttonNode, "onclick", "_onDropDownClick");
 			this.connect(this.focusNode, "onkeypress", "_onKey");
 			this.connect(this.focusNode, "onkeyup", "_onKeyUp");
 		},
