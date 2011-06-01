@@ -298,7 +298,7 @@
 						doh.is('2007-12-30', dojo.date.stamp.toISOString(oldVal.foo.bar.baz.quux, {selector: 'date'}), "old value");
 						doh.is('1967-10-20', dojo.date.stamp.toISOString(newVal.foo.bar.baz.quux, {selector: 'date'}), "new value");
 						doh.is('1967-11-09', dojo.date.stamp.toISOString(newVal.available.from, {selector: 'date'}), "new value2");
-					}), 50);
+					}), 500);
 					
 					return d;
 				},
@@ -315,7 +315,7 @@
 						doh.is(1, calls, "exactly one watch(value) call");
 						doh.is('1967-10-20', dojo.date.stamp.toISOString(oldVal.foo.bar.baz.quux, {selector: 'date'}), "old value");
 						doh.is('1981-10-12', dojo.date.stamp.toISOString(newVal.foo.bar.baz.quux, {selector: 'date'}), "new value");
-					}), 50);
+					}), 500);
 					
 					return d;
 				},
@@ -338,7 +338,7 @@
 						doh.is(2, newVal.cb.length, "number of checkboxes currently checked");
 						doh.is(1, newVal.cb[0], "new checkboxes, first checked");
 						doh.is(4, newVal.cb[1], "new checkboxes, second checked");
-					}), 50);
+					}), 500);
 					
 					return d;
 				},
@@ -360,7 +360,7 @@
 
 						doh.is(1, newVal.cb.length, "number of checkboxes currently checked");
 						doh.is(4, newVal.cb[0], "new checkboxes, first checked");
-					}), 50);
+					}), 500);
 					
 					return d;
 				},
@@ -384,7 +384,7 @@
 						doh.is(2, newVal.cb.length, "number of checkboxes currently checked");
 						doh.is(2, newVal.cb[0], "new checkboxes, first checked");
 						doh.is(4, newVal.cb[1], "new checkboxes, second checked");
-					}), 50);
+					}), 500);
 					
 					return d;
 				},
@@ -401,7 +401,7 @@
 						doh.is(1, calls, "exactly one watch(value) call");
 						doh.is(2, oldVal.r, "old selected radio button");
 						doh.is(3, newVal.r, "new selected radio button");
-					}), 50);
+					}), 500);
 
 					return d;
 				},
@@ -418,7 +418,7 @@
 						doh.is(1, calls, "exactly one watch(value) call");
 						doh.is(3, oldVal.r, "old selected radio button");
 						doh.is(1, newVal.r, "new selected radio button");
-					}), 50);
+					}), 500);
 					
 					return d;
 				},
@@ -434,7 +434,7 @@
 						doh.is(1, calls, "one watch(value) call");
 						doh.t(dojo.getObject("foo.bar.baz.quux", false, oldVal) !== undefined, "attribute used to exist");
 						doh.t(dojo.getObject("foo.bar.baz.quux", false, newVal) === undefined, "attribute no longer exists");
-					}), 50);
+					}), 500);
 					
 					return d;
 				},
@@ -450,7 +450,7 @@
 						doh.is(1, calls, "one watch(value) call");
 						doh.t(dojo.getObject("foo.bar.baz.quux", false, oldVal) === undefined, "attribute didn't used to exist");
 						doh.t(dojo.getObject("foo.bar.baz.quux", false, newVal) !== undefined, "attribute now exists");
-					}), 50);
+					}), 500);
 					
 					return d;
 				},
