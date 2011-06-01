@@ -202,7 +202,12 @@ define([
 			this.inherited(arguments);
 
 			this.connect(this._buttonNode, touch.press, "_onDropDownMouseDown");
-			this.connect(this._buttonNode, "onclick", "_onDropDownClick");
+			if(dojo.isWebKit){
+				// This code is only needed on webkit, and is harmful on IE where it causes spurious onclick events
+				// when there are nested tables (specifically, clicking on a table that holds a dijit.form.Select,
+				// but not on the Select itself, causes an onclick event on the Select)
+				this.connect(this._buttonNode, "onclick", "_onDropDownClick");
+			}
 			this.connect(this.focusNode, "onkeypress", "_onKey");
 			this.connect(this.focusNode, "onkeyup", "_onKeyUp");
 		},
