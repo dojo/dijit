@@ -1,13 +1,13 @@
 define([
 	"dojo/_base/kernel", // dojo.config.isDebug dojo.deprecated
 	".",
-	"dojo/on",
 	"./_WidgetBase",
 	"./_OnDijitClickMixin",
 	"./_FocusMixin",
 	"./_base",
-	"dojo/_base/lang" // dojo.hitch
-], function(dojo, dijit, on){
+	"dojo/_base/lang", // dojo.hitch
+	"dojo/_base/connect"	// dojo.connect
+], function(dojo, dijit){
 
 // module:
 //		dijit/_Widget
@@ -192,7 +192,7 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 
 		// perform connection from this.domNode to user specified handlers (ex: onMouseMove)
 		for(var name in this._toConnect){
-			this.on(name, dojo.hitch(this, this._toConnect[name]));
+			this.on(name, this._toConnect[name]);
 		}
 		delete this._toConnect;
 	},
@@ -200,7 +200,9 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 	on: function(/*String*/ type, /*Function*/ func){
 		type = type.replace(/^on/, "");
 		if(this["on" + type.charAt(0).toUpperCase() + type.substr(1)] === dijit._connectToDomNode){
-			return on(this.domNode, type.toLowerCase(), func);
+			// Use dojo.connect() rather than on() to get handling for "onmouseenter" on non-IE, etc.
+			// Also, need to specify context as "this" rather than the default context of the DOMNode
+			return dojo.connect(this.domNode, type.toLowerCase(), this, func);
 		}else{
 			return this.inherited(arguments);
 		}
