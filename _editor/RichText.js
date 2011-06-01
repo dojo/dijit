@@ -13,6 +13,7 @@ define([
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/html", // dojo.addClass dojo.attr dojo.byId dojo.contentBox dojo.create dojo.destroy dojo.getComputedStyle dojo.place dojo.position dojo.removeClass dojo.style
 	"dojo/_base/lang", // dojo.clone dojo.hitch dojo.isArray dojo.isFunction dojo.isString dojo.trim
+	"dojo/_base/url", // dojo._Url
 	"dojo/ready", // dojo.addOnLoad
 	"dojo/_base/sniff", // dojo.isIE dojo.isMoz dojo.isOpera dojo.isSafari dojo.isWebKit
 	"dojo/_base/unload", // dojo.addOnUnload
