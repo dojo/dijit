@@ -9,7 +9,7 @@ define([
 ], function(dojo, dijit){
 
 // module:
-//		dijit/_base/typematic
+//		dijit/typematic
 // summary:
 //		These functions are used to repetitively call a user specified callback
 //		method when a specific key or mouse click over a specific DOM node is
