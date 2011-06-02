@@ -1,13 +1,14 @@
 define([
 	"dojo/_base/kernel",
 	"dojo/on",
+	"./main",
 	"dojo/_base/array", // dojo.forEach
 	"dojo/_base/connect", // dojo.keys.ENTER dojo.keys.SPACE
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/sniff", // dojo.isIE
 	"dojo/_base/unload", // dojo.addOnWindowUnload
 	"dojo/_base/window" // dojo.doc.addEventListener dojo.doc.attachEvent dojo.doc.detachEvent
-], function(dojo, on){
+], function(dojo, on, dijit){
 
 	// module:
 	//		dijit/_OnDijitClickMixin
