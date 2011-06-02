@@ -512,3 +512,8 @@ define([
 
 	return dijit.layout.AccordionContainer;
 });
+
+// Back compat w/1.6, remove for 2.0
+if(window.dojo && !window.dojo.isAsync){
+	require(["dijit/layout/AccordionPane"], function(){});
+}
