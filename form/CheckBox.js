@@ -2,13 +2,14 @@ define([
 	"dojo/_base/kernel",
 	"..",
 	"dojo/text!./templates/CheckBox.html",
+	"require",
 	"./ToggleButton",
 	"./_CheckBoxMixin",
 	"dojo/_base/NodeList", // .addClass .removeClass
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html", // dojo.attr
 	"dojo/query" // dojo.query
-], function(dojo, dijit, template){
+], function(dojo, dijit, template, require){
 
 	// module:
 	//		dijit/form/CheckBox
@@ -103,12 +104,12 @@ define([
 		}
 	});
 
+	// Back compat w/1.6, remove for 2.0
+	if(window.dojo && !window.dojo.isAsync){
+		dojo.ready(0, function(){
+			require(["dijit/form/RadioButton"], function(){});
+		});
+	}
+
 	return dijit.form.CheckBox;
 });
-
-// Back compat w/1.6, remove for 2.0
-if(window.dojo && !window.dojo.isAsync){
-	dojo.ready(0, function(){
-		require(["dijit/form/RadioButton"], function(){});
-	});
-}

@@ -1,12 +1,13 @@
 define([
 	"dojo/_base/kernel",
 	".",
+	"require",
 	"./_Widget",
 	"./_KeyNavContainer",
 	"./_TemplatedMixin",
 	"dojo/_base/connect", // dojo.keys.LEFT_ARROW dojo.keys.RIGHT_ARROW
 	"dojo/_base/declare" // dojo.declare
-], function(dojo, dijit){
+], function(dojo, dijit, require){
 
 	// module:
 	//		dijit/Toolbar
@@ -33,10 +34,10 @@ define([
 		}
 	});
 
+	// Back compat w/1.6, remove for 2.0
+	if(window.dojo && !window.dojo.isAsync){
+		require(["dijit/ToolbarSeparator"], function(){});
+	}
+
 	return dijit.Toolbar;
 });
-
-// Back compat w/1.6, remove for 2.0
-if(window.dojo && !window.dojo.isAsync){
-	require(["dijit/ToolbarSeparator"], function(){});
-}

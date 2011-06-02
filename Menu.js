@@ -2,6 +2,7 @@ define([
 	"dojo/_base/kernel",
 	".",
 	"./popup",
+	"require",
 	"dojo/window", // dojo.window.get
 	"./DropDownMenu",
 	"dojo/_base/array", // dojo.forEach
@@ -11,7 +12,7 @@ define([
 	"dojo/_base/lang", // dojo.hitch
 	"dojo/_base/sniff", // dojo.isIE dojo.isQuirks
 	"dojo/_base/window" // dojo.body dojo.doc.documentElement dojo.doc.frames dojo.withGlobal
-], function(dojo, dijit, pm){
+], function(dojo, dijit, pm, require){
 
 // module:
 //		dijit/Menu
@@ -93,7 +94,7 @@ dojo.declare("dijit.Menu", dijit.DropDownMenu, {
 				win = this._iframeContentWindow(iframe);
 			cn = dojo.withGlobal(win, dojo.body);
 		}else{
-			
+
 			// To capture these events at the top level, attach to <html>, not <body>.
 			// Otherwise right-click context menu just doesn't work.
 			cn = (node == dojo.body() ? dojo.doc.documentElement : node);
@@ -245,7 +246,7 @@ dojo.declare("dijit.Menu", dijit.DropDownMenu, {
 					ifc = dojo.position(iframe, true),
 					win = this._iframeContentWindow(iframe),
 					scroll = dojo.withGlobal(win, "_docScroll", dojo);
-	
+
 				var cs = dojo.getComputedStyle(iframe),
 					tp = dojo._toPixelValue,
 					left = (dojo.isIE && dojo.isQuirks ? 0 : tp(iframe, cs.paddingLeft)) + (dojo.isIE && dojo.isQuirks ? tp(iframe, cs.borderLeftWidth) : 0),
@@ -298,12 +299,12 @@ dojo.declare("dijit.Menu", dijit.DropDownMenu, {
 	}
 });
 
-return dijit.Menu;
-});
-
 // Back compat w/1.6, remove for 2.0
 if(window.dojo && !window.dojo.isAsync){
 	dojo.ready(0, function(){
 		require(["dijit/MenuItem", "dijit/PopupMenuItem", "dijit/CheckedMenuItem", "dijit/MenuSeparator"], function(){});
 	});
 }
+
+return dijit.Menu;
+});

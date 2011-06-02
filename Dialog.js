@@ -3,6 +3,7 @@ define([
 	".",
 	"dijit/focus",
 	"dojo/text!./templates/Dialog.html",
+	"require",
 	"./_Widget",
 	"./_TemplatedMixin",
 	"./_CssStateMixin",
@@ -25,7 +26,7 @@ define([
 	"dojo/dnd/Moveable", // dojo.dnd.Moveable
 	"dojo/dnd/TimedMoveable", // dojo.dnd.TimedMoveable
 	"dojo/i18n" // dojo.i18n.getLocalization
-], function(dojo, dijit, focus, template){
+], function(dojo, dijit, focus, template, require){
 
 	// module:
 	//		dijit/Dialog
@@ -608,12 +609,12 @@ define([
 		{dialog: null, focus: null, underlayAttrs: null}	// entry for stuff at z-index: 0
 	];
 
+	// Back compat w/1.6, remove for 2.0
+	if(window.dojo && !window.dojo.isAsync){
+		dojo.ready(0, function(){
+			require(["dijit/TooltipDialog"], function(){});
+		});
+	}
+
 	return dijit.Dialog;
 });
-
-// Back compat w/1.6, remove for 2.0
-if(window.dojo && !window.dojo.isAsync){
-	dojo.ready(0, function(){
-		require(["dijit/TooltipDialog"], function(){});
-	});
-}

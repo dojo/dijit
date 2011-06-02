@@ -2,6 +2,7 @@ define([
 	"dojo/_base/kernel", // dojo.getObject
 	"..",
 	"dojo/text!./templates/AccordionButton.html",
+	"require",
 	"../_Container",
 	"../_TemplatedMixin",
 	"../_CssStateMixin",
@@ -15,7 +16,7 @@ define([
 	"dojo/_base/html", // dojo.attr dojo.place dojo.removeClass dojo.setSelectable
 	"dojo/_base/lang", // dojo.hitch
 	"dojo/_base/sniff" // dojo.isIE
-], function(dojo, dijit, template){
+], function(dojo, dijit, template, require){
 
 	// module:
 	//		dijit/layout/AccordionContainer
@@ -509,13 +510,12 @@ define([
 		}
 	});
 
+	// Back compat w/1.6, remove for 2.0
+	if(window.dojo && !window.dojo.isAsync){
+		dojo.ready(0, function(){
+			require(["dijit/layout/AccordionPane"], function(){});
+		});
+	}
 
 	return dijit.layout.AccordionContainer;
 });
-
-// Back compat w/1.6, remove for 2.0
-if(window.dojo && !window.dojo.isAsync){
-	dojo.ready(0, function(){
-		require(["dijit/layout/AccordionPane"], function(){});
-	});
-}
