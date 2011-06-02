@@ -17,7 +17,8 @@ define([
 	"dojo/_base/sniff", // dojo.isIE dojo.isMozilla
 	"dojo/dnd/Moveable", // dojo.dnd.Moveable
 	"dojo/dnd/Mover", // dojo.dnd.Mover dojo.dnd.Mover.prototype.destroy.apply
-	"dojo/query" // dojo.query
+	"dojo/query", // dojo.query
+	"dijit/typematic"
 ], function(dojo, dijit, template){
 
 // module:

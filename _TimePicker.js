@@ -12,7 +12,8 @@ define([
 	"dojo/_base/sniff", // dojo.isIE
 	"dojo/date", // dojo.date.compare
 	"dojo/date/stamp", // dojo.date.stamp.fromISOString dojo.date.stamp.toISOString
-	"dojo/query" // dojo.query
+	"dojo/query", // dojo.query
+	"dijit/typematic"
 ], function(dojo, dijit, template){
 
 	// module:

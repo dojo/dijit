@@ -7,7 +7,8 @@ define([
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/lang", // dojo.hitch
-	"dojo/_base/sniff" // dojo.isMozilla
+	"dojo/_base/sniff", // dojo.isMozilla
+	"dijit/typematic"
 ], function(dojo, dijit, template){
 
 	// module:
