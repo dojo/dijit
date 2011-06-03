@@ -1,6 +1,7 @@
 define([
 	"dojo/_base/kernel",
 	"../..",
+	"../../focus",	// dijit.focus()
 	"dojo/window", // dojo.window.getBox
 	"dojo/i18n", // dojo.i18n.getLocalization
 	"../_Plugin",

@@ -6,6 +6,7 @@ define([
 	"../_Container",
 	"dojo/dnd/move",
 	"./Button",
+	"../focus",		// dijit.focus()
 	"dojo/number",
 	"dojo/_base/array", // dojo.forEach
 	"dojo/_base/connect", // dojo.keys.DOWN_ARROW dojo.keys.END dojo.keys.HOME dojo.keys.LEFT_ARROW dojo.keys.PAGE_DOWN dojo.keys.PAGE_UP dojo.keys.RIGHT_ARROW dojo.keys.UP_ARROW

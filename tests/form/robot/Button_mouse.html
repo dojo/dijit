@@ -53,7 +53,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								if(!dojo.isWebKit){		// webkit bug, see #11064
-									doh.f(dojo.isDescendant(dojo.global.dijit._curFocus, dijit.byId("disabled").domNode), "not focused on button")
+									doh.f(dojo.isDescendant(dojo.global.dijit.focus.curNode, dijit.byId("disabled").domNode), "not focused on button")
 								}
 								doh.f(clicked, "click event wasn't fired");
 							}), 1000);
@@ -174,7 +174,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								if(!dojo.isWebKit){ // webkit bug, see #11064
-									doh.f(dojo.isDescendant(dojo.global.dijit._curFocus, dijit.byId("save").domNode), "not focused on button")
+									doh.f(dojo.isDescendant(dojo.global.dijit.focus.curNode, dijit.byId("save").domNode), "not focused on button")
 								}
 								doh.f(clicked, "click event wasn't fired");
 							}), 1000);
@@ -196,7 +196,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								if(!dojo.isWebKit){		// webkit bug, see #11064
-									doh.f(dojo.isDescendant(dojo.global.dijit._curFocus, dijit.byId("save").domNode), "not focused on button")
+									doh.f(dojo.isDescendant(dojo.global.dijit.focus.curNode, dijit.byId("save").domNode), "not focused on button")
 								}
 								doh.t(isHidden("saveMenu"), "save menu is still hidden: " + dijit.byId("saveMenu").domNode.style.cssText);
 							}), 1000);
@@ -279,7 +279,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								if(!dojo.isWebKit){		// webkit bug, see #11064
-									doh.f(dojo.isDescendant(dojo.global.dijit._curFocus, dijit.byId("toggle1").domNode), "not focused on button")
+									doh.f(dojo.isDescendant(dojo.global.dijit.focus.curNode, dijit.byId("toggle1").domNode), "not focused on button")
 								}
 								doh.f(changed, "value didn't change");
 							}), 1000);

@@ -5,6 +5,7 @@ define([
 	"../_TemplatedMixin",
 	"../_Container",
 	"../form/ToggleButton",
+	"../focus",		// dijit.focus()
 	"dojo/i18n!../nls/common",
 	"dojo/_base/array", // dojo.forEach dojo.indexOf dojo.map
 	"dojo/_base/connect", // dojo.keys

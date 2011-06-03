@@ -1,6 +1,7 @@
 define([
 	"dojo/_base/kernel", // dojo.getObject
 	".",
+	"./_base/focus",	// dijit.getBookmark()
 	"./_editor/RichText",
 	"./Toolbar",
 	"./ToolbarSeparator",

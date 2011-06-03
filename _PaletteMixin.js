@@ -6,7 +6,8 @@ define([
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/html", // dojo.addClass dojo.attr dojo.create dojo.place dojo.removeClass
 	"dojo/_base/lang", // dojo.hitch
-	"./typematic"
+	"./typematic",
+	"./focus"
 ], function(dojo, dijit){
 
 // module:

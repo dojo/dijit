@@ -6,6 +6,7 @@ define([
 	"./_TemplatedMixin",
 	"./form/_FormMixin",
 	"./_DialogMixin",
+	"./focus",
 	"dojo/_base/connect", // dojo.keys
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event", // dojo.stopEvent

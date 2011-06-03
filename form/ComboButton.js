@@ -2,6 +2,7 @@ define([
 	"dojo/_base/kernel",
 	"..",
 	"dojo/text!./templates/ComboButton.html",
+	"../focus",		// dijit.focus()
 	"./DropDownButton",
 	"dojo/_base/connect", // dojo.keys
 	"dojo/_base/event" // dojo.stopEvent

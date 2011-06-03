@@ -11,6 +11,7 @@ define([
 	"./_DialogMixin",
 	"./DialogUnderlay",
 	"./layout/ContentPane",
+	"./focus",
 	"dojo/i18n!./nls/common",
 	"dojo/_base/Deferred", // dojo.Deferred
 	"dojo/_base/array", // dojo.forEach dojo.indexOf dojo.map

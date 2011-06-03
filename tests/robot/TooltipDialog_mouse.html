@@ -32,7 +32,7 @@
 							doh.robot.mouseClick({left: true}, 1000);
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isVisible("tooltipDlg"), "TooltipDialog visible");
-								doh.is("inline", dojo.global.dijit._curFocus.id, "focus on InlineEditBox (first field in TooltipDialog)")
+								doh.is("inline", dojo.global.dijit.focus.curNode.id, "focus on InlineEditBox (first field in TooltipDialog)")
 							}), 1000);
 						}
 					},
@@ -120,7 +120,7 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isHidden("select_menu"), "Select Menu closed");
 								doh.t(isVisible("tooltipDlg"), "TooltipDialog should still still be showing");
-								doh.is("text", dijit._curFocus && dijit._curFocus.id, "focused on textbox")
+								doh.is("text", dijit.focus.curNode && dijit.focus.curNode.id, "focused on textbox")
 							}), 1000);
 						}
 					},
@@ -202,7 +202,7 @@
 							doh.robot.mouseClick({left: true}, 1000);
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isVisible("tooltipDlg"), "TooltipDialog visible");
-								doh.is("inline", dojo.global.dijit._curFocus.id, "focus on InlineEditBox (first field in TooltipDialog)")
+								doh.is("inline", dojo.global.dijit.focus.curNode.id, "focus on InlineEditBox (first field in TooltipDialog)")
 							}), 1000);
 						}
 					},
@@ -357,7 +357,7 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isHidden("submenuu"), "submenu closed");
 								doh.t(isVisible("innerTtDialog"), "TooltipDialog should still still be showing");
-								doh.is("name", dijit._curFocus && dijit._curFocus.id, "focused on textbox")
+								doh.is("name", dijit.focus.curNode && dijit.focus.curNode.id, "focused on textbox")
 							}), 1000);
 						}
 					},

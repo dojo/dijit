@@ -3,6 +3,7 @@ define([
 	".",
 	"dojo/has",
 	"dojo/touch",
+	"./focus",
 	"./popup",
 	"./_FocusMixin",
 	"dojo/_base/connect", // dojo.keys.DOWN_ARROW dojo.keys.ENTER dojo.keys.ESCAPE
@@ -12,7 +13,7 @@ define([
 	"dojo/_base/lang", // dojo.hitch dojo.isFunction
 	"dojo/_base/window", // dojo.doc
 	"dojo/window" // dojo.window.getBox
-], function(dojo, dijit, has, touch, popup){
+], function(dojo, dijit, has, touch, focus, popup){
 
 	// module:
 	//		dijit/_HasDropDown
@@ -281,7 +282,7 @@ define([
 			// when user clicks another control causing the current popup to close)..
 			// But if focus is inside of the drop down then reset focus to me, because IE doesn't like
 			// it when you display:none a node with focus.
-			var focusMe = dijit._curFocus && this.dropDown && dojo.isDescendant(dijit._curFocus, this.dropDown.domNode);
+			var focusMe = focus.curNode && this.dropDown && dojo.isDescendant(focus.curNode, this.dropDown.domNode);
 
 			this.closeDropDown(focusMe);
 

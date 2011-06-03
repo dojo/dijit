@@ -345,7 +345,7 @@
 
 						doh.robot.sequence(d.getTestCallback(function(){
 							if(!dojo.isWebKit){		// webkit bug, see #11064 - TODO: verify this is fixed now
-								doh.isNot(combo, dijit.getEnclosingWidget(dojo.global.dijit._curFocus), "click doesn't focus disabled combo");
+								doh.isNot(combo, dijit.getEnclosingWidget(dojo.global.dijit.focus.curNode), "click doesn't focus disabled combo");
 							}
 						}), 1000, 500);
 
@@ -368,7 +368,7 @@
 							doh.f(combo.dropDown, "User was able to open the menu on a disabled ComboBox!");
 
 							// Testcase for #8923, uncomment when that bug is fixed
-							//doh.isNot(combo, dijit.getEnclosingWidget(dojo.global.dijit._curFocus), "button-click doesn't focus disabled combo");
+							//doh.isNot(combo, dijit.getEnclosingWidget(dojo.global.dijit.focus.curNode), "button-click doesn't focus disabled combo");
 						}), 1000, 500);
 						return d;
 					}

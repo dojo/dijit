@@ -27,6 +27,7 @@
 		dojo.require("dojo.date");
 		dojo.require("dojo.parser");
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
+		dojo.require("dijit.focus");
 		dojo.require("dijit.form.Form");
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dijit.form.ComboBox");
@@ -603,7 +604,7 @@
 				formWidget.validate();
 				
 				doh.t(dojo.hasClass(dojo.byId("widget_rw"), "dijitValidationTextBoxError"), "required but empty marked as error");
-				doh.is("dtb2", dijit._curFocus.id, "focused on first invalid DateTextBox");
+				doh.is("dtb2", dijit.focus.curNode.id, "focused on first invalid DateTextBox");
 			});
 
 			doh.run();

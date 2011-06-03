@@ -8,6 +8,7 @@ define([
 	"../_CssStateMixin",
 	"./StackContainer",
 	"./ContentPane",
+	"../focus",			// dijit.focus()
 	"dojo/_base/array", // dojo.forEach dojo.map
 	"dojo/_base/connect", // dojo.keys dojo.publish
 	"dojo/_base/declare", // dojo.declare

@@ -9,6 +9,7 @@ define([
 	"./_Container",
 	"./form/Button",
 	"./form/TextBox",
+	"./focus",
 	"dojo/i18n!./nls/common",
 	"dojo/_base/array", // dojo.forEach
 	"dojo/_base/connect", // dojo.keys.ENTER dojo.keys.ESCAPE

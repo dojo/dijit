@@ -699,13 +699,13 @@
 						var d = new doh.Deferred();
 
 						dojo.byId("datatestDijit").focus();
-						doh.is("datatestDijit", dojo.global.dijit._curFocus.id, "focused on elem before disabled combo");
+						doh.is("datatestDijit", dojo.global.dijit.focus.curNode.id, "focused on elem before disabled combo");
 
 						// Tab over the disabled ComboBox
 						doh.robot.keyPress(dojo.keys.TAB, 1000);
 
 						doh.robot.sequence(d.getTestCallback(function(){
-							doh.is("combobox4", dojo.global.dijit._curFocus.id, "focused on 'enable' button after disabled combo");
+							doh.is("combobox4", dojo.global.dijit.focus.curNode.id, "focused on 'enable' button after disabled combo");
 						}), 1000);
 
 						return d;

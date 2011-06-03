@@ -10,6 +10,7 @@ define([
 	"./_Container",
 	"./_Contained",
 	"./_CssStateMixin",
+	"./focus",
 	"dojo/cookie", // dojo.cookie
 	"./tree/TreeStoreModel",
 	"./tree/ForestStoreModel",
