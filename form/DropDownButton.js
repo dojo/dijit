@@ -2,12 +2,13 @@ define([
 	"dojo/_base/kernel",
 	"..",
 	"dojo/text!./templates/DropDownButton.html",
+	"../popup",		// dijit.popup2.hide
 	"./Button",
 	"../_Container",
 	"../_HasDropDown",
 	"dojo/_base/connect", // dojo.connect dojo.disconnect
 	"dojo/query" // dojo.query
-], function(dojo, dijit, template){
+], function(dojo, dijit, template, popup){
 
 // module:
 //		dijit/form/DropDownButton
@@ -62,7 +63,7 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container, 
 			delete this.dropDownContainer;
 		}
 		if(this.dropDown){
-			dijit.popup.hide(this.dropDown);
+			popup.hide(this.dropDown);
 		}
 
 		this.inherited(arguments);

@@ -301,7 +301,7 @@ define([
 
 			// watch for cancel/execute events on the popup and notify the caller
 			// (for a menu, "execute" means clicking an item)
-			if(widget.onCancel){
+			if(widget.onCancel && args.onCancel){
 				handlers.push(dojo.connect(widget, "onCancel", args.onCancel));
 			}
 
