@@ -126,19 +126,5 @@ popup.open = function(/*dijit.popup.__OpenArgs*/ args){
 	return origOpen.call(this, args);
 };
 
-/*=====
-dijit.BackgroundIframe = function(node){
-	// summary:
-	//		For IE/FF z-index schenanigans. id attribute is required.
-	//
-	// description:
-	//		new dijit.BackgroundIframe(node)
-	//			Makes a background iframe as a child of node, that fills
-	//			area (and position) of node
-};
-=====*/
-dijit.BackgroundIframe = BackgroundIframe;
-
-
 return dijit.popup;
 });

@@ -4,6 +4,7 @@ define([
 	"dojo/window", // dojo.window.getBox
 	"./_Widget",
 	"./_TemplatedMixin",
+	"./BackgroundIframe",
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html", // dojo.attr
 	"dojo/_base/window" // dojo.body

@@ -5,6 +5,7 @@ define([
 	"./place",
 	"./_Widget",
 	"./_TemplatedMixin",
+	"./BackgroundIframe",
 	"dojo/_base/array", // dojo.forEach dojo.indexOf dojo.map
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/fx", // dojo.fadeIn dojo.fadeOut
