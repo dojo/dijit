@@ -2,9 +2,7 @@ define([
 	"dojo/_base/kernel", // dojo.deprecated
 	".",
 	"dojo/text!./templates/MenuItem.html",
-	"./_WidgetBase",
-	"./_OnDijitClickMixin",
-	"./_FocusMixin",
+	"./_Widget",
 	"./_TemplatedMixin",
 	"./_Contained",
 	"./_CssStateMixin",
@@ -21,7 +19,7 @@ define([
 
 
 	dojo.declare("dijit.MenuItem",
-		[dijit._WidgetBase, dijit._OnDijitClickMixin, dijit._FocusMixin, dijit._TemplatedMixin, dijit._Contained, dijit._CssStateMixin],
+		[dijit._Widget, dijit._TemplatedMixin, dijit._Contained, dijit._CssStateMixin],
 		{
 		// summary:
 		//		A line item in a Menu Widget
