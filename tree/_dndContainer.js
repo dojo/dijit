@@ -16,7 +16,7 @@ define([
 	//		It's modeled after `dojo.dnd.Container`.
 
 
-	dojo.getObject("tree", true, dojo);
+	dojo.getObject("tree", true, dijit);
 
 	dijit.tree._compareNodes = function(n1, n2){
 		if(n1 === n2){
