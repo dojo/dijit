@@ -103,7 +103,7 @@
 								fruitsTreeNode = findTreeNode("itemTree", "Fruits"),
 								appleTreeNode = findTreeNode("itemTree", "Apple"),
 								citrusTreeNode = findTreeNode("itemTree", "Citrus");
-							dijit.scrollIntoView("itemTree");
+							dojo.window.scrollIntoView("itemTree");
 							// Drag "Apple" into "Citrus".
 							doh.robot.mouseMoveAt(appleTreeNode.labelNode, 500, 1);
 							doh.robot.mousePress({left: true}, 500);

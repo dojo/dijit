@@ -552,7 +552,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 					selection.removeAllRanges();
 					selection.addRange(newrange);
 					if(this.editor.height){
-						dijit.scrollIntoView(newblock);
+						dojo.window.scrollIntoView(newblock);
 					}
 					if(dojo.isMoz){
 						// press enter in middle of P may leave a trailing <br/>, let's remove it later
@@ -566,7 +566,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 				selection.removeAllRanges();
 				selection.addRange(newrange);
 				if(this.editor.height){
-					dijit.scrollIntoView(newblock);
+					dojo.window.scrollIntoView(newblock);
 				}
 				if(dojo.isMoz){
 					// press enter in middle of P may leave a trailing <br/>, let's remove it later

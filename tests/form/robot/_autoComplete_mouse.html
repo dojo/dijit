@@ -15,6 +15,7 @@
 
 	<script type="text/javascript">
 		dojo.require("dijit.robotx");
+		dojo.require("dojo.window");
 
 		// TODO: provide URL toggle for FilteringSelect
 		var testWidget = "dijit.form.ComboBox";
@@ -227,7 +228,7 @@
 							console.log("hit onClick callback");
 						}));
 
-						dijit.scrollIntoView(combo.domNode);
+						dojo.window.scrollIntoView(combo.domNode);
 
 						doh.robot.mouseMoveAt(combo._buttonNode, 1000, 0);
 						doh.robot.mouseClick({left:true}, 500);
@@ -251,7 +252,7 @@
 							console.log("hit onClick callback");
 						}));
 
-						dijit.scrollIntoView(combo.domNode);
+						dojo.window.scrollIntoView(combo.domNode);
 
 						doh.robot.mouseMoveAt(combo.focusNode, 1000, 0);
 						doh.robot.mouseClick({left:true}, 500);
