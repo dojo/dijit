@@ -34,7 +34,7 @@ define([
 		getBookmark: function(){
 			// summary:
 			//		Retrieves a bookmark that can be used with moveToBookmark to return to the same range
-			var bm, rg, tg, sel = dojo.doc.selection, cf = dijit._curFocus;
+			var bm, rg, tg, sel = dojo.doc.selection, cf = focus.curNode;
 
 			if(dojo.global.getSelection){
 				//W3C Range API for selections.
@@ -186,57 +186,12 @@ define([
 			//
 			// returns:
 			//		A handle to restore focus/selection, to be passed to `dijit.focus`
-			var node = !dijit._curFocus || (menu && dojo.isDescendant(dijit._curFocus, menu.domNode)) ? dijit._prevFocus : dijit._curFocus;
+			var node = !focus.curNode || (menu && dojo.isDescendant(focus.curNode, menu.domNode)) ? dijit._prevFocus : focus.curNode;
 			return {
 				node: node,
-				bookmark: node && (node == dijit._curFocus) && dojo.withGlobal(openedForWindow || dojo.global, dijit.getBookmark),
+				bookmark: node && (node == focus.curNode) && dojo.withGlobal(openedForWindow || dojo.global, dijit.getBookmark),
 				openedForWindow: openedForWindow
 			}; // Object
-		},
-
-		focus: function(/*Object || DomNode */ handle){
-			// summary:
-			//		Sets the focused node and the selection according to argument.
-			//		To set focus to an iframe's content, pass in the iframe itself.
-			// handle:
-			//		object returned by get(), or a DomNode
-
-			if(!handle){ return; }
-
-			var node = "node" in handle ? handle.node : handle,		// because handle is either DomNode or a composite object
-				bookmark = handle.bookmark,
-				openedForWindow = handle.openedForWindow,
-				collapsed = bookmark ? bookmark.isCollapsed : false;
-
-			// Set the focus
-			// Note that for iframe's we need to use the <iframe> to follow the parentNode chain,
-			// but we need to set focus to iframe.contentWindow
-			if(node){
-				var focusNode = (node.tagName.toLowerCase() == "iframe") ? node.contentWindow : node;
-				if(focusNode && focusNode.focus){
-					try{
-						// Gecko throws sometimes if setting focus is impossible,
-						// node not displayed or something like that
-						focusNode.focus();
-					}catch(e){/*quiet*/}
-				}
-				focus._onFocusNode(node);
-			}
-
-			// set the selection
-			// do not need to restore if current selection is not empty
-			// (use keyboard to select a menu item) or if previous selection was collapsed
-			// as it may cause focus shift (Esp in IE).
-			if(bookmark && dojo.withGlobal(openedForWindow || dojo.global, dijit.isCollapsed) && !collapsed){
-				if(openedForWindow){
-					openedForWindow.focus();
-				}
-				try{
-					dojo.withGlobal(openedForWindow || dojo.global, dijit.moveToBookmark, null, [bookmark]);
-				}catch(e2){
-					/*squelch IE internal error, see http://trac.dojotoolkit.org/ticket/1984 */
-				}
-			}
 		},
 
 		// _activeStack: dijit._Widget[]
@@ -294,6 +249,54 @@ define([
 			return focus.unregisterWin(handle);
 		}
 	});
+
+	// Override focus singleton's focus function so that dijit.focus()
+	// has backwards compatible behavior of restoring selection (although
+	// probably no one is using that).
+	focus.focus = function(/*Object || DomNode */ handle){
+		// summary:
+		//		Sets the focused node and the selection according to argument.
+		//		To set focus to an iframe's content, pass in the iframe itself.
+		// handle:
+		//		object returned by get(), or a DomNode
+
+		if(!handle){ return; }
+
+		var node = "node" in handle ? handle.node : handle,		// because handle is either DomNode or a composite object
+			bookmark = handle.bookmark,
+			openedForWindow = handle.openedForWindow,
+			collapsed = bookmark ? bookmark.isCollapsed : false;
+
+		// Set the focus
+		// Note that for iframe's we need to use the <iframe> to follow the parentNode chain,
+		// but we need to set focus to iframe.contentWindow
+		if(node){
+			var focusNode = (node.tagName.toLowerCase() == "iframe") ? node.contentWindow : node;
+			if(focusNode && focusNode.focus){
+				try{
+					// Gecko throws sometimes if setting focus is impossible,
+					// node not displayed or something like that
+					focusNode.focus();
+				}catch(e){/*quiet*/}
+			}
+			focus._onFocusNode(node);
+		}
+
+		// set the selection
+		// do not need to restore if current selection is not empty
+		// (use keyboard to select a menu item) or if previous selection was collapsed
+		// as it may cause focus shift (Esp in IE).
+		if(bookmark && dojo.withGlobal(openedForWindow || dojo.global, dijit.isCollapsed) && !collapsed){
+			if(openedForWindow){
+				openedForWindow.focus();
+			}
+			try{
+				dojo.withGlobal(openedForWindow || dojo.global, dijit.moveToBookmark, null, [bookmark]);
+			}catch(e2){
+				/*squelch IE internal error, see http://trac.dojotoolkit.org/ticket/1984 */
+			}
+		}
+	};
 
 	// For back compatibility, monitor changes to focused node and active widget stack,
 	// publishing events and copying changes from focus manager variables into dijit (top level) variables

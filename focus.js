@@ -35,6 +35,8 @@ define([
 		//
 		//		Call focus.on("widget-blur", func) or focus.on("widget-focus", ...) to monitor when
 		//		when widgets become active/inactive
+		//
+		//		Finally, focus(node) will focus a node, suppressing errors if the node doesn't exist.
 
 		// curNode: DomNode
 		//		Currently focused item on screen
@@ -373,6 +375,14 @@ define([
 					this.emit("widget-focus", widget, by);
 				}
 			}
+		},
+
+		focus: function(node){
+			// summary:
+			//		Focus the specified node, suppressing errors if they occur
+			if(node){
+				try{ node.focus(); }catch(e){/*quiet*/}
+			}
 		}
 	});
 
@@ -387,6 +397,20 @@ define([
 				handle = null;
 			})
 		}
+	});
+
+	// Setup dijit.focus as a pointer to the singleton but also (for backwards compatibility)
+	// as a function to set focus.
+	dijit.focus = function(node){
+		singleton.focus(node);	// indirection here allows dijit/_base/focus.js to override behavior
+	};
+	for(var attr in singleton){
+		if(!/^_/.test(attr)){
+			dijit.focus[attr] = typeof singleton[attr] == "function" ? dojo.hitch(singleton, attr) : singleton[attr];
+		}
+	}
+	singleton.watch(function(attr, oldVal, newVal){
+		dijit.focus[attr] = newVal;
 	});
 
 	return singleton;
