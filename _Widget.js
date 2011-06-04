@@ -4,9 +4,12 @@ define([
 	"./_WidgetBase",
 	"./_OnDijitClickMixin",
 	"./_FocusMixin",
-	"./_base",
 	"dojo/_base/lang", // dojo.hitch
-	"dojo/_base/connect"	// dojo.connect
+	"dojo/_base/connect",	// dojo.connect
+	"dojo/uacss",		// brower sniffing
+	"dijit/hccss",		// high contrast mode sniffing
+	"./_base/manager",	// dijit.byId, etc.
+	"./_base/wai"		// for back-compat, remove for 2.0
 ], function(dojo, dijit){
 
 // module:
@@ -303,6 +306,14 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 		return true;		// Boolean
 	}
 });
+
+// For back-compat, remove in 2.0.
+if(!dojo.isAsync){
+	dojo.ready(0, function(){
+		require(["dijit/_base/focus", "dijit/_base/place", "dijit/_base/popup", "dijit/_base/scroll",
+			"dijit/_base/typematic", "dijit/_base/window"]);
+	})
+}
 
 return dijit._Widget;
 });
