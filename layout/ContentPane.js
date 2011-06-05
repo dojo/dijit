@@ -175,7 +175,7 @@ dojo.declare("dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPa
 		this.domNode.title = "";
 
 		if(!dojo.attr(this.domNode,"role")){
-			dijit.setWaiRole(this.domNode, "group");
+			this.domNode.setAttribute("role", "group");
 		}
 	},
 

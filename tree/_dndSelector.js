@@ -43,7 +43,7 @@ define([
 			this.selection={};
 			this.anchor = null;
 
-			dijit.setWaiState(this.tree.domNode, "multiselect", !this.singular);
+			this.tree.domNode.setAttribute("aria-multiselect", !this.singular);
 
 			this.events.push(
 				dojo.connect(this.tree.domNode, touch.press, this,"onMouseDown"),

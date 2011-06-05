@@ -90,7 +90,7 @@ dojo.declare(
 		this._updateItemClasses(this.item);
 
 		if(this.isExpandable){
-			dijit.setWaiState(this.labelNode, "expanded", this.isExpanded);
+			this.labelNode.setAttribute("aria-expanded", this.isExpanded);
 		}
 
 		//aria-selected should be false on all selectable elements.
@@ -226,15 +226,15 @@ dojo.declare(
 		// All the state information for when a node is expanded, maybe this should be
 		// set when the animation completes instead
 		this.isExpanded = true;
-		dijit.setWaiState(this.labelNode, "expanded", "true");
+		this.labelNode.setAttribute("aria-expanded", "true");
 		if(this.tree.showRoot || this !== this.tree.rootNode){
-			dijit.setWaiRole(this.containerNode, "group");
+			this.containerNode.setAttribute("role", "group");
 		}
 		dojo.addClass(this.contentNode,'dijitTreeContentExpanded');
 		this._setExpando();
 		this._updateItemClasses(this.item);
 		if(this == this.tree.rootNode){
-			dijit.setWaiState(this.tree.domNode, "expanded", "true");
+			this.tree.domNode.setAttribute("aria-expanded", "true");
 		}
 
 		var def,
@@ -269,9 +269,9 @@ dojo.declare(
 		}
 
 		this.isExpanded = false;
-		dijit.setWaiState(this.labelNode, "expanded", "false");
+		this.labelNode.setAttribute("aria-expanded", "false");
 		if(this == this.tree.rootNode){
-			dijit.setWaiState(this.tree.domNode, "expanded", "false");
+			this.tree.domNode.setAttribute("aria-expanded", "false");
 		}
 		dojo.removeClass(this.contentNode,'dijitTreeContentExpanded');
 		this._setExpando();
@@ -449,7 +449,7 @@ dojo.declare(
 		// description:
 		//		In particular, setting a node as selected involves setting tabIndex
 		//		so that when user tabs to the tree, focus will go to that node (only).
-		dijit.setWaiState(this.labelNode, "selected", selected);
+		this.labelNode.setAttribute("aria-selected", selected);
 		dojo.toggleClass(this.rowNode, "dijitTreeRowSelected", selected);
 	},
 
@@ -797,10 +797,10 @@ dojo.declare(
 					rn.rowNode.style.display="none";
 					// if root is not visible, move tree role to the invisible
 					// root node's containerNode, see #12135
-					dijit.setWaiRole(this.domNode, 'presentation');
+					this.domNode.setAttribute("role", "presentation");
 
-					dijit.setWaiRole(rn.labelNode, 'presentation');
-					dijit.setWaiRole(rn.containerNode, 'tree');
+					rn.labelNode.setAttribute("role", "presentation");
+					rn.containerNode.setAttribute("role", "tree");
 				}
 				this.domNode.appendChild(rn.domNode);
 				var identity = this.model.getIdentity(item);

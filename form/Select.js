@@ -39,8 +39,8 @@ dojo.declare("dijit.form._SelectMenu", dijit.Menu, {
 		dojo.removeClass(o, "dijitMenuTable");
 		n.className = o.className + " dijitSelectMenu";
 		o.className = "dijitReset dijitMenuTable";
-		dijit.setWaiRole(o,"listbox");
-		dijit.setWaiRole(n,"presentation");
+		o.setAttribute("role", "listbox");
+		n.setAttribute("role", "presentation");
 		n.appendChild(o);
 	},
 
@@ -141,7 +141,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 				onClick: click,
 				disabled: option.disabled || false
 			});
-			dijit.setWaiRole(item.focusNode, "listitem");
+			item.focusNode.setAttribute("role", "listitem");
 			return item;
 		}
 	},
@@ -210,7 +210,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		//		sets the display for the given value (or values)
 		var lbl = newDisplay || this.emptyLabel;
 		this.containerNode.innerHTML = '<span class="dijitReset dijitInline ' + this.baseClass + 'Label">' + lbl + '</span>';
-		dijit.setWaiState(this.focusNode, "valuetext", lbl);
+		this.focusNode.setAttribute("aria-valuetext", lbl);
 	},
 
 	validate: function(/*Boolean*/ isFocused){
@@ -223,7 +223,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 
 		var isValid = this.isValid(isFocused);
 		this._set("state", isValid ? "" : "Error");
-		dijit.setWaiState(this.focusNode, "invalid", isValid ? "false" : "true");
+		this.focusNode.setAttribute("aria-invalid", isValid ? "false" : "true");
 		var message = isValid ? "" : this._missingMsg;
 		if(this.message !== message){
 			this._set("message", message);

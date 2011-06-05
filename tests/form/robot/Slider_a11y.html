@@ -252,15 +252,15 @@
 			[
 				function ariaRole(){
 					var slider = dijit.byId(sliderIds[0]);
-					doh.is(dijit.getWaiRole(slider.focusNode), "slider", "aria role (slider)");
+					doh.is(slider.focusNode.getAttribute("role"), "slider", "aria role (slider)");
 				},
 
 				// test aria valuemin, valuemax, valuenow.
 				function ariaValue(){
 					var slider = dijit.byId(sliderIds[0]);
-					doh.is(dijit.getWaiState(slider.focusNode, "valuemin"), slider.minimum, "aria-valuemin");
-					doh.is(dijit.getWaiState(slider.focusNode, "valuemax"), slider.maximum, "aria-valuemax");
-					doh.is(dijit.getWaiState(slider.focusNode, "valuenow"), slider.get('value'), "aria-valuenow");
+					doh.is(slider.focusNode.getAttribute("aria-valuemin"), slider.minimum, "aria-valuemin");
+					doh.is(slider.focusNode.getAttribute("aria-valuemax"), slider.maximum, "aria-valuemax");
+					doh.is(slider.focusNode.getAttribute("aria-valuenow"), slider.get('value'), "aria-valuenow");
 				}
 			]);
 

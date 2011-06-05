@@ -44,14 +44,14 @@ define([
 				// waiRole, waiState
 				var role = getAttrFunc(baseNode, "waiRole");
 				if(role){
-					dijit.setWaiRole(baseNode, role);
+					baseNode.setAttribute("role", role);
 				}
 				var values = getAttrFunc(baseNode, "waiState");
 				if(values){
 					dojo.forEach(values.split(/\s*,\s*/), function(stateValue){
 						if(stateValue.indexOf('-') != -1){
 							var pair = stateValue.split('-');
-							dijit.setWaiState(baseNode, pair[0], pair[1]);
+							baseNode.setAttribute("aria-"+pair[0], pair[1]);
 						}
 					});
 				}

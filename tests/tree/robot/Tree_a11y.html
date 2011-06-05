@@ -35,7 +35,7 @@
 			that.testTreeItemRole = function(/*dijit._TreeNode*/inRoot, /*dijit.Tree*/inTree){
 				if(inRoot){
 					var expectedrole = inTree.showRoot || inRoot!==inTree.rootNode ? 'treeitem' : 'presentation';
-					doh.is(expectedrole, dijit.getWaiRole(inRoot.labelNode), inRoot.label + "[" + inTree.id + "]: aria role (" + expectedrole + ")");
+					doh.is(expectedrole, inRoot.labelNode.getAttribute("role"), inRoot.label + "[" + inTree.id + "]: aria role (" + expectedrole + ")");
 					//recurse
 					forceLoadChildItems(inRoot, inTree);
 					var children = inRoot.getChildren();
@@ -50,16 +50,16 @@
 					if(inItem.isExpandable){
 						var wasExpanded = inItem.isExpanded;
 						inTree._expandNode(inItem);
-						var nowExpanded = dijit.getWaiState(inItem.labelNode, "expanded");
+						var nowExpanded = inItem.labelNode.getAttribute("aria-expanded");
 						inTree._collapseNode(inItem);
-						var nowCollapsed = dijit.getWaiState(inItem.labelNode, "expanded");
+						var nowCollapsed = inItem.labelNode.getAttribute("aria-expanded");
 						if(wasExpanded){
 							inTree._expandNode(inItem);
 						}
 						doh.is("true", nowExpanded, inItem.label + "[" + inTree.id + "]: aria state expanded=true");
 						doh.is("false", nowCollapsed, inItem.label + "[" + inTree.id + "]: aria state expanded=false");
 					}else{
-						doh.is("", dijit.getWaiState(inItem.labelNode, "expanded"), inItem.label + "[" + inTree.id + "]: aria state expanded=false");
+						doh.is(null, inItem.labelNode.getAttribute("aria-expanded"), inItem.label + "[" + inTree.id + "]: aria state expanded=false");
 					}
 				}
 			};
@@ -345,7 +345,7 @@
 				function ariaTreeRole(){
 					for(i=0; i<treeIds.length; i++){
 						var tree = dijit.byId(treeIds[i]), expectedrole = tree.showRoot?'tree':'presentation';
-						doh.is(expectedrole, dijit.getWaiRole(tree.domNode), tree.id + ": aria role (" + expectedrole + ")");
+						doh.is(expectedrole, tree.domNode.getAttribute("role"), tree.id + ": aria role (" + expectedrole + ")");
 					}
 				},
 
@@ -354,9 +354,9 @@
 						var tree = dijit.byId(treeIds[i]);
 						var wasExpanded = tree.rootNode.isExpanded;
 						tree.rootNode.expand();
-						var nowExpanded = dijit.getWaiState(tree.domNode, "expanded");
+						var nowExpanded = tree.domNode.getAttribute("aria-expanded");
 						tree.rootNode.collapse();
-						var nowCollapsed = dijit.getWaiState(tree.domNode, "expanded");
+						var nowCollapsed = tree.domNode.getAttribute("aria-expanded");
 						if(wasExpanded){
 							tree.rootNode.expand();
 						}

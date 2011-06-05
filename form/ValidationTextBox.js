@@ -161,7 +161,7 @@ define([
 			var isEmpty = this._isEmpty(this.textbox.value);
 			var isValidSubset = !isValid && isFocused && this._isValidSubset();
 			this._set("state", isValid ? "" : (((((!this._hasBeenBlurred || isFocused) && isEmpty) || isValidSubset) && this._maskValidSubsetError) ? "Incomplete" : "Error"));
-			dijit.setWaiState(this.focusNode, "invalid", isValid ? "false" : "true");
+			this.focusNode.setAttribute("aria-invalid", isValid ? "false" : "true");
 
 			if(this.state == "Error"){
 				this._maskValidSubsetError = isFocused && isValidSubset; // we want the error to show up after a blur and refocus
@@ -263,7 +263,7 @@ define([
 
 		_setRequiredAttr: function(/*Boolean*/ value){
 			this._set("required", value);
-			dijit.setWaiState(this.focusNode, "required", value);
+			this.focusNode.setAttribute("aria-required", value);
 			this._refreshState();
 		},
 

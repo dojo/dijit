@@ -331,7 +331,7 @@
 					function spinnerRole(){
 						var spinner = dijit.byId("integerspinner1");
 						doh.isNot(spinner, null, "can't find 'integerspinner1'");
-						doh.is(dijit.getWaiRole(spinner.focusNode), "spinbutton", spinner.id + ": aria role (spinbutton)");
+						doh.is(dojo.attr(spinner.focusNode, "role"), "spinbutton", spinner.id + ": aria role (spinbutton)");
 					}
 				);
 
@@ -345,41 +345,41 @@
 						function minAndMax(){
 							var spinner = dijit.byId("integerspinner2");
 							doh.isNot(spinner, null, "can't find 'integerspinner2'");
-							doh.is(dijit.getWaiState(spinner.focusNode, "valuemin"), spinner.constraints.min, spinner.id + ": aria-valuemin");
-							doh.is(dijit.getWaiState(spinner.focusNode, "valuemax"), spinner.constraints.max, spinner.id + ": aria-valuemax");
+							doh.is(spinner.focusNode.getAttribute("aria-valuemin"), spinner.constraints.min, spinner.id + ": aria-valuemin");
+							doh.is(spinner.focusNode.getAttribute("aria-valuemax"), spinner.constraints.max, spinner.id + ": aria-valuemax");
 						},
 						function minOnly(){
 							var spinner = dijit.byId("spinnerMinOnly");
 							doh.isNot(spinner, null, "can't find 'spinnerMinOnly'");
-							doh.is(dijit.getWaiState(spinner.focusNode, "valuemin"), spinner.constraints.min, spinner.id + ": aria-valuemin");
+							doh.is(spinner.focusNode.getAttribute("aria-valuemin"), spinner.constraints.min, spinner.id + ": aria-valuemin");
 							if(spinner.constraints.max){
-								doh.is(dijit.getWaiState(spinner.focusNode, "valuemax"), spinner.constraints.max, spinner.id + ": aria-valuemax");
+								doh.is(spinner.focusNode.getAttribute("aria-valuemax"), spinner.constraints.max, spinner.id + ": aria-valuemax");
 							}else{
-								doh.f(dijit.hasWaiState(spinner.focusNode, "valuemax"), spinner.id + ": aria-valuemax");
+								doh.f(spinner.focusNode.hasAttribute("aria-valuemax"), spinner.id + ": aria-valuemax");
 							}
 						},
 						function maxOnly(){
 							var spinner = dijit.byId("integertextbox3");
 							doh.isNot(spinner, null, "can't find 'integertextbox3'");
-							doh.is(dijit.getWaiState(spinner.focusNode, "valuemax"), spinner.constraints.max, spinner.id + ": aria-valuemax");
+							doh.is(spinner.focusNode.getAttribute("aria-valuemax"), spinner.constraints.max, spinner.id + ": aria-valuemax");
 							if(spinner.constraints.min){
-								doh.is(dijit.getWaiState(spinner.focusNode, "valuemin"), spinner.constraints.min, spinner.id + ": aria-valuemin");
+								doh.is(spinner.focusNode.getAttribute("aria-valuemin"), spinner.constraints.min, spinner.id + ": aria-valuemin");
 							}else{
-								doh.f(dijit.hasWaiState(spinner.focusNode, "valuemin"), spinner.id + ": aria-valuemin");
+								doh.f(spinner.focusNode.hasAttribute("aria-valuemin"), spinner.id + ": aria-valuemin");
 							}
 						},
 						function neitherMinNorMax(){
 							var spinner = dijit.byId("integertextbox3");
 							doh.isNot(spinner, null, "can't find 'integertextbox3'");
 							if(spinner.constraints.min){
-								doh.is(dijit.getWaiState(spinner.focusNode, "valuemin"), spinner.constraints.min, spinner.id + ": aria-valuemin");
+								doh.is(spinner.focusNode.getAttribute("aria-valuemin"), spinner.constraints.min, spinner.id + ": aria-valuemin");
 							}else{
-								doh.f(dijit.hasWaiState(spinner.focusNode, "valuemin"), spinner.id + ": aria-valuemin");
+								doh.f(spinner.focusNode.hasAttribute("aria-valuemin"), spinner.id + ": aria-valuemin");
 							}
 							if(spinner.constraints.max){
-								doh.is(dijit.getWaiState(spinner.focusNode, "valuemax"), spinner.constraints.max, spinner.id + ": aria-valuemax");
+								doh.is(spinner.focusNode.getAttribute("aria-valuemax"), spinner.constraints.max, spinner.id + ": aria-valuemax");
 							}else{
-								doh.f(dijit.hasWaiState(spinner.focusNode, "valuemax"), spinner.id + ": aria-valuemax");
+								doh.f(spinner.focusNode.hasAttribute("aria-valuemax"), spinner.id + ": aria-valuemax");
 							}
 						}
 					]
@@ -398,7 +398,7 @@
 							runTest:function(){
 								var spinner = dijit.byId(this.spinnerId);
 								spinner.set('value', 100);
-								var ariaVal = dijit.getWaiState(spinner.focusNode, "valuenow");
+								var ariaVal = spinner.focusNode.getAttribute("aria-valuenow");
 								doh.is(100, ariaVal, spinner.id + ": aria-valuenow");
 							}
 						};
@@ -416,8 +416,8 @@
 							var initVal = spinner.get('value');
 							spinner.set('value', null);
 							var spinnerVal = spinner.get('value');
-							var nowVal = dijit.getWaiState(spinner.focusNode, "valuenow");
-							var invalid = dijit.getWaiState(spinner.focusNode, "invalid");
+							var nowVal = spinner.focusNode.getAttribute("aria-valuenow");
+							var invalid = spinner.focusNode.getAttribute("aria-invalid");
 							spinner.set('value', initVal);
 							doh.t(invalid, spinner.id + ": aria-invalid");
 							if(!(isNaN(spinnerVal) && isNaN(nowVal))){

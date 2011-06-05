@@ -135,7 +135,7 @@ dojo.declare("dijit.InlineEditBox", dijit._Widget, {
 		for(var name in events){
 			this.connect(this.displayNode, name, events[name]);
 		}
-		dijit.setWaiRole(this.displayNode, "button");
+		this.displayNode.setAttribute("role", "button");
 		if(!this.displayNode.getAttribute("tabIndex")){
 			this.displayNode.setAttribute("tabIndex", 0);
 		}
@@ -164,7 +164,7 @@ dojo.declare("dijit.InlineEditBox", dijit._Widget, {
 		// summary:
 		//		Hook to make set("disabled", ...) work.
 		//		Set disabled state of widget.
-		dijit.setWaiState(this.domNode, "disabled", disabled);
+		this.domNode.setAttribute("aria-disabled", disabled);
 		if(disabled){
 			this.displayNode.removeAttribute("tabIndex");
 		}else{

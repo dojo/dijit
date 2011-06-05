@@ -382,7 +382,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 					return child.option && (v === child.option.value);
 				});
 				dojo.toggleClass(child.domNode, this.baseClass + "SelectedOption", isSelected);
-				dijit.setWaiState(child.domNode, "selected", isSelected);
+				child.domNode.setAttribute("aria-selected", isSelected);
 			}, this);
 		}
 	},

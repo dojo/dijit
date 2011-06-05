@@ -173,7 +173,7 @@ dojo.declare("dijit.form.HorizontalSlider", [dijit.form._FormValueWidget, dijit.
 		//		Hook so set('value', value) works.
 		this._set("value", value);
 		this.valueNode.value = value;
-		dijit.setWaiState(this.focusNode, "valuenow", value);
+		this.focusNode.setAttribute("aria-valuenow", value);
 		this.inherited(arguments);
 		var percent = (value - this.minimum) / (this.maximum - this.minimum);
 		var progressBar = (this._descending === false) ? this.remainingBar : this.progressBar;
@@ -289,11 +289,11 @@ dojo.declare("dijit.form.HorizontalSlider", [dijit.form._FormValueWidget, dijit.
 		var label = dojo.query('label[for="'+this.id+'"]');
 		if(label.length){
 			label[0].id = (this.id+"_label");
-			dijit.setWaiState(this.focusNode, "labelledby", label[0].id);
+			this.focusNode.setAttribute("aria-labelledby", label[0].id);
 		}
 
-		dijit.setWaiState(this.focusNode, "valuemin", this.minimum);
-		dijit.setWaiState(this.focusNode, "valuemax", this.maximum);
+		this.focusNode.setAttribute("aria-valuemin", this.minimum);
+		this.focusNode.setAttribute("aria-valuemax", this.maximum);
 	},
 
 	postCreate: function(){

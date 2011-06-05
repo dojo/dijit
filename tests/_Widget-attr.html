@@ -72,7 +72,7 @@
 							role: "button"
 						});
 						doh.is("dom title", dojo.attr(w.domNode, "title"), "domNode title");
-						doh.is("foo", dojo.attr(w.domNode, "aria-labelledby"), "domNode labelledby");
+						doh.is("foo", w.domNode.getAttribute("aria-labelledby", "domNode labelledby"));
 						doh.is("button", dojo.attr(w.domNode, "role"), "domNode role");
 
 						// Mapping to this.focusNode
@@ -83,7 +83,7 @@
 							"aria-labelledby": "foo"
 						});
 						doh.is("my title", dojo.attr(fw.focusNode, "title"), "focusNode title");
-						doh.is("foo", dojo.attr(fw.focusNode, "aria-labelledby"), "focusNode labelledby");
+						doh.is("foo", fw.focusNode.getAttribute("aria-labelledby"), "focusNode labelledby");
 					},
 
 					// Test custom setters/getter methods

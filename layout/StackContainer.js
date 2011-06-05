@@ -49,7 +49,7 @@ dojo.declare("dijit.layout.StackContainer", dijit.layout._LayoutWidget, {
 	buildRendering: function(){
 		this.inherited(arguments);
 		dojo.addClass(this.domNode, "dijitLayoutContainer");
-		dijit.setWaiRole(this.containerNode, "tabpanel");
+		this.containerNode.setAttribute("role", "tabpanel");
 	},
 
 	postCreate: function(){

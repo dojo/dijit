@@ -79,7 +79,7 @@ define([
 		buildRendering: function(){
 			this.inherited(arguments);
 			this.domNode.style.overflow = "hidden";		// TODO: put this in dijit.css
-			dijit.setWaiRole(this.domNode, "tablist");	// TODO: put this in template
+			this.domNode.setAttribute("role", "tablist");	// TODO: put this in template
 		},
 
 		startup: function(){
@@ -479,7 +479,7 @@ define([
 			this.inherited(arguments);
 			var titleTextNodeId = this.id.replace(' ','_');
 			dojo.attr(this.titleTextNode, "id", titleTextNodeId+"_title");
-			dijit.setWaiState(this.focusNode, "labelledby", dojo.attr(this.titleTextNode, "id"));
+			this.focusNode.setAttribute("aria-labelledby", dojo.attr(this.titleTextNode, "id"));
 			dojo.setSelectable(this.domNode, false);
 		},
 
@@ -505,8 +505,8 @@ define([
 
 		_setSelectedAttr: function(/*Boolean*/ isSelected){
 			this._set("selected", isSelected);
-			dijit.setWaiState(this.focusNode, "expanded", isSelected);
-			dijit.setWaiState(this.focusNode, "selected", isSelected);
+			this.focusNode.setAttribute("aria-expanded", isSelected);
+			this.focusNode.setAttribute("aria-selected", isSelected);
 			this.focusNode.setAttribute("tabIndex", isSelected ? "0" : "-1");
 		}
 	});
