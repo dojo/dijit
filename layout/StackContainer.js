@@ -271,7 +271,7 @@ dojo.declare("dijit.layout.StackContainer", dijit.layout._LayoutWidget, {
 
 		dojo.replaceClass(page.domNode, "dijitVisible", "dijitHidden");
 
-		return page._onShow() || true;
+		return (page._onShow && page._onShow()) || true;
 	},
 
 	_hideChild: function(/*dijit._Widget*/ page){
@@ -281,7 +281,7 @@ dojo.declare("dijit.layout.StackContainer", dijit.layout._LayoutWidget, {
 		page._set("selected", false);
 		dojo.replaceClass(page.domNode, "dijitHidden", "dijitVisible");
 
-		page.onHide();
+		page.onHide && page.onHide();
 	},
 
 	closeChild: function(/*dijit._Widget*/ page){
