@@ -1,5 +1,6 @@
 {
 	"name": "dijit",
+	"version":"1.7.0dev",
 	"directories": {
 		"lib": "."
 	},
