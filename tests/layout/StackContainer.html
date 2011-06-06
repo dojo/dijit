@@ -157,13 +157,14 @@
 
 				container.placeAt(dojo.body());
 				container.startup();
+				container.selectChild(page3);
 
 				var resizes = 0;
 				dojo.connect(page3, "resize", function(){
 					resizes++;
 				});
 				container.removeChild(page3);
-				doh.is(0, resizes, "removing a child doesn't call resize on it");
+				doh.is(0, resizes, "removing selected child doesn't call resize on it");
 				doh.is(2, container.getChildren().length, "2 children");
 			});
 
