@@ -1298,6 +1298,7 @@ body .dijitAlignClient { position: absolute; }
 	width: 50000px;
 	display: block;
 	position: relative;
+    text-align: left;  /* just in case ancestor has non-standard setting */
 }
 .dijitTabListWrapper {
 	overflow: hidden;
