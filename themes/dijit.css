@@ -39,6 +39,12 @@
 	#vertical-align: auto;	/* makes TextBox,Button line up w/native counterparts on IE6 */
 }
 
+table.dijitInline {
+	/* To inline tables with a given width set */
+	display:inline-table;
+	box-sizing: content-box; -moz-box-sizing: content-box;
+}
+
 .dijitHidden {
 	/* To hide unselected panes in StackContainer etc. */
 	display: none !important;
@@ -77,16 +83,6 @@
 }
 .dijitTextBox .dijitValidationContainer {
 	display: none;
-}
-.dijitInlineTable {
-	/* To inline tables with a given width set (otherwise, use dijitInline above) */
-	display:inline-table;
-	display:inline-block;		/* webkit and FF3 */
-	#zoom: 1; /* set hasLayout:true to mimic inline-block */
-	#display:inline; /* don't use .dj_ie since that increases the priority */
-	box-sizing: content-box; -moz-box-sizing: content-box;
-	border:0;
-	padding:0;
 }
 
 .dijitTeeny {
