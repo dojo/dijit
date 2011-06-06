@@ -20,8 +20,8 @@ define([
 //
 // FIXME: make it prettier
 // FIXME: active dragging upwards doesn't always shift other bars (direction calculation is wrong in this case)
+// FIXME: sizeWidth should be a CSS attribute (at 7 because css wants it to be 7 until we fix to css)
 //
-
 
 dojo.declare("dijit.layout.SplitContainer", dijit.layout._LayoutWidget, {
 	// summary:
@@ -47,7 +47,7 @@ dojo.declare("dijit.layout.SplitContainer", dijit.layout._LayoutWidget, {
 
 	// sizerWidth: Integer
 	//		Size in pixels of the bar between each child
-	sizerWidth: 7, // FIXME: this should be a CSS attribute (at 7 because css wants it to be 7 until we fix to css)
+	sizerWidth: 7,
 
 	// orientation: String
 	//		either 'horizontal' or vertical; indicates whether the children are
