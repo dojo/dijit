@@ -212,6 +212,25 @@
 
 							return d;
 						}
+					},
+					{
+						name: "#13166",
+						timeout: 5000,
+						runTest: function(){
+							var
+								d = new doh.Deferred(),
+								w = dijit.byId("programmatic");
+
+							focusThenRun(w, function(){
+								var h = parseInt(w.domNode.style.height);
+								doh.robot.keyPress(" ", 500, {});
+								doh.robot.sequence(d.getTestCallback(function(){
+									doh.t(parseInt(w.domNode.style.height) >= h, "height should not shrink");
+								}), 500);
+							});
+
+							return d;
+						}
 					}
 
 				]);

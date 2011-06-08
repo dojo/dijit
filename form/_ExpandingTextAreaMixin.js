@@ -92,7 +92,7 @@ define([
 					textarea.rows = 1;
 					textarea.style.height = currentHeight + "px";
 				}
-				var newH = parseInt(currentHeight) + textareaScrollHeight() - textarea.clientHeight;
+				var newH = Math.max(parseInt(currentHeight) - textarea.clientHeight, 0) + textareaScrollHeight();
 				var newHpx = newH + "px";
 				if(newHpx != textarea.style.height){
 					textarea.rows = 1;
