@@ -71,6 +71,12 @@
 			dojo.require("dijit.form.TextBox");
 
 			dojo.require("dojo.parser");
+
+			dojo.ready(99, function(){
+				dijit.form.ViewButton = dojo.declare([dijit.form.Button], {
+					label: "View"
+				});
+			});
 		</script>
 	</head>
 <body class="claro">
@@ -86,8 +92,7 @@
 			Create
 		</button>
 		<span data-dojo-type="dijit.Tooltip" data-dojo-props='connectId:["1465"]'>tooltip on button</span>
-		<button data-dojo-type="dijit.form.Button" id="T1466" title="view title" data-dojo-props='onClick:function(){ console.log("clicked simple"); }'>
-			View
+		<button data-dojo-type="dijit.form.ViewButton" id="T1466" title="view title" data-dojo-props='onClick:function(){ console.log("clicked simple"); }'>
 		</button>
 		<button id="comboCreate" title="creative title" data-dojo-type="dijit.form.ComboButton" data-dojo-props='optionsTitle:"save options", onClick:function(){ console.log("clicked combo save") },
 				iconClass:"plusIcon"'>

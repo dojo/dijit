@@ -73,7 +73,10 @@ dojo.declare("dijit.form.Button", [dijit.form._FormWidget, dijit.form._ButtonMix
 		// this.params.label, handle it here.
 		// TODO: remove the method in 2.0, parser will do it all for me
 		if(source && (!this.params || !("label" in this.params))){
-			this.set('label', source.innerHTML);
+			var sourceLabel = dojo.trim(source.innerHTML);
+			if(sourceLabel){
+				this.label = sourceLabel; // _applyAttributes will be called after buildRendering completes to update the DOM
+			}
 		}
 	},
 
