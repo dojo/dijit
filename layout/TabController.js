@@ -28,6 +28,8 @@ dojo.declare("dijit.layout.TabController", dijit.layout.StackController, {
 	// tags:
 	//		private
 
+	baseClass: "dijitTabController",
+
 	templateString: "<div role='tablist' dojoAttachEvent='onkeypress:onkeypress'></div>",
 
 	// tabPosition: String

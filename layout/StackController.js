@@ -28,7 +28,9 @@ define([
 		//		Monitors the specified StackContainer, and whenever a page is
 		//		added, deleted, or selected, updates itself accordingly.
 
-		templateString: "<span role='tablist' dojoAttachEvent='onkeypress' class='dijitStackController'></span>",
+		baseClass: "dijitTabController",
+
+		templateString: "<span role='tablist' dojoAttachEvent='onkeypress'></span>",
 
 		// containerId: [const] String
 		//		The id of the page container that I point to

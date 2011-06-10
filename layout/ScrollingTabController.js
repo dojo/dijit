@@ -33,6 +33,8 @@ dojo.declare("dijit.layout.ScrollingTabController", [dijit.layout.TabController,
 	// tags:
 	//		private
 
+	baseClass: "dijitTabController dijitScrollingTabController",
+
 	templateString: tabControllerTemplate,
 
 	// useMenu: [const] Boolean
