@@ -347,19 +347,6 @@ define([
 			this._setCurrentFocusAttr(this.currentFocus, true);
 		},
 
-		_onMonthSelect: function(/*Number*/ newMonth){
-			// summary:
-			//      Handler for when user selects a month from the drop down list
-			// tags:
-			//      protected
-
-			// move to selected month, bounding by the number of days in the month
-			// (ex: dec 31 --> jan 28, not jan 31)
-			this.currentFocus = this.dateFuncObj.add(this.currentFocus, "month",
-				newMonth - this.currentFocus.getMonth());
-			this._populateGrid();
-		},
-
 		_onDayClick: function(/*Event*/ evt){
 			// summary:
 			//      Handler for day clicks, selects the date if appropriate
