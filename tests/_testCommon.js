@@ -18,6 +18,7 @@ require(["dojo"], function(dojo){
 
 	var dir = "",
 		theme = false,
+		themeModule = "dijit",
 		testMode = null,
 		defTheme = "claro",
 		vars={};
@@ -45,6 +46,10 @@ require(["dojo"], function(dojo){
 					break;
 				case "a11y":
 					if(value){ testMode = "dijit_a11y"; }
+					break;
+				case "themeModule":
+					// moduleName | null
+					if(value){ themeModule = value; }
 			}
 			vars[key] = value;
 		}
@@ -61,8 +66,8 @@ require(["dojo"], function(dojo){
 	if(theme || testMode || dir){
 
 		if(theme){
-			var themeCss = dojo.moduleUrl("dijit.themes",theme+"/"+theme+".css");
-			var themeCssRtl = dojo.moduleUrl("dijit.themes",theme+"/"+theme+"_rtl.css");
+			var themeCss = dojo.moduleUrl(themeModule+".themes",theme+"/"+theme+".css");
+			var themeCssRtl = dojo.moduleUrl(themeModule+".themes",theme+"/"+theme+"_rtl.css");
 			document.write('<link rel="stylesheet" type="text/css" href="'+themeCss+'"/>');
 			document.write('<link rel="stylesheet" type="text/css" href="'+themeCssRtl+'"/>');
 		}
