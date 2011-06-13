@@ -264,10 +264,10 @@ define([
 			this._connections = dojo.map(ary, function(id){
 				var node = dojo.byId(id);
 				return node ? [
-					this.connect(node, "onmouseenter", "_onTargetMouseEnter"),
-					this.connect(node, "onmouseleave", "_onTargetMouseLeave"),
-					this.connect(node, "onfocus", "_onTargetFocus"),
-					this.connect(node, "onblur", "_onTargetBlur")
+					this.connect(node, "onmouseenter", "_onHover"),
+					this.connect(node, "onmouseleave", "_onUnHover"),
+					this.connect(node, "onfocus", "_onHover"),
+					this.connect(node, "onblur", "_onUnHover")
 				] : [];
 			}, this);
 
@@ -315,42 +315,6 @@ define([
 			// didn't exist during the widget's initialization, then connect now.
 			var ids = this.connectId;
 			dojo.forEach(dojo.isArrayLike(ids) ? ids : [ids], this.addTarget, this);
-		},
-
-		_onTargetMouseEnter: function(/*Event*/ e){
-			// summary:
-			//		Handler for mouseenter event on the target node
-			// tags:
-			//		private
-			this._onHover(e);
-		},
-
-		_onTargetMouseLeave: function(/*Event*/ e){
-			// summary:
-			//		Handler for mouseleave event on the target node
-			// tags:
-			//		private
-			this._onUnHover(e);
-		},
-
-		_onTargetFocus: function(/*Event*/ e){
-			// summary:
-			//		Handler for focus event on the target node
-			// tags:
-			//		private
-
-			this._focus = true;
-			this._onHover(e);
-		},
-
-		_onTargetBlur: function(/*Event*/ e){
-			// summary:
-			//		Handler for blur event on the target node
-			// tags:
-			//		private
-
-			this._focus = false;
-			this._onUnHover(e);
 		},
 
 		_onHover: function(/*Event*/ e){

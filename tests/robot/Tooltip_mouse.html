@@ -48,13 +48,37 @@
 					},
 
 					{
-						name: "hide on defocus",
+						name: "hide on unhover",
 						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							// Tab off of the "button w/tooltip" to the "remove button",
-							// which doesn't have a tooltip
+							// Move off of the "button w/tooltip" to node which doesn't have a tooltip
+							doh.robot.mouseMoveAt(dojo.query("h1")[0], 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(masterTT && isHidden(masterTT.domNode), "tooltip hidden");
+							}), 2000);
+
+							return d;
+						}
+					},
+
+					{
+						name: "click to focus, then mouse away",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveAt("id1", 500);
+							doh.robot.mouseClick({left: true}, 500);
+
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.t(masterTT && isVisible(masterTT.domNode), "tooltip shown");
+								doh.is("id1", dijit._curFocus && dijit._curFocus.id, "node is focused");
+							}), 2000);
+
+							// Move off of the focused node to node which doesn't have a tooltip
 							doh.robot.mouseMoveAt(dojo.query("h1")[0], 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
