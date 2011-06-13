@@ -250,30 +250,31 @@ define([
 		//		See description of `dijit.Tooltip.defaultPosition` for details on position parameter.
 		position: [],
 
-		_setConnectIdAttr: function(/*String*/ newId){
+		_setConnectIdAttr: function(/*String|String[]*/ newId){
 			// summary:
-			//		Connect to node(s) (specified by id)
+			//		Connect to specified node(s)
 
 			// Remove connections to old nodes (if there are any)
 			dojo.forEach(this._connections || [], function(nested){
 				dojo.forEach(nested, dojo.hitch(this, "disconnect"));
 			}, this);
 
-			// Make connections to nodes in newIds.
-			var ary = dojo.isArrayLike(newId) ? newId : (newId ? [newId] : []);
-			this._connections = dojo.map(ary, function(id){
+			// Make array of id's to connect to, excluding entries for nodes that don't exist yet, see startup()
+			this._connectIds = dojo.filter(dojo.isArrayLike(newId) ? newId : (newId ? [newId] : []),
+					function(id){ return dojo.byId(id); });
+
+			// Make connections
+			this._connections = dojo.map(this._connectIds, function(id){
 				var node = dojo.byId(id);
-				return node ? [
+				return [
 					this.connect(node, "onmouseenter", "_onHover"),
 					this.connect(node, "onmouseleave", "_onUnHover"),
 					this.connect(node, "onfocus", "_onHover"),
 					this.connect(node, "onblur", "_onUnHover")
-				] : [];
+				];
 			}, this);
 
 			this._set("connectId", newId);
-
-			this._connectIds = ary;	// save as array
 		},
 
 		addTarget: function(/*DOMNODE || String*/ node){
