@@ -11,7 +11,9 @@
 
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../dojo/dojo.js"
-			djConfig="isDebug: true, parseOnLoad: true"></script>
+			djConfig="isDebug: true"></script>
+
+		<script type="text/javascript" src="../../helpers.js"></script>
 
 		<script type="text/javascript">
 			dojo.require("dijit.robotx");
@@ -1231,6 +1233,36 @@
 							dojo.byId("q01").focus();
 							return d;
 						}
+					}
+				]);
+
+				doh.register("validation in dialog", [
+					function showDialog(){
+						// Show dialog, returning Deferred that fires when show dialog is finished.
+						// Before showing, focus the open button, so that Dialog knows where to return focus to.
+						dijit.byId("dlgOpenBtn").focus();
+						return dijit.byId("dlg").show();
+					},
+					function enterInvalidValue(){
+						// Entering invalid value should make validation tooltip appear
+						var d = new doh.Deferred();
+						dijit.byId("dlgNTB").set("value", "invalid");
+						dijit.byId("dlgNTB").focus();
+						setTimeout(d.getTestCallback(function(){
+							masterTT = dojo.global.dijit._masterTT;
+							doh.t(masterTT && isVisible(masterTT.domNode), "tooltip shown");
+						}), 300);
+						return d;
+					},
+					function hideDialog(){
+						// Hiding the dialog should make the validation tooltip disappear
+						var d = new doh.Deferred();
+						dijit.byId("dlg").hide().then(function(){
+							setTimeout(d.getTestCallback(function(){
+								doh.t(isHidden(masterTT.domNode), "tooltip hidden");
+							}), 300);
+						});
+						return d;
 					}
 				]);
 

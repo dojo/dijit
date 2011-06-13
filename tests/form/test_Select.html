@@ -30,6 +30,7 @@
 			dojo.require("dijit.form.Button");
 			dojo.require("dijit.form.Form");
 			dojo.require("dojo.data.ItemFileWriteStore");
+			dojo.require("dijit.Dialog");
 
 			var numOptions = 0;
 			var numChanges = 0;
@@ -243,6 +244,37 @@
 							s12.setStore(store2);
 							t.is("DE", s12.value);
 							t.is(7, s12.getOptions().length);
+						}
+					]);
+
+					doh.register("validation", [
+						function showDialog(){
+							// Show dialog, returning Deferred that fires when show dialog is finished.
+							// Before showing, focus the open button, so that Dialog knows where to return focus to.
+							dijit.byId("dlgOpenBtn").focus();
+							return dijit.byId("dlg").show();
+						},
+						function validateDialog(){
+							// Clicking validate button should show "required but empty" toolip on the Select
+							var d = new doh.Deferred();
+							dijit.byId("dlgValidateBtn").focus();
+							dijit.byId("dlg").validate();
+							setTimeout(d.getTestCallback(function(){
+								doh.is("dlgSelect", dijit._curFocus && dijit._curFocus.id, "focused on select");
+								masterTT = dojo.global.dijit._masterTT;
+								doh.t(masterTT && isVisible(masterTT.domNode), "tooltip shown");
+							}), 300);
+							return d;
+						},
+						function hideDialog(){
+							// Hiding the dialog should make the validation tooltip disappear
+							var d = new doh.Deferred();
+							dijit.byId("dlg").hide().then(function(){
+								setTimeout(d.getTestCallback(function(){
+									doh.t(isHidden(masterTT.domNode), "tooltip hidden");
+								}), 300);
+							});
+							return d;
 						}
 					]);
 				}
@@ -562,5 +594,21 @@
 		<hr>
 		<h4 class="testSubtitle">Programmatic and other tests</h4>
 		<div id="testProgramatic"></div>
+
+		<!-- testing that tooltip disappears when dialog is closed -->
+		<div dojoType="dijit.Dialog" id="dlg">
+			<div dojoType="dijit.form.Select" id="dlgSelect"required="true"></div>
+			<div dojoType="dijit.form.Button" id="dlgValidateBtn">
+				<script type=dojo/method event="onClick">
+					var dlg = dijit.byId("dlg");
+					if(dlg.validate()){
+						dlg.hide();
+					}
+				</script>
+				validate and close
+			</div>
+		</div>
+		<button dojoType="dijit.form.Button" id="dlgOpenBtn"
+				onclick="dijit.byId('dlg').show();">show dialog</button>
 	</body>
 </html>

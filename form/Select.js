@@ -303,6 +303,11 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 			delete this.dropDown;
 		}
 		this.inherited(arguments);
+	},
+
+	_onBlur: function(){
+		dijit.hideTooltip(this.domNode);
+		this.inherited(arguments);
 	}
 });
 

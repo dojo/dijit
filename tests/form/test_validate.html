@@ -51,7 +51,7 @@
 		</style>
 
 		<!-- required: the default dijit theme: -->
-		<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro.css"/>
+		<link id="themeStyles" rel="stylesheet" href="../../themes/claro/claro.css"/>
 
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../dojo/dojo.js"
@@ -62,11 +62,15 @@
 
 		<script type="text/javascript">
 			dojo.require("doh.runner");
-			dojo.require("dijit.dijit"); // optimize: load dijit layer
+
 			dojo.require("dijit.form.TextBox");
 			dojo.require("dijit.form.ValidationTextBox");
 			dojo.require("dijit.form.NumberTextBox");
 			dojo.require("dijit.form.CurrencyTextBox");
+
+			dojo.require("dijit.Dialog");
+			dojo.require("dijit.form.Button");
+
 			dojo.require("dojo.currency");
 			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
@@ -547,5 +551,13 @@
 		<div class="sans">
 			<input id="sans1"/>
 		</div>
+
+		<h2>Validation tooltips inside of dialogs:</h2>
+		<div dojoType="dijit.Dialog" id="dlg">
+			<label for="dlgNTB">NumberTextBox:</label>
+			<div dojoType="dijit.form.NumberTextBox" id="dlgNTB"></div>
+		</div>
+		<button dojoType="dijit.form.Button" id="dlgOpenBtn" onclick="dijit.byId('dlg').show();">show dialog</button>
+
 	</body>
 </html>
