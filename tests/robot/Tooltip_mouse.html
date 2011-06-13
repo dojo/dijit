@@ -123,8 +123,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isHidden(dijit.byId("ddm").domNode), "menu hidden");
-								// Commented out until #10821 is fixed
-								// doh.t(masterTT && isHidden(masterTT.domNode), "tooltip hidden");
+								doh.t(masterTT && isHidden(masterTT.domNode), "tooltip hidden");
 							}), 500);
 
 							return d;
