@@ -69,10 +69,18 @@ define([
 			// Also, user may try to access this.store.getValue(), like in a custom labelFunc() function.
 			dojo.mixin(this.store, {
 				getValue: function(item, attr){
+					dojo.deprecated("store.getValue() is deprecated.  Use item.attr directly", "", "2.0");
 					return item[attr];
 				},
 				getLabel: function(item){
+					dojo.deprecated("store.getValue() is deprecated.  Use item.label directly", "", "2.0");
 					return item[labelAttr];
+				},
+				fetch: function(args){
+					dojo.deprecated("store.fetch() is deprecated.", "Use store.query()", "2.0");
+					require(["dojo/data/ObjectStore"], dojo.hitch(this, function(ObjectStore){
+						new ObjectStore({objectStore: this}).fetch(args);
+					}));
 				}
 			});
 
