@@ -169,10 +169,6 @@ dojo.declare("dijit.layout.ScrollingTabController", [dijit.layout.TabController,
 		//		Hides or displays the buttons used to scroll the tab list and launch the menu
 		//		that selects tabs.
 
-		if(this.domNode.offsetWidth == 0){
-			return;
-		}
-
 		// Save the dimensions to be used when a child is renamed.
 		this._dim = dim;
 
