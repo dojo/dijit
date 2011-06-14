@@ -390,7 +390,7 @@ define([
 
 	// register top window and all the iframes it contains
 	dojo.addOnLoad(function(){
-		var handle = singleton.registerWin(window);
+		var handle = singleton.registerWin(dojo.global);
 		if(dojo.isIE){
 			dojo.addOnWindowUnload(function(){
 				singleton.unregisterWin(handle);
