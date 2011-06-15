@@ -8,7 +8,8 @@ define([
 	"./_KeyNavContainer",
 	"./_TemplatedMixin",
 	"dojo/_base/html", // dojo.isDescendant dojo.replaceClass
-	"dojo/_base/lang" // dojo.hitch
+	"dojo/_base/lang", // dojo.hitch
+	"dojo/_base/array"	// dojo.indexOf
 ], function(dojo, dijit, pm){
 
 // module:
@@ -327,10 +328,13 @@ dojo.declare("dijit._MenuBase",
 		var fromItem = this.focusedChild && this.focusedChild.from_item;
 
 		if(this.currentPopup){
-			// If focus is on my child menu then move focus to me,
-			// because IE doesn't like it when you display:none a node with focus
-			var curFocusNode = this._focusManager.get("curNode");
-			if(curFocusNode && dojo.isDescendant(curFocusNode, this.currentPopup.domNode)){
+			// If focus is on a descendant MenuItem then move focus to me,
+			// because IE doesn't like it when you display:none a node with focus,
+			// and also so keyboard users don't lose control.
+			// Likely, immediately after a user defined onClick handler will move focus somewhere
+			// else, like a Dialog.
+			if(dojo.indexOf(this._focusManager.activeStack, this.id) >= 0){
+				dojo.attr(this.focusedChild.focusNode, "tabIndex", this.tabIndex);
 				this.focusedChild.focusNode.focus();
 			}
 			// Close all popups that are open and descendants of this menu

@@ -9,8 +9,7 @@
 		</style>
 
 		<!-- required: dojo.js -->
-		<script type="text/javascript" src="../../../dojo/dojo.js"
-			djConfig="isDebug: true, parseOnLoad: true"></script>
+		<script type="text/javascript" src="../../../dojo/dojo.js"></script>
 
 		<!-- functions to help test -->
 		<script type="text/javascript" src="../helpers.js"></script>
@@ -310,6 +309,119 @@
 
 								doh.is(0, dojo.query("#viewMenu .dijitMenuItemSelected").length,
 									"dijitMenuItemSelected removed from View Menu")
+							}), 1000);
+
+							return d;
+						}
+					}
+				]);
+
+				doh.register("dijit.MenuBar nested click focus test",[
+					{
+						name: "start focus on the link, outside of menubar",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// Start at the link
+							doh.robot.sequence(function(){
+								dojo.byId("link").focus();
+							}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(dojo.global.dijit.focus.curNode, "something has focus");
+								doh.is("random link", dojo.global.dijit.focus.curNode.innerHTML, "check that focus is on the link");
+							}), 1000);
+
+							return d;
+						}
+					},
+
+					{
+						name: "tab to the menubar",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// tab to the MenuBar... then focus should automatically shift to "File" menu,
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("File", dijit.getEnclosingWidget(dojo.global.dijit.focus.curNode).label,
+										"check that focus is on File MenuItem");
+							}), 1000);
+
+							return d;
+						}
+					},
+
+					{
+						name: "arrow to the view menu",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});		// TODO: use left arrow in RTL mode
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});		// TODO: use left arrow in RTL mode
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("View", dojo.trim(dojo.global.dijit.focus.curNode.innerText || dojo.global.dijit.focus.curNode.textContent),
+										"check that focus is on View MenuItem");
+							}), 1000);
+
+							return d;
+						}
+					},
+
+					{
+						name: "down to the zoom menuitem",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});	// focuses "Normal", first menu item
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});	// focuses "Outline", second menu item
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});	// focuses "Zoom", third menu item
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("Zoom", dijit.getEnclosingWidget(dojo.global.dijit.focus.curNode).label,
+										"check that focus is on Zoom MenuItem");
+							}), 1000);
+
+							return d;
+						}
+					},
+
+					{
+						name: "open the zoom menu",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("50%", dijit.getEnclosingWidget(dojo.global.dijit.focus.curNode).label,
+										"check that focus is on Zoom MenuItem");
+							}), 1000);
+
+							return d;
+						}
+					},
+
+					{
+						name: "click to close Zoom menu, focus back to MenuBar",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// This should move focus to "Edit" in the MenuBar, which then opens
+							// the drop down and focuses on the first item (Cut)
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("View", dijit.getEnclosingWidget(dojo.global.dijit.focus.curNode).label,
+										"check that focus is on first View item in MenuBar");
 							}), 1000);
 
 							return d;
