@@ -212,12 +212,14 @@ define([
 				};
 				dojo.mixin(options, this.fetchProperties);
 				this._fetchHandle = this.store.query(query, options);
-				dojo.when(this._fetchHandle, function(result, err){
+				dojo.when(this._fetchHandle, function(result){
 					_this._fetchHandle = null;
-					if(err){
+					_this._callbackSetLabel(result || [], query, options, priorityChange);
+				}, function(err){
+					_this._fetchHandle = null;
+					if(!_this._cancelingQuery){	// don't treat canceled query as an error
 						console.error('dijit.form.FilteringSelect: ' + err.toString());
 					}
-					_this._callbackSetLabel(result || [], query, options, priorityChange);
 				});
 			}
 		},

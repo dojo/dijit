@@ -165,7 +165,11 @@ define([
 				this.searchTimer = null;
 			}
 			if(this._fetchHandle){
-				if(this._fetchHandle.cancel){ this._fetchHandle.cancel(); }
+				if(this._fetchHandle.cancel){
+					this._cancelingQuery = true;
+					this._fetchHandle.cancel();
+					this._cancelingQuery = false;
+				}
 				this._fetchHandle = null;
 			}
 		},
@@ -565,14 +569,15 @@ define([
 			var _this = this,
 				startQuery = function(){
 					var resPromise = _this._fetchHandle = _this.store.query(query, options);
-					dojo.when(resPromise, function(res, err){
-						if(err){
-							_this._fetchHandle = null;
+					dojo.when(resPromise, function(res){
+						_this._fetchHandle = null;
+						res.total = resPromise.total;
+						_this._openResultList(res, query, options);
+					}, function(err){
+						_this._fetchHandle = null;
+						if(!_this._cancelingQuery){	// don't treat canceled query as an error
 							console.error(_this.declaredClass + ' ' + err.toString());
 							_this.closeDropDown();
-						}else{
-							res.total = resPromise.total;
-							_this._openResultList(res, query, options);
 						}
 					});
 				};
