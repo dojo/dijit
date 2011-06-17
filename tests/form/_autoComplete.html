@@ -161,13 +161,13 @@
 					console.error(this.id + ' has an undefined item, onChange value = ' + newValue + ', widget value = ' + this.value + ', displayed Value = ' + this.textbox.value);
 					this.itemError = true;
 				}else{
-					itemLabel = this.store.getValue(this.item, this.searchAttr).toString();
+					itemLabel = this.item[this.searchAttr].toString();
 				}
 				dojo.byId('i1').value = itemLabel;
 			}
 			function setValueTestLabelFunc(item, store){
-				var label = store.getValue(item, this.searchAttr);
-				var value = store.getValue(item, 'value');
+				var label = item[this.searchAttr];
+				var value = item.value;
 				if(!this.labelFuncCount){ this.labelFuncCount = 0; }
 				if(!this.labelFuncCounts){ this.labelFuncCounts = []; }
 				if(!this.labelFuncCounts[value]){ this.labelFuncCounts[value] = 0; }

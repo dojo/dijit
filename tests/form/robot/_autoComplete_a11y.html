@@ -116,7 +116,7 @@
 							// watch() tests
 							doh.is(expectedText, dv, "watch of displayedValue");
 							doh.is(value, v, "watch of value");
-							doh.is(value, isComboBox ? combo.store.getValue(i, combo.searchAttr) : combo.store.getIdentity(i), "watch of item");
+							doh.is(value, isComboBox ? i[combo.searchAttr] : combo.store.getIdentity(i), "watch of item");
 							h1.unwatch();
 							h2.unwatch();
 							h3.unwatch();

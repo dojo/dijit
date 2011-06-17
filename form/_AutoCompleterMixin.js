@@ -470,7 +470,8 @@ define([
 			var value = '';
 			if(item){
 				if(!displayedValue){
-					displayedValue = item[this.searchAttr];
+					displayedValue = this.store._oldAPI ?	// remove getValue() for 2.0 (old dojo.data API)
+						this.store.getValue(item, this.searchAttr) : item[this.searchAttr];
 				}
 				value = this._getValueField() != this.searchAttr ? this.store.getIdentity(item) : displayedValue;
 			}
@@ -494,7 +495,8 @@ define([
 				this.item = undefined;
 				this.value = '';
 			}else{
-				newValue = node.item[this.searchAttr].toString();
+				newValue = (this.store._oldAPI ? 	// remove getValue() for 2.0 (old dojo.data API)
+					this.store.getValue(node.item, this.searchAttr) : node.item[this.searchAttr]).toString();
 				this.set('item', node.item, false, newValue);
 			}
 			// get the text that the user manually entered (cut off autocompleted text)
@@ -638,7 +640,8 @@ define([
 					var item = (this.item = this.store.fetchSelectedItem());
 					if(item){
 						var valueField = this._getValueField();
-						this.value = item[valueField];
+						// remove getValue() for 2.0 (old dojo.data API)
+						this.value = this.store._oldAPI ? this.store.getValue(item, valueField) : item[valueField];
 					}
 				}
 			}
@@ -718,8 +721,10 @@ define([
 			//		private
 
 			// Use toString() because XMLStore returns an XMLItem whereas this
-			// method is expected to return a String (#9354)
-			return item[this.labelAttr || this.searchAttr].toString(); // String
+			// method is expected to return a String (#9354).
+			// Remove getValue() for 2.0 (old dojo.data API)
+			return (store._oldAPI ? store.getValue(item, this.labelAttr || this.searchAttr) :
+				item[this.labelAttr || this.searchAttr]).toString(); // String
 		},
 
 		_setValueAttr: function(/*String*/ value, /*Boolean?*/ priorityChange, /*String?*/ displayedValue, /*item?*/ item){
