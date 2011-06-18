@@ -1,9 +1,6 @@
 {
 	"name": "dijit",
 	"version":"1.7.0dev",
-	"directories": {
-		"lib": "."
-	},
 	"main":"main",
 	"mappings": {
 		"dojo": "https://github.com/dojo/dojo/zipball/1.0.2"
