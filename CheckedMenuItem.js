@@ -31,6 +31,8 @@ define([
 			this._set("checked", checked);
 		},
 
+		iconClass: "",	// override dijitNoIcon
+
 		onChange: function(/*Boolean*/ checked){
 			// summary:
 			//		User defined function to handle check/uncheck events
