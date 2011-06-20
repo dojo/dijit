@@ -1,4 +1,5 @@
 define([
+	"require",		// require.toUrl
 	"dojo/_base/kernel",
 	".",
 	"dojo/text!./templates/ColorPalette.html",
@@ -11,10 +12,9 @@ define([
 	"dojo/_base/Color", // dojo.Color dojo.Color.named
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html", // dojo.hasClass dojo.place
-	"dojo/_base/url", // dojo.moduleUrl
 	"dojo/_base/window", // dojo.body
 	"dojo/string" // dojo.string.substitute
-], function(dojo, dijit, template){
+], function(require, dojo, dijit, template){
 
 // module:
 //		dijit/ColorPalette
@@ -105,8 +105,8 @@ dojo.declare("dijit._Color", dojo.Color, {
 	// _imagePaths: [protected] Map
 	//		This is stores the path to the palette images used for high-contrast mode display
 	_imagePaths: {
-		"7x10": dojo.moduleUrl("dijit.themes", "a11y/colors7x10.png"),
-		"3x4": dojo.moduleUrl("dijit.themes", "a11y/colors3x4.png")
+		"7x10": require.toUrl("./themes/a11y/colors7x10.png"),
+		"3x4": require.toUrl("./themes/a11y/colors3x4.png")
 	},
 
 	constructor: function(/*String*/alias, /*Number*/ row, /*Number*/ col){

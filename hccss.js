@@ -1,11 +1,11 @@
 define([
+	"require",			// require.toUrl
 	"dojo/_base/kernel", // dojo.config.blankGif
 	"dojo/_base/html", // dojo.addClass dojo.create dojo.getComputedStyle
 	"dojo/ready", // dojo.ready
 	"dojo/_base/sniff", // dojo.isIE dojo.isMoz
-	"dojo/_base/url", // dojo.moduleUrl
 	"dojo/_base/window" // dojo.body
-], function(dojo){
+], function(require, dojo){
 
 	// module:
 	//		dijit/hccss
@@ -27,7 +27,7 @@ define([
 						+ 'position: absolute;'
 						+ 'height: 5px;'
 						+ 'top: -999px;'
-						+ 'background-image: url("' + (dojo.config.blankGif || dojo.moduleUrl("dojo", "resources/blank.gif")) + '");'
+						+ 'background-image: url("' + (dojo.config.blankGif || require.toUrl("dojo/resources/blank.gif")) + '");'
 				}
 			}, dojo.body());
 

@@ -1,13 +1,13 @@
 define([
+	"require",			// require.toUrl
 	"dojo/_base/kernel", // dojo.mixin
 	".",
 	"dojo/text!./templates/ProgressBar.html",
 	"dojo/number", // dojo.number.format
 	"./_Widget",
 	"./_TemplatedMixin",
-	"dojo/_base/html", // dojo.toggleClass
-	"dojo/_base/url" // dojo.moduleUrl
-], function(dojo, dijit, template){
+	"dojo/_base/html" // dojo.toggleClass
+], function(require, dojo, dijit, template){
 
 // module:
 //		dijit/ProgressBar
@@ -68,7 +68,7 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._TemplatedMixin], {
 	// _indeterminateHighContrastImagePath: [private] dojo._URL
 	//		URL to image to use for indeterminate progress bar when display is in high contrast mode
 	_indeterminateHighContrastImagePath:
-		dojo.moduleUrl("dijit", "themes/a11y/indeterminate_progress.gif"),
+		require.toUrl("./themes/a11y/indeterminate_progress.gif"),
 
 	postMixInProperties: function(){
 		this.inherited(arguments);

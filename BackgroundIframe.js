@@ -1,13 +1,13 @@
 define([
+	"require",			// require.toUrl
 	"dojo/_base/kernel", // dojo.config
 	".",
 	"dojo/_base/connect", // dojo.connect dojo.disconnect
 	"dojo/_base/html", // dojo.create dojo.style
 	"dojo/_base/lang", // dojo.extend
 	"dojo/_base/sniff", // dojo.isIE dojo.isMoz dojo.isQuirks
-	"dojo/_base/url", // dojo.moduleUrl
 	"dojo/_base/window" // dojo.doc.createElement
-], function(dojo, dijit){
+], function(require, dojo, dijit){
 
 	// module:
 	//		dijit/BackgroundIFrame
@@ -31,7 +31,7 @@ define([
 				iframe.style.display="";
 			}else{
 				if(dojo.isIE < 9){
-					var burl = dojo.config["dojoBlankHtmlUrl"] || (dojo.moduleUrl("dojo", "resources/blank.html")+"") || "javascript:\"\"";
+					var burl = dojo.config["dojoBlankHtmlUrl"] || require.toUrl("dojo/resources/blank.html") || "javascript:\"\"";
 					var html="<iframe src='" + burl + "' role='presentation'"
 						+ " style='position: absolute; left: 0px; top: 0px;"
 						+ "z-index: -1; filter:Alpha(Opacity=\"0\");'>";

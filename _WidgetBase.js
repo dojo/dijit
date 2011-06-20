@@ -1,4 +1,5 @@
 define([
+	"require",			// require.toUrl
 	"dojo/_base/kernel", // dojo.config.blankGif
 	".",
 	"dojo/aspect",
@@ -10,10 +11,9 @@ define([
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html", // dojo.addClass dojo.attr dojo.byId dojo.create dojo.destroy dojo.place dojo.removeAttr dojo.replaceClass dojo.style
 	"dojo/_base/lang", // dojo.hitch dojo.isArray dojo.isFunction dojo.isObject
-	"dojo/_base/url", // dojo.moduleUrl
 	"dojo/_base/window", // dojo.doc.createTextNode
 	"dojo/query" // dojo.query
-], function(dojo, dijit, aspect){
+], function(require, dojo, dijit, aspect){
 
 // module:
 //		dijit/_WidgetBase
@@ -214,7 +214,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 	// _blankGif: [protected] String
 	//		Path to a blank 1x1 image.
 	//		Used by <img> nodes in templates that really get their image via CSS background-image.
-	_blankGif: (dojo.config.blankGif || dojo.moduleUrl("dojo", "resources/blank.gif")).toString(),
+	_blankGif: dojo.config.blankGif || require.toUrl("dojo/resources/blank.gif"),
 
 	//////////// INITIALIZATION METHODS ///////////////////////////////////////
 
