@@ -255,6 +255,9 @@ if(!dijit.range._w3c){
 				var r = _initCurrentRange();
 				if(r){
 					this.addRange(r, true);
+					this.isCollapsed = r.collapsed;
+				}else{
+					this.isCollapsed = true;
 				}
 			};
 		},

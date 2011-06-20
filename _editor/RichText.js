@@ -158,7 +158,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 	disableSpellCheck: false,
 
 	postCreate: function(){
-		if("textarea" == this.domNode.tagName.toLowerCase()){
+		if("textarea" === this.domNode.tagName.toLowerCase()){
 			console.warn("RichText should not be used with the TEXTAREA tag.  See dijit._editor.RichText docs.");
 		}
 
@@ -178,6 +178,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		if(dojo.isIE){
 			// IE generates <strong> and <em> but we want to normalize to <b> and <i>
 			this.contentPostFilters = [this._normalizeFontStyle].concat(this.contentPostFilters);
+			this.contentDomPostFilters = [dojo.hitch(this, this._stripBreakerNodes)].concat(this.contentDomPostFilters);
 		}
 		this.inherited(arguments);
 
@@ -190,8 +191,8 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		// summary:
 		//		Add some default key handlers
 		// description:
-		// 		Overwrite this to setup your own handlers. The default
-		// 		implementation does not use Editor commands, but directly
+		//		Overwrite this to setup your own handlers. The default
+		//		implementation does not use Editor commands, but directly
 		//		executes the builtin commands within the underlying browser
 		//		support.
 		// tags:
@@ -222,7 +223,8 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			ctrlKeyHandlers.Z = exec("redo"); //FIXME: undo?
 		}
 
-		for(var key in ctrlKeyHandlers){
+		var key;
+		for(key in ctrlKeyHandlers){
 			this.addKeyHandler(key, true, false, ctrlKeyHandlers[key]);
 		}
 	},
@@ -317,7 +319,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		if(!this.isClosed){ this.close(); }
 		dojo.publish(dijit._scopeName + "._editor.RichText::open", [ this ]);
 
-		if(arguments.length == 1 && element.nodeName){ // else unchanged
+		if(arguments.length === 1 && element.nodeName){ // else unchanged
 			this.domNode = element;
 		}
 
@@ -371,7 +373,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 				var resetValue = ta.value;
 				this.reset = function(){
 					var current = this.getValue();
-					if(current != resetValue){
+					if(current !== resetValue){
 						this.replaceValue(resetValue);
 					}
 				};
@@ -395,7 +397,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 
 		// If we're a list item we have to put in a blank line to force the
 		// bullet to nicely align at the top of text
-		if(dn.nodeName && dn.nodeName == "LI"){
+		if(dn.nodeName && dn.nodeName === "LI"){
 			dn.innerHTML = " <br>";
 		}
 
@@ -420,7 +422,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 				var datas = saveTextarea.value.split(this._SEPARATOR), i=0, dat;
 				while((dat=datas[i++])){
 					var data = dat.split(this._NAME_CONTENT_SEP);
-					if(data[0] == this.name){
+					if(data[0] === this.name){
 						html = data[1];
 						datas = datas.splice(i, 1);
 						saveTextarea.value = datas.join(this._SEPARATOR);
@@ -489,7 +491,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 
 		if(dojo.isSafari <= 4){
 			var src = ifr.getAttribute("src");
-			if(!src || src.indexOf("javascript") == -1){
+			if(!src || src.indexOf("javascript") === -1){
 				// Safari 4 and earlier sometimes act oddly
 				// So we have to set it again.
 				setTimeout(function(){ifr.setAttribute('src', s);},0);
@@ -497,7 +499,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}
 
 		// TODO: this is a guess at the default line-height, kinda works
-		if(dn.nodeName == "LI"){
+		if(dn.nodeName === "LI"){
 			dn.lastChild.style.marginTop = "-1.2em";
 		}
 
@@ -655,7 +657,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		var url=uri.toString();
 
 		//if uri is relative, then convert it to absolute so that it can be resolved correctly in iframe
-		if(url.charAt(0) == '.' || (url.charAt(0) != '/' && !uri.host)){
+		if(url.charAt(0) === '.' || (url.charAt(0) !== '/' && !uri.host)){
 			url = (new dojo._Url(dojo.global.location, url)).toString();
 		}
 
@@ -684,11 +686,11 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		//		remove an external stylesheet for the editing area
 		var url=uri.toString();
 		//if uri is relative, then convert it to absolute so that it can be resolved correctly in iframe
-		if(url.charAt(0) == '.' || (url.charAt(0) != '/' && !uri.host)){
+		if(url.charAt(0) === '.' || (url.charAt(0) !== '/' && !uri.host)){
 			url = (new dojo._Url(dojo.global.location, url)).toString();
 		}
 		var index = dojo.indexOf(this.editingAreaStyleSheets, url);
-		if(index == -1){
+		if(index === -1){
 //			console.debug("dijit._editor.RichText.removeStyleSheet: Style sheet "+url+" has not been applied");
 			return;
 		}
@@ -719,7 +721,8 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			}catch(e){ return; } // ! _disabledOK
 			if(!value && this._mozSettingProps){
 				var ps = this._mozSettingProps;
-				for(var n in ps){
+				var n;
+				for(n in ps){
 					if(ps.hasOwnProperty(n)){
 						try{
 							this.document.execCommand(n,false,ps[n]);
@@ -932,11 +935,11 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		var c = (e.keyChar && e.keyChar.toLowerCase()) || e.keyCode,
 			handlers = this._keyHandlers[c],
 			args = arguments;
-
+			
 		if(handlers && !e.altKey){
 			dojo.some(handlers, function(h){
 				// treat meta- same as ctrl-, for benefit of mac users
-				if(!(h.shift ^ e.shiftKey) && !(h.ctrl ^ (e.ctrlKey||e.metaKey))){
+				if(!(h.shift ^ e.shiftKey) && !(h.ctrl ^ (e.ctrlKey||e.metaKey))){ 
 					if(!h.handler.apply(this, args)){
 						e.preventDefault();
 					}
@@ -1012,7 +1015,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		this.inherited(arguments);
 
 		var newValue = this.getValue(true);
-		if(newValue != this.value){
+		if(newValue !== this.value){
 			this.onChange(newValue);
 		}
 		this._set("value", newValue);
@@ -1123,9 +1126,9 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		//		private
 
 		var command = cmd.toLowerCase();
-		if(command == "formatblock"){
+		if(command === "formatblock"){
 			if(dojo.isSafari && argument === undefined){ command = "heading"; }
-		}else if(command == "hilitecolor" && !dojo.isMoz){
+		}else if(command === "hilitecolor" && !dojo.isMoz){
 			command = "backcolor";
 		}
 
@@ -1236,9 +1239,9 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		command = this._normalizeCommand(command, argument);
 
 		if(argument !== undefined){
-			if(command == "heading"){
+			if(command === "heading"){
 				throw new Error("unimplemented");
-			}else if((command == "formatblock") && dojo.isIE){
+			}else if((command === "formatblock") && dojo.isIE){
 				argument = '<'+argument+'>';
 			}
 		}
@@ -1251,7 +1254,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			returnValue = this[implFunc](argument);
 		}else{
 			argument = arguments.length > 1 ? argument : null;
-			if(argument || command!="createlink"){
+			if(argument || command !== "createlink"){
 				returnValue = this.document.execCommand(command, false, argument);
 			}
 		}
@@ -1309,7 +1312,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		if(this.disabled || !this._disabledOK){ return false; }
 		var r;
 		command = this._normalizeCommand(command);
-		if(dojo.isIE && command == "formatblock"){
+		if(dojo.isIE && command === "formatblock"){
 			r = this._native2LocalFormatNames[this.document.queryCommandValue(command)];
 		}else if(dojo.isMoz && command === "hilitecolor"){
 			var oldValue;
@@ -1354,13 +1357,13 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			// TODO:  Is this branch even necessary?
 			var first=this.editNode.firstChild;
 			while(first){
-				if(first.nodeType == 3){
+				if(first.nodeType === 3){
 					if(first.nodeValue.replace(/^\s+|\s+$/g, "").length>0){
 						isvalid=true;
 						this._sCall("selectElement", [ first ]);
 						break;
 					}
-				}else if(first.nodeType == 1){
+				}else if(first.nodeType === 1){
 					isvalid=true;
 					var tg = first.tagName ? first.tagName.toLowerCase() : "";
 					// Collapse before childless tags.
@@ -1399,13 +1402,13 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		if(dojo.isMoz){
 			var last=this.editNode.lastChild;
 			while(last){
-				if(last.nodeType == 3){
+				if(last.nodeType === 3){
 					if(last.nodeValue.replace(/^\s+|\s+$/g, "").length>0){
 						isvalid=true;
 						this._sCall("selectElement", [ last ]);
 						break;
 					}
-				}else if(last.nodeType == 1){
+				}else if(last.nodeType === 1){
 					isvalid=true;
 					if(last.lastChild){
 						this._sCall("selectElement", [ last.lastChild ]);
@@ -1472,7 +1475,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}else{
 			html = this._preFilterContent(html);
 			var node = this.isClosed ? this.domNode : this.editNode;
-			if(html && dojo.isMoz && html.toLowerCase() == "<p></p>"){
+			if(html && dojo.isMoz && html.toLowerCase() === "<p></p>"){
 				html = "<p>&nbsp;</p>";
 			}
 
@@ -1808,7 +1811,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		//		The command to check.
 		// tags:
 		//		protected
-		if(!command) { return false }
+		if(!command) { return false; }
 		var elem = dojo.isIE ? this.document.selection.createRange() : this.document;
 		try{
 			return elem.queryCommandEnabled(command);
@@ -2043,7 +2046,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		var rv = true;
 		if(dojo.isIE){
 			var insertRange = this.document.selection.createRange();
-			if(this.document.selection.type.toUpperCase() == 'CONTROL'){
+			if(this.document.selection.type.toUpperCase() === 'CONTROL'){
 				var n=insertRange.item(0);
 				while(insertRange.length){
 					insertRange.remove(insertRange.item(0));
@@ -2071,10 +2074,15 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		//		Not used, operates by selection.
 		// tags:
 		//		protected
+		var applied = false;
 		if(dojo.isIE){
-			this._adaptIESelection()
+			this._adaptIESelection();		
+			applied = this._adaptIEFormatAreaAndExec("bold");
 		}
-		return this.document.execCommand("bold", false, argument);
+		if(!applied){
+			applied = this.document.execCommand("bold", false, argument);
+		}
+		return applied;
 	},
 
 	_italicImpl: function(argument){
@@ -2084,10 +2092,15 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		//		Not used, operates by selection.
 		// tags:
 		//		protected
+		var applied = false;
 		if(dojo.isIE){
-			this._adaptIESelection()
+			this._adaptIESelection();			
+			applied = this._adaptIEFormatAreaAndExec("italic");
 		}
-		return this.document.execCommand("italic", false, argument);
+		if(!applied){
+			applied = this.document.execCommand("italic", false, argument);
+		}
+		return applied;
 	},
 
 	_underlineImpl: function(argument){
@@ -2097,10 +2110,15 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		//		Not used, operates by selection.
 		// tags:
 		//		protected
+		var applied = false;
 		if(dojo.isIE){
-			this._adaptIESelection()
+			this._adaptIESelection();			
+			applied = this._adaptIEFormatAreaAndExec("underline");
 		}
-		return this.document.execCommand("underline", false, argument);
+		if(!applied){
+			applied = this.document.execCommand("underline", false, argument);
+		}
+		return applied;
 	},
 
 	_strikethroughImpl: function(argument){
@@ -2110,12 +2128,54 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		//		Not used, operates by selection.
 		// tags:
 		//		protected
+		var applied = false;
 		if(dojo.isIE){
-			this._adaptIESelection()
+			this._adaptIESelection();			
+			applied = this._adaptIEFormatAreaAndExec("strikethrough");
 		}
-		return this.document.execCommand("strikethrough", false, argument);
+		if(!applied){
+			applied = this.document.execCommand("strikethrough", false, argument);
+		}
+		return applied;
 	},
 
+	_superscriptImpl: function(argument){
+		// summary:
+		//		This function implements an over-ride of the superscript command.
+		// argument:
+		//		Not used, operates by selection.
+		// tags:
+		//		protected
+		var applied = false;
+		if(dojo.isIE){
+			this._adaptIESelection();			
+			alreadyApplied = this._adaptIEFormatAreaAndExec("superscript");
+		}
+		if(!applied){
+			applied = this.document.execCommand("superscript", false, argument);
+		}
+		return applied;
+	},
+
+	_subscriptImpl: function(argument){
+		// summary:
+		//		This function implements an over-ride of the superscript command.
+		// argument:
+		//		Not used, operates by selection.
+		// tags:
+		//		protected
+		var applied = false;
+		if(dojo.isIE){
+			this._adaptIESelection();			
+			applied = this._adaptIEFormatAreaAndExec("subscript");
+			
+		}
+		if(!applied){
+			applied = this.document.execCommand("subscript", false, argument);
+		}
+		return applied;
+	},
+	
 	getHeaderHeight: function(){
 		// summary:
 		//		A function for obtaining the height of the header node
@@ -2153,13 +2213,13 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		//		The node to check.
 		// tags:
 		//		private.
-		if(node.nodeType == 1/*element*/){
+		if(node.nodeType === 1/*element*/){
 			if(node.childNodes.length > 0){
 				return this._isNodeEmpty(node.childNodes[0], startOffset);
 	}
 			return true;
-		}else if(node.nodeType == 3/*text*/){
-			return (node.nodeValue.substring(startOffset) == "");
+		}else if(node.nodeType === 3/*text*/){
+			return (node.nodeValue.substring(startOffset) === "");
 		}
 		return false;
 	},
@@ -2204,7 +2264,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			var firstNode = range.startContainer;
 			var startOffset = range.startOffset;
 
-			while(firstNode.nodeType == 3/*text*/ && startOffset >= firstNode.length && firstNode.nextSibling){
+			while(firstNode.nodeType === 3/*text*/ && startOffset >= firstNode.length && firstNode.nextSibling){
 				//traverse the text nodes until we get to the one that is actually highlighted
 				startOffset = startOffset - firstNode.length;
 				firstNode = firstNode.nextSibling;
@@ -2212,7 +2272,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 
 			//Remove the starting ranges until the range does not start with an empty node.
 			var lastNode=null;
-			while(this._isNodeEmpty(firstNode, startOffset) && firstNode != lastNode){
+			while(this._isNodeEmpty(firstNode, startOffset) && firstNode !== lastNode){
 				lastNode =firstNode; //this will break the loop in case we can't find the next sibling
 				range = this._removeStartingRangeFromRange(firstNode, range); //move the start container to the next node in the range
 				firstNode = range.startContainer;
@@ -2221,6 +2281,371 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			selection.removeAllRanges();// this will work as long as users cannot select multiple ranges. I have not been able to do that in the editor.
 			selection.addRange(range);
 		}
+	},
+	
+	_adaptIEFormatAreaAndExec: function(command){
+		// summary:
+		//		Function to handle IE's quirkiness regarding how it handles
+		//		format commands on a word.  This involves a lit of node splitting
+		//		and format cloning.
+		// command:
+		//		The format command, needed to check if the desired
+		//		command is true or not.
+		var selection = dijit.range.getSelection(this.window);
+		var doc = this.document;
+		var rs, ret, range, txt, startNode, endNode, breaker, sNode;
+		if(command && selection && selection.isCollapsed){
+			var isApplied = this.queryCommandValue(command);
+			if(isApplied){
+				
+				// We have to split backwards until we hit the format
+				var nNames = this._tagNamesForCommand(command);
+				range = selection.getRangeAt(0);
+				var fs = range.startContainer;
+				if(fs.nodeType === 3){
+					var offset = range.endOffset;
+					if(fs.length < offset){
+						//We are not looking from the right node, try to locate the correct one
+						ret = this._adjustNodeAndOffset(rs, offset);
+						fs = ret.node;
+						offset = ret.offset;
+					}
+				}									
+				var topNode;
+				while(fs && fs !== this.editNode){
+					// We have to walk back and see if this is still a format or not.
+					// Hm, how do I do this?
+					var tName = fs.tagName? fs.tagName.toLowerCase() : "";
+					if(dojo.indexOf(nNames, tName) > -1){
+						topNode = fs;
+						break;
+					}
+					fs = fs.parentNode;
+				}
+
+				// Okay, we have a stopping place, time to split things apart.
+				if(topNode){
+					// Okay, we know how far we have to split backwards, so we have to split now.
+					var firstNodeMoved;
+					rs = range.startContainer;
+					var newblock = doc.createElement(topNode.tagName);
+					dojo.place(newblock, topNode, "after");
+					if(rs && rs.nodeType === 3){
+						// Text node, we have to split it.
+						var nodeToMove, tNode;
+						var endOffset = range.endOffset;
+						if(rs.length < endOffset){
+							//We are not splitting the right node, try to locate the correct one
+							ret = this._adjustNodeAndOffset(rs, endOffset);
+							rs = ret.node;
+							endOffset = ret.offset;
+						}
+		
+						txt = rs.nodeValue;
+						startNode = doc.createTextNode(txt.substring(0, endOffset));
+						var endText = txt.substring(endOffset, txt.length);
+						if(endText){
+							endNode = doc.createTextNode(endText);
+						}
+						// Place the split, then remove original nodes.
+						dojo.place(startNode, rs, "before");
+						if(endNode){
+							breaker = doc.createElement("span");
+							breaker.className = "ieFormatBreakerSpan";
+							dojo.place(breaker, rs, "after");
+							dojo.place(endNode, breaker, "after");
+							endNode = breaker;
+						}
+						dojo.destroy(rs);
+						
+						// Okay, we split the text.  Now we need to see if we're
+						// parented to the block element we're splitting and if
+						// not, we have to split all the way up.  Ugh.
+						var parentC = startNode.parentNode;
+						var tagList = [];
+						var tagData;
+						while(parentC !== topNode){
+							var tg = parentC.tagName;
+							tagData = {tagName: tg}
+							tagList.push(tagData);
+														
+							var newTg = doc.createElement(tg);
+							// Clone over any 'style' data.
+							if(parentC.style){
+								if(newTg.style){
+									if(parentC.style.cssText){
+										newTg.style.cssText = parentC.style.cssText;
+										tagData.cssText = parentC.style.cssText;
+									}
+								}
+							}
+							// If font also need to clone over any font data.
+							if(parentC.tagName === "FONT"){
+								if(parentC.color){
+									newTg.color = parentC.color;
+									tagData.color = parentC.color;
+								}
+								if(parentC.face){
+									newTg.face = parentC.face;
+									tagData.face = parentC.face;
+								}
+								if(parentC.size){  // this check was necessary on IE
+									newTg.size = parentC.size;
+									tagData.size = parentC.size;
+								}
+							}
+							if(parentC.className){
+								newTg.className = parentC.className;
+								tagData.className = parentC.className;
+							}
+							
+							// Now move end node and every sibling 
+							// after it over into the new tag.
+							if(endNode){
+								nodeToMove = endNode;
+								while(nodeToMove){
+									tNode = nodeToMove.nextSibling;
+									newTg.appendChild(nodeToMove);
+									nodeToMove = tNode;
+								}
+							}
+							if(newTg.tagName == parentC.tagName){
+								breaker = doc.createElement("span");
+								breaker.className = "ieFormatBreakerSpan";
+								dojo.place(breaker, parentC, "after");
+								dojo.place(newTg, breaker, "after");
+							}else{
+								dojo.place(newTg, parentC, "after");
+							}
+							startNode = parentC;
+							endNode = newTg;
+							parentC = parentC.parentNode;
+						}
+
+						// Lastly, move the split out all the split tags 
+						// to the new block as they should now be split properly.
+						if(endNode){
+							nodeToMove = endNode;
+							if(nodeToMove.nodeType === 1 || (nodeToMove.nodeType === 3 && nodeToMove.nodeValue)){
+								// Non-blank text and non-text nodes need to clear out that blank space
+								// before moving the contents.
+								newblock.innerHTML = "";
+							}
+							while(nodeToMove){
+								tNode = nodeToMove.nextSibling;
+								newblock.appendChild(nodeToMove);
+								nodeToMove = tNode;
+							}
+						}
+						
+						// We had intermediate tags, we have to now recreate them inbetween the split
+						// and restore what styles, classnames, etc, we can.  
+						if(tagList.length){
+							tagData = tagList.pop();
+							var newContTag = doc.createElement(tagData.tagName);
+							if(tagData.cssText && newContTag.style){
+								newContTag.style.cssText = tagData.cssText;
+							}
+							if(tagData.className){
+								newContTag.className = tagData.className;
+							}
+							if(tagData.tagName === "FONT"){
+								if(tagData.color){
+									newContTag.color = tagData.color;
+								}
+								if(tagData.face){
+									newContTag.face = tagData.face;
+								}
+								if(tagData.size){ 
+									newContTag.size = tagData.size;
+								}
+							}								
+							dojo.place(newContTag, newblock, "before");
+							while(tagList.length){
+								tagData = tagList.pop();
+								var newTgNode = doc.createElement(tagData.tagName);
+								if(tagData.cssText && newTgNode.style){
+									newTgNode.style.cssText = tagData.cssText;
+								}
+								if(tagData.className){
+									newTgNode.className = tagData.className;
+								}
+								if(tagData.tagName === "FONT"){
+									if(tagData.color){
+										newTgNode.color = tagData.color;
+									}
+									if(tagData.face){
+										newTgNode.face = tagData.face;
+									}
+									if(tagData.size){ 
+										newTgNode.size = tagData.size;
+									}
+								}	
+								newContTag.appendChild(newTgNode);
+								newContTag = newTgNode;
+							}							
+							
+							// Okay, everything is theoretically split apart and removed from the content
+							// so insert the dummy text to select, select it, then
+							// clear to position cursor.
+							sNode = doc.createTextNode(".");
+							breaker.appendChild(sNode);
+							newContTag.appendChild(sNode);
+							dojo.withGlobal(this.window, dojo.hitch(this, function(){
+								var newrange = dijit.range.create(dojo.gobal);
+								newrange.setStart(sNode, 0);
+								newrange.setEnd(sNode, sNode.length);
+								selection.removeAllRanges();
+								selection.addRange(newrange);
+								dijit._editor.selection.collapse(false);
+								sNode.parentNode.innerHTML = "";
+							}));							
+						}else{
+							// No extra tags, so we have to insert a breaker point and rely
+							// on filters to remove it later.
+							breaker = doc.createElement("span");
+							breaker.className="ieFormatBreakerSpan";
+							sNode = doc.createTextNode(".");
+							breaker.appendChild(sNode);
+							dojo.place(breaker, newblock, "before");
+							dojo.withGlobal(this.window, dojo.hitch(this, function(){
+								var newrange = dijit.range.create(dojo.gobal);
+								newrange.setStart(sNode, 0);
+								newrange.setEnd(sNode, sNode.length);
+								selection.removeAllRanges();
+								selection.addRange(newrange);
+								dijit._editor.selection.collapse(false);
+								sNode.parentNode.innerHTML = "";
+							}));
+						}
+						if(!newblock.firstChild){
+							// Empty, we don't need it.  Split was at end or similar
+							// So, remove it.
+							dojo.destroy(newblock);
+						}					
+						return true;
+					}
+				}
+				return false;
+			}else{
+				range = selection.getRangeAt(0);
+				rs = range.startContainer;
+				if(rs && rs.nodeType === 3){
+					// Text node, we have to split it.
+					dojo.withGlobal(this.window, dojo.hitch(this, function(){
+						var endEmpty = false;
+
+						var offset = range.startOffset;
+						if(rs.length < offset){
+							//We are not splitting the right node, try to locate the correct one
+							ret = this._adjustNodeAndOffset(rs, offset);
+							rs = ret.node;
+							offset = ret.offset;
+						}
+						txt = rs.nodeValue;
+						startNode = doc.createTextNode(txt.substring(0, offset));
+						var endText = txt.substring(offset);
+						if(endText !== ""){
+							endNode = doc.createTextNode(txt.substring(offset));
+						}
+						// Create a space, we'll select and bold it, so 
+						// the whole word doesn't get bolded
+						breaker = doc.createElement("span");
+						sNode = doc.createTextNode(".");
+						breaker.appendChild(sNode);
+						if(startNode.length){
+							dojo.place(startNode, rs, "after");
+						}else{
+							startNode = rs;
+						}
+						dojo.place(breaker, startNode, "after");
+						if(endNode){
+							dojo.place(endNode, breaker, "after");
+						}
+						dojo.destroy(rs);
+						var newrange = dijit.range.create(dojo.gobal);
+						newrange.setStart(sNode, 0);
+						newrange.setEnd(sNode, sNode.length);
+						selection.removeAllRanges();
+						selection.addRange(newrange);
+						doc.execCommand(command);
+						dojo.place(breaker.firstChild, breaker, "before");
+						dojo.destroy(breaker);
+						newrange.setStart(sNode, 0);
+						newrange.setEnd(sNode, sNode.length);
+						selection.removeAllRanges();
+						selection.addRange(newrange);
+						dijit._editor.selection.collapse(false);
+						sNode.parentNode.innerHTML = "";
+					}));
+					return true;
+				}
+			}
+		}else{
+			return false;
+		}
+	},
+	
+	_adjustNodeAndOffset: function(/*DomNode*/node, /*Int*/offset){
+		// summary:
+		//		In the case there are multiple text nodes in a row the offset may not be within the node.  
+		//		If the offset is larger than the node length, it will attempt to find
+		//		the next text sibling until it locates the text node in which the offset refers to
+		// node:
+		//		The node to check.
+		// offset:
+		//		The position to find within the text node
+		// tags:
+		//		private.
+		while(node.length < offset && node.nextSibling && node.nextSibling.nodeType === 3){
+			//Adjust the offset and node in the case of multiple text nodes in a row
+			offset = offset - node.length;
+			node = node.nextSibling;
+		}
+		return {"node": node, "offset": offset};
+	},
+	
+	_tagNamesForCommand: function(command){
+		// summary:
+		//		Function to return the tab names that are associated
+		//		with a particular style.
+		// command: String
+		//		The command to return tags for.
+		// tags:
+		//		private
+		if(command === "bold"){
+			return ["b", "strong"];
+		}else if(command === "italic"){
+			return ["i","em"];
+		}else if(command === "strikethrough"){
+			return ["s", "strike"];
+		}else if(command === "superscript"){
+			return ["sup"];
+		}else if(command === "subscript"){
+			return ["sub"];
+		}else if(command === "underline"){
+			return ["u"];
+		}	
+		return [];
+	},
+
+	_stripBreakerNodes: function(node){
+		// summary:
+		//		Function for stripping out the breaker spans inserted by the formatting command.
+		//		Registered as a filter for IE, handles the breaker spans needed to fix up
+		//		How bold/italic/etc, work when selection is collapsed (single cursor).
+		dojo.withGlobal(this.window, dojo.hitch(this, function(){
+			var breakers = dojo.query(".ieFormatBreakerSpan", node);
+			var i;
+			for(i = 0; i < breakers.length; i++){
+				var b = breakers[i];
+				while(b.firstChild){
+					dojo.place(b.firstChild, b, "before");
+				}
+				dojo.destroy(b);
+			}		
+		}));
+		return node
 	}
 });
 
