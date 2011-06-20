@@ -309,8 +309,9 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 // For back-compat, remove in 2.0.
 if(!dojo.isAsync){
 	dojo.ready(0, function(){
-		require(["dijit/_base/focus", "dijit/_base/place", "dijit/_base/popup", "dijit/_base/scroll",
-			"dijit/_base/typematic", "dijit/_base/wai", "dijit/_base/window"]);
+		var requires = ["dijit/_base/focus", "dijit/_base/place", "dijit/_base/popup", "dijit/_base/scroll",
+			"dijit/_base/typematic", "dijit/_base/wai", "dijit/_base/window"];
+		require(requires);	// use indirection so modules not rolled into a build
 	})
 }
 return dijit._Widget;

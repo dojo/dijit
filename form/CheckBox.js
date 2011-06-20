@@ -107,7 +107,8 @@ define([
 	// Back compat w/1.6, remove for 2.0
 	if(!dojo.isAsync){
 		dojo.ready(0, function(){
-			require(["dijit/form/RadioButton"]);
+			var requires = ["dijit/form/RadioButton"];
+			require(requires);	// use indirection so modules not rolled into a build
 		});
 	}
 

@@ -117,7 +117,8 @@ define([
 					},
 					fetch: function(args){
 						dojo.deprecated(clazz + ".store.fetch() is deprecated for builtin store.", "Use store.query()", "2.0");
-						require(["dojo/data/ObjectStore"], dojo.hitch(this, function(ObjectStore){
+						var shim = ["dojo/data/ObjectStore"];	// indirection so it doesn't get rolled into a build
+						require(shim, dojo.hitch(this, function(ObjectStore){
 							new ObjectStore({objectStore: this}).fetch(args);
 						}));
 					}

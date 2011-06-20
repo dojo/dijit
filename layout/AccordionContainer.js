@@ -514,7 +514,8 @@ define([
 	// Back compat w/1.6, remove for 2.0
 	if(!dojo.isAsync){
 		dojo.ready(0, function(){
-			require(["dijit/layout/AccordionPane"]);
+			var requires = ["dijit/layout/AccordionPane"];
+			require(requires);	// use indirection so modules not rolled into a build
 		});
 	}
 

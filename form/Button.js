@@ -111,7 +111,8 @@ dojo.declare("dijit.form.Button", [dijit.form._FormWidget, dijit.form._ButtonMix
 // Back compat w/1.6, remove for 2.0
 if(!dojo.isAsync){
 	dojo.ready(0, function(){
-		require(["dijit/form/DropDownButton", "dijit/form/ComboButton", "dijit/form/ToggleButton"]);
+		var requires = ["dijit/form/DropDownButton", "dijit/form/ComboButton", "dijit/form/ToggleButton"];
+		require(requires);	// use indirection so modules not rolled into a build
 	});
 }
 
