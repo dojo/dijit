@@ -183,9 +183,10 @@ define([
 			//		By default uses a tooltip.
 			// tags:
 			//		extension
-			dijit.hideTooltip(this.domNode);
 			if(message && this.focused){
 				dijit.showTooltip(message, this.domNode, this.tooltipPosition, !this.isLeftToRight());
+			}else{
+				dijit.hideTooltip(this.domNode);
 			}
 		},
 

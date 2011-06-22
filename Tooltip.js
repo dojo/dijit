@@ -51,7 +51,7 @@ define([
 			//		Display tooltip w/specified contents to right of specified node
 			//		(To left if there's no space on the right, or if rtl == true)
 
-			if(this.aroundNode && this.aroundNode === aroundNode){
+			if(this.aroundNode && this.aroundNode === aroundNode && this.containerNode.innerHTML == innerHTML){
 				return;
 			}
 

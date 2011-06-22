@@ -1236,6 +1236,96 @@
 					}
 				]);
 
+				function testOn(evt, widget, deferred, callback, delay){
+					var handler = widget.connect(widget.focusNode, "on"+evt,
+						function(){
+							widget.disconnect(handler);
+							setTimeout(deferred.getTestCallback(callback), delay||250);
+						});
+				}
+
+				// Supplementary test from validationMessages.html, to make sure tooltip doesn't flash
+				// on typing multiple invalid characters
+				doh.register("validation", [
+					{
+						name: "first focus, empty value",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							textbox = dijit.byId("q03");
+							textbox.focusNode.scrollIntoView();
+							textbox.set("value", "");
+							textbox.focus();
+							setTimeout(d.getTestCallback(function(){
+								// Tooltip should appear with information message
+								masterTT = dojo.global.dijit._masterTT;
+								doh.t(masterTT && isVisible(masterTT.domNode), "visible");
+								doh.is("(optional) Enter an age between 0 and 120", dojo.trim(innerText(masterTT.domNode)));
+							}), 750);
+						}
+					},
+					{
+						name: "first invalid character",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							testOn('keyup', textbox, d, function(){
+								masterTT = dojo.global.dijit._masterTT;
+								doh.t(masterTT && isVisible(masterTT.domNode), "visible");
+								doh.is("The value entered is not valid.", dojo.trim(innerText(masterTT.domNode)),
+									"message changed from info message to error message");
+							});
+							doh.robot.typeKeys("a", 0, 0);
+							return d;
+						}
+					},
+					{
+						name: "second invalid character",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var tooltipHidden = false;
+							testOn('keyup', textbox, d, function(){
+								masterTT = dojo.global.dijit._masterTT;
+								doh.f(tooltipHidden, "tooltip didn't blink or disappear");
+								doh.is("The value entered is not valid.", dojo.trim(innerText(masterTT.domNode)),
+									"same message");
+							});
+							dojo.connect(dijit, "hideTooltip", function(){ tooltipHidden = true; });
+							doh.robot.typeKeys("a", 0, 0);
+							return d;
+						}
+					},
+					{
+						name: "tab away",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							testOn('blur', textbox, d, function(){
+								masterTT = dojo.global.dijit._masterTT;
+								doh.t(masterTT && isHidden(masterTT.domNode), "hidden");
+							});
+							doh.robot.keyPress(dojo.keys.TAB, 0);
+							return d;
+						}
+					},
+					{
+						name: "tab back",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							testOn('focus', textbox, d, function(){
+								masterTT = dojo.global.dijit._masterTT;
+								doh.t(masterTT && isVisible(masterTT.domNode), "visible again");
+								doh.is("The value entered is not valid.", dojo.trim(innerText(masterTT.domNode)),
+									"same message");
+							});
+							doh.robot.keyPress(dojo.keys.TAB, 0, { shift:true });
+							return d;
+						}
+					}
+				]);
+
 				doh.register("validation in dialog", [
 					function showDialog(){
 						// Show dialog, returning Deferred that fires when show dialog is finished.
