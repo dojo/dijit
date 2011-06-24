@@ -1990,7 +1990,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		// tags:
 		//		protected
 		var returnValue;
-		var isApplied = this._handleTextColor("hilitecolor", argument);
+		var isApplied = this._handleTextColorOrProperties("hilitecolor", argument);
 		if(!isApplied){
 			if(dojo.isMoz){
 				// mozilla doesn't support hilitecolor properly when useCSS is
@@ -2019,7 +2019,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			//	var tr = this.document.selection.createRange();
 			argument = argument ? argument : null;
 		}
-		var isApplied = this._handleTextColor("backcolor", argument);
+		var isApplied = this._handleTextColorOrProperties("backcolor", argument);
 		if(!isApplied){
 			isApplied = this.document.execCommand("backcolor", false, argument);
 		}
@@ -2040,7 +2040,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			argument = argument? argument : null;
 		}
 		var isApplied = false;
-		isApplied = this._handleTextColor("forecolor", argument);
+		isApplied = this._handleTextColorOrProperties("forecolor", argument);
 		if(!isApplied){
 			isApplied = this.document.execCommand("forecolor", false, argument);
 		}
@@ -2187,6 +2187,40 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			applied = this.document.execCommand("subscript", false, argument);
 		}
 		return applied;
+	},
+	
+	_fontnameImpl: function(argument){
+		// summary:
+		//		This function implements the fontname command
+		// argument:
+		//		arguments to the exec command, if any.
+		// tags:
+		//		protected
+		var isApplied;
+		if(dojo.isIE){
+			isApplied = this._handleTextColorOrProperties("fontname", argument);
+		}
+		if(!isApplied){
+			isApplied = this.document.execCommand("fontname", false, argument);
+		}
+		return isApplied;
+	},
+
+	_fontsizeImpl: function(argument){
+		// summary:
+		//		This function implements the fontsize command
+		// argument:
+		//		arguments to the exec command, if any.
+		// tags:
+		//		protected
+		var isApplied;
+		if(dojo.isIE){
+			isApplied = this._handleTextColorOrProperties("fontsize", argument);
+		}
+		if(!isApplied){
+			isApplied = this.document.execCommand("fontsize", false, argument);
+		}
+		return isApplied;
 	},
 	
 	getHeaderHeight: function(){
@@ -2599,13 +2633,14 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}
 	},
 	
-	_handleTextColor: function(command, argument){
+	_handleTextColorOrProperties: function(command, argument){
 		// summary:
 		//		This function handles appplying text color as best it is 
 		//		able to do so when the selection is collapsed, making the
-		//		behavior cross-browser consistent.
+		//		behavior cross-browser consistent. It also handles the name
+		//		and size for IE.
 		// command:
-		//		The command, hiliteColor or forecolor.
+		//		The command.
 		// argument:
 		//		Any additional arguments.
 		// tags:
