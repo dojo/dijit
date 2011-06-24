@@ -1,6 +1,7 @@
 define([
 	"dojo/_base/kernel", // dojo.config.isDebug dojo.deprecated
 	".",
+	"dojo/query",
 	"./_WidgetBase",
 	"./_OnDijitClickMixin",
 	"./_FocusMixin",
@@ -9,7 +10,7 @@ define([
 	"dojo/uacss",		// brower sniffing
 	"dijit/hccss",		// high contrast mode sniffing
 	"./_base/manager"	// dijit.byId, etc.
-], function(dojo, dijit){
+], function(dojo, dijit, query){
 
 // module:
 //		dijit/_Widget
@@ -258,6 +259,16 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 		}else{ // getter
 			return this.get(name);
 		}
+	},
+
+	getDescendants: function(){
+		// summary:
+		//		Returns all the widgets contained by this, i.e., all widgets underneath this.containerNode.
+		//		This method should generally be avoided as it returns widgets declared in templates, which are
+		//		supposed to be internal/hidden, but it's left here for back-compat reasons.
+
+		dojo.deprecated(this.declaredClass+"::getDescendants() is deprecated. Use getChildren() instead.", "", "2.0");
+		return this.containerNode ? query('[widgetId]', this.containerNode).map(dijit.byNode) : []; // dijit._Widget[]
 	},
 
 	////////////////// MISCELLANEOUS METHODS ///////////////////

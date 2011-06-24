@@ -17,6 +17,7 @@
 			dojo.require("dojo.parser");
 
 			dojo.require("dijit._WidgetBase");
+			dojo.require("dijit._Widget");		// for getDescendants() testing
 			dojo.require("dijit._TemplatedMixin");
 			dojo.require("dijit._WidgetsInTemplateMixin");
 			dojo.require("dijit.form.Button");
@@ -48,7 +49,7 @@
 				});
 
 				dojo.declare('Test3Widget',
-					[dijit._WidgetBase, dijit._TemplatedMixin, dijit._WidgetsInTemplateMixin],
+					[dijit._Widget, dijit._TemplatedMixin, dijit._WidgetsInTemplateMixin],
 				{
 					templateString: dojo.byId('Test3Template').value
 				});

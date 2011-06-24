@@ -5,14 +5,12 @@ define([
 	"dojo/aspect",
 	"./_base/manager",
 	"dojo/Stateful", // dojo.Stateful
-	"dojo/_base/NodeList", // .map
 	"dojo/_base/array", // dojo.forEach dojo.map
 	"dojo/_base/connect", // dojo.connect dojo.disconnect dojo.subscribe dojo.unsubscribe
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html", // dojo.addClass dojo.attr dojo.byId dojo.create dojo.destroy dojo.place dojo.removeAttr dojo.replaceClass dojo.style
 	"dojo/_base/lang", // dojo.hitch dojo.isArray dojo.isFunction dojo.isObject
-	"dojo/_base/window", // dojo.doc.createTextNode
-	"dojo/query" // dojo.query
+	"dojo/_base/window" // dojo.doc.createTextNode
 ], function(require, dojo, dijit, aspect){
 
 // module:
@@ -752,15 +750,6 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		//		output. Currently, it does not implement any sort of reversible
 		//		serialization.
 		return '[Widget ' + this.declaredClass + ', ' + (this.id || 'NO ID') + ']'; // String
-	},
-
-	getDescendants: function(){
-		// summary:
-		//		Returns all the widgets contained by this, i.e., all widgets underneath this.containerNode.
-		//		This method should generally be avoided as it returns widgets declared in templates, which are
-		//		supposed to be internal/hidden, but it's left here for back-compat reasons.
-
-		return this.containerNode ? dojo.query('[widgetId]', this.containerNode).map(dijit.byNode) : []; // dijit._Widget[]
 	},
 
 	getChildren: function(){

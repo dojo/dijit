@@ -1,14 +1,12 @@
 define([
 	"dojo/_base/kernel", // dojo.config
 	"..",
-	"dojo/_base/NodeList", // .forEach
 	"dojo/_base/array", // dojo.forEach dojo.map
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html", // dojo.attr dojo.byId dojo.hasAttr dojo.style
 	"dojo/_base/sniff", // dojo.isIE
 	"dojo/_base/unload", // dojo.addOnWindowUnload
-	"dojo/_base/window", // dojo.body dojo.global
-	"dojo/query" // dojo.query
+	"dojo/_base/window" // dojo.body dojo.global
 ], function(dojo, dijit){
 
 	// module:
@@ -426,11 +424,11 @@ define([
 		}
 
 		var walkTree = function(/*DOMNode*/parent){
-			dojo.query("> *", parent).forEach(function(child){
-				// Skip hidden elements, and also non-HTML elements (those in custom namespaces) in IE,
+			for(var child = parent.firstChild; child; child = child.nextSibling){
+				// Skip text elements, hidden elements, and also non-HTML elements (those in custom namespaces) in IE,
 				// since show() invokes getAttribute("type"), which crash on VML nodes in IE.
-				if((dojo.isIE && child.scopeName !== "HTML") || !shown(child)){
-					return;
+				if(child.nodeType != 1 || (dojo.isIE && child.scopeName !== "HTML") || !shown(child)){
+					continue;
 				}
 
 				if(isTabNavigable(child)){
@@ -458,7 +456,7 @@ define([
 				if(child.nodeName.toUpperCase() != 'SELECT'){
 					walkTree(child);
 				}
-			});
+			}
 		};
 		if(shown(root)){
 			walkTree(root);
