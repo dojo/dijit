@@ -1990,14 +1990,18 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		// tags:
 		//		protected
 		var returnValue;
-		if(dojo.isMoz){
-			// mozilla doesn't support hilitecolor properly when useCSS is
-			// set to false (bugzilla #279330)
-			this.document.execCommand("styleWithCSS", false, true);
-			returnValue = this.document.execCommand("hilitecolor", false, argument);
-			this.document.execCommand("styleWithCSS", false, false);
-		}else{
-			returnValue = this.document.execCommand("hilitecolor", false, argument);
+		var isApplied = this._handleTextColor("hilitecolor", argument);
+		if(!isApplied){
+			if(dojo.isMoz){
+				// mozilla doesn't support hilitecolor properly when useCSS is
+				// set to false (bugzilla #279330)
+				this.document.execCommand("styleWithCSS", false, true);
+				console.log("Executing color command.")
+				returnValue = this.document.execCommand("hilitecolor", false, argument);
+				this.document.execCommand("styleWithCSS", false, false);
+			}else{
+				returnValue = this.document.execCommand("hilitecolor", false, argument);
+			}
 		}
 		return returnValue;
 	},
@@ -2015,7 +2019,11 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			//	var tr = this.document.selection.createRange();
 			argument = argument ? argument : null;
 		}
-		return this.document.execCommand("backcolor", false, argument);
+		var isApplied = this._handleTextColor("backcolor", argument);
+		if(!isApplied){
+			isApplied = this.document.execCommand("backcolor", false, argument);
+		}
+		return isApplied;
 	},
 
 	_forecolorImpl: function(argument){
@@ -2031,7 +2039,12 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			//	var tr = this.document.selection.createRange();
 			argument = argument? argument : null;
 		}
-		return this.document.execCommand("forecolor", false, argument);
+		var isApplied = false;
+		isApplied = this._handleTextColor("forecolor", argument);
+		if(!isApplied){
+			isApplied = this.document.execCommand("forecolor", false, argument);
+		}
+		return isApplied;
 	},
 
 	_inserthtmlImpl: function(argument){
@@ -2584,6 +2597,98 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}else{
 			return false;
 		}
+	},
+	
+	_handleTextColor: function(command, argument){
+		// summary:
+		//		This function handles appplying text color as best it is 
+		//		able to do so when the selection is collapsed, making the
+		//		behavior cross-browser consistent.
+		// command:
+		//		The command, hiliteColor or forecolor.
+		// argument:
+		//		Any additional arguments.
+		// tags:
+		//		private
+		var selection = dijit.range.getSelection(this.window);
+		var doc = this.document;
+		var rs, ret, range, txt, startNode, endNode, breaker, sNode;
+		argument = argument || null;
+		if(command && selection && selection.isCollapsed){
+			if(selection.rangeCount){
+				range = selection.getRangeAt(0);
+				rs = range.startContainer;
+				if(rs && rs.nodeType === 3){
+					// Text node, we have to split it.
+					dojo.withGlobal(this.window, dojo.hitch(this, function(){
+						var offset = range.startOffset;
+						if(rs.length < offset){
+							//We are not splitting the right node, try to locate the correct one
+							ret = this._adjustNodeAndOffset(rs, offset);
+							rs = ret.node;
+							offset = ret.offset;
+						}
+						txt = rs.nodeValue;
+						startNode = doc.createTextNode(txt.substring(0, offset));
+						var endText = txt.substring(offset);
+						if(endText !== ""){
+							endNode = doc.createTextNode(txt.substring(offset));
+						}
+						// Create a space, we'll select and bold it, so 
+						// the whole word doesn't get bolded
+						breaker = dojo.create("span");
+						sNode = doc.createTextNode(".");
+						breaker.appendChild(sNode);
+						// Create a junk node to avoid it trying to stlye the breaker.
+						// This will get destroyed later.
+						var extraSpan = dojo.create("span");
+						breaker.appendChild(extraSpan);
+						if(startNode.length){
+							dojo.place(startNode, rs, "after");
+						}else{
+							startNode = rs;
+						}
+						dojo.place(breaker, startNode, "after");
+						if(endNode){
+							dojo.place(endNode, breaker, "after");
+						}
+						dojo.destroy(rs);
+						var newrange = dijit.range.create(dojo.gobal);
+						newrange.setStart(sNode, 0);
+						newrange.setEnd(sNode, sNode.length);
+						selection.removeAllRanges();
+						selection.addRange(newrange);
+						if(dojo.isWebKit){
+							// WebKit is frustrating with positioning the cursor. 
+							// It stinks to have a selected space, but there really
+							// isn't much choice here.
+							var style = "color";
+							if(command === "hilitecolor" || command === "backcolor"){
+								style = "backgroundColor";
+							}
+							dojo.style(breaker, style, argument);
+							dijit._editor.selection.remove();
+							dojo.destroy(extraSpan);
+							breaker.innerHTML = "&nbsp;"
+							dijit._editor.selection.selectElement(breaker);
+							this.focus();
+						}else{
+							this.execCommand(command, argument);
+							dojo.place(breaker.firstChild, breaker, "before");
+							dojo.destroy(breaker);
+							newrange.setStart(sNode, 0);
+							newrange.setEnd(sNode, sNode.length);
+							selection.removeAllRanges();
+							selection.addRange(newrange);
+							dijit._editor.selection.collapse(false);
+							sNode.parentNode.removeChild(sNode);
+						}
+					}));
+					return true;
+				}
+			}				
+		}
+		return false;
 	},
 	
 	_adjustNodeAndOffset: function(/*DomNode*/node, /*Int*/offset){
