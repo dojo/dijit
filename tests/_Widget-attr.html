@@ -84,6 +84,19 @@
 						});
 						doh.is("my title", dojo.attr(fw.focusNode, "title"), "focusNode title");
 						doh.is("foo", fw.focusNode.getAttribute("aria-labelledby"), "focusNode labelledby");
+
+						// Mapping attributes with dashes and mixed case
+						var mc = (new dojo.declare([dijit._WidgetBase, dijit._TemplatedMixin], {
+							templateString: "<form></form>"
+						}))({
+							"accept-charset": "utf8",
+							"novalidate": "true"	// parser delivers as lowercase even though it's noValidate in JS obj
+						});
+						doh.is("utf8", mc.domNode.getAttribute("accept-charset"), "accept-charset");
+						if(dojo.isFF >= 4 || dojo.isIE >= 10 || dojo.isWebKit){
+							// only works for HTML5 compliant browsers where novalidate is understood
+							doh.t(mc.domNode.hasAttribute("novalidate"), "noValidate");
+						}
 					},
 
 					// Test custom setters/getter methods
@@ -106,8 +119,8 @@
 						doh.is(45, widget.get("foo"), "custom getter still called");
 					},
 
-					// Test attributes names with dashes
-					function namesWithDashes(){
+					// Test setters for attribute names with dashes
+					function settersForNamesWithDashes(){
 						var MyWidget = dojo.declare([dijit._Widget, dijit._TemplatedMixin], {
 							"name-with-dashes": "",
 							_setNameWithDashesAttr: {node: "dashNode", type: "innerHTML"},

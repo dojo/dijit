@@ -21,6 +21,17 @@ define([
 //		Future base class for all Dijit widgets.
 
 
+// Nested hash listing attributes for each tag, all strings in lowercase.
+// ex: {"div": {"style": true, "tabindex" true}, "form": { ...
+var tagAttrs = {};
+function getAttrs(obj){
+	var ret = {};
+	for(var attr in obj){
+		ret[attr.toLowerCase()] = true;
+	}
+	return ret;
+}
+
 dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 	// summary:
 	//		Future base class for all Dijit widgets.
@@ -671,11 +682,17 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 			// Map according to:
 			//		1. attributeMap setting, if one exists (TODO: attributeMap deprecated, remove in 2.0)
 			//		2. _setFooAttr: {...} type attribute in the widget (if one exists)
-			//		3. apply to focusNode or domNode if standard attribute name
-			var defaultNode = this.focusNode ? "focusNode" : "domNode",
+			//		3. apply to focusNode or domNode if standard attribute name, excluding funcs like onClick.
+			// Checks if an attribute is a "standard attribute" by whether the DOMNode JS object has a similar
+			// attribute name (ex: accept-charset attribute matches jsObject.acceptCharset).
+			// Note also that Tree.focusNode() is a function not a DOMNode, so test for that.
+			var defaultNode = this.focusNode && !dojo.isFunction(this.focusNode) ? "focusNode" : "domNode",
+				tag = this[defaultNode].tagName,
+				attrsForTag = tagAttrs[tag] || (tagAttrs[tag] = getAttrs(this[defaultNode])),
 				map =	name in this.attributeMap ? this.attributeMap[name] :
 						names.s in this ? this[names.s] :
-						(name in this[defaultNode] || /^aria-|^role$/.test(name)) ? defaultNode : null;
+						((names.l in attrsForTag && typeof value != "function") ||
+							/^aria-|^data-|^role$/.test(name)) ? defaultNode : null;
 			if(map != null){
 				this._attrToDom(name, value, map);
 			}
@@ -697,8 +714,9 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		var uc = name.replace(/^[a-z]|-[a-zA-Z]/g, function(c){ return c.charAt(c.length-1).toUpperCase(); });
 		return (apn[name] = {
 			n: name+"Node",
-			s: "_set"+uc+"Attr",
-			g: "_get"+uc+"Attr"
+			s: "_set"+uc+"Attr",	// converts dashes to camel case, ex: accept-charset --> _setAcceptCharsetAttr
+			g: "_get"+uc+"Attr",
+			l: uc.toLowerCase()		// lowercase name w/out dashes, ex: acceptcharset
 		});
 	},
 

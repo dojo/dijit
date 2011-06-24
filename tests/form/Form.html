@@ -607,6 +607,13 @@
 				doh.is("dtb2", dijit.focus.curNode.id, "focused on first invalid DateTextBox");
 			});
 
+			if(dojo.isFF >= 4 || dojo.isIE >= 10 || dojo.isWebKit){
+				doh.register("novalidate", function noValidate(){
+					// Making sure the parser picks up the flag and _WidgetBase copies it to this.domNode
+					doh.t(dijit.byId("noValidateForm").domNode.hasAttribute("novalidate"), "novalidate");
+				});
+			}
+
 			doh.run();
 		});
 
@@ -882,5 +889,7 @@ simple line 2</textarea>
 onClick:function(){ dijit.byId("myForm").submit() }'>Submit programmatically</button>
 
 <iframe name="formSubmitIframe" src="about:blank" onload="if(this.values)submittedValues(this.values)" style="display:none;"></iframe>
+
+	<form id="noValidateForm" data-dojo-type="dijit.form.Form" novalidate></form>
 </body>
 </html>
