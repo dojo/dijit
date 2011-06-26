@@ -1,7 +1,6 @@
 define([
 	"dojo/_base/kernel",
 	"..",
-	"dojo/_base/NodeList", // .forEach
 	"dojo/_base/array", // dojo.forEach
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event", // dojo.stopEvent

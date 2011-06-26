@@ -8,7 +8,6 @@ define([
 	"./html",
 	"../focus",
 	"dojo/_base/Deferred", // dojo.Deferred
-	"dojo/_base/NodeList", // .orphan
 	"dojo/_base/array", // dojo.forEach dojo.indexOf dojo.some
 	"dojo/_base/connect", // dojo.connect dojo.keys.BACKSPACE dojo.keys.TAB dojo.publish
 	"dojo/_base/event", // dojo.stopEvent

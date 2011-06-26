@@ -5,7 +5,6 @@ define([
 	"require",
 	"./ToggleButton",
 	"./_CheckBoxMixin",
-	"dojo/_base/NodeList", // .addClass .removeClass
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html", // dojo.attr
 	"dojo/query" // dojo.query

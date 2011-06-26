@@ -3,7 +3,6 @@ define([
 	"..",
 	"../_Contained",
 	"./_LayoutWidget",
-	"dojo/_base/NodeList", // .filter
 	"dojo/_base/array", // dojo.filter dojo.forEach
 	"dojo/_base/html", // dojo.contentBox dojo.hasAttr dojo.hasClass dojo.marginBox dojo.toggleClass
 	"dojo/_base/sniff", // dojo.isIE

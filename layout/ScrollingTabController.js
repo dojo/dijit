@@ -8,7 +8,6 @@ define([
 	"../Menu",
 	"../form/Button",
 	"../_HasDropDown",
-	"dojo/_base/NodeList", // .filter
 	"dojo/_base/array", // dojo.forEach
 	"dojo/_base/html", // dojo.addClass dojo.contentBox dojo.hasClass dojo.style
 	"dojo/_base/lang", // dojo.hitch

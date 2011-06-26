@@ -4,7 +4,6 @@ define([
 	"./_Widget",
 	"./_TemplatedMixin",
 	"./_WidgetsInTemplateMixin",
-	"dojo/_base/NodeList", // .forEach .orphan
 	"dojo/_base/array", // dojo.forEach dojo.map
 	"dojo/_base/connect", // dojo.connect
 	"dojo/_base/declare", // dojo.declare
