@@ -1103,6 +1103,10 @@ body .dijitAlignClient { position: absolute; }
 	vertical-align: middle;
 }
 
+.dijitCalendarYearLabel {
+    white-space: nowrap;    /* make sure previous, current, and next year appear on same row */
+}
+
 .dijitCalendarNextYear {
 	margin:0 0 0 0.55em;
 }
