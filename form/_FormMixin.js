@@ -51,8 +51,22 @@ define([
 		//
 		//
 
+		_getDescendantFormWidgets: function(/*dijit._WidgetBase[]?*/ children){
+			// summary:
+			//		Returns all form widget descendants, searching through non-form child widgets like BorderContainer
+			var res = [];
+			dojo.forEach(children || this.getChildren(), function(child){
+				if("value" in child){
+					res.push(child);
+				}else{
+					res = res.concat(this._getDescendantFormWidgets(child.getChildren()));
+				}
+			}, this);
+			return res;
+		},
+
 		reset: function(){
-			dojo.forEach(this.getDescendants(), function(widget){
+			dojo.forEach(this._getDescendantFormWidgets(), function(widget){
 				if(widget.reset){
 					widget.reset();
 				}
@@ -68,7 +82,7 @@ define([
 			//		2 - it will call focus() on the first invalid
 			//			sub-widget
 			var didFocus = false;
-			return dojo.every(dojo.map(this.getDescendants(), function(widget){
+			return dojo.every(dojo.map(this._getDescendantFormWidgets(), function(widget){
 				// Need to set this so that "required" widgets get their
 				// state set.
 				widget._hasBeenBlurred = true;
@@ -93,7 +107,7 @@ define([
 
 			// generate map from name --> [list of widgets with that name]
 			var map = { };
-			dojo.forEach(this.getDescendants(), function(widget){
+			dojo.forEach(this._getDescendantFormWidgets(), function(widget){
 				if(!widget.name){ return; }
 				var entry = map[widget.name] || (map[widget.name] = [] );
 				entry.push(widget);
@@ -225,7 +239,7 @@ define([
 
 			// get widget values
 			var obj = { };
-			dojo.forEach(this.getDescendants(), function(widget){
+			dojo.forEach(this._getDescendantFormWidgets(), function(widget){
 				var name = widget.name;
 				if(!name || widget.disabled){ return; }
 
@@ -382,7 +396,7 @@ define([
 			// Remove old connections, if any
 			this.disconnectChildren();
 
-			this._descendants = this.getDescendants();
+			this._descendants = this._getDescendantFormWidgets();
 
 			// (Re)set this.value and this.state.   Send watch() notifications but not on startup.
 			var set = inStartup ? function(name, val){ _this[name] = val; } : dojo.hitch(this, "_set");
