@@ -87,8 +87,8 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 	//		Can be true or false, default is false.
 	required: false,
 
-	// state: String
-	//		Shows current state (ie, validation result) of input (Normal, Warning, or Error)
+	// state: [readonly] String
+	//		"Incomplete" if this select is required but unset (i.e. blank value), "" otherwise
 	state: "",
 
 	// message: String
@@ -203,6 +203,18 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 	_setValueAttr: function(value){
 		this.inherited(arguments);
 		dojo.attr(this.valueNode, "value", this.get("value"));
+		this.validate(this.focused);	// to update this.state
+	},
+
+	_setDisabledAttr: function(/*Boolean*/ value){
+		this.inherited(arguments);
+		this.validate(this.focused);	// to update this.state
+	},
+
+	_setRequiredAttr: function(/*Boolean*/ value){
+		this._set("required", value);
+		this.focusNode.setAttribute("aria-required", value);
+		this.validate(this.focused);	// to update this.state
 	},
 
 	_setDisplay: function(/*String*/ newDisplay){
@@ -215,23 +227,22 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 
 	validate: function(/*Boolean*/ isFocused){
 		// summary:
-		//		Called by oninit, onblur, and onkeypress.
+		//		Called by oninit, onblur, and onkeypress, and whenever required/disabled state changes
 		// description:
 		//		Show missing or invalid messages if appropriate, and highlight textbox field.
 		//		Used when a select is initially set to no value and the user is required to
 		//		set the value.
 
-		var isValid = this.isValid(isFocused);
-		this._set("state", isValid ? "" : "Error");
+		var isValid = this.disabled || this.isValid(isFocused);
+		this._set("state", isValid ? "" : "Incomplete");
 		this.focusNode.setAttribute("aria-invalid", isValid ? "false" : "true");
 		var message = isValid ? "" : this._missingMsg;
-		if(this.message !== message){
-			this._set("message", message);
+		if(message && this.focused && this._hasBeenBlurred){
+			dijit.showTooltip(message, this.domNode, this.tooltipPosition, !this.isLeftToRight());
+		}else{
 			dijit.hideTooltip(this.domNode);
-			if(message){
-				dijit.showTooltip(message, this.domNode, this.tooltipPosition, !this.isLeftToRight());
-			}
 		}
+		this._set("message", message);
 		return isValid;
 	},
 
@@ -247,8 +258,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		//		Overridden so that the state will be cleared.
 		this.inherited(arguments);
 		dijit.hideTooltip(this.domNode);
-		this._set("state", "");
-		this._set("message", "")
+		this.validate(this.focused);	// to update this.state
 	},
 
 	postMixInProperties: function(){
@@ -302,6 +312,11 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 			this.dropDown.destroyRecursive(preserveDom);
 			delete this.dropDown;
 		}
+		this.inherited(arguments);
+	},
+
+	_onFocus: function(){
+		this.validate(true);	// show tooltip if second focus of required tooltip, but no selection
 		this.inherited(arguments);
 	},
 

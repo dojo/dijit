@@ -40,6 +40,12 @@
 						s8b_menu = dijit.byId('s8b_menu');
 						s3 = dijit.byId('s3');
 						s3_menu = dijit.byId('s3_menu');
+						s13 = dijit.byId('s13');
+						s13_menu = dijit.byId('s13_menu');
+						s14 = dijit.byId('s14');
+						s14_menu = dijit.byId('s14_menu');
+
+						form = dijit.byId('form');
 
 						// preload menus since first load can take a while
 						var doNothing = function(){};
@@ -492,6 +498,88 @@
 								doh.t(s3.isValid(), "should be valid");
 							}), 1000);
 				
+							return d;
+						}
+					}
+				]);
+
+				doh.register("form submit", [
+					{
+						name: "first validate",
+						timeout: 5000,
+						runTest: function(){
+							// First validate() should focus s13 and display a tooltip.
+							// (s13 is also required, but has a value from previous tests)
+							var d = new doh.Deferred();
+
+							 var handle = dijit.focus.watch("curNode", d.getTestErrback(function(name, oval, nval){
+								if(!nval){ return; }	// ignore spurious event on IE
+								console.log("focused on", nval && (nval.id || nval.innerHTML))
+								doh.is("s13", nval.id, "focused on first required select");
+								handle.unwatch();
+								setTimeout(d.getTestCallback(function(){
+									// Tooltip should appear with error message
+									masterTT = dojo.global.dijit._masterTT;
+									doh.t(masterTT && isVisible(masterTT.domNode), "visible");
+									doh.is("s13", masterTT.aroundNode.id, "tooltip for s13");
+									doh.is("This value is required.", dojo.trim(innerText(masterTT.domNode)));
+								}), 750);
+							}));
+
+							// Validate the form programatically
+							dijit.byId("form").validate();
+
+							return d;
+						}
+					},
+					{
+						name: "select non-blank option for s13",
+						timeout: 6000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// Open drop down menu
+							doh.robot.mouseMoveAt(s13.domNode, 0, 1);
+							doh.robot.mouseClick({left:true}, 500);
+							// Select 4th option
+							doh.robot.mouseMoveAt(function(){
+								return dojo.query("tr", s13_menu.domNode)[4];
+							}, 1000, 1);
+							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(isHidden(s13_menu), "drop down menu closes after selection");
+								doh.is("AZ", s13.get('value'), "Arizona");
+								doh.t(s13.isValid(), "should be valid");
+							}), 1000);
+
+							return d;
+						}
+					},
+					{
+						name: "revalidate",
+						timeout: 5000,
+						runTest: function(){
+							// Second validate() should focus s14 and display a tooltip
+							var d = new doh.Deferred();
+
+							var handle = dijit.focus.watch("curNode", d.getTestErrback(function(name, oval, nval){
+								if(!nval){ return; }	// ignore spurious event on IE
+								if(nval.id == "submit"){ return; }	// ignore focus onto submit button
+								doh.is("s14", nval.id, "focused on second required select");
+								handle.unwatch();
+								setTimeout(d.getTestCallback(function(){
+									// Tooltip should appear with error message
+									masterTT = dojo.global.dijit._masterTT;
+									doh.t(masterTT && isVisible(masterTT.domNode), "visible");
+									doh.is("s14", masterTT.aroundNode.id, "tooltip for s14");
+									doh.is("This value is required.", dojo.trim(innerText(masterTT.domNode)));
+								}), 750);
+							}));
+
+							// Press button to submit the form
+							doh.robot.mouseMoveAt("submit", 0, 1);
+							doh.robot.mouseClick({left:true}, 500);
+
 							return d;
 						}
 					}
