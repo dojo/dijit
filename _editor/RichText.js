@@ -1236,7 +1236,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		this.focus();
 
 		command = this._normalizeCommand(command, argument);
-
+		
 		if(argument !== undefined){
 			if(command === "heading"){
 				throw new Error("unimplemented");
@@ -2222,6 +2222,40 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		return isApplied;
 	},
 	
+	_insertorderedlistImpl: function(argument){
+		// summary:
+		//		This function implements the insertorderedlist command
+		// argument:
+		//		arguments to the exec command, if any.
+		// tags:
+		//		protected
+		var applied = false;
+		if(dojo.isIE){
+			applied = this._adaptIEList("insertorderedlist", argument);
+		}
+		if(!applied){
+			applied = this.document.execCommand("insertorderedlist", false, argument);
+		}
+		return applied;
+	},
+	
+	_insertunorderedlistImpl: function(argument){
+		// summary:
+		//		This function implements the insertunorderedlist command
+		// argument:
+		//		arguments to the exec command, if any.
+		// tags:
+		//		protected
+		var applied = false;
+		if(dojo.isIE){
+			applied = this._adaptIEList("insertunorderedlist", argument);
+		}
+		if(!applied){
+			applied = this.document.execCommand("insertunorderedlist", false, argument);
+		}
+		return applied;
+	},
+	
 	getHeaderHeight: function(){
 		// summary:
 		//		A function for obtaining the height of the header node
@@ -2630,6 +2664,64 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}else{
 			return false;
 		}
+	},
+	
+	_adaptIEList: function(command, argument){
+		// summary:
+		//		This function handles normalizing the IE list behavior as 
+		//		much as possible.
+		// command:
+		//		The list command to execute.
+		// argument:
+		//		Any additional argument.
+		// tags:
+		//		private
+		var selection = dijit.range.getSelection(this.window);
+		if(selection.isCollapsed){
+			// In the case of no selection, lets commonize the behavior and
+			// make sure that it indents if needed.
+			if(selection.rangeCount && !this.queryCommandValue(command)){
+				var range = selection.getRangeAt(0);
+				var sc = range.startContainer;
+				if(sc && sc.nodeType == 3){
+					// text node.  Lets see if there is a node before it that isn't
+					// some sort of breaker.
+					if(!range.startOffset){
+						// We're at the beggining of a text area.  It may have been br split
+						// Who knows?  In any event, we must create the list manually
+						// or IE may shove too much into the list element.  It seems to
+						// grab content before the text node too if it's br split.
+						// Why can;t IE work like everyone else?
+						var doc = this.document;
+						dojo.withGlobal(this.window, dojo.hitch(this, function(){
+							// Create a space, we'll select and bold it, so 
+							// the whole word doesn't get bolded
+							var lType = "ul";
+							if(command === "insertorderedlist"){
+								lType = "ol";
+							}
+							var list = dojo.create(lType);
+							var li = dojo.create("li", null, list);
+							dojo.place(list, sc, "before");
+							// Move in the text node as part of the li.
+							li.appendChild(sc);
+							// We need a br after it or the enter key handler
+							// sometimes throws errors.
+							dojo.create("br", null, list, "after");
+							// Okay, now lets move our cursor to the beginning.
+							var newrange = dijit.range.create(dojo.gobal);
+							newrange.setStart(sc, 0);
+							newrange.setEnd(sc, sc.length);
+							selection.removeAllRanges();
+							selection.addRange(newrange);
+							dijit._editor.selection.collapse(true);
+						}));
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	},
 	
 	_handleTextColorOrProperties: function(command, argument){
