@@ -83,7 +83,6 @@
 							doh.robot.mouseMoveAt(myPlugin.button.domNode, 500);
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.sequence(d.getTestCallback(function(){
-								console.log("CHECKED:", myPlugin.button.get("checked"));
 								doh.f(myPlugin.button.get("checked"), "Verifying button was unchecked.");
 								var sourceArea = myPlugin.sourceArea;
 								doh.f(isVisible(sourceArea), "isVisible(sourceArea)");
