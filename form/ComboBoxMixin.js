@@ -113,7 +113,7 @@ define([
 					},
 					getLabel: function(item){
 						dojo.deprecated(clazz + ".store.getLabel(item) is deprecated for builtin store.  Use item.label directly", "", "2.0");
-						return item[labelAttr];
+						return item.name;
 					},
 					fetch: function(args){
 						dojo.deprecated(clazz + ".store.fetch() is deprecated for builtin store.", "Use store.query()", "2.0");
