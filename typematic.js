@@ -159,7 +159,9 @@ dijit.typematic = {
 				dijit.typematic.trigger(evt, _this, node, callback, node, subsequentDelay, initialDelay, minDelay);
 			}),
 			dc(node, "mouseup", this, function(evt){
-				dojo.stopEvent(evt);
+				if(this._obj){
+					dojo.stopEvent(evt);
+				}
 				dijit.typematic.stop();
 			}),
 			dc(node, "mouseout", this, function(evt){

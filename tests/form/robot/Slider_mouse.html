@@ -312,6 +312,29 @@
 				}
 			]);
 
+			doh.register("drag tests", [
+				{
+					name: "horizontal",
+					timeout: 5000,
+					runTest: function(){
+						var d = new doh.Deferred();
+						var slider = dijit.byId("slider1");
+						slider.set('value', 50);
+						dojo.window.scrollIntoView(slider.domNode);
+						doh.robot.mouseMoveAt(slider.focusNode, 1, 0);
+						doh.robot.mousePress({left: true}, 500);
+						doh.robot.mouseMoveAt(slider.incrementButton, 1000, 0);
+						doh.robot.mouseRelease({left: true}, 500);
+						doh.robot.mouseMoveAt(slider.decrementButton, 1000, 0);
+						doh.robot.sequence(d.getTestCallback(function(){
+							var value = slider.get('value');
+							doh.is(value, 100, "Expected max value of 100, got "+value);
+						}), 1000);
+						return d;
+					}
+				}
+			]);
+
 			doh.run();
 		});
 	</script>
