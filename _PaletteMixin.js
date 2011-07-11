@@ -72,7 +72,16 @@ dojo.declare("dijit._PaletteMixin", [dijit._CssStateMixin], {
 	//	 dyeClass should implements dijit.Dye interface
 	dyeClass: '',
 
-	_preparePalette: function(choices, titles, dyeClassObj){
+	_dyeFactory: function(value, row, col){
+		// summary:
+		//		Return instance of dijit.Dye for specified cell of palette
+		// tags:
+		//		extension
+		var dyeClassObj = dojo.getObject(this.dyeClass);
+		return new dyeClassObj(value);
+	},
+
+	_preparePalette: function(choices, titles) {
 		// summary:
 		//		Subclass must call _preparePalette() from postCreate(), passing in the tooltip
 		//		for each cell
@@ -80,20 +89,17 @@ dojo.declare("dijit._PaletteMixin", [dijit._CssStateMixin], {
 		//		id's for each cell of the palette, used to create Dye JS object for each cell
 		// titles: String[]
 		//		Localized tooltip for each cell
-		// dyeClassObj: Constructor?
-		//		If specified, use this constructor rather than this.dyeClass
 
 		this._cells = [];
 		var url = this._blankGif;
 
-		dyeClassObj = dyeClassObj || dojo.getObject(this.dyeClass);
 
 		for(var row=0; row < choices.length; row++){
 			var rowNode = dojo.create("tr", {tabIndex: "-1"}, this.gridNode);
 			for(var col=0; col < choices[row].length; col++){
 				var value = choices[row][col];
 				if(value){
-					var cellObject = new dyeClassObj(value, row, col);
+					var cellObject = this._dyeFactory(value);
 
 					var cellNode = dojo.create("td", {
 						"class": this.cellClass,

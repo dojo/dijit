@@ -64,21 +64,27 @@ dojo.declare("dijit.ColorPalette", [dijit._Widget, dijit._TemplatedMixin, dijit.
 
 	baseClass: "dijitColorPalette",
 
+	_dyeFactory: function(value){
+		// Overrides _PaletteMixin._dyeFactory().
+		return new this._dyeClass(value);
+	},
+
 	buildRendering: function(){
 		// Instantiate the template, which makes a skeleton into which we'll insert a bunch of
 		// <img> nodes
 		this.inherited(arguments);
 
+		//	Creates customized constructor for dye class (color of a single cell) for
+		//	specified palette and high-contrast vs. normal mode.   Used in _getDye().
+		this._dyeClass = dojo.declare(dijit._Color, {
+			hc: dojo.hasClass(dojo.body(), "dijit_a11y"),
+			palette: this.palette
+		});
+
 		// Creates <img> nodes in each cell of the template.
-		// Pass in "customized" dijit._Color constructor for specified palette and high-contrast vs. normal mode
 		this._preparePalette(
 			this._palettes[this.palette],
-			dojo.i18n.getLocalization("dojo", "colors", this.lang),
-			dojo.declare(dijit._Color, {
-				hc: dojo.hasClass(dojo.body(), "dijit_a11y"),
-				palette: this.palette
-			})
-		);
+			dojo.i18n.getLocalization("dojo", "colors", this.lang));
 	}
 });
 
