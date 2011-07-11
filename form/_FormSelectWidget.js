@@ -1,7 +1,7 @@
 define([
 	"dojo/_base/kernel",
 	"..",
-	"./_FormWidget",
+	"./_FormValueWidget",
 	"dojo/data/util/sorter", // dojo.data.util.sorter.createSortFunction
 	"dojo/_base/array", // dojo.filter dojo.forEach dojo.map dojo.some
 	"dojo/_base/connect", // dojo.connect dojo.disconnect

@@ -7,7 +7,8 @@ define([
 	"./_TemplatedMixin",
 	"./_Container",
 	"./layout/_LayoutWidget",
-	"./form/_FormWidget"
+	"./form/_FormWidget",
+	"./form/_FormValueWidget"
 ], function(dojo, dijit){
 
 	// module:

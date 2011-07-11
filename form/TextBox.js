@@ -2,7 +2,7 @@ define([
 	"dojo/_base/kernel", // dojo.deprecated
 	"..",
 	"dojo/text!./templates/TextBox.html",
-	"./_FormWidget",
+	"./_FormValueWidget",
 	"./_TextBoxMixin",
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html", // dojo.create dojo.getComputedStyle

@@ -2,7 +2,7 @@ define([
 	"dojo/_base/kernel",
 	"..",
 	"dojo/text!./templates/HorizontalSlider.html",
-	"./_FormWidget",
+	"./_FormValueWidget",
 	"../_Container",
 	"dojo/dnd/move",
 	"./Button",

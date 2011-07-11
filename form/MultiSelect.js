@@ -1,7 +1,7 @@
 define([
 	"dojo/_base/kernel",
 	"..",
-	"./_FormWidget",
+	"./_FormValueWidget",
 	"dojo/_base/array", // dojo.indexOf
 	"dojo/_base/html", // dojo.marginBox
 	"dojo/query" // dojo.query

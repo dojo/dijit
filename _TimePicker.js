@@ -2,7 +2,7 @@ define([
 	"dojo/_base/kernel", // dojo.deprecated dojo.mixin
 	".",
 	"dojo/text!./templates/TimePicker.html",
-	"./form/_FormWidget",
+	"./form/_FormValueWidget",
 	"dojo/date/locale", // dojo.date.locale.format
 	"dojo/_base/array", // dojo.forEach
 	"dojo/_base/connect", // dojo.keys
