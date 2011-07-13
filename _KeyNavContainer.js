@@ -16,7 +16,7 @@ define([
 	// summary:
 	//		A _Container with keyboard navigation of its children.
 
-	dojo.declare("dijit._KeyNavContainer", [dijit._Container, dijit._FocusMixin], {
+	dojo.declare("dijit._KeyNavContainer", [dijit._FocusMixin, dijit._Container], {
 
 		// summary:
 		//		A _Container with keyboard navigation of its children.
