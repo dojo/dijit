@@ -555,15 +555,18 @@ define([
 			var options = {
 				start: 0,
 				count: this.pageSize,
-				ignoreCase: this.ignoreCase,
-				deep: true
+				queryOptions: {		// remove for 2.0
+					ignoreCase: this.ignoreCase,
+					deep: true
+				}
 			};
 			dojo.mixin(options, this.fetchProperties);
 
 			// Query on searchAttr is a regex (for benefit of dojo.store.MemoryStore),
-			// but with a toString() method to help JsonStore
+			// but with a toString() method to help JsonStore.
+			// Search string like "Co*" converted to regex like /^Co.*$/i.
 			var qs = this._getQueryString(key),
-				q = dojo.data.util.filter.patternToRegExp(qs, this.ignoreCase);	// "Co*" --> /^Co.*$/i
+				q = this.store._oldAPI ? qs : dojo.data.util.filter.patternToRegExp(qs, this.ignoreCase);
 			q.toString = function(){ return qs; };
 			this._lastQuery = query[this.searchAttr] = q;
 
