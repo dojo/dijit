@@ -16,6 +16,7 @@
 		<script type="text/javascript" src="../helpers.js"></script>
 
 		<script type="text/javascript">
+			dojo.require("doh.runner");
 			dojo.require("dijit.robotx");
 			dojo.require("dojo.date");
 
@@ -28,14 +29,30 @@
 				// log of calls to onChange handler
 				var changes = [];
 
+				doh.register("API",[
+					function noValue(){
+						// refs to Calendar widget
+						cal1 = dijit.byId('calendar1');
+
+						// Although Calendar and DateTextBox prototypes defined value as Date("")
+						// (so that the parser knows value is a Date rather than a string),
+						// the convention is to use null to represent a blank DateTextBox or Calendar w/no selection
+						doh.is(null, dijit.byId("calendar1").get("value"), 'initial get("value"), no selection');
+
+						cal1.set("value", new Date(2009, 8, 16));
+						doh.is(0, dojo.date.compare(new Date(2009, 8, 16), cal1.get('value')), 'get("value") after set');
+
+						cal1.set("value", null);
+						doh.is(null, cal1.get("value"), 'get("value") after set to null');
+					}
+				]);
+
 				// Tabindex test makes sure that there's exactly one tab stop on the calendar at all times
 				doh.register("tabindex",[
 					{
 						name: "forward",
 						timeout: 10000,
 						setUp: function(){
-							// refs to Calendar widget
-						    	cal1 = dijit.byId('calendar1');
 							cal1.set("value", new Date(2009, 8, 16));
 
 							dojo.byId("before").focus();
