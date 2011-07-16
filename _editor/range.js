@@ -264,8 +264,8 @@ if(!dijit.range._w3c){
 		decomposeControlRange: function(range){
 			var firstnode = range.item(0), lastnode = range.item(range.length - 1);
 			var startContainer = firstnode.parentNode, endContainer = lastnode.parentNode;
-			var startOffset = dijit.range.getIndex(firstnode, startContainer).o;
-			var endOffset = dijit.range.getIndex(lastnode, endContainer).o + 1;
+			var startOffset = dijit.range.getIndex(firstnode, startContainer).o[0];
+			var endOffset = dijit.range.getIndex(lastnode, endContainer).o[0] + 1;
 			return [startContainer, startOffset,endContainer, endOffset];
 		},
 		getEndPoint: function(range, end){
