@@ -378,7 +378,8 @@ define([
 						return false;
 					}
 				}
-				return body.contentEditable == 'true' || (body.firstChild && body.firstChild.contentEditable == 'true');
+				return body && (body.contentEditable == 'true' ||
+					(body.firstChild && body.firstChild.contentEditable == 'true'));
 			default:
 				return elem.contentEditable == 'true';
 		}
