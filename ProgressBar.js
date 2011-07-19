@@ -6,6 +6,7 @@ define([
 	"dojo/number", // dojo.number.format
 	"./_Widget",
 	"./_TemplatedMixin",
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html" // dojo.toggleClass
 ], function(require, dojo, dijit, template){
 

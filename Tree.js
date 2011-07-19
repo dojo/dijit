@@ -18,6 +18,7 @@ define([
 	"dojo/_base/Deferred", // dojo.Deferred
 	"dojo/_base/array", // dojo.filter dojo.forEach dojo.map
 	"dojo/_base/connect", // dojo.isCopyKey dojo.keys dojo.publish
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/html", // dojo.addClass dojo.isDescendant dojo.marginBox dojo.removeClass dojo.replaceClass dojo.style dojo.toggleClass
 	"dojo/_base/lang" // dojo.hitch dojo.isString

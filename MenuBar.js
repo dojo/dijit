@@ -4,6 +4,7 @@ define([
 	"dojo/text!./templates/MenuBar.html",
 	"./Menu",
 	"dojo/_base/connect", // dojo.keys dojo.keys.DOWN_ARROW
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event" // dojo.stopEvent
 ], function(dojo, dijit, template){
 

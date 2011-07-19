@@ -2,6 +2,7 @@ define([
 	"dojo/_base/kernel",
 	"..",
 	"dojo/_base/array", // dojo.forEach
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html", // dojo.attr
 	"dojo/_base/window", // dojo.doc.createTextNode
 	"dojo/i18n" // dojo.i18n.getLocalization

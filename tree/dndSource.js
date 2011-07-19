@@ -6,6 +6,7 @@ define([
 	"dojo/dnd/Manager", // dojo.dnd.manager
 	"dojo/_base/array", // dojo.forEach dojo.indexOf dojo.map
 	"dojo/_base/connect", // dojo.isCopyKey dojo.subscribe dojo.unsubscribe
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html" // dojo.addClass dojo.position
 ], function(dojo, dijit, touch){
 

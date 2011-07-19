@@ -16,6 +16,4 @@ define([
 	//		For back-compat, remove for 2.0
 
 	dojo.deprecated("Call require() for HorizontalSlider / VerticalRule, explicitly rather than 'dijit.form.Slider' itself", "", "2.0");
-
-	return dijit.form.HorizontalSlider;
 });

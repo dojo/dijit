@@ -1,6 +1,7 @@
 define([
 	"dojo/_base/kernel",
 	"..",
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/html" // dojo.setSelectable
 ], function(dojo, dijit){

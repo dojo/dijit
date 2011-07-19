@@ -7,6 +7,7 @@ define([
 	"./_ButtonMixin",
 	"../_Container",
 	"../_HasDropDown",
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html", // dojo.toggleClass
 	"dojo/_base/lang" // dojo.trim
 ], function(dojo, dijit, template, require){

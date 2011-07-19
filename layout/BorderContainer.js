@@ -8,6 +8,7 @@ define([
 	"./_LayoutWidget",
 	"dojo/_base/array", // dojo.filter dojo.forEach dojo.map
 	"dojo/_base/connect", // dojo.connect dojo.disconnect dojo.keys
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/html", // dojo.addClass dojo.destroy dojo.getComputedStyle dojo.marginBox dojo.place dojo.removeClass dojo.style dojo.toggleClass
 	"dojo/_base/lang", // dojo.hitch

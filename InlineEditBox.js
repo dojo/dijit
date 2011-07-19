@@ -12,9 +12,10 @@ define([
 	"./focus",
 	"dojo/i18n!./nls/common",
 	"dojo/_base/array", // dojo.forEach
-	"dojo/_base/connect", // dojo.keys.ENTER dojo.keys.ESCAPE
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/html", // dojo.addClass dojo.attr dojo.create dojo.destroy dojo.getComputedStyle dojo.removeClass dojo.style dojo.toggleClass
+	"dojo/keys", // dojo.keys.ENTER dojo.keys.ESCAPE
 	"dojo/_base/lang", // dojo.delegate dojo.hitch dojo.trim
 	"dojo/_base/sniff" // dojo.isIE
 ], function(dojo, dijit, template){

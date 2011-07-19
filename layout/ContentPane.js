@@ -6,8 +6,9 @@ define([
 	"dojo/string", // dojo.string.substitute
 	"dojo/html", // dojo.html._ContentSetter dojo.html._emptyNode
 	"dojo/i18n!../nls/loading",
-	"dojo/_base/Deferred", // dojo.Deferred
 	"dojo/_base/array", // dojo.forEach
+	"dojo/_base/declare", // dojo.declare
+	"dojo/_base/Deferred", // dojo.Deferred
 	"dojo/_base/html", // dojo.attr dojo.byId
 	"dojo/_base/lang", // dojo.delegate dojo.hitch dojo.isFunction dojo.isObject
 	"dojo/_base/window", // dojo.body dojo.doc.createDocumentFragment

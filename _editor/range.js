@@ -2,6 +2,7 @@ define([
 	"dojo/_base/kernel",
 	"..",
 	"dojo/_base/array", // dojo.every
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/lang", // dojo.isArray
 	"dojo/_base/window" // dojo.global
 ], function(dojo, dijit){

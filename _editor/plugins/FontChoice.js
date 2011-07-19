@@ -12,6 +12,7 @@ define([
 	"dojo/i18n", // dojo.i18n.getLocalization
 	"dojo/i18n!../nls/FontChoice",
 	"dojo/_base/array", // dojo.indexOf dojo.map
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html", // dojo.place
 	"dojo/_base/lang", // dojo.delegate dojo.hitch dojo.isString
 	"dojo/_base/window" // dojo.withGlobal

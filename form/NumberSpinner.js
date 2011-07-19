@@ -3,7 +3,8 @@ define([
 	"..",
 	"./_Spinner",
 	"./NumberTextBox",
-	"dojo/_base/connect", // dojo.keys.END dojo.keys.HOME
+	"dojo/keys", // dojo.keys.END dojo.keys.HOME
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event" // dojo.stopEvent
 ], function(dojo, dijit){
 

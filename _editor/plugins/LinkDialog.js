@@ -13,6 +13,7 @@ define([
 	"dojo/i18n!../../nls/common",
 	"dojo/i18n!../nls/LinkDialog",
 	"dojo/_base/connect", // dojo.keys.ENTER
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html", // dojo.attr
 	"dojo/_base/lang", // dojo.delegate dojo.hitch dojo.trim
 	"dojo/_base/sniff", // dojo.isIE

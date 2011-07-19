@@ -3,6 +3,7 @@ define([
 	".",
 	"./_CssStateMixin",
 	"dojo/_base/connect", // dojo.keys
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/html", // dojo.addClass dojo.attr dojo.create dojo.place dojo.removeClass
 	"dojo/_base/lang", // dojo.hitch

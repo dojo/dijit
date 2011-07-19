@@ -4,6 +4,7 @@ define([
 	"dojo/text!./templates/TabContainer.html",
 	"./StackContainer",
 	"../_TemplatedMixin",
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html" // dojo.addClass dojo.contentBox dojo.style
 ], function(dojo, dijit, template){
 

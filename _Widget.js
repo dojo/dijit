@@ -5,6 +5,7 @@ define([
 	"./_WidgetBase",
 	"./_OnDijitClickMixin",
 	"./_FocusMixin",
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/lang", // dojo.hitch
 	"dojo/_base/connect",	// dojo.connect
 	"dojo/uacss",		// brower sniffing

@@ -9,6 +9,7 @@ define([
 	"dojo/i18n!../nls/commands",
 	"dojo/_base/array", // dojo.forEach
 	"dojo/_base/connect", // dojo.connect dojo.disconnect dojo.keys.F12
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/html", // dojo.attr dojo.create dojo.marginBox dojo.place dojo.position dojo.style
 	"dojo/_base/lang", // dojo.hitch

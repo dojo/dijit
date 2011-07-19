@@ -1,6 +1,7 @@
 define([
 	"dojo/_base/kernel", // dojo.deprecated
 	"..",
+	"dojo/_base/declare", // dojo.declare
 	"../_WidgetBase",
 	"./_LayoutWidget"
 ], function(dojo, dijit){

@@ -5,6 +5,7 @@ define([
 	"../focus",		// dijit.focus()
 	"./DropDownButton",
 	"dojo/_base/connect", // dojo.keys
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event" // dojo.stopEvent
 ], function(dojo, dijit, template){
 

@@ -9,6 +9,7 @@ define([
 	"../form/Button",
 	"../_HasDropDown",
 	"dojo/_base/array", // dojo.forEach
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html", // dojo.addClass dojo.contentBox dojo.hasClass dojo.style
 	"dojo/_base/lang", // dojo.hitch
 	"dojo/_base/sniff", // dojo.isIE dojo.isQuirks dojo.isWebKit

@@ -8,6 +8,7 @@ define([
 	"./StackController",
 	"dojo/_base/array", // dojo.forEach dojo.indexOf dojo.some
 	"dojo/_base/connect", // dojo.publish
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html" // dojo.addClass dojo.replaceClass
 ], function(dojo, dijit){
 

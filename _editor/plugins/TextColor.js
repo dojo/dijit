@@ -4,6 +4,8 @@ define([
 	"../_Plugin",
 	"../../form/DropDownButton",
 	"../../ColorPalette",
+	"dojo/_base/connect", // dojo.subscribe
+	"dojo/_base/declare", // dojo.declare
 	"dojo/colors" // dojo.colorFromRgb
 ], function(dojo, dijit){
 

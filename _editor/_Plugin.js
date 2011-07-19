@@ -5,6 +5,7 @@ define([
 	"../form/Button",
 	"dojo/_base/array", // dojo.forEach
 	"dojo/_base/connect", // dojo.connect dojo.disconnect
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/lang" // dojo.hitch
 ], function(dojo, dijit){
 

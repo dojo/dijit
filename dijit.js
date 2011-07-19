@@ -1,5 +1,4 @@
 define([
-	"dojo/_base/kernel",
 	".",
 	"./_base",
 	"dojo/parser",
@@ -9,7 +8,7 @@ define([
 	"./layout/_LayoutWidget",
 	"./form/_FormWidget",
 	"./form/_FormValueWidget"
-], function(dojo, dijit){
+], function(dijit){
 
 	// module:
 	//		dijit/dijit

@@ -5,6 +5,7 @@ define([
 	"../_Plugin",
 	"../range",
 	"dojo/_base/connect", // dojo.keys.ENTER
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/html", // dojo.destroy dojo.place
 	"dojo/_base/lang", // dojo.hitch

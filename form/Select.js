@@ -10,6 +10,7 @@ define([
 	"../Tooltip",
 	"dojo/i18n!./nls/validate",
 	"dojo/_base/array", // dojo.forEach
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/html", // dojo.addClass dojo.attr dojo.create dojo.marginBox dojo.removeClass dojo.toggleClass
 	"dojo/_base/lang", // dojo.hitch

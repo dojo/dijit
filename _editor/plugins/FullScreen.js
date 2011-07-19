@@ -9,6 +9,7 @@ define([
 	"../../form/ToggleButton",
 	"dojo/i18n!../nls/commands",
 	"dojo/_base/connect", // dojo.connect dojo.disconnect dojo.keys.F11 dojo.keys.TAB
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/html", // dojo.addClass dojo.marginBox dojo.removeClass dojo.style
 	"dojo/_base/lang", // dojo.hitch

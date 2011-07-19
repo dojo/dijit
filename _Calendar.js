@@ -15,6 +15,5 @@ define([
 	// not satisfy dijit's a11y policy.
 	dijit._Calendar = dijit.Calendar;
 
-
 	return dijit._Calendar;
 });

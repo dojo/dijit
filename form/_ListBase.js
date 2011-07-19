@@ -1,6 +1,7 @@
 define([
 	"dojo/_base/kernel",
 	"..",
+	"dojo/_base/declare",	// dojo.declare
 	"dojo/window" // dojo.window.scrollIntoView
 ], function(dojo, dijit){
 

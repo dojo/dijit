@@ -3,6 +3,7 @@ define([
 	"..",
 	"dojo/_base/array", // dojo.forEach
 	"dojo/_base/connect", // dojo.keys.ALT dojo.keys.CAPS_LOCK dojo.keys.CTRL dojo.keys.META dojo.keys.SHIFT
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/html", // dojo.byId
 	"dojo/_base/lang", // dojo.hitch dojo.trim

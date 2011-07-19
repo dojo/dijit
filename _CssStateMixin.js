@@ -3,6 +3,7 @@ define([
 	".",
 	"dojo/touch",
 	"dojo/_base/array", // dojo.forEach dojo.map
+	"dojo/_base/declare",	// dojo.declare
 	"dojo/_base/html", // dojo.toggleClass
 	"dojo/_base/lang", // dojo.hitch
 	"dojo/_base/window" // dojo.body

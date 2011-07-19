@@ -1,6 +1,7 @@
 define([
 	"dojo/_base/kernel",
 	"..",
+	"dojo/_base/declare",	// dojo.declare
 	"../_Widget",
 	"../_TemplatedMixin"
 ], function(dojo, dijit){

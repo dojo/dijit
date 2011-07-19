@@ -5,6 +5,7 @@ define([
 	"../../form/Button",
 	"dojo/i18n", // dojo.i18n.getLocalization
 	"dojo/i18n!../nls/commands",
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/lang" // dojo.hitch
 ], function(dojo, dijit){
 

@@ -3,6 +3,7 @@ define([
 	"..",
 	"./TreeStoreModel",
 	"dojo/_base/array", // dojo.indexOf dojo.some
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/lang", // dojo.hitch
 	"dojo/_base/window" // dojo.global
 ], function(dojo, dijit){

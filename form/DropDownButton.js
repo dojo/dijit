@@ -7,6 +7,7 @@ define([
 	"../_Container",
 	"../_HasDropDown",
 	"dojo/_base/connect", // dojo.connect dojo.disconnect
+	"dojo/_base/declare", // dojo.declare
 	"dojo/query" // dojo.query
 ], function(dojo, dijit, template, popup){
 

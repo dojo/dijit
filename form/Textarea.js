@@ -3,6 +3,7 @@ define([
 	"..",
 	"./SimpleTextarea",
 	"./_ExpandingTextAreaMixin",
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html" // dojo.style
 ], function(dojo, dijit){
 

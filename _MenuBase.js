@@ -7,6 +7,7 @@ define([
 	"./_FocusMixin",
 	"./_KeyNavContainer",
 	"./_TemplatedMixin",
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html", // dojo.isDescendant dojo.replaceClass
 	"dojo/_base/lang", // dojo.hitch
 	"dojo/_base/array"	// dojo.indexOf

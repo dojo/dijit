@@ -3,6 +3,7 @@ define([
 	"..",
 	"./_FormValueWidget",
 	"dojo/_base/array", // dojo.indexOf
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html", // dojo.marginBox
 	"dojo/query" // dojo.query
 ], function(dojo, dijit){

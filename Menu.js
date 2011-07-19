@@ -7,6 +7,7 @@ define([
 	"./DropDownMenu",
 	"dojo/_base/array", // dojo.forEach
 	"dojo/_base/connect", // dojo.connect dojo.disconnect dojo.keys.F10
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/html", // dojo.attr dojo.byId dojo.getComputedStyle dojo.hasAttr dojo.isDescendant dojo.position dojo.removeAttr
 	"dojo/_base/lang", // dojo.hitch

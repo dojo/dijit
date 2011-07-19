@@ -1,5 +1,4 @@
 define([
-	"dojo/_base/kernel",
 	".",
 	"./_base/focus",
 	"./_base/manager",
@@ -10,7 +9,7 @@ define([
 	"./_base/typematic",
 	"./_base/wai",
 	"./_base/window"
-], function(dojo, dijit){
+], function(dijit){
 
 	// module:
 	//		dijit/_base

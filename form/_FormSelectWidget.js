@@ -5,6 +5,7 @@ define([
 	"dojo/data/util/sorter", // dojo.data.util.sorter.createSortFunction
 	"dojo/_base/array", // dojo.filter dojo.forEach dojo.map dojo.some
 	"dojo/_base/connect", // dojo.connect dojo.disconnect
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html", // dojo.setSelectable dojo.toggleClass
 	"dojo/_base/lang", // dojo.delegate dojo.isArray dojo.isObject
 	"dojo/data/api/Identity", // dojo.data.api.Identity

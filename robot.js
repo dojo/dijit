@@ -1,8 +1,7 @@
 define([
-	"dojo/_base/kernel",
 	".",
 	"dojo/robot"
-], function(dojo, dijit){
+], function(dijit){
 	// module:
 	//		dijit/robot
 	// summary:

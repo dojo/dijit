@@ -2,6 +2,7 @@ define([
 	"dojo/_base/kernel",
 	"..",
 	"./TextBox",
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html", // dojo.addClass
 	"dojo/_base/sniff", // dojo.isIE dojo.isOpera
 	"dojo/_base/window" // dojo.doc.selection dojo.doc.selection.createRange

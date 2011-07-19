@@ -14,7 +14,4 @@ define([
 	dojo.getObject("_tree", true, dijit);
 
 	dijit._tree.dndSource = dijit.tree.dndSource;
-
-
-	return dijit._tree.dndSource;
 });

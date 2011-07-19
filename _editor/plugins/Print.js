@@ -6,6 +6,7 @@ define([
 	"../../form/Button",
 	"dojo/i18n", // dojo.i18n.getLocalization
 	"dojo/i18n!../nls/commands",
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/lang", // dojo.hitch
 	"dojo/_base/sniff" // dojo.isChrome dojo.isOpera
 ], function(dojo, dijit){

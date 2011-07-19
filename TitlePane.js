@@ -8,6 +8,7 @@ define([
 	"./_CssStateMixin",
 	"dojo/_base/array", // dojo.forEach
 	"dojo/_base/connect", // dojo.keys.DOWN_ARROW dojo.keys.ENTER
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/html" // dojo.attr dojo.marginBox dojo.removeAttr dojo.replaceClass dojo.setSelectable
 ], function(dojo, dijit, template){

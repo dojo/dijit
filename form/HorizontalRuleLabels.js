@@ -2,6 +2,7 @@ define([
 	"dojo/_base/kernel",
 	"..",
 	"./HorizontalRule",
+	"dojo/_base/declare",	// dojo.declare
 	"dojo/number", // dojo.number.format
 	"dojo/query" // dojo.query
 ], function(dojo, dijit){

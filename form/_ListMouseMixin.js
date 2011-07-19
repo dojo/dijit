@@ -3,6 +3,7 @@ define([
 	"..",
 	"dojo/touch",
 	"./_ListBase",
+	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event" // dojo.stopEvent
 ], function(dojo, dijit, touch){
 

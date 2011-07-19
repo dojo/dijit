@@ -7,9 +7,10 @@ define([
 	"./range",
 	"./html",
 	"../focus",
-	"dojo/_base/Deferred", // dojo.Deferred
 	"dojo/_base/array", // dojo.forEach dojo.indexOf dojo.some
 	"dojo/_base/connect", // dojo.connect dojo.keys.BACKSPACE dojo.keys.TAB dojo.publish
+	"dojo/_base/declare", // dojo.declare
+	"dojo/_base/Deferred", // dojo.Deferred
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/html", // dojo.addClass dojo.attr dojo.byId dojo.contentBox dojo.create dojo.destroy dojo.getComputedStyle dojo.place dojo.position dojo.removeClass dojo.style
 	"dojo/_base/lang", // dojo.clone dojo.hitch dojo.isArray dojo.isFunction dojo.isString dojo.trim
