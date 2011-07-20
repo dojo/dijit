@@ -1,10 +1,10 @@
 define([
 	"dojo/_base/kernel",
 	"..",
+	"dojo/_base/lang", // dojo.trim
 	"dojo/_base/html", // dojo.byId
 	"dojo/store/Memory", // dojo.store.Memory
 	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/lang", // dojo.trim
 	"dojo/query" // dojo.query
 ], function(dojo, dijit, lang){
 
