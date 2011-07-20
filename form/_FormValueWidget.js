@@ -1,18 +1,24 @@
 define([
-	"dojo/_base/kernel", // dojo.deprecated
 	"..",
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/sniff", // has("ie")
 	"./_FormWidget",
 	"./_FormValueMixin"
-], function(dojo, dijit, has){
+], function(dijit, declare, has, _FormWidget, _FormValueMixin){
+
+/*=====
+var declare = dojo.declare;
+var _FormWidget = dijit.form._FormWidget;
+var _FormValueMixin = dijit.form._FormValueMixin;
+ =====*/
 
 // module:
 //		dijit/form/_FormValueWidget
 // summary:
 //		FormValueWidget
 
-dojo.declare("dijit.form._FormValueWidget", [dijit.form._FormWidget, dijit.form._FormValueMixin],
+
+return declare("dijit.form._FormValueWidget", [_FormWidget, _FormValueMixin],
 {
 	// summary:
 	//		Base class for widgets corresponding to native HTML elements such as <input> or <select> that have user changeable values.
@@ -51,6 +57,4 @@ dojo.declare("dijit.form._FormValueWidget", [dijit.form._FormWidget, dijit.form.
 	}
 });
 
-
-return dijit.form._FormValueWidget;
 });
