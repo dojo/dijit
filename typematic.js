@@ -1,12 +1,12 @@
 define([
-	"dojo/_base/kernel", // dojo.deprecated dojo.mixin
+	"dojo/_base/kernel", // dojo.deprecated lang.mixin
 	".",
+	"dojo/_base/lang", // dojo.deprecated lang.mixin
 	"dojo/_base/array", // dojo.forEach
 	"dojo/_base/connect", // dojo.connect
 	"dojo/_base/event", // dojo.stopEvent
-	"dojo/_base/lang", // dojo.hitch
 	"dojo/_base/sniff" // dojo.isIE
-], function(dojo, dijit){
+], function(dojo, dijit, lang){
 
 // module:
 //		dijit/typematic
@@ -77,7 +77,7 @@ dijit.typematic = {
 			this._count = -1;
 			this._callback = dojo.hitch(_this, callback);
 			this._fireEventAndReload();
-			this._evt = dojo.mixin({faux: true}, evt);
+			this._evt = lang.mixin({faux: true}, evt);
 		}
 	},
 

@@ -1,6 +1,7 @@
 define([
-	"dojo/_base/kernel", // dojo.getObject
+	"dojo/_base/kernel", //
 	"..",
+	"dojo/_base/lang", // lang.getObject
 	"dojo/text!./templates/DropDownBox.html",
 	"dojo/date", // dojo.date dojo.date.compare
 	"dojo/date/locale", // dojo.date.locale.regexp
@@ -8,7 +9,7 @@ define([
 	"./RangeBoundTextBox",
 	"../_HasDropDown",
 	"dojo/_base/declare" // dojo.declare
-], function(dojo, dijit, template){
+], function(dojo, dijit, lang, template){
 
 	// module:
 	//		dijit/form/_DateTimeTextBox
@@ -131,11 +132,11 @@ define([
 
 		constructor: function(/*Object*/ args){
 			var dateClass = args.datePackage ? args.datePackage + ".Date" : "Date";
-			this.dateClassObj = dojo.getObject(dateClass, false);
+			this.dateClassObj = lang.getObject(dateClass, false);
 			this.value = new this.dateClassObj("");
 
 			this.datePackage = args.datePackage || this.datePackage;
-			this.dateLocaleModule = dojo.getObject(this.datePackage + ".locale", false);
+			this.dateLocaleModule = lang.getObject(this.datePackage + ".locale", false);
 			this.regExpGen = this.dateLocaleModule.regexp;
 			this._invalidDate = dijit.form._DateTimeTextBox.prototype.value.toString();
 		},
@@ -214,7 +215,7 @@ define([
 			if(this.dropDown){
 				this.dropDown.destroy();
 			}
-			var PopupProto = dojo.getObject(this.popupClass, false),
+			var PopupProto = lang.getObject(this.popupClass, false),
 				textBox = this,
 				value = this.get("value");
 			this.dropDown = new PopupProto({

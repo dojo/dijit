@@ -486,7 +486,7 @@ define([
 	};
 
 	/*=====
-	dojo.mixin(dijit, {
+	lang.mixin(dijit, {
 		// defaultDuration: Integer
 		//		The default animation speed (in ms) to use for all Dijit
 		//		transitional animations, unless otherwise specified

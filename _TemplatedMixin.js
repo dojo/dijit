@@ -1,6 +1,7 @@
 define([
-	"dojo/_base/kernel", // dojo.getObject
+	"dojo/_base/kernel", // lang.getObject
 	".",
+	"dojo/_base/lang", // lang.getObject
 	"dojo/touch",
 	"./_WidgetBase",
 	"dojo/string", // dojo.string.substitute dojo.string.trim
@@ -8,12 +9,11 @@ define([
 	"dojo/_base/array", // dojo.forEach
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html", // dojo.destroy, dojo.toDom
-	"dojo/_base/lang", // dojo.extend dojo.isArray dojo.isString dojo.trim
 	"dojo/_base/sniff", // dojo.isIE
 	"dojo/_base/unload", // dojo.addOnWindowUnload
 	"dojo/_base/window", // dojo.doc
 	"dojo/text" // dojo.cache
-], function(dojo, dijit, touch){
+], function(dojo, dijit, lang, touch){
 
 	// module:
 	//		dijit/_TemplatedMixin
@@ -25,7 +25,7 @@ define([
 		//		Mixin for widgets that are instantiated from a template
 
 		// templateString: [protected] String
-		//		A string that represents the widget template. 
+		//		A string that represents the widget template.
 		//		Use in conjunction with dojo.cache() to load from a file.
 		templateString: null,
 
@@ -77,7 +77,7 @@ define([
 			// Cache contains a string because we need to do property replacement
 			// do the property replacement
 			return dojo.string.substitute(tmpl, this, function(value, key){
-				if(key.charAt(0) == '!'){ value = dojo.getObject(key.substr(1), false, _this); }
+				if(key.charAt(0) == '!'){ value = lang.getObject(key.substr(1), false, _this); }
 				if(typeof value == "undefined"){ throw new Error(className+" template:"+key); } // a debugging aide
 				if(value == null){ return ""; }
 
@@ -228,7 +228,7 @@ define([
 			// And same for event handlers
 			dojo.forEach(this._attachEvents, this.disconnect, this);
 			this._attachEvents = [];
-			
+
 			this.inherited(arguments);
 		}
 	});

@@ -1,6 +1,7 @@
 define([
-	"dojo/_base/kernel", // dojo.deprecated dojo.getObject dojo.mixin
+	"dojo/_base/kernel", // dojo.deprecated lang.getObject lang.mixin
 	".",
+	"dojo/_base/lang", // dojo.deprecated lang.getObject lang.mixin
 	"dojo/text!./templates/TreeNode.html",
 	"dojo/text!./templates/Tree.html",
 	"dojo/fx", // dojo.fx.wipeIn dojo.fx.wipeOut
@@ -20,9 +21,8 @@ define([
 	"dojo/_base/connect", // dojo.isCopyKey dojo.keys dojo.publish
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event", // dojo.stopEvent
-	"dojo/_base/html", // dojo.addClass dojo.isDescendant dojo.marginBox dojo.removeClass dojo.replaceClass dojo.style dojo.toggleClass
-	"dojo/_base/lang" // dojo.hitch dojo.isString
-], function(dojo, dijit, treeNodeTemplate, treeTemplate){
+	"dojo/_base/html" // dojo.addClass dojo.isDescendant dojo.marginBox dojo.removeClass dojo.replaceClass dojo.style dojo.toggleClass
+], function(dojo, dijit, lang, treeNodeTemplate, treeTemplate){
 
 // module:
 //		dijit/Tree
@@ -687,7 +687,7 @@ dojo.declare(
 	_publish: function(/*String*/ topicName, /*Object*/ message){
 		// summary:
 		//		Publish a message for this widget/topic
-		dojo.publish(this.id, [dojo.mixin({tree: this, event: topicName}, message || {})]);
+		dojo.publish(this.id, [lang.mixin({tree: this, event: topicName}, message || {})]);
 	},
 
 	postMixInProperties: function(){
@@ -729,7 +729,7 @@ dojo.declare(
 
 		if(this.dndController){
 			if(dojo.isString(this.dndController)){
-				this.dndController = dojo.getObject(this.dndController);
+				this.dndController = lang.getObject(this.dndController);
 			}
 			var params={};
 			for(var i=0; i<this.dndParams.length;i++){

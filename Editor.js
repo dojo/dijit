@@ -1,6 +1,7 @@
 define([
-	"dojo/_base/kernel", // dojo.getObject
+	"dojo/_base/kernel", // lang.getObject
 	".",
+	"dojo/_base/lang", // lang.getObject
 	"./_base/focus",	// dijit.getBookmark()
 	"./_editor/RichText",
 	"./Toolbar",
@@ -19,11 +20,10 @@ define([
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/html", // dojo.addClass dojo.attr dojo.style
-	"dojo/_base/lang", // dojo.hitch dojo.isArray dojo.isFunction dojo.isString
 	"dojo/_base/sniff", // dojo.isIE dojo.isMac dojo.isWebKit
 	"dojo/_base/window", // dojo.withGlobal
 	"dojo/string" // dojo.string.substitute
-], function(dojo, dijit){
+], function(dojo, dijit, lang){
 
 	// module:
 	//		dijit/Editor
@@ -172,7 +172,7 @@ define([
 				var o={"args":args,"plugin":null,"editor":this};
 				dojo.publish(dijit._scopeName + ".Editor.getPlugin",[o]);
 				if(!o.plugin){
-					var pc = dojo.getObject(args.name);
+					var pc = lang.getObject(args.name);
 					if(pc){
 						o.plugin=new pc(args);
 					}

@@ -1,16 +1,16 @@
 define([
 	"dojo/_base/kernel",
-	"..",
+	"../main",
 	"dojo/_base/lang", // dojo.isString
 	"dojo/_base/sniff" // dojo.isIE
-], function(dojo, dijit){
+], function(dojo, dijit, lang){
 
 // module:
 //		dijit/_editor/html
 // summary:
 //		Utility functions used by editor
 
-dojo.getObject("_editor", true, dijit);
+lang.getObject("_editor", true, dijit);
 
 dijit._editor.escapeXml=function(/*String*/str, /*Boolean?*/noSingleQuotes){
 	// summary:

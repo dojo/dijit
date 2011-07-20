@@ -1,13 +1,14 @@
 define([
-	"dojo/_base/kernel", // dojo.mixin
+	"dojo/_base/kernel", // lang.mixin
 	"..",
+	"dojo/_base/lang", // lang.mixin
 	"dojo/text!./templates/DropDownBox.html",
 	"./_AutoCompleterMixin",
 	"./_ComboBoxMenu",
 	"../_HasDropDown",
 	"dojo/store/util/QueryResults",	// dojo.store.util.QueryResults
 	"dojo/_base/declare" // dojo.declare
-], function(dojo, dijit, template){
+], function(dojo, dijit, lang, template){
 
 	// module:
 	//		dijit/form/ComboBoxMixin
@@ -61,7 +62,7 @@ define([
 		postMixInProperties: function(){
 			// For backwards-compatibility, accept dojo.data store in addition to dojo.store.store.  Remove in 2.0
 			if(this.store && !this.store.get){
-				dojo.mixin(this.store, {
+				lang.mixin(this.store, {
 					_oldAPI: true,
 					get: function(id, options){
 						// summary:
@@ -84,7 +85,7 @@ define([
 						//		Queries the store for objects.   Like dojo.store.DataStore.query()
 						//		except returned Deferred contains array of native items.
 						var deferred = new dojo.Deferred(function(){ fetchHandle.abort && fetchHandle.abort(); });
-						var fetchHandle = this.fetch(dojo.mixin({
+						var fetchHandle = this.fetch(lang.mixin({
 							query: query,
 							onBegin: function(count){
 								deferred.total = count;
@@ -106,7 +107,7 @@ define([
 			// It's not available with the new data store for handling inline <option> tags, so add it.
 			if(!this.params.store){
 				var clazz = this.declaredClass;
-				dojo.mixin(this.store, {
+				lang.mixin(this.store, {
 					getValue: function(item, attr){
 						dojo.deprecated(clazz + ".store.getValue(item, attr) is deprecated for builtin store.  Use item.attr directly", "", "2.0");
 						return item[attr];

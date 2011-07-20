@@ -1,14 +1,15 @@
 define([
 	"require",			// require.toUrl
-	"dojo/_base/kernel", // dojo.mixin
+	"dojo/_base/kernel", // lang.mixin
 	".",
+	"dojo/_base/lang", // lang.mixin
 	"dojo/text!./templates/ProgressBar.html",
 	"dojo/number", // dojo.number.format
 	"./_Widget",
 	"./_TemplatedMixin",
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html" // dojo.toggleClass
-], function(require, dojo, dijit, template){
+], function(require, dojo, dijit, lang, template){
 
 // module:
 //		dijit/ProgressBar
@@ -101,7 +102,7 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._TemplatedMixin], {
 
 		// TODO: deprecate this method and use set() instead
 
-		dojo.mixin(this, attributes || {});
+		lang.mixin(this, attributes || {});
 		var tip = this.internalProgress, ap = this.domNode;
 		var percent = 1;
 		if(this.indeterminate){

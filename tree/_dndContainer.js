@@ -1,13 +1,14 @@
 define([
-	"dojo/_base/kernel", // dojo.getObject dojo.mixin
+	"dojo/_base/kernel", // lang.getObject lang.mixin
 	"..",
+	"dojo/_base/lang", // lang.getObject lang.mixin
 	"dojo/dnd/common",
 	"dojo/dnd/Container",
 	"dojo/_base/array", // dojo.forEach
 	"dojo/_base/connect", // dojo.connect dojo.disconnect
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html" // dojo.addClass dojo.removeClass dojo.replaceClass
-], function(dojo, dijit){
+], function(dojo, dijit, lang){
 
 	// module:
 	//		dijit/tree/_dndContainer
@@ -16,7 +17,7 @@ define([
 	//		It's modeled after `dojo.dnd.Container`.
 
 
-	dojo.getObject("tree", true, dijit);
+	lang.getObject("tree", true, dijit);
 
 	dijit.tree._compareNodes = function(n1, n2){
 		if(n1 === n2){
@@ -67,7 +68,7 @@ define([
 			//		private
 			this.tree = tree;
 			this.node = tree.domNode;	// TODO: rename; it's not a TreeNode but the whole Tree
-			dojo.mixin(this, params);
+			lang.mixin(this, params);
 
 			// class-specific variables
 			this.map = {};

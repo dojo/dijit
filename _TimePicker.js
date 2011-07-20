@@ -1,6 +1,7 @@
 define([
-	"dojo/_base/kernel", // dojo.deprecated dojo.mixin
+	"dojo/_base/kernel", // dojo.deprecated lang.mixin
 	".",
+	"dojo/_base/lang", // dojo.deprecated lang.mixin
 	"dojo/text!./templates/TimePicker.html",
 	"./form/_FormValueWidget",
 	"dojo/date/locale", // dojo.date.locale.format
@@ -14,7 +15,7 @@ define([
 	"dojo/date/stamp", // dojo.date.stamp.fromISOString dojo.date.stamp.toISOString
 	"dojo/query", // dojo.query
 	"dijit/typematic"
-], function(dojo, dijit, template){
+], function(dojo, dijit, lang, template){
 
 	// module:
 	//		dijit/_TimePicker
@@ -30,7 +31,7 @@ define([
 			// clickableIncrement: String
 			//		See `dijit._TimePicker.clickableIncrement`
 			clickableIncrement: "T00:15:00",
-	
+
 			// visibleIncrement: String
 			//		See `dijit._TimePicker.visibleIncrement`
 			visibleIncrement: "T01:00:00",
@@ -242,7 +243,7 @@ define([
 
 		_setConstraintsAttr: function(/* Object */ constraints){
 			// brings in visibleRange, increments, etc.
-			dojo.mixin(this, constraints);
+			lang.mixin(this, constraints);
 
 			// dojo.date.locale needs the lang in the constraints as locale
 			if(!constraints.locale){

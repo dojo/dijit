@@ -1,6 +1,7 @@
 define([
-	"dojo/_base/kernel", // dojo.mixin
-	"../..",
+	"dojo/_base/kernel", // dojo
+	"../../main", // dijit
+	"dojo/_base/lang",
 	"dojo/window", // dojo.window.scrollIntoView
 	"../_Plugin",
 	"../range",
@@ -8,10 +9,9 @@ define([
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/html", // dojo.destroy dojo.place
-	"dojo/_base/lang", // dojo.hitch
 	"dojo/_base/sniff", // dojo.isIE dojo.isMoz dojo.isWebKit
 	"dojo/_base/window" // dojo.global dojo.withGlobal
-], function(dojo, dijit){
+], function(dojo, dijit, lang){
 
 // module:
 //		dijit/_editor/plugins/EnterKeyHandling
@@ -100,7 +100,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 			if("blockNodeForEnter" in args){
 				args.blockNodeForEnter = args.blockNodeForEnter.toUpperCase();
 			}
-			dojo.mixin(this,args);
+			lang.mixin(this,args);
 		}
 	},
 
@@ -118,7 +118,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 					if(e.charOrCode == dojo.keys.ENTER){
 						// Just do it manually.  The handleEnterKey has a shift mode that
 						// Always acts like <br>, so just use it.
-						var ne = dojo.mixin({},e);
+						var ne = lang.mixin({},e);
 						ne.shiftKey = true;
 						if(!this.handleEnterKey(ne)){
 							dojo.stopEvent(e);
@@ -323,12 +323,12 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 								var brNode = doc.createElement("br");
 								var endNode = doc.createTextNode('\xA0');
 								if(!targetNode){
-									rs.appendChild(brNode);		
+									rs.appendChild(brNode);
 									rs.appendChild(endNode);
 								}else{
 									dojo.place(brNode, targetNode, "before");
 									dojo.place(endNode, brNode, "after");
-								}									
+								}
 								newrange = dijit.range.create(dojo.global);
 								newrange.setStart(endNode,0);
 								newrange.setEnd(endNode, endNode.length);

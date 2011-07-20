@@ -1,6 +1,7 @@
 define([
-	"dojo/_base/kernel", // dojo.deprecated dojo.getObject
+	"dojo/_base/kernel", // dojo.deprecated lang.getObject
 	".",
+	"dojo/_base/lang", // dojo.deprecated lang.getObject
 	"dojo/text!./templates/InlineEditBox.html",
 	"dojo/i18n", // dojo.i18n.getLocalization
 	"./_Widget",
@@ -16,9 +17,8 @@ define([
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/html", // dojo.addClass dojo.attr dojo.create dojo.destroy dojo.getComputedStyle dojo.removeClass dojo.style dojo.toggleClass
 	"dojo/keys", // dojo.keys.ENTER dojo.keys.ESCAPE
-	"dojo/_base/lang", // dojo.delegate dojo.hitch dojo.trim
 	"dojo/_base/sniff" // dojo.isIE
-], function(dojo, dijit, template){
+], function(dojo, dijit, lang, template){
 
 // module:
 //		dijit/InlineEditBox
@@ -230,7 +230,7 @@ dojo.declare("dijit.InlineEditBox", dijit._Widget, {
 			var placeholder = dojo.create("span", null, this.domNode, "before");
 
 			// Create the editor wrapper (the thing that holds the editor widget and the save/cancel buttons)
-			var ewc = typeof this.editorWrapper == "string" ? dojo.getObject(this.editorWrapper) : this.editorWrapper;
+			var ewc = typeof this.editorWrapper == "string" ? lang.getObject(this.editorWrapper) : this.editorWrapper;
 			this.wrapperWidget = new ewc({
 				value: this.value,
 				buttonSave: this.buttonSave,
@@ -410,7 +410,7 @@ dojo.declare(
 		this.inherited(arguments);
 
 		// Create edit widget in place in the template
-		var cls = typeof this.editor == "string" ? dojo.getObject(this.editor) : this.editor;
+		var cls = typeof this.editor == "string" ? lang.getObject(this.editor) : this.editor;
 
 		// Copy the style from the source
 		// Don't copy ALL properties though, just the necessary/applicable ones.

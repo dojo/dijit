@@ -1,6 +1,7 @@
 define([
-	"dojo/_base/kernel", // dojo.getObject
+	"dojo/_base/kernel", // lang.getObject
 	"..",
+	"dojo/_base/lang", // dojo.hitch
 	"dojo/text!./templates/AccordionButton.html",
 	"require",
 	"../_Container",
@@ -15,9 +16,8 @@ define([
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/fx", // dojo.Animation
 	"dojo/_base/html", // dojo.attr dojo.place dojo.removeClass dojo.setSelectable
-	"dojo/_base/lang", // dojo.hitch
 	"dojo/_base/sniff" // dojo.isIE
-], function(dojo, dijit, template, require){
+], function(dojo, dijit, lang, template, require){
 
 	// module:
 	//		dijit/layout/AccordionContainer
@@ -373,7 +373,7 @@ define([
 
 			// wrapper div's first child is the button widget (ie, the title bar)
 			var child = this.contentWidget,
-				cls = dojo.getObject(this.buttonWidget);
+				cls = lang.getObject(this.buttonWidget);
 			this.button = child._buttonWidget = (new cls({
 				contentWidget: child,
 				label: child.title,

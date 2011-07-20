@@ -1,6 +1,7 @@
 define([
-	"dojo/_base/kernel", // dojo.getObject
+	"dojo/_base/kernel", // lang.getObject
 	".",
+	"dojo/_base/lang", // lang.getObject
 	"dojo/text!./templates/Calendar.html",
 	"dojo/string", // dojo.string.substitute
 	"dojo/cldr/supplemental", // dojo.cldr.supplemental.getFirstDayOfWeek
@@ -12,10 +13,9 @@ define([
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/html", // dojo.hasClass dojo.setSelectable
-	"dojo/_base/lang", // dojo.hitch
 	"dojo/_base/sniff", // dojo.isIE dojo.isWebKit
 	"dojo/_base/window" // dojo.doc.createTextNode
-], function(dojo, dijit, template){
+], function(dojo, dijit, lang, template){
 
 	// module:
 	//		dijit/CalendarLite
@@ -251,10 +251,10 @@ define([
 
 		constructor: function(/*Object*/args){
 			var dateClass = (args.datePackage && (args.datePackage != "dojo.date"))? args.datePackage + ".Date" : "Date";
-			this.dateClassObj = dojo.getObject(dateClass, false);
+			this.dateClassObj = lang.getObject(dateClass, false);
 			this.datePackage = args.datePackage || this.datePackage;
-			this.dateFuncObj = dojo.getObject(this.datePackage, false);
-			this.dateLocaleModule = dojo.getObject(this.datePackage + ".locale", false);
+			this.dateFuncObj = lang.getObject(this.datePackage, false);
+			this.dateLocaleModule = lang.getObject(this.datePackage + ".locale", false);
 		},
 
 		_createMonthWidget: function(){

@@ -1,13 +1,13 @@
 define([
-	"dojo/_base/kernel", // dojo.mixin
+	"dojo/_base/kernel", // lang.mixin
 	"..",
+	"dojo/_base/lang", // lang.mixin
 	"../_Widget",
 	"../form/Button",
 	"dojo/_base/array", // dojo.forEach
 	"dojo/_base/connect", // dojo.connect dojo.disconnect
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/lang" // dojo.hitch
-], function(dojo, dijit){
+	"dojo/_base/declare" // dojo.declare
+], function(dojo, dijit, lang){
 
 // module:
 //		dijit/_editor/_Plugin
@@ -23,7 +23,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 
 	constructor: function(/*Object?*/args, /*DomNode?*/node){
 		this.params = args || {};
-		dojo.mixin(this, this.params);
+		lang.mixin(this, this.params);
 		this._connects=[];
 		this._attrPairNames = {};
 	},
@@ -81,7 +81,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 				editor = this.editor,
 				className = this.iconClassPrefix+" "+this.iconClassPrefix + this.command.charAt(0).toUpperCase() + this.command.substr(1);
 			if(!this.button){
-				var props = dojo.mixin({
+				var props = lang.mixin({
 					label: label,
 					dir: editor.dir,
 					lang: editor.lang,

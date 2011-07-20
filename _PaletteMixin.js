@@ -1,15 +1,15 @@
 define([
-	"dojo/_base/kernel", // dojo.getObject
+	"dojo/_base/kernel", // lang.getObject
 	".",
+	"dojo/_base/lang", // lang.getObject
 	"./_CssStateMixin",
 	"dojo/_base/connect", // dojo.keys
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/html", // dojo.addClass dojo.attr dojo.create dojo.place dojo.removeClass
-	"dojo/_base/lang", // dojo.hitch
 	"./typematic",
 	"./focus"
-], function(dojo, dijit){
+], function(dojo, dijit, lang){
 
 // module:
 //		dijit/_PaletteMixin
@@ -78,7 +78,7 @@ dojo.declare("dijit._PaletteMixin", [dijit._CssStateMixin], {
 		//		Return instance of dijit.Dye for specified cell of palette
 		// tags:
 		//		extension
-		var dyeClassObj = dojo.getObject(this.dyeClass);
+		var dyeClassObj = lang.getObject(this.dyeClass);
 		return new dyeClassObj(value);
 	},
 

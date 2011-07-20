@@ -1,6 +1,7 @@
 define([
-	"dojo/_base/kernel", // dojo.mixin
+	"dojo/_base/kernel", // lang.mixin
 	"..",
+	"dojo/_base/lang", // lang.mixin
 	"../_Widget",
 	"../_Container",
 	"../_Contained",
@@ -9,7 +10,7 @@ define([
 	"dojo/_base/html", // dojo.addClass dojo.getComputedStyle dojo.marginBox dojo.removeClass
 	"dojo/_base/sniff", // dojo.isIE
 	"dojo/_base/window" // dojo.global
-], function(dojo, dijit){
+], function(dojo, dijit, lang){
 
 	// module:
 	//		dijit/layout/_LayoutWidget
@@ -129,9 +130,9 @@ define([
 			// But note that setting the margin box and then immediately querying dimensions may return
 			// inaccurate results, so try not to depend on it.
 			var mb = resultSize || {};
-			dojo.mixin(mb, changeSize || {});	// changeSize overrides resultSize
+			lang.mixin(mb, changeSize || {});	// changeSize overrides resultSize
 			if( !("h" in mb) || !("w" in mb) ){
-				mb = dojo.mixin(dojo.marginBox(node), mb);	// just use dojo.marginBox() to fill in missing values
+				mb = lang.mixin(dojo.marginBox(node), mb);	// just use dojo.marginBox() to fill in missing values
 			}
 
 			// Compute and save the size of my border box and content box
@@ -223,12 +224,12 @@ define([
 		// record child's size
 		if(newSize){
 			// if the child returned it's new size then use that
-			dojo.mixin(widget, newSize);
+			lang.mixin(widget, newSize);
 		}else{
 			// otherwise, call marginBox(), but favor our own numbers when we have them.
 			// the browser lies sometimes
-			dojo.mixin(widget, dojo.marginBox(widget.domNode));
-			dojo.mixin(widget, dim);
+			lang.mixin(widget, dojo.marginBox(widget.domNode));
+			lang.mixin(widget, dim);
 		}
 	}
 
@@ -253,7 +254,7 @@ define([
 		//		See changedRegionId.
 
 		// copy dim because we are going to modify it
-		dim = dojo.mixin({}, dim);
+		dim = lang.mixin({}, dim);
 
 		dojo.addClass(container, "dijitLayoutContainer");
 

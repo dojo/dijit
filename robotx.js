@@ -1,10 +1,11 @@
 define([
-	"dojo/_base/kernel", // dojo.experimental dojo.mixin
+	"dojo/_base/kernel", // dojo.experimental lang.mixin
 	".",
+	"dojo/_base/lang", // dojo.experimental lang.mixin
 	"./robot",
 	"dojo/robotx",
 	"dojo/_base/window" // dojo.global
-], function(dojo, dijit_){
+], function(dojo, dijit_, lang){
 
 	// module:
 	//		dijit/robotx
@@ -19,7 +20,7 @@ define([
 
 	var __updateDocument = doh.robot._updateDocument;
 
-	dojo.mixin(doh.robot,{
+	lang.mixin(doh.robot,{
 		_updateDocument: function(){
 			__updateDocument();
 			var win = dojo.global;

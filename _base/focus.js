@@ -1,14 +1,14 @@
 define([
-	"dojo/_base/kernel", // dojo.mixin
+	"dojo/_base/kernel", // lang.mixin
 	"..",
+	"dojo/_base/lang", // dojo.isArray
 	"../focus",
 	"./manager",
 	"dojo/_base/array", // dojo.forEach
 	"dojo/_base/connect", // dojo.publish
 	"dojo/_base/html", // dojo.isDescendant
-	"dojo/_base/lang", // dojo.isArray
 	"dojo/_base/window" // dojo.doc dojo.doc.selection dojo.global dojo.global.getSelection dojo.withGlobal
-], function(dojo, dijit, focus){
+], function(dojo, dijit, lang, focus){
 
 	// module:
 	//		dijit/_base/focus
@@ -16,7 +16,7 @@ define([
 	//		Deprecated module to monitor currently focused node and stack of currently focused widgets.
 	//		New code should access dijit/focus directly.
 
-	dojo.mixin(dijit, {
+	lang.mixin(dijit, {
 		// _curFocus: DomNode
 		//		Currently focused item on screen
 		_curFocus: null,

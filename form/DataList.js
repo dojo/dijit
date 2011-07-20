@@ -1,12 +1,12 @@
 define([
 	"dojo/_base/kernel",
 	"..",
+	"dojo/_base/html", // dojo.byId
 	"dojo/store/Memory", // dojo.store.Memory
 	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/html", // dojo.byId
 	"dojo/_base/lang", // dojo.trim
 	"dojo/query" // dojo.query
-], function(dojo, dijit){
+], function(dojo, dijit, lang){
 
 	// module:
 	//		dijit/form/DataList
@@ -38,7 +38,7 @@ define([
 			// store pointer to original DOM tree
 			this.domNode = dojo.byId(srcNodeRef);
 
-			dojo._mixin(this, params);
+			lang.mixin(this, params);
 			if(this.id){
 				dijit.registry.add(this); // add to registry so it can be easily found by id
 			}

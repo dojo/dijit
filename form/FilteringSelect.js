@@ -1,13 +1,13 @@
 define([
-	"dojo/_base/kernel", // dojo.mixin
+	"dojo/_base/kernel", // lang.mixin
 	"..",
+	"dojo/_base/lang", // lang.mixin
 	"./MappedTextBox",
 	"./ComboBoxMixin",
 	"dojo/_base/Deferred", // dojo.when
 	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/lang", // dojo.clone dojo.isString
 	"dojo/data/util/filter" // dojo.data.util.filter.patternToRegExp
-], function(dojo, dijit){
+], function(dojo, dijit, lang){
 
 	// module:
 	//		dijit/form/FilteringSelect
@@ -210,7 +210,7 @@ define([
 					ignoreCase: this.ignoreCase,
 					deep: true
 				};
-				dojo.mixin(options, this.fetchProperties);
+				lang.mixin(options, this.fetchProperties);
 				this._fetchHandle = this.store.query(query, options);
 				dojo.when(this._fetchHandle, function(result){
 					_this._fetchHandle = null;

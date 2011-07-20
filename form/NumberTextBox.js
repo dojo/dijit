@@ -1,11 +1,11 @@
 define([
-	"dojo/_base/kernel", // dojo.mixin
+	"dojo/_base/kernel", // lang.mixin
 	"..",
+	"dojo/_base/lang", // dojo.hitch
 	"./RangeBoundTextBox",
 	"dojo/number", // dojo.number._realNumberRegexp dojo.number.format dojo.number.parse dojo.number.regexp
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/lang" // dojo.hitch
-], function(dojo, dijit){
+	"dojo/_base/declare" // dojo.declare
+], function(dojo, dijit, lang){
 
 	// module:
 	//		dijit/form/NumberTextBox
@@ -130,7 +130,7 @@ define([
 				return formattedValue;
 			}
 			if(this.editOptions && this.focused){
-				constraints = dojo.mixin({}, constraints, this.editOptions);
+				constraints = lang.mixin({}, constraints, this.editOptions);
 			}
 			return this._formatter(value, constraints);
 		},
@@ -157,7 +157,7 @@ define([
 			// tags:
 			//		protected extension
 
-			var v = this._parser(value, dojo.mixin({}, constraints, (this.editOptions && this.focused) ? this.editOptions : {}));
+			var v = this._parser(value, lang.mixin({}, constraints, (this.editOptions && this.focused) ? this.editOptions : {}));
 			if(this.editOptions && this.focused && isNaN(v)){
 				v = this._parser(value, constraints); // parse w/o editOptions: not technically needed but is nice for the user
 			}
@@ -188,7 +188,7 @@ define([
 		},
 
 		_setBlurValue: function(){
-			var val = dojo.hitch(dojo.mixin({}, this, { focused: true }), "get")('value'); // parse with editOptions
+			var val = dojo.hitch(lang.mixin({}, this, { focused: true }), "get")('value'); // parse with editOptions
 			this._setValueAttr(val, true);
 		},
 
@@ -224,7 +224,7 @@ define([
 			// Returning undefined prevents user text from being overwritten when doing _setValueAttr(_getValueAttr()).
 			// A blank displayed value is still returned as NaN.
 			if(isNaN(v) && this.textbox.value !== ''){
-				if(this.constraints.exponent !== false && /\de[-+]?\d/i.test(this.textbox.value) && (new RegExp("^"+dojo.number._realNumberRegexp(dojo.mixin({}, this.constraints))+"$").test(this.textbox.value))){	// check for exponential notation that parse() rejected (erroneously?)
+				if(this.constraints.exponent !== false && /\de[-+]?\d/i.test(this.textbox.value) && (new RegExp("^"+dojo.number._realNumberRegexp(lang.mixin({}, this.constraints))+"$").test(this.textbox.value))){	// check for exponential notation that parse() rejected (erroneously?)
 					var n = Number(this.textbox.value);
 					return isNaN(n) ? undefined : n; // return exponential Number or undefined for random text (may not be possible to do with the above RegExp check)
 				}else{

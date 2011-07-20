@@ -1,6 +1,7 @@
 define([
-	"dojo/_base/kernel", // dojo.mixin
+	"dojo/_base/kernel", // lang.mixin
 	"..",
+	"dojo/_base/lang", // dojo.contentBox dojo.hasAttr dojo.hasClass dojo.marginBox dojo.toggleClass
 	"../_Contained",
 	"./_LayoutWidget",
 	"dojo/_base/array", // dojo.filter dojo.forEach
@@ -9,7 +10,7 @@ define([
 	"dojo/_base/sniff", // dojo.isIE
 	"dojo/_base/window", // dojo.global
 	"dojo/query" // dojo.query
-], function(dojo, dijit){
+], function(dojo, dijit, lang){
 
 // module:
 //		dijit/layout/_ContentPaneResizeMixin
@@ -181,9 +182,9 @@ dojo.declare("dijit.layout._ContentPaneResizeMixin", null, {
 			// this.domNode then we can compute the content-box size without querying the node,
 			// which is more reliable (similar to LayoutWidget.resize) (see for example #9449).
 			var mb = resultSize || {};
-			dojo.mixin(mb, changeSize || {}); // changeSize overrides resultSize
+			lang.mixin(mb, changeSize || {}); // changeSize overrides resultSize
 			if(!("h" in mb) || !("w" in mb)){
-				mb = dojo.mixin(dojo.marginBox(cn), mb); // just use dojo.marginBox() to fill in missing values
+				mb = lang.mixin(dojo.marginBox(cn), mb); // just use dojo.marginBox() to fill in missing values
 			}
 			this._contentBox = dijit.layout.marginBox2contentBox(cn, mb);
 		}else{

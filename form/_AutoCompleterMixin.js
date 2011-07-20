@@ -1,6 +1,7 @@
 define([
-	"dojo/_base/kernel", // dojo.getObject dojo.mixin
+	"dojo/_base/kernel", // lang.getObject lang.mixin
 	"..",
+	"dojo/_base/lang", // dojo.clone dojo.hitch
 	"dojo/string", // dojo.string.substitute
 	"dojo/regexp", // dojo.regexp.escapeString
 	"dojo/data/util/filter", // dojo.data.util.filter.patternToRegExp
@@ -11,11 +12,10 @@ define([
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/html", // dojo.attr
-	"dojo/_base/lang", // dojo.clone dojo.hitch
 	"dojo/_base/sniff", // dojo.isIE
 	"dojo/_base/window", // dojo.doc.selection.createRange
 	"dojo/query" // dojo.query
-], function(dojo, dijit){
+], function(dojo, dijit, lang){
 
 	// module:
 	//		dijit/form/_AutoCompleterMixin
@@ -536,7 +536,7 @@ define([
 			//		and calls _openResultList() when the search completes, to display the results.
 			if(!this.dropDown){
 				var popupId = this.id + "_popup",
-				dropDownConstructor = dojo.getObject(this.dropDownClass, false);
+				dropDownConstructor = lang.getObject(this.dropDownClass, false);
 				this.dropDown = new dropDownConstructor({
 					onChange: dojo.hitch(this, this._selectOption),
 					id: popupId,
@@ -560,7 +560,7 @@ define([
 					deep: true
 				}
 			};
-			dojo.mixin(options, this.fetchProperties);
+			lang.mixin(options, this.fetchProperties);
 
 			// Query on searchAttr is a regex (for benefit of dojo.store.MemoryStore),
 			// but with a toString() method to help JsonStore.

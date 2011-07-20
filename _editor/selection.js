@@ -1,11 +1,12 @@
 define([
 	"dojo/_base/kernel",
 	"..",
+	"dojo/_base/lang",
 	"dojo/NodeList-manipulate", // .text
 	"dojo/_base/html", // dojo.byId
 	"dojo/_base/sniff", // dojo.isIE dojo.isOpera
 	"dojo/_base/window" // dojo.body dojo.doc dojo.doc.createElement dojo.doc.selection dojo.doc.selection.createRange dojo.doc.selection.type.toLowerCase dojo.global dojo.global.getSelection
-], function(dojo, dijit){
+], function(dojo, dijit, lang){
 
 // module:
 //		dijit/_editor/selection
@@ -13,14 +14,14 @@ define([
 //		Text selection API
 
 
-dojo.getObject("_editor.selection", true, dijit);
+lang.getObject("_editor.selection", true, dijit);
 
 // FIXME:
 //		all of these methods branch internally for IE. This is probably
 //		sub-optimal in terms of runtime performance. We should investigate the
 //		size difference for differentiating at definition time.
 
-dojo.mixin(dijit._editor.selection, {
+lang.mixin(dijit._editor.selection, {
 	getType: function(){
 		// summary:
 		//		Get the selection type (like dojo.doc.select.type in IE).

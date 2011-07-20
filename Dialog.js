@@ -1,6 +1,7 @@
 define([
-	"dojo/_base/kernel", // dojo.mixin
+	"dojo/_base/kernel", // lang.mixin
 	".",
+	"dojo/_base/lang", // lang.mixin
 	"dijit/focus",
 	"dojo/text!./templates/Dialog.html",
 	"require",
@@ -20,14 +21,13 @@ define([
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/fx", // dojo.fadeIn dojo.fadeOut
 	"dojo/_base/html", // dojo.addClass dojo.hasClass dojo.isDescendant dojo.position dojo.style
-	"dojo/_base/lang", // dojo.hitch
 	"dojo/_base/sniff", // dojo.isIE dojo.isOpera
 	"dojo/_base/window", // dojo.body
 	"dojo/window", // dojo.window.getBox
 	"dojo/dnd/Moveable", // dojo.dnd.Moveable
 	"dojo/dnd/TimedMoveable", // dojo.dnd.TimedMoveable
 	"dojo/i18n" // dojo.i18n.getLocalization
-], function(dojo, dijit, focus, template, require){
+], function(dojo, dijit, lang, focus, template, require){
 
 	// module:
 	//		dijit/Dialog
@@ -134,7 +134,7 @@ define([
 
 		postMixInProperties: function(){
 			var _nlsResources = dojo.i18n.getLocalization("dijit", "common");
-			dojo.mixin(this, _nlsResources);
+			lang.mixin(this, _nlsResources);
 			this.inherited(arguments);
 		},
 

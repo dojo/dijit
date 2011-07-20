@@ -2,6 +2,7 @@ define([
 	"require",			// require.toUrl
 	"dojo/_base/kernel", // dojo.config.blankGif
 	".",
+	"dojo/_base/lang", // dojo.config.blankGif
 	"dojo/aspect",
 	"./_base/manager",
 	"dojo/Stateful", // dojo.Stateful
@@ -9,9 +10,8 @@ define([
 	"dojo/_base/connect", // dojo.connect dojo.disconnect dojo.subscribe dojo.unsubscribe
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html", // dojo.addClass dojo.attr dojo.byId dojo.create dojo.destroy dojo.place dojo.removeAttr dojo.replaceClass dojo.style
-	"dojo/_base/lang", // dojo.hitch dojo.isArray dojo.isFunction dojo.isObject
 	"dojo/_base/window" // dojo.doc.createTextNode
-], function(require, dojo, dijit, aspect){
+], function(require, dojo, dijit, lang, aspect){
 
 // module:
 //		dijit/_WidgetBase
@@ -274,7 +274,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		// mix in our passed parameters
 		if(params){
 			this.params = params;
-			dojo._mixin(this, params);
+			lang.mixin(this, params);
 		}
 		this.postMixInProperties();
 

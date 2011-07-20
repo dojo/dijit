@@ -1,6 +1,7 @@
 define([
-	"dojo/_base/kernel", // dojo.deprecated dojo.mixin
+	"dojo/_base/kernel", // dojo.deprecated lang.mixin
 	"..",
+	"dojo/_base/lang", // dojo.delegate dojo.hitch dojo.isFunction dojo.isObject
 	"../_Widget",
 	"./_ContentPaneResizeMixin",
 	"dojo/string", // dojo.string.substitute
@@ -10,11 +11,10 @@ define([
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/Deferred", // dojo.Deferred
 	"dojo/_base/html", // dojo.attr dojo.byId
-	"dojo/_base/lang", // dojo.delegate dojo.hitch dojo.isFunction dojo.isObject
 	"dojo/_base/window", // dojo.body dojo.doc.createDocumentFragment
 	"dojo/_base/xhr", // dojo.xhrGet
 	"dojo/i18n" // dojo.i18n.getLocalization
-], function(dojo, dijit){
+], function(dojo, dijit, lang){
 
 // module:
 //		dijit/layout/ContentPane
@@ -362,7 +362,7 @@ dojo.declare("dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPa
 			handleAs: "text"
 		};
 		if(dojo.isObject(this.ioArgs)){
-			dojo.mixin(getArgs, this.ioArgs);
+			lang.mixin(getArgs, this.ioArgs);
 		}
 
 		var hand = (this._xhrDfd = (this.ioMethod || dojo.xhrGet)(getArgs));
@@ -483,7 +483,7 @@ dojo.declare("dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPa
 			});
 		}
 
-		var setterParams = dojo.mixin({
+		var setterParams = lang.mixin({
 			cleanContent: this.cleanContent,
 			extractContent: this.extractContent,
 			parseContent: !cont.domNode && this.parseOnLoad,

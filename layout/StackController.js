@@ -1,6 +1,7 @@
 define([
-	"dojo/_base/kernel", // dojo.getObject
+	"dojo/_base/kernel", // lang.getObject
 	"..",
+	"dojo/_base/lang", // lang.getObject
 	"../_Widget",
 	"../_TemplatedMixin",
 	"../_Container",
@@ -11,9 +12,8 @@ define([
 	"dojo/_base/connect", // dojo.keys
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event", // dojo.stopEvent
-	"dojo/_base/lang", // dojo.hitch
 	"dojo/_base/sniff" // dojo.isIE
-], function(dojo, dijit){
+], function(dojo, dijit, lang){
 
 	// module:
 	//		dijit/layout/StackController
@@ -85,7 +85,7 @@ define([
 			//		private
 
 			// create an instance of the button widget
-			var cls = dojo.getObject(this.buttonWidget);
+			var cls = lang.getObject(this.buttonWidget);
 			var button = new cls({
 				id: this.id + "_" + page.id,
 				label: page.title,

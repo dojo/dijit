@@ -1,11 +1,11 @@
 define([
-	"dojo/_base/kernel", // dojo.deprecated dojo.getObject dojo.setObject
+	"dojo/_base/kernel", // dojo.deprecated
 	"..",
+	"dojo/_base/lang", // dojo.hitch dojo.isArray
 	"dojo/window", // dojo.window.scrollIntoView
 	"dojo/_base/array", // dojo.every dojo.filter dojo.forEach dojo.indexOf dojo.map
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/lang" // dojo.hitch dojo.isArray
-], function(dojo, dijit){
+	"dojo/_base/declare" // dojo.declare
+], function(dojo, dijit, lang){
 
 	// module:
 	//		dijit/form/_FormMixin
@@ -118,7 +118,7 @@ define([
 					continue;
 				}
 				var widgets = map[name],						// array of widgets w/this name
-					values = dojo.getObject(name, false, obj);	// list of values for those widgets
+					values = lang.getObject(name, false, obj);	// list of values for those widgets
 
 				if(values === undefined){
 					continue;
@@ -251,36 +251,36 @@ define([
 					if(/Radio/.test(widget.declaredClass)){
 						// radio button
 						if(value !== false){
-							dojo.setObject(name, value, obj);
+							lang.setObject(name, value, obj);
 						}else{
 							// give radio widgets a default of null
-							value = dojo.getObject(name, false, obj);
+							value = lang.getObject(name, false, obj);
 							if(value === undefined){
-								dojo.setObject(name, null, obj);
+								lang.setObject(name, null, obj);
 							}
 						}
 					}else{
 						// checkbox/toggle button
-						var ary=dojo.getObject(name, false, obj);
+						var ary=lang.getObject(name, false, obj);
 						if(!ary){
 							ary=[];
-							dojo.setObject(name, ary, obj);
+							lang.setObject(name, ary, obj);
 						}
 						if(value !== false){
 							ary.push(value);
 						}
 					}
 				}else{
-					var prev=dojo.getObject(name, false, obj);
+					var prev=lang.getObject(name, false, obj);
 					if(typeof prev != "undefined"){
 						if(dojo.isArray(prev)){
 							prev.push(value);
 						}else{
-							dojo.setObject(name, [prev, value], obj);
+							lang.setObject(name, [prev, value], obj);
 						}
 					}else{
 						// unique name
-						dojo.setObject(name, value, obj);
+						lang.setObject(name, value, obj);
 					}
 				}
 			});

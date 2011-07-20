@@ -1,6 +1,7 @@
 define([
-	"dojo/_base/kernel", // dojo.mixin
+	"dojo/_base/kernel", // lang.mixin
 	"..",
+	"dojo/_base/lang", // lang.mixin
 	"dojo/touch",
 	"./_dndSelector",
 	"dojo/dnd/Manager", // dojo.dnd.manager
@@ -8,7 +9,7 @@ define([
 	"dojo/_base/connect", // dojo.isCopyKey dojo.subscribe dojo.unsubscribe
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html" // dojo.addClass dojo.position
-], function(dojo, dijit, touch){
+], function(dojo, dijit, lang, touch){
 
 // module:
 //		dijit/tree/dndSource
@@ -70,7 +71,7 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 		// tags:
 		//		private
 		if(!params){ params = {}; }
-		dojo.mixin(this, params);
+		lang.mixin(this, params);
 		this.isSource = typeof params.isSource == "undefined" ? true : params.isSource;
 		var type = params.accept instanceof Array ? params.accept : ["text", "treeNode"];
 		this.accept = null;

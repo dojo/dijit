@@ -1,10 +1,10 @@
 define([
-	"dojo/_base/kernel", // dojo.mixin
+	"dojo/_base/kernel", // lang.mixin
 	"..",
+	"dojo/_base/lang", // dojo.mixin
 	"../hccss",
-	"dojo/_base/html", // dojo.attr
-	"dojo/_base/lang" // dojo.trim
-], function(dojo, dijit){
+	"dojo/_base/html" // dojo.attr
+], function(dojo, dijit, lang){
 
 	// module:
 	//		dijit/_base/wai
@@ -14,7 +14,7 @@ define([
 	//
 	//		Also loads hccss to apply dijit_a11y class to root node if machine is in high-contrast mode.
 
-	dojo.mixin(dijit, {
+	lang.mixin(dijit, {
 		hasWaiRole: function(/*Element*/ elem, /*String?*/ role){
 			// summary:
 			//		Determines if an element has a particular role.

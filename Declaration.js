@@ -1,6 +1,7 @@
 define([
-	"dojo/_base/kernel", // dojo.getObject
+	"dojo/_base/kernel", // lang.getObject
 	".",
+	"dojo/_base/lang", // lang.getObject
 	"./_Widget",
 	"./_TemplatedMixin",
 	"./_WidgetsInTemplateMixin",
@@ -9,7 +10,7 @@ define([
 	"dojo/_base/declare", // dojo.declare
 	"dojo/parser", // dojo.parser._functionFromScript
 	"dojo/query" // dojo.query
-], function(dojo, dijit){
+], function(dojo, dijit, lang){
 
 	// module:
 	//		dijit/Declaration
@@ -67,10 +68,10 @@ define([
 			});
 
 			// map array of strings like [ "dijit.form.Button" ] to array of mixin objects
-			// (note that dojo.map(this.mixins, dojo.getObject) doesn't work because it passes
+			// (note that dojo.map(this.mixins, lang.getObject) doesn't work because it passes
 			// a bogus third argument to getObject(), confusing it)
 			this.mixins = this.mixins.length ?
-				dojo.map(this.mixins, function(name){ return dojo.getObject(name); } ) :
+				dojo.map(this.mixins, function(name){ return lang.getObject(name); } ) :
 				[ dijit._Widget, dijit._TemplatedMixin, dijit._WidgetsInTemplateMixin ];
 
 			propList._skipNodeCache = true;

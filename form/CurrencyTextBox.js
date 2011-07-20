@@ -1,11 +1,11 @@
 define([
-	"dojo/_base/kernel", // dojo.mixin
+	"dojo/_base/kernel", // lang.mixin
 	"..",
+	"dojo/_base/lang", // dojo.hitch
 	"dojo/currency", // dojo.currency._mixInDefaults dojo.currency.format dojo.currency.parse dojo.currency.regexp
 	"./NumberTextBox",
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/lang" // dojo.hitch
-], function(dojo, dijit){
+	"dojo/_base/declare" // dojo.declare
+], function(dojo, dijit, lang){
 
 	// module:
 	//		dijit/form/CurrencyTextBox
@@ -61,7 +61,7 @@ define([
 		// than a straight regexp to deal with locale  (plus formatting options too?)
 		regExpGen: function(constraints){
 			// if focused, accept either currency data or NumberTextBox format
-			return '(' + (this.focused ? this.inherited(arguments, [ dojo.mixin({}, constraints, this.editOptions) ]) + '|' : '')
+			return '(' + (this.focused ? this.inherited(arguments, [ lang.mixin({}, constraints, this.editOptions) ]) + '|' : '')
 				+ dojo.currency.regexp(constraints) + ')';
 		},
 
@@ -77,7 +77,7 @@ define([
 			// 		protected extension
 			var v = this.inherited(arguments);
 			if(isNaN(v) && /\d+/.test(value)){ // currency parse failed, but it could be because they are using NumberTextBox format so try its parse
-				v = dojo.hitch(dojo.mixin({}, this, { _parser: dijit.form.NumberTextBox.prototype._parser }), "inherited")(arguments);
+				v = dojo.hitch(lang.mixin({}, this, { _parser: dijit.form.NumberTextBox.prototype._parser }), "inherited")(arguments);
 			}
 			return v;
 		},
@@ -86,7 +86,7 @@ define([
 			if(!constraints.currency && this.currency){
 				constraints.currency = this.currency;
 			}
-			this.inherited(arguments, [ dojo.currency._mixInDefaults(dojo.mixin(constraints, { exponent: false })) ]); // get places
+			this.inherited(arguments, [ dojo.currency._mixInDefaults(lang.mixin(constraints, { exponent: false })) ]); // get places
 		}
 	});
 

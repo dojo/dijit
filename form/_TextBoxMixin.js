@@ -1,14 +1,14 @@
 define([
-	"dojo/_base/kernel", // dojo.mixin
+	"dojo/_base/kernel", // lang.mixin
 	"..",
+	"dojo/_base/lang", // lang.mixin
 	"dojo/_base/array", // dojo.forEach
 	"dojo/_base/connect", // dojo.keys.ALT dojo.keys.CAPS_LOCK dojo.keys.CTRL dojo.keys.META dojo.keys.SHIFT
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event", // dojo.stopEvent
 	"dojo/_base/html", // dojo.byId
-	"dojo/_base/lang", // dojo.hitch dojo.trim
 	"dojo/_base/window" // dojo.doc dojo.global
-], function(dojo, dijit){
+], function(dojo, dijit, lang){
 
 // module:
 //		dijit/form/_TextBoxMixin
@@ -252,7 +252,7 @@ dojo.declare( "dijit.form._TextBoxMixin", null, {
 				this.__skipInputEvent = true;
 			}
 			// create fake event to set charOrCode and to know if preventDefault() was called
-			var faux = dojo.mixin({}, e, {
+			var faux = lang.mixin({}, e, {
 				charOrCode: charCode,
 				wasConsumed: false,
 				preventDefault: function(){

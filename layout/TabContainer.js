@@ -1,11 +1,12 @@
 define([
-	"dojo/_base/kernel", // dojo.getObject
+	"dojo/_base/kernel", // lang.getObject
 	"..",
+	"dojo/_base/lang", // lang.getObject
 	"./_TabContainerBase",
 	"./TabController",
 	"./ScrollingTabController",
 	"dojo/_base/declare" // dojo.declare
-], function(dojo, dijit){
+], function(dojo, dijit, lang){
 
 	// module:
 	//		dijit/layout/TabContainer
@@ -43,7 +44,7 @@ define([
 			//		protected extension
 
 			var cls = this.baseClass + "-tabs" + (this.doLayout ? "" : " dijitTabNoLayout"),
-				TabController = dojo.getObject(this.controllerWidget);
+				TabController = lang.getObject(this.controllerWidget);
 
 			return new TabController({
 				id: this.id + "_tablist",
