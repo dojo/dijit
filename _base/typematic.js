@@ -1,3 +1,3 @@
-define(["../typematic"], function(typematic){// loads top level module
-	return typematic;
+define(["../typematic"], function(){
+	// for back-compat, just loads top level module
 });

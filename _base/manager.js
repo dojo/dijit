@@ -1,20 +1,26 @@
 define([
-	"dojo/_base/kernel", // dojo.config
+	"dojo/_base/kernel", // kernel.config
 	"..",
-	"dojo/_base/array", // dojo.forEach dojo.map
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/html", // dojo.attr dojo.byId dojo.hasAttr dojo.style
-	"dojo/_base/sniff", // dojo.isIE
-	"dojo/_base/unload", // dojo.addOnWindowUnload
-	"dojo/_base/window" // dojo.body dojo.global
-], function(dojo, dijit){
+	"dojo/_base/array", // array.forEach array.map
+	"dojo/_base/declare", // declare
+	"dojo/dom",			// dom.byId
+	"dojo/dom-attr", // domAttr.attr domAttr.has
+	"dojo/dom-style", // style.style
+	"dojo/_base/sniff", // has("ie")
+	"dojo/_base/unload", // unload.addOnWindowUnload
+	"dojo/_base/window" // win.body win.global
+], function(kernel, dijit, array, declare, dom, domAttr, style, has, unload, win){
+
+/*=====
+var declare = dojo.declare;
+=====*/
 
 	// module:
 	//		dijit/_base/manager
 	// summary:
 	//		Many of the basic methods/classes used by dijit.
 
-	dojo.declare("dijit.WidgetSet", null, {
+	declare("dijit.WidgetSet", null, {
 		// summary:
 		//		A set of widgets indexed by id. A default instance of this class is
 		//		available as `dijit.registry`
@@ -65,7 +71,7 @@ define([
 			//
 			// func:
 			//		A callback function to run for each item. Is passed the widget, the index
-			//		in the iteration, and the full hash, similar to `dojo.forEach`.
+			//		in the iteration, and the full hash, similar to `array.forEach`.
 			//
 			// thisObj:
 			//		An optional scope parameter
@@ -79,7 +85,7 @@ define([
 			// returns:
 			//		Returns self, in order to allow for further chaining.
 
-			thisObj = thisObj || dojo.global;
+			thisObj = thisObj || win.global;
 			var i = 0, id;
 			for(id in this._hash){
 				func.call(thisObj, this._hash[id], i++, this._hash);
@@ -90,7 +96,7 @@ define([
 		filter: function(/*Function*/ filter, /* Object? */thisObj){
 			// summary:
 			//		Filter down this WidgetSet to a smaller new WidgetSet
-			//		Works the same as `dojo.filter` and `dojo.NodeList.filter`
+			//		Works the same as `array.filter` and `NodeList.filter`
 			//
 			// filter:
 			//		Callback function to test truthiness. Is passed the widget
@@ -105,7 +111,7 @@ define([
 			//		|		return i % 2 == 0;
 			//		|	}).forEach(function(w){ /* odd ones */ });
 
-			thisObj = thisObj || dojo.global;
+			thisObj = thisObj || win.global;
 			var res = new dijit.WidgetSet(), i = 0, id;
 			for(id in this._hash){
 				var w = this._hash[id];
@@ -156,7 +162,7 @@ define([
 			//
 			// example:
 			//		Work with the widget .domNodes in a real Array
-			//		|	dojo.map(dijit.registry.toArray(), function(w){ return w.domNode; });
+			//		|	array.map(dijit.registry.toArray(), function(w){ return w.domNode; });
 
 			var ar = [];
 			for(var id in this._hash){
@@ -167,18 +173,18 @@ define([
 
 		map: function(/* Function */func, /* Object? */thisObj){
 			// summary:
-			//		Create a new Array from this WidgetSet, following the same rules as `dojo.map`
+			//		Create a new Array from this WidgetSet, following the same rules as `array.map`
 			// example:
 			//		|	var nodes = dijit.registry.map(function(w){ return w.domNode; });
 			//
 			// returns:
 			//		A new array of the returned values.
-			return dojo.map(this.toArray(), func, thisObj); // Array
+			return array.map(this.toArray(), func, thisObj); // Array
 		},
 
 		every: function(func, thisObj){
 			// summary:
-			// 		A synthetic clone of `dojo.every` acting explicitly on this WidgetSet
+			// 		A synthetic clone of `array.every` acting explicitly on this WidgetSet
 			//
 			// func: Function
 			//		A callback function run for every widget in this list. Exits loop
@@ -187,7 +193,7 @@ define([
 			// thisObj: Object?
 			//		Optional scope parameter to use for the callback
 
-			thisObj = thisObj || dojo.global;
+			thisObj = thisObj || win.global;
 			var x = 0, i;
 			for(i in this._hash){
 				if(!func.call(thisObj, this._hash[i], x++, this._hash)){
@@ -199,7 +205,7 @@ define([
 
 		some: function(func, thisObj){
 			// summary:
-			// 		A synthetic clone of `dojo.some` acting explictly on this WidgetSet
+			// 		A synthetic clone of `array.some` acting explictly on this WidgetSet
 			//
 			// func: Function
 			//		A callback function run for every widget in this list. Exits loop
@@ -208,7 +214,7 @@ define([
 			// thisObj: Object?
 			//		Optional scope parameter to use for the callback
 
-			thisObj = thisObj || dojo.global;
+			thisObj = thisObj || win.global;
 			var x = 0, i;
 			for(i in this._hash){
 				if(func.call(thisObj, this._hash[i], x++, this._hash)){
@@ -231,13 +237,14 @@ define([
 	dijit.registry = new dijit.WidgetSet();
 
 	var hash = dijit.registry._hash,
-		attr = dojo.attr,
-		hasAttr = dojo.hasAttr,
-		style = dojo.style;
+		// shortcut vars.  maybe should get rid of these as they prevent monkey patching
+		attr = domAttr.attr,
+		hasAttr = domAttr.has,
+		style = style.style;
 
 	dijit.byId = function(/*String|dijit._Widget*/ id){
 		// summary:
-		//		Returns a widget by it's id, or if passed a widget, no-op (like dojo.byId())
+		//		Returns a widget by it's id, or if passed a widget, no-op (like dom.byId())
 		return typeof id == "string" ? hash[id] : id; // dijit._Widget
 	};
 
@@ -292,7 +299,7 @@ define([
 		dijit._activeStack = [];
 
 		// Destroy all the widgets, top down
-		dojo.forEach(dijit.findWidgets(dojo.body()), function(widget){
+		array.forEach(dijit.findWidgets(win.body()), function(widget){
 			// Avoid double destroy of widgets like Menu that are attached to <body>
 			// even though they are logically children of other widgets.
 			if(!widget._destroyed){
@@ -305,10 +312,10 @@ define([
 		});
 	};
 
-	if(dojo.isIE){
+	if(has("ie")){
 		// Only run _destroyAll() for IE because we think it's only necessary in that case,
 		// and because it causes problems on FF.  See bug #3531 for details.
-		dojo.addOnWindowUnload(function(){
+		unload.addOnWindowUnload(function(){
 			dijit._destroyAll();
 		});
 	}
@@ -428,7 +435,7 @@ define([
 			for(var child = parent.firstChild; child; child = child.nextSibling){
 				// Skip text elements, hidden elements, and also non-HTML elements (those in custom namespaces) in IE,
 				// since show() invokes getAttribute("type"), which crash on VML nodes in IE.
-				if(child.nodeType != 1 || (dojo.isIE && child.scopeName !== "HTML") || !shown(child)){
+				if(child.nodeType != 1 || (has("ie") && child.scopeName !== "HTML") || !shown(child)){
 					continue;
 				}
 
@@ -450,7 +457,7 @@ define([
 						}
 					}
 					var rn = radioName(child);
-					if(dojo.attr(child, "checked") && rn){
+					if(domAttr.attr(child, "checked") && rn){
 						radioSelected[rn] = child;
 					}
 				}
@@ -473,7 +480,7 @@ define([
 		// summary:
 		//		Finds the descendant of the specified root node
 		//		that is first in the tabbing order
-		var elems = dijit._getTabNavigable(dojo.byId(root));
+		var elems = dijit._getTabNavigable(dom.byId(root));
 		return elems.lowest ? elems.lowest : elems.first; // DomNode
 	};
 
@@ -481,22 +488,22 @@ define([
 		// summary:
 		//		Finds the descendant of the specified root node
 		//		that is last in the tabbing order
-		var elems = dijit._getTabNavigable(dojo.byId(root));
+		var elems = dijit._getTabNavigable(dom.byId(root));
 		return elems.last ? elems.last : elems.highest; // DomNode
 	};
 
 	/*=====
-	lang.mixin(dijit, {
+	dojo.mixin(dijit, {
 		// defaultDuration: Integer
-		//		The default animation speed (in ms) to use for all Dijit
-		//		transitional animations, unless otherwise specified
+		//		The default fx.animation speed (in ms) to use for all Dijit
+		//		transitional fx.animations, unless otherwise specified
 		//		on a per-instance basis. Defaults to 200, overrided by
 		//		`djConfig.defaultDuration`
 		defaultDuration: 200
 	});
 	=====*/
 
-	dijit.defaultDuration = dojo.config["defaultDuration"] || 200;
+	dijit.defaultDuration = kernel.config["defaultDuration"] || 200;
 
 	return dijit;
 });

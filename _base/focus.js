@@ -1,14 +1,15 @@
 define([
-	"dojo/_base/kernel", // lang.mixin
 	"..",
-	"dojo/_base/lang", // dojo.isArray
+	"dojo/_base/lang", // lang.isArray
 	"../focus",
 	"./manager",
-	"dojo/_base/array", // dojo.forEach
-	"dojo/_base/connect", // dojo.publish
-	"dojo/_base/html", // dojo.isDescendant
-	"dojo/_base/window" // dojo.doc dojo.doc.selection dojo.global dojo.global.getSelection dojo.withGlobal
-], function(dojo, dijit, lang, focus){
+	"dojo/_base/array", // array.forEach
+	"dojo/_base/connect", // connect.publish
+	"dojo/dom", // dom.isDescendant
+	"dojo/_base/window" // win.doc win.doc.selection win.global win.global.getSelection win.withGlobal
+], function(dijit, lang, focus, manager, array, connect, dom, win){
+
+	var mixin = lang.mixin;		/*===== mixin = dojo.mixin; =====*/
 
 	// module:
 	//		dijit/_base/focus
@@ -16,7 +17,7 @@ define([
 	//		Deprecated module to monitor currently focused node and stack of currently focused widgets.
 	//		New code should access dijit/focus directly.
 
-	lang.mixin(dijit, {
+	mixin(dijit, {
 		// _curFocus: DomNode
 		//		Currently focused item on screen
 		_curFocus: null,
@@ -34,11 +35,11 @@ define([
 		getBookmark: function(){
 			// summary:
 			//		Retrieves a bookmark that can be used with moveToBookmark to return to the same range
-			var bm, rg, tg, sel = dojo.doc.selection, cf = focus.curNode;
+			var bm, rg, tg, sel = win.doc.selection, cf = focus.curNode;
 
-			if(dojo.global.getSelection){
+			if(win.global.getSelection){
 				//W3C Range API for selections.
-				sel = dojo.global.getSelection();
+				sel = win.global.getSelection();
 				if(sel){
 					if(sel.isCollapsed){
 						tg = cf? cf.tagName : "";
@@ -126,12 +127,12 @@ define([
 			// bookmark:
 			//		This should be a returned object from dijit.getBookmark()
 
-			var _doc = dojo.doc,
+			var _doc = win.doc,
 				mark = bookmark.mark;
 			if(mark){
-				if(dojo.global.getSelection){
+				if(win.global.getSelection){
 					//W3C Rangi API (FF, WebKit, Opera, etc)
-					var sel = dojo.global.getSelection();
+					var sel = win.global.getSelection();
 					if(sel && sel.removeAllRanges){
 						if(mark.pRange){
 							var n = mark.node;
@@ -149,11 +150,11 @@ define([
 					var rg;
 					if(mark.pRange){
 						rg = mark.range;
-					}else if(dojo.isArray(mark)){
+					}else if(lang.isArray(mark)){
 						rg = _doc.body.createControlRange();
 						//rg.addElement does not have call/apply method, so can not call it directly
 						//rg is not available in "range.addElement(item)", so can't use that either
-						dojo.forEach(mark, function(n){
+						array.forEach(mark, function(n){
 							rg.addElement(n);
 						});
 					}else{
@@ -186,10 +187,10 @@ define([
 			//
 			// returns:
 			//		A handle to restore focus/selection, to be passed to `dijit.focus`
-			var node = !focus.curNode || (menu && dojo.isDescendant(focus.curNode, menu.domNode)) ? dijit._prevFocus : focus.curNode;
+			var node = !focus.curNode || (menu && dom.isDescendant(focus.curNode, menu.domNode)) ? dijit._prevFocus : focus.curNode;
 			return {
 				node: node,
-				bookmark: node && (node == focus.curNode) && dojo.withGlobal(openedForWindow || dojo.global, dijit.getBookmark),
+				bookmark: node && (node == focus.curNode) && win.withGlobal(openedForWindow || win.global, dijit.getBookmark),
 				openedForWindow: openedForWindow
 			}; // Object
 		},
@@ -286,12 +287,12 @@ define([
 		// do not need to restore if current selection is not empty
 		// (use keyboard to select a menu item) or if previous selection was collapsed
 		// as it may cause focus shift (Esp in IE).
-		if(bookmark && dojo.withGlobal(openedForWindow || dojo.global, dijit.isCollapsed) && !collapsed){
+		if(bookmark && win.withGlobal(openedForWindow || win.global, dijit.isCollapsed) && !collapsed){
 			if(openedForWindow){
 				openedForWindow.focus();
 			}
 			try{
-				dojo.withGlobal(openedForWindow || dojo.global, dijit.moveToBookmark, null, [bookmark]);
+				win.withGlobal(openedForWindow || win.global, dijit.moveToBookmark, null, [bookmark]);
 			}catch(e2){
 				/*squelch IE internal error, see http://trac.dojotoolkit.org/ticket/1984 */
 			}
@@ -304,7 +305,7 @@ define([
 		dijit._curFocus = newVal;
 		dijit._prevFocus = oldVal;
 		if(newVal){
-			dojo.publish("focusNode", [newVal]);
+			connect.publish("focusNode", [newVal]);
 		}
 	});
 	focus.watch("activeStack", function(name, oldVal, newVal){
@@ -312,10 +313,10 @@ define([
 	});
 
 	focus.on("widget-blur", function(widget, by){
-		dojo.publish("widgetBlur", [widget, by]);
+		connect.publish("widgetBlur", [widget, by]);
 	});
 	focus.on("widget-focus", function(widget, by){
-		dojo.publish("widgetFocus", [widget, by]);
+		connect.publish("widgetFocus", [widget, by]);
 	});
 
 	return dijit;

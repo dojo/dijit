@@ -1,10 +1,9 @@
 define([
-	"dojo/_base/kernel",
 	"..",
 	"../popup",
-	"../BackgroundIframe",
-	"dojo/_base/html" // dojo.hasClass
-], function(dojo, dijit, popup, BackgroundIframe){
+	"dojo/dom-class", // domClass.has
+	"../BackgroundIframe"	// just loading for back-compat, in case client code is referencing it
+], function(dijit, popup, domClass){
 
 // module:
 //		dijit/_base/popup
@@ -18,7 +17,7 @@ popup._createWrapper = function(widget){
 	if(!widget.declaredClass){
 		// make fake widget to pass to new API
 		widget = {
-			_popupWrapper: (widget.parentNode && dojo.hasClass(widget.parentNode, "dijitPopup")) ?
+			_popupWrapper: (widget.parentNode && domClass.has(widget.parentNode, "dijitPopup")) ?
 				widget.parentNode : null,
 			domNode: widget,
 			destroy: function(){}

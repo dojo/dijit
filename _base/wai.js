@@ -1,10 +1,9 @@
 define([
-	"dojo/_base/kernel", // lang.mixin
 	"..",
-	"dojo/_base/lang", // dojo.mixin
-	"../hccss",
-	"dojo/_base/html" // dojo.attr
-], function(dojo, dijit, lang){
+	"dojo/_base/lang", // lang.mixin
+	"dojo/dom-attr", // domAttr.attr
+	"../hccss"			// not using this module directly, but loading it sets CSS flag on <html>
+], function(dijit, lang, domAttr){
 
 	// module:
 	//		dijit/_base/wai
@@ -14,7 +13,9 @@ define([
 	//
 	//		Also loads hccss to apply dijit_a11y class to root node if machine is in high-contrast mode.
 
-	lang.mixin(dijit, {
+	var mixin = lang.mixin;		/*===== mixin = dojo.mixin; =====*/
+
+	mixin(dijit, {
 		hasWaiRole: function(/*Element*/ elem, /*String?*/ role){
 			// summary:
 			//		Determines if an element has a particular role.
@@ -32,7 +33,7 @@ define([
 			// returns:
 			//		The role of elem or an empty string if elem
 			//		does not have a role.
-			 return dojo.trim((dojo.attr(elem, "role") || "").replace("wairole:",""));
+			 return lang.trim((domAttr.attr(elem, "role") || "").replace("wairole:",""));
 		},
 
 		setWaiRole: function(/*Element*/ elem, /*String*/ role){
@@ -41,7 +42,7 @@ define([
 			// description:
 			//		Replace existing role attribute with new role.
 
-			dojo.attr(elem, "role", role);
+			domAttr.attr(elem, "role", role);
 		},
 
 		removeWaiRole: function(/*Element*/ elem, /*String*/ role){
@@ -49,11 +50,11 @@ define([
 			//		Removes the specified role from an element.
 			// 		Removes role attribute if no specific role provided (for backwards compat.)
 
-			var roleValue = dojo.attr(elem, "role");
+			var roleValue = domAttr.attr(elem, "role");
 			if(!roleValue){ return; }
 			if(role){
-				var t = dojo.trim((" " + roleValue + " ").replace(" " + role + " ", " "));
-				dojo.attr(elem, "role", t);
+				var t = lang.trim((" " + roleValue + " ").replace(" " + role + " ", " "));
+				domAttr.attr(elem, "role", t);
 			}else{
 				elem.removeAttribute("role");
 			}
