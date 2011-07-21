@@ -9,10 +9,10 @@ define([
 	"dojo/_base/sniff", // has("ie")
 	"dojo/_base/unload", // unload.addOnWindowUnload
 	"dojo/_base/window" // win.body win.global
-], function(kernel, dijit, array, declare, dom, domAttr, style, has, unload, win){
+], function(kernel, dijit, array, declare, dom, domAttr, domStyle, has, unload, win){
 
 /*=====
-var declare = dojo.declare;
+	var declare = dojo.declare;
 =====*/
 
 	// module:
@@ -236,11 +236,7 @@ var declare = dojo.declare;
 	=====*/
 	dijit.registry = new dijit.WidgetSet();
 
-	var hash = dijit.registry._hash,
-		// shortcut vars.  maybe should get rid of these as they prevent monkey patching
-		attr = domAttr.attr,
-		hasAttr = domAttr.has,
-		style = style.style;
+	var hash = dijit.registry._hash;
 
 	dijit.byId = function(/*String|dijit._Widget*/ id){
 		// summary:
@@ -341,11 +337,11 @@ var declare = dojo.declare;
 	};
 
 	var shown = (dijit._isElementShown = function(/*Element*/ elem){
-		var s = style(elem);
+		var s = domStyle.style(elem);
 		return (s.visibility != "hidden")
 			&& (s.visibility != "collapsed")
 			&& (s.display != "none")
-			&& (attr(elem, "type") != "hidden");
+			&& (domAttr.attr(elem, "type") != "hidden");
 	});
 
 	dijit.hasDefaultTabStop = function(/*Element*/ elem){
@@ -356,7 +352,7 @@ var declare = dojo.declare;
 		switch(elem.nodeName.toLowerCase()){
 			case "a":
 				// An <a> w/out a tabindex is only navigable if it has an href
-				return hasAttr(elem, "href");
+				return domAttr.has(elem, "href");
 			case "area":
 			case "button":
 			case "input":
@@ -397,11 +393,11 @@ var declare = dojo.declare;
 		//		Tests if an element is tab-navigable
 
 		// TODO: convert (and rename method) to return effective tabIndex; will save time in _getTabNavigable()
-		if(attr(elem, "disabled")){
+		if(domAttr.attr(elem, "disabled")){
 			return false;
-		}else if(hasAttr(elem, "tabIndex")){
+		}else if(domAttr.has(elem, "tabIndex")){
 			// Explicit tab index setting
-			return attr(elem, "tabIndex") >= 0; // boolean
+			return domAttr.attr(elem, "tabIndex") >= 0; // boolean
 		}else{
 			// No explicit tabIndex setting, so depends on node type
 			return dijit.hasDefaultTabStop(elem);
@@ -440,8 +436,8 @@ var declare = dojo.declare;
 				}
 
 				if(isTabNavigable(child)){
-					var tabindex = attr(child, "tabIndex");
-					if(!hasAttr(child, "tabIndex") || tabindex == 0){
+					var tabindex = domAttr.attr(child, "tabIndex");
+					if(!domAttr.has(child, "tabIndex") || tabindex == 0){
 						if(!first){
 							first = child;
 						}
