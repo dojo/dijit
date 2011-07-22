@@ -3,7 +3,7 @@ define([
 	"..",
 	"dojo/_base/lang", // dojo.contentBox dojo.hasAttr dojo.hasClass dojo.marginBox dojo.toggleClass
 	"../_Contained",
-	"./_LayoutWidget",
+	"./utils",	// marginBox2contextBox
 	"dojo/_base/array", // dojo.filter dojo.forEach
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html", // dojo.contentBox dojo.hasAttr dojo.hasClass dojo.marginBox dojo.toggleClass

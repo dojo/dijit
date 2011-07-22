@@ -3,7 +3,8 @@ define([
 	"..",
 	"dojo/_base/declare", // dojo.declare
 	"../_WidgetBase",
-	"./_LayoutWidget"
+	"./_LayoutWidget",
+	"./utils"		// dijit.layout.layoutChildren
 ], function(dojo, dijit){
 
 // module:

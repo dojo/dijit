@@ -7,6 +7,7 @@ define([
 	"../_WidgetBase",
 	"../_TemplatedMixin",
 	"./_LayoutWidget",
+	"./utils",		// dijit.layout.layoutChildren
 	"dojo/_base/array", // dojo.filter dojo.forEach dojo.map
 	"dojo/_base/connect", // dojo.connect dojo.disconnect dojo.keys
 	"dojo/_base/declare", // dojo.declare

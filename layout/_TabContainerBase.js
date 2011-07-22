@@ -3,6 +3,7 @@ define([
 	"..",
 	"dojo/text!./templates/TabContainer.html",
 	"./StackContainer",
+	"./utils",	// marginBox2contextBox, layoutChildren
 	"../_TemplatedMixin",
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/html" // dojo.addClass dojo.contentBox dojo.style

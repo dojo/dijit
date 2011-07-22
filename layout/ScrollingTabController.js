@@ -4,6 +4,7 @@ define([
 	"dojo/text!./templates/ScrollingTabController.html",
 	"dojo/text!./templates/_ScrollingTabControllerButton.html",
 	"./TabController",
+	"./utils",	// marginBox2contextBox, layoutChildren
 	"../_WidgetsInTemplateMixin",
 	"../Menu",
 	"../form/Button",
