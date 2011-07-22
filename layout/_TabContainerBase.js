@@ -11,7 +11,7 @@ define([
 
 
 /*=====
-	var declare = declare;
+	var declare = dojo.declare;
 	var StackContainer = dijit.layout.StackContainer;
 	var _TemplatedMixin = dijit._TemplatedMixin;
 =====*/

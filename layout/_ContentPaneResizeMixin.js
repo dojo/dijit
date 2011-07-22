@@ -15,7 +15,7 @@ define([
 	array, declare, has, win, query){
 
 /*=====
-var declare = declare;
+var declare = dojo.declare;
 var _Contained = dijit._Contained;
 =====*/
 
