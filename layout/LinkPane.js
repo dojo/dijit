@@ -1,10 +1,14 @@
 define([
-	"dojo/_base/kernel",
-	"..",
 	"./ContentPane",
 	"../_TemplatedMixin",
-	"dojo/_base/declare" // dojo.declare
-], function(dojo, dijit){
+	"dojo/_base/declare" // declare
+], function(ContentPane, _TemplatedMixin, declare){
+
+/*=====
+	var declare = dojo.declare;
+	var _TemplatedMixin = dijit._TemplatedMixin;
+	var ContentPane = dijit.layout.ContentPane;
+=====*/
 
 	// module:
 	//		dijit/layout/LinkPane
@@ -13,7 +17,7 @@ define([
 	//		the title is specified as innerHTML rather than as a title attribute.
 
 
-	dojo.declare("dijit.layout.LinkPane", [dijit.layout.ContentPane, dijit._TemplatedMixin], {
+	return declare("dijit.layout.LinkPane", [ContentPane, _TemplatedMixin], {
 		// summary:
 		//		A ContentPane with an href where (when declared in markup)
 		//		the title is specified as innerHTML rather than as a title attribute.
@@ -46,7 +50,4 @@ define([
 			// copied
 		}
 	});
-
-
-	return dijit.layout.LinkPane;
 });

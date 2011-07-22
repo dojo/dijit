@@ -1,20 +1,27 @@
 define([
-	"dojo/_base/kernel", // dojo.deprecated lang.mixin
-	"..",
-	"dojo/_base/lang", // dojo.delegate dojo.hitch dojo.isFunction dojo.isObject
+	"dojo/_base/kernel", // kernel.deprecated
+	"dojo/_base/lang", // lang.mixin lang.delegate lang.hitch lang.isFunction lang.isObject
 	"../_Widget",
 	"./_ContentPaneResizeMixin",
-	"dojo/string", // dojo.string.substitute
-	"dojo/html", // dojo.html._ContentSetter dojo.html._emptyNode
+	"dojo/string", // string.substitute
+	"dojo/html", // html._ContentSetter html._emptyNode
 	"dojo/i18n!../nls/loading",
-	"dojo/_base/array", // dojo.forEach
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/Deferred", // dojo.Deferred
-	"dojo/_base/html", // dojo.attr dojo.byId
-	"dojo/_base/window", // dojo.body dojo.doc.createDocumentFragment
-	"dojo/_base/xhr", // dojo.xhrGet
-	"dojo/i18n" // dojo.i18n.getLocalization
-], function(dojo, dijit, lang){
+	"dojo/_base/array", // array.forEach
+	"dojo/_base/declare", // declare
+	"dojo/_base/Deferred", // Deferred
+	"dojo/dom", // dom.byId
+	"dojo/dom-attr", // domAttr.attr
+	"dojo/_base/window", // win.body win.doc.createDocumentFragment
+	"dojo/_base/xhr", // xhr.get
+	"dojo/i18n" // i18n.getLocalization
+], function(kernel, lang, _Widget, _ContentPaneResizeMixin, string, html, nlsLoading,
+	array, declare, Deferred, dom, domAttr, win, xhr, i18n){
+
+/*=====
+	var declare = dojo.declare;
+	var _Widget = dijit._Widget;
+	var _ContentPaneResizeMixin = dijit.layout._ContentPaneResizeMixin;
+=====*/
 
 // module:
 //		dijit/layout/ContentPane
@@ -23,7 +30,7 @@ define([
 //		or by uri.  Fragment may include widgets.
 
 
-dojo.declare("dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPaneResizeMixin], {
+return declare("dijit.layout.ContentPane", [_Widget, _ContentPaneResizeMixin], {
 	// summary:
 	//		A widget containing an HTML fragment, specified inline
 	//		or by uri.  Fragment may include widgets.
@@ -78,7 +85,7 @@ dojo.declare("dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPa
 	//		will search for data-dojo-type (or dojoType).  For backwards compatibility
 	//		reasons defaults to dojo._scopeName (which is "dojo" except when
 	//		multi-version support is used, when it will be something like dojo16, dojo20, etc.)
-	parserScope: dojo._scopeName,
+	parserScope: kernel._scopeName,
 
 	// preventCache: Boolean
 	//		Prevent caching of data from href's by appending a timestamp to the href.
@@ -145,21 +152,21 @@ dojo.declare("dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPa
 		// processed in the same way as contents set via set("content", ...), calling the parser etc.
 		// Avoid modifying original params object since that breaks NodeList instantiation, see #11906.
 		if((!params || !params.template) && srcNodeRef && !("href" in params) && !("content" in params)){
-			var df = dojo.doc.createDocumentFragment();
-			srcNodeRef = dojo.byId(srcNodeRef);
+			var df = win.doc.createDocumentFragment();
+			srcNodeRef = dom.byId(srcNodeRef);
 			while(srcNodeRef.firstChild){
 				df.appendChild(srcNodeRef.firstChild);
 			}
-			params = dojo.delegate(params, {content: df});
+			params = lang.delegate(params, {content: df});
 		}
 		this.inherited(arguments, [params, srcNodeRef]);
 	},
 
 	postMixInProperties: function(){
 		this.inherited(arguments);
-		var messages = dojo.i18n.getLocalization("dijit", "loading", this.lang);
-		this.loadingMessage = dojo.string.substitute(this.loadingMessage, messages);
-		this.errorMessage = dojo.string.substitute(this.errorMessage, messages);
+		var messages = i18n.getLocalization("dijit", "loading", this.lang);
+		this.loadingMessage = string.substitute(this.loadingMessage, messages);
+		this.errorMessage = string.substitute(this.errorMessage, messages);
 	},
 
 	buildRendering: function(){
@@ -175,7 +182,7 @@ dojo.declare("dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPa
 		// over a node  (TODO: remove in 2.0, no longer needed after #11490)
 		this.domNode.title = "";
 
-		if(!dojo.attr(this.domNode,"role")){
+		if(!domAttr.attr(this.domNode,"role")){
 			this.domNode.setAttribute("role", "group");
 		}
 	},
@@ -189,8 +196,8 @@ dojo.declare("dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPa
 
 		// And this catches stuff like dojo.dnd.Source
 		if(this._contentSetter){
-			dojo.forEach(this._contentSetter.parseResults, function(obj){
-				if(!obj._started && !obj._destroyed && dojo.isFunction(obj.startup)){
+			array.forEach(this._contentSetter.parseResults, function(obj){
+				if(!obj._started && !obj._destroyed && lang.isFunction(obj.startup)){
 					obj.startup();
 					obj._started = true;
 				}
@@ -201,7 +208,7 @@ dojo.declare("dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPa
 	setHref: function(/*String|Uri*/ href){
 		// summary:
 		//		Deprecated.   Use set('href', ...) instead.
-		dojo.deprecated("dijit.layout.ContentPane.setHref() is deprecated. Use set('href', ...) instead.", "", "2.0");
+		kernel.deprecated("dijit.layout.ContentPane.setHref() is deprecated. Use set('href', ...) instead.", "", "2.0");
 		return this.set("href", href);
 	},
 	_setHrefAttr: function(/*String|Uri*/ href){
@@ -216,8 +223,8 @@ dojo.declare("dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPa
 		// Cancel any in-flight requests (a set('href', ...) will cancel any in-flight set('href', ...))
 		this.cancel();
 
-		this.onLoadDeferred = new dojo.Deferred(dojo.hitch(this, "cancel"));
-		this.onLoadDeferred.addCallback(dojo.hitch(this, "onLoad"));
+		this.onLoadDeferred = new Deferred(lang.hitch(this, "cancel"));
+		this.onLoadDeferred.addCallback(lang.hitch(this, "onLoad"));
 
 		this._set("href", href);
 
@@ -232,13 +239,13 @@ dojo.declare("dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPa
 			this._hrefChanged = true;
 		}
 
-		return this.onLoadDeferred;		// dojo.Deferred
+		return this.onLoadDeferred;		// Deferred
 	},
 
 	setContent: function(/*String|DomNode|Nodelist*/data){
 		// summary:
 		//		Deprecated.   Use set('content', ...) instead.
-		dojo.deprecated("dijit.layout.ContentPane.setContent() is deprecated.  Use set('content', ...) instead.", "", "2.0");
+		kernel.deprecated("dijit.layout.ContentPane.setContent() is deprecated.  Use set('content', ...) instead.", "", "2.0");
 		this.set("content", data);
 	},
 	_setContentAttr: function(/*String|DomNode|Nodelist*/data){
@@ -260,19 +267,19 @@ dojo.declare("dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPa
 
 		// Even though user is just setting content directly, still need to define an onLoadDeferred
 		// because the _onLoadHandler() handler is still getting called from setContent()
-		this.onLoadDeferred = new dojo.Deferred(dojo.hitch(this, "cancel"));
+		this.onLoadDeferred = new Deferred(lang.hitch(this, "cancel"));
 		if(this._created){
 			// For back-compat reasons, call onLoad() for set('content', ...)
 			// calls but not for content specified in srcNodeRef (ie: <div dojoType=ContentPane>...</div>)
 			// or as initialization parameter (ie: new ContentPane({content: ...})
-			this.onLoadDeferred.addCallback(dojo.hitch(this, "onLoad"));
+			this.onLoadDeferred.addCallback(lang.hitch(this, "onLoad"));
 		}
 
 		this._setContent(data || "");
 
 		this._isDownloaded = false; // mark that content is from a set('content') not a set('href')
 
-		return this.onLoadDeferred; 	// dojo.Deferred
+		return this.onLoadDeferred; 	// Deferred
 	},
 	_getContentAttr: function(){
 		// summary:
@@ -342,8 +349,8 @@ dojo.declare("dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPa
 		// Cancel possible prior in-flight request
 		this.cancel();
 
-		this.onLoadDeferred = new dojo.Deferred(dojo.hitch(this, "cancel"));
-		this.onLoadDeferred.addCallback(dojo.hitch(this, "onLoad"));
+		this.onLoadDeferred = new Deferred(lang.hitch(this, "cancel"));
+		this.onLoadDeferred.addCallback(lang.hitch(this, "onLoad"));
 		this._load();
 		return this.onLoadDeferred;		// If child has an href, promise that fires when refresh is complete
 	},
@@ -361,11 +368,11 @@ dojo.declare("dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPa
 			url: this.href,
 			handleAs: "text"
 		};
-		if(dojo.isObject(this.ioArgs)){
+		if(lang.isObject(this.ioArgs)){
 			lang.mixin(getArgs, this.ioArgs);
 		}
 
-		var hand = (this._xhrDfd = (this.ioMethod || dojo.xhrGet)(getArgs));
+		var hand = (this._xhrDfd = (this.ioMethod || xhr.get)(getArgs));
 
 		hand.addCallback(function(html){
 			try{
@@ -429,7 +436,7 @@ dojo.declare("dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPa
 		// For historical reasons we need to delete all widgets under this.containerNode,
 		// even ones that the user has created manually.
 		var setter = this._contentSetter;
-		dojo.forEach(this.getChildren(), function(widget){
+		array.forEach(this.getChildren(), function(widget){
 			if(widget.destroyRecursive){
 				widget.destroyRecursive();
 			}
@@ -437,8 +444,8 @@ dojo.declare("dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPa
 		if(setter){
 			// Most of the widgets in setter.parseResults have already been destroyed, but
 			// things like Menu that have been moved to <body> haven't yet
-			dojo.forEach(setter.parseResults, function(widget){
-				if(widget.destroyRecursive && widget.domNode && widget.domNode.parentNode == dojo.body()){
+			array.forEach(setter.parseResults, function(widget){
+				if(widget.destroyRecursive && widget.domNode && widget.domNode.parentNode == win.body()){
 					widget.destroyRecursive();
 				}
 			});
@@ -446,7 +453,7 @@ dojo.declare("dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPa
 		}
 
 		// And then clear away all the DOM nodes
-		dojo.html._emptyNode(this.containerNode);
+		html._emptyNode(this.containerNode);
 
 		// Delete any state information we have about current contents
 		delete this._singleChild;
@@ -459,17 +466,17 @@ dojo.declare("dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPa
 		// first get rid of child widgets
 		this.destroyDescendants();
 
-		// dojo.html.set will take care of the rest of the details
+		// html.set will take care of the rest of the details
 		// we provide an override for the error handling to ensure the widget gets the errors
 		// configure the setter instance with only the relevant widget instance properties
 		// NOTE: unless we hook into attr, or provide property setters for each property,
 		// we need to re-configure the ContentSetter with each use
 		var setter = this._contentSetter;
-		if(! (setter && setter instanceof dojo.html._ContentSetter)){
-			setter = this._contentSetter = new dojo.html._ContentSetter({
+		if(! (setter && setter instanceof html._ContentSetter)){
+			setter = this._contentSetter = new html._ContentSetter({
 				node: this.containerNode,
-				_onError: dojo.hitch(this, this._onError),
-				onContentError: dojo.hitch(this, function(e){
+				_onError: lang.hitch(this, this._onError),
+				onContentError: lang.hitch(this, function(e){
 					// fires if a domfault occurs when we are appending this.errorMessage
 					// like for instance if domNode is a UL and we try append a DIV
 					var errMess = this.onContentError(e);
@@ -494,7 +501,7 @@ dojo.declare("dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPa
 			textDir: this.textDir
 		}, this._contentSetterParams || {});
 
-		setter.set( (dojo.isObject(cont) && cont.domNode) ? cont.domNode : cont, setterParams );
+		setter.set( (lang.isObject(cont) && cont.domNode) ? cont.domNode : cont, setterParams );
 
 		// setter params must be pulled afresh from the ContentPane each time
 		delete this._contentSetterParams;
@@ -593,6 +600,4 @@ dojo.declare("dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPa
 	}
 });
 
-
-return dijit.layout.ContentPane;
 });

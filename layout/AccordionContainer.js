@@ -1,23 +1,40 @@
 define([
-	"dojo/_base/kernel", // lang.getObject
-	"..",
-	"dojo/_base/lang", // dojo.hitch
+	"..",	// dijit.defaultDuration
+	"dojo/_base/lang", // lang.getObject lang.hitch
 	"dojo/text!./templates/AccordionButton.html",
 	"require",
+	"../_Widget",
 	"../_Container",
 	"../_TemplatedMixin",
 	"../_CssStateMixin",
 	"./StackContainer",
 	"./ContentPane",
 	"../focus",			// dijit.focus()
-	"dojo/_base/array", // dojo.forEach dojo.map
-	"dojo/_base/connect", // dojo.keys dojo.publish
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/event", // dojo.stopEvent
-	"dojo/_base/fx", // dojo.Animation
-	"dojo/_base/html", // dojo.attr dojo.place dojo.removeClass dojo.setSelectable
-	"dojo/_base/sniff" // dojo.isIE
-], function(dojo, dijit, lang, template, require){
+	"dojo/_base/array", // array.forEach array.map
+	"dojo/_base/connect", // connect.publish
+	"dojo/keys", // keys
+	"dojo/_base/declare", // declare
+	"dojo/_base/event", // event.stop
+	"dojo/_base/fx", // fx.Animation
+	"dojo/dom", // dom.setSelectable
+	"dojo/dom-attr", // domAttr.attr
+	"dojo/dom-class", // domClass.remove
+	"dojo/dom-construct", // domConstruct.place
+	"dojo/dom-geometry",
+	"dojo/_base/sniff" // has("ie")
+], function(dijit, lang, template, require,
+	_Widget, _Container, _TemplatedMixin, _CssStateMixin, StackContainer, ContentPane,
+	focus, array, connect, keys, declare, event, fx, dom, domAttr, domClass, domConstruct, domGeometry, has){
+
+/*=====
+	var declare = dojo.declare;
+	var _Widget = dijit._Widget;
+	var _Container = dijit._Container;
+	var _TemplatedMixin = dijit._TemplatedMixin;
+	var _CssStateMixin = dijit._CssStateMixin;
+	var StackContainer = dijit.layout.StackContainer;
+	var ContentPane = dijit.layout.ContentPane;
+=====*/
 
 	// module:
 	//		dijit/layout/AccordionContainer
@@ -47,7 +64,7 @@ define([
 	// During animation there are two dijtAccordionChildWrapper's shown, so we need
 	// to compensate for that.
 
-	dojo.declare("dijit.layout.AccordionContainer", dijit.layout.StackContainer, {
+	var AccordionContainer = declare("dijit.layout.AccordionContainer", StackContainer, {
 		// summary:
 		//		Holds a set of panes where every pane's title is visible, but only one pane's content is visible at a time,
 		//		and switching between panes is visualized by sliding the other panes up/down.
@@ -103,21 +120,21 @@ define([
 
 			// space taken up by title, plus wrapper div (with border/margin) for open pane
 			var wrapperDomNode = openPane._wrapperWidget.domNode,
-				wrapperDomNodeMargin = dojo._getMarginExtents(wrapperDomNode),
-				wrapperDomNodePadBorder = dojo._getPadBorderExtents(wrapperDomNode),
+				wrapperDomNodeMargin = domGeometry.getMarginExtents(wrapperDomNode),
+				wrapperDomNodePadBorder = domGeometry.getPadBorderExtents(wrapperDomNode),
 				wrapperContainerNode = openPane._wrapperWidget.containerNode,
-				wrapperContainerNodeMargin = dojo._getMarginExtents(wrapperContainerNode),
-				wrapperContainerNodePadBorder = dojo._getPadBorderExtents(wrapperContainerNode),
+				wrapperContainerNodeMargin = domGeometry.getMarginExtents(wrapperContainerNode),
+				wrapperContainerNodePadBorder = domGeometry.getPadBorderExtents(wrapperContainerNode),
 				mySize = this._contentBox;
 
 			// get cumulative height of all the unselected title bars
 			var totalCollapsedHeight = 0;
-			dojo.forEach(this.getChildren(), function(child){
+			array.forEach(this.getChildren(), function(child){
 	            if(child != openPane){
-					// Using dojo._getMarginSize() rather than dojo.position() since claro has 1px bottom margin
+					// Using domGeometry.getMarginSize() rather than domGeometry.position() since claro has 1px bottom margin
 					// to separate accordion panes.  Not sure that works perfectly, it's probably putting a 1px
 					// margin below the bottom pane (even though we don't want one).
-					totalCollapsedHeight += dojo._getMarginSize(child._wrapperWidget.domNode).h;
+					totalCollapsedHeight += domGeometry.getMarginSize(child._wrapperWidget.domNode).h;
 				}
 			});
 			this._verticalSpace = mySize.h - totalCollapsedHeight - wrapperDomNodeMargin.h
@@ -160,7 +177,7 @@ define([
 				// the new child inside another child's wrapper.
 
 				// First add in child as a direct child of this AccordionContainer
-				dojo.place(child.domNode, this.containerNode, insertIndex);
+				domConstruct.place(child.domNode, this.containerNode, insertIndex);
 
 				if(!child._started){
 					child.startup();
@@ -170,7 +187,7 @@ define([
 				this._setupChild(child);
 
 				// Code below copied from StackContainer
-				dojo.publish(this.id+"-addChild", [child, insertIndex]);
+				connect.publish(this.id+"-addChild", [child, insertIndex]);
 				this.layout();
 				if(!this.selectedChildWidget){
 					this.selectChild(child);
@@ -189,19 +206,19 @@ define([
 			// Replace wrapper widget with true child widget (ContentPane etc.).
 			// This step only happens if the AccordionContainer has been started; otherwise there's no wrapper.
 			if(child._wrapperWidget){
-				dojo.place(child.domNode, child._wrapperWidget.domNode, "after");
+				domConstruct.place(child.domNode, child._wrapperWidget.domNode, "after");
 				child._wrapperWidget.destroy();
 				delete child._wrapperWidget;
 			}
 
-			dojo.removeClass(child.domNode, "dijitHidden");
+			domClass.remove(child.domNode, "dijitHidden");
 
 			this.inherited(arguments);
 		},
 
 		getChildren: function(){
 			// Overrides _Container.getChildren() to return content panes rather than internal AccordionInnerContainer panes
-			return dojo.map(this.inherited(arguments), function(child){
+			return array.map(this.inherited(arguments), function(child){
 				return child.declaredClass == "dijit.layout._AccordionInnerContainer" ? child.contentWidget : child;
 			}, this);
 		},
@@ -210,7 +227,7 @@ define([
 			if(this._animation){
 				this._animation.stop();
 			}
-			dojo.forEach(this.getChildren(), function(child){
+			array.forEach(this.getChildren(), function(child){
 				// If AccordionContainer has been started, then each child has a wrapper widget which
 				// also needs to be destroyed.
 				if(child._wrapperWidget){
@@ -237,7 +254,7 @@ define([
 		_transition: function(/*dijit._Widget?*/ newWidget, /*dijit._Widget?*/ oldWidget, /*Boolean*/ animate){
 			// Overrides StackContainer._transition() to provide sliding of title bars etc.
 
-			if(dojo.isIE < 8){
+			if(has("ie") < 8){
 				// workaround animation bugs by not animating; not worth supporting animation for IE6 & 7
 				animate = false;
 			}
@@ -278,13 +295,13 @@ define([
 				// which on claro takes up 4px extra space (compared to stable AccordionContainer).
 				// Have to compensate for that by immediately shrinking the pane being closed.
 				var wrapperContainerNode = newWidget._wrapperWidget.containerNode,
-					wrapperContainerNodeMargin = dojo._getMarginExtents(wrapperContainerNode),
-					wrapperContainerNodePadBorder = dojo._getPadBorderExtents(wrapperContainerNode),
+					wrapperContainerNodeMargin = domGeometry.getMarginExtents(wrapperContainerNode),
+					wrapperContainerNodePadBorder = domGeometry.getPadBorderExtents(wrapperContainerNode),
 					animationHeightOverhead = wrapperContainerNodeMargin.h + wrapperContainerNodePadBorder.h;
 
 				oldContents.style.height = (self._verticalSpace - animationHeightOverhead) + "px";
 
-				this._animation = new dojo.Animation({
+				this._animation = new fx.Animation({
 					node: newContents,
 					duration: this.duration,
 					curve: [1, this._verticalSpace - animationHeightOverhead - 1],
@@ -319,21 +336,20 @@ define([
 			if(this.disabled || e.altKey || !(fromTitle || e.ctrlKey)){
 				return;
 			}
-			var k = dojo.keys,
-				c = e.charOrCode;
-			if((fromTitle && (c == k.LEFT_ARROW || c == k.UP_ARROW)) ||
-					(e.ctrlKey && c == k.PAGE_UP)){
+			var c = e.charOrCode;
+			if((fromTitle && (c == keys.LEFT_ARROW || c == keys.UP_ARROW)) ||
+					(e.ctrlKey && c == keys.PAGE_UP)){
 				this._adjacent(false)._buttonWidget._onTitleClick();
-				dojo.stopEvent(e);
-			}else if((fromTitle && (c == k.RIGHT_ARROW || c == k.DOWN_ARROW)) ||
-					(e.ctrlKey && (c == k.PAGE_DOWN || c == k.TAB))){
+				event.stop(e);
+			}else if((fromTitle && (c == keys.RIGHT_ARROW || c == keys.DOWN_ARROW)) ||
+					(e.ctrlKey && (c == keys.PAGE_DOWN || c == keys.TAB))){
 				this._adjacent(true)._buttonWidget._onTitleClick();
-				dojo.stopEvent(e);
+				event.stop(e);
 			}
 		}
 	});
 
-	dojo.declare("dijit.layout._AccordionInnerContainer", [dijit._Widget, dijit._CssStateMixin], {
+	declare("dijit.layout._AccordionInnerContainer", [_Widget, _CssStateMixin], {
 		// summary:
 		//		Internal widget placed as direct child of AccordionContainer.containerNode.
 		//		When other widgets are added as children to an AccordionContainer they are wrapped in
@@ -369,7 +385,7 @@ define([
 			//	</div>
 
 			// Create wrapper div, placed where the child is now
-			this.domNode = dojo.place("<div class='" + this.baseClass + "'>", this.contentWidget.domNode, "after");
+			this.domNode = domConstruct.place("<div class='" + this.baseClass + "'>", this.contentWidget.domNode, "after");
 
 			// wrapper div's first child is the button widget (ie, the title bar)
 			var child = this.contentWidget,
@@ -388,8 +404,8 @@ define([
 
 			// and then the actual content widget (changing it from prior-sibling to last-child),
 			// wrapped by a <div class=dijitAccordionChildWrapper>
-			this.containerNode = dojo.place("<div class='dijitAccordionChildWrapper' style='display:none'>", this.domNode);
-			dojo.place(this.contentWidget.domNode, this.containerNode);
+			this.containerNode = domConstruct.place("<div class='dijitAccordionChildWrapper' style='display:none'>", this.domNode);
+			domConstruct.place(this.contentWidget.domNode, this.containerNode);
 		},
 
 		postCreate: function(){
@@ -398,13 +414,13 @@ define([
 			// Map changes in content widget's title etc. to changes in the button
 			var button = this.button;
 			this._contentWidgetWatches = [
-				this.contentWidget.watch('title', dojo.hitch(this, function(name, oldValue, newValue){
+				this.contentWidget.watch('title', lang.hitch(this, function(name, oldValue, newValue){
 					button.set("label", newValue);
 				})),
-				this.contentWidget.watch('tooltip', dojo.hitch(this, function(name, oldValue, newValue){
+				this.contentWidget.watch('tooltip', lang.hitch(this, function(name, oldValue, newValue){
 					button.set("title", newValue);
 				})),
-				this.contentWidget.watch('iconClass', dojo.hitch(this, function(name, oldValue, newValue){
+				this.contentWidget.watch('iconClass', lang.hitch(this, function(name, oldValue, newValue){
 					button.set("iconClass", newValue);
 				}))
 			];
@@ -427,7 +443,7 @@ define([
 		destroy: function(){
 			this.button.destroyRecursive();
 
-			dojo.forEach(this._contentWidgetWatches || [], function(w){ w.unwatch(); });
+			array.forEach(this._contentWidgetWatches || [], function(w){ w.unwatch(); });
 
 			delete this.contentWidget._buttonWidget;
 			delete this.contentWidget._wrapperWidget;
@@ -441,7 +457,7 @@ define([
 		}
 	});
 
-	dojo.declare("dijit.layout._AccordionButton", [dijit._Widget, dijit._TemplatedMixin, dijit._CssStateMixin], {
+	declare("dijit.layout._AccordionButton", [_Widget, _TemplatedMixin, _CssStateMixin], {
 		// summary:
 		//		The title bar to click to open up an accordion pane.
 		//		Internal widget used by AccordionContainer.
@@ -478,15 +494,15 @@ define([
 		buildRendering: function(){
 			this.inherited(arguments);
 			var titleTextNodeId = this.id.replace(' ','_');
-			dojo.attr(this.titleTextNode, "id", titleTextNodeId+"_title");
-			this.focusNode.setAttribute("aria-labelledby", dojo.attr(this.titleTextNode, "id"));
-			dojo.setSelectable(this.domNode, false);
+			domAttr.attr(this.titleTextNode, "id", titleTextNodeId+"_title");
+			this.focusNode.setAttribute("aria-labelledby", domAttr.attr(this.titleTextNode, "id"));
+			dom.setSelectable(this.domNode, false);
 		},
 
 		getTitleHeight: function(){
 			// summary:
 			//		Returns the height of the title dom node.
-			return dojo._getMarginSize(this.domNode).h;	// Integer
+			return domGeometry.getMarginSize(this.domNode).h;	// Integer
 		},
 
 		// TODO: maybe the parent should set these methods directly rather than forcing the code
@@ -512,12 +528,12 @@ define([
 	});
 
 	// Back compat w/1.6, remove for 2.0
-	if(!dojo.isAsync){
+	if(dojo && dojo.ready && !dojo.isAsync){
 		dojo.ready(0, function(){
 			var requires = ["dijit/layout/AccordionPane"];
 			require(requires);	// use indirection so modules not rolled into a build
 		});
 	}
 
-	return dijit.layout.AccordionContainer;
+	return AccordionContainer;
 });

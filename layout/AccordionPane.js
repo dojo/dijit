@@ -1,23 +1,28 @@
 define([
-	"dojo/_base/kernel", // dojo.deprecated
+	"dojo/_base/kernel", // kernel.deprecated
 	"..",
 	"./ContentPane",
-	"dojo/_base/declare" // dojo.declare
-], function(dojo, dijit){
+	"dojo/_base/declare" // declare
+], function(kernel, dijit, ContentPane, declare){
+
+/*=====
+	var declare = dojo.declare;
+	var ContentPane = dijit.layout.ContentPane;
+=====*/
 
 	// module:
 	//		dijit/layout/AccordionPane
 	// summary:
 	//		Deprecated widget.   Use `dijit.layout.ContentPane` instead.
 
-	dojo.declare("dijit.layout.AccordionPane", dijit.layout.ContentPane, {
+	return declare("dijit.layout.AccordionPane", ContentPane, {
 		// summary:
 		//		Deprecated widget.   Use `dijit.layout.ContentPane` instead.
 		// tags:
 		//		deprecated
 
 		constructor: function(){
-			dojo.deprecated("dijit.layout.AccordionPane deprecated, use ContentPane instead", "", "2.0");
+			kernel.deprecated("dijit.layout.AccordionPane deprecated, use ContentPane instead", "", "2.0");
 		},
 
 		onSelected: function(){
@@ -25,7 +30,4 @@ define([
 			//		called when this pane is selected
 		}
 	});
-
-
-	return dijit.layout.AccordionPane;
 });

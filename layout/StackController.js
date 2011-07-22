@@ -1,6 +1,5 @@
 define([
-	"dojo/_base/kernel", // lang.getObject
-	"..",
+	"..",	// dijit.byId
 	"dojo/_base/lang", // lang.getObject
 	"../_Widget",
 	"../_TemplatedMixin",
@@ -8,12 +7,21 @@ define([
 	"../form/ToggleButton",
 	"../focus",		// dijit.focus()
 	"dojo/i18n!../nls/common",
-	"dojo/_base/array", // dojo.forEach dojo.indexOf dojo.map
-	"dojo/_base/connect", // dojo.keys
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/event", // dojo.stopEvent
-	"dojo/_base/sniff" // dojo.isIE
-], function(dojo, dijit, lang){
+	"dojo/_base/array", // array.forEach array.indexOf array.map
+	"dojo/keys", // keys
+	"dojo/_base/declare", // declare
+	"dojo/_base/event", // event.stop
+	"dojo/_base/sniff" // has("ie")
+], function(dijit, lang, _Widget, _TemplatedMixin, _Container, ToggleButton, focus, nlsCommon,
+	array, keys, declare, event, has){
+
+/*=====
+	var declare = dojo.declare;
+	var _Widget = dijit._Widget;
+	var _TemplatedMixin = dijit._TemplatedMixin;
+	var _Container = dijit._Container;
+	var ToggleButton = dijit.form.ToggleButton;
+=====*/
 
 	// module:
 	//		dijit/layout/StackController
@@ -21,7 +29,7 @@ define([
 	//		Set of buttons to select a page in a `dijit.layout.StackContainer`
 
 
-	dojo.declare("dijit.layout.StackController", [dijit._Widget, dijit._TemplatedMixin, dijit._Container], {
+	var StackController = declare("dijit.layout.StackController", [_Widget, _TemplatedMixin, _Container], {
 		// summary:
 		//		Set of buttons to select a page in a `dijit.layout.StackContainer`
 		// description:
@@ -62,7 +70,7 @@ define([
 			//		Called after StackContainer has finished initializing
 			// tags:
 			//		private
-			dojo.forEach(info.children, this.onAddChild, this);
+			array.forEach(info.children, this.onAddChild, this);
 			if(info.selected){
 				// Show button corresponding to selected pane (unless selected
 				// is null because there are no panes)
@@ -105,7 +113,7 @@ define([
 				buttonAttrList = ["label", "showLabel", "iconClass", "closeButton", "title"];
 
 			// watch() so events like page title changes are reflected in tab button
-			this.pane2watches[page.id] = dojo.map(pageAttrList, function(pageAttr, idx){
+			this.pane2watches[page.id] = array.map(pageAttrList, function(pageAttr, idx){
 				return page.watch(pageAttr, function(name, oldVal, newVal){
 					button.set(buttonAttrList[idx], newVal);
 				});
@@ -113,8 +121,8 @@ define([
 
 			// connections so that clicking a tab button selects the corresponding page
 			this.pane2connects[page.id] = [
-				this.connect(button, 'onClick', dojo.hitch(this,"onButtonClick", page)),
-				this.connect(button, 'onClickCloseButton', dojo.hitch(this,"onCloseButtonClick", page))
+				this.connect(button, 'onClick', lang.hitch(this,"onButtonClick", page)),
+				this.connect(button, 'onClickCloseButton', lang.hitch(this,"onCloseButtonClick", page))
 			];
 
 			this.addChild(button, insertIndex);
@@ -126,7 +134,7 @@ define([
 				this._currentChild = page;
 			}
 			// make sure all tabs have the same length
-			if(!this.isLeftToRight() && dojo.isIE && this._rectifyRtlTabList){
+			if(!this.isLeftToRight() && has("ie") && this._rectifyRtlTabList){
 				this._rectifyRtlTabList();
 			}
 		},
@@ -141,9 +149,9 @@ define([
 			if(this._currentChild === page){ this._currentChild = null; }
 
 			// disconnect/unwatch connections/watches related to page being removed
-			dojo.forEach(this.pane2connects[page.id], dojo.hitch(this, "disconnect"));
+			array.forEach(this.pane2connects[page.id], lang.hitch(this, "disconnect"));
 			delete this.pane2connects[page.id];
-			dojo.forEach(this.pane2watches[page.id], function(w){ w.unwatch(); });
+			array.forEach(this.pane2watches[page.id], function(w){ w.unwatch(); });
 			delete this.pane2watches[page.id];
 
 			var button = this.pane2button[page.id];
@@ -215,7 +223,7 @@ define([
 			if(!this.isLeftToRight() && (!this.tabPosition || /top|bottom/.test(this.tabPosition))){ forward = !forward; }
 			// find currently focused button in children array
 			var children = this.getChildren();
-			var current = dojo.indexOf(children, this.pane2button[this._currentChild.id]);
+			var current = array.indexOf(children, this.pane2button[this._currentChild.id]);
 			// pick next button to focus on
 			var offset = forward ? 1 : children.length - 1;
 			return children[ (current + offset) % children.length ]; // dijit._Widget
@@ -231,53 +239,52 @@ define([
 			if(this.disabled || e.altKey ){ return; }
 			var forward = null;
 			if(e.ctrlKey || !e._djpage){
-				var k = dojo.keys;
 				switch(e.charOrCode){
-					case k.LEFT_ARROW:
-					case k.UP_ARROW:
+					case keys.LEFT_ARROW:
+					case keys.UP_ARROW:
 						if(!e._djpage){ forward = false; }
 						break;
-					case k.PAGE_UP:
+					case keys.PAGE_UP:
 						if(e.ctrlKey){ forward = false; }
 						break;
-					case k.RIGHT_ARROW:
-					case k.DOWN_ARROW:
+					case keys.RIGHT_ARROW:
+					case keys.DOWN_ARROW:
 						if(!e._djpage){ forward = true; }
 						break;
-					case k.PAGE_DOWN:
+					case keys.PAGE_DOWN:
 						if(e.ctrlKey){ forward = true; }
 						break;
-					case k.HOME:
-					case k.END:
+					case keys.HOME:
+					case keys.END:
 						var children = this.getChildren();
 						if(children && children.length){
-							children[e.charOrCode == k.HOME ? 0 : children.length-1].onClick();
+							children[e.charOrCode == keys.HOME ? 0 : children.length-1].onClick();
 						}
-						dojo.stopEvent(e);
+						event.stop(e);
 						break;
-					case k.DELETE:
+					case keys.DELETE:
 						if(this._currentChild.closable){
 							this.onCloseButtonClick(this._currentChild);
 						}
-						dojo.stopEvent(e);
+						event.stop(e);
 						break;
 					default:
 						if(e.ctrlKey){
-							if(e.charOrCode === k.TAB){
+							if(e.charOrCode === keys.TAB){
 								this.adjacent(!e.shiftKey).onClick();
-								dojo.stopEvent(e);
+								event.stop(e);
 							}else if(e.charOrCode == "w"){
 								if(this._currentChild.closable){
 									this.onCloseButtonClick(this._currentChild);
 								}
-								dojo.stopEvent(e); // avoid browser tab closing.
+								event.stop(e); // avoid browser tab closing.
 							}
 						}
 				}
 				// handle next/previous page navigation (left/right arrow, etc.)
 				if(forward !== null){
 					this.adjacent(forward).onClick();
-					dojo.stopEvent(e);
+					event.stop(e);
 				}
 			}
 		},
@@ -293,7 +300,7 @@ define([
 	});
 
 
-	dojo.declare("dijit.layout._StackButton", dijit.form.ToggleButton, {
+	StackController.StackButton = declare("dijit.layout._StackButton", ToggleButton, {
 		// summary:
 		//		Internal widget used by StackContainer.
 		// description:
@@ -335,5 +342,5 @@ define([
 	});
 
 
-	return dijit.layout.StackController;
+	return StackController;
 });

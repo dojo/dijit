@@ -1,12 +1,11 @@
 define([
-	"dojo/_base/kernel", // lang.mixin
 	"..",
 	"dojo/_base/lang", // lang.mixin
-	"dojo/_base/array", // dojo.filter dojo.forEach
-	"dojo/_base/html", // dojo.addClass dojo.getComputedStyle dojo.marginBox dojo.removeClass
-	"dojo/_base/sniff", // dojo.isIE
-	"dojo/_base/window" // dojo.global
-], function(dojo, dijit, lang){
+	"dojo/_base/array", // array.filter array.forEach
+	"dojo/dom-class", // domClass.add domClass.remove
+	"dojo/dom-geometry", // domGeometry.marginBox
+	"dojo/dom-style" // domStyle.getComputedStyle
+], function(dijit, lang, array, domClass, domGeometry, domStyle){
 
 	// module:
 	//		dijit/layout/utils
@@ -18,14 +17,14 @@ define([
 	dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 		// summary:
 		//		Given the margin-box size of a node, return its content box size.
-		//		Functions like dojo.contentBox() but is more reliable since it doesn't have
+		//		Functions like domGeometry.contentBox() but is more reliable since it doesn't have
 		//		to wait for the browser to compute sizes.
-		var cs = dojo.getComputedStyle(node);
-		var me = dojo._getMarginExtents(node, cs);
-		var pb = dojo._getPadBorderExtents(node, cs);
+		var cs = domStyle.getComputedStyle(node);
+		var me = domGeometry.getMarginExtents(node, cs);
+		var pb = domGeometry.getPadBorderExtents(node, cs);
 		return {
-			l: dojo._toPixelValue(node, cs.paddingLeft),
-			t: dojo._toPixelValue(node, cs.paddingTop),
+			l: domStyle.toPixelValue(node, cs.paddingLeft),
+			t: domStyle.toPixelValue(node, cs.paddingTop),
 			w: mb.w - (me.w + pb.w),
 			h: mb.h - (me.h + pb.h)
 		};
@@ -37,7 +36,7 @@ define([
 
 	function size(widget, dim){
 		// size the child
-		var newSize = widget.resize ? widget.resize(dim) : dojo.marginBox(widget.domNode, dim);
+		var newSize = widget.resize ? widget.resize(dim) : domGeometry.marginBox(widget.domNode, dim);
 
 		// record child's size
 		if(newSize){
@@ -46,7 +45,7 @@ define([
 		}else{
 			// otherwise, call marginBox(), but favor our own numbers when we have them.
 			// the browser lies sometimes
-			lang.mixin(widget, dojo.marginBox(widget.domNode));
+			lang.mixin(widget, domGeometry.marginBox(widget.domNode));
 			lang.mixin(widget, dim);
 		}
 	}
@@ -74,16 +73,16 @@ define([
 		// copy dim because we are going to modify it
 		dim = lang.mixin({}, dim);
 
-		dojo.addClass(container, "dijitLayoutContainer");
+		domClass.add(container, "dijitLayoutContainer");
 
 		// Move "client" elements to the end of the array for layout.  a11y dictates that the author
 		// needs to be able to put them in the document in tab-order, but this algorithm requires that
 		// client be last.    TODO: move these lines to LayoutContainer?   Unneeded other places I think.
-		children = dojo.filter(children, function(item){ return item.region != "center" && item.layoutAlign != "client"; })
-			.concat(dojo.filter(children, function(item){ return item.region == "center" || item.layoutAlign == "client"; }));
+		children = array.filter(children, function(item){ return item.region != "center" && item.layoutAlign != "client"; })
+			.concat(array.filter(children, function(item){ return item.region == "center" || item.layoutAlign == "client"; }));
 
 		// set positions/sizes
-		dojo.forEach(children, function(child){
+		array.forEach(children, function(child){
 			var elm = child.domNode,
 				pos = (child.region || child.layoutAlign);
 
@@ -93,7 +92,7 @@ define([
 			elmStyle.top = dim.t+"px";
 			elmStyle.position = "absolute";
 
-			dojo.addClass(elm, "dijitAlign" + capitalize(pos));
+			domClass.add(elm, "dijitAlign" + capitalize(pos));
 
 			// Size adjustments to make to this child widget
 			var sizeSetting = {};

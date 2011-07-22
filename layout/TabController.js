@@ -1,16 +1,23 @@
 define([
-	"dojo/_base/kernel",
-	"..",
 	"dojo/text!./templates/_TabButton.html",
 	"./StackController",
 	"../Menu",
 	"../MenuItem",
 	"dojo/i18n!../nls/common",
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/html", // dojo.attr dojo.setSelectable dojo.toggleClass
-	"dojo/_base/lang", // dojo.hitch dojo.trim
-	"dojo/i18n" // dojo.i18n.getLocalization
-], function(dojo, dijit, template){
+	"dojo/_base/declare", // declare
+	"dojo/dom", // dom.setSelectable
+	"dojo/dom-attr", // domAttr.attr
+	"dojo/dom-class", // domClass.toggle
+	"dojo/_base/lang", // lang.hitch lang.trim
+	"dojo/i18n" // i18n.getLocalization
+], function(template, StackController, Menu, MenuItem, nlsCommon, declare, dom, domAttr, domClass, lang, i18n){
+
+/*=====
+	var declare = dojo.declare;
+	var StackController = dijit.layout.StackController;
+	var Menu = dijit.Menu;
+	var MenuItem = dijit.MenuItem;
+=====*/
 
 // module:
 //		dijit/layout/TabController
@@ -18,7 +25,7 @@ define([
 // 		Set of tabs (the things with titles and a close button, that you click to show a tab panel).
 //		Used internally by `dijit.layout.TabContainer`.
 
-dojo.declare("dijit.layout.TabController", dijit.layout.StackController, {
+var TabController = declare("dijit.layout.TabController", StackController, {
 	// summary:
 	// 		Set of tabs (the things with titles and a close button, that you click to show a tab panel).
 	//		Used internally by `dijit.layout.TabContainer`.
@@ -61,7 +68,7 @@ dojo.declare("dijit.layout.TabController", dijit.layout.StackController, {
 	}
 });
 
-dojo.declare("dijit.layout._TabButton", dijit.layout._StackButton, {
+TabController.TabButton = declare("dijit.layout._TabButton", StackController.StackButton, {
 	// summary:
 	//		A tab (the thing you click to select a pane).
 	// description:
@@ -88,7 +95,7 @@ dojo.declare("dijit.layout._TabButton", dijit.layout._StackButton, {
 	buildRendering: function(){
 		this.inherited(arguments);
 
-		dojo.setSelectable(this.containerNode, false);
+		dom.setSelectable(this.containerNode, false);
 	},
 
 	startup: function(){
@@ -106,16 +113,16 @@ dojo.declare("dijit.layout._TabButton", dijit.layout._StackButton, {
 		// summary:
 		//		Hide/show close button
 		this._set("closeButton", disp);
-		dojo.toggleClass(this.innerDiv, "dijitClosable", disp);
+		domClass.toggle(this.innerDiv, "dijitClosable", disp);
 		this.closeNode.style.display = disp ? "" : "none";
 		if(disp){
-			var _nlsResources = dojo.i18n.getLocalization("dijit", "common");
+			var _nlsResources = i18n.getLocalization("dijit", "common");
 			if(this.closeNode){
-				dojo.attr(this.closeNode,"title", _nlsResources.itemClose);
+				domAttr.attr(this.closeNode,"title", _nlsResources.itemClose);
 			}
 			// add context menu onto title button
-			var _nlsResources = dojo.i18n.getLocalization("dijit", "common");
-			this._closeMenu = new dijit.Menu({
+			var _nlsResources = i18n.getLocalization("dijit", "common");
+			this._closeMenu = new Menu({
 				id: this.id+"_Menu",
 				dir: this.dir,
 				lang: this.lang,
@@ -123,12 +130,12 @@ dojo.declare("dijit.layout._TabButton", dijit.layout._StackButton, {
 				targetNodeIds: [this.domNode]
 			});
 
-			this._closeMenu.addChild(new dijit.MenuItem({
+			this._closeMenu.addChild(new MenuItem({
 				label: _nlsResources.itemClose,
 				dir: this.dir,
 				lang: this.lang,
 				textDir: this.textDir,
-				onClick: dojo.hitch(this, "onClickCloseButton")
+				onClick: lang.hitch(this, "onClickCloseButton")
 			}));
 		}else{
 			if(this._closeMenu){
@@ -146,7 +153,7 @@ dojo.declare("dijit.layout._TabButton", dijit.layout._StackButton, {
 		//		Need to set the alt attribute of icon on tab buttons if no label displayed
 		this.inherited(arguments);
 		if(!this.showLabel && !this.params.title){
-			this.iconNode.alt = dojo.trim(this.containerNode.innerText || this.containerNode.textContent || '');
+			this.iconNode.alt = lang.trim(this.containerNode.innerText || this.containerNode.textContent || '');
 		}
 	},
 
@@ -160,5 +167,5 @@ dojo.declare("dijit.layout._TabButton", dijit.layout._StackButton, {
 });
 
 
-return dijit.layout.TabController;
+return TabController;
 });

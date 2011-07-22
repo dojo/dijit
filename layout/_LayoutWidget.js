@@ -1,16 +1,24 @@
 define([
-	"dojo/_base/kernel", // lang.mixin
-	"..",
 	"dojo/_base/lang", // lang.mixin
 	"../_Widget",
 	"../_Container",
 	"../_Contained",
-	"dojo/_base/array", // dojo.filter dojo.forEach
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/html", // dojo.addClass dojo.getComputedStyle dojo.marginBox dojo.removeClass
-	"dojo/_base/sniff", // dojo.isIE
-	"dojo/_base/window" // dojo.global
-], function(dojo, dijit, lang){
+	"dojo/_base/array", // array.filter array.forEach
+	"dojo/_base/declare", // declare
+	"dojo/dom-class", // domClass.add domClass.remove
+	"dojo/dom-geometry", // domGeometry.marginBox
+	"dojo/dom-style", // domStyle.getComputedStyle
+	"dojo/_base/sniff", // has("ie")
+	"dojo/_base/window" // win.global
+], function(lang, _Widget, _Container, _Contained,
+	array, declare, domClass, domGeometry, domStyle, has, win){
+
+/*=====
+	var declare = dojo.declare;
+	var _Widget = dijit._Widget;
+	var _Container = dijit._Container;
+	var _Contained = dijit._Contained;
+=====*/
 
 	// module:
 	//		dijit/layout/_LayoutWidget
@@ -19,7 +27,7 @@ define([
 	//		Widgets which mixin this code must define layout() to manage placement and sizing of the children.
 
 
-	dojo.declare("dijit.layout._LayoutWidget", [dijit._Widget, dijit._Container, dijit._Contained], {
+	return declare("dijit.layout._LayoutWidget", [_Widget, _Container, _Contained], {
 		// summary:
 		//		Base class for a _Container widget which is responsible for laying out its children.
 		//		Widgets which mixin this code must define layout() to manage placement and sizing of the children.
@@ -37,13 +45,13 @@ define([
 
 		buildRendering: function(){
 			this.inherited(arguments);
-			dojo.addClass(this.domNode, "dijitContainer");
+			domClass.add(this.domNode, "dijitContainer");
 		},
 
 		startup: function(){
 			// summary:
 			//		Called after all the widgets have been instantiated and their
-			//		dom nodes have been inserted somewhere under dojo.doc.body.
+			//		dom nodes have been inserted somewhere under win.doc.body.
 			//
 			//		Widgets should override this method to do any initialization
 			//		dependent on other widgets existing, and then call
@@ -70,7 +78,7 @@ define([
 				// monitor when my size changes so that I can re-layout.
 				// For browsers where I can't directly monitor when my size changes,
 				// monitor when the viewport changes size, which *may* indicate a size change for me.
-				this.connect(dojo.isIE ? this.domNode : dojo.global, 'onresize', function(){
+				this.connect(has("ie") ? this.domNode : win.global, 'onresize', function(){
 					// Using function(){} closure to ensure no arguments to resize.
 					this.resize();
 				});
@@ -117,7 +125,7 @@ define([
 
 			// set margin box size, unless it wasn't specified, in which case use current size
 			if(changeSize){
-				dojo.marginBox(node, changeSize);
+				domGeometry.marginBox(node, changeSize);
 
 				// set offset of the node
 				if(changeSize.t){ node.style.top = changeSize.t + "px"; }
@@ -130,22 +138,22 @@ define([
 			var mb = resultSize || {};
 			lang.mixin(mb, changeSize || {});	// changeSize overrides resultSize
 			if( !("h" in mb) || !("w" in mb) ){
-				mb = lang.mixin(dojo.marginBox(node), mb);	// just use dojo.marginBox() to fill in missing values
+				mb = lang.mixin(domGeometry.marginBox(node), mb);	// just use domGeometry.marginBox() to fill in missing values
 			}
 
 			// Compute and save the size of my border box and content box
-			// (w/out calling dojo.contentBox() since that may fail if size was recently set)
-			var cs = dojo.getComputedStyle(node);
-			var me = dojo._getMarginExtents(node, cs);
-			var be = dojo._getBorderExtents(node, cs);
+			// (w/out calling domGeometry.contentBox() since that may fail if size was recently set)
+			var cs = domStyle.getComputedStyle(node);
+			var me = domGeometry.getMarginExtents(node, cs);
+			var be = domGeometry.getBorderExtents(node, cs);
 			var bb = (this._borderBox = {
 				w: mb.w - (me.w + be.w),
 				h: mb.h - (me.h + be.h)
 			});
-			var pe = dojo._getPadExtents(node, cs);
+			var pe = domGeometry.getPadExtents(node, cs);
 			this._contentBox = {
-				l: dojo._toPixelValue(node, cs.paddingLeft),
-				t: dojo._toPixelValue(node, cs.paddingTop),
+				l: domStyle.toPixelValue(node, cs.paddingLeft),
+				t: domStyle.toPixelValue(node, cs.paddingTop),
 				w: bb.w - pe.w,
 				h: bb.h - pe.h
 			};
@@ -173,7 +181,7 @@ define([
 
 			var cls = this.baseClass + "-child "
 				+ (child.baseClass ? this.baseClass + "-" + child.baseClass : "");
-			dojo.addClass(child.domNode, cls);
+			domClass.add(child.domNode, cls);
 		},
 
 		addChild: function(/*dijit._Widget*/ child, /*Integer?*/ insertIndex){
@@ -189,11 +197,9 @@ define([
 			var cls = this.baseClass + "-child"
 					+ (child.baseClass ?
 						" " + this.baseClass + "-" + child.baseClass : "");
-			dojo.removeClass(child.domNode, cls);
+			domClass.remove(child.domNode, cls);
 
 			this.inherited(arguments);
 		}
 	});
-
-	return dijit.layout._LayoutWidget;
 });
