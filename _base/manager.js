@@ -1,7 +1,7 @@
 define([
-	"dojo/_base/kernel", // kernel.config
 	"..",
 	"dojo/_base/array", // array.forEach array.map
+	"dojo/_base/config", // defaultDuration
 	"dojo/_base/declare", // declare
 	"dojo/dom",			// dom.byId
 	"dojo/dom-attr", // domAttr.attr domAttr.has
@@ -9,7 +9,7 @@ define([
 	"dojo/_base/sniff", // has("ie")
 	"dojo/_base/unload", // unload.addOnWindowUnload
 	"dojo/_base/window" // win.body win.global
-], function(kernel, dijit, array, declare, dom, domAttr, domStyle, has, unload, win){
+], function(dijit, array, config, declare, dom, domAttr, domStyle, has, unload, win){
 
 /*=====
 	var declare = dojo.declare;
@@ -499,7 +499,7 @@ define([
 	});
 	=====*/
 
-	dijit.defaultDuration = kernel.config["defaultDuration"] || 200;
+	dijit.defaultDuration = config["defaultDuration"] || 200;
 
 	return dijit;
 });
