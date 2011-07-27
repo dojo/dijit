@@ -182,7 +182,7 @@ return declare("dijit.layout.ContentPane", [_Widget, _ContentPaneResizeMixin], {
 		// over a node  (TODO: remove in 2.0, no longer needed after #11490)
 		this.domNode.title = "";
 
-		if(!domAttr.attr(this.domNode,"role")){
+		if(!domAttr.get(this.domNode,"role")){
 			this.domNode.setAttribute("role", "group");
 		}
 	},

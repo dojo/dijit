@@ -33,7 +33,7 @@ define([
 			// returns:
 			//		The role of elem or an empty string if elem
 			//		does not have a role.
-			 return lang.trim((domAttr.attr(elem, "role") || "").replace("wairole:",""));
+			 return lang.trim((domAttr.get(elem, "role") || "").replace("wairole:",""));
 		},
 
 		setWaiRole: function(/*Element*/ elem, /*String*/ role){
@@ -42,7 +42,7 @@ define([
 			// description:
 			//		Replace existing role attribute with new role.
 
-			domAttr.attr(elem, "role", role);
+			domAttr.set(elem, "role", role);
 		},
 
 		removeWaiRole: function(/*Element*/ elem, /*String*/ role){
@@ -50,11 +50,11 @@ define([
 			//		Removes the specified role from an element.
 			// 		Removes role attribute if no specific role provided (for backwards compat.)
 
-			var roleValue = domAttr.attr(elem, "role");
+			var roleValue = domAttr.get(elem, "role");
 			if(!roleValue){ return; }
 			if(role){
 				var t = lang.trim((" " + roleValue + " ").replace(" " + role + " ", " "));
-				domAttr.attr(elem, "role", t);
+				domAttr.set(elem, "role", t);
 			}else{
 				elem.removeAttribute("role");
 			}

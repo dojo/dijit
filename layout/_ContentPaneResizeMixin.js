@@ -179,7 +179,7 @@ return declare("dijit.layout._ContentPaneResizeMixin", null, {
 
 		// Set margin box size, unless it wasn't specified, in which case use current size.
 		if(changeSize){
-			domGeometry.marginBox(this.domNode, changeSize);
+			domGeometry.setMarginBox(this.domNode, changeSize.l, changeSize.t, changeSize.w, changeSize.h);
 		}
 
 		// Compute content box size of containerNode in case we [later] need to size our single child.
@@ -191,11 +191,11 @@ return declare("dijit.layout._ContentPaneResizeMixin", null, {
 			var mb = resultSize || {};
 			lang.mixin(mb, changeSize || {}); // changeSize overrides resultSize
 			if(!("h" in mb) || !("w" in mb)){
-				mb = lang.mixin(domGeometry.marginBox(cn), mb); // just use domGeometry.marginBox() to fill in missing values
+				mb = lang.mixin(domGeometry.getMarginBox(cn), mb); // just use domGeometry.setMarginBox() to fill in missing values
 			}
 			this._contentBox = layoutUtils.marginBox2contentBox(cn, mb);
 		}else{
-			this._contentBox = domGeometry.contentBox(cn);
+			this._contentBox = domGeometry.getContentBox(cn);
 		}
 
 		this._layoutChildren();
@@ -211,7 +211,7 @@ return declare("dijit.layout._ContentPaneResizeMixin", null, {
 		}
 
 		if(this._singleChild && this._singleChild.resize){
-			var cb = this._contentBox || domGeometry.contentBox(this.containerNode);
+			var cb = this._contentBox || domGeometry.getContentBox(this.containerNode);
 
 			// note: if widget has padding this._contentBox will have l and t set,
 			// but don't pass them to resize() or it will doubly-offset the child

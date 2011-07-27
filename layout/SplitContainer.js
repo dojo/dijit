@@ -329,20 +329,18 @@ return declare("dijit.layout.SplitContainer", _LayoutWidget, {
 		if(this.isHorizontal){
 			panel.domNode.style.left = pos + 'px';	// TODO: resize() takes l and t parameters too, don't need to set manually
 			panel.domNode.style.top = 0;
-			var box = {w: size, h: this.paneHeight};
 			if(panel.resize){
-				panel.resize(box);
+				panel.resize({w: size, h: this.paneHeight});
 			}else{
-				domGeometry.marginBox(panel.domNode, box);
+				domGeometry.setMarginBox(panel.domNode, NaN, NaN, size, this.paneHeight);
 			}
 		}else{
 			panel.domNode.style.left = 0;	// TODO: resize() takes l and t parameters too, don't need to set manually
 			panel.domNode.style.top = pos + 'px';
-			var box = {w: this.paneWidth, h: size};
 			if(panel.resize){
-				panel.resize(box);
+				panel.resize({w: this.paneWidth, h: size});
 			}else{
-				domGeometry.marginBox(panel.domNode, box);
+				domGeometry.setMarginBox(panel.domNode, NaN, NaN, this.paneWidth, size);
 			}
 		}
 	},
@@ -351,11 +349,11 @@ return declare("dijit.layout.SplitContainer", _LayoutWidget, {
 		if(this.isHorizontal){
 			slider.style.left = pos + 'px';
 			slider.style.top = 0;
-			domGeometry.marginBox(slider, { w: size, h: this.paneHeight });
+			domGeometry.setMarginBox(slider, NaN, NaN, size, this.paneHeight);
 		}else{
 			slider.style.left = 0;
 			slider.style.top = pos + 'px';
-			domGeometry.marginBox(slider, { w: this.paneWidth, h: size });
+			domGeometry.setMarginBox(slider, NaN, NaN, this.paneWidth, size);
 		}
 	},
 
@@ -560,8 +558,9 @@ return declare("dijit.layout.SplitContainer", _LayoutWidget, {
 
 		this._moveSizingLine();
 
-		domGeometry.marginBox(this.virtualSizer,
-			this.isHorizontal ? { w: this.sizerWidth, h: this.paneHeight } : { w: this.paneWidth, h: this.sizerWidth });
+		domGeometry.setMarginBox(this.virtualSizer, NaN, NaN,
+			this.isHorizontal ? this.sizerWidth : this.paneWidth,
+			this.isHorizontal ? this.paneHeight : this.sizerWidth );
 
 		this.virtualSizer.style.display = 'block';
 	},
@@ -572,7 +571,7 @@ return declare("dijit.layout.SplitContainer", _LayoutWidget, {
 
 	_moveSizingLine: function(){
 		var pos = (this.lastPoint - this.startPoint) + this.sizingSplitter.position;
-		domStyle.style(this.virtualSizer,(this.isHorizontal ? "left" : "top"),pos+"px");
+		domStyle.set(this.virtualSizer,(this.isHorizontal ? "left" : "top"),pos+"px");
 		// this.virtualSizer.style[ this.isHorizontal ? "left" : "top" ] = pos + 'px'; // FIXME: remove this line if the previous is better
 	},
 

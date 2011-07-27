@@ -56,7 +56,7 @@ return declare("dijit.layout._TabContainerBase", [StackContainer, _TemplatedMixi
 		// set class name according to tab position, ex: dijitTabContainerTop
 		this.baseClass += this.tabPosition.charAt(0).toUpperCase() + this.tabPosition.substr(1).replace(/-.*/, "");
 
-		this.srcNodeRef && domStyle.style(this.srcNodeRef, "visibility", "hidden");
+		this.srcNodeRef && domStyle.set(this.srcNodeRef, "visibility", "hidden");
 
 		this.inherited(arguments);
 	},
@@ -131,7 +131,7 @@ return declare("dijit.layout._TabContainerBase", [StackContainer, _TemplatedMixi
 				//make the tabs zero width so that they don't interfere with width calc, then reset
 				var s = this.tablist.domNode.style;
 				s.width="0";
-				var width = domGeometry.contentBox(this.domNode).w;
+				var width = domGeometry.getContentBox(this.domNode).w;
 				s.width="";
 				this.tablist.resize({w: width});
 			}

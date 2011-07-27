@@ -337,11 +337,11 @@ define([
 	};
 
 	var shown = (dijit._isElementShown = function(/*Element*/ elem){
-		var s = domStyle.style(elem);
+		var s = domStyle.get(elem);
 		return (s.visibility != "hidden")
 			&& (s.visibility != "collapsed")
 			&& (s.display != "none")
-			&& (domAttr.attr(elem, "type") != "hidden");
+			&& (domAttr.get(elem, "type") != "hidden");
 	});
 
 	dijit.hasDefaultTabStop = function(/*Element*/ elem){
@@ -393,11 +393,11 @@ define([
 		//		Tests if an element is tab-navigable
 
 		// TODO: convert (and rename method) to return effective tabIndex; will save time in _getTabNavigable()
-		if(domAttr.attr(elem, "disabled")){
+		if(domAttr.get(elem, "disabled")){
 			return false;
 		}else if(domAttr.has(elem, "tabIndex")){
 			// Explicit tab index setting
-			return domAttr.attr(elem, "tabIndex") >= 0; // boolean
+			return domAttr.get(elem, "tabIndex") >= 0; // boolean
 		}else{
 			// No explicit tabIndex setting, so depends on node type
 			return dijit.hasDefaultTabStop(elem);
@@ -436,7 +436,7 @@ define([
 				}
 
 				if(isTabNavigable(child)){
-					var tabindex = domAttr.attr(child, "tabIndex");
+					var tabindex = domAttr.get(child, "tabIndex");
 					if(!domAttr.has(child, "tabIndex") || tabindex == 0){
 						if(!first){
 							first = child;
@@ -453,7 +453,7 @@ define([
 						}
 					}
 					var rn = radioName(child);
-					if(domAttr.attr(child, "checked") && rn){
+					if(domAttr.get(child, "checked") && rn){
 						radioSelected[rn] = child;
 					}
 				}

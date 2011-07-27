@@ -9,11 +9,15 @@ define([
 	"dojo/_base/connect", // dojo.connect dojo.disconnect dojo.keys.F10
 	"dojo/_base/declare", // dojo.declare
 	"dojo/_base/event", // dojo.stopEvent
-	"dojo/_base/html", // dojo.attr dojo.byId dojo.getComputedStyle dojo.hasAttr dojo.isDescendant dojo.position dojo.removeAttr
+	"dojo/dom", // dojo.byId dojo.isDescendant
+	"dojo/dom-attr", // dojo.attr dojo.hasAttrdojo.removeAttr
+	"dojo/dom-geometry", // dojo.getComputedStyle dojo.position
+	"dojo/dom-style", // dojo.getComputedStyle
 	"dojo/_base/lang", // dojo.hitch
 	"dojo/_base/sniff", // dojo.isIE dojo.isQuirks
 	"dojo/_base/window" // dojo.body dojo.doc.documentElement dojo.doc.frames dojo.withGlobal
-], function(dojo, dijit, pm, require){
+], function(dojo, dijit, pm, require, winUtils, DropDownMenu,
+	array, connect, declare, event, dom, domAttr, domGeometry, domStyle, lang, sinff, win){
 
 // module:
 //		dijit/Menu
@@ -249,7 +253,7 @@ dojo.declare("dijit.Menu", dijit.DropDownMenu, {
 					scroll = dojo.withGlobal(win, "_docScroll", dojo);
 
 				var cs = dojo.getComputedStyle(iframe),
-					tp = dojo._toPixelValue,
+					tp = domStyle.toPixelValue,
 					left = (dojo.isIE && dojo.isQuirks ? 0 : tp(iframe, cs.paddingLeft)) + (dojo.isIE && dojo.isQuirks ? tp(iframe, cs.borderLeftWidth) : 0),
 					top = (dojo.isIE && dojo.isQuirks ? 0 : tp(iframe, cs.paddingTop)) + (dojo.isIE && dojo.isQuirks ? tp(iframe, cs.borderTopWidth) : 0);
 

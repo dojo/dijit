@@ -125,11 +125,7 @@ define([
 
 			// set margin box size, unless it wasn't specified, in which case use current size
 			if(changeSize){
-				domGeometry.marginBox(node, changeSize);
-
-				// set offset of the node
-				if(changeSize.t){ node.style.top = changeSize.t + "px"; }
-				if(changeSize.l){ node.style.left = changeSize.l + "px"; }
+				domGeometry.setMarginBox(node, changeSize.l, changeSize.t, changeSize.w, changeSize.h);
 			}
 
 			// If either height or width wasn't specified by the user, then query node for it.
@@ -138,11 +134,11 @@ define([
 			var mb = resultSize || {};
 			lang.mixin(mb, changeSize || {});	// changeSize overrides resultSize
 			if( !("h" in mb) || !("w" in mb) ){
-				mb = lang.mixin(domGeometry.marginBox(node), mb);	// just use domGeometry.marginBox() to fill in missing values
+				mb = lang.mixin(domGeometry.getMarginBox(node), mb);	// just use domGeometry.marginBox() to fill in missing values
 			}
 
 			// Compute and save the size of my border box and content box
-			// (w/out calling domGeometry.contentBox() since that may fail if size was recently set)
+			// (w/out calling domGeometry.getContentBox() since that may fail if size was recently set)
 			var cs = domStyle.getComputedStyle(node);
 			var me = domGeometry.getMarginExtents(node, cs);
 			var be = domGeometry.getBorderExtents(node, cs);

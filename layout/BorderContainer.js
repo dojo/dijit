@@ -171,14 +171,14 @@ var BorderContainer = declare("dijit.layout.BorderContainer", _LayoutWidget, {
 		// Clean up whatever style changes we made to the child pane.
 		// Unclear how height and width should be handled.
 		domClass.remove(child.domNode, this.baseClass+"Pane");
-		domStyle.style(child.domNode, {
+		domStyle.set(child.domNode, {
 			top: "auto",
 			bottom: "auto",
 			left: "auto",
 			right: "auto",
 			position: "static"
 		});
-		domStyle.style(child.domNode, region == "top" || region == "bottom" ? "width" : "height", "auto");
+		domStyle.set(child.domNode, region == "top" || region == "bottom" ? "width" : "height", "auto");
 	},
 
 	getChildren: function(){
@@ -211,7 +211,7 @@ var BorderContainer = declare("dijit.layout.BorderContainer", _LayoutWidget, {
 			this.pe.r = domStyle.toPixelValue(node, this.cs.paddingRight);
 			this.pe.b = domStyle.toPixelValue(node, this.cs.paddingBottom);
 
-			domStyle.style(node, "padding", "0px");
+			domStyle.set(node, "padding", "0px");
 		}
 
 		this.inherited(arguments);
@@ -392,9 +392,9 @@ declare("dijit.layout._Splitter", [_Widget, _TemplatedMixin ],
 		//		Return the maximum size that my corresponding pane can be set to
 
 		var dim = this.horizontal ? 'h' : 'w',
-			childSize = domGeometry.marginBox(this.child.domNode)[dim],
+			childSize = domGeometry.getMarginBox(this.child.domNode)[dim],
 			center = array.filter(this.container.getChildren(), function(child){ return child.region == "center";})[0],
-			spaceAvailable = domGeometry.marginBox(center.domNode)[dim];	// can expand until center is crushed to 0
+			spaceAvailable = domGeometry.getMarginBox(center.domNode)[dim];	// can expand until center is crushed to 0
 
 		return Math.min(this.child.maxSize, childSize + spaceAvailable);
 	},
@@ -427,7 +427,7 @@ declare("dijit.layout._Splitter", [_Widget, _TemplatedMixin ],
 			pageStart = e[axis],
 			splitterStyle = this.domNode.style,
 			dim = isHorizontal ? 'h' : 'w',
-			childStart = domGeometry.marginBox(this.child.domNode)[dim],
+			childStart = domGeometry.getMarginBox(this.child.domNode)[dim],
 			max = this._computeMaxSize(),
 			min = this.child.minSize || 20,
 			region = this.region,

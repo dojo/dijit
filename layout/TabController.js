@@ -118,7 +118,7 @@ TabController.TabButton = declare("dijit.layout._TabButton", StackController.Sta
 		if(disp){
 			var _nlsResources = i18n.getLocalization("dijit", "common");
 			if(this.closeNode){
-				domAttr.attr(this.closeNode,"title", _nlsResources.itemClose);
+				domAttr.set(this.closeNode,"title", _nlsResources.itemClose);
 			}
 			// add context menu onto title button
 			var _nlsResources = i18n.getLocalization("dijit", "common");

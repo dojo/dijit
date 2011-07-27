@@ -100,7 +100,7 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 		// Do not show the TabController until the related
 		// StackController has added it's children.  This gives
 		// a less visually jumpy instantiation.
-		domStyle.style(this.domNode, "visibility", "visible");
+		domStyle.set(this.domNode, "visibility", "visible");
 		this._postStartup = true;
 	},
 
@@ -123,8 +123,8 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 		// This makes sure that the buttons never wrap.
 		// The value 200 is chosen as it should be bigger than most
 		// Tab button widths.
-		domStyle.style(this.containerNode, "width",
-			(domStyle.style(this.containerNode, "width") + 200) + "px");
+		domStyle.set(this.containerNode, "width",
+			(domStyle.get(this.containerNode, "width") + 200) + "px");
 	},
 
 	onRemoveChild: function(page, insertIndex){
@@ -152,7 +152,7 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 				this._btnWidth += domGeometry.getMarginSize(btn).w;
 				return true;
 			}else{
-				domStyle.style(btn, "display", "none");
+				domStyle.set(btn, "display", "none");
 				return false;
 			}
 		}, this);
@@ -163,7 +163,7 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 		if(children.length){
 			var leftTab = children[this.isLeftToRight() ? 0 : children.length - 1].domNode,
 				rightTab = children[this.isLeftToRight() ? children.length - 1 : 0].domNode;
-			return rightTab.offsetLeft + domStyle.style(rightTab, "width") - leftTab.offsetLeft;
+			return rightTab.offsetLeft + domStyle.get(rightTab, "width") - leftTab.offsetLeft;
 		}else{
 			return 0;
 		}
@@ -174,7 +174,7 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 		//		Determines if the tabs are wider than the width of the TabContainer, and
 		//		thus that we need to display left/right/menu navigation buttons.
 		var tabsWidth = this._getTabsWidth();
-		width = width || domStyle.style(this.scrollNode, "width");
+		width = width || domStyle.get(this.scrollNode, "width");
 		return tabsWidth > 0 && width < tabsWidth;
 	},
 
@@ -191,9 +191,9 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 		// But first reset scrollNode.height in case it was set by layoutChildren() call
 		// in a previous run of this method.
 		this.scrollNode.style.height = "auto";
-		this._contentBox = layoutUtils.marginBox2contentBox(this.domNode, {h: 0, w: dim.w});
-		this._contentBox.h = this.scrollNode.offsetHeight;
-		domGeometry.contentBox(this.domNode, this._contentBox);
+		var cb = this._contentBox = layoutUtils.marginBox2contentBox(this.domNode, {h: 0, w: dim.w});
+		cb.h = this.scrollNode.offsetHeight;
+		domGeometry.setContentSize(this.domNode, cb.w, cb.h);
 
 		// Show/hide the left/right/menu navigation buttons depending on whether or not they
 		// are needed.
@@ -231,7 +231,7 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 		//		"scrolled all the way to the left" and some positive number, based on #
 		//		of pixels of possible scroll (ex: 1000) means "scrolled all the way to the right"
 		return (this.isLeftToRight() || has("ie") < 8 || (has("ie") && kernel.isQuirks) || has("webKit")) ? this.scrollNode.scrollLeft :
-				domStyle.style(this.containerNode, "width") - domStyle.style(this.scrollNode, "width")
+				domStyle.get(this.containerNode, "width") - domStyle.get(this.scrollNode, "width")
 					 + (has("ie") == 8 ? -1 : 1) * this.scrollNode.scrollLeft;
 	},
 
@@ -246,7 +246,7 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 		if(this.isLeftToRight() || has("ie") < 8 || (has("ie") && kernel.isQuirks) || has("webKit")){
 			return val;
 		}else{
-			var maxScroll = domStyle.style(this.containerNode, "width") - domStyle.style(this.scrollNode, "width");
+			var maxScroll = domStyle.get(this.containerNode, "width") - domStyle.get(this.scrollNode, "width");
 			return (has("ie") == 8 ? -1 : 1) * (val - maxScroll);
 		}
 	},
@@ -269,8 +269,8 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 				var sl = this._getScroll();
 
 				if(sl > node.offsetLeft ||
-						sl + domStyle.style(this.scrollNode, "width") <
-						node.offsetLeft + domStyle.style(node, "width")){
+						sl + domStyle.get(this.scrollNode, "width") <
+						node.offsetLeft + domStyle.get(node, "width")){
 					this.createSmoothScroll().play();
 				}
 			}
@@ -284,8 +284,8 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 		//		Returns the minimum and maximum scroll setting to show the leftmost and rightmost
 		//		tabs (respectively)
 		var children = this.getChildren(),
-			scrollNodeWidth = domStyle.style(this.scrollNode, "width"),		// about 500px
-			containerWidth = domStyle.style(this.containerNode, "width"),	// 50,000px
+			scrollNodeWidth = domStyle.get(this.scrollNode, "width"),		// about 500px
+			containerWidth = domStyle.get(this.containerNode, "width"),	// 50,000px
 			maxPossibleScroll = containerWidth - scrollNodeWidth,	// scrolling until right edge of containerNode visible
 			tabsWidth = this._getTabsWidth();
 
@@ -294,7 +294,7 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 			return {
 				min: this.isLeftToRight() ? 0 : children[children.length-1].domNode.offsetLeft,
 				max: this.isLeftToRight() ?
-					(children[children.length-1].domNode.offsetLeft + domStyle.style(children[children.length-1].domNode, "width")) - scrollNodeWidth :
+					(children[children.length-1].domNode.offsetLeft + domStyle.get(children[children.length-1].domNode, "width")) - scrollNodeWidth :
 					maxPossibleScroll
 			};
 		}else{
@@ -313,12 +313,12 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 		//		will appear in the center
 		var w = this.scrollNode,
 			n = this._selectedTab,
-			scrollNodeWidth = domStyle.style(this.scrollNode, "width"),
+			scrollNodeWidth = domStyle.get(this.scrollNode, "width"),
 			scrollBounds = this._getScrollBounds();
 
 		// TODO: scroll minimal amount (to either right or left) so that
 		// selected tab is fully visible, and just return if it's already visible?
-		var pos = (n.offsetLeft + domStyle.style(n, "width")/2) - scrollNodeWidth/2;
+		var pos = (n.offsetLeft + domStyle.get(n, "width")/2) - scrollNodeWidth/2;
 		pos = Math.min(Math.max(pos, scrollBounds.min), scrollBounds.max);
 
 		// TODO:
@@ -411,7 +411,7 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 
 		if(node && domClass.contains(node, "dijitTabDisabled")){return;}
 
-		var sWidth = domStyle.style(this.scrollNode, "width");
+		var sWidth = domStyle.get(this.scrollNode, "width");
 		var d = (sWidth * 0.75) * direction;
 
 		var to = this._getScroll() + d;

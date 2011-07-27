@@ -36,16 +36,17 @@ define([
 
 	function size(widget, dim){
 		// size the child
-		var newSize = widget.resize ? widget.resize(dim) : domGeometry.marginBox(widget.domNode, dim);
+		var newSize = widget.resize ? widget.resize(dim) :
+			domGeometry.setMarginBox(widget.domNode, dim.l, dim.t, dim.w, dim.h);
 
 		// record child's size
 		if(newSize){
 			// if the child returned it's new size then use that
 			lang.mixin(widget, newSize);
 		}else{
-			// otherwise, call marginBox(), but favor our own numbers when we have them.
+			// otherwise, call getMarginBox(), but favor our own numbers when we have them.
 			// the browser lies sometimes
-			lang.mixin(widget, domGeometry.marginBox(widget.domNode));
+			lang.mixin(widget, domGeometry.getMarginBox(widget.domNode));
 			lang.mixin(widget, dim);
 		}
 	}
