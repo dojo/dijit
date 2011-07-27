@@ -1,11 +1,14 @@
 define([
-	"dojo/_base/kernel",
-	".",
 	"./focus",
 	"./_WidgetBase",
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/lang" // dojo.extend
-], function(dojo, dijit, focus){
+	"dojo/_base/declare", // declare
+	"dojo/_base/lang" // lang.extend
+], function(focus, _WidgetBase, declare, lang){
+
+/*=====
+	var declare = dojo.declare;
+	var _WidgetBase = dijit._WidgetBase;
+=====*/
 
 	// module:
 	//		dijit/_FocusMixin
@@ -15,7 +18,8 @@ define([
 
 	// We don't know where _FocusMixin will occur in the inheritance chain, but we need the _onFocus()/_onBlur() below
 	// to be last in the inheritance chain, so mixin to _WidgetBase.
-	dojo.extend(dijit._WidgetBase, {
+	var extend = lang.extend;		/*===== extend = dojo.extend; =====*/
+	extend(_WidgetBase, {
 		// focused: [readonly] Boolean
 		//		This widget or a widget it contains has focus, or is "active" because
 		//		it was recently clicked.
@@ -59,7 +63,7 @@ define([
 		}
 	});
 
-	return dojo.declare("dijit._FocusMixin", null, {
+	return declare("dijit._FocusMixin", null, {
 		// summary:
 		//		Mixin to widget to provide _onFocus() and _onBlur() methods that
 		//		fire when a widget or it's descendants get/lose focus

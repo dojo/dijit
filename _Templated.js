@@ -1,23 +1,35 @@
 define([
-	"dojo/_base/kernel", // dojo.deprecated
-	".",
 	"./_WidgetBase",
 	"./_TemplatedMixin",
 	"./_WidgetsInTemplateMixin",
-	"dojo/string",
-	"dojo/parser",
-	"dojo/cache",
-	"dojo/_base/array", // dojo.forEach
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/lang" // dojo.extend dojo.isArray
-], function(dojo, dijit){
+	"dojo/_base/array", // array.forEach
+	"dojo/_base/declare", // declare
+	"dojo/_base/lang", // lang.extend lang.isArray
+	"dojo/_base/kernel" // kernel.deprecated
+], function(_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, array, declare, lang, kernel){
+
+/*=====
+	var declare = dojo.declare;
+	var _WidgetBase = dijit._WidgetBase;
+	var _TemplatedMixin = dijit._TemplatedMixin;
+	var _WidgetsInTemplateMixin = dijit._WidgetsInTemplateMixin;
+=====*/
 
 	// module:
 	//		dijit/_Templated
 	// summary:
 	//		Deprecated mixin for widgets that are instantiated from a template.
 
-	dojo.declare("dijit._Templated", [dijit._TemplatedMixin, dijit._WidgetsInTemplateMixin], {
+	// These arguments can be specified for widgets which are used in templates.
+	// Since any widget can be specified as sub widgets in template, mix it
+	// into the base widget class.  (This is a hack, but it's effective.)
+	var extend = lang.extend;		/*===== extend = dojo.extend; =====*/
+	extend(_WidgetBase, {
+		waiRole: "",
+		waiState:""
+	});
+
+	return declare("dijit._Templated", [_TemplatedMixin, _WidgetsInTemplateMixin], {
 		// summary:
 		//		Deprecated mixin for widgets that are instantiated from a template.
 		//		Widgets should use _TemplatedMixin plus if necessary _WidgetsInTemplateMixin instead.
@@ -28,7 +40,7 @@ define([
 		widgetsInTemplate: false,
 
 		constructor: function(){
-			dojo.deprecated(this.declaredClass + ": dijit._Templated deprecated, use dijit._TemplatedMixin and if necessary dijit._WidgetsInTemplateMixin", "", "2.0");
+			kernel.deprecated(this.declaredClass + ": dijit._Templated deprecated, use dijit._TemplatedMixin and if necessary dijit._WidgetsInTemplateMixin", "", "2.0");
 		},
 
 		_attachTemplateNodes: function(rootNode, getAttrFunc){
@@ -36,8 +48,8 @@ define([
 			this.inherited(arguments);
 
 			// Do deprecated waiRole and waiState
-			var nodes = dojo.isArray(rootNode) ? rootNode : (rootNode.all || rootNode.getElementsByTagName("*"));
-			var x = dojo.isArray(rootNode) ? 0 : -1;
+			var nodes = lang.isArray(rootNode) ? rootNode : (rootNode.all || rootNode.getElementsByTagName("*"));
+			var x = lang.isArray(rootNode) ? 0 : -1;
 			for(; x<nodes.length; x++){
 				var baseNode = (x == -1) ? rootNode : nodes[x];
 
@@ -48,7 +60,7 @@ define([
 				}
 				var values = getAttrFunc(baseNode, "waiState");
 				if(values){
-					dojo.forEach(values.split(/\s*,\s*/), function(stateValue){
+					array.forEach(values.split(/\s*,\s*/), function(stateValue){
 						if(stateValue.indexOf('-') != -1){
 							var pair = stateValue.split('-');
 							baseNode.setAttribute("aria-"+pair[0], pair[1]);
@@ -58,14 +70,4 @@ define([
 			}
 		}
 	});
-
-	// These arguments can be specified for widgets which are used in templates.
-	// Since any widget can be specified as sub widgets in template, mix it
-	// into the base widget class.  (This is a hack, but it's effective.)
-	dojo.extend(dijit._WidgetBase, {
-		waiRole: "",
-		waiState:""
-	});
-
-	return dijit._Templated;
 });

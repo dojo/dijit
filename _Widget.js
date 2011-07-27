@@ -1,17 +1,27 @@
 define([
-	"dojo/_base/kernel", // dojo.config.isDebug dojo.deprecated
-	".",
-	"dojo/query",
+	".",	// _connectToDomNode,
 	"./_WidgetBase",
 	"./_OnDijitClickMixin",
 	"./_FocusMixin",
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/lang", // dojo.hitch
-	"dojo/_base/connect",	// dojo.connect
-	"dojo/uacss",		// brower sniffing
-	"dijit/hccss",		// high contrast mode sniffing
-	"./_base/manager"	// dijit.byId, etc.
-], function(dojo, dijit, query){
+	"dojo/_base/config",	// config.isDebug
+	"dojo/_base/connect",	// connect.connect
+	"dojo/_base/declare", // declare
+	"dojo/_base/kernel", // kernel.deprecated
+	"dojo/_base/lang", // lang.hitch
+	"dojo/query",
+	"dojo/uacss",		// brower sniffing (included for back-compat; subclasses may be using)
+	"dijit/hccss",		// high contrast mode sniffing (included to set CSS classes on <body>, module ret value unused)
+	"./_base/manager"	// dijit.byId, etc. (still using globals internally though)
+], function(dijit, _WidgetBase, _OnDijitClickMixin, _FocusMixin,
+			config, connect, declare, kernel, lang, query){
+
+/*=====
+	var declare = dojo.declare;
+	var _WidgetBase = dijit._WidgetBase;
+	var _OnDijitClickMixin = dijit._OnDijitClickMixin;
+	var _FocusMixin = dijit._FocusMixin;
+=====*/
+
 
 // module:
 //		dijit/_Widget
@@ -25,7 +35,7 @@ dijit._connectToDomNode = function(/*Event*/ event){
 	//		instead actually be connecting the equivalent event on this.domNode
 };
 
-dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, dijit._FocusMixin], {
+var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusMixin], {
 	// summary:
 	//		Base class for all Dijit widgets.
 	//
@@ -204,9 +214,9 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 	on: function(/*String*/ type, /*Function*/ func){
 		type = type.replace(/^on/, "");
 		if(this["on" + type.charAt(0).toUpperCase() + type.substr(1)] === dijit._connectToDomNode){
-			// Use dojo.connect() rather than on() to get handling for "onmouseenter" on non-IE, etc.
+			// Use connect.connect() rather than on() to get handling for "onmouseenter" on non-IE, etc.
 			// Also, need to specify context as "this" rather than the default context of the DOMNode
-			return dojo.connect(this.domNode, type.toLowerCase(), this, func);
+			return connect.connect(this.domNode, type.toLowerCase(), this, func);
 		}else{
 			return this.inherited(arguments);
 		}
@@ -226,7 +236,7 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 		//		Deprecated.  Use set() instead.
 		// tags:
 		//		deprecated
-		dojo.deprecated(this.declaredClass+"::setAttribute(attr, value) is deprecated. Use set() instead.", "", "2.0");
+		kernel.deprecated(this.declaredClass+"::setAttribute(attr, value) is deprecated. Use set() instead.", "", "2.0");
 		this.set(attr, value);
 	},
 
@@ -244,11 +254,11 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 		//		This method is deprecated, use get() or set() directly.
 
 		// Print deprecation warning but only once per calling function
-		if(dojo.config.isDebug){
+		if(config.isDebug){
 			var alreadyCalledHash = arguments.callee._ach || (arguments.callee._ach = {}),
 				caller = (arguments.callee.caller || "unknown caller").toString();
 			if(!alreadyCalledHash[caller]){
-				dojo.deprecated(this.declaredClass + "::attr() is deprecated. Use get() or set() instead, called from " +
+				kernel.deprecated(this.declaredClass + "::attr() is deprecated. Use get() or set() instead, called from " +
 				caller, "", "2.0");
 				alreadyCalledHash[caller] = true;
 			}
@@ -268,7 +278,7 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 		//		This method should generally be avoided as it returns widgets declared in templates, which are
 		//		supposed to be internal/hidden, but it's left here for back-compat reasons.
 
-		dojo.deprecated(this.declaredClass+"::getDescendants() is deprecated. Use getChildren() instead.", "", "2.0");
+		kernel.deprecated(this.declaredClass+"::getDescendants() is deprecated. Use getChildren() instead.", "", "2.0");
 		return this.containerNode ? query('[widgetId]', this.containerNode).map(dijit.byNode) : []; // dijit._Widget[]
 	},
 
@@ -319,12 +329,12 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 });
 
 // For back-compat, remove in 2.0.
-if(!dojo.isAsync){
+if(dojo.ready && !dojo.isAsync){
 	dojo.ready(0, function(){
 		var requires = ["dijit/_base/focus", "dijit/_base/place", "dijit/_base/popup", "dijit/_base/scroll",
 			"dijit/_base/typematic", "dijit/_base/wai", "dijit/_base/window"];
 		require(requires);	// use indirection so modules not rolled into a build
 	})
 }
-return dijit._Widget;
+return _Widget;
 });

@@ -1,8 +1,12 @@
 define([
-	"dojo/_base/kernel",
-	"./_WidgetBase",
-	"dojo/_base/lang" // dojo.extend
-], function(dojo, _WidgetBase){
+	"dojo/_base/lang", // lang.extend
+	"./_WidgetBase"
+], function(lang, _WidgetBase){
+
+
+/*=====
+	var _WidgetBase = dijit._WidgetBase;
+====*/
 
 	// module:
 	//		dijit/_BidiSupport
@@ -16,7 +20,8 @@ define([
 	//		In creation of widget, if it's want to activate this class,
 	//		the widget should define the "textDir".
 
-	dojo.extend(_WidgetBase, {
+	var extend = lang.extend;		/*===== extend = dojo.extend; =====*/
+	extend(_WidgetBase, {
 
 		getTextDir: function(/*String*/ text){
 			// summary:

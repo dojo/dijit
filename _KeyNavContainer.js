@@ -1,22 +1,27 @@
 define([
-	"dojo/_base/kernel", // dojo.deprecated
-	".",
+	"dojo/_base/kernel", // kernel.deprecated
 	"./_Container",
 	"./_FocusMixin",
-	"dojo/_base/array", // dojo.forEach
-	"dojo/_base/connect", // dojo.keys.END dojo.keys.HOME
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/event", // dojo.stopEvent
-	"dojo/_base/html", // dojo.attr
-	"dojo/_base/lang" // dojo.hitch
-], function(dojo, dijit){
+	"dojo/_base/array", // array.forEach
+	"dojo/keys", // keys.END keys.HOME
+	"dojo/_base/declare", // declare
+	"dojo/_base/event", // event.stop
+	"dojo/dom-attr", // domAttr.set
+	"dojo/_base/lang" // lang.hitch
+], function(kernel, _Container, _FocusMixin, array, keys, declare, event, domAttr, lang){
+
+/*=====
+	var declare = dojo.declare;
+	var _FocusMixin = dijit._FocusMixin;
+	var _Container = dijit._Container;
+=====*/
 
 	// module:
 	//		dijit/_KeyNavContainer
 	// summary:
 	//		A _Container with keyboard navigation of its children.
 
-	dojo.declare("dijit._KeyNavContainer", [dijit._FocusMixin, dijit._Container], {
+	return declare("dijit._KeyNavContainer", [_FocusMixin, _Container], {
 
 		// summary:
 		//		A _Container with keyboard navigation of its children.
@@ -38,13 +43,13 @@ define([
 		//		moved to the first item in the container.
 		tabIndex: "0",
 
-		connectKeyNavHandlers: function(/*dojo.keys[]*/ prevKeyCodes, /*dojo.keys[]*/ nextKeyCodes){
+		connectKeyNavHandlers: function(/*keys[]*/ prevKeyCodes, /*keys[]*/ nextKeyCodes){
 			// summary:
 			//		Call in postCreate() to attach the keyboard handlers
 			//		to the container.
-			// preKeyCodes: dojo.keys[]
+			// preKeyCodes: keys[]
 			//		Key codes for navigating to the previous child.
-			// nextKeyCodes: dojo.keys[]
+			// nextKeyCodes: keys[]
 			//		Key codes for navigating to the next child.
 			// tags:
 			//		protected
@@ -52,23 +57,23 @@ define([
 			// TODO: call this automatically from my own postCreate()
 
 			var keyCodes = (this._keyNavCodes = {});
-			var prev = dojo.hitch(this, "focusPrev");
-			var next = dojo.hitch(this, "focusNext");
-			dojo.forEach(prevKeyCodes, function(code){ keyCodes[code] = prev; });
-			dojo.forEach(nextKeyCodes, function(code){ keyCodes[code] = next; });
-			keyCodes[dojo.keys.HOME] = dojo.hitch(this, "focusFirstChild");
-			keyCodes[dojo.keys.END] = dojo.hitch(this, "focusLastChild");
+			var prev = lang.hitch(this, "focusPrev");
+			var next = lang.hitch(this, "focusNext");
+			array.forEach(prevKeyCodes, function(code){ keyCodes[code] = prev; });
+			array.forEach(nextKeyCodes, function(code){ keyCodes[code] = next; });
+			keyCodes[keys.HOME] = lang.hitch(this, "focusFirstChild");
+			keyCodes[keys.END] = lang.hitch(this, "focusLastChild");
 			this.connect(this.domNode, "onkeypress", "_onContainerKeypress");
 			this.connect(this.domNode, "onfocus", "_onContainerFocus");
 		},
 
 		startupKeyNavChildren: function(){
-			dojo.deprecated("startupKeyNavChildren() call no longer needed", "", "2.0");
+			kernel.deprecated("startupKeyNavChildren() call no longer needed", "", "2.0");
 		},
 
 		startup: function(){
 			this.inherited(arguments);
-			dojo.forEach(this.getChildren(), dojo.hitch(this, "_startupChild"));
+			array.forEach(this.getChildren(), lang.hitch(this, "_startupChild"));
 		},
 
 		addChild: function(/*dijit._Widget*/ widget, /*int?*/ insertIndex){
@@ -181,7 +186,7 @@ define([
 			// (don't remove as that breaks Safari 4)
 			// so that tab or shift-tab will go to the fields after/before
 			// the container, rather than the container itself
-			dojo.attr(this.domNode, "tabIndex", "-1");
+			domAttr.set(this.domNode, "tabIndex", "-1");
 		},
 
 		_onBlur: function(evt){
@@ -190,7 +195,7 @@ define([
 			// Note that using _onBlur() so that this doesn't happen when focus is shifted
 			// to one of my child widgets (typically a popup)
 			if(this.tabIndex){
-				dojo.attr(this.domNode, "tabIndex", this.tabIndex);
+				domAttr.set(this.domNode, "tabIndex", this.tabIndex);
 			}
 			this.focusedChild = null;
 			this.inherited(arguments);
@@ -206,7 +211,7 @@ define([
 			var func = this._keyNavCodes[evt.charOrCode];
 			if(func){
 				func();
-				dojo.stopEvent(evt);
+				event.stop(evt);
 			}
 		},
 
@@ -257,6 +262,4 @@ define([
 			return null;	// dijit._Widget
 		}
 	});
-
-	return dijit._KeyNavContainer;
 });

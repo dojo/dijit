@@ -1,17 +1,28 @@
 define([
 	"require",			// require.toUrl
-	"dojo/_base/kernel", // dojo.config.blankGif
-	".",
-	"dojo/_base/lang", // dojo.config.blankGif
-	"dojo/aspect",
 	"./_base/manager",
-	"dojo/Stateful", // dojo.Stateful
-	"dojo/_base/array", // dojo.forEach dojo.map
-	"dojo/_base/connect", // dojo.connect dojo.disconnect dojo.subscribe dojo.unsubscribe
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/html", // dojo.addClass dojo.attr dojo.byId dojo.create dojo.destroy dojo.place dojo.removeAttr dojo.replaceClass dojo.style
-	"dojo/_base/window" // dojo.doc.createTextNode
-], function(require, dojo, dijit, lang, aspect){
+	"dojo/_base/array", // array.forEach array.map
+	"dojo/aspect",
+	"dojo/_base/config", // config.blankGif
+	"dojo/_base/connect", // connect.connect connect.disconnect connect.subscribe connect.unsubscribe
+	"dojo/_base/declare", // declare
+	"dojo/dom", // dom.byId
+	"dojo/dom-attr", // domAttr.set domAttr.remove
+	"dojo/dom-class", // domClass.add domClass.replace
+	"dojo/dom-construct", // domConstruct.create domConstruct.destroy domConstruct.place
+	"dojo/dom-geometry",	// isBodyLtr
+	"dojo/dom-style", // domStyle.set, domStyle.get
+	"dojo/_base/lang", // mixin(), isArray(), etc.
+	"dojo/Stateful", // Stateful
+	"dojo/_base/window" // win.doc.createTextNode
+], function(require, dijit, array, aspect, config, connect, declare,
+			dom, domAttr, domClass, domConstruct, domGeometry, domStyle,
+			lang, Stateful, win){
+
+/*=====
+var declare = dojo.declare;
+var Stateful = dojo.Stateful;
+=====*/
 
 // module:
 //		dijit/_WidgetBase
@@ -30,7 +41,7 @@ function getAttrs(obj){
 	return ret;
 }
 
-dojo.declare("dijit._WidgetBase", dojo.Stateful, {
+return declare("dijit._WidgetBase", Stateful, {
 	// summary:
 	//		Future base class for all Dijit widgets.
 	// description:
@@ -223,7 +234,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 	// _blankGif: [protected] String
 	//		Path to a blank 1x1 image.
 	//		Used by <img> nodes in templates that really get their image via CSS background-image.
-	_blankGif: dojo.config.blankGif || require.toUrl("dojo/resources/blank.gif"),
+	_blankGif: config.blankGif || require.toUrl("dojo/resources/blank.gif"),
 
 	//////////// INITIALIZATION METHODS ///////////////////////////////////////
 
@@ -260,7 +271,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		//		private
 
 		// store pointer to original DOM tree
-		this.srcNodeRef = dojo.byId(srcNodeRef);
+		this.srcNodeRef = dom.byId(srcNodeRef);
 
 		// For garbage collection.  An array of listener handles returned by this.connect() / this.subscribe()
 		this._connects = [];
@@ -360,7 +371,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		// specified as a parameter should take precedence, so apply attributes in this.params last.
 		// Particularly important for new DateTextBox({displayedValue: ...}) since DateTextBox's default value is
 		// NaN and thus is not ignored like a default value of "".
-		dojo.forEach(list, function(attr){
+		array.forEach(list, function(attr){
 			if(this.params && attr in this.params){
 				// skip this one, do it below
 			}else if(this[attr]){
@@ -391,7 +402,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 
 		if(!this.domNode){
 			// Create root node if it wasn't created by _Templated
-			this.domNode = this.srcNodeRef || dojo.create('div');
+			this.domNode = this.srcNodeRef || domConstruct.create('div');
 		}
 
 		// baseClass is a single class name or occasionally a space-separated list of names.
@@ -400,9 +411,9 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		if(this.baseClass){
 			var classes = this.baseClass.split(" ");
 			if(!this.isLeftToRight()){
-				classes = classes.concat( dojo.map(classes, function(name){ return name+"Rtl"; }));
+				classes = classes.concat( array.map(classes, function(name){ return name+"Rtl"; }));
 			}
-			dojo.addClass(this.domNode, classes);
+			domClass.add(this.domNode, classes);
 		}
 	},
 
@@ -458,7 +469,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		this._beingDestroyed = true;
 		this.uninitialize();
 
-		// remove dojo.connect() and dojo.subscribe() listeners
+		// remove connect.connect() and connect.subscribe() listeners
 		var c;
 		while(c = this._connects.pop()){
 			c.remove();
@@ -496,16 +507,16 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 
 		if(this.domNode){
 			if(preserveDom){
-				dojo.removeAttr(this.domNode, "widgetId");
+				domAttr.remove(this.domNode, "widgetId");
 			}else{
-				dojo.destroy(this.domNode);
+				domConstruct.destroy(this.domNode);
 			}
 			delete this.domNode;
 		}
 
 		if(this.srcNodeRef){
 			if(!preserveDom){
-				dojo.destroy(this.srcNodeRef);
+				domConstruct.destroy(this.srcNodeRef);
 			}
 			delete this.srcNodeRef;
 		}
@@ -521,7 +532,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		//		widgets.
 
 		// get all direct descendants and destroy them recursively
-		dojo.forEach(this.getChildren(), function(widget){
+		array.forEach(this.getChildren(), function(widget){
 			if(widget.destroyRecursive){
 				widget.destroyRecursive(preserveDom);
 			}
@@ -555,8 +566,8 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		// Note: technically we should revert any style setting made in a previous call
 		// to his method, but that's difficult to keep track of.
 
-		if(dojo.isObject(value)){
-			dojo.style(mapNode, value);
+		if(lang.isObject(value)){
+			domStyle.set(mapNode, value);
 		}else{
 			if(mapNode.style.cssText){
 				mapNode.style.cssText += "; " + value;
@@ -581,7 +592,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 
 		commands = arguments.length >= 3 ? commands : this.attributeMap[attr];
 
-		dojo.forEach(dojo.isArray(commands) ? commands : [commands], function(command){
+		array.forEach(lang.isArray(commands) ? commands : [commands], function(command){
 
 			// Get target node and what we are doing to that node
 			var mapNode = this[command.node || command || "domNode"];	// DOM node
@@ -589,8 +600,8 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 
 			switch(type){
 				case "attribute":
-					if(dojo.isFunction(value)){ // functions execute in the context of the widget
-						value = dojo.hitch(this, value);
+					if(lang.isFunction(value)){ // functions execute in the context of the widget
+						value = lang.hitch(this, value);
 					}
 
 					// Get the name of the DOM node attribute; usually it's the same
@@ -599,17 +610,17 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 					var attrName = command.attribute ? command.attribute :
 						(/^on[A-Z][a-zA-Z]*$/.test(attr) ? attr.toLowerCase() : attr);
 
-					dojo.attr(mapNode, attrName, value);
+					domAttr.set(mapNode, attrName, value);
 					break;
 				case "innerText":
 					mapNode.innerHTML = "";
-					mapNode.appendChild(dojo.doc.createTextNode(value));
+					mapNode.appendChild(win.doc.createTextNode(value));
 					break;
 				case "innerHTML":
 					mapNode.innerHTML = value;
 					break;
 				case "class":
-					dojo.replaceClass(mapNode, value, this[attr]);
+					domClass.replace(mapNode, value, this[attr]);
 					break;
 			}
 		}, this);
@@ -672,7 +683,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		}
 		var names = this._getAttrNames(name),
 			setter = this[names.s];
-		if(dojo.isFunction(setter)){
+		if(lang.isFunction(setter)){
 			// use the explicit setter
 			var result = setter.apply(this, Array.prototype.slice.call(arguments, 1));
 		}else{
@@ -684,7 +695,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 			// Checks if an attribute is a "standard attribute" by whether the DOMNode JS object has a similar
 			// attribute name (ex: accept-charset attribute matches jsObject.acceptCharset).
 			// Note also that Tree.focusNode() is a function not a DOMNode, so test for that.
-			var defaultNode = this.focusNode && !dojo.isFunction(this.focusNode) ? "focusNode" : "domNode",
+			var defaultNode = this.focusNode && !lang.isFunction(this.focusNode) ? "focusNode" : "domNode",
 				tag = this[defaultNode].tagName,
 				attrsForTag = tagAttrs[tag] || (tagAttrs[tag] = getAttrs(this[defaultNode])),
 				map =	name in this.attributeMap ? this.attributeMap[name] :
@@ -734,9 +745,9 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		//		Call specified function when event "type" occurs, ex: myWidget.on("click", function(){ ... }).
 		// description:
 		//		Call specified function when event "type" occurs, ex: myWidget.on("click", function(){ ... }).
-		//		It's also implicitly called from dojo.connect(myWidget, "onClick", ...).
+		//		It's also implicitly called from connect.connect(myWidget, "onClick", ...).
 		//		Note that the function is not run in any particular scope, so if (for example) you want it to run in the
-		//		widget's scope you must do myWidget.on("click", dojo.hitch(myWidget, func)).
+		//		widget's scope you must do myWidget.on("click", lang.hitch(myWidget, func)).
 
 		type = type.replace(/^on/, "");
 		return aspect.after(this, "on" + type.charAt(0).toUpperCase() + type.substr(1), func, true);
@@ -767,7 +778,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		//		Connects specified obj/event to specified method of this object
 		//		and registers for disconnect() on widget destroy.
 		// description:
-		//		Provide widget-specific analog to dojo.connect, except with the
+		//		Provide widget-specific analog to connect.connect, except with the
 		//		implicit use of this widget as the target object.
 		//		Events connected with `this.connect` are disconnected upon
 		//		destruction.
@@ -784,7 +795,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		// tags:
 		//		protected
 
-		var handle = dojo.connect(obj, event, this, method);
+		var handle = connect.connect(obj, event, this, method);
 		this._connects.push(handle);
 		return handle;		// _Widget.Handle
 	},
@@ -812,7 +823,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		//		Subscribes to the specified topic and calls the specified method
 		//		of this object and registers for unsubscribe() on widget destroy.
 		// description:
-		//		Provide widget-specific analog to dojo.subscribe, except with the
+		//		Provide widget-specific analog to connect.subscribe, except with the
 		//		implicit use of this widget as the target object.
 		// example:
 		//	|	var btn = new dijit.form.Button();
@@ -823,7 +834,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		//	|	});
 		// tags:
 		//		protected
-		var handle = dojo.subscribe(topic, this, method);
+		var handle = connect.subscribe(topic, this, method);
 		this._connects.push(handle);
 		return handle;		// _Widget.Handle
 	},
@@ -842,20 +853,20 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		//		Return this widget's explicit or implicit orientation (true for LTR, false for RTL)
 		// tags:
 		//		protected
-		return this.dir ? (this.dir == "ltr") : dojo._isBodyLtr(); //Boolean
+		return this.dir ? (this.dir == "ltr") : domGeometry.isBodyLtr(); //Boolean
 	},
 
 	isFocusable: function(){
 		// summary:
 		//		Return true if this widget can currently be focused
 		//		and false if not
-		return this.focus && (dojo.style(this.domNode, "display") != "none");
+		return this.focus && (domStyle.get(this.domNode, "display") != "none");
 	},
 
 	placeAt: function(/* String|DomNode|_Widget */reference, /* String?|Int? */position){
 		// summary:
 		//		Place this widget's domNode reference somewhere in the DOM based
-		//		on standard dojo.place conventions, or passing a Widget reference that
+		//		on standard domConstruct.place conventions, or passing a Widget reference that
 		//		contains and addChild member.
 		//
 		// description:
@@ -869,7 +880,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		//
 		// position:
 		//		If passed a string or domNode reference, the position argument
-		//		accepts a string just as dojo.place does, one of: "first", "last",
+		//		accepts a string just as domConstruct.place does, one of: "first", "last",
 		//		"before", or "after".
 		//
 		//		If passed a _Widget reference, and that widget reference has an ".addChild" method,
@@ -884,9 +895,9 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		//
 		// example:
 		// | 	// create a Button with no srcNodeRef, and place it in the body:
-		// | 	var button = new dijit.form.Button({ label:"click" }).placeAt(dojo.body());
+		// | 	var button = new dijit.form.Button({ label:"click" }).placeAt(win.body());
 		// | 	// now, 'button' is still the widget reference to the newly created button
-		// | 	dojo.connect(button, "onClick", function(e){ console.log('click'); });
+		// | 	connect.connect(button, "onClick", function(e){ console.log('click'); });
 		//
 		// example:
 		// |	// create a button out of a node with id="src" and append it to id="wrapper":
@@ -904,7 +915,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		if(reference.declaredClass && reference.addChild){
 			reference.addChild(this, position);
 		}else{
-			dojo.place(this.domNode, reference, position);
+			domConstruct.place(this.domNode, reference, position);
 		}
 		return this;
 	},
@@ -930,5 +941,4 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 	}
 });
 
-return dijit._WidgetBase;
 });

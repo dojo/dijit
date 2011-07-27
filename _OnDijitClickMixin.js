@@ -1,14 +1,16 @@
 define([
-	"dojo/_base/kernel",
 	"dojo/on",
-	"./main",
-	"dojo/_base/array", // dojo.forEach
-	"dojo/_base/connect", // dojo.keys.ENTER dojo.keys.SPACE
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/sniff", // dojo.isIE
-	"dojo/_base/unload", // dojo.addOnWindowUnload
-	"dojo/_base/window" // dojo.doc.addEventListener dojo.doc.attachEvent dojo.doc.detachEvent
-], function(dojo, on, dijit){
+	"dojo/_base/array", // array.forEach
+	"dojo/keys", // keys.ENTER keys.SPACE
+	"dojo/_base/declare", // declare
+	"dojo/_base/sniff", // has("ie")
+	"dojo/_base/unload", // unload.addOnWindowUnload
+	"dojo/_base/window" // win.doc.addEventListener win.doc.attachEvent win.doc.detachEvent
+], function(on, array, keys, declare, has, unload, win){
+
+/*=====
+	var declare = dojo.declare;
+=====*/
 
 	// module:
 	//		dijit/_OnDijitClickMixin
@@ -24,18 +26,18 @@ define([
 	// 3. onclick handler fires and shifts focus to another node, with an ondijitclick handler
 	// 4. onkeyup event fires, causing the ondijitclick handler to fire
 	var lastKeyDownNode = null;
-	if(dojo.isIE){
+	if(has("ie")){
 		(function(){
 			var keydownCallback = function(evt){
 				lastKeyDownNode = evt.srcElement;
 			};
-			dojo.doc.attachEvent('onkeydown', keydownCallback);
-			dojo.addOnWindowUnload(function(){
-				dojo.doc.detachEvent('onkeydown', keydownCallback);
+			win.doc.attachEvent('onkeydown', keydownCallback);
+			unload.addOnWindowUnload(function(){
+				win.doc.detachEvent('onkeydown', keydownCallback);
 			});
 		})();
 	}else{
-		dojo.doc.addEventListener('keydown', function(evt){
+		win.doc.addEventListener('keydown', function(evt){
 			lastKeyDownNode = evt.target;
 		}, true);
 	}
@@ -54,7 +56,7 @@ define([
 			// to get a stray keyup event.
 
 			function clickKey(/*Event*/ e){
-				return (e.keyCode == dojo.keys.ENTER || e.keyCode == dojo.keys.SPACE) &&
+				return (e.keyCode == keys.ENTER || e.keyCode == keys.SPACE) &&
 						!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey;
 			}
 			var handles = [
@@ -89,13 +91,13 @@ define([
 
 			return {
 				remove: function(){
-					dojo.forEach(handles, function(h){ h.remove(); });
+					array.forEach(handles, function(h){ h.remove(); });
 				}
 			};
 		}
 	};
 
-	dojo.declare("dijit._OnDijitClickMixin", null, {
+	return declare("dijit._OnDijitClickMixin", null, {
 		connect: function(
 				/*Object|null*/ obj,
 				/*String|Function*/ event,
@@ -104,7 +106,7 @@ define([
 			//		Connects specified obj/event to specified method of this object
 			//		and registers for disconnect() on widget destroy.
 			// description:
-			//		Provide widget-specific analog to dojo.connect, except with the
+			//		Provide widget-specific analog to connect.connect, except with the
 			//		implicit use of this widget as the target object.
 			//		This version of connect also provides a special "ondijitclick"
 			//		event which triggers on a click or space or enter keyup.
@@ -126,6 +128,4 @@ define([
 			return this.inherited(arguments, [obj, event == "ondijitclick" ? a11yclick : event, method]);
 		}
 	});
-
-	return dijit._OnDijitClickMixin;
 });

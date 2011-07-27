@@ -1,16 +1,18 @@
 define([
-	"dojo/_base/kernel",
-	".",
-	"./_Widget",
-	"dojo/_base/declare" // dojo.declare
-], function(dojo, dijit){
+	".",	// dijit._getTabNavigable
+	"dojo/_base/declare" // declare
+], function(dijit, declare){
+
+/*=====
+	var declare = dojo.declare;
+=====*/
 
 	// module:
 	//		dijit/_DialogMixin
 	// summary:
 	//		_DialogMixin provides functions useful to Dialog and TooltipDialog
 
-	dojo.declare("dijit._DialogMixin", null, {
+	return declare("dijit._DialogMixin", null, {
 		// summary:
 		//		This provides functions useful to Dialog and TooltipDialog
 
@@ -71,7 +73,4 @@ define([
 			this._lastFocusItem = elems.last || elems.highest || this._firstFocusItem;
 		}
 	});
-
-
-	return dijit._DialogMixin;
 });

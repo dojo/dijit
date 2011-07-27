@@ -1,22 +1,27 @@
 define([
-	"dojo/_base/kernel", // lang.getObject
-	".",
+	"dojo/_base/declare", // declare
+	"dojo/dom-attr", // domAttr.set
+	"dojo/dom-class", // domClass.add domClass.remove
+	"dojo/dom-construct", // domConstruct.create domConstruct.place
+	"dojo/_base/event", // event.stop
+	"dojo/keys", // keys
 	"dojo/_base/lang", // lang.getObject
 	"./_CssStateMixin",
-	"dojo/_base/connect", // dojo.keys
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/event", // dojo.stopEvent
-	"dojo/_base/html", // dojo.addClass dojo.attr dojo.create dojo.place dojo.removeClass
-	"./typematic",
-	"./focus"
-], function(dojo, dijit, lang){
+	"./focus",
+	"./typematic"
+], function(declare, domAttr, domClass, domConstruct, event, keys, lang, _CssStateMixin, focus, typematic){
+
+/*=====
+	var declare = dojo.declare;
+	var _CssStateMixin = dijit._CssStateMixin;
+=====*/
 
 // module:
 //		dijit/_PaletteMixin
 // summary:
 //		A keyboard accessible palette, for picking a color/emoticon/etc.
 
-dojo.declare("dijit._PaletteMixin", [dijit._CssStateMixin], {
+return declare("dijit._PaletteMixin", [_CssStateMixin], {
 	// summary:
 	//		A keyboard accessible palette, for picking a color/emoticon/etc.
 	// description:
@@ -96,13 +101,13 @@ dojo.declare("dijit._PaletteMixin", [dijit._CssStateMixin], {
 
 
 		for(var row=0; row < choices.length; row++){
-			var rowNode = dojo.create("tr", {tabIndex: "-1"}, this.gridNode);
+			var rowNode = domConstruct.create("tr", {tabIndex: "-1"}, this.gridNode);
 			for(var col=0; col < choices[row].length; col++){
 				var value = choices[row][col];
 				if(value){
 					var cellObject = this._dyeFactory(value);
 
-					var cellNode = dojo.create("td", {
+					var cellNode = domConstruct.create("td", {
 						"class": this.cellClass,
 						tabIndex: "-1",
 						title: titles[value]
@@ -114,7 +119,7 @@ dojo.declare("dijit._PaletteMixin", [dijit._CssStateMixin], {
 					this.connect(cellNode, "ondijitclick", "_onCellClick");
 					this._trackMouseState(cellNode, this.cellClass);
 
-					dojo.place(cellNode, rowNode);
+					domConstruct.place(cellNode, rowNode);
 
 					cellNode.index = this._cells.length;
 
@@ -142,9 +147,9 @@ dojo.declare("dijit._PaletteMixin", [dijit._CssStateMixin], {
 		};
 		for(var key in keyIncrementMap){
 			this._connects.push(
-				dijit.typematic.addKeyListener(
+				typematic.addKeyListener(
 					this.domNode,
-					{charOrCode:dojo.keys[key], ctrlKey:false, altKey:false, shiftKey:false},
+					{charOrCode:keys[key], ctrlKey:false, altKey:false, shiftKey:false},
 					this,
 					function(){
 						var increment = keyIncrementMap[key];
@@ -169,7 +174,7 @@ dojo.declare("dijit._PaletteMixin", [dijit._CssStateMixin], {
 		//		Focus this widget.  Puts focus on the most recently focused cell.
 
 		// The cell already has tabIndex set, just need to set CSS and focus it
-		dijit.focus(this._currentFocus);
+	focus.focus(this._currentFocus);
 	},
 
 	_onCellClick: function(/*Event*/ evt){
@@ -189,16 +194,16 @@ dojo.declare("dijit._PaletteMixin", [dijit._CssStateMixin], {
 		// second focus should win.
 		// Use setTimeout because IE doesn't like changing focus inside of an event handler.
 		this._setCurrent(target);
-		setTimeout(dojo.hitch(this, function(){
-			dijit.focus(target);
+		setTimeout(lang.hitch(this, function(){
+		focus.focus(target);
 			this._setValueAttr(value, true);
 		}));
 
 		// workaround bug where hover class is not removed on popup because the popup is
 		// closed and then there's no onblur event on the cell
-		dojo.removeClass(target, "dijitPaletteCellHover");
+		domClass.remove(target, "dijitPaletteCellHover");
 
-		dojo.stopEvent(evt);
+		event.stop(evt);
 	},
 
 	_setCurrent: function(/*DomNode*/ node){
@@ -215,13 +220,13 @@ dojo.declare("dijit._PaletteMixin", [dijit._CssStateMixin], {
 		//		protected
 		if("_currentFocus" in this){
 			// Remove tabIndex on old cell
-			dojo.attr(this._currentFocus, "tabIndex", "-1");
+			domAttr.set(this._currentFocus, "tabIndex", "-1");
 		}
 
 		// Set tabIndex of new cell
 		this._currentFocus = node;
 		if(node){
-			dojo.attr(node, "tabIndex", this.tabIndex);
+			domAttr.set(node, "tabIndex", this.tabIndex);
 		}
 	},
 
@@ -237,7 +242,7 @@ dojo.declare("dijit._PaletteMixin", [dijit._CssStateMixin], {
 
 		// clear old selected cell
 		if(this._selectedCell >= 0){
-			dojo.removeClass(this._cells[this._selectedCell].node, "dijitPaletteCellSelected");
+			domClass.remove(this._cells[this._selectedCell].node, "dijitPaletteCellSelected");
 		}
 		this._selectedCell = -1;
 
@@ -246,7 +251,7 @@ dojo.declare("dijit._PaletteMixin", [dijit._CssStateMixin], {
 			for(var i = 0; i < this._cells.length; i++){
 				if(value == this._cells[i].dye.getValue()){
 					this._selectedCell = i;
-					dojo.addClass(this._cells[i].node, "dijitPaletteCellSelected");
+					domClass.add(this._cells[i].node, "dijitPaletteCellSelected");
 					break;
 				}
 			}
@@ -288,7 +293,7 @@ dojo.declare("dijit._PaletteMixin", [dijit._CssStateMixin], {
 
 			// Actually focus the node, for the benefit of screen readers.
 			// Use setTimeout because IE doesn't like changing focus inside of an event handler
-			setTimeout(dojo.hitch(dijit, "focus", focusNode), 0);
+			setTimeout(lang.hitch(dijit, "focus", focusNode), 0);
 		}
 	},
 
@@ -301,7 +306,7 @@ dojo.declare("dijit._PaletteMixin", [dijit._CssStateMixin], {
 });
 
 /*=====
-dojo.declare("dijit.Dye",
+declare("dijit.Dye",
 	null,
 	{
 		// summary:
@@ -332,6 +337,4 @@ dojo.declare("dijit.Dye",
 );
 =====*/
 
-
-return dijit._PaletteMixin;
 });

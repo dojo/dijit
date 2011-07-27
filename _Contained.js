@@ -1,21 +1,24 @@
 define([
-	"dojo/_base/kernel",
-	".",
-	"dojo/_base/declare" // dojo.declare
-], function(dojo, dijit){
+	".",	// getEnclosingWidget(), byNode()
+	"dojo/_base/declare" // declare
+], function(dijit, declare){
+
+/*=====
+	var declare = dojo.declare;
+=====*/
 
 	// module:
 	//		dijit/_Contained
 	// summary:
 	//		Mixin for widgets that are children of a container widget
 
-	dojo.declare("dijit._Contained", null, {
+	return declare("dijit._Contained", null, {
 		// summary:
 		//		Mixin for widgets that are children of a container widget
 		//
 		// example:
 		// | 	// make a basic custom widget that knows about it's parents
-		// |	dojo.declare("my.customClass",[dijit._Widget,dijit._Contained],{});
+		// |	declare("my.customClass",[dijit._Widget,dijit._Contained],{});
 
 		getParent: function(){
 			// summary:
@@ -68,7 +71,4 @@ define([
 			return p.getIndexOfChild(this); // int
 		}
 	});
-
-
-	return dijit._Contained;
 });
