@@ -118,6 +118,12 @@ return declare("dijit.layout.ContentPane", [_Widget, _ContentPaneResizeMixin], {
 
 	baseClass: "dijitContentPane",
 
+	/*======
+	// ioMethod: dojo.xhrGet|dojo.xhrPost
+	//		Function that should grab the content specified via href.
+	ioMethod: dojo.xhrGet,
+	======*/
+
 	// ioArgs: Object
 	//		Parameters to pass to xhrGet() request, for example:
 	// |	<div dojoType="dijit.layout.ContentPane" href="./bar" ioArgs="{timeout: 500}">
