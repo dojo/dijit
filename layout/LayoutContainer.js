@@ -22,8 +22,7 @@ define([
 // This argument can be specified for the children of a LayoutContainer.
 // Since any widget can be specified as a LayoutContainer child, mix it
 // into the base widget class.  (This is a hack, but it's effective.)
-var extend = lang.extend;		/*===== extend = dojo.extend; =====*/
-extend(_WidgetBase, {
+lang.extend(_WidgetBase, {
 	// layoutAlign: String
 	//		"none", "left", "right", "bottom", "top", and "client".
 	//		See the LayoutContainer description for details on this parameter.

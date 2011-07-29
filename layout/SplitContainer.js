@@ -39,8 +39,7 @@ var _LayoutWidget = dijit.layout._LayoutWidget;
 // These arguments can be specified for the children of a SplitContainer.
 // Since any widget can be specified as a SplitContainer child, mix them
 // into the base widget class.  (This is a hack, but it's effective.)
-var extend = lang.extend;		/*===== extend = dojo.extend; =====*/
-extend(_WidgetBase, {
+lang.extend(_WidgetBase, {
 	// sizeMin: [deprecated] Integer
 	//		Deprecated.  Parameter for children of `dijit.layout.SplitContainer`.
 	//		Minimum size (width or height) of a child of a SplitContainer.

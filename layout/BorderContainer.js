@@ -302,8 +302,7 @@ var BorderContainer = declare("dijit.layout.BorderContainer", _LayoutWidget, {
 // This argument can be specified for the children of a BorderContainer.
 // Since any widget can be specified as a LayoutContainer child, mix it
 // into the base widget class.  (This is a hack, but it's effective.)
-var extend = lang.extend;		/*===== extend = dojo.extend; =====*/
-extend(_WidgetBase, {
+lang.extend(_WidgetBase, {
 	// region: [const] String
 	//		Parameter for children of `dijit.layout.BorderContainer`.
 	//		Values: "top", "bottom", "leading", "trailing", "left", "right", "center".

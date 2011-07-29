@@ -28,8 +28,7 @@ var StackController = dijit.layout.StackController;
 // These arguments can be specified for the children of a StackContainer.
 // Since any widget can be specified as a StackContainer child, mix them
 // into the base widget class.  (This is a hack, but it's effective.)
-var extend = lang.extend;		/*===== extend = dojo.extend; =====*/
-extend(_WidgetBase, {
+lang.extend(_WidgetBase, {
 	// selected: Boolean
 	//		Parameter for children of `dijit.layout.StackContainer` or subclasses.
 	//		Specifies that this widget should be the initially displayed pane.

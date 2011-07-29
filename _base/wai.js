@@ -13,9 +13,7 @@ define([
 	//
 	//		Also loads hccss to apply dijit_a11y class to root node if machine is in high-contrast mode.
 
-	var mixin = lang.mixin;		/*===== mixin = dojo.mixin; =====*/
-
-	mixin(dijit, {
+	lang.mixin(dijit, {
 		hasWaiRole: function(/*Element*/ elem, /*String?*/ role){
 			// summary:
 			//		Determines if an element has a particular role.

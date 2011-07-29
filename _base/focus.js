@@ -9,15 +9,13 @@ define([
 	"dojo/_base/window" // win.doc win.doc.selection win.global win.global.getSelection win.withGlobal
 ], function(dijit, lang, focus, manager, array, connect, dom, win){
 
-	var mixin = lang.mixin;		/*===== mixin = dojo.mixin; =====*/
-
 	// module:
 	//		dijit/_base/focus
 	// summary:
 	//		Deprecated module to monitor currently focused node and stack of currently focused widgets.
 	//		New code should access dijit/focus directly.
 
-	mixin(dijit, {
+	lang.mixin(dijit, {
 		// _curFocus: DomNode
 		//		Currently focused item on screen
 		_curFocus: null,
