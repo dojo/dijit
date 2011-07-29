@@ -59,10 +59,10 @@ define([
 			this.inherited(arguments);
 		},
 
-		postMixInProperties: function(){
-			// For backwards-compatibility, accept dojo.data store in addition to dojo.store.store.  Remove in 2.0
-			if(this.store && !this.store.get){
-				lang.mixin(this.store, {
+		_setStoreAttr: function(store){
+			// For backwards-compatibility, accept dojo.data store in addition to dojo.store.store.  Remove in 2.0.
+			if(!store.get){
+				lang.mixin(store, {
 					_oldAPI: true,
 					get: function(id, options){
 						// summary:
@@ -101,6 +101,16 @@ define([
 					}
 				});
 			}
+			this._set("store", store);
+		},
+
+		postMixInProperties: function(){
+			// Since _setValueAttr() depends on this.store, _setStoreAttr() needs to execute first.
+			// Unfortunately, without special code, it ends up executing second.
+			if(this.params.store){
+				this._setStoreAttr(this.params.store);
+			}
+
 			this.inherited(arguments);
 
 			// User may try to access this.store.getValue() etc.  in a custom labelFunc() function.
