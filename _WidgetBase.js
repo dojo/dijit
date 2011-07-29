@@ -41,6 +41,17 @@ function getAttrs(obj){
 	return ret;
 }
 
+function nonEmptyAttrToDom(attr){
+	// summary:
+	//		Returns a setter function that copies the attribute to this.domNode,
+	//		or removes the attribute from this.domNode, depending on whether the
+	//		value is defined or not.
+	return function(val){
+		domAttr[val ? "set" : "remove"](this.domNode, attr, val);
+		this._set(attr, val);
+	};
+}
+
 return declare("dijit._WidgetBase", Stateful, {
 	// summary:
 	//		Future base class for all Dijit widgets.
@@ -99,14 +110,16 @@ return declare("dijit._WidgetBase", Stateful, {
 	//		Value must be among the list of locales specified during by the Dojo bootstrap,
 	//		formatted according to [RFC 3066](http://www.ietf.org/rfc/rfc3066.txt) (like en-us).
 	lang: "",
-	_setLangAttr: "domNode",	// to set on domNode even when there's a focus node
+	// set on domNode even when there's a focus node.   but don't set lang="", since that's invalid.
+	_setLangAttr: nonEmptyAttrToDom("lang"),
 
 	// dir: [const] String
 	//		Bi-directional support, as defined by the [HTML DIR](http://www.w3.org/TR/html401/struct/dirlang.html#adef-dir)
 	//		attribute. Either left-to-right "ltr" or right-to-left "rtl".  If undefined, widgets renders in page's
 	//		default direction.
 	dir: "",
-	_setDirAttr: "domNode",	// to set on domNode even when there's a focus node
+	// set on domNode even when there's a focus node.   but don't set dir="", since that's invalid.
+	_setDirAttr: nonEmptyAttrToDom("dir"),	// to set on domNode even when there's a focus node
 
 	// textDir: String
 	//		Bi-directional support,	the main variable which is responsible for the direction of the text.
