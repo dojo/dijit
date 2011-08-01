@@ -17,7 +17,7 @@ define([
 	"./_TemplatedMixin",
 	"./form/_FormValueWidget",
 	"dojo/text!./templates/TimePicker.html"
-], function(array, date, locale, stamp, declare, domClass, domConstruct, event, kernel, keys, lang, has, query,
+], function(array, ddate, locale, stamp, declare, domClass, domConstruct, event, kernel, keys, lang, has, query,
 			typematic, _Widget, _TemplatedMixin, _FormValueWidget, template){
 
 /*=====
@@ -318,7 +318,7 @@ define([
 				// set disabled
 				domClass.add(div, this.baseClass+"ItemDisabled");
 			}
-			if(this.value && !date.compare(this.value, date, this.constraints.selector)){
+			if(this.value && !ddate.compare(this.value, date, this.constraints.selector)){
 				div.selected = true;
 				domClass.add(div, this.baseClass+"ItemSelected");
 				if(domClass.contains(div, this.baseClass+"Marker")){
