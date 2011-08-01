@@ -7,7 +7,6 @@ define([
 ], function(dijit, declare, has, _FormWidget, _FormValueMixin){
 
 /*=====
-var declare = dojo.declare;
 var _FormWidget = dijit.form._FormWidget;
 var _FormValueMixin = dijit.form._FormValueMixin;
  =====*/

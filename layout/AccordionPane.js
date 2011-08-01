@@ -6,7 +6,6 @@ define([
 ], function(kernel, dijit, ContentPane, declare){
 
 /*=====
-	var declare = dojo.declare;
 	var ContentPane = dijit.layout.ContentPane;
 =====*/
 

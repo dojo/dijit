@@ -20,7 +20,6 @@ define([
 			dom, domClass, domConstruct, domGeometry, domStyle, has, win){
 
 /*=====
-var declare = dojo.declare;
 var _WidgetBase = dijit._WidgetBase;
 var _LayoutWidget = dijit.layout._LayoutWidget;
 =====*/

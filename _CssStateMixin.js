@@ -7,10 +7,6 @@ define([
 	"dojo/_base/window" // win.body
 ], function(touch, array, declare, domClass, lang, win){
 
-/*=====
-	var declare = dojo.declare;
-=====*/
-
 // module:
 //		dijit/_CssStateMixin
 // summary:

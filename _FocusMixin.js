@@ -6,7 +6,6 @@ define([
 ], function(focus, _WidgetBase, declare, lang){
 
 /*=====
-	var declare = dojo.declare;
 	var _WidgetBase = dijit._WidgetBase;
 =====*/
 

@@ -7,7 +7,6 @@ define([
 ], function(lang, declare, _TabContainerBase, TabController, ScrollingTabController){
 
 /*=====
-	var declare = dojo.declare;
 	var _TabContainerBase = dijit.layout._TabContainerBase;
 	var TabController = dijit.layout.TabController;
 	var ScrollingTabController = dijit.layout.ScrollingTabController;

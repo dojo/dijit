@@ -16,7 +16,6 @@ define([
 			config, connect, declare, kernel, lang, query){
 
 /*=====
-	var declare = dojo.declare;
 	var _WidgetBase = dijit._WidgetBase;
 	var _OnDijitClickMixin = dijit._OnDijitClickMixin;
 	var _FocusMixin = dijit._FocusMixin;

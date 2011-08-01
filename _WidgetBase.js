@@ -20,7 +20,6 @@ define([
 			lang, Stateful, win){
 
 /*=====
-var declare = dojo.declare;
 var Stateful = dojo.Stateful;
 =====*/
 

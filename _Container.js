@@ -5,10 +5,6 @@ define([
 	"dojo/dom-construct" // domConstruct.place
 ], function(dijit, array, declare, domConstruct){
 
-/*=====
-	var declare = dojo.declare;
-=====*/
-
 	// module:
 	//		dijit/_Container
 	// summary:

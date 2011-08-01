@@ -14,7 +14,6 @@ define([
 	declare, dom, domAttr, domClass, lang, array){
 
 /*=====
-	var declare = dojo.declare;
 	var _Widget = dijit._Widget;
 	var _TemplatedMixin = dijit._TemplatedMixin;
 	var _KeyNavContainer = dijit._KeyNavContainer;

@@ -23,7 +23,6 @@ define([
 	Menu, MenuItem, Button, _HasDropDown, array, declare, domClass, domGeometry, domStyle, lang, has, fx, query){
 
 /*=====
-var declare = dojo.declare;
 var _WidgetsInTemplateMixin = dijit._WidgetsInTemplateMixin;
 var Menu = dijit.Menu;
 var _HasDropDown = dijit._HasDropDown;

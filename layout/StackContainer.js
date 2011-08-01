@@ -13,7 +13,6 @@ define([
 	array, connect, declare, lang, domClass){
 
 /*=====
-var declare = dojo.declare;
 var _WidgetBase = dijit._WidgetBase;
 var _LayoutWidget = dijit.layout._LayoutWidget;
 var StackController = dijit.layout.StackController;

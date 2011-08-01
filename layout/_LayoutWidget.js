@@ -14,7 +14,6 @@ define([
 	array, declare, domClass, domGeometry, domStyle, has, win){
 
 /*=====
-	var declare = dojo.declare;
 	var _Widget = dijit._Widget;
 	var _Container = dijit._Container;
 	var _Contained = dijit._Contained;

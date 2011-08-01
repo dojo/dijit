@@ -18,7 +18,6 @@ define([
 	array, declare, Deferred, dom, domAttr, win, xhr, i18n){
 
 /*=====
-	var declare = dojo.declare;
 	var _Widget = dijit._Widget;
 	var _ContentPaneResizeMixin = dijit.layout._ContentPaneResizeMixin;
 =====*/

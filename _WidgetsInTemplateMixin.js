@@ -5,10 +5,6 @@ define([
 	"dojo/_base/declare" // declare
 ], function(dijit, parser, array, declare){
 
-/*=====
-	var declare = dojo.declare;
-=====*/
-
 	// module:
 	//		dijit/_WidgetsInTemplateMixin
 	// summary:

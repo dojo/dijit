@@ -5,7 +5,6 @@ define([
 ], function(ContentPane, _TemplatedMixin, declare){
 
 /*=====
-	var declare = dojo.declare;
 	var _TemplatedMixin = dijit._TemplatedMixin;
 	var ContentPane = dijit.layout.ContentPane;
 =====*/

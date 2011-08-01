@@ -16,7 +16,6 @@ define([
 	array, keys, declare, event, has){
 
 /*=====
-	var declare = dojo.declare;
 	var _Widget = dijit._Widget;
 	var _TemplatedMixin = dijit._TemplatedMixin;
 	var _Container = dijit._Container;

@@ -8,10 +8,6 @@ define([
 	"dojo/_base/window" // win.doc.addEventListener win.doc.attachEvent win.doc.detachEvent
 ], function(on, array, keys, declare, has, unload, win){
 
-/*=====
-	var declare = dojo.declare;
-=====*/
-
 	// module:
 	//		dijit/_OnDijitClickMixin
 	// summary:

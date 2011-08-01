@@ -11,10 +11,6 @@ define([
 	"dojo/_base/window" // win.body win.global
 ], function(dijit, array, config, declare, dom, domAttr, domStyle, has, unload, win){
 
-/*=====
-	var declare = dojo.declare;
-=====*/
-
 	// module:
 	//		dijit/_base/manager
 	// summary:

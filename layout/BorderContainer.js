@@ -21,7 +21,6 @@ define([
 	array, connect, keys, declare, event, domClass, domConstruct, domGeometry, domStyle, win){
 
 /*=====
-	var declare = dojo.declare;
 	var _WidgetBase = dijit._WidgetBase;
 	var _Widget = dijit._Widget;
 	var _TemplatedMixin = dijit._TemplatedMixin;

@@ -8,7 +8,6 @@ define([
 ], function(kernel, lang, declare, _WidgetBase, _LayoutWidget, layoutUtils){
 
 /*=====
-	var declare = dojo.declare;
 	var _WidgetBase = dijit._WidgetBase;
 	var _LayoutWidget = dijit.layout._LayoutWidget;
 =====*/

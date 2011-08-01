@@ -13,7 +13,6 @@ define([
 ], function(lang, touch, _WidgetBase, string, cache, array, declare, domConstruct, has, unload, win) {
 
 /*=====
-	var declare = dojo.declare;
 	var _WidgetBase = dijit._WidgetBase;
 =====*/
 

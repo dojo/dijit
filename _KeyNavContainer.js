@@ -11,7 +11,6 @@ define([
 ], function(kernel, _Container, _FocusMixin, array, keys, declare, event, domAttr, lang){
 
 /*=====
-	var declare = dojo.declare;
 	var _FocusMixin = dijit._FocusMixin;
 	var _Container = dijit._Container;
 =====*/

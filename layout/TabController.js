@@ -13,7 +13,6 @@ define([
 ], function(template, StackController, Menu, MenuItem, nlsCommon, declare, dom, domAttr, domClass, lang, i18n){
 
 /*=====
-	var declare = dojo.declare;
 	var StackController = dijit.layout.StackController;
 	var Menu = dijit.Menu;
 	var MenuItem = dijit.MenuItem;

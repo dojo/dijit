@@ -21,7 +21,6 @@ define([
 			typematic, _Widget, _TemplatedMixin, _FormValueWidget, template){
 
 /*=====
-	var declare = dojo.declare;
 	var _Widget = dijit._Widget;
 	var _TemplatedMixin = dijit._TemplatedMixin;
 	var _FormValueWidget = dijit.form._FormValueWidget;

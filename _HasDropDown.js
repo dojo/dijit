@@ -20,7 +20,6 @@ define([
 			dom, domAttr, domClass, domGeometry, domStyle, lang, win, winUtils){
 
 /*=====
-	var declare = dojo.declare;
 	var _FocusMixin = dijit._FocusMixin;
 =====*/
 

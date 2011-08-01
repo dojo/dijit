@@ -12,7 +12,6 @@ define([
 ], function(declare, domAttr, domClass, domConstruct, event, keys, lang, _CssStateMixin, focus, typematic){
 
 /*=====
-	var declare = dojo.declare;
 	var _CssStateMixin = dijit._CssStateMixin;
 =====*/
 

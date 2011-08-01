@@ -3,10 +3,6 @@ define([
 	"dojo/_base/declare" // declare
 ], function(dijit, declare){
 
-/*=====
-	var declare = dojo.declare;
-=====*/
-
 	// module:
 	//		dijit/_Contained
 	// summary:
