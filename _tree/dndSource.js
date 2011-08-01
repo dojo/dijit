@@ -1,18 +1,15 @@
 define([
-	"dojo/_base/kernel", // dojo.deprecated
-	"..",
-	"dojo/_base/lang", // dojo.deprecated
+	"dojo/_base/kernel", // kernel.deprecated
+	"dojo/_base/lang", // lang.getObject
 	"../tree/dndSource"
-], function(dojo, dijit){
+], function(kernel, lang, dndSource){
 	// module:
 	//		dijit/_tree/dndSource
 	// summary:
 	//		Deprecated module, use dijit.tree.dndSource instead
 
 	// TODO: remove this file in 2.0
-	dojo.deprecated("dijit._tree.dndSource has been moved to dijit.tree.dndSource, use that instead", "", "2.0");
+	kernel.deprecated("dijit._tree.dndSource has been moved to dijit.tree.dndSource, use that instead", "", "2.0");
 
-	lang.getObject("_tree", true, dijit);
-
-	dijit._tree.dndSource = dijit.tree.dndSource;
+	lang.setObject("dijit._tree.dndSource", dndSource);
 });

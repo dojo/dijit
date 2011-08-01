@@ -1,17 +1,14 @@
 define([
-	"dojo/_base/kernel",
-	"..",
+	"dojo/_base/array", // array.filter array.forEach array.map
+	"dojo/_base/connect", // connect.connect connect.isCopyKey
+	"dojo/_base/declare", // declare
+	"dojo/_base/event", // event.stop
+	"dojo/_base/lang", // lang.hitch
+	"dojo/mouse", // mouse.mouseButtons.isLeft
 	"dojo/touch",
-	"dojo/dnd/common",
-	"./_dndContainer",
-	"dojo/_base/array", // dojo.filter dojo.forEach dojo.map
-	"dojo/_base/connect", // dojo.connect dojo.isCopyKey
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/event", // dojo.stopEvent
-	"dojo/_base/lang", // dojo.hitch
-	"dojo/_base/window", // dojo.global
-	"dojo/mouse" // dojo.mouseButtons.isLeft
-], function(dojo, dijit, touch){
+	"dojo/_base/window", // win.global
+	"./_dndContainer"
+], function(array, connect, declare, event, lang, mouse, touch, win, _dndContainer){
 
 	// module:
 	//		dijit/tree/_dndSelector
@@ -20,7 +17,7 @@ define([
 	//		It's based on `dojo.dnd.Selector`.
 
 
-	dojo.declare("dijit.tree._dndSelector", dijit.tree._dndContainer, {
+	return declare("dijit.tree._dndSelector", _dndContainer, {
 		// summary:
 		//		This is a base class for `dijit.tree.dndSource` , and isn't meant to be used directly.
 		//		It's based on `dojo.dnd.Selector`.
@@ -46,9 +43,9 @@ define([
 			this.tree.domNode.setAttribute("aria-multiselect", !this.singular);
 
 			this.events.push(
-				dojo.connect(this.tree.domNode, touch.press, this,"onMouseDown"),
-				dojo.connect(this.tree.domNode, touch.release, this,"onMouseUp"),
-				dojo.connect(this.tree.domNode, touch.move, this,"onMouseMove")
+				connect.connect(this.tree.domNode, touch.press, this,"onMouseDown"),
+				connect.connect(this.tree.domNode, touch.release, this,"onMouseUp"),
+				connect.connect(this.tree.domNode, touch.move, this,"onMouseMove")
 			);
 		},
 
@@ -124,14 +121,14 @@ define([
 			// newSelection: Node[]
 			//		list of tree nodes to make selected
 			var oldSelection = this.getSelectedTreeNodes();
-			dojo.forEach(this._setDifference(oldSelection, newSelection), dojo.hitch(this, function(node){
+			array.forEach(this._setDifference(oldSelection, newSelection), lang.hitch(this, function(node){
 				node.setSelected(false);
 				if(this.anchor == node){
 					delete this.anchor;
 				}
 				delete this.selection[node.id];
 			}));
-			dojo.forEach(this._setDifference(newSelection, oldSelection), dojo.hitch(this, function(node){
+			array.forEach(this._setDifference(newSelection, oldSelection), lang.hitch(this, function(node){
 				node.setSelected(true);
 				this.selection[node.id] = node;
 			}));
@@ -144,11 +141,11 @@ define([
 			//		modifying and then reading the object, so it will
 			//		not properly handle sets of numbers or strings.
 
-			dojo.forEach(ys, function(y){ y.__exclude__ = true; });
-			var ret = dojo.filter(xs, function(x){ return !x.__exclude__; });
+			array.forEach(ys, function(y){ y.__exclude__ = true; });
+			var ret = array.filter(xs, function(x){ return !x.__exclude__; });
 
 			// clean up after ourselves.
-			dojo.forEach(ys, function(y){ delete y['__exclude__'] });
+			array.forEach(ys, function(y){ delete y['__exclude__'] });
 			return ret;
 		},
 		_updateSelectionProperties: function(){
@@ -158,11 +155,11 @@ define([
 
 			var selected = this.getSelectedTreeNodes();
 			var paths = [], nodes = [];
-			dojo.forEach(selected, function(node){
+			array.forEach(selected, function(node){
 				nodes.push(node);
 				paths.push(node.getTreePath());
 			});
-			var items = dojo.map(nodes,function(node){ return node.item; });
+			var items = array.map(nodes,function(node){ return node.item; });
 			this.tree._set("paths", paths);
 			this.tree._set("path", paths[0] || []);
 			this.tree._set("selectedNodes", nodes);
@@ -182,12 +179,12 @@ define([
 			// ignore click on expando node
 			if(!this.current || this.tree.isExpandoNode(e.target, this.current)){ return; }
 
-			if(!dojo.mouseButtons.isLeft(e)){ return; } // ignore right-click
+			if(!mouse.mouseButtons.isLeft(e)){ return; } // ignore right-click
 
-			dojo.stopEvent(e);
+			event.stop(e);
 
 			var treeNode = this.current,
-			  copy = dojo.isCopyKey(e), id = treeNode.id;
+			  copy = connect.isCopyKey(e), id = treeNode.id;
 
 			// if shift key is not pressed, and the node is already in the selection,
 			// delay deselection until onmouseup so in the case of DND, deselection
@@ -216,7 +213,7 @@ define([
 			// the deselection logic here, the user can drags an already selected item.
 			if(!this._doDeselect){ return; }
 			this._doDeselect = false;
-			this.userSelect(this.current, dojo.isCopyKey( e ), e.shiftKey);
+			this.userSelect(this.current, connect.isCopyKey( e ), e.shiftKey);
 		},
 		onMouseMove: function(e){
 			// summary:
@@ -224,6 +221,29 @@ define([
 			// e: Event
 			//		onmousemove/ontouchmove event
 			this._doDeselect = false;
+		},
+
+		_compareNodes: function(n1, n2){
+			if(n1 === n2){
+				return 0;
+			}
+
+			if('sourceIndex' in document.documentElement){ //IE
+				//TODO: does not yet work if n1 and/or n2 is a text node
+				return n1.sourceIndex - n2.sourceIndex;
+			}else if('compareDocumentPosition' in document.documentElement){ //FF, Opera
+				return n1.compareDocumentPosition(n2) & 2 ? 1: -1;
+			}else if(document.createRange){ //Webkit
+				var r1 = doc.createRange();
+				r1.setStartBefore(n1);
+
+				var r2 = doc.createRange();
+				r2.setStartBefore(n2);
+
+				return r1.compareBoundaryPoints(r1.END_TO_END, r2);
+			}else{
+				throw Error("dijit.tree._compareNodes don't know how to compare two different nodes in this browser");
+			}
 		},
 
 		userSelect: function(node, multi, range){
@@ -246,7 +266,7 @@ define([
 				}
 			}else{
 				if(range && this.anchor){
-					var cr = dijit.tree._compareNodes(this.anchor.rowNode, node.rowNode),
+					var cr = this._compareNodes(this.anchor.rowNode, node.rowNode),
 					begin, end, anchor = this.anchor;
 
 					if(cr < 0){ //current is after anchor
@@ -282,14 +302,11 @@ define([
 			// summary:
 			//		Iterates over selected items;
 			//		see `dojo.dnd.Container.forInItems()` for details
-			o = o || dojo.global;
+			o = o || win.global;
 			for(var id in this.selection){
 				// console.log("selected item id: " + id);
 				f.call(o, this.getItem(id), id, this);
 			}
 		}
 	});
-
-
-	return dijit.tree._dndSelector;
 });
