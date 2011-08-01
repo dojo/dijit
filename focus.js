@@ -1,20 +1,19 @@
 define([
-	"dojo/_base/kernel",
-	".",
-	"dojo/on",
 	"dojo/aspect",
+	"dojo/_base/declare", // declare
+	"dojo/dom", // domAttr.get dom.isDescendant
+	"dojo/dom-attr", // domAttr.get dom.isDescendant
+	"dojo/_base/lang", // lang.hitch
+	"dojo/on",
+	"dojo/ready",
+	"dojo/_base/sniff", // has("ie")
 	"dojo/Stateful",
-	"dojo/window", // dojo.window.get
-	"./_base/manager",
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/html", // dojo.attr dojo.isDescendant
-	"dojo/_base/lang", // dojo.hitch
-	"dojo/ready", // dojo.addOnLoad
-	"dojo/_base/sniff", // dojo.isIE
-	"dojo/_base/unload", // dojo.addOnWindowUnload
-	"dojo/_base/window", // dojo.body
-	"dijit/_base/manager"	// dijit.byId, dijit.isTabNavigable
-], function(dojo, dijit, on, aspect, Stateful){
+	"dojo/_base/unload", // unload.addOnWindowUnload
+	"dojo/_base/window", // win.body
+	"dojo/window", // winUtils.get
+	"./_base/manager",	// dijit.byId, dijit.isTabNavigable
+	"."		// sets globals in dijit
+], function(aspect, declare, dom, domAttr, lang, on, ready, has, Stateful, unload, win, winUtils, dijit){
 
 	// module:
 	//		dijit/focus
@@ -91,7 +90,7 @@ define([
 	};
 =====*/
 
-	var FocusManager = dojo.declare([Stateful, on.Evented], {
+	var FocusManager = declare([Stateful, on.Evented], {
 		// curNode: DomNode
 		//		Currently focused item on screen
 		curNode: null,
@@ -102,11 +101,11 @@ define([
 
 		constructor: function(){
 			// Don't leave curNode/prevNode pointing to bogus elements
-			var check = dojo.hitch(this, function(node){
-				if(dojo.isDescendant(this.curNode, node)){
+			var check = lang.hitch(this, function(node){
+				if(dom.isDescendant(this.curNode, node)){
 					this.set("curNode", null);
 				}
-				if(dojo.isDescendant(this.prevNode, node)){
+				if(dom.isDescendant(this.prevNode, node)){
 					this.set("prevNode", null);
 				}
 			});
@@ -161,7 +160,7 @@ define([
 
 				// workaround weird IE bug where the click is on an orphaned node
 				// (first time clicking a Select/DropDownButton inside a TooltipDialog)
-				if(dojo.isIE && evt && evt.srcElement && evt.srcElement.parentNode == null){
+				if(has("ie") && evt && evt.srcElement && evt.srcElement.parentNode == null){
 					return;
 				}
 
@@ -174,9 +173,9 @@ define([
 			// fire.
 			// Connect to <html> (rather than document) on IE to avoid memory leaks, but document on other browsers because
 			// (at least for FF) the focus event doesn't fire on <html> or <body>.
-			var doc = dojo.isIE ? targetWindow.document.documentElement : targetWindow.document;
+			var doc = has("ie") ? targetWindow.document.documentElement : targetWindow.document;
 			if(doc){
-				if(dojo.isIE){
+				if(has("ie")){
 					targetWindow.document.body.attachEvent('onmousedown', mousedownListener);
 					var activateListener = function(evt){
 						// IE reports that nodes like <body> have gotten focus, even though they have tabIndex=-1,
@@ -257,7 +256,7 @@ define([
 			if(this._clearActiveWidgetsTimer){
 				clearTimeout(this._clearActiveWidgetsTimer);
 			}
-			this._clearActiveWidgetsTimer = setTimeout(dojo.hitch(this, function(){
+			this._clearActiveWidgetsTimer = setTimeout(lang.hitch(this, function(){
 				delete this._clearActiveWidgetsTimer;
 				this._setStack([]);
 				this.prevNode = null;
@@ -282,18 +281,18 @@ define([
 			var newStack=[];
 			try{
 				while(node){
-					var popupParent = dojo.attr(node, "dijitPopupParent");
+					var popupParent = domAttr.get(node, "dijitPopupParent");
 					if(popupParent){
 						node=dijit.byId(popupParent).domNode;
 					}else if(node.tagName && node.tagName.toLowerCase() == "body"){
 						// is this the root of the document or just the root of an iframe?
-						if(node === dojo.body()){
+						if(node === win.body()){
 							// node is the root of the main document
 							break;
 						}
 						// otherwise, find the iframe this node refers to (can't access it via parentNode,
 						// need to do this trick instead). window.frameElement is supported in IE/FF/Webkit
-						node=dojo.window.get(node.ownerDocument).frameElement;
+						node=winUtils.get(node.ownerDocument).frameElement;
 					}else{
 						// if this node is the root node of a widget, then add widget id to stack,
 						// except ignore clicks on disabled widgets (actually focusing a disabled widget still works,
@@ -389,10 +388,10 @@ define([
 	var singleton = new FocusManager();
 
 	// register top window and all the iframes it contains
-	dojo.addOnLoad(function(){
-		var handle = singleton.registerWin(dojo.doc.parentWindow || dojo.doc.defaultView);
-		if(dojo.isIE){
-			dojo.addOnWindowUnload(function(){
+	ready(function(){
+		var handle = singleton.registerWin(win.doc.parentWindow || win.doc.defaultView);
+		if(has("ie")){
+			unload.addOnWindowUnload(function(){
 				singleton.unregisterWin(handle);
 				handle = null;
 			})
@@ -406,7 +405,7 @@ define([
 	};
 	for(var attr in singleton){
 		if(!/^_/.test(attr)){
-			dijit.focus[attr] = typeof singleton[attr] == "function" ? dojo.hitch(singleton, attr) : singleton[attr];
+			dijit.focus[attr] = typeof singleton[attr] == "function" ? lang.hitch(singleton, attr) : singleton[attr];
 		}
 	}
 	singleton.watch(function(attr, oldVal, newVal){

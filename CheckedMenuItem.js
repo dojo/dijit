@@ -1,19 +1,21 @@
 define([
-	"dojo/_base/kernel",
-	".",
-	"dojo/text!./templates/CheckedMenuItem.html",
-	"./hccss",
+	"dojo/_base/declare", // declare
+	"dojo/dom-class", // domClass.toggle
 	"./MenuItem",
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/html" // dojo.toggleClass
-], function(dojo, dijit, template){
+	"dojo/text!./templates/CheckedMenuItem.html",
+	"./hccss"
+], function(declare, domClass, MenuItem, template){
+
+/*=====
+	var MenuItem = dijit.MenuItem;
+=====*/
 
 	// module:
 	//		dijit/CheckedMenuItem
 	// summary:
 	//		A checkbox-like menu item for toggling on and off
 
-	dojo.declare("dijit.CheckedMenuItem", dijit.MenuItem, {
+	return declare("dijit.CheckedMenuItem", MenuItem, {
 		// summary:
 		//		A checkbox-like menu item for toggling on and off
 
@@ -26,7 +28,7 @@ define([
 			// summary:
 			//		Hook so attr('checked', bool) works.
 			//		Sets the class and state for the check box.
-			dojo.toggleClass(this.domNode, "dijitCheckedMenuItemChecked", checked);
+			domClass.toggle(this.domNode, "dijitCheckedMenuItemChecked", checked);
 			this.domNode.setAttribute("aria-checked", checked);
 			this._set("checked", checked);
 		},
@@ -52,6 +54,4 @@ define([
 			this.inherited(arguments);
 		}
 	});
-
-	return dijit.CheckedMenuItem;
 });

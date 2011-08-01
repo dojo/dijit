@@ -1,20 +1,23 @@
 define([
-	"dojo/_base/kernel",
-	".",
+	"dojo/_base/declare", // declare
+	"dojo/_base/event", // event.stop
+	"dojo/keys", // keys
 	"dojo/text!./templates/Menu.html",
 	"./_OnDijitClickMixin",
-	"./_MenuBase",
-	"dojo/_base/connect", // dojo.keys
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/event" // dojo.stopEvent
-], function(dojo, dijit, template){
+	"./_MenuBase"
+], function(declare, event, keys, template, _OnDijitClickMixin, _MenuBase){
+
+/*=====
+	var _MenuBase = dijit._MenuBase;
+	var _OnDijitClickMixin = dijit._OnDijitClickMixin;
+=====*/
 
 	// module:
 	//		dijit/DropDownMenu
 	// summary:
 	//		dijit.DropDownMenu widget
 
-	dojo.declare("dijit.DropDownMenu", [dijit._MenuBase, dijit._OnDijitClickMixin], {
+	return declare("dijit.DropDownMenu", [_MenuBase, _OnDijitClickMixin], {
 		// summary:
 		//		A menu, without features for context menu (Meaning, drop down menu)
 
@@ -23,10 +26,10 @@ define([
 		baseClass: "dijitMenu",
 
 		postCreate: function(){
-			var k = dojo.keys, l = this.isLeftToRight();
-			this._openSubMenuKey = l ? k.RIGHT_ARROW : k.LEFT_ARROW;
-			this._closeSubMenuKey = l ? k.LEFT_ARROW : k.RIGHT_ARROW;
-			this.connectKeyNavHandlers([k.UP_ARROW], [k.DOWN_ARROW]);
+			var l = this.isLeftToRight();
+			this._openSubMenuKey = l ? keys.RIGHT_ARROW : keys.LEFT_ARROW;
+			this._closeSubMenuKey = l ? keys.LEFT_ARROW : keys.RIGHT_ARROW;
+			this.connectKeyNavHandlers([keys.UP_ARROW], [keys.DOWN_ARROW]);
 		},
 
 		_onKeyPress: function(/*Event*/ evt){
@@ -40,7 +43,7 @@ define([
 			switch(evt.charOrCode){
 				case this._openSubMenuKey:
 					this._moveToPopup(evt);
-					dojo.stopEvent(evt);
+					event.stop(evt);
 					break;
 				case this._closeSubMenuKey:
 					if(this.parentMenu){
@@ -50,12 +53,10 @@ define([
 							this.onCancel(false);
 						}
 					}else{
-						dojo.stopEvent(evt);
+						event.stop(evt);
 					}
 					break;
 			}
 		}
 	});
-
-	return dijit.DropDownMenu;
 });

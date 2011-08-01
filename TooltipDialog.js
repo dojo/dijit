@@ -1,18 +1,25 @@
 define([
-	"dojo/_base/kernel",
-	".",
-	"dojo/text!./templates/TooltipDialog.html",
-	"./layout/ContentPane",
-	"./_TemplatedMixin",
-	"./form/_FormMixin",
-	"./_DialogMixin",
+	"dojo/_base/declare", // declare
+	"dojo/dom-class", // domClass.replace
+	"dojo/_base/event", // event.stop
+	"dojo/keys", // keys
+	"dojo/_base/lang", // lang.hitch
 	"./focus",
-	"dojo/_base/connect", // dojo.keys
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/event", // dojo.stopEvent
-	"dojo/_base/html", // dojo.replaceClass
-	"dojo/_base/lang" // dojo.hitch
-], function(dojo, dijit, template){
+	"./layout/ContentPane",
+	"./_DialogMixin",
+	"./form/_FormMixin",
+	"./_TemplatedMixin",
+	"dojo/text!./templates/TooltipDialog.html",
+	"."		// exports methods to dijit global
+], function(declare, domClass, event, keys, lang,
+			focus, ContentPane, _DialogMixin, _FormMixin, _TemplatedMixin, template, dijit){
+
+/*=====
+	var ContentPane = dijit.layout.ContentPane;
+	var _DialogMixin = dijit._DialogMixin;
+	var _FormMixin = dijit.form._FormMixin;
+	var _TemplatedMixin = dijit._TemplatedMixin;
+=====*/
 
 	// module:
 	//		dijit/TooltipDialog
@@ -20,8 +27,8 @@ define([
 	//		Pops up a dialog that appears like a Tooltip
 
 
-	dojo.declare("dijit.TooltipDialog",
-		[dijit.layout.ContentPane, dijit._TemplatedMixin, dijit.form._FormMixin, dijit._DialogMixin], {
+	return declare("dijit.TooltipDialog",
+		[ContentPane, _TemplatedMixin, _FormMixin, _DialogMixin], {
 		// summary:
 		//		Pops up a dialog that appears like a Tooltip
 
@@ -79,7 +86,7 @@ define([
 					+ " dijitTooltip"
 					+ (corner.charAt(0) == 'T' ? "Below" : "Above");
 
-			dojo.replaceClass(this.domNode, newC, this._currentOrientClass || "");
+			domClass.replace(this.domNode, newC, this._currentOrientClass || "");
 			this._currentOrientClass = newC;
 		},
 
@@ -87,7 +94,7 @@ define([
 			// summary:
 			//		Focus on first field
 			this._getFocusItems(this.containerNode);
-			dijit.focus(this._firstFocusItem);
+			focus.focus(this._firstFocusItem);
 		},
 
 		onOpen: function(/*Object*/ pos){
@@ -119,32 +126,29 @@ define([
 			//		private
 
 			var node = evt.target;
-			var dk = dojo.keys;
-			if(evt.charOrCode === dk.TAB){
+			if(evt.charOrCode === keys.TAB){
 				this._getFocusItems(this.containerNode);
 			}
 			var singleFocusItem = (this._firstFocusItem == this._lastFocusItem);
-			if(evt.charOrCode == dk.ESCAPE){
+			if(evt.charOrCode == keys.ESCAPE){
 				// Use setTimeout to avoid crash on IE, see #10396.
-				setTimeout(dojo.hitch(this, "onCancel"), 0);
-				dojo.stopEvent(evt);
-			}else if(node == this._firstFocusItem && evt.shiftKey && evt.charOrCode === dk.TAB){
+				setTimeout(lang.hitch(this, "onCancel"), 0);
+				event.stop(evt);
+			}else if(node == this._firstFocusItem && evt.shiftKey && evt.charOrCode === keys.TAB){
 				if(!singleFocusItem){
-					dijit.focus(this._lastFocusItem); // send focus to last item in dialog
+					focus.focus(this._lastFocusItem); // send focus to last item in dialog
 				}
-				dojo.stopEvent(evt);
-			}else if(node == this._lastFocusItem && evt.charOrCode === dk.TAB && !evt.shiftKey){
+				event.stop(evt);
+			}else if(node == this._lastFocusItem && evt.charOrCode === keys.TAB && !evt.shiftKey){
 				if(!singleFocusItem){
-					dijit.focus(this._firstFocusItem); // send focus to first item in dialog
+					focus.focus(this._firstFocusItem); // send focus to first item in dialog
 				}
-				dojo.stopEvent(evt);
-			}else if(evt.charOrCode === dk.TAB){
+				event.stop(evt);
+			}else if(evt.charOrCode === keys.TAB){
 				// we want the browser's default tab handling to move focus
 				// but we don't want the tab to propagate upwards
 				evt.stopPropagation();
 			}
 		}
 	});
-
-	return dijit.TooltipDialog;
 });

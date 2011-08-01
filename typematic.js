@@ -1,12 +1,12 @@
 define([
-	"dojo/_base/kernel", // dojo.deprecated lang.mixin
-	".",
-	"dojo/_base/lang", // dojo.deprecated lang.mixin
-	"dojo/_base/array", // dojo.forEach
-	"dojo/_base/connect", // dojo.connect
-	"dojo/_base/event", // dojo.stopEvent
-	"dojo/_base/sniff" // dojo.isIE
-], function(dojo, dijit, lang){
+	"dojo/_base/array", // array.forEach
+	"dojo/_base/connect", // connect.connect
+	"dojo/_base/event", // event.stop
+	"dojo/_base/kernel", // kernel.deprecated
+	"dojo/_base/lang", // lang.mixin
+	"dojo/_base/sniff", // has("ie")
+	"."		// setting dijit.typematic global
+], function(array, connect, event, kernel, lang, has, dijit){
 
 // module:
 //		dijit/typematic
@@ -16,7 +16,7 @@ define([
 //		held down for a specific amount of time.
 //		Only 1 such event is allowed to occur on the browser page at 1 time.
 
-dijit.typematic = {
+return (dijit.typematic = {
 	// summary:
 	//		These functions are used to repetitively call a user specified callback
 	//		method when a specific key or mouse click over a specific DOM node is
@@ -33,7 +33,7 @@ dijit.typematic = {
 			this._currentTimeout < 0 ? this._initialDelay :
 				(this._subsequentDelay > 1 ? this._subsequentDelay : Math.round(this._currentTimeout * this._subsequentDelay)),
 			this._minDelay);
-		this._timer = setTimeout(dojo.hitch(this, "_fireEventAndReload"), this._currentTimeout);
+		this._timer = setTimeout(lang.hitch(this, "_fireEventAndReload"), this._currentTimeout);
 	},
 
 	trigger: function(/*Event*/ evt, /*Object*/ _this, /*DOMNode*/ node, /*Function*/ callback, /*Object*/ obj, /*Number*/ subsequentDelay, /*Number*/ initialDelay, /*Number?*/ minDelay){
@@ -75,7 +75,7 @@ dijit.typematic = {
 			this._node = node;
 			this._currentTimeout = -1;
 			this._count = -1;
-			this._callback = dojo.hitch(_this, callback);
+			this._callback = lang.hitch(_this, callback);
 			this._fireEventAndReload();
 			this._evt = lang.mixin({faux: true}, evt);
 		}
@@ -119,31 +119,31 @@ dijit.typematic = {
 		//		an array of dojo.connect handles
 		if(keyObject.keyCode){
 			keyObject.charOrCode = keyObject.keyCode;
-			dojo.deprecated("keyCode attribute parameter for dijit.typematic.addKeyListener is deprecated. Use charOrCode instead.", "", "2.0");
+			kernel.deprecated("keyCode attribute parameter for dijit.typematic.addKeyListener is deprecated. Use charOrCode instead.", "", "2.0");
 		}else if(keyObject.charCode){
 			keyObject.charOrCode = String.fromCharCode(keyObject.charCode);
-			dojo.deprecated("charCode attribute parameter for dijit.typematic.addKeyListener is deprecated. Use charOrCode instead.", "", "2.0");
+			kernel.deprecated("charCode attribute parameter for dijit.typematic.addKeyListener is deprecated. Use charOrCode instead.", "", "2.0");
 		}
 		var handles = [
-			dojo.connect(node, "onkeypress", this, function(evt){
+			connect.connect(node, "onkeypress", this, function(evt){
 				if(evt.charOrCode == keyObject.charOrCode &&
 				(keyObject.ctrlKey === undefined || keyObject.ctrlKey == evt.ctrlKey) &&
 				(keyObject.altKey === undefined || keyObject.altKey == evt.altKey) &&
 				(keyObject.metaKey === undefined || keyObject.metaKey == (evt.metaKey || false)) && // IE doesn't even set metaKey
 				(keyObject.shiftKey === undefined || keyObject.shiftKey == evt.shiftKey)){
-					dojo.stopEvent(evt);
+					event.stop(evt);
 					dijit.typematic.trigger(evt, _this, node, callback, keyObject, subsequentDelay, initialDelay, minDelay);
 				}else if(dijit.typematic._obj == keyObject){
 					dijit.typematic.stop();
 				}
 			}),
-			dojo.connect(node, "onkeyup", this, function(evt){
+			connect.connect(node, "onkeyup", this, function(evt){
 				if(dijit.typematic._obj == keyObject){
 					dijit.typematic.stop();
 				}
 			})
 		];
-		return { remove: function(){ dojo.forEach(handles, function(h){ h.remove(); }); } };
+		return { remove: function(){ array.forEach(handles, function(h){ h.remove(); }); } };
 	},
 
 	addMouseListener: function(/*DOMNode*/ node, /*Object*/ _this, /*Function*/ callback, /*Number*/ subsequentDelay, /*Number*/ initialDelay, /*Number?*/ minDelay){
@@ -152,34 +152,34 @@ dijit.typematic = {
 		//		See the trigger method for other parameters.
 		// returns:
 		//		an array of dojo.connect handles
-		var dc = dojo.connect;
+		var dc = connect.connect;
 		var handles =  [
 			dc(node, "mousedown", this, function(evt){
-				dojo.stopEvent(evt);
+				event.stop(evt);
 				dijit.typematic.trigger(evt, _this, node, callback, node, subsequentDelay, initialDelay, minDelay);
 			}),
 			dc(node, "mouseup", this, function(evt){
 				if(this._obj){
-					dojo.stopEvent(evt);
+					event.stop(evt);
 				}
 				dijit.typematic.stop();
 			}),
 			dc(node, "mouseout", this, function(evt){
-				dojo.stopEvent(evt);
+				event.stop(evt);
 				dijit.typematic.stop();
 			}),
 			dc(node, "mousemove", this, function(evt){
 				evt.preventDefault();
 			}),
 			dc(node, "dblclick", this, function(evt){
-				dojo.stopEvent(evt);
-				if(dojo.isIE){
+				event.stop(evt);
+				if(has("ie")){
 					dijit.typematic.trigger(evt, _this, node, callback, node, subsequentDelay, initialDelay, minDelay);
-					setTimeout(dojo.hitch(this, dijit.typematic.stop), 50);
+					setTimeout(lang.hitch(this, dijit.typematic.stop), 50);
 				}
 			})
 		];
-		return { remove: function(){ dojo.forEach(handles, function(h){ h.remove(); }); } };
+		return { remove: function(){ array.forEach(handles, function(h){ h.remove(); }); } };
 	},
 
 	addListener: function(/*Node*/ mouseNode, /*Node*/ keyNode, /*Object*/ keyObject, /*Object*/ _this, /*Function*/ callback, /*Number*/ subsequentDelay, /*Number*/ initialDelay, /*Number?*/ minDelay){
@@ -197,10 +197,8 @@ dijit.typematic = {
 			this.addKeyListener(keyNode, keyObject, _this, callback, subsequentDelay, initialDelay, minDelay),
 			this.addMouseListener(mouseNode, _this, callback, subsequentDelay, initialDelay, minDelay)
 		];
-		return { remove: function(){ dojo.forEach(handles, function(h){ h.remove(); }); } };
+		return { remove: function(){ array.forEach(handles, function(h){ h.remove(); }); } };
 	}
-};
+});
 
-
-return dijit.typematic;
 });

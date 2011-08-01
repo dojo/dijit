@@ -1,21 +1,24 @@
 define([
-	"dojo/_base/kernel",
-	".",
-	"dojo/window", // dojo.window.getBox
+	"dojo/_base/declare", // declare
+	"dojo/dom-attr", // domAttr.set
+	"dojo/_base/window", // win.body
+	"dojo/window", // winUtils.getBox
 	"./_Widget",
 	"./_TemplatedMixin",
-	"./BackgroundIframe",
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/html", // dojo.attr
-	"dojo/_base/window" // dojo.body
-], function(dojo, dijit){
+	"./BackgroundIframe"
+], function(declare, domAttr, win, winUtils, _Widget, _TemplatedMixin, BackgroundIframe){
+
+/*=====
+	var _Widget = dijit._Widget;
+	var _TemplatedMixin = dijit._TemplatedMixin;
+=====*/
 
 	// module:
 	//		dijit/DialogUnderlay
 	// summary:
 	//		The component that blocks the screen behind a `dijit.Dialog`
 
-	dojo.declare("dijit.DialogUnderlay", [dijit._Widget, dijit._TemplatedMixin], {
+	return declare("dijit.DialogUnderlay", [_Widget, _TemplatedMixin], {
 		// summary:
 		//		The component that blocks the screen behind a `dijit.Dialog`
 		//
@@ -45,7 +48,7 @@ define([
 		"class": "",
 
 		_setDialogIdAttr: function(id){
-			dojo.attr(this.node, "id", id + "_underlay");
+			domAttr.set(this.node, "id", id + "_underlay");
 			this._set("dialogId", id);
 		},
 
@@ -57,7 +60,7 @@ define([
 		postCreate: function(){
 			// summary:
 			//		Append the underlay to the body
-			dojo.body().appendChild(this.domNode);
+			win.body().appendChild(this.domNode);
 		},
 
 		layout: function(){
@@ -80,7 +83,7 @@ define([
 			os.display = "none";
 
 			// then resize and show
-			var viewport = dojo.window.getBox();
+			var viewport = winUtils.getBox();
 			os.top = viewport.t + "px";
 			os.left = viewport.l + "px";
 			is.width = viewport.w + "px";
@@ -93,7 +96,7 @@ define([
 			//		Show the dialog underlay
 			this.domNode.style.display = "block";
 			this.layout();
-			this.bgIframe = new dijit.BackgroundIframe(this.domNode);
+			this.bgIframe = new BackgroundIframe(this.domNode);
 		},
 
 		hide: function(){
@@ -104,7 +107,4 @@ define([
 			this.domNode.style.display = "none";
 		}
 	});
-
-
-	return dijit.DialogUnderlay;
 });

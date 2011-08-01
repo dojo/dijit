@@ -1,19 +1,21 @@
 define([
-	"dojo/_base/kernel",
-	".",
-	"dojo/text!./templates/MenuBar.html",
-	"./Menu",
-	"dojo/_base/connect", // dojo.keys dojo.keys.DOWN_ARROW
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/event" // dojo.stopEvent
-], function(dojo, dijit, template){
+	"dojo/_base/declare", // declare
+	"dojo/_base/event", // event.stop
+	"dojo/keys", // keys.DOWN_ARROW
+	"./_MenuBase",
+	"dojo/text!./templates/MenuBar.html"
+], function(declare, event, keys, _MenuBase, template){
+
+/*=====
+	var _MenuBase = dijit._MenuBase;
+=====*/
 
 // module:
 //		dijit/MenuBar
 // summary:
 //		A menu bar, listing menu choices horizontally, like the "File" menu in most desktop applications
 
-dojo.declare("dijit.MenuBar", dijit._MenuBase, {
+return declare("dijit.MenuBar", _MenuBase, {
 	// summary:
 	//		A menu bar, listing menu choices horizontally, like the "File" menu in most desktop applications
 
@@ -26,10 +28,10 @@ dojo.declare("dijit.MenuBar", dijit._MenuBase, {
 	_isMenuBar: true,
 
 	postCreate: function(){
-		var k = dojo.keys, l = this.isLeftToRight();
+		var l = this.isLeftToRight();
 		this.connectKeyNavHandlers(
-			l ? [k.LEFT_ARROW] : [k.RIGHT_ARROW],
-			l ? [k.RIGHT_ARROW] : [k.LEFT_ARROW]
+			l ? [keys.LEFT_ARROW] : [keys.RIGHT_ARROW],
+			l ? [keys.RIGHT_ARROW] : [keys.LEFT_ARROW]
 		);
 
 		// parameter to dijit.popup.open() about where to put popup (relative to this.domNode)
@@ -57,9 +59,9 @@ dojo.declare("dijit.MenuBar", dijit._MenuBase, {
 		if(evt.ctrlKey || evt.altKey){ return; }
 
 		switch(evt.charOrCode){
-			case dojo.keys.DOWN_ARROW:
+			case keys.DOWN_ARROW:
 				this._moveToPopup(evt);
-				dojo.stopEvent(evt);
+				event.stop(evt);
 		}
 	},
 
@@ -76,6 +78,4 @@ dojo.declare("dijit.MenuBar", dijit._MenuBase, {
 	}
 });
 
-
-return dijit.MenuBar;
 });

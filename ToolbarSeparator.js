@@ -1,11 +1,14 @@
 define([
-	"dojo/_base/kernel",
-	".",
+	"dojo/_base/declare", // declare
+	"dojo/dom", // dom.setSelectable
 	"./_Widget",
-	"./_TemplatedMixin",
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/html" // dojo.setSelectable
-], function(dojo, dijit){
+	"./_TemplatedMixin"
+], function(declare, dom, _Widget, _TemplatedMixin){
+
+/*=====
+	var _Widget = dijit._Widget;
+	var _TemplatedMixin = dijit._TemplatedMixin;
+=====*/
 
 	// module:
 	//		dijit/ToolbarSeparator
@@ -13,7 +16,7 @@ define([
 	//		A spacer between two `dijit.Toolbar` items
 
 
-	dojo.declare("dijit.ToolbarSeparator", [dijit._Widget, dijit._TemplatedMixin], {
+	return declare("dijit.ToolbarSeparator", [_Widget, _TemplatedMixin], {
 		// summary:
 		//		A spacer between two `dijit.Toolbar` items
 
@@ -21,7 +24,7 @@ define([
 
 		buildRendering: function(){
 			this.inherited(arguments);
-			dojo.setSelectable(this.domNode, false);
+			dom.setSelectable(this.domNode, false);
 		},
 
 		isFocusable: function(){
@@ -32,7 +35,4 @@ define([
 			return false;
 		}
 	});
-
-
-	return dijit.ToolbarSeparator;
 });

@@ -1,30 +1,42 @@
 define([
-	"dojo/_base/kernel",
-	".",
-	"./popup",
 	"require",
-	"dojo/window", // dojo.window.get
-	"./DropDownMenu",
-	"dojo/_base/array", // dojo.forEach
-	"dojo/_base/connect", // dojo.connect dojo.disconnect dojo.keys.F10
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/event", // dojo.stopEvent
-	"dojo/dom", // dojo.byId dojo.isDescendant
-	"dojo/dom-attr", // dojo.attr dojo.hasAttrdojo.removeAttr
-	"dojo/dom-geometry", // dojo.getComputedStyle dojo.position
-	"dojo/dom-style", // dojo.getComputedStyle
-	"dojo/_base/lang", // dojo.hitch
-	"dojo/_base/sniff", // dojo.isIE dojo.isQuirks
-	"dojo/_base/window" // dojo.body dojo.doc.documentElement dojo.doc.frames dojo.withGlobal
-], function(dojo, dijit, pm, require, winUtils, DropDownMenu,
-	array, connect, declare, event, dom, domAttr, domGeometry, domStyle, lang, sinff, win){
+	"dojo/_base/array", // array.forEach
+	"dojo/_base/connect", // connect.connect connect.disconnect keys.F10
+	"dojo/_base/declare", // declare
+	"dojo/_base/event", // event.stop
+	"dojo/dom", // dom.byId dom.isDescendant
+	"dojo/dom-attr", // domAttr.get domAttr.set domAttr.has domAttr.remove
+	"dojo/dom-geometry", // domStyle.getComputedStyle domGeometry.position
+	"dojo/dom-style", // domStyle.getComputedStyle
+	"dojo/_base/kernel", // kernel.isQuirks
+	"dojo/keys",
+	"dojo/_base/lang", // lang.hitch
+	"dojo/_base/sniff", // has("ie")
+	"dojo/_base/window", // win.body win.doc.documentElement win.doc.frames win.withGlobal
+	"dojo/window", // winUtils.get
+	"./popup",
+	"./DropDownMenu"
+], function(require, array, connect, declare, event, dom, domAttr, domGeometry, domStyle, kernel, keys, lang,
+			has, win, winUtils, pm, DropDownMenu){
+
+/*=====
+	var DropDownMenu = dijit.DropDownMenu;
+=====*/
 
 // module:
 //		dijit/Menu
 // summary:
 //		Includes dijit.Menu widget and base class dijit._MenuBase
 
-dojo.declare("dijit.Menu", dijit.DropDownMenu, {
+// Back compat w/1.6, remove for 2.0
+if(dojo && !dojo.isAsync && dojo.ready){
+	dojo.ready(0, function(){
+		var requires = ["dijit/MenuItem", "dijit/PopupMenuItem", "dijit/CheckedMenuItem", "dijit/MenuSeparator"];
+		require(requires);	// use indirection so modules not rolled into a build
+	});
+}
+
+return declare("dijit.Menu", DropDownMenu, {
 	// summary:
 	//		A context menu you can assign to multiple elements
 
@@ -52,12 +64,12 @@ dojo.declare("dijit.Menu", dijit.DropDownMenu, {
 
 	postCreate: function(){
 		if(this.contextMenuForWindow){
-			this.bindDomNode(dojo.body());
+			this.bindDomNode(win.body());
 		}else{
 			// TODO: should have _setTargetNodeIds() method to handle initialization and a possible
 			// later set('targetNodeIds', ...) call.  There's also a problem that targetNodeIds[]
 			// gets stale after calls to bindDomNode()/unBindDomNode() as it still is just the original list (see #9610)
-			dojo.forEach(this.targetNodeIds, this.bindDomNode, this);
+			array.forEach(this.targetNodeIds, this.bindDomNode, this);
 		}
 		this.inherited(arguments);
 	},
@@ -68,10 +80,10 @@ dojo.declare("dijit.Menu", dijit.DropDownMenu, {
 		//		Returns the window reference of the passed iframe
 		// tags:
 		//		private
-		return dojo.window.get(this._iframeContentDocument(iframe_el)) ||
+		return winUtils.get(this._iframeContentDocument(iframe_el)) ||
 			// Moz. TODO: is this available when defaultView isn't?
 			this._iframeContentDocument(iframe_el)['__parent__'] ||
-			(iframe_el.name && dojo.doc.frames[iframe_el.name]) || null;	//	Window
+			(iframe_el.name && win.doc.frames[iframe_el.name]) || null;	//	Window
 	},
 
 	_iframeContentDocument: function(/* HTMLIFrameElement */iframe_el){
@@ -81,14 +93,14 @@ dojo.declare("dijit.Menu", dijit.DropDownMenu, {
 		//		protected
 		return iframe_el.contentDocument // W3
 			|| (iframe_el.contentWindow && iframe_el.contentWindow.document) // IE
-			|| (iframe_el.name && dojo.doc.frames[iframe_el.name] && dojo.doc.frames[iframe_el.name].document)
+			|| (iframe_el.name && win.doc.frames[iframe_el.name] && win.doc.frames[iframe_el.name].document)
 			|| null;	//	HTMLDocument
 	},
 
 	bindDomNode: function(/*String|DomNode*/ node){
 		// summary:
 		//		Attach menu to given node
-		node = dojo.byId(node);
+		node = dom.byId(node);
 
 		var cn;	// Connect node
 
@@ -96,13 +108,13 @@ dojo.declare("dijit.Menu", dijit.DropDownMenu, {
 		// to bind to the <body> node inside the iframe.
 		if(node.tagName.toLowerCase() == "iframe"){
 			var iframe = node,
-				win = this._iframeContentWindow(iframe);
-			cn = dojo.withGlobal(win, dojo.body);
+				window = this._iframeContentWindow(iframe);
+			cn = win.withGlobal(window, win.body);
 		}else{
 
 			// To capture these events at the top level, attach to <html>, not <body>.
 			// Otherwise right-click context menu just doesn't work.
-			cn = (node == dojo.body() ? dojo.doc.documentElement : node);
+			cn = (node == win.body() ? win.doc.documentElement : node);
 		}
 
 
@@ -115,24 +127,24 @@ dojo.declare("dijit.Menu", dijit.DropDownMenu, {
 		// Save info about binding in _bindings[], and make node itself record index(+1) into
 		// _bindings[] array.  Prefix w/_dijitMenu to avoid setting an attribute that may
 		// start with a number, which fails on FF/safari.
-		dojo.attr(node, "_dijitMenu" + this.id, this._bindings.push(binding));
+		domAttr.set(node, "_dijitMenu" + this.id, this._bindings.push(binding));
 
 		// Setup the connections to monitor click etc., unless we are connecting to an iframe which hasn't finished
 		// loading yet, in which case we need to wait for the onload event first, and then connect
 		// On linux Shift-F10 produces the oncontextmenu event, but on Windows it doesn't, so
 		// we need to monitor keyboard events in addition to the oncontextmenu event.
-		var doConnects = dojo.hitch(this, function(cn){
+		var doConnects = lang.hitch(this, function(cn){
 			return [
 				// TODO: when leftClickToOpen is true then shouldn't space/enter key trigger the menu,
 				// rather than shift-F10?
-				dojo.connect(cn, this.leftClickToOpen ? "onclick" : "oncontextmenu", this, function(evt){
+				connect.connect(cn, this.leftClickToOpen ? "onclick" : "oncontextmenu", this, function(evt){
 					// Schedule context menu to be opened unless it's already been scheduled from onkeydown handler
-					dojo.stopEvent(evt);
+					event.stop(evt);
 					this._scheduleOpen(evt.target, iframe, {x: evt.pageX, y: evt.pageY});
 				}),
-				dojo.connect(cn, "onkeydown", this, function(evt){
-					if(evt.shiftKey && evt.keyCode == dojo.keys.F10){
-						dojo.stopEvent(evt);
+				connect.connect(cn, "onkeydown", this, function(evt){
+					if(evt.shiftKey && evt.keyCode == keys.F10){
+						event.stop(evt);
 						this._scheduleOpen(evt.target, iframe);	// no coords - open near target node
 					}
 				})
@@ -144,14 +156,14 @@ dojo.declare("dijit.Menu", dijit.DropDownMenu, {
 			// Setup handler to [re]bind to the iframe when the contents are initially loaded,
 			// and every time the contents change.
 			// Need to do this b/c we are actually binding to the iframe's <body> node.
-			// Note: can't use dojo.connect(), see #9609.
+			// Note: can't use connect.connect(), see #9609.
 
-			binding.onloadHandler = dojo.hitch(this, function(){
+			binding.onloadHandler = lang.hitch(this, function(){
 				// want to remove old connections, but IE throws exceptions when trying to
 				// access the <body> node because it's already gone, or at least in a state of limbo
 
-				var win = this._iframeContentWindow(iframe);
-					cn = dojo.withGlobal(win, dojo.body);
+				var window = this._iframeContentWindow(iframe);
+					cn = win.withGlobal(window, win.body);
 				binding.connects = doConnects(cn);
 			});
 			if(iframe.addEventListener){
@@ -168,9 +180,9 @@ dojo.declare("dijit.Menu", dijit.DropDownMenu, {
 
 		var node;
 		try{
-			node = dojo.byId(nodeName);
+			node = dom.byId(nodeName);
 		}catch(e){
-			// On IE the dojo.byId() call will get an exception if the attach point was
+			// On IE the dom.byId() call will get an exception if the attach point was
 			// the <body> node of an <iframe> that has since been reloaded (and thus the
 			// <body> node is in a limbo state of destruction.
 			return;
@@ -178,9 +190,9 @@ dojo.declare("dijit.Menu", dijit.DropDownMenu, {
 
 		// node["_dijitMenu" + this.id] contains index(+1) into my _bindings[] array
 		var attrName = "_dijitMenu" + this.id;
-		if(node && dojo.hasAttr(node, attrName)){
-			var bid = dojo.attr(node, attrName)-1, b = this._bindings[bid];
-			dojo.forEach(b.connects, dojo.disconnect);
+		if(node && domAttr.has(node, attrName)){
+			var bid = domAttr.get(node, attrName)-1, b = this._bindings[bid];
+			array.forEach(b.connects, connect.disconnect);
 
 			// Remove listener for iframe onload events
 			var iframe = b.iframe;
@@ -192,7 +204,7 @@ dojo.declare("dijit.Menu", dijit.DropDownMenu, {
 				}
 			}
 
-			dojo.removeAttr(node, attrName);
+			domAttr.remove(node, attrName);
 			delete this._bindings[bid];
 		}
 	},
@@ -206,11 +218,11 @@ dojo.declare("dijit.Menu", dijit.DropDownMenu, {
 		//		context menu to appear in spite of stopEvent.
 		//
 		//		2. Avoid double-shows on linux, where shift-F10 generates an oncontextmenu event
-		//		even after a dojo.stopEvent(e).  (Shift-F10 on windows doesn't generate the
+		//		even after a event.stop(e).  (Shift-F10 on windows doesn't generate the
 		//		oncontextmenu event.)
 
 		if(!this._openTimer){
-			this._openTimer = setTimeout(dojo.hitch(this, function(){
+			this._openTimer = setTimeout(lang.hitch(this, function(){
 				delete this._openTimer;
 				this._openMyself({
 					target: target,
@@ -247,21 +259,20 @@ dojo.declare("dijit.Menu", dijit.DropDownMenu, {
 		if(coords){
 			if(iframe){
 				// Specified coordinates are on <body> node of an <iframe>, convert to match main document
-				var od = target.ownerDocument,
-					ifc = dojo.position(iframe, true),
-					win = this._iframeContentWindow(iframe),
-					scroll = dojo.withGlobal(win, "_docScroll", dojo);
+				var ifc = domGeometry.position(iframe, true),
+					window = this._iframeContentWindow(iframe),
+					scroll = win.withGlobal(window, "_docScroll", dojo);
 
-				var cs = dojo.getComputedStyle(iframe),
+				var cs = domStyle.getComputedStyle(iframe),
 					tp = domStyle.toPixelValue,
-					left = (dojo.isIE && dojo.isQuirks ? 0 : tp(iframe, cs.paddingLeft)) + (dojo.isIE && dojo.isQuirks ? tp(iframe, cs.borderLeftWidth) : 0),
-					top = (dojo.isIE && dojo.isQuirks ? 0 : tp(iframe, cs.paddingTop)) + (dojo.isIE && dojo.isQuirks ? tp(iframe, cs.borderTopWidth) : 0);
+					left = (has("ie") && kernel.isQuirks ? 0 : tp(iframe, cs.paddingLeft)) + (has("ie") && kernel.isQuirks ? tp(iframe, cs.borderLeftWidth) : 0),
+					top = (has("ie") && kernel.isQuirks ? 0 : tp(iframe, cs.paddingTop)) + (has("ie") && kernel.isQuirks ? tp(iframe, cs.borderTopWidth) : 0);
 
 				coords.x += ifc.x + left - scroll.x;
 				coords.y += ifc.y + top - scroll.y;
 			}
 		}else{
-			coords = dojo.position(target, true);
+			coords = domGeometry.position(target, true);
 			coords.x += 10;
 			coords.y += 10;
 		}
@@ -269,7 +280,7 @@ dojo.declare("dijit.Menu", dijit.DropDownMenu, {
 		var self=this;
 		var prevFocusNode = this._focusManager.get("prevNode");
 		var curFocusNode = this._focusManager.get("curNode");
-		var savedFocusNode = !curFocusNode || (dojo.isDescendant(curFocusNode, this.domNode)) ? prevFocusNode : curFocusNode;
+		var savedFocusNode = !curFocusNode || (dom.isDescendant(curFocusNode, this.domNode)) ? prevFocusNode : curFocusNode;
 
 		function closeAndRestoreFocus(){
 			// user has clicked on a menu or popup
@@ -299,18 +310,9 @@ dojo.declare("dijit.Menu", dijit.DropDownMenu, {
 	},
 
 	uninitialize: function(){
- 		dojo.forEach(this._bindings, function(b){ if(b){ this.unBindDomNode(b.node); } }, this);
+ 		array.forEach(this._bindings, function(b){ if(b){ this.unBindDomNode(b.node); } }, this);
  		this.inherited(arguments);
 	}
 });
 
-// Back compat w/1.6, remove for 2.0
-if(!dojo.isAsync){
-	dojo.ready(0, function(){
-		var requires = ["dijit/MenuItem", "dijit/PopupMenuItem", "dijit/CheckedMenuItem", "dijit/MenuSeparator"];
-		require(requires);	// use indirection so modules not rolled into a build
-	});
-}
-
-return dijit.Menu;
 });

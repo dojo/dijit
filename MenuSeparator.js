@@ -1,20 +1,24 @@
 define([
-	"dojo/_base/kernel",
-	".",
-	"dojo/text!./templates/MenuSeparator.html",
+	"dojo/_base/declare", // declare
+	"dojo/dom", // dom.setSelectable
 	"./_WidgetBase",
 	"./_TemplatedMixin",
 	"./_Contained",
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/html" // dojo.setSelectable
-], function(dojo, dijit, template){
+	"dojo/text!./templates/MenuSeparator.html"
+], function(declare, dom, _WidgetBase, _TemplatedMixin, _Contained, template){
+
+/*=====
+	var _WidgetBase = dijit._WidgetBase;
+	var _TemplatedMixin = dijit._TemplatedMixin;
+	var _Contained = dijit._Contained;
+=====*/
 
 	// module:
 	//		dijit/MenuSeparator
 	// summary:
 	//		A line between two menu items
 
-	dojo.declare("dijit.MenuSeparator", [dijit._WidgetBase, dijit._TemplatedMixin, dijit._Contained], {
+	return declare("dijit.MenuSeparator", [_WidgetBase, _TemplatedMixin, _Contained], {
 		// summary:
 		//		A line between two menu items
 
@@ -22,7 +26,7 @@ define([
 
 		buildRendering: function(){
 			this.inherited(arguments);
-			dojo.setSelectable(this.domNode, false);
+			dom.setSelectable(this.domNode, false);
 		},
 
 		isFocusable: function(){
@@ -34,6 +38,4 @@ define([
 			return false; // Boolean
 		}
 	});
-
-	return dijit.MenuSeparator;
 });

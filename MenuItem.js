@@ -1,16 +1,25 @@
 define([
-	"dojo/_base/kernel", // dojo.deprecated
-	".",
-	"dojo/text!./templates/MenuItem.html",
+	"dojo/_base/declare", // declare
+	"dojo/dom", // dom.setSelectable
+	"dojo/dom-attr", // domAttr.set
+	"dojo/dom-class", // domClass.toggle
+	"dojo/_base/event", // event.stop
+	"dojo/_base/kernel", // kernel.deprecated
+	"dojo/_base/sniff", // has("ie")
 	"./_Widget",
 	"./_TemplatedMixin",
 	"./_Contained",
 	"./_CssStateMixin",
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/event", // dojo.stopEvent
-	"dojo/_base/html", // dojo.attr dojo.setSelectable dojo.toggleClass
-	"dojo/_base/sniff" // dojo.isIE
-], function(dojo, dijit, template){
+	"dojo/text!./templates/MenuItem.html"
+], function(declare, dom, domAttr, domClass, event, kernel, has,
+			_Widget, _TemplatedMixin, _Contained, _CssStateMixin, template){
+
+/*=====
+	var _Widget = dijit._Widget;
+	var _TemplatedMixin = dijit._TemplatedMixin;
+	var _Contained = dijit._Contained;
+	var _CssStateMixin = dijit._CssStateMixin;
+=====*/
 
 	// module:
 	//		dijit/MenuItem
@@ -18,8 +27,8 @@ define([
 	//		A line item in a Menu Widget
 
 
-	dojo.declare("dijit.MenuItem",
-		[dijit._Widget, dijit._TemplatedMixin, dijit._Contained, dijit._CssStateMixin],
+	return declare("dijit.MenuItem",
+		[_Widget, _TemplatedMixin, _Contained, _CssStateMixin],
 		{
 		// summary:
 		//		A line item in a Menu Widget
@@ -63,13 +72,13 @@ define([
 		buildRendering: function(){
 			this.inherited(arguments);
 			var label = this.id+"_text";
-			dojo.attr(this.containerNode, "id", label);
+			domAttr.set(this.containerNode, "id", label);
 			if(this.accelKeyNode){
-				dojo.attr(this.accelKeyNode, "id", this.id + "_accel");
+				domAttr.set(this.accelKeyNode, "id", this.id + "_accel");
 				label += " " + this.id + "_accel";
 			}
 			this.domNode.setAttribute("aria-labelledby", label);
-			dojo.setSelectable(this.domNode, false);
+			dom.setSelectable(this.domNode, false);
 		},
 
 		_onHover: function(){
@@ -104,10 +113,10 @@ define([
 			// tags:
 			//		private
 			this.getParent().onItemClick(this, evt);
-			dojo.stopEvent(evt);
+			event.stop(evt);
 		},
 
-		onClick: function(/*Event*/ evt){
+		onClick: function(/*Event*/){
 			// summary:
 			//		User defined function to handle clicks
 			// tags:
@@ -118,7 +127,7 @@ define([
 			// summary:
 			//		Focus on this MenuItem
 			try{
-				if(dojo.isIE == 8){
+				if(has("ie") == 8){
 					// needed for IE8 which won't scroll TR tags into view on focus yet calling scrollIntoView creates flicker (#10275)
 					this.containerNode.focus();
 				}
@@ -156,7 +165,7 @@ define([
 			 * _onBlur()
 			 */
 
-			dojo.toggleClass(this.domNode, "dijitMenuItemSelected", selected);
+			domClass.toggle(this.domNode, "dijitMenuItemSelected", selected);
 		},
 
 		setLabel: function(/*String*/ content){
@@ -164,7 +173,7 @@ define([
 			//		Deprecated.   Use set('label', ...) instead.
 			// tags:
 			//		deprecated
-			dojo.deprecated("dijit.MenuItem.setLabel() is deprecated.  Use set('label', ...) instead.", "", "2.0");
+			kernel.deprecated("dijit.MenuItem.setLabel() is deprecated.  Use set('label', ...) instead.", "", "2.0");
 			this.set("label", content);
 		},
 
@@ -173,7 +182,7 @@ define([
 			//		Deprecated.   Use set('disabled', bool) instead.
 			// tags:
 			//		deprecated
-			dojo.deprecated("dijit.Menu.setDisabled() is deprecated.  Use set('disabled', bool) instead.", "", "2.0");
+			kernel.deprecated("dijit.Menu.setDisabled() is deprecated.  Use set('disabled', bool) instead.", "", "2.0");
 			this.set('disabled', disabled);
 		},
 		_setDisabledAttr: function(/*Boolean*/ value){
@@ -192,12 +201,9 @@ define([
 			this.accelKeyNode.style.display=value?"":"none";
 			this.accelKeyNode.innerHTML=value;
 			//have to use colSpan to make it work in IE
-			dojo.attr(this.containerNode,'colSpan',value?"1":"2");
+			domAttr.set(this.containerNode,'colSpan',value?"1":"2");
 
 			this._set("accelKey", value);
 		}
 	});
-
-
-	return dijit.MenuItem;
 });

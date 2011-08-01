@@ -1,20 +1,22 @@
 define([
-	"dojo/_base/kernel",
-	".",
+	"dojo/_base/declare", // declare
+	"dojo/dom-style", // domStyle.set
+	"dojo/query", // query
+	"dojo/_base/window", // win.body
 	"./MenuItem",
-	"./hccss",
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/html", // dojo.style
-	"dojo/_base/window", // dojo.body
-	"dojo/query" // dojo.query
-], function(dojo, dijit){
+	"./hccss"
+], function(declare, domStyle, query, win, MenuItem){
+
+/*=====
+	var MenuItem = dijit.MenuItem;
+=====*/
 
 	// module:
 	//		dijit/PopupMenuItem
 	// summary:
 	//		An item in a Menu that spawn a drop down (usually a drop down menu)
 
-	dojo.declare("dijit.PopupMenuItem", dijit.MenuItem, {
+	return declare("dijit.PopupMenuItem", MenuItem, {
 		// summary:
 		//		An item in a Menu that spawn a drop down (usually a drop down menu)
 
@@ -34,8 +36,8 @@ define([
 			//		protected
 
 			if(this.srcNodeRef){
-				var nodes = dojo.query("*", this.srcNodeRef);
-				dijit.PopupMenuItem.superclass._fillContent.call(this, nodes[0]);
+				var nodes = query("*", this.srcNodeRef);
+				this.inherited(arguments, [nodes[0]]);
 
 				// save pointer to srcNode so we can grab the drop down widget after it's instantiated
 				this.dropDownContainer = this.srcNodeRef;
@@ -47,17 +49,17 @@ define([
 			this.inherited(arguments);
 
 			// we didn't copy the dropdown widget from the this.srcNodeRef, so it's in no-man's
-			// land now.  move it to dojo.doc.body.
+			// land now.  move it to win.doc.body.
 			if(!this.popup){
-				var node = dojo.query("[widgetId]", this.dropDownContainer)[0];
+				var node = query("[widgetId]", this.dropDownContainer)[0];
 				this.popup = dijit.byNode(node);
 			}
-			dojo.body().appendChild(this.popup.domNode);
+			win.body().appendChild(this.popup.domNode);
 			this.popup.startup();
 
 			this.popup.domNode.style.display="none";
 			if(this.arrowWrapper){
-				dojo.style(this.arrowWrapper, "visibility", "");
+				domStyle.set(this.arrowWrapper, "visibility", "");
 			}
 			this.focusNode.setAttribute("aria-haspopup", "true");
 		},
@@ -74,7 +76,4 @@ define([
 			this.inherited(arguments);
 		}
 	});
-
-
-	return dijit.PopupMenuItem;
 });
