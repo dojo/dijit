@@ -436,13 +436,14 @@ return declare("dijit.layout.SplitContainer", _LayoutWidget, {
 
 		// TODO: REVISIT - we want MARGIN_BOX and core hasn't exposed that yet (but can't we use it anyway if we pay attention? we do elsewhere.)
 		this.originPos = domGeometry.position(children[0].domNode, true);
+		var client, screen;
 		if(this.isHorizontal){
-			var client = e.layerX || e.offsetX || 0;
-			var screen = e.pageX;
+			client = e.layerX || e.offsetX || 0;
+			screen = e.pageX;
 			this.originPos = this.originPos.x;
 		}else{
-			var client = e.layerY || e.offsetY || 0;
-			var screen = e.pageY;
+			client = e.layerY || e.offsetY || 0;
+			screen = e.pageY;
 			this.originPos = this.originPos.y;
 		}
 		this.startPoint = this.lastPoint = screen;

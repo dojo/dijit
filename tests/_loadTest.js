@@ -20,16 +20,16 @@ if(!file && window.location.href.search(/[?&]file[=]/i) > 0){
 var readFile = function(file){
 	var xhr = null;
 	try{
-		xhr = new XMLHttpRequest()
+		xhr = new XMLHttpRequest();
 	}catch(e0){
 		try{
-			xhr = new ActiveXObject('Msxml2.XMLHTTP')
+			xhr = new ActiveXObject('Msxml2.XMLHTTP');
 		}catch(e1){
 			try{
-				xhr = new ActiveXObject('Microsoft.XMLHTTP')
+				xhr = new ActiveXObject('Microsoft.XMLHTTP');
 			}catch(e2){
 				try{
-					xhr = new ActiveXObject('Msxml2.XMLHTTP.4.0')
+					xhr = new ActiveXObject('Msxml2.XMLHTTP.4.0');
 				}catch(e3){
 				}
 			}

@@ -269,13 +269,13 @@
 									testW.getDescendants();
 								console.log("*** time for getDescendants(false): " + (new Date()-start));
 ***/
-								var desc = testW.getChildren();
-								doh.is(5, desc.length, "number of direct descendants");
-								doh.is(desc[0].id, "3.1");
-								doh.is(desc[1].id, "3.2");
-								doh.is(desc[2].id, "3.3");
-								doh.is(desc[3].id, "3.4");
-								doh.is(desc[4].id, "3.5");
+								var chil = testW.getChildren();
+								doh.is(5, chil.length, "number of direct descendants");
+								doh.is(chil[0].id, "3.1");
+								doh.is(chil[1].id, "3.2");
+								doh.is(chil[2].id, "3.3");
+								doh.is(chil[3].id, "3.4");
+								doh.is(chil[4].id, "3.5");
 
 								var desc = testW.getDescendants();
 								doh.is(7, desc.length, "number of descendants (including nested ones)");

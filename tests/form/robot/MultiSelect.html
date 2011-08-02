@@ -19,9 +19,10 @@
 			function testInverted(allOptions, selected, newSelected){
 				doh.is(allOptions.length, selected.length+newSelected.length); //newSelected + the no longer selected list size should be the same as the length of the whole list
 				dojo.forEach(allOptions, function(option){ //verify the selections were inverted
+					var found;
 					if(option.selected){
 						//it must be in the newSelectedList
-						var found=false;
+						found=false;
 						dojo.forEach(newSelected, function(ns){
 							if(option.value===ns){
 								found=true;
@@ -30,7 +31,7 @@
 						doh.t(found);
 					}else{
 						//it better be in the origional selected list
-						var found=false;
+						found=false;
 						dojo.forEach(selected, function(s){
 							if(option.value===s){
 								found=true;

@@ -1,10 +1,11 @@
 define([
 	"dojo/_base/array", // array.forEach array.map array.some
 	"dojo/dom-geometry", // domGeometry.getMarginBox domGeometry.position
+	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/window", // win.body
 	"dojo/window", // winUtils.getBox
 	"."	// dijit (defining dijit.place to match API doc)
-], function(array, domGeometry, win, winUtils, dijit){
+], function(array, domGeometry, kernel, win, winUtils, dijit){
 
 	// module:
 	//		dijit/place

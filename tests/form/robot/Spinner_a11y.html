@@ -65,6 +65,7 @@
 					var initVal = inSpinner.get('value');
 					var eVals = [];
 					var newVal;
+					var i;
 
 					// The values expected by pressing HOME, right arrow five times,
 					// PgUp twice, PgDn, up arrow twice, down arrow once,
@@ -75,14 +76,14 @@
 					newVal = inSpinner.get('value');
 					eVals.push({stroke: "HOME", expected: newVal});
 					// UP 5 times
-					for(var i = 0; i < 5; i++){
+					for(i = 0; i < 5; i++){
 						newVal = inSpinner.adjust(newVal, inSpinner.smallDelta);
 						inSpinner.set('value', newVal);
 						newVal = inSpinner.get('value');
 						eVals.push({stroke: "UP", expected: newVal});
 					}
 					// PgUp twice
-					for(var i = 0; i < 2; i++){
+					for(i = 0; i < 2; i++){
 						newVal = inSpinner.adjust(newVal, inSpinner.largeDelta);
 						inSpinner.set('value', newVal);
 						newVal = inSpinner.get('value');

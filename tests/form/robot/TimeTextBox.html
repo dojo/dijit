@@ -182,8 +182,7 @@
 
 								// drop down list should be filtered to times starting with 12:,
 								// and they should appear in chronological order
-								var popup = dijit.byId("q2_popup"),
-									children = dojo.query(".dijitTimePickerItem", popup.domNode);
+								var children = dojo.query(".dijitTimePickerItem", popup.domNode);
 								doh.is(8, children.length, "# of items in drop down");
 								doh.is("12:00 AM", innerText(children[0]));
 								doh.is("12:15 AM", innerText(children[1]));

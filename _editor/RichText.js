@@ -1859,23 +1859,6 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		return enabled;
 	},
 
-	_unlinkEnabledImpl: function(argument){
-		// summary:
-		//		This function implements the test for if the unlin
-		//		command should be enabled or not.
-		// argument:
-		//		arguments to the exec command, if any.
-		// tags:
-		//		protected
-		var enabled = true;
-		if(dojo.isMoz || dojo.isWebKit){
-			enabled = this._sCall("hasAncestorElement", ["a"]);
-		}else{
-			enabled = this._browserQueryCommandEnabled("unlink");
-		}
-		return enabled;
-	},
-
 	_inserttableEnabledImpl: function(argument){
 		// summary:
 		//		This function implements the test for if the inserttable
@@ -1996,7 +1979,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 				// mozilla doesn't support hilitecolor properly when useCSS is
 				// set to false (bugzilla #279330)
 				this.document.execCommand("styleWithCSS", false, true);
-				console.log("Executing color command.")
+				console.log("Executing color command.");
 				returnValue = this.document.execCommand("hilitecolor", false, argument);
 				this.document.execCommand("styleWithCSS", false, false);
 			}else{
@@ -2447,7 +2430,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 						var tagData;
 						while(parentC !== topNode){
 							var tg = parentC.tagName;
-							tagData = {tagName: tg}
+							tagData = {tagName: tg};
 							tagList.push(tagData);
 														
 							var newTg = doc.createElement(tg);
@@ -2796,7 +2779,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 							dojo.style(breaker, style, argument);
 							dijit._editor.selection.remove();
 							dojo.destroy(extraSpan);
-							breaker.innerHTML = "&nbsp;"
+							breaker.innerHTML = "&nbsp;";
 							dijit._editor.selection.selectElement(breaker);
 							this.focus();
 						}else{

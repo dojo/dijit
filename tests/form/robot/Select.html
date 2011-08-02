@@ -514,7 +514,7 @@
 
 							 var handle = dijit.focus.watch("curNode", d.getTestErrback(function(name, oval, nval){
 								if(!nval){ return; }	// ignore spurious event on IE
-								console.log("focused on", nval && (nval.id || nval.innerHTML))
+								console.log("focused on", nval && (nval.id || nval.innerHTML));
 								doh.is("s13", nval.id, "focused on first required select");
 								handle.unwatch();
 								setTimeout(d.getTestCallback(function(){

@@ -117,7 +117,7 @@
 			eVals.push({stroke: "DOWN", expected: inSlider.get('value')});
 			inSlider._bumpValue(-1, false);
 			eVals.push({stroke: "LEFT", expected: inSlider.get('value')});
-			inSlider.set('value', inSlider.maximum, false)
+			inSlider.set('value', inSlider.maximum, false);
 			eVals.push({stroke: "END", expected: inSlider.get('value')});
 
 			// reset <inSlider> back to its initial value, and return
@@ -132,10 +132,10 @@
 			var blurCount = 0;
 			var gotFocus = function(){
 				focusCount++;
-			}
+			};
 			var lostFocus = function(){
 				blurCount++;
-			}
+			};
 			var focusFunc = dojo.global.dojo.connect(slider.focusNode, "onfocus", gotFocus);
 			var blurFunc = dojo.global.dojo.connect(slider.focusNode, "onblur", lostFocus);
 

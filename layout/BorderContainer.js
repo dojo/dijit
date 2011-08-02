@@ -492,12 +492,11 @@ declare("dijit.layout._Splitter", [_Widget, _TemplatedMixin ],
 		this._resize = true;
 		var horizontal = this.horizontal;
 		var tick = 1;
-		var dk = keys;
 		switch(e.charOrCode){
-			case horizontal ? dk.UP_ARROW : dk.LEFT_ARROW:
+			case horizontal ? keys.UP_ARROW : keys.LEFT_ARROW:
 				tick *= -1;
 //				break;
-			case horizontal ? dk.DOWN_ARROW : dk.RIGHT_ARROW:
+			case horizontal ? keys.DOWN_ARROW : keys.RIGHT_ARROW:
 				break;
 			default:
 //				this.inherited(arguments);

@@ -18,11 +18,10 @@ dijit.range={};
 dijit.range.getIndex = function(/*DomNode*/node, /*DomNode*/parent){
 //	dojo.profile.start("dijit.range.getIndex");
 	var ret = [], retR = [];
-	var stop = parent;
 	var onode = node;
 
 	var pnode, n;
-	while(node != stop){
+	while(node != parent){
 		var i = 0;
 		pnode = node.parentNode;
 		while((n = pnode.childNodes[i++])){
@@ -191,7 +190,7 @@ dijit.range.adjacentNoneTextNode = function(startnode, next){
 		if(node.nodeType != 3){
 			break;
 		}
-		len += node.length
+		len += node.length;
 		node = node[prop];
 	}
 	return [node,len];

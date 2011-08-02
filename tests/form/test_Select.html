@@ -262,7 +262,7 @@
 							});
 
 							s3.set("required", false);
-							doh.is("", stateWatch, "watch fired after set requried=true")
+							doh.is("", stateWatch, "watch fired after set requried=true");
 
 							s3.set("required", true);
 							doh.is("Incomplete", stateWatch, "watch fired after set required=false''");

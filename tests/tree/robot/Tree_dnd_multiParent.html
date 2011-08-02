@@ -68,10 +68,10 @@
 								doh.is("Cereals", children.categories[2]);
 
 								// Check that Vegetables added as child of Fruits
-								var children = getNamesOfChildrenOfItem("Fruits");
-								doh.is(2, children.categories.length, "foods category child");
-								doh.is("Citrus", children.categories[0]);
-								doh.is("Vegetables", children.categories[1]);
+								var children2 = getNamesOfChildrenOfItem("Fruits");
+								doh.is(2, children2.categories.length, "foods category child");
+								doh.is("Citrus", children2.categories[0]);
+								doh.is("Vegetables", children2.categories[1]);
 
 								// Check that new item *wasn't* created
 								var items;
@@ -246,10 +246,10 @@
 								doh.is(1003, children.items[0].id, "id of item came from dropped node");
 								doh.is("Banana", children.items[0].name, "name of new item came from dropped node");
 
-								var children = getChildrenOfItem("Fruits");
-								doh.is(1, children.items.length, "banana still a child of fruits");
-								doh.is(1003, children.items[0].id, "id of new item came from dropped node");
-								doh.is("Banana", children.items[0].name, "name of new item came from dropped node");
+								var children2 = getChildrenOfItem("Fruits");
+								doh.is(1, children2.items.length, "banana still a child of fruits");
+								doh.is(1003, children2.items[0].id, "id of new item came from dropped node");
+								doh.is("Banana", children2.items[0].name, "name of new item came from dropped node");
 
 								dojo.global.myStore.fetch({
 									query: { name: "Banana" },

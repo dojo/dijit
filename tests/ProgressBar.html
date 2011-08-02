@@ -150,7 +150,7 @@
 						progressBar = dijit.byId("implied2");
 						doh.is("50", progressBar.progress);
 						doh.is("50%", dojo.byId("implied2_label").innerHTML);
-						var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
+						visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
 						doh.is("50%", visualProgress.style.width);
 					}
 				},
@@ -212,7 +212,7 @@
 							
 						doh.t(dojo.hasClass(progressBar.domNode, "dijitProgressBarIndeterminate"), "has class dijitProgressBarIndeterminate");
 						
-						var progressBar = dijit.byId("timerBar");
+						progressBar = dijit.byId("timerBar");
 						doh.t(80 < progressBar.progress <= 100, "Timer progress was " + progressBar.progress);
 					}
 				},

@@ -59,9 +59,6 @@
 					// and setup the slider
 					var theSlider = new dijit.form.VerticalSlider({
 						value:1400,
-						onChange: function(){
-                                                    console.log(arguments);
-						},
 						name:"programaticSlider",
 						slideDuration:0,
 						onChange:function(val){ dojo.byId('sliderProgInput').value=val; },

@@ -162,7 +162,6 @@
 				var middleOfTextbox = textboxPos.y + (textboxPos.h / 2);
 				var middleOfTooltipConnector = tooltipConnectorPos.y + (tooltipConnectorPos.h /2);
 
-				var yDiff = 0;
 				var yDiff = middleOfTextbox - middleOfTooltipConnector;
 				var yAxisValid = yDiff <= 1.5 && yDiff >= -1.5; //tooltip arrow is at a similar y coord as the box
 				doh.t(yAxisValid, "Y axis is invalid. yDiff was: "+yDiff);
