@@ -1,11 +1,10 @@
 define([
-	"dojo/_base/kernel",
-	"..",
-	"dojo/_base/array", // dojo.every
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/lang", // dojo.isArray
-	"dojo/_base/window" // dojo.global
-], function(dojo, dijit){
+	"dojo/_base/array", // array.every
+	"dojo/_base/declare", // declare
+	"dojo/_base/lang", // lang.isArray
+	"dojo/_base/window", // win.global
+	".."	// for exporting symbols to dijit, TODO: removein 2.0
+], function(array, declare, lang, win, dijit){
 
 // module:
 //		dijit/_editor/range
@@ -58,18 +57,18 @@ dijit.range.getIndex = function(/*DomNode*/node, /*DomNode*/parent){
 };
 
 dijit.range.getNode = function(/*Array*/index, /*DomNode*/parent){
-	if(!dojo.isArray(index) || index.length == 0){
+	if(!lang.isArray(index) || index.length == 0){
 		return parent;
 	}
 	var node = parent;
 //	if(!node)debugger
-	dojo.every(index, function(i){
+	array.every(index, function(i){
 		if(i >= 0 && i < node.childNodes.length){
 			node = node.childNodes[i];
 		}else{
 			node = null;
 			//console.debug('Error: can not find node with index',index,'under parent node',parent );
-			return false; //terminate dojo.every
+			return false; //terminate array.every
 		}
 		return true; //carry on the every loop
 	});
@@ -197,9 +196,9 @@ dijit.range.adjacentNoneTextNode = function(startnode, next){
 };
 
 dijit.range._w3c = Boolean(window['getSelection']);
-dijit.range.create = function(/*Window?*/win){
+dijit.range.create = function(/*Window?*/window){
 	if(dijit.range._w3c){
-		return (win || dojo.global).document.createRange();
+		return (window || win.global).document.createRange();
 	}else{//IE
 		return new dijit.range.W3CRange;
 	}
@@ -276,7 +275,7 @@ if(!dijit.range._w3c){
 
 			var startnode, startOffset, lastNode;
 			if(parentNode.childNodes.length > 0){
-				dojo.every(parentNode.childNodes, function(node, i){
+				array.every(parentNode.childNodes, function(node, i){
 					var calOffset;
 					if(node.nodeType != 3){
 						atmrange.moveToElementText(node);
@@ -509,7 +508,7 @@ dojo.declare("dijit.range.W3CRange",null, {
 		dijit.range.ie.setRange(r, this.startContainer, this.startOffset, this.endContainer, this.endOffset, this.collapsed);
 		return r;
 	},
-	getBookmark: function(body){
+	getBookmark: function(){
 		this._getIERange();
 		return this._cachedBookmark;
 	},
