@@ -1,15 +1,14 @@
 define([
-	"..",
-	"dojo/_base/declare", // dojo.declare
+	"dojo/_base/declare", // declare
 	"dojo/_base/sniff", // has("ie")
 	"./_FormWidget",
 	"./_FormValueMixin"
-], function(dijit, declare, has, _FormWidget, _FormValueMixin){
+], function(declare, has, _FormWidget, _FormValueMixin){
 
 /*=====
 var _FormWidget = dijit.form._FormWidget;
 var _FormValueMixin = dijit.form._FormValueMixin;
- =====*/
+=====*/
 
 // module:
 //		dijit/form/_FormValueWidget
@@ -43,7 +42,7 @@ return declare("dijit.form._FormValueWidget", [_FormWidget, _FormValueMixin],
 			while(parent && parent.clientHeight == 0){ // search for parents that haven't rendered yet
 				(function ping(){
 					var disconnectHandle = _this.connect(parent, "onscroll",
-						function(e){
+						function(){
 							_this.disconnect(disconnectHandle); // only call once
 							pingNode.style.filter = (new Date()).getMilliseconds(); // set to anything that's unique
 							setTimeout(function(){ pingNode.style.filter = origFilter }, 0); // restore custom filter, if any

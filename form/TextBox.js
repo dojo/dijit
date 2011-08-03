@@ -9,14 +9,14 @@ define([
 	"dojo/_base/lang", // dojo.hitch
 	"dojo/_base/sniff", // dojo.isIE dojo.isMoz
 	"dojo/_base/window" // dojo.doc.selection.createRange
-], function(dojo, dijit, template){
+], function(dojo, dijit, template, _FormValueWidget, _TextBoxMixin){
 
 	// module:
 	//		dijit/form/TextBox
 	// summary:
 	//		A base class for textbox form inputs
 
-	dojo.declare("dijit.form.TextBox", [dijit.form._FormValueWidget, dijit.form._TextBoxMixin], {
+	var TextBox = dojo.declare("dijit.form.TextBox", [dijit.form._FormValueWidget, dijit.form._TextBoxMixin], {
 		// summary:
 		//		A base class for textbox form inputs
 
@@ -101,7 +101,7 @@ define([
 	});
 
 	if(dojo.isIE){
-		dijit.form.TextBox = dojo.declare(dijit.form.TextBox, {
+		TextBox = dijit.form.TextBox = dojo.declare(dijit.form.TextBox, {
 			_isTextSelected: function(){
 				var range = dojo.doc.selection.createRange();
 				var parent = range.parentElement();
@@ -129,7 +129,8 @@ define([
 			}
 		});
 
-		dijit._setSelectionRange = function(/*DomNode*/ element, /*Number?*/ start, /*Number?*/ stop){
+		// Overrides definition of _setSelectionRange from _TextBoxMixin (TODO: move to _TextBoxMixin.js?)
+		dijit._setSelectionRange = _TextBoxMixin._setSelectionRange = function(/*DomNode*/ element, /*Number?*/ start, /*Number?*/ stop){
 			if(element.createTextRange){
 				var r = element.createTextRange();
 				r.collapse(true);
@@ -142,7 +143,7 @@ define([
 	}
 
 	if(dojo.isMoz){
-		dijit.form.TextBox = dojo.declare(dijit.form.TextBox, {
+		TextBox = dijit.form.TextBox = dojo.declare(TextBox, {
 			_onBlur: function(e){
 				this.inherited(arguments);
 				if(this.selectOnClick){
@@ -153,5 +154,5 @@ define([
 		});
 	}
 
-	return dijit.form.TextBox;
+	return TextBox;
 });

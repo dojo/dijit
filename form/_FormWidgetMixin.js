@@ -1,15 +1,14 @@
 define([
-	"dojo/_base/kernel",
-	"..",
-	"dojo/window", // dojo.window.scrollIntoView
-	"dojo/_base/array", // dojo.forEach
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/html", // dojo.attr dojo.style
-	"dojo/_base/lang", // dojo.hitch dojo.isArray
-	"dojo/_base/sniff", // dojo.isWebKit
-	"dojo/_base/window", // dojo.body
-	"dojo/mouse" // dojo.mouseButtons.isLeft
-], function(dojo, dijit){
+	"dojo/_base/array", // array.forEach
+	"dojo/_base/declare", // declare
+	"dojo/dom-attr", // domAttr.set
+	"dojo/dom-style", // domStyle.get
+	"dojo/_base/lang", // lang.hitch lang.isArray
+	"dojo/mouse", // mouse.mouseButtons.isLeft
+	"dojo/_base/sniff", // has("webKit")
+	"dojo/_base/window", // win.body
+	"dojo/window" // winUtils.scrollIntoView
+], function(array, declare, domAttr, domStyle, lang, mouse, has, win, winUtils){
 
 // module:
 //		dijit/form/_FormWidgetMixin
@@ -17,7 +16,7 @@ define([
 //		Mixin for widgets corresponding to native HTML elements such as <checkbox> or <button>,
 //		which can be children of a <form> node or a `dijit.form.Form` widget.
 
-return dojo.declare("dijit.form._FormWidgetMixin", null, {
+return declare("dijit.form._FormWidgetMixin", null, {
 	// summary:
 	//		Mixin for widgets corresponding to native HTML elements such as <checkbox> or <button>,
 	//		which can be children of a <form> node or a `dijit.form.Form` widget.
@@ -74,9 +73,9 @@ return dojo.declare("dijit.form._FormWidgetMixin", null, {
 
 	_setDisabledAttr: function(/*Boolean*/ value){
 		this._set("disabled", value);
-		dojo.attr(this.focusNode, 'disabled', value);
+		domAttr.set(this.focusNode, 'disabled', value);
 		if(this.valueNode){
-			dojo.attr(this.valueNode, 'disabled', value);
+			domAttr.set(this.valueNode, 'disabled', value);
 		}
 		this.focusNode.setAttribute("aria-disabled", value);
 
@@ -89,10 +88,10 @@ return dojo.declare("dijit.form._FormWidgetMixin", null, {
 			// clear tab stop(s) on this widget's focusable node(s)  (ComboBox has two focusable nodes)
 			var attachPointNames = "tabIndex" in this.attributeMap ? this.attributeMap.tabIndex :
 				("_setTabIndexAttr" in this) ? this._setTabIndexAttr : "focusNode";
-			dojo.forEach(dojo.isArray(attachPointNames) ? attachPointNames : [attachPointNames], function(attachPointName){
+			array.forEach(lang.isArray(attachPointNames) ? attachPointNames : [attachPointNames], function(attachPointName){
 				var node = this[attachPointName];
 				// complex code because tabIndex=-1 on a <div> doesn't work on FF
-				if(dojo.isWebKit || dijit.hasDefaultTabStop(node)){	// see #11064 about webkit bug
+				if(has("webKit") || dijit.hasDefaultTabStop(node)){	// see #11064 about webkit bug
 					node.setAttribute('tabIndex', "-1");
 				}else{
 					node.removeAttribute('tabIndex');
@@ -107,7 +106,7 @@ return dojo.declare("dijit.form._FormWidgetMixin", null, {
 
 	_onFocus: function(e){
 		if(this.scrollOnFocus){
-			dojo.window.scrollIntoView(this.domNode);
+			winUtils.scrollIntoView(this.domNode);
 		}
 		this.inherited(arguments);
 	},
@@ -117,7 +116,7 @@ return dojo.declare("dijit.form._FormWidgetMixin", null, {
 		//		Tells if this widget is focusable or not.  Used internally by dijit.
 		// tags:
 		//		protected
-		return !this.disabled && this.focusNode && (dojo.style(this.domNode, "display") != "none");
+		return !this.disabled && this.focusNode && (domStyle.get(this.domNode, "display") != "none");
 	},
 
 	focus: function(){
@@ -144,7 +143,7 @@ return dojo.declare("dijit.form._FormWidgetMixin", null, {
 		}
 	},
 
-	onChange: function(newValue){
+	onChange: function(/*===== newValue =====*/){
 		// summary:
 		//		Callback when this widget's value is changed.
 		// tags:
@@ -183,9 +182,9 @@ return dojo.declare("dijit.form._FormWidgetMixin", null, {
 				if(this._onChangeHandle){
 					clearTimeout(this._onChangeHandle);
 				}
-				// setTimout allows hidden value processing to run and
+				// setTimeout allows hidden value processing to run and
 				// also the onChange handler can safely adjust focus, etc
-				this._onChangeHandle = setTimeout(dojo.hitch(this,
+				this._onChangeHandle = setTimeout(lang.hitch(this,
 					function(){
 						this._onChangeHandle = null;
 						this.onChange(newValue);
@@ -213,10 +212,10 @@ return dojo.declare("dijit.form._FormWidgetMixin", null, {
 		// this button should get focus (to mimics native browser buttons).
 		// This is also needed on chrome because otherwise buttons won't get focus at all,
 		// which leads to bizarre focus restore on Dialog close etc.
-		if(!e.ctrlKey && dojo.mouseButtons.isLeft(e) && this.isFocusable()){ // !e.ctrlKey to ignore right-click on mac
+		if(!e.ctrlKey && mouse.mouseButtons.isLeft(e) && this.isFocusable()){ // !e.ctrlKey to ignore right-click on mac
 			// Set a global event to handle mouseup, so it fires properly
 			// even if the cursor leaves this.domNode before the mouse up event.
-			var mouseUpConnector = this.connect(dojo.body(), "onmouseup", function(){
+			var mouseUpConnector = this.connect(win.body(), "onmouseup", function(){
 				if(this.isFocusable()){
 					this.focus();
 				}

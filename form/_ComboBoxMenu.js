@@ -1,24 +1,29 @@
 define([
-	"dojo/_base/kernel",
-	"..",
-	"./_ComboBoxMenuMixin",
+	"dojo/_base/declare", // declare
+	"dojo/dom-class", // domClass.add domClass.remove
+	"dojo/dom-construct", // domConstruct.create
+	"dojo/dom-style", // domStyle.get
+	"dojo/keys", // keys.DOWN_ARROW keys.PAGE_DOWN keys.PAGE_UP keys.UP_ARROW
 	"../_WidgetBase",
 	"../_TemplatedMixin",
-	"./_ListMouseMixin",
-	"dojo/_base/connect", // dojo.keys.DOWN_ARROW dojo.keys.PAGE_DOWN dojo.keys.PAGE_UP dojo.keys.UP_ARROW
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/html" // dojo.addClass dojo.create dojo.removeClass dojo.style
-], function(dojo, dijit){
+	"./_ComboBoxMenuMixin",
+	"./_ListMouseMixin"
+], function(declare, domClass, domConstruct, domStyle, keys,
+			_WidgetBase, _TemplatedMixin, _ComboBoxMenuMixin, _ListMouseMixin){
+
+/*=====
+	var _WidgetBase = dijit._WidgetBase;
+	var _TemplatedMixin = dijit._TemplatedMixin;
+	var _ComboBoxMenuMixin = dijit.form._ComboBoxMenuMixin;
+	var _ListMouseMixin = dijit.form._ListMouseMixin;
+=====*/
 
 	// module:
 	//		dijit/form/_ComboBoxMenu
 	// summary:
 	//		Focus-less menu for internal use in `dijit.form.ComboBox`
 
-
-	dojo.declare(
-		"dijit.form._ComboBoxMenu",
-		[dijit._WidgetBase, dijit._TemplatedMixin, dijit.form._ListMouseMixin, dijit.form._ComboBoxMenuMixin], {
+	return declare("dijit.form._ComboBoxMenu",[_WidgetBase, _TemplatedMixin, _ListMouseMixin, _ComboBoxMenuMixin], {
 		// summary:
 		//		Focus-less menu for internal use in `dijit.form.ComboBox`
 		//              Abstract methods that must be defined externally:
@@ -35,7 +40,7 @@ define([
 		baseClass: "dijitComboBoxMenu",
 
 		_createMenuItem: function(){
-			return dojo.create("div", {
+			return domConstruct.create("div", {
 				"class": "dijitReset dijitMenuItem" +(this.isLeftToRight() ? "" : " dijitMenuItemRtl"),
 				role: "option"
 			});
@@ -44,25 +49,25 @@ define([
 		onHover: function(/*DomNode*/ node){
 			// summary:
 			//		Add hover CSS
-			dojo.addClass(node, "dijitMenuItemHover");
+			domClass.add(node, "dijitMenuItemHover");
 		},
 
 		onUnhover: function(/*DomNode*/ node){
 			// summary:
 			//		Remove hover CSS
-			dojo.removeClass(node, "dijitMenuItemHover");
+			domClass.remove(node, "dijitMenuItemHover");
 		},
 
 		onSelect: function(/*DomNode*/ node){
 			// summary:
 			//		Add selected CSS
-			dojo.addClass(node, "dijitMenuItemSelected");
+			domClass.add(node, "dijitMenuItemSelected");
 		},
 
 		onDeselect: function(/*DomNode*/ node){
 			// summary:
 			//		Remove selected CSS
-			dojo.removeClass(node, "dijitMenuItemSelected");
+			domClass.remove(node, "dijitMenuItemSelected");
 		},
 
 		_page: function(/*Boolean*/ up){
@@ -71,7 +76,7 @@ define([
 
 			var scrollamount = 0;
 			var oldscroll = this.domNode.scrollTop;
-			var height = dojo.style(this.domNode, "height");
+			var height = domStyle.get(this.domNode, "height");
 			// if no item is highlighted, highlight the first option
 			if(!this.getHighlightedOption()){
 				this.selectNextNode();
@@ -104,16 +109,16 @@ define([
 			//		Handle keystroke event forwarded from ComboBox, returning false if it's
 			//		a keystroke I recognize and process, true otherwise.
 			switch(evt.charOrCode){
-				case dojo.keys.DOWN_ARROW:
+				case keys.DOWN_ARROW:
 					this.selectNextNode();
 					return false;
-				case dojo.keys.PAGE_DOWN:
+				case keys.PAGE_DOWN:
 					this._page(false);
 					return false;
-				case dojo.keys.UP_ARROW:
+				case keys.UP_ARROW:
 					this.selectPreviousNode();
 					return false;
-				case dojo.keys.PAGE_UP:
+				case keys.PAGE_UP:
 					this._page(true);
 					return false;
 				default:
@@ -121,6 +126,4 @@ define([
 			}
 		}
 	});
-
-	return dijit.form._ComboBoxMenu;
 });

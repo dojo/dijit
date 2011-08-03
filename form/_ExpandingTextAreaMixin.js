@@ -1,11 +1,9 @@
 define([
-	"dojo/_base/kernel",
-	"..",
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/html", // dojo.create
-	"dojo/_base/lang", // dojo.hitch
-	"dojo/_base/window" // dojo.body
-], function(dojo, dijit){
+	"dojo/_base/declare", // declare
+	"dojo/dom-construct", // domConstruct.create
+	"dojo/_base/lang", // lang.hitch
+	"dojo/_base/window" // win.body
+], function(declare, domConstruct, lang, win){
 
 	// module:
 	//		dijit/form/_ExpandingTextAreaMixin
@@ -15,7 +13,7 @@ define([
 	// feature detection
 	var needsHelpShrinking;
 
-	dojo.declare("dijit.form._ExpandingTextAreaMixin", null, {
+	return declare("dijit.form._ExpandingTextAreaMixin", null, {
 		// summary:
 		//		Mixin for textarea widgets to add auto-expanding capability
 
@@ -29,9 +27,9 @@ define([
 			var textarea = this.textbox;
 
 			if(needsHelpShrinking == undefined){
-				var te = dojo.create('textarea', {rows:"5", cols:"20", value: ' ', style: {zoom:1, overflow:'hidden', visibility:'hidden', position:'absolute', border:"0px solid black", padding:"0px"}}, dojo.body(), "last");
+				var te = domConstruct.create('textarea', {rows:"5", cols:"20", value: ' ', style: {zoom:1, overflow:'hidden', visibility:'hidden', position:'absolute', border:"0px solid black", padding:"0px"}}, win.body(), "last");
 				needsHelpShrinking = te.scrollHeight >= te.clientHeight;
-				dojo.body().removeChild(te);
+				win.body().removeChild(te);
 			}
 			this.connect(textarea, "onscroll", "_resizeLater");
 			this.connect(textarea, "onresize", "_resizeLater");
@@ -62,7 +60,7 @@ define([
 		},
 
 		_resizeLater: function(){
-			setTimeout(dojo.hitch(this, "resize"), 0);
+			setTimeout(lang.hitch(this, "resize"), 0);
 		},
 
 		resize: function(){
@@ -120,6 +118,4 @@ define([
 			this.inherited(arguments);
 		}
 	});
-
-	return dijit.form._ExpandingTextAreaMixin;
 });

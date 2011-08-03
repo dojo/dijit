@@ -1,12 +1,18 @@
 define([
-	"dojo/_base/kernel", // dojo.deprecated
-	"..",
-	"dojo/_base/declare",	// dojo.declare
+	"dojo/_base/declare",	// declare
+	"dojo/_base/kernel", // kernel.deprecated
 	"../_Widget",
-	"../_TemplatedMixin",
 	"../_CssStateMixin",
+	"../_TemplatedMixin",
 	"./_FormWidgetMixin"
-], function(dojo, dijit){
+], function(declare, kernel, _Widget, _CssStateMixin, _TemplatedMixin, _FormWidgetMixin){
+
+/*=====
+var _Widget = dijit._Widget;
+var _TemplatedMixin = dijit._TemplatedMixin;
+var _CssStateMixin = dijit._CssStateMixin;
+var _FormWidgetMixin = dijit.form._FormWidgetMixin;
+=====*/
 
 // module:
 //		dijit/form/_FormWidget
@@ -14,9 +20,15 @@ define([
 //		FormWidget
 
 
-dojo.declare("dijit.form._FormWidget",
-	[dijit._Widget, dijit._TemplatedMixin, dijit._CssStateMixin, dijit.form._FormWidgetMixin],
-	{
+// Back compat w/1.6, remove for 2.0
+if(dojo && dojo.ready && !dojo.isAsync){
+	dojo.ready(0, function(){
+		var requires = ["dijit/form/_FormValueWidget"];
+		require(requires);	// use indirection so modules not rolled into a build
+	});
+}
+
+return declare("dijit.form._FormWidget", [_Widget, _TemplatedMixin, _CssStateMixin, _FormWidgetMixin], {
 	// summary:
 	//		Base class for widgets corresponding to native HTML elements such as <checkbox> or <button>,
 	//		which can be children of a <form> node or a `dijit.form.Form` widget.
@@ -31,21 +43,21 @@ dojo.declare("dijit.form._FormWidget",
 	setDisabled: function(/*Boolean*/ disabled){
 		// summary:
 		//		Deprecated.  Use set('disabled', ...) instead.
-		dojo.deprecated("setDisabled("+disabled+") is deprecated. Use set('disabled',"+disabled+") instead.", "", "2.0");
+		kernel.deprecated("setDisabled("+disabled+") is deprecated. Use set('disabled',"+disabled+") instead.", "", "2.0");
 		this.set('disabled', disabled);
 	},
 
 	setValue: function(/*String*/ value){
 		// summary:
 		//		Deprecated.  Use set('value', ...) instead.
-		dojo.deprecated("dijit.form._FormWidget:setValue("+value+") is deprecated.  Use set('value',"+value+") instead.", "", "2.0");
+		kernel.deprecated("dijit.form._FormWidget:setValue("+value+") is deprecated.  Use set('value',"+value+") instead.", "", "2.0");
 		this.set('value', value);
 	},
 
 	getValue: function(){
 		// summary:
 		//		Deprecated.  Use get('value') instead.
-		dojo.deprecated(this.declaredClass+"::getValue() is deprecated. Use get('value') instead.", "", "2.0");
+		kernel.deprecated(this.declaredClass+"::getValue() is deprecated. Use get('value') instead.", "", "2.0");
 		return this.get('value');
 	},
 
@@ -63,13 +75,4 @@ dojo.declare("dijit.form._FormWidget",
 	_setTypeAttr: null
 });
 
-// Back compat w/1.6, remove for 2.0
-if(!dojo.isAsync){
-	dojo.ready(0, function(){
-		var requires = ["dijit/form/_FormValueWidget"];
-		require(requires);	// use indirection so modules not rolled into a build
-	});
-}
-
-return dijit.form._FormWidget;
 });

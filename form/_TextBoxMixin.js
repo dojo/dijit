@@ -1,21 +1,18 @@
 define([
-	"dojo/_base/kernel", // lang.mixin
-	"..",
-	"dojo/_base/lang", // lang.mixin
-	"dojo/_base/array", // dojo.forEach
-	"dojo/_base/connect", // dojo.keys.ALT dojo.keys.CAPS_LOCK dojo.keys.CTRL dojo.keys.META dojo.keys.SHIFT
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/event", // dojo.stopEvent
-	"dojo/_base/html", // dojo.byId
-	"dojo/_base/window" // dojo.doc dojo.global
-], function(dojo, dijit, lang){
+	"dojo/_base/array", // array.forEach
+	"dojo/_base/declare", // declare
+	"dojo/dom", // dom.byId
+	"dojo/_base/event", // event.stop
+	"dojo/keys", // keys.ALT keys.CAPS_LOCK keys.CTRL keys.META keys.SHIFT
+	"dojo/_base/lang" // lang.mixin
+], function(array, declare, dom, event, keys, lang){
 
 // module:
 //		dijit/form/_TextBoxMixin
 // summary:
 //		A mixin for textbox form input widgets
 
-dojo.declare( "dijit.form._TextBoxMixin", null, {
+var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 	// summary:
 	//		A mixin for textbox form input widgets
 
@@ -161,17 +158,21 @@ dojo.declare( "dijit.form._TextBoxMixin", null, {
 		}
 	},
 
-	format: function(/*String*/ value, /*Object*/ constraints){
+	format: function(value /*=====, constraints =====*/){
 		// summary:
-		//		Replacable function to convert a value to a properly formatted string.
+		//		Replaceable function to convert a value to a properly formatted string.
+		// value: String
+		// constraints: Object
 		// tags:
 		//		protected extension
 		return ((value == null || value == undefined) ? "" : (value.toString ? value.toString() : value));
 	},
 
-	parse: function(/*String*/ value, /*Object*/ constraints){
+	parse: function(value /*=====, constraints =====*/){
 		// summary:
-		//		Replacable function to convert a formatted string to a value
+		//		Replaceable function to convert a formatted string to a value
+		// value: String
+		// constraints: Object
 		// tags:
 		//		protected extension
 
@@ -201,7 +202,7 @@ dojo.declare( "dijit.form._TextBoxMixin", null, {
 	onInput: function(){},
 
 	__skipInputEvent: false,
-	_onInput: function(e){
+	_onInput: function(){
 		// summary:
 		//		Called AFTER the input event has happened
 		// set text direction according to textDir that was defined in creation
@@ -225,18 +226,18 @@ dojo.declare( "dijit.form._TextBoxMixin", null, {
 		// normalize input events to reduce spurious event processing
 		//	onkeydown: do not forward modifier keys
 		//	           set charOrCode to numeric keycode
-		//	onkeypress: do not forward numeric charOrCode keys (already sent thru onkeydown)
+		//	onkeypress: do not forward numeric charOrCode keys (already sent through onkeydown)
 		//	onpaste & oncut: set charOrCode to 229 (IME)
 		//	oninput: if primary event not already processed, set charOrCode to 229 (IME), else do not forward
 		var handleEvent = function(e){
 			var charCode = e.charOrCode || e.keyCode || 229;
 			if(e.type == "keydown"){
 				switch(charCode){ // ignore "state" keys
-					case dojo.keys.SHIFT:
-					case dojo.keys.ALT:
-					case dojo.keys.CTRL:
-					case dojo.keys.META:
-					case dojo.keys.CAPS_LOCK:
+					case keys.SHIFT:
+					case keys.ALT:
+					case keys.CTRL:
+					case keys.META:
+					case keys.CAPS_LOCK:
 						return;
 					default:
 						if(charCode >= 65 && charCode <= 90){ return; } // keydown for A-Z can be processed with keypress
@@ -263,12 +264,12 @@ dojo.declare( "dijit.form._TextBoxMixin", null, {
 			});
 			// give web page author a chance to consume the event
 			if(this.onInput(faux) === false){
-				dojo.stopEvent(faux); // return false means stop
+				event.stop(faux); // return false means stop
 			}
 			if(faux.wasConsumed){ return; } // if preventDefault was called
-			setTimeout(dojo.hitch(this, "_onInput", faux), 0); // widget notification after key has posted
+			setTimeout(lang.hitch(this, "_onInput", faux), 0); // widget notification after key has posted
 		};
-		dojo.forEach([ "onkeydown", "onkeypress", "onpaste", "oncut", "oninput" ], function(event){
+		array.forEach([ "onkeydown", "onkeypress", "onpaste", "oncut", "oninput" ], function(event){
 			this.connect(this.textbox, event, handleEvent);
 		}, this);
 	},
@@ -295,7 +296,7 @@ dojo.declare( "dijit.form._TextBoxMixin", null, {
 		if(val === null){ return this._blankValue; }
 		if(typeof val != "string"){ return val; }
 		if(this.trim){
-			val = dojo.trim(val);
+			val = lang.trim(val);
 		}
 		if(this.uppercase){
 			val = val.toUpperCase();
@@ -344,7 +345,7 @@ dojo.declare( "dijit.form._TextBoxMixin", null, {
 				// Check if the user selected some text manually (mouse-down, mouse-move, mouse-up)
 				// and if not, then select all the text
 				if(this._isTextSelected()){
-					dijit.selectInputText(this.textbox);
+					_TextBoxMixin.selectInputText(this.textbox);
 				}
 			});
 		}
@@ -382,27 +383,25 @@ dojo.declare( "dijit.form._TextBoxMixin", null, {
 });
 
 
-dijit._setSelectionRange = function(/*DomNode*/ element, /*Number?*/ start, /*Number?*/ stop){
+_TextBoxMixin._setSelectionRange = dijit._setSelectionRange = function(/*DomNode*/ element, /*Number?*/ start, /*Number?*/ stop){
 	if(element.setSelectionRange){
 		element.setSelectionRange(start, stop);
 	}
 };
 
-dijit.selectInputText = function(/*DomNode*/ element, /*Number?*/ start, /*Number?*/ stop){
+_TextBoxMixin.selectInputText = dijit.selectInputText = function(/*DomNode*/ element, /*Number?*/ start, /*Number?*/ stop){
 	// summary:
 	//		Select text in the input element argument, from start (default 0), to stop (default end).
 
 	// TODO: use functions in _editor/selection.js?
-	var _window = dojo.global;
-	var _document = dojo.doc;
-	element = dojo.byId(element);
+	element = dom.byId(element);
 	if(isNaN(start)){ start = 0; }
 	if(isNaN(stop)){ stop = element.value ? element.value.length : 0; }
 	try{
 		element.focus();
-		dijit._setSelectionRange(element, start, stop);
+		_TextBoxMixin._setSelectionRange(element, start, stop);
 	}catch(e){ /* squelch random errors (esp. on IE) from unexpected focus changes or DOM nodes being hidden */ }
 };
 
-return dijit.form._TextBoxMixin;
+return _TextBoxMixin;
 });

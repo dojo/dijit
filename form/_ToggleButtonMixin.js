@@ -1,16 +1,14 @@
 define([
-	"dojo/_base/kernel",
-	"..",
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/html" // dojo.attr
-], function(dojo, dijit){
+	"dojo/_base/declare", // declare
+	"dojo/dom-attr" // domAttr.set
+], function(declare, domAttr){
 
 // module:
 //		dijit/form/_ToggleButtonMixin
 // summary:
 //		A mixin to provide functionality to allow a button that can be in two states (checked or not).
 
-dojo.declare("dijit.form._ToggleButtonMixin", null, {
+return declare("dijit.form._ToggleButtonMixin", null, {
 	// summary:
 	//		A mixin to provide functionality to allow a button that can be in two states (checked or not).
 
@@ -31,7 +29,7 @@ dojo.declare("dijit.form._ToggleButtonMixin", null, {
 
 	_setCheckedAttr: function(/*Boolean*/ value, /*Boolean?*/ priorityChange){
 		this._set("checked", value);
-		dojo.attr(this.focusNode || this.domNode, "checked", value);
+		domAttr.set(this.focusNode || this.domNode, "checked", value);
 		(this.focusNode || this.domNode).setAttribute("aria-pressed", value);
 		this._handleOnChange(value, priorityChange);
 	},
@@ -47,6 +45,4 @@ dojo.declare("dijit.form._ToggleButtonMixin", null, {
 	}
 });
 
-
-return dijit.form._ToggleButtonMixin;
 });

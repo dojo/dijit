@@ -1,18 +1,20 @@
 define([
-	"dojo/_base/kernel",
-	"..",
+	"dojo/_base/declare", // declare
+	"dojo/_base/event", // event.stop
 	"dojo/touch",
-	"./_ListBase",
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/event" // dojo.stopEvent
-], function(dojo, dijit, touch){
+	"./_ListBase"
+], function(declare, event, touch, _ListBase){
+
+/*=====
+var _ListBase = dijit.form._ListBase;
+=====*/
 
 // module:
 //		dijit/form/_ListMouseMixin
 // summary:
 //		a mixin to handle mouse or touch events for a focus-less menu
 
-dojo.declare( "dijit.form._ListMouseMixin", dijit.form._ListBase, {
+return declare( "dijit.form._ListMouseMixin", _ListBase, {
 	// summary:
 	//		a Mixin to handle mouse or touch events for a focus-less menu
 	//		Abstract methods that must be defined externally:
@@ -29,7 +31,7 @@ dojo.declare( "dijit.form._ListMouseMixin", dijit.form._ListBase, {
 	},
 
 	_onMouseDown: function(/*Event*/ evt){
-		dojo.stopEvent(evt);
+		event.stop(evt);
 		if(this._hoveredNode){
 			this.onUnhover(this._hoveredNode);
 			this._hoveredNode = null;
@@ -39,7 +41,7 @@ dojo.declare( "dijit.form._ListMouseMixin", dijit.form._ListBase, {
 	},
 
 	_onMouseUp: function(/*Event*/ evt){
-		dojo.stopEvent(evt);
+		event.stop(evt);
 		this._isDragging = false;
 		var selectedNode = this._getSelectedAttr();
 		var target = this._getTarget(evt);
@@ -52,7 +54,7 @@ dojo.declare( "dijit.form._ListMouseMixin", dijit.form._ListBase, {
 		}
 	},
 
-	_onMouseOut: function(/*Event*/ evt){
+	_onMouseOut: function(/*Event*/ /*===== evt ====*/){
 		if(this._hoveredNode){
 			this.onUnhover(this._hoveredNode);
 			if(this._getSelectedAttr() == this._hoveredNode){
@@ -91,5 +93,4 @@ dojo.declare( "dijit.form._ListMouseMixin", dijit.form._ListBase, {
 	}
 });
 
-return dijit.form._ListMouseMixin;
 });

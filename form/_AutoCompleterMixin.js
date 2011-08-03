@@ -1,21 +1,22 @@
 define([
-	"dojo/_base/kernel", // lang.getObject lang.mixin
-	"..",
-	"dojo/_base/lang", // dojo.clone dojo.hitch
-	"dojo/string", // dojo.string.substitute
-	"dojo/regexp", // dojo.regexp.escapeString
-	"dojo/data/util/filter", // dojo.data.util.filter.patternToRegExp
-	"dojo/i18n!./nls/ComboBox",
+	"dojo/_base/connect", // keys keys.SHIFT
+	"dojo/data/util/filter", // patternToRegExp
+	"dojo/_base/declare", // declare
+	"dojo/_base/Deferred", // Deferred.when
+	"dojo/dom-attr", // domAttr.get
+	"dojo/_base/event", // event.stop
+	"dojo/keys",
+	"dojo/_base/lang", // lang.clone lang.hitch
+	"dojo/query", // query
+	"dojo/regexp", // regexp.escapeString
+	"dojo/_base/sniff", // has("ie")
+	"dojo/string", // string.substitute
+	"dojo/_base/window", // win.doc.selection.createRange
 	"./DataList",
-	"dojo/_base/Deferred", // dojo.when
-	"dojo/_base/connect", // dojo.keys dojo.keys.SHIFT
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/event", // dojo.stopEvent
-	"dojo/_base/html", // dojo.attr
-	"dojo/_base/sniff", // dojo.isIE
-	"dojo/_base/window", // dojo.doc.selection.createRange
-	"dojo/query" // dojo.query
-], function(dojo, dijit, lang){
+	"..",	// dijit.byId plus exporting symbols to dijit namespace
+	"./_TextBoxMixin"	// defines _TextBoxMixin.selectInputText
+], function(connect, filter, declare, Deferred, domAttr, event, keys, lang, query, regexp, has, string, win,
+			DataList, dijit, _TextBoxMixin){
 
 	// module:
 	//		dijit/form/_AutoCompleterMixin
@@ -23,7 +24,7 @@ define([
 	//		A mixin that implements the base functionality for `dijit.form.ComboBox`/`dijit.form.FilteringSelect`
 
 
-	dojo.declare("dijit.form._AutoCompleterMixin", null, {
+	return declare("dijit.form._AutoCompleterMixin", null, {
 		// summary:
 		//		A mixin that implements the base functionality for `dijit.form.ComboBox`/`dijit.form.FilteringSelect`
 		// description:
@@ -124,12 +125,12 @@ define([
 			if(typeof(element.selectionStart) == "number"){
 				// FIXME: this is totally borked on Moz < 1.3. Any recourse?
 				pos = element.selectionStart;
-			}else if(dojo.isIE){
+			}else if(has("ie")){
 				// in the case of a mouse click in a popup being handled,
-				// then the dojo.doc.selection is not the textarea, but the popup
-				// var r = dojo.doc.selection.createRange();
+				// then the win.doc.selection is not the textarea, but the popup
+				// var r = win.doc.selection.createRange();
 				// hack to get IE 6 to play nice. What a POS browser.
-				var tr = dojo.doc.selection.createRange().duplicate();
+				var tr = win.doc.selection.createRange().duplicate();
 				var ntr = element.createTextRange();
 				tr.move("character",0);
 				ntr.move("character",0);
@@ -148,7 +149,7 @@ define([
 
 		_setCaretPos: function(/*DomNode*/ element, /*Number*/ location){
 			location = parseInt(location);
-			dijit.selectInputText(element, location, location);
+			_TextBoxMixin.selectInputText(element, location, location);
 		},
 
 		_setDisabledAttr: function(/*Boolean*/ value){
@@ -190,13 +191,12 @@ define([
 			var key = evt.charOrCode;
 
 			// except for cutting/pasting case - ctrl + x/v
-			if(evt.altKey || ((evt.ctrlKey || evt.metaKey) && (key != 'x' && key != 'v')) || key == dojo.keys.SHIFT){
+			if(evt.altKey || ((evt.ctrlKey || evt.metaKey) && (key != 'x' && key != 'v')) || key == keys.SHIFT){
 				return; // throw out weird key combinations and spurious events
 			}
 
 			var doSearch = false;
 			var pw = this.dropDown;
-			var dk = dojo.keys;
 			var highlighted = null;
 			this._prev_key_backspace = false;
 			this._abortQuery();
@@ -213,19 +213,19 @@ define([
 				highlighted = pw.getHighlightedOption();
 			}
 			switch(key){
-				case dk.PAGE_DOWN:
-				case dk.DOWN_ARROW:
-				case dk.PAGE_UP:
-				case dk.UP_ARROW:
+				case keys.PAGE_DOWN:
+				case keys.DOWN_ARROW:
+				case keys.PAGE_UP:
+				case keys.UP_ARROW:
 					// Keystroke caused ComboBox_menu to move to a different item.
 					// Copy new item to <input> box.
 					if(this._opened){
 						this._announceOption(highlighted);
 					}
-					dojo.stopEvent(evt);
+					event.stop(evt);
 					break;
 
-				case dk.ENTER:
+				case keys.ENTER:
 					// prevent submitting form if user presses enter. Also
 					// prevent accepting the value if either Next or Previous
 					// are selected
@@ -233,11 +233,11 @@ define([
 						// only stop event on prev/next
 						if(highlighted == pw.nextButton){
 							this._nextSearch(1);
-							dojo.stopEvent(evt);
+							event.stop(evt);
 							break;
 						}else if(highlighted == pw.previousButton){
 							this._nextSearch(-1);
-							dojo.stopEvent(evt);
+							event.stop(evt);
 							break;
 						}
 					}else{
@@ -254,7 +254,7 @@ define([
 					}
 					// fall through
 
-				case dk.TAB:
+				case keys.TAB:
 					var newvalue = this.get('displayedValue');
 					//	if the user had More Choices selected fall into the
 					//	_onBlur handler
@@ -269,7 +269,7 @@ define([
 					}
 					// fall through
 
-				case dk.ESCAPE:
+				case keys.ESCAPE:
 					if(this._opened){
 						this._lastQuery = null; // in case results come back later
 						this.closeDropDown();
@@ -279,7 +279,7 @@ define([
 				case ' ':
 					if(highlighted){
 						// user is effectively clicking a choice in the drop down menu
-						dojo.stopEvent(evt);
+						event.stop(evt);
 						this._selectOption(highlighted);
 						this.closeDropDown();
 					}else{
@@ -288,8 +288,8 @@ define([
 					}
 					break;
 
-				case dk.DELETE:
-				case dk.BACKSPACE:
+				case keys.DELETE:
+				case keys.BACKSPACE:
 					this._prev_key_backspace = true;
 					doSearch = true;
 					break;
@@ -304,7 +304,7 @@ define([
 				// need to wait a tad before start search so that the event
 				// bubbles through DOM and we have value visible
 				this.item = undefined; // undefined means item needs to be set
-				this.searchTimer = setTimeout(dojo.hitch(this, "_startSearchFromInput"),1);
+				this.searchTimer = setTimeout(lang.hitch(this, "_startSearchFromInput"),1);
 			}
 		},
 
@@ -319,7 +319,7 @@ define([
 			var fn = this.focusNode;
 
 			// IE7: clear selection so next highlight works all the time
-			dijit.selectInputText(fn, fn.value.length);
+			_TextBoxMixin.selectInputText(fn, fn.value.length);
 			// does text autoComplete the value in the textbox?
 			var caseFilter = this.ignoreCase? 'toLowerCase' : 'substr';
 			if(text[caseFilter](0).indexOf(this.focusNode.value[caseFilter](0)) == 0){
@@ -330,12 +330,12 @@ define([
 					// actually, that is ok
 					fn.value = text;//.substr(cpos);
 					// visually highlight the autocompleted characters
-					dijit.selectInputText(fn, cpos);
+					_TextBoxMixin.selectInputText(fn, cpos);
 				}
 			}else{
 				// text does not autoComplete; replace the whole value and highlight
 				fn.value = text;
-				dijit.selectInputText(fn);
+				_TextBoxMixin.selectInputText(fn);
 			}
 		},
 
@@ -369,7 +369,7 @@ define([
 			var nodes = this.dropDown.createOptions(
 				results,
 				options,
-				dojo.hitch(this, "_getMenuLabelFromItem")
+				lang.hitch(this, "_getMenuLabelFromItem")
 			);
 
 			// show our list (only if we have content, else nothing)
@@ -406,7 +406,7 @@ define([
 			this.domNode.setAttribute("aria-expanded", "true");
 		},
 
-		loadDropDown: function(/*Function*/ callback){
+		loadDropDown: function(/*Function*/ /*===== callback =====*/){
 			// Overrides _HasDropDown.loadDropDown().
 			// This is called when user has pressed button icon or pressed the down arrow key
 			// to open the drop down.
@@ -502,7 +502,7 @@ define([
 			// get the text that the user manually entered (cut off autocompleted text)
 			this.focusNode.value = this.focusNode.value.substring(0, this._lastInput.length);
 			// set up ARIA activedescendant
-			this.focusNode.setAttribute("aria-activedescendant", dojo.attr(node, "id"));
+			this.focusNode.setAttribute("aria-activedescendant", domAttr.get(node, "id"));
 			// autocomplete the rest of the option to announce change
 			this._autoCompleteText(newValue);
 		},
@@ -527,7 +527,7 @@ define([
 		},
 
 		_getQueryString: function(/*String*/ text){
-			return dojo.string.substitute(this.queryExpr, [text]);
+			return string.substitute(this.queryExpr, [text]);
 		},
 
 		_startSearch: function(/*String*/ key){
@@ -538,7 +538,7 @@ define([
 				var popupId = this.id + "_popup",
 				dropDownConstructor = lang.getObject(this.dropDownClass, false);
 				this.dropDown = new dropDownConstructor({
-					onChange: dojo.hitch(this, this._selectOption),
+					onChange: lang.hitch(this, this._selectOption),
 					id: popupId,
 					dir: this.dir,
 					textDir: this.textDir
@@ -551,7 +551,7 @@ define([
 			// Setup parameters to be passed to store.query().
 			// Create a new query to prevent accidentally querying for a hidden
 			// value from FilteringSelect's keyField
-			var query = dojo.clone(this.query); // #5970
+			var query = lang.clone(this.query); // #5970
 			var options = {
 				start: 0,
 				count: this.pageSize,
@@ -566,7 +566,7 @@ define([
 			// but with a toString() method to help JsonStore.
 			// Search string like "Co*" converted to regex like /^Co.*$/i.
 			var qs = this._getQueryString(key),
-				q = this.store._oldAPI ? qs : dojo.data.util.filter.patternToRegExp(qs, this.ignoreCase);
+				q = this.store._oldAPI ? qs : filter.patternToRegExp(qs, this.ignoreCase);
 			q.toString = function(){ return qs; };
 			this._lastQuery = query[this.searchAttr] = q;
 
@@ -574,7 +574,7 @@ define([
 			var _this = this,
 				startQuery = function(){
 					var resPromise = _this._fetchHandle = _this.store.query(query, options);
-					dojo.when(resPromise, function(res){
+					Deferred.when(resPromise, function(res){
 						_this._fetchHandle = null;
 						res.total = resPromise.total;
 						_this._openResultList(res, query, options);
@@ -591,7 +591,7 @@ define([
 			// otherwise, if the user types and the last query returns before the timeout,
 			// _lastQuery won't be set and their input gets rewritten
 
-			this.searchTimer = setTimeout(dojo.hitch(this, function(query, _this){
+			this.searchTimer = setTimeout(lang.hitch(this, function(query, _this){
 				this.searchTimer = null;
 
 				startQuery();
@@ -630,7 +630,7 @@ define([
 					this.store = dijit.byId(list);
 				}else{
 					// if user didn't specify store, then assume there are option tags
-					this.store = new dijit.form.DataList({}, srcNodeRef);
+					this.store = new DataList({}, srcNodeRef);
 				}
 
 				// if there is no value set and there is an option list, set
@@ -659,7 +659,7 @@ define([
 			//		protected
 
 			// find any associated label element and add to ComboBox node.
-			var label=dojo.query('label[for="'+this.id+'"]');
+			var label=query('label[for="'+this.id+'"]');
 			if(label.length){
 				label[0].id = (this.id+"_label");
 				this.domNode.setAttribute("aria-labelledby", label[0].id);
@@ -691,7 +691,7 @@ define([
 				// Add (g)lobal modifier when this.highlightMatch == "all" and (i)gnorecase when this.ignoreCase == true
 				modifiers = (this.ignoreCase ? "i" : "") + (this.highlightMatch == "all" ? "g" : ""),
 				i = this.queryExpr.indexOf("${0}");
-			find = dojo.regexp.escapeString(find); // escape regexp special chars
+			find = regexp.escapeString(find); // escape regexp special chars
 			return this._escapeHtml(label).replace(
 				// prepend ^ when this.queryExpr == "${0}*" and append $ when this.queryExpr == "*${0}"
 				new RegExp((i == 0 ? "^" : "") + "("+ find +")" + (i == (this.queryExpr.length - 4) ? "$" : ""), modifiers),
@@ -754,6 +754,4 @@ define([
 			}
 		}
 	});
-
-	return dijit.form._AutoCompleterMixin;
 });

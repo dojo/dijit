@@ -1,16 +1,14 @@
 define([
-	"dojo/_base/kernel",
-	"..",
-	"dojo/_base/declare",	// dojo.declare
-	"dojo/window" // dojo.window.scrollIntoView
-], function(dojo, dijit){
+	"dojo/_base/declare",	// declare
+	"dojo/window" // winUtils.scrollIntoView
+], function(declare, winUtils){
 
 // module:
 //		dijit/form/_ListBase
 // summary:
 //		Focus-less menu to handle UI events consistently
 
-dojo.declare( "dijit.form._ListBase", null, {
+return declare( "dijit.form._ListBase", null, {
 	// summary:
 	//		Focus-less menu to handle UI events consistently
 	//		Abstract methods that must be defined externally:
@@ -106,7 +104,7 @@ dojo.declare( "dijit.form._ListBase", null, {
 			}
 			if(node && node.parentNode == this.containerNode){
 				this.selected = node;
-				dojo.window.scrollIntoView(node);
+				winUtils.scrollIntoView(node);
 				this.onSelect(node);
 			}
 		}else if(node){
@@ -122,5 +120,4 @@ dojo.declare( "dijit.form._ListBase", null, {
 	}
 });
 
-return dijit.form._ListBase;
 });
