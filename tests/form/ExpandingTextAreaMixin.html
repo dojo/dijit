@@ -36,6 +36,8 @@
 
 		dojo.addOnLoad(function(){
 
+			var maxLengthNativeSupport = true;
+
 			doh.register("attributes", [
 				{
 					name: "dijit",
@@ -43,12 +45,16 @@
 						var dijit_attributes = dijit.byId('dijit_attributes');
 						doh.is("", dijit_attributes.textbox.value, "dijit original value");
 						doh.is("", dijit_attributes.get('value'), "dijit original get('value')");
-						doh.is("20", dijit_attributes.textbox.getAttribute("maxlength"), "dijit original maxLength");
+						if(maxLengthNativeSupport){
+							doh.is("20", dijit_attributes.textbox.getAttribute("maxlength"), "dijit original maxLength");
+						}
 						doh.is("20", dijit_attributes.get('maxLength'), "dijit original get('maxLength')");
 						dijit_attributes.set('maxLength', "9");
 						doh.is("", dijit_attributes.textbox.value, "dijit value");
 						doh.is("", dijit_attributes.get('value'), "dijit get('value')");
-						doh.is("9", dijit_attributes.textbox.getAttribute("maxlength"), "dijit maxLength");
+						if(maxLengthNativeSupport){
+							doh.is("9", dijit_attributes.textbox.getAttribute("maxlength"), "dijit maxLength");
+						}
 						doh.is("9", dijit_attributes.get('maxLength'), "dijit get('maxLength')");
 						// cols
 						doh.is("20", dijit_attributes.textbox.getAttribute("cols"), "dijit original cols");
@@ -64,12 +70,16 @@
 						var mobile_attributes = dijit.byId('mobile_attributes');
 						doh.is("", mobile_attributes.textbox.value, "mobile original value");
 						doh.is("", mobile_attributes.get('value'), "mobile original get('value')");
-						doh.is("20", mobile_attributes.textbox.getAttribute("maxlength"), "mobile original maxLength");
+						if(maxLengthNativeSupport){
+							doh.is("20", mobile_attributes.textbox.getAttribute("maxlength"), "mobile original maxLength");
+						}
 						doh.is("20", mobile_attributes.get('maxLength'), "mobile original get('maxLength')");
 						mobile_attributes.set('maxLength', "9");
 						doh.is("", mobile_attributes.textbox.value, "mobile value");
 						doh.is("", mobile_attributes.get('value'), "mobile get('value')");
-						doh.is("9", mobile_attributes.textbox.getAttribute("maxlength"), "mobile maxLength");
+						if(maxLengthNativeSupport){
+							doh.is("9", mobile_attributes.textbox.getAttribute("maxlength"), "mobile maxLength");
+						}
 						doh.is("9", mobile_attributes.get('maxLength'), "mobile get('maxLength')");
 						// cols
 						doh.is("20", mobile_attributes.textbox.getAttribute("cols"), "mobile original cols");
@@ -233,11 +243,15 @@
 	 			}
 			]);
 
+			dojo.byId('maxLengthSupport').maxLength = 10;
+			maxLengthNativeSupport = !!dojo.byId('maxLengthSupport').getAttribute('maxLength');
+
 			doh.run();
 		});
 	</script>
 </head>
 <body class="claro">
+	<textarea id="maxLengthSupport" style="visibility:hidden;position:absolute;"></textarea>
 	<h1 class="testTitle">_ExpandingTextAreaMixin (dijit and mobile) non-robot tests</h1>
 	<table id="table">
 		<tr>
@@ -247,7 +261,7 @@
 		</tr>
 		<tr>
 			<td class="layout">attributes</td>
-			<td class="layout"><input id="dijit_attributes" data-dojo-type="dijit.form.Textarea" data-dojo-props='value:"", placeHolder:"original", maxLength:20, cols:20'/></td>
+			<td class="layout"><input id="dijit_attributes" data-dojo-type="dijit.form.Textarea" data-dojo-props='value:"", placeHolder:"original", maxLength:"20", cols:20'/></td>
 			<td class="layout"><textarea id="mobile_attributes" data-dojo-type="dojox.mobile.ExpandingTextArea" data-dojo-props='cols:20, placeHolder:"original", maxLength:20'></textarea></td>
 		</tr>
 		<tr>
