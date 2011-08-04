@@ -110,7 +110,7 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 		// buttons, so do a resize
 		array.forEach(["label", "iconClass"], function(attr){
 			this.pane2watches[page.id].push(
-				this.pane2button[page.id].watch(attr, lang.hitch(this, function(name, oldValue, newValue){
+				this.pane2button[page.id].watch(attr, lang.hitch(this, function(){
 					if(this._postStartup && this._dim){
 						this.resize(this._dim);
 					}
@@ -447,6 +447,9 @@ var ScrollingTabControllerButtonMixin = declare("dijit.layout._ScrollingTabContr
 	// either (this override avoids focus() call in FormWidget.js)
 	isFocusable: function(){ return false; }
 });
+/*=====
+ScrollingTabControllerButtonMixin = dijit.layout._ScrollingTabControllerButtonMixin;
+=====*/
 
 declare("dijit.layout._ScrollingTabControllerButton",
 	[Button, ScrollingTabControllerButtonMixin]);

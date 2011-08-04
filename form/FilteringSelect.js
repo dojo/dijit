@@ -1,13 +1,16 @@
 define([
-	"dojo/_base/kernel", // lang.mixin
-	"..",
+	"dojo/data/util/filter", // filter.patternToRegExp
+	"dojo/_base/declare", // declare
+	"dojo/_base/Deferred", // Deferred.when
 	"dojo/_base/lang", // lang.mixin
 	"./MappedTextBox",
-	"./ComboBoxMixin",
-	"dojo/_base/Deferred", // dojo.when
-	"dojo/_base/declare", // dojo.declare
-	"dojo/data/util/filter" // dojo.data.util.filter.patternToRegExp
-], function(dojo, dijit, lang){
+	"./ComboBoxMixin"
+], function(filter, declare, Deferred, lang, MappedTextBox, ComboBoxMixin){
+
+/*=====
+	var MappedTextBox = dijit.form.MappedTextBox;
+	var ComboBoxMixin = dijit.form.ComboBoxMixin;
+=====*/
 
 	// module:
 	//		dijit/form/FilteringSelect
@@ -15,7 +18,7 @@ define([
 	//		An enhanced version of the HTML SELECT tag, populated dynamically
 
 
-	dojo.declare("dijit.form.FilteringSelect", [dijit.form.MappedTextBox, dijit.form.ComboBoxMixin], {
+	return declare("dijit.form.FilteringSelect", [MappedTextBox, ComboBoxMixin], {
 		// summary:
 		//		An enhanced version of the HTML SELECT tag, populated dynamically
 		//
@@ -130,7 +133,7 @@ define([
 			if(item === undefined){
 				if(value === null || value === ''){
 					value = '';
-					if(!dojo.isString(displayedValue)){
+					if(!lang.isString(displayedValue)){
 						this._setDisplayedValueAttr(displayedValue||'', priorityChange);
 						return;
 					}
@@ -138,7 +141,7 @@ define([
 
 				var self = this;
 				this._lastQuery = value;
-				dojo.when(this.store.get(value), function(item){
+				Deferred.when(this.store.get(value), function(item){
 					self._callbackSetLabel(item? [item] : [], undefined, undefined, priorityChange);
 				});
 			}else{
@@ -188,13 +191,13 @@ define([
 			// Note that if there's a custom labelFunc() this code
 			if(this.store){
 				this.closeDropDown();
-				var query = dojo.clone(this.query); // #6196: populate query with user-specifics
+				var query = lang.clone(this.query); // #6196: populate query with user-specifics
 
-				// Query on searchAttr is a regex (for benefit of dojo.store.MemoryStore),
+				// Query on searchAttr is a regex (for benefit of dojo.store.Memory),
 				// but with a toString() method to help JsonStore
 				// Escape meta characters of dojo.data.util.filter.patternToRegExp().
 				var qs = this._getDisplayQueryString(label),
-					q = dojo.data.util.filter.patternToRegExp(qs, this.ignoreCase);	// "Co*" --> /^Co.*$/i
+					q = filter.patternToRegExp(qs, this.ignoreCase);	// "Co*" --> /^Co.*$/i
 				q.toString = function(){ return qs; };
 				this._lastQuery = query[this.searchAttr] = q;
 
@@ -212,7 +215,7 @@ define([
 				};
 				lang.mixin(options, this.fetchProperties);
 				this._fetchHandle = this.store.query(query, options);
-				dojo.when(this._fetchHandle, function(result){
+				Deferred.when(this._fetchHandle, function(result){
 					_this._fetchHandle = null;
 					_this._callbackSetLabel(result || [], query, options, priorityChange);
 				}, function(err){
@@ -228,6 +231,4 @@ define([
 			this.set('displayedValue', this._lastDisplayedValue);
 		}
 	});
-
-	return dijit.form.FilteringSelect;
 });

@@ -1,28 +1,34 @@
 define([
-	"dojo/_base/kernel", // lang.mixin
-	"..",
+	"dojo/_base/declare", // declare
+	"dojo/_base/Deferred",
+	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/lang", // lang.mixin
-	"dojo/text!./templates/DropDownBox.html",
+	"dojo/store/util/QueryResults",	// dojo.store.util.QueryResults
 	"./_AutoCompleterMixin",
 	"./_ComboBoxMenu",
 	"../_HasDropDown",
-	"dojo/store/util/QueryResults",	// dojo.store.util.QueryResults
-	"dojo/_base/declare" // dojo.declare
-], function(dojo, dijit, lang, template){
+	"dojo/text!./templates/DropDownBox.html"
+], function(declare, Deferred, kernel, lang, QueryResults, _AutoCompleterMixin, _ComboBoxMenu, _HasDropDown, template){
+
+/*=====
+	var _AutoCompleterMixin = dijit.form._AutoCompleterMixin;
+	var _ComboBoxMenu = dijit.form._ComboBoxMenu;
+	var _HasDropDown = dijit._HasDropDown;
+=====*/
 
 	// module:
 	//		dijit/form/ComboBoxMixin
 	// summary:
 	//		Provides main functionality of ComboBox widget
 
-	dojo.declare("dijit.form.ComboBoxMixin", [dijit._HasDropDown, dijit.form._AutoCompleterMixin], {
+	return declare("dijit.form.ComboBoxMixin", [_HasDropDown, _AutoCompleterMixin], {
 		// summary:
 		//		Provides main functionality of ComboBox widget
 
-		// dropDownClass: [protected extension] String
-		//		Name of the dropdown widget class used to select a date/time.
+		// dropDownClass: [protected extension] Function String
+		//		Dropdown widget class used to select a date/time.
 		//		Subclasses should specify this.
-		dropDownClass: "dijit.form._ComboBoxMenu",
+		dropDownClass: _ComboBoxMenu,
 
 		// hasDownArrow: Boolean
 		//		Set this textbox to have a down arrow button, to display the drop down list.
@@ -64,11 +70,11 @@ define([
 			if(!store.get){
 				lang.mixin(store, {
 					_oldAPI: true,
-					get: function(id, options){
+					get: function(id){
 						// summary:
 						//		Retrieves an object by it's identity. This will trigger a fetchItemByIdentity.
 						//		Like dojo.store.DataStore.get() except returns native item.
-						var deferred = new dojo.Deferred();
+						var deferred = new Deferred();
 						this.fetchItemByIdentity({
 							identity: id,
 							onItem: function(object){
@@ -84,7 +90,7 @@ define([
 						// summary:
 						//		Queries the store for objects.   Like dojo.store.DataStore.query()
 						//		except returned Deferred contains array of native items.
-						var deferred = new dojo.Deferred(function(){ fetchHandle.abort && fetchHandle.abort(); });
+						var deferred = new Deferred(function(){ fetchHandle.abort && fetchHandle.abort(); });
 						var fetchHandle = this.fetch(lang.mixin({
 							query: query,
 							onBegin: function(count){
@@ -97,7 +103,7 @@ define([
 								deferred.reject(error);
 							}
 						}, options));
-						return dojo.store.util.QueryResults(deferred);
+						return QueryResults(deferred);
 					}
 				});
 			}
@@ -119,17 +125,17 @@ define([
 				var clazz = this.declaredClass;
 				lang.mixin(this.store, {
 					getValue: function(item, attr){
-						dojo.deprecated(clazz + ".store.getValue(item, attr) is deprecated for builtin store.  Use item.attr directly", "", "2.0");
+						kernel.deprecated(clazz + ".store.getValue(item, attr) is deprecated for builtin store.  Use item.attr directly", "", "2.0");
 						return item[attr];
 					},
 					getLabel: function(item){
-						dojo.deprecated(clazz + ".store.getLabel(item) is deprecated for builtin store.  Use item.label directly", "", "2.0");
+						kernel.deprecated(clazz + ".store.getLabel(item) is deprecated for builtin store.  Use item.label directly", "", "2.0");
 						return item.name;
 					},
 					fetch: function(args){
-						dojo.deprecated(clazz + ".store.fetch() is deprecated for builtin store.", "Use store.query()", "2.0");
+						kernel.deprecated(clazz + ".store.fetch() is deprecated for builtin store.", "Use store.query()", "2.0");
 						var shim = ["dojo/data/ObjectStore"];	// indirection so it doesn't get rolled into a build
-						require(shim, dojo.hitch(this, function(ObjectStore){
+						require(shim, lang.hitch(this, function(ObjectStore){
 							new ObjectStore({objectStore: this}).fetch(args);
 						}));
 					}
@@ -137,6 +143,4 @@ define([
 			}
 		}
 	});
-
-	return dijit.form.ComboBoxMixin;
 });

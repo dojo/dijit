@@ -1,10 +1,12 @@
 define([
-	"dojo/_base/kernel",
-	"..",
-	"dojo/text!./templates/VerticalSlider.html",
+	"dojo/_base/declare", // declare
 	"./HorizontalSlider",
-	"dojo/_base/declare" // dojo.declare
-], function(dojo, dijit, template){
+	"dojo/text!./templates/VerticalSlider.html"
+], function(declare, HorizontalSlider, template){
+
+/*=====
+	var HorizontalSlider = dijit.form.HorizontalSlider;
+=====*/
 
 	// module:
 	//		dijit/form/VerticalSlider
@@ -12,7 +14,7 @@ define([
 	//		A form widget that allows one to select a value with a vertically draggable handle
 
 
-	dojo.declare("dijit.form.VerticalSlider", dijit.form.HorizontalSlider, {
+	return declare("dijit.form.VerticalSlider", HorizontalSlider, {
 		// summary:
 		//		A form widget that allows one to select a value with a vertically draggable handle
 
@@ -36,7 +38,4 @@ define([
 			return this._descending;
 		}
 	});
-
-
-	return dijit.form.VerticalSlider;
 });

@@ -1,11 +1,13 @@
 define([
-	"dojo/_base/kernel", // lang.mixin
-	"..",
-	"dojo/_base/lang", // dojo.hitch
-	"dojo/currency", // dojo.currency._mixInDefaults dojo.currency.format dojo.currency.parse dojo.currency.regexp
-	"./NumberTextBox",
-	"dojo/_base/declare" // dojo.declare
-], function(dojo, dijit, lang){
+	"dojo/currency", // currency._mixInDefaults currency.format currency.parse currency.regexp
+	"dojo/_base/declare", // declare
+	"dojo/_base/lang", // lang.hitch
+	"./NumberTextBox"
+], function(currency, declare, lang, NumberTextBox){
+
+/*=====
+	var NumberTextBox = dijit.form.NumberTextBox;
+=====*/
 
 	// module:
 	//		dijit/form/CurrencyTextBox
@@ -14,9 +16,9 @@ define([
 
 
 	/*=====
-	dojo.declare(
+	declare(
 		"dijit.form.CurrencyTextBox.__Constraints",
-		[dijit.form.NumberTextBox.__Constraints, dojo.currency.__FormatOptions, dojo.currency.__ParseOptions], {
+		[dijit.form.NumberTextBox.__Constraints, currency.__FormatOptions, currency.__ParseOptions], {
 		// summary:
 		//		Specifies both the rules on valid/invalid values (minimum, maximum,
 		//		number of required decimal places), and also formatting options for
@@ -31,7 +33,7 @@ define([
 	});
 	=====*/
 
-	dojo.declare("dijit.form.CurrencyTextBox", dijit.form.NumberTextBox, {
+	return declare("dijit.form.CurrencyTextBox", NumberTextBox, {
 		// summary:
 		//		A validating currency textbox
 		// description:
@@ -62,13 +64,13 @@ define([
 		regExpGen: function(constraints){
 			// if focused, accept either currency data or NumberTextBox format
 			return '(' + (this.focused ? this.inherited(arguments, [ lang.mixin({}, constraints, this.editOptions) ]) + '|' : '')
-				+ dojo.currency.regexp(constraints) + ')';
+				+ currency.regexp(constraints) + ')';
 		},
 
 		// Override NumberTextBox._formatter to deal with currencies, ex: converts "123.45" to "$123.45"
-		_formatter: dojo.currency.format,
+		_formatter: currency.format,
 
-		_parser: dojo.currency.parse,
+		_parser: currency.parse,
 
 		parse: function(/*String*/ value, /*Object*/ constraints){
 			// summary:
@@ -77,7 +79,7 @@ define([
 			// 		protected extension
 			var v = this.inherited(arguments);
 			if(isNaN(v) && /\d+/.test(value)){ // currency parse failed, but it could be because they are using NumberTextBox format so try its parse
-				v = dojo.hitch(lang.mixin({}, this, { _parser: dijit.form.NumberTextBox.prototype._parser }), "inherited")(arguments);
+				v = lang.hitch(lang.mixin({}, this, { _parser: NumberTextBox.prototype._parser }), "inherited")(arguments);
 			}
 			return v;
 		},
@@ -86,10 +88,7 @@ define([
 			if(!constraints.currency && this.currency){
 				constraints.currency = this.currency;
 			}
-			this.inherited(arguments, [ dojo.currency._mixInDefaults(lang.mixin(constraints, { exponent: false })) ]); // get places
+			this.inherited(arguments, [ currency._mixInDefaults(lang.mixin(constraints, { exponent: false })) ]); // get places
 		}
 	});
-
-
-	return dijit.form.CurrencyTextBox;
 });

@@ -1,20 +1,22 @@
 define([
-	"dojo/_base/kernel",
-	"..",
-	"dojo/text!./templates/ComboButton.html",
-	"../focus",		// dijit.focus()
+	"dojo/_base/declare", // declare
+	"dojo/_base/event", // event.stop
+	"dojo/keys", // keys
+	"../focus",		// focus.focus()
 	"./DropDownButton",
-	"dojo/_base/connect", // dojo.keys
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/event" // dojo.stopEvent
-], function(dojo, dijit, template){
+	"dojo/text!./templates/ComboButton.html"
+], function(declare, event, keys, focus, DropDownButton, template){
+
+/*=====
+	var DropDownButton = dijit.form.DropDownButton;
+=====*/
 
 // module:
 //		dijit/form/ComboButton
 // summary:
 //		A combination button and drop-down button.
 
-dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
+return declare("dijit.form.ComboButton", DropDownButton, {
 	// summary:
 	//		A combination button and drop-down button.
 	//		Users can click one side to "press" the button, or click an arrow
@@ -57,18 +59,18 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 	_onButtonKeyPress: function(/*Event*/ evt){
 		// summary:
 		//		Handler for right arrow key when focus is on left part of button
-		if(evt.charOrCode == dojo.keys[this.isLeftToRight() ? "RIGHT_ARROW" : "LEFT_ARROW"]){
-			dijit.focus(this._popupStateNode);
-			dojo.stopEvent(evt);
+		if(evt.charOrCode == keys[this.isLeftToRight() ? "RIGHT_ARROW" : "LEFT_ARROW"]){
+			focus.focus(this._popupStateNode);
+			event.stop(evt);
 		}
 	},
 
 	_onArrowKeyPress: function(/*Event*/ evt){
 		// summary:
 		//		Handler for left arrow key when focus is on right part of button
-		if(evt.charOrCode == dojo.keys[this.isLeftToRight() ? "LEFT_ARROW" : "RIGHT_ARROW"]){
-			dijit.focus(this.titleNode);
-			dojo.stopEvent(evt);
+		if(evt.charOrCode == keys[this.isLeftToRight() ? "LEFT_ARROW" : "RIGHT_ARROW"]){
+			focus.focus(this.titleNode);
+			event.stop(evt);
 		}
 	},
 
@@ -79,10 +81,9 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 		// position:
 		//		"start" or "end"
 		if(!this.disabled){
-			dijit.focus(position == "start" ? this.titleNode : this._popupStateNode);
+			focus.focus(position == "start" ? this.titleNode : this._popupStateNode);
 		}
 	}
 });
 
-return dijit.form.ComboButton;
 });

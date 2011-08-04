@@ -1,24 +1,33 @@
 define([
-	"dojo/_base/kernel", // dojo.deprecated
-	"..",
-	"dojo/text!./templates/Button.html",
 	"require",
+	"dojo/_base/declare", // declare
+	"dojo/dom-class", // domClass.toggle
+	"dojo/_base/kernel", // kernel.deprecated
+	"dojo/_base/lang", // lang.trim
 	"./_FormWidget",
 	"./_ButtonMixin",
-	"../_Container",
-	"../_HasDropDown",
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/html", // dojo.toggleClass
-	"dojo/_base/lang" // dojo.trim
-], function(dojo, dijit, template, require){
+	"dojo/text!./templates/Button.html"
+], function(require, declare, domClass, kernel, lang, _FormWidget, _ButtonMixin, template){
+
+/*=====
+	var _FormWidget = dijit.form._FormWidget;
+	var _ButtonMixin = dijit.form._ButtonMixin;
+=====*/
 
 // module:
 //		dijit/form/Button
 // summary:
 //		Button widget
 
+// Back compat w/1.6, remove for 2.0
+if(dojo && dojo.ready && !dojo.isAsync){
+	dojo.ready(0, function(){
+		var requires = ["dijit/form/DropDownButton", "dijit/form/ComboButton", "dijit/form/ToggleButton"];
+		require(requires);	// use indirection so modules not rolled into a build
+	});
+}
 
-dojo.declare("dijit.form.Button", [dijit.form._FormWidget, dijit.form._ButtonMixin], {
+return declare("dijit.form.Button", [_FormWidget, _ButtonMixin], {
 	// summary:
 	//		Basically the same thing as a normal HTML button, but with special styling.
 	// description:
@@ -74,7 +83,7 @@ dojo.declare("dijit.form.Button", [dijit.form._FormWidget, dijit.form._ButtonMix
 		// this.params.label, handle it here.
 		// TODO: remove the method in 2.0, parser will do it all for me
 		if(source && (!this.params || !("label" in this.params))){
-			var sourceLabel = dojo.trim(source.innerHTML);
+			var sourceLabel = lang.trim(source.innerHTML);
 			if(sourceLabel){
 				this.label = sourceLabel; // _applyAttributes will be called after buildRendering completes to update the DOM
 			}
@@ -83,7 +92,7 @@ dojo.declare("dijit.form.Button", [dijit.form._FormWidget, dijit.form._ButtonMix
 
 	_setShowLabelAttr: function(val){
 		if(this.containerNode){
-			dojo.toggleClass(this.containerNode, "dijitDisplayNone", !val);
+			domClass.toggle(this.containerNode, "dijitDisplayNone", !val);
 		}
 		this._set("showLabel", val);
 	},
@@ -91,7 +100,7 @@ dojo.declare("dijit.form.Button", [dijit.form._FormWidget, dijit.form._ButtonMix
 	setLabel: function(/*String*/ content){
 		// summary:
 		//		Deprecated.  Use set('label', ...) instead.
-		dojo.deprecated("dijit.form.Button.setLabel() is deprecated.  Use set('label', ...) instead.", "", "2.0");
+		kernel.deprecated("dijit.form.Button.setLabel() is deprecated.  Use set('label', ...) instead.", "", "2.0");
 		this.set("label", content);
 	},
 
@@ -104,19 +113,11 @@ dojo.declare("dijit.form.Button", [dijit.form._FormWidget, dijit.form._ButtonMix
 		//		been specified, then label is also set as title attribute of icon.
 		this.inherited(arguments);
 		if(!this.showLabel && !("title" in this.params)){
-			this.titleNode.title = dojo.trim(this.containerNode.innerText || this.containerNode.textContent || '');
+			this.titleNode.title = lang.trim(this.containerNode.innerText || this.containerNode.textContent || '');
 		}
 	}
 });
 
-// Back compat w/1.6, remove for 2.0
-if(!dojo.isAsync){
-	dojo.ready(0, function(){
-		var requires = ["dijit/form/DropDownButton", "dijit/form/ComboButton", "dijit/form/ToggleButton"];
-		require(requires);	// use indirection so modules not rolled into a build
-	});
-}
 
-return dijit.form.Button;
 });
 

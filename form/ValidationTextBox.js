@@ -1,13 +1,16 @@
 define([
-	"dojo/_base/kernel",
-	"..",
-	"dojo/text!./templates/ValidationTextBox.html",
-	"dojo/i18n", // dojo.i18n.getLocalization
+	"dojo/_base/declare", // declare
+	"dojo/i18n", // i18n.getLocalization
 	"./TextBox",
 	"../Tooltip",
-	"dojo/i18n!./nls/validate",
-	"dojo/_base/declare" // dojo.declare
-], function(dojo, dijit, template){
+	"dojo/text!./templates/ValidationTextBox.html",
+	"dojo/i18n!./nls/validate"
+], function(declare, i18n, TextBox, Tooltip, template){
+
+/*=====
+	var Tooltip = dijit.Tooltip;
+	var TextBox = dijit.form.TextBox;
+=====*/
 
 	// module:
 	//		dijit/form/ValidationTextBox
@@ -26,7 +29,7 @@ define([
 		}
 	=====*/
 
-	dojo.declare("dijit.form.ValidationTextBox", dijit.form.TextBox, {
+	return declare("dijit.form.ValidationTextBox", TextBox, {
 		// summary:
 		//		Base class for textbox widgets with the ability to validate content of various types and provide user feedback.
 		// tags:
@@ -75,7 +78,7 @@ define([
 		//		Do not specify both regExp and regExpGen
 		regExp: ".*",
 
-		regExpGen: function(/*dijit.form.ValidationTextBox.__Constraints*/ constraints){
+		regExpGen: function(/*dijit.form.ValidationTextBox.__Constraints*/ /*===== constraints =====*/){
 			// summary:
 			//		Overridable function used to generate regExp when dependent on constraints.
 			//		Do not specify both regExp and regExpGen.
@@ -116,7 +119,7 @@ define([
 			return this.textbox.value.search(this._partialre) == 0;
 		},
 
-		isValid: function(/*Boolean*/ isFocused){
+		isValid: function(/*Boolean*/ /*===== isFocused =====*/){
 			// summary:
 			//		Tests if value is valid.
 			//		Can override with your own routine in a subclass.
@@ -131,7 +134,7 @@ define([
 			return (this.trim ? /^\s*$/ : /^$/).test(value); // Boolean
 		},
 
-		getErrorMessage: function(/*Boolean*/ isFocused){
+		getErrorMessage: function(/*Boolean*/ /*===== isFocused =====*/){
 			// summary:
 			//		Return an error message to show if appropriate
 			// tags:
@@ -139,7 +142,7 @@ define([
 			return (this.required && this._isEmpty(this.textbox.value)) ? this.missingMessage : this.invalidMessage; // String
 		},
 
-		getPromptMessage: function(/*Boolean*/ isFocused){
+		getPromptMessage: function(/*Boolean*/ /*===== isFocused =====*/){
 			// summary:
 			//		Return a hint message to show when widget is first focused
 			// tags:
@@ -184,9 +187,9 @@ define([
 			// tags:
 			//		extension
 			if(message && this.focused){
-				dijit.showTooltip(message, this.domNode, this.tooltipPosition, !this.isLeftToRight());
+				Tooltip.show(message, this.domNode, this.tooltipPosition, !this.isLeftToRight());
 			}else{
-				dijit.hideTooltip(this.domNode);
+				Tooltip.hide(this.domNode);
 			}
 		},
 
@@ -249,7 +252,7 @@ define([
 
 		postMixInProperties: function(){
 			this.inherited(arguments);
-			this.messages = dojo.i18n.getLocalization("dijit.form", "validate", this.lang);
+			this.messages = i18n.getLocalization("dijit.form", "validate", this.lang);
 			if(this.invalidMessage == "$_unset_$"){ this.invalidMessage = this.messages.invalidMessage; }
 			if(!this.invalidMessage){ this.invalidMessage = this.promptMessage; }
 			if(this.missingMessage == "$_unset_$"){ this.missingMessage = this.messages.missingMessage; }
@@ -288,6 +291,4 @@ define([
 			this.inherited(arguments);
 		}
 	});
-
-	return dijit.form.ValidationTextBox;
 });

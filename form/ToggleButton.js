@@ -1,10 +1,14 @@
 define([
-	"dojo/_base/kernel", // dojo.deprecated
-	"..",
+	"dojo/_base/declare", // declare
+	"dojo/_base/kernel", // kernel.deprecated
 	"./Button",
-	"./_ToggleButtonMixin",
-	"dojo/_base/declare" // dojo.declare
-], function(dojo, dijit){
+	"./_ToggleButtonMixin"
+], function(declare, kernel, Button, _ToggleButtonMixin){
+
+/*=====
+	var Button = dijit.form.Button;
+	var _ToggleButtonMixin = dijit.form._ToggleButtonMixin;
+=====*/
 
 	// module:
 	//		dijit/form/ToggleButton
@@ -12,7 +16,7 @@ define([
 	//		A templated button widget that can be in two states (checked or not).
 
 
-	dojo.declare("dijit.form.ToggleButton", [dijit.form.Button, dijit.form._ToggleButtonMixin], {
+	return declare("dijit.form.ToggleButton", [Button, _ToggleButtonMixin], {
 		// summary:
 		//		A templated button widget that can be in two states (checked or not).
 		//		Can be base class for things like tabs or checkbox or radio buttons
@@ -22,10 +26,8 @@ define([
 		setChecked: function(/*Boolean*/ checked){
 			// summary:
 			//		Deprecated.  Use set('checked', true/false) instead.
-			dojo.deprecated("setChecked("+checked+") is deprecated. Use set('checked',"+checked+") instead.", "", "2.0");
+			kernel.deprecated("setChecked("+checked+") is deprecated. Use set('checked',"+checked+") instead.", "", "2.0");
 			this.set('checked', checked);
 		}
 	});
-
-	return dijit.form.ToggleButton;
 });

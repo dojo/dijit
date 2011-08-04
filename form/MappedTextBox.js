@@ -1,10 +1,12 @@
 define([
-	"dojo/_base/kernel",
-	"..",
-	"./ValidationTextBox",
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/html" // dojo.place
-], function(dojo, dijit){
+	"dojo/_base/declare", // declare
+	"dojo/dom-construct", // domConstruct.place
+	"./ValidationTextBox"
+], function(declare, domConstruct, ValidationTextBox){
+
+/*=====
+	var ValidationTextBox = dijit.form.ValidationTextBox;
+=====*/
 
 	// module:
 	//		dijit/form/MappedTextBox
@@ -13,7 +15,7 @@ define([
 	//		a visible formatted display value, and a serializable
 	//		value in a hidden input field which is actually sent to the server.
 
-	dojo.declare("dijit.form.MappedTextBox", dijit.form.ValidationTextBox, {
+	return declare("dijit.form.MappedTextBox", ValidationTextBox, {
 		// summary:
 		//		A dijit.form.ValidationTextBox subclass which provides a base class for widgets that have
 		//		a visible formatted display value, and a serializable
@@ -38,11 +40,13 @@ define([
 		// Override default behavior to assign name to focusNode
 		_setNameAttr: null,
 
-		serialize: function(/*anything*/ val, /*Object?*/ options){
+		serialize: function(val /*=====, options =====*/){
 			// summary:
 			//		Overridable function used to convert the get('value') result to a canonical
 			//		(non-localized) string.  For example, will print dates in ISO format, and
 			//		numbers the same way as they are represented in javascript.
+			// val: anything
+			// options: Object?
 			// tags:
 			//		protected extension
 			return val.toString ? val.toString() : ""; // String
@@ -70,9 +74,9 @@ define([
 
 			// Create a hidden <input> node with the serialized value used for submit
 			// (as opposed to the displayed value).
-			// Passing in name as markup rather than calling dojo.create() with an attrs argument
-			// to make dojo.query(input[name=...]) work on IE. (see #8660)
-			this.valueNode = dojo.place("<input type='hidden'" + (this.name ? " name='" + this.name.replace(/'/g, "&quot;") + "'" : "") + "/>", this.textbox, "after");
+			// Passing in name as markup rather than calling domConstruct.create() with an attrs argument
+			// to make query(input[name=...]) work on IE. (see #8660)
+			this.valueNode = domConstruct.place("<input type='hidden'" + (this.name ? " name='" + this.name.replace(/'/g, "&quot;") + "'" : "") + "/>", this.textbox, "after");
 		},
 
 		reset: function(){
@@ -82,6 +86,4 @@ define([
 			this.inherited(arguments);
 		}
 	});
-
-	return dijit.form.MappedTextBox;
 });

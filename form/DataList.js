@@ -1,12 +1,11 @@
 define([
-	"dojo/_base/kernel",
-	"..",
-	"dojo/_base/lang", // dojo.trim
-	"dojo/_base/html", // dojo.byId
+	"dojo/_base/declare", // declare
+	"dojo/dom", // dom.byId
+	"dojo/_base/lang", // lang.trim
+	"dojo/query", // query
 	"dojo/store/Memory", // dojo.store.Memory
-	"dojo/_base/declare", // dojo.declare
-	"dojo/query" // dojo.query
-], function(dojo, dijit, lang){
+	"../_base/manager"	// registry.add registry.remove
+], function(declare, dom, lang, query, MemoryStore, manager){
 
 	// module:
 	//		dijit/form/DataList
@@ -19,11 +18,11 @@ define([
 		return {
 			id: option.value,
 			value: option.value,
-			name: dojo.trim(option.innerText || option.textContent || '')
+			name: lang.trim(option.innerText || option.textContent || '')
 		};
 	}
 
-	dojo.declare("dijit.form.DataList", dojo.store.Memory, {
+	return declare("dijit.form.DataList", MemoryStore, {
 		// summary:
 		//		Inefficient but small data store specialized for inlined data via OPTION tags
 		//
@@ -36,31 +35,29 @@ define([
 
 		constructor: function(/*Object?*/ params, /*DomNode|String*/ srcNodeRef){
 			// store pointer to original DOM tree
-			this.domNode = dojo.byId(srcNodeRef);
+			this.domNode = dom.byId(srcNodeRef);
 
 			lang.mixin(this, params);
 			if(this.id){
-				dijit.registry.add(this); // add to registry so it can be easily found by id
+				manager.registry.add(this); // add to registry so it can be easily found by id
 			}
 			this.domNode.style.display = "none";
 
 			this.inherited(arguments, [{
-				data: dojo.query("option", this.domNode).map(toItem)
+				data: query("option", this.domNode).map(toItem)
 			}]);
 		},
 
 		destroy: function(){
-			dijit.registry.remove(this.id);
+			manager.registry.remove(this.id);
 		},
 
 		fetchSelectedItem: function(){
 			// summary:
 			//		Get the option marked as selected, like `<option selected>`.
 			//		Not part of dojo.data API.
-			var option = dojo.query("> option[selected]", this.domNode)[0] || dojo.query("> option", this.domNode)[0];
+			var option = query("> option[selected]", this.domNode)[0] || query("> option", this.domNode)[0];
 			return option && toItem(option);
 		}
 	});
-
-	return dijit.form.DataList;
 });

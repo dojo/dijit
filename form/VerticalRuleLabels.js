@@ -1,15 +1,18 @@
 define([
-	"dojo/_base/kernel",
-	"..",
-	"./HorizontalRuleLabels",
-	"dojo/_base/declare" // dojo.declare
-], function(dojo, dijit){
+	"dojo/_base/declare", // declare
+	"./HorizontalRuleLabels"
+], function(declare, HorizontalRuleLabels){
+
+/*=====
+	var HorizontalRuleLabels = dijit.form.HorizontalRuleLabels;
+=====*/
+
 	// module:
 	//		dijit/form/VerticalRuleLabels
 	// summary:
 	//		Labels for the `dijit.form.VerticalSlider`
 
-	dojo.declare("dijit.form.VerticalRuleLabels", dijit.form.HorizontalRuleLabels, {
+	return declare("dijit.form.VerticalRuleLabels", HorizontalRuleLabels, {
 		// summary:
 		//		Labels for the `dijit.form.VerticalSlider`
 
@@ -26,7 +29,4 @@ define([
 		// needed to prevent labels from being reversed in RTL mode
 		_isHorizontal: false
 	});
-
-
-	return dijit.form.VerticalRuleLabels;
 });

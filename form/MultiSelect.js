@@ -1,12 +1,14 @@
 define([
-	"dojo/_base/kernel",
-	"..",
-	"./_FormValueWidget",
-	"dojo/_base/array", // dojo.indexOf
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/html", // dojo.marginBox
-	"dojo/query" // dojo.query
-], function(dojo, dijit){
+	"dojo/_base/array", // array.indexOf, array.map
+	"dojo/_base/declare", // declare
+	"dojo/dom-geometry", // domGeometry.setMarginBox
+	"dojo/query", // query
+	"./_FormValueWidget"
+], function(array, declare, domGeometry, query, _FormValueWidget){
+
+/*=====
+	var _FormValueWidget = dijit.form._FormValueWidget;
+=====*/
 
 // module:
 //		dijit/form/MultiSelect
@@ -14,7 +16,7 @@ define([
 //		Widget version of a <select multiple=true> element,
 //		for selecting multiple options.
 
-dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
+return declare("dijit.form.MultiSelect", _FormValueWidget, {
 	// summary:
 	//		Widget version of a <select multiple=true> element,
 	//		for selecting multiple options.
@@ -53,7 +55,7 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 	getSelected: function(){
 		// summary:
 		//		Access the NodeList of the selected options directly
-		return dojo.query("option",this.containerNode).filter(function(n){
+		return query("option",this.containerNode).filter(function(n){
 			return n.selected; // Boolean
 		}); // dojo.NodeList
 	},
@@ -63,7 +65,10 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 		//		Hook so get('value') works.
 		// description:
 		//		Returns an array of the selected options' values.
-		return this.getSelected().map(function(n){
+
+		// Don't call getSelect.map() because it doesn't return a real array,
+		// and that messes up dojo.toJson() calls like in the Form.html test
+		return array.map(this.getSelected(), function(n){
 			return n.value;
 		});
 	},
@@ -75,8 +80,8 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 		//		Hook so set('value', values) works.
 		// description:
 		//		Set the value(s) of this Select based on passed values
-		dojo.query("option",this.containerNode).forEach(function(n){
-			n.selected = (dojo.indexOf(values,n.value) != -1);
+		query("option",this.containerNode).forEach(function(n){
+			n.selected = (array.indexOf(values,n.value) != -1);
 		});
 		this.inherited(arguments);
 	},
@@ -87,20 +92,20 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 		// onChange: Boolean
 		//		If false, onChange is not fired.
 		var val = [];
-		dojo.query("option",this.containerNode).forEach(function(n){
+		query("option",this.containerNode).forEach(function(n){
 			if(!n.selected){ val.push(n.value); }
 		});
 		this._setValueAttr(val, !(onChange === false || onChange == null));
 	},
 
-	_onChange: function(/*Event*/ e){
+	_onChange: function(/*Event*/){
 		this._handleOnChange(this.get('value'), true);
 	},
 
 	// for layout widgets:
 	resize: function(/*Object*/ size){
 		if(size){
-			dojo.marginBox(this.domNode, size);
+			domGeometry.setMarginBox(this.domNode, size.l, size.t, size.w, size.h);
 		}
 	},
 
@@ -110,6 +115,4 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 	}
 });
 
-
-return dijit.form.MultiSelect;
 });

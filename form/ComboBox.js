@@ -1,17 +1,20 @@
 define([
-	"dojo/_base/kernel",
-	"..",
+	"dojo/_base/declare", // declare
 	"./ValidationTextBox",
-	"./ComboBoxMixin",
-	"dojo/_base/declare" // dojo.declare
-], function(dojo, dijit){
+	"./ComboBoxMixin"
+], function(declare, ValidationTextBox, ComboBoxMixin){
+
+/*=====
+	var ValidationTextBox = dijit.form.ValidationTextBox;
+	var ComboBoxMixin = dijit.form.ComboBoxMixin;
+=====*/
 
 	// module:
 	//		dijit/form/ComboBox
 	// summary:
 	//		Auto-completing text box
 
-	dojo.declare("dijit.form.ComboBox", [dijit.form.ValidationTextBox, dijit.form.ComboBoxMixin], {
+	return declare("dijit.form.ComboBox", [ValidationTextBox, ComboBoxMixin], {
 		// summary:
 		//		Auto-completing text box
 		//
@@ -28,6 +31,4 @@ define([
 		//		Some of the options to the ComboBox are actually arguments to the data
 		//		provider.
 	});
-
-	return dijit.form.ComboBox;
 });

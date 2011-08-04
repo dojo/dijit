@@ -1,12 +1,14 @@
 define([
-	"dojo/_base/kernel",
-	"..",
-	"./TextBox",
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/html", // dojo.addClass
-	"dojo/_base/sniff", // dojo.isIE dojo.isOpera
-	"dojo/_base/window" // dojo.doc.selection dojo.doc.selection.createRange
-], function(dojo, dijit){
+	"dojo/_base/declare", // declare
+	"dojo/dom-class", // domClass.add
+	"dojo/_base/sniff", // has("ie") has("opera")
+	"dojo/_base/window", // win.doc.selection win.doc.selection.createRange
+	"./TextBox"
+], function(declare, domClass, has, win, TextBox){
+
+/*=====
+	var TextBox = dijit.form.TextBox;
+=====*/
 
 // module:
 //		dijit/form/SimpleTextarea
@@ -15,7 +17,7 @@ define([
 // 		minimal LayoutContainer usage, and works with dijit.form.Form.
 //		Doesn't automatically size according to input, like Textarea.
 
-dojo.declare("dijit.form.SimpleTextarea", dijit.form.TextBox, {
+return declare("dijit.form.SimpleTextarea", TextBox, {
 	// summary:
 	//		A simple textarea that degrades, and responds to
 	// 		minimal LayoutContainer usage, and works with dijit.form.Form.
@@ -50,8 +52,8 @@ dojo.declare("dijit.form.SimpleTextarea", dijit.form.TextBox, {
 
 	buildRendering: function(){
 		this.inherited(arguments);
-		if(dojo.isIE && this.cols){ // attribute selectors is not supported in IE6
-			dojo.addClass(this.textbox, "dijitTextAreaCols");
+		if(has("ie") && this.cols){ // attribute selectors is not supported in IE6
+			domClass.add(this.textbox, "dijitTextAreaCols");
 		}
 	},
 
@@ -75,14 +77,14 @@ dojo.declare("dijit.form.SimpleTextarea", dijit.form.TextBox, {
 				if(textarea.selectionStart){
 					var pos = textarea.selectionStart;
 					var cr = 0;
-					if(dojo.isOpera){
+					if(has("opera")){
 						cr = (this.textbox.value.substring(0,pos).match(/\r/g) || []).length;
 					}
 					this.textbox.value = value.substring(0,pos-overflow-cr)+value.substring(pos-cr);
 					textarea.setSelectionRange(pos-overflow, pos-overflow);
-				}else if(dojo.doc.selection){ //IE
+				}else if(win.doc.selection){ //IE
 					textarea.focus();
-					var range = dojo.doc.selection.createRange();
+					var range = win.doc.selection.createRange();
 					// delete overflow characters
 					range.moveStart("character", -overflow);
 					range.text = '';
@@ -95,6 +97,4 @@ dojo.declare("dijit.form.SimpleTextarea", dijit.form.TextBox, {
 	}
 });
 
-
-return dijit.form.SimpleTextarea;
 });

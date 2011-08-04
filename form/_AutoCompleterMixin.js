@@ -536,7 +536,8 @@ define([
 			//		and calls _openResultList() when the search completes, to display the results.
 			if(!this.dropDown){
 				var popupId = this.id + "_popup",
-				dropDownConstructor = lang.getObject(this.dropDownClass, false);
+					dropDownConstructor = lang.isString(this.dropDownClass) ?
+						lang.getObject(this.dropDownClass, false) : this.dropDownClass;
 				this.dropDown = new dropDownConstructor({
 					onChange: lang.hitch(this, this._selectOption),
 					id: popupId,

@@ -1,22 +1,32 @@
 define([
-	"dojo/_base/kernel",
-	"..",
-	"dojo/text!./templates/CheckBox.html",
 	"require",
+	"dojo/_base/declare", // declare
+	"dojo/dom-attr", // domAttr.set
+	"dojo/query", // query
 	"./ToggleButton",
 	"./_CheckBoxMixin",
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/html", // dojo.attr
-	"dojo/query" // dojo.query
-], function(dojo, dijit, template, require){
+	"dojo/text!./templates/CheckBox.html"
+], function(require, declare, domAttr, query, ToggleButton, _CheckBoxMixin, template){
+
+/*=====
+	var ToggleButton = dijit.form.ToggleButton;
+	var _CheckBoxMixin = dijit.form._CheckBoxMixin;
+=====*/
 
 	// module:
 	//		dijit/form/CheckBox
 	// summary:
 	//		Checkbox widget
 
+	// Back compat w/1.6, remove for 2.0
+	if(dojo && dojo.ready && !dojo.isAsync){
+		dojo.ready(0, function(){
+			var requires = ["dijit/form/RadioButton"];
+			require(requires);	// use indirection so modules not rolled into a build
+		});
+	}
 
-	dojo.declare("dijit.form.CheckBox", [dijit.form.ToggleButton, dijit.form._CheckBoxMixin], {
+	return declare("dijit.form.CheckBox", [ToggleButton, _CheckBoxMixin], {
 		// summary:
 		// 		Same as an HTML checkbox, but with fancy styling.
 		//
@@ -55,7 +65,7 @@ define([
 			//		widget.set('value', boolean) will change the checked state.
 			if(typeof newValue == "string"){
 				this._set("value", newValue);
-				dojo.attr(this.focusNode, 'value', newValue);
+				domAttr.set(this.focusNode, 'value', newValue);
 				newValue = true;
 			}
 			if(this._created){
@@ -78,38 +88,28 @@ define([
 			this.inherited(arguments);
 
 			// Need to set initial checked state as part of template, so that form submit works.
-			// dojo.attr(node, "checked", bool) doesn't work on IE until node has been attached
+			// domAttr.set(node, "checked", bool) doesn't work on IE until node has been attached
 			// to <body>, see #8666
 			this.checkedAttrSetting = this.checked ? "checked" : "";
 		},
 
-		 _fillContent: function(/*DomNode*/ source){
+		 _fillContent: function(){
 			// Override Button::_fillContent() since it doesn't make sense for CheckBox,
 			// since CheckBox doesn't even have a container
 		},
 
 		_onFocus: function(){
 			if(this.id){
-				dojo.query("label[for='"+this.id+"']").addClass("dijitFocusedLabel");
+				query("label[for='"+this.id+"']").addClass("dijitFocusedLabel");
 			}
 			this.inherited(arguments);
 		},
 
 		_onBlur: function(){
 			if(this.id){
-				dojo.query("label[for='"+this.id+"']").removeClass("dijitFocusedLabel");
+				query("label[for='"+this.id+"']").removeClass("dijitFocusedLabel");
 			}
 			this.inherited(arguments);
 		}
 	});
-
-	// Back compat w/1.6, remove for 2.0
-	if(!dojo.isAsync){
-		dojo.ready(0, function(){
-			var requires = ["dijit/form/RadioButton"];
-			require(requires);	// use indirection so modules not rolled into a build
-		});
-	}
-
-	return dijit.form.CheckBox;
 });

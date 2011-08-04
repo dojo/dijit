@@ -1,12 +1,15 @@
 define([
-	"dojo/_base/kernel",
-	"..",
+	"dojo/_base/declare", // declare
+	"dojo/_base/event", // event.stop
+	"dojo/keys", // keys.END keys.HOME
 	"./_Spinner",
-	"./NumberTextBox",
-	"dojo/keys", // dojo.keys.END dojo.keys.HOME
-	"dojo/_base/declare", // dojo.declare
-	"dojo/_base/event" // dojo.stopEvent
-], function(dojo, dijit){
+	"./NumberTextBox"
+], function(declare, event, keys, _Spinner, NumberTextBox){
+
+/*=====
+	var _Spinner = dijit.form._Spinner;
+	var NumberTextBox = dijit.form.NumberTextBox;
+=====*/
 
 // module:
 //		dijit/form/NumberSpinner
@@ -14,7 +17,7 @@ define([
 //		Extends NumberTextBox to add up/down arrows and pageup/pagedown for incremental change to the value
 
 
-dojo.declare("dijit.form.NumberSpinner", [dijit.form._Spinner, dijit.form.NumberTextBoxMixin], {
+return declare("dijit.form.NumberSpinner", [_Spinner, NumberTextBox.Mixin], {
 	// summary:
 	//		Extends NumberTextBox to add up/down arrows and pageup/pagedown for incremental change to the value
 	//
@@ -56,18 +59,16 @@ dojo.declare("dijit.form.NumberSpinner", [dijit.form._Spinner, dijit.form.Number
 	},
 
 	_onKeyPress: function(e){
-		if((e.charOrCode == dojo.keys.HOME || e.charOrCode == dojo.keys.END) && !(e.ctrlKey || e.altKey || e.metaKey)
+		if((e.charOrCode == keys.HOME || e.charOrCode == keys.END) && !(e.ctrlKey || e.altKey || e.metaKey)
 		&& typeof this.get('value') != 'undefined' /* gibberish, so HOME and END are default editing keys*/){
-			var value = this.constraints[(e.charOrCode == dojo.keys.HOME ? "min" : "max")];
+			var value = this.constraints[(e.charOrCode == keys.HOME ? "min" : "max")];
 			if(typeof value == "number"){
 				this._setValueAttr(value, false);
 			}
 			// eat home or end key whether we change the value or not
-			dojo.stopEvent(e);
+			event.stop(e);
 		}
 	}
 });
 
-
-return dijit.form.NumberSpinner;
 });

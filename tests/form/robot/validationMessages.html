@@ -19,14 +19,15 @@
 			dojo.require("dojo.parser");
 
 			dojo.require("dijit.form.NumberTextBox");
+			dojo.require("dijit.Tooltip");
 			dojo.require("dijit.robot");
 
 			dojo.addOnLoad(function(){
 
 			// track tooltip currently being displayed (if any)
 			var tooltip;
-			dojo.connect(dijit, "showTooltip", function(msg){ tooltip = msg; });
-			dojo.connect(dijit, "hideTooltip", function(msg){ tooltip = ""; });
+			dojo.connect(dijit.Tooltip, "show", function(msg){ tooltip = msg; });
+			dojo.connect(dijit.Tooltip, "hide", function(msg){ tooltip = ""; });
 
 			function testOn(evt, widget, deferred, callback, delay){
 				var handler = widget.connect(widget.focusNode, "on"+evt,
