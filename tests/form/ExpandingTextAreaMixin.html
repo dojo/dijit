@@ -36,7 +36,7 @@
 
 		dojo.addOnLoad(function(){
 
-			var maxLengthNativeSupport = true;
+			var maxLengthNativeSupport = "maxLength" in document.createElement("textarea");
 
 			doh.register("attributes", [
 				{
@@ -243,15 +243,11 @@
 	 			}
 			]);
 
-			dojo.byId('maxLengthSupport').maxLength = 10;
-			maxLengthNativeSupport = !!dojo.byId('maxLengthSupport').getAttribute('maxLength');
-
 			doh.run();
 		});
 	</script>
 </head>
 <body class="claro">
-	<textarea id="maxLengthSupport" style="visibility:hidden;position:absolute;"></textarea>
 	<h1 class="testTitle">_ExpandingTextAreaMixin (dijit and mobile) non-robot tests</h1>
 	<table id="table">
 		<tr>
