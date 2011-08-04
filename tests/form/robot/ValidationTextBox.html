@@ -617,7 +617,7 @@
 								doh.is('123.000', this.textbox.focusNode.value, "focusNode.value");
 								doh.is(undefined, this.textbox.get('value'), "get('value')");
 								doh.f(this.textbox.isValid(), "!isValid()");
-							})), 1000);
+							})), 1500);
 							return d;
 						}
 					},
@@ -638,7 +638,7 @@
 								doh.is('-123.00', this.textbox.focusNode.value, "focusNode.value");
 								doh.is(-123, this.textbox.get('value'), "get('value')");
 								doh.t(this.textbox.isValid(), "isValid()");
-							})), 1000);
+							})), 1500);
 							return d;
 						}
 					},
@@ -659,7 +659,7 @@
 								doh.is('($123.00)', this.textbox.focusNode.value, "focusNode.value");
 								doh.is(-123, this.textbox.get('value'), "get('value')");
 								doh.t(this.textbox.isValid(), "isValid()");
-							})), 1000);
+							})), 1500);
 							return d;
 						}
 					},
