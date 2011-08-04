@@ -8,7 +8,7 @@ define([
 	"dojo/dom-class", // domClass.contains
 	"dojo/_base/event", // event.stop
 	"dojo/_base/lang", // lang.getObject, lang.hitch
-	"dojo/_base/sniff", // has("ie") has("webKit")
+	"dojo/_base/sniff", // has("ie") has("webkit")
 	"dojo/string", // string.substitute
 	"dojo/_base/window", // win.doc.createTextNode
 	"./_WidgetBase",
@@ -343,7 +343,7 @@ define([
 
 			// set tabIndex=-1 on old focusable cell
 			if(oldCell && oldCell != newCell){
-				if(has("webKit")){	// see #11064 about webkit bug
+				if(has("webkit")){	// see #11064 about webkit bug
 					oldCell.setAttribute("tabIndex", "-1");
 				}else{
 					oldCell.removeAttribute("tabIndex");

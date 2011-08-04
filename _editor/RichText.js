@@ -16,7 +16,7 @@ define([
 	"dojo/_base/lang", // lang.clone lang.hitch lang.isArray lang.isFunction lang.isString lang.trim
 	"dojo/query", // query
 	"dojo/ready", // ready
-	"dojo/_base/sniff", // has("ie") has("mozilla") has("opera") has("safari") has("webKit")
+	"dojo/_base/sniff", // has("ie") has("mozilla") has("opera") has("safari") has("webkit")
 	"dojo/_base/unload", // unload
 	"dojo/_base/url", // url
 	"dojo/_base/window", // win.body win.doc.body.focus win.doc.createElement win.global.location win.withGlobal
@@ -183,7 +183,7 @@ return declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			this.contentPreFilters = [this._normalizeFontStyle].concat(this.contentPreFilters);
 			this.contentPostFilters = [this._removeMozBogus].concat(this.contentPostFilters);
 		}
-		if(has("webKit")){
+		if(has("webkit")){
 			// Try to clean up WebKit bogus artifacts.  The inserted classes
 			// made by WebKit sometimes messes things up.
 			this.contentPreFilters = [this._removeWebkitBogus].concat(this.contentPreFilters);
@@ -531,7 +531,7 @@ return declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		// The contents inside of <body>.  The real contents are set later via a call to setValue().
 		var html = "";
 		var setBodyId = true;
-		if(has("ie") || has("webKit") || (!this.height && !has("mozilla"))){
+		if(has("ie") || has("webkit") || (!this.height && !has("mozilla"))){
 			// In auto-expand mode, need a wrapper div for AlwaysShowToolbar plugin to correctly
 			// expand/contract the editor as the content changes.
 			html = "<div id='dijitEditorBody'></div>";
@@ -601,8 +601,8 @@ return declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			// Set the html/body sizing.  Webkit always needs this, other browsers
 			// only set it when height is defined (not auto-expanding), otherwise
 			// scrollers do not appear.
-			((has("webKit"))?"\t\twidth: 100%;\n":""),
-			((has("webKit"))?"\t\theight: 100%;\n":""),
+			((has("webkit"))?"\t\twidth: 100%;\n":""),
+			((has("webkit"))?"\t\theight: 100%;\n":""),
 			"\t}\n",
 
 			// TODO: left positioning will cause contents to disappear out of view
@@ -717,7 +717,7 @@ return declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		value = !!value;
 		this._set("disabled", value);
 		if(!this.isLoaded){ return; } // this method requires init to be complete
-		if(has("ie") || has("webKit") || has("opera")){
+		if(has("ie") || has("webkit") || has("opera")){
 			var preventIEfocus = has("ie") && (this.isLoaded || !this.focusOnLoad);
 			if(preventIEfocus){ this.editNode.unselectable = "on"; }
 			this.editNode.contentEditable = !value;
@@ -765,7 +765,7 @@ return declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			this.window.__registeredWindow = true;
 			this._iframeRegHandle = dijit.registerIframe(this.iframe);
 		}
-		if(!has("ie") && !has("webKit") && (this.height || has("mozilla"))){
+		if(!has("ie") && !has("webkit") && (this.height || has("mozilla"))){
 			this.editNode=this.document.body;
 		}else{
 			// there's a wrapper div around the content, see _getIframeDocTxt().
@@ -805,7 +805,7 @@ return declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			});
 		}
 
-		if(has("webKit")){
+		if(has("webkit")){
 			//WebKit sometimes doesn't fire right on selections, so the toolbar
 			//doesn't update right.  Therefore, help it out a bit with an additional
 			//listener.  A mouse up will typically indicate a display change, so fire this
@@ -1226,7 +1226,7 @@ return declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 		return (has("ie") && supportedBy.ie) ||
 			(has("mozilla") && supportedBy.mozilla) ||
-			(has("webKit") && supportedBy.webkit) ||
+			(has("webkit") && supportedBy.webkit) ||
 			(has("opera") && supportedBy.opera);	// Boolean return true if the command is supported, false otherwise
 	},
 
@@ -1490,7 +1490,7 @@ return declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			}
 
 			// Use &nbsp; to avoid webkit problems where editor is disabled until the user clicks it
-			if(!html && has("webKit")){
+			if(!html && has("webkit")){
 				html = "&nbsp;";
 			}
 			node.innerHTML = html;
@@ -1861,7 +1861,7 @@ return declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		// tags:
 		//		protected
 		var enabled = true;
-		if(has("mozilla") || has("webKit")){
+		if(has("mozilla") || has("webkit")){
 			enabled = this._sCall("hasAncestorElement", ["a"]);
 		}else{
 			enabled = this._browserQueryCommandEnabled("unlink");
@@ -1878,7 +1878,7 @@ return declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		// tags:
 		//		protected
 		var enabled = true;
-		if(has("mozilla") || has("webKit")){
+		if(has("mozilla") || has("webkit")){
 			enabled = true;
 		}else{
 			enabled = this._browserQueryCommandEnabled("inserttable");
@@ -1895,7 +1895,7 @@ return declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		// tags:
 		//		protected
 		var enabled = true;
-		if(has("webKit")){
+		if(has("webkit")){
 			// WebKit deems clipboard activity as a security threat and natively would return false
 			var sel = this.window.getSelection();
 			if(sel){ sel = sel.toString(); }
@@ -1915,7 +1915,7 @@ return declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		// tags:
 		//		protected
 		var enabled = true;
-		if(has("webKit")){
+		if(has("webkit")){
 			// WebKit deems clipboard activity as a security threat and natively would return false
 			var sel = this.window.getSelection();
 			if(sel){ sel = sel.toString(); }
@@ -1935,7 +1935,7 @@ return declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		// tags:
 		//		protected
 		var enabled = true;
-		if(has("webKit")){
+		if(has("webkit")){
 			return true;
 		}else{
 			enabled = this._browserQueryCommandEnabled("paste");
@@ -1967,7 +1967,7 @@ return declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		//		arguments to the exec command, if any.
 		// tags:
 		//		protected
-		if((this.queryCommandEnabled("unlink")) && (has("mozilla") || has("webKit"))){
+		if((this.queryCommandEnabled("unlink")) && (has("mozilla") || has("webkit"))){
 			var a = this._sCall("getAncestorElement", [ "a" ]);
 			this._sCall("selectElement", [ a ]);
 			return this.document.execCommand("unlink", false, null);
@@ -2774,7 +2774,7 @@ return declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 						newrange.setEnd(sNode, sNode.length);
 						selection.removeAllRanges();
 						selection.addRange(newrange);
-						if(has("webKit")){
+						if(has("webkit")){
 							// WebKit is frustrating with positioning the cursor. 
 							// It stinks to have a selected space, but there really
 							// isn't much choice here.

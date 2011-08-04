@@ -16,7 +16,7 @@ define([
 	"dojo/dom-geometry", // domGeometry.contentBox
 	"dojo/dom-style", // domStyle.style
 	"dojo/_base/lang", // lang.hitch
-	"dojo/_base/sniff", // has("ie") has("webKit")
+	"dojo/_base/sniff", // has("ie") has("webkit")
 	"dojo/_base/fx", // Animation
 	"dojo/query" // query
 ], function(kernel, dijit, tabControllerTemplate, buttonTemplate, TabController, layoutUtils, _WidgetsInTemplateMixin,
@@ -229,7 +229,7 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 		//		Returns the current scroll of the tabs where 0 means
 		//		"scrolled all the way to the left" and some positive number, based on #
 		//		of pixels of possible scroll (ex: 1000) means "scrolled all the way to the right"
-		return (this.isLeftToRight() || has("ie") < 8 || (has("ie") && kernel.isQuirks) || has("webKit")) ? this.scrollNode.scrollLeft :
+		return (this.isLeftToRight() || has("ie") < 8 || (has("ie") && kernel.isQuirks) || has("webkit")) ? this.scrollNode.scrollLeft :
 				domStyle.get(this.containerNode, "width") - domStyle.get(this.scrollNode, "width")
 					 + (has("ie") == 8 ? -1 : 1) * this.scrollNode.scrollLeft;
 	},
@@ -242,7 +242,7 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 		//		to achieve that scroll.
 		//
 		//		This method is to adjust for RTL funniness in various browsers and versions.
-		if(this.isLeftToRight() || has("ie") < 8 || (has("ie") && kernel.isQuirks) || has("webKit")){
+		if(this.isLeftToRight() || has("ie") < 8 || (has("ie") && kernel.isQuirks) || has("webkit")){
 			return val;
 		}else{
 			var maxScroll = domStyle.get(this.containerNode, "width") - domStyle.get(this.scrollNode, "width");

@@ -10,7 +10,7 @@ define([
 	"dojo/i18n", // i18n.getLocalization
 	"dojo/keys",	//  keys.F12
 	"dojo/_base/lang", // lang.hitch
-	"dojo/_base/sniff", // has("ie") has("webKit")
+	"dojo/_base/sniff", // has("ie") has("webkit")
 	"dojo/_base/window", // win.body win.global
 	"dojo/window", // winUtils.getBox
 	"../../focus",	// focus.focus()
@@ -72,7 +72,7 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 		// but can't focus this way all the time, only for VS changes.
 		// If we did it all the time, buttons like bold, italic, etc
 		// break.
-		if(has("webKit")){this._vsFocused = true;}
+		if(has("webkit")){this._vsFocused = true;}
 		this.button.set("checked", !this.button.get("checked"));
 
 	},

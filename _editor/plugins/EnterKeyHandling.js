@@ -4,7 +4,7 @@ define([
 	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys.ENTER
 	"dojo/_base/lang",
-	"dojo/_base/sniff", // has("ie") has("mozilla") has("webKit")
+	"dojo/_base/sniff", // has("ie") has("mozilla") has("webkit")
 	"dojo/_base/window", // win.global win.withGlobal
 	"dojo/window", // winUtils.scrollIntoView
 	"../_Plugin",
@@ -249,7 +249,7 @@ return declare("dijit._editor.plugins.EnterKeyHandling", _Plugin, {
 							endNode = doc.createTextNode(txt.substring(range.startOffset));
 							brNode = doc.createElement("br");
 
-							if(endNode.nodeValue == "" && has("webKit")){
+							if(endNode.nodeValue == "" && has("webkit")){
 								endNode = doc.createTextNode('\xA0')
 							}
 							domConstruct.place(startNode, rs, "after");
@@ -312,7 +312,7 @@ return declare("dijit._editor.plugins.EnterKeyHandling", _Plugin, {
 								newrange.setEnd(endNode, endNode.length);
 								selection.removeAllRanges();
 								selection.addRange(newrange);
-								if(endEmpty && !has("webKit")){
+								if(endEmpty && !has("webkit")){
 									selectionapi.remove();
 								}else{
 									selectionapi.collapse(true);
@@ -373,7 +373,7 @@ return declare("dijit._editor.plugins.EnterKeyHandling", _Plugin, {
 			if(/^(\s|&nbsp;|\xA0|<span\b[^>]*\bclass=['"]Apple-style-span['"][^>]*>(\s|&nbsp;|\xA0)<\/span>)?(<br>)?$/.test(blockNode.innerHTML)){
 				// empty LI node
 				blockNode.innerHTML = '';
-				if(has("webKit")){ // WebKit tosses the range when innerHTML is reset
+				if(has("webkit")){ // WebKit tosses the range when innerHTML is reset
 					newrange = rangeapi.create(this.editor.window);
 					newrange.setStart(blockNode, 0);
 					selection.removeAllRanges();

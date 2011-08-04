@@ -11,7 +11,7 @@ define([
 	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys.F1 keys.F15 keys.TAB
 	"dojo/_base/lang", // lang.getObject
-	"dojo/_base/sniff", // has("ie") has("mac") has("webKit")
+	"dojo/_base/sniff", // has("ie") has("mac") has("webkit")
 	"dojo/string", // string.substitute
 	"dojo/_base/window", // win.withGlobal
 	"./_base/focus",	// dijit.getBookmark()
@@ -136,7 +136,7 @@ define([
 			domClass.add(this.iframe, "dijitEditorIFrame");
 			domAttr.set(this.iframe, "allowTransparency", true);
 
-			if(has("webKit")){
+			if(has("webkit")){
 				// Disable selecting the entire editor by inadvertent double-clicks.
 				// on buttons, title bar, etc.  Otherwise clicking too fast on
 				// a button such as undo/redo selects the entire editor.
@@ -407,7 +407,7 @@ define([
 			try{
 				// Try to exec the superclass exec-command and see if it works.
 				r = this.document.execCommand(cmd, false, null);
-				if(has("webKit") && !r){ //see #4598: webkit does not guarantee clipboard support from js
+				if(has("webkit") && !r){ //see #4598: webkit does not guarantee clipboard support from js
 					throw { code: 1011 }; // throw an object like Mozilla's error
 				}
 			}catch(e){
