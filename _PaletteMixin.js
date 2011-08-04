@@ -38,7 +38,7 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 
 	// value: String
 	//		Currently selected color/emoticon/etc.
-	value: null,
+	value: "",
 
 	// _selectedCell: [private] Integer
 	//		Index of the currently selected cell. Initially, none selected
