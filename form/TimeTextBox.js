@@ -52,6 +52,7 @@ define([
 		//FIXME: in markup, you have no control over daylight savings
 
 		_onKey: function(evt){
+			if(this.disabled || this.readOnly){ return; }
 			this.inherited(arguments);
 
 			// If the user has backspaced or typed some numbers, then filter the result list
