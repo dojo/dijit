@@ -9,7 +9,7 @@ define([
 	"dojo/_base/lang", // lang.hitch
 	"dojo/query", // query
 	"dojo/_base/sniff", // has("ie") has("webkit")
-	"../_base/manager",	// manager.byId()
+	"../registry",	// registry.byId()
 	"dojo/text!./templates/ScrollingTabController.html",
 	"dojo/text!./templates/_ScrollingTabControllerButton.html",
 	"./TabController",
@@ -20,7 +20,7 @@ define([
 	"../form/Button",
 	"../_HasDropDown"
 ], function(array, declare, domClass, domGeometry, domStyle, fx, kernel, lang, query, has,
-	manager, tabControllerTemplate, buttonTemplate, TabController, layoutUtils, _WidgetsInTemplateMixin,
+	registry, tabControllerTemplate, buttonTemplate, TabController, layoutUtils, _WidgetsInTemplateMixin,
 	Menu, MenuItem, Button, _HasDropDown){
 
 /*=====
@@ -480,7 +480,7 @@ declare(
 			lang: this.lang,
 			textDir: this.textDir
 		});
-		var container = manager.byId(this.containerId);
+		var container = registry.byId(this.containerId);
 		array.forEach(container.getChildren(), function(page){
 			var menuItem = new MenuItem({
 				id: page.id + "_stcMi",

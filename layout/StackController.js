@@ -6,14 +6,14 @@ define([
 	"dojo/_base/lang", // lang.getObject
 	"dojo/_base/sniff", // has("ie")
 	"../focus",		// focus.focus()
-	"../_base/manager",	// manager.byId
+	"../registry",	// registry.byId
 	"../_Widget",
 	"../_TemplatedMixin",
 	"../_Container",
 	"../form/ToggleButton",
 	"dojo/i18n!../nls/common"
 ], function(array, declare, event, keys, lang, has,
-			focus, manager, _Widget, _TemplatedMixin, _Container, ToggleButton){
+			focus, registry, _Widget, _TemplatedMixin, _Container, ToggleButton){
 
 /*=====
 	var _Widget = dijit._Widget;
@@ -120,7 +120,7 @@ define([
 
 		destroy: function(){
 			for(var pane in this.pane2button){
-				this.onRemoveChild(manager.byId(pane));
+				this.onRemoveChild(registry.byId(pane));
 			}
 			this.inherited(arguments);
 		},
@@ -224,7 +224,7 @@ define([
 			newButton.focusNode.setAttribute("aria-selected", "true");
 			this._currentChild = page;
 			newButton.focusNode.setAttribute("tabIndex", "0");
-			var container = manager.byId(this.containerId);
+			var container = registry.byId(this.containerId);
 			container.containerNode.setAttribute("aria-labelledby", newButton.id);
 		},
 
@@ -234,7 +234,7 @@ define([
 			// tags:
 			//		private
 
-			var container = manager.byId(this.containerId);
+			var container = registry.byId(this.containerId);
 			container.selectChild(page);
 		},
 
@@ -244,7 +244,7 @@ define([
 			// tags:
 			//		private
 
-			var container = manager.byId(this.containerId);
+			var container = registry.byId(this.containerId);
 			container.closeChild(page);
 			if(this._currentChild){
 				var b = this.pane2button[this._currentChild.id];

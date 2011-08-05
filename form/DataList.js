@@ -4,8 +4,8 @@ define([
 	"dojo/_base/lang", // lang.trim
 	"dojo/query", // query
 	"dojo/store/Memory", // dojo.store.Memory
-	"../_base/manager"	// registry.add registry.remove
-], function(declare, dom, lang, query, MemoryStore, manager){
+	"../registry"	// registry.add registry.remove
+], function(declare, dom, lang, query, MemoryStore, registry){
 
 	// module:
 	//		dijit/form/DataList
@@ -39,7 +39,7 @@ define([
 
 			lang.mixin(this, params);
 			if(this.id){
-				manager.registry.add(this); // add to registry so it can be easily found by id
+				registry.add(this); // add to registry so it can be easily found by id
 			}
 			this.domNode.style.display = "none";
 
@@ -49,7 +49,7 @@ define([
 		},
 
 		destroy: function(){
-			manager.registry.remove(this.id);
+			registry.remove(this.id);
 		},
 
 		fetchSelectedItem: function(){

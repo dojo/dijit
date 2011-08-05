@@ -6,7 +6,7 @@ define([
 	"dojo/dom-attr", // domAttr.attr domAttr.has
 	"dojo/dom-style", // style.style
 	"dojo/_base/sniff", // has("ie")
-	"./_base/manager",	// manager.isShown
+	"./_base/manager",	// manager._isElementShown
 	"."	// for exporting methods to dijit variable
 ], function(array, config, declare, dom, domAttr, domStyle, has, manager, dijit){
 
@@ -15,7 +15,13 @@ define([
 	// summary:
 	//		Accessibility utility functions (keyboard, tab stops, etc.)
 
-	var shown = manager._isElementShown;
+	var shown = (dijit._isElementShown = function(/*Element*/ elem){
+		var s = domStyle.get(elem);
+		return (s.visibility != "hidden")
+			&& (s.visibility != "collapsed")
+			&& (s.display != "none")
+			&& (domAttr.get(elem, "type") != "hidden");
+	});
 
 	dijit.hasDefaultTabStop = function(/*Element*/ elem){
 		// summary:

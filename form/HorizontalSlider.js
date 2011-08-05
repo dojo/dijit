@@ -12,7 +12,7 @@ define([
 	"dojo/dnd/Moveable", // Moveable
 	"dojo/dnd/Mover", // Mover Mover.prototype.destroy.apply
 	"dojo/query", // query
-	"../_base/manager", // findWidgets
+	"../registry", // registry.findWidgets
 	"../focus",		// focus.focus()
 	"../typematic",
 	"./Button",
@@ -20,7 +20,7 @@ define([
 	"../_Container",
 	"dojo/text!./templates/HorizontalSlider.html"
 ], function(array, declare, move, event, fx, domGeometry, domStyle, keys, lang, has, Moveable, Mover, query,
-			manager, focus, typematic, Button, _FormValueWidget, _Container, template){
+			registry, focus, typematic, Button, _FormValueWidget, _Container, template){
 
 /*=====
 	var Button = dijit.form.Button;
@@ -103,7 +103,7 @@ var HorizontalSlider = declare("dijit.form.HorizontalSlider", [_FormValueWidget,
 	// slideDuration: Number
 	//		The time in ms to take to animate the slider handle from 0% to 100%,
 	//		when clicking the slider bar to make the handle move.
-	slideDuration: manager.defaultDuration,
+	slideDuration: registry.defaultDuration,
 
 	// Map widget attributes to DOMNode attributes.
 	_setIdAttr: "",		// Override _FormWidget which sends id to focusNode
@@ -348,7 +348,7 @@ var HorizontalSlider = declare("dijit.form.HorizontalSlider", [_FormValueWidget,
 		if(this._inProgressAnim && this._inProgressAnim.status != "stopped"){
 			this._inProgressAnim.stop(true);
 		}
-		this._supportingWidgets = manager.findWidgets(this.domNode); // tells destroy about pseudo-child widgets (ruler/labels)
+		this._supportingWidgets = registry.findWidgets(this.domNode); // tells destroy about pseudo-child widgets (ruler/labels)
 		this.inherited(arguments);
 	}
 });

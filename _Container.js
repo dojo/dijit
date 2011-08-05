@@ -2,8 +2,8 @@ define([
 	"dojo/array", // array.forEach array.indexOf
 	"dojo/_base/declare", // declare
 	"dojo/dom-construct", // domConstruct.place
-	"./_base/manager"	// byNode()
-], function(array, declare, domConstruct, manager){
+	"./registry"	// registry.byNode()
+], function(array, declare, domConstruct, registry){
 
 	// module:
 	//		dijit/_Container
@@ -107,8 +107,8 @@ define([
 				which = (dir>0 ? "nextSibling" : "previousSibling");
 			do{
 				node = node[which];
-			}while(node && (node.nodeType != 1 || !manager.byNode(node)));
-			return node && manager.byNode(node);	// dijit._Widget
+			}while(node && (node.nodeType != 1 || !registry.byNode(node)));
+			return node && registry.byNode(node);	// dijit._Widget
 		},
 
 		getIndexOfChild: function(/*dijit._Widget*/ child){

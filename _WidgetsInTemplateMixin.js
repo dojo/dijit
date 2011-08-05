@@ -2,8 +2,8 @@ define([
 	"dojo/array", // array.forEach
 	"dojo/_base/declare", // declare
 	"dojo/parser", // parser.parse
-	"dijit/_base/manager"	// findWidgets
-], function(array, declare, parser, manager){
+	"dijit/registry"	// registry.findWidgets
+], function(array, declare, parser, registry){
 
 	// module:
 	//		dijit/_WidgetsInTemplateMixin
@@ -41,7 +41,7 @@ define([
 					scope: "dojo"	// even in multi-version mode templates use dojoType/data-dojo-type
 				}));
 
-				this._supportingWidgets = manager.findWidgets(node);
+				this._supportingWidgets = registry.findWidgets(node);
 
 				this._attachTemplateNodes(cw, function(n,p){
 					return n[p];

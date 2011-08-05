@@ -16,10 +16,10 @@ define([
 	"../_Plugin",
 	"../../form/ToggleButton",
 	"../..",		// dijit._scopeName
-	"../../_base/manager", // manager.getEnclosingWidget()
+	"../../registry", // registry.getEnclosingWidget()
 	"dojo/i18n!../nls/commands"
 ], function(connect, declare, domClass, domGeometry, domStyle, event, i18n, kernel, keys, lang, has, win, winUtils,
-			focus, _Plugin, ToggleButton, dijit, manager){
+			focus, _Plugin, ToggleButton, dijit, registry){
 
 /*=====
 	var _Plugin = dijit._editor._Plugin;
@@ -395,7 +395,7 @@ var FullScreen = declare("dijit._editor.plugins.FullScreen",_Plugin,{
 				delete self._origiFrameState;
 				// In case it is contained in a layout and the layout changed size,
 				// go ahead and call resize.
-				var pWidget = manager.getEnclosingWidget(ed.domNode.parentNode);
+				var pWidget = registry.getEnclosingWidget(ed.domNode.parentNode);
 				if(pWidget && pWidget.resize){
 					pWidget.resize();
 				}else{

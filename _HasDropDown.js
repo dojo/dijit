@@ -1,11 +1,4 @@
 define([
-	"./_base/manager",	// manager.byNode()
-	"dojo/has",
-	"dojo/touch",
-	"./focus",
-	"./popup",
-	"./_FocusMixin",
-	"dojo/keys", // keys.DOWN_ARROW keys.ENTER keys.ESCAPE
 	"dojo/_base/declare", // declare
 	"dojo/_base/event", // event.stop
 	"dojo/dom", // dom.isDescendant
@@ -13,11 +6,18 @@ define([
 	"dojo/dom-class", // domClass.add domClass.contains domClass.remove
 	"dojo/dom-geometry", // domGeometry.marginBox domGeometry.position
 	"dojo/dom-style", // domStyle.set
+	"dojo/has",
+	"dojo/keys", // keys.DOWN_ARROW keys.ENTER keys.ESCAPE
 	"dojo/_base/lang", // lang.hitch lang.isFunction
+	"dojo/touch",
 	"dojo/_base/window", // win.doc
-	"dojo/window" // winUtils.getBox
-], function(manager, has, touch, focus, popup, _FocusMixin, keys, declare, event,
-			dom, domAttr, domClass, domGeometry, domStyle, lang, win, winUtils){
+	"dojo/window", // winUtils.getBox
+	"./registry",	// registry.byNode()
+	"./focus",
+	"./popup",
+	"./_FocusMixin"
+], function(declare, event,dom, domAttr, domClass, domGeometry, domStyle, has, keys, lang, touch,
+			win, winUtils, registry, focus, popup, _FocusMixin){
 
 /*=====
 	var _FocusMixin = dijit._FocusMixin;
@@ -149,7 +149,7 @@ define([
 						t = e.target;
 						if(dropDown.onItemClick){
 							var menuItem;
-							while(t && !(menuItem = manager.byNode(t))){
+							while(t && !(menuItem = registry.byNode(t))){
 								t = t.parentNode;
 							}
 							if(menuItem && menuItem.onClick && menuItem.getParent){

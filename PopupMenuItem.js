@@ -3,10 +3,10 @@ define([
 	"dojo/dom-style", // domStyle.set
 	"dojo/query", // query
 	"dojo/_base/window", // win.body
-	"./_base/manager",	// manager.byNode
+	"./registry",	// registry.byNode
 	"./MenuItem",
 	"./hccss"
-], function(declare, domStyle, query, win, manager, MenuItem){
+], function(declare, domStyle, query, win, registry, MenuItem){
 
 /*=====
 	var MenuItem = dijit.MenuItem;
@@ -53,7 +53,7 @@ define([
 			// land now.  move it to win.doc.body.
 			if(!this.popup){
 				var node = query("[widgetId]", this.dropDownContainer)[0];
-				this.popup = manager.byNode(node);
+				this.popup = registry.byNode(node);
 			}
 			win.body().appendChild(this.popup.domNode);
 			this.popup.startup();

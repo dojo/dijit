@@ -13,10 +13,10 @@ define([
 	"dojo/string", // string.substitute
 	"dojo/_base/window", // win.doc.selection.createRange
 	"./DataList",
-	"../_base/manager",	// manager.byId
+	"../registry",	// registry.byId
 	"./_TextBoxMixin"	// defines _TextBoxMixin.selectInputText
 ], function(connect, filter, declare, Deferred, domAttr, event, keys, lang, query, regexp, has, string, win,
-			DataList, manager, _TextBoxMixin){
+			DataList, registry, _TextBoxMixin){
 
 	// module:
 	//		dijit/form/_AutoCompleterMixin
@@ -628,7 +628,7 @@ define([
 				var srcNodeRef = this.srcNodeRef;
 				var list = this.list;
 				if(list){
-					this.store = manager.byId(list);
+					this.store = registry.byId(list);
 				}else{
 					// if user didn't specify store, then assume there are option tags
 					this.store = new DataList({}, srcNodeRef);

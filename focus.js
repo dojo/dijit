@@ -12,10 +12,10 @@ define([
 	"dojo/_base/window", // win.body
 	"dojo/window", // winUtils.get
 	"./a11y",	// a11y.isTabNavigable
-	"./_base/manager",	// manager.byId
+	"./registry",	// registry.byId
 	"."		// to set dijit.focus
 ], function(aspect, declare, dom, domAttr, lang, on, ready, has, Stateful, unload, win, winUtils,
-			a11y, manager, dijit){
+			a11y, registry, dijit){
 
 	// module:
 	//		dijit/focus
@@ -285,7 +285,7 @@ define([
 				while(node){
 					var popupParent = domAttr.get(node, "dijitPopupParent");
 					if(popupParent){
-						node=manager.byId(popupParent).domNode;
+						node=registry.byId(popupParent).domNode;
 					}else if(node.tagName && node.tagName.toLowerCase() == "body"){
 						// is this the root of the document or just the root of an iframe?
 						if(node === win.body()){
@@ -300,7 +300,7 @@ define([
 						// except ignore clicks on disabled widgets (actually focusing a disabled widget still works,
 						// to support MenuItem)
 						var id = node.getAttribute && node.getAttribute("widgetId"),
-							widget = id && manager.byId(id);
+							widget = id && registry.byId(id);
 						if(widget && !(by == "mouse" && widget.get("disabled"))){
 							newStack.unshift(id);
 						}
@@ -354,7 +354,7 @@ define([
 			var widget;
 			// for all elements that have gone out of focus, set focused=false
 			for(var i=oldStack.length-1; i>=nCommon; i--){
-				widget = manager.byId(oldStack[i]);
+				widget = registry.byId(oldStack[i]);
 				if(widget){
 					widget._hasBeenBlurred = true;		// TODO: used by form widgets, should be moved there
 					widget.set("focused", false);
@@ -367,7 +367,7 @@ define([
 
 			// for all element that have come into focus, set focused=true
 			for(i=nCommon; i<newStack.length; i++){
-				widget = manager.byId(newStack[i]);
+				widget = registry.byId(newStack[i]);
 				if(widget){
 					widget.set("focused", true);
 					if(widget._focusManager == this){

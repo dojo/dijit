@@ -13,11 +13,11 @@ define([
 	"dojo/_base/lang", // lang.extend
 	"dojo/_base/sniff", // has("mozilla")
 	"dojo/_base/window", // win.doc.createElement win.doc.documentElement
-	"../_base/manager",	// manager.getUniqueId()
+	"../registry",	// registry.getUniqueId()
 	"../_WidgetBase",
 	"./_LayoutWidget"
 ], function(array, connect, cookie, declare, dom, domClass, domConstruct, domGeometry, domStyle,
-			event, kernel, lang, has, win, manager, _WidgetBase, _LayoutWidget){
+			event, kernel, lang, has, win, registry, _WidgetBase, _LayoutWidget){
 
 /*=====
 var _WidgetBase = dijit._WidgetBase;
@@ -177,7 +177,7 @@ return declare("dijit.layout.SplitContainer", _LayoutWidget, {
 
 		// TODO: use a template for this!!!
 		var sizer = win.doc.createElement('div');
-		sizer.id=manager.getUniqueId('dijit_layout_SplitterContainer_Splitter');
+		sizer.id=registry.getUniqueId('dijit_layout_SplitterContainer_Splitter');
 		this.sizers.splice(index,0,sizer);
 		this.domNode.appendChild(sizer);
 

@@ -5,12 +5,12 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/dom-class", // domClass.add domClass.replace
 	"dojo/_base/lang",
-	"../_base/manager",	// manager.byId
+	"../registry",	// registry.byId
 	"../_WidgetBase",
 	"./_LayoutWidget",
 	"dojo/i18n!../nls/common"
 ], function(array, connect, cookie, declare, domClass, lang,
-			manager, _WidgetBase, _LayoutWidget){
+			registry, _WidgetBase, _LayoutWidget){
 
 /*=====
 var _WidgetBase = dijit._WidgetBase;
@@ -102,7 +102,7 @@ return declare("dijit.layout.StackContainer", _LayoutWidget, {
 
 		// Figure out which child to initially display, defaulting to first one
 		if(this.persist){
-			this.selectedChildWidget = manager.byId(cookie(this.id + "_selectedChild"));
+			this.selectedChildWidget = registry.byId(cookie(this.id + "_selectedChild"));
 		}else{
 			array.some(children, function(child){
 				if(child.selected){
@@ -213,7 +213,7 @@ return declare("dijit.layout.StackContainer", _LayoutWidget, {
 		// page:
 		//		Reference to child widget or id of child widget
 
-		page = manager.byId(page);
+		page = registry.byId(page);
 
 		if(this.selectedChildWidget != page){
 			// Deselect old page and select new one

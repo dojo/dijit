@@ -2,8 +2,8 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/dom", // dom.setSelectable
 	"dojo/_base/event", // event.stop
-	"../_base/manager"		// manager.byNode
-], function(declare, dom, event, manager){
+	"../registry"		// registry.byNode
+], function(declare, dom, event, registry){
 
 // module:
 //		dijit/form/_ButtonMixin
@@ -44,7 +44,7 @@ return declare("dijit.form._ButtonMixin", null, {
 		var preventDefault = this.onClick(e) === false; // user click actions
 		if(!preventDefault && this.type == "submit" && !(this.valueNode||this.focusNode).form){ // see if a non-form widget needs to be signalled
 			for(var node=this.domNode; node.parentNode; node=node.parentNode){
-				var widget=manager.byNode(node);
+				var widget=registry.byNode(node);
 				if(widget && typeof widget._onSubmit == "function"){
 					widget._onSubmit(e);
 					preventDefault = true;

@@ -15,6 +15,7 @@ define([
 	"dojo/keys",
 	"dojo/_base/lang", // lang.getObject lang.mixin
 	"./focus",
+	"./registry",	// registry.getEnclosingWidget(), manager.defaultDuration
 	"./_base/manager",	// manager.getEnclosingWidget(), manager.defaultDuration
 	"./_Widget",
 	"./_TemplatedMixin",
@@ -28,7 +29,7 @@ define([
 	"./tree/_dndSelector"
 ], function(array, connect, cookie, declare, Deferred, DeferredList,
 			dom, domClass, domGeometry, domStyle, event, fxUtils, kernel, keys, lang,
-			focus, manager, _Widget, _TemplatedMixin, _Container, _Contained, _CssStateMixin,
+			focus, registry, manager, _Widget, _TemplatedMixin, _Container, _Contained, _CssStateMixin,
 			treeNodeTemplate, treeTemplate, TreeStoreModel, ForestStoreModel, _dndSelector){
 
 /*=====
@@ -1046,7 +1047,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		// summary:
 		//		Translates keypress events into commands for the controller
 		if(e.altKey){ return; }
-		var treeNode = manager.getEnclosingWidget(e.target);
+		var treeNode = registry.getEnclosingWidget(e.target);
 		if(!treeNode){ return; }
 
 		var key = e.charOrCode;

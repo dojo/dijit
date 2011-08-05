@@ -8,11 +8,11 @@ define([
 	"dojo/query", // query
 	"dojo/_base/sniff", // has("ie")
 	"dojo/_base/window", // win.global
-	"../_base/manager",	// manager.byId
+	"../registry",	// registry.byId
 	"./utils",	// marginBox2contextBox
 	"../_Contained"
 ], function(array, declare, domAttr, domClass, domGeometry, lang, query, has, win,
-			manager, layoutUtils, _Contained){
+			registry, layoutUtils, _Contained){
 
 /*=====
 var _Contained = dijit._Contained;
@@ -115,7 +115,7 @@ return declare("dijit.layout._ContentPaneResizeMixin", null, {
 			childWidgetNodes = childNodes.filter(function(node){
 				return domAttr.has(node, "data-dojo-type") || domAttr.has(node, "dojoType") || domAttr.has(node, "widgetId");
 			}),
-			candidateWidgets = array.filter(childWidgetNodes.map(manager.byNode), function(widget){
+			candidateWidgets = array.filter(childWidgetNodes.map(registry.byNode), function(widget){
 				return widget && widget.domNode && widget.resize;
 			});
 

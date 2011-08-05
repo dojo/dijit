@@ -15,14 +15,14 @@ define([
 	"../range",
 	"../selection",
 	"../..",	// dijit._scopeName
-	"../../_base/manager", // manager.byId, manager.getUniqueId
+	"../../registry", // registry.byId, registry.getUniqueId
 	"../../form/Button",	// used by template
 	"../../form/Select",	// used by template
 	"../../form/ValidationTextBox",	// used by template
 	"dojo/i18n!../../nls/common",
 	"dojo/i18n!../nls/LinkDialog"
 ], function(connect, declare, domAttr, i18n, keys, lang, has, string, win,
-	_Widget, _Plugin, TooltipDialog, DropDownButton, rangeapi, selectionapi, dijit, manager){
+	_Widget, _Plugin, TooltipDialog, DropDownButton, rangeapi, selectionapi, dijit, registry){
 
 /*=====
 	var _Plugin = dijit._editor._Plugin;
@@ -124,16 +124,16 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 			}
 		}));
 		messages.urlRegExp = this.urlRegExp;
-		messages.id = manager.getUniqueId(this.editor.id);
+		messages.id = registry.getUniqueId(this.editor.id);
 		this._uniqueId = messages.id;
 		this._setContent(dropDown.title +
 			"<div style='border-bottom: 1px black solid;padding-bottom:2pt;margin-bottom:4pt'></div>" +
 			string.substitute(this.linkDialogTemplate, messages));
 		dropDown.startup();
-		this._urlInput = manager.byId(this._uniqueId + "_urlInput");
-		this._textInput = manager.byId(this._uniqueId + "_textInput");
-		this._setButton = manager.byId(this._uniqueId + "_setButton");
-		this.connect(manager.byId(this._uniqueId + "_cancelButton"), "onClick", function(){
+		this._urlInput = registry.byId(this._uniqueId + "_urlInput");
+		this._textInput = registry.byId(this._uniqueId + "_textInput");
+		this._setButton = registry.byId(this._uniqueId + "_setButton");
+		this.connect(registry.byId(this._uniqueId + "_cancelButton"), "onClick", function(){
 			this.dropDown.onCancel();
 		});
 		if(this._urlInput){

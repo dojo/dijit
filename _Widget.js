@@ -5,14 +5,14 @@ define([
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/lang", // lang.hitch
 	"dojo/query",
-	"./_base/manager",	// manager.byNode
+	"./registry",	// registry.byNode
 	"./_WidgetBase",
 	"./_OnDijitClickMixin",
 	"./_FocusMixin",
 	"dojo/uacss",		// brower sniffing (included for back-compat; subclasses may be using)
 	"./hccss"		// high contrast mode sniffing (included to set CSS classes on <body>, module ret value unused)
 ], function(config, connect, declare, kernel, lang, query,
-			manager, _WidgetBase, _OnDijitClickMixin, _FocusMixin){
+			registry, _WidgetBase, _OnDijitClickMixin, _FocusMixin){
 
 /*=====
 	var _WidgetBase = dijit._WidgetBase;
@@ -277,7 +277,7 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 		//		supposed to be internal/hidden, but it's left here for back-compat reasons.
 
 		kernel.deprecated(this.declaredClass+"::getDescendants() is deprecated. Use getChildren() instead.", "", "2.0");
-		return this.containerNode ? query('[widgetId]', this.containerNode).map(manager.byNode) : []; // dijit._Widget[]
+		return this.containerNode ? query('[widgetId]', this.containerNode).map(registry.byNode) : []; // dijit._Widget[]
 	},
 
 	////////////////// MISCELLANEOUS METHODS ///////////////////
@@ -330,7 +330,7 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 if(dojo.ready && !dojo.isAsync){
 	dojo.ready(0, function(){
 		var requires = ["dijit/_base/focus", "dijit/_base/place", "dijit/_base/popup", "dijit/_base/scroll",
-			"dijit/_base/typematic", "dijit/_base/wai", "dijit/_base/window"];
+			"dijit/_base/typematic", "dijit/_base/wai", "dijit/_base/window", "dijit/WidgetSet"];
 		require(requires);	// use indirection so modules not rolled into a build
 	})
 }
