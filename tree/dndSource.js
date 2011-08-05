@@ -3,12 +3,12 @@ define([
 	"dojo/_base/connect", // connect.isCopyKey connect.subscribe connect.unsubscribe
 	"dojo/_base/declare", // declare
 	"dojo/_base/lang", // lang.mixin
-	"dojo/dnd/Manager", // dojo.dnd.manager
+	"dojo/dnd/Manager", // DNDManager.manager
 	"dojo/dom-class", // domClass.add
 	"dojo/dom-geometry", // domGeometry.position
 	"dojo/touch",
 	"./_dndSelector"
-], function(array, connect, declare, lang, Manager, domClass, domGeometry, touch, _dndSelector){
+], function(array, connect, declare, lang, DNDManager, domClass, domGeometry, touch, _dndSelector){
 
 // module:
 //		dijit/tree/dndSource
@@ -146,7 +146,7 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 		//		Helper method for processing onmousemove/onmouseover events while drag is in progress.
 		//		Keeps track of current drop target.
 
-		var m = dojo.dnd.manager(),
+		var m = DNDManager.manager(),
 			oldTarget = this.targetAnchor,			// the TreeNode corresponding to TreeNode mouse was previously over
 			newTarget = this.current,				// TreeNode corresponding to TreeNode mouse is currently over
 			oldDropPosition = this.dropPosition;	// the previous drop position (over/before/after)
@@ -204,7 +204,7 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 		//		private
 		if(this.isDragging && this.targetState == "Disabled"){ return; }
 		this.inherited(arguments);
-		var m = dojo.dnd.manager();
+		var m = DNDManager.manager();
 		if(this.isDragging){
 			this._onDragMouse(e);
 		}else{
@@ -300,7 +300,7 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 			this.mouseDown = false;
 			this._unmarkTargetAnchor();
 		}else if(this.isDragging){
-			var m = dojo.dnd.manager();
+			var m = DNDManager.manager();
 			m.canDrop(false);
 		}
 	},
@@ -324,7 +324,7 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 		this._changeState("Target", accepted ? "" : "Disabled");
 
 		if(this == source){
-			dojo.dnd.manager().overSource(this);
+			DNDManager.manager().overSource(this);
 		}
 
 		this.isDragging = true;
@@ -472,7 +472,7 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 		// tags:
 		//		private
 		this.inherited(arguments);
-		dojo.dnd.manager().overSource(this);
+		DNDManager.manager().overSource(this);
 	},
 	onOutEvent: function(){
 		// summary:
@@ -480,7 +480,7 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 		// tags:
 		//		private
 		this._unmarkTargetAnchor();
-		var m = dojo.dnd.manager();
+		var m = DNDManager.manager();
 		if(this.isDragging){
 			m.canDrop(false);
 		}
