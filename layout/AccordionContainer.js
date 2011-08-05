@@ -170,7 +170,8 @@ define([
 			//	</div>
 
 			// Create wrapper div, placed where the child is now
-			this.domNode = domConstruct.place("<div class='" + this.baseClass + "'>", this.contentWidget.domNode, "after");
+			this.domNode = domConstruct.place("<div class='" + this.baseClass +
+				"' role='presentation'>", this.contentWidget.domNode, "after");
 
 			// wrapper div's first child is the button widget (ie, the title bar)
 			var child = this.contentWidget,
