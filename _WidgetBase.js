@@ -818,13 +818,10 @@ return declare("dijit._WidgetBase", Stateful, {
 		//		Also removes handle from this widget's list of connects.
 		// tags:
 		//		protected
-
-		for(var i=0; i<this._connects.length; i++){
-			if(this._connects[i] == handle){
-				handle.remove();
-				this._connects.splice(i, 1);
-				return;
-			}
+		var i = array.indexOf(this._connects, handle);
+		if(i != -1){
+			handle.remove();
+			this._connects.splice(i, 1);
 		}
 	},
 
