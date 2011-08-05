@@ -645,6 +645,11 @@ DIV.dijitArrowButton {
 	height: auto;
 }
 
+.dijit_a11y .dijitFocusedLabel {
+	/* for checkboxes or radio buttons in high contrast mode, use border rather than outline to indicate focus (outline does not work in FF)*/
+	border: 1px dotted;
+	outline: 0px !important;
+}
 
 /****
 		dijit.ProgressBar
