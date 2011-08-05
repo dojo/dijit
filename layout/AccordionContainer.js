@@ -10,7 +10,7 @@ define([
 	"./StackContainer",
 	"./ContentPane",
 	"../focus",			// dijit.focus()
-	"dojo/_base/array", // array.forEach array.map
+	"dojo/array", // array.forEach array.map
 	"dojo/_base/connect", // connect.publish
 	"dojo/keys", // keys
 	"dojo/_base/declare", // declare

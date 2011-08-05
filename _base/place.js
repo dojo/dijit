@@ -2,7 +2,7 @@ define([
 	"..",
 	"../place",
 	"dojo/window", // windowUtils.getBox
-	"dojo/_base/array", // array.forEach
+	"dojo/array", // array.forEach
 	"dojo/_base/lang" // lang.isArray
 ], function(dijit, place, windowUtils, array, lang){
 

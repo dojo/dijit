@@ -1,5 +1,5 @@
 define([
-	"dojo/_base/array", // array.forEach
+	"dojo/array", // array.forEach
 	"dojo/_base/connect", // connect.connect connect.disconnect
 	"dojo/_base/declare", // declare
 	"dojo/dom-attr", // domAttr.set

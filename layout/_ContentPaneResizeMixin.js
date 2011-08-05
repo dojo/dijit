@@ -6,7 +6,7 @@ define([
 	"dojo/dom-geometry",// domGeometry.contentBox domGeometry.marginBox
 	"../_Contained",
 	"./utils",	// marginBox2contextBox
-	"dojo/_base/array", // array.filter array.forEach
+	"dojo/array", // array.filter array.forEach
 	"dojo/_base/declare", // declare
 	"dojo/_base/sniff", // has("ie")
 	"dojo/_base/window", // win.global

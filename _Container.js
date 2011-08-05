@@ -1,6 +1,6 @@
 define([
 	".",	// byNode()
-	"dojo/_base/array", // array.forEach array.indexOf
+	"dojo/array", // array.forEach array.indexOf
 	"dojo/_base/declare", // declare
 	"dojo/dom-construct" // domConstruct.place
 ], function(dijit, array, declare, domConstruct){

@@ -1,6 +1,6 @@
 define([
 	"dojo/on",
-	"dojo/_base/array", // array.forEach
+	"dojo/array", // array.forEach
 	"dojo/keys", // keys.ENTER keys.SPACE
 	"dojo/_base/declare", // declare
 	"dojo/_base/sniff", // has("ie")

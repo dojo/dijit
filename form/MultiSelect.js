@@ -1,5 +1,5 @@
 define([
-	"dojo/_base/array", // array.indexOf, array.map
+	"dojo/array", // array.indexOf, array.map
 	"dojo/_base/declare", // declare
 	"dojo/dom-geometry", // domGeometry.setMarginBox
 	"dojo/query", // query

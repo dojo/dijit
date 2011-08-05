@@ -2,7 +2,7 @@ define([
 	"./_WidgetBase",
 	"./_TemplatedMixin",
 	"./_WidgetsInTemplateMixin",
-	"dojo/_base/array", // array.forEach
+	"dojo/array", // array.forEach
 	"dojo/_base/declare", // declare
 	"dojo/_base/lang", // lang.extend lang.isArray
 	"dojo/_base/kernel" // kernel.deprecated

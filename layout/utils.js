@@ -1,7 +1,7 @@
 define([
 	"..",
 	"dojo/_base/lang", // lang.mixin
-	"dojo/_base/array", // array.filter array.forEach
+	"dojo/array", // array.filter array.forEach
 	"dojo/dom-class", // domClass.add domClass.remove
 	"dojo/dom-geometry", // domGeometry.marginBox
 	"dojo/dom-style" // domStyle.getComputedStyle

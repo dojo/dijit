@@ -1,5 +1,5 @@
 define([
-	"dojo/_base/array", // array.forEach array.map
+	"dojo/array", // array.forEach array.map
 	"dojo/_base/connect", // connect.connect
 	"dojo/_base/declare", // declare
 	"dojo/_base/lang", // lang.getObject

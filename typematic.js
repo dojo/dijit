@@ -1,5 +1,5 @@
 define([
-	"dojo/_base/array", // array.forEach
+	"dojo/array", // array.forEach
 	"dojo/_base/connect", // connect.connect
 	"dojo/_base/event", // event.stop
 	"dojo/_base/kernel", // kernel.deprecated

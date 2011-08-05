@@ -3,7 +3,7 @@ define([
 	"dojo/_base/lang", // lang.isArray
 	"../focus",
 	"./manager",
-	"dojo/_base/array", // array.forEach
+	"dojo/array", // array.forEach
 	"dojo/_base/connect", // connect.publish
 	"dojo/dom", // dom.isDescendant
 	"dojo/_base/window" // win.doc win.doc.selection win.global win.global.getSelection win.withGlobal

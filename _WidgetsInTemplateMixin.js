@@ -1,7 +1,7 @@
 define([
 	"dijit/_base/manager",	// findWidgets, etc.
 	"dojo/parser", // parser.parse
-	"dojo/_base/array", // array.forEach
+	"dojo/array", // array.forEach
 	"dojo/_base/declare" // declare
 ], function(dijit, parser, array, declare){
 

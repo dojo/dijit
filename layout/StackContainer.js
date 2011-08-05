@@ -4,7 +4,7 @@ define([
 	"../_WidgetBase",
 	"./_LayoutWidget",
 	"./StackController",
-	"dojo/_base/array", // array.forEach array.indexOf array.some
+	"dojo/array", // array.forEach array.indexOf array.some
 	"dojo/_base/connect", // connect.publish
 	"dojo/_base/declare", // declare
 	"dojo/_base/lang",

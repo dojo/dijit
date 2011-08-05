@@ -1,5 +1,5 @@
 define([
-	"dojo/_base/array", // array.every
+	"dojo/array", // array.every
 	"dojo/_base/declare", // declare
 	"dojo/_base/lang", // lang.isArray
 	"dojo/_base/window", // win.global

@@ -1,5 +1,5 @@
 define([
-	"dojo/_base/array", // array.forEach array.indexOf array.map
+	"dojo/array", // array.forEach array.indexOf array.map
 	"dojo/_base/declare", // declare
 	"dojo/_base/fx", // fx.fadeIn fx.fadeOut
 	"dojo/dom", // dom.byId

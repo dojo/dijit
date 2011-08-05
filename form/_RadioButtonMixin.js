@@ -1,5 +1,5 @@
 define([
-	"dojo/_base/array", // array.forEach
+	"dojo/array", // array.forEach
 	"dojo/_base/declare", // declare
 	"dojo/dom-attr", // domAttr.set
 	"dojo/_base/event", // event.stop

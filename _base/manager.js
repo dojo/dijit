@@ -1,6 +1,6 @@
 define([
 	"..",
-	"dojo/_base/array", // array.forEach array.map
+	"dojo/array", // array.forEach array.map
 	"dojo/_base/config", // defaultDuration
 	"dojo/_base/declare", // declare
 	"dojo/dom",			// dom.byId

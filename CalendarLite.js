@@ -1,5 +1,5 @@
 define([
-	"dojo/_base/array", // array.forEach array.map
+	"dojo/array", // array.forEach array.map
 	"dojo/_base/declare", // declare
 	"dojo/cldr/supplemental", // cldrSupplemental.getFirstDayOfWeek
 	"dojo/date", // date

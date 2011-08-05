@@ -1,5 +1,5 @@
 define([
-	"dojo/_base/array", // array.forEach
+	"dojo/array", // array.forEach
 	"dojo/_base/connect", // connect.publish connect.subscribe
 	"dojo/_base/declare", // declare
 	"dojo/_base/Deferred", // Deferred

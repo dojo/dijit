@@ -1,5 +1,5 @@
 define([
-	"dojo/_base/array", // array.filter array.forEach array.map array.some
+	"dojo/array", // array.filter array.forEach array.map array.some
 	"dojo/_base/connect", // connect.connect connect.disconnect
 	"dojo/data/util/sorter", // util.sorter.createSortFunction
 	"dojo/_base/declare", // declare

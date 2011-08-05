@@ -1,6 +1,6 @@
 define([
 	"dojo/touch",
-	"dojo/_base/array", // array.forEach array.map
+	"dojo/array", // array.forEach array.map
 	"dojo/_base/declare",	// declare
 	"dojo/dom-class", // domClass.toggle
 	"dojo/_base/lang", // lang.hitch

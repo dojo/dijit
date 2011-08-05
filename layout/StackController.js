@@ -7,7 +7,7 @@ define([
 	"../form/ToggleButton",
 	"../focus",		// dijit.focus()
 	"dojo/i18n!../nls/common",
-	"dojo/_base/array", // array.forEach array.indexOf array.map
+	"dojo/array", // array.forEach array.indexOf array.map
 	"dojo/keys", // keys
 	"dojo/_base/declare", // declare
 	"dojo/_base/event", // event.stop

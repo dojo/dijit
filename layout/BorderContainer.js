@@ -7,7 +7,7 @@ define([
 	"../_TemplatedMixin",
 	"./_LayoutWidget",
 	"./utils",		// layoutUtils.layoutChildren
-	"dojo/_base/array", // array.filter array.forEach array.map
+	"dojo/array", // array.filter array.forEach array.map
 	"dojo/_base/connect", // connect.connect connect.disconnect
 	"dojo/keys",
 	"dojo/_base/declare", // declare
