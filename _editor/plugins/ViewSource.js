@@ -16,10 +16,11 @@ define([
 	"../../focus",	// focus.focus()
 	"../_Plugin",
 	"../../form/ToggleButton",
-	"../..",	// dijit._scopeName, dijit.getEnclosingWidget()
+	"../..",	// dijit._scopeName
+	"../../_base/manager", // manager.getEnclosingWidget()
 	"dojo/i18n!../nls/commands"
 ], function(array, connect, declare, domAttr, domConstruct, domGeometry, domStyle, event, i18n, keys, lang, has, win,
-	winUtils, focus, _Plugin, ToggleButton, dijit){
+	winUtils, focus, _Plugin, ToggleButton, dijit, manager){
 
 /*=====
 	var _Plugin = dijit._editor._Plugin;
@@ -272,7 +273,7 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 				// Make resize calls.
 				var parent = ed.domNode.parentNode;
 				if(parent){
-					var container = dijit.getEnclosingWidget(parent);
+					var container = manager.getEnclosingWidget(parent);
 					if(container && container.resize){
 						container.resize();
 					}

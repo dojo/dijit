@@ -1,6 +1,15 @@
 define([
+	"dojo/array", // array.forEach
+	"dojo/_base/declare", // declare
+	"dojo/dom-class", // domClass.add domClass.contains
+	"dojo/dom-geometry", // domGeometry.contentBox
+	"dojo/dom-style", // domStyle.style
+	"dojo/_base/fx", // Animation
 	"dojo/_base/kernel", // kernel.isQuirks
-	"..",	// dijit.byId()
+	"dojo/_base/lang", // lang.hitch
+	"dojo/query", // query
+	"dojo/_base/sniff", // has("ie") has("webkit")
+	"../_base/manager",	// manager.byId()
 	"dojo/text!./templates/ScrollingTabController.html",
 	"dojo/text!./templates/_ScrollingTabControllerButton.html",
 	"./TabController",
@@ -9,18 +18,10 @@ define([
 	"../Menu",
 	"../MenuItem",
 	"../form/Button",
-	"../_HasDropDown",
-	"dojo/array", // array.forEach
-	"dojo/_base/declare", // declare
-	"dojo/dom-class", // domClass.add domClass.contains
-	"dojo/dom-geometry", // domGeometry.contentBox
-	"dojo/dom-style", // domStyle.style
-	"dojo/_base/lang", // lang.hitch
-	"dojo/_base/sniff", // has("ie") has("webkit")
-	"dojo/_base/fx", // Animation
-	"dojo/query" // query
-], function(kernel, dijit, tabControllerTemplate, buttonTemplate, TabController, layoutUtils, _WidgetsInTemplateMixin,
-	Menu, MenuItem, Button, _HasDropDown, array, declare, domClass, domGeometry, domStyle, lang, has, fx, query){
+	"../_HasDropDown"
+], function(array, declare, domClass, domGeometry, domStyle, fx, kernel, lang, query, has,
+	manager, tabControllerTemplate, buttonTemplate, TabController, layoutUtils, _WidgetsInTemplateMixin,
+	Menu, MenuItem, Button, _HasDropDown){
 
 /*=====
 var _WidgetsInTemplateMixin = dijit._WidgetsInTemplateMixin;
@@ -451,9 +452,11 @@ var ScrollingTabControllerButtonMixin = declare("dijit.layout._ScrollingTabContr
 ScrollingTabControllerButtonMixin = dijit.layout._ScrollingTabControllerButtonMixin;
 =====*/
 
+// Class used in template
 declare("dijit.layout._ScrollingTabControllerButton",
 	[Button, ScrollingTabControllerButtonMixin]);
 
+// Class used in template
 declare(
 	"dijit.layout._ScrollingTabControllerMenuButton",
 	[Button, _HasDropDown, ScrollingTabControllerButtonMixin],
@@ -477,7 +480,7 @@ declare(
 			lang: this.lang,
 			textDir: this.textDir
 		});
-		var container = dijit.byId(this.containerId);
+		var container = manager.byId(this.containerId);
 		array.forEach(container.getChildren(), function(page){
 			var menuItem = new MenuItem({
 				id: page.id + "_stcMi",

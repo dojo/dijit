@@ -1,5 +1,5 @@
 define([
-	".",	// dijit.byNode()
+	"./_base/manager",	// manager.byNode()
 	"dojo/has",
 	"dojo/touch",
 	"./focus",
@@ -16,7 +16,7 @@ define([
 	"dojo/_base/lang", // lang.hitch lang.isFunction
 	"dojo/_base/window", // win.doc
 	"dojo/window" // winUtils.getBox
-], function(dijit, has, touch, focus, popup, _FocusMixin, keys, declare, event,
+], function(manager, has, touch, focus, popup, _FocusMixin, keys, declare, event,
 			dom, domAttr, domClass, domGeometry, domStyle, lang, win, winUtils){
 
 /*=====
@@ -149,7 +149,7 @@ define([
 						t = e.target;
 						if(dropDown.onItemClick){
 							var menuItem;
-							while(t && !(menuItem = dijit.byNode(t))){
+							while(t && !(menuItem = manager.byNode(t))){
 								t = t.parentNode;
 							}
 							if(menuItem && menuItem.onClick && menuItem.getParent){

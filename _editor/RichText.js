@@ -29,7 +29,7 @@ define([
 	".."	// dijit._scopeName
 ], function(array, config, connect, declare, Deferred, dom, domAttr, domClass, domConstruct, domGeometry, domStyle,
 	event, kernel, keys, lang, query, ready, has, unload, _Url, win,
-	_Widget, _CssStateMixin, selectionapi, rangeapi, html, focus, dijit){
+	_Widget, _CssStateMixin, selectionapi, rangeapi, htmlapi, focus, dijit){
 
 /*=====
 	var _Widget = dijit._Widget;
@@ -49,7 +49,7 @@ define([
 //	<textarea id="dijit._editor.RichText.value" style="display:none;position:absolute;top:-100px;left:-100px;height:3px;width:3px;overflow:hidden;"></textarea>
 //
 
-return declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
+var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 	// summary:
 	//		dijit._editor.RichText is the core of dijit.Editor, which provides basic
 	//		WYSIWYG editing features.
@@ -263,17 +263,17 @@ return declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		//		Handle that here.
 		// tags:
 		//		private
-		if(dijit._editor._editorCommandsLocalized){
+		if(RichText._editorCommandsLocalized){
 			// Use the already generate cache of mappings.
-			this._local2NativeFormatNames = dijit._editor._local2NativeFormatNames;
-			this._native2LocalFormatNames = dijit._editor._native2LocalFormatNames;
+			this._local2NativeFormatNames = RichText._local2NativeFormatNames;
+			this._native2LocalFormatNames = RichText._native2LocalFormatNames;
 			return;
 		}
-		dijit._editor._editorCommandsLocalized = true;
-		dijit._editor._local2NativeFormatNames = {};
-		dijit._editor._native2LocalFormatNames = {};
-		this._local2NativeFormatNames = dijit._editor._local2NativeFormatNames;
-		this._native2LocalFormatNames = dijit._editor._native2LocalFormatNames;
+		RichText._editorCommandsLocalized = true;
+		RichText._local2NativeFormatNames = {};
+		RichText._native2LocalFormatNames = {};
+		this._local2NativeFormatNames = RichText._local2NativeFormatNames;
+		this._native2LocalFormatNames = RichText._native2LocalFormatNames;
 		//in IE, names for blockformat is locale dependent, so we cache the values here
 
 		//put p after div, so if IE returns Normal, we show it as paragraph
@@ -399,7 +399,7 @@ return declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 				});
 			}
 		}else{
-			html = dijit._editor.getChildrenHtml(dn);
+			html = htmlapi.getChildrenHtml(dn);
 			dn.innerHTML = "";
 		}
 
@@ -441,19 +441,19 @@ return declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 				}
 			}
 
-			if(!dijit._editor._globalSaveHandler){
-				dijit._editor._globalSaveHandler = {};
+			if(!RichText._globalSaveHandler){
+				RichText._globalSaveHandler = {};
 				unload.addOnUnload(function(){
 					var id;
-					for(id in dijit._editor._globalSaveHandler){
-						var f = dijit._editor._globalSaveHandler[id];
+					for(id in RichText._globalSaveHandler){
+						var f = RichText._globalSaveHandler[id];
 						if(lang.isFunction(f)){
 							f();
 						}
 					}
 				});
 			}
-			dijit._editor._globalSaveHandler[this.id] = lang.hitch(this, "_saveContent");
+			RichText._globalSaveHandler[this.id] = lang.hitch(this, "_saveContent");
 		}
 
 		this.isClosed = false;
@@ -763,7 +763,7 @@ return declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 		if(!this.window.__registeredWindow){
 			this.window.__registeredWindow = true;
-			this._iframeRegHandle = dijit.registerIframe(this.iframe);
+			this._iframeRegHandle = focus.registerIframe(this.iframe);
 		}
 		if(!has("ie") && !has("webkit") && (this.height || has("mozilla"))){
 			this.editNode=this.document.body;
@@ -1614,7 +1614,7 @@ return declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 					dom = ef(dom);
 				});
 			}
-			ec = html.getChildrenHtml(dom);
+			ec = htmlapi.getChildrenHtml(dom);
 		}else{
 			ec = dom;
 		}
@@ -1666,20 +1666,20 @@ return declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 	getNodeHtml: function(/* DomNode */ node){
 		// summary:
-		//		Deprecated.   Use dijit._editor._getNodeHtml() instead.
+		//		Deprecated.   Use dijit/_editor/html::_getNodeHtml() instead.
 		// tags:
 		//		deprecated
-		kernel.deprecated('dijit.Editor::getNodeHtml is deprecated','use dijit._editor.getNodeHtml instead', 2);
-		return html.getNodeHtml(node); // String
+		kernel.deprecated('dijit.Editor::getNodeHtml is deprecated','use dijit/_editor/html::getNodeHtml instead', 2);
+		return htmlapi.getNodeHtml(node); // String
 	},
 
 	getNodeChildrenHtml: function(/* DomNode */ dom){
 		// summary:
-		//		Deprecated.   Use dijit._editor.getChildrenHtml() instead.
+		//		Deprecated.   Use dijit/_editor/html::getChildrenHtml() instead.
 		// tags:
 		//		deprecated
-		kernel.deprecated('dijit.Editor::getNodeChildrenHtml is deprecated','use dijit._editor.getChildrenHtml instead', 2);
-		return html.getChildrenHtml(dom);
+		kernel.deprecated('dijit.Editor::getNodeChildrenHtml is deprecated','use dijit/_editor/html::getChildrenHtml instead', 2);
+		return htmlapi.getChildrenHtml(dom);
 	},
 
 	close: function(/*Boolean?*/ save){
@@ -1757,8 +1757,8 @@ return declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 	destroy: function(){
 		if(!this.isClosed){ this.close(false); }
 		this.inherited(arguments);
-		if(dijit._editor._globalSaveHandler){
-			delete dijit._editor._globalSaveHandler[this.id];
+		if(RichText._globalSaveHandler){
+			delete RichText._globalSaveHandler[this.id];
 		}
 	},
 
@@ -2869,5 +2869,7 @@ return declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		return node;
 	}
 });
+
+return RichText;
 
 });

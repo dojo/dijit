@@ -103,7 +103,7 @@ var HorizontalSlider = declare("dijit.form.HorizontalSlider", [_FormValueWidget,
 	// slideDuration: Number
 	//		The time in ms to take to animate the slider handle from 0% to 100%,
 	//		when clicking the slider bar to make the handle move.
-	slideDuration: dijit.defaultDuration,
+	slideDuration: manager.defaultDuration,
 
 	// Map widget attributes to DOMNode attributes.
 	_setIdAttr: "",		// Override _FormWidget which sends id to focusNode

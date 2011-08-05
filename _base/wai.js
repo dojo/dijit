@@ -1,9 +1,9 @@
 define([
-	"..",
-	"dojo/_base/lang", // lang.mixin
 	"dojo/dom-attr", // domAttr.attr
+	"dojo/_base/lang", // lang.mixin
+	"..",	// export symbols to dijit
 	"../hccss"			// not using this module directly, but loading it sets CSS flag on <html>
-], function(dijit, lang, domAttr){
+], function(domAttr, lang, dijit){
 
 	// module:
 	//		dijit/_base/wai

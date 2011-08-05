@@ -19,6 +19,7 @@ define([
 	"dojo/dnd/Moveable", // dojo.dnd.Moveable
 	"dojo/dnd/TimedMoveable", // dojo.dnd.TimedMoveable
 	"./focus",
+	"./_base/manager",	// manager.defaultDuration
 	"./_Widget",
 	"./_TemplatedMixin",
 	"./_CssStateMixin",
@@ -27,11 +28,11 @@ define([
 	"./DialogUnderlay",
 	"./layout/ContentPane",
 	"dojo/text!./templates/Dialog.html",
-	".",			// for back-compat, setting dijit._underlay (remove in 2.0)
+	".",			// for back-compat, exporting dijit._underlay (remove in 2.0)
 	"dojo/i18n!./nls/common"
 ], function(require, array, connect, declare, Deferred,
 			dom, domClass, domGeometry, domStyle, event, fx, i18n, keys, lang, has, win, winUtils,
-			Moveable, TimedMoveable, focus, _Widget, _TemplatedMixin, _CssStateMixin, _FormMixin, _DialogMixin,
+			Moveable, TimedMoveable, focus, manager, _Widget, _TemplatedMixin, _CssStateMixin, _FormMixin, _DialogMixin,
 			DialogUnderlay, ContentPane, template, dijit){
 	
 /*=====
@@ -98,7 +99,7 @@ define([
 
 		// duration: Integer
 		//		The time in milliseconds it takes the dialog to fade in and out
-		duration: dijit.defaultDuration,
+		duration: manager.defaultDuration,
 
 		// refocus: Boolean
 		// 		A Toggle to modify the default focus behavior of a Dialog, which

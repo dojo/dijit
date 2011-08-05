@@ -1,7 +1,7 @@
 define([
-	".",	// getEnclosingWidget(), byNode()
-	"dojo/_base/declare" // declare
-], function(dijit, declare){
+	"dojo/_base/declare", // declare
+	"./_base/manager"	// getEnclosingWidget(), byNode()
+], function(declare, manager){
 
 	// module:
 	//		dijit/_Contained
@@ -20,7 +20,7 @@ define([
 			// summary:
 			//		Returns the parent widget of this widget, assuming the parent
 			//		specifies isContainer
-			var parent = dijit.getEnclosingWidget(this.domNode.parentNode);
+			var parent = manager.getEnclosingWidget(this.domNode.parentNode);
 			return parent && parent.isContainer ? parent : null;
 		},
 
@@ -35,7 +35,7 @@ define([
 			do{
 				node = node[which+"Sibling"];
 			}while(node && node.nodeType != 1);
-			return node && dijit.byNode(node);	// dijit._Widget
+			return node && manager.byNode(node);	// dijit._Widget
 		},
 
 		getPreviousSibling: function(){

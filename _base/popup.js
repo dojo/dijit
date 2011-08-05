@@ -1,9 +1,8 @@
 define([
-	"..",
-	"../popup",
 	"dojo/dom-class", // domClass.has
+	"../popup",
 	"../BackgroundIframe"	// just loading for back-compat, in case client code is referencing it
-], function(dijit, popup, domClass){
+], function(domClass, popup){
 
 // module:
 //		dijit/_base/popup
@@ -47,5 +46,5 @@ popup.open = function(/*dijit.popup.__OpenArgs*/ args){
 	return origOpen.call(this, args);
 };
 
-return dijit.popup;
+return popup;
 });

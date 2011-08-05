@@ -1,6 +1,5 @@
 define([
 	"require",			// require.toUrl
-	"./_base/manager",
 	"dojo/array", // array.forEach array.map
 	"dojo/aspect",
 	"dojo/_base/config", // config.blankGif
@@ -14,10 +13,11 @@ define([
 	"dojo/dom-style", // domStyle.set, domStyle.get
 	"dojo/_base/lang", // mixin(), isArray(), etc.
 	"dojo/Stateful", // Stateful
-	"dojo/_base/window" // win.doc.createTextNode
-], function(require, dijit, array, aspect, config, connect, declare,
+	"dojo/_base/window", // win.doc.createTextNode
+	"./_base/manager"	// getUniqueId(), registry, findWidgets()
+], function(require, array, aspect, config, connect, declare,
 			dom, domAttr, domClass, domConstruct, domGeometry, domStyle,
-			lang, Stateful, win){
+			lang, Stateful, win, manager){
 
 /*=====
 var Stateful = dojo.Stateful;
@@ -305,9 +305,9 @@ return declare("dijit._WidgetBase", Stateful, {
 		// (be sure to do this before buildRendering() because that function might
 		// expect the id to be there.)
 		if(!this.id){
-			this.id = dijit.getUniqueId(this.declaredClass.replace(/\./g,"_"));
+			this.id = manager.getUniqueId(this.declaredClass.replace(/\./g,"_"));
 		}
-		dijit.registry.add(this);
+		manager.registry.add(this);
 
 		this.buildRendering();
 
@@ -498,7 +498,7 @@ return declare("dijit._WidgetBase", Stateful, {
 		}
 
 		this.destroyRendering(preserveDom);
-		dijit.registry.remove(this.id);
+		manager.registry.remove(this.id);
 		this._destroyed = true;
 	},
 
@@ -779,7 +779,7 @@ return declare("dijit._WidgetBase", Stateful, {
 		// summary:
 		//		Returns all the widgets contained by this, i.e., all widgets underneath this.containerNode.
 		//		Does not return nested widgets, nor widgets that are part of this widget's template.
-		return this.containerNode ? dijit.findWidgets(this.containerNode) : []; // dijit._Widget[]
+		return this.containerNode ? manager.findWidgets(this.containerNode) : []; // dijit._Widget[]
 	},
 
 	connect: function(

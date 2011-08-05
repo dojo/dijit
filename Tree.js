@@ -15,6 +15,7 @@ define([
 	"dojo/keys",
 	"dojo/_base/lang", // lang.getObject lang.mixin
 	"./focus",
+	"./_base/manager",	// manager.getEnclosingWidget(), manager.defaultDuration
 	"./_Widget",
 	"./_TemplatedMixin",
 	"./_Container",
@@ -24,12 +25,11 @@ define([
 	"dojo/text!./templates/Tree.html",
 	"./tree/TreeStoreModel",
 	"./tree/ForestStoreModel",
-	"./tree/_dndSelector",
-	"."	// still a few dijit.* refs
+	"./tree/_dndSelector"
 ], function(array, connect, cookie, declare, Deferred, DeferredList,
 			dom, domClass, domGeometry, domStyle, event, fxUtils, kernel, keys, lang,
-			focus, _Widget, _TemplatedMixin, _Container, _Contained, _CssStateMixin, treeNodeTemplate, treeTemplate,
-			TreeStoreModel, ForestStoreModel, _dndSelector, dijit){
+			focus, manager, _Widget, _TemplatedMixin, _Container, _Contained, _CssStateMixin,
+			treeNodeTemplate, treeTemplate, TreeStoreModel, ForestStoreModel, _dndSelector){
 
 /*=====
 	var _Widget = dijit._Widget;
@@ -255,7 +255,7 @@ var TreeNode = declare(
 
 		var def,
 			wipeIn = fxUtils.wipeIn({
-				node: this.containerNode, duration: dijit.defaultDuration,
+				node: this.containerNode, duration: manager.defaultDuration,
 				onEnd: function(){
 					def.callback(true);
 				}
@@ -295,7 +295,7 @@ var TreeNode = declare(
 
 		if(!this._wipeOut){
 			this._wipeOut = fxUtils.wipeOut({
-				node: this.containerNode, duration: dijit.defaultDuration
+				node: this.containerNode, duration: manager.defaultDuration
 			});
 		}
 		this._wipeOut.play();
@@ -376,7 +376,7 @@ var TreeNode = declare(
 
 			// note that updateLayout() needs to be called on each child after
 			// _all_ the children exist
-			array.forEach(this.getChildren(), function(child, idx){
+			array.forEach(this.getChildren(), function(child){
 				child._updateLayout();
 			});
 		}else{
@@ -448,7 +448,7 @@ var TreeNode = declare(
 		this._setExpando(false);
 	},
 
-	_onLabelFocus: function(evt){
+	_onLabelFocus: function(){
 		// summary:
 		//		Called when this row is focused (possibly programatically)
 		//		Note that we aren't using _onFocus() builtin to dijit
@@ -1046,7 +1046,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		// summary:
 		//		Translates keypress events into commands for the controller
 		if(e.altKey){ return; }
-		var treeNode = dijit.getEnclosingWidget(e.target);
+		var treeNode = manager.getEnclosingWidget(e.target);
 		if(!treeNode){ return; }
 
 		var key = e.charOrCode;

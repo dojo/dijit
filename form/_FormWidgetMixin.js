@@ -7,8 +7,9 @@ define([
 	"dojo/mouse", // mouse.mouseButtons.isLeft
 	"dojo/_base/sniff", // has("webkit")
 	"dojo/_base/window", // win.body
-	"dojo/window" // winUtils.scrollIntoView
-], function(array, declare, domAttr, domStyle, lang, mouse, has, win, winUtils){
+	"dojo/window", // winUtils.scrollIntoView
+	"../a11y"	// a11y.hasDefaultTabStop
+], function(array, declare, domAttr, domStyle, lang, mouse, has, win, winUtils, a11y){
 
 // module:
 //		dijit/form/_FormWidgetMixin
@@ -91,7 +92,7 @@ return declare("dijit.form._FormWidgetMixin", null, {
 			array.forEach(lang.isArray(attachPointNames) ? attachPointNames : [attachPointNames], function(attachPointName){
 				var node = this[attachPointName];
 				// complex code because tabIndex=-1 on a <div> doesn't work on FF
-				if(has("webkit") || dijit.hasDefaultTabStop(node)){	// see #11064 about webkit bug
+				if(has("webkit") || a11y.hasDefaultTabStop(node)){	// see #11064 about webkit bug
 					node.setAttribute('tabIndex', "-1");
 				}else{
 					node.removeAttribute('tabIndex');

@@ -1,23 +1,23 @@
 define([
-	"dojo/_base/kernel", // kernel.deprecated
-	"..",	// dijit.getUniqueId()
-	"dojo/cookie", // cookie
-	"../_WidgetBase",
-	"./_LayoutWidget",
 	"dojo/array", // array.forEach array.indexOf array.some
 	"dojo/_base/connect", // connect.connect connect.disconnect
+	"dojo/cookie", // cookie
 	"dojo/_base/declare", // declare
-	"dojo/_base/event", // event.stop
-	"dojo/_base/lang", // lang.extend
 	"dojo/dom", // dom.setSelectable
 	"dojo/dom-class", // domClass.add
 	"dojo/dom-construct", // domConstruct.create domConstruct.destroy
 	"dojo/dom-geometry", // domGeometry.marginBox domGeometry.position
 	"dojo/dom-style", // domStyle.style
+	"dojo/_base/event", // event.stop
+	"dojo/_base/kernel", // kernel.deprecated
+	"dojo/_base/lang", // lang.extend
 	"dojo/_base/sniff", // has("mozilla")
-	"dojo/_base/window" // win.doc.createElement win.doc.documentElement
-], function(kernel, dijit, cookie, _WidgetBase, _LayoutWidget, array, connect, declare, event, lang,
-			dom, domClass, domConstruct, domGeometry, domStyle, has, win){
+	"dojo/_base/window", // win.doc.createElement win.doc.documentElement
+	"../_base/manager",	// manager.getUniqueId()
+	"../_WidgetBase",
+	"./_LayoutWidget"
+], function(array, connect, cookie, declare, dom, domClass, domConstruct, domGeometry, domStyle,
+			event, kernel, lang, has, win, manager, _WidgetBase, _LayoutWidget){
 
 /*=====
 var _WidgetBase = dijit._WidgetBase;
@@ -177,7 +177,7 @@ return declare("dijit.layout.SplitContainer", _LayoutWidget, {
 
 		// TODO: use a template for this!!!
 		var sizer = win.doc.createElement('div');
-		sizer.id=dijit.getUniqueId('dijit_layout_SplitterContainer_Splitter');
+		sizer.id=manager.getUniqueId('dijit_layout_SplitterContainer_Splitter');
 		this.sizers.splice(index,0,sizer);
 		this.domNode.appendChild(sizer);
 
@@ -476,7 +476,7 @@ return declare("dijit.layout.SplitContainer", _LayoutWidget, {
 		event.stop(e);
 	},
 
-	endSizing: function(e){
+	endSizing: function(){
 		if(!this.isSizing){ return; }
 		if(this.cover){
 			this.cover.style.zIndex = -1;

@@ -21,7 +21,7 @@ define([
 		_setIconClassAttr: null	// cancel MenuItem setter because we don't have a place for an icon
 	});
 
-	var MenuBarItem = declare("dijit.MenuBarItem", [dijit.MenuItem, dijit._MenuBarItemMixin], {
+	var MenuBarItem = declare("dijit.MenuBarItem", [MenuItem, _MenuBarItemMixin], {
 		// summary:
 		//		Item in a MenuBar that's clickable, and doesn't spawn a submenu when pressed (or hovered)
 

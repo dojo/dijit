@@ -1,6 +1,6 @@
 define([
 	"require",			// require.toUrl
-	".",
+	".",	// to export dijit.BackgroundIframe
 	"dojo/_base/config",
 	"dojo/_base/connect", // connect.connect connect.disconnect
 	"dojo/dom-construct", // domConstruct.create

@@ -1,7 +1,7 @@
 define([
-	"..",
-	"dojo/window" // windowUtils.scrollIntoView
-], function(dijit, windowUtils){
+	"dojo/window", // windowUtils.scrollIntoView
+	".."	// export symbol to dijit
+], function(windowUtils, dijit){
 	// module:
 	//		dijit/_base/scroll
 	// summary:
@@ -14,6 +14,4 @@ define([
 
 		windowUtils.scrollIntoView(node, pos);
 	};
-
-	return dijit.scrollIntoView;
 });

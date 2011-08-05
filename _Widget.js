@@ -1,19 +1,18 @@
 define([
-	".",	// _connectToDomNode,
-	"./_WidgetBase",
-	"./_OnDijitClickMixin",
-	"./_FocusMixin",
 	"dojo/_base/config",	// config.isDebug
 	"dojo/_base/connect",	// connect.connect
 	"dojo/_base/declare", // declare
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/lang", // lang.hitch
 	"dojo/query",
+	"./_base/manager",	// manager.byNode
+	"./_WidgetBase",
+	"./_OnDijitClickMixin",
+	"./_FocusMixin",
 	"dojo/uacss",		// brower sniffing (included for back-compat; subclasses may be using)
-	"dijit/hccss",		// high contrast mode sniffing (included to set CSS classes on <body>, module ret value unused)
-	"./_base/manager"	// dijit.byId, etc. (still using globals internally though)
-], function(dijit, _WidgetBase, _OnDijitClickMixin, _FocusMixin,
-			config, connect, declare, kernel, lang, query){
+	"./hccss"		// high contrast mode sniffing (included to set CSS classes on <body>, module ret value unused)
+], function(config, connect, declare, kernel, lang, query,
+			manager, _WidgetBase, _OnDijitClickMixin, _FocusMixin){
 
 /*=====
 	var _WidgetBase = dijit._WidgetBase;
@@ -28,11 +27,11 @@ define([
 //		Old base for widgets.   New widgets should extend _WidgetBase instead
 
 
-dijit._connectToDomNode = function(/*Event*/ event){
+function connectToDomNode(/*Event*/ event){
 	// summary:
 	//		If user connects to a widget method === this function, then they will
 	//		instead actually be connecting the equivalent event on this.domNode
-};
+}
 
 var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusMixin], {
 	// summary:
@@ -56,7 +55,7 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 
 	////////////////// DEFERRED CONNECTS ///////////////////
 
-	onClick: dijit._connectToDomNode,
+	onClick: connectToDomNode,
 	/*=====
 	onClick: function(event){
 		// summary:
@@ -67,7 +66,7 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 		//		callback
 	},
 	=====*/
-	onDblClick: dijit._connectToDomNode,
+	onDblClick: connectToDomNode,
 	/*=====
 	onDblClick: function(event){
 		// summary:
@@ -78,7 +77,7 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 		//		callback
 	},
 	=====*/
-	onKeyDown: dijit._connectToDomNode,
+	onKeyDown: connectToDomNode,
 	/*=====
 	onKeyDown: function(event){
 		// summary:
@@ -89,7 +88,7 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 		//		callback
 	},
 	=====*/
-	onKeyPress: dijit._connectToDomNode,
+	onKeyPress: connectToDomNode,
 	/*=====
 	onKeyPress: function(event){
 		// summary:
@@ -100,7 +99,7 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 		//		callback
 	},
 	=====*/
-	onKeyUp: dijit._connectToDomNode,
+	onKeyUp: connectToDomNode,
 	/*=====
 	onKeyUp: function(event){
 		// summary:
@@ -111,7 +110,7 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 		//		callback
 	},
 	=====*/
-	onMouseDown: dijit._connectToDomNode,
+	onMouseDown: connectToDomNode,
 	/*=====
 	onMouseDown: function(event){
 		// summary:
@@ -122,7 +121,7 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 		//		callback
 	},
 	=====*/
-	onMouseMove: dijit._connectToDomNode,
+	onMouseMove: connectToDomNode,
 	/*=====
 	onMouseMove: function(event){
 		// summary:
@@ -133,7 +132,7 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 		//		callback
 	},
 	=====*/
-	onMouseOut: dijit._connectToDomNode,
+	onMouseOut: connectToDomNode,
 	/*=====
 	onMouseOut: function(event){
 		// summary:
@@ -144,7 +143,7 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 		//		callback
 	},
 	=====*/
-	onMouseOver: dijit._connectToDomNode,
+	onMouseOver: connectToDomNode,
 	/*=====
 	onMouseOver: function(event){
 		// summary:
@@ -155,7 +154,7 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 		//		callback
 	},
 	=====*/
-	onMouseLeave: dijit._connectToDomNode,
+	onMouseLeave: connectToDomNode,
 	/*=====
 	onMouseLeave: function(event){
 		// summary:
@@ -166,7 +165,7 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 		//		callback
 	},
 	=====*/
-	onMouseEnter: dijit._connectToDomNode,
+	onMouseEnter: connectToDomNode,
 	/*=====
 	onMouseEnter: function(event){
 		// summary:
@@ -177,7 +176,7 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 		//		callback
 	},
 	=====*/
-	onMouseUp: dijit._connectToDomNode,
+	onMouseUp: connectToDomNode,
 	/*=====
 	onMouseUp: function(event){
 		// summary:
@@ -193,7 +192,7 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 		// extract parameters like onMouseMove that should connect directly to this.domNode
 		this._toConnect = {};
 		for(var name in params){
-			if(this[name] === dijit._connectToDomNode){
+			if(this[name] === connectToDomNode){
 				this._toConnect[name] = params[name];
 				delete params[name];
 			}
@@ -212,7 +211,7 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 
 	on: function(/*String*/ type, /*Function*/ func){
 		type = type.replace(/^on/, "");
-		if(this["on" + type.charAt(0).toUpperCase() + type.substr(1)] === dijit._connectToDomNode){
+		if(this["on" + type.charAt(0).toUpperCase() + type.substr(1)] === connectToDomNode){
 			// Use connect.connect() rather than on() to get handling for "onmouseenter" on non-IE, etc.
 			// Also, need to specify context as "this" rather than the default context of the DOMNode
 			return connect.connect(this.domNode, type.toLowerCase(), this, func);
@@ -278,7 +277,7 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 		//		supposed to be internal/hidden, but it's left here for back-compat reasons.
 
 		kernel.deprecated(this.declaredClass+"::getDescendants() is deprecated. Use getChildren() instead.", "", "2.0");
-		return this.containerNode ? query('[widgetId]', this.containerNode).map(dijit.byNode) : []; // dijit._Widget[]
+		return this.containerNode ? query('[widgetId]', this.containerNode).map(manager.byNode) : []; // dijit._Widget[]
 	},
 
 	////////////////// MISCELLANEOUS METHODS ///////////////////

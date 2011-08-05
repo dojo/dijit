@@ -1,7 +1,7 @@
 define([
-	".",	// dijit._getTabNavigable
-	"dojo/_base/declare" // declare
-], function(dijit, declare){
+	"dojo/_base/declare", // declare
+	"./a11y"	// _getTabNavigable
+], function(declare, a11y){
 
 	// module:
 	//		dijit/_DialogMixin
@@ -64,7 +64,7 @@ define([
 			// tags:
 			//		protected
 
-			var elems = dijit._getTabNavigable(this.containerNode);
+			var elems = a11y._getTabNavigable(this.containerNode);
 			this._firstFocusItem = elems.lowest || elems.first || this.closeButtonNode || this.domNode;
 			this._lastFocusItem = elems.last || elems.highest || this._firstFocusItem;
 		}

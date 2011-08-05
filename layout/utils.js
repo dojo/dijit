@@ -1,11 +1,11 @@
 define([
-	"..",
-	"dojo/_base/lang", // lang.mixin
 	"dojo/array", // array.filter array.forEach
 	"dojo/dom-class", // domClass.add domClass.remove
 	"dojo/dom-geometry", // domGeometry.marginBox
-	"dojo/dom-style" // domStyle.getComputedStyle
-], function(dijit, lang, array, domClass, domGeometry, domStyle){
+	"dojo/dom-style", // domStyle.getComputedStyle
+	"dojo/_base/lang", // lang.mixin
+	".."	// for exporting symbols to dijit, remove in 2.0
+], function(array, domClass, domGeometry, domStyle, lang, dijit){
 
 	// module:
 	//		dijit/layout/utils

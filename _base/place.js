@@ -1,10 +1,10 @@
 define([
-	"..",
-	"../place",
-	"dojo/window", // windowUtils.getBox
 	"dojo/array", // array.forEach
-	"dojo/_base/lang" // lang.isArray
-], function(dijit, place, windowUtils, array, lang){
+	"dojo/_base/lang", // lang.isArray
+	"dojo/window", // windowUtils.getBox
+	"../place",
+	".."	// export to dijit namespace
+], function(array, lang, windowUtils, place, dijit){
 
 	// module:
 	//		dijit/_base/place

@@ -2,12 +2,13 @@ define([
 	"dojo/_base/connect", // connect.connect connect.disconnect
 	"dojo/_base/declare", // declare
 	"dojo/query", // query
+	"../_base/manager",	// manager.byNode
 	"../popup",		// dijit.popup2.hide
 	"./Button",
 	"../_Container",
 	"../_HasDropDown",
 	"dojo/text!./templates/DropDownButton.html"
-], function(connect, declare, query, popup, Button, _Container, _HasDropDown, template){
+], function(connect, declare, query, manager, popup, Button, _Container, _HasDropDown, template){
 
 /*=====
 	Button = dijit.form.Button;
@@ -64,7 +65,7 @@ return declare("dijit.form.DropDownButton", [Button, _Container, _HasDropDown], 
 		// make it invisible, and store a reference to pass to the popup code.
 		if(!this.dropDown && this.dropDownContainer){
 			var dropDownNode = query("[widgetId]", this.dropDownContainer)[0];
-			this.dropDown = dijit.byNode(dropDownNode);
+			this.dropDown = manager.byNode(dropDownNode);
 			delete this.dropDownContainer;
 		}
 		if(this.dropDown){

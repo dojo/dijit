@@ -16,7 +16,7 @@ define([
 //		held down for a specific amount of time.
 //		Only 1 such event is allowed to occur on the browser page at 1 time.
 
-return (dijit.typematic = {
+var typematic = (dijit.typematic = {
 	// summary:
 	//		These functions are used to repetitively call a user specified callback
 	//		method when a specific key or mouse click over a specific DOM node is
@@ -132,14 +132,14 @@ return (dijit.typematic = {
 				(keyObject.metaKey === undefined || keyObject.metaKey == (evt.metaKey || false)) && // IE doesn't even set metaKey
 				(keyObject.shiftKey === undefined || keyObject.shiftKey == evt.shiftKey)){
 					event.stop(evt);
-					dijit.typematic.trigger(evt, _this, node, callback, keyObject, subsequentDelay, initialDelay, minDelay);
-				}else if(dijit.typematic._obj == keyObject){
-					dijit.typematic.stop();
+					typematic.trigger(evt, _this, node, callback, keyObject, subsequentDelay, initialDelay, minDelay);
+				}else if(typematic._obj == keyObject){
+					typematic.stop();
 				}
 			}),
 			connect.connect(node, "onkeyup", this, function(evt){
-				if(dijit.typematic._obj == keyObject){
-					dijit.typematic.stop();
+				if(typematic._obj == keyObject){
+					typematic.stop();
 				}
 			})
 		];
@@ -156,17 +156,17 @@ return (dijit.typematic = {
 		var handles =  [
 			dc(node, "mousedown", this, function(evt){
 				event.stop(evt);
-				dijit.typematic.trigger(evt, _this, node, callback, node, subsequentDelay, initialDelay, minDelay);
+				typematic.trigger(evt, _this, node, callback, node, subsequentDelay, initialDelay, minDelay);
 			}),
 			dc(node, "mouseup", this, function(evt){
 				if(this._obj){
 					event.stop(evt);
 				}
-				dijit.typematic.stop();
+				typematic.stop();
 			}),
 			dc(node, "mouseout", this, function(evt){
 				event.stop(evt);
-				dijit.typematic.stop();
+				typematic.stop();
 			}),
 			dc(node, "mousemove", this, function(evt){
 				evt.preventDefault();
@@ -174,8 +174,8 @@ return (dijit.typematic = {
 			dc(node, "dblclick", this, function(evt){
 				event.stop(evt);
 				if(has("ie")){
-					dijit.typematic.trigger(evt, _this, node, callback, node, subsequentDelay, initialDelay, minDelay);
-					setTimeout(lang.hitch(this, dijit.typematic.stop), 50);
+					typematic.trigger(evt, _this, node, callback, node, subsequentDelay, initialDelay, minDelay);
+					setTimeout(lang.hitch(this, typematic.stop), 50);
 				}
 			})
 		];
@@ -200,5 +200,7 @@ return (dijit.typematic = {
 		return { remove: function(){ array.forEach(handles, function(h){ h.remove(); }); } };
 	}
 });
+
+return typematic;
 
 });

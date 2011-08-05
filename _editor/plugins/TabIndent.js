@@ -4,7 +4,7 @@ define([
 	"dojo/_base/kernel", // kernel.experimental
 	"../_Plugin",
 	"../../form/ToggleButton",
-	"../.."
+	"../.."	// dijit._scopeName
 ], function(connect, declare, kernel, _Plugin, ToggleButton, dijit){
 
 /*=====

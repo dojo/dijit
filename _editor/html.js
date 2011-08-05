@@ -1,7 +1,7 @@
 define([
 	"dojo/_base/lang", // lang.isString
 	"dojo/_base/sniff", // has("ie")
-	".."		// for exporting symbols to dijit._editor (TODO: remove)
+	".."		// for exporting symbols to dijit._editor (remove for 2.0)
 ], function(lang, has, dijit){
 
 // module:

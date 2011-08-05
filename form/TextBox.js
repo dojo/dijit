@@ -9,7 +9,7 @@ define([
 	"./_FormValueWidget",
 	"./_TextBoxMixin",
 	"dojo/text!./templates/TextBox.html",
-	".."	// hack to set dijit._setSelectionRange
+	".."	// to export dijit._setSelectionRange, remove in 2.0
 ], function(declare, domConstruct, domStyle, kernel, lang, has, win,
 			_FormValueWidget, _TextBoxMixin, template, dijit){
 
@@ -135,7 +135,7 @@ define([
 				}), 0);
 			}
 		});
-		lang.setObject("dijit.form.TextBox", TextBox);	// direct assignment confuses API doc parser
+		lang.setObject("dijit.form.TextBox", TextBox);	// don't do direct assignment, it confuses API doc parser
 
 		// Overrides definition of _setSelectionRange from _TextBoxMixin (TODO: move to _TextBoxMixin.js?)
 		dijit._setSelectionRange = _TextBoxMixin._setSelectionRange = function(/*DomNode*/ element, /*Number?*/ start, /*Number?*/ stop){
@@ -160,7 +160,8 @@ define([
 				}
 			}
 		});
-		lang.setObject("dijit.form.TextBox", TextBox);	// direct assignment confuses API doc parser
+		lang.setObject("dijit.form.TextBox", TextBox);	// don't do direct assignment, it confuses API doc parser
+
 	}
 
 	return TextBox;

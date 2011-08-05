@@ -6,8 +6,8 @@ define([
 	"dojo/_base/lang", // lang.hitch
 	"dojo/query", // query
 	"dojo/_base/window", // win.doc
-	".."	// dijit.getEnclosingWidget
-], function(array, declare, domAttr, event, lang, query, win, dijit){
+	"../_base/manager"	// manager.getEnclosingWidget
+], function(array, declare, domAttr, event, lang, query, win, manager){
 
 	// module:
 	//		dijit/form/_RadioButtonMixin
@@ -29,7 +29,7 @@ define([
 			query("input[type=radio]", this.focusNode.form || win.doc).forEach( // can't use name= since query doesn't support [] in the name
 				lang.hitch(this, function(inputNode){
 					if(inputNode.name == this.name && inputNode.form == this.focusNode.form){
-						var widget = dijit.getEnclosingWidget(inputNode);
+						var widget = manager.getEnclosingWidget(inputNode);
 						if(widget){
 							ary.push(widget);
 						}

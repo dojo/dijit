@@ -11,9 +11,11 @@ define([
 	"dojo/_base/unload", // unload.addOnWindowUnload
 	"dojo/_base/window", // win.body
 	"dojo/window", // winUtils.get
-	"./_base/manager",	// dijit.byId, dijit.isTabNavigable
-	"."		// sets globals in dijit
-], function(aspect, declare, dom, domAttr, lang, on, ready, has, Stateful, unload, win, winUtils, dijit){
+	"./a11y",	// a11y.isTabNavigable
+	"./_base/manager",	// manager.byId
+	"."		// to set dijit.focus
+], function(aspect, declare, dom, domAttr, lang, on, ready, has, Stateful, unload, win, winUtils,
+			a11y, manager, dijit){
 
 	// module:
 	//		dijit/focus
@@ -186,7 +188,7 @@ define([
 						// Previous code called _onTouchNode() for any activate event on a non-focusable node.   Can
 						// probably just ignore such an event as it will be handled by onmousedown handler above, but
 						// leaving the code for now.
-						if(dijit.isTabNavigable(evt.srcElement)){
+						if(a11y.isTabNavigable(evt.srcElement)){
 							_this._onFocusNode(effectiveNode || evt.srcElement);
 						}else{
 							_this._onTouchNode(effectiveNode || evt.srcElement);
@@ -283,7 +285,7 @@ define([
 				while(node){
 					var popupParent = domAttr.get(node, "dijitPopupParent");
 					if(popupParent){
-						node=dijit.byId(popupParent).domNode;
+						node=manager.byId(popupParent).domNode;
 					}else if(node.tagName && node.tagName.toLowerCase() == "body"){
 						// is this the root of the document or just the root of an iframe?
 						if(node === win.body()){
@@ -298,7 +300,7 @@ define([
 						// except ignore clicks on disabled widgets (actually focusing a disabled widget still works,
 						// to support MenuItem)
 						var id = node.getAttribute && node.getAttribute("widgetId"),
-							widget = id && dijit.byId(id);
+							widget = id && manager.byId(id);
 						if(widget && !(by == "mouse" && widget.get("disabled"))){
 							newStack.unshift(id);
 						}
@@ -352,7 +354,7 @@ define([
 			var widget;
 			// for all elements that have gone out of focus, set focused=false
 			for(var i=oldStack.length-1; i>=nCommon; i--){
-				widget = dijit.byId(oldStack[i]);
+				widget = manager.byId(oldStack[i]);
 				if(widget){
 					widget._hasBeenBlurred = true;		// TODO: used by form widgets, should be moved there
 					widget.set("focused", false);
@@ -365,7 +367,7 @@ define([
 
 			// for all element that have come into focus, set focused=true
 			for(i=nCommon; i<newStack.length; i++){
-				widget = dijit.byId(newStack[i]);
+				widget = manager.byId(newStack[i]);
 				if(widget){
 					widget.set("focused", true);
 					if(widget._focusManager == this){

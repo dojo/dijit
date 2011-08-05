@@ -6,8 +6,8 @@ define([
 	"dojo/_base/lang", // lang.hitch
 	"../_Plugin",
 	"../../form/ToggleButton",
-	"../.."
-], function(connect, declare, domStyle, kernel, lang, _Plugin, ToggleButton){
+	"../.."	// dijit._scopeName
+], function(connect, declare, domStyle, kernel, lang, _Plugin, ToggleButton, dijit){
 
 /*=====
 	var _Plugin = dijit._editor._Plugin;

@@ -1,13 +1,12 @@
 define([
-	"..",
-	"dojo/_base/lang", // lang.isArray
-	"../focus",
-	"./manager",
 	"dojo/array", // array.forEach
 	"dojo/_base/connect", // connect.publish
 	"dojo/dom", // dom.isDescendant
-	"dojo/_base/window" // win.doc win.doc.selection win.global win.global.getSelection win.withGlobal
-], function(dijit, lang, focus, manager, array, connect, dom, win){
+	"dojo/_base/lang", // lang.isArray
+	"dojo/_base/window", // win.doc win.doc.selection win.global win.global.getSelection win.withGlobal
+	"../focus",
+	".."	// for exporting symbols to dijit
+], function(array, connect, dom, lang, win, focus, dijit){
 
 	// module:
 	//		dijit/_base/focus

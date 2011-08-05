@@ -4,8 +4,9 @@ define([
 	"dojo/dom", // dom.byId
 	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys.ALT keys.CAPS_LOCK keys.CTRL keys.META keys.SHIFT
-	"dojo/_base/lang" // lang.mixin
-], function(array, declare, dom, event, keys, lang){
+	"dojo/_base/lang", // lang.mixin
+	".."	// for exporting dijit._setSelectionRange, dijit.selectInputText
+], function(array, declare, dom, event, keys, lang, dijit){
 
 // module:
 //		dijit/form/_TextBoxMixin

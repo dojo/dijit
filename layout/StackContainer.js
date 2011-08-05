@@ -1,16 +1,16 @@
 define([
-	"dojo/cookie", // cookie
-	"dojo/i18n!../nls/common",
-	"../_WidgetBase",
-	"./_LayoutWidget",
-	"./StackController",
 	"dojo/array", // array.forEach array.indexOf array.some
 	"dojo/_base/connect", // connect.publish
+	"dojo/cookie", // cookie
 	"dojo/_base/declare", // declare
+	"dojo/dom-class", // domClass.add domClass.replace
 	"dojo/_base/lang",
-	"dojo/dom-class" // domClass.add domClass.replace
-], function(cookie, nlsCommon, _WidgetBase, _LayoutWidget, StackController,
-	array, connect, declare, lang, domClass){
+	"../_base/manager",	// manager.byId
+	"../_WidgetBase",
+	"./_LayoutWidget",
+	"dojo/i18n!../nls/common"
+], function(array, connect, cookie, declare, domClass, lang,
+			manager, _WidgetBase, _LayoutWidget){
 
 /*=====
 var _WidgetBase = dijit._WidgetBase;
@@ -102,7 +102,7 @@ return declare("dijit.layout.StackContainer", _LayoutWidget, {
 
 		// Figure out which child to initially display, defaulting to first one
 		if(this.persist){
-			this.selectedChildWidget = dijit.byId(cookie(this.id + "_selectedChild"));
+			this.selectedChildWidget = manager.byId(cookie(this.id + "_selectedChild"));
 		}else{
 			array.some(children, function(child){
 				if(child.selected){
@@ -213,7 +213,7 @@ return declare("dijit.layout.StackContainer", _LayoutWidget, {
 		// page:
 		//		Reference to child widget or id of child widget
 
-		page = dijit.byId(page);
+		page = manager.byId(page);
 
 		if(this.selectedChildWidget != page){
 			// Deselect old page and select new one

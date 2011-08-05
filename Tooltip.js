@@ -9,6 +9,7 @@ define([
 	"dojo/_base/lang", // lang.hitch lang.isArrayLike
 	"dojo/_base/sniff", // has("ie")
 	"dojo/_base/window", // win.body
+	"./_base/manager",	// manager.defaultDuration
 	"./place",
 	"./_Widget",
 	"./_TemplatedMixin",
@@ -16,7 +17,7 @@ define([
 	"dojo/text!./templates/Tooltip.html",
 	"."		// sets dijit.showTooltip etc. for back-compat
 ], function(array, declare, fx, dom, domClass, domGeometry, domStyle, lang, has, win,
-			place, _Widget, _TemplatedMixin, BackgroundIframe, template){
+			manager, place, _Widget, _TemplatedMixin, BackgroundIframe, template){
 
 /*=====
 	var _Widget = dijit._Widget;
@@ -41,7 +42,7 @@ define([
 
 		// duration: Integer
 		//		Milliseconds to fade in/fade out
-		duration: dijit.defaultDuration,
+		duration: manager.defaultDuration,
 
 		templateString: template,
 
@@ -392,7 +393,7 @@ define([
 			}
 		},
 
-		onShow: function(target, position){
+		onShow: function(/*===== target, position =====*/){
 			// summary:
 			//		Called when the tooltip is shown
 			// tags:

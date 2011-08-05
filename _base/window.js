@@ -1,7 +1,7 @@
 define([
-	"..",
-	"dojo/window" // windowUtils.get
-], function(dijit, windowUtils){
+	"dojo/window", // windowUtils.get
+	".."	// export symbol to dijit
+], function(windowUtils, dijit){
 	// module:
 	//		dijit/_base/window
 	// summary:

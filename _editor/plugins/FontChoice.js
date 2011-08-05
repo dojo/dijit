@@ -7,7 +7,8 @@ define([
 	"dojo/_base/lang", // lang.delegate lang.hitch lang.isString
 	"dojo/store/Memory", // MemoryStore
 	"dojo/_base/window", // win.withGlobal
-	"../..",
+	"../..",	// dijit._scopeName
+	"../../_base/manager", // manager.getUniqueId
 	"../../_Widget",
 	"../../_TemplatedMixin",
 	"../../_WidgetsInTemplateMixin",
@@ -17,7 +18,7 @@ define([
 	"../selection",
 	"dojo/i18n!../nls/FontChoice"
 ], function(array, connect, declare, domConstruct, i18n, lang, MemoryStore, win,
-	dijit, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, FilteringSelect, _Plugin, rangeapi, selectionapi){
+	dijit, manager, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, FilteringSelect, _Plugin, rangeapi, selectionapi){
 
 /*=====
 	var _Plugin = dijit._editor._Plugin;
@@ -68,7 +69,7 @@ var _FontDropDown = declare("dijit._editor.plugins._FontDropDown",
 
 		// Set some substitution variables used in the template
 		this.label = this.strings[this.command];
-		this.id = dijit.getUniqueId(this.declaredClass.replace(/\./g,"_"));	// TODO: unneeded??
+		this.id = manager.getUniqueId(this.declaredClass.replace(/\./g,"_"));	// TODO: unneeded??
 		this.selectId = this.id + "_select";	// used in template
 
 		this.inherited(arguments);

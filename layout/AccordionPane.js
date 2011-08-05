@@ -1,9 +1,8 @@
 define([
+	"dojo/_base/declare", // declare
 	"dojo/_base/kernel", // kernel.deprecated
-	"..",
-	"./ContentPane",
-	"dojo/_base/declare" // declare
-], function(kernel, dijit, ContentPane, declare){
+	"./ContentPane"
+], function(declare, kernel, ContentPane){
 
 /*=====
 	var ContentPane = dijit.layout.ContentPane;

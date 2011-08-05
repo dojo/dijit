@@ -32,6 +32,216 @@ define([
 // summary:
 //		Provides layout in up to 5 regions, a mandatory center with optional borders along its 4 sides.
 
+var _Splitter = declare("dijit.layout._Splitter", [_Widget, _TemplatedMixin ],
+{
+	// summary:
+	//		A draggable spacer between two items in a `dijit.layout.BorderContainer`.
+	// description:
+	//		This is instantiated by `dijit.layout.BorderContainer`.  Users should not
+	//		create it directly.
+	// tags:
+	//		private
+
+/*=====
+ 	// container: [const] dijit.layout.BorderContainer
+ 	//		Pointer to the parent BorderContainer
+	container: null,
+
+	// child: [const] dijit.layout._LayoutWidget
+	//		Pointer to the pane associated with this splitter
+	child: null,
+
+	// region: [const] String
+	//		Region of pane associated with this splitter.
+	//		"top", "bottom", "left", "right".
+	region: null,
+=====*/
+
+	// live: [const] Boolean
+	//		If true, the child's size changes and the child widget is redrawn as you drag the splitter;
+	//		otherwise, the size doesn't change until you drop the splitter (by mouse-up)
+	live: true,
+
+	templateString: '<div class="dijitSplitter" dojoAttachEvent="onkeypress:_onKeyPress,press:_startDrag,onmouseenter:_onMouse,onmouseleave:_onMouse" tabIndex="0" role="separator"><div class="dijitSplitterThumb"></div></div>',
+
+	postMixInProperties: function(){
+		this.inherited(arguments);
+
+		this.horizontal = /top|bottom/.test(this.region);
+		this._factor = /top|left/.test(this.region) ? 1 : -1;
+		this._cookieName = this.container.id + "_" + this.region;
+	},
+
+	buildRendering: function(){
+		this.inherited(arguments);
+
+		domClass.add(this.domNode, "dijitSplitter" + (this.horizontal ? "H" : "V"));
+
+		if(this.container.persist){
+			// restore old size
+			var persistSize = cookie(this._cookieName);
+			if(persistSize){
+				this.child.domNode.style[this.horizontal ? "height" : "width"] = persistSize;
+			}
+		}
+	},
+
+	_computeMaxSize: function(){
+		// summary:
+		//		Return the maximum size that my corresponding pane can be set to
+
+		var dim = this.horizontal ? 'h' : 'w',
+			childSize = domGeometry.getMarginBox(this.child.domNode)[dim],
+			center = array.filter(this.container.getChildren(), function(child){ return child.region == "center";})[0],
+			spaceAvailable = domGeometry.getMarginBox(center.domNode)[dim];	// can expand until center is crushed to 0
+
+		return Math.min(this.child.maxSize, childSize + spaceAvailable);
+	},
+
+	_startDrag: function(e){
+		if(!this.cover){
+			this.cover = win.doc.createElement('div');
+			domClass.add(this.cover, "dijitSplitterCover");
+			domConstruct.place(this.cover, this.child.domNode, "after");
+		}
+		domClass.add(this.cover, "dijitSplitterCoverActive");
+
+		// Safeguard in case the stop event was missed.  Shouldn't be necessary if we always get the mouse up.
+		if(this.fake){ domConstruct.destroy(this.fake); }
+		if(!(this._resize = this.live)){ //TODO: disable live for IE6?
+			// create fake splitter to display at old position while we drag
+			(this.fake = this.domNode.cloneNode(true)).removeAttribute("id");
+			domClass.add(this.domNode, "dijitSplitterShadow");
+			domConstruct.place(this.fake, this.domNode, "after");
+		}
+		domClass.add(this.domNode, "dijitSplitterActive dijitSplitter" + (this.horizontal ? "H" : "V") + "Active");
+		if(this.fake){
+			domClass.remove(this.fake, "dijitSplitterHover dijitSplitter" + (this.horizontal ? "H" : "V") + "Hover");
+		}
+
+		//Performance: load data info local vars for onmousevent function closure
+		var factor = this._factor,
+			isHorizontal = this.horizontal,
+			axis = isHorizontal ? "pageY" : "pageX",
+			pageStart = e[axis],
+			splitterStyle = this.domNode.style,
+			dim = isHorizontal ? 'h' : 'w',
+			childStart = domGeometry.getMarginBox(this.child.domNode)[dim],
+			max = this._computeMaxSize(),
+			min = this.child.minSize || 20,
+			region = this.region,
+			splitterAttr = region == "top" || region == "bottom" ? "top" : "left",	// style attribute of splitter to adjust
+			splitterStart = parseInt(splitterStyle[splitterAttr], 10),
+			resize = this._resize,
+			layoutFunc = lang.hitch(this.container, "_layoutChildren", this.child.id),
+			de = win.doc;
+
+		this._handlers = (this._handlers || []).concat([
+			connect.connect(de, touch.move, this._drag = function(e, forceResize){
+				var delta = e[axis] - pageStart,
+					childSize = factor * delta + childStart,
+					boundChildSize = Math.max(Math.min(childSize, max), min);
+
+				if(resize || forceResize){
+					layoutFunc(boundChildSize);
+				}
+				// TODO: setting style directly (usually) sets content box size, need to set margin box size
+				splitterStyle[splitterAttr] = delta + splitterStart + factor*(boundChildSize - childSize) + "px";
+			}),
+			connect.connect(de, "ondragstart", event.stop),
+			connect.connect(win.body(), "onselectstart", event.stop),
+			connect.connect(de, touch.release, this, "_stopDrag")
+		]);
+		event.stop(e);
+	},
+
+	_onMouse: function(e){
+		// summary:
+		//		Handler for onmouseenter / onmouseleave events
+		var o = (e.type == "mouseover" || e.type == "mouseenter");
+		domClass.toggle(this.domNode, "dijitSplitterHover", o);
+		domClass.toggle(this.domNode, "dijitSplitter" + (this.horizontal ? "H" : "V") + "Hover", o);
+	},
+
+	_stopDrag: function(e){
+		try{
+			if(this.cover){
+				domClass.remove(this.cover, "dijitSplitterCoverActive");
+			}
+			if(this.fake){ domConstruct.destroy(this.fake); }
+			domClass.remove(this.domNode, "dijitSplitterActive dijitSplitter"
+				+ (this.horizontal ? "H" : "V") + "Active dijitSplitterShadow");
+			this._drag(e); //TODO: redundant with onmousemove?
+			this._drag(e, true);
+		}finally{
+			this._cleanupHandlers();
+			delete this._drag;
+		}
+
+		if(this.container.persist){
+			cookie(this._cookieName, this.child.domNode.style[this.horizontal ? "height" : "width"], {expires:365});
+		}
+	},
+
+	_cleanupHandlers: function(){
+		array.forEach(this._handlers, connect.disconnect);
+		delete this._handlers;
+	},
+
+	_onKeyPress: function(/*Event*/ e){
+		// should we apply typematic to this?
+		this._resize = true;
+		var horizontal = this.horizontal;
+		var tick = 1;
+		switch(e.charOrCode){
+			case horizontal ? keys.UP_ARROW : keys.LEFT_ARROW:
+				tick *= -1;
+//				break;
+			case horizontal ? keys.DOWN_ARROW : keys.RIGHT_ARROW:
+				break;
+			default:
+//				this.inherited(arguments);
+				return;
+		}
+		var childSize = domGeometry.getMarginSize(this.child.domNode)[ horizontal ? 'h' : 'w' ] + this._factor * tick;
+		this.container._layoutChildren(this.child.id, Math.max(Math.min(childSize, this._computeMaxSize()), this.child.minSize));
+		event.stop(e);
+	},
+
+	destroy: function(){
+		this._cleanupHandlers();
+		delete this.child;
+		delete this.container;
+		delete this.cover;
+		delete this.fake;
+		this.inherited(arguments);
+	}
+});
+
+var _Gutter = declare("dijit.layout._Gutter", [_Widget, _TemplatedMixin],
+{
+	// summary:
+	// 		Just a spacer div to separate side pane from center pane.
+	//		Basically a trick to lookup the gutter/splitter width from the theme.
+	// description:
+	//		Instantiated by `dijit.layout.BorderContainer`.  Users should not
+	//		create directly.
+	// tags:
+	//		private
+
+	templateString: '<div class="dijitGutter" role="presentation"></div>',
+
+	postMixInProperties: function(){
+		this.inherited(arguments);
+		this.horizontal = /top|bottom/.test(this.region);
+	},
+
+	buildRendering: function(){
+		this.inherited(arguments);
+		domClass.add(this.domNode, "dijitGutter" + (this.horizontal ? "H" : "V"));
+	}
+});
+
 var BorderContainer = declare("dijit.layout.BorderContainer", _LayoutWidget, {
 	// summary:
 	//		Provides layout in up to 5 regions, a mandatory center with optional borders along its 4 sides.
@@ -84,9 +294,9 @@ var BorderContainer = declare("dijit.layout.BorderContainer", _LayoutWidget, {
 
 	baseClass: "dijitBorderContainer",
 
-	// _splitterClass: String
+	// _splitterClass: Function||String
 	// 		Optional hook to override the default Splitter widget used by BorderContainer
-	_splitterClass: "dijit.layout._Splitter",
+	_splitterClass: _Splitter,
 
 	postMixInProperties: function(){
 		// change class name to indicate that BorderContainer is being used purely for
@@ -120,7 +330,10 @@ var BorderContainer = declare("dijit.layout.BorderContainer", _LayoutWidget, {
 			// or alternately if splitter=false but BorderContainer.gutters=true then
 			// insert dummy div just for spacing
 			if(region != "center" && (child.splitter || this.gutters) && !child._splitterWidget){
-				var _Splitter = lang.getObject(child.splitter ? this._splitterClass : "dijit.layout._Gutter");
+				var _Splitter = child.splitter ? this._splitterClass : _Gutter;
+				if(lang.isString(_Splitter)){
+					_Splitter = lang.getObject(_Splitter);	// for back-compat, remove in 2.0
+				}
 				var splitter = new _Splitter({
 					id: child.id + "_splitter",
 					container: this,
@@ -331,216 +544,9 @@ lang.extend(_WidgetBase, {
 	maxSize: Infinity
 });
 
-declare("dijit.layout._Splitter", [_Widget, _TemplatedMixin ],
-{
-	// summary:
-	//		A draggable spacer between two items in a `dijit.layout.BorderContainer`.
-	// description:
-	//		This is instantiated by `dijit.layout.BorderContainer`.  Users should not
-	//		create it directly.
-	// tags:
-	//		private
-
-/*=====
- 	// container: [const] dijit.layout.BorderContainer
- 	//		Pointer to the parent BorderContainer
-	container: null,
-
-	// child: [const] dijit.layout._LayoutWidget
-	//		Pointer to the pane associated with this splitter
-	child: null,
-
-	// region: [const] String
-	//		Region of pane associated with this splitter.
-	//		"top", "bottom", "left", "right".
-	region: null,
-=====*/
-
-	// live: [const] Boolean
-	//		If true, the child's size changes and the child widget is redrawn as you drag the splitter;
-	//		otherwise, the size doesn't change until you drop the splitter (by mouse-up)
-	live: true,
-
-	templateString: '<div class="dijitSplitter" dojoAttachEvent="onkeypress:_onKeyPress,press:_startDrag,onmouseenter:_onMouse,onmouseleave:_onMouse" tabIndex="0" role="separator"><div class="dijitSplitterThumb"></div></div>',
-
-	postMixInProperties: function(){
-		this.inherited(arguments);
-
-		this.horizontal = /top|bottom/.test(this.region);
-		this._factor = /top|left/.test(this.region) ? 1 : -1;
-		this._cookieName = this.container.id + "_" + this.region;
-	},
-
-	buildRendering: function(){
-		this.inherited(arguments);
-
-		domClass.add(this.domNode, "dijitSplitter" + (this.horizontal ? "H" : "V"));
-
-		if(this.container.persist){
-			// restore old size
-			var persistSize = cookie(this._cookieName);
-			if(persistSize){
-				this.child.domNode.style[this.horizontal ? "height" : "width"] = persistSize;
-			}
-		}
-	},
-
-	_computeMaxSize: function(){
-		// summary:
-		//		Return the maximum size that my corresponding pane can be set to
-
-		var dim = this.horizontal ? 'h' : 'w',
-			childSize = domGeometry.getMarginBox(this.child.domNode)[dim],
-			center = array.filter(this.container.getChildren(), function(child){ return child.region == "center";})[0],
-			spaceAvailable = domGeometry.getMarginBox(center.domNode)[dim];	// can expand until center is crushed to 0
-
-		return Math.min(this.child.maxSize, childSize + spaceAvailable);
-	},
-
-	_startDrag: function(e){
-		if(!this.cover){
-			this.cover = win.doc.createElement('div');
-			domClass.add(this.cover, "dijitSplitterCover");
-			domConstruct.place(this.cover, this.child.domNode, "after");
-		}
-		domClass.add(this.cover, "dijitSplitterCoverActive");
-
-		// Safeguard in case the stop event was missed.  Shouldn't be necessary if we always get the mouse up.
-		if(this.fake){ domConstruct.destroy(this.fake); }
-		if(!(this._resize = this.live)){ //TODO: disable live for IE6?
-			// create fake splitter to display at old position while we drag
-			(this.fake = this.domNode.cloneNode(true)).removeAttribute("id");
-			domClass.add(this.domNode, "dijitSplitterShadow");
-			domConstruct.place(this.fake, this.domNode, "after");
-		}
-		domClass.add(this.domNode, "dijitSplitterActive dijitSplitter" + (this.horizontal ? "H" : "V") + "Active");
-		if(this.fake){
-			domClass.remove(this.fake, "dijitSplitterHover dijitSplitter" + (this.horizontal ? "H" : "V") + "Hover");
-		}
-
-		//Performance: load data info local vars for onmousevent function closure
-		var factor = this._factor,
-			isHorizontal = this.horizontal,
-			axis = isHorizontal ? "pageY" : "pageX",
-			pageStart = e[axis],
-			splitterStyle = this.domNode.style,
-			dim = isHorizontal ? 'h' : 'w',
-			childStart = domGeometry.getMarginBox(this.child.domNode)[dim],
-			max = this._computeMaxSize(),
-			min = this.child.minSize || 20,
-			region = this.region,
-			splitterAttr = region == "top" || region == "bottom" ? "top" : "left",	// style attribute of splitter to adjust
-			splitterStart = parseInt(splitterStyle[splitterAttr], 10),
-			resize = this._resize,
-			layoutFunc = lang.hitch(this.container, "_layoutChildren", this.child.id),
-			de = win.doc;
-
-		this._handlers = (this._handlers || []).concat([
-			connect.connect(de, touch.move, this._drag = function(e, forceResize){
-				var delta = e[axis] - pageStart,
-					childSize = factor * delta + childStart,
-					boundChildSize = Math.max(Math.min(childSize, max), min);
-
-				if(resize || forceResize){
-					layoutFunc(boundChildSize);
-				}
-				// TODO: setting style directly (usually) sets content box size, need to set margin box size
-				splitterStyle[splitterAttr] = delta + splitterStart + factor*(boundChildSize - childSize) + "px";
-			}),
-			connect.connect(de, "ondragstart", event.stop),
-			connect.connect(win.body(), "onselectstart", event.stop),
-			connect.connect(de, touch.release, this, "_stopDrag")
-		]);
-		event.stop(e);
-	},
-
-	_onMouse: function(e){
-		// summary:
-		//		Handler for onmouseenter / onmouseleave events
-		var o = (e.type == "mouseover" || e.type == "mouseenter");
-		domClass.toggle(this.domNode, "dijitSplitterHover", o);
-		domClass.toggle(this.domNode, "dijitSplitter" + (this.horizontal ? "H" : "V") + "Hover", o);
-	},
-
-	_stopDrag: function(e){
-		try{
-			if(this.cover){
-				domClass.remove(this.cover, "dijitSplitterCoverActive");
-			}
-			if(this.fake){ domConstruct.destroy(this.fake); }
-			domClass.remove(this.domNode, "dijitSplitterActive dijitSplitter"
-				+ (this.horizontal ? "H" : "V") + "Active dijitSplitterShadow");
-			this._drag(e); //TODO: redundant with onmousemove?
-			this._drag(e, true);
-		}finally{
-			this._cleanupHandlers();
-			delete this._drag;
-		}
-
-		if(this.container.persist){
-			cookie(this._cookieName, this.child.domNode.style[this.horizontal ? "height" : "width"], {expires:365});
-		}
-	},
-
-	_cleanupHandlers: function(){
-		array.forEach(this._handlers, connect.disconnect);
-		delete this._handlers;
-	},
-
-	_onKeyPress: function(/*Event*/ e){
-		// should we apply typematic to this?
-		this._resize = true;
-		var horizontal = this.horizontal;
-		var tick = 1;
-		switch(e.charOrCode){
-			case horizontal ? keys.UP_ARROW : keys.LEFT_ARROW:
-				tick *= -1;
-//				break;
-			case horizontal ? keys.DOWN_ARROW : keys.RIGHT_ARROW:
-				break;
-			default:
-//				this.inherited(arguments);
-				return;
-		}
-		var childSize = domGeometry.getMarginSize(this.child.domNode)[ horizontal ? 'h' : 'w' ] + this._factor * tick;
-		this.container._layoutChildren(this.child.id, Math.max(Math.min(childSize, this._computeMaxSize()), this.child.minSize));
-		event.stop(e);
-	},
-
-	destroy: function(){
-		this._cleanupHandlers();
-		delete this.child;
-		delete this.container;
-		delete this.cover;
-		delete this.fake;
-		this.inherited(arguments);
-	}
-});
-
-declare("dijit.layout._Gutter", [_Widget, _TemplatedMixin],
-{
-	// summary:
-	// 		Just a spacer div to separate side pane from center pane.
-	//		Basically a trick to lookup the gutter/splitter width from the theme.
-	// description:
-	//		Instantiated by `dijit.layout.BorderContainer`.  Users should not
-	//		create directly.
-	// tags:
-	//		private
-
-	templateString: '<div class="dijitGutter" role="presentation"></div>',
-
-	postMixInProperties: function(){
-		this.inherited(arguments);
-		this.horizontal = /top|bottom/.test(this.region);
-	},
-
-	buildRendering: function(){
-		this.inherited(arguments);
-		domClass.add(this.domNode, "dijitGutter" + (this.horizontal ? "H" : "V"));
-	}
-});
-
+// For monkey patching
+BorderContainer._Splitter = _Splitter;
+BorderContainer._Gutter = _Gutter;
 
 return BorderContainer;
 });

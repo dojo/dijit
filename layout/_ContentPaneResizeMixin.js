@@ -1,18 +1,18 @@
 define([
-	"..",
-	"dojo/_base/lang", // lang.mixin
+	"dojo/array", // array.filter array.forEach
+	"dojo/_base/declare", // declare
 	"dojo/dom-attr",	// domAttr.has
 	"dojo/dom-class",	// domClass.contains domClass.toggle
 	"dojo/dom-geometry",// domGeometry.contentBox domGeometry.marginBox
-	"../_Contained",
-	"./utils",	// marginBox2contextBox
-	"dojo/array", // array.filter array.forEach
-	"dojo/_base/declare", // declare
+	"dojo/_base/lang", // lang.mixin
+	"dojo/query", // query
 	"dojo/_base/sniff", // has("ie")
 	"dojo/_base/window", // win.global
-	"dojo/query" // query
-], function(dijit, lang, domAttr, domClass, domGeometry, _Contained, layoutUtils,
-	array, declare, has, win, query){
+	"../_base/manager",	// manager.byId
+	"./utils",	// marginBox2contextBox
+	"../_Contained"
+], function(array, declare, domAttr, domClass, domGeometry, lang, query, has, win,
+			manager, layoutUtils, _Contained){
 
 /*=====
 var _Contained = dijit._Contained;
@@ -115,7 +115,7 @@ return declare("dijit.layout._ContentPaneResizeMixin", null, {
 			childWidgetNodes = childNodes.filter(function(node){
 				return domAttr.has(node, "data-dojo-type") || domAttr.has(node, "dojoType") || domAttr.has(node, "widgetId");
 			}),
-			candidateWidgets = array.filter(childWidgetNodes.map(dijit.byNode), function(widget){
+			candidateWidgets = array.filter(childWidgetNodes.map(manager.byNode), function(widget){
 				return widget && widget.domNode && widget.resize;
 			});
 
