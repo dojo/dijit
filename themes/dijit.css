@@ -179,14 +179,16 @@ table.dijitInline {
  */
 .dijit_a11y .dijitCalendarDateLabel {
 	padding: 1px;
+	border: 0px !important;
 }
 .dijit_a11y .dijitCalendarSelectedDate .dijitCalendarDateLabel {
-	border-style: dotted !important;
-	border-width: 1px;
+	border-style: solid !important;
+	border-width: 1px !important;
 	padding: 0;
 }
 .dijit_a11y .dijitCalendarDateTemplate {
 	padding-bottom: 0.1em !important;	/* otherwise bottom border doesn't appear on IE */
+	border: 0px !important;
 }
 .dijit_a11y .dijitButtonNode {
 	border: black outset medium !important;
