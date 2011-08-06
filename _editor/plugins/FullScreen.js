@@ -15,11 +15,10 @@ define([
 	"../../focus",			// focus.focus(), focus.curNode
 	"../_Plugin",
 	"../../form/ToggleButton",
-	"../..",		// dijit._scopeName
 	"../../registry", // registry.getEnclosingWidget()
 	"dojo/i18n!../nls/commands"
 ], function(connect, declare, domClass, domGeometry, domStyle, event, i18n, kernel, keys, lang, has, win, winUtils,
-			focus, _Plugin, ToggleButton, dijit, registry){
+			focus, _Plugin, ToggleButton, registry){
 
 /*=====
 	var _Plugin = dijit._editor._Plugin;
@@ -438,18 +437,12 @@ var FullScreen = declare("dijit._editor.plugins.FullScreen",_Plugin,{
 	}
 });
 
-
 // Register this plugin.
-connect.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
-	if(o.plugin){ return; }
-	var name = o.args.name.toLowerCase();
-	if(name === "fullscreen"){
-		o.plugin = new FullScreen({
-			zIndex: ("zIndex" in o.args)?o.args.zIndex:500
-		});
-	}
-});
-
+_Plugin.registry["fullscreen"] = function(args){
+	return new FullScreen({
+		zIndex: ("zIndex" in args)?args.zIndex:500
+	});
+};
 
 return FullScreen;
 });

@@ -1,5 +1,4 @@
 define([
-	"dojo/_base/connect", // connect.subscribe
 	"dojo/_base/declare", // declare
 	"dojo/dom-attr", // domAttr.get
 	"dojo/i18n", // i18n.getLocalization
@@ -14,15 +13,14 @@ define([
 	"../../form/DropDownButton",
 	"../range",
 	"../selection",
-	"../..",	// dijit._scopeName
 	"../../registry", // registry.byId, registry.getUniqueId
 	"../../form/Button",	// used by template
 	"../../form/Select",	// used by template
 	"../../form/ValidationTextBox",	// used by template
 	"dojo/i18n!../../nls/common",
 	"dojo/i18n!../nls/LinkDialog"
-], function(connect, declare, domAttr, i18n, keys, lang, has, string, win,
-	_Widget, _Plugin, TooltipDialog, DropDownButton, rangeapi, selectionapi, dijit, registry){
+], function(declare, domAttr, i18n, keys, lang, has, string, win,
+	_Widget, _Plugin, TooltipDialog, DropDownButton, rangeapi, selectionapi, registry){
 
 /*=====
 	var _Plugin = dijit._editor._Plugin;
@@ -272,7 +270,7 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 				a = a.parentNode;
 			}
 			if(a && (a.nodeName && a.nodeName.toLowerCase() !== this.tag)){
-				// Stll nothing, one last thing to try on IE, as it might be 'img'
+				// Still nothing, one last thing to try on IE, as it might be 'img'
 				// and thus considered a control.
 				a = win.withGlobal(this.editor.window,
 					"getSelectedElement", selectionapi, [this.tag]);
@@ -283,7 +281,7 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 				// old one first.  If we do not the <a> tag remains, but it has no content,
 				// so isn't readily visible (but is wrong for the action).
 				if(this.editor.queryCommandEnabled("unlink")){
-					// Select all the link childent, then unlink.  The following insert will
+					// Select all the link children, then unlink.  The following insert will
 					// then replace the selected text.
 					win.withGlobal(this.editor.window,
 						"selectElementChildren", selectionapi, [a]);
@@ -340,7 +338,7 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 				a = a.parentNode;
 			}
 			if(a && (a.nodeName && a.nodeName.toLowerCase() !== this.tag)){
-				// Stll nothing, one last thing to try on IE, as it might be 'img'
+				// Still nothing, one last thing to try on IE, as it might be 'img'
 				// and thus considered a control.
 				a = win.withGlobal(this.editor.window,
 					"getSelectedElement", selectionapi, [this.tag]);
@@ -530,18 +528,13 @@ var ImgLinkDialog = declare("dijit._editor.plugins.ImgLinkDialog", [LinkDialog],
 	}
 });
 
-// Register this plugin.
-connect.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
-	if(o.plugin){ return; }
-	switch(o.args.name){
-		case "createLink":
-			o.plugin = new LinkDialog({command: o.args.name});
-			break;
-		case "insertImage":
-			o.plugin = new ImgLinkDialog({command: o.args.name});
-			break;
-	}
-});
+// Register these plugins
+_Plugin.registry["createLink"] = function(){
+	return new LinkDialog({command: "createLink"});
+};
+_Plugin.registry["insertImage"] = function(){
+	return new ImgLinkDialog({command: "insertImage"});
+};
 
 
 return LinkDialog;

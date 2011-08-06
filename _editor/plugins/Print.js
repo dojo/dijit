@@ -1,5 +1,4 @@
 define([
-	"dojo/_base/connect",	// connect.subscribe
 	"dojo/_base/declare", // declare
 	"dojo/i18n", // i18n.getLocalization
 	"dojo/_base/lang", // lang.hitch
@@ -7,9 +6,8 @@ define([
 	"../../focus",		// focus.focus()
 	"../_Plugin",
 	"../../form/Button",
-	"../..",	// dijit._scopeName
 	"dojo/i18n!../nls/commands"
-], function(connect, declare, i18n, lang, has, focus, _Plugin, Button, dijit){
+], function(declare, i18n, lang, has, focus, _Plugin, Button){
 
 /*=====
 	var _Plugin = dijit._editor._Plugin;
@@ -122,13 +120,9 @@ var Print = declare("dijit._editor.plugins.Print",_Plugin,{
 });
 
 // Register this plugin.
-connect.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
-	if(o.plugin){ return; }
-	var name = o.args.name.toLowerCase();
-	if(name === "print"){
-		o.plugin = new Print({command: "print"});
-	}
-});
+_Plugin.registry["print"] = function(){
+	return new Print({command: "print"});
+};
 
 
 return Print;

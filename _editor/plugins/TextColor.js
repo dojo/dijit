@@ -1,12 +1,10 @@
 define([
-	"dojo/_base/connect", // connect.subscribe
 	"dojo/colors", // colors.fromRgb
 	"dojo/_base/declare", // declare
 	"../_Plugin",
 	"../../form/DropDownButton",
-	"../../ColorPalette",
-	"../.."	// dijit._scopeName
-], function(connect, colors, declare, _Plugin, DropDownButton, ColorPalette, dijit){
+	"../../ColorPalette"
+], function(colors, declare, _Plugin, DropDownButton, ColorPalette){
 
 /*=====
 	var _Plugin = dijit._editor._Plugin;
@@ -95,18 +93,12 @@ var TextColor = declare("dijit._editor.plugins.TextColor", _Plugin, {
 });
 
 // Register this plugin.
-connect.subscribe(dijit._scopeName + ".Editor.getPlugin", null, function(o){
-	if(o.plugin){
-		return;
-	}
-	switch(o.args.name){
-		case "foreColor":
-		case "hiliteColor":
-			o.plugin = new TextColor({
-				command: o.args.name
-			});
-	}
-});
+_Plugin.registry["foreColor"] = function(){
+	return new TextColor({command: "foreColor"});
+};
+_Plugin.registry["hiliteColor"] = function(){
+	return new TextColor({command: "hiliteColor"});
+};
 
 
 return TextColor;

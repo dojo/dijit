@@ -1,6 +1,5 @@
 define([
 	"dojo/array", // array.forEach
-	"dojo/_base/connect", // connect.disconnect
 	"dojo/_base/declare", // declare
 	"dojo/dom-class", // domClass.add domClass.remove
 	"dojo/dom-construct", // domConstruct.place
@@ -9,7 +8,7 @@ define([
 	"dojo/_base/sniff", // has("ie") has("opera")
 	"dojo/_base/window", // win.body
 	"../_Plugin"
-], function(array, connect, declare, domClass, domConstruct, domGeometry, lang, has, win, _Plugin){
+], function(array, declare, domClass, domConstruct, domGeometry, lang, has, win, _Plugin){
 
 /*=====
 	var _Plugin = dijit._editor._Plugin;
@@ -190,8 +189,7 @@ return declare("dijit._editor.plugins.AlwaysShowToolbar", _Plugin, {
 		// Overrides _Plugin.destroy().   TODO: call this.inherited() rather than repeating code.
 		this._IEOriginalPos = null;
 		this._handleScroll = false;
-		array.forEach(this._connects, connect.disconnect);
-//		clearInterval(this.scrollInterval);
+		this.inherited(arguments);
 
 		if(has("ie") < 7){
 			domClass.remove(this.editor.header, 'dijitIEFixedToolbar');

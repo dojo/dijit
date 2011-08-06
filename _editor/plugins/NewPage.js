@@ -1,13 +1,11 @@
 define([
-	"dojo/_base/connect",	// connect.subscribe
 	"dojo/_base/declare", // declare
 	"dojo/i18n", // i18n.getLocalization
 	"dojo/_base/lang", // lang.hitch
 	"../_Plugin",
 	"../../form/Button",
-	"../..",	// dijit._scopeName
 	"dojo/i18n!../nls/commands"
-], function(connect, declare, i18n, lang, _Plugin, Button, dijit){
+], function(declare, i18n, lang, _Plugin, Button){
 
 /*=====
 	var _Plugin = dijit._editor._Plugin;
@@ -74,15 +72,11 @@ var NewPage = declare("dijit._editor.plugins.NewPage",_Plugin,{
 });
 
 // Register this plugin.
-connect.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
-	if(o.plugin){ return; }
-	var name = o.args.name.toLowerCase();
-	if(name === "newpage"){
-		o.plugin = new NewPage({
-			content: ("content" in o.args)?o.args.content:"<br>"
-		});
-	}
-});
+_Plugin.registry["newpage"] = function(args){
+	return new NewPage({
+		content: ("content" in args)?args.content:"<br>"
+	});
+};
 
 
 return NewPage;

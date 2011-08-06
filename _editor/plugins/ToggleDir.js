@@ -1,13 +1,11 @@
 define([
-	"dojo/_base/connect", // connect.subscribe
 	"dojo/_base/declare", // declare
 	"dojo/dom-style", // domStyle.getComputedStyle
 	"dojo/_base/kernel", // kernel.experimental
 	"dojo/_base/lang", // lang.hitch
 	"../_Plugin",
-	"../../form/ToggleButton",
-	"../.."	// dijit._scopeName
-], function(connect, declare, domStyle, kernel, lang, _Plugin, ToggleButton, dijit){
+	"../../form/ToggleButton"
+], function(declare, domStyle, kernel, lang, _Plugin, ToggleButton){
 
 /*=====
 	var _Plugin = dijit._editor._Plugin;
@@ -71,14 +69,9 @@ define([
 	});
 
 	// Register this plugin.
-	connect.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
-		if(o.plugin){ return; }
-		switch(o.args.name){
-		case "toggleDir":
-			o.plugin = new ToggleDir({command: o.args.name});
-		}
-	});
-
+	_Plugin.registry["toggleDir"] = function(){
+		return new ToggleDir({command: "toggleDir"});
+	};
 
 	return ToggleDir;
 });

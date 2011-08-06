@@ -1,13 +1,11 @@
 define([
 	"dojo/array", // array.indexOf array.map
-	"dojo/_base/connect", // connect.subscribe
 	"dojo/_base/declare", // declare
 	"dojo/dom-construct", // domConstruct.place
 	"dojo/i18n", // i18n.getLocalization
 	"dojo/_base/lang", // lang.delegate lang.hitch lang.isString
 	"dojo/store/Memory", // MemoryStore
 	"dojo/_base/window", // win.withGlobal
-	"../..",	// dijit._scopeName
 	"../../registry", // registry.getUniqueId
 	"../../_Widget",
 	"../../_TemplatedMixin",
@@ -17,8 +15,8 @@ define([
 	"../range",
 	"../selection",
 	"dojo/i18n!../nls/FontChoice"
-], function(array, connect, declare, domConstruct, i18n, lang, MemoryStore, win,
-	dijit, registry, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, FilteringSelect, _Plugin, rangeapi, selectionapi){
+], function(array, declare, domConstruct, i18n, lang, MemoryStore, win,
+	registry, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, FilteringSelect, _Plugin, rangeapi, selectionapi){
 
 /*=====
 	var _Plugin = dijit._editor._Plugin;
@@ -578,18 +576,14 @@ var FontChoice = declare("dijit._editor.plugins.FontChoice", _Plugin,{
 	}
 });
 
-// Register this plugin.
-connect.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
-	if(o.plugin){ return; }
-	switch(o.args.name){
-	case "fontName": case "fontSize": case "formatBlock":
-		o.plugin = new FontChoice({
-			command: o.args.name,
-			plainText: o.args.plainText?o.args.plainText:false
+// Register these plugins
+array.forEach(["fontName", "fontSize", "formatBlock"], function(name){
+	_Plugin.registry[name] = function(args){
+		return new FontChoice({
+			command: name,
+			plainText: args.plainText
 		});
-	}
+	};
 });
 
-
-return FontChoice;
 });

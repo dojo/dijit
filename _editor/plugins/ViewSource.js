@@ -545,18 +545,14 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 });
 
 // Register this plugin.
-connect.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
-	if(o.plugin){ return; }
-	var name = o.args.name.toLowerCase();
-	if(name ===  "viewsource"){
-		o.plugin = new ViewSource({
-			readOnly: ("readOnly" in o.args)?o.args.readOnly:false,
-			stripComments: ("stripComments" in o.args)?o.args.stripComments:true,
-			stripScripts: ("stripScripts" in o.args)?o.args.stripScripts:true,
-			stripIFrames: ("stripIFrames" in o.args)?o.args.stripIFrames:true
-		});
-	}
-});
+_Plugin.registry["viewsource"] = function(args){
+	return new ViewSource({
+		readOnly: ("readOnly" in args)?args.readOnly:false,
+		stripComments: ("stripComments" in args)?args.stripComments:true,
+		stripScripts: ("stripScripts" in args)?args.stripScripts:true,
+		stripIFrames: ("stripIFrames" in args)?args.stripIFrames:true
+	});
+};
 
 
 return ViewSource;

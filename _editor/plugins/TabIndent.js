@@ -1,11 +1,9 @@
 define([
-	"dojo/_base/connect", // connect.subscribe
 	"dojo/_base/declare", // declare
 	"dojo/_base/kernel", // kernel.experimental
 	"../_Plugin",
-	"../../form/ToggleButton",
-	"../.."	// dijit._scopeName
-], function(connect, declare, kernel, _Plugin, ToggleButton, dijit){
+	"../../form/ToggleButton"
+], function(declare, kernel, _Plugin, ToggleButton){
 
 /*=====
 	var _Plugin = dijit._editor._Plugin;
@@ -62,13 +60,9 @@ define([
 	});
 
 	// Register this plugin.
-	connect.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
-		if(o.plugin){ return; }
-		switch(o.args.name){
-		case "tabIndent":
-			o.plugin = new TabIndent({command: o.args.name});
-		}
-	});
+	_Plugin.registry["tabIndent"] = function(){
+		return new TabIndent({command: "tabIndent"});
+	};
 
 
 	return TabIndent;

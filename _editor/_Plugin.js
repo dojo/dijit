@@ -13,7 +13,7 @@ define([
 //		a single button on the Toolbar and some associated code
 
 
-return declare("dijit._editor._Plugin", null, {
+var _Plugin = declare("dijit._editor._Plugin", null, {
 	// summary:
 	//		Base class for a "plugin" to the editor, which is usually
 	//		a single button on the Toolbar and some associated code
@@ -285,5 +285,10 @@ return declare("dijit._editor._Plugin", null, {
 		this[name] = value;
 	}
 });
+
+// Hash mapping plugin name to factory, used for registering plugins
+_Plugin.registry = {};
+
+return _Plugin;
 
 });

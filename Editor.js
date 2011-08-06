@@ -178,8 +178,15 @@ define([
 			if(!args.setEditor){
 				var o={"args":args,"plugin":null,"editor":this};
 				if(args.name){
+					// search registry for a plugin factory matching args.name, if it's not there then
+					// fallback to 1.0 API:
 					// ask all loaded plugin modules to fill in o.plugin if they can (ie, if they implement args.name)
-					connect.publish(dijit._scopeName + ".Editor.getPlugin",[o]);
+					// remove fallback for 2.0.
+					if(_Plugin.registry[args.name]){
+						o.plugin = _Plugin.registry[args.name](args);
+					}else{
+						connect.publish(dijit._scopeName + ".Editor.getPlugin",[o]);
+					}
 				}
 				if(!o.plugin){
 					var pc = args.ctor || lang.getObject(args.name);
@@ -815,29 +822,23 @@ define([
 	});
 
 	// Register the "default plugins", ie, the built-in editor commands
-	connect.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
-		if(o.plugin){ return; }
-		var args = o.args, p;
-		var name = args.name;
-		switch(name){
-			case "undo": case "redo": case "cut": case "copy": case "paste": case "insertOrderedList":
-			case "insertUnorderedList": case "indent": case "outdent": case "justifyCenter":
-			case "justifyFull": case "justifyLeft": case "justifyRight": case "delete":
-			case "selectAll": case "removeFormat": case "unlink":
-			case "insertHorizontalRule":
-				p = new _Plugin({ command: name });
-				break;
-
-			case "bold": case "italic": case "underline": case "strikethrough":
-			case "subscript": case "superscript":
-				p = new _Plugin({ buttonClass: ToggleButton, command: name });
-				break;
-			case "|":
-				p = new _Plugin({ button: new ToolbarSeparator(), setEditor: function(editor){this.editor = editor;} });
-		}
-	//	console.log('name',name,p);
-		o.plugin=p;
+	array.forEach(["undo", "redo", "cut", "copy", "paste", "insertOrderedList",
+			"insertUnorderedList", "indent", "outdent", "justifyCenter",
+			"justifyFull", "justifyLeft", "justifyRight", "delete",
+			"selectAll", "removeFormat", "unlink",
+			"insertHorizontalRule"], function(name){
+		_Plugin.registry[name] = function(){
+			return new _Plugin({ command: name });
+		};
 	});
+	array.forEach(["bold", "italic", "underline", "strikethrough","subscript", "superscript"], function(name){
+		_Plugin.registry[name] = function(){
+			return new _Plugin({ buttonClass: ToggleButton, command: name });
+		};
+	});
+	_Plugin.registry["|"] = function(){
+		return new _Plugin({ button: new ToolbarSeparator(), setEditor: function(editor){this.editor = editor;} });
+	};
 
 	return Editor;
 });
