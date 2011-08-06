@@ -263,7 +263,7 @@ var TreeNode = declare(
 			});
 
 		// Deferred that fires when expand is complete
-		def = (this._expandDeferred = new dojo.Deferred(function(){
+		def = (this._expandDeferred = new Deferred(function(){
 			// Canceller
 			wipeIn.stop();
 		}));

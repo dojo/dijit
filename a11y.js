@@ -7,7 +7,7 @@ define([
 	"dojo/dom-style", // style.style
 	"dojo/_base/sniff", // has("ie")
 	"./_base/manager",	// manager._isElementShown
-	"."	// for exporting methods to dijit variable
+	"."	// for exporting methods to dijit namespace
 ], function(array, config, declare, dom, domAttr, domStyle, has, manager, dijit){
 
 	// module:

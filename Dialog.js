@@ -16,8 +16,8 @@ define([
 	"dojo/_base/sniff", // has("ie") has("opera")
 	"dojo/_base/window", // win.body
 	"dojo/window", // winUtils.getBox
-	"dojo/dnd/Moveable", // dojo.dnd.Moveable
-	"dojo/dnd/TimedMoveable", // dojo.dnd.TimedMoveable
+	"dojo/dnd/Moveable", // Moveable
+	"dojo/dnd/TimedMoveable", // TimedMoveable
 	"./focus",
 	"./_base/manager",	// manager.defaultDuration
 	"./_Widget",
@@ -208,8 +208,8 @@ define([
 
 			if(this.titleBar && this.draggable){
 				this._moveable = (has("ie") == 6) ?
-					new dojo.dnd.TimedMoveable(node, { handle: this.titleBar }) :	// prevent overload, see #5285
-					new dojo.dnd.Moveable(node, { handle: this.titleBar, timeout: 0 });
+					new TimedMoveable(node, { handle: this.titleBar }) :	// prevent overload, see #5285
+					new Moveable(node, { handle: this.titleBar, timeout: 0 });
 				this.connect(this._moveable, "onMoveStop", "_endDrag");
 			}else{
 				domClass.add(node,"dijitDialogFixed");

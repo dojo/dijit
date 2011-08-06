@@ -12,9 +12,10 @@ define([
 	// summary:
 	//		marginBox2contentBox() and layoutChildren()
 
-	lang.getObject("layout", true, dijit);
+	var layout = lang.getObject("layout", true, dijit);
+	/*===== layout = dijit.layout =====*/
 
-	dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
+	layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 		// summary:
 		//		Given the margin-box size of a node, return its content box size.
 		//		Functions like domGeometry.contentBox() but is more reliable since it doesn't have
@@ -51,7 +52,7 @@ define([
 		}
 	}
 
-	dijit.layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ dim, /*Widget[]*/ children,
+	layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ dim, /*Widget[]*/ children,
 			/*String?*/ changedRegionId, /*Number?*/ changedRegionSize){
 		// summary:
 		//		Layout a bunch of child dom nodes within a parent dom node
@@ -132,7 +133,7 @@ define([
 
 
 	return {
-		marginBox2contentBox: dijit.layout.marginBox2contentBox,
-		layoutChildren: dijit.layout.layoutChildren
+		marginBox2contentBox: layout.marginBox2contentBox,
+		layoutChildren: layout.layoutChildren
 	};
 });

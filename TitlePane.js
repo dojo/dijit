@@ -12,9 +12,10 @@ define([
 	"./_CssStateMixin",
 	"./_TemplatedMixin",
 	"./layout/ContentPane",
-	"dojo/text!./templates/TitlePane.html"
+	"dojo/text!./templates/TitlePane.html",
+	"./_base/manager"	// defaultDuration
 ], function(array, declare, dom, domAttr, domClass, domGeometry, event, fxUtils, kernel, keys,
-			_CssStateMixin, _TemplatedMixin, ContentPane, template){
+			_CssStateMixin, _TemplatedMixin, ContentPane, template, manager){
 
 /*=====
 	var _Widget = dijit._Widget;
@@ -73,7 +74,7 @@ return declare("dijit.TitlePane", [ContentPane, _TemplatedMixin, _CssStateMixin]
 
 	// duration: Integer
 	//		Time in milliseconds to fade in/fade out
-	duration: dijit.defaultDuration,
+	duration: manager.defaultDuration,
 
 	// baseClass: [protected] String
 	//		The root className to be placed on this widget's domNode.
