@@ -77,7 +77,7 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 	//	 dyeClass should implements dijit.Dye interface
 	dyeClass: '',
 
-	_dyeFactory: function(value, row, col){
+	_dyeFactory: function(value /*===== , row, col =====*/){
 		// summary:
 		//		Return instance of dijit.Dye for specified cell of palette
 		// tags:
@@ -104,7 +104,7 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 			for(var col=0; col < choices[row].length; col++){
 				var value = choices[row][col];
 				if(value){
-					var cellObject = this._dyeFactory(value);
+					var cellObject = this._dyeFactory(value, row, col);
 
 					var cellNode = domConstruct.create("td", {
 						"class": this.cellClass,

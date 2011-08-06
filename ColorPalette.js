@@ -70,9 +70,9 @@ var ColorPalette = declare("dijit.ColorPalette", [_Widget, _TemplatedMixin, _Pal
 
 	baseClass: "dijitColorPalette",
 
-	_dyeFactory: function(value){
+	_dyeFactory: function(value, row, col){
 		// Overrides _PaletteMixin._dyeFactory().
-		return new this._dyeClass(value);
+		return new this._dyeClass(value, row, col);
 	},
 
 	buildRendering: function(){
