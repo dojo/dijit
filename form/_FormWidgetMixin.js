@@ -4,7 +4,7 @@ define([
 	"dojo/dom-attr", // domAttr.set
 	"dojo/dom-style", // domStyle.get
 	"dojo/_base/lang", // lang.hitch lang.isArray
-	"dojo/mouse", // mouse.mouseButtons.isLeft
+	"dojo/mouse", // mouse.isLeft
 	"dojo/_base/sniff", // has("webkit")
 	"dojo/_base/window", // win.body
 	"dojo/window", // winUtils.scrollIntoView
@@ -213,7 +213,7 @@ return declare("dijit.form._FormWidgetMixin", null, {
 		// this button should get focus (to mimics native browser buttons).
 		// This is also needed on chrome because otherwise buttons won't get focus at all,
 		// which leads to bizarre focus restore on Dialog close etc.
-		if(!this.focused && !e.ctrlKey && mouse.mouseButtons.isLeft(e) && this.isFocusable()){ // !e.ctrlKey to ignore right-click on mac
+		if(!this.focused && !e.ctrlKey && mouse.isLeft(e) && this.isFocusable()){ // !e.ctrlKey to ignore right-click on mac
 			// Set a global event to handle mouseup, so it fires properly
 			// even if the cursor leaves this.domNode before the mouse up event.
 			var mouseUpConnector = this.connect(win.body(), "onmouseup", function(){

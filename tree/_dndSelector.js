@@ -4,7 +4,7 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/_base/event", // event.stop
 	"dojo/_base/lang", // lang.hitch
-	"dojo/mouse", // mouse.mouseButtons.isLeft
+	"dojo/mouse", // mouse.isLeft
 	"dojo/touch",
 	"dojo/_base/window", // win.global
 	"./_dndContainer"
@@ -179,7 +179,7 @@ define([
 			// ignore click on expando node
 			if(!this.current || this.tree.isExpandoNode(e.target, this.current)){ return; }
 
-			if(!mouse.mouseButtons.isLeft(e)){ return; } // ignore right-click
+			if(!mouse.isLeft(e)){ return; } // ignore right-click
 
 			event.stop(e);
 
