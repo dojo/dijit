@@ -31,7 +31,7 @@ define([
 		selection: {},
 		=====*/
 
-		constructor: function(tree, params){
+		constructor: function(){
 			// summary:
 			//		Initialization
 			// tags:
@@ -215,7 +215,7 @@ define([
 			this._doDeselect = false;
 			this.userSelect(this.current, connect.isCopyKey( e ), e.shiftKey);
 		},
-		onMouseMove: function(e){
+		onMouseMove: function(/*===== e =====*/){
 			// summary:
 			//		event processor for onmousemove/ontouchmove
 			// e: Event

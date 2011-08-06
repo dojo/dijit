@@ -218,7 +218,7 @@ define([
 			}
 		},
 
-		onValueSelected: function(/*Date*/ date){
+		onValueSelected: function(/*Date*/ /*===== date =====*/){
 			// summary:
 			//		Deprecated.   Notification that a date cell was selected.  It may be the same as the previous value.
 			// description:
@@ -227,14 +227,17 @@ define([
 			// tags:
 			//      protected
 		},
+
 		onChange: function(value){
 			this.onValueSelected(value);	// remove in 2.0
 		},
 
-		getClassForDate: function(/*Date*/ dateObject, /*String?*/ locale){
+		getClassForDate: function(/*===== dateObject, locale =====*/){
 			// summary:
 			//		May be overridden to return CSS classes to associate with the date entry for the given dateObject,
 			//		for example to indicate a holiday in specified locale.
+			// dateObject: Date
+			// locale: String?
 			// tags:
 			//      extension
 
@@ -295,7 +298,7 @@ define([
 			this.onChange(domAttr.get(evt.target, "month"));
 		},
 
-		onChange: function(/*Number*/ month){
+		onChange: function(/*Number*/ /*===== month =====*/){
 			// summary:
 			//		Callback when month is selected from drop down
 		},

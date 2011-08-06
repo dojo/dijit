@@ -369,23 +369,27 @@ define([
 			}
 		},
 
-		onChange: function(/*Date*/ date){
+		onChange: function(/*Date*/ /*===== date =====*/){
 			// summary:
 			//		Called only when the selected date has changed
 		},
 
-		_isSelectedDate: function(/*Date*/ dateObject, /*String?*/ locale){
+		_isSelectedDate: function(dateObject /*===== , locale =====*/){
 			// summary:
 			//		Extension point so developers can subclass Calendar to
 			//		support multiple (concurrently) selected dates
+			// dateObject: Date
+			// locale: String?
 			// tags:
 			//		protected extension
 			return this._isValidDate(this.value) && !this.dateFuncObj.compare(dateObject, this.value, "date")
 		},
 
-		isDisabledDate: function(/*Date*/ dateObject, /*String?*/ locale){
+		isDisabledDate: function(/*===== dateObject, locale =====*/){
 			// summary:
 			//		May be overridden to disable certain dates in the calendar e.g. `isDisabledDate=dojo.date.locale.isWeekend`
+			// dateObject: Date
+			// locale: String?
 			// tags:
 			//      extension
 /*=====
@@ -393,10 +397,12 @@ define([
 =====*/
 		},
 
-		getClassForDate: function(/*Date*/ dateObject, /*String?*/ locale){
+		getClassForDate: function(/*===== dateObject, locale =====*/){
 			// summary:
 			//		May be overridden to return CSS classes to associate with the date entry for the given dateObject,
 			//		for example to indicate a holiday in specified locale.
+			// dateObject: Date
+			// locale: String?
 			// tags:
 			//      extension
 

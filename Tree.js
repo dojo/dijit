@@ -952,7 +952,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 	////////////// Data store related functions //////////////////////
 	// These just get passed to the model; they are here for back-compat
 
-	mayHaveChildren: function(/*dojo.data.Item*/ item){
+	mayHaveChildren: function(/*dojo.data.Item*/ /*===== item =====*/){
 		// summary:
 		//		Deprecated.   This should be specified on the model itself.
 		//
@@ -964,7 +964,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		//		deprecated
 	},
 
-	getItemChildren: function(/*dojo.data.Item*/ parentItem, /*function(items)*/ onComplete){
+	getItemChildren: function(/*===== parentItem, onComplete =====*/){
 		// summary:
 		//		Deprecated.   This should be specified on the model itself.
 		//
@@ -992,48 +992,62 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		return (!item || this.model.mayHaveChildren(item)) ? (opened ? "dijitFolderOpened" : "dijitFolderClosed") : "dijitLeaf"
 	},
 
-	getLabelClass: function(/*dojo.data.Item*/ item, /*Boolean*/ opened){
+	getLabelClass: function(/*===== item, opened =====*/){
 		// summary:
 		//		Overridable function to return CSS class name to display label
+		// item: dojo.data.Item
+		// opened: Boolean
+		// returns: String
+		//		CSS class name
 		// tags:
 		//		extension
 	},
 
-	getRowClass: function(/*dojo.data.Item*/ item, /*Boolean*/ opened){
+	getRowClass: function(/*===== item, opened =====*/){
 		// summary:
 		//		Overridable function to return CSS class name to display row
+		// item: dojo.data.Item
+		// opened: Boolean
+		// returns: String
+		//		CSS class name
 		// tags:
 		//		extension
 	},
 
-	getIconStyle: function(/*dojo.data.Item*/ item, /*Boolean*/ opened){
+	getIconStyle: function(/*===== item, opened =====*/){
 		// summary:
 		//		Overridable function to return CSS styles to display icon
-		// returns:
+		// item: dojo.data.Item
+		// opened: Boolean
+		// returns: Object
 		//		Object suitable for input to dojo.style() like {backgroundImage: "url(...)"}
 		// tags:
 		//		extension
 	},
 
-	getLabelStyle: function(/*dojo.data.Item*/ item, /*Boolean*/ opened){
+	getLabelStyle: function(/*===== item, opened =====*/){
 		// summary:
 		//		Overridable function to return CSS styles to display label
+		// item: dojo.data.Item
+		// opened: Boolean
 		// returns:
 		//		Object suitable for input to dojo.style() like {color: "red", background: "green"}
 		// tags:
 		//		extension
 	},
 
-	getRowStyle: function(/*dojo.data.Item*/ item, /*Boolean*/ opened){
+	getRowStyle: function(/*===== item, opened =====*/){
 		// summary:
 		//		Overridable function to return CSS styles to display row
+		// item: dojo.data.Item
+		// opened: Boolean
 		// returns:
 		//		Object suitable for input to dojo.style() like {background-color: "#bbb"}
 		// tags:
 		//		extension
 	},
 
-	getTooltip: function(/*dojo.data.Item*/ item){
+	getTooltip: function(/*dojo.data.Item*/ /*===== item =====*/){
 		// summary:
 		//		Overridable function to get the tooltip for a tree node (given the item)
 		// tags:
@@ -1177,7 +1191,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		}
 	},
 
-	_onEndKey: function(/*Object*/ message){
+	_onEndKey: function(){
 		// summary:
 		//		End key pressed; go to last visible node.
 
@@ -1306,27 +1320,37 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		}
 	},
 
-	onClick: function(/* dojo.data */ item, /*TreeNode*/ node, /*Event*/ evt){
+	onClick: function(/*===== item, node, evt =====*/){
 		// summary:
 		//		Callback when a tree node is clicked
+		// item: dojo.data.Item
+		// node: TreeNode
+		// evt: Event
 		// tags:
 		//		callback
 	},
-	onDblClick: function(/* dojo.data */ item, /*TreeNode*/ node, /*Event*/ evt){
+	onDblClick: function(/*===== item, node, evt =====*/){
 		// summary:
 		//		Callback when a tree node is double-clicked
+		// item: dojo.data.Item
+		// node: TreeNode
+		// evt: Event
 		// tags:
 		//		callback
 	},
-	onOpen: function(/* dojo.data */ item, /*TreeNode*/ node){
+	onOpen: function(/*===== item, node =====*/){
 		// summary:
 		//		Callback when a node is opened
+		// item: dojo.data.Item
+		// node: TreeNode
 		// tags:
 		//		callback
 	},
-	onClose: function(/* dojo.data */ item, /*TreeNode*/ node){
+	onClose: function(/*===== item, node =====*/){
 		// summary:
 		//		Callback when a node is closed
+		// item: dojo.data.Item
+		// node: TreeNode
 		// tags:
 		//		callback
 	},
@@ -1478,13 +1502,13 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		}
 	},
 
-	_onNodeMouseEnter: function(/*dijit._Widget*/ node){
+	_onNodeMouseEnter: function(/*dijit._Widget*/ /*===== node =====*/){
 		// summary:
 		//		Called when mouse is over a node (onmouseenter event),
 		//		this is monitored by the DND code
 	},
 
-	_onNodeMouseLeave: function(/*dijit._Widget*/ node){
+	_onNodeMouseLeave: function(/*dijit._Widget*/ /*===== node =====*/){
 		// summary:
 		//		Called when mouse leaves a node (onmouseleave event),
 		//		this is monitored by the DND code

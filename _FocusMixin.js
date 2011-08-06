@@ -42,7 +42,7 @@ define([
 			//		callback
 		},
 
-		_onFocus: function(e){
+		_onFocus: function(){
 			// summary:
 			//		This is where widgets do processing for when they are active,
 			//		such as changing CSS classes.  See onFocus() for more details.

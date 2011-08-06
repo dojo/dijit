@@ -48,7 +48,7 @@ return declare("dijit._MenuBase",
 		//		protected
 	},
 
-	onCancel: function(/*Boolean*/ closeAll){
+	onCancel: function(/*Boolean*/ /*===== closeAll =====*/){
 		// summary:
 		//		Attach point for notification about when the user cancels the current menu
 		//		This is an internal mechanism used for Menus to signal to their parent to
@@ -75,7 +75,7 @@ return declare("dijit._MenuBase",
 		}
 	},
 
-	_onPopupHover: function(/*Event*/ evt){
+	_onPopupHover: function(/*Event*/ /*===== evt =====*/){
 		// summary:
 		//		This handler is called when the mouse moves over the popup.
 		// tags:
@@ -292,7 +292,7 @@ return declare("dijit._MenuBase",
 		domClass.replace(this.domNode, "dijitMenuActive", "dijitMenuPassive");
 	},
 
-	onOpen: function(/*Event*/ e){
+	onOpen: function(/*Event*/ /*===== e =====*/){
 		// summary:
 		//		Callback when this menu is opened.
 		//		This is called by the popup manager as notification that the menu

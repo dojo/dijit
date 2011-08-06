@@ -286,7 +286,7 @@ define([
 		// =======================================================================
 		// Callbacks
 
-		onChange: function(/*dojo.data.Item*/ item){
+		onChange: function(/*dojo.data.Item*/ /*===== item =====*/){
 			// summary:
 			//		Callback whenever an item has changed, so that Tree
 			//		can update the label, icon, etc.   Note that changes
@@ -296,14 +296,16 @@ define([
 			//		callback
 		},
 
-		onChildrenChange: function(/*dojo.data.Item*/ parent, /*dojo.data.Item[]*/ newChildrenList){
+		onChildrenChange: function(/*===== parent, newChildrenList =====*/){
 			// summary:
 			//		Callback to do notifications about new, updated, or deleted items.
+			// parent: dojo.data.Item
+			// newChildrenList: dojo.data.Item[]
 			// tags:
 			//		callback
 		},
 
-		onDelete: function(/*dojo.data.Item*/ parent, /*dojo.data.Item[]*/ newChildrenList){
+		onDelete: function(/*dojo.data.Item*/ /*===== item =====*/){
 			// summary:
 			//		Callback when an item has been deleted.
 			// description:
@@ -350,10 +352,7 @@ define([
 			this.onDelete(item);
 		},
 
-		onSetItem: function(/* item */ item,
-						/* attribute-name-string */ attribute,
-						/* object | array */ oldValue,
-						/* object | array */ newValue){
+		onSetItem: function(item, attribute /*===== , oldValue, newValue =====*/){
 			// summary:
 			//		Updates the tree view according to changes in the data store.
 			// description:
@@ -361,6 +360,10 @@ define([
 			//		other updates to an item by calling onChange().
 			//
 			//		See `onNewItem` for more details on handling updates to an item's children.
+			// item: Item
+			// attribute: attribute-name-string
+			// oldValue: object | array
+			// newValue: object | array
 			// tags:
 			//		extension
 

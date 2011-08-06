@@ -940,12 +940,14 @@ return declare("dijit._WidgetBase", Stateful, {
 		return originalDir;
 	},
 
-	applyTextDir: function(/*Object*/ element, /*String*/ text){
+	applyTextDir: function(/*===== element, text =====*/){
 		// summary:
 		//		The function overridden in the _BidiSupport module,
 		//		originally used for setting element.dir according to this.textDir.
 		//		In this case does nothing.
-		//	tags:
+		// element: DOMNode
+		// text: String
+		// tags:
 		//		protected.
 	}
 });

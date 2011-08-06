@@ -137,7 +137,7 @@ var typematic = (dijit.typematic = {
 					typematic.stop();
 				}
 			}),
-			connect.connect(node, "onkeyup", this, function(evt){
+			connect.connect(node, "onkeyup", this, function(){
 				if(typematic._obj == keyObject){
 					typematic.stop();
 				}

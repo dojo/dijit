@@ -110,7 +110,7 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 	},
 
 	// methods
-	checkAcceptance: function(source, nodes){
+	checkAcceptance: function(/*===== source, nodes =====*/){
 		// summary:
 		//		Checks if the target can accept nodes from this source
 		// source: dijit.tree.dndSource
@@ -269,7 +269,7 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 		this._unmarkTargetAnchor();
 	},
 
-	checkItemAcceptance: function(target, source, position){
+	checkItemAcceptance: function(/*===== target, source, position =====*/){
 		// summary:
 		//		Stub function to be overridden if one wants to check for the ability to drop at the node/item level
 		// description:
@@ -330,7 +330,7 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 		this.isDragging = true;
 	},
 
-	itemCreator: function(/*DomNode[]*/ nodes, target, /*dojo.dnd.Source*/ source){
+	itemCreator: function(nodes /*===== , target, source =====*/){
 		// summary:
 		//		Returns objects passed to `Tree.model.newItem()` based on DnD nodes
 		//		dropped onto the tree.   Developer must override this method to enable
@@ -339,6 +339,9 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 		// description:
 		//		For each node in nodes[], which came from source, create a hash of name/value
 		//		pairs to be passed to Tree.model.newItem().  Returns array of those hashes.
+		// nodes: DomNode[]
+		// target: DomNode
+		// source: dojo.dnd.Source
 		// returns: Object[]
 		//		Array of name/value hashes for each new item to be added to the Tree, like:
 		// |	[
@@ -376,8 +379,7 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 		if(this.containerState == "Over"){
 			var tree = this.tree,
 				model = tree.model,
-				target = this.targetAnchor,
-				requeryRoot = false;	// set to true iff top level items change
+				target = this.targetAnchor;
 
 			this.isDragging = false;
 

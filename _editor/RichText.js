@@ -904,7 +904,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		return true;
 	},
 
-	onKeyUp: function(e){
+	onKeyUp: function(/*===== e =====*/){
 		// summary:
 		//		Handler for onkeyup event
 		// tags:
@@ -1003,7 +1003,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		this.onDisplayChanged(e);
 	},
 
-	_onIEMouseDown: function(/*Event*/ e){
+	_onIEMouseDown: function(){
 		// summary:
 		//		IE only to prevent 2 clicks to focus
 		// tags:
@@ -1090,9 +1090,9 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 	// _lastUpdate: 0,
 	updateInterval: 200,
 	_updateTimer: null,
-	onDisplayChanged: function(/*Event*/ e){
+	onDisplayChanged: function(/*Event*/ /*===== e =====*/){
 		// summary:
-		//		This event will be fired everytime the display context
+		//		This event will be fired every time the display context
 		//		changes and the result needs to be reflected in the UI.
 		// description:
 		//		If you don't want to have update too often,
@@ -1122,7 +1122,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		//		private
 		delete this._updateTimer;
 	},
-	onChange: function(newContent){
+	onChange: function(/*===== newContent =====*/){
 		// summary:
 		//		This is fired if and only if the editor loses focus and
 		//		the content is changed.
@@ -1634,7 +1634,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		return ec;
 	},
 
-	_saveContent: function(/*Event*/ e){
+	_saveContent: function(){
 		// summary:
 		//		Saves the content in an onunload event if the editor has not been closed
 		// tags:
@@ -1830,7 +1830,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		}
 	},
 
-	_createlinkEnabledImpl: function(argument){
+	_createlinkEnabledImpl: function(/*===== argument =====*/){
 		// summary:
 		//		This function implements the test for if the create link
 		//		command should be enabled or not.
@@ -1852,9 +1852,9 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		return enabled;
 	},
 
-	_unlinkEnabledImpl: function(argument){
+	_unlinkEnabledImpl: function(/*===== argument =====*/){
 		// summary:
-		//		This function implements the test for if the unlin
+		//		This function implements the test for if the unlink
 		//		command should be enabled or not.
 		// argument:
 		//		arguments to the exec command, if any.
@@ -1869,7 +1869,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		return enabled;
 	},
 
-	_inserttableEnabledImpl: function(argument){
+	_inserttableEnabledImpl: function(/*===== argument =====*/){
 		// summary:
 		//		This function implements the test for if the inserttable
 		//		command should be enabled or not.
@@ -1886,7 +1886,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		return enabled;
 	},
 
-	_cutEnabledImpl: function(argument){
+	_cutEnabledImpl: function(/*===== argument =====*/){
 		// summary:
 		//		This function implements the test for if the cut
 		//		command should be enabled or not.
@@ -1906,7 +1906,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		return enabled;
 	},
 
-	_copyEnabledImpl: function(argument){
+	_copyEnabledImpl: function(/*===== argument =====*/){
 		// summary:
 		//		This function implements the test for if the copy
 		//		command should be enabled or not.
@@ -1926,7 +1926,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		return enabled;
 	},
 
-	_pasteEnabledImpl: function(argument){
+	_pasteEnabledImpl: function(/*===== argument =====*/){
 		// summary:c
 		//		This function implements the test for if the paste
 		//		command should be enabled or not.
@@ -2657,7 +2657,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		}
 	},
 	
-	_adaptIEList: function(command, argument){
+	_adaptIEList: function(command /*===== , argument =====*/){
 		// summary:
 		//		This function handles normalizing the IE list behavior as 
 		//		much as possible.

@@ -413,7 +413,7 @@ define([
 				// We are interested in whenever the widget changes validity state - or
 				// whenever the disabled attribute on that widget is changed.
 				array.forEach(["state", "disabled"], function(attr){
-					watches.push(widget.watch(attr, function(attr, oldVal, newVal){
+					watches.push(widget.watch(attr, function(){
 						_this.set("state", _this._getState());
 					}));
 				});

@@ -146,7 +146,7 @@ return declare("dijit.tree.ForestStoreModel", TreeStoreModel, {
 		}
 	},
 
-	onNewRootItem: function(args){
+	onNewRootItem: function(/* dojo.dnd.Item */ /*===== args =====*/){
 		// summary:
 		//		User can override this method to modify a new element that's being
 		//		added to the root of the tree, for example to add a flag like root=true

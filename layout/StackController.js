@@ -49,7 +49,7 @@ define([
 			(this.focusNode || this.domNode).setAttribute("role", "tab");
 		},
 
-		onClick: function(/*Event*/ evt){
+		onClick: function(/*Event*/ /*===== evt =====*/){
 			// summary:
 			//		This is for TabContainer where the tabs are <span> rather than button,
 			//		so need to set focus explicitly (on some browsers)

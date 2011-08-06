@@ -229,10 +229,16 @@ return declare("dijit.layout.StackContainer", _LayoutWidget, {
 		return d;		// If child has an href, promise that fires when the child's href finishes loading
 	},
 
-	_transition: function(/*dijit._Widget*/ newWidget, /*dijit._Widget*/ oldWidget, /*Boolean*/ animate){
+	_transition: function(newWidget, oldWidget /*===== ,  animate =====*/){
 		// summary:
 		//		Hide the old widget and display the new widget.
 		//		Subclasses should override this.
+		// newWidget: dijit._Widget
+		//		The newly selected widget.
+		// oldWidget: dijit._Widget
+		//		The previously selected widget.
+		// animate: Boolean
+		//		Used by AccordionContainer to turn on/off slide effect.
 		// tags:
 		//		protected extension
 		if(oldWidget){

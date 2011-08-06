@@ -88,17 +88,21 @@ define([
 		},
 
 		// mouse events
-		onMouseOver: function(/*TreeNode*/ widget, /*Event*/ evt){
+		onMouseOver: function(widget /*===== , evt =====*/){
 			// summary:
 			//		Called when mouse is moved over a TreeNode
+			// widget: TreeNode
+			// evt: Event
 			// tags:
 			//		protected
 			this.current = widget;
 		},
 
-		onMouseOut: function(/*TreeNode*/ widget, /*Event*/ evt){
+		onMouseOut: function(/*===== widget, evt =====*/){
 			// summary:
 			//		Called when mouse is moved away from a TreeNode
+			// widget: TreeNode
+			// evt: Event
 			// tags:
 			//		protected
 			this.current = null;

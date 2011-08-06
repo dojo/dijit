@@ -27,7 +27,7 @@ define([
 //		Old base for widgets.   New widgets should extend _WidgetBase instead
 
 
-function connectToDomNode(/*Event*/ event){
+function connectToDomNode(){
 	// summary:
 	//		If user connects to a widget method === this function, then they will
 	//		instead actually be connecting the equivalent event on this.domNode

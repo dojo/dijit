@@ -214,7 +214,7 @@ define([
 			}
 		},
 
-		_onChildBlur: function(/*dijit._Widget*/ widget){
+		_onChildBlur: function(/*dijit._Widget*/ /*===== widget =====*/){
 			// summary:
 			//		Called when focus leaves a child widget to go
 			//		to a sibling widget.

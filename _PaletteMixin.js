@@ -264,7 +264,7 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 		}
 	},
 
-	onChange: function(value){
+	onChange: function(/*===== value =====*/){
 		// summary:
 		//		Callback when a cell is selected.
 		// value: String

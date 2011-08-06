@@ -544,7 +544,7 @@ return declare("dijit.layout.ContentPane", [_Widget, _ContentPaneResizeMixin], {
 	},
 
 	// EVENT's, should be overide-able
-	onLoad: function(data){
+	onLoad: function(/*===== data =====*/){
 		// summary:
 		//		Event hook, is called after everything is loaded and widgetified
 		// tags:
@@ -570,7 +570,7 @@ return declare("dijit.layout.ContentPane", [_Widget, _ContentPaneResizeMixin], {
 		return this.loadingMessage;
 	},
 
-	onContentError: function(/*Error*/ error){
+	onContentError: function(/*Error*/ /*===== error =====*/){
 		// summary:
 		//		Called on DOM faults, require faults etc. in content.
 		//
@@ -583,7 +583,7 @@ return declare("dijit.layout.ContentPane", [_Widget, _ContentPaneResizeMixin], {
 		//		extension
 	},
 
-	onDownloadError: function(/*Error*/ error){
+	onDownloadError: function(/*Error*/ /*===== error =====*/){
 		// summary:
 		//		Called when download error occurs.
 		//

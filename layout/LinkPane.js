@@ -41,7 +41,7 @@ define([
 			this.inherited(arguments);
 		},
 
-		_fillContent: function(/*DomNode*/ source){
+		_fillContent: function(){
 			// Overrides _Templated._fillContent().
 
 			// _Templated._fillContent() relocates srcNodeRef innerHTML to templated container node,

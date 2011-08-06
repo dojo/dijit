@@ -12,7 +12,7 @@ define([
 		// summary:
 		//		This provides functions useful to Dialog and TooltipDialog
 
-		execute: function(/*Object*/ formContents){
+		execute: function(/*Object*/ /*===== formContents =====*/){
 			// summary:
 			//		Callback when the user hits the submit button.
 			//		Override this method to handle Dialog execution.

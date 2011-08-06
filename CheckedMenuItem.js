@@ -35,7 +35,7 @@ define([
 
 		iconClass: "",	// override dijitNoIcon
 
-		onChange: function(/*Boolean*/ checked){
+		onChange: function(/*Boolean*/ /*===== checked =====*/){
 			// summary:
 			//		User defined function to handle check/uncheck events
 			// tags:

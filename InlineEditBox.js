@@ -132,7 +132,7 @@ var InlineEditor = declare("dijit._InlineEditor", [_Widget, _TemplatedMixin, _Wi
 		}
 	},
 
-	_onIntermediateChange: function(val){
+	_onIntermediateChange: function(/*===== val =====*/){
 		// summary:
 		//		Called for editor widgets that support the intermediateChanges=true flag as a way
 		//		to detect when to enable/disabled the save button
@@ -302,7 +302,7 @@ var InlineEditBox = declare("dijit.InlineEditBox", _Widget, {
 	//		If true, clicking the InlineEditBox to edit it will have no effect.
 	disabled: false,
 
-	onChange: function(value){
+	onChange: function(/*===== value =====*/){
 		// summary:
 		//		Set this handler to be notified of changes to value.
 		// tags:

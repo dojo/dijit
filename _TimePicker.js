@@ -156,9 +156,11 @@ define([
 			this._showText();
 		},
 
-		isDisabledDate: function(/*Date*/ dateObject, /*String?*/ locale){
+		isDisabledDate: function(/*===== dateObject, locale =====*/){
 			// summary:
 			//		May be overridden to disable certain dates in the TimePicker e.g. `isDisabledDate=locale.isWeekend`
+			// dateObject: Date
+			// locale: String?
 			// type:
 			//		extension
 			return false; // Boolean
@@ -346,7 +348,7 @@ define([
 			this.onChange(tdate);
 		},
 
-		onChange: function(/*Date*/ time){
+		onChange: function(/*Date*/ /*===== time =====*/){
 			// summary:
 			//		Notification that a time was selected.  It may be the same as the previous value.
 			// tags:

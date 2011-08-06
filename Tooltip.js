@@ -340,7 +340,7 @@ define([
 			}
 		},
 
-		_onUnHover: function(/*Event*/ e){
+		_onUnHover: function(/*Event*/ /*===== e =====*/){
 			// summary:
 			//		Despite the name of this method, it actually handles both mouseleave and blur
 			//		events on the target node, hiding the tooltip.
