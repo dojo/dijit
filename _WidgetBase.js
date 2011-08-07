@@ -28,6 +28,13 @@ var Stateful = dojo.Stateful;
 // summary:
 //		Future base class for all Dijit widgets.
 
+// For back-compat, remove in 2.0.
+if(dojo && dojo.ready && !dojo.isAsync){
+	dojo.ready(0, function(){
+		var requires = ["dijit/_base/manager"];
+		require(requires);	// use indirection so modules not rolled into a build
+	});
+}
 
 // Nested hash listing attributes for each tag, all strings in lowercase.
 // ex: {"div": {"style": true, "tabindex" true}, "form": { ...
