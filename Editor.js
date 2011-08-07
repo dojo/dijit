@@ -822,23 +822,43 @@ define([
 	});
 
 	// Register the "default plugins", ie, the built-in editor commands
-	array.forEach(["undo", "redo", "cut", "copy", "paste", "insertOrderedList",
-			"insertUnorderedList", "indent", "outdent", "justifyCenter",
-			"justifyFull", "justifyLeft", "justifyRight", "delete",
-			"selectAll", "removeFormat", "unlink",
-			"insertHorizontalRule"], function(name){
-		_Plugin.registry[name] = function(){
-			return new _Plugin({ command: name });
-		};
+	function simplePluginFactory(args){
+		return new _Plugin({ command: args.name });
+	}
+	function togglePluginFactory(args){
+		return new _Plugin({ buttonClass: ToggleButton, command: args.name });
+	}
+	lang.mixin(_Plugin.registry, {
+		"undo": simplePluginFactory,
+		"redo": simplePluginFactory,
+		"cut": simplePluginFactory,
+		"copy": simplePluginFactory,
+		"paste": simplePluginFactory,
+		"insertOrderedList": simplePluginFactory,
+		"insertUnorderedList": simplePluginFactory,
+		"indent": simplePluginFactory,
+		"outdent": simplePluginFactory,
+		"justifyCenter": simplePluginFactory,
+		"justifyFull": simplePluginFactory,
+		"justifyLeft": simplePluginFactory,
+		"justifyRight": simplePluginFactory,
+		"delete": simplePluginFactory,
+		"selectAll": simplePluginFactory,
+		"removeFormat": simplePluginFactory,
+		"unlink": simplePluginFactory,
+		"insertHorizontalRule": simplePluginFactory,
+
+		"bold": togglePluginFactory,
+		"italic": togglePluginFactory,
+		"underline": togglePluginFactory,
+		"strikethrough": togglePluginFactory,
+		"subscript": togglePluginFactory,
+		"superscript": togglePluginFactory,
+
+		"|": function(){
+			return new _Plugin({ button: new ToolbarSeparator(), setEditor: function(editor){this.editor = editor;}});
+		}
 	});
-	array.forEach(["bold", "italic", "underline", "strikethrough","subscript", "superscript"], function(name){
-		_Plugin.registry[name] = function(){
-			return new _Plugin({ buttonClass: ToggleButton, command: name });
-		};
-	});
-	_Plugin.registry["|"] = function(){
-		return new _Plugin({ button: new ToolbarSeparator(), setEditor: function(editor){this.editor = editor;} });
-	};
 
 	return Editor;
 });
