@@ -17,11 +17,12 @@ define([
 	"./_WidgetsInTemplateMixin",
 	"./_Container",
 	"./form/Button",
+	"./form/_TextBoxMixin",
 	"./form/TextBox",
 	"dojo/text!./templates/InlineEditBox.html",
 	"dojo/i18n!./nls/common"
 ], function(array, declare, domAttr, domClass, domConstruct, domStyle, event, i18n, kernel, keys, lang, has,
-			fm, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, _Container, Button, TextBox, template){
+			fm, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, _Container, Button, _TextBoxMixin, TextBox, template){
 
 /*=====
 	var _Widget = dijit._Widget;
@@ -237,7 +238,7 @@ var InlineEditor = declare("dijit._InlineEditor", [_Widget, _TemplatedMixin, _Wi
 		this.editWidget.focus();
 		setTimeout(lang.hitch(this, function(){
 			if(this.editWidget.focusNode && this.editWidget.focusNode.tagName == "INPUT"){
-				dijit.selectInputText(this.editWidget.focusNode);
+				_TextBoxMixin.selectInputText(this.editWidget.focusNode);
 			}
 		}), 0);
 	}
