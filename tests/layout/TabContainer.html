@@ -38,23 +38,68 @@
 			doh.register("creationAndDestruction", [
 
 				// Test that destroyRecursive removes all supporting widgets, including the list-of-tabs menu
-				// and the close menu
+				// and the close menu.  Also test that the second tab doesn't get selected
+				// for a split second as the TabContainer is being destroyed.
 				{
 					name: 'destroyRecursive',
 					runTest: function(t){
 						var num = dijit.registry.length;
 	
-						var tc = new dijit.layout.TabContainer({ id:"creationAndDestruction", useMenu:true }).placeAt(dojo.body());
-						tc.addChild(new dijit.layout.ContentPane({title: "test pane 1", closable: true}));
-						tc.addChild(new dijit.layout.ContentPane({title: "test pane 2"}));
+						var cp1 = new dijit.layout.ContentPane({title: "test pane 1", closable: true})
+							cp2 = new dijit.layout.ContentPane({title: "test pane 2", href: "doc0.html"})
+							tc = new dijit.layout.TabContainer({
+								id:"creationAndDestruction",
+								useMenu:true
+							}).placeAt(dojo.body());
+
+						var cp2selected = false;
+						cp2.watch("selected", function(){
+							cp2selected = true;
+						});
+
+						tc.addChild(cp1);
+						tc.addChild(cp2);
 						tc.startup();
-	
+
 						tc.destroyRecursive();
 	
-						t.is(dijit.registry.length, num);
+						t.is(dijit.registry.length, num, "registry length");
+						t.f(cp2selected, "second pane wasn't temporarily selected");
 					}
 				},
 				
+				// Test that on destroyDescendants(), the second tab doesn't get selected
+				// for a split second as the TabContainer is being destroyed.
+				{
+					name: 'destroyRecursive',
+					runTest: function(t){
+						var cp1 = new dijit.layout.ContentPane({title: "test pane 1", closable: true})
+							cp2 = new dijit.layout.ContentPane({title: "test pane 2", href: "doc0.html"})
+							tc = new dijit.layout.TabContainer({
+								id:"destroyDescendants",
+								useMenu:true
+							}).placeAt(dojo.body());
+
+						var cp2selected = false;
+						cp2.watch("selected", function(){
+							cp2selected = true;
+						});
+						var downloadStarted = false;
+						dojo.connect(cp2, "onDownloadStart", function(){
+							downloadStarted = true;
+						});
+
+						tc.addChild(cp1);
+						tc.addChild(cp2);
+						tc.startup();
+
+						tc.destroyDescendants();
+
+						t.f(cp2selected, "second pane wasn't temporarily selected");
+						t.f(downloadStarted, "second pane never started downloading");
+					}
+				},
+
 				// Check that tab labels for initial tabs are created
 				{
 					name: 'checkTabLabels',

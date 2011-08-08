@@ -183,9 +183,9 @@ return declare("dijit.layout.StackContainer", _LayoutWidget, {
 			connect.publish(this.id + "-removeChild", [page]);
 		}
 
-		// If we are being destroyed than don't run the code below (to select another page), because we are deleting
-		// every page one by one
-		if(this._beingDestroyed){ return; }
+		// If all our children are being destroyed than don't run the code below (to select another page),
+		//  because we are deleting every page one by one
+		if(this._descendantsBeingDestroyed){ return; }
 
 		// Select new page to display, also updating TabController to show the respective tab.
 		// Do this before layout call because it can affect the height of the TabController.
@@ -340,10 +340,12 @@ return declare("dijit.layout.StackContainer", _LayoutWidget, {
 	},
 
 	destroyDescendants: function(/*Boolean*/ preserveDom){
+		this._descendantsBeingDestroyed = true;
 		array.forEach(this.getChildren(), function(child){
 			this.removeChild(child);
 			child.destroyRecursive(preserveDom);
 		}, this);
+		this._descendantsBeingDestroyed = false;
 	}
 });
 
