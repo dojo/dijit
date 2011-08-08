@@ -537,5 +537,7 @@ _Plugin.registry["insertImage"] = function(){
 };
 
 
+// Export both LinkDialog and ImgLinkDialog
+LinkDialog.ImgLinkDialog = ImgLinkDialog;
 return LinkDialog;
 });
