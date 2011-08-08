@@ -23,12 +23,12 @@
 	</tbody>
 	<tfoot class="dijitReset dijitCalendarYearContainer">
 		<tr>
-			<td class='dijitReset' valign="top" colspan="7">
-				<h3 class="dijitCalendarYearLabel">
-					<span dojoAttachPoint="previousYearLabelNode" class="dijitInline dijitCalendarPreviousYear"></span>
-					<span dojoAttachPoint="currentYearLabelNode" class="dijitInline dijitCalendarSelectedYear" id="${id}_year"></span>
-					<span dojoAttachPoint="nextYearLabelNode" class="dijitInline dijitCalendarNextYear"></span>
-				</h3>
+			<td class='dijitReset' valign="top" colspan="7" role="presentation">
+				<div class="dijitCalendarYearLabel">
+					<span dojoAttachPoint="previousYearLabelNode" class="dijitInline dijitCalendarPreviousYear" role="button"></span>
+					<span dojoAttachPoint="currentYearLabelNode" class="dijitInline dijitCalendarSelectedYear" role="button" id="${id}_year"></span>
+					<span dojoAttachPoint="nextYearLabelNode" class="dijitInline dijitCalendarNextYear" role="button"></span>
+				</div>
 			</td>
 		</tr>
 	</tfoot>

@@ -163,6 +163,7 @@
 .claro .dijitCalendarYearLabel {
   padding: 2px 0 0 0;
   margin: 0;
+  font-size: 1.17em;
 }
 .claro .dijitCalendarYearLabel span {
   /* trying to center next/current/previous year vertically, doesn't work on IE6/7 though */
