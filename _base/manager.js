@@ -1,8 +1,9 @@
 define([
+	"dojo/_base/array",
 	"dojo/_base/config", // defaultDuration
 	"../registry",
 	".."	// for setting exports to dijit namespace
-], function(config, registry, dijit){
+], function(array, config, registry, dijit){
 
 	// module:
 	//		dijit/_base/manager
@@ -10,22 +11,26 @@ define([
 	//		Shim to methods on registry, plus a few other declarations.
 	//		New code should access dijit/registry directly when possible.
 
-	dijit.byId = function(/*String|dijit._Widget*/ id){
+	/*=====
+	dijit.byId = function(id){
 		// summary:
 		//		Returns a widget by it's id, or if passed a widget, no-op (like dom.byId())
+		// id: String|dijit._Widget
 		return registry.byId(id); // dijit._Widget
 	};
 
-	dijit.getUniqueId = function(/*String*/widgetType){
+	dijit.getUniqueId = function(widgetType){
 		// summary:
 		//		Generates a unique id for a given widgetType
+		// widgetType: String
 		return registry.getUniqueId(widgetType); // String
 	};
 
-	dijit.findWidgets = function(/*DomNode*/ root){
+	dijit.findWidgets = function(root){
 		// summary:
 		//		Search subtree under root returning widgets found.
 		//		Doesn't search for nested widgets (ie, widgets inside other widgets).
+		// root: DOMNode
 		return registry.findWidgets(root);
 	};
 
@@ -36,18 +41,24 @@ define([
 		return registry._destroyAll();
 	};
 
-	dijit.byNode = function(/*DOMNode*/ node){
+	dijit.byNode = function(node){
 		// summary:
 		//		Returns the widget corresponding to the given DOMNode
+		// node: DOMNode
 		return registry.byNode(node); // dijit._Widget
 	};
 
-	dijit.getEnclosingWidget = function(/*DOMNode*/ node){
+	dijit.getEnclosingWidget = function(node){
 		// summary:
 		//		Returns the widget whose DOM tree contains the specified DOMNode, or null if
 		//		the node is not contained within the DOM tree of any widget
+		// node: DOMNode
 		return registry.getEnclosingWidget(node);
 	};
+	=====*/
+	array.forEach(["byId", "getUniqueId", "findWidgets", "_destroyAll", "byNode", "getEnclosingWidget"], function(name){
+		dijit[name] = registry[name];
+	});
 
 	/*=====
 	dojo.mixin(dijit, {
