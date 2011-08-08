@@ -545,7 +545,8 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 });
 
 // Register this plugin.
-_Plugin.registry["viewsource"] = function(args){
+// For back-compat accept "viewsource" (all lowercase) too, remove in 2.0
+_Plugin.registry["viewSource"] = _Plugin.registry["viewsource"] = function(args){
 	return new ViewSource({
 		readOnly: ("readOnly" in args)?args.readOnly:false,
 		stripComments: ("stripComments" in args)?args.stripComments:true,
@@ -553,6 +554,8 @@ _Plugin.registry["viewsource"] = function(args){
 		stripIFrames: ("stripIFrames" in args)?args.stripIFrames:true
 	});
 };
+
+
 
 
 return ViewSource;

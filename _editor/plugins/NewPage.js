@@ -72,12 +72,12 @@ var NewPage = declare("dijit._editor.plugins.NewPage",_Plugin,{
 });
 
 // Register this plugin.
-_Plugin.registry["newpage"] = function(args){
+// For back-compat accept "newpage" (all lowercase) too, remove in 2.0
+_Plugin.registry["newPage"] = _Plugin.registry["newpage"] = function(args){
 	return new NewPage({
 		content: ("content" in args)?args.content:"<br>"
 	});
 };
-
 
 return NewPage;
 });
