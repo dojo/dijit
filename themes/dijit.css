@@ -195,8 +195,9 @@ table.dijitInline {
 
 	/* In claro, hovering a toolbar button reduces padding and adds a border.
 	 * Not needed in a11y mode since Toolbar buttons always have a border.
+	 * Note also that padding=0 makes focus border hard to see, so using padding=1.
 	 */
-	padding: 0 !important;
+	padding: 1 !important;
 }
 
 .dijit_a11y .dijitTextBoxReadOnly .dijitInputField,
