@@ -105,7 +105,13 @@ define([
 			// FIXME: Safari bubbles
 
 			// be nice to DOH and scroll as much as the event says to
-			var scrollAmount = evt.detail ? (evt.detail * -1) : (evt.wheelDelta / 120);
+			var wheelDelta = evt.wheelDelta / 120;
+			if(Math.floor(wheelDelta) != wheelDelta){
+				// If not an int multiple of 120, then its touchpad scrolling.
+				// This can change very fast so just assume 1 wheel click to make it more manageable.
+				wheelDelta = evt.wheelDelta > 0 ? 1 : -1;
+			}
+			var scrollAmount = evt.detail ? (evt.detail * -1) : wheelDelta;
 			if(scrollAmount !== 0){
 				var node = this[(scrollAmount > 0 ? "upArrowNode" : "downArrowNode" )];
 
