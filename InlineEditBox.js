@@ -433,7 +433,7 @@ var InlineEditBox = declare("dijit.InlineEditBox", _Widget, {
 		//		private
 
 		if(this.disabled || this.editing){ return; }
-		this.editing = true;
+		this._set('editing', true);
 
 		// save some display node values that can be restored later
 		this._savedPosition = domStyle.get(this.displayNode, "position") || "static";
@@ -540,7 +540,7 @@ var InlineEditBox = declare("dijit.InlineEditBox", _Widget, {
 		//		private
 
 		if(this.disabled || !this.editing){ return; }
-		this.editing = false;
+		this._set('editing', false);
 
 		var ww = this.wrapperWidget;
 		var value = ww.getValue();
@@ -590,7 +590,7 @@ var InlineEditBox = declare("dijit.InlineEditBox", _Widget, {
 		//		private
 
 		if(this.disabled || !this.editing){ return; }
-		this.editing = false;
+		this._set('editing', false);
 
 		// tell the world that we have no changes
 		setTimeout(lang.hitch(this, "onCancel"), 0); // setTimeout prevents browser freeze for long-running event handlers
