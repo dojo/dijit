@@ -9,7 +9,7 @@ define([
 	"./_WidgetBase",
 	"./_OnDijitClickMixin",
 	"./_FocusMixin",
-	"dojo/uacss",		// brower sniffing (included for back-compat; subclasses may be using)
+	"dojo/uacss",		// browser sniffing (included for back-compat; subclasses may be using)
 	"./hccss"		// high contrast mode sniffing (included to set CSS classes on <body>, module ret value unused)
 ], function(config, connect, declare, kernel, lang, query,
 			registry, _WidgetBase, _OnDijitClickMixin, _FocusMixin){
