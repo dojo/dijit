@@ -122,15 +122,18 @@ define([
 				setTimeout(lang.hitch(this, function(){
 					var s = domStyle.getComputedStyle(this.domNode);
 					if(s){
-						var ff = s.fontFamily;
-						if(ff){
-							var inputs = this.domNode.getElementsByTagName("INPUT");
-							if(inputs){
-								for(var i=0; i < inputs.length; i++){
-									inputs[i].style.fontFamily = ff;
+						try{
+							var ff = s.fontFamily;
+							if(ff){
+								var inputs = this.domNode.getElementsByTagName("INPUT");
+								if(inputs){
+									for(var i=0; i < inputs.length; i++){
+										inputs[i].style.fontFamily = ff;
+									}
 								}
 							}
-						}
+						}catch(e){/*when used in a Dialog, and this is called before the dialog is 
+						shown, s.fontFamily would trigger "Invalid Argument" error.*/}
 					}
 				}), 0);
 			}
