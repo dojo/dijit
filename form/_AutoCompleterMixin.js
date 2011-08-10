@@ -248,9 +248,9 @@ define([
 					// default case:
 					// if enter pressed while drop down is open, or for FilteringSelect,
 					// if we are in the middle of a query to convert a directly typed in value to an item,
-					// prevent submit, but allow event to bubble
+					// prevent submit
 					if(this._opened || this._fetchHandle){
-						evt.preventDefault();
+						event.stop(evt);
 					}
 					// fall through
 
