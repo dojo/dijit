@@ -97,10 +97,10 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 	onStartup: function(){
 		this.inherited(arguments);
 
-		// Do not show the TabController until the related
-		// StackController has added it's children.  This gives
-		// a less visually jumpy instantiation.
-		domStyle.set(this.domNode, "visibility", "visible");
+		// TabController is hidden until it finishes drawing, to give
+		// a less visually jumpy instantiation.   When it's finished, set visibility to ""
+		// to that the tabs are hidden/shown depending on the container's visibility setting.
+		domStyle.set(this.domNode, "visibility", "");
 		this._postStartup = true;
 	},
 
