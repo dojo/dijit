@@ -207,9 +207,8 @@ define([
 			var node = this.domNode;
 
 			if(this.titleBar && this.draggable){
-				this._moveable = (has("ie") == 6) ?
-					new TimedMoveable(node, { handle: this.titleBar }) :	// prevent overload, see #5285
-					new Moveable(node, { handle: this.titleBar, timeout: 0 });
+				this._moveable = new ((has("ie") == 6) ? TimedMoveable // prevent overload, see #5285
+					: Moveable)(node, { handle: this.titleBar });
 				this.connect(this._moveable, "onMoveStop", "_endDrag");
 			}else{
 				domClass.add(node,"dijitDialogFixed");
