@@ -77,8 +77,9 @@ dijit.popup = {
 		//		Puts widget inside a wrapper DIV (if not already in one),
 		//		and returns pointer to that wrapper DIV.
 
-		var wrapper = widget.declaredClass ? widget._popupWrapper : (widget.parentNode && dojo.hasClass(widget.parentNode, "dijitPopup")),
-			node = widget.domNode || widget;
+		var node = widget.domNode || widget,
+			wrapper = widget.declaredClass ? widget._popupWrapper :
+				node.parentNode && dojo.hasClass(node.parentNode, "dijitPopup") ? node.parentNode : null;
 
 		if(!wrapper){
 			// Create wrapper <div> for when this widget [in the future] will be used as a popup.
@@ -106,7 +107,7 @@ dijit.popup = {
 			}
 		}
 		
-		return wrapper;
+		return wrapper;	// DOMNode
 	},
 
 	moveOffScreen: function(/*Widget || DomNode*/ widget){

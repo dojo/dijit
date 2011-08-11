@@ -21,6 +21,18 @@
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_popup.html');
 
+				doh.register("API", [
+						function repeatMoveOffScreen(){
+							// Previously, calling moveOffScreen twice would cause an exception
+							dijit.popup.moveOffScreen(dijit.byId("spw"));
+							dijit.popup.moveOffScreen(dijit.byId("spw"));
+
+							// Deprecated API where moveOffScreen() takes a DOMNode
+							dijit.popup.moveOffScreen(dojo.byId("sdn"));
+							dijit.popup.moveOffScreen(dojo.byId("sdn"));
+						}
+				]);
+
 				doh.register("simple open and close", [
 					function initialConditions(t){
 						// If the popup code has cached any iframes, make sure they are hidden
