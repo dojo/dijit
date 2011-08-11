@@ -1637,7 +1637,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 
 	resize: function(changeSize){
 		if(changeSize){
-			domGeometry.setMarginBox(this.domNode, changeSize.l, changeSize.t, changeSize.w, changeSize.h);
+			domGeometry.setMarginBox(this.domNode, changeSize);
 		}
 
 		// The only JS sizing involved w/tree is the indentation, which is specified

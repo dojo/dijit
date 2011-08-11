@@ -178,7 +178,7 @@ return declare("dijit.layout._ContentPaneResizeMixin", null, {
 
 		// Set margin box size, unless it wasn't specified, in which case use current size.
 		if(changeSize){
-			domGeometry.setMarginBox(this.domNode, changeSize.l, changeSize.t, changeSize.w, changeSize.h);
+			domGeometry.setMarginBox(this.domNode, changeSize);
 		}
 
 		// Compute content box size of containerNode in case we [later] need to size our single child.

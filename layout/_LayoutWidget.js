@@ -124,7 +124,7 @@ define([
 
 			// set margin box size, unless it wasn't specified, in which case use current size
 			if(changeSize){
-				domGeometry.setMarginBox(node, changeSize.l, changeSize.t, changeSize.w, changeSize.h);
+				domGeometry.setMarginBox(node, changeSize);
 			}
 
 			// If either height or width wasn't specified by the user, then query node for it.

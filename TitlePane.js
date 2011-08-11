@@ -191,7 +191,7 @@ return declare("dijit.TitlePane", [ContentPane, _TemplatedMixin, _CssStateMixin]
 			}
 
 			// freeze container at current height so that adding new content doesn't make it jump
-			domGeometry.setMarginBox(this.wipeNode, NaN, domGeometry.getMarginBox(this.wipeNode).h);	// set height
+			domGeometry.setMarginBox(this.wipeNode, { h: domGeometry.getMarginBox(this.wipeNode).h });
 
 			// add the new content (erasing the old content, if any)
 			this.inherited(arguments);

@@ -97,7 +97,7 @@ return declare("dijit._editor.plugins.AlwaysShowToolbar", _Plugin, {
 		if(height != this._lastHeight){
 			this._lastHeight = height;
 			// this.editorObject.style.height = this._lastHeight + "px";
-			domGeometry.setMarginBox(e.iframe, NaN, NaN, NaN, this._lastHeight);	// height
+			domGeometry.setMarginBox(e.iframe, { h: this._lastHeight });
 		}
 	},
 
@@ -151,7 +151,7 @@ return declare("dijit._editor.plugins.AlwaysShowToolbar", _Plugin, {
 					s.top = "0px";
 				}
 
-				domGeometry.setMarginBox(tdn, NaN, NaN, tdnbox.w);	// width
+				domGeometry.setMarginBox(tdn, { w: tdnbox.w });
 				s.zIndex = 2000;
 				this._fixEnabled = true;
 			}

@@ -37,8 +37,7 @@ define([
 
 	function size(widget, dim){
 		// size the child
-		var newSize = widget.resize ? widget.resize(dim) :
-			domGeometry.setMarginBox(widget.domNode, dim.l, dim.t, dim.w, dim.h);
+		var newSize = widget.resize ? widget.resize(dim) : domGeometry.setMarginBox(widget.domNode, dim);
 
 		// record child's size
 		if(newSize){

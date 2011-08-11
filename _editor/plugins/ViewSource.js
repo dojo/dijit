@@ -336,13 +336,15 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 			edb.h = Math.floor((edb.h + 0.9) / _ie7zoom);
 		}
 
-		domGeometry.setMarginBox(this.sourceArea, NaN, NaN,
-			edb.w - (containerPadding.w + containerMargin.w),
-			edb.h - (containerPadding.h + containerMargin.h)
-		);
+		domGeometry.setMarginBox(this.sourceArea, {
+			w: edb.w - (containerPadding.w + containerMargin.w),
+			h: edb.h - (containerPadding.h + containerMargin.h)
+		});
 
 		// Scale the parent container too in this case.
-		domGeometry.setMarginBox(ed.iframe.parentNode, NaN, NaN, NaN, edb.h);	// height
+		domGeometry.setMarginBox(ed.iframe.parentNode, {
+			h: edb.h
+		});
 	},
 
 	_createSourceView: function(){

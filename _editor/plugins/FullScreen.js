@@ -154,7 +154,10 @@ var FullScreen = declare("dijit._editor.plugins.FullScreen",_Plugin,{
 		// tags:
 		//		private
 		var vp = winUtils.getBox();
-		domGeometry.setMarginBox(this.editor.domNode, NaN, NaN, vp.w, vp.h);
+		domGeometry.setMarginBox(this.editor.domNode, {
+			w: vp.w,
+			h: vp.h
+		});
 
 		//Adjust the internal heights too, as they can be a bit off.
 		var hHeight = this.editor.getHeaderHeight();
@@ -164,8 +167,13 @@ var FullScreen = declare("dijit._editor.plugins.FullScreen",_Plugin,{
 		var fcmExtents = domGeometry.getMarginExtents(this.editor.iframe.parentNode);
 
 		var cHeight = vp.h - (hHeight + extents.h + fHeight);
-		domGeometry.setMarginBox(this.editor.iframe.parentNode, NaN, NaN, vp.w, cHeight);
-		domGeometry.setMarginBox(this.editor.iframe, NaN, NaN, NaN, cHeight - (fcpExtents.h + fcmExtents.h));
+		domGeometry.setMarginBox(this.editor.iframe.parentNode, {
+			h: cHeight,
+			w: vp.w
+		});
+		domGeometry.setMarginBox(this.editor.iframe, {
+			h: cHeight - (fcpExtents.h + fcmExtents.h)
+		});
 	},
 
 	_getAltViewNode: function(){

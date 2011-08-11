@@ -429,7 +429,7 @@ define([
 				if(lang.isFunction(dropDown.resize)){
 					dropDown.resize(mb);
 				}else{
-					domGeometry.setMarginBox(ddNode, mb.l, mb.t, mb.w, mb.h);
+					domGeometry.setMarginBox(ddNode, mb);
 				}
 			}
 

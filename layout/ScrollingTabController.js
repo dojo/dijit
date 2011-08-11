@@ -193,7 +193,7 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 		this.scrollNode.style.height = "auto";
 		var cb = this._contentBox = layoutUtils.marginBox2contentBox(this.domNode, {h: 0, w: dim.w});
 		cb.h = this.scrollNode.offsetHeight;
-		domGeometry.setContentSize(this.domNode, cb.w, cb.h);
+		domGeometry.setContentSize(this.domNode, cb);
 
 		// Show/hide the left/right/menu navigation buttons depending on whether or not they
 		// are needed.

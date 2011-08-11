@@ -76,7 +76,7 @@ var _SelectMenu = declare("dijit.form._SelectMenu", Menu, {
 		// mb: Object
 		//		The margin box to set this dropdown to.
 		if(mb){
-			domGeometry.setMarginBox(this.domNode, mb.l, mb.t, mb.w, mb.h);
+			domGeometry.setMarginBox(this.domNode, mb);
 			if("w" in mb){
 				// We've explicitly set the wrapper <div>'s width, so set <table> width to match.
 				// 100% is safer than a pixel value because there may be a scroll bar with

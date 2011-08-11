@@ -105,7 +105,7 @@ return declare("dijit.form.MultiSelect", _FormValueWidget, {
 	// for layout widgets:
 	resize: function(/*Object*/ size){
 		if(size){
-			domGeometry.setMarginBox(this.domNode, size.l, size.t, size.w, size.h);
+			domGeometry.setMarginBox(this.domNode, size);
 		}
 	},
 
