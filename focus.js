@@ -3,6 +3,7 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/dom", // domAttr.get dom.isDescendant
 	"dojo/dom-attr", // domAttr.get dom.isDescendant
+	"dojo/dom-construct", // connect to domConstruct.empty, domConstruct.destroy
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on",
 	"dojo/ready",
@@ -14,7 +15,7 @@ define([
 	"./a11y",	// a11y.isTabNavigable
 	"./registry",	// registry.byId
 	"."		// to set dijit.focus
-], function(aspect, declare, dom, domAttr, lang, on, ready, has, Stateful, unload, win, winUtils,
+], function(aspect, declare, dom, domAttr, domConstruct, lang, on, ready, has, Stateful, unload, win, winUtils,
 			a11y, registry, dijit){
 
 	// module:
@@ -111,8 +112,8 @@ define([
 					this.set("prevNode", null);
 				}
 			});
-			aspect.before(dojo, "empty", check);
-			aspect.before(dojo, "destroy", check);
+			aspect.before(domConstruct, "empty", check);
+			aspect.before(domConstruct, "destroy", check);
 		},
 
 		registerIframe: function(/*DomNode*/ iframe){
