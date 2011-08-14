@@ -18,7 +18,8 @@ define([
 	"../Menu",
 	"../MenuItem",
 	"../form/Button",
-	"../_HasDropDown"
+	"../_HasDropDown",
+	"dojo/NodeList-dom" // NodeList.style
 ], function(array, declare, domClass, domGeometry, domStyle, fx, kernel, lang, query, has,
 	registry, tabControllerTemplate, buttonTemplate, TabController, layoutUtils, _WidgetsInTemplateMixin,
 	Menu, MenuItem, Button, _HasDropDown){
