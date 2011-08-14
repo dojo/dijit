@@ -26,6 +26,10 @@
 				// log of calls to onChange handler, and watch(value)
 				var changes = [], watches = [];
 
+				// ctrl-page-down / page-up will go forward/barck a year, except on chrome where
+				// it switches browser tabs.   use alt instead
+				var yearModifierKey = dojo.isChrome ? {alt: true} : {ctrl: true};
+
 				doh.register("setup",
 					function setUp(){
 						// refs to DateTextBox widgets
@@ -430,8 +434,8 @@
 							var d = new doh.Deferred();
 							var calendar = dijit.byId("american_popup");
 
-							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 750, {ctrl: true});
-							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 750, {ctrl: true});
+							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 750, yearModifierKey);
+							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 750, yearModifierKey);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// calendar still exists and is shown
@@ -464,7 +468,7 @@
 							var d = new doh.Deferred();
 							var calendar = dijit.byId("american_popup");
 
-							doh.robot.keyPress(dojo.keys.PAGE_UP, 750, {ctrl: true});
+							doh.robot.keyPress(dojo.keys.PAGE_UP, 750, yearModifierKey);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// calendar still exists and is shown
