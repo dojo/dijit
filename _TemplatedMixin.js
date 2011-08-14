@@ -4,7 +4,7 @@ define([
 	"./_WidgetBase",
 	"dojo/string", // string.substitute string.trim
 	"dojo/cache",	// dojo.cache
-	"dojo/array", // array.forEach
+	"dojo/_base/array", // array.forEach
 	"dojo/_base/declare", // declare
 	"dojo/dom-construct", // domConstruct.destroy, domConstruct.toDom
 	"dojo/_base/sniff", // has("ie")

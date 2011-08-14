@@ -1,5 +1,5 @@
 define([
-	"dojo/array", // array.every array.filter array.forEach array.indexOf array.map
+	"dojo/_base/array", // array.every array.filter array.forEach array.indexOf array.map
 	"dojo/_base/declare", // declare
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/lang", // lang.hitch lang.isArray

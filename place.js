@@ -1,5 +1,5 @@
 define([
-	"dojo/array", // array.forEach array.map array.some
+	"dojo/_base/array", // array.forEach array.map array.some
 	"dojo/dom-geometry", // domGeometry.getMarginBox domGeometry.position
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/window", // win.body

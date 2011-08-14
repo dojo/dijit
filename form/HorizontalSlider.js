@@ -1,5 +1,5 @@
 define([
-	"dojo/array", // array.forEach
+	"dojo/_base/array", // array.forEach
 	"dojo/_base/declare", // declare
 	"dojo/dnd/move",
 	"dojo/_base/event", // event.stop

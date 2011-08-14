@@ -1,5 +1,5 @@
 define([
-	"dojo/array", // array.forEach
+	"dojo/_base/array", // array.forEach
 	"dojo/date", // date.compare
 	"dojo/date/locale", // locale.format
 	"dojo/date/stamp", // stamp.fromISOString stamp.toISOString

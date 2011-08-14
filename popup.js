@@ -1,5 +1,5 @@
 define([
-	"dojo/array", // array.forEach array.some
+	"dojo/_base/array", // array.forEach array.some
 	"dojo/_base/connect", // connect.connect connect.disconnect
 	"dojo/_base/declare", // declare
 	"dojo/dom", // dom.isDescendant

@@ -1,5 +1,5 @@
 define([
-	"dojo/array", // array.forEach
+	"dojo/_base/array", // array.forEach
 	"dojo/_base/connect", // connect.publish
 	"dojo/dom", // dom.isDescendant
 	"dojo/_base/lang", // lang.isArray

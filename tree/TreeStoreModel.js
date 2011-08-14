@@ -1,5 +1,5 @@
 define([
-	"dojo/array", // array.filter array.forEach array.indexOf array.some
+	"dojo/_base/array", // array.filter array.forEach array.indexOf array.some
 	"dojo/_base/connect", // connect.connect connect.disconnect
 	"dojo/_base/declare", // declare
 	"dojo/_base/json", // json.stringify

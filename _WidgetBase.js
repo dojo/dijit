@@ -1,6 +1,6 @@
 define([
 	"require",			// require.toUrl
-	"dojo/array", // array.forEach array.map
+	"dojo/_base/array", // array.forEach array.map
 	"dojo/aspect",
 	"dojo/_base/config", // config.blankGif
 	"dojo/_base/connect", // connect.connect connect.disconnect connect.subscribe connect.unsubscribe

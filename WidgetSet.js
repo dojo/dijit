@@ -1,5 +1,5 @@
 define([
-	"dojo/array", // array.forEach array.map
+	"dojo/_base/array", // array.forEach array.map
 	"dojo/_base/declare", // declare
 	"dojo/_base/window", // win.global
 	"./registry"	// to add functions to dijit.registry

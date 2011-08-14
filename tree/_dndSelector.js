@@ -1,5 +1,5 @@
 define([
-	"dojo/array", // array.filter array.forEach array.map
+	"dojo/_base/array", // array.filter array.forEach array.map
 	"dojo/_base/connect", // connect.connect connect.isCopyKey
 	"dojo/_base/declare", // declare
 	"dojo/_base/event", // event.stop

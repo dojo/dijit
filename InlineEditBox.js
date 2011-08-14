@@ -1,5 +1,5 @@
 define([
-	"dojo/array", // array.forEach
+	"dojo/_base/array", // array.forEach
 	"dojo/_base/declare", // declare
 	"dojo/dom-attr", // domAttr.set domAttr.get
 	"dojo/dom-class", // domClass.add domClass.remove domClass.toggle

@@ -1,6 +1,6 @@
 define([
 	"require",
-	"dojo/array", // array.forEach array.indexOf array.map
+	"dojo/_base/array", // array.forEach array.indexOf array.map
 	"dojo/_base/connect", // connect.connect connect.disconnect keys connect.subscribe connect.unsubscribe
 	"dojo/_base/declare", // declare
 	"dojo/_base/Deferred", // Deferred

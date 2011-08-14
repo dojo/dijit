@@ -9,7 +9,7 @@ define([
 	"dojo/dom-attr",
 	"dojo/dom-class", // domClass.replace
 	"dojo/_base/lang", // lang.hitch
-	"dojo/array"	// array.indexOf
+	"dojo/_base/array"	// array.indexOf
 ], function(pm, winUtils, _Widget, _KeyNavContainer, _TemplatedMixin,
 	declare, dom, domAttr, domClass, lang, array){
 

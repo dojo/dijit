@@ -1,5 +1,5 @@
 define([
-	"dojo/array", // array.map
+	"dojo/_base/array", // array.map
 	"dojo/date",
 	"dojo/date/locale",
 	"dojo/_base/declare", // declare

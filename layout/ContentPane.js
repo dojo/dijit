@@ -6,7 +6,7 @@ define([
 	"dojo/string", // string.substitute
 	"dojo/html", // html._ContentSetter html._emptyNode
 	"dojo/i18n!../nls/loading",
-	"dojo/array", // array.forEach
+	"dojo/_base/array", // array.forEach
 	"dojo/_base/declare", // declare
 	"dojo/_base/Deferred", // Deferred
 	"dojo/dom", // dom.byId

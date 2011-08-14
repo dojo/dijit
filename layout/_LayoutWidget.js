@@ -3,7 +3,7 @@ define([
 	"../_Widget",
 	"../_Container",
 	"../_Contained",
-	"dojo/array", // array.filter array.forEach
+	"dojo/_base/array", // array.filter array.forEach
 	"dojo/_base/declare", // declare
 	"dojo/dom-class", // domClass.add domClass.remove
 	"dojo/dom-geometry", // domGeometry.marginBox

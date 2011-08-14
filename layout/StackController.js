@@ -1,5 +1,5 @@
 define([
-	"dojo/array", // array.forEach array.indexOf array.map
+	"dojo/_base/array", // array.forEach array.indexOf array.map
 	"dojo/_base/declare", // declare
 	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys

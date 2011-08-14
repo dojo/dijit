@@ -1,5 +1,5 @@
 define([
-	"dojo/array", // array.filter array.forEach array.map
+	"dojo/_base/array", // array.filter array.forEach array.map
 	"dojo/_base/connect", // connect.isCopyKey keys connect.publish
 	"dojo/cookie", // cookie
 	"dojo/_base/declare", // declare

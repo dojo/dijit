@@ -2,7 +2,7 @@ define([
 	"dojo/_base/kernel", // kernel.deprecated
 	"./_Container",
 	"./_FocusMixin",
-	"dojo/array", // array.forEach
+	"dojo/_base/array", // array.forEach
 	"dojo/keys", // keys.END keys.HOME
 	"dojo/_base/declare", // declare
 	"dojo/_base/event", // event.stop

@@ -1,5 +1,5 @@
 define([
-	"dojo/array", // array.forEach
+	"dojo/_base/array", // array.forEach
 	"dojo/_base/lang", // lang.isArray
 	"dojo/window", // windowUtils.getBox
 	"../place",
