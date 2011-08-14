@@ -129,7 +129,7 @@ define([
 
 			// reduce tooltip's width to the amount of width available, so that it doesn't overflow screen
 			this.domNode.style.width = "auto";
-			var size = domGeometry.getMarginBox(this.domNode);
+			var size = domGeometry.getContentBox(this.domNode);
 
 			var width = Math.min((Math.max(tooltipSpaceAvaliableWidth,1)), size.w);
 			var widthWasReduced = width < size.w;
