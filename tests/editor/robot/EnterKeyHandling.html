@@ -206,7 +206,7 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(function(){
-                                editor._sCall("selectElementChildren", [node]);
+								editor._sCall("selectElementChildren", [node]);
 							}, 500);
 							
 							//Keyboard kill the selection and shift position between i and s.
@@ -243,7 +243,7 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(function(){
-                                editor._sCall("selectElementChildren", [node]);
+								editor._sCall("selectElementChildren", [node]);
 							}, 500);
 							
 							//Keyboard kill the selection and shift position between i and s.
@@ -280,7 +280,7 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(function(){
-                                editor._sCall("selectElementChildren", [node]);
+								editor._sCall("selectElementChildren", [node]);
 							}, 500);
 							
 							//Keyboard kill the selection and shift position between i and s.
@@ -388,7 +388,7 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(function(){
-                                editor._sCall("selectElementChildren", [node]);
+								editor._sCall("selectElementChildren", [node]);
 							}, 500);
 							
 							//Keyboard kill the selection and shift position between i and s.
@@ -404,6 +404,29 @@
 								doh.t(val.indexOf("<p><b>s</b>") > 0, "end");
 							}), 500);
 
+							return d;
+						}
+					},
+					{
+						name: "shift enter to replace all content in p",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var editor = dijit.byId("p2");
+							editor.set('value','<p>ab</p>');
+							dojo.withGlobal(editor.window, function(){
+								var selection=dijit.range.getSelection(dojo.global);
+								selection.removeAllRanges();
+								var range=dijit.range.create(dojo.global);
+								range.setStart(editor.editNode.firstChild, 0);
+								range.setEnd(editor.editNode.firstChild, 1);
+								selection.addRange(range);
+							});
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {shift: true});
+							doh.robot.sequence(d.getTestCallback(function(){
+								var val = editor.get("value");
+								doh.is(val, '<p><br /></p>');
+							}));
 							return d;
 						}
 					},
