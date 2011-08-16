@@ -517,7 +517,14 @@ dojo.declare("dijit.range.W3CRange",null, {
 		r.select();
 	},
 	deleteContents: function(){
-		var r = this._getIERange();
+		var s = this.startContainer, r = this._getIERange();
+		if(s.nodeType === 3 && !this.startOffset){
+			//if the range starts at the beginning of a
+			//text node, move it to before the textnode
+			//to make sure the range is still valid
+			//after deleteContents() finishes
+			this.setStartBefore(s);
+		}
 		r.pasteHTML('');
 		this.endContainer = this.startContainer;
 		this.endOffset = this.startOffset;

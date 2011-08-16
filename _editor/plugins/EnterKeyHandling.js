@@ -228,7 +228,7 @@ return declare("dijit._editor.plugins.EnterKeyHandling", _Plugin, {
 						br=doc.createElement('br');
 						newrange = rangeapi.create(this.editor.window);
 						header.insertBefore(br,header.firstChild);
-						newrange.setStartBefore(br.nextSibling);
+						newrange.setStartAfter(br);
 						selection.removeAllRanges();
 						selection.addRange(newrange);
 				}else if(rangeapi.atEndOfContainer(header, range.startContainer, range.startOffset)){
