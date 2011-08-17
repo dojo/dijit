@@ -120,7 +120,6 @@ var HorizontalSlider = declare("dijit.form.HorizontalSlider", [_FormValueWidget,
 	_mousePixelCoord: "pageX",
 	_pixelCount: "w",
 	_startingPixelCoord: "x",
-	_startingPixelCount: "l",
 	_handleOffsetCoord: "left",
 	_progressPixelSize: "width",
 

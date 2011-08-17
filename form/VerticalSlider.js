@@ -22,7 +22,6 @@ define([
 		_mousePixelCoord: "pageY",
 		_pixelCount: "h",
 		_startingPixelCoord: "y",
-		_startingPixelCount: "t",
 		_handleOffsetCoord: "top",
 		_progressPixelSize: "height",
 
