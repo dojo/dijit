@@ -109,7 +109,8 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 					var cellNode = domConstruct.create("td", {
 						"class": this.cellClass,
 						tabIndex: "-1",
-						title: titles[value]
+						title: titles[value],
+						role: "presentation"
 					});
 
 					// prepare cell inner structure
