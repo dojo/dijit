@@ -248,6 +248,9 @@ table.dijitInline {
 }
 
 /* Buttons */
+.dj_gecko .dijit_a11y .dijitButtonDisabled .dijitButtonNode {
+	opacity: 0.5;
+}
 
 .dijitToggleButton,
 .dijitButton,
