@@ -35,7 +35,7 @@ var ColorPalette = declare("dijit.ColorPalette", [_Widget, _TemplatedMixin, _Pal
 	//		Can be used standalone, or as a popup.
 	//
 	// example:
-	// |	<div dojoType="dijit.ColorPalette"></div>
+	// |	<div data-dojo-type="dijit.ColorPalette"></div>
 	//
 	// example:
 	// |	var picker = new dijit.ColorPalette({ },srcNode);

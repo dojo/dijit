@@ -27,8 +27,9 @@ return declare("dijit.form.DropDownButton", [Button, _Container, _HasDropDown], 
 	//		A button with a drop down
 	//
 	// example:
-	// |	<button dojoType="dijit.form.DropDownButton" label="Hello world">
-	// |		<div dojotype="dijit.Menu">...</div>
+	// |	<button data-dojo-type="dijit.form.DropDownButton">
+	//			Hello world
+	// |		<div data-dojo-type="dijit.Menu">...</div>
 	// |	</button>
 	//
 	// example:

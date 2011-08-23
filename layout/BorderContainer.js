@@ -262,13 +262,13 @@ var BorderContainer = declare("dijit.layout.BorderContainer", _LayoutWidget, {
 	//		For complex layouts, multiple children can be specified for a single region.   In this case, the
 	//		layoutPriority flag on the children determines which child is closer to the edge (low layoutPriority)
 	//		and which child is closer to the center (high layoutPriority).   layoutPriority can also be used
-	//		instead of the design attribute to conrol layout precedence of horizontal vs. vertical panes.
+	//		instead of the design attribute to control layout precedence of horizontal vs. vertical panes.
 	// example:
-	// |	<div dojoType="dijit.layout.BorderContainer" design="sidebar" gutters="false"
+	// |	<div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props="design: 'sidebar', gutters: false"
 	// |            style="width: 400px; height: 300px;">
-	// |		<div dojoType="dijit.layout.ContentPane" region="top">header text</div>
-	// |		<div dojoType="dijit.layout.ContentPane" region="right" splitter="true" style="width: 200px;">table of contents</div>
-	// |		<div dojoType="dijit.layout.ContentPane" region="center">client area</div>
+	// |		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="region: 'top'">header text</div>
+	// |		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="region: 'right', splitter: true" style="width: 200px;">table of contents</div>
+	// |		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="region: 'center'">client area</div>
 	// |	</div>
 
 	// design: String

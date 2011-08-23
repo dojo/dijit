@@ -125,7 +125,7 @@ return declare("dijit.layout.ContentPane", [_Widget, _ContentPaneResizeMixin], {
 
 	// ioArgs: Object
 	//		Parameters to pass to xhrGet() request, for example:
-	// |	<div dojoType="dijit.layout.ContentPane" href="./bar" ioArgs="{timeout: 500}">
+	// |	<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="href: './bar', ioArgs: {timeout: 500}">
 	ioArgs: {},
 
 	// onLoadDeferred: [readonly] dojo.Deferred
@@ -275,7 +275,7 @@ return declare("dijit.layout.ContentPane", [_Widget, _ContentPaneResizeMixin], {
 		this.onLoadDeferred = new Deferred(lang.hitch(this, "cancel"));
 		if(this._created){
 			// For back-compat reasons, call onLoad() for set('content', ...)
-			// calls but not for content specified in srcNodeRef (ie: <div dojoType=ContentPane>...</div>)
+			// calls but not for content specified in srcNodeRef (ie: <div data-dojo-type=ContentPane>...</div>)
 			// or as initialization parameter (ie: new ContentPane({content: ...})
 			this.onLoadDeferred.addCallback(lang.hitch(this, "onLoad"));
 		}

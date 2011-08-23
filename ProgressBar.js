@@ -27,7 +27,7 @@ return declare("dijit.ProgressBar", [_Widget, _TemplatedMixin], {
 	//		(often the percentage completed) of a task.
 	//
 	// example:
-	// |	<div dojoType="ProgressBar"
+	// |	<div data-dojo-type="ProgressBar"
 	// |		 places="0"
 	// |		 value="..." maximum="...">
 	// |	</div>

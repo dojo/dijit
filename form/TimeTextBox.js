@@ -47,7 +47,7 @@ define([
 		//		`stamp.fromISOString` format.
 		//
 		//		Example:
-		// |	<input dojotype='dijit.form.TimeTextBox' value='T12:34:00'>
+		// |	<input data-dojo-type='dijit.form.TimeTextBox' value='T12:34:00'>
 		value: new Date(""),		// value.toString()="NaN"
 		//FIXME: in markup, you have no control over daylight savings
 

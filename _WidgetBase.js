@@ -183,16 +183,16 @@ return declare("dijit._WidgetBase", Stateful, {
 	//		"Children" in this case refers to both DOM nodes and widgets.
 	//		For example, for myWidget:
 	//
-	//		|	<div dojoType=myWidget>
+	//		|	<div data-dojo-type=myWidget>
 	//		|		<b> here's a plain DOM node
-	//		|		<span dojoType=subWidget>and a widget</span>
+	//		|		<span data-dojo-type=subWidget>and a widget</span>
 	//		|		<i> and another plain DOM node </i>
 	//		|	</div>
 	//
 	//		containerNode would point to:
 	//
 	//		|		<b> here's a plain DOM node
-	//		|		<span dojoType=subWidget>and a widget</span>
+	//		|		<span data-dojo-type=subWidget>and a widget</span>
 	//		|		<i> and another plain DOM node </i>
 	//
 	//		In templated widgets, "containerNode" is set via a

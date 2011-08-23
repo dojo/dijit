@@ -24,7 +24,7 @@ return declare("dijit.form.SimpleTextarea", TextBox, {
 	//		Doesn't automatically size according to input, like Textarea.
 	//
 	// example:
-	//	|	<textarea dojoType="dijit.form.SimpleTextarea" name="foo" value="bar" rows=30 cols=40></textarea>
+	//	|	<textarea data-dojo-type="dijit.form.SimpleTextarea" name="foo" value="bar" rows=30 cols=40></textarea>
 	//
 	// example:
 	//	|	new dijit.form.SimpleTextarea({ rows:20, cols:30 }, "foo");
