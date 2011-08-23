@@ -81,11 +81,6 @@ define([
 			propList._skipNodeCache = true;
 			propList.templateString = "<"+srcType+" class='"+src.className+"' dojoAttachPoint='"+(src.getAttribute("dojoAttachPoint") || '')+"' dojoAttachEvent='"+(src.getAttribute("dojoAttachEvent") || '')+"' >"+src.innerHTML.replace(/\%7B/g,"{").replace(/\%7D/g,"}")+"</"+srcType+">";
 
-			// strip things so we don't create stuff under us in the initial setup phase
-			query("[dojoType]", src).forEach(function(node){
-				node.removeAttribute("dojoType");
-			});
-
 			// create the new widget class
 			var wc = declare(
 				this.widgetClass,
