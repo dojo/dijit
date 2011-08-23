@@ -367,12 +367,12 @@
 							}
 						},
 						{
-							// Test that dojoAttachPoint inside of a ContentPane (inside of a template) works
+							// Test that data-dojo-attach-point inside of a ContentPane (inside of a template) works
 							name: "ContentPane",
 							runTest: function(){
 								var testW = dijit.byId("missing");
 								doh.t(testW, "widget was created");
-								doh.t(testW.missingButton, "dojoAttachPoint created");
+								doh.t(testW.missingButton, "data-dojo-attach-point created");
 								doh.is("dijit.form.Button", testW.missingButton.declaredClass, "and it's to a widget");
 								doh.t(dijit.byId("missingButtonId"), "nested widget also registered by id");
 							}

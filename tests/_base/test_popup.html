@@ -51,7 +51,7 @@
 				label: "show popup",
 				orient: {'BL': 'TL', 'BR': 'TR'},
 
-				templateString: "<button dojoAttachEvent='onclick: openPopup'>${label}</button>",
+				templateString: "<button data-dojo-attach-event='onclick: openPopup'>${label}</button>",
 
 				openPopup: function(){
 					var self = this;
@@ -107,9 +107,9 @@
 
 				templateString:
 					"<div class='choice'>" +
-						"<div dojoAttachEvent='onclick: onClick'>${choice1}</div>" +
-						"<div dojoAttachEvent='onclick: onClick'>${choice2}</div>" +
-						"<div dojoAttachEvent='onclick: onClick'>${choice3}</div>" +
+						"<div data-dojo-attach-event='onclick: onClick'>${choice1}</div>" +
+						"<div data-dojo-attach-event='onclick: onClick'>${choice2}</div>" +
+						"<div data-dojo-attach-event='onclick: onClick'>${choice3}</div>" +
 					"</div>",
 
 				onClick: function(e){
@@ -144,8 +144,8 @@
 					"<div style='width: 300px'>" +
 						"<div>${title}</div>" +
 						"<input><br>" +
-						"<button dojoAttachPoint='button'>${label}</button><br>" +
-						"<button dojoAttachEvent='onclick: onExecute'>OK</button>" +
+						"<button data-dojo-attach-point='button'>${label}</button><br>" +
+						"<button data-dojo-attach-event='onclick: onExecute'>OK</button>" +
 					"</div>",
 
 				postCreate: function(){
@@ -191,8 +191,8 @@
 
 				templateString:
 					"<div class='choice'>" +
-						"<div dojoAttachEvent='onclick: onClick'>popup1</div>" +
-						"<div dojoAttachEvent='onclick: onClick'>popup2</div>" +
+						"<div data-dojo-attach-event='onclick: onClick'>popup1</div>" +
+						"<div data-dojo-attach-event='onclick: onClick'>popup2</div>" +
 					"</div>",
 
 				onClick: function(e){

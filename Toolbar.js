@@ -32,7 +32,7 @@ define([
 		//		A Toolbar widget, used to hold things like `dijit.Editor` buttons
 
 		templateString:
-			'<div class="dijit" role="toolbar" tabIndex="${tabIndex}" dojoAttachPoint="containerNode">' +
+			'<div class="dijit" role="toolbar" tabIndex="${tabIndex}" data-dojo-attach-point="containerNode">' +
 			'</div>',
 
 		baseClass: "dijitToolbar",

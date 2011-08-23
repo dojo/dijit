@@ -41,7 +41,7 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 	//			- declaratively/programatically specifying widget initialization parameters like
 	//				onMouseMove="foo" that call foo when this.domNode gets a mousemove event
 	//			- ondijitclick
-	//				Support new dojoAttachEvent="ondijitclick: ..." that is triggered by a mouse click or a SPACE/ENTER keypress
+	//				Support new data-dojo-attach-event="ondijitclick: ..." that is triggered by a mouse click or a SPACE/ENTER keypress
 	//			- focus related functions
 	//				In particular, the onFocus()/onBlur() callbacks.   Driven internally by
 	//				dijit/_base/focus.js.

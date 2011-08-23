@@ -34,26 +34,26 @@ define([
 
 		// _buttonNode: [protected] DomNode
 		//		The button/icon/node to click to display the drop down.
-		//		Can be set via a dojoAttachPoint assignment.
+		//		Can be set via a data-dojo-attach-point assignment.
 		//		If missing, then either focusNode or domNode (if focusNode is also missing) will be used.
 		_buttonNode: null,
 
 		// _arrowWrapperNode: [protected] DomNode
 		//		Will set CSS class dijitUpArrow, dijitDownArrow, dijitRightArrow etc. on this node depending
 		//		on where the drop down is set to be positioned.
-		//		Can be set via a dojoAttachPoint assignment.
+		//		Can be set via a data-dojo-attach-point assignment.
 		//		If missing, then _buttonNode will be used.
 		_arrowWrapperNode: null,
 
 		// _popupStateNode: [protected] DomNode
 		//		The node to set the popupActive class on.
-		//		Can be set via a dojoAttachPoint assignment.
+		//		Can be set via a data-dojo-attach-point assignment.
 		//		If missing, then focusNode or _buttonNode (if focusNode is missing) will be used.
 		_popupStateNode: null,
 
 		// _aroundNode: [protected] DomNode
 		//		The node to display the popup around.
-		//		Can be set via a dojoAttachPoint assignment.
+		//		Can be set via a data-dojo-attach-point assignment.
 		//		If missing, then domNode will be used.
 		_aroundNode: null,
 

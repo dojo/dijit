@@ -27,7 +27,7 @@ return declare("dijit.form.MultiSelect", _FormValueWidget, {
 	//		set the size via style="..." or CSS class names instead.
 	size: 7,
 
-	templateString: "<select multiple='true' ${!nameAttrSetting} dojoAttachPoint='containerNode,focusNode' dojoAttachEvent='onchange: _onChange'></select>",
+	templateString: "<select multiple='true' ${!nameAttrSetting} data-dojo-attach-point='containerNode,focusNode' data-dojo-attach-event='onchange: _onChange'></select>",
 
 	addSelected: function(/*dijit.form.MultiSelect*/ select){
 		// summary:

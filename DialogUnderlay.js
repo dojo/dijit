@@ -35,7 +35,7 @@ define([
 
 		// Template has two divs; outer div is used for fade-in/fade-out, and also to hold background iframe.
 		// Inner div has opacity specified in CSS file.
-		templateString: "<div class='dijitDialogUnderlayWrapper'><div class='dijitDialogUnderlay' dojoAttachPoint='node'></div></div>",
+		templateString: "<div class='dijitDialogUnderlayWrapper'><div class='dijitDialogUnderlay' data-dojo-attach-point='node'></div></div>",
 
 		// Parameters on creation or updatable later
 

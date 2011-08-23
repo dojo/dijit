@@ -56,7 +56,7 @@ var _FontDropDown = declare("dijit._editor.plugins._FontDropDown",
 			"<label class='dijitLeft dijitInline' for='${selectId}'>${label}</label>" +
 			"<input data-dojo-type='dijit.form.FilteringSelect' required='false' " +
 			        "data-dojo-props='labelType:\"html\", labelAttr:\"label\", searchAttr:\"name\"' " +
-					"tabIndex='-1' id='${selectId}' dojoAttachPoint='select' value=''/>" +
+					"tabIndex='-1' id='${selectId}' data-dojo-attach-point='select' value=''/>" +
 		"</span>",
 
 	postMixInProperties: function(){

@@ -54,7 +54,7 @@ define([
 		dowTemplateString: '<th class="dijitReset dijitCalendarDayLabelTemplate" role="columnheader"><span class="dijitCalendarDayLabel">${d}</span></th>',
 
 		// Templates for a single date (ex: 13), and for a row for a week (ex: 20 21 22 23 24 25 26)
-		dateTemplateString: '<td class="dijitReset" role="gridcell" dojoAttachPoint="dateCells"><span class="dijitCalendarDateLabel" dojoAttachPoint="dateLabels"></span></td>',
+		dateTemplateString: '<td class="dijitReset" role="gridcell" data-dojo-attach-point="dateCells"><span class="dijitCalendarDateLabel" data-dojo-attach-point="dateLabels"></span></td>',
 		weekTemplateString: '<tr class="dijitReset dijitCalendarWeekTemplate" role="row">${d}${d}${d}${d}${d}${d}${d}</tr>',
 
 		// value: Date

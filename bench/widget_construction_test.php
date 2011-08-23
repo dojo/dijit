@@ -22,7 +22,7 @@
 				{
 					label: "",
 
-					templateString: "<button dojoAttachEvent='onclick:onClick'>${label}</button>",
+					templateString: "<button data-dojo-attach-event='onclick:onClick'>${label}</button>",
 
 					onClick: function(){
 						this.domNode.style.backgroundColor="green";

@@ -174,7 +174,7 @@ return declare("dijit._WidgetBase", Stateful, {
 	// domNode: [readonly] DomNode
 	//		This is our visible representation of the widget! Other DOM
 	//		Nodes may by assigned to other properties, usually through the
-	//		template system's dojoAttachPoint syntax, but the domNode
+	//		template system's data-dojo-attach-point syntax, but the domNode
 	//		property is the canonical "top level" node in widget UI.
 	domNode: null,
 
@@ -196,7 +196,7 @@ return declare("dijit._WidgetBase", Stateful, {
 	//		|		<i> and another plain DOM node </i>
 	//
 	//		In templated widgets, "containerNode" is set via a
-	//		dojoAttachPoint assignment.
+	//		data-dojo-attach-point assignment.
 	//
 	//		containerNode must be defined for any widget that accepts innerHTML
 	//		(like ContentPane or BorderContainer or even Button), and conversely

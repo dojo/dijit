@@ -64,23 +64,23 @@
 					templateString: "<tr><td>${fake}</td></tr>"
 				});
 
-				// dojoAttachPoint
+				// data-dojo-attach-point
 				dojo.declare("AttachPoint", [dijit._Widget, dijit._TemplatedMixin], {
 					templateString: "<div style='border: 1px solid red'>" +
-										"<button dojoAttachPoint='buttonNode,focusNode'>hi</button>" +
-										'<span><input dojoAttachPoint="inputNode" value="input"/></span>' +
-										"<span dojoAttachPoint='containerNode'></span>" +
+										"<button data-dojo-attach-point='buttonNode,focusNode'>hi</button>" +
+										'<span><input data-dojo-attach-point="inputNode" value="input"/></span>' +
+										"<span data-dojo-attach-point='containerNode'></span>" +
 									"</div>"
 				});
 
-				// dojoAttachEvent
+				// data-dojo-attach-event
 				dojo.declare("AttachEvent", [dijit._Widget, dijit._TemplatedMixin], {
 					click: function(){ this.clickCalled=true; },
 					onfocus: function(){ this.focusCalled=true; },
 					focus2: function(){ this.focus2Called=true; },
 					templateString: "<table style='border: 1px solid blue'><tr>" +
-										"<td><button type='button' dojoAttachPoint='left' dojoAttachEvent='onclick: click, onfocus'>left</button></td>" +
-										"<td><button type='button' dojoAttachPoint='right' dojoAttachEvent='onclick: click, onfocus: focus2'>right</button></td>" +
+										"<td><button type='button' data-dojo-attach-point='left' data-dojo-attach-event='onclick: click, onfocus'>left</button></td>" +
+										"<td><button type='button' data-dojo-attach-point='right' data-dojo-attach-event='onclick: click, onfocus: focus2'>right</button></td>" +
 									"</tr></table>"
 				});
 

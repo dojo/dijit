@@ -286,7 +286,7 @@ define([
 		months: [],
 
 		templateString: "<div class='dijitCalendarMonthMenu dijitMenu' " +
-			"dojoAttachEvent='onclick:_onClick,onmouseover:_onMenuHover,onmouseout:_onMenuHover'></div>",
+			"data-dojo-attach-event='onclick:_onClick,onmouseover:_onMenuHover,onmouseout:_onMenuHover'></div>",
 
 		_setMonthsAttr: function(/*String[]*/ months){
 			this.domNode.innerHTML = array.map(months, function(month, idx){

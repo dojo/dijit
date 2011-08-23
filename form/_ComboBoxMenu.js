@@ -32,9 +32,9 @@ define([
 		// tags:
 		//		private
 
-		templateString: "<div class='dijitReset dijitMenu' dojoAttachPoint='containerNode' style='overflow: auto; overflow-x: hidden;'>"
-				+"<div class='dijitMenuItem dijitMenuPreviousButton' dojoAttachPoint='previousButton' role='option'></div>"
-				+"<div class='dijitMenuItem dijitMenuNextButton' dojoAttachPoint='nextButton' role='option'></div>"
+		templateString: "<div class='dijitReset dijitMenu' data-dojo-attach-point='containerNode' style='overflow: auto; overflow-x: hidden;'>"
+				+"<div class='dijitMenuItem dijitMenuPreviousButton' data-dojo-attach-point='previousButton' role='option'></div>"
+				+"<div class='dijitMenuItem dijitMenuNextButton' data-dojo-attach-point='nextButton' role='option'></div>"
 				+"</div>",
 
 		baseClass: "dijitComboBoxMenu",

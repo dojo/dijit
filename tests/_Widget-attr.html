@@ -36,10 +36,10 @@
 							_setPlainTextAttr: {node: "plainTextNode", type: "innerText"},
 	
 							templateString: "<div class='class1' style='border: 1px solid red; width: 456px'>" +
-												"<button dojoAttachPoint='buttonNode,focusNode'>hi</button>" +
-												'<span><input dojoAttachPoint="inputNode" value="input"></span>' +
-												"<span dojoAttachPoint='containerNode'></span>" +
-												"<span dojoAttachPoint='plainTextNode'>original plain text</span>" +
+												"<button data-dojo-attach-point='buttonNode,focusNode'>hi</button>" +
+												'<span><input data-dojo-attach-point="inputNode" value="input"></span>' +
+												"<span data-dojo-attach-point='containerNode'></span>" +
+												"<span data-dojo-attach-point='plainTextNode'>original plain text</span>" +
 											"</div>"
 						});
 
@@ -126,7 +126,7 @@
 							_setNameWithDashesAttr: {node: "dashNode", type: "innerHTML"},
 	
 							templateString: "<div>" +
-												"<span dojoAttachPoint='dashNode'></span>" +
+												"<span data-dojo-attach-point='dashNode'></span>" +
 											"</div>"
 						});
 
@@ -144,7 +144,7 @@
 					// Test deprecated attr() method				
 					function attr(){
 						var MyWidget = new dojo.declare([dijit._Widget, dijit._TemplatedMixin], {
-							templateString: "<div><span dojoAttachPoint=nameNode></span></div>",
+							templateString: "<div><span data-dojo-attach-point=nameNode></span></div>",
 							_setNameAttr:  {node: "nameNode", type: "innerHTML"}
 						});
 
@@ -169,10 +169,10 @@
 						var AttrMap = dojo.declare([dijit._Widget, dijit._TemplatedMixin], {
 							attributeMap: {foo: "", bar: "buttonNode", plainText: {node: "plainTextNode", type: "innerText"}},
 							templateString: "<div class='class1' style='border: 1px solid red; width: 456px'>" +
-												"<button dojoAttachPoint='buttonNode,focusNode'>hi</button>" +
-												'<span><input dojoAttachPoint="inputNode" value="input"></span>' +
-												"<span dojoAttachPoint='containerNode'></span>" +
-												"<span dojoAttachPoint='plainTextNode'>original plain text</span>" +
+												"<button data-dojo-attach-point='buttonNode,focusNode'>hi</button>" +
+												'<span><input data-dojo-attach-point="inputNode" value="input"></span>' +
+												"<span data-dojo-attach-point='containerNode'></span>" +
+												"<span data-dojo-attach-point='plainTextNode'>original plain text</span>" +
 											"</div>"
 						});
 

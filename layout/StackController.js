@@ -78,7 +78,7 @@ define([
 
 		baseClass: "dijitTabController",
 
-		templateString: "<span role='tablist' dojoAttachEvent='onkeypress'></span>",
+		templateString: "<span role='tablist' data-dojo-attach-event='onkeypress'></span>",
 
 		// containerId: [const] String
 		//		The id of the page container that I point to
