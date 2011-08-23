@@ -125,8 +125,8 @@
 
 				doh.t(toTheLeft || toTheRight, "The tooltip was not to the left or right");
 
-				var tooltip = dojo.query("div[dojoattachpoint='containerNode']");
-				var tooltipPos = dojo.position(tooltip[0]);
+				var tooltip = dijit.Tooltip._masterTT.containerNode;
+				var tooltipPos = dojo.position(tooltip);
 
 				var view = dojo.window.getBox();
 				var isIE6 = dojo.isIE < 7;
