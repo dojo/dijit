@@ -11,7 +11,7 @@
 
 /* Button */
 
-.dj_iequirks .dijitComboButtonRtl BUTTON {
+.dj_iequirks .dijitComboButtonRtl button {
 	/* workaround bug where label invisible (themeTesterQuirk.html?dir=rtl) */
 	float:left;
 }

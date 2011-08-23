@@ -66,8 +66,8 @@ table.dijitInline {
 	#display: inline;
 }
 
-.dj_ie INPUT.dijitTextBox,
-.dj_ie .dijitTextBox INPUT {
+.dj_ie input.dijitTextBox,
+.dj_ie .dijitTextBox input {
 	font-size: 100%;
 }
 .dijitTextBox .dijitSpinnerButtonContainer,
@@ -76,7 +76,7 @@ table.dijitInline {
 	float: right;
 	text-align: center;
 }
-.dijitTextBox INPUT.dijitInputField {
+.dijitTextBox input.dijitInputField {
 	/* override unreasonable user styling of buttons and icons */
 	padding-left: 0 !important;
 	padding-right: 0 !important;
@@ -153,16 +153,16 @@ table.dijitInline {
 		A11Y
  ****/
 .dijit_a11y .dijitIcon,
-.dijit_a11y DIV.dijitArrowButtonInner, /* is this only for Spinner?  if so, it should be deleted */
-.dijit_a11y SPAN.dijitArrowButtonInner,
-.dijit_a11y IMG.dijitArrowButtonInner,
+.dijit_a11y div.dijitArrowButtonInner, /* is this only for Spinner?  if so, it should be deleted */
+.dijit_a11y span.dijitArrowButtonInner,
+.dijit_a11y img.dijitArrowButtonInner,
 .dijit_a11y .dijitCalendarIncrementControl,
 .dijit_a11y .dijitTreeExpando {
 	/* hide icon nodes in high contrast mode; when necessary they will be replaced by character equivalents
-	 * exception for INPUT.dijitArrowButtonInner, because the icon and character are controlled by the same node */
+	 * exception for input.dijitArrowButtonInner, because the icon and character are controlled by the same node */
 	display: none;
 }
-.dijitSpinner DIV.dijitArrowButtonInner {
+.dijitSpinner div.dijitArrowButtonInner {
 	display: block; /* override previous rule */
 }
 
@@ -268,7 +268,7 @@ td.dijitButtonContents {
 	display: table-cell;	/* but don't affect Select, ComboButton */
 }
 
-.dijitButtonNode IMG {
+.dijitButtonNode img {
 	/* make text and images line up cleanly */
 	vertical-align:middle;
 	/*margin-bottom:.2em;*/
@@ -336,7 +336,7 @@ td.dijitButtonContents {
 	overflow: visible;
 }
 
-DIV.dijitArrowButton {
+div.dijitArrowButton {
 	float: right;
 }
 
@@ -356,14 +356,14 @@ DIV.dijitArrowButton {
 .dijitTextBoxDisabled {
 	color: gray;
 }
-.dj_webkit .dijitTextBoxDisabled INPUT {
+.dj_webkit .dijitTextBoxDisabled input {
 	color: #eee; /* because WebKit lightens disabled input/textarea no matter what color you specify */
 }
-.dj_webkit TEXTAREA.dijitTextAreaDisabled {
+.dj_webkit textarea.dijitTextAreaDisabled {
 	color: #333; /* because WebKit lightens disabled input/textarea no matter what color you specify */
 }
-.dj_gecko .dijitTextBoxReadOnly INPUT.dijitInputField, /* disable arrow and validation presentation INPUTs but allow real INPUT for text selection */
-.dj_gecko .dijitTextBoxDisabled INPUT {
+.dj_gecko .dijitTextBoxReadOnly input.dijitInputField, /* disable arrow and validation presentation inputs but allow real input for text selection */
+.dj_gecko .dijitTextBoxDisabled input {
 	-moz-user-input: none; /* prevent focus of disabled textbox buttons */
 }
 
@@ -382,14 +382,14 @@ DIV.dijitArrowButton {
 }
 
 /* rules for webkit to deal with fuzzy blue focus border */
-.dijitTextBox INPUT:focus {
+.dijitTextBox input:focus {
 	outline: none;	/* blue fuzzy line looks wrong on combobox or something w/validation icon showing */
 }
 .dijitTextBoxFocused {
 	outline: 5px -webkit-focus-ring-color;
 }
 
-.dijitTextBox INPUT {
+.dijitTextBox input {
 	float: left; /* needed by IE to remove secret margin */
 }
 .dijitInputInner {
@@ -404,11 +404,11 @@ DIV.dijitArrowButton {
 	margin-left: 0 !important;
 	margin-right: 0 !important;
 }
-.dijit_a11y .dijitTextBox INPUT {
+.dijit_a11y .dijitTextBox input {
 	margin: 0 !important;
 }
-.dijitTextBoxError INPUT.dijitValidationInner,
-.dijitTextBox INPUT.dijitArrowButtonInner {
+.dijitTextBoxError input.dijitValidationInner,
+.dijitTextBox input.dijitArrowButtonInner {
 	/* <input> used to display arrow icon/validation icon, or in arrow character in high contrast mode.
 	 * The css below is a trick to hide the character in non-high-contrast mode
 	 */
@@ -420,26 +420,26 @@ DIV.dijitArrowButton {
 	#letter-spacing: -5em !important;
 	#text-align: right !important;
 }
-.dj_ie .dijitTextBox INPUT,
-.dj_ie INPUT.dijitTextBox {
-	overflow-y: visible; /* INPUTs need help expanding when padding is added or line-height is adjusted */
+.dj_ie .dijitTextBox input,
+.dj_ie input.dijitTextBox {
+	overflow-y: visible; /* inputs need help expanding when padding is added or line-height is adjusted */
 	line-height: normal; /* strict mode */
 }
-.dj_ie7 .dijitTextBox INPUT.dijitValidationInner,
-.dj_ie7 .dijitTextBox INPUT.dijitArrowButtonInner {
+.dj_ie7 .dijitTextBox input.dijitValidationInner,
+.dj_ie7 .dijitTextBox input.dijitArrowButtonInner {
 	line-height: 86%; /* IE7 problem where the icon is vertically too low w/o this - real input stays at normal */
 }
-.dj_ie6 .dijitTextBox INPUT,
-.dj_ie6 INPUT.dijitTextBox,
-.dj_iequirks .dijitTextBox INPUT.dijitValidationInner,
-.dj_iequirks .dijitTextBox INPUT.dijitArrowButtonInner,
-.dj_iequirks .dijitTextBox INPUT.dijitSpinnerButtonInner,
-.dj_iequirks .dijitTextBox INPUT.dijitInputInner,
-.dj_iequirks INPUT.dijitTextBox {
+.dj_ie6 .dijitTextBox input,
+.dj_ie6 input.dijitTextBox,
+.dj_iequirks .dijitTextBox input.dijitValidationInner,
+.dj_iequirks .dijitTextBox input.dijitArrowButtonInner,
+.dj_iequirks .dijitTextBox input.dijitSpinnerButtonInner,
+.dj_iequirks .dijitTextBox input.dijitInputInner,
+.dj_iequirks input.dijitTextBox {
 	line-height: 100%; /* IE7 problem where the icon is vertically way too low w/o this */
 }
-.dijit_a11y INPUT.dijitValidationInner,
-.dijit_a11y INPUT.dijitArrowButtonInner {
+.dijit_a11y input.dijitValidationInner,
+.dijit_a11y input.dijitArrowButtonInner {
 	/* (in high contrast mode) revert rules from above so character displays */
 	text-indent: 0 !important;
 	width: 1em !important;
@@ -500,7 +500,7 @@ DIV.dijitArrowButton {
 }
 .dijit_a11y .dijitTextBox .dijitSpinnerButtonContainer,
 .dijit_a11y .dijitSpinner .dijitArrowButtonInner,
-.dijit_a11y .dijitSpinnerButtonContainer INPUT {
+.dijit_a11y .dijitSpinnerButtonContainer input {
 	width: 1em !important;
 }
 .dijit_a11y .dijitSpinner .dijitArrowButtonInner {
@@ -625,8 +625,8 @@ DIV.dijitArrowButton {
 	overflow: hidden;
 }
 
-.dijitCheckBox INPUT,
-.dijitRadio INPUT {
+.dijitCheckBox input,
+.dijitRadio input {
 	margin: 0;
 	padding: 0;
 	display: block;
@@ -1353,7 +1353,7 @@ body .dijitAlignClient { position: absolute; }
 	border-right: 0;
 }
 
-DIV.dijitTabDisabled, .dj_ie DIV.dijitTabDisabled {
+div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	cursor: auto;
 }
 
@@ -1587,7 +1587,7 @@ DIV.dijitTabDisabled, .dj_ie DIV.dijitTabDisabled {
 	right:50%;
 }
 
-.dijit_a11y DIV.dijitSliderImageHandle,
+.dijit_a11y div.dijitSliderImageHandle,
 .dijitSliderImageHandle {
 	margin:0;
 	padding:0;
@@ -1835,7 +1835,7 @@ DIV.dijitTabDisabled, .dj_ie DIV.dijitTabDisabled {
 }
 
 /* + and - Slider buttons: override theme settings to display icons */
-.dijit_a11y .dijitSlider .dijitSliderButtonContainer DIV {
+.dijit_a11y .dijitSlider .dijitSliderButtonContainer div {
 	font-family: monospace; /* otherwise hyphen is larger and more vertically centered */
 	font-size: 1em;
 	line-height: 1em;
