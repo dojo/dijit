@@ -14,12 +14,13 @@
 		<script type="text/javascript"> djConfig = { isDebug: true, parseOnLoad: true }; </script>
 		<script type="text/javascript" src="../../dojo/dojo.js"></script>
 		<script>
+			dojo.require("dojo.parser");
 			dojo.require("dijit.form.Button");
 		</script>
 
 		<script type="text/javascript">
 				oldTime = new Date();
-				dojo.addOnLoad(function(){
+				dojo.ready(function(){
 					var time = new Date().getTime() - oldTime;
 					var p = document.createElement("p");
 					p.appendChild(document.createTextNode("Widgets loaded in " + time + "ms"));
@@ -42,115 +43,115 @@
 		however results for the same browser are relative to each other.
 		</p>
 
-		<button dojoType="dijit.form.Button">hello world 0</button>
-		<button dojoType="dijit.form.Button">hello world 1</button>
-		<button dojoType="dijit.form.Button">hello world 2</button>
-		<button dojoType="dijit.form.Button">hello world 3</button>
-		<button dojoType="dijit.form.Button">hello world 4</button>
-		<button dojoType="dijit.form.Button">hello world 5</button>
-		<button dojoType="dijit.form.Button">hello world 6</button>
-		<button dojoType="dijit.form.Button">hello world 7</button>
-		<button dojoType="dijit.form.Button">hello world 8</button>
-		<button dojoType="dijit.form.Button">hello world 9</button>
+		<button data-dojo-type="dijit.form.Button">hello world 0</button>
+		<button data-dojo-type="dijit.form.Button">hello world 1</button>
+		<button data-dojo-type="dijit.form.Button">hello world 2</button>
+		<button data-dojo-type="dijit.form.Button">hello world 3</button>
+		<button data-dojo-type="dijit.form.Button">hello world 4</button>
+		<button data-dojo-type="dijit.form.Button">hello world 5</button>
+		<button data-dojo-type="dijit.form.Button">hello world 6</button>
+		<button data-dojo-type="dijit.form.Button">hello world 7</button>
+		<button data-dojo-type="dijit.form.Button">hello world 8</button>
+		<button data-dojo-type="dijit.form.Button">hello world 9</button>
 
-		<button dojoType="dijit.form.Button">hello world 10</button>
-		<button dojoType="dijit.form.Button">hello world 11</button>
-		<button dojoType="dijit.form.Button">hello world 12</button>
-		<button dojoType="dijit.form.Button">hello world 13</button>
-		<button dojoType="dijit.form.Button">hello world 14</button>
-		<button dojoType="dijit.form.Button">hello world 15</button>
-		<button dojoType="dijit.form.Button">hello world 16</button>
-		<button dojoType="dijit.form.Button">hello world 17</button>
-		<button dojoType="dijit.form.Button">hello world 18</button>
-		<button dojoType="dijit.form.Button">hello world 19</button>
+		<button data-dojo-type="dijit.form.Button">hello world 10</button>
+		<button data-dojo-type="dijit.form.Button">hello world 11</button>
+		<button data-dojo-type="dijit.form.Button">hello world 12</button>
+		<button data-dojo-type="dijit.form.Button">hello world 13</button>
+		<button data-dojo-type="dijit.form.Button">hello world 14</button>
+		<button data-dojo-type="dijit.form.Button">hello world 15</button>
+		<button data-dojo-type="dijit.form.Button">hello world 16</button>
+		<button data-dojo-type="dijit.form.Button">hello world 17</button>
+		<button data-dojo-type="dijit.form.Button">hello world 18</button>
+		<button data-dojo-type="dijit.form.Button">hello world 19</button>
 
-		<button dojoType="dijit.form.Button">hello world 20</button>
-		<button dojoType="dijit.form.Button">hello world 21</button>
-		<button dojoType="dijit.form.Button">hello world 22</button>
-		<button dojoType="dijit.form.Button">hello world 23</button>
-		<button dojoType="dijit.form.Button">hello world 24</button>
-		<button dojoType="dijit.form.Button">hello world 25</button>
-		<button dojoType="dijit.form.Button">hello world 26</button>
-		<button dojoType="dijit.form.Button">hello world 27</button>
-		<button dojoType="dijit.form.Button">hello world 28</button>
-		<button dojoType="dijit.form.Button">hello world 29</button>
+		<button data-dojo-type="dijit.form.Button">hello world 20</button>
+		<button data-dojo-type="dijit.form.Button">hello world 21</button>
+		<button data-dojo-type="dijit.form.Button">hello world 22</button>
+		<button data-dojo-type="dijit.form.Button">hello world 23</button>
+		<button data-dojo-type="dijit.form.Button">hello world 24</button>
+		<button data-dojo-type="dijit.form.Button">hello world 25</button>
+		<button data-dojo-type="dijit.form.Button">hello world 26</button>
+		<button data-dojo-type="dijit.form.Button">hello world 27</button>
+		<button data-dojo-type="dijit.form.Button">hello world 28</button>
+		<button data-dojo-type="dijit.form.Button">hello world 29</button>
 
-		<button dojoType="dijit.form.Button">hello world 30</button>
-		<button dojoType="dijit.form.Button">hello world 31</button>
-		<button dojoType="dijit.form.Button">hello world 32</button>
-		<button dojoType="dijit.form.Button">hello world 33</button>
-		<button dojoType="dijit.form.Button">hello world 34</button>
-		<button dojoType="dijit.form.Button">hello world 35</button>
-		<button dojoType="dijit.form.Button">hello world 36</button>
-		<button dojoType="dijit.form.Button">hello world 37</button>
-		<button dojoType="dijit.form.Button">hello world 38</button>
-		<button dojoType="dijit.form.Button">hello world 39</button>
+		<button data-dojo-type="dijit.form.Button">hello world 30</button>
+		<button data-dojo-type="dijit.form.Button">hello world 31</button>
+		<button data-dojo-type="dijit.form.Button">hello world 32</button>
+		<button data-dojo-type="dijit.form.Button">hello world 33</button>
+		<button data-dojo-type="dijit.form.Button">hello world 34</button>
+		<button data-dojo-type="dijit.form.Button">hello world 35</button>
+		<button data-dojo-type="dijit.form.Button">hello world 36</button>
+		<button data-dojo-type="dijit.form.Button">hello world 37</button>
+		<button data-dojo-type="dijit.form.Button">hello world 38</button>
+		<button data-dojo-type="dijit.form.Button">hello world 39</button>
 
-		<button dojoType="dijit.form.Button">hello world 40</button>
-		<button dojoType="dijit.form.Button">hello world 41</button>
-		<button dojoType="dijit.form.Button">hello world 42</button>
-		<button dojoType="dijit.form.Button">hello world 43</button>
-		<button dojoType="dijit.form.Button">hello world 44</button>
-		<button dojoType="dijit.form.Button">hello world 45</button>
-		<button dojoType="dijit.form.Button">hello world 46</button>
-		<button dojoType="dijit.form.Button">hello world 47</button>
-		<button dojoType="dijit.form.Button">hello world 48</button>
-		<button dojoType="dijit.form.Button">hello world 49</button>
+		<button data-dojo-type="dijit.form.Button">hello world 40</button>
+		<button data-dojo-type="dijit.form.Button">hello world 41</button>
+		<button data-dojo-type="dijit.form.Button">hello world 42</button>
+		<button data-dojo-type="dijit.form.Button">hello world 43</button>
+		<button data-dojo-type="dijit.form.Button">hello world 44</button>
+		<button data-dojo-type="dijit.form.Button">hello world 45</button>
+		<button data-dojo-type="dijit.form.Button">hello world 46</button>
+		<button data-dojo-type="dijit.form.Button">hello world 47</button>
+		<button data-dojo-type="dijit.form.Button">hello world 48</button>
+		<button data-dojo-type="dijit.form.Button">hello world 49</button>
 
-		<button dojoType="dijit.form.Button">hello world 50</button>
-		<button dojoType="dijit.form.Button">hello world 51</button>
-		<button dojoType="dijit.form.Button">hello world 52</button>
-		<button dojoType="dijit.form.Button">hello world 53</button>
-		<button dojoType="dijit.form.Button">hello world 54</button>
-		<button dojoType="dijit.form.Button">hello world 55</button>
-		<button dojoType="dijit.form.Button">hello world 56</button>
-		<button dojoType="dijit.form.Button">hello world 57</button>
-		<button dojoType="dijit.form.Button">hello world 58</button>
-		<button dojoType="dijit.form.Button">hello world 59</button>
+		<button data-dojo-type="dijit.form.Button">hello world 50</button>
+		<button data-dojo-type="dijit.form.Button">hello world 51</button>
+		<button data-dojo-type="dijit.form.Button">hello world 52</button>
+		<button data-dojo-type="dijit.form.Button">hello world 53</button>
+		<button data-dojo-type="dijit.form.Button">hello world 54</button>
+		<button data-dojo-type="dijit.form.Button">hello world 55</button>
+		<button data-dojo-type="dijit.form.Button">hello world 56</button>
+		<button data-dojo-type="dijit.form.Button">hello world 57</button>
+		<button data-dojo-type="dijit.form.Button">hello world 58</button>
+		<button data-dojo-type="dijit.form.Button">hello world 59</button>
 
-		<button dojoType="dijit.form.Button">hello world 60</button>
-		<button dojoType="dijit.form.Button">hello world 61</button>
-		<button dojoType="dijit.form.Button">hello world 62</button>
-		<button dojoType="dijit.form.Button">hello world 63</button>
-		<button dojoType="dijit.form.Button">hello world 64</button>
-		<button dojoType="dijit.form.Button">hello world 65</button>
-		<button dojoType="dijit.form.Button">hello world 66</button>
-		<button dojoType="dijit.form.Button">hello world 67</button>
-		<button dojoType="dijit.form.Button">hello world 68</button>
-		<button dojoType="dijit.form.Button">hello world 69</button>
+		<button data-dojo-type="dijit.form.Button">hello world 60</button>
+		<button data-dojo-type="dijit.form.Button">hello world 61</button>
+		<button data-dojo-type="dijit.form.Button">hello world 62</button>
+		<button data-dojo-type="dijit.form.Button">hello world 63</button>
+		<button data-dojo-type="dijit.form.Button">hello world 64</button>
+		<button data-dojo-type="dijit.form.Button">hello world 65</button>
+		<button data-dojo-type="dijit.form.Button">hello world 66</button>
+		<button data-dojo-type="dijit.form.Button">hello world 67</button>
+		<button data-dojo-type="dijit.form.Button">hello world 68</button>
+		<button data-dojo-type="dijit.form.Button">hello world 69</button>
 
-		<button dojoType="dijit.form.Button">hello world 70</button>
-		<button dojoType="dijit.form.Button">hello world 71</button>
-		<button dojoType="dijit.form.Button">hello world 72</button>
-		<button dojoType="dijit.form.Button">hello world 73</button>
-		<button dojoType="dijit.form.Button">hello world 74</button>
-		<button dojoType="dijit.form.Button">hello world 75</button>
-		<button dojoType="dijit.form.Button">hello world 76</button>
-		<button dojoType="dijit.form.Button">hello world 77</button>
-		<button dojoType="dijit.form.Button">hello world 78</button>
-		<button dojoType="dijit.form.Button">hello world 79</button>
+		<button data-dojo-type="dijit.form.Button">hello world 70</button>
+		<button data-dojo-type="dijit.form.Button">hello world 71</button>
+		<button data-dojo-type="dijit.form.Button">hello world 72</button>
+		<button data-dojo-type="dijit.form.Button">hello world 73</button>
+		<button data-dojo-type="dijit.form.Button">hello world 74</button>
+		<button data-dojo-type="dijit.form.Button">hello world 75</button>
+		<button data-dojo-type="dijit.form.Button">hello world 76</button>
+		<button data-dojo-type="dijit.form.Button">hello world 77</button>
+		<button data-dojo-type="dijit.form.Button">hello world 78</button>
+		<button data-dojo-type="dijit.form.Button">hello world 79</button>
 
-		<button dojoType="dijit.form.Button">hello world 80</button>
-		<button dojoType="dijit.form.Button">hello world 81</button>
-		<button dojoType="dijit.form.Button">hello world 82</button>
-		<button dojoType="dijit.form.Button">hello world 83</button>
-		<button dojoType="dijit.form.Button">hello world 84</button>
-		<button dojoType="dijit.form.Button">hello world 85</button>
-		<button dojoType="dijit.form.Button">hello world 86</button>
-		<button dojoType="dijit.form.Button">hello world 87</button>
-		<button dojoType="dijit.form.Button">hello world 88</button>
-		<button dojoType="dijit.form.Button">hello world 89</button>
+		<button data-dojo-type="dijit.form.Button">hello world 80</button>
+		<button data-dojo-type="dijit.form.Button">hello world 81</button>
+		<button data-dojo-type="dijit.form.Button">hello world 82</button>
+		<button data-dojo-type="dijit.form.Button">hello world 83</button>
+		<button data-dojo-type="dijit.form.Button">hello world 84</button>
+		<button data-dojo-type="dijit.form.Button">hello world 85</button>
+		<button data-dojo-type="dijit.form.Button">hello world 86</button>
+		<button data-dojo-type="dijit.form.Button">hello world 87</button>
+		<button data-dojo-type="dijit.form.Button">hello world 88</button>
+		<button data-dojo-type="dijit.form.Button">hello world 89</button>
 
-		<button dojoType="dijit.form.Button">hello world 90</button>
-		<button dojoType="dijit.form.Button">hello world 91</button>
-		<button dojoType="dijit.form.Button">hello world 92</button>
-		<button dojoType="dijit.form.Button">hello world 93</button>
-		<button dojoType="dijit.form.Button">hello world 94</button>
-		<button dojoType="dijit.form.Button">hello world 95</button>
-		<button dojoType="dijit.form.Button">hello world 96</button>
-		<button dojoType="dijit.form.Button">hello world 97</button>
-		<button dojoType="dijit.form.Button">hello world 98</button>
-		<button dojoType="dijit.form.Button">hello world 99</button>
+		<button data-dojo-type="dijit.form.Button">hello world 90</button>
+		<button data-dojo-type="dijit.form.Button">hello world 91</button>
+		<button data-dojo-type="dijit.form.Button">hello world 92</button>
+		<button data-dojo-type="dijit.form.Button">hello world 93</button>
+		<button data-dojo-type="dijit.form.Button">hello world 94</button>
+		<button data-dojo-type="dijit.form.Button">hello world 95</button>
+		<button data-dojo-type="dijit.form.Button">hello world 96</button>
+		<button data-dojo-type="dijit.form.Button">hello world 97</button>
+		<button data-dojo-type="dijit.form.Button">hello world 98</button>
+		<button data-dojo-type="dijit.form.Button">hello world 99</button>
 
 
 		<h2>Result</h2>
