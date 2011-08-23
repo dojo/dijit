@@ -82,6 +82,13 @@ return declare("dijit.TitlePane", [ContentPane, _TemplatedMixin, _CssStateMixin]
 
 	templateString: template,
 
+	// doLayout: [protected] Boolean
+	//		Don't change this parameter from the default value.
+	//		This ContentPane parameter doesn't make sense for TitlePane, since TitlePane
+	//		is never a child of a layout container, nor should TitlePane try to control
+	//		the size of an inner widget.
+	doLayout: false,
+
 	// Tooltip is defined in _WidgetBase but we need to handle the mapping to DOM here
 	_setTooltipAttr: {node: "focusNode", type: "attribute", attribute: "title"},	// focusNode spans the entire width, titleNode doesn't
 
