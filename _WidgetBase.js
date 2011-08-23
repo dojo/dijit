@@ -768,7 +768,6 @@ return declare("dijit._WidgetBase", Stateful, {
 		//		Note that the function is not run in any particular scope, so if (for example) you want it to run in the
 		//		widget's scope you must do myWidget.on("click", lang.hitch(myWidget, func)).
 
-		type = type.replace(/^on/, "");
 		return aspect.after(this, "on" + type.charAt(0).toUpperCase() + type.substr(1), func, true);
 	},
 

@@ -193,7 +193,7 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 		this._toConnect = {};
 		for(var name in params){
 			if(this[name] === connectToDomNode){
-				this._toConnect[name] = params[name];
+				this._toConnect[name.replace(/^on/, "")] = params[name];
 				delete params[name];
 			}
 		}
@@ -210,7 +210,6 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 	},
 
 	on: function(/*String*/ type, /*Function*/ func){
-		type = type.replace(/^on/, "");
 		if(this["on" + type.charAt(0).toUpperCase() + type.substr(1)] === connectToDomNode){
 			// Use connect.connect() rather than on() to get handling for "onmouseenter" on non-IE, etc.
 			// Also, need to specify context as "this" rather than the default context of the DOMNode
