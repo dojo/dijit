@@ -199,8 +199,9 @@ var _FontNameDropDown = declare("dijit._editor.plugins._FontNameDropDown", _Font
 				"Apple Chancery": "cursive",
 				"Courier": "monospace",
 				"Courier New": "monospace",
-				"Papyrus": "fantasy"
-//					,"????": "fantasy" TODO: IE doesn't map fantasy font-family?
+				"Papyrus": "fantasy",
+				"Estrangelo Edessa": "cursive", // Windows 7
+				"Gabriola": "fantasy" // Windows 7
 			};
 			value = map[value] || value;
 		}
