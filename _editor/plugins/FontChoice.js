@@ -54,7 +54,8 @@ var _FontDropDown = declare("dijit._editor.plugins._FontDropDown",
 	templateString:
 		"<span style='white-space: nowrap' class='dijit dijitReset dijitInline'>" +
 			"<label class='dijitLeft dijitInline' for='${selectId}'>${label}</label>" +
-			"<input dojoType='dijit.form.FilteringSelect' required='false' labelType='html' labelAttr='label' searchAttr='name' " +
+			"<input data-dojo-type='dijit.form.FilteringSelect' required='false' " +
+			        "data-dojo-props='labelType:\"html\", labelAttr:\"label\", searchAttr:\"name\"' " +
 					"tabIndex='-1' id='${selectId}' dojoAttachPoint='select' value=''/>" +
 		"</span>",
 

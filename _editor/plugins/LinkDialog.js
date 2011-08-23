@@ -82,25 +82,25 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 		"<table><tr><td>",
 		"<label for='${id}_urlInput'>${url}</label>",
 		"</td><td>",
-		"<input dojoType='dijit.form.ValidationTextBox' required='true' " +
-		"id='${id}_urlInput' name='urlInput' intermediateChanges='true'/>",
+		"<input data-dojo-type='dijit.form.ValidationTextBox' required='true' " +
+		"id='${id}_urlInput' name='urlInput' data-dojo-props='intermediateChanges:true'/>",
 		"</td></tr><tr><td>",
 		"<label for='${id}_textInput'>${text}</label>",
 		"</td><td>",
-		"<input dojoType='dijit.form.ValidationTextBox' required='true' id='${id}_textInput' " +
-		"name='textInput' intermediateChanges='true'/>",
+		"<input data-dojo-type='dijit.form.ValidationTextBox' required='true' id='${id}_textInput' " +
+		"name='textInput' data-dojo-props='intermediateChanges:true'/>",
 		"</td></tr><tr><td>",
 		"<label for='${id}_targetSelect'>${target}</label>",
 		"</td><td>",
-		"<select id='${id}_targetSelect' name='targetSelect' dojoType='dijit.form.Select'>",
+		"<select id='${id}_targetSelect' name='targetSelect' data-dojo-type='dijit.form.Select'>",
 		"<option selected='selected' value='_self'>${currentWindow}</option>",
 		"<option value='_blank'>${newWindow}</option>",
 		"<option value='_top'>${topWindow}</option>",
 		"<option value='_parent'>${parentWindow}</option>",
 		"</select>",
 		"</td></tr><tr><td colspan='2'>",
-		"<button dojoType='dijit.form.Button' type='submit' id='${id}_setButton'>${set}</button>",
-		"<button dojoType='dijit.form.Button' type='button' id='${id}_cancelButton'>${buttonCancel}</button>",
+		"<button data-dojo-type='dijit.form.Button' type='submit' id='${id}_setButton'>${set}</button>",
+		"<button data-dojo-type='dijit.form.Button' type='button' id='${id}_cancelButton'>${buttonCancel}</button>",
 		"</td></tr></table>"
 	].join(""),
 
@@ -400,17 +400,17 @@ var ImgLinkDialog = declare("dijit._editor.plugins.ImgLinkDialog", [LinkDialog],
 		"<label for='${id}_urlInput'>${url}</label>",
 		"</td><td>",
 		"<input dojoType='dijit.form.ValidationTextBox' regExp='${urlRegExp}' " +
-		"required='true' id='${id}_urlInput' name='urlInput' intermediateChanges='true'/>",
+		"required='true' id='${id}_urlInput' name='urlInput' data-dojo-props='intermediateChanges:true'/>",
 		"</td></tr><tr><td>",
 		"<label for='${id}_textInput'>${text}</label>",
 		"</td><td>",
-		"<input dojoType='dijit.form.ValidationTextBox' required='false' id='${id}_textInput' " +
-		"name='textInput' intermediateChanges='true'/>",
+		"<input data-dojo-type='dijit.form.ValidationTextBox' required='false' id='${id}_textInput' " +
+		"name='textInput' data-dojo-props='intermediateChanges:true'/>",
 		"</td></tr><tr><td>",
 		"</td><td>",
 		"</td></tr><tr><td colspan='2'>",
-		"<button dojoType='dijit.form.Button' type='submit' id='${id}_setButton'>${set}</button>",
-		"<button dojoType='dijit.form.Button' type='button' id='${id}_cancelButton'>${buttonCancel}</button>",
+		"<button data-dojo-type='dijit.form.Button' type='submit' id='${id}_setButton'>${set}</button>",
+		"<button data-dojo-type='dijit.form.Button' type='button' id='${id}_cancelButton'>${buttonCancel}</button>",
 		"</td></tr></table>"
 	].join(""),
 
