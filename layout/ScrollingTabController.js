@@ -5,10 +5,9 @@ define([
 	"dojo/dom-geometry", // domGeometry.contentBox
 	"dojo/dom-style", // domStyle.style
 	"dojo/_base/fx", // Animation
-	"dojo/_base/kernel", // kernel.isQuirks
 	"dojo/_base/lang", // lang.hitch
 	"dojo/query", // query
-	"dojo/_base/sniff", // has("ie") has("webkit")
+	"dojo/_base/sniff", // has("ie"), has("webkit"), has("quirks")
 	"../registry",	// registry.byId()
 	"dojo/text!./templates/ScrollingTabController.html",
 	"dojo/text!./templates/_ScrollingTabControllerButton.html",
@@ -20,7 +19,7 @@ define([
 	"../form/Button",
 	"../_HasDropDown",
 	"dojo/NodeList-dom" // NodeList.style
-], function(array, declare, domClass, domGeometry, domStyle, fx, kernel, lang, query, has,
+], function(array, declare, domClass, domGeometry, domStyle, fx, lang, query, has,
 	registry, tabControllerTemplate, buttonTemplate, TabController, layoutUtils, _WidgetsInTemplateMixin,
 	Menu, MenuItem, Button, _HasDropDown){
 
@@ -231,7 +230,7 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 		//		Returns the current scroll of the tabs where 0 means
 		//		"scrolled all the way to the left" and some positive number, based on #
 		//		of pixels of possible scroll (ex: 1000) means "scrolled all the way to the right"
-		return (this.isLeftToRight() || has("ie") < 8 || (has("ie") && kernel.isQuirks) || has("webkit")) ? this.scrollNode.scrollLeft :
+		return (this.isLeftToRight() || has("ie") < 8 || (has("ie") && has("quirks")) || has("webkit")) ? this.scrollNode.scrollLeft :
 				domStyle.get(this.containerNode, "width") - domStyle.get(this.scrollNode, "width")
 					 + (has("ie") == 8 ? -1 : 1) * this.scrollNode.scrollLeft;
 	},
@@ -244,7 +243,7 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 		//		to achieve that scroll.
 		//
 		//		This method is to adjust for RTL funniness in various browsers and versions.
-		if(this.isLeftToRight() || has("ie") < 8 || (has("ie") && kernel.isQuirks) || has("webkit")){
+		if(this.isLeftToRight() || has("ie") < 8 || (has("ie") && has("quirks")) || has("webkit")){
 			return val;
 		}else{
 			var maxScroll = domStyle.get(this.containerNode, "width") - domStyle.get(this.scrollNode, "width");

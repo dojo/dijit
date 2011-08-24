@@ -6,10 +6,9 @@ define([
 	"dojo/dom-style",
 	"dojo/_base/event", // event.stop
 	"dojo/i18n", // i18n.getLocalization
-	"dojo/_base/kernel", // kernel.isQuirks
 	"dojo/keys", // keys.F11 keys.TAB
 	"dojo/_base/lang", // lang.hitch
-	"dojo/_base/sniff", // has("ie") kernel.isQuirks
+	"dojo/_base/sniff", // has("ie"), has("quirks")
 	"dojo/_base/window", // win.body
 	"dojo/window", // winUtils.getBox winUtils.scrollIntoView
 	"../../focus",			// focus.focus(), focus.curNode
@@ -17,7 +16,7 @@ define([
 	"../../form/ToggleButton",
 	"../../registry", // registry.getEnclosingWidget()
 	"dojo/i18n!../nls/commands"
-], function(connect, declare, domClass, domGeometry, domStyle, event, i18n, kernel, keys, lang, has, win, winUtils,
+], function(connect, declare, domClass, domGeometry, domStyle, event, i18n, keys, lang, has, win, winUtils,
 			focus, _Plugin, ToggleButton, registry){
 
 /*=====
@@ -280,7 +279,7 @@ var FullScreen = declare("dijit._editor.plugins.FullScreen",_Plugin,{
 				this._oldOverflow = "";
 			}
 
-			if(has("ie") && !kernel.isQuirks){
+			if(has("ie") && !has("quirks")){
 				// IE will put scrollbars in anyway, html (parent of body)
 				// also controls them in standards mode, so we have to
 				// remove them, argh.
@@ -385,7 +384,7 @@ var FullScreen = declare("dijit._editor.plugins.FullScreen",_Plugin,{
 				// Restore all the editor state.
 				var mb = self._origState.marginBox;
 				var oh = self._origState.height;
-				if(has("ie") && !kernel.isQuirks){
+				if(has("ie") && !has("quirks")){
 					body.parentNode.style.overflow = self._oldBodyParentOverflow;
 					delete self._oldBodyParentOverflow;
 				}

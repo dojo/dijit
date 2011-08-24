@@ -5,11 +5,10 @@ define([
 	"dojo/_base/connect", // connect.connect connect.disconnect
 	"dojo/dom-construct", // domConstruct.create
 	"dojo/dom-style", // domStyle.set
-	"dojo/_base/kernel", // kernel.isQuirks
 	"dojo/_base/lang", // lang.extend
-	"dojo/_base/sniff", // has("ie") has("mozilla")
+	"dojo/_base/sniff", // has("ie"), has("mozilla"), has("quirks")
 	"dojo/_base/window" // win.doc.createElement
-], function(require, dijit, config, connect, domConstruct, domStyle, kernel, lang, has, win){
+], function(require, dijit, config, connect, domConstruct, domStyle, lang, has, win){
 
 	// module:
 	//		dijit/BackgroundIFrame
@@ -70,7 +69,7 @@ define([
 		if(has("ie") || has("mozilla")){
 			var iframe = (this.iframe = _frames.pop());
 			node.appendChild(iframe);
-			if(has("ie")<7 || kernel.isQuirks){
+			if(has("ie")<7 || has("quirks")){
 				this.resize(node);
 				this._conn = connect.connect(node, 'onresize', this, function(){
 					this.resize(node);

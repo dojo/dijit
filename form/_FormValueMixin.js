@@ -1,11 +1,10 @@
 define([
 	"dojo/_base/declare", // declare
 	"dojo/dom-attr", // domAttr.set
-	"dojo/_base/kernel",	// kernel.isQuirks
 	"dojo/keys", // keys.ESCAPE
-	"dojo/_base/sniff", // has("ie")
+	"dojo/_base/sniff", // has("ie"), has("quirks")
 	"./_FormWidgetMixin"
-], function(declare, domAttr, kernel, keys, has, _FormWidgetMixin){
+], function(declare, domAttr, keys, has, _FormWidgetMixin){
 
 /*=====
 	var _FormWidgetMixin = dijit.form._FormWidgetMixin;
@@ -83,7 +82,7 @@ define([
 		_onKeyDown: function(e){
 			if(e.keyCode == keys.ESCAPE && !(e.ctrlKey || e.altKey || e.metaKey)){
 				var te;
-				if(has("ie") < 9 || (has("ie") && kernel.isQuirks)){
+				if(has("ie") < 9 || (has("ie") && has("quirks"))){
 					e.preventDefault(); // default behavior needs to be stopped here since keypress is too late
 					te = document.createEventObject();
 					te.keyCode = keys.ESCAPE;

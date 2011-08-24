@@ -8,15 +8,14 @@ define([
 	"dojo/dom-attr", // domAttr.get domAttr.set domAttr.has domAttr.remove
 	"dojo/dom-geometry", // domStyle.getComputedStyle domGeometry.position
 	"dojo/dom-style", // domStyle.getComputedStyle
-	"dojo/_base/kernel", // kernel.isQuirks
 	"dojo/keys",
 	"dojo/_base/lang", // lang.hitch
-	"dojo/_base/sniff", // has("ie")
+	"dojo/_base/sniff", // has("ie"), has("quirks")
 	"dojo/_base/window", // win.body win.doc.documentElement win.doc.frames win.withGlobal
 	"dojo/window", // winUtils.get
 	"./popup",
 	"./DropDownMenu"
-], function(require, array, connect, declare, event, dom, domAttr, domGeometry, domStyle, kernel, keys, lang,
+], function(require, array, connect, declare, event, dom, domAttr, domGeometry, domStyle, keys, lang,
 			has, win, winUtils, pm, DropDownMenu){
 
 /*=====
@@ -265,8 +264,8 @@ return declare("dijit.Menu", DropDownMenu, {
 
 				var cs = domStyle.getComputedStyle(iframe),
 					tp = domStyle.toPixelValue,
-					left = (has("ie") && kernel.isQuirks ? 0 : tp(iframe, cs.paddingLeft)) + (has("ie") && kernel.isQuirks ? tp(iframe, cs.borderLeftWidth) : 0),
-					top = (has("ie") && kernel.isQuirks ? 0 : tp(iframe, cs.paddingTop)) + (has("ie") && kernel.isQuirks ? tp(iframe, cs.borderTopWidth) : 0);
+					left = (has("ie") && has("quirks") ? 0 : tp(iframe, cs.paddingLeft)) + (has("ie") && has("quirks") ? tp(iframe, cs.borderLeftWidth) : 0),
+					top = (has("ie") && has("quirks") ? 0 : tp(iframe, cs.paddingTop)) + (has("ie") && has("quirks") ? tp(iframe, cs.borderTopWidth) : 0);
 
 				coords.x += ifc.x + left - scroll.x;
 				coords.y += ifc.y + top - scroll.y;
