@@ -108,7 +108,7 @@ define([
 	});
 
 	if(has("ie")){
-		TextBox = declare(TextBox, {
+		TextBox = declare(/*===== "dijit.form.TextBox.IEMixin", =====*/ TextBox, {
 			_isTextSelected: function(){
 				var range = win.doc.selection.createRange();
 				var parent = range.parentElement();
@@ -132,7 +132,7 @@ define([
 									}
 								}
 							}
-						}catch(e){/*when used in a Dialog, and this is called before the dialog is 
+						}catch(e){/*when used in a Dialog, and this is called before the dialog is
 						shown, s.fontFamily would trigger "Invalid Argument" error.*/}
 					}
 				}), 0);
@@ -154,7 +154,7 @@ define([
 	}
 
 	if(has("mozilla")){
-		TextBox = declare(TextBox, {
+		TextBox = declare(/*===== "dijit.form.TextBox.MozMixin", =====*/TextBox, {
 			_onBlur: function(e){
 				this.inherited(arguments);
 				if(this.selectOnClick){
