@@ -768,7 +768,23 @@ return declare("dijit._WidgetBase", Stateful, {
 		//		Note that the function is not run in any particular scope, so if (for example) you want it to run in the
 		//		widget's scope you must do myWidget.on("click", lang.hitch(myWidget, func)).
 
-		return aspect.after(this, "on" + type.charAt(0).toUpperCase() + type.substr(1), func, true);
+		return aspect.after(this, this._onMap(type), func, true);
+	},
+
+	_onMap: function(/*String*/ type){
+		// summary:
+		//		Maps on() type parameter (ex: "mousemove") to method name (ex: "onMouseMove")
+		var ctor = this.constructor, map = ctor._onMap;
+		if(!map){
+			map = (ctor._onMap = {});
+			for(var attr in ctor.prototype){
+				var key = attr.replace(/^on/, "").toLowerCase();
+				if(!(key in map) || /^on/.test(attr)){	// prefer onFocus() to focus()
+					map[key] = attr;
+				}
+			}
+		}
+		return map[type.toLowerCase()];	// String
 	},
 
 	toString: function(){

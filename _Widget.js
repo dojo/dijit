@@ -193,7 +193,7 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 		this._toConnect = {};
 		for(var name in params){
 			if(this[name] === connectToDomNode){
-				this._toConnect[name.replace(/^on/, "")] = params[name];
+				this._toConnect[name.replace(/^on/, "").toLowerCase()] = params[name];
 				delete params[name];
 			}
 		}
@@ -210,13 +210,12 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 	},
 
 	on: function(/*String*/ type, /*Function*/ func){
-		if(this["on" + type.charAt(0).toUpperCase() + type.substr(1)] === connectToDomNode){
+		if(this[this._onMap(type)] === connectToDomNode){
 			// Use connect.connect() rather than on() to get handling for "onmouseenter" on non-IE, etc.
 			// Also, need to specify context as "this" rather than the default context of the DOMNode
 			return connect.connect(this.domNode, type.toLowerCase(), this, func);
-		}else{
-			return this.inherited(arguments);
 		}
+		return this.inherited(arguments);
 	},
 
 	_setFocusedAttr: function(val){
