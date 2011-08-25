@@ -81,7 +81,7 @@
 				return ("<span class=\"dijitReset dijitInline dijitSelectLabel\">" + expected + "</span>").toLowerCase().replace(/ */g, "");
 			}
 
-			dojo.addOnLoad(function(){
+			dojo.ready(function(){
 				dojo.connect(s1, "onChange", function(val){
 					console.log("First Select Changed to " + val);
 					numChanges++;

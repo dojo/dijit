@@ -37,7 +37,7 @@
 		dojo.require("dijit.form.ComboBox");
 	 	dojo.require("dijit.form.Button");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 			dojo.subscribe("focusNode", function(node){ console.log("focused on " + (node?(node.id||node.tagName):"nothing"));});
 		});
 		

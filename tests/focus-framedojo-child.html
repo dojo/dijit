@@ -18,10 +18,10 @@
 		for (var v in {'dijit':true, 'dojo':true, 'dojox':true})
 			parent[v] = window[v];
 
-		// This will execute before the dojo.addOnLoad() code in dijit.focus() executes
+		// This will execute before the dojo.ready() code in dijit.focus() executes
 		dojo.setContext(parent, parent.document);
 
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 			doh.register("focus", function focus(){
 				var d = new doh.Deferred();
 				doh.is("input", dojo.byId("input").id, "found input");

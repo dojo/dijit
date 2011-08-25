@@ -46,7 +46,7 @@
 			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 			dojo.require("doh.runner");
 
-			dojo.addOnLoad(function(){
+			dojo.ready(function(){
 				dojo.declare(
 					"dijit.form.TimeTextBox",
 					dijit.form.ValidationTextBox,

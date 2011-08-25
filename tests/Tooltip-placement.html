@@ -26,7 +26,7 @@
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.form.ValidationTextBox");
 		
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 			doh.register("parse", function(){
 				dojo.parser.parse();
 			});

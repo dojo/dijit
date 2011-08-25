@@ -87,7 +87,7 @@
 		}
 
 		var bc, cp1, cp2, cp3;
-        dojo.addOnLoad(function(){
+        dojo.ready(function(){
 			watchSplitters( dijit.byId("watchedBC") );
 				
 			bc = new dijit.layout.BorderContainer({style:'height:400px;width:500px;border:1px solid black'}, dojo.byId('main'));

@@ -42,7 +42,7 @@
 		dojo.require("dijit.form.Button");
 		dojo.require("dijit.layout.SplitContainer");
 
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 
 			// ref a clonable node, then split it between two selects
 			var c = dojo.query(".clone")[0];

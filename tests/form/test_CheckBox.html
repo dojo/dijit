@@ -42,7 +42,7 @@
 			dojo.byId("onvaluechangedoutput").innerHTML = value;
 		}
 
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 			var params = {id: "cb6", name: "cb6", checked: true };
 			new dijit.form.CheckBox(params, "cb6");
 			

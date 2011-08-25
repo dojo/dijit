@@ -29,7 +29,7 @@
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
 		// create a do nothing, only for test widget
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 
 			doh.register("parse", function(){
 				dojo.parser.parse();

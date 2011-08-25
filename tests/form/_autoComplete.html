@@ -94,7 +94,7 @@
 				fetchProperties: {sort:[{attribute: 'name', descending: true}]}
 			}, dojo.byId("progCombo3"));
 		}
-		dojo.addOnLoad(init);
+		dojo.ready(init);
 
 		function toggleDisabled(button, widget){
 			widget = dijit.byId(widget);

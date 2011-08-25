@@ -344,7 +344,7 @@
 	<p id="buttonContainer" style="display: none;"></p>
 	<script type="text/javascript">
 		// See if we can make a button in script and attach it to the DOM ourselves.
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 			var widget = new dijit.form.Button({
 				label: "hello!",
 				name: "programmatic"

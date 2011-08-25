@@ -102,7 +102,7 @@
             dojo.byId("createButton").disabled = created;
             dojo.byId("destroyButton").disabled = !created;
 	}
-	dojo.addOnLoad(function(){
+	dojo.ready(function(){
 		// need to explicitly update our buttons states, otherwise the
 		// browser will remember the last states of them before reloading
 		// (so a programmatic menu is created, reload, and "the create

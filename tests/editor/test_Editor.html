@@ -30,7 +30,7 @@
 		dojo.require("dijit._editor.plugins.LinkDialog");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 			// Dummy simple plugin for testing that filters registered this way work
 			// properly with content setting on load.
 			dojo.declare("dijit.tests.editor.TestFilter", [dijit._editor._Plugin], {

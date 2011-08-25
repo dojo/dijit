@@ -30,7 +30,7 @@
 					replace(new RegExp(String.fromCharCode(160), "g"), " ");	// Safari: nbsp (char code 160) to normal space (char code 32)
 			}
 
-			dojo.addOnLoad(function(){
+			dojo.ready(function(){
 				doh.robot.initRobot('../test_Editor.html');
 
 				// For some reason the meta key (meta-a for selection, meta-b for bold, etc) isn't working

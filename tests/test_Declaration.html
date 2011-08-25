@@ -28,7 +28,7 @@
 		dojo.require("dojo.on");
 		dojo.require("doh.runner");
 
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 			doh.register("dijit.Declaration", [
 				function parse(){
 					// run parser inside of DOH so we can tell if there are any exceptions

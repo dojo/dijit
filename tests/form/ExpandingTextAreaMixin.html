@@ -34,7 +34,7 @@
 		dojo.require("dijit.form.Textarea");
 		dojo.require("dojox.mobile.ExpandingTextArea");
 
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 
 			var maxLengthNativeSupport = "maxLength" in document.createElement("textarea");
 

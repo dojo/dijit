@@ -19,7 +19,7 @@
 			// Some of these tests are duplicated in Form.html, maybe the Form.html watch(state) and validate()
 			// tests groups should be moved here.
 
-			dojo.addOnLoad(function(){
+			dojo.ready(function(){
 				doh.robot.initRobot('../test_Form_state.html');
 
 				doh.register("FormValidationState", [

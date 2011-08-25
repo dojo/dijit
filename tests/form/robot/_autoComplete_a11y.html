@@ -29,7 +29,7 @@
 		        }
 		}
 		isComboBox = testWidget=="dijit.form.ComboBox";
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 
 			doh.robot.initRobot('../_autoComplete.html?testWidget='+testWidget);
 

@@ -74,7 +74,7 @@
 			dojo.require("dojo.currency");
 			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
-			dojo.addOnLoad(function(){
+			dojo.ready(function(){
 
 				new dijit.form.TextBox({id: 'monospace1', disabled: true, value: 'M|M:monospace?'}, 'monospace1');
 				new dijit.form.TextBox({id: 'monospace2', disabled: true, value: 'M|M:monospace?'}).placeAt('widget_monospace1', 'after');
@@ -227,7 +227,7 @@
 			</div>
 <script>
 	// See if we can make a widget in script and attach it to the DOM ourselves.
-	dojo.addOnLoad(function(){
+	dojo.ready(function(){
 		var props = {
 			name: "elevation",
 			value: 3000,
@@ -254,7 +254,7 @@
 
 			<script>
 				// See if we can make a widget in script and attach it to the DOM ourselves.
-				dojo.addOnLoad(function(){
+				dojo.ready(function(){
 					var props = {
 						name: "population",
 						value: "1,500,000",
@@ -335,7 +335,7 @@
 			<script>
 				// See if we can make a widget in script and attach it
 				// to the DOM ourselves.
-				dojo.addOnLoad(function(){
+				dojo.ready(function(){
 					var example = dojo.currency.format(54775.53, {locale: 'de-de', currency: "EUR"});
 					var props = {
 						name: "income3",
@@ -472,7 +472,7 @@
 
 			<script>
 				// See if we can make a widget in script and attach it to the DOM ourselves.
-				dojo.addOnLoad(function(){
+				dojo.ready(function(){
 					var props = {
 							name: "ticket1651",
 							id: "mname",

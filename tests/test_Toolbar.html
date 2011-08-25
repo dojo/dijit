@@ -40,7 +40,7 @@
 
 		dojo.require("dojo.parser");
 
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 			// programatic creation
 			dojo.forEach(["toolbar2", "toolbar3", "toolbar4"], function(toolbarId){
 				var toolbar = new dijit.Toolbar({}, dojo.byId(toolbarId));

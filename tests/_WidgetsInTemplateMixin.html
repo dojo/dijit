@@ -30,7 +30,7 @@
 			dojo.require("dijit.layout._LayoutWidget");
 			dojo.require("dijit.focus");	// dijit.focus()
 
-			dojo.addOnLoad(function(){
+			dojo.ready(function(){
 				dojo.declare('Test1Widget',
 					[dijit._WidgetBase, dijit._TemplatedMixin, dijit._WidgetsInTemplateMixin],
 				{

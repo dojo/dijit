@@ -30,7 +30,7 @@
 			}
 				inputNode.focus();
 		}
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 			var keyNode = dojo.byId('typematicInput');
 			var mouseNode = dojo.byId('typematicButton');
 			dijit.typematic.addKeyListener(keyNode,

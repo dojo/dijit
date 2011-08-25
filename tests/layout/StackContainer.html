@@ -45,7 +45,7 @@
 		// Hash listing which objects have gotten a resize event
 		resizes = {};
 
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 			// track resize events
 			dojo.connect(dijit.layout._LayoutWidget.prototype, "resize", function(){
 				resizes[this.id] = arguments;

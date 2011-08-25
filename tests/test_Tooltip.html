@@ -33,7 +33,7 @@
 		dojo.require("dijit.MenuItem");
 		dojo.require("dijit.TitlePane");
 
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 			console.log("on load func");
 			var tt = new dijit.Tooltip({label:"programmatically created tooltip", connectId:["programmaticTest"]});
 			console.log("created", tt, tt.id);

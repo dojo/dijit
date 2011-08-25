@@ -54,7 +54,7 @@
 				return out.join("");
 			}
 
-			dojo.addOnLoad(function(){
+			dojo.ready(function(){
 				doh.robot.initRobot('../EnterKeyHandling.html');
 
 				var metaKey = dojo.isMac? {meta: true} : {ctrl: true};

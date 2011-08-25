@@ -22,7 +22,7 @@
 				return typeof val == "string" ? val.replace(/\xA0/g, " ") : val;
 			}
 
-			dojo.addOnLoad(function(){
+			dojo.ready(function(){
 				doh.robot.initRobot('../test_validate.html');
 
 				// Test initial conditions

@@ -173,7 +173,7 @@
 <script type="text/javascript">
 
 		oldTime = new Date();
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 			var time = new Date().getTime() - oldTime;
 			var p = document.createElement("p");
 			alert("Widgets loaded in " + time + "ms");

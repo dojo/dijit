@@ -22,7 +22,7 @@
 			// accidentlly navigates to a different page, and then returns to the
 			// page w/the editor by pressing the back button.
 
-			dojo.addOnLoad(function(){
+			dojo.ready(function(){
 				doh.robot.initRobot('../BackForwardState.html');
 
 				doh.register("back button restore", [

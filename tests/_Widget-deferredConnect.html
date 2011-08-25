@@ -27,7 +27,7 @@
 			bothOverrodeMouseMoved = true;
 		}
 
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 			dojo.connect(dijit.byId("connect"), "onMouseMove", function(){
 				if(!connectedMouseMoved){
 					console.log("'connect' button: mouse moved");

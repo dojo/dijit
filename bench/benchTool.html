@@ -53,7 +53,7 @@
 		var theCount, theClass, runner = null;
 		var testCount = 0;
 
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 			theCount = dojo.byId('countNode');
 			runner = dojo.byId('runner');
 			masterResults.dojoVersion = dojo.version.toString();
@@ -98,7 +98,7 @@
 				startTimer;
 			try{
 				dojo.require(/dojox\.mobile\.[A-Z]/.test(aclass) ? "dojox.mobile._base" : aclass);
-				dojo.addOnLoad(function(){
+				dojo.ready(function(){
 					var i;
 					switch(theMethod){
 						case "parse" :

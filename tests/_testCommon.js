@@ -61,7 +61,7 @@ require(["dojo"], function(dojo){
 	// If URL specifies a non-claro theme then pull in those theme CSS files and modify
 	// <body> to point to that new theme instead of claro.
 	//
-	// Also defer parsing and any dojo.addOnLoad() calls that the test file makes
+	// Also defer parsing and any dojo.ready() calls that the test file makes
 	// until the CSS has finished loading.
 	if(theme || testMode || dir){
 
@@ -76,15 +76,15 @@ require(["dojo"], function(dojo){
 			dojo.config.parseOnLoad = false;
 			dojo.config._deferParsing = true;
 			
-			// Capture any dojo.addOnLoad() calls the test makes and defer them until after
+			// Capture any dojo.ready() calls the test makes and defer them until after
 			// the new CSS loads.   (TODO: would be more straightforward to just make a
 			// testAddOnLoad() function and call that from the test files)
-			var originalOnLoad = dojo.addOnLoad,
+			var originalOnLoad = dojo.ready,
 				loadFuncs = [];
-			dojo.addOnLoad = function(f){ loadFuncs.push(f); };
+			dojo.ready = function(f){ loadFuncs.push(f); };
 		}
 
-		(originalOnLoad || dojo.addOnLoad)(function(){
+		(originalOnLoad || dojo.ready)(function(){
 			// Reset <body> to point to the specified theme
 			var b = dojo.body();
 			if(theme){
@@ -117,7 +117,7 @@ require(["dojo"], function(dojo){
 			// Defer parsing and addOnLoad() execution until the specified CSS loads.
 			if(dojo.config._deferParsing){
 				setTimeout(function(){
-					dojo.addOnLoad = originalOnLoad;
+					dojo.ready = originalOnLoad;
 					dojo.parser.parse(b);
 					for(var i=0; i<loadFuncs.length; i++){
 						loadFuncs[i]();

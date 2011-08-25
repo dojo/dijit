@@ -22,7 +22,7 @@
 				return wrapper.innerHTML.toLowerCase();		// IE prints <BUTTON> rather than <button>; normalize it.
 			}
 
-			dojo.addOnLoad(function(){
+			dojo.ready(function(){
 				// Template with no variables (should be cached as a DOM tree)
 				dojo.declare("SimpleTemplate", [dijit._Widget, dijit._TemplatedMixin], {
 					id: "test1",

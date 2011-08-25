@@ -101,7 +101,7 @@
 				console.log("Time to render ", amt, " widgets:", (new Date() - start));
 			};
 
-			dojo.addOnLoad(function(){
+			dojo.ready(function(){
 				widgetClass = dojo.declare(
 					"Simple",
 					[dijit._Widget, dijit._TemplatedMixin], {

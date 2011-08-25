@@ -26,7 +26,7 @@
 		dojo.setContext(window, parent.document);
 		
 		// fix focus issue
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 			var handle = dijit.registerWin(dojo.doc.parentWindow || dojo.doc.defaultView);
 			if(dojo.isIE){
 				dojo.addOnWindowUnload(function(){

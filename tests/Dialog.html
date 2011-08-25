@@ -27,7 +27,7 @@
 		dojo.require("dijit.Dialog");
 		dojo.require("dijit.focus");
 
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 			// Non robot tests to see if nested dialogs work correctly
 			// when obscured dialogs are destroyed/hidden, on race conditions of
 			// multiple dialogs fading in/out at once, etc.

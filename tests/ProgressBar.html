@@ -37,7 +37,7 @@
 		dojo.require("dojo.string");
 		dojo.require("doh.runner");
 
-		dojo.addOnLoad(function go(){
+		dojo.ready(function go(){
 			doh.register("parse", function(){
 				dojo.parser.parse();
 			});

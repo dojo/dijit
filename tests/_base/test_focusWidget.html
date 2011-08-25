@@ -64,7 +64,7 @@
 		// This flag controls animation and can be disabled by the test harness in robot/focus_mouse.html
 		animate = !window.location.search.match("animate=false");
 
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 			dojo.subscribe("widgetFocus", function(widget){
 				console.log("focused on widget " + (widget?widget:"nothing"));
 				if(animate){

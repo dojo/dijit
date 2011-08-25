@@ -4,7 +4,7 @@ dojo.provide("dijit.tests._BidiSupport.BidiSupportModule.BidiSupportTest");
 dojo.require("dijit._BidiSupport");
 dojo.require("dijit._Widget");
 
-dojo.addOnLoad(function(){
+dojo.ready(function(){
 
 	doh.register("dijit.tests._BidiSupport.BidiSupportModule.BidiSupportTest", [
 		{

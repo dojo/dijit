@@ -43,7 +43,7 @@
 			loadEvents[this.id] = (loadEvents[this.id] || 0) + 1;
 		}
 
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 
 			// create a do nothing, only for test widget
 			dojo.declare("ResizableWidget",
