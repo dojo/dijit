@@ -79,7 +79,13 @@ define([
 				[ _Widget, _TemplatedMixin, _WidgetsInTemplateMixin ];
 
 			propList._skipNodeCache = true;
-			propList.templateString = "<"+srcType+" class='"+src.className+"' dojoAttachPoint='"+(src.getAttribute("dojoAttachPoint") || '')+"' dojoAttachEvent='"+(src.getAttribute("dojoAttachEvent") || '')+"' >"+src.innerHTML.replace(/\%7B/g,"{").replace(/\%7D/g,"}")+"</"+srcType+">";
+			propList.templateString =
+				"<"+srcType+" class='"+src.className+"'" +
+				" data-dojo-attach-point='"+
+					(src.getAttribute("data-dojo-attach-point") || src.getAttribute("dojoAttachPoint") || '')+
+				"' data-dojo-attach-event='"+
+					(src.getAttribute("data-dojo-attach-event") || src.getAttribute("dojoAttachEvent") || '')+
+				"' >"+src.innerHTML.replace(/\%7B/g,"{").replace(/\%7D/g,"}")+"</"+srcType+">";
 
 			// create the new widget class
 			var wc = declare(
