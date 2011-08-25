@@ -356,7 +356,15 @@ define([
 				// the new child inside another child's wrapper.
 
 				// First add in child as a direct child of this AccordionContainer
-				domConstruct.place(child.domNode, this.containerNode, insertIndex);
+				var refNode = this.containerNode;
+				if(insertIndex && typeof insertIndex == "number"){
+					var children = _Widget.prototype.getChildren.call(this);	// get wrapper panes
+					if(children && children.length >= insertIndex){
+						refNode = children[insertIndex-1].domNode;
+						insertIndex = "after";
+					}
+				}
+				domConstruct.place(child.domNode, refNode, insertIndex);
 
 				if(!child._started){
 					child.startup();
