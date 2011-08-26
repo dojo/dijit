@@ -43,6 +43,11 @@ define([
 		// closeButton: Boolean
 		//		When true, display close button for this tab
 		closeButton: false,
+		
+		_setCheckedAttr: function(/*Boolean*/ value, /*Boolean?*/ priorityChange){
+			this.inherited(arguments);
+			this.focusNode.removeAttribute("aria-pressed");
+		},
 
 		buildRendering: function(/*Event*/ evt){
 			this.inherited(arguments);
@@ -76,7 +81,7 @@ define([
 		//		Monitors the specified StackContainer, and whenever a page is
 		//		added, deleted, or selected, updates itself accordingly.
 
-		baseClass: "dijitTabController",
+		baseClass: "dijitStackController",
 
 		templateString: "<span role='tablist' data-dojo-attach-event='onkeypress'></span>",
 
@@ -234,6 +239,11 @@ define([
 			// tags:
 			//		private
 
+			if(this._currentChild.id === page.id) {
+				//In case the user clicked the checked button, keep it in the checked state because it remains to be the selected stack page.
+				var button=this.pane2button[page.id];
+				button.set('checked', true);
+			}
 			var container = registry.byId(this.containerId);
 			container.selectChild(page);
 		},

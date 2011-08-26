@@ -106,6 +106,12 @@
 					doh.t(isHidden(dojo.byId("page1")), "page1 hidden");
 					doh.t(isVisible(dojo.byId("page2")), "page2 visible");
 					doh.t(isHidden(dojo.byId("page3")), "page3 hidden");
+				},
+				function clickTwice(){
+					click("dijit_layout_StackController_0_page1");
+					click("dijit_layout_StackController_0_page1");
+					var button = dijit.byId("dijit_layout_StackController_0_page1");
+					doh.t(button.checked, "Page 1 button is still checked");
 				}
 			]);
 
