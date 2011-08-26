@@ -14,19 +14,13 @@
 	<script type="text/javascript">
 		dojo.require("dijit.robotx");
 
-		// These are the sliders with arrow buttons
-		// (not sure why that's important for an a11y test???)
-		var arrowSliders = ['slider1','slider2','programaticSlider'];
-		var arrowSliderInit_min = [0.2,10,1200];		// One value above the minimum value
-		var arrowSliderInit_max = [99.8,90,2800];		// One value below the maximum value
-
 		// These are all the sliders
 		var accessibleSliders = ['slider1','slider2','slider3','programaticSlider'];
 		var accessibleSliderInit_min = [0.2,10,2,1200];
 		var accessibleSliderInit_max = [99.8,90,2,2800];
 		var sliderIds = ["slider1", "slider2", "slider3", "sliderH2", "programaticSlider"];
 		var sliderNames = ["horizontal1","vertical1","horizontal2","horizontalH2","programaticSlider"];
-		onChange = {slider1: 'slider1input', slider2: 'slider2input', programaticSlider: 'sliderProgInput'};
+		var onChange = {slider1: 'slider1input', slider2: 'slider2input', programaticSlider: 'sliderProgInput'};
 
 		var a11yBoundaryTest = function(slider, initValue, finalValue){
 			// summary:
@@ -48,20 +42,20 @@
 			// First key press moves to either min or max
 			doh.robot.keyPress(key, 500);
 			doh.robot.sequence(d.getTestErrback(function(){
-				doh.is(finalValue, new Number(slider.get('value')).toFixed(1),
+				doh.is(Number(finalValue).toFixed(1), Number(slider.get('value')).toFixed(1),
 						"value after first " + (key == dojo.keys.RIGHT_ARROW ? "right arrow" : "left arrow"));
 				if(onChange[slider.id]){
-					doh.is(finalValue,parseFloat(dojo.byId(onChange[slider.id]).value),
+					doh.is(Number(finalValue).toFixed(1), Number(parseFloat(dojo.byId(onChange[slider.id]).value)).toFixed(1),
 						"onchange after first " + (key == dojo.keys.RIGHT_ARROW ? "right arrow" : "left arrow"));
 				}
 
 				// Second key press should have no effect, but confirm it
 				doh.robot.keyPress(key, 500);
 				doh.robot.sequence(d.getTestCallback(function(){
-					doh.is(finalValue, new Number(slider.get('value')).toFixed(1),
+					doh.is(Number(finalValue).toFixed(1), Number(slider.get('value')).toFixed(1),
 						"value after second " + (key == dojo.keys.RIGHT_ARROW ? "right arrow" : "left arrow"));
 					if(onChange[slider.id]){
-						doh.is(finalValue, parseFloat(dojo.byId(onChange[slider.id]).value),
+						doh.is(Number(finalValue).toFixed(1), Number(parseFloat(dojo.byId(onChange[slider.id]).value)).toFixed(1),
 						"onchange after second " + (key == dojo.keys.RIGHT_ARROW ? "right arrow" : "left arrow"));
 					}
 				}), 500);
@@ -202,7 +196,11 @@
 			doh.register("dojo.query() by name",
 				function slider1(){
 					var slider = dijit.byId("slider1"),
-						queried = dojo.query("input[name=horizontal1]");
+						queried = dojo.query("input[name=horizontal1]"),
+						bar = slider.valueNode.parentNode,
+						barWidth = bar.offsetWidth;
+					accessibleSliderInit_min[0] = 100 / (barWidth-1); // discover slider smallest non min value
+					accessibleSliderInit_max[0] = 100 - accessibleSliderInit_min[0]; // discover slider largest non max value
 					doh.is(1, queried.length, "Expected 1 slider with name horizontal1");
 					doh.is(slider.valueNode, queried[0], "Slider's valueNode did not match the one found by dojo.query.");
 				}
@@ -212,14 +210,14 @@
 			// TODO: this doesn't make sense, should just be testing that slider can't get
 			// focus.  (And if it doesn't have focus then testing keystrokes is meaningless)
 			doh.register("disabledTest",{
-				name: arrowSliders[0]+'_a11y_min',
-				slider: arrowSliders[0],
-				value: arrowSliderInit_min[0],
+				name: accessibleSliders[0]+'_a11y_min',
+				slider: accessibleSliders[0],
 				timeout: 30000,
 				runTest: function(){
 					this.slider = dijit.byId(this.slider);
 					this.slider.set('disabled', true);
-					return a11yBoundaryTest(this.slider, this.value, this.value);
+					var value = accessibleSliderInit_min[0];
+					return a11yBoundaryTest(this.slider, value, value);
 				}
 			});
 
@@ -227,22 +225,20 @@
 			doh.register("a11yBoundaryTest - min", {
 				name: accessibleSliders[0]+'_a11y_min',
 				slider: accessibleSliders[0],
-				value: accessibleSliderInit_min[0],
 				timeout: 30000,
 				runTest: function(){
 					this.slider = dijit.byId(this.slider);
 					this.slider.set('disabled', false);
-					return a11yBoundaryTest(this.slider, this.value, this.slider.minimum);
+					return a11yBoundaryTest(this.slider, accessibleSliderInit_min[0], this.slider.minimum);
 				}
 			});
 			doh.register("a11yBoundaryTest",{
 				name: accessibleSliders[0]+'_a11y_max',
 				slider: accessibleSliders[0],
-				value: accessibleSliderInit_max[0],
 				timeout: 30000,
 				runTest: function(){
 					this.slider = dijit.byId(this.slider);
-					return a11yBoundaryTest(this.slider, this.value, this.slider.maximum);
+					return a11yBoundaryTest(this.slider, accessibleSliderInit_max[0], this.slider.maximum);
 				}
 			});
 
