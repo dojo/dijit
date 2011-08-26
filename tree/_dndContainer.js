@@ -1,10 +1,12 @@
 define([
-	"dojo/_base/array", // array.forEach
-	"dojo/_base/connect", // connect.connect connect.disconnect
+	"dojo/aspect",	// aspect.after
 	"dojo/_base/declare", // declare
 	"dojo/dom-class", // domClass.add domClass.remove domClass.replace
-	"dojo/_base/lang" // lang.getObject lang.mixin
-], function(array, connect, declare, domClass, lang){
+	"dojo/_base/event",	// event.stop
+	"dojo/_base/lang", // lang.getObject lang.mixin lang.hitch
+	"dojo/mouse",	// mouse.enter, mouse.leave
+	"dojo/on"
+], function(aspect, declare, domClass, event, lang, mouse, on){
 
 	// module:
 	//		dijit/tree/_dndContainer
@@ -51,16 +53,16 @@ define([
 			// set up events
 			this.events = [
 				// container level events
-				connect.connect(this.node, "onmouseenter", this, "onOverEvent"),
-				connect.connect(this.node, "onmouseleave",	this, "onOutEvent"),
+				on(this.node, mouse.enter, lang.hitch(this, "onOverEvent")),
+				on(this.node, mouse.leave,	lang.hitch(this, "onOutEvent")),
 
 				// switching between TreeNodes
-				connect.connect(this.tree, "_onNodeMouseEnter", this, "onMouseOver"),
-				connect.connect(this.tree, "_onNodeMouseLeave", this, "onMouseOut"),
+				aspect.after(this.tree, "_onNodeMouseEnter", lang.hitch(this, "onMouseOver"), true),
+				aspect.after(this.tree, "_onNodeMouseLeave", lang.hitch(this, "onMouseOut"), true),
 
 				// cancel text selection and text dragging
-				connect.connect(this.node, "ondragstart", dojo, "stopEvent"),
-				connect.connect(this.node, "onselectstart", dojo, "stopEvent")
+				on(this.node, "dragstart", lang.hitch(event, "stop")),
+				on(this.node, "selectstart", lang.hitch(event, "stop"))
 			];
 		},
 
@@ -82,7 +84,9 @@ define([
 			// summary:
 			//		Prepares this object to be garbage-collected
 
-			array.forEach(this.events, connect.disconnect);
+			var h;
+			while(h = this.events.pop()){ h.remove(); }
+
 			// this.clearItems();
 			this.node = this.parent = null;
 		},

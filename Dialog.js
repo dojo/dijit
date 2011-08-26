@@ -1,7 +1,7 @@
 define([
 	"require",
 	"dojo/_base/array", // array.forEach array.indexOf array.map
-	"dojo/_base/connect", // connect.connect connect.disconnect keys connect.subscribe connect.unsubscribe
+	"dojo/_base/connect", // connect._keypress
 	"dojo/_base/declare", // declare
 	"dojo/_base/Deferred", // Deferred
 	"dojo/dom", // dom.isDescendant
@@ -12,7 +12,8 @@ define([
 	"dojo/_base/fx", // fx.fadeIn fx.fadeOut
 	"dojo/i18n", // i18n.getLocalization
 	"dojo/keys",
-	"dojo/_base/lang", // lang.mixin
+	"dojo/_base/lang", // lang.mixin lang.hitch
+	"dojo/on",
 	"dojo/_base/sniff", // has("ie") has("opera")
 	"dojo/_base/window", // win.body
 	"dojo/window", // winUtils.getBox
@@ -31,7 +32,7 @@ define([
 	".",			// for back-compat, exporting dijit._underlay (remove in 2.0)
 	"dojo/i18n!./nls/common"
 ], function(require, array, connect, declare, Deferred,
-			dom, domClass, domGeometry, domStyle, event, fx, i18n, keys, lang, has, win, winUtils,
+			dom, domClass, domGeometry, domStyle, event, fx, i18n, keys, lang, on, has, win, winUtils,
 			Moveable, TimedMoveable, focus, manager, _Widget, _TemplatedMixin, _CssStateMixin, _FormMixin, _DialogMixin,
 			DialogUnderlay, ContentPane, template, dijit){
 	
@@ -360,8 +361,8 @@ define([
 				this._fadeOutDeferred.cancel();
 			}
 
-			this._modalconnects.push(connect.connect(window, "onscroll", this, "layout"));
-			this._modalconnects.push(connect.connect(window, "onresize", this, function(){
+			this._modalconnects.push(on(window, "scroll", lang.hitch(this, "layout")));
+			this._modalconnects.push(on(window, "resize", lang.hitch(this, function(){
 				// IE gives spurious resize events and can actually get stuck
 				// in an infinite loop if we don't ignore them
 				var viewport = winUtils.getBox();
@@ -371,8 +372,8 @@ define([
 					this.layout();
 					this._oldViewport = viewport;
 				}
-			}));
-			this._modalconnects.push(connect.connect(this.domNode, "onkeypress", this, "_onKey"));
+			})));
+			this._modalconnects.push(on(this.domNode, connect._keypress, lang.hitch(this, "_onKey")));
 
 			domStyle.set(this.domNode, {
 				opacity:0,
@@ -452,8 +453,10 @@ define([
 			if(this._scrollConnected){
 				this._scrollConnected = false;
 			}
-			array.forEach(this._modalconnects, connect.disconnect);
-			this._modalconnects = [];
+			var h;
+			while(h = this._modalconnects.pop()){
+				h.remove();
+			}
 
 			if(this._relativePosition){
 				delete this._relativePosition;
@@ -486,7 +489,10 @@ define([
 			if(this._moveable){
 				this._moveable.destroy();
 			}
-			array.forEach(this._modalconnects, connect.disconnect);
+			var h;
+			while(h = this._modalconnects.pop()){
+				h.remove();
+			}
 
 			DialogLevelManager.hide(this);
 

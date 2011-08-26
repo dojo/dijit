@@ -1,5 +1,4 @@
 define([
-	"dojo/_base/connect", // connect.connect connect.disconnect
 	"dojo/_base/declare", // declare
 	"dojo/query", // query
 	"../registry",	// registry.byNode
@@ -8,7 +7,7 @@ define([
 	"../_Container",
 	"../_HasDropDown",
 	"dojo/text!./templates/DropDownButton.html"
-], function(connect, declare, query, registry, popup, Button, _Container, _HasDropDown, template){
+], function(declare, query, registry, popup, Button, _Container, _HasDropDown, template){
 
 /*=====
 	Button = dijit.form.Button;
@@ -88,8 +87,8 @@ return declare("dijit.form.DropDownButton", [Button, _Container, _HasDropDown], 
 		var dropDown = this.dropDown;
 		if(!dropDown){ return; }
 		if(!this.isLoaded()){
-			var handler = connect.connect(dropDown, "onLoad", this, function(){
-				connect.disconnect(handler);
+			var handler = dropDown.on("load", this, function(){
+				handler.remove();
 				this.openDropDown();
 			});
 			dropDown.refresh();

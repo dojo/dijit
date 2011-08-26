@@ -1,6 +1,5 @@
 define([
 	"dojo/_base/array", // array.forEach
-	"dojo/_base/connect", // connect.connect connect.disconnect
 	"dojo/_base/declare", // declare
 	"dojo/dom-attr", // domAttr.set
 	"dojo/dom-construct", // domConstruct.create domConstruct.place
@@ -10,6 +9,7 @@ define([
 	"dojo/i18n", // i18n.getLocalization
 	"dojo/keys",	//  keys.F12
 	"dojo/_base/lang", // lang.hitch
+	"dojo/on", // on()
 	"dojo/_base/sniff", // has("ie") has("webkit")
 	"dojo/_base/window", // win.body win.global
 	"dojo/window", // winUtils.getBox
@@ -19,7 +19,7 @@ define([
 	"../..",	// dijit._scopeName
 	"../../registry", // registry.getEnclosingWidget()
 	"dojo/i18n!../nls/commands"
-], function(array, connect, declare, domAttr, domConstruct, domGeometry, domStyle, event, i18n, keys, lang, has, win,
+], function(array, declare, domAttr, domConstruct, domGeometry, domStyle, event, i18n, keys, lang, on, has, win,
 	winUtils, focus, _Plugin, ToggleButton, dijit, registry){
 
 /*=====
@@ -217,7 +217,7 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 						this._resize();
 					}), 10);
 				};
-				this._resizeHandle = connect.connect(window, "onresize", this, resizer);
+				this._resizeHandle = on(window, "resize", lang.hitch(this, resizer));
 
 				//Call this on a delay once to deal with IE glitchiness on initial size.
 				setTimeout(lang.hitch(this, this._resize), 100);
@@ -238,7 +238,7 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 				if(!ed._sourceQueryCommandEnabled){
 					return;
 				}
-				connect.disconnect(this._resizeHandle);
+				this._resizeHandle.remove();
 				delete this._resizeHandle;
 
 				if(this.editor.__oldGetValue){
@@ -539,7 +539,7 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 			delete this._resizer;
 		}
 		if(this._resizeHandle){
-			connect.disconnect(this._resizeHandle);
+			this._resizeHandle.remove();
 			delete this._resizeHandle;
 		}
 		this.inherited(arguments);

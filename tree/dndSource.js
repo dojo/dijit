@@ -1,14 +1,15 @@
 define([
 	"dojo/_base/array", // array.forEach array.indexOf array.map
-	"dojo/_base/connect", // connect.isCopyKey connect.subscribe connect.unsubscribe
+	"dojo/_base/connect", // isCopyKey
 	"dojo/_base/declare", // declare
-	"dojo/_base/lang", // lang.mixin
-	"dojo/dnd/Manager", // DNDManager.manager
 	"dojo/dom-class", // domClass.add
 	"dojo/dom-geometry", // domGeometry.position
+	"dojo/_base/lang", // lang.mixin lang.hitch
+	"dojo/on", // subscribe
 	"dojo/touch",
+	"dojo/dnd/Manager", // DNDManager.manager
 	"./_dndSelector"
-], function(array, connect, declare, lang, DNDManager, domClass, domGeometry, touch, _dndSelector){
+], function(array, connect, declare, domClass, domGeometry, lang, on, touch, DNDManager, _dndSelector){
 
 // module:
 //		dijit/tree/dndSource
@@ -102,10 +103,10 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 
 		// set up events
 		this.topics = [
-			connect.subscribe("/dnd/source/over", this, "onDndSourceOver"),
-			connect.subscribe("/dnd/start", this, "onDndStart"),
-			connect.subscribe("/dnd/drop", this, "onDndDrop"),
-			connect.subscribe("/dnd/cancel", this, "onDndCancel")
+			on("/dnd/source/over", lang.hitch(this, "onDndSourceOver")),
+			on("/dnd/start", lang.hitch(this, "onDndStart")),
+			on("/dnd/drop", lang.hitch(this, "onDndDrop")),
+			on("/dnd/cancel", lang.hitch(this, "onDndCancel"))
 		];
 	},
 
@@ -136,8 +137,9 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 	destroy: function(){
 		// summary:
 		//		Prepares the object to be garbage-collected.
-		this.inherited("destroy",arguments);
-		array.forEach(this.topics, connect.unsubscribe);
+		this.inherited(arguments);
+		var h;
+		while(h = this.topics.pop()){ h.remove(); }
 		this.targetAnchor = null;
 	},
 

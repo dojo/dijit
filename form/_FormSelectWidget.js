@@ -1,15 +1,15 @@
 define([
 	"dojo/_base/array", // array.filter array.forEach array.map array.some
-	"dojo/_base/connect", // connect.connect connect.disconnect
+	"dojo/aspect", // aspect.after
 	"dojo/data/util/sorter", // util.sorter.createSortFunction
 	"dojo/_base/declare", // declare
 	"dojo/dom", // dom.setSelectable
 	"dojo/dom-class", // domClass.toggle
 	"dojo/_base/kernel",	// _scopeName
-	"dojo/_base/lang", // lang.delegate lang.isArray lang.isObject
+	"dojo/_base/lang", // lang.delegate lang.isArray lang.isObject lang.hitch
 	"dojo/query", // query
 	"./_FormValueWidget"
-], function(array, connect, sorter, declare, dom, domClass, kernel, lang, query, _FormValueWidget){
+], function(array, aspect, sorter, declare, dom, domClass, kernel, lang, query, _FormValueWidget){
 
 /*=====
 	var _FormValueWidget = dijit.form._FormValueWidget;
@@ -228,13 +228,14 @@ return declare("dijit.form._FormSelectWidget", _FormValueWidget, {
 		fetchArgs = fetchArgs || {};
 		if(oStore !== store){
 			// Our store has changed, so update our notifications
-			array.forEach(this._notifyConnections || [], connect.disconnect);
-			delete this._notifyConnections;
+			var h;
+			while(h = this._notifyConnections.pop()){ h.remove(); }
+
 			if(store && store.getFeatures()["dojo.data.api.Notification"]){
 				this._notifyConnections = [
-					connect.connect(store, "onNew", this, "_onNewItem"),
-					connect.connect(store, "onDelete", this, "_onDeleteItem"),
-					connect.connect(store, "onSet", this, "_onSetItem")
+					aspect.after(store, "onNew", lang.hitch(this, "_onNewItem"), true),
+					aspect.after(store, "onDelete", lang.hitch(this, "_onDeleteItem"), true),
+					aspect.after(store, "onSet", lang.hitch(this, "_onSetItem"), true)
 				];
 			}
 			this._set("store", store);
@@ -463,6 +464,7 @@ return declare("dijit.form._FormSelectWidget", _FormValueWidget, {
 		//		Saves off our value, if we have an initial one set so we
 		//		can use it if we have a store as well (see startup())
 		this._oValue = (keywordArgs || {}).value || null;
+		this._notifyConnections = [];
 	},
 
 	buildRendering: function(){
@@ -535,7 +537,8 @@ return declare("dijit.form._FormSelectWidget", _FormValueWidget, {
 	destroy: function(){
 		// summary:
 		//		Clean up our connections
-		array.forEach(this._notifyConnections || [], connect.disconnect);
+		var h;
+		while(h = this._notifyConnections.pop()){ h.remove(); }
 		this.inherited(arguments);
 	},
 

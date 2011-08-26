@@ -3,10 +3,11 @@ define([
 	"dojo/_base/connect", // connect.connect
 	"dojo/_base/event", // event.stop
 	"dojo/_base/kernel", // kernel.deprecated
-	"dojo/_base/lang", // lang.mixin
+	"dojo/_base/lang", // lang.mixin, lang.hitch
+	"dojo/on",
 	"dojo/_base/sniff", // has("ie")
 	"."		// setting dijit.typematic global
-], function(array, connect, event, kernel, lang, has, dijit){
+], function(array, connect, event, kernel, lang, on, has, dijit){
 
 // module:
 //		dijit/typematic
@@ -116,7 +117,7 @@ var typematic = (dijit.typematic = {
 		// 		shiftKey:
 		//			same as ctrlKey but for the shift key
 		// returns:
-		//		an array of dojo.connect handles
+		//		a connection handle
 		if(keyObject.keyCode){
 			keyObject.charOrCode = keyObject.keyCode;
 			kernel.deprecated("keyCode attribute parameter for dijit.typematic.addKeyListener is deprecated. Use charOrCode instead.", "", "2.0");
@@ -125,7 +126,7 @@ var typematic = (dijit.typematic = {
 			kernel.deprecated("charCode attribute parameter for dijit.typematic.addKeyListener is deprecated. Use charOrCode instead.", "", "2.0");
 		}
 		var handles = [
-			connect.connect(node, "onkeypress", this, function(evt){
+			on(node, connect._keypress, lang.hitch(this, function(evt){
 				if(evt.charOrCode == keyObject.charOrCode &&
 				(keyObject.ctrlKey === undefined || keyObject.ctrlKey == evt.ctrlKey) &&
 				(keyObject.altKey === undefined || keyObject.altKey == evt.altKey) &&
@@ -136,12 +137,12 @@ var typematic = (dijit.typematic = {
 				}else if(typematic._obj == keyObject){
 					typematic.stop();
 				}
-			}),
-			connect.connect(node, "onkeyup", this, function(){
+			})),
+			on(node, "keyup", lang.hitch(this, function(){
 				if(typematic._obj == keyObject){
 					typematic.stop();
 				}
-			})
+			}))
 		];
 		return { remove: function(){ array.forEach(handles, function(h){ h.remove(); }); } };
 	},
@@ -151,33 +152,32 @@ var typematic = (dijit.typematic = {
 		//		Start listening for a typematic mouse click.
 		//		See the trigger method for other parameters.
 		// returns:
-		//		an array of dojo.connect handles
-		var dc = connect.connect;
+		//		a connection handle
 		var handles =  [
-			dc(node, "mousedown", this, function(evt){
+			on(node, "mousedown", lang.hitch(this, function(evt){
 				event.stop(evt);
 				typematic.trigger(evt, _this, node, callback, node, subsequentDelay, initialDelay, minDelay);
-			}),
-			dc(node, "mouseup", this, function(evt){
+			})),
+			on(node, "mouseup", lang.hitch(this, function(evt){
 				if(this._obj){
 					event.stop(evt);
 				}
 				typematic.stop();
-			}),
-			dc(node, "mouseout", this, function(evt){
+			})),
+			on(node, "mouseout", lang.hitch(this, function(evt){
 				event.stop(evt);
 				typematic.stop();
-			}),
-			dc(node, "mousemove", this, function(evt){
+			})),
+			on(node, "mousemove", lang.hitch(this, function(evt){
 				evt.preventDefault();
-			}),
-			dc(node, "dblclick", this, function(evt){
+			})),
+			on(node, "dblclick", lang.hitch(this, function(evt){
 				event.stop(evt);
 				if(has("ie")){
 					typematic.trigger(evt, _this, node, callback, node, subsequentDelay, initialDelay, minDelay);
 					setTimeout(lang.hitch(this, typematic.stop), 50);
 				}
-			})
+			}))
 		];
 		return { remove: function(){ array.forEach(handles, function(h){ h.remove(); }); } };
 	},
@@ -192,7 +192,7 @@ var typematic = (dijit.typematic = {
 		// keyNode:
 		//		the DOM node object to listen on for key events.
 		// returns:
-		//		an array of dojo.connect handles
+		//		a connection handle
 		var handles = [
 			this.addKeyListener(keyNode, keyObject, _this, callback, subsequentDelay, initialDelay, minDelay),
 			this.addMouseListener(mouseNode, _this, callback, subsequentDelay, initialDelay, minDelay)

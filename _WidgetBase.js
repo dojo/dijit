@@ -3,7 +3,7 @@ define([
 	"dojo/_base/array", // array.forEach array.map
 	"dojo/aspect",
 	"dojo/_base/config", // config.blankGif
-	"dojo/_base/connect", // connect.connect connect.disconnect connect.subscribe connect.unsubscribe
+	"dojo/_base/connect", // connect.connect
 	"dojo/_base/declare", // declare
 	"dojo/dom", // dom.byId
 	"dojo/dom-attr", // domAttr.set domAttr.remove
@@ -12,12 +12,13 @@ define([
 	"dojo/dom-geometry",	// isBodyLtr
 	"dojo/dom-style", // domStyle.set, domStyle.get
 	"dojo/_base/lang", // mixin(), isArray(), etc.
+	"dojo/on",
 	"dojo/Stateful", // Stateful
 	"dojo/_base/window", // win.doc.createTextNode
 	"./registry"	// registry.getUniqueId(), registry.findWidgets()
 ], function(require, array, aspect, config, connect, declare,
 			dom, domAttr, domClass, domConstruct, domGeometry, domStyle,
-			lang, Stateful, win, registry){
+			lang, on, Stateful, win, registry){
 
 /*=====
 var Stateful = dojo.Stateful;
@@ -488,7 +489,7 @@ return declare("dijit._WidgetBase", Stateful, {
 		this._beingDestroyed = true;
 		this.uninitialize();
 
-		// remove connect.connect() and connect.subscribe() listeners
+		// remove this.connect() and this.subscribe() listeners
 		var c;
 		while(c = this._connects.pop()){
 			c.remove();
@@ -764,7 +765,7 @@ return declare("dijit._WidgetBase", Stateful, {
 		//		Call specified function when event "type" occurs, ex: myWidget.on("click", function(){ ... }).
 		// description:
 		//		Call specified function when event "type" occurs, ex: myWidget.on("click", function(){ ... }).
-		//		It's also implicitly called from connect.connect(myWidget, "onClick", ...).
+		//		It's also implicitly called from dojo.connect(myWidget, "onClick", ...).
 		//		Note that the function is not run in any particular scope, so if (for example) you want it to run in the
 		//		widget's scope you must do myWidget.on("click", lang.hitch(myWidget, func)).
 
@@ -812,7 +813,7 @@ return declare("dijit._WidgetBase", Stateful, {
 		//		Connects specified obj/event to specified method of this object
 		//		and registers for disconnect() on widget destroy.
 		// description:
-		//		Provide widget-specific analog to connect.connect, except with the
+		//		Provide widget-specific analog to dojo.connect, except with the
 		//		implicit use of this widget as the target object.
 		//		Events connected with `this.connect` are disconnected upon
 		//		destruction.
@@ -854,7 +855,7 @@ return declare("dijit._WidgetBase", Stateful, {
 		//		Subscribes to the specified topic and calls the specified method
 		//		of this object and registers for unsubscribe() on widget destroy.
 		// description:
-		//		Provide widget-specific analog to connect.subscribe, except with the
+		//		Provide widget-specific analog to dojo.subscribe, except with the
 		//		implicit use of this widget as the target object.
 		// example:
 		//	|	var btn = new dijit.form.Button();
@@ -865,7 +866,7 @@ return declare("dijit._WidgetBase", Stateful, {
 		//	|	});
 		// tags:
 		//		protected
-		var handle = connect.subscribe(topic, this, method);
+		var handle = on(topic, lang.hitch(this, method));
 		this._connects.push(handle);
 		return handle;		// _Widget.Handle
 	},
@@ -928,7 +929,7 @@ return declare("dijit._WidgetBase", Stateful, {
 		// | 	// create a Button with no srcNodeRef, and place it in the body:
 		// | 	var button = new dijit.form.Button({ label:"click" }).placeAt(win.body());
 		// | 	// now, 'button' is still the widget reference to the newly created button
-		// | 	connect.connect(button, "onClick", function(e){ console.log('click'); });
+		// | 	button.on("click", function(e){ console.log('click'); }));
 		//
 		// example:
 		// |	// create a button out of a node with id="src" and append it to id="wrapper":

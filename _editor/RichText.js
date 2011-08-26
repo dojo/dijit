@@ -1,7 +1,6 @@
 define([
 	"dojo/_base/array", // array.forEach array.indexOf array.some
 	"dojo/_base/config", // config
-	"dojo/_base/connect", // connect.connect connect.publish
 	"dojo/_base/declare", // declare
 	"dojo/_base/Deferred", // Deferred
 	"dojo/dom", // dom.byId
@@ -14,6 +13,7 @@ define([
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/keys", // keys.BACKSPACE keys.TAB
 	"dojo/_base/lang", // lang.clone lang.hitch lang.isArray lang.isFunction lang.isString lang.trim
+	"dojo/on", // on(), on.emit() (publish)
 	"dojo/query", // query
 	"dojo/ready", // ready
 	"dojo/_base/sniff", // has("ie") has("mozilla") has("opera") has("safari") has("webkit")
@@ -27,8 +27,8 @@ define([
 	"./html",
 	"../focus",
 	".."	// dijit._scopeName
-], function(array, config, connect, declare, Deferred, dom, domAttr, domClass, domConstruct, domGeometry, domStyle,
-	event, kernel, keys, lang, query, ready, has, unload, _Url, win,
+], function(array, config, declare, Deferred, dom, domAttr, domClass, domConstruct, domGeometry, domStyle,
+	event, kernel, keys, lang, on, query, ready, has, unload, _Url, win,
 	_Widget, _CssStateMixin, selectionapi, rangeapi, htmlapi, focus, dijit){
 
 /*=====
@@ -196,7 +196,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		}
 		this.inherited(arguments);
 
-		connect.publish(dijit._scopeName + "._editor.RichText::init", [this]);
+		on.emit(dijit._scopeName + "._editor.RichText::init", this);
 		this.open();
 		this.setupDefaultShortcuts();
 	},
@@ -331,7 +331,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		}
 
 		if(!this.isClosed){ this.close(); }
-		connect.publish(dijit._scopeName + "._editor.RichText::open", [ this ]);
+		on.emit(dijit._scopeName + "._editor.RichText::open", this);
 
 		if(arguments.length === 1 && element.nodeName){ // else unchanged
 			this.domNode = element;
@@ -391,12 +391,12 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 						this.replaceValue(resetValue);
 					}
 				};
-				connect.connect(ta.form, "onsubmit", this, function(){
+				on(ta.form, "submit", lang.hitch(this, function(){
 					// Copy value to the <textarea> so it gets submitted along with form.
 					// FIXME: should we be calling close() here instead?
 					domAttr.set(ta, 'disabled', this.disabled); // don't submit the value if disabled
 					ta.value = this.getValue();
-				});
+				}));
 			}
 		}else{
 			html = htmlapi.getChildrenHtml(dn);
@@ -1129,7 +1129,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 	},
 	_normalizeCommand: function(/*String*/ cmd, /*Anything?*/argument){
 		// summary:
-		//		Used as the advice function by connect.connect to map our
+		//		Used as the advice function to map our
 		//		normalized set of commands to those supported by the target
 		//		browser.
 		// tags:

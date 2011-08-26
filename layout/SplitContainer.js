@@ -1,6 +1,5 @@
 define([
 	"dojo/_base/array", // array.forEach array.indexOf array.some
-	"dojo/_base/connect", // connect.connect connect.disconnect
 	"dojo/cookie", // cookie
 	"dojo/_base/declare", // declare
 	"dojo/dom", // dom.setSelectable
@@ -10,14 +9,15 @@ define([
 	"dojo/dom-style", // domStyle.style
 	"dojo/_base/event", // event.stop
 	"dojo/_base/kernel", // kernel.deprecated
-	"dojo/_base/lang", // lang.extend
+	"dojo/_base/lang", // lang.extend lang.hitch
+	"dojo/on",
 	"dojo/_base/sniff", // has("mozilla")
 	"dojo/_base/window", // win.doc.createElement win.doc.documentElement
 	"../registry",	// registry.getUniqueId()
 	"../_WidgetBase",
 	"./_LayoutWidget"
-], function(array, connect, cookie, declare, dom, domClass, domConstruct, domGeometry, domStyle,
-			event, kernel, lang, has, win, registry, _WidgetBase, _LayoutWidget){
+], function(array, cookie, declare, dom, domClass, domConstruct, domGeometry, domStyle,
+			event, kernel, lang, on, has, win, registry, _WidgetBase, _LayoutWidget){
 
 /*=====
 var _WidgetBase = dijit._WidgetBase;
@@ -132,7 +132,8 @@ return declare("dijit.layout.SplitContainer", _LayoutWidget, {
 
 	destroy: function(){
 		delete this.virtualSizer;
-		array.forEach(this._ownconnects, connect.disconnect);
+		var h;
+		while(h = this._ownconnects.pop()){ h.remove(); }
 		this.inherited(arguments);
 	},
 	startup: function(){
@@ -460,9 +461,10 @@ return declare("dijit.layout.SplitContainer", _LayoutWidget, {
 		//
 		// attach mouse events
 		//
-		this._ownconnects = [];
-		this._ownconnects.push(connect.connect(win.doc.documentElement, "onmousemove", this, "changeSizing"));
-		this._ownconnects.push(connect.connect(win.doc.documentElement, "onmouseup", this, "endSizing"));
+		this._ownconnects = [
+			on(win.doc.documentElement, "mousemove", lang.hitch(this, "changeSizing")),
+			on(win.doc.documentElement, "mouseup", lang.hitch(this, "endSizing"))
+		];
 
 		event.stop(e);
 	},
@@ -496,7 +498,8 @@ return declare("dijit.layout.SplitContainer", _LayoutWidget, {
 			this._saveState(this);
 		}
 
-		array.forEach(this._ownconnects, connect.disconnect);
+		var h;
+		while(h = this._ownconnects.pop()){ h.remove(); }
 	},
 
 	movePoint: function(){

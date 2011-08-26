@@ -2,13 +2,13 @@ define([
 	"require",			// require.toUrl
 	".",	// to export dijit.BackgroundIframe
 	"dojo/_base/config",
-	"dojo/_base/connect", // connect.connect connect.disconnect
 	"dojo/dom-construct", // domConstruct.create
 	"dojo/dom-style", // domStyle.set
-	"dojo/_base/lang", // lang.extend
+	"dojo/_base/lang", // lang.extend lang.hitch
+	"dojo/on",
 	"dojo/_base/sniff", // has("ie"), has("mozilla"), has("quirks")
 	"dojo/_base/window" // win.doc.createElement
-], function(require, dijit, config, connect, domConstruct, domStyle, lang, has, win){
+], function(require, dijit, config, domConstruct, domStyle, lang, on, has, win){
 
 	// module:
 	//		dijit/BackgroundIFrame
@@ -71,9 +71,9 @@ define([
 			node.appendChild(iframe);
 			if(has("ie")<7 || has("quirks")){
 				this.resize(node);
-				this._conn = connect.connect(node, 'onresize', this, function(){
+				this._conn = on(node, 'resize', lang.hitch(this, function(){
 					this.resize(node);
-				});
+				}));
 			}else{
 				domStyle.set(iframe, {
 					width: '100%',
@@ -99,7 +99,7 @@ define([
 			// summary:
 			//		destroy the iframe
 			if(this._conn){
-				connect.disconnect(this._conn);
+				this._conn.remove();
 				this._conn = null;
 			}
 			if(this.iframe){

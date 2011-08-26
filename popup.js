@@ -1,6 +1,6 @@
 define([
 	"dojo/_base/array", // array.forEach array.some
-	"dojo/_base/connect", // connect.connect connect.disconnect
+	"dojo/_base/connect",	// connect._keypress
 	"dojo/_base/declare", // declare
 	"dojo/dom", // dom.isDescendant
 	"dojo/dom-attr", // domAttr.set
@@ -10,12 +10,13 @@ define([
 	"dojo/_base/event", // event.stop
 	"dojo/keys",
 	"dojo/_base/lang", // lang.hitch
+	"dojo/on",
 	"dojo/_base/sniff", // has("ie") has("mozilla")
 	"dojo/_base/window", // win.body
 	"./place",
 	"./BackgroundIframe",
 	"."	// dijit (defining dijit.popup to match API doc)
-], function(array, connect, declare, dom, domAttr, domConstruct, domGeometry, domStyle, event, keys, lang, has, win,
+], function(array, connect, declare, dom, domAttr, domConstruct, domGeometry, domStyle, event, keys, lang, on, has, win,
 			place, BackgroundIframe, dijit){
 
 	// module:
@@ -177,10 +178,12 @@ define([
 				s.top = "0px";
 
 				widget._popupWrapper = wrapper;
-				connect.connect(widget, "destroy", function(){
-					domConstruct.destroy(wrapper);
-					delete widget._popupWrapper;
-				});
+				if(widget.on){
+					widget.on("destroy", function(){
+						domConstruct.destroy(wrapper);
+						delete widget._popupWrapper;
+					});
+				}
 			}
 
 			return wrapper;
@@ -292,7 +295,7 @@ define([
 
 			// provide default escape and tab key handling
 			// (this will work for any widget, not just menu)
-			handlers.push(connect.connect(wrapper, "onkeypress", this, function(evt){
+			handlers.push(on(wrapper, connect._keypress, lang.hitch(this, function(evt){
 				if(evt.charOrCode == keys.ESCAPE && args.onCancel){
 					event.stop(evt);
 					args.onCancel();
@@ -303,20 +306,20 @@ define([
 						topPopup.onCancel();
 					}
 				}
-			}));
+			})));
 
 			// watch for cancel/execute events on the popup and notify the caller
 			// (for a menu, "execute" means clicking an item)
 			if(widget.onCancel && args.onCancel){
-				handlers.push(connect.connect(widget, "onCancel", args.onCancel));
+				handlers.push(widget.on("cancel", args.onCancel));
 			}
 
-			handlers.push(connect.connect(widget, widget.onExecute ? "onExecute" : "onChange", this, function(){
+			handlers.push(widget.on(widget.onExecute ? "execute" : "change", lang.hitch(this, function(){
 				var topPopup = this.getTopPopup();
 				if(topPopup && topPopup.onExecute){
 					topPopup.onExecute();
 				}
-			}));
+			})));
 
 			stack.push({
 				widget: widget,
@@ -357,7 +360,9 @@ define([
 					// TODO: in 2.0 standardize onHide() (used by StackContainer) and onClose() (used here)
 					widget.onClose();
 				}
-				array.forEach(top.handlers, connect.disconnect);
+
+				var h;
+				while(h = top.handlers.pop()){ h.remove(); }
 
 				// Hide the widget and it's wrapper unless it has already been destroyed in above onClose() etc.
 				if(widget && widget.domNode){

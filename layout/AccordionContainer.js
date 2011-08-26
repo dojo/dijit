@@ -1,7 +1,6 @@
 define([
 	"require",
 	"dojo/_base/array", // array.forEach array.map
-	"dojo/_base/connect", // connect.publish
 	"dojo/_base/declare", // declare
 	"dojo/_base/event", // event.stop
 	"dojo/_base/fx", // fx.Animation
@@ -12,6 +11,7 @@ define([
 	"dojo/dom-geometry",
 	"dojo/keys", // keys
 	"dojo/_base/lang", // lang.getObject lang.hitch
+	"dojo/on", // publish
 	"dojo/_base/sniff", // has("ie")
 	"../focus",			// focus.focus()
 	"../_base/manager",	// manager.defaultDuration
@@ -22,8 +22,8 @@ define([
 	"./StackContainer",
 	"./ContentPane",
 	"dojo/text!./templates/AccordionButton.html"
-], function(require, array, connect, declare, event, fx, dom, domAttr, domClass, domConstruct, domGeometry,
-			keys, lang, has, focus, manager,
+], function(require, array, declare, event, fx, dom, domAttr, domClass, domConstruct, domGeometry,
+			keys, lang, on, has, focus, manager,
 			_Widget, _Container, _TemplatedMixin, _CssStateMixin, StackContainer, ContentPane, template){
 
 /*=====
@@ -374,7 +374,7 @@ define([
 				this._setupChild(child);
 
 				// Code below copied from StackContainer
-				connect.publish(this.id+"-addChild", [child, insertIndex]);
+				on.emit(this.id+"-addChild", child, insertIndex);	// publish
 				this.layout();
 				if(!this.selectedChildWidget){
 					this.selectChild(child);

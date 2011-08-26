@@ -1,6 +1,5 @@
 define([
 	"dojo/_base/array", // array.forEach
-	"dojo/_base/connect", // connect.publish connect.subscribe
 	"dojo/_base/declare", // declare
 	"dojo/_base/Deferred", // Deferred
 	"dojo/i18n", // i18n.getLocalization
@@ -10,7 +9,8 @@ define([
 	"dojo/dom-style", // domStyle.set, get
 	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys.F1 keys.F15 keys.TAB
-	"dojo/_base/lang", // lang.getObject
+	"dojo/_base/lang", // lang.getObject lang.hitch
+	"dojo/on", // on.emit()
 	"dojo/_base/sniff", // has("ie") has("mac") has("webkit")
 	"dojo/string", // string.substitute
 	"dojo/_base/window", // win.withGlobal
@@ -27,8 +27,8 @@ define([
 	"./_editor/RichText",
 	".",	// dijit._scopeName
 	"dojo/i18n!./_editor/nls/commands"
-], function(array, connect, declare, Deferred, i18n, domAttr, domClass, domGeometry, domStyle,
-			event, keys, lang, has, string, win,
+], function(array, declare, Deferred, i18n, domAttr, domClass, domGeometry, domStyle,
+			event, keys, lang, on, has, string, win,
 			focusBase, _Container, Toolbar, ToolbarSeparator, _LayoutWidget, ToggleButton,
 			_Plugin, EnterKeyHandling, html, rangeapi, RichText, dijit){
 
@@ -185,7 +185,7 @@ define([
 					if(_Plugin.registry[args.name]){
 						o.plugin = _Plugin.registry[args.name](args);
 					}else{
-						connect.publish(dijit._scopeName + ".Editor.getPlugin",[o]);
+						on.emit(dijit._scopeName + ".Editor.getPlugin", o);	// publish
 					}
 				}
 				if(!o.plugin){

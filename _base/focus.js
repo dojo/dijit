@@ -1,12 +1,12 @@
 define([
 	"dojo/_base/array", // array.forEach
-	"dojo/_base/connect", // connect.publish
 	"dojo/dom", // dom.isDescendant
 	"dojo/_base/lang", // lang.isArray
+	"dojo/on", // publish
 	"dojo/_base/window", // win.doc win.doc.selection win.global win.global.getSelection win.withGlobal
 	"../focus",
 	".."	// for exporting symbols to dijit
-], function(array, connect, dom, lang, win, focus, dijit){
+], function(array, dom, lang, on, win, focus, dijit){
 
 	// module:
 	//		dijit/_base/focus
@@ -302,7 +302,7 @@ define([
 		dijit._curFocus = newVal;
 		dijit._prevFocus = oldVal;
 		if(newVal){
-			connect.publish("focusNode", [newVal]);
+			on.emit("focusNode", newVal);	// publish
 		}
 	});
 	focus.watch("activeStack", function(name, oldVal, newVal){
@@ -310,10 +310,10 @@ define([
 	});
 
 	focus.on("widget-blur", function(widget, by){
-		connect.publish("widgetBlur", [widget, by]);
+		on.emit("widgetBlur", widget, by);	// publish
 	});
 	focus.on("widget-focus", function(widget, by){
-		connect.publish("widgetFocus", [widget, by]);
+		on.emit("widgetFocus", widget, by);	// publish
 	});
 
 	return dijit;

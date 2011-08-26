@@ -1,5 +1,4 @@
 define([
-	"dojo/_base/connect", // connect.connect connect.disconnect
 	"dojo/_base/declare", // declare
 	"dojo/dom-class", // domClass.add domClass.remove
 	"dojo/dom-geometry",
@@ -8,6 +7,7 @@ define([
 	"dojo/i18n", // i18n.getLocalization
 	"dojo/keys", // keys.F11 keys.TAB
 	"dojo/_base/lang", // lang.hitch
+	"dojo/on", // on()
 	"dojo/_base/sniff", // has("ie"), has("quirks")
 	"dojo/_base/window", // win.body
 	"dojo/window", // winUtils.getBox winUtils.scrollIntoView
@@ -16,7 +16,7 @@ define([
 	"../../form/ToggleButton",
 	"../../registry", // registry.getEnclosingWidget()
 	"dojo/i18n!../nls/commands"
-], function(connect, declare, domClass, domGeometry, domStyle, event, i18n, keys, lang, has, win, winUtils,
+], function(declare, domClass, domGeometry, domStyle, event, i18n, keys, lang, on, has, win, winUtils,
 			focus, _Plugin, ToggleButton, registry){
 
 /*=====
@@ -323,10 +323,10 @@ var FullScreen = declare("dijit._editor.plugins.FullScreen",_Plugin,{
 					this._resizeEditor();
 				}), 10);
 			};
-			this._resizeHandle = connect.connect(window, "onresize", this, resizer);
+			this._resizeHandle = on(window, "resize", lang.hitch(this, resizer));
 
 			// Also monitor for direct calls to resize and adapt editor.
-			this._resizeHandle2 = connect.connect(ed, "resize", lang.hitch(this, function(){
+			this._resizeHandle2 = ed.on("resize", lang.hitch(this, function(){
 				if(this._resizer){
 					clearTimeout(this._resizer);
 					delete this._resizer;
@@ -344,12 +344,12 @@ var FullScreen = declare("dijit._editor.plugins.FullScreen",_Plugin,{
 		}else{
 			if(this._resizeHandle){
 				// Cleanup resizing listeners
-				connect.disconnect(this._resizeHandle);
+				this._resizeHandle.remove();
 				this._resizeHandle = null;
 			}
 			if(this._resizeHandle2){
 				// Cleanup resizing listeners
-				connect.disconnect(this._resizeHandle2);
+				this._resizeHandle2.remove();
 				this._resizeHandle2 = null;
 			}
 			if(this._rst){
@@ -428,12 +428,12 @@ var FullScreen = declare("dijit._editor.plugins.FullScreen",_Plugin,{
 		//		Over-ride to ensure the resize handle gets cleaned up.
 		if(this._resizeHandle){
 			// Cleanup resizing listeners
-			connect.disconnect(this._resizeHandle);
+			this._resizeHandle.remove();
 			this._resizeHandle = null;
 		}
 		if(this._resizeHandle2){
 			// Cleanup resizing listeners
-			connect.disconnect(this._resizeHandle2);
+			this._resizeHandle2.remove();
 			this._resizeHandle2 = null;
 		}
 		if(this._resizer){

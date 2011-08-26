@@ -1,10 +1,10 @@
 define([
 	"dojo/_base/array", // array.filter array.forEach array.indexOf array.some
-	"dojo/_base/connect", // connect.connect connect.disconnect
+	"dojo/aspect", // aspect.after
 	"dojo/_base/declare", // declare
 	"dojo/_base/json", // json.stringify
 	"dojo/_base/lang" // lang.hitch
-], function(array, connect, declare, json, lang){
+], function(array, aspect, declare, json, lang){
 
 	// module:
 	//		dijit/tree/TreeStoreModel
@@ -80,15 +80,16 @@ define([
 			// if the store supports Notification, subscribe to the notification events
 			if(store.getFeatures()['dojo.data.api.Notification']){
 				this.connects = this.connects.concat([
-					connect.connect(store, "onNew", this, "onNewItem"),
-					connect.connect(store, "onDelete", this, "onDeleteItem"),
-					connect.connect(store, "onSet", this, "onSetItem")
+					aspect.after(store, "onNew", lang.hitch(this, "onNewItem"), true),
+					aspect.after(store, "onDelete", lang.hitch(this, "onDeleteItem"), true),
+					aspect.after(store, "onSet", lang.hitch(this, "onSetItem"), true)
 				]);
 			}
 		},
 
 		destroy: function(){
-			array.forEach(this.connects, connect.disconnect);
+			var h;
+			while(h = this.connects.pop()){ h.remove(); }
 			// TODO: should cancel any in-progress processing of getRoot(), getChildren()
 		},
 

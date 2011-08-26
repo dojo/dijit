@@ -3,7 +3,6 @@ define([
 	"../_Widget",
 	"../_Container",
 	"../_Contained",
-	"dojo/_base/array", // array.filter array.forEach
 	"dojo/_base/declare", // declare
 	"dojo/dom-class", // domClass.add domClass.remove
 	"dojo/dom-geometry", // domGeometry.marginBox
@@ -11,7 +10,7 @@ define([
 	"dojo/_base/sniff", // has("ie")
 	"dojo/_base/window" // win.global
 ], function(lang, _Widget, _Container, _Contained,
-	array, declare, domClass, domGeometry, domStyle, has, win){
+	declare, domClass, domGeometry, domStyle, has, win){
 
 /*=====
 	var _Widget = dijit._Widget;

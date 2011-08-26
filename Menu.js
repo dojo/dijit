@@ -1,21 +1,21 @@
 define([
 	"require",
 	"dojo/_base/array", // array.forEach
-	"dojo/_base/connect", // connect.connect connect.disconnect keys.F10
 	"dojo/_base/declare", // declare
 	"dojo/_base/event", // event.stop
 	"dojo/dom", // dom.byId dom.isDescendant
 	"dojo/dom-attr", // domAttr.get domAttr.set domAttr.has domAttr.remove
 	"dojo/dom-geometry", // domStyle.getComputedStyle domGeometry.position
 	"dojo/dom-style", // domStyle.getComputedStyle
-	"dojo/keys",
+	"dojo/keys",	// keys.F10
 	"dojo/_base/lang", // lang.hitch
+	"dojo/on",
 	"dojo/_base/sniff", // has("ie"), has("quirks")
 	"dojo/_base/window", // win.body win.doc.documentElement win.doc.frames win.withGlobal
 	"dojo/window", // winUtils.get
 	"./popup",
 	"./DropDownMenu"
-], function(require, array, connect, declare, event, dom, domAttr, domGeometry, domStyle, keys, lang,
+], function(require, array, declare, event, dom, domAttr, domGeometry, domStyle, keys, lang, on,
 			has, win, winUtils, pm, DropDownMenu){
 
 /*=====
@@ -136,17 +136,17 @@ return declare("dijit.Menu", DropDownMenu, {
 			return [
 				// TODO: when leftClickToOpen is true then shouldn't space/enter key trigger the menu,
 				// rather than shift-F10?
-				connect.connect(cn, this.leftClickToOpen ? "onclick" : "oncontextmenu", this, function(evt){
+				on(cn, this.leftClickToOpen ? "click" : "contextmenu", lang.hitch(this, function(evt){
 					// Schedule context menu to be opened unless it's already been scheduled from onkeydown handler
 					event.stop(evt);
 					this._scheduleOpen(evt.target, iframe, {x: evt.pageX, y: evt.pageY});
-				}),
-				connect.connect(cn, "onkeydown", this, function(evt){
+				})),
+				on(cn, "keydown", lang.hitch(this, function(evt){
 					if(evt.shiftKey && evt.keyCode == keys.F10){
 						event.stop(evt);
 						this._scheduleOpen(evt.target, iframe);	// no coords - open near target node
 					}
-				})
+				}))
 			];
 		});
 		binding.connects = cn ? doConnects(cn) : [];
@@ -190,8 +190,10 @@ return declare("dijit.Menu", DropDownMenu, {
 		// node["_dijitMenu" + this.id] contains index(+1) into my _bindings[] array
 		var attrName = "_dijitMenu" + this.id;
 		if(node && domAttr.has(node, attrName)){
-			var bid = domAttr.get(node, attrName)-1, b = this._bindings[bid];
-			array.forEach(b.connects, connect.disconnect);
+			var bid = domAttr.get(node, attrName)-1, b = this._bindings[bid], h;
+			while(h = b.connects.pop()){
+				h.remove();
+			}
 
 			// Remove listener for iframe onload events
 			var iframe = b.iframe;

@@ -1,5 +1,4 @@
 define([
-	"dojo/_base/array", // array.forEach
 	"dojo/_base/declare", // declare
 	"dojo/dom-class", // domClass.add domClass.remove
 	"dojo/dom-construct", // domConstruct.place
@@ -8,7 +7,7 @@ define([
 	"dojo/_base/sniff", // has("ie") has("opera")
 	"dojo/_base/window", // win.body
 	"../_Plugin"
-], function(array, declare, domClass, domConstruct, domGeometry, lang, has, win, _Plugin){
+], function(declare, domClass, domConstruct, domGeometry, lang, has, win, _Plugin){
 
 /*=====
 	var _Plugin = dijit._editor._Plugin;

@@ -1,10 +1,9 @@
 define([
-	"dojo/_base/array", // array.forEach
-	"dojo/_base/connect", // connect.connect connect.disconnect
+	"dojo/_base/connect", // connect.connect
 	"dojo/_base/declare", // declare
-	"dojo/_base/lang", // lang.mixin
+	"dojo/_base/lang", // lang.mixin, lang.hitch
 	"../form/Button"
-], function(array, connect, declare, lang, Button){
+], function(connect, declare, lang, Button){
 
 // module:
 //		dijit/_editor/_Plugin
@@ -99,7 +98,8 @@ var _Plugin = declare("dijit._editor._Plugin", null, {
 		// summary:
 		//		Destroy this plugin
 
-		array.forEach(this._connects, connect.disconnect);
+		var h;
+		while(h = this._connects.pop()){ h.remove(); }
 		if(this.dropDown){
 			this.dropDown.destroyRecursive();
 		}

@@ -1,24 +1,24 @@
 define([
-	"dojo/_base/lang", // lang.getObject lang.hitch
-	"dojo/touch",
-	"dojo/cookie", // cookie
-	"../_WidgetBase",
-	"../_Widget",
-	"../_TemplatedMixin",
-	"./_LayoutWidget",
-	"./utils",		// layoutUtils.layoutChildren
 	"dojo/_base/array", // array.filter array.forEach array.map
-	"dojo/_base/connect", // connect.connect connect.disconnect
-	"dojo/keys",
+	"dojo/cookie", // cookie
 	"dojo/_base/declare", // declare
-	"dojo/_base/event", // event.stop
 	"dojo/dom-class", // domClass.add domClass.remove domClass.toggle
 	"dojo/dom-construct", // domConstruct.destroy domConstruct.place
 	"dojo/dom-geometry", // domGeometry.marginBox
 	"dojo/dom-style", // domStyle.style
-	"dojo/_base/window" // win.body win.doc win.doc.createElement
-], function(lang, touch, cookie, _WidgetBase, _Widget, _TemplatedMixin, _LayoutWidget, layoutUtils,
-	array, connect, keys, declare, event, domClass, domConstruct, domGeometry, domStyle, win){
+	"dojo/_base/event", // event.stop
+	"dojo/keys",
+	"dojo/_base/lang", // lang.getObject lang.hitch
+	"dojo/on",
+	"dojo/touch",
+	"dojo/_base/window", // win.body win.doc win.doc.createElement
+	"../_WidgetBase",
+	"../_Widget",
+	"../_TemplatedMixin",
+	"./_LayoutWidget",
+	"./utils"		// layoutUtils.layoutChildren
+], function(array, cookie, declare, domClass, domConstruct, domGeometry, domStyle, event, keys, lang, on, touch, win,
+			_WidgetBase, _Widget, _TemplatedMixin, _LayoutWidget, layoutUtils){
 
 /*=====
 	var _WidgetBase = dijit._WidgetBase;
@@ -63,6 +63,10 @@ var _Splitter = declare("dijit.layout._Splitter", [_Widget, _TemplatedMixin ],
 	live: true,
 
 	templateString: '<div class="dijitSplitter" data-dojo-attach-event="onkeypress:_onKeyPress,press:_startDrag,onmouseenter:_onMouse,onmouseleave:_onMouse" tabIndex="0" role="separator"><div class="dijitSplitterThumb"></div></div>',
+
+	constructor: function(){
+		this._handlers = [];
+	},
 
 	postMixInProperties: function(){
 		this.inherited(arguments);
@@ -136,8 +140,8 @@ var _Splitter = declare("dijit.layout._Splitter", [_Widget, _TemplatedMixin ],
 			layoutFunc = lang.hitch(this.container, "_layoutChildren", this.child.id),
 			de = win.doc;
 
-		this._handlers = (this._handlers || []).concat([
-			connect.connect(de, touch.move, this._drag = function(e, forceResize){
+		this._handlers = this._handlers.concat([
+			on(de, touch.move, this._drag = function(e, forceResize){
 				var delta = e[axis] - pageStart,
 					childSize = factor * delta + childStart,
 					boundChildSize = Math.max(Math.min(childSize, max), min);
@@ -148,9 +152,9 @@ var _Splitter = declare("dijit.layout._Splitter", [_Widget, _TemplatedMixin ],
 				// TODO: setting style directly (usually) sets content box size, need to set margin box size
 				splitterStyle[splitterAttr] = delta + splitterStart + factor*(boundChildSize - childSize) + "px";
 			}),
-			connect.connect(de, "ondragstart", event.stop),
-			connect.connect(win.body(), "onselectstart", event.stop),
-			connect.connect(de, touch.release, this, "_stopDrag")
+			on(de, "dragstart", event.stop),
+			on(win.body(), "selectstart", event.stop),
+			on(de, touch.release, lang.hitch(this, "_stopDrag"))
 		]);
 		event.stop(e);
 	},
@@ -184,8 +188,8 @@ var _Splitter = declare("dijit.layout._Splitter", [_Widget, _TemplatedMixin ],
 	},
 
 	_cleanupHandlers: function(){
-		array.forEach(this._handlers, connect.disconnect);
-		delete this._handlers;
+		var h;
+		while(h = this._handlers.pop()){ h.remove(); }
 	},
 
 	_onKeyPress: function(/*Event*/ e){
