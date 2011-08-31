@@ -31,6 +31,11 @@
 	left: auto;
 }
 
+.dj_ie7 .dijitInputContainer {
+	/* to fix wrong text alignment in rtl text box in IE */
+	display: inline-block;
+}
+
 .dijitTextBoxRtl .dijitSpinnerButtonContainer,
 .dijitTextBoxRtl .dijitValidationContainer,
 .dijitTextBoxRtl .dijitArrowButtonContainer {

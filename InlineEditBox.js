@@ -98,7 +98,8 @@ var InlineEditor = declare("dijit._InlineEditor", [_Widget, _TemplatedMixin, _Wi
 		var editorParams = lang.delegate(this.inlineEditBox.editorParams, {
 			style: editStyle,
 			dir: this.dir,
-			lang: this.lang
+			lang: this.lang,
+			textDir: this.textDir
 		});
 		editorParams[ "displayedValue" in cls.prototype ? "displayedValue" : "value"] = this.value;
 		this.editWidget = new cls(editorParams, this.editorPlaceholder);
@@ -362,11 +363,11 @@ var InlineEditBox = declare("dijit.InlineEditBox", _Widget, {
 		}
 
 		if(!this.value && !("value" in this.params)){ // "" is a good value if specified directly so check params){
-		   this.value = lang.trim(this.renderAsHtml ? this.displayNode.innerHTML :
-		      (this.displayNode.innerText||this.displayNode.textContent||""));
+			this.value = lang.trim(this.renderAsHtml ? this.displayNode.innerHTML :
+				(this.displayNode.innerText||this.displayNode.textContent||""));
 		}
 		if(!this.value){
-		    this.displayNode.innerHTML = this.noValueIndicator;
+			this.displayNode.innerHTML = this.noValueIndicator;
 		}
 
 		domClass.add(this.displayNode, 'dijitInlineEditBoxDisplayMode');
@@ -462,7 +463,8 @@ var InlineEditBox = declare("dijit.InlineEditBox", _Widget, {
 				inlineEditBox: this,
 				sourceStyle: domStyle.getComputedStyle(this.displayNode),
 				save: lang.hitch(this, "save"),
-				cancel: lang.hitch(this, "cancel")
+				cancel: lang.hitch(this, "cancel"),
+				textDir: this.textDir
 			}, placeholder);
 			if(!this._started){
 				this.startup();
@@ -572,6 +574,10 @@ var InlineEditBox = declare("dijit.InlineEditBox", _Widget, {
 			// tell the world that we have changed
 			setTimeout(lang.hitch(this, "onChange", val), 0); // setTimeout prevents browser freeze for long-running event handlers
 		}
+		// contextual (auto) text direction depends on the text value
+		if(this.textDir == "auto"){
+			this.applyTextDir(this.displayNode, this.displayNode.innerText);
+		}
 	},
 
 	getValue: function(){
@@ -596,7 +602,21 @@ var InlineEditBox = declare("dijit.InlineEditBox", _Widget, {
 		setTimeout(lang.hitch(this, "onCancel"), 0); // setTimeout prevents browser freeze for long-running event handlers
 
 		this._showText(focus);
-	}
+	},
+	_setTextDirAttr: function(/*String*/ textDir){
+		// summary:
+		//		Setter for textDir.
+		// description:
+		//		Users shouldn't call this function; they should be calling
+		//		set('textDir', value)
+		// tags:
+		//		private
+		if(!this._created || this.textDir != textDir){
+			this._set("textDir", textDir);
+			this.applyTextDir(this.displayNode, this.displayNode.innerText);
+			this.displayNode.align = this.dir == "rtl" ? "right" : "left"; //fix the text alignment
+		}
+   }
 });
 
 InlineEditBox._InlineEditor = InlineEditor;	// for monkey patching
