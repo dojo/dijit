@@ -42,9 +42,7 @@ define([
 	var a11yclick = function(node, listener){
 		if(/input|button/i.test(node.nodeName)){
 			// pass through, the browser already generates click event on SPACE/ENTER key
-			return function(node, listener){
-				return on(node, type, listener);
-			};
+			return on(node, "click", listener);
 		}else{
 			// Don't fire the click event unless both the keydown and keyup occur on this node.
 			// Avoids problems where focus shifted to this node or away from the node on keydown,
