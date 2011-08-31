@@ -182,14 +182,27 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 			}else if(newTarget == this.tree.rootNode && newDropPosition != "Over"){
 				// Can't drop before or after tree's root node; the dropped node would just disappear (at least visually)
 				m.canDrop(false);
-			}else if(m.source == this && (newTarget.id in this.selection)){
-				// Guard against dropping onto yourself (TODO: guard against dropping onto your descendant, #7140)
-				m.canDrop(false);
-			}else if(this.checkItemAcceptance(newTarget.rowNode, m.source, newDropPosition.toLowerCase())
-					&& !this._isParentChildDrop(m.source, newTarget.rowNode)){
-				m.canDrop(true);
 			}else{
-				m.canDrop(false);
+				// Guard against dropping onto yourself (TODO: guard against dropping onto your descendant, #7140)
+				var model = this.tree.model,
+					sameId = false;
+				if(m.source == this){
+					for(var dragId in this.selection){
+						var dragNode = this.selection[dragId];
+						if(dragNode.item === newTarget.item){
+							sameId = true;
+							break;
+						}
+					}
+				}
+				if(sameId){
+					m.canDrop(false);
+				}else if(this.checkItemAcceptance(newTarget.rowNode, m.source, newDropPosition.toLowerCase())
+						&& !this._isParentChildDrop(m.source, newTarget.rowNode)){
+					m.canDrop(true);
+				}else{
+					m.canDrop(false);
+				}
 			}
 
 			this.targetAnchor = newTarget;
