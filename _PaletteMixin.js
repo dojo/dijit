@@ -76,6 +76,11 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 	//	 Name of javascript class for Object created for each cell of the palette.
 	//	 dyeClass should implements dijit.Dye interface
 	dyeClass: '',
+	
+	// summary: String
+	//		Localized summary for the palette table
+	summary: '',
+	_setSummaryAttr: "paletteTableNode",
 
 	_dyeFactory: function(value /*===== , row, col =====*/){
 		// summary:
@@ -98,7 +103,6 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 		this._cells = [];
 		var url = this._blankGif;
 
-
 		for(var row=0; row < choices.length; row++){
 			var rowNode = domConstruct.create("tr", {tabIndex: "-1"}, this.gridNode);
 			for(var col=0; col < choices[row].length; col++){
@@ -110,7 +114,7 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 						"class": this.cellClass,
 						tabIndex: "-1",
 						title: titles[value],
-						role: "presentation"
+						role: "gridcell"
 					});
 
 					// prepare cell inner structure
