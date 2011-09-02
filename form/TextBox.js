@@ -120,9 +120,9 @@ define([
 				// IE INPUT tag fontFamily has to be set directly using STYLE
 				// the setTimeout gives IE a chance to render the TextBox and to deal with font inheritance
 				setTimeout(lang.hitch(this, function(){
-					var s = domStyle.getComputedStyle(this.domNode);
-					if(s){
-						try{
+					try{
+						var s = domStyle.getComputedStyle(this.domNode); // can throw an exception if widget is immediately destroyed
+						if(s){
 							var ff = s.fontFamily;
 							if(ff){
 								var inputs = this.domNode.getElementsByTagName("INPUT");
@@ -132,9 +132,9 @@ define([
 									}
 								}
 							}
-						}catch(e){/*when used in a Dialog, and this is called before the dialog is
+						}
+					}catch(e){/*when used in a Dialog, and this is called before the dialog is
 						shown, s.fontFamily would trigger "Invalid Argument" error.*/}
-					}
 				}), 0);
 			}
 		});
