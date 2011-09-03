@@ -12,16 +12,14 @@ define([
 	"dojo/_base/sniff", // has("ie")
 	"./CalendarLite",
 	"./_Widget",
-	"./_CssStateMixin",
 	"./_TemplatedMixin",
 	"./form/DropDownButton",
 	"./hccss"	// not used directly, but sets CSS class on <body>
 ], function(array, date, local, declare, domAttr, domClass, event, kernel, keys, lang, has,
-			CalendarLite, _Widget, _CssStateMixin, _TemplatedMixin, DropDownButton){
+			CalendarLite, _Widget, _TemplatedMixin, DropDownButton){
 
 /*=====
 	var CalendarLite = dijit.CalendarLite;
-	var _CssStateMixin = dijit._CssStateMixin;
 	var _Widget = dijit._Widget;
 	var _TemplatedMixin = dijit._TemplatedMixin;
 	var DropDownButton = dijit.form.DropDownButton;
@@ -32,7 +30,9 @@ define([
 	// summary:
 	//		A simple GUI for choosing a date in the context of a monthly calendar.
 
-	var Calendar = declare("dijit.Calendar", [CalendarLite, _CssStateMixin], {
+	var Calendar = declare("dijit.Calendar",
+		[CalendarLite, _Widget], // _Widget for _CssStateMixin plus deprecated methods like setAttribute()
+		{
 		// summary:
 		//		A simple GUI for choosing a date in the context of a monthly calendar.
 		//
