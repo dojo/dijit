@@ -1,4 +1,5 @@
 define([
+	"dojo/aspect",
 	"dojo/_base/declare", // declare
 	"dojo/dom-class", // domClass.add domClass.remove
 	"dojo/dom-geometry",
@@ -16,7 +17,7 @@ define([
 	"../../form/ToggleButton",
 	"../../registry", // registry.getEnclosingWidget()
 	"dojo/i18n!../nls/commands"
-], function(declare, domClass, domGeometry, domStyle, event, i18n, keys, lang, on, has, win, winUtils,
+], function(aspect, declare, domClass, domGeometry, domStyle, event, i18n, keys, lang, on, has, win, winUtils,
 			focus, _Plugin, ToggleButton, registry){
 
 /*=====
@@ -326,7 +327,7 @@ var FullScreen = declare("dijit._editor.plugins.FullScreen",_Plugin,{
 			this._resizeHandle = on(window, "resize", lang.hitch(this, resizer));
 
 			// Also monitor for direct calls to resize and adapt editor.
-			this._resizeHandle2 = ed.on("resize", lang.hitch(this, function(){
+			this._resizeHandle2 = aspect.after(ed, "onResize", lang.hitch(this, function(){
 				if(this._resizer){
 					clearTimeout(this._resizer);
 					delete this._resizer;

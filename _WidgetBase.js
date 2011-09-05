@@ -779,9 +779,8 @@ return declare("dijit._WidgetBase", Stateful, {
 		if(!map){
 			map = (ctor._onMap = {});
 			for(var attr in ctor.prototype){
-				var key = attr.replace(/^on/, "").toLowerCase();
-				if(!(key in map) || /^on/.test(attr)){	// prefer onFocus() to focus()
-					map[key] = attr;
+				if(/^on/.test(attr)){
+					map[attr.replace(/^on/, "").toLowerCase()] = attr;
 				}
 			}
 		}

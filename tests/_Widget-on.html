@@ -21,7 +21,7 @@
 
 
 		dojo.ready(function(){
-			var mousedOver, clicked, resized;
+			var mousedOver, clicked;
 
 			doh.register("on", [
 				function setup(){
@@ -34,9 +34,6 @@
 						},
 						foobar: function(){
 							// A widget.on("foobar") should go to onFooBar() (above), not here
-						},
-						resize: function(){
-							// This is called programatically
 						}
 					});
 
@@ -56,12 +53,6 @@
 					dijit.registry.byId("myWidget").on("foobar", function(){
 						clicked = true;
 						console.log("click event");
-					});
-
-					// Since there's no onResize() method, this should connect to resize()
-					dijit.registry.byId("myWidget").on("resize", function(){
-						resized = true;
-						console.log("resize event");
 					});
 				},
 
@@ -85,11 +76,6 @@
 						which: 1
 					});
 					doh.t(mousedOver, "mousedOver");
-
-					// Test connection to function without "on" prefix
-					doh.f(resized, "resized");
-					myWidget.resize();
-					doh.t(resized, "resized");
 				}
 			]);
 

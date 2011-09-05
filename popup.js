@@ -1,5 +1,6 @@
 define([
 	"dojo/_base/array", // array.forEach array.some
+	"dojo/aspect",
 	"dojo/_base/connect",	// connect._keypress
 	"dojo/_base/declare", // declare
 	"dojo/dom", // dom.isDescendant
@@ -16,7 +17,7 @@ define([
 	"./place",
 	"./BackgroundIframe",
 	"."	// dijit (defining dijit.popup to match API doc)
-], function(array, connect, declare, dom, domAttr, domConstruct, domGeometry, domStyle, event, keys, lang, on, has, win,
+], function(array, aspect, connect, declare, dom, domAttr, domConstruct, domGeometry, domStyle, event, keys, lang, on, has, win,
 			place, BackgroundIframe, dijit){
 
 	// module:
@@ -178,12 +179,10 @@ define([
 				s.top = "0px";
 
 				widget._popupWrapper = wrapper;
-				if(widget.on){
-					widget.on("destroy", function(){
-						domConstruct.destroy(wrapper);
-						delete widget._popupWrapper;
-					});
-				}
+				aspect.after(widget, "destroy", function(){
+					domConstruct.destroy(wrapper);
+					delete widget._popupWrapper;
+				});
 			}
 
 			return wrapper;
