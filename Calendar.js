@@ -33,7 +33,7 @@ define([
 	//		A simple GUI for choosing a date in the context of a monthly calendar.
 
 	var Calendar = declare("dijit.Calendar",
-		[CalendarLite, _Widget, _CssStateMixin], // _Widget for _CssStateMixin plus deprecated methods like setAttribute()
+		[CalendarLite, _Widget, _CssStateMixin], // _Widget for deprecated methods like setAttribute()
 		{
 		// summary:
 		//		A simple GUI for choosing a date in the context of a monthly calendar.
