@@ -359,6 +359,7 @@ var TreeNode = declare(
 							tooltip: tree.getTooltip(item),
 							dir: tree.dir,
 							lang: tree.lang,
+							textDir: tree.textDir,
 							indent: this.indent + 1
 						});
 					if(existingNodes){
@@ -511,6 +512,16 @@ var TreeNode = declare(
 		// tags:
 		//		private
 		this.tree._onNodeMouseLeave(this, evt);
+	},
+
+	_setTextDirAttr: function(textDir){
+		if(textDir &&((this.textDir != textDir) || !this._created)){
+			this._set("textDir", textDir);
+			this.applyTextDir(this.labelNode, this.labelNode.innerText || this.labelNode.textContent || "");
+			array.forEach(this.getChildren(), function(childNode){
+				childNode.set("textDir", textDir);
+			}, this);
+		}
 	}
 });
 
@@ -806,6 +817,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 					tree: this,
 					isExpandable: true,
 					label: this.label || this.getLabel(item),
+					textDir: this.textDir,
 					indent: this.showRoot ? 0 : -1
 				}));
 				if(!this.showRoot){
@@ -1661,6 +1673,13 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		//		of just specifying a widget for the label, rather than one that contains
 		//		the children too.
 		return new TreeNode(args);
+	},
+
+	_setTextDirAttr: function(textDir){
+		if(textDir && this.textDir!= textDir){
+			this._set("textDir",textDir);
+			this.rootNode.set("textDir", textDir);
+		}
 	}
 });
 
