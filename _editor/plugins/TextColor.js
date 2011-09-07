@@ -32,12 +32,23 @@ var TextColor = declare("dijit._editor.plugins.TextColor", _Plugin, {
 	//		False as we do not use the default editor command/click behavior.
 	useDefaultCommand: false,
 
-	constructor: function(){
-		this.dropDown = new ColorPalette();
-		this.connect(this.dropDown, "onChange", function(color){
-			this.editor.execCommand(this.command, color);
+	_initButton: function(){
+		this.inherited(arguments);
 
-		});
+		// Setup to lazy load ColorPalette first time the button is clicked
+		var self = this;
+		this.button.loadDropDown = function(callback){
+			this.dropDown = new ColorPalette({
+				value: self.value,
+				onChange: function(color){
+					self.editor.execCommand(self.command, color);
+				}
+			});
+			callback();
+		};
+		this.button.isLoaded = function(){
+			return this.dropDown;
+		};
 	},
 
 	updateState: function(){
@@ -86,8 +97,11 @@ var TextColor = declare("dijit._editor.plugins.TextColor", _Plugin, {
 
 		}
 
-		if(value !== this.dropDown.get('value')){
-			this.dropDown.set('value', value, false);
+		this.value = value;
+
+		var dropDown = this.button.dropDown;
+		if(dropDown && value !== dropDown.get('value')){
+			dropDown.set('value', value, false);
 		}
 	}
 });
