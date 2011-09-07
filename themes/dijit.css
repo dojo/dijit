@@ -1054,13 +1054,13 @@ body .dijitAlignClient { position: absolute; }
 .dijitPaletteTable td {
 		padding: 0;
 }
-.dijitColorPalette .dijitPaletteCellHover .dijitPaletteImg {
+.dijitColorPalette .dijitPaletteCell:hover .dijitPaletteImg {
 	/* hovered color swatch */
 	border: 1px solid #000;
 }
 
-.dijitColorPalette .dijitPaletteCellActive .dijitPaletteImg,
-.dijitColorPalette .dijitPaletteCellSelected .dijitPaletteImg {
+.dijitColorPalette .dijitPaletteCell:active .dijitPaletteImg,
+.dijitColorPalette .dijitPaletteTable .dijitPaletteCellSelected .dijitPaletteImg {
 	border: 2px solid #000;
 	margin: 1px 0;	/* reduce margin to compensate for increased border */
 }
