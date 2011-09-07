@@ -23,7 +23,7 @@ define([
 	// summary:
 	//		A base class for textbox form inputs
 
-	var TextBox = declare("dijit.form.TextBox", [_FormValueWidget, _TextBoxMixin], {
+	var TextBox = declare(/*====="dijit.form.TextBox", =====*/ [_FormValueWidget, _TextBoxMixin], {
 		// summary:
 		//		A base class for textbox form inputs
 
@@ -109,6 +109,8 @@ define([
 
 	if(has("ie")){
 		TextBox = declare(/*===== "dijit.form.TextBox.IEMixin", =====*/ TextBox, {
+			declaredClass: "dijit.form.TextBox",	// for user code referencing declaredClass
+
 			_isTextSelected: function(){
 				var range = win.doc.selection.createRange();
 				var parent = range.parentElement();
@@ -138,7 +140,6 @@ define([
 				}), 0);
 			}
 		});
-		lang.setObject("dijit.form.TextBox", TextBox);	// don't do direct assignment, it confuses API doc parser
 
 		// Overrides definition of _setSelectionRange from _TextBoxMixin (TODO: move to _TextBoxMixin.js?)
 		dijit._setSelectionRange = _TextBoxMixin._setSelectionRange = function(/*DomNode*/ element, /*Number?*/ start, /*Number?*/ stop){
@@ -151,10 +152,10 @@ define([
 				r.select();
 			}
 		}
-	}
-
-	if(has("mozilla")){
+	}else if(has("mozilla")){
 		TextBox = declare(/*===== "dijit.form.TextBox.MozMixin", =====*/TextBox, {
+			declaredClass: "dijit.form.TextBox",	// for user code referencing declaredClass
+
 			_onBlur: function(e){
 				this.inherited(arguments);
 				if(this.selectOnClick){
@@ -163,9 +164,10 @@ define([
 				}
 			}
 		});
-		lang.setObject("dijit.form.TextBox", TextBox);	// don't do direct assignment, it confuses API doc parser
-
+	}else{
+		TextBox.prototype.declaredClass = "dijit.form.TextBox";
 	}
+	lang.setObject("dijit.form.TextBox", TextBox);	// don't do direct assignment, it confuses API doc parser
 
 	return TextBox;
 });

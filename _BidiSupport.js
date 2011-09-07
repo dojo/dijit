@@ -1,8 +1,4 @@
-define([
-	"dojo/_base/lang", // lang.extend
-	"./_WidgetBase"
-], function(lang, _WidgetBase){
-
+define(["./_WidgetBase"], function(_WidgetBase){
 
 /*=====
 	var _WidgetBase = dijit._WidgetBase;
@@ -20,7 +16,7 @@ define([
 	//		In creation of widget, if it's want to activate this class,
 	//		the widget should define the "textDir".
 
-	lang.extend(_WidgetBase, {
+	_WidgetBase.extend({
 
 		getTextDir: function(/*String*/ text){
 			// summary:
