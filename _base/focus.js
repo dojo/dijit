@@ -215,7 +215,7 @@ define([
 			// handle:
 			//		Handle returned by registerIframe()
 
-			focus.unregisterIframe(handle);
+			handle && handle.remove();
 		},
 
 		registerWin: function(/*Window?*/targetWindow, /*DomNode?*/ effectiveNode){
@@ -243,8 +243,7 @@ define([
 			//		window or an iframe's window) according to handle returned from registerWin().
 			//		After calling be sure to delete or null out the handle itself.
 
-			// Currently our handle is actually a function
-			return focus.unregisterWin(handle);
+			handle && handle.remove();
 		}
 	});
 

@@ -56,15 +56,7 @@ define([
 			// description:
 			//		Currently only used by editor.
 			// returns:
-			//		Handle to pass to unregisterIframe()
-		},
-
-		unregisterIframe: function(handle){
-			// summary:
-			//		Unregisters listeners on the specified iframe created by registerIframe.
-			//		After calling be sure to delete or null out the handle itself.
-			// handle:
-			//		Handle returned by registerIframe()
+			//		Handle with remove() method to deregister.
 		},
 
 		registerWin: function(targetWindow, effectiveNode){
@@ -81,14 +73,7 @@ define([
 			//		If specified, report any focus events inside targetWindow as
 			//		an event on effectiveNode, rather than on evt.target.
 			// returns:
-			//		Handle to pass to unregisterWin()
-		},
-
-		unregisterWin: function(handle){
-			// summary:
-			//		Unregisters listeners on the specified window (either the main
-			//		window or an iframe's window) according to handle returned from registerWin().
-			//		After calling be sure to delete or null out the handle itself.
+			//		Handle with remove() method to deregister.
 		}
 	};
 =====*/
@@ -124,18 +109,8 @@ define([
 			// description:
 			//		Currently only used by editor.
 			// returns:
-			//		Handle to pass to unregisterIframe()
+			//		Handle with remove() method to deregister.
 			return this.registerWin(iframe.contentWindow, iframe);
-		},
-
-		unregisterIframe: function(/*Object*/ handle){
-			// summary:
-			//		Unregisters listeners on the specified iframe created by registerIframe.
-			//		After calling be sure to delete or null out the handle itself.
-			// handle:
-			//		Handle returned by registerIframe()
-
-			this.unregisterWin(handle);
 		},
 
 		registerWin: function(/*Window?*/targetWindow, /*DomNode?*/ effectiveNode){
@@ -152,7 +127,7 @@ define([
 			//		If specified, report any focus events inside targetWindow as
 			//		an event on effectiveNode, rather than on evt.target.
 			// returns:
-			//		Handle to pass to unregisterWin()
+			//		Handle with remove() method to deregister.
 
 			// TODO: make this function private in 2.0; Editor/users should call registerIframe(),
 
@@ -201,11 +176,13 @@ define([
 					};
 					doc.attachEvent('ondeactivate', deactivateListener);
 
-					return function(){
-						targetWindow.document.detachEvent('onmousedown', mousedownListener);
-						doc.detachEvent('onactivate', activateListener);
-						doc.detachEvent('ondeactivate', deactivateListener);
-						doc = null;	// prevent memory leak (apparent circular reference via closure)
+					return {
+						remove: function(){
+							targetWindow.document.detachEvent('onmousedown', mousedownListener);
+							doc.detachEvent('onactivate', activateListener);
+							doc.detachEvent('ondeactivate', deactivateListener);
+							doc = null;	// prevent memory leak (apparent circular reference via closure)
+						}
 					};
 				}else{
 					doc.body.addEventListener('mousedown', mousedownListener, true);
@@ -219,25 +196,17 @@ define([
 					};
 					doc.addEventListener('blur', blurListener, true);
 
-					return function(){
-						doc.body.removeEventListener('mousedown', mousedownListener, true);
-						doc.body.removeEventListener('touchstart', mousedownListener, true);
-						doc.removeEventListener('focus', focusListener, true);
-						doc.removeEventListener('blur', blurListener, true);
-						doc = null;	// prevent memory leak (apparent circular reference via closure)
+					return {
+						remove: function(){
+							doc.body.removeEventListener('mousedown', mousedownListener, true);
+							doc.body.removeEventListener('touchstart', mousedownListener, true);
+							doc.removeEventListener('focus', focusListener, true);
+							doc.removeEventListener('blur', blurListener, true);
+							doc = null;	// prevent memory leak (apparent circular reference via closure)
+						}
 					};
 				}
 			}
-		},
-
-		unregisterWin: function(/*Handle*/ handle){
-			// summary:
-			//		Unregisters listeners on the specified window (either the main
-			//		window or an iframe's window) according to handle returned from registerWin().
-			//		After calling be sure to delete or null out the handle itself.
-
-			// Currently our handle is actually a function
-			handle && handle();
 		},
 
 		_onBlurNode: function(/*DomNode*/ /*===== node =====*/){
@@ -395,7 +364,7 @@ define([
 		var handle = singleton.registerWin(win.doc.parentWindow || win.doc.defaultView);
 		if(has("ie")){
 			unload.addOnWindowUnload(function(){
-				singleton.unregisterWin(handle);
+				handle.remove();
 				handle = null;
 			})
 		}
