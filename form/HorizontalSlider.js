@@ -185,13 +185,12 @@ var HorizontalSlider = declare("dijit.form.HorizontalSlider", [_FormValueWidget,
 
 	_setPixelValue: function(/*Number*/ pixelValue, /*Number*/ maxPixels, /*Boolean?*/ priorityChange){
 		if(this.disabled || this.readOnly){ return; }
-		pixelValue = pixelValue < 0 ? 0 : maxPixels < pixelValue ? maxPixels : pixelValue;
 		var count = this.discreteValues;
 		if(count <= 1 || count == Infinity){ count = maxPixels; }
 		count--;
 		var pixelsPerValue = maxPixels / count;
 		var wholeIncrements = Math.round(pixelValue / pixelsPerValue);
-		this._setValueAttr((this.maximum-this.minimum)*wholeIncrements/count + this.minimum, priorityChange);
+		this._setValueAttr(Math.max(Math.min((this.maximum-this.minimum)*wholeIncrements/count + this.minimum, this.maximum), this.minimum), priorityChange);
 	},
 
 	_setValueAttr: function(/*Number*/ value, /*Boolean?*/ priorityChange){
