@@ -105,12 +105,27 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 	].join(""),
 
 	_initButton: function(){
-		// Override _Plugin._initButton() to initialize DropDownButton and TooltipDialog.
+		this.inherited(arguments);
+
+		// Setup to lazy create TooltipDialog first time the button is clicked
+		var self = this;
+		this.button.loadDropDown = function(callback){
+			self._loadDropDown();
+			callback();
+		};
+		this.button.isLoaded = function(){
+			return this.dropDown;
+		};
+
+		this._connectTagEvents();
+	},
+	_loadDropDown: function(){
+		// Called the first button is pressed.  Initialize TooltipDialog.
 		var _this = this;
 		this.tag = this.command == 'insertImage' ? 'img' : 'a';
 		var messages = lang.delegate(i18n.getLocalization("dijit", "common", this.lang),
 			i18n.getLocalization("dijit._editor", "LinkDialog", this.lang));
-		var dropDown = (this.dropDown = new TooltipDialog({
+		var dropDown = (this.dropDown = this.button.dropDown = new TooltipDialog({
 			title: messages[this.command + "Title"],
 			execute: lang.hitch(this, "setValue"),
 			onOpen: function(){
@@ -160,9 +175,6 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 				}
 			}
 		});
-
-		this._connectTagEvents();
-		this.inherited(arguments);
 	},
 
 	_checkAndFixInput: function(){
