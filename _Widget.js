@@ -35,8 +35,7 @@ function connectToDomNode(){
 }
 
 // Trap dojo.connect() calls to connectToDomNode methods, and redirect to _Widget.on()
-var originalConnect = connect.connect;
-function aroundAdvice(){
+function aroundAdvice(originalConnect){
 	return function(obj, event, scope, method){
 		if(obj[event] == connectToDomNode){
 			return obj.on(event.substring(2).toLowerCase(), lang.hitch(scope, method));
@@ -45,7 +44,9 @@ function aroundAdvice(){
 	};
 }
 aspect.around(connect, "connect", aroundAdvice);
-aspect.around(kernel, "connect", aroundAdvice);
+if(kernel.connect){
+	aspect.around(kernel, "connect", aroundAdvice);
+}
 
 var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusMixin], {
 	// summary:
