@@ -1,4 +1,5 @@
 define([
+	"dojo/aspect",	// aspect.around
 	"dojo/_base/config",	// config.isDebug
 	"dojo/_base/connect",	// connect.connect
 	"dojo/_base/declare", // declare
@@ -11,7 +12,7 @@ define([
 	"./_FocusMixin",
 	"dojo/uacss",		// browser sniffing (included for back-compat; subclasses may be using)
 	"./hccss"		// high contrast mode sniffing (included to set CSS classes on <body>, module ret value unused)
-], function(config, connect, declare, kernel, lang, query,
+], function(aspect, config, connect, declare, kernel, lang, query,
 			registry, _WidgetBase, _OnDijitClickMixin, _FocusMixin){
 
 /*=====
@@ -32,6 +33,19 @@ function connectToDomNode(){
 	//		If user connects to a widget method === this function, then they will
 	//		instead actually be connecting the equivalent event on this.domNode
 }
+
+// Trap dojo.connect() calls to connectToDomNode methods, and redirect to _Widget.on()
+var originalConnect = connect.connect;
+function aroundAdvice(){
+	return function(obj, event, scope, method){
+		if(obj[event] == connectToDomNode){
+			return obj.on(event.substring(2).toLowerCase(), lang.hitch(scope, method));
+		}
+		return originalConnect.apply(connect, arguments);
+	};
+}
+aspect.around(connect, "connect", aroundAdvice);
+aspect.around(kernel, "connect", aroundAdvice);
 
 var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusMixin], {
 	// summary:
