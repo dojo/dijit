@@ -261,8 +261,6 @@ dojo.declare("dijit._HasDropDown",
 
 			if(this.disabled || this.readOnly){ return; }
 			this.focus();
-			var dropDown = this.dropDown;
-			if(!dropDown){ return; }
 			if(!this._opened){
 				// If we aren't loaded, load it first so there isn't a flicker
 				if(!this.isLoaded()){
