@@ -1717,7 +1717,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		this.iframe._loadFunc = null;
 
 		if(this._iframeRegHandle){
-			focus.unregisterIframe(this._iframeRegHandle);
+			this._iframeRegHandle.remove();
 			delete this._iframeRegHandle;
 		}
 
