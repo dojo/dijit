@@ -4,6 +4,7 @@ define([
 	"dojo/dom", // domAttr.get dom.isDescendant
 	"dojo/dom-attr", // domAttr.get dom.isDescendant
 	"dojo/dom-construct", // connect to domConstruct.empty, domConstruct.destroy
+	"dojo/Evented",
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on",
 	"dojo/ready",
@@ -15,7 +16,7 @@ define([
 	"./a11y",	// a11y.isTabNavigable
 	"./registry",	// registry.byId
 	"."		// to set dijit.focus
-], function(aspect, declare, dom, domAttr, domConstruct, lang, on, ready, has, Stateful, unload, win, winUtils,
+], function(aspect, declare, dom, domAttr, domConstruct, Evented, lang, on, ready, has, Stateful, unload, win, winUtils,
 			a11y, registry, dijit){
 
 	// module:
@@ -78,7 +79,7 @@ define([
 	};
 =====*/
 
-	var FocusManager = declare([Stateful, on.Evented], {
+	var FocusManager = declare([Stateful, Evented], {
 		// curNode: DomNode
 		//		Currently focused item on screen
 		curNode: null,
