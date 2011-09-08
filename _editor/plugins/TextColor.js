@@ -1,10 +1,11 @@
 define([
+	"require",
 	"dojo/colors", // colors.fromRgb
 	"dojo/_base/declare", // declare
+	"dojo/_base/lang",
 	"../_Plugin",
-	"../../form/DropDownButton",
-	"../../ColorPalette"
-], function(colors, declare, _Plugin, DropDownButton, ColorPalette){
+	"../../form/DropDownButton"
+], function(require, colors, declare, lang, _Plugin, DropDownButton){
 
 /*=====
 	var _Plugin = dijit._editor._Plugin;
@@ -38,13 +39,15 @@ var TextColor = declare("dijit._editor.plugins.TextColor", _Plugin, {
 		// Setup to lazy load ColorPalette first time the button is clicked
 		var self = this;
 		this.button.loadDropDown = function(callback){
-			this.dropDown = new ColorPalette({
-				value: self.value,
-				onChange: function(color){
-					self.editor.execCommand(self.command, color);
-				}
-			});
-			callback();
+			require(["../../ColorPalette"], lang.hitch(this, function(ColorPalette){
+				this.dropDown = new ColorPalette({
+					value: self.value,
+					onChange: function(color){
+						self.editor.execCommand(self.command, color);
+					}
+				});
+				callback();
+			}));
 		};
 		this.button.isLoaded = function(){
 			return this.dropDown;

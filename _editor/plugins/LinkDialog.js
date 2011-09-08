@@ -1,7 +1,7 @@
 define([
+	"require",
 	"dojo/_base/declare", // declare
 	"dojo/dom-attr", // domAttr.get
-	"dojo/i18n", // i18n.getLocalization
 	"dojo/keys", // keys.ENTER
 	"dojo/_base/lang", // lang.delegate lang.hitch lang.trim
 	"dojo/_base/sniff", // has("ie")
@@ -9,18 +9,11 @@ define([
 	"dojo/_base/window", // win.withGlobal
 	"../../_Widget",
 	"../_Plugin",
-	"../../TooltipDialog",
 	"../../form/DropDownButton",
 	"../range",
-	"../selection",
-	"../../registry", // registry.byId, registry.getUniqueId
-	"../../form/Button",	// used by template
-	"../../form/Select",	// used by template
-	"../../form/ValidationTextBox",	// used by template
-	"dojo/i18n!../../nls/common",
-	"dojo/i18n!../nls/LinkDialog"
-], function(declare, domAttr, i18n, keys, lang, has, string, win,
-	_Widget, _Plugin, TooltipDialog, DropDownButton, rangeapi, selectionapi, registry){
+	"../selection"
+], function(require, declare, domAttr, keys, lang, has, string, win,
+	_Widget, _Plugin, DropDownButton, rangeapi, selectionapi){
 
 /*=====
 	var _Plugin = dijit._editor._Plugin;
@@ -109,72 +102,82 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 
 		// Setup to lazy create TooltipDialog first time the button is clicked
 		var self = this;
-		this.button.loadDropDown = function(callback){
-			self._loadDropDown();
-			callback();
-		};
+		this.button.loadDropDown = lang.hitch(this, "_loadDropDown");
 		this.button.isLoaded = function(){
 			return this.dropDown;
 		};
 
 		this._connectTagEvents();
 	},
-	_loadDropDown: function(){
-		// Called the first button is pressed.  Initialize TooltipDialog.
-		var _this = this;
-		this.tag = this.command == 'insertImage' ? 'img' : 'a';
-		var messages = lang.delegate(i18n.getLocalization("dijit", "common", this.lang),
-			i18n.getLocalization("dijit._editor", "LinkDialog", this.lang));
-		var dropDown = (this.dropDown = this.button.dropDown = new TooltipDialog({
-			title: messages[this.command + "Title"],
-			execute: lang.hitch(this, "setValue"),
-			onOpen: function(){
-				_this._onOpenDialog();
-				TooltipDialog.prototype.onOpen.apply(this, arguments);
-			},
-			onCancel: function(){
-				setTimeout(lang.hitch(_this, "_onCloseDialog"),0);
-			}
-		}));
-		messages.urlRegExp = this.urlRegExp;
-		messages.id = registry.getUniqueId(this.editor.id);
-		this._uniqueId = messages.id;
-		this._setContent(dropDown.title +
-			"<div style='border-bottom: 1px black solid;padding-bottom:2pt;margin-bottom:4pt'></div>" +
-			string.substitute(this.linkDialogTemplate, messages));
-		dropDown.startup();
-		this._urlInput = registry.byId(this._uniqueId + "_urlInput");
-		this._textInput = registry.byId(this._uniqueId + "_textInput");
-		this._setButton = registry.byId(this._uniqueId + "_setButton");
-		this.connect(registry.byId(this._uniqueId + "_cancelButton"), "onClick", function(){
-			this.dropDown.onCancel();
-		});
-		if(this._urlInput){
-			this.connect(this._urlInput, "onChange", "_checkAndFixInput");
-		}
-		if(this._textInput){
-			this.connect(this._textInput, "onChange", "_checkAndFixInput");
-		}
-
-		// Build up the dual check for http/https/file:, and mailto formats.
-		this._urlRegExp = new RegExp("^" + this.urlRegExp + "$", "i");
-		this._emailRegExp = new RegExp("^" + this.emailRegExp + "$", "i");
-		this._urlInput.isValid = lang.hitch(this, function(){
-			// Function over-ride of isValid to test if the input matches a url or a mailto style link.
-			var value = this._urlInput.get("value");
-			return this._urlRegExp.test(value) || this._emailRegExp.test(value);
-		});
-		
-		// Listen for enter and execute if valid.
-		this.connect(dropDown.domNode, "onkeypress", function(e){
-			if(e && e.charOrCode == keys.ENTER && 
-				!e.shiftKey && !e.metaKey && !e.ctrlKey && !e.altKey){
-				if(!this._setButton.get("disabled")){
-					dropDown.onExecute();
-					dropDown.execute(dropDown.get('value'));
+	_loadDropDown: function(callback){
+		// Called the first time the button is pressed.  Initialize TooltipDialog.
+		require([
+			"dojo/i18n", // i18n.getLocalization
+			"../../TooltipDialog",
+			"../../registry", // registry.byId, registry.getUniqueId
+			"../../form/Button",	// used by template
+			"../../form/Select",	// used by template
+			"../../form/ValidationTextBox",	// used by template
+			"dojo/i18n!../../nls/common",
+			"dojo/i18n!../nls/LinkDialog"
+		], lang.hitch(this, function(i18n, TooltipDialog, registry){
+			var _this = this;
+			this.tag = this.command == 'insertImage' ? 'img' : 'a';
+			var messages = lang.delegate(i18n.getLocalization("dijit", "common", this.lang),
+				i18n.getLocalization("dijit._editor", "LinkDialog", this.lang));
+			var dropDown = (this.dropDown = this.button.dropDown = new TooltipDialog({
+				title: messages[this.command + "Title"],
+				execute: lang.hitch(this, "setValue"),
+				onOpen: function(){
+					_this._onOpenDialog();
+					TooltipDialog.prototype.onOpen.apply(this, arguments);
+				},
+				onCancel: function(){
+					setTimeout(lang.hitch(_this, "_onCloseDialog"),0);
 				}
+			}));
+			messages.urlRegExp = this.urlRegExp;
+			messages.id = registry.getUniqueId(this.editor.id);
+			this._uniqueId = messages.id;
+			this._setContent(dropDown.title +
+				"<div style='border-bottom: 1px black solid;padding-bottom:2pt;margin-bottom:4pt'></div>" +
+				string.substitute(this.linkDialogTemplate, messages));
+			dropDown.startup();
+			this._urlInput = registry.byId(this._uniqueId + "_urlInput");
+			this._textInput = registry.byId(this._uniqueId + "_textInput");
+			this._setButton = registry.byId(this._uniqueId + "_setButton");
+			this.connect(registry.byId(this._uniqueId + "_cancelButton"), "onClick", function(){
+				this.dropDown.onCancel();
+			});
+			if(this._urlInput){
+				this.connect(this._urlInput, "onChange", "_checkAndFixInput");
 			}
-		});
+			if(this._textInput){
+				this.connect(this._textInput, "onChange", "_checkAndFixInput");
+			}
+
+			// Build up the dual check for http/https/file:, and mailto formats.
+			this._urlRegExp = new RegExp("^" + this.urlRegExp + "$", "i");
+			this._emailRegExp = new RegExp("^" + this.emailRegExp + "$", "i");
+			this._urlInput.isValid = lang.hitch(this, function(){
+				// Function over-ride of isValid to test if the input matches a url or a mailto style link.
+				var value = this._urlInput.get("value");
+				return this._urlRegExp.test(value) || this._emailRegExp.test(value);
+			});
+
+			// Listen for enter and execute if valid.
+			this.connect(dropDown.domNode, "onkeypress", function(e){
+				if(e && e.charOrCode == keys.ENTER &&
+					!e.shiftKey && !e.metaKey && !e.ctrlKey && !e.altKey){
+					if(!this._setButton.get("disabled")){
+						dropDown.onExecute();
+						dropDown.execute(dropDown.get('value'));
+					}
+				}
+			});
+
+			callback();
+		}));
 	},
 
 	_checkAndFixInput: function(){
