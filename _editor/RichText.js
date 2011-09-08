@@ -13,10 +13,11 @@ define([
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/keys", // keys.BACKSPACE keys.TAB
 	"dojo/_base/lang", // lang.clone lang.hitch lang.isArray lang.isFunction lang.isString lang.trim
-	"dojo/on", // on(), on.emit() (publish)
+	"dojo/on", // on()
 	"dojo/query", // query
 	"dojo/ready", // ready
 	"dojo/_base/sniff", // has("ie") has("mozilla") has("opera") has("safari") has("webkit")
+	"dojo/topic",	// topic.emit() (publish)
 	"dojo/_base/unload", // unload
 	"dojo/_base/url", // url
 	"dojo/_base/window", // win.body win.doc.body.focus win.doc.createElement win.global.location win.withGlobal
@@ -28,7 +29,7 @@ define([
 	"../focus",
 	".."	// dijit._scopeName
 ], function(array, config, declare, Deferred, dom, domAttr, domClass, domConstruct, domGeometry, domStyle,
-	event, kernel, keys, lang, on, query, ready, has, unload, _Url, win,
+	event, kernel, keys, lang, on, query, ready, has, topic, unload, _Url, win,
 	_Widget, _CssStateMixin, selectionapi, rangeapi, htmlapi, focus, dijit){
 
 /*=====
@@ -196,7 +197,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		}
 		this.inherited(arguments);
 
-		on.emit(dijit._scopeName + "._editor.RichText::init", this);
+		topic.emit(dijit._scopeName + "._editor.RichText::init", this);
 		this.open();
 		this.setupDefaultShortcuts();
 	},
@@ -331,7 +332,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		}
 
 		if(!this.isClosed){ this.close(); }
-		on.emit(dijit._scopeName + "._editor.RichText::open", this);
+		topic.emit(dijit._scopeName + "._editor.RichText::open", this);
 
 		if(arguments.length === 1 && element.nodeName){ // else unchanged
 			this.domNode = element;

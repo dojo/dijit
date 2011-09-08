@@ -7,9 +7,10 @@ define([
 	"dojo/_base/lang", // lang.mixin lang.hitch
 	"dojo/on", // subscribe
 	"dojo/touch",
+	"dojo/topic",
 	"dojo/dnd/Manager", // DNDManager.manager
 	"./_dndSelector"
-], function(array, connect, declare, domClass, domGeometry, lang, on, touch, DNDManager, _dndSelector){
+], function(array, connect, declare, domClass, domGeometry, lang, on, touch, topic, DNDManager, _dndSelector){
 
 // module:
 //		dijit/tree/dndSource
@@ -103,10 +104,10 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 
 		// set up events
 		this.topics = [
-			on("/dnd/source/over", lang.hitch(this, "onDndSourceOver")),
-			on("/dnd/start", lang.hitch(this, "onDndStart")),
-			on("/dnd/drop", lang.hitch(this, "onDndDrop")),
-			on("/dnd/cancel", lang.hitch(this, "onDndCancel"))
+			topic.on("/dnd/source/over", lang.hitch(this, "onDndSourceOver")),
+			topic.on("/dnd/start", lang.hitch(this, "onDndStart")),
+			topic.on("/dnd/drop", lang.hitch(this, "onDndDrop")),
+			topic.on("/dnd/cancel", lang.hitch(this, "onDndCancel"))
 		];
 	},
 

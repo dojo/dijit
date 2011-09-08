@@ -14,11 +14,12 @@ define([
 	"dojo/_base/lang", // mixin(), isArray(), etc.
 	"dojo/on",
 	"dojo/Stateful", // Stateful
+	"dojo/topic",
 	"dojo/_base/window", // win.doc.createTextNode
 	"./registry"	// registry.getUniqueId(), registry.findWidgets()
 ], function(require, array, aspect, config, connect, declare,
 			dom, domAttr, domClass, domConstruct, domGeometry, domStyle,
-			lang, on, Stateful, win, registry){
+			lang, on, Stateful, topic, win, registry){
 
 /*=====
 var Stateful = dojo.Stateful;
@@ -847,15 +848,17 @@ return declare("dijit._WidgetBase", Stateful, {
 		}
 	},
 
-	subscribe: function(
-			/*String*/ topic,
-			/*String|Function*/ method){
+	subscribe: function(t, method){
 		// summary:
 		//		Subscribes to the specified topic and calls the specified method
 		//		of this object and registers for unsubscribe() on widget destroy.
 		// description:
 		//		Provide widget-specific analog to dojo.subscribe, except with the
 		//		implicit use of this widget as the target object.
+		// t: String
+		//		The topic
+		// method: Function
+		//		The callback
 		// example:
 		//	|	var btn = new dijit.form.Button();
 		//	|	// when /my/topic is published, this button changes its label to
@@ -865,7 +868,7 @@ return declare("dijit._WidgetBase", Stateful, {
 		//	|	});
 		// tags:
 		//		protected
-		var handle = on(topic, lang.hitch(this, method));
+		var handle = topic.on(t, lang.hitch(this, method));
 		this._connects.push(handle);
 		return handle;		// _Widget.Handle
 	},

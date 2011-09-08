@@ -14,7 +14,7 @@ define([
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/keys",	// arrows etc.
 	"dojo/_base/lang", // lang.getObject lang.mixin lang.hitch
-	"dojo/on",
+	"dojo/topic",
 	"./focus",
 	"./registry",	// registry.getEnclosingWidget(), manager.defaultDuration
 	"./_base/manager",	// manager.getEnclosingWidget(), manager.defaultDuration
@@ -29,7 +29,7 @@ define([
 	"./tree/ForestStoreModel",
 	"./tree/_dndSelector"
 ], function(array, connect, cookie, declare, Deferred, DeferredList,
-			dom, domClass, domGeometry, domStyle, event, fxUtils, kernel, keys, lang, on,
+			dom, domClass, domGeometry, domStyle, event, fxUtils, kernel, keys, lang, topic,
 			focus, registry, manager, _Widget, _TemplatedMixin, _Container, _Contained, _CssStateMixin,
 			treeNodeTemplate, treeTemplate, TreeStoreModel, ForestStoreModel, _dndSelector){
 
@@ -712,7 +712,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 	_publish: function(/*String*/ topicName, /*Object*/ message){
 		// summary:
 		//		Publish a message for this widget/topic
-		on.emit(this.id, lang.mixin({tree: this, event: topicName}, message || {}));	// publish
+		topic.emit(this.id, lang.mixin({tree: this, event: topicName}, message || {}));	// publish
 	},
 
 	postMixInProperties: function(){

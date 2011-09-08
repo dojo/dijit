@@ -4,12 +4,12 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/dom-class", // domClass.add domClass.replace
 	"dojo/_base/lang",	// lang.extend
-	"dojo/on", // publish
+	"dojo/topic", // publish
 	"../registry",	// registry.byId
 	"../_WidgetBase",
 	"./_LayoutWidget",
 	"dojo/i18n!../nls/common"
-], function(array, cookie, declare, domClass, lang, on,
+], function(array, cookie, declare, domClass, lang, topic,
 			registry, _WidgetBase, _LayoutWidget){
 
 /*=====
@@ -120,7 +120,7 @@ return declare("dijit.layout.StackContainer", _LayoutWidget, {
 		// Publish information about myself so any StackControllers can initialize.
 		// This needs to happen before this.inherited(arguments) so that for
 		// TabContainer, this._contentBox doesn't include the space for the tab labels.
-		on.emit(this.id+"-startup", {children: children, selected: selected});
+		topic.emit(this.id+"-startup", {children: children, selected: selected});
 
 		// Startup each child widget, and do initial layout like setting this._contentBox,
 		// then calls this.resize() which does the initial sizing on the selected child.
@@ -157,7 +157,7 @@ return declare("dijit.layout.StackContainer", _LayoutWidget, {
 		this.inherited(arguments);
 
 		if(this._started){
-			on.emit(this.id+"-addChild", child, insertIndex);	// publish
+			topic.emit(this.id+"-addChild", child, insertIndex);	// publish
 
 			// in case the tab titles have overflowed from one line to two lines
 			// (or, if this if first child, from zero lines to one line)
@@ -180,7 +180,7 @@ return declare("dijit.layout.StackContainer", _LayoutWidget, {
 
 		if(this._started){
 			// this will notify any tablists to remove a button; do this first because it may affect sizing
-			on.emit(this.id + "-removeChild", page);	// publish
+			topic.emit(this.id + "-removeChild", page);	// publish
 		}
 
 		// If all our children are being destroyed than don't run the code below (to select another page),
@@ -219,7 +219,7 @@ return declare("dijit.layout.StackContainer", _LayoutWidget, {
 			// Deselect old page and select new one
 			var d = this._transition(page, this.selectedChildWidget, animate);
 			this._set("selectedChildWidget", page);
-			on.emit(this.id+"-selectChild", page);	// publish
+			topic.emit(this.id+"-selectChild", page);	// publish
 
 			if(this.persist){
 				cookie(this.id + "_selectedChild", this.selectedChildWidget.id);
@@ -284,7 +284,7 @@ return declare("dijit.layout.StackContainer", _LayoutWidget, {
 	},
 
 	_onKeyPress: function(e){
-		on.emit(this.id+"-containerKeyPress", { e: e, page: this});	// publish
+		topic.emit(this.id+"-containerKeyPress", { e: e, page: this});	// publish
 	},
 
 	layout: function(){

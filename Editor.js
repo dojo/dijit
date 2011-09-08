@@ -10,9 +10,9 @@ define([
 	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys.F1 keys.F15 keys.TAB
 	"dojo/_base/lang", // lang.getObject lang.hitch
-	"dojo/on", // on.emit()
 	"dojo/_base/sniff", // has("ie") has("mac") has("webkit")
 	"dojo/string", // string.substitute
+	"dojo/topic", // topic.emit()
 	"dojo/_base/window", // win.withGlobal
 	"./_base/focus",	// dijit.getBookmark()
 	"./_Container",
@@ -28,7 +28,7 @@ define([
 	".",	// dijit._scopeName
 	"dojo/i18n!./_editor/nls/commands"
 ], function(array, declare, Deferred, i18n, domAttr, domClass, domGeometry, domStyle,
-			event, keys, lang, on, has, string, win,
+			event, keys, lang, has, string, topic, win,
 			focusBase, _Container, Toolbar, ToolbarSeparator, _LayoutWidget, ToggleButton,
 			_Plugin, EnterKeyHandling, html, rangeapi, RichText, dijit){
 
@@ -185,7 +185,7 @@ define([
 					if(_Plugin.registry[args.name]){
 						o.plugin = _Plugin.registry[args.name](args);
 					}else{
-						on.emit(dijit._scopeName + ".Editor.getPlugin", o);	// publish
+						topic.emit(dijit._scopeName + ".Editor.getPlugin", o);	// publish
 					}
 				}
 				if(!o.plugin){
