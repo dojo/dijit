@@ -49,9 +49,6 @@ var TextColor = declare("dijit._editor.plugins.TextColor", _Plugin, {
 				callback();
 			}));
 		};
-		this.button.isLoaded = function(){
-			return this.dropDown;
-		};
 	},
 
 	updateState: function(){

@@ -101,11 +101,7 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 		this.inherited(arguments);
 
 		// Setup to lazy create TooltipDialog first time the button is clicked
-		var self = this;
 		this.button.loadDropDown = lang.hitch(this, "_loadDropDown");
-		this.button.isLoaded = function(){
-			return this.dropDown;
-		};
 
 		this._connectTagEvents();
 	},
