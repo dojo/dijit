@@ -80,17 +80,11 @@ define([
 
 			// Position the tooltip connector for middle alignment.
 			// This could not have been done in orient() since the tooltip wasn't positioned at that time.
-			var aroundNodeCoords;
+			var aroundNodeCoords = pos.aroundNodePos;
 			if(pos.corner.charAt(0) == 'M' && pos.aroundCorner.charAt(0) == 'M'){
-				aroundNodeCoords = (typeof aroundNode == "string" || "offsetWidth" in aroundNode)
-					? domGeometry.position(aroundNode, true)
-					: aroundNode;
 				this.connectorNode.style.top = aroundNodeCoords.y + ((aroundNodeCoords.h - this.connectorNode.offsetHeight) >> 1) - pos.y + "px";
 				this.connectorNode.style.left = "";
 			}else if(pos.corner.charAt(1) == 'M' && pos.aroundCorner.charAt(1) == 'M'){
-				aroundNodeCoords = (typeof aroundNode == "string" || "offsetWidth" in aroundNode)
-					? domGeometry.position(aroundNode, true)
-					: aroundNode;
 				this.connectorNode.style.left = aroundNodeCoords.x + ((aroundNodeCoords.w - this.connectorNode.offsetWidth) >> 1) - pos.x + "px";
 			}
 

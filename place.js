@@ -1,11 +1,12 @@
 define([
 	"dojo/_base/array", // array.forEach array.map array.some
 	"dojo/dom-geometry", // domGeometry.getMarginBox domGeometry.position
+	"dojo/dom-style", // domStyle.getComputedStyle
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/window", // win.body
 	"dojo/window", // winUtils.getBox
 	"."	// dijit (defining dijit.place to match API doc)
-], function(array, domGeometry, kernel, win, winUtils, dijit){
+], function(array, domGeometry, domStyle, kernel, win, winUtils, dijit){
 
 	// module:
 	//		dijit/place
@@ -259,14 +260,32 @@ define([
 			//
 
 			// if around is a DOMNode (or DOMNode id), convert to coordinates
-			if(typeof anchor == "string" || "offsetWidth" in anchor){
-				anchor = domGeometry.position(anchor, true);
-			}
+			var aroundNodePos = (typeof anchor == "string" || "offsetWidth" in anchor)
+				? domGeometry.position(anchor, true)
+				: anchor;
 
-			var x = anchor.x,
-				y = anchor.y,
-				width = "w" in anchor ? anchor.w : (anchor.w = anchor.width),
-				height = "h" in anchor ? anchor.h : (kernel.deprecated("place.around: dijit.place.__Rectangle: { x:"+x+", y:"+y+", height:"+anchor.height+", width:"+width+" } has been deprecated.  Please use { x:"+x+", y:"+y+", h:"+anchor.height+", w:"+width+" }", "", "2.0"), anchor.h = anchor.height);
+			// Adjust anchor positioning for the case that a parent node has overflw hidden, therefore cuasing the anchor not to be completely visible
+			if(anchor.parentNode){
+				var parent = anchor.parentNode;
+				while(parent && parent.nodeType == 1 && parent.nodeName != "BODY"){  //ignoring the body will help performance
+					var parentPos = domGeometry.position(parent, true);
+					var parentStyleOverflow = domStyle.getComputedStyle(parent).overflow;
+					if(parentStyleOverflow == "hidden" || parentStyleOverflow == "auto" || parentStyleOverflow == "scroll"){
+						var bottomYCoord = Math.min(aroundNodePos.y + aroundNodePos.h, parentPos.y + parentPos.h);
+						var rightXCoord = Math.min(aroundNodePos.x + aroundNodePos.w, parentPos.x + parentPos.w);
+						aroundNodePos.x = Math.max(aroundNodePos.x, parentPos.x);
+						aroundNodePos.y = Math.max(aroundNodePos.y, parentPos.y);
+						aroundNodePos.h = bottomYCoord - aroundNodePos.y;
+						aroundNodePos.w = rightXCoord - aroundNodePos.x;
+					}	
+					parent = parent.parentNode;
+				}
+			}			
+
+			var x = aroundNodePos.x,
+				y = aroundNodePos.y,
+				width = "w" in aroundNodePos ? aroundNodePos.w : (aroundNodePos.w = aroundNodePos.width),
+				height = "h" in aroundNodePos ? aroundNodePos.h : (kernel.deprecated("place.around: dijit.place.__Rectangle: { x:"+x+", y:"+y+", height:"+aroundNodePos.height+", width:"+width+" } has been deprecated.  Please use { x:"+x+", y:"+y+", h:"+aroundNodePos.height+", w:"+width+" }", "", "2.0"), aroundNodePos.h = aroundNodePos.height);
 
 			// Convert positions arguments into choices argument for _place()
 			var choices = [];
@@ -326,7 +345,10 @@ define([
 				}
 			});
 
-			return _place(node, choices, layoutNode, {w: width, h: height});
+			var position = _place(node, choices, layoutNode, {w: width, h: height});
+			position.aroundNodePos = aroundNodePos;
+
+			return position;
 		}
 	});
 });
