@@ -223,7 +223,7 @@
 						var d = new doh.Deferred();
 
 						combo = dijit.byId("setvaluetest");
-						handle = dojo.connect(combo, "onClick", d.getTestCallback(function(){
+						handle = dojo.global.dojo.connect(combo, "onClick", d.getTestCallback(function(){
 							// If we hit here it's OK, if no click event then fail with timeout
 							console.log("hit onClick callback");
 						}));
@@ -247,7 +247,7 @@
 						var d = new doh.Deferred();
 
 						combo = dijit.byId("setvaluetest");
-						handle = dojo.connect(combo, "onClick", d.getTestCallback(function(){
+						handle = dojo.global.dojo.connect(combo, "onClick", d.getTestCallback(function(){
 							// If we hit here it's OK, if no click event then fail with timeout
 							console.log("hit onClick callback");
 						}));
