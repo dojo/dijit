@@ -37,7 +37,7 @@ function connectToDomNode(){
 // Trap dojo.connect() calls to connectToDomNode methods, and redirect to _Widget.on()
 function aroundAdvice(originalConnect){
 	return function(obj, event, scope, method){
-		if(obj[event] == connectToDomNode){
+		if(obj && typeof event == "string" && obj[event] == connectToDomNode){
 			return obj.on(event.substring(2).toLowerCase(), lang.hitch(scope, method));
 		}
 		return originalConnect.apply(connect, arguments);
