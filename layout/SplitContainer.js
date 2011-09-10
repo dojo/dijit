@@ -132,8 +132,10 @@ return declare("dijit.layout.SplitContainer", _LayoutWidget, {
 
 	destroy: function(){
 		delete this.virtualSizer;
-		var h;
-		while(h = this._ownconnects.pop()){ h.remove(); }
+		if(this._ownconnects){
+			var h;
+			while(h = this._ownconnects.pop()){ h.remove(); }
+		}
 		this.inherited(arguments);
 	},
 	startup: function(){
