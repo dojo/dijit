@@ -426,7 +426,7 @@ return declare("dijit.layout.ContentPane", [_Widget, _ContentPaneResizeMixin], {
 		}
 	},
 
-	destroyDescendants: function(){
+	destroyDescendants: function(/*Boolean*/ preserveDom){
 		// summary:
 		//		Destroy all the widgets inside the ContentPane and empty containerNode
 
@@ -443,7 +443,7 @@ return declare("dijit.layout.ContentPane", [_Widget, _ContentPaneResizeMixin], {
 		var setter = this._contentSetter;
 		array.forEach(this.getChildren(), function(widget){
 			if(widget.destroyRecursive){
-				widget.destroyRecursive();
+				widget.destroyRecursive(preserveDom);
 			}
 		});
 		if(setter){
@@ -451,14 +451,16 @@ return declare("dijit.layout.ContentPane", [_Widget, _ContentPaneResizeMixin], {
 			// things like Menu that have been moved to <body> haven't yet
 			array.forEach(setter.parseResults, function(widget){
 				if(widget.destroyRecursive && widget.domNode && widget.domNode.parentNode == win.body()){
-					widget.destroyRecursive();
+					widget.destroyRecursive(preserveDom);
 				}
 			});
 			delete setter.parseResults;
 		}
 
 		// And then clear away all the DOM nodes
-		html._emptyNode(this.containerNode);
+		if(!preserveDom){
+			html._emptyNode(this.containerNode);
+		}
 
 		// Delete any state information we have about current contents
 		delete this._singleChild;

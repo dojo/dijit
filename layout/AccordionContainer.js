@@ -237,9 +237,9 @@ define([
 			this.inherited(arguments);
 		},
 
-		destroyDescendants: function(){
+		destroyDescendants: function(/*Boolean*/ preserveDom){
 			// since getChildren isn't working for me, have to code this manually
-			this.contentWidget.destroyRecursive();
+			this.contentWidget.destroyRecursive(preserveDom);
 		}
 	});
 

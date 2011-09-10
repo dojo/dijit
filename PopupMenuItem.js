@@ -65,12 +65,12 @@ define([
 			this.focusNode.setAttribute("aria-haspopup", "true");
 		},
 
-		destroyDescendants: function(){
+		destroyDescendants: function(/*Boolean*/ preserveDom){
 			if(this.popup){
 				// Destroy the popup, unless it's already been destroyed.  This can happen because
 				// the popup is a direct child of <body> even though it's logically my child.
 				if(!this.popup._destroyed){
-					this.popup.destroyRecursive();
+					this.popup.destroyRecursive(preserveDom);
 				}
 				delete this.popup;
 			}
