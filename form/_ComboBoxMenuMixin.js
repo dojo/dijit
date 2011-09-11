@@ -91,7 +91,7 @@ return declare( "dijit.form._ComboBoxMenuMixin", null, {
 		}
 		// #3250: in blank options, assign a normal height
 		if(menuitem.innerHTML == ""){
-			menuitem.innerHTML = "&nbsp;";
+			menuitem.innerHTML = "&#160;";	// &nbsp;
 		}
 
 		// update menuitem.dir if BidiSupport was required

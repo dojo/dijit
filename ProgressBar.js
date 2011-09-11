@@ -161,7 +161,7 @@ return declare("dijit.ProgressBar", [_Widget, _TemplatedMixin], {
 		//		extension
 
 		return this.label ? this.label :
-				(this.indeterminate ? "&nbsp;" : number.format(percent, { type: "percent", places: this.places, locale: this.lang }));
+				(this.indeterminate ? "&#160;" : number.format(percent, { type: "percent", places: this.places, locale: this.lang }));
 	},
 
 	onChange: function(){

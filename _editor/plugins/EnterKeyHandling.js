@@ -194,7 +194,7 @@ return declare("dijit._editor.plugins.EnterKeyHandling", _Plugin, {
 
 	// bogusHtmlContent: [private] String
 	//		HTML to stick into a new empty block
-	bogusHtmlContent: '&nbsp;',
+	bogusHtmlContent: '&#160;',		// &nbsp;
 
 	// blockNodes: [private] Regex
 	//		Regex for testing if a given tag is a block level (display:block) tag
@@ -370,7 +370,7 @@ return declare("dijit._editor.plugins.EnterKeyHandling", _Plugin, {
 				this._pressedEnterInBlock = blockNode;
 			}
 			// if this li only contains spaces, set the content to empty so the browser will outdent this item
-			if(/^(\s|&nbsp;|\xA0|<span\b[^>]*\bclass=['"]Apple-style-span['"][^>]*>(\s|&nbsp;|\xA0)<\/span>)?(<br>)?$/.test(blockNode.innerHTML)){
+			if(/^(\s|&nbsp;|&#160;|\xA0|<span\b[^>]*\bclass=['"]Apple-style-span['"][^>]*>(\s|&nbsp;|&#160;|\xA0)<\/span>)?(<br>)?$/.test(blockNode.innerHTML)){
 				// empty LI node
 				blockNode.innerHTML = '';
 				if(has("webkit")){ // WebKit tosses the range when innerHTML is reset

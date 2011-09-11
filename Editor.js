@@ -781,7 +781,7 @@ define([
 				}else{
 					this.beginEditing();
 					if(!html){
-						html = "&nbsp;"
+						html = "&#160;";	// &nbsp;
 					}
 					this.setValue(html);
 					this.endEditing();

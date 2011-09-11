@@ -541,7 +541,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			// workaround bug where can't select then delete text (until user types something
 			// into the editor)... and/or issue where typing doesn't erase selected text
 			this._cursorToStart = true;
-			html = "&nbsp;";
+			html = "&#160;";	// &nbsp;
 		}
 
 		var font = [ _cs.fontWeight, _cs.fontSize, _cs.fontFamily ].join(" ");
@@ -1487,12 +1487,12 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			html = this._preFilterContent(html);
 			var node = this.isClosed ? this.domNode : this.editNode;
 			if(html && has("mozilla") && html.toLowerCase() === "<p></p>"){
-				html = "<p>&nbsp;</p>";
+				html = "<p>&#160;</p>";	// &nbsp;
 			}
 
 			// Use &nbsp; to avoid webkit problems where editor is disabled until the user clicks it
 			if(!html && has("webkit")){
-				html = "&nbsp;";
+				html = "&#160;";	// &nbsp;
 			}
 			node.innerHTML = html;
 			this._preDomFilterContent(node);
@@ -1520,7 +1520,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			this.execCommand("selectall");
 			if(!html){
 				this._cursorToStart = true;
-				html = "&nbsp;";
+				html = "&#160;";	// &nbsp;
 			}
 			this.execCommand("inserthtml", html);
 			this._preDomFilterContent(this.editNode);
@@ -2786,7 +2786,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 							domStyle.set(breaker, style, argument);
 							selectionapi.remove();
 							domConstruct.destroy(extraSpan);
-							breaker.innerHTML = "&nbsp;";
+							breaker.innerHTML = "&#160;";	// &nbsp;
 							selectionapi.selectElement(breaker);
 							this.focus();
 						}else{
