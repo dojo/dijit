@@ -129,12 +129,14 @@ return declare("dijit.layout.StackContainer", _LayoutWidget, {
 
 	resize: function(){
 		// Resize is called when we are first made visible (it's called from startup()
-		// if we are initially visible).  If this is the first time we've been made
+		// if we are initially visible). If this is the first time we've been made
 		// visible then show our first child.
-		var selected = this.selectedChildWidget;
-		if(selected && !this._hasBeenShown){
+		if(!this._hasBeenShown){
 			this._hasBeenShown = true;
-			this._showChild(selected);
+			var selected = this.selectedChildWidget;
+			if(selected){
+				this._showChild(selected);
+			}
 		}
 		this.inherited(arguments);
 	},
@@ -163,7 +165,9 @@ return declare("dijit.layout.StackContainer", _LayoutWidget, {
 			// (or, if this if first child, from zero lines to one line)
 			// TODO: w/ScrollingTabController this is no longer necessary, although
 			// ScrollTabController.resize() does need to get called to show/hide
-			// the navigation buttons as appropriate, but that's handled in ScrollingTabController.onAddChild()
+			// the navigation buttons as appropriate, but that's handled in ScrollingTabController.onAddChild().
+			// If this is updated to not layout [except for initial child added / last child removed], update
+			// "childless startup" test in StackContainer.html to check for no resize event after second addChild()
 			this.layout();
 
 			// if this is the first child, then select it
