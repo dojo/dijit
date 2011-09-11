@@ -16,14 +16,6 @@ define([
 		// | 	// make a basic custom widget that knows about it's parents
 		// |	declare("my.customClass",[dijit._Widget,dijit._Contained],{});
 
-		getParent: function(){
-			// summary:
-			//		Returns the parent widget of this widget, assuming the parent
-			//		specifies isContainer
-			var parent = registry.getEnclosingWidget(this.domNode.parentNode);
-			return parent && parent.isContainer ? parent : null;
-		},
-
 		_getSibling: function(/*String*/ which){
 			// summary:
 			//      Returns next or previous sibling

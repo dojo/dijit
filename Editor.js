@@ -210,15 +210,9 @@ define([
 				plugin.setToolbar(this.toolbar);
 			}
 		},
-		//the following 3 functions are required to make the editor play nice under a layout widget, see #4070
-		startup: function(){
-			// summary:
-			//		Exists to make Editor work as a child of a layout widget.
-			//		Developers don't need to call this method.
-			// tags:
-			//		protected
-			//console.log('startup',arguments);
-		},
+
+		//the following 2 functions are required to make the editor play nice under a layout widget, see #4070
+
 		resize: function(size){
 			// summary:
 			//		Resize the editor to the specified size, see `dijit.layout._LayoutWidget.resize`
@@ -254,6 +248,7 @@ define([
 			}
 			this._layoutMode = true;
 		},
+
 		_onIEMouseDown: function(/*Event*/ e){
 			// summary:
 			//		IE only to prevent 2 clicks to focus

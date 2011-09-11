@@ -41,29 +41,10 @@ return declare("dijit.layout._ContentPaneResizeMixin", null, {
 	//				however big the ContentPane is
 	doLayout: true,
 
-	// isContainer: [protected] Boolean
-	//		Indicates that this widget acts as a "parent" to the descendant widgets.
-	//		When the parent is started it will call startup() on the child widgets.
-	//		See also `isLayoutContainer`.
-	isContainer: true,
-
 	// isLayoutContainer: [protected] Boolean
 	//		Indicates that this widget will call resize() on it's child widgets
 	//		when they become visible.
 	isLayoutContainer: true,
-
-	_startChildren: function(){
-		// summary:
-		//		Call startup() on all children including non _Widget ones like dojo.dnd.Source objects
-
-		// This starts all the widgets
-		array.forEach(this.getChildren(), function(child){
-			if(!child._started){
-				child.startup();
-				child._started = true;
-			}
-		});
-	},
 
 	startup: function(){
 		// summary:
@@ -73,7 +54,7 @@ return declare("dijit.layout._ContentPaneResizeMixin", null, {
 
 		if(this._started){ return; }
 
-		var parent = _Contained.prototype.getParent.call(this);
+		var parent = this.getParent();
 		this._childOfLayoutWidget = parent && parent.isLayoutContainer;
 
 		// I need to call resize() on my child/children (when I become visible), unless
@@ -81,8 +62,6 @@ return declare("dijit.layout._ContentPaneResizeMixin", null, {
 		this._needLayout = !this._childOfLayoutWidget;
 
 		this.inherited(arguments);
-
-		this._startChildren();
 
 		if(this._isShown()){
 			this._onShow();

@@ -200,7 +200,7 @@ var TreeNode = declare(
 		// tags:
 		//		private
 		var parent = this.getParent();
-		if(!parent || parent.rowNode.style.display == "none"){
+		if(!parent || !parent.rowNode || parent.rowNode.style.display == "none"){
 			/* if we are hiding the root node then make every first level child look like a root node */
 			domClass.add(this.domNode, "dijitTreeIsRoot");
 		}else{

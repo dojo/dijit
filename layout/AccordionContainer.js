@@ -157,7 +157,6 @@ define([
 		baseClass: "dijitAccordionInnerContainer",
 
 		// tell nested layout widget that we will take care of sizing
-		isContainer: true,
 		isLayoutContainer: true,
 
 		buildRendering: function(){

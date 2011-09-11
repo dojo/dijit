@@ -457,7 +457,9 @@ return declare("dijit._WidgetBase", Stateful, {
 		//		and all related widgets have finished their create() cycle, up through postCreate().
 		//		This is useful for composite widgets that need to control or layout sub-widgets.
 		//		Many layout widgets can use this as a wiring phase.
+		if(this._started){ return; }
 		this._started = true;
+		array.forEach(this.getChildren(), function(child){ child.startup(); });
 	},
 
 	//////////// DESTROY FUNCTIONS ////////////////////////////////
@@ -803,6 +805,12 @@ return declare("dijit._WidgetBase", Stateful, {
 		//		Returns all the widgets contained by this, i.e., all widgets underneath this.containerNode.
 		//		Does not return nested widgets, nor widgets that are part of this widget's template.
 		return this.containerNode ? registry.findWidgets(this.containerNode) : []; // dijit._Widget[]
+	},
+
+	getParent: function(){
+		// summary:
+		//		Returns the parent widget of this widget
+		return registry.getEnclosingWidget(this.domNode.parentNode);
 	},
 
 	connect: function(
