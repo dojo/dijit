@@ -10,6 +10,7 @@ try{
 
 	doh.registerUrl("dijit.tests.layout.LayoutContainer", dojo.moduleUrl("dijit", "tests/layout/LayoutContainer.html"), 999999);
 
+	doh.registerUrl("dijit.tests.layout.StackContainer", dojo.moduleUrl("dijit", "tests/layout/StackContainer.html"), 999999);
 	doh.registerUrl("dijit.tests.layout.NestedStackContainer", dojo.moduleUrl("dijit", "tests/layout/nestedStack.html"), 999999);
 	doh.registerUrl("dijit.tests.layout.robot.StackContainer_mouse", dojo.moduleUrl("dijit", "tests/layout/robot/StackContainer_mouse.html"), 999999);
 
