@@ -57,9 +57,6 @@
   min-height: 17px;
   color: #4a4a4a;
 }
-.claro .dijitAccordionTitleHover {
-  color: #000000;
-}
 .dj_ie6 .claro .dijitAccordionTitle {
   background-image: none;
 }
@@ -101,7 +98,7 @@
 
 }
 /* Hovering open or closed pane */
-.claro .dijitAccordionInnerContainerHover dijitAccordionTitle {
+.claro .dijitAccordionInnerContainerHover .dijitAccordionTitle {
   /* both open and closed */
 
   color: #000000;
