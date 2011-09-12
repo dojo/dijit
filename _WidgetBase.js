@@ -658,15 +658,13 @@ return declare("dijit._WidgetBase", Stateful, {
 		//		Get a named property from a widget. The property may
 		//		potentially be retrieved via a getter method. If no getter is defined, this
 		// 		just retrieves the object's property.
-		// 		For example, if the widget has a properties "foo"
-		//		and "bar" and a method named "_getFooAttr", calling:
-		//	|	myWidget.get("foo");
-		//		would be equivalent to writing:
-		//	|	widget._getFooAttr();
-		//		and:
-		//	|	myWidget.get("bar");
-		//		would be equivalent to writing:
-		//	|	widget.bar;
+		//
+		// 		For example, if the widget has properties `foo` and `bar`
+		//		and a method named `_getFooAttr()`, calling:
+		//		`myWidget.get("foo")` would be equivalent to calling
+		//		`widget._getFooAttr()` and `myWidget.get("bar")`
+		//		would be equivalent to the expression
+		//		`widget.bar2`
 		var names = this._getAttrNames(name);
 		return this[names.g] ? this[names.g]() : this[name];
 	},
@@ -681,22 +679,21 @@ return declare("dijit._WidgetBase", Stateful, {
 		// description:
 		//		Sets named properties on a widget which may potentially be handled by a
 		// 		setter in the widget.
-		// 		For example, if the widget has a properties "foo"
-		//		and "bar" and a method named "_setFooAttr", calling:
-		//	|	myWidget.set("foo", "Howdy!");
-		//		would be equivalent to writing:
-		//	|	widget._setFooAttr("Howdy!");
-		//		and:
-		//	|	myWidget.set("bar", 3);
-		//		would be equivalent to writing:
-		//	|	widget.bar = 3;
 		//
-		//	set() may also be called with a hash of name/value pairs, ex:
+		// 		For example, if the widget has properties `foo` and `bar`
+		//		and a method named `_setFooAttr()`, calling
+		//		`myWidget.set("foo", "Howdy!")` would be equivalent to calling
+		//		`widget._setFooAttr("Howdy!")` and `myWidget.set("bar", 3)`
+		//		would be equivalent to the statement `widget.bar = 3;`
+		//
+		//		set() may also be called with a hash of name/value pairs, ex:
+		//
 		//	|	myWidget.set({
 		//	|		foo: "Howdy",
 		//	|		bar: 3
-		//	|	})
-		//	This is equivalent to calling set(foo, "Howdy") and set(bar, 3)
+		//	|	});
+		//
+		//	This is equivalent to calling `set(foo, "Howdy")` and `set(bar, 3)`
 
 		if(typeof name === "object"){
 			for(var x in name){
@@ -765,12 +762,11 @@ return declare("dijit._WidgetBase", Stateful, {
 
 	on: function(/*String*/ type, /*Function*/ func){
 		// summary:
-		//		Call specified function when event "type" occurs, ex: myWidget.on("click", function(){ ... }).
+		//		Call specified function when event occurs, ex: myWidget.on("click", function(){ ... }).
 		// description:
-		//		Call specified function when event "type" occurs, ex: myWidget.on("click", function(){ ... }).
-		//		It's also implicitly called from dojo.connect(myWidget, "onClick", ...).
+		//		Call specified function when event `type` occurs, ex: `myWidget.on("click", function(){ ... })`.
 		//		Note that the function is not run in any particular scope, so if (for example) you want it to run in the
-		//		widget's scope you must do myWidget.on("click", lang.hitch(myWidget, func)).
+		//		widget's scope you must do `myWidget.on("click", lang.hitch(myWidget, func))`.
 
 		return aspect.after(this, this._onMap(type), func, true);
 	},
