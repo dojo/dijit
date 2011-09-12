@@ -724,7 +724,11 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			this.editNode.contentEditable = !value;
 			if(preventIEfocus){
 				var _this = this;
-				setTimeout(function(){ _this.editNode.unselectable = "off"; }, 0);
+				setTimeout(function(){
+					if(_this.editNode){		// guard in case widget destroyed before timeout
+						_this.editNode.unselectable = "off";
+					}
+				}, 0);
 			}
 		}else{ //moz
 			try{
