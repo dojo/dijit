@@ -5,7 +5,8 @@ define([
 	"dojo/query", // query
 	"./ToggleButton",
 	"./_CheckBoxMixin",
-	"dojo/text!./templates/CheckBox.html"
+	"dojo/text!./templates/CheckBox.html",
+	"dojo/NodeList-dom" // NodeList.addClass/removeClass
 ], function(require, declare, domAttr, query, ToggleButton, _CheckBoxMixin, template){
 
 /*=====
