@@ -43,7 +43,6 @@ define([
 			lang.mixin(this, params);
 
 			// class-specific variables
-			this.map = {};
 			this.current = null;	// current TreeNode's DOM node
 
 			// states
@@ -64,20 +63,6 @@ define([
 				on(this.node, "dragstart", lang.hitch(event, "stop")),
 				on(this.node, "selectstart", lang.hitch(event, "stop"))
 			];
-		},
-
-		getItem: function(/*String*/ key){
-			// summary:
-			//		Returns the dojo.dnd.Item (representing a dragged node) by it's key (id).
-			//		Called by dojo.dnd.Source.checkAcceptance().
-			// tags:
-			//		protected
-
-			var widget = this.selection[key];
-			return {
-				data: widget,
-				type: ["treeNode"]
-			}; // dojo.dnd.Item
 		},
 
 		destroy: function(){

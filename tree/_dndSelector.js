@@ -299,6 +299,20 @@ define([
 			}
 		},
 
+		getItem: function(/*String*/ key){
+			// summary:
+			//		Returns the dojo.dnd.Item (representing a dragged node) by it's key (id).
+			//		Called by dojo.dnd.Source.checkAcceptance().
+			// tags:
+			//		protected
+
+			var widget = this.selection[key];
+			return {
+				data: widget,
+				type: ["treeNode"]
+			}; // dojo.dnd.Item
+		},
+
 		forInSelectedItems: function(/*Function*/ f, /*Object?*/ o){
 			// summary:
 			//		Iterates over selected items;
