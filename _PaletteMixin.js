@@ -204,12 +204,9 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 		// onChange() (via _setValueAttr) must be after the focus call, because
 		// it may trigger a refocus to somewhere else (like the Editor content area), and that
 		// second focus should win.
-		// Use setTimeout because IE doesn't like changing focus inside of an event handler.
 		this._setCurrent(target);
-		setTimeout(lang.hitch(this, function(){
-			focus.focus(target);
-			this._setValueAttr(value, true);
-		}), 0);
+		focus.focus(target);
+		this._setValueAttr(value, true);
 
 		event.stop(evt);
 	},
