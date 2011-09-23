@@ -227,7 +227,11 @@
 /* Disabled Calendar Style*/
 .claro .dijitCalendarDisabledDate .dijitCalendarDateLabel {
 	text-decoration:line-through;
-	
+}
+
+.claro .dijitCalendarDisabledDate .dijitCalendarDateLabel,
+.claro .dijitCalendarDisabledDate:hover .dijitCalendarDateLabel,
+.claro .dijitCalendarDisabledDate:active .dijitCalendarDateLabel {
 	/* override hover effects above, hover and click on disabled date should have no effect */
 	background-color: transparent;
 	border-width: 0;

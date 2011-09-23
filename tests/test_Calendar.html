@@ -69,8 +69,10 @@
 		<p>
 			<a href="#"
 			   onClick="dijit.registry.forEach(function(c){
-					c.isDisabledDate = dojo.date.locale.isWeekend;
-					c._populateGrid();
+			   		if(c.isDisabledDate){
+						c.isDisabledDate = dojo.date.locale.isWeekend;
+						c._populateGrid();
+					}
 				});">disable weekends</a>
 		</p>
 
