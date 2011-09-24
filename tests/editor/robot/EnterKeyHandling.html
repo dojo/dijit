@@ -426,7 +426,7 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								var val = editor.get("value");
 								doh.is(val, '<p><br /></p>');
-							}));
+							}), 1000);
 							return d;
 						}
 					},
