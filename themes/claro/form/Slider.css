@@ -63,6 +63,9 @@
   background-image: none;
   border-color: #d3d3d3;
 }
+.claro .dijitRuleLabel {
+  color: #000000;
+}
 /* Horizontal Slider */
 .claro .dijitRuleLabelsContainerH {
   padding: 2px 0;

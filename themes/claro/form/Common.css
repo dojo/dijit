@@ -1,6 +1,9 @@
 /* claro/form/Common.css */
 /*========================= common css =========================*/
 /* 'dijitTextBox' refers to 'dijit(TextBox|DateTextBox|CurrencyTextBox|...)' */
+.claro .dijitTextBox, .claro .dijitInputInner {
+  color: #000000;
+}
 .claro .dijitTextBoxError .dijitValidationContainer {
   background-color: #d46464;
   background-image: url('images/error.png');
@@ -87,6 +90,8 @@
 .claro .dijitTextBoxDisabled, .claro .dijitTextBoxDisabled .dijitInputContainer {
   background-color: #efefef;
   background-image: none;
+}
+.claro .dijitTextBoxDisabled .dijitInputInner {
   color: #818181;
 }
 /*========================= for special widgets =========================*/

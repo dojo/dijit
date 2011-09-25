@@ -74,6 +74,7 @@
 
   padding: 0 1px;
   font-size: 1.091em;
+  color: #000000;
 }
 .claro .dijitDialogCloseIcon {
   /* the default close icon for the dialog */
@@ -131,6 +132,7 @@
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
   font-size: 1em;
+  color: #000000;
 }
 .dj_ie6 .claro .dijitTooltipContainer {
   background-image: none;

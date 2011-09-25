@@ -48,6 +48,7 @@
   background-repeat: repeat-x;
   border-color: rgba(118, 157, 192, 0);
   border-width: 0;
+  color: #000000;
   -webkit-transition-property: background-color, border-color;
   -moz-transition-property: background-color, border-color;
   transition-property: background-color, border-color;

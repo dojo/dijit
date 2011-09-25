@@ -53,10 +53,8 @@
 .claro .dijitTitlePane .dijitClosed .dijitArrowNode {
   background-position: -14px 0;
 }
-.claro .dijitTitlePaneFocused .dijitTitlePaneTextNode {
+.claro .dijitTitlePane .dijitTitlePaneTextNode {
   color: #000000;
-  /* TODO: do we need this?   we usually don't change text color on focus */
-
 }
 .claro .dijitTitlePaneContentOuter {
   background: #ffffff;

@@ -103,18 +103,18 @@
 	display: none;
 }
 
-
-.claro .dijitDayLabels th {
-	padding:0 4px 0 4px;
-	font-weight:bold;
-	text-align:center;
-}
 .claro .dijitCalendarDayLabelTemplate {
 	padding-bottom:0;
 	text-align:center;
 	border-bottom:1px solid @border-color;
-	font-size:0.909em;
 	padding:0 3px 2px;
+}
+.claro .dijitCalendarDayLabel {
+	padding:0 4px 0 4px;
+	font-weight:bold;
+	font-size:0.909em;
+	text-align:center;
+	color: @text-color;
 }
 .claro .dijitCalendarDateTemplate {
 	text-align:center;
@@ -129,6 +129,7 @@
 	font-weight:bold;
 	letter-spacing:.05em;
 	text-align:center;
+	color: @text-color;
 }
 .dj_ie6 .claro .dijitCalendarDateTemplate {
 	background-image: none;

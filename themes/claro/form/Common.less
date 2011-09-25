@@ -6,6 +6,13 @@
 
 /* 'dijitTextBox' refers to 'dijit(TextBox|DateTextBox|CurrencyTextBox|...)' */
 
+.claro .dijitTextBox,
+.claro .dijitInputInner {
+    // .dijitInputInner selector needed for ValidationTextBox on IE6 because <input> doesn't inherit
+    // the color setting from the ancestor div.dijitTextBox
+	color: @text-color;
+}
+
 .claro .dijitTextBoxError .dijitValidationContainer {
 	background-color: @erroricon-background-color;
 	background-image: url('images/error.png');
@@ -103,6 +110,8 @@
 .claro .dijitTextBoxDisabled .dijitInputContainer {
 	background-color: @textbox-disabled-background-color;
 	background-image: none;
+}
+.claro .dijitTextBoxDisabled .dijitInputInner {
 	color: @disabled-text-color;
 }
 
