@@ -111,8 +111,17 @@
 	background-color: @textbox-disabled-background-color;
 	background-image: none;
 }
+.claro .dijitTextBoxDisabled,
 .claro .dijitTextBoxDisabled .dijitInputInner {
 	color: @disabled-text-color;
+}
+.dj_webkit .claro .dijitTextBoxDisabled input {
+    /* because WebKit lightens disabled input/textarea no matter what color you specify */
+	color: darker(@disabled-text-color, 5%)
+}
+.dj_webkit .claro textarea.dijitTextAreaDisabled {
+    /* because WebKit lightens disabled input/textarea no matter what color you specify */
+	color: darker(@disabled-text-color, 40%)
 }
 
 /*========================= for special widgets =========================*/
