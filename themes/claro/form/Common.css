@@ -97,12 +97,12 @@
 .dj_webkit .claro .dijitTextBoxDisabled input {
   /* because WebKit lightens disabled input/textarea no matter what color you specify */
 
-  color: darker(#818181, 5%);
+  color: #747474;
 }
 .dj_webkit .claro textarea.dijitTextAreaDisabled {
   /* because WebKit lightens disabled input/textarea no matter what color you specify */
 
-  color: darker(#818181, 40%);
+  color: #1b1b1b;
 }
 /*========================= for special widgets =========================*/
 /* Input boxes with an arrow (for a drop down) */
