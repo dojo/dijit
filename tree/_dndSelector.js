@@ -2,14 +2,13 @@ define([
 	"dojo/_base/array", // array.filter array.forEach array.map
 	"dojo/_base/connect", // connect.isCopyKey
 	"dojo/_base/declare", // declare
-	"dojo/_base/event", // event.stop
 	"dojo/_base/lang", // lang.hitch
 	"dojo/mouse", // mouse.isLeft
 	"dojo/on",
 	"dojo/touch",
 	"dojo/_base/window", // win.global
 	"./_dndContainer"
-], function(array, connect, declare, event, lang, mouse, on, touch, win, _dndContainer){
+], function(array, connect, declare, lang, mouse, on, touch, win, _dndContainer){
 
 	// module:
 	//		dijit/tree/_dndSelector
@@ -182,7 +181,7 @@ define([
 
 			if(!mouse.isLeft(e)){ return; } // ignore right-click
 
-			event.stop(e);
+			e.preventDefault();
 
 			var treeNode = this.current,
 			  copy = connect.isCopyKey(e), id = treeNode.id;
