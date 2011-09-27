@@ -72,56 +72,68 @@ require([
 		return vars[k] || def;
 	};
 
+	// BIDI
+	if(dir == "rtl"){
+		ready(0, function(){
+			// pretend all the labels are in an RTL language, because
+			// that affects how they lay out relative to inline form widgets
+			query("label").attr("dir", "rtl");
+		});
+	}
+
+	// a11y
+	if(testMode){
+		ready(0, function(){
+			var b = win.body();
+			if(testMode){
+				domClass.add(b, testMode);
+			}
+		});
+	}
+
 	// If URL specifies a non-claro theme then pull in those theme CSS files and modify
 	// <body> to point to that new theme instead of claro.
 	//
 	// Also defer parsing and any dojo.ready() calls that the test file makes
 	// until the CSS has finished loading.
-	if(theme || testMode || dir){
-
-		if(theme){
-			var themeCss = require.toUrl(themeModule+"/themes/"+theme+"/"+theme+".css");
-			var themeCssRtl = require.toUrl(themeModule+"/themes/"+theme+"/"+theme+"_rtl.css");
-			document.write('<link rel="stylesheet" type="text/css" href="'+themeCss+'"/>');
-			document.write('<link rel="stylesheet" type="text/css" href="'+themeCssRtl+'"/>');
-		}
-
-		ready(0, function(){
+	if(theme){
+		ready(1, function(){
 			// Reset <body> to point to the specified theme
 			var b = win.body();
-			if(theme){
-					domClass.remove(b, defTheme);
-					domClass.add(b, theme);
-					var n = dom.byId("themeStyles");
-					if(n){ domConstruct.destroy(n); }
-			}
-			if(testMode){ domClass.add(b, testMode); }
+			domClass.replace(b, theme, defTheme);
+			var n = dom.byId("themeStyles");
+			if(n){ domConstruct.destroy(n); }
+
+			// Load theme CSS.   Wait until JS modules have finished loading so this doesn't confuse
+			// AMD loader.
+			// Eventually would like to use [something like]
+			// https://github.com/unscriptable/curl/blob/master/src/curl/plugin/css.js
+			// to load the CSS and then know exactly when it finishes loading.
+			var themeCss = require.toUrl(themeModule+"/themes/"+theme+"/"+theme+".css");
+			var themeCssRtl = require.toUrl(themeModule+"/themes/"+theme+"/"+theme+"_rtl.css");
+
+			var head = query("head")[0];
+			domConstruct.place('<link rel="stylesheet" type="text/css" href="'+themeCss+'"/>',
+				head);
+			domConstruct.place('<link rel="stylesheet" type="text/css" href="'+themeCssRtl+'"/>',
+				head);
 
 			// Claro has it's own reset css but for other themes using dojo/resources/dojo.css
-			if(theme){
-				query("style").forEach(function(node){
-					if(/claro\/document.css/.test(node.innerHTML)){
-						try{
-							node.innerHTML = node.innerHTML.replace("themes/claro/document.css",
-								"../dojo/resources/dojo.css");
-						}catch(e){
-							// fails on IE6-8 for some reason, works on IE9 and other browsers
-						}
+			query("style").forEach(function(node){
+				if(/claro\/document.css/.test(node.innerHTML)){
+					try{
+						node.innerHTML = node.innerHTML.replace("themes/claro/document.css",
+							"../dojo/resources/dojo.css");
+					}catch(e){
+						// fails on IE6-8 for some reason, works on IE9 and other browsers
 					}
-				});
-			}
-			if(dir == "rtl"){
-				// pretend all the labels are in an RTL language, because
-				// that affects how they lay out relative to inline form widgets
-				query("label").attr("dir", "rtl");
-			}
+				}
+			});
 		});
-
-		// Delay parsing and other dojo.ready() callbacks (except the one in this file)
-		// until the <link>'s above have finished loading.
-		// Eventually would like to use [something like]
-		// https://github.com/unscriptable/curl/blob/master/src/curl/plugin/css.js
-		// to load the CSS and then know exactly when it finishes loading.
-		dojo.ready(1, function(){ require(["dijit/tests/delay!320"]); });
+		ready(2, function(){
+			// Delay parsing and other dojo.ready() callbacks (except ones in this file)
+			// until the injected <link>'s above have finished loading.
+			require(["dijit/tests/delay!320"]);
+		});
 	}
 });

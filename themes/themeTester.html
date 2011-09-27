@@ -73,12 +73,15 @@
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../dojo/dojo.js"
 		data-dojo-config="parseOnLoad: false, async:true"></script>
+
+	<!-- only needed for alternate theme testing: -->
+	<script type="text/javascript" src="../tests/_testCommon.js"></script>
+
 	<script type="text/javascript">
 		require([
 			"dojo",
 			"dijit/dijit",
 			"dijit/dijit-all",
-			//"dijit/tests/_testCommon",
 			"dojo/parser",
 			"dojo/date/locale",
 			"dojo/data/ItemFileReadStore",
