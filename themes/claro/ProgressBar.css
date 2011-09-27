@@ -31,7 +31,7 @@
   /* outer container and background of the bar that's not finished yet*/
 
   background: #ffffff url("images/progressBarEmpty.png") no-repeat left;
-  border-color: #769dc0;
+  border-color: #759dc0;
 }
 .claro .dijitProgressBarTile {
   /* inner container for finished portion when in 'tile' (image) mode */
@@ -42,7 +42,7 @@
   background-image: none;
 }
 .claro .dijitProgressBarFull {
-  border-right: 1px solid #769dc0;
+  border-right: 1px solid #759dc0;
   -webkit-transition-property: width;
   -moz-transition-property: width;
   transition-property: width;
