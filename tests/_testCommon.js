@@ -1,20 +1,34 @@
-/*
-	_testCommon.js - a simple module to be included in dijit test pages to allow
-	for easy switching between the many many points of the test-matrix.
+// module:
+//		dijit/tests/_testCommon.js
+// description:
+//		A simple module to be included in dijit test pages to allow
+//		for easy switching between the many many points of the test-matrix.
+//
+//		in your test browser, provides a way to switch between available themes,
+//		and optionally enable RTL (right to left) mode, and/or dijit_a11y (high-
+//		contrast/image off emulation) ... probably not a genuine test for a11y.
+//
+//		usage: on any dijit test_* page, press ctrl-f9 to popup links.
+//
+//		there are currently (3 themes * 4 tests) * (10 variations of supported browsers)
+//		not including testing individual locale-strings
+//
+//		you should NOT be using this in a production environment. include
+//		your css and set your classes manually. for test purposes only ...
 
-	in your test browser, provides a way to switch between available themes,
-	and optionally enable RTL (right to left) mode, and/or dijit_a11y (high-
-	constrast/image off emulation) ... probably not a genuine test for a11y.
-
-	usage: on any dijit test_* page, press ctrl-f9 to popup links.
-
-	there are currently (3 themes * 4 tests) * (10 variations of supported browsers)
-	not including testing individual locale-strings
-
-	you should NOT be using this in a production environment. include
-	your css and set your classes manually. for test purposes only ...
-*/
-require(["dojo"], function(dojo){
+require([
+	"require",
+	"dojo/_base/config",
+	"dojo/dom",
+	"dojo/dom-attr",
+	"dojo/dom-class",
+	"dojo/dom-construct",
+	"dojo/_base/kernel",
+	"dojo/_base/lang",
+	"dojo/query",
+	"dojo/ready",
+	"dojo/_base/window"
+], function(require, config, dom, domAttr, domClass, domConstruct, kernel, lang, query, ready, win){
 
 	var dir = "",
 		theme = false,
@@ -33,7 +47,7 @@ require(["dojo"], function(dojo){
 			switch(key){
 				case "locale":
 					// locale string | null
-					dojo.locale = dojo.config.locale = locale = value;
+					kernel.locale = config.locale = locale = value;
 					break;
 				case "dir":
 					// rtl | null
@@ -54,7 +68,7 @@ require(["dojo"], function(dojo){
 			vars[key] = value;
 		}
 	}
-	dojo._getVar = function(k, def){
+	kernel._getVar = function(k, def){	// TODO: not sure what this is
 		return vars[k] || def;
 	};
 
@@ -66,26 +80,26 @@ require(["dojo"], function(dojo){
 	if(theme || testMode || dir){
 
 		if(theme){
-			var themeCss = dojo.moduleUrl(themeModule+".themes",theme+"/"+theme+".css");
-			var themeCssRtl = dojo.moduleUrl(themeModule+".themes",theme+"/"+theme+"_rtl.css");
+			var themeCss = require.toUrl(themeModule+"/themes/"+theme+"/"+theme+".css");
+			var themeCssRtl = require.toUrl(themeModule+"/themes/"+theme+"/"+theme+"_rtl.css");
 			document.write('<link rel="stylesheet" type="text/css" href="'+themeCss+'"/>');
 			document.write('<link rel="stylesheet" type="text/css" href="'+themeCssRtl+'"/>');
 		}
 
-		dojo.ready(0, function(){
+		ready(0, function(){
 			// Reset <body> to point to the specified theme
-			var b = dojo.body();
+			var b = win.body();
 			if(theme){
-					dojo.removeClass(b, defTheme);
-					if(!dojo.hasClass(b, theme)){ dojo.addClass(b, theme); }
-					var n = dojo.byId("themeStyles");
-					if(n){ dojo.destroy(n); }
+					domClass.remove(b, defTheme);
+					domClass.add(b, theme);
+					var n = dom.byId("themeStyles");
+					if(n){ domConstruct.destroy(n); }
 			}
-			if(testMode){ dojo.addClass(b, testMode); }
+			if(testMode){ domClass.add(b, testMode); }
 
 			// Claro has it's own reset css but for other themes using dojo/resources/dojo.css
 			if(theme){
-				dojo.query("style").forEach(function(node){
+				query("style").forEach(function(node){
 					if(/claro\/document.css/.test(node.innerHTML)){
 						try{
 							node.innerHTML = node.innerHTML.replace("themes/claro/document.css",
@@ -99,7 +113,7 @@ require(["dojo"], function(dojo){
 			if(dir == "rtl"){
 				// pretend all the labels are in an RTL language, because
 				// that affects how they lay out relative to inline form widgets
-				dojo.query("label").attr("dir", "rtl");
+				query("label").attr("dir", "rtl");
 			}
 		});
 
@@ -107,7 +121,7 @@ require(["dojo"], function(dojo){
 		// until the <link>'s above have finished loading.
 		// Eventually would like to use [something like]
 		// https://github.com/unscriptable/curl/blob/master/src/curl/plugin/css.js
-		// to load the CSS and then know exactly when they finish loading.
+		// to load the CSS and then know exactly when it finishes loading.
 		dojo.ready(1, function(){ require(["dijit/tests/delay!320"]); });
 	}
 });
