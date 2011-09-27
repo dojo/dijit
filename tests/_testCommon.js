@@ -72,19 +72,7 @@ require(["dojo"], function(dojo){
 			document.write('<link rel="stylesheet" type="text/css" href="'+themeCssRtl+'"/>');
 		}
 
-		if(dojo.config.parseOnLoad){
-			dojo.config.parseOnLoad = false;
-			dojo.config._deferParsing = true;
-			
-			// Capture any dojo.ready() calls the test makes and defer them until after
-			// the new CSS loads.   (TODO: would be more straightforward to just make a
-			// testAddOnLoad() function and call that from the test files)
-			var originalOnLoad = dojo.ready,
-				loadFuncs = [];
-			dojo.ready = function(f){ loadFuncs.push(f); };
-		}
-
-		(originalOnLoad || dojo.ready)(function(){
+		dojo.ready(0, function(){
 			// Reset <body> to point to the specified theme
 			var b = dojo.body();
 			if(theme){
@@ -113,18 +101,13 @@ require(["dojo"], function(dojo){
 				// that affects how they lay out relative to inline form widgets
 				dojo.query("label").attr("dir", "rtl");
 			}
-
-			// Defer parsing and addOnLoad() execution until the specified CSS loads.
-			if(dojo.config._deferParsing){
-				setTimeout(function(){
-					dojo.ready = originalOnLoad;
-					dojo.parser.parse(b);
-					for(var i=0; i<loadFuncs.length; i++){
-						loadFuncs[i]();
-					}
-				}, 320);
-			}
-
 		});
+
+		// Delay parsing and other dojo.ready() callbacks (except the one in this file)
+		// until the <link>'s above have finished loading.
+		// Eventually would like to use [something like]
+		// https://github.com/unscriptable/curl/blob/master/src/curl/plugin/css.js
+		// to load the CSS and then know exactly when they finish loading.
+		dojo.ready(1, function(){ require(["dijit/tests/delay!320"]); });
 	}
 });
