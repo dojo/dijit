@@ -18,6 +18,7 @@
 
 require([
 	"require",
+	"dojo/_base/array",
 	"dojo/_base/config",
 	"dojo/dom",
 	"dojo/dom-attr",
@@ -28,7 +29,7 @@ require([
 	"dojo/query",
 	"dojo/ready",
 	"dojo/_base/window"
-], function(require, config, dom, domAttr, domClass, domConstruct, kernel, lang, query, ready, win){
+], function(require, array, config, dom, domAttr, domClass, domConstruct, kernel, lang, query, ready, win){
 
 	var dir = "",
 		theme = false,
@@ -104,34 +105,30 @@ require([
 			var b = win.body();
 			domClass.replace(b, theme, defTheme);
 
+			// Remove claro CSS
+			query('link[href$="claro.css"]').orphan();
+			query('link[href$="claro/document.css"]').orphan();
+
 			// Load theme CSS.
 			// Eventually would like to use [something like]
 			// https://github.com/unscriptable/curl/blob/master/src/curl/plugin/css.js
 			// to load the CSS and then know exactly when it finishes loading.
-			var themeCss = require.toUrl(themeModule+"/themes/"+theme+"/"+theme+".css");
-			var themeCssRtl = require.toUrl(themeModule+"/themes/"+theme+"/"+theme+"_rtl.css");
-
+			var modules = [
+				require.toUrl(themeModule+"/themes/"+theme+"/"+theme+".css"),
+				require.toUrl(themeModule+"/themes/"+theme+"/"+theme+"_rtl.css"),
+				require.toUrl("dojo/resources/dojo.css")
+			];
 			var head = query("head")[0];
-			query("link").forEach(function(link){
-				if(/claro\.css/.test(link.href)){
-					// Remove load of claro.css
-					domConstruct.destroy(link);
-				}else if(/claro\/document.css/.test(link.href)){
-					// Claro has it's own reset css but other themes use dojo/resources/dojo.css
-					link.setAttribute("href", require.toUrl("dojo/resources/dojo.css"));
+			array.forEach(modules, function(css){
+				if(document.createStyleSheet){
+					// For IE
+					document.createStyleSheet(css);
+				}else{
+					// For other browsers
+					domConstruct.place('<link rel="stylesheet" type="text/css" href="'+css+'"/>',
+						head);
 				}
 			});
-			if(document.createStyleSheet){
-				// For IE
-				document.createStyleSheet(themeCss);
-				document.createStyleSheet(themeCssRtl);
-			}else{
-				// For other browsers
-				domConstruct.place('<link rel="stylesheet" type="text/css" href="'+themeCss+'"/>',
-					head);
-				domConstruct.place('<link rel="stylesheet" type="text/css" href="'+themeCssRtl+'"/>',
-					head);
-			}
 		});
 		ready(2, function(){
 			// Delay parsing and other dojo.ready() callbacks (except ones in this file)
