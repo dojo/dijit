@@ -227,8 +227,7 @@ define([
 	dijit.hideTooltip = function(aroundNode){
 		// summary:
 		//		Static method to hide the tooltip displayed via showTooltip()
-		if(!Tooltip._masterTT){ dijit._masterTT = Tooltip._masterTT = new MasterTooltip(); }
-		return Tooltip._masterTT.hide(aroundNode);
+		return Tooltip._masterTT && Tooltip._masterTT.hide(aroundNode);
 	};
 
 	var Tooltip = declare("dijit.Tooltip", _Widget, {
