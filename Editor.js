@@ -12,7 +12,7 @@ define([
 	"dojo/_base/lang", // lang.getObject lang.hitch
 	"dojo/_base/sniff", // has("ie") has("mac") has("webkit")
 	"dojo/string", // string.substitute
-	"dojo/topic", // topic.emit()
+	"dojo/topic", // topic.publish()
 	"dojo/_base/window", // win.withGlobal
 	"./_base/focus",	// dijit.getBookmark()
 	"./_Container",
@@ -185,7 +185,7 @@ define([
 					if(_Plugin.registry[args.name]){
 						o.plugin = _Plugin.registry[args.name](args);
 					}else{
-						topic.emit(dijit._scopeName + ".Editor.getPlugin", o);	// publish
+						topic.publish(dijit._scopeName + ".Editor.getPlugin", o);	// publish
 					}
 				}
 				if(!o.plugin){

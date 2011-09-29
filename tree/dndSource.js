@@ -104,10 +104,10 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 
 		// set up events
 		this.topics = [
-			topic.on("/dnd/source/over", lang.hitch(this, "onDndSourceOver")),
-			topic.on("/dnd/start", lang.hitch(this, "onDndStart")),
-			topic.on("/dnd/drop", lang.hitch(this, "onDndDrop")),
-			topic.on("/dnd/cancel", lang.hitch(this, "onDndCancel"))
+			topic.subscribe("/dnd/source/over", lang.hitch(this, "onDndSourceOver")),
+			topic.subscribe("/dnd/start", lang.hitch(this, "onDndStart")),
+			topic.subscribe("/dnd/drop", lang.hitch(this, "onDndDrop")),
+			topic.subscribe("/dnd/cancel", lang.hitch(this, "onDndCancel"))
 		];
 	},
 

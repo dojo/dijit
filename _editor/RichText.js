@@ -17,7 +17,7 @@ define([
 	"dojo/query", // query
 	"dojo/ready", // ready
 	"dojo/_base/sniff", // has("ie") has("mozilla") has("opera") has("safari") has("webkit")
-	"dojo/topic",	// topic.emit() (publish)
+	"dojo/topic",	// topic.publish() (publish)
 	"dojo/_base/unload", // unload
 	"dojo/_base/url", // url
 	"dojo/_base/window", // win.body win.doc.body.focus win.doc.createElement win.global.location win.withGlobal
@@ -197,7 +197,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		}
 		this.inherited(arguments);
 
-		topic.emit(dijit._scopeName + "._editor.RichText::init", this);
+		topic.publish(dijit._scopeName + "._editor.RichText::init", this);
 		this.open();
 		this.setupDefaultShortcuts();
 	},
@@ -332,7 +332,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		}
 
 		if(!this.isClosed){ this.close(); }
-		topic.emit(dijit._scopeName + "._editor.RichText::open", this);
+		topic.publish(dijit._scopeName + "._editor.RichText::open", this);
 
 		if(arguments.length === 1 && element.nodeName){ // else unchanged
 			this.domNode = element;

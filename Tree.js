@@ -712,7 +712,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 	_publish: function(/*String*/ topicName, /*Object*/ message){
 		// summary:
 		//		Publish a message for this widget/topic
-		topic.emit(this.id, lang.mixin({tree: this, event: topicName}, message || {}));	// publish
+		topic.publish(this.id, lang.mixin({tree: this, event: topicName}, message || {}));	// publish
 	},
 
 	postMixInProperties: function(){

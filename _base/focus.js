@@ -301,7 +301,7 @@ define([
 		dijit._curFocus = newVal;
 		dijit._prevFocus = oldVal;
 		if(newVal){
-			topic.emit("focusNode", newVal);	// publish
+			topic.publish("focusNode", newVal);	// publish
 		}
 	});
 	focus.watch("activeStack", function(name, oldVal, newVal){
@@ -309,10 +309,10 @@ define([
 	});
 
 	focus.on("widget-blur", function(widget, by){
-		topic.emit("widgetBlur", widget, by);	// publish
+		topic.publish("widgetBlur", widget, by);	// publish
 	});
 	focus.on("widget-focus", function(widget, by){
-		topic.emit("widgetFocus", widget, by);	// publish
+		topic.publish("widgetFocus", widget, by);	// publish
 	});
 
 	return dijit;

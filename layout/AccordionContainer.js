@@ -373,7 +373,7 @@ define([
 				this._setupChild(child);
 
 				// Code below copied from StackContainer
-				topic.emit(this.id+"-addChild", child, insertIndex);	// publish
+				topic.publish(this.id+"-addChild", child, insertIndex);	// publish
 				this.layout();
 				if(!this.selectedChildWidget){
 					this.selectChild(child);

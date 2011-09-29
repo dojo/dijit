@@ -872,7 +872,7 @@ return declare("dijit._WidgetBase", Stateful, {
 		//	|	});
 		// tags:
 		//		protected
-		var handle = topic.on(t, lang.hitch(this, method));
+		var handle = topic.subscribe(t, lang.hitch(this, method));
 		this._connects.push(handle);
 		return handle;		// _Widget.Handle
 	},
