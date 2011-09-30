@@ -1,11 +1,13 @@
 define([
 	"require",
 	"dojo/_base/declare", // declare
+	"dojo/_base/kernel",
 	"dojo/keys", // keys.LEFT_ARROW keys.RIGHT_ARROW
+	"dojo/ready",
 	"./_Widget",
 	"./_KeyNavContainer",
 	"./_TemplatedMixin"
-], function(require, declare, keys, _Widget, _KeyNavContainer, _TemplatedMixin){
+], function(require, declare, kernel, keys, ready, _Widget, _KeyNavContainer, _TemplatedMixin){
 
 /*=====
 	var _Widget = dijit._Widget;
@@ -20,8 +22,8 @@ define([
 
 
 	// Back compat w/1.6, remove for 2.0
-	if(dojo && dojo.ready && !dojo.isAsync){
-		dojo.ready(0, function(){
+	if(!kernel.isAsync){
+		ready(0, function(){
 			var requires = ["dijit/ToolbarSeparator"];
 			require(requires);	// use indirection so modules not rolled into a build
 		});
