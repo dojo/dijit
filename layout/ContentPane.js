@@ -192,7 +192,7 @@ return declare("dijit.layout.ContentPane", [_Widget, _ContentPaneResizeMixin], {
 		}
 	},
 
-	_startChildren: function(){
+	startup: function(){
 		// summary:
 		//		Call startup() on all children including non _Widget ones like dojo.dnd.Source objects
 
@@ -520,7 +520,8 @@ return declare("dijit.layout.ContentPane", [_Widget, _ContentPaneResizeMixin], {
 		if(!isFakeContent){
 			if(this._started){
 				// Startup each top level child widget (and they will start their children, recursively)
-				this._startChildren();
+				delete this._started;
+				this.startup();
 
 				// Call resize() on each of my child layout widgets,
 				// or resize() on my single child layout widget...

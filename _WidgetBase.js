@@ -459,7 +459,12 @@ return declare("dijit._WidgetBase", Stateful, {
 		//		Many layout widgets can use this as a wiring phase.
 		if(this._started){ return; }
 		this._started = true;
-		array.forEach(this.getChildren(), function(child){ child.startup(); });
+		array.forEach(this.getChildren(), function(obj){
+			if(!obj._started && !obj._destroyed && lang.isFunction(obj.startup)){
+				obj.startup();
+				obj._started = true;
+			}
+		});
 	},
 
 	//////////// DESTROY FUNCTIONS ////////////////////////////////
