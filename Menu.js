@@ -7,6 +7,7 @@ define([
 	"dojo/dom-attr", // domAttr.get domAttr.set domAttr.has domAttr.remove
 	"dojo/dom-geometry", // domStyle.getComputedStyle domGeometry.position
 	"dojo/dom-style", // domStyle.getComputedStyle
+	"dojo/_base/kernel",
 	"dojo/keys",	// keys.F10
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on",
@@ -14,9 +15,10 @@ define([
 	"dojo/_base/window", // win.body win.doc.documentElement win.doc.frames win.withGlobal
 	"dojo/window", // winUtils.get
 	"./popup",
-	"./DropDownMenu"
-], function(require, array, declare, event, dom, domAttr, domGeometry, domStyle, keys, lang, on,
-			has, win, winUtils, pm, DropDownMenu){
+	"./DropDownMenu",
+	"dojo/ready"
+], function(require, array, declare, event, dom, domAttr, domGeometry, domStyle, kernel, keys, lang, on,
+			has, win, winUtils, pm, DropDownMenu, ready){
 
 /*=====
 	var DropDownMenu = dijit.DropDownMenu;
@@ -28,8 +30,8 @@ define([
 //		Includes dijit.Menu widget and base class dijit._MenuBase
 
 // Back compat w/1.6, remove for 2.0
-if(dojo && !dojo.isAsync && dojo.ready){
-	dojo.ready(0, function(){
+if(!kernel.isAsync){
+	ready(0, function(){
 		var requires = ["dijit/MenuItem", "dijit/PopupMenuItem", "dijit/CheckedMenuItem", "dijit/MenuSeparator"];
 		require(requires);	// use indirection so modules not rolled into a build
 	});
