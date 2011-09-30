@@ -1,11 +1,12 @@
 define([
 	"dojo/_base/declare",	// declare
 	"dojo/_base/kernel", // kernel.deprecated
+	"dojo/ready",
 	"../_Widget",
 	"../_CssStateMixin",
 	"../_TemplatedMixin",
 	"./_FormWidgetMixin"
-], function(declare, kernel, _Widget, _CssStateMixin, _TemplatedMixin, _FormWidgetMixin){
+], function(declare, kernel, ready, _Widget, _CssStateMixin, _TemplatedMixin, _FormWidgetMixin){
 
 /*=====
 var _Widget = dijit._Widget;
@@ -21,8 +22,8 @@ var _FormWidgetMixin = dijit.form._FormWidgetMixin;
 
 
 // Back compat w/1.6, remove for 2.0
-if(dojo && dojo.ready && !dojo.isAsync){
-	dojo.ready(0, function(){
+if(!kernel.isAsync){
+	ready(0, function(){
 		var requires = ["dijit/form/_FormValueWidget"];
 		require(requires);	// use indirection so modules not rolled into a build
 	});

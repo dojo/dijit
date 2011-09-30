@@ -2,12 +2,14 @@ define([
 	"require",
 	"dojo/_base/declare", // declare
 	"dojo/dom-attr", // domAttr.set
+	"dojo/_base/kernel",
 	"dojo/query", // query
+	"dojo/ready",
 	"./ToggleButton",
 	"./_CheckBoxMixin",
 	"dojo/text!./templates/CheckBox.html",
 	"dojo/NodeList-dom" // NodeList.addClass/removeClass
-], function(require, declare, domAttr, query, ToggleButton, _CheckBoxMixin, template){
+], function(require, declare, domAttr, kernel, query, ready, ToggleButton, _CheckBoxMixin, template){
 
 /*=====
 	var ToggleButton = dijit.form.ToggleButton;
@@ -20,8 +22,8 @@ define([
 	//		Checkbox widget
 
 	// Back compat w/1.6, remove for 2.0
-	if(dojo && dojo.ready && !dojo.isAsync){
-		dojo.ready(0, function(){
+	if(!kernel.isAsync){
+		ready(0, function(){
 			var requires = ["dijit/form/RadioButton"];
 			require(requires);	// use indirection so modules not rolled into a build
 		});
