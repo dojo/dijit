@@ -31,7 +31,7 @@ var Stateful = dojo.Stateful;
 //		Future base class for all Dijit widgets.
 
 // For back-compat, remove in 2.0.
-if(dojo && dojo.ready && !dojo.isAsync){
+if(typeof dojo!="undefined" && dojo.ready && !dojo.isAsync){
 	dojo.ready(0, function(){
 		var requires = ["dijit/_base/manager"];
 		require(requires);	// use indirection so modules not rolled into a build
