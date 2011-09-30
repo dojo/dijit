@@ -4,10 +4,11 @@ define([
 	"dojo/dom-class", // domClass.toggle
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/lang", // lang.trim
+	"dojo/ready",
 	"./_FormWidget",
 	"./_ButtonMixin",
 	"dojo/text!./templates/Button.html"
-], function(require, declare, domClass, kernel, lang, _FormWidget, _ButtonMixin, template){
+], function(require, declare, domClass, kernel, lang, ready, _FormWidget, _ButtonMixin, template){
 
 /*=====
 	var _FormWidget = dijit.form._FormWidget;
@@ -20,8 +21,8 @@ define([
 //		Button widget
 
 // Back compat w/1.6, remove for 2.0
-if(dojo && dojo.ready && !dojo.isAsync){
-	dojo.ready(0, function(){
+if(!kernel.isAsync){
+	ready(0, function(){
 		var requires = ["dijit/form/DropDownButton", "dijit/form/ComboButton", "dijit/form/ToggleButton"];
 		require(requires);	// use indirection so modules not rolled into a build
 	});
