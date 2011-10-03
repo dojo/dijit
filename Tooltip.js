@@ -17,7 +17,7 @@ define([
 	"dojo/text!./templates/Tooltip.html",
 	"."		// sets dijit.showTooltip etc. for back-compat
 ], function(array, declare, fx, dom, domClass, domGeometry, domStyle, lang, has, win,
-			manager, place, _Widget, _TemplatedMixin, BackgroundIframe, template){
+			manager, place, _Widget, _TemplatedMixin, BackgroundIframe, template, dijit){
 
 /*=====
 	var _Widget = dijit._Widget;
