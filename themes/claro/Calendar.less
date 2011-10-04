@@ -185,7 +185,7 @@
 /* End Normal Calendar Style */
 /* Hovered Calendar Style */
 .claro .dijitCalendarHoveredDate .dijitCalendarDateLabel,
-.claro .dijitCalendarDateTemplate:hover .dijitCalendarDateLabel {
+.claro .dijitCalendarEnabledDate:hover .dijitCalendarDateLabel {
 	background-color:@hovered-background-color;
 	border:solid 1px @hovered-border-color;
 	color:@hovered-text-color;
@@ -207,7 +207,7 @@
 	background-color:@calendar-button-pressed-background-color;
 }
 .claro .dijitCalendarActiveDate .dijitCalendarDateLabel,
-.claro .dijitCalendarDateTemplate:active .dijitCalendarDateLabel {
+.claro .dijitCalendarEnabledDate:active .dijitCalendarDateLabel {
 	background-image:url("images/calendarContainerImages.png");
 	background-position:0 -300px;
 	background-color: @calendar-date-pressed-background-color;
@@ -227,17 +227,8 @@
 /* End Selected Calendar Style */
 /* Disabled Calendar Style*/
 .claro .dijitCalendarDisabledDate .dijitCalendarDateLabel {
-	text-decoration:line-through;
-}
-
-.claro .dijitCalendarDisabledDate .dijitCalendarDateLabel,
-.claro .dijitCalendarDisabledDate:hover .dijitCalendarDateLabel,
-.claro .dijitCalendarDisabledDate:active .dijitCalendarDateLabel {
-	/* override hover effects above, hover and click on disabled date should have no effect */
-	background-color: transparent;
-	border-width: 0;
-	padding: 4px 6px 4px 5px;
 	color: @disabled-text-color;
+	text-decoration:line-through;
 }
 
 /* End Disabled Calendar Style */
