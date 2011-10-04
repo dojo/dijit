@@ -906,6 +906,14 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 				this.onKeyPress(e);
 			}
 		}
+		if(has("ff")){
+			if(e.keyCode === keys.PAGE_UP || e.keyCode === keys.PAGE_DOWN ){
+				if(this.editNode.clientHeight >= this.editNode.scrollHeight){
+					// Stop the event to prevent firefox from trapping the cursor when there is no scroll bar.
+					e.preventDefault();
+				}
+			}
+		}
 		return true;
 	},
 
