@@ -37,7 +37,7 @@
 .claro .dijitCalendar {
 	border:solid 1px @border-color;
 	background-color: @calendar-background-color;
-	background-image:url("images/calendarContainerImages.png");
+	background-image:url(@image-calendar-container);
 	background-position:0 -448px;
 	background-repeat:repeat-x;
 	text-align:center;
@@ -74,11 +74,11 @@
 .claro .dijitCalendarIncrementControl {
 	width:18px;
 	height:16px;
-	background-image: url("images/calendarArrows.png");
+	background-image: url(@image-calendar-arrows);
 	background-repeat: no-repeat;
 }
 .dj_ie6 .claro .dijitCalendarIncrementControl {
-	background-image: url("images/calendarArrows8bit.png");
+	background-image: url(@image-calendar-arrows-ie6);
 }
 .claro .dijitCalendarIncrease {
 	background-position:-18px 0;
@@ -120,7 +120,7 @@
 .claro .dijitCalendarDateTemplate {
 	text-align:center;
 	background-color:@calendar-currentmonth-background-color;
-	background-image:url("images/calendarContainerImages.png");
+	background-image:url(@image-calendar-container);
 	background-position:0 0;
 	background-repeat:repeat-x;
 	border-bottom: 1px solid @minor-border-color;
@@ -209,7 +209,7 @@
 }
 .claro .dijitCalendarActiveDate .dijitCalendarDateLabel,
 .claro .dijitCalendarEnabledDate:active .dijitCalendarDateLabel {
-	background-image:url("images/calendarContainerImages.png");
+	background-image:url(@image-calendar-container);
 	background-position:0 -300px;
 	background-color: @calendar-date-pressed-background-color;
 	border:solid 1px @calendar-date-pressed-border-color;
@@ -274,6 +274,6 @@
 	background-color: @hovered-background-color;
 	border-color: @hovered-border-color;
 	border-width:1px 0;
-	background-image: url("images/commonHighlight.png");
+	background-image: url(@image-common-highlight);
 	background-repeat:repeat-x;
 }
