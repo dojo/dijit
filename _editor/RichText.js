@@ -2578,7 +2578,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 							breaker.appendChild(sNode);
 							newContTag.appendChild(sNode);
 							win.withGlobal(this.window, lang.hitch(this, function(){
-								var newrange = rangeapi.create(dojo.gobal);// TODO: typo but still works??
+								var newrange = rangeapi.create();
 								newrange.setStart(sNode, 0);
 								newrange.setEnd(sNode, sNode.length);
 								selection.removeAllRanges();
@@ -2595,7 +2595,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 							breaker.appendChild(sNode);
 							domConstruct.place(breaker, newblock, "before");
 							win.withGlobal(this.window, lang.hitch(this, function(){
-								var newrange = rangeapi.create(dojo.gobal);// TODO: typo but still works??
+								var newrange = rangeapi.create();
 								newrange.setStart(sNode, 0);
 								newrange.setEnd(sNode, sNode.length);
 								selection.removeAllRanges();
@@ -2647,7 +2647,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 							domConstruct.place(endNode, breaker, "after");
 						}
 						domConstruct.destroy(rs);
-						var newrange = rangeapi.create(dojo.gobal);// TODO: typo but still works??
+						var newrange = rangeapi.create();
 						newrange.setStart(sNode, 0);
 						newrange.setEnd(sNode, sNode.length);
 						selection.removeAllRanges();
@@ -2712,7 +2712,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 							// sometimes throws errors.
 							domConstruct.create("br", null, list, "after");
 							// Okay, now lets move our cursor to the beginning.
-							var newrange = rangeapi.create(dojo.gobal);// TODO: typo but still works??
+							var newrange = rangeapi.create();
 							newrange.setStart(sc, 0);
 							newrange.setEnd(sc, sc.length);
 							selection.removeAllRanges();
@@ -2782,7 +2782,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 							domConstruct.place(endNode, breaker, "after");
 						}
 						domConstruct.destroy(rs);
-						var newrange = rangeapi.create(dojo.gobal);// TODO: typo but still works??
+						var newrange = rangeapi.create();
 						newrange.setStart(sNode, 0);
 						newrange.setEnd(sNode, sNode.length);
 						selection.removeAllRanges();
