@@ -1,8 +1,15 @@
 define([
-	"dojo",
-	"../..",
+	"dojo/_base/declare", // declare
+	"dojo/dom-style", // domStyle.getComputedStyle
+	"dojo/_base/kernel", // kernel.experimental
+	"dojo/_base/lang", // lang.hitch
 	"../_Plugin",
-	"../../form/ToggleButton"], function(dojo, dijit){
+	"../../form/ToggleButton"
+], function(declare, domStyle, kernel, lang, _Plugin, ToggleButton){
+
+/*=====
+	var _Plugin = dijit._editor._Plugin;
+=====*/
 
 	// module:
 	//		dijit/_editor/plugins/ToggleDir
@@ -11,9 +18,9 @@ define([
 	//		independent of what direction the whole page is.
 
 
-	dojo.experimental("dijit._editor.plugins.ToggleDir");
+	kernel.experimental("dijit._editor.plugins.ToggleDir");
 
-	dojo.declare("dijit._editor.plugins.ToggleDir", dijit._editor._Plugin, {
+	var ToggleDir = declare("dijit._editor.plugins.ToggleDir", _Plugin, {
 		// summary:
 		//		This plugin is used to toggle direction of the edited document,
 		//		independent of what direction the whole page is.
@@ -25,18 +32,18 @@ define([
 		command: "toggleDir",
 
 		// Override _Plugin.buttonClass to use a ToggleButton for this plugin rather than a vanilla Button
-		buttonClass: dijit.form.ToggleButton,
+		buttonClass: ToggleButton,
 
 		_initButton: function(){
 			// Override _Plugin._initButton() to setup handler for button click events.
 			this.inherited(arguments);
-			this.editor.onLoadDeferred.addCallback(dojo.hitch(this, function(){
+			this.editor.onLoadDeferred.addCallback(lang.hitch(this, function(){
 				var editDoc = this.editor.editorObject.contentWindow.document.documentElement;
 				//IE direction has to toggle on the body, not document itself.
 				//If you toggle just the document, things get very strange in the
 				//view.  But, the nice thing is this works for all supported browsers.
 				editDoc = editDoc.getElementsByTagName("body")[0];
-				var isLtr = dojo.getComputedStyle(editDoc).direction == "ltr";
+				var isLtr = domStyle.getComputedStyle(editDoc).direction == "ltr";
 				this.button.set("checked", !isLtr);
 				this.connect(this.button, "onChange", "_setRtl");
 			}));
@@ -62,14 +69,9 @@ define([
 	});
 
 	// Register this plugin.
-	dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
-		if(o.plugin){ return; }
-		switch(o.args.name){
-		case "toggleDir":
-			o.plugin = new dijit._editor.plugins.ToggleDir({command: o.args.name});
-		}
-	});
+	_Plugin.registry["toggleDir"] = function(){
+		return new ToggleDir({command: "toggleDir"});
+	};
 
-
-	return dijit._editor.plugins.ToggleDir;
+	return ToggleDir;
 });

@@ -1,29 +1,42 @@
 define([
-	"dojo",
-	"..",
+	"dojo/_base/declare", // declare
+	"dojo/dom-construct", // domConstruct.create
+	"dojo/dom-style", // domStyle.getComputedStyle
+	"dojo/_base/kernel", // kernel.deprecated
+	"dojo/_base/lang", // lang.hitch
+	"dojo/_base/sniff", // has("ie") has("mozilla")
+	"dojo/_base/window", // win.doc.selection.createRange
+	"./_FormValueWidget",
+	"./_TextBoxMixin",
 	"dojo/text!./templates/TextBox.html",
-	"./_FormWidget",
-	"./_TextBoxMixin"], function(dojo, dijit, template){
+	".."	// to export dijit._setSelectionRange, remove in 2.0
+], function(declare, domConstruct, domStyle, kernel, lang, has, win,
+			_FormValueWidget, _TextBoxMixin, template, dijit){
+
+/*=====
+	var _FormValueWidget = dijit.form._FormValueWidget;
+	var _TextBoxMixin = dijit.form._TextBoxMixin;
+=====*/
 
 	// module:
 	//		dijit/form/TextBox
 	// summary:
 	//		A base class for textbox form inputs
 
-	dojo.declare("dijit.form.TextBox", [dijit.form._FormValueWidget, dijit.form._TextBoxMixin], {
+	var TextBox = declare(/*====="dijit.form.TextBox", =====*/ [_FormValueWidget, _TextBoxMixin], {
 		// summary:
 		//		A base class for textbox form inputs
 
 		templateString: template,
-		_singleNodeTemplate: '<input class="dijit dijitReset dijitLeft dijitInputField" dojoAttachPoint="textbox,focusNode" autocomplete="off" type="${type}" ${!nameAttrSetting} />',
+		_singleNodeTemplate: '<input class="dijit dijitReset dijitLeft dijitInputField" data-dojo-attach-point="textbox,focusNode" autocomplete="off" type="${type}" ${!nameAttrSetting} />',
 
-		_buttonInputDisabled: dojo.isIE ? "disabled" : "", // allows IE to disallow focus, but Firefox cannot be disabled for mousedown events
+		_buttonInputDisabled: has("ie") ? "disabled" : "", // allows IE to disallow focus, but Firefox cannot be disabled for mousedown events
 
 		baseClass: "dijitTextBox",
 
 		postMixInProperties: function(){
 			var type = this.type.toLowerCase();
-			if(this.templateString && this.templateString.toLowerCase() == "input" || ((type == "hidden" || type == "file") && this.templateString == dijit.form.TextBox.prototype.templateString)){
+			if(this.templateString && this.templateString.toLowerCase() == "input" || ((type == "hidden" || type == "file") && this.templateString == this.constructor.prototype.templateString)){
 				this.templateString = this._singleNodeTemplate;
 			}
 			this.inherited(arguments);
@@ -45,7 +58,7 @@ define([
 				// dijitInputField class gives placeHolder same padding as the input field
 				// parent node already has dijitInputField class but it doesn't affect this <span>
 				// since it's position: absolute.
-				this._phspan = dojo.create('span',{className:'dijitPlaceHolder dijitInputField'},this.textbox,'after');
+				this._phspan = domConstruct.create('span',{className:'dijitPlaceHolder dijitInputField'},this.textbox,'after');
 			}
 			this._phspan.innerHTML="";
 			this._phspan.appendChild(document.createTextNode(v));
@@ -68,7 +81,7 @@ define([
 			//		Deprecated.  Use get('displayedValue') instead.
 			// tags:
 			//		deprecated
-			dojo.deprecated(this.declaredClass+"::getDisplayedValue() is deprecated. Use set('displayedValue') instead.", "", "2.0");
+			kernel.deprecated(this.declaredClass+"::getDisplayedValue() is deprecated. Use set('displayedValue') instead.", "", "2.0");
 			return this.get('displayedValue');
 		},
 
@@ -77,7 +90,7 @@ define([
 			//		Deprecated.  Use set('displayedValue', ...) instead.
 			// tags:
 			//		deprecated
-			dojo.deprecated(this.declaredClass+"::setDisplayedValue() is deprecated. Use set('displayedValue', ...) instead.", "", "2.0");
+			kernel.deprecated(this.declaredClass+"::setDisplayedValue() is deprecated. Use set('displayedValue', ...) instead.", "", "2.0");
 			this.set('displayedValue', value);
 		},
 
@@ -94,10 +107,12 @@ define([
 		}
 	});
 
-	if(dojo.isIE){
-		dijit.form.TextBox = dojo.declare(dijit.form.TextBox, {
+	if(has("ie")){
+		TextBox = declare(/*===== "dijit.form.TextBox.IEMixin", =====*/ TextBox, {
+			declaredClass: "dijit.form.TextBox",	// for user code referencing declaredClass
+
 			_isTextSelected: function(){
-				var range = dojo.doc.selection.createRange();
+				var range = win.doc.selection.createRange();
 				var parent = range.parentElement();
 				return parent == this.textbox && range.text.length == 0;
 			},
@@ -106,24 +121,28 @@ define([
 				this.inherited(arguments);
 				// IE INPUT tag fontFamily has to be set directly using STYLE
 				// the setTimeout gives IE a chance to render the TextBox and to deal with font inheritance
-				setTimeout(dojo.hitch(this, function(){
-					var s = dojo.getComputedStyle(this.domNode);
-					if(s){
-						var ff = s.fontFamily;
-						if(ff){
-							var inputs = this.domNode.getElementsByTagName("INPUT");
-							if(inputs){
-								for(var i=0; i < inputs.length; i++){
-									inputs[i].style.fontFamily = ff;
+				setTimeout(lang.hitch(this, function(){
+					try{
+						var s = domStyle.getComputedStyle(this.domNode); // can throw an exception if widget is immediately destroyed
+						if(s){
+							var ff = s.fontFamily;
+							if(ff){
+								var inputs = this.domNode.getElementsByTagName("INPUT");
+								if(inputs){
+									for(var i=0; i < inputs.length; i++){
+										inputs[i].style.fontFamily = ff;
+									}
 								}
 							}
 						}
-					}
+					}catch(e){/*when used in a Dialog, and this is called before the dialog is
+						shown, s.fontFamily would trigger "Invalid Argument" error.*/}
 				}), 0);
 			}
 		});
 
-		dijit._setSelectionRange = function(/*DomNode*/ element, /*Number?*/ start, /*Number?*/ stop){
+		// Overrides definition of _setSelectionRange from _TextBoxMixin (TODO: move to _TextBoxMixin.js?)
+		dijit._setSelectionRange = _TextBoxMixin._setSelectionRange = function(/*DomNode*/ element, /*Number?*/ start, /*Number?*/ stop){
 			if(element.createTextRange){
 				var r = element.createTextRange();
 				r.collapse(true);
@@ -133,10 +152,10 @@ define([
 				r.select();
 			}
 		}
-	}
+	}else if(has("mozilla")){
+		TextBox = declare(/*===== "dijit.form.TextBox.MozMixin", =====*/TextBox, {
+			declaredClass: "dijit.form.TextBox",	// for user code referencing declaredClass
 
-	if(dojo.isMoz){
-		dijit.form.TextBox = dojo.declare(dijit.form.TextBox, {
 			_onBlur: function(e){
 				this.inherited(arguments);
 				if(this.selectOnClick){
@@ -145,7 +164,10 @@ define([
 				}
 			}
 		});
+	}else{
+		TextBox.prototype.declaredClass = "dijit.form.TextBox";
 	}
+	lang.setObject("dijit.form.TextBox", TextBox);	// don't do direct assignment, it confuses API doc parser
 
-	return dijit.form.TextBox;
+	return TextBox;
 });

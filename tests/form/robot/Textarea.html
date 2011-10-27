@@ -10,13 +10,12 @@
 		</style>
 
 		<!-- required: dojo.js -->
-		<script type="text/javascript" src="../../../../dojo/dojo.js"
-			djConfig="isDebug: true, parseOnLoad: true"></script>
+		<script type="text/javascript" src="../../../../dojo/dojo.js"></script>
 
 		<script type="text/javascript">
 			dojo.require("dijit.robotx");
 
-			dojo.addOnLoad(function(){
+			dojo.ready(function(){
 				doh.robot.initRobot('../test_Textarea.html');
 
 				// execute some test as soon as the widget gets focus
@@ -207,6 +206,25 @@
 									doh.is(50, value1.length, "should have stopped at 50, value is " + value1);
 									doh.is(49, value2.length, "erased a char, value is " + value2);
 									doh.is(50, value3.length, "tried to type 2 chars but only 1 should fit, value is " + value3);
+								}), 500);
+							});
+
+							return d;
+						}
+					},
+					{
+						name: "#13166",
+						timeout: 5000,
+						runTest: function(){
+							var
+								d = new doh.Deferred(),
+								w = dijit.byId("programmatic");
+
+							focusThenRun(w, function(){
+								var h = parseInt(w.domNode.style.height);
+								doh.robot.keyPress(" ", 500, {});
+								doh.robot.sequence(d.getTestCallback(function(){
+									doh.t(parseInt(w.domNode.style.height) >= h, "height should not shrink");
 								}), 500);
 							});
 

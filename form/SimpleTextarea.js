@@ -1,4 +1,14 @@
-define(["dojo", "..", "./TextBox"], function(dojo, dijit){
+define([
+	"dojo/_base/declare", // declare
+	"dojo/dom-class", // domClass.add
+	"dojo/_base/sniff", // has("ie") has("opera")
+	"dojo/_base/window", // win.doc.selection win.doc.selection.createRange
+	"./TextBox"
+], function(declare, domClass, has, win, TextBox){
+
+/*=====
+	var TextBox = dijit.form.TextBox;
+=====*/
 
 // module:
 //		dijit/form/SimpleTextarea
@@ -7,14 +17,14 @@ define(["dojo", "..", "./TextBox"], function(dojo, dijit){
 // 		minimal LayoutContainer usage, and works with dijit.form.Form.
 //		Doesn't automatically size according to input, like Textarea.
 
-dojo.declare("dijit.form.SimpleTextarea", dijit.form.TextBox, {
+return declare("dijit.form.SimpleTextarea", TextBox, {
 	// summary:
 	//		A simple textarea that degrades, and responds to
 	// 		minimal LayoutContainer usage, and works with dijit.form.Form.
 	//		Doesn't automatically size according to input, like Textarea.
 	//
 	// example:
-	//	|	<textarea dojoType="dijit.form.SimpleTextarea" name="foo" value="bar" rows=30 cols=40></textarea>
+	//	|	<textarea data-dojo-type="dijit.form.SimpleTextarea" name="foo" value="bar" rows=30 cols=40></textarea>
 	//
 	// example:
 	//	|	new dijit.form.SimpleTextarea({ rows:20, cols:30 }, "foo");
@@ -29,7 +39,7 @@ dojo.declare("dijit.form.SimpleTextarea", dijit.form.TextBox, {
 	//		The number of characters per line.
 	cols: "20",
 
-	templateString: "<textarea ${!nameAttrSetting} dojoAttachPoint='focusNode,containerNode,textbox' autocomplete='off'></textarea>",
+	templateString: "<textarea ${!nameAttrSetting} data-dojo-attach-point='focusNode,containerNode,textbox' autocomplete='off'></textarea>",
 
 	postMixInProperties: function(){
 		// Copy value from srcNodeRef, unless user specified a value explicitly (or there is no srcNodeRef)
@@ -42,8 +52,8 @@ dojo.declare("dijit.form.SimpleTextarea", dijit.form.TextBox, {
 
 	buildRendering: function(){
 		this.inherited(arguments);
-		if(dojo.isIE && this.cols){ // attribute selectors is not supported in IE6
-			dojo.addClass(this.textbox, "dijitTextAreaCols");
+		if(has("ie") && this.cols){ // attribute selectors is not supported in IE6
+			domClass.add(this.textbox, "dijitTextAreaCols");
 		}
 	},
 
@@ -67,14 +77,14 @@ dojo.declare("dijit.form.SimpleTextarea", dijit.form.TextBox, {
 				if(textarea.selectionStart){
 					var pos = textarea.selectionStart;
 					var cr = 0;
-					if(dojo.isOpera){
+					if(has("opera")){
 						cr = (this.textbox.value.substring(0,pos).match(/\r/g) || []).length;
 					}
 					this.textbox.value = value.substring(0,pos-overflow-cr)+value.substring(pos-cr);
 					textarea.setSelectionRange(pos-overflow, pos-overflow);
-				}else if(dojo.doc.selection){ //IE
+				}else if(win.doc.selection){ //IE
 					textarea.focus();
-					var range = dojo.doc.selection.createRange();
+					var range = win.doc.selection.createRange();
 					// delete overflow characters
 					range.moveStart("character", -overflow);
 					range.text = '';
@@ -87,6 +97,4 @@ dojo.declare("dijit.form.SimpleTextarea", dijit.form.TextBox, {
 	}
 });
 
-
-return dijit.form.SimpleTextarea;
 });

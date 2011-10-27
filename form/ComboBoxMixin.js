@@ -1,25 +1,34 @@
 define([
-	"dojo",
-	"..",
-	"dojo/text!./templates/DropDownBox.html",
+	"dojo/_base/declare", // declare
+	"dojo/_base/Deferred",
+	"dojo/_base/kernel", // kernel.deprecated
+	"dojo/_base/lang", // lang.mixin
+	"dojo/store/util/QueryResults",	// dojo.store.util.QueryResults
 	"./_AutoCompleterMixin",
 	"./_ComboBoxMenu",
 	"../_HasDropDown",
-	"dojo/store/DataStore"], function(dojo, dijit, template){
+	"dojo/text!./templates/DropDownBox.html"
+], function(declare, Deferred, kernel, lang, QueryResults, _AutoCompleterMixin, _ComboBoxMenu, _HasDropDown, template){
+
+/*=====
+	var _AutoCompleterMixin = dijit.form._AutoCompleterMixin;
+	var _ComboBoxMenu = dijit.form._ComboBoxMenu;
+	var _HasDropDown = dijit._HasDropDown;
+=====*/
 
 	// module:
 	//		dijit/form/ComboBoxMixin
 	// summary:
 	//		Provides main functionality of ComboBox widget
 
-	dojo.declare("dijit.form.ComboBoxMixin", [dijit._HasDropDown, dijit.form._AutoCompleterMixin], {
+	return declare("dijit.form.ComboBoxMixin", [_HasDropDown, _AutoCompleterMixin], {
 		// summary:
 		//		Provides main functionality of ComboBox widget
 
-		// dropDownClass: [protected extension] String
-		//		Name of the dropdown widget class used to select a date/time.
+		// dropDownClass: [protected extension] Function String
+		//		Dropdown widget class used to select a date/time.
 		//		Subclasses should specify this.
-		dropDownClass: "dijit.form._ComboBoxMenu",
+		dropDownClass: _ComboBoxMenu,
 
 		// hasDownArrow: Boolean
 		//		Set this textbox to have a down arrow button, to display the drop down list.
@@ -56,26 +65,82 @@ define([
 			this.inherited(arguments);
 		},
 
-		postMixInProperties: function(){
-			// For backwards-compatibility, accept dojo.data store in addition to dojo.store.store.  Remove in 2.0
-			var labelAttr = (this.store && this.store._labelAttr) || "label";
-			if(this.store && !this.store.get){
-				this.store = new dojo.store.DataStore({store: this.store});
+		_setStoreAttr: function(store){
+			// For backwards-compatibility, accept dojo.data store in addition to dojo.store.store.  Remove in 2.0.
+			if(!store.get){
+				lang.mixin(store, {
+					_oldAPI: true,
+					get: function(id){
+						// summary:
+						//		Retrieves an object by it's identity. This will trigger a fetchItemByIdentity.
+						//		Like dojo.store.DataStore.get() except returns native item.
+						var deferred = new Deferred();
+						this.fetchItemByIdentity({
+							identity: id,
+							onItem: function(object){
+								deferred.resolve(object);
+							},
+							onError: function(error){
+								deferred.reject(error);
+							}
+						});
+						return deferred.promise;
+					},
+					query: function(query, options){
+						// summary:
+						//		Queries the store for objects.   Like dojo.store.DataStore.query()
+						//		except returned Deferred contains array of native items.
+						var deferred = new Deferred(function(){ fetchHandle.abort && fetchHandle.abort(); });
+						var fetchHandle = this.fetch(lang.mixin({
+							query: query,
+							onBegin: function(count){
+								deferred.total = count;
+							},
+							onComplete: function(results){
+								deferred.resolve(results);
+							},
+							onError: function(error){
+								deferred.reject(error);
+							}
+						}, options));
+						return QueryResults(deferred);
+					}
+				});
 			}
+			this._set("store", store);
+		},
+
+		postMixInProperties: function(){
+			// Since _setValueAttr() depends on this.store, _setStoreAttr() needs to execute first.
+			// Unfortunately, without special code, it ends up executing second.
+			if(this.params.store){
+				this._setStoreAttr(this.params.store);
+			}
+
 			this.inherited(arguments);
 
-			// Also, user may try to access this.store.getValue(), like in a custom labelFunc() function.
-			dojo.mixin(this.store, {
-				getValue: function(item, attr){
-					return item[attr];
-				},
-				getLabel: function(item){
-					return item[labelAttr];
-				}
-			});
-
+			// User may try to access this.store.getValue() etc.  in a custom labelFunc() function.
+			// It's not available with the new data store for handling inline <option> tags, so add it.
+			if(!this.params.store){
+				var clazz = this.declaredClass;
+				lang.mixin(this.store, {
+					getValue: function(item, attr){
+						kernel.deprecated(clazz + ".store.getValue(item, attr) is deprecated for builtin store.  Use item.attr directly", "", "2.0");
+						return item[attr];
+					},
+					getLabel: function(item){
+						kernel.deprecated(clazz + ".store.getLabel(item) is deprecated for builtin store.  Use item.label directly", "", "2.0");
+						return item.name;
+					},
+					fetch: function(args){
+						kernel.deprecated(clazz + ".store.fetch() is deprecated for builtin store.", "Use store.query()", "2.0");
+						var shim = ["dojo/data/ObjectStore"];	// indirection so it doesn't get rolled into a build
+						require(shim, lang.hitch(this, function(ObjectStore){
+							new ObjectStore({objectStore: this}).fetch(args);
+						}));
+					}
+				});
+			}
 		}
 	});
-
-	return dijit.form.ComboBoxMixin;
 });

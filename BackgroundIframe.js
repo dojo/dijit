@@ -1,4 +1,14 @@
-define(["dojo"], function(dojo){
+define([
+	"require",			// require.toUrl
+	".",	// to export dijit.BackgroundIframe
+	"dojo/_base/config",
+	"dojo/dom-construct", // domConstruct.create
+	"dojo/dom-style", // domStyle.set
+	"dojo/_base/lang", // lang.extend lang.hitch
+	"dojo/on",
+	"dojo/_base/sniff", // has("ie"), has("mozilla"), has("quirks")
+	"dojo/_base/window" // win.doc.createElement
+], function(require, dijit, config, domConstruct, domStyle, lang, on, has, win){
 
 	// module:
 	//		dijit/BackgroundIFrame
@@ -21,18 +31,18 @@ define(["dojo"], function(dojo){
 				iframe = queue.pop();
 				iframe.style.display="";
 			}else{
-				if(dojo.isIE < 9){
-					var burl = dojo.config["dojoBlankHtmlUrl"] || (dojo.moduleUrl("dojo", "resources/blank.html")+"") || "javascript:\"\"";
+				if(has("ie") < 9){
+					var burl = config["dojoBlankHtmlUrl"] || require.toUrl("dojo/resources/blank.html") || "javascript:\"\"";
 					var html="<iframe src='" + burl + "' role='presentation'"
 						+ " style='position: absolute; left: 0px; top: 0px;"
 						+ "z-index: -1; filter:Alpha(Opacity=\"0\");'>";
-					iframe = dojo.doc.createElement(html);
+					iframe = win.doc.createElement(html);
 				}else{
-					iframe = dojo.create("iframe");
+					iframe = domConstruct.create("iframe");
 					iframe.src = 'javascript:""';
 					iframe.className = "dijitBackgroundIframe";
 					iframe.setAttribute("role", "presentation");
-					dojo.style(iframe, "opacity", 0.1);
+					domStyle.set(iframe, "opacity", 0.1);
 				}
 				iframe.tabIndex = -1; // Magic to prevent iframe from getting focus on tab keypress - as style didn't work.
 			}
@@ -46,7 +56,7 @@ define(["dojo"], function(dojo){
 	}();
 
 
-	var BackgroundIframe = function(/*DomNode*/ node){
+	dijit.BackgroundIframe = function(/*DomNode*/ node){
 		// summary:
 		//		For IE/FF z-index schenanigans. id attribute is required.
 		//
@@ -56,16 +66,16 @@ define(["dojo"], function(dojo){
 		//			area (and position) of node
 
 		if(!node.id){ throw new Error("no id"); }
-		if(dojo.isIE || dojo.isMoz){
+		if(has("ie") || has("mozilla")){
 			var iframe = (this.iframe = _frames.pop());
 			node.appendChild(iframe);
-			if(dojo.isIE<7 || dojo.isQuirks){
+			if(has("ie")<7 || has("quirks")){
 				this.resize(node);
-				this._conn = dojo.connect(node, 'onresize', this, function(){
+				this._conn = on(node, 'resize', lang.hitch(this, function(){
 					this.resize(node);
-				});
+				}));
 			}else{
-				dojo.style(iframe, {
+				domStyle.set(iframe, {
 					width: '100%',
 					height: '100%'
 				});
@@ -73,13 +83,13 @@ define(["dojo"], function(dojo){
 		}
 	};
 
-	dojo.extend(BackgroundIframe, {
+	lang.extend(dijit.BackgroundIframe, {
 		resize: function(node){
 			// summary:
 			// 		Resize the iframe so it's the same size as node.
 			//		Needed on IE6 and IE/quirks because height:100% doesn't work right.
 			if(this.iframe){
-				dojo.style(this.iframe, {
+				domStyle.set(this.iframe, {
 					width: node.offsetWidth + 'px',
 					height: node.offsetHeight + 'px'
 				});
@@ -89,7 +99,7 @@ define(["dojo"], function(dojo){
 			// summary:
 			//		destroy the iframe
 			if(this._conn){
-				dojo.disconnect(this._conn);
+				this._conn.remove();
 				this._conn = null;
 			}
 			if(this.iframe){
@@ -99,5 +109,5 @@ define(["dojo"], function(dojo){
 		}
 	});
 
-	return BackgroundIframe;
+	return dijit.BackgroundIframe;
 });

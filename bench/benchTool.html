@@ -22,7 +22,7 @@
 		}
 
 		#resultsContainer {
-			padding-top: 0px;
+			padding-top: 0;
 		}
 
 		#results {  overflow:auto; min-height:100px; border:1px solid #ccc; color:darkred; padding:8px;  }
@@ -48,12 +48,12 @@
 		dojo.require("dojo.parser");
 
 		// setup global variables
-		var masterResults = { clientNavigator: navigator.userAgent, dataSet: [], errors: [] }
+		var masterResults = { clientNavigator: navigator.userAgent, dataSet: [], errors: [] };
 		var isRunning = false;
 		var theCount, theClass, runner = null;
 		var testCount = 0;
 
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 			theCount = dojo.byId('countNode');
 			runner = dojo.byId('runner');
 			masterResults.dojoVersion = dojo.version.toString();
@@ -64,7 +64,7 @@
 
 
 		function _toggleRunMsg(){
-			var newMsg = (isRunning) ? " Run Test " : " Running ..."
+			var newMsg = (isRunning) ? " Run Test " : " Running ...";
 			dojo.fx.chain([
 				dojo.fadeOut({
 					node:runner,
@@ -98,13 +98,14 @@
 				startTimer;
 			try{
 				dojo.require(/dojox\.mobile\.[A-Z]/.test(aclass) ? "dojox.mobile._base" : aclass);
-				dojo.addOnLoad(function(){
+				dojo.ready(function(){
+					var i;
 					switch(theMethod){
 						case "parse" :
 						case "fastparse" :
 							var tmpString = [];
 							var tag = /Button/.test(aclass) ? "button" : (/Text/.test(aclass) ? "input" : "div");
-							for(var i=0; i<count; i++){
+							for(i=0; i<count; i++){
 								tmpString.push(
 								'<', tag, ' ',
 								 (theMethod == 'fastparse' ? 'data-dojo-type="' : 'dojoType="'),
@@ -117,7 +118,7 @@
 						case "create" :
 							var construction = dojo.getObject(aclass);
 							startTimer = new Date().getTime();
-							for(var i=0; i<count; i++){
+							for(i=0; i<count; i++){
 								var tmp = new construction({});
 								tmpNode.appendChild(tmp.domNode);
 							}
@@ -163,8 +164,7 @@
 		}
 
 		function doDebug(){
-			var key = escape(dojo.toJson(masterResults));
-			dojo.byId('hiddenHolder').value = key;
+			dojo.byId('hiddenHolder').value = escape(dojo.toJson(masterResults));
 			return true;
 		}
 

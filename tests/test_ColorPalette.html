@@ -14,7 +14,7 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../dojo/dojo.js"
-		data-dojo-config="parseOnLoad: true, async:0, extraLocale: ['en-us', 'es-mx']"></script>
+		data-dojo-config="parseOnLoad: true, isDebug: true, async:0, extraLocale: ['en-us', 'es-mx']"></script>
 
 	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="_testCommon.js"></script>
@@ -36,12 +36,12 @@
 
 		var async= 0;
 		if(async){
-			require.ready(["dijit/dijit", "dijit/ColorPalette", "dojo/parser"], programatic);
+			require(["dijit/dijit", "dijit/ColorPalette", "dojo/parser", "dojo/domReady!"], programatic);
 		}else{
 			dojo.require("dijit.dijit"); // optimize: load dijit layer
 			dojo.require("dijit.ColorPalette");
 			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
-			dojo.addOnLoad(programatic);
+			dojo.ready(programatic);
 		}
 	</script>
 </head>
@@ -52,7 +52,7 @@
 
 	<p>Large color palette (7x10), English tooltips:</p>
 	<input id="beforeBig" value="for tabIndex testing"/>
-	<div id="big" data-dojo-type="dijit.ColorPalette" data-dojo-props='onChange:function(){ setColor(this.value); }, lang:"en-us"'></div>
+	<div id="big" data-dojo-type="dijit.ColorPalette" data-dojo-props='onChange:function(){ setColor(this.value); }, lang:"en-us", summary:"This is the palette summary"'></div>
 	Test color is: <span id="outputSpan"></span>.
 	<input id="afterBig" value="for tabIndex testing"/>
 
@@ -64,5 +64,9 @@
 	<p>Default color palette (7x10) created programatically:</p>
 	<div id="programPalette"></div>
 
+	<p>ColorPalette with value pre-selected, using old style parser parameters:</p>
+	<input id="beforeValuePreselected" value="for tabIndex testing"/>
+	<div id="valuePreselected" dojoType="dijit.ColorPalette" value="#0000ff"></div>
+	<input id="afterValuePreselected" value="for tabIndex testing"/>
 </body>
 </html>

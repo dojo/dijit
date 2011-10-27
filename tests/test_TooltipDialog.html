@@ -66,7 +66,7 @@
 		// make dojo.toJson() print dates correctly (this feels a bit dirty)
 		Date.prototype.json = function(){ return dojo.date.stamp.toISOString(this, {selector: 'date'});};
 
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 			// create a do nothing, only for test widget
 			dojo.declare("dijit.TestWidget",
 				[dijit._Widget, dijit._TemplatedMixin], {

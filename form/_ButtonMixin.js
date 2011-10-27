@@ -1,11 +1,16 @@
-define(["dojo", ".."], function(dojo, dijit){
+define([
+	"dojo/_base/declare", // declare
+	"dojo/dom", // dom.setSelectable
+	"dojo/_base/event", // event.stop
+	"../registry"		// registry.byNode
+], function(declare, dom, event, registry){
 
 // module:
 //		dijit/form/_ButtonMixin
 // summary:
 //		A mixin to add a thin standard API wrapper to a normal HTML button
 
-dojo.declare("dijit.form._ButtonMixin", null, {
+return declare("dijit.form._ButtonMixin", null, {
 	// summary:
 	//		A mixin to add a thin standard API wrapper to a normal HTML button
 	// description:
@@ -15,7 +20,7 @@ dojo.declare("dijit.form._ButtonMixin", null, {
 	//			valueNode (optional): this node's value gets submitted with FORM elements
 	//			containerNode (optional): this node gets the innerHTML assignment for label
 	// example:
-	// |	<button dojoType="dijit.form.Button" onClick="...">Hello world</button>
+	// |	<button data-dojo-type="dijit.form.Button" onClick="...">Hello world</button>
 	//
 	// example:
 	// |	var button1 = new dijit.form.Button({label: "hello world", onClick: foo});
@@ -33,13 +38,13 @@ dojo.declare("dijit.form._ButtonMixin", null, {
 		// summary:
 		//		Internal function to handle click actions
 		if(this.disabled){
-			dojo.stopEvent(e);
+			event.stop(e);
 			return false;
 		}
 		var preventDefault = this.onClick(e) === false; // user click actions
-		if(!preventDefault && this.type == "submit" && !(this.valueNode||this.focusNode).form){ // see if a nonform widget needs to be signalled
+		if(!preventDefault && this.type == "submit" && !(this.valueNode||this.focusNode).form){ // see if a non-form widget needs to be signalled
 			for(var node=this.domNode; node.parentNode; node=node.parentNode){
-				var widget=dijit.byNode(node);
+				var widget=registry.byNode(node);
 				if(widget && typeof widget._onSubmit == "function"){
 					widget._onSubmit(e);
 					preventDefault = true;
@@ -55,10 +60,10 @@ dojo.declare("dijit.form._ButtonMixin", null, {
 
 	postCreate: function(){
 		this.inherited(arguments);
-		dojo.setSelectable(this.focusNode, false);
+		dom.setSelectable(this.focusNode, false);
 	},
 
-	onClick: function(/*Event*/ e){
+	onClick: function(/*Event*/ /*===== e =====*/){
 		// summary:
 		//		Callback for when button is clicked.
 		//		If type="submit", return true to perform submit, or false to cancel it.
@@ -77,5 +82,4 @@ dojo.declare("dijit.form._ButtonMixin", null, {
 	}
 });
 
-return dijit.form._ButtonMixin;
 });

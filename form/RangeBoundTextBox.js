@@ -1,4 +1,12 @@
-define(["dojo", "..", "./MappedTextBox"], function(dojo, dijit){
+define([
+	"dojo/_base/declare", // declare
+	"dojo/i18n", // i18n.getLocalization
+	"./MappedTextBox"
+], function(declare, i18n, MappedTextBox){
+
+/*=====
+	var MappedTextBox = dijit.form.MappedTextBox;
+=====*/
 
 	// module:
 	//		dijit/form/RangeBoundTextBox
@@ -16,7 +24,7 @@ define(["dojo", "..", "./MappedTextBox"], function(dojo, dijit){
 		}
 	=====*/
 
-	dojo.declare("dijit.form.RangeBoundTextBox", dijit.form.MappedTextBox, {
+	return declare("dijit.form.RangeBoundTextBox", MappedTextBox, {
 		// summary:
 		//		Base class for textbox form widgets which defines a range of valid values.
 
@@ -38,7 +46,7 @@ define(["dojo", "..", "./MappedTextBox"], function(dojo, dijit){
 				("max" in constraints? (this.compare(primitive,constraints.max) <= 0) : true); // Boolean
 		},
 
-		isInRange: function(/*Boolean*/ isFocused){
+		isInRange: function(/*Boolean*/ /*===== isFocused =====*/){
 			// summary:
 			//		Tests if the value is in the min/max range specified in constraints
 			// tags:
@@ -92,7 +100,7 @@ define(["dojo", "..", "./MappedTextBox"], function(dojo, dijit){
 		postMixInProperties: function(){
 			this.inherited(arguments);
 			if(!this.rangeMessage){
-				this.messages = dojo.i18n.getLocalization("dijit.form", "validate", this.lang);
+				this.messages = i18n.getLocalization("dijit.form", "validate", this.lang);
 				this.rangeMessage = this.messages.rangeMessage;
 			}
 		},
@@ -101,14 +109,14 @@ define(["dojo", "..", "./MappedTextBox"], function(dojo, dijit){
 			this.inherited(arguments);
 			if(this.focusNode){ // not set when called from postMixInProperties
 				if(this.constraints.min !== undefined){
-					dijit.setWaiState(this.focusNode, "valuemin", this.constraints.min);
+					this.focusNode.setAttribute("aria-valuemin", this.constraints.min);
 				}else{
-					dijit.removeWaiState(this.focusNode, "valuemin");
+					this.focusNode.removeAttribute("aria-valuemin");
 				}
 				if(this.constraints.max !== undefined){
-					dijit.setWaiState(this.focusNode, "valuemax", this.constraints.max);
+					this.focusNode.setAttribute("aria-valuemax", this.constraints.max);
 				}else{
-					dijit.removeWaiState(this.focusNode, "valuemax");
+					this.focusNode.removeAttribute("aria-valuemax");
 				}
 			}
 		},
@@ -117,19 +125,19 @@ define(["dojo", "..", "./MappedTextBox"], function(dojo, dijit){
 			// summary:
 			//		Hook so set('value', ...) works.
 
-			dijit.setWaiState(this.focusNode, "valuenow", value);
+			this.focusNode.setAttribute("aria-valuenow", value);
 			this.inherited(arguments);
 		},
 
-		applyTextDir: function(/*Object*/ element, /*String*/ text){
+		applyTextDir: function(/*===== element, text =====*/){
 			// summary:
 			//		The function overridden in the _BidiSupport module,
 			//		originally used for setting element.dir according to this.textDir.
 			//		In this case does nothing.
-			//	tags:
+			// element: Object
+			// text: String
+			// tags:
 			//		protected.
 		}
 	});
-
-	return dijit.form.RangeBoundTextBox;
 });

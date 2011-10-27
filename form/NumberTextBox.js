@@ -1,8 +1,13 @@
 define([
-	"dojo",
-	"..",
-	"./RangeBoundTextBox",
-	"dojo/number"], function(dojo, dijit){
+	"dojo/_base/declare", // declare
+	"dojo/_base/lang", // lang.hitch lang.mixin
+	"dojo/number", // number._realNumberRegexp number.format number.parse number.regexp
+	"./RangeBoundTextBox"
+], function(declare, lang, number, RangeBoundTextBox){
+
+/*=====
+	var RangeBoundTextBox = dijit.form.RangeBoundTextBox;
+=====*/
 
 	// module:
 	//		dijit/form/NumberTextBox
@@ -11,9 +16,9 @@ define([
 
 
 	/*=====
-	dojo.declare(
+	declare(
 		"dijit.form.NumberTextBox.__Constraints",
-		[dijit.form.RangeBoundTextBox.__Constraints, dojo.number.__FormatOptions, dojo.number.__ParseOptions], {
+		[dijit.form.RangeBoundTextBox.__Constraints, number.__FormatOptions, number.__ParseOptions], {
 		// summary:
 		//		Specifies both the rules on valid/invalid values (minimum, maximum,
 		//		number of required decimal places), and also formatting options for
@@ -29,7 +34,7 @@ define([
 	});
 	=====*/
 
-	dojo.declare("dijit.form.NumberTextBoxMixin", null, {
+	var NumberTextBoxMixin = declare("dijit.form.NumberTextBoxMixin", null, {
 		// summary:
 		//		A mixin for all number textboxes
 		// tags:
@@ -37,7 +42,7 @@ define([
 
 		// Override ValidationTextBox.regExpGen().... we use a reg-ex generating function rather
 		// than a straight regexp to deal with locale (plus formatting options too?)
-		regExpGen: dojo.number.regexp,
+		regExpGen: number.regexp,
 
 		/*=====
 		// constraints: dijit.form.NumberTextBox.__Constraints
@@ -79,7 +84,12 @@ define([
 			return "12345";		// String
 		},
 		 =====*/
-		_formatter: dojo.number.format,
+		_formatter: number.format,
+
+		postMixInProperties: function(){
+			this.inherited(arguments);
+			this._set("type", "text"); // in case type="number" was specified which messes up parse/format
+		},
 
 		_setConstraintsAttr: function(/*Object*/ constraints){
 			var places = typeof constraints.places == "number"? constraints.places : 0;
@@ -122,7 +132,7 @@ define([
 				return formattedValue;
 			}
 			if(this.editOptions && this.focused){
-				constraints = dojo.mixin({}, constraints, this.editOptions);
+				constraints = lang.mixin({}, constraints, this.editOptions);
 			}
 			return this._formatter(value, constraints);
 		},
@@ -141,15 +151,15 @@ define([
 			return 123.45;		// Number
 		},
 		=====*/
-		_parser: dojo.number.parse,
+		_parser: number.parse,
 
-		parse: function(/*String*/ value, /*dojo.number.__FormatOptions*/ constraints){
+		parse: function(/*String*/ value, /*number.__FormatOptions*/ constraints){
 			// summary:
-			//		Replacable function to convert a formatted string to a number value
+			//		Replaceable function to convert a formatted string to a number value
 			// tags:
 			//		protected extension
 
-			var v = this._parser(value, dojo.mixin({}, constraints, (this.editOptions && this.focused) ? this.editOptions : {}));
+			var v = this._parser(value, lang.mixin({}, constraints, (this.editOptions && this.focused) ? this.editOptions : {}));
 			if(this.editOptions && this.focused && isNaN(v)){
 				v = this._parser(value, constraints); // parse w/o editOptions: not technically needed but is nice for the user
 			}
@@ -180,7 +190,7 @@ define([
 		},
 
 		_setBlurValue: function(){
-			var val = dojo.hitch(dojo.mixin({}, this, { focused: true }), "get")('value'); // parse with editOptions
+			var val = lang.hitch(lang.mixin({}, this, { focused: true }), "get")('value'); // parse with editOptions
 			this._setValueAttr(val, true);
 		},
 
@@ -191,11 +201,11 @@ define([
 				formattedValue = String(value);
 				if(typeof value == "number"){
 					if(isNaN(value)){ formattedValue = '' }
-					// check for exponential notation that dojo.number.format chokes on
+					// check for exponential notation that number.format chokes on
 					else if(("rangeCheck" in this && this.rangeCheck(value, this.constraints)) || this.constraints.exponent === false || !/\de[-+]?\d/i.test(formattedValue)){
-						formattedValue = undefined; // lets format comnpute a real string value
+						formattedValue = undefined; // lets format compute a real string value
 					}
-				}else if(!value){ // 0 processed in if branch above, ''|null|undefined flow thru here
+				}else if(!value){ // 0 processed in if branch above, ''|null|undefined flows through here
 					formattedValue = '';
 					value = NaN;
 				}else{ // non-numeric values
@@ -208,7 +218,7 @@ define([
 		_getValueAttr: function(){
 			// summary:
 			//		Hook so get('value') works.
-			//		Returns Number, NaN for '', or undefined for unparsable text
+			//		Returns Number, NaN for '', or undefined for unparseable text
 			var v = this.inherited(arguments); // returns Number for all values accepted by parse() or NaN for all other displayed values
 
 			// If the displayed value of the textbox is gibberish (ex: "hello world"), this.inherited() above
@@ -216,7 +226,7 @@ define([
 			// Returning undefined prevents user text from being overwritten when doing _setValueAttr(_getValueAttr()).
 			// A blank displayed value is still returned as NaN.
 			if(isNaN(v) && this.textbox.value !== ''){
-				if(this.constraints.exponent !== false && /\de[-+]?\d/i.test(this.textbox.value) && (new RegExp("^"+dojo.number._realNumberRegexp(dojo.mixin({}, this.constraints))+"$").test(this.textbox.value))){	// check for exponential notation that parse() rejected (erroneously?)
+				if(this.constraints.exponent !== false && /\de[-+]?\d/i.test(this.textbox.value) && (new RegExp("^"+number._realNumberRegexp(lang.mixin({}, this.constraints))+"$").test(this.textbox.value))){	// check for exponential notation that parse() rejected (erroneously?)
 					var n = Number(this.textbox.value);
 					return isNaN(n) ? undefined : n; // return exponential Number or undefined for random text (may not be possible to do with the above RegExp check)
 				}else{
@@ -229,7 +239,7 @@ define([
 
 		isValid: function(/*Boolean*/ isFocused){
 			// Overrides dijit.form.RangeBoundTextBox.isValid to check that the editing-mode value is valid since
-			// it may not be formatted according to the regExp vaidation rules
+			// it may not be formatted according to the regExp validation rules
 			if(!this.focused || this._isEmpty(this.textbox.value)){
 				return this.inherited(arguments);
 			}else{
@@ -246,8 +256,11 @@ define([
 			}
 		}
 	});
+/*=====
+	NumberTextBoxMixin = dijit.form.NumberTextBoxMixin;
+=====*/
 
-	dojo.declare("dijit.form.NumberTextBox", [dijit.form.RangeBoundTextBox,dijit.form.NumberTextBoxMixin], {
+	var NumberTextBox = declare("dijit.form.NumberTextBox", [RangeBoundTextBox,NumberTextBoxMixin], {
 		// summary:
 		//		A TextBox for entering numbers, with formatting and range checking
 		// description:
@@ -267,6 +280,7 @@ define([
 		baseClass: "dijitTextBox dijitNumberTextBox"
 	});
 
+	NumberTextBox.Mixin = NumberTextBoxMixin;	// for monkey patching
 
-	return dijit.form.NumberTextBox;
+	return NumberTextBox;
 });

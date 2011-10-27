@@ -1,8 +1,10 @@
 define([
-	"dojo",
-	"..",
+	"dojo/_base/array", // array.forEach
+	"dojo/_base/lang", // lang.isArray
+	"dojo/window", // windowUtils.getBox
 	"../place",
-	"dojo/window"], function(dojo, dijit, place){
+	".."	// export to dijit namespace
+], function(array, lang, windowUtils, place, dijit){
 
 	// module:
 	//		dijit/_base/place
@@ -12,9 +14,9 @@ define([
 	dijit.getViewport = function(){
 		// summary:
 		//		Deprecated method to return the dimensions and scroll position of the viewable area of a browser window.
-		//		New code should use dojo.window.getBox()
+		//		New code should use windowUtils.getBox()
 
-		return dojo.window.getBox();
+		return windowUtils.getBox();
 	};
 
 	/*=====
@@ -43,7 +45,7 @@ define([
 		//			{aroundCorner: "BR", corner: "TR" }
 		//		]
 		var positions;
-		if(dojo.isArray(aroundCorners)){
+		if(lang.isArray(aroundCorners)){
 			positions = aroundCorners;
 		}else{
 			positions = [];
@@ -100,7 +102,7 @@ define([
 		//		Whether the popup will be displaying in leftToRight mode.
 		//
 		var align = {};
-		dojo.forEach(position, function(pos){
+		array.forEach(position, function(pos){
 			var ltr = leftToRight;
 			switch(pos){
 				case "after":

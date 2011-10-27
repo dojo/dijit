@@ -1,6 +1,24 @@
-define(
-	["dojo", ".", "./place", "./BackgroundIframe"],
-	function(dojo, dijit, place, BackgroundIframe){
+define([
+	"dojo/_base/array", // array.forEach array.some
+	"dojo/aspect",
+	"dojo/_base/connect",	// connect._keypress
+	"dojo/_base/declare", // declare
+	"dojo/dom", // dom.isDescendant
+	"dojo/dom-attr", // domAttr.set
+	"dojo/dom-construct", // domConstruct.create domConstruct.destroy
+	"dojo/dom-geometry", // domGeometry.isBodyLtr
+	"dojo/dom-style", // domStyle.set
+	"dojo/_base/event", // event.stop
+	"dojo/keys",
+	"dojo/_base/lang", // lang.hitch
+	"dojo/on",
+	"dojo/_base/sniff", // has("ie") has("mozilla")
+	"dojo/_base/window", // win.body
+	"./place",
+	"./BackgroundIframe",
+	"."	// dijit (defining dijit.popup to match API doc)
+], function(array, aspect, connect, declare, dom, domAttr, domConstruct, domGeometry, domStyle, event, keys, lang, on, has, win,
+			place, BackgroundIframe, dijit){
 
 	// module:
 	//		dijit/popup
@@ -63,7 +81,65 @@ define(
 	}
 	=====*/
 
-	var PopupManager = dojo.declare(null, {
+	/*=====
+	dijit.popup = {
+		// summary:
+		//		Used to show drop downs (ex: the select list of a ComboBox)
+		//		or popups (ex: right-click context menus).
+		//
+		//		Access via require(["dijit/popup"], function(popup){ ... }).
+
+		moveOffScreen: function(widget){
+			// summary:
+			//		Moves the popup widget off-screen.
+			//		Do not use this method to hide popups when not in use, because
+			//		that will create an accessibility issue: the offscreen popup is
+			//		still in the tabbing order.
+			// widget: dijit._WidgetBase
+			//		The widget
+		},
+
+		hide: function(widget){
+			// summary:
+			//		Hide this popup widget (until it is ready to be shown).
+			//		Initialization for widgets that will be used as popups
+			//
+			// 		Also puts widget inside a wrapper DIV (if not already in one)
+			//
+			//		If popup widget needs to layout it should
+			//		do so when it is made visible, and popup._onShow() is called.
+			// widget: dijit._WidgetBase
+			//		The widget
+		},
+
+		open: function(args){
+			// summary:
+			//		Popup the widget at the specified position
+			// example:
+			//		opening at the mouse position
+			//		|		popup.open({popup: menuWidget, x: evt.pageX, y: evt.pageY});
+			// example:
+			//		opening the widget as a dropdown
+			//		|		popup.open({parent: this, popup: menuWidget, around: this.domNode, onClose: function(){...}});
+			//
+			//		Note that whatever widget called dijit.popup.open() should also listen to its own _onBlur callback
+			//		(fired from _base/focus.js) to know that focus has moved somewhere else and thus the popup should be closed.
+			// args: dijit.popup.__OpenArgs
+			//		Parameters
+			return {};	// Object specifying which position was chosen
+		},
+
+		close: function(popup){
+			// summary:
+			//		Close specified popup and any popups that it parented.
+			//		If no popup is specified, closes all popups.
+			// widget: dijit._WidgetBase?
+			//		The widget, optional
+		}
+	};
+	=====*/
+
+	var PopupManager = declare(null, {
 		// _stack: dijit._Widget[]
 		//		Stack of currently popped up widgets.
 		//		(someone opened _stack[0], and then it opened _stack[1], etc.)
@@ -89,11 +165,11 @@ define(
 				// Create wrapper <div> for when this widget [in the future] will be used as a popup.
 				// This is done early because of IE bugs where creating/moving DOM nodes causes focus
 				// to go wonky, see tests/robot/Toolbar.html to reproduce
-				wrapper = dojo.create("div",{
+				wrapper = domConstruct.create("div",{
 					"class":"dijitPopup",
 					style:{ display: "none"},
 					role: "presentation"
-				}, dojo.body());
+				}, win.body());
 				wrapper.appendChild(node);
 
 				var s = node.style;
@@ -103,8 +179,8 @@ define(
 				s.top = "0px";
 
 				widget._popupWrapper = wrapper;
-				dojo.connect(widget, "destroy", function(){
-					dojo.destroy(wrapper);
+				aspect.after(widget, "destroy", function(){
+					domConstruct.destroy(wrapper);
 					delete widget._popupWrapper;
 				});
 			}
@@ -122,7 +198,7 @@ define(
 			// Create wrapper if not already there
 			var wrapper = this._createWrapper(widget);
 
-			dojo.style(wrapper, {
+			domStyle.set(wrapper, {
 				visibility: "hidden",
 				top: "-9999px",		// prevent transient scrollbar causing misalign (#5776), and initial flash in upper left (#10111)
 				display: ""
@@ -142,7 +218,7 @@ define(
 			// Create wrapper if not already there
 			var wrapper = this._createWrapper(widget);
 
-			dojo.style(wrapper, "display", "none");
+			domStyle.set(wrapper, "display", "none");
 		},
 
 		getTopPopup: function(){
@@ -174,14 +250,14 @@ define(
 			var stack = this._stack,
 				widget = args.popup,
 				orient = args.orient || ["below", "below-alt", "above", "above-alt"],
-				ltr = args.parent ? args.parent.isLeftToRight() : dojo._isBodyLtr(),
+				ltr = args.parent ? args.parent.isLeftToRight() : domGeometry.isBodyLtr(),
 				around = args.around,
 				id = (args.around && args.around.id) ? (args.around.id+"_dropdown") : ("popup_"+this._idGen++);
 
 			// If we are opening a new popup that isn't a child of a currently opened popup, then
 			// close currently opened popup(s).   This should happen automatically when the old popups
 			// gets the _onBlur() event, except that the _onBlur() event isn't reliable on IE, see [22198].
-			while(stack.length && (!args.parent || !dojo.isDescendant(args.parent.domNode, stack[stack.length-1].widget.domNode))){
+			while(stack.length && (!args.parent || !dom.isDescendant(args.parent.domNode, stack[stack.length-1].widget.domNode))){
 				this.close(stack[stack.length-1].widget);
 			}
 
@@ -189,7 +265,7 @@ define(
 			var wrapper = this._createWrapper(widget);
 
 
-			dojo.attr(wrapper, {
+			domAttr.set(wrapper, {
 				id: id,
 				style: {
 					zIndex: this._beginZIndex + stack.length
@@ -198,7 +274,7 @@ define(
 				dijitPopupParent: args.parent ? args.parent.id : ""
 			});
 
-			if(dojo.isIE || dojo.isMoz){
+			if(has("ie") || has("mozilla")){
 				if(!widget.bgIframe){
 					// setting widget.bgIframe triggers cleanup in _Widget.destroy()
 					widget.bgIframe = new BackgroundIframe(wrapper);
@@ -207,7 +283,7 @@ define(
 
 			// position the wrapper node and make it visible
 			var best = around ?
-				place.around(wrapper, around, orient, ltr, widget.orient ? dojo.hitch(widget, "orient") : null) :
+				place.around(wrapper, around, orient, ltr, widget.orient ? lang.hitch(widget, "orient") : null) :
 				place.at(wrapper, args, orient == 'R' ? ['TR','BR','TL','BL'] : ['TL','BL','TR','BR'], args.padding);
 
 			wrapper.style.display = "";
@@ -218,31 +294,31 @@ define(
 
 			// provide default escape and tab key handling
 			// (this will work for any widget, not just menu)
-			handlers.push(dojo.connect(wrapper, "onkeypress", this, function(evt){
-				if(evt.charOrCode == dojo.keys.ESCAPE && args.onCancel){
-					dojo.stopEvent(evt);
+			handlers.push(on(wrapper, connect._keypress, lang.hitch(this, function(evt){
+				if(evt.charOrCode == keys.ESCAPE && args.onCancel){
+					event.stop(evt);
 					args.onCancel();
-				}else if(evt.charOrCode === dojo.keys.TAB){
-					dojo.stopEvent(evt);
+				}else if(evt.charOrCode === keys.TAB){
+					event.stop(evt);
 					var topPopup = this.getTopPopup();
 					if(topPopup && topPopup.onCancel){
 						topPopup.onCancel();
 					}
 				}
-			}));
+			})));
 
 			// watch for cancel/execute events on the popup and notify the caller
 			// (for a menu, "execute" means clicking an item)
-			if(widget.onCancel){
-				handlers.push(dojo.connect(widget, "onCancel", args.onCancel));
+			if(widget.onCancel && args.onCancel){
+				handlers.push(widget.on("cancel", args.onCancel));
 			}
 
-			handlers.push(dojo.connect(widget, widget.onExecute ? "onExecute" : "onChange", this, function(){
+			handlers.push(widget.on(widget.onExecute ? "execute" : "change", lang.hitch(this, function(){
 				var topPopup = this.getTopPopup();
 				if(topPopup && topPopup.onExecute){
 					topPopup.onExecute();
 				}
-			}));
+			})));
 
 			stack.push({
 				widget: widget,
@@ -273,7 +349,7 @@ define(
 			// a popup would cause others to close too.  Thus if we are trying to close B in [A,B,C]
 			// closing C might close B indirectly and then the while() condition will run where stack==[A]...
 			// so the while condition is constructed defensively.
-			while((popup && dojo.some(stack, function(elem){return elem.widget == popup;})) ||
+			while((popup && array.some(stack, function(elem){return elem.widget == popup;})) ||
 				(!popup && stack.length)){
 				var top = stack.pop(),
 					widget = top.widget,
@@ -283,7 +359,9 @@ define(
 					// TODO: in 2.0 standardize onHide() (used by StackContainer) and onClose() (used here)
 					widget.onClose();
 				}
-				dojo.forEach(top.handlers, dojo.disconnect);
+
+				var h;
+				while(h = top.handlers.pop()){ h.remove(); }
 
 				// Hide the widget and it's wrapper unless it has already been destroyed in above onClose() etc.
 				if(widget && widget.domNode){
@@ -297,5 +375,5 @@ define(
 		}
 	});
 
-	return new PopupManager();
+	return (dijit.popup = new PopupManager());
 });

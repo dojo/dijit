@@ -12,14 +12,13 @@
 		</style>
 
 		<!-- required: dojo.js -->
-		<script type="text/javascript" src="../../../../../dojo/dojo.js"
-			data-dojo-config="parseOnLoad: true, isDebug: true">
-		</script>		
+		<script type="text/javascript" src="../../../../../dojo/dojo.js">
+		</script>
 			
 		<script type="text/javascript">
 			dojo.require("dijit.robotx");
 
-			dojo.addOnLoad(function(){
+			dojo.ready(function(){
 				doh.robot.initRobot('../test_TextBoxes.html');
 				
 				// execute some test as soon as the widget gets focus

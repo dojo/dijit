@@ -1,4 +1,8 @@
-define(["dojo", "./_WidgetBase"], function(dojo, _WidgetBase){
+define(["./_WidgetBase"], function(_WidgetBase){
+
+/*=====
+	var _WidgetBase = dijit._WidgetBase;
+====*/
 
 	// module:
 	//		dijit/_BidiSupport
@@ -12,7 +16,7 @@ define(["dojo", "./_WidgetBase"], function(dojo, _WidgetBase){
 	//		In creation of widget, if it's want to activate this class,
 	//		the widget should define the "textDir".
 
-	dojo.extend(_WidgetBase, {
+	_WidgetBase.extend({
 
 		getTextDir: function(/*String*/ text){
 			// summary:

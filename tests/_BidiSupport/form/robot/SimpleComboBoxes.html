@@ -10,14 +10,13 @@
 		</style>
 
 		<!-- required: dojo.js -->
-		<script type="text/javascript" src="../../../../../dojo/dojo.js"
-			data-dojo-config="parseOnLoad: true, isDebug: true">
+		<script type="text/javascript" src="../../../../../dojo/dojo.js">
 		</script>
 			
 		<script type="text/javascript">
 			dojo.require("dijit.robotx");
 
-			dojo.addOnLoad(function(){
+			dojo.ready(function(){
 				var combo;
 
 				doh.robot.initRobot('../test_SimpleComboBoxes.html');
@@ -73,7 +72,7 @@
 					},	
 					{
 						name: "paste Hebrew in 'fruitLtr'",
-						timeout: 1200,
+						timeout: 3000,
 
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -141,7 +140,7 @@
 					},	
 					{
 						name: "paste Hebrew in 'fruitRtl'",
-						timeout: 1200,
+						timeout: 3000,
 
 						runTest: function(){
 							var d = new doh.Deferred();

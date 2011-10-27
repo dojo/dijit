@@ -1,4 +1,16 @@
-define(["dojo", "..", "../_WidgetBase", "./_LayoutWidget"], function(dojo, dijit){
+define([
+	"dojo/_base/kernel", // kernel.deprecated
+	"dojo/_base/lang",
+	"dojo/_base/declare", // declare
+	"../_WidgetBase",
+	"./_LayoutWidget",
+	"./utils"		// layoutUtils.layoutChildren
+], function(kernel, lang, declare, _WidgetBase, _LayoutWidget, layoutUtils){
+
+/*=====
+	var _WidgetBase = dijit._WidgetBase;
+	var _LayoutWidget = dijit.layout._LayoutWidget;
+=====*/
 
 // module:
 //		dijit/layout/LayoutContainer
@@ -6,7 +18,17 @@ define(["dojo", "..", "../_WidgetBase", "./_LayoutWidget"], function(dojo, dijit
 //		Deprecated.  Use `dijit.layout.BorderContainer` instead.
 
 
-dojo.declare("dijit.layout.LayoutContainer", dijit.layout._LayoutWidget, {
+// This argument can be specified for the children of a LayoutContainer.
+// Since any widget can be specified as a LayoutContainer child, mix it
+// into the base widget class.  (This is a hack, but it's effective.)
+lang.extend(_WidgetBase, {
+	// layoutAlign: String
+	//		"none", "left", "right", "bottom", "top", and "client".
+	//		See the LayoutContainer description for details on this parameter.
+	layoutAlign: 'none'
+});
+
+return declare("dijit.layout.LayoutContainer", _LayoutWidget, {
 	// summary:
 	//		Deprecated.  Use `dijit.layout.BorderContainer` instead.
 	//
@@ -29,10 +51,10 @@ dojo.declare("dijit.layout.LayoutContainer", dijit.layout._LayoutWidget, {
 	// |	<style>
 	// |		html, body{ height: 100%; width: 100%; }
 	// |	</style>
-	// |	<div dojoType="dijit.layout.LayoutContainer" style="width: 100%; height: 100%">
-	// |		<div dojoType="dijit.layout.ContentPane" layoutAlign="top">header text</div>
-	// |		<div dojoType="dijit.layout.ContentPane" layoutAlign="left" style="width: 200px;">table of contents</div>
-	// |		<div dojoType="dijit.layout.ContentPane" layoutAlign="client">client area</div>
+	// |	<div data-dojo-type="dijit.layout.LayoutContainer" style="width: 100%; height: 100%">
+	// |		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="layoutAlign: 'top'">header text</div>
+	// |		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="layoutAlign: 'left'" style="width: 200px;">table of contents</div>
+	// |		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="layoutAlign: 'client'">client area</div>
 	// |	</div>
 	//
 	//		Lays out each child in the natural order the children occur in.
@@ -44,38 +66,26 @@ dojo.declare("dijit.layout.LayoutContainer", dijit.layout._LayoutWidget, {
 	baseClass: "dijitLayoutContainer",
 
 	constructor: function(){
-		dojo.deprecated("dijit.layout.LayoutContainer is deprecated", "use BorderContainer instead", 2.0);
+		kernel.deprecated("dijit.layout.LayoutContainer is deprecated", "use BorderContainer instead", 2.0);
 	},
 
 	layout: function(){
-		dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren());
+		layoutUtils.layoutChildren(this.domNode, this._contentBox, this.getChildren());
 	},
 
 	addChild: function(/*dijit._Widget*/ child, /*Integer?*/ insertIndex){
 		this.inherited(arguments);
 		if(this._started){
-			dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren());
+			layoutUtils.layoutChildren(this.domNode, this._contentBox, this.getChildren());
 		}
 	},
 
 	removeChild: function(/*dijit._Widget*/ widget){
 		this.inherited(arguments);
 		if(this._started){
-			dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren());
+			layoutUtils.layoutChildren(this.domNode, this._contentBox, this.getChildren());
 		}
 	}
 });
 
-// This argument can be specified for the children of a LayoutContainer.
-// Since any widget can be specified as a LayoutContainer child, mix it
-// into the base widget class.  (This is a hack, but it's effective.)
-dojo.extend(dijit._WidgetBase, {
-	// layoutAlign: String
-	//		"none", "left", "right", "bottom", "top", and "client".
-	//		See the LayoutContainer description for details on this parameter.
-	layoutAlign: 'none'
-});
-
-
-return dijit.layout.LayoutContainer;
 });

@@ -1,4 +1,12 @@
-define(["dojo", "dojo/listen"], function(dojo, listen){
+define([
+	"dojo/on",
+	"dojo/_base/array", // array.forEach
+	"dojo/keys", // keys.ENTER keys.SPACE
+	"dojo/_base/declare", // declare
+	"dojo/_base/sniff", // has("ie")
+	"dojo/_base/unload", // unload.addOnWindowUnload
+	"dojo/_base/window" // win.doc.addEventListener win.doc.attachEvent win.doc.detachEvent
+], function(on, array, keys, declare, has, unload, win){
 
 	// module:
 	//		dijit/_OnDijitClickMixin
@@ -14,18 +22,18 @@ define(["dojo", "dojo/listen"], function(dojo, listen){
 	// 3. onclick handler fires and shifts focus to another node, with an ondijitclick handler
 	// 4. onkeyup event fires, causing the ondijitclick handler to fire
 	var lastKeyDownNode = null;
-	if(dojo.isIE){
+	if(has("ie")){
 		(function(){
 			var keydownCallback = function(evt){
 				lastKeyDownNode = evt.srcElement;
 			};
-			dojo.doc.attachEvent('onkeydown', keydownCallback);
-			dojo.addOnWindowUnload(function(){
-				dojo.doc.detachEvent('onkeydown', keydownCallback);
+			win.doc.attachEvent('onkeydown', keydownCallback);
+			unload.addOnWindowUnload(function(){
+				win.doc.detachEvent('onkeydown', keydownCallback);
 			});
 		})();
 	}else{
-		dojo.doc.addEventListener('keydown', function(evt){
+		win.doc.addEventListener('keydown', function(evt){
 			lastKeyDownNode = evt.target;
 		}, true);
 	}
@@ -34,9 +42,7 @@ define(["dojo", "dojo/listen"], function(dojo, listen){
 	var a11yclick = function(node, listener){
 		if(/input|button/i.test(node.nodeName)){
 			// pass through, the browser already generates click event on SPACE/ENTER key
-			return function(node, listener){
-				return listen(node, type, listener);
-			};
+			return on(node, "click", listener);
 		}else{
 			// Don't fire the click event unless both the keydown and keyup occur on this node.
 			// Avoids problems where focus shifted to this node or away from the node on keydown,
@@ -44,11 +50,11 @@ define(["dojo", "dojo/listen"], function(dojo, listen){
 			// to get a stray keyup event.
 
 			function clickKey(/*Event*/ e){
-				return (e.keyCode == dojo.keys.ENTER || e.keyCode == dojo.keys.SPACE) &&
+				return (e.keyCode == keys.ENTER || e.keyCode == keys.SPACE) &&
 						!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey;
 			}
 			var handles = [
-				listen(node, "keypress", function(e){
+				on(node, "keypress", function(e){
 					//console.log(this.id + ": onkeydown, e.target = ", e.target, ", lastKeyDownNode was ", lastKeyDownNode, ", equality is ", (e.target === lastKeyDownNode));
 					if(clickKey(e)){
 						// needed on IE for when focus changes between keydown and keyup - otherwise dropdown menus do not work
@@ -62,7 +68,7 @@ define(["dojo", "dojo/listen"], function(dojo, listen){
 					}
 				}),
 
-				listen(node, "keyup", function(e){
+				on(node, "keyup", function(e){
 					//console.log(this.id + ": onkeyup, e.target = ", e.target, ", lastKeyDownNode was ", lastKeyDownNode, ", equality is ", (e.target === lastKeyDownNode));
 					if(clickKey(e) && e.target == lastKeyDownNode){	// === breaks greasemonkey
 						//need reset here or have problems in FF when focus returns to trigger element after closing popup/alert
@@ -71,21 +77,21 @@ define(["dojo", "dojo/listen"], function(dojo, listen){
 					}
 				}),
 
-				listen(node, "click", function(e){
+				on(node, "click", function(e){
 					// and connect for mouse clicks too (or touch-clicks on mobile)
 					listener.call(this, e);
 				})
 			];
 
 			return {
-				cancel: function(){
-					dojo.forEach(handles, function(h){ h.cancel(); });
+				remove: function(){
+					array.forEach(handles, function(h){ h.remove(); });
 				}
 			};
 		}
 	};
 
-	dojo.declare("dijit._OnDijitClickMixin", null, {
+	return declare("dijit._OnDijitClickMixin", null, {
 		connect: function(
 				/*Object|null*/ obj,
 				/*String|Function*/ event,
@@ -94,7 +100,7 @@ define(["dojo", "dojo/listen"], function(dojo, listen){
 			//		Connects specified obj/event to specified method of this object
 			//		and registers for disconnect() on widget destroy.
 			// description:
-			//		Provide widget-specific analog to dojo.connect, except with the
+			//		Provide widget-specific analog to connect.connect, except with the
 			//		implicit use of this widget as the target object.
 			//		This version of connect also provides a special "ondijitclick"
 			//		event which triggers on a click or space or enter keyup.
@@ -116,6 +122,4 @@ define(["dojo", "dojo/listen"], function(dojo, listen){
 			return this.inherited(arguments, [obj, event == "ondijitclick" ? a11yclick : event, method]);
 		}
 	});
-
-	return dijit._OnDijitClickMixin;
 });

@@ -1,15 +1,21 @@
 define([
-	"dojo",
-	".",
-	"dojo/text!./templates/CheckedMenuItem.html", "./hccss",
-	"./MenuItem"], function(dojo, dijit, template){
+	"dojo/_base/declare", // declare
+	"dojo/dom-class", // domClass.toggle
+	"./MenuItem",
+	"dojo/text!./templates/CheckedMenuItem.html",
+	"./hccss"
+], function(declare, domClass, MenuItem, template){
+
+/*=====
+	var MenuItem = dijit.MenuItem;
+=====*/
 
 	// module:
 	//		dijit/CheckedMenuItem
 	// summary:
 	//		A checkbox-like menu item for toggling on and off
 
-	dojo.declare("dijit.CheckedMenuItem", dijit.MenuItem, {
+	return declare("dijit.CheckedMenuItem", MenuItem, {
 		// summary:
 		//		A checkbox-like menu item for toggling on and off
 
@@ -22,12 +28,14 @@ define([
 			// summary:
 			//		Hook so attr('checked', bool) works.
 			//		Sets the class and state for the check box.
-			dojo.toggleClass(this.domNode, "dijitCheckedMenuItemChecked", checked);
+			domClass.toggle(this.domNode, "dijitCheckedMenuItemChecked", checked);
 			this.domNode.setAttribute("aria-checked", checked);
 			this._set("checked", checked);
 		},
 
-		onChange: function(/*Boolean*/ checked){
+		iconClass: "",	// override dijitNoIcon
+
+		onChange: function(/*Boolean*/ /*===== checked =====*/){
 			// summary:
 			//		User defined function to handle check/uncheck events
 			// tags:
@@ -46,6 +54,4 @@ define([
 			this.inherited(arguments);
 		}
 	});
-
-	return dijit.CheckedMenuItem;
 });

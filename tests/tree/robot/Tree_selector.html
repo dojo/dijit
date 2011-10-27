@@ -9,8 +9,7 @@
 		</style>
 
 		<!-- required: dojo.js -->
-		<script type="text/javascript" src="../../../../dojo/dojo.js"
-			djConfig="isDebug: true, parseOnLoad: true"></script>
+		<script type="text/javascript" src="../../../../dojo/dojo.js"></script>
 
 		<!-- functions to help test -->
 		<script type="text/javascript" src="../../helpers.js"></script>
@@ -64,16 +63,15 @@
 				if(diff != 0){
 					if(diff > 0){
 						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500);
-					} else {
+					}else{
 						doh.robot.keyPress(dojo.keys.UP_ARROW, 500);
 					}
-				} else {
+				}else{
 					pressEnter(modifiers);
 					doh.robot.sequence(k);
 					return;
 				}
 				doh.robot.sequence(function(){ keyboardSelect(tree, item, modifiers, k); }, 500);
-				return;
             }
 			
 			function getSelected(tree){
@@ -121,7 +119,7 @@
 				// select fruit item
 				selector(tree, fruitsTreeNode, [], function(){
 					doh.robot.sequence(function(){
-						dijit.scrollIntoView("itemTree");
+						dojo.window.scrollIntoView("itemTree");
 					}, 500);
 					
 					// ctrl-click Cereals item
@@ -184,7 +182,7 @@
 					return d;
 				};
 			}
-			dojo.addOnLoad(function(){
+			dojo.ready(function(){
 				var controller = '', ind=window.location.href.indexOf("?controller=");
 				
 				if(ind > -1){

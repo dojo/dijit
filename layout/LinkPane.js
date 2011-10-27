@@ -1,8 +1,13 @@
 define([
-	"dojo",
-	"..",
 	"./ContentPane",
-	"../_TemplatedMixin"], function(dojo, dijit){
+	"../_TemplatedMixin",
+	"dojo/_base/declare" // declare
+], function(ContentPane, _TemplatedMixin, declare){
+
+/*=====
+	var _TemplatedMixin = dijit._TemplatedMixin;
+	var ContentPane = dijit.layout.ContentPane;
+=====*/
 
 	// module:
 	//		dijit/layout/LinkPane
@@ -11,7 +16,7 @@ define([
 	//		the title is specified as innerHTML rather than as a title attribute.
 
 
-	dojo.declare("dijit.layout.LinkPane", [dijit.layout.ContentPane, dijit._TemplatedMixin], {
+	return declare("dijit.layout.LinkPane", [ContentPane, _TemplatedMixin], {
 		// summary:
 		//		A ContentPane with an href where (when declared in markup)
 		//		the title is specified as innerHTML rather than as a title attribute.
@@ -25,7 +30,7 @@ define([
 		// I'm using a template because the user may specify the input as
 		// <a href="foo.html">title</a>, in which case we need to get rid of the
 		// <a> because we don't want a link.
-		templateString: '<div class="dijitLinkPane" dojoAttachPoint="containerNode"></div>',
+		templateString: '<div class="dijitLinkPane" data-dojo-attach-point="containerNode"></div>',
 
 		postMixInProperties: function(){
 			// If user has specified node contents, they become the title
@@ -36,7 +41,7 @@ define([
 			this.inherited(arguments);
 		},
 
-		_fillContent: function(/*DomNode*/ source){
+		_fillContent: function(){
 			// Overrides _Templated._fillContent().
 
 			// _Templated._fillContent() relocates srcNodeRef innerHTML to templated container node,
@@ -44,7 +49,4 @@ define([
 			// copied
 		}
 	});
-
-
-	return dijit.layout.LinkPane;
 });

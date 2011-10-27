@@ -1,47 +1,105 @@
 define([
-	"dojo",
-	".",
-	"dojo/listen",
 	"dojo/aspect",
+	"dojo/_base/declare", // declare
+	"dojo/dom", // domAttr.get dom.isDescendant
+	"dojo/dom-attr", // domAttr.get dom.isDescendant
+	"dojo/dom-construct", // connect to domConstruct.empty, domConstruct.destroy
+	"dojo/Evented",
+	"dojo/_base/lang", // lang.hitch
+	"dojo/on",
+	"dojo/ready",
+	"dojo/_base/sniff", // has("ie")
 	"dojo/Stateful",
-	"dojo/window",
-	"./_base/manager"], function(dojo, dijit, listen, aspect){
+	"dojo/_base/unload", // unload.addOnWindowUnload
+	"dojo/_base/window", // win.body
+	"dojo/window", // winUtils.get
+	"./a11y",	// a11y.isTabNavigable
+	"./registry",	// registry.byId
+	"."		// to set dijit.focus
+], function(aspect, declare, dom, domAttr, domConstruct, Evented, lang, on, ready, has, Stateful, unload, win, winUtils,
+			a11y, registry, dijit){
 
 	// module:
 	//		dijit/focus
 	// summary:
 	//		Returns a singleton that tracks the currently focused node, and which widgets are currently "active".
-	//
-	//		A widget is considered active if it or a descendant widget has focus,
-	//		or if a non-focusable node of this widget or a descendant was recently clicked.
-	//
-	//		Call focus.watch("curNode", callback) to track the current focused DOMNode,
-	//		or focus.watch("activeStack", callback) to track the currently focused stack of widgets.
-	//
-	//		Call focus.on("widget-blur", func) or focus.on("widget-focus", ...) to monitor when
-	//		when widgets become active/inactive
 
-	var FocusManager = dojo.declare([dojo.Stateful, listen.Evented], {
+/*=====
+	dijit.focus = {
+		// summary:
+		//		Tracks the currently focused node, and which widgets are currently "active".
+		//		Access via require(["dijit/focus"], function(focus){ ... }).
+		//
+		//		A widget is considered active if it or a descendant widget has focus,
+		//		or if a non-focusable node of this widget or a descendant was recently clicked.
+		//
+		//		Call focus.watch("curNode", callback) to track the current focused DOMNode,
+		//		or focus.watch("activeStack", callback) to track the currently focused stack of widgets.
+		//
+		//		Call focus.on("widget-blur", func) or focus.on("widget-focus", ...) to monitor when
+		//		when widgets become active/inactive
+		//
+		//		Finally, focus(node) will focus a node, suppressing errors if the node doesn't exist.
+
 		// curNode: DomNode
 		//		Currently focused item on screen
 		curNode: null,
-	
+
+		// activeStack: dijit._Widget[]
+		//		List of currently active widgets (focused widget and it's ancestors)
+		activeStack: [],
+
+		registerIframe: function(iframe){
+			// summary:
+			//		Registers listeners on the specified iframe so that any click
+			//		or focus event on that iframe (or anything in it) is reported
+			//		as a focus/click event on the <iframe> itself.
+			// description:
+			//		Currently only used by editor.
+			// returns:
+			//		Handle with remove() method to deregister.
+		},
+
+		registerWin: function(targetWindow, effectiveNode){
+			// summary:
+			//		Registers listeners on the specified window (either the main
+			//		window or an iframe's window) to detect when the user has clicked somewhere
+			//		or focused somewhere.
+			// description:
+			//		Users should call registerIframe() instead of this method.
+			// targetWindow: Window?
+			//		If specified this is the window associated with the iframe,
+			//		i.e. iframe.contentWindow.
+			// effectiveNode: DOMNode?
+			//		If specified, report any focus events inside targetWindow as
+			//		an event on effectiveNode, rather than on evt.target.
+			// returns:
+			//		Handle with remove() method to deregister.
+		}
+	};
+=====*/
+
+	var FocusManager = declare([Stateful, Evented], {
+		// curNode: DomNode
+		//		Currently focused item on screen
+		curNode: null,
+
 		// activeStack: dijit._Widget[]
 		//		List of currently active widgets (focused widget and it's ancestors)
 		activeStack: [],
 
 		constructor: function(){
 			// Don't leave curNode/prevNode pointing to bogus elements
-			var check = dojo.hitch(this, function(node){
-				if(dojo.isDescendant(this.curNode, node)){
+			var check = lang.hitch(this, function(node){
+				if(dom.isDescendant(this.curNode, node)){
 					this.set("curNode", null);
 				}
-				if(dojo.isDescendant(this.prevNode, node)){
+				if(dom.isDescendant(this.prevNode, node)){
 					this.set("prevNode", null);
 				}
 			});
-			aspect.before(dojo, "empty", check);
-			aspect.before(dojo, "destroy", check);
+			aspect.before(domConstruct, "empty", check);
+			aspect.before(domConstruct, "destroy", check);
 		},
 
 		registerIframe: function(/*DomNode*/ iframe){
@@ -52,18 +110,8 @@ define([
 			// description:
 			//		Currently only used by editor.
 			// returns:
-			//		Handle to pass to unregisterIframe()
+			//		Handle with remove() method to deregister.
 			return this.registerWin(iframe.contentWindow, iframe);
-		},
-
-		unregisterIframe: function(/*Object*/ handle){
-			// summary:
-			//		Unregisters listeners on the specified iframe created by registerIframe.
-			//		After calling be sure to delete or null out the handle itself.
-			// handle:
-			//		Handle returned by registerIframe()
-
-			this.unregisterWin(handle);
 		},
 
 		registerWin: function(/*Window?*/targetWindow, /*DomNode?*/ effectiveNode){
@@ -80,7 +128,7 @@ define([
 			//		If specified, report any focus events inside targetWindow as
 			//		an event on effectiveNode, rather than on evt.target.
 			// returns:
-			//		Handle to pass to unregisterWin()
+			//		Handle with remove() method to deregister.
 
 			// TODO: make this function private in 2.0; Editor/users should call registerIframe(),
 
@@ -91,7 +139,7 @@ define([
 
 				// workaround weird IE bug where the click is on an orphaned node
 				// (first time clicking a Select/DropDownButton inside a TooltipDialog)
-				if(dojo.isIE && evt && evt.srcElement && evt.srcElement.parentNode == null){
+				if(has("ie") && evt && evt.srcElement && evt.srcElement.parentNode == null){
 					return;
 				}
 
@@ -104,15 +152,20 @@ define([
 			// fire.
 			// Connect to <html> (rather than document) on IE to avoid memory leaks, but document on other browsers because
 			// (at least for FF) the focus event doesn't fire on <html> or <body>.
-			var doc = dojo.isIE ? targetWindow.document.documentElement : targetWindow.document;
+			var doc = has("ie") ? targetWindow.document.documentElement : targetWindow.document;
 			if(doc){
-				if(dojo.isIE){
+				if(has("ie")){
 					targetWindow.document.body.attachEvent('onmousedown', mousedownListener);
 					var activateListener = function(evt){
 						// IE reports that nodes like <body> have gotten focus, even though they have tabIndex=-1,
-						// Should consider those more like a mouse-click than a focus....
-						if(evt.srcElement.tagName.toLowerCase() != "#document" &&
-							dijit.isTabNavigable(evt.srcElement)){
+						// ignore those events
+						var tag = evt.srcElement.tagName.toLowerCase();
+						if(tag == "#document" || tag == "body"){ return; }
+
+						// Previous code called _onTouchNode() for any activate event on a non-focusable node.   Can
+						// probably just ignore such an event as it will be handled by onmousedown handler above, but
+						// leaving the code for now.
+						if(a11y.isTabNavigable(evt.srcElement)){
 							_this._onFocusNode(effectiveNode || evt.srcElement);
 						}else{
 							_this._onTouchNode(effectiveNode || evt.srcElement);
@@ -124,14 +177,17 @@ define([
 					};
 					doc.attachEvent('ondeactivate', deactivateListener);
 
-					return function(){
-						targetWindow.document.detachEvent('onmousedown', mousedownListener);
-						doc.detachEvent('onactivate', activateListener);
-						doc.detachEvent('ondeactivate', deactivateListener);
-						doc = null;	// prevent memory leak (apparent circular reference via closure)
+					return {
+						remove: function(){
+							targetWindow.document.detachEvent('onmousedown', mousedownListener);
+							doc.detachEvent('onactivate', activateListener);
+							doc.detachEvent('ondeactivate', deactivateListener);
+							doc = null;	// prevent memory leak (apparent circular reference via closure)
+						}
 					};
 				}else{
 					doc.body.addEventListener('mousedown', mousedownListener, true);
+					doc.body.addEventListener('touchstart', mousedownListener, true);
 					var focusListener = function(evt){
 						_this._onFocusNode(effectiveNode || evt.target);
 					};
@@ -141,30 +197,23 @@ define([
 					};
 					doc.addEventListener('blur', blurListener, true);
 
-					return function(){
-						doc.body.removeEventListener('mousedown', mousedownListener, true);
-						doc.removeEventListener('focus', focusListener, true);
-						doc.removeEventListener('blur', blurListener, true);
-						doc = null;	// prevent memory leak (apparent circular reference via closure)
+					return {
+						remove: function(){
+							doc.body.removeEventListener('mousedown', mousedownListener, true);
+							doc.body.removeEventListener('touchstart', mousedownListener, true);
+							doc.removeEventListener('focus', focusListener, true);
+							doc.removeEventListener('blur', blurListener, true);
+							doc = null;	// prevent memory leak (apparent circular reference via closure)
+						}
 					};
 				}
 			}
 		},
 
-		unregisterWin: function(/*Handle*/ handle){
-			// summary:
-			//		Unregisters listeners on the specified window (either the main
-			//		window or an iframe's window) according to handle returned from registerWin().
-			//		After calling be sure to delete or null out the handle itself.
-
-			// Currently our handle is actually a function
-			handle && handle();
-		},
-
-		_onBlurNode: function(/*DomNode*/ node){
+		_onBlurNode: function(/*DomNode*/ /*===== node =====*/){
 			// summary:
 			// 		Called when focus leaves a node.
-			//		Usually ignored, _unless_ it *isn't* follwed by touching another node,
+			//		Usually ignored, _unless_ it *isn't* followed by touching another node,
 			//		which indicates that we tabbed off the last field on the page,
 			//		in which case every widget is marked inactive
 			this.set("prevNode", this.curNode);
@@ -180,7 +229,7 @@ define([
 			if(this._clearActiveWidgetsTimer){
 				clearTimeout(this._clearActiveWidgetsTimer);
 			}
-			this._clearActiveWidgetsTimer = setTimeout(dojo.hitch(this, function(){
+			this._clearActiveWidgetsTimer = setTimeout(lang.hitch(this, function(){
 				delete this._clearActiveWidgetsTimer;
 				this._setStack([]);
 				this.prevNode = null;
@@ -205,24 +254,24 @@ define([
 			var newStack=[];
 			try{
 				while(node){
-					var popupParent = dojo.attr(node, "dijitPopupParent");
+					var popupParent = domAttr.get(node, "dijitPopupParent");
 					if(popupParent){
-						node=dijit.byId(popupParent).domNode;
+						node=registry.byId(popupParent).domNode;
 					}else if(node.tagName && node.tagName.toLowerCase() == "body"){
 						// is this the root of the document or just the root of an iframe?
-						if(node === dojo.body()){
+						if(node === win.body()){
 							// node is the root of the main document
 							break;
 						}
 						// otherwise, find the iframe this node refers to (can't access it via parentNode,
 						// need to do this trick instead). window.frameElement is supported in IE/FF/Webkit
-						node=dojo.window.get(node.ownerDocument).frameElement;
+						node=winUtils.get(node.ownerDocument).frameElement;
 					}else{
 						// if this node is the root node of a widget, then add widget id to stack,
 						// except ignore clicks on disabled widgets (actually focusing a disabled widget still works,
 						// to support MenuItem)
 						var id = node.getAttribute && node.getAttribute("widgetId"),
-							widget = id && dijit.byId(id);
+							widget = id && registry.byId(id);
 						if(widget && !(by == "mouse" && widget.get("disabled"))){
 							newStack.unshift(id);
 						}
@@ -276,7 +325,7 @@ define([
 			var widget;
 			// for all elements that have gone out of focus, set focused=false
 			for(var i=oldStack.length-1; i>=nCommon; i--){
-				widget = dijit.byId(oldStack[i]);
+				widget = registry.byId(oldStack[i]);
 				if(widget){
 					widget._hasBeenBlurred = true;		// TODO: used by form widgets, should be moved there
 					widget.set("focused", false);
@@ -289,7 +338,7 @@ define([
 
 			// for all element that have come into focus, set focused=true
 			for(i=nCommon; i<newStack.length; i++){
-				widget = dijit.byId(newStack[i]);
+				widget = registry.byId(newStack[i]);
 				if(widget){
 					widget.set("focused", true);
 					if(widget._focusManager == this){
@@ -298,20 +347,42 @@ define([
 					this.emit("widget-focus", widget, by);
 				}
 			}
+		},
+
+		focus: function(node){
+			// summary:
+			//		Focus the specified node, suppressing errors if they occur
+			if(node){
+				try{ node.focus(); }catch(e){/*quiet*/}
+			}
 		}
 	});
 
 	var singleton = new FocusManager();
 
 	// register top window and all the iframes it contains
-	dojo.addOnLoad(function(){
-		var handle = singleton.registerWin(window);
-		if(dojo.isIE){
-			dojo.addOnWindowUnload(function(){
-				singleton.unregisterWin(handle);
+	ready(function(){
+		var handle = singleton.registerWin(win.doc.parentWindow || win.doc.defaultView);
+		if(has("ie")){
+			unload.addOnWindowUnload(function(){
+				handle.remove();
 				handle = null;
 			})
 		}
+	});
+
+	// Setup dijit.focus as a pointer to the singleton but also (for backwards compatibility)
+	// as a function to set focus.
+	dijit.focus = function(node){
+		singleton.focus(node);	// indirection here allows dijit/_base/focus.js to override behavior
+	};
+	for(var attr in singleton){
+		if(!/^_/.test(attr)){
+			dijit.focus[attr] = typeof singleton[attr] == "function" ? lang.hitch(singleton, attr) : singleton[attr];
+		}
+	}
+	singleton.watch(function(attr, oldVal, newVal){
+		dijit.focus[attr] = newVal;
 	});
 
 	return singleton;

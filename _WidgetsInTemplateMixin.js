@@ -1,11 +1,16 @@
-define(["dojo", ".", "dojo/parser"], function(dojo, dijit){
+define([
+	"dojo/_base/array", // array.forEach
+	"dojo/_base/declare", // declare
+	"dojo/parser", // parser.parse
+	"dijit/registry"	// registry.findWidgets
+], function(array, declare, parser, registry){
 
 	// module:
 	//		dijit/_WidgetsInTemplateMixin
 	// summary:
 	//		Mixin to supplement _TemplatedMixin when template contains widgets
 
-	dojo.declare("dijit._WidgetsInTemplateMixin", null, {
+	return declare("dijit._WidgetsInTemplateMixin", null, {
 		// summary:
 		//		Mixin to supplement _TemplatedMixin when template contains widgets
 
@@ -28,7 +33,7 @@ define(["dojo", ".", "dojo/parser"], function(dojo, dijit){
 				// Before copying over content, instantiate widgets in template
 				var node = this.domNode;
 
-				var cw = (this._startupWidgets = dojo.parser.parse(node, {
+				var cw = (this._startupWidgets = parser.parse(node, {
 					noStart: !this._earlyTemplatedStartup,
 					template: true,
 					inherited: {dir: this.dir, lang: this.lang, textDir: this.textDir},
@@ -36,7 +41,7 @@ define(["dojo", ".", "dojo/parser"], function(dojo, dijit){
 					scope: "dojo"	// even in multi-version mode templates use dojoType/data-dojo-type
 				}));
 
-				this._supportingWidgets = dijit.findWidgets(node);
+				this._supportingWidgets = registry.findWidgets(node);
 
 				this._attachTemplateNodes(cw, function(n,p){
 					return n[p];
@@ -45,7 +50,7 @@ define(["dojo", ".", "dojo/parser"], function(dojo, dijit){
 		},
 
 		startup: function(){
-			dojo.forEach(this._startupWidgets, function(w){
+			array.forEach(this._startupWidgets, function(w){
 				if(w && !w._started && w.startup){
 					w.startup();
 				}
@@ -53,6 +58,4 @@ define(["dojo", ".", "dojo/parser"], function(dojo, dijit){
 			this.inherited(arguments);
 		}
 	});
-
-	return dijit._WidgetsInTemplateMixin;
 });

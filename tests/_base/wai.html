@@ -7,7 +7,7 @@
 		dojo.require("doh.runner");
 		dojo.require("dijit.dijit");
 
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 			doh.register("dijit.tests._base.wai",
 				[
 					function getWaiRoleOnElementWithNoRole(){

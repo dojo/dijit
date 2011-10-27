@@ -1,11 +1,18 @@
-define(["dojo", ".."], function(dojo, dijit){
+define([
+	"dojo/_base/array", // array.forEach
+	"dojo/_base/declare", // declare
+	"dojo/dom-attr", // domAttr.set
+	"dojo/i18n", // i18n.getLocalization
+	"dojo/_base/window", // win.doc.createTextNode
+	"dojo/i18n!./nls/ComboBox"
+], function(array, declare, domAttr, i18n, win){
 
 // module:
 //		dijit/form/_ComboBoxMenuMixin
 // summary:
 //		Focus-less menu for internal use in `dijit.form.ComboBox`
 
-dojo.declare( "dijit.form._ComboBoxMenuMixin", null, {
+return declare( "dijit.form._ComboBoxMenuMixin", null, {
 	// summary:
 	//		Focus-less menu for internal use in `dijit.form.ComboBox`
 	// tags:
@@ -17,7 +24,7 @@ dojo.declare( "dijit.form._ComboBoxMenuMixin", null, {
 
 	postMixInProperties: function(){
 		this.inherited(arguments);
-		this._messages = dojo.i18n.getLocalization("dijit.form", "ComboBox", this.lang);
+		this._messages = i18n.getLocalization("dijit.form", "ComboBox", this.lang);
 	},
 
 	buildRendering: function(){
@@ -46,7 +53,14 @@ dojo.declare( "dijit.form._ComboBoxMenuMixin", null, {
 	},
 
 	// stubs
-	onPage: function(/*Number*/ direction){
+	onChange: function(/*Number*/ /*===== direction =====*/){
+		// summary:
+		//		Notifies ComboBox/FilteringSelect that user selected an option.
+		// tags:
+		//		callback
+	},
+
+	onPage: function(/*Number*/ /*===== direction =====*/){
 		// summary:
 		//		Notifies ComboBox/FilteringSelect that user clicked to advance to next/previous page.
 		// tags:
@@ -72,12 +86,12 @@ dojo.declare( "dijit.form._ComboBoxMenuMixin", null, {
 			menuitem.innerHTML = labelObject.label;
 		}else{
 			menuitem.appendChild(
-				dojo.doc.createTextNode(labelObject.label)
+				win.doc.createTextNode(labelObject.label)
 			);
 		}
 		// #3250: in blank options, assign a normal height
 		if(menuitem.innerHTML == ""){
-			menuitem.innerHTML = "&nbsp;";
+			menuitem.innerHTML = "&#160;";	// &nbsp;
 		}
 
 		// update menuitem.dir if BidiSupport was required
@@ -100,14 +114,14 @@ dojo.declare( "dijit.form._ComboBoxMenuMixin", null, {
 
 		// display "Previous . . ." button
 		this.previousButton.style.display = (options.start == 0) ? "none" : "";
-		dojo.attr(this.previousButton, "id", this.id + "_prev");
+		domAttr.set(this.previousButton, "id", this.id + "_prev");
 		// create options using _createOption function defined by parent
 		// ComboBox (or FilteringSelect) class
 		// #2309:
 		//		iterate over cache nondestructively
-		dojo.forEach(results, function(item, i){
+		array.forEach(results, function(item, i){
 			var menuitem = this._createOption(item, labelFunc);
-			dojo.attr(menuitem, "id", this.id + i);
+			domAttr.set(menuitem, "id", this.id + i);
 			this.nextButton.parentNode.insertBefore(menuitem, this.nextButton);
 		}, this);
 		// display "Next . . ." button
@@ -117,9 +131,9 @@ dojo.declare( "dijit.form._ComboBoxMenuMixin", null, {
 			if((options.start + options.count) < results.total){
 				displayMore = true;
 			}else if((options.start + options.count) > results.total && options.count == results.length){
-				//Weird return from a datastore, where a start + count > maxOptions
+				// Weird return from a data store, where a start + count > maxOptions
 				// implies maxOptions isn't really valid and we have to go into faking it.
-				//And more or less assume more if count == results.length
+				// And more or less assume more if count == results.length
 				displayMore = true;
 			}
 		}else if(options.count == results.length){
@@ -129,7 +143,7 @@ dojo.declare( "dijit.form._ComboBoxMenuMixin", null, {
 		}
 
 		this.nextButton.style.display = displayMore ? "" : "none";
-		dojo.attr(this.nextButton,"id", this.id + "_next");
+		domAttr.set(this.nextButton,"id", this.id + "_next");
 		return this.containerNode.childNodes;
 	},
 
@@ -174,5 +188,4 @@ dojo.declare( "dijit.form._ComboBoxMenuMixin", null, {
 	}
 });
 
-return dijit.form._ComboBoxMenuMixin;
 });

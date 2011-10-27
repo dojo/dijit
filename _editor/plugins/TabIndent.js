@@ -1,8 +1,13 @@
 define([
-	"dojo",
-	"../..",
+	"dojo/_base/declare", // declare
+	"dojo/_base/kernel", // kernel.experimental
 	"../_Plugin",
-	"../../form/ToggleButton"], function(dojo, dijit){
+	"../../form/ToggleButton"
+], function(declare, kernel, _Plugin, ToggleButton){
+
+/*=====
+	var _Plugin = dijit._editor._Plugin;
+=====*/
 
 	// module:
 	//		dijit/_editor/plugins/TabIndent
@@ -12,10 +17,10 @@ define([
 	//		of moving focus from/to the toolbar
 
 
-	dojo.experimental("dijit._editor.plugins.TabIndent");
+	kernel.experimental("dijit._editor.plugins.TabIndent");
 
 
-	dojo.declare("dijit._editor.plugins.TabIndent", dijit._editor._Plugin, {
+	var TabIndent = declare("dijit._editor.plugins.TabIndent", _Plugin, {
 		// summary:
 		//		This plugin is used to allow the use of the tab and shift-tab keys
 		//		to indent/outdent list items.  This overrides the default behavior
@@ -25,7 +30,7 @@ define([
 		useDefaultCommand: false,
 
 		// Override _Plugin.buttonClass to use a ToggleButton for this plugin rather than a vanilla Button
-		buttonClass: dijit.form.ToggleButton,
+		buttonClass: ToggleButton,
 
 		command: "tabIndent",
 
@@ -55,14 +60,10 @@ define([
 	});
 
 	// Register this plugin.
-	dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
-		if(o.plugin){ return; }
-		switch(o.args.name){
-		case "tabIndent":
-			o.plugin = new dijit._editor.plugins.TabIndent({command: o.args.name});
-		}
-	});
+	_Plugin.registry["tabIndent"] = function(){
+		return new TabIndent({command: "tabIndent"});
+	};
 
 
-	return dijit._editor.plugins.TabIndent;
+	return TabIndent;
 });

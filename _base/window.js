@@ -1,12 +1,13 @@
-define(["dojo", "..", "dojo/window"], function(dojo, dijit){
+define([
+	"dojo/window", // windowUtils.get
+	".."	// export symbol to dijit
+], function(windowUtils, dijit){
 	// module:
 	//		dijit/_base/window
 	// summary:
-	//		Back compatibility module, new code should use dojo/window directly instead of using this module.
+	//		Back compatibility module, new code should use windowUtils directly instead of using this module.
 
 	dijit.getDocumentWindow = function(doc){
-		return dojo.window.get(doc);
+		return windowUtils.get(doc);
 	};
-
-	return dijit;
 });

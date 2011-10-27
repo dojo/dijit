@@ -1,11 +1,18 @@
-define(["dojo", "..", "./HorizontalRule"], function(dojo, dijit){
+define([
+	"dojo/_base/declare", // declare
+	"./HorizontalRule"
+], function(declare, HorizontalRule){
+
+/*=====
+	var HorizontalRule = dijit.form.HorizontalRule;
+=====*/
 
 	// module:
 	//		dijit/form/VerticalRule
 	// summary:
 	//		Hash marks for the `dijit.form.VerticalSlider`
 
-	dojo.declare("dijit.form.VerticalRule", dijit.form.HorizontalRule, {
+	return declare("dijit.form.VerticalRule", HorizontalRule, {
 		// summary:
 		//		Hash marks for the `dijit.form.VerticalSlider`
 
@@ -24,7 +31,4 @@ define(["dojo", "..", "./HorizontalRule"], function(dojo, dijit){
 		_isHorizontal: false
 
 	});
-
-
-	return dijit.form.VerticalRule;
 });

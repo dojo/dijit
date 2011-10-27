@@ -19,11 +19,10 @@
 			dojo.declare(
 				"SimpleButton",
 				[ dijit._Widget, dijit._TemplatedMixin ],
-				function(){  },
 				{
 					label: "",
 
-					templateString: "<button dojoAttachEvent='onclick:onClick'>${label}</button>",
+					templateString: "<button data-dojo-attach-event='onclick:onClick'>${label}</button>",
 
 					onClick: function(){
 						this.domNode.style.backgroundColor="green";
@@ -159,7 +158,7 @@
 			<br>
 <? } ?>
 <? for($i=0;$i<$items;$i++){ ?>
-			<div dojoType="<?= $widgetName ?>" label="item2 <?= $i ?>">item2 <?= $i ?></div>
+			<div data-dojo-type="<?= $widgetName ?>" label="item2 <?= $i ?>">item2 <?= $i ?></div>
 <? } ?>
 <? for($i=0;$i<$containerDepth;$i++){ ?>
 			</td>
@@ -168,13 +167,13 @@
 <? } ?>
 <? generateChaff($trailingChaff);  ?>
 <? for($i=0;$i<$items;$i++){ ?>
-	<div dojoType="<?= $widgetName ?>" label="item2 <?= $i ?>"><span>item <?= $i ?></span></div>
+	<div data-dojo-type="<?= $widgetName ?>" label="item2 <?= $i ?>"><span>item <?= $i ?></span></div>
 <? } ?>
 
 <script type="text/javascript">
 
 		oldTime = new Date();
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 			var time = new Date().getTime() - oldTime;
 			var p = document.createElement("p");
 			alert("Widgets loaded in " + time + "ms");

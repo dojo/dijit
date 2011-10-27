@@ -10,7 +10,7 @@
 		@import "../../themes/dijit.css";
 
 		#table {
-			margin: 0px;
+			margin: 0;
 			padding: 2px;
 		}
 		#table, .dijit, BUTTON {
@@ -20,7 +20,7 @@
 		#table .layout {
 			padding: 2px;
 			font-size: 100%;
-			margin: 0px;
+			margin: 0;
 		}
 		.mblRedButtonChecked {
 			border-style: inset;
@@ -37,7 +37,7 @@
 		dojo.require("dijit.form.ToggleButton");
 		dojo.require("dojox.mobile.ToggleButton");
 
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 
 			doh.register("attributes", [
 				{
@@ -157,7 +157,7 @@
 		<tr>
 			<td class="layout">Events</td>
 			<td class="layout"><button id="dijit_events" data-dojo-type="dijit.form.ToggleButton" data-dojo-props='type:"button", onClick:function(){ return true; }'>innerHTML</button></td>
-			<td class="layout"><button type="button" id="mobile_events" data-dojo-type="dojox.mobile.ToggleButton" data-dojo-props='type:"button", onClick:function(){ return true; }'>innerHTML</button</td>
+			<td class="layout"><button type="button" id="mobile_events" data-dojo-type="dojox.mobile.ToggleButton" data-dojo-props='type:"button", onClick:function(){ return true; }'>innerHTML</button></td>
 		</tr>
 		<tr>
 			<td class="layout">Programmatic</td>

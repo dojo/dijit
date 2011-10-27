@@ -6,9 +6,9 @@ try{
 	doh.registerUrl("dijit.tests._Widget-attr", dojo.moduleUrl("dijit", "tests/_Widget-attr.html"), 999999);
 	doh.registerUrl("dijit.tests._Widget-subscribe", dojo.moduleUrl("dijit", "tests/_Widget-subscribe.html"), 999999);
 	doh.registerUrl("dijit.tests._Widget-placeAt", dojo.moduleUrl("dijit", "tests/_Widget-placeAt.html"), 999999);
+	doh.registerUrl("dijit.tests.robot._Widget-on", dojo.moduleUrl("dijit","tests/_Widget-on.html"), 999999);
 	doh.registerUrl("dijit.tests.robot._Widget-deferredConnect", dojo.moduleUrl("dijit","tests/robot/_Widget-deferredConnect.html"), 999999);
 	doh.registerUrl("dijit.tests.robot._Widget-ondijitclick_mouse", dojo.moduleUrl("dijit","tests/robot/_Widget-ondijitclick_mouse.html"), 999999);
-
 	doh.registerUrl("dijit.tests.robot._Widget-ondijitclick_a11y", dojo.moduleUrl("dijit","tests/robot/_Widget-ondijitclick_a11y.html"), 999999);
 
 	// _Templated and other mixins

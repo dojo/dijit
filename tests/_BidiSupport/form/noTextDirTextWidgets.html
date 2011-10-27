@@ -27,7 +27,7 @@
 			dojo.require("doh.runner");
 			dojo.require("dijit._BidiSupport");
 			
-			dojo.addOnLoad(function(){
+			dojo.ready(function(){
 
 				doh.register("parse", function(){
 					dojo.parser.parse();

@@ -1,10 +1,15 @@
-define(["dojo", ".."], function(dojo, dijit){
+define([
+	"dojo/_base/declare", // declare
+	"dojo/dom-attr", // domAttr.set
+	"dojo/_base/event" // event.stop
+], function(declare, domAttr, event){
+
 	// module:
 	//		dijit/form/_CheckBoxMixin
 	// summary:
 	// 		Mixin to provide widget functionality corresponding to an HTML checkbox
 
-	dojo.declare("dijit.form._CheckBoxMixin", null, {
+	return declare("dijit.form._CheckBoxMixin", null, {
 		// summary:
 		// 		Mixin to provide widget functionality corresponding to an HTML checkbox
 		//
@@ -33,7 +38,7 @@ define(["dojo", ".."], function(dojo, dijit){
 
 		_setReadOnlyAttr: function(/*Boolean*/ value){
 			this._set("readOnly", value);
-			dojo.attr(this.focusNode, 'readOnly', value);
+			domAttr.set(this.focusNode, 'readOnly', value);
 			this.focusNode.setAttribute("aria-readonly", value);
 		},
 
@@ -52,7 +57,7 @@ define(["dojo", ".."], function(dojo, dijit){
 			this.inherited(arguments);
 			// Handle unlikely event that the <input type=checkbox> value attribute has changed
 			this._set("value", this.params.value || "on");
-			dojo.attr(this.focusNode, 'value', this.value);
+			domAttr.set(this.focusNode, 'value', this.value);
 		},
 
 		_onClick: function(/*Event*/ e){
@@ -60,12 +65,10 @@ define(["dojo", ".."], function(dojo, dijit){
 			//		Internal function to handle click actions - need to check
 			//		readOnly, since button no longer does that check.
 			if(this.readOnly){
-				dojo.stopEvent(e);
+				event.stop(e);
 				return false;
 			}
 			return this.inherited(arguments);
 		}
 	});
-
-	return dijit.form._CheckBoxMixin;
 });

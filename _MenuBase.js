@@ -1,21 +1,31 @@
 define([
-	"dojo",
-	".",
 	"./popup",
 	"dojo/window",
-	"./_WidgetBase",
-	"./_FocusMixin",
+	"./_Widget",
 	"./_KeyNavContainer",
-	"./_FocusMixin",
-	"./_TemplatedMixin"], function(dojo, dijit, pm){
+	"./_TemplatedMixin",
+	"dojo/_base/declare", // declare
+	"dojo/dom", // dom.isDescendant domClass.replace
+	"dojo/dom-attr",
+	"dojo/dom-class", // domClass.replace
+	"dojo/_base/lang", // lang.hitch
+	"dojo/_base/array"	// array.indexOf
+], function(pm, winUtils, _Widget, _KeyNavContainer, _TemplatedMixin,
+	declare, dom, domAttr, domClass, lang, array){
+
+/*=====
+	var _Widget = dijit._Widget;
+	var _TemplatedMixin = dijit._TemplatedMixin;
+	var _KeyNavContainer = dijit._KeyNavContainer;
+=====*/
 
 // module:
 //		dijit/_MenuBase
 // summary:
 //		Base class for Menu and MenuBar
 
-dojo.declare("dijit._MenuBase",
-	[dijit._WidgetBase, dijit._FocusMixin, dijit._TemplatedMixin, dijit._KeyNavContainer, dijit._FocusMixin],
+return declare("dijit._MenuBase",
+	[_Widget, _TemplatedMixin, _KeyNavContainer],
 {
 	// summary:
 	//		Base class for Menu and MenuBar
@@ -38,7 +48,7 @@ dojo.declare("dijit._MenuBase",
 		//		protected
 	},
 
-	onCancel: function(/*Boolean*/ closeAll){
+	onCancel: function(/*Boolean*/ /*===== closeAll =====*/){
 		// summary:
 		//		Attach point for notification about when the user cancels the current menu
 		//		This is an internal mechanism used for Menus to signal to their parent to
@@ -65,7 +75,7 @@ dojo.declare("dijit._MenuBase",
 		}
 	},
 
-	_onPopupHover: function(/*Event*/ evt){
+	_onPopupHover: function(/*Event*/ /*===== evt =====*/){
 		// summary:
 		//		This handler is called when the mouse moves over the popup.
 		// tags:
@@ -99,7 +109,7 @@ dojo.declare("dijit._MenuBase",
 		if(this.isActive){
 			this.focusChild(item);
 			if(this.focusedChild.popup && !this.focusedChild.disabled && !this.hover_timer){
-				this.hover_timer = setTimeout(dojo.hitch(this, "_openPopup"), this.popupDelay);
+				this.hover_timer = setTimeout(lang.hitch(this, "_openPopup"), this.popupDelay);
 			}
 		}
 		// if the user is mixing mouse and keyboard navigation,
@@ -247,19 +257,19 @@ dojo.declare("dijit._MenuBase",
 				from_item._setSelected(true); // oops, _cleanUp() deselected the item
 				self.focusedChild = from_item;	// and unset focusedChild
 			},
-			onExecute: dojo.hitch(this, "_cleanUp")
+			onExecute: lang.hitch(this, "_cleanUp")
 		});
 
 		this.currentPopup = popup;
 		// detect mouseovers to handle lazy mouse movements that temporarily focus other menu items
-		popup.connect(popup.domNode, "onmouseenter", dojo.hitch(self, "_onPopupHover")); // cleaned up when the popped-up widget is destroyed on close
+		popup.connect(popup.domNode, "onmouseenter", lang.hitch(self, "_onPopupHover")); // cleaned up when the popped-up widget is destroyed on close
 
 		if(popup.focus){
 			// If user is opening the popup via keyboard (right arrow, or down arrow for MenuBar),
 			// if the cursor happens to collide with the popup, it will generate an onmouseover event
 			// even though the mouse wasn't moved.  Use a setTimeout() to call popup.focus so that
 			// our focus() call overrides the onmouseover event, rather than vice-versa.  (#8742)
-			popup._focus_timer = setTimeout(dojo.hitch(popup, function(){
+			popup._focus_timer = setTimeout(lang.hitch(popup, function(){
 				this._focus_timer = null;
 				this.focus();
 			}), 0);
@@ -279,10 +289,10 @@ dojo.declare("dijit._MenuBase",
 		//		menus (similar to TAB navigation) but the menu is not active
 		//		(ie no dropdown) until an item is clicked.
 		this.isActive = true;
-		dojo.replaceClass(this.domNode, "dijitMenuActive", "dijitMenuPassive");
+		domClass.replace(this.domNode, "dijitMenuActive", "dijitMenuPassive");
 	},
 
-	onOpen: function(/*Event*/ e){
+	onOpen: function(/*Event*/ /*===== e =====*/){
 		// summary:
 		//		Callback when this menu is opened.
 		//		This is called by the popup manager as notification that the menu
@@ -298,7 +308,7 @@ dojo.declare("dijit._MenuBase",
 		// summary:
 		//		Mark this menu's state as inactive.
 		this.isActive = false; // don't do this in _onBlur since the state is pending-close until we get here
-		dojo.replaceClass(this.domNode, "dijitMenuPassive", "dijitMenuActive");
+		domClass.replace(this.domNode, "dijitMenuPassive", "dijitMenuActive");
 	},
 
 	onClose: function(){
@@ -322,13 +332,14 @@ dojo.declare("dijit._MenuBase",
 		//		private
 		this._stopPopupTimer();
 
-		var fromItem = this.focusedChild && this.focusedChild.from_item;
-
 		if(this.currentPopup){
-			// If focus is on my child menu then move focus to me,
-			// because IE doesn't like it when you display:none a node with focus
-			var curFocusNode = this._focusManager.get("curNode");
-			if(curFocusNode && dojo.isDescendant(curFocusNode, this.currentPopup.domNode)){
+			// If focus is on a descendant MenuItem then move focus to me,
+			// because IE doesn't like it when you display:none a node with focus,
+			// and also so keyboard users don't lose control.
+			// Likely, immediately after a user defined onClick handler will move focus somewhere
+			// else, like a Dialog.
+			if(array.indexOf(this._focusManager.activeStack, this.id) >= 0){
+				domAttr.set(this.focusedChild.focusNode, "tabIndex", this.tabIndex);
 				this.focusedChild.focusNode.focus();
 			}
 			// Close all popups that are open and descendants of this menu
@@ -377,5 +388,4 @@ dojo.declare("dijit._MenuBase",
 	}
 });
 
-return dijit._MenuBase;
 });

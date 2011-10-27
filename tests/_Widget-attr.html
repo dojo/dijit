@@ -17,7 +17,7 @@
 		dojo.require("dijit._Widget");
 		dojo.require("dijit._TemplatedMixin");
 
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 			doh.register("attribute set/get",
 				[
 					// Test attributes mapped to DOMNodes
@@ -36,10 +36,10 @@
 							_setPlainTextAttr: {node: "plainTextNode", type: "innerText"},
 	
 							templateString: "<div class='class1' style='border: 1px solid red; width: 456px'>" +
-												"<button dojoAttachPoint='buttonNode,focusNode'>hi</button>" +
-												'<span><input dojoAttachPoint="inputNode" value="input"></span>' +
-												"<span dojoAttachPoint='containerNode'></span>" +
-												"<span dojoAttachPoint='plainTextNode'>original plain text</span>" +
+												"<button data-dojo-attach-point='buttonNode,focusNode'>hi</button>" +
+												'<span><input data-dojo-attach-point="inputNode" value="input"></span>' +
+												"<span data-dojo-attach-point='containerNode'></span>" +
+												"<span data-dojo-attach-point='plainTextNode'>original plain text</span>" +
 											"</div>"
 						});
 
@@ -71,8 +71,8 @@
 							"aria-labelledby": "foo",
 							role: "button"
 						});
-						doh.is("dom title", dojo.attr(w.domNode, "title"), "domNode title")
-						doh.is("foo", dojo.attr(w.domNode, "aria-labelledby"), "domNode labelledby");
+						doh.is("dom title", dojo.attr(w.domNode, "title"), "domNode title");
+						doh.is("foo", w.domNode.getAttribute("aria-labelledby", "domNode labelledby"));
 						doh.is("button", dojo.attr(w.domNode, "role"), "domNode role");
 
 						// Mapping to this.focusNode
@@ -82,8 +82,21 @@
 							title: "my title",
 							"aria-labelledby": "foo"
 						});
-						doh.is("my title", dojo.attr(fw.focusNode, "title"), "focusNode title")
-						doh.is("foo", dojo.attr(fw.focusNode, "aria-labelledby"), "focusNode labelledby");
+						doh.is("my title", dojo.attr(fw.focusNode, "title"), "focusNode title");
+						doh.is("foo", fw.focusNode.getAttribute("aria-labelledby"), "focusNode labelledby");
+
+						// Mapping attributes with dashes and mixed case
+						var mc = (new dojo.declare([dijit._WidgetBase, dijit._TemplatedMixin], {
+							templateString: "<form></form>"
+						}))({
+							"accept-charset": "utf8",
+							"novalidate": "true"	// parser delivers as lowercase even though it's noValidate in JS obj
+						});
+						doh.is("utf8", mc.domNode.getAttribute("accept-charset"), "accept-charset");
+						if(dojo.isFF >= 4 || dojo.isIE >= 10 || dojo.isWebKit){
+							// only works for HTML5 compliant browsers where novalidate is understood
+							doh.t(mc.domNode.hasAttribute("novalidate"), "noValidate");
+						}
 					},
 
 					// Test custom setters/getter methods
@@ -96,7 +109,7 @@
 
 						var widget = new CustomSetters({
 							foo: 100
-						})
+						});
 
 						doh.is(105, widget.foo, "custom setter called at initialize time");
 						doh.is(95, widget.get("foo"), "custom getter called");
@@ -106,14 +119,14 @@
 						doh.is(45, widget.get("foo"), "custom getter still called");
 					},
 
-					// Test attributes names with dashes
-					function namesWithDashes(){
+					// Test setters for attribute names with dashes
+					function settersForNamesWithDashes(){
 						var MyWidget = dojo.declare([dijit._Widget, dijit._TemplatedMixin], {
 							"name-with-dashes": "",
 							_setNameWithDashesAttr: {node: "dashNode", type: "innerHTML"},
 	
 							templateString: "<div>" +
-												"<span dojoAttachPoint='dashNode'></span>" +
+												"<span data-dojo-attach-point='dashNode'></span>" +
 											"</div>"
 						});
 
@@ -131,7 +144,7 @@
 					// Test deprecated attr() method				
 					function attr(){
 						var MyWidget = new dojo.declare([dijit._Widget, dijit._TemplatedMixin], {
-							templateString: "<div><span dojoAttachPoint=nameNode></span></div>",
+							templateString: "<div><span data-dojo-attach-point=nameNode></span></div>",
 							_setNameAttr:  {node: "nameNode", type: "innerHTML"}
 						});
 
@@ -156,10 +169,10 @@
 						var AttrMap = dojo.declare([dijit._Widget, dijit._TemplatedMixin], {
 							attributeMap: {foo: "", bar: "buttonNode", plainText: {node: "plainTextNode", type: "innerText"}},
 							templateString: "<div class='class1' style='border: 1px solid red; width: 456px'>" +
-												"<button dojoAttachPoint='buttonNode,focusNode'>hi</button>" +
-												'<span><input dojoAttachPoint="inputNode" value="input"></span>' +
-												"<span dojoAttachPoint='containerNode'></span>" +
-												"<span dojoAttachPoint='plainTextNode'>original plain text</span>" +
+												"<button data-dojo-attach-point='buttonNode,focusNode'>hi</button>" +
+												'<span><input data-dojo-attach-point="inputNode" value="input"></span>' +
+												"<span data-dojo-attach-point='containerNode'></span>" +
+												"<span data-dojo-attach-point='plainTextNode'>original plain text</span>" +
 											"</div>"
 						});
 

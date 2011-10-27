@@ -1,10 +1,19 @@
 define([
-	"dojo",
-	"..",
-	"dojo/text!./templates/DropDownButton.html",
+	"dojo/_base/declare", // declare
+	"dojo/query", // query
+	"../registry",	// registry.byNode
+	"../popup",		// dijit.popup2.hide
 	"./Button",
 	"../_Container",
-	"../_HasDropDown"], function(dojo, dijit, template){
+	"../_HasDropDown",
+	"dojo/text!./templates/DropDownButton.html"
+], function(declare, query, registry, popup, Button, _Container, _HasDropDown, template){
+
+/*=====
+	Button = dijit.form.Button;
+	_Container = dijit._Container;
+	_HasDropDown = dijit._HasDropDown;
+=====*/
 
 // module:
 //		dijit/form/DropDownButton
@@ -12,18 +21,19 @@ define([
 //		A button with a drop down
 
 
-dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container, dijit._HasDropDown], {
+return declare("dijit.form.DropDownButton", [Button, _Container, _HasDropDown], {
 	// summary:
 	//		A button with a drop down
 	//
 	// example:
-	// |	<button dojoType="dijit.form.DropDownButton" label="Hello world">
-	// |		<div dojotype="dijit.Menu">...</div>
+	// |	<button data-dojo-type="dijit.form.DropDownButton">
+	// |		Hello world
+	// |		<div data-dojo-type="dijit.Menu">...</div>
 	// |	</button>
 	//
 	// example:
 	// |	var button1 = new dijit.form.DropDownButton({ label: "hi", dropDown: new dijit.Menu(...) });
-	// |	dojo.body().appendChild(button1);
+	// |	win.body().appendChild(button1);
 	//
 
 	baseClass : "dijitDropDownButton",
@@ -40,8 +50,8 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container, 
 		if(this.srcNodeRef){ // programatically created buttons might not define srcNodeRef
 			//FIXME: figure out how to filter out the widget and use all remaining nodes as button
 			//	content, not just nodes[0]
-			var nodes = dojo.query("*", this.srcNodeRef);
-			dijit.form.DropDownButton.superclass._fillContent.call(this, nodes[0]);
+			var nodes = query("*", this.srcNodeRef);
+			this.inherited(arguments, [nodes[0]]);
 
 			// save pointer to srcNode so we can grab the drop down widget after it's instantiated
 			this.dropDownContainer = this.srcNodeRef;
@@ -54,12 +64,12 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container, 
 		// the child widget from srcNodeRef is the dropdown widget.  Insert it in the page DOM,
 		// make it invisible, and store a reference to pass to the popup code.
 		if(!this.dropDown && this.dropDownContainer){
-			var dropDownNode = dojo.query("[widgetId]", this.dropDownContainer)[0];
-			this.dropDown = dijit.byNode(dropDownNode);
+			var dropDownNode = query("[widgetId]", this.dropDownContainer)[0];
+			this.dropDown = registry.byNode(dropDownNode);
 			delete this.dropDownContainer;
 		}
 		if(this.dropDown){
-			dijit.popup.hide(this.dropDown);
+			popup.hide(this.dropDown);
 		}
 
 		this.inherited(arguments);
@@ -77,8 +87,8 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container, 
 		var dropDown = this.dropDown;
 		if(!dropDown){ return; }
 		if(!this.isLoaded()){
-			var handler = dojo.connect(dropDown, "onLoad", this, function(){
-				dojo.disconnect(handler);
+			var handler = dropDown.on("load", this, function(){
+				handler.remove();
 				this.openDropDown();
 			});
 			dropDown.refresh();
@@ -94,5 +104,4 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container, 
 	}
 });
 
-return dijit.form.DropDownButton;
 });

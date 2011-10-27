@@ -1,9 +1,16 @@
 define([
-	"dojo",
-	"..",
+	"dojo/_base/lang", // lang.getObject
+	"dojo/_base/declare", // declare
 	"./_TabContainerBase",
 	"./TabController",
-	"./ScrollingTabController"], function(dojo, dijit){
+	"./ScrollingTabController"
+], function(lang, declare, _TabContainerBase, TabController, ScrollingTabController){
+
+/*=====
+	var _TabContainerBase = dijit.layout._TabContainerBase;
+	var TabController = dijit.layout.TabController;
+	var ScrollingTabController = dijit.layout.ScrollingTabController;
+=====*/
 
 	// module:
 	//		dijit/layout/TabContainer
@@ -11,7 +18,7 @@ define([
 	//		A Container with tabs to select each child (only one of which is displayed at a time).
 
 
-	dojo.declare("dijit.layout.TabContainer", dijit.layout._TabContainerBase, {
+	return declare("dijit.layout.TabContainer", _TabContainerBase, {
 		// summary:
 		//		A Container with tabs to select each child (only one of which is displayed at a time).
 		// description:
@@ -41,7 +48,7 @@ define([
 			//		protected extension
 
 			var cls = this.baseClass + "-tabs" + (this.doLayout ? "" : " dijitTabNoLayout"),
-				TabController = dojo.getObject(this.controllerWidget);
+				TabController = lang.getObject(this.controllerWidget);
 
 			return new TabController({
 				id: this.id + "_tablist",
@@ -69,7 +76,4 @@ define([
 			}
 		}
 	});
-
-
-	return dijit.layout.TabContainer;
 });

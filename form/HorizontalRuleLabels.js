@@ -1,11 +1,20 @@
-define(["dojo", "..", "./HorizontalRule"], function(dojo, dijit){
+define([
+	"dojo/_base/declare",	// declare
+	"dojo/number", // number.format
+	"dojo/query", // query
+	"./HorizontalRule"
+], function(declare, number, query, HorizontalRule){
+
+/*=====
+	var HorizontalRule = dijit.form.HorizontalRule;
+=====*/
 
 // module:
 //		dijit/form/HorizontalRuleLabels
 // summary:
 //		Labels for `dijit.form.HorizontalSlider`
 
-dojo.declare("dijit.form.HorizontalRuleLabels", dijit.form.HorizontalRule, {
+return declare("dijit.form.HorizontalRuleLabels", HorizontalRule, {
 	// summary:
 	//		Labels for `dijit.form.HorizontalSlider`
 
@@ -63,7 +72,7 @@ dojo.declare("dijit.form.HorizontalRuleLabels", dijit.form.HorizontalRule, {
 		var labels = this.labels;
 		if(!labels.length){
 			// for markup creation, labels are specified as child elements
-			labels = dojo.query("> li", this.srcNodeRef).map(function(node){
+			labels = query("> li", this.srcNodeRef).map(function(node){
 				return String(node.innerHTML);
 			});
 		}
@@ -73,7 +82,7 @@ dojo.declare("dijit.form.HorizontalRuleLabels", dijit.form.HorizontalRule, {
 			var start = this.minimum;
 			var inc = (this.maximum - start) / (this.count-1);
 			for(var i=0; i < this.count; i++){
-				labels.push((i < this.numericMargin || i >= (this.count-this.numericMargin)) ? '' : dojo.number.format(start, this.constraints));
+				labels.push((i < this.numericMargin || i >= (this.count-this.numericMargin)) ? '' : number.format(start, this.constraints));
 				start += inc;
 			}
 		}
@@ -87,6 +96,4 @@ dojo.declare("dijit.form.HorizontalRuleLabels", dijit.form.HorizontalRule, {
 	}
 });
 
-
-return dijit.form.HorizontalRuleLabels;
 });

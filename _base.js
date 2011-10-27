@@ -1,6 +1,7 @@
 define([
-	"dojo",
 	".",
+	"./a11y",	// used to be in dijit/_base/manager
+	"./WidgetSet",	// used to be in dijit/_base/manager
 	"./_base/focus",
 	"./_base/manager",
 	"./_base/place",
@@ -9,7 +10,8 @@ define([
 	"./_base/sniff",
 	"./_base/typematic",
 	"./_base/wai",
-	"./_base/window"], function(dojo, dijit){
+	"./_base/window"
+], function(dijit){
 
 	// module:
 	//		dijit/_base

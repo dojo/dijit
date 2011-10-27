@@ -27,7 +27,7 @@
 			dojo.require("dijit.form.Textarea");
 			dojo.require("doh.runner");
 
-			dojo.addOnLoad(function(){
+			dojo.ready(function(){
 
 				doh.register("parse", function(){
 					dojo.parser.parse();

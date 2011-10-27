@@ -1,8 +1,14 @@
 define([
-	"dojo",
-	"..",
-	"./SimpleTextarea",
-	"./_ExpandingTextAreaMixin"], function(dojo, dijit){
+	"dojo/_base/declare", // declare
+	"dojo/dom-style", // domStyle.set
+	"./_ExpandingTextAreaMixin",
+	"./SimpleTextarea"
+], function(declare, domStyle, _ExpandingTextAreaMixin, SimpleTextarea){
+
+/*=====
+	var _ExpandingTextAreaMixin = dijit.form._ExpandingTextAreaMixin;
+	var SimpleTextarea = dijit.form.SimpleTextarea;
+=====*/
 
 // module:
 //		dijit/form/Textarea
@@ -10,9 +16,7 @@ define([
 //		A textarea widget that adjusts it's height according to the amount of data.
 
 
-dojo.declare(
-	"dijit.form.Textarea",
-	[dijit.form.SimpleTextarea, dijit.form._ExpandingTextAreaMixin], {
+return declare("dijit.form.Textarea", [SimpleTextarea, _ExpandingTextAreaMixin], {
 	// summary:
 	//		A textarea widget that adjusts it's height according to the amount of data.
 	//
@@ -24,7 +28,7 @@ dojo.declare(
 	//		Rows is not supported since this widget adjusts the height.
 	//
 	// example:
-	// |	<textarea dojoType="dijit.form.TextArea">...</textarea>
+	// |	<textarea data-dojo-type="dijit.form.TextArea">...</textarea>
 
 
 	// TODO: for 2.0, rename this to ExpandingTextArea, and rename SimpleTextarea to TextArea
@@ -38,10 +42,8 @@ dojo.declare(
 		this.inherited(arguments);
 
 		// tweak textarea style to reduce browser differences
-		dojo.style(this.textbox, { overflowY: 'hidden', overflowX: 'auto', boxSizing: 'border-box', MsBoxSizing: 'border-box', WebkitBoxSizing: 'border-box', MozBoxSizing: 'border-box' });
+		domStyle.set(this.textbox, { overflowY: 'hidden', overflowX: 'auto', boxSizing: 'border-box', MsBoxSizing: 'border-box', WebkitBoxSizing: 'border-box', MozBoxSizing: 'border-box' });
 	}
 });
 
-
-return dijit.form.Textarea;
 });

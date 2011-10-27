@@ -1,10 +1,27 @@
 define([
-	"dojo",
-	".",
+	"dojo/aspect",	// aspect.around
+	"dojo/_base/config",	// config.isDebug
+	"dojo/_base/connect",	// connect.connect
+	"dojo/_base/declare", // declare
+	"dojo/_base/kernel", // kernel.deprecated
+	"dojo/_base/lang", // lang.hitch
+	"dojo/query",
+	"dojo/ready",
+	"./registry",	// registry.byNode
 	"./_WidgetBase",
 	"./_OnDijitClickMixin",
 	"./_FocusMixin",
-	"./_base"], function(dojo, dijit){
+	"dojo/uacss",		// browser sniffing (included for back-compat; subclasses may be using)
+	"./hccss"		// high contrast mode sniffing (included to set CSS classes on <body>, module ret value unused)
+], function(aspect, config, connect, declare, kernel, lang, query, ready,
+			registry, _WidgetBase, _OnDijitClickMixin, _FocusMixin){
+
+/*=====
+	var _WidgetBase = dijit._WidgetBase;
+	var _OnDijitClickMixin = dijit._OnDijitClickMixin;
+	var _FocusMixin = dijit._FocusMixin;
+=====*/
+
 
 // module:
 //		dijit/_Widget
@@ -12,31 +29,35 @@ define([
 //		Old base for widgets.   New widgets should extend _WidgetBase instead
 
 
+function connectToDomNode(){
+	// summary:
+	//		If user connects to a widget method === this function, then they will
+	//		instead actually be connecting the equivalent event on this.domNode
+}
 
-////////////////// DEFERRED CONNECTS ///////////////////
-
-// This code is to assist deferring dojo.connect() calls in widgets (connecting to events on the widgets'
-// DOM nodes) until someone actually needs to monitor that event.
-dojo.connect(dojo, "_connect",
-	function(/*dijit._Widget*/ widget, /*String*/ event){
-		if(widget && dojo.isFunction(widget._onConnect)){
-			widget._onConnect(event);
+// Trap dojo.connect() calls to connectToDomNode methods, and redirect to _Widget.on()
+function aroundAdvice(originalConnect){
+	return function(obj, event, scope, method){
+		if(obj && typeof event == "string" && obj[event] == connectToDomNode){
+			return obj.on(event.substring(2).toLowerCase(), lang.hitch(scope, method));
 		}
-	});
+		return originalConnect.apply(connect, arguments);
+	};
+}
+aspect.around(connect, "connect", aroundAdvice);
+if(kernel.connect){
+	aspect.around(kernel, "connect", aroundAdvice);
+}
 
-dijit._connectOnUseEventHandler = function(/*Event*/ event){};
-
-
-dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, dijit._FocusMixin], {
+var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusMixin], {
 	// summary:
 	//		Base class for all Dijit widgets.
 	//
 	//		Extends _WidgetBase, adding support for:
-	//			- deferred connections
-	//				A call like dojo.connect(myWidget, "onMouseMove", func)
-	//				will essentially do a dojo.connect(myWidget.domNode, "onMouseMove", func)
+	//			- declaratively/programatically specifying widget initialization parameters like
+	//				onMouseMove="foo" that call foo when this.domNode gets a mousemove event
 	//			- ondijitclick
-	//				Support new dojoAttachEvent="ondijitclick: ..." that is triggered by a mouse click or a SPACE/ENTER keypress
+	//				Support new data-dojo-attach-event="ondijitclick: ..." that is triggered by a mouse click or a SPACE/ENTER keypress
 	//			- focus related functions
 	//				In particular, the onFocus()/onBlur() callbacks.   Driven internally by
 	//				dijit/_base/focus.js.
@@ -50,24 +71,7 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 
 	////////////////// DEFERRED CONNECTS ///////////////////
 
-	// _deferredConnects: [protected] Object
-	//		event handlers that should be connected only on first use
-	_deferredConnects: {
-		onClick: "",
-		onDblClick: "",
-		onKeyDown: "",
-		onKeyPress: "",
-		onKeyUp: "",
-		onMouseMove: "",
-		onMouseDown: "",
-		onMouseOut: "",
-		onMouseOver: "",
-		onMouseLeave: "",
-		onMouseEnter: "",
-		onMouseUp: ""
-	},
-
-	onClick: dijit._connectOnUseEventHandler,
+	onClick: connectToDomNode,
 	/*=====
 	onClick: function(event){
 		// summary:
@@ -78,7 +82,7 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 		//		callback
 	},
 	=====*/
-	onDblClick: dijit._connectOnUseEventHandler,
+	onDblClick: connectToDomNode,
 	/*=====
 	onDblClick: function(event){
 		// summary:
@@ -89,7 +93,7 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 		//		callback
 	},
 	=====*/
-	onKeyDown: dijit._connectOnUseEventHandler,
+	onKeyDown: connectToDomNode,
 	/*=====
 	onKeyDown: function(event){
 		// summary:
@@ -100,7 +104,7 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 		//		callback
 	},
 	=====*/
-	onKeyPress: dijit._connectOnUseEventHandler,
+	onKeyPress: connectToDomNode,
 	/*=====
 	onKeyPress: function(event){
 		// summary:
@@ -111,7 +115,7 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 		//		callback
 	},
 	=====*/
-	onKeyUp: dijit._connectOnUseEventHandler,
+	onKeyUp: connectToDomNode,
 	/*=====
 	onKeyUp: function(event){
 		// summary:
@@ -122,7 +126,7 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 		//		callback
 	},
 	=====*/
-	onMouseDown: dijit._connectOnUseEventHandler,
+	onMouseDown: connectToDomNode,
 	/*=====
 	onMouseDown: function(event){
 		// summary:
@@ -133,7 +137,7 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 		//		callback
 	},
 	=====*/
-	onMouseMove: dijit._connectOnUseEventHandler,
+	onMouseMove: connectToDomNode,
 	/*=====
 	onMouseMove: function(event){
 		// summary:
@@ -144,7 +148,7 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 		//		callback
 	},
 	=====*/
-	onMouseOut: dijit._connectOnUseEventHandler,
+	onMouseOut: connectToDomNode,
 	/*=====
 	onMouseOut: function(event){
 		// summary:
@@ -155,7 +159,7 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 		//		callback
 	},
 	=====*/
-	onMouseOver: dijit._connectOnUseEventHandler,
+	onMouseOver: connectToDomNode,
 	/*=====
 	onMouseOver: function(event){
 		// summary:
@@ -166,7 +170,7 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 		//		callback
 	},
 	=====*/
-	onMouseLeave: dijit._connectOnUseEventHandler,
+	onMouseLeave: connectToDomNode,
 	/*=====
 	onMouseLeave: function(event){
 		// summary:
@@ -177,7 +181,7 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 		//		callback
 	},
 	=====*/
-	onMouseEnter: dijit._connectOnUseEventHandler,
+	onMouseEnter: connectToDomNode,
 	/*=====
 	onMouseEnter: function(event){
 		// summary:
@@ -188,7 +192,7 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 		//		callback
 	},
 	=====*/
-	onMouseUp: dijit._connectOnUseEventHandler,
+	onMouseUp: connectToDomNode,
 	/*=====
 	onMouseUp: function(event){
 		// summary:
@@ -200,46 +204,34 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 	},
 	=====*/
 
-	create: function(/*Object?*/params, /*DomNode|String?*/srcNodeRef){
-		// To avoid double-connects, remove entries from _deferredConnects
-		// that have been setup manually by a subclass (ex, by dojoAttachEvent).
-		// If a subclass has redefined a callback (ex: onClick) then assume it's being
-		// connected to manually.
-		this._deferredConnects = dojo.clone(this._deferredConnects);
-		for(attr in this._deferredConnects){
-			if(attr in this.attributeMap || // can't be in both attributeMap and _deferredConnects
-				this._getAttrNames(attr).s in this ||	// can't have custom _setXXXAttr reference and be in _deferredConnects
-				this[attr] !== dijit._connectOnUseEventHandler){	// redefined, probably dojoAttachEvent exists
-				delete this._deferredConnects[attr];
-			}
-		}
-
-		this.inherited(arguments);
-
-		if(this.domNode){
-			// If the developer has specified a handler as a widget parameter
-			// (ex: new Button({onClick: ...})
-			// then naturally need to connect from DOM node to that handler immediately,
-			for(attr in this.params){
-				this._onConnect(attr);
+	constructor: function(params){
+		// extract parameters like onMouseMove that should connect directly to this.domNode
+		this._toConnect = {};
+		for(var name in params){
+			if(this[name] === connectToDomNode){
+				this._toConnect[name.replace(/^on/, "").toLowerCase()] = params[name];
+				delete params[name];
 			}
 		}
 	},
 
-	_onConnect: function(/*String*/ event){
-		// summary:
-		//		Called when someone connects to one of my handlers.
-		//		"Turn on" that handler if it isn't active yet.
-		//
-		//		This is also called for every single initialization parameter
-		//		so need to do nothing for parameters like "id".
-		// tags:
-		//		private
-		if(event in this._deferredConnects){
-			var mapNode = this[this._deferredConnects[event] || 'domNode'];
-			this.connect(mapNode, event.toLowerCase(), event);
-			delete this._deferredConnects[event];
+	postCreate: function(){
+		this.inherited(arguments);
+
+		// perform connection from this.domNode to user specified handlers (ex: onMouseMove)
+		for(var name in this._toConnect){
+			this.on(name, this._toConnect[name]);
 		}
+		delete this._toConnect;
+	},
+
+	on: function(/*String*/ type, /*Function*/ func){
+		if(this[this._onMap(type)] === connectToDomNode){
+			// Use connect.connect() rather than on() to get handling for "onmouseenter" on non-IE, etc.
+			// Also, need to specify context as "this" rather than the default context of the DOMNode
+			return connect.connect(this.domNode, type.toLowerCase(), this, func);
+		}
+		return this.inherited(arguments);
 	},
 
 	_setFocusedAttr: function(val){
@@ -256,7 +248,7 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 		//		Deprecated.  Use set() instead.
 		// tags:
 		//		deprecated
-		dojo.deprecated(this.declaredClass+"::setAttribute(attr, value) is deprecated. Use set() instead.", "", "2.0");
+		kernel.deprecated(this.declaredClass+"::setAttribute(attr, value) is deprecated. Use set() instead.", "", "2.0");
 		this.set(attr, value);
 	},
 
@@ -274,11 +266,11 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 		//		This method is deprecated, use get() or set() directly.
 
 		// Print deprecation warning but only once per calling function
-		if(dojo.config.isDebug){
+		if(config.isDebug){
 			var alreadyCalledHash = arguments.callee._ach || (arguments.callee._ach = {}),
 				caller = (arguments.callee.caller || "unknown caller").toString();
 			if(!alreadyCalledHash[caller]){
-				dojo.deprecated(this.declaredClass + "::attr() is deprecated. Use get() or set() instead, called from " +
+				kernel.deprecated(this.declaredClass + "::attr() is deprecated. Use get() or set() instead, called from " +
 				caller, "", "2.0");
 				alreadyCalledHash[caller] = true;
 			}
@@ -290,6 +282,16 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 		}else{ // getter
 			return this.get(name);
 		}
+	},
+
+	getDescendants: function(){
+		// summary:
+		//		Returns all the widgets contained by this, i.e., all widgets underneath this.containerNode.
+		//		This method should generally be avoided as it returns widgets declared in templates, which are
+		//		supposed to be internal/hidden, but it's left here for back-compat reasons.
+
+		kernel.deprecated(this.declaredClass+"::getDescendants() is deprecated. Use getChildren() instead.", "", "2.0");
+		return this.containerNode ? query('[widgetId]', this.containerNode).map(registry.byNode) : []; // dijit._Widget[]
 	},
 
 	////////////////// MISCELLANEOUS METHODS ///////////////////
@@ -338,5 +340,12 @@ dojo.declare("dijit._Widget", [dijit._WidgetBase, dijit._OnDijitClickMixin, diji
 	}
 });
 
-return dijit._Widget;
+// For back-compat, remove in 2.0.
+if(!kernel.isAsync){
+	ready(0, function(){
+		var requires = ["dijit/_base"];
+		require(requires);	// use indirection so modules not rolled into a build
+	});
+}
+return _Widget;
 });

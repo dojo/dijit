@@ -9,12 +9,13 @@
 	</style>
 
 	<!-- required: dojo.js -->
-	<script type="text/javascript" src="../../../../dojo/dojo.js"
-		djConfig="isDebug: true, parseOnLoad: true"></script>
+	<script type="text/javascript" src="../../../../dojo/dojo.js"></script>
+
 	<script type="text/javascript" src="../../helpers.js"></script>
 
 	<script type="text/javascript">
 		dojo.require("dijit.robotx");
+		dojo.require("dojo.aspect");
 
 		// TODO: provide URL toggle for FilteringSelect
 		var testWidget = "dijit.form.ComboBox";
@@ -29,7 +30,7 @@
 		        }
 		}
 		isComboBox = testWidget=="dijit.form.ComboBox";
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 
 			doh.robot.initRobot('../_autoComplete.html?testWidget='+testWidget);
 
@@ -74,7 +75,7 @@
 					node = node.nextSibling;
 				}
 				return node;
-			}
+			};
 
 			// Select a value from the drop down using the keyboard, using "more choices" button to page as necessary
 			var robot_a11ySelectValue = function(combo, text, value, expectedText){
@@ -116,7 +117,7 @@
 							// watch() tests
 							doh.is(expectedText, dv, "watch of displayedValue");
 							doh.is(value, v, "watch of value");
-							doh.is(value, isComboBox ? combo.store.getValue(i, combo.searchAttr) : combo.store.getIdentity(i), "watch of item");
+							doh.is(value, isComboBox ? i[combo.searchAttr] : combo.store.getIdentity(i), "watch of item");
 							h1.unwatch();
 							h2.unwatch();
 							h3.unwatch();
@@ -222,7 +223,7 @@
 							if(!isComboBox){
 								doh.t(combo.isValid(), "isValid()");
 							}
-							doh.is(isComboBox ? "Kentucky" : "KY", v, "watch of value")
+							doh.is(isComboBox ? "Kentucky" : "KY", v, "watch of value");
 							doh.is("Kentucky", dv, "watch of displayedValue")
 						}), 900);
 						return d;
@@ -276,6 +277,87 @@
 				// TODO: test some other set("value") calls
 			]);
 
+			doh.register("back compat", [
+				function fetch_optionTags(){
+					// Make sure that myComboBox.store.fetch() still works even though
+					// ComboBox is using the new dojo.store API
+					var d = new doh.Deferred();
+					doh.t(dijit.byId("setvaluetest").store, "store exists");
+					doh.t(dojo.isFunction(dijit.byId("setvaluetest").store.fetch), "fetch exists");
+					dijit.byId("setvaluetest").store.fetch({
+						onBegin: d.getTestCallback(function(total){
+							doh.is(61, total, "# records");
+						})
+					});
+					return d;
+				},
+				function fetch_externalStore(){
+					// Make sure that myComboBox.store.fetch() still works even though
+					// ComboBox is using the new dojo.store API
+					var d = new doh.Deferred();
+					doh.t(dijit.byId("datatest").store, "store exists");
+					doh.t(dojo.isFunction(dijit.byId("datatest").store.fetch), "fetch exists");
+					dijit.byId("datatest").store.fetch({
+						onBegin: d.getTestCallback(function(total){
+							doh.is(61, total, "# records");
+						})
+					});
+					return d;
+				},
+				{
+					timeout:60000,
+					name:"fetch() called with string",
+					runTest:function(){
+						// Make sure typing into a ComboBox connected to an
+						// old dojo.data store calls store.fetch() with a String argument rather than a Regex
+
+						var d = new doh.Deferred();
+						combo = dijit.byId("datatest");
+
+						doh.t("fetch" in combo.store,
+								"combo.store has fetch() method (i.e. it's the old dojo.data API)");
+
+						combo.focusNode.focus();
+						doh.robot.sequence(function(){ combo.set("value", null); }, 500);
+
+						// Keypress (below) will trigger a call to store.fetch, which will then call this code.
+						doh.robot.sequence(function(){
+							var handle = dojo.aspect.after(combo.store, "fetch", d.getTestErrback(function(args){
+								handle.remove();
+								doh.isNot(null, args && args.query && args.query.name,
+										"args.query.name set");
+								doh.is("string", typeof args.query.name, "typeof searchAttr");
+							}), true);
+						}, 500);
+						doh.robot.keyPress("k", 500);
+
+						// Code below merely to let ComboBox finish any pending requests, so "datatest" ComboBox
+						// doesn't grab focus in the middle of with the "direct input" test below.
+						doh.robot.keyPress(dojo.keys.ENTER, 500);
+						doh.robot.sequence(function(){
+							d.callback(true);
+						}, 500);
+
+						return d;
+					}
+				}
+			]);
+
+			!isComboBox && doh.register("FilteringSelect back-compat", [
+				function setDisplayedValue(){
+					// Make sure that set("displayedValue", ...) on a FilteringSelect connected to an
+					// old dojo.data store calls store.fetch() with a String argument rather than a Regex
+					var combo = dijit.byId("datatest");
+					doh.t("fetch" in combo.store, "combo.store has fetch() method (i.e. it's the old dojo.data API)");
+					var handle = dojo.aspect.after(combo.store, "fetch", function(args){
+						handle.remove();
+						doh.isNot(null, args && args.query && args.query.name, "args.query.name set");
+						doh.is("string", typeof args.query.name, "typeof searchAttr");
+					}, true);
+					combo.set("displayedValue", "Kentucky");
+				}
+			]);
+
 			doh.register("direct input", [
 				// Type a valid value and press Enter
 				{
@@ -296,7 +378,7 @@
 						return robot_typeValue((this.combo = dijit.byId(this.combo)), "zxcxarax", isComboBox?"zxcxarax":"");
 					}
 				},
-				
+
 				// Check on the invalid value from the previous test
 				{
 					timeout:60000,
@@ -326,7 +408,7 @@
 				runTest:function(){
 					dojo.global.formSubmitted = false;
 					var d = new doh.Deferred();
-					var combo = dijit.byId("setvaluetest");	
+					var combo = dijit.byId("setvaluetest");
 					combo.focus();
 
 					// Initial conditions:
@@ -656,7 +738,7 @@
 								doh.is("cancel Co*", log[3].type + " " + log[3].query.name);
 								doh.is("start Co", log[4].type + " " + log[4].query.name);	// trying to lookup ID for item named "co"
 								doh.is("end Co", log[5].type + " " + log[5].query.name);
-								
+
 								// also, form should not have submitted because the FilteringSelect
 								// is still trying to fill in it's item value
 								doh.f(dojo.global.formSubmitted, "form not submitted");
@@ -699,13 +781,13 @@
 						var d = new doh.Deferred();
 
 						dojo.byId("datatestDijit").focus();
-						doh.is("datatestDijit", dojo.global.dijit._curFocus.id, "focused on elem before disabled combo");
+						doh.is("datatestDijit", dojo.global.dijit.focus.curNode.id, "focused on elem before disabled combo");
 
 						// Tab over the disabled ComboBox
 						doh.robot.keyPress(dojo.keys.TAB, 1000);
 
 						doh.robot.sequence(d.getTestCallback(function(){
-							doh.is("combobox4", dojo.global.dijit._curFocus.id, "focused on 'enable' button after disabled combo");
+							doh.is("combobox4", dojo.global.dijit.focus.curNode.id, "focused on 'enable' button after disabled combo");
 						}), 1000);
 
 						return d;
@@ -813,8 +895,7 @@
 					name:"labelFunc_type",
 					combo:"labelFunc",
 					runTest:function(){
-						var d = robot_typeValue((this.combo = dijit.byId(this.combo)), "Alabama", isComboBox? "Alabama" : "AL", "Alabama");
-						return d;
+						return robot_typeValue((this.combo = dijit.byId(this.combo)), "Alabama", isComboBox ? "Alabama" : "AL", "Alabama");
 					}
 				},
 
@@ -831,7 +912,7 @@
 						doh.is("h2", w.focusNode.value, "set() focus value");
 
 						w.focus();
-						
+
 						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 100);
 
 						doh.robot.sequence(d.getTestCallback(function(){

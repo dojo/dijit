@@ -1,11 +1,14 @@
-define(["dojo", "..", "dojo/window"], function(dojo, dijit){
+define([
+	"dojo/_base/declare",	// declare
+	"dojo/window" // winUtils.scrollIntoView
+], function(declare, winUtils){
 
 // module:
 //		dijit/form/_ListBase
 // summary:
 //		Focus-less menu to handle UI events consistently
 
-dojo.declare( "dijit.form._ListBase", null, {
+return declare( "dijit.form._ListBase", null, {
 	// summary:
 	//		Focus-less menu to handle UI events consistently
 	//		Abstract methods that must be defined externally:
@@ -19,7 +22,7 @@ dojo.declare( "dijit.form._ListBase", null, {
 	selected: null,
 
 	_getTarget: function(/*Event*/ evt){
-		var tgt = evt.touches ? evt.touches[0].target : evt.target;
+		var tgt = evt.target;
 		var container = this.containerNode;
 		if(tgt == container || tgt == this.domNode){ return null; }
 		while(tgt && tgt.parentNode != container){
@@ -101,7 +104,7 @@ dojo.declare( "dijit.form._ListBase", null, {
 			}
 			if(node && node.parentNode == this.containerNode){
 				this.selected = node;
-				dojo.window.scrollIntoView(node);
+				winUtils.scrollIntoView(node);
 				this.onSelect(node);
 			}
 		}else if(node){
@@ -117,5 +120,4 @@ dojo.declare( "dijit.form._ListBase", null, {
 	}
 });
 
-return dijit.form._ListBase;
 });

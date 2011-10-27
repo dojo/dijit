@@ -1,11 +1,18 @@
 define([
-	"dojo",
-	".",
-	"dojo/text!./templates/ProgressBar.html",
-	"dojo/fx",
-	"dojo/number",
+	"require",			// require.toUrl
+	"dojo/_base/declare", // declare
+	"dojo/dom-class", // domClass.toggle
+	"dojo/_base/lang", // lang.mixin
+	"dojo/number", // number.format
 	"./_Widget",
-	"./_TemplatedMixin"], function(dojo, dijit, template){
+	"./_TemplatedMixin",
+	"dojo/text!./templates/ProgressBar.html"
+], function(require, declare, domClass, lang, number, _Widget, _TemplatedMixin, template){
+
+/*=====
+	var _Widget = dijit._Widget;
+	var _TemplatedMixin = dijit._TemplatedMixin;
+=====*/
 
 // module:
 //		dijit/ProgressBar
@@ -14,13 +21,13 @@ define([
 //		(often the percentage completed) of a task.
 
 
-dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._TemplatedMixin], {
+return declare("dijit.ProgressBar", [_Widget, _TemplatedMixin], {
 	// summary:
 	//		A progress indication widget, showing the amount completed
 	//		(often the percentage completed) of a task.
 	//
 	// example:
-	// |	<div dojoType="ProgressBar"
+	// |	<div data-dojo-type="ProgressBar"
 	// |		 places="0"
 	// |		 value="..." maximum="...">
 	// |	</div>
@@ -63,10 +70,10 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._TemplatedMixin], {
 
 	templateString: template,
 
-	// _indeterminateHighContrastImagePath: [private] dojo._URL
+	// _indeterminateHighContrastImagePath: [private] URL
 	//		URL to image to use for indeterminate progress bar when display is in high contrast mode
 	_indeterminateHighContrastImagePath:
-		dojo.moduleUrl("dijit", "themes/a11y/indeterminate_progress.gif"),
+		require.toUrl("./themes/a11y/indeterminate_progress.gif"),
 
 	postMixInProperties: function(){
 		this.inherited(arguments);
@@ -98,13 +105,13 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._TemplatedMixin], {
 
 		// TODO: deprecate this method and use set() instead
 
-		dojo.mixin(this, attributes || {});
+		lang.mixin(this, attributes || {});
 		var tip = this.internalProgress, ap = this.domNode;
 		var percent = 1;
 		if(this.indeterminate){
-			dijit.removeWaiState(ap, "valuenow");
-			dijit.removeWaiState(ap, "valuemin");
-			dijit.removeWaiState(ap, "valuemax");
+			ap.removeAttribute("aria-valuenow");
+			ap.removeAttribute("aria-valuemin");
+			ap.removeAttribute("aria-valuemax");
 		}else{
 			if(String(this.progress).indexOf("%") != -1){
 				percent = Math.min(parseFloat(this.progress)/100, 1);
@@ -114,14 +121,14 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._TemplatedMixin], {
 				percent = this.maximum ? this.progress / this.maximum : 0;
 			}
 
-			dijit.setWaiState(ap, "describedby", this.labelNode.id);
-			dijit.setWaiState(ap, "valuenow", this.progress);
-			dijit.setWaiState(ap, "valuemin", 0);
-			dijit.setWaiState(ap, "valuemax", this.maximum);
+			ap.setAttribute("aria-describedby", this.labelNode.id);
+			ap.setAttribute("aria-valuenow", this.progress);
+			ap.setAttribute("aria-valuemin", 0);
+			ap.setAttribute("aria-valuemax", this.maximum);
 		}
 		this.labelNode.innerHTML = this.report(percent);
 
-		dojo.toggleClass(this.domNode, "dijitProgressBarIndeterminate", this.indeterminate);
+		domClass.toggle(this.domNode, "dijitProgressBarIndeterminate", this.indeterminate);
 		tip.style.width = (percent * 100) + "%";
 		this.onChange();
 	},
@@ -154,7 +161,7 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._TemplatedMixin], {
 		//		extension
 
 		return this.label ? this.label :
-				(this.indeterminate ? "&nbsp;" : dojo.number.format(percent, { type: "percent", places: this.places, locale: this.lang }));
+				(this.indeterminate ? "&#160;" : number.format(percent, { type: "percent", places: this.places, locale: this.lang }));
 	},
 
 	onChange: function(){
@@ -165,6 +172,4 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._TemplatedMixin], {
 	}
 });
 
-
-return dijit.ProgressBar;
 });

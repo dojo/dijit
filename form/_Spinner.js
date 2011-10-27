@@ -1,8 +1,18 @@
 define([
-	"dojo",
-	"..",
+	"dojo/_base/declare", // declare
+	"dojo/_base/event", // event.stop
+	"dojo/keys", // keys keys.DOWN_ARROW keys.PAGE_DOWN keys.PAGE_UP keys.UP_ARROW
+	"dojo/_base/lang", // lang.hitch
+	"dojo/_base/sniff", // has("mozilla")
+	"dijit/typematic",
+	"./RangeBoundTextBox",
 	"dojo/text!./templates/Spinner.html",
-	"./RangeBoundTextBox"], function(dojo, dijit, template){
+	"./_TextBoxMixin"	// selectInputText
+], function(declare, event, keys, lang, has, typematic, RangeBoundTextBox, template, _TextBoxMixin){
+
+/*=====
+	var RangeBoundTextBox = dijit.form.RangeBoundTextBox;
+=====*/
 
 	// module:
 	//		dijit/form/_Spinner
@@ -10,7 +20,7 @@ define([
 	//		Mixin for validation widgets with a spinner.
 
 
-	dojo.declare("dijit.form._Spinner", dijit.form.RangeBoundTextBox, {
+	return declare("dijit.form._Spinner", RangeBoundTextBox, {
 		// summary:
 		//		Mixin for validation widgets with a spinner.
 		// description:
@@ -50,10 +60,12 @@ define([
 			"downArrowNode": "dijitDownArrowButton"
 		},
 
-		adjust: function(/*Object*/ val, /*Number*/ delta){
+		adjust: function(val /*=====, delta =====*/){
 			// summary:
 			//		Overridable function used to adjust a primitive value(Number/Date/...) by the delta amount specified.
 			// 		The val is adjusted in a way that makes sense to the object type.
+			// val: Object
+			// delta: Number
 			// tags:
 			//		protected extension
 			return val;
@@ -64,23 +76,21 @@ define([
 			//		Handler for arrow button or arrow key being pressed
 			if(this.disabled || this.readOnly){ return; }
 			this._setValueAttr(this.adjust(this.get('value'), direction*increment), false);
-			dijit.selectInputText(this.textbox, this.textbox.value.length);
+			_TextBoxMixin.selectInputText(this.textbox, this.textbox.value.length);
 		},
 
-		_arrowReleased: function(/*Node*/ node){
+		_arrowReleased: function(/*Node*/ /*===== node =====*/){
 			// summary:
 			//		Handler for arrow button or arrow key being released
 			this._wheelTimer = null;
-			if(this.disabled || this.readOnly){ return; }
 		},
 
 		_typematicCallback: function(/*Number*/ count, /*DOMNode*/ node, /*Event*/ evt){
 			var inc=this.smallDelta;
 			if(node == this.textbox){
-				var k=dojo.keys;
 				var key = evt.charOrCode;
-				inc = (key == k.PAGE_UP || key == k.PAGE_DOWN) ? this.largeDelta : this.smallDelta;
-				node = (key == k.UP_ARROW || key == k.PAGE_UP) ? this.upArrowNode : this.downArrowNode;
+				inc = (key == keys.PAGE_UP || key == keys.PAGE_DOWN) ? this.largeDelta : this.smallDelta;
+				node = (key == keys.UP_ARROW || key == keys.PAGE_UP) ? this.upArrowNode : this.downArrowNode;
 			}
 			if(count == -1){ this._arrowReleased(node); }
 			else{ this._arrowPressed(node, (node == this.upArrowNode) ? 1 : -1, inc); }
@@ -91,11 +101,17 @@ define([
 			// summary:
 			//		Mouse wheel listener where supported
 
-			dojo.stopEvent(evt);
+			event.stop(evt);
 			// FIXME: Safari bubbles
 
 			// be nice to DOH and scroll as much as the event says to
-			var scrollAmount = evt.detail ? (evt.detail * -1) : (evt.wheelDelta / 120);
+			var wheelDelta = evt.wheelDelta / 120;
+			if(Math.floor(wheelDelta) != wheelDelta){
+				// If not an int multiple of 120, then its touchpad scrolling.
+				// This can change very fast so just assume 1 wheel click to make it more manageable.
+				wheelDelta = evt.wheelDelta > 0 ? 1 : -1;
+			}
+			var scrollAmount = evt.detail ? (evt.detail * -1) : wheelDelta;
 			if(scrollAmount !== 0){
 				var node = this[(scrollAmount > 0 ? "upArrowNode" : "downArrowNode" )];
 
@@ -104,7 +120,7 @@ define([
 				if(!this._wheelTimer){
 					clearTimeout(this._wheelTimer);
 				}
-				this._wheelTimer = setTimeout(dojo.hitch(this,"_arrowReleased",node), 50);
+				this._wheelTimer = setTimeout(lang.hitch(this,"_arrowReleased",node), 50);
 			}
 
 		},
@@ -113,14 +129,11 @@ define([
 			this.inherited(arguments);
 
 			// extra listeners
-			this.connect(this.domNode, !dojo.isMozilla ? "onmousewheel" : 'DOMMouseScroll', "_mouseWheeled");
-			this._connects.push(dijit.typematic.addListener(this.upArrowNode, this.textbox, {charOrCode:dojo.keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout, this.minimumTimeout));
-			this._connects.push(dijit.typematic.addListener(this.downArrowNode, this.textbox, {charOrCode:dojo.keys.DOWN_ARROW,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout, this.minimumTimeout));
-			this._connects.push(dijit.typematic.addListener(this.upArrowNode, this.textbox, {charOrCode:dojo.keys.PAGE_UP,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout, this.minimumTimeout));
-			this._connects.push(dijit.typematic.addListener(this.downArrowNode, this.textbox, {charOrCode:dojo.keys.PAGE_DOWN,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout, this.minimumTimeout));
+			this.connect(this.domNode, !has("mozilla") ? "onmousewheel" : 'DOMMouseScroll', "_mouseWheeled");
+			this._connects.push(typematic.addListener(this.upArrowNode, this.textbox, {charOrCode:keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout, this.minimumTimeout));
+			this._connects.push(typematic.addListener(this.downArrowNode, this.textbox, {charOrCode:keys.DOWN_ARROW,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout, this.minimumTimeout));
+			this._connects.push(typematic.addListener(this.upArrowNode, this.textbox, {charOrCode:keys.PAGE_UP,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout, this.minimumTimeout));
+			this._connects.push(typematic.addListener(this.downArrowNode, this.textbox, {charOrCode:keys.PAGE_DOWN,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout, this.minimumTimeout));
 		}
 	});
-
-
-	return dijit.form._Spinner;
 });
