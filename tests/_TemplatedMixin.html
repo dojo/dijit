@@ -86,10 +86,6 @@
 
 				var testW;
 
-				doh.register("parse", function(){
-					dojo.parser.parse();
-				});
-
 				doh.register("_TemplatedMixin",
 					[
 						function simple(t){
@@ -216,6 +212,25 @@
 						}
 					]
 				);
+
+				// This is more of a test of _WidgetBase, but putting here for convenience
+				// since it tests the case when srcNodeRef is swapped for a widget's template
+				doh.register("srcNodeRef", [
+					function replaceMe(){
+						var prev = dojo.byId("replaceMe").previousSibling;
+
+						// This should swap out the <span id="replaceMe"> w/the widget
+						var widget = new SimpleTemplate({}, "replaceMe");
+
+						// Make sure the swap occurred
+						doh.is(widget.domNode, prev.nextSibling, "swapped");
+						doh.is(null, dojo.byId("replaceMe"), "original node removed");
+
+						// For garbage collection widget.srcNodeRef should also be cleared
+						doh.is(null, widget.srcNodeRef, "srcNodeRef cleared");
+					}
+				]);
+
 				doh.run();
 			});
 		</script>
@@ -226,5 +241,6 @@
 		<table><tbody id="trWrapper"></tbody></table>
 		<div id="attachPointWrapper"></div>
 		<div id="attachEventWrapper"></div>
+		<span id="replaceMe"></span>
 	</body>
 </html>

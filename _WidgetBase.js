@@ -322,6 +322,8 @@ return declare("dijit._WidgetBase", Stateful, {
 
 		this.buildRendering();
 
+		var deleteSrcNodeRef;
+
 		if(this.domNode){
 			// Copy attributes listed in attributeMap into the [newly created] DOM for the widget.
 			// Also calls custom setters for all attributes with custom setters.
@@ -334,10 +336,9 @@ return declare("dijit._WidgetBase", Stateful, {
 			var source = this.srcNodeRef;
 			if(source && source.parentNode && this.domNode !== source){
 				source.parentNode.replaceChild(this.domNode, source);
+				deleteSrcNodeRef = true;
 			}
-		}
 
-		if(this.domNode){
 			// Note: for 2.0 may want to rename widgetId to dojo._scopeName + "_widgetId",
 			// assuming that dojo._scopeName even exists in 2.0
 			this.domNode.setAttribute("widgetId", this.id);
@@ -345,7 +346,8 @@ return declare("dijit._WidgetBase", Stateful, {
 		this.postCreate();
 
 		// If srcNodeRef has been processed and removed from the DOM (e.g. TemplatedWidget) then delete it to allow GC.
-		if(this.srcNodeRef && !this.srcNodeRef.parentNode){
+		// I think for back-compatibility it isn't deleting srcNodeRef until after postCreate() has run.
+		if(deleteSrcNodeRef){
 			delete this.srcNodeRef;
 		}
 
