@@ -174,20 +174,13 @@
 				doh.t(yAxisValid, "Y axis is invalid. yDiff was: "+yDiff);
 			}
 			
-			//Verify the following is true:
-			//	1. The tooltip arrow is next to the textbox
-			//	2. The text fits inside the tooltip
+			// Test for when the tooltip has large words or nowrap so that it can't be displayed properly,
+			// given the space available.   Verify the following is true:
+			//	   1. The tooltip arrow is next to the textbox
+			// Note that tooltip text may be cut off if there wasn't enough room to display the tooltip
+			// to the left/right of the anchor node
 			function testNoWrapOrLargeWords(textbox){
 				verifyTooltipArrowPosition(textbox);
-				
-				//Verify the text fits inside the tooltip
-				var tooltipContainer = dojo.query(".dijitTooltipContainer")[0];
-				tooltipContainer.style.overflow = "auto";
-				var scrollWidth = tooltipContainer.scrollWidth;
-				tooltipContainer.style.overflow = "visible"; //change it back
-				
-				var tooltipWidth = dojo.position(tooltipContainer).w;
-				doh.t(tooltipWidth >= scrollWidth);
 			}
 		
 			function testAboveBelow(textbox, verifyConnectorPosition){
