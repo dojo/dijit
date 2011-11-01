@@ -62,6 +62,11 @@ define([
 				   }[corner.charAt(0)]
 			};
 
+			// Clear left/right position settings set earlier so they don't interfere with calculations,
+			// specifically when layoutNode() (a.k.a. Tooltip.orient()) measures natural width of Tooltip
+			var s = node.style;
+			s.left = s.right = "auto";
+
 			// configure node to be displayed in given position relative to button
 			// (need to do this in order to get an accurate size for the node, because
 			// a tooltip's size changes based on position, due to triangle)

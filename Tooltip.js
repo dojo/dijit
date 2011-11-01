@@ -117,10 +117,20 @@ define([
 			//		width to whatever width is available
 			// tags:
 			//		protected
+
 			this.connectorNode.style.top = ""; //reset to default
 
-			//Adjust the spaceAvailable width, without changing the spaceAvailable object
-			var tooltipSpaceAvaliableWidth = spaceAvailable.w - this.connectorNode.offsetWidth;
+			// Adjust for space taking by tooltip connector.
+			// Take care not to modify the original spaceAvailable arg as that confuses the caller (dijit.place).
+			var heightAvailable = spaceAvailable.h,
+				widthAvailable = spaceAvailable.w;
+			if(aroundCorner.charAt(1) != tooltipCorner.charAt(1)){
+				// left/right tooltip
+				widthAvailable -= this.connectorNode.offsetWidth;
+			}else{
+				// above/below tooltip
+				heightAvailable -= this.connectorNode.offsetHeight;
+			}
 
 			node.className = "dijitTooltip " +
 				{
@@ -140,7 +150,7 @@ define([
 			this.domNode.style.width = "auto";
 			var size = domGeometry.getContentBox(this.domNode);
 
-			var width = Math.min((Math.max(tooltipSpaceAvaliableWidth,1)), size.w);
+			var width = Math.min((Math.max(widthAvailable,1)), size.w);
 			var widthWasReduced = width < size.w;
 
 			this.domNode.style.width = width+"px";
@@ -160,9 +170,9 @@ define([
 			if(tooltipCorner.charAt(0) == 'B' && aroundCorner.charAt(0) == 'B'){
 				var mb = domGeometry.getMarginBox(node);
 				var tooltipConnectorHeight = this.connectorNode.offsetHeight;
-				if(mb.h > spaceAvailable.h){
+				if(mb.h > heightAvailable){
 					// The tooltip starts at the top of the page and will extend past the aroundNode
-					var aroundNodePlacement = spaceAvailable.h - ((aroundNodeCoords.h + tooltipConnectorHeight) >> 1);
+					var aroundNodePlacement = heightAvailable - ((aroundNodeCoords.h + tooltipConnectorHeight) >> 1);
 					this.connectorNode.style.top = aroundNodePlacement + "px";
 					this.connectorNode.style.bottom = "";
 				}else{
@@ -180,7 +190,7 @@ define([
 				this.connectorNode.style.bottom = "";
 			}
 
-			return Math.max(0, size.w - tooltipSpaceAvaliableWidth);
+			return Math.max(0, size.w - widthAvailable);
 		},
 
 		_onShow: function(){
