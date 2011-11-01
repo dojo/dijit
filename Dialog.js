@@ -149,6 +149,10 @@ define([
 		//		</div>
 		"aria-describedby":"",
 
+		// maxRatio: Number
+		//		Maximum size to allow the dialog to expand to, relative to viewport size
+		maxRatio: 0.9,
+
 		postMixInProperties: function(){
 			var _nlsResources = i18n.getLocalization("dijit", "common");
 			lang.mixin(this, _nlsResources);
@@ -247,12 +251,19 @@ define([
 			}
 
 			var bb = domGeometry.position(this.domNode);
+
+			// Get viewport size but then reduce it by a bit; Dialog should always have some space around it
+			// to indicate that it's a popup.   This will also compensate for possible scrollbars on viewport.
 			var viewport = winUtils.getBox();
+			viewport.w *= this.maxRatio;
+			viewport.h *= this.maxRatio;
+
 			if(bb.w >= viewport.w || bb.h >= viewport.h){
 				// Reduce size of dialog contents so that dialog fits in viewport
 
-				var w = Math.min(bb.w, Math.floor(viewport.w * 0.75)),
-					h = Math.min(bb.h, Math.floor(viewport.h * 0.75));
+				var containerSize = domGeometry.position(this.containerNode),
+					w = Math.min(bb.w, viewport.w) - (bb.w - containerSize.w),
+					h = Math.min(bb.h, viewport.h) - (bb.h - containerSize.h);
 
 				if(this._singleChild && this._singleChild.resize){
 					this._singleChildOriginalStyle = this._singleChild.domNode.style.cssText;
@@ -478,6 +489,7 @@ define([
 					dijit._underlay.layout();
 				}
 				this._position();
+				this._size();
 			}
 		},
 
