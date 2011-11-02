@@ -24,8 +24,8 @@
 			dojo.ready(function(){
 				doh.robot.initRobot('../test_Calendar.html');
 
-				// refs to Calendar widget
-				var cal1;
+				// refs to Calendar widgets
+				var cal1, cal5;
 
 				// log of calls to onChange handler
 				var changes = [];
@@ -45,6 +45,22 @@
 
 						cal1.set("value", null);
 						doh.is(null, cal1.get("value"), 'get("value") after set to null');
+					},
+
+					function initialValue(){
+						cal5 = dijit.byId("calendar5");
+
+						var selectedDate = dojo.query(".dijitCalendarSelectedDate", cal5.domNode);
+						doh.is(1, selectedDate.length, "date is selected");
+						doh.is("14", innerText(selectedDate[0]), "selected date");
+
+						var selectedMonth = dojo.query(".dijitCalendarCurrentMonthLabel", cal5.domNode);
+						doh.is(1, selectedMonth.length, "month is selected");
+						doh.is("March", innerText(selectedMonth[0]), "selected month");
+
+						var selectedYear = dojo.query(".dijitCalendarSelectedYear", cal5.domNode);
+						doh.is(1, selectedYear.length, "year is selected");
+						doh.is("2008", innerText(selectedYear[0]), "selected year");
 					}
 				]);
 				

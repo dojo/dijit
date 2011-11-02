@@ -129,7 +129,9 @@ define([
 				value = new this.dateClassObj(value);
 			}
 			if(this._isValidDate(value)){
-				if(!this._isValidDate(this.value) || this.dateFuncObj.compare(value, this.value)){
+				// Try to avoid re-rendering when new value is the same as old value, but be careful
+				// during initialization when this.value == value even though the grid hasn't been rendered yet.
+				if(!this._created || !this._isValidDate(this.value) || this.dateFuncObj.compare(value, this.value)){
 					value.setHours(1, 0, 0, 0); // round to nearest day (1am to avoid issues when DST shift occurs at midnight, see #8521, #9366)
 
 					if(!this.isDisabledDate(value, this.lang)){
@@ -140,7 +142,7 @@ define([
 						// new month/year).
 						this.set("currentFocus", value);
 
-						if(priorityChange || typeof priorityChange == "undefined"){
+						if(this._created && (priorityChange || typeof priorityChange == "undefined")){
 							this.onChange(this.get('value'));
 						}
 					}
