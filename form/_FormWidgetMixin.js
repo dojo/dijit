@@ -78,7 +78,7 @@ return declare("dijit.form._FormWidgetMixin", null, {
 		if(this.valueNode){
 			domAttr.set(this.valueNode, 'disabled', value);
 		}
-		this.focusNode.setAttribute("aria-disabled", value);
+		this.focusNode.setAttribute("aria-disabled", value ? "true" : "false");
 
 		if(value){
 			// reset these, because after the domNode is disabled, we can no longer receive

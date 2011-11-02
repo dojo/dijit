@@ -29,7 +29,7 @@ define([
 			//		Hook so attr('checked', bool) works.
 			//		Sets the class and state for the check box.
 			domClass.toggle(this.domNode, "dijitCheckedMenuItemChecked", checked);
-			this.domNode.setAttribute("aria-checked", checked);
+			this.domNode.setAttribute("aria-checked", checked ? "true" : "false");
 			this._set("checked", checked);
 		},
 

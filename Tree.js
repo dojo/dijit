@@ -468,7 +468,7 @@ var TreeNode = declare(
 		// description:
 		//		In particular, setting a node as selected involves setting tabIndex
 		//		so that when user tabs to the tree, focus will go to that node (only).
-		this.labelNode.setAttribute("aria-selected", selected);
+		this.labelNode.setAttribute("aria-selected", selected ? "true" : "false");
 		domClass.toggle(this.rowNode, "dijitTreeRowSelected", selected);
 	},
 

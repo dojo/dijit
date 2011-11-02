@@ -130,8 +130,8 @@ define([
 
 		_setSelectedAttr: function(/*Boolean*/ isSelected){
 			this._set("selected", isSelected);
-			this.focusNode.setAttribute("aria-expanded", isSelected);
-			this.focusNode.setAttribute("aria-selected", isSelected);
+			this.focusNode.setAttribute("aria-expanded", isSelected ? "true" : "false");
+			this.focusNode.setAttribute("aria-selected", isSelected ? "true" : "false");
 			this.focusNode.setAttribute("tabIndex", isSelected ? "0" : "-1");
 		}
 	});

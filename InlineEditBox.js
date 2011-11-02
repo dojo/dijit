@@ -386,7 +386,7 @@ var InlineEditBox = declare("dijit.InlineEditBox", _Widget, {
 		// summary:
 		//		Hook to make set("disabled", ...) work.
 		//		Set disabled state of widget.
-		this.domNode.setAttribute("aria-disabled", disabled);
+		this.domNode.setAttribute("aria-disabled", disabled ? "true" : "false");
 		if(disabled){
 			this.displayNode.removeAttribute("tabIndex");
 		}else{

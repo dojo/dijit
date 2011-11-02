@@ -385,7 +385,7 @@ return declare("dijit.form._FormSelectWidget", _FormValueWidget, {
 					return child.option && (v === child.option.value);
 				});
 				domClass.toggle(child.domNode, this.baseClass + "SelectedOption", isSelected);
-				child.domNode.setAttribute("aria-selected", isSelected);
+				child.domNode.setAttribute("aria-selected", isSelected ? "true" : "false");
 			}, this);
 		}
 	},

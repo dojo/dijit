@@ -156,7 +156,7 @@ define([
 			// Additional code to set disabled state of ComboBox node.
 			// Overrides _FormValueWidget._setDisabledAttr() or ValidationTextBox._setDisabledAttr().
 			this.inherited(arguments);
-			this.domNode.setAttribute("aria-disabled", value);
+			this.domNode.setAttribute("aria-disabled", value ? "true" : "false");
 		},
 
 		_abortQuery: function(){

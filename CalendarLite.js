@@ -215,14 +215,14 @@ define([
 
 				if(this._isSelectedDate(date, this.lang)){
 					clazz = "dijitCalendarSelectedDate " + clazz;
-					template.setAttribute("aria-selected", true);
+					template.setAttribute("aria-selected", "true");
 				}else{
-					template.setAttribute("aria-selected", false);
+					template.setAttribute("aria-selected", "false");
 				}
 
 				if(this.isDisabledDate(date, this.lang)){
 					clazz = "dijitCalendarDisabledDate " + clazz;
-					template.setAttribute("aria-disabled", true);
+					template.setAttribute("aria-disabled", "true");
 				}else{
 					clazz = "dijitCalendarEnabledDate " + clazz;
 					template.removeAttribute("aria-disabled");
