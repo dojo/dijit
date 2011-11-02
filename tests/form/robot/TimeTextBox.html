@@ -218,8 +218,8 @@
 								w = dijit.byId('q1'),
 								toClick;
 	
-							// click field, thus opening drop down
-							doh.robot.mouseMoveAt(w.domNode, 500, 1);
+							// click down arrow, opening drop down
+							doh.robot.mouseMoveAt(w._buttonNode, 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 	
 							doh.robot.sequence(d.getTestErrback(function(){
@@ -248,14 +248,14 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							q5 = dijit.byId('q5');
-							handler = q5.connect(q5.focusNode, 'onmouseup', d.getTestCallback(function(){
+							handler = q5.connect(q5._buttonNode, 'onmouseup', d.getTestCallback(function(){
 								// drop down list should be filtered to 1 hour and 15 minute increments
 								var popup = dijit.byId("q5_popup"),
 									children = dojo.query(".dijitTimePickerItem", popup.domNode);
 								doh.is(4, children.length, "# of items in drop down");
 							}));
-							// click field, thus opening drop down
-							doh.robot.mouseMoveAt(q5.focusNode, 500, 1);
+							// click down arrow, opening drop down
+							doh.robot.mouseMoveAt(q5._buttonNode, 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							return d;
 						},
@@ -276,8 +276,8 @@
 							q20 = dijit.byId('q20');
 	
 							q20.set('disabled',true);
-							// click field, thus opening drop down
-							doh.robot.mouseMoveAt(q20.domNode, 500, 1);
+							// click down arrow, but disabled so won't open drop down
+							doh.robot.mouseMoveAt(q20._buttonNode, 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.typeKeys('1', 500, 200);
 	
@@ -302,8 +302,8 @@
 							q20 = dijit.byId('q20');
 	
 							q20.set('readOnly',true);
-							// click field, thus opening drop down
-							doh.robot.mouseMoveAt(q20.domNode, 500, 1);
+							// click down arrow, but readonly so won't open drop down
+							doh.robot.mouseMoveAt(q20._buttonNode, 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.typeKeys('1', 500, 200);
 	

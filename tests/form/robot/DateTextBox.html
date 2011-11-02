@@ -138,6 +138,7 @@
 
 							german.set('value', new Date(2006, 9, 15));	// 10/15/2006
 
+							// since there's no down arrow we just click on the <input> to open the drop down
 							doh.robot.mouseMoveAt(german.domNode, 0, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
@@ -611,7 +612,7 @@
 								doh.is(0, watches.length, "no watch(value) events yet #1");
 							}), 500);
 
-							doh.robot.mouseMoveAt(american.focusNode, 0, 1);
+							doh.robot.mouseMoveAt(american._buttonNode, 0, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -1021,7 +1022,7 @@
 							doh.f(pattern.get("value"), "initially blank");
 
 							// open the drop down
-							doh.robot.mouseMoveAt("pattern", 0, 1);
+							doh.robot.mouseMoveAt(dijit.byId("pattern")._buttonNode, 0, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.sequence(d.getTestErrback(function(){
 								var calendar = dijit.byId("pattern_popup");
@@ -1054,7 +1055,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.mouseMoveAt(american.focusNode, 0, 1);
+							doh.robot.mouseMoveAt(american._buttonNode, 0, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -1168,7 +1169,7 @@
 					}
 				]);
 
-				doh.register("openOnClick=false", [
+				doh.register("clicking input", [
 					{
 						name: "click on input",
 						timeout: 6000,

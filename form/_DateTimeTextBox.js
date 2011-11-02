@@ -45,10 +45,6 @@ define([
 		//		Set this textbox to display a down arrow button, to open the drop down list.
 		hasDownArrow: true,
 
-		// openOnClick: [const] Boolean
-		//		Set to true to open drop down upon clicking anywhere on the textbox.
-		openOnClick: true,
-
 		/*=====
 		// constraints: dijit.form._DateTimeTextBox.__Constraints
 		//		Despite the name, this parameter specifies both constraints on the input
@@ -149,10 +145,9 @@ define([
 				this._buttonNode.style.display = "none";
 			}
 
-			// If openOnClick is true, we basically just want to treat the whole widget as the
-			// button.  We need to do that also if the actual drop down button will be hidden,
-			// so that there's a mouse method for opening the drop down.
-			if(this.openOnClick || !this.hasDownArrow){
+			// If hasDownArrow is false, we basically just want to treat the whole widget as the
+			// button.
+			if(!this.hasDownArrow){
 				this._buttonNode = this.domNode;
 				this.baseClass += " dijitComboBoxOpenOnClick";
 			}

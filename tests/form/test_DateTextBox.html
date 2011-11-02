@@ -86,7 +86,7 @@
 			<div class="dojoTitlePaneLabel">
 				<label for="localLong"> Date (local format - long) </label>
 				<span class="noticeMessage">DateTextBox class,
-					Attributes: required="true", trim="true", openOnClick=false, constraints={min:'2004-01-01',max:'2006-12-31',formatLength:'long'}. Works for leap years</span>
+					Attributes: required="true", trim="true", constraints={min:'2004-01-01',max:'2006-12-31',formatLength:'long'}. Works for leap years</span>
 			</div>
 			<div class="testExample">
 				<input id="localLong" data-dojo-id="localLong" data-dojo-type="dijit.form.DateTextBox"
@@ -94,7 +94,6 @@
 					constraints:{min:"2004-01-01",max:"2006-12-31",formatLength:"long"},
 					required:true,
 					trim:true,
-					openOnClick:false,
 					onChange:function(val){ dojo.byId("oc2").value = val; },
 					onMouseEnter:eventHandler,
 					onMouseLeave:eventHandler,
