@@ -112,8 +112,9 @@
 							var wasClicked = false;
 							var connection;
 							
-							//Show the popup
-							doh.robot.mouseMoveAt("dateText_" + xId, 500, 1);
+							// Show the popup
+							var textbox = dijit.byId("dateText_" + xId);
+							doh.robot.mouseMoveAt(textbox._buttonNode, 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							
 							doh.robot.sequence(function(){
