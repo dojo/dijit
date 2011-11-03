@@ -57,6 +57,9 @@ dojo.mixin(dijit, {
 						}
 					}
 					bm = {isCollapsed:true};
+					if(sel.rangeCount){
+						bm.mark = sel.getRangeAt(0).cloneRange();
+					}
 				}else{
 					rg = sel.getRangeAt(0);
 					bm = {isCollapsed: false, mark: rg.cloneRange()};

@@ -40,11 +40,11 @@
 	background-position:0 -30px;
 	background-repeat:repeat-x;
 	background-color:rgba(171,214,255,0);
-	border-radius: 2px;	
 	-moz-border-radius: 2px;	
-	-webkit-border-radius: 2px;	
-	-moz-box-shadow: none;
+	border-radius: 2px;	
 	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
 	-webkit-transition-property:background-color;
 	-webkit-transition-duration:.3s, .35s;
 }

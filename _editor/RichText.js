@@ -85,22 +85,6 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		this.events = [].concat(this.events);
 
 		this._keyHandlers = {};
-		this.contentPreFilters.push(dojo.hitch(this, "_preFixUrlAttributes"));
-		if(dojo.isMoz){
-			this.contentPreFilters.push(this._normalizeFontStyle);
-			this.contentPostFilters.push(this._removeMozBogus);
-		}
-		if(dojo.isWebKit){
-			// Try to clean up WebKit bogus artifacts.  The inserted classes
-			// made by WebKit sometimes messes things up.
-			this.contentPreFilters.push(this._removeWebkitBogus);
-			this.contentPostFilters.push(this._removeWebkitBogus);
-		}
-		if(dojo.isIE){
-			// IE generates <strong> and <em> but we want to normalize to <b> and <i>
-			this.contentPostFilters.push(this._normalizeFontStyle);
-		}
-		//this.contentDomPostFilters.push(this._postDomFixUrlAttributes);
 
 		if(params && dojo.isString(params.value)){
 			this.value = params.value;
@@ -175,6 +159,23 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			console.warn("RichText should not be used with the TEXTAREA tag.  See dijit._editor.RichText docs.");
 		}
 
+		// Push in the builtin filters now, making them the first executed, but not over-riding anything
+		// users passed in.  See: #6062
+		this.contentPreFilters = [dojo.hitch(this, "_preFixUrlAttributes")].concat(this.contentPreFilters);
+		if(dojo.isMoz){
+			this.contentPreFilters = [this._normalizeFontStyle].concat(this.contentPreFilters);
+			this.contentPostFilters = [this._removeMozBogus].concat(this.contentPostFilters);
+		}
+		if(dojo.isWebKit){
+			// Try to clean up WebKit bogus artifacts.  The inserted classes
+			// made by WebKit sometimes messes things up.
+			this.contentPreFilters = [this._removeWebkitBogus].concat(this.contentPreFilters);
+			this.contentPostFilters = [this._removeWebkitBogus].concat(this.contentPostFilters);
+		}
+		if(dojo.isIE){
+			// IE generates <strong> and <em> but we want to normalize to <b> and <i>
+			this.contentPostFilters = [this._normalizeFontStyle].concat(this.contentPostFilters);
+		}
 		this.inherited(arguments);
 
 		dojo.publish(dijit._scopeName + "._editor.RichText::init", [this]);
@@ -243,17 +244,18 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		//		Handle that here.
 		// tags:
 		//		private
-		if(this._editorCommandsLocalized){
+		if(dijit._editor._editorCommandsLocalized){
+			// Use the already generate cache of mappings.  
+			this._local2NativeFormatNames = dijit._editor._local2NativeFormatNames;
+			this._native2LocalFormatNames = dijit._editor._native2LocalFormatNames;
 			return;
 		}
-		this._editorCommandsLocalized = true;
-
+		dijit._editor._editorCommandsLocalized = true;
+		dijit._editor._local2NativeFormatNames = {};
+		dijit._editor._native2LocalFormatNames = {};
+		this._local2NativeFormatNames = dijit._editor._local2NativeFormatNames;
+		this._native2LocalFormatNames = dijit._editor._native2LocalFormatNames;
 		//in IE, names for blockformat is locale dependent, so we cache the values here
-
-		//if the normal way fails, we try the hard way to get the list
-
-		//do not use _cacheLocalBlockFormatNames here, as it will
-		//trigger security warning in IE7
 
 		//put p after div, so if IE returns Normal, we show it as paragraph
 		//We can distinguish p and div if IE returns Normal, however, in order to detect that,
@@ -263,31 +265,36 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		var localhtml = "", format, i=0;
 		while((format=formats[i++])){
 			//append a <br> after each element to separate the elements more reliably
-			if(format.charAt(1) != 'l'){
+			if(format.charAt(1) !== 'l'){
 				localhtml += "<"+format+"><span>content</span></"+format+"><br/>";
 			}else{
 				localhtml += "<"+format+"><li>content</li></"+format+"><br/>";
 			}
 		}
-		//queryCommandValue returns empty if we hide editNode, so move it out of screen temporary
-		var div = dojo.doc.createElement('div');
-		dojo.style(div, {
-			position: "absolute",
-			top: "-2000px"
+		// queryCommandValue returns empty if we hide editNode, so move it out of screen temporary
+		// Also, IE9 does weird stuff unless we do it inside the editor iframe.
+		var style = { position: "absolute", top: "0px", zIndex: 10, opacity: 0.01 };
+		var div = dojo.create('div', {style: style, innerHTML: localhtml});
+		dojo.body().appendChild(div);
+
+		// IE9 has a timing issue with doing this right after setting
+		// the inner HTML, so put a delay in.
+		var inject = dojo.hitch(this, function(){
+			var node = div.firstChild;
+			while(node){
+				try{
+					dijit._editor.selection.selectElement(node.firstChild);
+					var nativename = node.tagName.toLowerCase();
+					this._local2NativeFormatNames[nativename] = document.queryCommandValue("formatblock");
+					this._native2LocalFormatNames[this._local2NativeFormatNames[nativename]] = nativename;
+					node = node.nextSibling.nextSibling;
+					//console.log("Mapped: ", nativename, " to: ", this._local2NativeFormatNames[nativename]);
+				}catch(e) { /*Sqelch the occasional IE9 error */ }
+			}
+			div.parentNode.removeChild(div);
+			div.innerHTML = "";
 		});
-		dojo.doc.body.appendChild(div);
-		div.innerHTML = localhtml;
-		var node = div.firstChild;
-		while(node){
-			dijit._editor.selection.selectElement(node.firstChild);
-			dojo.withGlobal(this.window, "selectElement", dijit._editor.selection, [node.firstChild]);
-			var nativename = node.tagName.toLowerCase();
-			this._local2NativeFormatNames[nativename] = document.queryCommandValue("formatblock");
-			//this.queryCommandValue("formatblock");
-			this._native2LocalFormatNames[this._local2NativeFormatNames[nativename]] = nativename;
-			node = node.nextSibling.nextSibling;
-		}
-		dojo.body().removeChild(div);
+		setTimeout(inject, 0);
 	},
 
 	open: function(/*DomNode?*/ element){
@@ -582,7 +589,8 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			(!setBodyId && !this.height ? "\tbody,html {overflow-y: hidden;}\n" : ""),
 			"\t#dijitEditorBody{overflow-x: auto; overflow-y:" + (this.height ? "auto;" : "hidden;") + "}\n",
 			"\tli > ul:-moz-first-node, li > ol:-moz-first-node{ padding-top: 1.2em; }\n",
-			"\tli{ min-height:1.2em; }\n",
+			// Can't set min-height in IE9, it puts layout on li, which puts move/resize handles.
+			(!dojo.isIE ? "\tli{ min-height:1.2em; }\n" : ""), 
 			"</style>\n",
 			this._applyEditingAreaStyleSheets(),"\n",
 			"</head>\n<body ",
@@ -633,7 +641,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}
 
 		this.editingAreaStyleSheets.push(url);
-		this.onLoadDeferred.addCallback(dojo.hitch(function(){
+		this.onLoadDeferred.addCallback(dojo.hitch(this, function(){
 			if(this.document.createStyleSheet){ //IE
 				this.document.createStyleSheet(url);
 			}else{ //other browser
@@ -727,8 +735,7 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			this.editNode=this.document.body.firstChild;
 			var _this = this;
 			if(dojo.isIE){ // #4996 IE wants to focus the BODY tag
-				var tabStop = (this.tabStop = dojo.doc.createElement('<div tabIndex=-1>'));
-				this.editingArea.appendChild(tabStop);
+				this.tabStop = dojo.create('div', { tabIndex: -1 }, this.editingArea);
 				this.iframe.onfocus = function(){ _this.editNode.setActive(); };
 			}
 		}
@@ -803,7 +810,6 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		}else{
 			setContent();
 		}
-
 	},
 
 	onKeyDown: function(/* Event */ e){
@@ -1883,6 +1889,58 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 		return rv;
 	},
 
+	_boldImpl: function(argument){
+		// summary:
+		//		This function implements an over-ride of the bold command.
+		// argument:
+		//		Not used, operates by selection.
+		// tags:
+		//		protected
+		if(dojo.isIE){
+			this._adaptIESelection()
+		}
+		return this.document.execCommand("bold", false, argument);
+	},
+	
+	_italicImpl: function(argument){
+		// summary:
+		//		This function implements an over-ride of the italic command.
+		// argument:
+		//		Not used, operates by selection.
+		// tags:
+		//		protected
+		if(dojo.isIE){
+			this._adaptIESelection()
+		}
+		return this.document.execCommand("italic", false, argument);
+	},
+
+	_underlineImpl: function(argument){
+		// summary:
+		//		This function implements an over-ride of the underline command.
+		// argument:
+		//		Not used, operates by selection.
+		// tags:
+		//		protected
+		if(dojo.isIE){
+			this._adaptIESelection()
+		}
+		return this.document.execCommand("underline", false, argument);
+	},
+	
+	_strikethroughImpl: function(argument){
+		// summary:
+		//		This function implements an over-ride of the strikethrough command.
+		// argument:
+		//		Not used, operates by selection.
+		// tags:
+		//		protected
+		if(dojo.isIE){
+			this._adaptIESelection()
+		}
+		return this.document.execCommand("strikethrough", false, argument);
+	},
+
 	getHeaderHeight: function(){
 		// summary:
 		//		A function for obtaining the height of the header node
@@ -1911,5 +1969,82 @@ dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 			} 
 		}
 		return h; // Number
+	},
+	
+	_isNodeEmpty: function(node, startOffset){
+		// summary:
+		//		Function to test if a node is devoid of real content.
+		// node:
+		//		The node to check.
+		// tags:
+		//		private.
+		if(node.nodeType == 1/*element*/){
+			if(node.childNodes.length > 0){
+				return this._isNodeEmpty(node.childNodes[0], startOffset);
+	}
+			return true;
+		}else if(node.nodeType == 3/*text*/){
+			return (node.nodeValue.substring(startOffset) == "");
+		}
+		return false;
+	},
+	
+	_removeStartingRangeFromRange: function(node, range){
+		// summary:
+		//		Function to adjust selection range by removing the current
+		//		start node.
+		// node:
+		//		The node to remove from the starting range.
+		// range:
+		//		The range to adapt.
+		// tags:
+		//		private
+		if(node.nextSibling){
+			range.setStart(node.nextSibling,0);
+		}else{
+			var parent = node.parentNode;
+			while(parent && parent.nextSibling == null){
+				//move up the tree until we find a parent that has another node, that node will be the next node
+				parent = parent.parentNode;
+			}
+			if(parent){
+				range.setStart(parent.nextSibling,0);
+			}
+		}
+		return range;
+	},
+	
+	_adaptIESelection: function(){
+		// summary:
+		//		Function to adapt the IE range by removing leading 'newlines'
+		//		Needed to fix issue with bold/italics/underline not working if
+		//		range included leading 'newlines'.
+		//		In IE, if a user starts a selection at the very end of a line,
+		//		then the native browser commands will fail to execute correctly.
+		//		To work around the issue,  we can remove all empty nodes from
+		//		the start of the range selection.
+		var selection = dijit.range.getSelection(this.window);
+		if(selection && selection.rangeCount && !selection.isCollapsed){
+			var range = selection.getRangeAt(0);
+			var firstNode = range.startContainer;
+			var startOffset = range.startOffset;
+
+			while(firstNode.nodeType == 3/*text*/ && startOffset >= firstNode.length && firstNode.nextSibling){
+				//traverse the text nodes until we get to the one that is actually highlighted
+				startOffset = startOffset - firstNode.length;
+				firstNode = firstNode.nextSibling;
+			}
+
+			//Remove the starting ranges until the range does not start with an empty node.
+			var lastNode=null;
+			while(this._isNodeEmpty(firstNode, startOffset) && firstNode != lastNode){
+				lastNode =firstNode; //this will break the loop in case we can't find the next sibling
+				range = this._removeStartingRangeFromRange(firstNode, range); //move the start container to the next node in the range
+				firstNode = range.startContainer;
+				startOffset = 0; //start at the beginning of the new starting range
+			}
+			selection.removeAllRanges();// this will work as long as users cannot select multiple ranges. I have not been able to do that in the editor.
+			selection.addRange(range);
+		}
 	}
 });
