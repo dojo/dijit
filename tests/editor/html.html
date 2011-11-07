@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>html utility tests</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+	<style type="text/css">
+		@import "../../themes/claro/document.css";
+	</style>
+
+	<!-- required: a default dijit theme: -->
+	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro.css"/>
+
+	<!-- required: dojo.js -->
+	<script type="text/javascript" src="../../../dojo/dojo.js"
+		data-dojo-config="isDebug: true"></script>
+
+	<script type="text/javascript" src="../_testCommon.js"></script>
+
+	<script type="text/javascript">
+		dojo.require("doh.runner");
+		dojo.require("dijit._editor.html");
+
+		dojo.ready(function(){
+
+			doh.register("getNodeHtml", [
+				function general(){
+					var html = dijit._editor.getNodeHtml(dojo.byId("getNodeHtml1"));
+					html = html.replace(/\s+/g, " ").replace(/>\s*</g, "><");
+					doh.is('<div id="getNodeHtml1"><img base="foo" style="width: 10%; height: 10%" /><span><i>hello<b>world</b></i></span></div>', html);
+				},
+				function tagClose(){
+					var html = dijit._editor.getNodeHtml(dojo.byId("getNodeHtml2"));
+					html = html.replace(/\s+/g, " ").replace(/>\s*</g, "><");
+					doh.is('<div id="getNodeHtml2"><span><span></span><br /><hr /></span></div>', html);
+				},
+				function djrealurl(){
+					var html = dijit._editor.getNodeHtml(dojo.byId("getNodeHtml3"));
+					html = html.replace(/\s+/g, " ").replace(/>\s*</g, "><");
+					doh.is('<div id="getNodeHtml3"><a href="real">hi</a><img src="real" /></div>', html);
+				}
+			]);
+
+			doh.run();
+		});
+	</script>
+</head>
+<body class="claro">
+
+<!--
+this tests that tag case is normalized, and that attributes are sorted
+(the style vs. base attributes for the <img>
+-->
+<div id="getNodeHtml1">
+	<imG style="width: 10%; height: 10%" base="foo">
+	<SPAN><i>hello<b>world</b></i></SPAN>
+</div>
+
+<!--
+testing tag closure: br, hr, etc close with /> but others like <span> close with </span>
+-->
+<div id="getNodeHtml2">
+<span><span></span><br><hr></span>
+</div>
+
+<!--
+src and href attributes get converted to _djrealurl, which is dropped
+-->
+<div id="getNodeHtml3">
+<a href="foo" _djrealurl="real">hi</a>
+<img src="bar" _djrealurl="real">
+</div>
+
+</body>
+</html>

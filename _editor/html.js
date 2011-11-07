@@ -41,8 +41,9 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 			//attributes appear in the dictionary order
 			var attrarray = [];
 			var attr;
-			if(has("ie") && node.outerHTML){
-				var s = node.outerHTML;
+			if(has("ie")){
+				var clone = /^input$|^img$/i.test(node.nodeName) ? node : node.cloneNode(false);
+				var s = clone.outerHTML;
 				s = s.substr(0, s.indexOf('>'))
 					.replace(/(['"])[^"']*\1/g, ''); //to make the following regexp safe
 				var reg = /(\b\w+)\s?=/g;
@@ -126,7 +127,7 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 				// other plugins/filters can strip them.
 				output += '>' + node.innerHTML +'</' + lName + '>';
 			}else{
-				if(node.childNodes.length){
+				if(node.hasChildNodes()){
 					output += '>' + dijit._editor.getChildrenHtml(node)+'</' + lName +'>';
 				}else{
 					switch(lName){
