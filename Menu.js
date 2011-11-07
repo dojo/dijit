@@ -264,7 +264,7 @@ return declare("dijit.Menu", DropDownMenu, {
 				// Specified coordinates are on <body> node of an <iframe>, convert to match main document
 				var ifc = domGeometry.position(iframe, true),
 					window = this._iframeContentWindow(iframe),
-					scroll = win.withGlobal(window, "_docScroll", dojo);
+					scroll = win.withGlobal(window, "docScroll", domGeometry);
 
 				var cs = domStyle.getComputedStyle(iframe),
 					tp = domStyle.toPixelValue,
