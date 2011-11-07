@@ -706,7 +706,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			return;
 		}
 		delete this.editingAreaStyleSheets[index];
-		win.withGlobal(this.window,'query', dojo, ['link:[href="'+url+'"]']).orphan();
+		query('link:[href="'+url+'"]', this.window.document).orphan();
 	},
 
 	// disabled: Boolean
