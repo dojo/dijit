@@ -92,17 +92,20 @@ declare(
 	// =======================================================================
 	// Write interface
 
-	newItem: function(args, parent, insertIndex){
+	newItem: function(args, parent, insertIndex, before){
 		// summary:
 		//		Creates a new item.   See `dojo.data.api.Write` for details on args.
 		// args: dojo.dnd.Item
 		// parent: Item
 		// insertIndex: int?
+		//		Allows to insert the new item as the n'th child of `parent`.
+		// before: Item?
+		//		Insert the new item as the previous sibling of this item.  `before` must be a child of `parent`.
 		// tags:
 		//		extension
 	},
 
-	pasteItem: function(childItem, oldParentItem, newParentItem, bCopy){
+	pasteItem: function(childItem, oldParentItem, newParentItem, bCopy, insertIndex, before){
 		// summary:
 		//		Move or copy an item from one parent item to another.
 		//		Used in drag & drop.
@@ -112,6 +115,10 @@ declare(
 		// oldParentItem: Item
 		// newParentItem: Item
 		// bCopy: Boolean
+		// insertIndex: int?
+		//		Allows to insert the new item as the n'th child of `parent`.
+		// before: Item?
+		//		Insert the new item as the previous sibling of this item.  `before` must be a child of `parent`.
 		// tags:
 		//		extension
 	},

@@ -402,6 +402,7 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 			// Compute the new parent item
 			var newParentItem;
 			var insertIndex;
+			var before;		// drop source before (aka previous sibling) of target
 			newParentItem = (target && target.item) || tree.item;
 			if(this.dropPosition == "Before" || this.dropPosition == "After"){
 				// TODO: if there is no parent item then disallow the drop.
@@ -411,6 +412,9 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 				insertIndex = target.getIndexInParent();
 				if(this.dropPosition == "After"){
 					insertIndex = target.getIndexInParent() + 1;
+					before = target.getNextSibling() && target.getNextSibling().item;
+				}else{
+					before = target.item;
 				}
 			}else{
 				newParentItem = (target && target.item) || tree.item;
@@ -446,11 +450,11 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 							insertIndex -= 1;
 						}
 					}
-					model.pasteItem(childItem, oldParentItem, newParentItem, copy, insertIndex);
+					model.pasteItem(childItem, oldParentItem, newParentItem, copy, insertIndex, before);
 				}else if(model.isItem(childItem)){
 					// Item from same model
 					// (maybe we should only do this branch if the source is a tree?)
-					model.pasteItem(childItem, oldParentItem, newParentItem, copy, insertIndex);
+					model.pasteItem(childItem, oldParentItem, newParentItem, copy, insertIndex, before);
 				}else{
 					// Get the hash to pass to model.newItem().  A single call to
 					// itemCreator() returns an array of hashes, one for each drag source node.
@@ -459,7 +463,7 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 					}
 
 					// Create new item in the tree, based on the drag source.
-					model.newItem(newItemsParams[idx], newParentItem, insertIndex);
+					model.newItem(newItemsParams[idx], newParentItem, insertIndex, before);
 				}
 			}, this);
 
