@@ -1,17 +1,17 @@
 define([
 	"dojo/_base/lang", // lang.isString
-	"dojo/_base/sniff", // has("ie")
-	".."		// for exporting symbols to dijit._editor (remove for 2.0)
-], function(lang, has, dijit){
+	"dojo/_base/sniff" // has("ie")
+], function(lang, has){
 
 // module:
 //		dijit/_editor/html
 // summary:
-//		Utility functions used by editor
+//		HTML serialization utility functions used by editor
 
-lang.getObject("_editor", true, dijit);
+var exports = lang.getObject("dijit._editor", true);
+/*===== exports = dijit._editor; =====*/
 
-dijit._editor.escapeXml=function(/*String*/str, /*Boolean?*/noSingleQuotes){
+var escape = exports.escapeXml = function(/*String*/ str, /*Boolean?*/ noSingleQuotes){
 	// summary:
 	//		Adds escape sequences for special characters in XML: &<>"'
 	//		Optionally skips escapes for single quotes
@@ -22,8 +22,18 @@ dijit._editor.escapeXml=function(/*String*/str, /*Boolean?*/noSingleQuotes){
 	return str; // string
 };
 
-dijit._editor.getNodeHtml=function(/* DomNode */node){
-	var output;
+
+exports.getNodeHtml = function(/*DomNode*/ node){
+	// summary:
+	//		Return string representing HTML for node and it's children
+	var output = [];
+	exports.getNodeHtmlHelper(node, output);
+	return output.join("");
+};
+
+exports.getNodeHtmlHelper = function(/*DomNode*/ node, /*String[]*/ output){
+	// summary:
+	//		Pushes array of strings into output[] which represent HTML for node and it's children
 	switch(node.nodeType){
 		case 1: //element node
 			var lName = node.nodeName.toLowerCase();
@@ -35,7 +45,7 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 				// never show up.
 				return "";
 			}
-			output = '<' + lName;
+			output.push('<', lName);
 
 			//store the list of attributes and sort it to have the
 			//attributes appear in the dictionary order
@@ -116,59 +126,64 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 			});
 			var j = 0;
 			while((attr = attrarray[j++])){
-				output += ' ' + attr[0] + '="' +
-					(lang.isString(attr[1]) ? dijit._editor.escapeXml(attr[1], true) : attr[1]) + '"';
+				output.push(' ', attr[0], '="',
+					(lang.isString(attr[1]) ? escape(attr[1], true) : attr[1]), '"');
 			}
-			if(lName === "script"){
-				// Browsers handle script tags differently in how you get content,
-				// but innerHTML always seems to work, so insert its content that way
-				// Yes, it's bad to allow script tags in the editor code, but some people
-				// seem to want to do it, so we need to at least return them right.
-				// other plugins/filters can strip them.
-				output += '>' + node.innerHTML +'</' + lName + '>';
-			}else{
-				if(node.hasChildNodes()){
-					output += '>' + dijit._editor.getChildrenHtml(node)+'</' + lName +'>';
-				}else{
-					switch(lName){
-						case 'br':
-						case 'hr':
-						case 'img':
-						case 'input':
-						case 'base':
-						case 'meta':
-						case 'area':
-						case 'basefont':
-							// These should all be singly closed
-							output += ' />';
-							break;
-						default:
-							// Assume XML style separate closure for everything else.
-							output += '></' + lName + '>';
+			switch(lName){
+				case 'br':
+				case 'hr':
+				case 'img':
+				case 'input':
+				case 'base':
+				case 'meta':
+				case 'area':
+				case 'basefont':
+					// These should all be singly closed
+					output.push(' />');
+					break;
+				case 'script':
+					// Browsers handle script tags differently in how you get content,
+					// but innerHTML always seems to work, so insert its content that way
+					// Yes, it's bad to allow script tags in the editor code, but some people
+					// seem to want to do it, so we need to at least return them right.
+					// other plugins/filters can strip them.
+					output.push('>', node.innerHTML, '</', lName, '>');
+					break;
+				default:
+					output.push('>');
+					if(node.hasChildNodes()){
+						exports.getChildrenHtmlHelper(node, output);
 					}
-				}
+					output.push('</', lName, '>');
 			}
 			break;
 		case 4: // cdata
 		case 3: // text
 			// FIXME:
-			output = dijit._editor.escapeXml(node.nodeValue, true);
+			output.push(escape(node.nodeValue, true));
 			break;
 		case 8: //comment
 			// FIXME:
-			output = '<!--' + dijit._editor.escapeXml(node.nodeValue, true) + '-->';
+			output.push('<!--', escape(node.nodeValue, true), '-->');
 			break;
 		default:
-			output = "<!-- Element not recognized - Type: " + node.nodeType + " Name: " + node.nodeName + "-->";
+			output.push("<!-- Element not recognized - Type: ", node.nodeType, " Name: ", node.nodeName, "-->");
 	}
-	return output;
 };
 
-dijit._editor.getChildrenHtml = function(/* DomNode */dom){
+exports.getChildrenHtml = function(/*DomNode*/ node){
 	// summary:
-	//		Returns the html content of a DomNode and children
-	var out = "";
-	if(!dom){ return out; }
+	//		Returns the html content of a DomNode's children
+	var output = [];
+	exports.getChildrenHtmlHelper(node, output);
+	return output.join("");
+};
+
+exports.getChildrenHtmlHelper = function(/*DomNode*/ dom, /*String[]*/ output){
+	// summary:
+	//		Pushes the html content of a DomNode's children into out[]
+
+	if(!dom){ return; }
 	var nodes = dom["childNodes"] || dom;
 
 	//IE issue.
@@ -181,15 +196,14 @@ dijit._editor.getChildrenHtml = function(/* DomNode */dom){
 	while((node = nodes[i++])){
 		//IE is broken.  DOMs are supposed to be a tree.  But in the case of malformed HTML, IE generates a graph
 		//meaning one node ends up with multiple references (multiple parents).  This is totally wrong and invalid, but
-		//such is what it is.  We have to keep track and check for this because otherise the source output HTML will have dups.
+		//such is what it is.  We have to keep track and check for this because otherwise the source output HTML will have dups.
 		//No other browser generates a graph.  Leave it to IE to break a fundamental DOM rule.  So, we check the parent if we can
 		//If we can't, nothing more we can do other than walk it.
 		if(!checkParent || node.parentNode == dom){
-			out += dijit._editor.getNodeHtml(node);
+			exports.getNodeHtmlHelper(node, output);
 		}
 	}
-	return out; // String
 };
 
-return dijit._editor;
+return exports;
 });

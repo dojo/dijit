@@ -41,6 +41,34 @@
 				}
 			]);
 
+			doh.register("getChildrenHtml", [
+				function general(){
+					var html = dijit._editor.getChildrenHtml(dojo.byId("getNodeHtml1"));
+					html = dojo.trim(html.replace(/\s+/g, " ").replace(/>\s*</g, "><"));
+					doh.is('<img base="foo" style="width: 10%; height: 10%" /><span><i>hello<b>world</b></i></span>', html);
+				},
+				function tagClose(){
+					var html = dijit._editor.getChildrenHtml(dojo.byId("getNodeHtml2"));
+					html = dojo.trim(html.replace(/\s+/g, " ").replace(/>\s*</g, "><"));
+					doh.is('<span><span></span><br /><hr /></span>', html);
+				},
+				function djrealurl(){
+					var html = dijit._editor.getChildrenHtml(dojo.byId("getNodeHtml3"));
+					html = dojo.trim(html.replace(/\s+/g, " ").replace(/>\s*</g, "><"));
+					doh.is('<a href="real">hi</a><img src="real" />', html);
+				}
+			]);
+
+			doh.register("escapeXML", [
+				function regular(){
+					var escaped = dijit._editor.escapeXml("hello<b>\"&'</b>goodbye");
+					doh.is("hello&lt;b&gt;&quot;&amp;&#39;&lt;/b&gt;goodbye", escaped);
+				},
+				function noSingleQuote(){
+					var escaped = dijit._editor.escapeXml("hello<b>\"&'</b>goodbye", true);
+					doh.is("hello&lt;b&gt;&quot;&amp;'&lt;/b&gt;goodbye", escaped);
+				}
+			]);
 			doh.run();
 		});
 	</script>
@@ -67,8 +95,8 @@ testing tag closure: br, hr, etc close with /> but others like <span> close with
 src and href attributes get converted to _djrealurl, which is dropped
 -->
 <div id="getNodeHtml3">
-<a href="foo" _djrealurl="real">hi</a>
-<img src="bar" _djrealurl="real">
+<a href="javascript:1" _djrealurl="real">hi</a>
+<img src="javascript:1" _djrealurl="real">
 </div>
 
 </body>
