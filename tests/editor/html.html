@@ -25,37 +25,42 @@
 
 			doh.register("getNodeHtml", [
 				function general(){
-					var html = dijit._editor.getNodeHtml(dojo.byId("getNodeHtml1"));
+					var html = dijit._editor.getNodeHtml(dojo.byId("general"));
 					html = html.replace(/\s+/g, " ").replace(/>\s*</g, "><");
-					doh.is('<div id="getNodeHtml1"><img base="foo" style="width: 10%; height: 10%" /><span><i>hello<b>world</b></i></span></div>', html);
+					doh.is('<div id="general"><img base="foo" style="width: 10%; height: 10%" /><span><i>hello<b>world</b></i></span></div>', html);
 				},
 				function tagClose(){
-					var html = dijit._editor.getNodeHtml(dojo.byId("getNodeHtml2"));
+					var html = dijit._editor.getNodeHtml(dojo.byId("tagclosure"));
 					html = html.replace(/\s+/g, " ").replace(/>\s*</g, "><");
-					doh.is('<div id="getNodeHtml2"><span><span></span><br /><hr /></span></div>', html);
+					doh.is('<div id="tagclosure"><span><span></span><br /><hr /></span></div>', html);
 				},
 				function djrealurl(){
-					var html = dijit._editor.getNodeHtml(dojo.byId("getNodeHtml3"));
+					var html = dijit._editor.getNodeHtml(dojo.byId("djrealurl"));
 					html = html.replace(/\s+/g, " ").replace(/>\s*</g, "><");
-					doh.is('<div id="getNodeHtml3"><a href="real">hi</a><img src="real" /></div>', html);
+					doh.is('<div id="djrealurl"><a href="real">hi</a><img src="real" /></div>', html);
 				}
 			]);
 
 			doh.register("getChildrenHtml", [
 				function general(){
-					var html = dijit._editor.getChildrenHtml(dojo.byId("getNodeHtml1"));
+					var html = dijit._editor.getChildrenHtml(dojo.byId("general"));
 					html = dojo.trim(html.replace(/\s+/g, " ").replace(/>\s*</g, "><"));
 					doh.is('<img base="foo" style="width: 10%; height: 10%" /><span><i>hello<b>world</b></i></span>', html);
 				},
 				function tagClose(){
-					var html = dijit._editor.getChildrenHtml(dojo.byId("getNodeHtml2"));
+					var html = dijit._editor.getChildrenHtml(dojo.byId("tagclosure"));
 					html = dojo.trim(html.replace(/\s+/g, " ").replace(/>\s*</g, "><"));
 					doh.is('<span><span></span><br /><hr /></span>', html);
 				},
 				function djrealurl(){
-					var html = dijit._editor.getChildrenHtml(dojo.byId("getNodeHtml3"));
+					var html = dijit._editor.getChildrenHtml(dojo.byId("djrealurl"));
 					html = dojo.trim(html.replace(/\s+/g, " ").replace(/>\s*</g, "><"));
 					doh.is('<a href="real">hi</a><img src="real" />', html);
+				},
+				function specialchars(){
+					var html = dijit._editor.getChildrenHtml(dojo.byId("specialchars"));
+					html = dojo.trim(html.replace(/\s+/g, " ").replace(/>\s*</g, "><"));
+					doh.is('hello&amp;goodbye<span>3&gt;2</span>', html);
 				}
 			]);
 
@@ -79,7 +84,7 @@
 this tests that tag case is normalized, and that attributes are sorted
 (the style vs. base attributes for the <img>
 -->
-<div id="getNodeHtml1">
+<div id="general">
 	<imG style="width: 10%; height: 10%" base="foo">
 	<SPAN><i>hello<b>world</b></i></SPAN>
 </div>
@@ -87,17 +92,20 @@ this tests that tag case is normalized, and that attributes are sorted
 <!--
 testing tag closure: br, hr, etc close with /> but others like <span> close with </span>
 -->
-<div id="getNodeHtml2">
+<div id="tagclosure">
 <span><span></span><br><hr></span>
 </div>
 
 <!--
 src and href attributes get converted to _djrealurl, which is dropped
 -->
-<div id="getNodeHtml3">
+<div id="djrealurl">
 <a href="javascript:1" _djrealurl="real">hi</a>
 <img src="javascript:1" _djrealurl="real">
 </div>
 
+<div id="specialchars">
+	hello&amp;goodbye<span>3&gt;2</span>
+</div>
 </body>
 </html>
