@@ -443,15 +443,27 @@ return declare("dijit.layout.ContentPane", [_Widget, _ContentPaneResizeMixin], {
 		var setter = this._contentSetter;
 		array.forEach(this.getChildren(), function(widget){
 			if(widget.destroyRecursive){
+				// All widgets will hit this branch
 				widget.destroyRecursive(preserveDom);
+			}else if(widget.destroy){
+				// Things like dojo.dnd.Source have destroy(), not destroyRecursive()
+				widget.destroy(preserveDom);
 			}
+			widget._destroyed = true;
 		});
 		if(setter){
 			// Most of the widgets in setter.parseResults have already been destroyed, but
 			// things like Menu that have been moved to <body> haven't yet
 			array.forEach(setter.parseResults, function(widget){
-				if(widget.destroyRecursive && widget.domNode && widget.domNode.parentNode == win.body()){
-					widget.destroyRecursive(preserveDom);
+				if(!widget._destroyed){
+					if(widget.destroyRecursive){
+						// All widgets will hit this branch
+						widget.destroyRecursive(preserveDom);
+					}else if(widget.destroy){
+						// Things like dojo.dnd.Source have destroy(), not destroyRecursive()
+						widget.destroy(preserveDom);
+					}
+					widget._destroyed = true;
 				}
 			});
 			delete setter.parseResults;

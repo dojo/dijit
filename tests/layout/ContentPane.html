@@ -444,7 +444,7 @@
 
 			// Test that startup() on child widgets and plain JS objects is called at the correct time
 
-			var nwStartupCalls = 0;
+			var nwStartupCalls = 0, nwDestroyCalls = 0;
 			dojo.declare("NonWidget", null, {
 				// summary: doesn't extend _Widget, used to test that startup() is still called
 				startup: function(){
@@ -452,6 +452,9 @@
 						nwStartupCalls++;
 						this._started = true;
 					}
+				},
+				destroyRecursive: function(){
+					nwDestroyCalls++;
 				}
 			});
 
@@ -477,9 +480,13 @@
 					var child = dijit.byId("startup-c2");
 					doh.t(child, "child widget created");
 					doh.t(child._started, "child widget started");
-				},
+				}
+			]);
 
-				function nonWidget(){
+			// Tests for when ContentPane contains objects not descended from _WidgetBase,
+			// like dojo.Dnd.Source
+			doh.register("non widget", [
+				function startupAndDestroy(){
 					// even non-widgets inside of ContentPane (like dojo.dnd.Source) should have
 					// startup called on them
 					dojo.parser.parse(dojo.byId("nonWidgetTest"));
@@ -487,6 +494,11 @@
 
 					nwp.set("content", "<div><div data-dojo-type='NonWidget' data-dojo-id='nw2'></div></div>");
 					doh.is(2, nwStartupCalls, "startup() called on non-widgets via set(content, ...)");
+					doh.is(1, nwDestroyCalls, "resetting the ContentPane content destroyed the old non-widget content");
+
+					// And also check that destroying ContentPane destroys the non-widget
+					nwp.destroyRecursive();
+					doh.is(2, nwDestroyCalls, "destroying ContentPane destroyed NonWidget content");
 				}
 			]);
 
