@@ -51,14 +51,10 @@ define([
 
 			lang.mixin(this, args);
 
-			this.connects = [];
 			this.childrenCache = {};	// map from id to array of children
 		},
 
 		destroy: function(){
-			var h;
-			while(h = this.connects.pop()){ h.destroy(); }
-
 			// TODO: should cancel any in-progress processing of getRoot(), getChildren()
 			for(var id in this.childrenCache){
 				this.childrenCache[id].close && this.childrenCache[id].close();
@@ -78,6 +74,7 @@ define([
 				var res;
 				Deferred.when(res = this.store.query(this.query),
 					lang.hitch(this, function(items){
+						//console.log("queried root: ", res);
 						if(items.length != 1){
 							throw new Error(this.declaredClass + ": query " + json.stringify(this.query) + " returned " + items.length +
 							 	" items, but must return exactly one item");
@@ -89,6 +86,7 @@ define([
 						if(res.observe){
 							res.observe(lang.hitch(this, function(obj){
 								// Presumably removedFrom == insertedInto == 1, and this call indicates item has changed.
+								//console.log("root changed: ", obj);
 								this.onChange(obj);
 							}), true);	// true to listen for updates to obj
 						}
@@ -121,6 +119,7 @@ define([
 			Deferred.when(
 				this.childrenCache[id] = this.store.getChildren(parentItem),
 				lang.hitch(this, function(res){
+					//console.log("queried children of " + id + ": ", res);
 					// If the data store is updated (items added, deleted, or changed) such that
 					// repeating the call to getChildren() would return different results, then the array
 					// we just got may or may not change from underneath us.   To be predictable,
@@ -131,7 +130,7 @@ define([
 					// updated in some way.
 					if(res.observe){
 						res.observe(lang.hitch(this, function(obj, removedFrom, insertedInto){
-							// console.log("observe: ", obj, removedFrom, insertedInto);
+							//console.log("observe on children of ", id, ": ", obj, removedFrom, insertedInto);
 
 							// If removedFrom == insertedInto, this call indicates that the item has changed.
 							// Even if removedFrom != insertedInto, the item may have changed.
@@ -143,7 +142,6 @@ define([
 								// TODO: the store has already updated the original array, can I just use that?
 								// (sent Kris mail 11/8/2011)
 								if(removedFrom != -1){
-									this.onDelete(children[removedFrom]);	// callback needed by Tree??
 									children.splice(removedFrom, 1);
 								}
 								if(insertedInto != -1){
@@ -240,9 +238,9 @@ define([
 		onDelete: function(/*dojo.data.Item*/ /*===== item =====*/){
 			// summary:
 			//		Callback when an item has been deleted.
-			// description:
-			//		Note that there will also be an onChildrenChange() callback for the parent
-			//		of this item.
+			//		Actually we have no way of knowing this with the new dojo.store API,
+			//		so this method is never called (but it's left here since Tree connects
+			//		to it).
 			// tags:
 			//		callback
 		}

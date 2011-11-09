@@ -325,9 +325,37 @@ var TreeNode = declare(
 		// Orphan all my existing children.
 		// If items contains some of the same items as before then we will reattach them.
 		// Don't call this.removeChild() because that will collapse the tree etc.
-		array.forEach(this.getChildren(), function(child){
+		var oldChildren = this.getChildren();
+		array.forEach(oldChildren, function(child){
 			_Container.prototype.removeChild.call(this, child);
 		}, this);
+
+		// All the old children of this TreeNode are subject for destruction if
+		//		1) they aren't listed in the new children array (items)
+		//		2) they aren't immediately adopted by another node (DnD)
+		setTimeout(function(){
+			array.forEach(oldChildren, function(node){
+				if(!node.getParent()){
+					// If node is in selection then remove it.
+					tree.dndController.removeTreeNode(node);
+
+					// Deregister mapping from item id --> this node
+					var id = model.getIdentity(node.item),
+						ary = tree._itemNodesMap[id];
+					console.log("removing node " + node.id + " for item " + id);
+					if(ary.length == 1){
+						delete tree._itemNodesMap[id];
+					}else{
+						var index = array.indexOf(ary, node);
+						ary.splice(index, 1);
+					}
+
+					// And finally we can destroy the node
+					node.destroyRecursive();
+				}
+			});
+
+		}, 0);
 
 		this.state = "LOADED";
 
@@ -337,7 +365,7 @@ var TreeNode = declare(
 			// Create _TreeNode widget for each specified tree node, unless one already
 			// exists and isn't being used (presumably it's from a DnD move and was recently
 			// released
-			array.forEach(items, function(item){
+			array.forEach(items, function(item){	// MARKER: REUSE NODE
 				var id = model.getIdentity(item),
 					existingNodes = tree._itemNodesMap[id],
 					node;
@@ -1566,7 +1594,9 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 
 	_onItemDelete: function(/*Item*/ item){
 		// summary:
-		//		Processes notification of a deletion of an item
+		//		Processes notification of a deletion of an item.
+		//		Not called from new dojo.store interface but there's cleanup code in setChildItems() instead.
+
 		var model = this.model,
 			identity = model.getIdentity(item),
 			nodes = this._itemNodesMap[identity];
