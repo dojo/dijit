@@ -185,8 +185,7 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 				m.canDrop(false);
 			}else{
 				// Guard against dropping onto yourself (TODO: guard against dropping onto your descendant, #7140)
-				var model = this.tree.model,
-					sameId = false;
+				var sameId = false;
 				if(m.source == this){
 					for(var dragId in this.selection){
 						var dragNode = this.selection[dragId];
