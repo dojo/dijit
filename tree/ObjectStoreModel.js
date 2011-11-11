@@ -206,6 +206,21 @@ define([
 			//		Move or copy an item from one parent item to another.
 			//		Used in drag & drop
 
+			if(!bCopy){
+				// In order for DnD moves to work correctly, childItem needs to be orphaned from oldParentItem
+				// before being adopted by newParentItem.   That way, the TreeNode is moved rather than
+				// an additional TreeNode being created, and the old TreeNode subsequently being deleted.
+				// The latter loses information such as selection and opened/closed children TreeNodes.
+				// Unfortunately simply calling this.store.put() will send notifications in a random order, based
+				// on when the TreeNodes in question originally appeared, and not based on the drag-from
+				// TreeNode vs. the drop-onto TreeNode.
+
+				var oldParentChildren = [].concat(this.childrenCache[this.getIdentity(oldParentItem)]), // concat to make copy
+					index = array.indexOf(oldParentChildren, childItem);
+				oldParentChildren.splice(index, 1);
+				this.onChildrenChange(oldParentItem, oldParentChildren);
+			}
+
 			return this.store.put(childItem, {
 				overwrite: true,
 				parent: newParentItem,
