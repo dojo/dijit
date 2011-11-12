@@ -118,18 +118,13 @@ define([
 			}
 			Deferred.when(
 				this.childrenCache[id] = this.store.getChildren(parentItem),
-				lang.hitch(this, function(res){
-					//console.log("queried children of " + id + ": ", res);
-					// If the data store is updated (items added, deleted, or changed) such that
-					// repeating the call to getChildren() would return different results, then the array
-					// we just got may or may not change from underneath us.   To be predictable,
-					// make a copy of the array.
-					var children = [].concat(res);
+				lang.hitch(this, function(children){
+					//console.log("queried children of " + id + ": ", children);
 
 					// Setup listener in case children list changes, or the item(s) in the children list are
 					// updated in some way.
-					if(res.observe){
-						res.observe(lang.hitch(this, function(obj, removedFrom, insertedInto){
+					if(children.observe){
+						children.observe(lang.hitch(this, function(obj, removedFrom, insertedInto){
 							//console.log("observe on children of ", id, ": ", obj, removedFrom, insertedInto);
 
 							// If removedFrom == insertedInto, this call indicates that the item has changed.
@@ -138,18 +133,7 @@ define([
 
 							if(removedFrom != insertedInto){
 								// Indicates an item was added, removed, or re-parented.
-								// Adjust ary[] according to arguments to listener.
-								// TODO: the store has already updated the original array, can I just use that?
-								// (sent Kris mail 11/8/2011)
-								if(removedFrom != -1){
-									children.splice(removedFrom, 1);
-								}
-								if(insertedInto != -1){
-									if(removedFrom != -1 && insertedInto > removedFrom){
-										insertedInto--;	// adjust because array was shortened above
-									}
-									children.splice(insertedInto, 0, obj);
-								}
+								// children[] has already been updated (like a live collection), so just use it.
 								this.onChildrenChange(parentItem, children);
 							}
 						}), true);	// true means to notify on item changes
