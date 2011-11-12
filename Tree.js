@@ -867,10 +867,13 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 
 				rn._updateLayout();		// sets "dijitTreeIsRoot" CSS classname
 
-				// load top level children and then fire onLoad() event
+				// load top level children (and if persist=true all nodes
+				// that were previously opened) and then fire onLoad() event
 				this._expandNode(rn).addCallback(lang.hitch(this, function(){
 					this._loadDeferred.callback(true);
-					this.onLoad();
+					Deferred.when(this.dndController._initState(), lang.hitch(this, function(){
+						this.onLoad();
+					}));
 				}));
 			}),
 			function(err){

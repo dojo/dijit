@@ -2,13 +2,15 @@ define([
 	"dojo/_base/array", // array.filter array.forEach array.map
 	"dojo/_base/connect", // connect.isCopyKey
 	"dojo/_base/declare", // declare
+	"dojo/_base/Deferred", // Deferred
 	"dojo/_base/lang", // lang.hitch
+	"dojo/cookie", // cookie
 	"dojo/mouse", // mouse.isLeft
 	"dojo/on",
 	"dojo/touch",
 	"dojo/_base/window", // win.global
 	"./_dndContainer"
-], function(array, connect, declare, lang, mouse, on, touch, win, _dndContainer){
+], function(array, connect, declare, Deferred, lang, cookie, mouse, on, touch, win, _dndContainer){
 
 	// module:
 	//		dijit/tree/_dndSelector
@@ -41,6 +43,10 @@ define([
 			this.anchor = null;
 
 			this.tree.domNode.setAttribute("aria-multiselect", !this.singular);
+
+			if(!this.cookieName && this.tree.id){
+				this.cookieName = this.tree.id + "SaveSelectedCookie";
+			}
 
 			this.events.push(
 				on(this.tree.domNode, touch.press, lang.hitch(this,"onMouseDown")),
@@ -154,11 +160,16 @@ define([
 			//		path[s], selectedItem[s], selectedNode[s]
 
 			var selected = this.getSelectedTreeNodes();
-			var paths = [], nodes = [];
+			var paths = [], nodes = [], selects = [];
 			array.forEach(selected, function(node){
+				var ary = node.getTreePath(), model = this.tree.model;
 				nodes.push(node);
-				paths.push(node.getTreePath());
-			});
+				paths.push(ary);
+				ary = array.map(ary, function(item){
+					return model.getIdentity(item);
+				}, this);
+				selects.push(ary.join("/"))
+			}, this);
 			var items = array.map(nodes,function(node){ return node.item; });
 			this.tree._set("paths", paths);
 			this.tree._set("path", paths[0] || []);
@@ -166,6 +177,30 @@ define([
 			this.tree._set("selectedNode", nodes[0] || null);
 			this.tree._set("selectedItems", items);
 			this.tree._set("selectedItem", items[0] || null);
+            if (this.tree.persist && selects.length > 0) {
+                cookie(this.cookieName, selects.join(","), {expires:365});
+            }
+		},
+		_initState: function(){
+			// summary:
+			//		Automatically opens and selects nodes that were selected previously by using a cookie.
+
+			var tree = this.tree;
+			var dfd = new Deferred();
+			if(tree.persist && tree.dndController.cookieName){
+				var oreo, paths = [];
+				oreo = cookie(tree.dndController.cookieName);
+				if(oreo){
+					paths = array.map(oreo.split(","), function(path){
+					   return path.split("/");
+					})
+				}
+				dfd = tree.set("paths", paths);
+			}
+			else {
+				dfd.resolve(true);
+			}
+			return dfd;
 		},
 		// mouse events
 		onMouseDown: function(e){
