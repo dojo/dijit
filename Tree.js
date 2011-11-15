@@ -335,19 +335,20 @@ var TreeNode = declare(
 		//		2) they aren't immediately adopted by another node (DnD)
 		setTimeout(function(){
 			array.forEach(oldChildren, function(node){
-				if(!node.getParent()){
+				if(!node._destroyed && !node.getParent()){
 					// If node is in selection then remove it.
 					tree.dndController.removeTreeNode(node);
 
 					// Deregister mapping from item id --> this node
 					var id = model.getIdentity(node.item),
 						ary = tree._itemNodesMap[id];
-					console.log("removing node " + node.id + " for item " + id);
 					if(ary.length == 1){
 						delete tree._itemNodesMap[id];
 					}else{
 						var index = array.indexOf(ary, node);
-						ary.splice(index, 1);
+						if(index != -1){
+							ary.splice(index, 1);
+						}
 					}
 
 					// And finally we can destroy the node

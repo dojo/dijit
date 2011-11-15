@@ -1,8 +1,15 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
 		"http://www.w3.org/TR/html4/strict.dtd">
+
+<!--
+	Test file for Tree against ForestStoreModel.
+	To be removed in 2.0 in favor of Tree_ObjectStoreModel.html
+	Put new tests in Tree_ObjectStoreModel.html
+--->
+
 <html>
 <head>
-	<title>dijit.Tree Automatic Tests</title>
+	<title>dijit.Tree against dijit.tree.ForestStoreModel Automated Tests</title>
 
 	<style type="text/css">
 		@import "../../themes/claro/document.css";
@@ -25,7 +32,6 @@
 
 	<script type="text/javascript">
 		dojo.require("doh.runner");
-		dojo.require("dojo.parser");
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dojo.data.ItemFileWriteStore");
 		dojo.require("dijit.Tree");
@@ -33,20 +39,7 @@
 		dojo.require("dijit.tree.TreeStoreModel");
 		dojo.require("dijit.tree.dndSource");
 		
-		function getRowClass(item, isExpanded){
-			if(!item
-					|| !treeStore.isItem(item)
-					|| treeStore.getValue(item, "type") != "header"){
-				return null;
-			}
-			return "headerRow";
-		}
-
 		dojo.ready(function(){
-			doh.register("parse", function(){
-				dojo.parser.parse();
-			});
-
 			doh.register("paths", [
 				function create(){
 					var d = new doh.Deferred();
@@ -389,7 +382,7 @@
 </head>
 <body class="claro">
 
-	<h1 class="testTitle">Dijit.Tree automated tests</h1>
+	<h1 class="testTitle">Dijit.Tree / dijit.tree.ForestStoreModel Automated Tests</h1>
 	<div id="container"> <!--  tree will go here --></div>
 	<div id="container2"> <!--  tree2 will go here --></div>
 </body>

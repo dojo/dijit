@@ -115,6 +115,7 @@ define([
 			var id = this.store.getIdentity(parentItem);
 			if(this.childrenCache[id]){
 				Deferred.when(this.childrenCache[id], onComplete, onError);
+				return;
 			}
 			Deferred.when(
 				this.childrenCache[id] = this.store.getChildren(parentItem),
