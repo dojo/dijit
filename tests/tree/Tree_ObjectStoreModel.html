@@ -498,9 +498,10 @@
 
 						myTree.startup();
 
-						setTimeout(d.getTestCallback(function(){
+						myTree._loadDeferred.then(d.getTestCallback(function(){
 							doh.is("IT", myTree.get("selectedItem").id);
-						}), 500);
+						}));
+
 						return d;
 					},
 
@@ -509,6 +510,7 @@
 					},
 
 					function selectNewItem(){
+						// Since EU is already open this set("path", ...) should execute immediately
 						myTree.set("path", ["earth", "EU", "FR"]);
 						doh.is("FR", myTree.get("selectedItem").id);
 					}

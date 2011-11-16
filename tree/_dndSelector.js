@@ -181,12 +181,11 @@ define([
                 cookie(this.cookieName, selects.join(","), {expires:365});
             }
 		},
-		_initState: function(){
+		_getSavedPaths: function(){
 			// summary:
-			//		Automatically opens and selects nodes that were selected previously by using a cookie.
+			//		Returns paths of nodes that were selected previously and saved in the cookie.
 
 			var tree = this.tree;
-			var dfd = new Deferred();
 			if(tree.persist && tree.dndController.cookieName){
 				var oreo, paths = [];
 				oreo = cookie(tree.dndController.cookieName);
@@ -195,12 +194,8 @@ define([
 					   return path.split("/");
 					})
 				}
-				dfd = tree.set("paths", paths);
+				return paths;
 			}
-			else {
-				dfd.resolve(true);
-			}
-			return dfd;
 		},
 		// mouse events
 		onMouseDown: function(e){
