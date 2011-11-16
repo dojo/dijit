@@ -664,6 +664,9 @@ div.dijitArrowButton {
 		dijit.ProgressBar
  ****/
 
+.dijitProgressBar {
+    z-index: 0; /* so z-index settings below have no effect outside of the ProgressBar */
+}
 .dijitProgressBarEmpty {
 	/* outer container and background of the bar that's not finished yet*/
 	position:relative;overflow:hidden;
@@ -804,6 +807,7 @@ body .dijitAlignClient { position: absolute; }
 .dijitBorderContainer, .dijitBorderContainerNoGutter {
 	position:relative;
 	overflow: hidden;
+    z-index: 0; /* so z-index settings below have no effect outside of the BorderContainer */
 }
 
 .dijitBorderContainerPane,
@@ -1287,35 +1291,58 @@ body .dijitAlignClient { position: absolute; }
 	cursor: default;	/* because pressing it has no effect */
 }
 
-/* TabContainer */
+/***
+TabContainer
 
+Main class hierarchy:
+
+.dijitTabContainer - the whole TabContainer
+   .dijitTabController / .dijitTabListContainer-top - wrapper for tab buttons, scroll buttons
+      .dijitTabListWrapper / .dijitTabContainerTopStrip - outer wrapper for tab buttons (normal width)
+          .nowrapTabStrip / .dijitTabContainerTop-tabs - inner wrapper for tab buttons (50K width)
+   .dijitTabPaneWrapper - wrapper for content panes, has all borders except the one between content and tabs
+***/
+
+.dijitTabContainer {
+    z-index: 0; /* so z-index settings below have no effect outside of the TabContainer */
+    overflow-y: visible; /* prevent off-by-one-pixel errors from hiding bottom border (opposite tab labels) */
+}
 .dijitTabContainerNoLayout {
 	width: 100%;	/* otherwise ScrollingTabController goes to 50K pixels wide */
 }
 
-.dijitTabContainerBottom-tabs,
-.dijitTabContainerTop-tabs,
-.dijitTabContainerLeft-tabs,
-.dijitTabContainerRight-tabs {
-	overflow: visible !important;  /* so tabs can cover up border adjacent to container */
+.dijitTabController {
+    /* make sure line separating tabs from content is visible */
+    z-index: 1;
+	overflow: visible !important;  /* so selected tab can cover up border adjacent to container */
+}
+.dijitTabListWrapper {
+    /* make sure line separating tabs from content is visible */
+    z-index: 1;
+}
+.dijitTabContainerTopStrip, .dijitTabContainerBottomStrip {
+    /* If selected tab if halfway scrolled out of view, avoid it appearing behind scroll & menu buttons.
+       Avoid setting overflow-x: hidden on left/right tabs; it would prevent the selected tab from covering
+       the border between tab buttons and content.
+    */
+    overflow-x: hidden;
+}
+.nowrapTabStrip {
+    /* make sure line separating tabs from content is visible */
+    z-index: 1;
+	overflow: visible !important;  /* so selected tab can cover up border adjacent to container */
+
+    width: 50000px;
+    display: block;
+    position: relative;
+    text-align: left;  /* just in case ancestor has non-standard setting */
 }
 
-.dijitTabContainerBottom-container,
-.dijitTabContainerTop-container,
-.dijitTabContainerLeft-container,
-.dijitTabContainerRight-container {
+.dijitTabPaneWrapper {
+    /* Holds each pane (ContentPane, etc.).   Sibling of .dijitTabListWrapper */
 	z-index:0;
 	overflow: hidden;
 	border: 1px solid black;
-}
-.nowrapTabStrip {
-	width: 50000px;
-	display: block;
-	position: relative;
-    text-align: left;  /* just in case ancestor has non-standard setting */
-}
-.dijitTabListWrapper {
-	overflow: hidden;
 }
 
 .dijit_a11y .tabStripButton img {
@@ -1572,7 +1599,9 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 }
 
 /* Slider */
-
+.dijitSlider {
+    z-index: 0; /* so z-index settings below have no effect outside of the Slider */
+}
 .dijitSliderMoveable {
 	z-index:99;
 	position:absolute !important;
