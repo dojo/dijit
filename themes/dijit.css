@@ -1311,38 +1311,35 @@ Main class hierarchy:
 	width: 100%;	/* otherwise ScrollingTabController goes to 50K pixels wide */
 }
 
+.dijitTabContainerBottom-tabs,
+.dijitTabContainerTop-tabs,
+.dijitTabContainerLeft-tabs,
+.dijitTabContainerRight-tabs {
+    z-index: 1;
+	overflow: visible !important;  /* so tabs can cover up border adjacent to container */
+}
+
 .dijitTabController {
-    /* make sure line separating tabs from content is visible */
-    z-index: 1;
-	overflow: visible !important;  /* so selected tab can cover up border adjacent to container */
-}
-.dijitTabListWrapper {
-    /* make sure line separating tabs from content is visible */
     z-index: 1;
 }
-.dijitTabContainerTopStrip, .dijitTabContainerBottomStrip {
-    /* If selected tab if halfway scrolled out of view, avoid it appearing behind scroll & menu buttons.
-       Avoid setting overflow-x: hidden on left/right tabs; it would prevent the selected tab from covering
-       the border between tab buttons and content.
-    */
-    overflow-x: hidden;
-}
-.nowrapTabStrip {
-    /* make sure line separating tabs from content is visible */
-    z-index: 1;
-	overflow: visible !important;  /* so selected tab can cover up border adjacent to container */
-
-    width: 50000px;
-    display: block;
-    position: relative;
-    text-align: left;  /* just in case ancestor has non-standard setting */
-}
-
-.dijitTabPaneWrapper {
-    /* Holds each pane (ContentPane, etc.).   Sibling of .dijitTabListWrapper */
+.dijitTabContainerBottom-container,
+.dijitTabContainerTop-container,
+.dijitTabContainerLeft-container,
+.dijitTabContainerRight-container {
 	z-index:0;
 	overflow: hidden;
 	border: 1px solid black;
+}
+.nowrapTabStrip {
+	width: 50000px;
+	display: block;
+	position: relative;
+    text-align: left;  /* just in case ancestor has non-standard setting */
+    z-index: 1;
+}
+.dijitTabListWrapper {
+	overflow: hidden;
+    z-index: 1;
 }
 
 .dijit_a11y .tabStripButton img {
@@ -1599,9 +1596,7 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 }
 
 /* Slider */
-.dijitSlider {
-    z-index: 0; /* so z-index settings below have no effect outside of the Slider */
-}
+
 .dijitSliderMoveable {
 	z-index:99;
 	position:absolute !important;

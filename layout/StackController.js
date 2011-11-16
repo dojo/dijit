@@ -174,11 +174,14 @@ define([
 			this.addChild(button, insertIndex);
 			this.pane2button[page.id] = button;
 			page.controlButton = button;	// this value might be overwritten if two tabs point to same container
-			if(!this._currentChild){ // put the first child into the tab order
-				button.focusNode.setAttribute("tabIndex", "0");
-				button.focusNode.setAttribute("aria-selected", "true");
-				this._currentChild = page;
+			if(!this._currentChild){
+				// If this is the first child then StackContainer will soon publish that it's selected,
+				// but before that StackContainer calls layout(), and before layout() is called the
+				// StackController needs to have the proper height... which means that the button needs
+				// to be marked as selected now.   See test_TabContainer_CSS.html for test.
+				this.onSelectChild(page);
 			}
+
 			// make sure all tabs have the same length
 			if(!this.isLeftToRight() && has("ie") && this._rectifyRtlTabList){
 				this._rectifyRtlTabList();
