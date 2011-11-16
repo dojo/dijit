@@ -161,7 +161,8 @@ dijit._place = function(/*DomNode*/ node, choices, layoutNode, /*Object*/ around
 		s = node.style;
 	s.top = best.y + "px";
 	s[l ? "left" : "right"] = (l ? best.x : view.w - best.x - best.w) + "px";
-	
+	s[l ? "right" : "left"] = "auto";       // needed for FF or else tooltip goes to far left
+
 	return best;
 }
 
