@@ -83,7 +83,7 @@ define([
 				style.visibility = "hidden";
 				style.display = "";
 			}
-			var mb = domGeometry. getMarginBox(node);
+			var mb = domGeometry.getMarginBox(node);
 			style.display = oldDisplay;
 			style.visibility = oldVis;
 
@@ -269,7 +269,7 @@ define([
 				? domGeometry.position(anchor, true)
 				: anchor;
 
-			// Adjust anchor positioning for the case that a parent node has overflw hidden, therefore cuasing the anchor not to be completely visible
+			// Adjust anchor positioning for the case that a parent node has overflow hidden, therefore causing the anchor not to be completely visible
 			if(anchor.parentNode){
 				var parent = anchor.parentNode;
 				while(parent && parent.nodeType == 1 && parent.nodeName != "BODY"){  //ignoring the body will help performance
