@@ -1,6 +1,9 @@
 dojo.provide("dijit.tests.infrastructure-module");
 
 try{
+	// Utility methods (previously in dijit/_base)
+	doh.registerUrl("dijit.tests.place", dojo.moduleUrl("dijit", "tests/place.html"), 999999);
+
 	// _Widget
 	doh.registerUrl("dijit.tests._Widget-lifecycle", dojo.moduleUrl("dijit", "tests/_Widget-lifecycle.html"), 999999);
 	doh.registerUrl("dijit.tests._Widget-attr", dojo.moduleUrl("dijit", "tests/_Widget-attr.html"), 999999);
