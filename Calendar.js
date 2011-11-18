@@ -75,7 +75,7 @@ define([
 			}, this.monthNode);
 		},
 
-		buildRendering: function(){
+		postCreate: function(){
 			this.inherited(arguments);
 
 			// Events specific to Calendar, not used in CalendarLite

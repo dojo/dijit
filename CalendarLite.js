@@ -246,8 +246,17 @@ define([
 
 			// set name of this month
 			this.monthWidget.set("month", month);
+		},
+		
+		_populateControls: function(){
+			// summary:
+			//		Fill in localized prev/current/next years
+			// tags:
+			//      protected
 
-			// Fill in localized prev/current/next years
+			var month = new this.dateClassObj(this.currentFocus);
+			month.setDate(1);
+			
 			var y = month.getFullYear() - 1;
 			var d = new this.dateClassObj();
 			array.forEach(["previous", "current", "next"], function(name){
@@ -309,19 +318,31 @@ define([
 			this._supportingWidgets.push(this.monthWidget = this._createMonthWidget());
 
 			this.set('currentFocus', dateObj, false);	// draw the grid to the month specified by currentFocus
+		},
 
-			// Set up connects for increment/decrement of months/years
+		postCreate: function(){
+			this.inherited(arguments);
+			this._connectControls();
+		},
+
+		_connectControls: function(){
+			// summary:
+			//		Set up connects for increment/decrement of months/years
+			// tags:
+			//      protected
+
 			var connect = lang.hitch(this, function(nodeProp, part, amount){
 				this.connect(this[nodeProp], "onclick", function(){
 					this._setCurrentFocusAttr(this.dateFuncObj.add(this.currentFocus, part, amount));
 				});
 			});
-			connect("incrementMonth", "month", 1);
+			
+		  	connect("incrementMonth", "month", 1);
 			connect("decrementMonth", "month", -1);
 			connect("nextYearLabelNode", "year", 1);
 			connect("previousYearLabelNode", "year", -1);
 		},
-
+		
 		_setCurrentFocusAttr: function(/*Date*/ date, /*Boolean*/ forceFocus){
 			// summary:
 			//		If the calendar currently has focus, then focuses specified date,
@@ -342,6 +363,7 @@ define([
 
 			// TODO: only re-populate grid when month/year has changed
 			this._populateGrid();
+			this._populateControls();
 
 			// set tabIndex=0 on new cell, and focus it (but only if Calendar itself is focused)
 			var newCell = this._date2cell[date.valueOf()];
