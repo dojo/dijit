@@ -13,7 +13,6 @@ try{
 		doh.registerUrl("dijit.tests._base.robot.CrossWindow", dojo.moduleUrl("dijit","tests/_base/robot/CrossWindow.html"), 999999);
 		doh.registerUrl("dijit.tests._base.robot.FocusManager", dojo.moduleUrl("dijit","tests/_base/robot/FocusManager.html"), 999999);
 		doh.registerUrl("dijit.tests._base.robot.focus_mouse", dojo.moduleUrl("dijit","tests/_base/robot/focus_mouse.html"), 999999);
-		doh.registerUrl("dijit.tests._base.robot.typematic", dojo.moduleUrl("dijit","tests/_base/robot/typematic.html"), 999999);
 	}
 
 }catch(e){
