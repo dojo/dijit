@@ -242,10 +242,12 @@ define([
 			//				the case of RTL scripts like Hebrew and Arabic
 			//			* after: places drop down to the right of the anchor node/widget, or to the left in
 			//				the case of RTL scripts like Hebrew and Arabic
-			//			* above: drop down goes above anchor node
-			//			* above-alt: same as above except right sides aligned instead of left
+			//			* above-centered: drop down is centered above anchor node
+			//			* above: drop down goes above anchor node, left sides aligned
+			//			* above-alt: drop down goes above anchor node, right sides aligned
+			//			* below-centered: drop down is centered above anchor node
 			//			* below: drop down goes below anchor node
-			//			* below-alt: same as below except right sides aligned instead of left
+			//			* below-alt: drop down goes below anchor node, right sides aligned
 			//
 			// layoutNode: Function(node, aroundNodeCorner, nodeCorner)
 			//		For things like tooltip, they are displayed differently (and have different dimensions)
