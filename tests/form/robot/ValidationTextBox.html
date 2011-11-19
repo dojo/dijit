@@ -13,10 +13,9 @@
 		<script type="text/javascript" src="../../../../dojo/dojo.js"
 			djConfig="isDebug: true"></script>
 
-		<script type="text/javascript" src="../../helpers.js"></script>
-
 		<script type="text/javascript">
 			dojo.require("dijit.robotx");
+			dojo.require("dijit.tests.helpers");	// functions to help test
 
 			function fixNbsp(val){
 				return typeof val == "string" ? val.replace(/\xA0/g, " ") : val;

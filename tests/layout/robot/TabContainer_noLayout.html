@@ -12,12 +12,10 @@
 		<script type="text/javascript" src="../../../../dojo/dojo.js"
 			djConfig="isDebug: true"></script>
 
-		<!-- functions to help test -->
-		<script type="text/javascript" src="../../helpers.js"></script>
-
 		<script type="text/javascript">
 			dojo.require("dijit.robotx");
-			
+			dojo.require("dijit.tests.helpers");	// functions to help test
+
 			function checkInside(childDomNode, parentDomNode){
 				var cp = dojo.position(childDomNode, true),
 					pp = dojo.position(parentDomNode, true);

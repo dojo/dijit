@@ -29,7 +29,6 @@
 
 	<!-- only needed for alternate theme testing: do NOT use in your code! -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
-	<script type="text/javascript" src="../helpers.js"></script>
 
 	<script type="text/javascript">
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
@@ -41,6 +40,7 @@
 		dojo.require("dijit.form.Button");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 		dojo.require('doh.runner');
+		dojo.require("dijit.tests.helpers");	// functions to help test
 
 		// Hash listing which objects have gotten a resize event
 		resizes = {};

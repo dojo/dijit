@@ -15,7 +15,6 @@
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		data-dojo-config="isDebug: true"></script>
-	<script type="text/javascript" src="../helpers.js"></script>
 
 	<!-- only needed for alternate theme testing: do NOT use in your code! -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
@@ -27,6 +26,7 @@
 		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+		dojo.require("dijit.tests.helpers");	// functions to help test
 
 		// create a do nothing, only for test widget
 		dojo.ready(function(){

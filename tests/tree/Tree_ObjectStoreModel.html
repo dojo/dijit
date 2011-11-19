@@ -19,8 +19,6 @@
 	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
-	<script type="text/javascript" src="../helpers.js"></script>
-
 	<script type="text/javascript">
 		require([
 			"dojo/_base/array",
@@ -34,7 +32,8 @@
 			"dijit/Tree",
 			"dijit/tree/ObjectStoreModel",
 			"dijit/tree/dndSource",
-			"doh/runner"
+			"doh/runner",
+			"dijit/tests/helpers"	// functions to help test
 		], function(array, aspect, domClass, on, ready, win, Memory, Observable, Tree, ObjectStoreModel, dndSource, doh){
 
 			var myStore, myModel, myTree, myTree2;

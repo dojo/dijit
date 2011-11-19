@@ -28,8 +28,6 @@
 	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
-	<script type="text/javascript" src="../helpers.js"></script>
-
 	<script type="text/javascript">
 		dojo.require("doh.runner");
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
@@ -38,7 +36,8 @@
 		dojo.require("dijit.tree.ForestStoreModel");
 		dojo.require("dijit.tree.TreeStoreModel");
 		dojo.require("dijit.tree.dndSource");
-		
+		dojo.require("dijit.tests.helpers");	// functions to help test
+
 		dojo.ready(function(){
 			doh.register("paths", [
 				function create(){

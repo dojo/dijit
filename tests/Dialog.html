@@ -15,9 +15,6 @@
 	<script type="text/javascript" src="../../dojo/dojo.js"
 		djConfig="isDebug: true"></script>
 
-	<!-- functions to help test -->
-	<script type="text/javascript" src="helpers.js"></script>
-
 	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="_testCommon.js"></script>
 
@@ -26,6 +23,7 @@
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.Dialog");
 		dojo.require("dijit.focus");
+		dojo.require("dijit.tests.helpers");	// functions to help test
 
 		dojo.ready(function(){
 			// Non robot tests to see if nested dialogs work correctly

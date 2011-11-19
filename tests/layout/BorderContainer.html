@@ -21,7 +21,6 @@
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript" src="robot/borderContainerTestFunctions.js"></script>
-	<script type="text/javascript" src="../helpers.js"></script>
 
 	<script type="text/javascript">
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
@@ -35,6 +34,7 @@
 		dojo.require("dijit.MenuItem");
 
 		dojo.require("doh.runner");
+		dojo.require("dijit.tests.helpers");	// functions to help test
 
 		var bc, cp1, cp2, cp3;
         dojo.ready(function(){
