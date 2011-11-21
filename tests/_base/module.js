@@ -5,7 +5,6 @@ try{
 		test_robot = true;
 
 	doh.registerUrl("dijit.tests._base.manager", dojo.moduleUrl("dijit", "tests/_base/manager.html"), 999999);
-	doh.registerUrl("dijit.tests._base.tabindex", dojo.moduleUrl("dijit", "tests/_base/tabindex.html"), 999999);
 	doh.registerUrl("dijit.tests._base.wai", dojo.moduleUrl("dijit", "tests/_base/wai.html"), 999999);
 	doh.registerUrl("dijit.tests._base.place", dojo.moduleUrl("dijit", "tests/_base/place.html"), 999999);
 	doh.registerUrl("dijit.tests._base.popup", dojo.moduleUrl("dijit", "tests/_base/popup.html"), 999999);
