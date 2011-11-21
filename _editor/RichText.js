@@ -1221,7 +1221,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 				supportedBy = isSupportedBy(ie);
 				break;
 			case "cut": case "copy": case "paste":
-				supportedBy = isSupportedBy( ie | mozilla | webkit);
+				supportedBy = isSupportedBy( ie | mozilla | webkit | opera);
 				break;
 
 			case "inserttable":

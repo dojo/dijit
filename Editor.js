@@ -414,7 +414,8 @@ define([
 				}
 			}catch(e){
 				//TODO: when else might we get an exception?  Do we need the Mozilla test below?
-				if(e.code == 1011 /* Mozilla: service denied */){
+				if(e.code == 1011 /* Mozilla: service denied */ ||
+					(e.code == 9 && has("opera") /* Opera not supported */)){
 					// Warn user of platform limitation.  Cannot programmatically access clipboard. See ticket #4136
 					var sub = string.substitute,
 						accel = {cut:'X', copy:'C', paste:'V'};
