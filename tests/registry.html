@@ -10,7 +10,8 @@
 		require([
 			"doh/runner",
 			"dojo/_base/array", "dojo/_base/declare", "dojo/dom", "dojo/parser", "dojo/_base/window",
-			"dijit/_WidgetBase", "dijit/registry"
+			"dijit/_WidgetBase", "dijit/registry",
+			"dojo/domReady!"
 		], function(doh, array, declare, dom, parser, win, _WidgetBase, registry){
 
 			declare("foo", _WidgetBase, {
