@@ -978,6 +978,12 @@ body .dijitAlignClient { position: absolute; }
 	/* TitlePane that cannot be toggled */
 	cursor: default;
 }
+.dijitFixedOpen .dijitArrowNode, .dijitFixedOpen .dijitArrowNodeInner,
+.dijitFixedClosed .dijitArrowNode, .dijitFixedClosed .dijitArrowNodeInner{
+	/* don't show the open close icon, it makes the user think the pane is closable*/
+	display: none;
+}
+
 .dijitTitlePaneTitle * {
 	vertical-align: middle;
 }
