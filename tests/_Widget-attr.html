@@ -14,8 +14,10 @@
 	<script type="text/javascript">
 		dojo.require("doh.runner");
 
+		dojo.require("dijit._WidgetBase");
 		dojo.require("dijit._Widget");
 		dojo.require("dijit._TemplatedMixin");
+		dojo.require("dijit._WidgetsInTemplateMixin");
 
 		dojo.ready(function(){
 			doh.register("attribute set/get",
@@ -60,6 +62,36 @@
 						doh.is("123px", dojo.style(widget.domNode).height, "height");
 						doh.is("456px", dojo.style(widget.domNode).width, "width");
 						doh.is("hello world &lt;&gt;&amp;;", widget.plainTextNode.innerHTML, "innerHTML");
+					},
+
+					// Test attributes mapped to subwidgets
+					function subwidgetMapping(){
+						dojo.declare("MySubWidget", [dijit._WidgetBase], {
+							_setFooAttr: function(val){
+								this.foo = val;
+								this.gotValue = true;	// set flag for testing purposes
+							}
+						});
+						var IndividualMaps = dojo.declare(
+								[dijit._WidgetBase, dijit._TemplatedMixin, dijit._WidgetsInTemplateMixin], {
+
+							// Mapping foo to this.subwidget.foo
+							foo:"",
+							_setFooAttr: "subwidget",
+
+							templateString:
+								"<div class='class1' style='border: 1px solid red; width: 456px'>" +
+									"<button data-dojo-type='MySubWidget' data-dojo-attach-point='subwidget'>hi</button>" +
+								"</div>"
+						});
+
+						var widget = new IndividualMaps({
+							foo: "value1"
+						}).placeAt(dojo.byId("wrapper"));
+
+						// test attribute specified to constructor was copied over to subwidget
+						doh.is("value1", widget.subwidget.get("foo"), "widget.subwidget.get('foo')");
+						doh.t(widget.subwidget.gotValue, "gotValue");
 					},
 
 					// Test that certain attributes are automatically applied to focusNode or domNode.
