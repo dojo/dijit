@@ -44,10 +44,7 @@ define([
 		//		When true, display close button for this tab
 		closeButton: false,
 		
-		_setCheckedAttr: function(/*Boolean*/ value, /*Boolean?*/ priorityChange){
-			this.inherited(arguments);
-			this.focusNode.removeAttribute("aria-pressed");
-		},
+		_aria_attr: "aria-selected",
 
 		buildRendering: function(/*Event*/ evt){
 			this.inherited(arguments);
@@ -151,8 +148,6 @@ define([
 				closeButton: page.closable,
 				title: page.tooltip
 			});
-			button.focusNode.setAttribute("aria-selected", "false");
-
 
 			// map from page attribute to corresponding tab button attribute
 			var pageAttrList = ["title", "showTitle", "iconClass", "closable", "tooltip"],
@@ -223,13 +218,11 @@ define([
 			if(this._currentChild){
 				var oldButton=this.pane2button[this._currentChild.id];
 				oldButton.set('checked', false);
-				oldButton.focusNode.setAttribute("aria-selected", "false");
 				oldButton.focusNode.setAttribute("tabIndex", "-1");
 			}
 
 			var newButton=this.pane2button[page.id];
 			newButton.set('checked', true);
-			newButton.focusNode.setAttribute("aria-selected", "true");
 			this._currentChild = page;
 			newButton.focusNode.setAttribute("tabIndex", "0");
 			var container = registry.byId(this.containerId);
