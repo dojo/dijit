@@ -21,14 +21,23 @@
 		<script type="text/javascript" src="_testCommon.js"></script>
 
 		<script type="text/javascript">
-			dojo.require("dijit.CalendarLite");
+			require(["doh/runner", "dojo/date/stamp", "dojo/dom", "dijit/CalendarLite", "dojo/domReady!"],
+					function(doh, stamp, dom, CalendarLite){
 
-			dojo.ready(function(){
-				new dijit.CalendarLite({
-					onChange: function myHandler(id,newValue){
-						console.debug("onChange for id = " + id + ", value: " + newValue);
+				doh.register("CalendarLite", [
+					function create(){
+						var cal = new CalendarLite({
+							id: "cal",
+							value: "1999-12-31",
+							onChange: function myHandler(id,newValue){
+								console.debug("onChange for id = " + id + ", value: " + newValue);
+							}
+						}, dom.byId("calendar1"));
+
+						doh.is("1999-12-31", stamp.toISOString(cal.get("value"), {selector: "date"}), "value");
 					}
-				}, dojo.byId("calendar1"));
+				]);
+				doh.run();
 			});
 		</script>
 	</head>

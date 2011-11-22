@@ -4,6 +4,7 @@ define([
 	"dojo/cldr/supplemental", // cldrSupplemental.getFirstDayOfWeek
 	"dojo/date", // date
 	"dojo/date/locale",
+	"dojo/date/stamp", // stamp.fromISOString
 	"dojo/dom", // dom.setSelectable
 	"dojo/dom-class", // domClass.contains
 	"dojo/_base/event", // event.stop
@@ -14,7 +15,7 @@ define([
 	"./_WidgetBase",
 	"./_TemplatedMixin",
 	"dojo/text!./templates/Calendar.html"
-], function(array, declare, cldrSupplemental, date, local, dom, domClass, event, lang, has, string, win,
+], function(array, declare, cldrSupplemental, date, locale, stamp, dom, domClass, event, lang, has, string, win,
 			_WidgetBase, _TemplatedMixin, template){
 
 /*=====
@@ -123,6 +124,9 @@ define([
 			//		Either a Date or the number of seconds since 1970.
 			// tags:
 			//      protected
+			if(typeof value == "string"){
+				value = stamp.fromISOString(value);
+			}
 			if(value){
 				// convert from Number to Date, or make copy of Date object so that setHours() call below
 				// doesn't affect original value
