@@ -239,7 +239,10 @@ var TreeNode = declare(
 		}
 
 		// cancel in progress collapse operation
-		this._wipeOut && this._wipeOut.stop();
+		if(this._collapseDeferred){
+			this._collapseDeferred.cancel();
+			delete this._collapseDeferred;
+		}
 
 		// All the state information for when a node is expanded, maybe this should be
 		// set when the animation completes instead
@@ -257,9 +260,10 @@ var TreeNode = declare(
 
 		var def,
 			wipeIn = fxUtils.wipeIn({
-				node: this.containerNode, duration: manager.defaultDuration,
+				node: this.containerNode,
+				duration: manager.defaultDuration,
 				onEnd: function(){
-					def.callback(true);
+					def.resolve(true);
 				}
 			});
 
@@ -278,7 +282,10 @@ var TreeNode = declare(
 		// summary:
 		//		Collapse this node (if it's expanded)
 
-		if(!this.isExpanded){ return; }
+		if(this._collapseDeferred){
+			// Node is already collapsed, or there's a collapse in progress, just return that Deferred
+			return this._collapseDeferred;
+		}
 
 		// cancel in progress expand operation
 		if(this._expandDeferred){
@@ -295,12 +302,24 @@ var TreeNode = declare(
 		this._setExpando();
 		this._updateItemClasses(this.item);
 
-		if(!this._wipeOut){
-			this._wipeOut = fxUtils.wipeOut({
-				node: this.containerNode, duration: manager.defaultDuration
+		var def,
+			wipeOut = fxUtils.wipeOut({
+				node: this.containerNode,
+				duration: manager.defaultDuration,
+				onEnd: function(){
+					def.resolve(true);
+				}
 			});
-		}
-		this._wipeOut.play();
+
+		// Deferred that fires when expand is complete
+		def = (this._collapseDeferred = new Deferred(function(){
+			// Canceller
+			wipeOut.stop();
+		}));
+
+		wipeOut.play();
+
+		return def;		// dojo.Deferred
 	},
 
 	// indent: Integer
@@ -870,7 +889,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 
 				// Load top level children (and if persist=true all nodes
 				// that were previously opened)
-				this._expandNode(rn).addCallback(lang.hitch(this, function(){
+				this._expandNode(rn).then(lang.hitch(this, function(){
 					// Then, select the nodes that were selected last time, or
 					// the ones specified by params.paths[].
 
@@ -885,7 +904,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 
 					// Do the selection and then fire onLoad()
 					Deferred.when(this.set("paths", paths), lang.hitch(this, function(){
-						this._loadDeferred.callback(true);
+						this._loadDeferred.resolve(true);
 						this.onLoad();
 					}));
 				}));
@@ -918,7 +937,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		//		WARNING: if model use multi-parented items or desired tree node isn't already loaded
 		//		behavior is undefined. Use set('paths', ...) instead.
 		var tree = this;
-		this._loadDeferred.addCallback( lang.hitch(this, function(){
+		this._loadDeferred.then( lang.hitch(this, function(){
 			var identities = array.map(items, function(item){
 				return (!item || lang.isString(item)) ? item : tree.model.getIdentity(item);
 			});
@@ -964,7 +983,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		// We may need to wait for some nodes to expand, so setting
 		// each path will involve a Deferred. We bring those deferreds
 		// together with a DeferredList.
-		return new DeferredList(array.map(paths, function(path, idx){
+		var dl = new DeferredList(array.map(paths, function(path, idx){
 			var d = new Deferred();
 
 			// normalize path to use identity
@@ -975,10 +994,12 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 			if(path.length){
 				selectPath(path, [tree.rootNode], d);
 			}else{
-				d.errback("Empty path");
+				d.reject("Empty path");
 			}
 			return d;
-		})).addCallback(setNodes);
+		}));
+		dl.then(setNodes);
+		return dl;
 
 		function selectPath(path, nodes, def){
 			// Traverse path; the next path component should be among "nodes".
@@ -988,13 +1009,13 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 			})[0];
 			if(!!nextNode){
 				if(path.length){
-					tree._expandNode(nextNode).addCallback(function(){ selectPath(path, nextNode.getChildren(), def); });
+					tree._expandNode(nextNode).then(function(){ selectPath(path, nextNode.getChildren(), def); });
 				}else{
 					// Successfully reached the end of this path
-					def.callback(nextNode);
+					def.resolve(nextNode);
 				}
 			}else{
-				def.errback("Could not expand path at " + nextPath);
+				def.reject("Could not expand path at " + nextPath);
 			}
 		}
 
@@ -1018,6 +1039,75 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		this.dndController.setSelection(nodes);
 	},
 
+
+	expandAll: function(){
+		// summary:
+		//		Expand all nodes in the tree
+		// returns:
+		//		Deferred that fires when all nodes have expanded
+
+		var _this = this;
+
+		function expand(node){
+			var def = new dojo.Deferred();
+
+			// Expand the node
+			_this._expandNode(node).then(function(){
+				// When node has expanded, call expand() recursively on each non-leaf child
+				var childBranches = array.filter(node.getChildren() || [], function(node){
+						return node.isExpandable;
+					}),
+					defs = array.map(childBranches, expand);
+
+				// And when all those recursive calls finish, signal that I'm finished
+				new dojo.DeferredList(defs).then(function(){
+					def.resolve(true);
+				});
+			});
+
+			return def;
+		}
+
+		return expand(this.rootNode);
+	},
+
+	collapseAll: function(){
+		// summary:
+		//		Collapse all nodes in the tree
+		// returns:
+		//		Deferred that fires when all nodes have collapsed
+
+		var _this = this;
+
+		function collapse(node){
+			var def = new dojo.Deferred();
+			def.label = "collapseAllDeferred";
+
+			// Collapse children first
+			var childBranches = array.filter(node.getChildren() || [], function(node){
+					return node.isExpandable;
+				}),
+				defs = array.map(childBranches, collapse);
+
+			// And when all those recursive calls finish, collapse myself, unless I'm the invisible root node,
+			// in which case collapseAll() is finished
+			new dojo.DeferredList(defs).then(function(){
+				if(!node.isExpanded || (node == _this.rootNode && !_this.showRoot)){
+					def.resolve(true);
+				}else{
+					_this._collapseNode(node).then(function(){
+						// When node has collapsed, signal that call is finished
+						def.resolve(true);
+					});
+				}
+			});
+
+
+			return def;
+		}
+
+		return collapse(this.rootNode);
+	},
 
 	////////////// Data store related functions //////////////////////
 	// These just get passed to the model; they are here for back-compat
@@ -1454,35 +1544,40 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 	_collapseNode: function(/*_TreeNode*/ node){
 		// summary:
 		//		Called when the user has requested to collapse the node
+		// returns:
+		//		Deferred that fires when the node is closed
 
 		if(node._expandNodeDeferred){
 			delete node._expandNodeDeferred;
 		}
 
-		if(node.isExpandable){
-			if(node.state == "LOADING"){
-				// ignore clicks while we are in the process of loading data
-				return;
-			}
+		if(node.state == "LOADING"){
+			// ignore clicks while we are in the process of loading data
+			return;
+		}
 
-			node.collapse();
+		if(node.isExpanded){
+			var ret = node.collapse();
+
 			this.onClose(node.item, node);
-
 			this._state(node, false);
+
+			return ret;
 		}
 	},
 
-	_expandNode: function(/*_TreeNode*/ node, /*Boolean?*/ recursive){
+	_expandNode: function(/*_TreeNode*/ node){
 		// summary:
 		//		Called when the user has requested to expand the node
-		// recursive:
-		//		Internal flag used when _expandNode() calls itself, don't set.
 		// returns:
 		//		Deferred that fires when the node is loaded and opened and (if persist=true) all it's descendants
 		//		that were previously opened too
 
-		if(node._expandNodeDeferred && !recursive){
-			// there's already an expand in progress (or completed), so just return
+		// Signal that this call is complete
+		var def = new Deferred();
+
+		if(node._expandNodeDeferred){
+			// there's already an expand in progress, or completed, so just return
 			return node._expandNodeDeferred;	// dojo.Deferred
 		}
 
@@ -1490,52 +1585,45 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 			item = node.item,
 			_this = this;
 
-		switch(node.state){
-			case "UNCHECKED":
-				// need to load all the children, and then expand
-				node.markProcessing();
+		// Load data if it's not already loaded
+		if(!node._loadDeferred){
+			// need to load all the children before expanding
+			node.markProcessing();
 
-				// Setup deferred to signal when the load and expand are finished.
-				// Save that deferred in this._expandDeferred as a flag that operation is in progress.
-				var def = (node._expandNodeDeferred = new Deferred());
+			// Setup deferred to signal when the load and expand are finished.
+			// Save that deferred in this._expandDeferred as a flag that operation is in progress.
+			node._loadDeferred = new Deferred();
 
-				// Get the children
-				model.getChildren(
-					item,
-					function(items){
-						node.unmarkProcessing();
+			// Get the children
+			model.getChildren(
+				item,
+				function(items){
+					node.unmarkProcessing();
 
-						// Display the children and also start expanding any children that were previously expanded
-						// (if this.persist == true).   The returned Deferred will fire when those expansions finish.
-						var scid = node.setChildItems(items);
-
-						// Call _expandNode() again but this time it will just to do the animation (default branch).
-						// The returned Deferred will fire when the animation completes.
-						// TODO: seems like I can avoid recursion and just use a deferred to sequence the events?
-						var ed = _this._expandNode(node, true);
-
-						// After the above two tasks (setChildItems() and recursive _expandNode()) finish,
-						// signal that I am done.
-						scid.addCallback(function(){
-							ed.addCallback(function(){
-								def.callback();
-							})
-						});
-					},
-					function(err){
-						console.error(_this, ": error loading root children: ", err);
-					}
-				);
-				break;
-
-			default:	// "LOADED"
-				// data is already loaded; just expand node
-				def = (node._expandNodeDeferred = node.expand());
-
-				this.onOpen(node.item, node);
-
-				this._state(node, true);
+					// Display the children and also start expanding any children that were previously expanded
+					// (if this.persist == true).   The returned Deferred will fire when those expansions finish.
+					node.setChildItems(items).then(function(){
+						node._loadDeferred.resolve(items);
+					});
+				},
+				function(err){
+					console.error(_this, ": error loading " + node.label + " children: ", err);
+					node._loadDeferred.reject(err);
+				}
+			);
 		}
+
+		// Expand the node after data has loaded
+		node._loadDeferred.then(lang.hitch(this, function(){
+			node.expand().then(function(){
+				def.resolve(true);	// signal that this _expandNode() call is complete
+			});
+
+			// seems like these should be inside of then(), but left here for back-compat about
+			// when this.isOpen flag gets set (ie, at the beginning of the animation)
+			this.onOpen(node.item, node);
+			this._state(node, true);
+		}));
 
 		return def;	// dojo.Deferred
 	},

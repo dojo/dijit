@@ -128,7 +128,9 @@
 			console.log("Execute of node " + this.model.getLabel(item)
 				+", population=" + continentStore.getValue(item, "population"));
 		</script>
-</div>
+	</div>
+	<button onclick="dijit.byId('tree2').expandAll();">expand all</button>
+	<button onclick="dijit.byId('tree2').collapseAll();">collapse all</button>
 
 	<h2>Double click, expand on load, direct style setting, tooltip test</h2>
 	<p>

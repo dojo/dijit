@@ -34,7 +34,8 @@
 			"dijit/tree/dndSource",
 			"doh/runner",
 			"dijit/tests/helpers"	// functions to help test
-		], function(array, aspect, domClass, on, ready, win, Memory, Observable, Tree, ObjectStoreModel, dndSource, doh){
+		], function(array, aspect, domClass, on, ready, win, Memory, Observable,
+					Tree, ObjectStoreModel, dndSource, doh, helpers){
 
 			var myStore, myModel, myTree, myTree2;
 
@@ -527,6 +528,135 @@
 						var children = myTree.rootNode.getChildren();
 						doh.f(domClass.contains(children[2], "lang"), "no (empty) lang attribute on child TreeNode");
 						doh.f(domClass.contains(children[2], "dir"), "no (empty) dir attribute on child TreeNode");
+					}
+				]);
+
+				doh.register("expand/contract", [
+					function initiallyExpanded(){
+						var d = new doh.Deferred();
+
+						myTree = new dijit.Tree({
+							id: "myTreeExpand",
+							model: myModel,
+							persist: false,		// persist==true is too hard to test
+							autoExpand: true
+						}).placeAt(win.body());
+						doh.t(myTree, "tree created");
+
+						myTree.startup();
+
+						world = myTree.rootNode;
+
+						myTree._loadDeferred.then(d.getTestCallback(function(){
+							doh.t(world, "root node exists");
+							doh.t(world.isExpanded, "root node is expanded");
+
+							var children = world.getChildren();
+							doh.is(6, children.length, "world children");
+							doh.t(children[0].isExpanded, "Africa expanded");
+							doh.t(children[0].getChildren()[2].isExpanded, "Kenya expanded too")
+							doh.is(2, children[0].getChildren()[2].getChildren().length, "Kenya children")
+							doh.t(children[4].isExpanded, "North America expanded");
+							doh.is(3, children[4].getChildren().length, "North America children");
+						}));
+
+						return d;
+					},
+					{
+						name: "collapseAll",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							myTree.collapseAll().then(d.getTestCallback(function(){
+								doh.t(world, "root node exists");
+								doh.f(world.isExpanded, "root node collapsed");
+
+								var children = world.getChildren();
+								doh.is(6, children.length, "world children");
+								doh.f(children[0].isExpanded, "Africa collapsed");
+								doh.f(children[0].getChildren()[2].iscollapsed, "Kenya collapsed too")
+								doh.is(2, children[0].getChildren()[2].getChildren().length, "Kenya children")
+								doh.f(children[4].isExpanded, "North America collapsed");
+								doh.is(3, children[4].getChildren().length, "North America children");
+							}));
+
+							return d;
+						}
+					},
+					{
+						name: "expandAll",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							myTree.destroy();
+
+							myTree = new dijit.Tree({
+								id: "myTreeExpand",
+								model: myModel,
+								persist: false,		// persist==true is too hard to test
+								autoExpand: false
+							}).placeAt(win.body());
+							doh.t(myTree, "tree created");
+
+							myTree.startup();
+
+							world = myTree.rootNode;
+
+							myTree._loadDeferred.then(d.getTestErrback(function(){
+								doh.t(world, "root node exists");
+								doh.t(world.isExpanded, "root node is expanded");
+
+								var children = world.getChildren();
+								doh.is(6, children.length, "world children");
+								doh.f(children[0].isExpanded, "Africa collapsed");
+
+								myTree.expandAll().then(d.getTestCallback(function(){
+									var children = world.getChildren();
+									doh.t(children[0].isExpanded, "Africa expanded");
+									doh.t(children[0].getChildren()[2].isExpanded, "Kenya expanded too")
+									doh.t(children[4].isExpanded, "North America expanded");
+									doh.is(3, children[4].getChildren().length, "North America children");
+								}));
+							}));
+
+							return d;
+						}
+					},
+					function collapseShowRootFalseTree(){
+						var d = new doh.Deferred();
+
+						myTree.destroy();
+
+						myTree = new dijit.Tree({
+							id: "myTreeExpand",
+							model: myModel,
+							persist: false,		// persist==true is too hard to test
+							showRoot: false
+						}).placeAt(win.body());
+						doh.t(myTree, "tree created");
+
+						myTree.startup();
+
+						world = myTree.rootNode;
+
+						myTree._loadDeferred.then(d.getTestErrback(function(){
+							myTree._expandNode(myTree.rootNode.getChildren()[0]).then(d.getTestErrback(function(){
+								var children = world.getChildren();
+								doh.t(children[0].isExpanded, "Africa collapsed");
+
+								myTree.collapseAll().then(d.getTestCallback(function(){
+									doh.t(world, "root node exists");
+									doh.t(world.isExpanded, "root node expanded (because it's hidden");
+
+									doh.f(children[0].isExpanded, "Africa collapsed");
+									doh.t(helpers.isVisible(children[0]), "Africa node visible");
+								}));
+							}));
+						}));
+
+						return d;
 					}
 				]);
 
