@@ -461,7 +461,6 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 		var ifr = (this.editorObject = this.iframe = win.doc.createElement('iframe'));
 		ifr.id = this.id+"_iframe";
-		this._iframeSrc = this._getIframeDocTxt();
 		ifr.style.border = "none";
 		ifr.style.width = "100%";
 		if(this._layoutMode){
@@ -494,9 +493,8 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		});
 
 		// Set the iframe's initial (blank) content.
-		var iframeSrcRef = 'parent.' + dijit._scopeName + '.byId("'+this.id+'")._iframeSrc';
-		var s = 'javascript:(function(){try{return ' + iframeSrcRef + '}catch(e){document.open();document.domain="' +
-				document.domain + '";document.write(' + iframeSrcRef + ');document.close();}})()';
+		var src = this._getIframeDocTxt(),
+			s = "javascript: '" + src.replace(/\\/g, "\\\\").replace(/'/g, "\\'") + "'";
 		ifr.setAttribute('src', s);
 		this.editingArea.appendChild(ifr);
 
@@ -632,7 +630,11 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			this._applyEditingAreaStyleSheets(),"\n",
 			"</head>\n<body ",
 			(setBodyId?"id='dijitEditorBody' ":""),
-			"onload='frameElement._loadFunc(window,document)' style='"+userStyle+"'>", html, "</body>\n</html>"
+
+			// Onload handler fills in real editor content.
+			// On IE9, sometimes onload is called twice, and the first time frameElement is null (test_FullScreen.html)
+			"onload='frameElement && frameElement._loadFunc(window,document)' ",
+			"style='"+userStyle+"'>", html, "</body>\n</html>"
 		].join(""); // String
 	},
 
