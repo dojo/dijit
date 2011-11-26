@@ -532,35 +532,39 @@
 				]);
 
 				doh.register("expand/contract", [
-					function initiallyExpanded(){
-						var d = new doh.Deferred();
+					{
+						name: "initiallyExpanded",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
 
-						myTree = new dijit.Tree({
-							id: "myTreeExpand",
-							model: myModel,
-							persist: false,		// persist==true is too hard to test
-							autoExpand: true
-						}).placeAt(win.body());
-						doh.t(myTree, "tree created");
+							myTree = new dijit.Tree({
+								id: "myTreeExpand",
+								model: myModel,
+								persist: false,		// persist==true is too hard to test
+								autoExpand: true
+							}).placeAt(win.body());
+							doh.t(myTree, "tree created");
 
-						myTree.startup();
+							myTree.startup();
 
-						world = myTree.rootNode;
+							world = myTree.rootNode;
 
-						myTree._loadDeferred.then(d.getTestCallback(function(){
-							doh.t(world, "root node exists");
-							doh.t(world.isExpanded, "root node is expanded");
+							myTree._loadDeferred.then(d.getTestCallback(function(){
+								doh.t(world, "root node exists");
+								doh.t(world.isExpanded, "root node is expanded");
 
-							var children = world.getChildren();
-							doh.is(6, children.length, "world children");
-							doh.t(children[0].isExpanded, "Africa expanded");
-							doh.t(children[0].getChildren()[2].isExpanded, "Kenya expanded too")
-							doh.is(2, children[0].getChildren()[2].getChildren().length, "Kenya children")
-							doh.t(children[4].isExpanded, "North America expanded");
-							doh.is(3, children[4].getChildren().length, "North America children");
-						}));
+								var children = world.getChildren();
+								doh.is(6, children.length, "world children");
+								doh.t(children[0].isExpanded, "Africa expanded");
+								doh.t(children[0].getChildren()[2].isExpanded, "Kenya expanded too")
+								doh.is(2, children[0].getChildren()[2].getChildren().length, "Kenya children")
+								doh.t(children[4].isExpanded, "North America expanded");
+								doh.is(3, children[4].getChildren().length, "North America children");
+							}));
 
-						return d;
+							return d;
+						}
 					},
 					{
 						name: "collapseAll",
