@@ -65,7 +65,7 @@
 					dojo.byId("container").appendChild(myTree.domNode);
 					myTree.startup();
 
-					setTimeout(d.getTestCallback(function(){
+					myTree.onLoadDeferred.then(d.getTestCallback(function(){
 						// Give the tree time to load, and the do checks that it
 						// loaded correctly
 						doh.t(myTree.rootNode, "root node exists");
@@ -80,7 +80,7 @@
 						// Last child has special CSS for drawing the grid lines
 						doh.f(dojo.hasClass(children[3].domNode, "dijitTreeIsLast"), "middle node doesn't have dijitTreeIsLast");
 						doh.t(dojo.hasClass(children[5].domNode, "dijitTreeIsLast"), "last node has dijitTreeIsLast");
-					}), 750);
+					}));
 					return d;
 				},
 
@@ -101,12 +101,12 @@
 						dojo.byId("container2").appendChild(myTree2.domNode);
 						myTree2.startup();
 
-						setTimeout(d.getTestCallback(function(){
+						myTree.onLoadDeferred.then(d.getTestCallback(function(){
 							doh.t(myTree2.rootNode, "root node exists");
 							doh.t(myTree2.rootNode.isExpanded, "root node is expanded");
 							doh.t(myTree2.rootNode.getChildren()[3].isExpanded, "europe node is expanded");
 							doh.is(myTree2.rootNode.getChildren()[3].getChildren()[3], myTree2.selectedNode, "selected correct node");
-						}), 2000);
+						}));
 
 						return d;
 					}
@@ -315,9 +315,9 @@
 					dojo.byId("container").appendChild(myTree.domNode);
 					myTree.startup();
 
-					setTimeout(d.getTestCallback(function(){
+					myTree.onLoadDeferred.then(d.getTestCallback(function(){
 						doh.is("IT", myTree.get("selectedItem").id);
-					}), 500);
+					}));
 					return d;
 				},
 
@@ -358,7 +358,7 @@
 					dojo.byId("container").appendChild(myTree.domNode);
 					myTree.startup();
 
-					setTimeout(d.getTestCallback(function(){
+					myTree.onLoadDeferred.then(d.getTestCallback(function(){
 						// Give the tree time to load, and the do checks that it
 						// loaded correctly
 						doh.t(myTree.rootNode, "root node exists");
@@ -369,7 +369,7 @@
 						var children = myTree.rootNode.getChildren();
 						doh.f(dojo.hasAttr(children[2], "lang"), "no (empty) lang attribute on child TreeNode");
 						doh.f(dojo.hasAttr(children[2], "dir"), "no (empty) dir attribute on child TreeNode");
-					}), 750);
+					}));
 					return d;
 				}
 			]);
