@@ -365,8 +365,10 @@ define([
 		var handle = singleton.registerWin(win.doc.parentWindow || win.doc.defaultView);
 		if(has("ie")){
 			unload.addOnWindowUnload(function(){
-				handle.remove();
-				handle = null;
+				if(handle){	// because this gets called twice when doh.robot is running
+					handle.remove();
+					handle = null;
+				}
 			})
 		}
 	});
