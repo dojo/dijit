@@ -498,7 +498,7 @@
 
 						myTree.startup();
 
-						myTree._loadDeferred.then(d.getTestCallback(function(){
+						myTree.onLoadDeferred.then(d.getTestCallback(function(){
 							doh.is("IT", myTree.get("selectedItem").id);
 						}));
 
@@ -550,7 +550,7 @@
 
 							world = myTree.rootNode;
 
-							myTree._loadDeferred.then(d.getTestCallback(function(){
+							myTree.onLoadDeferred.then(d.getTestCallback(function(){
 								doh.t(world, "root node exists");
 								doh.t(world.isExpanded, "root node is expanded");
 
@@ -608,7 +608,7 @@
 
 							world = myTree.rootNode;
 
-							myTree._loadDeferred.then(d.getTestErrback(function(){
+							myTree.onLoadDeferred.then(d.getTestErrback(function(){
 								doh.t(world, "root node exists");
 								doh.t(world.isExpanded, "root node is expanded");
 
@@ -645,7 +645,7 @@
 
 						world = myTree.rootNode;
 
-						myTree._loadDeferred.then(d.getTestErrback(function(){
+						myTree.onLoadDeferred.then(d.getTestErrback(function(){
 							myTree._expandNode(myTree.rootNode.getChildren()[0]).then(d.getTestErrback(function(){
 								var children = world.getChildren();
 								doh.t(children[0].isExpanded, "Africa collapsed");

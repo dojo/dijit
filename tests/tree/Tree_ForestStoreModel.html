@@ -101,7 +101,7 @@
 						dojo.byId("container2").appendChild(myTree2.domNode);
 						myTree2.startup();
 
-						myTree.onLoadDeferred.then(d.getTestCallback(function(){
+						myTree2.onLoadDeferred.then(d.getTestCallback(function(){
 							doh.t(myTree2.rootNode, "root node exists");
 							doh.t(myTree2.rootNode.isExpanded, "root node is expanded");
 							doh.t(myTree2.rootNode.getChildren()[3].isExpanded, "europe node is expanded");

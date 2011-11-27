@@ -2,7 +2,7 @@
 		"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-	<title>doh.robot Tree Test</title>
+	<title>doh.robot Tree A11y Test</title>
 
 	<style>
 		@import "../../../../util/doh/robot/robot.css";
@@ -13,6 +13,7 @@
 
 	<script type="text/javascript">
 		dojo.require("dijit.robotx");
+		dojo.require("dijit.tests.helpers");		// for waitForLoad()
 
 		var treeIds = ["mytree", "tree2"];
 
@@ -58,7 +59,9 @@
 						doh.is("true", nowExpanded, inItem.label + "[" + inTree.id + "]: aria state expanded=true");
 						doh.is("false", nowCollapsed, inItem.label + "[" + inTree.id + "]: aria state expanded=false");
 					}else{
-						doh.is(null, inItem.labelNode.getAttribute("aria-expanded"), inItem.label + "[" + inTree.id + "]: aria state expanded=false");
+						// On IE9 getAttribute("aria-expanded") returns "", on other browsers null
+						var attr = inItem.labelNode.getAttribute("aria-expanded");
+						doh.t(attr === null || attr === "", inItem.label + "[" + inTree.id + "]: aria state expanded=false");
 					}
 				}
 			};
@@ -326,16 +329,10 @@
 			doh.robot.initRobot('../test_Tree.html');
 			var treeTest = treeTests();
 
-			doh.register("_setup",{
-				timeout:20000,
-				runTest:function(){
-					var d = new doh.Deferred();
-					var store = dijit.byId('mytree3').get('store');
-					store.fetch({query:{id:'*'}, onComplete:function(){
-						d.callback(true);
-					}});
-					return d;
-				}
+			doh.register("_setup", {
+				name: "wait for widgets to load",
+				timeout: 5000,
+				runTest: waitForLoad
 			});
 
 			// aria role and properties tests.

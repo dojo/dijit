@@ -778,7 +778,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 			this.cookieName = this.id + "SaveStateCookie";
 		}
 
-		this._loadDeferred = new Deferred();
+		this.onLoadDeferred = new Deferred();
 
 		this.inherited(arguments);
 	},
@@ -904,7 +904,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 
 					// Do the selection and then fire onLoad()
 					Deferred.when(this.set("paths", paths), lang.hitch(this, function(){
-						this._loadDeferred.resolve(true);
+						this.onLoadDeferred.resolve(true);
 						this.onLoad();
 					}));
 				}));
@@ -937,7 +937,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		//		WARNING: if model use multi-parented items or desired tree node isn't already loaded
 		//		behavior is undefined. Use set('paths', ...) instead.
 		var tree = this;
-		this._loadDeferred.then( lang.hitch(this, function(){
+		this.onLoadDeferred.then( lang.hitch(this, function(){
 			var identities = array.map(items, function(item){
 				return (!item || lang.isString(item)) ? item : tree.model.getIdentity(item);
 			});

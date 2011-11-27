@@ -18,17 +18,10 @@
 			dojo.ready(function(){
 				doh.robot.initRobot('../test_Tree_v1.html');
 
-				doh.register("setup",{
-					name: "setup",
-					timeout:20000,
-					runTest:function(){
-						var d = new doh.Deferred();
-						var store = dojo.global.dijit.byId('mytree').get('store');
-						store.fetch({query:{id:'*'}, onComplete:function(){
-							d.callback(true);
-						}});
-						return d;
-					}
+				doh.register("_setup", {
+					name: "wait for widgets to load",
+					timeout: 5000,
+					runTest: waitForLoad
 				});
 							
 				doh.register("Test tree 1", [

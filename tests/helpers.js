@@ -1,9 +1,10 @@
 // Helper methods for automated testing
 
 define([
-	"dojo/dom-attr", "dojo/dom-class", "dojo/dom-geometry", "dojo/dom-style", "dojo/_base/kernel", "dojo/_base/lang",
-	"dojo/query", "dojo/_base/sniff", "dijit/focus"
-], function(domAttr, domClass, domGeometry, domStyle, kernel, lang, query, has, focus){
+	"dojo/_base/array", "dojo/DeferredList", "dojo/dom-attr", "dojo/dom-class", "dojo/dom-geometry", "dojo/dom-style",
+	"dojo/_base/kernel", "dojo/_base/lang", "dojo/query", "dojo/_base/sniff",
+	"dijit/focus", "dijit/registry"
+], function(array, DeferredList, domAttr, domClass, domGeometry, domStyle, kernel, lang, query, has, focus, registry){
 
 
 var exports = {
@@ -82,6 +83,19 @@ onFocus: function onFocus(func){
 		dojo.unsubscribe(handle);
 		setTimeout(function(){ func(node); }, 0);
 	});
+},
+
+waitForLoad: function(){
+	// summary:
+	//		Return Deferred that fires when all widgets have finished initializing
+
+	// For robot tests, get pointer to registry in inner <iframe>
+	var reg = (dijit && dijit.registry) || registry;
+
+	// Deferred fires when all widgets with an onLoadDeferred have fired
+	var widgets = array.filter(reg.toArray(), function(w){ return w.onLoadDeferred; }),
+		deferreds = array.map(widgets, function(w){ return w.onLoadDeferred; });
+	return new DeferredList(deferreds);
 }
 
 };

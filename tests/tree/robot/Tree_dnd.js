@@ -2,6 +2,8 @@
  * Helper functions for Tree_dnd.html and Tree_dnd_multiParent.html tests
  */
 
+dojo.require("dijit.tests.helpers");
+
 function setup(){
 	doh.register("setup screen", function(){		
 		// Hide boilerplate text so it's easier to drag on small screen
@@ -20,27 +22,11 @@ function setup(){
 	});
 
 	// Wait for trees to load
-	doh.register("wait for load", dojo.map(["collectionsTree", "itemTree"], function(id){
-		return {
-			name: id,
+	doh.register("wait for load",  {
+			name: "wait for load",
 			timeout: 10000,
-			runTest: function(){
-				var
-					tree = dijit.byId(id),
-					d, handler;
-				if(!tree.rootNode){
-					d = new doh.Deferred();
-					handler = tree.connect(tree, "onLoad",
-						function(){
-							tree.disconnect(handler);
-							d.callback(true);
-						}
-					);
-					return d;
-				}
-			}
-		};
-	}));
+			runTest: waitForLoad
+	});
 }
 
 function findTreeNode(/*String*/ treeId, /*String*/ label){
