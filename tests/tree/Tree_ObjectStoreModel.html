@@ -485,24 +485,28 @@
 				]);
 
 				doh.register("delete selected node", [
-					function create(){
-						var d = new doh.Deferred();
+					{
+						name: "create",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
 
-						myTree = new dijit.Tree({
-							id: "myTree",
-							model: myModel,
-							persist: false,		// persist==true is too hard to test
-							path: ["earth", "EU", "IT"]
-						}).placeAt(win.body());
-						doh.t(myTree, "tree created");
+							myTree = new dijit.Tree({
+								id: "myTree",
+								model: myModel,
+								persist: false,		// persist==true is too hard to test
+								path: ["earth", "EU", "IT"]
+							}).placeAt(win.body());
+							doh.t(myTree, "tree created");
 
-						myTree.startup();
+							myTree.startup();
 
-						myTree.onLoadDeferred.then(d.getTestCallback(function(){
-							doh.is("IT", myTree.get("selectedItem").id);
-						}));
+							myTree.onLoadDeferred.then(d.getTestCallback(function(){
+								doh.is("IT", myTree.get("selectedItem").id);
+							}));
 
-						return d;
+							return d;
+						}
 					},
 
 					function deleteSelectedItem(){
