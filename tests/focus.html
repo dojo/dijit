@@ -18,15 +18,16 @@
 		<script type="text/javascript">
 			require([
 				"doh/runner", "dojo/_base/array", "dojo/dom", "dojo/on", "dojo/parser", "dojo/query",
-				"dijit/focus", "dijit/registry",
+				"dijit/focus", "dijit/registry", "dijit/tests/helpers",
 				"dojo/domReady!",
 				"dijit/form/DateTextBox", "dijit/form/ComboBox", "dijit/form/NumberSpinner","dijit/form/ComboButton",
 				"dijit/Menu", "dijit/MenuItem", "dijit/PopupMenuItem", "dijit/layout/ContentPane", "dijit/Editor"
-			], function(doh, array, dom, on, parser, query, focus, registry){
+			], function(doh, array, dom, on, parser, query, focus, registry, helpers){
 
 				doh.register("setup", [
 					function parse(){
 						parser.parse();
+						return helpers.waitForLoad();
 					},
 					function listeners(){
 						array.forEach(["form", "fieldset1", "fieldset2", "select", "editor", "spinner"], function(id){

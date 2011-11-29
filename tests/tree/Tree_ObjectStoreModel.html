@@ -632,39 +632,43 @@
 							return d;
 						}
 					},
-					function collapseShowRootFalseTree(){
-						var d = new doh.Deferred();
+					{
+						name: "collapseShowRootFalseTree",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
 
-						myTree.destroy();
+							myTree.destroy();
 
-						myTree = new dijit.Tree({
-							id: "myTreeExpand",
-							model: myModel,
-							persist: false,		// persist==true is too hard to test
-							showRoot: false
-						}).placeAt(win.body());
-						doh.t(myTree, "tree created");
+							myTree = new dijit.Tree({
+								id: "myTreeExpand",
+								model: myModel,
+								persist: false,		// persist==true is too hard to test
+								showRoot: false
+							}).placeAt(win.body());
+							doh.t(myTree, "tree created");
 
-						myTree.startup();
+							myTree.startup();
 
-						world = myTree.rootNode;
+							world = myTree.rootNode;
 
-						myTree.onLoadDeferred.then(d.getTestErrback(function(){
-							myTree._expandNode(myTree.rootNode.getChildren()[0]).then(d.getTestErrback(function(){
-								var children = world.getChildren();
-								doh.t(children[0].isExpanded, "Africa collapsed");
+							myTree.onLoadDeferred.then(d.getTestErrback(function(){
+								myTree._expandNode(myTree.rootNode.getChildren()[0]).then(d.getTestErrback(function(){
+									var children = world.getChildren();
+									doh.t(children[0].isExpanded, "Africa collapsed");
 
-								myTree.collapseAll().then(d.getTestCallback(function(){
-									doh.t(world, "root node exists");
-									doh.t(world.isExpanded, "root node expanded (because it's hidden");
+									myTree.collapseAll().then(d.getTestCallback(function(){
+										doh.t(world, "root node exists");
+										doh.t(world.isExpanded, "root node expanded (because it's hidden");
 
-									doh.f(children[0].isExpanded, "Africa collapsed");
-									doh.t(helpers.isVisible(children[0]), "Africa node visible");
+										doh.f(children[0].isExpanded, "Africa collapsed");
+										doh.t(helpers.isVisible(children[0]), "Africa node visible");
+									}));
 								}));
 							}));
-						}));
 
-						return d;
+							return d;
+						}
 					}
 				]);
 
