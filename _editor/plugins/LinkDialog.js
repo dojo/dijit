@@ -63,11 +63,11 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 
 	// _hostRxp [private] RegExp
 	//		Regular expression used to validate url fragments (ip address, hostname, etc)
-	_hostRxp:  new RegExp("^((([^\\[:]+):)?([^@]+)@)?(\\[([^\\]]+)\\]|([^\\[:]*))(:([0-9]+))?$"),
+	_hostRxp: /^((([^\[:]+):)?([^@]+)@)?(\[([^\]]+)\]|([^\[:]*))(:([0-9]+))?$/,
 
 	// _userAtRxp [private] RegExp
 	//		Regular expression used to validate e-mail address fragment.
-	_userAtRxp: new RegExp("^([!#-'*+\\-\\/-9=?A-Z^-~]+[.])*[!#-'*+\\-\\/-9=?A-Z^-~]+@", "i"),
+	_userAtRxp: /^([!#-'*+\-\/-9=?A-Z^-~]+[.])*[!#-'*+\-\/-9=?A-Z^-~]+@/i,
 
 	// linkDialogTemplate: [protected] String
 	//		Template for contents of TooltipDialog to pick URL
@@ -381,15 +381,17 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 					 selectionapi, [t]);
 				this.editor.onDisplayChanged();
 
-				setTimeout(lang.hitch(this, function(){
+				var button = this.button;
+				setTimeout(function(){
 					// Focus shift outside the event handler.
 					// IE doesn't like focus changes in event handles.
-					this.button.set("disabled", false);
-					this.button.openDropDown();
-					if(this.button.dropDown.focus){
-						this.button.dropDown.focus();
-					}
-				}), 10);
+					button.set("disabled", false);
+					button.loadAndOpenDropDown().then(function(){
+						if(button.dropDown.focus){
+							button.dropDown.focus();
+						}
+					});
+				}, 10);
 			}
 		}
 	}
@@ -525,15 +527,17 @@ var ImgLinkDialog = declare("dijit._editor.plugins.ImgLinkDialog", [LinkDialog],
 					 "selectElement",
 					 selectionapi, [t]);
 				this.editor.onDisplayChanged();
-				setTimeout(lang.hitch(this, function(){
+				var button = this.button;
+				setTimeout(function(){
 					// Focus shift outside the event handler.
 					// IE doesn't like focus changes in event handles.
-					this.button.set("disabled", false);
-					this.button.openDropDown();
-					if(this.button.dropDown.focus){
-						this.button.dropDown.focus();
-					}
-				}), 10);
+					button.set("disabled", false);
+					button.loadAndOpenDropDown().then(function(){
+						if(button.dropDown.focus){
+							button.dropDown.focus();
+						}
+					});
+				}, 10);
 			}
 		}
 	}
