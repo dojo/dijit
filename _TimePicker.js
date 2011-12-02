@@ -248,7 +248,7 @@ define([
 		},
 
 		postMixInProperties: function(){
-		        this.inherited(arguments);
+			this.inherited(arguments);
 			this._setConstraintsAttr(this.constraints); // this needs to happen now (and later) due to codependency on _set*Attr calls
 		},
 
