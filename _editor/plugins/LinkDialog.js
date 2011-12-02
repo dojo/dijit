@@ -5,6 +5,7 @@ define([
 	"dojo/keys", // keys.ENTER
 	"dojo/_base/lang", // lang.delegate lang.hitch lang.trim
 	"dojo/_base/sniff", // has("ie")
+	"dojo/_base/query", // query
 	"dojo/string", // string.substitute
 	"dojo/_base/window", // win.withGlobal
 	"../../_Widget",
@@ -12,7 +13,7 @@ define([
 	"../../form/DropDownButton",
 	"../range",
 	"../selection"
-], function(require, declare, domAttr, keys, lang, has, string, win,
+], function(require, declare, domAttr, keys, lang, has, query, string, win,
 	_Widget, _Plugin, DropDownButton, rangeapi, selectionapi){
 
 /*=====
@@ -304,6 +305,22 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 		args = this._checkValues(args);
 		this.editor.execCommand('inserthtml',
 			string.substitute(this.htmlTemplate, args));
+		// IE sometimes leaves a blank link, so we need to fix it up.
+		// Go ahead and do this for everyone just to avoid blank links
+		// in the page.
+		var anchors = win.withGlobal(this.editor.window, function(){
+			return query("a");
+		});
+		if(anchors){
+			dojo.forEach(anchors, function(a){
+				if(!a.innerHTML && !domAttr.has(a, "name")){
+					// Remove empty anchors that do not have name' set.
+					// Empty ones with a name set could be a hidden hash
+					// anchor.
+					a.parentNode.removeChild(a);
+				}
+			}, this);
+		}
 	},
 
 	_onCloseDialog: function(){
