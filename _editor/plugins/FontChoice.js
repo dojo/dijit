@@ -68,7 +68,12 @@ var _FontDropDown = declare("dijit._editor.plugins._FontDropDown",
 
 		// Set some substitution variables used in the template
 		this.label = this.strings[this.command];
-		this.id = registry.getUniqueId(this.declaredClass.replace(/\./g,"_"));	// TODO: unneeded??
+
+		// _WidgetBase sets the id after postMixInProperties(), but we need it now.
+		// Alternative is to have a buildRendering() method and move this.selectId setting there,
+		// or alternately get rid of selectId variable and just access ${id} in template?
+		this.id = registry.getUniqueId(this.declaredClass.replace(/\./g,"_"));
+
 		this.selectId = this.id + "_select";	// used in template
 
 		this.inherited(arguments);
