@@ -248,18 +248,19 @@ define([
 				this._setText(this.dateLabels[idx], date.getDateLocalized ? date.getDateLocalized(this.lang) : date.getDate());
 			}, this);
 
-			// set name of this month
-			this.monthWidget.set("month", month);
 		},
 		
 		_populateControls: function(){
 			// summary:
-			//		Fill in localized prev/current/next years
+			//		Fill in localized month, and prev/current/next years
 			// tags:
 			//      protected
 
 			var month = new this.dateClassObj(this.currentFocus);
 			month.setDate(1);
+			
+			// set name of this month
+			this.monthWidget.set("month", month);
 			
 			var y = month.getFullYear() - 1;
 			var d = new this.dateClassObj();
@@ -302,7 +303,7 @@ define([
 				dayNames = this.dateLocaleModule.getNames('days', this.dayWidth, 'standAlone', this.lang),
 				dayOffset = cldrSupplemental.getFirstDayOfWeek(this.lang);
 			this.dayCellsHtml = string.substitute([d,d,d,d,d,d,d].join(""), {d: ""}, function(){
-				return dayNames[dayOffset++ % 7]
+				return dayNames[dayOffset++ % 7];
 			});
 
 			// Markup for dates of the month (referenced from template), but without numbers filled in
@@ -417,7 +418,7 @@ define([
 			// locale: String?
 			// tags:
 			//		protected extension
-			return this._isValidDate(this.value) && !this.dateFuncObj.compare(dateObject, this.value, "date")
+			return this._isValidDate(this.value) && !this.dateFuncObj.compare(dateObject, this.value, "date");
 		},
 
 		isDisabledDate: function(/*===== dateObject, locale =====*/){
