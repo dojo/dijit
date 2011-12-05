@@ -21,12 +21,9 @@ define([
 
 	ready(200, function(){
 		var oldBox = winUtils.getBox();
-		console.log("original viewport size (" + oldBox.w + "," + oldBox.h + ")");
 		Viewport._rlh = on(win.global, "resize", function(e){
 			var newBox = winUtils.getBox();
 			if(oldBox.h == newBox.h || oldBox.w == newBox.w){ return; }
-			console.log("viewport size changed from (" + oldBox.w + "," + oldBox.h + ") to (" +
-				newBox.w + "," + newBox.h + ")");
 			oldBox = newBox;
 			Viewport.emit("resize");
 		});
