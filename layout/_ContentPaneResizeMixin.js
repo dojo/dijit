@@ -7,16 +7,12 @@ define([
 	"dojo/_base/lang", // lang.mixin
 	"dojo/query", // query
 	"dojo/_base/sniff", // has("ie")
-	"dojo/_base/window", // win.global
+	"dojo/_base/window", // global
 	"../registry",	// registry.byId
-	"./utils",	// marginBox2contextBox
-	"../_Contained"
+	"../Viewport",
+	"./utils"	// marginBox2contextBox
 ], function(array, declare, domAttr, domClass, domGeometry, lang, query, has, win,
-			registry, layoutUtils, _Contained){
-
-/*=====
-var _Contained = dijit._Contained;
-=====*/
+			registry, Viewport, layoutUtils){
 
 // module:
 //		dijit/layout/_ContentPaneResizeMixin
@@ -68,16 +64,12 @@ return declare("dijit.layout._ContentPaneResizeMixin", null, {
 		}
 
 		if(!this._childOfLayoutWidget){
-			// If my parent isn't a layout container, since my style *may be* width=height=100%
+			// Since my parent isn't a layout container, and my style *may be* width=height=100%
 			// or something similar (either set directly or via a CSS class),
-			// monitor when my size changes so that I can re-layout.
-			// For browsers where I can't directly monitor when my size changes,
-			// monitor when the viewport changes size, which *may* indicate a size change for me.
-			this.connect(has("ie") ? this.domNode : win.global, 'onresize', function(){
-				// Using function(){} closure to ensure no arguments to resize.
-				this._needLayout = !this._childOfLayoutWidget;
-				this.resize();
-			});
+			// monitor when viewport size changes so that I can re-layout.
+			// This is more for subclasses of ContentPane than ContentPane itself, although it
+			// could be useful for a ContentPane if it has a single child widget inheriting ContentPane's size.
+			this._connects.push(Viewport.on("resize", lang.hitch(this, "resize")));
 		}
 	},
 
@@ -120,13 +112,6 @@ return declare("dijit.layout._ContentPaneResizeMixin", null, {
 		//		Although ContentPane doesn't extend _LayoutWidget, it does implement
 		//		the same API.
 
-		// For the TabContainer --> BorderContainer --> ContentPane case, _onShow() is
-		// never called, so resize() is our trigger to do the initial href download (see [20099]).
-		// However, don't load href for closed TitlePanes.
-		if(!this._wasShown && this.open !== false){
-			this._onShow();
-		}
-
 		this._resizeCalled = true;
 
 		this._scheduleLayout(changeSize, resultSize);
@@ -148,12 +133,21 @@ return declare("dijit.layout._ContentPaneResizeMixin", null, {
 	_layout: function(changeSize, resultSize){
 		// summary:
 		//		Resize myself according to optional changeSize/resultSize parameters, like a layout widget.
-		//		Also, since I am a Container widget, each of my children expects me to
-		//		call resize() or layout() on them.
+		//		Also, since I am an isLayoutContainer widget, each of my children expects me to
+		//		call resize() or layout() on it.
 		//
 		//		Should be called on initialization and also whenever we get new content
 		//		(from an href, or from set('content', ...))... but deferred until
 		//		the ContentPane is visible
+
+		delete this._needLayout;
+
+		// For the TabContainer --> BorderContainer --> ContentPane case, _onShow() is
+		// never called directly, so resize() is our trigger to do the initial href download (see [20099]).
+		// However, don't load href for closed TitlePanes.
+		if(!this._wasShown && this.open !== false){
+			this._onShow();
+		}
 
 		// Set margin box size, unless it wasn't specified, in which case use current size.
 		if(changeSize){
@@ -177,8 +171,6 @@ return declare("dijit.layout._ContentPaneResizeMixin", null, {
 		}
 
 		this._layoutChildren();
-
-		delete this._needLayout;
 	},
 
 	_layoutChildren: function(){

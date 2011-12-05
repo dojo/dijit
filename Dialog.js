@@ -374,18 +374,7 @@ define([
 				this._fadeOutDeferred.cancel();
 			}
 
-			this._modalconnects.push(on(window, "scroll", lang.hitch(this, "layout")));
-			this._modalconnects.push(on(window, "resize", lang.hitch(this, function(){
-				// IE gives spurious resize events and can actually get stuck
-				// in an infinite loop if we don't ignore them
-				var viewport = winUtils.getBox();
-				if(!this._oldViewport ||
-						viewport.h != this._oldViewport.h ||
-						viewport.w != this._oldViewport.w){
-					this.layout();
-					this._oldViewport = viewport;
-				}
-			})));
+			this._modalconnects.push(on(window, "scroll", lang.hitch(this, "resize")));
 			this._modalconnects.push(on(this.domNode, connect._keypress, lang.hitch(this, "_onKey")));
 
 			domStyle.set(this.domNode, {
@@ -479,9 +468,9 @@ define([
 			return this._fadeOutDeferred;
 		},
 
-		layout: function(){
+		resize: function(){
 			// summary:
-			//		Position the Dialog and the underlay
+			//		Called when viewport scrolled or size changed.  Position the Dialog and the underlay.
 			// tags:
 			//		private
 			if(this.domNode.style.display != "none"){
