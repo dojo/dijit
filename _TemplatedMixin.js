@@ -171,7 +171,7 @@ define([
 
 			var nodes = lang.isArray(rootNode) ? rootNode : (rootNode.all || rootNode.getElementsByTagName("*"));
 			var x = lang.isArray(rootNode) ? 0 : -1;
-			for(; x<nodes.length; x++){
+			for(; x < 0 || nodes[x]; x++){	// don't access nodes.length on IE, see #14346
 				var baseNode = (x == -1) ? rootNode : nodes[x];
 				if(this.widgetsInTemplate && (getAttrFunc(baseNode, "dojoType") || getAttrFunc(baseNode, "data-dojo-type"))){
 					continue;

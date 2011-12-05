@@ -10,6 +10,7 @@
 
 			dojo.require("dojo.parser");
 
+			dojo.require("dijit._WidgetBase");
 			dojo.require("dijit._Widget");
 			dojo.require("dijit._TemplatedMixin");
 			dojo.require("dijit._WidgetsInTemplateMixin");
@@ -209,6 +210,21 @@
 								t.is(r, result.shift());
 							});
 
+						},
+
+						// Test IE problem having "length" as data-dojo-attach-point name
+						function length(){
+							var MyWidget = dojo.declare([dijit._WidgetBase, dijit._TemplatedMixin], {
+								name: "",
+								templateString:
+									"<div>" +
+										"<input data-dojo-attach-point='focusNode' name='${name}'>" +
+										"<span data-dojo-attach-point='spanNode'>" +
+									"</div>"
+							});
+							var widget = new MyWidget({name: "length"});
+							doh.isNot(undefined, widget.focusNode, "focusNode");
+							doh.isNot(undefined, widget.spanNode, "spanNode");
 						}
 					]
 				);
