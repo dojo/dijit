@@ -134,7 +134,7 @@ lang.mixin(dijit._editor.selection, {
 		return null;
 	},
 
-	hasAncestorElement: function(/*String*/tagName /* ... */){
+	hasAncestorElement: function(/*String*/ tagName /* ... */){
 		// summary:
 		// 		Check whether current selection has a  parent element which is
 		// 		of type tagName (or one of the other specified tagName)
@@ -143,7 +143,7 @@ lang.mixin(dijit._editor.selection, {
 		return this.getAncestorElement.apply(this, arguments) != null; //Boolean
 	},
 
-	getAncestorElement: function(/*String*/tagName /* ... */){
+	getAncestorElement: function(/*String*/ tagName /* ... */){
 		// summary:
 		//		Return the parent element of the current selection which is of
 		//		type tagName (or one of the other specified tagName)
@@ -188,11 +188,11 @@ lang.mixin(dijit._editor.selection, {
 		return null;
 	},
 
-	collapse: function(/*Boolean*/beginning){
+	collapse: function(/*Boolean*/ beginning){
 		// summary:
 		//		Function to collapse (clear), the current selection
 		// beginning: Boolean
-		//		Boolean to indicate whether to collapse the cursor to the beginning of the selection or end.
+		//		Indicates whether to collapse the cursor to the beginning of the selection or end.
 		if(window.getSelection){
 			var selection = win.global.getSelection();
 			if(selection.removeAllRanges){ // Mozilla
@@ -228,14 +228,14 @@ lang.mixin(dijit._editor.selection, {
 		}
 	},
 
-	selectElementChildren: function(/*DomNode*/element,/*Boolean?*/nochangefocus){
+	selectElementChildren: function(/*DomNode*/ element, /*Boolean?*/ nochangefocus){
 		// summary:
 		//		clear previous selection and select the content of the node
 		//		(excluding the node itself)
 		// element: DOMNode
 		//		The element you wish to select the children content of.
 		// nochangefocus: Boolean
-		//		Boolean to indicate if the foxus should change or not.
+		//		Indicates if the focus should change or not.
 		var global = win.global;
 		var doc = win.doc;
 		var range;
@@ -260,7 +260,7 @@ lang.mixin(dijit._editor.selection, {
 					range = doc.createRange();
 				}
 				range.setStart(element, 0);
-				range.setEnd(element,(element.nodeType == 3)?element.length:element.childNodes.length);
+				range.setEnd(element,(element.nodeType == 3) ? element.length : element.childNodes.length);
 				selection.addRange(range);
 			}else{
 				selection.selectAllChildren(element);
@@ -268,7 +268,7 @@ lang.mixin(dijit._editor.selection, {
 		}
 	},
 
-	selectElement: function(/*DomNode*/element,/*Boolean?*/nochangefocus){
+	selectElement: function(/*DomNode*/ element, /*Boolean?*/ nochangefocus){
 		// summary:
 		//		clear previous selection and select element (including all its children)
 		// element:  DOMNode
@@ -292,7 +292,7 @@ lang.mixin(dijit._editor.selection, {
 					range.select();
 				}
 			}catch(e){
-				this.selectElementChildren(element,nochangefocus);
+				this.selectElementChildren(element, nochangefocus);
 			}
 		}else if(global.getSelection){
 			var selection = global.getSelection();
@@ -341,7 +341,7 @@ lang.mixin(dijit._editor.selection, {
 				}
 			}else if(doc.selection){
 				// Probably IE, so we can't use the range object as the pseudo
-				// range doesn't implement the boundry checking, we have to
+				// range doesn't implement the boundary checking, we have to
 				// use IE specific crud.
 				range = doc.selection.createRange();
 				try{

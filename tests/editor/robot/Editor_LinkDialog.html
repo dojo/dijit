@@ -257,7 +257,9 @@
 								target = dijit.byId(ldPlugin._uniqueId + "_targetSelect");
 
 								oldUrl = url.get("value");
+								doh.is("http://www.example.com/example.html", oldUrl, "old url");
 								oldDesc = desc.get("value");
+								doh.is("This is an example link in the page.", oldDesc, "old desc");
 
 								url.set("value", oldUrl + "_2");
 								desc.set("value", oldDesc + "_2");
@@ -698,7 +700,9 @@
 							doh.robot.sequence(d.getTestErrback(function(){
 								url = dijit.byId(ldPlugin._uniqueId + "_urlInput");
 								desc = dijit.byId(ldPlugin._uniqueId + "_textInput");
+								doh.is("./sample.jpg", url.get("value"), "original URL");
 								oldDesc = desc.get("value");
+								doh.is("Sample Image", oldDesc, "original alt-text");
 								url.set("value", "./sample2.jpg");
 								desc.set("value", oldDesc + "_2");
 							}), 2000);
