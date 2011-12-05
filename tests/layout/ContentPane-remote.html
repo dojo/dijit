@@ -564,12 +564,8 @@
 					runTest: function(t){
 						var dlg = dijit.byId("preloadTooltipDlg");
 						if(!dlg.isLoaded){
-							var d = new doh.Deferred();
-							dlg.onLoadDeferred.then(
-								function(){ d.callback(true); },
-								function(e){ d.errback(e); }
-							);
-							return d;
+							doh.t(dlg.onLoadDeferred, "onLoadDeferred exists");
+							return dlg.onLoadDeferred;
 						}
 					}
 				},
@@ -588,12 +584,7 @@
 						var btn = dijit.byId("noPreloadTooltipDlgBtn");
 						btn.openDropDown();
 						doh.t(dlg.onLoadDeferred, "onLoadDeferred exists");
-						var d = new doh.Deferred();
-						dlg.onLoadDeferred.then(
-							function(){ d.callback(true); },
-							function(e){ d.errback(e); }
-						);
-						return d;
+						return dlg.onLoadDeferred;
 					}
 				}
 			]);
