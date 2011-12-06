@@ -412,10 +412,24 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 			var t = e.target;
 			var tg = t.tagName? t.tagName.toLowerCase() : "";
 			if(tg === this.tag && domAttr.get(t,"href")){
-				win.withGlobal(this.editor.window,
+				var editor = this.editor;
+
+				win.withGlobal(editor.window,
 					 "selectElement",
 					 selectionapi, [t]);
-				this.editor.onDisplayChanged();
+
+				editor.onDisplayChanged();
+
+				// Call onNormalizedDisplayChange() now, rather than on timer.
+				// On IE, when focus goes to the first <input> in the TooltipDialog, the editor loses it's selection.
+				// Later if onNormalizedDisplayChange() gets called via the timer it will disable the LinkDialog button
+				// (actually, all the toolbar buttons), at which point clicking the <input> will close the dialog,
+				// since (for unknown reasons) focus.js ignores disabled controls.
+				if(editor._updateTimer){
+					clearTimeout(editor._updateTimer);
+					delete editor._updateTimer;
+				}
+				editor.onNormalizedDisplayChanged();
 
 				var button = this.button;
 				setTimeout(function(){
@@ -557,12 +571,26 @@ var ImgLinkDialog = declare("dijit._editor.plugins.ImgLinkDialog", [LinkDialog],
 		//		protected.
 		if(e && e.target){
 			var t = e.target;
-			var tg = t.tagName? t.tagName.toLowerCase() : "";
+			var tg = t.tagName ? t.tagName.toLowerCase() : "";
 			if(tg === this.tag && domAttr.get(t,"src")){
-				win.withGlobal(this.editor.window,
+				var editor = this.editor;
+
+				win.withGlobal(editor.window,
 					 "selectElement",
 					 selectionapi, [t]);
-				this.editor.onDisplayChanged();
+				editor.onDisplayChanged();
+
+				// Call onNormalizedDisplayChange() now, rather than on timer.
+				// On IE, when focus goes to the first <input> in the TooltipDialog, the editor loses it's selection.
+				// Later if onNormalizedDisplayChange() gets called via the timer it will disable the LinkDialog button
+				// (actually, all the toolbar buttons), at which point clicking the <input> will close the dialog,
+				// since (for unknown reasons) focus.js ignores disabled controls.
+				if(editor._updateTimer){
+					clearTimeout(editor._updateTimer);
+					delete editor._updateTimer;
+				}
+				editor.onNormalizedDisplayChanged();
+
 				var button = this.button;
 				setTimeout(function(){
 					// Focus shift outside the event handler.
