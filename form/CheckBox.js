@@ -67,6 +67,7 @@ define([
 			//		specified string
 			//		widget.set('value', boolean) will change the checked state.
 			if(typeof newValue == "string"){
+				newValue = newValue || "on";	// "on" to match browser native behavior when value unspecified
 				this._set("value", newValue);
 				domAttr.set(this.focusNode, 'value', newValue);
 				newValue = true;

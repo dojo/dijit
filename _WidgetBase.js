@@ -404,7 +404,7 @@ return declare("dijit._WidgetBase", Stateful, {
 			}
 		}, this);
 		for(var param in this.params){
-			this.set(param, this[param]);
+			this.set(param, this.params[param]);
 		}
 	},
 

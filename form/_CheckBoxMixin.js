@@ -49,11 +49,10 @@ define([
 		// Normally users won't try to set label, except when CheckBox or RadioButton is the child of a dojox.layout.TabContainer
 		_setLabelAttr: undefined,
 
-		postMixInProperties: function(){
-			if(this.value == ""){
-				this.value = "on";
-			}
-			this.inherited(arguments);
+		_setValueAttr: function(newValue){
+			newValue = newValue || "on";	// "on" to match browser native behavior when value unspecified
+			this._set("value", newValue);
+			domAttr.set(this.focusNode, "value", newValue);
 		},
 
 		reset: function(){

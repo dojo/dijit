@@ -222,6 +222,34 @@
 						doh.is("123px", widget.domNode.style.height, "height");
 						doh.is("456px", widget.domNode.style.width, "width");
 						doh.is("hello world &lt;&gt;&amp;;", widget.plainTextNode.innerHTML, "innerHTML");
+					},
+
+					// Test that attributes set in the ctor when side effects setter exist
+					// are correctly applied
+					function ctorDependentAttributes(){
+						var TestWidget = declare(_WidgetBase, {
+							single: null,
+							multiple: [],
+							_setSingleAttr: function(value){
+								this.multiple = value!=null?[value]:null;
+								this._set("single", value);
+							},
+							_setMultipleAttr: function(value){
+								this.single = value?(value.length >0?value[0]:null):null;
+								this._set("multiple", value);
+							}
+						});
+
+						var w1 = new TestWidget({
+								single : 5
+					   	});
+						var w2 = new TestWidget({
+								multiple: [5]
+						});
+						doh.is(5, w1.single, "w1.single");
+						doh.is([5], w1.multiple, "w1.multiple");
+						doh.is(5, w2.single, "w2.single");
+						doh.is([5], w2.multiple, "w2.multiple");
 					}
 				]);	// doh.register()
 
