@@ -128,6 +128,7 @@
 
 							// open drop down
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 1000, {});
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100, {}); // needed to prevent FF8 bug: reset on ESC
 							doh.robot.sequence(d.getTestErrback(function(){
 								var popup = dijit.byId('q1_popup');
 								doh.t(popup && isVisible(popup), "popup visible");
