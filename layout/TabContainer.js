@@ -36,7 +36,7 @@ define([
 		//		wide to fit the TabContainer, false otherwise.
 		useSlider: true,
 
-		// controllerWidget: String
+		// controllerWidget: Class
 		//		An optional parameter to override the widget used to display the tab labels
 		controllerWidget: "",
 
@@ -47,8 +47,10 @@ define([
 			// tags:
 			//		protected extension
 
+			// "string" branch for back-compat, remove for 2.0
 			var cls = this.baseClass + "-tabs" + (this.doLayout ? "" : " dijitTabNoLayout"),
-				TabController = lang.getObject(this.controllerWidget);
+				TabController = typeof this.controllerWidget == "string" ? lang.getObject(this.controllerWidget) :
+						this.controllerWidget;
 
 			return new TabController({
 				id: this.id + "_tablist",
@@ -72,7 +74,7 @@ define([
 			// Scrolling controller only works for horizontal non-nested tabs
 			if(!this.controllerWidget){
 				this.controllerWidget = (this.tabPosition == "top" || this.tabPosition == "bottom") && !this.nested ?
-							"dijit.layout.ScrollingTabController" : "dijit.layout.TabController";
+							ScrollingTabController : TabController;
 			}
 		}
 	});
