@@ -56,9 +56,9 @@
 					// in WebKit area elements are not in the tab order
 					// and their display style property is "none";
 					// therefore it is expected that this test will fail
-					//if(!dojo.isWebKit){
+					if(!dojo.isWebKit){
 						doh.is("area", a11y.getFirstInTabbingOrder("area-map").id);
-					//}
+					}
 
 					doh.is("button", a11y.getFirstInTabbingOrder("button-container").id);
 					doh.is("input", a11y.getFirstInTabbingOrder("input-container").id);
@@ -72,9 +72,9 @@
 					// in WebKit area elements are not in the tab order
 					// and their display style property is "none";
 					// therefore it is expected that this test will fail
-					//if(!dojo.isWebKit){
+					if(!dojo.isWebKit){
 						doh.is("area", a11y.getLastInTabbingOrder("area-map").id);
-					//}
+					}
 
 					doh.is("button", a11y.getLastInTabbingOrder("button-container").id);
 					doh.is("input", a11y.getLastInTabbingOrder("input-container").id);
