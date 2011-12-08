@@ -77,9 +77,6 @@ define([
 				return;
 			}
 
-			// reset width; it may have been set by orient() on a previous tooltip show()
-			this.domNode.width = "auto";
-
 			if(this.fadeOut.status() == "playing"){
 				// previous tooltip is being hidden; wait until the hide completes then show new one
 				this._onDeck=arguments;
@@ -146,8 +143,10 @@ define([
 					"BL-BR": "dijitTooltipLeft"
 				}[aroundCorner + "-" + tooltipCorner];
 
-			// reduce tooltip's width to the amount of width available, so that it doesn't overflow screen
+			// reset width; it may have been set by orient() on a previous tooltip show()
 			this.domNode.style.width = "auto";
+
+			// reduce tooltip's width to the amount of width available, so that it doesn't overflow screen
 			var size = domGeometry.getContentBox(this.domNode);
 
 			var width = Math.min((Math.max(widthAvailable,1)), size.w);
