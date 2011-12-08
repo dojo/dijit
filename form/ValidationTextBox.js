@@ -139,7 +139,11 @@ define([
 			//		Return an error message to show if appropriate
 			// tags:
 			//		protected
-			return (this.required && this._isEmpty(this.textbox.value)) ? this.missingMessage : this.invalidMessage; // String
+			var invalid = this.invalidMessage == "$_unset_$" ? this.messages.invalidMessage :
+				!this.invalidMessage ? this.promptMessage : this.invalidMessage;
+			var missing = this.missingMessage == "$_unset_$" ? this.messages.missingMessage :
+				!this.missingMessage ? invalid : this.missingMessage;
+			return (this.required && this._isEmpty(this.textbox.value)) ? missing : invalid; // String
 		},
 
 		getPromptMessage: function(/*Boolean*/ /*===== isFocused =====*/){
@@ -253,10 +257,6 @@ define([
 		postMixInProperties: function(){
 			this.inherited(arguments);
 			this.messages = i18n.getLocalization("dijit.form", "validate", this.lang);
-			if(this.invalidMessage == "$_unset_$"){ this.invalidMessage = this.messages.invalidMessage; }
-			if(!this.invalidMessage){ this.invalidMessage = this.promptMessage; }
-			if(this.missingMessage == "$_unset_$"){ this.missingMessage = this.messages.missingMessage; }
-			if(!this.missingMessage){ this.missingMessage = this.invalidMessage; }
 			this._setConstraintsAttr(this.constraints); // this needs to happen now (and later) due to codependency on _set*Attr calls attachPoints
 		},
 
