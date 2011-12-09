@@ -790,12 +790,16 @@ define([
 				if((!this.disabled && value) || (!this._buttonEnabledPlugins && value)){
 				// Disable editor: disable all enabled buttons and remember that list
 					array.forEach(this._plugins, function(p){
-						p.set("disabled", true);
+						if(p){
+							p.set("disabled", true);
+						}
 				});
 			}else if(this.disabled && !value){
 					// Restore plugins to being active.
 					array.forEach(this._plugins, function(p){
-						p.set("disabled", false);
+						if(p){
+							p.set("disabled", false);
+						}
 				});
 			}
 			});

@@ -162,9 +162,10 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 				html = ed.get("value");
 				html = this._filter(html);
 				ed.set("value", html);
+				console.log(edPlugins);
 				array.forEach(edPlugins, function(p){
 					// Turn off any plugins not controlled by queryCommandenabled.
-					if(!(p instanceof ViewSource)){
+					if(p && !(p instanceof ViewSource)){
 						p.set("disabled", true)
 					}
 				});
@@ -258,7 +259,9 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 
 				array.forEach(edPlugins, function(p){
 					// Turn back on any plugins we turned off.
-					p.set("disabled", false);
+					if(p){
+						p.set("disabled", false);
+					}
 				});
 
 				domStyle.set(this.sourceArea, "display", "none");
