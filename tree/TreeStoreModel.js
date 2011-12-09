@@ -2,9 +2,8 @@ define([
 	"dojo/_base/array", // array.filter array.forEach array.indexOf array.some
 	"dojo/aspect", // aspect.after
 	"dojo/_base/declare", // declare
-	"dojo/_base/json", // json.stringify
 	"dojo/_base/lang" // lang.hitch
-], function(array, aspect, declare, json, lang){
+], function(array, aspect, declare, lang){
 
 	// module:
 	//		dijit/tree/TreeStoreModel
@@ -74,7 +73,7 @@ define([
 
 			var store = this.store;
 			if(!store.getFeatures()['dojo.data.api.Identity']){
-				throw new Error("dijit.Tree: store must support dojo.data.Identity");
+				throw new Error("dijit.tree.TreeStoreModel: store must support dojo.data.Identity");
 			}
 
 			// if the store supports Notification, subscribe to the notification events
@@ -107,8 +106,7 @@ define([
 					query: this.query,
 					onComplete: lang.hitch(this, function(items){
 						if(items.length != 1){
-							throw new Error(this.declaredClass + ": query " + json.stringify(this.query) + " returned " + items.length +
-							 	" items, but must return exactly one item");
+							throw new Error("dijit.tree.TreeStoreModel: root query returned multiple items");
 						}
 						this.root = items[0];
 						onItem(this.root);

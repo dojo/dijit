@@ -909,9 +909,9 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 					}));
 				}));
 			}),
-			function(err){
+			lang.hitch(this, function(err){
 				console.error(this, ": error loading root: ", err);
-			}
+			})
 		);
 	},
 

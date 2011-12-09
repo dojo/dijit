@@ -3,9 +3,8 @@ define([
 	"dojo/aspect", // aspect.before, aspect.after
 	"dojo/_base/declare", // declare
 	"dojo/_base/Deferred", // Deferred.when
-	"dojo/_base/json", // json.stringify
 	"dojo/_base/lang" // lang.hitch
-], function(array, aspect, declare, Deferred, json, lang){
+], function(array, aspect, declare, Deferred, lang){
 
 	// module:
 	//		dijit/tree/ObjectStoreModel
@@ -76,8 +75,7 @@ define([
 					lang.hitch(this, function(items){
 						//console.log("queried root: ", res);
 						if(items.length != 1){
-							throw new Error(this.declaredClass + ": query " + json.stringify(this.query) + " returned " + items.length +
-							 	" items, but must return exactly one item");
+							throw new Error("dijit.tree.TreeStoreModel: root query returned multiple items");
 						}
 						this.root = items[0];
 						onItem(this.root);
