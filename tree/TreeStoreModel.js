@@ -106,7 +106,8 @@ define([
 					query: this.query,
 					onComplete: lang.hitch(this, function(items){
 						if(items.length != 1){
-							throw new Error("dijit.tree.TreeStoreModel: root query returned multiple items");
+							throw new Error("dijit.tree.TreeStoreModel: root query returned " + items.length +
+								" items, but must return exactly one");
 						}
 						this.root = items[0];
 						onItem(this.root);
