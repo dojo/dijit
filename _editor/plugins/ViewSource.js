@@ -162,7 +162,6 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 				html = ed.get("value");
 				html = this._filter(html);
 				ed.set("value", html);
-				console.log(edPlugins);
 				array.forEach(edPlugins, function(p){
 					// Turn off any plugins not controlled by queryCommandenabled.
 					if(p && !(p instanceof ViewSource)){
