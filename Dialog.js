@@ -239,10 +239,10 @@ define([
 			// that if the user later increases the viewport size, the dialog can display w/out a scrollbar.
 			// Need to do this before the domGeometry.position(this.domNode) call below.
 			if(this._singleChild){
-				if(this._singleChildOriginalStyle){
+				if(typeof this._singleChildOriginalStyle != "undefined"){
 					this._singleChild.domNode.style.cssText = this._singleChildOriginalStyle;
+					delete this._singleChildOriginalStyle;
 				}
-				delete this._singleChildOriginalStyle;
 			}else{
 				domStyle.set(this.containerNode, {
 					width:"auto",
@@ -266,7 +266,9 @@ define([
 					h = Math.min(bb.h, viewport.h) - (bb.h - containerSize.h);
 
 				if(this._singleChild && this._singleChild.resize){
-					this._singleChildOriginalStyle = this._singleChild.domNode.style.cssText;
+					if(typeof this._singleChildOriginalStyle == "undefined"){
+						this._singleChildOriginalStyle = this._singleChild.domNode.style.cssText;
+					}
 					this._singleChild.resize({w: w, h: h});
 				}else{
 					domStyle.set(this.containerNode, {
