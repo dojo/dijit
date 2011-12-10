@@ -38,6 +38,8 @@ try{
 
 	doh.registerUrl("dijit.tests.robot.BgIframe", dojo.moduleUrl("dijit","tests/robot/BgIframe.html"+userArgs), 999999);
 
+	doh.registerUrl("dijit.tests._TimePicker", dojo.moduleUrl("dijit","tests/_TimePicker.html"+userArgs), 999999);
+
 }catch(e){
 	doh.debug(e);
 }
