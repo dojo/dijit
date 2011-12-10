@@ -156,7 +156,7 @@ define([
 			delete this.toolbar;
 			this.inherited(arguments);
 		},
-		addPlugin: function(/*String||Object||Function*/plugin, /*Integer?*/index){
+		addPlugin: function(/*String||Object||Function*/ plugin, /*Integer?*/ index){
 			// summary:
 			//		takes a plugin name as a string or a plugin instance and
 			//		adds it to the toolbar and associates it with this editor
@@ -195,8 +195,7 @@ define([
 					}
 				}
 				if(!o.plugin){
-					console.warn('Cannot find plugin',plugin);
-					return;
+					throw new Error(this.id + ': cannot find plugin', plugin);
 				}
 				plugin=o.plugin;
 			}
@@ -786,24 +785,19 @@ define([
 		},
 
 		_setDisabledAttr: function(/*Boolean*/ value){
-			var disableFunc = lang.hitch(this, function(){
+			this.setValueDeferred.then(lang.hitch(this, function(){
 				if((!this.disabled && value) || (!this._buttonEnabledPlugins && value)){
-				// Disable editor: disable all enabled buttons and remember that list
+					// Disable editor: disable all enabled buttons and remember that list
 					array.forEach(this._plugins, function(p){
-						if(p){
-							p.set("disabled", true);
-						}
-				});
-			}else if(this.disabled && !value){
+						p.set("disabled", true);
+					});
+				}else if(this.disabled && !value){
 					// Restore plugins to being active.
 					array.forEach(this._plugins, function(p){
-						if(p){
-							p.set("disabled", false);
-						}
-				});
-			}
-			});
-			this.setValueDeferred.addCallback(disableFunc);
+						p.set("disabled", false);
+					});
+				}
+			}));
 			this.inherited(arguments);
 		},
 
