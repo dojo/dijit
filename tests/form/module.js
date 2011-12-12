@@ -29,8 +29,10 @@ try{
 	doh.registerUrl("dijit.tests.form.robot.Select", dojo.moduleUrl("dijit", "tests/form/robot/Select.html"), 999999);
 
 	doh.registerUrl("dijit.tests.form.AutoCompleterMixin", dojo.moduleUrl("dijit","tests/form/AutoCompleterMixin.html"+userArgs));
+	doh.registerUrl("dijit.tests.form.ComboBox", dojo.moduleUrl("dijit","tests/form/_autoComplete.html"+(userArgs+"&testWidget=dijit.form.ComboBox&mode=test").replace(/^&/,"?")), 999999);
 	doh.registerUrl("dijit.tests.form.robot.ComboBox_mouse", dojo.moduleUrl("dijit","tests/form/robot/_autoComplete_mouse.html"+(userArgs+"&testWidget=dijit.form.ComboBox").replace(/^&/,"?")), 999999);
 	doh.registerUrl("dijit.tests.form.robot.ComboBox_a11y", dojo.moduleUrl("dijit","tests/form/robot/_autoComplete_a11y.html"+(userArgs+"&testWidget=dijit.form.ComboBox").replace(/^&/,"?")), 999999);
+	doh.registerUrl("dijit.tests.form.FilteringSelect", dojo.moduleUrl("dijit","tests/form/_autoComplete.html"+(userArgs+"&testWidget=dijit.form.FilteringSelect&mode=test").replace(/^&/,"?")), 999999);
 	doh.registerUrl("dijit.tests.form.robot.FilteringSelect_mouse", dojo.moduleUrl("dijit","tests/form/robot/_autoComplete_mouse.html"+(userArgs+"&testWidget=dijit.form.FilteringSelect").replace(/^&/,"?")), 999999);
 	doh.registerUrl("dijit.tests.form.robot.FilteringSelect_a11y", dojo.moduleUrl("dijit","tests/form/robot/_autoComplete_a11y.html"+(userArgs+"&testWidget=dijit.form.FilteringSelect").replace(/^&/,"?")), 999999);
 

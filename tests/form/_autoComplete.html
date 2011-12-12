@@ -21,6 +21,7 @@
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">
+		var isUnitTest = false;
 		var testWidget = "dijit.form.ComboBox";
 		var qstr = window.location.search.substr(1);
 		if(qstr.length){
@@ -30,14 +31,18 @@
 		                if(tp[0] == "testWidget"){
 		                        testWidget = tp[1];
 					document.title = testWidget + " Unit Test";
-		                }
+		                }else if(tp[0] == "mode"){
+					isUnitTest = tp[1] == "test";
+				}
 		        }
 		}
+		var isComboBox = testWidget == "dijit.form.ComboBox";
 		dojo.require("dojo.data.ItemFileReadStore");
 		dojo.require("dijit.tests._data.SlowStore");
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require(testWidget);
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+		dojo.require("doh.runner");
 
 		function setVal2(val){
 			dojo.byId('value2').value=val;
@@ -62,6 +67,8 @@
 		}
 
 		function init(){
+			var combo;
+
 			var testClass = dojo.getObject(testWidget);
 			// substitute testWidget for each data-dojo-type=$testWidget
 			dojo.query('[data-dojo-type="$testWidget"]').forEach(function(node){
@@ -93,6 +100,115 @@
 				searchAttr:"name",
 				fetchProperties: {sort:[{attribute: 'name', descending: true}]}
 			}, dojo.byId("progCombo3"));
+
+			if(!isUnitTest){ return; }
+
+			doh.register("placeHolder", [
+				{
+					timeout: 2000,
+					name: "focus enpty",
+					combo: "placeholdertest",
+					setUp: function(){
+						dojo.byId('native').focus(); // blur combo so onfocus fires
+						combo = dijit.byId(this.combo);
+					},
+					runTest: function(){
+						var d = new doh.Deferred();
+						doh.is("", combo.get("value"), "value");
+						doh.is("", combo.get('displayedValue'), "displayedValue");
+						doh.is("Select a New England State", combo._phspan.innerHTML, "_phspan.innerHTML");
+						doh.isNot("none", combo._phspan.style.display, "_phspan.style.display 1");
+
+						var handler = dojo.connect(combo.textbox, "onfocus", function(){
+							dojo.disconnect(handler);
+							setTimeout(d.getTestCallback(function(){
+								doh.is("none", combo._phspan.style.display, "_phspan.style.display 2");
+							}), 0);
+						});
+						combo.focus();
+						return d;
+					}
+				},
+				{
+					timeout: 2000,
+					name: "blur empty",
+					runTest: function(){
+						var d = new doh.Deferred();
+						var handler = dojo.connect(dojo.byId('native'), "onfocus", function(){
+							dojo.disconnect(handler);
+							setTimeout(d.getTestCallback(function(){
+								doh.is("", combo.get("value"), "value");
+								doh.is("", combo.get('displayedValue'), "displayedValue");
+								doh.isNot("none", combo._phspan.style.display, "_phspan.style.display");
+							}), 0);
+						});
+						dojo.byId('native').focus(); // blur combo
+						return d;
+					}
+				},
+				{
+					timeout: 2000,
+					name: "focus non enpty",
+					combo: "placeholdertest",
+					setUp: function(){
+						dojo.byId('native').focus(); // blur combo so onfocus fires
+						combo = dijit.byId(this.combo);
+					},
+					runTest: function(){
+						var d = new doh.Deferred();
+						var value = isComboBox? 'Connecticut' : 'ct';
+						combo.set("value", value);
+						doh.is(value, combo.get("value"), "value");
+						doh.is("none", combo._phspan.style.display, "_phspan.style.display 1");
+
+						var handler = dojo.connect(combo.textbox, "onfocus", function(){
+							dojo.disconnect(handler);
+							setTimeout(d.getTestCallback(function(){
+								doh.is("none", combo._phspan.style.display, "_phspan.style.display 2");
+							}), 0);
+						});
+						combo.focus();
+						return d;
+					}
+				},
+				{
+					timeout: 2000,
+					name: "blur non empty",
+					runTest: function(){
+						var d = new doh.Deferred();
+						var value = isComboBox? 'Connecticut' : 'ct';
+						var handler = dojo.connect(dojo.byId('native'), "onfocus", function(){
+							dojo.disconnect(handler);
+							setTimeout(d.getTestCallback(function(){
+								doh.is(value, combo.get("value"), "value");
+								doh.is("none", combo._phspan.style.display, "_phspan.style.display");
+								doh.is('Connecticut', combo.textbox.value, "textbox.value");
+							}), 0);
+						});
+						dojo.byId('native').focus(); // blur combo
+						return d;
+					}
+				},
+				{
+					timeout: 2000,
+					name: "re-empty",
+					runTest: function(){
+						var d = new doh.Deferred();
+						var handler = dojo.connect(combo, "onChange", function(){
+							dojo.disconnect(handler);
+							setTimeout(d.getTestCallback(function(){
+								doh.is("", combo.get("value"), "value");
+								doh.is("", combo.get("displayedValue"), "displayedValue");
+								doh.isNot("none", combo._phspan.style.display, "_phspan.style.display");
+							}), 0);
+						});
+						combo.set("value", '');
+						return d;
+					}
+				}
+			]);
+
+			doh.run();
 		}
 		dojo.ready(init);
 
