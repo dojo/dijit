@@ -138,7 +138,7 @@
 							doh.robot.mouseMoveAt(editor0.iframe, 500, null, 10, 10);
 							doh.robot.mouseClick({left:true}, 500);
 
-								doh.robot.sequence(d.getTestCallback(function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								// Now check the state!
 								var val = editor0.get("value");
 								doh.t(val.indexOf("DOJO") >= 0, "dojo in val " + val);
@@ -162,11 +162,11 @@
 							dojo.window.scrollIntoView(editor0.domNode);
 							doh.robot.mouseMoveAt(editor0.iframe, 500, null, 10, 10);
 							doh.robot.mouseClick({left:true}, 500);
-								doh.robot.sequence(d.getTestErrback(function(){
+							doh.robot.sequence(d.getTestErrback(function(){
 								editor0.placeCursorAtStart();
 							}), 500);
 							doh.robot.typeKeys("abc", 500);
-								doh.robot.sequence(d.getTestCallback(function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								// Now check the state!
 								var content = editor0.get("value").replace(/[\s]/g, "");
 								doh.t(content.indexOf("abc<br") >= 0, "looked for 'abc<br', found: " + content);
@@ -192,7 +192,7 @@
 							dojo.window.scrollIntoView(editor0.domNode);
 							doh.robot.mouseMoveAt(editor0.iframe, 500, null, 10, 10);
 							doh.robot.mouseClick({left:true}, 500);
-								doh.robot.sequence(d.getTestCallback(function(){
+							doh.robot.sequence(d.getTestCallback(function(){
 								// Now check the state!
 								var content = editor0.get("value");
 								doh.t(content.indexOf("Custom Initial Content.") >= 0);
