@@ -35,6 +35,10 @@
 	/* to fix wrong text alignment in rtl text box in IE */
 	display: inline-block;
 }
+.dj_iequirks .dijitInputContainer {
+    /* inline-block above breaks quirksmode, see dijit/tests/quirks.html?file=form/TextBox_sizes.html */
+    display: inline;
+}
 
 .dijitTextBoxRtl .dijitSpinnerButtonContainer,
 .dijitTextBoxRtl .dijitValidationContainer,
