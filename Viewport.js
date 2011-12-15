@@ -23,7 +23,7 @@ define([
 		var oldBox = winUtils.getBox();
 		Viewport._rlh = on(win.global, "resize", function(e){
 			var newBox = winUtils.getBox();
-			if(oldBox.h == newBox.h || oldBox.w == newBox.w){ return; }
+			if(oldBox.h == newBox.h && oldBox.w == newBox.w){ return; }
 			oldBox = newBox;
 			Viewport.emit("resize");
 		});
