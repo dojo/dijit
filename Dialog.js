@@ -139,6 +139,12 @@ define([
 		//		in the viewport.
 		draggable: true,
 
+		_setDraggableAttr: function(/*Boolean*/ val){
+			// Avoid _WidgetBase behavior of copying draggable attribute to this.domNode,
+			// as that prevents text select on modern browsers (#14452)
+			this._set("draggable", val);
+		},
+
 		//aria-describedby: String
 		//		Allows the user to add an aria-describedby attribute onto the dialog.   The value should
 		//		be the id of the container element of text that describes the dialog purpose (usually
