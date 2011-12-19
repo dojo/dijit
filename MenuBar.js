@@ -28,6 +28,7 @@ return declare("dijit.MenuBar", _MenuBase, {
 	_isMenuBar: true,
 
 	postCreate: function(){
+		this.inherited(arguments);
 		var l = this.isLeftToRight();
 		this.connectKeyNavHandlers(
 			l ? [keys.LEFT_ARROW] : [keys.RIGHT_ARROW],
