@@ -75,7 +75,7 @@ define([
 					lang.hitch(this, function(items){
 						//console.log("queried root: ", res);
 						if(items.length != 1){
-							throw new Error("dijit.tree.TreeStoreModel: root query returned " + items.length +
+							throw new Error("dijit.tree.ObjectStoreModel: root query returned " + items.length +
 								" items, but must return exactly one");
 						}
 						this.root = items[0];
