@@ -152,6 +152,7 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 				option: option,
 				label: option.label || this.emptyLabel,
 				onClick: click,
+				dir: this.dir,
 				disabled: option.disabled || false
 			});
 			item.focusNode.setAttribute("role", "listitem");
