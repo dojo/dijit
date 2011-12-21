@@ -680,7 +680,7 @@ define([
 				labelType = this.labelType;
 			// If labelType is not "text" we don't want to screw any markup ot whatever.
 			if(this.highlightMatch != "none" && this.labelType == "text" && this._lastInput){
-				label = this.doHighlight(label, this._escapeHtml(this._lastInput));
+				label = this.doHighlight(label, this._lastInput);
 				labelType = "html";
 			}
 			return {html: labelType == "html", label: label};
@@ -699,10 +699,14 @@ define([
 				modifiers = (this.ignoreCase ? "i" : "") + (this.highlightMatch == "all" ? "g" : ""),
 				i = this.queryExpr.indexOf("${0}");
 			find = regexp.escapeString(find); // escape regexp special chars
-			return this._escapeHtml(label).replace(
-				// prepend ^ when this.queryExpr == "${0}*" and append $ when this.queryExpr == "*${0}"
+			//If < appears in label, and user presses t, we don't want to highlight the t in the escaped "&lt;"
+			//first find out every occurences of "find", wrap each occurence in a pair of "\uFFFF" characters (which
+			//should not appear in any string). then html escape the whole string, and replace '\uFFFF" with the
+			//HTML highlight markup. 
+			return this._escapeHtml(label.replace(
 				new RegExp((i == 0 ? "^" : "") + "("+ find +")" + (i == (this.queryExpr.length - 4) ? "$" : ""), modifiers),
-				'<span class="dijitComboBoxHighlightMatch">$1</span>'
+				'\uFFFF$1\uFFFF')).replace(
+					/\uFFFF([^\uFFFF]+)\uFFFF/g, '<span class="dijitComboBoxHighlightMatch">$1</span>'
 			); // returns String, (almost) valid HTML (entities encoded)
 		},
 

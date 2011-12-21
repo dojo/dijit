@@ -827,6 +827,26 @@
 					runTest:function(){
 						return robot_a11ySelectValue(dijit.byId(this.combo), "more\\less", isComboBox? undefined : "more");
 					}
+				},
+
+				{
+					timeout:60000,
+					name:"specialchars_highlight",
+					combo:"specialchars",
+					runTest:function(){
+						var combo = dijit.byId(this.combo);
+						combo.queryExpr='*${0}*';
+						combo.focusNode.focus();
+						doh.robot.sequence(function(){ combo.set("value", null); }, 500);
+						var d = new doh.Deferred();
+						doh.robot.typeKeys("t", 1, 100);
+						doh.robot.sequence(d.getTestCallback(function(){
+							var item=findMenuItem(combo, 'riches to');
+							doh.t(item, 'item "rags --> riches to" should be visible');
+							doh.is('rags --&gt; riches <>t<>o',item.innerHTML.replace(/<[^>]*>/g,'<>'), '"t" in "to" should be highlighted');
+						}), 1000, 500);
+						return d;
+					}
 				}
 			]);
 
