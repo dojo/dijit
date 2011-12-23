@@ -472,14 +472,13 @@ define([
 				onClose: function(){
 					domAttr.set(self._popupStateNode, "popupActive", false);
 					domClass.remove(self._popupStateNode, "dijitHasDropDownOpen");
-					self._opened = false;
+					self._set("_opened", false);	// use set() because _CssStateMixin is watching
 				}
 			});
 			domAttr.set(this._popupStateNode, "popupActive", "true");
-			domClass.add(self._popupStateNode, "dijitHasDropDownOpen");
-			this._opened=true;
+			domClass.add(this._popupStateNode, "dijitHasDropDownOpen");
+			this._set("_opened", true);	// use set() because _CssStateMixin is watching
 
-			// TODO: set this.checked and call setStateClass(), to affect button look while drop down is shown
 			return retVal;
 		},
 

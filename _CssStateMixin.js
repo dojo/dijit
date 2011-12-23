@@ -63,7 +63,7 @@ return declare("dijit._CssStateMixin", [], {
 		}, this);
 
 		// Monitoring changes to disabled, readonly, etc. state, and update CSS class of root node
-		array.forEach(["disabled", "readOnly", "checked", "selected", "focused", "state", "hovering", "active"], function(attr){
+		array.forEach(["disabled", "readOnly", "checked", "selected", "focused", "state", "hovering", "active", "_opened"], function(attr){
 			this.watch(attr, lang.hitch(this, "_setStateClass"));
 		}, this);
 
@@ -159,6 +159,9 @@ return declare("dijit._CssStateMixin", [], {
 		}
 		if(this.selected){
 			multiply("Selected");
+		}
+		if(this._opened){
+			multiply("Opened");
 		}
 
 		if(this.disabled){
