@@ -1,23 +1,19 @@
 define(
-//begin v1.x content
 ({
 	fontSize: "Dimensione",
-	fontName: "Carattere",
+	fontName: "Tipo di carattere",
 	formatBlock: "Formato",
-
 	serif: "serif",
 	"sans-serif": "sans-serif",
 	monospace: "spaziatura fissa",
 	cursive: "corsivo",
 	fantasy: "fantasy",
-
-	noFormat: "Nessuna",
+	noFormat: "Nessuno",
 	p: "Paragrafo",
-	h1: "Intestazione",
-	h2: "Sottointestazione",
-	h3: "Sottointestazione secondaria",
-	pre: "Preformattato",
-
+	h1: "Titolo",
+	h2: "Sottotitolo",
+	h3: "Sotto-sottotitolo",
+	pre: "Pre-formattato",
 	1: "xx-small",
 	2: "x-small",
 	3: "small",
@@ -26,6 +22,4 @@ define(
 	6: "x-large",
 	7: "xx-large"
 })
-
-//end v1.x content
 );
