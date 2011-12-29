@@ -6,7 +6,7 @@
 	Output should match gradients defined in Button.css.  It is however an approximation, since generated
 	output has a constant height, rather than matching the height of each button.
 -->
-<svg xmlns="http://www.w3.org/2000/svg" width="50px" height="167px" viewBox="0 0 50 167" preserveAspectRatio="none">
+<svg xmlns="http://www.w3.org/2000/svg" width="1px" height="167px" viewBox="0 0 1 167" preserveAspectRatio="none">
 
 	<defs>
 		<linearGradient id="enabled" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -24,11 +24,11 @@
 		Swatch for enabled buttons.   It's 149px tall to account for tall buttons, but usually
 		only the top will be visible.
 	-->
-	<rect x="0" y="0" width="50" height="149" fill="url(#enabled)"/>
+	<rect x="0" y="0" width="1" height="149" fill="url(#enabled)"/>
 
 	<!--
 		Swatch for disabled buttons.   It will only fill the top part of the disabled buttons.
 		The bottom of disabled buttons are pure background-color
 	-->
-	<rect x="0" y="149" width="50" height="18" fill="url(#disabled)"/>
+	<rect x="0" y="149" width="1" height="18" fill="url(#disabled)"/>
 </svg>
