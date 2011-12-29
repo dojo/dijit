@@ -242,12 +242,31 @@
 	transition-timing-function: @value;
 }
 
-.vertical-gradient(@color, @fade1, @fade2) {
+.linear-gradient (@value1, @value2) {
+	// summary:
+	//		Expands to W3C plus browser specific background-image specifications for a linear-gradient (2 stops)
+ 	background-image: -moz-linear-gradient(@value1, @value2); // FF3.6+
+ 	background-image: -webkit-linear-gradient(@value1, @value2); // Chrome10+, Safari5.1+
+ 	background-image: -o-linear-gradient(@value1, @value2); // Opera 11.10+
+ 	background-image: -ms-linear-gradient(@value1, @value2); // IE10+
+ 	background-image: linear-gradient(@value1, @value2); // W3C
+}
+.linear-gradient (@value1, @value2, @value3) {
+	// summary:
+	//		Expands to W3C plus browser specific background-image specifications for a linear-gradient (3 stops)
+ 	background-image: -moz-linear-gradient(@value1, @value2, @value3); // FF3.6+
+ 	background-image: -webkit-linear-gradient(@value1, @value2, @value3); // Chrome10+, Safari5.1+
+ 	background-image: -o-linear-gradient(@value1, @value2, @value3); // Opera 11.10+
+ 	background-image: -ms-linear-gradient(@value1, @value2, @value3); // IE10+
+ 	background-image: linear-gradient(@value1, @value2, @value3); // W3C
+}
+
+.gradient-and-filter (@color, @fade1, @fade2) {
 	// summary:
 	//		Sets up a background color with a gradient.
 	//		In order to make transitions work properly on mozilla and webkit, this is done by combining
 	//		a background-color which will be changed based on state (ex: hover) with a constant
-	//		white alpha-transparency background-image.  On IE it just does a gradient w/two colors.
+	//		white alpha-transparency background-image.  On IE it creates a DXImageTransform filter.
 	// @color:
 	//		The color
 	// @fade1:
@@ -255,35 +274,13 @@
 	// @fade2:
 	//		The percent to fade at the bottom
 	background-color: @color; // the base color
-	background-image: -webkit-linear-gradient(top, fadeout(#fff, 100-@fade1), fadeout(#fff, 100-@fade2));
-	background-image: -moz-linear-gradient(top, fadeout(#fff, 100-@fade1), fadeout(#fff, 100-@fade2));
-	background-image: -ms-linear-gradient(top, fadeout(#fff, 100-@fade1), fadeout(#fff, 100-@fade2));
-	background-image: -o-linear-gradient(top, fadeout(#fff, 100-@fade1), fadeout(#fff, 100-@fade2));
-	background-image: linear-gradient(top, fadeout(#fff, 100-@fade1), fadeout(#fff, 100-@fade2));
+	.linear-gradient(fadeout(#fff, 100-@fade1), fadeout(#fff, 100-@fade2));
 	filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr="lighten(@color, @fade1)~", endColorstr="lighten(@color, @fade2)~")"; // IE
 }
 
-.vertical-gradient-modify-color(@color, @fade1, @fade2) {
-	// summary:
-	//		Use this in hover, active, etc. rules when the node already has a .vertical-gradient,
-	//		and you want to keep the same gradient but just change the base color.
-	// @color:
-	//		The color at the top
-	// @fade1:
-	//		The percent to fade at the top
-	// @fade2:
-	//		The percent to fade at the bottom
-	background-color: @color;
-	filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr="lighten(@color, @fade1)~", endColorstr="lighten(@color, @fade2)~")"; // IE
-}
-
-.textbox-background-image() {
+.textbox-background-image () {
 	// summary:
 	//		Background image used for hovered TextBoxes and similar controls.
 	//		It's just a small shadow below the top border (inside of the TextBox).
-	background-image: -webkit-linear-gradient(top,  rgba(127,127,127,0.2) 0%, rgba(127,127,127,0) 2px);
-	background-image: -moz-linear-gradient(top,  rgba(127,127,127,0.2) 0%, rgba(127,127,127,0) 2px);
-	background-image: -ms-linear-gradient(top,  rgba(127,127,127,0.2) 0%, rgba(127,127,127,0) 2px);
-	background-image: -o-linear-gradient(top,  rgba(127,127,127,0.2) 0%, rgba(127,127,127,0) 2px);
-	background-image: linear-gradient(top,  rgba(127,127,127,0.2) 0%, rgba(127,127,127,0) 2px);
+	.linear-gradient(rgba(127,127,127,0.2) 0%, rgba(127,127,127,0) 2px);
 }

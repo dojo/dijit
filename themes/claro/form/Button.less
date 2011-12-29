@@ -48,11 +48,7 @@
 	background-color: desaturate(darken(@button-background-color, 10), 20);
 
 	// Alpha transparency layer to add gradient to above background color.
-	background-image: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(255,255,255,0) 13%, rgba(255,255,255,0.75) 100%); /* FF3.6+ */
-	background-image: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 13%,rgba(255,255,255,0.75) 100%); /* Chrome10+,Safari5.1+ */
-	background-image: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 13%,rgba(255,255,255,0.75) 100%); /* Opera 11.10+ */
-	background-image: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 13%,rgba(255,255,255,0.75) 100%); /* IE10+ */
-	background-image: linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 13%,rgba(255,255,255,0.75) 100%); /* W3C */
+	.linear-gradient(rgba(255,255,255,1) 0%, rgba(255,255,255,0) 13%, rgba(255,255,255,0.75) 100%);
 }
 
 .dj_ie .claro .dijitButton .dijitButtonNode,
@@ -153,11 +149,7 @@
 	.box-shadow(0 0 0 rgba(0,0,0,0));
 
 	// Change the gradient from light to dark
-	background-image: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 100%); /* FF3.6+ */
-	background-image: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 100%); /* Chrome10+,Safari5.1+ */
-	background-image: -o-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 100%); /* Opera 11.10+ */
-	background-image: -ms-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 100%); /* IE10+ */
-	background-image: linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 100%); /* W3C */
+	.linear-gradient(rgba(255,255,255,1) 0%, rgba(255,255,255,0) 40%);
 }
 .dj_ie .claro .dijitButtonDisabled .dijitButtonNode,
 .dj_ie .claro .dijitDropDownButtonDisabled .dijitButtonNode,
