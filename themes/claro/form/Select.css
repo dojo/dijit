@@ -53,6 +53,9 @@
   background-color: #e5f2fe;
   background-image: -webkit-linear-gradient(top, rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
   background-image: -moz-linear-gradient(top, rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
+  background-image: -ms-linear-gradient(top, rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
+  background-image: -o-linear-gradient(top, rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
+  background-image: linear-gradient(top, rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
   background-repeat: repeat-x;
 }
 .claro .dijitSelectHover .dijitButtonContents {
