@@ -51,7 +51,8 @@
 .claro .dijitSelectHover {
   border: 1px solid #759dc0;
   background-color: #e5f2fe;
-  background-image: url("../form/images/textBox_back.png");
+  background-image: -webkit-linear-gradient(top, rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
+  background-image: -moz-linear-gradient(top, rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
   background-repeat: repeat-x;
 }
 .claro .dijitSelectHover .dijitButtonContents {

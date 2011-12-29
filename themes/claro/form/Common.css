@@ -55,8 +55,8 @@
 }
 .claro .dijitTextBoxHover {
   background-color: #e5f2fe;
-  background-image: url("../form/images/textBox_back.png");
-  background-repeat: repeat-x;
+  background-image: -webkit-linear-gradient(top, rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
+  background-image: -moz-linear-gradient(top, rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
 }
 /* error state */
 .claro .dijitTextBoxError, .claro .dijitTextBoxError .dijitButtonNode {
@@ -74,8 +74,8 @@
 }
 .claro .dijitTextBoxFocused {
   background-color: #ffffff;
-  background-image: url("../form/images/textBox_back.png");
-  background-repeat: repeat-x;
+  background-image: -webkit-linear-gradient(top, rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
+  background-image: -moz-linear-gradient(top, rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
 }
 .claro .dijitTextBoxFocused .dijitInputContainer {
   background: #ffffff;
