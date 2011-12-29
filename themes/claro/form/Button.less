@@ -48,7 +48,7 @@
 	background-color: desaturate(darken(@button-background-color, 10), 20);
 
 	// Alpha transparency layer to add gradient to above background color.
-	.linear-gradient(rgba(255,255,255,1) 0%, rgba(255,255,255,0) 13%, rgba(255,255,255,0.75) 100%);
+	.alpha-white-gradient(1, 0%, 0, 13%, 0.75, 100%);
 }
 
 .dj_ie .claro .dijitButton .dijitButtonNode,
@@ -149,7 +149,7 @@
 	.box-shadow(0 0 0 rgba(0,0,0,0));
 
 	// Change the gradient from light to dark
-	.linear-gradient(rgba(255,255,255,1) 0%, rgba(255,255,255,0) 40%);
+	.alpha-white-gradient(1, 0%, 0, 40%);
 }
 .dj_ie .claro .dijitButtonDisabled .dijitButtonNode,
 .dj_ie .claro .dijitDropDownButtonDisabled .dijitButtonNode,

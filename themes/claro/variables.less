@@ -260,7 +260,24 @@
  	background-image: -ms-linear-gradient(@value1, @value2, @value3); // IE10+
  	background-image: linear-gradient(@value1, @value2, @value3); // W3C
 }
-
+.alpha-white-gradient (@opacity1, @stop1, @opacity2, @stop2) {
+	// summary:
+	//		For setting up white background-image with variable transparency.
+	// example:
+	//		Gradient starts at top (0%) with 30% opacity, and then ends at bottom (100%) with full transparency
+	//		|	.alpha-white-gradient(0.3, 0%, 0, 100%)
+	//
+	.linear-gradient(rgba(255,255,255,@opacity1) @stop1, rgba(255,255,255,@opacity2) @stop2);
+}
+.alpha-white-gradient (@opacity1, @stop1, @opacity2, @stop2, @opacity3, @stop3) {
+	// summary:
+	//		For setting up white background-image with variable transparency.
+	// example:
+	//		Gradient starts at top (0%) with 30% opacity, and then ends at bottom (100%) with full transparency
+	//		|	.alpha-white-gradient(0.3, 0%, 0, 100%)
+	//
+	.linear-gradient(rgba(255,255,255,@opacity1) @stop1, rgba(255,255,255,@opacity2) @stop2, rgba(255,255,255, @opacity3) @stop3);
+}
 .gradient-and-filter (@color, @fade1, @fade2) {
 	// summary:
 	//		Sets up a background color with a gradient.
