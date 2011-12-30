@@ -455,7 +455,7 @@ define([
 				onEnd: lang.hitch(this, function(){
 					this.domNode.style.display = "none";
 					DialogLevelManager.hide(this);
-					this._fadeOutDeferred.callback(true);
+					this._fadeOutDeferred && this._fadeOutDeferred.callback(true);
 					delete this._fadeOutDeferred;
 				})
 			 }).play();
