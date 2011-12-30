@@ -39,11 +39,11 @@
   background-color: #cfe5fa;
   background-image: url("images/calendar.png");
   background-repeat: repeat-x;
-  background-image: -moz-linear-gradient(#ffffff 0%, rgba(255, 255, 255, 0.4) 2px, rgba(255, 255, 255, 0) 100%);
-  background-image: -webkit-linear-gradient(#ffffff 0%, rgba(255, 255, 255, 0.4) 2px, rgba(255, 255, 255, 0) 100%);
-  background-image: -o-linear-gradient(#ffffff 0%, rgba(255, 255, 255, 0.4) 2px, rgba(255, 255, 255, 0) 100%);
-  background-image: -ms-linear-gradient(#ffffff 0%, rgba(255, 255, 255, 0.4) 2px, rgba(255, 255, 255, 0) 100%);
-  background-image: linear-gradient(#ffffff 0%, rgba(255, 255, 255, 0.4) 2px, rgba(255, 255, 255, 0) 100%);
+  background-image: -moz-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0.4) 2px, rgba(255, 255, 255, 0) 100%);
+  background-image: -webkit-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0.4) 2px, rgba(255, 255, 255, 0) 100%);
+  background-image: -o-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0.4) 2px, rgba(255, 255, 255, 0) 100%);
+  background-image: -ms-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0.4) 2px, rgba(255, 255, 255, 0) 100%);
+  background-image: linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0.4) 2px, rgba(255, 255, 255, 0) 100%);
   text-align: center;
   padding: 6px 5px 3px 5px;
 }

@@ -50,11 +50,11 @@
   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
   background-color: #bcd8f4;
-  background-image: -moz-linear-gradient(#ffffff 0%, rgba(255, 255, 255, 0) 13%, rgba(255, 255, 255, 0.75) 100%);
-  background-image: -webkit-linear-gradient(#ffffff 0%, rgba(255, 255, 255, 0) 13%, rgba(255, 255, 255, 0.75) 100%);
-  background-image: -o-linear-gradient(#ffffff 0%, rgba(255, 255, 255, 0) 13%, rgba(255, 255, 255, 0.75) 100%);
-  background-image: -ms-linear-gradient(#ffffff 0%, rgba(255, 255, 255, 0) 13%, rgba(255, 255, 255, 0.75) 100%);
-  background-image: linear-gradient(#ffffff 0%, rgba(255, 255, 255, 0) 13%, rgba(255, 255, 255, 0.75) 100%);
+  background-image: -moz-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0) 3px, rgba(255, 255, 255, 0.75) 100%);
+  background-image: -webkit-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0) 3px, rgba(255, 255, 255, 0.75) 100%);
+  background-image: -o-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0) 3px, rgba(255, 255, 255, 0.75) 100%);
+  background-image: -ms-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0) 3px, rgba(255, 255, 255, 0.75) 100%);
+  background-image: linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0) 3px, rgba(255, 255, 255, 0.75) 100%);
 }
 .dj_ie .claro .dijitButton .dijitButtonNode,
 .dj_ie .claro .dijitDropDownButton .dijitButtonNode,
