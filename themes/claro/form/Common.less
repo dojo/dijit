@@ -152,8 +152,7 @@
 
 .claro .dijitComboBox .dijitButtonNode {
 	background-color: @arrowbutton-background-color;
-	background-image: url("../@{image-form-highlight}");
-	background-repeat:repeat-x;
+	.standard-gradient("../");
 }
 
 /* Arrow "hover" effect:
@@ -173,7 +172,7 @@
 /* Arrow Button change when drop down is open */
 .claro .dijitComboBox .dijitHasDropDownOpen {	// .dijitHasDropDown is on dijitArrowButton node
 	background-color: @pressed-background-color;
-	background-position:0 -177px;
+	.active-gradient("../");
 	padding: 1px;		// Since no border on arrow button (see rule below)
 }	
 .claro .dijitComboBox .dijitHasDropDownOpen .dijitArrowButtonInner {

@@ -156,14 +156,12 @@
 @document-shadedsection-background-color: @bar-background-color;// background color used for <pre>, <code>, and table header rows
 @document-border-color: @disabled-color;								// Border for <pre>, <code>, tables, etc.
 
-// Images
+// Icons
 @image-arrow-sprite: "images/spriteArrows.png";
-@image-calendar-container: "images/calendar.png";
 @image-calendar-arrows: "images/calendarArrows.png";
 @image-calendar-arrows-ie6: "images/calendarArrows8bit.png";
 @image-checkmark: "images/checkmarkNoBorder.png";
 @image-checkmark-ie6: "images/checkmarkNoBorder.gif";
-@image-common-highlight: "images/commonHighlight.png";
 @image-dialog-close: "images/dialogCloseIcon.png";
 @image-dialog-close-ie6: "images/dialogCloseIcon8bit.png";
 @image-dnd: "images/dnd.png";
@@ -174,11 +172,20 @@
 @image-form-checkbox-and-radios-ie6: "form/images/checkboxAndRadioButtons_IE6.png";
 @image-form-common-arrows: "form/images/commonFormArrows.png";
 @image-form-error: "form/images/error.png";
-@image-form-highlight: "form/images/formHighlight.png";
-@image-form-slider-horizontal: "form/images/sliderHorizontal.png";
 @image-form-slider-thumbs: "form/images/sliderThumbs.png";
+@image-loading-animation: "images/loadingAnimation.gif";
+@image-tooltip: "images/tooltip.png";	// arrow connectors
+@image-tooltip-ie6: "images/tooltip8bit.png";	// arrow connectors (8 bit)
+@image-tree-expand: "images/treeExpandImages.png";
+@image-tree-expand-ie6: "images/treeExpandImages8bit.png";
+
+// Gradient images
+// These images correspond to CSS gradient rules in the individual files, so they generally shouldn't be edited.
+// If you edit these images then edit the corresponding CSS gradient rules to match.
+// See also the gradient mixins below.
+@image-calendar-container: "images/calendar.png";
+@image-form-slider-horizontal: "form/images/sliderHorizontal.png";
 @image-form-slider-vertical: "form/images/sliderVertical.png";
-@image-layout-accordion: "layout/images/accordion.png";
 @image-layout-splitter-horizontal-hover: "layout/images/splitterHorizontalHover.png";
 @image-layout-splitter-vertical-hover: "layout/images/splitterVerticalHover.png";
 @image-layout-tab-bottom: "layout/images/tabBottom.png";
@@ -187,16 +194,10 @@
 @image-layout-tab-nested: "layout/images/tabNested.png";
 @image-layout-tab-right: "layout/images/tabRight.png";
 @image-layout-tab-top: "layout/images/tabTop.png";
-@image-loading-animation: "images/loadingAnimation.gif";
 @image-progressbar-empty: "images/progressBarEmpty.png";
 @image-progressbar-full: "images/progressBarFull.png";
 @image-progressbar-anim: "images/progressBarAnim.gif";
-@image-titlebar: "images/titlebar.png";
-@image-tooltip: "images/tooltip.png";
-@image-tooltip-ie6: "images/tooltip8bit.png";
 @image-tooltip-gradient: "images/tooltipGradient.png";
-@image-tree-expand: "images/treeExpandImages.png";
-@image-tree-expand-ie6: "images/treeExpandImages8bit.png";
 
 // Mixins
 
@@ -294,9 +295,43 @@
 	filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr="lighten(@color, @fade1)~", endColorstr="lighten(@color, @fade2)~")"; // IE
 }
 
+// Mixins defining gradients
+
 .textbox-background-image () {
 	// summary:
 	//		Background image used for hovered TextBoxes and similar controls.
 	//		It's just a small shadow below the top border (inside of the TextBox).
 	.linear-gradient(rgba(127,127,127,0.2) 0%, rgba(127,127,127,0) 2px);
+}
+
+.standard-gradient (@pathToRoot: "") {
+	// summary:
+	//		Light to dark background-image used by widgets with short height (~16px) including:
+	//			- MenuBar, and hovered MenuItem/MenuBarItem
+	//			- arrow icon wrapper for Select, ComboBox, Spinner
+	//			- Toolbar and hovered Toolbar buttons
+	//			- TitlePane title bar, AccordionContainer title bar, Dialog title bar
+
+	// fallback for IE
+	background-image: url("@{pathToRoot}images/standardGradient.png");
+	background-repeat: repeat-x;
+
+	// CSS gradient for other browsers
+	.alpha-white-gradient(0.7, 0%, 0, 100%);
+}
+.active-gradient (@pathToRoot: "") {
+	// summary:
+	//		Light to dark background-image with a gray shadow at the top,
+	//		used by widgets when they are active (ie: mousedown) or selected, including:
+	//			- active MenuItem/MenuBarItem
+	//			- arrow icon wrapper for Select, ComboBox, Spinner when active or drop down is open
+	//			- active Toolbar buttons
+	//			- active TitlePane title bar, AccordionContainer title bar
+
+	// fallback for IE
+	background-image: url("@{pathToRoot}images/activeGradient.png");
+	background-repeat: repeat-x;
+
+	// CSS gradient for other browsers
+	.linear-gradient(rgba(190,190,190,0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
 }

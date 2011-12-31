@@ -60,9 +60,8 @@
 }
 
 .claro .dijitTreeRowSelected {
-	background-repeat:repeat-x;
 	background-color:@selected-background-color;
-	background-image: url(@image-common-highlight);
+	.standard-gradient;
 	padding: 3px 0 1px;
 	margin: 0;
 	border:solid 1px @selected-border-color;
@@ -70,7 +69,7 @@
 }
 .claro .dijitTreeRowHover {
 	background-color:@hovered-background-color;
-	background-image: url(@image-common-highlight);
+	.standard-gradient;
 	padding: 3px 0 1px;
 	margin: 0;
 	border:solid 1px @hovered-border-color;
@@ -79,8 +78,7 @@
 }
 .claro .dijitTreeRowActive {
 	background-color:@pressed-background-color;
-	background-image: url(@image-common-highlight);
-	background-position:0 -177px;
+	.active-gradient;
 	padding: 3px 0 1px;
 	margin-left: 0;
 	border:solid 1px @pressed-border-color;

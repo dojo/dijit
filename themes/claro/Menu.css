@@ -34,7 +34,8 @@ There are three areas of styling for the Menu:
   margin: 0;
   padding: 0;
   background-color: #efefef;
-  background-image: url("images/commonHighlight.png");
+  background-image: url("images/standardGradient.png");
+  background-repeat: repeat-x;
   background-image: -moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
   background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
   background-image: -o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
@@ -79,13 +80,22 @@ There are three areas of styling for the Menu:
 /* hover over a MenuItem or MenuBarItem */
 .claro .dijitMenuItemHover, .claro .dijitMenuItemSelected {
   background-color: #abd6ff;
-  background-image: url("images/commonHighlight.png");
+  background-image: url("images/standardGradient.png");
+  background-repeat: repeat-x;
   background-image: -moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
   background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
   background-image: -o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
   background-image: -ms-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
   background-image: linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
-  color: #000000;
+}
+.claro .dijitMenuItemActive {
+  background-image: url("images/activeGradient.png");
+  background-repeat: repeat-x;
+  background-image: -moz-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
+  background-image: -webkit-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
+  background-image: -o-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
+  background-image: -ms-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
+  background-image: linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
 }
 .dj_ie .claro .dijitMenuActive .dijitMenuItemHover,
 .dj_ie .claro .dijitMenuActive .dijitMenuItemSelected,
@@ -94,13 +104,6 @@ There are three areas of styling for the Menu:
   padding-top: 6px;
   padding-bottom: 5px;
   margin-top: -3px;
-}
-.claro .dijitMenuItemActive {
-  background-image: -moz-linear-gradient(rgba(201, 201, 201, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
-  background-image: -webkit-linear-gradient(rgba(201, 201, 201, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
-  background-image: -o-linear-gradient(rgba(201, 201, 201, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
-  background-image: -ms-linear-gradient(rgba(201, 201, 201, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
-  background-image: linear-gradient(rgba(201, 201, 201, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
 }
 .claro td.dijitMenuItemIconCell {
   padding: 2px;

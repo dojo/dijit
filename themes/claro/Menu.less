@@ -37,8 +37,7 @@ There are three areas of styling for the Menu:
 	margin: 0;
 	padding: 0;
 	background-color: @bar-background-color;
-	background-image: url(@image-common-highlight);	// fallback for IE
-	.alpha-white-gradient(0.7, 0%, 0, 100%);	// for other browsers
+	.standard-gradient;
 }
 .dj_ie6 .claro .dijitMenuBar {
 	background-image:none;
@@ -80,13 +79,16 @@ There are three areas of styling for the Menu:
 /* hover over a MenuItem or MenuBarItem */
 .claro .dijitMenuItemHover,
 .claro .dijitMenuItemSelected {
-    // note: seems like the selected MenuItem should use @pressed-background-color, but claro didn't to that
+    // note: seems like the selected MenuItem should use @pressed-background-color
+    // and .active-gradient, but claro didn't to that
 	background-color: @hovered-background-color;
-	background-image: url(@image-common-highlight);	// fallback for IE
-	.alpha-white-gradient(0.7, 0%, 0, 100%);		// for other browsers
-	color:@hovered-text-color;
+	.standard-gradient;
 }
-
+.claro .dijitMenuItemActive {
+    // todo: seems like the selected MenuItem should come here
+    // todo: seems like should use @pressed-background-color
+    .active-gradient;
+}
 .dj_ie .claro .dijitMenuActive .dijitMenuItemHover,
 .dj_ie .claro .dijitMenuActive .dijitMenuItemSelected,
 .dj_ie .claro .dijitMenuPassive .dijitMenuItemHover,
@@ -97,11 +99,6 @@ There are three areas of styling for the Menu:
 	padding-top: 6px;
 	padding-bottom: 5px;
 	margin-top: -3px;
-}
-.claro .dijitMenuItemActive {
-    // Mouse-down on a menu item.
-    // Gradient from light to dark, but with small shadow at top, like hovered TextBox
-	.linear-gradient(rgba(201,201,201,0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
 }
 
 .claro td.dijitMenuItemIconCell {

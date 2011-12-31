@@ -44,8 +44,7 @@
 	border: 1px solid @arrowbutton-inner-border-color;
 	border-top:none;
 	background-color: @arrowbutton-background-color;
-	background-image: url("../@{image-form-highlight}");
-	background-repeat:repeat-x;
+	.standard-gradient("../");
 }
 
 .claro .dijitSelect .dijitArrowButton .dijitArrowButtonInner {
@@ -84,7 +83,7 @@
 }
 .claro .dijitSelectFocused .dijitArrowButton {
 	background-color:#7dbefa;		// TODO.  Mailed Jason about inconsistent ComboBox/Spinner behavior.
-	background-position:0 -177px;
+	.active-gradient("../");
 	border: none;
 	padding: 0 1px;
 }
