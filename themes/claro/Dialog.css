@@ -72,10 +72,8 @@
   background-image: -o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
   background-image: -ms-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
   background-image: linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
+  _background-image: none;
   padding: 5px 7px 4px 7px;
-}
-.dj_ie6 .claro .dijitDialogTitleBar {
-  background-image: none;
 }
 .claro .dijitDialogTitle {
   /* typography and styling of the dialog title */

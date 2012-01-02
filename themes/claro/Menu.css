@@ -41,9 +41,7 @@ There are three areas of styling for the Menu:
   background-image: -o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
   background-image: -ms-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
   background-image: linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
-}
-.dj_ie6 .claro .dijitMenuBar {
-  background-image: none;
+  _background-image: none;
 }
 .claro .dijitMenu {
   background-color: #ffffff;
@@ -87,6 +85,7 @@ There are three areas of styling for the Menu:
   background-image: -o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
   background-image: -ms-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
   background-image: linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
+  _background-image: none;
 }
 .claro .dijitMenuItemActive {
   background-image: url("images/activeGradient.png");
@@ -96,6 +95,7 @@ There are three areas of styling for the Menu:
   background-image: -o-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
   background-image: -ms-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
   background-image: linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
+  _background-image: none;
 }
 .dj_ie .claro .dijitMenuActive .dijitMenuItemHover,
 .dj_ie .claro .dijitMenuActive .dijitMenuItemSelected,
@@ -179,7 +179,4 @@ There are three areas of styling for the Menu:
 }
 .claro .dijitMenuPreviousButton, .claro .dijitMenuNextButton {
   font-style: italic;
-}
-.dj_ie6 .claro .dijitMenuItem, .dj_ie6 .claro .dijitComboBoxMenu .dijitMenuItem {
-  background-image: none;
 }

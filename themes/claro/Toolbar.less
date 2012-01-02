@@ -55,13 +55,7 @@
 .dj_ie .claro .dijitToolbar .dijitComboBox .dijitButtonNode {
 	background-color: transparent;   /* for IE, which doesn't understand rgba(...) */
 }
-.dj_ie6 .claro .dijitToolbar .dijitButton .dijitButtonNode,
-.dj_ie6 .claro .dijitToolbar .dijitDropDownButton .dijitButtonNode,
-.dj_ie6 .claro .dijitToolbar .dijitComboButton .dijitButtonNode,
-.dj_ie6 .claro .dijitToolbar .dijitToggleButton .dijitButtonNode,
-.dj_ie6 .claro .dijitToolbar .dijitComboBox .dijitButtonNode {
-	background: none;	/* because background-color: transparent above doesn't work on IE*/
-}
+
 /* hover status */
 .dj_ie .claro .dijitToolbar .dijitButtonHover .dijitButtonNode,
 .dj_ie .claro .dijitToolbar .dijitDropDownButtonHover .dijitButtonNode,
@@ -158,10 +152,6 @@
 	border-color: @selected-border-color;
 	background-color: @toolbar-button-checked-background-color;
 	padding: 1px;
-}
-
-.dj_ie6 .claro .dijitToolbar {
-	background-image: none;
 }
 
 .claro .dijitToolbarSeparator {

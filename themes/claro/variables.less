@@ -173,6 +173,7 @@
 @image-form-common-arrows: "form/images/commonFormArrows.png";
 @image-form-error: "form/images/error.png";
 @image-form-slider-thumbs: "form/images/sliderThumbs.png";
+@image-layout-tab-close: "layout/images/tabClose.png";	// [x] icon to close a tab
 @image-loading-animation: "images/loadingAnimation.gif";
 @image-tooltip: "images/tooltip.png";	// arrow connectors
 @image-tooltip-ie6: "images/tooltip8bit.png";	// arrow connectors (8 bit)
@@ -189,7 +190,6 @@
 @image-layout-splitter-horizontal-hover: "layout/images/splitterHorizontalHover.png";
 @image-layout-splitter-vertical-hover: "layout/images/splitterVerticalHover.png";
 @image-layout-tab-bottom: "layout/images/tabBottom.png";
-@image-layout-tab-close: "layout/images/tabClose.png";
 @image-layout-tab-left: "layout/images/tabLeft.png";
 @image-layout-tab-nested: "layout/images/tabNested.png";
 @image-layout-tab-right: "layout/images/tabRight.png";
@@ -312,12 +312,15 @@
 	//			- Toolbar and hovered Toolbar buttons
 	//			- TitlePane title bar, AccordionContainer title bar, Dialog title bar
 
-	// fallback for IE
+	// Fallback for IE
 	background-image: url("@{pathToRoot}images/standardGradient.png");
 	background-repeat: repeat-x;
 
 	// CSS gradient for other browsers
 	.alpha-white-gradient(0.7, 0%, 0, 100%);
+
+	// IE6 can't handle a background-image with transparency and a background-color; the color is blocked out
+	_background-image: none;
 }
 .active-gradient (@pathToRoot: "") {
 	// summary:
@@ -328,10 +331,13 @@
 	//			- active Toolbar buttons
 	//			- active TitlePane title bar, AccordionContainer title bar
 
-	// fallback for IE
+	// Fallback for IE
 	background-image: url("@{pathToRoot}images/activeGradient.png");
 	background-repeat: repeat-x;
 
 	// CSS gradient for other browsers
 	.linear-gradient(rgba(190,190,190,0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
+
+	// IE6 can't handle a background-image with transparency and a background-color; the color is blocked out
+	_background-image: none;
 }

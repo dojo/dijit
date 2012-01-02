@@ -140,6 +140,7 @@
   background-image: -o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
   background-image: -ms-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
   background-image: linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
+  _background-image: none;
 }
 /* Arrow "hover" effect:
  * The arrow button should change color whenever the mouse is in a position such that clicking it
@@ -162,6 +163,7 @@
   background-image: -o-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
   background-image: -ms-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
   background-image: linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
+  _background-image: none;
   padding: 1px;
 }
 .claro .dijitComboBox .dijitHasDropDownOpen .dijitArrowButtonInner {
@@ -182,10 +184,6 @@
   display: none;
   height: 0;
   width: 0;
-}
-/* ie6 doesn't support transparent background img */
-.dj_ie6 .claro .dijitTextBox, .dj_ie6 .claro .dijitComboBox .dijitButtonNode {
-  background-image: none;
 }
 .dj_borderbox .claro .dijitComboBox .dijitHasDropDownOpen .dijitArrowButtonInner {
   width: 18px;

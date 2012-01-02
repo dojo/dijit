@@ -25,9 +25,6 @@
   background-color: #ffffff;
   border-collapse: separate;
 }
-.dj_ie6 .claro .dijitSelect, .dj_ie6 .claro .dijitSelect .dijitButtonNode {
-  background-image: none;
-}
 .claro .dijitSelect .dijitButtonContents {
   border: 0 solid #b5bcc7;
   border-right-width: 1px;
@@ -44,6 +41,7 @@
   background-image: -o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
   background-image: -ms-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
   background-image: linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
+  _background-image: none;
 }
 .claro .dijitSelect .dijitArrowButton .dijitArrowButtonInner {
   background-image: url("../form/images/commonFormArrows.png");
@@ -88,6 +86,7 @@
   background-image: -o-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
   background-image: -ms-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
   background-image: linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
+  _background-image: none;
   border: none;
   padding: 0 1px;
 }
