@@ -408,6 +408,43 @@
 				}
 			]);
 
+			doh.register("fast double hide", [
+				function create(){
+					var d = new doh.Deferred();
+
+					// Create a test dialog
+					dlg = new dijit.Dialog({
+						id: "doubleHide",
+						title: "Double Hide",
+						content: "Hello World",
+						duration: 100
+					});
+
+					// First show it
+					var secondHideCalled;
+					dlg.show().then(d.getTestErrback(function(){
+						console.log("showed dialog")
+
+						// Then call hide(), as though user had clicked close icon.
+						// Return from this test when this hide() call completes.
+						dlg.hide().then(d.getTestCallback(function(){
+							console.log("first hide completed");
+							doh.t(secondHideCalled, "hide() was called while hide() in progress and no problems");
+							dlg.hide();	// this should also have no effect
+						}));
+
+						// While first hide() is in progress, call hide() a few more times to make sure it
+						// doesn't break anything
+						dlg.hide();	// should do nothing
+						setTimeout(d.getTestErrback(function(){
+							dlg.hide();	// should also do nothing
+							secondHideCalled = true;
+						}), 10);
+					}));
+					return d;
+				}
+			]);
+
 			doh.run();
 		});
 	</script>
