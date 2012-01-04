@@ -38,6 +38,10 @@ define([
 
 		baseClass: "dijitMenuItem",
 
+		// Turn off monitoring of mouseenter, mouseleave, and mousedown from _CSSStateMixin,
+		// it will be handled from dijit._MenuBase
+		_cssStateMixinMonitorMouse: false,
+
 		// label: String
 		//		Menu text
 		label: '',

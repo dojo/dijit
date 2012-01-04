@@ -141,6 +141,8 @@ return declare("dijit._MenuBase",
 			this.focusChild(item);
 		}
 		this._hoveredChild = item;
+
+		item._set("hovering", true);
 	},
 
 	_onChildBlur: function(item){
@@ -176,9 +178,6 @@ return declare("dijit._MenuBase",
 		}
 		if(this._hoveredChild == item){ this._hoveredChild = null; }
 
-		// When menu is hidden (collapsed) due to clicking a MenuItem and having it execute,
-		// FF and IE don't generate an onmouseout event for the MenuItem.
-		// So, help out _CssStateMixin in this case.
 		item._set("hovering", false);
 	},
 

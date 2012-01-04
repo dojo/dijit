@@ -17,8 +17,8 @@ There are three areas of styling for the Menu:
  	
  3. Menu items - items in the menu.  
  	.dijitMenuItem - for color
- 	.dijitMenuItemHover, .dijitMenuItemSelected - for background-color, border, text color, padding of a menu item or menubar item that has been hovered over or selected	
- 	.dijitMenuItemActive - for background-color of an active (mousedown) menu item
+ 	.dijitMenuItem:hover, .dijitMenuItemSelected - for background-color, border, text color, padding of a menu item or menubar item that has been hovered over or selected
+ 	.dijitMenuItem:active - for background-color of an active (mousedown) menu item
 	td.dijitMenuItemIconCell - for padding around a  menu item's icon
 	td.dijitMenuItemLabel - for padding around a menu item's label	
 	.dijitMenuSeparatorTop - for border, top border, of the separator
@@ -58,7 +58,8 @@ There are three areas of styling for the Menu:
 	padding: 6px 10px 7px;
 	margin:-1px;
 }
-.claro .dijitMenuBar .dijitMenuItemHover,
+.claro .dijitMenuBar .dijitMenuItem:hover,
+.dj_ie6 .claro .dijitMenuBar .dijitMenuItemHover,	// for IE6, which won't handle :hover
 .claro .dijitMenuBar .dijitMenuItemSelected {
     // on hover or selection of MenuBar item, add border and reduce padding to compensate
 	border:solid 1px @hovered-border-color;
@@ -75,14 +76,15 @@ There are three areas of styling for the Menu:
 	padding:1px;
 }
 /* hover over a MenuItem or MenuBarItem */
-.claro .dijitMenuItemHover,
+.claro .dijitMenuItem:hover,
+.dj_ie6 .claro .dijitMenuItemHover,	// for IE6, which won't handle :hover
 .claro .dijitMenuItemSelected {
     // note: seems like the selected MenuItem should use @pressed-background-color
     // and .active-gradient, but claro didn't to that
 	background-color: @hovered-background-color;
 	.standard-gradient;
 }
-.claro .dijitMenuItemActive {
+.claro .dijitMenuItem:active {
     // todo: seems like the selected MenuItem should come here
     // todo: seems like should use @pressed-background-color
     .active-gradient;

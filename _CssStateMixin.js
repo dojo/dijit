@@ -50,6 +50,10 @@ return declare("dijit._CssStateMixin", [], {
 	//		True if mouse was pressed while over this widget, and hasn't been released yet
 	active: false,
 
+	// _cssStateMixinMonitorMouse: Boolean
+	//		For subclasses to disable _CssStateMixin monitoring mousedown, mouseenter, mouseleave.
+	_cssStateMixinMonitorMouse: true,
+
 	_applyAttributes: function(){
 		// This code would typically be in postCreate(), but putting in _applyAttributes() for
 		// performance: so the class changes happen before DOM is inserted into the document.
@@ -58,9 +62,11 @@ return declare("dijit._CssStateMixin", [], {
 		this.inherited(arguments);
 
 		// Automatically monitor mouse events (essentially :hover and :active) on this.domNode
-		array.forEach(["onmouseenter", "onmouseleave", touch.press], function(e){
-			this.connect(this.domNode, e, "_cssMouseEvent");
-		}, this);
+		if(this._cssStateMixinMonitorMouse){
+			array.forEach(["onmouseenter", "onmouseleave", touch.press], function(e){
+				this.connect(this.domNode, e, "_cssMouseEvent");
+			}, this);
+		}
 
 		// Monitoring changes to disabled, readonly, etc. state, and update CSS class of root node
 		array.forEach(["disabled", "readOnly", "checked", "selected", "focused", "state", "hovering", "active", "_opened"], function(attr){
