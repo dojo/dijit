@@ -3,7 +3,6 @@ define([
 	"dojo/dom", // dom.setSelectable
 	"dojo/dom-attr", // domAttr.set
 	"dojo/dom-class", // domClass.toggle
-	"dojo/_base/event", // event.stop
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/sniff", // has("ie")
 	"./_Widget",
@@ -11,7 +10,7 @@ define([
 	"./_Contained",
 	"./_CssStateMixin",
 	"dojo/text!./templates/MenuItem.html"
-], function(declare, dom, domAttr, domClass, event, kernel, has,
+], function(declare, dom, domAttr, domClass, kernel, has,
 			_Widget, _TemplatedMixin, _Contained, _CssStateMixin, template){
 
 /*=====
@@ -79,41 +78,6 @@ define([
 			}
 			this.domNode.setAttribute("aria-labelledby", label);
 			dom.setSelectable(this.domNode, false);
-		},
-
-		_onHover: function(){
-			// summary:
-			//		Handler when mouse is moved onto menu item
-			// tags:
-			//		protected
-			this.getParent().onItemHover(this);
-		},
-
-		_onUnhover: function(){
-			// summary:
-			//		Handler when mouse is moved off of menu item,
-			//		possibly to a child menu, or maybe to a sibling
-			//		menuitem or somewhere else entirely.
-			// tags:
-			//		protected
-
-			// if we are unhovering the currently selected item
-			// then unselect it
-			this.getParent().onItemUnhover(this);
-
-			// When menu is hidden (collapsed) due to clicking a MenuItem and having it execute,
-			// FF and IE don't generate an onmouseout event for the MenuItem.
-			// So, help out _CssStateMixin in this case.
-			this._set("hovering", false);
-		},
-
-		_onClick: function(evt){
-			// summary:
-			//		Internal handler for click events on MenuItem.
-			// tags:
-			//		private
-			this.getParent().onItemClick(this, evt);
-			event.stop(evt);
 		},
 
 		onClick: function(/*Event*/){

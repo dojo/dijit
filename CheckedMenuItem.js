@@ -51,7 +51,6 @@ define([
 				this.set("checked", !this.checked);
 				this.onChange(this.checked);
 			}
-			this.inherited(arguments);
 		}
 	});
 });

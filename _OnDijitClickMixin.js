@@ -91,7 +91,7 @@ define([
 		}
 	};
 
-	return declare("dijit._OnDijitClickMixin", null, {
+	var ret = declare("dijit._OnDijitClickMixin", null, {
 		connect: function(
 				/*Object|null*/ obj,
 				/*String|Function*/ event,
@@ -122,4 +122,8 @@ define([
 			return this.inherited(arguments, [obj, event == "ondijitclick" ? a11yclick : event, method]);
 		}
 	});
+
+	ret.a11yclick = a11yclick;
+
+	return ret;
 });

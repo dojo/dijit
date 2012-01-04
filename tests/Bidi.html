@@ -48,6 +48,7 @@
 		dojo.require("dijit.layout.ContentPane");
 
 		dojo.require("dojo.parser");
+		dojo.require("dojo.on");
 
 		dojo.require("doh.runner");
 
@@ -144,8 +145,11 @@
 				{
 					name: "ltr_Toolbar_nested_menu",
 					runTest: function(){
-						dijit.byId("ltr_popup_mi1")._onClick({preventDefault: function(){}, stopPropagation: function(){}});
-
+						dojo.on.emit(dijit.byId("ltr_popup_mi1").domNode, "click",  {
+							bubbles: true,
+							cancelable: true,
+							which: 1
+						});
 						var icon = dijit.byId("ltr_popup_mi1").iconNode;
 						var label = dijit.byId("ltr_popup_mi1").containerNode;
 						checkLeft(icon, label);
@@ -164,7 +168,11 @@
 				{
 					name: "rtl_Toolbar_nested_menu",
 					runTest: function(){
-						dijit.byId("rtl_popup_mi1")._onClick({preventDefault: function(){}, stopPropagation: function(){}});
+						dojo.on.emit(dijit.byId("rtl_popup_mi1").domNode, "click",  {
+							bubbles: true,
+							cancelable: true,
+							which: 1
+						});
 
 						var icon = dijit.byId("rtl_popup_mi1").iconNode;
 						var label = dijit.byId("rtl_popup_mi1").containerNode;

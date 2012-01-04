@@ -1,17 +1,21 @@
 define([
-	"./popup",
-	"dojo/window",
-	"./_Widget",
-	"./_KeyNavContainer",
-	"./_TemplatedMixin",
+	"dojo/_base/array",	// array.indexOf
 	"dojo/_base/declare", // declare
 	"dojo/dom", // dom.isDescendant domClass.replace
 	"dojo/dom-attr",
 	"dojo/dom-class", // domClass.replace
 	"dojo/_base/lang", // lang.hitch
-	"dojo/_base/array"	// array.indexOf
-], function(pm, winUtils, _Widget, _KeyNavContainer, _TemplatedMixin,
-	declare, dom, domAttr, domClass, lang, array){
+	"dojo/mouse",	// mouse.enter, mouse.leave
+	"dojo/on",
+	"dojo/window",
+	"./popup",
+	"./registry",
+	"./_Widget",
+	"./_KeyNavContainer",
+	"./_OnDijitClickMixin",
+	"./_TemplatedMixin"
+], function(array, declare, dom, domAttr, domClass, lang, mouse, on, winUtils,
+			pm, registry, _Widget, _KeyNavContainer, _OnDijitClickMixin, _TemplatedMixin){
 
 /*=====
 	var _Widget = dijit._Widget;
@@ -37,6 +41,23 @@ return declare("dijit._MenuBase",
 	// popupDelay: Integer
 	//		number of milliseconds before hovering (without clicking) causes the popup to automatically open.
 	popupDelay: 500,
+
+	postCreate: function(){
+		this._connects.push(
+			on(this.containerNode, on.selector(".dijitMenuItem", mouse.enter), lang.hitch(this, function(evt){
+				this.onItemHover(registry.getEnclosingWidget(evt.target));
+			})),
+			on(this.containerNode, on.selector(".dijitMenuItem", mouse.leave), lang.hitch(this, function(evt){
+				this.onItemUnhover(registry.getEnclosingWidget(evt.target));
+			})),
+			on(this.containerNode, on.selector(".dijitMenuItem", _OnDijitClickMixin.a11yclick), lang.hitch(this, function(evt){
+				this.onItemClick(registry.getEnclosingWidget(evt.target), evt);
+				evt.stopPropagation();
+				evt.preventDefault();
+			}))
+		);
+		this.inherited(arguments);
+	},
 
 	onExecute: function(){
 		// summary:
@@ -66,7 +87,7 @@ return declare("dijit._MenuBase",
 		//		private
 
 		if(this.focusedChild && this.focusedChild.popup && !this.focusedChild.disabled){
-			this.focusedChild._onClick(evt);
+			this.onItemClick(this.focusedChild, evt);
 		}else{
 			var topMenu = this._getTopMenu();
 			if(topMenu && topMenu._isMenuBar){
@@ -154,6 +175,11 @@ return declare("dijit._MenuBase",
 			this._stopPopupTimer();
 		}
 		if(this._hoveredChild == item){ this._hoveredChild = null; }
+
+		// When menu is hidden (collapsed) due to clicking a MenuItem and having it execute,
+		// FF and IE don't generate an onmouseout event for the MenuItem.
+		// So, help out _CssStateMixin in this case.
+		item._set("hovering", false);
 	},
 
 	_stopPopupTimer: function(){
@@ -222,7 +248,7 @@ return declare("dijit._MenuBase",
 			this.onExecute();
 
 			// user defined handler for click
-			item.onClick(evt);
+			item._onClick ? item._onClick(evt) : item.onClick(evt);
 		}
 	},
 
@@ -349,7 +375,7 @@ return declare("dijit._MenuBase",
 
 		if(this.focusedChild){ // unhighlight the focused item
 			this.focusedChild._setSelected(false);
-			this.focusedChild._onUnhover();
+			this.onItemUnhover(this.focusedChild);
 			this.focusedChild = null;
 		}
 	},
@@ -362,7 +388,7 @@ return declare("dijit._MenuBase",
 		//			3) being opened by a parent menu.
 		//		This is not called just from mouse hover.
 		if(this._hoveredChild && this._hoveredChild != item){
-			this._hoveredChild._onUnhover(); // any previous mouse movement is trumped by focus selection
+			this.onItemUnhover(this._hoveredChild);	// any previous mouse movement is trumped by focus selection
 		}
 	},
 
