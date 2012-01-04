@@ -428,8 +428,9 @@ define([
 			// returns: dojo.Deferred
 			//		Deferred object that resolves when the hide animation is complete
 
-			// if we haven't been initialized yet then we aren't showing and we can just return
-			if(!this._alreadyInitialized){
+			// If we haven't been initialized yet then we aren't showing and we can just return.
+			// Likewise if we are already hidden, or are currently fading out.
+			if(!this._alreadyInitialized || !this.open){
 				return;
 			}
 			if(this._fadeInDeferred){
