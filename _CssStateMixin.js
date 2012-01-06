@@ -1,11 +1,15 @@
 define([
-	"dojo/touch",
 	"dojo/_base/array", // array.forEach array.map
 	"dojo/_base/declare",	// declare
+	"dojo/dom",			// dom.isDescendant()
 	"dojo/dom-class", // domClass.toggle
 	"dojo/_base/lang", // lang.hitch
-	"dojo/_base/window" // win.body
-], function(touch, array, declare, domClass, lang, win){
+	"dojo/on",
+	"dojo/ready",
+	"dojo/touch",
+	"dojo/_base/window", // win.body
+	"dijit/registry"
+], function(array, declare, dom, domClass, lang, on, ready, touch, win, registry){
 
 // module:
 //		dijit/_CssStateMixin
@@ -13,7 +17,7 @@ define([
 //		Mixin for widgets to set CSS classes on the widget DOM nodes depending on hover/mouse press/focus
 //		state changes, and also higher-level state changes such becoming disabled or selected.
 
-return declare("dijit._CssStateMixin", [], {
+var CssStateMixin = declare("dijit._CssStateMixin", [], {
 	// summary:
 	//		Mixin for widgets to set CSS classes on the widget DOM nodes depending on hover/mouse press/focus
 	//		state changes, and also higher-level state changes such becoming disabled or selected.
@@ -50,23 +54,12 @@ return declare("dijit._CssStateMixin", [], {
 	//		True if mouse was pressed while over this widget, and hasn't been released yet
 	active: false,
 
-	// _cssStateMixinMonitorMouse: Boolean
-	//		For subclasses to disable _CssStateMixin monitoring mousedown, mouseenter, mouseleave.
-	_cssStateMixinMonitorMouse: true,
-
 	_applyAttributes: function(){
 		// This code would typically be in postCreate(), but putting in _applyAttributes() for
 		// performance: so the class changes happen before DOM is inserted into the document.
 		// Change back to postCreate() in 2.0.  See #11635.
 
 		this.inherited(arguments);
-
-		// Automatically monitor mouse events (essentially :hover and :active) on this.domNode
-		if(this._cssStateMixinMonitorMouse){
-			array.forEach(["onmouseenter", "onmouseleave", touch.press], function(e){
-				this.connect(this.domNode, e, "_cssMouseEvent");
-			}, this);
-		}
 
 		// Monitoring changes to disabled, readonly, etc. state, and update CSS class of root node
 		array.forEach(["disabled", "readOnly", "checked", "selected", "focused", "state", "hovering", "active", "_opened"], function(attr){
@@ -89,14 +82,12 @@ return declare("dijit._CssStateMixin", [], {
 
 		if(!this.disabled){
 			switch(event.type){
-				case "mouseenter":
-				case "mouseover":	// generated on non-IE browsers even though we connected to mouseenter
+				case "mouseover":
 					this._set("hovering", true);
 					this._set("active", this._mouseDown);
 					break;
 
-				case "mouseleave":
-				case "mouseout":	// generated on non-IE browsers even though we connected to mouseleave
+				case "mouseout":
 					this._set("hovering", false);
 					this._set("active", false);
 					break;
@@ -274,4 +265,37 @@ return declare("dijit._CssStateMixin", [], {
 		this.watch("readOnly", setClass);
 	}
 });
+
+ready(function(){
+	// Setup global listeners to catch hover events on widgets.
+	// Note that when the mouse is moved quickly, a single onmouseenter event could signal that multiple widgets
+	// have been hovered or unhovered (try test_Accordion.html)
+	on(win.body(), "mouseover, mouseout", function(evt){
+		//console.log(evt.type + " on ", evt.target, ", related target is ", evt.relatedTarget);
+		// Poor man's event propagation
+		var html = win.body().parentNode;
+		for(var node = evt.target; node && node != html; node = node.parentNode){
+			var widget = registry.byNode(node);
+			if(widget && widget.isInstanceOf(CssStateMixin)){
+				if(dom.isDescendant(evt.relatedTarget, widget.domNode)){
+					// If both the from-node and to-node are inside this widget, this event
+					// has no effect on hover status of this widget or it's ancestors
+					break;
+				}
+				//console.log("notify " + widget.id);
+				widget._cssMouseEvent(evt);
+			}
+		}
+	});
+
+	// Setup global listeners to catch active events on widgets.
+	on(win.body(), "mousedown, touchpress", function(evt){
+		var widget = registry.getEnclosingWidget(evt.target);
+		if(widget && widget.isInstanceOf(CssStateMixin)){
+			widget._cssMouseEvent(evt);
+		}
+	});
+});
+
+return CssStateMixin;
 });
