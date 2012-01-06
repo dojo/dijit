@@ -18,9 +18,10 @@ define([
 	"../../form/ToggleButton",
 	"../..",	// dijit._scopeName
 	"../../registry", // registry.getEnclosingWidget()
+	"dojo/aspect", // Aspect commands for adice
 	"dojo/i18n!../nls/commands"
 ], function(array, declare, domAttr, domConstruct, domGeometry, domStyle, event, i18n, keys, lang, on, has, win,
-	winUtils, focus, _Plugin, ToggleButton, dijit, registry){
+	winUtils, focus, _Plugin, ToggleButton, dijit, registry, aspect){
 
 /*=====
 	var _Plugin = dijit._editor._Plugin;
@@ -231,6 +232,12 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 					txt = this._filter(txt);
 					return txt;
 				});
+				
+				this._setListener = aspect.after(this.editor, "setValue", lang.hitch(this, function(htmlTxt){
+					htmlTxt = htmlTxt || "";
+					htmlTxt = this._filter(htmlTxt);
+					this.sourceArea.value = htmlTxt;
+				}), true);
 			}else{
 				// First check that we were in source view before doing anything.
 				// corner case for being called with a value of false and we hadn't
@@ -238,6 +245,11 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 				if(!ed._sourceQueryCommandEnabled){
 					return;
 				}
+				
+				// Remove the set listener.
+				this._setListener.remove();
+				delete this._setListener;
+				
 				this._resizeHandle.remove();
 				delete this._resizeHandle;
 
@@ -543,6 +555,10 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 		if(this._resizeHandle){
 			this._resizeHandle.remove();
 			delete this._resizeHandle;
+		}
+		if(this._setListener){
+			this._setListener.remove();
+			delete this._setListener;
 		}
 		this.inherited(arguments);
 	}
