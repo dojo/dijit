@@ -43,18 +43,19 @@ return declare("dijit._MenuBase",
 	popupDelay: 500,
 
 	postCreate: function(){
+		var self = this;
 		this._connects.push(
-			on(this.containerNode, on.selector(".dijitMenuItem", mouse.enter), lang.hitch(this, function(evt){
-				this.onItemHover(registry.getEnclosingWidget(evt.target));
-			})),
-			on(this.containerNode, on.selector(".dijitMenuItem", mouse.leave), lang.hitch(this, function(evt){
-				this.onItemUnhover(registry.getEnclosingWidget(evt.target));
-			})),
-			on(this.containerNode, on.selector(".dijitMenuItem", _OnDijitClickMixin.a11yclick), lang.hitch(this, function(evt){
-				this.onItemClick(registry.getEnclosingWidget(evt.target), evt);
+			on(this.containerNode, on.selector(".dijitMenuItem", mouse.enter), function(evt){
+				self.onItemHover(registry.byNode(this));
+			}),
+			on(this.containerNode, on.selector(".dijitMenuItem", mouse.leave), function(evt){
+				self.onItemUnhover(registry.byNode(this));
+			}),
+			on(this.containerNode, on.selector(".dijitMenuItem", _OnDijitClickMixin.a11yclick), function(evt){
+				self.onItemClick(registry.byNode(this), evt);
 				evt.stopPropagation();
 				evt.preventDefault();
-			}))
+			})
 		);
 		this.inherited(arguments);
 	},
