@@ -91,8 +91,7 @@ var TreeNode = declare(
 
 	// For hover effect for tree node, and focus effect for label
 	cssStateNodes: {
-		rowNode: "dijitTreeRow",
-		labelNode: "dijitTreeLabel"
+		rowNode: "dijitTreeRow"
 	},
 
 	// Tooltip is defined in _WidgetBase but we need to handle the mapping to DOM here

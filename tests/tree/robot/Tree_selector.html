@@ -51,14 +51,15 @@
 				doh.robot.sequence(k);
 			}
 			function keyboardSelect(tree, item, modifiers, k){
-				var focused = dojo.query("#itemTree .dijitTreeLabelFocused");
-				if(!(focused.length > 0)){
+				var curFocus = dojo.global.dijit._curFocus,
+					focused = dojo.isDescendant(curFocus, "itemTree");
+				if(!focused){
 					doh.robot.keyPress(dojo.keys.TAB, 250);
 					doh.robot.sequence(function(){ keyboardSelect(tree, item, modifiers, k); }, 250);
 					return;
 				}
 				
-				focused_node = focused[0].parentNode.parentNode.parentNode;
+				focused_node = curFocus.parentNode.parentNode.parentNode;
 				var diff = dojo.position(item.domNode).y - dojo.position(focused_node).y;
 				if(diff != 0){
 					if(diff > 0){
@@ -215,7 +216,7 @@
 							name: "select/deselect a single item",
 							timeout: 15000,
 							runTest: function(){ return testSingleItem(selector, clicker); }
-						}, 
+						},
 						{
 							name: "ctrl select",
 							timeout: 15000,
