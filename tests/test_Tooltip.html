@@ -230,15 +230,21 @@
 
 	<span id="t_tooltip" data-dojo-type="dijit.Tooltip" data-dojo-props='connectId:["t1","t3"]'>Dynamic target tooltip</span>
 
-	<h3>Nested div test</h3>
-	<div id="nested" style="margin: 0px 100px; width: 300px;background-color: yellow">
-		Mouse over the inner blue div should show the tooltip on this outer yellow div.
-		<div style="width: 100px; height: 100px; background-color: blue; color: white;">
-			inner blue div
+	<h3>Nested div test:</h3>
+	<div dir="ltr" style="margin: 0px 100px;">
+		<input id="inputBeforeNested" value="before">
+		<div id="nested" style="width: 300px;background-color: yellow">
+			Mouse over the inner blue div should show the tooltip on this outer yellow div.
+			<div style="width: 100px; height: 100px; background-color: blue; color: white;">
+				inner blue div
+			</div>
+			Likewise, focusing the input should put the tooltip on the outer yellow div
+			<br>
+			<input id="nestedInput" value="focus me">
 		</div>
+		<span id="nested_tooltip" data-dojo-type="dijit.Tooltip" data-dojo-props='connectId:"nested"'>
+			Tooltip on yellow outer div
+		</span>
 	</div>
-	<span id="nested_tooltip" data-dojo-type="dijit.Tooltip" data-dojo-props='connectId:"nested"'>
-		Tooltip on yellow outer div
-	</span>
 </body>
 </html>

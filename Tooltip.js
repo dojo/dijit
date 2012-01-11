@@ -323,11 +323,11 @@ define([
 					this.connect(node, "onmouseenter", function(evt){
 						this._onHover(node, evt);
 					}),
-					this.connect(node, "onfocus", function(evt){
+					this.connect(node, "onfocusin", function(evt){
 						this._onHover(node, evt);
 					}),
 					this.connect(node, "onmouseleave", "_onUnHover"),
-					this.connect(node, "onblur", "_onUnHover")
+					this.connect(node, "onfocusout", "_onUnHover")
 				];
 			}, this);
 
