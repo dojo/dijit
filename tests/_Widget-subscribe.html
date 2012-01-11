@@ -18,7 +18,7 @@
 			var externalString = "";
 			var internalSubscribe = null;
 	
-			dojo.declare("dijit.MyWidget", dijit._Widget, {
+			dojo.declare("MyWidget", dijit._Widget, {
 				_subscribeHandlerInternal: function(){ numCallsInternal++; }
 			});
 
@@ -97,6 +97,6 @@
 	</script>
 </head>
 <body class="claro">
-	<div id="widget1" data-dojo-type="dijit.MyWidget"></div>
+	<div id="widget1" data-dojo-type="MyWidget"></div>
 </body>
 </html>
