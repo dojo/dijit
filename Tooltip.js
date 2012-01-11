@@ -320,9 +320,13 @@ define([
 			this._connections = array.map(this._connectIds, function(id){
 				var node = dom.byId(id);
 				return [
-					this.connect(node, "onmouseenter", "_onHover"),
+					this.connect(node, "onmouseenter", function(evt){
+						this._onHover(node, evt);
+					}),
+					this.connect(node, "onfocus", function(evt){
+						this._onHover(node, evt);
+					}),
 					this.connect(node, "onmouseleave", "_onUnHover"),
-					this.connect(node, "onfocus", "_onHover"),
 					this.connect(node, "onblur", "_onUnHover")
 				];
 			}, this);
@@ -371,19 +375,18 @@ define([
 			array.forEach(lang.isArrayLike(ids) ? ids : [ids], this.addTarget, this);
 		},
 
-		_onHover: function(/*Event*/ e){
+		_onHover: function(/*DomNode*/ target, /*Event*/ e){
 			// summary:
 			//		Despite the name of this method, it actually handles both hover and focus
 			//		events on the target node, setting a timer to show the tooltip.
 			// tags:
 			//		private
 			if(!this._showTimer){
-				var target = e.target;
 				this._showTimer = setTimeout(lang.hitch(this, function(){this.open(target)}), this.showDelay);
 			}
 		},
 
-		_onUnHover: function(/*Event*/ /*===== e =====*/){
+		_onUnHover: function(){
 			// summary:
 			//		Despite the name of this method, it actually handles both mouseleave and blur
 			//		events on the target node, hiding the tooltip.

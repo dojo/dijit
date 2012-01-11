@@ -148,6 +148,34 @@
 					}
 				]);
 
+				doh.register("Mouse over nested div", [
+					{
+						name: "mouse over nested div",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// Start with mouse to the left of the nested divs
+							doh.robot.mouseMoveAt("nested", 500, 0, -50, 0);
+
+							// Then move to inner div.   The onmouseenter event will occur with evt.target == inner div
+							doh.robot.mouseMoveAt("nested", 500, 0);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(masterTT && isVisible(masterTT.domNode), "tooltip shown");
+
+								var tooltipPos = dojo.position(masterTT.domNode),
+									anchorPos = dojo.position("nested");
+								doh.t(tooltipPos.x >= anchorPos.x + anchorPos.w,
+										"tooltip pos " + tooltipPos.x + " > anchor right edge at " +
+												anchorPos.x + " + " + anchorPos.w);
+							}), 500);
+
+							return d;
+						}
+					}
+				]);
+
 				doh.run();
 			});
 		</script>
