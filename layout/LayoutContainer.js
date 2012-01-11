@@ -51,10 +51,10 @@ return declare("dijit.layout.LayoutContainer", _LayoutWidget, {
 	// |	<style>
 	// |		html, body{ height: 100%; width: 100%; }
 	// |	</style>
-	// |	<div data-dojo-type="dijit.layout.LayoutContainer" style="width: 100%; height: 100%">
-	// |		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="layoutAlign: 'top'">header text</div>
-	// |		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="layoutAlign: 'left'" style="width: 200px;">table of contents</div>
-	// |		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="layoutAlign: 'client'">client area</div>
+	// |	<div data-dojo-type="dijit/layout/LayoutContainer" style="width: 100%; height: 100%">
+	// |		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="layoutAlign: 'top'">header text</div>
+	// |		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="layoutAlign: 'left'" style="width: 200px;">table of contents</div>
+	// |		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="layoutAlign: 'client'">client area</div>
 	// |	</div>
 	//
 	//		Lays out each child in the natural order the children occur in.

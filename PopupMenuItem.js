@@ -29,7 +29,7 @@ define([
 			//		srcNodeRefinnerHTML contains both the menu item text and a popup widget
 			//		The first part holds the menu item text and the second part is the popup
 			// example:
-			// |	<div data-dojo-type="dijit.PopupMenuItem">
+			// |	<div data-dojo-type="dijit/PopupMenuItem">
 			// |		<span>pick me</span>
 			// |		<popup> ... </popup>
 			// |	</div>

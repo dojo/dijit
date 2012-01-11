@@ -125,7 +125,7 @@ return declare("dijit.layout.ContentPane", [_Widget, _ContentPaneResizeMixin], {
 
 	// ioArgs: Object
 	//		Parameters to pass to xhrGet() request, for example:
-	// |	<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="href: './bar', ioArgs: {timeout: 500}">
+	// |	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="href: './bar', ioArgs: {timeout: 500}">
 	ioArgs: {},
 
 	// onLoadDeferred: [readonly] dojo.Deferred

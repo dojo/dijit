@@ -46,11 +46,11 @@ return declare("dijit.TitlePane", [ContentPane, _TemplatedMixin, _CssStateMixin]
 	//
 	// example:
 	// |	<!-- markup href example: -->
-	// |	<div data-dojo-type="dijit.TitlePane" data-dojo-props="href: 'foobar.html', title: 'Title'"></div>
+	// |	<div data-dojo-type="dijit/TitlePane" data-dojo-props="href: 'foobar.html', title: 'Title'"></div>
 	//
 	// example:
 	// |	<!-- markup with inline data -->
-	// | 	<div data-dojo-type="dijit.TitlePane" title="Title">
+	// | 	<div data-dojo-type="dijit/TitlePane" title="Title">
 	// |		<p>I am content</p>
 	// |	</div>
 

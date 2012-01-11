@@ -36,7 +36,7 @@ return declare("dijit.form.Button", [_FormWidget, _ButtonMixin], {
 	//		A label should always be specified (through innerHTML) or the label
 	//		attribute.  It can be hidden via showLabel=false.
 	// example:
-	// |	<button data-dojo-type="dijit.form.Button" onClick="...">Hello world</button>
+	// |	<button data-dojo-type="dijit/form/Button" onClick="...">Hello world</button>
 	//
 	// example:
 	// |	var button1 = new dijit.form.Button({label: "hello world", onClick: foo});

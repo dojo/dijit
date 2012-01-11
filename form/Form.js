@@ -28,7 +28,7 @@ define([
 		//		Widget corresponding to HTML form tag, for validation and serialization
 		//
 		// example:
-		//	|	<form data-dojo-type="dijit.form.Form" id="myForm">
+		//	|	<form data-dojo-type="dijit/form/Form" id="myForm">
 		//	|		Name: <input type="text" name="name" />
 		//	|	</form>
 		//	|	myObj = {name: "John Doe"};

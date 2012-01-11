@@ -218,9 +218,9 @@
 
     </head>
 	    <body class=" claro ">
-        <div data-dojo-type="dojo.data.ItemFileReadStore" data-dojo-id="continentStore" data-dojo-props='url:"../../../../dijit/tests/_BidiSupport/_data/countriesHeb.json"'>
+        <div data-dojo-type="dojo/data/ItemFileReadStore" data-dojo-id="continentStore" data-dojo-props='url:"../../../../dijit/tests/_BidiSupport/_data/countriesHeb.json"'>
         </div>
-	<div data-dojo-id="continentModel" data-dojo-type="dijit.tree.ForestStoreModel" data-dojo-props='store:continentStore, query:{type:"continent"},
+	<div data-dojo-id="continentModel" data-dojo-type="dijit/tree/ForestStoreModel" data-dojo-props='store:continentStore, query:{type:"continent"},
 		rootId:"continentRoot", rootLabel:"Continents!", childrenAttrs:["children"]'></div>
 		
 		<table>
@@ -228,7 +228,7 @@
 					<label for="treeAuto" >
 						<b>  I'm a Contextual Tree   </b>
 					</label>
-					<div data-dojo-type="dijit.Tree" id="treeAuto" data-dojo-props='model:continentModel, openOnClick:true, textDir:"auto"'>
+					<div data-dojo-type="dijit/Tree" id="treeAuto" data-dojo-props='model:continentModel, openOnClick:true, textDir:"auto"'>
 					</div>
 				</td>
 				<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
@@ -236,7 +236,7 @@
 					<label for="treeLtr" >
 						<b>  I'm a LTR Tree   </b>
 					</label>
-					<div data-dojo-type="dijit.Tree" id="treeLtr" data-dojo-props='model:continentModel, openOnClick:true, textDir:"ltr"'>
+					<div data-dojo-type="dijit/Tree" id="treeLtr" data-dojo-props='model:continentModel, openOnClick:true, textDir:"ltr"'>
 					</div>
 				</td>	
 				<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
@@ -244,7 +244,7 @@
 					<label for="treeRtl" >
 						<b>  I'm a RTL Tree   </b>
 					</label>
-					<div data-dojo-type="dijit.Tree" id="treeRtl" data-dojo-props='model:continentModel, openOnClick:true, textDir:"rtl"'>
+					<div data-dojo-type="dijit/Tree" id="treeRtl" data-dojo-props='model:continentModel, openOnClick:true, textDir:"rtl"'>
 					</div>
 				</td>
 			</tr>

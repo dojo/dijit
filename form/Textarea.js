@@ -28,7 +28,7 @@ return declare("dijit.form.Textarea", [SimpleTextarea, _ExpandingTextAreaMixin],
 	//		Rows is not supported since this widget adjusts the height.
 	//
 	// example:
-	// |	<textarea data-dojo-type="dijit.form.TextArea">...</textarea>
+	// |	<textarea data-dojo-type="dijit/form/TextArea">...</textarea>
 
 
 	// TODO: for 2.0, rename this to ExpandingTextArea, and rename SimpleTextarea to TextArea

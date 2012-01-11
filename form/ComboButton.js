@@ -23,9 +23,9 @@ return declare("dijit.form.ComboButton", DropDownButton, {
 	//		icon to display the drop down.
 	//
 	// example:
-	// |	<button data-dojo-type="dijit.form.ComboButton" onClick="...">
+	// |	<button data-dojo-type="dijit/form/ComboButton" onClick="...">
 	// |		<span>Hello world</span>
-	// |		<div data-dojo-type="dijit.Menu">...</div>
+	// |		<div data-dojo-type="dijit/Menu">...</div>
 	// |	</button>
 	//
 	// example:

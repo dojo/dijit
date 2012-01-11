@@ -34,7 +34,7 @@ return declare("dijit._editor.plugins.AlwaysShowToolbar", _Plugin, {
 	//		Specify this in extraPlugins (or plugins) parameter and also set
 	//		height to "".
 	// example:
-	//	|	<div data-dojo-type="dijit.Editor" height=""
+	//	|	<div data-dojo-type="dijit/Editor" height=""
 	//	|	data-dojo-props="extraPlugins: [dijit._editor.plugins.AlwaysShowToolbar]">
 
 	// _handleScroll: Boolean

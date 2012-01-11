@@ -62,7 +62,7 @@ define([
 			//		when passed a boolean, controls whether or not the CheckBox is checked.
 			//		If passed a string, changes the value attribute of the CheckBox (the one
 			//		specified as "value" when the CheckBox was constructed (ex: <input
-			//		data-dojo-type="dijit.CheckBox" value="chicken">)
+			//		data-dojo-type="dijit/CheckBox" value="chicken">)
 			//		widget.set('value', string) will check the checkbox and change the value to the
 			//		specified string
 			//		widget.set('value', boolean) will change the checked state.

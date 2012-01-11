@@ -40,8 +40,8 @@
 
 	<h1 class="testTitle">Dijit Tree Test</h1>
 
-	<div data-dojo-id="continentStore" data-dojo-type="dojo.data.ItemFileReadStore" data-dojo-props='url:"../_data/countries.json"'></div>
-	<div data-dojo-id="continentModel" data-dojo-type="dijit.tree.ForestStoreModel" data-dojo-props='store:continentStore, query:{type:"continent"},
+	<div data-dojo-id="continentStore" data-dojo-type="dojo/data/ItemFileReadStore" data-dojo-props='url:"../_data/countries.json"'></div>
+	<div data-dojo-id="continentModel" data-dojo-type="dijit/tree/ForestStoreModel" data-dojo-props='store:continentStore, query:{type:"continent"},
 		rootId:"continentRoot", rootLabel:"Continents", childrenAttrs:["children"]'></div>
 
 	<h2>Tree with hardcoded root node (not corresponding to any item in the store)</h2>
@@ -49,7 +49,7 @@
 		Clicking a folder node will open/close it (openOnclick==true),
 		and clicking a leaf node will log a message to the console.
 	</p>
-	<div id="mytree" data-dojo-type="dijit.Tree" data-dojo-props='model:continentModel, openOnClick:true, onLoad:function(){ console.log("loaded mytree (first tree)"); }'>
+	<div id="mytree" data-dojo-type="dijit/Tree" data-dojo-props='model:continentModel, openOnClick:true, onLoad:function(){ console.log("loaded mytree (first tree)"); }'>
 		<script type="dojo/method" data-dojo-event="onClick" data-dojo-args="item">
 			console.log("Execute of node " + continentStore.getLabel(item)
 				+", population=" + continentStore.getValue(item, "population"));
@@ -66,39 +66,39 @@
 
 	<h2>A rootless tree (no "continents" node) with context menus, and custom icons</h2>
 
-	<ul id="tree_menu" data-dojo-type="dijit.Menu" data-dojo-props='style:"display: none;"'>
-		<li data-dojo-type="dijit.MenuItem" data-dojo-props='onClick:function(){ console.log("Hello world"); }'>Enabled Item</li>
-		<li data-dojo-type="dijit.MenuItem" data-dojo-props='disabled:true'>Disabled Item</li>
-		<li data-dojo-type="dijit.MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconCut",
+	<ul id="tree_menu" data-dojo-type="dijit/Menu" data-dojo-props='style:"display: none;"'>
+		<li data-dojo-type="dijit/MenuItem" data-dojo-props='onClick:function(){ console.log("Hello world"); }'>Enabled Item</li>
+		<li data-dojo-type="dijit/MenuItem" data-dojo-props='disabled:true'>Disabled Item</li>
+		<li data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconCut",
 			onClick:function(){ console.log("not actually cutting anything, just a test!") }'>Cut</li>
-		<li data-dojo-type="dijit.MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconCopy",
+		<li data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconCopy",
 			onClick:function(){ console.log("not actually copying anything, just a test!") }'>Copy</li>
-		<li data-dojo-type="dijit.MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconPaste",
+		<li data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconPaste",
 			onClick:function(){ console.log("not actually pasting anything, just a test!") }'>Paste</li>
-		<li data-dojo-type="dijit.PopupMenuItem">
+		<li data-dojo-type="dijit/PopupMenuItem">
 			<span>Enabled Submenu</span>
-			<ul id="submenu2" data-dojo-type="dijit.Menu" >
-				<li data-dojo-type="dijit.MenuItem" data-dojo-props='onClick:function(){ console.log("Submenu 1!") }'>Submenu Item One</li>
-				<li data-dojo-type="dijit.MenuItem" data-dojo-props='onClick:function(){ console.log("Submenu 2!") }'>Submenu Item Two</li>
-				<li data-dojo-type="dijit.PopupMenuItem">
+			<ul id="submenu2" data-dojo-type="dijit/Menu" >
+				<li data-dojo-type="dijit/MenuItem" data-dojo-props='onClick:function(){ console.log("Submenu 1!") }'>Submenu Item One</li>
+				<li data-dojo-type="dijit/MenuItem" data-dojo-props='onClick:function(){ console.log("Submenu 2!") }'>Submenu Item Two</li>
+				<li data-dojo-type="dijit/PopupMenuItem">
 					<span>Deeper Submenu</span>
-					<ul id="submenu4" data-dojo-type="dijit.Menu" >
-						<li data-dojo-type="dijit.MenuItem" data-dojo-props='onClick:function(){ console.log("Sub-submenu 1!") }'>Sub-sub-menu Item One</li>
-						<li data-dojo-type="dijit.MenuItem" data-dojo-props='onClick:function(){ console.log("Sub-submenu 2!") }'>Sub-sub-menu Item Two</li>
+					<ul id="submenu4" data-dojo-type="dijit/Menu" >
+						<li data-dojo-type="dijit/MenuItem" data-dojo-props='onClick:function(){ console.log("Sub-submenu 1!") }'>Sub-sub-menu Item One</li>
+						<li data-dojo-type="dijit/MenuItem" data-dojo-props='onClick:function(){ console.log("Sub-submenu 2!") }'>Sub-sub-menu Item Two</li>
 					</ul>
 				</li>
 			</ul>
 		</li>
-		<li data-dojo-type="dijit.PopupMenuItem" data-dojo-props='disabled:true'>
+		<li data-dojo-type="dijit/PopupMenuItem" data-dojo-props='disabled:true'>
 			<span>Disabled Submenu</span>
-			<ul id="submenu3" data-dojo-type="dijit.Menu" data-dojo-props='style:"display: none;"'>
-				<li data-dojo-type="dijit.MenuItem" data-dojo-props='onClick:function(){ console.log("Submenu 1!") }'>Submenu Item One</li>
-				<li data-dojo-type="dijit.MenuItem" data-dojo-props='onClick:function(){ console.log("Submenu 2!") }'>Submenu Item Two</li>
+			<ul id="submenu3" data-dojo-type="dijit/Menu" data-dojo-props='style:"display: none;"'>
+				<li data-dojo-type="dijit/MenuItem" data-dojo-props='onClick:function(){ console.log("Submenu 1!") }'>Submenu Item One</li>
+				<li data-dojo-type="dijit/MenuItem" data-dojo-props='onClick:function(){ console.log("Submenu 2!") }'>Submenu Item Two</li>
 			</ul>
 		</li>
 	</ul>
 
-	<div id="tree2" data-dojo-type="dijit.Tree" data-dojo-props='model:continentModel, showRoot:false, openOnClick:true,onLoad:function(){ console.log("loaded tree2 (second tree)"); }'>
+	<div id="tree2" data-dojo-type="dijit/Tree" data-dojo-props='model:continentModel, showRoot:false, openOnClick:true,onLoad:function(){ console.log("loaded tree2 (second tree)"); }'>
 
 		<script type="dojo/connect">
 			var menu = dijit.byId("tree_menu");
@@ -137,7 +137,7 @@
 		Double-Clicking a folder node will open/close it (openOnDblClick==true),
 		and clicking or Double Clicking a leaf node will log a message to the console.
 	</p>
-	<div id="mytree3" data-dojo-type="dijit.Tree" data-dojo-props='store:continentStore, query:{type:"continent"},
+	<div id="mytree3" data-dojo-type="dijit/Tree" data-dojo-props='store:continentStore, query:{type:"continent"},
 		label:"Continents", openOnClick:false, openOnDblClick:true,
 		autoExpand:true, onLoad:function(){ console.log("loaded mytree3 (third tree)"); }'>
 		<script type="dojo/method" data-dojo-event="getLabelStyle" data-dojo-args="item,opened">

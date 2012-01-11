@@ -203,8 +203,8 @@
 
 	<h1 class="testTitle">Dijit Tree Test</h1>
 
-	<div data-dojo-id="continentStore" data-dojo-type="dojo.data.ItemFileReadStore" data-dojo-props='url:"../../../../dijit/tests/_BidiSupport/_data/countriesHeb.json"'></div>
-	<div data-dojo-id="continentModel" data-dojo-type="dijit.tree.ForestStoreModel" data-dojo-props='store:continentStore, query:{type:"continent"},
+	<div data-dojo-id="continentStore" data-dojo-type="dojo/data/ItemFileReadStore" data-dojo-props='url:"../../../../dijit/tests/_BidiSupport/_data/countriesHeb.json"'></div>
+	<div data-dojo-id="continentModel" data-dojo-type="dijit/tree/ForestStoreModel" data-dojo-props='store:continentStore, query:{type:"continent"},
 		rootId:"continentRoot", rootLabel:"Continents!", childrenAttrs:["children"]'></div>
 	
 		<table>
@@ -212,7 +212,7 @@
 				<td>
 					<h2>A rootless tree (no "continents" node) with custom icons</h2>
 
-					<div id="treeRootless" data-dojo-type="dijit.Tree" data-dojo-props='textDir:"rtl",model:continentModel, showRoot:false, openOnClick:true'>
+					<div id="treeRootless" data-dojo-type="dijit/Tree" data-dojo-props='textDir:"rtl",model:continentModel, showRoot:false, openOnClick:true'>
 
 						<script type="dojo/method" data-dojo-event="getIconClass" data-dojo-args="item, opened">
 						   return (item == this.model.root || continentStore.getValue(item, "type") == "continent") ?
@@ -223,7 +223,7 @@
 				</td>
 				<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
 				<td>
-					<div id="treeCustIcons" data-dojo-type="dijit.Tree" data-dojo-props='textDir:"auto",store:continentStore, query:{type:"continent"},
+					<div id="treeCustIcons" data-dojo-type="dijit/Tree" data-dojo-props='textDir:"auto",store:continentStore, query:{type:"continent"},
 						label:"Continents!", openOnClick:false, openOnDblClick:true,
 						autoExpand:true'>
 						<script type="dojo/method" data-dojo-event="getLabelStyle" data-dojo-args="item,opened">

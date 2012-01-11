@@ -46,7 +46,7 @@ define([
 		//	|	var calendar = new dijit.CalendarLite({}, dojo.byId("calendarNode"));
 		//
 		// example:
-		//	|	<div data-dojo-type="dijit.CalendarLite"></div>
+		//	|	<div data-dojo-type="dijit/CalendarLite"></div>
 
 		// Template for main calendar
 		templateString: template,
