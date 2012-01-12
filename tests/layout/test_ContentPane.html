@@ -44,7 +44,7 @@
 		dojo.ready(function(){
 
 			// create a do nothing, only for test widget
-			dojo.declare("dijit.TestWidget",
+			dojo.declare("TestWidget",
 				[dijit._Widget, dijit._TemplatedMixin], {
 				templateString: "<span class='dojoxTestWidget'></span>"
 			});
@@ -130,7 +130,7 @@
 					console.log("basicChecks: " + this.name);
 
 					// manually stick a widget into the ContentPane
-					var manualWidget = new dijit.TestWidget({id: "destroyTestWidget"});
+					var manualWidget = new TestWidget({id: "destroyTestWidget"});
 					dojo.place(manualWidget.domNode, dialogCtrPane.domNode, "last");
 
 					// make sure widget created via get('content') and also the above widget are there
@@ -209,7 +209,7 @@
 			Some Content Here
 		</div>
 		<div id='dialogContainer' data-dojo-type="dijit/layout/ContentPane" data-dojo-props='"class":"box" '>
-			<div id="parserTest" data-dojo-type="dijit/TestWidget" ></div>
+			<div id="parserTest" data-dojo-type="TestWidget" ></div>
 		</div>
 	</body>
 </html>
