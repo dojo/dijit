@@ -303,10 +303,8 @@ return declare("dijit.layout.ContentPane", [_Widget, _ContentPaneResizeMixin], {
 		this.onLoadDeferred = null;
 	},
 
-	uninitialize: function(){
-		if(this._beingDestroyed){
-			this.cancel();
-		}
+	destroy: function(){
+		this.cancel();
 		this.inherited(arguments);
 	},
 

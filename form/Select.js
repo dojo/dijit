@@ -321,7 +321,7 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 		}
 	},
 
-	uninitialize: function(preserveDom){
+	destroy: function(preserveDom){
 		if(this.dropDown && !this.dropDown._destroyed){
 			this.dropDown.destroyRecursive(preserveDom);
 			delete this.dropDown;

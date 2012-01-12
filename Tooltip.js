@@ -453,7 +453,7 @@ define([
 			//		callback
 		},
 
-		uninitialize: function(){
+		destroy: function(){
 			this.close();
 			this.inherited(arguments);
 		}

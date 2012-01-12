@@ -312,7 +312,7 @@ return declare("dijit.Menu", DropDownMenu, {
 		};
 	},
 
-	uninitialize: function(){
+	destroy: function(){
  		array.forEach(this._bindings, function(b){ if(b){ this.unBindDomNode(b.node); } }, this);
  		this.inherited(arguments);
 	}

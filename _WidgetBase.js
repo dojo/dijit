@@ -573,7 +573,7 @@ return declare("dijit._WidgetBase", Stateful, {
 
 	uninitialize: function(){
 		// summary:
-		//		Stub function. Override to implement custom widget tear-down
+		//		Deprecated. Override destroy() instead to implement custom widget tear-down
 		//		behavior.
 		// tags:
 		//		protected
