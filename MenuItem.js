@@ -4,7 +4,7 @@ define([
 	"dojo/dom-attr", // domAttr.set
 	"dojo/dom-class", // domClass.toggle
 	"dojo/_base/kernel", // kernel.deprecated
-	"dojo/_base/sniff", // has("ie")
+	"dojo/sniff", // has("ie")
 	"./_Widget",
 	"./_TemplatedMixin",
 	"./_Contained",

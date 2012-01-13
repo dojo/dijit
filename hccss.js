@@ -5,7 +5,7 @@ define([
 	"dojo/dom-construct", // domClass.add domConstruct.create domStyle.getComputedStyle
 	"dojo/dom-style", // domClass.add domConstruct.create domStyle.getComputedStyle
 	"dojo/ready", // ready
-	"dojo/_base/sniff", // has("ie") has("mozilla")
+	"dojo/sniff", // has("ie") has("mozilla")
 	"dojo/_base/window" // win.body
 ], function(require, config, domClass, domConstruct, domStyle, ready, has, win){
 

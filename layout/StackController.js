@@ -4,7 +4,7 @@ define([
 	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys
 	"dojo/_base/lang", // lang.getObject
-	"dojo/_base/sniff", // has("ie")
+	"dojo/sniff", // has("ie")
 	"../focus",		// focus.focus()
 	"../registry",	// registry.byId
 	"../_Widget",

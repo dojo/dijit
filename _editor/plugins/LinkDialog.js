@@ -4,7 +4,7 @@ define([
 	"dojo/dom-attr", // domAttr.get
 	"dojo/keys", // keys.ENTER
 	"dojo/_base/lang", // lang.delegate lang.hitch lang.trim
-	"dojo/_base/sniff", // has("ie")
+	"dojo/sniff", // has("ie")
 	"dojo/_base/query", // query
 	"dojo/string", // string.substitute
 	"dojo/_base/window", // win.withGlobal

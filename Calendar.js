@@ -9,7 +9,7 @@ define([
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/keys", // keys
 	"dojo/_base/lang", // lang.hitch
-	"dojo/_base/sniff", // has("ie")
+	"dojo/sniff", // has("ie")
 	"./CalendarLite",
 	"./_Widget",
 	"./_CssStateMixin",

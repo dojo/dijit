@@ -1,7 +1,7 @@
 define([
 	"dojo/_base/declare", // declare
 	"dojo/dom-class", // domClass.add
-	"dojo/_base/sniff", // has("ie") has("opera")
+	"dojo/sniff", // has("ie") has("opera")
 	"dojo/_base/window", // win.doc.selection win.doc.selection.createRange
 	"./TextBox"
 ], function(declare, domClass, has, win, TextBox){

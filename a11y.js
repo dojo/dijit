@@ -5,7 +5,7 @@ define([
 	"dojo/dom",			// dom.byId
 	"dojo/dom-attr", // domAttr.attr domAttr.has
 	"dojo/dom-style", // style.style
-	"dojo/_base/sniff", // has("ie")
+	"dojo/sniff", // has("ie")
 	"."	// for exporting methods to dijit namespace
 ], function(array, config, declare, dom, domAttr, domStyle, has, dijit){
 

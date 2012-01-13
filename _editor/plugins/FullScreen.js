@@ -9,7 +9,7 @@ define([
 	"dojo/keys", // keys.F11 keys.TAB
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on", // on()
-	"dojo/_base/sniff", // has("ie"), has("quirks")
+	"dojo/sniff", // has("ie"), has("quirks")
 	"dojo/_base/window", // win.body
 	"dojo/window", // winUtils.getBox winUtils.scrollIntoView
 	"../../focus",			// focus.focus(), focus.curNode

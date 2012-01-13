@@ -12,7 +12,7 @@ define([
 	"dojo/keys",
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on",
-	"dojo/_base/sniff", // has("ie") has("mozilla")
+	"dojo/sniff", // has("ie") has("mozilla")
 	"dojo/_base/window", // win.body
 	"./place",
 	"./BackgroundIframe",

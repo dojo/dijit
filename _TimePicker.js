@@ -10,7 +10,7 @@ define([
 	"dojo/_base/kernel", // deprecated
 	"dojo/keys", // keys
 	"dojo/_base/lang", // lang.mixin
-	"dojo/_base/sniff", // has("ie")
+	"dojo/sniff", // has("ie")
 	"dojo/query", // query
 	"dijit/typematic",
 	"./_Widget",

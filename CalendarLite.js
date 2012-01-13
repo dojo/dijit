@@ -9,7 +9,7 @@ define([
 	"dojo/dom-class", // domClass.contains
 	"dojo/_base/event", // event.stop
 	"dojo/_base/lang", // lang.getObject, lang.hitch
-	"dojo/_base/sniff", // has("ie") has("webkit")
+	"dojo/sniff", // has("ie") has("webkit")
 	"dojo/string", // string.substitute
 	"dojo/_base/window", // win.doc.createTextNode
 	"./_WidgetBase",

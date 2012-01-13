@@ -10,7 +10,7 @@ define([
 	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys.F1 keys.F15 keys.TAB
 	"dojo/_base/lang", // lang.getObject lang.hitch
-	"dojo/_base/sniff", // has("ie") has("mac") has("webkit")
+	"dojo/sniff", // has("ie") has("mac") has("webkit")
 	"dojo/string", // string.substitute
 	"dojo/topic", // topic.publish()
 	"dojo/_base/window", // win.withGlobal

@@ -11,7 +11,7 @@ define([
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/keys", // keys.ENTER keys.ESCAPE
 	"dojo/_base/lang", // lang.getObject
-	"dojo/_base/sniff", // has("ie")
+	"dojo/sniff", // has("ie")
 	"./focus",
 	"./_Widget",
 	"./_TemplatedMixin",

@@ -4,7 +4,7 @@ define([
 	"dojo/dom-style", // domStyle.getComputedStyle
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/lang", // lang.hitch
-	"dojo/_base/sniff", // has("ie") has("mozilla")
+	"dojo/sniff", // has("ie") has("mozilla")
 	"dojo/_base/window", // win.doc.selection.createRange
 	"./_FormValueWidget",
 	"./_TextBoxMixin",

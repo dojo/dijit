@@ -12,7 +12,7 @@ define([
 	"dojo/_base/kernel",
 	"dojo/keys", // keys
 	"dojo/_base/lang", // lang.getObject lang.hitch
-	"dojo/_base/sniff", // has("ie")
+	"dojo/sniff", // has("ie")
 	"dojo/topic", // publish
 	"../focus",			// focus.focus()
 	"../_base/manager",	// manager.defaultDuration

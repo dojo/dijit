@@ -6,7 +6,7 @@ define([
 	"dojo/dom-style", // domStyle.set
 	"dojo/_base/lang", // lang.extend lang.hitch
 	"dojo/on",
-	"dojo/_base/sniff", // has("ie"), has("mozilla"), has("quirks")
+	"dojo/sniff", // has("ie"), has("mozilla"), has("quirks")
 	"dojo/_base/window" // win.doc.createElement
 ], function(require, dijit, config, domConstruct, domStyle, lang, on, has, win){
 

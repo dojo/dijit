@@ -11,7 +11,7 @@ define([
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/lang", // lang.extend lang.hitch
 	"dojo/on",
-	"dojo/_base/sniff", // has("mozilla")
+	"dojo/sniff", // has("mozilla")
 	"dojo/_base/window", // win.doc.createElement win.doc.documentElement
 	"../registry",	// registry.getUniqueId()
 	"../_WidgetBase",

@@ -1,6 +1,6 @@
 define([
 	"dojo/_base/lang", // lang.isString
-	"dojo/_base/sniff" // has("ie")
+	"dojo/sniff" // has("ie")
 ], function(lang, has){
 
 // module:

@@ -2,7 +2,7 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/i18n", // i18n.getLocalization
 	"dojo/_base/lang", // lang.hitch
-	"dojo/_base/sniff", // has("chrome") has("opera")
+	"dojo/sniff", // has("chrome") has("opera")
 	"../../focus",		// focus.focus()
 	"../_Plugin",
 	"../../form/Button",

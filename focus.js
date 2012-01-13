@@ -8,7 +8,7 @@ define([
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on",
 	"dojo/ready",
-	"dojo/_base/sniff", // has("ie")
+	"dojo/sniff", // has("ie")
 	"dojo/Stateful",
 	"dojo/_base/unload", // unload.addOnWindowUnload
 	"dojo/_base/window", // win.body

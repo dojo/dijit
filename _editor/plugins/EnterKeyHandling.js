@@ -4,7 +4,7 @@ define([
 	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys.ENTER
 	"dojo/_base/lang",
-	"dojo/_base/sniff", // has("ie") has("mozilla") has("webkit")
+	"dojo/sniff", // has("ie") has("mozilla") has("webkit")
 	"dojo/_base/window", // win.global win.withGlobal
 	"dojo/window", // winUtils.scrollIntoView
 	"../_Plugin",

@@ -2,7 +2,7 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/dom-attr", // domAttr.set
 	"dojo/keys", // keys.ESCAPE
-	"dojo/_base/sniff", // has("ie"), has("quirks")
+	"dojo/sniff", // has("ie"), has("quirks")
 	"./_FormWidgetMixin"
 ], function(declare, domAttr, keys, has, _FormWidgetMixin){
 

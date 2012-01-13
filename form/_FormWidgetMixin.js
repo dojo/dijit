@@ -5,7 +5,7 @@ define([
 	"dojo/dom-style", // domStyle.get
 	"dojo/_base/lang", // lang.hitch lang.isArray
 	"dojo/mouse", // mouse.isLeft
-	"dojo/_base/sniff", // has("webkit")
+	"dojo/sniff", // has("webkit")
 	"dojo/_base/window", // win.body
 	"dojo/window", // winUtils.scrollIntoView
 	"../a11y"	// a11y.hasDefaultTabStop

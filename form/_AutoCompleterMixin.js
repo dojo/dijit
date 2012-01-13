@@ -1,5 +1,4 @@
 define([
-	"dojo/_base/connect", // keys keys.SHIFT
 	"dojo/data/util/filter", // patternToRegExp
 	"dojo/_base/declare", // declare
 	"dojo/_base/Deferred", // Deferred.when
@@ -9,13 +8,13 @@ define([
 	"dojo/_base/lang", // lang.clone lang.hitch
 	"dojo/query", // query
 	"dojo/regexp", // regexp.escapeString
-	"dojo/_base/sniff", // has("ie")
+	"dojo/sniff", // has("ie")
 	"dojo/string", // string.substitute
 	"dojo/_base/window", // win.doc.selection.createRange
 	"./DataList",
 	"../registry",	// registry.byId
 	"./_TextBoxMixin"	// defines _TextBoxMixin.selectInputText
-], function(connect, filter, declare, Deferred, domAttr, event, keys, lang, query, regexp, has, string, win,
+], function(filter, declare, Deferred, domAttr, event, keys, lang, query, regexp, has, string, win,
 			DataList, registry, _TextBoxMixin){
 
 	// module:

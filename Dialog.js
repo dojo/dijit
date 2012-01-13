@@ -16,7 +16,7 @@ define([
 	"dojo/_base/lang", // lang.mixin lang.hitch
 	"dojo/on",
 	"dojo/ready",
-	"dojo/_base/sniff", // has("ie") has("opera")
+	"dojo/sniff", // has("ie") has("opera")
 	"dojo/_base/window", // win.body
 	"dojo/window", // winUtils.getBox
 	"dojo/dnd/Moveable", // Moveable

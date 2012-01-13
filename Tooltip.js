@@ -7,7 +7,7 @@ define([
 	"dojo/dom-geometry", // domGeometry.getMarginBox domGeometry.position
 	"dojo/dom-style", // domStyle.set, domStyle.get
 	"dojo/_base/lang", // lang.hitch lang.isArrayLike
-	"dojo/_base/sniff", // has("ie")
+	"dojo/sniff", // has("ie")
 	"dojo/_base/window", // win.body
 	"./_base/manager",	// manager.defaultDuration
 	"./place",

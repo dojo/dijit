@@ -2,7 +2,7 @@
 
 define([
 	"dojo/_base/array", "dojo/DeferredList", "dojo/dom-attr", "dojo/dom-class", "dojo/dom-geometry", "dojo/dom-style",
-	"dojo/_base/kernel", "dojo/_base/lang", "dojo/query", "dojo/_base/sniff",
+	"dojo/_base/kernel", "dojo/_base/lang", "dojo/query", "dojo/sniff",
 	"dijit/focus", "dijit/registry"
 ], function(array, DeferredList, domAttr, domClass, domGeometry, domStyle, kernel, lang, query, has, focus, registry){
 

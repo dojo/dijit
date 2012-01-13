@@ -4,7 +4,7 @@ define([
 	"dojo/dom-construct", // domConstruct.place
 	"dojo/dom-geometry",
 	"dojo/_base/lang", // lang.hitch
-	"dojo/_base/sniff", // has("ie") has("opera")
+	"dojo/sniff", // has("ie") has("opera")
 	"dojo/_base/window", // win.body
 	"../_Plugin"
 ], function(declare, domClass, domConstruct, domGeometry, lang, has, win, _Plugin){

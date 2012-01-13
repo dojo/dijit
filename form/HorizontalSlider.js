@@ -8,7 +8,7 @@ define([
 	"dojo/dom-style", // domStyle.getComputedStyle
 	"dojo/keys", // keys.DOWN_ARROW keys.END keys.HOME keys.LEFT_ARROW keys.PAGE_DOWN keys.PAGE_UP keys.RIGHT_ARROW keys.UP_ARROW
 	"dojo/_base/lang", // lang.hitch
-	"dojo/_base/sniff", // has("ie") has("mozilla")
+	"dojo/sniff", // has("ie") has("mozilla")
 	"dojo/dnd/Moveable", // Moveable
 	"dojo/dnd/Mover", // Mover Mover.prototype.destroy.apply
 	"dojo/query", // query

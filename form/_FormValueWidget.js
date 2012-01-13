@@ -1,6 +1,6 @@
 define([
 	"dojo/_base/declare", // declare
-	"dojo/_base/sniff", // has("ie")
+	"dojo/sniff", // has("ie")
 	"./_FormWidget",
 	"./_FormValueMixin"
 ], function(declare, has, _FormWidget, _FormValueMixin){

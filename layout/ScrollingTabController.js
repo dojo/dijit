@@ -7,7 +7,7 @@ define([
 	"dojo/_base/fx", // Animation
 	"dojo/_base/lang", // lang.hitch
 	"dojo/query", // query
-	"dojo/_base/sniff", // has("ie"), has("webkit"), has("quirks")
+	"dojo/sniff", // has("ie"), has("webkit"), has("quirks")
 	"../registry",	// registry.byId()
 	"dojo/text!./templates/ScrollingTabController.html",
 	"dojo/text!./templates/_ScrollingTabControllerButton.html",

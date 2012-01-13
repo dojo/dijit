@@ -16,7 +16,7 @@ define([
 	"dojo/on", // on()
 	"dojo/query", // query
 	"dojo/ready", // ready
-	"dojo/_base/sniff", // has("ie") has("mozilla") has("opera") has("safari") has("webkit")
+	"dojo/sniff", // has("ie") has("mozilla") has("opera") has("safari") has("webkit")
 	"dojo/topic",	// topic.publish() (publish)
 	"dojo/_base/unload", // unload
 	"dojo/_base/url", // url

@@ -10,7 +10,7 @@ define([
 	"dojo/keys",	//  keys.F12
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on", // on()
-	"dojo/_base/sniff", // has("ie") has("webkit")
+	"dojo/sniff", // has("ie") has("webkit")
 	"dojo/_base/window", // win.body win.global
 	"dojo/window", // winUtils.getBox
 	"../../focus",	// focus.focus()

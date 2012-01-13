@@ -11,7 +11,7 @@ define([
 	"dojo/keys",	// keys.F10
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on",
-	"dojo/_base/sniff", // has("ie"), has("quirks")
+	"dojo/sniff", // has("ie"), has("quirks")
 	"dojo/_base/window", // win.body win.doc.documentElement win.doc.frames win.withGlobal
 	"dojo/window", // winUtils.get
 	"./popup",

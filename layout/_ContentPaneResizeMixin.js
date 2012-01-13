@@ -6,7 +6,7 @@ define([
 	"dojo/dom-geometry",// domGeometry.contentBox domGeometry.marginBox
 	"dojo/_base/lang", // lang.mixin
 	"dojo/query", // query
-	"dojo/_base/sniff", // has("ie")
+	"dojo/sniff", // has("ie")
 	"dojo/_base/window", // global
 	"../registry",	// registry.byId
 	"../Viewport",

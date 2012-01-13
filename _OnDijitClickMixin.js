@@ -3,7 +3,7 @@ define([
 	"dojo/_base/array", // array.forEach
 	"dojo/keys", // keys.ENTER keys.SPACE
 	"dojo/_base/declare", // declare
-	"dojo/_base/sniff", // has("ie")
+	"dojo/sniff", // has("ie")
 	"dojo/_base/unload", // unload.addOnWindowUnload
 	"dojo/_base/window" // win.doc.addEventListener win.doc.attachEvent win.doc.detachEvent
 ], function(on, array, keys, declare, has, unload, win){

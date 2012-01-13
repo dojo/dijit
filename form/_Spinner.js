@@ -3,7 +3,7 @@ define([
 	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys keys.DOWN_ARROW keys.PAGE_DOWN keys.PAGE_UP keys.UP_ARROW
 	"dojo/_base/lang", // lang.hitch
-	"dojo/_base/sniff", // has("mozilla")
+	"dojo/sniff", // has("mozilla")
 	"dijit/typematic",
 	"./RangeBoundTextBox",
 	"dojo/text!./templates/Spinner.html",

@@ -5,7 +5,7 @@ define([
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/lang", // lang.mixin, lang.hitch
 	"dojo/on",
-	"dojo/_base/sniff", // has("ie")
+	"dojo/sniff", // has("ie")
 	"."		// setting dijit.typematic global
 ], function(array, connect, event, kernel, lang, on, has, dijit){
 
