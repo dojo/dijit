@@ -371,7 +371,6 @@
 
 				doh.register("paths", [
 					function getPath(){
-						return;
 						var france = europe.getChildren()[0];
 
 						// Select the node.   can't emit "click" because dndSelector listens for mousedown & mouseup.
@@ -561,8 +560,8 @@
 								var children = world.getChildren();
 								doh.is(6, children.length, "world children");
 								doh.t(children[0].isExpanded, "Africa expanded");
-								doh.t(children[0].getChildren()[2].isExpanded, "Kenya expanded too")
-								doh.is(2, children[0].getChildren()[2].getChildren().length, "Kenya children")
+								doh.t(children[0].getChildren()[2].isExpanded, "Kenya expanded too");
+								doh.is(2, children[0].getChildren()[2].getChildren().length, "Kenya children");
 								doh.t(children[4].isExpanded, "North America expanded");
 								doh.is(3, children[4].getChildren().length, "North America children");
 							}));
@@ -583,8 +582,8 @@
 								var children = world.getChildren();
 								doh.is(6, children.length, "world children");
 								doh.f(children[0].isExpanded, "Africa collapsed");
-								doh.f(children[0].getChildren()[2].iscollapsed, "Kenya collapsed too")
-								doh.is(2, children[0].getChildren()[2].getChildren().length, "Kenya children")
+								doh.f(children[0].getChildren()[2].iscollapsed, "Kenya collapsed too");
+								doh.is(2, children[0].getChildren()[2].getChildren().length, "Kenya children");
 								doh.f(children[4].isExpanded, "North America collapsed");
 								doh.is(3, children[4].getChildren().length, "North America children");
 							}));
@@ -623,7 +622,7 @@
 								myTree.expandAll().then(d.getTestCallback(function(){
 									var children = world.getChildren();
 									doh.t(children[0].isExpanded, "Africa expanded");
-									doh.t(children[0].getChildren()[2].isExpanded, "Kenya expanded too")
+									doh.t(children[0].getChildren()[2].isExpanded, "Kenya expanded too");
 									doh.t(children[4].isExpanded, "North America expanded");
 									doh.is(3, children[4].getChildren().length, "North America children");
 								}));
