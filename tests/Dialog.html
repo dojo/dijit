@@ -423,12 +423,9 @@
 					// First show it
 					var secondHideCalled;
 					dlg.show().then(d.getTestErrback(function(){
-						console.log("showed dialog")
-
 						// Then call hide(), as though user had clicked close icon.
 						// Return from this test when this hide() call completes.
 						dlg.hide().then(d.getTestCallback(function(){
-							console.log("first hide completed");
 							doh.t(secondHideCalled, "hide() was called while hide() in progress and no problems");
 							dlg.hide();	// this should also have no effect
 						}));

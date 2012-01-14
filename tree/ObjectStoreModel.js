@@ -95,7 +95,7 @@ define([
 			}
 		},
 
-		mayHaveChildren: function(/*dojo.store.Item*/ item){
+		mayHaveChildren: function(/*dojo.store.Item*/ /*===== item =====*/){
 			// summary:
 			//		Tells if an item has or may have children.  Implementing logic here
 			//		avoids showing +/- expando icon for nodes that we know don't have children.

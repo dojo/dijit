@@ -21,7 +21,7 @@ define([
 
 	ready(200, function(){
 		var oldBox = winUtils.getBox();
-		Viewport._rlh = on(win.global, "resize", function(e){
+		Viewport._rlh = on(win.global, "resize", function(){
 			var newBox = winUtils.getBox();
 			if(oldBox.h == newBox.h && oldBox.w == newBox.w){ return; }
 			oldBox = newBox;

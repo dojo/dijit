@@ -45,10 +45,10 @@ return declare("dijit._MenuBase",
 	postCreate: function(){
 		var self = this;
 		this._connects.push(
-			on(this.containerNode, on.selector(".dijitMenuItem", mouse.enter), function(evt){
+			on(this.containerNode, on.selector(".dijitMenuItem", mouse.enter), function(){
 				self.onItemHover(registry.byNode(this));
 			}),
-			on(this.containerNode, on.selector(".dijitMenuItem", mouse.leave), function(evt){
+			on(this.containerNode, on.selector(".dijitMenuItem", mouse.leave), function(){
 				self.onItemUnhover(registry.byNode(this));
 			}),
 			on(this.containerNode, on.selector(".dijitMenuItem", _OnDijitClickMixin.a11yclick), function(evt){

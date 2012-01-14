@@ -42,7 +42,7 @@ define([
 			//		callback
 		},
 
-		_onClick: function(/*Event*/ e){
+		_onClick: function(){
 			// summary:
 			//		Clicking this item just toggles its state
 			// tags:

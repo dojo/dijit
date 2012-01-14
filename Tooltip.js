@@ -150,7 +150,6 @@ define([
 			var size = domGeometry.getContentBox(this.domNode);
 
 			var width = Math.min((Math.max(widthAvailable,1)), size.w);
-			var widthWasReduced = width < size.w;
 
 			this.domNode.style.width = width+"px";
 
@@ -320,11 +319,11 @@ define([
 			this._connections = array.map(this._connectIds, function(id){
 				var node = dom.byId(id);
 				return [
-					this.connect(node, "onmouseenter", function(evt){
-						this._onHover(node, evt);
+					this.connect(node, "onmouseenter", function(){
+						this._onHover(node);
 					}),
-					this.connect(node, "onfocusin", function(evt){
-						this._onHover(node, evt);
+					this.connect(node, "onfocusin", function(){
+						this._onHover(node);
 					}),
 					this.connect(node, "onmouseleave", "_onUnHover"),
 					this.connect(node, "onfocusout", "_onUnHover")
@@ -375,7 +374,7 @@ define([
 			array.forEach(lang.isArrayLike(ids) ? ids : [ids], this.addTarget, this);
 		},
 
-		_onHover: function(/*DomNode*/ target, /*Event*/ e){
+		_onHover: function(/*DomNode*/ target){
 			// summary:
 			//		Despite the name of this method, it actually handles both hover and focus
 			//		events on the target node, setting a timer to show the tooltip.

@@ -982,7 +982,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		// We may need to wait for some nodes to expand, so setting
 		// each path will involve a Deferred. We bring those deferreds
 		// together with a DeferredList.
-		var dl = new DeferredList(array.map(paths, function(path, idx){
+		var dl = new DeferredList(array.map(paths, function(path){
 			var d = new Deferred();
 
 			// normalize path to use identity
