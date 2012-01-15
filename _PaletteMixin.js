@@ -124,7 +124,7 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 
 					domConstruct.place(cellNode, rowNode);
 
-					cellNode.index = this._cells.length;
+					cellNode.idx = this._cells.length;
 
 					// save cell info into _cells
 					this._cells.push({node:cellNode, dye:cellObject});
@@ -291,7 +291,7 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 		// typecount == -1 means the key is released.
 		if(typeCount == -1){ return; }
 
-		var newFocusIndex = this._currentFocus.index + increment;
+		var newFocusIndex = this._currentFocus.idx + increment;
 		if(newFocusIndex < this._cells.length && newFocusIndex > -1){
 			var focusNode = this._cells[newFocusIndex].node;
 			this._setCurrent(focusNode);
@@ -306,7 +306,7 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 		// summary:
 		//		Get JS object for given cell DOMNode
 
-		return this._cells[cell.index].dye;
+		return this._cells[cell.idx].dye;
 	}
 });
 

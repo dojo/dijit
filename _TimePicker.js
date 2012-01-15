@@ -309,7 +309,7 @@ define([
 
 			var div = domConstruct.create("div", {"class": this.baseClass+"Item"});
 			div.date = date;
-			div.index = index;
+			div.idx = index;
 			domConstruct.create('div',{
 				"class": this.baseClass + "ItemInner",
 				innerHTML: dateString
@@ -427,7 +427,7 @@ define([
 			//		private
 			if(typeof count == "number" && count == -1){ return; } // typematic end
 			if(!this.timeMenu.childNodes.length){ return; }
-			var index = this.timeMenu.childNodes[0].index;
+			var index = this.timeMenu.childNodes[0].idx;
 			var divs = this._getFilteredNodes(index, 1, true, this.timeMenu.childNodes[0]);
 			if(divs.length){
 				this.timeMenu.removeChild(this.timeMenu.childNodes[this.timeMenu.childNodes.length - 1]);
@@ -444,7 +444,7 @@ define([
 			//		private
 			if(typeof count == "number" && count == -1){ return; } // typematic end
 			if(!this.timeMenu.childNodes.length){ return; }
-			var index = this.timeMenu.childNodes[this.timeMenu.childNodes.length - 1].index + 1;
+			var index = this.timeMenu.childNodes[this.timeMenu.childNodes.length - 1].idx + 1;
 			var divs = this._getFilteredNodes(index, 1, false, this.timeMenu.childNodes[this.timeMenu.childNodes.length - 1]);
 			if(divs.length){
 				this.timeMenu.removeChild(this.timeMenu.childNodes[0]);
