@@ -499,7 +499,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		this.editingArea.appendChild(ifr);
 
 		if(has("safari") <= 4){
-			var src = ifr.getAttribute("src");
+			src = ifr.getAttribute("src");
 			if(!src || src.indexOf("javascript") === -1){
 				// Safari 4 and earlier sometimes act oddly
 				// So we have to set it again.

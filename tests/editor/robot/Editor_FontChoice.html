@@ -33,7 +33,7 @@
 							return p;
 						}
 					}
-					doh.f(true, "didn't find plugin " + command);
+					throw new Error("didn't find plugin " + command);
 				}
 
 				

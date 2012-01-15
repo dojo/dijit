@@ -201,8 +201,8 @@ define([
 		_setDropDownDefaultValueAttr: function(/*Date*/ val){
 			if(this._isInvalidDate(val)){
 				// convert null setting into today's date, since there needs to be *some* default at all times.
-				 val = new this.dateClassObj()
-						}
+				 val = new this.dateClassObj();
+			}
 			this.dropDownDefaultValue = val;
 		},
 
