@@ -49,7 +49,7 @@
 							
 							doh.robot.sequence(d.getTestErrback(function(){
 								var popup = dijit.byId('q1_popup');
-								doh.t(!popup || isHidden(popup), "popup hidden");
+								doh.t(!popup || isHidden(popup), "popup hidden again");
 
 								var val = dojo.date.stamp.toISOString(w.get('value'), {selector: "time"});	
 								doh.is(val, "T18:00:00", "6PM was selected");
@@ -93,7 +93,7 @@
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 							doh.robot.sequence(d.getTestErrback(function(){
 								var popup = dijit.byId('q1_popup');
-								doh.t(!popup || isHidden(popup), "popup hidden");
+								doh.t(!popup || isHidden(popup), "popup hidden again");
 
 								var val = dojo.date.stamp.toISOString(w.get('value'), {selector: "time"});	
 								doh.is(val, "T18:00:00", "6PM was selected (again)");
@@ -139,7 +139,7 @@
 							
 							doh.robot.sequence(d.getTestCallback(function(){
 								var popup = dijit.byId('q1_popup');
-								doh.t(!popup || isHidden(popup), "popup hidden");
+								doh.t(!popup || isHidden(popup), "popup hidden again");
 
 								var val = dojo.date.stamp.toISOString(w.get('value'), {selector: "time"});	
 								doh.is(val, "T18:00:00", "same value as before");
@@ -198,7 +198,7 @@
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							doh.robot.sequence(d.getTestCallback(function(){
 								var popup = dijit.byId('q2_popup');
-								doh.t(!popup || isHidden(popup), "popup hidden");
+								doh.t(!popup || isHidden(popup), "popup hidden again");
 								
 								doh.is("q3", dojo.global.dijit.focus.curNode.id, "tab moved to next input widget");
 							}), 1000);
