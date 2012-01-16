@@ -169,7 +169,6 @@
 @image-dialog-close-ie6: "images/dialogCloseIcon8bit.png";
 @image-dnd: "images/dnd.png";
 @image-editor-icons-enabled: "../../icons/images/editorIconsEnabled.png";
-@image-form-button: "form/images/button.png";
 @image-form-button-arrows: "form/images/buttonArrows.png";
 @image-form-checkbox-and-radios: "form/images/checkboxRadioButtonStates.png";
 @image-form-checkbox-and-radios-ie6: "form/images/checkboxAndRadioButtons_IE6.png";
@@ -350,7 +349,7 @@
 .textbox-background-image () {
 	// summary:
 	//		Background image used for hovered TextBoxes and similar controls.
-	//		It's just a small shadow below the top border (inside of the TextBox).
+	//		It's just a small inset shadow below the top border (inside of the TextBox).
 	.linear-gradient(rgba(127,127,127,0.2) 0%, rgba(127,127,127,0) 2px);
 }
 
@@ -374,7 +373,7 @@
 }
 .active-gradient (@pathToRoot: "") {
 	// summary:
-	//		Light to dark background-image with a gray shadow at the top,
+	//		Light to dark background-image with an inset gray shadow at the top,
 	//		used by widgets when they are active (ie: mousedown) or selected, including:
 	//			- active MenuItem/MenuBarItem
 	//			- arrow icon wrapper for Select, ComboBox, Spinner when active or drop down is open
