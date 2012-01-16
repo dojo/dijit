@@ -168,9 +168,3 @@
   -moz-border-radius: 0 4px 4px 0;
   border-radius: 0 4px 4px 0;
 }
-.dj_ie6 .claro .dijitButton .dijitButtonNode,
-.dj_ie6 .claro .dijitDropDownButton .dijitButtonNode,
-.dj_ie6 .claro .dijitComboButton .dijitButtonNode,
-.dj_ie6 .claro .dijitToggleButton .dijitButtonNode {
-  background-image: none;
-}

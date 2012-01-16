@@ -444,7 +444,6 @@
 .claro .dijitTabContainerTabListNested .dijitTabChecked .dijitTabContent {
   padding: 3px;
   border: solid 1px #759dc0;
-  background-position: 0 105px;
   background-color: #cfe5fa;
 }
 .claro .dijitTabContainerTabListNested .dijitTabChecked .tabLabel {
