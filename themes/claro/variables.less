@@ -228,57 +228,47 @@
 
 .linear-gradient (@value1, @value2) {
 	// summary:
-	//		Expands to W3C plus browser specific background-image specifications for a linear-gradient (2 stops)
+	//		Expands to browser specific background-image specifications for a linear-gradient (2 stops)
  	background-image: -moz-linear-gradient(@value1, @value2); // FF3.6+
  	background-image: -webkit-linear-gradient(@value1, @value2); // Chrome10+, Safari5.1+
  	background-image: -o-linear-gradient(@value1, @value2); // Opera 11.10+
  	background-image: -ms-linear-gradient(@value1, @value2); // IE10+
- 	background-image: linear-gradient(@value1, @value2); // W3C
+ 	// background-image: linear-gradient(@value1, @value2); // W3C (uncomment when standard is approved)
 }
 .linear-gradient (@value1, @value2, @value3) {
-	// summary:
-	//		Expands to W3C plus browser specific background-image specifications for a linear-gradient (3 stops)
  	background-image: -moz-linear-gradient(@value1, @value2, @value3); // FF3.6+
  	background-image: -webkit-linear-gradient(@value1, @value2, @value3); // Chrome10+, Safari5.1+
  	background-image: -o-linear-gradient(@value1, @value2, @value3); // Opera 11.10+
  	background-image: -ms-linear-gradient(@value1, @value2, @value3); // IE10+
- 	background-image: linear-gradient(@value1, @value2, @value3); // W3C
+ 	// background-image: linear-gradient(@value1, @value2, @value3); // W3C (uncomment when standard is approved)
 }
 .linear-gradient (@value1, @value2, @value3, @value4) {
-	// summary:
-	//		Expands to W3C plus browser specific background-image specifications for a linear-gradient (4 stops)
  	background-image: -moz-linear-gradient(@value1, @value2, @value3, @value4); // FF3.6+
  	background-image: -webkit-linear-gradient(@value1, @value2, @value3, @value4); // Chrome10+, Safari5.1+
  	background-image: -o-linear-gradient(@value1, @value2, @value3, @value4); // Opera 11.10+
  	background-image: -ms-linear-gradient(@value1, @value2, @value3, @value4); // IE10+
- 	background-image: linear-gradient(@value1, @value2, @value3, @value4); // W3C
+ 	// background-image: linear-gradient(@value1, @value2, @value3, @value4); // W3C (uncomment when standard is approved)
 }
 .linear-gradient (@value1, @value2, @value3, @value4, @value5) {
-	// summary:
-	//		Expands to W3C plus browser specific background-image specifications for a linear-gradient (4 stops)
  	background-image: -moz-linear-gradient(@value1, @value2, @value3, @value4, @value5); // FF3.6+
  	background-image: -webkit-linear-gradient(@value1, @value2, @value3, @value4, @value5); // Chrome10+, Safari5.1+
  	background-image: -o-linear-gradient(@value1, @value2, @value3, @value4, @value5); // Opera 11.10+
  	background-image: -ms-linear-gradient(@value1, @value2, @value3, @value4, @value5); // IE10+
- 	background-image: linear-gradient(@value1, @value2, @value3, @value4, @value5); // W3C
+ 	// background-image: linear-gradient(@value1, @value2, @value3, @value4, @value5); // W3C (uncomment when standard is approved)
 }
 .linear-gradient (@value1, @value2, @value3, @value4, @value5, @value6) {
-	// summary:
-	//		Expands to W3C plus browser specific background-image specifications for a linear-gradient (4 stops)
  	background-image: -moz-linear-gradient(@value1, @value2, @value3, @value4, @value5, @value6); // FF3.6+
  	background-image: -webkit-linear-gradient(@value1, @value2, @value3, @value4, @value5, @value6); // Chrome10+, Safari5.1+
  	background-image: -o-linear-gradient(@value1, @value2, @value3, @value4, @value5, @value6); // Opera 11.10+
  	background-image: -ms-linear-gradient(@value1, @value2, @value3, @value4, @value5, @value6); // IE10+
- 	background-image: linear-gradient(@value1, @value2, @value3, @value4, @value5, @value6); // W3C
+ 	// background-image: linear-gradient(@value1, @value2, @value3, @value4, @value5, @value6); // W3C (uncomment when standard is approved)
 }
 .linear-gradient (@value1, @value2, @value3, @value4, @value5, @value6, @value7) {
-	// summary:
-	//		Expands to W3C plus browser specific background-image specifications for a linear-gradient (4 stops)
  	background-image: -moz-linear-gradient(@value1, @value2, @value3, @value4, @value5, @value6, @value7); // FF3.6+
  	background-image: -webkit-linear-gradient(@value1, @value2, @value3, @value4, @value5, @value6, @value7); // Chrome10+, Safari5.1+
  	background-image: -o-linear-gradient(@value1, @value2, @value3, @value4, @value5, @value6, @value7); // Opera 11.10+
  	background-image: -ms-linear-gradient(@value1, @value2, @value3, @value4, @value5, @value6, @value7); // IE10+
- 	background-image: linear-gradient(@value1, @value2, @value3, @value4, @value5, @value6, @value7); // W3C
+ 	// background-image: linear-gradient(@value1, @value2, @value3, @value4, @value5, @value6, @value7); // W3C (uncomment when standard is approved)
 }
 
 .alpha-white-gradient (@opacity1, @stop1, @opacity2, @stop2) {
@@ -344,6 +334,8 @@
 	.linear-gradient(left, fadeout(#fff, 100-@fade1), fadeout(#fff, 100-@fade2));
 	filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr="lighten(@color, @fade1)~", endColorstr="lighten(@color, @fade2)~"gradientType=1)"; // IE
 }
+
+
 // Mixins defining gradients
 
 .textbox-background-image () {
