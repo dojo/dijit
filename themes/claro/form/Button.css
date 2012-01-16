@@ -50,19 +50,14 @@
   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
   background-color: #bcd8f4;
+  background-image: url("images/buttonEnabled.png");
+  background-repeat: repeat-x;
   background-image: -moz-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0) 3px, rgba(255, 255, 255, 0.75) 100%);
   background-image: -webkit-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0) 3px, rgba(255, 255, 255, 0.75) 100%);
   background-image: -o-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0) 3px, rgba(255, 255, 255, 0.75) 100%);
   background-image: -ms-linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0) 3px, rgba(255, 255, 255, 0.75) 100%);
   background-image: linear-gradient(#ffffff 0px, rgba(255, 255, 255, 0) 3px, rgba(255, 255, 255, 0.75) 100%);
-}
-.dj_ie .claro .dijitButton .dijitButtonNode,
-.dj_ie .claro .dijitDropDownButton .dijitButtonNode,
-.dj_ie .claro .dijitComboButton .dijitButtonNode,
-.dj_ie .claro .dijitToggleButton .dijitButtonNode {
-  background-image: url("../form/images/button.png");
-  background-position: center top;
-  background-repeat: repeat-x;
+  _background-image: none;
 }
 .claro .dijitComboButton .dijitArrowButton {
   border-left-width: 0;
@@ -148,17 +143,13 @@
   -webkit-box-shadow: 0 0 0 rgba(0, 0, 0, 0);
   -moz-box-shadow: 0 0 0 rgba(0, 0, 0, 0);
   box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  background-image: url("images/buttonDisabled.png");
   background-image: -moz-linear-gradient(#ffffff 0%, rgba(255, 255, 255, 0) 40%);
   background-image: -webkit-linear-gradient(#ffffff 0%, rgba(255, 255, 255, 0) 40%);
   background-image: -o-linear-gradient(#ffffff 0%, rgba(255, 255, 255, 0) 40%);
   background-image: -ms-linear-gradient(#ffffff 0%, rgba(255, 255, 255, 0) 40%);
   background-image: linear-gradient(#ffffff 0%, rgba(255, 255, 255, 0) 40%);
-}
-.dj_ie .claro .dijitButtonDisabled .dijitButtonNode,
-.dj_ie .claro .dijitDropDownButtonDisabled .dijitButtonNode,
-.dj_ie .claro .dijitComboButtonDisabled .dijitButtonNode,
-.dj_ie .claro .dijitToggleButtonDisabled .dijitButtonNode {
-  background-position: 0 -149px;
+  _background-image: none;
 }
 .claro .dijitComboButtonDisabled .dijitArrowButton {
   border-left-width: 0;

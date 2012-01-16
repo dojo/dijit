@@ -1,22 +1,18 @@
 <?xml version="1.0" ?>
 <!--
-	Source file for button.png, which is used by IE7-9 for Button gradients.
+	Source file for buttonEnabled.png, which is used by IE7-9 for Button gradients.
 	Compile to png with batik, gimp, or online tool ex: http://www.fileformat.info/convert/image/svg2raster.htm
 
 	Output should match gradients defined in Button.css.  It is however an approximation, since generated
 	output has a constant height, rather than matching the height of each button.
 -->
-<svg xmlns="http://www.w3.org/2000/svg" width="1px" height="167px" viewBox="0 0 1 167" preserveAspectRatio="none">
+<svg xmlns="http://www.w3.org/2000/svg" width="1px" height="149px" viewBox="0 0 1 149" preserveAspectRatio="none">
 
 	<defs>
 		<linearGradient id="enabled" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="0%" y2="100%">
 			<stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
 			<stop offset="2%" stop-color="#ffffff" stop-opacity="0"/>
 			<stop offset="15%" stop-color="#ffffff" stop-opacity="0.7"/> <!-- near bottom of average height buttons -->
-		</linearGradient>
-		<linearGradient id="disabled" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="0%" y2="100%">
-			<stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
-			<stop offset="50%" stop-color="#ffffff" stop-opacity="0"/>
 		</linearGradient>
 	</defs>
 
@@ -25,10 +21,4 @@
 		only the top will be visible.
 	-->
 	<rect x="0" y="0" width="1" height="149" fill="url(#enabled)"/>
-
-	<!--
-		Swatch for disabled buttons.   It will only fill the top part of the disabled buttons.
-		The bottom of disabled buttons are pure background-color
-	-->
-	<rect x="0" y="149" width="1" height="18" fill="url(#disabled)"/>
 </svg>
