@@ -127,7 +127,11 @@
   /* the part with the text */
 
   background-color: #ffffff;
-  background-image: url("images/tooltipGradient.png");
+  background-image: -moz-linear-gradient(bottom, rgba(207, 229, 250, 0.1) 0px, #ffffff 10px);
+  background-image: -webkit-linear-gradient(bottom, rgba(207, 229, 250, 0.1) 0px, #ffffff 10px);
+  background-image: -o-linear-gradient(bottom, rgba(207, 229, 250, 0.1) 0px, #ffffff 10px);
+  background-image: -ms-linear-gradient(bottom, rgba(207, 229, 250, 0.1) 0px, #ffffff 10px);
+  background-image: linear-gradient(bottom, rgba(207, 229, 250, 0.1) 0px, #ffffff 10px);
   background-repeat: repeat-x;
   background-position: bottom;
   border: 1px solid #759dc0;
@@ -139,9 +143,6 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
   font-size: 1em;
   color: #000000;
-}
-.dj_ie6 .claro .dijitTooltipContainer {
-  background-image: none;
 }
 .claro .dijitTooltipConnector {
   /* the arrow piece */

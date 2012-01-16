@@ -136,6 +136,9 @@
 @dialog-titlebar-border-color: @container-background-color;	// Inner border around the title sectionof a Dialog, inside the main border of the Dialog and the border between title and content
 @dialog-titlebar-background-color: @minor-selected-color;
 
+// Tooltip
+@tooltip-gradient-color: fade(@primary-color,10%);		// a little swath of color at the bottom of tooltips
+
 // BorderContainer
 @splitter-hovered-background-color: @primary-color;	// Color of splitter when user hovers it, before mouse down
 @splitter-dragged-background-color: @minor-selected-color;	// Color of splitter while it's being dragged
@@ -156,7 +159,7 @@
 @document-shadedsection-background-color: @bar-background-color;// background color used for <pre>, <code>, and table header rows
 @document-border-color: @disabled-color;								// Border for <pre>, <code>, tables, etc.
 
-// Icons
+// Icons, arrows, etc.
 @image-arrow-sprite: "images/spriteArrows.png";
 @image-calendar-arrows: "images/calendarArrows.png";
 @image-calendar-arrows-ie6: "images/calendarArrows8bit.png";
@@ -180,12 +183,6 @@
 @image-tree-expand: "images/treeExpandImages.png";
 @image-tree-expand-ie6: "images/treeExpandImages8bit.png";
 @image-progressbar-anim: "images/progressBarAnim.gif";
-
-// Gradient images
-// These images correspond to CSS gradient rules in the individual files, so they generally shouldn't be edited.
-// If you edit these images then edit the corresponding CSS gradient rules to match.
-// See also the gradient mixins below.
-@image-tooltip-gradient: "images/tooltipGradient.png";
 
 // Mixins
 
