@@ -132,7 +132,6 @@
   background-image: -o-linear-gradient(bottom, rgba(207, 229, 250, 0.1) 0px, #ffffff 10px);
   background-image: -ms-linear-gradient(bottom, rgba(207, 229, 250, 0.1) 0px, #ffffff 10px);
   background-image: linear-gradient(bottom, rgba(207, 229, 250, 0.1) 0px, #ffffff 10px);
-  background-repeat: repeat-x;
   background-position: bottom;
   border: 1px solid #759dc0;
   padding: 6px 8px;
