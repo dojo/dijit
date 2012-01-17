@@ -422,3 +422,12 @@
 .dj_ie6 .dijitTabListContainer-bottom .tabStripButton{
 	background-image: none;
 }
+
+// Workaround IE9 bug when document mode is IE7 standards; focus outline doesn't show.
+// Unfortunately a:focus rules doesn't work either.
+// This hack may be unnecessary after the TabButton CSS is simplified by consolidating nested divs.
+// Unfortunately, this rule makes the tab labels jump a bit when they get focus.  Should reduce
+// padding simultaneously if that's a big issue.   But it only affects IE in compatibility / quirks mode.
+.claro .dijitTabFocused .dijitTabContent > * {
+    *border: dotted 1px gray;
+}
