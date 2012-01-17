@@ -14,7 +14,8 @@ define([
 	"dojo/_base/window", // win.doc.createTextNode
 	"./_WidgetBase",
 	"./_TemplatedMixin",
-	"dojo/text!./templates/Calendar.html"
+	"dojo/text!./templates/Calendar.html",
+	"./hccss"	// not used directly, but sets CSS class on <body>
 ], function(array, declare, cldrSupplemental, date, locale, stamp, dom, domClass, event, lang, has, string, win,
 			_WidgetBase, _TemplatedMixin, template){
 
