@@ -312,12 +312,16 @@ return declare("dijit._WidgetBase", Stateful, {
 		}
 		this.postMixInProperties();
 
-		// generate an id for the widget if one wasn't specified
-		// (be sure to do this before buildRendering() because that function might
-		// expect the id to be there.)
+		// Generate an id for the widget if one wasn't specified, or it was specified as id: undefined.
+		// Do this before buildRendering() because it might expect the id to be there.
 		if(!this.id){
 			this.id = registry.getUniqueId(this.declaredClass.replace(/\./g,"_"));
+			if(this.params){
+				// if params contains {id: undefined}, prevent _applyAttributes() from processing it
+				delete this.params.id;
+			}
 		}
+
 		registry.add(this);
 
 		this.buildRendering();
