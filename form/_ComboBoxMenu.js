@@ -39,6 +39,13 @@ define([
 
 		baseClass: "dijitComboBoxMenu",
 
+		postCreate: function(){
+			if(!this.isLeftToRight()){
+				domClass.add(this.previousButton, "dijitMenuItemRtl");
+				domClass.add(this.nextButton, "dijitMenuItemRtl");
+			}
+		},
+
 		_createMenuItem: function(){
 			return domConstruct.create("div", {
 				"class": "dijitReset dijitMenuItem" +(this.isLeftToRight() ? "" : " dijitMenuItemRtl"),
