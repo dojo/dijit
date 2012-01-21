@@ -746,7 +746,7 @@ define([
 			// description:
 			//		Sets the value of the select.
 			this._set("item", item||null); // value not looked up in store
-			if(!value){ value = ''; } // null translates to blank
+			if(value === null || value === undefined){ value = ''; } // null translates to blank
 			this.inherited(arguments);
 		},
 		_setTextDirAttr: function(/*String*/ textDir){
