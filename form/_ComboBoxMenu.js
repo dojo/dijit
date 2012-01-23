@@ -40,6 +40,7 @@ define([
 		baseClass: "dijitComboBoxMenu",
 
 		postCreate: function(){
+			this.inherited(arguments);
 			if(!this.isLeftToRight()){
 				domClass.add(this.previousButton, "dijitMenuItemRtl");
 				domClass.add(this.nextButton, "dijitMenuItemRtl");
