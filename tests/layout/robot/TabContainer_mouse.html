@@ -106,12 +106,12 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 							doh.robot.mouseClick({left: true}, 500);
-							doh.robot.mouseMoveAt(dojo.query('#mainTabContainer_tablist_tab3 span.dijitTabCloseButton')[0], 500);
+							doh.robot.mouseMoveAt(dojo.query('.dijitTabCloseButton', dijit.byId("mainTabContainer_tablist_tab3").domNode)[0], 500);
 							
 							// verify the close button is in its hover state
 							doh.robot.sequence(d.getTestCallback(function(){
-								var closeHover = dojo.query("#mainTabContainer_tablist_tab3 .dijitTabCloseButtonHover");
-								doh.is(1, closeHover.length);
+								var closeHover = dojo.query(".dijitTabCloseButtonHover", dijit.byId("mainTabContainer_tablist_tab3").domNode);
+								doh.is(1, closeHover.length, "close button hover CSS");
 							}), 500);
 							
 							return d;
@@ -123,7 +123,7 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 							
-							doh.robot.mouseMoveAt(dojo.query('#mainTabContainer_tablist_tab3 span.dijitTabCloseButton')[0], 500);
+							doh.robot.mouseMoveAt(dojo.query('.dijitTabCloseButton', dijit.byId("mainTabContainer_tablist_tab3").domNode)[0], 500);
 							doh.robot.mouseClick({left: true}, 500);
 							
 							var tc = dijit.byId("mainTabContainer");
@@ -167,7 +167,7 @@
 								doh.t(isTabVisible, "verify tab is in display area");
 								
 								// And verify that pane is shown
-								doh.is("tab4href", tc.selectedChildWidget.id, "verify that the appropiate contentpane is displayed");
+								doh.is("tab4href", tc.selectedChildWidget.id, "verify that the appropriate contentpane is displayed");
 								doh.t(isVisible(dijit.byId("tab4href")), "tab4 shown");
 								doh.t(isHidden(dijit.byId("tab1")), "tab1 hidden");
 							}), 1000);

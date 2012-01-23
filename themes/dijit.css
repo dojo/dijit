@@ -1367,7 +1367,7 @@ Main class hierarchy:
 
 .dijitTabContainerLeft-tabs {
 	border-right: 1px solid black;
-	float: left;
+	float: left;    /* needed for IE7 RTL mode */
 }
 .dijitTabContainerLeft-container {
 	border-left: 0;
@@ -1382,7 +1382,7 @@ Main class hierarchy:
 
 .dijitTabContainerRight-tabs {
 	border-left: 1px solid black;
-	float: left;
+	float: left;    /* needed for IE7 RTL mode */
 }
 .dijitTabContainerRight-container {
 	border-right: 0;
@@ -1427,11 +1427,6 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	#zoom: 1; /* set hasLayout:true to mimic inline-block */
 	#display:inline; /* don't use .dj_ie since that increases the priority */
 }
-
-.dijitTabInnerDiv {
-	position:relative;
-}
-
 
 .tabStripButton {
 	z-index: 12;

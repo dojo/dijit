@@ -4,7 +4,6 @@ define([
 	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys
 	"dojo/_base/lang", // lang.getObject
-	"dojo/sniff", // has("ie")
 	"../focus",		// focus.focus()
 	"../registry",	// registry.byId
 	"../_Widget",
@@ -12,7 +11,7 @@ define([
 	"../_Container",
 	"../form/ToggleButton",
 	"dojo/i18n!../nls/common"
-], function(array, declare, event, keys, lang, has,
+], function(array, declare, event, keys, lang,
 			focus, registry, _Widget, _TemplatedMixin, _Container, ToggleButton){
 
 /*=====
@@ -175,11 +174,6 @@ define([
 				// StackController needs to have the proper height... which means that the button needs
 				// to be marked as selected now.   See test_TabContainer_CSS.html for test.
 				this.onSelectChild(page);
-			}
-
-			// make sure all tabs have the same length
-			if(!this.isLeftToRight() && has("ie") && this._rectifyRtlTabList){
-				this._rectifyRtlTabList();
 			}
 		},
 

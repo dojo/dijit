@@ -241,7 +241,7 @@
 						var cp = dijit.byId('cpTitle');
 						cp.set('title', 'newTitle');
 						
-						var title = dojo.query("#tc1_tablist_cpTitle span.tabLabel")[0];
+						var title = dojo.query("#tc1_tablist_cpTitle")[0];
 						
 						t.is('newTitle', innerText(title), "the tab's text label has changed");
 					}

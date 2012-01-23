@@ -69,7 +69,7 @@ define([
 			// summary:
 			//		Hide/show close button
 			this._set("closeButton", disp);
-			domClass.toggle(this.innerDiv, "dijitClosable", disp);
+			domClass.toggle(this.domNode, "dijitClosable", disp);
 			this.closeNode.style.display = disp ? "" : "none";
 			if(disp){
 				var _nlsResources = i18n.getLocalization("dijit", "common");
@@ -143,25 +143,7 @@ define([
 
 		// buttonWidget: Constructor
 		//		The tab widget to create to correspond to each page
-		buttonWidget: TabButton,
-
-		_rectifyRtlTabList: function(){
-			// summary:
-			//		For left/right TabContainer when page is RTL mode, rectify the width of all tabs to be equal, otherwise the tab widths are different in IE
-
-			if(0 >= this.tabPosition.indexOf('-h')){ return; }
-			if(!this.pane2button){ return; }
-
-			var maxWidth = 0;
-			for(var pane in this.pane2button){
-				var ow = this.pane2button[pane].innerDiv.scrollWidth;
-				maxWidth = Math.max(maxWidth, ow);
-			}
-			//unify the length of all the tabs
-			for(pane in this.pane2button){
-				this.pane2button[pane].innerDiv.style.width = maxWidth + 'px';
-			}
-		}
+		buttonWidget: TabButton
 	});
 
 	TabController.TabButton = TabButton;	// for monkey patching

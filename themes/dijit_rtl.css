@@ -112,6 +112,23 @@
 	margin-left: 0;
 	margin-right: 1em;
 }
+.dj_ie6 .dijitTabRtl .tabLabel,
+.dj_ie6 .dijitTabContainerRight-tabs .dijitTabRtl,
+.dj_ie6 .dijitTabContainerLeft-tabs .dijitTabRtl,
+.dj_ie7 .dijitTabContainerRight-tabs .dijitTabRtl,
+.dj_ie7 .dijitTabContainerLeft-tabs .dijitTabRtl {
+	zoom: 1;
+}
+.dj_ie6 .dijitTabContainerRight-tabs .dijitTabRtl,
+.dj_ie7 .dijitTabContainerRight-tabs .dijitTabRtl {
+    left: 0;
+}
+
+.dj_ie6 .dijitTabContainerRightRtl .dijitTabContainerRight-tabs,
+.dj_ie6 .dijitTabContainerLeftRtl .dijitTabContainerLeft-tabs {
+    /* otherwise tab labels invisible */
+	width: 1%;
+}
 
 /* TimePicker */
 .dj_ie .dijitTimePickerRtl .dijitTimePickerItem {
