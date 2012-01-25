@@ -15,6 +15,7 @@
 		<script type="text/javascript">
 			dojo.require("dijit.robotx");
 			dojo.require("dijit.tests.helpers");	// functions to help test
+			dojo.require("dojo.window");
 
 			dojo.ready(function(){
 				doh.robot.initRobot('../test_Tooltip.html');
@@ -169,6 +170,104 @@
 								doh.t(tooltipPos.x >= anchorPos.x + anchorPos.w,
 										"tooltip pos " + tooltipPos.x + " > anchor right edge at " +
 												anchorPos.x + " + " + anchorPos.w);
+							}), 500);
+
+							return d;
+						}
+					}
+				]);
+
+				doh.register("Delegation", [
+					function scrollIntoView(){
+						// Scroll the whole table into view to make tooltip position tests work correctly
+						dojo.window.scrollIntoView("myTable");
+					},
+					{
+						name: "mouse over row 1",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveAt("myTable-row1", 500, 0);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(masterTT && isVisible(masterTT.domNode), "tooltip shown");
+								doh.is("Tooltip for row 1", dojo.trim(innerText(masterTT.domNode)), "tooltip text");
+
+								var tooltipPos = dojo.position(masterTT.domNode),
+									anchorPos = dojo.position("myTable-row1");
+								doh.t(tooltipPos.y + tooltipPos.h/2 >= anchorPos.y,
+										"tooltip pos " + tooltipPos.y + " height " + tooltipPos.h +
+										"anchor " + anchorPos.y + " + height " + anchorPos.h);
+								doh.t(tooltipPos.y + tooltipPos.h/2 <= anchorPos.y + anchorPos.h,
+										"tooltip pos " + tooltipPos.y + " height " + tooltipPos.h +
+										"anchor " + anchorPos.y + " + height " + anchorPos.h);
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "mouse over row 3",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveAt("myTable-row3", 500, 0);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(masterTT && isVisible(masterTT.domNode), "tooltip shown");
+								doh.is("Tooltip for row 3", dojo.trim(innerText(masterTT.domNode)), "tooltip text");
+
+								var tooltipPos = dojo.position(masterTT.domNode),
+									anchorPos = dojo.position("myTable-row3");
+								doh.t(tooltipPos.y + tooltipPos.h/2 >= anchorPos.y,
+										"tooltip pos " + tooltipPos.y + " height " + tooltipPos.h +
+										"anchor " + anchorPos.y + " + height " + anchorPos.h);
+								doh.t(tooltipPos.y + tooltipPos.h/2 <= anchorPos.y + anchorPos.h,
+										"tooltip pos " + tooltipPos.y + " height " + tooltipPos.h +
+										"anchor " + anchorPos.y + " + height " + anchorPos.h);
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "mouse over row 4",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveAt("myTable-row4", 500, 0);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								// should be no tooltip for rows >= 4
+								doh.t(masterTT && isHidden(masterTT.domNode), "tooltip hidden");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "mouse over row 2",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveAt("myTable-row2", 500, 0);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(masterTT && isVisible(masterTT.domNode), "tooltip shown");
+								doh.is("Tooltip for row 2", dojo.trim(innerText(masterTT.domNode)), "tooltip text");
+
+								var tooltipPos = dojo.position(masterTT.domNode),
+									anchorPos = dojo.position("myTable-row2");
+								doh.t(tooltipPos.y + tooltipPos.h/2 >= anchorPos.y,
+										"tooltip pos " + tooltipPos.y + " height " + tooltipPos.h +
+										"anchor " + anchorPos.y + " + height " + anchorPos.h);
+								doh.t(tooltipPos.y + tooltipPos.h/2 <= anchorPos.y + anchorPos.h,
+										"tooltip pos " + tooltipPos.y + " height " + tooltipPos.h +
+										"anchor " + anchorPos.y + " + height " + anchorPos.h);
 							}), 500);
 
 							return d;

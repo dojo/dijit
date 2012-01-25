@@ -7,6 +7,8 @@ define([
 	"dojo/dom-geometry", // domGeometry.getMarginBox domGeometry.position
 	"dojo/dom-style", // domStyle.set, domStyle.get
 	"dojo/_base/lang", // lang.hitch lang.isArrayLike
+	"dojo/mouse",
+	"dojo/on",
 	"dojo/sniff", // has("ie")
 	"dojo/_base/window", // win.body
 	"./_base/manager",	// manager.defaultDuration
@@ -16,7 +18,7 @@ define([
 	"./BackgroundIframe",
 	"dojo/text!./templates/Tooltip.html",
 	"."		// sets dijit.showTooltip etc. for back-compat
-], function(array, declare, fx, dom, domClass, domGeometry, domStyle, lang, has, win,
+], function(array, declare, fx, dom, domClass, domGeometry, domStyle, lang, mouse, on, has, win,
 			manager, place, _Widget, _TemplatedMixin, BackgroundIframe, template, dijit){
 
 /*=====
@@ -302,13 +304,20 @@ define([
 		//		See description of `dijit.Tooltip.defaultPosition` for details on position parameter.
 		position: [],
 
+		// selector: String?
+		//		CSS expression to apply this Tooltip to descendants of connectIds, rather than to
+		//		the nodes specified by connectIds themselves.    Useful for applying a Tooltip to
+		//		a range of rows in a table, tree, etc.   Use in conjunction with getContent() parameter.
+		//		Ex: connectId: myTable, selector: "tr", getContent: function(node){ return ...; }
+		selector: "",
+
 		_setConnectIdAttr: function(/*String|String[]*/ newId){
 			// summary:
 			//		Connect to specified node(s)
 
 			// Remove connections to old nodes (if there are any)
 			array.forEach(this._connections || [], function(nested){
-				array.forEach(nested, lang.hitch(this, "disconnect"));
+				array.forEach(nested, function(handle){ handle.remove(); });
 			}, this);
 
 			// Make array of id's to connect to, excluding entries for nodes that don't exist yet, see startup()
@@ -317,16 +326,21 @@ define([
 
 			// Make connections
 			this._connections = array.map(this._connectIds, function(id){
-				var node = dom.byId(id);
+				var node = dom.byId(id),
+					selector = this.selector,
+					delegatedEvent = selector ?
+						function(eventType){ return on.selector(selector, eventType); } :
+						function(eventType){ return eventType; },
+					self = this;
 				return [
-					this.connect(node, "onmouseenter", function(){
-						this._onHover(node);
+					on(node, delegatedEvent(mouse.enter), function(){
+						self._onHover(this);
 					}),
-					this.connect(node, "onfocusin", function(){
-						this._onHover(node);
+					on(node, delegatedEvent("focusin"), function(){
+						self._onHover(this);
 					}),
-					this.connect(node, "onmouseleave", "_onUnHover"),
-					this.connect(node, "onfocusout", "_onUnHover")
+					on(node, delegatedEvent(mouse.leave), lang.hitch(self, "_onUnHover")),
+					on(node, delegatedEvent("focusout"), lang.hitch(self, "_onUnHover"))
 				];
 			}, this);
 
@@ -374,6 +388,14 @@ define([
 			array.forEach(lang.isArrayLike(ids) ? ids : [ids], this.addTarget, this);
 		},
 
+		getContent: function(/*DomNode*/ node){
+			// summary:
+			//		User overridable function that return the text to display in the tooltip.
+			// tags:
+			//		extension
+			return this.label || this.domNode.innerHTML;
+		},
+
 		_onHover: function(/*DomNode*/ target){
 			// summary:
 			//		Despite the name of this method, it actually handles both hover and focus
@@ -413,9 +435,14 @@ define([
 				clearTimeout(this._showTimer);
 				delete this._showTimer;
 			}
-			Tooltip.show(this.label || this.domNode.innerHTML, target, this.position, !this.isLeftToRight(), this.textDir);
 
-			this._connectNode = target;
+			var content = this.getContent(target);
+			if(!content){
+				return;
+			}
+			Tooltip.show(content, target, this.position, !this.isLeftToRight(), this.textDir);
+
+			this._connectNode = target;		// _connectNode means "tooltip currently displayed for this node"
 			this.onShow(target, this.position);
 		},
 
@@ -454,6 +481,12 @@ define([
 
 		destroy: function(){
 			this.close();
+
+			// Remove connections manually since they aren't registered to be removed by _WidgetBase
+			array.forEach(this._connections || [], function(nested){
+				array.forEach(nested, function(handle){ handle.remove(); });
+			}, this);
+
 			this.inherited(arguments);
 		}
 	});

@@ -8,7 +8,7 @@
 		@import "../themes/claro/document.css";
 		@import "css/dijitTests.css";
 
-		td { padding: 20px; }
+		#instructionTable.td { padding: 20px; }
 	</style>
 
 	<!-- required: a default dijit theme: -->
@@ -69,7 +69,7 @@
 	<h1 class="testTitle">Tooltip test</h1>
 
 	<p>Mouse-over or focus the items below to test tooltips.</p>
-	<table>
+	<table id="instructionTable">
 		<tr>
 			<td>
 				Change tooltip positioning search list:
@@ -246,5 +246,24 @@
 			Tooltip on yellow outer div
 		</span>
 	</div>
+
+	<h3>Delegation test:</h3>
+	<p>Tooltip should appear for first three rows of the table, customized per row.</p>
+	<span id="delegation_tooltip" data-dojo-type="dijit/Tooltip"
+		  data-dojo-props='connectId:"myTable", selector: "tr"'>
+		<script type="dojo/method" data-dojo-event="getContent" data-dojo-args="node">
+			var row = node.getAttribute("row");
+			return row <= 3 ? ("Tooltip for row " + row) : null;
+		</script>
+		This text will never appear; instead getContent() will run.
+	</span>
+	<table id="myTable">
+		<tr id="myTable-row1" row=1><td>row</td><td>1</td></tr>
+		<tr id="myTable-row2" row=2><td>row</td><td>2</td></tr>
+		<tr id="myTable-row3" row=3><td>row</td><td>3</td></tr>
+		<tr id="myTable-row4" row=4><td>row</td><td>4</td></tr>
+		<tr id="myTable-row5" row=5><td>row</td><td>5</td></tr>
+	</table>
+
 </body>
 </html>
