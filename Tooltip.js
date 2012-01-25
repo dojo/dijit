@@ -295,9 +295,9 @@ define([
 		//		the tooltip is displayed.
 		showDelay: 400,
 
-		// connectId: String|String[]
+		// connectId: String|String[]|DomNode|DomNode[]
 		//		Id of domNode(s) to attach the tooltip to.
-		//		When user hovers over specified dom node, the tooltip will appear.
+		//		When user hovers over specified dom node(s), the tooltip will appear.
 		connectId: [],
 
 		// position: String[]
@@ -311,7 +311,10 @@ define([
 		//		Ex: connectId: myTable, selector: "tr", getContent: function(node){ return ...; }
 		selector: "",
 
-		_setConnectIdAttr: function(/*String|String[]*/ newId){
+		// TODO: in 2.0 remove support for multiple connectIds.   selector gives the same effect.
+		// So, change connectId to a "", remove addTarget()/removeTarget(), etc.
+
+		_setConnectIdAttr: function(/*String|String[]}DomNode|DomNode[]*/ newId){
 			// summary:
 			//		Connect to specified node(s)
 
