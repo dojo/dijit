@@ -593,4 +593,11 @@ array.forEach(["fontName", "fontSize", "formatBlock"], function(name){
 	};
 });
 
+// Make all classes available through AMD, and return main class
+FontChoice._FontDropDown = _FontDropDown;
+FontChoice._FontNameDropDown = _FontNameDropDown;
+FontChoice._FontSizeDropDown = _FontSizeDropDown;
+FontChoice._FormatBlockDropDown = _FormatBlockDropDown;
+return FontChoice;
+
 });

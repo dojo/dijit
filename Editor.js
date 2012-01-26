@@ -189,9 +189,10 @@ define([
 					}
 				}
 				if(!o.plugin){
-					var pc = args.ctor || lang.getObject(args.name);
+					// TODO: remove lang.getObject() call in 2.0
+					var pc = args.ctor || lang.getObject(args.name) || require(args.name);
 					if(pc){
-						o.plugin=new pc(args);
+						o.plugin = new pc(args);
 					}
 				}
 				if(!o.plugin){

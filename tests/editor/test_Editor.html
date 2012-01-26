@@ -116,7 +116,7 @@
 	<h2>Created from div, auto-expanding</h2>
 	<h3><label>label for editor:</label></h3>
 	<div data-dojo-type="dijit/Editor"
-		data-dojo-props="onChange:function(v){console.log('thud onChange handler: ' + v)}, extraPlugins:['dijit._editor.plugins.AlwaysShowToolbar'], styleSheets:'../../themes/claro/document.css', minHeight:'75px', height:''"
+		data-dojo-props="onChange:function(v){console.log('thud onChange handler: ' + v)}, extraPlugins:['dijit/_editor/plugins/AlwaysShowToolbar'], styleSheets:'../../themes/claro/document.css', minHeight:'75px', height:''"
 		id="thud">
 		Extra text
 		<p>
@@ -138,7 +138,7 @@
 	<h2>Optional toolbar buttons</h2>
 	<h3><label>blah entry</label></h3>
 	<div data-dojo-type="dijit/Editor"
-		data-dojo-props="plugins:['bold','italic','|','createLink','foreColor','hiliteColor',{name:'dijit._editor.plugins.FontChoice', command:'fontName', generic:true},'fontSize','formatBlock','insertImage','insertHorizontalRule'], styleSheets:'../../themes/claro/document.css'"
+		data-dojo-props="plugins:['bold','italic','|','createLink','foreColor','hiliteColor',{name:'dijit/_editor/plugins/FontChoice', command:'fontName', generic:true},'fontSize','formatBlock','insertImage','insertHorizontalRule'], styleSheets:'../../themes/claro/document.css'"
 		id="blah">
 		This instance includes optional toolbar buttons which pull in additional ui (dijit) code.
 		Note the dojo.require() statements required to pull in the associated editor plugins to make
@@ -162,7 +162,7 @@
 	<h2>Plugins specified</h2>
 	<h3><label>Another blah entry</label></h3>
 	<div data-dojo-type="dijit/Editor"
-		data-dojo-props="plugins:['bold','italic','|',{name:'dijit._editor.plugins.FontChoice', command:'fontName', custom:['Verdana','Myriad','Garamond','Apple Chancery','Hiragino Mincho Pro']}, {name:'dijit._editor.plugins.FontChoice', command:'fontSize', custom:[3,4,5]}, {name:'dijit._editor.plugins.EnterKeyHandling', blockNodeForEnter:'DIV'}], styleSheets:'../../themes/claro/document.css'"
+		data-dojo-props="plugins:['bold','italic','|',{name:'dijit/_editor/plugins/FontChoice', command:'fontName', custom:['Verdana','Myriad','Garamond','Apple Chancery','Hiragino Mincho Pro']}, {name:'dijit/_editor/plugins/FontChoice', command:'fontSize', custom:[3,4,5]}, {name:'dijit/_editor/plugins/EnterKeyHandling', blockNodeForEnter:'DIV'}], styleSheets:'../../themes/claro/document.css'"
 		id="blah2">
 		This instance demos how to:
 		<ol>
@@ -201,7 +201,7 @@
 	<div id="programmatic2">This div will become an auto-expanding editor.</div>
 	<button
 		id="create2"
-		onclick="new dijit.Editor({height: '', extraPlugins: ['dijit._editor.plugins.AlwaysShowToolbar']}, dojo.byId('programmatic2')); dojo.query('#create2').orphan();">
+		onclick="new dijit.Editor({height: '', extraPlugins: ['dijit/_editor/plugins/AlwaysShowToolbar']}, dojo.byId('programmatic2')); dojo.query('#create2').orphan();">
 	create expanding editor
 	</button>
 
