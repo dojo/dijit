@@ -128,7 +128,7 @@ return declare("dijit.form.MultiSelect", _FormValueWidget, {
 				// option.text. Since the option.text will be modified (by wrapping of UCC)
 				// we want to save the original option.value for form submission.
 				if(!this._created && option.value === option.text){
-					option.value = dojo.clone(option.text);
+					option.value = option.text;
 				}
 				// apply the bidi support
 				option.text =  this.enforceTextDirWithUcc(option, option.originalText || option.text);
