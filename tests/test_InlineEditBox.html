@@ -78,18 +78,18 @@
 			<p class="letter">
 				Thank you for your recent order.
 				Please remit
-				<span id="dollar_as" data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit.form.CurrencyTextBox", editorParams:{currency: "USD"}, width:"100px", title:"dollar amount"'></span>&nbsp;for
+				<span id="dollar_as" data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit/form/CurrencyTextBox", editorParams:{currency: "USD"}, width:"100px", title:"dollar amount"'></span>&nbsp;for
 				your purchase of
-				<span data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit.form.NumberSpinner", editorParams:{constraints: {places:0} }, width:"70px", title:"quantity"'></span>&nbsp;deluxe
-				<span data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit.form.ComboBox", title:"item name",
+				<span data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit/form/NumberSpinner", editorParams:{constraints: {places:0} }, width:"70px", title:"quantity"'></span>&nbsp;deluxe
+				<span data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit/form/ComboBox", title:"item name",
 					editorParams:{searchAttr: "name", store: productStore, autocomplete: false, hasDownArrow: false},
 					 width:"200px"'></span>&nbsp;on
-				<span data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit.form.DateTextBox", width:"200px", title:"purchase date as mm/dd/yy"'></span>&nbsp;in
-				<span data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit.form.FilteringSelect",
+				<span data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit/form/DateTextBox", width:"200px", title:"purchase date as mm/dd/yy"'></span>&nbsp;in
+				<span data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit/form/FilteringSelect",
 					editorParams:{searchAttr: "name", keyAttr: "abbreviation", store: stateStore, autocomplete: true, hasDownArrow: true},
 					 width:"200px", title:"state of purchase"'></span>.
 			</p>
-			<p id="textarea" data-dojo-type="dijit/InlineEditBox" data-dojo-props='autoSave:true, editor:"dijit.form.Textarea", title:"additional details"'></p>
+			<p id="textarea" data-dojo-type="dijit/InlineEditBox" data-dojo-props='autoSave:true, editor:"dijit/form/Textarea", title:"additional details"'></p>
 			<p>
 				Sincerely,
 			</p>
@@ -108,11 +108,11 @@
 			<p class="letter">
 				Thank you for your recent order.
 				Please remit
-				<span id="dollar" data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit.form.CurrencyTextBox", editorParams:{currency: "USD"}, width:"100px", autoSave:false, title:"dollar amount"'>$2,000</span>
+				<span id="dollar" data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit/form/CurrencyTextBox", editorParams:{currency: "USD"}, width:"100px", autoSave:false, title:"dollar amount"'>$2,000</span>
 				for your purchase of
-				<span id="quantity" data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit.form.NumberSpinner", editorParams:{constraints: {places:0} }, width:"70px", autoSave:false, title:"quantity"'>3</span>
+				<span id="quantity" data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit/form/NumberSpinner", editorParams:{constraints: {places:0} }, width:"70px", autoSave:false, title:"quantity"'>3</span>
 				deluxe
-				<span id="item" data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit.form.ComboBox",
+				<span id="item" data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit/form/ComboBox",
 					editorParams:{searchAttr: "name", store: productStore, autocomplete: false, hasDownArrow: false},
 					 width:"200px", autoSave:false, title:"item name"'>refrigerators</span>
 				on
@@ -123,16 +123,16 @@
 					to tell DateTextBox to expect that pattern regardless of the machine's locale
 				-->
 				<span id="purchase" data-dojo-type="dijit/InlineEditBox"
-					data-dojo-props='editor:"dijit.form.DateTextBox", editorParams:{constraints: {datePattern: "MM/dd/yyyy"}},
+					data-dojo-props='editor:"dijit/form/DateTextBox", editorParams:{constraints: {datePattern: "MM/dd/yyyy"}},
 					width:"200px", autoSave:false, title:"purchase date as mm/dd/yy"'>01/05/2007</span>
 				in
-				<span id="state" data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit.form.FilteringSelect",
+				<span id="state" data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit/form/FilteringSelect",
 					editorParams:{searchAttr: "name", keyAttr: "abbreviation", store: stateStore, autocomplete: true, hasDownArrow: false},
 					 width:"200px", autoSave:false, title:"state of purchase"'>
 					 Pennsylvania
 				</span>.
 			</p>
-			<p data-dojo-type="dijit/InlineEditBox" data-dojo-props='autoSave:false, editor:"dijit.form.Textarea", title:"additional details"'>
+			<p data-dojo-type="dijit/InlineEditBox" data-dojo-props='autoSave:false, editor:"dijit/form/Textarea", title:"additional details"'>
 				We sincerely appreciate your business and hope we can do business again.
 			</p>
 			<p>
@@ -174,7 +174,7 @@ pulvinar in, consequat ut, leo. Nullam nec est. Aenean id risus blandit
 tortor pharetra congue. Suspendisse pulvinar.
 		</p>
 		(before editable paragraph.  the editable paragraph has Save/Cancel buttons when open.)
-		<p id="areaEditable" data-dojo-type="dijit/InlineEditBox" data-dojo-props='autoSave:false, editor:"dijit.form.Textarea"'>
+		<p id="areaEditable" data-dojo-type="dijit/InlineEditBox" data-dojo-props='autoSave:false, editor:"dijit/form/Textarea"'>
 			Aliquam vitae enim. Duis scelerisque metus auctor est venenatis
 imperdiet. Fusce dignissim porta augue. Nulla vestibulum. Integer lorem
 nunc, ullamcorper a, commodo ac, malesuada sed, dolor. Aenean id mi in
@@ -219,7 +219,7 @@ tortor pharetra congue. Suspendisse pulvinar.
 
 		<h2>FilteringSelect (no down arrow, and save/cancel buttons):</h2>
 		before
-		<span id="filteringSelect2" data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit.form.FilteringSelect",
+		<span id="filteringSelect2" data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit/form/FilteringSelect",
 			editorParams:{searchAttr: "name", keyAttr: "abbreviation", store: stateStore, autocomplete: true, hasDownArrow: false},
 			 width:"200px", autoSave:false'>
 			Indiana

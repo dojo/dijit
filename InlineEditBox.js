@@ -67,7 +67,8 @@ var InlineEditor = declare("dijit._InlineEditor", [_Widget, _TemplatedMixin, _Wi
 		this.inherited(arguments);
 
 		// Create edit widget in place in the template
-		var cls = typeof this.editor == "string" ? lang.getObject(this.editor) : this.editor;
+		// TODO: remove getObject() for 2.0
+		var cls = typeof this.editor == "string" ? (lang.getObject(this.editor) || require(this.editor)) : this.editor;
 
 		// Copy the style from the source
 		// Don't copy ALL properties though, just the necessary/applicable ones.
@@ -289,7 +290,7 @@ var InlineEditBox = declare("dijit.InlineEditBox", _Widget, {
 	renderAsHtml: false,
 
 	// editor: String|Function
-	//		Class name (or reference to the Class) for Editor widget
+	//		MID (ex: "dijit/form/TextBox") or constructor for editor widget
 	editor: TextBox,
 
 	// editorWrapper: String|Function
