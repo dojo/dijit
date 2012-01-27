@@ -128,35 +128,37 @@ define([
 			if(typeof value == "string"){
 				value = stamp.fromISOString(value);
 			}
-			if(value){
-				// convert from Number to Date, or make copy of Date object so that setHours() call below
-				// doesn't affect original value
-				value = new this.dateClassObj(value);
-			}
-			if(this._isValidDate(value)){
-				// Try to avoid re-rendering when new value is the same as old value, but be careful
-				// during initialization when this.value == value even though the grid hasn't been rendered yet.
-				if(!this._created || !this._isValidDate(this.value) || this.dateFuncObj.compare(value, this.value)){
-					value.setHours(1, 0, 0, 0); // round to nearest day (1am to avoid issues when DST shift occurs at midnight, see #8521, #9366)
+			value = this._patchDate(value);
+			
+			if(this._isValidDate(value) && !this.isDisabledDate(value, this.lang)){
+				this._set("value", value);
 
-					if(!this.isDisabledDate(value, this.lang)){
-						this._set("value", value);
+				// Set focus cell to the new value.   Arguably this should only happen when there isn't a current
+				// focus point.   This will also repopulate the grid to new month/year if necessary.
+				this.set("currentFocus", value);
 
-						// Set focus cell to the new value.   Arguably this should only happen when there isn't a current
-						// focus point.   This will also repopulate the grid, showing the new selected value (and possibly
-						// new month/year).
-						this.set("currentFocus", value);
+				// Mark the selected date
+				this._markSelectedDates([value]);
 
-						if(this._created && (priorityChange || typeof priorityChange == "undefined")){
-							this.onChange(this.get('value'));
-						}
-					}
+				if(this._created && (priorityChange || typeof priorityChange == "undefined")){
+					this.onChange(this.get('value'));
 				}
 			}else{
-				// clear value, and repopulate grid (to deselect the previously selected day) without changing currentFocus
+				// clear value, and mark all dates as unselected
 				this._set("value", null);
-				this.set("currentFocus", this.currentFocus);
+				this._markSelectedDates([]);
 			}
+		},
+
+		_patchDate: function(/*Date|Number*/ value){
+			// summary:
+			//		Convert Number into Date, or copy Date object.   Then, round to nearest day,
+			//		setting to 1am to avoid issues when DST shift occurs at midnight, see #8521, #9366)
+			if(value){
+				value = new this.dateClassObj(value);
+				value.setHours(1, 0, 0, 0);
+			}
+			return value;
 		},
 
 		_setText: function(node, text){
@@ -173,7 +175,8 @@ define([
 
 		_populateGrid: function(){
 			// summary:
-			//      Fills in the calendar grid with each day (1-31)
+			//      Fills in the calendar grid with each day (1-31).
+			//		Call this on creation, when moving to a new month.
 			// tags:
 			//      private
 
@@ -218,19 +221,13 @@ define([
 					clazz = "dijitCalendarCurrentDate " + clazz;
 				}
 
-				if(this._isSelectedDate(date, this.lang)){
-					clazz = "dijitCalendarSelectedDate " + clazz;
-					template.setAttribute("aria-selected", "true");
-				}else{
-					template.setAttribute("aria-selected", "false");
-				}
-
 				if(this.isDisabledDate(date, this.lang)){
 					clazz = "dijitCalendarDisabledDate " + clazz;
 					template.setAttribute("aria-disabled", "true");
 				}else{
 					clazz = "dijitCalendarEnabledDate " + clazz;
 					template.removeAttribute("aria-disabled");
+					template.setAttribute("aria-selected", "false");
 				}
 
 				var clazz2 = this.getClassForDate(date, this.lang);
@@ -248,7 +245,6 @@ define([
 				// Set Date string (ex: "13").
 				this._setText(this.dateLabels[idx], date.getDateLocalized ? date.getDateLocalized(this.lang) : date.getDate());
 			}, this);
-
 		},
 		
 		_populateControls: function(){
@@ -343,7 +339,7 @@ define([
 				});
 			});
 			
-		  	connect("incrementMonth", "month", 1);
+			connect("incrementMonth", "month", 1);
 			connect("decrementMonth", "month", -1);
 			connect("nextYearLabelNode", "year", 1);
 			connect("previousYearLabelNode", "year", -1);
@@ -354,25 +350,27 @@ define([
 			//		If the calendar currently has focus, then focuses specified date,
 			//		changing the currently displayed month/year if necessary.
 			//		If the calendar doesn't have focus, updates currently
-			//		displayed month/year, and sets the cell that will get focus.
+			//		displayed month/year, and sets the cell that will get focus
+			//		when Calendar is focused.
 			// forceFocus:
 			//		If true, will focus() the cell even if calendar itself doesn't have focus
 
 			var oldFocus = this.currentFocus,
-				oldCell = oldFocus && this._date2cell ? this._date2cell[oldFocus.valueOf()] : null;
-
-			// round specified value to nearest day (1am to avoid issues when DST shift occurs at midnight, see #8521, #9366)
-			date = new this.dateClassObj(date);
-			date.setHours(1, 0, 0, 0);
+				oldCell = this._getNodeByDate(oldFocus);
+			date = this._patchDate(date);
 
 			this._set("currentFocus", date);
 
-			// TODO: only re-populate grid when month/year has changed
-			this._populateGrid();
-			this._populateControls();
-
+			// If the focus is on a different month than the current calendar month, switch the displayed month.
+			// Also will populate the grid initially, on Calendar creation.
+			if(!this._date2cell || this.datePackage.difference(oldFocus, date, "month") != 0){
+				this._populateGrid();
+				this._populateControls();
+				this._markSelectedDates([this.value]);
+			}
+			
 			// set tabIndex=0 on new cell, and focus it (but only if Calendar itself is focused)
-			var newCell = this._date2cell[date.valueOf()];
+			var newCell = this._getNodeByDate(date);
 			newCell.setAttribute("tabIndex", this.tabIndex);
 			if(this.focused || forceFocus){
 				newCell.focus();
@@ -406,20 +404,37 @@ define([
 			}
 		},
 
+		_getNodeByDate : function(/*Date*/ value){
+			// summary:
+			//		Returns the cell corresponding to the date, or null if the date is not within the currently
+			//		displayed month.
+			value = this._patchDate(value);
+			return value && this._date2cell ? this._date2cell[value.valueOf()] : null;
+		},
+
+		_markSelectedDates: function(/*Date[]*/ dates){
+			// summary:
+			//		Marks the specified cells as selected, and clears cells previously marked as selected.
+			//		For CalendarLite at most one cell is selected at any point, but this allows an array
+			//		for easy subclassing.
+
+			// Function to mark a cell as selected or unselected
+			function mark(/*Boolean*/ selected, /*DomNode*/ cell){
+				domClass.toggle(cell, "dijitCalendarSelectedDate", selected);
+				cell.setAttribute("aria-selected", selected ? "true" : "false");
+			}
+
+			// Clear previously selected cells.
+			array.forEach(this._selectedCells || [], lang.partial(mark, false));
+
+			// Mark newly selected cells.  Ignore dates outside the currently displayed month.
+			this._selectedCells = array.filter(array.map(dates, this._getNodeByDate, this), function(n){ return n;});
+			array.forEach(this._selectedCells, lang.partial(mark, true));
+		},
+
 		onChange: function(/*Date*/ /*===== date =====*/){
 			// summary:
 			//		Called only when the selected date has changed
-		},
-
-		_isSelectedDate: function(dateObject /*===== , locale =====*/){
-			// summary:
-			//		Extension point so developers can subclass Calendar to
-			//		support multiple (concurrently) selected dates
-			// dateObject: Date
-			// locale: String?
-			// tags:
-			//		protected extension
-			return this._isValidDate(this.value) && !this.dateFuncObj.compare(dateObject, this.value, "date");
 		},
 
 		isDisabledDate: function(/*===== dateObject, locale =====*/){

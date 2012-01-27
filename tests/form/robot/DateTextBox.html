@@ -985,7 +985,7 @@
 						setUp: function(){
 							german.closeDropDown(true);
 							german.set("dropDownDefaultValue", new Date(2000,11,21));
-							german.set('value', new Date(1900,10,25));
+							german.set('value', new Date(2004,10,25));
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -994,7 +994,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", german.dropDown.domNode);
-								doh.is("1900", innerText(selectedYearButtons[0]), "textbox year is selected");
+								doh.is("2004", innerText(selectedYearButtons[0]), "textbox year is selected");
 	
 								var selectedDates = dojo.query(".dijitCalendarSelectedDate", german.dropDown.domNode);
 								doh.is(1, selectedDates.length, "one selected date");
