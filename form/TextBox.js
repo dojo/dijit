@@ -114,7 +114,7 @@ define([
 			_isTextSelected: function(){
 				var range = win.doc.selection.createRange();
 				var parent = range.parentElement();
-				return parent == this.textbox && range.text.length == 0;
+				return parent == this.textbox && range.text.length > 0;
 			},
 
 			postCreate: function(){

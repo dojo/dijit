@@ -321,34 +321,38 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 		if(this.disabled){ return; }
 		this._setBlurValue();
 		this.inherited(arguments);
-
-		if(this._selectOnClickHandle){
-			this.disconnect(this._selectOnClickHandle);
-		}
 	},
 
 	_isTextSelected: function(){
-		return this.textbox.selectionStart == this.textbox.selectionEnd;
+		return this.textbox.selectionStart != this.textbox.selectionEnd;
 	},
 
 	_onFocus: function(/*String*/ by){
 		if(this.disabled || this.readOnly){ return; }
 
 		// Select all text on focus via click if nothing already selected.
-		// Since mouse-up will clear the selection need to defer selection until after mouse-up.
+		// Since mouse-up will clear the selection, need to defer selection until after mouse-up.
 		// Don't do anything on focus by tabbing into the widget since there's no associated mouse-up event.
 		if(this.selectOnClick && by == "mouse"){
 			this._selectOnClickHandle = this.connect(this.domNode, "onmouseup", function(){
 				// Only select all text on first click; otherwise users would have no way to clear
 				// the selection.
 				this.disconnect(this._selectOnClickHandle);
+				this._selectOnClickHandle = null;
 
 				// Check if the user selected some text manually (mouse-down, mouse-move, mouse-up)
 				// and if not, then select all the text
-				if(this._isTextSelected()){
+				if(!this._isTextSelected()){
 					_TextBoxMixin.selectInputText(this.textbox);
 				}
 			});
+			// in case the mouseup never comes
+			setTimeout(dojo.hitch(this, function(){ 
+				if(this._selectOnClickHandle){
+					this.disconnect(this._selectOnClickHandle);
+					this._selectOnClickHandle = null;
+				}
+			}), 500); // if mouseup not received soon, then treat it as some gesture
 		}
 		// call this.inherited() before refreshState(), since this.inherited() will possibly scroll the viewport
 		// (to scroll the TextBox into view), which will affect how _refreshState() positions the tooltip
