@@ -20,12 +20,9 @@
 
   outline: 1px dotted #494949;
 }
-/* Drag and Drop */
+/* Drag and Drop*/
 .claro .dojoDndItemBefore, .claro .dojoDndItemAfter {
-  border-top: 1px solid #759dc0;
-}
-.claro .dojoDndItemOver {
-  cursor: pointer;
+  border-color: #759dc0;
 }
 .claro table.dojoDndAvatar {
   border: 1px solid #b5bcc7;

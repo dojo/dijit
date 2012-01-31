@@ -20,14 +20,13 @@
 	outline: 1px dotted @focus-outline-color;
 }
 
-/* Drag and Drop */
+/* Drag and Drop*/
 .claro .dojoDndItemBefore,
-.claro .dojoDndItemAfter{
-	border-top: 1px solid @dnd-dropseparator-color;
+.claro .dojoDndItemAfter {
+    // line to indicate that user is dropping before/after this dojoDndItem
+	border-color: @dnd-dropseparator-color;
 }
-.claro .dojoDndItemOver {
-	cursor:pointer;
-	}
+
 .claro table.dojoDndAvatar {
 	border: 1px solid @border-color;
 	border-collapse: collapse;

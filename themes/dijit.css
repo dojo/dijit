@@ -2079,3 +2079,40 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	/* a region the user would be able to click on, but it's disabled */
 	cursor: default;
 }
+
+/* Drag and Drop */
+.dojoDndItem {
+    padding: 2px;  /* will be replaced by border during drag over (dojoDndItemBefore, dojoDndItemAfter) */
+}
+.dojoDndHorizontal .dojoDndItem {
+    margin:  0px 3px;
+
+    /* make contents of horizontal container be side by side, rather than vertical */
+    #display: inline;
+    display: inline-block;
+}
+
+.dojoDndItemBefore,
+.dojoDndItemAfter {
+	border: 0px solid #369;
+}
+.dojoDndItemBefore {
+    border-width: 2px 0 0 0;
+    padding: 0 2px 2px 2px;
+}
+.dojoDndItemAfter {
+    border-width: 0 0 2px 0;
+    padding: 2px 2px 0 2px;
+}
+.dojoDndHorizontal .dojoDndItemBefore {
+    border-width: 0 0 0 2px;
+    padding: 2px 2px 2px 0;
+}
+.dojoDndHorizontal .dojoDndItemAfter {
+    border-width: 0 2px 0 0;
+    padding: 2px 0 2px 2px;
+}
+
+.dojoDndItemOver {
+	cursor:pointer;
+}
