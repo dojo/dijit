@@ -92,6 +92,7 @@
 					},
 					{
 						name: "expanded RTL",
+						timeout: 5000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							treeRtl.expandAll().then(d.getTestCallback(function(){
@@ -102,6 +103,7 @@
 					},
 					{
 						name: "expanded LTR",
+						timeout: 5000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							treeLtr.expandAll().then(d.getTestCallback(function(){
@@ -112,6 +114,7 @@
 					},
 					{
 						name: "expanded AUTO",
+						timeout: 5000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							treeAuto.expandAll().then(d.getTestCallback(function(){
