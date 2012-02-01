@@ -165,7 +165,7 @@
 								var popup = dijit.byId('q2_popup');
 								doh.t(!popup || isHidden(popup), "popup hidden");
 							}), 1000);
-		
+
 							// do partial input
 							doh.robot.typeKeys('12', 500, 400);
 
@@ -194,14 +194,18 @@
 								doh.is("12:45 PM", innerText(children[7]));
 							}), 1000);
 
+							// Setup handler to fire when TAB keypress below fires
+							doh.robot.sequence(function(){
+								onFocus(d.getTestCallback(function(){
+									var popup = dijit.byId('q2_popup');
+									doh.t(!popup || isHidden(popup), "popup hidden again");
+
+									doh.is("q3", dojo.global.dijit.focus.curNode.id, "tab moved to next input widget");
+								}));
+							}, 0);
+
 							// tab away to close drop down
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
-							doh.robot.sequence(d.getTestCallback(function(){
-								var popup = dijit.byId('q2_popup');
-								doh.t(!popup || isHidden(popup), "popup hidden again");
-								
-								doh.is("q3", dojo.global.dijit.focus.curNode.id, "tab moved to next input widget");
-							}), 1000);
 
 							return d;
 						}
