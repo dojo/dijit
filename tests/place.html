@@ -158,8 +158,8 @@
 				function aroundML(t){
 					// middle left popup from "aroundLeft" node
 					var ret = place.around(popup, aroundLeft, [
-						"after",	// aroundLeft's middle-right with the popup's middle-left (works)
-						"before"	// aroundLeft's middle-left with the popup's middle-right (fails)
+						"after-centered",	// aroundLeft's middle-right with the popup's middle-left (works)
+						"before-centered"	// aroundLeft's middle-left with the popup's middle-right (fails)
 					], true);
 
 					doh.is("MR", ret.aroundCorner, "around middle");
@@ -173,8 +173,8 @@
 				function aroundMR(t){
 					// middle left popup from "aroundRight" node
 					var ret = place.around(popup, aroundRight, [
-						"after",	// aroundRight's middle-right with the popup's middle-left (fails)
-						"before"	// aroundRight's middle-left with the popup's middle-right (works)
+						"after-centered",	// aroundRight's middle-right with the popup's middle-left (fails)
+						"before-centered"	// aroundRight's middle-left with the popup's middle-right (works)
 					], true);
 
 					doh.is("ML", ret.aroundCorner, "around middle");
