@@ -510,15 +510,12 @@ return declare("dijit.form._FormSelectWidget", _FormValueWidget, {
 
 		// Make our event connections for updating state
 		this.connect(this, "onChange", "_updateSelection");
-		this.connect(this, "startup", "_loadChildren");
+//		this.connect(this, "startup", "_loadChildren"); // moved to startup
 
 		this._setValueAttr(this.value, null);
-	},
 
-	startup: function(){
-		// summary:
+		// moved from startup
 		//		Connects in our store, if we have one defined
-		this.inherited(arguments);
 		var store = this.store, fetchArgs = {};
 		array.forEach(["query", "queryOptions", "onFetch"], function(i){
 			if(this[i]){
@@ -532,6 +529,13 @@ return declare("dijit.form._FormSelectWidget", _FormValueWidget, {
 			this.store = null;
 			this.setStore(store, this._oValue, fetchArgs);
 		}
+		
+	},
+
+	startup: function(){
+		// summary:
+		this._loadChildren();
+		this.inherited(arguments);
 	},
 
 	destroy: function(){
