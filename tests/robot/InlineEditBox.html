@@ -347,22 +347,22 @@
 							var d = new doh.Deferred();
 							var inlineBox = dijit.byId("inlineRTE");
 							var handler = inlineBox.connect(inlineBox, 'edit',
-								function(){
+								d.getTestErrback(function(){
 									inlineBox.disconnect(handler);
 									setTimeout(function(){
 										handler = inlineBox.connect(inlineBox, 'save',
-											function(){
+											d.getTestErrback(function(){
 												inlineBox.disconnect(handler);
 												setTimeout(d.getTestCallback(function(){
 													doh.t(isHidden(inlineBox.wrapperWidget), "editor widget should visible");
 													doh.t(inlineBox.get("value").indexOf('!start!') >= 0, "value changed");
 												}), 1000);
-											});
+											}));
 										doh.robot.typeKeys("!start!", 1, 1400);
 										var buttons = dojo.query(".saveButton", inlineBox.domNode.parentNode);
 										moveAndClick(buttons[buttons.length-1]);
 									}, 1000);
-								});
+								}));
 							moveAndClick(inlineBox.domNode);
 							return d;
 						}
