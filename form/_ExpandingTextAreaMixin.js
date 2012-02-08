@@ -46,9 +46,9 @@ define([
 
 		_estimateHeight: function(){
 			// summary:
-			// 		Approximate the height when the textarea is invisible with the number of lines in the text.
-			// 		Fails when someone calls setValue with a long wrapping line, but the layout fixes itself when the user clicks inside so . . .
-			// 		In IE, the resize event is supposed to fire when the textarea becomes visible again and that will correct the size automatically.
+			//		Approximate the height when the textarea is invisible with the number of lines in the text.
+			//		Fails when someone calls setValue with a long wrapping line, but the layout fixes itself when the user clicks inside so . . .
+			//		In IE, the resize event is supposed to fire when the textarea becomes visible again and that will correct the size automatically.
 			//
 			var textarea = this.textbox;
 			textarea.style.height = "auto";

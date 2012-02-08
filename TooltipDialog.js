@@ -33,7 +33,7 @@ define([
 		//		Pops up a dialog that appears like a Tooltip
 
 		// title: String
-		// 		Description of tooltip dialog (required for a11y)
+		//		Description of tooltip dialog (required for a11y)
 		title: "",
 
 		// doLayout: [protected] Boolean
@@ -44,8 +44,8 @@ define([
 		doLayout: false,
 
 		// autofocus: Boolean
-		// 		A Toggle to modify the default focus behavior of a Dialog, which
-		// 		is to focus on the first dialog element after opening the dialog.
+		//		A Toggle to modify the default focus behavior of a Dialog, which
+		//		is to focus on the first dialog element after opening the dialog.
 		//		False will disable autofocusing. Default: true
 		autofocus: true,
 

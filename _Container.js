@@ -28,7 +28,7 @@ define([
 			this.inherited(arguments);
 			if(!this.containerNode){
 				// all widgets with descendants must set containerNode
-	 			this.containerNode = this.domNode;
+				this.containerNode = this.domNode;
 			}
 		},
 

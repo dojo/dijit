@@ -112,7 +112,7 @@ var CssStateMixin = declare("dijit._CssStateMixin", [], {
 		// description:
 		//		In the case where a widget has multiple
 		//		states, it sets the class based on all possible
-		//	 	combinations.  For example, an invalid form widget that is being hovered
+		//		combinations.  For example, an invalid form widget that is being hovered
 		//		will be "dijitInput dijitInputInvalid dijitInputHover dijitInputInvalidHover".
 		//
 		//		The widget may have one or more of the following states, determined

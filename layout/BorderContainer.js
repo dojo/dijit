@@ -43,8 +43,8 @@ var _Splitter = declare("dijit.layout._Splitter", [_Widget, _TemplatedMixin ],
 	//		private
 
 /*=====
- 	// container: [const] dijit.layout.BorderContainer
- 	//		Pointer to the parent BorderContainer
+	// container: [const] dijit.layout.BorderContainer
+	//		Pointer to the parent BorderContainer
 	container: null,
 
 	// child: [const] dijit.layout._LayoutWidget
@@ -225,7 +225,7 @@ var _Splitter = declare("dijit.layout._Splitter", [_Widget, _TemplatedMixin ],
 var _Gutter = declare("dijit.layout._Gutter", [_Widget, _TemplatedMixin],
 {
 	// summary:
-	// 		Just a spacer div to separate side pane from center pane.
+	//		Just a spacer div to separate side pane from center pane.
 	//		Basically a trick to lookup the gutter/splitter width from the theme.
 	// description:
 	//		Instantiated by `dijit.layout.BorderContainer`.  Users should not
@@ -299,7 +299,7 @@ var BorderContainer = declare("dijit.layout.BorderContainer", _LayoutWidget, {
 	baseClass: "dijitBorderContainer",
 
 	// _splitterClass: Function||String
-	// 		Optional hook to override the default Splitter widget used by BorderContainer
+	//		Optional hook to override the default Splitter widget used by BorderContainer
 	_splitterClass: _Splitter,
 
 	postMixInProperties: function(){

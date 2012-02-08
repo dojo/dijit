@@ -60,7 +60,7 @@ return declare("dijit.Menu", DropDownMenu, {
 	leftClickToOpen: false,
 
 	// refocus: Boolean
-	// 		When this menu closes, re-focus the element which had focus before it was opened.
+	//		When this menu closes, re-focus the element which had focus before it was opened.
 	refocus: true,
 
 	postCreate: function(){
@@ -313,8 +313,8 @@ return declare("dijit.Menu", DropDownMenu, {
 	},
 
 	destroy: function(){
- 		array.forEach(this._bindings, function(b){ if(b){ this.unBindDomNode(b.node); } }, this);
- 		this.inherited(arguments);
+		array.forEach(this._bindings, function(b){ if(b){ this.unBindDomNode(b.node); } }, this);
+		this.inherited(arguments);
 	}
 });
 

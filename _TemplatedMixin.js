@@ -54,14 +54,14 @@ define([
 		// _attachPoints: [private] String[]
 		//		List of widget attribute names associated with data-dojo-attach-point=... in the
 		//		template, ex: ["containerNode", "labelNode"]
- 		_attachPoints: [],
+		_attachPoints: [],
  =====*/
 
 /*=====
 		// _attachEvents: [private] Handle[]
 		//		List of connections associated with data-dojo-attach-event=... in the
 		//		template
- 		_attachEvents: [],
+		_attachEvents: [],
  =====*/
 
 		constructor: function(){

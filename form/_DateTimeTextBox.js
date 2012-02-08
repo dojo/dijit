@@ -158,7 +158,7 @@ define([
 			constraints.fullYear = true; // see #5465 - always format with 4-digit years
 			var fromISO = stamp.fromISOString;
 			if(typeof constraints.min == "string"){ constraints.min = fromISO(constraints.min); }
- 			if(typeof constraints.max == "string"){ constraints.max = fromISO(constraints.max); }
+			if(typeof constraints.max == "string"){ constraints.max = fromISO(constraints.max); }
 			this.inherited(arguments);
 		},
 
@@ -231,7 +231,7 @@ define([
 
 					isDisabledDate: function(/*Date*/ date){
 						// summary:
-						// 	disables dates outside of the min/max of the _DateTimeTextBox
+						//	disables dates outside of the min/max of the _DateTimeTextBox
 						return !textBox.rangeCheck(date, textBox.constraints);
 					}
 				});

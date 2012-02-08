@@ -121,7 +121,7 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 		//		Hook so get('displayedValue') works.
 		// description:
 		//		Returns the displayed value (what the user sees on the screen),
-		// 		after filtering (ie, trimming spaces etc.).
+		//		after filtering (ie, trimming spaces etc.).
 		//
 		//		For some subclasses of TextBox (like ComboBox), the displayed value
 		//		is different from the serialized value that's actually
@@ -282,7 +282,7 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 		//		value on blur or form submit.
 		// description:
 		//		For MappedTextBox subclasses, this is called twice
-		// 			- once with the display value
+		//			- once with the display value
 		//			- once the value as set/returned by set('value', ...)
 		//		and get('value'), ex: a Number for NumberTextBox.
 		//

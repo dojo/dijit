@@ -44,7 +44,7 @@ declare(
 
 	getChildren: function(parentItem, onComplete){
 		// summary:
-		// 		Calls onComplete() with array of child items of given parent item, all loaded.
+		//		Calls onComplete() with array of child items of given parent item, all loaded.
 		//		Throws exception on error.
 		// parentItem: dojo.data.Item
 		// onComplete: function(items)

@@ -63,7 +63,7 @@ define([
 		adjust: function(val /*=====, delta =====*/){
 			// summary:
 			//		Overridable function used to adjust a primitive value(Number/Date/...) by the delta amount specified.
-			// 		The val is adjusted in a way that makes sense to the object type.
+			//		The val is adjusted in a way that makes sense to the object type.
 			// val: Object
 			// delta: Number
 			// tags:

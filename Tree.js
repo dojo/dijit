@@ -191,7 +191,7 @@ var TreeNode = declare(
 		domClass.replace(this[nodeName], this[clsName] || "", oldCls || "");
 
 		domStyle.set(this[nodeName], this.tree["get" + upper + "Style"](item, this.isExpanded) || {});
- 	},
+	},
 
 	_updateLayout: function(){
 		// summary:
@@ -330,7 +330,7 @@ var TreeNode = declare(
 		//		Sets the child items of this node, removing/adding nodes
 		//		from current children to match specified items[] array.
 		//		Also, if this.persist == true, expands any children that were previously
-		// 		opened.
+		//		opened.
 		// returns:
 		//		Deferred object that fires after all previously opened children
 		//		have been expanded again (or fires instantly if there are no such children).
@@ -667,7 +667,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		// summary:
 		//		Returns objects passed to `Tree.model.newItem()` based on DnD nodes
 		//		dropped onto the tree.   Developer must override this method to enable
-		// 		dropping from external sources onto this Tree, unless the Tree.model's items
+		//		dropping from external sources onto this Tree, unless the Tree.model's items
 		//		happen to look like {id: 123, name: "Apple" } with no other attributes.
 		// description:
 		//		For each node in nodes[], which came from source, create a hash of name/value
@@ -1127,7 +1127,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		// summary:
 		//		Deprecated.   This should be specified on the model itself.
 		//
-		// 		Overridable function that return array of child items of given parent item,
+		//		Overridable function that return array of child items of given parent item,
 		//		or if parentItem==null then return top items in tree
 		// tags:
 		//		deprecated

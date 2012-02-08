@@ -153,7 +153,7 @@ define([
 /*=====
 		// contentWidget: dijit._Widget
 		//		Pointer to the real child widget
-	 	contentWidget: null,
+		contentWidget: null,
 =====*/
 
 		baseClass: "dijitAccordionInnerContainer",
@@ -249,7 +249,7 @@ define([
 		//		Holds a set of panes where every pane's title is visible, but only one pane's content is visible at a time,
 		//		and switching between panes is visualized by sliding the other panes up/down.
 		// example:
-		//	| 	<div data-dojo-type="dijit/layout/AccordionContainer">
+		//	|	<div data-dojo-type="dijit/layout/AccordionContainer">
 		//	|		<div data-dojo-type="dijit/layout/ContentPane" title="pane 1">
 		//	|		</div>
 		//	|		<div data-dojo-type="dijit/layout/ContentPane" title="pane 2">
@@ -315,7 +315,7 @@ define([
 				}
 			});
 			this._verticalSpace = mySize.h - totalCollapsedHeight - wrapperDomNodeMargin.h
-			 	- wrapperDomNodePadBorder.h - wrapperContainerNodeMargin.h - wrapperContainerNodePadBorder.h
+				- wrapperDomNodePadBorder.h - wrapperContainerNodeMargin.h - wrapperContainerNodePadBorder.h
 				- openPane._buttonWidget.getTitleHeight();
 
 			// Memo size to make displayed child

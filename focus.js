@@ -212,7 +212,7 @@ define([
 
 		_onBlurNode: function(/*DomNode*/ /*===== node =====*/){
 			// summary:
-			// 		Called when focus leaves a node.
+			//		Called when focus leaves a node.
 			//		Usually ignored, _unless_ it *isn't* followed by touching another node,
 			//		which indicates that we tabbed off the last field on the page,
 			//		in which case every widget is marked inactive

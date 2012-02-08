@@ -92,8 +92,8 @@ define([
 					widget.focus();
 					didFocus = true;
 				}
-	 			return valid;
-	 		}), function(item){ return item; });
+				return valid;
+			}), function(item){ return item; });
 		},
 
 		setValues: function(val){
@@ -142,7 +142,7 @@ define([
 			}
 
 			/***
-			 * 	TODO: code for plain input boxes (this shouldn't run for inputs that are part of widgets)
+			 *	TODO: code for plain input boxes (this shouldn't run for inputs that are part of widgets)
 
 			array.forEach(this.containerNode.elements, function(element){
 				if(element.name == ''){return};	// like "continue"
@@ -210,8 +210,8 @@ define([
 						element.value = myObj[name] || "";
 						break;
 				}
-	  		});
-	  		*/
+			});
+			*/
 
 			// Note: no need to call this._set("value", ...) as the child updates will trigger onChange events
 			// which I am monitoring.
@@ -223,7 +223,7 @@ define([
 		},
 		_getValueAttr: function(){
 			// summary:
-			// 		Returns Object representing form values.   See description of `value` for details.
+			//		Returns Object representing form values.   See description of `value` for details.
 			// description:
 
 			// The value is updated into this.value every time a child has an onChange event,
@@ -345,9 +345,9 @@ define([
 			return obj;
 		},
 
-	 	isValid: function(){
-	 		// summary:
-	 		//		Returns true if all of the widgets are valid.
+		isValid: function(){
+			// summary:
+			//		Returns true if all of the widgets are valid.
 			//		Deprecated, will be removed in 2.0.  Use get("state") instead.
 
 			return this.state == "";

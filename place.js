@@ -268,7 +268,7 @@ define([
 			//		This will try to position node such that node's top-left corner is at the same position
 			//		as the bottom left corner of the aroundNode (ie, put node below
 			//		aroundNode, with left edges aligned).	If that fails it will try to put
-			// 		the bottom-right corner of node where the top right corner of aroundNode is
+			//		the bottom-right corner of node where the top right corner of aroundNode is
 			//		(ie, put node above aroundNode, with right edges aligned)
 			//
 

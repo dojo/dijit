@@ -34,13 +34,13 @@ return declare("dijit.ProgressBar", [_Widget, _TemplatedMixin], {
 
 	// progress: [const] String (Percentage or Number)
 	//		Number or percentage indicating amount of task completed.
-	// 		Deprecated.   Use "value" instead.
+	//		Deprecated.   Use "value" instead.
 	progress: "0",
 
 	// value: String (Percentage or Number)
 	//		Number or percentage indicating amount of task completed.
-	// 		With "%": percentage value, 0% <= progress <= 100%, or
-	// 		without "%": absolute value, 0 <= progress <= maximum.
+	//		With "%": percentage value, 0% <= progress <= 100%, or
+	//		without "%": absolute value, 0 <= progress <= maximum.
 	//		Infinity means that the progress bar is indeterminate.
 	value: "",
 
@@ -53,9 +53,9 @@ return declare("dijit.ProgressBar", [_Widget, _TemplatedMixin], {
 	places: 0,
 
 	// indeterminate: [const] Boolean
-	// 		If false: show progress value (number or percentage).
-	// 		If true: show that a process is underway but that the amount completed is unknown.
-	// 		Deprecated.   Use "value" instead.
+	//		If false: show progress value (number or percentage).
+	//		If true: show that a process is underway but that the amount completed is unknown.
+	//		Deprecated.   Use "value" instead.
 	indeterminate: false,
 
 	// label: String?

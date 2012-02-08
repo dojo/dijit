@@ -349,7 +349,7 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 		// summary:
 		//		Returns objects passed to `Tree.model.newItem()` based on DnD nodes
 		//		dropped onto the tree.   Developer must override this method to enable
-		// 		dropping from external sources onto this Tree, unless the Tree.model's items
+		//		dropping from external sources onto this Tree, unless the Tree.model's items
 		//		happen to look like {id: 123, name: "Apple" } with no other attributes.
 		// description:
 		//		For each node in nodes[], which came from source, create a hash of name/value

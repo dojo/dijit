@@ -81,7 +81,7 @@ return declare("dijit._WidgetBase", Stateful, {
 	// |		_setFocusAttr: {node: "focusNode", type: "attribute"}
 	// |		_setFocusAttr: "focusNode"	(shorthand)
 	// |		_setFocusAttr: ""		(shorthand, maps to this.domNode)
-	// 		Maps this.focus to this.focusNode.focus, or (last example) this.domNode.focus
+	//		Maps this.focus to this.focusNode.focus, or (last example) this.domNode.focus
 	//
 	//		- DOM node innerHTML
 	//	|		_setTitleAttr: { node: "titleNode", type: "innerHTML" }
@@ -135,7 +135,7 @@ return declare("dijit._WidgetBase", Stateful, {
 	//		Bi-directional support,	the main variable which is responsible for the direction of the text.
 	//		The text direction can be different than the GUI direction by using this parameter in creation
 	//		of a widget.
-	// 		Allowed values:
+	//		Allowed values:
 	//			1. "ltr"
 	//			2. "rtl"
 	//			3. "auto" - contextual the direction of a text defined by first strong letter.
@@ -231,7 +231,7 @@ return declare("dijit._WidgetBase", Stateful, {
 	//
 	//		- DOM node attribute
 	// |		focus: {node: "focusNode", type: "attribute"}
-	// 		Maps this.focus to this.focusNode.focus
+	//		Maps this.focus to this.focusNode.focus
 	//
 	//		- DOM node innerHTML
 	//	|		title: { node: "titleNode", type: "innerHTML" }
@@ -479,11 +479,11 @@ return declare("dijit._WidgetBase", Stateful, {
 
 	destroyRecursive: function(/*Boolean?*/ preserveDom){
 		// summary:
-		// 		Destroy this widget and its descendants
+		//		Destroy this widget and its descendants
 		// description:
 		//		This is the generic "destructor" function that all widget users
-		// 		should call to cleanly discard with a widget. Once a widget is
-		// 		destroyed, it is removed from the manager object.
+		//		should call to cleanly discard with a widget. Once a widget is
+		//		destroyed, it is removed from the manager object.
 		// preserveDom:
 		//		If true, this method will leave the original DOM structure
 		//		alone of descendant Widgets. Note: This will NOT work with
@@ -496,7 +496,7 @@ return declare("dijit._WidgetBase", Stateful, {
 
 	destroy: function(/*Boolean*/ preserveDom){
 		// summary:
-		// 		Destroy this widget, but not its descendants.
+		//		Destroy this widget, but not its descendants.
 		//		This method will, however, destroy internal widgets such as those used within a template.
 		// preserveDom: Boolean
 		//		If true, this method will leave the original DOM structure alone.
@@ -679,9 +679,9 @@ return declare("dijit._WidgetBase", Stateful, {
 		// description:
 		//		Get a named property from a widget. The property may
 		//		potentially be retrieved via a getter method. If no getter is defined, this
-		// 		just retrieves the object's property.
+		//		just retrieves the object's property.
 		//
-		// 		For example, if the widget has properties `foo` and `bar`
+		//		For example, if the widget has properties `foo` and `bar`
 		//		and a method named `_getFooAttr()`, calling:
 		//		`myWidget.get("foo")` would be equivalent to calling
 		//		`widget._getFooAttr()` and `myWidget.get("bar")`
@@ -700,9 +700,9 @@ return declare("dijit._WidgetBase", Stateful, {
 		//		The value to set in the property.
 		// description:
 		//		Sets named properties on a widget which may potentially be handled by a
-		// 		setter in the widget.
+		//		setter in the widget.
 		//
-		// 		For example, if the widget has properties `foo` and `bar`
+		//		For example, if the widget has properties `foo` and `bar`
 		//		and a method named `_setFooAttr()`, calling
 		//		`myWidget.set("foo", "Howdy!")` would be equivalent to calling
 		//		`widget._setFooAttr("Howdy!")` and `myWidget.set("bar", 3)`
@@ -954,23 +954,23 @@ return declare("dijit._WidgetBase", Stateful, {
 		//		to a variable.
 		//
 		// example:
-		// | 	// create a Button with no srcNodeRef, and place it in the body:
-		// | 	var button = new dijit.form.Button({ label:"click" }).placeAt(win.body());
-		// | 	// now, 'button' is still the widget reference to the newly created button
-		// | 	button.on("click", function(e){ console.log('click'); }));
+		//	|	// create a Button with no srcNodeRef, and place it in the body:
+		//	|	var button = new dijit.form.Button({ label:"click" }).placeAt(win.body());
+		//	|	// now, 'button' is still the widget reference to the newly created button
+		//	|	button.on("click", function(e){ console.log('click'); }));
 		//
 		// example:
-		// |	// create a button out of a node with id="src" and append it to id="wrapper":
-		// | 	var button = new dijit.form.Button({},"src").placeAt("wrapper");
+		//	|	// create a button out of a node with id="src" and append it to id="wrapper":
+		//	|	var button = new dijit.form.Button({},"src").placeAt("wrapper");
 		//
 		// example:
-		// |	// place a new button as the first element of some div
-		// |	var button = new dijit.form.Button({ label:"click" }).placeAt("wrapper","first");
+		//	|	// place a new button as the first element of some div
+		//	|	var button = new dijit.form.Button({ label:"click" }).placeAt("wrapper","first");
 		//
 		// example:
-		// |	// create a contentpane and add it to a TabContainer
-		// |	var tc = dijit.byId("myTabs");
-		// |	new dijit.layout.ContentPane({ href:"foo.html", title:"Wow!" }).placeAt(tc)
+		//	|	// create a contentpane and add it to a TabContainer
+		//	|	var tc = dijit.byId("myTabs");
+		//	|	new dijit.layout.ContentPane({ href:"foo.html", title:"Wow!" }).placeAt(tc)
 
 		if(reference.declaredClass && reference.addChild){
 			reference.addChild(this, position);

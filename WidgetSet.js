@@ -20,7 +20,7 @@ define([
 		//		Create a small list of widgets:
 		//		|	var ws = new dijit.WidgetSet();
 		//		|	ws.add(dijit.byId("one"));
-		//		| 	ws.add(dijit.byId("two"));
+		//		|	ws.add(dijit.byId("two"));
 		//		|	// destroy both:
 		//		|	ws.forEach(function(w){ w.destroy(); });
 		//
@@ -175,7 +175,7 @@ define([
 
 		every: function(func, thisObj){
 			// summary:
-			// 		A synthetic clone of `array.every` acting explicitly on this WidgetSet
+			//		A synthetic clone of `array.every` acting explicitly on this WidgetSet
 			//
 			// func: Function
 			//		A callback function run for every widget in this list. Exits loop
@@ -196,7 +196,7 @@ define([
 
 		some: function(func, thisObj){
 			// summary:
-			// 		A synthetic clone of `array.some` acting explicitly on this WidgetSet
+			//		A synthetic clone of `array.some` acting explicitly on this WidgetSet
 			//
 			// func: Function
 			//		A callback function run for every widget in this list. Exits loop

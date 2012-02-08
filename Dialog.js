@@ -105,14 +105,14 @@ define([
 		duration: manager.defaultDuration,
 
 		// refocus: Boolean
-		// 		A Toggle to modify the default focus behavior of a Dialog, which
-		// 		is to re-focus the element which had focus before being opened.
+		//		A Toggle to modify the default focus behavior of a Dialog, which
+		//		is to re-focus the element which had focus before being opened.
 		//		False will disable refocusing. Default: true
 		refocus: true,
 
 		// autofocus: Boolean
-		// 		A Toggle to modify the default focus behavior of a Dialog, which
-		// 		is to focus on the first dialog element after opening the dialog.
+		//		A Toggle to modify the default focus behavior of a Dialog, which
+		//		is to focus on the first dialog element after opening the dialog.
 		//		False will disable autofocusing. Default: true
 		autofocus: true,
 
@@ -235,7 +235,7 @@ define([
 
 		_size: function(){
 			// summary:
-			// 		If necessary, shrink dialog contents so dialog fits in viewport
+			//		If necessary, shrink dialog contents so dialog fits in viewport
 			// tags:
 			//		private
 

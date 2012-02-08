@@ -22,7 +22,7 @@ define(["./_WidgetBase"], function(_WidgetBase){
 			// summary:
 			//		Gets the right direction of text.
 			// description:
-			// 		If textDir is ltr or rtl returns the value.
+			//		If textDir is ltr or rtl returns the value.
 			//		If it's auto, calls to another function that responsible
 			//		for checking the value, and defining the direction.
 			//	tags:
@@ -51,7 +51,7 @@ define(["./_WidgetBase"], function(_WidgetBase){
 			// text:
 			//		Used in case this.textDir is "auto", for calculating the right transformation
 			// description:
-			// 		If textDir is ltr or rtl returns the value.
+			//		If textDir is ltr or rtl returns the value.
 			//		If it's auto, calls to another function that responsible
 			//		for checking the value, and defining the direction.
 			//	tags:
@@ -71,7 +71,7 @@ define(["./_WidgetBase"], function(_WidgetBase){
 			// text:
 			//		The text to be wrapped.
 			// description:
-			// 		There's a dir problem with some HTML elements. For some elements (e.g. <option>, <select>)
+			//		There's a dir problem with some HTML elements. For some elements (e.g. <option>, <select>)
 			//		defining the dir in different direction then the GUI orientation, won't display correctly. 
 			//		FF 3.6 will change the alignment of the text in option - this doesn't follow the bidi standards (static text
 			//		should be aligned following GUI direction). IE8 and Opera11.10 completely ignore dir setting for <option>.
@@ -90,7 +90,7 @@ define(["./_WidgetBase"], function(_WidgetBase){
 			// origObj:
 			//		The element (<option>) to restore.
 			// description:
-			// 		Sets the text of origObj to origObj.originalText, which is the original text, without the UCCs.
+			//		Sets the text of origObj to origObj.originalText, which is the original text, without the UCCs.
 			//		The function than removes the originalText from origObj!
 			if(origObj.originalText){
 				origObj.text = origObj.originalText;

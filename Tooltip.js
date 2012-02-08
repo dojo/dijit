@@ -247,11 +247,11 @@ define([
 		    //		private
 	
             this._set("textDir", typeof textDir != 'undefined'? textDir : "");
-    	    if (textDir == "auto"){
-    	        this._setAutoTextDir(this.containerNode);
-    	    }else{
-    	        this.containerNode.dir = this.textDir;
-    	    }  		             		        
+			if (textDir == "auto"){
+				this._setAutoTextDir(this.containerNode);
+			}else{
+				this.containerNode.dir = this.textDir;
+			}
         }
 	});
 
@@ -429,7 +429,7 @@ define([
 		},
 
 		open: function(/*DomNode*/ target){
- 			// summary:
+			// summary:
 			//		Display the tooltip; usually not called directly.
 			// tags:
 			//		private

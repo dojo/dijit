@@ -86,7 +86,7 @@ define([
 	lang.extend(dijit.BackgroundIframe, {
 		resize: function(node){
 			// summary:
-			// 		Resize the iframe so it's the same size as node.
+			//		Resize the iframe so it's the same size as node.
 			//		Needed on IE6 and IE/quirks because height:100% doesn't work right.
 			if(this.iframe){
 				domStyle.set(this.iframe, {

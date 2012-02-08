@@ -136,8 +136,8 @@ lang.mixin(dijit._editor.selection, {
 
 	hasAncestorElement: function(/*String*/ tagName /* ... */){
 		// summary:
-		// 		Check whether current selection has a  parent element which is
-		// 		of type tagName (or one of the other specified tagName)
+		//		Check whether current selection has a  parent element which is
+		//		of type tagName (or one of the other specified tagName)
 		// tagName: String
 		//		The tag name to determine if it has an ancestor of.
 		return this.getAncestorElement.apply(this, arguments) != null; //Boolean

@@ -30,7 +30,7 @@ define([
 		//		Get label for tree node from this attribute
 		labelAttr: "name",
 
-	 	// root: [readonly] dojo.store.Item
+		// root: [readonly] dojo.store.Item
 		//		Pointer to the root item (read only, not a parameter)
 		root: null,
 
@@ -109,7 +109,7 @@ define([
 
 		getChildren: function(/*dojo.store.Item*/ parentItem, /*function(items)*/ onComplete, /*function*/ onError){
 			// summary:
-			// 		Calls onComplete() with array of child items of given parent item.
+			//		Calls onComplete() with array of child items of given parent item.
 
 			var id = this.store.getIdentity(parentItem);
 			if(this.childrenCache[id]){
@@ -185,7 +185,7 @@ define([
 		},
 
 		pasteItem: function(/*Item*/ childItem, /*Item*/ oldParentItem, /*Item*/ newParentItem,
-		 			/*Boolean*/ bCopy, /*int?*/ insertIndex, /*Item*/ before){
+					/*Boolean*/ bCopy, /*int?*/ insertIndex, /*Item*/ before){
 			// summary:
 			//		Move or copy an item from one parent item to another.
 			//		Used in drag & drop

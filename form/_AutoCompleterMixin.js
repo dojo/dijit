@@ -66,7 +66,7 @@ define([
 		autoComplete: true,
 
 		// highlightMatch: String
-		// 		One of: "first", "all" or "none".
+		//		One of: "first", "all" or "none".
 		//
 		//		If the ComboBox/FilteringSelect opens with the search results and the searched
 		//		string can be found, it will be highlighted.  If set to "all"
@@ -309,11 +309,11 @@ define([
 
 		_autoCompleteText: function(/*String*/ text){
 			// summary:
-			// 		Fill in the textbox with the first item from the drop down
-			// 		list, and highlight the characters that were
-			// 		auto-completed. For example, if user typed "CA" and the
-			// 		drop down list appeared, the textbox would be changed to
-			// 		"California" and "ifornia" would be highlighted.
+			//		Fill in the textbox with the first item from the drop down
+			//		list, and highlight the characters that were
+			//		auto-completed. For example, if user typed "CA" and the
+			//		drop down list appeared, the textbox would be changed to
+			//		"California" and "ifornia" would be highlighted.
 
 			var fn = this.focusNode;
 
@@ -494,7 +494,7 @@ define([
 				this.item = undefined;
 				this.value = '';
 			}else{
-				newValue = (this.store._oldAPI ? 	// remove getValue() for 2.0 (old dojo.data API)
+				newValue = (this.store._oldAPI ?	// remove getValue() for 2.0 (old dojo.data API)
 					this.store.getValue(node.item, this.searchAttr) : node.item[this.searchAttr]).toString();
 				this.set('item', node.item, false, newValue);
 			}

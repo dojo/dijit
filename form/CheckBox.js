@@ -31,7 +31,7 @@ define([
 
 	return declare("dijit.form.CheckBox", [ToggleButton, _CheckBoxMixin], {
 		// summary:
-		// 		Same as an HTML checkbox, but with fancy styling.
+		//		Same as an HTML checkbox, but with fancy styling.
 		//
 		// description:
 		//		User interacts with real html inputs.

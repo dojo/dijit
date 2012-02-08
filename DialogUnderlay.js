@@ -23,7 +23,7 @@ define([
 		//		The component that blocks the screen behind a `dijit.Dialog`
 		//
 		// description:
-		// 		A component used to block input behind a `dijit.Dialog`. Only a single
+		//		A component used to block input behind a `dijit.Dialog`. Only a single
 		//		instance of this widget is created by `dijit.Dialog`, and saved as
 		//		a reference to be shared between all Dialogs as `dijit._underlay`
 		//

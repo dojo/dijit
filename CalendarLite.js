@@ -119,7 +119,7 @@ define([
 			// summary:
 			//		Support set("value", ...)
 			// description:
-			// 		Set the current date and update the UI.  If the date is disabled, the value will
+			//		Set the current date and update the UI.  If the date is disabled, the value will
 			//		not change, but the display will change to the corresponding month.
 			// value:
 			//		Either a Date or the number of seconds since 1970.

@@ -215,9 +215,9 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 		// summary:
 		//		Sets which node is the focused cell.
 		// description:
-   		//		At any point in time there's exactly one
+		//		At any point in time there's exactly one
 		//		cell with tabIndex != -1.   If focus is inside the palette then
-		// 		focus is on that cell.
+		//		focus is on that cell.
 		//
 		//		After calling this method, arrow key handlers and mouse click handlers
 		//		should focus the cell in a setTimeout().
@@ -237,11 +237,12 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 
 	_setValueAttr: function(value, priorityChange){
 		// summary:
-		// 		This selects a cell. It triggers the onChange event.
-		// value: String value of the cell to select
+		//		This selects a cell. It triggers the onChange event.
+		// value: String
+		//		Value of the cell to select
 		// tags:
 		//		protected
-		// priorityChange:
+		// priorityChange: Boolean?
 		//		Optional parameter used to tell the select whether or not to fire
 		//		onChange event.
 
@@ -279,10 +280,10 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 
 	_navigateByKey: function(increment, typeCount){
 		// summary:
-		// 	  	This is the callback for typematic.
-		// 		It changes the focus and the highlighed cell.
+		//		This is the callback for typematic.
+		//		It changes the focus and the highlighed cell.
 		// increment:
-		// 		How much the key is navigated.
+		//		How much the key is navigated.
 		// typeCount:
 		//		How many times typematic has fired.
 		// tags:

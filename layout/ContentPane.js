@@ -284,7 +284,7 @@ return declare("dijit.layout.ContentPane", [_Widget, _ContentPaneResizeMixin], {
 
 		this._isDownloaded = false; // mark that content is from a set('content') not a set('href')
 
-		return this.onLoadDeferred; 	// Deferred
+		return this.onLoadDeferred;	// Deferred
 	},
 	_getContentAttr: function(){
 		// summary:

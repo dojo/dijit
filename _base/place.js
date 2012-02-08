@@ -41,7 +41,7 @@ define([
 		// Convert old style {"BL": "TL", "BR": "TR"} type argument
 		// to style needed by dijit.place code:
 		//		[
-		// 			{aroundCorner: "BL", corner: "TL" },
+		//			{aroundCorner: "BL", corner: "TL" },
 		//			{aroundCorner: "BR", corner: "TR" }
 		//		]
 		var positions;

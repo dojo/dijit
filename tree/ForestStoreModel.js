@@ -85,7 +85,7 @@ return declare("dijit.tree.ForestStoreModel", TreeStoreModel, {
 
 	getChildren: function(/*dojo.data.Item*/ parentItem, /*function(items)*/ callback, /*function*/ onError){
 		// summary:
-		// 		Calls onComplete() with array of child items of given parent item, all loaded.
+		//		Calls onComplete() with array of child items of given parent item, all loaded.
 		if(parentItem === this.root){
 			if(this.root.children){
 				// already loaded, just return
@@ -197,7 +197,7 @@ return declare("dijit.tree.ForestStoreModel", TreeStoreModel, {
 		//		Called when item removed from root of tree; user must override this method
 		//		to modify the item so it doesn't match the query for top level items
 		// example:
-		// 	|	store.unsetAttribute(item, "root");
+		//	|	store.unsetAttribute(item, "root");
 		// tags:
 		//		extension
 		console.log(this, ": item ", item, " removed from root");

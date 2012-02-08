@@ -36,7 +36,7 @@ return declare("dijit.form.MultiSelect", _FormValueWidget, {
 		//
 		// example:
 		// |	// move all the selected values from "bar" to "foo"
-		// | 	dijit.byId("foo").addSelected(dijit.byId("bar"));
+		// |	dijit.byId("foo").addSelected(dijit.byId("bar"));
 
 		select.getSelected().forEach(function(n){
 			if(this.restoreOriginalText){

@@ -16,7 +16,7 @@ define([
 
 	return declare("dijit.form.RadioButton", [CheckBox, _RadioButtonMixin], {
 		// summary:
-		// 		Same as an HTML radio, but with fancy styling.
+		//		Same as an HTML radio, but with fancy styling.
 
 		baseClass: "dijitRadio"
 	});

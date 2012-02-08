@@ -52,15 +52,15 @@ define([
 		promptMessage: "",
 
 		// invalidMessage: String
-		// 		The message to display if value is invalid.
+		//		The message to display if value is invalid.
 		//		The translated string value is read from the message file by default.
-		// 		Set to "" to use the promptMessage instead.
+		//		Set to "" to use the promptMessage instead.
 		invalidMessage: "$_unset_$",
 
 		// missingMessage: String
-		// 		The message to display if value is empty and the field is required.
+		//		The message to display if value is empty and the field is required.
 		//		The translated string value is read from the message file by default.
-		// 		Set to "" to use the invalidMessage instead.
+		//		Set to "" to use the invalidMessage instead.
 		missingMessage: "$_unset_$",
 
 		// message: String

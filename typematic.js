@@ -101,20 +101,20 @@ var typematic = (dijit.typematic = {
 		//		See also the trigger method for other parameters.
 		// keyObject:
 		//		an object defining the key to listen for:
-		// 		charOrCode:
+		//		charOrCode:
 		//			the printable character (string) or keyCode (number) to listen for.
-		// 		keyCode:
+		//		keyCode:
 		//			(deprecated - use charOrCode) the keyCode (number) to listen for (implies charCode = 0).
-		// 		charCode:
+		//		charCode:
 		//			(deprecated - use charOrCode) the charCode (number) to listen for.
-		// 		ctrlKey:
+		//		ctrlKey:
 		//			desired ctrl key state to initiate the callback sequence:
 		//			- pressed (true)
 		//			- released (false)
 		//			- either (unspecified)
-		// 		altKey:
+		//		altKey:
 		//			same as ctrlKey but for the alt key
-		// 		shiftKey:
+		//		shiftKey:
 		//			same as ctrlKey but for the shift key
 		// returns:
 		//		a connection handle
@@ -153,7 +153,7 @@ var typematic = (dijit.typematic = {
 		//		See the trigger method for other parameters.
 		// returns:
 		//		a connection handle
-		var handles =  [
+		var handles = [
 			on(node, "mousedown", lang.hitch(this, function(evt){
 				event.stop(evt);
 				typematic.trigger(evt, _this, node, callback, node, subsequentDelay, initialDelay, minDelay);

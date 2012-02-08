@@ -402,7 +402,7 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 
 	_onDblClick: function(e){
 		// summary:
-		// 		Function to define a behavior on double clicks on the element
+		//		Function to define a behavior on double clicks on the element
 		//		type this dialog edits to select it and pop up the editor
 		//		dialog.
 		// e: Object
@@ -563,7 +563,7 @@ var ImgLinkDialog = declare("dijit._editor.plugins.ImgLinkDialog", [LinkDialog],
 
 	_onDblClick: function(e){
 		// summary:
-		// 		Function to define a behavior on double clicks on the element
+		//		Function to define a behavior on double clicks on the element
 		//		type this dialog edits to select it and pop up the editor
 		//		dialog.
 		// e: Object

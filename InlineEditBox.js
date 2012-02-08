@@ -41,7 +41,7 @@ define([
 
 var InlineEditor = declare("dijit._InlineEditor", [_Widget, _TemplatedMixin, _WidgetsInTemplateMixin], {
 	// summary:
-	// 		Internal widget used by InlineEditBox, displayed when in editing mode
+	//		Internal widget used by InlineEditBox, displayed when in editing mode
 	//		to display the editor and maybe save/cancel buttons.  Calling code should
 	//		connect to save/cancel methods to detect when editing is finished
 	//
@@ -177,7 +177,7 @@ var InlineEditor = declare("dijit._InlineEditor", [_Widget, _TemplatedMixin, _Wi
 			// _onBlur will handle TAB automatically by allowing
 			// the TAB to change focus before we mess with the DOM: #6227
 			// Expounding by request:
-			// 	The current focus is on the edit widget input field.
+			//	The current focus is on the edit widget input field.
 			//	save() will hide and destroy this widget.
 			//	We want the focus to jump from the currently hidden
 			//	displayNode, but since it's hidden, it's impossible to
@@ -222,7 +222,7 @@ var InlineEditor = declare("dijit._InlineEditor", [_Widget, _TemplatedMixin, _Wi
 	enableSave: function(){
 		// summary:
 		//		User overridable function returning a Boolean to indicate
-		// 		if the Save button should be enabled or not - usually due to invalid conditions
+		//		if the Save button should be enabled or not - usually due to invalid conditions
 		// tags:
 		//		extension
 		return (
@@ -254,7 +254,7 @@ var InlineEditBox = declare("dijit.InlineEditBox", _Widget, {
 	//
 	// description:
 	//		Behavior for an existing node (`<p>`, `<div>`, `<span>`, etc.) so that
-	// 		when you click it, an editor shows up in place of the original
+	//		when you click it, an editor shows up in place of the original
 	//		text.  Optionally, Save and Cancel button are displayed below the edit widget.
 	//		When Save is clicked, the text is pulled from the edit
 	//		widget and redisplayed and the edit widget is again hidden.
@@ -332,7 +332,7 @@ var InlineEditBox = declare("dijit.InlineEditBox", _Widget, {
 	//		The text that gets displayed when there is no value (so that the user has a place to click to edit)
 	noValueIndicator: has("ie") <= 6 ?	// font-family needed on IE6 but it messes up IE8
 		"<span style='font-family: wingdings; text-decoration: underline;'>&#160;&#160;&#160;&#160;&#x270d;&#160;&#160;&#160;&#160;</span>" :
-		"<span style='text-decoration: underline;'>&#160;&#160;&#160;&#160;&#x270d;&#160;&#160;&#160;&#160;</span>",	// 	// &#160; == &nbsp;
+		"<span style='text-decoration: underline;'>&#160;&#160;&#160;&#160;&#x270d;&#160;&#160;&#160;&#160;</span>",	// &#160; == &nbsp;
 
 	constructor: function(){
 		// summary:
@@ -569,7 +569,7 @@ var InlineEditBox = declare("dijit.InlineEditBox", _Widget, {
 
 	_setValueAttr: function(/*String*/ val){
 		// summary:
-		// 		Hook to make set("value", ...) work.
+		//		Hook to make set("value", ...) work.
 		//		Inserts specified HTML value into this node, or an "input needed" character if node is blank.
 
 		val = lang.trim(val);

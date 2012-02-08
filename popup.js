@@ -104,7 +104,7 @@ define([
 			//		Hide this popup widget (until it is ready to be shown).
 			//		Initialization for widgets that will be used as popups
 			//
-			// 		Also puts widget inside a wrapper DIV (if not already in one)
+			//		Also puts widget inside a wrapper DIV (if not already in one)
 			//
 			//		If popup widget needs to layout it should
 			//		do so when it is made visible, and popup._onShow() is called.
@@ -210,7 +210,7 @@ define([
 			//		Hide this popup widget (until it is ready to be shown).
 			//		Initialization for widgets that will be used as popups
 			//
-			// 		Also puts widget inside a wrapper DIV (if not already in one)
+			//		Also puts widget inside a wrapper DIV (if not already in one)
 			//
 			//		If popup widget needs to layout it should
 			//		do so when it is made visible, and popup._onShow() is called.

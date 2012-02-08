@@ -21,7 +21,7 @@ define([
 	// module:
 	//		dijit/layout/TabController
 	// summary:
-	// 		Set of tabs (the things with titles and a close button, that you click to show a tab panel).
+	//		Set of tabs (the things with titles and a close button, that you click to show a tab panel).
 	//		Used internally by `dijit.layout.TabContainer`.
 
 	var TabButton = declare("dijit.layout._TabButton", StackController.StackButton, {
@@ -123,7 +123,7 @@ define([
 
 	var TabController = declare("dijit.layout.TabController", StackController, {
 		// summary:
-		// 		Set of tabs (the things with titles and a close button, that you click to show a tab panel).
+		//		Set of tabs (the things with titles and a close button, that you click to show a tab panel).
 		//		Used internally by `dijit.layout.TabContainer`.
 		// description:
 		//		Lets the user select the currently shown pane in a TabContainer or StackContainer.
