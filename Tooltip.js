@@ -17,7 +17,7 @@ define([
 	"./_TemplatedMixin",
 	"./BackgroundIframe",
 	"dojo/text!./templates/Tooltip.html",
-	"."		// sets dijit.showTooltip etc. for back-compat
+	"./main"		// sets dijit.showTooltip etc. for back-compat
 ], function(array, declare, fx, dom, domClass, domGeometry, domStyle, lang, mouse, on, has, win,
 			manager, place, _Widget, _TemplatedMixin, BackgroundIframe, template, dijit){
 

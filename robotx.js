@@ -1,6 +1,6 @@
 define([
 	"dojo/_base/kernel", // dojo.experimental lang.mixin
-	".",
+	"./main",
 	"dojo/_base/lang", // dojo.experimental lang.mixin
 	"./robot",
 	"dojo/robotx",

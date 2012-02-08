@@ -2,7 +2,7 @@ define([
 	"dojo/_base/array", // array.forEach
 	"dojo/_base/declare", // declare
 	"dojo/parser", // parser.parse
-	"dijit/registry"	// registry.findWidgets
+	"./registry"	// registry.findWidgets
 ], function(array, declare, parser, registry){
 
 	// module:

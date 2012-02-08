@@ -12,7 +12,7 @@ define([
 	"dojo/_base/lang", // lang.mixin
 	"dojo/sniff", // has(...)
 	"dojo/query", // query
-	"dijit/typematic",
+	"./typematic",
 	"./_Widget",
 	"./_TemplatedMixin",
 	"./form/_FormValueWidget",

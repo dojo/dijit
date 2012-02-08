@@ -6,7 +6,7 @@ define([
 	"dojo/dom-attr", // domAttr.attr domAttr.has
 	"dojo/dom-style", // style.style
 	"dojo/sniff", // has("ie")
-	"."	// for exporting methods to dijit namespace
+	"./main"	// for exporting methods to dijit namespace
 ], function(array, config, declare, dom, domAttr, domStyle, has, dijit){
 
 	// module:

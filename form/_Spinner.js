@@ -4,7 +4,7 @@ define([
 	"dojo/keys", // keys keys.DOWN_ARROW keys.PAGE_DOWN keys.PAGE_UP keys.UP_ARROW
 	"dojo/_base/lang", // lang.hitch
 	"dojo/sniff", // has("mozilla")
-	"dijit/typematic",
+	"../typematic",
 	"./RangeBoundTextBox",
 	"dojo/text!./templates/Spinner.html",
 	"./_TextBoxMixin"	// selectInputText

@@ -5,7 +5,7 @@ define([
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/window", // win.body
 	"dojo/window", // winUtils.getBox
-	"."	// dijit (defining dijit.place to match API doc)
+	"./main"	// dijit (defining dijit.place to match API doc)
 ], function(array, domGeometry, domStyle, kernel, win, winUtils, dijit){
 
 	// module:

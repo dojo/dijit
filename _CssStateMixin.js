@@ -7,7 +7,7 @@ define([
 	"dojo/ready",
 	"dojo/touch",
 	"dojo/_base/window", // win.body
-	"dijit/registry"
+	"./registry"
 ], function(array, declare, dom, domClass, lang, ready, touch, win, registry){
 
 // module:

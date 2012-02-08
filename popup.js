@@ -16,7 +16,7 @@ define([
 	"dojo/_base/window", // win.body
 	"./place",
 	"./BackgroundIframe",
-	"."	// dijit (defining dijit.popup to match API doc)
+	"./main"	// dijit (defining dijit.popup to match API doc)
 ], function(array, aspect, connect, declare, dom, domAttr, domConstruct, domGeometry, domStyle, event, keys, lang, on, has, win,
 			place, BackgroundIframe, dijit){
 
