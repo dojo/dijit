@@ -9,7 +9,7 @@ define([
 	"./_FormValueWidget",
 	"./_TextBoxMixin",
 	"dojo/text!./templates/TextBox.html",
-	".."	// to export dijit._setSelectionRange, remove in 2.0
+	"../main"	// to export dijit._setSelectionRange, remove in 2.0
 ], function(declare, domConstruct, domStyle, kernel, lang, has, win,
 			_FormValueWidget, _TextBoxMixin, template, dijit){
 

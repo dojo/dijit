@@ -3,7 +3,7 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/_base/lang", // lang.isArray
 	"dojo/_base/window", // win.global
-	".."	// for exporting symbols to dijit, TODO: remove in 2.0
+	"../main"	// for exporting symbols to dijit, TODO: remove in 2.0
 ], function(array, declare, lang, win, dijit){
 
 // module:

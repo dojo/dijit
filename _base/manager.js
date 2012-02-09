@@ -2,7 +2,7 @@ define([
 	"dojo/_base/array",
 	"dojo/_base/config", // defaultDuration
 	"../registry",
-	".."	// for setting exports to dijit namespace
+	"../main"	// for setting exports to dijit namespace
 ], function(array, config, registry, dijit){
 
 	// module:

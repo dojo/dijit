@@ -5,7 +5,7 @@ define([
 	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys.ALT keys.CAPS_LOCK keys.CTRL keys.META keys.SHIFT
 	"dojo/_base/lang", // lang.mixin
-	".."	// for exporting dijit._setSelectionRange, dijit.selectInputText
+	"../main"	// for exporting dijit._setSelectionRange, dijit.selectInputText
 ], function(array, declare, dom, event, keys, lang, dijit){
 
 // module:

@@ -3,7 +3,7 @@ define([
 	"dojo/_base/lang", // lang.isArray
 	"dojo/window", // windowUtils.getBox
 	"../place",
-	".."	// export to dijit namespace
+	"../main"	// export to dijit namespace
 ], function(array, lang, windowUtils, place, dijit){
 
 	// module:
