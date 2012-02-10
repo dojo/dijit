@@ -295,6 +295,32 @@
 						tearDown: function(){
 							if(editor0){editor0.set("value", value);}
 						}
+					},
+					{
+						name: "emptyAltTag",
+						timeout: 20000,
+						setUp: function(){
+							editor0 = dijit.byId("programmatic4");
+							value = editor0.get("value");
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+							// Focus on the editor window
+							dojo.window.scrollIntoView(editor0.domNode);
+							editor0.set("value", "<img alt=\"''\" src=\"http://blogsearch.google.com/blogsearch/intl/en_ALL/images/blogs_logo.gif\">");
+							doh.robot.sequence(d.getTestCallback(function(){
+								// Now check the state!
+								dojo.window.scrollIntoView(editor0.domNode);
+								var newValue = editor0.get("value");
+								var test = "alt=\"''\"";
+								doh.t(newValue.indexOf(test) > 0, "content includes emptry string alt");
+							}), 1000);
+
+							return d;
+						},
+						tearDown: function(){
+							if(editor0){editor0.set("value", value);}
+						}
 					}
 				]);
 				doh.run();

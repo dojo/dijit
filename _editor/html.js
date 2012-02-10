@@ -54,55 +54,61 @@ exports.getNodeHtmlHelper = function(/*DomNode*/ node, /*String[]*/ output){
 			if(has("ie")){
 				var clone = /^input$|^img$/i.test(node.nodeName) ? node : node.cloneNode(false);
 				var s = clone.outerHTML;
+				// Split up and manage the attrs via regexp
+				// similar to prettyPrint attr logic.
+				var rgxp_attrsMatch = /[\w-]+=("[^"]*"|'[^']*'|\S*)/gi
+				var attrSplit = s.match(rgxp_attrsMatch);
 				s = s.substr(0, s.indexOf('>'))
-					.replace(/(['"])[^"']*\1/g, ''); //to make the following regexp safe
-				var reg = /(\b\w+)\s?=/g;
-				var m, key;
-				while((m = reg.exec(s))){
-					key = m[1];
-					if(key.substr(0,3) != '_dj'){
-						if(key == 'src' || key == 'href'){
-							if(node.getAttribute('_djrealurl')){
-								attrarray.push([key,node.getAttribute('_djrealurl')]);
-								continue;
+				dojo.forEach(attrSplit, function(attr){
+					if(attr){
+						var idx = attr.indexOf("=");
+						if(idx > 0){
+							var key = attr.substring(0,idx);
+							if(key.substr(0,3) != '_dj'){
+								if(key == 'src' || key == 'href'){
+									if(node.getAttribute('_djrealurl')){
+										attrarray.push([key,node.getAttribute('_djrealurl')]);
+										return;
+									}
+								}
+								var val, match;
+								switch(key){
+									case 'style':
+										val = node.style.cssText.toLowerCase();
+										break;
+									case 'class':
+										val = node.className;
+										break;
+									case 'width':
+										if(lName === "img"){
+											// This somehow gets lost on IE for IMG tags and the like
+											// and we have to find it in outerHTML, known IE oddity.
+											match=/width=(\S+)/i.exec(s);
+											if(match){
+												val = match[1];
+											}
+											break;
+										}
+									case 'height':
+										if(lName === "img"){
+											// This somehow gets lost on IE for IMG tags and the like
+											// and we have to find it in outerHTML, known IE oddity.
+											match=/height=(\S+)/i.exec(s);
+											if(match){
+												val = match[1];
+											}
+											break;
+										}
+									default:
+										val = node.getAttribute(key);
+								}
+								if(val != null){
+									attrarray.push([key, val.toString()]);
+								}
 							}
 						}
-						var val, match;
-						switch(key){
-							case 'style':
-								val = node.style.cssText.toLowerCase();
-								break;
-							case 'class':
-								val = node.className;
-								break;
-							case 'width':
-								if(lName === "img"){
-									// This somehow gets lost on IE for IMG tags and the like
-									// and we have to find it in outerHTML, known IE oddity.
-									match=/width=(\S+)/i.exec(s);
-									if(match){
-										val = match[1];
-									}
-									break;
-								}
-							case 'height':
-								if(lName === "img"){
-									// This somehow gets lost on IE for IMG tags and the like
-									// and we have to find it in outerHTML, known IE oddity.
-									match=/height=(\S+)/i.exec(s);
-									if(match){
-										val = match[1];
-									}
-									break;
-								}
-							default:
-								val = node.getAttribute(key);
-						}
-						if(val != null){
-							attrarray.push([key, val.toString()]);
-						}
 					}
-				}
+				}, this);
 			}else{
 				var i = 0;
 				while((attr = node.attributes[i++])){

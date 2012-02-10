@@ -32,7 +32,6 @@ try{
 		// rather than just for the iframe holding the test file (BackForwardState.html and BackForwardStateHelper.html)
 		doh.registerUrl("dijit.tests.editor.robot.BackForwardState", dojo.moduleUrl("dijit","tests/editor/robot/BackForwardState.html"+userArgs), 999999);
 	}
-
 }catch(e){
 	doh.debug(e);
 }
