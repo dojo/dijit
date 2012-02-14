@@ -67,7 +67,7 @@ return declare("dijit.form._FormWidget", [_Widget, _TemplatedMixin, _CssStateMix
 		// Unfortunately we can't use _setNameAttr to set the name due to IE limitations, see #8484, #8660.
 		// Regarding escaping, see heading "Attribute values" in
 		// http://www.w3.org/TR/REC-html40/appendix/notes.html#h-B.3.2
-		this.nameAttrSetting = this.name ? ('name="' + this.name.replace(/'/g, "&quot;") + '"') : '';
+		this.nameAttrSetting = this.name ? ('name="' + this.name.replace(/"/g, "&quot;") + '"') : '';
 		this.inherited(arguments);
 	},
 
