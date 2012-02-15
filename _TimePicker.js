@@ -210,8 +210,8 @@ dojo.declare("dijit._TimePicker",
 				moreAfter = [],
 				estBeforeLength = count - after.length,
 				before = this._getFilteredNodes(0, estBeforeLength, true, after[0]);
-				if(before.length < estBeforeLength){
-					moreAfter = this._getFilteredNodes(after.length, estBeforeLength - before.length, false);
+				if(before.length < estBeforeLength && after.length > 0){
+					moreAfter = this._getFilteredNodes(after.length, estBeforeLength - before.length, false, after[after.length-1]);
 				}
 			dojo.forEach(before.concat(after, moreAfter), function(n){this.timeMenu.appendChild(n);}, this);
 		},
