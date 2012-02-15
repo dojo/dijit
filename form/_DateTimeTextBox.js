@@ -185,6 +185,9 @@ define([
 				}
 			}
 			this.inherited(arguments);
+			if(this.value instanceof Date){
+				this.filterString = "";
+			}
 			if(this.dropDown){
 				this.dropDown.set('value', value, false);
 			}
@@ -217,7 +220,7 @@ define([
 			this.dropDown = new PopupProto({
 				onChange: function(value){
 					// this will cause InlineEditBox and other handlers to do stuff so make sure it's last
-					_DateTimeTextBox.superclass._setValueAttr.call(textBox, value, true);
+					textBox.set('value', value, true);
 				},
 				id: this.id + "_popup",
 				dir: textBox.dir,
