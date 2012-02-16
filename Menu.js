@@ -50,6 +50,22 @@ return declare("dijit.Menu", DropDownMenu, {
 	//		Fill this with nodeIds upon widget creation and it becomes context menu for those nodes.
 	targetNodeIds: [],
 
+	// selector: String?
+	//		CSS expression to apply this Menu to descendants of targetNodeIds, rather than to
+	//		the nodes specified by targetNodeIds themselves.    Useful for applying a Menu to
+	//		a range of rows in a table, tree, etc.
+	selector: "",
+
+	// TODO: in 2.0 remove support for multiple targetNodeIds.   selector gives the same effect.
+	// So, change targetNodeIds to a targetNodeId: "", remove bindDomNode()/unBindDomNode(), etc.
+
+/*=====
+	// currentTarget: [readonly] DOMNode
+	//		For context menus, set to the current node that the Menu is being displayed for.
+	//		Useful so that the menu actions can be tailored according to the node
+	currentTarget: null,
+=====*/
+
 	// contextMenuForWindow: [const] Boolean
 	//		If true, right clicking anywhere on the window will cause this context menu to open.
 	//		If false, must specify targetNodeIds.
@@ -135,20 +151,25 @@ return declare("dijit.Menu", DropDownMenu, {
 		// On linux Shift-F10 produces the oncontextmenu event, but on Windows it doesn't, so
 		// we need to monitor keyboard events in addition to the oncontextmenu event.
 		var doConnects = lang.hitch(this, function(cn){
+			var selector = this.selector,
+				delegatedEvent = selector ?
+					function(eventType){ return on.selector(selector, eventType); } :
+					function(eventType){ return eventType; },
+				self = this;
 			return [
 				// TODO: when leftClickToOpen is true then shouldn't space/enter key trigger the menu,
 				// rather than shift-F10?
-				on(cn, this.leftClickToOpen ? "click" : "contextmenu", lang.hitch(this, function(evt){
+				on(cn, delegatedEvent(this.leftClickToOpen ? "click" : "contextmenu"), function(evt){
 					// Schedule context menu to be opened unless it's already been scheduled from onkeydown handler
 					event.stop(evt);
-					this._scheduleOpen(evt.target, iframe, {x: evt.pageX, y: evt.pageY});
-				})),
-				on(cn, "keydown", lang.hitch(this, function(evt){
+					self._scheduleOpen(this, iframe, {x: evt.pageX, y: evt.pageY});
+				}),
+				on(cn, delegatedEvent("keydown"), function(evt){
 					if(evt.shiftKey && evt.keyCode == keys.F10){
 						event.stop(evt);
-						this._scheduleOpen(evt.target, iframe);	// no coords - open near target node
+						self._scheduleOpen(this, iframe);	// no coords - open near target node
 					}
-				}))
+				})
 			];
 		});
 		binding.connects = cn ? doConnects(cn) : [];
@@ -256,6 +277,9 @@ return declare("dijit.Menu", DropDownMenu, {
 		var target = args.target,
 			iframe = args.iframe,
 			coords = args.coords;
+
+		// To be used by MenuItem event handlers to tell which node the menu was opened on
+		this.currentTarget = target;
 
 		// Get coordinates to open menu, either at specified (mouse) position or (if triggered via keyboard)
 		// then near the node the menu is assigned to.

@@ -6,16 +6,15 @@ define([
 	"dojo/i18n", // i18n.getLocalization
 	"dojo/_base/lang", // lang.hitch lang.trim
 	"./StackController",
+	"../registry",
 	"../Menu",
 	"../MenuItem",
 	"dojo/text!./templates/_TabButton.html",
 	"dojo/i18n!../nls/common"
-], function(declare, dom, domAttr, domClass, i18n, lang, StackController, Menu, MenuItem, template){
+], function(declare, dom, domAttr, domClass, i18n, lang, StackController, registry, Menu, MenuItem, template){
 
 /*=====
 	var StackController = dijit.layout.StackController;
-	var Menu = dijit.Menu;
-	var MenuItem = dijit.MenuItem;
 =====*/
 
 	// module:
@@ -76,27 +75,6 @@ define([
 				if(this.closeNode){
 					domAttr.set(this.closeNode,"title", _nlsResources.itemClose);
 				}
-				// add context menu onto title button
-				this._closeMenu = new Menu({
-					id: this.id+"_Menu",
-					dir: this.dir,
-					lang: this.lang,
-					textDir: this.textDir,
-					targetNodeIds: [this.domNode]
-				});
-
-				this._closeMenu.addChild(new MenuItem({
-					label: _nlsResources.itemClose,
-					dir: this.dir,
-					lang: this.lang,
-					textDir: this.textDir,
-					onClick: lang.hitch(this, "onClickCloseButton")
-				}));
-			}else{
-				if(this._closeMenu){
-					this._closeMenu.destroyRecursive();
-					delete this._closeMenu;
-				}
 			}
 		},
 		_setLabelAttr: function(/*String*/ content){
@@ -143,7 +121,34 @@ define([
 
 		// buttonWidget: Constructor
 		//		The tab widget to create to correspond to each page
-		buttonWidget: TabButton
+		buttonWidget: TabButton,
+
+		postCreate: function(){
+			this.inherited(arguments);
+
+			// Setup a close menu to be shared between all the closable tabs
+			var closeMenu = new Menu({
+				id: this.id+"_Menu",
+				dir: this.dir,
+				lang: this.lang,
+				textDir: this.textDir,
+				targetNodeIds: [this.domNode],
+				selector: ".dijitClosable"
+			});
+			this._supportingWidgets.push(closeMenu);
+
+			var _nlsResources = i18n.getLocalization("dijit", "common");
+			closeMenu.addChild(new MenuItem({
+				label: _nlsResources.itemClose,
+				dir: this.dir,
+				lang: this.lang,
+				textDir: this.textDir,
+				onClick: function(evt){
+					var widget = registry.byNode(this.getParent().currentTarget);
+					widget.onClickCloseButton(evt);
+				}
+			}));
+		}
 	});
 
 	TabController.TabButton = TabButton;	// for monkey patching
