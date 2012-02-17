@@ -88,14 +88,6 @@ define([
 			if(!this.showLabel && !this.params.title){
 				this.iconNode.alt = lang.trim(this.containerNode.innerText || this.containerNode.textContent || '');
 			}
-		},
-
-		destroy: function(){
-			if(this._closeMenu){
-				this._closeMenu.destroyRecursive();
-				delete this._closeMenu;
-			}
-			this.inherited(arguments);
 		}
 	});
 
