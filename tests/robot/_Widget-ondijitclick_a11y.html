@@ -8,6 +8,7 @@
 	<script type="text/javascript" src="../../../dojo/dojo.js" djConfig="isDebug: true"></script>
 	<script type="text/javascript">
 		dojo.require("dijit.robotx");
+		dojo.require("dojo.on");
 
 		dojo.ready(function(){
 			doh.robot.initRobot('../_Widget-ondijitclick.html');
@@ -122,7 +123,7 @@
 
 			// Test onclick on a <button> which refocuses onto a <div> w/an ondijitclick handler.
 			// Make sure that the <div> doesn't get a spurious click event.
-			dojo.forEach(["SPACE", "ENTER" ], function(key){
+			dojo.forEach(["SPACE", "ENTER"], function(key){
 
 				doh.register("focus to ondijitclick-div by " + key, [
 					{
@@ -154,7 +155,7 @@
 
 			// Test clicking on a <button> with an ondijitclick handler.
 			// The main danger is getting two click events because the browser natively handles space-->click
-			dojo.forEach(["SPACE", "ENTER" ], function(key){
+			dojo.forEach(["SPACE", "ENTER"], function(key){
 
 				doh.register("click ondijitclick button by " + key, [
 					{
@@ -184,6 +185,40 @@
 					}
 				]);
 			});
+
+			doh.register("bubbling", [
+				{
+					name: "bubbling",
+					timeout: 5000,
+					runTest: function(){
+
+						var d = new doh.Deferred(),
+							outerDiv = dojo.byId("outer"),
+							buttonNode = dojo.byId("bubbleTestWidget"),
+							buttonWidget = dijit.byId("bubbleTestWidget");
+
+						// Listen for click events on the outer DOMNode.
+						var clicks = 0;
+						dojo.on(outerDiv, "click", function(){
+							clicks++;
+						});
+
+						// Keyboard-click the widget button
+						doh.robot.sequence(function(){
+							buttonNode.focus();
+						}, 500);
+						doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+
+						// Check that one click event bubbled
+						doh.robot.sequence(d.getTestCallback(function(){
+							doh.is(1, buttonWidget.clickCount, "one click event");
+							doh.is(1, clicks, "one click event bubbled");
+						}), 500);
+
+						return d;
+					}
+				}
+			]);
 
 			doh.run();
 		});

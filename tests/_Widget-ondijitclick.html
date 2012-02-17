@@ -6,37 +6,36 @@
 
 	<title>Test Dijit Internal Event: "ondijitclick"</title>
 
+	<style>
+		div {
+			border: 1px solid blue;
+			margin: 1em;
+		}
+	</style>
+
 	<script type="text/javascript" src="../../dojo/dojo.js" data-dojo-config="isDebug: true"></script>
 	<script type="text/javascript">
-		dojo.require("dijit._Widget");
+		dojo.require("dijit._WidgetBase");
+		dojo.require("dijit._OnDijitClickMixin");
 		dojo.require("dojo.parser");
 
 		dojo.ready(function(){
-			dojo.declare("WidgetWithOndijitclick",
-				dijit._Widget,
-				{
-					clickCount: 0,
-					onClick: function(){
-					},
-					_onClick: function(){
-						this.clickCount++;
-						this.onClick();
-					},
-					postCreate: function(){
-						this.connect(this.domNode, "ondijitclick", "_onClick");
-					}
+			dojo.declare("WidgetWithOndijitclick", [dijit._WidgetBase, dijit._OnDijitClickMixin], {
+				clickCount: 0,
+				onClick: function(){
+				},
+				_onClick: function(){
+					this.clickCount++;
+					this.onClick();
+				},
+				postCreate: function(){
+					this.connect(this.domNode, "ondijitclick", "_onClick");
 				}
-			);
+			});
 
 			dojo.parser.parse();
 		});
 	</script>
-	<style>
-		div {
-			border: 1px solid blue;
-			margin-top: 1em;
-		}
-	</style>
 </head>
 <body class="claro">
 	<h1>_Widget.ondijitclick test</h1>
@@ -83,5 +82,13 @@
 	<button id="widgetbutton" tabIndex="0" data-dojo-type="WidgetWithOndijitclick">
 		button w/ondijitclick
 	</button>
+
+	<div id="outer">
+		Test for bubble of click
+		<div id="inner">
+			<span data-dojo-type="WidgetWithOndijitclick" id="bubbleTestWidget" tabindex="0">click me</span>
+			<span data-dojo-type="WidgetWithOndijitclick" id="bubbleTestWidget2" tabindex="0">click me too</span>
+		</div>
+	</div>
 </body>
 </html>
