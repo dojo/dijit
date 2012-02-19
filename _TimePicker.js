@@ -295,9 +295,10 @@ define([
 			//		private
 			var date = new Date(this._refDate);
 			var incrementDate = this._clickableIncrementDate;
-			date.setHours(date.getHours() + incrementDate.getHours() * index,
-				date.getMinutes() + incrementDate.getMinutes() * index,
-				date.getSeconds() + incrementDate.getSeconds() * index);
+			date.setTime(date.getTime()
+				+ incrementDate.getHours() * index * 3600000
+				+ incrementDate.getMinutes() * index * 60000
+				+ incrementDate.getSeconds() * index * 1000);
 			if(this.constraints.selector == "time"){
 				date.setFullYear(1970,0,1); // make sure each time is for the same date
 			}
@@ -425,7 +426,13 @@ define([
 			//		Removes the bottom time and add one to the top
 			// tags:
 			//		private
-			if(typeof count == "number" && count == -1){ return; } // typematic end
+			if(count === -1){
+				domClass.remove(this.upArrow, "dijitUpArrowActive");
+				return;
+			}else if(count === 0){
+				domClass.add(this.upArrow, "dijitUpArrowActive");
+
+			} // typematic end
 			if(!this.timeMenu.childNodes.length){ return; }
 			var index = this.timeMenu.childNodes[0].idx;
 			var divs = this._getFilteredNodes(index, 1, true, this.timeMenu.childNodes[0]);
@@ -442,7 +449,12 @@ define([
 			//		Remove the top time and add one to the bottom
 			// tags:
 			//		private
-			if(typeof count == "number" && count == -1){ return; } // typematic end
+			if(count === -1){
+				domClass.remove(this.downArrow, "dijitDownArrowActive");
+				return;
+			}else if(count === 0){
+				domClass.add(this.downArrow, "dijitDownArrowActive");
+			} // typematic end
 			if(!this.timeMenu.childNodes.length){ return; }
 			var index = this.timeMenu.childNodes[this.timeMenu.childNodes.length - 1].idx + 1;
 			var divs = this._getFilteredNodes(index, 1, false, this.timeMenu.childNodes[this.timeMenu.childNodes.length - 1]);
