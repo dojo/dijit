@@ -115,6 +115,14 @@ define([
 		//		The tab widget to create to correspond to each page
 		buttonWidget: TabButton,
 
+		// buttonWidgetClass: String
+		//		Class of each tab, used by event delegation code to tell when the tab was clicked
+		buttonWidgetClass: "dijitTab",
+
+		// buttonWidgetCloseClass: String
+		//		Class of [x] close icon, used by event delegation code to tell when close button was clicked
+		buttonWidgetCloseClass: "dijitTabCloseButton",
+
 		postCreate: function(){
 			this.inherited(arguments);
 
@@ -129,15 +137,16 @@ define([
 			});
 			this._supportingWidgets.push(closeMenu);
 
-			var _nlsResources = i18n.getLocalization("dijit", "common");
+			var _nlsResources = i18n.getLocalization("dijit", "common"),
+				controller = this;
 			closeMenu.addChild(new MenuItem({
 				label: _nlsResources.itemClose,
 				dir: this.dir,
 				lang: this.lang,
 				textDir: this.textDir,
 				onClick: function(evt){
-					var widget = registry.byNode(this.getParent().currentTarget);
-					widget.onClickCloseButton(evt);
+					var button = registry.byNode(this.getParent().currentTarget);
+					controller.onCloseButtonClick(button);
 				}
 			}));
 		}

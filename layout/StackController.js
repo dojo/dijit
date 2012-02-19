@@ -1,6 +1,7 @@
 define([
 	"dojo/_base/array", // array.forEach array.indexOf array.map
 	"dojo/_base/declare", // declare
+	"dojo/dom-class",
 	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys
 	"dojo/_base/lang", // lang.getObject
@@ -11,7 +12,7 @@ define([
 	"../_Container",
 	"../form/ToggleButton",
 	"dojo/i18n!../nls/common"
-], function(array, declare, event, keys, lang,
+], function(array, declare, domClass, event, keys, lang,
 			focus, registry, _Widget, _TemplatedMixin, _Container, ToggleButton){
 
 /*=====
@@ -48,24 +49,6 @@ define([
 		buildRendering: function(/*Event*/ evt){
 			this.inherited(arguments);
 			(this.focusNode || this.domNode).setAttribute("role", "tab");
-		},
-
-		onClick: function(/*Event*/ /*===== evt =====*/){
-			// summary:
-			//		This is for TabContainer where the tabs are <span> rather than button,
-			//		so need to set focus explicitly (on some browsers)
-			//		Note that you shouldn't override this method, but you can connect to it.
-			focus.focus(this.focusNode);
-
-			// ... now let StackController catch the event and tell me what to do
-		},
-
-		onClickCloseButton: function(/*Event*/ evt){
-			// summary:
-			//		StackContainer connects to this function; if your widget contains a close button
-			//		then clicking it should call this function.
-			//		Note that you shouldn't override this method, but you can connect to it.
-			evt.stopPropagation();
 		}
 	});
 
@@ -89,9 +72,16 @@ define([
 		//		The button widget to create to correspond to each page
 		buttonWidget: StackButton,
 
+		// buttonWidgetClass: String
+		//		CSS class of button widget, used by event delegation code to tell when the button was clicked
+		buttonWidgetClass: "dijitToggleButton",
+
+		// buttonWidgetCloseClass: String
+		//		CSS class of [x] close icon, used by event delegation code to tell when close button was clicked
+		buttonWidgetCloseClass: "dijitStackCloseButton",
+
 		constructor: function(){
 			this.pane2button = {};		// mapping from pane id to buttons
-			this.pane2connects = {};	// mapping from pane id to this.connect() handles
 			this.pane2watches = {};		// mapping from pane id to watch() handles
 		},
 
@@ -104,6 +94,23 @@ define([
 			this.subscribe(this.containerId+"-removeChild", "onRemoveChild");
 			this.subscribe(this.containerId+"-selectChild", "onSelectChild");
 			this.subscribe(this.containerId+"-containerKeyPress", "onContainerKeyPress");
+
+			// Listen for click events to select or close tabs.
+			// No need to worry about ENTER/SPACe key handling: tabs are selected via left/right arrow keys,
+			// and closed via shift-F10 (to show the close menu).
+			this.connect(this.containerNode, 'click', function(evt){
+				var button = registry.getEnclosingWidget(evt.target),
+					page = button.page;
+				for(var target = evt.target; target !== this.containerNode; target = target.parentNode){
+					if(domClass.contains(target, this.buttonWidgetCloseClass)){
+						this.onCloseButtonClick(button);
+						break;
+					}else if(domClass.contains(target, this.buttonWidgetClass)){
+						this.onButtonClick(button);
+						break;
+					}
+				}
+			});
 		},
 
 		onStartup: function(/*Object*/ info){
@@ -135,8 +142,8 @@ define([
 
 			// create an instance of the button widget
 			// (remove typeof buttonWidget == string support in 2.0)
-			var cls = lang.isString(this.buttonWidget) ? lang.getObject(this.buttonWidget) : this.buttonWidget;
-			var button = new cls({
+			var Cls = lang.isString(this.buttonWidget) ? lang.getObject(this.buttonWidget) : this.buttonWidget;
+			var button = new Cls({
 				id: this.id + "_" + page.id,
 				label: page.title,
 				dir: page.dir,
@@ -145,7 +152,8 @@ define([
 				showLabel: page.showTitle,
 				iconClass: page.iconClass,
 				closeButton: page.closable,
-				title: page.tooltip
+				title: page.tooltip,
+				page: page
 			});
 
 			// map from page attribute to corresponding tab button attribute
@@ -158,12 +166,6 @@ define([
 					button.set(buttonAttrList[idx], newVal);
 				});
 			});
-
-			// connections so that clicking a tab button selects the corresponding page
-			this.pane2connects[page.id] = [
-				this.connect(button, 'onClick', lang.hitch(this,"onButtonClick", page)),
-				this.connect(button, 'onClickCloseButton', lang.hitch(this,"onCloseButtonClick", page))
-			];
 
 			this.addChild(button, insertIndex);
 			this.pane2button[page.id] = button;
@@ -187,8 +189,6 @@ define([
 			if(this._currentChild === page){ this._currentChild = null; }
 
 			// disconnect/unwatch connections/watches related to page being removed
-			array.forEach(this.pane2connects[page.id], lang.hitch(this, "disconnect"));
-			delete this.pane2connects[page.id];
 			array.forEach(this.pane2watches[page.id], function(w){ w.unwatch(); });
 			delete this.pane2watches[page.id];
 
@@ -223,11 +223,16 @@ define([
 			container.containerNode.setAttribute("aria-labelledby", newButton.id);
 		},
 
-		onButtonClick: function(/*dijit._Widget*/ page){
+		onButtonClick: function(/*dijit._Widget*/ button){
 			// summary:
 			//		Called whenever one of my child buttons is pressed in an attempt to select a page
 			// tags:
 			//		private
+
+			// For TabContainer where the tabs are <span>, need to set focus explicitly when left/right arrow
+			focus.focus(button.focusNode);
+
+			var page = button.page;
 
 			if(this._currentChild.id === page.id) {
 				//In case the user clicked the checked button, keep it in the checked state because it remains to be the selected stack page.
@@ -238,13 +243,14 @@ define([
 			container.selectChild(page);
 		},
 
-		onCloseButtonClick: function(/*dijit._Widget*/ page){
+		onCloseButtonClick: function(/*dijit._Widget*/ button){
 			// summary:
 			//		Called whenever one of my child buttons [X] is pressed in an attempt to close a page
 			// tags:
 			//		private
 
-			var container = registry.byId(this.containerId);
+			var page = button.page,
+				container = registry.byId(this.containerId);
 			container.closeChild(page);
 			if(this._currentChild){
 				var b = this.pane2button[this._currentChild.id];
@@ -299,24 +305,24 @@ define([
 					case keys.END:
 						var children = this.getChildren();
 						if(children && children.length){
-							children[e.charOrCode == keys.HOME ? 0 : children.length-1].onClick();
+							this.onButtonClick(children[e.charOrCode == keys.HOME ? 0 : children.length-1]);
 						}
 						event.stop(e);
 						break;
 					case keys.DELETE:
 						if(this._currentChild.closable){
-							this.onCloseButtonClick(this._currentChild);
+							this.onCloseButtonClick(this.pane2button[this._currentChild.id]);
 						}
 						event.stop(e);
 						break;
 					default:
 						if(e.ctrlKey){
 							if(e.charOrCode === keys.TAB){
-								this.adjacent(!e.shiftKey).onClick();
+								this.onButtonClick(this.adjacent(!e.shiftKey));
 								event.stop(e);
 							}else if(e.charOrCode == "w"){
 								if(this._currentChild.closable){
-									this.onCloseButtonClick(this._currentChild);
+									this.onCloseButtonClick(this.pane2button[this._currentChild.id]);
 								}
 								event.stop(e); // avoid browser tab closing.
 							}
@@ -324,7 +330,7 @@ define([
 				}
 				// handle next/previous page navigation (left/right arrow, etc.)
 				if(forward !== null){
-					this.adjacent(forward).onClick();
+					this.onButtonClick(this.adjacent(forward));
 					event.stop(e);
 				}
 			}
