@@ -2085,8 +2085,6 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
     padding: 2px;  /* will be replaced by border during drag over (dojoDndItemBefore, dojoDndItemAfter) */
 }
 .dojoDndHorizontal .dojoDndItem {
-    margin:  0px 3px;
-
     /* make contents of horizontal container be side by side, rather than vertical */
     #display: inline;
     display: inline-block;
