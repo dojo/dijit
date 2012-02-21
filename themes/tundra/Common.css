@@ -1,3 +1,12 @@
+/* DnD hovered and selected node(s) */
+.tundra .dojoDndItemOver {
+	background-image: url(images/treeHover.png);
+}
+.tundra .dojoDndItemAnchor,
+.tundra .dojoDndItemSelected {
+	background-color: #E2EBFE;
+}
+
 /* DnD avatar-specific settings */
 /* For now it uses a default set of rules. Some other DnD classes can be modified as well. */
 
