@@ -200,7 +200,7 @@ return declare("dijit.layout.SplitContainer", _LayoutWidget, {
 	removeChild: function(widget){
 		// summary:
 		//		Remove sizer, but only if widget is really our child and
-		// we have at least one sizer to throw away
+		//		we have at least one sizer to throw away
 		if(this.sizers.length){
 			var i = array.indexOf(this.getChildren(), widget);
 			if(i != -1){
@@ -417,52 +417,51 @@ return declare("dijit.layout.SplitContainer", _LayoutWidget, {
 	},
 
 	beginSizing: function(e, i){
+		// summary:
+		//		Begin dragging the splitter between child[i] and child[i+1]
+
 		var children = this.getChildren();
+
 		this.paneBefore = children[i];
 		this.paneAfter = children[i+1];
 
+		this.paneBefore.sizeBeforeDrag = this.paneBefore.sizeActual;
+		this.paneAfter.sizeBeforeDrag = this.paneAfter.sizeActual;
+		this.paneAfter.positionBeforeDrag = this.paneAfter.position;
+
 		this.isSizing = true;
 		this.sizingSplitter = this.sizers[i];
+		this.sizingSplitter.positionBeforeDrag = domStyle.get(this.sizingSplitter,(this.isHorizontal ? "left" : "top"));
 
 		if(!this.cover){
 			this.cover = domConstruct.create('div', {
-					style: {
-						position:'absolute',
-						zIndex:5,
-						top: 0,
-						left: 0,
-						width: "100%",
-						height: "100%"
-					}
-				}, this.domNode);
+				style: {
+					position:'absolute',
+					zIndex:5,
+					top: 0,
+					left: 0,
+					width: "100%",
+					height: "100%"
+				}
+			}, this.domNode);
 		}else{
 			this.cover.style.zIndex = 5;
 		}
 		this.sizingSplitter.style.zIndex = 6;
 
-		// TODO: REVISIT - we want MARGIN_BOX and core hasn't exposed that yet (but can't we use it anyway if we pay attention? we do elsewhere.)
-		this.originPos = domGeometry.position(children[0].domNode, true);
-		var client, screen;
-		if(this.isHorizontal){
-			client = e.layerX || e.offsetX || 0;
-			screen = e.pageX;
-			this.originPos = this.originPos.x;
-		}else{
-			client = e.layerY || e.offsetY || 0;
-			screen = e.pageY;
-			this.originPos = this.originPos.y;
-		}
-		this.startPoint = this.lastPoint = screen;
-		this.screenToClientOffset = screen - client;
-		this.dragOffset = this.lastPoint - this.paneBefore.sizeActual - this.originPos - this.paneBefore.position;
+		// startPoint is the e.pageX or e.pageY at start of drag
+		this.startPoint = this.lastPoint = (this.isHorizontal ? e.pageX : e.pageY);
+
+		// Calculate maximum to the left or right that splitter is allowed to be dragged
+		// minDelta is negative to indicate left/upward drag where end.pageX < start.pageX.
+		this.maxDelta = this.paneAfter.sizeActual - this.paneAfter.sizeMin;
+		this.minDelta = -1 * (this.paneBefore.sizeActual - this.paneBefore.sizeMin);
 
 		if(!this.activeSizing){
 			this._showSizingLine();
 		}
 
-		//
 		// attach mouse events
-		//
 		this._ownconnects = [
 			on(win.doc.documentElement, "mousemove", lang.hitch(this, "changeSizing")),
 			on(win.doc.documentElement, "mouseup", lang.hitch(this, "endSizing"))
@@ -472,13 +471,19 @@ return declare("dijit.layout.SplitContainer", _LayoutWidget, {
 	},
 
 	changeSizing: function(e){
+		// summary:
+		//		Called on mousemove while dragging the splitter
+
 		if(!this.isSizing){ return; }
+
+		// lastPoint is the most recent e.pageX or e.pageY during the drag
 		this.lastPoint = this.isHorizontal ? e.pageX : e.pageY;
-		this.movePoint();
+		var delta = Math.max(Math.min(this.lastPoint - this.startPoint, this.maxDelta), this.minDelta);
+
 		if(this.activeSizing){
-			this._updateSize();
+			this._updateSize(delta);
 		}else{
-			this._moveSizingLine();
+			this._moveSizingLine(delta);
 		}
 		event.stop(e);
 	},
@@ -492,7 +497,8 @@ return declare("dijit.layout.SplitContainer", _LayoutWidget, {
 			this._hideSizingLine();
 		}
 
-		this._updateSize();
+		var delta = Math.max(Math.min(this.lastPoint - this.startPoint, this.maxDelta), this.minDelta);
+		this._updateSize(delta);
 
 		this.isSizing = false;
 
@@ -504,53 +510,17 @@ return declare("dijit.layout.SplitContainer", _LayoutWidget, {
 		while(h = this._ownconnects.pop()){ h.remove(); }
 	},
 
-	movePoint: function(){
+	_updateSize: function(/*Number*/ delta){
+		// summary:
+		//		Resets sizes of panes before and after splitter being dragged.
+		//		Called during a drag, for active sizing, or at the end of a drag otherwise.
+		// delta: Number
+		//		Change in slider position compared to start of drag.   But note that
+		//		this function may be called multiple times during drag.
 
-		// make sure lastPoint is a legal point to drag to
-		var p = this.lastPoint - this.screenToClientOffset;
-
-		var a = p - this.dragOffset;
-		a = this.legaliseSplitPoint(a);
-		p = a + this.dragOffset;
-
-		this.lastPoint = p + this.screenToClientOffset;
-	},
-
-	legaliseSplitPoint: function(a){
-
-		a += this.sizingSplitter.position;
-
-		this.isDraggingLeft = !!(a > 0);
-
-		if(!this.activeSizing){
-			var min = this.paneBefore.position + this.paneBefore.sizeMin;
-			if(a < min){
-				a = min;
-			}
-
-			var max = this.paneAfter.position + (this.paneAfter.sizeActual - (this.sizerWidth + this.paneAfter.sizeMin));
-			if(a > max){
-				a = max;
-			}
-		}
-
-		a -= this.sizingSplitter.position;
-
-		this._checkSizes();
-
-		return a;
-	},
-
-	_updateSize: function(){
-	//FIXME: sometimes this.lastPoint is NaN
-		var pos = this.lastPoint - this.dragOffset - this.originPos;
-
-		var start_region = this.paneBefore.position;
-		var end_region = this.paneAfter.position + this.paneAfter.sizeActual;
-
-		this.paneBefore.sizeActual = pos - start_region;
-		this.paneAfter.position	= pos + this.sizerWidth;
-		this.paneAfter.sizeActual = end_region - this.paneAfter.position;
+		this.paneBefore.sizeActual = this.paneBefore.sizeBeforeDrag + delta;
+		this.paneAfter.position	= this.paneAfter.positionBeforeDrag + delta;
+		this.paneAfter.sizeActual = this.paneAfter.sizeBeforeDrag - delta;
 
 		array.forEach(this.getChildren(), function(child){
 			child.sizeShare = child.sizeActual;
@@ -562,8 +532,10 @@ return declare("dijit.layout.SplitContainer", _LayoutWidget, {
 	},
 
 	_showSizingLine: function(){
+		// summary:
+		//		Show virtual splitter, for non-active resizing
 
-		this._moveSizingLine();
+		this._moveSizingLine(0);
 
 		domGeometry.setMarginBox(this.virtualSizer,
 			this.isHorizontal ? { w: this.sizerWidth, h: this.paneHeight } : { w: this.paneWidth, h: this.sizerWidth });
@@ -575,10 +547,11 @@ return declare("dijit.layout.SplitContainer", _LayoutWidget, {
 		this.virtualSizer.style.display = 'none';
 	},
 
-	_moveSizingLine: function(){
-		var pos = (this.lastPoint - this.startPoint) + this.sizingSplitter.position;
+	_moveSizingLine: function(/*Number*/ delta){
+		// summary:
+		//		Called for non-active resizing, to move the virtual splitter without adjusting the size of the panes
+		var pos = delta + this.sizingSplitter.positionBeforeDrag;
 		domStyle.set(this.virtualSizer,(this.isHorizontal ? "left" : "top"),pos+"px");
-		// this.virtualSizer.style[ this.isHorizontal ? "left" : "top" ] = pos + 'px'; // FIXME: remove this line if the previous is better
 	},
 
 	_getCookieName: function(i){
