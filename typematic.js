@@ -72,13 +72,18 @@ var typematic = (dijit.typematic = {
 			this._subsequentDelay = subsequentDelay || 0.90;
 			this._minDelay = minDelay || 10;
 			this._obj = obj;
-			this._evt = evt;
 			this._node = node;
 			this._currentTimeout = -1;
 			this._count = -1;
 			this._callback = lang.hitch(_this, callback);
 			this._fireEventAndReload();
-			this._evt = lang.mixin({faux: true}, evt);
+			this._evt = { faux: true };
+			for(var attr in evt){
+				if(attr != "layerX" && attr != "layerY"){ // prevent WebKit warnings
+					var v = evt[attr];
+					if(typeof v != "function" && typeof v != "undefined"){ this._evt[attr] = v }
+				}
+			}
 		}
 	},
 

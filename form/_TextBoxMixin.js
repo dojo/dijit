@@ -5,8 +5,9 @@ define([
 	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys.ALT keys.CAPS_LOCK keys.CTRL keys.META keys.SHIFT
 	"dojo/_base/lang", // lang.mixin
+	"dojo/on", // on
 	"../main"	// for exporting dijit._setSelectionRange, dijit.selectInputText
-], function(array, declare, dom, event, keys, lang, dijit){
+], function(array, declare, dom, event, keys, lang, on, dijit){
 
 // module:
 //		dijit/form/_TextBoxMixin
@@ -231,9 +232,9 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 		//	onpaste & oncut: set charOrCode to 229 (IME)
 		//	oninput: if primary event not already processed, set charOrCode to 229 (IME), else do not forward
 		var handleEvent = function(e){
-			var charCode = e.charOrCode || e.keyCode || 229;
+			var charOrCode = (e.charCode >= 32 ? String.fromCharCode(e.charCode) : e.charCode) || e.keyCode || 229;
 			if(e.type == "keydown"){
-				switch(charCode){ // ignore "state" keys
+				switch(charOrCode){ // ignore "state" keys
 					case keys.SHIFT:
 					case keys.ALT:
 					case keys.CTRL:
@@ -241,10 +242,10 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 					case keys.CAPS_LOCK:
 						return;
 					default:
-						if(charCode >= 65 && charCode <= 90){ return; } // keydown for A-Z can be processed with keypress
+						if(charOrCode >= 65 && charOrCode <= 90){ return; } // keydown for A-Z can be processed with keypress
 				}
 			}
-			if(e.type == "keypress" && typeof charCode != "string"){ return; }
+			if(e.type == "keypress" && typeof charOrCode != "string"){ return; }
 			if(e.type == "input"){
 				if(this.__skipInputEvent){ // duplicate event
 					this.__skipInputEvent = false;
@@ -254,25 +255,31 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 				this.__skipInputEvent = true;
 			}
 			// create fake event to set charOrCode and to know if preventDefault() was called
-			var faux = lang.mixin({}, e, {
-				charOrCode: charCode,
-				wasConsumed: false,
+			var faux = { faux: true }, attr;
+			for(attr in e){
+				if(attr != "layerX" && attr != "layerY"){ // prevent WebKit warnings
+					var v = e[attr];
+					if(typeof v != "function" && typeof v != "undefined"){ faux[attr] = v }
+				}
+			}
+			lang.mixin(faux, {
+				charOrCode: charOrCode,
+				_wasConsumed: false,
 				preventDefault: function(){
-					faux.wasConsumed = true;
+					faux._wasConsumed = true;
 					e.preventDefault();
 				},
 				stopPropagation: function(){ e.stopPropagation(); }
 			});
 			// give web page author a chance to consume the event
-			if(this.onInput(faux) === false){
-				event.stop(faux); // return false means stop
+			if(this.onInput(faux) === false){ // return false means stop
+				faux.preventDefault();
+				faux.stopPropagation();
 			}
-			if(faux.wasConsumed){ return; } // if preventDefault was called
+			if(faux._wasConsumed){ return; } // if preventDefault was called
 			setTimeout(lang.hitch(this, "_onInput", faux), 0); // widget notification after key has posted
 		};
-		array.forEach([ "onkeydown", "onkeypress", "onpaste", "oncut", "oninput" ], function(event){
-			this.connect(this.textbox, event, handleEvent);
-		}, this);
+		this._connects.push(on(this.textbox, "keydown, keypress, paste, cut, input", lang.hitch(this, handleEvent)));
 	},
 
 	_blankValue: '', // if the textbox is blank, what value should be reported
@@ -367,6 +374,7 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 		this.textbox.value = '';
 		this.inherited(arguments);
 	},
+
 	_setTextDirAttr: function(/*String*/ textDir){
 		// summary:
 		//		Setter for textDir.
