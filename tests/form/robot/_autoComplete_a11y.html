@@ -738,9 +738,8 @@
 								doh.is("start Co", log[4].type + " " + log[4].query.name);	// trying to lookup ID for item named "co"
 								doh.is("end Co", log[5].type + " " + log[5].query.name);
 
-								// also, form should not have submitted because the FilteringSelect
-								// is still trying to fill in it's item value
-								doh.f(dojo.global.formSubmitted, "form not submitted");
+								// also, form SHOULD have submitted because no popup was visible
+								doh.t(dojo.global.formSubmitted, "form not submitted");
 							}else{ // this will look more like the IF block above once #6022 is committed
 								doh.is(2, len, "query was issued for 'Co' but canceled");
 								doh.is("cancel Co*", log[1].type + " " + log[1].query.name);
