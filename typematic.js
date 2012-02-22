@@ -76,7 +76,6 @@ var typematic = (dijit.typematic = {
 			this._currentTimeout = -1;
 			this._count = -1;
 			this._callback = lang.hitch(_this, callback);
-			this._fireEventAndReload();
 			this._evt = { faux: true };
 			for(var attr in evt){
 				if(attr != "layerX" && attr != "layerY"){ // prevent WebKit warnings
@@ -84,6 +83,7 @@ var typematic = (dijit.typematic = {
 					if(typeof v != "function" && typeof v != "undefined"){ this._evt[attr] = v }
 				}
 			}
+			this._fireEventAndReload();
 		}
 	},
 
