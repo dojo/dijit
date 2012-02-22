@@ -147,7 +147,7 @@
 					name: "dijit",
 					timeout: 2000,
 					runTest: function(){
-						new dijit.form.ComboBox({id:"dijit_programmatic", list:"states"}).placeAt("dijit_programmatic_container", "first");
+						new dijit.form.ComboBox({id:"dijit_programmatic", list:"states", value:"Alabama"}).placeAt("dijit_programmatic_container", "first");
 						var dijit_programmatic = dijit.byId('dijit_programmatic');
 						var focushandle = dijit_programmatic.connect(dijit_programmatic, '_onFocus',
 							function(){
@@ -169,7 +169,7 @@
 					name: "mobile",
 					timeout: 2000,
 					runTest: function(){
-						new dojox.mobile.ComboBox({id:"mobile_programmatic", list:"states"}).placeAt("mobile_programmatic_container", "first");
+						new dojox.mobile.ComboBox({id:"mobile_programmatic", list:"states", value:"Alabama"}).placeAt("mobile_programmatic_container", "first");
 						var mobile_programmatic = dijit.byId('mobile_programmatic');
 						var focushandle = mobile_programmatic.connect(mobile_programmatic.textbox, 'onfocus',
 							function(){
