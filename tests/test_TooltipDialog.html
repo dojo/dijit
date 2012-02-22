@@ -47,6 +47,7 @@
 		dojo.require("dijit.TooltipDialog");
 		dojo.require("dijit.form.DropDownButton");
 
+		dojo.require("dijit.form.Form");
 		dojo.require("dijit.form.TextBox");
 		dojo.require("dijit.form.DateTextBox");
 		dojo.require("dijit.form.TimeTextBox");
@@ -210,29 +211,46 @@
 			title:"tooltip dialog with no focusable items"'></div>
 	</div> |
 
-<div data-dojo-type="dijit/form/DropDownButton" data-dojo-props='"class":"tooltipLink"'>
-	<span>What is this?</span>
-	<div id="tooltipHelpDlg" data-dojo-type="dijit/TooltipDialog" data-dojo-props='title:"Test Dialog tooltip", style:"width:350px" '>
-		<div data-dojo-type="dijit/form/Button" data-dojo-props='"class":"buttonLink", style:"float:right;font-size:x-small", title:"close", tabIndex:"0" '>[close]
-			<script type="dojo/method" data-dojo-event="onClick">
-					dijit.byId('tooltipHelpDlg').onCancel();
-			</script>
-		</div>
-		<div role="alert" style="margin-top:1em">
-			<strong>Important!</strong> This is a tooltip dialog with just text! It could be used
-			to provide help. It will stay open until the user explicitly closes it via pressing escape, clicking [close] or by
-			clicking somewhere else on the page.  To make certain a screen reader will speak this text (at least in Firefox 3),
-			the div containing the text was given an
-			<a href="http://www.w3.org/WAI/PF/aria/">ARIA</a> role of alert. In the future the tooltip
-			dialog may be given a role of alertdialog.
-		</div>
+	<div data-dojo-type="dijit/form/DropDownButton" data-dojo-props='"class":"tooltipLink"'>
+		<span>What is this?</span>
+		<div id="tooltipHelpDlg" data-dojo-type="dijit/TooltipDialog" data-dojo-props='title:"Test Dialog tooltip", style:"width:350px" '>
+			<div data-dojo-type="dijit/form/Button" data-dojo-props='"class":"buttonLink", style:"float:right;font-size:x-small", title:"close", tabIndex:"0" '>[close]
+				<script type="dojo/method" data-dojo-event="onClick">
+						dijit.byId('tooltipHelpDlg').onCancel();
+				</script>
+			</div>
+			<div role="alert" style="margin-top:1em">
+				<strong>Important!</strong> This is a tooltip dialog with just text! It could be used
+				to provide help. It will stay open until the user explicitly closes it via pressing escape, clicking [close] or by
+				clicking somewhere else on the page.  To make certain a screen reader will speak this text (at least in Firefox 3),
+				the div containing the text was given an
+				<a href="http://www.w3.org/WAI/PF/aria/">ARIA</a> role of alert. In the future the tooltip
+				dialog may be given a role of alertdialog.
+			</div>
 
+		</div>
 	</div>
-</div>
 
 	<span id="dropdownButtonContainer">
 		<!-- programatically created nested TooltipDialog will be placed here -->
 	</span>
+
+	<div data-dojo-type="dijit.form.DropDownButton">
+		<span>TooltipDialog w/ActionBar</span>
+		<div data-dojo-type="dijit.TooltipDialog" id="loginform" data-dojo-props="title: 'Login...'">
+			<form data-dojo-type="dijit.form.Form">
+				<table>
+					<tr><td><label for="username2">Username:</label></td><td><input type="text" id="username2" data-dojo-type="dijit.form.TextBox" /></td></tr>
+					<tr><td><label for="password2">Password:</label></td><td><input type="password" id="password2" data-dojo-type="dijit.form.TextBox" /></td></tr>
+				</table>
+				<div class="dijitDialogPaneActionBar">
+					<button data-dojo-type="dijit.form.Button" type="reset">Reset</button>
+					<button data-dojo-type="dijit.form.Button" type="submit">Login</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
 
 	<p><b><i>(scroll down to see more links to click, for testing positioning / scroll handling)</i></b></p>
 
