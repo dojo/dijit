@@ -251,6 +251,22 @@
 		</div>
 	</div>
 
+	<div data-dojo-type="dijit.form.DropDownButton" data-dojo-props="dropDownPosition: ['below-centered', 'above-centered']">
+		<span>Centered TooltipDialog</span>
+		<div data-dojo-type="dijit.TooltipDialog" id="loginform3" data-dojo-props="title: 'Login...'">
+			<form data-dojo-type="dijit.form.Form">
+				<table>
+					<tr><td><label for="username3">Username:</label></td><td><input type="text" id="username3" data-dojo-type="dijit.form.TextBox" /></td></tr>
+					<tr><td><label for="password3">Password:</label></td><td><input type="password" id="password3" data-dojo-type="dijit.form.TextBox" /></td></tr>
+				</table>
+				<div class="dijitDialogPaneActionBar">
+					<button data-dojo-type="dijit.form.Button" type="reset">Reset</button>
+					<button data-dojo-type="dijit.form.Button" type="submit">Login</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
 
 	<p><b><i>(scroll down to see more links to click, for testing positioning / scroll handling)</i></b></p>
 
