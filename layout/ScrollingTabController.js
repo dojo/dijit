@@ -102,22 +102,20 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 		// to that the tabs are hidden/shown depending on the container's visibility setting.
 		domStyle.set(this.domNode, "visibility", "");
 		this._postStartup = true;
+
+		// changes to the tab button label or iconClass will have changed the width of the
+		// buttons, so do a resize
+		this.connect(this.containerNode, "attrmodified", function(evt){
+			if(evt.attrName == "label" || evt.attrName == "iconClass"){
+				if(this._dim){
+					this.resize(this._dim);
+				}
+			}
+		});
 	},
 
 	onAddChild: function(page, insertIndex){
 		this.inherited(arguments);
-
-		// changes to the tab button label or iconClass will have changed the width of the
-		// buttons, so do a resize
-		array.forEach(["label", "iconClass"], function(attr){
-			this.pane2watches[page.id].push(
-				this.pane2button[page.id].watch(attr, lang.hitch(this, function(){
-					if(this._postStartup && this._dim){
-						this.resize(this._dim);
-					}
-				}))
-			);
-		}, this);
 
 		// Increment the width of the wrapper when a tab is added
 		// This makes sure that the buttons never wrap.

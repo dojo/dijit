@@ -777,9 +777,47 @@ return declare("dijit._WidgetBase", Stateful, {
 		//		registered with watch() if the value has changed.
 		var oldValue = this[name];
 		this[name] = value;
-		if(this._watchCallbacks && this._created && value !== oldValue){
-			this._watchCallbacks(name, oldValue, value);
+		if(this._created && value !== oldValue){
+			if(this._watchCallbacks){
+				this._watchCallbacks(name, oldValue, value);
+			}
+			this.emit("attrmodified", {
+				attrName: name,
+				prevValue: oldValue,
+				newValue: value
+			});
 		}
+	},
+
+	emit: function(/*String*/ type, /*Object*/ eventObj, /*Array?*/ callbackArgs){
+		// summary:
+		//		Used by widgets to signal that a synthetic event occurred, ex: myWidget.emit("attrmodified", {}).
+		// description:
+		//		Emits an event on this.domNode named type.toLowerCase(), based on eventObj.
+		//		Also calls onType() method, if present, and returns value from that method.
+		//		By default passes eventObj to callback, but will pass callbackArgs instead, if specified.
+		//		Modifies eventObj by adding missing parameters (bubbles, cancelable, widget).
+		// tags:
+		//		protected
+
+		// Specify fallback values for bubbles, cancelable in case they are not set in eventObj.
+		// Also set pointer to widget, although since we can't add a pointer to the widget for native events
+		// (see #14729), maybe we shouldn't do it here?
+		eventObj = eventObj || {};
+		if(eventObj.bubbles === undefined){ eventObj.bubbles = true; }
+		if(eventObj.cancelable === undefined){ eventObj.cancelable = true; }
+		if(!eventObj.detail){ eventObj.detail = {}; }
+		eventObj.detail.widget = this;
+
+		var ret, callback = this["on"+type];
+		if(callback){
+			ret = callback.apply(this, callbackArgs ? callbackArgs : eventObj);
+		}
+		if(this._started){	// avoid spurious emit()'s as parent sets properties on child during startup
+			on.emit(this.domNode, type.toLowerCase(), eventObj);
+		}
+
+		return ret;
 	},
 
 	on: function(/*String*/ type, /*Function*/ func){
@@ -790,7 +828,15 @@ return declare("dijit._WidgetBase", Stateful, {
 		//		Note that the function is not run in any particular scope, so if (for example) you want it to run in the
 		//		widget's scope you must do `myWidget.on("click", lang.hitch(myWidget, func))`.
 
-		return aspect.after(this, this._onMap(type), func, true);
+		// For backwards compatibility, if there's an onType() method in the widget then connect to that.
+		// Remove in 2.0.
+		var widgetMethod = this._onMap(type);
+		if(widgetMethod){
+			return aspect.after(this, widgetMethod, func, true);
+		}
+
+		// Otherwise, just listen for the event on this.domNode.
+		return on(this.domNode, type, func);
 	},
 
 	_onMap: function(/*String*/ type){

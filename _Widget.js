@@ -227,8 +227,10 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 
 	on: function(/*String*/ type, /*Function*/ func){
 		if(this[this._onMap(type)] === connectToDomNode){
-			// Use connect.connect() rather than on() to get handling for "onmouseenter" on non-IE, etc.
+			// Use connect.connect() rather than on() to get handling for "onmouseenter" on non-IE,
+			// normalization of onkeypress/onkeydown to behave like firefox, etc.
 			// Also, need to specify context as "this" rather than the default context of the DOMNode
+			// Remove in 2.0.
 			return connect.connect(this.domNode, type.toLowerCase(), this, func);
 		}
 		return this.inherited(arguments);

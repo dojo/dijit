@@ -82,13 +82,13 @@ define([
 
 		constructor: function(){
 			this.pane2button = {};		// mapping from pane id to buttons
-			this.pane2watches = {};		// mapping from pane id to watch() handles
 		},
 
 		postCreate: function(){
 			this.inherited(arguments);
 
-			// Listen to notifications from StackContainer
+			// Listen to notifications from StackContainer.
+			// TODO: do this through bubbled events instead of topics
 			this.subscribe(this.containerId+"-startup", "onStartup");
 			this.subscribe(this.containerId+"-addChild", "onAddChild");
 			this.subscribe(this.containerId+"-removeChild", "onRemoveChild");
@@ -124,6 +124,23 @@ define([
 				// is null because there are no panes)
 				this.onSelectChild(info.selected);
 			}
+
+			// Reflect events like page title changes to tab buttons
+			var container = registry.byId(this.containerId),
+				paneToButtonAttr = {
+					"title": "label",
+					"showTitle": "showLabel",
+					"iconClass": "iconClass",
+					"closable": "closeButton",
+					"tooltip": "title"
+				};
+			this.connect(container.containerNode, "attrmodified", function(evt){
+				var button = this.pane2button[evt.detail && evt.detail.widget && evt.detail.widget.id],
+					buttonAttrName = paneToButtonAttr[evt.attrName];
+				if(button && buttonAttrName){
+					button.set(buttonAttrName, evt.newValue);
+				}
+			});
 		},
 
 		destroy: function(){
@@ -156,17 +173,6 @@ define([
 				page: page
 			});
 
-			// map from page attribute to corresponding tab button attribute
-			var pageAttrList = ["title", "showTitle", "iconClass", "closable", "tooltip"],
-				buttonAttrList = ["label", "showLabel", "iconClass", "closeButton", "title"];
-
-			// watch() so events like page title changes are reflected in tab button
-			this.pane2watches[page.id] = array.map(pageAttrList, function(pageAttr, idx){
-				return page.watch(pageAttr, function(name, oldVal, newVal){
-					button.set(buttonAttrList[idx], newVal);
-				});
-			});
-
 			this.addChild(button, insertIndex);
 			this.pane2button[page.id] = button;
 			page.controlButton = button;	// this value might be overwritten if two tabs point to same container
@@ -187,10 +193,6 @@ define([
 			//		private
 
 			if(this._currentChild === page){ this._currentChild = null; }
-
-			// disconnect/unwatch connections/watches related to page being removed
-			array.forEach(this.pane2watches[page.id], function(w){ w.unwatch(); });
-			delete this.pane2watches[page.id];
 
 			var button = this.pane2button[page.id];
 			if(button){
