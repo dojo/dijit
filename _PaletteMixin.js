@@ -299,7 +299,7 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 
 			// Actually focus the node, for the benefit of screen readers.
 			// Use setTimeout because IE doesn't like changing focus inside of an event handler
-			setTimeout(lang.hitch(dijit, "focus", focusNode), 0);
+			setTimeout(lang.hitch(focus, "focus", focusNode), 0);
 		}
 	},
 

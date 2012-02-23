@@ -369,7 +369,7 @@ define([
 					handle.remove();
 					handle = null;
 				}
-			})
+			});
 		}
 	});
 
