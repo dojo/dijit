@@ -160,24 +160,23 @@ var typematic = (dijit.typematic = {
 		//		a connection handle
 		var handles = [
 			on(node, "mousedown", lang.hitch(this, function(evt){
-				event.stop(evt);
+				evt.preventDefault();
 				typematic.trigger(evt, _this, node, callback, node, subsequentDelay, initialDelay, minDelay);
 			})),
 			on(node, "mouseup", lang.hitch(this, function(evt){
 				if(this._obj){
-					event.stop(evt);
+					evt.preventDefault();
 				}
 				typematic.stop();
 			})),
 			on(node, "mouseout", lang.hitch(this, function(evt){
-				event.stop(evt);
+				if(this._obj){
+					evt.preventDefault();
+				}
 				typematic.stop();
 			})),
-			on(node, "mousemove", lang.hitch(this, function(evt){
-				evt.preventDefault();
-			})),
 			on(node, "dblclick", lang.hitch(this, function(evt){
-				event.stop(evt);
+				evt.preventDefault();
 				if(has("ie")){
 					typematic.trigger(evt, _this, node, callback, node, subsequentDelay, initialDelay, minDelay);
 					setTimeout(lang.hitch(this, typematic.stop), 50);
