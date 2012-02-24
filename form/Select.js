@@ -63,7 +63,7 @@ var _SelectMenu = declare("dijit.form._SelectMenu", Menu, {
 
 		this.inherited(arguments);
 
-		this.connect(this.domNode, "onmousemove", event.stop);
+		this.connect(this.domNode, "onselectstart", event.stop);
 	},
 
 	resize: function(/*Object*/ mb){
@@ -289,7 +289,7 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 
 		this.inherited(arguments);
 
-		this.connect(this.domNode, "onmousemove", event.stop);
+		this.connect(this.domNode, "onselectstart", event.stop);
 	},
 
 	_setStyleAttr: function(/*String||Object*/ value){
