@@ -414,7 +414,7 @@ define([
 			// tags:
 			//		private
 			if(!this._showTimer){
-				this._showTimer = setTimeout(lang.hitch(this, function(){this.open(target)}), this.showDelay);
+				this._showTimer = this.defer(function(){ this.open(target); }, this.showDelay);
 			}
 		},
 
@@ -430,7 +430,7 @@ define([
 			if(this._focus){ return; }
 
 			if(this._showTimer){
-				clearTimeout(this._showTimer);
+				this._showTimer.remove();
 				delete this._showTimer;
 			}
 			this.close();
@@ -443,7 +443,7 @@ define([
 			//		private
 
 			if(this._showTimer){
-				clearTimeout(this._showTimer);
+				this._showTimer.remove();
 				delete this._showTimer;
 			}
 
@@ -471,7 +471,7 @@ define([
 			}
 			if(this._showTimer){
 				// if tooltip is scheduled to be shown (after a brief delay)
-				clearTimeout(this._showTimer);
+				this._showTimer.remove();
 				delete this._showTimer;
 			}
 		},

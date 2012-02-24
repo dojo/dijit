@@ -45,9 +45,8 @@ define([
 		_onInput: function(e){
 			this.inherited(arguments);
 			if(this.intermediateChanges){ // _TextBoxMixin uses onInput
-				var _this = this;
-				// the setTimeout allows the key to post to the widget input box
-				setTimeout(function(){ _this._handleOnChange(_this.get('value'), false); }, 0);
+				// allow the key to post to the widget input box
+				this.defer(function(){ this._handleOnChange(this.get('value'), false); });
 			}
 		},
 
@@ -120,8 +119,8 @@ define([
 			postCreate: function(){
 				this.inherited(arguments);
 				// IE INPUT tag fontFamily has to be set directly using STYLE
-				// the setTimeout gives IE a chance to render the TextBox and to deal with font inheritance
-				setTimeout(lang.hitch(this, function(){
+				// the defer gives IE a chance to render the TextBox and to deal with font inheritance
+				this.defer(function(){
 					try{
 						var s = domStyle.getComputedStyle(this.domNode); // can throw an exception if widget is immediately destroyed
 						if(s){
@@ -137,7 +136,7 @@ define([
 						}
 					}catch(e){/*when used in a Dialog, and this is called before the dialog is
 						shown, s.fontFamily would trigger "Invalid Argument" error.*/}
-				}), 0);
+				});
 			}
 		});
 

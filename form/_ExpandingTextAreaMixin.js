@@ -60,7 +60,7 @@ define([
 		},
 
 		_resizeLater: function(){
-			setTimeout(lang.hitch(this, "resize"), 0);
+			this.defer("resize");
 		},
 
 		resize: function(){
@@ -79,8 +79,6 @@ define([
 
 			var textarea = this.textbox;
 			if(textarea.style.overflowY == "hidden"){ textarea.scrollTop = 0; }
-			if(this.resizeTimer){ clearTimeout(this.resizeTimer); }
-			this.resizeTimer = null;
 			if(this.busyResizing){ return; }
 			this.busyResizing = true;
 			if(textareaScrollHeight() || textarea.offsetHeight){
@@ -110,12 +108,6 @@ define([
 				this._estimateHeight();
 			}
 			this.busyResizing = false;
-		},
-
-		destroy: function(){
-			if(this.resizeTimer){ clearTimeout(this.resizeTimer); }
-			if(this.shrinkTimer){ clearTimeout(this.shrinkTimer); }
-			this.inherited(arguments);
 		}
 	});
 });

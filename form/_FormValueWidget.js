@@ -45,7 +45,7 @@ return declare("dijit.form._FormValueWidget", [_FormWidget, _FormValueMixin],
 						function(){
 							_this.disconnect(disconnectHandle); // only call once
 							pingNode.style.filter = (new Date()).getMilliseconds(); // set to anything that's unique
-							setTimeout(function(){ pingNode.style.filter = origFilter }, 0); // restore custom filter, if any
+							_this.defer(function(){ pingNode.style.filter = origFilter }); // restore custom filter, if any
 						}
 					);
 				})();

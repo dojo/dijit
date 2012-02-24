@@ -1046,6 +1046,35 @@ return declare("dijit._WidgetBase", Stateful, {
 		// text: String
 		// tags:
 		//		protected.
+	},
+
+	defer: function(fcn, delay){ 
+		// summary:
+		//		Wrapper to setTimeout to avoid deferred functions executing
+		//		after the originating widget has been destroyed.
+		//		Returns an object handle with a remove method (that returns null) (replaces clearTimeout).
+		// fcn: function reference
+		// delay: Optional number (defaults to 0)
+		// tags:
+		//		protected.
+		var timer = setTimeout(lang.hitch(this, 
+			function(){ 
+				timer = null;
+				if(!this._destroyed){ 
+					lang.hitch(this, fcn)(); 
+				} 
+			}),
+			delay || 0
+		);
+		return {
+			remove:	function(){
+					if(timer){
+						clearTimeout(timer);
+						timer = null;
+					}
+					return null; // so this works well: handle = handle.remove();
+				}
+		};
 	}
 });
 

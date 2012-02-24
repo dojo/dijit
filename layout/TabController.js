@@ -59,7 +59,7 @@ define([
 
 			// Required to give IE6 a kick, as it initially hides the
 			// tabs until they are focused on.
-			setTimeout(function(){
+			this.defer(function(){
 				n.className = n.className;
 			}, 1);
 		},

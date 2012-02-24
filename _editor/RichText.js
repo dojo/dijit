@@ -314,7 +314,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			div.parentNode.removeChild(div);
 			div.innerHTML = "";
 		});
-		setTimeout(inject, 0);
+		this.defer(inject);
 	},
 
 	open: function(/*DomNode?*/ element){
@@ -379,7 +379,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 				}
 			});
 			if(has("ie")){
-				setTimeout(tmpFunc, 10);
+				this.defer(tmpFunc, 10);
 			}else{
 				tmpFunc();
 			}
@@ -503,7 +503,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			if(!src || src.indexOf("javascript") === -1){
 				// Safari 4 and earlier sometimes act oddly
 				// So we have to set it again.
-				setTimeout(function(){ifr.setAttribute('src', s);},0);
+				this.defer(function(){ ifr.setAttribute('src', s); });
 			}
 		}
 
@@ -725,12 +725,11 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			if(preventIEfocus){ this.editNode.unselectable = "on"; }
 			this.editNode.contentEditable = !value;
 			if(preventIEfocus){
-				var _this = this;
-				setTimeout(function(){
-					if(_this.editNode){		// guard in case widget destroyed before timeout
-						_this.editNode.unselectable = "off";
+				this.defer(function(){
+					if(this.editNode){		// guard in case widget destroyed before timeout
+						this.editNode.unselectable = "off";
 					}
-				}, 0);
+				});
 			}
 		}else{ //moz
 			try{
@@ -823,7 +822,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 				if(t && (t === this.document.body || t === this.document)){
 					// Since WebKit uses the inner DIV, we need to check and set position.
 					// See: #12024 as to why the change was made.
-					setTimeout(lang.hitch(this, "placeCursorAtEnd"), 0);
+					this.defer("placeCursorAtEnd");
 				}
 			});
 		}
@@ -854,7 +853,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			if(this.focusOnLoad){
 				// after the document loads, then set focus after updateInterval expires so that
 				// onNormalizedDisplayChanged has run to avoid input caret issues
-				ready(lang.hitch(this, function(){ setTimeout(lang.hitch(this, "focus"), this.updateInterval); }));
+				ready(lang.hitch(this, function(){ this.defer("focus", this.updateInterval); }));
 			}
 			// Save off the initial content now
 			this.value = this.getValue(true);
@@ -977,7 +976,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		if(!this._onKeyHitch){
 			this._onKeyHitch = lang.hitch(this, "onKeyPressed");
 		}
-		setTimeout(this._onKeyHitch, 1);
+		this.defer("_onKeyHitch", 1);
 		return true;
 	},
 
@@ -1117,12 +1116,12 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 		// var _t=new Date();
 		if(this._updateTimer){
-			clearTimeout(this._updateTimer);
+			this._updateTimer.remove();
 		}
 		if(!this._updateHandler){
 			this._updateHandler = lang.hitch(this,"onNormalizedDisplayChanged");
 		}
-		this._updateTimer = setTimeout(this._updateHandler, this.updateInterval);
+		this._updateTimer = this.defer("_updateHandler", this.updateInterval);
 
 		// Technically this should trigger a call to watch("value", ...) registered handlers,
 		// but getValue() is too slow to call on every keystroke so we don't.
@@ -1772,7 +1771,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 	destroy: function(){
 		if(!this.isClosed){ this.close(false); }
 		if(this._updateTimer){
-			clearTimeout(this._updateTimer);
+			this._updateTimer.remove();
 		}
 		this.inherited(arguments);
 		if(RichText._globalSaveHandler){

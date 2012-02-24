@@ -74,12 +74,10 @@ define([
 		_abortQuery: function(){
 			// stop in-progress query
 			if(this.searchTimer){
-				clearTimeout(this.searchTimer);
-				this.searchTimer = null;
+				this.searchTimer = this.searchTimer.remove();
 			}
 			if(this._queryDeferHandle){
-				clearTimeout(this._queryDeferHandle);
-				this._queryDeferHandle = null;
+				this._queryDeferHandle = this._queryDeferHandle.remove();
 			}
 			if(this._fetchHandle){
 				if(this._fetchHandle.abort){
@@ -130,7 +128,7 @@ define([
 				if(!this.store){
 					this.onSearch();
 				}else{
-					this.searchTimer = setTimeout(lang.hitch(this, "_startSearchFromInput"),1);
+					this.searchTimer = this.defer("_startSearchFromInput", 1);
 				}
 			}
 		},
@@ -232,13 +230,7 @@ define([
 			// otherwise, if the user types and the last query returns before the timeout,
 			// _lastQuery won't be set and their input gets rewritten
 			this._lastQuery = query[this.searchAttr] = q;
-			this._queryDeferHandle = setTimeout(lang.hitch(this,
-				function(){
-					this._queryDeferHandle = null;
-					startQuery();
-				}),
-				this.searchDelay
-			);
+			this._queryDeferHandle = this.defer(startQuery, this.searchDelay);
 		},
 
 		//////////// INITIALIZATION METHODS ///////////////////////////////////////

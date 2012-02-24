@@ -169,19 +169,19 @@ define([
 				if(dropDown.focus && dropDown.autoFocus !== false){
 					// Focus the dropdown widget - do it on a delay so that we
 					// don't steal our own focus.
-					window.setTimeout(lang.hitch(dropDown, "focus"), 1);
+					this.defer(lang.hitch(dropDown, "focus"), 1);
 				}
 			}else{
 				// The drop down arrow icon probably can't receive focus, but widget itself should get focus.
-				// setTimeout() needed to make it work on IE (test DateTextBox)
-				setTimeout(lang.hitch(this, "focus"), 0);
+				// defer() needed to make it work on IE (test DateTextBox)
+				this.defer("focus");
 			}
 
 			if(has("ios")){
 				this._justGotMouseUp = true;
-				setTimeout(lang.hitch(this, function(){
+				this.defer(function(){
 					this._justGotMouseUp = false;
-				}), 0);
+				});
 			}
 		},
 
@@ -282,7 +282,7 @@ define([
 				this.toggleDropDown();
 				var d = this.dropDown;	// drop down may not exist until toggleDropDown() call
 				if(d && d.focus){
-					setTimeout(lang.hitch(d, "focus"), 1);
+					this.defer(lang.hitch(d, "focus"), 1);
 				}
 			}
 		},

@@ -131,7 +131,7 @@ return declare("dijit._MenuBase",
 		if(this.isActive){
 			this.focusChild(item);
 			if(this.focusedChild.popup && !this.focusedChild.disabled && !this.hover_timer){
-				this.hover_timer = setTimeout(lang.hitch(this, "_openPopup"), this.popupDelay);
+				this.hover_timer = this.defer("_openPopup", this.popupDelay);
 			}
 		}
 		// if the user is mixing mouse and keyboard navigation,
@@ -158,7 +158,7 @@ return declare("dijit._MenuBase",
 		var itemPopup = item.popup;
 		if(itemPopup){
 			this._stopPendingCloseTimer(itemPopup);
-			itemPopup._pendingClose_timer = setTimeout(function(){
+			itemPopup._pendingClose_timer = this.defer(function(){
 				itemPopup._pendingClose_timer = null;
 				if(itemPopup.parentMenu){
 					itemPopup.parentMenu.currentPopup = null;
@@ -189,8 +189,7 @@ return declare("dijit._MenuBase",
 		// tags:
 		//		private
 		if(this.hover_timer){
-			clearTimeout(this.hover_timer);
-			this.hover_timer = null;
+			this.hover_timer = this.hover_timer.remove();
 		}
 	},
 
@@ -200,8 +199,7 @@ return declare("dijit._MenuBase",
 		// tags:
 		//		private
 		if(popup._pendingClose_timer){
-			clearTimeout(popup._pendingClose_timer);
-			popup._pendingClose_timer = null;
+			popup._pendingClose_timer = popup._pendingClose_timer.remove();
 		}
 	},
 
@@ -211,8 +209,7 @@ return declare("dijit._MenuBase",
 		// tags:
 		//		private
 		if(this._focus_timer){
-			clearTimeout(this._focus_timer);
-			this._focus_timer = null;
+			this._focus_timer = this._focus_timer.remove();
 		}
 	},
 
@@ -293,12 +290,12 @@ return declare("dijit._MenuBase",
 		if(popup.focus){
 			// If user is opening the popup via keyboard (right arrow, or down arrow for MenuBar),
 			// if the cursor happens to collide with the popup, it will generate an onmouseover event
-			// even though the mouse wasn't moved.  Use a setTimeout() to call popup.focus so that
+			// even though the mouse wasn't moved.  Use defer() to call popup.focus so that
 			// our focus() call overrides the onmouseover event, rather than vice-versa.  (#8742)
-			popup._focus_timer = setTimeout(lang.hitch(popup, function(){
+			popup._focus_timer = this.defer(lang.hitch(popup, function(){
 				this._focus_timer = null;
 				this.focus();
-			}), 0);
+			}));
 		}
 	},
 

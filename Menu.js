@@ -214,7 +214,7 @@ return declare("dijit.Menu", DropDownMenu, {
 		var attrName = "_dijitMenu" + this.id;
 		if(node && domAttr.has(node, attrName)){
 			var bid = domAttr.get(node, attrName)-1, b = this._bindings[bid], h;
-			while(h = b.connects.pop()){
+			while((h = b.connects.pop())){
 				h.remove();
 			}
 
@@ -246,14 +246,14 @@ return declare("dijit.Menu", DropDownMenu, {
 		//		oncontextmenu event.)
 
 		if(!this._openTimer){
-			this._openTimer = setTimeout(lang.hitch(this, function(){
+			this._openTimer = this.defer(function(){
 				delete this._openTimer;
 				this._openMyself({
 					target: target,
 					iframe: iframe,
 					coords: coords
 				});
-			}), 1);
+			}, 1);
 		}
 	},
 

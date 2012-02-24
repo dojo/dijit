@@ -117,10 +117,10 @@ define([
 
 				this._arrowPressed(node, scrollAmount, this.smallDelta);
 
-				if(!this._wheelTimer){
-					clearTimeout(this._wheelTimer);
+				if(this._wheelTimer){
+					this._wheelTimer.remove();
 				}
-				this._wheelTimer = setTimeout(lang.hitch(this,"_arrowReleased",node), 50);
+				this._wheelTimer = this.defer(function(){ this._arrowReleased(node); }, 50);
 			}
 
 		},

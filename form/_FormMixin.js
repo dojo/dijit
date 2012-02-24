@@ -231,7 +231,7 @@ define([
 			// that wouldn't work when:
 			//
 			// 1. User presses return key to submit a form.  That doesn't fire an onchange event,
-			// and even if it did it would come too late due to the setTimeout(..., 0) in _handleOnChange()
+			// and even if it did it would come too late due to the defer(...) in _handleOnChange()
 			//
 			// 2. app for some reason calls this.get("value") while the user is typing into a
 			// form field.   Not sure if that case needs to be supported or not.
@@ -424,16 +424,16 @@ define([
 				// summary:
 				//		Called when child's value or disabled state changes
 
-				// Use setTimeout() to collapse value changes in multiple children into a single
+				// Use defer() to collapse value changes in multiple children into a single
 				// update to my value.   Multiple updates will occur on:
 				//	1. Form.set()
 				//	2. Form.reset()
 				//	3. user selecting a radio button (which will de-select another radio button,
 				//		 causing two onChange events)
 				if(_this._onChangeDelayTimer){
-					clearTimeout(_this._onChangeDelayTimer);
+					_this._onChangeDelayTimer.remove();
 				}
-				_this._onChangeDelayTimer = setTimeout(function(){
+				_this._onChangeDelayTimer = _this.defer(function(){
 					delete _this._onChangeDelayTimer;
 					_this._set("value", _this.get("value"));
 				}, 10);

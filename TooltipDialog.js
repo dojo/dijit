@@ -158,8 +158,8 @@ define([
 			}
 			var singleFocusItem = (this._firstFocusItem == this._lastFocusItem);
 			if(evt.charOrCode == keys.ESCAPE){
-				// Use setTimeout to avoid crash on IE, see #10396.
-				setTimeout(lang.hitch(this, "onCancel"), 0);
+				// Use defer to avoid crash on IE, see #10396.
+				this.defer("onCancel");
 				event.stop(evt);
 			}else if(node == this._firstFocusItem && evt.shiftKey && evt.charOrCode === keys.TAB){
 				if(!singleFocusItem){

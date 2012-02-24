@@ -181,15 +181,15 @@ return declare("dijit.form._FormWidgetMixin", null, {
 			this._pendingOnChange = false;
 			if(this._onChangeActive){
 				if(this._onChangeHandle){
-					clearTimeout(this._onChangeHandle);
+					this._onChangeHandle.remove();
 				}
-				// setTimeout allows hidden value processing to run and
+				// defer allows hidden value processing to run and
 				// also the onChange handler can safely adjust focus, etc
-				this._onChangeHandle = setTimeout(lang.hitch(this,
+				this._onChangeHandle = this.defer(
 					function(){
 						this._onChangeHandle = null;
 						this.onChange(newValue);
-					}), 0); // try to collapse multiple onChange's fired faster than can be processed
+					}); // try to collapse multiple onChange's fired faster than can be processed
 			}
 		}
 	},
@@ -202,7 +202,7 @@ return declare("dijit.form._FormWidgetMixin", null, {
 
 	destroy: function(){
 		if(this._onChangeHandle){ // destroy called before last onChange has fired
-			clearTimeout(this._onChangeHandle);
+			this._onChangeHandle.remove();
 			this.onChange(this._lastValueReported);
 		}
 		this.inherited(arguments);

@@ -290,7 +290,7 @@ define([
 				delete this._cursorToStart; // Remove the force to cursor to start position.
 				delete this._savedSelection; // new mouse position overrides old selection
 				if(e.target.tagName == "BODY"){
-					setTimeout(lang.hitch(this, "placeCursorAtEnd"), 0);
+					this.defer("placeCursorAtEnd");
 				}
 				this.inherited(arguments);
 			}
@@ -345,9 +345,9 @@ define([
 			}
 			if(this.editActionInterval>0){
 				if(this._editTimer){
-					clearTimeout(this._editTimer);
+					this._editTimer.remove();
 				}
-				this._editTimer = setTimeout(lang.hitch(this, this.endEditing), this._editInterval);
+				this._editTimer = this.defer("endEditing", this._editInterval);
 			}
 		},
 
@@ -560,7 +560,7 @@ define([
 			// tags:
 			//		private
 			if(this._editTimer){
-				clearTimeout(this._editTimer);
+				this._editTimer = this._editTimer.remove();
 			}
 			if(this._inEditing){
 				this._endEditing(ignore_caret);
@@ -681,13 +681,11 @@ define([
 							this.endEditing();//end current typing step if any
 							if(e.keyCode == 88){
 								this.beginEditing('cut');
-								//use timeout to trigger after the cut is complete
-								setTimeout(lang.hitch(this, this.endEditing), 1);
 							}else{
 								this.beginEditing('paste');
-								//use timeout to trigger after the paste is complete
-								setTimeout(lang.hitch(this, this.endEditing), 1);
 							}
+							//use timeout to trigger after the paste is complete
+							this.defer("endEditing", 1);
 							break;
 						}
 						//pass through

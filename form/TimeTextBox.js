@@ -66,9 +66,9 @@ define([
 					// these keys have special meaning
 					break;
 				default:
-					// setTimeout() because the keystroke hasn't yet appeared in the <input>,
+					// defer() because the keystroke hasn't yet appeared in the <input>,
 					// so the get('displayedValue') call below won't give the result we want.
-					setTimeout(lang.hitch(this, function(){
+					this.defer(function(){
 						// set this.filterString to the filter to apply to the drop down list;
 						// it will be used in openDropDown()
 						var val = this.get('displayedValue');
@@ -81,7 +81,7 @@ define([
 							this.closeDropDown();
 						}
 						this.openDropDown();
-					}), 0);
+					});
 			}
 		}
 	});
