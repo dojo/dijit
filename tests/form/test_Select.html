@@ -247,6 +247,13 @@
 							s12.setStore(store2);
 							t.is("DE", s12.value);
 							t.is(7, s12.getOptions().length);
+						},
+
+						function test_setOptions(t){
+							programmatic.set('options', data2.items);
+							programmatic.reset();
+							t.is(7, programmatic.getOptions().length);
+							t.is("DE", programmatic.value);
 						}
 					]);
 

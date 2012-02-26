@@ -198,7 +198,7 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 				// Drop down menu is blank but add one blank entry just so something appears on the screen
 				// to let users know that they are no choices (mimicing native select behavior)
 				array.forEach(this._getChildren(), function(child){ child.destroyRecursive(); });
-				var item = new MenuItem({label: "&#160;"});
+				var item = new MenuItem({ label: this.emptyLabel });
 				this.dropDown.addChild(item);
 			}
 		}else{
@@ -229,6 +229,11 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 		this._set("required", value);
 		this.focusNode.setAttribute("aria-required", value);
 		this.validate(this.focused);	// to update this.state
+	},
+
+	_setOptionsAttr: function(/*Array*/ options){
+		this._isLoaded = false;
+		this._set('options', options);
 	},
 
 	_setDisplay: function(/*String*/ newDisplay){
