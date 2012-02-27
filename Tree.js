@@ -14,10 +14,12 @@ define([
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/keys",	// arrows etc.
 	"dojo/_base/lang", // lang.getObject lang.mixin lang.hitch
+	"dojo/mouse",	// mouse.enter, mouse.leave
+	"dojo/on",		// on(), on.selector()
 	"dojo/topic",
 	"./focus",
-	"./registry",	// registry.getEnclosingWidget(), manager.defaultDuration
-	"./_base/manager",	// manager.getEnclosingWidget(), manager.defaultDuration
+	"./registry",	// registry.byNode(), registry.getEnclosingWidget()
+	"./_base/manager",	// manager.defaultDuration
 	"./_Widget",
 	"./_TemplatedMixin",
 	"./_Container",
@@ -29,7 +31,7 @@ define([
 	"./tree/ForestStoreModel",
 	"./tree/_dndSelector"
 ], function(array, connect, cookie, declare, Deferred, DeferredList,
-			dom, domClass, domGeometry, domStyle, event, fxUtils, kernel, keys, lang, topic,
+			dom, domClass, domGeometry, domStyle, event, fxUtils, kernel, keys, lang, mouse, on, topic,
 			focus, registry, manager, _Widget, _TemplatedMixin, _Container, _Contained, _CssStateMixin,
 			treeNodeTemplate, treeTemplate, TreeStoreModel, ForestStoreModel, _dndSelector){
 
@@ -498,16 +500,6 @@ var TreeNode = declare(
 		this._setExpando(false);
 	},
 
-	_onLabelFocus: function(){
-		// summary:
-		//		Called when this row is focused (possibly programatically)
-		//		Note that we aren't using _onFocus() builtin to dijit
-		//		because it's called when focus is moved to a descendant TreeNode.
-		// tags:
-		//		private
-		this.tree._onNodeFocus(this);
-	},
-
 	setSelected: function(/*Boolean*/ selected){
 		// summary:
 		//		A Tree has a (single) currently selected node.
@@ -530,36 +522,6 @@ var TreeNode = declare(
 		this.labelNode.setAttribute("tabIndex", selected ? "0" : "-1");
 	},
 
-	_onClick: function(evt){
-		// summary:
-		//		Handler for onclick event on a node
-		// tags:
-		//		private
-		this.tree._onClick(this, evt);
-	},
-	_onDblClick: function(evt){
-		// summary:
-		//		Handler for ondblclick event on a node
-		// tags:
-		//		private
-		this.tree._onDblClick(this, evt);
-	},
-
-	_onMouseEnter: function(evt){
-		// summary:
-		//		Handler for onmouseenter event on a node
-		// tags:
-		//		private
-		this.tree._onNodeMouseEnter(this, evt);
-	},
-
-	_onMouseLeave: function(evt){
-		// summary:
-		//		Handler for onmouseenter event on a node
-		// tags:
-		//		private
-		this.tree._onNodeMouseLeave(this, evt);
-	},
 
 	_setTextDirAttr: function(textDir){
 		if(textDir &&((this.textDir != textDir) || !this._created)){
@@ -784,6 +746,26 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 
 	postCreate: function(){
 		this._initState();
+
+		// Catch events on TreeNodes
+		var self = this;
+		this._connects.push(
+			on(this.domNode, on.selector(".dijitTreeNode", mouse.enter), function(evt){
+				self._onNodeMouseEnter(registry.byNode(this), evt);
+			}),
+			on(this.domNode, on.selector(".dijitTreeNode", mouse.leave), function(evt){
+				self._onNodeMouseLeave(registry.byNode(this), evt);
+			}),
+			on(this.domNode, on.selector(".dijitTreeNode", "click"), function(evt){
+				self._onClick(registry.byNode(this), evt);
+			}),
+			on(this.domNode, on.selector(".dijitTreeNode", "dblclick"), function(evt){
+				self._onDblClick(registry.byNode(this), evt);
+			}),
+			on(this.domNode, on.selector(".dijitTreeLabel", "focusin"), function(evt){
+				self._onNodeFocus(registry.getEnclosingWidget(this), evt);
+			})
+		);
 
 		// Create glue between store and Tree, if not specified directly by user
 		if(!this.model){
