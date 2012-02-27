@@ -4,7 +4,7 @@ define([
 	"dojo/_base/fx", // fx.fadeIn fx.fadeOut
 	"dojo/dom", // dom.byId
 	"dojo/dom-class", // domClass.add
-	"dojo/dom-geometry", // domGeometry.getMarginBox domGeometry.position
+	"dojo/dom-geometry", // domGeometry.position
 	"dojo/dom-style", // domStyle.set, domStyle.get
 	"dojo/_base/lang", // lang.hitch lang.isArrayLike
 	"dojo/_base/sniff", // has("ie")
@@ -86,7 +86,7 @@ define([
 				return;
 			}
 			this.containerNode.innerHTML=innerHTML;
-
+			
 			if(textDir){
 				this.set("textDir", textDir);
 			}
@@ -160,9 +160,9 @@ define([
 
 			// Reposition the tooltip connector.
 			if(tooltipCorner.charAt(0) == 'B' && aroundCorner.charAt(0) == 'B'){
-				var mb = domGeometry.getMarginBox(node);
+				var bb = domGeometry.position(node);
 				var tooltipConnectorHeight = this.connectorNode.offsetHeight;
-				if(mb.h > spaceAvailable.h){
+				if(bb.h > heightAvailable){
 					// The tooltip starts at the top of the page and will extend past the aroundNode
 					var aroundNodePlacement = spaceAvailable.h - ((aroundNodeCoords.h + tooltipConnectorHeight) >> 1);
 					this.connectorNode.style.top = aroundNodePlacement + "px";
@@ -173,7 +173,7 @@ define([
 					// extend past top of tooltip content
 					this.connectorNode.style.bottom = Math.min(
 						Math.max(aroundNodeCoords.h/2 - tooltipConnectorHeight/2, 0),
-						mb.h - tooltipConnectorHeight) + "px";
+						bb.h - tooltipConnectorHeight) + "px";
 					this.connectorNode.style.top = "";
 				}
 			}else{
@@ -229,26 +229,26 @@ define([
 				this._onDeck=null;
 			}
 		},
-
+		
 		_setAutoTextDir: function(/*Object*/node){
-			// summary:
-			//	    Resolve "auto" text direction for children nodes
-			// tags:
-			//		private
+		    // summary:
+		    //	    Resolve "auto" text direction for children nodes
+		    // tags:
+		    //		private
 
-			this.applyTextDir(node, has("ie") ? node.outerText : node.textContent);
-			array.forEach(node.children, function(child){this._setAutoTextDir(child); }, this);
+            this.applyTextDir(node, has("ie") ? node.outerText : node.textContent);
+            array.forEach(node.children, function(child){this._setAutoTextDir(child); }, this);
 		},
-
+		
 		_setTextDirAttr: function(/*String*/ textDir){
-			// summary:
-			//		Setter for textDir.
-			// description:
-			//		Users shouldn't call this function; they should be calling
-			//		set('textDir', value)
-			// tags:
-			//		private
-
+		    // summary:
+		    //		Setter for textDir.
+		    // description:
+		    //		Users shouldn't call this function; they should be calling
+		    //		set('textDir', value)
+		    // tags:
+		    //		private
+	
 			this._set("textDir", textDir);
 
 			if (textDir == "auto"){
@@ -256,7 +256,7 @@ define([
 			}else{
 				this.containerNode.dir = this.textDir;
 			}
-		}
+        }
 	});
 
 	dijit.showTooltip = function(innerHTML, aroundNode, position, rtl, textDir){
@@ -415,7 +415,7 @@ define([
 		},
 
 		open: function(/*DomNode*/ target){
- 			// summary:
+			// summary:
 			//		Display the tooltip; usually not called directly.
 			// tags:
 			//		private

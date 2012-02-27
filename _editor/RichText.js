@@ -7,7 +7,7 @@ define([
 	"dojo/dom-attr", // domAttr.set or get
 	"dojo/dom-class", // domClass.add domClass.remove
 	"dojo/dom-construct", // domConstruct.create domConstruct.destroy domConstruct.place
-	"dojo/dom-geometry", // domGeometry.getMarginBox domGeometry.position
+	"dojo/dom-geometry", // domGeometry.position
 	"dojo/dom-style", // domStyle.getComputedStyle domStyle.set
 	"dojo/_base/event", // event.stop
 	"dojo/_base/kernel", // kernel.deprecated
