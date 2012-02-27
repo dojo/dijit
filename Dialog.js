@@ -11,12 +11,11 @@ define([
 	"dojo/_base/event", // event.stop
 	"dojo/_base/fx", // fx.fadeIn fx.fadeOut
 	"dojo/i18n", // i18n.getLocalization
-	"dojo/_base/kernel", // kernel.isAsync
 	"dojo/keys",
 	"dojo/_base/lang", // lang.mixin lang.hitch
 	"dojo/on",
 	"dojo/ready",
-	"dojo/sniff", // has("ie") has("opera")
+	"dojo/sniff", // has("ie") has("opera") has("dijit-legacy-requires")
 	"dojo/_base/window", // win.body
 	"dojo/window", // winUtils.getBox
 	"dojo/dnd/Moveable", // Moveable
@@ -34,7 +33,7 @@ define([
 	"./main",			// for back-compat, exporting dijit._underlay (remove in 2.0)
 	"dojo/i18n!./nls/common"
 ], function(require, array, connect, declare, Deferred,
-			dom, domClass, domGeometry, domStyle, event, fx, i18n, kernel, keys, lang, on, ready, has, win, winUtils,
+			dom, domClass, domGeometry, domStyle, event, fx, i18n, keys, lang, on, ready, has, win, winUtils,
 			Moveable, TimedMoveable, focus, manager, _Widget, _TemplatedMixin, _CssStateMixin, _FormMixin, _DialogMixin,
 			DialogUnderlay, ContentPane, template, dijit){
 	
@@ -635,7 +634,7 @@ define([
 	];
 
 	// Back compat w/1.6, remove for 2.0
-	if(!kernel.isAsync){
+	if(has("dijit-legacy-requires")){
 		ready(0, function(){
 			var requires = ["dijit/TooltipDialog"];
 			require(requires);	// use indirection so modules not rolled into a build

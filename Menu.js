@@ -7,7 +7,7 @@ define([
 	"dojo/dom-attr", // domAttr.get domAttr.set domAttr.has domAttr.remove
 	"dojo/dom-geometry", // domStyle.getComputedStyle domGeometry.position
 	"dojo/dom-style", // domStyle.getComputedStyle
-	"dojo/_base/kernel",
+	"dojo/has",
 	"dojo/keys",	// keys.F10
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on",
@@ -17,7 +17,7 @@ define([
 	"./popup",
 	"./DropDownMenu",
 	"dojo/ready"
-], function(require, array, declare, event, dom, domAttr, domGeometry, domStyle, kernel, keys, lang, on,
+], function(require, array, declare, event, dom, domAttr, domGeometry, domStyle, has, keys, lang, on,
 			has, win, winUtils, pm, DropDownMenu, ready){
 
 /*=====
@@ -30,7 +30,7 @@ define([
 //		Includes dijit.Menu widget and base class dijit._MenuBase
 
 // Back compat w/1.6, remove for 2.0
-if(!kernel.isAsync){
+if(has("dijit-legacy-requires")){
 	ready(0, function(){
 		var requires = ["dijit/MenuItem", "dijit/PopupMenuItem", "dijit/CheckedMenuItem", "dijit/MenuSeparator"];
 		require(requires);	// use indirection so modules not rolled into a build

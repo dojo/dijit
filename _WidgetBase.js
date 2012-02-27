@@ -11,6 +11,7 @@ define([
 	"dojo/dom-construct", // domConstruct.create domConstruct.destroy domConstruct.place
 	"dojo/dom-geometry",	// isBodyLtr
 	"dojo/dom-style", // domStyle.set, domStyle.get
+	"dojo/has",
 	"dojo/_base/kernel",
 	"dojo/_base/lang", // mixin(), isArray(), etc.
 	"dojo/on",
@@ -20,7 +21,7 @@ define([
 	"dojo/_base/window", // win.doc.createTextNode
 	"./registry"	// registry.getUniqueId(), registry.findWidgets()
 ], function(require, array, aspect, config, connect, declare,
-			dom, domAttr, domClass, domConstruct, domGeometry, domStyle, kernel,
+			dom, domAttr, domClass, domConstruct, domGeometry, domStyle, has, kernel,
 			lang, on, ready, Stateful, topic, win, registry){
 
 /*=====
@@ -32,8 +33,11 @@ var Stateful = dojo.Stateful;
 // summary:
 //		Future base class for all Dijit widgets.
 
+// Flag to make dijit load modules the app didn't explicitly request, for backwards compatibility
+has.add("dijit-legacy-requires", !kernel.isAsync);
+
 // For back-compat, remove in 2.0.
-if(!kernel.isAsync){
+if(has("dijit-legacy-requires")){
 	ready(0, function(){
 		var requires = ["dijit/_base/manager"];
 		require(requires);	// use indirection so modules not rolled into a build

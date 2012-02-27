@@ -3,6 +3,7 @@ define([
 	"dojo/_base/config",	// config.isDebug
 	"dojo/_base/connect",	// connect.connect
 	"dojo/_base/declare", // declare
+	"dojo/has",
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/lang", // lang.hitch
 	"dojo/query",
@@ -13,7 +14,7 @@ define([
 	"./_FocusMixin",
 	"dojo/uacss",		// browser sniffing (included for back-compat; subclasses may be using)
 	"./hccss"		// high contrast mode sniffing (included to set CSS classes on <body>, module ret value unused)
-], function(aspect, config, connect, declare, kernel, lang, query, ready,
+], function(aspect, config, connect, declare, has, kernel, lang, query, ready,
 			registry, _WidgetBase, _OnDijitClickMixin, _FocusMixin){
 
 /*=====
@@ -343,7 +344,7 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 });
 
 // For back-compat, remove in 2.0.
-if(!kernel.isAsync){
+if(has("dijit-legacy-requires")){
 	ready(0, function(){
 		var requires = ["dijit/_base"];
 		require(requires);	// use indirection so modules not rolled into a build
