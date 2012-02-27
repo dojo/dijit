@@ -853,7 +853,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			if(this.focusOnLoad){
 				// after the document loads, then set focus after updateInterval expires so that
 				// onNormalizedDisplayChanged has run to avoid input caret issues
-				ready(lang.hitch(this, function(){ this.defer("focus", this.updateInterval); }));
+				ready(lang.hitch(this, "defer", "focus", this.updateInterval));
 			}
 			// Save off the initial content now
 			this.value = this.getValue(true);
@@ -1118,10 +1118,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		if(this._updateTimer){
 			this._updateTimer.remove();
 		}
-		if(!this._updateHandler){
-			this._updateHandler = lang.hitch(this,"onNormalizedDisplayChanged");
-		}
-		this._updateTimer = this.defer("_updateHandler", this.updateInterval);
+		this._updateTimer = this.defer("onNormalizedDisplayChanged", this.updateInterval);
 
 		// Technically this should trigger a call to watch("value", ...) registered handlers,
 		// but getValue() is too slow to call on every keystroke so we don't.

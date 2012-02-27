@@ -411,14 +411,13 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 		//		protected.
 		if(e && e.target){
 			var t = e.target;
-			var tg = t.tagName? t.tagName.toLowerCase() : "";
+			var tg = t.tagName ? t.tagName.toLowerCase() : "";
 			if(tg === this.tag && domAttr.get(t,"href")){
 				var editor = this.editor;
 
 				win.withGlobal(editor.window,
 					 "selectElement",
 					 selectionapi, [t]);
-
 				editor.onDisplayChanged();
 
 				// Call onNormalizedDisplayChange() now, rather than on timer.
@@ -427,7 +426,7 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 				// (actually, all the toolbar buttons), at which point clicking the <input> will close the dialog,
 				// since (for unknown reasons) focus.js ignores disabled controls.
 				if(editor._updateTimer){
-					clearTimeout(editor._updateTimer);
+					editor._updateTimer.remove();
 					delete editor._updateTimer;
 				}
 				editor.onNormalizedDisplayChanged();
@@ -587,7 +586,7 @@ var ImgLinkDialog = declare("dijit._editor.plugins.ImgLinkDialog", [LinkDialog],
 				// (actually, all the toolbar buttons), at which point clicking the <input> will close the dialog,
 				// since (for unknown reasons) focus.js ignores disabled controls.
 				if(editor._updateTimer){
-					clearTimeout(editor._updateTimer);
+					editor._updateTimer.remove();
 					delete editor._updateTimer;
 				}
 				editor.onNormalizedDisplayChanged();
