@@ -135,7 +135,7 @@
 									// http://code.google.com/p/chromium/issues/detail?id=106551
 									// Should hopefully be fixed in Chrome 19.
 									value = value.replace(/\n/g, "");
-									value = value.replace(/\n\r\f/g, "");
+									value = value.replace(/\r\f/g, "");
 								}
 								
 								// Safari may end with a trailing/extra br, so we need to remove it.
@@ -184,7 +184,7 @@
 									// http://code.google.com/p/chromium/issues/detail?id=106551
 									// Should hopefully be fixed in Chrome 19.
 									value = value.replace(/\n/g, "");
-									value = value.replace(/\n\r\f/g, "");
+									value = value.replace(/\r\f/g, "");
 								}
 								
 
@@ -343,7 +343,7 @@
 									// http://code.google.com/p/chromium/issues/detail?id=106551
 									// Should hopefully be fixed in Chrome 19.
 									value = value.replace(/\n/g, "");
-									value = value.replace(/\n\r\f/g, "");
+									value = value.replace(/\r\f/g, "");
 								}
 								doh.is('<div>testingCopyAndPastetestingCopyAndPastetestingCopyAndPaste</div><div></div>',
 										value,
@@ -388,7 +388,7 @@
 									// http://code.google.com/p/chromium/issues/detail?id=106551
 									// Should hopefully be fixed in Chrome 19.
 									value = value.replace(/\n/g, "");
-									value = value.replace(/\n\r\f/g, "");
+									value = value.replace(/\r\f/g, "");
 								}
 								
 
@@ -488,7 +488,7 @@
 									// http://code.google.com/p/chromium/issues/detail?id=106551
 									// Should hopefully be fixed in Chrome 19.
 									value = value.replace(/\n/g, "");
-									value = value.replace(/\n\r\f/g, "");
+									value = value.replace(/\r\f/g, "");
 								}
 								
 								doh.is('<p>testingCopyAndPastetestingCopyAndPastetestingCopyAndPaste</p><p></p>',
@@ -534,7 +534,7 @@
 									// http://code.google.com/p/chromium/issues/detail?id=106551
 									// Should hopefully be fixed in Chrome 19.
 									value = value.replace(/\n/g, "");
-									value = value.replace(/\n\r\f/g, "");
+									value = value.replace(/\r\f/g, "");
 								}
 								
 								doh.is('<p>testingCopyAndPastetestingCopyAndPastetestingCopyAndP</p><p>aste</p>',
