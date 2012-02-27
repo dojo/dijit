@@ -1,6 +1,6 @@
 define([
 	"dojo/_base/array", // array.forEach array.map array.some
-	"dojo/dom-geometry", // domGeometry.getMarginBox domGeometry.position
+	"dojo/dom-geometry", // domGeometry.position
 	"dojo/dom-style", // domStyle.getComputedStyle
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/window", // win.body
@@ -83,7 +83,7 @@ define([
 				style.visibility = "hidden";
 				style.display = "";
 			}
-			var mb = domGeometry.getMarginBox(node);
+			var bb = domGeometry.position(node);
 			style.display = oldDisplay;
 			style.visibility = oldVis;
 
@@ -92,22 +92,22 @@ define([
 			var
 				startXpos = {
 					'L': pos.x,
-					'R': pos.x - mb.w,
-					'M': Math.max(view.l, Math.min(view.l + view.w, pos.x + (mb.w >> 1)) - mb.w) // M orientation is more flexible
+					'R': pos.x - bb.w,
+					'M': Math.max(view.l, Math.min(view.l + view.w, pos.x + (bb.w >> 1)) - bb.w) // M orientation is more flexible
 				}[corner.charAt(1)],
 				startYpos = {
 					'T': pos.y,
-					'B': pos.y - mb.h,
-					'M': Math.max(view.t, Math.min(view.t + view.h, pos.y + (mb.h >> 1)) - mb.h)
+					'B': pos.y - bb.h,
+					'M': Math.max(view.t, Math.min(view.t + view.h, pos.y + (bb.h >> 1)) - bb.h)
 				}[corner.charAt(0)],
 				startX = Math.max(view.l, startXpos),
 				startY = Math.max(view.t, startYpos),
-				endX = Math.min(view.l + view.w, startXpos + mb.w),
-				endY = Math.min(view.t + view.h, startYpos + mb.h),
+				endX = Math.min(view.l + view.w, startXpos + bb.w),
+				endY = Math.min(view.t + view.h, startYpos + bb.h),
 				width = endX - startX,
 				height = endY - startY;
 
-			overflow += (mb.w - width) + (mb.h - height);
+			overflow += (bb.w - width) + (bb.h - height);
 
 			if(best == null || overflow < best.overflow){
 				best = {
