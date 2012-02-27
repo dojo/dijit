@@ -144,10 +144,16 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 		this.targetAnchor = null;
 	},
 
-	_onDragMouse: function(e){
+	_onDragMouse: function(e, firstTime){
 		// summary:
 		//		Helper method for processing onmousemove/onmouseover events while drag is in progress.
 		//		Keeps track of current drop target.
+		// e: Event
+		//		The mousemove event.
+		// firstTime: Boolean?
+		//		If this flag is set, this is the first mouse move event of the drag, so call m.canDrop() etc.
+		//		even if newTarget == null because the user quickly dragged a node in the Tree to a position
+		//		over Tree.containerNode but not over any TreeNode (#7971)
 
 		var m = DNDManager.manager(),
 			oldTarget = this.targetAnchor,			// the TreeNode corresponding to TreeNode mouse was previously over
@@ -169,7 +175,7 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 			}
 		}
 
-		if(newTarget != oldTarget || newDropPosition != oldDropPosition){
+		if(firstTime || newTarget != oldTarget || newDropPosition != oldDropPosition){
 			if(oldTarget){
 				this._removeItemClass(oldTarget.rowNode, oldDropPosition);
 			}
@@ -243,6 +249,7 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 					}
 					nodes = array.map(nodes, function(n){return n.domNode});
 					m.startDrag(this, nodes, this.copyState(connect.isCopyKey(e)));
+					this._onDragMouse(e, true);	// because this may be the only mousemove event we get before the drop
 				}
 			}
 		}
