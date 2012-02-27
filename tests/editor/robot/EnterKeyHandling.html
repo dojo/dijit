@@ -130,6 +130,13 @@
 								var value = br.get('value');
 								value = value.replace(/ /g, "");
 								value = value.replace(/\xA0/g, "");
+								if(dojo.isWebKit && !dojo.isMac){
+									// Work around webkit bug: 
+									// http://code.google.com/p/chromium/issues/detail?id=106551
+									// Should hopefully be fixed in Chrome 19.
+									value = value.replace(/\n/g, "");
+									value = value.replace(/\n\r\f/g, "");
+								}
 								
 								// Safari may end with a trailing/extra br, so we need to remove it.
 								if(/<br\/><br\/>$/.test(value)){
@@ -172,6 +179,14 @@
 								// paragraphs.
 								var value = br.get('value');
 								value = value.replace(/ /g, "");
+								if(dojo.isWebKit && !dojo.isMac){
+									// Work around webkit bug: 
+									// http://code.google.com/p/chromium/issues/detail?id=106551
+									// Should hopefully be fixed in Chrome 19.
+									value = value.replace(/\n/g, "");
+									value = value.replace(/\n\r\f/g, "");
+								}
+								
 
 								// Safari may end with a trailing/extra br, so we need to remove it.
 								if(/aste<br\/>$/.test(value)){
@@ -323,6 +338,13 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								var value = editor.get('value');
 								value = value.replace(/\xA0/g, "");
+								if(dojo.isWebKit && !dojo.isMac){
+									// Work around webkit bug: 
+									// http://code.google.com/p/chromium/issues/detail?id=106551
+									// Should hopefully be fixed in Chrome 19.
+									value = value.replace(/\n/g, "");
+									value = value.replace(/\n\r\f/g, "");
+								}
 								doh.is('<div>testingCopyAndPastetestingCopyAndPastetestingCopyAndPaste</div><div></div>',
 										value,
 										"get('value')");
@@ -361,6 +383,14 @@
 								// paragraphs.
 								var value = editor.get('value');
 								value = value.replace(/\xA0/g, "");
+								if(dojo.isWebKit && !dojo.isMac){
+									// Work around webkit bug: 
+									// http://code.google.com/p/chromium/issues/detail?id=106551
+									// Should hopefully be fixed in Chrome 19.
+									value = value.replace(/\n/g, "");
+									value = value.replace(/\n\r\f/g, "");
+								}
+								
 
 								doh.is('<div>testingCopyAndPastetestingCopyAndPastetestingCopyAndP</div><div>aste</div>',
 									value,
@@ -453,6 +483,14 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								var value = editor.get('value');
 								value = value.replace(/\xA0/g, "");
+								if(dojo.isWebKit && !dojo.isMac){
+									// Work around webkit bug: 
+									// http://code.google.com/p/chromium/issues/detail?id=106551
+									// Should hopefully be fixed in Chrome 19.
+									value = value.replace(/\n/g, "");
+									value = value.replace(/\n\r\f/g, "");
+								}
+								
 								doh.is('<p>testingCopyAndPastetestingCopyAndPastetestingCopyAndPaste</p><p></p>',
 									value,
 									"get('value')");
@@ -491,6 +529,14 @@
 								// paragraphs.
 								var value = editor.get('value');
 								value = value.replace(/\xA0/g, "");
+								if(dojo.isWebKit && !dojo.isMac){
+									// Work around webkit bug: 
+									// http://code.google.com/p/chromium/issues/detail?id=106551
+									// Should hopefully be fixed in Chrome 19.
+									value = value.replace(/\n/g, "");
+									value = value.replace(/\n\r\f/g, "");
+								}
+								
 								doh.is('<p>testingCopyAndPastetestingCopyAndPastetestingCopyAndP</p><p>aste</p>',
 										value,
 										"get('value')");
