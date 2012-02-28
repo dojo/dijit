@@ -66,6 +66,28 @@ var _SelectMenu = declare("dijit.form._SelectMenu", Menu, {
 		this.connect(this.domNode, "onselectstart", event.stop);
 	},
 
+
+	focus: function(){
+		// summary:
+		//		Overridden so that the previously selected value will be focused instead of only the first item
+		var	found = false,
+			val = this.parentWidget.value;
+		if(lang.isArray(val)){
+			val = val[val.length-1];
+		}
+		if(val){ // if focus selected
+			array.forEach(this.parentWidget._getChildren(), function(child){
+				if(child.option && (val === child.option.value)){ // find menu item widget with this value
+					found = true;
+					this.focusChild(child, false); // focus previous selection
+				}
+			}, this);
+		}
+		if(!found){
+			this.inherited(arguments); // focus first item by default
+		}
+	},
+
 	resize: function(/*Object*/ mb){
 		// summary:
 		//		Overridden so that we are able to handle resizing our
@@ -134,7 +156,7 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 			this.value = this.options[si >= 0 ? si : 0].value;
 		}
 		// Create the dropDown widget
-		this.dropDown = new _SelectMenu({id: this.id + "_menu"});
+		this.dropDown = new _SelectMenu({ id: this.id + "_menu", parentWidget: this });
 		domClass.add(this.dropDown.domNode, this.baseClass + "Menu");
 	},
 
@@ -284,8 +306,7 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 		// summary:
 		//		set the missing message
 		this.inherited(arguments);
-		this._missingMsg = i18n.getLocalization("dijit.form", "validate",
-									this.lang).missingMessage;
+		this._missingMsg = i18n.getLocalization("dijit.form", "validate", this.lang).missingMessage;
 	},
 
 	postCreate: function(){
