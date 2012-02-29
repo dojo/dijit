@@ -106,7 +106,7 @@
 						doh.is("button", domAttr.get(w.domNode, "role"), "domNode role");
 
 						// Mapping to this.focusNode
-						var fw = (new declare([_WidgetBase, _TemplatedMixin], {
+						var fw = new (declare([_WidgetBase, _TemplatedMixin], {
 							templateString: "<div><input data-dojo-attach-point='focusNode'/></div>"
 						}))({
 							title: "my title",
@@ -116,7 +116,7 @@
 						doh.is("foo", fw.focusNode.getAttribute("aria-labelledby"), "focusNode labelledby");
 
 						// Mapping attributes with dashes and mixed case
-						var mc = (new declare([_WidgetBase, _TemplatedMixin], {
+						var mc = new (declare([_WidgetBase, _TemplatedMixin], {
 							templateString: "<form></form>"
 						}))({
 							"accept-charset": "utf8",
