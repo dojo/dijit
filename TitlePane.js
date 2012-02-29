@@ -154,8 +154,6 @@ return declare("dijit.TitlePane", [ContentPane, _TemplatedMixin, _CssStateMixin]
 			}
 		}
 
-		this.arrowNodeInner.innerHTML = open ? "-" : "+";
-
 		this.containerNode.setAttribute("aria-hidden", open ? "false" : "true");
 		this.focusNode.setAttribute("aria-pressed", open ? "true" : "false");
 
