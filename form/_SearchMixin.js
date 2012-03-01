@@ -173,36 +173,38 @@ define([
 					} // avoid getting unwanted notify
 					Deferred.when(resPromise, function(res){
 						_this._fetchHandle = null;
-						res.total = resPromise.total;
-						var pageSize = _this.pageSize;
-						if(isNaN(pageSize) || pageSize > res.total){ pageSize = res.total; }
-						// Setup method to fetching the next page of results
-						res.nextPage = function(direction){
-							//	tell callback the direction of the paging so the screen
-							//	reader knows which menu option to shout
-							options.direction = direction = direction !== false;
-							options.count = pageSize;
-							if(direction){
-								options.start += res.length;
-								if(options.start >= res.total){
-									options.count = 0;
-								}
-							}else{
-								options.start -= pageSize;
-								if(options.start < 0){
-									options.count = Math.max(pageSize + options.start, 0);
-									options.start = 0;
-								}
-							}
-							if(options.count <= 0){
-								res.length = 0;
-								_this.onSearch(res, query, options);
-							}else{
-								startQuery();
-							}
-						};
 						if(!_this.disabled && !_this.readOnly && (q === _this._lastQuery)){ // avoid getting unwanted notify
-							_this.onSearch(res, query, options);
+							Deferred.when(resPromise.total, function(total){
+								res.total = total;
+								var pageSize = _this.pageSize;
+								if(isNaN(pageSize) || pageSize > res.total){ pageSize = res.total; }
+								// Setup method to fetching the next page of results
+								res.nextPage = function(direction){
+									//	tell callback the direction of the paging so the screen
+									//	reader knows which menu option to shout
+									options.direction = direction = direction !== false;
+									options.count = pageSize;
+									if(direction){
+										options.start += res.length;
+										if(options.start >= res.total){
+											options.count = 0;
+										}
+									}else{
+										options.start -= pageSize;
+										if(options.start < 0){
+											options.count = Math.max(pageSize + options.start, 0);
+											options.start = 0;
+										}
+									}
+									if(options.count <= 0){
+										res.length = 0;
+										_this.onSearch(res, query, options);
+									}else{
+										startQuery();
+									}
+								};
+								_this.onSearch(res, query, options);
+							});
 						}
 					}, function(err){
 						_this._fetchHandle = null;

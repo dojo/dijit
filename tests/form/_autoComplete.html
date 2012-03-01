@@ -37,6 +37,8 @@
 		        }
 		}
 		var isComboBox = testWidget == "dijit.form.ComboBox";
+		dojo.require("dojo.store.Memory");
+		dojo.require("dojo._base.Deferred");
 		dojo.require("dojo.data.ItemFileReadStore");
 		dojo.require("dijit.tests._data.SlowStore");
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
@@ -100,6 +102,20 @@
 				searchAttr:"name",
 				fetchProperties: {sort:[{attribute: 'name', descending: true}]}
 			}, dojo.byId("progCombo3"));
+
+			// change Memory store to have an asynchronous total
+			var oldMemoryQuery = dojo.store.Memory.prototype.query;
+			dojo.store.Memory.extend({
+				query: function(){
+					var results = oldMemoryQuery.apply(this, arguments);
+					var total = results.total;
+					results.total = new dojo.Deferred();
+					setTimeout(function(){
+						results.total.resolve(total);
+					}, 100);
+					return results;
+				}
+			});
 
 			if(!isUnitTest){ return; }
 
