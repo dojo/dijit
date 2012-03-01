@@ -1962,6 +1962,12 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	color:white;
 	cursor:pointer;
 }
+
+.dijitTimePickerItemDisabled {
+	color: @disabled-text-color;
+	text-decoration:line-through;
+}
+
 .dijit_a11y .dijitTimePickerItemSelected .dijitTimePickerItemInner {
 	border: solid 4px black;
 }
