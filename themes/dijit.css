@@ -1964,7 +1964,7 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 }
 
 .dijitTimePickerItemDisabled {
-	color: @disabled-text-color;
+	color:gray;
 	text-decoration:line-through;
 }
 
