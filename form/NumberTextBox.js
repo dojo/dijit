@@ -40,9 +40,9 @@ define([
 		// tags:
 		//		protected
 
-		// Override ValidationTextBox.regExpGen().... we use a reg-ex generating function rather
+		// Override ValidationTextBox.pattern.... we use a reg-ex generating function rather
 		// than a straight regexp to deal with locale (plus formatting options too?)
-		regExpGen: number.regexp,
+		pattern: number.regexp,
 
 		/*=====
 		// constraints: dijit.form.NumberTextBox.__Constraints

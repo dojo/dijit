@@ -14,7 +14,7 @@ try{
 	doh.registerUrl("dijit.tests.form.robot.CheckBox_a11y", dojo.moduleUrl("dijit","tests/form/robot/CheckBox_a11y.html"+userArgs), 999999);
 
 	doh.registerUrl("dijit.tests.form.ButtonMixin", dojo.moduleUrl("dijit","tests/form/ButtonMixin.html"+userArgs));
-	doh.registerUrl("dijit.tests.form.test_validate", dojo.moduleUrl("dijit","tests/form/test_validate.html"+userArgs), 999999);
+	doh.registerUrl("dijit.tests.form.test_validate", dojo.moduleUrl("dijit","tests/form/test_validate.html?mode=test"+userArgs.replace(/^[?]/,'&')), 999999);
 	doh.registerUrl("dijit.tests.form.robot.ValidationTextBox", dojo.moduleUrl("dijit","tests/form/robot/ValidationTextBox.html"+userArgs), 999999);
 
 	doh.registerUrl("dijit.tests.form.DateTextBox", dojo.moduleUrl("dijit","tests/form/DateTextBox.html"+userArgs), 999999);
@@ -25,8 +25,8 @@ try{
 	doh.registerUrl("dijit.tests.form.robot.FormState", dojo.moduleUrl("dijit","tests/form/robot/Form_state.html"+userArgs), 999999);
 	doh.registerUrl("dijit.tests.form.robot.Form_onsubmit", dojo.moduleUrl("dijit","tests/form/robot/Form_onsubmit.html"+userArgs), 999999);
 
-	doh.registerUrl("dijit.tests.form.Select", dojo.moduleUrl("dijit", "tests/form/test_Select.html?mode=test"), 999999);
-	doh.registerUrl("dijit.tests.form.robot.Select", dojo.moduleUrl("dijit", "tests/form/robot/Select.html"), 999999);
+	doh.registerUrl("dijit.tests.form.Select", dojo.moduleUrl("dijit", "tests/form/test_Select.html?mode=test"+userArgs.replace(/^[?]/,'&')), 999999);
+	doh.registerUrl("dijit.tests.form.robot.Select", dojo.moduleUrl("dijit", "tests/form/robot/Select.html"+userArgs), 999999);
 
 	doh.registerUrl("dijit.tests.form.AutoCompleterMixin", dojo.moduleUrl("dijit","tests/form/AutoCompleterMixin.html"+userArgs));
 	doh.registerUrl("dijit.tests.form.ComboBox", dojo.moduleUrl("dijit","tests/form/_autoComplete.html"+(userArgs+"&testWidget=dijit.form.ComboBox&mode=test").replace(/^&/,"?")), 999999);

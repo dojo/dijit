@@ -54,9 +54,9 @@ define([
 		constraints: {},
 		======*/
 
-		// Override ValidationTextBox.regExpGen().... we use a reg-ex generating function rather
+		// Override ValidationTextBox.pattern.... we use a reg-ex generating function rather
 		// than a straight regexp to deal with locale  (plus formatting options too?)
-		regExpGen: locale.regexp,
+		pattern: locale.regexp,
 
 		// datePackage: String
 		//		JavaScript namespace to find calendar routines.	 Uses Gregorian calendar routines
@@ -134,7 +134,7 @@ define([
 				this.datePackage;
 			this.dateClassObj = this.dateFuncObj.Date || Date;
 			this.dateLocaleModule = lang.getObject("locale", false, this.dateFuncObj);
-			this.regExpGen = this.dateLocaleModule.regexp;
+			this._set('pattern', this.dateLocaleModule.regexp);
 			this._invalidDate = this.constructor.prototype.value.toString();
 		},
 

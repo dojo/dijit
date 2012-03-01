@@ -1,11 +1,12 @@
 define([
 	"dojo/_base/declare", // declare
+	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/i18n", // i18n.getLocalization
 	"./TextBox",
 	"../Tooltip",
 	"dojo/text!./templates/ValidationTextBox.html",
 	"dojo/i18n!./nls/validate"
-], function(declare, i18n, TextBox, Tooltip, template){
+], function(declare, kernel, i18n, TextBox, Tooltip, template){
 
 /*=====
 	var Tooltip = dijit.Tooltip;
@@ -23,13 +24,14 @@ define([
 			// locale: String
 			//		locale used for validation, picks up value from this widget's lang attribute
 			// _flags_: anything
-			//		various flags passed to regExpGen function
+			//		various flags passed to pattern function
 			this.locale = "";
 			this._flags_ = "";
 		}
 	=====*/
 
-	return declare("dijit.form.ValidationTextBox", TextBox, {
+	var ValidationTextBox;
+	return ValidationTextBox = declare("dijit.form.ValidationTextBox", TextBox, {
 		// summary:
 		//		Base class for textbox widgets with the ability to validate content of various types and provide user feedback.
 		// tags:
@@ -73,18 +75,19 @@ define([
 		//		user-defined object needed to pass parameters to the validator functions
 		constraints: {},
 
-		// regExp: [extension protected] String
-		//		regular expression string used to validate the input
-		//		Do not specify both regExp and regExpGen
-		regExp: ".*",
+		// pattern: [extension protected] String|Function(constraints) returning a string.
+		//		This defines the regular expression used to validate the input.
+		//		Do not add leading ^ or $ characters since the widget adds these.
+		//		A function may used to generate a valid pattern when dependent on constraints or other runtime factors.
+		//		set('pattern', String|Function).
+		pattern: ".*",
+
+		// regExp: Deprecated [extension protected] String.  Use "pattern" instead.
+		regExp: "",
 
 		regExpGen: function(/*dijit.form.ValidationTextBox.__Constraints*/ /*===== constraints =====*/){
 			// summary:
-			//		Overridable function used to generate regExp when dependent on constraints.
-			//		Do not specify both regExp and regExpGen.
-			// tags:
-			//		extension protected
-			return this.regExp; // String
+			//		Deprecated.  Use set('pattern', Function) instead.
 		},
 
 		// state: [readonly] String
@@ -94,6 +97,20 @@ define([
 		// tooltipPosition: String[]
 		//		See description of `dijit.Tooltip.defaultPosition` for details on this parameter.
 		tooltipPosition: [],
+
+		_deprecateRegExp: function(attr, value){
+			if(value != ValidationTextBox.prototype[attr]){
+				kernel.deprecated("ValidationTextBox id="+this.id+", set('" + attr + "', ...) is deprecated.  Use set('pattern', ...) instead.", "", "2.0");
+				this.set('pattern', value);
+			}
+		},
+		_setRegExpGenAttr: function(/*Function*/ newFcn){
+			this._deprecateRegExp("regExpGen", newFcn);
+			this.regExpGen = this._getPatternAttr; // backward compat with this.regExpGen(this.constraints)
+		},
+		_setRegExpAttr: function(/*String*/ value){
+			this._deprecateRegExp("regExp", value);
+		},
 
 		_setValueAttr: function(){
 			// summary:
@@ -107,7 +124,7 @@ define([
 			//		Overridable function used to validate the text input against the regular expression.
 			// tags:
 			//		protected
-			return (new RegExp("^(?:" + this.regExpGen(constraints) + ")"+(this.required?"":"?")+"$")).test(value) &&
+			return (new RegExp("^(?:" + this._getPatternAttr(constraints) + ")"+(this.required?"":"?")+"$")).test(value) &&
 				(!this.required || !this._isEmpty(value)) &&
 				(this._isEmpty(value) || this.parse(value, constraints) !== undefined); // Boolean
 		},
@@ -214,44 +231,53 @@ define([
 				constraints.locale = this.lang;
 			}
 			this._set("constraints", constraints);
-			this._computePartialRE();
 		},
 
-		_computePartialRE: function(){
-			var p = this.regExpGen(this.constraints);
-			this.regExp = p;
-			var partialre = "";
-			// parse the regexp and produce a new regexp that matches valid subsets
-			// if the regexp is .* then there's no use in matching subsets since everything is valid
-			if(p != ".*"){ this.regExp.replace(/\\.|\[\]|\[.*?[^\\]{1}\]|\{.*?\}|\(\?[=:!]|./g,
-				function(re){
-					switch(re.charAt(0)){
-						case '{':
-						case '+':
-						case '?':
-						case '*':
-						case '^':
-						case '$':
-						case '|':
-						case '(':
-							partialre += re;
-							break;
-						case ")":
-							partialre += "|$)";
-							break;
-						 default:
-							partialre += "(?:"+re+"|$)";
-							break;
-					}
+		_getPatternAttr: function(/*dijit.form.ValidationTextBox.__Constraints*/ constraints){
+			// summary:
+			//		Hook to get the current regExp and to compute the partial validation RE.
+			var p = this.pattern;
+			var type = (typeof p).toLowerCase();
+			if(type == "function"){
+				p = this.pattern(constraints || this.constraints);
+			}
+			if(p != this._lastRegExp){
+				var partialre = "";
+				this._lastRegExp = p;
+				// parse the regexp and produce a new regexp that matches valid subsets
+				// if the regexp is .* then there's no use in matching subsets since everything is valid
+				if(p != ".*"){
+					p.replace(/\\.|\[\]|\[.*?[^\\]{1}\]|\{.*?\}|\(\?[=:!]|./g,
+					function(re){
+						switch(re.charAt(0)){
+							case '{':
+							case '+':
+							case '?':
+							case '*':
+							case '^':
+							case '$':
+							case '|':
+							case '(':
+								partialre += re;
+								break;
+							case ")":
+								partialre += "|$)";
+								break;
+							 default:
+								partialre += "(?:"+re+"|$)";
+								break;
+						}
+					});
 				}
-			);}
-			try{ // this is needed for now since the above regexp parsing needs more test verification
-				"".search(partialre);
-			}catch(e){ // should never be here unless the original RE is bad or the parsing is bad
-				partialre = this.regExp;
-				console.warn('RegExp error in ' + this.declaredClass + ': ' + this.regExp);
-			} // should never be here unless the original RE is bad or the parsing is bad
-			this._partialre = "^(?:" + partialre + ")$";
+				try{ // this is needed for now since the above regexp parsing needs more test verification
+					"".search(partialre);
+				}catch(e){ // should never be here unless the original RE is bad or the parsing is bad
+					partialre = this.pattern;
+					console.warn('RegExp error in ' + this.declaredClass + ': ' + this.pattern);
+				} // should never be here unless the original RE is bad or the parsing is bad
+				this._partialre = "^(?:" + partialre + ")$";
+			}
+			return p;
 		},
 
 		postMixInProperties: function(){

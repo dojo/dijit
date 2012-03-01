@@ -59,9 +59,9 @@ define([
 
 		baseClass: "dijitTextBox dijitCurrencyTextBox",
 
-		// Override regExpGen ValidationTextBox.regExpGen().... we use a reg-ex generating function rather
-		// than a straight regexp to deal with locale  (plus formatting options too?)
-		regExpGen: function(constraints){
+		// Override pattern ValidationTextBox.pattern.... we use a reg-ex generating function rather
+		// than a straight regexp to deal with locale (plus formatting options too?)
+		pattern: function(constraints){
 			// if focused, accept either currency data or NumberTextBox format
 			return '(' + (this.focused ? this.inherited(arguments, [ lang.mixin({}, constraints, this.editOptions) ]) + '|' : '')
 				+ currency.regexp(constraints) + ')';

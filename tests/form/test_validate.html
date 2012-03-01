@@ -74,6 +74,9 @@
 			dojo.require("dojo.currency");
 			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
+			// Add test=true to the URL to run unit tests.
+			var test = /mode=test/i.test(window.location.href);
+
 			dojo.ready(function(){
 
 				new dijit.form.TextBox({id: 'monospace1', disabled: true, value: 'M|M:monospace?'}, 'monospace1');
@@ -82,6 +85,8 @@
 				new dijit.form.TextBox({id: 'sans1', disabled: true, value: 'sans1'}, 'sans1');
 				new dijit.form.TextBox({id: 'sans2', disabled: true, value: 'sans2'}).placeAt('widget_sans1', 'after');
 
+
+				if(!test){ return; }
 
 				doh.register("font inheritance", [
 					{
@@ -122,6 +127,44 @@
 								doh.is("sans-serif", dojo.style('sans2', "fontFamily"));
 							}), 0);
 							return d;
+						}
+					}
+				]);
+
+				doh.register("pattern", [
+					{
+						name: "pattern markup",
+						runTest: function(){
+							var w = dijit.byId('q22');
+							w.set('value', 'someTestString');
+							doh.is(true, w.isValid(false));
+						}
+					},
+					{
+						name: "pattern string",
+						runTest: function(){
+							var w = dijit.byId('q22');
+							w.set('value', 'someTestString');
+							w.set('pattern', "some[a-z]+"); // invalid
+							doh.is(false, w.isValid(false), "invalid");
+							doh.is(false, w._isValidSubset(), "invalid partial");
+							w.set('value', 'some');
+							doh.is(true, w._isValidSubset(), "valid partial");
+							w.set('value', 'someTestString');
+							w.set('pattern', "someT[a-z]+S[a-z]+"); // valid
+							doh.is(true, w.isValid(false), "valid");
+							doh.is(true, w._isValidSubset(), "valid partial 2");
+						}
+					},
+					{
+						name: "pattern function",
+						runTest: function(){
+							var w = dijit.byId('q22');
+							w.set('value', 'someTestString');
+							w.set('pattern', function(){ return "[a-z]+"; }); // invalid
+							doh.is(false, w.isValid(false), "invalid string");
+							w.set('pattern', function(){ return "[a-zTS]+"; }); // valid
+							doh.is(true, w.isValid(false), "valid string");
 						}
 					}
 				]);
@@ -199,7 +242,7 @@
 			<div class="testExample">
 				<input id="fav" data-dojo-type="dijit/form/NumberTextBox"
 					name="fav" class="small" required
-					data-dojo-props='maxLength:"3",constraints:{places:0,min:1,max:100},regExpGen:function(){ return "\\d+" }'/>
+					data-dojo-props='maxLength:"3",constraints:{places:0,min:1,max:100},pattern:"\\d+"'/>
 					<button onclick="dijit.byId('fav').set('required', true); return false;">attr(required, true)</button>
 					<button onclick="dijit.byId('fav').set('required', false); return false;">attr(required, false)</button>
 			</div>
@@ -260,7 +303,7 @@
 						value: "1,500,000",
 						trim: "true",
 						required: "true",
-						regExpGen: dojo.regexp.integer,
+						pattern: dojo.regexp.integer,
 						constraints: {signed:false, separator: ","},
 						invalidMessage: "Invalid population.  Enter a number."
 					};
@@ -276,7 +319,7 @@
 			<div class="testExample">
 				<input id="q06" type="text" name="real1" class="medium" value="+0.1234"
 					data-dojo-type="dijit/form/ValidationTextBox"
-					regExpGen="dojo.regexp.realNumber"
+					pattern="dojo.regexp.realNumber"
 					trim="true"
 					required="true"
 					invalidMessage="This is not a valid real number." />
@@ -289,7 +332,7 @@
 			<div class="testExample">
 				<input id="q07" type="text" name="real2" class="medium" value="+0.12"
 					data-dojo-type="dijit/form/ValidationTextBox"
-					regExpGen="dojo.regexp.realNumber"
+					pattern="dojo.regexp.realNumber"
 					trim="true"
 					required="true"
 					constraints="{exponent:true}"
@@ -358,7 +401,7 @@
 			<div class="testExample">
 				<input id="q08a" type="text" name="income3" class="medium" value="$54,775.53"
 					data-dojo-type="dijit/form/ValidationTextBox"
-					regExpGen="dojo.regexp.currency"
+					pattern="dojo.regexp.currency"
 					trim="true"
 					required="true"
 					constraints="{fractional:true}"
@@ -373,7 +416,7 @@
 			<div class="testExample">
 				<input id="q09" type="text" name="ipv4" class="medium" value="24.17.155.40"
 					data-dojo-type="dijit/form/ValidationTextBox"
-					regExpGen="dojo.regexp.ipAddress"
+					pattern="dojo.regexp.ipAddress"
 					trim="true"
 					required="true"
 					constraints="{allowIPv6:false,allowHybrid:false}"
@@ -389,7 +432,7 @@
 			<div class="testExample">
 				<input id="q10" type="text" name="ipv6" class="long" value="0000:0000:0000:0000:0000:0000:0000:0000"
 					data-dojo-type="dijit/form/ValidationTextBox"
-					regExpGen="dojo.regexp.ipAddress"
+					pattern="dojo.regexp.ipAddress"
 					trim="true"
 					uppercase = "true"
 					required="true"
@@ -406,7 +449,7 @@
 			<div class="testExample">
 				<input id="q11" type="text" name="url" class="long" value="http://www.xyz.com/a/b/c?x=2#p3"
 					data-dojo-type="dijit/form/ValidationTextBox"
-					regExpGen="dojo.regexp.url"
+					pattern="dojo.regexp.url"
 					trim="true"
 					required="true"
 					constraints="{scheme:true}"
@@ -422,7 +465,7 @@
 			<div class="testExample">
 				<input id="q12" type="text" name="email" class="long" value="fred&barney@stonehenge.com"
 					data-dojo-type="dijit/form/ValidationTextBox"
-					regExpGen="dojo.regexp.emailAddress"
+					pattern="dojo.regexp.emailAddress"
 					trim="true"
 					required="true"
 					invalidMessage="Invalid Email Address." />
@@ -437,7 +480,7 @@
 			<div class="testExample">
 				<input id="q13" type="text" name="email" class="long" value="a@xyz.com; b@xyz.com; c@xyz.com; "
 					data-dojo-type="dijit/form/ValidationTextBox"
-					regExpGen="dojo.regexp.emailAddressList"
+					pattern="dojo.regexp.emailAddressList"
 					trim="true"
 					required="true"
 					invalidMessage="Invalid Email Address List." />
@@ -451,7 +494,7 @@
 			<div class="testExample">
 				<input id="q22" data-dojo-type="dijit/form/ValidationTextBox"
 					name="phone" class="medium" value="someTestString" required
-					data-dojo-props='regExp:"[\\w]+", invalidMessage:"Invalid Non-Space Text."'/>
+					data-dojo-props='pattern:"[\\w]+", invalidMessage:"Invalid Non-Space Text."'/>
 			</div>
 
 			<div class="dojoTitlePaneLabel">

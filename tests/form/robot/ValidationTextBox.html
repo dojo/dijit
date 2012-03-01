@@ -483,7 +483,6 @@
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
-							var onChange = dojo.byId('oc8');
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								// comma should disappear on click, value shouldn't change
 								doh.is('54775.53', this.textbox.focusNode.value, "focusNode.value");
@@ -568,7 +567,6 @@
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
-							var onChange = dojo.byId('oc8');
 							doh.robot.typeKeys('123', 1000, 600);
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								doh.is('123', this.textbox.focusNode.value, "focusNode.value");
@@ -589,7 +587,6 @@
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
-							var onChange = dojo.byId('oc8');
 							doh.robot.typeKeys('123.0', 1000, 1000);
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								doh.is('123.0', this.textbox.focusNode.value, "focusNode.value");
@@ -610,7 +607,6 @@
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
-							var onChange = dojo.byId('oc8');
 							doh.robot.typeKeys('123.000', 1000, 1400);
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								doh.is('123.000', this.textbox.focusNode.value, "focusNode.value");
@@ -631,7 +627,6 @@
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
-							var onChange = dojo.byId('oc8');
 							doh.robot.typeKeys('-123.00', 1000, 1400);
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								doh.is('-123.00', this.textbox.focusNode.value, "focusNode.value");
@@ -652,7 +647,6 @@
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
-							var onChange = dojo.byId('oc8');
 							doh.robot.typeKeys('($123.00)', 1000, 1600);
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								doh.is('($123.00)', this.textbox.focusNode.value, "focusNode.value");
@@ -673,7 +667,6 @@
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
-							var onChange = dojo.byId('oc8');
 							doh.robot.typeKeys('-123.45', 1000, 1400);
 
 							var textbox = this.textbox;
@@ -701,7 +694,6 @@
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
-							var onChange = dojo.byId('oc8');
 							doh.robot.typeKeys('($123.45)', 1000, 1800);
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							doh.robot.keyPress(dojo.keys.TAB, 500, {shift:true});
@@ -724,7 +716,6 @@
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
-							var onChange = dojo.byId('oc8');
 							doh.robot.typeKeys('1.23e0', 1000, 1200);
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							doh.robot.keyPress(dojo.keys.TAB, 500, {shift:true});
