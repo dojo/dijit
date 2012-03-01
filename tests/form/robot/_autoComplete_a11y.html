@@ -863,7 +863,7 @@
 				},
 
 				{
-					timeout:60000,
+					timeout:20000,
 					name:"japanese_type",
 					runTest:function(){
 						var d = new doh.Deferred(),
@@ -880,7 +880,7 @@
 						doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
 						doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
 						doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
-						doh.robot.keyPress('x', 500, {ctrl:true});
+						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500);
 						doh.robot.keyPress(dojo.keys.ENTER, 500);
 						doh.robot.sequence(dojo.hitch(this, function(){
 							if(combo.get("value") == (isComboBox?"\u6771\u897F (Touzai)":"touzai") && combo.focusNode.value=="\u6771\u897F (Touzai)"){
@@ -888,7 +888,7 @@
 							}else{
 								d.errback(combo.id+" was supposed to have a value of "+(isComboBox?"\u6771\u897F (Touzai)":"touzai")+". Text is "+combo.focusNode.value+", value is "+combo.get("value"));
 							}
-						}), 900);
+						}), 1000);
 						return d;
 					}
 				}
