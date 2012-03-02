@@ -130,7 +130,7 @@ define([
 			array.forEach(this.plugins, this.addPlugin, this);
 
 			// Okay, denote the value can now be set.
-			this.setValueDeferred.callback(true);
+			this.setValueDeferred.resolve(true);
 
 			domClass.add(this.iframe.parentNode, "dijitEditorIFrameContainer");
 			domClass.add(this.iframe, "dijitEditorIFrame");

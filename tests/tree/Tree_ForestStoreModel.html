@@ -148,7 +148,7 @@
 				function setPathToNull(){
 					var d = new doh.Deferred();
 
-					myTree2.set("path", []).addCallback(d.getTestCallback(function(){
+					myTree2.set("path", []).then(d.getTestCallback(function(){
 						doh.is(null, myTree2.get("selectedNode"), "no selected node");
 					}));
 					return d;
@@ -157,7 +157,7 @@
 				function setPathToRoot(){
 					var d = new doh.Deferred();
 
-					myTree2.set("path", ["earth"]).addCallback(d.getTestCallback(function(){
+					myTree2.set("path", ["earth"]).then(d.getTestCallback(function(){
 						doh.is(myTree2.rootNode, myTree2.get("selectedNode"), "selected root node");
 					}));
 					return d;
@@ -167,7 +167,7 @@
 					var d = new doh.Deferred();
 
 					myTree2.set("paths", [["earth","AF","KE","Nairobi"],
-										  ["earth","NA","MX","Guadalajara"]]).addCallback(d.getTestCallback(function(){
+										  ["earth","NA","MX","Guadalajara"]]).then(d.getTestCallback(function(){
 							  var ids = dojo.map(myTree2.selectedItems, function(x){return myTree2.model.getIdentity(x);}).sort();
 							  doh.is(["Guadalajara", "Nairobi"], ids);
 						  }));

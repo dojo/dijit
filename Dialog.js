@@ -416,7 +416,7 @@ define([
 						this._getFocusItems(this.domNode);
 						focus.focus(this._firstFocusItem);
 					}
-					this._fadeInDeferred.callback(true);
+					this._fadeInDeferred.resolve(true);
 					delete this._fadeInDeferred;
 				})
 			}).play();
@@ -455,7 +455,7 @@ define([
 				onEnd: lang.hitch(this, function(){
 					this.domNode.style.display = "none";
 					DialogLevelManager.hide(this);
-					this._fadeOutDeferred.callback(true);
+					this._fadeOutDeferred.resolve(true);
 					delete this._fadeOutDeferred;
 				})
 			 }).play();

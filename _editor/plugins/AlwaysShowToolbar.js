@@ -50,7 +50,7 @@ return declare("dijit._editor.plugins.AlwaysShowToolbar", _Plugin, {
 
 		this.editor = e;
 
-		e.onLoadDeferred.addCallback(lang.hitch(this, this.enable));
+		e.onLoadDeferred.then(lang.hitch(this, this.enable));
 	},
 
 	enable: function(d){

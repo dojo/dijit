@@ -680,7 +680,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		}
 
 		this.editingAreaStyleSheets.push(url);
-		this.onLoadDeferred.addCallback(lang.hitch(this, function(){
+		this.onLoadDeferred.then(lang.hitch(this, function(){
 			if(this.document.createStyleSheet){ //IE
 				this.document.createStyleSheet(url);
 			}else{ //other browser
@@ -847,7 +847,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		var setContent = lang.hitch(this, function(){
 			this.setValue(html);
 			if(this.onLoadDeferred){
-				this.onLoadDeferred.callback(true);
+				this.onLoadDeferred.resolve(true);
 			}
 			this.onDisplayChanged();
 			if(this.focusOnLoad){
@@ -859,7 +859,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			this.value = this.getValue(true);
 		});
 		if(this.setValueDeferred){
-			this.setValueDeferred.addCallback(setContent);
+			this.setValueDeferred.then(setContent);
 		}else{
 			setContent();
 		}
@@ -943,7 +943,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			domAttr.set(this.document.body, "spellcheck", !disabled);
 		}else{
 			// try again after the editor is finished loading
-			this.onLoadDeferred.addCallback(lang.hitch(this, function(){
+			this.onLoadDeferred.then(lang.hitch(this, function(){
 				domAttr.set(this.document.body, "spellcheck", !disabled);
 			}));
 		}
@@ -1485,7 +1485,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 		if(!this.isLoaded){
 			// try again after the editor is finished loading
-			this.onLoadDeferred.addCallback(lang.hitch(this, function(){
+			this.onLoadDeferred.then(lang.hitch(this, function(){
 				this.setValue(html);
 			}));
 			return;

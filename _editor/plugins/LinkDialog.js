@@ -229,7 +229,7 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 	_connectTagEvents: function(){
 		// summary:
 		//		Over-ridable function that connects tag specific events.
-		this.editor.onLoadDeferred.addCallback(lang.hitch(this, function(){
+		this.editor.onLoadDeferred.then(lang.hitch(this, function(){
 			this.connect(this.editor.editNode, "ondblclick", this._onDblClick);
 		}));
 	},
@@ -516,7 +516,7 @@ var ImgLinkDialog = declare("dijit._editor.plugins.ImgLinkDialog", [LinkDialog],
 		// summary:
 		//		Over-ridable function that connects tag specific events.
 		this.inherited(arguments);
-		this.editor.onLoadDeferred.addCallback(lang.hitch(this, function(){
+		this.editor.onLoadDeferred.then(lang.hitch(this, function(){
 			// Use onmousedown instead of onclick.  Seems that IE eats the first onclick
 			// to wrap it in a selector box, then the second one acts as onclick.  See #10420
 			this.connect(this.editor.editNode, "onmousedown", this._selectTag);

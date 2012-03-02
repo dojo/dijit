@@ -117,7 +117,7 @@ return declare("dijit._editor.plugins.EnterKeyHandling", _Plugin, {
 			// So, try to just have a common mode and be consistent.  Which means
 			// we need to enable customUndo, if not already enabled.
 			this.editor.customUndo = true;
-				editor.onLoadDeferred.addCallback(lang.hitch(this,function(d){
+				editor.onLoadDeferred.then(lang.hitch(this,function(d){
 				this.connect(editor.document, "onkeypress", function(e){
 					if(e.charOrCode == keys.ENTER){
 						// Just do it manually.  The handleEnterKey has a shift mode that

@@ -38,7 +38,7 @@
 					doh.f(a11y.isTabNavigable(dojo.byId("no-tabindex-div")), "no-tabindex-div");
 					doh.f(a11y.isTabNavigable(dojo.byId("iframe")), "iframe");
 
-					registry.byId("editor").onLoadDeferred.addCallback(d.getTestCallback(function(){
+					registry.byId("editor").onLoadDeferred.then(d.getTestCallback(function(){
 						doh.t(a11y.isTabNavigable(dojo.byId("editor_iframe")), "editor_iframe");
 					}));
 

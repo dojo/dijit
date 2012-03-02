@@ -259,7 +259,7 @@
 		function remoteProgress(bar){
 			var _timer = setInterval(function(){
 				var report = getProgressReport();
-				report.addCallback(function(response){
+				report.then(function(response){
 					bar.set({value: response});
 					if(response == "100%"){
 						clearInterval(_timer);
