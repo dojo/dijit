@@ -54,6 +54,9 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 	// summary:
 	//		Base class for all Dijit widgets.
 	//
+	// description:
+	//		Base class for all Dijit widgets.
+	//
 	//		Extends _WidgetBase, adding support for:
 	//			- declaratively/programatically specifying widget initialization parameters like
 	//				onMouseMove="foo" that call foo when this.domNode gets a mousemove event
