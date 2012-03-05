@@ -26,7 +26,7 @@
 			doh.register("getNodeHtml", [
 				function general(){
 					var html = dijit._editor.getNodeHtml(dojo.byId("general"));
-					html = html.replace(/\s+/g, " ").replace(/>\s*</g, "><");
+					html = html.replace(/\s+/g, " ").replace(/>\s*</g, "><").replace(/10%;"/, '10%"');
 					doh.is('<div id="general"><img base="foo" style="width: 10%; height: 10%" /><span><i>hello<b>world</b></i></span></div>', html);
 				},
 				function tagClose(){
@@ -44,7 +44,7 @@
 			doh.register("getChildrenHtml", [
 				function general(){
 					var html = dijit._editor.getChildrenHtml(dojo.byId("general"));
-					html = dojo.trim(html.replace(/\s+/g, " ").replace(/>\s*</g, "><"));
+					html = dojo.trim(html.replace(/\s+/g, " ").replace(/>\s*</g, "><").replace(/10%;"/, '10%"'));
 					doh.is('<img base="foo" style="width: 10%; height: 10%" /><span><i>hello<b>world</b></i></span>', html);
 				},
 				function tagClose(){
