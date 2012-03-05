@@ -15,6 +15,7 @@
 		dojo.require("dijit.robotx");
 		dojo.require("dojo.aspect");
 		dojo.require("dijit.tests.helpers");	// functions to help test
+		dojo.require("dijit.form._TextBoxMixin");	// selectInputText
 
 		// TODO: provide URL toggle for FilteringSelect
 		var testWidget = "dijit.form.ComboBox";
@@ -400,7 +401,7 @@
 				}
 			]);
 
-			// Test that enter key submits the form, but only when the drop down is closed
+			// Test that enter key submits the form, but only when nothing is selected in the drop down
 			doh.register("enter key", {
 				timeout:60000,
 				name:"submit",
@@ -424,6 +425,7 @@
 					}), 500);
 
 					// Enter key should select value and close drop down but not submit form
+					doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500); // highlight value
 					doh.robot.keyPress(dojo.keys.ENTER, 500);
 					doh.robot.sequence(d.getTestErrback(function(){
 						var popup = dijit.byId('setvaluetest_popup');
@@ -682,7 +684,7 @@
 						doh.robot.typeKeys("o", 300, 100); // 300ms > searchDelay, so C* query has been sent (but not yet returned results) when the o is typed
 
 						doh.robot.sequence(d.getTestCallback(function(){
-							// The query "C*" should be canceled when "Co*" is started
+							// The query "c*" should be canceled when "co*" is started
 							var log = dojo.global.slowStateStore.log;
 							doh.is(4, log.length, "4 events on data store");
 							doh.is("start c*", log[0].type + " " + log[0].query.name);
@@ -718,11 +720,11 @@
 						var combo = dijit.byId("slow");
 
 						dojo.global.formSubmitted = false;
-						combo.focusNode.focus();
-						doh.robot.sequence(function(){ combo.set("value", null); }, 1000, 100); // wait for focus
+						dijit.form._TextBoxMixin.selectInputText(combo.focusNode);
 
 						// Start to filter drop down list to entries starting with "Co"
-						doh.robot.typeKeys("Co", 500, 100);
+						doh.robot.typeKeys("C", 500, 0);
+						doh.robot.typeKeys("o", 300, 0); // 300ms > searchDelay, so C* query has been sent (but not yet returned results) when the o is typed
 
 						// But then hit ENTER after we've started the query to the data store, but
 						// before the data store returns query results... that should cancel the query.
@@ -731,19 +733,14 @@
 						doh.robot.sequence(d.getTestCallback(function(){
 							var log = dojo.global.slowStateStore.log;
 							var len = log.length;
-							if(!isComboBox){
-								doh.is(6, len, "query was issued for 'Co' but canceled");
-								doh.is("cancel ", log[1].type + " " + log[1].query.name);
-								doh.is("cancel Co*", log[3].type + " " + log[3].query.name);
-								doh.is("start Co", log[4].type + " " + log[4].query.name);	// trying to lookup ID for item named "co"
-								doh.is("end Co", log[5].type + " " + log[5].query.name);
+							doh.t(len >= 4, "log length " + len);
+							doh.is("start C*", log[0].type + " " + log[0].query.name);
+							doh.is("cancel C*", log[1].type + " " + log[1].query.name);
+							doh.is("start Co*", log[2].type + " " + log[2].query.name);
+							doh.is("cancel Co*", log[3].type + " " + log[3].query.name);
 
-								// also, form SHOULD have submitted because no popup was visible
-								doh.t(dojo.global.formSubmitted, "form not submitted");
-							}else{ // this will look more like the IF block above once #6022 is committed
-								doh.is(2, len, "query was issued for 'Co' but canceled");
-								doh.is("cancel Co*", log[1].type + " " + log[1].query.name);
-							}
+							// also, form SHOULD have submitted because no popup was visible
+							doh.t(dojo.global.formSubmitted, "form submitted");
 
 							var list = dojo.byId("slow_popup");
 							doh.t(!list || isHidden(list), "drop down is *not* visible");

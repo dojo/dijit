@@ -162,24 +162,18 @@ define([
 						// only stop event on prev/next
 						if(highlighted == pw.nextButton){
 							this._nextSearch(1);
-							event.stop(evt);
+							event.stop(evt); // prevent submit
 							break;
 						}else if(highlighted == pw.previousButton){
 							this._nextSearch(-1);
-							event.stop(evt);
+							event.stop(evt); // prevent submit
 							break;
 						}
+						event.stop(evt); // prevent submit if ENTER was to choose an item
 					}else{
 						// Update 'value' (ex: KY) according to currently displayed text
 						this._setBlurValue(); // set value if needed
 						this._setCaretPos(this.focusNode, this.focusNode.value.length); // move cursor to end and cancel highlighting
-					}
-					// default case:
-					// if enter pressed while drop down is open, or for FilteringSelect,
-					// if we are in the middle of a query to convert a directly typed in value to an item,
-					// prevent submit
-					if(this._opened){
-						event.stop(evt);
 					}
 					// fall through
 
