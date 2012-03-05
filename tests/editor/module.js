@@ -32,6 +32,12 @@ try{
 		// rather than just for the iframe holding the test file (BackForwardState.html and BackForwardStateHelper.html)
 		doh.registerUrl("dijit.tests.editor.robot.BackForwardState", dojo.moduleUrl("dijit","tests/editor/robot/BackForwardState.html"+userArgs), 999999);
 	}
+
+	// Special test for IE9 in IE8 compat mode (#14900)
+	if(dojo.isIE == 9){
+		doh.registerUrl("dijit.tests.editor.robot.Editor_IE8Compat", dojo.moduleUrl("dijit","tests/editor/robot/Editor_IE8Compat.html"+userArgs), 999999);
+
+	}
 }catch(e){
 	doh.debug(e);
 }
