@@ -7,7 +7,6 @@ define([
 	"dojo/dom-attr", // domAttr.get domAttr.set domAttr.has domAttr.remove
 	"dojo/dom-geometry", // domStyle.getComputedStyle domGeometry.position
 	"dojo/dom-style", // domStyle.getComputedStyle
-	"dojo/has",
 	"dojo/keys",	// keys.F10
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on",
@@ -17,7 +16,7 @@ define([
 	"./popup",
 	"./DropDownMenu",
 	"dojo/ready"
-], function(require, array, declare, event, dom, domAttr, domGeometry, domStyle, has, keys, lang, on,
+], function(require, array, declare, event, dom, domAttr, domGeometry, domStyle, keys, lang, on,
 			has, win, winUtils, pm, DropDownMenu, ready){
 
 /*=====
