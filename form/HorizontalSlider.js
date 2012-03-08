@@ -325,10 +325,10 @@ var HorizontalSlider = declare("dijit.form.HorizontalSlider", [_FormValueWidget,
 		this.inherited(arguments);
 
 		if(this.showButtons){
-			this._connects.push(typematic.addMouseListener(
-				this.decrementButton, this, "_typematicCallback", 25, 500));
-			this._connects.push(typematic.addMouseListener(
-				this.incrementButton, this, "_typematicCallback", 25, 500));
+			this._adoptHandles(
+				typematic.addMouseListener(this.decrementButton, this, "_typematicCallback", 25, 500),
+				typematic.addMouseListener(this.incrementButton, this, "_typematicCallback", 25, 500)
+			);
 		}
 		this.connect(this.domNode, !has("mozilla") ? "onmousewheel" : "DOMMouseScroll", "_mouseWheeled");
 

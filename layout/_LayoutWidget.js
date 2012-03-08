@@ -73,7 +73,7 @@ define([
 				// Since my parent isn't a layout container, and my style *may be* width=height=100%
 				// or something similar (either set directly or via a CSS class),
 				// monitor when viewport size changes so that I can re-layout.
-				this._connects.push(Viewport.on("resize", lang.hitch(this, "resize")));
+				this._adoptHandles(Viewport.on("resize", lang.hitch(this, "resize")));
 			}
 		},
 

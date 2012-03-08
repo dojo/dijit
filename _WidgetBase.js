@@ -301,6 +301,7 @@ return declare("dijit._WidgetBase", Stateful, {
 		this.srcNodeRef = dom.byId(srcNodeRef);
 
 		// For garbage collection.  An array of listener handles returned by this.connect() / this.subscribe()
+		// TODO: replace with hash in 2.0?
 		this._connects = [];
 
 		// For widgets internal to this widget, invisible to calling code
@@ -840,7 +841,7 @@ return declare("dijit._WidgetBase", Stateful, {
 		}
 
 		// Otherwise, just listen for the event on this.domNode.
-		return on(this.domNode, type, func);
+		return this._adoptHandles(on(this.domNode, type, func))[0];
 	},
 
 	_onMap: function(/*String*/ type){
@@ -906,22 +907,40 @@ return declare("dijit._WidgetBase", Stateful, {
 		// tags:
 		//		protected
 
-		var handle = connect.connect(obj, event, this, method);
-		this._connects.push(handle);
-		return handle;		// _Widget.Handle
+		return this._adoptHandles(connect.connect(obj, event, this, method))[0];	// handle
+	},
+
+	_adoptHandles: function(){
+		// summary:
+		//		Track specified handles and remove() them when the widget is destroyed, unless they were
+		//		already remove()'d manually.
+		// returns:
+		//		The array of specified handles, so you can do for example:
+		//	|		var handle = this.adoptHandles(on(...))[0];
+
+		var self = this, connects = this._connects;
+		array.forEach(arguments, function(handle){
+			connects.push(handle);
+			aspect.after(handle, "remove", function(){
+				if(self._beingDestroyed){ return; }		// avoid n^2 performance as destroy() iterates this._connects[]
+				var i = array.indexOf(connects, handle);
+				if(i !== -1){
+					connects.splice(i, 1);
+				}
+			}, true);
+		});
+
+		return arguments;		// handle
 	},
 
 	disconnect: function(handle){
 		// summary:
 		//		Disconnects handle created by `connect`.
-		//		Also removes handle from this widget's list of connects.
+		//		Deprecated.   Will be removed in 2.0.   Just use handle.remove() instead.
 		// tags:
 		//		protected
-		var i = array.indexOf(this._connects, handle);
-		if(i != -1){
-			handle.remove();
-			this._connects.splice(i, 1);
-		}
+
+		handle.remove();
 	},
 
 	subscribe: function(t, method){
@@ -944,9 +963,7 @@ return declare("dijit._WidgetBase", Stateful, {
 		//	|	});
 		// tags:
 		//		protected
-		var handle = topic.subscribe(t, lang.hitch(this, method));
-		this._connects.push(handle);
-		return handle;		// _Widget.Handle
+		return this._adoptHandles(topic.subscribe(t, lang.hitch(this, method)))[0];	// handle
 	},
 
 	unsubscribe: function(/*Object*/ handle){
@@ -955,7 +972,8 @@ return declare("dijit._WidgetBase", Stateful, {
 		//		Also removes handle from this widget's list of subscriptions
 		// tags:
 		//		protected
-		this.disconnect(handle);
+
+		handle.remove();
 	},
 
 	isLeftToRight: function(){

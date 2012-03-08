@@ -44,7 +44,7 @@ return declare("dijit._MenuBase",
 
 	postCreate: function(){
 		var self = this;
-		this._connects.push(
+		this._adoptHandles(
 			on(this.containerNode, on.selector(".dijitMenuItem", mouse.enter), function(){
 				self.onItemHover(registry.byNode(this));
 			}),
