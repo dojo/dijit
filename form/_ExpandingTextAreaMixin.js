@@ -46,9 +46,9 @@ define([
 
 		_estimateHeight: function(){
 			// summary:
-			// 		Approximate the height when the textarea is invisible with the number of lines in the text.
-			// 		Fails when someone calls setValue with a long wrapping line, but the layout fixes itself when the user clicks inside so . . .
-			// 		In IE, the resize event is supposed to fire when the textarea becomes visible again and that will correct the size automatically.
+			//		Approximate the height when the textarea is invisible with the number of lines in the text.
+			//		Fails when someone calls setValue with a long wrapping line, but the layout fixes itself when the user clicks inside so . . .
+			//		In IE, the resize event is supposed to fire when the textarea becomes visible again and that will correct the size automatically.
 			//
 			var textarea = this.textbox;
 			textarea.style.height = "auto";
@@ -60,7 +60,7 @@ define([
 		},
 
 		_resizeLater: function(){
-			setTimeout(lang.hitch(this, "resize"), 0);
+			this.defer("resize");
 		},
 
 		resize: function(){
@@ -79,8 +79,6 @@ define([
 
 			var textarea = this.textbox;
 			if(textarea.style.overflowY == "hidden"){ textarea.scrollTop = 0; }
-			if(this.resizeTimer){ clearTimeout(this.resizeTimer); }
-			this.resizeTimer = null;
 			if(this.busyResizing){ return; }
 			this.busyResizing = true;
 			if(textareaScrollHeight() || textarea.offsetHeight){
@@ -97,12 +95,20 @@ define([
 					textarea.style.height = newHpx;
 				}
 				if(needsHelpShrinking){
-					var scrollHeight = textareaScrollHeight();
-					textarea.style.height = "auto";
-					if(textareaScrollHeight() < scrollHeight){ // scrollHeight can shrink so now try a larger value
-						newHpx = newH - scrollHeight + textareaScrollHeight() + "px";
+					var	origScrollHeight = textareaScrollHeight(),
+						newScrollHeight = origScrollHeight,
+						origMinHeight = textarea.style.minHeight;
+					textarea.style.minHeight = newHpx; // maintain current height
+					textarea.style.height = "auto"; // allow scrollHeight to change
+					while(--newH > 0){
+						textarea.style.minHeight = newH + "px";
+						if(textareaScrollHeight() >= newScrollHeight){
+							break; // scrollHeight didn't shrink
+						}
+						newScrollHeight = textareaScrollHeight();
 					}
-					textarea.style.height = newHpx;
+					textarea.style.height = newH + 1 + "px";
+					textarea.style.minHeight = origMinHeight;
 				}
 				textarea.style.overflowY = textareaScrollHeight() > textarea.clientHeight ? "auto" : "hidden";
 			}else{
@@ -110,12 +116,6 @@ define([
 				this._estimateHeight();
 			}
 			this.busyResizing = false;
-		},
-
-		destroy: function(){
-			if(this.resizeTimer){ clearTimeout(this.resizeTimer); }
-			if(this.shrinkTimer){ clearTimeout(this.shrinkTimer); }
-			this.inherited(arguments);
 		}
 	});
 });

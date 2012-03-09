@@ -78,7 +78,7 @@ return declare("dijit.form._FormWidgetMixin", null, {
 		if(this.valueNode){
 			domAttr.set(this.valueNode, 'disabled', value);
 		}
-		this.focusNode.setAttribute("aria-disabled", value);
+		this.focusNode.setAttribute("aria-disabled", value ? "true" : "false");
 
 		if(value){
 			// reset these, because after the domNode is disabled, we can no longer receive
@@ -107,7 +107,7 @@ return declare("dijit.form._FormWidgetMixin", null, {
 
 	_onFocus: function(e){
 		if(this.scrollOnFocus){
-			winUtils.scrollIntoView(this.domNode);
+			this.defer(function(){ winUtils.scrollIntoView(this.domNode); }); // without defer, the input caret position can change on mouse click
 		}
 		this.inherited(arguments);
 	},
@@ -181,15 +181,15 @@ return declare("dijit.form._FormWidgetMixin", null, {
 			this._pendingOnChange = false;
 			if(this._onChangeActive){
 				if(this._onChangeHandle){
-					clearTimeout(this._onChangeHandle);
+					this._onChangeHandle.remove();
 				}
-				// setTimeout allows hidden value processing to run and
+				// defer allows hidden value processing to run and
 				// also the onChange handler can safely adjust focus, etc
-				this._onChangeHandle = setTimeout(lang.hitch(this,
+				this._onChangeHandle = this.defer(
 					function(){
 						this._onChangeHandle = null;
 						this.onChange(newValue);
-					}), 0); // try to collapse multiple onChange's fired faster than can be processed
+					}); // try to collapse multiple onChange's fired faster than can be processed
 			}
 		}
 	},
@@ -202,7 +202,7 @@ return declare("dijit.form._FormWidgetMixin", null, {
 
 	destroy: function(){
 		if(this._onChangeHandle){ // destroy called before last onChange has fired
-			clearTimeout(this._onChangeHandle);
+			this._onChangeHandle.remove();
 			this.onChange(this._lastValueReported);
 		}
 		this.inherited(arguments);
@@ -219,7 +219,7 @@ return declare("dijit.form._FormWidgetMixin", null, {
 			// Set a global event to handle mouseup, so it fires properly
 			// even if the cursor leaves this.domNode before the mouse up event.
 			var mouseUpConnector = this.connect(win.body(), "onmouseup", function(){
-				if(this.isFocusable()){
+				if(!this.focused && this.isFocusable()){
 					this.focus();
 				}
 				this.disconnect(mouseUpConnector);
