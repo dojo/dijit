@@ -107,7 +107,7 @@ return declare("dijit.form._FormWidgetMixin", null, {
 
 	_onFocus: function(e){
 		if(this.scrollOnFocus){
-			winUtils.scrollIntoView(this.domNode);
+			this.defer(function(){ winUtils.scrollIntoView(this.domNode); }); // without defer, the input caret position can change on mouse click
 		}
 		this.inherited(arguments);
 	},
@@ -219,7 +219,7 @@ return declare("dijit.form._FormWidgetMixin", null, {
 			// Set a global event to handle mouseup, so it fires properly
 			// even if the cursor leaves this.domNode before the mouse up event.
 			var mouseUpConnector = this.connect(win.body(), "onmouseup", function(){
-				if(this.isFocusable()){
+				if(!this.focused && this.isFocusable()){
 					this.focus();
 				}
 				this.disconnect(mouseUpConnector);

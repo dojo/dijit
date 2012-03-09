@@ -95,12 +95,20 @@ define([
 					textarea.style.height = newHpx;
 				}
 				if(needsHelpShrinking){
-					var scrollHeight = textareaScrollHeight();
-					textarea.style.height = "auto";
-					if(textareaScrollHeight() < scrollHeight){ // scrollHeight can shrink so now try a larger value
-						newHpx = newH - scrollHeight + textareaScrollHeight() + "px";
+					var	origScrollHeight = textareaScrollHeight(),
+						newScrollHeight = origScrollHeight,
+						origMinHeight = textarea.style.minHeight;
+					textarea.style.minHeight = newHpx; // maintain current height
+					textarea.style.height = "auto"; // allow scrollHeight to change
+					while(--newH > 0){
+						textarea.style.minHeight = newH + "px";
+						if(textareaScrollHeight() >= newScrollHeight){
+							break; // scrollHeight didn't shrink
+						}
+						newScrollHeight = textareaScrollHeight();
 					}
-					textarea.style.height = newHpx;
+					textarea.style.height = newH + 1 + "px";
+					textarea.style.minHeight = origMinHeight;
 				}
 				textarea.style.overflowY = textareaScrollHeight() > textarea.clientHeight ? "auto" : "hidden";
 			}else{
