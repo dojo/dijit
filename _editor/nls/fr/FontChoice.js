@@ -14,12 +14,12 @@ define(
 	h2: "Sous-en-tête",
 	h3: "Sous-sous-en-tête",
 	pre: "Pré-mise en forme",
-	1: "xxs",
-	2: "xs",
-	3: "s",
-	4: "m",
-	5: "l",
-	6: "xl",
-	7: "xxl"
+	1: "très très petite",
+	2: "très petite",
+	3: "petite",
+	4: "moyenne",
+	5: "grande",
+	6: "très grande",
+	7: "très très grande"
 })
 );
