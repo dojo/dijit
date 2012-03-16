@@ -118,17 +118,30 @@ return declare("dijit._editor.plugins.EnterKeyHandling", _Plugin, {
 			// we need to enable customUndo, if not already enabled.
 			this.editor.customUndo = true;
 				editor.onLoadDeferred.then(lang.hitch(this,function(d){
-				this.connect(editor.document, "onkeypress", function(e){
-					if(e.charOrCode == keys.ENTER){
-						// Just do it manually.  The handleEnterKey has a shift mode that
-						// Always acts like <br>, so just use it.
-						var ne = lang.mixin({},e);
-						ne.shiftKey = true;
-						if(!this.handleEnterKey(ne)){
-							event.stop(e);
+					this.connect(editor.document, "onkeypress", function(e){
+						if(e.charOrCode == keys.ENTER){
+							// Just do it manually.  The handleEnterKey has a shift mode that
+							// Always acts like <br>, so just use it.
+							var ne = lang.mixin({},e);
+							ne.shiftKey = true;
+							if(!this.handleEnterKey(ne)){
+								event.stop(e);
+							}
 						}
+					});
+					if(has("ie") == 9){
+						this.connect(editor.document, "onpaste", function(e){
+							setTimeout(dojo.hitch(this, function(){
+								// Use the old range/selection code to kick IE 9 into updating
+								// its range by moving it back, then forward, one 'character'.
+								var r = this.editor.document.selection.createRange();
+								r.move('character',-1);
+								r.select();
+								r.move('character',1);
+								r.select();
+							}),0);
+						});
 					}
-				});
 					return d;
 				}));
 		}else if(this.blockNodeForEnter){
