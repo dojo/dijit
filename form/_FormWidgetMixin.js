@@ -211,18 +211,24 @@ return declare("dijit.form._FormWidgetMixin", null, {
 	_onMouseDown: function(e){
 		// If user clicks on the button, even if the mouse is released outside of it,
 		// this button should get focus (to mimics native browser buttons).
-		// This is also needed on chrome because otherwise buttons won't get focus at all,
+		// This is also needed on Chrome because otherwise buttons won't get focus at all,
 		// which leads to bizarre focus restore on Dialog close etc.
-		// IE exhibits strange scrolling behavior when focusing a node so only do it when !focused.
 		// FF needs the extra help to make sure the mousedown actually gets to the focusNode
-		if((!this.focused || !has('ie')) && !e.ctrlKey && mouse.isLeft(e) && this.isFocusable()){ // !e.ctrlKey to ignore right-click on mac
+		if(!this.focused && !e.ctrlKey && mouse.isLeft(e) && this.isFocusable()){ // !e.ctrlKey to ignore right-click on mac
+			// IE exhibits strange scrolling behavior when refocusing a node so only do it when !focused.
+			var focusConnector = this.connect(this.focusNode, "onfocus", function(){
+				this.disconnect(mouseUpConnector); // cancel mouseup focus action since it's already happened
+				this.disconnect(focusConnector);
+			});
 			// Set a global event to handle mouseup, so it fires properly
 			// even if the cursor leaves this.domNode before the mouse up event.
 			var mouseUpConnector = this.connect(win.body(), "onmouseup", function(){
-				if(!this.focused && this.isFocusable()){
+				this.disconnect(mouseUpConnector);
+				this.disconnect(focusConnector);
+				// if here, then the mousedown did not focus the focusNode as the default action
+				if(this.isFocusable()){
 					this.focus();
 				}
-				this.disconnect(mouseUpConnector);
 			});
 		}
 	}
