@@ -2869,6 +2869,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		//		Function for stripping out the breaker spans inserted by the formatting command.
 		//		Registered as a filter for IE, handles the breaker spans needed to fix up
 		//		How bold/italic/etc, work when selection is collapsed (single cursor).
+		if(!this.isLoaded){ return; } // this method requires init to be complete
 		win.withGlobal(this.window, lang.hitch(this, function(){
 			var breakers = query(".ieFormatBreakerSpan", node);
 			var i;
