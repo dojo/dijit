@@ -1,7 +1,8 @@
 define([
-	"dojo/_base/lang", // lang.isString
+	"dojo/_base/array",
+	"dojo/_base/lang", // lang.getObject
 	"dojo/sniff" // has("ie")
-], function(lang, has){
+], function(array, lang, has){
 
 // module:
 //		dijit/_editor/html
@@ -35,7 +36,7 @@ exports.getNodeHtmlHelper = function(/*DomNode*/ node, /*String[]*/ output){
 	// summary:
 	//		Pushes array of strings into output[] which represent HTML for node and it's children
 	switch(node.nodeType){
-		case 1: //element node
+		case 1: // element node
 			var lName = node.nodeName.toLowerCase();
 			if(!lName || lName.charAt(0) == "/"){
 				// IE does some strange things with malformed HTML input, like
@@ -47,19 +48,41 @@ exports.getNodeHtmlHelper = function(/*DomNode*/ node, /*String[]*/ output){
 			}
 			output.push('<', lName);
 
-			//store the list of attributes and sort it to have the
-			//attributes appear in the dictionary order
+			// store the list of attributes and sort it to have the
+			// attributes appear in the dictionary order
 			var attrarray = [];
 			var attr;
-			if(has("ie")){
+			if(has("dom-attributes-explicit") || has("dom-attributes-specified-flag")){
+				// IE8+ and all other browsers.
+				var i = 0;
+				while((attr = node.attributes[i++])){
+					// ignore all attributes starting with _dj which are
+					// internal temporary attributes used by the editor
+					var n = attr.name;
+					if(n.substr(0,3) !== '_dj' &&
+						(!has("dom-attributes-specified-flag") || attr.specified)){
+						var v = attr.value;
+						if(n == 'src' || n == 'href'){
+							if(node.getAttribute('_djrealurl')){
+								v = node.getAttribute('_djrealurl');
+							}
+						}
+						if(has("ie") === 8 && n === "style"){
+							v = v.replace("HEIGHT:", "height:").replace("WIDTH:", "width:");
+						}
+						attrarray.push([n,v]);
+					}
+				}
+			}else{
+				// IE6-7 code path
 				var clone = /^input$|^img$/i.test(node.nodeName) ? node : node.cloneNode(false);
 				var s = clone.outerHTML;
 				// Split up and manage the attrs via regexp
 				// similar to prettyPrint attr logic.
 				var rgxp_attrsMatch = /[\w-]+=("[^"]*"|'[^']*'|\S*)/gi
 				var attrSplit = s.match(rgxp_attrsMatch);
-				s = s.substr(0, s.indexOf('>'))
-				dojo.forEach(attrSplit, function(attr){
+				s = s.substr(0, s.indexOf('>'));
+				array.forEach(attrSplit, function(attr){
 					if(attr){
 						var idx = attr.indexOf("=");
 						if(idx > 0){
@@ -109,23 +132,6 @@ exports.getNodeHtmlHelper = function(/*DomNode*/ node, /*String[]*/ output){
 						}
 					}
 				}, this);
-			}else{
-				var i = 0;
-				while((attr = node.attributes[i++])){
-					//ignore all attributes starting with _dj which are
-					//internal temporary attributes used by the editor
-					var n = attr.name;
-					if(n.substr(0,3) != '_dj' /*&&
-						(attr.specified == undefined || attr.specified)*/){
-						var v = attr.value;
-						if(n == 'src' || n == 'href'){
-							if(node.getAttribute('_djrealurl')){
-								v = node.getAttribute('_djrealurl');
-							}
-						}
-						attrarray.push([n,v]);
-					}
-				}
 			}
 			attrarray.sort(function(a,b){
 				return a[0] < b[0] ? -1 : (a[0] == b[0] ? 0 : 1);
@@ -133,7 +139,7 @@ exports.getNodeHtmlHelper = function(/*DomNode*/ node, /*String[]*/ output){
 			var j = 0;
 			while((attr = attrarray[j++])){
 				output.push(' ', attr[0], '="',
-					(lang.isString(attr[1]) ? escape(attr[1], true) : attr[1]), '"');
+					(typeof attr[1] === "string" ? escape(attr[1], true) : attr[1]), '"');
 			}
 			switch(lName){
 				case 'br':
@@ -168,7 +174,7 @@ exports.getNodeHtmlHelper = function(/*DomNode*/ node, /*String[]*/ output){
 			// FIXME:
 			output.push(escape(node.nodeValue, true));
 			break;
-		case 8: //comment
+		case 8: // comment
 			// FIXME:
 			output.push('<!--', escape(node.nodeValue, true), '-->');
 			break;
@@ -192,19 +198,19 @@ exports.getChildrenHtmlHelper = function(/*DomNode*/ dom, /*String[]*/ output){
 	if(!dom){ return; }
 	var nodes = dom["childNodes"] || dom;
 
-	//IE issue.
-	//If we have an actual node we can check parent relationships on for IE,
-	//We should check, as IE sometimes builds invalid DOMS.  If no parent, we can't check
-	//And should just process it and hope for the best.
+	// IE issue.
+	// If we have an actual node we can check parent relationships on for IE,
+	// We should check, as IE sometimes builds invalid DOMS.  If no parent, we can't check
+	// And should just process it and hope for the best.
 	var checkParent = !has("ie") || nodes !== dom;
 
 	var node, i = 0;
 	while((node = nodes[i++])){
-		//IE is broken.  DOMs are supposed to be a tree.  But in the case of malformed HTML, IE generates a graph
-		//meaning one node ends up with multiple references (multiple parents).  This is totally wrong and invalid, but
-		//such is what it is.  We have to keep track and check for this because otherwise the source output HTML will have dups.
-		//No other browser generates a graph.  Leave it to IE to break a fundamental DOM rule.  So, we check the parent if we can
-		//If we can't, nothing more we can do other than walk it.
+		// IE is broken.  DOMs are supposed to be a tree.  But in the case of malformed HTML, IE generates a graph
+		// meaning one node ends up with multiple references (multiple parents).  This is totally wrong and invalid, but
+		// such is what it is.  We have to keep track and check for this because otherwise the source output HTML will have dups.
+		// No other browser generates a graph.  Leave it to IE to break a fundamental DOM rule.  So, we check the parent if we can
+		// If we can't, nothing more we can do other than walk it.
 		if(!checkParent || node.parentNode == dom){
 			exports.getNodeHtmlHelper(node, output);
 		}

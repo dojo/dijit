@@ -4,38 +4,25 @@
 	<title>html utility tests</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-	<style type="text/css">
-		@import "../../themes/claro/document.css";
-	</style>
-
-	<!-- required: a default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro.css"/>
-
-	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		data-dojo-config="isDebug: true"></script>
 
-	<script type="text/javascript" src="../_testCommon.js"></script>
-
 	<script type="text/javascript">
-		dojo.require("doh.runner");
-		dojo.require("dijit._editor.html");
-
-		dojo.ready(function(){
+		require(["doh/runner", "dijit/_editor/html", "dojo/domReady!"], function(doh, htmlAPI){
 
 			doh.register("getNodeHtml", [
 				function general(){
-					var html = dijit._editor.getNodeHtml(dojo.byId("general"));
+					var html = htmlAPI.getNodeHtml(dojo.byId("general"));
 					html = html.replace(/\s+/g, " ").replace(/>\s*</g, "><").replace(/10%;"/, '10%"');
 					doh.is('<div id="general"><img base="foo" style="width: 10%; height: 10%" /><span><i>hello<b>world</b></i></span></div>', html);
 				},
 				function tagClose(){
-					var html = dijit._editor.getNodeHtml(dojo.byId("tagclosure"));
+					var html = htmlAPI.getNodeHtml(dojo.byId("tagclosure"));
 					html = html.replace(/\s+/g, " ").replace(/>\s*</g, "><");
 					doh.is('<div id="tagclosure"><span><span></span><br /><hr /></span></div>', html);
 				},
 				function djrealurl(){
-					var html = dijit._editor.getNodeHtml(dojo.byId("djrealurl"));
+					var html = htmlAPI.getNodeHtml(dojo.byId("djrealurl"));
 					html = html.replace(/\s+/g, " ").replace(/>\s*</g, "><");
 					doh.is('<div id="djrealurl"><a href="real">hi</a><img src="real" /></div>', html);
 				}
@@ -43,34 +30,39 @@
 
 			doh.register("getChildrenHtml", [
 				function general(){
-					var html = dijit._editor.getChildrenHtml(dojo.byId("general"));
+					var html = htmlAPI.getChildrenHtml(dojo.byId("general"));
 					html = dojo.trim(html.replace(/\s+/g, " ").replace(/>\s*</g, "><").replace(/10%;"/, '10%"'));
 					doh.is('<img base="foo" style="width: 10%; height: 10%" /><span><i>hello<b>world</b></i></span>', html);
 				},
 				function tagClose(){
-					var html = dijit._editor.getChildrenHtml(dojo.byId("tagclosure"));
+					var html = htmlAPI.getChildrenHtml(dojo.byId("tagclosure"));
 					html = dojo.trim(html.replace(/\s+/g, " ").replace(/>\s*</g, "><"));
 					doh.is('<span><span></span><br /><hr /></span>', html);
 				},
 				function djrealurl(){
-					var html = dijit._editor.getChildrenHtml(dojo.byId("djrealurl"));
+					var html = htmlAPI.getChildrenHtml(dojo.byId("djrealurl"));
 					html = dojo.trim(html.replace(/\s+/g, " ").replace(/>\s*</g, "><"));
 					doh.is('<a href="real">hi</a><img src="real" />', html);
 				},
 				function specialchars(){
-					var html = dijit._editor.getChildrenHtml(dojo.byId("specialchars"));
+					var html = htmlAPI.getChildrenHtml(dojo.byId("specialchars"));
 					html = dojo.trim(html.replace(/\s+/g, " ").replace(/>\s*</g, "><"));
 					doh.is('hello&amp;goodbye<span>3&gt;2</span>', html);
+				},
+				function image(){
+					var html = htmlAPI.getChildrenHtml(dojo.byId("image"));
+					html = dojo.trim(html.replace(/\s+/g, " ").replace(/>\s*</g, "><"));
+					doh.is('<img alt="alt text" height="88" id="bibli_WR4479" src="http://acme.com/logo.png" title="test" width="150" />', html)
 				}
 			]);
 
 			doh.register("escapeXML", [
 				function regular(){
-					var escaped = dijit._editor.escapeXml("hello<b>\"&'</b>goodbye");
+					var escaped = htmlAPI.escapeXml("hello<b>\"&'</b>goodbye");
 					doh.is("hello&lt;b&gt;&quot;&amp;&#39;&lt;/b&gt;goodbye", escaped);
 				},
 				function noSingleQuote(){
-					var escaped = dijit._editor.escapeXml("hello<b>\"&'</b>goodbye", true);
+					var escaped = htmlAPI.escapeXml("hello<b>\"&'</b>goodbye", true);
 					doh.is("hello&lt;b&gt;&quot;&amp;'&lt;/b&gt;goodbye", escaped);
 				}
 			]);
@@ -78,7 +70,7 @@
 		});
 	</script>
 </head>
-<body class="claro">
+<body>
 
 <!--
 this tests that tag case is normalized, and that attributes are sorted
@@ -108,4 +100,12 @@ src and href attributes get converted to _djrealurl, which is dropped
 	hello&amp;goodbye<span>3&gt;2</span>
 </div>
 </body>
+
+<!--
+image tag (was problem on IE9, see #15032)
+-->
+<div id="image">
+	<img alt="alt text"  width="150" height="88" id="bibli_WR4479" src="http://acme.com/logo.png" title="test" />
+</div>
+
 </html>
