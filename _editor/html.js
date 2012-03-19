@@ -50,7 +50,7 @@ exports.getNodeHtmlHelper = function(/*DomNode*/ node, /*String[]*/ output){
 
 			// store the list of attributes and sort it to have the
 			// attributes appear in the dictionary order
-			var attrarray = [];
+			var attrarray = [], attrhash = {};
 			var attr;
 			if(has("dom-attributes-explicit") || has("dom-attributes-specified-flag")){
 				// IE8+ and all other browsers.
@@ -60,7 +60,8 @@ exports.getNodeHtmlHelper = function(/*DomNode*/ node, /*String[]*/ output){
 					// internal temporary attributes used by the editor
 					var n = attr.name;
 					if(n.substr(0,3) !== '_dj' &&
-						(!has("dom-attributes-specified-flag") || attr.specified)){
+						(!has("dom-attributes-specified-flag") || attr.specified) &&
+						!(n in attrhash)){	// workaround repeated attributes bug in IE8 (LinkDialog test)
 						var v = attr.value;
 						if(n == 'src' || n == 'href'){
 							if(node.getAttribute('_djrealurl')){
@@ -71,6 +72,7 @@ exports.getNodeHtmlHelper = function(/*DomNode*/ node, /*String[]*/ output){
 							v = v.replace("HEIGHT:", "height:").replace("WIDTH:", "width:");
 						}
 						attrarray.push([n,v]);
+						attrhash[n] = v;
 					}
 				}
 			}else{

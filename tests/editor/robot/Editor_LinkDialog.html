@@ -328,7 +328,7 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								// Now check the state!
 								var newVal = editor.get("value");
-								doh.t(newVal === value, "Verify the contents have not changed.");
+								doh.is(value, newVal, "Verify the contents have not changed.");
 							}), 2000);
 
 							return d;
