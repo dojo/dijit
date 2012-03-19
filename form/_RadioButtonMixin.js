@@ -52,6 +52,10 @@ define([
 			}
 		},
 
+		_getSubmitValue: function(/*String*/ value){
+			return value === null ? "on" : value;
+		},
+
 		_onClick: function(/*Event*/ e){
 			if(this.checked || this.disabled){ // nothing to do
 				event.stop(e);

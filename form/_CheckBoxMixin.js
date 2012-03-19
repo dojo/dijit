@@ -49,8 +49,12 @@ define([
 		// Normally users won't try to set label, except when CheckBox or RadioButton is the child of a dojox.layout.TabContainer
 		_setLabelAttr: undefined,
 
+		_getSubmitValue: function(/*String*/ value){
+			return !value && value !== 0 ? "on" : value;
+		},
+
 		_setValueAttr: function(newValue){
-			newValue = newValue || "on";	// "on" to match browser native behavior when value unspecified
+			newValue = this._getSubmitValue(newValue);	// "on" to match browser native behavior when value unspecified
 			this._set("value", newValue);
 			domAttr.set(this.focusNode, "value", newValue);
 		},

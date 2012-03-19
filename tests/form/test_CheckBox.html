@@ -83,7 +83,7 @@
 		<input id="cb3" data-dojo-type="dijit/form/CheckBox" data-dojo-props='name:"cb3", disabled:true'/>
 			<label for="cb3">cb3: disabled checkbox</label>
 		<br>
-		<input id="cb4" data-dojo-type="dijit/form/CheckBox" data-dojo-props='name:"cb4", readOnly:true, checked:true'/>
+		<input id="cb4" data-dojo-type="dijit/form/CheckBox" data-dojo-props='name:"cb4", readOnly:true, checked:true, value:"" '/><!-- blank value => "on" -->
 			<label for="cb4">cb4: readOnly checkbox, turned on</label>
 		<br>
 		<input id="cb5" data-dojo-type="dijit/form/CheckBox" data-dojo-props='name:"cb5", value:"", onClick:function(){ console.log("clicked cb5"); }'/>
@@ -108,9 +108,9 @@
 			<span>Radio group #1:</span>
 			<input id="g1rb1" data-dojo-type="dijit/form/RadioButton" data-dojo-props='name:"g[1]", value:"news" '/>
 			<label for="g1rb1">news</label>
-			<input id="g1rb2" data-dojo-type="dijit/form/RadioButton" data-dojo-props='name:"g[1]", value:"talk", checked:true'/>
+			<input id="g1rb2" data-dojo-type="dijit/form/RadioButton" data-dojo-props='name:"g[1]", checked:true'/><!-- no value => "on" -->
 			<label for="g1rb2">talk</label>
-			<input id="g1rb3" data-dojo-type="dijit/form/RadioButton" data-dojo-props='name:"g[1]", value:"weather", disabled:true'/>
+			<input id="g1rb3" data-dojo-type="dijit/form/RadioButton" data-dojo-props='name:"g[1]", value:"", disabled:true'/><!-- blank value => "" -->
 			<label for="g1rb3">weather</label>
 			<input type="button" id="enableWeatherButton" onclick='dijit.byId("g1rb3").set("disabled",false);' value="enable weather" />
 			<input type="button" onclick='dijit.byId("g1rb3").set("disabled",true);' value="disable weather" />
