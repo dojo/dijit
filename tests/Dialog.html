@@ -442,6 +442,25 @@
 				}
 			]);
 
+			doh.register("onShow", [
+				function show(){
+					var onShowCtr = 0,
+						dlg = new dijit.Dialog({
+							id: "show",
+							title: "onShow Dialog",
+							content:"Hello world ",
+							onShow: function(){ onShowCtr++; }
+						});
+
+					dlg.show();
+					doh.is(1, onShowCtr, "onShow first time");
+					dlg.hide();
+					doh.is(1, onShowCtr, "onHide first time");
+					dlg.show();
+					doh.is(2, onShowCtr, "onShow second time");
+				}
+			]);
+
 			doh.run();
 		});
 	</script>
