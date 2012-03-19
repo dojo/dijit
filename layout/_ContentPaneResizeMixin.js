@@ -239,16 +239,16 @@ return declare("dijit.layout._ContentPaneResizeMixin", null, {
 		//
 		//		Does layout/resize of child widget(s)
 
+		// Need to keep track of whether ContentPane has been shown (which is different than
+		// whether or not it's currently visible).
+		this._wasShown = true;
+
 		if(this._needLayout){
 			// If a layout has been scheduled for when we become visible, do it now
 			this._layout(this._changeSize, this._resultSize);
 		}
 
 		this.inherited(arguments);
-
-		// Need to keep track of whether ContentPane has been shown (which is different than
-		// whether or not it's currently visible).
-		this._wasShown = true;
 	}
 });
 
