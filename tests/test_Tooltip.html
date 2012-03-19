@@ -62,6 +62,10 @@
 			updateDynamicIds();
 		}
 
+		function setDefaultAlign(array){
+			dijit.Tooltip.defaultPosition = array;
+			dojo.byId('current').innerHTML = "Current: " + array;
+		}
 	</script>
 </head>
 <body class="claro">
@@ -83,8 +87,12 @@
 		</tr>
 		<tr>
 			<td>
-				<button onclick="dijit.Tooltip.defaultPosition=['above-centered', 'below-centered']; dojo.byId('current').innerHTML='Current: ' + dijit.Tooltip.defaultPosition;">above, below</button>
-				<button onclick="dijit.Tooltip.defaultPosition=['after', 'before']; dojo.byId('current').innerHTML='Current: ' + dijit.Tooltip.defaultPosition;">after, before (default)</button>
+				<button onclick="setDefaultAlign(['above-centered', 'below-centered']);">above-centered, below-centered</button>
+				<button onclick="setDefaultAlign(['after-centered', 'before-centered']);">after-centered, before-centered</button>
+				<button onclick="setDefaultAlign(['above', 'below']);">above, below</button>
+				<!-- unsupported (and currently broken)
+				<button onclick="setDefaultAlign(['after', 'before']);">after, before</button>
+				-->
 				<div id=current>
 					Current: default (unchanged)
 				</div>
