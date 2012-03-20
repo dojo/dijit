@@ -124,6 +124,10 @@
 					doh.is(null, a11y.getFirstInTabbingOrder("display-none-container-tabindex-zero"));
 					doh.is(null, a11y.getFirstInTabbingOrder("display-none-container-no-tabindex"));
 					doh.is(null, a11y.getFirstInTabbingOrder("container-with-display-none-containers"));
+				},
+				function multiDigitTabIndex(){
+					doh.is("one", a11y.getFirstInTabbingOrder("multiDigitTabIndex").name, "first");
+					doh.is("eleven", a11y.getLastInTabbingOrder("multiDigitTabIndex").name, "last");
 				}
 			]);
 
@@ -286,6 +290,20 @@
 			<div id="inside-display-none-container-no-tabindex" tabindex="0">
 			</div>
 		</div>
+	</div>
+
+	<div id="multiDigitTabIndex">
+		<input name="one" tabindex=1>
+		<input name="two" tabindex=2>
+		<input name="three" tabindex=3>
+		<input name="four" tabindex=4>
+		<input name="five" tabindex=5>
+		<input name="six" tabindex=6>
+		<input name="seven" tabindex=7>
+		<input name="eight" tabindex=8>
+		<input name="nine" tabindex=9>
+		<input name="ten" tabindex=10>
+		<input name="eleven" tabindex=11>
 	</div>
 </body>
 </html>

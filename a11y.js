@@ -114,7 +114,7 @@ define([
 				}
 
 				if(isTabNavigable(child)){
-					var tabindex = domAttr.get(child, "tabIndex");
+					var tabindex = +domAttr.get(child, "tabIndex");	// + to convert string --> number
 					if(!domAttr.has(child, "tabIndex") || tabindex == 0){
 						if(!first){
 							first = child;
