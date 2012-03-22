@@ -67,9 +67,9 @@
 								// And the file menu should be visible
 								doh.t(isVisible("fileMenu"), "File menu is visible");
 
-								// And the first item in the file menu should be selected
-								doh.t(dojo.hasClass("new", "dijitMenuItemSelected"),
-									"New MenuItem should have selected class, actual class is: " + dojo.byId("new").className);
+								// But the first item in the file menu should not be selected, since we opened via mouse not keyboard (#10716)
+								doh.f(dojo.hasClass("new", "dijitMenuItemSelected"),
+									"New MenuItem should not have selected class, actual class is: " + dojo.byId("new").className);
 							}), 1000);
 
 							return d;
@@ -219,8 +219,8 @@
 								// And the sub menu should be visible
 								doh.t(isVisible("navMenuSub1"), "sub menu is visible");
 
-								// And the first item in the sub menu should be selected
-								doh.t(dojo.hasClass("navMenuSub1_item1", "dijitMenuItemSelected"),
+								// But the first item in the sub menu should be selected, since opened by mouse, see #10716
+								doh.f(dojo.hasClass("navMenuSub1_item1", "dijitMenuItemSelected"),
 									"first item in sub menu should have selected class, actual class is: " + dojo.byId("new").className);
 							}), 1000);
 

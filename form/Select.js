@@ -39,6 +39,10 @@ define([
 var _SelectMenu = declare("dijit.form._SelectMenu", Menu, {
 	// summary:
 	//		An internally-used menu for dropdown that allows us a vertical scrollbar
+
+	// Override Menu.autoFocus setting so that opening a Select highlights the current value.
+	autoFocus: true,
+
 	buildRendering: function(){
 		// summary:
 		//		Stub in our own changes, so that our domNode is not a table

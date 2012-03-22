@@ -168,7 +168,7 @@ define([
 			if(this._opened){
 				if(dropDown.focus && dropDown.autoFocus !== false){
 					// Focus the dropdown widget - do it on a delay so that we
-					// don't steal our own focus.
+					// don't steal back focus from the dropdown.
 					this.defer(lang.hitch(dropDown, "focus"), 1);
 				}
 			}else{

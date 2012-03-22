@@ -47,7 +47,7 @@ return declare("dijit.MenuBar", _MenuBase, {
 			showpopup = prev_item && prev_item.popup && prev_item.popup.isShowingNow;
 		this.inherited(arguments);
 		if(showpopup && item.popup && !item.disabled){
-			this._openPopup();		// TODO: on down arrow, _openPopup() is called here and in onItemClick()
+			this._openPopup(true);		// TODO: on down arrow, _openPopup() is called here and in onItemClick()
 		}
 	},
 
@@ -68,10 +68,12 @@ return declare("dijit.MenuBar", _MenuBase, {
 
 	onItemClick: function(/*dijit._Widget*/ item, /*Event*/ evt){
 		// summary:
-		//		Handle clicks on an item. Cancels a dropdown if already open.
+		//		Handle clicks on an item.   Also called by _moveToPopup() due to a down-arrow key on the item.
+		//		Cancels a dropdown if already open and click is either mouse or space/enter.
+		//		Don't close dropdown due to down arrow.
 		// tags:
 		//		private
-		if(item.popup && item.popup.isShowingNow){
+		if(item.popup && item.popup.isShowingNow && (evt.type !== "keypress" || evt.keyCode !== keys.DOWN_ARROW)){
 			item.popup.onCancel();
 		}else{
 			this.inherited(arguments);

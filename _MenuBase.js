@@ -42,6 +42,11 @@ return declare("dijit._MenuBase",
 	//		number of milliseconds before hovering (without clicking) causes the popup to automatically open.
 	popupDelay: 500,
 
+	// autoFocus: Boolean
+	//		A toggle to control whether or not a Menu gets focused when opened as a drop down from a MenuBar
+	//		or DropDownButton/ComboButton.   Note though that it always get focused when opened via the keyboard.
+	autoFocus: false,
+
 	postCreate: function(){
 		var self = this;
 		this._adoptHandles(
@@ -238,7 +243,7 @@ return declare("dijit._MenuBase",
 		if(item.disabled){ return false; }
 
 		if(item.popup){
-			this._openPopup();
+			this._openPopup(evt.type == "keypress");
 		}else{
 			// before calling user defined handler, close hierarchy of menus
 			// and restore focus to place it was when menu was opened
@@ -249,9 +254,9 @@ return declare("dijit._MenuBase",
 		}
 	},
 
-	_openPopup: function(){
+	_openPopup: function(/*Boolean*/ focus){
 		// summary:
-		//		Open the popup to the side of/underneath the current menu item
+		//		Open the popup to the side of/underneath the current menu item, and optionally focus first item
 		// tags:
 		//		protected
 
@@ -259,37 +264,38 @@ return declare("dijit._MenuBase",
 		var from_item = this.focusedChild;
 		if(!from_item){ return; } // the focused child lost focus since the timer was started
 		var popup = from_item.popup;
-		if(popup.isShowingNow){ return; }
-		if(this.currentPopup){
-			this._stopPendingCloseTimer(this.currentPopup);
-			pm.close(this.currentPopup);
+		if(!popup.isShowingNow){
+			if(this.currentPopup){
+				this._stopPendingCloseTimer(this.currentPopup);
+				pm.close(this.currentPopup);
+			}
+			popup.parentMenu = this;
+			popup.from_item = from_item; // helps finding the parent item that should be focused for this popup
+			var self = this;
+			pm.open({
+				parent: this,
+				popup: popup,
+				around: from_item.domNode,
+				orient: this._orient || ["after", "before"],
+				onCancel: function(){ // called when the child menu is canceled
+					// set isActive=false (_closeChild vs _cleanUp) so that subsequent hovering will NOT open child menus
+					// which seems aligned with the UX of most applications (e.g. notepad, wordpad, paint shop pro)
+					self.focusChild(from_item);	// put focus back on my node
+					self._cleanUp();			// close the submenu (be sure this is done _after_ focus is moved)
+					from_item._setSelected(true); // oops, _cleanUp() deselected the item
+					self.focusedChild = from_item;	// and unset focusedChild
+				},
+				onExecute: lang.hitch(this, "_cleanUp")
+			});
+
+			this.currentPopup = popup;
+			// detect mouseovers to handle lazy mouse movements that temporarily focus other menu items
+			popup.connect(popup.domNode, "onmouseenter", lang.hitch(self, "_onPopupHover")); // cleaned up when the popped-up widget is destroyed on close
 		}
-		popup.parentMenu = this;
-		popup.from_item = from_item; // helps finding the parent item that should be focused for this popup
-		var self = this;
-		pm.open({
-			parent: this,
-			popup: popup,
-			around: from_item.domNode,
-			orient: this._orient || ["after", "before"],
-			onCancel: function(){ // called when the child menu is canceled
-				// set isActive=false (_closeChild vs _cleanUp) so that subsequent hovering will NOT open child menus
-				// which seems aligned with the UX of most applications (e.g. notepad, wordpad, paint shop pro)
-				self.focusChild(from_item);	// put focus back on my node
-				self._cleanUp();			// close the submenu (be sure this is done _after_ focus is moved)
-				from_item._setSelected(true); // oops, _cleanUp() deselected the item
-				self.focusedChild = from_item;	// and unset focusedChild
-			},
-			onExecute: lang.hitch(this, "_cleanUp")
-		});
 
-		this.currentPopup = popup;
-		// detect mouseovers to handle lazy mouse movements that temporarily focus other menu items
-		popup.connect(popup.domNode, "onmouseenter", lang.hitch(self, "_onPopupHover")); // cleaned up when the popped-up widget is destroyed on close
-
-		if(popup.focus){
-			// If user is opening the popup via keyboard (right arrow, or down arrow for MenuBar),
-			// if the cursor happens to collide with the popup, it will generate an onmouseover event
+		if(focus && popup.focus){
+			// If user is opening the popup via keyboard (right arrow, or down arrow for MenuBar), then focus the popup.
+			// If the cursor happens to collide with the popup, it will generate an onmouseover event
 			// even though the mouse wasn't moved.  Use defer() to call popup.focus so that
 			// our focus() call overrides the onmouseover event, rather than vice-versa.  (#8742)
 			popup._focus_timer = this.defer(lang.hitch(popup, function(){
