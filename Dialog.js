@@ -601,7 +601,12 @@ define([
 					}
 
 					if(focus){
-						focus.focus();
+						// Refocus the button that spawned the Dialog.   This will fail in corner cases including
+						// page unload on IE, because the dijit/form/Button that launched the Dialog may get destroyed
+						// before this code runs.  (#15058)
+						try{
+							focus.focus();
+						}catch(e){}
 					}
 				}
 			}else{
