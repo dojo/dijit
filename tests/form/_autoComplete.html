@@ -119,6 +119,27 @@
 
 			if(!isUnitTest){ return; }
 
+			doh.register("label", [
+				{
+					name: "user-specified id",
+					runTest: function(){
+						combo = dijit.byId("setvaluetest");
+						var labelId = combo.domNode.getAttribute('aria-labelledby');
+						doh.is("setvaluetest_mylabel", labelId, "labelledby");
+						doh.is(labelId, dojo.byId(labelId).id, "label id");
+					}
+				},
+				{
+					name: "generated id",
+					runTest: function(){
+						combo = dijit.byId("datatest");
+						var labelId = combo.domNode.getAttribute('aria-labelledby');
+						doh.is("datatest_label", labelId, "labelledby");
+						doh.is(labelId, dojo.byId(labelId).id, "label id");
+					}
+				}
+			]);
+
 			doh.register("placeHolder", [
 				{
 					timeout: 2000,
@@ -274,7 +295,7 @@
 		<hr>
 
 		<p>Option tags, autoComplete=false, selectOnClick=true, default value of California, pageSize=30, custom labelFunc method</p>
-		<label for="setvaluetest">US State test 1 (200% Courier font):</label>
+		<label id="setvaluetest_mylabel" for="setvaluetest">US State test 1 (200% Courier font):</label>
 		<script type="text/javascript">
 			function setValueTestOnChange(newValue){
 				if(this.lastlabelFuncMsg){

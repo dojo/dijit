@@ -313,7 +313,7 @@ var HorizontalSlider = declare("dijit.form.HorizontalSlider", [_FormValueWidget,
 		// find any associated label element and add to slider focusnode.
 		var label = query('label[for="'+this.id+'"]');
 		if(label.length){
-			label[0].id = (this.id+"_label");
+			if(!label[0].id){ label[0].id = this.id + "_label"; }
 			this.focusNode.setAttribute("aria-labelledby", label[0].id);
 		}
 

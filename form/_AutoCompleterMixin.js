@@ -479,7 +479,7 @@ define([
 			// find any associated label element and add to ComboBox node.
 			var label=query('label[for="'+this.id+'"]');
 			if(label.length){
-				label[0].id = (this.id+"_label");
+				if(!label[0].id){ label[0].id = this.id + "_label"; }
 				this.domNode.setAttribute("aria-labelledby", label[0].id);
 
 			}
