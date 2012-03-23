@@ -818,7 +818,9 @@ return declare("dijit._WidgetBase", Stateful, {
 		if(callback){
 			ret = callback.apply(this, callbackArgs ? callbackArgs : eventObj);
 		}
-		if(this._started){	// avoid spurious emit()'s as parent sets properties on child during startup
+
+		// Emit event, but avoid spurious emit()'s as parent sets properties on child during startup/destroy
+		if(this._started && !this._beingDestroyed){
 			on.emit(this.domNode, type.toLowerCase(), eventObj);
 		}
 
