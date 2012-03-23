@@ -5,10 +5,9 @@ define([
 	"dojo/dom-class", // domClass.toggle
 	"dojo/_base/lang", // lang.hitch
 	"dojo/ready",
-	"dojo/touch",
 	"dojo/_base/window", // win.body
 	"./registry"
-], function(array, declare, dom, domClass, lang, ready, touch, win, registry){
+], function(array, declare, dom, domClass, lang, ready, win, registry){
 
 // module:
 //		dijit/_CssStateMixin
@@ -92,11 +91,11 @@ var CssStateMixin = declare("dijit._CssStateMixin", [], {
 					this._set("active", false);
 					break;
 				case "mousedown":
-				case "touchpress":
+				case "touchstart":
 					this._set("active", true);
 					break;
 				case "mouseup":
-				case "touchrelease":
+				case "touchend":
 					this._set("active", false);
 					break;
 			}
@@ -214,11 +213,11 @@ var CssStateMixin = declare("dijit._CssStateMixin", [], {
 				active(false);
 				break;
 			case "mousedown":
-			case "touchpress":
+			case "touchstart":
 				active(true);
 				break;
 			case "mouseup":
-			case "touchrelease":
+			case "touchend":
 				active(false);
 				break;
 		}
@@ -280,7 +279,7 @@ ready(function(){
 	// (on individual nodes) call evt.stopPropagation() or event.stopEvent().
 	// Currently typematic.js is doing that, not sure why.
 	var body = win.body();
-	array.forEach(["mouseover", "mouseout", "mousedown", "touchpress", "mouseup", "touchrelease"], function(type){
+	array.forEach(["mouseover", "mouseout", "mousedown", "touchstart", "mouseup", "touchend"], function(type){
 		if(body.addEventListener){
 			body.addEventListener(type, handler, true);	// W3C
 		}else{
