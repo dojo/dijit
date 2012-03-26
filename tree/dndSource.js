@@ -66,6 +66,9 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 	//		Distance from upper/lower edge of node to allow drop to reorder nodes
 	betweenThreshold: 0,
 
+	// Flag used by Avatar.js to signal to generate text node when dragging
+	generateText: true,
+
 	constructor: function(/*dijit.Tree*/ tree, /*dijit.tree.__SourceArgs*/ params){
 		// summary:
 		//		a constructor of the Tree DnD Source
