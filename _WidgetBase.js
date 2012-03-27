@@ -124,7 +124,7 @@ return declare("dijit._WidgetBase", Stateful, {
 	//		Value must be among the list of locales specified during by the Dojo bootstrap,
 	//		formatted according to [RFC 3066](http://www.ietf.org/rfc/rfc3066.txt) (like en-us).
 	lang: "",
-	// set on domNode even when there's a focus node.   but don't set lang="", since that's invalid.
+	// set on domNode even when there's a focus node.	but don't set lang="", since that's invalid.
 	_setLangAttr: nonEmptyAttrToDom("lang"),
 
 	// dir: [const] String
@@ -132,7 +132,7 @@ return declare("dijit._WidgetBase", Stateful, {
 	//		attribute. Either left-to-right "ltr" or right-to-left "rtl".  If undefined, widgets renders in page's
 	//		default direction.
 	dir: "",
-	// set on domNode even when there's a focus node.   but don't set dir="", since that's invalid.
+	// set on domNode even when there's a focus node.	but don't set dir="", since that's invalid.
 	_setDirAttr: nonEmptyAttrToDom("dir"),	// to set on domNode even when there's a focus node
 
 	// textDir: String
@@ -218,7 +218,7 @@ return declare("dijit._WidgetBase", Stateful, {
 =====*/
 
 	// attributeMap: [protected] Object
-	//		Deprecated.   Instead of attributeMap, widget should have a _setXXXAttr attribute
+	//		Deprecated.	Instead of attributeMap, widget should have a _setXXXAttr attribute
 	//		for each XXX attribute to be mapped to the DOM.
 	//
 	//		attributeMap sets up a "binding" between attributes (aka properties)
@@ -341,7 +341,7 @@ return declare("dijit._WidgetBase", Stateful, {
 			// If srcNodeRef was specified, then swap out original srcNode for this widget's DOM tree.
 			// For 2.0, move this after postCreate().  postCreate() shouldn't depend on the
 			// widget being attached to the DOM since it isn't when a widget is created programmatically like
-			// new MyWidget({}).   See #11635.
+			// new MyWidget({}).	See #11635.
 			var source = this.srcNodeRef;
 			if(source && source.parentNode && this.domNode !== source){
 				source.parentNode.replaceChild(this.domNode, source);
@@ -401,7 +401,7 @@ return declare("dijit._WidgetBase", Stateful, {
 		}
 
 		// Call this.set() for each attribute that was either specified as parameter to constructor,
-		// or was found above and has a default non-null value.   For correlated attributes like value and displayedValue, the one
+		// or was found above and has a default non-null value.	For correlated attributes like value and displayedValue, the one
 		// specified as a parameter should take precedence, so apply attributes in this.params last.
 		// Particularly important for new DateTextBox({displayedValue: ...}) since DateTextBox's default value is
 		// NaN and thus is not ignored like a default value of "".
@@ -938,7 +938,7 @@ return declare("dijit._WidgetBase", Stateful, {
 	disconnect: function(handle){
 		// summary:
 		//		Disconnects handle created by `connect`.
-		//		Deprecated.   Will be removed in 2.0.   Just use handle.remove() instead.
+		//		Deprecated.	Will be removed in 2.0.	Just use handle.remove() instead.
 		// tags:
 		//		protected
 
@@ -959,7 +959,7 @@ return declare("dijit._WidgetBase", Stateful, {
 		// example:
 		//	|	var btn = new dijit.form.Button();
 		//	|	// when /my/topic is published, this button changes its label to
-		//	|   // be the parameter of the topic.
+		//	|	// be the parameter of the topic.
 		//	|	btn.subscribe("/my/topic", function(v){
 		//	|		this.set("label", v);
 		//	|	});
@@ -993,59 +993,61 @@ return declare("dijit._WidgetBase", Stateful, {
 		return this.focus && (domStyle.get(this.domNode, "display") != "none");
 	},
 
-	placeAt: function(/* String|DomNode|_Widget */reference, /* String?|Int? */position){
+	placeAt: function(/* String|DomNode|_Widget */ reference, /* String?|Int? */ position){
 		// summary:
-		//		Place this widget's domNode reference somewhere in the DOM based
-		//		on standard domConstruct.place conventions, or passing a Widget reference that
-		//		contains and addChild member.
-		//
+		//		Place this widget somewhere in the DOM based
+		//		on standard domConstruct.place() conventions.
 		// description:
 		//		A convenience function provided in all _Widgets, providing a simple
 		//		shorthand mechanism to put an existing (or newly created) Widget
 		//		somewhere in the dom, and allow chaining.
-		//
 		// reference:
-		//		The String id of a domNode, a domNode reference, or a reference to a Widget possessing
-		//		an addChild method.
-		//
+		//		Widget, DOMNode, or id of widget or DOMNode
 		// position:
-		//		If passed a string or domNode reference, the position argument
-		//		accepts a string just as domConstruct.place does, one of: "first", "last",
-		//		"before", or "after".
-		//
-		//		If passed a _Widget reference, and that widget reference has an ".addChild" method,
+		//		If reference is a widget (or id of widget), and that widget has an ".addChild" method,
 		//		it will be called passing this widget instance into that method, supplying the optional
-		//		position index passed.
+		//		position index passed.  In this case position (if specified) should be an integer.
 		//
-		// returns:
-		//		dijit._Widget
+		//		If reference is a DOMNode (or id matching a DOMNode but not a widget),
+		//		the position argument can be a numeric index or a string
+		//		"first", "last", "before", or "after", same as dojo/dom-construct::place().
+		// returns: dijit._WidgetBase
 		//		Provides a useful return of the newly created dijit._Widget instance so you
 		//		can "chain" this function by instantiating, placing, then saving the return value
 		//		to a variable.
-		//
 		// example:
 		//	|	// create a Button with no srcNodeRef, and place it in the body:
 		//	|	var button = new dijit.form.Button({ label:"click" }).placeAt(win.body());
 		//	|	// now, 'button' is still the widget reference to the newly created button
 		//	|	button.on("click", function(e){ console.log('click'); }));
-		//
 		// example:
 		//	|	// create a button out of a node with id="src" and append it to id="wrapper":
 		//	|	var button = new dijit.form.Button({},"src").placeAt("wrapper");
-		//
 		// example:
 		//	|	// place a new button as the first element of some div
 		//	|	var button = new dijit.form.Button({ label:"click" }).placeAt("wrapper","first");
-		//
 		// example:
 		//	|	// create a contentpane and add it to a TabContainer
 		//	|	var tc = dijit.byId("myTabs");
 		//	|	new dijit.layout.ContentPane({ href:"foo.html", title:"Wow!" }).placeAt(tc)
 
-		if(reference.declaredClass && reference.addChild){
-			reference.addChild(this, position);
+		var refWidget = !reference.tagName && registry.byId(reference);
+		if(refWidget && refWidget.addChild && (!position || typeof position === "number")){
+			// Adding this to refWidget and can use refWidget.addChild() to handle everything.
+			refWidget.addChild(this, position);
 		}else{
-			domConstruct.place(this.domNode, reference, position);
+			// "reference" is a plain DOMNode, or we can't use refWidget.addChild().   Use domConstruct.place() and
+			// target refWidget.containerNode for nested placement (position==number, "first", "last", "only"), and
+			// refWidget.domNode otherwise ("after"/"before"/"replace").  (But not supported officially, see #14946.)
+			var ref = refWidget ?
+				(refWidget.containerNode && !/after|before|replace/.test(position||"") ?
+					refWidget.containerNode : refWidget.domNode) : reference;
+			domConstruct.place(this.domNode, ref, position);
+
+			// Start this iff it has a parent widget that's already started.
+			if(!this._started && (this.getParent() || {})._started){
+				this.startup();
+			}
 		}
 		return this;
 	},
