@@ -88,7 +88,7 @@ define([
 					textarea.rows = 1;
 					textarea.style.height = currentHeight + "px";
 				}
-				var newH = Math.max(parseInt(currentHeight) - textarea.clientHeight, 0) + textareaScrollHeight();
+				var newH = Math.max(Math.max(textarea.offsetHeight, parseInt(currentHeight)) - textarea.clientHeight, 0) + textareaScrollHeight();
 				var newHpx = newH + "px";
 				if(newHpx != textarea.style.height){
 					textarea.rows = 1;
@@ -97,17 +97,23 @@ define([
 				if(needsHelpShrinking){
 					var	origScrollHeight = textareaScrollHeight(),
 						newScrollHeight = origScrollHeight,
-						origMinHeight = textarea.style.minHeight;
+						origMinHeight = textarea.style.minHeight,
+						decrement = 1,
+						thisScrollHeight;
 					textarea.style.minHeight = newHpx; // maintain current height
 					textarea.style.height = "auto"; // allow scrollHeight to change
-					while(--newH > 0){
-						textarea.style.minHeight = newH + "px";
-						if(textareaScrollHeight() >= newScrollHeight){
+					while(newH > 0){
+						textarea.style.minHeight = Math.max(newH - decrement, 0) + "px";
+						thisScrollHeight = textareaScrollHeight();
+						var change = newScrollHeight - thisScrollHeight;
+						newH -= change;
+						if(change < decrement){
 							break; // scrollHeight didn't shrink
 						}
-						newScrollHeight = textareaScrollHeight();
+						newScrollHeight = thisScrollHeight;
+						decrement <<= 1;
 					}
-					textarea.style.height = newH + 1 + "px";
+					textarea.style.height = newH + "px";
 					textarea.style.minHeight = origMinHeight;
 				}
 				textarea.style.overflowY = textareaScrollHeight() > textarea.clientHeight ? "auto" : "hidden";
