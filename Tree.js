@@ -1746,11 +1746,13 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 			}else{
 				delete this._openedNodes[path];
 			}
-			var ary = [];
-			for(var id in this._openedNodes){
-				ary.push(id);
+			if(this.persist && this.cookieName){
+				var ary = [];
+				for(var id in this._openedNodes){
+					ary.push(id);
+				}
+				cookie(this.cookieName, ary.join(","), {expires:365});
 			}
-			cookie(this.cookieName, ary.join(","), {expires:365});
 		}
 	},
 
