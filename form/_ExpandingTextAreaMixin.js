@@ -98,12 +98,12 @@ define([
 					var	origScrollHeight = textareaScrollHeight(),
 						newScrollHeight = origScrollHeight,
 						origMinHeight = textarea.style.minHeight,
-						decrement = 1,
+						decrement = 4, // not too fast, not too slow
 						thisScrollHeight;
 					textarea.style.minHeight = newHpx; // maintain current height
 					textarea.style.height = "auto"; // allow scrollHeight to change
 					while(newH > 0){
-						textarea.style.minHeight = Math.max(newH - decrement, 0) + "px";
+						textarea.style.minHeight = Math.max(newH - decrement, 4) + "px";
 						thisScrollHeight = textareaScrollHeight();
 						var change = newScrollHeight - thisScrollHeight;
 						newH -= change;
