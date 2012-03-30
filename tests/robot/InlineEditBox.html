@@ -137,7 +137,7 @@
 							var inlineBox = dijit.byId("editable");
 							var initialOnChange = inlineBox._onChangeValue;
 							inlineBox.set("value", "");
-							moveAndClick(inlineBox.domNode);
+							inlineBox.edit();
 							doh.robot.typeKeys("editable", 1000, 1600);
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							doh.robot.keyPress(dojo.keys.TAB, 1500, {}); // wait more than 1 second to TAB
@@ -364,6 +364,25 @@
 									}, 1000);
 								}));
 							moveAndClick(inlineBox.domNode);
+							return d;
+						}
+					}
+				]);
+
+				doh.register("positioning", [
+					{
+						name: "offscreen",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var inlineBox = dijit.byId("areaEditable");
+							inlineBox.edit();
+							moveAndClick("disableAreaEditable");
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(inlineBox.get("disabled"), "disabled");
+								inlineBox.set('disabled', false);
+								inlineBox.cancel();
+							}), 1000);
 							return d;
 						}
 					}

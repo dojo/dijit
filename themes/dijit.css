@@ -90,10 +90,10 @@ table.dijitInline {
 	line-height:1px;
 }
 
-.dijitOffScreen {
-	position: absolute;
-	left: 50%;
-	top: -10000px;
+.dijitOffScreen { /* these class attributes should supercede any inline positioning style */
+	position: absolute !important;
+	left: 50% !important;
+	top: -10000px !important;
 }
 
 /*

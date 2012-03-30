@@ -85,7 +85,7 @@ var InlineEditor = declare("dijit._InlineEditor", [_Widget, _TemplatedMixin, _Wi
 				editStyle += "font-"+prop+":"+srcStyle["font"+prop]+";";
 			}
 		}, this);
-		array.forEach(["marginTop","marginBottom","marginLeft", "marginRight"], function(prop){
+		array.forEach(["marginTop", "marginBottom", "marginLeft", "marginRight", "position", "left", "top", "right", "bottom", "float", "clear", "display"], function(prop){
 			this.domNode.style[prop] = srcStyle[prop];
 		}, this);
 		var width = this.inlineEditBox.width;
@@ -439,8 +439,6 @@ var InlineEditBox = declare("dijit.InlineEditBox", _Widget, {
 		this._set('editing', true);
 
 		// save some display node values that can be restored later
-		this._savedPosition = domStyle.get(this.displayNode, "position") || "static";
-		this._savedOpacity = domStyle.get(this.displayNode, "opacity") || "1";
 		this._savedTabIndex = domAttr.get(this.displayNode, "tabIndex") || "0";
 
 		if(this.wrapperWidget){
@@ -480,8 +478,9 @@ var InlineEditBox = declare("dijit.InlineEditBox", _Widget, {
 		// opacity:0 is the same as visibility:hidden but is still focusable
 		// visibility:hidden removes focus outline
 
-		domStyle.set(this.displayNode, { position: "absolute", opacity: "0" }); // makes display node invisible, display style used for focus-ability
-		domStyle.set(ww.domNode, { position: this._savedPosition, visibility: "visible", opacity: "1" });
+		domClass.add(this.displayNode, "dijitOffScreen");
+		domClass.remove(ww.domNode, "dijitOffScreen");
+		domStyle.set(ww.domNode, { visibility: "visible" });
 		domAttr.set(this.displayNode, "tabIndex", "-1"); // needed by WebKit for TAB from editor to skip displayNode
 
 		// After edit widget has finished initializing (in particular need to wait for dijit.Editor),
@@ -532,8 +531,9 @@ var InlineEditBox = declare("dijit.InlineEditBox", _Widget, {
 		//		private
 
 		var ww = this.wrapperWidget;
-		domStyle.set(ww.domNode, { position: "absolute", visibility: "hidden", opacity: "0" }); // hide the editor from mouse/keyboard events
-		domStyle.set(this.displayNode, { position: this._savedPosition, opacity: this._savedOpacity }); // make the original text visible
+		domStyle.set(ww.domNode, { visibility: "hidden" }); // hide the editor from mouse/keyboard events
+		domClass.add(ww.domNode, "dijitOffScreen");
+		domClass.remove(this.displayNode, "dijitOffScreen");
 		domAttr.set(this.displayNode, "tabIndex", this._savedTabIndex);
 		if(focus){
 			fm.focus(this.displayNode);
@@ -610,6 +610,7 @@ var InlineEditBox = declare("dijit.InlineEditBox", _Widget, {
 
 		this._showText(focus);
 	},
+
 	_setTextDirAttr: function(/*String*/ textDir){
 		// summary:
 		//		Setter for textDir.
