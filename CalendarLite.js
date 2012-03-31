@@ -64,7 +64,7 @@ define([
 		value: new Date(""),
 		// TODO: for 2.0 make this a string (ISO format) rather than a Date
 
-		// datePackage: String
+		// datePackage: Object
 		//		JavaScript object containing Calendar functions.  Uses Gregorian Calendar routines
 		//		from dojo.date by default.
 		datePackage: date,
@@ -363,7 +363,7 @@ define([
 
 			// If the focus is on a different month than the current calendar month, switch the displayed month.
 			// Also will populate the grid initially, on Calendar creation.
-			if(!this._date2cell || this.datePackage.difference(oldFocus, date, "month") != 0){
+			if(!this._date2cell || this.dateFuncObj.difference(oldFocus, date, "month") != 0){
 				this._populateGrid();
 				this._populateControls();
 				this._markSelectedDates([this.value]);
