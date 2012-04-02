@@ -88,7 +88,7 @@
 				
 				// Find the fruitsTreeNode category
 				var fruitsTreeNode = findTreeNode("itemTree", "Fruits");
-				var tree = dijit.byId("itemTree");
+				var tree = registry.byId("itemTree");
 				
 				// select fruit item
 				selector(tree, fruitsTreeNode, [], function(){
@@ -115,7 +115,7 @@
 				
 				// Find the fruitsTreeNode category
 				var fruitsTreeNode = findTreeNode("itemTree", "Fruits");
-				var tree = dijit.byId("itemTree");
+				var tree = registry.byId("itemTree");
 				
 				// select fruit item
 				selector(tree, fruitsTreeNode, [], function(){
@@ -146,7 +146,7 @@
 					var fruitsTreeNode = findTreeNode("itemTree", "Fruits");
 					var cerealsTreeNode = findTreeNode("itemTree", "Cereals");
 					var vegetablesTreeNode = findTreeNode("itemTree", "Vegetables");
-					var tree = dijit.byId("itemTree");
+					var tree = registry.byId("itemTree");
 					
 					// select fruit item (no modifiers)
 					selector(tree, fruitsTreeNode, [], atFruits);

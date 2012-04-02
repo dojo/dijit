@@ -27,6 +27,9 @@ function setup(){
 			timeout: 10000,
 			runTest: waitForLoad
 	});
+	doh.register("setup vars", function(){
+		registry = dojo.global.require("dijit/registry");
+	});
 }
 
 function findTreeNode(/*String*/ treeId, /*String*/ label){
@@ -38,7 +41,7 @@ function findTreeNode(/*String*/ treeId, /*String*/ label){
 	var nodes = dojo.query(".dijitTreeLabel", treeId);
 	for(var i=0; i<nodes.length; i++){
 		if(innerText(nodes[i]) == label){
-			return dijit.getEnclosingWidget(nodes[i]);	// TreeNode
+			return registry.getEnclosingWidget(nodes[i]);	// TreeNode
 		}
 	}
 	return null;
@@ -54,7 +57,7 @@ function findTreeNodeByPath(/*String*/ treeId, /*String[] */ path){
 	//	|			* Apple
 	//		Path shouldn't include the root node.
 
-	var tree = dijit.byId(treeId);
+	var tree = registry.byId(treeId);
 	for(var i=0, node=tree.rootNode; i<path.length; i++){
 		var pathElem = path[i], matchingChildNode;
 		for(var j=0, children=node.getChildren(); j < children.length; j++){

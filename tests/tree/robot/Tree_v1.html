@@ -18,11 +18,16 @@
 			dojo.ready(function(){
 				doh.robot.initRobot('../test_Tree_v1.html');
 
-				doh.register("_setup", {
-					name: "wait for widgets to load",
-					timeout: 10000,
-					runTest: waitForLoad
-				});
+				doh.register("_setup", [
+					{
+						name: "wait for widgets to load",
+						timeout: 10000,
+						runTest: waitForLoad
+					},
+					function setVars(){
+						registry = dojo.global.require("dijit/registry");
+					}
+				]);
 							
 				doh.register("Test tree 1", [
 					{
@@ -31,7 +36,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 														
-							var myTree = dijit.byId("mytree");
+							var myTree = registry.byId("mytree");
 							var children = myTree.rootNode.getChildren();
 								
 							doh.robot.mouseMoveAt(children[0].contentNode, 500, 1);
@@ -52,7 +57,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							
-							var myTree = dijit.byId("mytree");
+							var myTree = registry.byId("mytree");
 							var rootChildren = myTree.rootNode.getChildren();
 							var africaChildren = rootChildren[0].getChildren();
 							var naChildren = rootChildren[4].getChildren();
@@ -74,7 +79,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							
-							var myTree = dijit.byId("mytree");
+							var myTree = registry.byId("mytree");
 							var rootChildren = myTree.rootNode.getChildren();
 							var naChildren = rootChildren[4].getChildren();
 							var mexicoChildren = naChildren[0].getChildren();
@@ -94,7 +99,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							
-							var myTree = dijit.byId("mytree");
+							var myTree = registry.byId("mytree");
 							var rootChildren = myTree.rootNode.getChildren();
 							var naChildren = rootChildren[4].getChildren();
 							
@@ -119,9 +124,9 @@
 						name: "Destroy tree",
 						timeout: 4000,
 						runTest: function(){
-							dijit.byId("mytree").destroy();
+							registry.byId("mytree").destroy();
 
-							doh.is(undefined, dijit.byId("mytree"), "tree was not destroyed");
+							doh.is(undefined, registry.byId("mytree"), "tree was not destroyed");
 							doh.is(undefined, dojo.byId("mytree"), 'widget was removed');
 						}
 					}
@@ -134,7 +139,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							
-							var myTree = dijit.byId("tree2");
+							var myTree = registry.byId("tree2");
 							var children = myTree.rootNode.getChildren();
 							
 							var ex = children[0].expandoNode;
@@ -157,7 +162,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							
-							var myTree = dijit.byId("tree2");
+							var myTree = registry.byId("tree2");
 							var rootChildren = myTree.rootNode.getChildren();
 														
 							doh.robot.mouseMoveAt(rootChildren[0].contentNode, 500, 1);
