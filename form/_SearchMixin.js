@@ -1,15 +1,15 @@
 define([
 	"dojo/data/util/filter", // patternToRegExp
 	"dojo/_base/declare", // declare
-	"dojo/_base/Deferred", // Deferred.when
 	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys
 	"dojo/_base/lang", // lang.clone lang.hitch
 	"dojo/query", // query
 	"dojo/sniff", // has("ie")
 	"dojo/string", // string.substitute
+	"dojo/when",
 	"../registry"	// registry.byId
-], function(filter, declare, Deferred, event, keys, lang, query, has, string, registry){
+], function(filter, declare, event, keys, lang, query, has, string, when, registry){
 
 	// module:
 	//		dijit/form/_SearchMixin
@@ -171,10 +171,10 @@ define([
 					if(_this.disabled || _this.readOnly || (q !== _this._lastQuery)){
 						return;
 					} // avoid getting unwanted notify
-					Deferred.when(resPromise, function(res){
+					when(resPromise, function(res){
 						_this._fetchHandle = null;
 						if(!_this.disabled && !_this.readOnly && (q === _this._lastQuery)){ // avoid getting unwanted notify
-							Deferred.when(resPromise.total, function(total){
+							when(resPromise.total, function(total){
 								res.total = total;
 								var pageSize = _this.pageSize;
 								if(isNaN(pageSize) || pageSize > res.total){ pageSize = res.total; }

@@ -1,7 +1,6 @@
 define([
 	"dojo/data/util/filter", // patternToRegExp
 	"dojo/_base/declare", // declare
-	"dojo/_base/Deferred", // Deferred.when
 	"dojo/dom-attr", // domAttr.get
 	"dojo/_base/event", // event.stop
 	"dojo/keys",
@@ -15,7 +14,7 @@ define([
 	"../registry",	// registry.byId
 	"./_TextBoxMixin",	// defines _TextBoxMixin.selectInputText
 	"./_SearchMixin"
-], function(filter, declare, Deferred, domAttr, event, keys, lang, query, regexp, has, string, win,
+], function(filter, declare, domAttr, event, keys, lang, query, regexp, has, string, win,
 			DataList, registry, _TextBoxMixin, SearchMixin){
 
 	// module:

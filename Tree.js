@@ -17,6 +17,7 @@ define([
 	"dojo/mouse",	// mouse.enter, mouse.leave
 	"dojo/on",		// on(), on.selector()
 	"dojo/topic",
+	"dojo/when",
 	"./focus",
 	"./registry",	// registry.byNode(), registry.getEnclosingWidget()
 	"./_base/manager",	// manager.defaultDuration
@@ -31,7 +32,7 @@ define([
 	"./tree/ForestStoreModel",
 	"./tree/_dndSelector"
 ], function(array, connect, cookie, declare, Deferred, DeferredList,
-			dom, domClass, domGeometry, domStyle, event, fxUtils, kernel, keys, lang, mouse, on, topic,
+			dom, domClass, domGeometry, domStyle, event, fxUtils, kernel, keys, lang, mouse, on, topic, when,
 			focus, registry, manager, _Widget, _TemplatedMixin, _Container, _Contained, _CssStateMixin,
 			treeNodeTemplate, treeTemplate, TreeStoreModel, ForestStoreModel, _dndSelector){
 
@@ -884,7 +885,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 					this._loadCalled = true;
 
 					// Do the selection and then fire onLoad()
-					Deferred.when(this.set("paths", paths), lang.hitch(this, function(){
+					when(this.set("paths", paths), lang.hitch(this, function(){
 						this.onLoadDeferred.resolve(true);
 						this.onLoad();
 					}));

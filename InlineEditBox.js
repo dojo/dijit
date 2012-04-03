@@ -1,7 +1,6 @@
 define([
 	"dojo/_base/array", // array.forEach
 	"dojo/_base/declare", // declare
-	"dojo/_base/Deferred",	// Deferred.when
 	"dojo/dom-attr", // domAttr.set domAttr.get
 	"dojo/dom-class", // domClass.add domClass.remove domClass.toggle
 	"dojo/dom-construct", // domConstruct.create domConstruct.destroy
@@ -12,6 +11,7 @@ define([
 	"dojo/keys", // keys.ENTER keys.ESCAPE
 	"dojo/_base/lang", // lang.getObject
 	"dojo/sniff", // has("ie")
+	"dojo/when",
 	"./focus",
 	"./_Widget",
 	"./_TemplatedMixin",
@@ -22,7 +22,7 @@ define([
 	"./form/TextBox",
 	"dojo/text!./templates/InlineEditBox.html",
 	"dojo/i18n!./nls/common"
-], function(array, declare, Deferred, domAttr, domClass, domConstruct, domStyle, event, i18n, kernel, keys, lang, has,
+], function(array, declare, domAttr, domClass, domConstruct, domStyle, event, i18n, kernel, keys, lang, has, when,
 			fm, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, _Container, Button, _TextBoxMixin, TextBox, template){
 
 /*=====
@@ -487,7 +487,7 @@ var InlineEditBox = declare("dijit.InlineEditBox", _Widget, {
 		// or immediately if there is no onLoadDeferred Deferred,
 		// replace the display widget with edit widget, leaving them both displayed for a brief time so that
 		// focus can be shifted without incident.
-		Deferred.when(ww.editWidget.onLoadDeferred, lang.hitch(ww, function(){
+		when(ww.editWidget.onLoadDeferred, lang.hitch(ww, function(){
 			// Note: not sure if we still need a defer() now that there's a Deferred.when()
 			this.defer(function(){
 				this.focus(); // both nodes are showing, so we can switch focus safely

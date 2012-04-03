@@ -2,9 +2,9 @@ define([
 	"dojo/_base/array", // array.filter array.forEach array.indexOf array.some
 	"dojo/aspect", // aspect.before, aspect.after
 	"dojo/_base/declare", // declare
-	"dojo/_base/Deferred", // Deferred.when
-	"dojo/_base/lang" // lang.hitch
-], function(array, aspect, declare, Deferred, lang){
+	"dojo/_base/lang", // lang.hitch
+	"dojo/when"
+], function(array, aspect, declare, lang, when){
 
 	// module:
 	//		dijit/tree/ObjectStoreModel
@@ -71,7 +71,7 @@ define([
 				onItem(this.root);
 			}else{
 				var res;
-				Deferred.when(res = this.store.query(this.query),
+				when(res = this.store.query(this.query),
 					lang.hitch(this, function(items){
 						//console.log("queried root: ", res);
 						if(items.length != 1){
@@ -113,10 +113,10 @@ define([
 
 			var id = this.store.getIdentity(parentItem);
 			if(this.childrenCache[id]){
-				Deferred.when(this.childrenCache[id], onComplete, onError);
+				when(this.childrenCache[id], onComplete, onError);
 				return;
 			}
-			Deferred.when(
+			when(
 				this.childrenCache[id] = this.store.getChildren(parentItem),
 				lang.hitch(this, function(children){
 					//console.log("queried children of " + id + ": ", children);
