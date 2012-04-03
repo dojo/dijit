@@ -89,10 +89,24 @@ define([
 				}),
 
 				on(node, "click", function(e){
-					// catch actual mouse clicks too (or touch-clicks on mobile), plus the on.emit() from above
+					// catch mouse clicks, plus the on.emit() calls from above and below
 					listener.call(this, e);
 				})
 			];
+
+			if(has("touch")){
+				handles.push(
+					on(node, "touchend", function(e){
+						// touchstart-->touchend will automatically generate a click event, but there are problems
+						// on iOS after focus has been programatically shifted (#14604, #14918), so do it manually.
+						e.preventDefault();
+						on.emit(e.target, "click", {
+							cancelable: true,
+							bubbles: true
+						});
+					})
+				);
+			}
 
 			return {
 				remove: function(){
