@@ -63,7 +63,13 @@ table.dijitInline {
 	float: none !important; /* needed by FF to squeeze the INPUT in */
 	position: relative;
 	vertical-align: middle;
-	#display: inline;
+}
+.dj_ie6 .dijitInputContainer,
+.dj_ie8.dj_iequirks .dijitInputContainer {
+	float: left !important; /* needed by IE to squeeze the INPUT in */
+}
+.dj_ie7 .dijitInputContainer {
+        display: inline-block !important; /* to fix wrong text alignment in rtl text box */
 }
 
 .dj_ie input.dijitTextBox,
