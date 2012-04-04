@@ -2,6 +2,7 @@ define([
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/lang", // lang.mixin lang.delegate lang.hitch lang.isFunction lang.isObject
 	"../_Widget",
+	"../_Container",
 	"./_ContentPaneResizeMixin",
 	"dojo/string", // string.substitute
 	"dojo/html", // html._ContentSetter html._emptyNode
@@ -14,7 +15,7 @@ define([
 	"dojo/_base/window", // win.body win.doc.createDocumentFragment
 	"dojo/_base/xhr", // xhr.get
 	"dojo/i18n" // i18n.getLocalization
-], function(kernel, lang, _Widget, _ContentPaneResizeMixin, string, html, nlsLoading,
+], function(kernel, lang, _Widget, _Container, _ContentPaneResizeMixin, string, html, nlsLoading,
 	array, declare, Deferred, dom, domAttr, win, xhr, i18n){
 
 /*=====
@@ -29,7 +30,7 @@ define([
 //		or by uri.  Fragment may include widgets.
 
 
-return declare("dijit.layout.ContentPane", [_Widget, _ContentPaneResizeMixin], {
+return declare("dijit.layout.ContentPane", [_Widget, _Container, _ContentPaneResizeMixin], {
 	// summary:
 	//		A widget containing an HTML fragment, specified inline
 	//		or by uri.  Fragment may include widgets.
