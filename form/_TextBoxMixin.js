@@ -91,7 +91,7 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 				}else{ formattedValue = ''; }
 			}
 		}
-		if(formattedValue != null && formattedValue != undefined && ((typeof formattedValue) != "number" || !isNaN(formattedValue)) && this.textbox.value != formattedValue){
+		if(formattedValue != null /* and !undefined */ && ((typeof formattedValue) != "number" || !isNaN(formattedValue)) && this.textbox.value != formattedValue){
 			this.textbox.value = formattedValue;
 			this._set("displayedValue", this.get("displayedValue"));
 		}
@@ -142,7 +142,7 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 		//		The widget value is also set to a corresponding,
 		//		but not necessarily the same, value.
 
-		if(value === null || value === undefined){ value = '' }
+		if(value == null /* or undefined */){ value = '' }
 		else if(typeof value != "string"){ value = String(value) }
 
 		this.textbox.value = value;
@@ -167,7 +167,7 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 		// constraints: Object
 		// tags:
 		//		protected extension
-		return ((value == null || value == undefined) ? "" : (value.toString ? value.toString() : value));
+		return value == null /* or undefined */ ? "" : (value.toString ? value.toString() : value);
 	},
 
 	parse: function(value /*=====, constraints =====*/){
@@ -259,7 +259,7 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 			for(attr in e){
 				if(attr != "layerX" && attr != "layerY"){ // prevent WebKit warnings
 					var v = e[attr];
-					if(typeof v != "function" && typeof v != "undefined"){ faux[attr] = v }
+					if(typeof v != "function" && typeof v != "undefined"){ faux[attr] = v; }
 				}
 			}
 			lang.mixin(faux, {
