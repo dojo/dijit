@@ -270,7 +270,7 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 			if(faux.wasConsumed){ return; } // if preventDefault was called
 			setTimeout(lang.hitch(this, "_onInput", faux), 0); // widget notification after key has posted
 		};
-		array.forEach([ "onkeydown", "onkeypress", "onpaste", "oncut", "oninput" ], function(event){
+		array.forEach([ "onkeydown", "onkeypress", "onpaste", "oncut", "oninput", "oncompositionend" ], function(event){
 			this.connect(this.textbox, event, handleEvent);
 		}, this);
 	},
