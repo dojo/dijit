@@ -279,7 +279,7 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 			if(faux._wasConsumed){ return; } // if preventDefault was called
 			this.defer(function(){ this._onInput(faux); }); // widget notification after key has posted
 		};
-		this._adoptHandles(on(this.textbox, "keydown, keypress, paste, cut, input", lang.hitch(this, handleEvent)));
+		this._adoptHandles(on(this.textbox, "keydown, keypress, paste, cut, input, compositionend", lang.hitch(this, handleEvent)));
 	},
 
 	_blankValue: '', // if the textbox is blank, what value should be reported
