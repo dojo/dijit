@@ -160,12 +160,12 @@ return declare("dijit._editor.plugins.EnterKeyHandling", _Plugin, {
 		//		private
 		if(this._checkListLater){
 			if(win.withGlobal(this.editor.window, 'isCollapsed', dijit)){
-				var liparent=win.withGlobal(this.editor.window, 'getAncestorElement', selection, ['LI']);
+				var liparent=win.withGlobal(this.editor.window, 'getAncestorElement', selectionapi, ['LI']);
 				if(!liparent){
 					// circulate the undo detection code by calling RichText::execCommand directly
 					RichText.prototype.execCommand.call(this.editor, 'formatblock',this.blockNodeForEnter);
 					// set the innerHTML of the new block node
-					var block = win.withGlobal(this.editor.window, 'getAncestorElement', selection, [this.blockNodeForEnter]);
+					var block = win.withGlobal(this.editor.window, 'getAncestorElement', selectionapi, [this.blockNodeForEnter]);
 					if(block){
 						block.innerHTML=this.bogusHtmlContent;
 						if(has("ie")){
