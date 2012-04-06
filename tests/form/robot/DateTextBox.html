@@ -165,6 +165,11 @@
 							}), 1000);
 
 							return d;
+						},
+						tearDown: function(){
+							// Close the drop down so it doesn't interfere with the next test by covering up the
+							// <input> that we want to focus.
+							german.closeDropDown();
 						}
 					}
 				]);
