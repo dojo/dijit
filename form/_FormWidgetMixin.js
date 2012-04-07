@@ -67,11 +67,6 @@ return declare("dijit.form._FormWidgetMixin", null, {
 	// works with screen reader
 	_setIdAttr: "focusNode",
 
-	postCreate: function(){
-		this.inherited(arguments);
-		this.connect(this.domNode, "onmousedown", "_onMouseDown");
-	},
-
 	_setDisabledAttr: function(/*Boolean*/ value){
 		this._set("disabled", value);
 		domAttr.set(this.focusNode, 'disabled', value);
@@ -105,7 +100,27 @@ return declare("dijit.form._FormWidgetMixin", null, {
 		}
 	},
 
-	_onFocus: function(e){
+	_onFocus: function(/*String*/ by){
+		// If user clicks on the widget, even if the mouse is released outside of it,
+		// this widget's focusNode should get focus (to mimic native browser hehavior).
+		// Browsers often need help to make sure the focus via mouse actually gets to the focusNode.
+		if(by == "mouse" && this.isFocusable()){
+			// IE exhibits strange scrolling behavior when refocusing a node so only do it when !focused.
+			var focusConnector = this.connect(this.focusNode, "onfocus", function(){
+				this.disconnect(mouseUpConnector);
+				this.disconnect(focusConnector);
+			});
+			// Set a global event to handle mouseup, so it fires properly
+			// even if the cursor leaves this.domNode before the mouse up event.
+			var mouseUpConnector = this.connect(win.body(), "onmouseup", function(){
+				this.disconnect(mouseUpConnector);
+				this.disconnect(focusConnector);
+				// if here, then the mousedown did not focus the focusNode as the default action
+				if(this.focused){
+					this.focus();
+				}
+			});
+		}
 		if(this.scrollOnFocus){
 			this.defer(function(){ winUtils.scrollIntoView(this.domNode); }); // without defer, the input caret position can change on mouse click
 		}
@@ -206,31 +221,6 @@ return declare("dijit.form._FormWidgetMixin", null, {
 			this.onChange(this._lastValueReported);
 		}
 		this.inherited(arguments);
-	},
-
-	_onMouseDown: function(e){
-		// If user clicks on the button, even if the mouse is released outside of it,
-		// this button should get focus (to mimics native browser buttons).
-		// This is also needed on Chrome because otherwise buttons won't get focus at all,
-		// which leads to bizarre focus restore on Dialog close etc.
-		// FF needs the extra help to make sure the mousedown actually gets to the focusNode
-		if(!this.focused && !e.ctrlKey && mouse.isLeft(e) && this.isFocusable()){ // !e.ctrlKey to ignore right-click on mac
-			// IE exhibits strange scrolling behavior when refocusing a node so only do it when !focused.
-			var focusConnector = this.connect(this.focusNode, "onfocus", function(){
-				this.disconnect(mouseUpConnector); // cancel mouseup focus action since it's already happened
-				this.disconnect(focusConnector);
-			});
-			// Set a global event to handle mouseup, so it fires properly
-			// even if the cursor leaves this.domNode before the mouse up event.
-			var mouseUpConnector = this.connect(win.body(), "onmouseup", function(){
-				this.disconnect(mouseUpConnector);
-				this.disconnect(focusConnector);
-				// if here, then the mousedown did not focus the focusNode as the default action
-				if(this.isFocusable()){
-					this.focus();
-				}
-			});
-		}
 	}
 });
 
