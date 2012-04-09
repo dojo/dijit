@@ -53,6 +53,8 @@ return declare("dijit.Menu", DropDownMenu, {
 	//		CSS expression to apply this Menu to descendants of targetNodeIds, rather than to
 	//		the nodes specified by targetNodeIds themselves.    Useful for applying a Menu to
 	//		a range of rows in a table, tree, etc.
+	//
+	//		The application must require() an appropriate level of dojo/query to handle the selector.
 	selector: "",
 
 	// TODO: in 2.0 remove support for multiple targetNodeIds.   selector gives the same effect.

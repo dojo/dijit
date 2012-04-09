@@ -330,6 +330,8 @@ define([
 		//		the nodes specified by connectIds themselves.    Useful for applying a Tooltip to
 		//		a range of rows in a table, tree, etc.   Use in conjunction with getContent() parameter.
 		//		Ex: connectId: myTable, selector: "tr", getContent: function(node){ return ...; }
+		//
+		//		The application must require() an appropriate level of dojo/query to handle the selector.
 		selector: "",
 
 		// TODO: in 2.0 remove support for multiple connectIds.   selector gives the same effect.
