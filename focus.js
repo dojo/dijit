@@ -189,14 +189,22 @@ define([
 			}
 		},
 
-		_onBlurNode: function(/*DomNode*/ /*===== node =====*/){
+		_onBlurNode: function(/*DomNode*/ node){
 			// summary:
 			// 		Called when focus leaves a node.
 			//		Usually ignored, _unless_ it *isn't* followed by touching another node,
 			//		which indicates that we tabbed off the last field on the page,
 			//		in which case every widget is marked inactive
-			this.set("prevNode", this.curNode);
-			this.set("curNode", null);
+
+			// If the blur event isn't followed by a focus event, it means the user clicked on something unfocusable,
+			// so clear focus.
+			if(this._clearFocusTimer){
+				clearTimeout(this._clearFocusTimer);
+			}
+			this._clearFocusTimer = setTimeout(lang.hitch(this, function(){
+				this.set("prevNode", this.curNode);
+				this.set("curNode", null);
+			}), 0);
 
 			if(this._justMouseDowned){
 				// the mouse down caused a new widget to be marked as active; this blur event
@@ -204,15 +212,14 @@ define([
 				return;
 			}
 
-			// if the blur event isn't followed by a focus event then mark all widgets as inactive.
+			// If the blur event isn't followed by a focus or touch event then mark all widgets as inactive.
 			if(this._clearActiveWidgetsTimer){
 				clearTimeout(this._clearActiveWidgetsTimer);
 			}
 			this._clearActiveWidgetsTimer = setTimeout(lang.hitch(this, function(){
 				delete this._clearActiveWidgetsTimer;
 				this._setStack([]);
-				this.prevNode = null;
-			}), 100);
+			}), 0);
 		},
 
 		_onTouchNode: function(/*DomNode*/ node, /*String*/ by){
@@ -277,9 +284,17 @@ define([
 				return;
 			}
 
+			// There was probably a blur event right before this event, but since we have a new focus, don't
+			// do anything with the blur
+			if(this._clearFocusTimer){
+				clearTimeout(this._clearFocusTimer);
+				delete this._clearFocusTimer;
+			}
+
 			this._onTouchNode(node);
 
 			if(node == this.curNode){ return; }
+			this.set("prevNode", this.curNode);
 			this.set("curNode", node);
 		},
 
@@ -351,7 +366,7 @@ define([
 	});
 
 	// Setup dijit.focus as a pointer to the singleton but also (for backwards compatibility)
-	// as a function to set focus.
+	// as a function to set focus.   Remove for 2.0.
 	dijit.focus = function(node){
 		singleton.focus(node);	// indirection here allows dijit/_base/focus.js to override behavior
 	};
