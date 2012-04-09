@@ -52,9 +52,9 @@ define([
 		// value: String
 		//		Value as an HTML string or plain text string, depending on renderAsHTML flag
 
-		templateString:template,
+		templateString: template,
 
-		postMixInProperties:function(){
+		postMixInProperties: function(){
 			this.inherited(arguments);
 			this.messages = i18n.getLocalization("dijit", "common", this.lang);
 			array.forEach(["buttonSave", "buttonCancel"], function(prop){
@@ -64,7 +64,7 @@ define([
 			}, this);
 		},
 
-		buildRendering:function(){
+		buildRendering: function(){
 			this.inherited(arguments);
 
 			// Create edit widget in place in the template
@@ -99,10 +99,10 @@ define([
 				editStyle += "width:" + (width + (Number(width) == width ? "px" : "")) + ";";
 			}
 			var editorParams = lang.delegate(this.inlineEditBox.editorParams, {
-				style:editStyle,
-				dir:this.dir,
-				lang:this.lang,
-				textDir:this.textDir
+				style: editStyle,
+				dir: this.dir,
+				lang: this.lang,
+				textDir: this.textDir
 			});
 			editorParams[ "displayedValue" in Cls.prototype ? "displayedValue" : "value"] = this.value;
 			this.editWidget = new Cls(editorParams, this.editorPlaceholder);
@@ -114,7 +114,7 @@ define([
 			}
 		},
 
-		postCreate:function(){
+		postCreate: function(){
 			this.inherited(arguments);
 
 			var ew = this.editWidget;
@@ -137,31 +137,31 @@ define([
 			}
 		},
 
-		startup:function(){
+		startup: function(){
 			this.editWidget.startup();
 			this.inherited(arguments);
 		},
 
-		_onIntermediateChange:function(/*===== val =====*/){
+		_onIntermediateChange: function(/*===== val =====*/){
 			// summary:
 			//		Called for editor widgets that support the intermediateChanges=true flag as a way
 			//		to detect when to enable/disabled the save button
 			this.saveButton.set("disabled", (this.getValue() == this._resetValue) || !this.enableSave());
 		},
 
-		destroy:function(){
+		destroy: function(){
 			this.editWidget.destroy(true); // let the parent wrapper widget clean up the DOM
 			this.inherited(arguments);
 		},
 
-		getValue:function(){
+		getValue: function(){
 			// summary:
 			//		Return the [display] value of the edit widget
 			var ew = this.editWidget;
 			return String(ew.get("displayedValue" in ew ? "displayedValue" : "value"));
 		},
 
-		_onKeyPress:function(e){
+		_onKeyPress: function(e){
 			// summary:
 			//		Handler for keypress in the edit box in autoSave mode.
 			// description:
@@ -198,7 +198,7 @@ define([
 			}
 		},
 
-		_onBlur:function(){
+		_onBlur: function(){
 			// summary:
 			//		Called when focus moves outside the editor
 			// tags:
@@ -214,7 +214,7 @@ define([
 			}
 		},
 
-		_onChange:function(){
+		_onChange: function(){
 			// summary:
 			//		Called when the underlying widget fires an onChange event,
 			//		such as when the user selects a value from the drop down list of a ComboBox,
@@ -227,31 +227,33 @@ define([
 			}
 		},
 
-		enableSave:function(){
+		enableSave: function(){
 			// summary:
 			//		User overridable function returning a Boolean to indicate
 			//		if the Save button should be enabled or not - usually due to invalid conditions
 			// tags:
 			//		extension
-			return (
-				this.editWidget.isValid
-					? this.editWidget.isValid()
-					: true
-				);
+			return this.editWidget.isValid ? this.editWidget.isValid() : true;
 		},
 
-		focus:function(){
+		focus: function(){
 			// summary:
 			//		Focus the edit widget.
 			// tags:
 			//		protected
 
 			this.editWidget.focus();
-			this.defer(function(){
-				if(this.editWidget.focusNode && this.editWidget.focusNode.tagName == "INPUT"){
-					_TextBoxMixin.selectInputText(this.editWidget.focusNode);
+
+			if(this.editWidget.focusNode){
+				// IE can take 30ms to report the focus event, but focus manager needs to know before a 0ms timeout.
+				fm._onFocusNode(this.editWidget.focusNode);
+
+				if(this.editWidget.focusNode.tagName == "INPUT"){
+					this.defer(function(){
+						_TextBoxMixin.selectInputText(this.editWidget.focusNode);
+					});
 				}
-			});
+			}
 		}
 	});
 
@@ -277,51 +279,51 @@ define([
 
 		// editing: [readonly] Boolean
 		//		Is the node currently in edit mode?
-		editing:false,
+		editing: false,
 
 		// autoSave: Boolean
 		//		Changing the value automatically saves it; don't have to push save button
 		//		(and save button isn't even displayed)
-		autoSave:true,
+		autoSave: true,
 
 		// buttonSave: String
 		//		Save button label
-		buttonSave:"",
+		buttonSave: "",
 
 		// buttonCancel: String
 		//		Cancel button label
-		buttonCancel:"",
+		buttonCancel: "",
 
 		// renderAsHtml: Boolean
 		//		Set this to true if the specified Editor's value should be interpreted as HTML
 		//		rather than plain text (ex: `dijit.Editor`)
-		renderAsHtml:false,
+		renderAsHtml: false,
 
 		// editor: String|Function
 		//		MID (ex: "dijit/form/TextBox") or constructor for editor widget
-		editor:TextBox,
+		editor: TextBox,
 
 		// editorWrapper: String|Function
 		//		Class name (or reference to the Class) for widget that wraps the editor widget, displaying save/cancel
 		//		buttons.
-		editorWrapper:InlineEditor,
+		editorWrapper: InlineEditor,
 
 		// editorParams: Object
 		//		Set of parameters for editor, like {required: true}
-		editorParams:{},
+		editorParams: {},
 
 		// disabled: Boolean
 		//		If true, clicking the InlineEditBox to edit it will have no effect.
-		disabled:false,
+		disabled: false,
 
-		onChange:function(/*===== value =====*/){
+		onChange: function(/*===== value =====*/){
 			// summary:
 			//		Set this handler to be notified of changes to value.
 			// tags:
 			//		callback
 		},
 
-		onCancel:function(){
+		onCancel: function(){
 			// summary:
 			//		Set this handler to be notified when editing is cancelled.
 			// tags:
@@ -330,19 +332,19 @@ define([
 
 		// width: String
 		//		Width of editor.  By default it's width=100% (ie, block mode).
-		width:"100%",
+		width: "100%",
 
 		// value: String
 		//		The display value of the widget in read-only mode
-		value:"",
+		value: "",
 
 		// noValueIndicator: [const] String
 		//		The text that gets displayed when there is no value (so that the user has a place to click to edit)
-		noValueIndicator:has("ie") <= 6 ? // font-family needed on IE6 but it messes up IE8
+		noValueIndicator: has("ie") <= 6 ? // font-family needed on IE6 but it messes up IE8
 			"<span style='font-family: wingdings; text-decoration: underline;'>&#160;&#160;&#160;&#160;&#x270d;&#160;&#160;&#160;&#160;</span>" :
 			"<span style='text-decoration: underline;'>&#160;&#160;&#160;&#160;&#x270d;&#160;&#160;&#160;&#160;</span>", // &#160; == &nbsp;
 
-		constructor:function(){
+		constructor: function(){
 			// summary:
 			//		Sets up private arrays etc.
 			// tags:
@@ -350,7 +352,7 @@ define([
 			this.editorParams = {};
 		},
 
-		postMixInProperties:function(){
+		postMixInProperties: function(){
 			this.inherited(arguments);
 
 			// save pointer to original source node, since Widget nulls-out srcNodeRef
@@ -358,11 +360,11 @@ define([
 
 			// connect handlers to the display node
 			var events = {
-				ondijitclick:"_onClick",
-				onmouseover:"_onMouseOver",
-				onmouseout:"_onMouseOut",
-				onfocus:"_onMouseOver",
-				onblur:"_onMouseOut"
+				ondijitclick: "_onClick",
+				onmouseover: "_onMouseOver",
+				onmouseout: "_onMouseOut",
+				onfocus: "_onMouseOver",
+				onblur: "_onMouseOut"
 			};
 			for(var name in events){
 				this.connect(this.displayNode, name, events[name]);
@@ -383,7 +385,7 @@ define([
 			domClass.add(this.displayNode, 'dijitInlineEditBoxDisplayMode');
 		},
 
-		setDisabled:function(/*Boolean*/ disabled){
+		setDisabled: function(/*Boolean*/ disabled){
 			// summary:
 			//		Deprecated.   Use set('disabled', ...) instead.
 			// tags:
@@ -392,7 +394,7 @@ define([
 			this.set('disabled', disabled);
 		},
 
-		_setDisabledAttr:function(/*Boolean*/ disabled){
+		_setDisabledAttr: function(/*Boolean*/ disabled){
 			// summary:
 			//		Hook to make set("disabled", ...) work.
 			//		Set disabled state of widget.
@@ -406,7 +408,7 @@ define([
 			this._set("disabled", disabled);
 		},
 
-		_onMouseOver:function(){
+		_onMouseOver: function(){
 			// summary:
 			//		Handler for onmouseover and onfocus event.
 			// tags:
@@ -416,7 +418,7 @@ define([
 			}
 		},
 
-		_onMouseOut:function(){
+		_onMouseOut: function(){
 			// summary:
 			//		Handler for onmouseout and onblur event.
 			// tags:
@@ -424,7 +426,7 @@ define([
 			domClass.remove(this.displayNode, "dijitInlineEditBoxDisplayModeHover");
 		},
 
-		_onClick:function(/*Event*/ e){
+		_onClick: function(/*Event*/ e){
 			// summary:
 			//		Handler for onclick event.
 			// tags:
@@ -441,7 +443,7 @@ define([
 			this.defer("edit");
 		},
 
-		edit:function(){
+		edit: function(){
 			// summary:
 			//		Display the editor widget in place of the original (read only) markup.
 			// tags:
@@ -467,18 +469,18 @@ define([
 				// Create the editor wrapper (the thing that holds the editor widget and the save/cancel buttons)
 				var Ewc = typeof this.editorWrapper == "string" ? lang.getObject(this.editorWrapper) : this.editorWrapper;
 				this.wrapperWidget = new Ewc({
-					value:this.value,
-					buttonSave:this.buttonSave,
-					buttonCancel:this.buttonCancel,
-					dir:this.dir,
-					lang:this.lang,
-					tabIndex:this._savedTabIndex,
-					editor:this.editor,
-					inlineEditBox:this,
-					sourceStyle:domStyle.getComputedStyle(this.displayNode),
-					save:lang.hitch(this, "save"),
-					cancel:lang.hitch(this, "cancel"),
-					textDir:this.textDir
+					value: this.value,
+					buttonSave: this.buttonSave,
+					buttonCancel: this.buttonCancel,
+					dir: this.dir,
+					lang: this.lang,
+					tabIndex: this._savedTabIndex,
+					editor: this.editor,
+					inlineEditBox: this,
+					sourceStyle: domStyle.getComputedStyle(this.displayNode),
+					save: lang.hitch(this, "save"),
+					cancel: lang.hitch(this, "cancel"),
+					textDir: this.textDir
 				}, placeholder);
 				if(!this.wrapperWidget._started){
 					this.wrapperWidget.startup();
@@ -489,15 +491,15 @@ define([
 			}
 			var ww = this.wrapperWidget;
 
-			// to avoid screen jitter, we first create the editor with position:absolute, visibility:hidden,
+			// to avoid screen jitter, we first create the editor with position: absolute, visibility: hidden,
 			// and then when it's finished rendering, we switch from display mode to editor
-			// position:absolute releases screen space allocated to the display node
-			// opacity:0 is the same as visibility:hidden but is still focusable
-			// visibility:hidden removes focus outline
+			// position: absolute releases screen space allocated to the display node
+			// opacity:0 is the same as visibility: hidden but is still focusable
+			// visibility: hidden removes focus outline
 
 			domClass.add(this.displayNode, "dijitOffScreen");
 			domClass.remove(ww.domNode, "dijitOffScreen");
-			domStyle.set(ww.domNode, { visibility:"visible" });
+			domStyle.set(ww.domNode, { visibility: "visible" });
 			domAttr.set(this.displayNode, "tabIndex", "-1"); // needed by WebKit for TAB from editor to skip displayNode
 
 			// After edit widget has finished initializing (in particular need to wait for dijit.Editor),
@@ -513,7 +515,7 @@ define([
 			}));
 		},
 
-		_onBlur:function(){
+		_onBlur: function(){
 			// summary:
 			//		Called when focus moves outside the InlineEditBox.
 			//		Performs garbage collection.
@@ -533,7 +535,7 @@ define([
 			}
 		},
 
-		destroy:function(){
+		destroy: function(){
 			if(this.wrapperWidget && !this.wrapperWidget._destroyed){
 				this.wrapperWidget.destroy();
 				delete this.wrapperWidget;
@@ -541,14 +543,14 @@ define([
 			this.inherited(arguments);
 		},
 
-		_showText:function(/*Boolean*/ focus){
+		_showText: function(/*Boolean*/ focus){
 			// summary:
 			//		Revert to display mode, and optionally focus on display node
 			// tags:
 			//		private
 
 			var ww = this.wrapperWidget;
-			domStyle.set(ww.domNode, { visibility:"hidden" }); // hide the editor from mouse/keyboard events
+			domStyle.set(ww.domNode, { visibility: "hidden" }); // hide the editor from mouse/keyboard events
 			domClass.add(ww.domNode, "dijitOffScreen");
 			domClass.remove(this.displayNode, "dijitOffScreen");
 			domAttr.set(this.displayNode, "tabIndex", this._savedTabIndex);
@@ -557,7 +559,7 @@ define([
 			}
 		},
 
-		save:function(/*Boolean*/ focus){
+		save: function(/*Boolean*/ focus){
 			// summary:
 			//		Save the contents of the editor and revert to display mode.
 			// focus: Boolean
@@ -577,7 +579,7 @@ define([
 			this._showText(focus); // set focus as needed
 		},
 
-		setValue:function(/*String*/ val){
+		setValue: function(/*String*/ val){
 			// summary:
 			//		Deprecated.   Use set('value', ...) instead.
 			// tags:
@@ -586,7 +588,7 @@ define([
 			return this.set("value", val);
 		},
 
-		_setValueAttr:function(/*String*/ val){
+		_setValueAttr: function(/*String*/ val){
 			// summary:
 			//		Hook to make set("value", ...) work.
 			//		Inserts specified HTML value into this node, or an "input needed" character if node is blank.
@@ -608,7 +610,7 @@ define([
 			}
 		},
 
-		getValue:function(){
+		getValue: function(){
 			// summary:
 			//		Deprecated.   Use get('value') instead.
 			// tags:
@@ -617,7 +619,7 @@ define([
 			return this.get("value");
 		},
 
-		cancel:function(/*Boolean*/ focus){
+		cancel: function(/*Boolean*/ focus){
 			// summary:
 			//		Revert to display mode, discarding any changes made in the editor
 			// tags:
@@ -634,7 +636,7 @@ define([
 			this._showText(focus);
 		},
 
-		_setTextDirAttr:function(/*String*/ textDir){
+		_setTextDirAttr: function(/*String*/ textDir){
 			// summary:
 			//		Setter for textDir.
 			// description:

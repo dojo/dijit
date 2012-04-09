@@ -51,15 +51,23 @@
 								focusedWatchLog[w.id] = !focusedWatchLog[w.id] ? nvs : focusedWatchLog[w.id] + ", " + nvs;
 							});
 						});
+
+						// And there's also a curNode attribute that you can watch
+						focus.watch("curNode", function(name, oldValue, newValue){
+							curNodeWatchLog.push(newValue ? newValue.id || newValue.tagName : "null")
+						});
 					}
 				]);
 
-				// These are objects used to track calls to _onFocus and _onBlur in various widgets
 				function resetEvents(){
+					// These are objects used to track calls to _onFocus and _onBlur in various widgets
 					focusEvents = {};
 					blurEvents = {};
 					focusedState = {};
 					focusedWatchLog = {};
+
+					// This tracks watch("curNode")
+					curNodeWatchLog = [];
 				}
 				resetEvents();
 
@@ -79,6 +87,7 @@
 							setTimeout(d.getTestCallback(function(){
 								// Make sure that focus manager caught the focus event
 								doh.is(dom.byId("first"), focus.curNode);
+								doh.is("first", curNodeWatchLog.join(", "), "curNodeWatchLog");
 
 								// And that the dijit.form.Form widget is marked as
 								// being "in focus"
@@ -86,6 +95,31 @@
 								
 								// And that it got one watch event
 								doh.is("focused", focusedWatchLog["form"], "watch callback");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "focus another simple input",
+						timeout: 4000,
+						setUp: function(){
+							resetEvents();
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// Focus the simple input
+							dom.byId("second").focus();
+
+							setTimeout(d.getTestCallback(function(){
+								// Make sure that focus manager caught the focus event
+								doh.is(dom.byId("second"), focus.curNode);
+								doh.is("second", curNodeWatchLog.join(", "), "curNodeWatchLog");
+
+								// Since the dijit.form.Form widget didn't leave the focus chain it
+								// shouldn't have any more events (since the resetEvents() call in setUp() above)
+								doh.f("form" in focusEvents, "form no new focus event");
 							}), 500);
 
 							return d;
@@ -272,7 +306,8 @@
 		<label>a form ContentPane widget:</label><br>
 		<form id="form" data-dojo-type="dijit/layout/ContentPane" >
 			<label for="first">simple input: </label><input id="first"/><br>
-	
+			<label for="second">another simple input: </label><input id="second"/><br>
+
 			<label>a fieldset ContentPane widget:</label><br>
 			<fieldset id=fieldset1 data-dojo-type="dijit/layout/ContentPane">
 				<label for="select">a ComboBox widget:</label>

@@ -199,7 +199,10 @@
 							doh.robot.mouseClick({left: true}, 1000);
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(dijit.byId("SelfDestructDlg"), "dialog destroyed");
-								doh.f(dojo.global.dijit.focus.curNode, "focus cleared");
+
+								var curNode = dojo.global.dijit.focus.curNode;
+								doh.f(curNode, "focus should have been cleared, but set to " +
+										curNode + (curNode && curNode.tagName) + (curNode && curNode.id));
 							}), 1000);
 
 							return d;
@@ -236,7 +239,10 @@
 							doh.robot.mouseClick({left: true}, 1000);
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(dijit.byId("SelfDestructDlg"), "dialog destroyed");
-								doh.f(dojo.global.dijit.focus.curNode, "focus cleared");
+
+								var curNode = dojo.global.dijit.focus.curNode;
+								doh.f(curNode, "focus should have been cleared, but set to " +
+										curNode + (curNode && curNode.tagName) + (curNode && curNode.id));
 							}), 1000);
 
 							return d;
