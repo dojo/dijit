@@ -18,7 +18,7 @@
 			dojo.ready(function(){
 				doh.robot.initRobot('../test_Menu.html');
 
-				doh.register("dijit.MenuBar general keyboard tests",[
+				doh.register("dijit.MenuBar general keyboard tests", [
 					{
 						name: "start focus on the link, outside of menubar",
 						timeout: 5000,
@@ -32,7 +32,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(dojo.global.dijit.focus.curNode, "something has focus");
-								doh.is("random link", dojo.global.dijit.focus.curNode.innerHTML, "check that focus is on the link");
+								doh.is("random link", dojo.global.dijit.focus.curNode.innerHTML, "focus on the link");
 							}), 1000);
 
 							return d;
@@ -49,8 +49,7 @@
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("File", dojo.trim(dojo.global.dijit.focus.curNode.innerText || dojo.global.dijit.focus.curNode.textContent),
-										"check that focus is on File menu");
+								doh.is("File", innerText(dojo.global.dijit.focus.curNode), "focus on File menu");
 							}), 1000);
 
 							return d;
@@ -66,8 +65,7 @@
 							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});		// TODO: use left arrow in RTL mode
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("Edit", dojo.trim(dojo.global.dijit.focus.curNode.innerText || dojo.global.dijit.focus.curNode.textContent),
-										"check that focus is on Edit MenuItem");
+								doh.is("Edit", innerText(dojo.global.dijit.focus.curNode), "focus on Edit MenuItem");
 							}), 1000);
 
 							return d;
@@ -83,8 +81,8 @@
 							doh.robot.keyPress(dojo.keys.TAB, 500, {shift:true});
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("random link", dojo.trim(dojo.global.dijit.focus.curNode.innerText || dojo.global.dijit.focus.curNode.textContent),
-										"check that focus is back on the link");
+								doh.is("random link", innerText(dojo.global.dijit.focus.curNode),
+										"focus back on the link");
 							}), 1000);
 
 							return d;
@@ -109,8 +107,8 @@
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.t((dojo.global.dijit.focus.curNode.innerText || dojo.global.dijit.focus.curNode.textContent).indexOf("New") >= 0,
-										"check that focus is on New menu item of the File menu (indirectly checks that menu is visible)");
+								doh.is("New", innerText(dojo.global.dijit.focus.curNode).substr(0, 3),
+										"focus on New menu item of the File menu (indirectly checks that menu is visible)");
 							}), 1000);
 
 							return d;
@@ -167,8 +165,7 @@
 							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.t( (dojo.global.dijit.focus.curNode.innerText || dojo.global.dijit.focus.curNode.textContent).indexOf("50%") >= 0,
-										"check that focus is on '50%'");
+								doh.is("50%", innerText(dojo.global.dijit.focus.curNode).substr(0, 3), "focus on '50%'");
 								doh.robot.keyPress(dojo.keys.ENTER, 0, {}, true); // close popup menus
 							}), 1000, 500);
 
@@ -178,7 +175,7 @@
 				]);
 
 				// Using left-arrow to back up (#10437)
-				doh.register("dijit.MenuBar left arrow tests",[
+				doh.register("dijit.MenuBar left arrow tests", [
 					{
 						name: "start focus on the link, outside of menubar",
 						timeout: 5000,
@@ -192,7 +189,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(dojo.global.dijit.focus.curNode, "something has focus");
-								doh.is("random link", dojo.global.dijit.focus.curNode.innerHTML, "check that focus is on the link");
+								doh.is("random link", dojo.global.dijit.focus.curNode.innerHTML, "focus on the link");
 							}), 1000);
 
 							return d;
@@ -210,7 +207,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("File", dijit.getEnclosingWidget(dojo.global.dijit.focus.curNode).label,
-										"check that focus is on File MenuItem");
+										"focus on File MenuItem");
 							}), 1000);
 
 							return d;
@@ -227,8 +224,8 @@
 							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});		// TODO: use left arrow in RTL mode
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("View", dojo.trim(dojo.global.dijit.focus.curNode.innerText || dojo.global.dijit.focus.curNode.textContent),
-										"check that focus is on View MenuItem");
+								doh.is("View", innerText(dojo.global.dijit.focus.curNode),
+										"focus on View MenuItem");
 							}), 1000);
 
 							return d;
@@ -247,7 +244,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("Zoom", dijit.getEnclosingWidget(dojo.global.dijit.focus.curNode).label,
-										"check that focus is on Zoom MenuItem");
+										"focus on Zoom MenuItem");
 							}), 1000);
 
 							return d;
@@ -264,7 +261,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("50%", dijit.getEnclosingWidget(dojo.global.dijit.focus.curNode).label,
-										"check that focus is on Zoom MenuItem");
+										"focus on Zoom MenuItem");
 							}), 1000);
 
 							return d;
@@ -281,7 +278,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("Zoom", dijit.getEnclosingWidget(dojo.global.dijit.focus.curNode).label,
-										"check that focus is on Zoom MenuItem");
+										"focus on Zoom MenuItem");
 										
 								doh.is(0, dojo.query("#zoomMenu .dijitMenuItemSelected").length,
 									"dijitMenuItemSelected removed from Zoom Menu")
@@ -303,7 +300,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("Cut", dijit.getEnclosingWidget(dojo.global.dijit.focus.curNode).label,
-										"check that focus is on first MenuItem in Edit Menu");
+										"focus on first MenuItem in Edit Menu");
 
 								doh.is(0, dojo.query("#viewMenu .dijitMenuItemSelected").length,
 									"dijitMenuItemSelected removed from View Menu")
@@ -314,7 +311,7 @@
 					}
 				]);
 
-				doh.register("dijit.MenuBar nested click focus test",[
+				doh.register("dijit.MenuBar nested click focus test", [
 					{
 						name: "start focus on the link, outside of menubar",
 						timeout: 5000,
@@ -328,7 +325,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(dojo.global.dijit.focus.curNode, "something has focus");
-								doh.is("random link", dojo.global.dijit.focus.curNode.innerHTML, "check that focus is on the link");
+								doh.is("random link", dojo.global.dijit.focus.curNode.innerHTML, "focus on the link");
 							}), 1000);
 
 							return d;
@@ -346,7 +343,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("File", dijit.getEnclosingWidget(dojo.global.dijit.focus.curNode).label,
-										"check that focus is on File MenuItem");
+										"focus on File MenuItem");
 							}), 1000);
 
 							return d;
@@ -363,8 +360,7 @@
 							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});		// TODO: use left arrow in RTL mode
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("View", dojo.trim(dojo.global.dijit.focus.curNode.innerText || dojo.global.dijit.focus.curNode.textContent),
-										"check that focus is on View MenuItem");
+								doh.is("View", innerText(dojo.global.dijit.focus.curNode), "focus on View MenuItem");
 							}), 1000);
 
 							return d;
@@ -383,7 +379,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("Zoom", dijit.getEnclosingWidget(dojo.global.dijit.focus.curNode).label,
-										"check that focus is on Zoom MenuItem");
+										"focus on Zoom MenuItem");
 							}), 1000);
 
 							return d;
@@ -400,7 +396,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("50%", dijit.getEnclosingWidget(dojo.global.dijit.focus.curNode).label,
-										"check that focus is on Zoom MenuItem");
+										"focus on Zoom MenuItem");
 							}), 1000);
 
 							return d;
@@ -419,8 +415,89 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("View", dijit.getEnclosingWidget(dojo.global.dijit.focus.curNode).label,
-										"check that focus is on first View item in MenuBar");
+										"focus on first View item in MenuBar");
 							}), 1000);
+
+							return d;
+						}
+					}
+				]);
+
+				doh.register("dijit.MenuBar MenuBarItem tests", [
+					{
+						name: "navigate to MenuBarItem",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// Start at the link
+							doh.robot.sequence(function(){
+								dijit.focus(dojo.byId("link"));
+							}, 500, 500);
+
+							// tab to the MenuBar... then focus should automatically shift to "File" menu,
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+
+							// arrow six times gets to "Click me!"
+							for(var i=0; i<6; i++){
+								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});		// TODO: use left arrow in RTL mode
+							}
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("Click me!", innerText(dojo.global.dijit.focus.curNode),
+										"focus on MenuBarItem");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "down arrow",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// down arrow... should have no effect since there's no menu
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("Click me!", innerText(dojo.global.dijit.focus.curNode),
+										"focus is still on MenuBarItem");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "click",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var clicked;
+							dojo.global.noPopupMenuBarItem.on("click", function(){ clicked = true; });
+
+							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(clicked, "clicked");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "right arrow",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// right arrow show go back to File menu
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("File", innerText(dojo.global.dijit.focus.curNode), "focus moved to File menu");
+							}), 500);
 
 							return d;
 						}

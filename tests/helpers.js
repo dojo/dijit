@@ -36,7 +36,7 @@ isHidden: function isHidden(/*dijit._WidgetBase || DomNode*/ node){
 innerText: function innerText(/*DomNode*/ node){
 	// summary:
 	//		Browser portable function to get the innerText of specified DOMNode
-	return node.textContent || node.innerText || "";
+	return lang.trim(node.textContent || node.innerText || "");
 },
 
 tabOrder: function tabOrder(/*DomNode?*/ root){

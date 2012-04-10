@@ -39,6 +39,18 @@ return declare("dijit.MenuBar", _MenuBase, {
 		this._orient = ["below"];
 	},
 
+	_moveToPopup: function(/*Event*/ evt){
+		// summary:
+		//		This handles the down arrow key, opening a submenu if one exists.
+		//		Unlike _MenuBase._moveToPopup(), will never move to the next item in the MenuBar.
+		// tags:
+		//		private
+
+		if(this.focusedChild && this.focusedChild.popup && !this.focusedChild.disabled){
+			this.onItemClick(this.focusedChild, evt);
+		}
+	},
+
 	focusChild: function(item){
 		// overload focusChild so that whenever the focus is moved to a new item,
 		// check the previous focused whether it has its popup open, if so, after
