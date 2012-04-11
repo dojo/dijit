@@ -14,6 +14,7 @@ define([
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/keys",	// arrows etc.
 	"dojo/_base/lang", // lang.getObject lang.mixin lang.hitch
+	"dojo/on",
 	"dojo/topic",
 	"./focus",
 	"./registry",	// registry.getEnclosingWidget(), manager.defaultDuration
@@ -29,7 +30,7 @@ define([
 	"./tree/ForestStoreModel",
 	"./tree/_dndSelector"
 ], function(array, connect, cookie, declare, Deferred, DeferredList,
-			dom, domClass, domGeometry, domStyle, event, fxUtils, kernel, keys, lang, topic,
+			dom, domClass, domGeometry, domStyle, event, fxUtils, kernel, keys, lang, on, topic,
 			focus, registry, manager, _Widget, _TemplatedMixin, _Container, _Contained, _CssStateMixin,
 			treeNodeTemplate, treeTemplate, TreeStoreModel, ForestStoreModel, _dndSelector){
 
@@ -738,6 +739,17 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 	postCreate: function(){
 		this._initState();
 
+		// Catch events on TreeNodes
+		var self = this;
+		this._connects.push(
+			on(this.domNode, on.selector(".dijitTreeNode", "keypress"), function(evt){
+				self._onKeyPress(registry.byNode(this), evt);
+			}),
+			on(this.domNode, on.selector(".dijitTreeNode", "keydown"), function(evt){
+				self._onKeyDown(registry.byNode(this), evt);
+			})
+		);
+
 		// Create glue between store and Tree, if not specified directly by user
 		if(!this.model){
 			this._store2model();
@@ -1070,21 +1082,50 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 
 	/////////// Keyboard and Mouse handlers ////////////////////
 
-	_onKeyPress: function(/*Event*/ e){
+	_onKeyPress: function(/*dijit.TreeNode*/ treeNode, /*Event*/ e){
 		// summary:
-		//		Translates keypress events into commands for the controller
-		if(e.altKey){ return; }
-		var treeNode = registry.getEnclosingWidget(e.target);
-		if(!treeNode){ return; }
+		//		Handles keystrokes for printable keys, doing search navigation
 
-		var key = e.charOrCode;
-		if(typeof key == "string" && key != " "){	// handle printables (letter navigation)
-			// Check for key navigation.
-			if(!e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey){
-				this._onLetterKeyNav( { node: treeNode, key: key.toLowerCase() } );
-				event.stop(e);
-			}
-		}else{	// handle non-printables (arrow keys)
+		if(e.charCode <= 32){
+			// Avoid duplicate events on firefox (this is an arrow key that will be handled by keydown handler)
+			return;
+		}
+
+		var char = String.fromCharCode(e.charCode);
+
+		// Check for key navigation.
+		if(!e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey){
+			this._onLetterKeyNav( { node: treeNode, key: char.toLowerCase() } );
+			event.stop(e);
+		}
+	},
+
+	_onKeyDown: function(/*dijit.TreeNode*/ treeNode, /*Event*/ e){
+		// summary:
+		//		Handles arrow, space, and enter keys
+
+		var key = e.keyCode;
+
+		var map = this._keyHandlerMap;
+		if(!map){
+			// setup table mapping keys to events
+			map = {};
+			map[keys.ENTER]="_onEnterKey";
+			//On WebKit based browsers, the combination ctrl-enter
+			//does not get passed through. To allow accessible
+			//multi-select on those browsers, the space key is
+			//also used for selection.
+			map[keys.SPACE]= map[" "] = "_onEnterKey";
+			map[this.isLeftToRight() ? keys.LEFT_ARROW : keys.RIGHT_ARROW]="_onLeftArrow";
+			map[this.isLeftToRight() ? keys.RIGHT_ARROW : keys.LEFT_ARROW]="_onRightArrow";
+			map[keys.UP_ARROW]="_onUpArrow";
+			map[keys.DOWN_ARROW]="_onDownArrow";
+			map[keys.HOME]="_onHomeKey";
+			map[keys.END]="_onEndKey";
+			this._keyHandlerMap = map;
+		}
+
+		if(this._keyHandlerMap[key]){
 			// clear record of recent printables (being saved for multi-char letter navigation),
 			// because "a", down-arrow, "b" shouldn't search for "ab"
 			if(this._curSearch){
@@ -1092,28 +1133,8 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 				delete this._curSearch;
 			}
 
-			var map = this._keyHandlerMap;
-			if(!map){
-				// setup table mapping keys to events
-				map = {};
-				map[keys.ENTER]="_onEnterKey";
-				//On WebKit based browsers, the combination ctrl-enter
-				//does not get passed through. To allow accessible
-				//multi-select on those browsers, the space key is
-				//also used for selection.
-				map[keys.SPACE]= map[" "] = "_onEnterKey";
-				map[this.isLeftToRight() ? keys.LEFT_ARROW : keys.RIGHT_ARROW]="_onLeftArrow";
-				map[this.isLeftToRight() ? keys.RIGHT_ARROW : keys.LEFT_ARROW]="_onRightArrow";
-				map[keys.UP_ARROW]="_onUpArrow";
-				map[keys.DOWN_ARROW]="_onDownArrow";
-				map[keys.HOME]="_onHomeKey";
-				map[keys.END]="_onEndKey";
-				this._keyHandlerMap = map;
-			}
-			if(this._keyHandlerMap[key]){
-				this[this._keyHandlerMap[key]]( { node: treeNode, item: treeNode.item, evt: e } );
-				event.stop(e);
-			}
+			this[this._keyHandlerMap[key]]( { node: treeNode, item: treeNode.item, evt: e } );
+			event.stop(e);
 		}
 	},
 
