@@ -525,24 +525,20 @@ return declare("dijit.layout.ContentPane", [_Widget, _Container, _ContentPaneRes
 			// setter params must be pulled afresh from the ContentPane each time
 		delete this._contentSetterParams;
 	
-		if(this.doLayout){
-			this._checkIfSingleChild();
-			}
-	
-			if(!isFakeContent){
+		if(!isFakeContent){
 			if(this._started){
 					// Startup each top level child widget (and they will start their children, recursively)
 				delete this._started;
 				this.startup();
-	
-					// Call resize() on each of my child layout widgets,
-					// or resize() on my single child layout widget...
-					// either now (if I'm currently visible) or when I become visible
+
+				// Call resize() on each of my child layout widgets,
+				// or resize() on my single child layout widget...
+				// either now (if I'm currently visible) or when I become visible
 				this._scheduleLayout();
-				}
-	
-			this._onLoadHandler(cont);
 			}
+
+			this._onLoadHandler(cont);
+		}
 	},
 
 	_onError: function(type, err, consoleText){

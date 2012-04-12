@@ -4,6 +4,7 @@ define([
 	"dojo/dom-attr",	// domAttr.has
 	"dojo/dom-class",	// domClass.contains domClass.toggle
 	"dojo/dom-geometry",// domGeometry.contentBox domGeometry.marginBox
+	"dojo/dom-style",
 	"dojo/_base/lang", // lang.mixin
 	"dojo/query", // query
 	"dojo/sniff", // has("ie")
@@ -11,7 +12,7 @@ define([
 	"../registry",	// registry.byId
 	"../Viewport",
 	"./utils"	// marginBox2contextBox
-], function(array, declare, domAttr, domClass, domGeometry, lang, query, has, win,
+], function(array, declare, domAttr, domClass, domGeometry, domStyle, lang, query, has, win,
 			registry, Viewport, layoutUtils){
 
 // module:
@@ -80,27 +81,20 @@ return declare("dijit.layout._ContentPaneResizeMixin", null, {
 		//		and should propagate startup() and resize() calls to it.
 		//		Skips over things like data stores since they aren't visible.
 
-		var childNodes = query("> *", this.containerNode).filter(function(node){
-				return node.tagName !== "SCRIPT"; // or a regexp for hidden elements like script|area|map|etc..
-			}),
-			childWidgetNodes = childNodes.filter(function(node){
-				return domAttr.has(node, "data-dojo-type") || domAttr.has(node, "dojoType") || domAttr.has(node, "widgetId");
-			}),
-			candidateWidgets = array.filter(childWidgetNodes.map(registry.byNode), function(widget){
-				return widget && widget.domNode && widget.resize;
-			});
+		var candidateWidgets = [],
+			otherVisibleNodes = false;
 
-		if(
-			// all child nodes are widgets
-			childNodes.length == childWidgetNodes.length &&
+		query("> *", this.containerNode).some(function(node){
+			var widget = registry.byNode(node);
+			if(widget && widget.resize){
+				candidateWidgets.push(widget);
+			}else if(node.offsetHeight){
+				otherVisibleNodes = true;
+			}
+		});
 
-			// all but one are invisible (like dojo.data)
-			candidateWidgets.length == 1
-		){
-			this._singleChild = candidateWidgets[0];
-		}else{
-			delete this._singleChild;
-		}
+		this._singleChild = candidateWidgets.length == 1 && !otherVisibleNodes ?
+			candidateWidgets[0] : null;
 
 		// So we can set overflow: hidden to avoid a safari bug w/scrollbars showing up (#9449)
 		domClass.toggle(this.containerNode, this.baseClass + "SingleChild", !!this._singleChild);

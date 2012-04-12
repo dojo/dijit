@@ -186,6 +186,7 @@
 			// Tests for doLayout parameter.
 			// When this parameter is true, the single ContentPane child is resized
 			// to match the size of the ContentPane.
+			// See also ContentPaneLayout.html.
 			var pane5;
 			doh.registerGroup("doLayout",
 				[
@@ -194,8 +195,8 @@
 						setUp: function(t){
 							pane5 = new dijit.layout.ContentPane({
 								content:"<div data-dojo-type='dijit/layout/StackContainer'></div>"
-							}, dojo.byId("pane5"));
-							console.log(pane5);
+							}).placeAt(dojo.body());
+							pane5.startup();
 						},
 						runTest: function(t){
 							// since there's just a single child it should be marked
@@ -213,7 +214,8 @@
 								content:
 									"<div data-dojo-type='dijit/layout/StackContainer'></div>",
 								doLayout: false
-							}, dojo.byId("pane5"));
+							}).placeAt(dojo.body());
+							pane5.startup();
 						},
 						runTest: function(t){
 							// since doLayout=false shouldn't try to resize child
@@ -230,7 +232,8 @@
 								content:
 									"<span>hello world</span>" +
 									"<div data-dojo-type='dijit/layout/StackContainer'></div>"
-							}, dojo.byId("pane5"));
+							}).placeAt(dojo.body());
+							pane5.startup();
 						},
 						runTest: function(t){
 							// since there's plain HTML along with the widget, ContentPane shouldn't try to adjust
@@ -248,7 +251,8 @@
 								content:
 									"<div data-dojo-type='dijit/layout/StackContainer'></div>" +
 									"<div data-dojo-type='dijit/layout/StackContainer'></div>"
-							}, dojo.byId("pane5"));
+							}).placeAt(dojo.body());
+							pane5.startup();
 						},
 						runTest: function(t){
 							// since there are multiple children, neither should be marked
@@ -266,7 +270,8 @@
 								content:
 									"<div data-dojo-type='dojo/data/ItemFileReadStore' data-dojo-id='dd'></div>" +
 									"<div data-dojo-type='dijit/layout/StackContainer' id='sc'></div>"
-							}, dojo.byId("pane5"));
+							}).placeAt(dojo.body());
+							pane5.startup();
 						},
 						runTest: function(t){
 							// there are two children but one is invisible, so the other should be marked
@@ -286,7 +291,8 @@
 								content:
 									"<scri" + "pt></scri" + "pt>" +
 									"<div data-dojo-type='dijit/layout/StackContainer' id='sc'></div>"
-							}, dojo.byId("pane5"));
+							}).placeAt(dojo.body());
+							pane5.startup();
 						},
 						runTest: function(t){
 							// script tag should be ignored, should be detected as single child
@@ -524,7 +530,6 @@
 		<div id="2_three" data-dojo-type="dijit/_Widget"></div>
 	</div>
 	<br/><br/>
-	<div id="pane5"></div>
 
 	<!-- for container tests -->
 	<div id="container" data-dojo-type="dijit/layout/ContentPane">

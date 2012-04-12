@@ -20,6 +20,7 @@
 	<script type="text/javascript">
 		dojo.require("doh.runner");
 		dojo.require("dojo.parser");
+		dojo.require("dojo.store.Memory");
 
 		dojo.require("dijit._Widget");
 		dojo.require("dijit._TemplatedMixin");
@@ -271,6 +272,37 @@
 							doh.is(0, child1._resizeArgs && child1._resizeArgs.length, "no size specified for child1");
 							doh.t(child2._resized, "got resize event for child2");
 							doh.is(0, child2._resizeArgs && child2._resizeArgs.length, "no size specified for child2")
+						}
+					},
+
+					{
+						name: "single resizable widget, plus invisible widget",
+						runTest: function(t){
+							var child = dijit.byId("fss2_rc");
+							doh.t(child._resized, "got resize event for child");
+							doh.is(1, child._resizeArgs && child._resizeArgs.length, "size specified");
+							doh.is("fss2_rc", dijit.byId("fss2")._singleChild.id, "the resizable child memoed")
+						}
+					},
+					
+					{
+						name: "multiple resizable widgets in form with size",
+						runTest: function(t){
+							var child1 = dijit.byId("fsmc1"),
+								child2 = dijit.byId("fsmc2");
+
+							doh.t(child1._resized, "got resize event for child1");
+							doh.is(0, child1._resizeArgs && child1._resizeArgs.length, "no size specified for child1");
+							doh.t(child2._resized, "got resize event for child2");
+							doh.is(0, child2._resizeArgs && child2._resizeArgs.length, "no size specified for child2");
+						}
+					},
+					{
+						name: "single resizable widget, single non-resizable (but visible) widget",
+						runTest: function(t){
+							var child = dijit.byId("fsm2_rc");
+							doh.t(child._resized, "got resize event for child");
+							doh.is(0, child._resizeArgs && child._resizeArgs.length, "no size specified for child");
 						}
 					},
 
@@ -716,13 +748,17 @@
 	</div>
 
 	
-	<h2>Size on Form, single nested layout widgets</h2>
+	<h2>Size on Form, single nested layout widget</h2>
 	<form data-dojo-type="dijit/form/Form" style="height:100px; width: 100px; border: medium inset gray; padding: 10px;" id="fss">
-		<div data-dojo-type="ResizableWidget" id="fssc">
-		</div>
+		<div data-dojo-type="ResizableWidget" id="fssc"></div>
 	</form>
-
-	<h2>Size on Form, multiple nested layout widget</h2>
+	<form data-dojo-type="dijit/form/Form" style="height:100px; width: 100px; border: medium inset gray; padding: 10px;" id="fss2">
+		<!-- this form has one resizable child, and an invisible child, so the resizable child should be expanded -->
+		<div id="fss2_rc" data-dojo-type="ResizableWidget">resizable</div>
+		<div id="fss2_ic" data-dojo-type="dojo.store.Memory"></div>
+	</form>
+	<h2>Size on Form, multiple nested widgets</h2>
+	<!-- two layout widgets -->
 	<form data-dojo-type="dijit/form/Form" style="height:250px; width: 150px; border: medium inset gray; padding: 10px;" id="fsm">
 		<div data-dojo-type="ResizableWidget" style="width: 100px; height: 100px; border: 1px solid black;" id="fsmc1">
 			child #1 (100x100)
@@ -730,6 +766,10 @@
 		<div data-dojo-type="ResizableWidget" style="width: 100px; height: 100px; border: 1px solid black;" id="fsmc2">
 			child #2 (100x100)
 		</div>
+	</form>
+	<form data-dojo-type="dijit/form/Form" style="height:250px; width: 150px; border: medium inset gray; padding: 10px;" id="fsm2">
+		<div id="fsm2_vc" data-dojo-type="dijit._Widget">visible</div>
+		<div id="fsm2_rc" data-dojo-type="ResizableWidget">resizable</div>
 	</form>
 
 	<h2>No size on Form, single nested layout widgets</h2>
