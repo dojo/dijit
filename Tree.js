@@ -769,7 +769,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 			on(this.domNode, on.selector(".dijitTreeNode", "keydown"), function(evt){
 				self._onKeyDown(registry.byNode(this), evt);
 			}),
-			on(this.domNode, on.selector(".dijitTreeLabel", "focusin"), function(evt){
+			on(this.domNode, on.selector(".dijitTreeRow", "focusin"), function(evt){
 				self._onNodeFocus(registry.getEnclosingWidget(this), evt);
 			})
 		);
@@ -1231,20 +1231,18 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 
 		var map = this._keyHandlerMap;
 		if(!map){
-			// setup table mapping keys to events
+			// Setup table mapping keys to events.
+			// On WebKit based browsers, the combination ctrl-enter does not get passed through. To allow accessible
+			// multi-select on those browsers, the space key is also used for selection.
+			// Therefore, also allow space key for keyboard "click" operation.
 			map = {};
-			map[keys.ENTER]="_onEnterKey";
-			//On WebKit based browsers, the combination ctrl-enter
-			//does not get passed through. To allow accessible
-			//multi-select on those browsers, the space key is
-			//also used for selection.
-			map[keys.SPACE]= map[" "] = "_onEnterKey";
-			map[this.isLeftToRight() ? keys.LEFT_ARROW : keys.RIGHT_ARROW]="_onLeftArrow";
-			map[this.isLeftToRight() ? keys.RIGHT_ARROW : keys.LEFT_ARROW]="_onRightArrow";
-			map[keys.UP_ARROW]="_onUpArrow";
-			map[keys.DOWN_ARROW]="_onDownArrow";
-			map[keys.HOME]="_onHomeKey";
-			map[keys.END]="_onEndKey";
+			map[keys.ENTER] = map[keys.SPACE] = map[" "] = "_onEnterKey";
+			map[this.isLeftToRight() ? keys.LEFT_ARROW : keys.RIGHT_ARROW] = "_onLeftArrow";
+			map[this.isLeftToRight() ? keys.RIGHT_ARROW : keys.LEFT_ARROW] = "_onRightArrow";
+			map[keys.UP_ARROW] = "_onUpArrow";
+			map[keys.DOWN_ARROW] = "_onDownArrow";
+			map[keys.HOME] = "_onHomeKey";
+			map[keys.END] = "_onEndKey";
 			this._keyHandlerMap = map;
 		}
 
@@ -1828,7 +1826,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 	}
 });
 
-Tree._TreeNode = TreeNode;	// for monkey patching
+Tree._TreeNode = TreeNode;	// for monkey patching or creating subclasses of _TreeNode
 
 return Tree;
 });

@@ -11,6 +11,7 @@ try{
 
 	if(test_robot){
 		doh.registerUrl("dijit.tests.tree.robot.Tree_a11y", dojo.moduleUrl("dijit","tests/tree/robot/Tree_a11y.html"+userArgs), 999999);
+		doh.registerUrl("dijit.tests.tree.robot.Tree_Custom_TreeNode", dojo.moduleUrl("dijit","tests/tree/robot/Tree_Custom_TreeNode.html"+userArgs), 999999);
 		doh.registerUrl("dijit.tests.tree.robot.Tree_DnD", dojo.moduleUrl("dijit","tests/tree/robot/Tree_dnd.html"+userArgs), 999999);
 		doh.registerUrl("dijit.tests.tree.robot.Tree_selector", dojo.moduleUrl("dijit","tests/tree/robot/Tree_selector.html"+userArgs), 999999);
 		doh.registerUrl("dijit.tests.tree.robot.Tree_selector_only",
