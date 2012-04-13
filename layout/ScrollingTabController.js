@@ -6,6 +6,7 @@ define([
 	"dojo/dom-style", // domStyle.style
 	"dojo/_base/fx", // Animation
 	"dojo/_base/lang", // lang.hitch
+	"dojo/on",
 	"dojo/query", // query
 	"dojo/sniff", // has("ie"), has("webkit"), has("quirks")
 	"../registry",	// registry.byId()
@@ -19,7 +20,7 @@ define([
 	"../form/Button",
 	"../_HasDropDown",
 	"dojo/NodeList-dom" // NodeList.style
-], function(array, declare, domClass, domGeometry, domStyle, fx, lang, query, has,
+], function(array, declare, domClass, domGeometry, domStyle, fx, lang, on, query, has,
 	registry, tabControllerTemplate, buttonTemplate, TabController, layoutUtils, _WidgetsInTemplateMixin,
 	Menu, MenuItem, Button, _HasDropDown){
 
@@ -105,13 +106,11 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 
 		// changes to the tab button label or iconClass will have changed the width of the
 		// buttons, so do a resize
-		this.connect(this.containerNode, "attrmodified", function(evt){
-			if(evt.attrName == "label" || evt.attrName == "iconClass"){
-				if(this._dim){
-					this.resize(this._dim);
-				}
+		this._adoptHandles(on(this.containerNode, "attrmodified-label, attrmodified-iconclass", lang.hitch(this, function(evt){
+			if(this._dim){
+				this.resize(this._dim);
 			}
-		});
+		})));
 	},
 
 	onAddChild: function(page, insertIndex){

@@ -786,17 +786,19 @@ return declare("dijit._WidgetBase", Stateful, {
 			if(this._watchCallbacks){
 				this._watchCallbacks(name, oldValue, value);
 			}
-			this.emit("attrmodified", {
-				attrName: name,
-				prevValue: oldValue,
-				newValue: value
+			this.emit("attrmodified-" + name, {
+				detail: {
+					prevValue: oldValue,
+					newValue: value
+				}
 			});
 		}
 	},
 
 	emit: function(/*String*/ type, /*Object*/ eventObj, /*Array?*/ callbackArgs){
 		// summary:
-		//		Used by widgets to signal that a synthetic event occurred, ex: myWidget.emit("attrmodified", {}).
+		//		Used by widgets to signal that a synthetic event occurred, ex:
+		//		myWidget.emit("attrmodified-selectedChildWidget", {}).
 		// description:
 		//		Emits an event on this.domNode named type.toLowerCase(), based on eventObj.
 		//		Also calls onType() method, if present, and returns value from that method.

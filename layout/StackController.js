@@ -5,6 +5,7 @@ define([
 	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys
 	"dojo/_base/lang", // lang.getObject
+	"dojo/on",
 	"../focus",		// focus.focus()
 	"../registry",	// registry.byId
 	"../_Widget",
@@ -12,7 +13,7 @@ define([
 	"../_Container",
 	"../form/ToggleButton",
 	"dojo/i18n!../nls/common"
-], function(array, declare, domClass, event, keys, lang,
+], function(array, declare, domClass, event, keys, lang, on,
 			focus, registry, _Widget, _TemplatedMixin, _Container, ToggleButton){
 
 /*=====
@@ -126,21 +127,26 @@ define([
 			}
 
 			// Reflect events like page title changes to tab buttons
-			var container = registry.byId(this.containerId),
+			var containerNode = registry.byId(this.containerId).containerNode,
+				pane2button = this.pane2button,
 				paneToButtonAttr = {
 					"title": "label",
-					"showTitle": "showLabel",
-					"iconClass": "iconClass",
+					"showtitle": "showLabel",
+					"iconclass": "iconClass",
 					"closable": "closeButton",
 					"tooltip": "title"
+				},
+				connectFunc = function(attr, buttonAttr){
+					return on(containerNode, "attrmodified-" + attr, function(evt){
+						var button = pane2button[evt.detail && evt.detail.widget && evt.detail.widget.id];
+						if(button){
+							button.set(buttonAttr, evt.detail.newValue);
+						}
+					});
 				};
-			this.connect(container.containerNode, "attrmodified", function(evt){
-				var button = this.pane2button[evt.detail && evt.detail.widget && evt.detail.widget.id],
-					buttonAttrName = paneToButtonAttr[evt.attrName];
-				if(button && buttonAttrName){
-					button.set(buttonAttrName, evt.newValue);
-				}
-			});
+			for(var attr in paneToButtonAttr){
+				this._adoptHandles(connectFunc(attr, paneToButtonAttr[attr]));
+			}
 		},
 
 		destroy: function(){
