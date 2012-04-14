@@ -31,7 +31,9 @@
 			dojo.require("dijit.form.Select");
 			dojo.require("dijit.form.Button");
 			dojo.require("dijit.form.Form");
-			dojo.require("dojo.data.ItemFileWriteStore");
+			dojo.require("dojo.data.ItemFileWriteStore");	// for testing old API (remove for 2.0)
+			dojo.require("dojo.store.Memory");
+			dojo.require("dojo.store.Observable");
 			dojo.require("dijit.Dialog");
 			dojo.require("dijit.tests.helpers");	// functions to help test
 
@@ -44,7 +46,7 @@
 			var test = /mode=test/i.test(window.location.href),
 				testPerformance = /mode=benchmark/i.test(window.location.href);
 
-			// Data and stores here for store-based selects
+			// dojo.data (legacy) data stores
 			var data = {
 				identifier: "value",
 				label: "label",
@@ -75,6 +77,38 @@
 			var readStore = new dojo.data.ItemFileReadStore({data:dojo.clone(data)});
 			var store2 = new dojo.data.ItemFileReadStore({data:dojo.clone(data2)});
 			var writeStore = new dojo.data.ItemFileWriteStore({data:dojo.clone(data)});
+
+			// dojo.store (new API) data stores
+			var vals = [
+				{value: "AL", label: "Alabama"},
+				{value: "AK", label: "Alaska"},
+				{value: "AZ", label: "Arizona"},
+				{value: "AR", label: "Arkansas"},
+				{value: "CA", label: "California"},
+				{value: "CO", label: "Colorado"},
+				{value: "CT", label: "Connecticut"}
+			];
+			var vals2 = [
+				{value: "DE", label: "Delaware"},
+				{value: "FL", label: "Florida"},
+				{value: "GA", label: "Georgia"},
+				{value: "HI", label: "Hawaii"},
+				{value: "ID", label: "Idaho"},
+				{value: "IL", label: "Illinois"},
+				{value: "IN", label: "Indiana"}
+			];
+			var memoryStore = new dojo.store.Memory({
+				idProperty: "value",
+				data: dojo.clone(vals)
+			});
+			var memoryStore2 = new dojo.store.Memory({
+				idProperty: "value",
+				data: dojo.clone(vals2)
+			});
+			var memoryStore3 = new dojo.store.Observable(new dojo.store.Memory({	// updates will reflect to select
+				idProperty: "value",
+				data: dojo.clone(vals)
+			}));
 
 			function wrapLabel(expected){
 				return ("<span class=\"dijitReset dijitInline dijitSelectLabel\">" + expected + "</span>").toLowerCase().replace(/ */g, "");
@@ -150,7 +184,12 @@
 								t.is(programmaticDisabled.disabled, true);
 							}
 						},
-
+						function test_setOptions(t){
+							programmatic.set('options', data2.items);
+							programmatic.reset();
+							t.is(7, programmatic.getOptions().length);
+							t.is("DE", programmatic.value);
+						},
 						// Test that destroying a Select destroys the internal Menu and MenuItems too
 						{
 							name: "test_destroy",
@@ -166,7 +205,8 @@
 						}
 					]);
 
-					doh.register("data store", [
+					// Test legacy dojo.data API, remove for 2.0
+					doh.register("dojo.data store", [
 						// Tests that when the currently selected item is changed in the data store,
 						// the change is reflected in the Select widget
 						function test_changeSelected(t){
@@ -247,16 +287,78 @@
 							s12.setStore(store2);
 							t.is("DE", s12.value);
 							t.is(7, s12.getOptions().length);
-						},
-
-						function test_setOptions(t){
-							programmatic.set('options', data2.items);
-							programmatic.reset();
-							t.is(7, programmatic.getOptions().length);
-							t.is("DE", programmatic.value);
 						}
 					]);
 
+					doh.register("dojo.store", [
+						// Tests that when the currently selected item is changed in the data store,
+						// the change is reflected in the Select widget
+						function test_changeSelected(t){
+							t.is("AL", ds11.value);
+							t.is(wrapLabel("Alabama"), ds11.containerNode.innerHTML.toLowerCase().replace(/ */g, ""));
+							ds11.set("value", "AK");
+							t.is("AK", ds11.value);
+							t.is(wrapLabel("Alaska"), ds11.containerNode.innerHTML.toLowerCase().replace(/ */g, ""));
+
+							var item = memoryStore3.get("AK");
+							item.label = "North Pole";
+							memoryStore3.put(item);
+							t.is(wrapLabel("North Pole"), ds11.containerNode.innerHTML.toLowerCase().replace(/ */g, ""), "select displayed value updated");
+						},
+
+						// Test that a delete of the non-selected item will remove that item from the Select's
+						// list of options.
+						function test_deleteNonSelected(t){
+							t.is(7, ds11.getOptions().length);
+							t.is("AK", ds11.value);
+
+							memoryStore3.remove("AZ");
+							t.is(6, ds11.getOptions().length);
+						},
+
+						// Test that a delete of the selected item will remove that item from the Select's
+						// list of options, and switch to a new selected item
+						function test_deleteSelected(t){
+							t.is(6, ds11.getOptions().length);
+							t.is("AK", ds11.value);
+
+							memoryStore3.remove("AK");
+							t.is("AL", ds11.value);
+							t.is(5, ds11.getOptions().length);
+						},
+
+						// Test that new items added to the data store appear in the select's options
+						function test_newItem(t){
+							t.is(5, ds11.getOptions().length);
+							t.is("AL", ds11.value);	
+
+							memoryStore3.add({value: "NY", label: "New York"});
+
+							// TODO: try w/out the timeout
+							var d = new doh.Deferred();
+							setTimeout(d.getTestCallback(function(){
+									t.is(6, ds11.getOptions().length);
+									ds11.set("value", "NY");
+									t.is("NY", ds11.value);
+							}), 100);
+							return d;
+						},
+
+						// Test that a Select's store can be changed
+						// TODO: should be supported/tested through set("store", ...), although
+						// I guess that wouldn't allow setting the selected item at the same time.
+						function test_setStore(t){
+							t.is("AL", ds12.value);
+							ds12.setStore(memoryStore2, "FL");
+							t.is("FL", ds12.value);
+							ds12.setStore(memoryStore, "CA");
+							t.is("CA", ds12.value);
+							ds12.setStore(memoryStore2);
+							t.is("DE", ds12.value);
+							t.is(7, ds12.getOptions().length);
+						}
+					]);
+					
 					doh.register("validation", [
 						function required(){
 							var s3 = dijit.byId("s3");
@@ -642,8 +744,9 @@
 				<option value="WI">Wisconsin</option>
 				<option value="WY">Wyoming</option>
 			</select>
+
 			<hr>
-			<h4 class="testSubtitle">Store-based</h4>
+			<h4 class="testSubtitle">dojo.data store (legacy API) based</h4>
 			<label for="s9">Example 1</label>
 			<select id="s9" data-dojo-id="s9" data-dojo-type="dijit/form/Select" data-dojo-props='name:"s9", store:readStore, value:"CT" '>
 			</select>
@@ -656,6 +759,26 @@
 			<label for="s12">Example 4</label>
 			<select id="s12" data-dojo-id="s12" data-dojo-type="dijit/form/Select" data-dojo-props='name:"s12", store:readStore '>
 			</select>
+
+			<hr>
+			<h4 class="testSubtitle">dojo.store based</h4>
+			<label for="ds9">Example 1</label>
+			<select id="ds9" data-dojo-id="ds" data-dojo-type="dijit/form/Select"
+					data-dojo-props='name:"ds", store:memoryStore, value:"CT", labelAttr:"label" '>
+			</select>
+			<label for="ds10">Example 2</label>
+			<select id="ds10" data-dojo-id="ds10"
+					data-dojo-type="dijit/form/Select" data-dojo-props='name:"ds10", store:memoryStore, labelAttr:"label" '>
+			</select>
+			<label for="ds11">Example 3</label>
+			<select id="ds11" data-dojo-id="ds11" data-dojo-type="dijit/form/Select"
+					data-dojo-props='name:"ds11", store:memoryStore3, labelAttr:"label" '>
+			</select>
+			<label for="ds12">Example 4</label>
+			<select id="ds12" data-dojo-id="ds12" data-dojo-type="dijit/form/Select"
+					data-dojo-props='name:"ds12", store:memoryStore, labelAttr:"label" '>
+			</select>
+
 			<hr>
 			<h4 class="testSubtitle">Inlined with text (all IE modes except for IE8 Standards)</h4>
 			<label for="txtPrompt">Text Prompt:</label>
