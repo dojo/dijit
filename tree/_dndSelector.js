@@ -42,7 +42,7 @@ define([
 			this.selection={};
 			this.anchor = null;
 
-			this.tree.domNode.setAttribute("aria-multiselect", !this.singular);
+			this.tree.domNode.setAttribute("aria-multiselectable", !this.singular);
 
 			if(!this.cookieName && this.tree.id){
 				this.cookieName = this.tree.id + "SaveSelectedCookie";
