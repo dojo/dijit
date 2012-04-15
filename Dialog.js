@@ -574,18 +574,17 @@ define([
 
 				var pd = ds[ds.length-1];	// the new active dialog (or the base page itself)
 
-				// Adjust underlay
-				if(ds.length == 1){
-					// Returning to original page.
-					// Hide the underlay, unless the underlay widget has already been destroyed
-					// because we are being called during page unload (when all widgets are destroyed)
-					if(!dijit._underlay._destroyed){
+				// Adjust underlay, unless the underlay widget has already been destroyed
+				// because we are being called during page unload (when all widgets are destroyed)
+				if(!dijit._underlay._destroyed){
+					if(ds.length == 1){
+						// Returning to original page.  Hide the underlay.
 						dijit._underlay.hide();
+					}else{
+						// Popping back to previous dialog, adjust underlay.
+						domStyle.set(dijit._underlay.domNode, 'zIndex', pd.zIndex - 1);
+						dijit._underlay.set(pd.underlayAttrs);
 					}
-				}else{
-					// Popping back to previous dialog, adjust underlay
-					domStyle.set(dijit._underlay.domNode, 'zIndex', pd.zIndex - 1);
-					dijit._underlay.set(pd.underlayAttrs);
 				}
 
 				// Adjust focus
