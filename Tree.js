@@ -1214,11 +1214,9 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 			return;
 		}
 
-		var char = String.fromCharCode(e.charCode);
-
-		// Check for key navigation.
 		if(!e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey){
-			this._onLetterKeyNav( { node: treeNode, key: char.toLowerCase() } );
+			var c = String.fromCharCode(e.charCode);
+			this._onLetterKeyNav( { node: treeNode, key: c.toLowerCase() } );
 			event.stop(e);
 		}
 	},
