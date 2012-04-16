@@ -232,20 +232,65 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 		//	onpaste & oncut: set charOrCode to 229 (IME)
 		//	oninput: if primary event not already processed, set charOrCode to 229 (IME), else do not forward
 		var handleEvent = function(e){
-			var charOrCode = (e.charCode >= 32 ? String.fromCharCode(e.charCode) : e.charCode) || e.keyCode || 229;
+			var charOrCode;
 			if(e.type == "keydown"){
-				switch(charOrCode){ // ignore "state" keys
+				charOrCode = e.keyCode;
+				switch(charOrCode){ // ignore state keys
 					case keys.SHIFT:
 					case keys.ALT:
 					case keys.CTRL:
 					case keys.META:
 					case keys.CAPS_LOCK:
+					case keys.NUM_LOCK:
+					case keys.SCROLL_LOCK:
 						return;
-					default:
-						if(charOrCode >= 65 && charOrCode <= 90){ return; } // keydown for A-Z can be processed with keypress
+				}
+				if(!e.ctrlKey && !e.metaKey && !e.altKey){ // no modifiers
+					switch(charOrCode){ // ignore location keys
+						case keys.NUMPAD_0:
+						case keys.NUMPAD_1:
+						case keys.NUMPAD_2:
+						case keys.NUMPAD_3:
+						case keys.NUMPAD_4:
+						case keys.NUMPAD_5:
+						case keys.NUMPAD_6:
+						case keys.NUMPAD_7:
+						case keys.NUMPAD_8:
+						case keys.NUMPAD_9:
+						case keys.NUMPAD_MULTIPLY:
+						case keys.NUMPAD_PLUS:
+						case keys.NUMPAD_ENTER:
+						case keys.NUMPAD_MINUS:
+						case keys.NUMPAD_PERIOD:
+						case keys.NUMPAD_DIVIDE:
+							return;
+					}
+					if((charOrCode >= 65 && charOrCode <= 90) || (charOrCode >= 48 && charOrCode <= 57) || charOrCode == keys.SPACE){
+						return; // keypress will handle simple non-modified printable keys
+					}
+					var named = false;
+					for(var i in keys){
+						if(keys[i] === e.keyCode){
+							named = true;
+							break;
+						}
+					}
+					if(!named){ return; } // only allow named ones through
 				}
 			}
-			if(e.type == "keypress" && typeof charOrCode != "string"){ return; }
+			charOrCode = e.charCode >= 32 ? String.fromCharCode(e.charCode) : e.charCode;
+			if(!charOrCode){
+				charOrCode = (e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 48 && e.keyCode <= 57) || e.keyCode == keys.SPACE ? String.fromCharCode(e.keyCode) : e.keyCode;
+			}
+			if(!charOrCode){
+				charOrCode = 229; // IME
+			}
+			if(e.type == "keypress"){
+				if(typeof charOrCode != "string"){ return; }
+				if((charOrCode >= 'a' && charOrCode <= 'z') || (charOrCode >= 'A' && charOrCode <= 'Z') || (charOrCode >= '0' && charOrCode <= '9') || (charOrCode === ' ')){
+					if(e.ctrlKey || e.metaKey || e.altKey){ return; } // can only be stopped reliably in keydown
+				}
+			}
 			if(e.type == "input"){
 				if(this.__skipInputEvent){ // duplicate event
 					this.__skipInputEvent = false;
@@ -272,6 +317,7 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 				stopPropagation: function(){ e.stopPropagation(); }
 			});
 			// give web page author a chance to consume the event
+			//console.log(faux.type + ', charOrCode = (' + (typeof charOrCode) + ') ' + charOrCode + ', ctrl ' + !!faux.ctrlKey + ', alt ' + !!faux.altKey + ', meta ' + !!faux.metaKey + ', shift ' + !!faux.shiftKey);
 			if(this.onInput(faux) === false){ // return false means stop
 				faux.preventDefault();
 				faux.stopPropagation();
