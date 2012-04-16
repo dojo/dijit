@@ -236,7 +236,7 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 
 		if(!this._loadingStore){
 			// Don't call this if we are loading - since we will handle it later
-			this._setValueAttr(this.value);
+			this._setValueAttr(this.value, false);
 		}
 	},
 

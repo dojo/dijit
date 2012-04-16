@@ -38,7 +38,7 @@
 			dojo.require("dijit.form.ComboBox");
 			dojo.require("dijit.form.FilteringSelect");
 			dojo.require("dijit.form.NumberSpinner");
-
+			dojo.require("dijit.form.Select");
 			dojo.require("dijit.Editor");
 			dojo.require("dijit._editor.plugins.AlwaysShowToolbar");
 
@@ -55,6 +55,7 @@
 		<h1 class="testTitle">Dijit InlineEditBox Test</h1>
 
 		<span data-dojo-id="stateStore" data-dojo-type="dojo/data/ItemFileReadStore" data-dojo-props='url:"_data/states.json"'></span>
+		<span data-dojo-id="countryStore" data-dojo-type="dojo/data/ItemFileReadStore" data-dojo-props='url:"_data/countries.json"'></span>
 		<span data-dojo-id="productStore" data-dojo-type="dojo/data/ItemFileReadStore" >
 			<script type="dojo/method">
 				this._jsonData =
@@ -87,7 +88,10 @@
 				<span data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit/form/DateTextBox", width:"200px", title:"purchase date as mm/dd/yy"'></span>&nbsp;in
 				<span data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit/form/FilteringSelect",
 					editorParams:{searchAttr: "name", keyAttr: "abbreviation", store: stateStore, autocomplete: true, hasDownArrow: true},
-					 width:"200px", title:"state of purchase"'></span>.
+					 width:"200px", title:"state of purchase"'></span>&nbsp;
+				<nobr>(<span data-dojo-type="dijit/InlineEditBox"
+					data-dojo-props='editor:"dijit/form/Select", width:"200px", title:"country", editorParams:{ store: countryStore }'
+				></span>)</nobr>.
 			</p>
 			<p id="textarea" data-dojo-type="dijit/InlineEditBox" data-dojo-props='autoSave:true, editor:"dijit/form/Textarea", title:"additional details"'></p>
 			<p>
@@ -130,7 +134,11 @@
 					editorParams:{searchAttr: "name", keyAttr: "abbreviation", store: stateStore, autocomplete: true, hasDownArrow: false},
 					 width:"200px", autoSave:false, title:"state of purchase"'>
 					 Pennsylvania
-				</span>.
+				</span>&nbsp;
+				<nobr>(<span id="country" data-dojo-type="dijit/InlineEditBox"
+					data-dojo-props='editor:"dijit/form/Select", width:"200px", autoSave:false, title:"country",
+					editorParams:{ store: countryStore }'
+				>US</span>)</nobr>.
 			</p>
 			<p data-dojo-type="dijit/InlineEditBox" data-dojo-props='autoSave:false, editor:"dijit/form/Textarea", title:"additional details"'>
 				We sincerely appreciate your business and hope we can do business again.

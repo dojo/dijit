@@ -1,9 +1,9 @@
 define([
 	"dojo/_base/array", // array.filter array.forEach array.map array.some
+	"dojo/_base/Deferred",
 	"dojo/aspect", // aspect.after
 	"dojo/data/util/sorter", // util.sorter.createSortFunction
 	"dojo/_base/declare", // declare
-	"dojo/Deferred",
 	"dojo/dom", // dom.setSelectable
 	"dojo/dom-class", // domClass.toggle
 	"dojo/_base/kernel",	// _scopeName
@@ -12,7 +12,7 @@ define([
 	"dojo/when",
 	"dojo/store/util/QueryResults",	// dojo.store.util.QueryResults
 	"./_FormValueWidget"
-], function(array, aspect, sorter, declare, Deferred, dom, domClass, kernel, lang, query, when,
+], function(array, Deferred, aspect, sorter, declare, dom, domClass, kernel, lang, query, when,
 			QueryResults, _FormValueWidget){
 
 /*=====
@@ -97,6 +97,12 @@ return declare("dijit.form._FormSelectWidget", _FormValueWidget, {
 	//		of the options/menuitems) until the user clicks the button to open the
 	//		dropdown.
 	loadChildrenOnOpen: false,
+
+	// onLoadDeferred: [readonly] dojo.Deferred
+	//		This is the `dojo.Deferred` returned by setStore().
+	//		Calling onLoadDeferred.then() registers your
+	//		callback to be called only once, when the prior setStore completes.
+	onLoadDeferred: null,
 
 	getOptions: function(/*anything*/ valueOrIdx){
 		// summary:
@@ -246,7 +252,7 @@ return declare("dijit.form._FormSelectWidget", _FormValueWidget, {
 		if(oStore !== store){
 			// Our store has changed, so cancel any listeners on old store (remove for 2.0)
 			var h;
-			while(h = this._notifyConnections.pop()){ h.remove(); }
+			while((h = this._notifyConnections.pop())){ h.remove(); }
 
 			// For backwards-compatibility, accept dojo.data store in addition to dojo.store.store.  Remove in 2.0.
 			if(!store.get){
@@ -301,9 +307,6 @@ return declare("dijit.form._FormSelectWidget", _FormValueWidget, {
 			this._set("store", store);			// Our store has changed, so update our notifications
 		}
 
-		// Turn off change notifications while we make all these changes
-		this._onChangeActive = false;
-
 		// Remove existing options (if there are any)
 		if(this.options && this.options.length){
 			this.removeOption(this.options);
@@ -323,6 +326,7 @@ return declare("dijit.form._FormSelectWidget", _FormValueWidget, {
 		// Add our new options
 		if(store){
 			this._loadingStore = true;
+			this.onLoadDeferred = new Deferred();
 
 			// Run query
 			// Save result in this._queryRes so we can cancel the listeners we register below
@@ -379,11 +383,12 @@ return declare("dijit.form._FormSelectWidget", _FormValueWidget, {
 				}else{
 					this._pseudoLoadChildren(items);
 				}
-				this._lastValueReported = this.multiple ? [] : null;
-				this._onChangeActive = true;
+				this.onLoadDeferred.resolve(true);
 				this.onSetStore();
-				this._handleOnChange(this.value);
-			}));
+			}), function(err){
+					console.error('dijit.form.Select: ' + err.toString());
+					this.onLoadDeferred.reject(err);
+			});
 		}
 		return oStore;	// dojo.data.api.Identity
 	},
@@ -395,6 +400,7 @@ return declare("dijit.form._FormSelectWidget", _FormValueWidget, {
 		// summary:
 		//		set the value of the widget.
 		//		If a string is passed, then we set our value from looking it up.
+		if(!this._onChangeActive){ priorityChange = null; }
 		if(this._loadingStore){
 			// Our store is loading - so save our value, and we'll set it when
 			// we're done
@@ -424,13 +430,13 @@ return declare("dijit.form._FormSelectWidget", _FormValueWidget, {
 		array.forEach(opts, function(i){
 			i.selected = array.some(newValue, function(v){ return v.value === i.value; });
 		});
-		var val = array.map(newValue, function(i){ return i.value; }),
+		var	val = array.map(newValue, function(i){ return i.value; }),
 			disp = array.map(newValue, function(i){ return i.label; });
 
-		this._set("value", this.multiple ? val : val[0]);
+		if(typeof val == "undefined" || typeof val[0] == "undefined"){ return; } // not fully initialized yet or a failed value lookup
 		this._setDisplay(this.multiple ? disp : disp[0]);
+		this.inherited(arguments, [ this.multiple ? val : val[0], priorityChange ]);
 		this._updateSelection();
-		this._handleOnChange(this.value, priorityChange);
 	},
 
 	_getDisplayedValueAttr: function(){
@@ -575,23 +581,26 @@ return declare("dijit.form._FormSelectWidget", _FormValueWidget, {
 		//		Loads our options and sets up our dropdown correctly.  We
 		//		don't want any content, so we don't call any inherit chain
 		//		function.
-		var opts = this.options;
-		if(!opts){
-			opts = this.options = this.srcNodeRef ? query("> *",
-						this.srcNodeRef).map(function(node){
-							if(node.getAttribute("type") === "separator"){
-								return { value: "", label: "", selected: false, disabled: false };
-							}
-							return {
-								value: (node.getAttribute("data-" + kernel._scopeName + "-value") || node.getAttribute("value")),
-										label: String(node.innerHTML),
-								// FIXME: disabled and selected are not valid on complex markup children (which is why we're
-								// looking for data-dojo-value above.  perhaps we should data-dojo-props="" this whole thing?)
-								// decide before 1.6
-										selected: node.getAttribute("selected") || false,
-								disabled: node.getAttribute("disabled") || false
-							};
-						}, this) : [];
+		if(!this.options){
+			this.options =
+				this.srcNodeRef
+				? query("> *", this.srcNodeRef).map(
+					function(node){
+						if(node.getAttribute("type") === "separator"){
+							return { value: "", label: "", selected: false, disabled: false };
+						}
+						return {
+							value: (node.getAttribute("data-" + kernel._scopeName + "-value") || node.getAttribute("value")),
+							label: String(node.innerHTML),
+							// FIXME: disabled and selected are not valid on complex markup children (which is why we're
+							// looking for data-dojo-value above.  perhaps we should data-dojo-props="" this whole thing?)
+							// decide before 1.6
+							selected: node.getAttribute("selected") || false,
+							disabled: node.getAttribute("disabled") || false
+						};
+					},
+					this)
+				: [];
 		}
 		if(!this.value){
 			this._set("value", this._getValueFromOpts());
@@ -608,8 +617,6 @@ return declare("dijit.form._FormSelectWidget", _FormValueWidget, {
 
 		// Make our event connections for updating state
 		this.connect(this, "onChange", "_updateSelection");
-
-		this._setValueAttr(this.value, null);
 
 		// moved from startup
 		//		Connects in our store, if we have one defined
@@ -633,7 +640,7 @@ return declare("dijit.form._FormSelectWidget", _FormValueWidget, {
 		//		Clean up our connections
 
 		var h;
-		while(h = this._notifyConnections.pop()){ h.remove(); }
+		while((h = this._notifyConnections.pop())){ h.remove(); }
 
 		// Cancel listener for store updates
 		if(this._queryRes && this._queryRes.close){

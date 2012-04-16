@@ -216,10 +216,11 @@
 					{ widget: "NumberTextBox", id: "quantity", textValue: "3", widgetValue: 3 },
 					{ widget: "ComboBox", id: "item", textValue: "refrigerators", widgetValue: "refrigerators" },
 					{ widget: "DateTextBox", id: "purchase", textValue: "01/05/2007", widgetValue: dojo.date.locale.parse("01/05/2007", {datePattern: 'MM/dd/yyyy', selector:'date'}) },
-					{ widget: "FilteringSelect", id: "state", textValue: "Pennsylvania", widgetValue: "PA" }
+					{ widget: "FilteringSelect", id: "state", textValue: "Pennsylvania", widgetValue: "PA" },
+					{ widget: "Select", id: "country", textValue: "US", widgetValue: "US" }
 				], function(test){
 					doh.register("preDefinedValue " + test.widget, {
-						timeout: 5000,
+						timeout: 8000,
  						name: dojo.toJson(test.id),
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -229,23 +230,35 @@
 								var editWidget = inlineBox.wrapperWidget.editWidget;
 								handler = editWidget.connect(editWidget, '_onFocus', function(){
 									editWidget.disconnect(handler);
-									setTimeout(d.getTestErrback(function(){
-										doh.is(test.textValue, inlineBox.get("value"), "inline text value");
-										doh.t(isVisible(editWidget), "editor widget should visible");
-										var expected = test.widgetValue,
-											actual = editWidget.get("value");
-										doh.is(typeof expected, typeof actual, "editor value typeof");
-										doh.is(expected.toString(), actual.toString(), "editor widget value");
-										handler = inlineBox.connect(inlineBox, 'onCancel',
-											function(){
-												inlineBox.disconnect(handler);
-												setTimeout(d.getTestCallback(function(){
-													doh.t(isHidden(inlineBox.wrapperWidget), "editor widget should hidden");
-												}), 500);
-											});
-										var buttons = dojo.query(".cancelButton", inlineBox.domNode.parentNode);
+									doh.robot.sequence(function(){
+										var
+										textValue = test.textValue,
+										value = inlineBox.get("value"),
+										visible = isVisible(editWidget),
+										expected = test.widgetValue,
+										actual = editWidget.get("value"),
+										showHandler = inlineBox.connect(inlineBox, 'save',
+											d.getTestCallback(function(){
+												inlineBox.disconnect(cancelHandler);
+												inlineBox.disconnect(showHandler);
+												doh.t(false, "Save was clicked");
+											})
+										),
+										cancelHandler = inlineBox.connect(inlineBox, 'onCancel', function(){
+											inlineBox.disconnect(cancelHandler);
+											inlineBox.disconnect(showHandler);
+											doh.robot.sequence(d.getTestCallback(function(){
+												doh.is(textValue, value, "inline text value");
+												doh.t(visible, "editor widget should be visible");
+												doh.is(typeof expected, typeof actual, "editor value typeof");
+												doh.is(expected.toString(), actual.toString(), "editor widget value");
+												doh.t(isHidden(inlineBox.wrapperWidget), "editor widget should be hidden");
+											}), 500);
+										}),
+										buttons = dojo.query(".dijitButton", inlineBox.domNode.parentNode);
+										moveAndClick(buttons[buttons.length-2]); // Save should be disabled so nothing happens
 										moveAndClick(buttons[buttons.length-1]);
-									}), 1500);
+									}, 1500);
 								});
 							});
 							moveAndClick(inlineBox.domNode);
@@ -354,7 +367,7 @@
 											d.getTestErrback(function(){
 												inlineBox.disconnect(handler);
 												setTimeout(d.getTestCallback(function(){
-													doh.t(isHidden(inlineBox.wrapperWidget), "editor widget should visible");
+													doh.t(isHidden(inlineBox.wrapperWidget), "editor widget should be visible");
 													doh.t(inlineBox.get("value").indexOf('!start!') >= 0, "value changed");
 												}), 1000);
 											}));

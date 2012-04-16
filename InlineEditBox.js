@@ -33,10 +33,10 @@ define([
 	 var TextBox = dijit.form.TextBox;
 	 =====*/
 
-// module:
-//		dijit/InlineEditBox
-// summary:
-//		An element with in-line edit capabilities
+	// module:
+	//		dijit/InlineEditBox
+	// summary:
+	//		An element with in-line edit capabilities
 
 	var InlineEditor = declare("dijit._InlineEditor", [_Widget, _TemplatedMixin, _WidgetsInTemplateMixin], {
 		// summary:
@@ -507,8 +507,7 @@ define([
 			// replace the display widget with edit widget, leaving them both displayed for a brief time so that
 			// focus can be shifted without incident.
 			when(ww.editWidget.onLoadDeferred, lang.hitch(ww, function(){
-				// Note: not sure if we still need a this.defer() now that there's a when()
-				this.defer(function(){
+				this.defer(function(){ // defer needed so that the change of focus doesn't happen on mousedown which also sets focus
 					this.focus(); // both nodes are showing, so we can switch focus safely
 					this._resetValue = this.getValue();
 				});

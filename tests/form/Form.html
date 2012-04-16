@@ -36,6 +36,7 @@
 		dojo.require("dijit.form.DateTextBox");
 		dojo.require("dijit.form.Button");
 		dojo.require("dijit.form.MultiSelect");
+		dojo.require("dijit.form.Select");
 		dojo.require("dijit.form.Textarea");
 		dojo.require("dijit.form.SimpleTextarea");
 		dojo.require("dijit.Editor");
@@ -75,6 +76,7 @@
 							cb: ["2", "3"],
 							r: "2",
 							ms1: ["VA", "WA"],
+							s1: "VA",
 							h1: "hidden",
 							t1: "line 1\nline 2",
 							st1: "simple line 1\nsimple line 2",
@@ -93,6 +95,7 @@
 							cb: ["4"],
 							r: "1",
 							ms1: ["FL", "CA"],
+							s1: "FL",
 							h1: "still hidden",
 							t1: "new line 1\nnew line 2",
 							st1: "new simple line 1\nnew simple line 2",
@@ -169,6 +172,7 @@
 					doh.is(testValues.cb, formValues.cb);
 					doh.is(testValues.r, formValues.r);
 					doh.is(testValues.ms1, formValues.ms1);
+					doh.is(testValues.s1, formValues.s1);
 					doh.is(testValues.h1, formValues.h1);
 					doh.is(testValues.t1, formValues.t1);
 					doh.is(testValues.st1, formValues.st1);
@@ -776,6 +780,21 @@
 							<option value="TN">Tennessee</option>
 							<option value="VA" selected>Virginia</option>
 							<option value="WA" selected>Washington</option>
+							<option value="FL">Florida</option>
+							<option value="CA">California</option>
+
+						</select>
+					</td>
+				</tr>
+
+				<tr>
+					<td>Select</td><td>s1</td>
+					<td>
+						<select id="s1" data-dojo-type="dijit/form/Select"
+							data-dojo-props='name:"s1", style:{width:"175px"}'>
+							<option value="TN">Tennessee</option>
+							<option value="VA" selected="selected">Virginia</option>
+							<option value="WA">Washington</option>
 							<option value="FL">Florida</option>
 							<option value="CA">California</option>
 
