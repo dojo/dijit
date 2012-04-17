@@ -2095,6 +2095,10 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 /* Drag and Drop */
 .dojoDndItem {
     padding: 2px;  /* will be replaced by border during drag over (dojoDndItemBefore, dojoDndItemAfter) */
+
+	/* Prevent magnifying-glass text selection icon to appear on mobile webkit as it causes a touchout event */
+	-webkit-touch-callout: none;
+	-webkit-user-select: none; /* Disable selection/Copy of UIWebView */
 }
 .dojoDndHorizontal .dojoDndItem {
     /* make contents of horizontal container be side by side, rather than vertical */
