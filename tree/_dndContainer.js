@@ -4,9 +4,9 @@ define([
 	"dojo/dom-class", // domClass.add domClass.remove domClass.replace
 	"dojo/_base/event",	// event.stop
 	"dojo/_base/lang", // lang.getObject lang.mixin lang.hitch
-	"dojo/mouse",	// mouse.enter, mouse.leave
-	"dojo/on"
-], function(aspect, declare, domClass, event, lang, mouse, on){
+	"dojo/on",
+	"dojo/touch"
+], function(aspect, declare,domClass, event, lang, on, touch){
 
 	// module:
 	//		dijit/tree/_dndContainer
@@ -50,10 +50,11 @@ define([
 			domClass.add(this.node, "dojoDndContainer");
 
 			// set up events
+			var self = this;
 			this.events = [
-				// container level events
-				on(this.node, mouse.enter, lang.hitch(this, "onOverEvent")),
-				on(this.node, mouse.leave,	lang.hitch(this, "onOutEvent")),
+				// Mouse (or touch) enter/leave on Tree itself
+				on(this.node, touch.enter, lang.hitch(this, "onOverEvent")),
+				on(this.node, touch.leave,	lang.hitch(this, "onOutEvent")),
 
 				// switching between TreeNodes
 				aspect.after(this.tree, "_onNodeMouseEnter", lang.hitch(this, "onMouseOver"), true),

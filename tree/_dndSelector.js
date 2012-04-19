@@ -209,7 +209,8 @@ define([
 			// ignore click on expando node
 			if(!this.current || this.tree.isExpandoNode(e.target, this.current)){ return; }
 
-			if(!mouse.isLeft(e)){ return; } // ignore right-click
+			// ignore right-click
+			if(e.type != "touchstart" && !mouse.isLeft(e)){ return; }
 
 			e.preventDefault();
 

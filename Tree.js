@@ -14,9 +14,9 @@ define([
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/keys",	// arrows etc.
 	"dojo/_base/lang", // lang.getObject lang.mixin lang.hitch
-	"dojo/mouse",	// mouse.enter, mouse.leave
 	"dojo/on",		// on(), on.selector()
 	"dojo/topic",
+	"dojo/touch",
 	"dojo/when",
 	"./focus",
 	"./registry",	// registry.byNode(), registry.getEnclosingWidget()
@@ -32,7 +32,7 @@ define([
 	"./tree/ForestStoreModel",
 	"./tree/_dndSelector"
 ], function(array, connect, cookie, declare, Deferred, DeferredList,
-			dom, domClass, domGeometry, domStyle, event, fxUtils, kernel, keys, lang, mouse, on, topic, when,
+			dom, domClass, domGeometry, domStyle, event, fxUtils, kernel, keys, lang, on, topic, touch, when,
 			focus, registry, manager, _Widget, _TemplatedMixin, _Container, _Contained, _CssStateMixin,
 			treeNodeTemplate, treeTemplate, TreeStoreModel, ForestStoreModel, _dndSelector){
 
@@ -751,10 +751,10 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		// Catch events on TreeNodes
 		var self = this;
 		this._adoptHandles(
-			on(this.domNode, on.selector(".dijitTreeNode", mouse.enter), function(evt){
+			on(this.domNode, on.selector(".dijitTreeNode", touch.enter), function(evt){
 				self._onNodeMouseEnter(registry.byNode(this), evt);
 			}),
-			on(this.domNode, on.selector(".dijitTreeNode", mouse.leave), function(evt){
+			on(this.domNode, on.selector(".dijitTreeNode", touch.leave), function(evt){
 				self._onNodeMouseLeave(registry.byNode(this), evt);
 			}),
 			on(this.domNode, on.selector(".dijitTreeNode", "click"), function(evt){
