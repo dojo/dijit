@@ -4,10 +4,11 @@ define([
 	"dojo/dom",			// dom.isDescendant()
 	"dojo/dom-class", // domClass.toggle
 	"dojo/_base/lang", // lang.hitch
+	"dojo/on",
 	"dojo/ready",
 	"dojo/_base/window", // win.body
 	"./registry"
-], function(array, declare, dom, domClass, lang, ready, win, registry){
+], function(array, declare, dom, domClass, lang, on, ready, win, registry){
 
 // module:
 //		dijit/_CssStateMixin
@@ -204,6 +205,9 @@ var CssStateMixin = declare("dijit._CssStateMixin", [], {
 		function active(isActive){
 			domClass.toggle(node, clazz+"Active", isActive);
 		}
+		function focused(isFocused){
+			domClass.toggle(node, clazz+"Focused", isFocused);
+		}
 		switch(evt.type){
 			case "mouseover":
 				hover(true);
@@ -220,6 +224,14 @@ var CssStateMixin = declare("dijit._CssStateMixin", [], {
 			case "touchend":
 				active(false);
 				break;
+			case "focus":
+			case "focusin":
+				focused(true);
+				break;
+			case "blur":
+			case "focusout":
+				focused(false);
+				break;
 		}
 	},
 
@@ -231,6 +243,7 @@ var CssStateMixin = declare("dijit._CssStateMixin", [], {
 		//		Given class=foo, will set the following CSS class on the node
 		//			- fooActive: if the user is currently pressing down the mouse button while over the node
 		//			- fooHover: if the user is hovering the mouse over the node, but not pressing down a button
+		//			- fooFocus: if the node is focused
 		//
 		//		Note that it won't set any classes if the widget is disabled.
 		// node: DomNode
@@ -284,6 +297,15 @@ ready(function(){
 			body.addEventListener(type, handler, true);	// W3C
 		}else{
 			body.attachEvent("on"+type, ieHandler);	// IE
+		}
+	});
+
+	// Track focus events on widget subnodes.   Remove for 2.0 (if focus CSS needed, just use :focus pseudo-selector).
+	on(body, "focusin, focusout", function(evt){
+		var node = evt.target;
+		if(node._cssState){
+			var widget = registry.getEnclosingWidget(node);
+			widget._subnodeCssMouseEvent(node, node._cssState, evt);
 		}
 	});
 });
