@@ -1,20 +1,20 @@
 define([
 	"require",		// require.toUrl
 	"dojo/text!./templates/ColorPalette.html",
-	"./_Widget",
+	"./_Widget",	// used also to load dijit/hccss for setting has("highcontrast")
 	"./_TemplatedMixin",
 	"./_PaletteMixin",
+	"./hccss",	// has("highcontrast")
 	"dojo/i18n", // i18n.getLocalization
 	"dojo/_base/Color", // dojo.Color dojo.Color.named
 	"dojo/_base/declare", // declare
 	"dojo/dom-class", // domClass.contains
 	"dojo/dom-construct", // domConstruct.place
-	"dojo/_base/window", // win.body
 	"dojo/string", // string.substitute
 	"dojo/i18n!dojo/nls/colors",	// translations
 	"dojo/colors"	// extend dojo.Color w/names of other colors
-], function(require, template, _Widget, _TemplatedMixin, _PaletteMixin, i18n, Color,
-	declare, domClass, domConstruct, win, string){
+], function(require, template, _Widget, _TemplatedMixin, _PaletteMixin, has, i18n, Color,
+	declare, domClass, domConstruct, string){
 
 /*=====
 	var _Widget = dijit._Widget;
@@ -83,7 +83,6 @@ var ColorPalette = declare("dijit.ColorPalette", [_Widget, _TemplatedMixin, _Pal
 		//	Creates customized constructor for dye class (color of a single cell) for
 		//	specified palette and high-contrast vs. normal mode.   Used in _getDye().
 		this._dyeClass = declare(ColorPalette._Color, {
-			hc: domClass.contains(win.body(), "dijit_a11y"),
 			palette: this.palette
 		});
 
@@ -136,7 +135,7 @@ ColorPalette._Color = declare("dijit._Color", Color, {
 	},
 
 	fillCell: function(/*DOMNode*/ cell, /*String*/ blankGif){
-		var html = string.substitute(this.hc ? this.hcTemplate : this.template, {
+		var html = string.substitute(has("highcontrast") ? this.hcTemplate : this.template, {
 			// substitution variables for normal mode
 			color: this.toHex(),
 			blankGif: blankGif,
