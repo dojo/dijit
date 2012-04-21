@@ -1,8 +1,9 @@
 define([
 	"dojo/dom-class", // domClass.contains
+	"dojo/_base/window",
 	"../popup",
 	"../BackgroundIframe"	// just loading for back-compat, in case client code is referencing it
-], function(domClass, popup){
+], function(domClass, win, popup){
 
 // module:
 //		dijit/_base/popup
@@ -19,7 +20,9 @@ popup._createWrapper = function(widget){
 			_popupWrapper: (widget.parentNode && domClass.contains(widget.parentNode, "dijitPopup")) ?
 				widget.parentNode : null,
 			domNode: widget,
-			destroy: function(){}
+			destroy: function(){},
+			ownerDocument: widget.ownerDocument,
+			ownerDocumentBody: win.body(widget.ownerDocument)
 		};
 	}
 	return origCreateWrapper.call(this, widget);

@@ -2,11 +2,10 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/dom-style", // domStyle.set
 	"dojo/query", // query
-	"dojo/_base/window", // win.body
 	"./registry",	// registry.byNode
 	"./MenuItem",
 	"./hccss"
-], function(declare, domStyle, query, win, registry, MenuItem){
+], function(declare, domStyle, query, registry, MenuItem){
 
 /*=====
 	var MenuItem = dijit.MenuItem;
@@ -55,7 +54,7 @@ define([
 				var node = query("[widgetId]", this.dropDownContainer)[0];
 				this.popup = registry.byNode(node);
 			}
-			win.body().appendChild(this.popup.domNode);
+			this.ownerDocumentBody.appendChild(this.popup.domNode);
 			this.popup.startup();
 
 			this.popup.domNode.style.display="none";

@@ -82,7 +82,7 @@ return declare("dijit.Menu", DropDownMenu, {
 
 	postCreate: function(){
 		if(this.contextMenuForWindow){
-			this.bindDomNode(win.body());
+			this.bindDomNode(this.ownerDocumentBody);
 		}else{
 			// TODO: should have _setTargetNodeIds() method to handle initialization and a possible
 			// later set('targetNodeIds', ...) call.  There's also a problem that targetNodeIds[]
@@ -118,7 +118,7 @@ return declare("dijit.Menu", DropDownMenu, {
 	bindDomNode: function(/*String|DomNode*/ node){
 		// summary:
 		//		Attach menu to given node
-		node = dom.byId(node);
+		node = dom.byId(node, this.ownerDocument);
 
 		var cn;	// Connect node
 
@@ -129,10 +129,9 @@ return declare("dijit.Menu", DropDownMenu, {
 				window = this._iframeContentWindow(iframe);
 			cn = win.withGlobal(window, win.body);
 		}else{
-
 			// To capture these events at the top level, attach to <html>, not <body>.
 			// Otherwise right-click context menu just doesn't work.
-			cn = (node == win.body() ? win.doc.documentElement : node);
+			cn = (node == win.body(this.ownerDocument) ? this.ownerDocument.documentElement : node);
 		}
 
 
@@ -203,7 +202,7 @@ return declare("dijit.Menu", DropDownMenu, {
 
 		var node;
 		try{
-			node = dom.byId(nodeName);
+			node = dom.byId(nodeName, this.ownerDocument);
 		}catch(e){
 			// On IE the dom.byId() call will get an exception if the attach point was
 			// the <body> node of an <iframe> that has since been reloaded (and thus the

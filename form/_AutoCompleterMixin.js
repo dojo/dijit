@@ -9,12 +9,11 @@ define([
 	"dojo/regexp", // regexp.escapeString
 	"dojo/sniff", // has("ie")
 	"dojo/string", // string.substitute
-	"dojo/_base/window", // win.doc.selection.createRange
 	"./DataList",
 	"../registry",	// registry.byId
 	"./_TextBoxMixin",	// defines _TextBoxMixin.selectInputText
 	"./_SearchMixin"
-], function(filter, declare, domAttr, event, keys, lang, query, regexp, has, string, win,
+], function(filter, declare, domAttr, event, keys, lang, query, regexp, has, string,
 			DataList, registry, _TextBoxMixin, SearchMixin){
 
 	// module:
@@ -81,7 +80,7 @@ define([
 				// then the win.doc.selection is not the textarea, but the popup
 				// var r = win.doc.selection.createRange();
 				// hack to get IE 6 to play nice. What a POS browser.
-				var tr = win.doc.selection.createRange().duplicate();
+				var tr = element.ownerDocument.selection.createRange().duplicate();
 				var ntr = element.createTextRange();
 				tr.move("character",0);
 				ntr.move("character",0);

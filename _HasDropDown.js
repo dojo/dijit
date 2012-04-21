@@ -11,14 +11,13 @@ define([
 	"dojo/keys", // keys.DOWN_ARROW keys.ENTER keys.ESCAPE
 	"dojo/_base/lang", // lang.hitch lang.isFunction
 	"dojo/touch",
-	"dojo/_base/window", // win.doc
 	"dojo/window", // winUtils.getBox
 	"./registry",	// registry.byNode()
 	"./focus",
 	"./popup",
 	"./_FocusMixin"
 ], function(declare, Deferred, event,dom, domAttr, domClass, domGeometry, domStyle, has, keys, lang, touch,
-			win, winUtils, registry, focus, popup, _FocusMixin){
+			winUtils, registry, focus, popup, _FocusMixin){
 
 /*=====
 	var _FocusMixin = dijit._FocusMixin;
@@ -112,7 +111,7 @@ define([
 			//		3. user defined onMouseDown handler fires
 			e.preventDefault();
 
-			this._docHandler = this.connect(win.doc, touch.release, "_onDropDownMouseUp");
+			this._docHandler = this.connect(this.ownerDocument, touch.release, "_onDropDownMouseUp");
 
 			this.toggleDropDown();
 		},

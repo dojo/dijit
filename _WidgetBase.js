@@ -8,7 +8,7 @@ define([
 	"dojo/dom", // dom.byId
 	"dojo/dom-attr", // domAttr.set domAttr.remove
 	"dojo/dom-class", // domClass.add domClass.replace
-	"dojo/dom-construct", // domConstruct.create domConstruct.destroy domConstruct.place
+	"dojo/dom-construct", // domConstruct.destroy domConstruct.place
 	"dojo/dom-geometry",	// isBodyLtr
 	"dojo/dom-style", // domStyle.set, domStyle.get
 	"dojo/has",
@@ -18,7 +18,7 @@ define([
 	"dojo/ready",
 	"dojo/Stateful", // Stateful
 	"dojo/topic",
-	"dojo/_base/window", // win.doc.createTextNode
+	"dojo/_base/window", // win.doc, win.body()
 	"./registry"	// registry.getUniqueId(), registry.findWidgets()
 ], function(require, array, aspect, config, connect, declare,
 			dom, domAttr, domClass, domConstruct, domGeometry, domStyle, has, kernel,
@@ -212,6 +212,11 @@ return declare("dijit._WidgetBase", Stateful, {
 	containerNode: null,
 
 /*=====
+	// ownerDocument: [const] Document?
+	//		The document this widget belongs to.  If not specified to constructor, will default to
+	//		srcNodeRef.ownerDocument, or if no sourceRef specified, then to dojo/_base/window::doc
+	ownerDocument: null,
+
 	// _started: Boolean
 	//		startup() has completed.
 	_started: false,
@@ -327,6 +332,10 @@ return declare("dijit._WidgetBase", Stateful, {
 			}
 		}
 
+		// The document and <body> node this widget is associated with
+		this.ownerDocument = this.ownerDocument || (this.srcNodeRef ? this.srcNodeRef.ownerDocument : win.doc);
+		this.ownerDocumentBody = win.body(this.ownerDocument);
+
 		registry.add(this);
 
 		this.buildRendering();
@@ -436,7 +445,7 @@ return declare("dijit._WidgetBase", Stateful, {
 
 		if(!this.domNode){
 			// Create root node if it wasn't created by _Templated
-			this.domNode = this.srcNodeRef || domConstruct.create('div');
+			this.domNode = this.srcNodeRef || this.ownerDocument.createElement("div");
 		}
 
 		// baseClass is a single class name or occasionally a space-separated list of names.
@@ -664,7 +673,7 @@ return declare("dijit._WidgetBase", Stateful, {
 					break;
 				case "innerText":
 					mapNode.innerHTML = "";
-					mapNode.appendChild(win.doc.createTextNode(value));
+					mapNode.appendChild(this.ownerDocument.createTextNode(value));
 					break;
 				case "innerHTML":
 					mapNode.innerHTML = value;
@@ -1043,7 +1052,7 @@ return declare("dijit._WidgetBase", Stateful, {
 			// refWidget.domNode otherwise ("after"/"before"/"replace").  (But not supported officially, see #14946.)
 			var ref = refWidget ?
 				(refWidget.containerNode && !/after|before|replace/.test(position||"") ?
-					refWidget.containerNode : refWidget.domNode) : reference;
+					refWidget.containerNode : refWidget.domNode) : dom.byId(reference, this.ownerDocument);
 			domConstruct.place(this.domNode, ref, position);
 
 			// Start this iff it has a parent widget that's already started.

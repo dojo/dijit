@@ -13,7 +13,7 @@ define([
 
 	// feature detection, true for mozilla and webkit
 	has.add("textarea-needs-help-shrinking", function(){
-		var body = win.body(),	// note: if multiple documents exist, doesn't really matter which one we use
+		var body = win.body(),	// note: if multiple documents exist, doesn't matter which one we use
 			te = domConstruct.create('textarea', {
 			rows:"5",
 			cols:"20",

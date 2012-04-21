@@ -5,12 +5,11 @@ define([
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/lang", // lang.hitch
 	"dojo/sniff", // has("ie") has("mozilla")
-	"dojo/_base/window", // win.doc.selection.createRange
 	"./_FormValueWidget",
 	"./_TextBoxMixin",
 	"dojo/text!./templates/TextBox.html",
 	"../main"	// to export dijit._setSelectionRange, remove in 2.0
-], function(declare, domConstruct, domStyle, kernel, lang, has, win,
+], function(declare, domConstruct, domStyle, kernel, lang, has,
 			_FormValueWidget, _TextBoxMixin, template, dijit){
 
 /*=====
@@ -111,7 +110,7 @@ define([
 			declaredClass: "dijit.form.TextBox",	// for user code referencing declaredClass
 
 			_isTextSelected: function(){
-				var range = win.doc.selection.createRange();
+				var range = this.ownerDocument.selection.createRange();
 				var parent = range.parentElement();
 				return parent == this.textbox && range.text.length > 0;
 			},

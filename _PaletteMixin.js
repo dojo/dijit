@@ -117,12 +117,10 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 						tabIndex: "-1",
 						title: titles[value],
 						role: "gridcell"
-					});
+					}, rowNode);
 
 					// prepare cell inner structure
 					cellObject.fillCell(cellNode, url);
-
-					domConstruct.place(cellNode, rowNode);
 
 					cellNode.idx = this._cells.length;
 

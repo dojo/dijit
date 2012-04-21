@@ -12,12 +12,11 @@ define([
 	"dojo/_base/lang", // lang.extend lang.hitch
 	"dojo/on",
 	"dojo/sniff", // has("mozilla")
-	"dojo/_base/window", // win.doc.createElement win.doc.documentElement
 	"../registry",	// registry.getUniqueId()
 	"../_WidgetBase",
 	"./_LayoutWidget"
 ], function(array, cookie, declare, dom, domClass, domConstruct, domGeometry, domStyle,
-			event, kernel, lang, on, has, win, registry, _WidgetBase, _LayoutWidget){
+			event, kernel, lang, on, has, registry, _WidgetBase, _LayoutWidget){
 
 /*=====
 var _WidgetBase = dijit._WidgetBase;
@@ -112,7 +111,7 @@ return declare("dijit.layout.SplitContainer", _LayoutWidget, {
 				this.sizerWidth = parseInt(this.sizerWidth.toString());
 			}catch(e){ this.sizerWidth = 7; }
 		}
-		var sizer = win.doc.createElement('div');
+		var sizer = this.ownerDocument.createElement('div');
 		this.virtualSizer = sizer;
 		sizer.style.position = 'relative';
 

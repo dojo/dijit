@@ -12,11 +12,10 @@ define([
 	"dojo/_base/Deferred", // Deferred
 	"dojo/dom", // dom.byId
 	"dojo/dom-attr", // domAttr.attr
-	"dojo/_base/window", // win.body win.doc.createDocumentFragment
 	"dojo/_base/xhr", // xhr.get
 	"dojo/i18n" // i18n.getLocalization
 ], function(kernel, lang, _Widget, _Container, _ContentPaneResizeMixin, string, html, nlsLoading,
-	array, declare, Deferred, dom, domAttr, win, xhr, i18n){
+	array, declare, Deferred, dom, domAttr, xhr, i18n){
 
 /*=====
 	var _Widget = dijit._Widget;
@@ -158,8 +157,8 @@ return declare("dijit.layout.ContentPane", [_Widget, _Container, _ContentPaneRes
 		// processed in the same way as contents set via set("content", ...), calling the parser etc.
 		// Avoid modifying original params object since that breaks NodeList instantiation, see #11906.
 		if((!params || !params.template) && srcNodeRef && !("href" in params) && !("content" in params)){
-			var df = win.doc.createDocumentFragment();
 			srcNodeRef = dom.byId(srcNodeRef);
+			var df = srcNodeRef.ownerDocument.createDocumentFragment();
 			while(srcNodeRef.firstChild){
 				df.appendChild(srcNodeRef.firstChild);
 			}

@@ -169,7 +169,7 @@ define([
 					"class":"dijitPopup",
 					style:{ display: "none"},
 					role: "presentation"
-				}, win.body());
+				}, widget.ownerDocumentBody);
 				wrapper.appendChild(node);
 
 				var s = node.style;

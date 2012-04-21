@@ -10,7 +10,6 @@ define([
 	"dojo/mouse",
 	"dojo/on",
 	"dojo/sniff", // has("ie")
-	"dojo/_base/window", // win.body
 	"./_base/manager",	// manager.defaultDuration
 	"./place",
 	"./_Widget",
@@ -18,7 +17,7 @@ define([
 	"./BackgroundIframe",
 	"dojo/text!./templates/Tooltip.html",
 	"./main"		// sets dijit.showTooltip etc. for back-compat
-], function(array, declare, fx, dom, domClass, domGeometry, domStyle, lang, mouse, on, has, win,
+], function(array, declare, fx, dom, domClass, domGeometry, domStyle, lang, mouse, on, has,
 			manager, place, _Widget, _TemplatedMixin, BackgroundIframe, template, dijit){
 
 /*=====
@@ -57,7 +56,7 @@ define([
 		templateString: template,
 
 		postCreate: function(){
-			win.body().appendChild(this.domNode);
+			this.ownerDocumentBody.appendChild(this.domNode);
 
 			this.bgIframe = new BackgroundIframe(this.domNode);
 
@@ -348,7 +347,7 @@ define([
 
 			// Make array of id's to connect to, excluding entries for nodes that don't exist yet, see startup()
 			this._connectIds = array.filter(lang.isArrayLike(newId) ? newId : (newId ? [newId] : []),
-					function(id){ return dom.byId(id); });
+					function(id){ return dom.byId(id, this.ownerDocument); }, this);
 
 			// Make connections
 			this._connections = array.map(this._connectIds, function(id){

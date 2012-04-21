@@ -3,7 +3,6 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/dom-attr", // domAttr.set
 	"dojo/dom-class", // domClass.add domClass.remove domClass.toggle
-	"dojo/dom-construct", // domConstruct.create
 	"dojo/dom-geometry", // domGeometry.setMarginBox
 	"dojo/_base/event", // event.stop
 	"dojo/i18n", // i18n.getLocalization
@@ -16,7 +15,7 @@ define([
 	"../Tooltip",
 	"dojo/text!./templates/Select.html",
 	"dojo/i18n!./nls/validate"
-], function(array, declare, domAttr, domClass, domConstruct, domGeometry, event, i18n, lang,
+], function(array, declare, domAttr, domClass, domGeometry, event, i18n, lang,
 			_FormSelectWidget, _HasDropDown, Menu, MenuItem, MenuSeparator, Tooltip, template){
 
 /*=====
@@ -49,7 +48,8 @@ var _SelectMenu = declare("dijit.form._SelectMenu", Menu, {
 		//		otherwise, we won't respond correctly to heights/overflows
 		this.inherited(arguments);
 		var o = (this.menuTableNode = this.domNode);
-		var n = (this.domNode = domConstruct.create("div", {style: {overflowX: "hidden", overflowY: "scroll"}}));
+		var n = (this.domNode = this.ownerDocument.createElement("div"));
+		n.style.cssText = "overflow-x: hidden; overflow-y: scroll";
 		if(o.parentNode){
 			o.parentNode.replaceChild(n, o);
 		}

@@ -39,7 +39,7 @@ define([
 		// so reattach it to win.doc.body.	 (Otherwise, the positioning will be wrong
 		// and also it might get cutoff)
 		if(!node.parentNode || String(node.parentNode.tagName).toLowerCase() != "body"){
-			win.body().appendChild(node);
+			win.body(node.ownerDocument).appendChild(node);
 		}
 
 		var best = null;

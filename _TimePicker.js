@@ -310,7 +310,8 @@ define([
 				return null;
 			}
 
-			var div = domConstruct.create("div", {"class": this.baseClass+"Item"});
+			var div = this.ownerDocument.createElement("div");
+			div.className = this.baseClass+"Item";
 			div.date = date;
 			div.idx = index;
 			domConstruct.create('div',{

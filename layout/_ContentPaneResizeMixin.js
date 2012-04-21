@@ -8,11 +8,10 @@ define([
 	"dojo/_base/lang", // lang.mixin
 	"dojo/query", // query
 	"dojo/sniff", // has("ie")
-	"dojo/_base/window", // global
 	"../registry",	// registry.byId
 	"../Viewport",
 	"./utils"	// marginBox2contextBox
-], function(array, declare, domAttr, domClass, domGeometry, domStyle, lang, query, has, win,
+], function(array, declare, domAttr, domClass, domGeometry, domStyle, lang, query, has,
 			registry, Viewport, layoutUtils){
 
 // module:

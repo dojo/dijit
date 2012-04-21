@@ -1,12 +1,11 @@
 define([
 	"dojo/_base/declare", // declare
 	"dojo/dom-attr", // domAttr.set
-	"dojo/_base/window", // win.body
 	"dojo/window", // winUtils.getBox
 	"./_Widget",
 	"./_TemplatedMixin",
 	"./BackgroundIframe"
-], function(declare, domAttr, win, winUtils, _Widget, _TemplatedMixin, BackgroundIframe){
+], function(declare, domAttr, winUtils, _Widget, _TemplatedMixin, BackgroundIframe){
 
 /*=====
 	var _Widget = dijit._Widget;
@@ -60,7 +59,7 @@ define([
 		postCreate: function(){
 			// summary:
 			//		Append the underlay to the body
-			win.body().appendChild(this.domNode);
+			this.ownerDocumentBody.appendChild(this.domNode);
 		},
 
 		layout: function(){

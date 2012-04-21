@@ -3,14 +3,14 @@ define([
 	"dojo/_base/connect", // connect.isCopyKey
 	"dojo/_base/declare", // declare
 	"dojo/_base/Deferred", // Deferred
+	"dojo/_base/kernel",	// global
 	"dojo/_base/lang", // lang.hitch
 	"dojo/cookie", // cookie
 	"dojo/mouse", // mouse.isLeft
 	"dojo/on",
 	"dojo/touch",
-	"dojo/_base/window", // win.global
 	"./_dndContainer"
-], function(array, connect, declare, Deferred, lang, cookie, mouse, on, touch, win, _dndContainer){
+], function(array, connect, declare, Deferred, kernel, lang, cookie, mouse, on, touch, _dndContainer){
 
 	// module:
 	//		dijit/tree/_dndSelector
@@ -347,7 +347,7 @@ define([
 			// summary:
 			//		Iterates over selected items;
 			//		see `dojo.dnd.Container.forInItems()` for details
-			o = o || win.global;
+			o = o || kernel.global;
 			for(var id in this.selection){
 				// console.log("selected item id: " + id);
 				f.call(o, this.getItem(id), id, this);

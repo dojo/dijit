@@ -48,10 +48,11 @@ define([
 		},
 
 		_createMenuItem: function(){
-			return domConstruct.create("div", {
-				"class": "dijitReset dijitMenuItem" +(this.isLeftToRight() ? "" : " dijitMenuItemRtl"),
-				role: "option"
-			});
+			// note: not using domConstruct.create() because need to specify document
+			var item = this.ownerDocument.createElement("div");
+			item.className = "dijitReset dijitMenuItem" +(this.isLeftToRight() ? "" : " dijitMenuItemRtl");
+			item.setAttribute("role", "option");
+			return item;
 		},
 
 		onHover: function(/*DomNode*/ node){

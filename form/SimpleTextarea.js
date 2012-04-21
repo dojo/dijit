@@ -2,9 +2,8 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/dom-class", // domClass.add
 	"dojo/sniff", // has("ie") has("opera")
-	"dojo/_base/window", // win.doc.selection win.doc.selection.createRange
 	"./TextBox"
-], function(declare, domClass, has, win, TextBox){
+], function(declare, domClass, has, TextBox){
 
 /*=====
 	var TextBox = dijit.form.TextBox;
@@ -82,9 +81,9 @@ return declare("dijit.form.SimpleTextarea", TextBox, {
 					}
 					this.textbox.value = value.substring(0,pos-overflow-cr)+value.substring(pos-cr);
 					textarea.setSelectionRange(pos-overflow, pos-overflow);
-				}else if(win.doc.selection){ //IE
+				}else if(this.ownerDocument.selection){ //IE
 					textarea.focus();
-					var range = win.doc.selection.createRange();
+					var range = this.ownerDocument.selection.createRange();
 					// delete overflow characters
 					range.moveStart("character", -overflow);
 					range.text = '';

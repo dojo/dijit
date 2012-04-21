@@ -86,7 +86,7 @@ return declare( "dijit.form._ComboBoxMenuMixin", null, {
 			menuitem.innerHTML = labelObject.label;
 		}else{
 			menuitem.appendChild(
-				win.doc.createTextNode(labelObject.label)
+				menuitem.ownerDocument.createTextNode(labelObject.label)
 			);
 		}
 		// #3250: in blank options, assign a normal height
@@ -97,7 +97,7 @@ return declare( "dijit.form._ComboBoxMenuMixin", null, {
 		// update menuitem.dir if BidiSupport was required
 		this.applyTextDir(menuitem, (menuitem.innerText || menuitem.textContent || ""));
 
-		menuitem.item=item;
+		menuitem.item = item;
 		return menuitem;
 	},
 

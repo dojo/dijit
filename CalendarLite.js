@@ -11,12 +11,11 @@ define([
 	"dojo/_base/lang", // lang.getObject, lang.hitch
 	"dojo/sniff", // has("ie") has("webkit")
 	"dojo/string", // string.substitute
-	"dojo/_base/window", // win.doc.createTextNode
 	"./_WidgetBase",
 	"./_TemplatedMixin",
 	"dojo/text!./templates/Calendar.html",
 	"./hccss"	// not used directly, but sets CSS class on <body>
-], function(array, declare, cldrSupplemental, date, locale, stamp, dom, domClass, event, lang, has, string, win,
+], function(array, declare, cldrSupplemental, date, locale, stamp, dom, domClass, event, lang, has, string,
 			_WidgetBase, _TemplatedMixin, template){
 
 /*=====
@@ -170,7 +169,7 @@ define([
 			while(node.firstChild){
 				node.removeChild(node.firstChild);
 			}
-			node.appendChild(win.doc.createTextNode(text));
+			node.appendChild(node.ownerDocument.createTextNode(text));
 		},
 
 		_populateGrid: function(){

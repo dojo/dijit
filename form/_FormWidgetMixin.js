@@ -6,10 +6,9 @@ define([
 	"dojo/_base/lang", // lang.hitch lang.isArray
 	"dojo/mouse", // mouse.isLeft
 	"dojo/sniff", // has("webkit")
-	"dojo/_base/window", // win.body
 	"dojo/window", // winUtils.scrollIntoView
 	"../a11y"	// a11y.hasDefaultTabStop
-], function(array, declare, domAttr, domStyle, lang, mouse, has, win, winUtils, a11y){
+], function(array, declare, domAttr, domStyle, lang, mouse, has, winUtils, a11y){
 
 // module:
 //		dijit/form/_FormWidgetMixin
@@ -112,7 +111,7 @@ return declare("dijit.form._FormWidgetMixin", null, {
 			});
 			// Set a global event to handle mouseup, so it fires properly
 			// even if the cursor leaves this.domNode before the mouse up event.
-			var mouseUpConnector = this.connect(win.body(), "onmouseup", function(){
+			var mouseUpConnector = this.connect(this.ownerDocumentBody, "onmouseup", function(){
 				this.disconnect(mouseUpConnector);
 				this.disconnect(focusConnector);
 				// if here, then the mousedown did not focus the focusNode as the default action

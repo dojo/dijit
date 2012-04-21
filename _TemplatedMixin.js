@@ -8,9 +8,8 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/dom-construct", // domConstruct.destroy, domConstruct.toDom
 	"dojo/sniff", // has("ie")
-	"dojo/_base/unload", // unload.addOnWindowUnload
-	"dojo/_base/window" // win.doc
-], function(lang, touch, _WidgetBase, string, cache, array, declare, domConstruct, has, unload, win) {
+	"dojo/_base/unload" // unload.addOnWindowUnload
+], function(lang, touch, _WidgetBase, string, cache, array, declare, domConstruct, has, unload) {
 
 /*=====
 	var _WidgetBase = dijit._WidgetBase;
@@ -104,11 +103,11 @@ define([
 			// Lookup cached version of template, and download to cache if it
 			// isn't there already.  Returns either a DomNode or a string, depending on
 			// whether or not the template contains ${foo} replacement parameters.
-			var cached = _TemplatedMixin.getCachedTemplate(this.templateString, this._skipNodeCache);
+			var cached = _TemplatedMixin.getCachedTemplate(this.templateString, this._skipNodeCache, this.ownerDocument);
 
 			var node;
 			if(lang.isString(cached)){
-				node = domConstruct.toDom(this._stringRepl(cached));
+				node = domConstruct.toDom(this._stringRepl(cached), this.doc);
 				if(node.nodeType != 1){
 					// Flag common problems such as templates with multiple top level nodes (nodeType == 11)
 					throw new Error("Invalid template: " + cached);
@@ -237,7 +236,7 @@ define([
 	// key is templateString; object is either string or DOM tree
 	_TemplatedMixin._templateCache = {};
 
-	_TemplatedMixin.getCachedTemplate = function(templateString, alwaysUseString){
+	_TemplatedMixin.getCachedTemplate = function(templateString, alwaysUseString, doc){
 		// summary:
 		//		Static method to get a template based on the templatePath or
 		//		templateString key
@@ -245,6 +244,8 @@ define([
 		//		The template
 		// alwaysUseString: Boolean
 		//		Don't cache the DOM tree for this template, even if it doesn't have any variables
+		// doc: Document?
+		//		The target document.   Defaults to document global if unspecified.
 		// returns: Mixed
 		//		Either string (if there are ${} variables that need to be replaced) or just
 		//		a DOM tree (if the node can be cloned directly)
@@ -255,8 +256,9 @@ define([
 		var cached = tmplts[key];
 		if(cached){
 			try{
-				// if the cached value is an innerHTML string (no ownerDocument) or a DOM tree created within the current document, then use the current cached value
-				if(!cached.ownerDocument || cached.ownerDocument == win.doc){
+				// if the cached value is an innerHTML string (no ownerDocument) or a DOM tree created within the
+				// current document, then use the current cached value
+				if(!cached.ownerDocument || cached.ownerDocument == (doc || document)){
 					// string or node of the same document
 					return cached;
 				}
