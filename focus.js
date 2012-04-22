@@ -376,7 +376,7 @@ define([
 
 	// register top window and all the iframes it contains
 	ready(function(){
-		var handle = singleton.registerWin(win.doc.parentWindow || win.doc.defaultView);
+		var handle = singleton.registerWin(winUtils.get(win.doc));
 		if(has("ie")){
 			unload.addOnWindowUnload(function(){
 				if(handle){	// because this gets called twice when doh.robot is running

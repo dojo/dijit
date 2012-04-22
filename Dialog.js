@@ -16,7 +16,7 @@ define([
 	"dojo/on",
 	"dojo/ready",
 	"dojo/sniff", // has("ie") has("opera") has("dijit-legacy-requires")
-	"dojo/window", // winUtils.getBox
+	"dojo/window", // winUtils.getBox, winUtils.get
 	"dojo/dnd/Moveable", // Moveable
 	"dojo/dnd/TimedMoveable", // TimedMoveable
 	"./focus",
@@ -382,7 +382,7 @@ define([
 			}
 
 			// Recenter Dialog if user scrolls browser.  Connecting to document doesn't work on IE, need to use window.
-			var win = this.ownerDocument.defaultView || this.ownerDocument.parentWindow;
+			var win = winUtils.get(this.ownerDocument);
 			this._modalconnects.push(on(win, "scroll", lang.hitch(this, "resize")));
 
 			this._modalconnects.push(on(this.domNode, connect._keypress, lang.hitch(this, "_onKey")));
