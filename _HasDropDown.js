@@ -412,7 +412,7 @@ define([
 				if(maxHeight == -1){
 					// limit height to space available in viewport either above or below my domNode
 					// (whichever side has more room)
-					var viewport = winUtils.getBox(),
+					var viewport = winUtils.getBox(this.ownerDocument),
 						position = domGeometry.position(aroundNode, false);
 					maxHeight = Math.floor(Math.max(position.y, viewport.h - (position.y + position.h)));
 				}

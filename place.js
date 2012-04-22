@@ -33,7 +33,7 @@ define([
 
 		// get {x: 10, y: 10, w: 100, h:100} type obj representing position of
 		// viewport over document
-		var view = winUtils.getBox();
+		var view = winUtils.getBox(node.ownerDocument);
 
 		// This won't work if the node is inside a <div style="position: relative">,
 		// so reattach it to win.doc.body.	 (Otherwise, the positioning will be wrong
@@ -138,7 +138,7 @@ define([
 		//
 		// In RTL mode, set style.right rather than style.left so in the common case,
 		// window resizes move the popup along with the aroundNode.
-		var l = domGeometry.isBodyLtr(),
+		var l = domGeometry.isBodyLtr(node.ownerDocument),
 			s = node.style;
 		s.top = best.y + "px";
 		s[l ? "left" : "right"] = (l ? best.x : view.w - best.x - best.w) + "px";

@@ -82,7 +82,7 @@ define([
 			os.display = "none";
 
 			// then resize and show
-			var viewport = winUtils.getBox();
+			var viewport = winUtils.getBox(this.ownerDocument);
 			os.top = viewport.t + "px";
 			os.left = viewport.l + "px";
 			is.width = viewport.w + "px";

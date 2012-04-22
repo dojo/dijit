@@ -994,7 +994,7 @@ return declare("dijit._WidgetBase", Stateful, {
 		//		Return this widget's explicit or implicit orientation (true for LTR, false for RTL)
 		// tags:
 		//		protected
-		return this.dir ? (this.dir == "ltr") : domGeometry.isBodyLtr(); //Boolean
+		return this.dir ? (this.dir == "ltr") : domGeometry.isBodyLtr(this.ownerDocument); //Boolean
 	},
 
 	isFocusable: function(){

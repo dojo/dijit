@@ -125,7 +125,7 @@ return declare("dijit._editor.plugins.AlwaysShowToolbar", _Plugin, {
 //			}
 		}
 
-		var scrollPos = domGeometry.docScroll().y;
+		var scrollPos = domGeometry.docScroll(this.editor.ownerDocument).y;
 		var s = tdn.style;
 
 		if(scrollPos > this._scrollThreshold && scrollPos < this._scrollThreshold+this._lastHeight){
@@ -143,7 +143,7 @@ return declare("dijit._editor.plugins.AlwaysShowToolbar", _Plugin, {
 					}else{
 						this._IEOriginalPos = ['last',tdn.parentNode];
 					}
-					win.body().appendChild(tdn);
+					this.editor.ownerDocumentBody.appendChild(tdn);
 					domClass.add(tdn,'dijitIEFixedToolbar');
 				}else{
 					s.position = "fixed";

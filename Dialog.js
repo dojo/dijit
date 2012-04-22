@@ -200,7 +200,7 @@ define([
 			//		Called after dragging the Dialog. Saves the position of the dialog in the viewport,
 			//		and also adjust position to be fully within the viewport, so user doesn't lose access to handle
 			var nodePosition = domGeometry.position(this.domNode),
-				viewport = winUtils.getBox();
+				viewport = winUtils.getBox(this.ownerDocument);
 			nodePosition.y = Math.min(Math.max(nodePosition.y, 0), (viewport.h - nodePosition.h));
 			nodePosition.x = Math.min(Math.max(nodePosition.x, 0), (viewport.w - nodePosition.w));
 			this._relativePosition = nodePosition;
@@ -259,7 +259,7 @@ define([
 
 			// Get viewport size but then reduce it by a bit; Dialog should always have some space around it
 			// to indicate that it's a popup.   This will also compensate for possible scrollbars on viewport.
-			var viewport = winUtils.getBox();
+			var viewport = winUtils.getBox(this.ownerDocument);
 			viewport.w *= this.maxRatio;
 			viewport.h *= this.maxRatio;
 
@@ -298,7 +298,7 @@ define([
 			//		and position the node to top: left: values based on the viewport.
 			if(!domClass.contains(this.ownerDocumentBody, "dojoMove")){	// don't do anything if called during auto-scroll
 				var node = this.domNode,
-					viewport = winUtils.getBox(),
+					viewport = winUtils.getBox(this.ownerDocument),
 					p = this._relativePosition,
 					bb = p ? null : domGeometry.position(node),
 					l = Math.floor(viewport.l + (p ? p.x : (viewport.w - bb.w) / 2)),

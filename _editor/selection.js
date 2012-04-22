@@ -280,15 +280,15 @@ lang.mixin(dijit._editor.selection, {
 	selectElement: function(/*DomNode*/ element, /*Boolean?*/ nochangefocus){
 		// summary:
 		//		clear previous selection and select element (including all its children)
-		// element:  DOMNode
+		// element: DOMNode
 		//		The element to select.
 		// nochangefocus: Boolean
 		//		Boolean indicating if the focus should be changed.  IE only.
 		var range;
-		var doc = win.doc;
-		var global = win.global;
-		element = dom.byId(element);
-		if(win.doc.getSelection){
+		element = dom.byId(element);	// TODO: remove for 2.0 or sooner, spec listed above doesn't allow for string
+		var doc = element.ownerDocument;
+		var global = win.global;	// TODO: use winUtils.get(doc)?
+		if(doc.getSelection){
 			// W3C path
 			var selection = global.getSelection();
 			range = doc.createRange();
@@ -310,9 +310,9 @@ lang.mixin(dijit._editor.selection, {
 			try{
 				var tg = element.tagName ? element.tagName.toLowerCase() : "";
 				if(tg === "img" || tg === "table"){
-					range = win.body().createControlRange();
+					range = win.body(doc).createControlRange();
 				}else{
-					range = win.body().createRange();
+					range = win.body(doc).createRange();
 				}
 				range.addElement(element);
 				if(!nochangefocus){

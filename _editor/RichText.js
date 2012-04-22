@@ -295,7 +295,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		// Also, IE9 does weird stuff unless we do it inside the editor iframe.
 		var style = { position: "absolute", top: "0px", zIndex: 10, opacity: 0.01 };
 		var div = domConstruct.create('div', {style: style, innerHTML: localhtml});
-		win.body().appendChild(div);
+		this.ownerDocumentBody.appendChild(div);
 
 		// IE9 has a timing issue with doing this right after setting
 		// the inner HTML, so put a delay in.
@@ -311,8 +311,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 					//console.log("Mapped: ", nativename, " to: ", this._local2NativeFormatNames[nativename]);
 				}catch(e){ /*Sqelch the occasional IE9 error */ }
 			}
-			div.parentNode.removeChild(div);
-			div.innerHTML = "";
+			domConstruct.destroy(div);
 		});
 		this.defer(inject);
 	},

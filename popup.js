@@ -250,7 +250,7 @@ define([
 			var stack = this._stack,
 				widget = args.popup,
 				orient = args.orient || ["below", "below-alt", "above", "above-alt"],
-				ltr = args.parent ? args.parent.isLeftToRight() : domGeometry.isBodyLtr(),
+				ltr = args.parent ? args.parent.isLeftToRight() : domGeometry.isBodyLtr(widget.ownerDocument),
 				around = args.around,
 				id = (args.around && args.around.id) ? (args.around.id+"_dropdown") : ("popup_"+this._idGen++);
 
