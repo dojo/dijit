@@ -275,9 +275,7 @@
 						name: "Anchor Tag: Update existing anchor tag",
 						timeout: 20000,
 						setUp: function(){
-							dojo.withGlobal(editor.window, function(){
-								node = dojo.byId("exampleLink");
-							});
+							node = dojo.byId("exampleLink", editor.document);
 							value = editor.get("value");
 						},
 						runTest: function(){
@@ -334,9 +332,7 @@
 						name: "Anchor Tag: Blank description invalid.",
 						timeout: 20000,
 						setUp: function(){
-							dojo.withGlobal(editor.window, function(){
-								node = dojo.byId("exampleLink");
-							});
+							node = dojo.byId("exampleLink", editor.document);
 							value = editor.get("value");
 						},
 						runTest: function(){
@@ -573,9 +569,7 @@
 						name: "Anchor Tag: Double-Click opens TooltipDialog.",
 						timeout: 20000,
 						setUp: function(){
-							dojo.withGlobal(editor.window, function(){
-								node = dojo.byId("exampleLink");
-							});
+							node = dojo.byId("exampleLink", editor.document);
 							value = editor.get("value");
 						},
 						runTest: function(){
@@ -725,9 +719,7 @@
 						name: "Image Tag: Update existing image tag",
 						timeout: 20000,
 						setUp: function(){
-							dojo.withGlobal(editor.window, function(){
-								node = dojo.byId("exampleImage");
-							});
+							node = dojo.byId("exampleImage", editor.document);
 							value = editor.get("value");
 						},
 						runTest: function(){
@@ -774,9 +766,7 @@
 						name: "Image Tag: Blank description valid.",
 						timeout: 20000,
 						setUp: function(){
-							dojo.withGlobal(editor.window, function(){
-								node = dojo.byId("exampleImage");
-							});
+							node = dojo.byId("exampleImage", editor.document);
 							value = editor.get("value");
 						},
 						runTest: function(){
@@ -826,9 +816,7 @@
 						name: "Image Tag: Single click selects image.",
 						timeout: 20000,
 						setUp: function(){
-							dojo.withGlobal(editor.window, function(){
-								node = dojo.byId("exampleImage");
-							});
+							node = dojo.byId("exampleImage", editor.document);
 							value = editor.get("value");
 						},
 						runTest: function(){
@@ -845,8 +833,8 @@
 								var selectedElement = editor._sCall("getSelectedElement", [null]);
 								doh.t(selectedElement != null);
 								var tag = selectedElement.tagName? selectedElement.tagName.toLowerCase() : "";
-								doh.t(tag === "img");
-								doh.t(selectedElement.getAttribute("id") === "exampleImage");
+								doh.is("img", tag);
+								doh.is("exampleImage", selectedElement.getAttribute("id"));
 							}), 2000);
 
 							return d;
@@ -859,9 +847,7 @@
 						name: "Image Tag: Double-Click opens TooltipDialog.",
 						timeout: 20000,
 						setUp: function(){
-							dojo.withGlobal(editor.window, function(){
-								node = dojo.byId("exampleImage");
-							});
+							node = dojo.byId("exampleImage", editor.document);
 							value = editor.get("value");
 						},
 						runTest: function(){

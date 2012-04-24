@@ -88,7 +88,7 @@
 	
 									doh.robot.sequence(d.getTestErrback(function(){
 										// Find node w/specified id
-										var node = dojo.withGlobal(editor.window, function(){ return dojo.byId(params.id); });
+										var node = dojo.byId(params.id, editor.document);
 										doh.is(params.id, node && node.id, "found " + params.id);
 
 										// Select the text, collapse to the start of it
@@ -156,7 +156,7 @@
 	
 									doh.robot.sequence(d.getTestErrback(function(){
 										// Find node
-										var p = dojo.withGlobal(editor.window, function(){ return dojo.byId(params.id); });
+										var p = dojo.byId(params.id, editor.document);
 										doh.is(params.id, p && p.id, "found node");
 	
 										dojo.global.dojo.withGlobal(editor.window, function(){
@@ -165,7 +165,7 @@
 											// Disable collapse.  Webkit changed behavior so it now requires
 											// a selection.
 											if(!dojo.isWebKit){ dijit._editor.selection.collapse(true) }
-											
+
 											// Set the format / font-size / font-name plugin to the new value
 											// TODO: use mouse/keyboard to set the value
 											fcPlugin.button.set("value", params.to);
@@ -213,7 +213,7 @@
 							doh.t(fcPlugin !== null, "formatBlock was found");
 
 							doh.robot.sequence(d.getTestErrback(function(){
-								var p = dojo.withGlobal(editor.window, function(){ return dojo.byId("text"); });
+								var p = dojo.byId("text", editor.document);
 								doh.is("text", p && p.id, "found text");
 
 								dojo.global.dojo.withGlobal(editor.window, function(){
@@ -237,7 +237,7 @@
 
 							// Move to the next block and try to change it to h3 too.
 							doh.robot.sequence(d.getTestErrback(function(){
-								var p = dojo.withGlobal(editor.window, function(){ return dojo.byId("text1"); });
+								var p = dojo.byId("text1", editor.document);
 								doh.is("text1", p && p.id, "found text1");
 
 								dojo.global.dojo.withGlobal(editor.window, function(){
@@ -298,7 +298,7 @@
 							doh.t(fcPlugin !== null, "formatBlock was found");
 
 							doh.robot.sequence(d.getTestErrback(function(){
-								var p = dojo.withGlobal(editor.window, function(){ return dojo.byId("text"); });
+								var p = dojo.byId("text", editor.document);
 								doh.is("text", p && p.id, "found text");
 								dojo.global.dojo.withGlobal(editor.window, function(){
 									// Select the text, collapse to the start of it
@@ -351,7 +351,7 @@
 							doh.t(fcPlugin !== null, "formatBlock was found");
 
 							doh.robot.sequence(d.getTestErrback(function(){
-								var p = dojo.withGlobal(editor.window, function(){ return dojo.byId("text"); });
+								var p = dojo.byId("text", editor.document);
 								doh.is("text", p && p.id, "found text");
 								dojo.global.dojo.withGlobal(editor.window, function(){
 									// Select the text, collapse to the start of it
@@ -365,8 +365,7 @@
 							}), 1000);
 							doh.robot.sequence(d.getTestErrback(function(){
 								// Select the children of the block and try to flatten the formatting.
-
-								var selection = dojo.withDoc(editor.document, function(){ return dojo.byId("selectionContainer"); });
+								var selection = dojo.byId("selectionContainer", editor.document);
 								dojo.global.dojo.withGlobal(editor.window, function(){
 									dojo.window.scrollIntoView(selection);
 									dijit._editor.selection.selectElementChildren(selection);
@@ -375,7 +374,7 @@
 							}), 1000);
 							doh.robot.sequence(d.getTestCallback(function(){
 								// Now check that the elements are all gone.
-								var selection = dojo.withDoc(editor.document, function(){ return dojo.byId("selectionContainer"); });
+								var selection = dojo.byId("selectionContainer", editor.document);
 								doh.t(selection.childNodes.length > 0, "Checking that there are still child nodes.");
 
 								var i;

@@ -57,6 +57,18 @@
 
 				var metaKey = dojo.isMac? {meta: true} : {ctrl: true};
 				
+				doh.register("init", [
+					{
+						name: "wait for editors to load",
+						timeout: 5000,
+						runTest: function(){
+							return new dojo.DeferredList(
+								dijit.registry.filter(function(w){ return w.onLoadDeferred; }).map(function(w){ return w.onLoadDeferred; })
+							);
+						}
+					}
+				]);
+
 				// Tests for BR mode
 				doh.register("blockNodeForEnter=BR", [
 					{
@@ -211,10 +223,8 @@
 							// we want to focus on the bold and enter there, splitting it.
 							var editor = dijit.byId("div2");
 							dojo.window.scrollIntoView(editor.iframe);
-							var node = dojo.withGlobal(editor.window, function(){
-								return dojo.byId("boldLine0");
-							});
-							
+							var node = dojo.byId("boldLine0", editor.document);
+
 							doh.robot.mouseMoveAt(editor.iframe, 500);
 							doh.robot.mouseClick({left:true}, 500);
 
@@ -248,9 +258,7 @@
 							// we want to focus on the bold and enter there, splitting it.
 							var editor = dijit.byId("div3");
 							dojo.window.scrollIntoView(editor.iframe);
-							var node = dojo.withGlobal(editor.window, function(){
-								return dojo.byId("boldLine1");
-							});
+							var node = dojo.byId("boldLine1", editor.document);
 							
 							doh.robot.mouseMoveAt(editor.iframe, 500);
 							doh.robot.mouseClick({left:true}, 500);
@@ -285,9 +293,7 @@
 							// we want to focus on the font and enter there, splitting it.
 							var editor = dijit.byId("div4");
 							dojo.window.scrollIntoView(editor.iframe);
-							var node = dojo.withGlobal(editor.window, function(){
-								return dojo.byId("fontLine1");
-							});
+							var node = dojo.byId("fontLine1", editor.document);
 							
 							doh.robot.mouseMoveAt(editor.iframe, 500);
 							doh.robot.mouseClick({left:true}, 500);
@@ -408,9 +414,7 @@
 							// we want to focus on the bold and enter there, splitting it.
 							var editor = dijit.byId("p2");
 							dojo.window.scrollIntoView(editor.iframe);
-							var node = dojo.withGlobal(editor.window, function(){
-								return dojo.byId("boldLine2");
-							});
+							var node = dojo.byId("boldLine2", editor.document);
 							
 							doh.robot.mouseMoveAt(editor.iframe, 500);
 							doh.robot.mouseClick({left:true}, 500);
@@ -442,14 +446,12 @@
 							var d = new doh.Deferred();
 							var editor = dijit.byId("p2");
 							editor.set('value','<p>ab</p>');
-							dojo.withGlobal(editor.window, function(){
-								var selection=dijit.range.getSelection(dojo.global);
-								selection.removeAllRanges();
-								var range=dijit.range.create(dojo.global);
-								range.setStart(editor.editNode.firstChild, 0);
-								range.setEnd(editor.editNode.firstChild, 1);
-								selection.addRange(range);
-							});
+							var selection=dijit.range.getSelection(editor.window);
+							selection.removeAllRanges();
+							var range=dijit.range.create(editor.window);
+							range.setStart(editor.editNode.firstChild, 0);
+							range.setEnd(editor.editNode.firstChild, 1);
+							selection.addRange(range);
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {shift: true});
 							doh.robot.sequence(d.getTestCallback(function(){
 								var val = editor.get("value");

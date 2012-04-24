@@ -20,7 +20,7 @@ define([
 	"dojo/topic",	// topic.publish() (publish)
 	"dojo/_base/unload", // unload
 	"dojo/_base/url", // url
-	"dojo/_base/window", // win.body win.doc.body.focus win.doc.createElement win.global.location win.withGlobal
+	"dojo/_base/window", // win.global
 	"../_Widget",
 	"../_CssStateMixin",
 	"./selection",
@@ -303,7 +303,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			var node = div.firstChild;
 			while(node){
 				try{
-					selectionapi.selectElement(node.firstChild);
+					this._sCall("selectElement", [node.firstChild]);
 					var nativename = node.tagName.toLowerCase();
 					this._local2NativeFormatNames[nativename] = document.queryCommandValue("formatblock");
 					this._native2LocalFormatNames[this._local2NativeFormatNames[nativename]] = nativename;
@@ -356,7 +356,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			var ta = (this.textarea = dn);
 			this.name = ta.name;
 			html = ta.value;
-			dn = this.domNode = win.doc.createElement("div");
+			dn = this.domNode = this.ownerDocument.createElement("div");
 			dn.setAttribute('widgetId', this.id);
 			ta.removeAttribute('widgetId');
 			dn.cssText = ta.cssText;
@@ -458,7 +458,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 		this.isClosed = false;
 
-		var ifr = (this.editorObject = this.iframe = win.doc.createElement('iframe'));
+		var ifr = (this.editorObject = this.iframe = this.ownerDocument.createElement('iframe'));
 		ifr.id = this.id+"_iframe";
 		ifr.style.border = "none";
 		ifr.style.width = "100%";
@@ -1067,8 +1067,8 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		//		deprecated
 		if(!has("ie") && this.window.document.documentElement && this.window.document.documentElement.focus){
 			this.window.document.documentElement.focus();
-		}else if(win.doc.body.focus){
-			win.doc.body.focus();
+		}else if(this.ownerDocumentBody.focus){
+			this.ownerDocumentBody.focus();
 		}
 	},
 
@@ -1430,11 +1430,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 					}
 				}else if(last.nodeType === 1){
 					isvalid=true;
-					if(last.lastChild){
-						this._sCall("selectElement", [ last.lastChild ]);
-					}else{
-						this._sCall("selectElement", [ last ]);
-					}
+					this._sCall("selectElement", [ last.lastChild || last]);
 					break;
 				}
 				last = last.previousSibling;
@@ -2525,7 +2521,8 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 						}
 						
 						// We had intermediate tags, we have to now recreate them inbetween the split
-						// and restore what styles, classnames, etc, we can.  
+						// and restore what styles, classnames, etc, we can.
+						var newrange;
 						if(tagList.length){
 							tagData = tagList.pop();
 							var newContTag = doc.createElement(tagData.tagName);
@@ -2577,15 +2574,13 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 							sNode = doc.createTextNode(".");
 							breaker.appendChild(sNode);
 							newContTag.appendChild(sNode);
-							win.withGlobal(this.window, lang.hitch(this, function(){
-								var newrange = rangeapi.create();
-								newrange.setStart(sNode, 0);
-								newrange.setEnd(sNode, sNode.length);
-								selection.removeAllRanges();
-								selection.addRange(newrange);
-								selectionapi.collapse(false);
-								sNode.parentNode.innerHTML = "";
-							}));							
+							newrange = rangeapi.create(this.window);
+							newrange.setStart(sNode, 0);
+							newrange.setEnd(sNode, sNode.length);
+							selection.removeAllRanges();
+							selection.addRange(newrange);
+							this._sCall("collapse", [false]);
+							sNode.parentNode.innerHTML = "";
 						}else{
 							// No extra tags, so we have to insert a breaker point and rely
 							// on filters to remove it later.
@@ -2594,15 +2589,13 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 							sNode = doc.createTextNode(".");
 							breaker.appendChild(sNode);
 							domConstruct.place(breaker, newblock, "before");
-							win.withGlobal(this.window, lang.hitch(this, function(){
-								var newrange = rangeapi.create();
-								newrange.setStart(sNode, 0);
-								newrange.setEnd(sNode, sNode.length);
-								selection.removeAllRanges();
-								selection.addRange(newrange);
-								selectionapi.collapse(false);
-								sNode.parentNode.innerHTML = "";
-							}));
+							newrange = rangeapi.create(this.window);
+							newrange.setStart(sNode, 0);
+							newrange.setEnd(sNode, sNode.length);
+							selection.removeAllRanges();
+							selection.addRange(newrange);
+							this._sCall("collapse", [false]);
+							sNode.parentNode.innerHTML = "";
 						}
 						if(!newblock.firstChild){
 							// Empty, we don't need it.  Split was at end or similar
@@ -2618,50 +2611,48 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 				rs = range.startContainer;
 				if(rs && rs.nodeType === 3){
 					// Text node, we have to split it.
-					win.withGlobal(this.window, lang.hitch(this, function(){
-						var offset = range.startOffset;
-						if(rs.length < offset){
-							//We are not splitting the right node, try to locate the correct one
-							ret = this._adjustNodeAndOffset(rs, offset);
-							rs = ret.node;
-							offset = ret.offset;
-						}
-						txt = rs.nodeValue;
-						startNode = doc.createTextNode(txt.substring(0, offset));
-						var endText = txt.substring(offset);
-						if(endText !== ""){
-							endNode = doc.createTextNode(txt.substring(offset));
-						}
-						// Create a space, we'll select and bold it, so 
-						// the whole word doesn't get bolded
-						breaker = doc.createElement("span");
-						sNode = doc.createTextNode(".");
-						breaker.appendChild(sNode);
-						if(startNode.length){
-							domConstruct.place(startNode, rs, "after");
-						}else{
-							startNode = rs;
-						}
-						domConstruct.place(breaker, startNode, "after");
-						if(endNode){
-							domConstruct.place(endNode, breaker, "after");
-						}
-						domConstruct.destroy(rs);
-						var newrange = rangeapi.create();
-						newrange.setStart(sNode, 0);
-						newrange.setEnd(sNode, sNode.length);
-						selection.removeAllRanges();
-						selection.addRange(newrange);
-						doc.execCommand(command);
-						domConstruct.place(breaker.firstChild, breaker, "before");
-						domConstruct.destroy(breaker);
-						newrange.setStart(sNode, 0);
-						newrange.setEnd(sNode, sNode.length);
-						selection.removeAllRanges();
-						selection.addRange(newrange);
-						selectionapi.collapse(false);
-						sNode.parentNode.innerHTML = "";
-					}));
+					var offset = range.startOffset;
+					if(rs.length < offset){
+						//We are not splitting the right node, try to locate the correct one
+						ret = this._adjustNodeAndOffset(rs, offset);
+						rs = ret.node;
+						offset = ret.offset;
+					}
+					txt = rs.nodeValue;
+					startNode = doc.createTextNode(txt.substring(0, offset));
+					var endText = txt.substring(offset);
+					if(endText !== ""){
+						endNode = doc.createTextNode(txt.substring(offset));
+					}
+					// Create a space, we'll select and bold it, so
+					// the whole word doesn't get bolded
+					breaker = doc.createElement("span");
+					sNode = doc.createTextNode(".");
+					breaker.appendChild(sNode);
+					if(startNode.length){
+						domConstruct.place(startNode, rs, "after");
+					}else{
+						startNode = rs;
+					}
+					domConstruct.place(breaker, startNode, "after");
+					if(endNode){
+						domConstruct.place(endNode, breaker, "after");
+					}
+					domConstruct.destroy(rs);
+					var newrange = rangeapi.create(this.window);
+					newrange.setStart(sNode, 0);
+					newrange.setEnd(sNode, sNode.length);
+					selection.removeAllRanges();
+					selection.addRange(newrange);
+					doc.execCommand(command);
+					domConstruct.place(breaker.firstChild, breaker, "before");
+					domConstruct.destroy(breaker);
+					newrange.setStart(sNode, 0);
+					newrange.setEnd(sNode, sNode.length);
+					selection.removeAllRanges();
+					selection.addRange(newrange);
+					this._sCall("collapse", [false]);
+					sNode.parentNode.innerHTML = "";
 					return true;
 				}
 			}
@@ -2696,29 +2687,28 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 						// or IE may shove too much into the list element.  It seems to
 						// grab content before the text node too if it's br split.
 						// Why can't IE work like everyone else?
-						win.withGlobal(this.window, lang.hitch(this, function(){
-							// Create a space, we'll select and bold it, so 
-							// the whole word doesn't get bolded
-							var lType = "ul";
-							if(command === "insertorderedlist"){
-								lType = "ol";
-							}
-							var list = domConstruct.create(lType);
-							var li = domConstruct.create("li", null, list);
-							domConstruct.place(list, sc, "before");
-							// Move in the text node as part of the li.
-							li.appendChild(sc);
-							// We need a br after it or the enter key handler
-							// sometimes throws errors.
-							domConstruct.create("br", null, list, "after");
-							// Okay, now lets move our cursor to the beginning.
-							var newrange = rangeapi.create();
-							newrange.setStart(sc, 0);
-							newrange.setEnd(sc, sc.length);
-							selection.removeAllRanges();
-							selection.addRange(newrange);
-							selectionapi.collapse(true);
-						}));
+
+						// Create a space, we'll select and bold it, so
+						// the whole word doesn't get bolded
+						var lType = "ul";
+						if(command === "insertorderedlist"){
+							lType = "ol";
+						}
+						var list = this.document.createElement(lType);
+						var li = domConstruct.create("li", null, list);
+						domConstruct.place(list, sc, "before");
+						// Move in the text node as part of the li.
+						li.appendChild(sc);
+						// We need a br after it or the enter key handler
+						// sometimes throws errors.
+						domConstruct.create("br", null, list, "after");
+						// Okay, now lets move our cursor to the beginning.
+						var newrange = rangeapi.create(this.window);
+						newrange.setStart(sc, 0);
+						newrange.setEnd(sc, sc.length);
+						selection.removeAllRanges();
+						selection.addRange(newrange);
+						this._sCall("collapse", [true]);
 						return true;
 					}
 				}
@@ -2749,70 +2739,68 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 				rs = range.startContainer;
 				if(rs && rs.nodeType === 3){
 					// Text node, we have to split it.
-					win.withGlobal(this.window, lang.hitch(this, function(){
-						var offset = range.startOffset;
-						if(rs.length < offset){
-							//We are not splitting the right node, try to locate the correct one
-							ret = this._adjustNodeAndOffset(rs, offset);
-							rs = ret.node;
-							offset = ret.offset;
+					var offset = range.startOffset;
+					if(rs.length < offset){
+						//We are not splitting the right node, try to locate the correct one
+						ret = this._adjustNodeAndOffset(rs, offset);
+						rs = ret.node;
+						offset = ret.offset;
+					}
+					txt = rs.nodeValue;
+					startNode = doc.createTextNode(txt.substring(0, offset));
+					var endText = txt.substring(offset);
+					if(endText !== ""){
+						endNode = doc.createTextNode(txt.substring(offset));
+					}
+					// Create a space, we'll select and bold it, so
+					// the whole word doesn't get bolded
+					breaker = doc.createElement("span");
+					sNode = doc.createTextNode(".");
+					breaker.appendChild(sNode);
+					// Create a junk node to avoid it trying to style the breaker.
+					// This will get destroyed later.
+					var extraSpan = doc.createElement("span");
+					breaker.appendChild(extraSpan);
+					if(startNode.length){
+						domConstruct.place(startNode, rs, "after");
+					}else{
+						startNode = rs;
+					}
+					domConstruct.place(breaker, startNode, "after");
+					if(endNode){
+						domConstruct.place(endNode, breaker, "after");
+					}
+					domConstruct.destroy(rs);
+					var newrange = rangeapi.create(this.window);
+					newrange.setStart(sNode, 0);
+					newrange.setEnd(sNode, sNode.length);
+					selection.removeAllRanges();
+					selection.addRange(newrange);
+					if(has("webkit")){
+						// WebKit is frustrating with positioning the cursor.
+						// It stinks to have a selected space, but there really
+						// isn't much choice here.
+						var style = "color";
+						if(command === "hilitecolor" || command === "backcolor"){
+							style = "backgroundColor";
 						}
-						txt = rs.nodeValue;
-						startNode = doc.createTextNode(txt.substring(0, offset));
-						var endText = txt.substring(offset);
-						if(endText !== ""){
-							endNode = doc.createTextNode(txt.substring(offset));
-						}
-						// Create a space, we'll select and bold it, so 
-						// the whole word doesn't get bolded
-						breaker = domConstruct.create("span");
-						sNode = doc.createTextNode(".");
-						breaker.appendChild(sNode);
-						// Create a junk node to avoid it trying to stlye the breaker.
-						// This will get destroyed later.
-						var extraSpan = domConstruct.create("span");
-						breaker.appendChild(extraSpan);
-						if(startNode.length){
-							domConstruct.place(startNode, rs, "after");
-						}else{
-							startNode = rs;
-						}
-						domConstruct.place(breaker, startNode, "after");
-						if(endNode){
-							domConstruct.place(endNode, breaker, "after");
-						}
-						domConstruct.destroy(rs);
-						var newrange = rangeapi.create();
+						domStyle.set(breaker, style, argument);
+						this._sCall("remove");
+						domConstruct.destroy(extraSpan);
+						breaker.innerHTML = "&#160;";	// &nbsp;
+						this._sCall("selectElement", [breaker]);
+						this.focus();
+					}else{
+						this.execCommand(command, argument);
+						domConstruct.place(breaker.firstChild, breaker, "before");
+						domConstruct.destroy(breaker);
 						newrange.setStart(sNode, 0);
 						newrange.setEnd(sNode, sNode.length);
 						selection.removeAllRanges();
 						selection.addRange(newrange);
-						if(has("webkit")){
-							// WebKit is frustrating with positioning the cursor. 
-							// It stinks to have a selected space, but there really
-							// isn't much choice here.
-							var style = "color";
-							if(command === "hilitecolor" || command === "backcolor"){
-								style = "backgroundColor";
-							}
-							domStyle.set(breaker, style, argument);
-							selectionapi.remove();
-							domConstruct.destroy(extraSpan);
-							breaker.innerHTML = "&#160;";	// &nbsp;
-							selectionapi.selectElement(breaker);
-							this.focus();
-						}else{
-							this.execCommand(command, argument);
-							domConstruct.place(breaker.firstChild, breaker, "before");
-							domConstruct.destroy(breaker);
-							newrange.setStart(sNode, 0);
-							newrange.setEnd(sNode, sNode.length);
-							selection.removeAllRanges();
-							selection.addRange(newrange);
-							selectionapi.collapse(false);
-							sNode.parentNode.removeChild(sNode);
-						}
-					}));
+						this._sCall("collapse", [false]);
+						sNode.parentNode.removeChild(sNode);
+					}
 					return true;
 				}
 			}				
@@ -2863,23 +2851,18 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		return [];
 	},
 
-	_stripBreakerNodes: function(node){
+	_stripBreakerNodes: function(/*DOMNode*/ node){
 		// summary:
 		//		Function for stripping out the breaker spans inserted by the formatting command.
 		//		Registered as a filter for IE, handles the breaker spans needed to fix up
 		//		How bold/italic/etc, work when selection is collapsed (single cursor).
 		if(!this.isLoaded){ return; } // this method requires init to be complete
-		win.withGlobal(this.window, lang.hitch(this, function(){
-			var breakers = query(".ieFormatBreakerSpan", node);
-			var i;
-			for(i = 0; i < breakers.length; i++){
-				var b = breakers[i];
-				while(b.firstChild){
-					domConstruct.place(b.firstChild, b, "before");
-				}
-				domConstruct.destroy(b);
-			}		
-		}));
+		query(".ieFormatBreakerSpan", node).forEach(function(b){
+			while(b.firstChild){
+				domConstruct.place(b.firstChild, b, "before");
+			}
+			domConstruct.destroy(b);
+		});
 		return node;
 	}
 });

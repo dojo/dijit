@@ -5,7 +5,6 @@ define([
 	"dojo/i18n", // i18n.getLocalization
 	"dojo/_base/lang", // lang.delegate lang.hitch lang.isString
 	"dojo/store/Memory", // MemoryStore
-	"dojo/_base/window", // win.withGlobal
 	"../../registry", // registry.getUniqueId
 	"../../_Widget",
 	"../../_TemplatedMixin",
@@ -15,7 +14,7 @@ define([
 	"../range",
 	"../selection",
 	"dojo/i18n!../nls/FontChoice"
-], function(array, declare, domConstruct, i18n, lang, MemoryStore, win,
+], function(array, declare, domConstruct, i18n, lang, MemoryStore,
 	registry, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, FilteringSelect, _Plugin, rangeapi, selectionapi){
 
 /*=====
@@ -328,7 +327,7 @@ var _FormatBlockDropDown = declare("dijit._editor.plugins._FormatBlockDropDown",
 							for(i = 0; i < node.childNodes.length; i++){
 								var c = node.childNodes[i];
 								if(c.nodeType == 1){
-									if(win.withGlobal(editor.window, "inSelection", selectionapi, [c])){
+									if(editor._sCall("inSelection", [c])){
 										var tag = c.tagName? c.tagName.toLowerCase(): "";
 										if(array.indexOf(this.values, tag) !== -1){
 											ary.push(c);
@@ -379,7 +378,7 @@ var _FormatBlockDropDown = declare("dijit._editor.plugins._FormatBlockDropDown",
 					}else{
 						// Probably a multi select, so we have to process it.  Whee.
 						node = start;
-						while(win.withGlobal(editor.window, "inSelection", selectionapi, [node])){
+						while(editor._sCall("inSelection", [node])){
 							if(node.nodeType == 1){
 								tag = node.tagName? node.tagName.toLowerCase(): "";
 								if(array.indexOf(this.values, tag) !== -1){
@@ -416,12 +415,9 @@ var _FormatBlockDropDown = declare("dijit._editor.plugins._FormatBlockDropDown",
 		}else{
 			// Everyone else works fine this way, a paste-over and is native
 			// undo friendly.
-			win.withGlobal(editor.window,
-				 "selectElementChildren", selectionapi, [node]);
-			var html = win.withGlobal(editor.window,
-				 "getSelectedHtml", selectionapi, [null]);
-			win.withGlobal(editor.window,
-				 "selectElement", selectionapi, [node]);
+			editor._sCall("selectElementChildren", [node])
+			var html = editor._sCall("getSelectedHtml", [])
+			editor._sCall("selectElement", [node])
 			editor.execCommand("inserthtml", html||"");
 		}
 	}

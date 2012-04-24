@@ -7,14 +7,12 @@ define([
 	"dojo/sniff", // has("ie")
 	"dojo/_base/query", // query
 	"dojo/string", // string.substitute
-	"dojo/_base/window", // win.withGlobal
 	"../../_Widget",
 	"../_Plugin",
 	"../../form/DropDownButton",
-	"../range",
-	"../selection"
-], function(require, declare, domAttr, keys, lang, has, query, string, win,
-	_Widget, _Plugin, DropDownButton, rangeapi, selectionapi){
+	"../range"
+], function(require, declare, domAttr, keys, lang, has, query, string,
+	_Widget, _Plugin, DropDownButton, rangeapi){
 
 /*=====
 	var _Plugin = dijit._editor._Plugin;
@@ -285,8 +283,7 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 			if(a && (a.nodeName && a.nodeName.toLowerCase() !== this.tag)){
 				// Still nothing, one last thing to try on IE, as it might be 'img'
 				// and thus considered a control.
-				a = win.withGlobal(this.editor.window,
-					"getSelectedElement", selectionapi, [this.tag]);
+				a = this.editor._sCall("getSelectedElement", [this.tag]);
 			}
 			if(a && (a.nodeName && a.nodeName.toLowerCase() === this.tag)){
 				// Okay, we do have a match.  IE, for some reason, sometimes pastes before
@@ -296,8 +293,7 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 				if(this.editor.queryCommandEnabled("unlink")){
 					// Select all the link children, then unlink.  The following insert will
 					// then replace the selected text.
-					win.withGlobal(this.editor.window,
-						"selectElementChildren", selectionapi, [a]);
+					this.editor._sCall("selectElementChildren", [a]);
 					this.editor.execCommand("unlink");
 				}
 			}
@@ -338,9 +334,9 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 			url = a.getAttribute('_djrealurl') || a.getAttribute('href');
 			target = a.getAttribute('target') || "_self";
 			text = a.textContent || a.innerText;
-			win.withGlobal(this.editor.window, "selectElement", selectionapi, [a, true]);
+			this.editor._sCall("selectElement", [a, true]);
 		}else{
-			text = win.withGlobal(this.editor.window, selectionapi.getSelectedText);
+			text = this.editor._sCall("getSelectedText");
 		}
 		return {urlInput: url || '', textInput: text || '', targetSelect: target || ''}; //Object;
 	},
@@ -365,19 +361,16 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 			if(a && (a.nodeName && a.nodeName.toLowerCase() !== this.tag)){
 				// Still nothing, one last thing to try on IE, as it might be 'img'
 				// and thus considered a control.
-				a = win.withGlobal(this.editor.window,
-					"getSelectedElement", selectionapi, [this.tag]);
+				a = this.editor._sCall("getSelectedElement", [this.tag]);
 			}
 			if(!a || (a.nodeName && a.nodeName.toLowerCase() !== this.tag)){
 				// Try another lookup, IE's selection is just terrible.
-				b = win.withGlobal(this.editor.window,
-				"getAncestorElement", selectionapi, [this.tag]);
+				b = this.editor._sCall("getAncestorElement", [this.tag]);
 				if(b && (b.nodeName && b.nodeName.toLowerCase() == this.tag)){
 					// Looks like we found an A tag, use it and make sure just it is 
 					// selected.
 					a = b;
-					win.withGlobal(this.editor.window,
-						"selectElement", selectionapi, [a]);
+					this.editor._sCall("selectElement", [a]);
 				}else if (range.startContainer === range.endContainer){
 					// STILL nothing.  Trying one more thing.  Lets look at the first child.  
 					// It might be an anchor tag in a div by itself or the like.  If it is, 
@@ -386,14 +379,12 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 					fc = range.startContainer.firstChild;
 					if(fc && (fc.nodeName && fc.nodeName.toLowerCase() == this.tag)){
 						a = fc;
-						win.withGlobal(this.editor.window,
-							"selectElement", selectionapi, [a]);
+						this.editor._sCall("selectElement", [a]);
 					}
 				}
 			}
 		}else{
-			a = win.withGlobal(this.editor.window,
-				"getAncestorElement", selectionapi, [this.tag]);
+			a = this.editor._sCall("getAncestorElement", [this.tag]);
 		}
 		this.dropDown.reset();
 		this._setButton.set("disabled", true);
@@ -415,9 +406,7 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 			if(tg === this.tag && domAttr.get(t,"href")){
 				var editor = this.editor;
 
-				win.withGlobal(editor.window,
-					 "selectElement",
-					 selectionapi, [t]);
+				this.editor._sCall("selectElement", [t]);
 				editor.onDisplayChanged();
 
 				// Call onNormalizedDisplayChange() now, rather than on timer.
@@ -496,12 +485,11 @@ var ImgLinkDialog = declare("dijit._editor.plugins.ImgLinkDialog", [LinkDialog],
 		if(img && img.tagName.toLowerCase() === this.tag){
 			url = img.getAttribute('_djrealurl') || img.getAttribute('src');
 			text = img.getAttribute('alt');
-			win.withGlobal(this.editor.window,
-				"selectElement", selectionapi, [img, true]);
+			this.editor._sCall("selectElement", [img, true]);
 		}else{
-			text = win.withGlobal(this.editor.window, selectionapi.getSelectedText);
+			text = this.editor._sCall("getSelectedText");
 		}
-		return {urlInput: url || '', textInput: text || ''}; //Object;
+		return {urlInput: url || '', textInput: text || ''}; //Object
 	},
 
 	_isValid: function(){
@@ -536,9 +524,7 @@ var ImgLinkDialog = declare("dijit._editor.plugins.ImgLinkDialog", [LinkDialog],
 			var t = e.target;
 			var tg = t.tagName? t.tagName.toLowerCase() : "";
 			if(tg === this.tag){
-				win.withGlobal(this.editor.window,
-					"selectElement",
-					selectionapi, [t]);
+				this.editor._sCall("selectElement", [t]);
 			}
 		}
 	},
@@ -575,9 +561,7 @@ var ImgLinkDialog = declare("dijit._editor.plugins.ImgLinkDialog", [LinkDialog],
 			if(tg === this.tag && domAttr.get(t,"src")){
 				var editor = this.editor;
 
-				win.withGlobal(editor.window,
-					 "selectElement",
-					 selectionapi, [t]);
+				this.editor._sCall("selectElement", [t]);
 				editor.onDisplayChanged();
 
 				// Call onNormalizedDisplayChange() now, rather than on timer.
