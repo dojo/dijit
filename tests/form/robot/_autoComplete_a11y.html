@@ -891,6 +891,30 @@
 				}
 			]);
 
+			doh.register("readOnly", [
+				{
+					timeout:5000,
+					name:"cannot type",
+					combo: "labelFunc",
+					runTest:function(){
+						var	d = new doh.Deferred(),
+							combo = dijit.byId(this.combo),
+							initVal = combo.get('value');
+						combo.set('readOnly', true);
+						combo.focus();
+						doh.robot.typeKeys("xz", 1000, 500);
+						doh.robot.sequence(d.getTestCallback(function(){
+							doh.t(combo.isValid(), 'isValid');
+							doh.is(initVal, combo.get('value'), 'changed from ' + initVal + ' to ' + combo.get('value'));
+						}), 500, 500);
+						return d;
+					},
+					tearDown:function(){
+						dijit.byId(this.combo).set("readOnly", false);
+					}
+				}
+			]);
+
 			// Labelfunc tests.   See also initial tests on "setvaluetest" ComboBox.
 			doh.register("labelFunc", [
 				{
