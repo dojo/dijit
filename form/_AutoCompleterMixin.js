@@ -188,6 +188,7 @@ define([
 			// summary:
 			//		Handles keyboard events
 
+			if(this.disabled || this.readOnly){ return; }
 			var key = evt.charOrCode;
 
 			// except for cutting/pasting case - ctrl + x/v
