@@ -11,7 +11,7 @@ define([
 	//		Deprecated methods for setting/getting wai roles and states.
 	//		New code should call setAttribute()/getAttribute() directly.
 	//
-	//		Also loads hccss to apply dijit_a11y class to root node if machine is in high-contrast mode.
+	//		Also loads hccss to apply dj_a11y class to root node if machine is in high-contrast mode.
 
 	lang.mixin(dijit, {
 		hasWaiRole: function(/*Element*/ elem, /*String?*/ role){

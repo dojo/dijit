@@ -80,7 +80,7 @@
 			var fontSize = "12pt";
 			var fontFamily = "monospace";
 
-			dijit.byId("theme").isRealA11y = dojo.hasClass(dojo.body(), "dijit_a11y");
+			dijit.byId("theme").isRealA11y = dojo.hasClass(dojo.body(), "dj_a11y");
 
 			var str = window.location.href.substr(window.location.href.indexOf("?")+1).split(/#/);
 			var ary  = str[0].split(/&/);
@@ -475,9 +475,9 @@
 
 		function themeOnChange(theme){
 			if(theme == "a11y"){
-				theme="dijit_a11y";
+				theme="dj_a11y";
 			}
-			dojo.body().className = theme + ((this.isRealA11y && theme != "dijit_a11y") ? " dijit_a11y" : "");
+			dojo.body().className = theme + ((this.isRealA11y && theme != "dj_a11y") ? " dj_a11y" : "");
 		}
 	</script>
 	<table style="display:block;">
