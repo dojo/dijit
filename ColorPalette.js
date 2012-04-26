@@ -8,13 +8,12 @@ define([
 	"dojo/i18n", // i18n.getLocalization
 	"dojo/_base/Color", // dojo.Color dojo.Color.named
 	"dojo/_base/declare", // declare
-	"dojo/dom-class", // domClass.contains
 	"dojo/dom-construct", // domConstruct.place
 	"dojo/string", // string.substitute
 	"dojo/i18n!dojo/nls/colors",	// translations
 	"dojo/colors"	// extend dojo.Color w/names of other colors
 ], function(require, template, _Widget, _TemplatedMixin, _PaletteMixin, has, i18n, Color,
-	declare, domClass, domConstruct, string){
+	declare, domConstruct, string){
 
 /*=====
 	var _Widget = dijit._Widget;
