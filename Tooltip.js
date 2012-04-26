@@ -351,7 +351,7 @@ define([
 
 			// Make connections
 			this._connections = array.map(this._connectIds, function(id){
-				var node = dom.byId(id),
+				var node = dom.byId(id, this.ownerDocument),
 					selector = this.selector,
 					delegatedEvent = selector ?
 						function(eventType){ return on.selector(selector, eventType); } :

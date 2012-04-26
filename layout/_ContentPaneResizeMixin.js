@@ -1,7 +1,6 @@
 define([
 	"dojo/_base/array", // array.filter array.forEach
 	"dojo/_base/declare", // declare
-	"dojo/dom-attr",	// domAttr.has
 	"dojo/dom-class",	// domClass.contains domClass.toggle
 	"dojo/dom-geometry",// domGeometry.contentBox domGeometry.marginBox
 	"dojo/dom-style",
@@ -11,7 +10,7 @@ define([
 	"../registry",	// registry.byId
 	"../Viewport",
 	"./utils"	// marginBox2contextBox
-], function(array, declare, domAttr, domClass, domGeometry, domStyle, lang, query, has,
+], function(array, declare, domClass, domGeometry, domStyle, lang, query, has,
 			registry, Viewport, layoutUtils){
 
 // module:
