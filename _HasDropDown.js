@@ -168,7 +168,10 @@ define([
 				if(dropDown.focus && dropDown.autoFocus !== false){
 					// Focus the dropdown widget - do it on a delay so that we
 					// don't steal back focus from the dropdown.
-					this.defer(lang.hitch(dropDown, "focus"), 1);
+					this._focusDropDownTimer = this.defer(function(){
+						dropDown.focus();
+						delete this._focusDropDownTimer;
+					});
 				}
 			}else{
 				// The drop down arrow icon probably can't receive focus, but widget itself should get focus.
@@ -489,6 +492,10 @@ define([
 			// tags:
 			//		protected
 
+			if(this._focusDropDownTimer){
+				this._focusDropDownTimer.remove();
+				delete this._focusDropDownTimer;
+			}
 			if(this._opened){
 				if(focus){ this.focus(); }
 				popup.close(this.dropDown);
