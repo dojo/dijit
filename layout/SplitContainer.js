@@ -178,7 +178,7 @@ return declare("dijit.layout.SplitContainer", _LayoutWidget, {
 		index = index === undefined ? this.sizers.length : index;
 
 		// TODO: use a template for this!!!
-		var sizer = win.doc.createElement('div');
+		var sizer = this.ownerDocument.createElement('div');
 		sizer.id=registry.getUniqueId('dijit_layout_SplitterContainer_Splitter');
 		this.sizers.splice(index,0,sizer);
 		this.domNode.appendChild(sizer);
@@ -186,7 +186,7 @@ return declare("dijit.layout.SplitContainer", _LayoutWidget, {
 		sizer.className = this.isHorizontal ? 'dijitSplitContainerSizerH' : 'dijitSplitContainerSizerV';
 
 		// add the thumb div
-		var thumb = win.doc.createElement('div');
+		var thumb = this.ownerDocument.createElement('div');
 		thumb.className = 'thumb';
 		sizer.appendChild(thumb);
 
@@ -462,8 +462,8 @@ return declare("dijit.layout.SplitContainer", _LayoutWidget, {
 
 		// attach mouse events
 		this._ownconnects = [
-			on(win.doc.documentElement, "mousemove", lang.hitch(this, "changeSizing")),
-			on(win.doc.documentElement, "mouseup", lang.hitch(this, "endSizing"))
+			on(this.ownerDocument.documentElement, "mousemove", lang.hitch(this, "changeSizing")),
+			on(this.ownerDocument.documentElement, "mouseup", lang.hitch(this, "endSizing"))
 		];
 
 		event.stop(e);
