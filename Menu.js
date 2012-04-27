@@ -11,7 +11,7 @@ define([
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on",
 	"dojo/sniff", // has("ie"), has("quirks")
-	"dojo/_base/window", // win.body win.doc.documentElement win.doc.frames win.withGlobal
+	"dojo/_base/window", // win.body win.doc.documentElement win.doc.frames
 	"dojo/window", // winUtils.get
 	"./popup",
 	"./DropDownMenu",
@@ -127,7 +127,7 @@ return declare("dijit.Menu", DropDownMenu, {
 		if(node.tagName.toLowerCase() == "iframe"){
 			var iframe = node,
 				window = this._iframeContentWindow(iframe);
-			cn = win.withGlobal(window, win.body);
+			cn = win.body(window.document);
 		}else{
 			// To capture these events at the top level, attach to <html>, not <body>.
 			// Otherwise right-click context menu just doesn't work.
@@ -185,7 +185,7 @@ return declare("dijit.Menu", DropDownMenu, {
 				// access the <body> node because it's already gone, or at least in a state of limbo
 
 				var window = this._iframeContentWindow(iframe);
-					cn = win.withGlobal(window, win.body);
+					cn = win.body(window.document)
 				binding.connects = doConnects(cn);
 			});
 			if(iframe.addEventListener){

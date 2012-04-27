@@ -456,7 +456,7 @@ define([
 						array.forEach(mark,function(n){
 							bookmark.push(rangeapi.getNode(n,this.editNode));
 						},this);
-						win.withGlobal(this.window,'moveToBookmark',dijit,[{mark: bookmark, isCollapsed: col}]);
+						win.withGlobal(this.window,'moveToBookmark',focusBase,[{mark: bookmark, isCollapsed: col}]);
 					}else{
 						if(mark.startContainer && mark.endContainer){
 							// Use the pseudo WC3 range API.  This works better for positions
@@ -746,7 +746,7 @@ define([
 				// only restore the selection if the current range is collapsed
 				// if not collapsed, then it means the editor does not lose
 				// selection and there is no need to restore it
-				if(win.withGlobal(this.window,'isCollapsed',dijit)){
+				if(win.withGlobal(this.window,'isCollapsed',focusBase)){
 					this._moveToBookmark(this._savedSelection);
 				}
 				delete this._savedSelection;
