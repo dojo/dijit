@@ -13,9 +13,10 @@ define([
 	"dojo/dom", // dom.byId
 	"dojo/dom-attr", // domAttr.attr
 	"dojo/_base/xhr", // xhr.get
-	"dojo/i18n" // i18n.getLocalization
+	"dojo/i18n", // i18n.getLocalization
+	"dojo/when"
 ], function(kernel, lang, _Widget, _Container, _ContentPaneResizeMixin, string, html, nlsLoading,
-	array, declare, Deferred, dom, domAttr, xhr, i18n){
+	array, declare, Deferred, dom, domAttr, xhr, i18n, when){
 
 /*=====
 	var _Widget = dijit._Widget;
@@ -375,19 +376,18 @@ return declare("dijit.layout.ContentPane", [_Widget, _Container, _ContentPaneRes
 			lang.mixin(getArgs, this.ioArgs);
 		}
 
-		var hand = (this._xhrDfd = (this.ioMethod || xhr.get)(getArgs));
+		var hand = (this._xhrDfd = (this.ioMethod || xhr.get)(getArgs)),
+			returnedHtml;
 
 		hand.then(
 			function(html){
+				returnedHtml = html;
 				try{
 					self._isDownloaded = true;
-					self._setContent(html, false);
-					self.onDownloadEnd();
+					return self._setContent(html, false);
 				}catch(err){
 					self._onError('Content', err); // onContentError
 				}
-				delete self._xhrDfd;
-				return html;
 			},
 			function(err){
 				if(!hand.canceled){
@@ -397,7 +397,11 @@ return declare("dijit.layout.ContentPane", [_Widget, _Container, _ContentPaneRes
 				delete self._xhrDfd;
 				return err;
 			}
-		);
+		).then(function(){
+			self.onDownloadEnd();
+			delete self._xhrDfd;
+			return returnedHtml;
+		});
 
 		// Remove flag saying that a load is needed
 		delete this._hrefChanged;
@@ -480,6 +484,8 @@ return declare("dijit.layout.ContentPane", [_Widget, _Container, _ContentPaneRes
 	_setContent: function(/*String|DocumentFragment*/ cont, /*Boolean*/ isFakeContent){
 		// summary:
 		//		Insert the content into the container node
+		// returns:
+		//		Returns a Deferred promise that is resolved when the content is parsed.
 
 		// first get rid of child widgets
 		this.destroyDescendants();
@@ -521,23 +527,25 @@ return declare("dijit.layout.ContentPane", [_Widget, _Container, _ContentPaneRes
 
 		setter.set( (lang.isObject(cont) && cont.domNode) ? cont.domNode : cont, setterParams );
 		
+		var self = this;
+		return when(setter.parseDeferred, function(){
 			// setter params must be pulled afresh from the ContentPane each time
-		delete this._contentSetterParams;
-	
-		if(!isFakeContent){
-			if(this._started){
+			delete self._contentSetterParams;
+			
+			if(!isFakeContent){
+				if(self._started){
 					// Startup each top level child widget (and they will start their children, recursively)
-				delete this._started;
-				this.startup();
-
-				// Call resize() on each of my child layout widgets,
-				// or resize() on my single child layout widget...
-				// either now (if I'm currently visible) or when I become visible
-				this._scheduleLayout();
+					delete self._started;
+					self.startup();
+					
+					// Call resize() on each of my child layout widgets,
+					// or resize() on my single child layout widget...
+					// either now (if I'm currently visible) or when I become visible
+					self._scheduleLayout();
+				}
+				self._onLoadHandler(cont);
 			}
-
-			this._onLoadHandler(cont);
-		}
+		});
 	},
 
 	_onError: function(type, err, consoleText){
