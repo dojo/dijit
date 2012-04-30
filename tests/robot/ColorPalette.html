@@ -191,7 +191,7 @@
 							var d = new doh.Deferred();
 
 							// Testing nls too...
-							var red = dojo.query("[title=rojo]", small.domNode);
+							var red = dojo.query("td[title=rojo]", small.domNode);
 							doh.is(1, red.length, "found rojo (red)");
 
 							doh.robot.mouseMoveAt(red[0], 500);
@@ -201,8 +201,14 @@
 								doh.robot.mouseClick({left: true}, 500);
 							}
 							
-							var green = dojo.query("[title=verde]", small.domNode);
+							var green = dojo.query("td[title=verde]", small.domNode);
 							doh.is(1, green.length, "found verde (green)");
+
+							// Make sure <img> alt and title are translated.  Not sure why they are being set at all though.
+							var greenImg = dojo.query("img", green[0]);
+							doh.is(1, greenImg.length, "found <img> inside of <td>");
+							doh.is("verde", greenImg[0].getAttribute("alt"), "img.alt");
+							doh.is("verde", greenImg[0].getAttribute("title"), "img.title");
 
 							doh.robot.mouseMoveAt(green[0], 500);
 							doh.robot.mouseClick({left: true}, 500);

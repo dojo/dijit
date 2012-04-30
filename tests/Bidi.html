@@ -113,26 +113,6 @@
 					}
 				},
 				{
-					name: "ltr_ToolbarColorDropDown",
-					runTest: function(){
-						dijit.byId("ltr_ToolbarColorDropDown").openDropDown();
-
-						var white = dojo.query("img[alt='white']", dojo.byId("ltr_colorPalette"))[0];
-						var plum = dojo.query("img[alt='plum']", dojo.byId("ltr_colorPalette"))[0];
-						checkLeft(white, plum);
-					}
-				},
-				{
-					name: "rtl_ToolbarColorDropDown",
-					runTest: function(){
-						dijit.byId("rtl_ToolbarColorDropDown").openDropDown();
-
-						var white = dojo.query("img[alt='white']", dojo.byId("rtl_colorPalette"))[0];
-						var plum = dojo.query("img[alt='plum']", dojo.byId("rtl_colorPalette"))[0];
-						checkLeft(plum, white);
-					}
-				},
-				{
 					name: "ltr_ToolbarMenuDropDown",
 					runTest: function(){
 						dijit.byId("ltr_ToolbarComboButton").openDropDown();
