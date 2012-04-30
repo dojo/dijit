@@ -166,7 +166,7 @@ return declare("dijit._editor.plugins.EnterKeyHandling", _Plugin, {
 					// circulate the undo detection code by calling RichText::execCommand directly
 					RichText.prototype.execCommand.call(this.editor, 'formatblock',this.blockNodeForEnter);
 					// set the innerHTML of the new block node
-					var block = this.editor._sCall('getAncestorElement', this.blockNodeForEnter);
+					var block = this.editor._sCall('getAncestorElement', [this.blockNodeForEnter]);
 					if(block){
 						block.innerHTML=this.bogusHtmlContent;
 						if(has("ie")){
@@ -225,7 +225,7 @@ return declare("dijit._editor.plugins.EnterKeyHandling", _Plugin, {
 
 		var selection, range, newrange, startNode, endNode, brNode, doc=this.editor.document,br,rs,txt;
 		if(e.shiftKey){		// shift+enter always generates <br>
-			var parent = this.editor._sCall('getParentElement');
+			var parent = this.editor._sCall('getParentElement', []);
 			var header = rangeapi.getAncestor(parent,this.blockNodes);
 			if(header){
 				if(header.tagName == 'LI'){
@@ -399,7 +399,7 @@ return declare("dijit._editor.plugins.EnterKeyHandling", _Plugin, {
 			}catch(e2){ /*squelch FF3 exception bug when editor content is a single BR*/ }
 			// get the newly created block node
 			// FIXME
-			block = {blockNode: this.editor._sCall('getAncestorElement', this.blockNodeForEnter),
+			block = {blockNode: this.editor._sCall('getAncestorElement', [this.blockNodeForEnter]),
 					blockContainer: this.editor.editNode};
 			if(block.blockNode){
 				if(block.blockNode != this.editor.editNode &&

@@ -2785,7 +2785,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 							style = "backgroundColor";
 						}
 						domStyle.set(breaker, style, argument);
-						this._sCall("remove");
+						this._sCall("remove", []);
 						domConstruct.destroy(extraSpan);
 						breaker.innerHTML = "&#160;";	// &nbsp;
 						this._sCall("selectElement", [breaker]);

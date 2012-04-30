@@ -487,7 +487,7 @@ var ImgLinkDialog = declare("dijit._editor.plugins.ImgLinkDialog", [LinkDialog],
 			text = img.getAttribute('alt');
 			this.editor._sCall("selectElement", [img, true]);
 		}else{
-			text = this.editor._sCall("getSelectedText");
+			text = this.editor._sCall("getSelectedText", []);
 		}
 		return {urlInput: url || '', textInput: text || ''}; //Object
 	},
