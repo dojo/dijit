@@ -229,7 +229,7 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 		//		of pixels of possible scroll (ex: 1000) means "scrolled all the way to the right"
 		return (this.isLeftToRight() || has("ie") < 8 || (has("ie") && has("quirks")) || has("webkit")) ? this.scrollNode.scrollLeft :
 				domStyle.get(this.containerNode, "width") - domStyle.get(this.scrollNode, "width")
-					 + (has("ie") == 8 ? -1 : 1) * this.scrollNode.scrollLeft;
+					 + (has("ie") >= 8 ? -1 : 1) * this.scrollNode.scrollLeft;
 	},
 
 	_convertToScrollLeft: function(val){
@@ -244,7 +244,7 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 			return val;
 		}else{
 			var maxScroll = domStyle.get(this.containerNode, "width") - domStyle.get(this.scrollNode, "width");
-			return (has("ie") == 8 ? -1 : 1) * (val - maxScroll);
+			return (has("ie") >= 8 ? -1 : 1) * (val - maxScroll);
 		}
 	},
 
