@@ -6,18 +6,25 @@ define([
 	"./main"	// dijit._scopeName
 ], function(array, has, unload, win, dijit){
 
-	// module:
-	//		dijit/registry
-	// summary:
-	//		Registry of existing widget on page, plus some utility methods.
-	//		Must be accessed through AMD api, ex:
-	//		require(["dijit/registry"], function(registry){ registry.byId("foo"); })
-
 	var _widgetTypeCtr = {}, hash = {};
 
 	var registry =  {
-		// summary:
-		//		A set of widgets indexed by id
+		/*=====
+		};
+		declare("dijit.registry",[
+			"dojo/_base/array", // array.forEach array.map
+			"dojo/sniff", // has("ie")
+			"dojo/_base/unload", // unload.addOnWindowUnload
+			"dojo/_base/window", // win.body
+			"./main"	// dijit._scopeName
+		],{
+			// module:
+			//		dijit/registry
+			// summary:
+			//		Registry of existing widget on page, plus some utility methods.
+			//		Must be accessed through AMD api, ex:
+			//		require(["dijit/registry"], function(registry){ registry.byId("foo"); })
+		=====*/
 
 		length: 0,
 
@@ -152,7 +159,7 @@ define([
 		// In case someone needs to access hash.
 		// Actually, this is accessed from WidgetSet back-compatibility code
 		_hash: hash
-	};
+	}/*=====)=====*/;
 
 	if(has("ie")){
 		// Only run _destroyAll() for IE because we think it's only necessary in that case,
@@ -162,12 +169,6 @@ define([
 		});
 	}
 
-	/*=====
-	dijit.registry = {
-		// summary:
-		//		A list of widgets on a page.
-	};
-	=====*/
 	dijit.registry = registry;
 
 	return registry;
