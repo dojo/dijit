@@ -36,7 +36,7 @@ define([
 		//		for the "around" argument and finds a proper processor to place a node.
 		//		Deprecated, new code should use dijit.place.around() instead.
 	};
-	====*/
+	=====*/
 	dijit.placeOnScreenAroundElement = function(node, aroundNode, aroundCorners, layoutNode){
 		// Convert old style {"BL": "TL", "BR": "TR"} type argument
 		// to style needed by dijit.place code:
