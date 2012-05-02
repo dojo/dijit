@@ -7,10 +7,6 @@ define([
 	"dojo/text!./templates/ComboButton.html"
 ], function(declare, event, keys, focus, DropDownButton, template){
 
-/*=====
-	var DropDownButton = dijit.form.DropDownButton;
-=====*/
-
 // module:
 //		dijit/form/ComboButton
 // summary:

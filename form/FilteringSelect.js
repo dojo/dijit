@@ -7,11 +7,6 @@ define([
 	"./ComboBoxMixin"
 ], function(filter, declare, lang, when, MappedTextBox, ComboBoxMixin){
 
-/*=====
-	var MappedTextBox = dijit.form.MappedTextBox;
-	var ComboBoxMixin = dijit.form.ComboBoxMixin;
-=====*/
-
 	// module:
 	//		dijit/form/FilteringSelect
 	// summary:

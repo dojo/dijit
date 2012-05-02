@@ -12,11 +12,6 @@ define([
 ], function(declare, domConstruct, domStyle, kernel, lang, has,
 			_FormValueWidget, _TextBoxMixin, template, dijit){
 
-/*=====
-	var _FormValueWidget = dijit.form._FormValueWidget;
-	var _TextBoxMixin = dijit.form._TextBoxMixin;
-=====*/
-
 	// module:
 	//		dijit/form/TextBox
 	// summary:

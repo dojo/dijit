@@ -11,11 +11,6 @@ define([
 	"dojo/text!./templates/Button.html"
 ], function(require, declare, domClass, has, kernel, lang, ready, _FormWidget, _ButtonMixin, template){
 
-/*=====
-	var _FormWidget = dijit.form._FormWidget;
-	var _ButtonMixin = dijit.form._ButtonMixin;
-=====*/
-
 // module:
 //		dijit/form/Button
 // summary:

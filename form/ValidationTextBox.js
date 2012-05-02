@@ -8,11 +8,6 @@ define([
 	"dojo/i18n!./nls/validate"
 ], function(declare, kernel, i18n, TextBox, Tooltip, template){
 
-/*=====
-	var Tooltip = dijit.Tooltip;
-	var TextBox = dijit.form.TextBox;
-=====*/
-
 	// module:
 	//		dijit/form/ValidationTextBox
 	// summary:

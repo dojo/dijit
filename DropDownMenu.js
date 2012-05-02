@@ -7,11 +7,6 @@ define([
 	"./_MenuBase"
 ], function(declare, event, keys, template, _OnDijitClickMixin, _MenuBase){
 
-/*=====
-	var _MenuBase = dijit._MenuBase;
-	var _OnDijitClickMixin = dijit._OnDijitClickMixin;
-=====*/
-
 	// module:
 	//		dijit/DropDownMenu
 	// summary:

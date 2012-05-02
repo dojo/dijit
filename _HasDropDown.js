@@ -19,9 +19,6 @@ define([
 ], function(declare, Deferred, event,dom, domAttr, domClass, domGeometry, domStyle, has, keys, lang, touch,
 			winUtils, registry, focus, popup, _FocusMixin){
 
-/*=====
-	var _FocusMixin = dijit._FocusMixin;
-=====*/
 
 	// module:
 	//		dijit/_HasDropDown

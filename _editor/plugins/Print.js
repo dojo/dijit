@@ -9,10 +9,6 @@ define([
 	"dojo/i18n!../nls/commands"
 ], function(declare, i18n, lang, has, focus, _Plugin, Button){
 
-/*=====
-	var _Plugin = dijit._editor._Plugin;
-=====*/
-
 // module:
 //		dijit/_editor/plugins/Print
 // summary:

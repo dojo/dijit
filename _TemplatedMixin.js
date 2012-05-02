@@ -11,10 +11,6 @@ define([
 	"dojo/_base/unload" // unload.addOnWindowUnload
 ], function(lang, touch, _WidgetBase, string, cache, array, declare, domConstruct, has, unload) {
 
-/*=====
-	var _WidgetBase = dijit._WidgetBase;
-=====*/
-
 	// module:
 	//		dijit/_TemplatedMixin
 	// summary:
@@ -54,9 +50,7 @@ define([
 		//		List of widget attribute names associated with data-dojo-attach-point=... in the
 		//		template, ex: ["containerNode", "labelNode"]
 		_attachPoints: [],
- =====*/
 
-/*=====
 		// _attachEvents: [private] Handle[]
 		//		List of connections associated with data-dojo-attach-event=... in the
 		//		template

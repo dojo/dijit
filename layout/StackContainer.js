@@ -14,12 +14,6 @@ define([
 ], function(array, cookie, declare, domClass, has, lang, ready, topic,
 			registry, _WidgetBase, _LayoutWidget){
 
-/*=====
-var _WidgetBase = dijit._WidgetBase;
-var _LayoutWidget = dijit.layout._LayoutWidget;
-var StackController = dijit.layout.StackController;
-=====*/
-
 // module:
 //		dijit/layout/StackContainer
 // summary:

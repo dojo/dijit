@@ -6,11 +6,6 @@ define([
 	"./_DateTimeTextBox"
 ], function(declare, keys, lang, _TimePicker, _DateTimeTextBox){
 
-/*=====
-	var _TimePicker = dijit._TimePicker;
-	var _DateTimeTextBox = dijit.form._DateTimeTextBox;
-=====*/
-
 	// module:
 	//		dijit/form/TimeTextBox
 	// summary:

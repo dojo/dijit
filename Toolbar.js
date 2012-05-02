@@ -9,12 +9,6 @@ define([
 	"./_TemplatedMixin"
 ], function(require, declare, has, keys, ready, _Widget, _KeyNavContainer, _TemplatedMixin){
 
-/*=====
-	var _Widget = dijit._Widget;
-	var _KeyNavContainer = dijit._KeyNavContainer;
-	var _TemplatedMixin = dijit._TemplatedMixin;
-=====*/
-
 	// module:
 	//		dijit/Toolbar
 	// summary:

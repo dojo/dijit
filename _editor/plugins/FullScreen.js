@@ -20,10 +20,6 @@ define([
 ], function(aspect, declare, domClass, domGeometry, domStyle, event, i18n, keys, lang, on, has, win, winUtils,
 			focus, _Plugin, ToggleButton, registry){
 
-/*=====
-	var _Plugin = dijit._editor._Plugin;
-=====*/
-
 
 // module:
 //		dijit/_editor/plugins/FullScreen

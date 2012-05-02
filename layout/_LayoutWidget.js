@@ -11,12 +11,6 @@ define([
 ], function(lang, _Widget, _Container, _Contained, Viewport,
 	declare, domClass, domGeometry, domStyle){
 
-/*=====
-	var _Widget = dijit._Widget;
-	var _Container = dijit._Container;
-	var _Contained = dijit._Contained;
-=====*/
-
 	// module:
 	//		dijit/layout/_LayoutWidget
 	// summary:

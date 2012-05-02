@@ -7,11 +7,6 @@ define([
 	"./BackgroundIframe"
 ], function(declare, domAttr, winUtils, _Widget, _TemplatedMixin, BackgroundIframe){
 
-/*=====
-	var _Widget = dijit._Widget;
-	var _TemplatedMixin = dijit._TemplatedMixin;
-=====*/
-
 	// module:
 	//		dijit/DialogUnderlay
 	// summary:

@@ -9,10 +9,6 @@ define([
 	"../_Plugin"
 ], function(declare, domClass, domConstruct, domGeometry, lang, has, win, _Plugin){
 
-/*=====
-	var _Plugin = dijit._editor._Plugin;
-=====*/
-
 // module:
 //		dijit/_editor/plugins/AlwaysShowToolbar
 // summary:

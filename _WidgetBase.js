@@ -24,10 +24,6 @@ define([
 			dom, domAttr, domClass, domConstruct, domGeometry, domStyle, has, kernel,
 			lang, on, ready, Stateful, topic, win, registry){
 
-/*=====
-var Stateful = dojo.Stateful;
-=====*/
-
 // module:
 //		dijit/_WidgetBase
 // summary:

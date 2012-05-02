@@ -18,10 +18,6 @@ define([
 ], function(array, declare, cldrSupplemental, date, locale, stamp, dom, domClass, event, lang, has, string,
 			_WidgetBase, _TemplatedMixin, template){
 
-/*=====
-	var _WidgetBase = dijit._WidgetBase;
-	var _TemplatedMixin = dijit._TemplatedMixin;
-=====*/
 
 	// module:
 	//		dijit/CalendarLite

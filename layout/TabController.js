@@ -13,10 +13,6 @@ define([
 	"dojo/i18n!../nls/common"
 ], function(declare, dom, domAttr, domClass, i18n, lang, StackController, registry, Menu, MenuItem, template){
 
-/*=====
-	var StackController = dijit.layout.StackController;
-=====*/
-
 	// module:
 	//		dijit/layout/TabController
 	// summary:

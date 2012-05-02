@@ -6,10 +6,6 @@ define([
 	"./_FormWidgetMixin"
 ], function(declare, domAttr, keys, has, _FormWidgetMixin){
 
-/*=====
-	var _FormWidgetMixin = dijit.form._FormWidgetMixin;
-=====*/
-
 	// module:
 	//		dijit/form/_FormValueMixin
 	// summary:

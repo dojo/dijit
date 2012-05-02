@@ -5,10 +5,6 @@ define([
 	"./NumberTextBox"
 ], function(currency, declare, lang, NumberTextBox){
 
-/*=====
-	var NumberTextBox = dijit.form.NumberTextBox;
-=====*/
-
 	// module:
 	//		dijit/form/CurrencyTextBox
 	// summary:

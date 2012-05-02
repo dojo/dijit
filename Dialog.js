@@ -35,15 +35,6 @@ define([
 			dom, domClass, domGeometry, domStyle, event, fx, i18n, keys, lang, on, ready, has, winUtils,
 			Moveable, TimedMoveable, focus, manager, _Widget, _TemplatedMixin, _CssStateMixin, _FormMixin, _DialogMixin,
 			DialogUnderlay, ContentPane, template, dijit){
-	
-/*=====
-	var _Widget = dijit._Widget;
-	var _TemplatedMixin = dijit._TemplatedMixin;
-	var _CssStateMixin = dijit._CssStateMixin;
-	var _FormMixin = dijit.form._FormMixin;
-	var _DialogMixin = dijit._DialogMixin;
-=====*/	
-
 
 	// module:
 	//		dijit/Dialog

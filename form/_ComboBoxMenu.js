@@ -10,12 +10,6 @@ define([
 ], function(declare, domClass, domStyle, keys,
 			_WidgetBase, _TemplatedMixin, _ComboBoxMenuMixin, _ListMouseMixin){
 
-/*=====
-	var _WidgetBase = dijit._WidgetBase;
-	var _TemplatedMixin = dijit._TemplatedMixin;
-	var _ComboBoxMenuMixin = dijit.form._ComboBoxMenuMixin;
-	var _ListMouseMixin = dijit.form._ListMouseMixin;
-=====*/
 
 	// module:
 	//		dijit/form/_ComboBoxMenu

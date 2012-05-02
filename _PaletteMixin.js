@@ -11,10 +11,6 @@ define([
 	"./typematic"
 ], function(declare, domAttr, domClass, domConstruct, event, keys, lang, _CssStateMixin, focus, typematic){
 
-/*=====
-	var _CssStateMixin = dijit._CssStateMixin;
-=====*/
-
 // module:
 //		dijit/_PaletteMixin
 // summary:

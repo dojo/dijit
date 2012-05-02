@@ -6,11 +6,6 @@ define([
 	"./NumberTextBox"
 ], function(declare, event, keys, _Spinner, NumberTextBox){
 
-/*=====
-	var _Spinner = dijit.form._Spinner;
-	var NumberTextBox = dijit.form.NumberTextBox;
-=====*/
-
 // module:
 //		dijit/form/NumberSpinner
 // summary:

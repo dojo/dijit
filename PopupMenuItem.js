@@ -7,10 +7,6 @@ define([
 	"./hccss"
 ], function(declare, domStyle, query, registry, MenuItem){
 
-/*=====
-	var MenuItem = dijit.MenuItem;
-=====*/
-
 	// module:
 	//		dijit/PopupMenuItem
 	// summary:

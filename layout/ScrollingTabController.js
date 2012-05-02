@@ -24,14 +24,6 @@ define([
 	registry, tabControllerTemplate, buttonTemplate, TabController, layoutUtils, _WidgetsInTemplateMixin,
 	Menu, MenuItem, Button, _HasDropDown){
 
-/*=====
-var _WidgetsInTemplateMixin = dijit._WidgetsInTemplateMixin;
-var Menu = dijit.Menu;
-var _HasDropDown = dijit._HasDropDown;
-var TabController = dijit.layout.TabController;
-=====*/
-
-
 // module:
 //		dijit/layout/ScrollingTabController
 // summary:
@@ -445,9 +437,6 @@ var ScrollingTabControllerButtonMixin = declare("dijit.layout._ScrollingTabContr
 	// either (this override avoids focus() call in FormWidget.js)
 	isFocusable: function(){ return false; }
 });
-/*=====
-ScrollingTabControllerButtonMixin = dijit.layout._ScrollingTabControllerButtonMixin;
-=====*/
 
 // Class used in template
 declare("dijit.layout._ScrollingTabControllerButton",

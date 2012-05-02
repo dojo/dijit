@@ -14,9 +14,6 @@ define([
 ], function(require, declare, domAttr, keys, lang, has, query, string,
 	_Widget, _Plugin, DropDownButton, rangeapi){
 
-/*=====
-	var _Plugin = dijit._editor._Plugin;
-=====*/
 
 // module:
 //		dijit/_editor/plugins/LinkDialog

@@ -10,9 +10,6 @@ define([
 	"./_TextBoxMixin"	// selectInputText
 ], function(declare, event, keys, lang, has, typematic, RangeBoundTextBox, template, _TextBoxMixin){
 
-/*=====
-	var RangeBoundTextBox = dijit.form.RangeBoundTextBox;
-=====*/
 
 	// module:
 	//		dijit/form/_Spinner

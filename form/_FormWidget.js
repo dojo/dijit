@@ -9,12 +9,6 @@ define([
 	"./_FormWidgetMixin"
 ], function(declare, has, kernel, ready, _Widget, _CssStateMixin, _TemplatedMixin, _FormWidgetMixin){
 
-/*=====
-var _Widget = dijit._Widget;
-var _TemplatedMixin = dijit._TemplatedMixin;
-var _CssStateMixin = dijit._CssStateMixin;
-var _FormWidgetMixin = dijit.form._FormWidgetMixin;
-=====*/
 
 // module:
 //		dijit/form/_FormWidget

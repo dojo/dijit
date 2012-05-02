@@ -18,11 +18,6 @@ define([
 ], function(kernel, lang, _Widget, _Container, _ContentPaneResizeMixin, string, html, nlsLoading,
 	array, declare, Deferred, dom, domAttr, xhr, i18n, when){
 
-/*=====
-	var _Widget = dijit._Widget;
-	var _ContentPaneResizeMixin = dijit.layout._ContentPaneResizeMixin;
-=====*/
-
 // module:
 //		dijit/layout/ContentPane
 // summary:

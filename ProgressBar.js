@@ -9,11 +9,6 @@ define([
 	"dojo/text!./templates/ProgressBar.html"
 ], function(require, declare, domClass, lang, number, _Widget, _TemplatedMixin, template){
 
-/*=====
-	var _Widget = dijit._Widget;
-	var _TemplatedMixin = dijit._TemplatedMixin;
-=====*/
-
 // module:
 //		dijit/ProgressBar
 // summary:

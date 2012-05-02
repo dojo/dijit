@@ -5,10 +5,6 @@ define([
 	"./_ListBase"
 ], function(declare, event, touch, _ListBase){
 
-/*=====
-var _ListBase = dijit.form._ListBase;
-=====*/
-
 // module:
 //		dijit/form/_ListMouseMixin
 // summary:

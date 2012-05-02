@@ -11,11 +11,6 @@ define([
 	"dojo/NodeList-dom" // NodeList.addClass/removeClass
 ], function(require, declare, domAttr, has, query, ready, ToggleButton, _CheckBoxMixin, template){
 
-/*=====
-	var ToggleButton = dijit.form.ToggleButton;
-	var _CheckBoxMixin = dijit.form._CheckBoxMixin;
-=====*/
-
 	// module:
 	//		dijit/form/CheckBox
 	// summary:

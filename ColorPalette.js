@@ -15,12 +15,6 @@ define([
 ], function(require, template, _Widget, _TemplatedMixin, _PaletteMixin, has, i18n, Color,
 	declare, domConstruct, string){
 
-/*=====
-	var _Widget = dijit._Widget;
-	var _TemplatedMixin = dijit._TemplatedMixin;
-	var _PaletteMixin = dijit._PaletteMixin;
-=====*/
-
 // module:
 //		dijit/ColorPalette
 // summary:

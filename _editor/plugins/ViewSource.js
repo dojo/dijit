@@ -23,10 +23,6 @@ define([
 ], function(array, declare, domAttr, domConstruct, domGeometry, domStyle, event, i18n, keys, lang, on, has, win,
 	winUtils, focus, _Plugin, ToggleButton, dijit, registry, aspect){
 
-/*=====
-	var _Plugin = dijit._editor._Plugin;
-=====*/
-
 // module:
 //		dijit/_editor/plugins/ViewSource
 // summary:

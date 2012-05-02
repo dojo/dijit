@@ -9,11 +9,6 @@ define([
 	"dojo/text!./templates/DropDownBox.html"
 ], function(date, locale, stamp, declare, lang, RangeBoundTextBox, _HasDropDown, template){
 
-/*=====
-	var _HasDropDown = dijit._HasDropDown;
-	var RangeBoundTextBox = dijit.form.RangeBoundTextBox;
-=====*/
-
 	// module:
 	//		dijit/form/_DateTimeTextBox
 	// summary:

@@ -27,15 +27,6 @@ define([
 			keys, lang, has, topic, focus, manager, ready,
 			_Widget, _Container, _TemplatedMixin, _CssStateMixin, StackContainer, ContentPane, template){
 
-/*=====
-	var _Widget = dijit._Widget;
-	var _Container = dijit._Container;
-	var _TemplatedMixin = dijit._TemplatedMixin;
-	var _CssStateMixin = dijit._CssStateMixin;
-	var StackContainer = dijit.layout.StackContainer;
-	var ContentPane = dijit.layout.ContentPane;
-=====*/
-
 	// module:
 	//		dijit/layout/AccordionContainer
 	// summary:

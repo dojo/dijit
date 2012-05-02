@@ -6,10 +6,6 @@ define([
 	"./_FormValueWidget"
 ], function(array, declare, domGeometry, query, _FormValueWidget){
 
-/*=====
-	var _FormValueWidget = dijit.form._FormValueWidget;
-=====*/
-
 // module:
 //		dijit/form/MultiSelect
 // summary:

@@ -18,11 +18,6 @@ define([
 ], function(array, cookie, declare, dom, domClass, domConstruct, domGeometry, domStyle,
 			event, kernel, lang, on, has, registry, _WidgetBase, _LayoutWidget){
 
-/*=====
-var _WidgetBase = dijit._WidgetBase;
-var _LayoutWidget = dijit.layout._LayoutWidget;
-=====*/
-
 // module:
 //		dijit/layout/SplitContainer
 // summary:

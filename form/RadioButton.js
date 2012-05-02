@@ -4,11 +4,6 @@ define([
 	"./_RadioButtonMixin"
 ], function(declare, CheckBox, _RadioButtonMixin){
 
-/*=====
-	var CheckBox = dijit.form.CheckBox;
-	var _RadioButtonMixin = dijit.form._RadioButtonMixin;
-=====*/
-
 	// module:
 	//		dijit/form/RadioButton
 	// summary:

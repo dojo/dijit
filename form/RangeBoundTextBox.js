@@ -4,10 +4,6 @@ define([
 	"./MappedTextBox"
 ], function(declare, i18n, MappedTextBox){
 
-/*=====
-	var MappedTextBox = dijit.form.MappedTextBox;
-=====*/
-
 	// module:
 	//		dijit/form/RangeBoundTextBox
 	// summary:

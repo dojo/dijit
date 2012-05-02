@@ -17,14 +17,6 @@ define([
 ], function(array, declare, domConstruct, i18n, lang, MemoryStore,
 	registry, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, FilteringSelect, _Plugin, rangeapi, selectionapi){
 
-/*=====
-	var _Plugin = dijit._editor._Plugin;
-	var _Widget = dijit._Widget;
-	var _TemplatedMixin = dijit._TemplatedMixin;
-	var _WidgetsInTemplateMixin = dijit._WidgetsInTemplateMixin;
-	var FilteringSelect = dijit.form.FilteringSelect;
-=====*/
-
 
 // module:
 //		dijit/_editor/plugins/FontChoice

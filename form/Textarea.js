@@ -5,11 +5,6 @@ define([
 	"./SimpleTextarea"
 ], function(declare, domStyle, _ExpandingTextAreaMixin, SimpleTextarea){
 
-/*=====
-	var _ExpandingTextAreaMixin = dijit.form._ExpandingTextAreaMixin;
-	var SimpleTextarea = dijit.form.SimpleTextarea;
-=====*/
-
 // module:
 //		dijit/form/Textarea
 // summary:

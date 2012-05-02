@@ -17,12 +17,6 @@ define([
 ], function(aspect, config, connect, declare, has, kernel, lang, query, ready,
 			registry, _WidgetBase, _OnDijitClickMixin, _FocusMixin){
 
-/*=====
-	var _WidgetBase = dijit._WidgetBase;
-	var _OnDijitClickMixin = dijit._OnDijitClickMixin;
-	var _FocusMixin = dijit._FocusMixin;
-=====*/
-
 
 // module:
 //		dijit/_Widget

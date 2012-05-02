@@ -22,12 +22,6 @@ define([
 ], function(array, declare, move, event, fx, domGeometry, domStyle, keys, lang, has, Moveable, Mover, query,
 			registry, focus, typematic, Button, _FormValueWidget, _Container, template){
 
-/*=====
-	var Button = dijit.form.Button;
-	var _FormValueWidget = dijit.form._FormValueWidget;
-	var _Container = dijit._Container;
-=====*/
-
 // module:
 //		dijit/form/HorizontalSlider
 // summary:

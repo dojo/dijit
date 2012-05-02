@@ -20,12 +20,6 @@ define([
 ], function(array, declare, fx, dom, domClass, domGeometry, domStyle, lang, mouse, on, has,
 			manager, place, _Widget, _TemplatedMixin, BackgroundIframe, template, dijit){
 
-/*=====
-	var _Widget = dijit._Widget;
-	var BackgroundIframe = dijit.BackgroundIframe;
-	var _TemplatedMixin = dijit._TemplatedMixin;
-=====*/
-
 	// module:
 	//		dijit/Tooltip
 	// summary:

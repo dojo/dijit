@@ -14,9 +14,6 @@ define([
 	"../../_base/focus"
 ], function(declare, domConstruct, event, keys, lang, has, win, winUtils, _Plugin, RichText, rangeapi, selectionapi,
 			baseFocus){
-/*=====
-	var _Plugin = dijit._editor._Plugin;
-=====*/
 
 // module:
 //		dijit/_editor/plugins/EnterKeyHandling

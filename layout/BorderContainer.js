@@ -19,13 +19,6 @@ define([
 ], function(array, cookie, declare, domClass, domConstruct, domGeometry, domStyle, event, keys, lang, on, touch,
 			_WidgetBase, _Widget, _TemplatedMixin, _LayoutWidget, layoutUtils){
 
-/*=====
-	var _WidgetBase = dijit._WidgetBase;
-	var _Widget = dijit._Widget;
-	var _TemplatedMixin = dijit._TemplatedMixin;
-	var _LayoutWidget = dijit.layout._LayoutWidget;
-=====*/
-
 // module:
 //		dijit/layout/BorderContainer
 // summary:

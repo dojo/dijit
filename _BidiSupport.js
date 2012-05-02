@@ -1,9 +1,5 @@
 define(["./_WidgetBase"], function(_WidgetBase){
 
-/*=====
-	var _WidgetBase = dijit._WidgetBase;
-====*/
-
 	// module:
 	//		dijit/_BidiSupport
 	// summary:

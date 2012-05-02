@@ -19,10 +19,6 @@ define([
 ], function(require, array, declare, event, dom, domAttr, domGeometry, domStyle, keys, lang, on,
 			has, win, winUtils, pm, DropDownMenu, ready){
 
-/*=====
-	var DropDownMenu = dijit.DropDownMenu;
-=====*/
-
 // module:
 //		dijit/Menu
 // summary:

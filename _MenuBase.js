@@ -17,11 +17,6 @@ define([
 ], function(array, declare, dom, domAttr, domClass, lang, mouse, on, winUtils,
 			pm, registry, _Widget, _KeyNavContainer, _OnDijitClickMixin, _TemplatedMixin){
 
-/*=====
-	var _Widget = dijit._Widget;
-	var _TemplatedMixin = dijit._TemplatedMixin;
-	var _KeyNavContainer = dijit._KeyNavContainer;
-=====*/
 
 // module:
 //		dijit/_MenuBase

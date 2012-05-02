@@ -4,10 +4,6 @@ define([
 	"./ValidationTextBox"
 ], function(declare, domConstruct, ValidationTextBox){
 
-/*=====
-	var ValidationTextBox = dijit.form.ValidationTextBox;
-=====*/
-
 	// module:
 	//		dijit/form/MappedTextBox
 	// summary:

@@ -13,13 +13,6 @@ define([
 ], function(declare, dom, domAttr, domClass, kernel, has,
 			_Widget, _TemplatedMixin, _Contained, _CssStateMixin, template){
 
-/*=====
-	var _Widget = dijit._Widget;
-	var _TemplatedMixin = dijit._TemplatedMixin;
-	var _Contained = dijit._Contained;
-	var _CssStateMixin = dijit._CssStateMixin;
-=====*/
-
 	// module:
 	//		dijit/MenuItem
 	// summary:

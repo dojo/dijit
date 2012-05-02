@@ -24,15 +24,6 @@ define([
 	"dojo/i18n!./nls/common"
 ], function(array, declare, domAttr, domClass, domConstruct, domStyle, event, i18n, kernel, keys, lang, has, when, fm, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, _Container, Button, _TextBoxMixin, TextBox, template){
 
-	/*=====
-	 var _Widget = dijit._Widget;
-	 var _TemplatedMixin = dijit._TemplatedMixin;
-	 var _WidgetsInTemplateMixin = dijit._WidgetsInTemplateMixin;
-	 var _Container = dijit._Container;
-	 var Button = dijit.form.Button;
-	 var TextBox = dijit.form.TextBox;
-	 =====*/
-
 	// module:
 	//		dijit/InlineEditBox
 	// summary:

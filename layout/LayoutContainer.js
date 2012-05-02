@@ -7,11 +7,6 @@ define([
 	"./utils"		// layoutUtils.layoutChildren
 ], function(kernel, lang, declare, _WidgetBase, _LayoutWidget, layoutUtils){
 
-/*=====
-	var _WidgetBase = dijit._WidgetBase;
-	var _LayoutWidget = dijit.layout._LayoutWidget;
-=====*/
-
 // module:
 //		dijit/layout/LayoutContainer
 // summary:

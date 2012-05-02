@@ -15,10 +15,6 @@ define([
 ], function(array, Deferred, aspect, sorter, declare, dom, domClass, kernel, lang, query, when,
 			QueryResults, _FormValueWidget){
 
-/*=====
-	var _FormValueWidget = dijit.form._FormValueWidget;
-=====*/
-
 // module:
 //		dijit/form/_FormSelectWidget
 // summary:

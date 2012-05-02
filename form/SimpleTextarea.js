@@ -5,10 +5,6 @@ define([
 	"./TextBox"
 ], function(declare, domClass, has, TextBox){
 
-/*=====
-	var TextBox = dijit.form.TextBox;
-=====*/
-
 // module:
 //		dijit/form/SimpleTextarea
 // summary:

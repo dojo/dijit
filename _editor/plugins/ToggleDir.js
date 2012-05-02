@@ -7,10 +7,6 @@ define([
 	"../../form/ToggleButton"
 ], function(declare, domStyle, kernel, lang, _Plugin, ToggleButton){
 
-/*=====
-	var _Plugin = dijit._editor._Plugin;
-=====*/
-
 	// module:
 	//		dijit/_editor/plugins/ToggleDir
 	// summary:

@@ -36,14 +36,6 @@ define([
 			focus, registry, manager, _Widget, _TemplatedMixin, _Container, _Contained, _CssStateMixin,
 			treeNodeTemplate, treeTemplate, TreeStoreModel, ForestStoreModel, _dndSelector){
 
-/*=====
-	var _Widget = dijit._Widget;
-	var _TemplatedMixin = dijit._TemplatedMixin;
-	var _CssStateMixin = dijit._CssStateMixin;
-	var _Container = dijit._Container;
-	var _Contained = dijit._Contained;
-=====*/
-
 // module:
 //		dijit/Tree
 // summary:

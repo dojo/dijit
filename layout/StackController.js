@@ -16,13 +16,6 @@ define([
 ], function(array, declare, domClass, event, keys, lang, on,
 			focus, registry, _Widget, _TemplatedMixin, _Container, ToggleButton){
 
-/*=====
-	var _Widget = dijit._Widget;
-	var _TemplatedMixin = dijit._TemplatedMixin;
-	var _Container = dijit._Container;
-	var ToggleButton = dijit.form.ToggleButton;
-=====*/
-
 	// module:
 	//		dijit/layout/StackController
 	// summary:

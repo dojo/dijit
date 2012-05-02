@@ -6,10 +6,6 @@ define([
 	"dojo/text!./templates/MenuBar.html"
 ], function(declare, event, keys, _MenuBase, template){
 
-/*=====
-	var _MenuBase = dijit._MenuBase;
-=====*/
-
 // module:
 //		dijit/MenuBar
 // summary:

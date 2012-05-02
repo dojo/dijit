@@ -20,12 +20,6 @@ define([
 ], function(array, ddate, locale, stamp, declare, domClass, domConstruct, event, kernel, keys, lang, has, query,
 			typematic, _Widget, _TemplatedMixin, _FormValueWidget, template){
 
-/*=====
-	var _Widget = dijit._Widget;
-	var _TemplatedMixin = dijit._TemplatedMixin;
-	var _FormValueWidget = dijit.form._FormValueWidget;
-=====*/
-
 	// module:
 	//		dijit/_TimePicker
 	// summary:

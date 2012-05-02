@@ -5,10 +5,6 @@ define([
 	"./RangeBoundTextBox"
 ], function(declare, lang, number, RangeBoundTextBox){
 
-/*=====
-	var RangeBoundTextBox = dijit.form.RangeBoundTextBox;
-=====*/
-
 	// module:
 	//		dijit/form/NumberTextBox
 	// summary:

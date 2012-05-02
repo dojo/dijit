@@ -18,16 +18,6 @@ define([
 ], function(array, declare, domAttr, domClass, domGeometry, event, i18n, lang,
 			_FormSelectWidget, _HasDropDown, Menu, MenuItem, MenuSeparator, Tooltip, template){
 
-/*=====
-	var _FormSelectWidget = dijit.form._FormSelectWidget;
-	var _HasDropDown = dijit._HasDropDown;
-	var _FormSelectWidget = dijit._FormSelectWidget;
-	var Menu = dijit.Menu;
-	var MenuItem = dijit.MenuItem;
-	var MenuSeparator = dijit.MenuSeparator;
-	var Tooltip = dijit.Tooltip;
-=====*/
-
 // module:
 //		dijit/form/Select
 // summary:

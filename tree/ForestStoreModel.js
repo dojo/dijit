@@ -6,10 +6,6 @@ define([
 	"./TreeStoreModel"
 ], function(array, declare, kernel, lang, TreeStoreModel){
 
-/*=====
-var TreeStoreModel = dijit.tree.TreeStoreModel;
-=====*/
-
 // module:
 //		dijit/tree/ForestStoreModel
 // summary:

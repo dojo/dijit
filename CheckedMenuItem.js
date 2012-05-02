@@ -6,10 +6,6 @@ define([
 	"./hccss"
 ], function(declare, domClass, MenuItem, template){
 
-/*=====
-	var MenuItem = dijit.MenuItem;
-=====*/
-
 	// module:
 	//		dijit/CheckedMenuItem
 	// summary:

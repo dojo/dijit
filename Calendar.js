@@ -18,14 +18,6 @@ define([
 ], function(array, date, local, declare, domAttr, domClass, event, kernel, keys, lang, has,
 			CalendarLite, _Widget, _CssStateMixin, _TemplatedMixin, DropDownButton){
 
-/*=====
-	var CalendarLite = dijit.CalendarLite;
-	var _CssStateMixin = dijit._CssStateMixin;
-	var _Widget = dijit._Widget;
-	var _TemplatedMixin = dijit._TemplatedMixin;
-	var DropDownButton = dijit.form.DropDownButton;
-=====*/
-
 	// module:
 	//		dijit/Calendar
 	// summary:
