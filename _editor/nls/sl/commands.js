@@ -28,10 +28,10 @@ define(
 	'toggleDir': 'Preklopi smer',
 	'insertImage': 'Vstavi sliko',
 	'insertTable': 'Vstavi/uredi tabelo',
-	'toggleTableBorder': 'Preklopi na rob tabele',
+	'toggleTableBorder': 'Preklopi na obrobo tabele',
 	'deleteTable': 'Izbriši tabelo',
 	'tableProp': 'Lastnost tabele',
-	'htmlToggle': 'Izvorna koda HTML',
+	'htmlToggle': 'Izvor HTML',
 	'foreColor': 'Barva ospredja',
 	'hiliteColor': 'Barva ozadja',
 	'plainFormatBlock': 'Slog odstavka',
@@ -44,8 +44,6 @@ define(
 	"print": "Natisni",
 	"newPage": "Nova stran",
 	/* Error messages */
-	'systemShortcut': 'Dejanje "${0}" lahko v vašem brskalniku uporabite samo z bližnjico na tipkovnici. Uporabite ${1}.',
-	'ctrlKey':'ctrl+${0}',
-	'appleKey':'\u2318${0}' // "command" or open-apple key on Macintosh
+	'systemShortcut': 'Dejanje "${0}" lahko v vašem brskalniku uporabite samo z bližnjico na tipkovnici. Uporabite ${1}.'
 })
 );
