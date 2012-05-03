@@ -55,19 +55,17 @@ define([
 			//		Returns true if the value is out of range and will remain
 			//		out of range even if the user types more characters
 			var val = this.get('value');
-			var isTooLittle = false;
-			var isTooMuch = false;
+			if(val == null){ return false; } // not yet valid enough to compare to
+			var outOfRange = false;
 			if("min" in this.constraints){
 				var min = this.constraints.min;
-				min = this.compare(val, ((typeof min == "number") && min >= 0 && val !=0) ? 0 : min);
-				isTooLittle = (typeof min == "number") && min < 0;
+				outOfRange = this.compare(val, ((typeof min == "number") && min >= 0 && val != 0) ? 0 : min) < 0;
 			}
-			if("max" in this.constraints){
+			if(!outOfRange && ("max" in this.constraints)){
 				var max = this.constraints.max;
-				max = this.compare(val, ((typeof max != "number") || max > 0) ? max : 0);
-				isTooMuch = (typeof max == "number") && max > 0;
+				outOfRange = this.compare(val, ((typeof max != "number") || max > 0) ? max : 0) > 0;
 			}
-			return isTooLittle || isTooMuch;
+			return outOfRange;
 		},
 
 		_isValidSubset: function(){
