@@ -12,10 +12,9 @@ define([
 	"../../form/FilteringSelect",
 	"../_Plugin",
 	"../range",
-	"../selection",
 	"dojo/i18n!../nls/FontChoice"
 ], function(array, declare, domConstruct, i18n, lang, MemoryStore,
-	registry, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, FilteringSelect, _Plugin, rangeapi, selectionapi){
+	registry, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, FilteringSelect, _Plugin, rangeapi){
 
 
 // module:
