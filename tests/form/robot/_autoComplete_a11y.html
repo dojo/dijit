@@ -863,13 +863,43 @@
 					timeout:20000,
 					name:"japanese_type",
 					runTest:function(){
-						var d = new doh.Deferred(),
+						var	d = new doh.Deferred(),
+							s0 = null,
+							s1 = null,
+							s2 = null,
+							s3 = null,
+							s4 = null,
+							s5 = null,
 							combo = dijit.byId("japanese");
 
 						combo.focusNode.focus();
 
 						doh.robot.keyPress(dojo.keys.END, 1000);
+
+						doh.robot.typeKeys("x", 500, 200);
+						doh.robot.sequence(function(){
+							s0 = combo.state;
+						}, 500);
 						doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
+						doh.robot.sequence(function(){
+							s1 = combo.state;
+						}, 500);
+						doh.robot.typeKeys("xx", 500, 400);
+						doh.robot.sequence(function(){
+							s2 = combo.state;
+						}, 500);
+						doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
+						doh.robot.sequence(function(){
+							s3 = combo.state;
+						}, 500);
+						doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
+						doh.robot.sequence(function(){
+							s4 = combo.state;
+						}, 500);
+						doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
+						doh.robot.sequence(function(){
+							s5 = combo.state;
+						}, 500);
 						doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
 						doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
 						doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
@@ -880,6 +910,14 @@
 						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500);
 						doh.robot.keyPress(dojo.keys.ENTER, 500);
 						doh.robot.sequence(dojo.hitch(this, function(){
+							if(!isComboBox){
+								doh.is("Error", s0, "s0");
+								doh.is("Incomplete", s1, "s1");
+								doh.is("Error", s2, "s2");
+								doh.is("Error", s3, "s3");
+								doh.is("Incomplete", s4, "s4");
+								doh.is("Incomplete", s5, "s5");
+							}
 							if(combo.get("value") == (isComboBox?"\u6771\u897F (Touzai)":"touzai") && combo.focusNode.value=="\u6771\u897F (Touzai)"){
 								d.callback(true);
 							}else{

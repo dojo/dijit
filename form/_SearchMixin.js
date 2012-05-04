@@ -114,6 +114,7 @@ define([
 				case keys.DELETE:
 				case keys.BACKSPACE:
 					this._prev_key_backspace = true;
+					this._maskValidSubsetError = true;
 					doSearch = true;
 					break;
 
