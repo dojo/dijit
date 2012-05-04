@@ -77,10 +77,8 @@ define([
 		this.onClose = onClose;
 		this.onExecute = onExecute;
 		this.padding = padding;
-	}
-	=====*/
+	};
 
-	/*=====
 	dijit.popup = {
 		// summary:
 		//		Used to show drop downs (ex: the select list of a ComboBox)

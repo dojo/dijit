@@ -157,9 +157,7 @@ define([
 		this.x = x;
 		this.y = y;
 	};
-	=====*/
 
-	/*=====
 	dijit.place.__Rectangle = function(){
 		// x: Integer
 		//		horizontal offset in pixels, relative to document body

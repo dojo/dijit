@@ -13,7 +13,7 @@ define([
 	//		marginBox2contentBox() and layoutChildren()
 
 	var layout = lang.getObject("layout", true, dijit);
-	/*===== layout = dijit.layout =====*/
+	/*===== layout = {}; =====*/
 
 	layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 		// summary:

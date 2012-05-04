@@ -10,7 +10,7 @@ define([
 //		HTML serialization utility functions used by editor
 
 var exports = lang.getObject("dijit._editor", true);
-/*===== exports = dijit._editor; =====*/
+/*===== exports = {}; =====*/
 
 var escape = exports.escapeXml = function(/*String*/ str, /*Boolean?*/ noSingleQuotes){
 	// summary:
