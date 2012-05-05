@@ -23,7 +23,7 @@ define([
 
 
 /*=====
-dijit.form.__SelectOption = function(){
+var __SelectOption = function(){
 	// value: String
 	//		The value of the option.  Setting to empty (or missing) will
 	//		place a separator at that location
@@ -37,7 +37,7 @@ dijit.form.__SelectOption = function(){
 	this.label = label;
 	this.selected = selected;
 	this.disabled = disabled;
-}
+};
 =====*/
 
 return declare("dijit.form._FormSelectWidget", _FormValueWidget, {
@@ -51,7 +51,7 @@ return declare("dijit.form._FormSelectWidget", _FormValueWidget, {
 	//		Whether or not we are multi-valued
 	multiple: false,
 
-	// options: dijit.form.__SelectOption[]
+	// options: __SelectOption[]
 	//		The set of options for our select item.  Roughly corresponds to
 	//		the html <option> tag.
 	options: null,
@@ -133,10 +133,10 @@ return declare("dijit.form._FormSelectWidget", _FormValueWidget, {
 		var lookupValue = valueOrIdx, opts = this.options || [], l = opts.length;
 
 		if(lookupValue === undefined){
-			return opts; // dijit.form.__SelectOption[]
+			return opts; // __SelectOption[]
 		}
 		if(lang.isArray(lookupValue)){
-			return array.map(lookupValue, "return this.getOptions(item);", this); // dijit.form.__SelectOption[]
+			return array.map(lookupValue, "return this.getOptions(item);", this); // __SelectOption[]
 		}
 		if(lang.isObject(valueOrIdx)){
 			// We were passed an option - so see if it's in our array (directly),
@@ -161,12 +161,12 @@ return declare("dijit.form._FormSelectWidget", _FormValueWidget, {
 			}
 		}
 		if(typeof lookupValue == "number" && lookupValue >= 0 && lookupValue < l){
-			return this.options[lookupValue]; // dijit.form.__SelectOption
+			return this.options[lookupValue]; // __SelectOption
 		}
 		return null; // null
 	},
 
-	addOption: function(/*dijit.form.__SelectOption|dijit.form.__SelectOption[]*/ option){
+	addOption: function(/*__SelectOption|__SelectOption[]*/ option){
 		// summary:
 		//		Adds an option or options to the end of the select.  If value
 		//		of the option is empty or missing, a separator is created instead.
@@ -181,7 +181,7 @@ return declare("dijit.form._FormSelectWidget", _FormValueWidget, {
 		this._loadChildren();
 	},
 
-	removeOption: function(/*String|dijit.form.__SelectOption|Number|Array*/ valueOrIdx){
+	removeOption: function(/*String|__SelectOption|Number|Array*/ valueOrIdx){
 		// summary:
 		//		Removes the given option or options.  You can remove by string
 		//		(in which case the value is removed), number (in which case the
@@ -204,7 +204,7 @@ return declare("dijit.form._FormSelectWidget", _FormValueWidget, {
 		this._loadChildren();
 	},
 
-	updateOption: function(/*dijit.form.__SelectOption|dijit.form.__SelectOption[]*/ newOption){
+	updateOption: function(/*__SelectOption|__SelectOption[]*/ newOption){
 		// summary:
 		//		Updates the values of the given option.  The option to update
 		//		is matched based on the value of the entered option.  Passing
@@ -539,7 +539,7 @@ return declare("dijit.form._FormSelectWidget", _FormValueWidget, {
 		var store = this.store,
 			label = (this.labelAttr && this.labelAttr in item) ? item[this.labelAttr] : store.getLabel(item),
 			value = (label ? store.getIdentity(item) : null);
-		return {value: value, label: label, item: item}; // dijit.form.__SelectOption
+		return {value: value, label: label, item: item}; // __SelectOption
 	},
 
 	_addOptionForItem: function(/*item*/ item){
@@ -646,7 +646,7 @@ return declare("dijit.form._FormSelectWidget", _FormValueWidget, {
 		this.inherited(arguments);
 	},
 
-	_addOptionItem: function(/*dijit.form.__SelectOption*/ /*===== option =====*/){
+	_addOptionItem: function(/*__SelectOption*/ /*===== option =====*/){
 		// summary:
 		//		User-overridable function which, for the given option, adds an
 		//		item to the select.  If the option doesn't have a value, then a
@@ -654,7 +654,7 @@ return declare("dijit.form._FormSelectWidget", _FormValueWidget, {
 		//		in the created option widget.
 	},
 
-	_removeOptionItem: function(/*dijit.form.__SelectOption*/ /*===== option =====*/){
+	_removeOptionItem: function(/*__SelectOption*/ /*===== option =====*/){
 		// summary:
 		//		User-overridable function which, for the given option, removes
 		//		its item from the select.

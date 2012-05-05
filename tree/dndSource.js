@@ -17,30 +17,6 @@ define([
 // summary:
 //		Handles drag and drop operations (as a source or a target) for `dijit.Tree`
 
-/*=====
-dijit.tree.__SourceArgs = function(){
-	// summary:
-	//		A dict of parameters for Tree source configuration.
-	// isSource: Boolean?
-	//		Can be used as a DnD source. Defaults to true.
-	// accept: String[]
-	//		List of accepted types (text strings) for a target; defaults to
-	//		["text", "treeNode"]
-	// copyOnly: Boolean?
-	//		Copy items, if true, use a state of Ctrl key otherwise,
-	// dragThreshold: Number
-	//		The move delay in pixels before detecting a drag; 0 by default
-	// betweenThreshold: Integer
-	//		Distance from upper/lower edge of node to allow drop to reorder nodes
-	this.isSource = isSource;
-	this.accept = accept;
-	this.autoSync = autoSync;
-	this.copyOnly = copyOnly;
-	this.dragThreshold = dragThreshold;
-	this.betweenThreshold = betweenThreshold;
-}
-=====*/
-
 return declare("dijit.tree.dndSource", _dndSelector, {
 	// summary:
 	//		Handles drag and drop operations (as a source or a target) for `dijit.Tree`

@@ -65,7 +65,7 @@ define([
 			//		(To left if there's no space on the right, or if rtl == true)
 			// innerHTML: String
 			//		Contents of the tooltip
-			// aroundNode: DomNode || dijit.__Rectangle
+			// aroundNode: DomNode || place.__Rectangle
 			//		Specifies that tooltip should be next to this node / area
 			// position: String[]?
 			//		List of positions to try to position tooltip (ex: ["right", "above"])
@@ -267,7 +267,7 @@ define([
 		//		If position is not specified then dijit.Tooltip.defaultPosition is used.
 		// innerHTML: String
 		//		Contents of the tooltip
-		// aroundNode: dijit.__Rectangle
+		// aroundNode: place.__Rectangle
 		//		Specifies that tooltip should be next to this node / area
 		// position: String[]?
 		//		List of positions to try to position tooltip (ex: ["right", "above"])

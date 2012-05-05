@@ -147,35 +147,7 @@ define([
 		return best;
 	}
 
-	/*=====
-	dijit.place.__Position = function(){
-		// x: Integer
-		//		horizontal coordinate in pixels, relative to document body
-		// y: Integer
-		//		vertical coordinate in pixels, relative to document body
-
-		this.x = x;
-		this.y = y;
-	};
-
-	dijit.place.__Rectangle = function(){
-		// x: Integer
-		//		horizontal offset in pixels, relative to document body
-		// y: Integer
-		//		vertical offset in pixels, relative to document body
-		// w: Integer
-		//		width in pixels.   Can also be specified as "width" for backwards-compatibility.
-		// h: Integer
-		//		height in pixels.   Can also be specified as "height" from backwards-compatibility.
-
-		this.x = x;
-		this.y = y;
-		this.w = w;
-		this.h = h;
-	};
-	=====*/
-
-	return (dijit.place = {
+	var place = {
 		// summary:
 		//		Code to place a DOMNode relative to another DOMNode.
 		//		Load using require(["dijit/place"], function(place){ ... }).
@@ -188,7 +160,7 @@ define([
 			//		NOTE: node is assumed to be absolutely or relatively positioned.
 			// node: DOMNode
 			//		The node to position
-			// pos: dijit.place.__Position
+			// pos: place.__Position
 			//		Object like {x: 10, y: 20}
 			// corners: String[]
 			//		Array of Strings representing order to try corners in, like ["TR", "BL"].
@@ -197,7 +169,7 @@ define([
 			//			* "BR" - bottom right
 			//			* "TL" - top left
 			//			* "TR" - top right
-			// padding: dijit.place.__Position?
+			// padding: place__Position?
 			//		optional param to set padding, to put some buffer around the element you want to position.
 			// example:
 			//		Try to place node's top right corner at (10,20).
@@ -218,7 +190,7 @@ define([
 
 		around: function(
 			/*DomNode*/		node,
-			/*DomNode || dijit.place.__Rectangle*/ anchor,
+			/*DomNode || place.__Rectangle*/ anchor,
 			/*String[]*/	positions,
 			/*Boolean*/		leftToRight,
 			/*Function?*/	layoutNode){
@@ -368,5 +340,34 @@ define([
 
 			return position;
 		}
-	});
+	};
+
+	/*=====
+	place.__Position = function(){
+		// x: Integer
+		//		horizontal coordinate in pixels, relative to document body
+		// y: Integer
+		//		vertical coordinate in pixels, relative to document body
+
+		this.x = x;
+		this.y = y;
+	};
+	place.__Rectangle = function(){
+		// x: Integer
+		//		horizontal offset in pixels, relative to document body
+		// y: Integer
+		//		vertical offset in pixels, relative to document body
+		// w: Integer
+		//		width in pixels.   Can also be specified as "width" for backwards-compatibility.
+		// h: Integer
+		//		height in pixels.   Can also be specified as "height" from backwards-compatibility.
+
+		this.x = x;
+		this.y = y;
+		this.w = w;
+		this.h = h;
+	};
+	=====*/
+
+	return dijit.place = place;
 });

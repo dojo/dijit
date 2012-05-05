@@ -11,25 +11,6 @@ define([
 	//		A TextBox for entering numbers, with formatting and range checking
 
 
-	/*=====
-	declare(
-		"dijit.form.NumberTextBox.__Constraints",
-		[dijit.form.RangeBoundTextBox.__Constraints, number.__FormatOptions, number.__ParseOptions], {
-		// summary:
-		//		Specifies both the rules on valid/invalid values (minimum, maximum,
-		//		number of required decimal places), and also formatting options for
-		//		displaying the value when the field is not focused.
-		// example:
-		//		Minimum/maximum:
-		//		To specify a field between 0 and 120:
-		//	|		{min:0,max:120}
-		//		To specify a field that must be an integer:
-		//	|		{fractional:false}
-		//		To specify a field where 0 to 3 decimal places are allowed on input:
-		//	|		{places:'0,3'}
-	});
-	=====*/
-
 	var NumberTextBoxMixin = declare("dijit.form.NumberTextBoxMixin", null, {
 		// summary:
 		//		A mixin for all number textboxes
@@ -41,11 +22,11 @@ define([
 		pattern: number.regexp,
 
 		/*=====
-		// constraints: dijit.form.NumberTextBox.__Constraints
+		// constraints: NumberTextBox.__Constraints
 		//		Despite the name, this parameter specifies both constraints on the input
 		//		(including minimum/maximum allowed values) as well as
 		//		formatting options like places (the number of digits to display after
-		//		the decimal point).  See `dijit.form.NumberTextBox.__Constraints` for details.
+		//		the decimal point).
 		constraints: {},
 		======*/
 
@@ -72,7 +53,7 @@ define([
 			//		as a string, for example converting 12345 into "12,345".
 			// value: Number
 			//		The number to be converted into a string.
-			// options: dojo.number.__FormatOptions?
+			// options: number.__FormatOptions?
 			//		Formatting options
 			// tags:
 			//		protected extension
@@ -114,7 +95,7 @@ define([
 			this.inherited(arguments);
 		},
 
-		format: function(/*Number*/ value, /*dojo.number.__FormatOptions*/ constraints){
+		format: function(/*Number*/ value, /*number.__FormatOptions*/ constraints){
 			// summary:
 			//		Formats the value as a Number, according to constraints.
 			// tags:
@@ -139,7 +120,7 @@ define([
 			//		Parses the string value as a Number, according to constraints.
 			// value: String
 			//		String representing a number
-			// constraints: dojo.number.__ParseOptions
+			// constraints: number.__ParseOptions
 			//		Formatting options
 			// tags:
 			//		protected
@@ -277,6 +258,23 @@ define([
 	});
 
 	NumberTextBox.Mixin = NumberTextBoxMixin;	// for monkey patching
+
+	/*=====
+	 NumberTextBox.__Constraints = declare([RangeBoundTextBox.__Constraints, number.__FormatOptions, number.__ParseOptions], {
+		 // summary:
+		 //		Specifies both the rules on valid/invalid values (minimum, maximum,
+		 //		number of required decimal places), and also formatting options for
+		 //		displaying the value when the field is not focused.
+		 // example:
+		 //		Minimum/maximum:
+		 //		To specify a field between 0 and 120:
+		 //	|		{min:0,max:120}
+		 //		To specify a field that must be an integer:
+		 //	|		{fractional:false}
+		 //		To specify a field where 0 to 3 decimal places are allowed on input:
+		 //	|		{places:'0,3'}
+	 });
+	 =====*/
 
 	return NumberTextBox;
 });

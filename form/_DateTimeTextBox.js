@@ -17,18 +17,6 @@ define([
 
 	new Date("X"); // workaround for #11279, new Date("") == NaN
 
-	/*=====
-	declare(
-		"dijit.form._DateTimeTextBox.__Constraints",
-		[RangeBoundTextBox.__Constraints, locale.__FormatOptions], {
-		// summary:
-		//		Specifies both the rules on valid/invalid values (first/last date/time allowed),
-		//		and also formatting options for how the date/time is displayed.
-		// example:
-		//		To restrict to dates within 2004, displayed in a long format like "December 25, 2005":
-		//	|		{min:'2004-01-01',max:'2004-12-31', formatLength:'long'}
-	});
-	=====*/
 
 	var _DateTimeTextBox = declare("dijit.form._DateTimeTextBox", [RangeBoundTextBox, _HasDropDown], {
 		// summary:
@@ -41,7 +29,7 @@ define([
 		hasDownArrow: true,
 
 		/*=====
-		// constraints: dijit.form._DateTimeTextBox.__Constraints
+		// constraints: _DateTimeTextBox.__Constraints
 		//		Despite the name, this parameter specifies both constraints on the input
 		//		(including starting/ending dates/times allowed) as well as
 		//		formatting options like whether the date is displayed in long (ex: December 25, 2005)
@@ -73,7 +61,7 @@ define([
 		// flag to _HasDropDown to make drop down Calendar width == <input> width
 		forceWidth: true,
 
-		format: function(/*Date*/ value, /*dojo.date.locale.__FormatOptions*/ constraints){
+		format: function(/*Date*/ value, /*locale.__FormatOptions*/ constraints){
 			// summary:
 			//		Formats the value as a Date, according to specified locale (second argument)
 			// tags:
@@ -82,7 +70,7 @@ define([
 			return this.dateLocaleModule.format(value, constraints);
 		},
 
-		"parse": function(/*String*/ value, /*dojo.date.locale.__FormatOptions*/ constraints){
+		"parse": function(/*String*/ value, /*locale.__FormatOptions*/ constraints){
 			// summary:
 			//		Parses as string as a Date, according to constraints
 			// tags:
@@ -245,6 +233,18 @@ define([
 			this._setValueAttr(this.parse(value, this.constraints), priorityChange, value);
 		}
 	});
+
+
+	/*=====
+	 _DateTimeTextBox.__Constraints = declare([RangeBoundTextBox.__Constraints, locale.__FormatOptions], {
+		 // summary:
+		 //		Specifies both the rules on valid/invalid values (first/last date/time allowed),
+		 //		and also formatting options for how the date/time is displayed.
+		 // example:
+		 //		To restrict to dates within 2004, displayed in a long format like "December 25, 2005":
+		 //	|		{min:'2004-01-01',max:'2004-12-31', formatLength:'long'}
+	 });
+	 =====*/
 
 	return _DateTimeTextBox;
 });

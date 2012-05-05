@@ -27,7 +27,7 @@ define([
 
 
 	/*=====
-	dijit.popup.__OpenArgs = function(){
+	var __OpenArgs = function(){
 		// popup: Widget
 		//		widget to display
 		// parent: Widget
@@ -65,7 +65,7 @@ define([
 		//		callback whenever this popup is closed
 		// onExecute: Function
 		//		callback when user "executed" on the popup/sub-popup by selecting a menu choice, etc. (top menu only)
-		// padding: dijit.__Position
+		// padding: place.__Position
 		//		adding a buffer around the opening position. This is only useful when around is not set.
 		this.popup = popup;
 		this.parent = parent;
@@ -121,7 +121,7 @@ define([
 			//
 			//		Note that whatever widget called dijit.popup.open() should also listen to its own _onBlur callback
 			//		(fired from _base/focus.js) to know that focus has moved somewhere else and thus the popup should be closed.
-			// args: dijit.popup.__OpenArgs
+			// args: __OpenArgs
 			//		Parameters
 			return {};	// Object specifying which position was chosen
 		},

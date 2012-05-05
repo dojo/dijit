@@ -9,18 +9,8 @@ define([
 	// summary:
 	//		Base class for textbox form widgets which defines a range of valid values.
 
-	/*=====
-		dijit.form.RangeBoundTextBox.__Constraints = function(){
-			// min: Number
-			//		Minimum signed value.  Default is -Infinity
-			// max: Number
-			//		Maximum signed value.  Default is +Infinity
-			this.min = min;
-			this.max = max;
-		}
-	=====*/
 
-	return declare("dijit.form.RangeBoundTextBox", MappedTextBox, {
+	var RangeBoundTextBox = declare("dijit.form.RangeBoundTextBox", MappedTextBox, {
 		// summary:
 		//		Base class for textbox form widgets which defines a range of valid values.
 
@@ -29,7 +19,7 @@ define([
 		rangeMessage: "",
 
 		/*=====
-		// constraints: dijit.form.RangeBoundTextBox.__Constraints
+		// constraints: RangeBoundTextBox.__Constraints
 		constraints: {},
 		======*/
 
@@ -134,4 +124,15 @@ define([
 			//		protected.
 		}
 	});
+	/*=====
+	RangeBoundTextBox.__Constraints = function(){
+		// min: Number
+		//		Minimum signed value.  Default is -Infinity
+		// max: Number
+		//		Maximum signed value.  Default is +Infinity
+		this.min = min;
+		this.max = max;
+	};
+	=====*/
+	return RangeBoundTextBox;
 });

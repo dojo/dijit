@@ -26,27 +26,7 @@ define([
 	//		A graphical time picker.
 
 
-	/*=====
-	declare(
-		"dijit._TimePicker.__Constraints",
-		locale.__FormatOptions,
-		{
-			// clickableIncrement: String
-			//		See `dijit._TimePicker.clickableIncrement`
-			clickableIncrement: "T00:15:00",
-
-			// visibleIncrement: String
-			//		See `dijit._TimePicker.visibleIncrement`
-			visibleIncrement: "T01:00:00",
-
-			// visibleRange: String
-			//		See `dijit._TimePicker.visibleRange`
-			visibleRange: "T05:00:00"
-		}
-	);
-	=====*/
-
-	return declare("dijit._TimePicker", [_Widget, _TemplatedMixin], {
+	var TimePicker = declare("dijit._TimePicker", [_Widget, _TemplatedMixin], {
 		// summary:
 		//		A graphical time picker.
 		//		This widget is used internally by other widgets and is not available
@@ -99,7 +79,7 @@ define([
 		_clickableIncrement:1,
 		_totalIncrements:10,
 
-		// constraints: dijit._TimePicker.__Constraints
+		// constraints: TimePicker.__Constraints
 		//		Specifies valid range of times (start time, end time)
 		constraints:{},
 
@@ -510,4 +490,22 @@ define([
 			return undefined;
 		}
 	});
+
+	/*=====
+	 TimePicker.__Constraints = declare(locale.__FormatOptions, {
+		 // clickableIncrement: String
+		 //		See `dijit._TimePicker.clickableIncrement`
+		 clickableIncrement: "T00:15:00",
+
+		 // visibleIncrement: String
+		 //		See `dijit._TimePicker.visibleIncrement`
+		 visibleIncrement: "T01:00:00",
+
+		 // visibleRange: String
+		 //		See `dijit._TimePicker.visibleRange`
+		 visibleRange: "T05:00:00"
+	 });
+	 =====*/
+
+	return TimePicker;
 });
