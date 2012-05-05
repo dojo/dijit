@@ -11,14 +11,12 @@ define([
 // summary:
 //		Text selection API
 
-lang.getObject("_editor.selection", true, dijit);
-
 // FIXME:
 //		all of these methods branch internally for IE. This is probably
 //		sub-optimal in terms of runtime performance. We should investigate the
 //		size difference for differentiating at definition time.
 
-lang.mixin(dijit._editor.selection, {
+var selection = {
 	getType: function(){
 		// summary:
 		//		Get the selection type (like win.doc.select.type in IE).
@@ -376,7 +374,10 @@ lang.mixin(dijit._editor.selection, {
 		}
 		return false; // Boolean
 	}
-});
+};
 
-return dijit._editor.selection;
+
+lang.setObject("dijit._editor.selection", selection);
+
+return selection;
 });

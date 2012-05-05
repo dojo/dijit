@@ -1,6 +1,6 @@
 define([
 	"dojo/_base/array",
-	"dojo/_base/lang", // lang.getObject
+	"dojo/_base/lang", // lang.setObject
 	"dojo/sniff" // has("ie")
 ], function(array, lang, has){
 
@@ -9,8 +9,8 @@ define([
 // summary:
 //		HTML serialization utility functions used by editor
 
-var exports = lang.getObject("dijit._editor", true);
-/*===== exports = {}; =====*/
+var exports = {};
+lang.setObject("dijit._editor.html", exports);
 
 var escape = exports.escapeXml = function(/*String*/ str, /*Boolean?*/ noSingleQuotes){
 	// summary:
