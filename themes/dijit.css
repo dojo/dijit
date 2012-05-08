@@ -1201,6 +1201,15 @@ body .dijitAlignClient { position: absolute; }
 	cursor:pointer;
 }
 
+/*
+No need to show a focus border since it's obvious from the shading, and there's a .dj_a11y .dijitMenuItemSelected
+rule below that handles the high contrast case when there's no shading.
+Hiding the focus border also works around webkit bug https://code.google.com/p/chromium/issues/detail?id=125779.
+*/
+.dijitMenuItem:focus {
+	outline: none
+}
+
 .dijitMenuPassive .dijitMenuItemHover,
 .dijitMenuItemSelected {
 	/*
@@ -1237,7 +1246,7 @@ body .dijitAlignClient { position: absolute; }
 }
 
 .dj_a11y .dijitMenuItemSelected {
-	border: 1px dotted black !important;
+	border: 1px dotted black !important;	/* for 2.0 use outline instead, to prevent jitter */
 }
 .dj_ff3 .dj_a11y .dijitMenuItem td {
 	padding: 0 !important;
