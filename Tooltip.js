@@ -124,17 +124,8 @@ define([
 
 			this.connectorNode.style.top = ""; //reset to default
 
-			// Adjust for space taking by tooltip connector.
-			// Take care not to modify the original spaceAvailable arg as that confuses the caller (dijit.place).
 			var heightAvailable = spaceAvailable.h,
 				widthAvailable = spaceAvailable.w;
-			if(aroundCorner.charAt(1) != tooltipCorner.charAt(1)){
-				// left/right tooltip
-				widthAvailable -= this.connectorNode.offsetWidth;
-			}else{
-				// above/below tooltip
-				heightAvailable -= this.connectorNode.offsetHeight;
-			}
 
 			node.className = "dijitTooltip " +
 				{
@@ -153,12 +144,18 @@ define([
 			// reset width; it may have been set by orient() on a previous tooltip show()
 			this.domNode.style.width = "auto";
 
-			// reduce tooltip's width to the amount of width available, so that it doesn't overflow screen
-			var size = domGeometry.getContentBox(this.domNode);
+			// Reduce tooltip's width to the amount of width available, so that it doesn't overflow screen.
+			// Note that sometimes widthAvailable is negative, but we guard against setting style.width to a
+			// negative number since that causes an exception on IE.
+			var size = domGeometry.position(this.domNode);
+			if(has("ie") == 9){
+				// workaround strange IE9 bug where setting width to offsetWidth causes words to wrap
+				size.w += 2;
+			}
 
 			var width = Math.min((Math.max(widthAvailable,1)), size.w);
 
-			this.domNode.style.width = width+"px";
+			domGeometry.setMarginBox(this.domNode, {w: width});
 
 			// Reposition the tooltip connector.
 			if(tooltipCorner.charAt(0) == 'B' && aroundCorner.charAt(0) == 'B'){
