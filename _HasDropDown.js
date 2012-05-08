@@ -424,12 +424,13 @@ define([
 				if(dropDown.startup && !dropDown._started){
 					dropDown.startup(); // this has to be done after being added to the DOM
 				}
-				// Get size of drop down, and determine if vertical scroll bar needed
+				// Get size of drop down, and determine if vertical scroll bar needed.  If no scroll bar needed,
+				// use overflow:visible rather than overflow:hidden so off-by-one errors don't hide drop down border.
 				var mb = domGeometry.getMarginSize(ddNode);
 				var overHeight = (maxHeight && mb.h > maxHeight);
 				domStyle.set(ddNode, {
-					overflowX: "hidden",
-					overflowY: overHeight ? "auto" : "hidden"
+					overflowX: "visible",
+					overflowY: overHeight ? "auto" : "visible"
 				});
 				if(overHeight){
 					mb.h = maxHeight;
