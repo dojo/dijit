@@ -3,9 +3,8 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/dom-attr", // domAttr.set
 	"dojo/i18n", // i18n.getLocalization
-	"dojo/_base/window", // win.doc.createTextNode
 	"dojo/i18n!./nls/ComboBox"
-], function(array, declare, domAttr, i18n, win){
+], function(array, declare, domAttr, i18n){
 
 // module:
 //		dijit/form/_ComboBoxMenuMixin
