@@ -254,7 +254,7 @@ define([
 			// textbox would be changed to "California" and "ifornia" would be
 			// highlighted.
 
-			var nodes = this.dropDown.createOptions(
+			this.dropDown.createOptions(
 				results,
 				options,
 				lang.hitch(this, "_getMenuLabelFromItem")
@@ -281,7 +281,7 @@ define([
 				// it does not make sense to autocomplete
 				// if they are just previewing the options available.
 				&& !/^[*]+$/.test(query[this.searchAttr].toString())){
-					this._announceOption(nodes[1]); // 1st real item
+					this._announceOption(this.dropDown.containerNode.firstChild.nextSibling); // 1st real item
 			}
 		},
 
@@ -382,9 +382,10 @@ define([
 				this.item = undefined;
 				this.value = '';
 			}else{
+				var item = this.dropDown.items[node.getAttribute("item")];
 				newValue = (this.store._oldAPI ?	// remove getValue() for 2.0 (old dojo.data API)
-					this.store.getValue(node.item, this.searchAttr) : node.item[this.searchAttr]).toString();
-				this.set('item', node.item, false, newValue);
+					this.store.getValue(item, this.searchAttr) : item[this.searchAttr]).toString();
+				this.set('item', item, false, newValue);
 			}
 			// get the text that the user manually entered (cut off autocompleted text)
 			this.focusNode.value = this.focusNode.value.substring(0, this._lastInput.length);

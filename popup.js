@@ -136,6 +136,16 @@ define([
 	};
 	=====*/
 
+	function destroyWrapper(){
+		// summary:
+		//		Function to destroy wrapper when popup widget is destroyed.
+		//		Left in this scope to avoid memory leak on IE8 on refresh page, see #15206.
+		if(this._popupWrapper){
+			domConstruct.destroy(this._popupWrapper);
+			delete this._popupWrapper;
+		}
+	}
+
 	var PopupManager = declare(null, {
 		// _stack: dijit._Widget[]
 		//		Stack of currently popped up widgets.
@@ -162,7 +172,7 @@ define([
 				// Create wrapper <div> for when this widget [in the future] will be used as a popup.
 				// This is done early because of IE bugs where creating/moving DOM nodes causes focus
 				// to go wonky, see tests/robot/Toolbar.html to reproduce
-				wrapper = domConstruct.create("div",{
+				wrapper = domConstruct.create("div", {
 					"class":"dijitPopup",
 					style:{ display: "none"},
 					role: "presentation"
@@ -176,10 +186,7 @@ define([
 				s.top = "0px";
 
 				widget._popupWrapper = wrapper;
-				aspect.after(widget, "destroy", function(){
-					domConstruct.destroy(wrapper);
-					delete widget._popupWrapper;
-				});
+				aspect.after(widget, "destroy", destroyWrapper, true);
 			}
 
 			return wrapper;
