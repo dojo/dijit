@@ -742,7 +742,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 
 		// Catch events on TreeNodes
 		var self = this;
-		this._adoptHandles(
+		this.own(
 			on(this.domNode, on.selector(".dijitTreeNode", touch.enter), function(evt){
 				self._onNodeMouseEnter(registry.byNode(this), evt);
 			}),

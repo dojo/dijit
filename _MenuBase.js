@@ -45,7 +45,7 @@ return declare("dijit._MenuBase",
 	postCreate: function(){
 		var self = this,
 			matches = function(node){ return domClass.contains(node, "dijitMenuItem"); };
-		this._adoptHandles(
+		this.own(
 			on(this.containerNode, on.selector(matches, mouse.enter), function(){
 				self.onItemHover(registry.byNode(this));
 			}),

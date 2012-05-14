@@ -84,10 +84,14 @@ define([
 			return dijit._scopeName == "dijit" ? id : dijit._scopeName + "_" + id; // String
 		},
 
-		findWidgets: function(/*DomNode*/ root){
+		findWidgets: function(root, skipNode){
 			// summary:
 			//		Search subtree under root returning widgets found.
 			//		Doesn't search for nested widgets (ie, widgets inside other widgets).
+			// root: DOMNode
+			//		Node to search under.
+			// skipNode: DOMNode
+			//		If specified, don't search beneath this node (usually containerNode).
 
 			var outAry = [];
 
@@ -100,7 +104,7 @@ define([
 							if(widget){	// may be null on page w/multiple dojo's loaded
 								outAry.push(widget);
 							}
-						}else{
+						}else if(node !== skipNode){
 							getChildrenHelper(node);
 						}
 					}

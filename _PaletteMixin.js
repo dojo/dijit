@@ -145,7 +145,7 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 			LEFT_ARROW: this.isLeftToRight() ? -1 : 1
 		};
 		for(var key in keyIncrementMap){
-			this._adoptHandles(
+			this.own(
 				typematic.addKeyListener(
 					this.domNode,
 					{charOrCode:keys[key], ctrlKey:false, altKey:false, shiftKey:false},

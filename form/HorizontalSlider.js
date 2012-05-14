@@ -319,7 +319,7 @@ var HorizontalSlider = declare("dijit.form.HorizontalSlider", [_FormValueWidget,
 		this.inherited(arguments);
 
 		if(this.showButtons){
-			this._adoptHandles(
+			this.own(
 				typematic.addMouseListener(this.decrementButton, this, "_typematicCallback", 25, 500),
 				typematic.addMouseListener(this.incrementButton, this, "_typematicCallback", 25, 500)
 			);
@@ -340,7 +340,6 @@ var HorizontalSlider = declare("dijit.form.HorizontalSlider", [_FormValueWidget,
 		if(this._inProgressAnim && this._inProgressAnim.status != "stopped"){
 			this._inProgressAnim.stop(true);
 		}
-		this._supportingWidgets = registry.findWidgets(this.domNode); // tells destroy about pseudo-child widgets (ruler/labels)
 		this.inherited(arguments);
 	}
 });

@@ -68,7 +68,7 @@ return declare("dijit.layout._ContentPaneResizeMixin", null, {
 			// monitor when viewport size changes so that I can re-layout.
 			// This is more for subclasses of ContentPane than ContentPane itself, although it
 			// could be useful for a ContentPane if it has a single child widget inheriting ContentPane's size.
-			this._adoptHandles(Viewport.on("resize", lang.hitch(this, "resize")));
+			this.own(Viewport.on("resize", lang.hitch(this, "resize")));
 		}
 	},
 

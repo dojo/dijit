@@ -312,7 +312,7 @@ define([
 
 			var dateObj = new this.dateClassObj(this.currentFocus);
 
-			this._supportingWidgets.push(this.monthWidget = this._createMonthWidget());
+			this.monthWidget = this._createMonthWidget();
 
 			this.set('currentFocus', dateObj, false);	// draw the grid to the month specified by currentFocus
 		},

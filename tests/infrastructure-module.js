@@ -30,6 +30,7 @@ try{
 
 	// Miscellaneous
 	doh.registerUrl("dijit.tests.NodeList-instantiate", dojo.moduleUrl("dijit","tests/NodeList-instantiate.html"), 999999);
+	doh.registerUrl("dijit.tests.Destroyable", dojo.moduleUrl("dijit","tests/Destroyable.html"), 999999);
 }catch(e){
 	doh.debug(e);
 }

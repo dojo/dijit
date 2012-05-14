@@ -42,7 +42,7 @@ define([
 			this.connect(textarea, "onscroll", "_resizeLater");
 			this.connect(textarea, "onresize", "_resizeLater");
 			this.connect(textarea, "onfocus", "_resizeLater");
-			this._adoptHandles(Viewport.on("resize", lang.hitch(this, "_resizeLater")));
+			this.own(Viewport.on("resize", lang.hitch(this, "_resizeLater")));
 			textarea.style.overflowY = "hidden";
 			this._estimateHeight();
 			this._resizeLater();

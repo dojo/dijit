@@ -19,10 +19,11 @@ define([
 	"dojo/Stateful", // Stateful
 	"dojo/topic",
 	"dojo/_base/window", // win.doc, win.body()
+	"./Destroyable",
 	"./registry"	// registry.getUniqueId(), registry.findWidgets()
 ], function(require, array, aspect, config, connect, declare,
 			dom, domAttr, domClass, domConstruct, domGeometry, domStyle, has, kernel,
-			lang, on, ready, Stateful, topic, win, registry){
+			lang, on, ready, Stateful, topic, win, Destroyable, registry){
 
 // module:
 //		dijit/_WidgetBase
@@ -62,7 +63,7 @@ function nonEmptyAttrToDom(attr){
 	};
 }
 
-return declare("dijit._WidgetBase", Stateful, {
+return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 	// summary:
 	//		Future base class for all Dijit widgets.
 	// description:
@@ -301,11 +302,8 @@ return declare("dijit._WidgetBase", Stateful, {
 		// store pointer to original DOM tree
 		this.srcNodeRef = dom.byId(srcNodeRef);
 
-		// For garbage collection.  An array of listener handles returned by this.connect() / this.subscribe()
-		// TODO: replace with hash in 2.0?
+		// No longer used, remove for 2.0.
 		this._connects = [];
-
-		// For widgets internal to this widget, invisible to calling code
 		this._supportingWidgets = [];
 
 		// this is here for back-compat, remove in 2.0 (but check NodeList-instantiate.html test)
@@ -515,21 +513,21 @@ return declare("dijit._WidgetBase", Stateful, {
 		this._beingDestroyed = true;
 		this.uninitialize();
 
-		// remove this.connect() and this.subscribe() listeners
-		var c;
-		while(c = this._connects.pop()){
-			c.remove();
-		}
-
-		// destroy widgets created as part of template, etc.
-		var w;
-		while(w = this._supportingWidgets.pop()){
+		function destroy(w){
 			if(w.destroyRecursive){
-				w.destroyRecursive();
+				w.destroyRecursive(preserveDom);
 			}else if(w.destroy){
-				w.destroy();
+				w.destroy(preserveDom);
 			}
 		}
+
+		// Back-compat, remove for 2.0
+		array.forEach(this._connects, lang.hitch(this, "disconnect"));
+		array.forEach(this._supportingWidgets, destroy);
+
+		// Destroy supporting widgets, but not child widgets under this.containerNode (for 2.0, destroy child widgets
+		// here too)
+		array.forEach(registry.findWidgets(this.domNode, this.containerNode), destroy);
 
 		this.destroyRendering(preserveDom);
 		registry.remove(this.id);
@@ -850,7 +848,7 @@ return declare("dijit._WidgetBase", Stateful, {
 		}
 
 		// Otherwise, just listen for the event on this.domNode.
-		return this._adoptHandles(on(this.domNode, type, func))[0];
+		return this.own(on(this.domNode, type, func))[0];
 	},
 
 	_onMap: function(/*String*/ type){
@@ -916,30 +914,7 @@ return declare("dijit._WidgetBase", Stateful, {
 		// tags:
 		//		protected
 
-		return this._adoptHandles(connect.connect(obj, event, this, method))[0];	// handle
-	},
-
-	_adoptHandles: function(){
-		// summary:
-		//		Track specified handles and remove() them when the widget is destroyed, unless they were
-		//		already remove()'d manually.
-		// returns:
-		//		The array of specified handles, so you can do for example:
-		//	|		var handle = this.adoptHandles(on(...))[0];
-
-		var self = this, connects = this._connects;
-		array.forEach(arguments, function(handle){
-			connects.push(handle);
-			aspect.after(handle, "remove", function(){
-				if(self._beingDestroyed){ return; }		// avoid n^2 performance as destroy() iterates this._connects[]
-				var i = array.indexOf(connects, handle);
-				if(i !== -1){
-					connects.splice(i, 1);
-				}
-			}, true);
-		});
-
-		return arguments;		// handle
+		return this.own(connect.connect(obj, event, this, method))[0];	// handle
 	},
 
 	disconnect: function(handle){
@@ -972,7 +947,7 @@ return declare("dijit._WidgetBase", Stateful, {
 		//	|	});
 		// tags:
 		//		protected
-		return this._adoptHandles(topic.subscribe(t, lang.hitch(this, method)))[0];	// handle
+		return this.own(topic.subscribe(t, lang.hitch(this, method)))[0];	// handle
 	},
 
 	unsubscribe: function(/*Object*/ handle){

@@ -436,7 +436,7 @@ define([
 
 			// Initialize value and valid/invalid state tracking.
 			var self = this;
-			this._adoptHandles(
+			this.own(
 				on(
 					this.containerNode,
 					"attrmodified-state, attrmodified-disabled, attrmodified-value, attrmodified-checked",

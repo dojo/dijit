@@ -131,7 +131,7 @@ define([
 				targetNodeIds: [this.domNode],
 				selector: ".dijitClosable"
 			});
-			this._supportingWidgets.push(closeMenu);
+			this.own(closeMenu);
 
 			var _nlsResources = i18n.getLocalization("dijit", "common"),
 				controller = this;

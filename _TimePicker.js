@@ -244,7 +244,7 @@ define([
 		postCreate: function(){
 			// assign typematic mouse listeners to the arrow buttons
 			this.connect(this.timeMenu, has("mozilla") ? 'DOMMouseScroll' : "onmousewheel", "_mouseWheeled");
-			this._adoptHandles(
+			this.own(
 				typematic.addMouseListener(this.upArrow, this, "_onArrowUp", 33, 250),
 				typematic.addMouseListener(this.downArrow, this, "_onArrowDown", 33, 250)
 			);

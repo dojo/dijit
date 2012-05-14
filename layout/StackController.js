@@ -138,7 +138,7 @@ define([
 					});
 				};
 			for(var attr in paneToButtonAttr){
-				this._adoptHandles(connectFunc(attr, paneToButtonAttr[attr]));
+				this.own(connectFunc(attr, paneToButtonAttr[attr]));
 			}
 		},
 
