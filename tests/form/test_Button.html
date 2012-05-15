@@ -359,47 +359,47 @@
 			widget2.placeAt("buttonContainer");	// place in page
 		});
 	</script>
-    <h3>DropDownButton instantiated via javacript:</h3>
+	<h3>DropDownButton instantiated via javacript:</h3>
 	<div id="dropdownButtonContainer"></div>
 	<script type="text/javascript">
-	    // See if we can make a drop down button in script and attach it to the DOM ourselves.
-        function createButton(){
-            var menu = new dijit.Menu({ });
-            menu.domNode.style.display="none";
-            var menuItem1 = new dijit.MenuItem({
-                label: "Save",
-                iconClass:"dijitEditorIcon dijitEditorIconSave",
-                onClick: function(){ alert('save'); }
-            });
-            menu.addChild(menuItem1);
+		// See if we can make a drop down button in script and attach it to the DOM ourselves.
+		function createButton(){
+			var menu = new dijit.Menu({ });
+			menu.domNode.style.display="none";
+			var menuItem1 = new dijit.MenuItem({
+				label: "Save",
+				iconClass:"dijitEditorIcon dijitEditorIconSave",
+				onClick: function(){ alert('save'); }
+			});
+			menu.addChild(menuItem1);
 
-            var menuItem2 = new dijit.MenuItem({
-                label: "Cut",
-                iconClass:"dijitEditorIcon dijitEditorIconCut",
-                onClick: function(){ alert('cut'); }
-            });
-            menu.addChild(menuItem2);
+			var menuItem2 = new dijit.MenuItem({
+				label: "Cut",
+				iconClass:"dijitEditorIcon dijitEditorIconCut",
+				onClick: function(){ alert('cut'); }
+			});
+			menu.addChild(menuItem2);
 
-            var params = {
-                label: "hello!",
-                name: "programmatic2",
-                dropDown: menu,
-                id: "progButton"
-            };
-            var widget = new dijit.form.DropDownButton(params);
-            dojo.byId("dropdownButtonContainer").appendChild(widget.domNode);
-            dojo.byId("createButton").disabled = true;
-            dojo.byId("destroyButton").disabled = false;
-	    }
-        function destroyButton(){
-            var button = dijit.byId("progButton");
-            button.destroyRecursive();
-            dojo.byId("createButton").disabled = false;
-            dojo.byId("destroyButton").disabled = true;
-        }
-    </script>
-    <button id="createButton" onclick="createButton();">create dropdown button</button>
-    <button id="destroyButton" onclick="destroyButton();">destroy dropdown button</button>
+			var params = {
+				label: "hello!",
+				name: "programmatic2",
+				dropDown: menu,
+				id: "progButton"
+			};
+			var widget = new dijit.form.DropDownButton(params);
+			dojo.byId("dropdownButtonContainer").appendChild(widget.domNode);
+			dojo.byId("createButton").disabled = true;
+			dojo.byId("destroyButton").disabled = false;
+		}
+		function destroyButton(){
+			var button = dijit.byId("progButton");
+			button.destroyRecursive();
+			dojo.byId("createButton").disabled = false;
+			dojo.byId("destroyButton").disabled = true;
+		}
+	</script>
+	<button id="createButton" onclick="createButton();">create dropdown button</button>
+	<button id="destroyButton" onclick="destroyButton();">destroy dropdown button</button>
 
 	<h3>Submit and Reset Buttons</h3>
 	<div>Testing that submit and reset buttons work properly.  OnSubmit and OnReset handlers
@@ -467,5 +467,23 @@
 	<label for="buttonValue">Submitted value:</label><input id="buttonValue"/>
 	<br>
 	<iframe name="formSubmitIframe" src="about:blank" onload="if(this.values) submittedValues(this.values);" style="display:none;"></iframe>
+
+
+	<p>Tests for bubbling:</p>
+	<div id="bubbleContainer" style="border: solid #aaa 3px">
+		<button type="button" data-dojo-type="dijit/form/Button" id="bubble1">1</button>
+		<button type="button" data-dojo-type="dijit/form/Button" id="bubble2">2</button>
+		<button type="button" data-dojo-type="dijit/form/Button" id="bubble3">3</button>
+	</div>
+	<script>
+		require(["dojo/dom", "dojo/on", "dijit/registry"], function(dom, on, registry){
+			on(dom.byId("bubbleContainer"), "click", function(evt){
+				var widget = registry.getEnclosingWidget(evt.target);
+				if(widget){
+					console.log("click on widget " + widget.id);
+				}
+			});
+		});
+	</script>
 </body>
 </html>

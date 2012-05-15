@@ -12,6 +12,7 @@
 		<script type="text/javascript" src="../../../../dojo/dojo.js"></script>
 
 		<script type="text/javascript">
+			dojo.require("dojo.on");
 			dojo.require("dijit.robotx");
 			dojo.require("dijit.tests.helpers");	// functions to help test
 
@@ -509,6 +510,38 @@
 						return d;
 					}
 				});
+
+				doh.register("bubbling", [
+					{
+						name: "bubbling",
+						timeout: 5000,
+						runTest: function(){
+
+							var d = new doh.Deferred(),
+								wrapper = dojo.byId("bubbleContainer"),
+								buttonNode = dojo.byId("bubble2");
+
+							// Listen for click events on the outer DOMNode.
+							var clicks = 0;
+							dojo.on(wrapper, "click", function(){
+								clicks++;
+							});
+
+							// Keyboard-click the widget button
+							doh.robot.sequence(function(){
+								buttonNode.focus();
+							}, 500);
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+
+							// Check that one click event bubbled
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(1, clicks, "one click event bubbled");
+							}), 500);
+
+							return d;
+						}
+					}
+				]);
 
 				doh.run();
 			});

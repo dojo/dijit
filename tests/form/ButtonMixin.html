@@ -80,9 +80,15 @@
 							calledOnClick = true;
 							return true;
 						}
-						doh.f(dijit_events._onClick({ preventDefault: nop }), "_onClick");
+						doh.f(dijit_events._onClick({
+							preventDefault: nop,
+							stopPropagation: nop
+						}), "_onClick");
 						dijit_events.set('onClick', onClick);
-						dijit_events._onClick({ preventDefault: nop });
+						dijit_events._onClick({
+							preventDefault: nop,
+							stopPropagation: nop
+						});
 						doh.t(calledOnClick, "calledOnClick");
 					}
 	 			},
@@ -100,9 +106,17 @@
 							d.callback(true);
 							return true;
 						}
-						doh.f(mobile_events._onClick({ preventDefault: nop }), "_onClick");
+						doh.f(mobile_events._onClick({
+							preventDefault: nop,
+							stopPropagation: nop
+						}), "_onClick");
 						mobile_events.set("onClick", onClick);
-						setTimeout(function(){ mobile_events.focusNode.click({ preventDefault: nop }); }, 0);
+						setTimeout(function(){
+							mobile_events.focusNode.click({
+								preventDefault: nop,
+								stopPropagation: nop
+							});
+						}, 0);
 
 						return d;
 					}

@@ -50,7 +50,10 @@
 
 			function click(/*String*/ id){
 				// Click dijit widget w/specified id
-				dijit.byId(id)._onClick({preventDefault: function(){}});
+				dijit.byId(id)._onClick({
+					preventDefault: function(){},
+					stopPropagation: function(){}
+				});
 			}
 
 			doh.register("setup", [

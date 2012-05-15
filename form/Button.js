@@ -68,6 +68,7 @@ return declare("dijit.form.Button", [_FormWidget, _ButtonMixin], {
 			if(this.valueNode){
 				this.valueNode.click();
 				e.preventDefault(); // cancel BUTTON click and continue with hidden INPUT click
+                e.stopPropagation();    // avoid two events bubbling from Button widget
 				// leave ok = true so that subclasses can do what they need to do
 			}
 		}
