@@ -319,7 +319,7 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 		var extents = domGeometry.getPadBorderExtents(ed.domNode);
 		var edb = {
 			w: eb.w - extents.w,
-			h: eb.h - (tbH + extents.h + + fH)
+			h: eb.h - (tbH + extents.h + fH)
 		};
 
 		// Fullscreen gets odd, so we need to check for the FS plugin and
