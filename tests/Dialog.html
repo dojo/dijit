@@ -22,6 +22,7 @@
 		dojo.require("doh.runner");
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.Dialog");
+		dojo.require("dijit.DialogUnderlay");
 		dojo.require("dijit.focus");
 		dojo.require("dijit.tests.helpers");	// functions to help test
 
@@ -59,7 +60,7 @@
 							doh.t(isVisible(dlg1), "dialog 1 is visible");
 
 							var dialog1Z = dojo.style(dlg1.domNode, "zIndex"),
-								underlayZ = dojo.style(dojo.global.dijit._underlay.domNode, "zIndex");
+								underlayZ = dojo.style(dijit.DialogUnderlay._singleton.domNode, "zIndex");
 
 							doh.t(dialog1Z > underlayZ, "dialog1 (zIndex=" + dialog1Z +
 								") above underlay (zIndex=" + underlayZ + ")");
@@ -99,7 +100,7 @@
 
 							var dialog1Z = dojo.style(dlg1.domNode, "zIndex"),
 								dialog2Z = dojo.style(dlg2.domNode, "zIndex"),
-								underlayZ = dojo.style(dojo.global.dijit._underlay.domNode, "zIndex");
+								underlayZ = dojo.style(dijit.DialogUnderlay._singleton.domNode, "zIndex");
 
 							doh.t(underlayZ > dialog1Z, "underlay (zIndex=" + underlayZ +
 								") above dialog1 (zIndex=" + dialog1Z + ")");
@@ -124,12 +125,12 @@
 
 						setTimeout(d.getTestCallback(function(){
 							doh.t(isVisible(dlg2), "dialog 2 is still visible");
-							doh.t(isVisible(dojo.global.dijit._underlay), "underlay is still visible");
+							doh.t(isVisible(dijit.DialogUnderlay._singleton), "underlay is still visible");
 
 							doh.is("dlg2_inputA", dojo.global.dijit.focus.curNode.id, "dialog 2 still has focus");
 
 							var dialog2Z = dojo.style(dlg2.domNode, "zIndex"),
-								underlayZ = dojo.style(dojo.global.dijit._underlay.domNode, "zIndex");
+								underlayZ = dojo.style(dijit.DialogUnderlay._singleton.domNode, "zIndex");
 
 							doh.t(dialog2Z > underlayZ, "dialog2 (zIndex=" + dialog2Z +
 								") above underlay (zIndex=" + underlayZ + ")");
@@ -166,7 +167,7 @@
 							// merely use _dialogStack.length to compute zIndex
 							var dialog2Z = dojo.style(dlg2.domNode, "zIndex"),
 								dialog3Z = dojo.style(dlg3.domNode, "zIndex"),
-								underlayZ = dojo.style(dojo.global.dijit._underlay.domNode, "zIndex");
+								underlayZ = dojo.style(dijit.DialogUnderlay._singleton.domNode, "zIndex");
 							doh.t(underlayZ > dialog2Z, "underlay (zIndex=" + underlayZ +
 								") above dialog2 (zIndex=" + dialog2Z + ")");
 							doh.t(dialog3Z > underlayZ, "dialog3 (zIndex=" + dialog3Z +
@@ -199,7 +200,7 @@
 
 							var dialog3Z = dojo.style(dlg3.domNode, "zIndex"),
 								dialog4Z = dojo.style(dlg4.domNode, "zIndex"),
-								underlayZ = dojo.style(dojo.global.dijit._underlay.domNode, "zIndex");
+								underlayZ = dojo.style(dijit.DialogUnderlay._singleton.domNode, "zIndex");
 							doh.t(underlayZ > dialog3Z, "underlay (zIndex=" + underlayZ +
 								") above dialog3 (zIndex=" + dialog3Z + ")");
 							doh.t(dialog4Z > underlayZ, "dialog4 (zIndex=" + dialog4Z +
@@ -221,12 +222,12 @@
 
 						dlg3.hide().then(d.getTestCallback(function(){
 							doh.t(isVisible(dlg4), "dialog 4 is still visible");
-							doh.t(isVisible(dojo.global.dijit._underlay), "underlay is still visible");
+							doh.t(isVisible(dijit.DialogUnderlay._singleton), "underlay is still visible");
 
 							doh.is("dlg4_inputA", dojo.global.dijit.focus.curNode.id, "dialog 4 still has focus");
 
 							var dialog4Z = dojo.style(dlg4.domNode, "zIndex"),
-								underlayZ = dojo.style(dojo.global.dijit._underlay.domNode, "zIndex");
+								underlayZ = dojo.style(dijit.DialogUnderlay._singleton.domNode, "zIndex");
 
 							doh.t(dialog4Z > underlayZ, "dialog4 (zIndex=" + dialog4Z +
 								") above underlay (zIndex=" + underlayZ + ")");
@@ -253,7 +254,7 @@
 							doh.t(isVisible(dlg2), "dialog 2 is visible");
 
 							var dialog2Z = dojo.style(dlg2.domNode, "zIndex"),
-								underlayZ = dojo.style(dojo.global.dijit._underlay.domNode, "zIndex");
+								underlayZ = dojo.style(dijit.DialogUnderlay._singleton.domNode, "zIndex");
 							doh.t(dialog2Z > underlayZ, "dialog2 (zIndex=" + dialog2Z +
 								") above underlay (zIndex=" + underlayZ + ")");
 
@@ -274,7 +275,7 @@
 						// revert focus to the main page
 						dlg2.hide().then(d.getTestCallback(function(){
 							doh.t(isHidden(dlg2), "dialog 4 is hidden");
-							doh.t(isHidden(dojo.global.dijit._underlay), "underlay hidden");
+							doh.t(isHidden(dijit.DialogUnderlay._singleton), "underlay hidden");
 
 							doh.is("button", dojo.global.dijit.focus.curNode.id, "focus is on the main page");
 						}));
@@ -322,10 +323,10 @@
 						
 						doh.t(isVisible(shown), shown.title + " visible");
 						doh.t(isHidden(hidden), hidden.title + " hidden");
-						doh.t(isVisible(dojo.global.dijit._underlay), "underlay visible");
+						doh.t(isVisible(dijit.DialogUnderlay._singleton), "underlay visible");
 
 						var shownZ = dojo.style(shown.domNode, "zIndex"),
-							underlayZ = dojo.style(dojo.global.dijit._underlay.domNode, "zIndex");
+							underlayZ = dojo.style(dijit.DialogUnderlay._singleton.domNode, "zIndex");
 						doh.t(shownZ > underlayZ, "visible dialog (zIndex=" + shownZ +
 							") above underlay (zIndex=" + underlayZ + ")");
 

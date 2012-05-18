@@ -12,10 +12,12 @@
 		<script type="text/javascript" src="../../../dojo/dojo.js"></script>
 
 		<script type="text/javascript">
-			dojo.require("dijit.robotx");
-
-			dojo.ready(function(){
-				doh.robot.initRobot('../test_typematic.html');
+			require([
+				"doh/runner", "dojo/robotx",
+				"dojo/dom", "dojo/keys",
+				"dojo/domReady!"
+			], function(doh, robot, dom, keys){
+				robot.initRobot('../test_typematic.html');
 
 				doh.register("press and hold test", [
 					{
@@ -24,20 +26,20 @@
 						runTest: function(){
 							var
 								d = new doh.Deferred(),
-								input = dojo.byId("typematicInput"),
+								input = dom.byId("typematicInput"),
 								v;
 							input.value = "";
 							input.focus();
 
-							doh.robot.keyDown(dojo.keys.CTRL, 1000);
-							doh.robot.keyDown(dojo.keys.F11, 200);
-							doh.robot.sequence(function(){
+							robot.keyDown(keys.CTRL, 1000);
+							robot.keyDown(keys.F11, 200);
+							robot.sequence(function(){
 								v = input.value; // get value before releasing key to reduce timing dependence on the robot
 							}, 2000);
-							doh.robot.keyUp(dojo.keys.F11, 100);
-							doh.robot.keyUp(dojo.keys.CTRL, 100);
+							robot.keyUp(keys.F11, 100);
+							robot.keyUp(keys.CTRL, 100);
 
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								// allow off by 1
 								doh.t(v=="aaaaaaaaa"||v=="aaaaaaaaaa"||v=="aaaaaaaaaaa", "a letters typed " + v);
 							}), 100);
@@ -51,18 +53,18 @@
 						runTest: function(){
 							var
 								d = new doh.Deferred(),
-								input = dojo.byId("typematicInput"),
+								input = dom.byId("typematicInput"),
 								v;
 							input.value = "";
 
-							doh.robot.mouseMoveAt("typematicButton", 500, 1);
-							doh.robot.mousePress({left: true}, 500);
-							doh.robot.sequence(function(){
+							robot.mouseMoveAt("typematicButton", 500, 1);
+							robot.mousePress({left: true}, 500);
+							robot.sequence(function(){
 								v = input.value; // get value before releasing button to reduce timing dependence on the robot
 							}, 1000);
-							doh.robot.mouseRelease({left: true}, 100);
+							robot.mouseRelease({left: true}, 100);
 
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								// allow off by 1
 								doh.t(v=="bbbbbb"||v=="bbbbbbb"||v=="bbbbbbbb", "b letters typed " + v);
 							}), 100);

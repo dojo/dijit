@@ -476,8 +476,8 @@ define([
 			// tags:
 			//		private
 			if(this.domNode.style.display != "none"){
-				if(dijit._underlay){	// avoid race condition during show()
-					dijit._underlay.layout();
+				if(DialogUnderlay._singleton){	// avoid race condition during show()
+					DialogUnderlay._singleton.layout();
 				}
 				this._position();
 				this._size();
@@ -531,9 +531,9 @@ define([
 			ds[ds.length-1].focus = focus.curNode;
 
 			// Display the underlay, or if already displayed then adjust for this new dialog
-			var underlay = dijit._underlay;
+			var underlay = DialogUnderlay._singleton;
 			if(!underlay || underlay._destroyed){
-				underlay = dijit._underlay = new DialogUnderlay(underlayAttrs);
+				underlay = dijit._underlay = DialogUnderlay._singleton = new DialogUnderlay(underlayAttrs);
 			}else{
 				underlay.set(dialog.underlayAttrs);
 			}
@@ -543,7 +543,7 @@ define([
 			if(ds.length == 1){	// first dialog
 				underlay.show();
 			}
-			domStyle.set(dijit._underlay.domNode, 'zIndex', zIndex - 1);
+			domStyle.set(DialogUnderlay._singleton.domNode, 'zIndex', zIndex - 1);
 
 			// Dialog
 			domStyle.set(dialog.domNode, 'zIndex', zIndex);
@@ -570,14 +570,14 @@ define([
 
 				// Adjust underlay, unless the underlay widget has already been destroyed
 				// because we are being called during page unload (when all widgets are destroyed)
-				if(!dijit._underlay._destroyed){
+				if(!DialogUnderlay._singleton._destroyed){
 					if(ds.length == 1){
 						// Returning to original page.  Hide the underlay.
-						dijit._underlay.hide();
+						DialogUnderlay._singleton.hide();
 					}else{
 						// Popping back to previous dialog, adjust underlay.
-						domStyle.set(dijit._underlay.domNode, 'zIndex', pd.zIndex - 1);
-						dijit._underlay.set(pd.underlayAttrs);
+						domStyle.set(DialogUnderlay._singleton.domNode, 'zIndex', pd.zIndex - 1);
+						DialogUnderlay._singleton.set(pd.underlayAttrs);
 					}
 				}
 
