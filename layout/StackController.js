@@ -95,13 +95,15 @@ define([
 			this.connect(this.containerNode, 'click', function(evt){
 				var button = registry.getEnclosingWidget(evt.target),
 					page = button.page;
-				for(var target = evt.target; target !== this.containerNode; target = target.parentNode){
-					if(domClass.contains(target, this.buttonWidgetCloseClass)){
-						this.onCloseButtonClick(button);
-						break;
-					}else if(domClass.contains(target, this.buttonWidgetClass)){
-						this.onButtonClick(button);
-						break;
+				if(button != this.containerNode && !button.disabled){
+					for(var target = evt.target; target !== this.containerNode; target = target.parentNode){
+						if(domClass.contains(target, this.buttonWidgetCloseClass)){
+							this.onCloseButtonClick(button);
+							break;
+						}else if(domClass.contains(target, this.buttonWidgetClass)){
+							this.onButtonClick(button);
+							break;
+						}
 					}
 				}
 			});
@@ -127,7 +129,8 @@ define([
 					"showtitle": "showLabel",
 					"iconclass": "iconClass",
 					"closable": "closeButton",
-					"tooltip": "title"
+					"tooltip": "title",
+					"disabled": "disabled"
 				},
 				connectFunc = function(attr, buttonAttr){
 					return on(containerNode, "attrmodified-" + attr, function(evt){
@@ -162,6 +165,7 @@ define([
 			var button = new Cls({
 				id: this.id + "_" + page.id,
 				label: page.title,
+				disabled: page.disabled,
 				dir: page.dir,
 				lang: page.lang,
 				textDir: page.textDir,
@@ -271,10 +275,18 @@ define([
 			if(!this.isLeftToRight() && (!this.tabPosition || /top|bottom/.test(this.tabPosition))){ forward = !forward; }
 			// find currently focused button in children array
 			var children = this.getChildren();
-			var current = array.indexOf(children, this.pane2button[this._currentChild.id]);
-			// pick next button to focus on
-			var offset = forward ? 1 : children.length - 1;
-			return children[ (current + offset) % children.length ]; // dijit._Widget
+			var idx = array.indexOf(children, this.pane2button[this._currentChild.id]),
+				current = children[idx];
+
+			// Pick next/previous non-disabled button to focus on.   If we get back to the original button it means
+			// that all buttons must be disabled, so return current child to avoid an infinite loop.
+			var child;
+			do{
+				idx = (idx + (forward ? 1 : children.length - 1)) % children.length;
+				child = children[idx];
+			}while(child.disabled && child != current);
+
+			return child; // dijit._Widget
 		},
 
 		onkeypress: function(/*Event*/ e){
@@ -303,10 +315,26 @@ define([
 						if(e.ctrlKey){ forward = true; }
 						break;
 					case keys.HOME:
-					case keys.END:
+						// Navigate to first non-disabled child
 						var children = this.getChildren();
-						if(children && children.length){
-							this.onButtonClick(children[e.charOrCode == keys.HOME ? 0 : children.length-1]);
+						for(var idx = 0; idx < children.length; idx++){
+							var child = children[idx];
+							if(!child.disabled){
+								this.onButtonClick(child);
+								break;
+							}
+						}
+						event.stop(e);
+						break;
+					case keys.END:
+						// Navigate to last non-disabled child
+						var children = this.getChildren();
+						for(var idx = children.length-1; idx >= 0; idx--){
+							var child = children[idx];
+							if(!child.disabled){
+								this.onButtonClick(child);
+								break;
+							}
 						}
 						event.stop(e);
 						break;

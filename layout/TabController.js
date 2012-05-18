@@ -69,10 +69,28 @@ define([
 			if(disp){
 				var _nlsResources = i18n.getLocalization("dijit", "common");
 				if(this.closeNode){
-					domAttr.set(this.closeNode,"title", _nlsResources.itemClose);
+					domAttr.set(this.closeNode, "title", _nlsResources.itemClose);
 				}
 			}
 		},
+
+		_setDisabledAttr: function(/*Boolean*/ disabled){
+			// summary:
+			//		Make tab selected/unselectable
+
+			this.inherited(arguments);
+
+			// Don't show tooltip for close button when tab is disabled
+			if(this.closeNode){
+				if(disabled){
+					domAttr.remove(this.closeNode, "title");
+				}else{
+					var _nlsResources = i18n.getLocalization("dijit", "common");
+					domAttr.set(this.closeNode, "title", _nlsResources.itemClose);
+				}
+			}
+		},
+
 		_setLabelAttr: function(/*String*/ content){
 			// summary:
 			//		Hook for set('label', ...) to work.
@@ -122,14 +140,16 @@ define([
 		postCreate: function(){
 			this.inherited(arguments);
 
-			// Setup a close menu to be shared between all the closable tabs
+			// Setup a close menu to be shared between all the closable tabs (excluding disabled tabs)
 			var closeMenu = new Menu({
 				id: this.id+"_Menu",
 				dir: this.dir,
 				lang: this.lang,
 				textDir: this.textDir,
 				targetNodeIds: [this.domNode],
-				selector: ".dijitClosable"
+				selector: function(node){
+					return domClass.contains(node, "dijitClosable") && !domClass.contains(node, "dijitTabDisabled");
+				}
 			});
 			this.own(closeMenu);
 

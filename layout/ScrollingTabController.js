@@ -472,6 +472,7 @@ declare(
 				id: page.id + "_stcMi",
 				label: page.title,
 				iconClass: page.iconClass,
+				disabled: page.disabled,
 				dir: page.dir,
 				lang: page.lang,
 				textDir: page.textDir,

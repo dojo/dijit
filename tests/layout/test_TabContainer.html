@@ -225,21 +225,22 @@
 	<button onclick="dijit.byId('tab1').set('title', 'Tab 1 Renamed');">Rename Tab #1</button>
 	<button onclick="dijit.byId('tab2').set('title', 'Tab 2 Renamed To Something Very Long');">Rename Tab #2</button>
 	<button onclick="dijit.byId('tab1').set('closable', !dijit.byId('tab1').get('closable'));">Toggle Tab #1 closable</button>
+	<button onclick="dijit.byId('tab3').set('disabled', !dijit.byId('tab3').get('disabled'));">Toggle Tab #3 disabled</button>
+
 	<br/>
 	<p>
-		This tab container has the Menu function for selecting tabs disabled, using <b>useMenu="false"</b>
+		This tab container has the Menu function for selecting tabs disabled, using useMenu: false</b>.
+		Also, "Tab 3" is initially disabled.
 	</p>
-
-	<div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='useMenu:false,
+	<div data-dojo-type="dijit/layout/TabContainer" id="nomenu" data-dojo-props='useMenu:false,
 				persist:false, tabStrip:true, style:"width: 400px;height: 20em;"'>
-		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab1.html", title:"Tab 1"'></div>
+		<div data-dojo-type="dijit/layout/ContentPane" id="nomenu_tab1" data-dojo-props='href:"tab1.html", title:"Tab 1"'></div>
 
+		<div data-dojo-type="dijit/layout/ContentPane" id="nomenu_tab2" data-dojo-props='href:"tab2.html", refreshOnShow:true, title:"Tab 2", selected:true'></div>
 
-		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab2.html", refreshOnShow:true, title:"Tab 2", selected:true'></div>
-
-		<div data-dojo-type="dijit/layout/ContentPane"  data-dojo-props='title:"Tab 3", closable:true'>
+		<div data-dojo-type="dijit/layout/ContentPane"  id="nomenu_tab3" data-dojo-props='title:"Tab 3", closable:true, disabled: true'>
 			<h1>I am tab 3</h1>
-			<p>And I was already part of the page! That's cool, no?</p>
+			<p>I was initially a disabled tab (button below TabContainer can enable/disable me).</p>
 			<p id="foo2">tooltip on this paragraph</p>
 			<div data-dojo-type="dijit/Tooltip" data-dojo-props='connectId:["foo2"]'>I'm a tooltip!</div>
 			<button data-dojo-type="dijit/form/Button">I'm a button </button>
@@ -363,6 +364,7 @@
 			</p>
 		</div>
 	</div>
+	<button onclick="dijit.byId('nomenu_tab3').set('disabled', !dijit.byId('nomenu_tab3').get('disabled'));">Toggle Tab #3 disabled</button>
 
 
 	<br/>

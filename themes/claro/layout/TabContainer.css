@@ -109,6 +109,9 @@
   background-color: #cfe5fa;
   color: #000000;
 }
+.claro .dijitTabDisabled {
+  background-color: #d3d3d3;
+}
 .claro .tabStripButton {
   background-color: transparent;
   border: none;
