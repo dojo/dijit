@@ -1,6 +1,6 @@
+define(["dojo/_base/declare"], function(declare){
 
-/*=====
-declare(
+return declare(
 	"dijit.tree.model",
 	null,
 {
@@ -146,4 +146,5 @@ declare(
 		//		callback
 	}
 });
-=====*/
+
+});
