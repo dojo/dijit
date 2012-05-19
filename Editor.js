@@ -513,7 +513,6 @@ define([
 			//		Handler for editor undo (ex: ctrl-z) operation
 			// tags:
 			//		private
-			//console.log('undo');
 			var ret = false;
 			if(!this._undoRedoActive){
 				this._undoRedoActive = true;
@@ -536,7 +535,6 @@ define([
 			//		Handler for editor redo (ex: ctrl-y) operation
 			// tags:
 			//		private
-			//console.log('redo');
 			var ret = false;
 			if(!this._undoRedoActive){
 				this._undoRedoActive = true;
@@ -634,6 +632,7 @@ define([
 			//		Deals with saving undo; see editActionInterval parameter.
 			// tags:
 			//		private
+			
 			// Avoid filtering to make sure selections restore.
 			var v = html.getChildrenHtml(this.editNode);
 

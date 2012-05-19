@@ -265,7 +265,8 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 		//		Callback from the dialog when user presses "set" button.
 		// tags:
 		//		private
-		//TODO: prevent closing popup if the text is empty
+		
+		// TODO: prevent closing popup if the text is empty
 		this._onCloseDialog();
 		if(has("ie") < 9){ //see #4151
 			var sel = rangeapi.getSelection(this.editor.window);

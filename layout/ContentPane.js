@@ -145,7 +145,7 @@ return declare("dijit.layout.ContentPane", [_Widget, _Container, _ContentPaneRes
 	// template: [private] Boolean
 	//		Flag from the parser that this ContentPane is inside a template
 	//		so the contents are pre-parsed.
-	// (TODO: this declaration can be commented out in 2.0)
+	// TODO: this declaration can be commented out in 2.0
 	template: false,
 
 	create: function(params, srcNodeRef){
