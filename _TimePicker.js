@@ -12,12 +12,13 @@ define([
 	"dojo/_base/lang", // lang.mixin
 	"dojo/sniff", // has(...)
 	"dojo/query", // query
+	"dojo/mouse", // mouse.wheel
 	"./typematic",
 	"./_Widget",
 	"./_TemplatedMixin",
 	"./form/_FormValueWidget",
 	"dojo/text!./templates/TimePicker.html"
-], function(array, ddate, locale, stamp, declare, domClass, domConstruct, event, kernel, keys, lang, has, query,
+], function(array, ddate, locale, stamp, declare, domClass, domConstruct, event, kernel, keys, lang, has, query, mouse,
 			typematic, _Widget, _TemplatedMixin, _FormValueWidget, template){
 
 	// module:
@@ -243,7 +244,7 @@ define([
 
 		postCreate: function(){
 			// assign typematic mouse listeners to the arrow buttons
-			this.connect(this.timeMenu, has("mozilla") ? 'DOMMouseScroll' : "onmousewheel", "_mouseWheeled");
+			this.connect(this.timeMenu, mouse.wheel, "_mouseWheeled");
 			this.own(
 				typematic.addMouseListener(this.upArrow, this, "_onArrowUp", 33, 250),
 				typematic.addMouseListener(this.downArrow, this, "_onArrowDown", 33, 250)
@@ -392,8 +393,7 @@ define([
 			this._keyboardSelected = null;
 			event.stop(e);
 			// we're not _measuring_ the scroll amount, just direction
-			var scrollAmount = has("mozilla") ? -e.detail : e.wheelDelta;
-			this[(scrollAmount>0 ? "_onArrowUp" : "_onArrowDown")](); // yes, we're making a new dom node every time you mousewheel, or click
+			this[(e.wheelDelta>0 ? "_onArrowUp" : "_onArrowDown")](); // yes, we're making a new dom node every time you mousewheel, or click
 		},
 
 		_onArrowUp: function(count){
