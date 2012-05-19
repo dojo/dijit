@@ -13,8 +13,8 @@ define([
 
 
 	/*=====
-	var __Constraints = declare([_DateTimeTextBox.__Constraints, _TimePicker.__Constraints]
-	);
+	var __Constraints = declare([_DateTimeTextBox.__Constraints, _TimePicker.__Constraints], {
+	});
 	=====*/
 
 	return declare("dijit.form.TimeTextBox", _DateTimeTextBox, {
