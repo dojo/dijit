@@ -17,7 +17,7 @@ return declare("dijit.tree.ForestStoreModel", TreeStoreModel, {
 	//		Interface between a dijit.Tree and a dojo.data store that doesn't have a root item,
 	//		a.k.a. a store that has multiple "top level" items.
 	//
-	// description
+	// description:
 	//		Use this class to wrap a dojo.data store, making all the items matching the specified query
 	//		appear as children of a fabricated "root item".  If no query is specified then all the
 	//		items returned by fetch() on the underlying store become children of the root item.
