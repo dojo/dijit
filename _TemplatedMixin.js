@@ -101,7 +101,7 @@ define([
 
 			var node;
 			if(lang.isString(cached)){
-				node = domConstruct.toDom(this._stringRepl(cached), this.doc);
+				node = domConstruct.toDom(this._stringRepl(cached), this.ownerDocument);
 				if(node.nodeType != 1){
 					// Flag common problems such as templates with multiple top level nodes (nodeType == 11)
 					throw new Error("Invalid template: " + cached);
@@ -267,7 +267,7 @@ define([
 			return (tmplts[key] = templateString); //String
 		}else{
 			// there are no variables in the template so we can cache the DOM tree
-			var node = domConstruct.toDom(templateString);
+			var node = domConstruct.toDom(templateString, doc);
 			if(node.nodeType != 1){
 				throw new Error("Invalid template: " + templateString);
 			}
