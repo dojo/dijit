@@ -39,20 +39,22 @@
 		dojo.require("dijit.tests.helpers");	// functions to help test
 
 		dojo.ready(function(){
+			doh.register("setup", function(){
+				myStore = new dojo.data.ItemFileWriteStore({url:'../_data/countries.json'});
+				doh.t(myStore, "store created");
+
+				myModel = new dijit.tree.ForestStoreModel({
+					store: myStore,
+					query: {type:'continent'},
+					rootId: "earth",
+					rootLabel: "Earth",
+					childrenAttrs: ["children"]
+				});
+				doh.t(myModel, "model created");
+			});
 			doh.register("paths", [
 				function create(){
 					var d = new doh.Deferred();
-					myStore = new dojo.data.ItemFileWriteStore({url:'../_data/countries.json'});
-					doh.t(myStore, "store created");
-
-					myModel = new dijit.tree.ForestStoreModel({
-						store: myStore,
-						query: {type:'continent'},
-						rootId: "earth",
-						rootLabel: "Earth",
-						childrenAttrs: ["children"]
-					});
-					doh.t(myModel, "model created");
 
 					myTree = new dijit.Tree({
 						id: "myTree",
@@ -316,7 +318,8 @@
 					myTree.startup();
 
 					myTree.onLoadDeferred.then(d.getTestCallback(function(){
-						doh.is("IT", myTree.get("selectedItem").id);
+						var item = myTree.get("selectedItem");
+						doh.is("IT", myStore.getValue(item, "id"));
 					}));
 					return d;
 				},
@@ -327,7 +330,8 @@
 
 				function selectNewItem(){
 					myTree.set("path", ["earth", "EU", "FR"]);
-					doh.is("FR", myTree.get("selectedItem").id);
+					var item = myTree.get("selectedItem");
+					doh.is("FR", myStore.getValue(item, "id"));
 				}
 			]);
 
