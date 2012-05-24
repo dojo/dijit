@@ -20,7 +20,7 @@
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">
-		dojo.require("dojo.data.ItemFileReadStore");
+		dojo.require("dojo.data.ItemFileWriteStore");
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 
 		dojo.require("dijit.Tree");
@@ -40,7 +40,7 @@
 
 	<h1 class="testTitle">Dijit Tree Test</h1>
 
-	<div data-dojo-id="continentStore" data-dojo-type="dojo/data/ItemFileReadStore" data-dojo-props='url:"../_data/countries.json"'></div>
+	<div data-dojo-id="continentStore" data-dojo-type="dojo/data/ItemFileWriteStore" data-dojo-props='url:"../_data/countries.json"'></div>
 	<div data-dojo-id="continentModel" data-dojo-type="dijit/tree/ForestStoreModel" data-dojo-props='store:continentStore, query:{type:"continent"},
 		rootId:"continentRoot", rootLabel:"Continents", childrenAttrs:["children"]'></div>
 
@@ -136,6 +136,37 @@
 				+", population=" + continentStore.getValue(item, "population"));
 		</script>
 	</div>
+
+	<h2>Tree w/horizontal scroll</h2>
+	<p>
+		For checking that selection and highlighting effect goes all the way to the right.
+	</p>
+	<p>
+		Expand North America and check highlighting for United States, plus shorter labels.
+		Then collapse North America and make sure horizontal scrollbar disappears.
+	</p>
+	<p>
+		Also check whether the Tree's initial display is correct.
+		Since the Tree persists, try refreshing the page when the tree is in an open state, and when it's in a closed
+		state.
+	</p>
+	<div id="thinTree" style="width: 170px; border: solid 1px #759dc0"
+		 data-dojo-type="dijit/Tree" data-dojo-props="model:continentModel">
+		<script type="dojo/aspect" data-dojo-advice="after" data-dojo-method="_adjustWidths">
+			console.log(this.id + ": adjusted widths of nodes");
+		</script>
+	</div>
+	<button onclick="dijit.byId('thinTree').expandAll();">expand all</button>
+	<button onclick="dijit.byId('thinTree').collapseAll();">collapse all</button>
+	<button onclick="dijit.byId('thinTree').set('paths', [['continentRoot','AF'],['continentRoot','NA','US']]);">
+		set paths to Africa, US
+	</button>
+	<button onclick="continentStore.fetchItemByIdentity({identity: 'US', onItem: function(item){ continentStore.setValue(item, 'name', 'A very very very long name for USA'); }});">
+		set long name for USA
+	</button>
+	<button onclick="continentStore.fetchItemByIdentity({identity: 'US', onItem: function(item){ continentStore.setValue(item, 'name', 'USA'); }});">
+		set short name for USA
+	</button>
 
 
 </body>

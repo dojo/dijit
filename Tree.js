@@ -119,8 +119,8 @@ var TreeNode = declare(
 		// Math.max() is to prevent negative padding on hidden root node (when indent == -1)
 		var pixels = (Math.max(indent, 0) * this.tree._nodePixelIndent) + "px";
 
-		domStyle.set(this.domNode, "backgroundPosition",	pixels + " 0px");
-		domStyle.set(this.rowNode, this.isLeftToRight() ? "paddingLeft" : "paddingRight", pixels);
+		domStyle.set(this.domNode, "backgroundPosition", pixels + " 0px");	// TODOC: what is this for???
+		domStyle.set(this.indentNode, this.isLeftToRight() ? "paddingLeft" : "paddingRight", pixels);
 
 		array.forEach(this.getChildren(), function(child){
 			child.set("indent", indent+1);
@@ -160,6 +160,8 @@ var TreeNode = declare(
 		this._applyClassAndStyle(item, "icon", "Icon");
 		this._applyClassAndStyle(item, "label", "Label");
 		this._applyClassAndStyle(item, "row", "Row");
+
+		this.tree._startPaint(true);		// signifies paint started and finished (synchronously)
 	},
 
 	_applyClassAndStyle: function(item, lower, upper){
@@ -449,7 +451,9 @@ var TreeNode = declare(
 			}
 		}
 
-		return new DeferredList(defs);	// dojo.Deferred
+		var def =  new DeferredList(defs);	// dojo.Deferred
+		this.tree._startPaint(def);		// to reset TreeNode widths after an item is added/removed from the Tree
+		return def;
 	},
 
 	getTreePath: function(){
@@ -1546,6 +1550,8 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 			this.onClose(node.item, node);
 			this._state(node, false);
 
+			this._startPaint(ret);	// after this finishes, need to reset widths of TreeNodes
+
 			return ret;
 		}
 	},
@@ -1608,6 +1614,8 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 			this.onOpen(node.item, node);
 			this._state(node, true);
 		}));
+
+		this._startPaint(def);	// after this finishes, need to reset widths of TreeNodes
 
 		return def;	// dojo.Deferred
 	},
@@ -1786,7 +1794,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 			domGeometry.setMarginBox(this.domNode, changeSize);
 		}
 
-		// The only JS sizing involved w/tree is the indentation, which is specified
+		// The main JS sizing involved w/tree is the indentation, which is specified
 		// in CSS and read in through this dummy indentDetector node (tree must be
 		// visible and attached to the DOM to read this)
 		this._nodePixelIndent = domGeometry.position(this.tree.indentDetector).w;
@@ -1795,6 +1803,66 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 			// If tree has already loaded, then reset indent for all the nodes
 			this.tree.rootNode.set('indent', this.showRoot ? 0 : -1);
 		}
+
+		// Also, adjust widths of all rows to match width of Tree
+		this._adjustWidths();
+	},
+
+	_outstandingPaintOperations: 0,
+	_startPaint: function(/*Promise|Boolean*/ p){
+		// summary:
+		//		Called at the start of an operation that will change what's displayed.
+		// p:
+		//		Promise that tells when the operation will complete.  Alternately, if it's just a Boolean, it signifies
+		//		that the operation was synchronous, and already completed.
+
+		if(!this._started){ return; }
+
+		this._outstandingPaintOperations++;
+		if(this._adjustWidthsTimer){
+			this._adjustWidthsTimer.remove();
+			delete this._adjustWidthsTimer;
+		}
+
+		var oc = lang.hitch(this, function(){
+			this._outstandingPaintOperations--;
+
+			if(this._outstandingPaintOperations <= 0 && !this._adjustWidthsTimer){
+				// Use defer() to avoid a width adjustment when another operation will immediately follow,
+				// such as a sequence of opening a node, then it's children, then it's grandchildren, etc.
+				this._adjustWidthsTimer = this.defer("_adjustWidths");
+			}
+		});
+		when(p, oc, oc);
+	},
+
+	_adjustWidths: function(){
+		// summary:
+		//		Get width of widest TreeNode, or the width of the Tree itself, whichever is greater,
+		//		and then set all TreeNodes to that width, so that selection/hover highlighting
+		//		extends to the edge of the Tree (#13141)
+
+		if(this._adjustWidthsTimer){
+			this._adjustWidthsTimer.remove();
+			delete this._adjustWidthsTimer;
+		}
+
+		var maxWidth = 0;
+		nodes = [];
+		function collect(/*TreeNode*/ parent){
+			var node = parent.rowNode;
+			node.style.width = "auto";		// erase setting from previous run
+			maxWidth = Math.max(maxWidth, node.clientWidth);
+			nodes.push(node);
+			if(parent.isExpanded){
+				array.forEach(parent.getChildren(), collect);
+			}
+		}
+		collect(this.rootNode);
+		maxWidth = Math.max(maxWidth, domGeometry.getContentBox(this.domNode).w);	// do after node.style.width="auto"
+		array.forEach(nodes, function(node){
+			node.style.width = maxWidth + "px";		// assumes no horizontal padding, border, or margin on rowNode
+		});
 	},
 
 	_createTreeNode: function(/*Object*/ args){

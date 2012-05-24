@@ -69,7 +69,7 @@ table.dijitInline {
 	float: left !important; /* needed by IE to squeeze the INPUT in */
 }
 .dj_ie7 .dijitInputContainer {
-        display: inline-block !important; /* to fix wrong text alignment in rtl text box */
+	display: inline-block !important; /* to fix wrong text alignment in rtl text box */
 }
 
 .dj_ie input.dijitTextBox,
@@ -1319,8 +1319,8 @@ Main class hierarchy:
 
 .dijitTabContainer - the whole TabContainer
    .dijitTabController / .dijitTabListContainer-top - wrapper for tab buttons, scroll buttons
-      .dijitTabListWrapper / .dijitTabContainerTopStrip - outer wrapper for tab buttons (normal width)
-          .nowrapTabStrip / .dijitTabContainerTop-tabs - inner wrapper for tab buttons (50K width)
+	 .dijitTabListWrapper / .dijitTabContainerTopStrip - outer wrapper for tab buttons (normal width)
+		.nowrapTabStrip / .dijitTabContainerTop-tabs - inner wrapper for tab buttons (50K width)
    .dijitTabPaneWrapper - wrapper for content panes, has all borders except the one between content and tabs
 ***/
 
@@ -1569,7 +1569,7 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .dijitDialog {
 	position: absolute;
 	z-index: 999;
-	overflow: hidden;       /* override overflow: auto; from ContentPane to make dragging smoother */
+	overflow: hidden;	/* override overflow: auto; from ContentPane to make dragging smoother */
 }
 
 .dijitDialogTitleBar {
@@ -2008,10 +2008,10 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 }
 
 .dijitArrowButtonChar {
-        display:none !important;
+	display:none !important;
 }
 .dj_a11y .dijitArrowButtonChar {
-        display:inline !important;
+	display:inline !important;
 }
 
 .dj_a11y .dijitDropDownButton .dijitArrowButtonInner,
