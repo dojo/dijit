@@ -506,7 +506,7 @@ define([
 	});
 
 	var Dialog = declare("dijit.Dialog", [ContentPane, _DialogBase], {});
-	Dialog._DialogBase = _DialogBase;	// for monkey patching
+	Dialog._DialogBase = _DialogBase;	// for monkey patching and dojox/widget/DialogSimple
 
 	var DialogLevelManager = Dialog._DialogLevelManager = {
 		// summary:
