@@ -2139,3 +2139,7 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .dojoDndItemOver {
 	cursor:pointer;
 }
+.dj_gecko .dijitArrowButtonInner INPUT,
+.dj_gecko INPUT.dijitArrowButtonInner {
+	-moz-user-focus:ignore;
+}
