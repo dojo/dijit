@@ -21,39 +21,37 @@
 
 	<script type="text/javascript">
 		require([
-		  "dojo/_base/kernel",
 			"doh",
-			"dijit/registry",
-			"dojo/parser"
-		], function(dojo, doh, registry, parser){
-			dojo.ready(function(){
+			"dojo/parser",
+			"dojo/ready",
+			"dijit/registry"
+		], function(doh, parser, ready, registry){
+			ready(function(){
 				doh.register("auto-load parse", function(t){
-				  var td = new doh.Deferred();
+					var d = new doh.Deferred();
 				  
-					parser.parse().then(function(){
-					  t.is(typeof registry.byId("tb1"), "object", "objected created");
-					  registry.byId("parsedPane1").set("href", "doc3.html").then(function(){
-					    t.is(typeof registry.byId("button1"), "object", "object created");
-  					  td.callback(true);
-					  });
-					});
+					parser.parse().then(d.getTestErrback(function(){
+						t.is(typeof registry.byId("tb1"), "object", "objected created");
+						registry.byId("parsedPane1").set("href", "doc3.html").then(d.getTestCallback(function(){
+					    	t.is(typeof registry.byId("button1"), "object", "object created");
+						}));
+					}));
 					
-					return td;
+					return d;
 				});
 				
-			  doh.run();
+			 	doh.run();
 			});
 		});
 	</script>
 </head>
 <body class="claro">
-
 	<h1 class="testTitle">Dijit layout.ContentPane Auto-Require Tests</h1>
 
 	<h2>ContentPane Loading Content that Requires Auto-Require</h2>
 	<div data-dojo-type="dijit/layout/ContentPane" id="parsedPane1"></div>
 	<div data-dojo-type="dijit/layout/ContentPane" id="parsedPane2">
-	 <input type="text" id="tb1" data-dojo-type="dijit/form/TextBox" data-dojo-props="value: 'testValue'" />
+		<input type="text" id="tb1" data-dojo-type="dijit/form/TextBox" data-dojo-props="value: 'testValue'" />
 	</div>
 </body>
 </html>
