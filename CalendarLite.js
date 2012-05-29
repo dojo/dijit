@@ -59,10 +59,13 @@ define([
 		value: new Date(""),
 		// TODO: for 2.0 make this a string (ISO format) rather than a Date
 
-		// datePackage: Object
-		//		JavaScript object containing Calendar functions.  Uses Gregorian Calendar routines
-		//		from dojo.date by default.
-		datePackage: date,
+		// datePackage: String
+		//		JavaScript namespace to find calendar routines.	 If unspecified, uses Gregorian calendar routines
+		//		at dojo/date and dojo/date/locale.
+		datePackage: "",
+		//		TODO: for 2.0, replace datePackage with dateModule and dateLocalModule attributes specifying MIDs,
+		//		or alternately just get rid of this completely and tell user to use module ID remapping
+		//		via require
 
 		// dayWidth: String
 		//		How to represent the days of the week in the calendar header. See locale
@@ -102,7 +105,7 @@ define([
 				// If daylight savings pushes midnight to the previous date, fix the Date
 				// object to point at 1am so it will represent the correct day. See #9366
 				if(value.getDate() < this.value.getDate()){
-					value = this.dateFuncObj.add(value, "hour", 1);
+					value = this.dateModule.add(value, "hour", 1);
 				}
 				return value;
 			}else{
@@ -179,8 +182,8 @@ define([
 			month.setDate(1);
 
 			var firstDay = month.getDay(),
-				daysInMonth = this.dateFuncObj.getDaysInMonth(month),
-				daysInPreviousMonth = this.dateFuncObj.getDaysInMonth(this.dateFuncObj.add(month, "month", -1)),
+				daysInMonth = this.dateModule.getDaysInMonth(month),
+				daysInPreviousMonth = this.dateModule.getDaysInMonth(this.dateModule.add(month, "month", -1)),
 				today = new this.dateClassObj(),
 				dayOffset = cldrSupplemental.getFirstDayOfWeek(this.lang);
 			if(dayOffset > firstDay){ dayOffset -= 7; }
@@ -208,11 +211,11 @@ define([
 				}
 
 				if(adj){
-					date = this.dateFuncObj.add(date, "month", adj);
+					date = this.dateModule.add(date, "month", adj);
 				}
 				date.setDate(number);
 
-				if(!this.dateFuncObj.compare(date, today, "date")){
+				if(!this.dateModule.compare(date, today, "date")){
 					clazz = "dijitCalendarCurrentDate " + clazz;
 				}
 
@@ -269,13 +272,10 @@ define([
 			this.set('value', new this.dateClassObj());
 		},
 
-		constructor: function(/*Object*/args){
-			this.datePackage = args.datePackage || this.datePackage;
-			this.dateFuncObj = typeof this.datePackage == "string" ?
-				lang.getObject(this.datePackage, false) :// "string" part for back-compat, remove for 2.0
-				this.datePackage;
-			this.dateClassObj = this.dateFuncObj.Date || Date;
-			this.dateLocaleModule = lang.getObject("locale", false, this.dateFuncObj);
+		constructor: function(/*Object*/ args){
+			this.dateModule = args.datePackage ? lang.getObject(args.datePackage, false) : date;
+			this.dateClassObj = this.dateModule.Date || Date;
+			this.dateLocaleModule = args.datePackage ? lang.getObject(args.datePackage+".locale", false) : locale;
 		},
 
 		_createMonthWidget: function(){
@@ -330,7 +330,7 @@ define([
 
 			var connect = lang.hitch(this, function(nodeProp, part, amount){
 				this.connect(this[nodeProp], "onclick", function(){
-					this._setCurrentFocusAttr(this.dateFuncObj.add(this.currentFocus, part, amount));
+					this._setCurrentFocusAttr(this.dateModule.add(this.currentFocus, part, amount));
 				});
 			});
 			
@@ -358,7 +358,7 @@ define([
 
 			// If the focus is on a different month than the current calendar month, switch the displayed month.
 			// Also will populate the grid initially, on Calendar creation.
-			if(!this._date2cell || this.dateFuncObj.difference(oldFocus, date, "month") != 0){
+			if(!this._date2cell || this.dateModule.difference(oldFocus, date, "month") != 0){
 				this._populateGrid();
 				this._populateControls();
 				this._markSelectedDates([this.value]);

@@ -85,7 +85,7 @@ define([
 
 			// move to selected month, bounding by the number of days in the month
 			// (ex: dec 31 --> jan 28, not jan 31)
-			this._setCurrentFocusAttr(this.dateFuncObj.add(this.currentFocus, "month",
+			this._setCurrentFocusAttr(this.dateModule.add(this.currentFocus, "month",
 				newMonth - this.currentFocus.getMonth()));
 		},
 
@@ -181,7 +181,7 @@ define([
 					break;
 				case keys.END:
 					// go to the next month
-					newValue = this.dateFuncObj.add(newValue, "month", 1);
+					newValue = this.dateModule.add(newValue, "month", 1);
 					// subtract a day from the result when we're done
 					interval = "day";
 					//fallthrough...
@@ -198,7 +198,7 @@ define([
 			}
 
 			if(interval){
-				newValue = this.dateFuncObj.add(newValue, interval, increment);
+				newValue = this.dateModule.add(newValue, interval, increment);
 			}
 
 			this._setCurrentFocusAttr(newValue);

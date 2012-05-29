@@ -42,9 +42,12 @@ define([
 		pattern: locale.regexp,
 
 		// datePackage: String
-		//		JavaScript namespace to find calendar routines.	 Uses Gregorian calendar routines
-		//		at dojo.date, by default.
-		datePackage: date,
+		//		JavaScript namespace to find calendar routines.	 If unspecified, uses Gregorian calendar routines
+		//		at dojo/date and dojo/date/locale.
+		datePackage: "",
+		//		TODO: for 2.0, replace datePackage with dateModule and dateLocalModule attributes specifying MIDs,
+		//		or alternately just get rid of this completely and tell user to use module ID remapping
+		//		via require
 
 		postMixInProperties: function(){
 			this.inherited(arguments);
@@ -111,12 +114,9 @@ define([
 		_selector: "",
 
 		constructor: function(/*Object*/ args){
-			this.datePackage = args.datePackage || this.datePackage;
-			this.dateFuncObj = typeof this.datePackage == "string" ?
-				lang.getObject(this.datePackage, false) :// "string" part for back-compat, remove for 2.0
-				this.datePackage;
-			this.dateClassObj = this.dateFuncObj.Date || Date;
-			this.dateLocaleModule = lang.getObject("locale", false, this.dateFuncObj);
+			this.dateModule = args.datePackage ? lang.getObject(args.datePackage, false) : date;
+			this.dateClassObj = this.dateModule.Date || Date;
+			this.dateLocaleModule = args.datePackage ? lang.getObject(args.datePackage+".locale", false) : locale;
 			this._set('pattern', this.dateLocaleModule.regexp);
 			this._invalidDate = this.constructor.prototype.value.toString();
 		},
@@ -210,17 +210,15 @@ define([
 				lang: textBox.lang,
 				value: value,
 				currentFocus: !this._isInvalidDate(value) ? value : this.dropDownDefaultValue,
-					constraints: textBox.constraints,
+				constraints: textBox.constraints,
 				filterString: textBox.filterString, // for TimeTextBox, to filter times shown
-
-					datePackage: textBox.datePackage,
-
-					isDisabledDate: function(/*Date*/ date){
-						// summary:
-						//	disables dates outside of the min/max of the _DateTimeTextBox
-						return !textBox.rangeCheck(date, textBox.constraints);
-					}
-				});
+				datePackage: textBox.params.datePackage,
+				isDisabledDate: function(/*Date*/ date){
+					// summary:
+					//		disables dates outside of the min/max of the _DateTimeTextBox
+					return !textBox.rangeCheck(date, textBox.constraints);
+				}
+			});
 
 			this.inherited(arguments);
 		},
