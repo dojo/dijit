@@ -135,9 +135,19 @@ define([
 			}
 		},
 
-		onSearch: function(/*Object*/ results){
+		onSearch: function(/*===== results, query, options =====*/){
 			// summary:
 			//		Callback when a search completes.
+			//
+			// results: Object
+			//		An array of items from the originating _SearchMixin's store.
+			//
+			// query: Object
+			//		A copy of the originating _SearchMixin's query property.
+			//
+			// options: Object
+			//		The additional parameters sent to the originating _SearchMixin's store, including: start, count, queryOptions.
+			//
 			// tags:
 			//		callback
 		},
