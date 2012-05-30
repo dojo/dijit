@@ -300,10 +300,14 @@ ready(function(){
 		}
 	});
 
-	// Track focus events on widget subnodes.   Remove for 2.0 (if focus CSS needed, just use :focus pseudo-selector).
+	// Track focus events on widget sub-nodes that have been registered via _trackMouseState().
+	// However, don't track focus events on the widget root nodes, because focus is tracked via the
+	// focus manager (and it's not really tracking focus, but rather tracking that focus is on one of the widget's
+	// nodes or a subwidget's node or a popup node, etc.)
+	// Remove for 2.0 (if focus CSS needed, just use :focus pseudo-selector).
 	on(body, "focusin, focusout", function(evt){
 		var node = evt.target;
-		if(node._cssState){
+		if(node._cssState && !node.hasAttribute("widgetId")){
 			var widget = registry.getEnclosingWidget(node);
 			widget._subnodeCssMouseEvent(node, node._cssState, evt);
 		}
