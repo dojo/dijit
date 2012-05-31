@@ -33,8 +33,14 @@ define([
 
 		// label: String
 		//		Menu text
-		label: '',
-		_setLabelAttr: { node: "containerNode", type: "innerHTML" },
+		label: "",
+		_setLabelAttr: function(val){
+			this.containerNode.innerHTML = 	val;
+			this._set("label", val);
+			if(this.textDir === "auto"){
+				this.applyTextDir(this.focusNode, this.label);
+			}
+		},
 
 		// iconClass: String
 		//		Class to apply to DOMNode to make it display an icon.
@@ -161,6 +167,22 @@ define([
 			domAttr.set(this.containerNode,'colSpan',value?"1":"2");
 
 			this._set("accelKey", value);
-		}
+		},
+		_setTextDirAttr: function(/*String*/ textDir){
+			// summary:
+			//		Setter for textDir.
+			// description:
+			//		Users shouldn't call this function; they should be calling
+			//		set('textDir', value)
+			// tags:
+			//		private
+
+			// only if new textDir is different from the old one
+			// and on widgets creation.
+			if(!this._created || this.textDir != textDir){
+				this._set("textDir", textDir);
+				this.applyTextDir(this.focusNode, this.label);
+			}
+		}		
 	});
 });
