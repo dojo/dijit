@@ -37,8 +37,7 @@ return declare("dijit.Destroyable", null, {
 			var destroyMethodName =
 				"destroyRecursive" in handle ? "destroyRecursive" :	// remove "destroyRecursive" for 2.0
 				"destroy" in handle ? "destroy" :
-				"remove" in handle ? "remove" :
-				"unwatch";		// avoid ("unwatch" in handle) since that's true for all objects in modern browsers
+				"remove";
 
 			// When this is destroyed, destroy handle.  Since I'm using aspect.before(),
 			// the handle will be destroyed before a subclass's destroy() method starts running, before it calls
