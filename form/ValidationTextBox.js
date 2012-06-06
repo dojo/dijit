@@ -211,7 +211,9 @@ define([
 
 		_refreshState: function(){
 			// Overrides TextBox._refreshState()
-			this.validate(this.focused);
+			if(this._started){
+				this.validate(this.focused);
+			}
 			this.inherited(arguments);
 		},
 
@@ -226,6 +228,7 @@ define([
 				constraints.locale = this.lang;
 			}
 			this._set("constraints", constraints);
+			this._refreshState();
 		},
 
 		_getPatternAttr: function(/*__Constraints*/ constraints){

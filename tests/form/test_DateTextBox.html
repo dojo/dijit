@@ -37,11 +37,15 @@
 		<script type="text/javascript" src="../_testCommon.js"></script>
 
 		<script type="text/javascript">
+			dojo.require("doh.runner");
 			dojo.require("dijit.dijit"); // optimize: load dijit layer
 			dojo.require("dijit.form.DateTextBox");
 			dojo.require("dijit.form.Form");
 			dojo.require("dojo.date.locale");
 			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+
+			// Add test=true to the URL to run unit tests.
+			var test = /mode=test/i.test(window.location.href);
 
 			function eventHandler(e){
 				// use this.domNode.getAttribute('widgetId') to show "this" is the widget
@@ -49,11 +53,94 @@
 				console.log(this.domNode.getAttribute('widgetId') + ' ' + e.type);
 			}
 			dojo.ready(function(){
-				dijit.byId("localLong").parse = function(value,constraints){
+				var localLong = dijit.byId("localLong");
+				localLong.parse = function(value,constraints){
 					return this.dateLocaleModule.parse(value, (constraints.formatLength="long") && constraints) ||
 						 this.dateLocaleModule.parse(value, (constraints.formatLength="short") && constraints) ||
 						(this._isEmpty(value) ? null : undefined);	 // Date
 				};
+
+				if(test){
+					doh.register("constraints", [
+						{
+							name: "initial state",
+							timeout: 1000,
+							runTest: function(t){
+								var expected = new Date(2005,11,30);
+								var actual = localLong.get('value');
+								t.is(0, dojo.date.compare(expected, actual), 'expected ' + expected.toDateString() + ' but got ' + actual.toDateString());
+								t.is("", localLong.get('state'));
+							}
+						},
+						{
+							name: "change value, now invalid",
+							timeout: 1000,
+							runTest: function(t){
+								var expected = new Date(2007,6,15);
+								localLong.set("value", expected);
+								var actual = localLong.get('value');
+								t.is(0, dojo.date.compare(expected, actual), 'expected ' + expected.toDateString() + ' but got ' + actual.toDateString());
+								t.is("Error", localLong.get('state'));
+							}
+						},
+						{
+							name: "change max, still invalid",
+							timeout: 1000,
+							runTest: function(t){
+								localLong.set("constraints", dojo.mixin(localLong.get('constraints'), { max: new Date(2007,5,30)}));
+								var expected = new Date(2007,6,15);
+								var actual = localLong.get('value');
+								t.is(0, dojo.date.compare(expected, actual), 'expected ' + expected.toDateString() + ' but got ' + actual.toDateString());
+								t.is("Error", localLong.get('state'));
+							}
+						},
+						{
+							name: "change max, now valid",
+							timeout: 1000,
+							runTest: function(t){
+								localLong.set("constraints", dojo.mixin(localLong.get('constraints'), { max: new Date(2007,11,31)}));
+								var expected = new Date(2007,6,15);
+								var actual = localLong.get('value');
+								t.is(0, dojo.date.compare(expected, actual), 'expected ' + expected.toDateString() + ' but got ' + actual.toDateString());
+								t.is("", localLong.get('state'));
+							}
+						},
+						{
+							name: "change max, now invalid",
+							timeout: 1000,
+							runTest: function(t){
+								localLong.set("constraints", dojo.mixin(localLong.get('constraints'), { max: new Date(2006,11,30)}));
+								var expected = new Date(2007,6,15);
+								var actual = localLong.get('value');
+								t.is(0, dojo.date.compare(expected, actual), 'expected ' + expected.toDateString() + ' but got ' + actual.toDateString());
+								t.is("Error", localLong.get('state'));
+							}
+						},
+						{
+							name: "change value, now valid",
+							timeout: 1000,
+							runTest: function(t){
+								var expected = new Date(2005,11,30);
+								localLong.set("value", expected);
+								var actual = localLong.get('value');
+								t.is(0, dojo.date.compare(expected, actual), 'expected ' + expected.toDateString() + ' but got ' + actual.toDateString());
+								t.is("", localLong.get('state'));
+							}
+						}
+					]);
+
+					doh.register("tests",
+						function noYear(){
+							var widget = dijit.byId("noyear");
+							doh.t(widget.isValid(false), "isValid");
+							doh.is(2011, widget.get('value').getFullYear(), "programmatic value");
+							doh.is(2011, widget.value.getFullYear(), "JS value");
+						}
+					);
+
+					doh.run();
+				}
+
 			});
 		</script>
 	</head>
@@ -206,10 +293,31 @@
 					data-dojo-props='type:"text", name:"toDate", required:true,
 					onChange:function(){ dijit.byId("fromDate").constraints.max = this.get("value"); } '/>
 
-				<button type="button" name="button" onclick="displayData(); return false;">view data</button>
-				<input type="submit" name="submit" />
-				<input type="reset" name="reset" />
 			</div>
+
+			<div class="dojoTitlePaneLabel">
+				<label for="noyear">Pick a day in 3Q 2011</label>
+			</div>
+			<div class="testExample">
+				<input data-dojo-type="dijit/form/DateTextBox" id="noyear" data-dojo-props='
+					name:"noyear",
+					required:"true",
+					constraints:{datePattern:"MMMM dd",
+						min:new Date(2011,9,1),
+						max:new Date(2011,11,31)
+					},
+					parse:function(){
+						var d = this.inherited("parse", arguments);
+						if(d instanceof Date)d.setFullYear(2011);
+						return d;
+					},
+					value:new Date(2011,10,25)'
+				/>
+			</div>
+
+			<button type="button" name="button" onclick="displayData(); return false;">view data</button>
+			<input type="submit" name="submit" />
+			<input type="reset" name="reset" />
 		</form>
 	</body>
 </html>

@@ -17,7 +17,7 @@ try{
 	doh.registerUrl("dijit.tests.form.robot.ValidationTextBox", dojo.moduleUrl("dijit","tests/form/robot/ValidationTextBox.html"+userArgs), 999999);
 	doh.registerUrl("dijit.tests.form.robot.TextBox_onInput", dojo.moduleUrl("dijit","tests/form/robot/TextBox_onInput.html"+userArgs), 999999);
 
-	doh.registerUrl("dijit.tests.form.DateTextBox", dojo.moduleUrl("dijit","tests/form/DateTextBox.html"+userArgs), 999999);
+	doh.registerUrl("dijit.tests.form.DateTextBox", dojo.moduleUrl("dijit", "tests/form/test_DateTextBox.html?mode=test"+userArgs.replace(/^[?]/,'&')), 999999);
 	doh.registerUrl("dijit.tests.form.robot.DateTextBox", dojo.moduleUrl("dijit","tests/form/robot/DateTextBox.html"+userArgs), 999999);
 	doh.registerUrl("dijit.tests.form.robot.TimeTextBox", dojo.moduleUrl("dijit","tests/form/robot/TimeTextBox.html"+userArgs), 999999);
 
