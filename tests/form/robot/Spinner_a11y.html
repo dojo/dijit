@@ -355,7 +355,9 @@
 							if(spinner.constraints.max){
 								doh.is(spinner.focusNode.getAttribute("aria-valuemax"), spinner.constraints.max, spinner.id + ": aria-valuemax");
 							}else{
-								doh.f(spinner.focusNode.hasAttribute("aria-valuemax"), spinner.id + ": aria-valuemax");
+								if(spinner.focusNode.hasAttribute){		// not available on IE6/7
+									doh.f(spinner.focusNode.hasAttribute("aria-valuemax"), spinner.id + ": aria-valuemax");
+								}
 							}
 						},
 						function maxOnly(){
@@ -365,7 +367,9 @@
 							if(spinner.constraints.min){
 								doh.is(spinner.focusNode.getAttribute("aria-valuemin"), spinner.constraints.min, spinner.id + ": aria-valuemin");
 							}else{
-								doh.f(spinner.focusNode.hasAttribute("aria-valuemin"), spinner.id + ": aria-valuemin");
+								if(spinner.focusNode.hasAttribute){		// not available on IE6/7
+									doh.f(spinner.focusNode.hasAttribute("aria-valuemin"), spinner.id + ": aria-valuemin");
+								}
 							}
 						},
 						function neitherMinNorMax(){
@@ -374,12 +378,16 @@
 							if(spinner.constraints.min){
 								doh.is(spinner.focusNode.getAttribute("aria-valuemin"), spinner.constraints.min, spinner.id + ": aria-valuemin");
 							}else{
-								doh.f(spinner.focusNode.hasAttribute("aria-valuemin"), spinner.id + ": aria-valuemin");
+								if(spinner.focusNode.hasAttribute){		// not available on IE6/7
+									doh.f(spinner.focusNode.hasAttribute("aria-valuemin"), spinner.id + ": aria-valuemin");
+								}
 							}
 							if(spinner.constraints.max){
 								doh.is(spinner.focusNode.getAttribute("aria-valuemax"), spinner.constraints.max, spinner.id + ": aria-valuemax");
 							}else{
-								doh.f(spinner.focusNode.hasAttribute("aria-valuemax"), spinner.id + ": aria-valuemax");
+								if(spinner.focusNode.hasAttribute){		// not available on IE6/7
+									doh.f(spinner.focusNode.hasAttribute("aria-valuemax"), spinner.id + ": aria-valuemax");
+								}
 							}
 						}
 					]

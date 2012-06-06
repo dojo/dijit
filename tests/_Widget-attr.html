@@ -125,6 +125,7 @@
 						doh.is("utf8", mc.domNode.getAttribute("accept-charset"), "accept-charset");
 						if(has("ff") >= 4 || has("ie") >= 10 || has("webkit")){
 							// only works for HTML5 compliant browsers where novalidate is understood
+							// (also, hasAttribute() is not available on IE6/7)
 							doh.t(mc.domNode.hasAttribute("novalidate"), "noValidate");
 						}
 					},

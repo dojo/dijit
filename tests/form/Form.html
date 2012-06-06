@@ -612,6 +612,8 @@
 			});
 
 			if(dojo.isFF >= 4 || dojo.isIE >= 10 || dojo.isWebKit){
+				// only works for HTML5 compliant browsers where novalidate is understood
+				// (also, hasAttribute() is not available on IE6/7)
 				doh.register("novalidate", function noValidate(){
 					// Making sure the parser picks up the flag and _WidgetBase copies it to this.domNode
 					doh.t(dijit.byId("noValidateForm").domNode.hasAttribute("novalidate"), "novalidate");
