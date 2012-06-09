@@ -7,6 +7,7 @@ define([
 	"dojo/_base/event", // event.stop
 	"dojo/i18n", // i18n.getLocalization
 	"dojo/_base/lang", // lang.hitch
+	"dojo/sniff", // has("ie")
 	"./_FormSelectWidget",
 	"../_HasDropDown",
 	"../Menu",
@@ -15,7 +16,7 @@ define([
 	"../Tooltip",
 	"dojo/text!./templates/Select.html",
 	"dojo/i18n!./nls/validate"
-], function(array, declare, domAttr, domClass, domGeometry, event, i18n, lang,
+], function(array, declare, domAttr, domClass, domGeometry, event, i18n, lang, has,
 			_FormSelectWidget, _HasDropDown, Menu, MenuItem, MenuSeparator, Tooltip, template){
 
 // module:
@@ -111,6 +112,8 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 	baseClass: "dijitSelect",
 
 	templateString: template,
+
+	_buttonInputDisabled: has("ie") ? "disabled" : "", // allows IE to disallow focus, but Firefox cannot be disabled for mousedown events
 
 	// required: Boolean
 	//		Can be true or false, default is false.
@@ -269,7 +272,7 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 		//		set the value.
 
 		var isValid = this.disabled || this.isValid(isFocused);
-		this._set("state", isValid ? "" : "Incomplete");
+		this._set("state", (isValid || !this._hasBeenBlurred) ? "" : ((this.focused && !this._hasBeenBlurred) ? "Incomplete" : "Error"));
 		this.focusNode.setAttribute("aria-invalid", isValid ? "false" : "true");
 		var message = isValid ? "" : this._missingMsg;
 		if(message && this.focused && this._hasBeenBlurred){
@@ -310,6 +313,28 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 		this.inherited(arguments);
 
 		this.connect(this.domNode, "onselectstart", event.stop);
+
+		if(has("ie") < 9){
+			// IE INPUT tag fontFamily has to be set directly using STYLE
+			// the defer gives IE a chance to render the TextBox and to deal with font inheritance
+			this.defer(function(){
+				try{
+					var s = domStyle.getComputedStyle(this.domNode); // can throw an exception if widget is immediately destroyed
+					if(s){
+						var ff = s.fontFamily;
+						if(ff){
+							var inputs = this.domNode.getElementsByTagName("INPUT");
+							if(inputs){
+								for(var i=0; i < inputs.length; i++){
+									inputs[i].style.fontFamily = ff;
+								}
+							}
+						}
+					}
+				}catch(e){/*when used in a Dialog, and this is called before the dialog is
+				 shown, s.fontFamily would trigger "Invalid Argument" error.*/}
+			});
+		}
 	},
 
 	_setStyleAttr: function(/*String||Object*/ value){
@@ -357,6 +382,7 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 	_onBlur: function(){
 		Tooltip.hide(this.domNode);
 		this.inherited(arguments);
+		this.validate(false);
 	}
 });
 

@@ -15,6 +15,9 @@
 	/* workaround bug where label invisible (themeTesterQuirk.html?dir=rtl) */
 	float:left;
 }
+.dj_ie .dijitTextBoxRtl .dijitInputContainer {
+	clear: right;
+}
 
 /* TextBox, ComboBox, Spinner */
 
@@ -31,6 +34,11 @@
 	left: auto;
 }
 
+.dijitSelectRtl .dijitButtonText {
+	float: right;
+}
+
+.dijitSelectRtl .dijitValidationContainer,
 .dijitTextBoxRtl .dijitSpinnerButtonContainer,
 .dijitTextBoxRtl .dijitValidationContainer,
 .dijitTextBoxRtl .dijitArrowButtonContainer {
@@ -136,6 +144,7 @@
 
 /* Select */
 .dijitSelectRtl .dijitButtonContents {
+	border-style: none none none solid;
 	text-align: right;
 }
 

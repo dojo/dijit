@@ -39,7 +39,7 @@ define([
 		postCreate: function(){
 			this.inherited(arguments);
 
-			if(has("ie")){
+			if(has("ie") < 9){
 				// IE INPUT tag fontFamily has to be set directly using STYLE
 				// the defer gives IE a chance to render the TextBox and to deal with font inheritance
 				this.defer(function(){
