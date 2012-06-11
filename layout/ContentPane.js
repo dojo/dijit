@@ -114,7 +114,7 @@ return declare("dijit.layout.ContentPane", [_Widget, _Container, _ContentPaneRes
 	baseClass: "dijitContentPane",
 
 	/*======
-	// ioMethod: dojo.xhrGet|dojo.xhrPost
+	// ioMethod: dojo/_base/xhr.get|dojo._base/xhr.post
 	//		Function that should grab the content specified via href.
 	ioMethod: dojo.xhrGet,
 	======*/

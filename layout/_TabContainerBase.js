@@ -75,7 +75,7 @@ return declare("dijit.layout._TabContainerBase", [StackContainer, _TemplatedMixi
 		}
 	},
 
-	_setupChild: function(/*dijit._Widget*/ tab){
+	_setupChild: function(/*dijit/_WidgetBase*/ tab){
 		// Overrides StackContainer._setupChild().
 		domClass.add(tab.domNode, "dijitTabPane");
 		this.inherited(arguments);

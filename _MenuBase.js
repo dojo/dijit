@@ -194,7 +194,7 @@ return declare("dijit._MenuBase",
 		}
 	},
 
-	_stopPendingCloseTimer: function(/*dijit._Widget*/ popup){
+	_stopPendingCloseTimer: function(/*dijit/_WidgetBase*/ popup){
 		// summary:
 		//		Cancels the pending-close timer because the close has been preempted
 		// tags:
@@ -223,7 +223,7 @@ return declare("dijit._MenuBase",
 		return top;
 	},
 
-	onItemClick: function(/*dijit._Widget*/ item, /*Event*/ evt){
+	onItemClick: function(/*dijit/_WidgetBase*/ item, /*Event*/ evt){
 		// summary:
 		//		Handle clicks on an item.
 		// tags:

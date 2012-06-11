@@ -537,9 +537,13 @@ define([
 			this.inherited(arguments);
 		},
 
-		labelFunc: function(/*item*/ item, /*dojo.store.api.Store*/ store){
+		labelFunc: function(item, store){
 			// summary:
 			//		Computes the label to display based on the dojo.data store item.
+			// item: Object
+			//		The item from the store
+			// store: dojo/store/api/Store
+			//		The store.
 			// returns:
 			//		The label that the ComboBox should display
 			// tags:

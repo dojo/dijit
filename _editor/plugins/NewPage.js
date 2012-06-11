@@ -40,7 +40,7 @@ var NewPage = declare("dijit._editor.plugins.NewPage",_Plugin,{
 		});
 	},
 
-	setEditor: function(/*dijit.Editor*/ editor){
+	setEditor: function(/*dijit/Editor*/ editor){
 		// summary:
 		//		Tell the plugin which Editor it is associated with.
 		// editor: Object

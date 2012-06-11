@@ -23,7 +23,7 @@ define([
 		constraints: {},
 		======*/
 
-		rangeCheck: function(/*Number*/ primitive, /*dijit.form.RangeBoundTextBox.__Constraints*/ constraints){
+		rangeCheck: function(/*Number*/ primitive, /*dijit/form/RangeBoundTextBox.__Constraints*/ constraints){
 			// summary:
 			//		Overridable function used to validate the range of the numeric input value.
 			// tags:

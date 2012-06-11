@@ -20,12 +20,11 @@ define([
 		//		Number of registered widgets
 		length: 0,
 
-		add: function(/*dijit._Widget*/ widget){
+		add: function(/*dijit/_WidgetBase*/ widget){
 			// summary:
 			//		Add a widget to the registry. If a duplicate ID is detected, a error is thrown.
-			//
-			// widget: dijit._Widget
-			//		Any dijit._Widget subclass.
+			// widget: dijit/_WidgetBase
+			//		Any dijit/_WidgetBase subclass.
 			if(hash[widget.id]){
 				throw new Error("Tried to register widget with id==" + widget.id + " but that id is already registered");
 			}
@@ -47,13 +46,13 @@ define([
 			// summary:
 			//		Find a widget by it's id.
 			//		If passed a widget then just returns the widget.
-			return typeof id == "string" ? hash[id] : id;	// dijit._Widget
+			return typeof id == "string" ? hash[id] : id;	// dijit/_WidgetBase
 		},
 
 		byNode: function(/*DOMNode*/ node){
 			// summary:
 			//		Returns the widget corresponding to the given DOMNode
-			return hash[node.getAttribute("widgetId")]; // dijit._Widget
+			return hash[node.getAttribute("widgetId")]; // dijit/_WidgetBase
 		},
 
 		toArray: function(){
@@ -68,7 +67,7 @@ define([
 			for(var id in hash){
 				ar.push(hash[id]);
 			}
-			return ar;	// dijit._Widget[]
+			return ar;	// dijit/_WidgetBase[]
 		},
 
 		getUniqueId: function(/*String*/widgetType){

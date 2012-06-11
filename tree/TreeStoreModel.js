@@ -17,7 +17,7 @@ define([
 		//		root item.  Any methods passed into the constructor will override
 		//		the ones defined here.
 
-		// store: dojo.data.Store
+		// store: dojo/data/api/Read
 		//		Underlying store
 		store: null,
 
@@ -40,7 +40,7 @@ define([
 		//		than by calling store.getLabel()
 		labelAttr: "",
 
-		// root: [readonly] dojo.data.Item
+		// root: [readonly] dojo/data/Item
 		//		Pointer to the root item (read only, not a parameter)
 		root: null,
 
@@ -117,7 +117,7 @@ define([
 			}
 		},
 
-		mayHaveChildren: function(/*dojo.data.Item*/ item){
+		mayHaveChildren: function(/*dojo/data/Item*/ item){
 			// summary:
 			//		Tells if an item has or may have children.  Implementing logic here
 			//		avoids showing +/- expando icon for nodes that we know don't have children.
@@ -128,7 +128,7 @@ define([
 			}, this);
 		},
 
-		getChildren: function(/*dojo.data.Item*/ parentItem, /*function(items)*/ onComplete, /*function*/ onError){
+		getChildren: function(/*dojo/data/Item*/ parentItem, /*function(items)*/ onComplete, /*function*/ onError){
 			// summary:
 			//		Calls onComplete() with array of child items of given parent item, all loaded.
 
@@ -198,7 +198,7 @@ define([
 			return this.store.getIdentity(item);	// Object
 		},
 
-		getLabel: function(/*dojo.data.Item*/ item){
+		getLabel: function(/*dojo/data/Item*/ item){
 			// summary:
 			//		Get the label for an item
 			if(this.labelAttr){
@@ -211,7 +211,7 @@ define([
 		// =======================================================================
 		// Write interface
 
-		newItem: function(/* dojo.dnd.Item */ args, /*Item*/ parent, /*int?*/ insertIndex){
+		newItem: function(/* dijit/tree/dndSource.__Item */ args, /*dojo/data/api/Item*/ parent, /*int?*/ insertIndex){
 			// summary:
 			//		Creates a new item.   See `dojo.data.api.Write` for details on args.
 			//		Used in drag & drop when item from external source dropped onto tree.
@@ -286,7 +286,7 @@ define([
 		// =======================================================================
 		// Callbacks
 
-		onChange: function(/*dojo.data.Item*/ /*===== item =====*/){
+		onChange: function(/*dojo/data/Item*/ /*===== item =====*/){
 			// summary:
 			//		Callback whenever an item has changed, so that Tree
 			//		can update the label, icon, etc.   Note that changes
@@ -299,13 +299,13 @@ define([
 		onChildrenChange: function(/*===== parent, newChildrenList =====*/){
 			// summary:
 			//		Callback to do notifications about new, updated, or deleted items.
-			// parent: dojo.data.Item
-			// newChildrenList: dojo.data.Item[]
+			// parent: dojo/data/Item
+			// newChildrenList: dojo/data/Item[]
 			// tags:
 			//		callback
 		},
 
-		onDelete: function(/*dojo.data.Item*/ /*===== item =====*/){
+		onDelete: function(/*dojo/data/Item*/ /*===== item =====*/){
 			// summary:
 			//		Callback when an item has been deleted.
 			// description:
@@ -318,7 +318,7 @@ define([
 		// =======================================================================
 		// Events from data store
 
-		onNewItem: function(/* dojo.data.Item */ item, /* Object */ parentInfo){
+		onNewItem: function(/* dojo/data/Item */ item, /* Object */ parentInfo){
 			// summary:
 			//		Handler for when new items appear in the store, either from a drop operation
 			//		or some other way.   Updates the tree view (if necessary).

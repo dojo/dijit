@@ -37,7 +37,7 @@ var Print = declare("dijit._editor.plugins.Print",_Plugin,{
 		});
 	},
 
-	setEditor: function(/*dijit.Editor*/ editor){
+	setEditor: function(/*dijit/Editor*/ editor){
 		// summary:
 		//		Tell the plugin which Editor it is associated with.
 		// editor: Object

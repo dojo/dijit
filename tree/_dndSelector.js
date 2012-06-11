@@ -90,7 +90,7 @@ define([
 			this.inherited(arguments);
 			this.selection = this.anchor = null;
 		},
-		addTreeNode: function(/*dijit._TreeNode*/node, /*Boolean?*/isAnchor){
+		addTreeNode: function(/*dijit/Tree._TreeNode*/ node, /*Boolean?*/isAnchor){
 			// summary:
 			//		add node to current selection
 			// node: Node
@@ -102,7 +102,7 @@ define([
 			if(isAnchor){ this.anchor = node; }
 			return node;
 		},
-		removeTreeNode: function(/*dijit._TreeNode*/node){
+		removeTreeNode: function(/*dijit/Tree._TreeNode*/ node){
 			// summary:
 			//		remove node from current selection
 			// node: Node
@@ -110,7 +110,7 @@ define([
 			this.setSelection(this._setDifference(this.getSelectedTreeNodes(), [node]));
 			return node;
 		},
-		isTreeNodeSelected: function(/*dijit._TreeNode*/node){
+		isTreeNodeSelected: function(/*dijit/Tree._TreeNode*/ node){
 			// summary:
 			//		return true if node is currently selected
 			// node: Node
@@ -118,7 +118,7 @@ define([
 
 			return node.id && !!this.selection[node.id];
 		},
-		setSelection: function(/*dijit._treeNode[]*/ newSelection){
+		setSelection: function(/*dijit/Tree._TreeNode[]*/ newSelection){
 			// summary:
 			//		set the list of selected nodes to be exactly newSelection. All changes to the
 			//		selection should be passed through this function, which ensures that derived
@@ -331,7 +331,7 @@ define([
 
 		getItem: function(/*String*/ key){
 			// summary:
-			//		Returns the dojo.dnd.Item (representing a dragged node) by it's key (id).
+			//		Returns the dojo/dnd/Container._Item (representing a dragged node) by it's key (id).
 			//		Called by dojo.dnd.Source.checkAcceptance().
 			// tags:
 			//		protected
@@ -340,7 +340,7 @@ define([
 			return {
 				data: widget,
 				type: ["treeNode"]
-			}; // dojo.dnd.Item
+			}; // dojo/dnd/Container._Item
 		},
 
 		forInSelectedItems: function(/*Function*/ f, /*Object?*/ o){

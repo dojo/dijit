@@ -92,7 +92,7 @@ define([
 			//		Do not use this method to hide popups when not in use, because
 			//		that will create an accessibility issue: the offscreen popup is
 			//		still in the tabbing order.
-			// widget: dijit._WidgetBase
+			// widget: dijit/_WidgetBase
 			//		The widget
 		},
 
@@ -105,7 +105,7 @@ define([
 			//
 			//		If popup widget needs to layout it should
 			//		do so when it is made visible, and popup._onShow() is called.
-			// widget: dijit._WidgetBase
+			// widget: dijit/_WidgetBase
 			//		The widget
 		},
 
@@ -130,8 +130,8 @@ define([
 			// summary:
 			//		Close specified popup and any popups that it parented.
 			//		If no popup is specified, closes all popups.
-			// widget: dijit._WidgetBase?
-			//		The widget, optional
+			// widget: dijit/_WidgetBase?
+			//		The widget
 		}
 	};
 	=====*/
@@ -147,7 +147,7 @@ define([
 	}
 
 	var PopupManager = declare(null, {
-		// _stack: dijit._Widget[]
+		// _stack: dijit/_WidgetBase[]
 		//		Stack of currently popped up widgets.
 		//		(someone opened _stack[0], and then it opened _stack[1], etc.)
 		_stack: [],
@@ -236,7 +236,7 @@ define([
 			return stack[pi];
 		},
 
-		open: function(/*dijit.popup.__OpenArgs*/ args){
+		open: function(/*__OpenArgs*/ args){
 			// summary:
 			//		Popup the widget at the specified position
 			//

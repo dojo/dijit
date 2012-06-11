@@ -155,7 +155,7 @@ define([
 			//		protected extension
 		},
 
-		_setupChild: function(/*dijit._Widget*/child){
+		_setupChild: function(/*dijit/_WidgetBase*/child){
 			// summary:
 			//		Common setup for initial children and children which are added after startup
 			// tags:
@@ -166,7 +166,7 @@ define([
 			domClass.add(child.domNode, cls);
 		},
 
-		addChild: function(/*dijit._Widget*/ child, /*Integer?*/ insertIndex){
+		addChild: function(/*dijit/_WidgetBase*/ child, /*Integer?*/ insertIndex){
 			// Overrides _Container.addChild() to call _setupChild()
 			this.inherited(arguments);
 			if(this._started){
@@ -174,7 +174,7 @@ define([
 			}
 		},
 
-		removeChild: function(/*dijit._Widget*/ child){
+		removeChild: function(/*dijit/_WidgetBase*/ child){
 			// Overrides _Container.removeChild() to remove class added by _setupChild()
 			var cls = this.baseClass + "-child"
 					+ (child.baseClass ?

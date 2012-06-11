@@ -240,7 +240,7 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 		}
 	},
 
-	onSelectChild: function(/*dijit._Widget*/ page){
+	onSelectChild: function(/*dijit/_WidgetBase*/ page){
 		// summary:
 		//		Smoothly scrolls to a tab when it is selected.
 
@@ -360,7 +360,7 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 		// Disable/enable left/right buttons according to new scroll position
 		this._setButtonClass(x);
 
-		return anim; // dojo._Animation
+		return anim; // dojo/_base/fx/Animation
 	},
 
 	_getBtnNode: function(/*Event*/ e){

@@ -353,7 +353,7 @@ define([
 		show: function(){
 			// summary:
 			//		Display the dialog
-			// returns: dojo.Deferred
+			// returns: dojo/_base/Deferred
 			//		Deferred object that resolves when the display animation is complete
 
 			if(this.open){ return; }
@@ -421,7 +421,7 @@ define([
 		hide: function(){
 			// summary:
 			//		Hide the dialog
-			// returns: dojo.Deferred
+			// returns: dojo/_base/Deferred
 			//		Deferred object that resolves when the hide animation is complete
 
 			// If we haven't been initialized yet then we aren't showing and we can just return.
@@ -516,7 +516,7 @@ define([
 
 		_beginZIndex: 950,
 
-		show: function(/*dijit._Widget*/ dialog, /*Object*/ underlayAttrs){
+		show: function(/*dijit/_WidgetBase*/ dialog, /*Object*/ underlayAttrs){
 			// summary:
 			//		Call right before fade-in animation for new dialog.
 			//		Saves current focus, displays/adjusts underlay for new dialog,
@@ -551,7 +551,7 @@ define([
 			ds.push({dialog: dialog, underlayAttrs: underlayAttrs, zIndex: zIndex});
 		},
 
-		hide: function(/*dijit._Widget*/ dialog){
+		hide: function(/*dijit/_WidgetBase*/ dialog){
 			// summary:
 			//		Called when the specified dialog is hidden/destroyed, after the fade-out
 			//		animation ends, in order to reset page focus, fix the underlay, etc.
@@ -612,7 +612,7 @@ define([
 			}
 		},
 
-		isTop: function(/*dijit._Widget*/ dialog){
+		isTop: function(/*dijit/_WidgetBase*/ dialog){
 			// summary:
 			//		Returns true if specified Dialog is the top in the task
 			return ds[ds.length-1].dialog == dialog;

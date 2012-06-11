@@ -157,7 +157,7 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 		domClass.add(this.dropDown.domNode, this.baseClass + "Menu");
 	},
 
-	_getMenuItemForOption: function(/*dijit.form.__SelectOption*/ option){
+	_getMenuItemForOption: function(/*_FormSelectWidget.__SelectOption*/ option){
 		// summary:
 		//		For the given option, return the menu item that should be
 		//		used to display it.  This can be overridden as needed
@@ -179,7 +179,7 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 		}
 	},
 
-	_addOptionItem: function(/*dijit.form.__SelectOption*/ option){
+	_addOptionItem: function(/*_FormSelectWidget.__SelectOption*/ option){
 		// summary:
 		//		For the given option, add an option to our dropdown.
 		//		If the option doesn't have a value, then a separator is added

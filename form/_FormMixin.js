@@ -51,7 +51,7 @@ define([
 		//
 		//
 
-		_getDescendantFormWidgets: function(/*dijit._WidgetBase[]?*/ children){
+		_getDescendantFormWidgets: function(/*dijit/_WidgetBase[]?*/ children){
 			// summary:
 			//		Returns all form widget descendants, searching through non-form child widgets like BorderContainer
 			var res = [];

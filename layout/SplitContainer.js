@@ -151,7 +151,7 @@ return declare("dijit.layout.SplitContainer", _LayoutWidget, {
 		this.inherited(arguments);
 	},
 
-	_setupChild: function(/*dijit._Widget*/ child){
+	_setupChild: function(/*dijit/_WidgetBase*/ child){
 		this.inherited(arguments);
 		child.domNode.style.position = "absolute";
 		domClass.add(child.domNode, "dijitSplitPane");
@@ -213,7 +213,7 @@ return declare("dijit.layout.SplitContainer", _LayoutWidget, {
 		}
 	},
 
-	addChild: function(/*dijit._Widget*/ child, /*Integer?*/ insertIndex){
+	addChild: function(/*dijit/_WidgetBase*/ child, /*Integer?*/ insertIndex){
 		// summary:
 		//		Add a child widget to the container
 		// child:

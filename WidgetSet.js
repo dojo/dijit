@@ -33,12 +33,12 @@ define([
 			this.length = 0;
 		},
 
-		add: function(/*dijit._Widget*/ widget){
+		add: function(/*dijit/_WidgetBase*/ widget){
 			// summary:
 			//		Add a widget to this list. If a duplicate ID is detected, a error is thrown.
 			//
-			// widget: dijit._Widget
-			//		Any dijit._Widget subclass.
+			// widget: dijit/_WidgetBase
+			//		Any dijit/_WidgetBase subclass.
 			if(this._hash[widget.id]){
 				throw new Error("Tried to register widget with id==" + widget.id + " but that id is already registered");
 			}
@@ -81,7 +81,7 @@ define([
 			for(id in this._hash){
 				func.call(thisObj, this._hash[id], i++, this._hash);
 			}
-			return this;	// dijit.WidgetSet
+			return this;	// dijit/WidgetSet
 		},
 
 		filter: function(/*Function*/ filter, /* Object? */thisObj){
@@ -110,7 +110,7 @@ define([
 					res.add(w);
 				}
 			}
-			return res; // dijit.WidgetSet
+			return res; // dijit/WidgetSet
 		},
 
 		byId: function(/*String*/ id){
@@ -123,7 +123,7 @@ define([
 			//		| var t = ws.byId("bar") // returns a widget
 			//		| var x = ws.byId("foo"); // returns undefined
 
-			return this._hash[id];	// dijit._Widget
+			return this._hash[id];	// dijit/_WidgetBase
 		},
 
 		byClass: function(/*String*/ cls){
@@ -144,7 +144,7 @@ define([
 					res.add(widget);
 				}
 			 }
-			 return res; // dijit.WidgetSet
+			 return res; // dijit/WidgetSet
 		},
 
 		toArray: function(){
@@ -159,7 +159,7 @@ define([
 			for(var id in this._hash){
 				ar.push(this._hash[id]);
 			}
-			return ar;	// dijit._Widget[]
+			return ar;	// dijit/_WidgetBase[]
 		},
 
 		map: function(/* Function */func, /* Object? */thisObj){

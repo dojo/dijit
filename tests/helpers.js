@@ -13,7 +13,7 @@ define([
 
 var exports = {
 
-isVisible: function isVisible(/*dijit._WidgetBase || DomNode*/ node){
+isVisible: function isVisible(/*dijit/_WidgetBase|DomNode*/ node){
 	// summary:
 	//		Return true if node/widget is visible
 	var p;
@@ -23,7 +23,7 @@ isVisible: function isVisible(/*dijit._WidgetBase || DomNode*/ node){
 		(p = domGeometry.position(node, true), p.y + p.h >= 0 && p.x + p.w >= 0 && p.h && p.w);
 },
 
-isHidden: function isHidden(/*dijit._WidgetBase || DomNode*/ node){
+isHidden: function isHidden(/*dijit/_WidgetBase|DomNode*/ node){
 	// summary:
 	//		Return true if node/widget is hidden
 	var p;

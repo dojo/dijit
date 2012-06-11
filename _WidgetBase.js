@@ -880,7 +880,7 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		// summary:
 		//		Returns all the widgets contained by this, i.e., all widgets underneath this.containerNode.
 		//		Does not return nested widgets, nor widgets that are part of this widget's template.
-		return this.containerNode ? registry.findWidgets(this.containerNode) : []; // dijit._Widget[]
+		return this.containerNode ? registry.findWidgets(this.containerNode) : []; // dijit/_WidgetBase[]
 	},
 
 	getParent: function(){
@@ -993,7 +993,7 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		//		If reference is a DOMNode (or id matching a DOMNode but not a widget),
 		//		the position argument can be a numeric index or a string
 		//		"first", "last", "before", or "after", same as dojo/dom-construct::place().
-		// returns: dijit._WidgetBase
+		// returns: dijit/_WidgetBase
 		//		Provides a useful return of the newly created dijit._Widget instance so you
 		//		can "chain" this function by instantiating, placing, then saving the return value
 		//		to a variable.

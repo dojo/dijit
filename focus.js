@@ -45,7 +45,7 @@ define([
 		//		Currently focused item on screen
 		curNode: null,
 
-		// activeStack: dijit._Widget[]
+		// activeStack: dijit/_WidgetBase[]
 		//		List of currently active widgets (focused widget and it's ancestors)
 		activeStack: [],
 
@@ -84,7 +84,7 @@ define([
 		//		Currently focused item on screen
 		curNode: null,
 
-		// activeStack: dijit._Widget[]
+		// activeStack: dijit/_WidgetBase[]
 		//		List of currently active widgets (focused widget and it's ancestors)
 		activeStack: [],
 

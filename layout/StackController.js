@@ -152,7 +152,7 @@ define([
 			this.inherited(arguments);
 		},
 
-		onAddChild: function(/*dijit._Widget*/ page, /*Integer?*/ insertIndex){
+		onAddChild: function(/*dijit/_WidgetBase*/ page, /*Integer?*/ insertIndex){
 			// summary:
 			//		Called whenever a page is added to the container.
 			//		Create button corresponding to the page.
@@ -188,7 +188,7 @@ define([
 			}
 		},
 
-		onRemoveChild: function(/*dijit._Widget*/ page){
+		onRemoveChild: function(/*dijit/_WidgetBase*/ page){
 			// summary:
 			//		Called whenever a page is removed from the container.
 			//		Remove the button corresponding to the page.
@@ -206,7 +206,7 @@ define([
 			delete page.controlButton;
 		},
 
-		onSelectChild: function(/*dijit._Widget*/ page){
+		onSelectChild: function(/*dijit/_WidgetBase*/ page){
 			// summary:
 			//		Called when a page has been selected in the StackContainer, either by me or by another StackController
 			// tags:
@@ -228,7 +228,7 @@ define([
 			container.containerNode.setAttribute("aria-labelledby", newButton.id);
 		},
 
-		onButtonClick: function(/*dijit._Widget*/ button){
+		onButtonClick: function(/*dijit/_WidgetBase*/ button){
 			// summary:
 			//		Called whenever one of my child buttons is pressed in an attempt to select a page
 			// tags:
@@ -248,7 +248,7 @@ define([
 			container.selectChild(page);
 		},
 
-		onCloseButtonClick: function(/*dijit._Widget*/ button){
+		onCloseButtonClick: function(/*dijit/_WidgetBase*/ button){
 			// summary:
 			//		Called whenever one of my child buttons [X] is pressed in an attempt to close a page
 			// tags:
@@ -286,7 +286,7 @@ define([
 				child = children[idx];
 			}while(child.disabled && child != current);
 
-			return child; // dijit._Widget
+			return child; // dijit/_WidgetBase
 		},
 
 		onkeypress: function(/*Event*/ e){
