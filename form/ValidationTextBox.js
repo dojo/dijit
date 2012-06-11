@@ -223,6 +223,12 @@ define([
 			this.constraints = {};
 		},
 
+		startup: function(){
+			// summary:
+			this.inherited(arguments);
+			this._refreshState(); // after all _set* methods have run
+		},
+
 		_setConstraintsAttr: function(/*__Constraints*/ constraints){
 			if(!constraints.locale && this.lang){
 				constraints.locale = this.lang;
