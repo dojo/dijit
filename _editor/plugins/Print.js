@@ -28,6 +28,7 @@ var Print = declare("dijit._editor.plugins.Print",_Plugin,{
 			editor = this.editor;
 		this.button = new Button({
 			label: strings["print"],
+			ownerDocument: editor.ownerDocument,
 			dir: editor.dir,
 			lang: editor.lang,
 			showLabel: false,

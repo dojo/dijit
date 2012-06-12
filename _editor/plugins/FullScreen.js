@@ -71,6 +71,7 @@ var FullScreen = declare("dijit._editor.plugins.FullScreen",_Plugin,{
 			editor = this.editor;
 		this.button = new ToggleButton({
 			label: strings["fullScreen"],
+			ownerDocument: editor.ownerDocument,
 			dir: editor.dir,
 			lang: editor.lang,
 			showLabel: false,

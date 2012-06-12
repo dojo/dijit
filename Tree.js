@@ -396,16 +396,17 @@ var TreeNode = declare(
 				}
 				if(!node){
 					node = this.tree._createTreeNode({
-							item: item,
-							tree: tree,
-							isExpandable: model.mayHaveChildren(item),
-							label: tree.getLabel(item),
-							tooltip: tree.getTooltip(item),
-							dir: tree.dir,
-							lang: tree.lang,
-							textDir: tree.textDir,
-							indent: this.indent + 1
-						});
+						item: item,
+						tree: tree,
+						isExpandable: model.mayHaveChildren(item),
+						label: tree.getLabel(item),
+						tooltip: tree.getTooltip(item),
+						ownerDocument: tree.ownerDocument,
+						dir: tree.dir,
+						lang: tree.lang,
+						textDir: tree.textDir,
+						indent: this.indent + 1
+					});
 					if(existingNodes){
 						existingNodes.push(node);
 					}else{

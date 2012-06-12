@@ -143,6 +143,7 @@ define([
 			// Setup a close menu to be shared between all the closable tabs (excluding disabled tabs)
 			var closeMenu = new Menu({
 				id: this.id+"_Menu",
+				ownerDocument: this.ownerDocument,
 				dir: this.dir,
 				lang: this.lang,
 				textDir: this.textDir,
@@ -157,6 +158,7 @@ define([
 				controller = this;
 			closeMenu.addChild(new MenuItem({
 				label: _nlsResources.itemClose,
+				ownerDocument: this.ownerDocument,
 				dir: this.dir,
 				lang: this.lang,
 				textDir: this.textDir,

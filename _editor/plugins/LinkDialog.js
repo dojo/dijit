@@ -119,6 +119,7 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 				i18n.getLocalization("dijit._editor", "LinkDialog", this.lang));
 			var dropDown = (this.dropDown = this.button.dropDown = new TooltipDialog({
 				title: messages[this.command + "Title"],
+				ownerDocument: this.editor.ownerDocument,
 				dir: this.editor.dir,
 				execute: lang.hitch(this, "setValue"),
 				onOpen: function(){

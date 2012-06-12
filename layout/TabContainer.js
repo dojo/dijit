@@ -48,6 +48,7 @@ define([
 
 			return new TabController({
 				id: this.id + "_tablist",
+				ownerDocument: this.ownerDocument,
 				dir: this.dir,
 				lang: this.lang,
 				textDir: this.textDir,

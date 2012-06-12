@@ -462,6 +462,7 @@ declare(
 	loadDropDown: function(callback){
 		this.dropDown = new Menu({
 			id: this.containerId + "_menu",
+			ownerDocument: this.ownerDocument,
 			dir: this.dir,
 			lang: this.lang,
 			textDir: this.textDir
@@ -473,6 +474,7 @@ declare(
 				label: page.title,
 				iconClass: page.iconClass,
 				disabled: page.disabled,
+				ownerDocument: this.ownerDocument,
 				dir: page.dir,
 				lang: page.lang,
 				textDir: page.textDir,

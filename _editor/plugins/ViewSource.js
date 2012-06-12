@@ -82,6 +82,7 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 			editor = this.editor;
 		this.button = new ToggleButton({
 			label: strings["viewSource"],
+			ownerDocument: editor.ownerDocument,
 			dir: editor.dir,
 			lang: editor.lang,
 			showLabel: false,

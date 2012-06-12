@@ -166,6 +166,7 @@ define([
 				id: this.id + "_" + page.id,
 				label: page.title,
 				disabled: page.disabled,
+				ownerDocument: this.ownerDocument,
 				dir: page.dir,
 				lang: page.lang,
 				textDir: page.textDir,

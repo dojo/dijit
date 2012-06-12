@@ -121,6 +121,7 @@ define([
 			if(!this.toolbar){
 				// if we haven't been assigned a toolbar, create one
 				this.toolbar = new Toolbar({
+					ownerDocument: this.ownerDocument,
 					dir: this.dir,
 					lang: this.lang
 				});
@@ -848,7 +849,12 @@ define([
 		"superscript": togglePluginFactory,
 
 		"|": function(){
-			return new _Plugin({ button: new ToolbarSeparator(), setEditor: function(editor){this.editor = editor;}});
+			return new _Plugin({
+				setEditor: function(editor){
+					this.editor = editor;
+					this.button = new ToolbarSeparator({ownerDocument: editor.ownerDocument});
+				}
+			});
 		}
 	});
 

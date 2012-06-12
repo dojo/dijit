@@ -531,6 +531,7 @@ define([
 			ds[ds.length-1].focus = focus.curNode;
 
 			// Display the underlay, or if already displayed then adjust for this new dialog
+			// TODO: one underlay per document (based on dialog.ownerDocument)
 			var underlay = DialogUnderlay._singleton;
 			if(!underlay || underlay._destroyed){
 				underlay = dijit._underlay = DialogUnderlay._singleton = new DialogUnderlay(underlayAttrs);

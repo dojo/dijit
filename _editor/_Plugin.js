@@ -79,6 +79,7 @@ var _Plugin = declare("dijit._editor._Plugin", null, {
 			if(!this.button){
 				var props = lang.mixin({
 					label: label,
+					ownerDocument: editor.ownerDocument,
 					dir: editor.dir,
 					lang: editor.lang,
 					showLabel: false,

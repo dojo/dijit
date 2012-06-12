@@ -31,6 +31,7 @@ var NewPage = declare("dijit._editor.plugins.NewPage",_Plugin,{
 			editor = this.editor;
 		this.button = new Button({
 			label: strings["newPage"],
+			ownerDocument: editor.ownerDocument,
 			dir: editor.dir,
 			lang: editor.lang,
 			showLabel: false,

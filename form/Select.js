@@ -163,7 +163,7 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 		//		used to display it.  This can be overridden as needed
 		if(!option.value && !option.label){
 			// We are a separator (no label set for it)
-			return new MenuSeparator();
+			return new MenuSeparator({ownerDocument: this.ownerDocument});
 		}else{
 			// Just a regular menu option
 			var click = lang.hitch(this, "_setValueAttr", option);
@@ -171,6 +171,7 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 				option: option,
 				label: option.label || this.emptyLabel,
 				onClick: click,
+				ownerDocument: this.ownerDocument,
 				dir: this.dir,
 				disabled: option.disabled || false
 			});
@@ -217,7 +218,10 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 				// Drop down menu is blank but add one blank entry just so something appears on the screen
 				// to let users know that they are no choices (mimicing native select behavior)
 				array.forEach(this._getChildren(), function(child){ child.destroyRecursive(); });
-				var item = new MenuItem({ label: this.emptyLabel });
+				var item = new MenuItem({
+					ownerDocument: this.ownerDocument,
+					label: this.emptyLabel
+				});
 				this.dropDown.addChild(item);
 			}
 		}else{
