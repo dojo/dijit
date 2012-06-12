@@ -80,7 +80,11 @@ dojo.declare("dijit._HasDropDown",
 
 			if(this.disabled || this.readOnly){ return; }
 
-			dojo.stopEvent(e);
+			// Prevent default to stop things like text selection, but don't stop propagation, so that:
+			//		1. TimeTextBox etc. can focus the <input> on mousedown
+			//		2. dropDownButtonActive class applied by _CssStateMixin (on button depress)
+			//		3. user defined onMouseDown handler fires
+			e.preventDefault();
 
 			this._docHandler = this.connect(dojo.doc, "onmouseup", "_onDropDownMouseUp");
 
