@@ -244,7 +244,6 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 	},
 
 	startup: function(){
-		// summary:
 		this.inherited(arguments);
 		this._refreshState(); // after all _set* methods have run
 	},
