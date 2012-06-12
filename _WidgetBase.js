@@ -979,7 +979,7 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		return this.focus && (domStyle.get(this.domNode, "display") != "none");
 	},
 
-	placeAt: function(/* String|DomNode|_Widget */ reference, /* String?|Int? */ position){
+	placeAt: function(/* String|DomNode|_Widget */ reference, /* String|Int? */ position){
 		// summary:
 		//		Place this widget somewhere in the DOM based
 		//		on standard domConstruct.place() conventions.
