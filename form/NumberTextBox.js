@@ -233,11 +233,8 @@ define([
 			}
 		}
 	});
-/*=====
-	NumberTextBoxMixin = dijit.form.NumberTextBoxMixin;
-=====*/
 
-	var NumberTextBox = declare("dijit.form.NumberTextBox", [RangeBoundTextBox,NumberTextBoxMixin], {
+	var NumberTextBox = declare("dijit.form.NumberTextBox", [RangeBoundTextBox, NumberTextBoxMixin], {
 		// summary:
 		//		A TextBox for entering numbers, with formatting and range checking
 		// description:
