@@ -237,21 +237,33 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 		}
 	},
 
+	_refreshState: function(){
+		if(this._started){
+			this.validate(this.focused);
+		}
+	},
+
+	startup: function(){
+		// summary:
+		this.inherited(arguments);
+		this._refreshState(); // after all _set* methods have run
+	},
+
 	_setValueAttr: function(value){
 		this.inherited(arguments);
 		domAttr.set(this.valueNode, "value", this.get("value"));
-		this.validate(this.focused);	// to update this.state
+		this._refreshState();	// to update this.state
 	},
 
 	_setDisabledAttr: function(/*Boolean*/ value){
 		this.inherited(arguments);
-		this.validate(this.focused);	// to update this.state
+		this._refreshState();	// to update this.state
 	},
 
 	_setRequiredAttr: function(/*Boolean*/ value){
 		this._set("required", value);
 		this.focusNode.setAttribute("aria-required", value);
-		this.validate(this.focused);	// to update this.state
+		this._refreshState();	// to update this.state
 	},
 
 	_setOptionsAttr: function(/*Array*/ options){
@@ -276,7 +288,7 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 		//		set the value.
 
 		var isValid = this.disabled || this.isValid(isFocused);
-		this._set("state", (isValid || !this._hasBeenBlurred) ? "" : ((this.focused && !this._hasBeenBlurred) ? "Incomplete" : "Error"));
+		this._set("state", isValid ? "" : (this._hasBeenBlurred ? "Error" : "Incomplete"));
 		this.focusNode.setAttribute("aria-invalid", isValid ? "false" : "true");
 		var message = isValid ? "" : this._missingMsg;
 		if(message && this.focused && this._hasBeenBlurred){
@@ -300,7 +312,7 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 		//		Overridden so that the state will be cleared.
 		this.inherited(arguments);
 		Tooltip.hide(this.domNode);
-		this.validate(this.focused);	// to update this.state
+		this._refreshState();	// to update this.state
 	},
 
 	postMixInProperties: function(){
