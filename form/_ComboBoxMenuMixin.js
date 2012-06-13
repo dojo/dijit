@@ -184,7 +184,7 @@ return declare( "dijit.form._ComboBoxMenuMixin", null, {
 	},
 
 	getHighlightedOption: function(){
-		return this._getSelectedAttr();
+		return this.selected;
 	}
 });
 
