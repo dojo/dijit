@@ -224,7 +224,6 @@ define([
 		},
 
 		startup: function(){
-			// summary:
 			this.inherited(arguments);
 			this._refreshState(); // after all _set* methods have run
 		},
