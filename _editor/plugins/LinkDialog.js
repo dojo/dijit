@@ -198,7 +198,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 		//		private
 		//TODO: prevent closing popup if the text is empty
 		this._onCloseDialog();
-		if(dojo.isIE){ //see #4151
+		if(dojo.isIE < 9){ //see #4151
 			var sel = dijit.range.getSelection(this.editor.window);
 			var range = sel.getRangeAt(0);
 			var a = range.endContainer;
@@ -264,7 +264,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 		//		Handler for when the dialog is opened.
 		//		If the caret is currently in a URL then populate the URL's info into the dialog.
 		var a;
-		if(dojo.isIE){
+		if(dojo.isIE < 9){
 			// IE is difficult to select the element in, using the range unified
 			// API seems to work reasonably well.
 			var sel = dijit.range.getSelection(this.editor.window);

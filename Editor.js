@@ -320,7 +320,7 @@ dojo.declare(
 			var bookmark = b.mark;
 			var mark = b.mark;
 			var col = b.isCollapsed;
-			if(dojo.isIE){
+			if(dojo.isIE < 9){
 				if(dojo.isArray(mark)){//IE CONTROL
 					bookmark = [];
 					dojo.forEach(mark,function(n){
@@ -404,7 +404,7 @@ dojo.declare(
 			var tmp=[];
 			if(b.mark){
 				var mark = b.mark;
-				if(dojo.isIE){
+				if(dojo.isIE < 9){
 					if(dojo.isArray(mark)){//CONTROL
 						dojo.forEach(mark,function(n){
 							tmp.push(dijit.range.getIndex(n,this.editNode).o);

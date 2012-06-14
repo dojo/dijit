@@ -225,6 +225,10 @@ dojo.declare("dijit.layout.ScrollingTabController",
 
 		// Enable/disabled left right buttons depending on whether or not user can scroll to left or right
 		this._setButtonClass(this._getScroll());
+		
+		// Return my size so layoutChildren() can use it.
+		// Also avoids IE9 layout glitch on browser resize when scroll buttons present
+		return {h: this._contentBox.h, w: dim.w};
 	},
 
 	_getScroll: function(){
