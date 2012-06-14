@@ -95,15 +95,25 @@ define([
 			];
 
 			if(has("touch")){
+				// touchstart-->touchend will automatically generate a click event, but there are problems
+				// on iOS after focus has been programatically shifted (#14604, #14918), so do it manually.
+				// But first, let other touchend callbacks execute.
+
+				var clickTimer;
 				handles.push(
 					on(node, "touchend", function(e){
-						// touchstart-->touchend will automatically generate a click event, but there are problems
-						// on iOS after focus has been programatically shifted (#14604, #14918), so do it manually.
+						// Setup timer to fire synthetic click event after other touchend listeners finish executing
+						var target = e.target;
+						clickTimer = setTimeout(function(){
+							clickTimer = null;
+							on.emit(target, "click", {
+								cancelable: true,
+								bubbles: true
+							});
+						}, 0);
+
+						// Prevent the touchend from triggering the native click event
 						e.preventDefault();
-						on.emit(e.target, "click", {
-							cancelable: true,
-							bubbles: true
-						});
 					})
 				);
 			}
@@ -111,6 +121,10 @@ define([
 			return {
 				remove: function(){
 					array.forEach(handles, function(h){ h.remove(); });
+					if(clickTimer){
+						clearTimeout(clickTimer);
+						clickTimer = null;
+					}
 				}
 			};
 		}
