@@ -1805,8 +1805,10 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 
 		// The main JS sizing involved w/tree is the indentation, which is specified
 		// in CSS and read in through this dummy indentDetector node (tree must be
-		// visible and attached to the DOM to read this)
-		this._nodePixelIndent = domGeometry.position(this.tree.indentDetector).w;
+		// visible and attached to the DOM to read this).
+		// If the Tree is hidden domGeometry.position(this.tree.indentDetector).w will return 0, in which case just
+		// keep the default value.
+		this._nodePixelIndent = domGeometry.position(this.tree.indentDetector).w || this._nodePixelIndent;
 
 		if(this.tree.rootNode){
 			// If tree has already loaded, then reset indent for all the nodes
