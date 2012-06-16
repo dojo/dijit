@@ -1,6 +1,7 @@
 <!DOCTYPE>
 <html>
 	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<title>Form widgets mobile test page</title>
@@ -72,7 +73,9 @@
 		<h1>CheckBox, RadioButton</h1>
 		<fieldset>
 			<legend>check boxes</legend>
-			<label for="cb1">cb1</label>
+			<label for="nativeCb">native</label>
+			<input id="nativeCb" type=checkbox onclick="console.log('clicked native cb');"/>
+			<label for="cb1">cb1:</label>
 			<input id="cb1" data-dojo-id="cb1" data-dojo-type="dijit/form/CheckBox" data-dojo-props='name:"cb1", value:"foo", onClick:function(){ console.log("clicked cb1") }'/>
 			<label for="cb2">cb2</label>
 			<input id="cb2" data-dojo-id="cb2" data-dojo-type="dijit/form/CheckBox" data-dojo-props='name:"cb2", value:"foo", onClick:function(){ console.log("clicked cb2") }'/>
