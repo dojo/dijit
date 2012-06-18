@@ -13,11 +13,8 @@ define([
 
 	// module:
 	//		dijit/_KeyNavContainer
-	// summary:
-	//		A _Container with keyboard navigation of its children.
 
 	return declare("dijit._KeyNavContainer", [_FocusMixin, _Container], {
-
 		// summary:
 		//		A _Container with keyboard navigation of its children.
 		// description:

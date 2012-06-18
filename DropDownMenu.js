@@ -9,8 +9,6 @@ define([
 
 	// module:
 	//		dijit/DropDownMenu
-	// summary:
-	//		dijit.DropDownMenu widget
 
 	return declare("dijit.DropDownMenu", [_MenuBase, _OnDijitClickMixin], {
 		// summary:

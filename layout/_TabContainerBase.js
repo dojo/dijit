@@ -11,9 +11,6 @@ define([
 
 // module:
 //		dijit/layout/_TabContainerBase
-// summary:
-//		Abstract base class for TabContainer.   Must define _makeController() to instantiate
-//		and return the widget that displays the tab labels
 
 
 return declare("dijit.layout._TabContainerBase", [StackContainer, _TemplatedMixin], {

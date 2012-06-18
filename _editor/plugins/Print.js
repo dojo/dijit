@@ -11,9 +11,6 @@ define([
 
 // module:
 //		dijit/_editor/plugins/Print
-// summary:
-//		This plugin provides Print capability to the editor.  When
-//		clicked, the document in the editor frame will be printed.
 
 
 var Print = declare("dijit._editor.plugins.Print",_Plugin,{

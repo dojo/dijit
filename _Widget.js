@@ -20,8 +20,6 @@ define([
 
 // module:
 //		dijit/_Widget
-// summary:
-//		Old base for widgets.   New widgets should extend _WidgetBase instead
 
 
 function connectToDomNode(){
@@ -46,10 +44,10 @@ if(kernel.connect){
 
 var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusMixin], {
 	// summary:
-	//		Base class for all Dijit widgets.
+	//		Old base class for widgets.   New widgets should extend `dijit/_WidgetBase` instead
 	//
 	// description:
-	//		Base class for all Dijit widgets.
+	//		Old Base class for Dijit widgets.
 	//
 	//		Extends _WidgetBase, adding support for:
 	//			- declaratively/programatically specifying widget initialization parameters like

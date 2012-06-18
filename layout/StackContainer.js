@@ -16,8 +16,6 @@ define([
 
 // module:
 //		dijit/layout/StackContainer
-// summary:
-//		A container that has multiple children, but shows only one child at a time.
 
 // Back compat w/1.6, remove for 2.0
 if(has("dijit-legacy-requires")){

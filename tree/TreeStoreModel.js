@@ -7,9 +7,6 @@ define([
 
 	// module:
 	//		dijit/tree/TreeStoreModel
-	// summary:
-	//		Implements dijit.Tree.model connecting to a dojo.data store with a single
-	//		root item.
 
 	return declare("dijit.tree.TreeStoreModel", null, {
 		// summary:

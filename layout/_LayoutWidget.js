@@ -13,9 +13,6 @@ define([
 
 	// module:
 	//		dijit/layout/_LayoutWidget
-	// summary:
-	//		_LayoutWidget Base class for a _Container widget which is responsible for laying out its children.
-	//		Widgets which mixin this code must define layout() to manage placement and sizing of the children.
 
 
 	return declare("dijit.layout._LayoutWidget", [_Widget, _Container, _Contained], {

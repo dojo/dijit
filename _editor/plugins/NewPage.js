@@ -9,9 +9,6 @@ define([
 
 // module:
 //		dijit/_editor/plugins/NewPage
-// summary:
-//		This plugin provides a simple 'new page' capability.  In other
-//		words, set content to some default user defined string.
 
 
 var NewPage = declare("dijit._editor.plugins.NewPage",_Plugin,{

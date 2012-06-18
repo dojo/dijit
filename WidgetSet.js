@@ -7,14 +7,11 @@ define([
 
 	// module:
 	//		dijit/WidgetSet
-	// summary:
-	//		Legacy registry code.   New modules should just use registry.
-	//		Will be removed in 2.0.
 
 	var WidgetSet = declare("dijit.WidgetSet", null, {
 		// summary:
-		//		A set of widgets indexed by id. A default instance of this class is
-		//		available as `dijit.registry`
+		//		A set of widgets indexed by id.
+		//		Deprecated, will be removed in 2.0.
 		//
 		// example:
 		//		Create a small list of widgets:
@@ -23,10 +20,6 @@ define([
 		//		|	ws.add(dijit.byId("two"));
 		//		|	// destroy both:
 		//		|	ws.forEach(function(w){ w.destroy(); });
-		//
-		// example:
-		//		Using dijit.registry:
-		//		|	dijit.registry.forEach(function(w){ /* do something */ });
 
 		constructor: function(){
 			this._hash = {};

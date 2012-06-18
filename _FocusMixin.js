@@ -7,9 +7,6 @@ define([
 
 	// module:
 	//		dijit/_FocusMixin
-	// summary:
-	//		Mixin to widget to provide _onFocus() and _onBlur() methods that
-	//		fire when a widget or it's descendants get/lose focus
 
 	// We don't know where _FocusMixin will occur in the inheritance chain, but we need the _onFocus()/_onBlur() below
 	// to be last in the inheritance chain, so mixin to _WidgetBase.
@@ -60,7 +57,7 @@ define([
 	return declare("dijit._FocusMixin", null, {
 		// summary:
 		//		Mixin to widget to provide _onFocus() and _onBlur() methods that
-		//		fire when a widget or it's descendants get/lose focus
+		//		fire when a widget or its descendants get/lose focus
 
 		// flag that I want _onFocus()/_onBlur() notifications from focus manager
 		_focusManager: focus

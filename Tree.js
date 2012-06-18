@@ -38,8 +38,6 @@ define([
 
 // module:
 //		dijit/Tree
-// summary:
-//		dijit.Tree widget, and internal dijit._TreeNode widget
 
 
 var TreeNode = declare(

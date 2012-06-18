@@ -9,8 +9,6 @@ define([
 
 	// module:
 	//		dijit/DialogUnderlay
-	// summary:
-	//		The component that blocks the screen behind a `dijit.Dialog`
 
 	return declare("dijit.DialogUnderlay", [_Widget, _TemplatedMixin], {
 		// summary:

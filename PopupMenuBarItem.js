@@ -6,8 +6,6 @@ define([
 
 	// module:
 	//		dijit/PopupMenuBarItem
-	// summary:
-	//		Item in a MenuBar like "File" or "Edit", that spawns a submenu when pressed (or hovered)
 
 	var _MenuBarItemMixin = MenuBarItem._MenuBarItemMixin;
 

@@ -25,8 +25,6 @@ define([
 
 // module:
 //		dijit/_editor/plugins/ViewSource
-// summary:
-//		This plugin provides a simple view source capability.
 
 
 var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {

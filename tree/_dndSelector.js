@@ -14,9 +14,6 @@ define([
 
 	// module:
 	//		dijit/tree/_dndSelector
-	// summary:
-	//		This is a base class for `dijit.tree.dndSource` , and isn't meant to be used directly.
-	//		It's based on `dojo.dnd.Selector`.
 
 
 	return declare("dijit.tree._dndSelector", _dndContainer, {

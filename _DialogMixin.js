@@ -5,8 +5,6 @@ define([
 
 	// module:
 	//		dijit/_DialogMixin
-	// summary:
-	//		_DialogMixin provides functions useful to Dialog and TooltipDialog
 
 	return declare("dijit._DialogMixin", null, {
 		// summary:

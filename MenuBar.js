@@ -8,8 +8,6 @@ define([
 
 // module:
 //		dijit/MenuBar
-// summary:
-//		A menu bar, listing menu choices horizontally, like the "File" menu in most desktop applications
 
 return declare("dijit.MenuBar", _MenuBase, {
 	// summary:

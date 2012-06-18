@@ -18,8 +18,6 @@ define([
 
 	// module:
 	//		dijit/layout/StackController
-	// summary:
-	//		Set of buttons to select a page in a `dijit.layout.StackContainer`
 
 	var StackButton = declare("dijit.layout._StackButton", ToggleButton, {
 		// summary:

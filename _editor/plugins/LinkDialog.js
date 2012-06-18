@@ -600,6 +600,8 @@ _Plugin.registry["insertImage"] = function(){
 
 
 // Export both LinkDialog and ImgLinkDialog
+// TODO for 2.0: either return both classes in a hash, or split this file into two separate files.
+// Then the documentation for the module can be applied to the hash, and will show up in the API doc.
 LinkDialog.ImgLinkDialog = ImgLinkDialog;
 return LinkDialog;
 });

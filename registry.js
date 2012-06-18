@@ -8,19 +8,18 @@ define([
 
 	// module:
 	//		dijit/registry
-	// summary:
-	//		Registry of existing widget on page, plus some utility methods.
-	//		Must be accessed through AMD api, ex:
-	//		require(["dijit/registry"], function(registry){ registry.byId("foo"); })
 
 	var _widgetTypeCtr = {}, hash = {};
 
 	var registry =  {
+		// summary:
+		//		Registry of existing widget on page, plus some utility methods.
+
 		// length: Number
 		//		Number of registered widgets
 		length: 0,
 
-		add: function(/*dijit/_WidgetBase*/ widget){
+		add: function(widget){
 			// summary:
 			//		Add a widget to the registry. If a duplicate ID is detected, a error is thrown.
 			// widget: dijit/_WidgetBase

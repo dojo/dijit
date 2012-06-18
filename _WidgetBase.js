@@ -27,8 +27,6 @@ define([
 
 // module:
 //		dijit/_WidgetBase
-// summary:
-//		Future base class for all Dijit widgets.
 
 // Flag to make dijit load modules the app didn't explicitly request, for backwards compatibility
 has.add("dijit-legacy-requires", !kernel.isAsync);

@@ -61,8 +61,13 @@ define([
 
 	// module:
 	//		dijit/dijit-all
-	// summary:
-	//		A rollup that includes every dijit. You probably don't need this.
+
+	/*=====
+	return {
+		// summary:
+		//		A rollup that includes every dijit. You probably don't need this.
+	};
+	=====*/
 
 	console.warn("dijit-all may include much more code than your application actually requires. We strongly recommend that you investigate a custom build or the web build tool");
 

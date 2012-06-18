@@ -11,9 +11,6 @@ define([
 
 // module:
 //		dijit/ProgressBar
-// summary:
-//		A progress indication widget, showing the amount completed
-//		(often the percentage completed) of a task.
 
 
 return declare("dijit.ProgressBar", [_Widget, _TemplatedMixin], {

@@ -15,9 +15,6 @@ define([
 
 	// module:
 	//		dijit/MenuItem
-	// summary:
-	//		A line item in a Menu Widget
-
 
 	return declare("dijit.MenuItem",
 		[_Widget, _TemplatedMixin, _Contained, _CssStateMixin],

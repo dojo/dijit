@@ -20,9 +20,6 @@ define([
 
 // module:
 //		dijit/layout/ContentPane
-// summary:
-//		A widget containing an HTML fragment, specified inline
-//		or by uri.  Fragment may include widgets.
 
 
 return declare("dijit.layout.ContentPane", [_Widget, _Container, _ContentPaneResizeMixin], {

@@ -5,8 +5,6 @@ define([
 
 	// module:
 	//		dijit/_Contained
-	// summary:
-	//		Mixin for widgets that are children of a container widget
 
 	return declare("dijit._Contained", null, {
 		// summary:

@@ -6,8 +6,6 @@ define([
 
 // module:
 //		dijit/Destroyable
-// summary:
-//		Mixin to track handles and release them when instance is destroyed.
 
 return declare("dijit.Destroyable", null, {
 	// summary:

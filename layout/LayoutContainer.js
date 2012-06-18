@@ -9,8 +9,6 @@ define([
 
 // module:
 //		dijit/layout/LayoutContainer
-// summary:
-//		Deprecated.  Use `dijit.layout.BorderContainer` instead.
 
 
 // This argument can be specified for the children of a LayoutContainer.

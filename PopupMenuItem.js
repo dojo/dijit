@@ -9,8 +9,6 @@ define([
 
 	// module:
 	//		dijit/PopupMenuItem
-	// summary:
-	//		An item in a Menu that spawn a drop down (usually a drop down menu)
 
 	return declare("dijit.PopupMenuItem", MenuItem, {
 		// summary:

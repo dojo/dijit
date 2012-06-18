@@ -20,8 +20,6 @@ define([
 
 // module:
 //		dijit/_MenuBase
-// summary:
-//		Base class for Menu and MenuBar
 
 return declare("dijit._MenuBase",
 	[_Widget, _TemplatedMixin, _KeyNavContainer],

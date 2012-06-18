@@ -9,8 +9,6 @@ define([
 
 // module:
 //		dijit/_editor/plugins/TextColor
-// summary:
-//		This plugin provides dropdown color pickers for setting text color and background color
 
 
 var TextColor = declare("dijit._editor.plugins.TextColor", _Plugin, {

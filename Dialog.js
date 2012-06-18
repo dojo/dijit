@@ -38,9 +38,6 @@ define([
 
 	// module:
 	//		dijit/Dialog
-	// summary:
-	//		A modal dialog Widget
-
 
 	/*=====
 	dijit._underlay = function(kwArgs){

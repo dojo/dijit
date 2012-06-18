@@ -13,8 +13,6 @@ define([
 
 	// module:
 	//		dijit/_TemplatedMixin
-	// summary:
-	//		Mixin for widgets that are instantiated from a template
 
 	var _TemplatedMixin = declare("dijit._TemplatedMixin", null, {
 		// summary:

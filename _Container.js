@@ -7,8 +7,6 @@ define([
 
 	// module:
 	//		dijit/_Container
-	// summary:
-	//		Mixin for widgets that can contain other widgets.
 
 	return declare("dijit._Container", null, {
 		// summary:

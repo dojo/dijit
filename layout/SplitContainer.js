@@ -20,8 +20,6 @@ define([
 
 // module:
 //		dijit/layout/SplitContainer
-// summary:
-//		Deprecated.  Use `dijit.layout.BorderContainer` instead.
 
 //
 // FIXME: make it prettier
