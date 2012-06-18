@@ -25,8 +25,6 @@ define([
 
 // module:
 //		dijit/form/HorizontalSlider
-// summary:
-//		A form widget that allows one to select a value with a horizontally draggable handle
 
 
 var _SliderMover = declare("dijit.form._SliderMover", Mover, {

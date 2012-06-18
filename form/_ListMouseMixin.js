@@ -8,14 +8,12 @@ define([
 
 // module:
 //		dijit/form/_ListMouseMixin
-// summary:
-//		a mixin to handle mouse or touch events for a focus-less menu
 
 return declare( "dijit.form._ListMouseMixin", _ListBase, {
 	// summary:
 	//		a Mixin to handle mouse or touch events for a focus-less menu
 	//		Abstract methods that must be defined externally:
-	//			onClick: item was chosen (mousedown somewhere on the menu and mouseup somewhere on the menu)
+	//			- onClick: item was chosen (mousedown somewhere on the menu and mouseup somewhere on the menu)
 	// tags:
 	//		private
 

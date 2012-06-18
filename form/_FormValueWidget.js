@@ -7,9 +7,6 @@ define([
 
 // module:
 //		dijit/form/_FormValueWidget
-// summary:
-//		FormValueWidget
-
 
 return declare("dijit.form._FormValueWidget", [_FormWidget, _FormValueMixin],
 {

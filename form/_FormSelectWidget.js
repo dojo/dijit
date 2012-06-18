@@ -17,10 +17,6 @@ define([
 
 // module:
 //		dijit/form/_FormSelectWidget
-// summary:
-//		Extends _FormValueWidget in order to provide "select-specific"
-//		values - i.e., those values that are unique to <select> elements.
-
 
 /*=====
 var __SelectOption = function(){

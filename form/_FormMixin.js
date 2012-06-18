@@ -9,9 +9,6 @@ define([
 
 	// module:
 	//		dijit/form/_FormMixin
-	// summary:
-	//		Mixin for containers of form widgets (i.e. widgets that represent a single value
-	//		and can be children of a <form> node or dijit.form.Form widget)
 
 	return declare("dijit.form._FormMixin", null, {
 		// summary:

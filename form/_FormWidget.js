@@ -12,9 +12,6 @@ define([
 
 // module:
 //		dijit/form/_FormWidget
-// summary:
-//		FormWidget
-
 
 // Back compat w/1.6, remove for 2.0
 if(has("dijit-legacy-requires")){

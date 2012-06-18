@@ -18,9 +18,6 @@ define([
 
 	// module:
 	//		dijit/form/_AutoCompleterMixin
-	// summary:
-	//		A mixin that implements the base functionality for `dijit.form.ComboBox`/`dijit.form.FilteringSelect`
-
 
 	return declare("dijit.form._AutoCompleterMixin", SearchMixin, {
 		// summary:

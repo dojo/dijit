@@ -8,8 +8,6 @@ define([
 
 	// module:
 	//		dijit/form/TimeTextBox
-	// summary:
-	//		A validating, serializable, range-bound time text box with a drop down time picker
 
 
 	/*=====

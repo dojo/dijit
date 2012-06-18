@@ -9,8 +9,6 @@ define([
 
 	// module:
 	//		dijit/form/DataList
-	// summary:
-	//		Inefficient but small data store specialized for inlined data via OPTION tags
 
 	function toItem(/*DOMNode*/ option){
 		// summary:

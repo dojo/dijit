@@ -13,8 +13,6 @@ define([
 
 	// module:
 	//		dijit/form/ComboBoxMixin
-	// summary:
-	//		Provides main functionality of ComboBox widget
 
 	return declare("dijit.form.ComboBoxMixin", [_HasDropDown, _AutoCompleterMixin], {
 		// summary:

@@ -6,8 +6,6 @@ define([
 
 	// module:
 	//		dijit/form/_CheckBoxMixin
-	// summary:
-	//		Mixin to provide widget functionality corresponding to an HTML checkbox
 
 	return declare("dijit.form._CheckBoxMixin", null, {
 		// summary:

@@ -8,8 +8,6 @@ define([
 
 // module:
 //		dijit/form/NumberSpinner
-// summary:
-//		Extends NumberTextBox to add up/down arrows and pageup/pagedown for incremental change to the value
 
 
 return declare("dijit.form.NumberSpinner", [_Spinner, NumberTextBox.Mixin], {

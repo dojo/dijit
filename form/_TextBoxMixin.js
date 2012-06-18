@@ -11,8 +11,6 @@ define([
 
 // module:
 //		dijit/form/_TextBoxMixin
-// summary:
-//		A mixin for textbox form input widgets
 
 var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 	// summary:

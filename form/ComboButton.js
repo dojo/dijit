@@ -9,8 +9,6 @@ define([
 
 // module:
 //		dijit/form/ComboButton
-// summary:
-//		A combination button and drop-down button.
 
 return declare("dijit.form.ComboButton", DropDownButton, {
 	// summary:

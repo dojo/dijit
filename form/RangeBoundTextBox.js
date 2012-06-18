@@ -6,8 +6,6 @@ define([
 
 	// module:
 	//		dijit/form/RangeBoundTextBox
-	// summary:
-	//		Base class for textbox form widgets which defines a range of valid values.
 
 
 	var RangeBoundTextBox = declare("dijit.form.RangeBoundTextBox", MappedTextBox, {

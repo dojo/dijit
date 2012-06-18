@@ -7,8 +7,6 @@ define([
 
 	// module:
 	//		dijit/form/NumberTextBox
-	// summary:
-	//		A TextBox for entering numbers, with formatting and range checking
 
 
 	var NumberTextBoxMixin = declare("dijit.form.NumberTextBoxMixin", null, {

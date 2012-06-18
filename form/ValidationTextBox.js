@@ -10,8 +10,6 @@ define([
 
 	// module:
 	//		dijit/form/ValidationTextBox
-	// summary:
-	//		Base class for textbox widgets with the ability to validate content of various types and provide user feedback.
 
 
 	/*=====
@@ -29,8 +27,6 @@ define([
 	return ValidationTextBox = declare("dijit.form.ValidationTextBox", TextBox, {
 		// summary:
 		//		Base class for textbox widgets with the ability to validate content of various types and provide user feedback.
-		// tags:
-		//		protected
 
 		templateString: template,
 		baseClass: "dijitTextBox dijitValidationTextBox",

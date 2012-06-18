@@ -11,12 +11,8 @@ define([
 	"./_TextBoxMixin"	// selectInputText
 ], function(declare, event, keys, lang, has, mouse, typematic, RangeBoundTextBox, template, _TextBoxMixin){
 
-
 	// module:
 	//		dijit/form/_Spinner
-	// summary:
-	//		Mixin for validation widgets with a spinner.
-
 
 	return declare("dijit.form._Spinner", RangeBoundTextBox, {
 		// summary:

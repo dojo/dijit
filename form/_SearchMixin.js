@@ -13,8 +13,6 @@ define([
 
 	// module:
 	//		dijit/form/_SearchMixin
-	// summary:
-	//		A mixin that implements the base functionality to search a store based upon user-entered text such as with `dijit.form.ComboBox`/`dijit.form.FilteringSelect`
 
 
 	return declare("dijit.form._SearchMixin", null, {

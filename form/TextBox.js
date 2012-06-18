@@ -14,8 +14,6 @@ define([
 
 	// module:
 	//		dijit/form/TextBox
-	// summary:
-	//		A base class for textbox form inputs
 
 	var TextBox = declare("dijit.form.TextBox", [_FormValueWidget, _TextBoxMixin], {
 		// summary:

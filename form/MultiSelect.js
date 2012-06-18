@@ -8,9 +8,6 @@ define([
 
 // module:
 //		dijit/form/MultiSelect
-// summary:
-//		Widget version of a <select multiple=true> element,
-//		for selecting multiple options.
 
 return declare("dijit.form.MultiSelect", _FormValueWidget, {
 	// summary:

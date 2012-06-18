@@ -7,8 +7,6 @@ define([
 
 // module:
 //		dijit/form/_ButtonMixin
-// summary:
-//		A mixin to add a thin standard API wrapper to a normal HTML button
 
 return declare("dijit.form._ButtonMixin", null, {
 	// summary:

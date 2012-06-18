@@ -21,9 +21,6 @@ define([
 
 // module:
 //		dijit/form/Select
-// summary:
-//		This is a "styleable" select box - it is basically a DropDownButton which
-//		can take a <select> as its input.
 
 
 var _SelectMenu = declare("dijit.form._SelectMenu", Menu, {

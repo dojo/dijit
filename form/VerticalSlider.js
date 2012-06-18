@@ -6,9 +6,6 @@ define([
 
 	// module:
 	//		dijit/form/VerticalSlider
-	// summary:
-	//		A form widget that allows one to select a value with a vertically draggable handle
-
 
 	return declare("dijit.form.VerticalSlider", HorizontalSlider, {
 		// summary:

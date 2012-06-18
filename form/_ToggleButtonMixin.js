@@ -5,8 +5,6 @@ define([
 
 // module:
 //		dijit/form/_ToggleButtonMixin
-// summary:
-//		A mixin to provide functionality to allow a button that can be in two states (checked or not).
 
 return declare("dijit.form._ToggleButtonMixin", null, {
 	// summary:

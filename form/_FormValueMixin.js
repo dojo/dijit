@@ -8,8 +8,6 @@ define([
 
 	// module:
 	//		dijit/form/_FormValueMixin
-	// summary:
-	//		Mixin for widgets corresponding to native HTML elements such as <input> or <select> that have user changeable values.
 
 	return declare("dijit.form._FormValueMixin", _FormWidgetMixin, {
 		// summary:
