@@ -248,7 +248,8 @@ var TreeNode = declare(
 		domClass.add(this.contentNode,'dijitTreeContentExpanded');
 		this._setExpando();
 		this._updateItemClasses(this.item);
-		if(this == this.tree.rootNode){
+		
+		if(this == this.tree.rootNode && this.tree.showRoot){
 			this.tree.domNode.setAttribute("aria-expanded", "true");
 		}
 
@@ -289,7 +290,7 @@ var TreeNode = declare(
 
 		this.isExpanded = false;
 		this.labelNode.setAttribute("aria-expanded", "false");
-		if(this == this.tree.rootNode){
+		if(this == this.tree.rootNode && this.tree.showRoot){
 			this.tree.domNode.setAttribute("aria-expanded", "false");
 		}
 		domClass.remove(this.contentNode,'dijitTreeContentExpanded');
@@ -856,9 +857,12 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 					// if root is not visible, move tree role to the invisible
 					// root node's containerNode, see #12135
 					this.domNode.setAttribute("role", "presentation");
-
+					this.domNode.removeAttribute("aria-expanded");
+					this.domNode.removeAttribute("aria-multiselectable");
+					
 					rn.labelNode.setAttribute("role", "presentation");
 					rn.containerNode.setAttribute("role", "tree");
+					rn.containerNode.setAttribute("aria-expanded","true");
 				}
 				this.domNode.appendChild(rn.domNode);
 				var identity = this.model.getIdentity(item);

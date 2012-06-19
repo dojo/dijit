@@ -362,8 +362,10 @@
 						if(wasExpanded){
 							tree.rootNode.expand();
 						}
-						doh.is("true", nowExpanded, tree.id + ": aria state expanded=true");
-						doh.is("false", nowCollapsed, tree.id + ": aria state expanded=false ");
+						if(tree.showRoot){	//skip rootless trees that are always expanded
+							doh.is("true", nowExpanded, tree.id + ": aria state expanded=true");
+							doh.is("false", nowCollapsed, tree.id + ": aria state expanded=false ");
+						}
 					}
 				},
 
