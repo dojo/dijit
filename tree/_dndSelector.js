@@ -40,9 +40,11 @@ define([
 			this.anchor = null;
 
 			if(this.tree.showRoot){
-					this.tree.domNode.setAttribute("aria-multiselectable", !this.singular);
+				this.tree.domNode.setAttribute("aria-multiselectable", !this.singular);
 			}else{
-					this.tree.rootNode.containerNode.setAttribute("aria-multiselectable", !this.singular);
+				// TODO: this will fail in a race condition sometimes, this.tree.rootNode might not exist yet.
+				// Do not fix with a setTimeout().
+				// this.tree.rootNode.containerNode.setAttribute("aria-multiselectable", !this.singular);
 			}
 
 			if(!this.cookieName && this.tree.id){
