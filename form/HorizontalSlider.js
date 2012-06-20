@@ -61,7 +61,7 @@ var HorizontalSlider = declare("dijit.form.HorizontalSlider", [_FormValueWidget,
 	//		Show increment/decrement buttons at the ends of the slider?
 	showButtons: true,
 
-	// minimum:: [const] Integer
+	// minimum: [const] Integer
 	//		The minimum value the slider can be set to.
 	minimum: 0,
 

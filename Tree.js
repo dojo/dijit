@@ -1520,13 +1520,13 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 
 		if(node.isExpandable && node.isExpanded && node.hasChildren()){
 			// if this is an expanded node, get the first child
-			return node.getChildren()[0];		// _TreeNode
+			return node.getChildren()[0];		// TreeNode
 		}else{
 			// find a parent node with a sibling
 			while(node && node.isTreeNode){
 				var returnNode = node.getNextSibling();
 				if(returnNode){
-					return returnNode;		// _TreeNode
+					return returnNode;		// TreeNode
 				}
 				node = node.getParent();
 			}
@@ -1540,7 +1540,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		return this.showRoot ? this.rootNode : this.rootNode.getChildren()[0];
 	},
 
-	_collapseNode: function(/*_TreeNode*/ node){
+	_collapseNode: function(/*TreeNode*/ node){
 		// summary:
 		//		Called when the user has requested to collapse the node
 		// returns:
@@ -1567,7 +1567,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		}
 	},
 
-	_expandNode: function(/*_TreeNode*/ node){
+	_expandNode: function(/*TreeNode*/ node){
 		// summary:
 		//		Called when the user has requested to expand the node
 		// returns:
@@ -1897,7 +1897,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 	}
 });
 
-Tree._TreeNode = TreeNode;	// for monkey patching or creating subclasses of _TreeNode
+Tree._TreeNode = TreeNode;	// for monkey patching or creating subclasses of TreeNode
 
 return Tree;
 });
