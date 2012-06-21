@@ -61,8 +61,8 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 	//			- onShow(), onHide(), onClose()
 	//
 	//		Also, by loading code in dijit/_base, turns on:
-	//			- browser sniffing (putting browser id like .dj_ie on <html> node)
-	//			- high contrast mode sniffing (add .dijit_a11y class to <body> if machine is in high contrast mode)
+	//			- browser sniffing (putting browser class like `dj_ie` on `<html>` node)
+	//			- high contrast mode sniffing (add `dijit_a11y` class to `<body>` if machine is in high contrast mode)
 
 
 	////////////////// DEFERRED CONNECTS ///////////////////

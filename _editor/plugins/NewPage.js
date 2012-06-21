@@ -18,7 +18,7 @@ var NewPage = declare("dijit._editor.plugins.NewPage",_Plugin,{
 
 	// content: [public] String
 	//		The default content to insert into the editor as the new page.
-	//		The default is the <br> tag, a single blank line.
+	//		The default is the `<br>` tag, a single blank line.
 	content: "<br>",
 
 	_initButton: function(){

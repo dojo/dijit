@@ -32,7 +32,7 @@ define([
 		// timeoutChangeRate: Number
 		//		Fraction of time used to change the typematic timer between events.
 		//		1.0 means that each typematic event fires at defaultTimeout intervals.
-		//		< 1.0 means that each typematic event fires at an increasing faster rate.
+		//		Less than 1.0 means that each typematic event fires at an increasing faster rate.
 		timeoutChangeRate: 0.90,
 
 		// smallDelta: Number

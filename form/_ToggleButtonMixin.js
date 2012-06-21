@@ -11,7 +11,7 @@ return declare("dijit.form._ToggleButtonMixin", null, {
 	//		A mixin to provide functionality to allow a button that can be in two states (checked or not).
 
 	// checked: Boolean
-	//		Corresponds to the native HTML <input> element's attribute.
+	//		Corresponds to the native HTML `<input>` element's attribute.
 	//		In markup, specified as "checked='checked'" or just "checked".
 	//		True if the button is depressed, or the checkbox is checked,
 	//		or the radio button is selected, etc.

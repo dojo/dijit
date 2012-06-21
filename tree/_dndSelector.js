@@ -24,8 +24,8 @@ define([
 		//		protected
 
 		/*=====
-		// selection: Hash<String, DomNode>
-		//		(id, DomNode) map for every TreeNode that's currently selected.
+		// selection: Object
+		//		(id to DomNode) map for every TreeNode that's currently selected.
 		//		The DOMNode is the TreeNode.rowNode.
 		selection: {},
 		=====*/

@@ -16,7 +16,7 @@ define([
 		//		Mixin to provide widget functionality for an HTML radio button
 
 		// type: [private] String
-		//		type attribute on <input> node.
+		//		type attribute on `<input>` node.
 		//		Users should not change this value.
 		type: "radio",
 

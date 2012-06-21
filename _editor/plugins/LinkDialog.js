@@ -466,7 +466,7 @@ var ImgLinkDialog = declare("dijit._editor.plugins.ImgLinkDialog", [LinkDialog],
 	].join(""),
 
 	// htmlTemplate: [protected] String
-	//		String used for templating the <img> HTML to insert at the desired point.
+	//		String used for templating the `<img>` HTML to insert at the desired point.
 	htmlTemplate: "<img src=\"${urlInput}\" _djrealurl=\"${urlInput}\" alt=\"${textInput}\" />",
 
 	// tag: [protected] String

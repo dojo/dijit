@@ -44,11 +44,12 @@ return declare("dijit.layout.ContentPane", [_Widget, _Container, _ContentPaneRes
 	//
 	// example:
 	//		Some quick samples:
-	//		To change the innerHTML: cp.set('content', '<b>new content</b>')
-	//
-	//		Or you can send it a NodeList: cp.set('content', dojo.query('div [class=selected]', userSelection))
-	//
-	//		To do an ajax update: cp.set('href', url)
+	//		To change the innerHTML:
+	// |		cp.set('content', '<b>new content</b>')`
+	//		Or you can send it a NodeList:
+	// |		cp.set('content', dojo.query('div [class=selected]', userSelection))
+	//		To do an ajax update:
+	// |		cp.set('href', url)
 
 	// href: String
 	//		The href of the content that displays now.
@@ -64,8 +65,8 @@ return declare("dijit.layout.ContentPane", [_Widget, _Container, _ContentPaneRes
 	content: "",
 
 	// extractContent: Boolean
-	//		Extract visible content from inside of <body> .... </body>.
-	//		I.e., strip <html> and <head> (and it's contents) from the href
+	//		Extract visible content from inside of `<body> .... </body>`.
+	//		I.e., strip `<html>` and `<head>` (and it's contents) from the href
 	extractContent: false,
 
 	// parseOnLoad: Boolean

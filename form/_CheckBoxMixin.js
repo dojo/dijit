@@ -19,8 +19,8 @@ define([
 		//
 
 		// type: [private] String
-		//		type attribute on <input> node.
-		//		Overrides `dijit.form.Button.type`.  Users should not change this value.
+		//		type attribute on `<input>` node.
+		//		Overrides `dijit/form/Button.type`.  Users should not change this value.
 		type: "checkbox",
 
 		// value: String

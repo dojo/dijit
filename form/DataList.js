@@ -12,7 +12,7 @@ define([
 
 	function toItem(/*DOMNode*/ option){
 		// summary:
-		//		Convert <option> node to hash
+		//		Convert `<option>` node to hash
 		return {
 			id: option.value,
 			value: option.value,

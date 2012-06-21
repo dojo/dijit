@@ -11,7 +11,7 @@ define([
 
 return declare("dijit.form.MultiSelect", _FormValueWidget, {
 	// summary:
-	//		Widget version of a <select multiple=true> element,
+	//		Widget version of a `<select multiple=true>` element,
 	//		for selecting multiple options.
 
 	// size: Number

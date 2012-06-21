@@ -11,9 +11,10 @@ define([
 return declare("dijit.form._FormValueWidget", [_FormWidget, _FormValueMixin],
 {
 	// summary:
-	//		Base class for widgets corresponding to native HTML elements such as <input> or <select> that have user changeable values.
+	//		Base class for widgets corresponding to native HTML elements such as `<input>` or `<select>`
+	//		that have user changeable values.
 	// description:
-	//		Each _FormValueWidget represents a single input value, and has a (possibly hidden) <input> element,
+	//		Each _FormValueWidget represents a single input value, and has a (possibly hidden) `<input>` element,
 	//		to which it serializes it's input value, so that form submission (either normal submission or via FormBind?)
 	//		works as expected.
 

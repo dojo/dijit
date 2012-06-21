@@ -200,7 +200,7 @@ define([
 			// summary:
 			//		Registers listeners on the specified iframe so that any click
 			//		or focus event on that iframe (or anything in it) is reported
-			//		as a focus/click event on the <iframe> itself.
+			//		as a focus/click event on the `<iframe>` itself.
 			// description:
 			//		Currently only used by editor.
 			// returns:

@@ -13,7 +13,7 @@ define([
 	return declare("dijit.form._FormMixin", null, {
 		// summary:
 		//		Mixin for containers of form widgets (i.e. widgets that represent a single value
-		//		and can be children of a <form> node or dijit.form.Form widget)
+		//		and can be children of a `<form>` node or `dijit/form/Form` widget)
 		// description:
 		//		Can extract all the form widgets
 		//		values and combine them into a single javascript object, or alternately

@@ -23,8 +23,8 @@ if(has("dijit-legacy-requires")){
 
 return declare("dijit.form._FormWidget", [_Widget, _TemplatedMixin, _CssStateMixin, _FormWidgetMixin], {
 	// summary:
-	//		Base class for widgets corresponding to native HTML elements such as <checkbox> or <button>,
-	//		which can be children of a <form> node or a `dijit.form.Form` widget.
+	//		Base class for widgets corresponding to native HTML elements such as `<checkbox>` or `<button>`,
+	//		which can be children of a `<form>` node or a `dijit.form.Form` widget.
 	//
 	// description:
 	//		Represents a single HTML element.

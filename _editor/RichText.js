@@ -115,7 +115,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 	focusOnLoad: false,
 
 	// name: String?
-	//		Specifies the name of a (hidden) <textarea> node on the page that's used to save
+	//		Specifies the name of a (hidden) `<textarea>` node on the page that's used to save
 	//		the editor content on page leave.   Used to restore editor contents after navigating
 	//		to a new page and then hitting the back button.
 	name: "",
@@ -144,7 +144,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 	// _SEPARATOR: [private] String
 	//		Used to concat contents from multiple editors into a single string,
-	//		so they can be saved into a single <textarea> node.  See "name" attribute.
+	//		so they can be saved into a single `<textarea>` node.  See "name" attribute.
 	_SEPARATOR: "@@**%%__RICHTEXTBOUNDRY__%%**@@",
 
 	// _NAME_CONTENT_SEP: [private] String
@@ -515,7 +515,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 	_getIframeDocTxt: function(){
 		// summary:
-		//		Generates the boilerplate text of the document inside the iframe (ie, <html><head>...</head><body/></html>).
+		//		Generates the boilerplate text of the document inside the iframe (ie, `<html><head>...</head><body/></html>`).
 		//		Editor content (if not blank) should be added afterwards.
 		// tags:
 		//		private
@@ -1801,7 +1801,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 	_preFixUrlAttributes: function(/* String */ html){
 		// summary:
-		//		Pre-filter to do fixing to href attributes on <a> and <img> tags
+		//		Pre-filter to do fixing to href attributes on `<a>` and `<img>` tags
 		// tags:
 		//		private
 		return html.replace(/(?:(<a(?=\s).*?\shref=)("|')(.*?)\2)|(?:(<a\s.*?href=)([^"'][^ >]+))/gi,

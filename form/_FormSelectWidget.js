@@ -39,7 +39,7 @@ var __SelectOption = function(){
 var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget, {
 	// summary:
 	//		Extends _FormValueWidget in order to provide "select-specific"
-	//		values - i.e., those values that are unique to <select> elements.
+	//		values - i.e., those values that are unique to `<select>` elements.
 	//		This also provides the mechanism for reading the elements from
 	//		a store, if desired.
 
@@ -49,12 +49,12 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 
 	// options: __SelectOption[]
 	//		The set of options for our select item.  Roughly corresponds to
-	//		the html <option> tag.
+	//		the html `<option>` tag.
 	options: null,
 
 	// store: dojo/store/api/Store
 	//		A store to use for getting our list of options - rather than reading them
-	//		from the <option> html tags.   Should support getIdentity().
+	//		from the `<option>` html tags.   Should support getIdentity().
 	//		For back-compat store can also be a dojo.data.api.Identity.
 	store: null,
 

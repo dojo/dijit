@@ -135,10 +135,10 @@ define([
 		//		Allows the user to add an aria-describedby attribute onto the dialog.   The value should
 		//		be the id of the container element of text that describes the dialog purpose (usually
 		//		the first text in the dialog).
-		//		<div data-dojo-type="dijit/Dialog" aria-describedby="intro" .....>
-		//			<div id="intro">Introductory text</div>
-		//			<div>rest of dialog contents</div>
-		//		</div>
+		//	|	<div data-dojo-type="dijit/Dialog" aria-describedby="intro" .....>
+		//	|		<div id="intro">Introductory text</div>
+		//	|		<div>rest of dialog contents</div>
+		//	|	</div>
 		"aria-describedby":"",
 
 		// maxRatio: Number

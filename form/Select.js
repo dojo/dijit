@@ -104,7 +104,7 @@ var _SelectMenu = declare("dijit.form._SelectMenu", Menu, {
 var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 	// summary:
 	//		This is a "styleable" select box - it is basically a DropDownButton which
-	//		can take a <select> as its input.
+	//		can take a `<select>` as its input.
 
 	baseClass: "dijitSelect",
 
@@ -125,7 +125,7 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 	message: "",
 
 	//	tooltipPosition: String[]
-	//		See description of dijit.Tooltip.defaultPosition for details on this parameter.
+	//		See description of `dijit/Tooltip.defaultPosition` for details on this parameter.
 	tooltipPosition: [],
 
 	// emptyLabel: string

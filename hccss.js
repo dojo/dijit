@@ -6,8 +6,8 @@ define(["dojo/dom-class", "dojo/hccss", "dojo/ready", "dojo/_base/window"], func
 	/*=====
 	return function(){
 		// summary:
-		//		Test if computer is in high contrast mode, and sets dijit_a11y flag on <body> if it is.
-		//		Deprecated, use dojo/hccss instead.
+		//		Test if computer is in high contrast mode, and sets `dijit_a11y` flag on `<body>` if it is.
+		//		Deprecated, use ``dojo/hccss`` instead.
 	};
 	=====*/
 

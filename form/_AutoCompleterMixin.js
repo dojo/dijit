@@ -521,7 +521,7 @@ define([
 		_escapeHtml: function(/*String*/ str){
 			// TODO Should become dojo.html.entities(), when exists use instead
 			// summary:
-			//		Adds escape sequences for special characters in XML: &<>"'
+			//		Adds escape sequences for special characters in XML: `&<>"'`
 			str = String(str).replace(/&/gm, "&amp;").replace(/</gm, "&lt;")
 				.replace(/>/gm, "&gt;").replace(/"/gm, "&quot;"); //balance"
 			return str; // string

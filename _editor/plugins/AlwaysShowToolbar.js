@@ -95,7 +95,7 @@ return declare("dijit._editor.plugins.AlwaysShowToolbar", _Plugin, {
 
 	globalOnScrollHandler: function(){
 		// summary:
-		//		Handler for scroll events that bubbled up to <html>
+		//		Handler for scroll events that bubbled up to `<html>`
 		// tags:
 		//		private
 

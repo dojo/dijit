@@ -259,7 +259,7 @@ return declare("dijit.Menu", DropDownMenu, {
 		//		* target:
 		//			The node that is being clicked
 		//		* iframe:
-		//			If an <iframe> is being clicked, iframe points to that iframe
+		//			If an `<iframe>` is being clicked, iframe points to that iframe
 		//		* coords:
 		//			Put menu at specified x/y position in viewport, or if iframe is
 		//			specified, then relative to iframe.
