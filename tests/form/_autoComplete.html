@@ -68,6 +68,17 @@
 			return label;
 		}
 
+		// Test Custom Store
+		dojo.declare("StateSelect", isComboBox ? dijit.form.ComboBox : dijit.form.FilteringSelect , {
+			placeHolder: "Select a State",
+			searchAttr: "name",
+			label: "State:",
+			name: "state",
+			style: "width: 160px",
+			store: new dojo.data.ItemFileReadStore({ url: dojo.moduleUrl("dijit.tests._data", "states.json") }),
+			value: ''
+		});
+
 		function init(){
 			var combo;
 
@@ -752,5 +763,9 @@
 	</fieldset>
 
 	<div id="debugbox"></div>
+
+	<p>User-defined subclass of ComboBox/FilteringSelect:</p>
+	<input id="subclass" data-dojo-type="StateSelect"/>
+
 </body>
 </html>

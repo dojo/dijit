@@ -447,7 +447,7 @@
 
 			doh.register("drop down navigation / keyboard", [
 				// Select a value from the drop down using the keyboard,
-				// used "more choices" button to page as necessary
+				// use "more choices" button to page as necessary
 				{
 					timeout:60000,
 					name:"setvaluetest_a11y",
@@ -1543,6 +1543,19 @@
 					]);
 				}
 			);
+
+			doh.register("custom class", [
+				// Select a value from the drop down using the keyboard,
+				// use "more choices" button to page as necessary
+				{
+					timeout: 60000,
+					name:" customstore_a11y",
+					combo: "subclass",
+					runTest: function(){
+						return robot_a11ySelectValue(dijit.byId(this.combo), "Delaware", isComboBox ? "Delaware" : "DE", "Delaware");
+					}
+				}
+			]);
 
 			doh.run();
 		});

@@ -106,15 +106,16 @@ define([
 		postMixInProperties: function(){
 			// Since _setValueAttr() depends on this.store, _setStoreAttr() needs to execute first.
 			// Unfortunately, without special code, it ends up executing second.
-			if(this.params.store){
-				this._setStoreAttr(this.params.store);
+			var store = this.params.store || this.store;
+			if(store){
+				this._setStoreAttr(store);
 			}
 
 			this.inherited(arguments);
 
 			// User may try to access this.store.getValue() etc.  in a custom labelFunc() function.
 			// It's not available with the new data store for handling inline <option> tags, so add it.
-			if(!this.params.store){
+			if(!this.params.store && !this.store._oldAPI){
 				var clazz = this.declaredClass;
 				lang.mixin(this.store, {
 					getValue: function(item, attr){
