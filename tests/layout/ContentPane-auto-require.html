@@ -27,17 +27,21 @@
 			"dijit/registry"
 		], function(doh, parser, ready, registry){
 			ready(function(){
-				doh.register("auto-load parse", function(t){
-					var d = new doh.Deferred();
-				  
-					parser.parse().then(d.getTestErrback(function(){
-						t.is(typeof registry.byId("tb1"), "object", "objected created");
-						registry.byId("parsedPane1").set("href", "doc3.html").then(d.getTestCallback(function(){
-					    	t.is(typeof registry.byId("button1"), "object", "object created");
+				doh.register("auto require", {
+					name: "auto-load parse",
+					timeout: 5000,
+					runTest: function(t){
+						var d = new doh.Deferred();
+
+						parser.parse().then(d.getTestErrback(function(){
+							t.is(typeof registry.byId("tb1"), "object", "objected created");
+							registry.byId("parsedPane1").set("href", "doc3.html").then(d.getTestCallback(function(){
+								t.is(typeof registry.byId("button1"), "object", "object created");
+							}));
 						}));
-					}));
-					
-					return d;
+
+						return d;
+					}
 				});
 				
 			 	doh.run();
