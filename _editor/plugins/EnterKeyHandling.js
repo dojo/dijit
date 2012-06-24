@@ -581,14 +581,14 @@ return declare("dijit._editor.plugins.EnterKeyHandling", _Plugin, {
 
 	_adjustNodeAndOffset: function(/*DomNode*/node, /*Int*/offset){
 		// summary:
-		//              In the case there are multiple text nodes in a row the offset may not be within the node.  If the offset is larger than the node length, it will attempt to find
-		//              the next text sibling until it locates the text node in which the offset refers to
+		//		In the case there are multiple text nodes in a row the offset may not be within the node.  If the offset is larger than the node length, it will attempt to find
+		//		the next text sibling until it locates the text node in which the offset refers to
 		// node:
-		//              The node to check.
+		//		The node to check.
 		// offset:
-		//              The position to find within the text node
+		//		The position to find within the text node
 		// tags:
-		//              private.
+		//		private.
 		while(node.length < offset && node.nextSibling && node.nextSibling.nodeType==3){
 			//Adjust the offset and node in the case of multiple text nodes in a row
 			offset = offset - node.length;

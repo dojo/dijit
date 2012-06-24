@@ -80,7 +80,7 @@ define([
 			//		if 1, get the next sibling
 			//		if -1, get the previous sibling
 			// tags:
-			//      private
+			//		private
 			var children = this.getChildren(),
 				idx = array.indexOf(this.getChildren(), child);	// int
 			return children[idx + dir];

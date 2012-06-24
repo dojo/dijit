@@ -58,7 +58,7 @@ define([
 			);
 		},
 
-		//	singular: Boolean
+		// singular: Boolean
 		//		Allows selection of only one element, if true.
 		//		Tree hasn't been tested in singular=true mode, unclear if it works.
 		singular: false,

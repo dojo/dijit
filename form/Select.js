@@ -124,7 +124,7 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 	//		Currently displayed error/prompt message
 	message: "",
 
-	//	tooltipPosition: String[]
+	// tooltipPosition: String[]
 	//		See description of `dijit/Tooltip.defaultPosition` for details on this parameter.
 	tooltipPosition: [],
 
@@ -198,7 +198,7 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 		// summary:
 		//		Resets the menu and the length attribute of the button - and
 		//		ensures that the label is appropriately set.
-		//	loadMenuItems: Boolean
+		// loadMenuItems: Boolean
 		//		actually loads the child menu items - we only do this when we are
 		//		populating for showing the dropdown.
 

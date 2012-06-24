@@ -684,7 +684,7 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 	get: function(name){
 		// summary:
 		//		Get a property from a widget.
-		//	name:
+		// name:
 		//		The property to get.
 		// description:
 		//		Get a named property from a widget. The property may
@@ -704,9 +704,9 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 	set: function(name, value){
 		// summary:
 		//		Set a property on a widget
-		//	name:
+		// name:
 		//		The property to set.
-		//	value:
+		// value:
 		//		The value to set in the property.
 		// description:
 		//		Sets named properties on a widget which may potentially be handled by a
@@ -1042,7 +1042,7 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		//		The function overridden in the _BidiSupport module,
 		//		its main purpose is to calculate the direction of the
 		//		text, if was defined by the programmer through textDir.
-		//	tags:
+		// tags:
 		//		protected.
 		return originalDir;
 	},

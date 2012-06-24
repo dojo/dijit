@@ -216,7 +216,7 @@ return declare("dijit.layout.ContentPane", [_Widget, _Container, _ContentPaneRes
 		// description:
 		//		Reset the (external defined) content of this pane and replace with new url
 		//		Note: It delays the download until widget is shown if preload is false.
-		//	href:
+		// href:
 		//		url to the page you want to get, must be within the same domain as your mainpage
 
 		// Cancel any in-flight requests (a set('href', ...) will cancel any in-flight set('href', ...))
@@ -251,7 +251,7 @@ return declare("dijit.layout.ContentPane", [_Widget, _Container, _ContentPaneRes
 		// summary:
 		//		Hook to make set("content", ...) work.
 		//		Replaces old content with data content, include style classes from old content
-		//	data:
+		// data:
 		//		the new Content may be String, DomNode or NodeList
 		//
 		//		if data is a NodeList (or an array of nodes) nodes are copied

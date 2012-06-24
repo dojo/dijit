@@ -44,9 +44,9 @@ define([
 
 		setValue: function(/*Date*/ value){
 			// summary:
-			//      Deprecated.   Use set('value', ...) instead.
+			//		Deprecated.   Use set('value', ...) instead.
 			// tags:
-			//      deprecated
+			//		deprecated
 			kernel.deprecated("dijit.Calendar:setValue() is deprecated.  Use set('value', ...) instead.", "", "2.0");
 			this.set('value', value);
 		},
@@ -77,9 +77,9 @@ define([
 
 		_onMonthSelect: function(/*Number*/ newMonth){
 			// summary:
-			//      Handler for when user selects a month from the drop down list
+			//		Handler for when user selects a month from the drop down list
 			// tags:
-			//      protected
+			//		protected
 
 			// move to selected month, bounding by the number of days in the month
 			// (ex: dec 31 --> jan 28, not jan 31)
@@ -89,9 +89,9 @@ define([
 
 		_onDayMouseOver: function(/*Event*/ evt){
 			// summary:
-			//      Handler for mouse over events on days, sets hovered style
+			//		Handler for mouse over events on days, sets hovered style
 			// tags:
-			//      protected
+			//		protected
 
 			// event can occur on <td> or the <span> inside the td,
 			// set node to the <td>.
@@ -111,9 +111,9 @@ define([
 
 		_onDayMouseOut: function(/*Event*/ evt){
 			// summary:
-			//      Handler for mouse out events on days, clears hovered style
+			//		Handler for mouse out events on days, clears hovered style
 			// tags:
-			//      protected
+			//		protected
 
 			if(!this._currentNode){ return; }
 
@@ -216,10 +216,10 @@ define([
 			// summary:
 			//		Deprecated.   Notification that a date cell was selected.  It may be the same as the previous value.
 			// description:
-			//      Formerly used by `dijit.form._DateTimeTextBox` (and thus `dijit.form.DateTextBox`)
-			//      to get notification when the user has clicked a date.  Now onExecute() (above) is used.
+			//		Formerly used by `dijit.form._DateTimeTextBox` (and thus `dijit.form.DateTextBox`)
+			//		to get notification when the user has clicked a date.  Now onExecute() (above) is used.
 			// tags:
-			//      protected
+			//		protected
 		},
 
 		onChange: function(value){
@@ -233,7 +233,7 @@ define([
 			// dateObject: Date
 			// locale: String?
 			// tags:
-			//      extension
+			//		extension
 
 /*=====
 			return ""; // String

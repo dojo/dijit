@@ -41,12 +41,11 @@ define([
 		//		which indicates that the form is ready to be submitted.
 		state: "",
 
-		//	TODO:
+		// TODO:
 		//	* Repeater
 		//	* better handling for arrays.  Often form elements have names with [] like
 		//	* people[3].sex (for a list of people [{name: Bill, sex: M}, ...])
-		//
-		//
+
 
 		_getDescendantFormWidgets: function(/*dijit/_WidgetBase[]?*/ children){
 			// summary:

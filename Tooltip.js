@@ -229,7 +229,7 @@ define([
 		
 		_setAutoTextDir: function(/*Object*/node){
 		    // summary:
-		    //	    Resolve "auto" text direction for children nodes
+		    //		Resolve "auto" text direction for children nodes
 		    // tags:
 		    //		private
 

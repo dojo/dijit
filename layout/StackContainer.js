@@ -195,7 +195,7 @@ return declare("dijit.layout.StackContainer", _LayoutWidget, {
 		}
 
 		// If all our children are being destroyed than don't run the code below (to select another page),
-		//  because we are deleting every page one by one
+		// because we are deleting every page one by one
 		if(this._descendantsBeingDestroyed){ return; }
 
 		// Select new page to display, also updating TabController to show the respective tab.

@@ -226,7 +226,7 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 
 		// normalize input events to reduce spurious event processing
 		//	onkeydown: do not forward modifier keys
-		//	           set charOrCode to numeric keycode
+		//		       set charOrCode to numeric keycode
 		//	onkeypress: do not forward numeric charOrCode keys (already sent through onkeydown)
 		//	onpaste & oncut: set charOrCode to 229 (IME)
 		//	oninput: if primary event not already processed, set charOrCode to 229 (IME), else do not forward

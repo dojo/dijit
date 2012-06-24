@@ -357,7 +357,7 @@ define([
 		execCommand: function(cmd){
 			// summary:
 			//		Main handler for executing any commands to the editor, like paste, bold, etc.
-			//      Called by plugins, but not meant to be called by end users.
+			//		Called by plugins, but not meant to be called by end users.
 			// tags:
 			//		protected
 			if(this.customUndo && (cmd == 'undo' || cmd == 'redo')){
@@ -429,7 +429,7 @@ define([
 		queryCommandEnabled: function(cmd){
 			// summary:
 			//		Returns true if specified editor command is enabled.
-			//      Used by the plugins to know when to highlight/not highlight buttons.
+			//		Used by the plugins to know when to highlight/not highlight buttons.
 			// tags:
 			//		protected
 			if(this.customUndo && (cmd == 'undo' || cmd == 'redo')){

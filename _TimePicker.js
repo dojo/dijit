@@ -334,7 +334,7 @@ define([
 			// summary:
 			//		Notification that a time was selected.  It may be the same as the previous value.
 			// tags:
-			//      public
+			//		public
 		},
 
 		_highlightOption: function(/*node*/ node, /*Boolean*/ highlight){

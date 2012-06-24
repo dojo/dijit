@@ -573,7 +573,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 	paths: [],
 
 	// path: String[] or Item[]
-	//      Backward compatible singular variant of paths.
+	//		Backward compatible singular variant of paths.
 	path: [],
 
 	// selectedItems: [readonly] Item[]
@@ -584,7 +584,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 	selectedItems: null,
 
 	// selectedItem: [readonly] Item
-	//      Backward compatible singular variant of selectedItems.
+	//		Backward compatible singular variant of selectedItems.
 	selectedItem: null,
 
 	// openOnClick: Boolean
@@ -608,7 +608,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 	// dndController: [protected] Function|String
 	//		Class to use as as the dnd controller.  Specifying this class enables DnD.
 	//		Generally you should specify this as dijit.tree.dndSource.
-	//      Setting of dijit.tree._dndSelector handles selection only (no actual DnD).
+	//		Setting of dijit.tree._dndSelector handles selection only (no actual DnD).
 	dndController: _dndSelector,
 
 	// parameters to pull off of the tree and pass on to the dndController as its params
@@ -938,7 +938,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 
 	_setPathAttr: function(/*Item[] || String[]*/ path){
 		// summary:
-		//      Singular variant of _setPathsAttr
+		//		Singular variant of _setPathsAttr
 		if(path.length){
 			return this.set("paths", [path]);
 		}else{

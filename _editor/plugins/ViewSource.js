@@ -7,7 +7,7 @@ define([
 	"dojo/dom-style", // domStyle.set
 	"dojo/_base/event", // event.stop
 	"dojo/i18n", // i18n.getLocalization
-	"dojo/keys",	//  keys.F12
+	"dojo/keys",	// keys.F12
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on", // on()
 	"dojo/sniff", // has("ie") has("webkit")

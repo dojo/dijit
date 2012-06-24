@@ -120,7 +120,7 @@ define([
 			// value:
 			//		Either a Date or the number of seconds since 1970.
 			// tags:
-			//      protected
+			//		protected
 			if(typeof value == "string"){
 				value = stamp.fromISOString(value);
 			}
@@ -162,7 +162,7 @@ define([
 			//		This just sets the content of node to the specified text.
 			//		Can't do "node.innerHTML=text" because of an IE bug w/tables, see #3434.
 			// tags:
-			//      private
+			//		private
 			while(node.firstChild){
 				node.removeChild(node.firstChild);
 			}
@@ -171,10 +171,10 @@ define([
 
 		_populateGrid: function(){
 			// summary:
-			//      Fills in the calendar grid with each day (1-31).
+			//		Fills in the calendar grid with each day (1-31).
 			//		Call this on creation, when moving to a new month.
 			// tags:
-			//      private
+			//		private
 
 			var month = new this.dateClassObj(this.currentFocus);
 			month.setDate(1);
@@ -247,7 +247,7 @@ define([
 			// summary:
 			//		Fill in localized month, and prev/current/next years
 			// tags:
-			//      protected
+			//		protected
 
 			var month = new this.dateClassObj(this.currentFocus);
 			month.setDate(1);
@@ -266,7 +266,7 @@ define([
 
 		goToToday: function(){
 			// summary:
-			//      Sets calendar's value to today's date
+			//		Sets calendar's value to today's date
 			this.set('value', new this.dateClassObj());
 		},
 
@@ -324,7 +324,7 @@ define([
 			// summary:
 			//		Set up connects for increment/decrement of months/years
 			// tags:
-			//      protected
+			//		protected
 
 			var connect = lang.hitch(this, function(nodeProp, part, amount){
 				this.connect(this[nodeProp], "onclick", function(){
@@ -387,9 +387,9 @@ define([
 
 		_onDayClick: function(/*Event*/ evt){
 			// summary:
-			//      Handler for day clicks, selects the date if appropriate
+			//		Handler for day clicks, selects the date if appropriate
 			// tags:
-			//      protected
+			//		protected
 			event.stop(evt);
 			for(var node = evt.target; node && !node.dijitDateValue; node = node.parentNode);
 			if(node && !domClass.contains(node, "dijitCalendarDisabledDate")){
@@ -436,7 +436,7 @@ define([
 			// dateObject: Date
 			// locale: String?
 			// tags:
-			//      extension
+			//		extension
 /*=====
 			return false; // Boolean
 =====*/
@@ -449,7 +449,7 @@ define([
 			// dateObject: Date
 			// locale: String?
 			// tags:
-			//      extension
+			//		extension
 
 /*=====
 			return ""; // String

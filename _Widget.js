@@ -253,11 +253,11 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 	attr: function(/*String|Object*/name, /*Object?*/value){
 		// summary:
 		//		Set or get properties on a widget instance.
-		//	name:
+		// name:
 		//		The property to get or set. If an object is passed here and not
 		//		a string, its keys are used as names of attributes to be set
 		//		and the value of the object as values to set in the widget.
-		//	value:
+		// value:
 		//		Optional. If provided, attr() operates as a setter. If omitted,
 		//		the current value of the named property is returned.
 		// description:
