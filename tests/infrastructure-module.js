@@ -5,6 +5,7 @@ try{
 	doh.registerUrl("dijit.tests.registry", dojo.moduleUrl("dijit", "tests/registry.html"), 999999);
 	doh.registerUrl("dijit.tests.focus", dojo.moduleUrl("dijit", "tests/focus.html"), 999999);
 	doh.registerUrl("dijit.tests.place", dojo.moduleUrl("dijit", "tests/place.html"), 999999);
+	doh.registerUrl("dijit.tests.place-clip", dojo.moduleUrl("dijit", "tests/place-clip.html"), 999999);
 	doh.registerUrl("dijit.tests.popup", dojo.moduleUrl("dijit", "tests/popup.html"), 999999);
 	doh.registerUrl("dijit.tests.a11y", dojo.moduleUrl("dijit", "tests/a11y.html"), 999999);
 	doh.registerUrl("dijit.tests.robot.typematic", dojo.moduleUrl("dijit","tests/robot/typematic.html"), 999999);

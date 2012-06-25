@@ -245,20 +245,28 @@ define([
 				? domGeometry.position(anchor, true)
 				: anchor;
 
-			// Adjust anchor positioning for the case that a parent node has overflow hidden, therefore causing the anchor not to be completely visible
+			// Compute position and size of visible part of anchor (it may be partially hidden by ancestor nodes w/scrollbars)
 			if(anchor.parentNode){
+				// ignore nodes between position:relative and position:absolute
+				var sawPosAbsolute = domStyle.getComputedStyle(anchor).position == "absolute";
 				var parent = anchor.parentNode;
 				while(parent && parent.nodeType == 1 && parent.nodeName != "BODY"){  //ignoring the body will help performance
-					var parentPos = domGeometry.position(parent, true);
-					var parentStyleOverflow = domStyle.getComputedStyle(parent).overflow;
-					if(parentStyleOverflow == "hidden" || parentStyleOverflow == "auto" || parentStyleOverflow == "scroll"){
+					var parentPos = domGeometry.position(parent, true),
+						pcs = domStyle.getComputedStyle(parent);
+					if(/relative|absolute/.test(pcs.position)){
+						sawPosAbsolute = false;
+					}
+					if(!sawPosAbsolute && /hidden|auto|scroll/.test(pcs.overflow)){
 						var bottomYCoord = Math.min(aroundNodePos.y + aroundNodePos.h, parentPos.y + parentPos.h);
 						var rightXCoord = Math.min(aroundNodePos.x + aroundNodePos.w, parentPos.x + parentPos.w);
 						aroundNodePos.x = Math.max(aroundNodePos.x, parentPos.x);
 						aroundNodePos.y = Math.max(aroundNodePos.y, parentPos.y);
 						aroundNodePos.h = bottomYCoord - aroundNodePos.y;
 						aroundNodePos.w = rightXCoord - aroundNodePos.x;
-					}	
+					}
+					if(pcs.position == "absolute"){
+						sawPosAbsolute = true;
+					}
 					parent = parent.parentNode;
 				}
 			}			
