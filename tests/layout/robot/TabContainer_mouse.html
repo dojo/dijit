@@ -13,16 +13,16 @@
 			djConfig="isDebug: true"></script>
 
 		<script type="text/javascript">
+			dojo.require("dojo.on");
 			dojo.require("dijit.robotx");
 			dojo.require("dijit.tests.helpers");	// functions to help test
 
 			dojo.ready(function(){
 				doh.robot.initRobot('../test_TabContainer.html');
 				doh.register("general", [
-					
 					{
 						name: "tab hover state",
-						timeout: 10000,
+						timeout: 5000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 							
@@ -30,11 +30,14 @@
 							doh.robot.mouseClick({left: true}, 500);
 
 							doh.robot.mouseMoveAt('mainTabContainer_tablist_tab3', 500);
-							
-							doh.robot.sequence(d.getTestCallback(function(){
-								var tabHover = dojo.query(".dijitTabHover #mainTabContainer_tablist_tab3");
-								doh.is(1, tabHover.length);
-							}), 1000);
+
+							dojo.on(dojo.byId('mainTabContainer_tablist_tab3'), "mouseover", function(){
+								setTimeout(d.getTestCallback(function(){
+									// Check that .dijitTabHover class was applied
+									var tabHover = dojo.query(".dijitTabHover #mainTabContainer_tablist_tab3");
+									doh.is(1, tabHover.length);
+								}), 0);
+							});
 							
 							return d;
 						}
