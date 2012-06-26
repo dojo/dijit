@@ -518,10 +518,13 @@ return declare("dijit.layout.ContentPane", [_Widget, _Container, _ContentPaneRes
 			textDir: this.textDir
 		}, this._contentSetterParams || {});
 
-		setter.set( (lang.isObject(cont) && cont.domNode) ? cont.domNode : cont, setterParams );
-		
+		var p = setter.set( (lang.isObject(cont) && cont.domNode) ? cont.domNode : cont, setterParams );
+
+		// dojox/layout/html/_base::_ContentSetter.set() returns a Promise that indicates when everything is completed.
+		// dojo/html::_ContentSetter.set() currently returns the DOMNode, but that will be changed for 2.0.
+		// So, if set() returns a promise then use it, otherwise fallback to waiting on setter.parseDeferred
 		var self = this;
-		return when(setter.parseDeferred, function(){
+		return when(p && p.then ? p : setter.parseDeferred, function(){
 			// setter params must be pulled afresh from the ContentPane each time
 			delete self._contentSetterParams;
 			
