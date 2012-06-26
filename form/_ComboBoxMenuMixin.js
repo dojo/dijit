@@ -112,6 +112,8 @@ return declare( "dijit.form._ComboBoxMenuMixin", null, {
 		// labelFunc:
 		//		Function to produce a label in the drop down list from a dojo.data item
 
+		this.items = results;
+
 		// display "Previous . . ." button
 		this.previousButton.style.display = (options.start == 0) ? "none" : "";
 		domAttr.set(this.previousButton, "id", this.id + "_prev");
@@ -121,6 +123,7 @@ return declare( "dijit.form._ComboBoxMenuMixin", null, {
 		//		iterate over cache nondestructively
 		array.forEach(results, function(item, i){
 			var menuitem = this._createOption(item, labelFunc);
+			menuitem.setAttribute("item", i);	// index to this.items; use indirection to avoid mem leak
 			domAttr.set(menuitem, "id", this.id + i);
 			this.nextButton.parentNode.insertBefore(menuitem, this.nextButton);
 		}, this);
@@ -144,7 +147,6 @@ return declare( "dijit.form._ComboBoxMenuMixin", null, {
 
 		this.nextButton.style.display = displayMore ? "" : "none";
 		domAttr.set(this.nextButton,"id", this.id + "_next");
-		return this.containerNode.childNodes;
 	},
 
 	clearResultList: function(){

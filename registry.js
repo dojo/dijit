@@ -154,14 +154,6 @@ define([
 		_hash: hash
 	};
 
-	if(has("ie")){
-		// Only run _destroyAll() for IE because we think it's only necessary in that case,
-		// and because it causes problems on FF.  See bug #3531 for details.
-		unload.addOnWindowUnload(function(){
-			registry._destroyAll();
-		});
-	}
-
 	/*=====
 	dijit.registry = {
 		// summary:
