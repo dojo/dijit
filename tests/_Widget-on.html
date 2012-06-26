@@ -14,7 +14,9 @@
 	<script>
 		dojo.require("doh.runner");
 		dojo.require("dojo.parser");
+		dojo.require("dojo.has");
 		dojo.require("dojo.on");
+		dojo.require("dojo.touch");
 		dojo.require("dojo._base.declare");
 		dojo.require("dijit._Widget");
 		dojo.require("dijit.registry");
@@ -76,6 +78,25 @@
 						which: 1
 					});
 					doh.t(mousedOver, "mousedOver");
+				},
+
+				function synthetic(){
+					// Test that on() works for synthetic events
+
+					var myWidget = dijit.registry.byId("myWidget"),
+						touched;
+
+					myWidget.on(dojo.touch.press, function(){
+						touched = true;
+					});
+
+					dojo.on.emit(myWidget.domNode, dojo.has("touch") ? "touchstart" : "mousedown", {
+						bubbles: true,
+						cancelable: true,
+						which: 1
+					});
+
+					doh.t(touched, "touched");
 				}
 			]);
 
