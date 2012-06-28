@@ -261,6 +261,7 @@ define([
 		//		inline values a TextBox), but you can specify an editor such as
 		//		dijit.Editor (for editing HTML) or a Slider (for adjusting a number).
 		//		An edit widget must support the following API to be used:
+		//
 		//			- displayedValue or value as initialization parameter,
 		//			and available through set('displayedValue') / set('value')
 		//			- void focus()

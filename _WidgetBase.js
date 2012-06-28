@@ -257,8 +257,11 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 	//		formats of the above list.
 	//
 	//		There are also some shorthands for backwards compatibility:
+	//
 	//		- string --> { node: string, type: "attribute" }, for example:
+	//
 	//	|	"focusNode" ---> { node: "focusNode", type: "attribute" }
+	//
 	//		- "" --> { node: "domNode", type: "attribute" }
 	attributeMap: {},
 
@@ -280,17 +283,6 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 	create: function(/*Object?*/params, /*DomNode|String?*/srcNodeRef){
 		// summary:
 		//		Kick off the life-cycle of a widget
-		// params:
-		//		Hash of initialization parameters for widget, including
-		//		scalar values (like title, duration etc.) and functions,
-		//		typically callbacks like onClick.
-		// srcNodeRef:
-		//		If a srcNodeRef (DOM node) is specified:
-		//			- use srcNodeRef.innerHTML as my contents
-		//			- if this is a behavioral widget then apply behavior
-		//			  to that srcNodeRef
-		//			- otherwise, replace srcNodeRef with my generated DOM
-		//			  tree
 		// description:
 		//		Create calls a number of widget methods (postMixInProperties, buildRendering, postCreate,
 		//		etc.), some of which of you'll want to override. See http://dojotoolkit.org/reference-guide/dijit/_WidgetBase.html
@@ -298,6 +290,18 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		//
 		//		Of course, adventurous developers could override create entirely, but this should
 		//		only be done as a last resort.
+		// params:
+		//		Hash of initialization parameters for widget, including
+		//		scalar values (like title, duration etc.) and functions,
+		//		typically callbacks like onClick.
+		// srcNodeRef:
+		//		If a srcNodeRef (DOM node) is specified:
+		//
+		//			- use srcNodeRef.innerHTML as my contents
+		//			- if this is a behavioral widget then apply behavior
+		//			  to that srcNodeRef
+		//			- otherwise, replace srcNodeRef with my generated DOM
+		//			  tree
 		// tags:
 		//		private
 

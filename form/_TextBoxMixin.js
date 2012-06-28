@@ -334,8 +334,10 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 		//		value on blur or form submit.
 		// description:
 		//		For MappedTextBox subclasses, this is called twice
+		//
 		//			- once with the display value
 		//			- once the value as set/returned by set('value', ...)
+		//
 		//		and get('value'), ex: a Number for NumberTextBox.
 		//
 		//		In the latter case it does corrections like converting null to NaN.  In

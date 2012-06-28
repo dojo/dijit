@@ -125,8 +125,10 @@ define([
 
 			// _HasDropDown will do some of the work:
 			//		1. when drop down is not yet shown:
+			//
 			//			- if user presses the down arrow key, call loadDropDown()
 			//		2. when drop down is already displayed:
+			//
 			//			- on ESC key, call closeDropDown()
 			//			- otherwise, call dropDown.handleKey() to process the keystroke
 			this.inherited(arguments);

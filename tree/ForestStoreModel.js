@@ -22,6 +22,7 @@ return declare("dijit.tree.ForestStoreModel", TreeStoreModel, {
 	//
 	//		When using this class the developer must override a number of methods according to their app and
 	//		data, including:
+	//
 	//			- onNewRootItem
 	//			- onAddToRoot
 	//			- onLeaveRoot

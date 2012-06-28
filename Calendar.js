@@ -29,6 +29,7 @@ define([
 		//
 		// description:
 		//		See CalendarLite for general description.   Calendar extends CalendarLite, adding:
+		//
 		//			- month drop down list
 		//			- keyboard navigation
 		//			- CSS classes for hover/mousepress on date, month, and year nodes

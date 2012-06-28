@@ -109,6 +109,7 @@ var typematic = (dijit.typematic = {
 		//			(deprecated - use charOrCode) the charCode (number) to listen for.
 		//		ctrlKey:
 		//			desired ctrl key state to initiate the callback sequence:
+		//
 		//			- pressed (true)
 		//			- released (false)
 		//			- either (unspecified)

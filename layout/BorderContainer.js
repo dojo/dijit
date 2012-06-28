@@ -265,6 +265,7 @@ var BorderContainer = declare("dijit.layout.BorderContainer", _LayoutWidget, {
 
 	// design: String
 	//		Which design is used for the layout:
+	//
 	//			- "headline" (default) where the top and bottom extend
 	//				the full width of the container
 	//			- "sidebar" where the left and right sides extend from top to bottom.
