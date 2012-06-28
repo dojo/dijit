@@ -1,7 +1,7 @@
 define(
 ({
 	buttonOk: "OK",
-	buttonCancel: "Отменить",
+	buttonCancel: "Отмена",
 	buttonSave: "Сохранить",
 	itemClose: "Закрыть"
 })
