@@ -369,7 +369,6 @@ var TreeNode = declare(
 					node.destroyRecursive();
 				}
 			});
-
 		});
 
 		this.state = "LOADED";
@@ -1829,8 +1828,6 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		//		Promise that tells when the operation will complete.  Alternately, if it's just a Boolean, it signifies
 		//		that the operation was synchronous, and already completed.
 
-		if(!this._started){ return; }
-
 		this._outstandingPaintOperations++;
 		if(this._adjustWidthsTimer){
 			this._adjustWidthsTimer.remove();
@@ -1840,7 +1837,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		var oc = lang.hitch(this, function(){
 			this._outstandingPaintOperations--;
 
-			if(this._outstandingPaintOperations <= 0 && !this._adjustWidthsTimer){
+			if(this._outstandingPaintOperations <= 0 && !this._adjustWidthsTimer && this._started){
 				// Use defer() to avoid a width adjustment when another operation will immediately follow,
 				// such as a sequence of opening a node, then it's children, then it's grandchildren, etc.
 				this._adjustWidthsTimer = this.defer("_adjustWidths");
