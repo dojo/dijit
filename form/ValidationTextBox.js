@@ -29,7 +29,6 @@ define([
 		//		Base class for textbox widgets with the ability to validate content of various types and provide user feedback.
 
 		templateString: template,
-		baseClass: "dijitTextBox dijitValidationTextBox",
 
 		// required: Boolean
 		//		User is required to enter data into this field.
@@ -217,6 +216,7 @@ define([
 
 		constructor: function(){
 			this.constraints = {};
+			this.baseClass += ' dijitValidationTextBox';
 		},
 
 		startup: function(){

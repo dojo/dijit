@@ -106,7 +106,7 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 	//		This is a "styleable" select box - it is basically a DropDownButton which
 	//		can take a `<select>` as its input.
 
-	baseClass: "dijitSelect",
+	baseClass: "dijitSelect dijitValidationTextBox",
 
 	templateString: template,
 
@@ -151,7 +151,7 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 		}
 		// Create the dropDown widget
 		this.dropDown = new _SelectMenu({ id: this.id + "_menu", parentWidget: this });
-		domClass.add(this.dropDown.domNode, this.baseClass + "Menu");
+		domClass.add(this.dropDown.domNode, this.baseClass.replace(/\s+|$/g, "Menu "));
 	},
 
 	_getMenuItemForOption: function(/*_FormSelectWidget.__SelectOption*/ option){
@@ -271,7 +271,7 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 		// summary:
 		//		sets the display for the given value (or values)
 		var lbl = newDisplay || this.emptyLabel;
-		this.containerNode.innerHTML = '<span class="dijitReset dijitInline ' + this.baseClass + 'Label">' + lbl + '</span>';
+		this.containerNode.innerHTML = '<span class="dijitReset dijitInline ' + this.baseClass.replace(/\s+|$/g, "Label ")+'">' + lbl + '</span>';
 		this.focusNode.setAttribute("aria-valuetext", lbl);
 	},
 
@@ -351,7 +351,7 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 
 	_setStyleAttr: function(/*String||Object*/ value){
 		this.inherited(arguments);
-		domClass.toggle(this.domNode, this.baseClass + "FixedWidth", !!this.domNode.style.width);
+		domClass.toggle(this.domNode, this.baseClass.replace(/\s+|$/g, "FixedWidth "), !!this.domNode.style.width);
 	},
 
 	isLoaded: function(){

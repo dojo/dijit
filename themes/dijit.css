@@ -82,10 +82,9 @@ table.dijitInline {
 TABLE.dijitSelect {
 	padding: 0 !important; /* messes up border alignment */
 }
-.dijitSelect .dijitValidationContainer,
 .dijitTextBox .dijitSpinnerButtonContainer,
 .dijitTextBox .dijitArrowButtonContainer,
-.dijitTextBox .dijitValidationContainer {
+.dijitValidationTextBox .dijitValidationContainer {
 	float: right;
 	text-align: center;
 }
@@ -95,8 +94,7 @@ TABLE.dijitSelect {
 	padding-left: 0 !important;
 	padding-right: 0 !important;
 }
-.dijitSelect .dijitValidationContainer,
-.dijitTextBox .dijitValidationContainer {
+.dijitValidationTextBox .dijitValidationContainer {
 	display: none;
 }
 
@@ -435,7 +433,7 @@ div.dijitArrowButton {
 .dj_a11y .dijitTextBox input {
 	margin: 0 !important;
 }
-.dijitError input.dijitValidationInner,
+.dijitValidationTextBoxError input.dijitValidationInner,
 .dijitSelect input,
 .dijitTextBox input.dijitArrowButtonInner {
 	/* <input> used to display arrow icon/validation icon, or in arrow character in high contrast mode.
@@ -486,7 +484,7 @@ div.dijitArrowButton {
 	#text-align: left !important;
 	color: black !important;
 }
-.dijitError .dijitValidationContainer {
+.dijitValidationTextBoxError .dijitValidationContainer {
 	display: inline;
 	cursor: default;
 }

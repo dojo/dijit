@@ -71,7 +71,7 @@
 }
 
 /* Validation errors  */
-.nihilo .dijitValidationIcon {
+.nihilo .dijitValidationTextBoxError .dijitValidationIcon {
 	/* prevent height change when widget goes from valid to invalid state */
 	width: 16px;
 	background: transparent url('../images/warning.png') no-repeat center center;
