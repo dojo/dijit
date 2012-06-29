@@ -10,6 +10,7 @@ define([
 	"dojo/dom-geometry", // domGeometry.setMarginBox domGeometry.position
 	"dojo/dom-style",// domStyle.set
 	"dojo/_base/event", // event.stop
+	"dojo/errors/create",	// createError
 	"dojo/fx", // fxUtils.wipeIn fxUtils.wipeOut
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/keys",	// arrows etc.
@@ -32,7 +33,7 @@ define([
 	"./tree/ForestStoreModel",
 	"./tree/_dndSelector"
 ], function(array, connect, cookie, declare, Deferred, DeferredList,
-			dom, domClass, domGeometry, domStyle, event, fxUtils, kernel, keys, lang, on, topic, touch, when,
+			dom, domClass, domGeometry, domStyle, event, createError, fxUtils, kernel, keys, lang, on, topic, touch, when,
 			focus, registry, manager, _Widget, _TemplatedMixin, _Container, _Contained, _CssStateMixin,
 			treeNodeTemplate, treeTemplate, TreeStoreModel, ForestStoreModel, _dndSelector){
 
@@ -980,7 +981,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 			if(path.length){
 				selectPath(path, [tree.rootNode], d);
 			}else{
-				d.reject("Empty path");
+				d.reject(new Tree.PathError("Empty path"));
 			}
 			return d;
 		}));
@@ -1001,7 +1002,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 					def.resolve(nextNode);
 				}
 			}else{
-				def.reject("Could not expand path at " + nextPath);
+				def.reject(new Tree.PathError("Could not expand path at " + nextPath));
 			}
 		}
 
@@ -1894,6 +1895,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 	}
 });
 
+Tree.PathError = createError("TreePathError");
 Tree._TreeNode = TreeNode;	// for monkey patching or creating subclasses of TreeNode
 
 return Tree;

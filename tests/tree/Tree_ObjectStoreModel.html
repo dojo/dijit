@@ -471,7 +471,32 @@
 								  doh.is(["Guadalajara", "Nairobi"], ids);
 							  }));
 						return d;
+					},
+					function setEmptyPath(){
+						var d = new doh.Deferred();
+
+						// this should fail because not even the root node is specified
+						myTree2.set("path", []).then(
+							function(){
+								d.errback("Should have gotten error trying to set path to null");
+							},
+							d.getTestCallback(function(e){
+								doh.t(e instanceof Tree.PathError, "got PathError");
+							})
+						);
+					},
+					function setInvalidPath(){
+						var d = new doh.Deferred();
+						myTree2.set("path", ["earth","AF","KE","Narnia"]).then(
+							function(){
+								d.errback("Should have gotten error trying to set path to null");
+							},
+							d.getTestCallback(function(e){
+								doh.t(e instanceof Tree.PathError, "got PathError");
+							})
+						);
 					}
+
 				]);
 
 				doh.register("destroy", [
