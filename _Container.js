@@ -1,9 +1,8 @@
 define([
 	"dojo/_base/array", // array.forEach array.indexOf
 	"dojo/_base/declare", // declare
-	"dojo/dom-construct", // domConstruct.place
-	"./registry"	// registry.byNode()
-], function(array, declare, domConstruct, registry){
+	"dojo/dom-construct" // domConstruct.place
+], function(array, declare, domConstruct){
 
 	// module:
 	//		dijit/_Container
