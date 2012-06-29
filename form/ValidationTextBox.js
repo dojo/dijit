@@ -207,7 +207,7 @@ define([
 
 		_refreshState: function(){
 			// Overrides TextBox._refreshState()
-			if(this._started){
+			if(this._created){
 				this.validate(this.focused);
 			}
 			this.inherited(arguments);

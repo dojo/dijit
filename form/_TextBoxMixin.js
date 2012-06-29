@@ -45,15 +45,6 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 	//		This should only contain plain text (no html markup).
 	placeHolder: "",
 
-	create: function(){
-		this.inherited(arguments);
-		this.defer(function(){
-			if(!this._started){
-				this.startup();
-			}
-		});
-	},
-
 	_getValueAttr: function(){
 		// summary:
 		//		Hook so get('value') works as we like.
