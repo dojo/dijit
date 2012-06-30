@@ -20,7 +20,7 @@
 			], function(doh, robot, dom, query, helpers){
 				robot.initRobot('../test_TooltipDialog.html');
 
-				doh.register(function setup(){
+				doh.register("setup", function setup(){
 					// get pointer to registry in the iframe
 					registry = robot.window.require("dijit/registry");
 					dfocus = robot.window.require("dijit/focus");
@@ -39,6 +39,8 @@
 								doh.t(helpers.isVisible("tooltipDlg"), "TooltipDialog visible");
 								doh.is("inline", dfocus.curNode.id, "focus on InlineEditBox (first field in TooltipDialog)")
 							}), 1000);
+
+							return d;
 						}
 					},
 
@@ -127,6 +129,8 @@
 								doh.t(helpers.isVisible("tooltipDlg"), "TooltipDialog should still still be showing");
 								doh.is("text", dfocus.curNode && dfocus.curNode.id, "focused on textbox")
 							}), 1000);
+
+							return d;
 						}
 					},
 
@@ -209,6 +213,8 @@
 								doh.t(helpers.isVisible("tooltipDlg"), "TooltipDialog visible");
 								doh.is("inline", dfocus.curNode.id, "focus on InlineEditBox (first field in TooltipDialog)")
 							}), 1000);
+
+							return d;
 						}
 					},
 
@@ -247,8 +253,10 @@
 							robot.mouseClick({left: true}, 1000);
 							robot.sequence(d.getTestCallback(function(){
 								doh.t(helpers.isVisible("tooltipDlg"), "TooltipDialog should still be showing");
-								doh.f(helpers.isVisible("date_popup"), "calendar closed");
+								doh.t(!dom.byId("date_popup") || helpers.isHidden("date_popup"), "calendar closed");
 							}), 1000);
+
+							return d;
 						}
 					},
 
@@ -282,6 +290,8 @@
 							robot.sequence(d.getTestCallback(function(){
 								doh.t(helpers.isVisible("outerTtDialog"), "Outer TooltipDialog visible");
 							}), 1000);
+
+							return d;
 						}
 					},
 					{
@@ -295,6 +305,8 @@
 							robot.sequence(d.getTestCallback(function(){
 								doh.t(helpers.isVisible("innerTtDialog"), "Inner TooltipDialog visible");
 							}), 1000);
+
+							return d;
 						}
 					},
 
@@ -360,10 +372,12 @@
 							robot.mouseClick({left: true}, 1000);
 
 							robot.sequence(d.getTestCallback(function(){
-								doh.t(helpers.isHidden("submenuu"), "submenu closed");
+								doh.t(helpers.isHidden("submenu"), "submenu closed");
 								doh.t(helpers.isVisible("innerTtDialog"), "TooltipDialog should still still be showing");
 								doh.is("name", dfocus.curNode && dfocus.curNode.id, "focused on textbox")
 							}), 1000);
+
+							return d;
 						}
 					},
 
