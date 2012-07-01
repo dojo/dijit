@@ -1858,8 +1858,8 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 			delete this._adjustWidthsTimer;
 		}
 
-		var maxWidth = 0;
-		nodes = [];
+		var maxWidth = 0,
+			nodes = [];
 		function collect(/*TreeNode*/ parent){
 			var node = parent.rowNode;
 			node.style.width = "auto";		// erase setting from previous run

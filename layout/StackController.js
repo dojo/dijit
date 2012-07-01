@@ -91,8 +91,7 @@ define([
 			// No need to worry about ENTER/SPACe key handling: tabs are selected via left/right arrow keys,
 			// and closed via shift-F10 (to show the close menu).
 			this.connect(this.containerNode, 'click', function(evt){
-				var button = registry.getEnclosingWidget(evt.target),
-					page = button.page;
+				var button = registry.getEnclosingWidget(evt.target);
 				if(button != this.containerNode && !button.disabled){
 					for(var target = evt.target; target !== this.containerNode; target = target.parentNode){
 						if(domClass.contains(target, this.buttonWidgetCloseClass)){
