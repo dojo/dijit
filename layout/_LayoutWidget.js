@@ -89,15 +89,14 @@ define([
 			//			become.
 			//
 			//		In either mode, this method also:
-			//			1. Sets this._borderBox and this._contentBox to the new size of
-			//				the widget.  Queries the current domNode size if necessary.
-			//			2. Calls layout() to resize contents (and maybe adjust child widgets).
 			//
+			//		1. Sets this._borderBox and this._contentBox to the new size of
+			//			the widget.  Queries the current domNode size if necessary.
+			//		2. Calls layout() to resize contents (and maybe adjust child widgets).
 			// changeSize: Object?
 			//		Sets the widget to this margin-box size and position.
 			//		May include any/all of the following properties:
 			//	|	{w: int, h: int, l: int, t: int}
-			//
 			// resultSize: Object?
 			//		The margin-box size of this widget after applying changeSize (if
 			//		changeSize is specified).  If caller knows this size and

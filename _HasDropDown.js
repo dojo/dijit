@@ -120,9 +120,10 @@ define([
 			//
 			//		This is useful for the common mouse movement pattern
 			//		with native browser `<select>` nodes:
-			//			1. mouse down on the select node (probably on the arrow)
-			//			2. move mouse to a menu item while holding down the mouse button
-			//			3. mouse up.  this selects the menu item as though the user had clicked it.
+			//
+			//		1. mouse down on the select node (probably on the arrow)
+			//		2. move mouse to a menu item while holding down the mouse button
+			//		3. mouse up.  this selects the menu item as though the user had clicked it.
 			if(e && this._docHandler){
 				this.disconnect(this._docHandler);
 			}
