@@ -270,7 +270,7 @@ define([
 			this.set('value', new this.dateClassObj());
 		},
 
-		constructor: function(/*===== params, srcNodeRef =====*/){
+		constructor: function(params /*===== , srcNodeRef =====*/){
 			// summary:
 			//		Create the widget.
 			// params: Object|null
