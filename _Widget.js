@@ -201,7 +201,19 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 	},
 	=====*/
 
-	constructor: function(params){
+	constructor: function(params /*===== ,srcNodeRef =====*/){
+		// summary:
+		//		Create the widget.
+		// params: Object|null
+		//		Hash of initialization parameters for widget, including scalar values (like title, duration etc.)
+		//		and functions, typically callbacks like onClick.
+		// srcNodeRef: DOMNode|String?
+		//		If a srcNodeRef (DOM node) is specified:
+		//
+		//			- use srcNodeRef.innerHTML as my contents
+		//			- if this is a behavioral widget then apply behavior to that srcNodeRef
+		//			- otherwise, replace srcNodeRef with my generated DOM tree
+
 		// extract parameters like onMouseMove that should connect directly to this.domNode
 		this._toConnect = {};
 		for(var name in params){

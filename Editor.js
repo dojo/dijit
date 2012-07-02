@@ -60,11 +60,13 @@ define([
 		//		A list of extra plugin names which will be appended to plugins array
 		extraPlugins: null,
 
-		constructor: function(){
+		constructor: function(/*===== params, srcNodeRef =====*/){
 			// summary:
-			//		Runs on widget initialization to setup arrays etc.
-			// tags:
-			//		private
+			//		Create the widget.
+			// params: Object|null
+			//		Initial settings for any of the attributes, except readonly attributes.
+			// srcNodeRef: DOMNode
+			//		The editor replaces the specified DOMNode.
 
 			if(!lang.isArray(this.plugins)){
 				this.plugins=["undo","redo","|","cut","copy","paste","|","bold","italic","underline","strikethrough","|",

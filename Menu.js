@@ -34,7 +34,18 @@ return declare("dijit.Menu", DropDownMenu, {
 	// summary:
 	//		A context menu you can assign to multiple elements
 
-	constructor: function(){
+	constructor: function(/*===== params, srcNodeRef =====*/){
+		// summary:
+		//		Create the widget.
+		// params: Object|null
+		//		Hash of initialization parameters for widget, including scalar values (like title, duration etc.)
+		//		and functions, typically callbacks like onClick.
+		// srcNodeRef: DOMNode|String?
+		//		If a srcNodeRef (DOM node) is specified:
+		//
+		//			- use srcNodeRef.innerHTML as my contents
+		//			- replace srcNodeRef with my generated DOM tree
+
 		this._bindings = [];
 	},
 

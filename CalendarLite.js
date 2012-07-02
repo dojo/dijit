@@ -270,10 +270,18 @@ define([
 			this.set('value', new this.dateClassObj());
 		},
 
-		constructor: function(/*Object*/ args){
-			this.dateModule = args.datePackage ? lang.getObject(args.datePackage, false) : date;
+		constructor: function(/*===== params, srcNodeRef =====*/){
+			// summary:
+			//		Create the widget.
+			// params: Object|null
+			//		Hash of initialization parameters for widget, including scalar values (like title, duration etc.)
+			//		and functions, typically callbacks like onClick.
+			// srcNodeRef: DOMNode|String?
+			//		If a srcNodeRef (DOM node) is specified, replace srcNodeRef with my generated DOM tree
+
+			this.dateModule = params.datePackage ? lang.getObject(params.datePackage, false) : date;
 			this.dateClassObj = this.dateModule.Date || Date;
-			this.dateLocaleModule = args.datePackage ? lang.getObject(args.datePackage+".locale", false) : locale;
+			this.dateLocaleModule = params.datePackage ? lang.getObject(params.datePackage+".locale", false) : locale;
 		},
 
 		_createMonthWidget: function(){

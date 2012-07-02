@@ -17,7 +17,12 @@ var _Plugin = declare("dijit._editor._Plugin", null, {
 	//		Base class for a "plugin" to the editor, which is usually
 	//		a single button on the Toolbar and some associated code
 
-	constructor: function(/*Object?*/args){
+	constructor: function(args){
+		// summary:
+		//		Create the plugin.
+		// args: Object?
+		//		Initial settings for any of the attributes.
+
 		this.params = args || {};
 		lang.mixin(this, this.params);
 		this._connects=[];

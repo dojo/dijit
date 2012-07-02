@@ -272,6 +272,22 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 
 	//////////// INITIALIZATION METHODS ///////////////////////////////////////
 
+	/*=====
+	constructor: function(params, srcNodeRef){
+		// summary:
+		//		Create the widget.
+		// params: Object|null
+		//		Hash of initialization parameters for widget, including scalar values (like title, duration etc.)
+		//		and functions, typically callbacks like onClick.
+		// srcNodeRef: DOMNode|String?
+		//		If a srcNodeRef (DOM node) is specified:
+		//
+		//			- use srcNodeRef.innerHTML as my contents
+		//			- if this is a behavioral widget then apply behavior to that srcNodeRef
+		//			- otherwise, replace srcNodeRef with my generated DOM tree
+	 },
+	=====*/
+
 	postscript: function(/*Object?*/params, /*DomNode|String*/srcNodeRef){
 		// summary:
 		//		Kicks off widget instantiation.  See create() for details.
@@ -280,7 +296,7 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		this.create(params, srcNodeRef);
 	},
 
-	create: function(/*Object?*/params, /*DomNode|String?*/srcNodeRef){
+	create: function(params, srcNodeRef){
 		// summary:
 		//		Kick off the life-cycle of a widget
 		// description:
@@ -290,18 +306,15 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		//
 		//		Of course, adventurous developers could override create entirely, but this should
 		//		only be done as a last resort.
-		// params:
-		//		Hash of initialization parameters for widget, including
-		//		scalar values (like title, duration etc.) and functions,
-		//		typically callbacks like onClick.
-		// srcNodeRef:
+		// params: Object|null
+		//		Hash of initialization parameters for widget, including scalar values (like title, duration etc.)
+		//		and functions, typically callbacks like onClick.
+		// srcNodeRef: DOMNode|String?
 		//		If a srcNodeRef (DOM node) is specified:
 		//
 		//			- use srcNodeRef.innerHTML as my contents
-		//			- if this is a behavioral widget then apply behavior
-		//			  to that srcNodeRef
-		//			- otherwise, replace srcNodeRef with my generated DOM
-		//			  tree
+		//			- if this is a behavioral widget then apply behavior to that srcNodeRef
+		//			- otherwise, replace srcNodeRef with my generated DOM tree
 		// tags:
 		//		private
 

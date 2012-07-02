@@ -557,11 +557,18 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 		this.addOption(newOpt);
 	},
 
-	constructor: function(/*Object*/ keywordArgs){
+	constructor: function(params /*===== , srcNodeRef =====*/){
 		// summary:
+		//		Create the widget.
+		// params: Object|null
+		//		Hash of initialization parameters for widget, including scalar values (like title, duration etc.)
+		//		and functions, typically callbacks like onClick.
+		// srcNodeRef: DOMNode|String?
+		//		If a srcNodeRef (DOM node) is specified, replace srcNodeRef with my generated DOM tree
+
 		//		Saves off our value, if we have an initial one set so we
 		//		can use it if we have a store as well (see startup())
-		this._oValue = (keywordArgs || {}).value || null;
+		this._oValue = (params || {}).value || null;
 		this._notifyConnections = [];	// remove for 2.0
 	},
 
