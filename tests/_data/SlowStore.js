@@ -5,11 +5,10 @@ return dojo.declare("dijit.tests._data.SlowStore", ItemFileReadStore, {
 	//		This wrapper decorates an ItemFileReadStore by delaying queries issued according to the
 	//		length of the query:
 	//
-	//			empty query: 2000ms,
-	//			1 or 2 characters: 1000ms,
-	//			3 characters: 500ms,
-	//			4 or more characters: 100ms.
-	//
+	//		- empty query: 2000ms,
+	//		- 1 or 2 characters: 1000ms,
+	//		- 3 characters: 500ms,
+	//		- 4 or more characters: 100ms.
 
 	constructor: function(){
 		this.log = [];

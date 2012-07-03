@@ -470,10 +470,11 @@ define([
 		//		Displays name of current month padded to the width of the month
 		//		w/the longest name, so that changing months doesn't change width.
 		//
-		//		Create as new dijit.Calendar._MonthWidget({
-		//			lang: ...,
-		//			dateLocaleModule: ...
-		//		})
+		//		Create as:
+		// |	new Calendar._MonthWidget({
+		// |			lang: ...,
+		// |			dateLocaleModule: ...
+		// |		})
 
 		_setMonthAttr: function(month){
 			// summary:

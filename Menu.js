@@ -267,13 +267,11 @@ return declare("dijit.Menu", DropDownMenu, {
 		//		Internal function for opening myself when the user does a right-click or something similar.
 		// args:
 		//		This is an Object containing:
-		//		* target:
-		//			The node that is being clicked
-		//		* iframe:
-		//			If an `<iframe>` is being clicked, iframe points to that iframe
-		//		* coords:
-		//			Put menu at specified x/y position in viewport, or if iframe is
-		//			specified, then relative to iframe.
+		//
+		//		* target: The node that is being clicked
+		//		* iframe: If an `<iframe>` is being clicked, iframe points to that iframe
+		//		* coords: Put menu at specified x/y position in viewport, or if iframe is
+		//		  specified, then relative to iframe.
 		//
 		//		_openMyself() formerly took the event object, and since various code references
 		//		evt.target (after connecting to _openMyself()), using an Object for parameters
