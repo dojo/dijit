@@ -50,20 +50,20 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 	//
 	//		Extends _WidgetBase, adding support for:
 	//
-	//			- declaratively/programatically specifying widget initialization parameters like
-	//				onMouseMove="foo" that call foo when this.domNode gets a mousemove event
-	//			- ondijitclick:
-	//				Support new data-dojo-attach-event="ondijitclick: ..." that is triggered by a mouse click or a SPACE/ENTER keypress
-	//			- focus related functions:
-	//				In particular, the onFocus()/onBlur() callbacks.   Driven internally by
-	//				dijit/_base/focus.js.
-	//			- deprecated methods
-	//			- onShow(), onHide(), onClose()
+	//		- declaratively/programatically specifying widget initialization parameters like
+	//			onMouseMove="foo" that call foo when this.domNode gets a mousemove event
+	//		- ondijitclick:
+	//			Support new data-dojo-attach-event="ondijitclick: ..." that is triggered by a mouse click or a SPACE/ENTER keypress
+	//		- focus related functions:
+	//			In particular, the onFocus()/onBlur() callbacks.   Driven internally by
+	//			dijit/_base/focus.js.
+	//		- deprecated methods
+	//		- onShow(), onHide(), onClose()
 	//
 	//		Also, by loading code in dijit/_base, turns on:
 	//
-	//			- browser sniffing (putting browser class like `dj_ie` on `<html>` node)
-	//			- high contrast mode sniffing (add `dijit_a11y` class to `<body>` if machine is in high contrast mode)
+	//		- browser sniffing (putting browser class like `dj_ie` on `<html>` node)
+	//		- high contrast mode sniffing (add `dijit_a11y` class to `<body>` if machine is in high contrast mode)
 
 
 	////////////////// DEFERRED CONNECTS ///////////////////
@@ -210,9 +210,9 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 		// srcNodeRef: DOMNode|String?
 		//		If a srcNodeRef (DOM node) is specified:
 		//
-		//			- use srcNodeRef.innerHTML as my contents
-		//			- if this is a behavioral widget then apply behavior to that srcNodeRef
-		//			- otherwise, replace srcNodeRef with my generated DOM tree
+		//		- use srcNodeRef.innerHTML as my contents
+		//		- if this is a behavioral widget then apply behavior to that srcNodeRef
+		//		- otherwise, replace srcNodeRef with my generated DOM tree
 
 		// extract parameters like onMouseMove that should connect directly to this.domNode
 		this._toConnect = {};
@@ -327,13 +327,13 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 
 	onHide: function(){
 		// summary:
-			//		Called when another widget becomes the selected pane in a
-			//		`dijit.layout.TabContainer`, `dijit.layout.StackContainer`,
-			//		`dijit.layout.AccordionContainer`, etc.
-			//
-			//		Also called to indicate hide of a `dijit.Dialog`, `dijit.TooltipDialog`, or `dijit.TitlePane`.
-			// tags:
-			//		callback
+		//		Called when another widget becomes the selected pane in a
+		//		`dijit.layout.TabContainer`, `dijit.layout.StackContainer`,
+		//		`dijit.layout.AccordionContainer`, etc.
+		//
+		//		Also called to indicate hide of a `dijit.Dialog`, `dijit.TooltipDialog`, or `dijit.TitlePane`.
+		// tags:
+		//		callback
 	},
 
 	onClose: function(){

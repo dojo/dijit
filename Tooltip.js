@@ -515,12 +515,12 @@ define([
 	//		the Tooltip widget or *TextBox widget itself.  It's an array of strings with the values
 	//		possible for `dijit/place::around()`.   The recommended values are:
 	//
-	//			* before-centered: centers tooltip to the left of the anchor node/widget, or to the right
-	//				 in the case of RTL scripts like Hebrew and Arabic
-	//			* after-centered: centers tooltip to the right of the anchor node/widget, or to the left
-	//				 in the case of RTL scripts like Hebrew and Arabic
-	//			* above-centered: tooltip is centered above anchor node
-	//			* below-centered: tooltip is centered above anchor node
+	//		* before-centered: centers tooltip to the left of the anchor node/widget, or to the right
+	//		  in the case of RTL scripts like Hebrew and Arabic
+	//		* after-centered: centers tooltip to the right of the anchor node/widget, or to the left
+	//		  in the case of RTL scripts like Hebrew and Arabic
+	//		* above-centered: tooltip is centered above anchor node
+	//		* below-centered: tooltip is centered above anchor node
 	//
 	//		The list is positions is tried, in order, until a position is found where the tooltip fits
 	//		within the viewport.

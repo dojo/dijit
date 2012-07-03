@@ -43,8 +43,8 @@ return declare("dijit.Menu", DropDownMenu, {
 		// srcNodeRef: DOMNode|String?
 		//		If a srcNodeRef (DOM node) is specified:
 		//
-		//			- use srcNodeRef.innerHTML as my contents
-		//			- replace srcNodeRef with my generated DOM tree
+		//		- use srcNodeRef.innerHTML as my contents
+		//		- replace srcNodeRef with my generated DOM tree
 
 		this._bindings = [];
 	},

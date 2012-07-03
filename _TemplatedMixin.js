@@ -158,8 +158,9 @@ define([
 			//		Map widget properties and functions to the handlers specified in
 			//		the dom node and it's descendants. This function iterates over all
 			//		nodes and looks for these properties:
-			//			* dojoAttachPoint/data-dojo-attach-point
-			//			* dojoAttachEvent/data-dojo-attach-event
+			//
+			//		* dojoAttachPoint/data-dojo-attach-point
+			//		* dojoAttachEvent/data-dojo-attach-event
 			// rootNode: DomNode|Widget[]
 			//		the node to search for properties. All children will be searched.
 			// getAttrFunc: Function

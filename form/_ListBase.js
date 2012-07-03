@@ -12,8 +12,8 @@ return declare( "dijit.form._ListBase", null, {
 	//		Focus-less menu to handle UI events consistently
 	//		Abstract methods that must be defined externally:
 	//
-	//			- onSelect: item is active (mousedown but not yet mouseup, or keyboard arrow selected but no Enter)
-	//			- onDeselect:  cancels onSelect
+	//		- onSelect: item is active (mousedown but not yet mouseup, or keyboard arrow selected but no Enter)
+	//		- onDeselect:  cancels onSelect
 	// tags:
 	//		private
 

@@ -119,9 +119,9 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 		//		The option corresponding with the given value or index.  null
 		//		is returned if any of the following are true:
 		//
-		//			- A string value is passed in which doesn't exist
-		//			- An index is passed in which is outside the bounds of the array of options
-		//			- A dijit.form.__SelectOption is passed in which is not a part of the select
+		//		- A string value is passed in which doesn't exist
+		//		- An index is passed in which is outside the bounds of the array of options
+		//		- A dijit.form.__SelectOption is passed in which is not a part of the select
 
 		// NOTE: the compare for passing in a dijit.form.__SelectOption checks
 		//		if the value property matches - NOT if the exact option exists
@@ -237,9 +237,9 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 		// fetchArgs: Object?
 		//		Hash of parameters to set filter on store, etc.
 		//
-		//			- query: new value for Select.query,
-		//			- queryOptions: new value for Select.queryOptions,
-		//			- onFetch: callback function for each item in data (Deprecated)
+		//		- query: new value for Select.query,
+		//		- queryOptions: new value for Select.queryOptions,
+		//		- onFetch: callback function for each item in data (Deprecated)
 		var oStore = this.store;
 		fetchArgs = fetchArgs || {};
 

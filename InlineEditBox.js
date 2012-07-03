@@ -262,10 +262,10 @@ define([
 		//		dijit.Editor (for editing HTML) or a Slider (for adjusting a number).
 		//		An edit widget must support the following API to be used:
 		//
-		//			- displayedValue or value as initialization parameter,
+		//		- displayedValue or value as initialization parameter,
 		//			and available through set('displayedValue') / set('value')
-		//			- void focus()
-		//			- DOM-node focusNode = node containing editable text
+		//		- void focus()
+		//		- DOM-node focusNode = node containing editable text
 
 		// editing: [readonly] Boolean
 		//		Is the node currently in edit mode?
@@ -343,8 +343,8 @@ define([
 			// srcNodeRef: DOMNode|String?
 			//		If a srcNodeRef (DOM node) is specified:
 			//
-			//			- use srcNodeRef.innerHTML as my value
-			//			- replace srcNodeRef with my generated DOM tree
+			//		- use srcNodeRef.innerHTML as my value
+			//		- replace srcNodeRef with my generated DOM tree
 
 			this.editorParams = {};
 		},

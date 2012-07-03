@@ -30,10 +30,10 @@ define([
 		// description:
 		//		See CalendarLite for general description.   Calendar extends CalendarLite, adding:
 		//
-		//			- month drop down list
-		//			- keyboard navigation
-		//			- CSS classes for hover/mousepress on date, month, and year nodes
-		//			- support of deprecated methods (will be removed in 2.0)
+		//		- month drop down list
+		//		- keyboard navigation
+		//		- CSS classes for hover/mousepress on date, month, and year nodes
+		//		- support of deprecated methods (will be removed in 2.0)
 
 		// Set node classes for various mouse events, see dijit._CssStateMixin for more details
 		cssStateNodes: {

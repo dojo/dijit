@@ -26,17 +26,17 @@ define([
 		//
 		//		Similar features:
 		//
-		//			- There is a drop down list of possible values.
-		//			- You can only enter a value from the drop down list.  (You can't
+		//		- There is a drop down list of possible values.
+		//		- You can only enter a value from the drop down list.  (You can't
 		//				enter an arbitrary value.)
-		//			- The value submitted with the form is the hidden value (ex: CA),
+		//		- The value submitted with the form is the hidden value (ex: CA),
 		//				not the displayed value a.k.a. label (ex: California)
 		//
 		//		Enhancements over plain HTML version:
 		//
-		//			- If you type in some text then it will filter down the list of
+		//		- If you type in some text then it will filter down the list of
 		//				possible values in the drop down list.
-		//			- List can be specified either as a static list or via a javascript
+		//		- List can be specified either as a static list or via a javascript
 		//				function (that can get the list from a server)
 
 		// required: Boolean

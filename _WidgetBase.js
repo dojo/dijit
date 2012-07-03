@@ -315,9 +315,9 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		// srcNodeRef: DOMNode|String?
 		//		If a srcNodeRef (DOM node) is specified:
 		//
-		//			- use srcNodeRef.innerHTML as my contents
-		//			- if this is a behavioral widget then apply behavior to that srcNodeRef
-		//			- otherwise, replace srcNodeRef with my generated DOM tree
+		//		- use srcNodeRef.innerHTML as my contents
+		//		- if this is a behavioral widget then apply behavior to that srcNodeRef
+		//		- otherwise, replace srcNodeRef with my generated DOM tree
 		// tags:
 		//		private
 
