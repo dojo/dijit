@@ -26,9 +26,9 @@ return declare("dijit._editor.plugins.EnterKeyHandling", _Plugin, {
 	// description:
 	//		This plugin has three modes:
 	//
-	//		* blockNodeForEnter=BR
-	//		* blockNodeForEnter=DIV
-	//		* blockNodeForEnter=P
+	//		- blockNodeForEnter=BR
+	//		- blockNodeForEnter=DIV
+	//		- blockNodeForEnter=P
 	//
 	//		In blockNodeForEnter=P, the ENTER key starts a new
 	//		paragraph, and shift-ENTER starts a new line in the current paragraph.

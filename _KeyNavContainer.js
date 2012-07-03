@@ -235,8 +235,8 @@ define([
 			// child: Widget
 			//		The current widget
 			// dir: Integer
-			//		* 1 = after
-			//		* -1 = before
+			//		- 1 = after
+			//		- -1 = before
 			if(child){
 				child = this._getSiblingOfChild(child, dir);
 			}

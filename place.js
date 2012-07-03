@@ -164,10 +164,10 @@ define([
 			//		Array of Strings representing order to try corners in, like ["TR", "BL"].
 			//		Possible values are:
 			//
-			//		* "BL" - bottom left
-			//		* "BR" - bottom right
-			//		* "TL" - top left
-			//		* "TR" - top right
+			//		- "BL" - bottom left
+			//		- "BR" - bottom right
+			//		- "TL" - top left
+			//		- "TR" - top right
 			// padding: place__Position?
 			//		optional param to set padding, to put some buffer around the element you want to position.
 			// example:
@@ -205,22 +205,22 @@ define([
 			// positions:
 			//		Ordered list of positions to try matching up.
 			//
-			//		* before: places drop down to the left of the anchor node/widget, or to the right in the case
+			//		- before: places drop down to the left of the anchor node/widget, or to the right in the case
 			//			of RTL scripts like Hebrew and Arabic; aligns either the top of the drop down
 			//			with the top of the anchor, or the bottom of the drop down with bottom of the anchor.
-			//		* after: places drop down to the right of the anchor node/widget, or to the left in the case
+			//		- after: places drop down to the right of the anchor node/widget, or to the left in the case
 			//			of RTL scripts like Hebrew and Arabic; aligns either the top of the drop down
 			//			with the top of the anchor, or the bottom of the drop down with bottom of the anchor.
-			//		* before-centered: centers drop down to the left of the anchor node/widget, or to the right
+			//		- before-centered: centers drop down to the left of the anchor node/widget, or to the right
 			//			 in the case of RTL scripts like Hebrew and Arabic
-			//		* after-centered: centers drop down to the right of the anchor node/widget, or to the left
+			//		- after-centered: centers drop down to the right of the anchor node/widget, or to the left
 			//			 in the case of RTL scripts like Hebrew and Arabic
-			//		* above-centered: drop down is centered above anchor node
-			//		* above: drop down goes above anchor node, left sides aligned
-			//		* above-alt: drop down goes above anchor node, right sides aligned
-			//		* below-centered: drop down is centered above anchor node
-			//		* below: drop down goes below anchor node
-			//		* below-alt: drop down goes below anchor node, right sides aligned
+			//		- above-centered: drop down is centered above anchor node
+			//		- above: drop down goes above anchor node, left sides aligned
+			//		- above-alt: drop down goes above anchor node, right sides aligned
+			//		- below-centered: drop down is centered above anchor node
+			//		- below: drop down goes below anchor node
+			//		- below-alt: drop down goes below anchor node, right sides aligned
 			// layoutNode: Function(node, aroundNodeCorner, nodeCorner)
 			//		For things like tooltip, they are displayed differently (and have different dimensions)
 			//		based on their orientation relative to the parent.	 This adjusts the popup based on orientation.

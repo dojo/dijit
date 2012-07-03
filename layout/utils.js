@@ -65,10 +65,10 @@ define([
 		// children:
 		//		An array of Widgets or at least objects containing:
 		//
-		//		* domNode: pointer to DOM node to position
-		//		* region or layoutAlign: position to place DOM node
-		//		* resize(): (optional) method to set size of node
-		//		* id: (optional) Id of widgets, referenced from resize object, below.
+		//		- domNode: pointer to DOM node to position
+		//		- region or layoutAlign: position to place DOM node
+		//		- resize(): (optional) method to set size of node
+		//		- id: (optional) Id of widgets, referenced from resize object, below.
 		// changedRegionId:
 		//		If specified, the slider for the region with the specified id has been dragged, and thus
 		//		the region's height or width should be adjusted according to changedRegionSize
