@@ -165,13 +165,11 @@ define([
 			//		plugins array. If index is passed, it's placed in the plugins
 			//		array at that index. No big magic, but a nice helper for
 			//		passing in plugin names via markup.
-			//
-			// plugin: String, args object, plugin instance, or plugin constructor
-			//
+			// plugin:
+			//		String, args object, plugin instance, or plugin constructor
 			// args:
 			//		This object will be passed to the plugin constructor
-			//
-			// index: Integer
+			// index:
 			//		Used when creating an instance from
 			//		something already in this.plugins. Ensures that the new
 			//		instance is assigned to this.plugins at that index.
