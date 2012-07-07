@@ -145,9 +145,7 @@
 }
 /* Add 1px vertical padding to the <input> where user types and the validation icon,
    to match the 1px border on arrow button */
-.claro .dijitSelectLabel,
-.claro .dijitTextBox .dijitInputInner,
-.claro .dijitValidationTextBox .dijitValidationContainer {
+.claro .dijitSelectLabel, .claro .dijitTextBox .dijitInputInner, .claro .dijitValidationTextBox .dijitValidationContainer {
   padding: 1px 0;
 }
 .claro .dijitComboBox .dijitButtonNode {
