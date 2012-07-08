@@ -24,6 +24,11 @@ define([
 		//		Set this textbox to display a down arrow button, to open the drop down list.
 		hasDownArrow: true,
 
+		// Set classes like dijitDownArrowButtonHover depending on mouse action over button node
+		cssStateNodes: {
+			"_buttonNode": "dijitDownArrowButton"
+		},
+
 		/*=====
 		// constraints: _DateTimeTextBox.__Constraints
 		//		Despite the name, this parameter specifies both constraints on the input
