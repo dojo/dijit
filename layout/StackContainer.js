@@ -135,8 +135,6 @@ return declare("dijit.layout.StackContainer", _LayoutWidget, {
 	},
 
 	resize: function(){
-		// summary:
-		//		Method for handling display and resizing of StackContainer.
 		// Overrides _LayoutWidget.resize()
 		// Resize is called when we are first made visible (it's called from startup()
 		// if we are initially visible). If this is the first time we've been made
