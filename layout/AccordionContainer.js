@@ -88,6 +88,8 @@ define([
 		},
 
 		buildRendering: function(){
+			// summary:
+                	// 		Returns the height of the title dom node.
 			this.inherited(arguments);
 			var titleTextNodeId = this.id.replace(' ','_');
 			domAttr.set(this.titleTextNode, "id", titleTextNodeId+"_title");
@@ -261,12 +263,22 @@ define([
 		baseClass: "dijitAccordionContainer",
 
 		buildRendering: function(){
+			// summary:
+			// 		Construct the UI for this AccordionContainer, setting this.domNode.
 			this.inherited(arguments);
 			this.domNode.style.overflow = "hidden";		// TODO: put this in dijit.css
 			this.domNode.setAttribute("role", "tablist");	// TODO: put this in template
 		},
 
 		startup: function(){
+			// summary:
+			// 		Processing after the DOM fragment is added to the document
+			// description:
+			//		Called after the AccordionContainer  widget and its children have been
+			//		created and added to the page, and all related widgets have finished 
+			//		their create() cycle, up through postCreate().
+			//
+			//		Also sets the selected child widget to display.
 			if(this._started){ return; }
 			this.inherited(arguments);
 			if(this.selectedChildWidget){
@@ -335,6 +347,15 @@ define([
 		},
 
 		addChild: function(/*dijit/_WidgetBase*/ child, /*Integer?*/ insertIndex){
+			// summary:
+			//		Makes the given widget a child of this AccordionContainer.
+			// description:
+			//		Inserts specified child widget's dom node as a child of this widget's
+			//		container node, and possibly does other layout processing.
+			//
+			// 		Functionality is undefined if this widget contains anything besides
+			// 		a list of child widgets (ie, if it contains arbitrary non-widget HTML).
+			// Overrides _LayoutWidget.addChild().
 			if(this._started){
 				// Adding a child to a started Accordion is complicated because children have
 				// wrapper widgets.  Default code path (calling this.inherited()) would add
