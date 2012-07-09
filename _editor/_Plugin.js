@@ -144,11 +144,13 @@ var _Plugin = declare("dijit._editor._Plugin", null, {
 					this.enabled = enabled;
 					this.button.set('disabled', !enabled);
 				}
-				if(typeof this.button.checked == 'boolean'){
-					checked = e.queryCommandState(c);
-					if(this.checked !== checked){
-						this.checked = checked;
-						this.button.set('checked', e.queryCommandState(c));
+				if(enabled){
+					if(typeof this.button.checked == 'boolean'){
+						checked = e.queryCommandState(c);
+						if(this.checked !== checked){
+							this.checked = checked;
+							this.button.set('checked', e.queryCommandState(c));
+						}
 					}
 				}
 			}catch(e){
