@@ -42,7 +42,7 @@
 							robot.sequence(d.getTestCallback(function(){
 								// allow off by 1
 								doh.t(v=="aaaaaaaaa"||v=="aaaaaaaaaa"||v=="aaaaaaaaaaa", "a letters typed " + v);
-							}), 100);
+							}), 500);
 
 							return d;
 						}
@@ -67,7 +67,29 @@
 							robot.sequence(d.getTestCallback(function(){
 								// allow off by 1
 								doh.t(v=="bbbbbb"||v=="bbbbbbb"||v=="bbbbbbbb", "b letters typed " + v);
-							}), 100);
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "double click",
+						timeout: 5000,
+						runTest: function(){
+							var
+								d = new doh.Deferred(),
+								input = dom.byId("typematicInput");
+							input.value = "";
+
+							robot.mouseMoveAt("typematicButton", 500, 1);
+							robot.mousePress({left: true}, 500);
+							robot.mouseRelease({left: true}, 100);
+							robot.mousePress({left: true}, 100);
+							robot.mouseRelease({left: true}, 100);
+
+							robot.sequence(d.getTestCallback(function(){
+								doh.is("bb", input.value, "b letters typed " + input.value);
+							}), 500);
 
 							return d;
 						}
