@@ -621,6 +621,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 	//		Generally this doesn't need to be set.
 	onDndDrop: null,
 
+	itemCreator: null,
 	/*=====
 	itemCreator: function(nodes, target, source){
 		// summary:
@@ -628,7 +629,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		//		dropped onto the tree.   Developer must override this method to enable
 		//		dropping from external sources onto this Tree, unless the Tree.model's items
 		//		happen to look like {id: 123, name: "Apple" } with no other attributes.
-		// description:
+		//
 		//		For each node in nodes[], which came from source, create a hash of name/value
 		//		pairs to be passed to Tree.model.newItem().  Returns array of those hashes.
 		// nodes: DomNode[]
@@ -648,7 +649,6 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		return [{}];
 	},
 	=====*/
-	itemCreator: null,
 
 	// onDndCancel: [protected] Function
 	//		Parameter to dndController, see `dijit.tree.dndSource.onDndCancel`.
