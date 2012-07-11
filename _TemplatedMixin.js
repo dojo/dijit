@@ -297,8 +297,9 @@ define([
 
 	// These arguments can be specified for widgets which are used in templates.
 	// Since any widget can be specified as sub widgets in template, mix it
-	// into the base widget class.  (This is a hack, but it's effective.)
-	lang.extend(_WidgetBase,{
+	// into the base widget class.  (This is a hack, but it's effective.).
+	// Remove for 2.0.   Also, hide from API doc parser.
+	lang.extend(_WidgetBase, /*===== {} || =====*/ {
 		dojoAttachEvent: "",
 		dojoAttachPoint: ""
 	});

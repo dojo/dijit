@@ -25,40 +25,7 @@ if(has("dijit-legacy-requires")){
 	});
 }
 
-// These arguments can be specified for the children of a StackContainer.
-// Since any widget can be specified as a StackContainer child, mix them
-// into the base widget class.  (This is a hack, but it's effective.)
-lang.extend(_WidgetBase, {
-	// selected: Boolean
-	//		Attribute of children of `dijit.layout.StackContainer` and subclasses.
-	//		Specifies that this widget should be the initially displayed pane.
-	//		Note: to change the selected child use `dijit.layout.StackContainer.selectChild`
-	selected: false,
-
-	// disabled: Boolean
-	//		Attribute of children of `dijit.layout.StackContainer` and subclasses.
-	//		Specifies that the button to select this pane should be disabled.
-	//		Doesn't affect programmatic selection of the pane, nor does it deselect the pane if it is currently selected.
-	disabled: false,
-
-	// closable: Boolean
-	//		Attribute of children of `dijit.layout.StackContainer` and subclasses.
-	//		True if user can close (destroy) this child, such as (for example) clicking the X on the tab.
-	closable: false,
-
-	// iconClass: String
-	//		Attribute of children of `dijit.layout.StackContainer` and subclasses.
-	//		CSS Class specifying icon to use in label associated with this pane.
-	iconClass: "dijitNoIcon",
-
-	// showTitle: Boolean
-	//		Attribute of children of `dijit.layout.StackContainer` and subclasses.
-	//		When true, display title of this widget as tab label etc., rather than just using
-	//		icon specified in iconClass
-	showTitle: true
-});
-
-return declare("dijit.layout.StackContainer", _LayoutWidget, {
+var StackContainer = declare("dijit.layout.StackContainer", _LayoutWidget, {
 	// summary:
 	//		A container that has multiple children, but shows only
 	//		one child at a time
@@ -70,6 +37,9 @@ return declare("dijit.layout.StackContainer", _LayoutWidget, {
 	//		Publishes topics [widgetId]-addChild, [widgetId]-removeChild, and [widgetId]-selectChild
 	//
 	//		Can be base class for container, Wizard, Show, etc.
+	//
+	//		See `StackContainer.ChildWidgetProperties` for details on the properties that can be set on
+	//		children of a `StackContainer`.
 
 	// doLayout: Boolean
 	//		If true, change the size of my currently displayed child to match my size
@@ -367,4 +337,43 @@ return declare("dijit.layout.StackContainer", _LayoutWidget, {
 	}
 });
 
+StackContainer.ChildWidgetProperties = {
+	// summary:
+	//		These properties can be specified for the children of a StackContainer.
+
+	// selected: Boolean
+	//		Attribute of children of `dijit.layout.StackContainer` and subclasses.
+	//		Specifies that this widget should be the initially displayed pane.
+	//		Note: to change the selected child use `dijit.layout.StackContainer.selectChild`
+	selected: false,
+
+	// disabled: Boolean
+	//		Attribute of children of `dijit.layout.StackContainer` and subclasses.
+	//		Specifies that the button to select this pane should be disabled.
+	//		Doesn't affect programmatic selection of the pane, nor does it deselect the pane if it is currently selected.
+	disabled: false,
+
+	// closable: Boolean
+	//		Attribute of children of `dijit.layout.StackContainer` and subclasses.
+	//		True if user can close (destroy) this child, such as (for example) clicking the X on the tab.
+	closable: false,
+
+	// iconClass: String
+	//		Attribute of children of `dijit.layout.StackContainer` and subclasses.
+	//		CSS Class specifying icon to use in label associated with this pane.
+	iconClass: "dijitNoIcon",
+
+	// showTitle: Boolean
+	//		Attribute of children of `dijit.layout.StackContainer` and subclasses.
+	//		When true, display title of this widget as tab label etc., rather than just using
+	//		icon specified in iconClass
+	showTitle: true
+};
+
+// Since any widget can be specified as a StackContainer child, mix them
+// into the base widget class.  (This is a hack, but it's effective.)
+// This is for the benefit of the parser.   Remove for 2.0.  Also, hide from doc viewer.
+lang.extend(_WidgetBase, /*===== {} || =====*/ StackContainer.ChildWidgetProperties);
+
+return StackContainer;
 });
