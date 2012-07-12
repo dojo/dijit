@@ -8,6 +8,7 @@ define([
 	"dojo/mouse",	// mouse.enter, mouse.leave
 	"dojo/on",
 	"dojo/window",
+	"./a11yclick",
 	"./popup",
 	"./registry",
 	"./_Widget",
@@ -15,7 +16,7 @@ define([
 	"./_OnDijitClickMixin",
 	"./_TemplatedMixin"
 ], function(array, declare, dom, domAttr, domClass, lang, mouse, on, winUtils,
-			pm, registry, _Widget, _KeyNavContainer, _OnDijitClickMixin, _TemplatedMixin){
+			a11yclick, pm, registry, _Widget, _KeyNavContainer, _TemplatedMixin){
 
 
 // module:
@@ -50,7 +51,7 @@ return declare("dijit._MenuBase",
 			on(this.containerNode, on.selector(matches, mouse.leave), function(){
 				self.onItemUnhover(registry.byNode(this));
 			}),
-			on(this.containerNode, on.selector(matches, _OnDijitClickMixin.a11yclick), function(evt){
+			on(this.containerNode, on.selector(matches, a11yclick), function(evt){
 				self.onItemClick(registry.byNode(this), evt);
 				evt.stopPropagation();
 				evt.preventDefault();
