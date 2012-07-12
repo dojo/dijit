@@ -13,7 +13,6 @@ define([
 	"./registry",
 	"./_Widget",
 	"./_KeyNavContainer",
-	"./_OnDijitClickMixin",
 	"./_TemplatedMixin"
 ], function(array, declare, dom, domAttr, domClass, lang, mouse, on, winUtils,
 			a11yclick, pm, registry, _Widget, _KeyNavContainer, _TemplatedMixin){
