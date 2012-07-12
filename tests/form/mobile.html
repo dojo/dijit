@@ -14,6 +14,8 @@
 			require([
 				"dojo/_base/kernel",
 				"dijit",
+				"dojo/on",
+				"dojo/_base/window",
 				"dojo/parser",
 
 				"dijit/form/Button",
@@ -38,8 +40,36 @@
 				"dijit/form/HorizontalRule",
 				"dijit/form/HorizontalRuleLabels",
 				"dojo/domReady!"
-			], function(dojo, dijit){
+			], function(dojo, dijit, on, win){
 				dojo.parser.parse();
+
+				// Experimental code to get responsive clicks (without the 300ms delay).
+				// However, it breaks page scrolling and page zoom, so it's commented out.
+				on(win.body(), "touchstart", function(evt){
+					start = new Date();
+					console.log("0 touchstart");
+
+					// This is needed to prevent native click when the user presses for >100ms, but it has the side
+					// effect of disabling scroll and zoom
+					//evt.preventDefault();
+				});
+				on(win.body(), "touchend", function(evt){
+					console.log(((new Date()) - start) + ": touchend, fire synthetic click");
+/*
+					// try to prevent native click, but it won't stop native click if you press for >100ms
+					evt.preventDefault();
+
+					// fire synthetic click
+					on.emit(evt.target, "click", {
+						cancelable: true,
+						bubbles: true
+					});
+*/
+				});
+				on(win.body(), "click", function(evt){
+					console.log(((new Date()) - start) + ": click");
+				});
+
 			});
 		</script>
 	</head>

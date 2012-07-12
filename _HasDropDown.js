@@ -7,16 +7,15 @@ define([
 	"dojo/dom-class", // domClass.add domClass.contains domClass.remove
 	"dojo/dom-geometry", // domGeometry.marginBox domGeometry.position
 	"dojo/dom-style", // domStyle.set
-	"dojo/sniff",	// has("ios")
+	"dojo/has",	// has("touch")
 	"dojo/keys", // keys.DOWN_ARROW keys.ENTER keys.ESCAPE
 	"dojo/_base/lang", // lang.hitch lang.isFunction
-	"dojo/touch",
 	"dojo/window", // winUtils.getBox
 	"./registry",	// registry.byNode()
 	"./focus",
 	"./popup",
 	"./_FocusMixin"
-], function(declare, Deferred, event,dom, domAttr, domClass, domGeometry, domStyle, has, keys, lang, touch,
+], function(declare, Deferred, event,dom, domAttr, domClass, domGeometry, domStyle, has, keys, lang,
 			winUtils, registry, focus, popup, _FocusMixin){
 
 
@@ -106,7 +105,7 @@ define([
 			//		3. user defined onMouseDown handler fires
 			e.preventDefault();
 
-			this._docHandler = this.connect(this.ownerDocument, touch.release, "_onDropDownMouseUp");
+			this._docHandler = this.connect(this.ownerDocument, "mouseup", "_onDropDownMouseUp");
 
 			this.toggleDropDown();
 		},
@@ -184,10 +183,11 @@ define([
 		},
 
 		_onDropDownClick: function(/*Event*/ e){
-			if(has("ios") && !this._justGotMouseUp){
-				// This branch fires on iPhone for ComboBox, because the button node is an <input> and doesn't
-				// generate touchstart/touchend events.   Pretend we just got a mouse down / mouse up.
-				// The if(has("ios") is necessary since IE and desktop safari get spurious onclick events
+			if(has("touch") && !this._justGotMouseUp){
+				// If there was no preceding mousedown/mouseup (like on android), then simulate them to
+				// toggle the drop down.
+				//
+				// The if(has("touch") is necessary since IE and desktop safari get spurious onclick events
 				// when there are nested tables (specifically, clicking on a table that holds a dijit.form.Select,
 				// but not on the Select itself, causes an onclick event on the Select)
 				this._onDropDownMouseDown(e);
@@ -225,7 +225,7 @@ define([
 
 			this.inherited(arguments);
 
-			this.connect(this._buttonNode, touch.press, "_onDropDownMouseDown");
+			this.connect(this._buttonNode, "mousedown", "_onDropDownMouseDown");
 			this.connect(this._buttonNode, "onclick", "_onDropDownClick");
 			this.connect(this.focusNode, "onkeypress", "_onKey");
 			this.connect(this.focusNode, "onkeyup", "_onKeyUp");
