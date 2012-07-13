@@ -429,10 +429,6 @@ define([
 			// tags:
 			//		private
 
-			// keep a tooltip open if the associated element still has focus (even though the
-			// mouse moved away)
-			if(this._focus){ return; }
-
 			if(this._showTimer){
 				this._showTimer.remove();
 				delete this._showTimer;
