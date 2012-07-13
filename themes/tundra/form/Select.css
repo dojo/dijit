@@ -1,6 +1,3 @@
-.tundra .dijitSelect .dijitArrowButton {
-	background: #fff url("../images/buttonEnabled.png") repeat-x bottom left;
-}
 /* Make unselected content portion "look" more like a text box and less like a button */
 .tundra .dijitSelectError .dijitButtonContents,
 .tundra .dijitSelectHover .dijitArrowButton,
@@ -9,6 +6,10 @@
 .tundra .dijitSelectDisabled .dijitArrowButton,
 .tundra .dijitSelectReadOnly .dijitArrowButton {
 	background: transparent none;
+}
+.tundra .dijitSelect .dijitArrowButton {
+	background: #fff url("../images/buttonEnabled.png") repeat-x bottom left;
+	border-width: 0;
 }
 
 /* Mirror DropDownButton */
@@ -44,5 +45,3 @@
 .tundra .dijitSelectMenu .dijitMenuArrowCell {
 	padding: 0.1em 0.2em;
 }
-
-

@@ -496,6 +496,7 @@ div.dijitArrowButton {
 	/* dividing line between input area and up/down button(s) for ComboBox and Spinner */
 	border-width: 0 0 0 1px !important; /* !important needed due to wayward ".theme .dijitButtonNode" rules */
 }
+.dj_a11y .dijitSelect .dijitArrowButtonContainer,
 .dijitToolbar .dijitComboBox .dijitArrowButtonContainer {
 	/* overrides above rule plus mirror-image rule in dijit_rtl.css to have no divider when ComboBox in Toolbar */
 	border-width: 0 !important;
