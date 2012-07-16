@@ -272,12 +272,14 @@ ready(function(){
 				// but could also be sub-nodes within a widget
 				if(node._cssState){
 					var widget = registry.getEnclosingWidget(node);
-					if(node == widget.domNode){
-						// event on the widget's root node
-						widget._cssMouseEvent(evt);
-					}else{
-						// event on widget's sub-node
-						widget._subnodeCssMouseEvent(node, node._cssState, evt);
+					if(widget){
+						if(node == widget.domNode){
+							// event on the widget's root node
+							widget._cssMouseEvent(evt);
+						}else{
+							// event on widget's sub-node
+							widget._subnodeCssMouseEvent(node, node._cssState, evt);
+						}
 					}
 				}
 			}
