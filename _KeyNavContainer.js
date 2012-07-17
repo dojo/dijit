@@ -29,7 +29,7 @@ define([
 		focusedChild: null,
 =====*/
 
-		// tabIndex: Integer
+		// tabIndex: String
 		//		Tab index of the container; same as HTML tabIndex attribute.
 		//		Note then when user tabs into the container, focus is immediately
 		//		moved to the first item in the container.

@@ -69,7 +69,7 @@ define([
 		//		How to represent the days of the week in the calendar header. See locale
 		dayWidth: "narrow",
 
-		// tabIndex: Integer
+		// tabIndex: String
 		//		Order fields are traversed when user hits the tab key
 		tabIndex: "0",
 
