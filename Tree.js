@@ -789,8 +789,6 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		this.connect(this.model, "onChildrenChange", "_onItemChildrenChange");
 		this.connect(this.model, "onDelete", "_onItemDelete");
 
-		this._load();
-
 		this.inherited(arguments);
 
 		if(this.dndController){
@@ -806,6 +804,8 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 			this.dndController = new this.dndController(this, params);
 		}
 
+		this._load();
+
 		// If no path was specified to the constructor, use path saved in cookie
 		if(!this.params.path && !this.params.paths && this.persist){
 			this.set("paths", this.dndController._getSavedPaths());
@@ -814,6 +814,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		// onLoadDeferred should fire when all commands that are part of initialization have completed.
 		// It will include all the set("paths", ...) commands that happen during initialization.
 		this.onLoadDeferred = this.pendingCommandsDeferred;
+				
 		this.onLoadDeferred.then(lang.hitch(this, "onLoad"));
 	},
 
@@ -871,6 +872,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 					textDir: this.textDir,
 					indent: this.showRoot ? 0 : -1
 				}));
+				
 				if(!this.showRoot){
 					rn.rowNode.style.display="none";
 					// if root is not visible, move tree role to the invisible
@@ -882,7 +884,11 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 					rn.labelNode.setAttribute("role", "presentation");
 					rn.containerNode.setAttribute("role", "tree");
 					rn.containerNode.setAttribute("aria-expanded","true");
+					rn.containerNode.setAttribute("aria-multiselectable", !this.dndController.singular);
+				}else{
+				  this.domNode.setAttribute("aria-multiselectable", !this.dndController.singular);
 				}
+				
 				this.domNode.appendChild(rn.domNode);
 				var identity = this.model.getIdentity(item);
 				if(this._itemNodesMap[identity]){

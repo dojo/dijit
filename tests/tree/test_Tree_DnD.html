@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>Dijit Tree Test</title>
@@ -136,19 +136,19 @@
 	</style>
 
 </head>
-<body class="claro">
+<body class="claro" role="main">
 	<h1 class="testTitle">Dijit Tree Test - Drag And Drop Support</h1>
 
 	<div data-dojo-id="myStore" data-dojo-type="dojo/data/ItemFileWriteStore" data-dojo-props='url:"../_data/categories.json"'></div>
 
-	<table style="margin:5px; width:100%;" >
+	<table style="margin:5px; width:100%;" role="presentation">
 
 	<tr style="width:100%">
 		<td style="width: 50%">
 			<h2>Custom</h2>
 			<p>Should add this category to the store.  The second parameter is the value for numberOfItems.</p>
 			<div class="container">
-				<input id="newCat" type="text" value="Pottedmeat" /><input id="numItems" type="text" value="0" size="3"/><div id="addButton" data-dojo-type="dijit/form/Button">Add Category</div>
+				<label for="newCat">New category:</label><input id="newCat" type="text" value="Pottedmeat" /><label for="numItems">numberOfItems:</label><input id="numItems" type="text" value="0" size="3"/><div id="addButton" data-dojo-type="dijit/form/Button">Add Category</div>
 			</div>
 		</td>
 		<td>
