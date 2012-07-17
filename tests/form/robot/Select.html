@@ -69,6 +69,8 @@
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(isVisible(s1_menu), "drop down menu displayed after click");
+								doh.is("true", s1.domNode.getAttribute('aria-expanded'), 'aria-expanded');
+								doh.is("listbox", s1_menu.domNode.firstChild.getAttribute('role'), 'menu role');
 								doh.is(5, dojo.query("tr", s1_menu.domNode).length, "5 options in menu");
 								
 								var selectedOptions = dojo.query(".dijitSelectSelectedOption .dijitMenuItemLabel", s1_menu.domNode);
@@ -87,6 +89,7 @@
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(isHidden(s1_menu), "clicking choice hides menu");
+								doh.is("false", s1.domNode.getAttribute('aria-expanded'), 'aria-expanded');
 								
 								doh.is("Washington", innerText(s1.containerNode), "select shows selected option");
 								doh.is("WA", s1.get("value"), "get(value) after selecting Washington");

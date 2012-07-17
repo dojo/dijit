@@ -477,7 +477,8 @@ define([
 			domAttr.set(this._popupStateNode, "popupActive", "true");
 			domClass.add(this._popupStateNode, "dijitHasDropDownOpen");
 			this._set("_opened", true);	// use set() because _CssStateMixin is watching
-
+			this.domNode.setAttribute("aria-expanded", "true");
+			
 			return retVal;
 		},
 
@@ -494,6 +495,7 @@ define([
 				delete this._focusDropDownTimer;
 			}
 			if(this._opened){
+				this.domNode.setAttribute("aria-expanded", "false");
 				if(focus){ this.focus(); }
 				popup.close(this.dropDown);
 				this._opened = false;
