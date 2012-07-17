@@ -3,7 +3,7 @@ define([
 	"dojo/_base/connect",	// connect.isCopyKey()
 	"dojo/cookie", // cookie
 	"dojo/_base/declare", // declare
-	"dojo/_base/Deferred", // Deferred
+	"dojo/Deferred", // Deferred
 	"dojo/DeferredList", // DeferredList
 	"dojo/dom", // dom.isDescendant
 	"dojo/dom-class", // domClass.add domClass.remove domClass.replace domClass.toggle
@@ -40,6 +40,11 @@ define([
 // module:
 //		dijit/Tree
 
+// Back-compat shim
+Deferred = declare(Deferred, {
+	addCallback: function(callback){ this.then(callback); },
+	addErrback: function(errback){ this.then(null, errback); }
+});
 
 var TreeNode = declare(
 	"dijit._TreeNode",
@@ -535,7 +540,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 	// summary:
 	//		This widget displays hierarchical data from a store.
 
-	// store: [deprecated] String||dojo.data.Store
+	// store: [deprecated] String|dojo/data/Store
 	//		Deprecated.  Use "model" parameter instead.
 	//		The store to get data to display in the tree.
 	store: null,
@@ -568,7 +573,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 
 	// paths: String[][] or Item[][]
 	//		Full paths from rootNode to selected nodes expressed as array of items or array of ids.
-	//		Since setting the paths may be asynchronous (because ofwaiting on dojo.data), set("paths", ...)
+	//		Since setting the paths may be asynchronous (because of waiting on dojo.data), set("paths", ...)
 	//		returns a Deferred to indicate when the set is complete.
 	paths: [],
 
@@ -730,13 +735,17 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 			this.persist = false;
 		}
 
-		this._itemNodesMap={};
+		this._itemNodesMap = {};
 
 		if(!this.cookieName && this.id){
 			this.cookieName = this.id + "SaveStateCookie";
 		}
 
-		this.onLoadDeferred = new Deferred();
+		// Deferred that fires when all the children have loaded.
+		this.expandChildrenDeferred  = new Deferred();
+
+		// Deferred that fires when all pending operations complete.
+		this.pendingCommandsDeferred = this.expandChildrenDeferred;
 
 		this.inherited(arguments);
 	},
@@ -796,6 +805,16 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 			}
 			this.dndController = new this.dndController(this, params);
 		}
+
+		// If no path was specified to the constructor, use path saved in cookie
+		if(!this.params.path && !this.params.paths && this.persist){
+			this.set("paths", this.dndController._getSavedPaths());
+		}
+
+		// onLoadDeferred should fire when all commands that are part of initialization have completed.
+		// It will include all the set("paths", ...) commands that happen during initialization.
+		this.onLoadDeferred = this.pendingCommandsDeferred;
+		this.onLoadDeferred.then(lang.hitch(this, "onLoad"));
 	},
 
 	_store2model: function(){
@@ -874,26 +893,12 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 
 				rn._updateLayout();		// sets "dijitTreeIsRoot" CSS classname
 
-				// Load top level children (and if persist=true all nodes
-				// that were previously opened)
+				// Load top level children, and if persist==true, all nodes that were previously opened
 				this._expandNode(rn).then(lang.hitch(this, function(){
 					// Then, select the nodes that were selected last time, or
 					// the ones specified by params.paths[].
 
-					// Figure out which nodes to select:
-					// the nodes specified by paths[] argument to constructor, or
-					// those saved in cookie if persists=true
-					var paths = this._initialPaths ||
-						(this.persist && this.dndController._getSavedPaths()) || [];
-
-					// Set flag to tell this.set("paths", ...) to start functioning
-					this._loadCalled = true;
-
-					// Do the selection and then fire onLoad()
-					when(this.set("paths", paths), lang.hitch(this, function(){
-						this.onLoadDeferred.resolve(true);
-						this.onLoad();
-					}));
+					this.expandChildrenDeferred.resolve(true);
 				}));
 			}),
 			lang.hitch(this, function(err){
@@ -924,7 +929,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		//		WARNING: if model use multi-parented items or desired tree node isn't already loaded
 		//		behavior is undefined. Use set('paths', ...) instead.
 		var tree = this;
-		this.onLoadDeferred.then( lang.hitch(this, function(){
+		return this.pendingCommandsDeferred = this.pendingCommandsDeferred.then( lang.hitch(this, function(){
 			var identities = array.map(items, function(item){
 				return (!item || lang.isString(item)) ? item : tree.model.getIdentity(item);
 			});
@@ -955,38 +960,30 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		// returns:
 		//		Deferred to indicate when the set is complete
 
-		if(!this._loadCalled){
-			// If this is called during initialization because the user has specified a paths[]
-			// parameter to the constructor, then handle it in _load().   If it's called during
-			// initialization with the default [] path, then just ignore it.
-			if("paths" in this.params || "path" in this.params){
-				this._initialPaths = paths;
-			}
-			return;
-		}
-
 		var tree = this;
 
-		// We may need to wait for some nodes to expand, so setting
-		// each path will involve a Deferred. We bring those deferreds
-		// together with a DeferredList.
-		var dl = new DeferredList(array.map(paths, function(path){
-			var d = new Deferred();
+		// Let any previous set("path", ...) commands complete before this one starts.
+		return this.pendingCommandsDeferred = this.pendingCommandsDeferred.then(function(){
+			// We may need to wait for some nodes to expand, so setting
+			// each path will involve a Deferred. We bring those deferreds
+			// together with a DeferredList.
+			return new DeferredList(array.map(paths, function(path){
+				var d = new Deferred();
 
-			// normalize path to use identity
-			path = array.map(path, function(item){
-				return lang.isString(item) ? item : tree.model.getIdentity(item);
-			});
+				// normalize path to use identity
+				path = array.map(path, function(item){
+					return lang.isString(item) ? item : tree.model.getIdentity(item);
+				});
 
-			if(path.length){
-				selectPath(path, [tree.rootNode], d);
-			}else{
-				d.reject(new Tree.PathError("Empty path"));
-			}
-			return d;
-		}));
-		dl.then(setNodes);
-		return dl;
+				if(path.length){
+					// Wait for the tree to load, if it hasn't already.
+					selectPath(path, [tree.rootNode], d);
+				}else{
+					d.reject(new Tree.PathError("Empty path"));
+				}
+				return d;
+			}));
+		}).then(setNodes);
 
 		function selectPath(path, nodes, def){
 			// Traverse path; the next path component should be among "nodes".
