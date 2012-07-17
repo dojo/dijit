@@ -199,6 +199,7 @@
 					timeout: 20000,
 					runTest: function(){
 						var d = new doh.Deferred();
+						doh.robot.mouseMove(10, 10, 100, 100);
 						doh.robot.mouseClick({left:true}, 100);
 						doh.robot.sequence(function(){
                             //Focus the page, so tabbing will work.
@@ -209,6 +210,18 @@
 				});
 				doh.register("item selection (keyboard)", itemSelection(keyboardSelect, pressEnter) );
 				doh.register("item selection (mouse)", itemSelection(mouseSelect, clickItem) );
+
+				// Failsafe to clear pressed keys in case above tests timeout etc.
+				doh.register("clear pressed keys", function(){
+					var d = new doh.Deferred();
+					dojo.forEach([dojo.keys.META, dojo.keys.CTRL, dojo.keys.SHIFT], function(key){
+						doh.robot.keyUp(key, 250);
+					});
+					doh.robot.sequence(function(){
+						d.callback(true);
+					});
+					return d;
+				});
 
 				function itemSelection(selector, clicker){
 					return [
