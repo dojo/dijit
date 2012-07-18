@@ -92,11 +92,9 @@ define([
 			}
 		},
 
-		_onInput: function(/*Event*/ evt){
+		_processInput: function(/*Event*/ evt){
 			// summary:
 			//		Handles input (keyboard/paste) events
-			this.inherited(arguments);
-
 			if(this.disabled || this.readOnly){ return; }
 			var key = evt.charOrCode;
 

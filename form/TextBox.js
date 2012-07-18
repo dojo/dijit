@@ -98,7 +98,7 @@ define([
 			//		Deprecated.  Use get('displayedValue') instead.
 			// tags:
 			//		deprecated
-			kernel.deprecated(this.declaredClass+"::getDisplayedValue() is deprecated. Use set('displayedValue') instead.", "", "2.0");
+			kernel.deprecated(this.declaredClass+"::getDisplayedValue() is deprecated. Use get('displayedValue') instead.", "", "2.0");
 			return this.get('displayedValue');
 		},
 
