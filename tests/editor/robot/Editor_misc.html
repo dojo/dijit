@@ -24,6 +24,13 @@
 				var value;
 				var editor1;
 				var editor1OriginalBackgroundColor;
+
+				function getPlugin(/*Editor*/ editor, /*String*/ command){
+					return dojo.filter(editor._plugins, function(p){
+						return p.command == command;
+					})[0];
+				}
+
 				doh.register("Miscellaneous_tests", [
 					{
 						name: "wait for editors to load",
@@ -313,7 +320,7 @@
 								dojo.window.scrollIntoView(editor0.domNode);
 								var newValue = editor0.get("value");
 								var test = "alt=\"''\"";
-								doh.t(newValue.indexOf(test) > 0, "content includes emptry string alt");
+								doh.t(newValue.indexOf(test) > 0, "content includes empty string alt");
 							}), 1000);
 
 							return d;
@@ -321,7 +328,48 @@
 						tearDown: function(){
 							if(editor0){editor0.set("value", value);}
 						}
+					},
+					{
+						name: "caret pos #1",
+						timeout: 20000,
+						setUp: function(){
+							editor1 = dijit.byId("editor1");
+							value = editor1.get("value");
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// Scroll editor into view, set content to list except for middle item isn't part of list
+							dojo.window.scrollIntoView(editor1.domNode);
+							editor1.set("value", "<ul><li>one</li><li>two</li></ul><p id='three'>three</p><ul><li>four</li><li>five</li></ul>");
+
+							// Select middle item ("three")
+							doh.robot.sequence(d.getTestErrback(function(){
+								var node = dojo.byId("three", editor1.document);
+								dojo.global.dojo.withGlobal(editor1.window, function(){
+									dijit._editor.selection.selectElementChildren(node);
+									dijit._editor.selection.collapse(true);
+								});
+							}), 500);
+
+							// Press indent button so "three" becomes part of list
+							doh.robot.mouseMoveAt(function(){
+								return getPlugin(editor1, "indent").button.domNode;
+							}, 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("<ul><li>one</li><li>two</li><li>three</li><li>four</li><li>five</li></ul>",
+										editor1.get("value"), "element 'three' indented to become part of list")
+							}), 500);
+
+							return d;
+						},
+						tearDown: function(){
+							//if(editor0){editor0.set("value", value);}
+						}
 					}
+
 				]);
 				doh.run();
 			});
