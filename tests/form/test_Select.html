@@ -142,10 +142,6 @@
 				data: dojo.clone(vals)
 			}));
 
-			function wrapLabel(expected){
-				return ("<span role=\"option\" class=\"dijitReset dijitInline dijitSelectLabel dijitValidationTextBoxLabel\">" + expected + "</span>").toLowerCase().replace(/ */g, "");
-			}
-
 			dojo.ready(function(){
 				dojo.connect(s1, "onChange", function(val){
 					console.log("First Select Changed to " + val);
@@ -243,16 +239,16 @@
 						// the change is reflected in the Select widget
 						function test_changeSelected(t){
 							t.is("AL", s11.value);
-							t.is(wrapLabel("Alabama"), s11.containerNode.innerHTML.toLowerCase().replace(/ */g, ""));
+							t.t(/<span.*>Alabama<\/span>/i.test(s11.containerNode.innerHTML));
 							s11.set("value", "AK");
 							t.is("AK", s11.value);
-							t.is(wrapLabel("Alaska"), s11.containerNode.innerHTML.toLowerCase().replace(/ */g, ""));
+							t.t(/<span.*>Alaska<\/span>/i.test(s11.containerNode.innerHTML));
 							var d = new doh.Deferred();
 							writeStore.fetchItemByIdentity({
 								identity: "AK",
 								onItem: d.getTestCallback(function(item){
 									writeStore.setValue(item, "label", "North Pole");
-									t.is(wrapLabel("North Pole"), s11.containerNode.innerHTML.toLowerCase().replace(/ */g, ""), "select displayed value updated");
+									t.t(/<span.*>North Pole<\/span>/i.test(s11.containerNode.innerHTML), "select displayed value updated");
 								})
 							});
 							return d;
@@ -327,15 +323,15 @@
 						// the change is reflected in the Select widget
 						function test_changeSelected(t){
 							t.is("AL", ds11.value);
-							t.is(wrapLabel("Alabama"), ds11.containerNode.innerHTML.toLowerCase().replace(/ */g, ""));
+							t.t(/<span.*>Alabama<\/span>/i.test(ds11.containerNode.innerHTML));
 							ds11.set("value", "AK");
 							t.is("AK", ds11.value);
-							t.is(wrapLabel("Alaska"), ds11.containerNode.innerHTML.toLowerCase().replace(/ */g, ""));
+							t.t(/<span.*>Alaska<\/span>/i.test(ds11.containerNode.innerHTML));
 
 							var item = memoryStore3.get("AK");
 							item.label = "North Pole";
 							memoryStore3.put(item);
-							t.is(wrapLabel("North Pole"), ds11.containerNode.innerHTML.toLowerCase().replace(/ */g, ""), "select displayed value updated");
+							t.t(/<span.*>North Pole<\/span>/i.test(ds11.containerNode.innerHTML), "select displayed value updated");
 						},
 
 						// Test that a delete of the non-selected item will remove that item from the Select's
