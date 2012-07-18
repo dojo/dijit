@@ -188,14 +188,18 @@ define([
 					}
 				}
 				if(!o.plugin){
-					// TODO: remove lang.getObject() call in 2.0
-					var pc = args.ctor || lang.getObject(args.name) || require(args.name);
-					if(pc){
-						o.plugin = new pc(args);
+					try{
+						// TODO: remove lang.getObject() call in 2.0
+						var pc = args.ctor || lang.getObject(args.name) || require(args.name);
+						if(pc){
+							o.plugin = new pc(args);
+						}
+					}catch(e){
+						throw new Error(this.id + ": cannot find plugin [" + args.name + "]");
 					}
 				}
 				if(!o.plugin){
-					throw new Error(this.id + ': cannot find plugin', plugin);
+					throw new Error(this.id + ": cannot find plugin [" + args.name + "]");
 				}
 				plugin=o.plugin;
 			}
