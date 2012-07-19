@@ -919,9 +919,11 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 			/*String|Function*/ event,
 			/*String|Function*/ method){
 		// summary:
+		//		Deprecated, will be removed in 2.0, use this.own(on(...)) or this.own(aspect.after(...)) instead.
+		//
 		//		Connects specified obj/event to specified method of this object
 		//		and registers for disconnect() on widget destroy.
-		// description:
+		//
 		//		Provide widget-specific analog to dojo.connect, except with the
 		//		implicit use of this widget as the target object.
 		//		Events connected with `this.connect` are disconnected upon
@@ -944,8 +946,9 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 
 	disconnect: function(handle){
 		// summary:
+		//		Deprecated, will be removed in 2.0, use handle.remove() instead.
+		//
 		//		Disconnects handle created by `connect`.
-		//		Deprecated.	Will be removed in 2.0.	Just use handle.remove() instead.
 		// tags:
 		//		protected
 
@@ -954,9 +957,11 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 
 	subscribe: function(t, method){
 		// summary:
+		//		Deprecated, will be removed in 2.0, use this.own(topic.subscribe()) instead.
+		//
 		//		Subscribes to the specified topic and calls the specified method
 		//		of this object and registers for unsubscribe() on widget destroy.
-		// description:
+		//
 		//		Provide widget-specific analog to dojo.subscribe, except with the
 		//		implicit use of this widget as the target object.
 		// t: String
@@ -977,6 +982,8 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 
 	unsubscribe: function(/*Object*/ handle){
 		// summary:
+		//		Deprecated, will be removed in 2.0, use handle.remove() instead.
+		//
 		//		Unsubscribes handle created by this.subscribe.
 		//		Also removes handle from this widget's list of subscriptions
 		// tags:
