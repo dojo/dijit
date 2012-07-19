@@ -20,8 +20,6 @@
 	<!-- only needed for alternate theme testing: -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
-	<script type="text/javascript" src="robot/borderContainerTestFunctions.js"></script>
-
 	<script type="text/javascript">
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.layout.BorderContainer");
@@ -35,6 +33,7 @@
 
 		dojo.require("doh.runner");
 		dojo.require("dijit.tests.helpers");	// functions to help test
+		dojo.require("dijit.tests.layout.robot.borderContainerTestFunctions");
 
 		var bc, cp1, cp2, cp3;
         dojo.ready(function(){
@@ -44,8 +43,8 @@
 					dojo.parser.parse();
 				},
 				function initialConditions(){
-					checkBCpanes(dijit.byId("border1"));
-					checkBCpanes(dijit.byId("border2"));
+					dijit.tests.layout.robot.borderContainerTestFunctions.checkBCpanes(dijit.byId("border1"));
+					dijit.tests.layout.robot.borderContainerTestFunctions.checkBCpanes(dijit.byId("border2"));
 					doh.is("auto", dojo.style("border1-left", "overflow"), "overflow on ContentPane should be auto");
 					doh.t("layoutPriority" in dijit.byId("menu"),
 							"make sure layoutPriority flag added to _WidgetBase is visible in MenuBar");
@@ -134,13 +133,13 @@
 					doh.is(dojo.toJson(nBottom), dojo.toJson(nnBottom), "bottom stayed same");
 
 					// check that all panes sane
-					checkBCpanes(dijit.byId("border1"));
+					dijit.tests.layout.robot.borderContainerTestFunctions.checkBCpanes(dijit.byId("border1"));
 
 					// put back left pane as the top pane
 					dijit.byId("border1").addChild(dijit.byId("border1-left"));
 
 					// check that all panes sane
-					checkBCpanes(dijit.byId("border1"));
+					dijit.tests.layout.robot.borderContainerTestFunctions.checkBCpanes(dijit.byId("border1"));
 				}
 			]);
 
@@ -164,35 +163,35 @@
 					
 					bc.startup();
 
-					checkBCpanes(bc);
+					dijit.tests.layout.robot.borderContainerTestFunctions.checkBCpanes(bc);
 				},
 				function addLeftPane(){
 					var nWidgetsBefore = dijit.registry.length;
 					bc.addChild(cp3);
-					checkBCpanes(bc);
+					dijit.tests.layout.robot.borderContainerTestFunctions.checkBCpanes(bc);
 					doh.t(isVisible(cp3));
 					doh.is(nWidgetsBefore + 1, dijit.registry.length, "splitter widget created");
 				},
 				function removeTopPane(){
 					var nWidgetsBefore = dijit.registry.length;
 					bc.removeChild(cp1);
-					checkBCpanes(bc);
+					dijit.tests.layout.robot.borderContainerTestFunctions.checkBCpanes(bc);
 					doh.f(isVisible(cp1));
 					doh.is(nWidgetsBefore - 1, dijit.registry.length, "splitter widget destroyed");
 				},
 				function removeLeftPane(){
 					bc.removeChild(cp3);
-					checkBCpanes(bc);
+					dijit.tests.layout.robot.borderContainerTestFunctions.checkBCpanes(bc);
 					doh.f(isVisible(cp3));
 				},
 				function addLeftPane2(){
 					bc.addChild(cp3);
-					checkBCpanes(bc);
+					dijit.tests.layout.robot.borderContainerTestFunctions.checkBCpanes(bc);
 					doh.t(isVisible(cp3));
 				},
 				function addTopPane(){
 					bc.addChild(cp1);
-					checkBCpanes(bc);
+					dijit.tests.layout.robot.borderContainerTestFunctions.checkBCpanes(bc);
 					doh.t(isVisible(cp3));
 				},
 				function destroyAll(){

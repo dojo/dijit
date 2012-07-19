@@ -2,7 +2,7 @@
 		"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
-		<title>doh.robot AccordionContainer Mouse Test</title>
+		<title>robot AccordionContainer Mouse Test</title>
 
 		<style>
 			@import "../../../../util/doh/robot/robot.css";
@@ -13,11 +13,20 @@
 			djConfig="isDebug: true"></script>
 
 		<script type="text/javascript">
-			dojo.require("dijit.robotx");
-			dojo.require("dijit.tests.helpers");	// functions to help test
+			require([
+				"doh/runner", "dojo/robotx", "dojo/domReady!"
+			], function(doh, robot){
 
-			dojo.ready(function(){
-				doh.robot.initRobot('../test_AccordionContainer.html');
+				robot.initRobot('../test_AccordionContainer.html');
+
+				doh.register("setup", [
+					function setup(){
+						// get pointers to singletons loaded on test page
+						registry = robot.window.require("dijit/registry");
+						focus = robot.window.require("dijit/focus");
+					}
+				]);
+
 				doh.register("Accordion Mouse tests",[
 					{
 						name: "basic operation",
@@ -26,17 +35,17 @@
 							var d = new doh.Deferred();
 
 							// Click open second pane
-							doh.robot.mouseMoveAt("lazyLoadPane_button_title", 500, 1);
-							doh.robot.mouseClick({left: true}, 500);
-							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is("lazyLoadPane", dojo.global.dijit.byId("markupAccordion").get("selectedChildWidget").id, "second pane is now selected");
+							robot.mouseMoveAt("lazyLoadPane_button_title", 500, 1);
+							robot.mouseClick({left: true}, 500);
+							robot.sequence(d.getTestErrback(function(){
+								doh.is("lazyLoadPane", registry.byId("markupAccordion").get("selectedChildWidget").id, "second pane is now selected");
 							}), 500);
 
 							// Click open fourth pane
-							doh.robot.mouseMoveAt("embeddedLayoutPane_button_title", 500, 1);
-							doh.robot.mouseClick({left: true}, 500);
-							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("embeddedLayoutPane", dojo.global.dijit.byId("markupAccordion").get("selectedChildWidget").id, "fourth pane is now selected");
+							robot.mouseMoveAt("embeddedLayoutPane_button_title", 500, 1);
+							robot.mouseClick({left: true}, 500);
+							robot.sequence(d.getTestCallback(function(){
+								doh.is("embeddedLayoutPane", registry.byId("markupAccordion").get("selectedChildWidget").id, "fourth pane is now selected");
 							}), 2000);
 
 							return d;

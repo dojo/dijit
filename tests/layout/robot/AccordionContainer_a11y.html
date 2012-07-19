@@ -2,7 +2,7 @@
 		"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
-		<title>doh.robot AccordionContainer A11Y Test</title>
+		<title>robot AccordionContainer A11Y Test</title>
 
 		<style>
 			@import "../../../../util/doh/robot/robot.css";
@@ -13,52 +13,55 @@
 			djConfig="isDebug: true"></script>
 
 		<script type="text/javascript">
-			dojo.require("dijit.robotx");
-			dojo.require("dijit.tests.helpers");	// functions to help test
+			require([
+				"doh/runner", "dojo/robotx", "dojo/dom", "dojo/keys",
+				"dijit/tests/helpers", "dojo/domReady!"
+			], function(doh, robot, dom, keys, helpers){
 
-			dojo.ready(function(){
-				doh.robot.initRobot('../test_AccordionContainer.html');
+				robot.initRobot('../test_AccordionContainer.html');
+
+				doh.register("setup", [
+					function setup(){
+						// get pointers to singletons loaded on test page
+						registry = robot.window.require("dijit/registry");
+						focus = robot.window.require("dijit/focus");
+					}
+				]);
+
 				doh.register("Accordion A11Y tests", [
 					{
 						name: "basic operation",
 						timeout: 10000,
 						runTest: function(t){
 							var d = new doh.Deferred();
-							doh.robot.sequence(function(){
-								dojo.byId("beforeMarkupAccordion").focus();
+							robot.sequence(function(){
+								dom.byId("beforeMarkupAccordion").focus();
 							}, 500, 500);
 
 							// Tab into accordion, landing on title of first pane
-							doh.robot.keyPress(dojo.keys.TAB, 500, {});
-							doh.robot.sequence(d.getTestErrback(function(){
-								doh.t(/A Simple Pane/.test(innerText(dojo.global.dijit.focus.curNode)), "tabbed to first pane's title");
+							robot.keyPress(keys.TAB, 500, {});
+							robot.sequence(d.getTestErrback(function(){
+								doh.t(/A Simple Pane/.test(helpers.innerText(focus.curNode)), "tabbed to first pane's title");
 							}), 500);
 
 							// Use down arrow to get to second pane's title
-							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
-							doh.robot.sequence(d.getTestErrback(function(){
-								doh.f(/A Simple Pane/.test(innerText(dojo.global.dijit.focus.curNode)), "moved away from first pane's title");
-								doh.t(/Lazy Load Pane/.test(innerText(dojo.global.dijit.focus.curNode)), "moved to second pane's title");
-								doh.is("lazyLoadPane", dojo.global.dijit.byId("markupAccordion").get("selectedChildWidget").id, "second pane is now selected");
+							robot.keyPress(keys.DOWN_ARROW, 500, {});
+							robot.sequence(d.getTestErrback(function(){
+								doh.f(/A Simple Pane/.test(helpers.innerText(focus.curNode)), "moved away from first pane's title");
+								doh.t(/Lazy Load Pane/.test(helpers.innerText(focus.curNode)), "moved to second pane's title");
+								doh.is("lazyLoadPane", registry.byId("markupAccordion").get("selectedChildWidget").id, "second pane is now selected");
 							}), 500);
 
-							// Workaround FF4 bug where overflow:auto panes get focus even when
-							// they don't have a scrollbar, remove when
-							// https://bugzilla.mozilla.org/show_bug.cgi?id=616594 fixed
-							if(dojo.isFF == 4){
-								dojo.query("#lazyLoadPane").style("overflow", "hidden");
-							}
-
 							// Tab into second pane's content area, landing on link inside pane
-							doh.robot.keyPress(dojo.keys.TAB, 500, {});
-							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is("WebA11y", innerText(dojo.global.dijit.focus.curNode), "tabbed into second pane");
+							robot.keyPress(keys.TAB, 500, {});
+							robot.sequence(d.getTestErrback(function(){
+								doh.is("WebA11y", helpers.innerText(focus.curNode), "tabbed into second pane");
 							}), 500);
 
 							// tab out of AccordionContainer
-							doh.robot.keyPress(dojo.keys.TAB, 500, {});
-							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("afterMarkupAccordion", dojo.global.dijit.focus.curNode.id, "tabbed out of accordion");
+							robot.keyPress(keys.TAB, 500, {});
+							robot.sequence(d.getTestCallback(function(){
+								doh.is("afterMarkupAccordion", focus.curNode.id, "tabbed out of accordion");
 							}), 500);
 
 							return d;
