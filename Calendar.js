@@ -69,7 +69,7 @@ define([
 			this.inherited(arguments);
 
 			// Events specific to Calendar, not used in CalendarLite
-			this.connect(this.domNode, "onkeypress", "_onKeyPress");
+			this.connect(this.domNode, "onkeydown", "_onKeyDown");
 			this.connect(this.dateRowsNode, "onmouseover", "_onDayMouseOver");
 			this.connect(this.dateRowsNode, "onmouseout", "_onDayMouseOut");
 			this.connect(this.dateRowsNode, "onmousedown", "_onDayMouseDown");
@@ -152,18 +152,18 @@ define([
 			// summary:
 			//		Provides keyboard navigation of calendar.
 			// description:
-			//		Called from _onKeyPress() to handle keypress on a stand alone Calendar,
-			//		and also from `dijit.form._DateTimeTextBox` to pass a keypress event
+			//		Called from _onKeyDown() to handle keypress on a stand alone Calendar,
+			//		and also from `dijit.form._DateTimeTextBox` to pass a keydown event
 			//		from the `dijit.form.DateTextBox` to be handled in this widget
 			// returns:
 			//		False if the key was recognized as a navigation key,
-			//		to indicate that the event was handled by Calendar and shouldn't be propogated
+			//		to indicate that the event was handled by Calendar and shouldn't be propagated
 			// tags:
 			//		protected
 			var increment = -1,
 				interval,
 				newValue = this.currentFocus;
-			switch(evt.charOrCode){
+			switch(evt.keyCode){
 				case keys.RIGHT_ARROW:
 					increment = 1;
 					//fallthrough...
@@ -194,7 +194,7 @@ define([
 					newValue.setDate(1);
 					break;
 				case keys.ENTER:
-				case " ":
+				case keys.SPACE:
 					this.set("value", this.currentFocus);
 					break;
 				default:
@@ -210,7 +210,7 @@ define([
 			return false;
 		},
 
-		_onKeyPress: function(/*Event*/ evt){
+		_onKeyDown: function(/*Event*/ evt){
 			// summary:
 			//		For handling keypress events on a stand alone calendar
 			if(!this.handleKey(evt)){

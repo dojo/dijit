@@ -55,7 +55,7 @@ define([
 			// to get a stray keyup event.
 
 			var handles = [
-				on(node, "keypress", function(e){
+				on(node, "keydown", function(e){
 					//console.log(this.id + ": onkeydown, e.target = ", e.target, ", lastKeyDownNode was ", lastKeyDownNode, ", equality is ", (e.target === lastKeyDownNode));
 					if(clickKey(e)){
 						// needed on IE for when focus changes between keydown and keyup - otherwise dropdown menus do not work
@@ -63,8 +63,6 @@ define([
 
 						// Prevent viewport scrolling on space key in IE<9.
 						// (Reproducible on test_Button.html on any of the first dijit.form.Button examples)
-						// Do this onkeypress rather than onkeydown because onkeydown.preventDefault() will
-						// suppress the onkeypress event, breaking _HasDropDown
 						e.preventDefault();
 					}
 				}),
