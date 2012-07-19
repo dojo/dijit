@@ -7,6 +7,7 @@ define([
 	"dojo/_base/event", // event.stop
 	"dojo/keys",
 	"dojo/_base/lang", // lang.clone lang.hitch
+	"dojo/on",
 	"dojo/query", // query
 	"dojo/regexp", // regexp.escapeString
 	"dojo/_base/sniff", // has("ie")
@@ -15,7 +16,7 @@ define([
 	"./DataList",
 	"../registry",	// registry.byId
 	"./_TextBoxMixin"	// defines _TextBoxMixin.selectInputText
-], function(connect, filter, declare, Deferred, domAttr, event, keys, lang, query, regexp, has, string, win,
+], function(connect, filter, declare, Deferred, domAttr, event, keys, lang, on, query, regexp, has, string, win,
 			DataList, registry, _TextBoxMixin){
 
 	// module:
@@ -185,22 +186,23 @@ define([
 
 		_onInput: function(/*Event*/ evt){
 			// summary:
-			//		Handles paste events
+			//		Handles paste events.
 			this.inherited(arguments);
 			if(evt.charOrCode == 229){ // IME or cut/paste event
-				this._onKey(evt);
+				this._onKeyPress(evt);
 			}
 		},
 
 		_onKey: function(/*Event*/ evt){
 			// summary:
-			//		Handles keyboard events
+			//		Handles keyboard events from synthetic dojo/_base/connect._keypress event
 
 			if(this.disabled || this.readOnly){ return; }
-			var key = evt.charOrCode;
+
+			var key = evt.keyCode;
 
 			// except for cutting/pasting case - ctrl + x/v
-			if(evt.altKey || ((evt.ctrlKey || evt.metaKey) && (key != 'x' && key != 'v')) || key == keys.SHIFT){
+			if(evt.altKey || ((evt.ctrlKey || evt.metaKey) && (key != 86 && key != 88)) || key == keys.SHIFT){
 				return; // throw out weird key combinations and spurious events
 			}
 
@@ -302,14 +304,19 @@ define([
 					this._prev_key_backspace = true;
 					doSearch = true;
 					break;
-
-				default:
-					// Non char keys (F1-F12 etc..)  shouldn't open list.
-					// Ascii characters and IME input (Chinese, Japanese etc.) should.
-					//IME input produces keycode == 229.
-					doSearch = typeof key == 'string' || key == 229;
 			}
 			if(doSearch){
+				// need to wait a tad before start search so that the event
+				// bubbles through DOM and we have value visible
+				this.item = undefined; // undefined means item needs to be set
+				this.searchTimer = setTimeout(lang.hitch(this, "_startSearchFromInput"),1);
+			}
+		},
+
+		_onKeyPress: function(evt){
+			// Non char keys (F1-F12 etc..)  shouldn't open list.
+			// Ascii characters and IME input (Chinese, Japanese etc.) should.
+			if(typeof evt.charOrCode == "string" || evt.charOrCode == 229){
 				// need to wait a tad before start search so that the event
 				// bubbles through DOM and we have value visible
 				this.item = undefined; // undefined means item needs to be set
@@ -682,7 +689,12 @@ define([
 				this.domNode.setAttribute("aria-labelledby", label[0].id);
 
 			}
+
 			this.inherited(arguments);
+
+			// HasDropDown calls _onKey() on keydown but we want to be notified of the synthetic
+			// dojo/_base/connect._keypress event too.
+			this.connect(this.focusNode, "onkeypress", "_onKeyPress");
 		},
 
 		_getMenuLabelFromItem: function(/*Item*/ item){

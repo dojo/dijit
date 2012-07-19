@@ -223,13 +223,13 @@ define([
 
 		postCreate: function(){
 			// summary:
-			//		set up nodes and connect our mouse and keypress events
+			//		set up nodes and connect our mouse and keyboard events
 
 			this.inherited(arguments);
 
 			this.connect(this._buttonNode, touch.press, "_onDropDownMouseDown");
 			this.connect(this._buttonNode, "onclick", "_onDropDownClick");
-			this.connect(this.focusNode, "onkeypress", "_onKey");
+			this.connect(this.focusNode, "onkeydown", "_onKey");
 			this.connect(this.focusNode, "onkeyup", "_onKeyUp");
 		},
 
@@ -250,7 +250,6 @@ define([
 			//		Callback when the user presses a key while focused on the button node
 
 			if(this.disabled || this.readOnly){ return; }
-
 			var d = this.dropDown, target = e.target;
 			if(d && this._opened && d.handleKey){
 				if(d.handleKey(e) === false){
@@ -259,12 +258,12 @@ define([
 					return;
 				}
 			}
-			if(d && this._opened && e.charOrCode == keys.ESCAPE){
+			if(d && this._opened && e.keyCode == keys.ESCAPE){
 				this.closeDropDown();
 				event.stop(e);
 			}else if(!this._opened &&
-					(e.charOrCode == keys.DOWN_ARROW ||
-						( (e.charOrCode == keys.ENTER || e.charOrCode == " ") &&
+					(e.keyCode == keys.DOWN_ARROW ||
+						( (e.keyCode == keys.ENTER || e.keyCode == dojo.keys.SPACE) &&
 						  //ignore enter and space if the event is for a text input
 						  ((target.tagName || "").toLowerCase() !== 'input' ||
 						     (target.type && target.type.toLowerCase() !== 'text'))))){

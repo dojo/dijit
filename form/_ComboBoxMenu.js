@@ -117,7 +117,7 @@ define([
 			// summary:
 			//		Handle keystroke event forwarded from ComboBox, returning false if it's
 			//		a keystroke I recognize and process, true otherwise.
-			switch(evt.charOrCode){
+			switch(evt.keyCode){
 				case keys.DOWN_ARROW:
 					this.selectNextNode();
 					return false;
