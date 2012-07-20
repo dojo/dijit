@@ -158,7 +158,7 @@ define([
 			//		NOTE: node is assumed to be absolutely or relatively positioned.
 			// node: DOMNode
 			//		The node to position
-			// pos: place.__Position
+			// pos: dijit/place.__Position
 			//		Object like {x: 10, y: 20}
 			// corners: String[]
 			//		Array of Strings representing order to try corners in, like ["TR", "BL"].
@@ -168,7 +168,7 @@ define([
 			//		- "BR" - bottom right
 			//		- "TL" - top left
 			//		- "TR" - top right
-			// padding: place__Position?
+			// padding: dijit/place.__Position?
 			//		optional param to set padding, to put some buffer around the element you want to position.
 			// example:
 			//		Try to place node's top right corner at (10,20).
@@ -189,7 +189,7 @@ define([
 
 		around: function(
 			/*DomNode*/		node,
-			/*DomNode || place.__Rectangle*/ anchor,
+			/*DomNode|__Rectangle*/ anchor,
 			/*String[]*/	positions,
 			/*Boolean*/		leftToRight,
 			/*Function?*/	layoutNode){
@@ -201,7 +201,7 @@ define([
 			//		Place node such that corner of node touches a corner of
 			//		aroundNode, and that node is fully visible.
 			// anchor:
-			//		Either a DOMNode or a __Rectangle (object with x, y, width, height).
+			//		Either a DOMNode or a rectangle (object with x, y, width, height).
 			// positions:
 			//		Ordered list of positions to try matching up.
 			//
@@ -270,7 +270,7 @@ define([
 			var x = aroundNodePos.x,
 				y = aroundNodePos.y,
 				width = "w" in aroundNodePos ? aroundNodePos.w : (aroundNodePos.w = aroundNodePos.width),
-				height = "h" in aroundNodePos ? aroundNodePos.h : (kernel.deprecated("place.around: dijit.place.__Rectangle: { x:"+x+", y:"+y+", height:"+aroundNodePos.height+", width:"+width+" } has been deprecated.  Please use { x:"+x+", y:"+y+", h:"+aroundNodePos.height+", w:"+width+" }", "", "2.0"), aroundNodePos.h = aroundNodePos.height);
+				height = "h" in aroundNodePos ? aroundNodePos.h : (kernel.deprecated("place.around: dijit/place.__Rectangle: { x:"+x+", y:"+y+", height:"+aroundNodePos.height+", width:"+width+" } has been deprecated.  Please use { x:"+x+", y:"+y+", h:"+aroundNodePos.height+", w:"+width+" }", "", "2.0"), aroundNodePos.h = aroundNodePos.height);
 
 			// Convert positions arguments into choices argument for _place()
 			var choices = [];
@@ -345,16 +345,13 @@ define([
 	};
 
 	/*=====
-	place.__Position = function(){
+	place.__Position = {
 		// x: Integer
 		//		horizontal coordinate in pixels, relative to document body
 		// y: Integer
 		//		vertical coordinate in pixels, relative to document body
-
-		this.x = x;
-		this.y = y;
 	};
-	place.__Rectangle = function(){
+	place.__Rectangle = {
 		// x: Integer
 		//		horizontal offset in pixels, relative to document body
 		// y: Integer
@@ -362,14 +359,9 @@ define([
 		// w: Integer
 		//		width in pixels.   Can also be specified as "width" for backwards-compatibility.
 		// h: Integer
-		//		height in pixels.   Can also be specified as "height" from backwards-compatibility.
-
-		this.x = x;
-		this.y = y;
-		this.w = w;
-		this.h = h;
+		//		height in pixels.   Can also be specified as "height" for backwards-compatibility.
 	};
 	=====*/
 
-	return dijit.place = place;
+	return dijit.place = place;	// setting dijit.place for back-compat, remove for 2.0
 });

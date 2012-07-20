@@ -19,7 +19,7 @@ define([
 //		dijit/form/_FormSelectWidget
 
 /*=====
-var __SelectOption = function(){
+var __SelectOption = {
 	// value: String
 	//		The value of the option.  Setting to empty (or missing) will
 	//		place a separator at that location
@@ -29,10 +29,6 @@ var __SelectOption = function(){
 	//		Whether or not we are a selected option
 	// disabled: Boolean
 	//		Whether or not this specific option is disabled
-	this.value = value;
-	this.label = label;
-	this.selected = selected;
-	this.disabled = disabled;
 };
 =====*/
 

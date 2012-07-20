@@ -21,13 +21,9 @@ define([
 
 	// module:
 	//		dijit/popup
-	// summary:
-	//		Used to show drop downs (ex: the select list of a ComboBox)
-	//		or popups (ex: right-click context menus)
-
 
 	/*=====
-	var __OpenArgs = function(){
+	var __OpenArgs = {
 		// popup: Widget
 		//		widget to display
 		// parent: Widget
@@ -57,7 +53,7 @@ define([
 		//		fit in the viewport, then it tries, in order, the bottom-right corner, the top left corner,
 		//		and the top-right corner.
 		// onCancel: Function
-		//		callback when user has canceled the popup by
+		//		callback when user has canceled the popup by:
 		//
 		//		1. hitting ESC or
 		//		2. by using the popup widget's proprietary cancel mechanism (like a cancel button in a dialog);
@@ -68,18 +64,7 @@ define([
 		//		callback when user "executed" on the popup/sub-popup by selecting a menu choice, etc. (top menu only)
 		// padding: place.__Position
 		//		adding a buffer around the opening position. This is only useful when around is not set.
-		this.popup = popup;
-		this.parent = parent;
-		this.around = around;
-		this.x = x;
-		this.y = y;
-		this.orient = orient;
-		this.onCancel = onCancel;
-		this.onClose = onClose;
-		this.onExecute = onExecute;
-		this.padding = padding;
 	};
-
 	=====*/
 
 	function destroyWrapper(){

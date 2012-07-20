@@ -12,7 +12,7 @@ define([
 	//		dijit/tree/_dndContainer
 
 	/*=====
-	 var __Args = function(){
+	 var __Args = {
 		 // summary:
 		 //		A dict of parameters for Tree source configuration.
 		 // isSource: Boolean?
@@ -26,12 +26,6 @@ define([
 		 //		The move delay in pixels before detecting a drag; 0 by default
 		 // betweenThreshold: Integer
 		 //		Distance from upper/lower edge of node to allow drop to reorder nodes
-		 this.isSource = isSource;
-		 this.accept = accept;
-		 this.autoSync = autoSync;
-		 this.copyOnly = copyOnly;
-		 this.dragThreshold = dragThreshold;
-		 this.betweenThreshold = betweenThreshold;
 	 };
 	 =====*/
 

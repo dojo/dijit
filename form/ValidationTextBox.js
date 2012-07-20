@@ -13,13 +13,11 @@ define([
 
 
 	/*=====
-	var __Constraints = function(){
+	var __Constraints = {
 		// locale: String
 		//		locale used for validation, picks up value from this widget's lang attribute
 		// _flags_: anything
 		//		various flags passed to pattern function
-		this.locale = "";
-		this._flags_ = "";
 	};
 	=====*/
 

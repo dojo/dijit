@@ -123,14 +123,12 @@ define([
 		}
 	});
 	/*=====
-	RangeBoundTextBox.__Constraints = function(){
+	RangeBoundTextBox.__Constraints = declare(null, {
 		// min: Number
 		//		Minimum signed value.  Default is -Infinity
 		// max: Number
 		//		Maximum signed value.  Default is +Infinity
-		this.min = min;
-		this.max = max;
-	};
+	});
 	=====*/
 	return RangeBoundTextBox;
 });
