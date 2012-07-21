@@ -20,6 +20,15 @@
 
 				robot.initRobot('../test_BorderContainer.html');
 
+				var focus;
+
+				doh.register("setup", [
+					function setup(){
+						// get pointers to singletons loaded on test page
+						focus = robot.window.require("dijit/focus");
+					}
+				]);
+
 				doh.register("mouse", [
 					{
 						name: "expand right pane",
@@ -95,8 +104,6 @@
 							robot.sequence(function(){
 								dom.byId("toggleLeftButton").focus();
 							}, 500, 500);
-
-							focus = robot.window.require("dijit/focus");
 
 							// Tab into second BorderContainer, landing on link
 							robot.keyPress(keys.TAB, 500, {});

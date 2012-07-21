@@ -19,11 +19,12 @@
 
 				robot.initRobot('../test_AccordionContainer.html');
 
+				var registry;
+
 				doh.register("setup", [
 					function setup(){
 						// get pointers to singletons loaded on test page
 						registry = robot.window.require("dijit/registry");
-						focus = robot.window.require("dijit/focus");
 					}
 				]);
 

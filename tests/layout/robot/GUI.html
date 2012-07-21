@@ -21,11 +21,12 @@
 	
 				robot.initRobot('../test_Gui.html');
 
+				var registry;
+
 				doh.register("setup", [
 					function setup(){
 						// get pointers to singletons loaded on test page
 						registry = robot.window.require("dijit/registry");
-						focus = robot.window.require("dijit/focus");
 					}
 				]);
 
@@ -37,14 +38,6 @@
 						bcTest.checkBCpanes(registry.byId("bottomSplit"), "bottomSplit bcTest.checkBCpanes");
 						bcTest.checkInside(registry.byId("topTabs1"), registry.byId("centerSplit"), "topTabs1 inside centerSplit");
 						doh.t(helpers.isVisible(registry.byId("basicFormTab").domNode), "basicFormTab visible");
-					}
-				]);
-
-				doh.register("setup", [
-					function setup(){
-						// get pointers to singletons loaded on test page
-						registry = robot.window.require("dijit/registry");
-						focus = robot.window.require("dijit/focus");
 					}
 				]);
 

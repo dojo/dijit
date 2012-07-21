@@ -13,13 +13,15 @@
 			djConfig="isDebug: true"></script>
 
 		<script type="text/javascript">
-		require([
-			"doh/runner", "dojo/robotx",
-			"dojo/dom", "dojo/dom-geometry", "dojo/on", "dojo/query",
-			"dijit/tests/helpers", "dojo/domReady!"
-		], function(doh, robot, dom, geom, on, query, helpers){
+			require([
+				"doh/runner", "dojo/robotx",
+				"dojo/dom", "dojo/dom-geometry", "dojo/on", "dojo/query",
+				"dijit/tests/helpers", "dojo/domReady!"
+			], function(doh, robot, dom, geom, on, query, helpers){
 
 				robot.initRobot('../test_TabContainer.html');
+
+				var registry, focus;
 
 				doh.register("setup", [
 					function setup(){
