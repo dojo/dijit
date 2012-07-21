@@ -10,11 +10,9 @@ define([
 	return declare("dijit.form.DateTextBox", _DateTimeTextBox, {
 		// summary:
 		//		A validating, serializable, range-bound date text box with a drop down calendar
-		//
-		//		Example:
-		// |	new dijit.form.DateTextBox({value: new Date(2009, 0, 20)})
-		//
-		//		Example:
+		// example:
+		// |	new DateTextBox({value: new Date(2009, 0, 20)})
+		// example:
 		// |	<input data-dojo-type='dijit.form.DateTextBox' value='2009-01-20'>
 
 		baseClass: "dijitTextBox dijitComboBox dijitDateTextBox",
