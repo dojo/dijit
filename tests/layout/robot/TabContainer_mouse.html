@@ -43,7 +43,7 @@
 
 							robot.mouseMoveAt('mainTabContainer_tablist_tab3', 500);
 
-							on(dom.byId('mainTabContainer_tablist_tab3'), "mouseover", function(){
+							on.once(dom.byId('mainTabContainer_tablist_tab3'), "mouseover", function(){
 								setTimeout(d.getTestCallback(function(){
 									// Check that .dijitTabHover class was applied
 									var tabHover = query(".dijitTabHover #mainTabContainer_tablist_tab3");
@@ -120,7 +120,7 @@
 						timeout: 10000,
 						runTest: function(t){
 							var d = new doh.Deferred();
-							robot.mouseClick({left: true}, 500);
+
 							robot.mouseMoveAt(query('.dijitTabCloseButton', registry.byId("mainTabContainer_tablist_tab3").domNode)[0], 500);
 							
 							// verify the close button is in its hover state
