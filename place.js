@@ -189,7 +189,7 @@ define([
 
 		around: function(
 			/*DomNode*/		node,
-			/*DomNode|__Rectangle*/ anchor,
+			/*DomNode|dijit/place.__Rectangle*/ anchor,
 			/*String[]*/	positions,
 			/*Boolean*/		leftToRight,
 			/*Function?*/	layoutNode){
