@@ -268,12 +268,12 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 						// summary:
 						//		Queries the store for objects.   Like dojo.store.DataStore.query()
 						//		except returned Deferred contains array of native items.
-						var fetchHandle,
-							deferred = new Deferred(function(){ if(fetchHandle.abort){ fetchHandle.abort(); } } );
-						fetchHandle = this.fetch(lang.mixin({
+						var deferred = new Deferred(function(){ if(fetchHandle.abort){ fetchHandle.abort(); } } );
+						deferred.total = new Deferred();
+						var fetchHandle = this.fetch(lang.mixin({
 							query: query,
 							onBegin: function(count){
-								deferred.total = count;
+								deferred.total.resolve(count);
 							},
 							onComplete: function(results){
 								deferred.resolve(results);

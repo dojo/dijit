@@ -256,6 +256,31 @@
 				}
 			]);
 
+			doh.register("asynchronous data store", [
+				{
+					timeout:5000,
+					name:"total",
+					runTest: function(){
+						var d = new doh.Deferred();
+						var combo = dijit.byId("slow");
+						var handler = dojo.connect(combo, "onSearch", function(results, query, options){
+							dojo.disconnect(handler);
+							d.getTestCallback(function(){
+								doh.is(30, options.start, "start");
+								doh.is(4, results.length, "count");
+								doh.is(61, results.total, "total");
+							})();
+						});
+						combo._set('fetchProperties', { start:30, count:4 });
+						combo._startSearch("");
+						return d;
+					},
+					tearDown:function(){
+						dijit.byId("slow").closeDropDown();
+					}
+				}
+			]);
+
 			doh.run();
 		}
 		dojo.ready(init);
