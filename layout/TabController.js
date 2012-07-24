@@ -161,7 +161,7 @@ define([
 				textDir: this.textDir,
 				onClick: function(evt){
 					var button = registry.byNode(this.getParent().currentTarget);
-					controller.onCloseButtonClick(button);
+					controller.onCloseButtonClick(button.page);
 				}
 			}));
 		}
