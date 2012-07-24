@@ -130,7 +130,7 @@ return declare("dijit.tree.ForestStoreModel", TreeStoreModel, {
 
 	newItem: function(/* dijit/tree/dndSource.__Item */ args, /*Item*/ parent, /*int?*/ insertIndex){
 		// summary:
-		//		Creates a new item.   See dojo.data.api.Write for details on args.
+		//		Creates a new item.   See dojo/data/api/Write for details on args.
 		//		Used in drag & drop when item from external source dropped onto tree.
 		if(parent === this.root){
 			this.onNewRootItem(args);

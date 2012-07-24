@@ -11,7 +11,7 @@ define([
 
 return declare( "dijit.form._ComboBoxMenuMixin", null, {
 	// summary:
-	//		Focus-less menu for internal use in `dijit.form.ComboBox`
+	//		Focus-less menu for internal use in `dijit/form/ComboBox`
 	// tags:
 	//		private
 
@@ -75,7 +75,7 @@ return declare( "dijit.form._ComboBoxMenuMixin", null, {
 	_createOption: function(/*Object*/ item, labelFunc){
 		// summary:
 		//		Creates an option to appear on the popup menu subclassed by
-		//		`dijit.form.FilteringSelect`.
+		//		`dijit/form/FilteringSelect`.
 
 		var menuitem = this._createMenuItem();
 		var labelObject = labelFunc(item);

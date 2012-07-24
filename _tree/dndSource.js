@@ -6,7 +6,7 @@ define([
 	// module:
 	//		dijit/_tree/dndSource
 	// summary:
-	//		Deprecated module, use dijit.tree.dndSource instead
+	//		Deprecated module, use dijit/tree/dndSource instead.
 
 	// TODO: remove this file in 2.0
 	kernel.deprecated("dijit._tree.dndSource has been moved to dijit.tree.dndSource, use that instead", "", "2.0");

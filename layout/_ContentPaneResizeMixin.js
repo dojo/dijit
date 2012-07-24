@@ -38,7 +38,7 @@ return declare("dijit.layout._ContentPaneResizeMixin", null, {
 
 	startup: function(){
 		// summary:
-		//		See `dijit.layout._LayoutWidget.startup` for description.
+		//		See `dijit/layout/_LayoutWidget.startup()` for description.
 		//		Although ContentPane doesn't extend _LayoutWidget, it does implement
 		//		the same API.
 
@@ -95,7 +95,7 @@ return declare("dijit.layout._ContentPaneResizeMixin", null, {
 
 	resize: function(changeSize, resultSize){
 		// summary:
-		//		See `dijit.layout._LayoutWidget.resize` for description.
+		//		See `dijit/layout/_LayoutWidget.resize()` for description.
 		//		Although ContentPane doesn't extend _LayoutWidget, it does implement
 		//		the same API.
 

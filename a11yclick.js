@@ -62,7 +62,7 @@ define([
 						lastKeyDownNode = e.target;
 
 						// Prevent viewport scrolling on space key in IE<9.
-						// (Reproducible on test_Button.html on any of the first dijit.form.Button examples)
+						// (Reproducible on test_Button.html on any of the first dijit/form/Button examples)
 						e.preventDefault();
 					}
 				}),

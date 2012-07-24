@@ -21,7 +21,7 @@ return declare("dijit.form._FormWidgetMixin", null, {
 	// description:
 	//		Represents a single HTML element.
 	//		All these widgets should have these attributes just like native HTML input elements.
-	//		You can set them during widget construction or afterwards, via `dijit._Widget.attr`.
+	//		You can set them during widget construction or afterwards, via `dijit/_WidgetBase.set()`.
 	//
 	//		They also share some common methods.
 

@@ -12,7 +12,7 @@ define([
 
 var LayoutContainer = declare("dijit.layout.LayoutContainer", _LayoutWidget, {
 	// summary:
-	//		Deprecated.  Use `dijit.layout.BorderContainer` instead.
+	//		Deprecated.  Use `dijit/layout/BorderContainer` instead.
 	// description:
 	//		Provides Delphi-style panel layout semantics.
 	//

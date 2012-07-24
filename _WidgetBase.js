@@ -932,7 +932,7 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		//		A handle that can be passed to `disconnect` in order to disconnect before
 		//		the widget is destroyed.
 		// example:
-		//	|	var btn = new dijit.form.Button();
+		//	|	var btn = new Button();
 		//	|	// when foo.bar() is called, call the listener we're going to
 		//	|	// provide in the scope of btn
 		//	|	btn.connect(foo, "bar", function(){
@@ -969,7 +969,7 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		// method: Function
 		//		The callback
 		// example:
-		//	|	var btn = new dijit.form.Button();
+		//	|	var btn = new Button();
 		//	|	// when /my/topic is published, this button changes its label to
 		//	|	// be the parameter of the topic.
 		//	|	btn.subscribe("/my/topic", function(v){
@@ -1031,19 +1031,19 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		//		to a variable.
 		// example:
 		//	|	// create a Button with no srcNodeRef, and place it in the body:
-		//	|	var button = new dijit.form.Button({ label:"click" }).placeAt(win.body());
+		//	|	var button = new Button({ label:"click" }).placeAt(win.body());
 		//	|	// now, 'button' is still the widget reference to the newly created button
 		//	|	button.on("click", function(e){ console.log('click'); }));
 		// example:
 		//	|	// create a button out of a node with id="src" and append it to id="wrapper":
-		//	|	var button = new dijit.form.Button({},"src").placeAt("wrapper");
+		//	|	var button = new Button({},"src").placeAt("wrapper");
 		// example:
 		//	|	// place a new button as the first element of some div
-		//	|	var button = new dijit.form.Button({ label:"click" }).placeAt("wrapper","first");
+		//	|	var button = new Button({ label:"click" }).placeAt("wrapper","first");
 		// example:
 		//	|	// create a contentpane and add it to a TabContainer
 		//	|	var tc = dijit.byId("myTabs");
-		//	|	new dijit.layout.ContentPane({ href:"foo.html", title:"Wow!" }).placeAt(tc)
+		//	|	new ContentPane({ href:"foo.html", title:"Wow!" }).placeAt(tc)
 
 		var refWidget = !reference.tagName && registry.byId(reference);
 		if(refWidget && refWidget.addChild && (!position || typeof position === "number")){

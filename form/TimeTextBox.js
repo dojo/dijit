@@ -32,13 +32,13 @@ define([
 		//		The value of this widget as a JavaScript Date object.  Note that the date portion implies time zone and daylight savings rules.
 		//
 		//		Example:
-		// |	new dijit.form.TimeTextBox({value: stamp.fromISOString("T12:59:59", new Date())})
+		// |	new dijit/form/TimeTextBox({value: stamp.fromISOString("T12:59:59", new Date())})
 		//
 		//		When passed to the parser in markup, must be specified according to locale-independent
 		//		`stamp.fromISOString` format.
 		//
 		//		Example:
-		// |	<input data-dojo-type='dijit.form.TimeTextBox' value='T12:34:00'>
+		// |	<input data-dojo-type='dijit/form/TimeTextBox' value='T12:34:00'>
 		value: new Date(""),		// value.toString()="NaN"
 		//FIXME: in markup, you have no control over daylight savings
 

@@ -10,7 +10,7 @@ define([
 
 return declare("dijit.form.HorizontalRuleLabels", HorizontalRule, {
 	// summary:
-	//		Labels for `dijit.form.HorizontalSlider`
+	//		Labels for `dijit/form/HorizontalSlider`
 
 	templateString: '<div class="dijitRuleContainer dijitRuleContainerH dijitRuleLabelsContainer dijitRuleLabelsContainerH"></div>',
 

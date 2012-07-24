@@ -8,7 +8,7 @@ define([
 
 	return declare("dijit.form.VerticalRule", HorizontalRule, {
 		// summary:
-		//		Hash marks for the `dijit.form.VerticalSlider`
+		//		Hash marks for the `dijit/form/VerticalSlider`
 
 		templateString: '<div class="dijitRuleContainer dijitRuleContainerV"></div>',
 		_positionPrefix: '<div class="dijitRuleMark dijitRuleMarkV" style="top:',

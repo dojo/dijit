@@ -16,7 +16,7 @@ define([
 		//		displaying the value when the field is not focused (currency symbol,
 		//		etc.)
 		// description:
-		//		Follows the pattern of `dijit.form.NumberTextBox.constraints`.
+		//		Follows the pattern of `dijit/form/NumberTextBox.__Constraints`.
 		//		In general developers won't need to set this parameter
 		// example:
 		//		To ensure that the user types in the cents (for example, 1.00 instead of just 1):
@@ -28,7 +28,7 @@ define([
 		// summary:
 		//		A validating currency textbox
 		// description:
-		//		CurrencyTextBox is similar to `dijit.form.NumberTextBox` but has a few
+		//		CurrencyTextBox is similar to `dijit/form/NumberTextBox` but has a few
 		//		extra features related to currency:
 		//
 		//		1. After specifying the currency type (american dollars, euros, etc.) it automatically

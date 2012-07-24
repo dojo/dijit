@@ -22,7 +22,7 @@ return declare("dijit.form._ButtonMixin", null, {
 	// example:
 	// |	<button data-dojo-type="dijit/form/Button" onClick="...">Hello world</button>
 	// example:
-	// |	var button1 = new dijit.form.Button({label: "hello world", onClick: foo});
+	// |	var button1 = new Button({label: "hello world", onClick: foo});
 	// |	dojo.body().appendChild(button1.domNode);
 
 	// label: HTML String

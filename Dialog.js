@@ -88,12 +88,12 @@ define([
 
 		// _firstFocusItem: [private readonly] DomNode
 		//		The pointer to the first focusable node in the dialog.
-		//		Set by `dijit._DialogMixin._getFocusItems`.
+		//		Set by `dijit/_DialogMixin._getFocusItems()`.
 		_firstFocusItem: null,
 
 		// _lastFocusItem: [private readonly] DomNode
 		//		The pointer to which node has focus prior to our dialog.
-		//		Set by `dijit._DialogMixin._getFocusItems`.
+		//		Set by `dijit/_DialogMixin._getFocusItems()`.
 		_lastFocusItem: null,
 
 		// doLayout: [protected] Boolean
@@ -553,7 +553,7 @@ define([
 			//		If the specified dialog isn't open then does nothing.
 			//
 			//		Caller is responsible for either setting display:none on the dialog domNode,
-			//		or calling dijit.popup.hide(), or removing it from the page DOM.
+			//		or calling dijit/popup.hide(), or removing it from the page DOM.
 
 			if(ds[ds.length-1].dialog == dialog){
 				// Removing the top (or only) dialog in the stack, return focus

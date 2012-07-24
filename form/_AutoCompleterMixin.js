@@ -21,14 +21,14 @@ define([
 
 	return declare("dijit.form._AutoCompleterMixin", SearchMixin, {
 		// summary:
-		//		A mixin that implements the base functionality for `dijit.form.ComboBox`/`dijit.form.FilteringSelect`
+		//		A mixin that implements the base functionality for `dijit/form/ComboBox`/`dijit/form/FilteringSelect`
 		// description:
-		//		All widgets that mix in dijit.form._AutoCompleterMixin must extend `dijit.form._FormValueWidget`.
+		//		All widgets that mix in dijit/form/_AutoCompleterMixin must extend `dijit/form/_FormValueWidget`.
 		// tags:
 		//		protected
 
 		// item: Object
-		//		This is the item returned by the dojo.data.store implementation that
+		//		This is the item returned by the dojo/store/api/Store implementation that
 		//		provides the data for this ComboBox, it's the currently selected item.
 		item: null,
 
@@ -437,7 +437,7 @@ define([
 		_getValueField: function(){
 			// summary:
 			//		Helper for postMixInProperties() to set this.value based on data inlined into the markup.
-			//		Returns the attribute name in the item (in dijit.form._ComboBoxDataStore) to use as the value.
+			//		Returns the attribute name in the item (in dijit/form/_ComboBoxDataStore) to use as the value.
 			return this.searchAttr;
 		},
 

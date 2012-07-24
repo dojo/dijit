@@ -87,7 +87,7 @@ var ColorPalette = declare("dijit.ColorPalette", [_Widget, _TemplatedMixin, _Pal
 ColorPalette._Color = declare("dijit._Color", Color, {
 	// summary:
 	//		Object associated with each cell in a ColorPalette palette.
-	//		Implements dijit.Dye.
+	//		Implements dijit/Dye.
 
 	// Template for each cell in normal (non-high-contrast mode).  Each cell contains a wrapper
 	// node for showing the border (called dijitPaletteImg for back-compat), and dijitColorPaletteSwatch

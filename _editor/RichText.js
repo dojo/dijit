@@ -35,11 +35,11 @@ define([
 // module:
 //		dijit/_editor/RichText
 // summary:
-//		dijit._editor.RichText is the core of dijit.Editor, which provides basic
+//		dijit/_editor/RichText is the core of dijit/Editor, which provides basic
 //		WYSIWYG editing features.
 
 // if you want to allow for rich text saving with back/forward actions, you must add a text area to your page with
-// the id==dijit._scopeName + "._editor.RichText.value" (typically "dijit._editor.RichText.value). For example,
+// the id==dijit._scopeName + "._editor.RichText.value" (typically "dijit/_editor/RichText.value). For example,
 // something like this will work:
 //
 //	<textarea id="dijit._editor.RichText.value" style="display:none;position:absolute;top:-100px;left:-100px;height:3px;width:3px;overflow:hidden;"></textarea>
@@ -47,11 +47,11 @@ define([
 
 var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 	// summary:
-	//		dijit._editor.RichText is the core of dijit.Editor, which provides basic
+	//		dijit/_editor/RichText is the core of dijit.Editor, which provides basic
 	//		WYSIWYG editing features.
 	//
 	// description:
-	//		dijit._editor.RichText is the core of dijit.Editor, which provides basic
+	//		dijit/_editor/RichText is the core of dijit.Editor, which provides basic
 	//		WYSIWYG editing features. It also encapsulates the differences
 	//		of different js engines for various browsers.  Do not use this widget
 	//		with an HTML &lt;TEXTAREA&gt; tag, since the browser unescapes XML escape characters,
@@ -667,7 +667,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		// summary:
 		//		add an external stylesheet for the editing area
 		// uri:
-		//		A dojo.uri.Uri pointing to the url of the external css file
+		//		Url of the external css file
 		var url=uri.toString();
 
 		//if uri is relative, then convert it to absolute so that it can be resolved correctly in iframe
@@ -676,7 +676,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		}
 
 		if(array.indexOf(this.editingAreaStyleSheets, url) > -1){
-//			console.debug("dijit._editor.RichText.addStyleSheet: Style sheet "+url+" is already applied");
+//			console.debug("dijit/_editor/RichText.addStyleSheet(): Style sheet "+url+" is already applied");
 			return;
 		}
 
@@ -695,7 +695,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		}));
 	},
 
-	removeStyleSheet: function(/*dojo/base/url*/ uri){
+	removeStyleSheet: function(/*dojo/_base/url*/ uri){
 		// summary:
 		//		remove an external stylesheet for the editing area
 		var url=uri.toString();
@@ -705,7 +705,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		}
 		var index = array.indexOf(this.editingAreaStyleSheets, url);
 		if(index === -1){
-//			console.debug("dijit._editor.RichText.removeStyleSheet: Style sheet "+url+" has not been applied");
+//			console.debug("dijit/_editor/RichText.removeStyleSheet(): Style sheet "+url+" has not been applied");
 			return;
 		}
 		delete this.editingAreaStyleSheets[index];
@@ -1356,7 +1356,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 	_sCall: function(name, args){
 		// summary:
-		//		Run the named method of dijit._editor.selection over the
+		//		Run the named method of dijit/_editor/selection over the
 		//		current editor instance's window, with the passed args.
 		// tags:
 		//		private

@@ -193,8 +193,8 @@ define([
 					// remove this branch for 2.0
 					q = qs;
 				}else{
-					// Query on searchAttr is a regex for benefit of dojo.store.Memory,
-					// but with a toString() method to help dojo.store.JsonRest.
+					// Query on searchAttr is a regex for benefit of dojo/store/Memory,
+					// but with a toString() method to help dojo/store/JsonRest.
 					// Search string like "Co*" converted to regex like /^Co.*$/i.
 					q = filter.patternToRegExp(qs, this.ignoreCase);
 					q.toString = function(){ return qs; };

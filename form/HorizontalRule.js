@@ -10,7 +10,7 @@ define([
 
 return declare("dijit.form.HorizontalRule", [_Widget, _TemplatedMixin], {
 	// summary:
-	//		Hash marks for `dijit.form.HorizontalSlider`
+	//		Hash marks for `dijit/form/HorizontalSlider`
 
 	templateString: '<div class="dijitRuleContainer dijitRuleContainerH"></div>',
 

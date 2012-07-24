@@ -83,7 +83,7 @@ define([
 		state: "",
 
 		// tooltipPosition: String[]
-		//		See description of `dijit.Tooltip.defaultPosition` for details on this parameter.
+		//		See description of `dijit/Tooltip.defaultPosition` for details on this parameter.
 		tooltipPosition: [],
 
 		_deprecateRegExp: function(attr, value){
@@ -308,7 +308,7 @@ define([
 		},
 
 		reset:function(){
-			// Overrides dijit.form.TextBox.reset() by also
+			// Overrides dijit/form/TextBox.reset() by also
 			// hiding errors about partial matches
 			this._maskValidSubsetError = true;
 			this.inherited(arguments);

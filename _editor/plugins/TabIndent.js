@@ -17,7 +17,7 @@ define([
 		//		to indent/outdent list items.  This overrides the default behavior
 		//		of moving focus from/to the toolbar
 
-		// Override _Plugin.useDefaultCommand... processing is handled by this plugin, not by dijit.Editor.
+		// Override _Plugin.useDefaultCommand... processing is handled by this plugin, not by dijit/Editor.
 		useDefaultCommand: false,
 
 		// Override _Plugin.buttonClass to use a ToggleButton for this plugin rather than a vanilla Button

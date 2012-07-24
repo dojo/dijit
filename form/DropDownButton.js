@@ -25,7 +25,7 @@ return declare("dijit.form.DropDownButton", [Button, _Container, _HasDropDown], 
 	// |	</button>
 	//
 	// example:
-	// |	var button1 = new dijit.form.DropDownButton({ label: "hi", dropDown: new dijit.Menu(...) });
+	// |	var button1 = new DropDownButton({ label: "hi", dropDown: new dijit.Menu(...) });
 	// |	win.body().appendChild(button1);
 	//
 

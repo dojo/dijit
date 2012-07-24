@@ -235,7 +235,7 @@ define([
 
 	});
 
-	// Add in 1.x compatibility methods to dijit.registry.
+	// Add in 1.x compatibility methods to dijit/registry.
 	// These functions won't show up in the API doc but since they are deprecated anyway,
 	// that's probably for the best.
 	array.forEach(["forEach", "filter", "byClass", "map", "every", "some"], function(func){

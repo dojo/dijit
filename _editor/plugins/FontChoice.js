@@ -443,7 +443,7 @@ var FontChoice = declare("dijit._editor.plugins.FontChoice", _Plugin,{
 
 	// useDefaultCommand: [protected] Boolean
 	//		Override _Plugin.useDefaultCommand...
-	//		processing is handled by this plugin, not by dijit.Editor.
+	//		processing is handled by this plugin, not by dijit/Editor.
 	useDefaultCommand: false,
 
 	_initButton: function(){

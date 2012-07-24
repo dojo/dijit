@@ -10,7 +10,7 @@ define([
 	"dojo/_base/lang", // lang.delegate lang.isArray lang.isObject lang.hitch
 	"dojo/query", // query
 	"dojo/when",
-	"dojo/store/util/QueryResults",	// dojo.store.util.QueryResults
+	"dojo/store/util/QueryResults",
 	"./_FormValueWidget"
 ], function(array, Deferred, aspect, sorter, declare, dom, domClass, kernel, lang, query, when,
 			QueryResults, _FormValueWidget){
@@ -51,7 +51,7 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 	// store: dojo/store/api/Store
 	//		A store to use for getting our list of options - rather than reading them
 	//		from the `<option>` html tags.   Should support getIdentity().
-	//		For back-compat store can also be a dojo.data.api.Identity.
+	//		For back-compat store can also be a dojo/data/api/Identity.
 	store: null,
 
 	// query: object
@@ -65,7 +65,7 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 	// labelAttr: String?
 	//		The entries in the drop down list come from this attribute in the dojo.store items.
 	//		If ``store`` is set, labelAttr must be set too, unless store is an old-style
-	//		dojo.data store rather than a new dojo.store.
+	//		dojo.data store rather than a new dojo/store.
 	labelAttr: "",
 
 	// onFetch: Function
@@ -98,12 +98,12 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 		// valueOrIdx:
 		//		If passed in as a string, that string is used to look up the option
 		//		in the array of options - based on the value property.
-		//		(See dijit.form.__SelectOption).
+		//		(See dijit/form/_FormSelectWidget.__SelectOption).
 		//
 		//		If passed in a number, then the option with the given index (0-based)
 		//		within this select will be returned.
 		//
-		//		If passed in a dijit.form.__SelectOption, the same option will be
+		//		If passed in a dijit/form/_FormSelectWidget.__SelectOption, the same option will be
 		//		returned if and only if it exists within this select.
 		//
 		//		If passed an array, then an array will be returned with each element
@@ -117,9 +117,9 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 		//
 		//		- A string value is passed in which doesn't exist
 		//		- An index is passed in which is outside the bounds of the array of options
-		//		- A dijit.form.__SelectOption is passed in which is not a part of the select
+		//		- A dijit/form/_FormSelectWidget.__SelectOption is passed in which is not a part of the select
 
-		// NOTE: the compare for passing in a dijit.form.__SelectOption checks
+		// NOTE: the compare for passing in a dijit/form/_FormSelectWidget.__SelectOption checks
 		//		if the value property matches - NOT if the exact option exists
 		// NOTE: if passing in an array, null elements will be placed in the returned
 		//		array when a value is not found.
@@ -225,8 +225,8 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 		//		The dojo.store you would like to use - it MUST implement getIdentity()
 		//		and MAY implement observe().
 		//		For backwards-compatibility this can also be a data.data store, in which case
-		//		it MUST implement dojo.data.api.Identity,
-		//		and MAY implement dojo.data.api.Notification.
+		//		it MUST implement dojo/data/api/Identity,
+		//		and MAY implement dojo/data/api/Notification.
 		// selectedValue: anything?
 		//		The value that this widget should set itself to *after* the store
 		//		has been loaded
@@ -266,7 +266,7 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 					},
 					query: function(query, options){
 						// summary:
-						//		Queries the store for objects.   Like dojo.store.DataStore.query()
+						//		Queries the store for objects.   Like dojo/store/DataStore.query()
 						//		except returned Deferred contains array of native items.
 						var deferred = new Deferred(function(){ if(fetchHandle.abort){ fetchHandle.abort(); } } );
 						deferred.total = new Deferred();
@@ -380,7 +380,7 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 					this.onLoadDeferred.reject(err);
 			});
 		}
-		return oStore;	// dojo.data.api.Identity
+		return oStore;	// dojo/data/api/Identity
 	},
 
 	// TODO: implement set() and watch() for store and query, although not sure how to handle

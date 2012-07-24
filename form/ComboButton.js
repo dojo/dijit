@@ -23,7 +23,7 @@ return declare("dijit.form.ComboButton", DropDownButton, {
 	// |	</button>
 	//
 	// example:
-	// |	var button1 = new dijit.form.ComboButton({label: "hello world", onClick: foo, dropDown: "myMenu"});
+	// |	var button1 = new ComboButton({label: "hello world", onClick: foo, dropDown: "myMenu"});
 	// |	dojo.body().appendChild(button1.domNode);
 	//
 

@@ -13,7 +13,7 @@ define([
 		// example:
 		// |	new DateTextBox({value: new Date(2009, 0, 20)})
 		// example:
-		// |	<input data-dojo-type='dijit.form.DateTextBox' value='2009-01-20'>
+		// |	<input data-dojo-type='dijit/form/DateTextBox' value='2009-01-20'>
 
 		baseClass: "dijitTextBox dijitComboBox dijitDateTextBox",
 		popupClass: Calendar,

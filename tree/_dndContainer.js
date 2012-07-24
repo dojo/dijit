@@ -32,8 +32,8 @@ define([
 	return declare("dijit.tree._dndContainer", null, {
 
 		// summary:
-		//		This is a base class for `dijit.tree._dndSelector`, and isn't meant to be used directly.
-		//		It's modeled after `dojo.dnd.Container`.
+		//		This is a base class for `dijit/tree/_dndSelector`, and isn't meant to be used directly.
+		//		It's modeled after `dojo/dnd/Container`.
 		// tags:
 		//		protected
 

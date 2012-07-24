@@ -29,7 +29,7 @@ define([
 
 var SplitContainer = declare("dijit.layout.SplitContainer", _LayoutWidget, {
 	// summary:
-	//		Deprecated.  Use `dijit.layout.BorderContainer` instead.
+	//		Deprecated.  Use `dijit/layout/BorderContainer` instead.
 	// description:
 	//		A Container widget with sizing handles in-between each child.
 	//		Contains multiple children widgets, all of which are displayed side by side

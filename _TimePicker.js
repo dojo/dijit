@@ -42,7 +42,7 @@ define([
 		//		every clickable element in the time picker increases.
 		//		Set in local time, without a time zone.
 		//		Example: `T00:15:00` creates 15 minute increments
-		//		Must divide dijit._TimePicker.visibleIncrement evenly
+		//		Must divide dijit/_TimePicker.visibleIncrement evenly
 		clickableIncrement: "T00:15:00",
 
 		// visibleIncrement: String
@@ -449,8 +449,8 @@ define([
 
 		handleKey: function(/*Event*/ e){
 			// summary:
-			//		Called from `dijit.form._DateTimeTextBox` to pass a keypress event
-			//		from the `dijit.form.TimeTextBox` to be handled in this widget
+			//		Called from `dijit/form/_DateTimeTextBox` to pass a keypress event
+			//		from the `dijit/form/TimeTextBox` to be handled in this widget
 			// tags:
 			//		protected
 			if(e.keyCode == keys.DOWN_ARROW || e.keyCode == keys.UP_ARROW){
@@ -500,15 +500,15 @@ define([
 	/*=====
 	 TimePicker.__Constraints = declare(locale.__FormatOptions, {
 		 // clickableIncrement: String
-		 //		See `dijit._TimePicker.clickableIncrement`
+		 //		See `dijit/_TimePicker.clickableIncrement`
 		 clickableIncrement: "T00:15:00",
 
 		 // visibleIncrement: String
-		 //		See `dijit._TimePicker.visibleIncrement`
+		 //		See `dijit/_TimePicker.visibleIncrement`
 		 visibleIncrement: "T01:00:00",
 
 		 // visibleRange: String
-		 //		See `dijit._TimePicker.visibleRange`
+		 //		See `dijit/_TimePicker.visibleRange`
 		 visibleRange: "T05:00:00"
 	 });
 	 =====*/

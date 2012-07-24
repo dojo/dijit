@@ -108,7 +108,7 @@ var dndSource = declare("dijit.tree.dndSource", _dndSelector, {
 		//		The source which provides items
 		// nodes: DOMNode[]
 		//		Array of DOM nodes corresponding to nodes being dropped, dijitTreeRow nodes if
-		//		source is a dijit.Tree.
+		//		source is a dijit/Tree.
 		// tags:
 		//		extension
 		return true;	// Boolean
@@ -416,7 +416,7 @@ var dndSource = declare("dijit.tree.dndSource", _dndSelector, {
 			var newItemsParams;
 
 			array.forEach(nodes, function(node, idx){
-				// dojo.dnd.Item representing the thing being dropped.
+				// dojo/dnd/Item representing the thing being dropped.
 				// Don't confuse the use of item here (meaning a DnD item) with the
 				// uses below where item means dojo.data item.
 				var sourceItem = source.getItem(node.id);
@@ -433,7 +433,7 @@ var dndSource = declare("dijit.tree.dndSource", _dndSelector, {
 				if(source == this){
 					// This is a node from my own tree, and we are moving it, not copying.
 					// Remove item from old parent's children attribute.
-					// TODO: dijit.tree.dndSelector should implement deleteSelectedNodes()
+					// TODO: dijit/tree/dndSelector should implement deleteSelectedNodes()
 					// and this code should go there.
 
 					if(typeof insertIndex == "number"){

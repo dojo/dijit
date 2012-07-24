@@ -11,7 +11,7 @@ define([
 
 	return declare("dijit.tree.ObjectStoreModel", null, {
 		// summary:
-		//		Implements dijit.Tree.model connecting dijit.Tree to a dojo.store that implements
+		//		Implements dijit/Tree/model connecting dijit.Tree to a dojo.store that implements
 		//		getChildren().
 		//
 		//		If the store implements Observable, then it will be leveraged to reflect
@@ -179,7 +179,7 @@ define([
 
 		newItem: function(/* dijit/tree/dndSource.__Item */ args, /*Item*/ parent, /*int?*/ insertIndex, /*Item*/ before){
 			// summary:
-			//		Creates a new item.   See `dojo.data.api.Write` for details on args.
+			//		Creates a new item.   See `dojo/data/api/Write` for details on args.
 			//		Used in drag & drop when item from external source dropped onto tree.
 
 			return this.store.put(args, {

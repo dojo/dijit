@@ -43,8 +43,8 @@ define([
 			this.focusNode.setAttribute("aria-readonly", value);
 		},
 
-		// Override dijit.form.Button._setLabelAttr() since we don't even have a containerNode.
-		// Normally users won't try to set label, except when CheckBox or RadioButton is the child of a dojox.layout.TabContainer
+		// Override dijit/form/Button._setLabelAttr() since we don't even have a containerNode.
+		// Normally users won't try to set label, except when CheckBox or RadioButton is the child of a dojox/layout/TabContainer
 		_setLabelAttr: undefined,
 
 		_getSubmitValue: function(/*String*/ value){

@@ -9,7 +9,7 @@ define([
 
 	return declare("dijit.layout.AccordionPane", ContentPane, {
 		// summary:
-		//		Deprecated widget.   Use `dijit.layout.ContentPane` instead.
+		//		Deprecated widget.   Use `dijit/layout/ContentPane` instead.
 		// tags:
 		//		deprecated
 

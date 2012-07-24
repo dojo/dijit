@@ -34,7 +34,7 @@ define([
 		//		Despite the name, this parameter specifies both constraints on the input
 		//		(including starting/ending dates/times allowed) as well as
 		//		formatting options like whether the date is displayed in long (ex: December 25, 2005)
-		//		or short (ex: 12/25/2005) format.  See `dijit.form._DateTimeTextBox.__Constraints` for details.
+		//		or short (ex: 12/25/2005) format.  See `dijit/form/_DateTimeTextBox.__Constraints` for details.
 		constraints: {},
 		======*/
 
@@ -97,7 +97,7 @@ define([
 
 		// value: Date
 		//		The value of this widget as a JavaScript Date object.  Use get("value") / set("value", val) to manipulate.
-		//		When passed to the parser in markup, must be specified according to `dojo.date.stamp.fromISOString`
+		//		When passed to the parser in markup, must be specified according to `dojo/date/stamp.fromISOString()`
 		value: new Date(""),	// value.toString()="NaN"
 
 		_blankValue: null,	// used by filter() when the textbox is blank

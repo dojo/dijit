@@ -18,8 +18,8 @@ define([
 
 	return declare("dijit.tree._dndSelector", _dndContainer, {
 		// summary:
-		//		This is a base class for `dijit.tree.dndSource` , and isn't meant to be used directly.
-		//		It's based on `dojo.dnd.Selector`.
+		//		This is a base class for `dijit/tree/dndSource` , and isn't meant to be used directly.
+		//		It's based on `dojo/dnd/Selector`.
 		// tags:
 		//		protected
 
@@ -327,7 +327,7 @@ define([
 		getItem: function(/*String*/ key){
 			// summary:
 			//		Returns the dojo/dnd/Container._Item (representing a dragged node) by it's key (id).
-			//		Called by dojo.dnd.Source.checkAcceptance().
+			//		Called by dojo/dnd/Source.checkAcceptance().
 			// tags:
 			//		protected
 
@@ -341,7 +341,7 @@ define([
 		forInSelectedItems: function(/*Function*/ f, /*Object?*/ o){
 			// summary:
 			//		Iterates over selected items;
-			//		see `dojo.dnd.Container.forInItems()` for details
+			//		see `dojo/dnd/Container.forInItems()` for details
 			o = o || kernel.global;
 			for(var id in this.selection){
 				// console.log("selected item id: " + id);

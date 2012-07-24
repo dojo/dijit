@@ -29,7 +29,7 @@ define([
 		// description:
 		//		A simple GUI for choosing a date in the context of a monthly calendar.
 		//		This widget can't be used in a form because it doesn't serialize the date to an
-		//		`<input>` field.  For a form element, use dijit.form.DateTextBox instead.
+		//		`<input>` field.  For a form element, use dijit/form/DateTextBox instead.
 		//
 		//		Note that the parser takes all dates attributes passed in the
 		//		[RFC 3339 format](http://www.faqs.org/rfcs/rfc3339.html), e.g. `2005-06-30T08:05:00-07:00`

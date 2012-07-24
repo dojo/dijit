@@ -153,8 +153,8 @@ define([
 			//		Provides keyboard navigation of calendar.
 			// description:
 			//		Called from _onKeyDown() to handle keypress on a stand alone Calendar,
-			//		and also from `dijit.form._DateTimeTextBox` to pass a keydown event
-			//		from the `dijit.form.DateTextBox` to be handled in this widget
+			//		and also from `dijit/form/_DateTimeTextBox` to pass a keydown event
+			//		from the `dijit/form/DateTextBox` to be handled in this widget
 			// returns:
 			//		False if the key was recognized as a navigation key,
 			//		to indicate that the event was handled by Calendar and shouldn't be propagated
@@ -222,7 +222,7 @@ define([
 			// summary:
 			//		Deprecated.   Notification that a date cell was selected.  It may be the same as the previous value.
 			// description:
-			//		Formerly used by `dijit.form._DateTimeTextBox` (and thus `dijit.form.DateTextBox`)
+			//		Formerly used by `dijit/form/_DateTimeTextBox` (and thus `dijit/form/DateTextBox`)
 			//		to get notification when the user has clicked a date.  Now onExecute() (above) is used.
 			// tags:
 			//		protected

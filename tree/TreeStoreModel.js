@@ -10,7 +10,7 @@ define([
 
 	return declare("dijit.tree.TreeStoreModel", null, {
 		// summary:
-		//		Implements dijit.Tree.model connecting to a dojo.data store with a single
+		//		Implements dijit/Tree/model connecting to a dojo.data store with a single
 		//		root item.  Any methods passed into the constructor will override
 		//		the ones defined here.
 
@@ -210,7 +210,7 @@ define([
 
 		newItem: function(/* dijit/tree/dndSource.__Item */ args, /*dojo/data/api/Item*/ parent, /*int?*/ insertIndex){
 			// summary:
-			//		Creates a new item.   See `dojo.data.api.Write` for details on args.
+			//		Creates a new item.   See `dojo/data/api/Write` for details on args.
 			//		Used in drag & drop when item from external source dropped onto tree.
 			// description:
 			//		Developers will need to override this method if new items get added

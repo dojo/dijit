@@ -124,7 +124,7 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 		//
 		//		For some subclasses of TextBox (like ComboBox), the displayed value
 		//		is different from the serialized value that's actually
-		//		sent to the server (see dijit.form.ValidationTextBox.serialize)
+		//		sent to the server (see `dijit/form/ValidationTextBox.serialize()`)
 
 		// TODO: maybe we should update this.displayedValue on every keystroke so that we don't need
 		// this method
@@ -183,7 +183,7 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 		// summary:
 		//		After the user types some characters, etc., this method is
 		//		called to check the field for validity etc.  The base method
-		//		in `dijit.form.TextBox` does nothing, but subclasses override.
+		//		in `dijit/form/TextBox` does nothing, but subclasses override.
 		// tags:
 		//		protected
 	},
@@ -423,7 +423,7 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 	},
 
 	reset: function(){
-		// Overrides dijit._FormWidget.reset().
+		// Overrides `dijit/_FormWidget/reset()`.
 		// Additionally resets the displayed textbox value to ''
 		this.textbox.value = '';
 		this.inherited(arguments);

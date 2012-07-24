@@ -102,7 +102,7 @@ define([
 			var formattedValue = String(value);
 			if(typeof value != "number"){ return formattedValue; }
 			if(isNaN(value)){ return ""; }
-			// check for exponential notation that dojo.number.format chokes on
+			// check for exponential notation that dojo/number.format() chokes on
 			if(!("rangeCheck" in this && this.rangeCheck(value, constraints)) && constraints.exponent !== false && /\de[-+]?\d/i.test(formattedValue)){
 				return formattedValue;
 			}
@@ -152,7 +152,7 @@ define([
 			//		When called with the actual value it does corrections so that '' etc. are represented as NaN.
 			//		Otherwise it dispatches to the superclass's filter() method.
 			//
-			//		See `dijit.form.TextBox.filter` for more details.
+			//		See `dijit/form/TextBox.filter()` for more details.
 			return (value == null /* or undefined */ || value === '') ? NaN : this.inherited(arguments); // set('value', null||''||undefined) should fire onChange(NaN)
 		},
 
@@ -213,7 +213,7 @@ define([
 		},
 
 		isValid: function(/*Boolean*/ isFocused){
-			// Overrides dijit.form.RangeBoundTextBox.isValid to check that the editing-mode value is valid since
+			// Overrides dijit/form/RangeBoundTextBox.isValid() to check that the editing-mode value is valid since
 			// it may not be formatted according to the regExp validation rules
 			if(!this.focused || this._isEmpty(this.textbox.value)){
 				return this.inherited(arguments);

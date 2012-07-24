@@ -189,7 +189,7 @@ define([
 				// toggle the drop down.
 				//
 				// The if(has("touch") is necessary since IE and desktop safari get spurious onclick events
-				// when there are nested tables (specifically, clicking on a table that holds a dijit.form.Select,
+				// when there are nested tables (specifically, clicking on a table that holds a dijit/form/Select,
 				// but not on the Select itself, causes an onclick event on the Select)
 				this._onDropDownMouseDown(e);
 				this._onDropDownMouseUp(e);
@@ -369,7 +369,7 @@ define([
 			//		Opens the dropdown for this widget.   To be called only when this.dropDown
 			//		has been created and is ready to display (ie, it's data is loaded).
 			// returns:
-			//		return value of dijit.popup.open()
+			//		return value of dijit/popup.open()
 			// tags:
 			//		protected
 
@@ -380,7 +380,7 @@ define([
 
 			// Prepare our popup's height and honor maxHeight if it exists.
 
-			// TODO: isn't maxHeight dependent on the return value from dijit.popup.open(),
+			// TODO: isn't maxHeight dependent on the return value from dijit/popup.open(),
 			// ie, dependent on how much space is available (BK)
 
 			if(!this._preparedNode){

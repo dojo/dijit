@@ -60,7 +60,7 @@ define([
 			//
 			// example:
 			//		Work with the widget .domNodes in a real Array
-			//		|	array.map(dijit.registry.toArray(), function(w){ return w.domNode; });
+			//		|	array.map(registry.toArray(), function(w){ return w.domNode; });
 
 			var ar = [];
 			for(var id in hash){

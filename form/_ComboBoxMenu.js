@@ -16,7 +16,7 @@ define([
 
 	return declare("dijit.form._ComboBoxMenu",[_WidgetBase, _TemplatedMixin, _ListMouseMixin, _ComboBoxMenuMixin], {
 		// summary:
-		//		Focus-less menu for internal use in `dijit.form.ComboBox`
+		//		Focus-less menu for internal use in `dijit/form/ComboBox`
 		//		Abstract methods that must be defined externally:
 		//
 		//		- onChange: item was explicitly chosen (mousedown somewhere on the menu and mouseup somewhere on the menu)

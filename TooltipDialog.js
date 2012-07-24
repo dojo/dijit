@@ -37,21 +37,21 @@ define([
 		// autofocus: Boolean
 		//		A Toggle to modify the default focus behavior of a Dialog, which
 		//		is to focus on the first dialog element after opening the dialog.
-		//		False will disable autofocusing. Default: true
+		//		False will disable autofocusing.  Default: true.
 		autofocus: true,
 
 		// baseClass: [protected] String
 		//		The root className to use for the various states of this widget
 		baseClass: "dijitTooltipDialog",
 
-		// _firstFocusItem: [private] [readonly] DomNode
+		// _firstFocusItem: [private readonly] DomNode
 		//		The pointer to the first focusable node in the dialog.
-		//		Set by `dijit._DialogMixin._getFocusItems`.
+		//		Set by `dijit/_DialogMixin._getFocusItems()`.
 		_firstFocusItem: null,
 
-		// _lastFocusItem: [private] [readonly] DomNode
+		// _lastFocusItem: [private readonly] DomNode
 		//		The pointer to which node has focus prior to our dialog.
-		//		Set by `dijit._DialogMixin._getFocusItems`.
+		//		Set by `dijit/_DialogMixin._getFocusItems()`.
 		_lastFocusItem: null,
 
 		templateString: template,

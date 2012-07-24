@@ -47,7 +47,7 @@ define([
 
 	var StackController = declare("dijit.layout.StackController", [_Widget, _TemplatedMixin, _Container], {
 		// summary:
-		//		Set of buttons to select a page in a `dijit.layout.StackContainer`
+		//		Set of buttons to select a page in a `dijit/layout/StackContainer`
 		// description:
 		//		Monitors the specified StackContainer, and whenever a page is
 		//		added, deleted, or selected, updates itself accordingly.

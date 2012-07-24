@@ -3,7 +3,7 @@ define([
 	"dojo/dom", // dom.byId
 	"dojo/_base/lang", // lang.trim
 	"dojo/query", // query
-	"dojo/store/Memory", // dojo.store.Memory
+	"dojo/store/Memory",
 	"../registry"	// registry.add registry.remove
 ], function(declare, dom, lang, query, MemoryStore, registry){
 

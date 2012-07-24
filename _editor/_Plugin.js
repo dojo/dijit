@@ -53,7 +53,7 @@ var _Plugin = declare("dijit._editor._Plugin", null, {
 	useDefaultCommand: true,
 
 	// buttonClass: Widget Class
-	//		Class of widget (ex: dijit.form.Button or dijit.form.FilteringSelect)
+	//		Class of widget (ex: dijit.form.Button or dijit/form/FilteringSelect)
 	//		that is added to the toolbar to control this plugin.
 	//		This is used to instantiate the button, unless `button` itself is specified directly.
 	buttonClass: Button,
@@ -114,7 +114,7 @@ var _Plugin = declare("dijit._editor._Plugin", null, {
 	connect: function(o, f, tf){
 		// summary:
 		//		Make a connect.connect() that is automatically disconnected when this plugin is destroyed.
-		//		Similar to `dijit._Widget.connect`.
+		//		Similar to `dijit/_Widget.connect()`.
 		// tags:
 		//		protected
 		this._connects.push(connect.connect(o, f, this, tf));

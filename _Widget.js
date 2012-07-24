@@ -317,8 +317,8 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 	onShow: function(){
 		// summary:
 		//		Called when this widget becomes the selected pane in a
-		//		`dijit.layout.TabContainer`, `dijit.layout.StackContainer`,
-		//		`dijit.layout.AccordionContainer`, etc.
+		//		`dijit/layout/TabContainer`, `dijit/layout/StackContainer`,
+		//		`dijit/layout/AccordionContainer`, etc.
 		//
 		//		Also called to indicate display of a `dijit.Dialog`, `dijit.TooltipDialog`, or `dijit.TitlePane`.
 		// tags:
@@ -328,8 +328,8 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 	onHide: function(){
 		// summary:
 		//		Called when another widget becomes the selected pane in a
-		//		`dijit.layout.TabContainer`, `dijit.layout.StackContainer`,
-		//		`dijit.layout.AccordionContainer`, etc.
+		//		`dijit/layout/TabContainer`, `dijit/layout/StackContainer`,
+		//		`dijit/layout/AccordionContainer`, etc.
 		//
 		//		Also called to indicate hide of a `dijit.Dialog`, `dijit.TooltipDialog`, or `dijit.TitlePane`.
 		// tags:
@@ -342,7 +342,7 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 		//		up from a DateTextBox), and it is hidden.
 		//		This is called from the dijit.popup code, and should not be called directly.
 		//
-		//		Also used as a parameter for children of `dijit.layout.StackContainer` or subclasses.
+		//		Also used as a parameter for children of `dijit/layout/StackContainer` or subclasses.
 		//		Callback if a user tries to close the child.   Child will be closed if this function returns true.
 		// tags:
 		//		extension

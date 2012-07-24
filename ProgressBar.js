@@ -57,7 +57,7 @@ return declare("dijit.ProgressBar", [_Widget, _TemplatedMixin], {
 
 	// name: String
 	//		this is the field name (for a form) if set. This needs to be set if you want to use
-	//		this widget in a dijit.form.Form widget (such as dijit.Dialog)
+	//		this widget in a dijit/form/Form widget (such as dijit/Dialog)
 	name: '',
 
 	templateString: template,

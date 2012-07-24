@@ -9,14 +9,14 @@ define([
 
 	return declare("dijit.form.MappedTextBox", ValidationTextBox, {
 		// summary:
-		//		A dijit.form.ValidationTextBox subclass which provides a base class for widgets that have
+		//		A dijit/form/ValidationTextBox subclass which provides a base class for widgets that have
 		//		a visible formatted display value, and a serializable
 		//		value in a hidden input field which is actually sent to the server.
 		// description:
 		//		The visible display may
 		//		be locale-dependent and interactive.  The value sent to the server is stored in a hidden
 		//		input field which uses the `name` attribute declared by the original widget.  That value sent
-		//		to the server is defined by the dijit.form.MappedTextBox.serialize method and is typically
+		//		to the server is defined by the dijit/form/MappedTextBox.serialize() method and is typically
 		//		locale-neutral.
 		// tags:
 		//		protected
@@ -54,13 +54,13 @@ define([
 		},
 
 		validate: function(){
-			// Overrides `dijit.form.TextBox.validate`
+			// Overrides `dijit/form/TextBox.validate`
 			this.valueNode.value = this.toString();
 			return this.inherited(arguments);
 		},
 
 		buildRendering: function(){
-			// Overrides `dijit._TemplatedMixin.buildRendering`
+			// Overrides `dijit/_TemplatedMixin/buildRendering`
 
 			this.inherited(arguments);
 
@@ -72,7 +72,7 @@ define([
 		},
 
 		reset: function(){
-			// Overrides `dijit.form.ValidationTextBox.reset` to
+			// Overrides `dijit/form/ValidationTextBox.reset` to
 			// reset the hidden textbox value to ''
 			this.valueNode.value = '';
 			this.inherited(arguments);

@@ -11,7 +11,7 @@ return declare(
 	//		"item" is typically a dojo/data/Item but it's just a black box so
 	//		it could be anything.
 	//
-	//		This (like `dojo.data.api.Read`) is just documentation, and not meant to be used.
+	//		This (like `dojo/data/api/Read`) is just documentation, and not meant to be used.
 
 	destroy: function(){
 		// summary:
@@ -94,7 +94,7 @@ return declare(
 
 	newItem: function(args, parent, insertIndex, before){
 		// summary:
-		//		Creates a new item.   See `dojo.data.api.Write` for details on args.
+		//		Creates a new item.   See `dojo/data/api/Write` for details on args.
 		// args: dijit/tree/dndSource.__Item
 		// parent: Item
 		// insertIndex: int?

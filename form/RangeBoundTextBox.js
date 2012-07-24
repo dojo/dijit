@@ -58,20 +58,20 @@ define([
 
 		_isValidSubset: function(){
 			// summary:
-			//		Overrides `dijit.form.ValidationTextBox._isValidSubset`.
+			//		Overrides `dijit/form/ValidationTextBox._isValidSubset()`.
 			//		Returns true if the input is syntactically valid, and either within
 			//		range or could be made in range by more typing.
 			return this.inherited(arguments) && !this._isDefinitelyOutOfRange();
 		},
 
 		isValid: function(/*Boolean*/ isFocused){
-			// Overrides dijit.form.ValidationTextBox.isValid to check that the value is also in range.
+			// Overrides dijit/form/ValidationTextBox.isValid() to check that the value is also in range.
 			return this.inherited(arguments) &&
 				((this._isEmpty(this.textbox.value) && !this.required) || this.isInRange(isFocused)); // Boolean
 		},
 
 		getErrorMessage: function(/*Boolean*/ isFocused){
-			// Overrides dijit.form.ValidationTextBox.getErrorMessage to print "out of range" message if appropriate
+			// Overrides dijit/form/ValidationTextBox.getErrorMessage() to print "out of range" message if appropriate
 			var v = this.get('value');
 			if(v != null /* and !undefined */ && v !== '' && (typeof v != "number" || !isNaN(v)) && !this.isInRange(isFocused)){ // don't check isInRange w/o a real value
 				return this.rangeMessage; // String

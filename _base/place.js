@@ -29,7 +29,7 @@ define([
 		// summary:
 		//		Like dijit.placeOnScreenAroundNode(), except it accepts an arbitrary object
 		//		for the "around" argument and finds a proper processor to place a node.
-		//		Deprecated, new code should use dijit.place.around() instead.
+		//		Deprecated, new code should use dijit/place.around() instead.
 
 		// Convert old style {"BL": "TL", "BR": "TR"} type argument
 		// to style needed by dijit.place code:
@@ -56,7 +56,7 @@ define([
 		// summary:
 		//		Position node adjacent or kitty-corner to aroundNode
 		//		such that it's fully visible in viewport.
-		//		Deprecated, new code should use dijit.place.around() instead.
+		//		Deprecated, new code should use dijit/place.around() instead.
 	};
 	=====*/
 
@@ -67,7 +67,7 @@ define([
 		//		Like dijit.placeOnScreenAroundNode(), except that the "around"
 		//		parameter is an arbitrary rectangle on the screen (x, y, width, height)
 		//		instead of a dom node.
-		//		Deprecated, new code should use dijit.place.around() instead.
+		//		Deprecated, new code should use dijit/place.around() instead.
 	};
 	=====*/
 
@@ -75,7 +75,7 @@ define([
 		// summary:
 		//		Deprecated method, unneeded when using dijit/place directly.
 		//		Transforms the passed array of preferred positions into a format suitable for
-		//		passing as the aroundCorners argument to dijit.placeOnScreenAroundElement.
+		//		passing as the aroundCorners argument to dijit/place.placeOnScreenAroundElement.
 		// position: String[]
 		//		This variable controls the position of the drop down.
 		//		It's an array of strings with the following values:

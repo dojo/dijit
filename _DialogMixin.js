@@ -30,7 +30,7 @@ define([
 			// description:
 			//		Developer shouldn't override or connect to this method;
 			//		it's a private communication device between the TooltipDialog
-			//		and the thing that opened it (ex: `dijit.form.DropDownButton`)
+			//		and the thing that opened it (ex: `dijit/form/DropDownButton`)
 			// type:
 			//		protected
 		},
@@ -41,7 +41,7 @@ define([
 			// description:
 			//		Developer shouldn't override or connect to this method;
 			//		it's a private communication device between the TooltipDialog
-			//		and the thing that opened it (ex: `dijit.form.DropDownButton`)
+			//		and the thing that opened it (ex: `dijit/form/DropDownButton`)
 			// type:
 			//		protected
 		},

@@ -31,7 +31,7 @@ define([
 			//		A handle that can be passed to `disconnect` in order to disconnect before
 			//		the widget is destroyed.
 			// example:
-			//	|	var btn = new dijit.form.Button();
+			//	|	var btn = new Button();
 			//	|	// when foo.bar() is called, call the listener we're going to
 			//	|	// provide in the scope of btn
 			//	|	btn.connect(foo, "bar", function(){

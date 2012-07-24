@@ -342,29 +342,24 @@ StackContainer.ChildWidgetProperties = {
 	//		These properties can be specified for the children of a StackContainer.
 
 	// selected: Boolean
-	//		Attribute of children of `dijit.layout.StackContainer` and subclasses.
 	//		Specifies that this widget should be the initially displayed pane.
-	//		Note: to change the selected child use `dijit.layout.StackContainer.selectChild`
+	//		Note: to change the selected child use `dijit/layout/StackContainer.selectChild`
 	selected: false,
 
 	// disabled: Boolean
-	//		Attribute of children of `dijit.layout.StackContainer` and subclasses.
 	//		Specifies that the button to select this pane should be disabled.
 	//		Doesn't affect programmatic selection of the pane, nor does it deselect the pane if it is currently selected.
 	disabled: false,
 
 	// closable: Boolean
-	//		Attribute of children of `dijit.layout.StackContainer` and subclasses.
 	//		True if user can close (destroy) this child, such as (for example) clicking the X on the tab.
 	closable: false,
 
 	// iconClass: String
-	//		Attribute of children of `dijit.layout.StackContainer` and subclasses.
 	//		CSS Class specifying icon to use in label associated with this pane.
 	iconClass: "dijitNoIcon",
 
 	// showTitle: Boolean
-	//		Attribute of children of `dijit.layout.StackContainer` and subclasses.
 	//		When true, display title of this widget as tab label etc., rather than just using
 	//		icon specified in iconClass
 	showTitle: true

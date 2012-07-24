@@ -34,7 +34,7 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 	// (which triggers a TooltipDialog).
 	buttonClass: DropDownButton,
 
-	// Override _Plugin.useDefaultCommand... processing is handled by this plugin, not by dijit.Editor.
+	// Override _Plugin.useDefaultCommand... processing is handled by this plugin, not by dijit/Editor.
 	useDefaultCommand: false,
 
 	// urlRegExp: [protected] String
