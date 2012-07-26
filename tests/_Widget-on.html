@@ -92,6 +92,20 @@
 					});
 
 					doh.t(touched, "touched");
+				},
+
+				function syntheticNoCallbackArgs(){
+					var evt = null;
+					var MyWidget = declare(_Widget, {
+						show: function(){
+							return this.emit('show');
+						},
+						onshow: function(e){
+							evt = e;
+						}
+					});
+					new MyWidget({}).show();
+					doh.isNot(null, evt, "onshow was called with event object");
 				}
 			]);
 

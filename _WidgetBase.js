@@ -820,11 +820,11 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		}
 	},
 
-	emit: function(/*String*/ type, /*Object*/ eventObj, /*Array?*/ callbackArgs){
+	emit: function(/*String*/ type, /*Object?*/ eventObj, /*Array?*/ callbackArgs){
 		// summary:
 		//		Used by widgets to signal that a synthetic event occurred, ex:
-		//		myWidget.emit("attrmodified-selectedChildWidget", {}).
-		// description:
+		//	|	myWidget.emit("attrmodified-selectedChildWidget", {}).
+		//
 		//		Emits an event on this.domNode named type.toLowerCase(), based on eventObj.
 		//		Also calls onType() method, if present, and returns value from that method.
 		//		By default passes eventObj to callback, but will pass callbackArgs instead, if specified.
@@ -843,7 +843,7 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 
 		var ret, callback = this["on"+type];
 		if(callback){
-			ret = callback.apply(this, callbackArgs ? callbackArgs : eventObj);
+			ret = callback.apply(this, callbackArgs ? callbackArgs : [eventObj]);
 		}
 
 		// Emit event, but avoid spurious emit()'s as parent sets properties on child during startup/destroy
