@@ -253,8 +253,8 @@ return declare("dijit.tree.ForestStoreModel", TreeStoreModel, {
 
 	onSetItem: function(/* item */ item,
 					/* attribute-name-string */ attribute,
-					/* object | array */ oldValue,
-					/* object | array */ newValue){
+					/* Object|Array */ oldValue,
+					/* Object|Array */ newValue){
 		// summary:
 		//		Updates the tree view according to changes to an item in the data store.
 		//		Developers should override this method to be more efficient based on their app/data.

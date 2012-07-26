@@ -33,7 +33,7 @@ define([
 		baseClass: "dijitTextBox dijitComboBox",
 
 		/*=====
-		// store: [const] dojo/store/api/Store || dojo/data/api/Read
+		// store: [const] dojo/store/api/Store|dojo/data/api/Read
 		//		Reference to data provider object used by this ComboBox.
 		//
 		//		Should be dojo/store/api/Store, but dojo/data/api/Read supported

@@ -63,7 +63,7 @@ define([
 			//		(To left if there's no space on the right, or if rtl == true)
 			// innerHTML: String
 			//		Contents of the tooltip
-			// aroundNode: DomNode || place.__Rectangle
+			// aroundNode: DomNode|dijit/place.__Rectangle
 			//		Specifies that tooltip should be next to this node / area
 			// position: String[]?
 			//		List of positions to try to position tooltip (ex: ["right", "above"])
@@ -362,7 +362,7 @@ define([
 			this._set("connectId", newId);
 		},
 
-		addTarget: function(/*DOMNODE || String*/ node){
+		addTarget: function(/*OomNode|String*/ node){
 			// summary:
 			//		Attach tooltip to specified node if it's not already connected
 
@@ -374,7 +374,7 @@ define([
 			}
 		},
 
-		removeTarget: function(/*DomNode || String*/ node){
+		removeTarget: function(/*DomNode|String*/ node){
 			// summary:
 			//		Detach tooltip from specified node
 

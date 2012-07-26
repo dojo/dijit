@@ -359,8 +359,8 @@ define([
 			//		See `onNewItem` for more details on handling updates to an item's children.
 			// item: Item
 			// attribute: attribute-name-string
-			// oldValue: object | array
-			// newValue: object | array
+			// oldValue: Object|Array
+			// newValue: Object|Array
 			// tags:
 			//		extension
 

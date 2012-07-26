@@ -947,7 +947,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		}));
 	},
 
-	_setPathAttr: function(/*Item[] || String[]*/ path){
+	_setPathAttr: function(/*Item[]|String[]*/ path){
 		// summary:
 		//		Singular variant of _setPathsAttr
 		if(path.length){
@@ -958,7 +958,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		}
 	},
 
-	_setPathsAttr: function(/*Item[][] || String[][]*/ paths){
+	_setPathsAttr: function(/*Item[][]|String[][]*/ paths){
 		// summary:
 		//		Select the tree nodes identified by passed paths.
 		// paths:

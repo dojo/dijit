@@ -251,7 +251,7 @@ define([
 	// Override focus singleton's focus function so that dijit.focus()
 	// has backwards compatible behavior of restoring selection (although
 	// probably no one is using that).
-	focus.focus = function(/*Object || DomNode */ handle){
+	focus.focus = function(/*Object|DomNode */ handle){
 		// summary:
 		//		Sets the focused node and the selection according to argument.
 		//		To set focus to an iframe's content, pass in the iframe itself.

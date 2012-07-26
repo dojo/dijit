@@ -130,7 +130,7 @@ define([
 		//		this widget.
 
 /*=====
-		// buttonWidget: Function || String
+		// buttonWidget: Function|String
 		//		Class to use to instantiate title
 		//		(Wish we didn't have a separate widget for just the title but maintaining it
 		//		for backwards compatibility, is it worth it?)
