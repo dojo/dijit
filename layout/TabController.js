@@ -126,10 +126,6 @@ define([
 		//		The tab widget to create to correspond to each page
 		buttonWidget: TabButton,
 
-		// buttonWidgetClass: String
-		//		Class of each tab, used by event delegation code to tell when the tab was clicked
-		buttonWidgetClass: "dijitTab",
-
 		// buttonWidgetCloseClass: String
 		//		Class of [x] close icon, used by event delegation code to tell when close button was clicked
 		buttonWidgetCloseClass: "dijitTabCloseButton",

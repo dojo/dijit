@@ -64,10 +64,6 @@ define([
 		//		The button widget to create to correspond to each page
 		buttonWidget: StackButton,
 
-		// buttonWidgetClass: String
-		//		CSS class of button widget, used by event delegation code to tell when the button was clicked
-		buttonWidgetClass: "dijitToggleButton",
-
 		// buttonWidgetCloseClass: String
 		//		CSS class of [x] close icon, used by event delegation code to tell when close button was clicked
 		buttonWidgetCloseClass: "dijitStackCloseButton",
@@ -96,16 +92,16 @@ define([
 			this.subscribe(this.containerId+"-containerKeyPress", "onContainerKeyPress");
 
 			// Listen for click events to select or close tabs.
-			// No need to worry about ENTER/SPACe key handling: tabs are selected via left/right arrow keys,
+			// No need to worry about ENTER/SPACE key handling: tabs are selected via left/right arrow keys,
 			// and closed via shift-F10 (to show the close menu).
 			this.connect(this.containerNode, 'click', function(evt){
 				var button = registry.getEnclosingWidget(evt.target);
-				if(button != this.containerNode && !button.disabled){
+				if(button != this.containerNode && !button.disabled && button.page){
 					for(var target = evt.target; target !== this.containerNode; target = target.parentNode){
 						if(domClass.contains(target, this.buttonWidgetCloseClass)){
 							this.onCloseButtonClick(button.page);
 							break;
-						}else if(domClass.contains(target, this.buttonWidgetClass)){
+						}else if(target == button.domNode){
 							this.onButtonClick(button.page);
 							break;
 						}
