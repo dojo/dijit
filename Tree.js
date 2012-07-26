@@ -1815,13 +1815,14 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		// keep the default value.
 		this._nodePixelIndent = domGeometry.position(this.tree.indentDetector).w || this._nodePixelIndent;
 
-		if(this.tree.rootNode){
+		// resize() may be called before this.rootNode is created, so wait until it's available
+		this.expandChildrenDeferred.then(lang.hitch(this, function(){
 			// If tree has already loaded, then reset indent for all the nodes
-			this.tree.rootNode.set('indent', this.showRoot ? 0 : -1);
-		}
+			this.rootNode.set('indent', this.showRoot ? 0 : -1);
 
-		// Also, adjust widths of all rows to match width of Tree
-		this._adjustWidths();
+			// Also, adjust widths of all rows to match width of Tree
+			this._adjustWidths();
+		}));
 	},
 
 	_outstandingPaintOperations: 0,
