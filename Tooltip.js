@@ -84,8 +84,11 @@ define([
 				return;
 			}
 			this.containerNode.innerHTML=innerHTML;
-			
-			this.set("textDir", textDir);
+
+			if(textDir){
+				this.set("textDir", textDir);
+			}
+
 			this.containerNode.align = rtl? "right" : "left"; //fix the text alignment
 
 			var pos = place.around(this.domNode, aroundNode,
@@ -245,14 +248,15 @@ define([
 		    //		set('textDir', value)
 		    // tags:
 		    //		private
-	
-            this._set("textDir", typeof textDir != 'undefined'? textDir : "");
+
+			this._set("textDir", textDir);
+
 			if (textDir == "auto"){
 				this._setAutoTextDir(this.containerNode);
 			}else{
 				this.containerNode.dir = this.textDir;
 			}
-        }
+		}
 	});
 
 	dijit.showTooltip = function(innerHTML, aroundNode, position, rtl, textDir){
