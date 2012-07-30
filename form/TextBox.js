@@ -78,7 +78,7 @@ define([
 				this._phspan = domConstruct.create('span',{className:'dijitPlaceHolder dijitInputField'},this.textbox,'after');
 			}
 			this._phspan.innerHTML="";
-			this._phspan.appendChild(document.createTextNode(v));
+			this._phspan.appendChild(this._phspan.ownerDocument.createTextNode(v));
 			this._updatePlaceHolder();
 		},
 
