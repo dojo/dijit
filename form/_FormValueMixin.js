@@ -76,13 +76,13 @@ define([
 
 		_onKeyDown: function(e){
 			if(e.keyCode == keys.ESCAPE && !(e.ctrlKey || e.altKey || e.metaKey)){
-				var te;
 				if(has("ie") < 9 || (has("ie") && has("quirks"))){
 					e.preventDefault(); // default behavior needs to be stopped here since keypress is too late
-					te = document.createEventObject();
+					var node = e.srcElement,
+						te = node.ownerDocument.createEventObject();
 					te.keyCode = keys.ESCAPE;
 					te.shiftKey = e.shiftKey;
-					e.srcElement.fireEvent('onkeypress', te);
+					node.fireEvent('onkeypress', te);
 				}
 			}
 		}
