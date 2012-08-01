@@ -230,12 +230,12 @@ return declare("dijit.TitlePane", [ContentPane, _TemplatedMixin, _CssStateMixin]
 		// tags:
 		//		private
 
-		if(e.charOrCode == keys.ENTER || e.charOrCode == ' '){
+		if(e.keyCode == keys.ENTER || e.keyCode == keys.SPACE){
 			if(this.toggleable){
 				this.toggle();
 				event.stop(e);
 			}
-		}else if(e.charOrCode == keys.DOWN_ARROW && this.open){
+		}else if(e.keyCode == keys.DOWN_ARROW && this.open){
 			this.containerNode.focus();
 			e.preventDefault();
 		}
