@@ -165,6 +165,7 @@ define([
 			var Cls = lang.isString(this.buttonWidget) ? lang.getObject(this.buttonWidget) : this.buttonWidget;
 			var button = new Cls({
 				id: this.id + "_" + page.id,
+				name: this.id + "_" + page.id,
 				label: page.title,
 				disabled: page.disabled,
 				ownerDocument: this.ownerDocument,
