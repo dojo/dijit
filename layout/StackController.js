@@ -147,9 +147,16 @@ define([
 		},
 
 		destroy: function(){
+			// Since the buttons are internal to the StackController widget, destroy() should remove them, which is
+			// done by calling onRemoveChild().
 			for(var pane in this.pane2button){
 				this.onRemoveChild(registry.byId(pane));
 			}
+
+			// TODO: destroyRecursive() will call destroy() on each child button twice.   Once from the above code,
+			// and once because _WidgetBase.destroyDescendants() deletes anything inside of this.containerNode.
+			// Probably shouldn't attach that DOMNode as this.containerNode.
+
 			this.inherited(arguments);
 		},
 

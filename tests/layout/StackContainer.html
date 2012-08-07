@@ -218,6 +218,15 @@
 				doh.is(resizesBeforeContainerResize + 1, resizes, "child1 resized once more when StackContainer resized");
 				doh.is(1, showChildCalls["ncsc1"], "StackContainer._showChild(child1) not called when StackContainer resized");
 			});
+
+			doh.register("destroy", function destroy(){
+				// destroyRecursive() on a StackController used to get an exception
+				var oldNumWidgets = require("dijit/registry").length;
+				dijit.byId("holder").destroyRecursive();
+				var newNumWidgets = require("dijit/registry").length;
+				doh.is(4, oldNumWidgets - newNumWidgets, newNumWidgets + "-" + oldNumWidgets + " destroyed");
+			});
+
 			doh.run();
 		});
 
