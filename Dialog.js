@@ -115,7 +115,7 @@ define([
 			this._set("draggable", val);
 		},
 
-		//aria-describedby: String
+		// aria-describedby: String
 		//		Allows the user to add an aria-describedby attribute onto the dialog.   The value should
 		//		be the id of the container element of text that describes the dialog purpose (usually
 		//		the first text in the dialog).
@@ -123,7 +123,7 @@ define([
 		//	|		<div id="intro">Introductory text</div>
 		//	|		<div>rest of dialog contents</div>
 		//	|	</div>
-		"aria-describedby":"",
+		"aria-describedby": "",
 
 		// maxRatio: Number
 		//		Maximum size to allow the dialog to expand to, relative to viewport size

@@ -340,6 +340,7 @@ define([
 			// params: Object|null
 			//		Hash of initialization parameters for widget, including scalar values (like title, duration etc.)
 			//		and functions, typically callbacks like onClick.
+			//		The hash can contain any of the widget's properties, excluding read-only properties.
 			// srcNodeRef: DOMNode|String?
 			//		If a srcNodeRef (DOM node) is specified:
 			//
