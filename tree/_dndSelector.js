@@ -207,8 +207,6 @@ define([
 			// ignore right-click
 			if(e.type != "touchstart" && !mouse.isLeft(e)){ return; }
 
-			e.preventDefault();
-
 			var treeNode = this.current,
 			  copy = connect.isCopyKey(e), id = treeNode.id;
 
