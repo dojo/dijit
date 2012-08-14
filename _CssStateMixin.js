@@ -3,12 +3,13 @@ define([
 	"dojo/_base/declare",	// declare
 	"dojo/dom",			// dom.isDescendant()
 	"dojo/dom-class", // domClass.toggle
+	"dojo/has",
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on",
 	"dojo/ready",
 	"dojo/_base/window", // win.body
 	"./registry"
-], function(array, declare, dom, domClass, lang, on, ready, win, registry){
+], function(array, declare, dom, domClass, has, lang, on, ready, win, registry){
 
 // module:
 //		dijit/_CssStateMixin
@@ -293,8 +294,11 @@ ready(function(){
 	// Use addEventListener() (and attachEvent() on IE) to catch the relevant events even if other handlers
 	// (on individual nodes) call evt.stopPropagation() or event.stopEvent().
 	// Currently typematic.js is doing that, not sure why.
-	var body = win.body();
-	array.forEach(["mouseover", "mouseout", "mousedown", "touchstart", "mouseup", "touchend"], function(type){
+	// Don't monitor mouseover/mouseout on mobile because iOS generates "phantom" mouseover/mouseout events when
+	// drag-scrolling, at the point in the viewport where the drag originated.   Test the Tree in api viewer.
+	var body = win.body(),
+		types = (has("touch") ? [] : ["mouseover", "mouseout"]).concat(["mousedown", "touchstart", "mouseup", "touchend"]);
+	array.forEach(types, function(type){
 		if(body.addEventListener){
 			body.addEventListener(type, handler, true);	// W3C
 		}else{
