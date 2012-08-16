@@ -161,11 +161,13 @@ return declare("dijit.TitlePane", [ContentPane, _TemplatedMixin, _CssStateMixin]
 
 		this.focusNode.setAttribute("role", canToggle ? "button" : "heading");
 		if(canToggle){
-			// TODO: if canToggle is switched from true to false shouldn't we remove this setting?
 			this.focusNode.setAttribute("aria-controls", this.id+"_pane");
-			domAttr.set(this.focusNode, "tabIndex", this.tabIndex);
+			this.focusNode.setAttribute("tabIndex", this.tabIndex);
+			this.focusNode.setAttribute("aria-pressed", this.open);
 		}else{
+			domAttr.remove(this.focusNode, "aria-controls");
 			domAttr.remove(this.focusNode, "tabIndex");
+			domAttr.remove(this.focusNode, "aria-pressed");
 		}
 
 		this._set("toggleable", canToggle);
