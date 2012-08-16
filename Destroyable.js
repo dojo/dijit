@@ -37,19 +37,20 @@ return declare("dijit.Destroyable", null, {
 				"destroy" in handle ? "destroy" :
 				"remove";
 
-			// When this is destroyed, destroy handle.  Since I'm using aspect.before(),
+			// When this.destroy() is called, destroy handle.  Since I'm using aspect.before(),
 			// the handle will be destroyed before a subclass's destroy() method starts running, before it calls
 			// this.inherited() or even if it doesn't call this.inherited() at all.  If that's an issue, make an
 			// onDestroy() method and connect to that instead.
-			handle._odh = aspect.before(this, "destroy", function(preserveDom){
-				handle._odh.remove();
+			var odh = aspect.before(this, "destroy", function(preserveDom){
 				handle[destroyMethodName](preserveDom);
 			});
 
-			// If handle is destroyed manually before this is destroyed, then remove the listener set directly above.
+			// If handle is destroyed manually before this.destroy() is called, remove the listener set directly above.
+			// This callback will also unnecessarily run when handle.destroyMethodName() is called from this.destroy(),
+			// but that's OK except maybe for performance.
 			aspect.after(handle, destroyMethodName, function(){
-				handle._odh.remove();
-			});
+				odh.remove();
+			}, true);
 		}, this);
 
 		return arguments;		// handle
