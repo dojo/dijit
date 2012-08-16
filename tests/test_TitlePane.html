@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>TitlePane Test</title>
@@ -39,7 +39,7 @@
 	
 			dojo.declare("TestTitlePane", dijit.TitlePane, {
 				templateString: '<div class="dijitTitlePane">' +
-								'    <div class="dijitTitlePaneTitle" data-dojo-attach-point="titleBarNode" style="cursor: default;">' +
+								'    <div class="dijitTitlePaneTitle" data-dojo-attach-point="titleBarNode" style="cursor: default;" id="${id}_titleBarNode">' +
 								        '<span data-dojo-attach-event="onclick:toggle,onkeypress: _onTitleKey" tabindex="0"' +
 								                'role="button" data-dojo-attach-point="focusNode,arrowNode" style="cursor: pointer;">' +
 											'<img src="${_blankGif}" alt="" class="dijitArrowNode" role="presentation"/>' +
@@ -49,7 +49,7 @@
 								    '</div>' +
 								    '<div class="dijitTitlePaneContentOuter" data-dojo-attach-point="hideNode">' +
 								        '<div class="dijitReset" data-dojo-attach-point="wipeNode">' +
-								            '<div class="dijitTitlePaneContentInner" data-dojo-attach-point="containerNode" role="region" tabindex="-1">' +
+								            '<div class="dijitTitlePaneContentInner" data-dojo-attach-point="containerNode" id="${id}_pane" aria-labelledby="${id}_titleBarNode" role="region" tabindex="-1">' +
 								            '</div>' +
 								        '</div>' +
 								    '</div>' +
@@ -60,10 +60,10 @@
 	    });
 	</script>
 </head>
-<body class="claro">
+<body class="claro" role="main">
 	<h1 class="testTitle">Dijit TitlePane Test</h1>
 
-	<input id="input" value="for tab testing"/>
+	<label for="input">input:</label><input id="input" value="for tab testing"/>
 
 	<h1>Test #1: plain title pane, width=300px</h1>
 	<div id="testPane1" data-dojo-id="pane1" data-dojo-type="dijit/TitlePane" data-dojo-props='title:"Title Pane #1",
@@ -84,7 +84,7 @@
 	<div id="pane_2" data-dojo-type="dijit/TitlePane" data-dojo-props='title:"Title Pane #2", style:"width: 300px;"'>
 		<form>
 			<label for="age">Age: </label> <input id="age"/><br>
-			<label for="disc">Discount card </label><input id="disc" type="checkbox"/><br>
+			<input id="disc" type="checkbox"/><label for="disc">Discount card </label><br>
 			<button>Submit</button><br>
 		</form>
 	</div>
