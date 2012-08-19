@@ -11,14 +11,17 @@ define([
 
 	return declare("dijit.tree.ObjectStoreModel", null, {
 		// summary:
-		//		Implements dijit/Tree/model connecting dijit.Tree to a dojo.store that implements
+		//		Implements dijit/tree/model connecting dijit/Tree to a dojo/store/api/Store that implements
 		//		getChildren().
 		//
-		//		If the store implements Observable, then it will be leveraged to reflect
-		//		store updates to the tree.
+		//		If getChildren() returns an array with an observe() method, then it will be leveraged to reflect
+		//		store updates to the tree.   So, this class will work best when:
+		//
+		//			1. the store implements dojo/store/Observable
+		//			2. getChildren() is implemented as a query to the server (i.e. it calls store.query())
 		//
 		//		Drag and Drop: To support drag and drop, besides implementing getChildren()
-		//		and Observable, the store must support the parent option to put().
+		//		and dojo/store/Observable, the store must support the parent option to put().
 		//		And in order to have child elements ordered according to how the user dropped them,
 		//		put() must support the before option.
 
@@ -31,7 +34,7 @@ define([
 		labelAttr: "name",
 
 		// root: [readonly] Object
-		//		Pointer to the root item from the dojo/store (read only, not a parameter)
+		//		Pointer to the root item from the dojo/store/api/Store (read only, not a parameter)
 		root: null,
 
 		// query: anything
@@ -81,7 +84,7 @@ define([
 						this.root = items[0];
 						onItem(this.root);
 
-						// Setup listener in case children list changes
+						// Setup listener to detect if root item changes
 						if(res.observe){
 							res.observe(lang.hitch(this, function(obj){
 								// Presumably removedFrom == insertedInto == 1, and this call indicates item has changed.
@@ -120,34 +123,29 @@ define([
 				when(this.childrenCache[id], onComplete, onError);
 				return;
 			}
-			when(
-				this.childrenCache[id] = this.store.getChildren(parentItem),
-				lang.hitch(this, function(children){
-					//console.log("queried children of " + id + ": ", children);
 
-					// Setup listener in case children list changes, or the item(s) in the children list are
-					// updated in some way.
-					if(children.observe){
-						children.observe(lang.hitch(this, function(obj, removedFrom, insertedInto){
-							//console.log("observe on children of ", id, ": ", obj, removedFrom, insertedInto);
+			var res = this.childrenCache[id] = this.store.getChildren(parentItem);
 
-							// If removedFrom == insertedInto, this call indicates that the item has changed.
-							// Even if removedFrom != insertedInto, the item may have changed.
-							this.onChange(obj);
+			// User callback
+			when(res, onComplete, onError);
 
-							if(removedFrom != insertedInto){
-								// Indicates an item was added, removed, or re-parented.
-								// children[] has already been updated (like a live collection), so just use it.
-								this.onChildrenChange(parentItem, children);
-							}
-						}), true);	// true means to notify on item changes
+			// Setup listener in case children list changes, or the item(s) in the children list are
+			// updated in some way.
+			if(res.observe){
+				res.observe(lang.hitch(this, function(obj, removedFrom, insertedInto){
+					//console.log("observe on children of ", id, ": ", obj, removedFrom, insertedInto);
+
+					// If removedFrom == insertedInto, this call indicates that the item has changed.
+					// Even if removedFrom != insertedInto, the item may have changed.
+					this.onChange(obj);
+
+					if(removedFrom != insertedInto){
+						// Indicates an item was added, removed, or re-parented.  The children[] array (returned from
+						// res.then(...)) has already been updated (like a live collection), so just use it.
+						when(res, lang.hitch(this, "onChildrenChange", parentItem));
 					}
-
-					// User callback
-					onComplete(children);
-				}),
-				onError
-			);
+				}), true);	// true means to notify on item changes
+			}
 		},
 
 		// =======================================================================
