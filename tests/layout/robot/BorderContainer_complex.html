@@ -250,12 +250,12 @@
 								robot.sequence(d.getTestCallback(function(){
 									// test that the margin box for the accordion pane grows the same size as the splitter moved
 									var newAccordion = geom.position(dom.byId("ac1"));
-									doh.is(newAccordion.w, accordion.w-move, 'old accordion w = ' + accordion.w + ', new w = ' + newAccordion.w);
+									doh.is(Math.round(newAccordion.w), Math.round(accordion.w-move), 'old accordion w = ' + accordion.w + ', new w = ' + newAccordion.w);
 									
 									// test that the center content got smaller by the same size that the splitter moved
 									var newCenterPane = geom.position(dom.byId("mainCP"));
 									var newCenterPaneRight = newCenterPane.x + newCenterPane.w;
-									doh.is(newCenterPane.w, centerPane.w+move-centerPaneRight+newCenterPaneRight, 'old center pane w = ' + centerPane.w + ', new w = ' + newCenterPane.w);
+									doh.is(Math.round(newCenterPane.w), Math.round(centerPane.w+move-centerPaneRight+newCenterPaneRight), 'old center pane w = ' + centerPane.w + ', new w = ' + newCenterPane.w);
 								}), 500);
 							}, 500);
 
