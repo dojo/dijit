@@ -1,4 +1,5 @@
 define([
+	"require",
 	"dojo/aspect",
 	"dojo/_base/declare", // declare
 	"dojo/dom", // domAttr.get dom.isDescendant
@@ -7,7 +8,6 @@ define([
 	"dojo/Evented",
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on",
-	"dojo/ready",
 	"dojo/sniff", // has("ie")
 	"dojo/Stateful",
 	"dojo/_base/unload", // unload.addOnWindowUnload
@@ -16,7 +16,7 @@ define([
 	"./a11y",	// a11y.isTabNavigable
 	"./registry",	// registry.byId
 	"./main"		// to set dijit.focus
-], function(aspect, declare, dom, domAttr, domConstruct, Evented, lang, on, ready, has, Stateful, unload, win, winUtils,
+], function(require, aspect, declare, dom, domAttr, domConstruct, Evented, lang, on, has, Stateful, unload, win, winUtils,
 			a11y, registry, dijit){
 
 	// module:
@@ -334,7 +334,7 @@ define([
 	var singleton = new FocusManager();
 
 	// register top window and all the iframes it contains
-	ready(function(){
+	require(["dojo/domReady!"], function(){
 		var handle = singleton.registerWin(winUtils.get(win.doc));
 		if(has("ie")){
 			unload.addOnWindowUnload(function(){

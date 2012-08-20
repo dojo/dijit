@@ -1,11 +1,11 @@
 define([
+	"require",
 	"dojo/Evented",
 	"dojo/on",
-	"dojo/ready",
 	"dojo/sniff",
 	"dojo/_base/window", // global
 	"dojo/window" // getBox()
-], function(Evented, on, ready, has, win, winUtils){
+], function(require, Evented, on, has, win, winUtils){
 
 	// module:
 	//		dijit/Viewport
@@ -25,25 +25,27 @@ define([
 
 	var Viewport = new Evented();
 
-	ready(200, function(){
-		var oldBox = winUtils.getBox();
-		Viewport._rlh = on(win.global, "resize", function(){
-			var newBox = winUtils.getBox();
-			if(oldBox.h == newBox.h && oldBox.w == newBox.w){ return; }
-			oldBox = newBox;
-			Viewport.emit("resize");
-		});
+	require(["dojo/domReady!"], function(){
+		setTimeout(function(){		// work around #15866
+			var oldBox = winUtils.getBox();
+			Viewport._rlh = on(win.global, "resize", function(){
+				var newBox = winUtils.getBox();
+				if(oldBox.h == newBox.h && oldBox.w == newBox.w){ return; }
+				oldBox = newBox;
+				Viewport.emit("resize");
+			});
 
-		// Also catch zoom changes on IE8, since they don't naturally generate resize events
-		if(has("ie") == 8){
-			var deviceXDPI = screen.deviceXDPI;
-			setInterval(function(){
-				if(screen.deviceXDPI != deviceXDPI){
-					deviceXDPI = screen.deviceXDPI;
-					Viewport.emit("resize");
-				}
-			}, 500);
-		}
+			// Also catch zoom changes on IE8, since they don't naturally generate resize events
+			if(has("ie") == 8){
+				var deviceXDPI = screen.deviceXDPI;
+				setInterval(function(){
+					if(screen.deviceXDPI != deviceXDPI){
+						deviceXDPI = screen.deviceXDPI;
+						Viewport.emit("resize");
+					}
+				}, 500);
+			}
+		}, 500);
 	});
 
 	return Viewport;
