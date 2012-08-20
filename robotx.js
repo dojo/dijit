@@ -1,8 +1,7 @@
 define([
 	"dojo/_base/kernel", // kernel.experimental
-	"./main",			// original dijit variable in main window
 	"dojo/robotx"		// includes doh/robot, dojo/robot, and dojo/robotx, all of which affect and return doh/robot module
-], function(kernel, dijit_, robot){
+], function(kernel, robot){
 
 	// module:
 	//		dijit/robotx
@@ -23,6 +22,4 @@ define([
 			window.dijit = win.dijit; // window reference needed for IE
 		}
 	};
-
-	return dijit_;
 });
