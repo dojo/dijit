@@ -1,5 +1,4 @@
 define([
-	"require",
 	"dojo/_base/array", // array.forEach array.map
 	"dojo/_base/declare",	// declare
 	"dojo/dom",			// dom.isDescendant()
@@ -7,9 +6,10 @@ define([
 	"dojo/has",
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on",
+	"dojo/domReady",
 	"dojo/_base/window", // win.body
 	"./registry"
-], function(require, array, declare, dom, domClass, has, lang, on, win, registry){
+], function(array, declare, dom, domClass, has, lang, on, domReady, win, registry){
 
 // module:
 //		dijit/_CssStateMixin
@@ -259,7 +259,7 @@ var CssStateMixin = declare("dijit._CssStateMixin", [], {
 	}
 });
 
-require(["dojo/domReady!"], function(){
+domReady(function(){
 	// Document level listener to catch hover etc. events on widget root nodes and subnodes.
 	// Note that when the mouse is moved quickly, a single onmouseenter event could signal that multiple widgets
 	// have been hovered or unhovered (try test_Accordion.html)

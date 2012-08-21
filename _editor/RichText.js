@@ -1,5 +1,4 @@
 define([
-	"require",
 	"dojo/_base/array", // array.forEach array.indexOf array.some
 	"dojo/_base/config", // config
 	"dojo/_base/declare", // declare
@@ -16,6 +15,7 @@ define([
 	"dojo/_base/lang", // lang.clone lang.hitch lang.isArray lang.isFunction lang.isString lang.trim
 	"dojo/on", // on()
 	"dojo/query", // query
+	"dojo/domReady",
 	"dojo/sniff", // has("ie") has("mozilla") has("opera") has("safari") has("webkit")
 	"dojo/topic",	// topic.publish() (publish)
 	"dojo/_base/unload", // unload
@@ -28,8 +28,8 @@ define([
 	"./html",
 	"../focus",
 	"../main"	// dijit._scopeName
-], function(require, array, config, declare, Deferred, dom, domAttr, domClass, domConstruct, domGeometry, domStyle,
-	event, kernel, keys, lang, on, query, has, topic, unload, _Url, win,
+], function(array, config, declare, Deferred, dom, domAttr, domClass, domConstruct, domGeometry, domStyle,
+	event, kernel, keys, lang, on, query, domReady, has, topic, unload, _Url, win,
 	_Widget, _CssStateMixin, selectionapi, rangeapi, htmlapi, focus, dijit){
 
 // module:
@@ -854,7 +854,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			if(this.focusOnLoad){
 				// after the document loads, then set focus after updateInterval expires so that
 				// onNormalizedDisplayChanged has run to avoid input caret issues
-				require(["dojo/domReady!"], lang.hitch(this, "defer", "focus", this.updateInterval));
+				domReady(lang.hitch(this, "defer", "focus", this.updateInterval));
 			}
 			// Save off the initial content now
 			this.value = this.getValue(true);

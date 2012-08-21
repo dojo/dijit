@@ -1,4 +1,4 @@
-define(["require", "dojo/dom-class", "dojo/hccss", "dojo/_base/window"], function(require, domClass, has, win){
+define(["dojo/dom-class", "dojo/hccss", "dojo/domReady", "dojo/_base/window"], function(domClass, has, domReady, win){
 
 	// module:
 	//		dijit/hccss
@@ -11,7 +11,7 @@ define(["require", "dojo/dom-class", "dojo/hccss", "dojo/_base/window"], functio
 	};
 	=====*/
 
-	require(["dojo/domReady!"], function(){
+	domReady(function(){
 		if(has("highcontrast")){
 			domClass.add(win.body(), "dijit_a11y");
 		}
