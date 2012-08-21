@@ -138,6 +138,7 @@
 							var w = dijit.byId('q22');
 							w.set('value', 'someTestString');
 							doh.is(true, w.isValid(false));
+							doh.f(!!w.focusNode.getAttribute('pattern'), "native pattern");
 						}
 					},
 					{
@@ -154,6 +155,7 @@
 							w.set('pattern', "someT[a-z]+S[a-z]+"); // valid
 							doh.is(true, w.isValid(false), "valid");
 							doh.is(true, w._isValidSubset(), "valid partial 2");
+							doh.f(!!w.focusNode.getAttribute('pattern'), "native pattern");
 						}
 					},
 					{
