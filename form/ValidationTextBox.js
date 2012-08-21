@@ -66,7 +66,7 @@ define([
 		// pattern: [extension protected] String|Function(constraints) returning a string.
 		//		This defines the regular expression used to validate the input.
 		//		Do not add leading ^ or $ characters since the widget adds these.
-		//		A function may used to generate a valid pattern when dependent on constraints or other runtime factors.
+		//		A function may be used to generate a valid pattern when dependent on constraints or other runtime factors.
 		//		set('pattern', String|Function).
 		pattern: ".*",
 
@@ -237,6 +237,10 @@ define([
 			}
 			this._set("constraints", constraints);
 			this._refreshState();
+		},
+
+		_setPatternAttr: function(/*String|Function*/ pattern){
+			this._set("pattern", pattern); // don't set on INPUT to avoid native HTML5 validation
 		},
 
 		_getPatternAttr: function(/*__Constraints*/ constraints){
