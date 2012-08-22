@@ -67,14 +67,15 @@ if(/MSIE/.test(navigator.userAgent)){ // need to load scripts serially
 		if(/^script$/i.test(tag)){
 			var scripts = document.scripts;
 			for(var i=0; i <scripts.length; i++){
-				var script = scripts[i];
-				if(!script['_oldGetAttribute']){
-					var src = script.getAttribute('_oldsrc');
-					if(src){
-						script._oldGetAttribute = script.getAttribute;
-						script.getAttribute = function(attr){ if(/^src$/i.test(attr))attr='_oldsrc';return script._oldGetAttribute(attr) };
+				(function(script){
+					if(!('_oldGetAttribute' in script)){
+						var src = script.getAttribute('_oldsrc');
+						if(src){
+							script._oldGetAttribute = script.getAttribute;
+							script.getAttribute = function(attr){ return /^src$/i.test(attr) ? src : script._oldGetAttribute(attr); };
+						}
 					}
-				}
+				}).call(this, scripts[i]);
 			}
 			return scripts;
 		}
