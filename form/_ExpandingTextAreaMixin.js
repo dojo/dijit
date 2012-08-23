@@ -3,9 +3,10 @@ define([
 	"dojo/dom-construct", // domConstruct.create
 	"dojo/has",
 	"dojo/_base/lang", // lang.hitch
+	"dojo/on",
 	"dojo/_base/window", // win.body
 	"../Viewport"
-], function(declare, domConstruct, has, lang, win, Viewport){
+], function(declare, domConstruct, has, lang, on, win, Viewport){
 
 	// module:
 	//		dijit/form/_ExpandingTextAreaMixin
@@ -36,13 +37,14 @@ define([
 		postCreate: function(){
 			this.inherited(arguments);
 			var textarea = this.textbox;
-
-			this.connect(textarea, "onscroll", "_resizeLater");
-			this.connect(textarea, "onresize", "_resizeLater");
-			this.connect(textarea, "onfocus", "_resizeLater");
-			this.own(Viewport.on("resize", lang.hitch(this, "_resizeLater")));
+			this.own(on(textarea, "scroll, focus", lang.hitch(this, "_resizeLater")));
 			textarea.style.overflowY = "hidden";
 			this._estimateHeight();
+		},
+
+		startup: function(){ 
+			this.inherited(arguments);
+			this.own(Viewport.on("resize", lang.hitch(this, "_resizeLater")));
 			this._resizeLater();
 		},
 
