@@ -26,26 +26,24 @@ define([
 	var Viewport = new Evented();
 
 	domReady(function(){
-		setTimeout(function(){		// work around #15866
-			var oldBox = winUtils.getBox();
-			Viewport._rlh = on(win.global, "resize", function(){
-				var newBox = winUtils.getBox();
-				if(oldBox.h == newBox.h && oldBox.w == newBox.w){ return; }
-				oldBox = newBox;
-				Viewport.emit("resize");
-			});
+		var oldBox = winUtils.getBox();
+		Viewport._rlh = on(win.global, "resize", function(){
+			var newBox = winUtils.getBox();
+			if(oldBox.h == newBox.h && oldBox.w == newBox.w){ return; }
+			oldBox = newBox;
+			Viewport.emit("resize");
+		});
 
-			// Also catch zoom changes on IE8, since they don't naturally generate resize events
-			if(has("ie") == 8){
-				var deviceXDPI = screen.deviceXDPI;
-				setInterval(function(){
-					if(screen.deviceXDPI != deviceXDPI){
-						deviceXDPI = screen.deviceXDPI;
-						Viewport.emit("resize");
-					}
-				}, 500);
-			}
-		}, 500);
+		// Also catch zoom changes on IE8, since they don't naturally generate resize events
+		if(has("ie") == 8){
+			var deviceXDPI = screen.deviceXDPI;
+			setInterval(function(){
+				if(screen.deviceXDPI != deviceXDPI){
+					deviceXDPI = screen.deviceXDPI;
+					Viewport.emit("resize");
+				}
+			}, 500);
+		}
 	});
 
 	return Viewport;
