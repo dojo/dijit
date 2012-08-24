@@ -1,4 +1,5 @@
 define([
+	"require",
 	"dojo/_base/array", // array.forEach
 	"dojo/_base/declare", // declare
 	"dojo/_base/Deferred", // Deferred
@@ -27,7 +28,7 @@ define([
 	"./_editor/RichText",
 	"./main",	// dijit._scopeName
 	"dojo/i18n!./_editor/nls/commands"
-], function(array, declare, Deferred, i18n, domAttr, domClass, domGeometry, domStyle,
+], function(require, array, declare, Deferred, i18n, domAttr, domClass, domGeometry, domStyle,
 			event, keys, lang, has, string, topic, win,
 			focusBase, _Container, Toolbar, ToolbarSeparator, _LayoutWidget, ToggleButton,
 			_Plugin, EnterKeyHandling, html, rangeapi, RichText, dijit){
