@@ -359,17 +359,21 @@ var TreeNode = declare(
 					// If node is in selection then remove it.
 					tree.dndController.removeTreeNode(node);
 
-					// Deregister mapping from item id --> this node
-					var id = model.getIdentity(node.item),
-						ary = tree._itemNodesMap[id];
-					if(ary.length == 1){
-						delete tree._itemNodesMap[id];
-					}else{
-						var index = array.indexOf(ary, node);
-						if(index != -1){
-							ary.splice(index, 1);
+					// Deregister mapping from item id --> this node and its descendants
+					function remove(node){
+						var id = model.getIdentity(node.item),
+							ary = tree._itemNodesMap[id];
+						if(ary.length == 1){
+							delete tree._itemNodesMap[id];
+						}else{
+							var index = array.indexOf(ary, node);
+							if(index != -1){
+								ary.splice(index, 1);
+							}
 						}
+						array.forEach(node.getChildren(), remove);
 					}
+					remove(node);
 
 					// And finally we can destroy the node
 					node.destroyRecursive();

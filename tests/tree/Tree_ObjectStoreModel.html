@@ -734,10 +734,34 @@
 								doh.is(0, myTree.get("paths").length, "no selected nodes");
 							}), 10)
 						}));
-						return d
-					}
+						return d;
+					},
 
 					// TODO: test that cookie is updated to remove this Egypt from the selection
+
+					{
+						name: "reinsert deleted descendant",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							myStore.put({ id: "AF", name:"Africa", type:"continent", population:"900 million", area: "30,221,532 sq km",
+								timezone: "-1 UTC to +4 UTC", parent: "earth"});
+							myStore.put({ id: "KE", name: "Kenya", type: "country", parent: "AF" });
+							myTree.set("path", ["earth", "AF", "KE"]).then(
+								d.getTestCallback(function(){
+									var node = myTree.get("selectedNode");
+									doh.isNot(null, node, "got a selected node");
+									doh.f(node._destroyed, "not destroyed");
+								}),
+								d.getTestErrback(function(err){
+									throw err;
+								})
+							);
+
+							return d;
+						}
+					}
 				]);
 
 				doh.run();
