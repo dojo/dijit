@@ -6,11 +6,12 @@ define([
 	"dojo/_base/kernel",	// global
 	"dojo/_base/lang", // lang.hitch
 	"dojo/cookie", // cookie
+	"dojo/dom", // isDescendant
 	"dojo/mouse", // mouse.isLeft
 	"dojo/on",
 	"dojo/touch",
 	"./_dndContainer"
-], function(array, connect, declare, Deferred, kernel, lang, cookie, mouse, on, touch, _dndContainer){
+], function(array, connect, declare, Deferred, kernel, lang, cookie, dom, mouse, on, touch, _dndContainer){
 
 	// module:
 	//		dijit/tree/_dndSelector
@@ -99,10 +100,13 @@ define([
 		},
 		removeTreeNode: function(/*dijit/Tree._TreeNode*/ node){
 			// summary:
-			//		remove node from current selection
+			//		remove node and it's descendants from current selection
 			// node: Node
 			//		node to remove
-			this.setSelection(this._setDifference(this.getSelectedTreeNodes(), [node]));
+			var newSelection = array.filter(this.getSelectedTreeNodes(), function(selectedNode){
+				return !dom.isDescendant(selectedNode.domNode, node.domNode); // also matches when selectedNode == node
+			});
+			this.setSelection(newSelection);
 			return node;
 		},
 		isTreeNodeSelected: function(/*dijit/Tree._TreeNode*/ node){
