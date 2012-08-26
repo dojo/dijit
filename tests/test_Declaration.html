@@ -53,9 +53,9 @@
 					doh.is("blah", m1.foo, "m1.foo");
 					doh.is(73, m2.progress, "m2.progress");
 	
-					// test <script type="dojo/connect">
+					// test <script type="dojo/aspect">
 					doh.t(foo1, "foo1 exists");
-					doh.t(/modified by dojo\/connect event=startup/.test(foo1.domNode.innerHTML), "dojo/connect fired");
+					doh.t(/modified by dojo\/aspect method=startup/.test(foo1.domNode.innerHTML), "dojo/aspect fired");
 				},
 
 				function events(){
@@ -125,10 +125,10 @@
 	<div data-dojo-id="m1" data-dojo-type="m" data-dojo-props='foo:"blah", progress:50'></div>
 	<div data-dojo-id="m2" data-dojo-type="m" data-dojo-props='foo:"thinger", progress:73'></div>
 
-	<h3>Using dojo/connect:</h3>
+	<h3>Using dojo/aspect:</h3>
 	<div data-dojo-type="dijit/Declaration" data-dojo-props='widgetClass:"foo", defaults:{ foo: "thud", progress: 10 }'>
-		<script type='dojo/connect' data-dojo-event='startup'>
-			this.baz.innerHTML += " (modified by dojo/connect event=startup) ";
+		<script type='dojo/aspect' data-dojo-method='startup'>
+			this.baz.innerHTML += " (modified by dojo/aspect method=startup) ";
 		</script>
 
 		<p>thinger blah stuff ${foo}</p>
