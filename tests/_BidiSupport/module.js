@@ -2,6 +2,8 @@ dojo.provide("dijit.tests._BidiSupport.module");
 
 try{
 
+	dojo.require("dijit.tests._BidiSupport.top.module");
+
 	dojo.require("dijit.tests._BidiSupport.form.module");
 
 	dojo.require("dijit.tests._BidiSupport.BidiSupportModule.module");
@@ -12,7 +14,6 @@ try{
 
 	dojo.require("dijit.tests._BidiSupport.tree.module");
 	
-	dojo.require("dijit.tests._BidiSupport.widgets.module");
 
 }catch(e){
 
