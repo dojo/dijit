@@ -633,21 +633,6 @@ define([
 			this.defer("onCancel"); // defer prevents browser freeze for long-running event handlers
 
 			this._showText(focus);
-		},
-
-		_setTextDirAttr: function(/*String*/ textDir){
-			// summary:
-			//		Setter for textDir.
-			// description:
-			//		Users shouldn't call this function; they should be calling
-			//		set('textDir', value)
-			// tags:
-			//		private
-			if(!this._created || this.textDir != textDir){
-				this._set("textDir", textDir);
-				this.applyTextDir(this.displayNode, this.displayNode.innerText);
-				this.displayNode.align = this.dir == "rtl" ? "right" : "left"; //fix the text alignment
-			}
 		}
 	});
 

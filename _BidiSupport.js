@@ -100,6 +100,29 @@ define(["./_WidgetBase"], function(_WidgetBase){
 				delete origObj.originalText;
 			}
 			return origObj;
+		},
+		
+		_setTextDirAttr: function(/*String*/ textDir){
+			// summary:
+			//		Setter for textDir.
+			// description:
+			//		Users shouldn't call this function; they should be calling
+			//		set('textDir', value)
+			if(!this._created || this.textDir != textDir){ 
+				this._set("textDir", textDir);			
+				var node = null;
+				if(this.displayNode){
+					node = this.displayNode;
+					value = this.displayNode.textContent || this.displayNode.innerText || "";
+					this.displayNode.align = this.dir == "rtl" ? "right" : "left";
+				}else if(this.textbox){
+					node = this.textbox;
+					value = this.textbox.value				
+				}			
+				if(node){
+					this.applyTextDir(node, value);	
+				}
+			}			
 		}
 	});
 

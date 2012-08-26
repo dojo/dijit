@@ -427,25 +427,6 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 		// Additionally resets the displayed textbox value to ''
 		this.textbox.value = '';
 		this.inherited(arguments);
-	},
-
-	_setTextDirAttr: function(/*String*/ textDir){
-		// summary:
-		//		Setter for textDir.
-		// description:
-		//		Users shouldn't call this function; they should be calling
-		//		set('textDir', value)
-		// tags:
-		//		private
-
-		// only if new textDir is different from the old one
-		// and on widgets creation.
-		if(!this._created
-			|| this.textDir != textDir){
-				this._set("textDir", textDir);
-				// so the change of the textDir will take place immediately.
-				this.applyTextDir(this.focusNode, this.focusNode.value);
-		}
 	}
 });
 
