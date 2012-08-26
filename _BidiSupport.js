@@ -44,13 +44,14 @@ define(["./_WidgetBase"], function(_WidgetBase){
 			return fdc ? ( fdc[0] <= 'z' ? "ltr" : "rtl" ) : this.dir ? this.dir : this.isLeftToRight() ? "ltr" : "rtl";
 		},
 
-		applyTextDir: function(/*Object*/ element, /*String*/ text){
+		applyTextDir: function(/*DOMNode*/ element, /*String?*/ text){
 			// summary:
-			//		Set element.dir according to this.textDir
+			//		Set element.dir according to this.textDir, assuming this.textDir has a value.
 			// element:
 			//		The text element to be set. Should have dir property.
 			// text:
-			//		Used in case this.textDir is "auto", for calculating the right transformation
+			//		If specified, and this.textDir is "auto", for calculating the right transformation
+			//		Otherwise text read from element.
 			// description:
 			//		If textDir is ltr or rtl returns the value.
 			//		If it's auto, calls to another function that responsible
@@ -58,12 +59,25 @@ define(["./_WidgetBase"], function(_WidgetBase){
 			// tags:
 			//		protected.
 
-			var textDir = this.textDir == "auto" ? this._checkContextual(text) : this.textDir;
-			// update only when there's a difference
-			if(element.dir != textDir){
-				element.dir = textDir;
+			if(this.textDir){
+				var textDir = this.textDir;
+				if(textDir == "auto"){
+					// convert "auto" to either "ltr" or "rtl"
+					if(typeof text === "undefined"){
+						// text not specified, get text from element
+						text = element.tagName.toLowerCase() == "input" ? element.value :
+							element.innerText || element.textContent || "";
+					}
+					textDir = this._checkContextual(text);
+				}
+
+				if(element.dir != textDir){
+					// set element's dir to match textDir, but not when textDir is null and not when it already matches
+					element.dir = textDir;
+				}
 			}
 		},
+
 		enforceTextDirWithUcc: function(option, text){
 			// summary:
 			//		Wraps by UCC (Unicode control characters) option's text according to this.textDir
@@ -113,14 +127,12 @@ define(["./_WidgetBase"], function(_WidgetBase){
 				var node = null;
 				if(this.displayNode){
 					node = this.displayNode;
-					value = this.displayNode.textContent || this.displayNode.innerText || "";
 					this.displayNode.align = this.dir == "rtl" ? "right" : "left";
 				}else if(this.textbox){
 					node = this.textbox;
-					value = this.textbox.value				
-				}			
+				}
 				if(node){
-					this.applyTextDir(node, value);	
+					this.applyTextDir(node);
 				}
 			}			
 		}

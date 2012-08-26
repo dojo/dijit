@@ -604,9 +604,7 @@ define([
 				}); // defer prevents browser freeze for long-running event handlers
 			}
 			// contextual (auto) text direction depends on the text value
-			if(this.textDir == "auto"){
-				this.applyTextDir(this.displayNode, this.displayNode.innerText);
-			}
+			this.applyTextDir(this.displayNode);
 		},
 
 		getValue: function(){

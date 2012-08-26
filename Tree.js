@@ -532,7 +532,7 @@ var TreeNode = declare(
 	_setTextDirAttr: function(textDir){
 		if(textDir &&((this.textDir != textDir) || !this._created)){
 			this._set("textDir", textDir);
-			this.applyTextDir(this.labelNode, this.labelNode.innerText || this.labelNode.textContent || "");
+			this.applyTextDir(this.labelNode);
 			array.forEach(this.getChildren(), function(childNode){
 				childNode.set("textDir", textDir);
 			}, this);

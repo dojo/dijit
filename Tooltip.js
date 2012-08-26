@@ -236,7 +236,7 @@ define([
 		    // tags:
 		    //		private
 
-            this.applyTextDir(node, has("ie") ? node.outerText : node.textContent);
+            this.applyTextDir(node);
             array.forEach(node.children, function(child){this._setAutoTextDir(child); }, this);
 		},
 		

@@ -92,7 +92,7 @@ return declare( "dijit.form._ComboBoxMenuMixin", null, {
 		}
 
 		// update menuitem.dir if BidiSupport was required
-		this.applyTextDir(menuitem, (menuitem.innerText || menuitem.textContent || ""));
+		this.applyTextDir(menuitem);
 
 		return menuitem;
 	},

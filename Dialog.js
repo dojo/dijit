@@ -65,8 +65,8 @@ define([
 			// Map to both the title bar innerHTML, plus the tooltip when you
 			// hover over the title bar.
 			this.titleNode.innerHTML = title;
-			if(this.textDir) {
-				this.applyTextDir(this.titleNode, title);
+			if(this.textDir){
+				this.applyTextDir(this.titleNode);
 				if(this.enforceTextDirWithUcc){
 					title = this.enforceTextDirWithUcc(null, title);
 				}
