@@ -61,10 +61,25 @@ define([
 		},
 
 		// Map widget attributes to DOMNode attributes.
-		_setTitleAttr: [
-			{ node: "titleNode", type: "innerHTML" },
-			{ node: "titleBar", type: "attribute" }
-		],
+		_setTitleAttr: function(/*String*/ title){
+			// Map to both the title bar innerHTML, plus the tooltip when you
+			// hover over the title bar.
+			this.titleNode.innerHTML = title;
+			if(this.textDir) {
+				this.applyTextDir(this.titleNode, title);
+				if(this.enforceTextDirWithUcc){
+					title = this.enforceTextDirWithUcc(null, title);
+				}
+			}
+			this.titleBar.title = title;
+		},
+
+		_setTextDirAttr: function(textDir){
+			if(this._created && this.textDir != textDir){
+				this.textDir = textDir;
+				this.set("title", this.titleNode.innerHTML);			
+			}
+		},
 
 		// open: [readonly] Boolean
 		//		True if Dialog is currently displayed on screen.

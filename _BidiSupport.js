@@ -79,7 +79,9 @@ define(["./_WidgetBase"], function(_WidgetBase){
 			//		Therefore the only solution is to use UCC (Unicode  control characters) to display the text in correct orientation.
 			//		This function saves the original text value for later restoration if needed, for example if the textDir will change etc.
 			if(this.textDir){
-				option.originalText = text;
+				if(option) {			
+					option.originalText = text;
+				}				
 				var dir = this.textDir == "auto" ? this._checkContextual(text) : this.textDir;
 				return (dir == "ltr" ? bidi_const.LRE : bidi_const.RLE ) + text + bidi_const.PDF;
 			}
