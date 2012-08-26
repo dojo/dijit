@@ -109,17 +109,6 @@ define([
 
 			this.focusNode.setAttribute("aria-valuenow", value);
 			this.inherited(arguments);
-		},
-
-		applyTextDir: function(/*===== element, text =====*/){
-			// summary:
-			//		The function overridden in the _BidiSupport module,
-			//		originally used for setting element.dir according to this.textDir.
-			//		In this case does nothing.
-			// element: Object
-			// text: String
-			// tags:
-			//		protected.
 		}
 	});
 	/*=====

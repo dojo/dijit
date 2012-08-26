@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html dir="ltr" data-dojo-textdir="rtl">
+<html>
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>DOH input fields witout textDir support Tests</title>
@@ -12,53 +12,49 @@
 
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../dojo/dojo.js"
-			data-dojo-config="isDebug: true">
-		</script>		
-
-		<script type="text/javascript">
-			dojo.require("dijit.dijit"); // optimize: load dijit layer
-			dojo.require("dijit.form.DateTextBox");
-			dojo.require("dijit.form.NumberSpinner");
-			dojo.require("dijit.form.CurrencyTextBox");
-			dojo.require("dijit.form.TimeTextBox");
-			dojo.require("dojo.currency");			
-			dojo.require("dojo.date.locale");
-			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
-			dojo.require("doh.runner");
-			dojo.require("dijit._BidiSupport");
+			data-dojo-config="async: true,isDebug: true, parseOnLoad: true"></script>
 			
-			dojo.ready(function(){
-
-				doh.register("parse", function(){
+		<script type="text/javascript">
+		require([
+			"dijit/registry",
+			"doh/runner",
+			"dojo/dom",
+			"dojo/ready",
+			"dojo/parser",
+			"dijit/_BidiSupport"
+		], function(registry, runner, dom, ready){
+			ready(function(){
+			
+				runner.register("parse", function(){
 					dojo.parser.parse();
 				});
 
-				doh.register("initial direction of the textBoxes", [
+				runner.register("initial direction of the textBoxes", [
 					{
 						name:"Group 1",
 
 						runTest:function(){
 
-							var textBox1 = dijit.byId("local_1"),
-								textBox2 = dijit.byId("local_12"),
-								textBox3 = dijit.byId("local_2"),
-								textBox4 = dijit.byId("local_22");
+							textBox1 = registry.byId("local_1"),
+							textBox2 = registry.byId("local_12"),
+							textBox3 = registry.byId("local_2"),
+							textBox4 = registry.byId("local_22");
 
-							doh.is("rtl", textBox1.textDir, "textDir of - " + textBox1.id);
-							doh.is("ltr", textBox1.dir, "dir of - " + textBox1.id);
-							doh.t(textBox1.focusNode.dir != textBox1.textDir, "textDir != dir of - " + textBox1.id);
+							runner.is("rtl", textBox1.textDir, "textDir of - " + textBox1.id);
+							runner.is("", textBox1.dir, "dir of - " + textBox1.id);
+							runner.t(textBox1.focusNode.dir === textBox1.textDir, "textDir != dir of - " + textBox1.id);
 																				
-							doh.is("ltr", textBox2.textDir, "textDir of - " + textBox2.id);
-							doh.is("ltr", textBox2.dir, "dir of - " + textBox2.id);
-							doh.t(textBox2.focusNode.dir != textBox2.textDir, "textDir != dir of - " + textBox2.id);
+							runner.is("ltr", textBox2.textDir, "textDir of - " + textBox2.id);
+							runner.is("", textBox2.dir, "dir of - " + textBox2.id);
+							runner.t(textBox2.focusNode.dir === textBox2.textDir, "textDir != dir of - " + textBox2.id);
 
-							doh.is("rtl", textBox3.textDir, "textDir of - " + textBox3.id);
-							doh.is("rtl", textBox3.dir, "dir of - " + textBox3.id);
-							doh.t(textBox3.focusNode.dir != textBox3.textDir, "textDir != dir of - " + textBox3.id);
+							runner.is("rtl", textBox3.textDir, "textDir of - " + textBox3.id);
+							runner.is("rtl", textBox3.dir, "dir of - " + textBox3.id);
+							runner.t(textBox3.focusNode.dir === textBox3.textDir, "textDir != dir of - " + textBox3.id);
 
-							doh.is("ltr", textBox4.textDir, "textDir of - " + textBox4.id);
-							doh.is("rtl", textBox4.dir, "dir of - " + textBox4.id);
-							doh.t(textBox4.focusNode.dir != textBox4.textDir, "textDir != dir of - " + textBox4.id);
+							runner.is("ltr", textBox4.textDir, "textDir of - " + textBox4.id);
+							runner.is("rtl", textBox4.dir, "dir of - " + textBox4.id);
+							runner.t(textBox4.focusNode.dir === textBox4.textDir, "textDir != dir of - " + textBox4.id);
 						}
 					},			
 					{
@@ -66,26 +62,26 @@
 
 						runTest:function(){
 							
-							var textBox1 = dijit.byId("localLong_1"),
-								textBox2 = dijit.byId("localLong_12"),
-								textBox3 = dijit.byId("localLong_2"),
-								textBox4 = dijit.byId("localLong_22");
+							textBox1 = registry.byId("localLong_1"),
+							textBox2 = registry.byId("localLong_12"),
+							textBox3 = registry.byId("localLong_2"),
+							textBox4 = registry.byId("localLong_22");
 						
-							doh.is("rtl", textBox1.textDir, "textDir of - " + textBox1.id);
-							doh.is("ltr", textBox1.dir, "dir of - " + textBox1.id);
-							doh.t(textBox1.focusNode.dir != textBox1.textDir, "textDir != dir of - " + textBox1.id);
+							runner.is("rtl", textBox1.textDir, "textDir of - " + textBox1.id);
+							runner.is("ltr", textBox1.dir, "dir of - " + textBox1.id);
+							runner.t(textBox1.focusNode.dir === textBox1.textDir, "textDir != dir of - " + textBox1.id);
 																		
-							doh.is("ltr", textBox2.textDir, "textDir of - " + textBox2.id);
-							doh.is("ltr", textBox2.dir, "dir of - " + textBox2.id);
-							doh.t(textBox2.focusNode.dir != textBox2.textDir, "textDir != dir of - " + textBox2.id);
+							runner.is("ltr", textBox2.textDir, "textDir of - " + textBox2.id);
+							runner.is("", textBox2.dir, "dir of - " + textBox2.id);
+							runner.t(textBox2.focusNode.dir === textBox2.textDir, "textDir != dir of - " + textBox2.id);
 
-							doh.is("rtl", textBox3.textDir, "textDir of - " + textBox3.id);
-							doh.is("rtl", textBox3.dir, "dir of - " + textBox3.id);
-							doh.t(textBox3.focusNode.dir != textBox3.textDir, "textDir != dir of - " + textBox3.id);
+							runner.is("rtl", textBox3.textDir, "textDir of - " + textBox3.id);
+							runner.is("rtl", textBox3.dir, "dir of - " + textBox3.id);
+							runner.t(textBox3.focusNode.dir === textBox3.textDir, "textDir != dir of - " + textBox3.id);
 
-							doh.is("ltr", textBox4.textDir, "textDir of - " + textBox4.id);
-							doh.is("rtl", textBox4.dir, "dir of - " + textBox4.id);
-							doh.t(textBox4.focusNode.dir != textBox4.textDir, "textDir != dir of - " + textBox4.id);
+							runner.is("ltr", textBox4.textDir, "textDir of - " + textBox4.id);
+							runner.is("rtl", textBox4.dir, "dir of - " + textBox4.id);
+							runner.t(textBox4.focusNode.dir === textBox4.textDir, "textDir != dir of - " + textBox4.id);
 						}
 					},
 					{
@@ -93,26 +89,26 @@
 
 						runTest:function(){
 
-							var textBox1 = dijit.byId("integerspinner_1"),
-								textBox2 = dijit.byId("integerspinner_12"),
-								textBox3 = dijit.byId("integerspinner_2"),
-								textBox4 = dijit.byId("integerspinner_22");
+							textBox1 = registry.byId("integerspinner_1"),
+							textBox2 = registry.byId("integerspinner_12"),
+							textBox3 = registry.byId("integerspinner_2"),
+							textBox4 = registry.byId("integerspinner_22");
 							
-							doh.is("rtl", textBox1.textDir, "textDir of - " + textBox1.id);
-							doh.is("ltr", textBox1.dir, "dir of - " + textBox1.id);
-							doh.t(textBox1.focusNode.dir != textBox1.textDir, "textDir != dir of - " + textBox1.id);
+							runner.is("rtl", textBox1.textDir, "textDir of - " + textBox1.id);
+							runner.is("", textBox1.dir, "dir of - " + textBox1.id);
+							runner.t(textBox1.focusNode.dir === textBox1.textDir, "textDir != dir of - " + textBox1.id);
 																		
-							doh.is("ltr", textBox2.textDir, "textDir of - " + textBox2.id);
-							doh.is("ltr", textBox2.dir, "dir of - " + textBox2.id);
-							doh.t(textBox2.focusNode.dir != textBox2.textDir, "textDir != dir of - " + textBox2.id);
+							runner.is("ltr", textBox2.textDir, "textDir of - " + textBox2.id);
+							runner.is("", textBox2.dir, "dir of - " + textBox2.id);
+							runner.t(textBox2.focusNode.dir === textBox2.textDir, "textDir != dir of - " + textBox2.id);
 
-							doh.is("rtl", textBox3.textDir, "textDir of - " + textBox3.id);
-							doh.is("rtl", textBox3.dir, "dir of - " + textBox3.id);
-							doh.t(textBox3.focusNode.dir != textBox3.textDir, "textDir != dir of - " + textBox3.id);
+							runner.is("rtl", textBox3.textDir, "textDir of - " + textBox3.id);
+							runner.is("rtl", textBox3.dir, "dir of - " + textBox3.id);
+							runner.t(textBox3.focusNode.dir === textBox3.textDir, "textDir != dir of - " + textBox3.id);
 
-							doh.is("ltr", textBox4.textDir, "textDir of - " + textBox4.id);
-							doh.is("rtl", textBox4.dir, "dir of - " + textBox4.id);
-							doh.t(textBox4.focusNode.dir != textBox4.textDir, "textDir != dir of - " + textBox4.id);
+							runner.is("ltr", textBox4.textDir, "textDir of - " + textBox4.id);
+							runner.is("rtl", textBox4.dir, "dir of - " + textBox4.id);
+							runner.t(textBox4.focusNode.dir === textBox4.textDir, "textDir != dir of - " + textBox4.id);
 						}
 					},
 					{
@@ -120,26 +116,26 @@
 
 						runTest:function(){
 
-							var textBox1 = dijit.byId("curren_1"),
-								textBox2 = dijit.byId("curren_12"),
-								textBox3 = dijit.byId("curren_2"),
-								textBox4 = dijit.byId("curren_22");
+							textBox1 = registry.byId("curren_1"),
+							textBox2 = registry.byId("curren_12"),
+							textBox3 = registry.byId("curren_2"),
+							textBox4 = registry.byId("curren_22");
 								
-							doh.is("rtl", textBox1.textDir, "textDir of - " + textBox1.id);
-							doh.is("ltr", textBox1.dir, "dir of - " + textBox1.id);
-							doh.t(textBox1.focusNode.dir != textBox1.textDir, "textDir != dir of - " + textBox1.id);
+							runner.is("rtl", textBox1.textDir, "textDir of - " + textBox1.id);
+							runner.is("", textBox1.dir, "dir of - " + textBox1.id);
+							runner.t(textBox1.focusNode.dir === textBox1.textDir, "textDir != dir of - " + textBox1.id);
 																		
-							doh.is("ltr", textBox2.textDir, "textDir of - " + textBox2.id);
-							doh.is("ltr", textBox2.dir, "dir of - " + textBox2.id);
-							doh.t(textBox2.focusNode.dir != textBox2.textDir, "textDir != dir of - " + textBox2.id);
+							runner.is("ltr", textBox2.textDir, "textDir of - " + textBox2.id);
+							runner.is("", textBox2.dir, "dir of - " + textBox2.id);
+							runner.t(textBox2.focusNode.dir === textBox2.textDir, "textDir != dir of - " + textBox2.id);
 
-							doh.is("rtl", textBox3.textDir, "textDir of - " + textBox3.id);
-							doh.is("rtl", textBox3.dir, "dir of - " + textBox3.id);
-							doh.t(textBox3.focusNode.dir != textBox3.textDir, "textDir != dir of - " + textBox3.id);
+							runner.is("rtl", textBox3.textDir, "textDir of - " + textBox3.id);
+							runner.is("rtl", textBox3.dir, "dir of - " + textBox3.id);
+							runner.t(textBox3.focusNode.dir === textBox3.textDir, "textDir != dir of - " + textBox3.id);
 
-							doh.is("ltr", textBox4.textDir, "textDir of - " + textBox4.id);
-							doh.is("rtl", textBox4.dir, "dir of - " + textBox4.id);
-							doh.t(textBox4.focusNode.dir != textBox4.textDir, "textDir != dir of - " + textBox4.id);
+							runner.is("ltr", textBox4.textDir, "textDir of - " + textBox4.id);
+							runner.is("rtl", textBox4.dir, "dir of - " + textBox4.id);
+							runner.t(textBox4.focusNode.dir === textBox4.textDir, "textDir != dir of - " + textBox4.id);
 						}
 					},
 					{
@@ -147,37 +143,37 @@
 
 						runTest:function(){
 	
-							var textBox1 = dijit.byId("q1"),
-								textBox2 = dijit.byId("q2"),
-								textBox3 = dijit.byId("q3"),
-								textBox4 = dijit.byId("q4");
+							textBox1 = registry.byId("q1"),
+							textBox2 = registry.byId("q2"),
+							textBox3 = registry.byId("q3"),
+							textBox4 = registry.byId("q4");
 	
-							doh.is("rtl", textBox1.textDir, "textDir of - " + textBox1.id);
-							doh.is("ltr", textBox1.dir, "dir of - " + textBox1.id);
-							doh.t(textBox1.focusNode.dir != textBox1.textDir, "textDir != dir of - " + textBox1.id);
+							runner.is("rtl", textBox1.textDir, "textDir of - " + textBox1.id);
+							runner.is("ltr", textBox1.dir, "dir of - " + textBox1.id);
+							runner.t(textBox1.focusNode.dir === textBox1.textDir, "textDir != dir of - " + textBox1.id);
 																		
-							doh.is("ltr", textBox2.textDir, "textDir of - " + textBox2.id);
-							doh.is("ltr", textBox2.dir, "dir of - " + textBox2.id);
-							doh.t(textBox2.focusNode.dir != textBox2.textDir, "textDir != dir of - " + textBox2.id);
+							runner.is("ltr", textBox2.textDir, "textDir of - " + textBox2.id);
+							runner.is("ltr", textBox2.dir, "dir of - " + textBox2.id);
+							runner.t(textBox2.focusNode.dir === textBox2.textDir, "textDir != dir of - " + textBox2.id);
 
-							doh.is("rtl", textBox3.textDir, "textDir of - " + textBox3.id);
-							doh.is("rtl", textBox3.dir, "dir of - " + textBox3.id);
-							doh.t(textBox3.focusNode.dir != textBox3.textDir, "textDir != dir of - " + textBox3.id);
+							runner.is("rtl", textBox3.textDir, "textDir of - " + textBox3.id);
+							runner.is("rtl", textBox3.dir, "dir of - " + textBox3.id);
+							runner.t(textBox3.focusNode.dir === textBox3.textDir, "textDir != dir of - " + textBox3.id);
 
-							doh.is("ltr", textBox4.textDir, "textDir of - " + textBox4.id);
-							doh.is("rtl", textBox4.dir, "dir of - " + textBox4.id);
-							doh.t(textBox4.focusNode.dir != textBox4.textDir, "textDir != dir of - " + textBox4.id);
+							runner.is("ltr", textBox4.textDir, "textDir of - " + textBox4.id);
+							runner.is("rtl", textBox4.dir, "dir of - " + textBox4.id);
+							runner.t(textBox4.focusNode.dir === textBox4.textDir, "textDir != dir of - " + textBox4.id);
 						}
 					}
 				]);			
 
-				doh.run();
+				runner.run();
 			});
+		});			
 		</script>
 	</head>
 
 	<body class="tundra">
-		<h2 class="testTitle"><b>As you can see, for the following widgets, the textDir is disabled, it's overridden by dijit.form.RangeBoundTextBox</b></h2>
 		<h1 class="testTitle">Test DateTextBox Widget with _BidiSupport</h1>
 		<div class="dojoTitlePaneLabel">
 			<label for="local_1">Group 1: Date (local format) </label>
@@ -188,7 +184,7 @@
 					<th>
 						<label for="local_1"><b>dir = </b>ltr, <b>textDir = </b>rtl</label><br>
 						<input id="local_1" data-dojo-type="dijit/form/DateTextBox"
-							data-dojo-props='name:"noDOMvalue", value:"2008-12-31", type:"text"'/>
+							data-dojo-props='name:"noDOMvalue", value:"2008-12-31", type:"text", textDir:"rtl"'/>
 					</th>
 					<th>
 						<label for="local_12"><b>dir = </b>ltr, <b>textDir = </b>ltr</label><br>
@@ -200,7 +196,7 @@
 					<th>
 						<label for="local_2"><b>dir = </b>rtl, <b>textDir = </b>rtl</label><br>
 						<input id="local_2" data-dojo-type="dijit/form/DateTextBox"
-							data-dojo-props='name:"noDOMvalue2", value:"2008-12-31", type:"text", dir:"rtl"'/>	
+							data-dojo-props='name:"noDOMvalue2", value:"2008-12-31", type:"text", dir:"rtl", textDir:"rtl"'/>	
 					</th>
 					<th>
 						<label for="local_22"><b>dir = </b>rtl, <b>textDir = </b>ltr</label><br>
@@ -223,6 +219,7 @@
 							constraints:{min:"2004-01-01",max:"2006-12-31",formatLength:"long"},
 							required:true,
 							trim:true,
+							dir:"ltr", textDir:"rtl",
 							invalidMessage:"Invalid date."'/>
 					</th>
 					<th>
@@ -245,7 +242,8 @@
 							required:true,
 							trim:true,
 							invalidMessage:"Invalid date." ,
-							dir:"rtl"'/>
+							dir:"rtl",
+							textDir:"rtl" '/>
 					</th>
 					<th>							
 						<label for="localLong_22"><b>dir = </b>rtl, <b>textDir = </b>ltr</label><br>
@@ -303,6 +301,7 @@
 							"class":"bigFont",
 							constraints:{max:1550,places:0},
 							dir:"rtl",
+							textDir:"rtl",
 							name:"integerspinner_2"'/>
 					</th>
 					<th>	
@@ -337,6 +336,7 @@
 							required:true,
 							constraints:{fractional:true},
 							currency:"USD",
+							textDir:"rtl",
 							invalidMessage:"Invalid amount. Cents are MANDATORY."'/>
 					</th> 
 					<th>
