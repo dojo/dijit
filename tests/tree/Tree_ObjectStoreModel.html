@@ -23,19 +23,21 @@
 		require([
 			"dojo/_base/array",
 			"dojo/aspect",
+			"dojo/cookie",
 			"dojo/dom-class",
 			"dojo/on",
 			"dojo/ready",
 			"dojo/_base/window",
 			"dojo/store/Memory",
 			"dojo/store/Observable",
+			"dijit/registry",
 			"dijit/Tree",
 			"dijit/tree/ObjectStoreModel",
 			"dijit/tree/dndSource",
 			"doh/runner",
 			"dijit/tests/helpers"	// functions to help test
-		], function(array, aspect, domClass, on, ready, win, Memory, Observable,
-					Tree, ObjectStoreModel, dndSource, doh, helpers){
+		], function(array, aspect, cookie, domClass, on, ready, win, Memory, Observable,
+					registry, Tree, ObjectStoreModel, dndSource, doh, helpers){
 
 			var data = [
 				{ id: "earth", name:"The earth", type:"planet", population: "6 billion"},
@@ -701,12 +703,118 @@
 					}
 				]);
 
+				doh.register("persistence", [
+					// Reset the data to original values
+					setup,
+
+					function create(){
+						if(registry.byId("myTree")){
+							registry.byId("myTree").destroy();
+						}
+						cookie("myTreeSaveStateCookie", "");
+
+						myTree = new dijit.Tree({
+							id: "myTree",
+							model: myModel,
+							persist: true
+						}).placeAt(win.body());
+						doh.t(myTree, "tree created");
+
+						myTree.startup();
+
+						world = myTree.rootNode;
+
+						return myTree.onLoadDeferred;
+					},
+					{
+						name: "expand and contract",
+						timeout: 5000,
+						runTest: function(){
+
+							var d = new doh.Deferred();
+
+							na = world.getChildren()[4];
+							doh.is("North America", na.label, "North America node label");
+
+							// Click on North America to open it
+							on.emit(na.expandoNode, "click", {bubbles: true});
+
+							// Wait for animation to complete
+							setTimeout(d.getTestErrback(function(){
+								mx = na.getChildren()[0];
+								doh.is("Mexico", mx.label, "Mexico node label");
+
+								// Click on Mexico to open it
+								on.emit(mx.expandoNode, "click", {bubbles: true});
+
+								// Wait for animation to complete.
+								setTimeout(d.getTestErrback(function(){
+									// Click on North America again, to close it
+									on.emit(na.expandoNode, "click", {bubbles: true});
+									setTimeout(d.getTestCallback(function(){
+										// Wait for close animation to finish and then return success
+									}), 500);
+								}), 500);
+							}), 500);
+
+							return d;
+						}
+					},
+
+					{
+						name: "recreate tree",
+						timeout: 5000,
+						runTest: function(){
+							myTree.destroy();
+
+							myTree = new dijit.Tree({
+								id: "myTree",
+								model: myModel,
+								persist: true
+							}).placeAt(win.body());
+							doh.t(myTree, "tree created");
+
+							myTree.startup();
+
+							world = myTree.rootNode;
+
+							return myTree.onLoadDeferred;
+						}
+					},
+
+					{
+						name: "check tree state",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							na = world.getChildren()[4];
+							doh.is("North America", na.label, "North America node label");
+
+							doh.f(na.isExpanded, "North America collapsed");
+
+							// Click on North America to open it
+							on.emit(na.expandoNode, "click", {bubbles: true});
+
+							setTimeout(d.getTestCallback(function(){
+								doh.t(na.isExpanded, "North America expanded");
+								mx = na.getChildren()[0];
+								doh.is("Mexico", mx.label, "Mexico node label");
+								doh.t(mx.isExpanded, "Mexico expanded");
+							}), 500);
+
+							return d;
+						}
+					}
+				]);
+
 				// Tests that TreeNodes that are destroyed don't linger in selection, etc.
 				doh.register("destroyed nodes", [
 					// Reset the data to original values
 					setup,
 
 					function create(){
+						cookie("myDeleteTreeSaveStateCookie", "");
 						myTree = new dijit.Tree({
 							id: "myDeleteTree",
 							model: myModel,
@@ -737,7 +845,7 @@
 						return d;
 					},
 
-					// TODO: test that cookie is updated to remove this Egypt from the selection
+					// TODO: test that cookie is updated to remove Africa from list of expanded nodes
 
 					{
 						name: "reinsert deleted descendant",
