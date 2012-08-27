@@ -472,8 +472,8 @@
 					function setPaths(){
 						var d = new doh.Deferred();
 
-						myTree2.set("paths", [["earth","AF","KE","Nairobi"],
-											  ["earth","NA","MX","Guadalajara"]]).then(d.getTestCallback(function(){
+						myTree2.set("paths", [["earth", "AF", "KE", "Nairobi"],
+											  ["earth", "NA", "MX", "Guadalajara"]]).then(d.getTestCallback(function(){
 								  var ids = dojo.map(myTree2.selectedItems, function(x){return myTree2.model.getIdentity(x);}).sort();
 								  doh.is(["Guadalajara", "Nairobi"], ids);
 							  }));
@@ -482,26 +482,30 @@
 					function setEmptyPath(){
 						var d = new doh.Deferred();
 
-						// this should fail because not even the root node is specified
+						// setting an empty path is interpreted as selecting nothing
 						myTree2.set("path", []).then(
-							function(){
-								d.errback("Should have gotten error trying to set path to null");
-							},
+							d.getTestCallback(function(){
+								doh.is(0, myTree2.get("selectedNodes").length, "no nodes selected");
+							}),
 							d.getTestCallback(function(e){
-								doh.t(e instanceof Tree.PathError, "got PathError");
+								throw e;
 							})
 						);
+
+						return d;
 					},
 					function setInvalidPath(){
 						var d = new doh.Deferred();
-						myTree2.set("path", ["earth","AF","KE","Narnia"]).then(
+						myTree2.set("path", ["earth", "AF", "KE", "Narnia"]).then(
 							function(){
-								d.errback("Should have gotten error trying to set path to null");
+								d.errback("Should have gotten error trying to set invalid path");
 							},
 							d.getTestCallback(function(e){
 								doh.t(e instanceof Tree.PathError, "got PathError");
 							})
 						);
+
+						return d;
 					}
 
 				]);

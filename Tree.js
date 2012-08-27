@@ -973,6 +973,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		var tree = this;
 
 		// Let any previous set("path", ...) commands complete before this one starts.
+		// TODO: this seems wrong, if one deferred fails then forever after we are in a state of failure?
 		return this.pendingCommandsDeferred = this.pendingCommandsDeferred.then(function(){
 			// We may need to wait for some nodes to expand, so setting
 			// each path will involve a Deferred. We bring those deferreds
@@ -992,7 +993,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 					d.reject(new Tree.PathError("Empty path"));
 				}
 				return d;
-			}));
+			}), false, true);
 		}).then(setNodes);
 
 		function selectPath(path, nodes, def){
