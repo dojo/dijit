@@ -158,6 +158,8 @@ var StackContainer = declare("dijit.layout.StackContainer", _LayoutWidget, {
 	removeChild: function(/*dijit/_WidgetBase*/ page){
 		// Overrides _Container.removeChild() to do layout and publish events
 
+		var idx = array.indexOf(this.getChildren(), page);
+
 		this.inherited(arguments);
 
 		if(this._started){
@@ -176,7 +178,7 @@ var StackContainer = declare("dijit.layout.StackContainer", _LayoutWidget, {
 			if(this._started){
 				var children = this.getChildren();
 				if(children.length){
-					this.selectChild(children[0]);
+					this.selectChild(children[Math.max(idx-1, 0)]);
 				}
 			}
 		}

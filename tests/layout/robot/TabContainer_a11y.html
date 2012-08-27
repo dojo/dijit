@@ -15,9 +15,9 @@
 		<script type="text/javascript">
 			require([
 				"doh/runner", "dojo/robotx",
-				"dojo/dom", "dojo/keys", "dojo/query", "dojo/sniff",
-				"dijit/tests/helpers", "dojo/domReady!"
-			], function(doh, robot, dom, keys, query, has, helpers){
+				"dojo/dom", "dojo/keys", "dojo/query", "dojo/sniff", "dojo/window",
+				"dijit/tests/helpers"
+			], function(doh, robot, dom, keys, query, has, winUtils, helpers){
 	
 				robot.initRobot('../test_TabContainer.html');
 
@@ -405,17 +405,21 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							registry.byId("mainTabContainer").selectChild("tab4href");
+							var tc = registry.byId("mainTabContainer");
 
-							// Go to "Sub TabContainer from href" tab, and close it
+							// Select "SplitContainer from href tab"
+							tc.selectChild("tab4href");
+
+							// Go to "Embedded layout widgets" tab, and close it.
+							// This puts focus back on "SplitContainer from href".
 							robot.keyPress(keys.RIGHT_ARROW, 500, {});
 							robot.keyPress(keys.DELETE, 750, {});
 
-							var tc = registry.byId("mainTabContainer");
 							robot.sequence(d.getTestCallback(function(){
-								doh.is(6, tc.getChildren().length);
+								doh.is(6, tc.getChildren().length, "six tabs left");
+								doh.is("tab4href", tc.selectedChildWidget.id, "selection moved to previous tab");
 							}), 500);
-							
+
 							return d;
 						}
 					},
@@ -424,15 +428,16 @@
 						timeout: 10000,
 						runTest: function(t){
 							var d = new doh.Deferred();
-							
+
 							robot.sequence(function(){
 								dom.byId("mainTabContainer_tablist_tab1").focus();
 							}, 500);
 
 							// Go to "Tab 3", and close it.
-							// This puts the focus back on "Tab 1".
-							robot.keyPress(keys.RIGHT_ARROW, 500, {});
-							robot.keyPress(keys.RIGHT_ARROW, 750, {});
+							// This puts the focus back on "Tab 2".
+							robot.keyPress(keys.LEFT_ARROW, 500, {});
+							robot.keyPress(keys.LEFT_ARROW, 750, {});
+							robot.keyPress(keys.LEFT_ARROW, 750, {});
 							if(has("chrome")){
 								// on chrome ctrl+w isn't trapped, and closes the whole browser!
 								robot.keyPress(keys.DELETE, 750, {});
@@ -443,6 +448,7 @@
 							var tc = registry.byId("mainTabContainer");
 							robot.sequence(d.getTestCallback(function(){
 								doh.is(5, tc.getChildren().length);
+								doh.is("tab2", tc.selectedChildWidget.id, "selection moved to previous tab");
 							}), 500);
 							return d;
 						}
@@ -460,11 +466,11 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							// Go to "SplitContainer from href" tab
-							robot.keyPress(keys.RIGHT_ARROW, 500, {});
-							robot.keyPress(keys.RIGHT_ARROW, 750, {});
-							robot.keyPress(keys.RIGHT_ARROW, 750, {});
-							
+							var tc = registry.byId("ttabs");
+							winUtils.scrollIntoView(tc.domNode);
+
+							dom.byId("ttabs_tablist_ttab1").focus();
+
 							// Open context menu via keyboard
 							if(has("mac")){
 								robot.keyPress(keys.SPACE, 500, {
@@ -478,12 +484,13 @@
 
 							// Close tab
 							robot.keyPress(keys.ENTER, 500, {});
-							
-							var tc = registry.byId("mainTabContainer");
+
 							robot.sequence(d.getTestCallback(function(){
-								doh.is(4, tc.getChildren().length);
+								doh.is(2, tc.getChildren().length, "remaining tabs");
+								doh.is("ttab2", tc.selectedChildWidget.id,
+										"selection moved to next tab (since first tab was deleted)");
 							}), 500);
-							
+
 							return d;
 						}
 					});
@@ -495,10 +502,12 @@
 						timeout: 10000,
 						runTest: function(t){
 							var d = new doh.Deferred();
-							
-							dom.byId("ltabs_tablist_HanselGretel1").focus();
 
 							var tc = registry.byId("ltabs");
+							winUtils.scrollIntoView(tc.domNode);
+
+							dom.byId("ltabs_tablist_HanselGretel1").focus();
+
 							onFocus(d.getTestCallback(function(node){
 								doh.is('ltabs_tablist_GreenTwigs1', node.id, "currently chosen tab");
 								doh.is("GreenTwigs1", tc.selectedChildWidget.id, "currently displayed pane");
@@ -514,20 +523,20 @@
 						timeout: 10000,
 						runTest: function(t){
 							var d = new doh.Deferred();
-							
-							var tc = registry.byId("ltabs");							
+
+							var tc = registry.byId("ltabs");
 							onFocus(d.getTestCallback(function(node){
 								doh.is('ltabs_tablist_HanselGretel1', node.id, "currently chosen tab");
 								doh.is("HanselGretel1", tc.selectedChildWidget.id, "currently chosen pane");
 							}));
 
 							robot.keyPress(keys.UP_ARROW, 500, {});
-							
+
 							return d;
 						}
 					}
 				]);
-				
+
 				doh.run();
 			});
 		</script>
