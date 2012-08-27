@@ -822,49 +822,59 @@
 						myTree = new dijit.Tree({
 							id: "myDeleteTree",
 							model: myModel,
-							persist: false		// persist==true is too hard to test
+							persist: true
 						}).placeAt(win.body());
 						doh.t(myTree, "tree created");
 
 						myTree.startup();
+						doh.is("earth", cookie("myDeleteTreeSaveStateCookie"), "initial persistence cookie just earth");
 					},
 
 					function removedFromSelection(){
 						var d = new doh.Deferred();
-						// Select Egypt
-						myTree.set("path", ["earth", "AF", "EG"]).then(d.getTestErrback(function(){
+						// Select Mexico city
+						myTree.set("path", ["earth", "NA", "MX", "Mexico City"]).then(d.getTestErrback(function(){
 							doh.is(1, myTree.get("paths").length, "one selected node");
 							var selectedNode = myTree.get("selectedNode");
 
-							// And then remove it's ancestor.
-							myStore.remove("AF");
+							// Ancestors of the selected node should be expanded, and that should be saved
+							// in the cookie
+							doh.is("earth,earth/NA,earth/NA/MX", cookie("myDeleteTreeSaveStateCookie"),
+									"Earth, North America, Mexico should be listed as expanded");
+
+							// Remove selection's ancestor
+							myStore.remove("NA");
 
 							// use setTimeout() to give Tree time to realize this isn't a drag & drop, but that
-							// the Africa subtree was truly deleted
+							// the North America subtree was truly deleted
 							setTimeout(d.getTestCallback(function(){
 								doh.t(selectedNode._destroyed, "the selected node was destroyed (along with it's ancestor)");
 								doh.is(0, myTree.get("paths").length, "no selected nodes");
+								doh.is("earth", cookie("myDeleteTreeSaveStateCookie"),
+										"North America and Mexico should have been removed from list of expanded nodes")
 							}), 10)
 						}));
 						return d;
 					},
 
-					// TODO: test that cookie is updated to remove Africa from list of expanded nodes
-
 					{
-						name: "reinsert deleted descendant",
+						name: "reinsert deleted descendants",
 						timeout: 5000,
 						runTest: function(){
 							var d = new doh.Deferred();
+							myStore.put({ id: "NA", name:"North America", type:"continent", parent: "earth" });
+							myStore.put({ id: "MX", name:"Mexico", type:"country",  population:"108 million", area:"1,972,550 sq km",
+									parent: "NA" });
+							myStore.put({ id: "Mexico City", name:"Mexico City", type:"city", population:"19 million", timezone:"-6 UTC", parent: "MX"});
+							myStore.put({ id: "Guadalajara", name:"Guadalajara", type:"city", population:"4 million", timezone:"-6 UTC", parent: "MX" });
 
-							myStore.put({ id: "AF", name:"Africa", type:"continent", population:"900 million", area: "30,221,532 sq km",
-								timezone: "-1 UTC to +4 UTC", parent: "earth"});
-							myStore.put({ id: "KE", name: "Kenya", type: "country", parent: "AF" });
-							myTree.set("path", ["earth", "AF", "KE"]).then(
+							myTree.set("path", ["earth", "NA", "MX", "Mexico City"]).then(
 								d.getTestCallback(function(){
 									var node = myTree.get("selectedNode");
 									doh.isNot(null, node, "got a selected node");
 									doh.f(node._destroyed, "not destroyed");
+									doh.f(node.getParent()._destroyed, "parent not destroyed");
+									doh.f(node.getParent().getParent()._destroyed, "grandparent not destroyed");
 								}),
 								d.getTestErrback(function(err){
 									throw err;

@@ -375,6 +375,19 @@ var TreeNode = declare(
 					}
 					remove(node);
 
+					// Remove any entries involving this node from cookie tracking expanded nodes
+					if(tree.persist){
+						var destroyedPath = array.map(node.getTreePath(), function(item){
+							return tree.model.getIdentity(item);
+						}).join("/");
+						for(var path in tree._openedNodes){
+							if(path.substr(0, destroyedPath.length) == destroyedPath){
+								delete tree._openedNodes[path];
+							}
+						}
+						tree._saveExpandedNodes();
+					}
+
 					// And finally we can destroy the node
 					node.destroyRecursive();
 				}
@@ -1760,6 +1773,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 			}
 		}
 	},
+
 	_state: function(node, expanded){
 		// summary:
 		//		Query or set expanded state for an node
@@ -1777,13 +1791,17 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 			}else{
 				delete this._openedNodes[path];
 			}
-			if(this.persist && this.cookieName){
-				var ary = [];
-				for(var id in this._openedNodes){
-					ary.push(id);
-				}
-				cookie(this.cookieName, ary.join(","), {expires:365});
+			this._saveExpandedNodes();
+		}
+	},
+
+	_saveExpandedNodes: function(){
+		if(this.persist && this.cookieName){
+			var ary = [];
+			for(var id in this._openedNodes){
+				ary.push(id);
 			}
+			cookie(this.cookieName, ary.join(","), {expires:365});
 		}
 	},
 
