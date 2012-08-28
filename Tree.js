@@ -4,7 +4,7 @@ define([
 	"dojo/cookie", // cookie
 	"dojo/_base/declare", // declare
 	"dojo/Deferred", // Deferred
-	"dojo/DeferredList", // DeferredList
+	"dojo/promise/all",
 	"dojo/dom", // dom.isDescendant
 	"dojo/dom-class", // domClass.add domClass.remove domClass.replace domClass.toggle
 	"dojo/dom-geometry", // domGeometry.setMarginBox domGeometry.position
@@ -32,7 +32,7 @@ define([
 	"./tree/TreeStoreModel",
 	"./tree/ForestStoreModel",
 	"./tree/_dndSelector"
-], function(array, connect, cookie, declare, Deferred, DeferredList,
+], function(array, connect, cookie, declare, Deferred, all,
 			dom, domClass, domGeometry, domStyle, event, createError, fxUtils, kernel, keys, lang, on, topic, touch, when,
 			focus, registry, manager, _Widget, _TemplatedMixin, _Container, _Contained, _CssStateMixin,
 			treeNodeTemplate, treeTemplate, TreeStoreModel, ForestStoreModel, _dndSelector){
@@ -40,11 +40,17 @@ define([
 // module:
 //		dijit/Tree
 
-// Back-compat shim
+// Back-compat shims, remove for 2.0
 Deferred = declare(Deferred, {
 	addCallback: function(callback){ this.then(callback); },
 	addErrback: function(errback){ this.then(null, errback); }
 });
+function makeAll(defs){
+	var d = new all(defs);
+	d.addCallback = function(callback){ d.then(callback); };
+	d.addErrback = function(errback){ d.then(null, errback); };
+	return d;
+}
 
 var TreeNode = declare(
 	"dijit._TreeNode",
@@ -473,9 +479,9 @@ var TreeNode = declare(
 			}
 		}
 
-		var def =  new DeferredList(defs);
+		var def = makeAll(defs);
 		this.tree._startPaint(def);		// to reset TreeNode widths after an item is added/removed from the Tree
-		return def;		// dojo/_base/Deferred
+		return def;		// dojo/promise/all
 	},
 
 	getTreePath: function(){
@@ -986,12 +992,12 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		var tree = this;
 
 		// Let any previous set("path", ...) commands complete before this one starts.
-		// TODO: this seems wrong, if one deferred fails then forever after we are in a state of failure?
+		// TODO: convert from then() to always(), see #15902.
 		return this.pendingCommandsDeferred = this.pendingCommandsDeferred.then(function(){
 			// We may need to wait for some nodes to expand, so setting
 			// each path will involve a Deferred. We bring those deferreds
-			// together with a DeferredList.
-			return new DeferredList(array.map(paths, function(path){
+			// together with a dojo/promise/all.
+			return makeAll(array.map(paths, function(path){
 				var d = new Deferred();
 
 				// normalize path to use identity
@@ -1006,7 +1012,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 					d.reject(new Tree.PathError("Empty path"));
 				}
 				return d;
-			}), false, true);
+			}));
 		}).then(setNodes);
 
 		function selectPath(path, nodes, def){
@@ -1028,11 +1034,8 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		}
 
 		function setNodes(newNodes){
-			// After all expansion is finished, set the selection to
-			// the set of nodes successfully found.
-			tree.set("selectedNodes", array.map(
-				array.filter(newNodes,function(x){return x[0];}),
-				function(x){return x[1];}));
+			// After all expansion is finished, set the selection to last element from each path
+			tree.set("selectedNodes", newNodes);
 		}
 	},
 
@@ -1068,7 +1071,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 					defs = array.map(childBranches, expand);
 
 				// And when all those recursive calls finish, signal that I'm finished
-				new dojo.DeferredList(defs).then(function(){
+				makeAll(defs).then(function(){
 					def.resolve(true);
 				});
 			});
@@ -1099,7 +1102,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 
 			// And when all those recursive calls finish, collapse myself, unless I'm the invisible root node,
 			// in which case collapseAll() is finished
-			new dojo.DeferredList(defs).then(function(){
+			makeAll(defs).then(function(){
 				if(!node.isExpanded || (node == _this.rootNode && !_this.showRoot)){
 					def.resolve(true);
 				}else{
