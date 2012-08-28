@@ -2,7 +2,7 @@ dojo.provide("dijit.tests._BidiSupport.module");
 
 try{
 
-	dojo.require("dijit.tests._BidiSupport.top.module");
+	dojo.require("dijit.tests._BidiSupport.misc.module");
 
 	dojo.require("dijit.tests._BidiSupport.form.module");
 
