@@ -768,7 +768,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		this.expandChildrenDeferred  = new Deferred();
 
 		// Deferred that fires when all pending operations complete.
-		this.pendingCommandsDeferred = this.expandChildrenDeferred;
+		this.pendingCommandsPromise = this.expandChildrenDeferred.promise;
 
 		this.inherited(arguments);
 	},
@@ -836,7 +836,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 
 		// onLoadDeferred should fire when all commands that are part of initialization have completed.
 		// It will include all the set("paths", ...) commands that happen during initialization.
-		this.onLoadDeferred = this.pendingCommandsDeferred;
+		this.onLoadDeferred = this.pendingCommandsPromise;
 				
 		this.onLoadDeferred.then(lang.hitch(this, "onLoad"));
 	},
@@ -958,7 +958,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		//		WARNING: if model use multi-parented items or desired tree node isn't already loaded
 		//		behavior is undefined. Use set('paths', ...) instead.
 		var tree = this;
-		return this.pendingCommandsDeferred = this.pendingCommandsDeferred.then( lang.hitch(this, function(){
+		return this.pendingCommandsPromise = this.pendingCommandsPromise.always( lang.hitch(this, function(){
 			var identities = array.map(items, function(item){
 				return (!item || lang.isString(item)) ? item : tree.model.getIdentity(item);
 			});
@@ -992,8 +992,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		var tree = this;
 
 		// Let any previous set("path", ...) commands complete before this one starts.
-		// TODO: convert from then() to always(), see #15902.
-		return this.pendingCommandsDeferred = this.pendingCommandsDeferred.then(function(){
+		return this.pendingCommandsPromise = this.pendingCommandsPromise.always(function(){
 			// We may need to wait for some nodes to expand, so setting
 			// each path will involve a Deferred. We bring those deferreds
 			// together with a dojo/promise/all.
