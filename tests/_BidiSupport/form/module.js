@@ -6,6 +6,10 @@ try{
 
 	doh.registerUrl("dijit.tests._BidiSupport.form.noTextDirTextWidgets", dojo.moduleUrl("dijit", "tests/_BidiSupport/form/noTextDirTextWidgets.html"));
 
+	doh.registerUrl("dijit.tests._BidiSupport.form.Button", dojo.moduleUrl("dijit", "tests/_BidiSupport/form/Button.html"));
+
+	doh.registerUrl("dijit.tests._BidiSupport.form.Select", dojo.moduleUrl("dijit", "tests/_BidiSupport/form/test_Select.html"));
+
 	var userArgs = window.location.search.replace(/[\?&](dojoUrl|testUrl|testModule)=[^&]*/g,"").replace(/^&/,"?");
 
 	doh.registerUrl("dijit.tests._BidiSupport.form.robot.Textarea", dojo.moduleUrl("dijit","tests/_BidiSupport/form/robot/Textarea.html"+userArgs), 999999);

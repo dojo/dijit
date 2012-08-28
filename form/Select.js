@@ -170,6 +170,7 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 				onClick: click,
 				ownerDocument: this.ownerDocument,
 				dir: this.dir,
+				textDir: this.textDir,
 				disabled: option.disabled || false
 			});
 			item.focusNode.setAttribute("role", "option");
@@ -272,6 +273,7 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 		//		sets the display for the given value (or values)
 		var lbl = newDisplay || this.emptyLabel;
 		this.containerNode.innerHTML = '<span role="option" class="dijitReset dijitInline ' + this.baseClass.replace(/\s+|$/g, "Label ")+'">' + lbl + '</span>';
+		this.applyTextDir(this.focusNode);
 	},
 
 	validate: function(/*Boolean*/ isFocused){
@@ -322,10 +324,10 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 		//		stop mousemove from selecting text on IE to be consistent with other browsers
 
 		this.inherited(arguments);
- 
+
 		this.connect(this.domNode, "onselectstart", event.stop);
 		this.domNode.setAttribute("aria-expanded", "false");
-		
+
 		if(has("ie") < 9){
 			// IE INPUT tag fontFamily has to be set directly using STYLE
 			// the defer gives IE a chance to render the TextBox and to deal with font inheritance

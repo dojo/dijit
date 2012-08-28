@@ -65,7 +65,8 @@ define(["./_WidgetBase"], function(_WidgetBase){
 					// convert "auto" to either "ltr" or "rtl"
 					if(typeof text === "undefined"){
 						// text not specified, get text from element
-						text = element.tagName.toLowerCase() == "input" ? element.value :
+						var tagName = element.tagName.toLowerCase();
+						text = (tagName == "input" || tagName == "textarea") ? element.value :
 							element.innerText || element.textContent || "";
 					}
 					textDir = this._checkContextual(text);
@@ -87,15 +88,15 @@ define(["./_WidgetBase"], function(_WidgetBase){
 			//		The text to be wrapped.
 			// description:
 			//		There's a dir problem with some HTML elements. For some elements (e.g. `<option>`, `<select>`)
-			//		defining the dir in different direction then the GUI orientation, won't display correctly. 
+			//		defining the dir in different direction then the GUI orientation, won't display correctly.
 			//		FF 3.6 will change the alignment of the text in option - this doesn't follow the bidi standards (static text
 			//		should be aligned following GUI direction). IE8 and Opera11.10 completely ignore dir setting for `<option>`.
 			//		Therefore the only solution is to use UCC (Unicode  control characters) to display the text in correct orientation.
 			//		This function saves the original text value for later restoration if needed, for example if the textDir will change etc.
 			if(this.textDir){
-				if(option) {			
+				if(option){
 					option.originalText = text;
-				}				
+				}
 				var dir = this.textDir == "auto" ? this._checkContextual(text) : this.textDir;
 				return (dir == "ltr" ? bidi_const.LRE : bidi_const.RLE ) + text + bidi_const.PDF;
 			}
@@ -115,26 +116,26 @@ define(["./_WidgetBase"], function(_WidgetBase){
 			}
 			return origObj;
 		},
-		
+
 		_setTextDirAttr: function(/*String*/ textDir){
 			// summary:
 			//		Setter for textDir.
 			// description:
 			//		Users shouldn't call this function; they should be calling
 			//		set('textDir', value)
-			if(!this._created || this.textDir != textDir){ 
-				this._set("textDir", textDir);			
+			if(!this._created || this.textDir != textDir){
+				this._set("textDir", textDir);
 				var node = null;
 				if(this.displayNode){
 					node = this.displayNode;
 					this.displayNode.align = this.dir == "rtl" ? "right" : "left";
-				}else if(this.textbox){
-					node = this.textbox;
+				}else{
+					node = this.textDirNode || this.focusNode || this.textbox;
 				}
 				if(node){
 					this.applyTextDir(node);
 				}
-			}			
+			}
 		}
 	});
 
