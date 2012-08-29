@@ -395,6 +395,6 @@
   /* prevent double border */
 
 }
-.claro .dijitTab, .claro .tabStripButton {
-  _background-image: none !important;
+.claro .dijitTabContainer .dijitTab, .claro .dijitTabContainer .tabStripButton {
+  _background-image: none;
 }
