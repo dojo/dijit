@@ -1,6 +1,7 @@
 dojo.provide("dijit.tests._BidiSupport.module");
 
 try{
+	dojo.require("dijit.tests._BidiSupport.layout.module");
 
 	dojo.require("dijit.tests._BidiSupport.misc.module");
 

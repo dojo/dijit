@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title>StackContainer Demo</title>
+
+	<style>
+		@import "../../../themes/claro/document.css";
+		@import "../../css/dijitTests.css";
+		.dijitStackController .dijitToggleButtonChecked button {
+			background-color: white;
+			background-image: none;
+		}
+		div.dijitStackContainer {
+			border: solid 1px black !important;	/* override .dijitStackContainer-child rule for no border */
+			padding: 3px;
+		}
+	</style>
+
+	<!-- required: the default dijit theme: -->
+	<link id="themeStyles" rel="stylesheet" href="../../../../dijit/themes/claro/claro.css"/>
+
+	<!-- required: dojo.js -->
+	<script type="text/javascript" src="../../../../dojo/dojo.js"
+		data-dojo-config="async: true, parseOnLoad: true"></script>
+
+	<script type="text/javascript">
+		require([
+			"dijit/registry",		
+			"doh/runner",
+			"dojo/dom",
+			"dojo/ready",
+			"dojo/query",
+			"dojo/parser",
+			"dijit/_BidiSupport"
+			], function(registry,runner,dom,ready,query){
+			ready(function(){
+				runner.register("tests._BidiSupport.layout.StackContainer.Bidi", [
+					{
+						name: "StackContainer Bidi",					
+						runTest: function(){
+							query("span.dijitButtonText").forEach(function(node, index, arr){
+								if(registry.getEnclosingWidget(node).textDir !== 'auto') {							
+									runner.assertEqual(node.dir, registry.getEnclosingWidget(node).textDir, "tab button direction should coinside with widget's 'textDir'");
+								}
+							});							
+						}
+					}				
+			]);
+			
+			runner.register("log", function(){
+				dom.byId('failures').innerHTML = runner._failureCount;
+				dom.byId('errors').innerHTML = runner._errorCount;
+			});			
+			runner.run();
+		});
+		});		
+	</script>
+</head>
+
+<body class="claro">
+	<h1 class="testTitle">Bidi RTL stack container</h1>
+	<span data-dojo-type="dijit/layout/StackController" data-dojo-props='containerId:"stackContainer"'></span>
+	<div id="stackContainer" data-dojo-type="dijit/layout/StackContainer"
+		data-dojo-props='textDir:"rtl", style:"width: 90%; border: 1px solid #9b9b9b; height: 6em; margin: 0.5em 0 0.5em 0; padding: 0.5em;"'>
+		<p id="page1" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='textDir:"ltr",title:"Explicit LTR!"'>Explicit LTR text direction of content pane</p>
+		<p id="page2" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Inherited RTL!"'>Inherited RTL title text direction of stack button</p>
+		<p id="page3" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='textDir:"auto",title:"אExplicit AUTO!"'>Explicit 'auto' text direction of content pane</p>
+	</div>
+	<br>Errors:&nbsp;<span id="errors">?</span>
+	<br>Failures:&nbsp;<span id="failures">?</span>		
+</body>
+</html>

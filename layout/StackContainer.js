@@ -97,7 +97,7 @@ var StackContainer = declare("dijit.layout.StackContainer", _LayoutWidget, {
 		// Publish information about myself so any StackControllers can initialize.
 		// This needs to happen before this.inherited(arguments) so that for
 		// TabContainer, this._contentBox doesn't include the space for the tab labels.
-		topic.publish(this.id+"-startup", {children: children, selected: selected});
+		topic.publish(this.id+"-startup", {children: children, selected: selected, textDir:this.textDir});
 
 		// Startup each child widget, and do initial layout like setting this._contentBox,
 		// then calls this.resize() which does the initial sizing on the selected child.
