@@ -47,154 +47,154 @@
 
 		dojo.require("dijit.ColorPalette");
 		dojo.require("dijit.form.TextBox");
-		dojo.require("dijit._BidiSupport");	
-		dojo.require("doh.runner");		
+		dojo.require("dijit._BidiSupport");
+		dojo.require("doh.runner");
 
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 	</script>
 
-    <script type="text/javascript">
-        function createMenu(){
-            // create a menu programmatically
-           function fClick(){console.log("clicked!")}
+	<script type="text/javascript">
+		function createMenu(){
+			// create a menu programmatically
+			function fClick(){console.log("clicked!")}
 
-            pMenu = new dijit.Menu({targetNodeIds:["prog_menu"], id:"progMenu"});
-            pMenu.addChild(new dijit.MenuItem({label:"Programmatic Context Menu", disabled:true}));
-            pMenu.addChild(new dijit.MenuSeparator());
-            pMenu.addChild(new dijit.MenuItem({label:"\u05e9\u05dc\u05d5\u05dd\u0021\u0021 rtl", onClick:fClick, accelKey:"Shift+S", textDir:"rtl", id:"progItemRtl"}));
-            pMenu.addChild(new dijit.MenuItem({label:"Another menu item...", onClick:fClick, accelKey:"Ctrl+A",  textDir:"ltr", id:"progItemLtr"}));
-            pMenu.addChild(new dijit.MenuItem({label:"With an icon", iconClass:"dijitEditorIcon dijitEditorIconCut", onClick:fClick}));
-            var mItem = new dijit.MenuItem({label:"dojo.event clicking!! auto", accelKey: "Alt+D", textDir:"auto", id:"progItemAuto1"});
-            dojo.connect(mItem, "onClick", function(){console.log("click! handler created via dojo.connect()")});
-            pMenu.addChild(mItem);
-            mItem = new dijit.CheckedMenuItem({label:"\u05e9\u05dc\u05d5\u05dd\u0021\u0021 auto", textDir:"auto", id:"progItemAuto2"});
-            pMenu.addChild(mItem);
+			pMenu = new dijit.Menu({targetNodeIds:["prog_menu"], id:"progMenu"});
+			pMenu.addChild(new dijit.MenuItem({label:"Programmatic Context Menu", disabled:true}));
+			pMenu.addChild(new dijit.MenuSeparator());
+			pMenu.addChild(new dijit.MenuItem({label:"\u05e9\u05dc\u05d5\u05dd\u0021\u0021 rtl", onClick:fClick, accelKey:"Shift+S", textDir:"rtl", id:"progItemRtl"}));
+			pMenu.addChild(new dijit.MenuItem({label:"Another menu item...", onClick:fClick, accelKey:"Ctrl+A",  textDir:"ltr", id:"progItemLtr"}));
+			pMenu.addChild(new dijit.MenuItem({label:"With an icon", iconClass:"dijitEditorIcon dijitEditorIconCut", onClick:fClick}));
+			var mItem = new dijit.MenuItem({label:"dojo.event clicking!! auto", accelKey: "Alt+D", textDir:"auto", id:"progItemAuto1"});
+			dojo.connect(mItem, "onClick", function(){console.log("click! handler created via dojo.connect()")});
+			pMenu.addChild(mItem);
+			mItem = new dijit.CheckedMenuItem({label:"\u05e9\u05dc\u05d5\u05dd\u0021\u0021 auto", textDir:"auto", id:"progItemAuto2"});
+			pMenu.addChild(mItem);
 
-            var pSubMenu = new dijit.Menu({parentMenu:pMenu, id:"progSubMenu"});
-            pSubMenu.addChild(new dijit.MenuItem({label:"Submenu item", onClick:fClick}));
-            pSubMenu.addChild(new dijit.MenuItem({label:"Submenu item", onClick:fClick}));
-			
-            var pSubSubMenu = new dijit.Menu({parentMenu:pSubMenu, id:"progSubSubMenu"});
-            pSubSubMenu.addChild(new dijit.MenuItem({label:"SubSubmenu item", onClick:fClick}));
-            pSubSubMenu.addChild(new dijit.MenuItem({label:"SubSubmenu item", onClick:fClick}));
-            pSubMenu.addChild(new dijit.PopupMenuItem({label:"SubSubmenu rtl...", popup:pSubSubMenu, textDir:"rtl"}));
+			var pSubMenu = new dijit.Menu({parentMenu:pMenu, id:"progSubMenu"});
+			pSubMenu.addChild(new dijit.MenuItem({label:"Submenu item", onClick:fClick}));
+			pSubMenu.addChild(new dijit.MenuItem({label:"Submenu item", onClick:fClick}));
 
-            pMenu.addChild(new dijit.PopupMenuItem({label:"Submenu", popup:pSubMenu}));
+			var pSubSubMenu = new dijit.Menu({parentMenu:pSubMenu, id:"progSubSubMenu"});
+			pSubSubMenu.addChild(new dijit.MenuItem({label:"SubSubmenu item", onClick:fClick}));
+			pSubSubMenu.addChild(new dijit.MenuItem({label:"SubSubmenu item", onClick:fClick}));
+			pSubMenu.addChild(new dijit.PopupMenuItem({label:"SubSubmenu rtl...", popup:pSubSubMenu, textDir:"rtl"}));
 
-            pMenu.startup();
+			pMenu.addChild(new dijit.PopupMenuItem({label:"Submenu", popup:pSubMenu}));
 
-			updateButtons(true);
-            dojo.byId("prog_menu").innerHTML="This div has a programmatic context menu on it that's different to the page menu.";
+			pMenu.startup();
 
-            dojo.byId("createButton").disabled = true;
-            dojo.byId("destroyButton").disabled = false; 
-        }
+				updateButtons(true);
+			dojo.byId("prog_menu").innerHTML="This div has a programmatic context menu on it that's different to the page menu.";
 
-        function destroyMenu(){
-        	pMenu.destroyRecursive();
-            updateButtons(false);
-        }
+			dojo.byId("createButton").disabled = true;
+			dojo.byId("destroyButton").disabled = false;
+		}
 
-	function updateButtons(created){
-            dojo.byId("prog_menu").innerHTML=created?"This div has a programmatic context menu on it that's different to the page menu.":"No programmatic menu on this div, should get page level menu.";
-            dojo.byId("createButton").disabled = created;
-            dojo.byId("destroyButton").disabled = !created;
-	}
-	dojo.ready(function(){
-		// need to explicitly update our buttons states, otherwise the
-		// browser will remember the last states of them before reloading
-		// (so a programmatic menu is created, reload, and "the create
-		// programmatic menu" button is still in disabled state)
-		updateButtons(false);
-	});
-	
-	 dojo.addOnLoad(function(){
+		function destroyMenu(){
+			pMenu.destroyRecursive();
+			updateButtons(false);
+		}
+
+		function updateButtons(created){
+			dojo.byId("prog_menu").innerHTML=created?"This div has a programmatic context menu on it that's different to the page menu.":"No programmatic menu on this div, should get page level menu.";
+			dojo.byId("createButton").disabled = created;
+			dojo.byId("destroyButton").disabled = !created;
+		}
+		dojo.ready(function(){
+			// need to explicitly update our buttons states, otherwise the
+			// browser will remember the last states of them before reloading
+			// (so a programmatic menu is created, reload, and "the create
+			// programmatic menu" button is still in disabled state)
+			updateButtons(false);
+		});
+
+		dojo.addOnLoad(function(){
 
 				doh.register("dijit.tests._BidiSupport.widget.MenuItem", [
 					function test_LTR_TextDir(){
 						doh.assertEqual(dijit.byId("open").get("textDir"), "ltr");
-						doh.assertEqual(dijit.byId("open").focusNode.dir, "ltr");
+						doh.assertEqual(dijit.byId("open").textDirNode.dir, "ltr");
 						doh.assertEqual(dijit.byId("navMenuComedy").get("textDir"), "ltr");
-						doh.assertEqual(dijit.byId("navMenuComedy").focusNode.dir, "ltr");
+						doh.assertEqual(dijit.byId("navMenuComedy").textDirNode.dir, "ltr");
 					},
-					
+
 					function test_LTR_TextDir_RTL_dir(){
 						doh.assertEqual(dijit.byId("menu2").get("textDir"), "ltr");
-						doh.assertEqual(dijit.byId("menu2").focusNode.dir, "ltr");
+						doh.assertEqual(dijit.byId("menu2").textDirNode.dir, "ltr");
 					},
-					
+
 					function test_RTL_TextDir_LTR_dir(){
 						doh.assertEqual(dijit.byId("menu1").get("textDir"), "rtl");
-						doh.assertEqual(dijit.byId("menu1").focusNode.dir, "rtl");
-					},							
-					
+						doh.assertEqual(dijit.byId("menu1").textDirNode.dir, "rtl");
+					},
+
 					function test_RTL_TextDir(){
 						doh.assertEqual(dijit.byId("new").get("textDir"), "rtl");
-						doh.assertEqual(dijit.byId("new").focusNode.dir, "rtl");
+						doh.assertEqual(dijit.byId("new").textDirNode.dir, "rtl");
 						doh.assertEqual(dijit.byId("navMenuDrama").get("textDir"), "rtl");
-						doh.assertEqual(dijit.byId("navMenuDrama").focusNode.dir, "rtl");
-					},	
-					
+						doh.assertEqual(dijit.byId("navMenuDrama").textDirNode.dir, "rtl");
+					},
+
 					function test_AUTO_TextDir(){
 						doh.assertEqual(dijit.byId("save").get("textDir"), "auto");
-						doh.assertEqual(dijit.byId("save").focusNode.dir, "ltr");
+						doh.assertEqual(dijit.byId("save").textDirNode.dir, "ltr");
 						doh.assertEqual(dijit.byId("saveas").get("textDir"), "auto");
-						doh.assertEqual(dijit.byId("saveas").focusNode.dir, "rtl");		
-					},	
-					
+						doh.assertEqual(dijit.byId("saveas").textDirNode.dir, "rtl");
+					},
+
 					function test_PopupMenuBarItem_TextDirLTR(){
 						doh.assertEqual(dijit.byId("file").get("textDir"), "ltr");
-						doh.assertEqual(dijit.byId("file").focusNode.dir, "ltr");									
-					},							
-					
+						doh.assertEqual(dijit.byId("file").textDirNode.dir, "ltr");
+					},
+
 					function test_PopupMenuBarItem_TextDirRTL(){
 						doh.assertEqual(dijit.byId("view").get("textDir"), "rtl");
-						doh.assertEqual(dijit.byId("view").focusNode.dir, "rtl");			
+						doh.assertEqual(dijit.byId("view").textDirNode.dir, "rtl");
 					},
 
 					function test_PopupMenuBarItem_TextDirAUTO(){
 						doh.assertEqual(dijit.byId("empty").get("textDir"), "auto");
-						doh.assertEqual(dijit.byId("empty").focusNode.dir, "ltr");									
+						doh.assertEqual(dijit.byId("empty").textDirNode.dir, "ltr");
 					},
-					
+
 					function test_PopupMenuItem_TextDirRTL(){
 						doh.assertEqual(dijit.byId("popupMenuItem").get("textDir"), "rtl");
-						doh.assertEqual(dijit.byId("popupMenuItem").focusNode.dir, "rtl");
+						doh.assertEqual(dijit.byId("popupMenuItem").textDirNode.dir, "rtl");
 					},
-					
+
 					function test_PopupMenuItem_TextDirAUTO(){
 						doh.assertEqual(dijit.byId("navMenuDisabledItem").get("textDir"), "auto");
-						doh.assertEqual(dijit.byId("navMenuDisabledItem").focusNode.dir, "rtl");
+						doh.assertEqual(dijit.byId("navMenuDisabledItem").textDirNode.dir, "rtl");
 					},
-					
+
 					function test_programmat_menuitem(){
-						createMenu ();
+						createMenu();
 						doh.assertEqual(dijit.byId("progItemLtr").get("textDir"), "ltr");
-						doh.assertEqual(dijit.byId("progItemLtr").focusNode.dir, "ltr");
+						doh.assertEqual(dijit.byId("progItemLtr").textDirNode.dir, "ltr");
 						doh.assertEqual(dijit.byId("progItemRtl").get("textDir"), "rtl");
-						doh.assertEqual(dijit.byId("progItemRtl").focusNode.dir, "rtl");
+						doh.assertEqual(dijit.byId("progItemRtl").textDirNode.dir, "rtl");
 						doh.assertEqual(dijit.byId("progItemAuto1").get("textDir"), "auto");
-						doh.assertEqual(dijit.byId("progItemAuto1").focusNode.dir, "ltr");	
+						doh.assertEqual(dijit.byId("progItemAuto1").textDirNode.dir, "ltr");
 						doh.assertEqual(dijit.byId("progItemAuto2").get("textDir"), "auto");
-						doh.assertEqual(dijit.byId("progItemAuto2").focusNode.dir, "rtl");	
+						doh.assertEqual(dijit.byId("progItemAuto2").textDirNode.dir, "rtl");
 						destroyMenu();
 					},
-					
+
 					function test_changeLabel_forAUTO(){
 						var item = dijit.byId("saveas");
 						doh.assertEqual(item.get("textDir"), "auto");
-						doh.assertEqual(item.focusNode.dir, "rtl");
+						doh.assertEqual(item.textDirNode.dir, "rtl");
 						item.set("label", "");
-						doh.assertEqual(item.focusNode.dir, "ltr");
+						doh.assertEqual(item.textDirNode.dir, "ltr");
 						item.set("label", "new label '\u05e9\u05d9\u05de\u05d5\u05e9\u0020\u05d1\u05ea\u05d2\u05d9\u05d5\u05ea\u002e'");
-						doh.assertEqual(item.focusNode.dir, "ltr");
+						doh.assertEqual(item.textDirNode.dir, "ltr");
 						item.set("label", "'\u05e9\u05d9\u05de\u05d5\u05e9\u0020\u05d1\u05ea\u05d2\u05d9\u05d5\u05ea\u002e'");
-						doh.assertEqual(item.focusNode.dir, "rtl");	
+						doh.assertEqual(item.textDirNode.dir, "rtl");
 					}
 			]);
 			doh.run();
-		});  
-    </script>
+		});
+	</script>
 </head>
 <body class="claro">
 
@@ -210,17 +210,17 @@
 			onClick:function(){ console.log("not actually pasting anything, just a test!") }, accelKey:"Ctrl+V"' textDir="auto" >&#1495;&#1491;&#1513; AUTO...</div>
 		<div data-dojo-type="dijit/MenuSeparator"></div>
 
-	
+
 	</div>
-	
+
 
 	<table id="formattingTable">
 		<tr>
 			<td style="width:0;">
 				<!-- This is here for tabIndex testing.
-				     Use textarea since Chrome 1.0 likes it better for TABing and
-				     because it has innerText property and because it doesn't mess
-				     with the URL when clicked -->
+					Use textarea since Chrome 1.0 likes it better for TABing and
+					because it has innerText property and because it doesn't mess
+					with the URL when clicked -->
 				<textarea id="link" tabIndex="0" readOnly class="dijitReset" style="font-family:monospace;font-size:12px;width:84px;text-decoration:underline;overflow:hidden;background-color:transparent;" rows=1>random link</textarea>
 			</td>
 			<td id="menuBarContainer" style="width:100%;">
@@ -253,13 +253,13 @@
 						<span>Empty auto &#1495;&#1491;&#1513;... </span>
 						<div data-dojo-type="dijit/Menu">
 						</div>
-					</div>						
+					</div>
 					<div data-dojo-type="dijit/PopupMenuBarItem" data-dojo-props='disabled:true' textDir="rtl">
 						<span>&#1495;&#1491;&#1513; Disabled RTL !!!</span>
 						<div data-dojo-type="dijit/Menu">
 							<div data-dojo-type="dijit/MenuItem">You should not see this</div>
 						</div>
-					</div>			
+					</div>
 				</div>
 			</td>
 		</tr>
@@ -268,7 +268,7 @@
 
 				<h3 style="margin-bottom: 2em;">Navigation menu:</h3>
 				<div id="navMenu" data-dojo-type="dijit/Menu" >
-					<div id="navMenuDrama" data-dojo-type="dijit/MenuItem" textDir="rtl" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconPaste", 
+					<div id="navMenuDrama" data-dojo-type="dijit/MenuItem" textDir="rtl" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconPaste",
 						onClick:function(){ console.log("drama!"); }'>Drama RTL ...</div>
 					<div id="navMenuComedy"data-dojo-type="dijit/MenuItem" textDir="ltr" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconCut",
 						onClick:function(){ console.log("comedy!") }'>Comedy LTR ...</div>
@@ -305,11 +305,11 @@
 					<li>Note: while some accelerator (shortcut) keys are displayed in the context menu, they are not actually hooked up to the corresponding actions (if any), they need to be setup explicitly by the user
 				</ul>
 
-			    <div id="prog_menu" style="clear: both; border:1px solid blue; padding:10px; margin:20px 0;">
-			        Click button below to create special menu on this div.
-			    </div>
-			    <button id="createButton" onclick="createMenu();">create programmatic menu</button>
-			    <button id="destroyButton" onclick="destroyMenu();" disabled>destroy programmatic menu</button>
+				<div id="prog_menu" style="clear: both; border:1px solid blue; padding:10px; margin:20px 0;">
+					Click button below to create special menu on this div.
+				</div>
+				<button id="createButton" onclick="createMenu();">create programmatic menu</button>
+				<button id="destroyButton" onclick="destroyMenu();" disabled>destroy programmatic menu</button>
 			</td>
 		</tr>
 	</table>
