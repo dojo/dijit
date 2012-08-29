@@ -2,8 +2,9 @@ define([
 	"dojo/_base/declare",	// declare
 	"dojo/number", // number.format
 	"dojo/query", // query
+	"dojo/_base/lang", // lang
 	"./HorizontalRule"
-], function(declare, number, query, HorizontalRule){
+], function(declare, number, query, lang, HorizontalRule){
 
 // module:
 //		dijit/form/HorizontalRuleLabels
@@ -52,7 +53,9 @@ return declare("dijit.form.HorizontalRuleLabels", HorizontalRule, {
 	},
 
 	_genHTML: function(pos, ndx){
-		return this._positionPrefix + this._calcPosition(pos) + this._positionSuffix + this.labelStyle + this._labelPrefix + this.labels[ndx] + this._suffix;
+		return this._positionPrefix + this._calcPosition(pos) + this._positionSuffix + this.labelStyle + 
+			(this.textDir ? ("direction:" + this.getTextDir(this.labels[ndx]) + ";") : "") +
+			this._labelPrefix + this.labels[ndx] + this._suffix;
 	},
 
 	getLabels: function(){
@@ -86,6 +89,17 @@ return declare("dijit.form.HorizontalRuleLabels", HorizontalRule, {
 		this.inherited(arguments);
 		this.labels = this.getLabels();
 		this.count = this.labels.length;
+	},
+
+	_setTextDirAttr: function(textDir){
+		 if(this.textDir != textDir){ 
+			this.textDir = textDir; 
+			query(".dijitRuleLabelContainer", this.domNode).forEach(
+				lang.hitch(this, function(labelNode){
+					labelNode.style.direction = this.getTextDir(labelNode.innerText || labelNode.textContent || "");
+				})
+			);
+		 }
 	}
 });
 

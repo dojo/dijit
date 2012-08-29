@@ -10,6 +10,8 @@ try{
 
 	doh.registerUrl("dijit.tests._BidiSupport.form.Select", dojo.moduleUrl("dijit", "tests/_BidiSupport/form/test_Select.html"));
 
+	doh.registerUrl("dijit.tests._BidiSupport.form.Slider", dojo.moduleUrl("dijit", "tests/_BidiSupport/form/test_Slider.html"));
+
 	var userArgs = window.location.search.replace(/[\?&](dojoUrl|testUrl|testModule)=[^&]*/g,"").replace(/^&/,"?");
 
 	doh.registerUrl("dijit.tests._BidiSupport.form.robot.Textarea", dojo.moduleUrl("dijit","tests/_BidiSupport/form/robot/Textarea.html"+userArgs), 999999);
