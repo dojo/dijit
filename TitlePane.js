@@ -48,7 +48,14 @@ return declare("dijit.TitlePane", [ContentPane, _TemplatedMixin, _CssStateMixin]
 	// title: String
 	//		Title of the pane
 	title: "",
-	_setTitleAttr: { node: "titleNode", type: "innerHTML" },	// override default where title becomes a hover tooltip
+	_setTitleAttr: function(/*String*/ title){
+		// Override default where title becomes a hover tooltip
+		this._set("title", title);
+		this.titleNode.innerHTML = title;
+		if(this.textDir) {
+			this.applyTextDir(this.titleNode);
+		}
+	},
 
 	// open: Boolean
 	//		Whether pane is opened or closed.
@@ -81,7 +88,21 @@ return declare("dijit.TitlePane", [ContentPane, _TemplatedMixin, _CssStateMixin]
 	doLayout: false,
 
 	// Tooltip is defined in _WidgetBase but we need to handle the mapping to DOM here
-	_setTooltipAttr: {node: "focusNode", type: "attribute", attribute: "title"},	// focusNode spans the entire width, titleNode doesn't
+	_setTooltipAttr: function(/*String*/ tooltip){
+		this._set("tooltip", tooltip);
+		if(this.textDir && this.enforceTextDirWithUcc){
+			tooltip = this.enforceTextDirWithUcc(null, tooltip);
+		}
+		domAttr.set(this.focusNode, "title", tooltip);			// focusNode spans the entire width, titleNode doesn't
+	},
+
+	_setTextDirAttr: function(textDir){
+		if(this._created && this.textDir != textDir){
+			this._set("textDir", textDir);
+			this.set("title", this.title);
+			this.set("tooltip", this.tooltip);
+		}
+	},
 
 	buildRendering: function(){
 		this.inherited(arguments);
