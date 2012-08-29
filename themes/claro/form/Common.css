@@ -16,7 +16,7 @@
 }
 .claro .dijitValidationTextBoxError .dijitValidationIcon {
   width: 0;
-  background-color: transparent !important;
+  background-color: transparent;
   /* so the INPUT doesn't obscure the border in rtl+a11y */
 
 }
