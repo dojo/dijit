@@ -118,7 +118,7 @@ return declare("dijit.form.Button", [_FormWidget, _ButtonMixin], {
 
 	_setTextDirAttr: function(/*String*/ textDir){
 		if(this._created && this.textDir != textDir){
-			this.textDir = textDir;
+			this._set("textDir", textDir);
 			this._setLabelAttr(this.label); // call applyTextDir on both focusNode and titleNode
 		}
 	}

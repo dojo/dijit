@@ -65,20 +65,23 @@ define([
 		// label: String
 		//		Title of the pane
 		label: "",
-		_setLabelAttr: function(label){ 	// focusNode spans the entire width, titleNode doesn't
-			if(this.textDir){
-				this.applyTextDir(this.titleTextNode, label);
-			}
+		_setLabelAttr: function(label){
+			this._set("label", label);
 			domAttr.set(this.titleTextNode, "innerHTML", label);
+			if(this.textDir){
+				this.applyTextDir(this.titleTextNode);
+			}
 		},
+
 		// title: String
 		//		Tooltip that appears on hover
 		title: "",
-		_setTitleAttr: function(title){ 	// focusNode spans the entire width, titleNode doesn't
-			if(this.textDir){
-				this.applyTextDir(this.titleTextNode, title);
-			}
+		_setTitleAttr: function(title){
+			this._set("title", title);
 			domAttr.set(this.titleTextNode, "title", title);
+			if(this.textDir){
+				this.applyTextDir(this.titleTextNode);
+			}
 		},
 
 		// iconClassAttr: String

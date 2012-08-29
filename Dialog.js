@@ -62,8 +62,8 @@ define([
 
 		// Map widget attributes to DOMNode attributes.
 		_setTitleAttr: function(/*String*/ title){
-			// Map to both the title bar innerHTML, plus the tooltip when you
-			// hover over the title bar.
+			// Map to both the title bar innerHTML, plus the tooltip when you hover over the title bar.
+			this._set("title", title);
 			this.titleNode.innerHTML = title;
 			if(this.textDir){
 				this.applyTextDir(this.titleNode);
@@ -76,8 +76,8 @@ define([
 
 		_setTextDirAttr: function(textDir){
 			if(this._created && this.textDir != textDir){
-				this.textDir = textDir;
-				this.set("title", this.titleNode.innerHTML);			
+				this._set("textDir", textDir);
+				this.set("title", this.title);
 			}
 		},
 
