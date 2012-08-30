@@ -264,7 +264,7 @@ define([
 				event.stop(e);
 			}else if(!this._opened &&
 					(e.keyCode == keys.DOWN_ARROW ||
-						( (e.keyCode == keys.ENTER || e.keyCode == dojo.keys.SPACE) &&
+						( (e.keyCode == keys.ENTER || e.keyCode == keys.SPACE) &&
 						  //ignore enter and space if the event is for a text input
 						  ((target.tagName || "").toLowerCase() !== 'input' ||
 						     (target.type && target.type.toLowerCase() !== 'text'))))){
