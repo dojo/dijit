@@ -80,6 +80,7 @@ define([
 			this._phspan.innerHTML="";
 			this._phspan.appendChild(this._phspan.ownerDocument.createTextNode(v));
 			this._updatePlaceHolder();
+			this.applyTextDir(this._phspan);
 		},
 
 		_updatePlaceHolder: function(){
