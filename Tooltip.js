@@ -86,8 +86,10 @@ define([
 				return;
 			}
 			this.containerNode.innerHTML=innerHTML;
-			
-			this.set("textDir", textDir);
+
+			if(textDir){
+				this.set("textDir", textDir);
+			}
 			this.containerNode.align = rtl? "right" : "left"; //fix the text alignment
 
 			var pos = place.around(this.domNode, aroundNode,
@@ -227,33 +229,34 @@ define([
 				this._onDeck=null;
 			}
 		},
-		
-		_setAutoTextDir: function(/*Object*/node){
-		    // summary:
-		    //	    Resolve "auto" text direction for children nodes
-		    // tags:
-		    //		private
 
-            this.applyTextDir(node, has("ie") ? node.outerText : node.textContent);
-            array.forEach(node.children, function(child){this._setAutoTextDir(child); }, this);
+		_setAutoTextDir: function(/*Object*/node){
+			// summary:
+			//	    Resolve "auto" text direction for children nodes
+			// tags:
+			//		private
+
+			this.applyTextDir(node, has("ie") ? node.outerText : node.textContent);
+			array.forEach(node.children, function(child){this._setAutoTextDir(child); }, this);
 		},
-		
+
 		_setTextDirAttr: function(/*String*/ textDir){
-		    // summary:
-		    //		Setter for textDir.
-		    // description:
-		    //		Users shouldn't call this function; they should be calling
-		    //		set('textDir', value)
-		    // tags:
-		    //		private
-	
-            this._set("textDir", typeof textDir != 'undefined'? textDir : "");
-    	    if (textDir == "auto"){
-    	        this._setAutoTextDir(this.containerNode);
-    	    }else{
-    	        this.containerNode.dir = this.textDir;
-    	    }  		             		        
-        }
+			// summary:
+			//		Setter for textDir.
+			// description:
+			//		Users shouldn't call this function; they should be calling
+			//		set('textDir', value)
+			// tags:
+			//		private
+
+			this._set("textDir", textDir);
+
+			if (textDir == "auto"){
+				this._setAutoTextDir(this.containerNode);
+			}else{
+				this.containerNode.dir = this.textDir;
+			}
+		}
 	});
 
 	dijit.showTooltip = function(innerHTML, aroundNode, position, rtl, textDir){
