@@ -229,25 +229,25 @@ define([
 				this._onDeck=null;
 			}
 		},
-		
-		_setAutoTextDir: function(/*Object*/node){
-		    // summary:
-		    //		Resolve "auto" text direction for children nodes
-		    // tags:
-		    //		private
 
-            this.applyTextDir(node);
-            array.forEach(node.children, function(child){this._setAutoTextDir(child); }, this);
+		_setAutoTextDir: function(/*Object*/node){
+			// summary:
+			//		Resolve "auto" text direction for children nodes
+			// tags:
+			//		private
+
+			this.applyTextDir(node);
+			array.forEach(node.children, function(child){this._setAutoTextDir(child); }, this);
 		},
-		
+
 		_setTextDirAttr: function(/*String*/ textDir){
-		    // summary:
-		    //		Setter for textDir.
-		    // description:
-		    //		Users shouldn't call this function; they should be calling
-		    //		set('textDir', value)
-		    // tags:
-		    //		private
+			// summary:
+			//		Setter for textDir.
+			// description:
+			//		Users shouldn't call this function; they should be calling
+			//		set('textDir', value)
+			// tags:
+			//		private
 
 			this._set("textDir", textDir);
 
