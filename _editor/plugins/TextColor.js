@@ -35,7 +35,7 @@ var TextColor = declare("dijit._editor.plugins.TextColor", _Plugin, {
 		this.button.loadDropDown = function(callback){
 			require(["../../ColorPalette"], lang.hitch(this, function(ColorPalette){
 				this.dropDown = new ColorPalette({
-					dir: self.editor.isLeftToRight() ? "" : "rtl",
+					dir: self.editor.dir,
 					ownerDocument: self.editor.ownerDocument,
 					value: self.value,
 					onChange: function(color){
