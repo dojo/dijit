@@ -568,7 +568,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 	//		The store to get data to display in the tree.
 	store: null,
 
-	// model: dijit/tree/model
+	// model: [const] dijit/tree/model
 	//		Interface to read tree data, get notifications of changes to tree data,
 	//		and for handling drop operations (i.e drag and drop onto the tree)
 	model: null,
