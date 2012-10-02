@@ -511,7 +511,7 @@ define([
 		// example:
 		// |	<div data-dojo-type="dijit/Dialog" data-dojo-props="href: 'test.html'"></div>
 		// example:
-		// |	var foo = new Dialog({ title: "test dialog", content: "test content" };
+		// |	var foo = new Dialog({ title: "test dialog", content: "test content" });
 		// |	foo.placeAt(win.body());
 		// |	foo.startup();
 	});
