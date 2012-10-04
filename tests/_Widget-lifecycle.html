@@ -7,10 +7,13 @@
 
 	<script type="text/javascript" src="../../dojo/dojo.js" djConfig="isDebug: true"></script>
 	<script type="text/javascript">
-		dojo.require("doh.runner");
-		dojo.require("dijit._Widget");
+		require([
+			"doh/runner",
+			"dojo/_base/declare", "dojo/dom",
+			"dijit/registry", "dijit/_WidgetBase", "dijit/_Widget",
+			"dojo/domReady!"
+		], function(doh, declare, dom, registry, _WidgetBase, _Widget){
 
-		dojo.ready(function(){
 			var obj = {
 				foo: function(){
 					// summary: empty function that we connect to
@@ -20,7 +23,7 @@
 			// Number of times foo was called while TestWidget existed
 			var calls = 0;
 	
-			dojo.declare("dijit.TestWidget", dijit._Widget, {
+			declare("TestWidget", _Widget, {
 				postCreate: function(){
 					// Rather odd call to this.connect() For testing the connections are dropped on destroy()
 					this.connect(obj, "foo", function(){
@@ -31,16 +34,16 @@
 	
 			var w;
 
-			doh.register("dijit._Widget-lifecycle", [
+			doh.register("create and destroy", [
 				{
 					name: "create",
 					runTest: function(t){
-						w = new dijit.TestWidget({id: "w1"}, "w1");
+						w = new TestWidget({id: "w1"}, "w1");
 
-						doh.t(dijit.byId("w1"), "widget in registry");
+						doh.t(registry.byId("w1"), "widget in registry");
 
 						// since there's no template, the widget just points to the srcNodeRef
-						doh.is(w.domNode, dojo.byId("w1"), "srcNodeRef read in");
+						doh.is(w.domNode, dom.byId("w1"), "srcNodeRef read in");
 
 						// test the connection
 						doh.is(0, calls, "foo() not called yet");
@@ -53,7 +56,7 @@
 					runTest: function(t){
 						w.destroy();
 
-						doh.f(dijit.byId("w1"), "widget no longer in registry");
+						doh.f(registry.byId("w1"), "widget no longer in registry");
 
 						// test the connection was destroyed
 						calls = 0;
@@ -61,28 +64,28 @@
 						doh.is(0, calls, "connection was deleted");
 
 						// test the DOM node was removed
-						doh.f(dojo.byId("w1"), "DOM Node removed");
+						doh.f(dom.byId("w1"), "DOM Node removed");
 					}
 				},
 				{
 					name: "destroy(true)  (preserving DOM node)",
 					runTest: function(t){
-						w = new dijit.TestWidget({id: "w2"}, "w2");
+						w = new TestWidget({id: "w2"}, "w2");
 
-						doh.t(dijit.byId("w2"), "widget in registry");
+						doh.t(registry.byId("w2"), "widget in registry");
 						w.destroy(true);
 
-						doh.f(dijit.byId("w2"), "widget no longer in registry");
+						doh.f(registry.byId("w2"), "widget no longer in registry");
 
 						// test the DOM node *wasn't* removed
-						doh.t(dojo.byId("w2"), "DOM Node left");
+						doh.t(dom.byId("w2"), "DOM Node left");
 					}
 				},
 				{
 					name: "create with undefined id",
 					runTest: function(t){
 						// If id is "specified" as undefined, generate a new one
-						w = new dijit.TestWidget({id: undefined});
+						w = new TestWidget({id: undefined});
 
 						doh.isNot(undefined, w.id)
 					}
@@ -93,19 +96,26 @@
 				// Make sure setters are called even for anonymous classes (#12122),
 				// and even when there's no value explicitly specified in the parameters
 				var fooSetterCalled,
-				    Widget = dojo.declare([dijit._Widget], {
+					Widget = declare([_Widget], {
 						foo: 345,
-				        _setFooAttr: function(val){
+						_setFooAttr: function(val){
 							fooSetterCalled = val;
-				            this.foo = val;
-				        }
-				    });
-				
+							this.foo = val;
+						}
+					});
+
 				new Widget();
 
 				doh.is(345, fooSetterCalled, "fooSetterCalled");
 			});
-	
+
+			doh.register("tweaking params in postMixInProperties", function(){
+				// Tests that property changes in postMixInProperties() are not lost (#16080)
+				var Test = declare(_WidgetBase, { foo: "bar", postMixInProperties: function(){ this.foo = "baz"; } });
+				var t = new Test({ foo: "blah" });
+				doh.is("baz", t.foo);
+			});
+
 			doh.run();
 		});
 

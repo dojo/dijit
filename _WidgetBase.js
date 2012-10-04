@@ -408,7 +408,7 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		// Get list of attributes where this.set(name, value) will do something beyond
 		// setting this[name] = value.  Specifically, attributes that have:
 		//		- associated _setXXXAttr() method/hash/string/array
-		//		- entries in attributeMap.
+		//		- entries in attributeMap (remove this for 2.0);
 		var ctor = this.constructor,
 			list = ctor._setterAttrs;
 		if(!list){
@@ -427,20 +427,32 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 			}
 		}
 
-		// Call this.set() for each attribute that was either specified as parameter to constructor,
-		// or was found above and has a default non-null value.	For correlated attributes like value and displayedValue, the one
-		// specified as a parameter should take precedence, so apply attributes in this.params last.
+		// Call this.set() for each property that was either specified as parameter to constructor,
+		// or is in the list found above.	For correlated properties like value and displayedValue, the one
+		// specified as a parameter should take precedence.
 		// Particularly important for new DateTextBox({displayedValue: ...}) since DateTextBox's default value is
 		// NaN and thus is not ignored like a default value of "".
+
+		// Step 1: Save the current values of the widget properties that were specified as parameters to the constructor.
+		// Generally this.foo == this.params.foo, except if postMixInProperties() changed the value of this.foo.
+		var params = {};
+		for(var key in this.params || {}){
+			params[key] = this[key];
+		}
+
+		// Step 2: Call set() for each property that wasn't passed as a parameter to the constructor
 		array.forEach(list, function(attr){
-			if(this.params && attr in this.params){
+			if(attr in params){
 				// skip this one, do it below
 			}else if(this[attr]){
 				this.set(attr, this[attr]);
 			}
 		}, this);
-		for(var param in this.params){
-			this.set(param, this.params[param]);
+
+		// Step 3: Call set() for each property that was specified as parameter to constructor.
+		// Use params hash created above to ignore side effects from step #2 above.
+		for(key in params){
+			this.set(key, params[key]);
 		}
 	},
 
