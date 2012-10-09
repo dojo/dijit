@@ -122,11 +122,11 @@
 						tcPos = dojo.position("tc");
 
 					doh.t("bc" in resizes, "BorderContainer got resize");
-					doh.is(300, bcPos.w, "BorderContainer width");
+					doh.is(300, Math.round(bcPos.w), "BorderContainer width");
 					doh.is(200, bcPos.h, "BorderContainer height");
 
 					doh.t("tc" in resizes, "TabContainer got resize");
-					doh.is(300, bcPos.w, "TabContainer width");
+					doh.is(300, Math.round(bcPos.w), "TabContainer width");
 					doh.is(200, bcPos.h, "TabContainer height");
 				}
 			]);
