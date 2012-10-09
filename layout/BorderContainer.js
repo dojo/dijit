@@ -338,7 +338,10 @@ var BorderContainer = declare("dijit.layout.BorderContainer", _LayoutWidget, {
 				splitter.isSplitter = true;
 				child._splitterWidget = splitter;
 
-				domConstruct.place(splitter.domNode, child.domNode, "after");
+				// Make the tab order match the visual layout by placing the splitter before or after the pane,
+				// depending on where the splitter is visually compared to the pane.
+				var before = region == "bottom" || region == (ltr ? "right" : "left");
+				domConstruct.place(splitter.domNode, child.domNode, before ? "before" : "after");
 
 				// Splitters aren't added as Contained children, so we need to call startup explicitly
 				splitter.startup();

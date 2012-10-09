@@ -67,7 +67,8 @@
 				]);
 
 				// Verify that tab stops are as per original markup (i.e., children are still in the
-				// logical order specified in the original markup)
+				// logical order specified in the original markup).   The tabstops not listed here
+				// are for the splitters themselves.
 				doh.register("tabIndex", function tabstops(){
 					var tabstops = tabOrder(registry.byId("pbc").domNode);
 					doh.is(21, tabstops.length);
@@ -77,11 +78,11 @@
 					doh.is("tabstop #7", tabstops[6].value);
 					doh.is("tabstop #9", tabstops[8].value);
 					doh.is("tabstop #11", tabstops[10].value);
-					doh.is("tabstop #12", tabstops[11].value);
-					doh.is("tabstop #14", tabstops[13].value);
-					doh.is("tabstop #16", tabstops[15].value);
-					doh.is("tabstop #18", tabstops[17].value);
-					doh.is("tabstop #20", tabstops[19].value);
+					doh.is("tabstop #12", tabstops[12].value);
+					doh.is("tabstop #14", tabstops[14].value);
+					doh.is("tabstop #16", tabstops[16].value);
+					doh.is("tabstop #18", tabstops[18].value);
+					doh.is("tabstop #20", tabstops[20].value);
 				});
 
 				doh.register("keyboard", [

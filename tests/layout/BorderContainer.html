@@ -29,7 +29,7 @@ require([
 	"dijit/layout/BorderContainer",
 	"dijit/layout/ContentPane",
 
-    // used by parser
+	// used by parser
 	"dijit/form/FilteringSelect",
 	"dijit/MenuBar",
 	"dijit/PopupMenuBarItem",
@@ -39,20 +39,33 @@ require([
 	"dojo/domReady!"
 
 ], function(doh, dom, geom, style, json, parser, query, registry, helpers, bcTest,
-        BorderContainer, ContentPane){
+		BorderContainer, ContentPane){
 
 	var bc, cp1, cp2, cp3;
 
-   	doh.register("markup", [
+	doh.register("markup", [
 		function parse(){
 			parser.parse();
 		},
+
 		function initialConditions(){
 			bcTest.checkBCpanes(registry.byId("border1"));
 			bcTest.checkBCpanes(registry.byId("border2"));
 			doh.is("auto", style.get("border1-left", "overflow"), "overflow on ContentPane should be auto");
 			doh.t("layoutPriority" in registry.byId("menu"),
 					"make sure layoutPriority flag added to _WidgetBase is visible in MenuBar");
+		},
+
+		function tabOrder(){
+			// The tab order between panes and splitters should match the visual layout, so that (in LTR mode)
+			// you tab to the left pane before its corresponding splitter, but tab to the right splitter before
+			// its corresponding pane.
+			var children = query("> *", registry.byId("border1").domNode).map(function(node){
+				return node.id;
+			});
+			doh.is("border1-top, border1-top_splitter, border1-left, border1-left_splitter, border1-center, " +
+					"border1-right_splitter, border1-right, border1-bottom_splitter, border1-bottom",
+				children.join(", "));
 		},
 
 		function resize(){
