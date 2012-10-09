@@ -49,8 +49,8 @@ tabOrder: function tabOrder(/*DomNode?*/ root){
 	function walkTree(/*DOMNode*/ parent){
 		query("> *", parent).forEach(function(child){
 			// Skip hidden elements, and also non-HTML elements (those in custom namespaces) in IE,
-			// since show() invokes getAttribute("type"), which crash on VML nodes in IE.
-			if((has("ie") && child.scopeName!=="HTML") || !dijit._isElementShown(child)){
+			// since show() invokes getAttribute("type"), which crashes on VML nodes in IE.
+			if((has("ie") <= 8 && child.scopeName !== "HTML") || !dijit._isElementShown(child)){
 				return;
 			}
 

@@ -41,18 +41,18 @@
 		}
 		function checkAbove(/*String*/ comment, /*Widget*/ above, /*Widget*/ below){
 			// summary:
-			//		Test that child is fully inside of parent
+			//		Test that "above" widget is above "below" widget
 
 			var ap = dojo.position(above.domNode, true),
 				bp = dojo.position(below.domNode, true);
 
-			doh.t(ap.y+ap.h <= bp.y,
+			doh.t(Math.round(ap.y+ap.h) <= Math.round(bp.y),
 				comment + " " + above.layoutAlign + " above " + below.layoutAlign + dojo.toJson(ap) + dojo.toJson(bp)
 			);
 		}
 		function checkLeft(/*String*/ comment, /*Widget*/ left, /*Widget*/ right){
 			// summary:
-			//		Test that child is fully inside of parent
+			//		Test that "left" widget is to left of "right" widget
 
 			var lp = dojo.position(left.domNode, true),
 				rp = dojo.position(right.domNode, true);
