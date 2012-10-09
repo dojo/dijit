@@ -104,8 +104,6 @@ return declare("dijit.ProgressBar", [_Widget, _TemplatedMixin], {
 		var percent = 1;
 		if(this.indeterminate){
 			ap.removeAttribute("aria-valuenow");
-			ap.removeAttribute("aria-valuemin");
-			ap.removeAttribute("aria-valuemax");
 		}else{
 			if(String(this.progress).indexOf("%") != -1){
 				percent = Math.min(parseFloat(this.progress)/100, 1);
@@ -114,12 +112,14 @@ return declare("dijit.ProgressBar", [_Widget, _TemplatedMixin], {
 				this.progress = Math.min(this.progress, this.maximum);
 				percent = this.maximum ? this.progress / this.maximum : 0;
 			}
-
-			ap.setAttribute("aria-describedby", this.labelNode.id);
 			ap.setAttribute("aria-valuenow", this.progress);
-			ap.setAttribute("aria-valuemin", 0);
-			ap.setAttribute("aria-valuemax", this.maximum);
 		}
+
+		// Even indeterminate ProgressBars should have these attributes
+		ap.setAttribute("aria-describedby", this.labelNode.id);
+		ap.setAttribute("aria-valuemin", 0);
+		ap.setAttribute("aria-valuemax", this.maximum);
+		
 		this.labelNode.innerHTML = this.report(percent);
 
 		domClass.toggle(this.domNode, "dijitProgressBarIndeterminate", this.indeterminate);

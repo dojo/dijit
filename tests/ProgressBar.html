@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<title>Dojo Toolkit - ProgressBar test</title>
 
@@ -292,14 +292,14 @@
 		}
 	</script>
 </head>
-<body class="claro">
+<body class="claro" role="main">
 
 	<h1 class="testTitle">Dijit ProgressBar Tests</h1>
 
 	<h3>Test 1</h3>
-	Progress Value <input type="text" name="progressValue" id="progressValue" />
+	<label for="progressValue">Progress Value </label><input type="text" name="progressValue" id="progressValue" />
 	<br>
-	Max Progress Value <input type="text" name="maximum" id="maximum" />
+	<label for="maximum">Max Progress Value </label><input type="text" name="maximum" id="maximum" />
 	<br>
 	<input type="button" name="set" id="set" value="set!" />
 	<br>
@@ -307,7 +307,7 @@
 		maximum:200, value:"20" '></div>
 
 	<h3>Test 2</h3>
-	Write here: <input type="text" value="" name="test" maxLength="256" id="test" style="width:300px"/>
+	<label for="test">Write here: </label><input type="text" value="" name="test" maxLength="256" id="test" style="width:300px"/>
 	<br />
 	<br />
 	<div id="testBar" style='width:300px'></div>
