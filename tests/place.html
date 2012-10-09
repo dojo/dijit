@@ -108,8 +108,8 @@
 					doh.is("BR", ret.aroundCorner, "around corner");
 					doh.is("TR", ret.corner, "popup's corner");
 					doh.is("20px", popup.style.top, "underneath around node");
-					doh.is(domGeometry.position(aroundTop).x+domGeometry.position(aroundTop).w,
-						domGeometry.position(popup).x+domGeometry.position(popup).w,
+					doh.is(Math.round(domGeometry.position(aroundTop).x+domGeometry.position(aroundTop).w),
+						Math.round(domGeometry.position(popup).x+domGeometry.position(popup).w),
 						"right sides aligned");
 				},
 				function aroundB(t){
@@ -123,7 +123,8 @@
 
 					doh.is("TL", ret.aroundCorner, "around corner");
 					doh.is("BL", ret.corner, "popup's corner");
-					doh.is(domGeometry.position(aroundBottom).y, domGeometry.position(popup).y + domGeometry.position(popup).h, "above around node");
+					doh.is(Math.round(domGeometry.position(aroundBottom).y),
+							Math.round(domGeometry.position(popup).y + domGeometry.position(popup).h), "above around node");
 				},
 				function aroundBM(t){
 					// bottom middle popup from "aroundBottom" node
@@ -136,7 +137,7 @@
 					doh.is("BM", ret.corner, "popup's middle");
 					var popupPos = domGeometry.position(popup);
 					var aroundPos = domGeometry.position(aroundBottom);
-					doh.is(aroundPos.y, popupPos.y + popupPos.h, "above around node");
+					doh.is(Math.round(aroundPos.y), Math.round(popupPos.y + popupPos.h), "above around node");
 					doh.t(aroundPos.x > popupPos.x, "starts before around node");
 					doh.t(aroundPos.x < (popupPos.x + popupPos.w), "ends after around node");
 				},
@@ -166,7 +167,7 @@
 					doh.is("ML", ret.corner, "popup's middle");
 					var popupPos = domGeometry.position(popup);
 					var aroundPos = domGeometry.position(aroundLeft);
-					doh.is(aroundPos.x + aroundPos.w, popupPos.x, "after around node");
+					doh.is(Math.round(aroundPos.x + aroundPos.w), Math.round(popupPos.x), "after around node");
 					doh.t(aroundPos.y > popupPos.y, "starts before around node");
 					doh.t(aroundPos.y < (popupPos.y + popupPos.h), "ends after around node");
 				},
@@ -181,7 +182,7 @@
 					doh.is("MR", ret.corner, "popup's middle");
 					var popupPos = domGeometry.position(popup);
 					var aroundPos = domGeometry.position(aroundRight);
-					doh.is(popupPos.x + popupPos.w, aroundPos.x, "before around node");
+					doh.is(Math.round(popupPos.x + popupPos.w), Math.round(aroundPos.x), "before around node");
 					doh.t(aroundPos.y > popupPos.y, "starts before around node");
 					doh.t(aroundPos.y < (popupPos.y + popupPos.h), "ends after around node");
 				},
@@ -206,8 +207,10 @@
 					doh.is("BR", ret.corner, "popup's right");
 					var popupPos = domGeometry.position(popup);
 					var aroundPos = domGeometry.position(aroundRight);
-					doh.is(popupPos.x + popupPos.w, aroundPos.x + aroundPos.w, "right aligned with around node");
-					doh.is(popupPos.y + popupPos.h, aroundPos.y, "above around node");
+					doh.is(Math.round(popupPos.x + popupPos.w), Math.round(aroundPos.x + aroundPos.w),
+							"right aligned with around node");
+					doh.is(Math.round(popupPos.y + popupPos.h), Math.round(aroundPos.y),
+							"above around node");
 				}
 			]);
 
