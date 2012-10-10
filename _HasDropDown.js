@@ -41,7 +41,8 @@ define([
 		_arrowWrapperNode: null,
 
 		// _popupStateNode: [protected] DomNode
-		//		The node to set the popupActive class on.
+		//		The node to set the aria-expanded class on.
+		//		Also sets popupActive class but that will be removed in 2.0.
 		//		Can be set via a data-dojo-attach-point assignment.
 		//		If missing, then focusNode or _buttonNode (if focusNode is missing) will be used.
 		_popupStateNode: null,
@@ -479,7 +480,13 @@ define([
 			domAttr.set(this._popupStateNode, "popupActive", "true");
 			domClass.add(this._popupStateNode, "dijitHasDropDownOpen");
 			this._set("_opened", true);	// use set() because _CssStateMixin is watching
-			this.domNode.setAttribute("aria-expanded", "true");
+			
+			this._popupStateNode.setAttribute("aria-expanded", "true");
+			this._popupStateNode.setAttribute("aria-owns", dropDown.id);
+			
+			if(this.domNode.getAttribute("aria-labelledby")){
+				this.dropDown.containerNode.setAttribute("aria-labelledby", this.domNode.getAttribute("aria-labelledby") );
+			}
 			
 			return retVal;
 		},
@@ -497,11 +504,12 @@ define([
 				delete this._focusDropDownTimer;
 			}
 			if(this._opened){
-				this.domNode.setAttribute("aria-expanded", "false");
+				this._popupStateNode.setAttribute("aria-expanded", "false");
 				if(focus){ this.focus(); }
 				popup.close(this.dropDown);
 				this._opened = false;
 			}
+			
 		}
 
 	});

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>dijit.form.ComboBox Unit Test</title>
@@ -313,7 +313,7 @@
 	</script>
 </head>
 
-<body class="claro">
+<body class="claro" role="main">
 
 	<h1 class="testTitle" id="title"></h1>
 	<script>dojo.byId('title').appendChild(document.createTextNode(testWidget+" Unit Test"))</script>
@@ -439,10 +439,10 @@
 			<option value="WI">Wisconsin</option>
 			<option value="WY">Wyoming</option>
 		</select>
-		<br>onChange:<input id="oc1" disabled value="not fired yet!" autocomplete="off"/>
-		<br>value:<input id="v1" disabled value="not fired yet!" autocomplete="off"/>
-		<br>blur:<input id="b1" disabled value="not fired yet!" autocomplete="off"/>
-		<br>this.item:<input id="i1" disabled value="no onChange yet!" autocomplete="off"/>
+		<br><label for="oc1">onChange:</label><input id="oc1" disabled value="not fired yet!" autocomplete="off"/>
+		<br><label for="v1">value:</label><input id="v1" disabled value="not fired yet!" autocomplete="off"/>
+		<br><label for="b1">blur:</label><input id="b1" disabled value="not fired yet!" autocomplete="off"/>
+		<br><label for="i1">this.item:</label><input id="i1" disabled value="no onChange yet!" autocomplete="off"/>
 		<input type="button" id="sv1_1" value="Set displayed value to Kentucky" onClick="dijit.byId('setvaluetest').set('displayedValue', 'Kentucky')"/>
 	        <input type="button" id="sv1_2" value="Set displayed value to Canada" onClick="dijit.byId('setvaluetest').set('displayedValue', 'Canada')"/>
 	        <input type="button" id="sv1_3" value="Set value to null" onClick="dijit.byId('setvaluetest').set('value', null)"/>
@@ -465,7 +465,7 @@
 				name:"state2",
 				onChange:setVal2
 				'/>
-		<br>onChange:<input id="value2" disabled value="not fired yet!" autocomplete="off"/>
+		<br><label for="value2">onChange:</label><input id="value2" disabled value="not fired yet!" autocomplete="off"/>
 		<hr>
 		<p>Artificially slowed-down data store, autoComplete=true:</p>
 		<label for="slow">US State test slow:</label>
@@ -476,7 +476,7 @@
 				name:"stateSlow",
 				onChange:function(val){ dojo.byId("ocSlow").value = val; }
 				'/>
-		<br>onChange:<input id="ocSlow" disabled value="not fired yet!" autocomplete="off"/>
+		<br><label for="ocSlow">onChange:</label><input id="ocSlow" disabled value="not fired yet!" autocomplete="off"/>
 		<button id="slowDestroy" type="button" onclick="dijit.byId('slow').destroy();return false">Destroy widget to test in-flight query cancel</button>
 		<hr>
 
@@ -503,7 +503,7 @@
 				onChange:setVal3,
 				disabled:true
 		'/>
-		<br>onChange:<input id="value3" disabled value="not fired yet!" autocomplete="off"/>
+		<br><label for="value3">onChange:</label><input id="value3" disabled value="not fired yet!" autocomplete="off"/>
 		<div>
 			<button id="combo3_disable" type="button" onclick='toggleDisabled("combo3_disable", "combo3"); return false;' tabIndex="-1">Enable</button>
 		</div>
@@ -521,7 +521,7 @@
 				required:true,
 				highlightMatch:"none"
 		'/>
-		<br>onChange:<input id="value4" disabled value="not fired yet!" autocomplete="off"/>
+		<br><label for="value4">onChange:</label><input id="value4" disabled value="not fired yet!" autocomplete="off"/>
 		<hr>
 		<p>test that title used as label is preserved on input</p>
 		<select id="preservetitletest" data-dojo-type="$testWidget"
@@ -540,6 +540,7 @@
 		</select>
 		<hr>
 		<p>No arrow, data store which searches and highlights matches anywhere in the string</p>
+		<label for="arrowless">Arrowless:</label>
 	 	<input id="arrowless" data-dojo-type="$testWidget"
 				data-dojo-props='value: (testWidget == "dijit.form.ComboBox") ? "California" : "CA",
 				store:stateStore,
@@ -552,15 +553,19 @@
 		'/>
 		<hr>
 		<p>Created programmatically</p>
+		<label for="progCombo">progCombo:</label>
 		<input id="progCombo"/>
 		<hr>
 		<p>Created programmatically with an initial query.  (Limits list to items with type = country.)</p>
+		<label for="progCombo2">progCombo2</label>
 		<input id="progCombo2"/>
 		<hr>
 		<p>Created programmatically with an ItemFileReadStore and a descending sort.  (Limits list to items with type = country.)</p>
+		<label for="progCombo3">progCombo3:</label>
 		<input id="progCombo3"/>
 		<hr>
 		<p>With option tags, autoComplete=true, pageSize=30, and a descending sort.</p>
+		<label for="descending">descending:</label>
 		<select id="descending" data-dojo-type="$testWidget"
 				data-dojo-props='name:"descending",
 				style:{width:"50%",fontSize:"200%",fontFamily:"Courier"},
@@ -705,7 +710,7 @@
 	</form>
 	
 	<hr>
-	<p>test placeholder</p>
+	<p><label for="placeholdertest">test placeholder</label></p>
 	<select id="placeholdertest" data-dojo-type="$testWidget"
 			data-dojo-props='name:"placetest",
 			style:{width:"50%",fontFamily:"Courier"},
@@ -721,18 +726,18 @@
 		<option value="nh">New Hampshire</option>
 		<option value="vt">Vermont</option>
 	</select>
-	<p>
+	<p id="nativeLabel">
 	This is some text below the boxes. It shouldn't get pushed out of the way when search results get returned.
 	A native select tag to test IE bleed through problem:
 	</p>
 
-	<select id="native">
+	<select id="native" aria-labelledby="nativeLabel">
 	  <option>test for</option>
 	  <option>IE bleed through</option>
 	  <option>problem</option>
 	</select>
 	
-	Destroy test:<div id="destroyDiv"
+	<label for="combo_01">Destroy test:</label><div id="destroyDiv"
 		><select id="combo_01" data-dojo-type="$testWidget" 
 				data-dojo-props='name:"state", 
 				disabled:true,
@@ -750,19 +755,21 @@
 
 	<br>
 	<fieldset style="position:relative;border:1px solid black;display:inline;">
-		<span style="position:absolute;">Highlight test</span>
+		<legend>Highlight test</legend>
 		<div style="border:0;margin:1.5em;">
 			<span style='white-space:nowrap;'>
-			ignoreCase:<select onchange="dijit.byId('highlight').set('ignoreCase', this.value=='true')">
+			<label for="ignoreCase">ignoreCase:</label><select id="ignoreCase" onchange="dijit.byId('highlight').set('ignoreCase', this.value=='true')">
 				<option value="true" selected>true</option>
 				<option value="false">false</option>
 			</select>
-			highlightMatch:<select onchange="dijit.byId('highlight').set('highlightMatch', this.value)">
+			<label for="highlightMatch">highlightMatch:</label>
+			<select id="highlightMatch" onchange="dijit.byId('highlight').set('highlightMatch', this.value)">
 				<option value="first" selected>first</option>
 				<option value="all">all</option>
 				<option value="none">none</option>
 			</select>
-			queryExpr:<select onchange="dijit.byId('highlight').set('queryExpr', this.value)">
+			<label for="queryExpr">queryExpr:</label>
+			<select id="queryExpr" onchange="dijit.byId('highlight').set('queryExpr', this.value)">
 				<option value="${0}*" selected>${0}*</option>
 				<option value="*${0}*">*${0}*</option>
 				<option value="*${0}">*${0}</option>
@@ -770,7 +777,8 @@
 			</span>
 			<br>
 			<span style='white-space:nowrap;'>
-			Highlight test:<select id="highlight" data-dojo-type="$testWidget"
+			<label for="highlight">Highlight test:</label>
+			<select id="highlight" data-dojo-type="$testWidget"
 					data-dojo-props='ignoreCase:true,
 					highlightMatch:"first",
 					autoComplete:false,
@@ -789,7 +797,7 @@
 
 	<div id="debugbox"></div>
 
-	<p>User-defined subclass of ComboBox/FilteringSelect:</p>
+	<p><label for="subclass">User-defined subclass of ComboBox/FilteringSelect:</label></p>
 	<input id="subclass" data-dojo-type="StateSelect"/>
 
 </body>
