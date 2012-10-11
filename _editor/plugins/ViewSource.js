@@ -374,6 +374,8 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 			borderWidth: "0px",
 			borderStyle: "none"
 		});
+		domAttr.set(this.sourceArea, "aria-label", this.editor.id);
+		
 		domConstruct.place(this.sourceArea, ed.iframe, "before");
 
 		if(has("ie") && ed.iframe.parentNode.lastChild !== ed.iframe){

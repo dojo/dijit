@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>Editor Test: FullScreen Plugin</title>
@@ -28,14 +28,14 @@
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 	</script>
 </head>
-<body class="claro">
+<body class="claro" role="main">
 	<br>
 	<br>
 	<div>Content before the editor.</div>
 	<br>
 	<br>
 	<div id="editor0" data-dojo-type="dijit/Editor"
-		data-dojo-props='extraPlugins:["fullscreen"], style:"background-color: white; width: 800px; height: 400px;" '>
+		data-dojo-props='"aria-label":"editor0", extraPlugins:["fullscreen"], style:"background-color: white; width: 800px; height: 400px;" '>
 		<h1>Full Screen Plugin details</h1>
 		<ol>
 			<li>The Fullscreen plugin provides an extra button on the toolbar to allow switching the
@@ -70,7 +70,7 @@
 		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"right", style:"width: 50px;"'>right</div>
 		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"bottom", style:"height: 50px;"'>bottom</div>
 		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center"'>
-			<div id="editor1" data-dojo-type="dijit/Editor" data-dojo-props='extraPlugins:["fullscreen","viewsource"], height:"100%"'>
+			<div id="editor1" data-dojo-type="dijit/Editor" data-dojo-props='"aria-label":"editor1", extraPlugins:["fullscreen","viewsource"], height:"100%"'>
 				<h1>Full Screen Plugin details</h1>
 				<ol>
 					<li>The Fullscreen plugin provides an extra button on the toolbar to allow switching the
@@ -100,7 +100,7 @@
 	<h1>TabContainer with tab containing editor.</h1>
 	<div id="tc" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='style:"width: 600px; height: 500px; border-style: solid; border-width: 1px; padding: 0px; margin: 0px;"'>
 		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Editor Tab"'>
-			<div id="editor2" data-dojo-type="dijit/Editor" data-dojo-props='extraPlugins:["fullscreen","viewsource"], height:"100%"'>
+			<div id="editor2" data-dojo-type="dijit/Editor" data-dojo-props='"aria-label":"editor2", extraPlugins:["fullscreen","viewsource"], height:"100%"'>
 				<h1>Full Screen Plugin details</h1>
 				<ol>
 					<li>The Fullscreen plugin provides an extra button on the toolbar to allow switching the
@@ -136,7 +136,7 @@
 	<h1>AccordionContainer with pane containing editor.</h1>
 	<div id="ac" data-dojo-type="dijit/layout/AccordionContainer" data-dojo-props='style:"width: 600px; height: 500px; border-style: solid; border-width: 1px; padding: 0px; margin: 0px;"'>
 		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Editor Pane"'>
-			<div id="editor3" data-dojo-type="dijit/Editor" data-dojo-props='extraPlugins:["fullscreen","viewsource"], height:"100%"'>
+			<div id="editor3" data-dojo-type="dijit/Editor" data-dojo-props='"aria-label":"editor3", extraPlugins:["fullscreen","viewsource"], height:"100%"'>
 				<h1>Full Screen Plugin details</h1>
 				<ol>
 					<li>The Fullscreen plugin provides an extra button on the toolbar to allow switching the
@@ -172,7 +172,7 @@
 	<h1>StackContainer with pane containing editor.</h1>
 	<div id="sc" data-dojo-type="dijit/layout/StackContainer" data-dojo-props='style:"width: 600px; height: 500px; border-style: solid; border-width: 1px; padding: 0px; margin: 0px;"'>
 		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Editor Pane"'>
-			<div id="editor4" data-dojo-type="dijit/Editor" data-dojo-props='extraPlugins:["fullscreen","viewsource"], height:"100%"'>
+			<div id="editor4" data-dojo-type="dijit/Editor" data-dojo-props='"aria-label":"editor4", extraPlugins:["fullscreen","viewsource"], height:"100%"'>
 				<h1>Full Screen Plugin details</h1>
 				<ol>
 					<li>The Fullscreen plugin provides an extra button on the toolbar to allow switching the

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>Editor Test</title>
@@ -48,19 +48,21 @@
 			dojo.parser.parse();
 
 			var progEditor = new dijit.Editor({
-				value: "Custom Initial Content."
+				value: "Custom Initial Content.",
+				"aria-label": "progEditor"
 			}, "programmatic3");
 
 			var progEditor2 = new dijit.Editor({
-				contentPreFilters: [function(txt){ return txt; }]
+				contentPreFilters: [function(txt){ return txt; }],
+				"aria-label": "progEditor2"
 			}, "programmatic4");
 		});
 
 	</script>
 </head>
 
-<body class="claro">
-	<div data-dojo-type="dijit/Editor" data-dojo-props="plugins:[], focusOnLoad:true, height:'1.5em', style:'border:0px;'" id="automated"
+<body class="claro" role="main">
+	<div data-dojo-type="dijit/Editor" data-dojo-props="plugins:[], focusOnLoad:true, height:'1.5em', style:'border:0px;','aria-label':'automated'" id="automated"
 	>Automated Test - all check boxes should be checked<script type='dojo/method' data-dojo-event='onFocus'>
 			if(!document.getElementById('onFocusFired').checked){
 				document.getElementById('onFocusFired').checked=true;
@@ -87,37 +89,37 @@
 			}
 		</script
 	></div>
-	Focus:<input type="checkbox" id="onFocusFired" disabled />
-	Value:<input type="checkbox" id="initialValueOK" disabled />
+	<label for="onFocusFired">Focus:</label><input type="checkbox" id="onFocusFired" disabled />
+	<label for="initialValueOK">Value:</label><input type="checkbox" id="initialValueOK" disabled />
 	<input type="checkbox" id="onChangeOKnow" disabled style="display:none;"/>
-	Change:<input type="checkbox" id="onChangeFired" disabled />
-	Blur:<input type="checkbox" id="onBlurFired" disabled />
-	Disabled:<input type="checkbox" id="disabledOK" disabled />
+	<label for="onChangeFired">Change:</label><input type="checkbox" id="onChangeFired" disabled />
+	<label for="onBlurFired">Blur:</label><input type="checkbox" id="onBlurFired" disabled />
+	<label for="disabledOK">Disabled:</label><input type="checkbox" id="disabledOK" disabled />
 	<br>
 	<br>
 
 	<h1 class="testTitle">Editor + Plugins Test</h1>
 
 	<h2>No plugins, initially empty</h2>
-	<div data-dojo-type="dijit/Editor" data-dojo-props="plugins:[], height:'100'" id="editor0"></div>
+	<div data-dojo-type="dijit/Editor" data-dojo-props="plugins:[], height:'100', 'aria-label':'applied with aria'" id="editor0"></div>
 
-	<h2>Created from div</h2>
-	<input id="focusBefore" value="input before editor1"/>
-	<div data-dojo-type="dijit/Editor" data-dojo-props="onChange:function(v){console.log('editor1 onChange handler: ' + v)}, disableSpellCheck:true" id="editor1"
+	<h2><label id="label_editor1">Created from div</label></h2>
+	<label for="focusBefore">lbl:</label><input id="focusBefore" value="input before editor1"/>
+	<div data-dojo-type="dijit/Editor" aria-labelledby="label_editor1" data-dojo-props="onChange:function(v){console.log('editor1 onChange handler: ' + v)}, disableSpellCheck:true" id="editor1"
 	><p>This instance is created from a div directly with default toolbar and plugins</p>
 	The following HTML should appear as source: &lt;INPUT TYPE="IMAGE" SRC="javascript:alert('no scripting attacks')"&gt;
 	</div>
-	<input id="focusAfter" value="input after editor1"/>
+	<label for="focusAfter">lbl:</label><input id="focusAfter" value="input after editor1"/>
 	<button onClick="dijit.byId('editor1').destroy()">destroy</button>
 	<button onClick="dijit.byId('editor1').set('disableSpellCheck', !dijit.byId('editor1').get('disableSpellCheck'))">toggle spell check</button>
 	<button onclick="console.log(dijit.byId('editor1').get('value'))">getValue</button>
 	<hr/>
 
 	<h2>Created from div, auto-expanding</h2>
-	<h3><label>label for editor:</label></h3>
+	<h3><label id="label_thud">label for editor:</label></h3>
 	<div data-dojo-type="dijit/Editor"
 		data-dojo-props="onChange:function(v){console.log('thud onChange handler: ' + v)}, extraPlugins:['dijit/_editor/plugins/AlwaysShowToolbar'], styleSheets:'../../themes/claro/document.css', minHeight:'75px', height:''"
-		id="thud">
+		id="thud" aria-labelledby="label_thud">
 		Extra text
 		<p>
 			This editor is created from a div with AlwaysShowToolbar plugin (do not forget to set height="").
@@ -136,10 +138,10 @@
 	<hr/>
 
 	<h2>Optional toolbar buttons</h2>
-	<h3><label>blah entry</label></h3>
+	<h3><label id="label_blah">blah entry</label></h3>
 	<div data-dojo-type="dijit/Editor"
 		data-dojo-props="plugins:['bold','italic','|','createLink','foreColor','hiliteColor',{name:'dijit/_editor/plugins/FontChoice', command:'fontName', generic:true},'fontSize','formatBlock','insertImage','insertHorizontalRule'], styleSheets:'../../themes/claro/document.css'"
-		id="blah">
+		id="blah" aria-labelledby="label_blah">
 		This instance includes optional toolbar buttons which pull in additional ui (dijit) code.
 		Note the dojo.require() statements required to pull in the associated editor plugins to make
 		this work.
@@ -160,8 +162,8 @@
 	<hr/>
 
 	<h2>Plugins specified</h2>
-	<h3><label>Another blah entry</label></h3>
-	<div data-dojo-type="dijit/Editor"
+	<h3><label id="label_blah2">Another blah entry</label></h3>
+	<div data-dojo-type="dijit/Editor" aria-labelledby="label_blah2"
 		data-dojo-props="plugins:['bold','italic','|',{name:'dijit/_editor/plugins/FontChoice', command:'fontName', custom:['Verdana','Myriad','Garamond','Apple Chancery','Hiragino Mincho Pro']}, {name:'dijit/_editor/plugins/FontChoice', command:'fontSize', custom:[3,4,5]}, {name:'dijit/_editor/plugins/EnterKeyHandling', blockNodeForEnter:'DIV'}], styleSheets:'../../themes/claro/document.css'"
 		id="blah2">
 		This instance demos how to:
@@ -174,17 +176,17 @@
 	<hr/>
 
 	<h2>Font sizing via style</h2> 
-	<div data-dojo-type="dijit/Editor" data-dojo-props="style:'text-align:left; font-size:30pt'" id="fontSizedEditor">
+	<div data-dojo-type="dijit/Editor" data-dojo-props="style:'text-align:left; font-size:30pt'" aria-label="fontSizedEditor" id="fontSizedEditor">
 		Hello World! 
 	</div> 
 
 	<h2>Checking pre-filter application</h2> 
-	<div data-dojo-type="dijit/Editor" data-dojo-props="extraPlugins:[{name: 'dijit.tests.editor.TestFilter'}]" id="filteredEditor">
+	<div data-dojo-type="dijit/Editor" data-dojo-props="extraPlugins:[{name: 'dijit.tests.editor.TestFilter'}]" aria-label="filteredEditor" id="filteredEditor">
 		notdojo 
 	</div> 
 
 	<h2>Checking editor starting with br</h2> 
-	<div data-dojo-type="dijit/Editor" id="brEditor">
+	<div data-dojo-type="dijit/Editor" id="brEditor" aria-label="brEditor">
 		<br>
 		some stuff
 		<br>

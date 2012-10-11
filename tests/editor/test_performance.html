@@ -1,8 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-
+	<title>test_performance</title>
 	<style type="text/css">
 		@import "../../../dojo/resources/dojo.css";
 		@import "../../../dijit/themes/claro/claro.css";
@@ -155,10 +155,10 @@
 		});
 	</script>
 </head>
-<body class="claro">
+<body class="claro" role="main">
 	<h1>Dojo Editor PerformanceTest</h1>
 	<!-- plugins="[]"  -->
-	<div dojoType="dijit.Editor" id="editor1"
+	<div dojoType="dijit.Editor" aria-label="editor1" id="editor1"
 		 customUndo="false"
 		 extraPlugins="[
 		  {name: 'testpluginset', showAlert: true},

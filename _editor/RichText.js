@@ -585,12 +585,24 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		});
 
 
-		// need to find any associated label element and update iframe document title
-		var label=query('label[for="'+this.id+'"]');
-
+		// need to find any associated label element, aria-label, or aria-labelledby and update iframe document title
+		var label = query('label[for="'+this.id+'"]');
+		var title = "";
+		if(label.length){
+			title = label[0].innerHTML;
+		}else if(this["aria-label"]){
+			title = this["aria-label"];
+		}else if(this["aria-labelledby"]){
+			title = dom.byId(this["aria-labelledby"]).innerHTML;
+		}
+			
+		// Now that we have the title, also set it as the title attribute on the iframe
+		this.iframe.setAttribute("title", title);
+		
 		return [
-			this.isLeftToRight() ? "<html>\n<head>\n" : "<html dir='rtl'>\n<head>\n",
-			(has("mozilla") && label.length ? "<title>" + label[0].innerHTML + "</title>\n" : ""),
+			this.isLeftToRight() ? "<html lang='"+this.lang+"'>\n<head>\n" : "<html dir='rtl' lang='"+this.lang+"'>\n<head>\n",
+			//(has("mozilla") && label.length ? "<title>" + label[0].innerHTML + "</title>\n" : ""),
+			title ? "<title>" + title + "</title>" : "",
 			"<meta http-equiv='Content-Type' content='text/html'>\n",
 			"<style>\n",
 			"\tbody,html {\n",
@@ -629,7 +641,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			(!has("ie") ? "\tli{ min-height:1.2em; }\n" : ""),
 			"</style>\n",
 			this._applyEditingAreaStyleSheets(),"\n",
-			"</head>\n<body ",
+			"</head>\n<body role='main' ",
 			(setBodyId?"id='dijitEditorBody' ":""),
 
 			// Onload handler fills in real editor content.

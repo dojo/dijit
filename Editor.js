@@ -124,7 +124,8 @@ define([
 				this.toolbar = new Toolbar({
 					ownerDocument: this.ownerDocument,
 					dir: this.dir,
-					lang: this.lang
+					lang: this.lang,
+					"aria-label": this.id
 				});
 				this.header.appendChild(this.toolbar.domNode);
 			}
