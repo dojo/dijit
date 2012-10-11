@@ -1416,8 +1416,9 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 	isExpandoNode: function(node, widget){
 		// summary:
 		//		check whether a dom node is the expandoNode for a particular TreeNode widget
-		return dom.isDescendant(node, widget.expandoNode);
+		return dom.isDescendant(node, widget.expandoNode) || dom.isDescendant(node, widget.expandoNodeText);
 	},
+
 	_onClick: function(/*TreeNode*/ nodeWidget, /*Event*/ e){
 		// summary:
 		//		Translates click events into commands for the controller to process
