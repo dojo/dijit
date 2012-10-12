@@ -40,7 +40,6 @@ define([
 		_setReadOnlyAttr: function(/*Boolean*/ value){
 			this._set("readOnly", value);
 			domAttr.set(this.focusNode, 'readOnly', value);
-			this.focusNode.setAttribute("aria-readonly", value);
 		},
 
 		// Override dijit/form/Button._setLabelAttr() since we don't even have a containerNode.
