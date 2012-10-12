@@ -221,10 +221,10 @@
 								w = dijit.byId("programmatic");
 
 							focusThenRun(w, function(){
-								var h = parseInt(w.domNode.style.height);
+								var h = w.domNode.offsetHeight;
 								doh.robot.keyPress(" ", 500, {});
 								doh.robot.sequence(d.getTestCallback(function(){
-									doh.t(parseInt(w.domNode.style.height) >= h, "height should not shrink");
+									doh.is(h, w.domNode.offsetHeight, "height should not change");
 								}), 500);
 							});
 

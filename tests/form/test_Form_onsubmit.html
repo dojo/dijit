@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
@@ -35,7 +35,7 @@
 	</script>
 
 </head>
-<body class="claro">
+<body class="claro" role="main">
 
 	<h1 class="testTitle">Form Widget Submit Test</h1>
 	<p>Tests dojo.stopEvent() etc. calls inside dijit.form.Form onSubmit and onReset callbacks.</p>
@@ -43,7 +43,7 @@
 		onSubmit:function(e){ dojo.stopEvent(e); },
 		onReset:function(e){ dojo.stopEvent(e); }'>
 		<h3>This form shouldn't submit, nor reset</h3>
-		<select id="combo1" data-dojo-type="dijit/form/ComboBox" data-dojo-props='name:"plopcombo" '>
+		<select id="combo1" data-dojo-type="dijit/form/ComboBox" data-dojo-props='name:"plopcombo","aria-label":"plopcombo" '>
 			<option value="one">one</option>
 			<option value="two">two</option>
 			<option value="three">three</option>
@@ -56,7 +56,7 @@
 		onSubmit:function(){ return false; },
 		onReset:function(){ return false; }'>
 		<h3>This form shouldn't submit, nor reset</h3>
-		<select id="combo2" data-dojo-type="dijit/form/ComboBox" data-dojo-props='name:"plopcombo" '>
+		<select id="combo2" data-dojo-type="dijit/form/ComboBox" data-dojo-props='name:"plopcombo","aria-label":"plopcombo2" '>
 			<option value="one">one</option>
 			<option value="two">two</option>
 			<option value="three">three</option>
@@ -69,7 +69,7 @@
 		onSubmit:function(){ return true; },
 		onReset:function(){ return true; }'>
 		<h3>This form <em>should</em> submit and reset</h3>
-		<select id="combo3" data-dojo-type="dijit/form/ComboBox" data-dojo-props='name:"plopcombo" '>
+		<select id="combo3" data-dojo-type="dijit/form/ComboBox" data-dojo-props='name:"plopcombo","aria-label":"plopcombo3" '>
 			<option value="one">one</option>
 			<option value="two">two</option>
 			<option value="three">three</option>
@@ -82,7 +82,7 @@
 		onSubmit:function(){ void(0) },
 		onReset:function(){ void(0) }'>
 		<h3>This form <em>should</em> submit and reset</h3>
-		<select id="combo4" data-dojo-type="dijit/form/ComboBox" data-dojo-props='name:"plopcombo" '>
+		<select id="combo4" data-dojo-type="dijit/form/ComboBox" data-dojo-props='name:"plopcombo","aria-label":"plopcombo4" '>
 			<option value="one">one</option>
 			<option value="two">two</option>
 			<option value="three">three</option>
@@ -92,7 +92,7 @@
 	</form>
 	
 	<h3>Submitted value:</h3>
-	<input id="textbox" data-dojo-type="dijit/form/TextBox" data-dojo-props='type:"text"'/>
+	<input id="textbox" data-dojo-type="dijit/form/TextBox" data-dojo-props='type:"text","aria-label":"textbox"'/>
 	
 	<iframe name="formSubmitIframe" src="about:blank" onload="if(this.values)submittedValues(this.values)" style="display:none;"></iframe>
 </body>

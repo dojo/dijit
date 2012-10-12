@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html dir="ltr">
+<html dir="ltr" lang="en">
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>dijit.form.TextBox size tests</title>
@@ -452,11 +452,11 @@
 		});
 	</script>
 </head>
-<body class="claro">
+<body class="claro" role="main">
 
 	<h1 class="testTitle">dijit.form.TextBox size tests</h1>
 
-	<table class="padded" id="table" style="font-family:monospace;font-size:12pt;">
+	<table class="padded" id="table" style="font-family:monospace;font-size:12pt;" role="presentation">
 		<tr>
 			<td style="font-size:1px;overflow:hidden;">&nbsp;</td>
 			<td style="font-size:1px;overflow:hidden;">&nbsp;</td>
@@ -464,17 +464,17 @@
 		</tr>
 		<tr>
 			<td class="layout">TextBox</td>
-			<td class="layout"><input id="textbox" data-dojo-type="dijit/form/TextBox" data-dojo-props='type:"text", value:"text"'/></td>
+			<td class="layout"><input id="textbox" data-dojo-type="dijit/form/TextBox" data-dojo-props='type:"text", value:"text", "aria-label":"textbox"'/></td>
 			<td style="font-size:1px;overflow:hidden;">&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="layout">NumberTextBox</td>
-			<td class="layout"><input id="validation" data-dojo-type="dijit/form/NumberTextBox" data-dojo-props='type:"text", value:54, required:true'/></td>
+			<td class="layout"><input id="validation" data-dojo-type="dijit/form/NumberTextBox" data-dojo-props='type:"text", value:54, required:true, "aria-label":"NumberTextBox"'/></td>
 			<td style="font-size:1px;overflow:hidden;">&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="layout">FilteringSelect</td>
-			<td class="layout"><select id="combobox" data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='required:true'>
+			<td class="layout"><select id="combobox" data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='required:true, "aria-label":"FilteringSelect"'>
 				<option value="KY">Kentucky</option>
 			</select></td>
 			<td style="font-size:1px;overflow:hidden;">&nbsp;</td>
@@ -483,7 +483,7 @@
 			<td class="layout">Select</td>
 			<td class="layout">
 			<!-- width:0px prevents IE from resizing the table columns inappropriately -->
-			<select id="select" data-dojo-type="dijit/form/Select" style="width:0px;" data-dojo-props='required:true'>
+			<select id="select" data-dojo-type="dijit/form/Select" style="width:0px;" data-dojo-props='required:true, "aria-label":"Select"'>
 				<option data-dojo-value=""></option>
 				<option data-dojo-value="noError">Some Label</option>
 			</select></td>
@@ -491,12 +491,12 @@
 		</tr>
 		<tr>
 			<td class="layout">NumberSpinner</td>
-			<td class="layout"><div id="spinner" data-dojo-type="dijit/form/NumberSpinner" data-dojo-props='type:"text", value:45, required:true'></div></td>
+			<td class="layout"><div id="spinner" data-dojo-type="dijit/form/NumberSpinner" data-dojo-props='type:"text", value:45, required:true, "aria-label":"numberSpinner"'></div></td>
 			<td style="font-size:1px;overflow:hidden;">&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="layout">INPUT type=file</td>
-			<td class="layout"><input id="file" data-dojo-type="dijit/form/TextBox" data-dojo-props='type:"file" '/></td>
+			<td class="layout"><input id="file" data-dojo-type="dijit/form/TextBox" data-dojo-props='type:"file", "aria-label":"textboxFile" '/></td>
 			<td style="font-size:1px;overflow:hidden;">&nbsp;</td>
 		</tr>
 		<tr>
@@ -577,16 +577,16 @@
 			});
 		}
 	</script>
-	<table style="background-color:cyan;" border="1">
+	<table style="background-color:cyan;" border="1" role="presentation">
 	<tr><td class="layout" style="text-align:right;">Font family:
-	<select id="fontFamily" data-dojo-type="dijit/form/ComboBox" data-dojo-props='style:{fontSize:"14pt"}, value:"", onChange:fontFamilyOnChange'>
+	<select id="fontFamily" data-dojo-type="dijit/form/ComboBox" data-dojo-props='style:{fontSize:"14pt"}, value:"", onChange:fontFamilyOnChange, "aria-label":"fontFamily"'>
 		<option selected>monospace</option>
 		<option>Helvetica</option>
 		<option>Times</option>
 		<option>Verdana</option>
 	</select></td></tr>
 	<tr><td class="layout" style="text-align:right;">Font size:
-	<select id="fontSize" data-dojo-type="dijit/form/ComboBox" data-dojo-props='style:{fontSize:"14pt"}, value:"", onChange:sizeOnChange'>
+	<select id="fontSize" data-dojo-type="dijit/form/ComboBox" data-dojo-props='style:{fontSize:"14pt"}, value:"", onChange:sizeOnChange, "aria-label":"fontSize"'>
 		<option>small</option>
 		<option selected>12pt</option>
 		<option>xx-large</option>
@@ -597,18 +597,18 @@
 		<option>200%</option>
 	</select></td></tr>
 	<tr><td class="layout" style="text-align:right;">Padding:
-	<select id="padding" data-dojo-type="dijit/form/Select" data-dojo-props='style:{width:"0px", fontSize:"14pt"}, value:"padded", onChange:paddingOnChange'>
+	<select id="padding" data-dojo-type="dijit/form/Select" data-dojo-props='style:{width:"0px", fontSize:"14pt"}, value:"padded", onChange:paddingOnChange, "aria-label":"padding"'>
 		<option value="default">default</option>
 		<option value="padded">padded</option>
 		<option value="unPadded">unPadded</option>
 	</select></td></tr>
 	<tr><td class="layout" style="text-align:right;">Direction:
-	<span id="direction" data-dojo-type="dijit/form/Select" data-dojo-props='style:{width:"0px", fontSize:"14pt"}, value:"ltr", onChange:directionOnChange'>
+	<span id="direction" data-dojo-type="dijit/form/Select" data-dojo-props='style:{width:"0px", fontSize:"14pt"}, value:"ltr", onChange:directionOnChange, "aria-label":"direction"'>
 		<span data-dojo-value="ltr">left-to-right</span>
 		<span data-dojo-value="rtl">right-to-left</span>
 	</span></td></tr>
 	<tr><td class="layout" style="text-align:right;">Theme:
-	<select id="theme" data-dojo-type="dijit/form/Select" data-dojo-props='style:{width:"0px", fontSize:"14pt"}, value:"claro", onChange:themeOnChange'>
+	<select id="theme" data-dojo-type="dijit/form/Select" data-dojo-props='style:{width:"0px", fontSize:"14pt"}, value:"claro", onChange:themeOnChange, "aria-label":"theme"'>
 		<option data-dojo-value="tundra">tundra</option>
 		<option data-dojo-value="soria">soria</option>
 		<option data-dojo-value="nihilo">nihilo</option>

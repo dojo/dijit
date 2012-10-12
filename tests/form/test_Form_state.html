@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>dijit.form.Form Valid/Invalid State Test</title>
@@ -29,7 +29,7 @@
 		</script>
 	</head>
 
-	<body class="claro">
+	<body class="claro" role="main">
 		<h1 class="testTitle">dijit.form.Form Valid/Invalid State Test</h1>
 		<p>
 			Tests that dijit.form.Form correctly changes state from valid to invalid (as indicated by disabled/enabled submit button)
@@ -44,7 +44,7 @@
 						submitButton.set("disabled", !state);
 				});
 			</script>
-			<table>
+			<table role="presentation">
 				<tr>
 					<td><label for="name">Name:</label></td>
 					<td><input id="name" data-dojo-type="dijit/form/ValidationTextBox"

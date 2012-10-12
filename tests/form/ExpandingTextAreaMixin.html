@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
@@ -169,7 +169,7 @@
 					name: "dijit",
 					timeout: 2000,
 					runTest: function(){
-						new dijit.form.Textarea({id:"dijit_programmatic", value:"No srcNodeRef"}).placeAt("dijit_programmatic_container", "first");
+						new dijit.form.Textarea({id:"dijit_programmatic", value:"No srcNodeRef", "aria-label":"dijit_programmatic"}).placeAt("dijit_programmatic_container", "first");
 						var dijit_programmatic = dijit.byId('dijit_programmatic');
 						dijit_programmatic.resize();
 						var focushandle = dijit_programmatic.connect(dijit_programmatic, '_onFocus',
@@ -192,7 +192,7 @@
 					name: "mobile",
 					timeout: 2000,
 					runTest: function(){
-						new dojox.mobile.ExpandingTextArea({id:"mobile_programmatic", value:"No srcNodeRef"}).placeAt("mobile_programmatic_container", "first");
+						new dojox.mobile.ExpandingTextArea({id:"mobile_programmatic", value:"No srcNodeRef","aria-label":"mobile_programmatic"}).placeAt("mobile_programmatic_container", "first");
 						var mobile_programmatic = dijit.byId('mobile_programmatic');
 						mobile_programmatic.resize();
 						var focushandle = mobile_programmatic.connect(mobile_programmatic, '_onFocus',
@@ -247,7 +247,7 @@
 		});
 	</script>
 </head>
-<body class="claro">
+<body class="claro" role="main"
 	<h1 class="testTitle">_ExpandingTextAreaMixin (dijit and mobile) non-robot tests</h1>
 	<table id="table">
 		<tr>
@@ -257,13 +257,13 @@
 		</tr>
 		<tr>
 			<td class="layout">attributes</td>
-			<td class="layout"><input id="dijit_attributes" data-dojo-type="dijit/form/Textarea" data-dojo-props='value:"", placeHolder:"original", maxLength:"20", cols:20'/></td>
-			<td class="layout"><textarea id="mobile_attributes" data-dojo-type="dojox.mobile.ExpandingTextArea" data-dojo-props='cols:20, placeHolder:"original", maxLength:20'></textarea></td>
+			<td class="layout"><input id="dijit_attributes" aria-label="dijit_attr" data-dojo-type="dijit/form/Textarea" data-dojo-props='value:"", placeHolder:"original", maxLength:"20", cols:20'/></td>
+			<td class="layout"><textarea id="mobile_attributes" aria-label="mobilet_attr" data-dojo-type="dojox.mobile.ExpandingTextArea" data-dojo-props='cols:20, placeHolder:"original", maxLength:20'></textarea></td>
 		</tr>
 		<tr>
 			<td class="layout">Events</td>
-			<td class="layout"><input id="dijit_events" data-dojo-type="dijit/form/Textarea" data-dojo-props='value:"", onFocus:function(){ return false; }, onBlur:function(){ return false; }, onChange:function(){ return false; }'/></td>
-			<td class="layout"><textarea id="mobile_events" data-dojo-type="dojox.mobile.ExpandingTextArea" data-dojo-props='onChange:function(){ return false; }'></textarea></td>
+			<td class="layout"><input id="dijit_events" aria-label="dijit_events"data-dojo-type="dijit/form/Textarea" data-dojo-props='value:"", onFocus:function(){ return false; }, onBlur:function(){ return false; }, onChange:function(){ return false; }'/></td>
+			<td class="layout"><textarea id="mobile_events" aria-label="mobile_events" data-dojo-type="dojox.mobile.ExpandingTextArea" data-dojo-props='onChange:function(){ return false; }'></textarea></td>
 		</tr>
 		<tr>
 			<td class="layout">Programmatic</td>
@@ -272,11 +272,11 @@
 		</tr>
 		<tr>
 			<td class="layout">Size</td>
-			<td class="layout"><textarea id="dijit_size" data-dojo-type="dijit/form/Textarea" data-dojo-props=''
+			<td class="layout"><textarea id="dijit_size" aria-label="dijit_size" data-dojo-type="dijit/form/Textarea" data-dojo-props=''
 >line 1
 line 2
 line 3</textarea></td>
-			<td class="layout"><textarea id="mobile_size" data-dojo-type="dojox.mobile.ExpandingTextArea" data-dojo-props=''
+			<td class="layout"><textarea id="mobile_size" aria-label="mobile_size" data-dojo-type="dojox.mobile.ExpandingTextArea" data-dojo-props=''
 >line 1
 line 2
 line 3</textarea></td>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>Test TextBox Validation Widgets</title>
@@ -79,11 +79,11 @@
 
 			dojo.ready(function(){
 
-				new dijit.form.TextBox({id: 'monospace1', disabled: true, value: 'M|M:monospace?'}, 'monospace1');
-				new dijit.form.TextBox({id: 'monospace2', disabled: true, value: 'M|M:monospace?'}).placeAt('widget_monospace1', 'after');
+				new dijit.form.TextBox({id: 'monospace1', "aria-label":"monospace1", disabled: true, value: 'M|M:monospace?'}, 'monospace1');
+				new dijit.form.TextBox({id: 'monospace2', "aria-label":"monospace2",disabled: true, value: 'M|M:monospace?'}).placeAt('widget_monospace1', 'after');
 				
-				new dijit.form.TextBox({id: 'sans1', disabled: true, value: 'sans1'}, 'sans1');
-				new dijit.form.TextBox({id: 'sans2', disabled: true, value: 'sans2'}).placeAt('widget_sans1', 'after');
+				new dijit.form.TextBox({id: 'sans1', "aria-label":"sans1", disabled: true, value: 'sans1'}, 'sans1');
+				new dijit.form.TextBox({id: 'sans2', "aria-label":"sans2", disabled: true, value: 'sans2'}).placeAt('widget_sans1', 'after');
 
 
 				if(!test){ return; }
@@ -176,7 +176,7 @@
 		</script>
 	</head>
 
-	<body class="claro">
+	<body class="claro" role="main">
 		<h1 class="testTitle">Dijit Validation Widgets</h1>
 		<!--	to test form submission, you'll need to create an action handler similar to
 			http://www.utexas.edu/teamweb/cgi-bin/generic.cgi -->
@@ -197,7 +197,7 @@
 					onChange:function(v){ dojo.byId("oc1").value=v; },
 					intermediateChanges:true,
 					propercase:true '/>
-				<br>onChange:<input id="oc1" size="34" disabled value="not fired yet!" autocomplete="off"/>
+				<br><label for="oc1">onChange:</label><input id="oc1" size="34" disabled value="not fired yet!" autocomplete="off"/>
 				<input tabIndex="-1" type="button" onclick="dijit.byId('q01').set('disabled', true);" value="Disable"/>
 				<input tabIndex="-1" type="button" onclick="dijit.byId('q01').set('disabled', false);" value="Enable"/>
 			</div>
@@ -226,14 +226,14 @@
 					onChange:function(val){ dojo.byId("oc3").value=""+val; },
 					tooltipPosition:["above", "below"]
 				'/>
-				onChange:<input id="oc3" size="14" disabled value="not fired yet!" autocomplete="off"/>
+				<label for="oc3">onChange:</label><input id="oc3" size="14" disabled value="not fired yet!" autocomplete="off"/>
 				<span style='white-space:nowrap;'>
 				<button id="q03_valid" type=button onclick="dijit.byId('q03').set('value', 120);">set value to 120</button>
 				<button id="q03_outofrange" type=button onclick="dijit.byId('q03').set('value', 121);">set value to 121</button>
 				<button id="q03_invalid" type=button onclick="dijit.byId('q03').set('value', 'two');">set value to two</button>
 				<button id="q03_null" type=button onclick="dijit.byId('q03').set('value', null);">set value to null</button>
 				<button type=button onclick="dojo.byId('gv3').value=''+dijit.byId('q03').get('value');">get value</button>
-				<input id="gv3" size="10" disabled value="" autocomplete="off"/>
+				<input id="gv3" aria-label="get value 3" size="10" disabled value="" autocomplete="off"/>
 				</span>
 			</div>
 
@@ -268,7 +268,7 @@
 			</div>
 			<div class="testExample">
 				<input id="q05" class="small"/>
-				onChange:<input id="oc5" size="10" disabled value="not fired yet!" autocomplete="off"/>
+				<label for="oc5">onChange:</label><input id="oc5" size="10" disabled value="not fired yet!" autocomplete="off"/>
 			</div>
 <script>
 	// See if we can make a widget in script and attach it to the DOM ourselves.
@@ -355,11 +355,11 @@
 						currency:"USD",
 						onChange:function(val){ dojo.byId("oc8").value = val; },
 						invalidMessage:"Invalid amount.  Cents are MANDATORY." '/>USD
-				&nbsp;onChange:<input id="oc8" size="15" disabled value="not fired yet!" autocomplete="off"/>
+				&nbsp;<label for="oc8">onChange:</label><input id="oc8" size="15" disabled value="not fired yet!" autocomplete="off"/>
 			</div>
 
 			<div class="testExample">
-				euro currency (local format) fractional part is optional:
+				<label for="q08eur">euro currency (local format) fractional part is optional:</label>
 				<input id="q08eur" data-dojo-type="dijit/form/CurrencyTextBox"
 					name="income2" class="medium" value="54775.53" required
 					data-dojo-props='currency:"EUR", invalidMessage:"Invalid amount.  Include cents." '/>EUR
@@ -388,7 +388,8 @@
 						lang: 'de-de',
 						required: true,
 						currency: "EUR",
-						invalidMessage: "Invalid amount.  Example: " + example
+						invalidMessage: "Invalid amount.  Example: " + example,
+						"aria-label": "income3 de-de"
 					};
 					var w = new dijit.form.CurrencyTextBox(props, "q08eurde");
 				});
@@ -508,7 +509,7 @@
 			</div>
 
 			<div class="dojoTitlePaneLabel">
-				<label for="ticket1651">Trac ticket 1651:  </label>
+				<label id="l_ticket1651">Trac ticket 1651:  </label>
 				<span class="noticeMessage">value: null should show up as empty</span>
 			</div>
 			<div class="testExample">
@@ -523,7 +524,8 @@
 							id: "mname",
 							templateString: null, // #11493
 							templatePath: dojo.moduleUrl('dijit.form.templates', 'TextBox.html'),
-							value: null
+							value: null,
+							"aria-labelledby":"l_ticket1651"
 					};
 					var w = new dijit.form.TextBox(props, "ticket1651");
 				});
