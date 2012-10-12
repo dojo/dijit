@@ -30,8 +30,14 @@ return declare("dijit.form._ToggleButtonMixin", null, {
 
 	_setCheckedAttr: function(/*Boolean*/ value, /*Boolean?*/ priorityChange){
 		this._set("checked", value);
-		domAttr.set(this.focusNode || this.domNode, "checked", value);
-		(this.focusNode || this.domNode).setAttribute(this._aria_attr, value ? "true" : "false"); // aria values should be strings
+		var node = this.focusNode || this.domNode;
+		domAttr.set(node, "checked", !!value); // "mixed" -> true
+		if(value){
+			node.setAttribute("checked", "");
+		}else{
+			node.removeAttribute("checked");
+		}
+		node.setAttribute(this._aria_attr, String(value)); // aria values should be strings
 		this._handleOnChange(value, priorityChange);
 	},
 
