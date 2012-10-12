@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>Test TimeTextBox Widget</title>
@@ -69,7 +69,7 @@
 		</script>
 	</head>
 
-	<body class="claro">
+	<body class="claro" role="main">
 		<h1 class="testTitle">Test TimeTextBox Widget</h1>
 		<!--
 			To really test form submission, you'll need to create an action handler similar to
@@ -95,7 +95,7 @@
 					required:true,
 					onChange:function(val){ dojo.byId("oc1").value = val; },
 					invalidMessage:"Invalid time." '/>
-				onChange:<input id="oc1" size="34" disabled value="not fired yet!" autocomplete="off"/>
+				<label for="oc1">onChange:</label><input id="oc1" size="34" disabled value="not fired yet!" autocomplete="off"/>
 			</div>
 		
 			<div class="dojoTitlePaneLabel">
@@ -162,7 +162,7 @@
 					required:true,
 					onChange:function(val){ dojo.byId("oc6").value = val; },
 					invalidMessage:"Invalid time." '/>
-				onChange:<input id="oc6" size="34" disabled value="not fired yet!" autocomplete="off"/>
+				<label for="oc6">onChange:</label><input id="oc6" size="34" disabled value="not fired yet!" autocomplete="off"/>
 			</div>
 			<div class="dojoTitlePaneLabel">
 				<strong>Using title attribute for label.</strong>

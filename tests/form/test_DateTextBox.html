@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>Test DateTextBox Widget</title>
@@ -145,7 +145,7 @@
 		</script>
 	</head>
 
-	<body class="claro">
+	<body class="claro" role="main">
 
 		<h1 class="testTitle">Test DateTextBox Widget</h1>
 		<!--	to test form submission, you'll need to create an action handler similar to
@@ -162,12 +162,12 @@
 					onKeyDown:eventHandler,
 					onChange:function(val){ dojo.byId("oc1").value = "" + val; }
 				'/>
-				onChange:<input id="oc1" size="34" disabled value="not fired yet!" autocomplete="off"/>
+				<label for="oc1">onChange:</label><input id="oc1" size="34" disabled value="not fired yet!" autocomplete="off"/>
 				<span style='white-space:nowrap;'>
 				<button type="button" onclick="dijit.byId('local').set('value', null);">set('value',null)</button>
 				<button type="button" onclick="dojo.byId('gv1').value=''+dijit.byId('local').get('value');">get('value')</button>
 				<button type="button" onclick="dojo.byId('gv1').value=''+dijit.byId('local').value;">.value</button>
-				<input id="gv1" size="34" disabled value="not called yet!" autocomplete="off"/>
+				<label for="gv1">l:</label><input id="gv1" size="34" disabled value="not called yet!" autocomplete="off"/>
 				</span>
 			</div>
 			<div class="dojoTitlePaneLabel">
@@ -186,7 +186,7 @@
 					onMouseLeave:eventHandler,
 					onKeyDown:eventHandler,
 					invalidMessage:"Invalid date." '/>
- 				onChange:<input id="oc2" size="34" disabled value="not fired yet!" autocomplete="off"/>
+ 				<label for="oc2">onChange:</label><input id="oc2" size="34" disabled value="not fired yet!" autocomplete="off"/>
 				<input type="button" value="Destroy" onClick="dijit.byId('localLong').destroy(); return false;"/>
 				<input type="button" value="set max to 2007-12-31" onClick="dijit.byId('localLong').constraints.max = new Date(2007,11,31); dijit.byId('localLong').validate(false); return false;"/>
 			</div>

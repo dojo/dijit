@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
@@ -123,7 +123,7 @@
 					name: "dijit",
 					timeout: 2000,
 					runTest: function(){
-						new dijit.form.ToggleButton({id:"dijit_programmatic", type:"button", checked:true, label:"No srcNodeRef"}).placeAt("dijit_programmatic_container", "first");
+						new dijit.form.ToggleButton({id:"dijit_programmatic", type:"button", checked:true, label:"No srcNodeRef", "aria-label":"dijit_programmatic"}).placeAt("dijit_programmatic_container", "first");
 						var dijit_programmatic = dijit.byId('dijit_programmatic');
 						var pos = dojo.position(dijit_programmatic.domNode, true);
 						doh.t(pos.w > 0 && pos.h > 0 && pos.x > 0 && pos.y > 0, 'dijit position');
@@ -134,7 +134,7 @@
 					name: "mobile",
 					timeout: 2000,
 					runTest: function(){
-						new dojox.mobile.ToggleButton({id:"mobile_programmatic", type:"button", checked:true, label:"No srcNodeRef"}).placeAt("mobile_programmatic_container", "first");
+						new dojox.mobile.ToggleButton({id:"mobile_programmatic", type:"button", checked:true, label:"No srcNodeRef", "aria-label":"mobile_programmatic"}).placeAt("mobile_programmatic_container", "first");
 						var mobile_programmatic = dijit.byId('mobile_programmatic');
 						var pos = dojo.position(mobile_programmatic.domNode, true);
 						doh.t(pos.w > 0 && pos.h > 0 && pos.x > 0 && pos.y > 0, 'mobile position');
@@ -147,7 +147,7 @@
 		});
 	</script>
 </head>
-<body class="claro">
+<body class="claro" role="main">
 	<h1 class="testTitle">_ToggleButtonMixin (dijit and mobile) non-robot tests</h1>
 
 	<table id="table">

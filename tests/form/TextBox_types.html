@@ -1,5 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<html lang="en">
 <head>
 
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
@@ -63,25 +63,25 @@
 
 	</script>
 </head>
-<body class="claro">
+<body class="claro" role="main">
 	<h1>TextBox type Tests</h1>
-	<input id="hn" type="number" value="1234" /><br>
-	<input id="hd" type="date" value="2011-05-19" /><br>
-	<input id="ht" type="time" value="10:11:00" /><br>
-	<input id="hp" type="password" value="password" /><br>
+	<input id="hn" aria-label="hn" type="number" value="1234" /><br>
+	<input id="hd" aria-label="hd" type="date" value="2011-05-19" /><br>
+	<input id="ht" aria-label="ht" type="time" value="10:11:00" /><br>
+	<input id="hp" aria-label="hp" type="password" value="password" /><br>
 <br>
-	<input id="dr" type="number" dojoType="dijit.form.RangeBoundTextBox" value="1234" /><br>
-	<input id="dp" type="password" dojoType="dijit.form.TextBox" value="password" /><br>
-	<input id="dn" type="number" dojoType="dijit.form.NumberTextBox" value="1234" /><br>
-	<input id="dc" type="number" dojoType="dijit.form.CurrencyTextBox" value="1234.00" /><br>
-	<input id="dd" type="date" dojoType="dijit.form.DateTextBox" value="2011-05-19" /><br>
-	<input id="dt" type="time" dojoType="dijit.form.TimeTextBox" value="T10:11:00" /><br>
+	<input aria-label="dr" id="dr" type="number" dojoType="dijit.form.RangeBoundTextBox" value="1234" /><br>
+	<input aria-label="dp" id="dp" type="password" dojoType="dijit.form.TextBox" value="password" /><br>
+	<input aria-label="dn" id="dn" type="number" dojoType="dijit.form.NumberTextBox" value="1234" /><br>
+	<input aria-label="dc" id="dc" type="number" dojoType="dijit.form.CurrencyTextBox" value="1234.00" /><br>
+	<input aria-label="dd" id="dd" type="date" dojoType="dijit.form.DateTextBox" value="2011-05-19" /><br>
+	<input aria-label="dt" id="dt" type="time" dojoType="dijit.form.TimeTextBox" value="T10:11:00" /><br>
 <br>
-	<input id="wr" data-dojo-type="dijit/form/RangeBoundTextBox" data-dojo-props='value:1234, type:"number"' /><br>
-	<input id="wp" data-dojo-type="dijit/form/TextBox" data-dojo-props='value:"password", type:"password"' /><br>
-	<input id="wn" data-dojo-type="dijit/form/NumberTextBox" data-dojo-props='value:1234, type:"number"' /><br>
-	<input id="wc" data-dojo-type="dijit/form/CurrencyTextBox" data-dojo-props='value:1234, type:"number"' /><br>
-	<input id="wd" data-dojo-type="dijit/form/DateTextBox" data-dojo-props='value:new Date(2011,04,19,0,0,0,0), type:"date"' /><br>
-	<input id="wt" data-dojo-type="dijit/form/TimeTextBox" data-dojo-props='value:new Date(0,0,0,10,11,0,0), type:"time"' /><br>
+	<input id="wr" data-dojo-type="dijit/form/RangeBoundTextBox" data-dojo-props='value:1234, type:"number", "aria-label":"wr" ' /><br>
+	<input id="wp" data-dojo-type="dijit/form/TextBox" data-dojo-props='value:"password", type:"password", "aria-label":"wp" ' /><br>
+	<input id="wn" data-dojo-type="dijit/form/NumberTextBox" data-dojo-props='value:1234, type:"number", "aria-label":"wn" ' /><br>
+	<input id="wc" data-dojo-type="dijit/form/CurrencyTextBox" data-dojo-props='value:1234, type:"number", "aria-label":"wc" ' /><br>
+	<input id="wd" data-dojo-type="dijit/form/DateTextBox" data-dojo-props='value:new Date(2011,04,19,0,0,0,0), type:"date", "aria-label":"wd" ' /><br>
+	<input id="wt" data-dojo-type="dijit/form/TimeTextBox" data-dojo-props='value:new Date(0,0,0,10,11,0,0), type:"time", "aria-label":"wt" ' /><br>
 </body>
 </html>

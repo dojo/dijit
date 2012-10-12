@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>Dojo Spinner Widget Test</title>
@@ -33,7 +33,7 @@
 
 	</head>
 
-	<body class="claro">
+	<body class="claro" role="main">
 		<h1 class="testTitle">Dijit Spinner Test</h1>
 			Try typing values, and use the up/down arrow keys and/or the arrow push
 			buttons to spin
@@ -50,7 +50,7 @@
 				constraints:{max:1550,places:0},
 				name:"integerspinner1"
 				'/>
-			onChange:<input id="oc1" disabled value="not fired yet!" autocomplete="off"/>
+			<label for="oc1">onChange:</label><input id="oc1" disabled value="not fired yet!" autocomplete="off"/>
 			<input type="button" id="sv1_1" value="Set value to 400" onClick="dijit.byId('integerspinner1').set('value',400)" tabIndex="-1"/>
 			<input type="button" id="sv1_2" value="Set value to null" onClick="dijit.byId('integerspinner1').set('value',null)" tabIndex="-1"/>
 			<input type="button" id="sv1_3" value="Set required to false" onClick="dijit.byId('integerspinner1').set('required',false)" tabIndex="-1"/>

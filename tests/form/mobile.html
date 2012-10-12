@@ -1,5 +1,5 @@
 <!DOCTYPE>
-<html>
+<html lang="en">
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
@@ -73,7 +73,7 @@
 			});
 		</script>
 	</head>
-	<body class="claro">
+	<body class="claro" role="main">
 		<h1>Buttons</h1>
 		<button data-dojo-type="dijit/form/Button" id="T1465" data-dojo-props='onClick:function(){ console.log("clicked simple"); }, iconClass:"plusIcon", value:"Create"'>
 			Button
@@ -146,7 +146,7 @@
 			<option value="FL">Florida</option>
 			<option value="CA">California</option>
 		</select>
-		<select id="fs" data-dojo-type="dijit/form/FilteringSelect">
+		<select id="fs" aria-label="fs" data-dojo-type="dijit/form/FilteringSelect">
 			<option value="AL">Alabama</option>
 			<option value="AK">Alaska</option>
 			<option value="AS">American Samoa</option>
