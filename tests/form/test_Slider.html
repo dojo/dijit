@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>Dojo Slider Widget Demo</title>
@@ -62,6 +62,7 @@
 					var sliderProps = {
 						value:1400,
 						name:"programaticSlider",
+						"aria-label":"programatic slider",
 						slideDuration:0,
 						onChange:function(val){ dojo.byId('sliderProgInput').value=val; },
 						style:{height:"165px"},
@@ -105,7 +106,7 @@
 		</script>
 	</head>
 
-	<body class="claro">
+	<body class="claro" role="main">
 		<h1 class="testTitle">Slider</h1>
 		Also try using the arrow keys, buttons, or clicking on the progress bar to move the slider.
 		<br>
@@ -114,7 +115,7 @@
 		<form id="form1" action="" name="example" method="post">
 		<br>initial value=10, min=0, max=100, pageIncrement=100, onChange event triggers input box value change immediately<br>
 		<strong>Horizontal Slider Example</strong>
-		<div id="slider1" data-dojo-type="dijit/form/HorizontalSlider" data-dojo-props='name:"horizontal1",
+		<div id="slider1" data-dojo-type="dijit/form/HorizontalSlider" aria-label="slider 1" data-dojo-props='name:"horizontal1",
 			onChange:function(val){ dojo.byId("slider1input").value=dojo.number.format(val/100,{places:1,pattern:"#%"}); },
 			value:10,
 			maximum:100,
@@ -135,7 +136,7 @@
 				</ol>
 		</div>
 
-		Slider1 Value:<input readonly id="slider1input" size="4" value="10.0%"/>
+		<label for="slider1input">Slider1 Value:</label><input readonly id="slider1input" size="4" value="10.0%"/>
 		<br>
 		<button id="disableButton" data-dojo-type="dijit/form/Button" data-dojo-props='onClick:function(){ dijit.byId("slider1").set("disabled", true);dijit.byId("disableButton").set("disabled",true);dijit.byId("enableButton").set("disabled",false); }'>Disable previous slider</button>
 		<button id="enableButton" data-dojo-type="dijit/form/Button" data-dojo-props='onClick:function(){ dijit.byId("slider1").set("disabled",false);dijit.byId("disableButton").set("disabled",false);dijit.byId("enableButton").set("disabled", true); }, disabled:true'>Enable previous slider</button>
@@ -148,6 +149,7 @@
 			maximum:100,
 			minimum:0,
 			discreteValues:11,
+			"aria-label":"slider 2",
 			style:{height:"300px"}
 			'>
 				<ol data-dojo-type="dijit/form/VerticalRuleLabels" data-dojo-props='container:"leftDecoration", style:{width:"2em"}, labelStyle:"right:0px;"'>
@@ -158,9 +160,9 @@
 				<div data-dojo-type="dijit/form/VerticalRule" data-dojo-props='container:"rightDecoration", count:11, style:{width:"5px"}, ruleStyle:"border-color: #888"'></div>
 				<ol data-dojo-type="dijit/form/VerticalRuleLabels" data-dojo-props='container:"rightDecoration", style:{width:"2em"}, count:6, numericMargin:1, maximum:100, constraints:{pattern:"#"}'></ol>
 		</div>
-		Slider2 Value:<input readonly id="slider2input" size="3" value="10"/>
+		<label for="slider2input">Slider2 Value:</label><input readonly id="slider2input" size="3" value="10"/>
 		<h1>Fancy HTML labels (no slide animation):</h1>
-		<div id="slider3" data-dojo-type="dijit/form/HorizontalSlider" data-dojo-props='name:"horizontal2",
+		<div id="slider3" data-dojo-type="dijit/form/HorizontalSlider" aria-label="slider 3" data-dojo-props='name:"horizontal2",
 			title:"Fancy HTML Labels",
 			minimum:1,
 			value:2,
@@ -173,9 +175,9 @@
 			'>
 				<div data-dojo-type="dijit/form/HorizontalRule" data-dojo-props='container:"bottomDecoration", count:3, style:{height:"5px"}'></div>
 				<ol data-dojo-type="dijit/form/HorizontalRuleLabels" data-dojo-props='container:"bottomDecoration", style:{height:"1em", fontSize:"75%"}'>
-					<li><img width=10 height=10 src="../images/note.gif"/><br><span style="font-size: small">small</span></li>
-					<li><img width=15 height=15 src="../images/note.gif"/><br><span style="font-size: medium">medium</span></li>
-					<li><img width=20 height=20 src="../images/note.gif"/><br><span style="font-size: large">large</span></li>
+					<li><img width=10 height=10 alt="small" src="../images/note.gif"/><br><span style="font-size: small">small</span></li>
+					<li><img width=15 height=15 alt="medium" src="../images/note.gif"/><br><span style="font-size: medium">medium</span></li>
+					<li><img width=20 height=20 alt="large" src="../images/note.gif"/><br><span style="font-size: large">large</span></li>
 				</ol>
 		</div>
 
@@ -195,7 +197,7 @@
 
 		<h1>horizontal, with buttons, disabled (to show styling):</h1>
 
-		<div id="sliderH2" data-dojo-type="dijit/form/HorizontalSlider" data-dojo-props='name:"horizontalH2",
+		<div id="sliderH2" aria-label="horizontal slider 2" data-dojo-type="dijit/form/HorizontalSlider" data-dojo-props='name:"horizontalH2",
 			onChange:function(val){ dojo.byId("slider1input").value = val; },
 			value:10,
 			maximum:100,
@@ -220,7 +222,7 @@
 		<h3>min:1000, max:3000, 11 discrete values, no animation</h3>
 
 		<div id="programaticSlider"></div>
-		Programmatic Value:<input readonly id="sliderProgInput" size="5" value="1400"/>
+		<label for="sliderProgInput">Programmatic Value:</label><input readonly id="sliderProgInput" size="5" value="1400"/>
 
 		        <script>
 				// so robot can get to it easily
