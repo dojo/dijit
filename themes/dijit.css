@@ -2077,6 +2077,16 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .dijitSelect .dijitSelectLabel {
 	vertical-align: baseline;
 }
+
+.dijitNumberTextBox {
+	text-align: left;
+	direction: ltr;
+}
+
+.dijitNumberTextBox .dijitInputInner {
+	text-align: inherit; /* input */
+}
+
 .dijitToolbar .dijitSelect {
 	margin: 0;
 }
