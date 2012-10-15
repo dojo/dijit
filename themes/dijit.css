@@ -1556,6 +1556,10 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	overflow: auto;	/* for scrollbars when Tree has a height setting, and to prevent wrapping around float elements, see #11491 */
 }
 
+.dijitTreeContainer {
+	float: left;	/* for correct highlighting during horizontal scroll, see #16132 */
+}
+
 .dijitTreeIndent {
 	/* amount to indent each tree node (relative to parent node) */
 	width: 19px;

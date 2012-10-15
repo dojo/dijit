@@ -130,7 +130,7 @@ var TreeNode = declare(
 		var pixels = (Math.max(indent, 0) * this.tree._nodePixelIndent) + "px";
 
 		domStyle.set(this.domNode, "backgroundPosition", pixels + " 0px");	// TODOC: what is this for???
-		domStyle.set(this.indentNode, this.isLeftToRight() ? "paddingLeft" : "paddingRight", pixels);
+		domStyle.set(this.rowNode, this.isLeftToRight() ? "paddingLeft" : "paddingRight", pixels);
 
 		array.forEach(this.getChildren(), function(child){
 			child.set("indent", indent+1);
@@ -779,25 +779,25 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		// Catch events on TreeNodes
 		var self = this;
 		this.own(
-			on(this.domNode, on.selector(".dijitTreeNode", touch.enter), function(evt){
+			on(this.containerNode, on.selector(".dijitTreeNode", touch.enter), function(evt){
 				self._onNodeMouseEnter(registry.byNode(this), evt);
 			}),
-			on(this.domNode, on.selector(".dijitTreeNode", touch.leave), function(evt){
+			on(this.containerNode, on.selector(".dijitTreeNode", touch.leave), function(evt){
 				self._onNodeMouseLeave(registry.byNode(this), evt);
 			}),
-			on(this.domNode, on.selector(".dijitTreeNode", "click"), function(evt){
+			on(this.containerNode, on.selector(".dijitTreeNode", "click"), function(evt){
 				self._onClick(registry.byNode(this), evt);
 			}),
-			on(this.domNode, on.selector(".dijitTreeNode", "dblclick"), function(evt){
+			on(this.containerNode, on.selector(".dijitTreeNode", "dblclick"), function(evt){
 				self._onDblClick(registry.byNode(this), evt);
 			}),
-			on(this.domNode, on.selector(".dijitTreeNode", "keypress"), function(evt){
+			on(this.containerNode, on.selector(".dijitTreeNode", "keypress"), function(evt){
 				self._onKeyPress(registry.byNode(this), evt);
 			}),
-			on(this.domNode, on.selector(".dijitTreeNode", "keydown"), function(evt){
+			on(this.containerNode, on.selector(".dijitTreeNode", "keydown"), function(evt){
 				self._onKeyDown(registry.byNode(this), evt);
 			}),
-			on(this.domNode, on.selector(".dijitTreeRow", "focusin"), function(evt){
+			on(this.containerNode, on.selector(".dijitTreeRow", "focusin"), function(evt){
 				self._onNodeFocus(registry.getEnclosingWidget(this), evt);
 			})
 		);
@@ -912,7 +912,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 				  this.domNode.setAttribute("aria-multiselectable", !this.dndController.singular);
 				}
 				
-				this.domNode.appendChild(rn.domNode);
+				this.containerNode.appendChild(rn.domNode);
 				var identity = this.model.getIdentity(item);
 				if(this._itemNodesMap[identity]){
 					this._itemNodesMap[identity].push(rn);
@@ -1879,31 +1879,15 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 
 	_adjustWidths: function(){
 		// summary:
-		//		Get width of widest TreeNode, or the width of the Tree itself, whichever is greater,
-		//		and then set all TreeNodes to that width, so that selection/hover highlighting
-		//		extends to the edge of the Tree (#13141)
+		//		Size container to match widest TreeNode, so that highlighting with scrolling works (#13141, #16132)
 
 		if(this._adjustWidthsTimer){
 			this._adjustWidthsTimer.remove();
 			delete this._adjustWidthsTimer;
 		}
 
-		var maxWidth = 0,
-			nodes = [];
-		function collect(/*TreeNode*/ parent){
-			var node = parent.rowNode;
-			node.style.width = "auto";		// erase setting from previous run
-			maxWidth = Math.max(maxWidth, node.clientWidth);
-			nodes.push(node);
-			if(parent.isExpanded){
-				array.forEach(parent.getChildren(), collect);
-			}
-		}
-		collect(this.rootNode);
-		maxWidth = Math.max(maxWidth, domGeometry.getContentBox(this.domNode).w);	// do after node.style.width="auto"
-		array.forEach(nodes, function(node){
-			node.style.width = maxWidth + "px";		// assumes no horizontal padding, border, or margin on rowNode
-		});
+		this.containerNode.style.width = "auto";
+		this.containerNode.style.width = this.domNode.scrollWidth > this.domNode.offsetWidth ? "auto" : "100%";
 	},
 
 	_createTreeNode: function(/*Object*/ args){

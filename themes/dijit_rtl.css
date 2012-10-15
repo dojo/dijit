@@ -147,6 +147,12 @@
 	text-align: right;
 }
 
+/* Tree */
+
+.dijitTreeRtl .dijitTreeContainer {
+	float: right;	/* for correct highlighting during horizontal scroll, see #16132 */
+}
+
 /* DnD
  * These rules should apply for containers that are dir=rtl (either set directly, or inherited)
  * but seems the best we can do is look for .dijitRtl on an ancestor node.
