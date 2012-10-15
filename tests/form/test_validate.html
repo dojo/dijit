@@ -279,6 +279,7 @@
 			constraints: {min:-20000,max:20000,places:0},
 			promptMessage: "Enter a value between -20000 and +20000",
 			required: true,
+			style:{ textAlign: document.documentElement.dir == "rtl" ? "left" : "right" },
 			editOptions:{pattern:'#,##0'},
 			invalidMessage: "Invalid elevation.",
 			onChange: function(val){dojo.byId('oc5').value = val; },
