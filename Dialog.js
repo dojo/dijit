@@ -499,8 +499,8 @@ define([
 				if(DialogUnderlay._singleton){	// avoid race condition during show()
 					DialogUnderlay._singleton.layout();
 				}
-				this._position();
 				this._size();
+				this._position();
 			}
 		},
 
