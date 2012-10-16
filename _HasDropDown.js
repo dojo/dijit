@@ -176,7 +176,7 @@ define([
 				this.defer("focus");
 			}
 
-			if(has("ios")){
+			if(has("touch")){
 				this._justGotMouseUp = true;
 				this.defer(function(){
 					this._justGotMouseUp = false;
