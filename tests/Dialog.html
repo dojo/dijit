@@ -286,7 +286,7 @@
 			]);
 
 			var dlgA, dlgB;
-			doh.register("concurrent hide show", {
+			doh.register("concurrent hide show (multiple dialogs)", {
 				name: "concurrent hide show",
 				timeout: 20000,
 				setUp: function(){
@@ -390,7 +390,6 @@
 						return d;
 					}
 				},
-
 				{
 					name: "close dialogD",
 					timeout: 20000,
@@ -405,6 +404,13 @@
 						}), fast.duration * 2);
 
 						return d;
+					}
+				},
+				{
+					name: "close dialogC",
+					timeout: 20000,
+					runTest: function(){
+						return slow.hide();
 					}
 				}
 			]);
@@ -443,8 +449,10 @@
 				}
 			]);
 
-			doh.register("onShow", [
+			doh.register("concurrent show hide (single dialog)", [
 				function show(){
+					var d = new doh.Deferred();
+
 					var onShowCtr = 0,
 						dlg = new dijit.Dialog({
 							id: "show",
@@ -453,12 +461,19 @@
 							onShow: function(){ onShowCtr++; }
 						});
 
+					doh.is(1, dijit.Dialog._dialogStack.length, "initially, no dialogs in stack");
 					dlg.show();
 					doh.is(1, onShowCtr, "onShow first time");
 					dlg.hide();
 					doh.is(1, onShowCtr, "onHide first time");
 					dlg.show();
 					doh.is(2, onShowCtr, "onShow second time");
+					dlg.hide().then(d.getTestCallback(function(){
+						doh.is(2, onShowCtr, "onHide second time");
+						doh.is(1, dijit.Dialog._dialogStack.length, "at end, no dialogs in stack");
+					}));
+
+					return d;
 				}
 			]);
 

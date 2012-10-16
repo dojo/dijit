@@ -386,7 +386,10 @@ define([
 			}
 
 			if(this._fadeOutDeferred){
+				// There's a hide() operation in progress, so cancel it, but still call DialogLevelManager.hide()
+				// as though the hide() completed, in preparation for the DialogLevelManager.show() call below.
 				this._fadeOutDeferred.cancel();
+				DialogLevelManager.hide(this);
 			}
 
 			// Recenter Dialog if user scrolls browser.  Connecting to document doesn't work on IE, need to use window.
