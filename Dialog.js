@@ -315,7 +315,10 @@ dojo.declare(
 			}
 
 			if(this._fadeOutDeferred){
+				// There's a hide() operation in progress, so cancel it, but still call DialogLevelManager.hide()
+				// as though the hide() completed, in preparation for the DialogLevelManager.show() call below.
 				this._fadeOutDeferred.cancel();
+				dijit._DialogLevelManager.hide(this);
 			}
 
 			this._modalconnects.push(dojo.connect(window, "onscroll", this, "layout"));
