@@ -152,7 +152,7 @@
 			"aria-label":"slider 2",
 			style:{height:"300px"}
 			'>
-				<ol data-dojo-type="dijit/form/VerticalRuleLabels" data-dojo-props='container:"leftDecoration", style:{width:"2em"}, labelStyle:"right:0px;"'>
+				<ol data-dojo-type="dijit/form/VerticalRuleLabels" data-dojo-props='container:"leftDecoration", style:{width:"2em"}, labelStyle: document.documentElement.dir=="rtl" ? "left:3px;" : "right:3px;"'>
 					<li>0</li>
 					<li>100</li>
 				</ol>
