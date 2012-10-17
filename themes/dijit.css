@@ -1800,6 +1800,7 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 
 .dijitSliderDecorationV {
 	height: 100%;
+	white-space: nowrap;
 }
 
 .dijitSliderButton {
