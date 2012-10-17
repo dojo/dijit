@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>Dialog Widget Dojo Tests</title>
@@ -57,7 +57,7 @@
     });
 	</script>
 </head>
-<body class="claro">
+<body class="claro" role="main">
 
 	<h1 class="testTitle">Dijit layout.Dialog tests</h1>
 
@@ -65,7 +65,7 @@
 	when you destroy the visible dialog. refs <a href="http://trac.dojotoolkit.org/ticket/5351">#5351</a>
 	</p>
 
-	<input id="testInput" name="foo" value="bar" />
+	<label for="testInput">testInput:</label><input id="testInput" name="foo" value="bar" />
 
 	<button id="showDialog" data-dojo-type="dijit/form/Button" data-dojo-props='onClick:function(){ createAndShow() }'>Show Dialog</button>
 
