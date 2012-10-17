@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang='en'>
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>Dialog Widget Dojo Tests</title>
@@ -76,7 +76,7 @@
 		}
 	</script>
 </head>
-<body class="claro">
+<body class="claro" role="main">
 
 	<h1 class="testTitle">Dijit layout.Dialog tests</h1>
 	<button id="dialog1button" data-dojo-type="dijit/form/Button"  data-dojo-props='onClick:function(){ dijit.byId("dialog1").show() }'>Show Dialog</button> |
@@ -89,7 +89,7 @@
 		<div id="intro" style="width:30em;">Introductory information spoken by screen reader if aria-describedby is
 		added to the declaration of dialog above with value equal to the id of the container element for this text. This technique
 		will work in Dojo 1.4. </div>
-		<table style="position:relative;">
+		<table style="position:relative;" role="presentation">
 			<tr>
 				<td><label for="name">Name: </label></td>
 				<td><input id="name" data-dojo-type="dijit/form/TextBox" data-dojo-props='type:"text", name:"name" '/></td>
@@ -126,8 +126,8 @@
 		<input>
 		<br>
 		<button>hello</button>
-		<br>
-		<select>
+		<br><label for="select3">select label</label>
+		<select id="select3">
 			<option>Lorem</option>
 			<option>ipsum</option>
 			<option>dolor</option>
@@ -385,7 +385,7 @@
 	</div>
 	
 	<button id="SelfDestructDlgBtn" data-dojo-type="dijit/form/Button" data-dojo-props='onClick:showSelfDestructDlg'>Show Self-Destruct Dialog</button>
-	<div id="SelfDestructDlgBtn2" style="border: 1px solid black;" class="dijitInline" onclick="showSelfDestructDlg();">Show Self-Destruct Dialog (unfocusable div)</div>
+	<div id="SelfDestructDlgBtn2" style="border: 1px solid black;" class="dijitInline" onclick="showSelfDestructDlg();" role="button">Show Self-Destruct Dialog (unfocusable div)</div>
 
 	<button data-dojo-type="dijit/form/Button" data-dojo-props='onClick:function(){ createDialog() }, title:"shows after 3 second delay, with blue background"'>Programatic Dialog (3 second delay)</button> |
 
@@ -397,11 +397,13 @@
 	</p>
 
 	<form>
+	<label for="plainInput">plainInput</label>
 	<input id="plainInput"/>
 	<br>
 	<button id="plainButton">hello</button>
 	<br>
-	<select>
+	<label for="plainButtonSelect">planeButton Select:</label>
+	<select id="plainButtonSelect">
 		<option>Lorem</option>
 		<option>ipsum</option>
 		<option>dolor</option>
@@ -437,7 +439,8 @@
 	</p>
 	<form>
 		<div style="text-align:center;">
-			<select>
+		  <label for="centerSelect">select:</label>
+			<select id="centerSelect">
 				<option>1</option>
 				<option>2</option>
 			</select>
@@ -492,7 +495,8 @@
 	</p>
 	<form>
 		<div style="text-align:center;">
-			<select>
+			<label for="twoOptionSelect">select:</label>
+			<select id="twoOptionSelect">
 				<option>1</option>
 				<option>2</option>
 			</select>
