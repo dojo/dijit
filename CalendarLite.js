@@ -46,7 +46,7 @@ define([
 		templateString: template,
 
 		// Template for cell for a day of the week (ex: M)
-		dowTemplateString: '<th class="dijitReset dijitCalendarDayLabelTemplate" role="columnheader"><span class="dijitCalendarDayLabel">${d}</span></th>',
+		dowTemplateString: '<th class="dijitReset dijitCalendarDayLabelTemplate" role="columnheader" scope="col"><span class="dijitCalendarDayLabel">${d}</span></th>',
 
 		// Templates for a single date (ex: 13), and for a row for a week (ex: 20 21 22 23 24 25 26)
 		dateTemplateString: '<td class="dijitReset" role="gridcell" data-dojo-attach-point="dateCells"><span class="dijitCalendarDateLabel" data-dojo-attach-point="dateLabels"></span></td>',
@@ -78,6 +78,9 @@ define([
 		//		if the calendar itself was focused.   Also indicates which year and month to display,
 		//		i.e. the current "page" the calendar is on.
 		currentFocus: new Date(),
+
+		// Put the summary to the node with role=grid
+		_setSummaryAttr: "gridNode",
 
 		baseClass:"dijitCalendar",
 
@@ -186,6 +189,12 @@ define([
 				dayOffset = cldrSupplemental.getFirstDayOfWeek(this.lang);
 			if(dayOffset > firstDay){ dayOffset -= 7; }
 
+			// If they didn't provide a summary, change the default summary to match with the new month
+			if(!this.summary){
+					var monthNames = this.dateLocaleModule.getNames('months', 'wide', 'standAlone', this.lang, month)
+					this.gridNode.setAttribute("summary", monthNames[month.getMonth()]);
+			}
+
 			// Mapping from date (as specified by number returned from Date.valueOf()) to corresponding <td>
 			this._date2cell = {};
 
@@ -290,7 +299,7 @@ define([
 			//		Creates the drop down button that displays the current month and lets user pick a new one
 
 			return CalendarLite._MonthWidget({
-				id: this.id + "_mw",
+				id: this.id + "_mddb",
 				lang: this.lang,
 				dateLocaleModule: this.dateLocaleModule
 			}, this.monthNode);

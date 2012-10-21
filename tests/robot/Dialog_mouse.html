@@ -81,8 +81,9 @@
 								// Focus might first go to input, then to calendar, so wait for that
 								setTimeout(d.getTestCallback(function(){
 									var calDomNode = query(".dijitCalendarContainer");
-									doh.t(calDomNode.length == 1 && helpers.isVisible(calDomNode[0]), "calendar is being shown");
-									doh.t(dom.isDescendant(dfocus.curNode, calDomNode[0]), "focus is on the calendar ");
+									doh.t(1, calDomNode.length, "found calendar");
+									doh.t(helpers.isVisible(calDomNode[0]), "calendar is being shown");
+									doh.t(dom.isDescendant(dfocus.curNode, calDomNode[0]), "focus is on the calendar");
 								}), 500);
 							});
 

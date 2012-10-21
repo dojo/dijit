@@ -63,7 +63,7 @@ define([
 		},
 
 		// flag to _HasDropDown to make drop down Calendar width == <input> width
-		forceWidth: true,
+		autoWidth: true,
 
 		format: function(/*Date*/ value, /*locale.__FormatOptions*/ constraints){
 			// summary:
