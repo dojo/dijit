@@ -634,6 +634,99 @@
 						}
 					}
 				]);
+
+				doh.register("CheckedMenuItem", [
+					{
+						name: "initial conditions",
+						runTest: function(){
+							doh.is("true", registry.byId("checked1").domNode.getAttribute("aria-checked"), "checked1 aria-checked");
+							doh.t(registry.byId("checked1").checked, "checked1 value");
+							doh.is("false", registry.byId("checked2").domNode.getAttribute("aria-checked"), "checked2 aria-checked");
+							doh.f(registry.byId("checked2").checked, "checked2 value");
+						}
+					},
+
+					{
+						name: "nav to checked1",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// Start at the link
+							robot.sequence(function(){
+								dom.byId("link").focus();
+							}, 500, 500);
+
+							// tab to the MenuBar, then to the left hand menu
+							robot.keyPress(keys.TAB, 500, {});
+							robot.keyPress(keys.TAB, 500, {});
+
+							// down arrow to "checked 1"
+							robot.keyPress(keys.DOWN_ARROW, 500, {});
+							robot.keyPress(keys.DOWN_ARROW, 500, {});
+							robot.keyPress(keys.DOWN_ARROW, 500, {});
+							robot.keyPress(keys.DOWN_ARROW, 500, {});
+							robot.keyPress(keys.DOWN_ARROW, 500, {});
+							robot.keyPress(keys.DOWN_ARROW, 500, {});
+							robot.keyPress(keys.DOWN_ARROW, 500, {});
+
+							robot.sequence(d.getTestCallback(function(){
+								doh.is("checked1", dfocus.curNode.getAttribute("id"), "focus on checked1");
+							}), 1000);
+
+							return d;
+						}
+					},
+
+					{
+						name: "click checked1",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							robot.keyPress(keys.SPACE, 500, {});
+
+							robot.sequence(d.getTestCallback(function(){
+								doh.f(registry.byId("checked1").checked, "checked1 --> unchecked");
+							}), 500);
+
+							return d;
+						}
+					},
+
+					{
+						name: "nav to checked2",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							robot.keyPress(keys.DOWN_ARROW, 500, {});
+
+							robot.sequence(d.getTestCallback(function(){
+								doh.is("checked2", dfocus.curNode.getAttribute("id"), "focus on checked2");
+							}), 1000);
+
+							return d;
+						}
+					},
+
+					{
+						name: "click checked2",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							robot.keyPress(keys.SPACE, 500, {});
+
+							robot.sequence(d.getTestCallback(function(){
+								doh.t(registry.byId("checked2").checked, "checked2 --> checked");
+							}), 500);
+
+							return d;
+						}
+					}
+				]);
+
 				doh.run();
 			});
 		</script>
