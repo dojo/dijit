@@ -136,10 +136,20 @@ define([
 		//
 		// In RTL mode, set style.right rather than style.left so in the common case,
 		// window resizes move the popup along with the aroundNode.
+
 		var l = domGeometry.isBodyLtr(node.ownerDocument),
-			s = node.style;
-		s.top = best.y + "px";
-		s[l ? "left" : "right"] = (l ? best.x : view.w - best.x - best.w) + "px";
+			top = best.y,
+			side = l ? best.x : view.w - best.x - best.w;
+
+		if(/relative|absolute/.test(domStyle.get(win.body(node.ownerDocument), "position"))){
+			// compensate for margin on <body>, see #16148
+			top -= domStyle.get(win.body(node.ownerDocument), "marginTop");
+			side -= (l ? 1 : -1) * domStyle.get(win.body(node.ownerDocument), l ? "marginLeft" : "marginRight");
+		}
+
+		var s = node.style;
+		s.top = top + "px";
+		s[l ? "left" : "right"] = side + "px";
 		s[l ? "right" : "left"] = "auto";	// needed for FF or else tooltip goes to far left
 
 		return best;
