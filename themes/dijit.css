@@ -922,10 +922,6 @@ body .dijitAlignClient { position: absolute; }
 	overflow: hidden;
 	display: block;
 }
-.dj_ff3 .dj_a11y div.dijitSplitter:focus {
-	outline-style:dotted;
-	outline-width: 2px;
-}
 
 .dijitSplitPane {
 	position: absolute;
@@ -1276,10 +1272,7 @@ Hiding the focus border also works around webkit bug https://code.google.com/p/c
 .dj_a11y .dijitMenuItemSelected {
 	border: 1px dotted black !important;	/* for 2.0 use outline instead, to prevent jitter */
 }
-.dj_ff3 .dj_a11y .dijitMenuItem td {
-	padding: 0 !important;
-	background:none !important;
-}
+
 .dj_a11y .dijitMenuItemSelected .dijitMenuItemLabel {
 	border-width: 1px;
 	border-style: solid;
@@ -1567,6 +1560,11 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 
 .dijitTreeRow, .dijitTreeContent {
 	white-space: nowrap;
+}
+
+.dj_ie .dijitTreeLabel:focus {
+	/* workaround IE9 behavior where down arrowing through TreeNodes doesn't show focus outline */
+	outline: 1px dotted black;
 }
 
 .dijitTreeRow img {
