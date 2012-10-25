@@ -56,26 +56,28 @@
 				});
 			}
 
-			doh.register("setup", [
-				function parse(){
-					dojo.parser.parse();
-				},
-				function programmaticCreation(){
-					var container = new dijit.layout.StackContainer({ id: "sc" },"myStackContainer2");
+			doh.register("programmatic", [
+				function create(){
+					var container = new dijit.layout.StackContainer({ id: "sc" }, "myStackContainer2");
 					container.addChild(new dijit.layout.ContentPane({
-							id: "page1Prog",
-							title: "Page 1",
-							content: "IT WAS the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way -- in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only"
+						id: "page1Prog",
+						title: "Page 1",
+						content: "IT WAS the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way -- in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only"
 					}));
 					container.addChild(new dijit.layout.ContentPane({
-							id: "page2Prog",
-							title: "Page 2",
-							content: "There were a king with a large jaw and a queen with a plain face, on the throne of England; there were a king with a large jaw and a queen with a fair face, on the throne of France. In both countries it was clearer than crystal to the lords of the State preserves of loaves and fishes, that things in general were settled for ever."
+						id: "page2Prog",
+						title: "Page 2",
+						content: "There were a king with a large jaw and a queen with a plain face, on the throne of England; there were a king with a large jaw and a queen with a fair face, on the throne of France. In both countries it was clearer than crystal to the lords of the State preserves of loaves and fishes, that things in general were settled for ever."
 					}));
 					container.addChild(new dijit.layout.ContentPane({
-							id: "page3Prog",
-							title: "Page 3",
-							content: "It was the year of Our Lord one thousand seven hundred and seventy- five. Spiritual revelations were conceded to England at that favoured period, as at this. Mrs. Southcott had recently attained her five-and- twentieth blessed birthday, of whom a prophetic private in the Life Guards had heralded the sublime appearance by announcing that arrangements were made for the swallowing up of London and Westminster. Even the Cock-lane ghost had been laid only a round dozen of years, after rapping out its messages, as the spirits of this very year last past (supernaturally deficient in originality) rapped out theirs. Mere messages in the earthly order of events had lately come to the English Crown and People, from a congress of British subjects in America:"
+						id: "page3Prog",
+						title: "Page 3",
+						content: "It was the year of Our Lord one thousand seven hundred and seventy- five. Spiritual revelations were conceded to England at that favoured period, as at this. Mrs. Southcott had recently attained her five-and- twentieth blessed birthday, of whom a prophetic private in the Life Guards had heralded the sublime appearance by announcing that arrangements were made for the swallowing up of London and Westminster. Even the Cock-lane ghost had been laid only a round dozen of years, after rapping out its messages, as the spirits of this very year last past (supernaturally deficient in originality) rapped out theirs. Mere messages in the earthly order of events had lately come to the English Crown and People, from a congress of British subjects in America:"
+					}));
+					container.addChild(new dijit.layout.ContentPane({
+						id: "page4Prog",
+						title: "Page 4",
+						href: "tab1.html"
 					}));
 
 					// make the controller
@@ -84,6 +86,20 @@
 					// start 'em up
 					controller.startup();
 					container.startup();
+				},
+				function select(){
+					var d = new doh.Deferred();
+					dijit.byId("sc").selectChild(dijit.byId("page4Prog")).then(d.getTestCallback(function(){
+						doh.t(isVisible(dojo.byId("page4Prog")), "page4 visible");
+						doh.t(isHidden(dojo.byId("page1Prog")), "page1 hidden");
+					}));
+					return d;
+				}
+			]);
+
+			doh.register("parse", [
+				function parse(){
+					dojo.parser.parse();
 				}
 			]);
 
@@ -224,7 +240,7 @@
 				var oldNumWidgets = require("dijit/registry").length;
 				dijit.byId("holder").destroyRecursive();
 				var newNumWidgets = require("dijit/registry").length;
-				doh.is(4, oldNumWidgets - newNumWidgets, newNumWidgets + "-" + oldNumWidgets + " destroyed");
+				doh.is(5, oldNumWidgets - newNumWidgets, newNumWidgets + "-" + oldNumWidgets + " destroyed");
 			});
 
 			doh.run();
