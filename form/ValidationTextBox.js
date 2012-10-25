@@ -104,7 +104,7 @@ define([
 			// summary:
 			//		Hook so set('value', ...) works.
 			this.inherited(arguments);
-			this.validate(this.focused);
+			this._refreshState();
 		},
 
 		validator: function(/*anything*/ value, /*__Constraints*/ constraints){
@@ -204,7 +204,7 @@ define([
 
 		_refreshState: function(){
 			// Overrides TextBox._refreshState()
-			if(this._created){
+			if(this._created){ // should instead be this._started but that would require all programmatic ValidationTextBox instantiations to call startup()
 				this.validate(this.focused);
 			}
 			this.inherited(arguments);

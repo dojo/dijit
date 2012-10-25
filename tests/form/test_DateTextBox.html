@@ -42,6 +42,7 @@
 			dojo.require("dijit.form.DateTextBox");
 			dojo.require("dijit.form.Form");
 			dojo.require("dojo.date.locale");
+			dojo.require("dijit.tests.helpers");    // functions to help test
 			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
 			// Add test=true to the URL to run unit tests.
@@ -53,7 +54,29 @@
 				console.log(this.domNode.getAttribute('widgetId') + ' ' + e.type);
 			}
 			dojo.ready(function(){
+				// See if we can make a widget in script and attach it to the DOM ourselves.
+				dojo.connect(dijit.byId('pattern'), "onMouseEnter", eventHandler);
+				dojo.connect(dijit.byId('pattern'), "onMouseLeave", eventHandler);
+				dojo.connect(dijit.byId('pattern'), "onKeyDown", eventHandler);
+
+				var props = {
+					name: "date4",
+					value: new Date(2006,10,29),
+					constraints: {min:new Date(2004,0,1),max:new Date(2006,11,31)},
+					lang: "de-de",
+					hasDownArrow: false,
+					onMouseEnter: eventHandler,
+					onMouseLeave: eventHandler,
+					onKeyDown: eventHandler,
+					promptMessage: "dd.mm.yy",
+					rangeMessage: "Enter a date in the year range 2004-2006.",
+					invalidMessage: "Invalid date. Use dd.mm.yy format."
+				};
+				var german = new dijit.form.DateTextBox(props, "german");
+				german.startup();
 				var localLong = dijit.byId("localLong");
+				var american = dijit.byId("american");
+
 				localLong.parse = function(value,constraints){
 					return this.dateLocaleModule.parse(value, (constraints.formatLength="long") && constraints) ||
 						 this.dateLocaleModule.parse(value, (constraints.formatLength="short") && constraints) ||
@@ -138,6 +161,113 @@
 						}
 					);
 
+				doh.register("API", [
+					function initial(){
+						// initial conditions
+						doh.is(0, dojo.date.compare(new Date(2005,11,30), american.get('value')), 'wire value of american: ' + american.get('value'));
+						doh.is('12/30/2005', american.get('displayedValue'), 'displayed value of american');
+					},
+
+					function setValue(){
+						american.set('value', new Date(2004,9,20));
+						doh.is(0, dojo.date.compare(new Date(2004,9,20), american.get('value')),
+								'wire value of american is: ' + american.get('value') +
+								' but should be: ' + new Date(2004,9,20));
+						doh.is('10/20/2004', american.get('displayedValue'), 'displayed value of american');
+						doh.t(american.isValid(), 'marked as valid');
+					},
+
+					function setDisplayedValue(){
+						american.set('displayedValue', '11/12/2006');
+						doh.is(0, dojo.date.compare(new Date(2006, 10, 12), american.get('value')), 'wire value of american');
+						doh.is('11/12/2006', american.get('displayedValue'), 'displayed value of american');
+						doh.t(american.isValid(), 'marked as valid');
+					},
+
+					function setInvalidDisplayedValue(){
+						american.set('displayedValue', 'foo');
+						doh.t(american.get('value') === undefined, 'value is undefined if displayedValue is garbage');
+						doh.f(american.isValid(), 'marked as invalid');
+
+						// setting the value to get('value') should never change anything, so
+						// therefore setting the value to undefined shouldn't affect the displayed value
+						american.set('value', undefined);
+						doh.is(american.get('displayedValue'), 'foo');
+					},
+
+					function setOutOfRange(){
+						// This widget is set to be valid between 2004 and 2006 only
+						american.set('displayedValue', '12/1/2008');
+						doh.f(american.isValid(), 'marked as invalid since out of range');
+						doh.is('12/1/2008', american.get('displayedValue'), 'displayed value of american');
+					},
+
+					function noInitialValue(){
+				    		var fromDate = dijit.byId('fromDate');
+						doh.is('', fromDate.get('displayedValue'), 'initially blank');
+						doh.is(dijit.form.DateTextBox.prototype.value, fromDate.value, 'default value');
+						var d = new doh.Deferred();
+						var today = new Date();
+						fromDate.set('value', today, true);
+						setTimeout(d.getTestCallback(function(){
+				    			var toDate = dijit.byId('toDate');
+							doh.is(today.toDateString(), fromDate.value.toDateString(), 'changed value');
+							doh.is(today.toDateString(), toDate.constraints.min.toDateString(), 'onChange');
+						}), 500);
+						return d;
+					}
+				]);
+
+				doh.register("localization", [
+					function initialGerman(){
+						doh.is(0, dojo.date.compare(new Date(2006,10,29), german.get('value')), 'wire value of german: ' + german.get('value'));
+						doh.is('29.11.2006', german.get('displayedValue'), 'displayed value of german');
+					},
+
+					function setValueGerman(){
+						german.set('value', new Date(2004,9,20));
+						doh.is(0, dojo.date.compare(new Date(2004,9,20), german.get('value')),
+								'wire value of german is: ' + german.get('value') +
+								' but should be: ' + new Date(2004,9,20));
+						doh.is('20.10.2004', german.get('displayedValue'), 'displayed value of german');
+						doh.t(german.isValid(), 'marked as valid');
+					},
+
+					function setDisplayedValueGerman(){
+						german.set('displayedValue', '12.11.2006');
+						doh.is(0, dojo.date.compare(new Date(2006, 10, 12), german.get('value')), 'wire value of german');
+						doh.is('12.11.2006', german.get('displayedValue'), 'displayed value of german');
+						doh.t(german.isValid(), 'marked as valid');
+					},
+					{
+						name: "labels",
+						timeout: 6000,
+						runTest: function(){
+							german.set('value', new Date(2006, 9, 15));	// 10/15/2006
+
+							german.openDropDown();
+							var calendar = dijit.byId("german_popup");
+
+							// calendar exists and is shown
+							doh.t(calendar && isVisible(calendar), "calendar is visible");
+
+							// Month label
+							doh.is("Oktober", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]));
+
+							// Day labels
+							var dayLabels = dojo.query(".dijitCalendarDayLabelTemplate", calendar.domNode);
+							doh.is(7, dayLabels.length, "7 day labels");
+							doh.is("M", innerText(dayLabels[0]), "day 0");
+							doh.is("D", innerText(dayLabels[1]), "day 1");
+							doh.is("M", innerText(dayLabels[2]), "day 2");
+							doh.is("D", innerText(dayLabels[3]), "day 3");
+							doh.is("F", innerText(dayLabels[4]), "day 4");
+							doh.is("S", innerText(dayLabels[5]), "day 5");
+							doh.is("S", innerText(dayLabels[6]), "day 6");
+							german.closeDropDown();
+						}
+					}
+				]);
 					doh.run();
 				}
 
@@ -244,30 +374,6 @@
 					invalidMessage:"Invalid date. Use mm/dd/yyyy format."'>
 				</div>
 			</div>
-
-			<script>
-			// See if we can make a widget in script and attach it to the DOM ourselves.
-			dojo.ready(function(){
-				dojo.connect(dijit.byId('pattern'), "onMouseEnter", eventHandler);
-				dojo.connect(dijit.byId('pattern'), "onMouseLeave", eventHandler);
-				dojo.connect(dijit.byId('pattern'), "onKeyDown", eventHandler);
-
-				var props = {
-					name: "date4",
-					value: new Date(2006,10,29),
-					constraints: {min:new Date(2004,0,1),max:new Date(2006,11,31)},
-					lang: "de-de",
-					hasDownArrow: false,
-					onMouseEnter: eventHandler,
-					onMouseLeave: eventHandler,
-					onKeyDown: eventHandler,
-					promptMessage: "dd.mm.yy",
-					rangeMessage: "Enter a date in the year range 2004-2006.",
-					invalidMessage: "Invalid date. Use dd.mm.yy format."
-				};
-				var w = new dijit.form.DateTextBox(props, "german");
-			});
-			</script>
 
 			<script>
 				function displayData(){

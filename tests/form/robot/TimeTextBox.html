@@ -295,38 +295,46 @@
 					}
 				]);
 
-				var handler, q5;
+				var handler, q5, w;
 				doh.register("mouse", [
 					{
 						name: "select",
 						timeout: 6000,
 						runTest: function(){
 							var d = new doh.Deferred(),
-								w = dijit.byId('q1'),
+								popup,
 								toClick;
+							w = dijit.byId('q1');
 	
+							handler = w.connect(w, 'openDropDown', function(){
+								w.disconnect(handler);
+								popup = dijit.byId('q1_popup');
+								var wasVisible = popup && isVisible(popup);
+								toClick = dojo.query(".dijitTimePickerItemInner:contains(6:45)", popup.domNode);
+
+								handler = w.connect(w, 'closeDropDown', d.getTestCallback(function(){
+									doh.t(wasVisible, "popup visible");
+									doh.is(1, toClick.length, "found 6:45 in drop down");
+									popup = dijit.byId('q1_popup');
+									doh.t(!popup || isHidden(popup), "popup hidden");
+									var val = dojo.date.stamp.toISOString(w.get('value'), {selector: "time"});	
+									doh.is(val, "T18:45:00", "should be 6:45PM");
+								}));
+
+								// click 6:45, thus selecting it and closing drop down
+								doh.robot.mouseMoveAt(function(){return toClick[0]; }, 500, 1);
+								doh.robot.mouseClick({left:true}, 500);
+							});
+							
 							// click down arrow, opening drop down
 							doh.robot.mouseMoveAt(w._buttonNode, 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 	
-							doh.robot.sequence(d.getTestErrback(function(){
-								var popup = dijit.byId('q1_popup');
-								doh.t(popup && isVisible(popup), "popup visible");
-								toClick = dojo.query(".dijitTimePickerItemInner:contains(6:45)", popup.domNode);
-								doh.is(1, toClick.length, "found 6:45 in drop down");
-							}), 500);
-
-							// click 6:45, thus selecting it and closing drop down
-							doh.robot.mouseMoveAt(function(){return toClick[0]; }, 500, 1);
-							doh.robot.mouseClick({left:true}, 500);
-							
-							doh.robot.sequence(d.getTestCallback(function(){
-								var popup = dijit.byId('q1_popup');
-								doh.t(!popup || isHidden(popup), "popup hidden");
-								var val = dojo.date.stamp.toISOString(w.get('value'), {selector: "time"});	
-								doh.is(val, "T18:45:00", "should be 6:45PM");
-							}), 500);
 							return d;
+						},
+						tearDown: function(){
+							w.disconnect(handler);
+							w.closeDropDown();
 						}
 					},
 					{
