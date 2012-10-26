@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>StackContainer Demo</title>
@@ -159,7 +159,7 @@
 			]);
 
 			doh.register("removeChild", function removeChild(){
-				var container = new dijit.layout.StackContainer({ id: "sc2" });
+				var container = new dijit.layout.StackContainer({ id: "sc2","aria-label":"sc2" });
 				container.addChild(new dijit.layout.ContentPane({
 						id: "rpage1Prog",
 						title: "Page 1",
@@ -192,7 +192,7 @@
 
 			doh.register("childless startup", function childlessStartup(){
 				// make and start the container without children
-				var container = new dijit.layout.StackContainer({ id: "nssc" },"noChildrenStackContainer");
+				var container = new dijit.layout.StackContainer({ id: "nssc", "aria-label":"nssc"},"noChildrenStackContainer");
 				container.startup();
 
 				// monitor _showChild() calls
@@ -259,7 +259,7 @@
 	</script>
 </head>
 
-<body class="claro">
+<body class="claro" role="main">
 	<h1 class="testTitle">A Tale Of Two Cities</h1>
 
 	<button id="previous" data-dojo-type="dijit/form/Button" data-dojo-props='onClick:function(){ dijit.byId("myStackContainer").back() }'>&lt;</button>
@@ -267,8 +267,8 @@
 	<button id="next" data-dojo-type="dijit/form/Button" data-dojo-props='onClick:function(){ dijit.byId("myStackContainer").forward() }'>&gt;</button>
 
 	<div id="myStackContainer" data-dojo-type="dijit/layout/StackContainer"
-		data-dojo-props='style:"width: 90%; border: 1px solid #9b9b9b; height: 20em; margin: 0.5em 0 0.5em 0; padding: 0.5em;"'>
-		<p id="page1" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"page 1"'>IT WAS the best of times, it <input value="was the worst" /> of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way -- in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only</p>
+		data-dojo-props='style:"width: 90%; border: 1px solid #9b9b9b; height: 20em; margin: 0.5em 0 0.5em 0; padding: 0.5em;","aria-label":"my stack container"'>
+		<p id="page1" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"page 1","aria-label":"page1"'>IT WAS the best of times, it <input aria-label="input" value="was the worst" /> of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way -- in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only</p>
 		<p id="page2" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"page 2"'>There were a king with a large jaw and a queen with a plain face, on the throne of England; there were a king with a large jaw and a queen with a fair face, on the throne of <a href="http://www.france.com">France</a>. In both countries it was clearer than crystal to the lords of the State preserves of loaves and fishes, that things in general were settled for ever.</p>
 		<p id="page3" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"page 3"'>It was the year of Our Lord one thousand seven hundred and seventy- five. Spiritual revelations were conceded to England at that favoured period, as at this. Mrs. Southcott had recently attained her five-and- twentieth blessed birthday, of whom a prophetic private in the Life Guards had heralded the sublime appearance by announcing that arrangements were made for the swallowing up of London and Westminster. Even the Cock-lane ghost had been laid only a round dozen of years, after rapping out its messages, as the spirits of this very year last past (supernaturally deficient in originality) rapped out theirs. Mere messages in the earthly order of events had lately come to the English Crown and People, from a congress of British subjects in America:</p>
 	</div>
@@ -286,7 +286,7 @@
 	<button id="nextPR" data-dojo-type="dijit/form/Button" data-dojo-props='onClick:function(){ dijit.byId("myStackContainerPR").forward() }'>&gt;</button>
 
 	<div id="myStackContainerPR" data-dojo-type="dijit/layout/StackContainer"
-		data-dojo-props='style:"width: 90%; border: 1px solid #9b9b9b; height: 20em; margin: 0.5em 0 0.5em 0; padding: 0.5em;"'>
+		data-dojo-props='style:"width: 90%; border: 1px solid #9b9b9b; height: 20em; margin: 0.5em 0 0.5em 0; padding: 0.5em;","aria-label":"my stack container PR"'>
 		<div id="page1PR" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"page 1"'>
 			<p>
 				The next pane should have some text, plus two embedded layout widgets, which should
@@ -332,7 +332,7 @@
 			<p>
 				And a TabContainer:
 			</p>
-			<div id="tc" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='style:"height:200px; width:300px"'>
+			<div id="tc" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='style:"height:200px; width:300px","aria-label":"tc"'>
 				<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Tab 1"'>
 					1Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
@@ -375,10 +375,10 @@
 
 	<h1>Nested StackContainers w/doLayout=false</h1>
 	<p>"hello world" inner text should be visible</p>
-    <div id="stack1" dojoType="dijit.layout.StackContainer" doLayout="false">
-        <div id="stack2" dojoType="dijit.layout.StackContainer" doLayout="false">
-            <div id="stack3" dojoType="dijit.layout.StackContainer" doLayout="false">
-                <div id="stack4" dojoType="dijit.layout.StackContainer" doLayout="false">
+    <div id="stack1" aria-label="stack1" dojoType="dijit.layout.StackContainer" doLayout="false">
+        <div id="stack2" aria-label="stack2" dojoType="dijit.layout.StackContainer" doLayout="false">
+            <div id="stack3" aria-label="stack3" dojoType="dijit.layout.StackContainer" doLayout="false">
+                <div id="stack4" aria-label="stack4" dojoType="dijit.layout.StackContainer" doLayout="false">
                     hello world
                 </div>
             </div>
