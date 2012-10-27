@@ -487,6 +487,7 @@ declare(
 	closeDropDown: function(/*Boolean*/ focus){
 		this.inherited(arguments);
 		if(this.dropDown){
+			this._popupStateNode.removeAttribute("aria-owns");	// remove ref to node that we are about to delete
 			this.dropDown.destroyRecursive();
 			delete this.dropDown;
 		}
