@@ -14,14 +14,15 @@ try{
 	doh.registerUrl("dijit.tests.robot.Dialog_mouse", dojo.moduleUrl("dijit","tests/robot/Dialog_mouse.html"+userArgs), 999999);
 	doh.registerUrl("dijit.tests.robot.Dialog_a11y", dojo.moduleUrl("dijit","tests/robot/Dialog_a11y.html"+userArgs), 999999);
 	doh.registerUrl("dijit.tests.robot.Dialog_focusDestroy", dojo.moduleUrl("dijit","tests/robot/Dialog_focusDestroy.html"+userArgs), 999999);
-	
+
 	doh.registerUrl("dijit.tests.ProgressBar", dojo.moduleUrl("dijit","tests/ProgressBar.html"+userArgs), 999999);
-	
+
 	doh.registerUrl("dijit.tests.robot.Tooltip_a11y", dojo.moduleUrl("dijit","tests/robot/Tooltip_a11y.html"+userArgs), 999999);
 	doh.registerUrl("dijit.tests.robot.Tooltip_mouse", dojo.moduleUrl("dijit","tests/robot/Tooltip_mouse.html"+userArgs), 999999);
 	doh.registerUrl("dijit.tests.robot.Tooltip_mouse_quirks", dojo.moduleUrl("dijit","tests/robot/Tooltip_mouse_quirks.html"+userArgs), 999999);
 	doh.registerUrl("dijit.tests.Tooltip-placement", dojo.moduleUrl("dijit","tests/Tooltip-placement.html"+userArgs), 999999);
 
+	doh.registerUrl("dijit.tests.TooltipDialog", dojo.moduleUrl("dijit","tests/TooltipDialog.html"+userArgs), 999999);
 	doh.registerUrl("dijit.tests.robot.TooltipDialog_mouse", dojo.moduleUrl("dijit","tests/robot/TooltipDialog_mouse.html"+userArgs), 999999);
 	doh.registerUrl("dijit.tests.robot.TooltipDialog_a11y", dojo.moduleUrl("dijit","tests/robot/TooltipDialog_a11y.html"+userArgs), 999999);
 

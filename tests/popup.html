@@ -102,6 +102,29 @@
 				templateString: "<span>i'm a popup</span>"
 			});
 
+			declare("Tooltip", [_WidgetBase, _TemplatedMixin], {
+				// summary:
+				//		A popup with an orient() method to adjust arrows
+
+				templateString: "<span>i'm a tooltip</span>",
+				constructor: function(){
+					this.orientCalls = [];
+				},
+				orient: function(node, aroundCorner, corner, spaceAvailable, aroundNodeCoords){
+					this.orientCalls.push({
+						node: node,
+						aroundCorner: aroundCorner,
+						corner: corner,
+						spaceAvailable: spaceAvailable,
+						aroundNodeCoords: aroundNodeCoords
+					});
+				},
+				onOpen: function(pos){
+					// should be called with pos.corner and pos.aroundCorner set
+					this.onOpenArg = pos;
+				}
+			});
+
 			declare("SimpleChoiceWidget",  [_WidgetBase, _TemplatedMixin], {
 				// summary:
 				//		A list of values; select a value by pressing an entry in the list.
@@ -427,7 +450,73 @@
 				doh.is("inputAtEnd", tabbable[tabbable.length - 1].id, "last tabbable node");
 			});
 
-			// TODO: test x/y placement
+			doh.register("x/y placement", function xyPlacement(){
+				// Trivial test of x/y placement.    Could also test other orientations.
+				var popup = new SimpleChoiceWidget();
+
+				popupUtil.open({
+					popup: popup,
+					orient: "R",
+					x: 10,
+					y: 15
+				});
+
+				var popupCoords = domGeometry.position(popup.domNode);
+				doh.is(10, popupCoords.x, "popup x coord");
+				doh.is(15, popupCoords.y, "popup y coord");
+
+				popupUtil.close(popup);
+			});
+
+			doh.register("orientCallback", [
+				function setup(){
+					tooltip = new Tooltip({});
+					(tooltipDropDownButton = new SimpleDropDownButton({
+						id: "tooltipDropDownButton",
+						label: "show tooltip",
+						popup: tooltip
+					})).placeAt(dom.byId("widgets"));
+				},
+				function orientCallbackAround(){
+					// Test whether orient() is called correctly for popup around a node
+					tooltipDropDownButton.openPopup();
+					tooltipDropDownButton.closePopup();
+
+					// The final call to orient(), as well as the call to onOpen(), should have been for the final
+					// position of the node, where corner == TL and aroundCorner == BL
+					doh.t(tooltip.orientCalls.length, "orient was called");
+					var final = tooltip.orientCalls.pop();
+					doh.is("TL", final.corner, "popup corner");
+					doh.is("BL", final.aroundCorner, "aroundNode corner");
+
+					doh.t(tooltip.onOpenArg, "onOpen called");
+					doh.is("TL", tooltip.onOpenArg.corner, "popup corner");
+					doh.is("BL", tooltip.onOpenArg.aroundCorner, "aroundNode corner");
+				},
+				function orientCallbackAt(){
+					// Test whether orient() is called correctly for popup around a point
+					tooltip.orientCalls = [];
+					delete tooltip.onOpenArg;
+
+					popupUtil.open({
+						popup: tooltip,
+						orient: "R",
+						x: 10,
+						y: 15
+					});
+
+					// The final call to orient(), as well as the call to onOpen(), should have been for the final
+					// position of the node, where corner == TL and aroundCorner == BR (they are caddy-corner).
+					doh.t(tooltip.orientCalls.length, "orient was called");
+					var final = tooltip.orientCalls.pop();
+					doh.is("TL", final.corner, "popup corner");
+					doh.is("BR", final.aroundCorner, "aroundNode corner");
+
+					doh.t(tooltip.onOpenArg, "onOpen called");
+					doh.is("TL", tooltip.onOpenArg.corner, "popup corner");
+					doh.is("BR", tooltip.onOpenArg.aroundCorner, "aroundNode corner");
+				}
+			]);
 
 			// Test that onCancel goes back one level.
 			// Call nestedChoice2.onCancel() and that should trigger nestedChoice2 to close

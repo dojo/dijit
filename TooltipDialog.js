@@ -77,6 +77,7 @@ define([
 			// Note: intentionally not using dijitTooltip class since that sets position:absolute, which
 			// confuses dijit/popup trying to get the size of the tooltip.
 			var newC = {
+				// Real around node
 				"MR-ML": "dijitTooltipRight",
 				"ML-MR": "dijitTooltipLeft",
 				"TM-BM": "dijitTooltipAbove",
@@ -86,7 +87,13 @@ define([
 				"BR-TR": "dijitTooltipBelow dijitTooltipABRight",
 				"TR-BR": "dijitTooltipAbove dijitTooltipABRight",
 				"BR-BL": "dijitTooltipRight",
-				"BL-BR": "dijitTooltipLeft"
+				"BL-BR": "dijitTooltipLeft",
+
+				// Positioning "around" a point, ex: mouse position
+				"BR-TL": "dijitTooltipBelow dijitTooltipABLeft",
+				"BL-TR": "dijitTooltipBelow dijitTooltipABRight",
+				"TL-BR": "dijitTooltipAbove dijitTooltipABRight",
+				"TR-BL": "dijitTooltipAbove dijitTooltipABLeft"
 			}[aroundCorner + "-" + tooltipCorner];
 
 			domClass.replace(this.domNode, newC, this._currentOrientClass || "");

@@ -52,12 +52,12 @@ define([
 					'L': view.l + view.w - pos.x,
 					'R': pos.x - view.l,
 					'M': view.w
-				   }[corner.charAt(1)],
+				}[corner.charAt(1)],
 				h: {
 					'T': view.t + view.h - pos.y,
 					'B': pos.y - view.t,
 					'M': view.h
-				   }[corner.charAt(0)]
+				}[corner.charAt(0)]
 			};
 
 			// Clear left/right position settings set earlier so they don't interfere with calculations,
@@ -155,23 +155,32 @@ define([
 		return best;
 	}
 
+	var reverse = {
+		// Map from corner to kitty-corner
+		"TL": "BR",
+		"TR": "BL",
+		"BL": "TR",
+		"BR": "TL"
+	};
+
 	var place = {
 		// summary:
 		//		Code to place a DOMNode relative to another DOMNode.
 		//		Load using require(["dijit/place"], function(place){ ... }).
 
-		at: function(node, pos, corners, padding){
+		at: function(node, pos, corners, padding, layoutNode){
 			// summary:
-			//		Positions one of the node's corners at specified position
-			//		such that node is fully visible in viewport.
-			// description:
-			//		NOTE: node is assumed to be absolutely or relatively positioned.
+			//		Positions node kitty-corner to the rectangle centered at (pos.x, pos.y) with width and height of
+			//		padding.x * 2 and padding.y * 2, or zero if padding not specified.  Picks first corner in corners[]
+			//		where node is fully visible, or the corner where it's most visible.
+			//
+			//		Node is assumed to be absolutely or relatively positioned.
 			// node: DOMNode
 			//		The node to position
 			// pos: dijit/place.__Position
 			//		Object like {x: 10, y: 20}
 			// corners: String[]
-			//		Array of Strings representing order to try corners in, like ["TR", "BL"].
+			//		Array of Strings representing order to try corners of the node in, like ["TR", "BL"].
 			//		Possible values are:
 			//
 			//		- "BL" - bottom left
@@ -179,14 +188,22 @@ define([
 			//		- "TL" - top left
 			//		- "TR" - top right
 			// padding: dijit/place.__Position?
-			//		optional param to set padding, to put some buffer around the element you want to position.
+			//		Optional param to set padding, to put some buffer around the element you want to position.
+			//		Defaults to zero.
+			// layoutNode: Function(node, aroundNodeCorner, nodeCorner)
+			//		For things like tooltip, they are displayed differently (and have different dimensions)
+			//		based on their orientation relative to the parent.  This adjusts the popup based on orientation.
 			// example:
 			//		Try to place node's top right corner at (10,20).
 			//		If that makes node go (partially) off screen, then try placing
 			//		bottom left corner at (10,20).
 			//	|	place(node, {x: 10, y: 20}, ["TR", "BL"])
 			var choices = array.map(corners, function(corner){
-				var c = { corner: corner, pos: {x:pos.x,y:pos.y} };
+				var c = {
+					corner: corner,
+					aroundCorner: reverse[corner],	// so TooltipDialog.orient() gets aroundCorner argument set
+					pos: {x: pos.x,y: pos.y}
+				};
 				if(padding){
 					c.pos.x += corner.charAt(1) == 'L' ? padding.x : -padding.x;
 					c.pos.y += corner.charAt(0) == 'T' ? padding.y : -padding.y;
@@ -194,7 +211,7 @@ define([
 				return c;
 			});
 
-			return _place(node, choices);
+			return _place(node, choices, layoutNode);
 		},
 
 		around: function(
@@ -222,9 +239,9 @@ define([
 			//			of RTL scripts like Hebrew and Arabic; aligns either the top of the drop down
 			//			with the top of the anchor, or the bottom of the drop down with bottom of the anchor.
 			//		- before-centered: centers drop down to the left of the anchor node/widget, or to the right
-			//			 in the case of RTL scripts like Hebrew and Arabic
+			//			in the case of RTL scripts like Hebrew and Arabic
 			//		- after-centered: centers drop down to the right of the anchor node/widget, or to the left
-			//			 in the case of RTL scripts like Hebrew and Arabic
+			//			in the case of RTL scripts like Hebrew and Arabic
 			//		- above-centered: drop down is centered above anchor node
 			//		- above: drop down goes above anchor node, left sides aligned
 			//		- above-alt: drop down goes above anchor node, right sides aligned
@@ -293,12 +310,12 @@ define([
 							'L': x,
 							'R': x + width,
 							'M': x + (width >> 1)
-						   }[aroundCorner.charAt(1)],
+						}[aroundCorner.charAt(1)],
 						y: {
 							'T': y,
 							'B': y + height,
 							'M': y + (height >> 1)
-						   }[aroundCorner.charAt(0)]
+						}[aroundCorner.charAt(0)]
 					}
 				})
 			}
@@ -342,7 +359,7 @@ define([
 						break;
 					default:
 						// To assist dijit/_base/place, accept arguments of type {aroundCorner: "BL", corner: "TL"}.
-						// Not meant to be used directly.
+						// Not meant to be used directly.  Remove for 2.0.
 						push(pos.aroundCorner, pos.corner);
 				}
 			});
