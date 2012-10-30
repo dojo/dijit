@@ -137,16 +137,34 @@
 				"aria-describedby":"intro",
 				execute:function(args){ console.log("submitted w/args:\n" + dojo.toJson(args, true)); }'>
 			<div class="dijitDialogPaneContentArea">
-				<table>
-					<tr>
-						<td><label for="user2">User:</label></td>
-						<td><input id="user2" style="width: 100px" data-dojo-type=dijit.form.TextBox data-dojo-props='type:"text", name:"user" '/></td>
-					</tr>
-					<tr>
-						<td><label for="password2">Password:</label></td>
-						<td><input id="password2" style="width: 100px" data-dojo-type=dijit.form.TextBox data-dojo-props='type:"password", name:"pwd"'/></td>
-					</tr>
-				</table>
+				<label for="fname">First: </label>
+				<br>
+				<input id="fname" name="fname" data-dojo-type="dijit/form/TextBox"/>
+				<br>
+
+				<label for="lname">Last: </label>
+				<br>
+				<input id="lname" name="lname" data-dojo-type="dijit/form/TextBox"/>
+				<br>
+
+				<label for="loc">Location: </label>
+				<br>
+				<input id="loc" name="loc" data-dojo-type="dijit/form/TextBox"/>
+				<br>
+
+				<label for="date">Date: </label>
+				<br>
+				<input id="date" name="date" data-dojo-type="dijit/form/DateTextBox"/>
+				<br>
+
+				<label>Time: </label>
+				<br>
+				<input id="time" name="time" data-dojo-type="dijit/form/TimeTextBox"/>
+				<br>
+
+				<label for="desc">Description: </label>
+				<br>
+				<input id="desc" name="desc" data-dojo-type="dijit/form/DateTextBox"/>
 			</div>
 			<div class="dijitDialogPaneActionBar">
 				<button id="dialogbutton1" data-dojo-type="dijit/form/Button" data-dojo-props='type:"submit" '>OK</button>

@@ -1611,6 +1611,9 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .dijitDialogCloseIcon {
 	cursor: pointer;
 }
+.dijitDialogPaneContent {
+	-webkit-overflow-scrolling: touch;
+}
 .dijitDialogUnderlayWrapper {
 	position: absolute;
 	left: 0;
