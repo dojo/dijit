@@ -102,7 +102,7 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 		this.connect(this.gridNode, "ondijitclick", "_onCellClick");
 
 		for(var row=0; row < choices.length; row++){
-			var rowNode = domConstruct.create("tr", {tabIndex: "-1"}, this.gridNode);
+			var rowNode = domConstruct.create("tr", {tabIndex: "-1", role: "row"}, this.gridNode);
 			for(var col=0; col < choices[row].length; col++){
 				var value = choices[row][col];
 				if(value){
