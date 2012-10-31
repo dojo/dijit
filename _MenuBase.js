@@ -12,18 +12,17 @@ define([
 	"./popup",
 	"./registry",
 	"./_Widget",
+	"./_CssStateMixin",
 	"./_KeyNavContainer",
 	"./_TemplatedMixin"
 ], function(array, declare, dom, domAttr, domClass, lang, mouse, on, winUtils,
-			a11yclick, pm, registry, _Widget, _KeyNavContainer, _TemplatedMixin){
+			a11yclick, pm, registry, _Widget, _CssStateMixin, _KeyNavContainer, _TemplatedMixin){
 
 
 // module:
 //		dijit/_MenuBase
 
-return declare("dijit._MenuBase",
-	[_Widget, _TemplatedMixin, _KeyNavContainer],
-{
+return declare("dijit._MenuBase", [_Widget, _TemplatedMixin, _KeyNavContainer, _CssStateMixin], {
 	// summary:
 	//		Base class for Menu and MenuBar
 
