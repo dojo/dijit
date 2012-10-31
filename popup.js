@@ -297,7 +297,9 @@ define([
 					onClose = top.onClose;
 
 				if(widget.onClose){
-					// TODO: in 2.0 standardize onHide() (used by StackContainer) and onClose() (used here)
+					// TODO: in 2.0 standardize onHide() (used by StackContainer) and onClose() (used here).
+					// Actually, StackContainer also calls onClose(), but to mean that the pane is being deleted
+					// (i.e. that the TabContainer's tab's [x] icon was clicked)
 					widget.onClose();
 				}
 

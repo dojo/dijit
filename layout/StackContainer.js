@@ -321,7 +321,7 @@ var StackContainer = declare("dijit.layout.StackContainer", _LayoutWidget, {
 		//		If onClose() returns true then remove and destroy the child.
 		// tags:
 		//		private
-		var remove = page.onClose(this, page);
+		var remove = page.onClose && page.onClose(this, page);
 		if(remove){
 			this.removeChild(page);
 			// makes sure we can clean up executeScripts in ContentPane onUnLoad
