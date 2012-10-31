@@ -87,11 +87,27 @@
 					controller.startup();
 					container.startup();
 				},
-				function select(){
+				function selectHref(){
 					var d = new doh.Deferred();
 					dijit.byId("sc").selectChild(dijit.byId("page4Prog")).then(d.getTestCallback(function(){
 						doh.t(isVisible(dojo.byId("page4Prog")), "page4 visible");
 						doh.t(isHidden(dojo.byId("page1Prog")), "page1 hidden");
+					}));
+					return d;
+				},
+				function selectPlain(){
+					var d = new doh.Deferred();
+					dijit.byId("sc").selectChild(dijit.byId("page1Prog")).then(d.getTestCallback(function(){
+						doh.t(isVisible(dojo.byId("page1Prog")), "page1 visible");
+						doh.t(isHidden(dojo.byId("page4Prog")), "page4 hidden");
+					}));
+					return d;
+				},
+				function selectCurrent(){
+					var d = new doh.Deferred();
+					dijit.byId("sc").selectChild(dijit.byId("page1Prog")).then(d.getTestCallback(function(){
+						doh.t(isVisible(dojo.byId("page1Prog")), "page1 visible");
+						doh.t(isHidden(dojo.byId("page4Prog")), "page4 hidden");
 					}));
 					return d;
 				}

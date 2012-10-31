@@ -7,11 +7,12 @@ define([
 	"dojo/_base/lang",	// lang.extend
 	"dojo/ready",
 	"dojo/topic", // publish
+	"dojo/when",
 	"../registry",	// registry.byId
 	"../_WidgetBase",
 	"./_LayoutWidget",
 	"dojo/i18n!../nls/common"
-], function(array, cookie, declare, domClass, has, lang, ready, topic,
+], function(array, cookie, declare, domClass, has, lang, ready, topic, when,
 			registry, _WidgetBase, _LayoutWidget){
 
 // module:
@@ -196,11 +197,13 @@ var StackContainer = declare("dijit.layout.StackContainer", _LayoutWidget, {
 		// page:
 		//		Reference to child widget or id of child widget
 
+		var d;
+
 		page = registry.byId(page);
 
 		if(this.selectedChildWidget != page){
 			// Deselect old page and select new one
-			var d = this._transition(page, this.selectedChildWidget, animate);
+			d = this._transition(page, this.selectedChildWidget, animate);
 			this._set("selectedChildWidget", page);
 			topic.publish(this.id+"-selectChild", page);	// publish
 
@@ -209,7 +212,8 @@ var StackContainer = declare("dijit.layout.StackContainer", _LayoutWidget, {
 			}
 		}
 
-		return d;		// If child has an href, promise that fires when the child's href finishes loading
+		// d may be null, or a scalar like true.  Return a promise in all cases
+		return when(d || true);		// Promise
 	},
 
 	_transition: function(newWidget, oldWidget /*===== ,  animate =====*/){
