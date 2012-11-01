@@ -19,11 +19,15 @@
 					// summary: empty function that we connect to
 				}
 			};
-	
+
 			// Number of times foo was called while TestWidget existed
 			var calls = 0;
-	
+
 			declare("TestWidget", _Widget, {
+				postMixInProperties: function(){
+					// make sure we can call set for parameters that don't touch the DOM
+					this.set("foo", "bar");
+				},
 				postCreate: function(){
 					// Rather odd call to this.connect() For testing the connections are dropped on destroy()
 					this.connect(obj, "foo", function(){
@@ -31,7 +35,7 @@
 					});
 				}
 			});
-	
+
 			var w;
 
 			doh.register("create and destroy", [

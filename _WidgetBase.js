@@ -784,11 +784,11 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 			// attribute name (ex: accept-charset attribute matches jsObject.acceptCharset).
 			// Note also that Tree.focusNode() is a function not a DOMNode, so test for that.
 			var defaultNode = this.focusNode && !lang.isFunction(this.focusNode) ? "focusNode" : "domNode",
-				tag = this[defaultNode].tagName,
-				attrsForTag = tagAttrs[tag] || (tagAttrs[tag] = getAttrs(this[defaultNode])),
+				tag = this[defaultNode] && this[defaultNode].tagName,
+				attrsForTag = tag && (tagAttrs[tag] || (tagAttrs[tag] = getAttrs(this[defaultNode]))),
 				map =	name in this.attributeMap ? this.attributeMap[name] :
 						names.s in this ? this[names.s] :
-						((names.l in attrsForTag && typeof value != "function") ||
+						((attrsForTag && names.l in attrsForTag && typeof value != "function") ||
 							/^aria-|^data-|^role$/.test(name)) ? defaultNode : null;
 			if(map != null){
 				this._attrToDom(name, value, map);
