@@ -15,7 +15,7 @@
 
 		.dijitTestWidget {
 			border: 1px dashed red;
-			background-color: #C0E209 ;
+			background-color: #C0E209;
 		}
 	</style>
 
@@ -285,36 +285,20 @@
 						}
 					},
 					{
-						name: "script tags ignored",
+						name: "non-visual tags ignored",
 						setUp: function(t){
 							pane5 = new dijit.layout.ContentPane({
 								content:
 									"<scri" + "pt></scri" + "pt>" +
+									"<link rel='stylesheet' href='../../themes/claro/claro.css'>" +
+									"<style>body { background: red; }</style>" +
 									"<div data-dojo-type='dijit/layout/StackContainer' id='sc'></div>"
 							}).placeAt(dojo.body());
 							pane5.startup();
 						},
 						runTest: function(t){
-							// script tag should be ignored, should be detected as single child
-							doh.t(pane5._singleChild, "script tag ignored, marked as single child");
-						},
-						tearDown: function(t){
-							pane5.destroyRecursive();
-						}
-					},
-					{
-						name: "link tags ignored",
-						setUp: function(t){
-							pane5 = new dijit.layout.ContentPane({
-								content:
-										"<link rel='stylesheet' href='../../themes/claro/claro.css'/>" +
-										"<div data-dojo-type='dijit/layout/StackContainer' id='sc'></div>"
-							}).placeAt(dojo.body());
-							pane5.startup();
-						},
-						runTest: function(t){
-							// script tag should be ignored, should be detected as single child
-							doh.t(pane5._singleChild, "link tag ignored, marked as single child");
+							// <script> etc. tags should be ignored, <div> should be detected as single child
+							doh.t(pane5._singleChild, "script,link,style tags ignored, marked as single child");
 						},
 						tearDown: function(t){
 							pane5.destroyRecursive();

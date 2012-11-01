@@ -81,7 +81,7 @@ return declare("dijit.layout._ContentPaneResizeMixin", null, {
 			var widget = registry.byNode(node);
 			if(widget && widget.resize){
 				candidateWidgets.push(widget);
-			}else if(node.offsetHeight){
+			}else if(!/script|link|style/i.test(node.nodeName) && node.offsetHeight){
 				otherVisibleNodes = true;
 			}
 		});
