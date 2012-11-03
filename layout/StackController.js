@@ -2,6 +2,7 @@ define([
 	"dojo/_base/array", // array.forEach array.indexOf array.map
 	"dojo/_base/declare", // declare
 	"dojo/dom-class",
+	"dojo/dom-construct",
 	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys
 	"dojo/_base/lang", // lang.getObject
@@ -13,7 +14,7 @@ define([
 	"../_Container",
 	"../form/ToggleButton",
 	"dojo/i18n!../nls/common"
-], function(array, declare, domClass, event, keys, lang, on,
+], function(array, declare, domClass, domConstruct, event, keys, lang, on,
 			focus, registry, _Widget, _TemplatedMixin, _Container, ToggleButton){
 
 	// module:
@@ -198,6 +199,13 @@ define([
 				// to be marked as selected now.   See test_TabContainer_CSS.html for test.
 				this.onSelectChild(page);
 			}
+
+			// Add this StackController button to the list of things that labels that StackContainer pane.
+			// Also, if there's an aria-labelledby parameter for the pane, then the aria-label parameter is unneeded.
+			var labelledby = page._wrapper.getAttribute("aria-labelledby") ?
+				page._wrapper.getAttribute("aria-labelledby") + " " + button.id : button.id;
+			page._wrapper.removeAttribute("aria-label");
+			page._wrapper.setAttribute("aria-labelledby", labelledby);
 		},
 
 		onRemoveChild: function(/*dijit/_WidgetBase*/ page){

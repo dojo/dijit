@@ -3,6 +3,7 @@ define([
 	"dojo/cookie", // cookie
 	"dojo/_base/declare", // declare
 	"dojo/dom-class", // domClass.add domClass.replace
+	"dojo/dom-construct",
 	"dojo/has",	// has("dijit-legacy-requires")
 	"dojo/_base/lang",	// lang.extend
 	"dojo/ready",
@@ -12,7 +13,7 @@ define([
 	"../_WidgetBase",
 	"./_LayoutWidget",
 	"dojo/i18n!../nls/common"
-], function(array, cookie, declare, domClass, has, lang, ready, topic, when,
+], function(array, cookie, declare, domClass, domConstruct, has, lang, ready, topic, when,
 			registry, _WidgetBase, _LayoutWidget){
 
 // module:
@@ -122,6 +123,13 @@ var StackContainer = declare("dijit.layout.StackContainer", _LayoutWidget, {
 	_setupChild: function(/*dijit/_WidgetBase*/ child){
 		// Overrides _LayoutWidget._setupChild()
 
+		// For aria support, wrap child widget in a <div role="tabpanel">
+		var old = child.domNode;
+		var label = child["aria-label"] || child.title || child.label;
+		var wrapper = domConstruct.place("<div role='tabpanel' aria-label='"+label+"'>", child.domNode, "replace");
+		domConstruct.place(old, wrapper);
+		child._wrapper = wrapper;	// to set the aria-labelledby in StackController
+				
 		this.inherited(arguments);
 
 		domClass.replace(child.domNode, "dijitHidden", "dijitVisible");
@@ -161,6 +169,8 @@ var StackContainer = declare("dijit.layout.StackContainer", _LayoutWidget, {
 		var idx = array.indexOf(this.getChildren(), page);
 
 		this.inherited(arguments);
+		
+		domConstruct.destroy(page._wrapper);	// Remove the child widget wrapper we use to set aria roles
 
 		if(this._started){
 			// this will notify any tablists to remove a button; do this first because it may affect sizing

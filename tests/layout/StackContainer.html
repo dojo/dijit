@@ -58,7 +58,7 @@
 
 			doh.register("programmatic", [
 				function create(){
-					var container = new dijit.layout.StackContainer({ id: "sc" }, "myStackContainer2");
+					container = new dijit.layout.StackContainer({ id: "sc" }, "myStackContainer2");
 					container.addChild(new dijit.layout.ContentPane({
 						id: "page1Prog",
 						title: "Page 1",
@@ -69,7 +69,7 @@
 						title: "Page 2",
 						content: "There were a king with a large jaw and a queen with a plain face, on the throne of England; there were a king with a large jaw and a queen with a fair face, on the throne of France. In both countries it was clearer than crystal to the lords of the State preserves of loaves and fishes, that things in general were settled for ever."
 					}));
-					container.addChild(new dijit.layout.ContentPane({
+					container.addChild(page3Prog = new dijit.layout.ContentPane({
 						id: "page3Prog",
 						title: "Page 3",
 						content: "It was the year of Our Lord one thousand seven hundred and seventy- five. Spiritual revelations were conceded to England at that favoured period, as at this. Mrs. Southcott had recently attained her five-and- twentieth blessed birthday, of whom a prophetic private in the Life Guards had heralded the sublime appearance by announcing that arrangements were made for the swallowing up of London and Westminster. Even the Cock-lane ghost had been laid only a round dozen of years, after rapping out its messages, as the spirits of this very year last past (supernaturally deficient in originality) rapped out theirs. Mere messages in the earthly order of events had lately come to the English Crown and People, from a congress of British subjects in America:"
@@ -81,11 +81,20 @@
 					}));
 
 					// make the controller
-					var controller = new dijit.layout.StackController({containerId: "sc"}, "holder");
+					controller = new dijit.layout.StackController({containerId: "sc"}, "holder");
 
 					// start 'em up
 					controller.startup();
 					container.startup();
+
+					doh.is(4, container.getChildren().length, "num children");
+
+					// Check aria roles and structure.
+					doh.is(4, dojo.query("> *", container.containerNode).length, "wrapper nodes around children");
+					doh.is(4, dojo.query("> *[role=tabpanel]", container.containerNode).length, "wrapper nodes have role=tabpanel");
+					doh.is("page1Prog page2Prog page3Prog page4Prog", dojo.query("> * > *", container.containerNode).map(function(node){
+						return dijit.byNode(node).id;
+					}).join(" "), "children of wrapper divs");
 				},
 				function selectHref(){
 					var d = new doh.Deferred();
@@ -110,6 +119,31 @@
 						doh.t(isHidden(dojo.byId("page4Prog")), "page4 hidden");
 					}));
 					return d;
+				},
+				function addChild(){
+					// make sure that child gets put in right place, with role=tabpanel wrapper <div> around it
+					var child = new dijit.layout.ContentPane({
+						id: "page2.5Prog",
+						title: "Page 2.5",
+						href: "tab1.html"
+					});
+					container.addChild(child, 2);
+
+					doh.is(5, dojo.query("> *", container.containerNode).length, "wrapper nodes around children");
+					doh.is(5, dojo.query("> *[role=tabpanel]", container.containerNode).length, "wrapper nodes have role=tabpanel");
+					doh.is("page1Prog page2Prog page2.5Prog page3Prog page4Prog", dojo.query("> * > *", container.containerNode).map(function(node){
+						return dijit.byNode(node).id;
+					}).join(" "), "children of wrapper divs");
+				},
+				function removeChild(){
+					// note the layout containers only support removeChild(widget), not removeChild(number)
+					container.removeChild(page3Prog);
+
+					doh.is(4, dojo.query("> *", container.containerNode).length, "wrapper nodes around children");
+					doh.is(4, dojo.query("> *[role=tabpanel]", container.containerNode).length, "wrapper nodes have role=tabpanel");
+					doh.is("page1Prog page2Prog page2.5Prog page4Prog", dojo.query("> * > *", container.containerNode).map(function(node){
+						return dijit.byNode(node).id;
+					}).join(" "), "children of wrapper divs");
 				}
 			]);
 

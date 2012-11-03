@@ -123,7 +123,18 @@
 							t.is("one", children[1].id, "after addChild(four), one");
 							t.is("two", children[2].id, "after addChild(four), two");
 							t.is("three", children[3].id, "after addChild(four), three");
-							t.is("four", children[4].id, "after addChild(four), three");
+							t.is("four", children[4].id, "after addChild(four), four");
+
+							// Add child at end with explicit position specified
+							c.addChild(new TestContained({id: "five"}), 5);
+							children = c.getChildren();
+							t.is(6, children.length);
+							t.is("zero", children[0].id, "after addChild(five), zero");
+							t.is("one", children[1].id, "after addChild(five), one");
+							t.is("two", children[2].id, "after addChild(five), two");
+							t.is("three", children[3].id, "after addChild(five), three");
+							t.is("four", children[4].id, "after addChild(five), four");
+							t.is("five", children[5].id, "after addChild(five), five");
 						}
 					}
 				]

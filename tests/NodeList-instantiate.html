@@ -91,9 +91,9 @@
 							doh.is("tab" + (i + 1), tab.label);
 						});
 	
-						var childrenContent = tc.containerNode.childNodes;
-						doh.is(3, childrenContent.length);
-						dojo.forEach(childrenContent, function(childrenContent, i){ doh.is("pane"+(i+1), childrenContent.innerHTML); })
+						var children = tc.getChildren();
+						doh.is(3, children.length);
+						dojo.forEach(children, function(child, i){ doh.is("pane"+(i+1), child.domNode.innerHTML); })
 					},
 	
 					function Buttons(){
