@@ -71,10 +71,10 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 	//		dyeClass should implements dijit.Dye interface
 	dyeClass: null,
 	
-	// summary: String
-	//		Localized summary for the palette table
-	summary: '',
-	_setSummaryAttr: "paletteTableNode",
+	// aria-label: String
+	//		Label for screen readers
+	"aria-label": "",
+	_setAriaLabelAttr: "paletteTableNode",
 
 	_dyeFactory: function(value /*===== , row, col, title =====*/){
 		// summary:
