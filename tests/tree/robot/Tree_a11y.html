@@ -13,6 +13,7 @@
 
 	<script type="text/javascript">
 		dojo.require("dijit.robotx");
+		dojo.require("dojo.window");
 		dojo.require("dijit.tests.helpers");		// for waitForLoad()
 
 		var treeIds = ["mytree", "tree2"],
@@ -780,6 +781,27 @@
 				}
 			]);
 
+			doh.register("keyboard on auto expand tree", [
+				{
+					name:"end key",
+					timeout:4000,
+					runTest:function(){
+						var d = new doh.Deferred();
+
+						dojo.window.scrollIntoView("mytree3_before");
+						dojo.byId("mytree3_before").focus();
+
+						doh.robot.keyPress(dojo.keys.TAB, 300);			// go to start of tree
+						doh.robot.keyPress(dojo.keys.END, 300);			// go to end
+
+						doh.robot.sequence(d.getTestCallback(function(){
+							doh.is("Argentina", dojo.global.dijit._curFocus.innerHTML, "end key went to this node");
+						}), 500);
+
+						return d;
+					}
+				}
+			]);
 			doh.run();
 		});
 

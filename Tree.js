@@ -1373,6 +1373,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		var node = this.rootNode;
 		while(node.isExpanded){
 			var c = node.getChildren();
+			if(!c.length){ break; }
 			node = c[c.length - 1];
 		}
 
