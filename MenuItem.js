@@ -5,12 +5,13 @@ define([
 	"dojo/dom-class", // domClass.toggle
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/sniff", // has("ie")
+	"dojo/_base/lang", // lang.hitch
 	"./_Widget",
 	"./_TemplatedMixin",
 	"./_Contained",
 	"./_CssStateMixin",
 	"dojo/text!./templates/MenuItem.html"
-], function(declare, dom, domAttr, domClass, kernel, has,
+], function(declare, dom, domAttr, domClass, kernel, has, lang,
 			_Widget, _TemplatedMixin, _Contained, _CssStateMixin, template){
 
 	// module:
@@ -32,12 +33,33 @@ define([
 		//		Menu text
 		label: "",
 		_setLabelAttr: function(val){
-			this.containerNode.innerHTML = 	val;
 			this._set("label", val);
-			if(this.textDir === "auto"){
-				this.applyTextDir(this.textDirNode);
+			var shortcutKey = "";
+			var text;
+			var ndx = val.search(/{\S}/);
+			if(ndx >= 0){
+				shortcutKey = val.charAt(ndx+1);
+				var prefix = val.substr(0, ndx);
+				var suffix = val.substr(ndx+3);
+				text = prefix + shortcutKey + suffix;
+				val = prefix + '<span class="dijitMenuItemShortcutKey">' + shortcutKey + '</span>' + suffix;
+			}else{
+				text = val;
 			}
+			this.domNode.setAttribute("aria-label", text + " " + this.accelKey);
+			if(this.textDir === "auto"){
+				this.applyTextDir(this.textDirNode, text);
+			}
+			this.containerNode.innerHTML = val;
+			this._set('shortcutKey', shortcutKey);
 		},
+
+/*=====
+		// shortcutKey: [readonly] String
+		//		Single character (underlined when the parent Menu is focused) used to navigate directly to this widget.
+		//		This is denoted in the label by surrounding the single character with {}.
+		//		For example, if label="{F}ile", then shortcutKey="F".
+=====*/
 
 		// iconClass: String
 		//		Class to apply to DOMNode to make it display an icon.
@@ -60,19 +82,17 @@ define([
 			// If button label is specified as srcNodeRef.innerHTML rather than
 			// this.params.label, handle it here.
 			if(source && !("label" in this.params)){
-				this.set('label', source.innerHTML);
+				this._set('label', source.innerHTML);
 			}
 		},
 
 		buildRendering: function(){
 			this.inherited(arguments);
 			var label = this.id+"_text";
-			domAttr.set(this.containerNode, "id", label);
+			domAttr.set(this.containerNode, "id", label); // only needed for backward compat
 			if(this.accelKeyNode){
-				domAttr.set(this.accelKeyNode, "id", this.id + "_accel");
-				label += " " + this.id + "_accel";
+				domAttr.set(this.accelKeyNode, "id", this.id + "_accel"); // only needed for backward compat
 			}
-			this.domNode.setAttribute("aria-labelledby", label);
 			dom.setSelectable(this.domNode, false);
 		},
 
@@ -145,6 +165,7 @@ define([
 			kernel.deprecated("dijit.Menu.setDisabled() is deprecated.  Use set('disabled', bool) instead.", "", "2.0");
 			this.set('disabled', disabled);
 		},
+
 		_setDisabledAttr: function(/*Boolean*/ value){
 			// summary:
 			//		Hook for attr('disabled', ...) to work.
@@ -153,16 +174,18 @@ define([
 			this.focusNode.setAttribute('aria-disabled', value ? 'true' : 'false');
 			this._set("disabled", value);
 		},
+
 		_setAccelKeyAttr: function(/*String*/ value){
 			// summary:
 			//		Hook for attr('accelKey', ...) to work.
 			//		Set accelKey on this menu item.
 
-			this.accelKeyNode.style.display=value?"":"none";
-			this.accelKeyNode.innerHTML=value;
-			//have to use colSpan to make it work in IE
-			domAttr.set(this.containerNode,'colSpan',value?"1":"2");
-
+			if(this.accelKeyNode){
+				this.accelKeyNode.style.display=value?"":"none";
+				this.accelKeyNode.innerHTML=value;
+				//have to use colSpan to make it work in IE
+				domAttr.set(this.containerNode,'colSpan',value?"1":"2");
+			}
 			this._set("accelKey", value);
 		}		
 	});

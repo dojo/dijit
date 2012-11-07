@@ -10,20 +10,20 @@ define([
 	"dojo/sniff", // has("ie")
 	"./_FormSelectWidget",
 	"../_HasDropDown",
-	"../Menu",
+	"../DropDownMenu",
 	"../MenuItem",
 	"../MenuSeparator",
 	"../Tooltip",
 	"dojo/text!./templates/Select.html",
 	"dojo/i18n!./nls/validate"
 ], function(array, declare, domAttr, domClass, domGeometry, event, i18n, lang, has,
-			_FormSelectWidget, _HasDropDown, Menu, MenuItem, MenuSeparator, Tooltip, template){
+			_FormSelectWidget, _HasDropDown, DropDownMenu, MenuItem, MenuSeparator, Tooltip, template){
 
 // module:
 //		dijit/form/Select
 
 
-var _SelectMenu = declare("dijit.form._SelectMenu", Menu, {
+var _SelectMenu = declare("dijit.form._SelectMenu", DropDownMenu, {
 	// summary:
 	//		An internally-used menu for dropdown that allows us a vertical scrollbar
 

@@ -221,34 +221,34 @@
 			</td>
 			<td id="menuBarContainer" style="width:100%;">
 				<div id="menubar" data-dojo-type="dijit/MenuBar">
-					<div id="file" data-dojo-type="dijit/PopupMenuBarItem" >
-						<span>File</span>
+					<div id="file" data-dojo-type="dijit/PopupMenuBarItem" accessKey="F">
+						<span>{F}ile</span>
 						<div id="fileMenu" data-dojo-type="dijit/Menu" >
-							<div id="new" data-dojo-type="dijit/MenuItem" >New</div>
-							<div id="open" data-dojo-type="dijit/MenuItem" >Open</div>
+							<div id="new" data-dojo-type="dijit/MenuItem">{N}ew</div>
+							<div id="open" data-dojo-type="dijit/MenuItem">{O}pen</div>
 							<div id="separator" data-dojo-type="dijit/MenuSeparator" ></div>
-							<div id="save" data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIconSave"'>Save</div>
-							<div id="saveas" data-dojo-type="dijit/MenuItem" >Save As...</div>
+							<div id="save" data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIconSave"'>{S}ave</div>
+							<div id="saveas" data-dojo-type="dijit/MenuItem">Save {A}s...</div>
 						</div>
 					</div>
-					<div id="edit" data-dojo-type="dijit/PopupMenuBarItem" >
-						<span>Edit</span>
+					<div id="edit" data-dojo-type="dijit/PopupMenuBarItem" accessKey="E">
+						<span>{E}dit</span>
 						<div id="editMenu" data-dojo-type="dijit/Menu" >
 							<div id="cut" data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconCut",
-								onClick:function(){ console.log("not actually cutting anything, just a test!"); }, accelKey:"Ctrl+X"'>Cut</div>
+								onClick:function(){ console.log("not actually cutting anything, just a test!"); }, accelKey:"Ctrl+X"'>C{u}t</div>
 							<div id="copy" data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconCopy",
-								onClick:function(){ console.log("not actually copying anything, just a test!") }, accelKey:"Ctrl+C"'>Copy</div>
+								onClick:function(){ console.log("not actually copying anything, just a test!") }, accelKey:"Ctrl+C"'>{C}opy</div>
 							<div id="paste" data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconPaste",
-								onClick:function(){ console.log("not actually pasting anything, just a test!") }, accelKey:"Ctrl+V"'>Paste</div>
+								onClick:function(){ console.log("not actually pasting anything, just a test!") }, accelKey:"Ctrl+V"'>{P}aste</div>
 						</div>
 					</div>
-					<div id="view" data-dojo-type="dijit/PopupMenuBarItem" >
-						<span>View</span>
+					<div id="view" data-dojo-type="dijit/PopupMenuBarItem" accessKey="V">
+						<span>{V}iew</span>
 						<div id="viewMenu" data-dojo-type="dijit/Menu" >
 							<div data-dojo-type="dijit/MenuItem">Normal</div>
 							<div data-dojo-type="dijit/MenuItem">Outline</div>
 							<div data-dojo-type="dijit/PopupMenuItem">
-								<span>Zoom</span>
+								<span>{Z}oom</span>
 								<div id="zoomMenu" data-dojo-type="dijit/Menu" >
 									<div data-dojo-type="dijit/MenuItem">50%</div>
 									<div data-dojo-type="dijit/MenuItem">75%</div>
@@ -259,27 +259,27 @@
 							</div>
 						</div>
 					</div>
-					<div id="help" data-dojo-type="dijit/PopupMenuBarItem" >
-						<span>Help</span>
+					<div id="help" data-dojo-type="dijit/PopupMenuBarItem" accessKey="H">
+						<span>{H}elp</span>
 						<div id="helpMenu" data-dojo-type="dijit/Menu" >
 							<div data-dojo-type="dijit/MenuItem">Help Topics</div>
 							<div data-dojo-type="dijit/MenuItem">About Dijit</div>
 						</div>
 					</div>
 					<div data-dojo-type="dijit/PopupMenuBarItem" data-dojo-props='disabled:true'>
-						<span>Disabled</span>
+						<span>{D}isabled</span>
 						<div data-dojo-type="dijit/Menu">
 							<div data-dojo-type="dijit/MenuItem">You should not see this</div>
 						</div>
 					</div>
-					<div data-dojo-type="dijit/PopupMenuBarItem">
-						<span>Empty</span>
+					<div data-dojo-type="dijit/PopupMenuBarItem" accessKey="M">
+						<span>E{m}pty</span>
 						<div data-dojo-type="dijit/Menu">
 						</div>
 					</div>
-					<div data-dojo-type="dijit/MenuBarItem" data-dojo-id="noPopupMenuBarItem"
+					<div data-dojo-type="dijit/MenuBarItem" data-dojo-id="noPopupMenuBarItem" accessKey="Z"
 						 data-dojo-props='onClick:function(){ console.log("no submenu, just a clickable MenuItem"); }'>
-						Click me!
+						Click me! ({Z})
 					</div>
 				</div>
 			</td>
@@ -299,7 +299,7 @@
 						onClick:function(){ console.log("documentary!") }'>Documentary</div>
 					<div data-dojo-type="dijit/MenuSeparator"></div>
 					<div id="navMenuPopupItem1" data-dojo-type="dijit/PopupMenuItem" >
-						<span>Enabled Submenu</span>
+						<span>{E}nabled Submenu</span>
 						<div id="navMenuSub1" data-dojo-type="dijit/Menu" >
 							<div id="navMenuSub1_item1" data-dojo-type="dijit/MenuItem" data-dojo-props='onClick:function(){ console.log("Submenu 1!") }'>Submenu Item One</div>
 							<div id="navMenuSub1_item2" data-dojo-type="dijit/MenuItem" data-dojo-props='onClick:function(){ console.log("Submenu 2!") }'>Submenu Item Two</div>

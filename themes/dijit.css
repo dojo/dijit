@@ -2195,3 +2195,6 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .dj_gecko INPUT.dijitArrowButtonInner {
 	-moz-user-focus:ignore;
 }
+.dijitFocused .dijitMenuItemShortcutKey {
+	text-decoration: underline;
+}

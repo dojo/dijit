@@ -58,6 +58,33 @@ return declare("dijit._MenuBase", [_Widget, _TemplatedMixin, _KeyNavContainer, _
 		this.inherited(arguments);
 	},
 
+	onKeyboardSearch: function(/*MenuItem*/ item, /*Event*/ evt, /*String*/ searchString, /*Number*/ numMatches){
+		// summary:
+		//		Attach point for notification about when a menu item has been searched for
+		//		via the keyboard search mechanism.
+		// tags:
+		//		protected
+		this.inherited(arguments);
+		if(!!item && (numMatches == -1 || (!!item.popup && numMatches == 1))){
+			this.onItemClick(item, evt);
+		}
+	},
+
+	_keyboardSearchCompare: function(/*dijit/_WidgetBase*/ item, /*String*/ searchString){
+		// summary:
+		//		Compares the searchString to the widget's text label, returning:
+		//		-1: a high priority match and stop searching
+		//		 0: no match
+		//		 1: a match but keep looking for a higher priority match
+		// tags:
+		//		private
+		if(!!item.shortcutKey){
+			// accessKey matches have priority
+			return searchString == item.shortcutKey.toLowerCase() ? -1 : 0;
+		}
+		return this.inherited(arguments) ? 1 : 0; // change return value of -1 to 1 so that searching continues
+	},
+
 	onExecute: function(){
 		// summary:
 		//		Attach point for notification about when a menu item has been executed.

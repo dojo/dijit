@@ -22,18 +22,20 @@
 
 				// refs to parts of s1 Select
 				var s1, s1menu, Tenessee, Virginia, Washington,	// s1 select
-					s8a, s8a_menu, s8b, s8b_menu, s3, s3_menu;				// long list selects
+					s2, s2menu, s8a, s8a_menu, s8b, s8b_menu, s3, s3_menu;				// long list selects
 
 				// log of calls to onChange handler
 				var changes = [];
 
 				doh.register("setup",
 					function setUp(){
-				    	s1 = dijit.byId('s1');
+						s1 = dijit.byId('s1');
 						s1_menu = dijit.byId('s1_menu');
 						doh.t(s1, "s1 select exists");
 						doh.t(s1_menu, "s1 menu exists");
 						
+						s2 = dijit.byId('s2');
+						s2_menu = dijit.byId('s2_menu');
 						s8a = dijit.byId('s8a');
 						s8a_menu = dijit.byId('s8a_menu');
 						s8b = dijit.byId('s8b');
@@ -332,7 +334,7 @@
 					},
 					{
 						name: "ESC to close menu",
-						timeout: 90000,
+						timeout: 9000,
 						setUp: function(){
 							dojo.byId("htmlSelect2").focus();
 						},
@@ -370,6 +372,96 @@
 						},
 						tearDown: function(){
 							dijit.byId("s1").set("value", "VA");
+						}
+					},
+					{
+						name: "single letter searching",
+						timeout: 9000,
+						setUp: function(){
+							s2.set("value", "CA");
+							s2.focus();
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// down arrow to open drop down and search with several a's
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+							doh.robot.typeKeys("aaaaaaac", 1000, 1200); // c search fails to find CA due to multi-character searching
+
+							// ENTER to close menu
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("AZ", s2.get("value"), "hidden value");
+							}), 1000);
+
+							return d;
+						}
+					},
+					{
+						name: "multiple letter searching no match",
+						timeout: 9000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// down arrow to open drop down and search with several a's
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+							doh.robot.typeKeys("aaaaaaaaala", 1000, 1400); // ala suffix fails to find either alabama or alaska
+
+							// ENTER to close menu
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("AR", s2.get("value"), "hidden value");
+							}), 1000);
+
+							return d;
+						}
+					},
+					{
+						name: "multiple letter searching from current",
+						timeout: 9000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var wasVisible;
+
+							// down arrow to open drop down and search with several a's
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+							doh.robot.typeKeys("al", 1000, 1600); // al search finds alabama
+							doh.robot.sequence(function(){
+								wasVisible = isVisible(s2_menu);
+							}, 1000);
+
+							// ENTER to close menu
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(wasVisible, "no auto selection");
+								doh.is("AL", s2.get("value"), "hidden value");
+							}), 1000);
+
+							return d;
+						}
+					},
+					{
+						name: "multiple letter searching find next",
+						timeout: 9000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var wasVisible;
+
+							// down arrow to open drop down and search with several a's
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+							doh.robot.typeKeys("alas", 1000, 1600); // s search finds alaska
+							doh.robot.sequence(function(){
+								wasVisible = isVisible(s2_menu);
+							}, 1000);
+
+							// ENTER to close menu
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(wasVisible, "no auto selection");
+								doh.is("AK", s2.get("value"), "hidden value");
+							}), 1000);
+
+							return d;
 						}
 					}
 				]);

@@ -39,7 +39,7 @@ define([
 			// summary:
 			//		Call in postCreate() to attach the keyboard handlers
 			//		to the container.
-			// preKeyCodes: keys[]
+			// prevKeyCodes: keys[]
 			//		Key codes for navigating to the previous child.
 			// nextKeyCodes: keys[]
 			//		Key codes for navigating to the next child.
@@ -196,6 +196,41 @@ define([
 			this.inherited(arguments);
 		},
 
+		_searchString: "",
+		// multiCharSearchDuration: Number
+		//		If multiple characters are typed where each keystroke happens within
+		//		multiCharSearchDuration of the previous keystroke,
+		//		search for nodes matching all the keystrokes.
+		//
+		//		For example, typing "ab" will search for entries starting with
+		//		"ab" unless the delay between "a" and "b" is greater than multiCharSearchDuration.
+		multiCharSearchDuration: 1000,
+
+		onKeyboardSearch: function(/*dijit/_WidgetBase*/ item, /*Event*/ evt, /*String*/ searchString, /*Number*/ numMatches){
+			// summary:
+			//		When a key is pressed that matches a child item,
+			//		this method is called so that a widget can take appropriate action is necessary.
+			// tags:
+			//		protected
+			if(item){
+				this.focusChild(item);
+			}
+		},
+
+		_keyboardSearchCompare: function(/*dijit/_WidgetBase*/ item, /*String*/ searchString){
+			// summary:
+			//		Compares the searchString to the widget's text label, returning:
+			//		-1: a high priority match  and stop searching
+			//		 0: not a match
+			//		 1: a match but keep looking for a higher priority match
+			// tags:
+			//		private
+			var element = item.domNode;
+			var text = item.label || (element.focusNode ? element.focusNode.label : '') || element.innerText || element.textContent || ""
+			var currentString = text.replace(/^\s+/, '').substr(0, searchString.length).toLowerCase();
+			return (!!searchString.length && currentString == searchString) ? -1 : 0; // stop searching after first match by default
+		},
+
 		_onContainerKeypress: function(evt){
 			// summary:
 			//		When a key is pressed, if it's an arrow key etc. then
@@ -205,8 +240,65 @@ define([
 			if(evt.ctrlKey || evt.altKey){ return; }
 			var func = this._keyNavCodes[evt.charOrCode];
 			if(func){
+				this._searchString = ''; // so a DOWN_ARROW b doesn't search for ab
 				func();
 				event.stop(evt);
+			}else if(evt.charCode){
+				var
+				matchedItem = null,
+				searchString,
+				numMatches = 0,
+				search = lang.hitch(this, function(){
+					if(this._searchTimer){
+						this._searchTimer.remove();
+					}
+					this._searchString += keyChar;
+					var allSameLetter = /^(.)\1*$/.test(this._searchString);
+					var searchLen = allSameLetter ? 1 : this._searchString.length;
+					searchString = this._searchString.substr(0, searchLen);
+					// commented out code block to search again if the multichar search fails after a smaller timeout
+					//this._searchTimer = this.defer(function(){ // this is the "failure" timeout
+					//	this._typingSlowly = true; // if the search fails, then treat as a full timeout
+					//	this._searchTimer = this.defer(function(){ // this is the "success" timeout
+					//		this._searchTimer = null;
+					//		this._searchString = '';
+					//	}, this.multiCharSearchDuration >> 1);
+					//}, this.multiCharSearchDuration >> 1);
+					this._searchTimer = this.defer(function(){ // this is the "success" timeout
+						this._searchTimer = null;
+						this._searchString = '';
+					}, this.multiCharSearchDuration);
+					var currentItem = this.focusedChild || null;
+					if(searchLen == 1 || !currentItem){
+						currentItem = this._getNextFocusableChild(currentItem, 1); // skip current
+						if(!currentItem){ return; } // no items
+					}
+					var stop = currentItem;
+					do{
+						var rc = this._keyboardSearchCompare(currentItem, searchString);
+						if(!!rc && numMatches++ == 0){
+							matchedItem = currentItem;
+						}
+						if(rc == -1){ // priority match
+							numMatches = -1;
+							break;
+						}
+						currentItem = this._getNextFocusableChild(currentItem, 1);
+					}while(currentItem != stop);
+					// commented out code block to search again if the multichar search fails after a smaller timeout
+					//if(!numMatches && (this._typingSlowly || searchLen == 1)){
+					//	this._searchString = '';
+					//	if(searchLen > 1){
+					//		// if no matches and they're typing slowly, then go back to first letter searching
+					//		search();
+					//	}
+					//}
+				}),
+				keyChar = String.fromCharCode(evt.charCode).toLowerCase();
+				search();
+				// commented out code block to search again if the multichar search fails after a smaller timeout
+				//this._typingSlowly = false;
+				this.onKeyboardSearch(matchedItem, evt, searchString, numMatches); 
 			}
 		},
 
