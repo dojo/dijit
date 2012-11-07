@@ -173,12 +173,15 @@ define([
 			if(evt.target !== this.domNode || this.focusedChild){ return; }
 
 			this.focusFirstChild();
+		},
 
-			// and then set the container's tabIndex to -1,
-			// (don't remove as that breaks Safari 4)
-			// so that tab or shift-tab will go to the fields after/before
-			// the container, rather than the container itself
+		_onFocus: function(){
+			// When the container gets focus by being tabbed into, or a descendant gets focus by being clicked,
+			// set the container's tabIndex to -1 (don't remove as that breaks Safari 4) so that tab or shift-tab
+			// will go to the fields after/before the container, rather than the container itself
 			domAttr.set(this.domNode, "tabIndex", "-1");
+
+			this.inherited(arguments);
 		},
 
 		_onBlur: function(evt){

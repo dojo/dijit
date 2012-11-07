@@ -26,6 +26,7 @@ try{
 	doh.registerUrl("dijit.tests._WidgetsInTemplateMixin", dojo.moduleUrl("dijit", "tests/_WidgetsInTemplateMixin.html"), 999999);
 	doh.registerUrl("dijit.tests._Templated-widgetsInTemplate1.x", dojo.moduleUrl("dijit", "tests/_Templated-widgetsInTemplate1.x.html"), 999999);
 	doh.registerUrl("dijit.tests._Container", dojo.moduleUrl("dijit", "tests/_Container.html"), 999999);
+	doh.registerUrl("dijit.tests._KeyNavContainer", dojo.moduleUrl("dijit", "tests/_KeyNavContainer.html"), 999999);
 
 	doh.registerUrl("dijit.tests.Declaration", dojo.moduleUrl("dijit","tests/test_Declaration.html"), 999999);
 	doh.registerUrl("dijit.tests.Declaration_1.x", dojo.moduleUrl("dijit","tests/test_Declaration_1.x.html"), 999999);
