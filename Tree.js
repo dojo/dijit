@@ -909,7 +909,8 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 					rn.containerNode.setAttribute("aria-expanded","true");
 					rn.containerNode.setAttribute("aria-multiselectable", !this.dndController.singular);
 				}else{
-				  this.domNode.setAttribute("aria-multiselectable", !this.dndController.singular);
+					this.domNode.setAttribute("aria-multiselectable", !this.dndController.singular);
+					this.rootLoadingIndicator.style.display = "none";
 				}
 				
 				this.containerNode.appendChild(rn.domNode);
@@ -927,6 +928,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 					// Then, select the nodes that were selected last time, or
 					// the ones specified by params.paths[].
 
+					this.rootLoadingIndicator.style.display = "none";
 					this.expandChildrenDeferred.resolve(true);
 				}));
 			}),
