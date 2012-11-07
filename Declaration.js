@@ -56,7 +56,7 @@ define([
 			// so it becomes a connection to "postscript" (handled below).
 			array.forEach(methods, function(s){
 				var evt = s.getAttribute("event") || s.getAttribute("data-dojo-event"), // remove "event" for 2.0
-					func = parser._functionFromScript(s);
+					func = parser._functionFromScript(s, "data-dojo-");
 				if(evt){
 					propList[evt] = func;
 				}else{
