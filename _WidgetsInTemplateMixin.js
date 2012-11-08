@@ -59,6 +59,7 @@ define([
 					w.startup();
 				}
 			});
+			this._startupWidgets = null;
 			this.inherited(arguments);
 		}
 	});
