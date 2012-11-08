@@ -83,6 +83,12 @@ return declare("dijit.ProgressBar", [_Widget, _TemplatedMixin], {
 		this.update();
 	},
 
+	_setDirAttr: function(val){
+		// Normally _CssStateMixin takes care of this, but we aren't extending it
+		domClass.toggle(this.domNode, "dijitProgressBarRtl", val == "rtl");
+		this.inherited(arguments);
+	},
+
 	update: function(/*Object?*/attributes){
 		// summary:
 		//		Internal method to change attributes of ProgressBar, similar to set(hash).  Users should call
