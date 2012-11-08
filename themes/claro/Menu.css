@@ -10,7 +10,7 @@ There are three areas of styling for the Menu:
  	All three types of menus are affected by the .dijitMenu class in which you can set the background-color, padding and border
  	.dijitMenu affects the drop down menu in TimeTextBox, Calendar, ComboBox and FilteringSelect
   .dijitMenuTable - for padding - also affects Select widget 	
-  	
+
  2. The menu bar
  	.dijitMenuBar - for border, margins, padding, background-color of the menu bar
  	.dijitMenuBar .dijitMenuItem - for padding, text color of menu items in the menu bar (overrides .dijitMenuItem) 
@@ -71,12 +71,15 @@ There are three areas of styling for the Menu:
   border-spacing: 0 0;
   padding: 0;
 }
-.claro .dijitMenuItem td {
-  padding: 1px;
+.claro .dijitMenu .dijitMenuItem td, .claro .dijitComboBoxMenu .dijitMenuItem {
+  padding: 2px;
+  border-width: 1px 0 1px 0;
+  border-style: solid;
+  border-color: #ffffff;
 }
 /* hover over a MenuItem or MenuBarItem */
-.claro .dijitSelectMenu .dijitMenuItemHover td,
-.claro .dijitSelectMenu .dijitMenuItemSelected td,
+.claro .dijitMenu .dijitMenuItemHover td,
+.claro .dijitMenu .dijitMenuItemSelected td,
 .claro .dijitMenuItemHover,
 .claro .dijitMenuItemSelected {
   background-color: #abd6ff;
@@ -87,6 +90,11 @@ There are three areas of styling for the Menu:
   background-image: -o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
   background-image: linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
   _background-image: none;
+}
+.claro .dijitMenu .dijitMenuItemHover td, .claro .dijitComboBoxMenu .dijitMenuItemHover {
+  color: #000000;
+  border-color: #769dc0;
+  background-color: #abd6ff;
 }
 .claro .dijitMenuItemActive {
   background-image: url("images/activeGradient.png");
@@ -156,20 +164,9 @@ There are three areas of styling for the Menu:
   margin-left: 0;
   background-image: none;
 }
-.claro .dijitSelectMenu .dijitMenuItem td, .claro .dijitComboBoxMenu .dijitMenuItem {
-  padding: 2px;
-  border-width: 1px 0 1px 0;
-  border-style: solid;
-  border-color: #ffffff;
-}
-.claro .dijitSelectMenu .dijitMenuItemSelected td, .claro .dijitComboBoxMenu .dijitMenuItemSelected {
+.claro .dijitMenu .dijitMenuItemSelected td, .claro .dijitComboBoxMenu .dijitMenuItemSelected {
   color: #000000;
   border-color: #759dc0;
-  background-color: #abd6ff;
-}
-.claro .dijitSelectMenu .dijitMenuItemHover td, .claro .dijitComboBoxMenu .dijitMenuItemHover {
-  color: #000000;
-  border-color: #769dc0;
   background-color: #abd6ff;
 }
 .claro .dijitComboBoxMenuActive .dijitMenuItemSelected {
