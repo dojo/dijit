@@ -84,18 +84,13 @@ There are three areas of styling for the Menu:
 .claro .dijitMenu .dijitMenuItemHover td,
 .claro .dijitMenu .dijitMenuItemSelected td,
 .claro .dijitMenuItemHover,
+.claro .dijitComboBoxMenu .dijitMenuItemHover,
 .claro .dijitMenuItemSelected {
 	// note: seems like the selected MenuItem should use @pressed-background-color
 	// and .active-gradient, but claro didn't to that
+	border-color: @hovered-border-color;
 	background-color: @hovered-background-color;
 	.standard-gradient;
-}
-
-.claro .dijitMenu .dijitMenuItemHover td,
-.claro .dijitComboBoxMenu .dijitMenuItemHover {
-	color: #000000;
-	border-color: #769dc0;
-	background-color: #abd6ff;
 }
 
 .claro .dijitMenuItemActive {
@@ -168,6 +163,9 @@ There are three areas of styling for the Menu:
 
 .claro .dijitMenu .dijitMenuItemSelected td,
 .claro .dijitComboBoxMenu .dijitMenuItemSelected {
+	// TODO: combine with above rules for selected items?
+	// But the selected item in a Select drop down is different than when MenuBarItem "File" is highlighted
+	// because the user is on the file menu?
 	color:@selected-text-color;
 	border-color:@hovered-border-color;
 	background-color:@hovered-background-color;

@@ -81,7 +81,9 @@ There are three areas of styling for the Menu:
 .claro .dijitMenu .dijitMenuItemHover td,
 .claro .dijitMenu .dijitMenuItemSelected td,
 .claro .dijitMenuItemHover,
+.claro .dijitComboBoxMenu .dijitMenuItemHover,
 .claro .dijitMenuItemSelected {
+  border-color: #759dc0;
   background-color: #abd6ff;
   background-image: url("images/standardGradient.png");
   background-repeat: repeat-x;
@@ -90,11 +92,6 @@ There are three areas of styling for the Menu:
   background-image: -o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
   background-image: linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
   _background-image: none;
-}
-.claro .dijitMenu .dijitMenuItemHover td, .claro .dijitComboBoxMenu .dijitMenuItemHover {
-  color: #000000;
-  border-color: #769dc0;
-  background-color: #abd6ff;
 }
 .claro .dijitMenuItemActive {
   background-image: url("images/activeGradient.png");
