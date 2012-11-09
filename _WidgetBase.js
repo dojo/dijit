@@ -440,7 +440,7 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 			params[key] = this[key];
 		}
 
-		// Step 2: Call set() for each property that wasn't passed as a parameter to the constructor
+		// Step 2: Call set() for each property with a non-falsy value that wasn't passed as a parameter to the constructor
 		array.forEach(list, function(attr){
 			if(attr in params){
 				// skip this one, do it below
