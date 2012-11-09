@@ -215,9 +215,9 @@ define([
 				moreAfter = [],
 				estBeforeLength = count - after.length,
 				before = this._getFilteredNodes(0, estBeforeLength, true, after[0]);
-				if(before.length < estBeforeLength && after.length > 0){
-					moreAfter = this._getFilteredNodes(after.length, estBeforeLength - before.length, false, after[after.length-1]);
-				}
+			if(before.length < estBeforeLength && after.length > 0){
+				moreAfter = this._getFilteredNodes(after[after.length-1].idx + 1, estBeforeLength - before.length, false, after[after.length-1]);
+			}
 			array.forEach(before.concat(after, moreAfter), function(n){ this.timeMenu.appendChild(n); }, this);
 			// never show empty due to a bad filter
 			if(!before.length && !after.length && !moreAfter.length && this.filterString){

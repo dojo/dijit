@@ -57,6 +57,11 @@
 					doh.is(10, t2.timeMenu.children.length, 'num entries 2');
 					doh.is(new Date("January 1, 1970 21:30:00"), t2.timeMenu.children[0].date, 'first date 2');
 					doh.is(new Date("January 1, 1970 23:45:00"), t2.timeMenu.children[t2.timeMenu.children.length-1].date, 'last date 2');
+
+					t2.set('filterString', "5:3");
+					doh.is(2, t2.timeMenu.children.length, 'num entries 3');
+					doh.is(new Date("January 1, 1970 05:30:00"), t2.timeMenu.children[0].date, 'first date 3');
+					doh.is(new Date("January 1, 1970 17:30:00"), t2.timeMenu.children[t2.timeMenu.children.length-1].date, 'last date 3');
 				},
 				function scrolling(){
 					var t3 = dijit.byId("t3");
