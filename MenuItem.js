@@ -56,9 +56,11 @@ define([
 
 /*=====
 		// shortcutKey: [readonly] String
-		//		Single character (underlined when the parent Menu is focused) used to navigate directly to this widget.
+		//		Single character (underlined when the parent Menu is focused) used to navigate directly to this widget,
+		//		also known as [a mnemonic](http://en.wikipedia.org/wiki/Mnemonics_(keyboard%29).
 		//		This is denoted in the label by surrounding the single character with {}.
 		//		For example, if label="{F}ile", then shortcutKey="F".
+		shortcutKey: "",
 =====*/
 
 		// iconClass: String
@@ -67,10 +69,11 @@ define([
 		_setIconClassAttr: { node: "iconNode", type: "class" },
 
 		// accelKey: String
-		//		Text for the accelerator (shortcut) key combination.
-		//		Note that although Menu can display accelerator keys there
-		//		is no infrastructure to actually catch and execute these
-		//		accelerators.
+		//		Text for the accelerator (shortcut) key combination, a control, alt, etc. modified keystroke meant to
+		//		execute the menu item regardless of where the focus is on the page.
+		//
+		//		Note that although Menu can display accelerator keys, there is no infrastructure to actually catch and
+		//		execute those accelerators.
 		accelKey: "",
 
 		// disabled: Boolean
