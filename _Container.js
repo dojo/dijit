@@ -25,9 +25,6 @@ define([
 			// description:
 			//		Inserts specified child widget's dom node as a child of this widget's
 			//		container node, and possibly does other processing (such as layout).
-			//
-			//		Functionality is undefined if this widget contains anything besides
-			//		a list of child widgets (ie, if it contains arbitrary non-widget HTML).
 
 			// I want to just call domConstruct.place(widget.domNode, this.containerNode, insertIndex), but the counting
 			// is thrown off by text nodes and comment nodes that show up when constructed by markup.
