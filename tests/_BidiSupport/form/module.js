@@ -16,16 +16,16 @@ try{
 	var userArgs = window.location.search.replace(/[\?&](dojoUrl|testUrl|testModule)=[^&]*/g,"").replace(/^&/,"?");
 
 	doh.registerUrl("dijit.tests._BidiSupport.form.robot.Textarea", dojo.moduleUrl("dijit","tests/_BidiSupport/form/robot/Textarea.html"+userArgs), 999999);
-	
+
 	doh.registerUrl("dijit.tests._BidiSupport.form.robot.SimpleComboBoxes", dojo.moduleUrl("dijit","tests/_BidiSupport/form/robot/SimpleComboBoxes.html"+userArgs), 999999);
 
 	doh.registerUrl("dijit.tests._BidiSupport.form.robot.SimpleTextarea", dojo.moduleUrl("dijit","tests/_BidiSupport/form/robot/SimpleTextarea.html"+userArgs), 999999);
 
 	doh.registerUrl("dijit.tests._BidiSupport.form.robot.TextBoxes", dojo.moduleUrl("dijit","tests/_BidiSupport/form/robot/TextBoxes.html"+userArgs), 999999);
-	
+
 	doh.registerUrl("dijit.tests._BidiSupport.form.robot.InlineEditBox", dojo.moduleUrl("dijit","tests/_BidiSupport/form/robot/InlineEditBox.html"+userArgs), 999999);
+
+	doh.registerUrl("dijit.tests._BidiSupport.form.TimeTextBox", dojo.moduleUrl("dijit","tests/_BidiSupport/form/test_TimeTextBox.html?mode=test"+userArgs.replace(/^[?]/,'&')), 999999);
 }catch(e){
-
 	doh.debug(e);
-
 }

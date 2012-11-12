@@ -219,6 +219,7 @@ define([
 				dir: textBox.dir,
 				lang: textBox.lang,
 				value: value,
+				textDir: textBox.textDir,
 				currentFocus: !this._isInvalidDate(value) ? value : this.dropDownDefaultValue,
 				constraints: textBox.constraints,
 				filterString: textBox.filterString, // for TimeTextBox, to filter times shown
