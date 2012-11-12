@@ -273,7 +273,7 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 		//		sets the display for the given value (or values)
 		var lbl = newDisplay || this.emptyLabel;
 		this.containerNode.innerHTML = '<span role="option" class="dijitReset dijitInline ' + this.baseClass.replace(/\s+|$/g, "Label ")+'">' + lbl + '</span>';
-		this.applyTextDir(this.focusNode);
+		this.applyTextDir(this.containerNode);
 	},
 
 	validate: function(/*Boolean*/ isFocused){
