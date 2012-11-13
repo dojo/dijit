@@ -204,8 +204,14 @@ define([
 			// ignore click on expando node
 			if(!this.current || this.tree.isExpandoNode(e.target, this.current)){ return; }
 
-			// ignore right-click
-			if(e.type != "touchstart" && !mouse.isLeft(e)){ return; }
+			if(mouse.isLeft(e)){
+				// Prevent text selection while dragging on desktop, see #16328.   But don't call preventDefault()
+				// for mobile because it will break things completely, see #15838.
+				e.preventDefault();
+			}else if(e.type != "touchstart"){
+				// Ignore right click
+				return;
+			}
 
 			var treeNode = this.current,
 			  copy = connect.isCopyKey(e), id = treeNode.id;
