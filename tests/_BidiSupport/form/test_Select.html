@@ -84,7 +84,7 @@
 				var t_dir = elementTextDir;
 				if(t_dir == "auto")
 					t_dir = isfirstChildLatin? "ltr" : "rtl";
-				runner.assertEqual(registry.byId(element).focusNode.dir, t_dir);
+				runner.assertEqual(registry.byId(element).containerNode.dir, t_dir);
 			}
 
 			function testDropdownList(elementName){
