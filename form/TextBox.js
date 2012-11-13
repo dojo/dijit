@@ -42,15 +42,6 @@ define([
 			this.inherited(arguments);
 		},
 
-		_onInput: function(e){
-			this.inherited(arguments);
-			if(this.intermediateChanges){ // _TextBoxMixin uses onInput
-				var _this = this;
-				// the setTimeout allows the key to post to the widget input box
-				setTimeout(function(){ _this._handleOnChange(_this.get('value'), false); }, 0);
-			}
-		},
-
 		_setPlaceHolderAttr: function(v){
 			this._set("placeHolder", v);
 			if(!this._phspan){
