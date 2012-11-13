@@ -65,9 +65,25 @@
 		}
 
 		dojo.ready(function(){
-			doh.register("parse", function(){
-				dojo.parser.parse();
-			});
+			doh.register("setup", [
+				function parse(){
+					dojo.parser.parse();
+				},
+				{
+					name: "wait for tab container load",
+					timeout: 5000,
+					runTest: function(){
+						return dijit.byId("ltr_tc_cp").onLoadDeferred;
+					}
+				},
+				{
+					name: "wait for tree load",
+					timeout: 5000,
+					runTest: function(){
+						return dijit.byId("ltr_tc_tree").onLoadDeferred;
+					}
+				}
+			]);
 
 			doh.register("Test bidi toolbar", [
 				{
