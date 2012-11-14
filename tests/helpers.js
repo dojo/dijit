@@ -37,7 +37,7 @@ function tabOrder(/*DomNode?*/ root){
 		dojo.query("> *", parent).forEach(function(child){
 			// Skip hidden elements, and also non-HTML elements (those in custom namespaces) in IE,
 			// since show() invokes getAttribute("type"), which crash on VML nodes in IE.
-			if((dojo.isIE && child.scopeName!=="HTML") || !dijit._isElementShown(child)){
+			if((dojo.isIE <= 8 && child.scopeName!=="HTML") || !dijit._isElementShown(child)){
 				return;
 			}
 
