@@ -38,7 +38,7 @@ define([
 			this.inherited(arguments);
 			var textarea = this.textbox;
 			textarea.style.overflowY = "hidden";
-			this.own(on(textarea, "scroll, focus, resize", lang.hitch(this, "_resizeLater")));
+			this.own(on(textarea, "focus, resize", lang.hitch(this, "_resizeLater")));
 		},
 
 		startup: function(){ 
