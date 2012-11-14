@@ -559,9 +559,11 @@ var TreeNode = declare(
 	}
 });
 
-var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
+var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin, _CssStateMixin], {
 	// summary:
 	//		This widget displays hierarchical data from a store.
+
+	baseClass: "dijitTree",
 
 	// store: [deprecated] String|dojo/data/Store
 	//		Deprecated.  Use "model" parameter instead.
