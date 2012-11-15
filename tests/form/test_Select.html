@@ -175,7 +175,7 @@
 							runTest: function(t){
 								var d = new doh.Deferred();
 								t.is("VA", form.get("value").s1, "initial value");
-								s1.set("value", "WA"); // set s1 to a valid value
+								s1.set("value", s1.getOptions(2)); // set s1 to a valid value via index search
 								t.is("WA", s1.value);
 
 								setTimeout(function(){ try{ // allow onChange to fire
@@ -190,6 +190,38 @@
 										
 										// prevent onChange from firing
 										s1.set("value", "FL", false);
+										
+										setTimeout(function(){ try{ // allow onChange to fire if it's wrong
+											t.is(2, numChanges);
+											d.callback(true);
+										}catch(e){ d.errback(e); }}, 0)
+									}catch(e){ d.errback(e); }}, 0);
+								}catch(e){ d.errback(e); }}, 0);
+								return d;
+							}
+						},
+						{
+							name: "test_set by number",
+							timeout: 5000,
+							runTest: function(t){
+								var d = new doh.Deferred();
+								t.is(100, form.get("value").s5, "initial value");
+								s5.set("value", s5.getOptions(2)); // set s5 to a valid value via index search
+								t.is(102, s5.value);
+
+								setTimeout(function(){ try{ // allow onChange to fire
+
+									// set s5 to non-existing value, which (currently) makes the Select pick
+									// the first option in the drop down
+									s5.set("value", 200);
+									t.is(100, s5.value);
+
+									setTimeout(function(){ try{ // allow onChange to fire
+										t.is(2, numChanges);
+										
+										// prevent onChange from firing
+										s5.set("value", 103, false);
+										t.t(/.*No Move.*/.test(s5.containerNode.innerHTML), s5.containerNode.innerHTML);
 										
 										setTimeout(function(){ try{ // allow onChange to fire if it's wrong
 											t.is(2, numChanges);
@@ -242,7 +274,7 @@
 						function test_changeSelected(t){
 							t.is("AL", s11.value);
 							t.t(/<span.*>Alabama<\/span>/i.test(s11.containerNode.innerHTML));
-							s11.set("value", "AK");
+							s11.set("value", ["AK"]); // test array
 							t.is("AK", s11.value);
 							t.t(/<span.*>Alaska<\/span>/i.test(s11.containerNode.innerHTML));
 							var d = new doh.Deferred();
@@ -250,7 +282,7 @@
 								identity: "AK",
 								onItem: d.getTestCallback(function(item){
 									writeStore.setValue(item, "label", "North Pole");
-									t.t(/<span.*>North Pole<\/span>/i.test(s11.containerNode.innerHTML), "select displayed value updated");
+									t.t(/<span.*>North Pole<\/span>/i.test(s11.containerNode.innerHTML), "select displayed value updated " + s11.containerNode.innerHTML);
 								})
 							});
 							return d;
@@ -297,9 +329,9 @@
 							var d = new doh.Deferred();
 							writeStore.newItem({value: "NY", label: "New York"});
 							setTimeout(d.getTestCallback(function(){
-									t.is(6, s11.getOptions().length);
-									s11.set("value", "NY");
-									t.is("NY", s11.value);
+								t.is(6, s11.getOptions().length);
+								s11.set("value", s11.getOptions({ label: "New York" })); // set via label search
+								t.is("NY", s11.value);
 							}), 100);
 
 							return d;
@@ -640,11 +672,11 @@
 			</button>
 			<label for="s5">Rich text two: </label>
 			<span id="s5" data-dojo-id="s5" data-dojo-type="dijit/form/Select" data-dojo-props='name:"s5", value:"move"'>
-				<span data-dojo-value="copy"><img style="vertical-align: middle;margin-top: 1px;margin-bottom:1px;" src="../../../dijit/themes/tundra/images/dndCopy.png" alt="copy" /> Copy</span>
-				<span data-dojo-value="move"><img  style="vertical-align: middle;margin-top: 1px;margin-bottom:1px;" src="../../../dijit/themes/tundra/images/dndMove.png" alt="move" /> Move</span>
-				<span data-dojo-value="nocopy"><img  style="vertical-align: middle;margin-top: 1px;margin-bottom:1px;" src="../../../dijit/themes/tundra/images/dndNoCopy.png" alt="no copy" /> No Copy</span>
-				<span data-dojo-value="nomove"><img  style="vertical-align: middle;margin-top: 1px;margin-bottom:1px;" src="../../../dijit/themes/tundra/images/dndNoMove.png" alt="no move" /> No Move</span>
-				<span data-dojo-value="long"><img  style="vertical-align: middle;margin-top: 1px;margin-bottom:1px;" src="../../../dijit/themes/tundra/images/dndNoMove.png" alt="very long menu" /> Very Long Menu Entry</span>
+				<span data-dojo-value=100><img style="vertical-align: middle;margin-top: 1px;margin-bottom:1px;" src="../../../dijit/themes/tundra/images/dndCopy.png" alt="copy" /> Copy</span>
+				<span data-dojo-value=101><img  style="vertical-align: middle;margin-top: 1px;margin-bottom:1px;" src="../../../dijit/themes/tundra/images/dndMove.png" alt="move" /> Move</span>
+				<span data-dojo-value=102><img  style="vertical-align: middle;margin-top: 1px;margin-bottom:1px;" src="../../../dijit/themes/tundra/images/dndNoCopy.png" alt="no copy" /> No Copy</span>
+				<span data-dojo-value=103><img  style="vertical-align: middle;margin-top: 1px;margin-bottom:1px;" src="../../../dijit/themes/tundra/images/dndNoMove.png" alt="no move" /> No Move</span>
+				<span data-dojo-value=104><img  style="vertical-align: middle;margin-top: 1px;margin-bottom:1px;" src="../../../dijit/themes/tundra/images/dndNoMove.png" alt="very long menu" /> Very Long Menu Entry</span>
 			</span>
 		<hr>
 			<h4 class="testSubtitle"><label for="s6">Initially Empty</label></h4>
