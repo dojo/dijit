@@ -56,7 +56,10 @@ return declare("dijit.form._ButtonMixin", null, {
 			e.preventDefault();
 		}
 		cancelled = e.defaultPrevented;
-		if(!cancelled && this.type == "submit" && !(this.valueNode||this.focusNode).form){ // see if a non-form widget needs to be signalled
+
+		// Signal Form/Dialog to submit/close.  For 2.0, consider removing this code and instead making the Form/Dialog
+		// listen for bubbled click events where evt.target.type == "submit" && !evt.defaultPrevented.
+		if(!cancelled && this.type == "submit" && !(this.valueNode||this.focusNode).form){
 			for(var node=this.domNode; node.parentNode; node=node.parentNode){
 				var widget=registry.byNode(node);
 				if(widget && typeof widget._onSubmit == "function"){
@@ -67,6 +70,7 @@ return declare("dijit.form._ButtonMixin", null, {
 				}
 			}
 		}
+
 		return !cancelled;
 	},
 
