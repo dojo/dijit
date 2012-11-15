@@ -3,6 +3,7 @@ dojo.provide("dijit.tests.form.module");
 try{
 	var userArgs = window.location.search.replace(/[\?&](dojoUrl|testUrl|testModule)=[^&]*/g,"").replace(/^&/,"?");
 
+	doh.registerUrl("dijit.tests.form.Button", dojo.moduleUrl("dijit","tests/form/test_Button.html?mode=test"+userArgs.replace(/^[?]/,'&')), 999999);
 	doh.registerUrl("dijit.tests.form.ToggleButtonMixin", dojo.moduleUrl("dijit","tests/form/ToggleButtonMixin.html"+userArgs));
 	doh.registerUrl("dijit.tests.form.robot.Button_mouse", dojo.moduleUrl("dijit","tests/form/robot/Button_mouse.html"+userArgs), 999999);
 	doh.registerUrl("dijit.tests.form.robot.Button_a11y", dojo.moduleUrl("dijit","tests/form/robot/Button_a11y.html"+userArgs), 999999);

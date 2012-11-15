@@ -1,7 +1,7 @@
 <table class="dijit dijitReset dijitInline dijitLeft"
 	cellspacing='0' cellpadding='0' role="presentation"
 	><tbody role="presentation"><tr role="presentation"
-		><td class="dijitReset dijitStretch dijitButtonNode" data-dojo-attach-point="buttonNode" data-dojo-attach-event="ondijitclick:_onClick,onkeypress:_onButtonKeyPress"
+		><td class="dijitReset dijitStretch dijitButtonNode" data-dojo-attach-point="buttonNode" data-dojo-attach-event="ondijitclick:__onClick,onkeypress:_onButtonKeyPress"
 		><div id="${id}_button" class="dijitReset dijitButtonContents"
 			data-dojo-attach-point="titleNode"
 			role="button" aria-labelledby="${id}_label"
@@ -19,5 +19,6 @@
 		></td
 		><td style="display:none !important;"
 			><input ${!nameAttrSetting} type="${type}" value="${value}" data-dojo-attach-point="valueNode" role="presentation"
+				data-dojo-attach-event="onclick:_onClick"
 		/></td></tr></tbody
 ></table>

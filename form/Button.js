@@ -58,21 +58,6 @@ return declare("dijit.form.Button", [_FormWidget, _ButtonMixin], {
 	// Map widget attributes to DOMNode attributes.
 	_setValueAttr: "valueNode",
 
-	_onClick: function(/*Event*/ e){
-		// summary:
-		//		Internal function to handle click actions
-		var ok = this.inherited(arguments);
-		if(ok){
-			if(this.valueNode){
-				this.valueNode.click();
-				e.preventDefault(); // cancel BUTTON click and continue with hidden INPUT click
-                e.stopPropagation();    // avoid two events bubbling from Button widget
-				// leave ok = true so that subclasses can do what they need to do
-			}
-		}
-		return ok;
-	},
-
 	_fillContent: function(/*DomNode*/ source){
 		// Overrides _Templated._fillContent().
 		// If button label is specified as srcNodeRef.innerHTML rather than

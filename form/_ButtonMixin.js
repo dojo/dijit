@@ -33,6 +33,18 @@ return declare("dijit.form._ButtonMixin", null, {
 	//		Type of button (submit, reset, button, checkbox, radio)
 	type: "button",
 
+	__onClick: function(/*Event*/ e){
+		// summary:
+		//		Internal function to divert the real click onto the hidden INPUT that has a native default action associated with it
+		// type:
+		//		private
+		event.stop(e);
+		if(!this.disabled){
+			this.valueNode.click();
+		}
+		return false;
+	},
+
 	_onClick: function(/*Event*/ e){
 		// summary:
 		//		Internal function to handle click actions
@@ -40,21 +52,22 @@ return declare("dijit.form._ButtonMixin", null, {
 			event.stop(e);
 			return false;
 		}
-		var preventDefault = this.onClick(e) === false; // user click actions
-		if(!preventDefault && this.type == "submit" && !(this.valueNode||this.focusNode).form){ // see if a non-form widget needs to be signalled
+		if(this.onClick(e) === false){
+			e.preventDefault();
+		}
+		cancelled = e.defaultPrevented;
+		if(!cancelled && this.type == "submit" && !(this.valueNode||this.focusNode).form){ // see if a non-form widget needs to be signalled
 			for(var node=this.domNode; node.parentNode; node=node.parentNode){
 				var widget=registry.byNode(node);
 				if(widget && typeof widget._onSubmit == "function"){
 					widget._onSubmit(e);
-					preventDefault = true;
+					e.preventDefault(); // action has already occurred
+					cancelled = true;
 					break;
 				}
 			}
 		}
-		if(preventDefault){
-			e.preventDefault();
-		}
-		return !preventDefault;
+		return !cancelled;
 	},
 
 	postCreate: function(){
