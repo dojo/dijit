@@ -135,8 +135,8 @@
 				}else{
 					focusThing = tree.rootNode.getChildren()[0];
 				}
-				that.focusConnect = tree.connect(focusThing.labelNode, "onfocus", gotFocus);
-				that.blurConnect = tree.connect(focusThing.labelNode, "onblur", lostFocus);
+				that.focusConnect = dojo.connect(focusThing.labelNode, "onfocus", gotFocus);
+				that.blurConnect = dojo.connect(focusThing.labelNode, "onblur", lostFocus);
 				tree.focusNode(focusThing);
 			};
 
@@ -149,8 +149,8 @@
 				doh.robot.keyPress(dojo.keys.TAB, 300);
 				doh.robot.keyPress(dojo.keys.TAB, 300, {shift:true});
 				var checkTabNav = function(){
-					tree.disconnect(that.focusConnect);
-					tree.disconnect(that.blurConnect);
+					dojo.disconnect(that.focusConnect);
+					dojo.disconnect(that.blurConnect);
 					doh.is(3, focusCount,  tree.id + ": # of times focussed");
 					doh.is(2, blurCount, tree.id + ": # of times lost focus");
 				};
@@ -262,7 +262,7 @@
 				}
 				// 1 to open root node, 2 for every non-leaf, 1 to get to the leaf
 				arrowRightCount = 1 + (path.length - 2)*2 + 1;
-				that.focusConnect = tree.connect(expectedNode.labelNode, "onfocus", function(evt){
+				that.focusConnect = dojo.connect(expectedNode.labelNode, "onfocus", function(evt){
 					actualNode = evt.target;
 				});
 			};
@@ -278,8 +278,8 @@
 					doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 300);
 				}
 				var checkLeaf = function(){
-					tree.disconnect(that.focusConnect);
-					doh.is(expectedNode.labelNode, actualNode, "expected: " + expectedNode.label + ", actual: " + actualNode.innerHTML);
+					dojo.disconnect(that.focusConnect);
+					doh.is(expectedNode.label, actualNode.innerHTML, "arrived at leaf");
 				};
 				doh.robot.sequence(d.getTestCallback(checkLeaf), 500);
 				return d;
@@ -307,7 +307,7 @@
 				}else{
 					expectedNode = that.lastVisibleNode(tree);
 				}
-				focusConnect = tree.connect(expectedNode.labelNode, "onfocus", function(evt){
+				focusConnect = dojo.connect(expectedNode.labelNode, "onfocus", function(evt){
 					actualNode = evt.target;
 				});
 			};
@@ -317,7 +317,7 @@
 				var tree = registry.byId(inTreeId);
 				doh.robot.keyPress(inKey, 300);
 				var checkAtHomeEnd = function(){
-					tree.disconnect(focusConnect);
+					dojo.disconnect(focusConnect);
 					doh.is(expectedNode.label, actualNode.innerHTML);
 				};
 				doh.robot.sequence(d.getTestCallback(checkAtHomeEnd), 500);
@@ -334,7 +334,7 @@
 			doh.register("_setup", [
 				{
 					name: "wait for widgets to load",
-					timeout: 10000,
+					timeout: 20000,
 					runTest: waitForLoad
 				},
 				function setVars(){
@@ -343,8 +343,7 @@
 			]);
 
 			// aria role and properties tests.
-			doh.register("a11yAria",
-			[
+			doh.register("a11yAria", [
 				function ariaTreeRole(){
 					for(i=0; i<treeIds.length; i++){
 						var tree = registry.byId(treeIds[i]), expectedrole = tree.showRoot?'tree':'presentation';
@@ -386,8 +385,7 @@
 			]);
 
 			// Keyboard focus robot tests
-			doh.register("a11y tab navigation",
-			[
+			doh.register("a11y tab navigation", [
 				{
 					name:"mytreeTabFocusTest",
 					timeout:4000,
@@ -443,8 +441,7 @@
 			]);
 
 			// Keyboard navigate/expand/collapse robot tests (arrow keys, and home/end)
-			doh.register("keyboard arrow navigation/expand/collapse",
-			[
+			doh.register("keyboard arrow navigation/expand/collapse", [
 				{
 					name:"mytreeNavExpandCollpaseA11y",
 					timeout:4000,
@@ -534,8 +531,7 @@
 			]);
 
 			// Test for typing "a" to navigate to nodes that start with "a", etc.
-			doh.register("keyboard search tests",
-			[
+			doh.register("keyboard search tests", [
 				{
 					name:"Setup tree",
 					timeout:4000,
@@ -707,8 +703,7 @@
 				}
 			]);
 
-			doh.register("selection and focus",
-			[
+			doh.register("selection and focus", [
 				{
 					name:"select Africa",
 					timeout:4000,
@@ -722,7 +717,7 @@
 						doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 300);		// expand
 						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 300);		// move down to Africa
 						doh.robot.keyPress(dojo.keys.ENTER, 300);			// select it
-						
+
 						doh.robot.sequence(d.getTestCallback(function(){
 							doh.is("Africa", tree.lastFocused.label, "Africa is focused");
 
@@ -747,7 +742,7 @@
 							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 300);		// collapse tree, if it's open
 						}
 						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 300);		// move down to Asia
-						
+
 						doh.robot.sequence(d.getTestCallback(function(){
 							doh.is("Asia", tree.lastFocused.label, "Asia is focused");
 
@@ -769,7 +764,7 @@
 						var tree = registry.byId("mytree");
 
 						doh.robot.keyPress(dojo.keys.ENTER, 300);			// select it
-						
+
 						doh.robot.sequence(d.getTestCallback(function(){
 							var item = tree.get("selectedItem"),
 								label = tree.model.getLabel(item);
@@ -802,6 +797,7 @@
 					}
 				}
 			]);
+
 			doh.run();
 		});
 
