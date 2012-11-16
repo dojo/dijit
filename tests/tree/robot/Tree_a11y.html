@@ -77,7 +77,6 @@
 			}
 		}
 
-		// Tab focus test data and functions
 
 		function walkTreeToLeaf(inTree, inRootNode, /*array, optional*/ioPath){
 			var leaf = inRootNode;
@@ -91,80 +90,6 @@
 				}
 			}
 			return(leaf);
-		}
-
-		function tabFocusTest(inTreeId, /*boolean*/ leaf){
-			var focusCount = 0;
-			var blurCount = 0;
-
-			var focusConnect = null;
-			var blurConnect = null;
-
-			var xtraParas = [];
-
-			function addTabNavFoci(inTree){
-				var aPara = dojo.doc.createElement("p");
-				dojo.attr(aPara, 'tabIndex', 0);
-				aPara.innerHTML = "Tab-focussable paragraph just above " + inTree.id;
-				dojo.place(aPara, inTree.domNode, "before");
-				xtraParas.push(aPara);
-				aPara = dojo.doc.createElement("p");
-				dojo.attr(aPara, 'tabIndex', 0);
-				aPara.innerHTML = "Tab-focussable paragraph just below  " + inTree.id;
-				dojo.place(aPara, inTree.domNode, "after");
-				xtraParas.push(aPara);
-			}
-
-			return {
-				name: inTreeId + (leaf ? "ExpandedTabFocusTest" : "TabFocusTest"),
-				timeout: 4000,
-				setUp: function(){
-					var tree = registry.byId(inTreeId);
-					collapseAllButRoot(tree);
-					addTabNavFoci(tree);
-					// set up focus listener machinery
-					focusCount = blurCount = 0;
-					var focusThing;
-					if(leaf){
-						focusThing = walkTreeToLeaf(tree, tree.rootNode);
-					}else if(tree.showRoot){
-						focusThing = tree.rootNode;
-					}else{
-						focusThing = tree.rootNode.getChildren()[0];
-					}
-					focusConnect = dojo.connect(focusThing.labelNode, "onfocus", function(){
-						focusCount++;
-					});
-					blurConnect = dojo.connect(focusThing.labelNode, "onblur", function(){
-						blurCount++;
-					});
-					tree.focusNode(focusThing);
-				},
-				runTest: function(){
-					var d = new doh.Deferred();
-					var tree = registry.byId(inTreeId);
-					// shift+tab away, tab back, tab away, shift+tab back
-					doh.robot.keyPress(dojo.keys.TAB, 1000, {shift: true});
-					doh.robot.keyPress(dojo.keys.TAB, 300);
-					doh.robot.keyPress(dojo.keys.TAB, 300);
-					doh.robot.keyPress(dojo.keys.TAB, 300, {shift: true});
-					doh.robot.sequence(d.getTestCallback(function(){
-						doh.is(3, focusCount,  "# of times focussed");
-						doh.is(2, blurCount, "# of times lost focus");
-					}), 500);
-					return d;
-				},
-				tearDown: function(){
-					dojo.disconnect(focusConnect);
-					dojo.disconnect(blurConnect);
-					dojo.forEach(xtraParas, function(item){
-						item.parentNode.removeChild(item);
-					});
-					xtraParas.length = 0;
-					focusCount = 0;
-					blurCount = 0;
-				}
-			}
 		}
 
 		// arrow key navigation, expand, and collapse tests.
@@ -183,148 +108,6 @@
 			if(inTree){
 				collapse(inTree.rootNode);
 			}
-		}
-
-
-		function a11yNavExpandCollapseTest(inTreeId){
-			var openConnect = null;
-			var closeConnect = null;
-			var openedLabels = [];
-			var closedLabels = [];
-			return {
-				name: inTreeId + "A11yNavExpandCollapse",
-				timeout: 4000,
-				setUp: function(){
-					var tree = registry.byId(inTreeId);
-					collapseAllButRoot(tree);
-					var startingNode = tree.showRoot ? tree.rootNode : tree.rootNode.getChildren()[0];
-					tree.focusNode(startingNode);
-					var rootChilds = tree.rootNode.getChildren();
-					// down, right (open), left (close), down, left (open)
-					if(tree.showRoot){
-						openedLabels[0] = { expected: rootChilds[0].label };
-						openedLabels[1] = { expected: rootChilds[1].label };
-					}else{
-						openedLabels[0] = { expected: rootChilds[1].label };
-						openedLabels[1] = { expected: rootChilds[2].label };
-					}
-					closedLabels[0] = openedLabels[0];
-					var openIdx = 0;
-					openConnect = dojo.connect(tree, "onOpen", function(item, node){
-						openedLabels[openIdx].actual = node.label;
-					});
-					closeConnect = dojo.connect(tree, "onClose", function(item, node){
-						closedLabels[openIdx].actual = node.label;
-						openIdx++;
-					});
-				},
-				runTest: function(){
-					var d = new doh.Deferred();
-					// assume (1) collapseAllButRoot(), and (2) focus is on first visible child.
-					doh.robot.keyPress(dojo.keys.DOWN_ARROW, 1000);		// move down one
-					doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 300);		// expand
-					doh.robot.keyPress(dojo.keys.LEFT_ARROW, 300);		// collapse
-					doh.robot.keyPress(dojo.keys.DOWN_ARROW, 300);		// move down one
-					doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 300);		// expand
-					doh.robot.sequence(d.getTestCallback(function(){
-						for(var idx = 0; idx < openedLabels.length; idx++){
-							doh.is(openedLabels[idx].expected, openedLabels[idx].actual, "onOpen");
-						}
-						for(idx = 0; idx < closedLabels.length; idx++){
-							doh.is(closedLabels[idx].expected, closedLabels[idx].actual, "onClose");
-						}
-					}), 500);
-					return d;
-				},
-				tearDown: function(){
-					dojo.disconnect(openConnect);
-					dojo.disconnect(closeConnect);
-				}
-			};
-		}
-
-
-		function a11yNavToLeafTest(inTreeId){
-			var expectedNode;
-			var arrowDownCount;
-			var arrowRightCount;
-			return {
-				name: inTreeId + "A11yNavToLeaf",
-				timeout: 4000,
-				setUp: function(){
-					var tree = registry.byId(inTreeId);
-					// randomly choose a top-level node to traverse.
-					arrowDownCount = Math.floor(Math.random() * tree.rootNode.getChildren().length);
-					var path = [];
-					expectedNode = walkTreeToLeaf(tree, tree.rootNode.getChildren()[arrowDownCount], path);
-					collapseAllButRoot(tree);
-					if(tree.showRoot){
-						tree.focusNode(tree.rootNode);
-						arrowDownCount++;
-					}else{
-						tree.focusNode(tree.rootNode.getChildren()[0]);
-					}
-					// 1 to open root node, 2 for every non-leaf, 1 to get to the leaf
-					arrowRightCount = 1 + (path.length - 2)*2 + 1;
-				},
-				runTest: function(){
-					var d = new doh.Deferred();
-					var tree = registry.byId(inTreeId);
-					// assume (1) collapseAllButRoot(), and (2) focus is on a top level tree node.
-					for(var i = 0; i < arrowDownCount; i++){
-						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 300);
-					}
-					for(i = 0; i < arrowRightCount; i++){
-						doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 300);
-					}
-					doh.robot.sequence(d.getTestCallback(function(){
-						doh.t(dojo.global.dijit._curFocus, "something focused");
-						doh.is(expectedNode.label, dojo.global.dijit._curFocus.innerHTML, "arrived at leaf");
-					}), 500);
-					return d;
-				}
-			};
-		}
-
-		function lastVisibleNode(inTree){
-			var node = inTree.rootNode;
-			while(node.isExpanded){
-				var c = node.getChildren();
-				node = c[c.length-1];
-			}
-			return node;
-		}
-
-		function a11yHomeEndKeyTest(inTreeId, inKey){
-			return {
-				name: inTreeId + (inKey == dojo.keys.HOME ? "NavToHome" : "NavToEnd"),
-				timeout: 4000,
-				setUp: function(){
-					// put focus on an random leaf.
-					var tree = registry.byId(inTreeId);
-					collapseAllButRoot(tree);
-					var topLvl = Math.floor(Math.random() * tree.rootNode.getChildren().length);
-					var leaf = walkTreeToLeaf(tree, tree.rootNode.getChildren()[topLvl]);
-					tree.focusNode(leaf);
-					// determine the expected/actual home.
-					if(inKey == dojo.keys.HOME){
-						expectedNode = ( tree.showRoot ? tree.rootNode : tree.rootNode.getChildren()[0] );
-					}else{
-						expectedNode = lastVisibleNode(tree);
-					}
-					console.log("Move focus from " + leaf.label + " to " + expectedNode.label)
-				},
-				runTest: function(){
-					var d = new doh.Deferred();
-					var tree = registry.byId(inTreeId);
-					doh.robot.keyPress(inKey, 300);
-					doh.robot.sequence(d.getTestCallback(function(){
-						doh.t(dojo.global.dijit._curFocus, "something focused");
-						doh.is(expectedNode.label, dojo.global.dijit._curFocus.innerHTML, "focused node");
-					}), 500);
-					return d;
-				}
-			};
 		}
 
 		dojo.ready(function(){
@@ -384,6 +167,81 @@
 			]);
 
 			// Keyboard focus robot tests
+
+			function tabFocusTest(inTreeId, /*boolean*/ leaf){
+				var focusCount = 0;
+				var blurCount = 0;
+
+				var focusConnect = null;
+				var blurConnect = null;
+
+				var xtraParas = [];
+
+				function addTabNavFoci(inTree){
+					var aPara = dojo.doc.createElement("p");
+					dojo.attr(aPara, 'tabIndex', 0);
+					aPara.innerHTML = "Tab-focussable paragraph just above " + inTree.id;
+					dojo.place(aPara, inTree.domNode, "before");
+					xtraParas.push(aPara);
+					aPara = dojo.doc.createElement("p");
+					dojo.attr(aPara, 'tabIndex', 0);
+					aPara.innerHTML = "Tab-focussable paragraph just below  " + inTree.id;
+					dojo.place(aPara, inTree.domNode, "after");
+					xtraParas.push(aPara);
+				}
+
+				return {
+					name: inTreeId + (leaf ? "ExpandedTabFocusTest" : "TabFocusTest"),
+					timeout: 4000,
+					setUp: function(){
+						var tree = registry.byId(inTreeId);
+						collapseAllButRoot(tree);
+						addTabNavFoci(tree);
+						// set up focus listener machinery
+						focusCount = blurCount = 0;
+						var focusThing;
+						if(leaf){
+							focusThing = walkTreeToLeaf(tree, tree.rootNode);
+						}else if(tree.showRoot){
+							focusThing = tree.rootNode;
+						}else{
+							focusThing = tree.rootNode.getChildren()[0];
+						}
+						focusConnect = dojo.connect(focusThing.labelNode, "onfocus", function(){
+							focusCount++;
+						});
+						blurConnect = dojo.connect(focusThing.labelNode, "onblur", function(){
+							blurCount++;
+						});
+						tree.focusNode(focusThing);
+					},
+					runTest: function(){
+						var d = new doh.Deferred();
+						var tree = registry.byId(inTreeId);
+						// shift+tab away, tab back, tab away, shift+tab back
+						doh.robot.keyPress(dojo.keys.TAB, 1000, {shift: true});
+						doh.robot.keyPress(dojo.keys.TAB, 300);
+						doh.robot.keyPress(dojo.keys.TAB, 300);
+						doh.robot.keyPress(dojo.keys.TAB, 300, {shift: true});
+						doh.robot.sequence(d.getTestCallback(function(){
+							doh.is(3, focusCount,  "# of times focussed");
+							doh.is(2, blurCount, "# of times lost focus");
+						}), 500);
+						return d;
+					},
+					tearDown: function(){
+						dojo.disconnect(focusConnect);
+						dojo.disconnect(blurConnect);
+						dojo.forEach(xtraParas, function(item){
+							item.parentNode.removeChild(item);
+						});
+						xtraParas.length = 0;
+						focusCount = 0;
+						blurCount = 0;
+					}
+				}
+			}
+
 			doh.register("a11y tab navigation", [
 				tabFocusTest("mytree", false),
 				tabFocusTest("tree2", false),
@@ -392,11 +250,155 @@
 			]);
 
 			// Keyboard navigate/expand/collapse robot tests (arrow keys, and home/end)
-			doh.register("keyboard arrow navigation/expand/collapse", [
+
+			function a11yNavExpandCollapseTest(inTreeId){
+				var openConnect = null;
+				var closeConnect = null;
+				var openedLabels = [];
+				var closedLabels = [];
+				return {
+					name: inTreeId + "A11yNavExpandCollapse",
+					timeout: 4000,
+					setUp: function(){
+						var tree = registry.byId(inTreeId);
+						collapseAllButRoot(tree);
+						var startingNode = tree.showRoot ? tree.rootNode : tree.rootNode.getChildren()[0];
+						tree.focusNode(startingNode);
+						var rootChilds = tree.rootNode.getChildren();
+						// down, right (open), left (close), down, left (open)
+						if(tree.showRoot){
+							openedLabels[0] = { expected: rootChilds[0].label };
+							openedLabels[1] = { expected: rootChilds[1].label };
+						}else{
+							openedLabels[0] = { expected: rootChilds[1].label };
+							openedLabels[1] = { expected: rootChilds[2].label };
+						}
+						closedLabels[0] = openedLabels[0];
+						var openIdx = 0;
+						openConnect = dojo.connect(tree, "onOpen", function(item, node){
+							openedLabels[openIdx].actual = node.label;
+						});
+						closeConnect = dojo.connect(tree, "onClose", function(item, node){
+							closedLabels[openIdx].actual = node.label;
+							openIdx++;
+						});
+					},
+					runTest: function(){
+						var d = new doh.Deferred();
+						// assume (1) collapseAllButRoot(), and (2) focus is on first visible child.
+						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 1000);		// move down one
+						doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 300);		// expand
+						doh.robot.keyPress(dojo.keys.LEFT_ARROW, 300);		// collapse
+						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 300);		// move down one
+						doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 300);		// expand
+						doh.robot.sequence(d.getTestCallback(function(){
+							for(var idx = 0; idx < openedLabels.length; idx++){
+								doh.is(openedLabels[idx].expected, openedLabels[idx].actual, "onOpen");
+							}
+							for(idx = 0; idx < closedLabels.length; idx++){
+								doh.is(closedLabels[idx].expected, closedLabels[idx].actual, "onClose");
+							}
+						}), 500);
+						return d;
+					},
+					tearDown: function(){
+						dojo.disconnect(openConnect);
+						dojo.disconnect(closeConnect);
+					}
+				};
+			}
+			doh.register("expand/collapse", [
 				a11yNavExpandCollapseTest("mytree"),
-				a11yNavExpandCollapseTest("tree2"),
+				a11yNavExpandCollapseTest("tree2")
+			]);
+
+			function a11yNavToLeafTest(inTreeId){
+				var expectedNode;
+				var arrowDownCount;
+				var arrowRightCount;
+				return {
+					name: inTreeId + "A11yNavToLeaf",
+					timeout: 4000,
+					setUp: function(){
+						var tree = registry.byId(inTreeId);
+						// randomly choose a top-level node to traverse.
+						arrowDownCount = Math.floor(Math.random() * tree.rootNode.getChildren().length);
+						var path = [];
+						expectedNode = walkTreeToLeaf(tree, tree.rootNode.getChildren()[arrowDownCount], path);
+						collapseAllButRoot(tree);
+						if(tree.showRoot){
+							tree.focusNode(tree.rootNode);
+							arrowDownCount++;
+						}else{
+							tree.focusNode(tree.rootNode.getChildren()[0]);
+						}
+						// 1 to open root node, 2 for every non-leaf, 1 to get to the leaf
+						arrowRightCount = 1 + (path.length - 2)*2 + 1;
+					},
+					runTest: function(){
+						var d = new doh.Deferred();
+						var tree = registry.byId(inTreeId);
+						// assume (1) collapseAllButRoot(), and (2) focus is on a top level tree node.
+						for(var i = 0; i < arrowDownCount; i++){
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 300);
+						}
+						for(i = 0; i < arrowRightCount; i++){
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 300);
+						}
+						doh.robot.sequence(d.getTestCallback(function(){
+							doh.t(dojo.global.dijit._curFocus, "something focused");
+							doh.is(expectedNode.label, dojo.global.dijit._curFocus.innerHTML, "arrived at leaf");
+						}), 500);
+						return d;
+					}
+				};
+			}
+			doh.register("nav to leaf", [
 				a11yNavToLeafTest("mytree"),
-				a11yNavToLeafTest("tree2"),
+				a11yNavToLeafTest("tree2")
+			]);
+
+			function lastVisibleNode(inTree){
+				var node = inTree.rootNode;
+				while(node.isExpanded){
+					var c = node.getChildren();
+					node = c[c.length-1];
+				}
+				return node;
+			}
+
+			function a11yHomeEndKeyTest(inTreeId, inKey){
+				return {
+					name: inTreeId + (inKey == dojo.keys.HOME ? "NavToHome" : "NavToEnd"),
+					timeout: 4000,
+					setUp: function(){
+						// put focus on an random leaf.
+						var tree = registry.byId(inTreeId);
+						collapseAllButRoot(tree);
+						var topLvl = Math.floor(Math.random() * tree.rootNode.getChildren().length);
+						var leaf = walkTreeToLeaf(tree, tree.rootNode.getChildren()[topLvl]);
+						tree.focusNode(leaf);
+						// determine the expected/actual home.
+						if(inKey == dojo.keys.HOME){
+							expectedNode = ( tree.showRoot ? tree.rootNode : tree.rootNode.getChildren()[0] );
+						}else{
+							expectedNode = lastVisibleNode(tree);
+						}
+						console.log("Move focus from " + leaf.label + " to " + expectedNode.label)
+					},
+					runTest: function(){
+						var d = new doh.Deferred();
+						var tree = registry.byId(inTreeId);
+						doh.robot.keyPress(inKey, 300);
+						doh.robot.sequence(d.getTestCallback(function(){
+							doh.t(dojo.global.dijit._curFocus, "something focused");
+							doh.is(expectedNode.label, dojo.global.dijit._curFocus.innerHTML, "focused node");
+						}), 500);
+						return d;
+					}
+				};
+			}
+			doh.register("home/end key", [
 				a11yHomeEndKeyTest("mytree", dojo.keys.HOME),
 				a11yHomeEndKeyTest("mytree", dojo.keys.END),
 				a11yHomeEndKeyTest("tree2", dojo.keys.HOME),
