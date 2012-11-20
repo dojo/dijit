@@ -305,7 +305,7 @@
 							
 							robot.sequence(d.getTestCallback(function(){
 								var myDiv = registry.byId("editor1").editNode.childNodes[0];
-								doh.is("myDiv", myDiv.id, "myDiv was not the first child node as expectd");
+								doh.is("myDiv", myDiv.id, "myDiv was not the first child node as expected");
 								doh.t(helpers.isVisible(myDiv), "myDiv is visible");
 							}), 1000);
 							
