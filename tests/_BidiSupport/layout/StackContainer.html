@@ -33,27 +33,28 @@
 			"dojo/query",
 			"dojo/parser",
 			"dijit/_BidiSupport"
-			], function(registry,runner,dom,ready,query){
+		], function(registry, doh, dom, ready, query){
 			ready(function(){
-				runner.register("tests._BidiSupport.layout.StackContainer.Bidi", [
+				doh.register("tests._BidiSupport.layout.StackContainer.Bidi", [
 					{
 						name: "StackContainer Bidi",					
 						runTest: function(){
 							query("span.dijitButtonText").forEach(function(node, index, arr){
 								if(registry.getEnclosingWidget(node).textDir !== 'auto') {							
-									runner.assertEqual(node.dir, registry.getEnclosingWidget(node).textDir, "tab button direction should coinside with widget's 'textDir'");
+									doh.assertEqual(node.dir, registry.getEnclosingWidget(node).textDir, "tab button direction should coinside with widget's 'textDir'");
 								}
 							});							
 						}
 					}				
-			]);
-			
-			runner.register("log", function(){
-				dom.byId('failures').innerHTML = runner._failureCount;
-				dom.byId('errors').innerHTML = runner._errorCount;
-			});			
-			runner.run();
-		});
+				]);
+
+				doh.register("log", function(){
+					dom.byId('failures').innerHTML = doh._failureCount;
+					dom.byId('errors').innerHTML = doh._errorCount;
+				});
+
+				doh.run();
+			});
 		});		
 	</script>
 </head>

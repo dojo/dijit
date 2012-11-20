@@ -134,7 +134,8 @@ define([
 					"iconclass": "iconClass",
 					"closable": "closeButton",
 					"tooltip": "title",
-					"disabled": "disabled"
+					"disabled": "disabled",
+					"textdir": "textdir"
 				},
 				connectFunc = function(attr, buttonAttr){
 					return on(containerNode, "attrmodified-" + attr, function(evt){
