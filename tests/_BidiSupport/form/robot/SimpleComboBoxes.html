@@ -64,7 +64,7 @@
 							doh.robot.keyPress(dojo.keys.DELETE, 300, {});
 							doh.robot.typeKeys("Hi!!!", 1, 300);
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("ltr",combo.focusNode.dir,"direction of :" + combo.id);
+								doh.is("ltr", combo.focusNode.dir,"direction of :" + combo.id);
 							}), 300);								
 
 							return d;
@@ -82,14 +82,14 @@
 							doh.robot.keyPress(dojo.keys.DELETE, 300, {});
 							doh.robot.keyPress("v", 300, modifier);
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("ltr",combo.focusNode.dir,"direction of :" + combo.id);
+								doh.is("ltr", combo.focusNode.dir,"direction of :" + combo.id);
 							}), 300);								
 
 							return d;
 						}
 					}
 				]);			
-	
+
 				doh.register("Test RTL combo box", [
 					{
 						name:"check drop down items text direction.",
@@ -98,13 +98,13 @@
 						setUp: function(){
 							combo = dijit.byId("fruitRtl");
 						},
-						
+
 						runTest:function(){
 							var d = new doh.Deferred();
 							// Open drop down
 							combo.focusNode.focus();
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 100);
-							
+
 							doh.robot.sequence(d.getTestCallback(function(){
 								dojo.forEach(combo.dropDown.domNode.childNodes, function(node){
 									// so it will check only the options
@@ -113,10 +113,10 @@
 									}
 								});
 							}), 900);
-							
+
 							return d;
 						},
-						
+
 						tearDown: function(){
 							combo.closeDropDown();
 						}
@@ -132,26 +132,26 @@
 							doh.robot.keyPress(dojo.keys.DELETE, 300, {});
 							doh.robot.typeKeys("Hi!!!", 1, 300);
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("rtl",combo.focusNode.dir,"direction of :" + combo.id);
-							}), 300);								
+								doh.is("rtl", combo.focusNode.dir,"direction of :" + combo.id);
+							}), 300);
 
 							return d;
 						}
-					},	
+					},
 					{
 						name: "paste Hebrew in 'fruitRtl'",
 						timeout: 3000,
 
 						runTest: function(){
 							var d = new doh.Deferred();
-							
+
 							doh.robot.setClipboard("\u05e9\u05dc\u05d5\u05dd\u0021",'text/html');
 							doh.robot.keyPress("a", 300, modifier);
 							doh.robot.keyPress(dojo.keys.DELETE, 300, {});
 							doh.robot.keyPress("v", 300, modifier);
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("rtl",combo.focusNode.dir,"direction of :" + combo.id);
-							}), 300);								
+								doh.is("rtl", combo.focusNode.dir,"direction of :" + combo.id);
+							}), 300);
 
 							return d;
 						}
@@ -167,7 +167,7 @@
 							combo = dijit.byId("fruitContextual");
 							modifier = dojo.isMac ? {meta: true} : {ctrl: true};
 						},
-			
+
 						runTest:function(){
 							var d = new doh.Deferred();
 							var contextualDir;
@@ -180,10 +180,10 @@
 									if(node.item){
 										contextualDir = this.getTextDir(node.innerText || node.textContent || "");
 										doh.is(contextualDir, node.dir, node.innerText || node.textContent || "");
-									}	
-								},combo);
+									}
+								}, combo);
 							}), 900);
-							
+
 							return d;
 						},
 
@@ -199,41 +199,41 @@
 							combo = dijit.byId("fruitContextual");
 							modifier = dojo.isMac ? {meta: true} : {ctrl: true};
 						},
-			
+
 						runTest:function(){
 							var d = new doh.Deferred();
 
 							combo.focusNode.focus();
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 100);
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is("ltr",combo.focusNode.dir, combo.id);
+								doh.is("ltr", combo.focusNode.dir, combo.id);
 							}), 200);
 
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 300);
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is("ltr",combo.focusNode.dir, combo.id);
+								doh.is("ltr", combo.focusNode.dir, combo.id);
 							}), 200);
 
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200);
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is("ltr",combo.focusNode.dir, combo.id);
+								doh.is("ltr", combo.focusNode.dir, combo.id);
 							}), 200);
 
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200);
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is("ltr",combo.focusNode.dir, combo.id);
+								doh.is("ltr", combo.focusNode.dir, combo.id);
 							}), 200);
 
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200);
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is("rtl",combo.focusNode.dir, combo.id);
+								doh.is("rtl", combo.focusNode.dir, combo.id);
 							}), 200);
 
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200);
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("rtl",combo.focusNode.dir, combo.id);
+								doh.is("rtl", combo.focusNode.dir, combo.id);
 							}), 200);
-						
+
 							return d;
 						},
 
@@ -244,7 +244,7 @@
 					{
 						name: "text direction cut/paste English",
 						timeout: 3000,
-						
+
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -255,8 +255,8 @@
 
 							doh.robot.keyPress("v", 500, modifier);
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("ltr",combo.focusNode.dir,"direction of :" + combo.id);
-							}), 300);								
+								doh.is("ltr", combo.focusNode.dir,"direction of :" + combo.id);
+							}), 300);
 
 							return d;
 						}
@@ -264,24 +264,24 @@
 					{
 						name: "text direction cut/paste Hebrew before English",
 						timeout: 3000,
-						
+
 						runTest: function(){
 							var d = new doh.Deferred();
 
 							doh.robot.setClipboard("\u05d0\u05e0\u05d9\u003a\u0020",'text/html');
 
-							dojo.isMac ? doh.robot.keyPress("a", 100, {ctrl:true}): doh.robot.keyPress(dojo.keys.HOME, 100, {});	
+							dojo.isMac ? doh.robot.keyPress("a", 100, {ctrl:true}): doh.robot.keyPress(dojo.keys.HOME, 100, {});
 
 							doh.robot.keyPress("v", 400, modifier);
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("rtl",combo.focusNode.dir,"direction of :" + combo.id);
-							}), 700);								
+								doh.is("rtl", combo.focusNode.dir,"direction of :" + combo.id);
+							}), 700);
 
 							return d;
 						}
 					}
 				]);
-				
+
 				doh.register("Test AUTO ComboBox", [
 					{
 						name: "test auto-completion popup and input field for 'auto'",
@@ -309,9 +309,9 @@
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200);
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200);
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is("rtl",autoCompleted.focusNode.dir, "input field of fruitContextualAC");
+								doh.is("rtl", autoCompleted.focusNode.dir, "input field of fruitContextualAC");
 							}), 200);
-							
+
 							doh.robot.sequence(function(){ autoCompleted.set("value", null); }, 400);
 							doh.robot.keyPress("@", 100);
 
@@ -359,16 +359,16 @@
 
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200);
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is("ltr",notAutoCompleted.focusNode.dir, "input field of fruitContextual - :");
+								doh.is("ltr", notAutoCompleted.focusNode.dir, "input field of fruitContextual - :");
 							}), 200);
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200);
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is("rtl",notAutoCompleted.focusNode.dir, "input field of fruitContextual - :");
+								doh.is("rtl", notAutoCompleted.focusNode.dir, "input field of fruitContextual - :");
 							}), 200);
 
-							// Filter drop down list to entries starting with "@"							
-							doh.robot.sequence(function(){ 
-								notAutoCompleted.set("value", null); 
+							// Filter drop down list to entries starting with "@"
+							doh.robot.sequence(function(){
+								notAutoCompleted.set("value", null);
 							}, 400);
 							doh.robot.keyPress("@", 100);
 
@@ -381,7 +381,7 @@
 
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200);
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.is("ltr",notAutoCompleted.focusNode.dir, "input field of fruitContextual - :");
+								doh.is("ltr", notAutoCompleted.focusNode.dir, "input field of fruitContextual - :");
 							}), 200);
 
 
@@ -398,15 +398,15 @@
 
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200);
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("rtl",notAutoCompleted.focusNode.dir, "input field of fruitContextual - :");
+								doh.is("rtl", notAutoCompleted.focusNode.dir, "input field of fruitContextual - :");
 							}), 200);
 
-							
+
 							return d;
 						}
 					}
 				]);
-				
+
 				doh.run();
 			});
 		</script>
