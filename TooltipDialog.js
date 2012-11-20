@@ -57,10 +57,19 @@ define([
 		templateString: template,
 
 		_setTitleAttr: function(/*String*/ title){
-			this.containerNode.title = title;
+			this.containerNode.title = (this.textDir && this.enforceTextDirWithUcc) ? this.enforceTextDirWithUcc(null, title) : title;
 			this._set("title", title);
 		},
-
+		
+		_setTextDirAttr: function(/*String*/ textDir){
+			if(!this._created || this.textDir != textDir){
+				this._set("textDir", textDir);
+				if(this.textDir && this.title && this.enforceTextDirWithUcc){
+					this.containerNode.title = this.enforceTextDirWithUcc(null, this.title);
+				}
+			}	
+		},
+		
 		postCreate: function(){
 			this.inherited(arguments);
 			this.connect(this.containerNode, "onkeypress", "_onKey");
