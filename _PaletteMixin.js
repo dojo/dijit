@@ -71,11 +71,6 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 	//		dyeClass should implements dijit.Dye interface
 	dyeClass: null,
 	
-	// aria-label: String
-	//		Label for screen readers
-	"aria-label": "",
-	_setAriaLabelAttr: "paletteTableNode",
-
 	_dyeFactory: function(value /*===== , row, col, title =====*/){
 		// summary:
 		//		Return instance of dijit.Dye for specified cell of palette

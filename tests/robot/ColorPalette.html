@@ -52,6 +52,24 @@
 							doh.f(prog.get('value'), "no value for prog");
 						}
 					},
+					{
+						name: "accessibility roles and attributes",
+						runTest: function(){
+							doh.is(big.domNode.getAttribute("role"), "grid", "domNode role is grid");
+
+							var result = big.domNode.getAttribute("aria-label");
+							doh.t(!!result, "aria-label for big");
+
+							var table = query("table", big.domNode)[0];
+							doh.is(table.getAttribute("role"), "presentation", "table should be presentation");
+
+							var row = query("tr", table)[0];
+							doh.is(row.getAttribute("role"), "row", "tr should be role=row since domNode role=grid");
+
+							var td = query("td", row)[0];
+							doh.is(td.getAttribute("role"), "gridcell", "td role should be gridcell");
+						}
+					},
 					
 					// TODO: when attr() is implemented as a setter, add tests like big.set("value", "#ffc0cb")
 
