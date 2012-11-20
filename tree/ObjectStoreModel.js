@@ -155,13 +155,6 @@ define([
 			return true;	// Boolean
 		},
 
-		fetchItemByIdentity: function(/* object */ keywordArgs){
-			this.store.get(keywordArgs.identity).then(
-				lang.hitch(keywordArgs.scope, keywordArgs.onItem),
-				lang.hitch(keywordArgs.scope, keywordArgs.onError)
-			);
-		},
-
 		getIdentity: function(/* item */ item){
 			return this.store.getIdentity(item);	// Object
 		},

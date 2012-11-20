@@ -64,17 +64,6 @@ return declare(
 		//		extension
 	},
 
-	fetchItemByIdentity: function(keywordArgs){
-		// summary:
-		//		Given the identity of an item, this method returns the item that has
-		//		that identity through the onItem callback.  Conforming implementations
-		//		should return null if there is no item with the given identity.
-		//		Implementations of fetchItemByIdentity() may sometimes return an item
-		//		from a local cache and may sometimes fetch an item from a remote server.
-		// tags:
-		//		extension
-	},
-
 	getIdentity: function(item){
 		// summary:
 		//		Returns identity for an item
