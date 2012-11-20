@@ -53,7 +53,7 @@ return declare("dijit.MenuBar", _MenuBase, {
 			showpopup = prev_item && prev_item.popup && prev_item.popup.isShowingNow;
 		this.inherited(arguments);
 		if(showpopup && item.popup && !item.disabled){
-			this._openPopup(true);		// TODO: on down arrow, _openPopup() is called here and in onItemClick()
+			this._openPopup(item, true);		// TODO: on down arrow, _openPopup() is called here and in onItemClick()
 		}
 	},
 

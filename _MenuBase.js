@@ -155,8 +155,8 @@ return declare("dijit._MenuBase", [_Widget, _TemplatedMixin, _KeyNavContainer, _
 		//		2) opening it from a parent menu (which automatically focuses it)
 		if(this.isActive){
 			this.focusChild(item);
-			if(this.focusedChild.popup && !this.focusedChild.disabled && !this.hover_timer){
-				this.hover_timer = this.defer("_openPopup", this.popupDelay);
+			if(item.popup && !item.disabled && !this.hover_timer){
+				this.hover_timer = this.defer(lang.hitch(this, "_openPopup", item), this.popupDelay);
 			}
 		}
 		// if the user is mixing mouse and keyboard navigation,
@@ -263,7 +263,7 @@ return declare("dijit._MenuBase", [_Widget, _TemplatedMixin, _KeyNavContainer, _
 		if(item.disabled){ return false; }
 
 		if(item.popup){
-			this._openPopup(evt.type == "keypress");
+			this._openPopup(item, evt.type == "keypress");
 		}else{
 			// before calling user defined handler, close hierarchy of menus
 			// and restore focus to place it was when menu was opened
@@ -274,15 +274,13 @@ return declare("dijit._MenuBase", [_Widget, _TemplatedMixin, _KeyNavContainer, _
 		}
 	},
 
-	_openPopup: function(/*Boolean*/ focus){
+	_openPopup: function(/*dijit/MenuItem*/ from_item, /*Boolean*/ focus){
 		// summary:
 		//		Open the popup to the side of/underneath the current menu item, and optionally focus first item
 		// tags:
 		//		protected
 
 		this._stopPopupTimer();
-		var from_item = this.focusedChild;
-		if(!from_item){ return; } // the focused child lost focus since the timer was started
 		var popup = from_item.popup;
 		if(!popup.isShowingNow){
 			if(this.currentPopup){
@@ -401,7 +399,15 @@ return declare("dijit._MenuBase", [_Widget, _TemplatedMixin, _KeyNavContainer, _
 		if(this.focusedChild){ // unhighlight the focused item
 			this.focusedChild._setSelected(false);
 			this.onItemUnhover(this.focusedChild);
-			this.focusedChild = null;
+		}
+
+		// Repeat what _KeyNavContainer.onBlur() does, so that the MenuBar gets treated as blurred even though the user
+		// hasn't clicked or focused anywhere outside of the MenuBar yet.  Otherwise, the Menu code gets confused since
+		// the menu is in a passive state but this.focusedChild is still set.
+		domAttr.set(this.domNode, "tabIndex", this.tabIndex);
+		if(this.focusedChild){
+			this.focusedChild.set("tabIndex", "-1");
+			this._set("focusedChild", null);
 		}
 	},
 

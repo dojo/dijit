@@ -1,14 +1,14 @@
 define([
-	"dojo/_base/kernel", // kernel.deprecated
-	"./_Container",
-	"./_FocusMixin",
 	"dojo/_base/array", // array.forEach
-	"dojo/keys", // keys.END keys.HOME
 	"dojo/_base/declare", // declare
-	"dojo/_base/event", // event.stop
 	"dojo/dom-attr", // domAttr.set
-	"dojo/_base/lang" // lang.hitch
-], function(kernel, _Container, _FocusMixin, array, keys, declare, event, domAttr, lang){
+	"dojo/_base/event", // event.stop
+	"dojo/_base/kernel", // kernel.deprecated
+	"dojo/keys", // keys.END keys.HOME
+	"dojo/_base/lang", // lang.hitch
+	"./_Container",
+	"./_FocusMixin"
+], function(array, declare, domAttr, event, kernel, keys, lang, _Container, _FocusMixin){
 
 
 	// module:
@@ -18,10 +18,9 @@ define([
 		// summary:
 		//		A _Container with keyboard navigation of its children.
 		// description:
-		//		To use this mixin, call connectKeyNavHandlers() in
-		//		postCreate().
-		//		It provides normalized keyboard and focusing code for Container
-		//		widgets.
+		//		Provides normalized keyboard and focusing code for Container widgets.
+		//		To use this mixin, call connectKeyNavHandlers() in postCreate().
+		//		Also, child widgets must implement a focus() method.
 
 /*=====
 		// focusedChild: [protected] Widget
@@ -128,17 +127,22 @@ define([
 			if(this.focusedChild && widget !== this.focusedChild){
 				this._onChildBlur(this.focusedChild);	// used by _MenuBase
 			}
-			widget.set("tabIndex", this.tabIndex);	// for IE focus outline to appear, must set tabIndex before focs
+			widget.set("tabIndex", this.tabIndex);	// for IE focus outline to appear, must set tabIndex before focus
 			widget.focus(last ? "end" : "start");
 			this._set("focusedChild", widget);
 		},
 
 		_startupChild: function(/*dijit/_WidgetBase*/ widget){
 			// summary:
-			//		Setup for each child widget
+			//		Setup for each child widget.
 			// description:
 			//		Sets tabIndex=-1 on each child, so that the tab key will
 			//		leave the container rather than visiting each child.
+			//
+			//		Note: if you add children by a different method than addChild(), then need to call this manually
+			//		or at least make sure the child's tabIndex is -1.
+			//
+			//		Note: see also _LayoutWidget.setupChild(), which is also called for each child widget.
 			// tags:
 			//		private
 
@@ -155,7 +159,7 @@ define([
 
 		_onContainerFocus: function(evt){
 			// summary:
-			//		Handler for when the container gets focus
+			//		Handler for when the container itself gets focus.
 			// description:
 			//		Initially the container itself has a tabIndex, but when it gets
 			//		focus, switch focus to first child...
@@ -164,7 +168,7 @@ define([
 
 			// Note that we can't use _onFocus() because switching focus from the
 			// _onFocus() handler confuses the focus.js code
-			// (because it causes _onFocusNode() to be called recursively)
+			// (because it causes _onFocusNode() to be called recursively).
 			// Also, _onFocus() would fire when focus went directly to a child widget due to mouse click.
 
 			// Ignore spurious focus events:
@@ -189,10 +193,11 @@ define([
 			// then restore the container's tabIndex so that user can tab to it again.
 			// Note that using _onBlur() so that this doesn't happen when focus is shifted
 			// to one of my child widgets (typically a popup)
-			if(this.tabIndex){
-				domAttr.set(this.domNode, "tabIndex", this.tabIndex);
+			domAttr.set(this.domNode, "tabIndex", this.tabIndex);
+			if(this.focusedChild){
+				this.focusedChild.set("tabIndex", "-1");
+				this._set("focusedChild", null);
 			}
-			this.focusedChild = null;
 			this.inherited(arguments);
 		},
 
@@ -220,14 +225,16 @@ define([
 		_keyboardSearchCompare: function(/*dijit/_WidgetBase*/ item, /*String*/ searchString){
 			// summary:
 			//		Compares the searchString to the widget's text label, returning:
-			//		-1: a high priority match  and stop searching
-			//		 0: not a match
-			//		 1: a match but keep looking for a higher priority match
+			//
+			//			* -1: a high priority match  and stop searching
+			//		 	* 0: not a match
+			//		 	* 1: a match but keep looking for a higher priority match
 			// tags:
 			//		private
-			var element = item.domNode;
-			var text = item.label || (element.focusNode ? element.focusNode.label : '') || element.innerText || element.textContent || ""
-			var currentString = text.replace(/^\s+/, '').substr(0, searchString.length).toLowerCase();
+			var element = item.domNode,
+				text = item.label || (element.focusNode ? element.focusNode.label : '') || element.innerText || element.textContent || "",
+				currentString = text.replace(/^\s+/, '').substr(0, searchString.length).toLowerCase();
+
 			return (!!searchString.length && currentString == searchString) ? -1 : 0; // stop searching after first match by default
 		},
 
