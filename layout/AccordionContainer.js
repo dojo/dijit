@@ -200,16 +200,20 @@ define([
 			this.inherited(arguments);
 
 			// Map changes in content widget's title etc. to changes in the button
-			var button = this.button;
+			var button = this.button,
+				cw = this.contentWidget;
 			this._contentWidgetWatches = [
-				this.contentWidget.watch('title', lang.hitch(this, function(name, oldValue, newValue){
+				cw.watch('title', lang.hitch(this, function(name, oldValue, newValue){
 					button.set("label", newValue);
 				})),
-				this.contentWidget.watch('tooltip', lang.hitch(this, function(name, oldValue, newValue){
+				cw.watch('tooltip', lang.hitch(this, function(name, oldValue, newValue){
 					button.set("title", newValue);
 				})),
-				this.contentWidget.watch('iconClass', lang.hitch(this, function(name, oldValue, newValue){
+				cw.watch('iconClass', lang.hitch(this, function(name, oldValue, newValue){
 					button.set("iconClass", newValue);
+				})),
+				cw.watch('textDir', lang.hitch(this, function(name, oldValue, newValue){
+					button.set("textDir", newValue);
 				}))
 			];
 		},
