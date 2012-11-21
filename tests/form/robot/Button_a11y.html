@@ -21,7 +21,6 @@
 
 				var submitCount = 0, resetCount = 0;
 
-
 				doh.register("setup", function(){
 					doh.robot.sequence(function(){
 						dojo.connect(dijit.byId("testForm"), "onSubmit", function(){
@@ -392,21 +391,22 @@
 						name: "uncheck",
 						timeout: 4000,
 						runTest: function(){
-							var d = new doh.Deferred();
-
-							var checked = dijit.byId("toggle1").get("checked");
+							var toggle1 = dijit.byId("toggle1");
+							var checked = toggle1.get("checked");
 							doh.t(checked, "toggle1 initially checked");
 							doh.is("true", dojo.byId('toggle1').getAttribute("aria-pressed"), "aria-pressed 1");
 
+							var d = new doh.Deferred();
+
 							var watchOld, watchNew;
-							dijit.byId("toggle1").set("onChange", function(v){ checked = v; });
-							dijit.byId("toggle1").watch("checked", function(name, o, n){
+							toggle1.set("onChange", function(v){ checked = v; });
+							toggle1.watch("checked", function(name, o, n){
 								watchOld = o;
 								watchNew = n;
 							});
 
-							dijit.byId("toggle1").focus();
-							doh.robot.keyPress(dojo.keys.SPACE, 1000, {});
+							toggle1.focus();
+							doh.robot.typeKeys(' ', 1000, 250);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(checked, "toggle1 unchecked");
@@ -421,21 +421,21 @@
 						name: "check",
 						timeout: 4000,
 						runTest: function(){
-							var d = new doh.Deferred();
-
-							var checked = dijit.byId("toggle1").get("checked");
+							var toggle1 = dijit.byId("toggle1");
+							var checked = toggle1.get("checked");
 							doh.f(checked, "toggle1 unchecked");
 							doh.is("false", dojo.byId('toggle1').getAttribute("aria-pressed"), "aria-pressed 1");
 
+							var d = new doh.Deferred();
+
 							var watchOld, watchNew;
-							dijit.byId("toggle1").set("onChange", function(v){ checked = v; });
-							dijit.byId("toggle1").watch("checked", function(name, o, n){
+							toggle1.set("onChange", function(v){ checked = v; });
+							toggle1.watch("checked", function(name, o, n){
 								watchOld = o;
 								watchNew = n;
 							});
 
-							dijit.byId("toggle1").focus();
-							doh.robot.keyPress(dojo.keys.SPACE, 1000, {});
+							doh.robot.typeKeys(' ', 500, 250);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(checked, "toggle1 checked");

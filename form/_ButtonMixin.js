@@ -40,7 +40,10 @@ return declare("dijit.form._ButtonMixin", null, {
 		//		private
 		event.stop(e);
 		if(!this.disabled){
-			this.valueNode.click();
+			this.defer(function(){ // let this event finish before starting another so IE isn't confused
+				// cannot use on.emit since button default actions won't occur
+				this.valueNode.click(e);
+			});
 		}
 		return false;
 	},

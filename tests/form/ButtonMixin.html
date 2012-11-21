@@ -31,6 +31,7 @@
 	<script type="text/javascript">
 		dojo.require("doh.runner");
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
+		dojo.require("dijit.Dialog");
 		dojo.require("dijit.form.Button");
 		dojo.require("dojox.mobile.Button");
 
@@ -65,64 +66,6 @@
 	 			}
 			]);
 
-			doh.register("events", [
-				{
-					name: "dijit",
-					timeout: 2000,
-					runTest: function(){
-						var
-							dijit_events = dijit.byId('dijit_events'),
-							calledOnClick = false,
-							nop = function(){ return false; };
-
-						function onClick(){
-							dijit_events.set('onClick', nop);
-							calledOnClick = true;
-							return true;
-						}
-						doh.f(dijit_events._onClick({
-							preventDefault: nop,
-							stopPropagation: nop
-						}), "_onClick");
-						dijit_events.set('onClick', onClick);
-						dijit_events._onClick({
-							preventDefault: nop,
-							stopPropagation: nop
-						});
-						doh.t(calledOnClick, "calledOnClick");
-					}
-	 			},
-				{
-					name: "mobile",
-					timeout: 2000,
-					runTest: function(){
-						var
-							d = new doh.Deferred(),
-							mobile_events = dijit.byId('mobile_events'),
-							nop = function(){ return false; };
-
-						function onClick(){
-							mobile_events.set('onClick', nop);
-							d.callback(true);
-							return true;
-						}
-						doh.f(mobile_events._onClick({
-							preventDefault: nop,
-							stopPropagation: nop
-						}), "_onClick");
-						mobile_events.set("onClick", onClick);
-						setTimeout(function(){
-							mobile_events.focusNode.click({
-								preventDefault: nop,
-								stopPropagation: nop
-							});
-						}, 0);
-
-						return d;
-					}
-	 			}
-			]);
-
 			doh.register("programmatic", [
 				{
 					name: "dijit",
@@ -148,6 +91,98 @@
 	 			}
 			]);
 
+			var runTests = function(t,i){
+				var	d = new doh.Deferred(),
+					form = document.getElementById('myform'),
+					clicks = document.getElementById('clicks'),
+					submits = document.getElementById('submits'),
+					bubbles = document.getElementById('bubbles');
+				form.reset();
+				document.getElementById('native'+i).click();
+				setTimeout(function(){
+					var nativeClicks = clicks.value;
+					var nativeSubmits = submits.value;
+					var nativeBubbles = bubbles.value;
+					form.reset();
+					document.getElementById('widget'+i).click();
+					setTimeout(function(){
+						var widgetClicks = clicks.value;
+						var widgetSubmits = submits.value;
+						var widgetBubbles = bubbles.value;
+						form.reset();
+						document.getElementById('mobile'+i).click();
+						setTimeout(function(){
+							var mobileClicks = clicks.value;
+							var mobileSubmits = submits.value;
+							var mobileBubbles = bubbles.value;
+							form.reset();
+							document.getElementById('dialogButton'+i).click();
+							setTimeout(d.getTestCallback(function(){
+								var dialogClicks = clicks.value;
+								var dialogSubmits = submits.value;
+								var dialogBubbles = bubbles.value;
+								t.is(nativeClicks, widgetClicks, "widget clicks");
+								t.is(nativeSubmits, widgetSubmits, "widget submits");
+								t.is(nativeBubbles, widgetBubbles, "widget bubbles");
+								t.isNot("000", widgetClicks+""+widgetSubmits+""+widgetBubbles, "not all 0");
+								t.is(nativeClicks, mobileClicks, "mobile clicks");
+								t.is(nativeSubmits, mobileSubmits, "mobile submits");
+								t.is(nativeBubbles, mobileBubbles, "mobile bubbles");
+								t.is(nativeClicks, dialogClicks, "dialog clicks");
+								t.is(nativeSubmits, dialogSubmits, "dialog submits");
+								t.is(nativeBubbles, dialogBubbles, "dialog bubbles");
+							}), 0);
+						}, 0);
+					}, 0);
+				}, 0);
+				return d;
+			};
+
+			doh.register("click behavior", [
+				{
+					name: "return true",
+					timeout: 1000,
+					runTest: function(t){
+						runTests(t,1);
+					}
+				},
+				{
+					name: "return false",
+					timeout: 1000,
+					runTest: function(t){
+						runTests(t,2);
+					}
+				},
+				{
+					name: "stopProgation + return true",
+					timeout: 1000,
+					runTest: function(t){
+						runTests(t,3);
+					}
+				},
+				{
+					name: "stopProgation + return false",
+					timeout: 1000,
+					runTest: function(t){
+						runTests(t,4);
+					}
+				},
+				{
+					name: "preventDefault + return true",
+					timeout: 1000,
+					runTest: function(t){
+						runTests(t,5);
+					}
+				},
+				{
+					name: "preventDefault + return false",
+					timeout: 1000,
+					runTest: function(t){
+						runTests(t,6);
+					}
+				}
+			]);
+
 			doh.run();
 		});
 	</script>
@@ -167,16 +202,55 @@
 			<td class="layout"><button type="button" class="mblRedButton" id="mobile_attributes" dojoType="dojox.mobile.Button" label="original"/></td>
 		</tr>
 		<tr>
-		<tr>
-			<td class="layout">Events</td>
-			<td class="layout"><button id="dijit_events" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button", onClick:function(){ return false; }'>innerHTML</button></td>
-			<td class="layout"><button type="button" id="mobile_events" data-dojo-type="dojox.mobile.Button" data-dojo-props='type:"button", onClick:function(){ return false; }'>innerHTML</button></td>
-		</tr>
-		<tr>
 			<td class="layout">Programmatic</td>
 			<td class="layout" id="dijit_programmatic_container"></td>
 			<td class="layout" id="mobile_programmatic_container"></td>
 		</tr>
 	</table>
+	<form id="myform" method="get" onsubmit="document.getElementById('submits').value++;return false" onclick="document.getElementById('bubbles').value++;return true;" style="border:1px solid black;margin:10px 0;">
+		<legend>Compare native and widget click event behavior:</legend>
+		<label for="submits">Submits</label><input id="submits" size="4" disabled value="0">
+		<label for="bubbles">Bubbles</label><input id="bubbles" size="4" disabled value="0">
+		<label for="clicks">Clicks</label><input id="clicks" size="4" disabled value="0">
+		<input type="reset" id="formContainerReset">
+		<br>
+		<button id="native1" type="submit" onclick="document.getElementById('clicks').value++;return true;">native return true</button>
+		<button id="widget1" type="submit" onclick="document.getElementById('clicks').value++;return true;" data-dojo-type="dijit/form/Button">widget return true</button>
+		<button id="mobile1" type="submit" onclick="document.getElementById('clicks').value++;return true;" data-dojo-type="dojox/mobile/Button">mobile return true</button>
+		<button id="dialog1" type="button" onclick="arguments[0].stopPropagation();arguments[0].preventDefault();document.getElementById('dialogButton1').click();return false;" data-dojo-type="dijit/form/Button">dialog return true</button>
+		<br>
+		<button id="native2" type="submit" onclick="document.getElementById('clicks').value++;return false;">native return false</button>
+		<button id="widget2" type="submit" onclick="document.getElementById('clicks').value++;return false;" data-dojo-type="dijit/form/Button">widget return false</button>
+		<button id="mobile2" type="submit" onclick="document.getElementById('clicks').value++;return false;" data-dojo-type="dojox/mobile/Button">mobile return false</button>
+		<button id="dialog2" type="button" onclick="arguments[0].stopPropagation();arguments[0].preventDefault();document.getElementById('dialogButton2').click();return false;" data-dojo-type="dijit/form/Button">dialog return false</button>
+		<br>
+		<button id="native3" type="submit" onclick="document.getElementById('clicks').value++;arguments[0].stopPropagation();return true;">native stopPropagation + return true</button>
+		<button id="widget3" type="submit" onclick="document.getElementById('clicks').value++;arguments[0].stopPropagation();return true;" data-dojo-type="dijit/form/Button">widget stopPropagation + return true</button>
+		<button id="mobile3" type="submit" onclick="document.getElementById('clicks').value++;arguments[0].stopPropagation();return true;" data-dojo-type="dojox/mobile/Button">mobile stopPropagation + return true</button>
+		<button id="dialog3" type="button" onclick="arguments[0].stopPropagation();arguments[0].preventDefault();document.getElementById('dialogButton3').click();return false;" data-dojo-type="dijit/form/Button">dialog stopPropagation + return true</button>
+		<br>
+		<button id="native4" type="submit" onclick="document.getElementById('clicks').value++;arguments[0].stopPropagation();return false;">native stopPropagation + return false</button>
+		<button id="widget4" type="submit" onclick="document.getElementById('clicks').value++;arguments[0].stopPropagation();return false;" data-dojo-type="dijit/form/Button">widget stopPropagation + return false</button>
+		<button id="mobile4" type="submit" onclick="document.getElementById('clicks').value++;arguments[0].stopPropagation();return false;" data-dojo-type="dojox/mobile/Button">mobile stopPropagation + return false</button>
+		<button id="dialog4" type="button" onclick="arguments[0].stopPropagation();arguments[0].preventDefault();document.getElementById('dialogButton4').click();return false;" data-dojo-type="dijit/form/Button">dialog stopPropagation + return false</button>
+		<br>
+		<button id="native5" type="submit" onclick="document.getElementById('clicks').value++;arguments[0].preventDefault();return true;">native preventDefault + return true</button>
+		<button id="widget5" type="submit" onclick="document.getElementById('clicks').value++;arguments[0].preventDefault();return true;" data-dojo-type="dijit/form/Button">widget preventDefault + return true</button>
+		<button id="mobile5" type="submit" onclick="document.getElementById('clicks').value++;arguments[0].preventDefault();return true;" data-dojo-type="dojox/mobile/Button">mobile preventDefault + return true</button>
+		<button id="dialog5" type="button" onclick="arguments[0].stopPropagation();arguments[0].preventDefault();document.getElementById('dialogButton5').click();return false;" data-dojo-type="dijit/form/Button">dialog preventDefault + return true</button>
+		<br>
+		<button id="native6" type="submit" onclick="document.getElementById('clicks').value++;arguments[0].preventDefault();return false;">native preventDefault + return false</button>
+		<button id="widget6" type="submit" onclick="document.getElementById('clicks').value++;arguments[0].preventDefault();return false;" data-dojo-type="dijit/form/Button">widget preventDefault + return false</button>
+		<button id="mobile6" type="submit" onclick="document.getElementById('clicks').value++;arguments[0].preventDefault();return false;" data-dojo-type="dojox/mobile/Button">mobile preventDefault + return false</button>
+		<button id="dialog6" type="button" onclick="arguments[0].stopPropagation();arguments[0].preventDefault();document.getElementById('dialogButton6').click();return false;" data-dojo-type="dijit/form/Button">dialog preventDefault + return false</button>
+	</form> 
+	<div data-dojo-type="dijit/Dialog" onExecute="document.getElementById('submits').value++;return false" onclick="document.getElementById('bubbles').value++;return true;">
+		<button id="dialogButton1" type="submit" onclick="document.getElementById('clicks').value++;return true;" data-dojo-type="dijit/form/Button"></button>
+		<button id="dialogButton2" type="submit" onclick="document.getElementById('clicks').value++;return false;" data-dojo-type="dijit/form/Button"></button>
+		<button id="dialogButton3" type="submit" onclick="document.getElementById('clicks').value++;arguments[0].stopPropagation();return true;" data-dojo-type="dijit/form/Button"></button>
+		<button id="dialogButton4" type="submit" onclick="document.getElementById('clicks').value++;arguments[0].stopPropagation();return false;" data-dojo-type="dijit/form/Button"></button>
+		<button id="dialogButton5" type="submit" onclick="document.getElementById('clicks').value++;arguments[0].preventDefault();return true;" data-dojo-type="dijit/form/Button"></button>
+		<button id="dialogButton6" type="submit" onclick="document.getElementById('clicks').value++;arguments[0].preventDefault();return false;" data-dojo-type="dijit/form/Button"></button>
+	</div>
 </body>
 </html>
