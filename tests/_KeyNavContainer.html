@@ -73,8 +73,7 @@
 					runTest: function(t){
 						var c = registry.byId("container");
 
-						// focusing container (simulated tabbing into container) should move focus to first child
-						on.emit(c.domNode, "keypress", {keyCode: keys.DOWN_ARROW, bubbles: true, cancelable: true});
+						on.emit(c.domNode, "keydown", {keyCode: keys.DOWN_ARROW, bubbles: true, cancelable: true});
 
 						doh.is("one", focus.curNode.id, "focus moved to second child");
 						doh.f(a11y.isTabNavigable("zero"), "zero not tab navigable");
@@ -86,8 +85,7 @@
 					runTest: function(t){
 						var c = registry.byId("container");
 
-						// focusing container (simulated tabbing into container) should move focus to first child
-						on.emit(c.domNode, "keypress", {keyCode: keys.LEFT_ARROW, bubbles: true, cancelable: true});
+						on.emit(c.domNode, "keydown", {keyCode: keys.LEFT_ARROW, bubbles: true, cancelable: true});
 
 						doh.is("zero", focus.curNode.id, "focus moved to first child");
 						doh.f(a11y.isTabNavigable("one"), "one not tab navigable");

@@ -84,6 +84,40 @@ define([
 			});
 		},
 
+		_getFirstFocusableChild: function(){
+			// summary:
+			//		Returns first child that can be focused
+
+			// Leverage _getNextFocusableChild() to skip disabled children
+			return this._getNextFocusableChild(null, 1);	// dijit/_WidgetBase
+		},
+
+		_getLastFocusableChild: function(){
+			// summary:
+			//		Returns last child that can be focused.
+
+			// Leverage _getNextFocusableChild() to skip disabled children
+			return this._getNextFocusableChild(null, -1);	// dijit/_WidgetBase
+		},
+
+		focusFirstChild: function(){
+			// summary:
+			//		Focus the first focusable child in the container.
+			// tags:
+			//		protected
+
+			this.focusChild(this._getFirstFocusableChild());
+		},
+
+		focusLastChild: function(){
+			// summary:
+			//		Focus the last focusable child in the container.
+			// tags:
+			//		protected
+
+			this.focusChild(this._getLastFocusableChild());
+		},
+
 		_getNextFocusableChild: function(child, dir){
 			// implement _KeyNavMixin._getNextFocusableChild() for a _Container
 

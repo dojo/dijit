@@ -4,8 +4,9 @@ define([
 	"dojo/dom-attr", // domAttr.set
 	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys.END keys.HOME, keys.LEFT_ARROW etc.
-	"dojo/_base/lang" // lang.hitch
-], function(array, declare, domAttr, event, keys, lang){
+	"dojo/_base/lang", // lang.hitch
+	"dojo/on"
+], function(array, declare, domAttr, event, keys, lang, on){
 
 	// module:
 	//		dijit/_KeyNavMixin
@@ -18,11 +19,11 @@ define([
 		//
 		//		To use this mixin, the subclass must:
 		//
-		//			- Implement _getNextFocusableChild() to find the next or previous child relative to a current child,
-		//			  and to find the first and last child.  Next and previous in this context refer to a linear
-		//			  ordering of the children or descendants used by letter key search.
-		//			- Implement _onLeftArrow(), _onRightArrow(), _onDownArrow(), _onUpArrow() functions to handle those
-		//			  keystrokes.
+		//			- Implement  focusFirstChild(), focusLastChild(), _onLeftArrow(), _onRightArrow()
+		//			  _onDownArrow(), _onUpArrow() methods to handle home/end/left/right/up/down keystrokes.
+		//			- Implement _getNextFocusableChild() to find the next or previous child relative to a current child.
+		//			  Next and previous in this context refer to a linear ordering of the children or descendants used
+		//			  by letter key search.
 		//			- tabIndex
 		//				- set all descendants' initial tabIndex to "-1"; both initial descendants and any
 		//				  descendants added later, by for example addChild()
@@ -65,11 +66,14 @@ define([
 				keyCodes[this.isLeftToRight() ? keys.LEFT_ARROW : keys.RIGHT_ARROW] = lang.hitch(this, "_onLeftArrow");
 				keyCodes[this.isLeftToRight() ? keys.RIGHT_ARROW : keys.LEFT_ARROW] = lang.hitch(this, "_onRightArrow");
 				keyCodes[keys.UP_ARROW] = lang.hitch(this, "_onUpArrow");
-				keyCodes[keys.DOWN_ARROW] = lang.hitch(this, "_onUpArrow");
+				keyCodes[keys.DOWN_ARROW] = lang.hitch(this, "_onDownArrow");
 			}
 
-			this.connect(this.domNode, "onkeypress", "_onContainerKeypress");
-			this.connect(this.domNode, "onfocus", "_onContainerFocus");
+			this.own(
+				on(this.domNode, "keypress", lang.hitch(this, "_onContainerKeypress")),
+				on(this.domNode, "keydown", lang.hitch(this, "_onContainerKeydown")),
+				on(this.domNode, "focus", lang.hitch(this, "_onContainerFocus"))
+			);
 		},
 
 		_onLeftArrow: function(){
@@ -112,16 +116,14 @@ define([
 			// summary:
 			//		Focus the first focusable child in the container.
 			// tags:
-			//		protected
-			this.focusChild(this._getFirstFocusableChild());
+			//		abstract extension
 		},
 
 		focusLastChild: function(){
 			// summary:
 			//		Focus the last focusable child in the container.
 			// tags:
-			//		protected
-			this.focusChild(this._getLastFocusableChild());
+			//		abstract extension
 		},
 
 		focusNext: function(){
@@ -243,75 +245,89 @@ define([
 			return (!!searchString.length && currentString == searchString) ? -1 : 0; // stop searching after first match by default
 		},
 
-		_onContainerKeypress: function(evt){
+		_onContainerKeydown: function(evt){
 			// summary:
-			//		When a key is pressed, if it's an arrow key etc. then
-			//		it's handled here.
+			//		When a key is pressed, if it's an arrow key etc. then it's handled here.
 			// tags:
 			//		private
-			if(evt.ctrlKey || evt.altKey){ return; }
-			var func = this._keyNavCodes[evt.charOrCode];
+
+			var func = this._keyNavCodes[evt.keyCode];
 			if(func){
-				this._searchString = ''; // so a DOWN_ARROW b doesn't search for ab
 				func();
 				event.stop(evt);
-			}else if(evt.charCode){
-				var
-				matchedItem = null,
-				searchString,
-				numMatches = 0,
-				search = lang.hitch(this, function(){
-					if(this._searchTimer){
-						this._searchTimer.remove();
-					}
-					this._searchString += keyChar;
-					var allSameLetter = /^(.)\1*$/.test(this._searchString);
-					var searchLen = allSameLetter ? 1 : this._searchString.length;
-					searchString = this._searchString.substr(0, searchLen);
-					// commented out code block to search again if the multichar search fails after a smaller timeout
-					//this._searchTimer = this.defer(function(){ // this is the "failure" timeout
-					//	this._typingSlowly = true; // if the search fails, then treat as a full timeout
-					//	this._searchTimer = this.defer(function(){ // this is the "success" timeout
-					//		this._searchTimer = null;
-					//		this._searchString = '';
-					//	}, this.multiCharSearchDuration >> 1);
-					//}, this.multiCharSearchDuration >> 1);
-					this._searchTimer = this.defer(function(){ // this is the "success" timeout
-						this._searchTimer = null;
-						this._searchString = '';
-					}, this.multiCharSearchDuration);
-					var currentItem = this.focusedChild || null;
-					if(searchLen == 1 || !currentItem){
-						currentItem = this._getNextFocusableChild(currentItem, 1); // skip current
-						if(!currentItem){ return; } // no items
-					}
-					var stop = currentItem;
-					do{
-						var rc = this._keyboardSearchCompare(currentItem, searchString);
-						if(!!rc && numMatches++ == 0){
-							matchedItem = currentItem;
-						}
-						if(rc == -1){ // priority match
-							numMatches = -1;
-							break;
-						}
-						currentItem = this._getNextFocusableChild(currentItem, 1);
-					}while(currentItem != stop);
-					// commented out code block to search again if the multichar search fails after a smaller timeout
-					//if(!numMatches && (this._typingSlowly || searchLen == 1)){
-					//	this._searchString = '';
-					//	if(searchLen > 1){
-					//		// if no matches and they're typing slowly, then go back to first letter searching
-					//		search();
-					//	}
-					//}
-				}),
-				keyChar = String.fromCharCode(evt.charCode).toLowerCase();
-				search();
-				// commented out code block to search again if the multichar search fails after a smaller timeout
-				//this._typingSlowly = false;
-				this.onKeyboardSearch(matchedItem, evt, searchString, numMatches); 
+				this._searchString = ''; // so a DOWN_ARROW b doesn't search for ab
 			}
+		},
+
+		_onContainerKeypress: function(evt){
+			// summary:
+			//		When a printable key is pressed, it's handled here, searching by letter.
+			// tags:
+			//		private
+
+			if(evt.charCode <= 32){
+				// Avoid duplicate events on firefox (this is an arrow key that will be handled by keydown handler)
+				return;
+			}
+
+			if(evt.ctrlKey || evt.altKey){ return; }
+
+			var
+			matchedItem = null,
+			searchString,
+			numMatches = 0,
+			search = lang.hitch(this, function(){
+				if(this._searchTimer){
+					this._searchTimer.remove();
+				}
+				this._searchString += keyChar;
+				var allSameLetter = /^(.)\1*$/.test(this._searchString);
+				var searchLen = allSameLetter ? 1 : this._searchString.length;
+				searchString = this._searchString.substr(0, searchLen);
+				// commented out code block to search again if the multichar search fails after a smaller timeout
+				//this._searchTimer = this.defer(function(){ // this is the "failure" timeout
+				//	this._typingSlowly = true; // if the search fails, then treat as a full timeout
+				//	this._searchTimer = this.defer(function(){ // this is the "success" timeout
+				//		this._searchTimer = null;
+				//		this._searchString = '';
+				//	}, this.multiCharSearchDuration >> 1);
+				//}, this.multiCharSearchDuration >> 1);
+				this._searchTimer = this.defer(function(){ // this is the "success" timeout
+					this._searchTimer = null;
+					this._searchString = '';
+				}, this.multiCharSearchDuration);
+				var currentItem = this.focusedChild || null;
+				if(searchLen == 1 || !currentItem){
+					currentItem = this._getNextFocusableChild(currentItem, 1); // skip current
+					if(!currentItem){ return; } // no items
+				}
+				var stop = currentItem;
+				do{
+					var rc = this._keyboardSearchCompare(currentItem, searchString);
+					if(!!rc && numMatches++ == 0){
+						matchedItem = currentItem;
+					}
+					if(rc == -1){ // priority match
+						numMatches = -1;
+						break;
+					}
+					currentItem = this._getNextFocusableChild(currentItem, 1);
+				}while(currentItem != stop);
+				// commented out code block to search again if the multichar search fails after a smaller timeout
+				//if(!numMatches && (this._typingSlowly || searchLen == 1)){
+				//	this._searchString = '';
+				//	if(searchLen > 1){
+				//		// if no matches and they're typing slowly, then go back to first letter searching
+				//		search();
+				//	}
+				//}
+			}),
+			keyChar = String.fromCharCode(evt.charCode).toLowerCase();
+
+			search();
+			// commented out code block to search again if the multichar search fails after a smaller timeout
+			//this._typingSlowly = false;
+			this.onKeyboardSearch(matchedItem, evt, searchString, numMatches);
 		},
 
 		_onChildBlur: function(/*dijit/_WidgetBase*/ /*===== widget =====*/){
@@ -323,23 +339,9 @@ define([
 			//		protected
 		},
 
-		_getFirstFocusableChild: function(){
-			// summary:
-			//		Returns first child that can be focused
-			return this._getNextFocusableChild(null, 1);	// dijit/_WidgetBase
-		},
-
-		_getLastFocusableChild: function(){
-			// summary:
-			//		Returns last child that can be focused
-			return this._getNextFocusableChild(null, -1);	// dijit/_WidgetBase
-		},
-
 		_getNextFocusableChild: function(child, dir){
 			// summary:
 			//		Returns the next or previous focusable child, compared to "child".
-			//		_getNextFocusableChild(null, 1) returns the first child, and _getNextFocusableChild(null, -1)
-			//		returns the last child.
 			// child: Widget
 			//		The current widget
 			// dir: Integer
