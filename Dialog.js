@@ -116,7 +116,7 @@ define([
 		},
 
 		// aria-describedby: String
-		//		Allows the user to add an aria-describedby attribute onto the dialog.   The value should
+		//		Allows the user to add an aria-describedby attribute onto the dialog. The value should
 		//		be the id of the container element of text that describes the dialog purpose (usually
 		//		the first text in the dialog).
 		//	|	<div data-dojo-type="dijit/Dialog" aria-describedby="intro" .....>
@@ -165,6 +165,27 @@ define([
 				focus.focus(this._firstFocusItem);
 			}
 			this.inherited(arguments);
+		},
+
+		_onBlur: function(by){
+			this.inherited(arguments);
+
+			// If focus was accidentally removed from the dialog, such as if the user clicked a blank
+			// area of the screen, or clicked the browser's address bar and then tabbed into the page,
+			// then refocus.   Won't do anything if focus was removed because the Dialog was closed, or
+			// because a new Dialog popped up on top of the old one.
+			var refocus = lang.hitch(this, function(){
+				if(this.open && !this._destroyed && DialogLevelManager.isTop(this)){
+					this._getFocusItems(this.domNode);
+					focus.focus(this._firstFocusItem);
+				}
+			});
+			if(by == "mouse"){
+				// wait for mouse up, and then refocus dialog; otherwise doesn't work
+				on.once(this.ownerDocument, "mouseup", refocus);
+			}else{
+				refocus();
+			}
 		},
 
 		_endDrag: function(){
@@ -230,7 +251,7 @@ define([
 			var bb = domGeometry.position(this.domNode);
 
 			// Get viewport size but then reduce it by a bit; Dialog should always have some space around it
-			// to indicate that it's a popup.   This will also compensate for possible scrollbars on viewport.
+			// to indicate that it's a popup.  This will also compensate for possible scrollbars on viewport.
 			var viewport = winUtils.getBox(this.ownerDocument);
 			viewport.w *= this.maxRatio;
 			viewport.h *= this.maxRatio;

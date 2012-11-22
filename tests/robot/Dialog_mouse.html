@@ -63,7 +63,8 @@
 
 							robot.sequence(d.getTestCallback(function(){
 								doh.t(helpers.isVisible("dialog1"), "dialog 1 still visible");
-								doh.isNot("plainInput", dfocus.curNode && dfocus.curNode.id, "plain input wasn't focused");
+								doh.is("name", dfocus.curNode && dfocus.curNode.id,
+										"focus remains on / returned to dialog");
 							}), 1000);
 
 							return d;
@@ -118,8 +119,8 @@
 							var d = new doh.Deferred();
 
 							onFocus(d.getTestCallback(function(node){
-								doh.t(helpers.isHidden("dialog1"), "dialog 1 was closed");
 								doh.is("dialog1button", node.id, "focus returned to button");
+								doh.t(helpers.isHidden("dialog1"), "dialog 1 was closed");
 							}));
 
 							var button = query("#dialog1 .dijitDialogCloseIcon")[0];
