@@ -576,8 +576,10 @@
 					runTest: function(){
 						var d = new doh.Deferred();
 
-						// Skip over China and go to Continents
-						doh.robot.typeKeys("co", 100);
+						// After the 500ms delay above plus 750 delay here, character should start a new search.
+						// Skip over China and go to Continents.
+						doh.robot.typeKeys("co", 750);
+
 						doh.robot.sequence(d.getTestCallback(function(){
 							var focus = registry.getEnclosingWidget(dojo.global.dijit.focus.curNode);
 							doh.t(focus, "there is a focused widget");
@@ -593,8 +595,10 @@
 					runTest: function(){
 						var d = new doh.Deferred();
 
-						// By typing AS should skip over Africa and go to Asia
-						doh.robot.typeKeys("as", 100);
+						// After the 500ms delay above plus 750 delay here, character should start a new search.
+						// By typing AS should skip over Africa and go to Asia.
+						doh.robot.typeKeys("as", 750);
+
 						doh.robot.sequence(d.getTestCallback(function(){
 							var focus = registry.getEnclosingWidget(dojo.global.dijit.focus.curNode);
 							doh.t(focus, "there is a focused widget");
@@ -610,9 +614,9 @@
 					runTest: function(){
 						var d = new doh.Deferred();
 
-						// After the 500ms delay from above, typing a new character should
-						// start a new search
-						doh.robot.typeKeys("n", 100);
+						// After the 500ms delay above plus 750 delay here, character should start a new search
+						doh.robot.typeKeys("n", 750);
+
 						doh.robot.sequence(d.getTestCallback(function(){
 							var focus = registry.getEnclosingWidget(dojo.global.dijit.focus.curNode);
 							doh.t(focus, "there is a focused widget");

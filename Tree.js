@@ -27,6 +27,7 @@ define([
 	"./_Container",
 	"./_Contained",
 	"./_CssStateMixin",
+	"./_KeyNavMixin",
 	"dojo/text!./templates/TreeNode.html",
 	"dojo/text!./templates/Tree.html",
 	"./tree/TreeStoreModel",
@@ -34,7 +35,7 @@ define([
 	"./tree/_dndSelector"
 ], function(array, connect, cookie, declare, Deferred, all,
 			dom, domClass, domGeometry, domStyle, event, createError, fxUtils, kernel, keys, lang, on, topic, touch, when,
-			focus, registry, manager, _Widget, _TemplatedMixin, _Container, _Contained, _CssStateMixin,
+			focus, registry, manager, _Widget, _TemplatedMixin, _Container, _Contained, _CssStateMixin, _KeyNavMixin,
 			treeNodeTemplate, treeTemplate, TreeStoreModel, ForestStoreModel, _dndSelector){
 
 // module:
@@ -466,19 +467,6 @@ var TreeNode = declare(
 		// Set leaf icon or folder icon, as appropriate
 		this._updateItemClasses(this.item);
 
-		// On initial tree show, make the selected TreeNode as either the root node of the tree,
-		// or the first child, if the root node is hidden
-		if(this == tree.rootNode){
-			var fc = this.tree.showRoot ? this : this.getChildren()[0];
-			if(fc){
-				fc.setFocusable(true);
-				tree.lastFocused = fc;
-			}else{
-				// fallback: no nodes in tree so focus on Tree <div> itself
-				tree.domNode.setAttribute("tabIndex", "0");
-			}
-		}
-
 		var def = makeAll(defs);
 		this.tree._startPaint(def);		// to reset TreeNode widths after an item is added/removed from the Tree
 		return def;		// dojo/promise/all
@@ -536,18 +524,6 @@ var TreeNode = declare(
 		domClass.toggle(this.rowNode, "dijitTreeRowSelected", selected);
 	},
 
-	setFocusable: function(/*Boolean*/ selected){
-		// summary:
-		//		A Tree has a (single) node that's focusable.
-		//		Mark that this node is/isn't that currently focsuable node.
-		// description:
-		//		In particular, setting a node as selected involves setting tabIndex
-		//		so that when user tabs to the tree, focus will go to that node (only).
-
-		this.labelNode.setAttribute("tabIndex", selected ? "0" : "-1");
-	},
-
-
 	_setTextDirAttr: function(textDir){
 		if(textDir &&((this.textDir != textDir) || !this._created)){
 			this._set("textDir", textDir);
@@ -556,10 +532,14 @@ var TreeNode = declare(
 				childNode.set("textDir", textDir);
 			}, this);
 		}
+	},
+
+	focus: function(){
+		focus.focus(this.focusNode);
 	}
 });
 
-var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin, _CssStateMixin], {
+var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssStateMixin], {
 	// summary:
 	//		This widget displays hierarchical data from a store.
 
@@ -793,12 +773,6 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin, _CssStateMixin], {
 			on(this.containerNode, on.selector(".dijitTreeNode", "dblclick"), function(evt){
 				self._onDblClick(registry.byNode(this), evt);
 			}),
-			on(this.containerNode, on.selector(".dijitTreeNode", "keypress"), function(evt){
-				self._onKeyPress(registry.byNode(this), evt);
-			}),
-			on(this.containerNode, on.selector(".dijitTreeNode", "keydown"), function(evt){
-				self._onKeyDown(registry.byNode(this), evt);
-			}),
 			on(this.containerNode, on.selector(".dijitTreeRow", "focusin"), function(evt){
 				self._onNodeFocus(registry.getEnclosingWidget(this), evt);
 			})
@@ -815,6 +789,13 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin, _CssStateMixin], {
 		this.connect(this.model, "onDelete", "_onItemDelete");
 
 		this.inherited(arguments);
+
+		// Setup handlers for ENTER and SPACE keys.
+		// On WebKit based browsers, the combination ctrl-enter does not get passed through. To allow accessible
+		// multi-select on those browsers, the space key is also used for selection.
+		// Therefore, also allow space key for keyboard "click" operation.
+		var map = this._keyNavCodes;
+		map[keys.ENTER] = map[keys.SPACE] = lang.hitch(this, "_onEnterKey");
 
 		if(this.dndController){
 			if(lang.isString(this.dndController)){
@@ -1231,78 +1212,26 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin, _CssStateMixin], {
 
 	/////////// Keyboard and Mouse handlers ////////////////////
 
-	_onKeyPress: function(/*TreeNode*/ treeNode, /*Event*/ e){
-		// summary:
-		//		Handles keystrokes for printable keys, doing search navigation
 
-		if(e.charCode <= 32){
-			// Avoid duplicate events on firefox (this is an arrow key that will be handled by keydown handler)
-			return;
-		}
-
-		if(!e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey){
-			var c = String.fromCharCode(e.charCode);
-			this._onLetterKeyNav( { node: treeNode, key: c.toLowerCase() } );
-			event.stop(e);
-		}
+	_onEnterKey: function(/*Event*/ evt, /*TreeNode*/ node){
+		this._publish("execute", { item: node.item, node: node } );
+		this.dndController.userSelect(node, connect.isCopyKey( evt ), evt.shiftKey);
+		this.onClick(node.item, node, evt);
 	},
 
-	_onKeyDown: function(/*TreeNode*/ treeNode, /*Event*/ e){
-		// summary:
-		//		Handles arrow, space, and enter keys
-
-		var key = e.keyCode;
-
-		var map = this._keyHandlerMap;
-		if(!map){
-			// Setup table mapping keys to events.
-			// On WebKit based browsers, the combination ctrl-enter does not get passed through. To allow accessible
-			// multi-select on those browsers, the space key is also used for selection.
-			// Therefore, also allow space key for keyboard "click" operation.
-			map = {};
-			map[keys.ENTER] = map[keys.SPACE] = map[" "] = "_onEnterKey";
-			map[this.isLeftToRight() ? keys.LEFT_ARROW : keys.RIGHT_ARROW] = "_onLeftArrow";
-			map[this.isLeftToRight() ? keys.RIGHT_ARROW : keys.LEFT_ARROW] = "_onRightArrow";
-			map[keys.UP_ARROW] = "_onUpArrow";
-			map[keys.DOWN_ARROW] = "_onDownArrow";
-			map[keys.HOME] = "_onHomeKey";
-			map[keys.END] = "_onEndKey";
-			this._keyHandlerMap = map;
-		}
-
-		if(this._keyHandlerMap[key]){
-			// clear record of recent printables (being saved for multi-char letter navigation),
-			// because "a", down-arrow, "b" shouldn't search for "ab"
-			if(this._curSearch){
-				this._curSearch.timer.remove();
-				delete this._curSearch;
-			}
-
-			this[this._keyHandlerMap[key]]( { node: treeNode, item: treeNode.item, evt: e } );
-			event.stop(e);
-		}
-	},
-
-	_onEnterKey: function(/*Object*/ message){
-		this._publish("execute", { item: message.item, node: message.node } );
-		this.dndController.userSelect(message.node, connect.isCopyKey( message.evt ), message.evt.shiftKey);
-		this.onClick(message.item, message.node, message.evt);
-	},
-
-	_onDownArrow: function(/*Object*/ message){
+	_onDownArrow: function(/*Event*/ evt, /*TreeNode*/ node){
 		// summary:
 		//		down arrow pressed; get next visible node, set focus there
-		var node = this._getNextNode(message.node);
-		if(node && node.isTreeNode){
-			this.focusNode(node);
+
+		var nextNode = this._getNextNode(node);
+		if(nextNode && nextNode.isTreeNode){
+			this.focusNode(nextNode);
 		}
 	},
 
-	_onUpArrow: function(/*Object*/ message){
+	_onUpArrow: function(/*Event*/ evt, /*TreeNode*/ node){
 		// summary:
 		//		Up arrow pressed; move to previous visible node
-
-		var node = message.node;
 
 		// if younger siblings
 		var previousSibling = node.getPreviousSibling();
@@ -1328,10 +1257,9 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin, _CssStateMixin], {
 		}
 	},
 
-	_onRightArrow: function(/*Object*/ message){
+	_onRightArrow: function(/*Event*/ evt, /*TreeNode*/ node){
 		// summary:
 		//		Right arrow pressed; go to child node
-		var node = message.node;
 
 		// if not expanded, expand, else move to 1st child
 		if(node.isExpandable && !node.isExpanded){
@@ -1344,12 +1272,10 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin, _CssStateMixin], {
 		}
 	},
 
-	_onLeftArrow: function(/*Object*/ message){
+	_onLeftArrow: function(/*Event*/ evt, /*TreeNode*/ node){
 		// summary:
 		//		Left arrow pressed.
 		//		If not collapsed, collapse, else move to parent.
-
-		var node = message.node;
 
 		if(node.isExpandable && node.isExpanded){
 			this._collapseNode(node);
@@ -1361,7 +1287,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin, _CssStateMixin], {
 		}
 	},
 
-	_onHomeKey: function(){
+	focusFirstChild: function(){
 		// summary:
 		//		Home key pressed; get first visible node, and set focus there
 		var node = this._getRootOrFirstNode();
@@ -1370,7 +1296,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin, _CssStateMixin], {
 		}
 	},
 
-	_onEndKey: function(){
+	focusLastChild: function(){
 		// summary:
 		//		End key pressed; go to last visible node.
 
@@ -1386,56 +1312,15 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin, _CssStateMixin], {
 		}
 	},
 
-	// multiCharSearchDuration: Number
-	//		If multiple characters are typed where each keystroke happens within
-	//		multiCharSearchDuration of the previous keystroke,
-	//		search for nodes matching all the keystrokes.
-	//
-	//		For example, typing "ab" will search for entries starting with
-	//		"ab" unless the delay between "a" and "b" is greater than multiCharSearchDuration.
-	multiCharSearchDuration: 250,
+	_getNextFocusableChild: function(node){
+		node = this._getNextNode(node);
 
-	_onLetterKeyNav: function(message){
-		// summary:
-		//		Called when user presses a prinatable key; search for node starting with recently typed letters.
-		// message: Object
-		//		Like { node: TreeNode, key: 'a' } where key is the key the user pressed.
-
-		// Branch depending on whether this key starts a new search, or modifies an existing search
-		var cs = this._curSearch;
-		if(cs){
-			// We are continuing a search.  Ex: user has pressed 'a', and now has pressed
-			// 'b', so we want to search for nodes starting w/"ab".
-			cs.pattern = cs.pattern + message.key;
-			cs.timer.remove();
-		}else{
-			// We are starting a new search
-			cs = this._curSearch = {
-					pattern: message.key,
-					startNode: message.node
-			};
+		//check for last node, jump to first node if necessary
+		if(!node){
+			node = this._getRootOrFirstNode();
 		}
 
-		// set/reset timer to forget recent keystrokes
-		cs.timer = this.defer(function(){
-			delete this._curSearch;
-		}, this.multiCharSearchDuration);
-
-		// Navigate to TreeNode matching keystrokes [entered so far].
-		var node = cs.startNode;
-		do{
-			node = this._getNextNode(node);
-			//check for last node, jump to first node if necessary
-			if(!node){
-				node = this._getRootOrFirstNode();
-			}
-		}while(node !== cs.startNode && (node.label.toLowerCase().substr(0, cs.pattern.length) != cs.pattern));
-		if(node && node.isTreeNode){
-			// no need to set focus if back where we started
-			if(node !== cs.startNode){
-				this.focusNode(node);
-			}
-		}
+		return node;
 	},
 
 	isExpandoNode: function(node, widget){
@@ -1668,8 +1553,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin, _CssStateMixin], {
 		// tags:
 		//		protected
 
-		// set focus so that the label will be voiced using screen readers
-		focus.focus(node.labelNode);
+		this.focusChild(node);
 	},
 
 	_onNodeFocus: function(/*dijit/_WidgetBase*/ node){
@@ -1680,15 +1564,16 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin, _CssStateMixin], {
 		//		It marks that the current node is the selected one, and the previously
 		//		selected node no longer is.
 
-		if(node && node != this.lastFocused){
-			if(this.lastFocused && !this.lastFocused._destroyed){
-				// mark that the previously focsable node is no longer focusable
-				this.lastFocused.setFocusable(false);
+		if(node && node != this.focusedChild){
+			if(this.focusedChild && !this.focusedChild._destroyed){
+				// mark that the previously focusable node is no longer focusable
+				this.focusedChild.set("tabIndex", "-1");
 			}
 
 			// mark that the new node is the currently selected one
-			node.setFocusable(true);
-			this.lastFocused = node;
+			node.set("tabIndex", this.tabIndex);
+			this.lastFocused = node;		// back-compat, remove for 2.0
+			this._set("focusedChild", node);
 		}
 	},
 

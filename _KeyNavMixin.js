@@ -59,6 +59,9 @@ define([
 		postCreate: function(){
 			this.inherited(arguments);
 
+			// Set tabIndex on this.domNode.  Will be automatic after #7381 is fixed.
+			domAttr.set(this.domNode, "tabIndex", this.tabIndex);
+
 			if(!this._keyNavCodes){
 				var keyCodes = this._keyNavCodes = {};
 				keyCodes[keys.HOME] = lang.hitch(this, "focusFirstChild");
@@ -124,23 +127,6 @@ define([
 			//		Focus the last focusable child in the container.
 			// tags:
 			//		abstract extension
-		},
-
-		focusNext: function(){
-			// summary:
-			//		Focus the next widget
-			// tags:
-			//		protected
-			this.focusChild(this._getNextFocusableChild(this.focusedChild, 1));
-		},
-
-		focusPrev: function(){
-			// summary:
-			//		Focus the last focusable node in the previous widget
-			//		(ex: go to the ComboButton icon section rather than button section)
-			// tags:
-			//		protected
-			this.focusChild(this._getNextFocusableChild(this.focusedChild, -1), true);
 		},
 
 		focusChild: function(/*dijit/_WidgetBase*/ widget, /*Boolean*/ last){
@@ -253,7 +239,7 @@ define([
 
 			var func = this._keyNavCodes[evt.keyCode];
 			if(func){
-				func();
+				func(evt, this.focusedChild);
 				event.stop(evt);
 				this._searchString = ''; // so a DOWN_ARROW b doesn't search for ab
 			}
@@ -339,14 +325,11 @@ define([
 			//		protected
 		},
 
-		_getNextFocusableChild: function(child, dir){
+		_getNextFocusableChild: function(child){
 			// summary:
-			//		Returns the next or previous focusable child, compared to "child".
+			//		Returns the next focusable child, compared to "child".
 			// child: Widget
 			//		The current widget
-			// dir: Integer
-			//		- 1 = after
-			//		- -1 = before
 			// tags:
 			//		abstract extension
 

@@ -118,8 +118,34 @@ define([
 			this.focusChild(this._getLastFocusableChild());
 		},
 
+		focusNext: function(){
+			// summary:
+			//		Focus the next widget
+			// tags:
+			//		protected
+			this.focusChild(this._getNextFocusableChild(this.focusedChild, 1));
+		},
+
+		focusPrev: function(){
+			// summary:
+			//		Focus the last focusable node in the previous widget
+			//		(ex: go to the ComboButton icon section rather than button section)
+			// tags:
+			//		protected
+			this.focusChild(this._getNextFocusableChild(this.focusedChild, -1), true);
+		},
+
 		_getNextFocusableChild: function(child, dir){
-			// implement _KeyNavMixin._getNextFocusableChild() for a _Container
+			// summary:
+			//		Returns the next or previous focusable child, compared to "child".
+			//		Implements and extends _KeyNavMixin._getNextFocusableChild() for a _Container.
+			// child: Widget
+			//		The current widget
+			// dir: Integer
+			//		- 1 = after
+			//		- -1 = before
+			// tags:
+			//		abstract extension
 
 			if(child){
 				child = this._getSiblingOfChild(child, dir);
