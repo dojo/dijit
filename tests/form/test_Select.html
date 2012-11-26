@@ -6,7 +6,6 @@
 
 		<!-- required: the default dijit theme: -->
 		<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro.css"/>
-		<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro_rtl.css"/>
 
 		<style>
 			@import url(../../themes/claro/document.css);
@@ -263,6 +262,34 @@
 
 								var newCnt = dijit.registry.length;
 								t.t(newCnt < oldCnt + 3, "should have destroyed many widgets, went from " + oldCnt + " to " + newCnt);
+							}
+						},
+						{
+							name: "aria attributes",
+							timeout: 2000,
+							runTest:function(){
+								var d = new doh.Deferred();
+								select = dijit.byId("s2");
+																
+								doh.is("listbox", select._popupStateNode.getAttribute("role"), "select _popupStateNode role");
+								doh.t(select._popupStateNode.getAttribute("aria-haspopup"), "aria-haspopup on select");
+								doh.f(select._popupStateNode.getAttribute("aria-expanded"), "initially false aria-expanded");
+								doh.f(select._popupStateNode.getAttribute("aria-owns"), "initially missing aria-owns");
+
+								select.openDropDown();
+								setTimeout(d.getTestCallback(function(){
+									doh.t(select._popupStateNode.getAttribute("aria-expanded"), "now aria-expanded should be true");
+									doh.is("s2_menu", select._popupStateNode.getAttribute("aria-owns"), "should aria-own the menu");
+									// Check roles and attributes on the Menu
+									var menu = dijit.byId("s2_menu");
+									doh.is("listbox", menu.domNode.getAttribute("role"), "Dlg.domNode should have a role");
+									doh.is("s2", menu.domNode.getAttribute("aria-labelledby"), "aria-labelledby should point back to button");
+								}), 0);
+
+								return d;
+							},
+							tearDown:function(){
+								select.closeDropDown();
 							}
 						}
 					]);

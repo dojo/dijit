@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>TooltipDialog non-robot Automated Test</title>
@@ -29,6 +29,7 @@
 			doh.register("TooltipDialog", [
 				function create(){
 					td = new TooltipDialog({
+						id:"mytooltip",
 						content: "hello world"
 					});
 					button = new DropDownButton({
@@ -64,6 +65,6 @@
 		});
 	</script>
 </head>
-<body class="claro">
+<body class="claro" role="main">
 </body>
 </html>

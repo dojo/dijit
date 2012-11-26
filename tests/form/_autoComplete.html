@@ -148,6 +148,37 @@
 						doh.is("datatest_label", labelId, "labelledby");
 						doh.is(labelId, dojo.byId(labelId).id, "label id");
 					}
+				},
+				{
+					name: "aria roles and attributes",
+					timeout: 2000,
+					runTest:function(){
+						var d = new doh.Deferred();
+						combo = dijit.byId("setvaluetest");
+						// ComboBox and FilteringSelect have the same roles and attributes
+						doh.is("combobox", combo._popupStateNode.getAttribute("role"), "combo _popupStateNode role");
+						doh.t(combo._popupStateNode.getAttribute("aria-haspopup"), "aria-haspopup on combo");
+						doh.is("setvaluetest_mylabel", combo._popupStateNode.getAttribute("aria-labelledby"), "aria-labelledby");
+						doh.f(combo._popupStateNode.getAttribute("aria-expanded"), "initially missing aria-expanded");
+						doh.f(combo._popupStateNode.getAttribute("aria-owns"), "initally missing aria-owns");					
+							
+						var handler = dojo.connect(combo, "openDropDown", function(){
+							dojo.disconnect(handler);
+							setTimeout(d.getTestCallback(function(){
+								doh.t(combo._popupStateNode.getAttribute("aria-expanded"), "now aria-expanded should be true");
+								doh.is("setvaluetest_popup", combo._popupStateNode.getAttribute("aria-owns"), "should aria-own the popup");
+							
+								doh.is("listbox", combo.dropDown.domNode.getAttribute("role"), "dropDown.domNode should have a role");
+								doh.is("setvaluetest", combo.dropDown.domNode.getAttribute("aria-labelledby"), "aria-labelledby should point back to button");
+							}), 500);
+						});
+
+						combo.loadDropDown();
+						return d;
+					},
+					tearDown:function(){
+						combo.closeDropDown();
+					}
 				}
 			]);
 

@@ -483,9 +483,10 @@ define([
 			
 			this._popupStateNode.setAttribute("aria-expanded", "true");
 			this._popupStateNode.setAttribute("aria-owns", dropDown.id);
-			
-			if(this.domNode.getAttribute("aria-labelledby")){
-				this.dropDown.containerNode.setAttribute("aria-labelledby", this.domNode.getAttribute("aria-labelledby") );
+
+			// Set aria-labelledby on dropdown if it's not already set to something more meaningful
+			if(ddNode.getAttribute("role") !== "presentation" && !ddNode.getAttribute("aria-labelledby")){
+				ddNode.setAttribute("aria-labelledby", this.id);
 			}
 			
 			return retVal;
@@ -503,13 +504,13 @@ define([
 				this._focusDropDownTimer.remove();
 				delete this._focusDropDownTimer;
 			}
+			
 			if(this._opened){
 				this._popupStateNode.setAttribute("aria-expanded", "false");
 				if(focus){ this.focus(); }
 				popup.close(this.dropDown);
 				this._opened = false;
 			}
-			
 		}
 
 	});

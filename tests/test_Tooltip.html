@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>Dojo Tooltip Widget Test</title>
@@ -68,12 +68,12 @@
 		}
 	</script>
 </head>
-<body class="claro">
+<body class="claro" role="main">
 
 	<h1 class="testTitle">Tooltip test</h1>
 
 	<p>Mouse-over or focus the items below to test tooltips.</p>
-	<table id="instructionTable">
+	<table id="instructionTable" role="presentation">
 		<tr>
 			<td>
 				Change tooltip positioning search list:
@@ -101,7 +101,7 @@
 				<div data-dojo-type="dijit/ColorPalette" data-dojo-props='onChange:function(val){ dojo.query("body").style("background", val); }'></div>
 			</td>
 			<td>
-				<input data-dojo-type="dijit/form/DateTextBox" data-dojo-props='id: "dtb", value: "2010-12-15", promptMessage: "Please Enter a date in dd/MM/yyyy format", style:"width: 8em;"'>
+				<input data-dojo-type="dijit/form/DateTextBox"  aria-label="label" data-dojo-props='id: "dtb", value: "2010-12-15", promptMessage: "Please Enter a date in dd/MM/yyyy format", style:"width: 8em;"'>
 			</td>
 		</tr>
 	</table>
@@ -127,7 +127,7 @@
 		<span dojoType="dijit.Tooltip" connectId="tpTooltipTarget">tooltip on TitlePane span</span>
 	</div>
 
-	<input value="input, no tooltip"/>
+	<input value="input, no tooltip" aria-label="label" />
 	<div>
 		<span id="one" class="tt" tabindex="0"> focusable text </span>
 		<span id="one_tooltip" data-dojo-type="dijit/Tooltip" data-dojo-props='connectId:["one"]'>
@@ -154,7 +154,7 @@
 
 	<span style="float: right">
 		Test tooltip on right aligned element.  Tooltip should flow to the left --&gt;
-		<select id="seven">
+		<select id="seven" aria-label="label">
 			<option value="alpha">Alpha</option>
 			<option value="beta">Beta</option>
 			<option value="gamma">Gamma</option>
@@ -170,12 +170,12 @@
 	<p></p>
 
 	<form>
-		<input id="id1" value="#1"/><br>
-		<input id="id2" value="#2"/><br>
-		<input id="id3" value="#3"/><br>
-		<input id="id4" value="#4"/><br>
-   		<input id="id5" value="#5"/><br>
-		<input id="id6" value="#6"/><br>
+		<input id="id1" value="#1" aria-label="1" /><br>
+		<input id="id2" value="#2" aria-label="2"/><br>
+		<input id="id3" value="#3" aria-label="3"/><br>
+		<input id="id4" value="#4" aria-label="4"/><br>
+		<input id="id5" value="#5" aria-label="5"/><br>
+		<input id="id6" value="#6" aria-label="6"/><br>
 	</form>
 	<br>
 
@@ -240,7 +240,7 @@
 
 	<h3>Nested div test:</h3>
 	<div dir="ltr" style="margin: 0px 100px;">
-		<input id="inputBeforeNested" value="before">
+		<input id="inputBeforeNested" value="before" aria-label="label">
 		<div id="nested" style="width: 300px;background-color: yellow">
 			Mouse over the inner blue div should show the tooltip on this outer yellow div.
 			<div style="width: 100px; height: 100px; background-color: blue; color: white;">
@@ -248,7 +248,7 @@
 			</div>
 			Likewise, focusing the input should put the tooltip on the outer yellow div
 			<br>
-			<input id="nestedInput" value="focus me">
+			<input id="nestedInput" value="focus me" aria-label="label">
 		</div>
 		<span id="nested_tooltip" data-dojo-type="dijit/Tooltip" data-dojo-props='connectId:"nested"'>
 			Tooltip on yellow outer div

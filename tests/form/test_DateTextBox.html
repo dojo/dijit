@@ -203,7 +203,7 @@
 					},
 
 					function noInitialValue(){
-				    		var fromDate = dijit.byId('fromDate');
+						var fromDate = dijit.byId('fromDate');
 						doh.is('', fromDate.get('displayedValue'), 'initially blank');
 						doh.is(dijit.form.DateTextBox.prototype.value, fromDate.value, 'default value');
 						var d = new doh.Deferred();
@@ -214,6 +214,31 @@
 							doh.is(today.toDateString(), fromDate.value.toDateString(), 'changed value');
 							doh.is(today.toDateString(), toDate.constraints.min.toDateString(), 'onChange');
 						}), 500);
+						return d;
+					},
+					
+					function ariaRolesAndAttributes(){
+						var d = new doh.Deferred(),
+							button = dijit.byId("local");
+
+						doh.is("combobox", button._popupStateNode.getAttribute("role"), "button _popupStateNode role");
+						doh.t(button._popupStateNode.getAttribute("aria-haspopup"), "aria-haspopup on button");
+						doh.f(button._popupStateNode.getAttribute("aria-expanded"), "initially missing aria-expanded");
+						doh.f(button._popupStateNode.getAttribute("aria-owns"), "initally missing aria-owns");
+
+						button.openDropDown();
+
+						setTimeout(d.getTestCallback(function(){
+							doh.t(button._popupStateNode.getAttribute("aria-expanded"), "now aria-expanded should be true");
+							doh.is("local_popup", button._popupStateNode.getAttribute("aria-owns"), "should aria-own the Dlg");
+							// Check roles and attributes on the dialog
+							var dlg = dijit.byId("local_popup");
+							doh.is("grid", dlg.domNode.getAttribute("role"), "Dlg.domNode should have a role");
+							doh.is("local_popup_mddb local_popup_year", dlg.domNode.getAttribute("aria-labelledby"), "aria-labelledby should not overwrite existing labelledby for the Calendar");
+
+							button.closeDropDown();
+						}), 500);
+						
 						return d;
 					}
 				]);
