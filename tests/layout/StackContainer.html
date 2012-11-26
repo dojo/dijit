@@ -35,6 +35,7 @@
 		dojo.require("dijit.layout.BorderContainer");
 		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.form.Button");
+		dojo.require("dojo.on");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 		dojo.require('doh.runner');
 		dojo.require("dijit.tests.helpers");	// functions to help test
@@ -50,10 +51,7 @@
 
 			function click(/*String*/ id){
 				// Click dijit widget w/specified id
-				dijit.byId(id)._onClick({
-					preventDefault: function(){},
-					stopPropagation: function(){}
-				});
+				dojo.on.emit(dojo.byId(id), "click", {bubbles: true, cancelable: true});
 			}
 
 			doh.register("programmatic", [
