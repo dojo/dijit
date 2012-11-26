@@ -772,9 +772,6 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 			}),
 			on(this.containerNode, on.selector(".dijitTreeNode", "dblclick"), function(evt){
 				self._onDblClick(registry.byNode(this), evt);
-			}),
-			on(this.containerNode, on.selector(".dijitTreeRow", "focusin"), function(evt){
-				self._onNodeFocus(registry.getEnclosingWidget(this), evt);
 			})
 		);
 
@@ -1323,6 +1320,9 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 		return node;
 	},
 
+	// Implement _KeyNavContainer.childSelector, to identify which nodes are navigable
+	childSelector: ".dijitTreeRow",
+
 	isExpandoNode: function(node, widget){
 		// summary:
 		//		check whether a dom node is the expandoNode for a particular TreeNode widget
@@ -1554,27 +1554,6 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 		//		protected
 
 		this.focusChild(node);
-	},
-
-	_onNodeFocus: function(/*dijit/_WidgetBase*/ node){
-		// summary:
-		//		Called when a TreeNode gets focus, either by user clicking
-		//		it, or programatically by arrow key handling code.
-		// description:
-		//		It marks that the current node is the selected one, and the previously
-		//		selected node no longer is.
-
-		if(node && node != this.focusedChild){
-			if(this.focusedChild && !this.focusedChild._destroyed){
-				// mark that the previously focusable node is no longer focusable
-				this.focusedChild.set("tabIndex", "-1");
-			}
-
-			// mark that the new node is the currently selected one
-			node.set("tabIndex", this.tabIndex);
-			this.lastFocused = node;		// back-compat, remove for 2.0
-			this._set("focusedChild", node);
-		}
 	},
 
 	_onNodeMouseEnter: function(/*dijit/_WidgetBase*/ /*===== node =====*/){

@@ -5,8 +5,9 @@ define([
 	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys.END keys.HOME, keys.LEFT_ARROW etc.
 	"dojo/_base/lang", // lang.hitch
-	"dojo/on"
-], function(array, declare, domAttr, event, keys, lang, on){
+	"dojo/on",
+	"dijit/registry"
+], function(array, declare, domAttr, event, keys, lang, on, registry){
 
 	// module:
 	//		dijit/_KeyNavMixin
@@ -24,23 +25,14 @@ define([
 		//			- Implement _getNextFocusableChild() to find the next or previous child relative to a current child.
 		//			  Next and previous in this context refer to a linear ordering of the children or descendants used
 		//			  by letter key search.
-		//			- tabIndex
-		//				- set all descendants' initial tabIndex to "-1"; both initial descendants and any
-		//				  descendants added later, by for example addChild()
-		//				- when a descendant is focused, set its tabIndex to this.tabIndex, and set this.focusedChild
-		//				- when a descendant is blurred, set it's tabIndex back to "-1", and clear
+		//			- Set all descendants' initial tabIndex to "-1"; both initial descendants and any
+		//			  descendants added later, by for example addChild()
+		//			- Define childSelector to a function or string that identifies focusable child widgets
 		//
 		//		Also, child widgets must implement a focus() method.
 
-		// Possible TODO's:
-		//		- set a selector to identify focusable children (ex: .dijitTreeNode); for plain _Container widgets
-		//		  it would be "> *".
-		//		- track child widget or child node focus/blur events and update this.focusedChild accordingly
-		//		- instead of using this.focusedChild, infer it from evt.target
-		//
-
 /*=====
-		// focusedChild: [protected] Widget
+		// focusedChild: [protected readonly] Widget
 		//		The currently focused child widget, or null if there isn't one
 		focusedChild: null,
 
@@ -55,6 +47,12 @@ define([
 		//		Note then when user tabs into the container, focus is immediately
 		//		moved to the first item in the container.
 		tabIndex: "0",
+
+		// childSelector: [protected abstract] Function||String
+		//		Selector (passed to on.selector()) used to identify what to treat as a child widget.   Used to monitor
+		//		focus events and set this.focusedChild.   Must be set by implementing class.   If this is a string
+		//		(ex: "> *") then the implementing class must require dojo/query.
+		childSelector: null,
 
 		postCreate: function(){
 			this.inherited(arguments);
@@ -72,10 +70,16 @@ define([
 				keyCodes[keys.DOWN_ARROW] = lang.hitch(this, "_onDownArrow");
 			}
 
+			var self = this,
+				childSelector = typeof this.childSelector == "string" ? this.childSelector :
+						lang.hitch(this, "childSelector");
 			this.own(
 				on(this.domNode, "keypress", lang.hitch(this, "_onContainerKeypress")),
 				on(this.domNode, "keydown", lang.hitch(this, "_onContainerKeydown")),
-				on(this.domNode, "focus", lang.hitch(this, "_onContainerFocus"))
+				on(this.domNode, "focus", lang.hitch(this, "_onContainerFocus")),
+				on(this.containerNode, on.selector(childSelector, "focusin"), function(evt){
+					self._onChildFocus(registry.getEnclosingWidget(this), evt);
+				})
 			);
 		},
 
@@ -192,6 +196,27 @@ define([
 				this._set("focusedChild", null);
 			}
 			this.inherited(arguments);
+		},
+
+		_onChildFocus: function(/*dijit/_WidgetBase*/ child){
+			// summary:
+			//		Called when a child widget gets focus, either by user clicking
+			//		it, or programatically by arrow key handling code.
+			// description:
+			//		It marks that the current node is the selected one, and the previously
+			//		selected node no longer is.
+
+			if(child && child != this.focusedChild){
+				if(this.focusedChild && !this.focusedChild._destroyed){
+					// mark that the previously focusable node is no longer focusable
+					this.focusedChild.set("tabIndex", "-1");
+				}
+
+				// mark that the new node is the currently selected one
+				child.set("tabIndex", this.tabIndex);
+				this.lastFocused = child;		// back-compat for Tree, remove for 2.0
+				this._set("focusedChild", child);
+			}
 		},
 
 		_searchString: "",

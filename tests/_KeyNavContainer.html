@@ -12,21 +12,19 @@
 			"doh/runner",
 			"dojo/_base/declare", "dojo/dom", "dojo/keys", "dojo/on", "dojo/parser",
 			"dijit/a11y", "dijit/focus", "dijit/registry",
-			"dijit/_WidgetBase", "dijit/_FocusMixin", "dijit/_KeyNavContainer",
+			"dijit/_WidgetBase", "dijit/_KeyNavContainer",
 			"dijit/tests/helpers", "dojo/domReady!"
-		], function(doh, declare, dom, keys, on, parser, a11y, focus, registry, _WidgetBase, _FocusMixin, _KeyNavContainer, helpers){
+		], function(doh, declare, dom, keys, on, parser, a11y, focus, registry, _WidgetBase, _KeyNavContainer, helpers){
 
 			declare("TestContainer", [_WidgetBase, _KeyNavContainer], {
 				postCreate: function(){
 					this.inherited(arguments);
 					this.connectKeyNavHandlers([keys.LEFT_ARROW, keys.UP_ARROW], [keys.RIGHT_ARROW, keys.DOWN_ARROW]);
-					this.set("tabIndex", this.tabIndex);	// until #7381 is fixed
 				}
 			});
 	
-			declare("TestContained", [_WidgetBase, _FocusMixin], {
-				// _KeyNavContainer requires children to have focus() and also _onFocus()/_onBlur() methods,
-				// hence the _FocusMixin
+			declare("TestContained", _WidgetBase, {
+				// _KeyNavContainer requires children to have focus()
 				focus: function(){
 					this.domNode.focus();
 				}

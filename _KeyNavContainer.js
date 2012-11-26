@@ -6,10 +6,11 @@ define([
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/keys", // keys.END keys.HOME
 	"dojo/_base/lang", // lang.hitch
+	"./registry",
 	"./_Container",
 	"./_FocusMixin",
 	"./_KeyNavMixin"
-], function(array, declare, domAttr, event, kernel, keys, lang, _Container, _FocusMixin, _KeyNavMixin){
+], function(array, declare, domAttr, event, kernel, keys, lang, registry, _Container, _FocusMixin, _KeyNavMixin){
 
 
 	// module:
@@ -73,20 +74,11 @@ define([
 			//		private
 
 			widget.set("tabIndex", "-1");
-
-			this.connect(widget, "_onFocus", function(){
-				// Set valid tabIndex so tabbing away from widget goes to right place, see #10272.
-				// TODO: shouldn't this also set this.focusedChild?
-				widget.set("tabIndex", this.tabIndex);
-			});
-			this.connect(widget, "_onBlur", function(){
-				widget.set("tabIndex", "-1");
-			});
 		},
 
 		_getFirstFocusableChild: function(){
 			// summary:
-			//		Returns first child that can be focused
+			//		Returns first child that can be focused.
 
 			// Leverage _getNextFocusableChild() to skip disabled children
 			return this._getNextFocusableChild(null, 1);	// dijit/_WidgetBase
@@ -162,6 +154,15 @@ define([
 			}
 			// no focusable child found
 			return null;	// dijit/_WidgetBase
+		},
+
+		childSelector: function(/*DOMNode*/ node){
+			// Implement _KeyNavMixin.childSelector, to identify focusable child nodes.
+			// If we allowed a dojo/query dependency from this module this could more simply be a string "> *"
+			// instead of this function.
+
+			var node = registry.byNode(node);
+			return node && node.getParent() == this;
 		}
 	});
 });
