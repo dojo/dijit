@@ -145,7 +145,7 @@
 			doh.register("basic keyboard", [
 				{
 					name: "setup",
-					timeout: 4000,
+					timeout: 8000,
 					runTest: function(){
 
 						// Close all tree nodes except for Africa and Sudan, South America, and the root node itself
@@ -164,11 +164,17 @@
 						return mytree.collapseAll().then(function(){
 							var d = new dojo.Deferred();
 							setTimeout(function(){
-								return mytree.set("paths", [
+								mytree.set("paths", [
 									["continentRoot", "AF", "SD", "Khartoum"],
 									["continentRoot", "SA", "AR"]				// Argentina
-								]);
-								d.resolve(true);
+								]).then(
+									function(){
+										d.resolve(true);
+									},
+									function(err){
+										d.reject(err);
+									}
+								);
 							}, 500);
 							return d;
 						});
