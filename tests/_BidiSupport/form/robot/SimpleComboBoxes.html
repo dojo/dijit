@@ -23,29 +23,38 @@
 
 				doh.register("Test LTR combo box", [
 					{
-						name:"check drop down items text direction.",
-						timeout:3000,
+						name: "check drop down items text direction.",
+						timeout: 6000,
 
 						setUp: function(){
 							combo = dijit.byId("fruitLtr");
+							doh.t(!!combo, "found fruitLtr");
 							modifier = dojo.isMac ? {meta: true} : {ctrl: true};
 						},
 						
-						runTest:function(){
+						runTest: function(){
 							var d = new doh.Deferred();
+
 							// Open drop down
-							combo.focusNode.focus();
+							doh.robot.sequence(d.getTestErrback(function(){
+								// delay is needed to work around IE bug
+								combo.focusNode.focus();
+							}), 50);
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 100);
-							
-							doh.robot.sequence(d.getTestCallback(function(){
-								dojo.forEach(combo.dropDown.domNode.childNodes, function(node){
-									// so it will check only the options
-									if(node.item){
-										doh.is("ltr", node.dir, node.textContent);
-									}
-								});
-							}), 900);
-							
+
+							var handle = dojo.connect(combo, "openDropDown", function(){
+								handle.remove();
+								doh.robot.sequence(d.getTestCallback(function(){
+									doh.t(!!combo.dropDown, "dropdown exists");
+									dojo.forEach(combo.dropDown.domNode.childNodes, function(node){
+										// so it will check only the options
+										if(node.item){
+											doh.is("ltr", node.dir, node.textContent);
+										}
+									});
+								}), 50);
+							});
+
 							return d;
 						},
 
@@ -64,7 +73,7 @@
 							doh.robot.keyPress(dojo.keys.DELETE, 300, {});
 							doh.robot.typeKeys("Hi!!!", 1, 300);
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("ltr", combo.focusNode.dir,"direction of :" + combo.id);
+								doh.is("ltr", combo.focusNode.dir,"direction of : " + combo.id);
 							}), 300);								
 
 							return d;
@@ -82,7 +91,7 @@
 							doh.robot.keyPress(dojo.keys.DELETE, 300, {});
 							doh.robot.keyPress("v", 300, modifier);
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("ltr", combo.focusNode.dir,"direction of :" + combo.id);
+								doh.is("ltr", combo.focusNode.dir,"direction of : " + combo.id);
 							}), 300);								
 
 							return d;
@@ -92,27 +101,32 @@
 
 				doh.register("Test RTL combo box", [
 					{
-						name:"check drop down items text direction.",
-						timeout:3000,
+						name: "check drop down items text direction.",
+						timeout: 3000,
 
 						setUp: function(){
 							combo = dijit.byId("fruitRtl");
+							doh.t(!!combo, "found fruitRtl");
 						},
 
-						runTest:function(){
+						runTest: function(){
 							var d = new doh.Deferred();
 							// Open drop down
 							combo.focusNode.focus();
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 100);
 
-							doh.robot.sequence(d.getTestCallback(function(){
-								dojo.forEach(combo.dropDown.domNode.childNodes, function(node){
-									// so it will check only the options
-									if(node.item){
-										doh.is("rtl", node.dir, node.textContent);
-									}
-								});
-							}), 900);
+							var handle = dojo.connect(combo, "openDropDown", function(){
+								handle.remove();
+								doh.robot.sequence(d.getTestCallback(function(){
+									doh.t(!!combo.dropDown, "dropdown exists");
+									dojo.forEach(combo.dropDown.domNode.childNodes, function(node){
+										// so it will check only the options
+										if(node.item){
+											doh.is("rtl", node.dir, node.textContent);
+										}
+									});
+								}), 50);
+							});
 
 							return d;
 						},
@@ -132,7 +146,7 @@
 							doh.robot.keyPress(dojo.keys.DELETE, 300, {});
 							doh.robot.typeKeys("Hi!!!", 1, 300);
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("rtl", combo.focusNode.dir,"direction of :" + combo.id);
+								doh.is("rtl", combo.focusNode.dir,"direction of : " + combo.id);
 							}), 300);
 
 							return d;
@@ -150,7 +164,7 @@
 							doh.robot.keyPress(dojo.keys.DELETE, 300, {});
 							doh.robot.keyPress("v", 300, modifier);
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("rtl", combo.focusNode.dir,"direction of :" + combo.id);
+								doh.is("rtl", combo.focusNode.dir,"direction of : " + combo.id);
 							}), 300);
 
 							return d;
@@ -160,29 +174,35 @@
 
 				doh.register("Test AUTO ComboBox", [
 					{
-						name:"check drop down items text direction.",
-						timeout:60000,
+						name: "check drop down items text direction.",
+						timeout: 60000,
 
-						setUp:function(){
+						setUp: function(){
 							combo = dijit.byId("fruitContextual");
+							doh.t(!!combo, "found fruitContextual");
 							modifier = dojo.isMac ? {meta: true} : {ctrl: true};
 						},
 
-						runTest:function(){
+						runTest: function(){
 							var d = new doh.Deferred();
-							var contextualDir;
+
 							// Create drop down
 							combo.focusNode.focus();
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 100);
-							doh.robot.sequence(d.getTestCallback(function(){
-								dojo.forEach(combo.dropDown.domNode.childNodes, function(node){
-									// so it will check only the options
-									if(node.item){
-										contextualDir = this.getTextDir(node.innerText || node.textContent || "");
-										doh.is(contextualDir, node.dir, node.innerText || node.textContent || "");
-									}
-								}, combo);
-							}), 900);
+
+							var handle = dojo.connect(combo, "openDropDown", function(){
+								handle.remove();
+								doh.robot.sequence(d.getTestCallback(function(){
+									doh.t(!!combo.dropDown, "dropdown exists");
+									dojo.forEach(combo.dropDown.domNode.childNodes, function(node){
+										// so it will check only the options
+										if(node.item){
+											var contextualDir = this.getTextDir(node.innerText || node.textContent || "");
+											doh.is(contextualDir, node.dir, node.innerText || node.textContent || "");
+										}
+									}, combo);
+								}), 50);
+							});
 
 							return d;
 						},
@@ -192,15 +212,16 @@
 						}
 					},
 					{
-						name:"input field text direction for each item in the menu.",
-						timeout:6000,
+						name: "input field text direction for each item in the menu.",
+						timeout: 6000,
 
-						setUp:function(){
+						setUp: function(){
 							combo = dijit.byId("fruitContextual");
+							doh.t(!!combo, "found fruitContextual");
 							modifier = dojo.isMac ? {meta: true} : {ctrl: true};
 						},
 
-						runTest:function(){
+						runTest: function(){
 							var d = new doh.Deferred();
 
 							combo.focusNode.focus();
@@ -255,7 +276,7 @@
 
 							doh.robot.keyPress("v", 500, modifier);
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("ltr", combo.focusNode.dir,"direction of :" + combo.id);
+								doh.is("ltr", combo.focusNode.dir,"direction of : " + combo.id);
 							}), 300);
 
 							return d;
@@ -274,7 +295,7 @@
 
 							doh.robot.keyPress("v", 400, modifier);
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is("rtl", combo.focusNode.dir,"direction of :" + combo.id);
+								doh.is("rtl", combo.focusNode.dir,"direction of : " + combo.id);
 							}), 700);
 
 							return d;
@@ -289,6 +310,7 @@
 
 						setUp: function(){
 							autoCompleted = dijit.byId("fruitContextualAC");
+							doh.t(!!autoCompleted, "found fruitContextualAC");
 						},
 
 						runTest: function(){
@@ -339,6 +361,7 @@
 
 						setUp: function(){
 							notAutoCompleted = dijit.byId("fruitContextual");
+							doh.t(!!notAutoCompleted, "found fruitContextual");
 						},
 
 						runTest: function(){
