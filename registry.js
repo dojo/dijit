@@ -141,7 +141,7 @@ define([
 			//		Returns the widget whose DOM tree contains the specified DOMNode, or null if
 			//		the node is not contained within the DOM tree of any widget
 			while(node){
-				var id = node.getAttribute && node.getAttribute("widgetId");
+				var id = node.nodeType == 1 && node.getAttribute("widgetId");
 				if(id){
 					return hash[id];
 				}
