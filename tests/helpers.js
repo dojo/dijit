@@ -91,7 +91,7 @@ onFocus: function onFocus(func){
 
 waitForLoad: function(){
 	// summary:
-	//		Return Deferred that fires when all widgets have finished initializing
+	//		Returns Promise that fires when all widgets have finished initializing
 
 	var d = new Deferred();
 
@@ -108,7 +108,7 @@ waitForLoad: function(){
 		});
 	});
 
-	return d;
+	return d.promise;
 }
 
 };

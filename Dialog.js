@@ -370,8 +370,8 @@ define([
 		show: function(){
 			// summary:
 			//		Display the dialog
-			// returns: dojo/_base/Deferred
-			//		Deferred object that resolves when the display animation is complete
+			// returns: dojo/promise/Promise
+			//		Promise object that resolves when the display animation is complete
 
 			if(this.open){ return; }
 
@@ -435,14 +435,14 @@ define([
 				})
 			}).play();
 
-			return this._fadeInDeferred;
+			return this._fadeInDeferred.promise;
 		},
 
 		hide: function(){
 			// summary:
 			//		Hide the dialog
-			// returns: dojo/_base/Deferred
-			//		Deferred object that resolves when the hide animation is complete
+			// returns: dojo/promise/Promise
+			//		Promise object that resolves when the display animation is complete
 
 			// If we haven't been initialized yet then we aren't showing and we can just return.
 			// Likewise if we are already hidden, or are currently fading out.
@@ -487,7 +487,7 @@ define([
 			}
 			this._set("open", false);
 
-			return this._fadeOutDeferred;
+			return this._fadeOutDeferred.promise;
 		},
 
 		resize: function(){
