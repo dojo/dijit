@@ -11,6 +11,7 @@ define([
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/keys", // keys.ENTER keys.ESCAPE
 	"dojo/_base/lang", // lang.getObject
+	"dojo/on",
 	"dojo/sniff", // has("ie")
 	"dojo/when",
 	"./focus",
@@ -23,7 +24,7 @@ define([
 	"./form/TextBox",
 	"dojo/text!./templates/InlineEditBox.html",
 	"dojo/i18n!./nls/common"
-], function(require, array, declare, domAttr, domClass, domConstruct, domStyle, event, i18n, kernel, keys, lang, has, when,
+], function(require, array, declare, domAttr, domClass, domConstruct, domStyle, event, i18n, kernel, keys, lang, on, has, when,
 			fm, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, _Container, Button, _TextBoxMixin, TextBox, template){
 
 	// module:
@@ -114,10 +115,8 @@ define([
 				// Selecting a value from a drop down list causes an onChange event and then we save
 				this.connect(ew, "onChange", "_onChange");
 
-				// ESC and TAB should cancel and save.  Note that edit widgets do a stopEvent() on ESC key (to
-				// prevent Dialog from closing when the user just wants to revert the value in the edit widget),
-				// so this is the only way we can see the key press event.
-				this.connect(ew, "onKeyPress", "_onKeyPress");
+				// ESC and TAB should cancel and save.
+				this.own(on(ew, "keydown", lang.hitch(this, "_onKeyDown")));
 			}else{
 				// If possible, enable/disable save button based on whether the user has changed the value
 				if("intermediateChanges" in ew){
@@ -152,9 +151,9 @@ define([
 			return String(ew.get("displayedValue" in ew ? "displayedValue" : "value"));
 		},
 
-		_onKeyPress: function(e){
+		_onKeyDown: function(e){
 			// summary:
-			//		Handler for keypress in the edit box in autoSave mode.
+			//		Handler for keydown in the edit box in autoSave mode.
 			// description:
 			//		For autoSave widgets, if Esc/Enter, call cancel/save.
 			// tags:
@@ -165,10 +164,10 @@ define([
 					return;
 				}
 				// If Enter/Esc pressed, treat as save/cancel.
-				if(e.charOrCode == keys.ESCAPE){
+				if(e.keyCode == keys.ESCAPE){
 					event.stop(e);
 					this.cancel(true); // sets editing=false which short-circuits _onBlur processing
-				}else if(e.charOrCode == keys.ENTER && e.target.tagName == "INPUT"){
+				}else if(e.keyCode == keys.ENTER && e.target.tagName == "INPUT"){
 					event.stop(e);
 					this._onChange(); // fire _onBlur and then save
 				}

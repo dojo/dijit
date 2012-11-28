@@ -1,9 +1,7 @@
 define([
 	"require",
 	"dojo/_base/array", // array.forEach array.indexOf array.map
-	"dojo/_base/connect", // connect._keypress
 	"dojo/_base/declare", // declare
-	"dojo/_base/window",
 	"dojo/_base/Deferred", // Deferred
 	"dojo/dom", // dom.isDescendant
 	"dojo/dom-class", // domClass.add domClass.contains
@@ -31,7 +29,7 @@ define([
 	"./layout/ContentPane",
 	"dojo/text!./templates/Dialog.html",
 	"dojo/i18n!./nls/common"
-], function(require, array, connect, declare, win, Deferred,
+], function(require, array, declare, Deferred,
 			dom, domClass, domGeometry, domStyle, event, fx, i18n, keys, lang, on, ready, has, winUtils,
 			Moveable, TimedMoveable, focus, manager, _Widget, _TemplatedMixin, _CssStateMixin, _FormMixin, _DialogMixin,
 			DialogUnderlay, ContentPane, template){
@@ -325,45 +323,24 @@ define([
 			// tags:
 			//		private
 
-			if(evt.charOrCode){
+			if(evt.keyCode == keys.TAB){
+				this._getFocusItems(this.domNode);
 				var node = evt.target;
-				if(evt.charOrCode === keys.TAB){
-					this._getFocusItems(this.domNode);
-				}
-				var singleFocusItem = (this._firstFocusItem == this._lastFocusItem);
-				// see if we are shift-tabbing from first focusable item on dialog
-				if(node == this._firstFocusItem && evt.shiftKey && evt.charOrCode === keys.TAB){
-					if(!singleFocusItem){
-						focus.focus(this._lastFocusItem); // send focus to last item in dialog
-					}
+				if(this._firstFocusItem == this._lastFocusItem){
+					// don't move focus anywhere, but don't allow browser to move focus off of dialog either
 					event.stop(evt);
-				}else if(node == this._lastFocusItem && evt.charOrCode === keys.TAB && !evt.shiftKey){
-					if(!singleFocusItem){
-						focus.focus(this._firstFocusItem); // send focus to first item in dialog
-					}
+				}else if(node == this._firstFocusItem && evt.shiftKey){
+					// if we are shift-tabbing from first focusable item in dialog, send focus to last item
+					focus.focus(this._lastFocusItem);
 					event.stop(evt);
-				}else{
-					// see if the key is for the dialog
-					while(node){
-						if(node == this.domNode || domClass.contains(node, "dijitPopup")){
-							if(evt.charOrCode == keys.ESCAPE){
-								this.onCancel();
-							}else{
-								return; // just let it go
-							}
-						}
-						node = node.parentNode;
-					}
-					// this key is for the disabled document window
-					if(evt.charOrCode !== keys.TAB){ // allow tabbing into the dialog for a11y
-						event.stop(evt);
-					// opera won't tab to a div
-					}else if(!has("opera")){
-						try{
-							this._firstFocusItem.focus();
-						}catch(e){ /*squelch*/ }
-					}
+				}else if(node == this._lastFocusItem && !evt.shiftKey){
+					// if we are tabbing from last focusable item in dialog, send focus to first item
+					focus.focus(this._firstFocusItem);
+					event.stop(evt);
 				}
+			}else if(evt.keyCode == keys.ESCAPE){
+				this.onCancel();
+				event.stop(evt);
 			}
 		},
 
@@ -396,7 +373,7 @@ define([
 			var win = winUtils.get(this.ownerDocument);
 			this._modalconnects.push(on(win, "scroll", lang.hitch(this, "resize")));
 
-			this._modalconnects.push(on(this.domNode, connect._keypress, lang.hitch(this, "_onKey")));
+			this._modalconnects.push(on(this.domNode, "keydown", lang.hitch(this, "_onKey")));
 
 			domStyle.set(this.domNode, {
 				opacity:0,

@@ -72,7 +72,7 @@ define([
 		
 		postCreate: function(){
 			this.inherited(arguments);
-			this.connect(this.containerNode, "onkeypress", "_onKey");
+			this.connect(this.containerNode, "keydown", "_onKey");
 		},
 
 		orient: function(/*DomNode*/ node, /*String*/ aroundCorner, /*String*/ tooltipCorner){
@@ -153,35 +153,33 @@ define([
 
 		_onKey: function(/*Event*/ evt){
 			// summary:
-			//		Handler for keyboard events
+			//		Handler for keydown events
 			// description:
 			//		Keep keyboard focus in dialog; close dialog on escape key
 			// tags:
 			//		private
 
-			var node = evt.target;
-			if(evt.charOrCode === keys.TAB){
-				this._getFocusItems(this.containerNode);
-			}
-			var singleFocusItem = (this._firstFocusItem == this._lastFocusItem);
-			if(evt.charOrCode == keys.ESCAPE){
-				// Use defer to avoid crash on IE, see #10396.
+			if(evt.keyCode == keys.ESCAPE){
+				// Use defer to avoid crash on IE, see #10396.  Not sure if this is still needed or not.
+				// If this if() wasn't here, presumably dijit/popup would catch the ESCAPE key and close the popup.
 				this.defer("onCancel");
 				event.stop(evt);
-			}else if(node == this._firstFocusItem && evt.shiftKey && evt.charOrCode === keys.TAB){
-				if(!singleFocusItem){
+			}else if(evt.keyCode == keys.TAB){
+				var node = evt.target;
+				this._getFocusItems(this.containerNode);
+				if(this._firstFocusItem == this._lastFocusItem){
+					event.stop(evt);
+				}else if(node == this._firstFocusItem && evt.shiftKey){
 					focus.focus(this._lastFocusItem); // send focus to last item in dialog
-				}
-				event.stop(evt);
-			}else if(node == this._lastFocusItem && evt.charOrCode === keys.TAB && !evt.shiftKey){
-				if(!singleFocusItem){
+					event.stop(evt);
+				}else if(node == this._lastFocusItem && !evt.shiftKey){
 					focus.focus(this._firstFocusItem); // send focus to first item in dialog
+					event.stop(evt);
+				}else{
+					// we want the browser's default tab handling to move focus
+					// but we don't want the tab to propagate upwards
+					evt.stopPropagation();
 				}
-				event.stop(evt);
-			}else if(evt.charOrCode === keys.TAB){
-				// we want the browser's default tab handling to move focus
-				// but we don't want the tab to propagate upwards
-				evt.stopPropagation();
 			}
 		}
 	});

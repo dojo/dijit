@@ -1,7 +1,6 @@
 define([
 	"dojo/_base/array", // array.forEach array.some
 	"dojo/aspect",
-	"dojo/_base/connect",	// connect._keypress
 	"dojo/_base/declare", // declare
 	"dojo/dom", // dom.isDescendant
 	"dojo/dom-attr", // domAttr.set
@@ -16,7 +15,7 @@ define([
 	"./place",
 	"./BackgroundIframe",
 	"./main"	// dijit (defining dijit.popup to match API doc)
-], function(array, aspect, connect, declare, dom, domAttr, domConstruct, domGeometry, domStyle, event, has, keys, lang, on,
+], function(array, aspect, declare, dom, domAttr, domConstruct, domGeometry, domStyle, event, has, keys, lang, on,
 			place, BackgroundIframe, dijit){
 
 	// module:
@@ -233,11 +232,11 @@ define([
 
 			// provide default escape and tab key handling
 			// (this will work for any widget, not just menu)
-			handlers.push(on(wrapper, connect._keypress, lang.hitch(this, function(evt){
-				if(evt.charOrCode == keys.ESCAPE && args.onCancel){
+			handlers.push(on(wrapper, "keydown", lang.hitch(this, function(evt){
+				if(evt.keyCode == keys.ESCAPE && args.onCancel){
 					event.stop(evt);
 					args.onCancel();
-				}else if(evt.charOrCode === keys.TAB){
+				}else if(evt.keyCode == keys.TAB){
 					event.stop(evt);
 					var topPopup = this.getTopPopup();
 					if(topPopup && topPopup.onCancel){
