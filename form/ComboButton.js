@@ -50,19 +50,19 @@ return declare("dijit.form.ComboButton", DropDownButton, {
 
 	_focusedNode: null,
 
-	_onButtonKeyPress: function(/*Event*/ evt){
+	_onButtonKeyDown: function(/*Event*/ evt){
 		// summary:
 		//		Handler for right arrow key when focus is on left part of button
-		if(evt.charOrCode == keys[this.isLeftToRight() ? "RIGHT_ARROW" : "LEFT_ARROW"]){
+		if(evt.keyCode == keys[this.isLeftToRight() ? "RIGHT_ARROW" : "LEFT_ARROW"]){
 			focus.focus(this._popupStateNode);
 			event.stop(evt);
 		}
 	},
 
-	_onArrowKeyPress: function(/*Event*/ evt){
+	_onArrowKeyDown: function(/*Event*/ evt){
 		// summary:
 		//		Handler for left arrow key when focus is on right part of button
-		if(evt.charOrCode == keys[this.isLeftToRight() ? "LEFT_ARROW" : "RIGHT_ARROW"]){
+		if(evt.keyCode == keys[this.isLeftToRight() ? "LEFT_ARROW" : "RIGHT_ARROW"]){
 			focus.focus(this.titleNode);
 			event.stop(evt);
 		}
