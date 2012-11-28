@@ -18,7 +18,7 @@ define([
 	// and is also useful on older versions of IE (IE6 and IE7) to prevent the "bleed through select" problem.
 	// TODO: For 2.0, make this false by default.  Also, possibly move definition to has.js so that this module can be
 	// conditionally required via  dojo/has!bgIfame?dijit/BackgroundIframe
-	has.add("bgIframe", !has("touch"));
+	has.add("config-bgIframe", !has("touch"));
 
 	// TODO: remove _frames, it isn't being used much, since popups never release their
 	// iframes (see [22236])
@@ -70,7 +70,7 @@ define([
 		//		area (and position) of node
 
 		if(!node.id){ throw new Error("no id"); }
-		if(has("bgIframe")){
+		if(has("config-bgIframe")){
 			var iframe = (this.iframe = _frames.pop());
 			node.appendChild(iframe);
 			if(has("ie")<7 || has("quirks")){

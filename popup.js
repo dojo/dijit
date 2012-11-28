@@ -9,7 +9,7 @@ define([
 	"dojo/dom-geometry", // domGeometry.isBodyLtr
 	"dojo/dom-style", // domStyle.set
 	"dojo/_base/event", // event.stop
-	"dojo/has", // has("bgIframe")
+	"dojo/has", // has("config-bgIframe")
 	"dojo/keys",
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on",
@@ -213,7 +213,7 @@ define([
 				dijitPopupParent: args.parent ? args.parent.id : ""
 			});
 
-			if(has("bgIframe") && !widget.bgIframe){
+			if(has("config-bgIframe") && !widget.bgIframe){
 				// setting widget.bgIframe triggers cleanup in _Widget.destroy()
 				widget.bgIframe = new BackgroundIframe(wrapper);
 			}
