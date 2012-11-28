@@ -63,6 +63,7 @@
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.form.CheckBox");
 		dojo.require("dojox.mobile.CheckBox");
+		var on = dojo.require("dojo.on");
 
 		dojo.ready(function(){
 
@@ -179,23 +180,24 @@
 
 			var form = dojo.byId('onClickTests');
 			form.reset(); // so reload works
+
 			dojo.query("INPUT[type=checkbox]", form).forEach(function(inputNode){
 				// click all the checkboxes, but not too fast
 				doh.register("click " + inputNode.id,
 				{
-					timeout: 1000,
+					timeout: 2000,
 					name: inputNode.id,
 					runTest: function(){
 						var d = new doh.Deferred();
-						var handler = dojo.connect(inputNode, "onclick", function(){
-							dojo.disconnect(handler);
-							d.callback(true);
+						on.once(form, "click", function(){
+							setTimeout(function(){ d.callback(true); }, 1);
 						});
-						setTimeout(function(){ inputNode.click(); }, 0);
+						setTimeout(function(){ inputNode.click(); }, 1);
 						return d;
 					}
 				});
 			});
+
 			var widgets = dijit.findWidgets(form);
 			dojo.forEach(widgets, function(widget){
 				doh.register("onclick " + widget.id,
@@ -242,7 +244,7 @@
 			<td class="layout" id="mobile_programmatic_container"></td>
 		</tr>
 	</table>
-	<form method="get" id="onClickTests" style="font-family:monospace;">
+	<form method="get" id="onClickTests" style="font-family:monospace;font-size:16px;">
 		before click: checked=true, onclick handler: return false, after click:
 			<input aria-label="t1" id="t1" type="checkbox" checked onclick="return false;">
 			<input data-dojo-type="dijit/form/CheckBox" aria-label="w1" id="w1" type="checkbox" checked onclick="return false;">
