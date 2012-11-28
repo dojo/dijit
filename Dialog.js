@@ -3,6 +3,7 @@ define([
 	"dojo/_base/array", // array.forEach array.indexOf array.map
 	"dojo/_base/connect", // connect._keypress
 	"dojo/_base/declare", // declare
+	"dojo/_base/window",
 	"dojo/_base/Deferred", // Deferred
 	"dojo/dom", // dom.isDescendant
 	"dojo/dom-class", // domClass.add domClass.contains
@@ -29,12 +30,11 @@ define([
 	"./DialogUnderlay",
 	"./layout/ContentPane",
 	"dojo/text!./templates/Dialog.html",
-	"./main",			// for back-compat, exporting dijit._underlay (remove in 2.0)
 	"dojo/i18n!./nls/common"
-], function(require, array, connect, declare, Deferred,
+], function(require, array, connect, declare, win, Deferred,
 			dom, domClass, domGeometry, domStyle, event, fx, i18n, keys, lang, on, ready, has, winUtils,
 			Moveable, TimedMoveable, focus, manager, _Widget, _TemplatedMixin, _CssStateMixin, _FormMixin, _DialogMixin,
-			DialogUnderlay, ContentPane, template, dijit){
+			DialogUnderlay, ContentPane, template){
 
 	// module:
 	//		dijit/Dialog
@@ -496,9 +496,6 @@ define([
 			// tags:
 			//		private
 			if(this.domNode.style.display != "none"){
-				if(DialogUnderlay._singleton){	// avoid race condition during show()
-					DialogUnderlay._singleton.layout();
-				}
 				this._size();
 				this._position();
 			}
@@ -563,24 +560,12 @@ define([
 			// Save current focus
 			ds[ds.length-1].focus = focus.curNode;
 
-			// Display the underlay, or if already displayed then adjust for this new dialog
-			// TODO: one underlay per document (based on dialog.ownerDocument)
-			var underlay = DialogUnderlay._singleton;
-			if(!underlay || underlay._destroyed){
-				underlay = dijit._underlay = DialogUnderlay._singleton = new DialogUnderlay(underlayAttrs);
-			}else{
-				underlay.set(dialog.underlayAttrs);
-			}
-
 			// Set z-index a bit above previous dialog
 			var zIndex = ds[ds.length-1].dialog ? ds[ds.length-1].zIndex + 2 : Dialog._DialogLevelManager._beginZIndex;
-			if(ds.length == 1){	// first dialog
-				underlay.show();
-			}
-			domStyle.set(DialogUnderlay._singleton.domNode, 'zIndex', zIndex - 1);
-
-			// Dialog
 			domStyle.set(dialog.domNode, 'zIndex', zIndex);
+
+			// Display the underlay, or if already displayed then adjust for this new dialog
+			DialogUnderlay.show(underlayAttrs, zIndex - 1);
 
 			ds.push({dialog: dialog, underlayAttrs: underlayAttrs, zIndex: zIndex});
 		},
@@ -602,17 +587,13 @@ define([
 
 				var pd = ds[ds.length-1];	// the new active dialog (or the base page itself)
 
-				// Adjust underlay, unless the underlay widget has already been destroyed
-				// because we are being called during page unload (when all widgets are destroyed)
-				if(!DialogUnderlay._singleton._destroyed){
-					if(ds.length == 1){
-						// Returning to original page.  Hide the underlay.
-						DialogUnderlay._singleton.hide();
-					}else{
-						// Popping back to previous dialog, adjust underlay.
-						domStyle.set(DialogUnderlay._singleton.domNode, 'zIndex', pd.zIndex - 1);
-						DialogUnderlay._singleton.set(pd.underlayAttrs);
-					}
+				// Adjust underlay
+				if(ds.length == 1){
+					// Returning to original page.  Hide the underlay.
+					DialogUnderlay.hide();
+				}else{
+					// Popping back to previous dialog, adjust underlay.
+					DialogUnderlay.show(pd.underlayAttrs, pd.zIndex - 1);
 				}
 
 				// Adjust focus
@@ -639,7 +620,7 @@ define([
 			}else{
 				// Removing a dialog out of order (#9944, #10705).
 				// Don't need to mess with underlay or z-index or anything.
-				var idx = array.indexOf(array.map(ds, function(elem){return elem.dialog}), dialog);
+				var idx = array.indexOf(array.map(ds, function(elem){return elem.dialog;}), dialog);
 				if(idx != -1){
 					ds.splice(idx, 1);
 				}
