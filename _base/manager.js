@@ -413,7 +413,7 @@ dojo.declare("dijit.WidgetSet", null, {
 			dojo.query("> *", parent).forEach(function(child){
 				// Skip hidden elements, and also non-HTML elements (those in custom namespaces) in IE,
 				// since show() invokes getAttribute("type"), which crash on VML nodes in IE.
-				if((dojo.isIE && child.scopeName!=="HTML") || !shown(child)){
+				if((dojo.isIE <= 9 && child.scopeName !== "HTML") || !shown(child)){
 					return;
 				}
 
