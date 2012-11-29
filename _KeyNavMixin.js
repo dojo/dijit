@@ -151,7 +151,10 @@ define([
 			}
 			widget.set("tabIndex", this.tabIndex);	// for IE focus outline to appear, must set tabIndex before focus
 			widget.focus(last ? "end" : "start");
-			this._set("focusedChild", widget);
+
+			// Don't set focusedChild here, because the focus event should trigger a call to _onChildFocus(), which will
+			// set it.   More importantly, _onChildFocus(), which may be executed asynchronously (after this function
+			//  returns) needs to know the old focusedChild to set its tabIndex to -1.
 		},
 
 		_onContainerFocus: function(evt){
