@@ -107,7 +107,7 @@ define([
 			for(var child = parent.firstChild; child; child = child.nextSibling){
 				// Skip text elements, hidden elements, and also non-HTML elements (those in custom namespaces) in IE,
 				// since show() invokes getAttribute("type"), which crash on VML nodes in IE.
-				if(child.nodeType != 1 || (has("ie") && child.scopeName !== "HTML") || !shown(child)){
+				if(child.nodeType != 1 || (has("ie") <= 9 && child.scopeName !== "HTML") || !shown(child)){
 					continue;
 				}
 
