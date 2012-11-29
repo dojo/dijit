@@ -124,18 +124,27 @@ var StackContainer = declare("dijit.layout.StackContainer", _LayoutWidget, {
 		// Overrides _LayoutWidget._setupChild()
 
 		// For aria support, wrap child widget in a <div role="tabpanel">
-		var old = child.domNode;
-		var label = child["aria-label"] || child.title || child.label;
-		var wrapper = domConstruct.place("<div role='tabpanel' aria-label='"+label+"'>", child.domNode, "replace");
-		domConstruct.place(old, wrapper);
+		var childNode = child.domNode,
+			wrapper = domConstruct.place("<div role='tabpanel' class='" + this.baseClass + "ChildWrapper'>",
+				child.domNode, "replace"),
+			label = child["aria-label"] || child.title || child.label;
+		if(label){
+			// setAttribute() escapes special chars, and if() statement avoids setting aria-label="undefined"
+			wrapper.setAttribute("aria-label", label);
+		}
+		domConstruct.place(childNode, wrapper);
 		child._wrapper = wrapper;	// to set the aria-labelledby in StackController
 				
 		this.inherited(arguments);
 
-		domClass.replace(child.domNode, "dijitHidden", "dijitVisible");
+		domClass.replace(wrapper, "dijitHidden", "dijitVisible");
 
-		// remove the title attribute so it doesn't show up when i hover
-		// over a node
+		// child may have style="display: none" (at least our test cases do), so remove that
+		if(childNode.style.display == "none"){
+			childNode.style.display = "block";
+		}
+
+		// remove the title attribute so it doesn't show up when i hover over a node
 		child.domNode.title = "";
 	},
 
@@ -310,7 +319,7 @@ var StackContainer = declare("dijit.layout.StackContainer", _LayoutWidget, {
 		page.isLastChild = (page == children[children.length-1]);
 		page._set("selected", true);
 
-		domClass.replace(page.domNode, "dijitVisible", "dijitHidden");
+		domClass.replace(page._wrapper, "dijitVisible", "dijitHidden");
 
 		return (page._onShow && page._onShow()) || true;
 	},
@@ -320,7 +329,7 @@ var StackContainer = declare("dijit.layout.StackContainer", _LayoutWidget, {
 		//		Hide the specified child by changing it's CSS, and call _onHide() so
 		//		it's notified.
 		page._set("selected", false);
-		domClass.replace(page.domNode, "dijitHidden", "dijitVisible");
+		domClass.replace(page._wrapper, "dijitHidden", "dijitVisible");
 
 		page.onHide && page.onHide();
 	},

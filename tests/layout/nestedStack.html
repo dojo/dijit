@@ -75,14 +75,14 @@
 						name: "TabContainer 1 content pane 2 hidden",
 						runTest: function(t){
 							doh.f(!"tab1cp2" in resizeCnt, "tab 2 hasn't been resized");
-							doh.is("none", dojo.style(dijit.byId("tab1cp2").domNode, "display"), "TabContainer1 Tab 2 is hidden");
+							doh.is("none", dojo.style(dijit.byId("tab1cp2").domNode.parentNode, "display"), "TabContainer1 Tab 2 is hidden");
 						}
 					},
 					{
 						name: "TabContainer 2 hidden and unsized",
 						runTest: function(t){
 							doh.f(!"tab2" in resizeCnt, "TabContainer 2 hasn't been resized");
-							doh.is("none", dojo.style(dijit.byId("tab2").domNode, "display"), "TabContainer 2 is hidden");
+							doh.is("none", dojo.style(dijit.byId("tab2").domNode.parentNode, "display"), "TabContainer 2 is hidden");
 						}
 					},
 					{
@@ -100,14 +100,14 @@
 					{
 						name: "TabContainer 1 hidden",
 						runTest: function(t){
-							doh.is("none", dojo.style(dijit.byId("tab1").domNode, "display"), "TabContainer1 is hidden");
+							doh.is("none", dojo.style(dijit.byId("tab1").domNode.parentNode, "display"), "TabContainer1 is hidden");
 						}
 					},
 					{
 						name: "TabContainer 2 visible and resized",
 						runTest: function(t){
 							doh.is(1, resizeCnt["tab2"], "TabContainer 2 was resized once");
-							doh.is("block", dojo.style(dijit.byId("tab2").domNode, "display"), "TabContainer 2 is visible");
+							doh.is("block", dojo.style(dijit.byId("tab2").domNode.parentNode, "display"), "TabContainer 2 is visible");
 							doh.t(resizeLog["tab2"] != "none", "TabContainer 2 was visible when it was resized");
 						}
 					},
@@ -115,7 +115,7 @@
 						name: "TabContainer 2 content pane 1 visible and resized",
 						runTest: function(t){
 							doh.is(1, resizeCnt["tab2cp1"], "Tab 2 was resized once");
-							doh.is("block", dojo.style(dijit.byId("tab2cp1").domNode, "display"), "TabContainer2 Tab 1 is visible");
+							doh.is("block", dojo.style(dijit.byId("tab2cp1").domNode.parentNode, "display"), "TabContainer2 Tab 1 is visible");
 							doh.t(resizeLog["tab2cp1"] != "none", "Tab 2 was visible when it was resized");
 						}
 					}
