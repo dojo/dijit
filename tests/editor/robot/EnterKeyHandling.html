@@ -143,7 +143,7 @@
 								value = value.replace(/ /g, "");
 								value = value.replace(/\xA0/g, "");
 								if(dojo.isWebKit && !dojo.isMac){
-									// Work around webkit bug: 
+									// Work around webkit bug:
 									// http://code.google.com/p/chromium/issues/detail?id=106551
 									// Should hopefully be fixed in Chrome 19.
 									value = value.replace(/\n/g, "");
@@ -192,7 +192,7 @@
 								var value = br.get('value');
 								value = value.replace(/ /g, "");
 								if(dojo.isWebKit && !dojo.isMac){
-									// Work around webkit bug: 
+									// Work around webkit bug:
 									// http://code.google.com/p/chromium/issues/detail?id=106551
 									// Should hopefully be fixed in Chrome 19.
 									value = value.replace(/\n/g, "");
@@ -228,12 +228,12 @@
 							doh.robot.mouseMoveAt(editor.iframe, 500);
 							doh.robot.mouseClick({left:true}, 500);
 
-							doh.robot.sequence(function(){
+							doh.robot.sequence(d.getTestErrback(function(){
 								editor._sCall("selectElementChildren", [node]);
-							}, 500);
+							}), 500);
 							
-							//Keyboard kill the selection and shift position between i and s.
-							if(!dojo.isMoz || dojo.isMac){doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100, {}); }
+							// Keyboard kill the selection and shift position between I and S.
+							if(!dojo.isMoz || dojo.isMac){ doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100, {}); }
 							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 100, {});
 							doh.robot.keyPress(dojo.keys.ENTER, 500);
 
@@ -241,8 +241,8 @@
 								// Do tests here.
 								var val = editor.get("value");
 								// Check that it split the is into two and that the bold and div were properly split.
-								doh.t(val.indexOf("It <b id=\"boldLine0\">i</b></div>") > 0, "start");
-								doh.t(val.indexOf("<div><b>s</b>") > 0, "end");
+								doh.t(val.indexOf("It <b id=\"boldLine0\">I</b></div>") > 0, "start");
+								doh.t(val.indexOf("<div><b>S</b>") > 0, "end");
 							}), 500);
 
 							return d;
@@ -263,12 +263,12 @@
 							doh.robot.mouseMoveAt(editor.iframe, 500);
 							doh.robot.mouseClick({left:true}, 500);
 
-							doh.robot.sequence(function(){
+							doh.robot.sequence(d.getTestErrback(function(){
 								editor._sCall("selectElementChildren", [node]);
-							}, 500);
+							}), 500);
 							
-							//Keyboard kill the selection and shift position between i and s.
-							if(!dojo.isMoz || dojo.isMac){doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100, {}); }
+							// Keyboard kill the selection and shift position between I and S.
+							if(!dojo.isMoz || dojo.isMac){ doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100, {}); }
 							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 100, {});
 							doh.robot.keyPress(dojo.keys.ENTER, 500);
 
@@ -298,12 +298,12 @@
 							doh.robot.mouseMoveAt(editor.iframe, 500);
 							doh.robot.mouseClick({left:true}, 500);
 
-							doh.robot.sequence(function(){
+							doh.robot.sequence(d.getTestErrback(function(){
 								editor._sCall("selectElementChildren", [node]);
-							}, 500);
+							}), 500);
 							
-							//Keyboard kill the selection and shift position between i and s.
-							if(!dojo.isMoz || dojo.isMac){doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100, {}); }
+							// Keyboard kill the selection and shift position between I and S.
+							if(!dojo.isMoz || dojo.isMac){ doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100, {}); }
 							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 100, {});
 							doh.robot.keyPress(dojo.keys.ENTER, 500);
 
@@ -312,8 +312,8 @@
 								var val = editor.get("value");
 								// Check that it split the is into two and that the bold and div were properly split.
 								val = val.toLowerCase();
-								doh.assertTrue(/it <font\s+id="fontline1"\s+size\s*=\s*"\s*5?\s*">i<\/font><\/div>/.test(val),"font not set on first line");
-								doh.assertTrue(/<div><font\s+size\s*=\s*"\s*5?\s*">s<\/font>/.test(val),"font not set on split line");
+								doh.t(/it <font\s+id="fontline1"\s+size\s*=\s*"\s*5?\s*">i<\/font><\/div>/.test(val),"font not set on first line");
+								doh.t(/<div><font\s+size\s*=\s*"\s*5?\s*">s<\/font>/.test(val),"font not set on split line");
 							}), 500);
 
 							return d;
@@ -345,7 +345,7 @@
 								var value = editor.get('value');
 								value = value.replace(/\xA0/g, "");
 								if(dojo.isWebKit && !dojo.isMac){
-									// Work around webkit bug: 
+									// Work around webkit bug:
 									// http://code.google.com/p/chromium/issues/detail?id=106551
 									// Should hopefully be fixed in Chrome 19.
 									value = value.replace(/\n/g, "");
@@ -390,7 +390,7 @@
 								var value = editor.get('value');
 								value = value.replace(/\xA0/g, "");
 								if(dojo.isWebKit && !dojo.isMac){
-									// Work around webkit bug: 
+									// Work around webkit bug:
 									// http://code.google.com/p/chromium/issues/detail?id=106551
 									// Should hopefully be fixed in Chrome 19.
 									value = value.replace(/\n/g, "");
@@ -419,12 +419,12 @@
 							doh.robot.mouseMoveAt(editor.iframe, 500);
 							doh.robot.mouseClick({left:true}, 500);
 
-							doh.robot.sequence(function(){
+							doh.robot.sequence(d.getTestErrback(function(){
 								editor._sCall("selectElementChildren", [node]);
-							}, 500);
+							}), 500);
 							
-							//Keyboard kill the selection and shift position between i and s.
-							if(!dojo.isMoz || dojo.isMac){doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100, {}); }
+							// Keyboard kill the selection and shift position between I and S.
+							if(!dojo.isMoz || dojo.isMac){ doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100, {}); }
 							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 100, {});
 							doh.robot.keyPress(dojo.keys.ENTER, 500);
 
@@ -432,8 +432,8 @@
 								// Do tests here.
 								var val = editor.get("value");
 								// Check that it split the is into two and that the bold and div were properly split.
-								doh.t(val.indexOf("It <b id=\"boldLine2\">i</b></p>") > 0, "start");
-								doh.t(val.indexOf("<p><b>s</b>") > 0, "end");
+								doh.t(val.indexOf("It <b id=\"boldLine2\">I</b></p>") > 0, "start");
+								doh.t(val.indexOf("<p><b>S</b>") > 0, "end");
 							}), 500);
 
 							return d;
@@ -486,7 +486,7 @@
 								var value = editor.get('value');
 								value = value.replace(/\xA0/g, "");
 								if(dojo.isWebKit && !dojo.isMac){
-									// Work around webkit bug: 
+									// Work around webkit bug:
 									// http://code.google.com/p/chromium/issues/detail?id=106551
 									// Should hopefully be fixed in Chrome 19.
 									value = value.replace(/\n/g, "");
@@ -532,7 +532,7 @@
 								var value = editor.get('value');
 								value = value.replace(/\xA0/g, "");
 								if(dojo.isWebKit && !dojo.isMac){
-									// Work around webkit bug: 
+									// Work around webkit bug:
 									// http://code.google.com/p/chromium/issues/detail?id=106551
 									// Should hopefully be fixed in Chrome 19.
 									value = value.replace(/\n/g, "");
