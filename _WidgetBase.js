@@ -531,7 +531,7 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		// preserveDom:
 		//		If true, this method will leave the original DOM structure
 		//		alone of descendant Widgets. Note: This will NOT work with
-		//		dijit._Templated widgets.
+		//		dijit._TemplatedMixin widgets.
 
 		this._beingDestroyed = true;
 		this.destroyDescendants(preserveDom);
@@ -540,11 +540,14 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 
 	destroy: function(/*Boolean*/ preserveDom){
 		// summary:
-		//		Destroy this widget, but not its descendants.
-		//		This method will, however, destroy internal widgets such as those used within a template.
+		//		Destroy this widget, but not its descendants.  Descendants means widgets inside of
+		//		this.containerNode.   Will also destroy any resources (including widgets) registered via this.own().
+		//
+		//		This method will also destroy internal widgets such as those created from a template,
+		//		assuming those widgets exist inside of this.domNode but outside of this.containerNode.
 		// preserveDom: Boolean
 		//		If true, this method will leave the original DOM structure alone.
-		//		Note: This will not yet work with _Templated widgets
+		//		Note: This will not yet work with _TemplatedMixin widgets
 
 		this._beingDestroyed = true;
 		this.uninitialize();
@@ -574,7 +577,7 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 
 	destroyRendering: function(/*Boolean?*/ preserveDom){
 		// summary:
-		//		Destroys the DOM nodes associated with this widget
+		//		Destroys the DOM nodes associated with this widget.
 		// preserveDom:
 		//		If true, this method will leave the original DOM structure alone
 		//		during tear-down. Note: this will not work with _Templated
@@ -909,7 +912,7 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 
 	toString: function(){
 		// summary:
-		//		Returns a string that represents the widget
+		//		Returns a string that represents the widget.
 		// description:
 		//		When a widget is cast to a string, this method will be used to generate the
 		//		output. Currently, it does not implement any sort of reversible
@@ -919,14 +922,24 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 
 	getChildren: function(){
 		// summary:
-		//		Returns all the widgets contained by this, i.e., all widgets underneath this.containerNode.
-		//		Does not return nested widgets, nor widgets that are part of this widget's template.
+		//		Returns all direct children of this widget, i.e. all widgets underneath this.containerNode whose parent
+		//		is this widget.   Note that it does not return all descendants, but rather just direct children.
+		//		Analogous to [Node.childNodes](https://developer.mozilla.org/en-US/docs/DOM/Node.childNodes),
+		//		except containing widgets rather than DOMNodes.
+		//
+		//		The result intentionally excludes internally created widgets (a.k.a. supporting widgets)
+		//		outside of this.containerNode.
+		//
+		//		Note that the array returned is a simple array.  Application code should not assume
+		//		existence of methods like forEach().
+
 		return this.containerNode ? registry.findWidgets(this.containerNode) : []; // dijit/_WidgetBase[]
 	},
 
 	getParent: function(){
 		// summary:
-		//		Returns the parent widget of this widget
+		//		Returns the parent widget of this widget.
+
 		return registry.getEnclosingWidget(this.domNode.parentNode);
 	},
 
