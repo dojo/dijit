@@ -39,9 +39,19 @@ return declare("dijit._MenuBase", [_Widget, _TemplatedMixin, _KeyNavContainer, _
 	//		or DropDownButton/ComboButton.   Note though that it always get focused when opened via the keyboard.
 	autoFocus: false,
 
+	childSelector: function(/*DOMNode*/ node){
+		// summary:
+		//		Selector (passed to on.selector()) used to identify child widgets.  If this is overridden
+		//		to a string (ex: "> *") then the subclass must require dojo/query.
+		// tags:
+		//		protected
+
+		return node.parentNode == this.containerNode;
+	},
+
 	postCreate: function(){
 		var self = this,
-			matches = function(node){ return domClass.contains(node, "dijitMenuItem"); };
+			matches = typeof this.childSelector == "string" ? this.childSelector : lang.hitch(this, "childSelector");
 		this.own(
 			on(this.containerNode, on.selector(matches, mouse.enter), function(){
 				self.onItemHover(registry.byNode(this));
