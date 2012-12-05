@@ -1,5 +1,6 @@
 define([
 	"dojo/_base/array", // array.filter array.forEach array.map
+	"dojo/aspect",
 	"dojo/_base/connect",	// connect.isCopyKey()
 	"dojo/cookie", // cookie
 	"dojo/_base/declare", // declare
@@ -33,7 +34,7 @@ define([
 	"./tree/TreeStoreModel",
 	"./tree/ForestStoreModel",
 	"./tree/_dndSelector"
-], function(array, connect, cookie, declare, Deferred, all,
+], function(array, aspect, connect, cookie, declare, Deferred, all,
 			dom, domClass, domGeometry, domStyle, event, createError, fxUtils, kernel, keys, lang, on, topic, touch, when,
 			focus, registry, manager, _Widget, _TemplatedMixin, _Container, _Contained, _CssStateMixin, _KeyNavMixin,
 			treeNodeTemplate, treeTemplate, TreeStoreModel, ForestStoreModel, _dndSelector){
@@ -266,20 +267,20 @@ var TreeNode = declare(
 			this.tree.domNode.setAttribute("aria-expanded", "true");
 		}
 
-		var def,
-			wipeIn = fxUtils.wipeIn({
-				node: this.containerNode,
-				duration: manager.defaultDuration,
-				onEnd: function(){
-					def.resolve(true);
-				}
-			});
+		var wipeIn = fxUtils.wipeIn({
+			node: this.containerNode,
+			duration: manager.defaultDuration
+		});
 
 		// Deferred that fires when expand is complete
-		def = (this._expandDeferred = new Deferred(function(){
+		var def = (this._expandDeferred = new Deferred(function(){
 			// Canceller
 			wipeIn.stop();
 		}));
+
+		aspect.after(wipeIn, "onEnd", function(){
+			def.resolve(true);
+		}, true);
 
 		wipeIn.play();
 
@@ -310,20 +311,20 @@ var TreeNode = declare(
 		this._setExpando();
 		this._updateItemClasses(this.item);
 
-		var def,
-			wipeOut = fxUtils.wipeOut({
-				node: this.containerNode,
-				duration: manager.defaultDuration,
-				onEnd: function(){
-					def.resolve(true);
-				}
-			});
+		var wipeOut = fxUtils.wipeOut({
+			node: this.containerNode,
+			duration: manager.defaultDuration
+		});
 
 		// Deferred that fires when expand is complete
-		def = (this._collapseDeferred = new Deferred(function(){
+		var def = (this._collapseDeferred = new Deferred(function(){
 			// Canceller
 			wipeOut.stop();
 		}));
+
+		aspect.after(wipeOut, "onEnd", function(){
+			def.resolve(true);
+		}, true);
 
 		wipeOut.play();
 

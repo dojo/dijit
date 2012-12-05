@@ -147,36 +147,12 @@
 					name: "setup",
 					timeout: 8000,
 					runTest: function(){
-
 						// Close all tree nodes except for Africa and Sudan, South America, and the root node itself
-
-						/*
-						//	doesn't work due to #16378
 						return mytree.collapseAll().then(function(){
 							return mytree.set("paths", [
 								["continentRoot", "AF", "SD", "Khartoum"],
 								["continentRoot", "SA", "AR"]				// Argentina
 							]);
-						});
-						 */
-
-						// workaround for #16378, use code above when that bug is fixed
-						return mytree.collapseAll().then(function(){
-							var d = new dojo.Deferred();
-							setTimeout(function(){
-								mytree.set("paths", [
-									["continentRoot", "AF", "SD", "Khartoum"],
-									["continentRoot", "SA", "AR"]				// Argentina
-								]).then(
-									function(){
-										d.resolve(true);
-									},
-									function(err){
-										d.reject(err);
-									}
-								);
-							}, 500);
-							return d;
 						});
 					}
 				},
