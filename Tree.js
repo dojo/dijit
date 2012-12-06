@@ -47,10 +47,10 @@ function shimmedPromise(/*Deferred|Promise*/ d){
 	//		Return a Promise based on given Deferred or Promise, with back-compat addCallback() and addErrback() shims
 	//		added (TODO: remove those back-compat shims, and this method, for 2.0)
 
-	var p = d.promise || d;
-	p.addCallback = function(callback){ p.then(callback); };
-	p.addErrback = function(errback){ p.otherwise(errback); };
-	return p;
+	return lang.delegate(d.promise || d, {
+		addCallback: function(callback){ this.then(callback); },
+		addErrback: function(errback){ this.otherwise(errback); }
+	});
 }
 
 var TreeNode = declare(
@@ -343,7 +343,7 @@ var TreeNode = declare(
 		//		Also, if this.persist == true, expands any children that were previously
 		//		opened.
 		// returns:
-		//		Deferred object that fires after all previously opened children
+		//		Promise that resolves after all previously opened children
 		//		have been expanded again (or fires instantly if there are no such children).
 
 		var tree = this.tree,
@@ -581,7 +581,7 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 	// paths: String[][] or Item[][]
 	//		Full paths from rootNode to selected nodes expressed as array of items or array of ids.
 	//		Since setting the paths may be asynchronous (because of waiting on dojo.data), set("paths", ...)
-	//		returns a Deferred to indicate when the set is complete.
+	//		returns a Promise to indicate when the set is complete.
 	paths: [],
 
 	// path: String[] or Item[]
@@ -748,10 +748,10 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 			this.cookieName = this.id + "SaveStateCookie";
 		}
 
-		// Deferred that fires when all the children have loaded.
+		// Deferred that resolves when all the children have loaded.
 		this.expandChildrenDeferred  = new Deferred();
 
-		// Deferred that fires when all pending operations complete.
+		// Promise that resolves when all pending operations complete.
 		this.pendingCommandsPromise = this.expandChildrenDeferred.promise;
 
 		this.inherited(arguments);
@@ -818,7 +818,7 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 
 		// onLoadDeferred should fire when all commands that are part of initialization have completed.
 		// It will include all the set("paths", ...) commands that happen during initialization.
-		this.onLoadDeferred = this.pendingCommandsPromise;
+		this.onLoadDeferred = shimmedPromise(this.pendingCommandsPromise);
 				
 		this.onLoadDeferred.then(lang.hitch(this, "onLoad"));
 	},
@@ -1443,7 +1443,7 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 		// summary:
 		//		Called when the user has requested to collapse the node
 		// returns:
-		//		Deferred that fires when the node is closed
+		//		Promise that resolves when the node has finished closing
 
 		if(node._expandNodeDeferred){
 			delete node._expandNodeDeferred;
@@ -1470,7 +1470,7 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 		// summary:
 		//		Called when the user has requested to expand the node
 		// returns:
-		//		Deferred that fires when the node is loaded and opened and (if persist=true) all it's descendants
+		//		Promise that resolves when the node is loaded and opened and (if persist=true) all it's descendants
 		//		that were previously opened too
 
 		if(node._expandNodeDeferred){
@@ -1524,7 +1524,7 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 
 		this._startPaint(def);	// after this finishes, need to reset widths of TreeNodes
 
-		return def;	// dojo/Deferred
+		return def;	// dojo/promise/Promise
 	},
 
 	////////////////// Miscellaneous functions ////////////////
