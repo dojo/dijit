@@ -63,7 +63,7 @@
 		
 				function validateTest4Widget(t, testW){
 					var selectedTab = dojo.query(".dijitTabChecked", testW.domNode)[0];
-					var selectedPane = dojo.query(".dijitTabPane.dijitVisible", testW.domNode)[0];
+					var selectedPane = dojo.query(".dijitVisible > .dijitTabPane", testW.domNode)[0];
 					var tabBox = selectedTab ? dojo.contentBox(selectedTab) : null;
 					var paneBox = selectedPane ? dojo.contentBox(selectedPane) : null;
 					t.t(tabBox && tabBox.w > 0 && tabBox.h > 0, "tabBox && tabBox.w > 0 && tabBox.h > 0");
