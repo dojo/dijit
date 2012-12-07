@@ -115,6 +115,9 @@ define([
 				if(has("ie")){
 					targetWindow.document.body.attachEvent('onmousedown', mousedownListener);
 					var focusinListener = function(evt){
+						// When you refocus the browser window, IE gives an event with an empty srcElement
+						if(!evt.srcElement.tagName) { return; }
+
 						// IE reports that nodes like <body> have gotten focus, even though they have tabIndex=-1,
 						// ignore those events
 						var tag = evt.srcElement.tagName.toLowerCase();
