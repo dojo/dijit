@@ -1347,7 +1347,7 @@ Main class hierarchy:
 
 .dijitTabContainer {
     z-index: 0; /* so z-index settings below have no effect outside of the TabContainer */
-    overflow-y: visible; /* prevent off-by-one-pixel errors from hiding bottom border (opposite tab labels) */
+    overflow: visible; /* prevent off-by-one-pixel errors from hiding bottom border (opposite tab labels) */
 }
 .dj_ie6 .dijitTabContainer {
     /* workaround IE6 problem when tall content overflows TabContainer, see editor/test_FullScreen.html */

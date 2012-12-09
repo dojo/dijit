@@ -1,13 +1,13 @@
 /* Test file styles for Dijit widgets */
 
 body {
-	background:#fff url("../images/testsBodyBg.gif") repeat-x top left;
-	padding:2em 2em 2em 2em;
+	background: #fff url("../images/testsBodyBg.gif") repeat-x top left;
+	padding: 20px;
 }
 
 h1.testTitle {
-	font-size:2em;
-	margin:0 0 1em 0;
+	font-size: 2em;
+	margin: 0 0 1em 0;
 }
 
 /* Icons used in the tests */
