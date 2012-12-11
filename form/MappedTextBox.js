@@ -1,8 +1,9 @@
 define([
 	"dojo/_base/declare", // declare
+	"dojo/sniff", // has("win8app")
 	"dojo/dom-construct", // domConstruct.place
 	"./ValidationTextBox"
-], function(declare, domConstruct, ValidationTextBox){
+], function(declare, has, domConstruct, ValidationTextBox){
 
 	// module:
 	//		dijit/form/MappedTextBox
@@ -24,13 +25,13 @@ define([
 		postMixInProperties: function(){
 			this.inherited(arguments);
 
-			// we want the name attribute to go to the hidden <input>, not the displayed <input>,
-			// so override _FormWidget.postMixInProperties() setting of nameAttrSetting
+			// We want the name attribute to go to the hidden <input>, not the displayed <input>,
+			// so override _FormWidget.postMixInProperties() setting of nameAttrSetting for IE.
 			this.nameAttrSetting = "";
 		},
 
-		// Override default behavior to assign name to focusNode
-		_setNameAttr: null,
+        // Remap name attribute to be mapped to hidden node created in buildRendering(), rather than this.focusNode
+        _setNameAttr: "valueNode",
 
 		serialize: function(val /*=====, options =====*/){
 			// summary:
@@ -66,10 +67,13 @@ define([
 
 			// Create a hidden <input> node with the serialized value used for submit
 			// (as opposed to the displayed value).
-			// Passing in name as markup rather than calling domConstruct.create() with an attrs argument
-			// to make query(input[name=...]) work on IE. (see #8660)
-			this.valueNode = domConstruct.place("<input type='hidden'" + (this.name ? ' name="' + this.name.replace(/"/g, "&quot;") + '"' : "") + "/>", this.textbox, "after");
-		},
+			// Passing in name as markup rather than relying on _setNameAttr custom setter above
+			// to make query(input[name=...]) work on IE. (see #8660).
+			// But not doing that for Windows 8 Store apps because it causes a security exception (see #16452).
+			this.valueNode = domConstruct.place("<input type='hidden'" +
+                ((this.name && !has("win8app")) ? ' name="' + this.name.replace(/"/g, "&quot;") + '"' : "") + "/>",
+                this.textbox, "after");
+        },
 
 		reset: function(){
 			// Overrides `dijit/form/ValidationTextBox.reset` to

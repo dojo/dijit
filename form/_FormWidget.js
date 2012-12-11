@@ -1,6 +1,6 @@
 define([
 	"dojo/_base/declare",	// declare
-	"dojo/has",				// has("dijit-legacy-requires")
+	"dojo/sniff",			// has("dijit-legacy-requires"), has("win8app")
 	"dojo/_base/kernel",	// kernel.deprecated
 	"dojo/ready",
 	"../_Widget",
@@ -55,11 +55,13 @@ return declare("dijit.form._FormWidget", [_Widget, _TemplatedMixin, _CssStateMix
 	},
 
 	postMixInProperties: function(){
-		// Setup name=foo string to be referenced from the template (but only if a name has been specified)
-		// Unfortunately we can't use _setNameAttr to set the name due to IE limitations, see #8484, #8660.
+		// Setup name=foo string to be referenced from the template (but only if a name has been specified).
+		// Unfortunately we can't use _setNameAttr to set the name in IE due to IE limitations, see #8484, #8660.
+		// But when IE6 and IE7 are desupported, then we probably don't need this anymore, so should remove it in 2.0.
+		// Also, don't do this for Windows 8 Store Apps because it causes a security exception (see #16452).
 		// Regarding escaping, see heading "Attribute values" in
 		// http://www.w3.org/TR/REC-html40/appendix/notes.html#h-B.3.2
-		this.nameAttrSetting = this.name ? ('name="' + this.name.replace(/"/g, "&quot;") + '"') : '';
+		this.nameAttrSetting = (this.name && !has("win8app")) ? ('name="' + this.name.replace(/"/g, "&quot;") + '"') : '';
 		this.inherited(arguments);
 	},
 

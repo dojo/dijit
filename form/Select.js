@@ -252,6 +252,8 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 		this._refreshState();	// to update this.state
 	},
 
+	_setNameAttr: "valueNode",
+
 	_setDisabledAttr: function(/*Boolean*/ value){
 		this.inherited(arguments);
 		this._refreshState();	// to update this.state

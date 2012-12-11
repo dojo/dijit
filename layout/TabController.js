@@ -36,6 +36,9 @@ define([
 
 		templateString: template,
 
+		// Button superclass maps name to a this.valueNode, but we don't have a this.valueNode attach point
+		_setNameAttr: "focusNode",
+
 		// Override _FormWidget.scrollOnFocus.
 		// Don't scroll the whole tab container into view when the button is focused.
 		scrollOnFocus: false,

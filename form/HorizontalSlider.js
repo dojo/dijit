@@ -100,6 +100,7 @@ var HorizontalSlider = declare("dijit.form.HorizontalSlider", [_FormValueWidget,
 
 	// Map widget attributes to DOMNode attributes.
 	_setIdAttr: "",		// Override _FormWidget which sends id to focusNode
+	_setNameAttr: "valueNode",		// Override default behavior to send to focusNode
 
 	baseClass: "dijitSlider",
 

@@ -57,6 +57,7 @@ return declare("dijit.form.Button", [_FormWidget, _ButtonMixin], {
 
 	// Map widget attributes to DOMNode attributes.
 	_setValueAttr: "valueNode",
+	_setNameAttr: "valueNode",
 
 	_fillContent: function(/*DomNode*/ source){
 		// Overrides _Templated._fillContent().

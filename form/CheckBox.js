@@ -80,8 +80,9 @@ define([
 			return (this.checked ? this.value : false);
 		},
 
-		// Override behavior from Button, since we don't have an iconNode
+		// Override behavior from Button, since we don't have an iconNode or valueNode
 		_setIconClassAttr: null,
+		_setNameAttr: "focusNode",
 
 		postMixInProperties: function(){
 			this.inherited(arguments);
