@@ -5,6 +5,7 @@ try{
 	doh.registerUrl("dijit.tests.registry", dojo.moduleUrl("dijit", "tests/registry.html"), 999999);
 	doh.registerUrl("dijit.tests.focus", dojo.moduleUrl("dijit", "tests/focus.html"), 999999);
 	doh.registerUrl("dijit.tests.place", dojo.moduleUrl("dijit", "tests/place.html"), 999999);
+	doh.registerUrl("dijit.tests.place-margin", dojo.moduleUrl("dijit", "tests/place-margin.html"), 999999);
 	doh.registerUrl("dijit.tests.place-clip", dojo.moduleUrl("dijit", "tests/place-clip.html"), 999999);
 	doh.registerUrl("dijit.tests.popup", dojo.moduleUrl("dijit", "tests/popup.html"), 999999);
 	doh.registerUrl("dijit.tests.a11y", dojo.moduleUrl("dijit", "tests/a11y.html"), 999999);
@@ -25,6 +26,7 @@ try{
 	doh.registerUrl("dijit.tests._WidgetsInTemplateMixin", dojo.moduleUrl("dijit", "tests/_WidgetsInTemplateMixin.html"), 999999);
 	doh.registerUrl("dijit.tests._Templated-widgetsInTemplate1.x", dojo.moduleUrl("dijit", "tests/_Templated-widgetsInTemplate1.x.html"), 999999);
 	doh.registerUrl("dijit.tests._Container", dojo.moduleUrl("dijit", "tests/_Container.html"), 999999);
+	doh.registerUrl("dijit.tests._HasDropDown", dojo.moduleUrl("dijit", "tests/_HasDropDown.html"), 999999);
 
 	doh.registerUrl("dijit.tests.Declaration", dojo.moduleUrl("dijit","tests/test_Declaration.html"), 999999);
 	doh.registerUrl("dijit.tests.Declaration_1.x", dojo.moduleUrl("dijit","tests/test_Declaration_1.x.html"), 999999);
