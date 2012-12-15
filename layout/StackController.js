@@ -85,8 +85,10 @@ define([
 		postCreate: function(){
 			this.inherited(arguments);
 
-			// Listen to notifications from StackContainer.
-			// TODO: do this through bubbled events instead of topics
+			// Listen to notifications from StackContainer.  This is tricky because the StackContainer may not have
+			// been created yet, so abstracting it through topics.
+			// Note: for TabContainer we can do this through bubbled events instead of topics; maybe that's
+			// all we support for 2.0?
 			this.subscribe(this.containerId+"-startup", "onStartup");
 			this.subscribe(this.containerId+"-addChild", "onAddChild");
 			this.subscribe(this.containerId+"-removeChild", "onRemoveChild");
@@ -150,17 +152,10 @@ define([
 			}
 		},
 
-		destroy: function(){
-			// Since the buttons are internal to the StackController widget, destroy() should remove them, which is
-			// done by calling onRemoveChild().
-			for(var pane in this.pane2button){
-				this.onRemoveChild(registry.byId(pane));
-			}
-
-			// TODO: destroyRecursive() will call destroy() on each child button twice.   Once from the above code,
-			// and once because _WidgetBase.destroyDescendants() deletes anything inside of this.containerNode.
-			// Probably shouldn't attach that DOMNode as this.containerNode.
-
+		destroy: function(preserveDom){
+			// Since the buttons are internal to the StackController widget, destroy() should remove them.
+			// When #5796 is fixed for 2.0 can get rid of this function completely.
+			this.destroyDescendants(preserveDom);
 			this.inherited(arguments);
 		},
 
