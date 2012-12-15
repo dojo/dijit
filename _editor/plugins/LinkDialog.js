@@ -346,39 +346,41 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 		//		If the caret is currently in a URL then populate the URL's info into the dialog.
 		var a,b,fc;
 		if(has("ie")){
-			// IE is difficult to select the element in, using the range unified
+			// IE, even IE10, is difficult to select the element in, using the range unified
 			// API seems to work reasonably well.
 			var sel = rangeapi.getSelection(this.editor.window);
-			var range = sel.getRangeAt(0);
-			a = range.endContainer;
-			if(a.nodeType === 3){
-				// Text node, may be the link contents, so check parent.
-				// This plugin doesn't really support nested HTML elements
-				// in the link, it assumes all link content is text.
-				a = a.parentNode;
-			}
-			if(a && (a.nodeName && a.nodeName.toLowerCase() !== this.tag)){
-				// Still nothing, one last thing to try on IE, as it might be 'img'
-				// and thus considered a control.
-				a = this.editor._sCall("getSelectedElement", [this.tag]);
-			}
-			if(!a || (a.nodeName && a.nodeName.toLowerCase() !== this.tag)){
-				// Try another lookup, IE's selection is just terrible.
-				b = this.editor._sCall("getAncestorElement", [this.tag]);
-				if(b && (b.nodeName && b.nodeName.toLowerCase() == this.tag)){
-					// Looks like we found an A tag, use it and make sure just it is 
-					// selected.
-					a = b;
-					this.editor._sCall("selectElement", [a]);
-				}else if (range.startContainer === range.endContainer){
-					// STILL nothing.  Trying one more thing.  Lets look at the first child.  
-					// It might be an anchor tag in a div by itself or the like.  If it is, 
-					// we'll use it otherwise we give up.  The selection is not easily 
-					// determinable to be on an existing anchor tag.
-					fc = range.startContainer.firstChild;
-					if(fc && (fc.nodeName && fc.nodeName.toLowerCase() == this.tag)){
-						a = fc;
+			if(sel.rangeCount){
+				var range = sel.getRangeAt(0);
+				a = range.endContainer;
+				if(a.nodeType === 3){
+					// Text node, may be the link contents, so check parent.
+					// This plugin doesn't really support nested HTML elements
+					// in the link, it assumes all link content is text.
+					a = a.parentNode;
+				}
+				if(a && (a.nodeName && a.nodeName.toLowerCase() !== this.tag)){
+					// Still nothing, one last thing to try on IE, as it might be 'img'
+					// and thus considered a control.
+					a = this.editor._sCall("getSelectedElement", [this.tag]);
+				}
+				if(!a || (a.nodeName && a.nodeName.toLowerCase() !== this.tag)){
+					// Try another lookup, IE's selection is just terrible.
+					b = this.editor._sCall("getAncestorElement", [this.tag]);
+					if(b && (b.nodeName && b.nodeName.toLowerCase() == this.tag)){
+						// Looks like we found an A tag, use it and make sure just it is
+						// selected.
+						a = b;
 						this.editor._sCall("selectElement", [a]);
+					}else if (range.startContainer === range.endContainer){
+						// STILL nothing.  Trying one more thing.  Lets look at the first child.
+						// It might be an anchor tag in a div by itself or the like.  If it is,
+						// we'll use it otherwise we give up.  The selection is not easily
+						// determinable to be on an existing anchor tag.
+						fc = range.startContainer.firstChild;
+						if(fc && (fc.nodeName && fc.nodeName.toLowerCase() == this.tag)){
+							a = fc;
+							this.editor._sCall("selectElement", [a]);
+						}
 					}
 				}
 			}
