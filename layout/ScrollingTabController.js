@@ -115,7 +115,7 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 
 	onRemoveChild: function(page, insertIndex){
 		// null out _selectedTab because we are about to delete that dom node
-		var button = this.pane2button[page.id];
+		var button = this.pane2button(page.id);
 		if(this._selectedTab === button.domNode){
 			this._selectedTab = null;
 		}
@@ -241,8 +241,8 @@ var ScrollingTabController = declare("dijit.layout.ScrollingTabController", [Tab
 		// summary:
 		//		Smoothly scrolls to a tab when it is selected.
 
-		var tab = this.pane2button[page.id];
-		if(!tab || !page){return;}
+		var tab = this.pane2button(page.id);
+		if(!tab){ return; }
 
 		var node = tab.domNode;
 
