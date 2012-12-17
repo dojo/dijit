@@ -118,7 +118,8 @@
 
 						doh.is("TL", ret.aroundCorner, "around corner");
 						doh.is("BL", ret.corner, "popup's corner");
-						doh.is(dojo.position(aroundBottom).y, dojo.position(popup).y + dojo.position(popup).h, "above around node");
+						doh.is(Math.round(dojo.position(aroundBottom).y),
+								Math.round(dojo.position(popup).y + dojo.position(popup).h), "above around node");
 					}
 				]
 			);
