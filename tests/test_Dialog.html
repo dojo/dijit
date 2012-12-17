@@ -69,7 +69,10 @@
 				title: 'Self-Destruct Dialog',
 				content: 'This dialog will destroy itself onHide.<br/><input type="text" id="SelfDestructDlgInput" />',
 				onHide: function(){
-					this.destroyRecursive();
+					// Use setTimeout() to avoid memory leak warning for sIEve
+					setTimeout(function(){
+						dlg.destroyRecursive();
+					}, 0);
 				}
 			});
 			dlg.show();
