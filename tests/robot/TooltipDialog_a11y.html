@@ -49,10 +49,15 @@
 							robot.sequence(d.getTestCallback(function(){								
 								doh.t(button._popupStateNode.getAttribute("aria-expanded"), "now aria-expanded should be true");
 								doh.is("tooltipDlg", button._popupStateNode.getAttribute("aria-owns"), "should aria-own the Dlg");
+
 								// Check roles and attributes on the dialog
 								var dlg = registry.byId("tooltipDlg");
 								doh.is("alertdialog", dlg.domNode.getAttribute("role"), "Dlg.domNode should have a role");
 								doh.is("tooltipDlgButton", dlg.domNode.getAttribute("aria-labelledby"), "aria-labelledby should point back to button");
+								
+								var dd = dlg.domNode;
+								doh.is("region", dd.parentNode.getAttribute("role"), "TooltipDialog's wrapper needs role=region since the node gets appended to the end");
+								doh.is("tooltipDlg", dd.parentNode.getAttribute("aria-label"), "TooltipDialog's wrapper needs aria-label since role=region");
 							}), 1000);
 						
 							return d;
