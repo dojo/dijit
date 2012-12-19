@@ -30,10 +30,12 @@ var CssStateMixin = declare("dijit._CssStateMixin", [], {
 	//		By setting the cssStateNodes attribute, a widget can also track events on subnodes (like buttons
 	//		within the widget).
 
+/*=====
 	// cssStateNodes: [protected] Object
-	//		List of sub-nodes within the widget that need CSS classes applied on mouse hover/press and focus
+	//		Subclasses may define a cssStateNodes property that lists sub-nodes within the widget that
+	//		need CSS classes applied on mouse hover/press and focus.
 	//
-	//		Each entry in the hash is a an attachpoint names (like "upArrowButton") mapped to a CSS class names
+	//		Each entry in this optional hash is a an attach-point name (like "upArrowButton") mapped to a CSS class name
 	//		(like "dijitUpArrowButton"). Example:
 	//	|		{
 	//	|			"upArrowButton": "dijitUpArrowButton",
@@ -42,6 +44,7 @@ var CssStateMixin = declare("dijit._CssStateMixin", [], {
 	//		The above will set the CSS class dijitUpArrowButton to the this.upArrowButton DOMNode when it
 	//		is hovered, etc.
 	cssStateNodes: {},
+=====*/
 
 	// hovering: [readonly] Boolean
 	//		True if cursor is over this widget
@@ -64,7 +67,7 @@ var CssStateMixin = declare("dijit._CssStateMixin", [], {
 		}, this);
 
 		// Track hover and active mouse events on widget root node, plus possibly on subnodes
-		for(var ap in this.cssStateNodes){
+		for(var ap in this.cssStateNodes || {}){
 			this._trackMouseState(this[ap], this.cssStateNodes[ap]);
 		}
 		this._trackMouseState(this.domNode, this.baseClass);
