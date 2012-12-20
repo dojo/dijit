@@ -41,12 +41,13 @@ return declare("dijit._MenuBase", [_Widget, _TemplatedMixin, _KeyNavContainer, _
 
 	childSelector: function(/*DOMNode*/ node){
 		// summary:
-		//		Selector (passed to on.selector()) used to identify child widgets.  If this is overridden
-		//		to a string (ex: "> *") then the subclass must require dojo/query.
+		//		Selector (passed to on.selector()) used to identify MenuItem child widgets, but exclude inert children
+		//		like MenuSeparator.  If subclass overrides to a string (ex: "> *"), the subclass must require dojo/query.
 		// tags:
 		//		protected
 
-		return node.parentNode == this.containerNode;
+		var widget = registry.byNode(node);
+		return node.parentNode == this.containerNode && widget && widget.focus;
 	},
 
 	postCreate: function(){
