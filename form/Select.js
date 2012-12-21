@@ -101,7 +101,7 @@ var _SelectMenu = declare("dijit.form._SelectMenu", DropDownMenu, {
 	}
 });
 
-var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
+var Select = declare("dijit.form.Select" + (has("dojo-bidi") ? "_NoBidi" : ""), [_FormSelectWidget, _HasDropDown], {
 	// summary:
 	//		This is a "styleable" select box - it is basically a DropDownButton which
 	//		can take a `<select>` as its input.
@@ -275,7 +275,6 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 		//		sets the display for the given value (or values)
 		var lbl = newDisplay || this.emptyLabel;
 		this.containerNode.innerHTML = '<span role="option" class="dijitReset dijitInline ' + this.baseClass.replace(/\s+|$/g, "Label ")+'">' + lbl + '</span>';
-		this.applyTextDir(this.containerNode);
 	},
 
 	validate: function(/*Boolean*/ isFocused){
@@ -401,6 +400,15 @@ var Select = declare("dijit.form.Select", [_FormSelectWidget, _HasDropDown], {
 		this.validate(false);
 	}
 });
+
+if(has("dojo-bidi")){
+	Select = declare("dijit.form.Select", Select, {
+		_setDisplay: function(/*String*/ newDisplay){
+			this.inherited(arguments);
+			this.applyTextDir(this.containerNode);
+		}
+	});
+}
 
 Select._Menu = _SelectMenu;	// for monkey patching
 

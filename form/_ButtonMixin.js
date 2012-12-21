@@ -2,13 +2,14 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/dom", // dom.setSelectable
 	"dojo/_base/event", // event.stop
+	"dojo/has",
 	"../registry"		// registry.byNode
-], function(declare, dom, event, registry){
+], function(declare, dom, event, has, registry){
 
 // module:
 //		dijit/form/_ButtonMixin
 
-return declare("dijit.form._ButtonMixin", null, {
+var ButtonMixin = declare("dijit.form._ButtonMixin" + (has("dojo-bidi") ? "_NoBidi" : ""), null, {
 	// summary:
 	//		A mixin to add a thin standard API wrapper to a normal HTML button
 	// description:
@@ -97,10 +98,19 @@ return declare("dijit.form._ButtonMixin", null, {
 		this._set("label", content);
 		var labelNode = this.containerNode || this.focusNode;
 		labelNode.innerHTML = content;
-		if(this.textDir){
-			this.applyTextDir(labelNode);
-		}
 	}
 });
+
+if(has("dojo-bidi")){
+	ButtonMixin = declare("dijit.form._ButtonMixin", ButtonMixin, {
+		_setLabelAttr: function(){
+			this.inherited(arguments);
+			var labelNode = this.containerNode || this.focusNode;
+			this.applyTextDir(labelNode);
+		}
+	});
+}
+
+return ButtonMixin;
 
 });

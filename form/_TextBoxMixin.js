@@ -3,16 +3,17 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/dom", // dom.byId
 	"dojo/_base/event", // event.stop
+	"dojo/has",
 	"dojo/keys", // keys.ALT keys.CAPS_LOCK keys.CTRL keys.META keys.SHIFT
 	"dojo/_base/lang", // lang.mixin
 	"dojo/on", // on
 	"../main"	// for exporting dijit._setSelectionRange, dijit.selectInputText
-], function(array, declare, dom, event, keys, lang, on, dijit){
+], function(array, declare, dom, event, has, keys, lang, on, dijit){
 
 // module:
 //		dijit/form/_TextBoxMixin
 
-var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
+var _TextBoxMixin = declare("dijit.form._TextBoxMixin" + (has("dojo-bidi") ? "_NoBidi" : ""), null, {
 	// summary:
 	//		A mixin for textbox form input widgets
 
@@ -94,8 +95,6 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 			this._set("displayedValue", this.get("displayedValue"));
 		}
 
-		this.applyTextDir(this.focusNode);
-
 		this.inherited(arguments, [filteredValue, priorityChange]);
 	},
 
@@ -149,9 +148,6 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 		this._setValueAttr(this.get('value'), undefined);
 
 		this._set("displayedValue", this.get('displayedValue'));
-
-		// textDir support
-		this.applyTextDir(this.focusNode);
 	},
 
 	format: function(value /*=====, constraints =====*/){
@@ -201,9 +197,6 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 	_onInput: function(/*Event*/ evt){
 		// summary:
 		//		Called AFTER the input event has happened
-
-		// set text direction according to textDir that was defined in creation
-		this.applyTextDir(this.focusNode);
 
 		this._processInput(evt);
 
@@ -429,6 +422,22 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 	}
 });
 
+if(has("dojo-bidi")){
+	_TextBoxMixin = declare("dijit.form._TextBoxMixin", _TextBoxMixin, {
+		_setValueAttr: function(){
+			this.inherited(arguments);
+			this.applyTextDir(this.focusNode);
+		},
+		_setDisplayedValueAttr: function(){
+			this.inherited(arguments);
+			this.applyTextDir(this.focusNode);
+		},
+		_onInput: function(){
+			this.applyTextDir(this.focusNode);
+			this.inherited(arguments);
+		}
+	});
+}
 
 _TextBoxMixin._setSelectionRange = dijit._setSelectionRange = function(/*DomNode*/ element, /*Number?*/ start, /*Number?*/ stop){
 	if(element.setSelectionRange){

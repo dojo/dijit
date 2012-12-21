@@ -7,13 +7,6 @@
 		<style type="text/css">
 			@import "../../../../dijit/themes/claro/document.css";
 			@import "../../../../dijit/tests/css/dijitTests.css";
-			
-			.inlineEdit { background-color: #CCC76A; }
-
-			/* some style rules on nodes just to test that style gets copied to the edit widget */
-			p { font-family: cursive; }
-			.letter p { font-family: monospace; }
-			h3 { font-family: helvetica; font-style: italic; }
 		</style>
 
 		<!-- required: a default dijit theme: -->
@@ -21,10 +14,9 @@
 
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../dojo/dojo.js"
-			data-dojo-config="parseOnLoad: true, isDebug: true"></script>
+			data-dojo-config="parseOnLoad: true, isDebug: true, has: { 'dojo-bidi': true }"></script>
 
 		<script type="text/javascript">
-			dojo.require("dijit.dijit"); // optimize: load dijit layer
 			dojo.require("dojo.data.ItemFileReadStore");
 			dojo.require("dijit.InlineEditBox");
 			dojo.require("dijit.form.Textarea");
@@ -38,9 +30,8 @@
 
 			dojo.require("dijit.Editor");
 			dojo.require("dijit._editor.plugins.AlwaysShowToolbar");
-			dojo.require("dijit._BidiSupport");//lena
 
-			dojo.require("dojo.parser");	  // scan page for widgets and instantiate them
+			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
 			function myHandler(newValue){
 				this._onChangeValue = newValue;	// used by robot test file
@@ -52,56 +43,57 @@
 
 		<h1 class="testTitle">Dijit InlineEditBox Bidi Test</h1>
 
-	
+
 		<span data-dojo-id="productStore" data-dojo-type="dojo/data/ItemFileReadStore" >
 			<script type="dojo/method">
-				this._jsonData =
-					{ identifier: 'name',
-					  label: 'name',
-					  items: [
+				this._jsonData = {
+					identifier: 'name',
+					label: 'name',
+					items: [
 						{ name: "refrigerator..." },
 						{ name: "\u05d0\u05e0\u05d9\u0020\u05d0\u05d5\u05de\u05e8\u05ea\u003a\u0020" },
 						{ name: "stove \u05d0\u05e0\u05d9\u0020\u05d0\u05d5\u05de\u05e8\u05ea\u003a\u0020 ..." },
 						{ name: "\u05d0\u05e0\u05d9\u0020\u05d0\u05d5\u05de\u05e8\u05ea\u003a\u0020 heater ..." }
-					]};
+					]
+				};
 			</script>
 		</span>
 
 		<h2>InlineEditBox with TextBox</h2>
-		    <h3>TextDit LTR: </h3>
+			<h3>TextDit LTR: </h3>
 			<span id="P0" data-dojo-type="dijit/InlineEditBox" data-dojo-props='textDir:"ltr", value:"", onChange:myHandler, autoSave:true, title:"test"'>
 			</span>
-		    <h3>TextDir RTL: </h3>
-		    <span id="P1" data-dojo-type="dijit/InlineEditBox" data-dojo-props='textDir:"rtl", value:"&#1506;&#1512;&#1498; &#1495;&#1491;&#1513;!!", onChange:myHandler, autoSave:true, title:"test"'>
-			    </span>	
-		    <h3>TextDir AUTO: </h3>	
-			    <span id="P2" data-dojo-type="dijit/InlineEditBox" data-dojo-props='textDir:"auto", value:"Hello!", onChange:myHandler, autoSave:true, title:"test"'>
-			    </span>
-		    <input id="button" type="button" onclick="dijit.byId('P2').set('value', '&#1506;&#1512;&#1498; &#1495;&#1491;&#1513;!')"  value = "change value"/>
-		  
-		
+			<h3>TextDir RTL: </h3>
+			<span id="P1" data-dojo-type="dijit/InlineEditBox" data-dojo-props='textDir:"rtl", value:"&#1506;&#1512;&#1498; &#1495;&#1491;&#1513;!!", onChange:myHandler, autoSave:true, title:"test"'>
+				</span>
+			<h3>TextDir AUTO: </h3>
+				<span id="P2" data-dojo-type="dijit/InlineEditBox" data-dojo-props='textDir:"auto", value:"Hello!", onChange:myHandler, autoSave:true, title:"test"'>
+				</span>
+			<input id="button" type="button" onclick="dijit.byId('P2').set('value', '&#1506;&#1512;&#1498; &#1495;&#1491;&#1513;!')"  value = "change value"/>
+
+
 		<h2>InlineEditBox with Textarea</h2>
 		<h3>TextDir LTR</h3>
 			<span id="P3" data-dojo-type="dijit/InlineEditBox" data-dojo-props='autoSave:true, textDir:"ltr", editor:"dijit.form.Textarea", value: "Text Area test &#1506;&#1512;&#1498; !!!", title:"additional details"'></span>
-		    <h3>TextDir RTL</h3>
+			<h3>TextDir RTL</h3>
 			<span id="P4" data-dojo-type="dijit/InlineEditBox" data-dojo-props='autoSave:true, textDir:"rtl", editor:"dijit.form.Textarea", value: "Text Area test &#1506;&#1512;&#1498; !!!", title:"additional details"'></span>
-			<h3>TextDir AUTO</h3>	
+			<h3>TextDir AUTO</h3>
 			<span id="P5" data-dojo-type="dijit/InlineEditBox" data-dojo-props='autoSave:true, textDir:"auto", editor:"dijit.form.Textarea", value: "Text Area test &#1506;&#1512;&#1498; &#1495;&#1491;&#1513;!!!", title:"additional details"'></span>
-		    <input id="Button1" type="button" onclick="dijit.byId('P5').set('value', '&#1506;&#1512;&#1498; &#1495;&#1491;&#1513;!')"  value = "change value"/>
-		
-		
+			<input id="Button1" type="button" onclick="dijit.byId('P5').set('value', '&#1506;&#1512;&#1498; &#1495;&#1491;&#1513;!')"  value = "change value"/>
+
+
 		<h2>InlineEditBox with Combobox</h2>
 		<h3>TextDir LTR</h3>
-		<span id="combo1" data-dojo-type="dijit/InlineEditBox" data-dojo-props='textDir:"ltr",	 editor:"dijit.form.ComboBox",
+		<span id="combo1" data-dojo-type="dijit/InlineEditBox" data-dojo-props='textDir:"ltr", editor:"dijit.form.ComboBox",
 					editorParams:{searchAttr: "name", store: productStore, autocomplete: false, hasDownArrow: false},
-					 width:"200px", autoSave:false, title:"item name"'>refrigerators...</span>
+					width:"200px", autoSave:false, title:"item name"'>refrigerators...</span>
 		<h3>TextDir RTL</h3>
-		<span id="combo2" data-dojo-type="dijit/InlineEditBox" data-dojo-props='textDir:"rtl",	 editor:"dijit.form.ComboBox",
+		<span id="combo2" data-dojo-type="dijit/InlineEditBox" data-dojo-props='textDir:"rtl", editor:"dijit.form.ComboBox",
 					editorParams:{searchAttr: "name", store: productStore, autocomplete: false, hasDownArrow: false},
-					 width:"200px", autoSave:false, title:"item name"'>refrigerators...</span>
+					width:"200px", autoSave:false, title:"item name"'>refrigerators...</span>
 		<h3>TextDir AUTO</h3>
-		<span id="combo3" data-dojo-type="dijit/InlineEditBox" data-dojo-props='textDir:"auto",	 editor:"dijit.form.ComboBox",
+		<span id="combo3" data-dojo-type="dijit/InlineEditBox" data-dojo-props='textDir:"auto", editor:"dijit.form.ComboBox",
 					editorParams:{searchAttr: "name", store: productStore, autocomplete: false, hasDownArrow: false},
-					 width:"200px", autoSave:false, title:"item name"'>refrigerators...</span>					 
+					width:"200px", autoSave:false, title:"item name"'>refrigerators...</span>
 	</body>
 </html>

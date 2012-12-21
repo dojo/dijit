@@ -7,13 +7,6 @@
 		<style type="text/css">
 			@import "../../../themes/claro/document.css";
 			@import "../../css/dijitTests.css";
-			#slider2 .dijitButtonNode {
-				width:12px;
-				height:12px;
-				border: none;
-				font-size:11px;
-				padding:0;
-			}
 		</style>
 
 		<!-- required: the default dijit theme: -->
@@ -21,22 +14,21 @@
 
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../dojo/dojo.js"
-			data-dojo-config="async: true,isDebug: true, parseOnLoad: true"></script>
+			data-dojo-config="async: true, isDebug: true, parseOnLoad: true, has: { 'dojo-bidi': true }"></script>
 
 		<script type="text/javascript">
-		require([
-			"dijit/registry",
-			"doh/runner",
-			"dojo/dom",
-			"dojo/ready",
-			"dojo/query",
-			"dojo/number",
-			"dijit/form/VerticalSlider",
-			"dijit/form/VerticalRule",
-			"dijit/form/VerticalRuleLabels",
-			"dojo/parser",
-			"dijit/_BidiSupport"
-			], function(registry,runner,dom,ready,query,number,VerticalSlider,VerticalRule,VerticalRuleLabels){
+			require([
+				"dijit/registry",
+				"doh/runner",
+				"dojo/dom",
+				"dojo/ready",
+				"dojo/query",
+				"dojo/number",
+				"dijit/form/VerticalSlider",
+				"dijit/form/VerticalRule",
+				"dijit/form/VerticalRuleLabels",
+				"dojo/parser"
+			], function(registry, runner, dom, ready, query, number, VerticalSlider, VerticalRule, VerticalRuleLabels){
 				// programatic vertical slider and labels
 				var programaticExample = function(){
 					var node;

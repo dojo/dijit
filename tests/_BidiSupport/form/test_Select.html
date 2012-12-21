@@ -6,53 +6,15 @@
 
 		<!-- required: the default dijit theme: -->
 		<link id="themeStyles" rel="stylesheet" href="../../../../dijit/themes/claro/claro.css"/>
-		<link id="themeStyles" rel="stylesheet" href="../../../../dijit/themes/claro/claro_rtl.css"/>
 
 		<style>
 			@import url(../../../themes/claro/document.css);
 			@import url(../../css/dijitTests.css);
-			.ark { text-decoration: underline; }
-			form {
-				margin:  10px 0px;
-				border:  solid gray 2px;
-			}
-			.area {
-				border: 1px solid gray;
-				padding: 2px;
-				display: inline;
-				white-space: nowrap;
-			}
-			h3 {
-				margin: 0;
-			}
-			body .customStyled .dijitSelect,
-			body .customStyled .dijitSelect .dijitButtonContents {
-				border-width: 2px;
-				border-color: blue;
-			}
-			body .customStyled .dijitSelect .dijitInputField {
-				padding: 5px;
-				font-family: Arial;
-				font-size: 150%;
-			}
-			.dj_a11y .dijitSelect,
-			.dj_a11y .dijitSelect .dijitButtonContents {
-				border-width: medium !important;
-			}
-			.dj_a11y .dijitSelect,
-			.dj_a11y .customStyled .dijitSelect,
-			.dj_a11y .dijitSelect *,
-			.dj_a11y .customStyled .dijitSelect * {
-				background-color: white !important;
-				background-image: none !important;
-				border-color: black !important;
-				color: black !important;
-			}
 		</style>
 
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../dojo/dojo.js"
-			data-dojo-config="isDebug: true, parseOnLoad: true"></script>
+			data-dojo-config="isDebug: true, parseOnLoad: true, has: { 'dojo-bidi': true }"></script>
 
 		<!-- only needed for alternate theme testing: -->
 		<script type="text/javascript" src="../../_testCommon.js"></script>
@@ -70,8 +32,7 @@
 			"dijit/form/Button",
 			"dijit/form/Form",
 			"dijit/Dialog",
-			"dijit/tests/helpers",
-			"dijit/_BidiSupport"
+			"dijit/tests/helpers"
 		], function(has, domConst, ready, registry, runner, on, Button) {
 
 			var numOptions = 0;
@@ -79,12 +40,12 @@
 			var addNum = 10;
 
 			function testSelectWidget(element, formDir,elementTextDir,isfirstChildLatin){
-				runner.assertEqual(registry.byId(element).get("textDir"), elementTextDir);
-				runner.assertEqual(registry.byId(element).dir, formDir);
+				runner.is(registry.byId(element).get("textDir"), elementTextDir);
+				runner.is(registry.byId(element).dir, formDir);
 				var t_dir = elementTextDir;
 				if(t_dir == "auto")
 					t_dir = isfirstChildLatin? "ltr" : "rtl";
-				runner.assertEqual(registry.byId(element).containerNode.dir, t_dir);
+				runner.is(registry.byId(element).containerNode.dir, t_dir);
 			}
 
 			function testDropdownList(elementName){
@@ -94,9 +55,10 @@
 				element.loadDropDown(function(){});
 				var list = element.dropDown.getChildren();
 				dojo.forEach(list, function(entry){
-					if(elementTextDir == "auto")
-					   itemTextDir = element._checkContextual(entry.label.replace(/<[^>]*>/gm," "));
-					runner.assertEqual(itemTextDir,entry.textDirNode.dir);
+					if(elementTextDir == "auto"){
+						itemTextDir = element._checkContextual(entry.label.replace(/<[^>]*>/gm," "));
+					}
+					runner.is(itemTextDir,entry.textDirNode.dir);
 				});
 			}
 

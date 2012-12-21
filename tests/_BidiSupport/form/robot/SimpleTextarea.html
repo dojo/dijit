@@ -4,22 +4,22 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>doh.robot SimpleTextarea textDir Tests</title>
-	
+
 		<style>
 			@import "../../../../../util/doh/robot/robot.css";
 		</style>
 
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../../dojo/dojo.js">
-		</script>		
-			
+		</script>
+
 		<script type="text/javascript">
 			dojo.require("dijit.robotx");
 
 			dojo.ready(function(){
 				doh.robot.initRobot('../test_SimpleTextarea.html');
 				var textarea;
-				
+
 				var focusThenRun = function(widget, fcn){
 					if(!widget.focused){
 						var handler = widget.connect(widget, '_onFocus', function(){
@@ -35,7 +35,7 @@
 				doh.register("LTR textarea", [
 					{
 						name: "initial text direction of filled 'ltrSimpleTexarea'",
-					
+
 						setUp: function(){
 							textarea = dijit.byId("ltrSimpleTexarea");
 							modifier = dojo.isMac ? {meta: true} : {ctrl: true};
@@ -48,7 +48,7 @@
 					{
 						name: "write in English in 'ltrSimpleTexarea'",
 						timeout: 4000,
-						
+
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -57,12 +57,12 @@
 								doh.robot.keyPress(dojo.keys.DELETE, 100, {});
 
 								doh.robot.typeKeys("Hi this is my new value, and it's on English!!!", 1, 300);
-								
+
 								doh.robot.sequence(d.getTestCallback(function(){
 									doh.is("ltr",textarea.focusNode.dir,"direction of :" + textarea.id);
 								}), 800);
 							});
-							
+
 							return d;
 						}
 					},
@@ -76,7 +76,7 @@
 
 						runTest: function(){
 							var d = new doh.Deferred();
-							
+
 							focusThenRun(textarea, function(){
 								doh.robot.setClipboard("\u05d5\u05e2\u05db\u05e9\u05d9\u05d5\u0020\u05e7\u05e6\u05ea\u0020\u05d8\u05e7\u05e1\u05d8\u0020\u05d1\u05e2\u05d9\u05d1\u05e8\u05d9\u05ea\u0021\u0021\u0021\u000a\u05d0\u05e4\u05d9\u05dc\u05d5\u0020\u05e0\u05db\u05ea\u05d5\u05d1\u0020\u05e9\u05d5\u05e8\u05d4\u0020\u05e9\u05e0\u05d9\u05d9\u05d4\u002e\u0020\u0020\u0020",'text/html');
 
@@ -92,12 +92,12 @@
 							return d;
 						}
 					}
-				]);				
-				
+				]);
+
 				doh.register("RTL textarea", [
 					{
 						name: "initial text direction of filled 'rtlSimpleTexarea'",
-					
+
 						setUp: function(){
 							textarea = dijit.byId("rtlSimpleTexarea");
 						},
@@ -109,7 +109,7 @@
 					{
 						name: "write in English in 'rtlSimpleTexarea'",
 						timeout: 4000,
-						
+
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -118,12 +118,12 @@
 								doh.robot.keyPress(dojo.keys.DELETE, 100, {});
 
 								doh.robot.typeKeys("Hi this is my new value, and it's on English!!!", 1, 300);
-								
+
 								doh.robot.sequence(d.getTestCallback(function(){
 									doh.is("rtl",textarea.focusNode.dir,"direction of :" + textarea.id);
 								}), 800);
 							});
-						
+
 							return d;
 						}
 					},
@@ -148,12 +148,12 @@
 							return d;
 						}
 					}
-				]);	
+				]);
 
 				doh.register("Contextual textarea", [
 					{
 						name: "initial text direction of filled 'contextualSimpleTexarea'",
-					
+
 						setUp: function(){
 							textarea = dijit.byId("contextualSimpleTexarea");
 						},
@@ -165,21 +165,21 @@
 					{
 						name: "write in English in 'contextualSimpleTexarea'",
 						timeout: 4000,
-						
+
 						runTest: function(){
 							var d = new doh.Deferred();
-							
+
 							focusThenRun(textarea, function(){
 								doh.robot.keyPress("a", 400, modifier);
 								doh.robot.keyPress(dojo.keys.DELETE, 100, {});
 
 								doh.robot.typeKeys("Hi this is my new value, and it's on English!!!", 1, 400);
-								
+
 								doh.robot.sequence(d.getTestCallback(function(){
 									doh.is("ltr",textarea.focusNode.dir,"direction of :" + textarea.id);
 								}), 500);
 							});
-							
+
 							return d;
 						}
 					},
@@ -195,7 +195,7 @@
 							focusThenRun(textarea, function(){
 								doh.robot.setClipboard("\u05d0\u05e0\u05d9\u0020\u05d0\u05d5\u05de\u05e8\u05ea\u003a\u0020");
 
-								dojo.isMac ? doh.robot.keyPress("a", 100, {ctrl:true}): doh.robot.keyPress(dojo.keys.HOME, 100, {});	
+								dojo.isMac ? doh.robot.keyPress("a", 100, {ctrl:true}): doh.robot.keyPress(dojo.keys.HOME, 100, {});
 
 								doh.robot.keyPress("v", 400, modifier);
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -211,7 +211,7 @@
 				doh.register("programmaticAuto textarea in the border container", [
 					{
 						name: "initial text direction of filled 'programmaticAuto'",
-					
+
 						setUp: function(){
 							textarea = dijit.byId("programmaticAuto");
 							modifier = dojo.isMac ? {meta: true} : {ctrl: true};
@@ -224,7 +224,7 @@
 					{
 						name: "write in English in 'programmaticAuto'",
 						timeout: 4000,
-						
+
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -233,12 +233,12 @@
 								doh.robot.keyPress(dojo.keys.DELETE, 100, {});
 
 								doh.robot.typeKeys("Hi this is my new value, and it's on English!!!", 1, 300);
-								
+
 								doh.robot.sequence(d.getTestCallback(function(){
 									doh.is("ltr",textarea.focusNode.dir,"direction of :" + textarea.id);
 								}), 800);
 							});
-							
+
 							return d;
 						}
 					},
@@ -248,7 +248,7 @@
 
 						runTest: function(){
 							var d = new doh.Deferred();
-							
+
 							focusThenRun(textarea, function(){
 								doh.robot.setClipboard("\u05d5\u05e2\u05db\u05e9\u05d9\u05d5\u0020\u05e7\u05e6\u05ea\u0020\u05d8\u05e7\u05e1\u05d8\u0020\u05d1\u05e2\u05d9\u05d1\u05e8\u05d9\u05ea\u0021\u0021\u0021\u000a\u05d0\u05e4\u05d9\u05dc\u05d5\u0020\u05e0\u05db\u05ea\u05d5\u05d1\u0020\u05e9\u05d5\u05e8\u05d4\u0020\u05e9\u05e0\u05d9\u05d9\u05d4\u002e\u0020\u0020\u0020",'text/html');
 
@@ -264,12 +264,12 @@
 							return d;
 						}
 					}
-				]);				
-				
+				]);
+
 				doh.register("programmaticRTL textarea in the border container", [
 					{
 						name: "initial text direction of filled 'programmaticRTL'",
-					
+
 						setUp: function(){
 							textarea = dijit.byId("programmaticRTL");
 						},
@@ -281,7 +281,7 @@
 					{
 						name: "write in English in 'programmaticRTL'",
 						timeout: 4000,
-						
+
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -290,12 +290,12 @@
 								doh.robot.keyPress(dojo.keys.DELETE, 100, {});
 
 								doh.robot.typeKeys("Hi this is my new value, and it's on English!!!", 1, 300);
-								
+
 								doh.robot.sequence(d.getTestCallback(function(){
 									doh.is("rtl",textarea.focusNode.dir,"direction of :" + textarea.id);
 								}), 800);
 							});
-						
+
 							return d;
 						}
 					},
@@ -320,12 +320,12 @@
 							return d;
 						}
 					}
-				]);	
+				]);
 
 				doh.register("programmaticLTR textarea in the border container", [
 					{
 						name: "initial text direction of filled 'programmaticLTR'",
-					
+
 						setUp: function(){
 							textarea = dijit.byId("programmaticLTR");
 						},
@@ -337,21 +337,21 @@
 					{
 						name: "write in English in 'programmaticLTR'",
 						timeout: 4000,
-						
+
 						runTest: function(){
 							var d = new doh.Deferred();
-							
+
 							focusThenRun(textarea, function(){
 								doh.robot.keyPress("a", 400, modifier);
 								doh.robot.keyPress(dojo.keys.DELETE, 100, {});
 
 								doh.robot.typeKeys("Hi this is my new value, and it's on English!!!", 1, 400);
-								
+
 								doh.robot.sequence(d.getTestCallback(function(){
 									doh.is("ltr",textarea.focusNode.dir,"direction of :" + textarea.id);
 								}), 500);
 							});
-							
+
 							return d;
 						}
 					},
@@ -373,13 +373,13 @@
 								doh.robot.sequence(d.getTestCallback(function(){
 									doh.is("ltr",textarea.focusNode.dir,"direction of :" + textarea.id);
 								}), 800);
-								
+
 							});
 
 							return d;
 						}
 					}
-				]);				
+				]);
 
 				doh.run();
 			});

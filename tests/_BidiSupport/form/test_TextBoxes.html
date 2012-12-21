@@ -4,24 +4,22 @@
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>TextBox with _BidiSupport</title>
-		
+
 		<style type="text/css">
 			@import "../../../../dijit/themes/tundra/tundra.css";
-			@import "../../../../dojo/resources/dojo.css";	
+			@import "../../../../dojo/resources/dojo.css";
 		</style>
 
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../dojo/dojo.js"
-			data-dojo-config="parseOnLoad: true, isDebug: true">
-		</script>		
-		
+			data-dojo-config="parseOnLoad: true, isDebug: true, has: { 'dojo-bidi': true }">
+		</script>
+
 		<script type="text/JavaScript">
-			dojo.require("dijit.dijit"); // optimize: load dijit layer
 			dojo.require("dijit.form.TextBox");
-			dojo.require("dijit._BidiSupport");
 			dojo.require("dojo.parser");
 		</script>
-		
+
 	</head>
 	<body class="tundra">
 		<label for="ltrTextBox" >
@@ -34,7 +32,7 @@
 			<b>I'm a RTL TexBox </b>
 		</label><br>
 		<input data-dojo-type="dijit/form/TextBox" id="rtlTextBox" data-dojo-props='name:"rtlTextBox", value:"",textDir:"rtl"'/>
-		
+
 		<br>
 		<label for="contextualTextBox" >
 			<b> And I'm a suprising contextual TexBox!!! </b>
@@ -62,7 +60,7 @@
 					value: "created programatically with custom border, padding, margin! textDir=auto!",
 					style: {border:"5px solid gray", padding:"11px", margin:"7px"}
 				}, "programmatic1");
-				
+
 				programmaticTextBox2 = new dijit.form.TextBox({
 					id: "programmatic2",
 					name: "programmaticTextbox2",
@@ -71,7 +69,7 @@
 					style: {border:"5px solid gray", padding:"11px", margin:"7px"}
 				}, "programmatic2");
 
-				
+
 				programmaticTextBox3 = new dijit.form.TextBox({
 					id: "programmatic3",
 					name: "programmaticTextbox3",

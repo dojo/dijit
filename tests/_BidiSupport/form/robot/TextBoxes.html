@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>doh.robot TextBox textDir Tests</title>
-	
+
 		<title>doh.robot Bidi Test</title>
 
 		<style>
@@ -14,13 +14,13 @@
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../../dojo/dojo.js">
 		</script>
-			
+
 		<script type="text/javascript">
 			dojo.require("dijit.robotx");
 
 			dojo.ready(function(){
 				doh.robot.initRobot('../test_TextBoxes.html');
-				
+
 				// execute some test as soon as the widget gets focus
 				var focusThenRun = function(widget, fcn){
 					if(!widget.focused){
@@ -38,7 +38,7 @@
 				doh.register("LTR textBox", [
 					{
 						name: "initial text direction of empty 'ltrTextBox'",
-						
+
 						setUp: function(){
 							textBox = dijit.byId("ltrTextBox");
 						},
@@ -46,11 +46,11 @@
 						runTest: function(){
 							doh.is("ltr",textBox.focusNode.dir,"direction of :" + textBox.id);
 						}
-					},				
+					},
 					{
 						name: "write in English in 'ltrTextBox'",
 						timeout: 3000,
-						
+
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -86,7 +86,7 @@
 									if(textBox.focusNode.selectionEnd){
 										doh.t(textBox.focusNode.selectionEnd > textBox.focusNode.selectionStart, "selected text " + textBox.focusNode.selectionStart + '. ' + textBox.focusNode.selectionEnd);
 									}else{
-									        range = dojo.global.window.document.selection.createRange();
+										range = dojo.global.window.document.selection.createRange();
 										pos = range.getBoundingClientRect();
 										doh.t(pos.right > pos.left, "selected text " + pos.left + '. ' + pos.right);
 									}
@@ -96,8 +96,8 @@
 							return d;
 						}
 					}
-				]);				
-				
+				]);
+
 				doh.register("RTL textBox", [
 					{
 						name: "initial text direction of empty 'rtlTextBox'",
@@ -131,7 +131,7 @@
 									if(textBox.focusNode.selectionEnd){
 										doh.t(textBox.focusNode.selectionEnd > textBox.focusNode.selectionStart, "selected text " + textBox.focusNode.selectionStart + '. ' + textBox.focusNode.selectionEnd);
 									}else{
-									        range = dojo.global.window.document.selection.createRange();
+										range = dojo.global.window.document.selection.createRange();
 										pos = range.getBoundingClientRect();
 										doh.t(pos.right > pos.left, "selected text " + pos.left + '. ' + pos.right);
 									}
@@ -140,7 +140,7 @@
 
 							return d;
 						}
-					},				
+					},
 					{
 						name: "paste Hebrew in 'rtlTextBox'",
 						timeout: 4000,
@@ -161,7 +161,7 @@
 							return d;
 						}
 					}
-				]);	
+				]);
 
 				doh.register("Contextual textBox", [
 					{
@@ -198,12 +198,12 @@
 									if(textBox.focusNode.selectionEnd){
 										doh.t(textBox.focusNode.selectionEnd > textBox.focusNode.selectionStart, "selected text " + textBox.focusNode.selectionStart + '. ' + textBox.focusNode.selectionEnd);
 									}else{
-									        range = dojo.global.window.document.selection.createRange();
+										range = dojo.global.window.document.selection.createRange();
 										pos = range.getBoundingClientRect();
 										doh.t(pos.right > pos.left, "selected text " + pos.left + '. ' + pos.right);
 									}
-								}), 300);	
-							});					
+								}), 300);
+							});
 
 							return d;
 						}
@@ -232,7 +232,7 @@
 									if(textBox.focusNode.selectionEnd){
 										doh.t(textBox.focusNode.selectionEnd > textBox.focusNode.selectionStart, "selected text " + textBox.focusNode.selectionStart + '. ' + textBox.focusNode.selectionEnd);
 									}else{
-									        range = dojo.global.window.document.selection.createRange();
+										range = dojo.global.window.document.selection.createRange();
 										pos = range.getBoundingClientRect();
 										doh.t(pos.right > pos.left, "selected text " + pos.left + '. ' + pos.right);
 									}

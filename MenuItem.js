@@ -17,7 +17,7 @@ define([
 	// module:
 	//		dijit/MenuItem
 
-	return declare("dijit.MenuItem",
+	var MenuItem = declare("dijit.MenuItem" + (has("dojo-bidi") ? "_NoBidi" : ""),
 		[_Widget, _TemplatedMixin, _Contained, _CssStateMixin],
 		{
 		// summary:
@@ -47,9 +47,6 @@ define([
 				text = val;
 			}
 			this.domNode.setAttribute("aria-label", text + " " + this.accelKey);
-			if(this.textDir === "auto"){
-				this.applyTextDir(this.textDirNode, text);
-			}
 			this.containerNode.innerHTML = val;
 			this._set('shortcutKey', shortcutKey);
 		},
@@ -190,6 +187,19 @@ define([
 				domAttr.set(this.containerNode,'colSpan',value?"1":"2");
 			}
 			this._set("accelKey", value);
-		}		
+		}
 	});
+
+	if(has("dojo-bidi")){
+		MenuItem = declare("dijit.MenuItem", MenuItem, {
+			_setLabelAttr: function(val){
+				this.inherited(arguments);
+				if(this.textDir === "auto"){
+					this.applyTextDir(this.textDirNode);
+				}
+			}
+		});
+	}
+
+	return MenuItem;
 });

@@ -16,23 +16,18 @@
 
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../dojo/dojo.js"
-			data-dojo-config="parseOnLoad: true, isDebug: true">
-		</script>		
+			data-dojo-config="parseOnLoad: true, isDebug: true, has: { 'dojo-bidi': true }">
+		</script>
 
 		<script type="text/JavaScript">
 			dojo.require("dijit.form.ComboBox");
-			dojo.require("dijit._BidiSupport");
-		dojo.require("dijit.dijit"); // optimize: load dijit layer
-		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
-			
-	//				dojo.ready(init);
-
+			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 		</script>
 	</head>
 	<body class="claro">
 		<label for="fruitLtr"> <b>I'm a LTR ComboBox </b> </label>
 		<br>
-		<select id="fruitLtr" 
+		<select id="fruitLtr"
 			data-dojo-type="dijit/form/ComboBox"
 			data-dojo-props='name:"fruitLtr",
 			textDir:"ltr"'>
@@ -45,7 +40,7 @@
 		<br>
 		<label for="fruitRtl"> <b>I'm a RTL ComboBox </b> </label>
 		<br>
-		<select id="fruitRtl" 
+		<select id="fruitRtl"
 			data-dojo-type="dijit/form/ComboBox"
 			data-dojo-props='name:"fruitRtl",
 			textDir:"rtl"'>
@@ -58,7 +53,7 @@
 		<br>
 		<label for="fruitContextual"> <b>I'm a Contextual ComboBox </b> </label>
 		<br>
-		<select id="fruitContextual" 
+		<select id="fruitContextual"
 			data-dojo-type="dijit/form/ComboBox"
 			data-dojo-props='name:"fruitContextual",
 			autoComplete:false,
@@ -72,9 +67,9 @@
 		<br>
 		<label for="fruitContextualAC"> <b>I'm a Contextual ComboBox </b> </label>
 		<br>
-		<select id="fruitContextualAC" 
+		<select id="fruitContextualAC"
 			data-dojo-type="dijit/form/ComboBox"
-			data-dojo-props='name:"fruitContextualAc",				
+			data-dojo-props='name:"fruitContextualAc",
 			textDir:"auto"'>
 				<option >@Apples!</option>
 				<option >:Oranges!</option>
@@ -82,6 +77,6 @@
 				<option >:&#1513;&#1500;&#1493;&#1501; &#1500;&#1499;&#1501;!</option>
 				<option >*&#1514;&#1508;&#1493;&#1495; &#1488;&#1491;&#1502;&#1492;!</option>
 		</select>
-		
+
 	</body>
 </html>

@@ -1,7 +1,8 @@
 dojo.provide("dijit.tests._BidiSupport.BidiSupportModule.BidiSupportTest");
 
 //Import in the code being tested.
-dojo.require("dijit._BidiSupport");
+dojo.require("dojo.has");
+has.add("dojo-bidi", true);
 dojo.require("dijit._Widget");
 
 dojo.ready(function(){
@@ -12,7 +13,7 @@ dojo.ready(function(){
 
 			runTest:function(){
 				var bidi = new dijit._Widget({textDir:"ltr", dir:"ltr"});
-				
+
 				doh.is("ltr", bidi._checkContextual("Hello"),"Hello");
 				doh.is("rtl", bidi._checkContextual("\u05e9\u05dc\u05d5\u05dd"),"\u05e9\u05dc\u05d5\u05dd");
 				doh.is("ltr", bidi._checkContextual("123 Hello"),"123 Hello");
@@ -25,7 +26,7 @@ dojo.ready(function(){
 				doh.is("rtl", bidi._checkContextual("\u05e9\u05dc\u05d5\u05dd Hello"),"\u05e9\u05dc\u05d5\u05dd Hello");
 				doh.is("ltr", bidi._checkContextual(""),"");
 				doh.is("ltr", bidi._checkContextual("123 > 456"),"123 > 456");
-				doh.is("ltr", bidi._checkContextual("%^$^&)( )_($!"),"%^$^&)( )_($!");	
+				doh.is("ltr", bidi._checkContextual("%^$^&)( )_($!"),"%^$^&)( )_($!");
 			}
 		},
 		{
@@ -45,7 +46,7 @@ dojo.ready(function(){
 				doh.is("ltr", bidi._checkContextual("Hello \u05e9\u05dc\u05d5\u05dd"), "Hello \u05e9\u05dc\u05d5\u05dd");
 				doh.is("rtl", bidi._checkContextual("\u05e9\u05dc\u05d5\u05dd Hello"),"\u05e9\u05dc\u05d5\u05dd Hello");
 				doh.is("rtl", bidi._checkContextual(""),"");
-				doh.is("rtl", bidi._checkContextual("123 > 456"),"123 > 456");			
+				doh.is("rtl", bidi._checkContextual("123 > 456"),"123 > 456");
 				doh.is("rtl", bidi._checkContextual("%^$^&)( )_($!"),"%^$^&)( )_($!");
 			}
 		},
@@ -74,8 +75,8 @@ dojo.ready(function(){
 			name:"4. getTextDir(), textDir = LTR, dir = RTL",
 
 			runTest:function(){
-				var bidi = new dijit._Widget({textDir:"ltr",dir:"rtl"}); 
-			
+				var bidi = new dijit._Widget({textDir:"ltr",dir:"rtl"});
+
 				doh.is("ltr", bidi.getTextDir("Hello"),"Hello");
 				doh.is("ltr", bidi.getTextDir("\u05e9\u05dc\u05d5\u05dd"),"\u05e9\u05dc\u05d5\u05dd");
 				doh.is("ltr", bidi.getTextDir("123 Hello"),"123 Hello");
@@ -96,7 +97,7 @@ dojo.ready(function(){
 
 			runTest:function(){
 				var bidi = new dijit._Widget({textDir:"rtl",dir:"ltr"});
-			
+
 				doh.is("rtl", bidi.getTextDir("Hello"),"Hello");
 				doh.is("rtl", bidi.getTextDir("\u05e9\u05dc\u05d5\u05dd"),"\u05e9\u05dc\u05d5\u05dd");
 				doh.is("rtl", bidi.getTextDir("123 Hello"),"123 Hello");
@@ -116,8 +117,8 @@ dojo.ready(function(){
 			name:"6. getTextDir(), textDir = RTL, dir = RTL",
 
 			runTest:function(){
-				var bidi = new dijit._Widget({textDir:"rtl",dir:"rtl"});			
-			
+				var bidi = new dijit._Widget({textDir:"rtl",dir:"rtl"});
+
 				doh.is("rtl", bidi.getTextDir("Hello"),"Hello");
 				doh.is("rtl", bidi.getTextDir("\u05e9\u05dc\u05d5\u05dd"),"\u05e9\u05dc\u05d5\u05dd");
 				doh.is("rtl", bidi.getTextDir("123 Hello"),"123 Hello");
@@ -130,7 +131,7 @@ dojo.ready(function(){
 				doh.is("rtl", bidi.getTextDir("\u05e9\u05dc\u05d5\u05dd Hello"),"\u05e9\u05dc\u05d5\u05dd Hello");
 				doh.is("rtl", bidi.getTextDir(""),"");
 				doh.is("rtl", bidi.getTextDir("123 > 456"),"123 > 456");
-				doh.is("rtl", bidi.getTextDir("%^$^&)( )_($!"),"%^$^&)( )_($!");	
+				doh.is("rtl", bidi.getTextDir("%^$^&)( )_($!"),"%^$^&)( )_($!");
 			}
 		},
 		{
@@ -138,7 +139,7 @@ dojo.ready(function(){
 
 			runTest:function(){
 				var bidi = new dijit._Widget({textDir:"auto",dir:"ltr"});
-				
+
 				doh.is("ltr", bidi.getTextDir("Hello"),"Hello");
 				doh.is("ltr", bidi.getTextDir("123 Hello"),"123 Hello");
 				doh.is("rtl", bidi.getTextDir("123 \u05e9\u05dc\u05d5\u05dd"),"123 \u05e9\u05dc\u05d5\u05dd");
@@ -159,7 +160,7 @@ dojo.ready(function(){
 
 			runTest:function(){
 				var bidi = new dijit._Widget({textDir:"auto",dir:"rtl"});
-				
+
 				doh.is("ltr", bidi.getTextDir("Hello"),"Hello");
 				doh.is("ltr", bidi.getTextDir("123 Hello"),"123 Hello");
 				doh.is("rtl", bidi.getTextDir("123 \u05e9\u05dc\u05d5\u05dd"),"123 \u05e9\u05dc\u05d5\u05dd");
@@ -173,9 +174,9 @@ dojo.ready(function(){
 				doh.is("rtl", bidi.getTextDir("\u05e9\u05dc\u05d5\u05dd"),"\u05e9\u05dc\u05d5\u05dd");
 				doh.is("rtl", bidi.getTextDir("\u05e9\u05dc\u05d5\u05dd Hello"),"\u05e9\u05dc\u05d5\u05dd Hello");
 				doh.is("rtl", bidi.getTextDir("%^$^&)( )_($!"),"%^$^&)( )_($!");
-				
+
 			}
 		}
 	]);
-	
+
 });

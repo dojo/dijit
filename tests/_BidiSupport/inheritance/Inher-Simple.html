@@ -2,7 +2,7 @@
 
 <html>
 	<head>
-		<meta http-equiv="Content-type" content="text/html; charset=utf-8">	
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>DOH simple inheritance textDir Tests</title>
 
 		<style type="text/css">
@@ -12,13 +12,12 @@
 
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../dojo/dojo.js"
-			data-dojo-config="isDebug: true">
-		</script>		
-		
+			data-dojo-config="isDebug: true, has: { 'dojo-bidi': true }">
+		</script>
+
 		<script type="text/javascript">
 			dojo.require("dojo.parser");
 			dojo.require("doh.runner");
-			dojo.require("dijit._BidiSupport");
 			dojo.require("dijit.form.TextBox");
 			dojo.require("dijit.form.ComboBox");
 
@@ -27,31 +26,31 @@
 				doh.register("parse", function(){
 					dojo.parser.parse();
 				});
-				
+
 				doh.register("dijit.tests._BidiSupport.inheritance.Inher-Simple", [
-				 
+
 					function test_ltrTextBoxInheritFromDiv(){
-						doh.is("ltr", dijit.byId("ltrTextBox").focusNode.dir,"ltrTextBox"); 
+						doh.is("ltr", dijit.byId("ltrTextBox").focusNode.dir,"ltrTextBox");
 					},
 					function test_rtlTextBoxInheritBody(){
-						doh.is("rtl", dijit.byId("rtlTextBox").focusNode.dir, "rtlTextBox"); 
+						doh.is("rtl", dijit.byId("rtlTextBox").focusNode.dir, "rtlTextBox");
 					},
 					function test_ltrComboBoxInheritTable(){
-						doh.is("ltr", dijit.byId("fruitLtr").focusNode.dir, "fruitLtr"); 
+						doh.is("ltr", dijit.byId("fruitLtr").focusNode.dir, "fruitLtr");
 					},
 					function test_rtlComboBoxInheritTable(){
-						doh.is("rtl", dijit.byId("fruitRtl").focusNode.dir, "fruitRtl"); 
+						doh.is("rtl", dijit.byId("fruitRtl").focusNode.dir, "fruitRtl");
 					},
 					function test_autoComboBoxInheritTableLtr(){
 						dijit.byId("autoTextBox").set("value","Hello!!");
-						doh.is("ltr", dijit.byId("autoTextBox").focusNode.dir, "autoTextBox: Hello!!"); 
+						doh.is("ltr", dijit.byId("autoTextBox").focusNode.dir, "autoTextBox: Hello!!");
 					},
 					function test_autoComboBoxInheritTableRtl(){
 						dijit.byId("autoTextBox").set("value","\u05e9\u05dc\u05d5\u05dd\u0021\u0021");
-						doh.is("rtl", dijit.byId("autoTextBox").focusNode.dir, "autoTextBox: \u05e9\u05dc\u05d5\u05dd\u0021\u0021"); 
+						doh.is("rtl", dijit.byId("autoTextBox").focusNode.dir, "autoTextBox: \u05e9\u05dc\u05d5\u05dd\u0021\u0021");
 					}
 				]);
-				
+
 				doh.run();
 			});
 		</script>
@@ -67,7 +66,7 @@
 						<input data-dojo-type="dijit/form/TextBox" id="ltrTextBox" data-dojo-props='name:"ltrTextBox", value:"", type:"text"'/>
 					</div>
 				</td>
-			</tr>		
+			</tr>
 			<tr>
 				<td>
 					<label for="autoTextBox" >
@@ -84,7 +83,7 @@
 						<option selected>Pears!</option>
 					</select>
 				</td>
-			</tr>		
+			</tr>
 			<tr>
 				<td>
 					<select id="fruitRtl" data-dojo-type="dijit/form/ComboBox" data-dojo-props='name:"fruitRtr"'>
@@ -95,7 +94,7 @@
 				</td>
 			</tr>
 		</table>
-		
+
 		<label for="rtlTextBox" >
 			<b>I'm a RTL TexBox </b>
 		</label>

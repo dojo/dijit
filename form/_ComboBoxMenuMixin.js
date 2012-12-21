@@ -2,14 +2,15 @@ define([
 	"dojo/_base/array", // array.forEach
 	"dojo/_base/declare", // declare
 	"dojo/dom-attr", // domAttr.set
+	"dojo/has",
 	"dojo/i18n", // i18n.getLocalization
 	"dojo/i18n!./nls/ComboBox"
-], function(array, declare, domAttr, i18n){
+], function(array, declare, domAttr, has, i18n){
 
 // module:
 //		dijit/form/_ComboBoxMenuMixin
 
-return declare( "dijit.form._ComboBoxMenuMixin", null, {
+var ComboBoxMenuMixin = declare("dijit.form._ComboBoxMenuMixin" + (has("dojo-bidi") ? "_NoBidi" : ""), null, {
 	// summary:
 	//		Focus-less menu for internal use in `dijit/form/ComboBox`
 	// tags:
@@ -90,9 +91,6 @@ return declare( "dijit.form._ComboBoxMenuMixin", null, {
 		if(menuitem.innerHTML == ""){
 			menuitem.innerHTML = "&#160;";	// &nbsp;
 		}
-
-		// update menuitem.dir if BidiSupport was required
-		this.applyTextDir(menuitem);
 
 		return menuitem;
 	},
@@ -185,5 +183,20 @@ return declare( "dijit.form._ComboBoxMenuMixin", null, {
 		return this.selected;
 	}
 });
+
+if(has("dojo-bidi")){
+	ComboBoxMenuMixin = declare( "dijit.form._ComboBoxMenuMixin", ComboBoxMenuMixin, {
+		_createOption: function(){
+			var menuitem = this.inherited(arguments);
+
+			// update menuitem.dir if BidiSupport was required
+			this.applyTextDir(menuitem);
+
+			return menuitem;
+		}
+	});
+}
+
+return ComboBoxMenuMixin;
 
 });

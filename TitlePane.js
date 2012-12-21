@@ -7,6 +7,7 @@ define([
 	"dojo/dom-geometry", // domGeometry.setMarginBox domGeometry.getMarginBox
 	"dojo/_base/event", // event.stop
 	"dojo/fx", // fxUtils.wipeIn fxUtils.wipeOut
+	"dojo/has",
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/keys", // keys.DOWN_ARROW keys.ENTER
 	"./_CssStateMixin",
@@ -14,14 +15,14 @@ define([
 	"./layout/ContentPane",
 	"dojo/text!./templates/TitlePane.html",
 	"./_base/manager"	// defaultDuration
-], function(array, declare, dom, domAttr, domClass, domGeometry, event, fxUtils, kernel, keys,
+], function(array, declare, dom, domAttr, domClass, domGeometry, event, fxUtils, has, kernel, keys,
 			_CssStateMixin, _TemplatedMixin, ContentPane, template, manager){
 
 // module:
 //		dijit/TitlePane
 
 
-return declare("dijit.TitlePane", [ContentPane, _TemplatedMixin, _CssStateMixin], {
+var TitlePane = declare("dijit.TitlePane", [ContentPane, _TemplatedMixin, _CssStateMixin], {
 	// summary:
 	//		A pane with a title on top, that can be expanded or collapsed.
 	//
@@ -48,14 +49,7 @@ return declare("dijit.TitlePane", [ContentPane, _TemplatedMixin, _CssStateMixin]
 	// title: String
 	//		Title of the pane
 	title: "",
-	_setTitleAttr: function(/*String*/ title){
-		// Override default where title becomes a hover tooltip
-		this._set("title", title);
-		this.titleNode.innerHTML = title;
-		if(this.textDir) {
-			this.applyTextDir(this.titleNode);
-		}
-	},
+	_setTitleAttr: { node: "titleNode", type: "innerHTML" },	// override default where title becomes a hover tooltip
 
 	// open: Boolean
 	//		Whether pane is opened or closed.
@@ -88,21 +82,7 @@ return declare("dijit.TitlePane", [ContentPane, _TemplatedMixin, _CssStateMixin]
 	doLayout: false,
 
 	// Tooltip is defined in _WidgetBase but we need to handle the mapping to DOM here
-	_setTooltipAttr: function(/*String*/ tooltip){
-		this._set("tooltip", tooltip);
-		if(this.textDir && this.enforceTextDirWithUcc){
-			tooltip = this.enforceTextDirWithUcc(null, tooltip);
-		}
-		domAttr.set(this.focusNode, "title", tooltip);			// focusNode spans the entire width, titleNode doesn't
-	},
-
-	_setTextDirAttr: function(textDir){
-		if(this._created && this.textDir != textDir){
-			this._set("textDir", textDir);
-			this.set("title", this.title);
-			this.set("tooltip", this.tooltip);
-		}
-	},
+	_setTooltipAttr: {node: "focusNode", type: "attribute", attribute: "title"},	// focusNode spans the entire width, titleNode doesn't
 
 	buildRendering: function(){
 		this.inherited(arguments);
@@ -284,4 +264,32 @@ return declare("dijit.TitlePane", [ContentPane, _TemplatedMixin, _CssStateMixin]
 	}
 });
 
+if(has("dojo-bidi")){
+	TitlePane.extend({
+		_setTitleAttr: function(/*String*/ title){
+			// Override default where title becomes a hover tooltip
+			this._set("title", title);
+			this.titleNode.innerHTML = title;
+			this.applyTextDir(this.titleNode);
+		},
+
+		_setTooltipAttr: function(/*String*/ tooltip){
+			this._set("tooltip", tooltip);
+			if(this.textDir){
+				tooltip = this.enforceTextDirWithUcc(null, tooltip);
+			}
+			domAttr.set(this.focusNode, "title", tooltip);			// focusNode spans the entire width, titleNode doesn't
+		},
+
+		_setTextDirAttr: function(textDir){
+			if(this._created && this.textDir != textDir){
+				this._set("textDir", textDir);
+				this.set("title", this.title);
+				this.set("tooltip", this.tooltip);
+			}
+		}
+	});
+}
+
+return TitlePane;
 });

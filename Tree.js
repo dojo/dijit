@@ -13,6 +13,7 @@ define([
 	"dojo/_base/event", // event.stop
 	"dojo/errors/create",	// createError
 	"dojo/fx", // fxUtils.wipeIn fxUtils.wipeOut
+	"dojo/has",
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/keys",	// arrows etc.
 	"dojo/_base/lang", // lang.getObject lang.mixin lang.hitch
@@ -35,7 +36,7 @@ define([
 	"./tree/ForestStoreModel",
 	"./tree/_dndSelector"
 ], function(array, aspect, connect, cookie, declare, Deferred, all,
-			dom, domClass, domGeometry, domStyle, event, createError, fxUtils, kernel, keys, lang, on, topic, touch, when,
+			dom, domClass, domGeometry, domStyle, event, createError, fxUtils, has, kernel, keys, lang, on, topic, touch, when,
 			focus, registry, manager, _Widget, _TemplatedMixin, _Container, _Contained, _CssStateMixin, _KeyNavMixin,
 			treeNodeTemplate, treeTemplate, TreeStoreModel, ForestStoreModel, _dndSelector){
 
@@ -526,20 +527,24 @@ var TreeNode = declare(
 		domClass.toggle(this.rowNode, "dijitTreeRowSelected", selected);
 	},
 
-	_setTextDirAttr: function(textDir){
-		if(textDir &&((this.textDir != textDir) || !this._created)){
-			this._set("textDir", textDir);
-			this.applyTextDir(this.labelNode);
-			array.forEach(this.getChildren(), function(childNode){
-				childNode.set("textDir", textDir);
-			}, this);
-		}
-	},
-
 	focus: function(){
 		focus.focus(this.focusNode);
 	}
 });
+
+if(has("dojo-bidi")){
+	TreeNode.extend({
+		_setTextDirAttr: function(textDir){
+			if(textDir &&((this.textDir != textDir) || !this._created)){
+				this._set("textDir", textDir);
+				this.applyTextDir(this.labelNode);
+				array.forEach(this.getChildren(), function(childNode){
+					childNode.set("textDir", textDir);
+				}, this);
+			}
+		}
+	});
+}
 
 var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssStateMixin], {
 	// summary:
@@ -1750,15 +1755,19 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 		//		of just specifying a widget for the label, rather than one that contains
 		//		the children too.
 		return new TreeNode(args);
-	},
-
-	_setTextDirAttr: function(textDir){
-		if(textDir && this.textDir!= textDir){
-			this._set("textDir",textDir);
-			this.rootNode.set("textDir", textDir);
-		}
 	}
 });
+
+if(has("dojo-bidi")){
+	Tree.extend({
+		_setTextDirAttr: function(textDir){
+			if(textDir && this.textDir!= textDir){
+				this._set("textDir",textDir);
+				this.rootNode.set("textDir", textDir);
+			}
+		}
+	});
+}
 
 Tree.PathError = createError("TreePathError");
 Tree._TreeNode = TreeNode;	// for monkey patching or creating subclasses of TreeNode

@@ -49,7 +49,7 @@ define([
 	};
 	=====*/
 
-	var _DialogBase = declare("dijit._DialogBase", [_TemplatedMixin, _FormMixin, _DialogMixin, _CssStateMixin], {
+	var _DialogBase = declare("dijit._DialogBase" + (has("dojo-bidi") ? "_NoBidi" : ""), [_TemplatedMixin, _FormMixin, _DialogMixin, _CssStateMixin], {
 		templateString: template,
 
 		baseClass: "dijitDialog",
@@ -63,20 +63,7 @@ define([
 			// Map to both the title bar innerHTML, plus the tooltip when you hover over the title bar.
 			this._set("title", title);
 			this.titleNode.innerHTML = title;
-			if(this.textDir){
-				this.applyTextDir(this.titleNode);
-				if(this.enforceTextDirWithUcc){
-					title = this.enforceTextDirWithUcc(null, title);
-				}
-			}
 			this.titleBar.title = title;
-		},
-
-		_setTextDirAttr: function(textDir){
-			if(this._created && this.textDir != textDir){
-				this._set("textDir", textDir);
-				this.set("title", this.title);
-			}
 		},
 
 		// open: [readonly] Boolean
@@ -498,6 +485,23 @@ define([
 			this.inherited(arguments);
 		}
 	});
+
+	if(has("dojo-bidi")){
+		_DialogBase = declare("dijit._DialogBase", _DialogBase, {
+			_setTitleAttr: function(/*String*/ title){
+				this.inherited(arguments);
+				this.applyTextDir(this.titleNode);
+				this.titleBar.title = this.enforceTextDirWithUcc(null, title);
+			},
+
+			_setTextDirAttr: function(textDir){
+				if(this._created && this.textDir != textDir){
+					this._set("textDir", textDir);
+					this.set("title", this.title);
+				}
+			}
+		});
+	}
 
 	var Dialog = declare("dijit.Dialog", [ContentPane, _DialogBase], {
 		// summary:

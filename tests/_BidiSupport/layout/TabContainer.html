@@ -14,21 +14,20 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../../dojo/dojo.js"
-		data-dojo-config="async: true,isDebug: true, parseOnLoad: true"></script>
+		data-dojo-config="async: true,isDebug: true, parseOnLoad: true, has: { 'dojo-bidi': true }"></script>
 
 	<script type="text/javascript">
 	require([
-		"dijit/registry",		
+		"dijit/registry",
 		"doh/runner",
 		"dojo/dom",
 		"dojo/ready",
 		"dojo/query",
-		"dijit/layout/TabContainer",		
+		"dijit/layout/TabContainer",
 		"dijit/layout/ContentPane",
-		"dojo/parser",
-		"dijit/_BidiSupport"
-		], function(registry,runner,dom,ready,query,ContentPane){				
-		ready(function(){			
+		"dojo/parser"
+		], function(registry, runner, dom, ready, query, ContentPane){
+		ready(function(){
 			runner.register("tests._BidiSupport.layout.TabContainer.Bidi", [
 				{
 					name: 'changing Tabs',
@@ -44,20 +43,20 @@
 
 						var t1 = registry.byId('t1');
 						t1.set('title', 'LTR panel,changed title!');
-						
+
 						var tc1 = registry.byId("tc1");
-						children = tc1.getChildren();				
+						children = tc1.getChildren();
 						children[1].set({
 							title: "Panel with no direction,changed title!"
-						});	
-				
+						});
+
 						runner.is('ltr', query("#tc1_tablist_t1")[0].dir, "Pane have explicit LTR text direction");
 						runner.is('rtl', query("#tc1_tablist_t2")[0].dir, "Pane inherits RTL text direction from container");
 						runner.is('ltr', query("#tc1_tablist_t3")[0].dir, "Pane have explicit LTR text direction");
 						runner.is('rtl', query("#tc1_tablist_t4")[0].dir, "Pane inherits RTL text direction from container");
 						runner.is('rtl', query("#tc1_tablist_newTab1")[0].dir, "Added pane have explicit 'Auto' text direction");
-						runner.is('rtl', query("#tc3_tablist_three")[0].dir, "Pane have explicit RTL text direction");	
-						runner.is('rtl', query("#tc3_tablist_four")[0].dir, "Pane have explicit RTL text direction");					
+						runner.is('rtl', query("#tc3_tablist_three")[0].dir, "Pane have explicit RTL text direction");
+						runner.is('rtl', query("#tc3_tablist_four")[0].dir, "Pane have explicit RTL text direction");
 					}
 				}
 			]);
@@ -76,15 +75,15 @@
 					menuBtn.closeDropDown();
 				}
 			});
-			
+
 			runner.register("log", function(){
 				dom.byId('failures').innerHTML = runner._failureCount;
 				dom.byId('errors').innerHTML = runner._errorCount;
 			});
-			
+
 			runner.run();
 		});
-	});		
+	});
 	</script>
 
 </head>
@@ -98,7 +97,7 @@
 		</div>
 		<div id="t2" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"tab2 @", closable:true'>
 			Title of this pane with no text direction specified (inherited) has been changed
-		</div>		
+		</div>
 		<div id="t3" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='textDir: "ltr", title:"Explicit LTR!", closable:true'>
 			Explicit LTR text direction of content pane
 		</div>
@@ -112,9 +111,9 @@
 		<div dojoType="dijit/layout/ContentPane" title="Explicit LTR!" textDir="ltr" jsid="one" id="one">Explicit LTR text direction of content pane</div>
 		<div dojoType="dijit/layout/ContentPane" title="Inherited RTL!" jsid="two" id="two">Inherited RTL text direction of content pane tab</div>
 		<div dojoType="dijit/layout/ContentPane" title="אExplicit AUTO!" jsid="three" id="three">Explicit 'auto' text direction of content pane</div>
-		<div dojoType="dijit/layout/ContentPane" title="Explicit RTL!" textDir="rtl" jsid="four" id="four">Explicit RTL text direction of content pane</div>		
+		<div dojoType="dijit/layout/ContentPane" title="Explicit RTL!" textDir="rtl" jsid="four" id="four">Explicit RTL text direction of content pane</div>
 	</div>
 		<br>Errors:&nbsp;<span id="errors">?</span>
-		<br>Failures:&nbsp;<span id="failures">?</span>		
+		<br>Failures:&nbsp;<span id="failures">?</span>
 </body>
 </html>

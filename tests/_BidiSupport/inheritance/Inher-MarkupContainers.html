@@ -2,7 +2,7 @@
 
 <html>
 	<head>
-		<meta http-equiv="Content-type" content="text/html; charset=utf-8">	
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>DOH markup containers simple inheritance</title>
 
 		<style type="text/css">
@@ -12,11 +12,10 @@
 
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../dojo/dojo.js"
-			data-dojo-config="isDebug: true">
-		</script>		
-		
+			data-dojo-config="isDebug: true, has: { 'dojo-bidi': true }">
+		</script>
+
 		<script type="text/javascript">
-			dojo.require("dijit._BidiSupport");
 			dojo.require("dijit.form.TextBox");
 			dojo.require("dijit.form.ComboBox");
 			dojo.require("dijit.layout.AccordionContainer");
@@ -32,56 +31,56 @@
 				doh.register("parse", function(){
 					dojo.parser.parse();
 				});
-			
+
 				doh.register("dijit.tests._BidiSupport.inheritance.Inher-MarkupContainers", [
 					function test_ltrFilterSelectInheritAccordion(){
 						dijit.byId("filter1").set("value","1");
-						doh.is("ltr", dijit.byId("filter1").focusNode.dir, "option 1 of filter1"); 
+						doh.is("ltr", dijit.byId("filter1").focusNode.dir, "option 1 of filter1");
 					},
 					function test_rtlFilterSelectInheritAccordion(){
-						dijit.byId("filter1").set("value","2"); 
-						doh.is("rtl", dijit.byId("filter1").focusNode.dir, "option 2 of filter1"); 
+						dijit.byId("filter1").set("value","2");
+						doh.is("rtl", dijit.byId("filter1").focusNode.dir, "option 2 of filter1");
 					},
 					function test_ltrTextareaInheritPane1(){
-						dijit.byId("ltrTextBox1").set("value","Hello!!"); 
-						doh.is("ltr", dijit.byId("ltrTextBox1").focusNode.dir,"ltrTextBox1 : Hello!!"); 
+						dijit.byId("ltrTextBox1").set("value","Hello!!");
+						doh.is("ltr", dijit.byId("ltrTextBox1").focusNode.dir,"ltrTextBox1 : Hello!!");
 					},
 					function test_ltrTextareaInheritPane2(){
-						dijit.byId("ltrTextBox1").set("value","\u05e9\u05dc\u05d5\u05dd\u0021\u0021"); 
-						doh.is("ltr", dijit.byId("ltrTextBox1").focusNode.dir,"ltrTextBox1: \u05e9\u05dc\u05d5\u05dd\u0021\u0021"); 
+						dijit.byId("ltrTextBox1").set("value","\u05e9\u05dc\u05d5\u05dd\u0021\u0021");
+						doh.is("ltr", dijit.byId("ltrTextBox1").focusNode.dir,"ltrTextBox1: \u05e9\u05dc\u05d5\u05dd\u0021\u0021");
 					},
 					function test_autoComboBoxInheritTableLtr(){
-						dijit.byId("autoTextBox1").set("value","Hello!!"); 
-						doh.is("ltr", dijit.byId("autoTextBox1").focusNode.dir,"autoTextBox1: Hello!!"); 
+						dijit.byId("autoTextBox1").set("value","Hello!!");
+						doh.is("ltr", dijit.byId("autoTextBox1").focusNode.dir,"autoTextBox1: Hello!!");
 					},
 					function test_autoComboBoxInheritTableRtl(){
-						dijit.byId("autoTextBox1").set("value","\u05e9\u05dc\u05d5\u05dd\u0021\u0021"); 
-						doh.is("rtl", dijit.byId("autoTextBox1").focusNode.dir,"autoTextBox1: \u05e9\u05dc\u05d5\u05dd\u0021\u0021"); 
+						dijit.byId("autoTextBox1").set("value","\u05e9\u05dc\u05d5\u05dd\u0021\u0021");
+						doh.is("rtl", dijit.byId("autoTextBox1").focusNode.dir,"autoTextBox1: \u05e9\u05dc\u05d5\u05dd\u0021\u0021");
 					},
 					function test_rtlTextareaInheritPane1(){
-						dijit.byId("rtlTextBox1").set("value","\u05e9\u05dc\u05d5\u05dd\u0021\u0021"); 
-						doh.is("rtl", dijit.byId("rtlTextBox1").focusNode.dir,"rtlTextBox1: \u05e9\u05dc\u05d5\u05dd\u0021\u0021"); 
+						dijit.byId("rtlTextBox1").set("value","\u05e9\u05dc\u05d5\u05dd\u0021\u0021");
+						doh.is("rtl", dijit.byId("rtlTextBox1").focusNode.dir,"rtlTextBox1: \u05e9\u05dc\u05d5\u05dd\u0021\u0021");
 					},
 					function test_rtlTextareaInheritPane2(){
-						dijit.byId("rtlTextBox1").set("value","\u05e9\u05dc\u05d5\u05dd\u0021\u0021"); 
-						doh.is("rtl", dijit.byId("rtlTextBox1").focusNode.dir,"rtlTextBox1: \u05e9\u05dc\u05d5\u05dd\u0021\u0021"); 
+						dijit.byId("rtlTextBox1").set("value","\u05e9\u05dc\u05d5\u05dd\u0021\u0021");
+						doh.is("rtl", dijit.byId("rtlTextBox1").focusNode.dir,"rtlTextBox1: \u05e9\u05dc\u05d5\u05dd\u0021\u0021");
 					},
 					function test_autoSimpleTextareaInheritPane1(){
-						doh.is("ltr", dijit.byId("ltrSimpleTexarea").focusNode.dir, "ltrSimpleTexarea: ltrSimpleTexarea"); 
+						doh.is("ltr", dijit.byId("ltrSimpleTexarea").focusNode.dir, "ltrSimpleTexarea: ltrSimpleTexarea");
 					},
 					function test_autoSimpleTextareaInheritPane2(){
-						doh.is("rtl", dijit.byId("autoSimpleTexarea").focusNode.dir, "autoSimpleTexarea: autoSimpleTexarea"); 
+						doh.is("rtl", dijit.byId("autoSimpleTexarea").focusNode.dir, "autoSimpleTexarea: autoSimpleTexarea");
 					},
 					function test_RtrSimpleTexBoxInheritTabContainer(){
-						doh.is("rtl", dijit.byId("rtlSimpleTexarea").focusNode.dir, "rtlSimpleTexarea"); 
+						doh.is("rtl", dijit.byId("rtlSimpleTexarea").focusNode.dir, "rtlSimpleTexarea");
 						dijit.byId("rtlSimpleTexarea").set("value","Hello!!");
-						doh.is("rtl", dijit.byId("rtlSimpleTexarea").focusNode.dir,"rtlSimpleTexarea: Hello!!"); 
+						doh.is("rtl", dijit.byId("rtlSimpleTexarea").focusNode.dir,"rtlSimpleTexarea: Hello!!");
 					},
 					function test_autoSimpleTexBoxInheritTabContainersPaneRtl(){
-						doh.is("rtl", dijit.byId("ltrTexarea").focusNode.dir, "ltrTexarea"); 
+						doh.is("rtl", dijit.byId("ltrTexarea").focusNode.dir, "ltrTexarea");
 					},
 					function test_autoSimpleTexBoxInheritTabContainersPaneRtl(){
-						doh.is("ltr", dijit.byId("trTexarea").focusNode.dir, "trTexarea"); 
+						doh.is("ltr", dijit.byId("trTexarea").focusNode.dir, "trTexarea");
 					}
 				]);
 
@@ -91,19 +90,19 @@
 	</head>
 	<body class="tundra" data-dojo-textdir="rtl" >
 		<div id="markupAccordion" data-dojo-type="dijit/layout/AccordionContainer" data-dojo-props='style:"width:400px; height:300px;", textDir :"auto"' data-dojo-textdir="auto">
-			
+
 			<div data-dojo-type="dijit/layout/BorderContainer" id="borderContainerPane" data-dojo-props=' textDir:"rtl",title:"BorderContainer Pane"' data-dojo-textdir="rtl">
 				<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"left", style:"width:100px", splitter:true, textDir:"ltr"'>
 					<input id="ltrTextBox1" data-dojo-type="dijit/form/TextBox" data-dojo-props='name:"ltrTextBox1", type:"text", value:""'/>
 				</div>
-			
+
 				<div data-dojo-type="dijit/layout/ContentPane"data-dojo-props='region:"center"' data-dojo-textdir="auto" >
 					<input id="autoTextBox1" data-dojo-type="dijit/form/TextBox" data-dojo-props='type:"text", name:"autoTextBox1", value:""'/>
 				</div>
-			
+
 				<input id="rtlTextBox1" data-dojo-type="dijit/form/TextBox" data-dojo-props='type:"text", name:"rtlTextBox1", value:""'/>
 			</div>
-		
+
 
 			<div id="pane1" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='selected:"true", title:"A Simple Pane"'>
 				<select data-dojo-type="dijit/form/FilteringSelect" id="filter1">

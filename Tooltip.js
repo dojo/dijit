@@ -228,36 +228,40 @@ define([
 				this.show.apply(this, this._onDeck);
 				this._onDeck=null;
 			}
-		},
-
-		_setAutoTextDir: function(/*Object*/node){
-			// summary:
-			//		Resolve "auto" text direction for children nodes
-			// tags:
-			//		private
-
-			this.applyTextDir(node);
-			array.forEach(node.children, function(child){this._setAutoTextDir(child); }, this);
-		},
-
-		_setTextDirAttr: function(/*String*/ textDir){
-			// summary:
-			//		Setter for textDir.
-			// description:
-			//		Users shouldn't call this function; they should be calling
-			//		set('textDir', value)
-			// tags:
-			//		private
-
-			this._set("textDir", textDir);
-
-			if (textDir == "auto"){
-				this._setAutoTextDir(this.containerNode);
-			}else{
-				this.containerNode.dir = this.textDir;
-			}
 		}
 	});
+
+	if(has("dojo-bidi")){
+		MasterTooltip.extend({
+			_setAutoTextDir: function(/*Object*/node){
+				// summary:
+				//		Resolve "auto" text direction for children nodes
+				// tags:
+				//		private
+
+				this.applyTextDir(node);
+				array.forEach(node.children, function(child){ this._setAutoTextDir(child); }, this);
+			},
+
+			_setTextDirAttr: function(/*String*/ textDir){
+				// summary:
+				//		Setter for textDir.
+				// description:
+				//		Users shouldn't call this function; they should be calling
+				//		set('textDir', value)
+				// tags:
+				//		private
+
+				this._set("textDir", textDir);
+
+				if (textDir == "auto"){
+					this._setAutoTextDir(this.containerNode);
+				}else{
+					this.containerNode.dir = this.textDir;
+				}
+			}
+		});
+	}
 
 	dijit.showTooltip = function(innerHTML, aroundNode, position, rtl, textDir){
 		// summary:

@@ -12,19 +12,18 @@
 
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../dojo/dojo.js"
-			data-dojo-config="async: true, isDebug: true"></script>
-			
+			data-dojo-config="async: true, isDebug: true, has: { 'dojo-bidi': true }"></script>
+
 		<script type="text/javascript">
 		require([
 			"dijit/registry",
 			"doh/runner",
 			"dojo/dom",
 			"dojo/ready",
-			"dojo/parser",
-			"dijit/_BidiSupport"
+			"dojo/parser"
 		], function(registry, doh, dom, ready, parser){
 			ready(function(){
-			
+
 				doh.register("parse", function(){
 					// Parse is asynchronous because it pulls in modules like DateTextBox, so return its promise
 					return parser.parse();
@@ -44,7 +43,7 @@
 							doh.is("rtl", textBox1.textDir, "textDir of - " + textBox1.id);
 							doh.is("", textBox1.dir, "dir of - " + textBox1.id);
 							doh.t(textBox1.focusNode.dir === textBox1.textDir, "textDir != dir of - " + textBox1.id);
-																				
+
 							doh.is("ltr", textBox2.textDir, "textDir of - " + textBox2.id);
 							doh.is("", textBox2.dir, "dir of - " + textBox2.id);
 							doh.t(textBox2.focusNode.dir === textBox2.textDir, "textDir != dir of - " + textBox2.id);
@@ -57,21 +56,21 @@
 							doh.is("rtl", textBox4.dir, "dir of - " + textBox4.id);
 							doh.t(textBox4.focusNode.dir === textBox4.textDir, "textDir != dir of - " + textBox4.id);
 						}
-					},			
+					},
 					{
 						name: "Group 2",
 
 						runTest: function(){
-							
+
 							var textBox1 = registry.byId("localLong_1"),
 								textBox2 = registry.byId("localLong_12"),
 								textBox3 = registry.byId("localLong_2"),
 								textBox4 = registry.byId("localLong_22");
-						
+
 							doh.is("rtl", textBox1.textDir, "textDir of - " + textBox1.id);
 							doh.is("ltr", textBox1.dir, "dir of - " + textBox1.id);
 							doh.t(textBox1.focusNode.dir === textBox1.textDir, "textDir != dir of - " + textBox1.id);
-																		
+
 							doh.is("ltr", textBox2.textDir, "textDir of - " + textBox2.id);
 							doh.is("", textBox2.dir, "dir of - " + textBox2.id);
 							doh.t(textBox2.focusNode.dir === textBox2.textDir, "textDir != dir of - " + textBox2.id);
@@ -94,11 +93,11 @@
 								textBox2 = registry.byId("integerspinner_12"),
 								textBox3 = registry.byId("integerspinner_2"),
 								textBox4 = registry.byId("integerspinner_22");
-							
+
 							doh.is("rtl", textBox1.textDir, "textDir of - " + textBox1.id);
 							doh.is("", textBox1.dir, "dir of - " + textBox1.id);
 							doh.t(textBox1.focusNode.dir === textBox1.textDir, "textDir != dir of - " + textBox1.id);
-																		
+
 							doh.is("ltr", textBox2.textDir, "textDir of - " + textBox2.id);
 							doh.is("", textBox2.dir, "dir of - " + textBox2.id);
 							doh.t(textBox2.focusNode.dir === textBox2.textDir, "textDir != dir of - " + textBox2.id);
@@ -121,11 +120,11 @@
 								textBox2 = registry.byId("curren_12"),
 								textBox3 = registry.byId("curren_2"),
 								textBox4 = registry.byId("curren_22");
-								
+
 							doh.is("rtl", textBox1.textDir, "textDir of - " + textBox1.id);
 							doh.is("", textBox1.dir, "dir of - " + textBox1.id);
 							doh.t(textBox1.focusNode.dir === textBox1.textDir, "textDir != dir of - " + textBox1.id);
-																		
+
 							doh.is("ltr", textBox2.textDir, "textDir of - " + textBox2.id);
 							doh.is("", textBox2.dir, "dir of - " + textBox2.id);
 							doh.t(textBox2.focusNode.dir === textBox2.textDir, "textDir != dir of - " + textBox2.id);
@@ -143,16 +142,16 @@
 						name: "Group 5",
 
 						runTest: function(){
-	
+
 							var textBox1 = registry.byId("q1"),
 								textBox2 = registry.byId("q2"),
 								textBox3 = registry.byId("q3"),
 								textBox4 = registry.byId("q4");
-	
+
 							doh.is("rtl", textBox1.textDir, "textDir of - " + textBox1.id);
 							doh.is("ltr", textBox1.dir, "dir of - " + textBox1.id);
 							doh.t(textBox1.focusNode.dir === textBox1.textDir, "textDir != dir of - " + textBox1.id);
-																		
+
 							doh.is("ltr", textBox2.textDir, "textDir of - " + textBox2.id);
 							doh.is("ltr", textBox2.dir, "dir of - " + textBox2.id);
 							doh.t(textBox2.focusNode.dir === textBox2.textDir, "textDir != dir of - " + textBox2.id);
@@ -166,11 +165,11 @@
 							doh.t(textBox4.focusNode.dir === textBox4.textDir, "textDir != dir of - " + textBox4.id);
 						}
 					}
-				]);			
+				]);
 
 				doh.run();
 			});
-		});			
+		});
 		</script>
 	</head>
 

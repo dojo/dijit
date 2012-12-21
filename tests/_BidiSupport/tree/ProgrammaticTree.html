@@ -5,15 +5,15 @@
             body, html { font-family:helvetica,arial,sans-serif; font-size:90%; }
         </style>
 		<script type="text/javascript" src="../../../../dojo/dojo.js"
-			data-dojo-config="parseOnLoad: true, isDebug: true">
+			data-dojo-config="parseOnLoad: true, isDebug: true, has: { 'dojo-bidi': true }">
 		</script>
 		<link id="themeStyles" rel="stylesheet" href="../../../../dijit/themes/claro/claro.css"/>
         <script type="text/javascript">
             dojo.require("doh.runner");
 			dojo.require("dojo.data.ItemFileReadStore");
             dojo.require("dijit.Tree");
-            dojo.require("dijit._BidiSupport");
-            dojo.addOnLoad(function() {
+
+            dojo.ready(function() {
                 var store = new dojo.data.ItemFileReadStore({
                     url: "../../../../dijit/tests/_BidiSupport/_data/countriesHeb.json"
                 });
@@ -173,7 +173,7 @@
             });
         </script>
     </head>
-    <body class=" claro ">
+    <body class="claro">
 		<table>
 			<tr><td>
 					<label for="treeLtr" >

@@ -12,7 +12,7 @@
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../../dojo/dojo.js">
 		</script>
-			
+
 		<script type="text/javascript">
 			dojo.require("dijit.robotx");
 
@@ -31,7 +31,7 @@
 							doh.t(!!combo, "found fruitLtr");
 							modifier = dojo.isMac ? {meta: true} : {ctrl: true};
 						},
-						
+
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -74,30 +74,30 @@
 							doh.robot.typeKeys("Hi!!!", 1, 300);
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("ltr", combo.focusNode.dir,"direction of : " + combo.id);
-							}), 300);								
+							}), 300);
 
 							return d;
 						}
-					},	
+					},
 					{
 						name: "paste Hebrew in 'fruitLtr'",
 						timeout: 3000,
 
 						runTest: function(){
 							var d = new doh.Deferred();
-							
+
 							doh.robot.setClipboard("\u05e9\u05dc\u05d5\u05dd\u0021",'text/html');
 							doh.robot.keyPress("a", 300, modifier);
 							doh.robot.keyPress(dojo.keys.DELETE, 300, {});
 							doh.robot.keyPress("v", 300, modifier);
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("ltr", combo.focusNode.dir,"direction of : " + combo.id);
-							}), 300);								
+							}), 300);
 
 							return d;
 						}
 					}
-				]);			
+				]);
 
 				doh.register("Test RTL combo box", [
 					{

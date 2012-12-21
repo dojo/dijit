@@ -15,7 +15,7 @@ define([
 	// module:
 	//		dijit/form/TextBox
 
-	var TextBox = declare("dijit.form.TextBox", [_FormValueWidget, _TextBoxMixin], {
+	var TextBox = declare("dijit.form.TextBox" + (has("dojo-bidi") ? "_NoBidi" : ""), [_FormValueWidget, _TextBoxMixin], {
 		// summary:
 		//		A base class for textbox form inputs
 
@@ -72,7 +72,6 @@ define([
 			this._phspan.innerHTML="";
 			this._phspan.appendChild(this._phspan.ownerDocument.createTextNode(v));
 			this._updatePlaceHolder();
-			this.applyTextDir(this._phspan);
 		},
 
 		_updatePlaceHolder: function(){
@@ -142,6 +141,15 @@ define([
 				r.select();
 			}
 		}
+	}
+
+	if(has("dojo-bidi")){
+		TextBox = declare("dijit.form.TextBox", TextBox, {
+			_setPlaceHolderAttr: function(v){
+				this.inherited(arguments);
+				this.applyTextDir(this._phspan);
+			}
+		});
 	}
 
 	return TextBox;

@@ -20,16 +20,21 @@ define([
 	"dojo/topic",
 	"dojo/_base/window", // win.doc, win.body()
 	"./Destroyable",
+	"dojo/has!dojo-bidi?./_BidiMixin",
 	"./registry"	// registry.getUniqueId(), registry.findWidgets()
 ], function(require, array, aspect, config, connect, declare,
 			dom, domAttr, domClass, domConstruct, domGeometry, domStyle, has, kernel,
-			lang, on, ready, Stateful, topic, win, Destroyable, registry){
+			lang, on, ready, Stateful, topic, win, Destroyable, _BidiMixin, registry){
 
 // module:
 //		dijit/_WidgetBase
 
 // Flag to make dijit load modules the app didn't explicitly request, for backwards compatibility
 has.add("dijit-legacy-requires", !kernel.isAsync);
+
+// Flag to enable support for textdir attribute
+has.add("dojo-bidi", false);
+
 
 // For back-compat, remove in 2.0.
 if(has("dijit-legacy-requires")){
@@ -61,7 +66,7 @@ function nonEmptyAttrToDom(attr){
 	};
 }
 
-return declare("dijit._WidgetBase", [Stateful, Destroyable], {
+var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 	// summary:
 	//		Future base class for all Dijit widgets.
 	// description:
@@ -129,20 +134,6 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 	dir: "",
 	// set on domNode even when there's a focus node.	but don't set dir="", since that's invalid.
 	_setDirAttr: nonEmptyAttrToDom("dir"),	// to set on domNode even when there's a focus node
-
-	// textDir: String
-	//		Bi-directional support,	the main variable which is responsible for the direction of the text.
-	//		The text direction can be different than the GUI direction by using this parameter in creation
-	//		of a widget.
-	//
-	//		Allowed values:
-	//
-	//		1. "ltr"
-	//		2. "rtl"
-	//		3. "auto" - contextual the direction of a text defined by first strong letter.
-	//
-	//		By default is as the page direction.
-	textDir: "",
 
 	// class: String
 	//		HTML class attribute
@@ -1095,29 +1086,7 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		return this;
 	},
 
-	getTextDir: function(/*String*/ text,/*String*/ originalDir){
-		// summary:
-		//		Return direction of the text.
-		//		The function overridden in the _BidiSupport module,
-		//		its main purpose is to calculate the direction of the
-		//		text, if was defined by the programmer through textDir.
-		// tags:
-		//		protected.
-		return originalDir;
-	},
-
-	applyTextDir: function(/*===== element, text =====*/){
-		// summary:
-		//		The function overridden in the _BidiSupport module,
-		//		originally used for setting element.dir according to this.textDir.
-		//		In this case does nothing.
-		// element: DOMNode
-		// text: String?
-		// tags:
-		//		protected.
-	},
-
-	defer: function(fcn, delay){ 
+	defer: function(fcn, delay){
 		// summary:
 		//		Wrapper to setTimeout to avoid deferred functions executing
 		//		after the originating widget has been destroyed.
@@ -1147,4 +1116,9 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 	}
 });
 
+if(has("dojo-bidi")){
+	_WidgetBase.extend(_BidiMixin);
+}
+
+return _WidgetBase;
 });

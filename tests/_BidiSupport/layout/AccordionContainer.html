@@ -14,50 +14,41 @@
 	<link id="themeStyles" rel="stylesheet" href="../../../../dijit/themes/claro/claro.css"/>
 
 	<script type="text/javascript" src="../../../../dojo/dojo.js"
-		data-dojo-config="async: true,isDebug: true, parseOnLoad: true"></script>
+		data-dojo-config="async: true,isDebug: true, parseOnLoad: true, has: { 'dojo-bidi': true }"></script>
 
 	<script type="text/javascript">
 			require([
-			"dijit/registry",		
+			"dijit/registry",
 			"doh/runner",
 			"dojo/dom",
 			"dojo/ready",
 			"dojo/query",
 			"dijit/layout/ContentPane",
-			"dojo/parser",
-			"dijit/_BidiSupport"
-			], function(registry,runner,dom,ready,query){		
+			"dojo/parser"
+			], function(registry, runner, dom, ready, query){
 				ready(function(){
 					runner.register("tests._BidiSupport.layout.Accordion.Bidi", [
 						{
-							name: "Accordion Bidi",					
+							name: "Accordion Bidi",
 							runTest: function(){
 								query("span.dijitAccordionText").forEach(function(node, index, arr){
-									if(registry.getEnclosingWidget(node).textDir !== 'auto') {							
-										runner.assertEqual(node.dir, registry.getEnclosingWidget(node).textDir, "tab button direction should coinside with widget's 'textDir'");
-									}								
-								});							
+									if(registry.getEnclosingWidget(node).textDir !== 'auto') {
+										runner.is(node.dir, registry.getEnclosingWidget(node).textDir, "tab button direction should coinside with widget's 'textDir'");
+									}
+								});
 							}
-						}				
+						}
 				]);
-				
+
 				runner.register("log", function(){
 					dom.byId('failures').innerHTML = runner._failureCount;
 					dom.byId('errors').innerHTML = runner._errorCount;
-				});			
+				});
 				runner.run();
 			});
 		});
 	</script>
 
-	<style type="text/css">
-		.somePadding .dijitAccordionBody {
-			padding: 5px;
-		}
-		.extremePadding .dijitAccordionBody {
-			padding: 50px;
-		}
-	</style>
 </head>
 <body class="claro" style="padding: 50px;">
 

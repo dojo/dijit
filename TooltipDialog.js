@@ -2,6 +2,7 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/dom-class", // domClass.replace
 	"dojo/_base/event", // event.stop
+	"dojo/has",
 	"dojo/keys", // keys
 	"dojo/_base/lang", // lang.hitch
 	"./focus",
@@ -11,14 +12,14 @@ define([
 	"./_TemplatedMixin",
 	"dojo/text!./templates/TooltipDialog.html",
 	"./main"		// exports methods to dijit global
-], function(declare, domClass, event, keys, lang,
+], function(declare, domClass, event, has, keys, lang,
 			focus, ContentPane, _DialogMixin, _FormMixin, _TemplatedMixin, template, dijit){
 
 	// module:
 	//		dijit/TooltipDialog
 
 
-	return declare("dijit.TooltipDialog",
+	var TooltipDialog = declare("dijit.TooltipDialog",
 		[ContentPane, _TemplatedMixin, _FormMixin, _DialogMixin], {
 		// summary:
 		//		Pops up a dialog that appears like a Tooltip
@@ -56,20 +57,8 @@ define([
 
 		templateString: template,
 
-		_setTitleAttr: function(/*String*/ title){
-			this.containerNode.title = (this.textDir && this.enforceTextDirWithUcc) ? this.enforceTextDirWithUcc(null, title) : title;
-			this._set("title", title);
-		},
-		
-		_setTextDirAttr: function(/*String*/ textDir){
-			if(!this._created || this.textDir != textDir){
-				this._set("textDir", textDir);
-				if(this.textDir && this.title && this.enforceTextDirWithUcc){
-					this.containerNode.title = this.enforceTextDirWithUcc(null, this.title);
-				}
-			}	
-		},
-		
+		_setTitleAttr: "containerNode",
+
 		postCreate: function(){
 			this.inherited(arguments);
 			this.connect(this.containerNode, "keydown", "_onKey");
@@ -183,4 +172,24 @@ define([
 			}
 		}
 	});
+
+	if(has("dojo-bidi")){
+		TooltipDialog.extend({
+			_setTitleAttr: function(/*String*/ title){
+				this.containerNode.title = (this.textDir && this.enforceTextDirWithUcc) ? this.enforceTextDirWithUcc(null, title) : title;
+				this._set("title", title);
+			},
+
+			_setTextDirAttr: function(/*String*/ textDir){
+				if(!this._created || this.textDir != textDir){
+					this._set("textDir", textDir);
+					if(this.textDir && this.title){
+						this.containerNode.title = this.enforceTextDirWithUcc(null, this.title);
+					}
+				}
+			}
+		});
+	}
+
+	return TooltipDialog;
 });

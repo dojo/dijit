@@ -2,7 +2,7 @@
 
 <html>
 	<head>
-		<meta http-equiv="Content-type" content="text/html; charset=utf-8">	
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>Textarea with _BidiSupport</title>
 
 		<style type="text/css">
@@ -12,11 +12,10 @@
 
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../dojo/dojo.js"
-			data-dojo-config="parseOnLoad: true, isDebug: true">
-		</script>		
+			data-dojo-config="parseOnLoad: true, isDebug: true, has: { 'dojo-bidi': true }">
+		</script>
 
 		<script type="text/javascript">
-			dojo.require("dijit.dijit"); // optimize: load dijit layer
 			dojo.require("dijit.form.Textarea");
 			dojo.require("dijit.form.TextBox");
 			dojo.require("dijit.form.SimpleTextarea");
@@ -25,7 +24,6 @@
 			dojo.require("dojo.parser");
 			dojo.require("doh.runner");
 			dojo.require("dijit.form.ComboBox");
-			dojo.require("dijit._BidiSupport");
 
 			dojo.ready(function(){
 				doh.register("parse", function(){
@@ -95,11 +93,11 @@
 					, filledTbP
 					, blankSTaP
 					, filledSTaP
-					, combo;	
-					
+					, combo;
+
 				dijit.byId("comboBM").toggleDropDown();
 				dijit.byId("comboBM").closeDropDown();
-			
+
 				doh.register("test dynamic change of textDir initial", [
 					{
 						name: "initial textDir of all the widgets",
@@ -117,11 +115,11 @@
 							blankTbP = dijit.byId("blankTbP");
 							filledTbP = dijit.byId("filledTbP");
 							blankSTaP = dijit.byId("blankSTaP");
-							filledSTaP = dijit.byId("filledSTaP");	
+							filledSTaP = dijit.byId("filledSTaP");
 
 							combo = dijit.byId("comboBM");
 						},
-						
+
 						runTest: function(){
 							doh.is("ltr",blankTaP.textDir, "direction of : blankTaP");
 							doh.is("ltr",filledTaP.textDir, "direction of : filledTaP");
@@ -136,9 +134,9 @@
 							doh.is("ltr",filledTbP.textDir, "direction of : filledTbP");
 							doh.is("ltr",blankSTaP.textDir, "direction of : blankSTaP");
 							doh.is("ltr",filledSTaP.textDir, "direction of : filledSTaP");
-							
+
 							doh.is("ltr",combo.dropDown.textDir, "direction of : combo.dropDown");
-							
+
 							var d = new doh.Deferred();
 
 							combo.toggleDropDown();
@@ -153,7 +151,7 @@
 							}), 100);
 							return d;
 						},
-						
+
 						tearDown:function(){
 							combo.closeDropDown();
 						}
@@ -221,11 +219,11 @@
 							}), 100);
 							return d;
 						},
-						
+
 						tearDown:function(){
 							combo.closeDropDown();
 						}
-						
+
 					}
 				]);
 
@@ -291,7 +289,7 @@
 							}), 100);
 							return d;
 						},
-						
+
 						tearDown:function(){
 							combo.closeDropDown();
 						}
@@ -306,7 +304,7 @@
 							var buttonAUTO = dojo.byId("switchTD_AUTO");
 							buttonAUTO.click();
 						},
-					
+
 						runTest: function(){
 
 							doh.is("auto",blankTaP.textDir, "direction of : blankTaP");
@@ -351,16 +349,16 @@
 											contextualDir = this.getTextDir(node.innerText || node.textContent || "");
 											doh.is(contextualDir, node.dir, node.innerText || node.textContent || "");
 									}
-								},combo);							
+								},combo);
 							}), 100);
 							return d;
 						},
-						
+
 						tearDown:function(){
 							combo.closeDropDown();
 						}
 					}
-				]);				
+				]);
 
 				doh.run();
 			});
@@ -368,7 +366,7 @@
 	</head>
 	<body class="tundra" data-dojo-textdir="ltr">
 		<h1 class="testTitle">Dynamically changed textDir.</h1>
-		
+
 		<h2 class="testTitle">Textarea</h2>
 		<div class="testExample">
 			<table>
@@ -483,7 +481,7 @@
 		<br>
 		<label for="comboBM">dijit.form.ComboBox, markup</label>
 		<br>
-		<select id="comboBM" 
+		<select id="comboBM"
 			data-dojo-type="dijit/form/ComboBox"
 			data-dojo-props='name:"comboBM",
 			textDir:"ltr"'>
@@ -499,8 +497,8 @@
 
 		<input id="swithchTD_RTL" type="button" value="change textDir 2 RTL"
 			onclick="dijit.byId('blankTaP').set('textDir','rtl');
-				dijit.byId('filledTaP').set('textDir','rtl'); 
-				dijit.byId('blankTaM').set('textDir','rtl'); 
+				dijit.byId('filledTaP').set('textDir','rtl');
+				dijit.byId('blankTaM').set('textDir','rtl');
 				dijit.byId('filledlTaM').set('textDir','rtl');
 				dijit.byId('comboBM').set('textDir','rtl');
 				dijit.byId('blankTbM').set('textDir','rtl');
@@ -512,11 +510,11 @@
 				dijit.byId('blankSTaP').set('textDir','rtl');
 				dijit.byId('filledSTaP').set('textDir','rtl');
 			"/>
-		
+
 		<input id="swithchTD_LTR" type="button" value="change textDir 2 LTR"
 			onclick="dijit.byId('blankTaP').set('textDir','ltr');
-				dijit.byId('filledTaP').set('textDir','ltr'); 
-				dijit.byId('blankTaM').set('textDir','ltr'); 
+				dijit.byId('filledTaP').set('textDir','ltr');
+				dijit.byId('blankTaM').set('textDir','ltr');
 				dijit.byId('filledlTaM').set('textDir','ltr');
 				dijit.byId('comboBM').set('textDir','ltr');
 				dijit.byId('blankTbM').set('textDir','ltr');
@@ -528,11 +526,11 @@
 				dijit.byId('blankSTaP').set('textDir','ltr');
 				dijit.byId('filledSTaP').set('textDir','ltr');
 			"/>
-		
+
 		<input id="switchTD_AUTO" type="button" value="change textDir 2 AUTO"
 			onclick="dijit.byId('blankTaP').set('textDir','auto');
-				dijit.byId('filledTaP').set('textDir','auto'); 
-				dijit.byId('blankTaM').set('textDir','auto'); 
+				dijit.byId('filledTaP').set('textDir','auto');
+				dijit.byId('blankTaM').set('textDir','auto');
 				dijit.byId('filledlTaM').set('textDir','auto');
 				dijit.byId('comboBM').set('textDir','auto');
 				dijit.byId('blankTbM').set('textDir','auto');

@@ -12,13 +12,11 @@
 
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../dojo/dojo.js"
-			data-dojo-config="parseOnLoad: true, isDebug: true">
-		</script>		
- 
+			data-dojo-config="parseOnLoad: true, isDebug: true, has: { 'dojo-bidi': true }">
+		</script>
+
 		<script type="text/javascript">
-			dojo.require("dijit.dijit"); // optimize: load dijit layer
 			dojo.require("dijit.form.SimpleTextarea");
-			dojo.require("dijit._BidiSupport");
 		</script>
 	</head>
 
@@ -62,11 +60,11 @@
 		<textarea id="programmaticLTR"></textarea>
 
 		<br>
-		<label>textDir="rtl":</label>		
+		<label>textDir="rtl":</label>
 		<textarea id="programmaticRTL"></textarea>
 
 		<br>
-		<label>textDir="auto":</label>		
+		<label>textDir="auto":</label>
 		<textarea id="programmaticAuto"></textarea>
 
 		<script type="text/javascript">
@@ -77,7 +75,7 @@
 					name: "programmaticTextAreaLTR",
 					cols: "60",
 					textDir:"ltr",
-					value: "", 
+					value: "",
 					style: "border:5px solid gray;padding:11px;margin:7px;"
 				}, "programmaticLTR");
 
@@ -100,7 +98,7 @@
 				}, "programmaticAuto");
 
 			});
-		</script>		
-		
+		</script>
+
 	</body>
 </html>

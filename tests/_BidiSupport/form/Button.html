@@ -18,27 +18,6 @@
 				margin-right: 10px;
 				vertical-align: middle;
 			}
-			.acmeButton .dijitButtonNode {
-				background: rgb(96,96,96) !important;
-				color: white !important;
-				padding: 10px !important;
-				font-size: x-large !important;
-				padding-top: 10px !important;
-				padding-bottom: 10px !important;
-				border: 2px inset rgb(96,96,96);
-			}
-			.acmeButtonHover .dijitButtonNode {
-				background-color: rgb(89,94,111) !important;
-				color: cyan !important;
-			}
-			.acmeButtonFocused .dijitButtonNode {
-				border: yellow inset 2px;
-			}
-			.acmeButtonActive .dijitButtonNode {
-				background-color: white !important;
-				color: black !important;
-				border: 2px solid black !important;
-			}
 		</style>
 
 		<!-- required: the default dijit theme: -->
@@ -46,7 +25,7 @@
 
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../dojo/dojo.js"
-		data-dojo-config="isDebug: true, parseOnLoad: true"></script>
+		data-dojo-config="isDebug: true, parseOnLoad: true, has: { 'dojo-bidi': true }"></script>
 
 		<script language="JavaScript" type="text/javascript">
 
@@ -59,226 +38,224 @@
 			"dijit/form/DropDownButton",
 			"dojo/dom",
 			"dojo/ready",
-			"dojo/parser",
-			"dijit/_BidiSupport"
+			"dojo/parser"
 	], function(registry, runner, Button, Menu, MenuItem, DropDownButton, dom, ready){
 
 		var createButton = function(){
-	   		var widget = new Button({label: "Button LTR ...", id: "progbLtr", textDir: "ltr"});
-	   		widget.placeAt("buttonContainer");	// place in page
-	  		var widget2 = new Button({label: "Button RTL ...", id: "progbRtl", textDir: "rtl"});
-	  		widget2.placeAt("buttonContainer");	// place in page
-	   		var widget3 = new Button({label: "START AUTO \u05e9\u05dc\u05d5\u05dd\u0021\u0021!...", id: "progbAuto1", textDir: "auto"});
-	   		widget3.placeAt("buttonContainer");	// place in page
-	   		var widget4 = new Button({label: "\u05e9\u05dc\u05d5\u05dd\u0021\u0021 AUTO END...", id: "progbAuto2"});
+			var widget = new Button({label: "Button LTR ...", id: "progbLtr", textDir: "ltr"});
+			widget.placeAt("buttonContainer");	// place in page
+			var widget2 = new Button({label: "Button RTL ...", id: "progbRtl", textDir: "rtl"});
+			widget2.placeAt("buttonContainer");	// place in page
+			var widget3 = new Button({label: "START AUTO \u05e9\u05dc\u05d5\u05dd\u0021\u0021!...", id: "progbAuto1", textDir: "auto"});
+			widget3.placeAt("buttonContainer");	// place in page
+			var widget4 = new Button({label: "\u05e9\u05dc\u05d5\u05dd\u0021\u0021 AUTO END...", id: "progbAuto2"});
 			widget4.set('textDir','auto');
-	   		widget4.placeAt("buttonContainer");	// place in page
+			widget4.placeAt("buttonContainer");	// place in page
 		};
 
 		var createDropDownButton = function(){
 			var menu = new Menu({ });
 			menu.domNode.style.display="none";
 			var menuItem1 = new MenuItem({
-					label: "Cut!",
-					iconClass:"registryEditorIcon registryEditorIconCut",
-					id:"progCut",
-					textDir:"ltr"
-					});
+				label: "Cut!",
+				iconClass:"registryEditorIcon registryEditorIconCut",
+				id:"progCut",
+				textDir:"ltr"
+			});
 			menu.addChild(menuItem1);
 
 			var menuItem2 = new MenuItem({
-					label: "Copy!",
-					iconClass:"registryEditorIcon registryEditorIconCopy",
-					id:"progCopy",
-					textDir:"rtl"
-					});
+				label: "Copy!",
+				iconClass:"registryEditorIcon registryEditorIconCopy",
+				id:"progCopy",
+				textDir:"rtl"
+			});
 			menu.addChild(menuItem2);
 
 			var menuItem3 = new MenuItem({
-					label: "Paste \u05e9\u05dc\u05d5\u05dd\u0021\u0021!...",
-					iconClass:"registryEditorIcon registryEditorIconPaste",
-					id:"progPaste",
-					textDir:"auto"
-					});
-
+				label: "Paste \u05e9\u05dc\u05d5\u05dd\u0021\u0021!...",
+				iconClass:"registryEditorIcon registryEditorIconPaste",
+				id:"progPaste",
+				textDir:"auto"
+			});
 			menu.addChild(menuItem3);
 
 			var menuItem4 = new MenuItem({
-					label: "\u05e9\u05dc\u05d5\u05dd\u0021\u0021!... Save!",
-					iconClass:"registryEditorIcon registryEditorIconSave",
-					id:"progSave",
-					textDir:"auto"
-					});
+				label: "\u05e9\u05dc\u05d5\u05dd\u0021\u0021!... Save!",
+				iconClass:"registryEditorIcon registryEditorIconSave",
+				id:"progSave",
+				textDir:"auto"
+				});
 			menu.addChild(menuItem4);
 
 			var params = {
-					label: "hello!",
-					name: "programmatic2",
-					dropDown: menu,
-					id: "progButton",
-					textDir:"auto"
-					};
+				label: "hello!",
+				name: "programmatic2",
+				dropDown: menu,
+				id: "progButton",
+				textDir:"auto"
+			};
 			var widget = new DropDownButton(params);
 			widget.startup();
 			dom.byId("dropdownButtonContainer").appendChild(widget.domNode);
-    	};
+		};
 
 		ready(function(){
 			runner.register("registry.tests._BidiSupport.form.Button", [
 
-					function test_LTR_TextDir(){
-						runner.assertEqual(registry.byId("bltr").get("textDir"), "ltr");
-						runner.assertEqual(registry.byId("bltr").containerNode.dir, "ltr");
-					},
+				function test_LTR_TextDir(){
+					runner.is(registry.byId("bltr").get("textDir"), "ltr");
+					runner.is(registry.byId("bltr").containerNode.dir, "ltr");
+				},
 
-					function test_LTR_TextDir_RTL_dir(){
-						runner.assertEqual(registry.byId("bltr_rtl").get("textDir"), "ltr");
-						runner.assertEqual(registry.byId("bltr_rtl").containerNode.dir, "ltr");
-					},
+				function test_LTR_TextDir_RTL_dir(){
+					runner.is(registry.byId("bltr_rtl").get("textDir"), "ltr");
+					runner.is(registry.byId("bltr_rtl").containerNode.dir, "ltr");
+				},
 
-					function test_RTL_TextDir_LTR_dir(){
-						runner.assertEqual(registry.byId("brtl_ltr").get("textDir"), "rtl");
-						runner.assertEqual(registry.byId("brtl_ltr").containerNode.dir, "rtl");
-					},
+				function test_RTL_TextDir_LTR_dir(){
+					runner.is(registry.byId("brtl_ltr").get("textDir"), "rtl");
+					runner.is(registry.byId("brtl_ltr").containerNode.dir, "rtl");
+				},
 
-					function test_RTL_TextDir(){
-						runner.assertEqual(registry.byId("brtl").get("textDir"), "rtl");
-						runner.assertEqual(registry.byId("brtl").containerNode.dir, "rtl");
-					},
+				function test_RTL_TextDir(){
+					runner.is(registry.byId("brtl").get("textDir"), "rtl");
+					runner.is(registry.byId("brtl").containerNode.dir, "rtl");
+				},
 
-					function test_AUTO_TextDir(){
-						runner.assertEqual(registry.byId("bauto_ltr").get("textDir"), "auto");
-						runner.assertEqual(registry.byId("bauto_ltr").containerNode.dir, "ltr");
-						runner.assertEqual(registry.byId("bauto_rtl").get("textDir"), "auto");
-						runner.assertEqual(registry.byId("bauto_rtl").containerNode.dir, "rtl");
-					},
+				function test_AUTO_TextDir(){
+					runner.is(registry.byId("bauto_ltr").get("textDir"), "auto");
+					runner.is(registry.byId("bauto_ltr").containerNode.dir, "ltr");
+					runner.is(registry.byId("bauto_rtl").get("textDir"), "auto");
+					runner.is(registry.byId("bauto_rtl").containerNode.dir, "rtl");
+				},
 
-					function test_ToggleButton_TextDirLTR(){
-						runner.assertEqual(registry.byId("togltr").get("textDir"), "ltr");
-						runner.assertEqual(registry.byId("togltr").containerNode.dir, "ltr");
-					},
+				function test_ToggleButton_TextDirLTR(){
+					runner.is(registry.byId("togltr").get("textDir"), "ltr");
+					runner.is(registry.byId("togltr").containerNode.dir, "ltr");
+				},
 
-					function test_ToggleButton_TextDirRTL(){
-						runner.assertEqual(registry.byId("togrtl").get("textDir"), "rtl");
-						runner.assertEqual(registry.byId("togrtl").containerNode.dir, "rtl");
-					},
+				function test_ToggleButton_TextDirRTL(){
+					runner.is(registry.byId("togrtl").get("textDir"), "rtl");
+					runner.is(registry.byId("togrtl").containerNode.dir, "rtl");
+				},
 
-					function test_ToggleButton_TextDirAUTO(){
-						runner.assertEqual(registry.byId("togauto_ltr").get("textDir"), "auto");
-						runner.assertEqual(registry.byId("togauto_ltr").containerNode.dir, "ltr");
-						runner.assertEqual(registry.byId("togauto_rtl").get("textDir"), "auto");
-						runner.assertEqual(registry.byId("togauto_rtl").containerNode.dir, "rtl");
-					},
+				function test_ToggleButton_TextDirAUTO(){
+					runner.is(registry.byId("togauto_ltr").get("textDir"), "auto");
+					runner.is(registry.byId("togauto_ltr").containerNode.dir, "ltr");
+					runner.is(registry.byId("togauto_rtl").get("textDir"), "auto");
+					runner.is(registry.byId("togauto_rtl").containerNode.dir, "rtl");
+				},
 
-					function test_programmat_button(){
-						createButton();
-						runner.assertEqual(registry.byId("progbLtr").get("textDir"), "ltr");
-						runner.assertEqual(registry.byId("progbLtr").containerNode.dir, "ltr");
-						runner.assertEqual(registry.byId("progbRtl").get("textDir"), "rtl");
-						runner.assertEqual(registry.byId("progbRtl").containerNode.dir, "rtl");
-						runner.assertEqual(registry.byId("progbAuto1").get("textDir"), "auto");
-						runner.assertEqual(registry.byId("progbAuto1").containerNode.dir, "ltr");
-						runner.assertEqual(registry.byId("progbAuto2").get("textDir"), "auto");
-						runner.assertEqual(registry.byId("progbAuto2").containerNode.dir, "rtl");
-					},
+				function test_programmat_button(){
+					createButton();
+					runner.is(registry.byId("progbLtr").get("textDir"), "ltr");
+					runner.is(registry.byId("progbLtr").containerNode.dir, "ltr");
+					runner.is(registry.byId("progbRtl").get("textDir"), "rtl");
+					runner.is(registry.byId("progbRtl").containerNode.dir, "rtl");
+					runner.is(registry.byId("progbAuto1").get("textDir"), "auto");
+					runner.is(registry.byId("progbAuto1").containerNode.dir, "ltr");
+					runner.is(registry.byId("progbAuto2").get("textDir"), "auto");
+					runner.is(registry.byId("progbAuto2").containerNode.dir, "rtl");
+				},
 
-					function test_changeLabel_forAUTO(){
-						var item = registry.byId("bauto_rtl");
-						runner.assertEqual(item.get("textDir"), "auto");
-						runner.assertEqual(item.containerNode.dir, "rtl");
-						item.set("label", "");
-						runner.assertEqual(item.containerNode.dir, "ltr");
-						item.set("label", "new label '\u05e9\u05d9\u05de\u05d5\u05e9\u0020\u05d1\u05ea\u05d2\u05d9\u05d5\u05ea\u002e'");
-						runner.assertEqual(item.containerNode.dir, "ltr");
-						item.set("label", "'\u05e9\u05d9\u05de\u05d5\u05e9\u0020\u05d1\u05ea\u05d2\u05d9\u05d5\u05ea\u002e'");
-						runner.assertEqual(item.containerNode.dir, "rtl");
-					},
+				function test_changeLabel_forAUTO(){
+					var item = registry.byId("bauto_rtl");
+					runner.is(item.get("textDir"), "auto");
+					runner.is(item.containerNode.dir, "rtl");
+					item.set("label", "");
+					runner.is(item.containerNode.dir, "ltr");
+					item.set("label", "new label '\u05e9\u05d9\u05de\u05d5\u05e9\u0020\u05d1\u05ea\u05d2\u05d9\u05d5\u05ea\u002e'");
+					runner.is(item.containerNode.dir, "ltr");
+					item.set("label", "'\u05e9\u05d9\u05de\u05d5\u05e9\u0020\u05d1\u05ea\u05d2\u05d9\u05d5\u05ea\u002e'");
+					runner.is(item.containerNode.dir, "rtl");
+				},
 
-					function test_DropDownButton_LTR_TextDir(){
-						runner.assertEqual(registry.byId("bltr_cut").get("textDir"), "ltr");
-						runner.assertEqual(registry.byId("bltr_cut").textDirNode.dir, "ltr");
-						runner.assertEqual(registry.byId("bltr_copy").get("textDir"), "ltr");
-						runner.assertEqual(registry.byId("bltr_copy").textDirNode.dir, "ltr");
-						runner.assertEqual(registry.byId("bltr_paste").get("textDir"), "rtl");
-						runner.assertEqual(registry.byId("bltr_paste").textDirNode.dir, "rtl");
-					},
+				function test_DropDownButton_LTR_TextDir(){
+					runner.is(registry.byId("bltr_cut").get("textDir"), "ltr");
+					runner.is(registry.byId("bltr_cut").textDirNode.dir, "ltr");
+					runner.is(registry.byId("bltr_copy").get("textDir"), "ltr");
+					runner.is(registry.byId("bltr_copy").textDirNode.dir, "ltr");
+					runner.is(registry.byId("bltr_paste").get("textDir"), "rtl");
+					runner.is(registry.byId("bltr_paste").textDirNode.dir, "rtl");
+				},
 
-					function test_DropDownButton_RTL_TextDir(){
-						runner.assertEqual(registry.byId("brtl_cut").get("textDir"), "rtl");
-						runner.assertEqual(registry.byId("brtl_cut").textDirNode.dir, "rtl");
-						runner.assertEqual(registry.byId("brtl_copy").get("textDir"), "ltr");
-						runner.assertEqual(registry.byId("brtl_copy").textDirNode.dir, "ltr");
-						runner.assertEqual(registry.byId("brtl_paste").get("textDir"), "rtl");
-						runner.assertEqual(registry.byId("brtl_paste").textDirNode.dir, "rtl");
-					},
+				function test_DropDownButton_RTL_TextDir(){
+					runner.is(registry.byId("brtl_cut").get("textDir"), "rtl");
+					runner.is(registry.byId("brtl_cut").textDirNode.dir, "rtl");
+					runner.is(registry.byId("brtl_copy").get("textDir"), "ltr");
+					runner.is(registry.byId("brtl_copy").textDirNode.dir, "ltr");
+					runner.is(registry.byId("brtl_paste").get("textDir"), "rtl");
+					runner.is(registry.byId("brtl_paste").textDirNode.dir, "rtl");
+				},
 
-					function test_DropDownButton_AUTO_TextDir(){
-						runner.assertEqual(registry.byId("bauto_cut").get("textDir"), "auto");
-						runner.assertEqual(registry.byId("bauto_cut").textDirNode.dir, "ltr");
-						runner.assertEqual(registry.byId("bauto_copy").get("textDir"), "auto");
-						runner.assertEqual(registry.byId("bauto_copy").textDirNode.dir, "rtl");
-					},
+				function test_DropDownButton_AUTO_TextDir(){
+					runner.is(registry.byId("bauto_cut").get("textDir"), "auto");
+					runner.is(registry.byId("bauto_cut").textDirNode.dir, "ltr");
+					runner.is(registry.byId("bauto_copy").get("textDir"), "auto");
+					runner.is(registry.byId("bauto_copy").textDirNode.dir, "rtl");
+				},
 
-					function test_ComboButton_TextDirLTR(){
-						runner.assertEqual(registry.byId("comboltr_cut").get("textDir"), "ltr");
-						runner.assertEqual(registry.byId("comboltr_cut").textDirNode.dir, "ltr");
-						runner.assertEqual(registry.byId("comboltr_copy").get("textDir"), "ltr");
-						runner.assertEqual(registry.byId("comboltr_copy").textDirNode.dir, "ltr");
-						runner.assertEqual(registry.byId("comboltr_paste").get("textDir"), "rtl");
-						runner.assertEqual(registry.byId("comboltr_paste").textDirNode.dir, "rtl");
-					},
+				function test_ComboButton_TextDirLTR(){
+					runner.is(registry.byId("comboltr_cut").get("textDir"), "ltr");
+					runner.is(registry.byId("comboltr_cut").textDirNode.dir, "ltr");
+					runner.is(registry.byId("comboltr_copy").get("textDir"), "ltr");
+					runner.is(registry.byId("comboltr_copy").textDirNode.dir, "ltr");
+					runner.is(registry.byId("comboltr_paste").get("textDir"), "rtl");
+					runner.is(registry.byId("comboltr_paste").textDirNode.dir, "rtl");
+				},
 
-					function test_ComboButton_TextDirRTL(){
-						runner.assertEqual(registry.byId("combortl_cut").get("textDir"), "rtl");
-						runner.assertEqual(registry.byId("combortl_cut").textDirNode.dir, "rtl");
-						runner.assertEqual(registry.byId("combortl_copy").get("textDir"), "ltr");
-						runner.assertEqual(registry.byId("combortl_copy").textDirNode.dir, "ltr");
-						runner.assertEqual(registry.byId("combortl_paste").get("textDir"), "rtl");
-						runner.assertEqual(registry.byId("combortl_paste").textDirNode.dir, "rtl");
-					},
+				function test_ComboButton_TextDirRTL(){
+					runner.is(registry.byId("combortl_cut").get("textDir"), "rtl");
+					runner.is(registry.byId("combortl_cut").textDirNode.dir, "rtl");
+					runner.is(registry.byId("combortl_copy").get("textDir"), "ltr");
+					runner.is(registry.byId("combortl_copy").textDirNode.dir, "ltr");
+					runner.is(registry.byId("combortl_paste").get("textDir"), "rtl");
+					runner.is(registry.byId("combortl_paste").textDirNode.dir, "rtl");
+				},
 
-					function test_ComboButton_TextDirAUTO(){
-						runner.assertEqual(registry.byId("comboauto_cut").get("textDir"), "auto");
-						runner.assertEqual(registry.byId("comboauto_cut").textDirNode.dir, "ltr");
-						runner.assertEqual(registry.byId("comboauto_copy").get("textDir"), "auto");
-						runner.assertEqual(registry.byId("comboauto_copy").textDirNode.dir, "rtl");
-					},
+				function test_ComboButton_TextDirAUTO(){
+					runner.is(registry.byId("comboauto_cut").get("textDir"), "auto");
+					runner.is(registry.byId("comboauto_cut").textDirNode.dir, "ltr");
+					runner.is(registry.byId("comboauto_copy").get("textDir"), "auto");
+					runner.is(registry.byId("comboauto_copy").textDirNode.dir, "rtl");
+				},
 
-					function test_programmat_DropDownButton(){
-						createDropDownButton ();
-						runner.assertEqual(registry.byId("progCut").get("textDir"), "ltr");
-						runner.assertEqual(registry.byId("progCut").textDirNode.dir, "ltr");
-						runner.assertEqual(registry.byId("progCopy").get("textDir"), "rtl");
-						runner.assertEqual(registry.byId("progCopy").textDirNode.dir, "rtl");
-						runner.assertEqual(registry.byId("progPaste").get("textDir"), "auto");
-						runner.assertEqual(registry.byId("progPaste").textDirNode.dir, "ltr");
-						runner.assertEqual(registry.byId("progSave").get("textDir"), "auto");
-						runner.assertEqual(registry.byId("progSave").textDirNode.dir, "rtl");
-					},
+				function test_programmat_DropDownButton(){
+					createDropDownButton ();
+					runner.is(registry.byId("progCut").get("textDir"), "ltr");
+					runner.is(registry.byId("progCut").textDirNode.dir, "ltr");
+					runner.is(registry.byId("progCopy").get("textDir"), "rtl");
+					runner.is(registry.byId("progCopy").textDirNode.dir, "rtl");
+					runner.is(registry.byId("progPaste").get("textDir"), "auto");
+					runner.is(registry.byId("progPaste").textDirNode.dir, "ltr");
+					runner.is(registry.byId("progSave").get("textDir"), "auto");
+					runner.is(registry.byId("progSave").textDirNode.dir, "rtl");
+				},
 
-					function test_DropDownButton_changeLabel_forAUTO(){
-						var item = registry.byId("bauto_copy");
-						runner.assertEqual(item.get("textDir"), "auto");
-						runner.assertEqual(item.textDirNode.dir, "rtl");
-						item.set("label", "");
-						runner.assertEqual(item.textDirNode.dir, "ltr");
-						item.set("label", "new label '\u05e9\u05d9\u05de\u05d5\u05e9\u0020\u05d1\u05ea\u05d2\u05d9\u05d5\u05ea\u002e'");
-						runner.assertEqual(item.textDirNode.dir, "ltr");
-						item.set("label", "'\u05e9\u05d9\u05de\u05d5\u05e9\u0020\u05d1\u05ea\u05d2\u05d9\u05d5\u05ea\u002e'");
-						runner.assertEqual(item.textDirNode.dir, "rtl");
-					},
+				function test_DropDownButton_changeLabel_forAUTO(){
+					var item = registry.byId("bauto_copy");
+					runner.is(item.get("textDir"), "auto");
+					runner.is(item.textDirNode.dir, "rtl");
+					item.set("label", "");
+					runner.is(item.textDirNode.dir, "ltr");
+					item.set("label", "new label '\u05e9\u05d9\u05de\u05d5\u05e9\u0020\u05d1\u05ea\u05d2\u05d9\u05d5\u05ea\u002e'");
+					runner.is(item.textDirNode.dir, "ltr");
+					item.set("label", "'\u05e9\u05d9\u05de\u05d5\u05e9\u0020\u05d1\u05ea\u05d2\u05d9\u05d5\u05ea\u002e'");
+					runner.is(item.textDirNode.dir, "rtl");
+				},
 
-					function test_deepMenu(){
-						runner.assertEqual(registry.byId("level3_cut").get("textDir"), "auto");
-						runner.assertEqual(registry.byId("level3_cut").textDirNode.dir, "ltr");
-						runner.assertEqual(registry.byId("level4_cut").get("textDir"), "auto");
-						runner.assertEqual(registry.byId("level4_cut").textDirNode.dir, "rtl");
-					}
+				function test_deepMenu(){
+					runner.is(registry.byId("level3_cut").get("textDir"), "auto");
+					runner.is(registry.byId("level3_cut").textDirNode.dir, "ltr");
+					runner.is(registry.byId("level4_cut").get("textDir"), "auto");
+					runner.is(registry.byId("level4_cut").textDirNode.dir, "rtl");
+				}
 			]);
 			runner.run();
 		});
 	});
-    </script>
+	</script>
 	</head>
 <body class="claro">
 	<h1 class="testTitle">registry Button Test</h1>

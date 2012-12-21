@@ -248,7 +248,7 @@ define([
 	});
 
 
-	var InlineEditBox = declare("dijit.InlineEditBox", _Widget, {
+	var InlineEditBox = declare("dijit.InlineEditBox" + (has("dojo-bidi") ? "_NoBidi" : ""), _Widget, {
 		// summary:
 		//		An element with in-line edit capabilities
 		//
@@ -602,8 +602,6 @@ define([
 					this.onChange(val);
 				}); // defer prevents browser freeze for long-running event handlers
 			}
-			// contextual (auto) text direction depends on the text value
-			this.applyTextDir(this.displayNode);
 		},
 
 		getValue: function(){
@@ -632,6 +630,15 @@ define([
 			this._showText(focus);
 		}
 	});
+
+	if(has("dojo-bidi")){
+		InlineEditBox = declare("dijit.InlineEditBox", InlineEditBox, {
+			_setValueAttr: function(){
+				this.inherited(arguments);
+				this.applyTextDir(this.displayNode);
+			}
+		});
+	}
 
 	InlineEditBox._InlineEditor = InlineEditor;	// for monkey patching
 

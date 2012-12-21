@@ -13,7 +13,7 @@
 		}
 		div#sel1, div#sel2,div#sel3 {
 			float: left;
-			
+
 		}
 		div#leftRightButtons,div#leftRightButtons2 {
 			float: left;
@@ -27,7 +27,7 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../../dojo/dojo.js"
-		data-dojo-config="isDebug: true, parseOnLoad: true"></script>
+		data-dojo-config="isDebug: true, parseOnLoad: true, has: { 'dojo-bidi': true }"></script>
 
 	<!-- only needed for alternate theme testing: -->
 	<script type="text/javascript" src="../../_testCommon.js"></script>
@@ -35,9 +35,8 @@
 	<script type="text/javascript">
 		var globalId = null;
 
-		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.form.MultiSelect");
-		dojo.require("dijit._BidiSupport");
+
 		// needed for tests:
 		dojo.require("dijit.form.Form");
 		dojo.require("dijit.form.Button");
@@ -46,15 +45,14 @@
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 		dojo.require("doh.runner");
 
-		dojo.addOnLoad(function(){
+		dojo.ready(function(){
 
 			// ref a clonable node, then split it between two selects
 			var c = dojo.query(".clone")[0];
 			var l = -1;
 			opt = function(){
 				return dojo.byId((++l%2 == 0 ? "select1":"select2" ));
-			}
-
+			};
 
 			// turn any non-data-dojo-type selects into widgets programatically:
 			dojo.query("select").forEach(function(n){
@@ -63,9 +61,9 @@
 					var foo = new dijit.form.MultiSelect({ textDir: textDir ,name: n.name }, n);
 				}
 			});
-			
+
 			// programatic
-			var myWidget = new dijit.form.MultiSelect({textDir: "auto"}); 
+			var myWidget = new dijit.form.MultiSelect({textDir: "auto"});
 			myWidget.placeAt(dojo.body());
 			globalId = myWidget.id;
 
@@ -106,7 +104,7 @@
 				var vals = dojo.formToJson("test");
 				console.log(vals);
 			});
-			
+
 			// Testing:
 			var originalList = [
 				"Tennessee...",
@@ -121,7 +119,7 @@
 				"WA",
 				"FL",
 				"CA"
-			];			
+			];
 			var lreList = [
 				"\u202ATennessee...\u202C",
 				"\u202A\u05d5\u05d9\u05e8\u05d2\u0027\u05d9\u05e0\u05d9\u05d4...\u202C",
@@ -142,7 +140,7 @@
 				"\u202AWashington...\u202C",
 				"\u202AFlorida...\u202C",
 				"\u202ACalifornia...\u202C"
-			];	
+			];
 			doh.register("parse", function(){
 				dojo.parser.parse();
 			});
@@ -151,14 +149,14 @@
 				select3 = dijit.byId("select3"),
 				select4 = dijit.byId("select4"),
 				select5 = dijit.byId(globalId),
-				
+
 				button12 = dojo.byId("button12"),
 				button21 = dojo.byId("button21"),
 				button32 = dojo.byId("button32"),
 				button23 = dojo.byId("button23"),
 				buttonUp = dojo.byId("up"),
 				buttonDown = dojo.byId("down"),
-				
+
 				bidiLtr, bidiRtl, bidiAuto;
 
 			doh.register("test multiSelect", [
@@ -171,12 +169,12 @@
 						doh.is("rtl", select4.textDir, "textDir of - " + select4.id);
 						doh.is("auto", select5.textDir, "textDir of - " + select5.id);
 					}
-				},			
+				},
 				{
 					name:"test options: select1, select4",
 
 					runTest:function(){
-						var select1 = dijit.byId("select1"), select4 = dijit.byId("select4");					
+						var select1 = dijit.byId("select1"), select4 = dijit.byId("select4");
 						var select1OptionsArr = select1.containerNode.options;
 						var select4OptionsArr = select4.containerNode.options;
 						for(var index = 0; index < select1.containerNode.options.length; index++){
@@ -189,25 +187,25 @@
 
 						}
 					}
-				},			
+				},
 				{
 					name:"set value: select1, select2",
 
 					runTest:function(){
-		
+
 						var select1OptionsArr = select1.containerNode.options;
 						var select2OptionsArr = select2.containerNode.options;
-						
+
 						select1.set("value", ["Tennessee...","\u05d5\u05d9\u05e8\u05d2\u0027\u05d9\u05e0\u05d9\u05d4...","FL","CA"]);
 						button12.click();
-						
+
 						// Florida button21
 						doh.is(rleList[2], select1OptionsArr[0].text, "select1 - option.text: " + 1);
 						doh.is(valueList[2], select1OptionsArr[0].value, "select1 - option.value: " + 1);
 
 						doh.is(autoList[0], select2OptionsArr[0].text, "select2 - option.text: " + 1);
 						doh.is(valueList[0], select2OptionsArr[0].value, "select2 - option.value: " + 1);
-						
+
 						doh.is(autoList[1], select2OptionsArr[1].text, "select2 - option.text: " + 2);
 						doh.is(valueList[1], select2OptionsArr[1].value, "select2 - option.value: " + 2);
 
@@ -218,22 +216,22 @@
 						doh.is(valueList[4], select2OptionsArr[3].value, "select2 - option.value: " + 4);
 
 					}
-				},			
+				},
 				{
 					name:"set value: select2, select3",
 
 					runTest:function(){
-		
+
 						var d = new doh.Deferred();
-						
+
 						//select1.set("value", ["Tennessee...","\u05d5\u05d9\u05e8\u05d2\u0027\u05d9\u05e0\u05d9\u05d4...","FL","CA"]);
 						button23.click();
 
 						var select3OptionsArr = select3.containerNode.options;
-						
+
 						doh.is(originalList[0], select3OptionsArr[0].text, "select3 - option.text: " + 1);
 						doh.is(valueList[0], select3OptionsArr[0].value, "select3 - option.value: " + 1);
-						
+
 						doh.is(originalList[1], select3OptionsArr[1].text, "select3 - option.text: " + 2);
 						doh.is(valueList[1], select3OptionsArr[1].value, "select3 - option.value: " + 2);
 
@@ -245,10 +243,10 @@
 
 						select3.set("value", ["\u05d5\u05d9\u05e8\u05d2\u0027\u05d9\u05e0\u05d9\u05d4...","FL","CA"]);
 						button32.click();
-						
+
 						var select2OptionsArr = select2.containerNode.options;
 
-						setTimeout(d.getTestCallback(function(){								
+						setTimeout(d.getTestCallback(function(){
 							doh.is(autoList[1], select2OptionsArr[0].text, "select2 - option.text: " + 1);
 							doh.is(valueList[1], select2OptionsArr[0].value, "select2 - option.value: " + 1);
 
@@ -259,24 +257,24 @@
 							doh.is(valueList[4], select2OptionsArr[2].value, "select2 - option.value: " + 3);
 						}), 100);
 						return d;
-						
+
 					}
-				},			
+				},
 				{
 					name:"set value: select4, select5",
 
 					runTest:function(){
-					
+
 						var d = new doh.Deferred();
-						
+
 						select4.set("value", ["Tennessee...","\u05d5\u05d9\u05e8\u05d2\u0027\u05d9\u05e0\u05d9\u05d4...","FL","CA"]);
 						buttonDown.click();
 
 						var select5OptionsArr = select5.containerNode.options;
-						
+
 						doh.is(autoList[0], select5OptionsArr[0].text, "select5 - option.text: " + 1);
 						doh.is(valueList[0], select5OptionsArr[0].value, "select5 - option.value: " + 1);
-						
+
 						doh.is(autoList[1], select5OptionsArr[1].text, "select5 - option.text: " + 2);
 						doh.is(valueList[1], select5OptionsArr[1].value, "select5 - option.value: " + 2);
 
@@ -288,10 +286,10 @@
 
 						select5.set("value", ["\u05d5\u05d9\u05e8\u05d2\u0027\u05d9\u05e0\u05d9\u05d4...","FL","CA"]);
 						buttonUp.click();
-						
+
 						var select4OptionsArr = select4.containerNode.options;
 
-						setTimeout(d.getTestCallback(function(){								
+						setTimeout(d.getTestCallback(function(){
 							doh.is(rleList[2], select4OptionsArr[0].text, "select4 - option.text: " + 1);
 							doh.is(valueList[2], select4OptionsArr[0].value, "select4 - option.value: " + 1);
 
@@ -305,11 +303,11 @@
 							doh.is(valueList[4], select4OptionsArr[3].value, "select4 - option.value: " + 3);
 						}), 100);
 						return d;
-						
+
 					}
 				}
-			]);	
-			doh.run();			
+			]);
+			doh.run();
 		});
 	</script>
 </head>
@@ -351,7 +349,7 @@
 				<label for="select3">Third list:</label><br>
 				<select id="select3" multiple size="7" name="third">
 				</select>
-			</div>				
+			</div>
 		</div>
 
 		<br style="clear: both;"/><br>
@@ -361,7 +359,7 @@
 		<button class="invert" id="i4">invert third list</button>
 		<button id="formSubmit" type="submit">Submit</button>
 		<button class="debug">call get('value')</button>
-		
+
 		<h3><label for="select4">markup:</label></h3>
 
 		<select id="select4" multiple data-dojo-type="dijit.form.MultiSelect"

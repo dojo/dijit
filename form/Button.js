@@ -22,7 +22,7 @@ if(has("dijit-legacy-requires")){
 	});
 }
 
-return declare("dijit.form.Button", [_FormWidget, _ButtonMixin], {
+var Button = declare("dijit.form.Button" + (has("dojo-bidi") ? "_NoBidi" : ""), [_FormWidget, _ButtonMixin], {
 	// summary:
 	//		Basically the same thing as a normal HTML button, but with special styling.
 	// description:
@@ -96,18 +96,27 @@ return declare("dijit.form.Button", [_FormWidget, _ButtonMixin], {
 		this.inherited(arguments);
 		if(!this.showLabel && !("title" in this.params)){
 			this.titleNode.title = lang.trim(this.containerNode.innerText || this.containerNode.textContent || '');
-			if(this.textDir && this.titleNode.title){
-				this.applyTextDir(this.titleNode, this.titleNode.title);
-			}
-		}
-	},
-
-	_setTextDirAttr: function(/*String*/ textDir){
-		if(this._created && this.textDir != textDir){
-			this._set("textDir", textDir);
-			this._setLabelAttr(this.label); // call applyTextDir on both focusNode and titleNode
 		}
 	}
 });
 
+if(has("dojo-bidi")){
+	Button = declare("dijit.form.Button", Button, {
+		_setLabelAttr: function(/*String*/ content){
+			this.inherited(arguments);
+			if(this.titleNode.title){
+				this.applyTextDir(this.titleNode, this.titleNode.title);
+			}
+		},
+
+		_setTextDirAttr: function(/*String*/ textDir){
+			if(this._created && this.textDir != textDir){
+				this._set("textDir", textDir);
+				this._setLabelAttr(this.label); // call applyTextDir on both focusNode and titleNode
+			}
+		}
+	});
+}
+
+return Button;
 });

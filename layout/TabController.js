@@ -3,6 +3,7 @@ define([
 	"dojo/dom", // dom.setSelectable
 	"dojo/dom-attr", // domAttr.attr
 	"dojo/dom-class", // domClass.toggle
+	"dojo/has",
 	"dojo/i18n", // i18n.getLocalization
 	"dojo/_base/lang", // lang.hitch lang.trim
 	"./StackController",
@@ -11,12 +12,12 @@ define([
 	"../MenuItem",
 	"dojo/text!./templates/_TabButton.html",
 	"dojo/i18n!../nls/common"
-], function(declare, dom, domAttr, domClass, i18n, lang, StackController, registry, Menu, MenuItem, template){
+], function(declare, dom, domAttr, domClass, has, i18n, lang, StackController, registry, Menu, MenuItem, template){
 
 	// module:
 	//		dijit/layout/TabController
 
-	var TabButton = declare("dijit.layout._TabButton", StackController.StackButton, {
+	var TabButton = declare("dijit.layout._TabButton" + (has("dojo-bidi") ? "_NoBidi" : ""), StackController.StackButton, {
 		// summary:
 		//		A tab (the thing you click to select a pane).
 		// description:
@@ -101,12 +102,18 @@ define([
 			this.inherited(arguments);
 			if(!this.showLabel && !this.params.title){
 				this.iconNode.alt = lang.trim(this.containerNode.innerText || this.containerNode.textContent || '');
-				if(this.textDir){
-					this.applyTextDir(this.iconNode, this.iconNode.alt);
-				}
 			}
 		}
 	});
+
+	if(has("dojo-bidi")){
+		TabButton = declare("dijit.layout._TabButton", TabButton, {
+			_setLabelAttr: function(/*String*/ content){
+				this.inherited(arguments);
+				this.applyTextDir(this.iconNode, this.iconNode.alt);
+			}
+		});
+	}
 
 	var TabController = declare("dijit.layout.TabController", StackController, {
 		// summary:

@@ -30,11 +30,9 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../../dojo/dojo.js"
-		data-dojo-config="parseOnLoad: true, isDebug: true"></script>
+		data-dojo-config="parseOnLoad: true, isDebug: true, has: { 'dojo-bidi': true }"></script>
 
 	<script type="text/javascript">
-		dojo.require("dijit.dijit"); // optimize: load dijit layer
-
 		dojo.require("dijit.Menu");
 		dojo.require("dijit.MenuItem");
 		dojo.require("dijit.PopupMenuItem");
@@ -47,7 +45,6 @@
 
 		dojo.require("dijit.ColorPalette");
 		dojo.require("dijit.form.TextBox");
-		dojo.require("dijit._BidiSupport");
 		dojo.require("doh.runner");
 
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
@@ -106,91 +103,88 @@
 			// (so a programmatic menu is created, reload, and "the create
 			// programmatic menu" button is still in disabled state)
 			updateButtons(false);
-		});
 
-		dojo.addOnLoad(function(){
+			doh.register("dijit.tests._BidiSupport.widget.MenuItem", [
+				function test_LTR_TextDir(){
+					doh.is(dijit.byId("open").get("textDir"), "ltr");
+					doh.is(dijit.byId("open").textDirNode.dir, "ltr");
+					doh.is(dijit.byId("navMenuComedy").get("textDir"), "ltr");
+					doh.is(dijit.byId("navMenuComedy").textDirNode.dir, "ltr");
+				},
 
-				doh.register("dijit.tests._BidiSupport.widget.MenuItem", [
-					function test_LTR_TextDir(){
-						doh.assertEqual(dijit.byId("open").get("textDir"), "ltr");
-						doh.assertEqual(dijit.byId("open").textDirNode.dir, "ltr");
-						doh.assertEqual(dijit.byId("navMenuComedy").get("textDir"), "ltr");
-						doh.assertEqual(dijit.byId("navMenuComedy").textDirNode.dir, "ltr");
-					},
+				function test_LTR_TextDir_RTL_dir(){
+					doh.is(dijit.byId("menu2").get("textDir"), "ltr");
+					doh.is(dijit.byId("menu2").textDirNode.dir, "ltr");
+				},
 
-					function test_LTR_TextDir_RTL_dir(){
-						doh.assertEqual(dijit.byId("menu2").get("textDir"), "ltr");
-						doh.assertEqual(dijit.byId("menu2").textDirNode.dir, "ltr");
-					},
+				function test_RTL_TextDir_LTR_dir(){
+					doh.is(dijit.byId("menu1").get("textDir"), "rtl");
+					doh.is(dijit.byId("menu1").textDirNode.dir, "rtl");
+				},
 
-					function test_RTL_TextDir_LTR_dir(){
-						doh.assertEqual(dijit.byId("menu1").get("textDir"), "rtl");
-						doh.assertEqual(dijit.byId("menu1").textDirNode.dir, "rtl");
-					},
+				function test_RTL_TextDir(){
+					doh.is(dijit.byId("new").get("textDir"), "rtl");
+					doh.is(dijit.byId("new").textDirNode.dir, "rtl");
+					doh.is(dijit.byId("navMenuDrama").get("textDir"), "rtl");
+					doh.is(dijit.byId("navMenuDrama").textDirNode.dir, "rtl");
+				},
 
-					function test_RTL_TextDir(){
-						doh.assertEqual(dijit.byId("new").get("textDir"), "rtl");
-						doh.assertEqual(dijit.byId("new").textDirNode.dir, "rtl");
-						doh.assertEqual(dijit.byId("navMenuDrama").get("textDir"), "rtl");
-						doh.assertEqual(dijit.byId("navMenuDrama").textDirNode.dir, "rtl");
-					},
+				function test_AUTO_TextDir(){
+					doh.is(dijit.byId("save").get("textDir"), "auto");
+					doh.is(dijit.byId("save").textDirNode.dir, "ltr");
+					doh.is(dijit.byId("saveas").get("textDir"), "auto");
+					doh.is(dijit.byId("saveas").textDirNode.dir, "rtl");
+				},
 
-					function test_AUTO_TextDir(){
-						doh.assertEqual(dijit.byId("save").get("textDir"), "auto");
-						doh.assertEqual(dijit.byId("save").textDirNode.dir, "ltr");
-						doh.assertEqual(dijit.byId("saveas").get("textDir"), "auto");
-						doh.assertEqual(dijit.byId("saveas").textDirNode.dir, "rtl");
-					},
+				function test_PopupMenuBarItem_TextDirLTR(){
+					doh.is(dijit.byId("file").get("textDir"), "ltr");
+					doh.is(dijit.byId("file").textDirNode.dir, "ltr");
+				},
 
-					function test_PopupMenuBarItem_TextDirLTR(){
-						doh.assertEqual(dijit.byId("file").get("textDir"), "ltr");
-						doh.assertEqual(dijit.byId("file").textDirNode.dir, "ltr");
-					},
+				function test_PopupMenuBarItem_TextDirRTL(){
+					doh.is(dijit.byId("view").get("textDir"), "rtl");
+					doh.is(dijit.byId("view").textDirNode.dir, "rtl");
+				},
 
-					function test_PopupMenuBarItem_TextDirRTL(){
-						doh.assertEqual(dijit.byId("view").get("textDir"), "rtl");
-						doh.assertEqual(dijit.byId("view").textDirNode.dir, "rtl");
-					},
+				function test_PopupMenuBarItem_TextDirAUTO(){
+					doh.is(dijit.byId("empty").get("textDir"), "auto");
+					doh.is(dijit.byId("empty").textDirNode.dir, "ltr");
+				},
 
-					function test_PopupMenuBarItem_TextDirAUTO(){
-						doh.assertEqual(dijit.byId("empty").get("textDir"), "auto");
-						doh.assertEqual(dijit.byId("empty").textDirNode.dir, "ltr");
-					},
+				function test_PopupMenuItem_TextDirRTL(){
+					doh.is(dijit.byId("popupMenuItem").get("textDir"), "rtl");
+					doh.is(dijit.byId("popupMenuItem").textDirNode.dir, "rtl");
+				},
 
-					function test_PopupMenuItem_TextDirRTL(){
-						doh.assertEqual(dijit.byId("popupMenuItem").get("textDir"), "rtl");
-						doh.assertEqual(dijit.byId("popupMenuItem").textDirNode.dir, "rtl");
-					},
+				function test_PopupMenuItem_TextDirAUTO(){
+					doh.is(dijit.byId("navMenuDisabledItem").get("textDir"), "auto");
+					doh.is(dijit.byId("navMenuDisabledItem").textDirNode.dir, "rtl");
+				},
 
-					function test_PopupMenuItem_TextDirAUTO(){
-						doh.assertEqual(dijit.byId("navMenuDisabledItem").get("textDir"), "auto");
-						doh.assertEqual(dijit.byId("navMenuDisabledItem").textDirNode.dir, "rtl");
-					},
+				function test_programmat_menuitem(){
+					createMenu();
+					doh.is(dijit.byId("progItemLtr").get("textDir"), "ltr");
+					doh.is(dijit.byId("progItemLtr").textDirNode.dir, "ltr");
+					doh.is(dijit.byId("progItemRtl").get("textDir"), "rtl");
+					doh.is(dijit.byId("progItemRtl").textDirNode.dir, "rtl");
+					doh.is(dijit.byId("progItemAuto1").get("textDir"), "auto");
+					doh.is(dijit.byId("progItemAuto1").textDirNode.dir, "ltr");
+					doh.is(dijit.byId("progItemAuto2").get("textDir"), "auto");
+					doh.is(dijit.byId("progItemAuto2").textDirNode.dir, "rtl");
+					destroyMenu();
+				},
 
-					function test_programmat_menuitem(){
-						createMenu();
-						doh.assertEqual(dijit.byId("progItemLtr").get("textDir"), "ltr");
-						doh.assertEqual(dijit.byId("progItemLtr").textDirNode.dir, "ltr");
-						doh.assertEqual(dijit.byId("progItemRtl").get("textDir"), "rtl");
-						doh.assertEqual(dijit.byId("progItemRtl").textDirNode.dir, "rtl");
-						doh.assertEqual(dijit.byId("progItemAuto1").get("textDir"), "auto");
-						doh.assertEqual(dijit.byId("progItemAuto1").textDirNode.dir, "ltr");
-						doh.assertEqual(dijit.byId("progItemAuto2").get("textDir"), "auto");
-						doh.assertEqual(dijit.byId("progItemAuto2").textDirNode.dir, "rtl");
-						destroyMenu();
-					},
-
-					function test_changeLabel_forAUTO(){
-						var item = dijit.byId("saveas");
-						doh.assertEqual(item.get("textDir"), "auto");
-						doh.assertEqual(item.textDirNode.dir, "rtl");
-						item.set("label", "");
-						doh.assertEqual(item.textDirNode.dir, "ltr");
-						item.set("label", "new label '\u05e9\u05d9\u05de\u05d5\u05e9\u0020\u05d1\u05ea\u05d2\u05d9\u05d5\u05ea\u002e'");
-						doh.assertEqual(item.textDirNode.dir, "ltr");
-						item.set("label", "'\u05e9\u05d9\u05de\u05d5\u05e9\u0020\u05d1\u05ea\u05d2\u05d9\u05d5\u05ea\u002e'");
-						doh.assertEqual(item.textDirNode.dir, "rtl");
-					}
+				function test_changeLabel_forAUTO(){
+					var item = dijit.byId("saveas");
+					doh.is(item.get("textDir"), "auto");
+					doh.is(item.textDirNode.dir, "rtl");
+					item.set("label", "");
+					doh.is(item.textDirNode.dir, "ltr");
+					item.set("label", "new label '\u05e9\u05d9\u05de\u05d5\u05e9\u0020\u05d1\u05ea\u05d2\u05d9\u05d5\u05ea\u002e'");
+					doh.is(item.textDirNode.dir, "ltr");
+					item.set("label", "'\u05e9\u05d9\u05de\u05d5\u05e9\u0020\u05d1\u05ea\u05d2\u05d9\u05d5\u05ea\u002e'");
+					doh.is(item.textDirNode.dir, "rtl");
+				}
 			]);
 			doh.run();
 		});

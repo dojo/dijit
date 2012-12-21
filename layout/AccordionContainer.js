@@ -52,7 +52,6 @@ define([
 	// During animation there are two dijtAccordionChildWrapper's shown, so we need
 	// to compensate for that.
 
-
 	var AccordionButton = declare("dijit.layout._AccordionButton", [_Widget, _TemplatedMixin, _CssStateMixin], {
 		// summary:
 		//		The title bar to click to open up an accordion pane.
@@ -65,24 +64,12 @@ define([
 		// label: String
 		//		Title of the pane
 		label: "",
-		_setLabelAttr: function(label){
-			this._set("label", label);
-			domAttr.set(this.titleTextNode, "innerHTML", label);
-			if(this.textDir){
-				this.applyTextDir(this.titleTextNode);
-			}
-		},
+		_setLabelAttr: {node: "titleTextNode", type: "innerHTML" },
 
 		// title: String
 		//		Tooltip that appears on hover
 		title: "",
-		_setTitleAttr: function(title){
-			this._set("title", title);
-			domAttr.set(this.titleTextNode, "title", title);
-			if(this.textDir){
-				this.applyTextDir(this.titleTextNode);
-			}
-		},
+		_setTitleAttr: {node: "titleTextNode", type: "attribute", attribute: "title"},
 
 		// iconClassAttr: String
 		//		CSS class for icon to left of label
@@ -135,7 +122,23 @@ define([
 		}
 	});
 
-	var AccordionInnerContainer = declare("dijit.layout._AccordionInnerContainer", [_Widget, _CssStateMixin], {
+	if(has("dojo-bidi")){
+		AccordionButton.extend({
+			_setLabelAttr: function(label){
+				this._set("label", label);
+				domAttr.set(this.titleTextNode, "innerHTML", label);
+				this.applyTextDir(this.titleTextNode);
+			},
+
+			_setTitleAttr: function(title){
+				this._set("title", title);
+				domAttr.set(this.titleTextNode, "title", title);
+				this.applyTextDir(this.titleTextNode);
+			}
+		});
+	}
+
+	var AccordionInnerContainer = declare("dijit.layout._AccordionInnerContainer" + (has("dojo-bidi") ? "_NoBidi" : ""), [_Widget, _CssStateMixin], {
 		// summary:
 		//		Internal widget placed as direct child of AccordionContainer.containerNode.
 		//		When other widgets are added as children to an AccordionContainer they are wrapped in
@@ -211,9 +214,6 @@ define([
 				})),
 				cw.watch('iconClass', lang.hitch(this, function(name, oldValue, newValue){
 					button.set("iconClass", newValue);
-				})),
-				cw.watch('textDir', lang.hitch(this, function(name, oldValue, newValue){
-					button.set("textDir", newValue);
 				}))
 			];
 		},
@@ -248,6 +248,22 @@ define([
 			this.contentWidget.destroyRecursive(preserveDom);
 		}
 	});
+
+	if(has("dojo-bidi")){
+		AccordionInnerContainer = declare("dijit.layout._AccordionInnerContainer", AccordionInnerContainer, {
+			postCreate: function(){
+				this.inherited(arguments);
+
+				// Map changes in content widget's textdir to changes in the button
+				var button = this.button;
+				this._contentWidgetWatches.push(
+					this.contentWidget.watch("textDir", function(name, oldValue, newValue){
+						button.set("textDir", newValue);
+					})
+				);
+			}
+		});
+	}
 
 	var AccordionContainer = declare("dijit.layout.AccordionContainer", StackContainer, {
 		// summary:
@@ -353,7 +369,7 @@ define([
 
 			// Since we are wrapping children in AccordionInnerContainer, replace the default
 			// wrapper that we created in StackContainer.
-			domConstruct.place(child.domNode, child._wrapper, "replace");																															
+			domConstruct.place(child.domNode, child._wrapper, "replace");
 		},
 
 		removeChild: function(child){

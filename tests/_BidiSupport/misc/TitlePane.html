@@ -11,7 +11,7 @@
 
 	<link id="themeStyles" rel="stylesheet" href="../../../themes/claro/claro.css"/>
 	<script type="text/javascript" src="../../../../dojo/dojo.js"
-		data-dojo-config="async: true, parseOnLoad: true"></script>
+		data-dojo-config="async: true, parseOnLoad: true, has: { 'dojo-bidi': true }"></script>
 
 	<script type="text/javascript">
 		require([
@@ -21,26 +21,25 @@
 			"dojo/ready",
 			"dojo/query",
 			"dojo/parser",
-			"dijit/_BidiSupport",
 			"dijit/TitlePane"
-			], function(registry,runner,dom,ready,query){
+			], function(registry, runner, dom, ready, query){
 				ready(function(){
 					runner.register("tests._BidiSupport.misc.TitlePane.Bidi", [
 						{
-							name: "TitlePane Bidi",					
+							name: "TitlePane Bidi",
 							runTest: function(){
 								registry.byId("pane_2").set('textDir', "rtl");
-								runner.is("rtl", registry.byId("pane_1").titleNode.dir, "title node had direction correspondent to 'textDir'");								
-								runner.is("rtl", registry.byId("pane_2").titleNode.dir, "title node had direction correspondent to 'textDir'");									
+								runner.is("rtl", registry.byId("pane_1").titleNode.dir, "title node had direction correspondent to 'textDir'");
+								runner.is("rtl", registry.byId("pane_2").titleNode.dir, "title node had direction correspondent to 'textDir'");
 							}
 						}
 					]);
-	
+
 					runner.register("log", function(){
 						dom.byId('failures').innerHTML = runner._failureCount;
 						dom.byId('errors').innerHTML = runner._errorCount;
 					});
-	
+
 					runner.run();
 				});
 			});
@@ -52,22 +51,22 @@
 	<div id="pane_1" data-dojo-id="pane1" data-dojo-type="dijit/TitlePane" data-dojo-props='textDir:"auto", title:"\u05e9\u05dc\u05d5\u05dd Title Pane!",
 		tooltip:"\u05e9\u05dc\u05d5\u05dd I\"m the tooltip for Title Pane\"s title bar!",
 		style:"width: 500px;" '>
-		Arabic, Hebrew, Urdu, and Farsi (Persian) are written from right to left, 
-		while numbers and segments of Latin (or Cyrillic or Greek) text are embedded in 
-		this text from left to right. The dual directionality aspects of such 
-		bidirectional (bidi) text are posing challenges to the way this text is processed and presented in computer applications. 				
+		Arabic, Hebrew, Urdu, and Farsi (Persian) are written from right to left,
+		while numbers and segments of Latin (or Cyrillic or Greek) text are embedded in
+		this text from left to right. The dual directionality aspects of such
+		bidirectional (bidi) text are posing challenges to the way this text is processed and presented in computer applications.
 
 	</div>
 	<h1>Title pane, textDir == 'rtl'</h1>
 	<div id="pane_2" data-dojo-type="dijit/TitlePane" data-dojo-props='title:"Title Pane!", textDir:"ltr", tooltip:"Title Pane!", style:"width: 500px;"'>
-		The Unicode Bidirectional Algorithm, which is commonly used for preparation of Bidi text for display, 
-		is not capable to reliably identify the natural base text direction for a given text. 
+		The Unicode Bidirectional Algorithm, which is commonly used for preparation of Bidi text for display,
+		is not capable to reliably identify the natural base text direction for a given text.
 		Only a human reader can unfailingly recognize the natural base text direction for a given text.
 		Support for enforcing the base text direction is provided out of the box by most platforms / technologies,
-		but very often the default settings do not guarantee proper display of English and Arabic/Hebrew text in the 
+		but very often the default settings do not guarantee proper display of English and Arabic/Hebrew text in the
 		same application.	See for reference:	http://w3-03.ibm.com/globalization/page/publish/4353
 	</div>
 	<br>Errors:&nbsp;<span id="errors">?</span>
-	<br>Failures:&nbsp;<span id="failures">?</span>	
+	<br>Failures:&nbsp;<span id="failures">?</span>
 </body>
 </html>

@@ -1,15 +1,16 @@
 define([
 	"dojo/_base/declare",	// declare
+	"dojo/has",
 	"dojo/number", // number.format
 	"dojo/query", // query
 	"dojo/_base/lang", // lang
 	"./HorizontalRule"
-], function(declare, number, query, lang, HorizontalRule){
+], function(declare, has, number, query, lang, HorizontalRule){
 
 // module:
 //		dijit/form/HorizontalRuleLabels
 
-return declare("dijit.form.HorizontalRuleLabels", HorizontalRule, {
+var HorizontalRuleLabels = declare("dijit.form.HorizontalRuleLabels", HorizontalRule, {
 	// summary:
 	//		Labels for `dijit/form/HorizontalSlider`
 
@@ -53,9 +54,15 @@ return declare("dijit.form.HorizontalRuleLabels", HorizontalRule, {
 	},
 
 	_genHTML: function(pos, ndx){
+		var label = this.labels[ndx];
 		return this._positionPrefix + this._calcPosition(pos) + this._positionSuffix + this.labelStyle + 
-			(this.textDir ? ("direction:" + this.getTextDir(this.labels[ndx]) + ";") : "") +
-			this._labelPrefix + this.labels[ndx] + this._suffix;
+			this._genDirectionHTML(label) +
+			this._labelPrefix + label + this._suffix;
+	},
+
+	_genDirectionHTML: function(label){
+		// extension point for bidi code
+		return "";
 	},
 
 	getLabels: function(){
@@ -89,18 +96,27 @@ return declare("dijit.form.HorizontalRuleLabels", HorizontalRule, {
 		this.inherited(arguments);
 		this.labels = this.getLabels();
 		this.count = this.labels.length;
-	},
-
-	_setTextDirAttr: function(textDir){
-		 if(this.textDir != textDir){ 
-			this.textDir = textDir; 
-			query(".dijitRuleLabelContainer", this.domNode).forEach(
-				lang.hitch(this, function(labelNode){
-					labelNode.style.direction = this.getTextDir(labelNode.innerText || labelNode.textContent || "");
-				})
-			);
-		 }
 	}
 });
 
+if(has("dojo-bidi")){
+	HorizontalRuleLabels.extend({
+		_setTextDirAttr: function(textDir){
+			if(this.textDir != textDir){
+				this.textDir = textDir;
+				query(".dijitRuleLabelContainer", this.domNode).forEach(
+					lang.hitch(this, function(labelNode){
+						labelNode.style.direction = this.getTextDir(labelNode.innerText || labelNode.textContent || "");
+					})
+				);
+			}
+		},
+
+		_genDirectionHTML: function(label){
+			return (this.textDir ? ("direction:" + this.getTextDir(label) + ";") : "")
+		}
+	});
+}
+
+return HorizontalRuleLabels;
 });

@@ -6,7 +6,6 @@
 
 	<!-- required: the default dijit theme: -->
 	<link id="themeStyles" rel="stylesheet" href="../../../../dijit/themes/claro/claro.css"/>
-	<link id="themeStyles" rel="stylesheet" href="../../../../dijit/themes/claro/claro_rtl.css"/>
 
 	<style>
 		@import url(../../../themes/claro/document.css);
@@ -15,11 +14,11 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../../dojo/dojo.js"
-		data-dojo-config="isDebug: true, parseOnLoad: true"></script>
+		data-dojo-config="isDebug: true, parseOnLoad: true, has: { 'dojo-bidi': true }"></script>
 
 	<!-- only needed for alternate theme testing: -->
 	<script type="text/javascript" src="../../_testCommon.js"></script>
-		
+
 	<script type="text/javascript">
 		require([
 			"dojo/_base/connect",
@@ -36,17 +35,16 @@
 			"dijit/form/Form",
 			"dijit/form/TimeTextBox",
 			"dojo/date/locale",
-			"dijit/tests/helpers",
-			"dijit/_BidiSupport"
+			"dijit/tests/helpers"
 		], function(connect, ready, array, dom, domClass, registry, runner){
 
 			function testWidget(element, guiDir, textDir, isfirstChildLatin){
-				runner.assertEqual(registry.byId(element).get("textDir"), textDir, "widget textDir");
-				runner.assertEqual(registry.byId(element).dir, guiDir, "GUI dir");
+				runner.is(registry.byId(element).get("textDir"), textDir, "widget textDir");
+				runner.is(registry.byId(element).dir, guiDir, "GUI dir");
 				if(textDir == "auto"){
 					textDir = isfirstChildLatin? "ltr" : "rtl";
 				}
-				runner.assertEqual(registry.byId(element).focusNode.dir, textDir, "focusNode textDir");
+				runner.is(registry.byId(element).focusNode.dir, textDir, "focusNode textDir");
 				runner[guiDir == "rtl" ? "t" : "f"](domClass.contains(registry.byId(element).domNode, "dijitTimeTextBoxRtl"), "dijitTimeTextBoxRtl");
 			}
 
@@ -68,25 +66,25 @@
 			}
 
 			ready(function(){
-		
+
 				//change textDir dynamically
-				var btnLtr = registry.byId("btn1");				
+				var btnLtr = registry.byId("btn1");
 				btnLtr.connect(btnLtr, "onClick", function(){
 					registry.byId("q1").set("textDir", "ltr");
-					
+
 				});
 				var btnRtl = registry.byId("btn2");
 				btnRtl.connect(btnRtl, "onClick", function(){
 					registry.byId("q1").set("textDir", "rtl");
-									
-				});	
+
+				});
 				var btnAuto = registry.byId("btn3");
 				btnAuto.connect(btnAuto, "onClick", function(){
 					registry.byId("q1").set("textDir", "auto");
-									
+
 				});
-				
-				
+
+
 				var programmatic1 = new dijit.form.TimeTextBox({});
 				programmatic1.placeAt('testProgramatic1');
 				programmatic1.set("textDir",'ltr');
@@ -100,7 +98,7 @@
 				programmatic3.set("textDir",'auto');
 
 				if(!/mode=test/i.test(window.location.href)){ return; }
-						
+
 				runner.register("LTR GUI, LTR textDir", [
 					{
 						name:"textbox",
@@ -223,13 +221,13 @@
 
 				runner.run();
 			});
-			
+
 		});
 	</script>
-		
+
 </head>
 <body class="claro">
-	
+
 	<h1 class="testTitle">dijit.form.TimeTextBox</h1>
 	<br>
 	<table border="1">
@@ -244,7 +242,7 @@
 			<td>  <font size=4 color=red> Auto/RTL </font></td>
 		</tr>
 		<tr>
-				
+
 			<th rowspan="2" ><h2><div align=center><font size="5">GUI direction</font></div></h2></th>
 			<td >  <font size=4 color=blue>LTR</font></td>
 			<td>
@@ -310,9 +308,9 @@
 			</td>
 		</tr>
 	</table>
-	
+
 	<br>
-	
+
 	<h4 class="testSubtitle">Buttons to change BTD dynamically (for LTR-LTR cell)</h4><br>
 		<button data-dojo-type="dijit/form/Button" id="btn1" data-dojo-props='label:"Set textDir to ltr"'></button>
 		<button data-dojo-type="dijit/form/Button" id="btn2" data-dojo-props='label:"Set textDir to rtl"'></button>

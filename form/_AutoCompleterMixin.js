@@ -19,7 +19,7 @@ define([
 	// module:
 	//		dijit/form/_AutoCompleterMixin
 
-	return declare("dijit.form._AutoCompleterMixin", SearchMixin, {
+	var AutoCompleterMixin = declare("dijit.form._AutoCompleterMixin", SearchMixin, {
 		// summary:
 		//		A mixin that implements the base functionality for `dijit/form/ComboBox`/`dijit/form/FilteringSelect`
 		// description:
@@ -561,20 +561,27 @@ define([
 			this._set("item", item||null); // value not looked up in store
 			if(value == null /* or undefined */){ value = ''; } // null translates to blank
 			this.inherited(arguments);
-		},
-		_setTextDirAttr: function(/*String*/ textDir){
-			// summary:
-			//		Setter for textDir, needed for the dropDown's textDir update.
-			// description:
-			//		Users shouldn't call this function; they should be calling
-			//		set('textDir', value)
-			// tags:
-			//		private
-			this.inherited(arguments);
-			// update the drop down also (_ComboBoxMenuMixin)
-			if(this.dropDown){
-				this.dropDown._set("textDir", textDir);
-			}
 		}
 	});
+
+	if(has("dojo-bidi")){
+		AutoCompleterMixin.extend({
+			_setTextDirAttr: function(/*String*/ textDir){
+				// summary:
+				//		Setter for textDir, needed for the dropDown's textDir update.
+				// description:
+				//		Users shouldn't call this function; they should be calling
+				//		set('textDir', value)
+				// tags:
+				//		private
+				this.inherited(arguments);
+				// update the drop down also (_ComboBoxMenuMixin)
+				if(this.dropDown){
+					this.dropDown._set("textDir", textDir);
+				}
+			}
+		});
+	}
+
+	return AutoCompleterMixin;
 });
