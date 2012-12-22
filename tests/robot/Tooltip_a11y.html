@@ -57,7 +57,7 @@
 								// left of the right depending on page BIDI setting)
 								var aroundCoords = dojo.position(around),
 									tooltipCoords = dojo.position(masterTT.domNode);
-								doh.is(aroundCoords.y + aroundCoords.h, tooltipCoords.y + Math.round(tooltipCoords.h), "aligned");
+								doh.is(Math.round(aroundCoords.y + aroundCoords.h), Math.round(tooltipCoords.y + tooltipCoords.h), "aligned");
 
 								// Make sure it has right content
 								doh.is("tooltip on a button", dojo.trim(innerText(masterTT.domNode)), "tooltip text");
