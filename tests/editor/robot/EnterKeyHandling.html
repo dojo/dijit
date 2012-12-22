@@ -218,8 +218,8 @@
 								// Do tests here.
 								var val = editor.get("value");
 								// Check that it split the is into two and that the bold and div were properly split.
-								doh.t(val.indexOf("It <b id=\"boldLine0\">i</b></div>") > 0, "start");
-								doh.t(val.indexOf("<div><b>s</b>") > 0, "end");
+								doh.t(val.indexOf("It <b id=\"boldLine0\">I</b></div>") > 0, "start");
+								doh.t(val.indexOf("<div><b>S</b>") > 0, "end");
 							}), 500);
 
 							return d;
@@ -242,12 +242,12 @@
 							doh.robot.mouseMoveAt(editor.iframe, 500);
 							doh.robot.mouseClick({left:true}, 500);
 
-							doh.robot.sequence(function(){
+							doh.robot.sequence(d.getTestErrback(function(){
 								editor._sCall("selectElementChildren", [node]);
-							}, 500);
+							}), 500);
 							
-							//Keyboard kill the selection and shift position between i and s.
-							if(!dojo.isMoz || dojo.isMac){doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100, {}); }
+							// Keyboard kill the selection and shift position between I and S.
+							if(!dojo.isMoz || dojo.isMac){ doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100, {}); }
 							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 100, {});
 							doh.robot.keyPress(dojo.keys.ENTER, 500);
 
@@ -279,12 +279,12 @@
 							doh.robot.mouseMoveAt(editor.iframe, 500);
 							doh.robot.mouseClick({left:true}, 500);
 
-							doh.robot.sequence(function(){
+							doh.robot.sequence(d.getTestErrback(function(){
 								editor._sCall("selectElementChildren", [node]);
-							}, 500);
+							}), 500);
 							
-							//Keyboard kill the selection and shift position between i and s.
-							if(!dojo.isMoz || dojo.isMac){doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100, {}); }
+							// Keyboard kill the selection and shift position between I and S.
+							if(!dojo.isMoz || dojo.isMac){ doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100, {}); }
 							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 100, {});
 							doh.robot.keyPress(dojo.keys.ENTER, 500);
 
@@ -387,12 +387,12 @@
 							doh.robot.mouseMoveAt(editor.iframe, 500);
 							doh.robot.mouseClick({left:true}, 500);
 
-							doh.robot.sequence(function(){
+							doh.robot.sequence(d.getTestErrback(function(){
 								editor._sCall("selectElementChildren", [node]);
-							}, 500);
+							}), 500);
 							
-							//Keyboard kill the selection and shift position between i and s.
-							if(!dojo.isMoz || dojo.isMac){doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100, {}); }
+							// Keyboard kill the selection and shift position between I and S.
+							if(!dojo.isMoz || dojo.isMac){ doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100, {}); }
 							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 100, {});
 							doh.robot.keyPress(dojo.keys.ENTER, 500);
 
@@ -400,8 +400,8 @@
 								// Do tests here.
 								var val = editor.get("value");
 								// Check that it split the is into two and that the bold and div were properly split.
-								doh.t(val.indexOf("It <b id=\"boldLine2\">i</b></p>") > 0, "start");
-								doh.t(val.indexOf("<p><b>s</b>") > 0, "end");
+								doh.t(val.indexOf("It <b id=\"boldLine2\">I</b></p>") > 0, "start");
+								doh.t(val.indexOf("<p><b>S</b>") > 0, "end");
 							}), 500);
 
 							return d;
