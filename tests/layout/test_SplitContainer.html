@@ -62,6 +62,14 @@
 		};
 		dojo.ready(programaticExample);
 
+		// for testing SplitContainer.addChild()
+		ctr = 1;
+		function addChild(parentId, position){
+			dijit.byId(parentId).addChild(new dijit.layout.ContentPane({
+				id: "ContentPane" + ctr,
+				innerHTML: "added child #" + ctr++
+			}), position);
+		}
 	</script>
 </head>
 <body role="main">
@@ -71,10 +79,11 @@
 	<p>HTML before</p>
 
 	<div dojoType="dijit.layout.SplitContainer"
+		id="split1"
 		orientation="vertical"
 		sizerWidth="7"
 		activeSizing="false"
-		style="border: 1px solid #bfbfbf; float: left; margin-right: 30px;  width: 400px; height: 300px;"
+		style="border: 1px solid #bfbfbf; width: 400px; height: 300px;"
 	>
 		<div dojoType="dijit.layout.ContentPane" sizeMin="10" sizeShare="50">
 			this box has three split panes
@@ -87,6 +96,11 @@
 			without active resizing
 		</div>
 	</div>
+	<button onclick="addChild('split1');">add child at end</button>
+	<button onclick="addChild('split1', 'first');">add child at beginning</button>
+	<button onclick="addChild('split1', 3);">addChild(child, 3)</button>
+	<button onclick="addChild('split1', dijit.byId('split1').getChildren().length-1);">addChild(child, getChildren().length-1)</button>
+	<br><br>
 
 	<div dojoType="dijit.layout.SplitContainer"
 		orientation="horizontal"
