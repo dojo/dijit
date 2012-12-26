@@ -6,13 +6,14 @@ define([
 	"dojo/keys", // keys.END keys.HOME, keys.LEFT_ARROW etc.
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on",
-	"dijit/registry"
-], function(array, declare, domAttr, event, keys, lang, on, registry){
+	"dijit/registry",
+	"dijit/_FocusMixin"		// to make _onBlur() work
+], function(array, declare, domAttr, event, keys, lang, on, registry, _FocusMixin){
 
 	// module:
 	//		dijit/_KeyNavMixin
 
-	return declare("dijit._KeyNavMixin", null, {
+	return declare("dijit._KeyNavMixin", _FocusMixin, {
 		// summary:
 		//		A mixin to allow arrow key and letter key navigation of child or descendant widgets.
 		//		It can be used by dijit/_Container based widgets with a flat list of children,
@@ -165,7 +166,7 @@ define([
 			//		focus, switch focus to first child...
 			// tags:
 			//		private
-
+console.log("container focus")
 			// Note that we can't use _onFocus() because switching focus from the
 			// _onFocus() handler confuses the focus.js code
 			// (because it causes _onFocusNode() to be called recursively).
@@ -193,6 +194,7 @@ define([
 			// then restore the container's tabIndex so that user can tab to it again.
 			// Note that using _onBlur() so that this doesn't happen when focus is shifted
 			// to one of my child widgets (typically a popup)
+console.log("container blur")
 			domAttr.set(this.domNode, "tabIndex", this.tabIndex);
 			if(this.focusedChild){
 				this.focusedChild.set("tabIndex", "-1");
@@ -252,9 +254,12 @@ define([
 			//		 	* 1: a match but keep looking for a higher priority match
 			// tags:
 			//		private
+
 			var element = item.domNode,
 				text = item.label || (element.focusNode ? element.focusNode.label : '') || element.innerText || element.textContent || "",
 				currentString = text.replace(/^\s+/, '').substr(0, searchString.length).toLowerCase();
+
+			console.log("searchString = " + searchString + ", text = " + text + ", currentString = " + currentString);
 
 			return (!!searchString.length && currentString == searchString) ? -1 : 0; // stop searching after first match by default
 		},
