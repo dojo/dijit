@@ -166,7 +166,7 @@ define([
 			//		focus, switch focus to first child...
 			// tags:
 			//		private
-console.log("container focus")
+
 			// Note that we can't use _onFocus() because switching focus from the
 			// _onFocus() handler confuses the focus.js code
 			// (because it causes _onFocusNode() to be called recursively).
@@ -194,7 +194,7 @@ console.log("container focus")
 			// then restore the container's tabIndex so that user can tab to it again.
 			// Note that using _onBlur() so that this doesn't happen when focus is shifted
 			// to one of my child widgets (typically a popup)
-console.log("container blur")
+
 			domAttr.set(this.domNode, "tabIndex", this.tabIndex);
 			if(this.focusedChild){
 				this.focusedChild.set("tabIndex", "-1");
@@ -258,8 +258,6 @@ console.log("container blur")
 			var element = item.domNode,
 				text = item.label || (element.focusNode ? element.focusNode.label : '') || element.innerText || element.textContent || "",
 				currentString = text.replace(/^\s+/, '').substr(0, searchString.length).toLowerCase();
-
-			console.log("searchString = " + searchString + ", text = " + text + ", currentString = " + currentString);
 
 			return (!!searchString.length && currentString == searchString) ? -1 : 0; // stop searching after first match by default
 		},
