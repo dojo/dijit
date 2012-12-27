@@ -14,7 +14,7 @@ define([
 // module:
 //		dijit/_PaletteMixin
 
-return declare("dijit._PaletteMixin", [_CssStateMixin], {
+var PaletteMixin = declare("dijit._PaletteMixin", [_CssStateMixin], {
 	// summary:
 	//		A keyboard accessible palette, for picking a color/emoticon/etc.
 	// description:
@@ -68,7 +68,7 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 
 	// dyeClass: [protected] Constructor
 	//		Constructor for Object created for each cell of the palette.
-	//		dyeClass should implements dijit.Dye interface
+	//		dyeClass should implement the dijit/_PaletteMixin.__Dye interface.
 	dyeClass: null,
 	
 	_dyeFactory: function(value /*===== , row, col, title =====*/){
@@ -301,7 +301,7 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 });
 
 /*=====
-declare("dijit.Dye",
+PaletteMixin.__Dye = declare("dijit.Dye",
 	null,
 	{
 		// summary:
@@ -331,5 +331,7 @@ declare("dijit.Dye",
 	}
 );
 =====*/
+
+return PaletteMixin;
 
 });
