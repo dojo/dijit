@@ -7,14 +7,15 @@ define([
 	"dojo/keys", // keys
 	"dojo/_base/lang", // lang.getObject
 	"./_CssStateMixin",
+	"./_OnDijitClickMixin",
 	"./focus",
 	"./typematic"
-], function(declare, domAttr, domClass, domConstruct, event, keys, lang, _CssStateMixin, focus, typematic){
+], function(declare, domAttr, domClass, domConstruct, event, keys, lang, _CssStateMixin, _OnDijitClickMixin, focus, typematic){
 
 // module:
 //		dijit/_PaletteMixin
 
-var PaletteMixin = declare("dijit._PaletteMixin", [_CssStateMixin], {
+var PaletteMixin = declare("dijit._PaletteMixin", [_CssStateMixin, _OnDijitClickMixin], {
 	// summary:
 	//		A keyboard accessible palette, for picking a color/emoticon/etc.
 	// description:
