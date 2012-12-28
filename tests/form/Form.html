@@ -331,7 +331,7 @@
 					var d = new doh.Deferred();
 
 					calls = 0;
-					formWidget.set("value", {cb: [1,4]});
+					formWidget.set("value", {cb: ["1", "4"]});
 					
 					setTimeout(d.getTestCallback(function(){
 						doh.is(1, calls, "exactly one watch(value) call");
@@ -400,7 +400,7 @@
 					var d = new doh.Deferred();
 
 					calls = 0;
-					formWidget.set("value", {r: 3});
+					formWidget.set("value", {r: "3"});
 					
 					setTimeout(d.getTestCallback(function(){
 						doh.is(1, calls, "exactly one watch(value) call");
@@ -741,10 +741,10 @@
 					<td>CheckBox widget</td>
 					<td>cb</td>
 					<td>
-						<input data-dojo-type="dijit/form/CheckBox" data-dojo-props='"aria-label":"cb_1", id: "cb_1", name:"cb", value:"1" '/> 1
-						<input data-dojo-type="dijit/form/CheckBox" data-dojo-props='"aria-label":"cb_2", id: "cb_2", name:"cb", value:"2", checked:true '/> 2
-						<input data-dojo-type="dijit/form/CheckBox" data-dojo-props='"aria-label":"cb_3", id: "cb_3", name:"cb", value:"3", checked:true '/> 3
-						<input data-dojo-type="dijit/form/CheckBox" data-dojo-props='"aria-label":"cb_4", id: "cb_4", name:"cb", value:"4" '/> 4
+						<input data-dojo-type="dijit/form/CheckBox" id="cb_1" name="cb" value="1"/> <label for="cb_1">1</label>
+						<input data-dojo-type="dijit/form/CheckBox" id="cb_2" name="cb" value="2" checked/> <label for="cb_2">2</label>
+						<input data-dojo-type="dijit/form/CheckBox" id="cb_3" name="cb" value="3" checked/> <label for="cb_3">3</label>
+						<input data-dojo-type="dijit/form/CheckBox" id="cb_4" name="cb" value="4"/> <label for="cb_4">4</label>
 					</td>
 				</tr>
 
@@ -764,10 +764,10 @@
 				<tr>
 				<td>Radio widget</td><td>r</td>
 				<td id="radio-cells">
-				<input data-dojo-type="dijit/form/RadioButton" data-dojo-props='"aria-label":"r_1", id:"r_1", name:"r", value:"1" '/> 1
-				<input data-dojo-type="dijit/form/RadioButton" data-dojo-props='"aria-label":"r_2", id:"r_2", name:"r", value:"2", checked:true '/> 2
-				<input data-dojo-type="dijit/form/RadioButton" data-dojo-props='"aria-label":"r_3", id:"r_3", name:"r", value:"3"'/> 3
-				<input data-dojo-type="dijit/form/RadioButton" data-dojo-props='"aria-label":"r_4", id:"r_4", name:"r", value:"4" '/> 4
+					<input data-dojo-type="dijit/form/RadioButton" id="r_1" name="r" value="1"/> <label for="r_1">1</label>
+					<input data-dojo-type="dijit/form/RadioButton" id="r_2" name="r" value="2" checked/> <label for="r_2">2</label>
+					<input data-dojo-type="dijit/form/RadioButton" id="r_3" name="r" value="3"/> <label for="r_3">3</label>
+					<input data-dojo-type="dijit/form/RadioButton" id="r_4" name="r" value="4"/> <label for="r_4">4</label>
 				<input type="button" onclick="dojo.query('INPUT[type=radio]','radio-cells').forEach(function(n){dijit.getEnclosingWidget(n).set('checked',false);});return true;" value="Unset all radio buttons"/>
 				</td>
 				</tr>
