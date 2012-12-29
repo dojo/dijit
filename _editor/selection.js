@@ -23,9 +23,11 @@ lang.mixin(dijit._editor.selection, {
 	getType: function(){
 		// summary:
 		//		Get the selection type (like win.doc.select.type in IE).
-		if(has("ie") < 9){
+		if(!win.doc.getSelection){
+			// IE6-8
 			return win.doc.selection.type.toLowerCase();
 		}else{
+			// W3C
 			var stype = "text";
 
 			// Check if the actual selection is a CONTROL (IMG, TABLE, HR, etc...).
@@ -50,12 +52,14 @@ lang.mixin(dijit._editor.selection, {
 	getSelectedText: function(){
 		// summary:
 		//		Return the text (no html tags) included in the current selection or null if no text is selected
-		if(has("ie") < 9){
+		if(!win.doc.getSelection){
+			// IE6-8
 			if(dijit._editor.selection.getType() == 'control'){
 				return null;
 			}
 			return win.doc.selection.createRange().text;
 		}else{
+			// W3C
 			var selection = win.global.getSelection();
 			if(selection){
 				return selection.toString(); //String
@@ -67,12 +71,14 @@ lang.mixin(dijit._editor.selection, {
 	getSelectedHtml: function(){
 		// summary:
 		//		Return the html text of the current selection or null if unavailable
-		if(has("ie") < 9){
+		if(!win.doc.getSelection){
+			// IE6-8
 			if(dijit._editor.selection.getType() == 'control'){
 				return null;
 			}
 			return win.doc.selection.createRange().htmlText;
 		}else{
+			// W3C
 			var selection = win.global.getSelection();
 			if(selection && selection.rangeCount){
 				var i;
@@ -96,12 +102,14 @@ lang.mixin(dijit._editor.selection, {
 		//		a single element (object like and image or a table) is
 		//		selected.
 		if(dijit._editor.selection.getType() == "control"){
-			if(has("ie") < 9){
+			if(!win.doc.getSelection){
+				// IE6-8
 				var range = win.doc.selection.createRange();
 				if(range && range.item){
 					return win.doc.selection.createRange().item(0);
 				}
 			}else{
+				// W3C
 				var selection = win.global.getSelection();
 				return selection.anchorNode.childNodes[ selection.anchorOffset ];
 			}
@@ -116,11 +124,13 @@ lang.mixin(dijit._editor.selection, {
 			var p = this.getSelectedElement();
 			if(p){ return p.parentNode; }
 		}else{
-			if(has("ie") < 9){
+			if(!win.doc.getSelection){
+				// IE6-8
 				var r = win.doc.selection.createRange();
 				r.collapse(true);
 				return r.parentElement();
 			}else{
+				// W3C
 				var selection = win.global.getSelection();
 				if(selection){
 					var node = selection.anchorNode;
@@ -216,12 +226,14 @@ lang.mixin(dijit._editor.selection, {
 		// summary:
 		//		Function to delete the currently selected content from the document.
 		var sel = win.doc.selection;
-		if(has("ie") < 9){
+		if(!win.doc.getSelection){
+			// IE6-8
 			if(sel.type.toLowerCase() != "none"){
 				sel.clear();
 			}
 			return sel; //Selection
 		}else{
+			// W3C
 			sel = win.global.getSelection();
 			sel.deleteFromDocument();
 			return sel; //Selection
@@ -240,7 +252,8 @@ lang.mixin(dijit._editor.selection, {
 		var doc = win.doc;
 		var range;
 		element = dom.byId(element);
-		if(doc.selection && has("ie") < 9 && win.body().createTextRange){ // IE
+		if(doc.selection && !doc.getSelection && win.body().createTextRange){
+			// IE6-8
 			range = element.ownerDocument.body.createTextRange();
 			range.moveToElementText(element);
 			if(!nochangefocus){
@@ -249,6 +262,7 @@ lang.mixin(dijit._editor.selection, {
 				}catch(e){ /* squelch */}
 			}
 		}else if(global.getSelection){
+			// W3C
 			var selection = win.global.getSelection();
 			if(has("opera")){
 				//Opera's selectAllChildren doesn't seem to work right
@@ -279,7 +293,8 @@ lang.mixin(dijit._editor.selection, {
 		var doc = win.doc;
 		var global = win.global;
 		element = dom.byId(element);
-		if(has("ie") < 9 && win.body().createTextRange){
+		if(!doc.getSelection && win.body().createTextRange){
+			// IE6-8
 			try{
 				var tg = element.tagName ? element.tagName.toLowerCase() : "";
 				if(tg === "img" || tg === "table"){
@@ -295,6 +310,7 @@ lang.mixin(dijit._editor.selection, {
 				this.selectElementChildren(element,nochangefocus);
 			}
 		}else if(global.getSelection){
+			// W3C
 			var selection = global.getSelection();
 			range = doc.createRange();
 			if(selection.removeAllRanges){ // Mozilla
