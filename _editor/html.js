@@ -1,13 +1,23 @@
 define([
-	"dojo/_base/lang", // lang.isString
+	"dojo/_base/array",
+	"dojo/_base/lang", // lang.getObject
 	"dojo/_base/sniff", // has("ie")
 	".."		// for exporting symbols to dijit._editor (remove for 2.0)
-], function(lang, has, dijit){
+], function(array, lang, has, dijit){
+
 
 // module:
 //		dijit/_editor/html
 // summary:
 //		Utility functions used by editor
+
+// Tests for DOMNode.attributes[] behavior:
+//	 - dom-attributes-explicit - attributes[] only lists explicitly user specified attributes
+//	 - dom-attributes-specified-flag (IE8) - need to check attr.specified flag to skip attributes user didn't specify
+//	 - Otherwise, in IE6-7. attributes[] will list hundreds of values, so need to do outerHTML to get attrs instead.
+var form = document.createElement("form");
+has.add("dom-attributes-explicit", form.attributes.length == 0); // W3C
+has.add("dom-attributes-specified-flag", form.attributes.length > 0 && form.attributes.length < 40);	// IE8
 
 lang.getObject("_editor", true, dijit);
 
@@ -39,76 +49,90 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 
 			//store the list of attributes and sort it to have the
 			//attributes appear in the dictionary order
-			var attrarray = [];
+			var attrarray = [], attrhash = {};
 			var attr;
-			if(has("ie") && node.outerHTML){
-				var s = node.outerHTML;
-				s = s.substr(0, s.indexOf('>'))
-					.replace(/(['"])[^"']*\1/g, ''); //to make the following regexp safe
-				var reg = /(\b\w+)\s?=/g;
-				var m, key;
-				while((m = reg.exec(s))){
-					key = m[1];
-					if(key.substr(0,3) != '_dj'){
-						if(key == 'src' || key == 'href'){
-							if(node.getAttribute('_djrealurl')){
-								attrarray.push([key,node.getAttribute('_djrealurl')]);
-								continue;
-							}
-						}
-						var val, match;
-						switch(key){
-							case 'style':
-								val = node.style.cssText.toLowerCase();
-								break;
-							case 'class':
-								val = node.className;
-								break;
-							case 'width':
-								if(lName === "img"){
-									// This somehow gets lost on IE for IMG tags and the like
-									// and we have to find it in outerHTML, known IE oddity.
-									match=/width=(\S+)/i.exec(s);
-									if(match){
-										val = match[1];
-									}
-									break;
-								}
-							case 'height':
-								if(lName === "img"){
-									// This somehow gets lost on IE for IMG tags and the like
-									// and we have to find it in outerHTML, known IE oddity.
-									match=/height=(\S+)/i.exec(s);
-									if(match){
-										val = match[1];
-									}
-									break;
-								}
-							default:
-								val = node.getAttribute(key);
-						}
-						if(val != null){
-							attrarray.push([key, val.toString()]);
-						}
-					}
-				}
-			}else{
+			if(has("dom-attributes-explicit") || has("dom-attributes-specified-flag")){
+				// IE8+ and all other browsers.
 				var i = 0;
 				while((attr = node.attributes[i++])){
-					//ignore all attributes starting with _dj which are
-					//internal temporary attributes used by the editor
+					// ignore all attributes starting with _dj which are
+					// internal temporary attributes used by the editor
 					var n = attr.name;
-					if(n.substr(0,3) != '_dj' /*&&
-						(attr.specified == undefined || attr.specified)*/){
+					if(n.substr(0,3) !== '_dj' &&
+						(!has("dom-attributes-specified-flag") || attr.specified) &&
+						!(n in attrhash)){	// workaround repeated attributes bug in IE8 (LinkDialog test)
 						var v = attr.value;
 						if(n == 'src' || n == 'href'){
 							if(node.getAttribute('_djrealurl')){
 								v = node.getAttribute('_djrealurl');
 							}
 						}
+						if(has("ie") === 8 && n === "style"){
+							v = v.replace("HEIGHT:", "height:").replace("WIDTH:", "width:");
+						}
 						attrarray.push([n,v]);
+						attrhash[n] = v;
 					}
 				}
+			}else{
+				// IE6-7 code path
+				var clone = /^input$|^img$/i.test(node.nodeName) ? node : node.cloneNode(false);
+				var s = clone.outerHTML;
+				// Split up and manage the attrs via regexp
+				// similar to prettyPrint attr logic.
+				var rgxp_attrsMatch = /[\w-]+=("[^"]*"|'[^']*'|\S*)/gi
+				var attrSplit = s.match(rgxp_attrsMatch);
+				s = s.substr(0, s.indexOf('>'));
+				array.forEach(attrSplit, function(attr){
+					if(attr){
+						var idx = attr.indexOf("=");
+						if(idx > 0){
+							var key = attr.substring(0,idx);
+							if(key.substr(0,3) != '_dj'){
+								if(key == 'src' || key == 'href'){
+									if(node.getAttribute('_djrealurl')){
+										attrarray.push([key,node.getAttribute('_djrealurl')]);
+										return;
+									}
+								}
+								var val, match;
+								switch(key){
+									case 'style':
+										val = node.style.cssText.toLowerCase();
+										break;
+									case 'class':
+										val = node.className;
+										break;
+									case 'width':
+										if(lName === "img"){
+											// This somehow gets lost on IE for IMG tags and the like
+											// and we have to find it in outerHTML, known IE oddity.
+											match=/width=(\S+)/i.exec(s);
+											if(match){
+												val = match[1];
+											}
+											break;
+										}
+									case 'height':
+										if(lName === "img"){
+											// This somehow gets lost on IE for IMG tags and the like
+											// and we have to find it in outerHTML, known IE oddity.
+											match=/height=(\S+)/i.exec(s);
+											if(match){
+												val = match[1];
+											}
+											break;
+										}
+									default:
+										val = node.getAttribute(key);
+								}
+								if(val != null){
+									attrarray.push([key, val.toString()]);
+								}
+							}
+						}
+					}
+				}, this);
 			}
 			attrarray.sort(function(a,b){
 				return a[0] < b[0] ? -1 : (a[0] == b[0] ? 0 : 1);
