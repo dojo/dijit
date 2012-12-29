@@ -288,6 +288,10 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		//		Kicks off widget instantiation.  See create() for details.
 		// tags:
 		//		private
+
+		// Note that we skip calling this.inherited(), i.e. dojo/Stateful::postscript(), because 1.x widgets don't
+		// expect their custom setters to get called until after buildRendering().  Consider changing for 2.0.
+
 		this.create(params, srcNodeRef);
 	},
 
