@@ -1,6 +1,3 @@
-			// Get viewport size but then reduce it by a bit; Dialog should always have some space around it
-			// to indicate that it's a popup.  This will also compensate for possible scrollbars on viewport.
-	"require",
 define("dijit/Dialog", ["dojo", "dijit", "text!dijit/templates/Dialog.html", "dojo/dnd/move", "dojo/dnd/TimedMoveable", "dojo/fx", "dojo/window", "dijit/_Widget", "dijit/_Templated", "dijit/_CssStateMixin", "dijit/form/_FormMixin",  "dijit/_DialogMixin", "dijit/DialogUnderlay", "dijit/layout/ContentPane", "i18n!dijit/nls/common", "dijit/TooltipDialog"], function(dojo, dijit) {
 
 // dijit/TooltipDialog required for back-compat.  TODO: remove in 2.0
