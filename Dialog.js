@@ -1,5 +1,3 @@
-			// Get viewport size but then reduce it by a bit; Dialog should always have some space around it
-			// to indicate that it's a popup.  This will also compensate for possible scrollbars on viewport.
 define([
 	"require",
 	"dojo/_base/array", // array.forEach array.indexOf array.map
