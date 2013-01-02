@@ -17,7 +17,7 @@
 		data-dojo-config="async: true,isDebug: true, parseOnLoad: true, has: { 'dojo-bidi': true }"></script>
 
 	<script type="text/javascript">
-			require([
+		require([
 			"dijit/registry",
 			"doh/runner",
 			"dojo/dom",
@@ -25,19 +25,19 @@
 			"dojo/query",
 			"dijit/layout/ContentPane",
 			"dojo/parser"
-			], function(registry, runner, dom, ready, query){
-				ready(function(){
-					runner.register("tests._BidiSupport.layout.Accordion.Bidi", [
-						{
-							name: "Accordion Bidi",
-							runTest: function(){
-								query("span.dijitAccordionText").forEach(function(node, index, arr){
-									if(registry.getEnclosingWidget(node).textDir !== 'auto') {
-										runner.is(node.dir, registry.getEnclosingWidget(node).textDir, "tab button direction should coinside with widget's 'textDir'");
-									}
-								});
-							}
+		], function(registry, runner, dom, ready, query){
+			ready(function(){
+				runner.register("tests._BidiSupport.layout.Accordion.Bidi", [
+					{
+						name: "Accordion Bidi",
+						runTest: function(){
+							query("span.dijitAccordionText").forEach(function(node, index, arr){
+								if(registry.getEnclosingWidget(node).textDir !== 'auto') {
+									runner.is(node.dir, registry.getEnclosingWidget(node).textDir, "tab button direction should coincide with widget's 'textDir'");
+								}
+							});
 						}
+					}
 				]);
 
 				runner.register("log", function(){
