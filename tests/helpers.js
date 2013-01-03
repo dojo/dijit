@@ -1,50 +1,65 @@
 // Helper methods for automated testing
 
-function isVisible(/*dijit._Widget || DomNode*/ node){
+define([
+	"dojo/_base/array", "dojo/Deferred", "dojo/promise/all",
+	"dojo/dom-attr", "dojo/dom-class", "dojo/dom-geometry", "dojo/dom-style",
+	"dojo/_base/kernel", "dojo/_base/lang", "dojo/on", "dojo/query", "dojo/ready", "dojo/sniff",
+	"dijit/a11y"	// isTabNavigable, dijit._isElementShown
+], function(array,  Deferred, all,
+			domAttr, domClass, domGeometry, domStyle,
+			kernel, lang, on, query, ready, has, a11y){
+
+
+// Globals used by onFocus()
+var curFocusNode, focusListener, focusCallback, focusCallbackDelay;
+
+var exports = {
+
+isVisible: function isVisible(/*dijit/_WidgetBase|DomNode*/ node){
 	// summary:
 	//		Return true if node/widget is visible
 	var p;
 	if(node.domNode){ node = node.domNode; }
-	return (dojo.style(node, "display") != "none") &&
-		(dojo.style(node, "visibility") != "hidden") &&
-		(p = dojo.position(node, true), p.y + p.h >= 0 && p.x + p.w >= 0 && p.h && p.w);
-}
+	return (domStyle.get(node, "display") != "none") &&
+		(domStyle.get(node, "visibility") != "hidden") &&
+		(p = domGeometry.position(node, true), p.y + p.h >= 0 && p.x + p.w >= 0 && p.h && p.w);
+},
 
-function isHidden(/*dijit._Widget || DomNode*/ node){
+isHidden: function isHidden(/*dijit/_WidgetBase|DomNode*/ node){
 	// summary:
 	//		Return true if node/widget is hidden
 	var p;
 	if(node.domNode){ node = node.domNode; }
-	return (dojo.style(node, "display") == "none") ||
-		(dojo.style(node, "visibility") == "hidden") ||
-		(p = dojo.position(node, true), p.y + p.h < 0 || p.x + p.w < 0 || p.h <= 0 || p.w <= 0);
-}
+	return (domStyle.get(node, "display") == "none") ||
+		(domStyle.get(node, "visibility") == "hidden") ||
+		(p = domGeometry.position(node, true), p.y + p.h < 0 || p.x + p.w < 0 || p.h <= 0 || p.w <= 0);
+},
 
-function innerText(/*DomNode*/ node){
+innerText: function innerText(/*DomNode*/ node){
 	// summary:
 	//		Browser portable function to get the innerText of specified DOMNode
-	return node.textContent || node.innerText || "";
-}
+	return lang.trim(node.textContent || node.innerText || "");
+},
 
-function tabOrder(/*DomNode?*/ root){
+tabOrder: function tabOrder(/*DomNode?*/ root){
 	// summary:
 	//		Return all tab-navigable elements under specified node in the order that
 	//		they will be visited (by repeated presses of the tab key)
 
 	var elems = [];
 
-	function walkTree(/*DOMNode*/parent){
-		dojo.query("> *", parent).forEach(function(child){
+	function walkTree(/*DOMNode*/ parent){
+		query("> *", parent).forEach(function(child){
 			// Skip hidden elements, and also non-HTML elements (those in custom namespaces) in IE,
-			// since show() invokes getAttribute("type"), which crash on VML nodes in IE.
-			if((dojo.isIE <= 8 && child.scopeName!=="HTML") || !dijit._isElementShown(child)){
+			// since show() invokes getAttribute("type"), which crashes on VML nodes in IE.
+			if((has("ie") <= 8 && child.scopeName !== "HTML") || !a11y._isElementShown(child)){
 				return;
 			}
 
-			if(dijit.isTabNavigable(child)){
+			if(a11y.isTabNavigable(child)){
 				elems.push({
 					elem: child,
-					tabIndex: dojo.hasAttr(child, "tabIndex") ? dojo.attr(child, "tabIndex") : 0,
+					tabIndex: domClass.contains(child, "tabIndex") ? domAttr.get(child, "tabIndex") : 0,
 					pos: elems.length
 				});
 			}
@@ -59,16 +74,64 @@ function tabOrder(/*DomNode?*/ root){
 	elems.sort(function(a, b){
 		return a.tabIndex != b.tabIndex ? a.tabIndex - b.tabIndex : a.pos - b.pos;
 	});
-	return dojo.map(elems, function(elem){ return elem.elem; });
-}
+	return array.map(elems, function(elem){ return elem.elem; });
+},
 
 
-function onFocus(func){
+onFocus: function onFocus(func, delay){
 	// summary:
-	//		On the next change of focus, and after widget has had time to react to focus event,
-	//		call func(node) with the newly focused node
-	var handle = dojo.subscribe("focusNode", function(node){
-		dojo.unsubscribe(handle);
-		setTimeout(function(){ func(node); }, 0);
+	//		Wait for the next change of focus, and then delay ms (so widget has time to react to focus event),
+	//		then call func(node) with the currently focused node.  Note that if focus changes again during delay,
+	//		newest focused node is passed to func.
+
+	if(!focusListener){
+		focusListener = on(dojo.doc, "focusin", function(evt){
+			// Track most recently focused node; note it may change again before delay completes
+			curFocusNode = evt.target;
+
+			// If a handler was specified to fire after the next focus event (plus delay), set timeout to run it.
+			if(focusCallback){
+				var callback = focusCallback;
+				focusCallback = null;
+				setTimeout(function(){
+					callback(curFocusNode);		// return current focus, may be different than 10ms earlier
+				}, focusCallbackDelay);	// allow time for focus to change again, see #8285
+			}
+		});
+	}
+
+	focusCallback = func;
+	focusCallbackDelay = delay || 10;
+},
+
+waitForLoad: function(){
+	// summary:
+	//		Return Deferred that fires when all widgets have finished initializing
+
+	var d = new Deferred();
+
+	dojo.global.require(["dojo/ready", "dijit/registry"], function(ready, registry){
+		ready(function(){
+			// Deferred fires when all widgets with an onLoadDeferred have fired
+			var widgets = array.filter(registry.toArray(), function(w){ return w.onLoadDeferred; }),
+				deferreds = array.map(widgets, function(w){ return w.onLoadDeferred; });
+			console.log("Waiting for " + widgets.length + " widgets: " +
+				array.map(widgets, function(w){ return w.id; }).join(", "));
+			new all(deferreds).then(function(){
+				console.log("All widgets loaded.");
+				d.resolve(widgets);
+			});
+		});
 	});
+
+	return d;
 }
+
+};
+
+// All the old tests expect these symbols to be global
+lang.mixin(kernel.global, exports);
+
+return exports;
+
+});

@@ -15,7 +15,6 @@
 		<script type="text/javascript" src="../../helpers.js"></script>
 
 		<script type="text/javascript">
-			dojo.require("dojo.DeferredList");
 			dojo.require("dojo.window");
 			dojo.require("dijit.robotx");
 
@@ -40,11 +39,7 @@
 					{
 						name: "wait for editors to load",
 						timeout: 5000,
-						runTest: function(){
-						    return new dojo.DeferredList(
-						        dijit.registry.filter(function(w){ return w.onLoadDeferred; }).map(function(w){ return w.onLoadDeferred; })
-						    );
-						}
+						runTest: waitForLoad
 					}
 				]);
 
