@@ -1,15 +1,17 @@
 // Helper methods for automated testing
 
 define([
-	"dojo/_base/array", "dojo/_base/Deferred", "dojo/DeferredList",
+	"dojo/_base/array", "dojo/Deferred", "dojo/promise/all",
 	"dojo/dom-attr", "dojo/dom-class", "dojo/dom-geometry", "dojo/dom-style",
-	"dojo/_base/kernel", "dojo/_base/lang", "dojo/query", "dojo/ready", "dojo/sniff",
-	"dijit/focus", "dijit/registry"
-], function(array, Deferred, DeferredList,
+	"dojo/_base/kernel", "dojo/_base/lang", "dojo/on", "dojo/query", "dojo/ready", "dojo/sniff",
+	"dijit/a11y"	// isTabNavigable, dijit._isElementShown
+], function(array,  Deferred, all,
 			domAttr, domClass, domGeometry, domStyle,
-			kernel, lang, query, ready, has,
-			focus, registry){
+			kernel, lang, on, query, ready, has, a11y){
 
+
+// Globals used by onFocus()
+var curFocusNode, focusListener, focusCallback, focusCallbackDelay;
 
 var exports = {
 
@@ -50,11 +52,11 @@ tabOrder: function tabOrder(/*DomNode?*/ root){
 		query("> *", parent).forEach(function(child){
 			// Skip hidden elements, and also non-HTML elements (those in custom namespaces) in IE,
 			// since show() invokes getAttribute("type"), which crashes on VML nodes in IE.
-			if((has("ie") <= 8 && child.scopeName !== "HTML") || !dijit._isElementShown(child)){
+			if((has("ie") <= 8 && child.scopeName !== "HTML") || !a11y._isElementShown(child)){
 				return;
 			}
 
-			if(dijit.isTabNavigable(child)){
+			if(a11y.isTabNavigable(child)){
 				elems.push({
 					elem: child,
 					tabIndex: domClass.contains(child, "tabIndex") ? domAttr.get(child, "tabIndex") : 0,
@@ -72,21 +74,34 @@ tabOrder: function tabOrder(/*DomNode?*/ root){
 	elems.sort(function(a, b){
 		return a.tabIndex != b.tabIndex ? a.tabIndex - b.tabIndex : a.pos - b.pos;
 	});
-	return dojo.map(elems, function(elem){ return elem.elem; });
+	return array.map(elems, function(elem){ return elem.elem; });
 },
 
 
-onFocus: function onFocus(func){
+onFocus: function onFocus(func, delay){
 	// summary:
-	//		On the next change of focus, and after widget has had time to react to focus event,
-	//		call func(node) with the newly focused node
+	//		Wait for the next change of focus, and then delay ms (so widget has time to react to focus event),
+	//		then call func(node) with the currently focused node.  Note that if focus changes again during delay,
+	//		newest focused node is passed to func.
 
-	// This is still using global dojo so it works with robot... it needs to get
-	// notifications from the iframe dojo, not the outer dojo running doh.
-	var handle = dojo.subscribe("focusNode", function(node){
-		dojo.unsubscribe(handle);
-		setTimeout(function(){ func(node); }, 0);
-	});
+	if(!focusListener){
+		focusListener = on(dojo.doc, "focusin", function(evt){
+			// Track most recently focused node; note it may change again before delay completes
+			curFocusNode = evt.target;
+
+			// If a handler was specified to fire after the next focus event (plus delay), set timeout to run it.
+			if(focusCallback){
+				var callback = focusCallback;
+				focusCallback = null;
+				setTimeout(function(){
+					callback(curFocusNode);		// return current focus, may be different than 10ms earlier
+				}, focusCallbackDelay);	// allow time for focus to change again, see #8285
+			}
+		});
+	}
+
+	focusCallback = func;
+	focusCallbackDelay = delay || 10;
 },
 
 waitForLoad: function(){
@@ -100,8 +115,9 @@ waitForLoad: function(){
 			// Deferred fires when all widgets with an onLoadDeferred have fired
 			var widgets = array.filter(registry.toArray(), function(w){ return w.onLoadDeferred; }),
 				deferreds = array.map(widgets, function(w){ return w.onLoadDeferred; });
-			console.log("Waiting for " + widgets.length + " widgets");
-			new DeferredList(deferreds).then(function(){
+			console.log("Waiting for " + widgets.length + " widgets: " +
+				array.map(widgets, function(w){ return w.id; }).join(", "));
+			new all(deferreds).then(function(){
 				console.log("All widgets loaded.");
 				d.resolve(widgets);
 			});
