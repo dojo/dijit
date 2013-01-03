@@ -1,14 +1,13 @@
 // Helper methods for automated testing
 
 define([
-	"dojo/_base/array", "dojo/_base/Deferred", "dojo/DeferredList",
+	"dojo/_base/array", "dojo/Deferred", "dojo/promise/all",
 	"dojo/dom-attr", "dojo/dom-class", "dojo/dom-geometry", "dojo/dom-style",
 	"dojo/_base/kernel", "dojo/_base/lang", "dojo/query", "dojo/ready", "dojo/sniff",
-	"dijit/focus", "dijit/registry"
-], function(array, Deferred, DeferredList,
+	"dijit/a11y"	// isTabNavigable, dijit._isElementShown (latter only avail. via global; not part of module return value)
+], function(array, Deferred, all,
 			domAttr, domClass, domGeometry, domStyle,
-			kernel, lang, query, ready, has,
-			focus, registry){
+			kernel, lang, query, ready, has, a11y){
 
 
 var exports = {
@@ -54,7 +53,7 @@ tabOrder: function tabOrder(/*DomNode?*/ root){
 				return;
 			}
 
-			if(dijit.isTabNavigable(child)){
+			if(a11y.isTabNavigable(child)){
 				elems.push({
 					elem: child,
 					tabIndex: domClass.contains(child, "tabIndex") ? domAttr.get(child, "tabIndex") : 0,
@@ -101,7 +100,7 @@ waitForLoad: function(){
 			var widgets = array.filter(registry.toArray(), function(w){ return w.onLoadDeferred; }),
 				deferreds = array.map(widgets, function(w){ return w.onLoadDeferred; });
 			console.log("Waiting for " + widgets.length + " widgets");
-			new DeferredList(deferreds).then(function(){
+			new all(deferreds).then(function(){
 				console.log("All widgets loaded.");
 				d.resolve(widgets);
 			});
