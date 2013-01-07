@@ -227,7 +227,7 @@ define([
 
 		_size: function(){
 			// summary:
-			//		If necessary, shrink dialog contents so dialog fits in viewport
+			//		If necessary, shrink dialog contents so dialog fits in viewport.
 			// tags:
 			//		private
 
@@ -285,10 +285,10 @@ define([
 
 		_position: function(){
 			// summary:
-			//		Position modal dialog in the viewport. If no relative offset
+			//		Position the dialog in the viewport.  If no relative offset
 			//		in the viewport has been determined (by dragging, for instance),
-			//		center the node. Otherwise, use the Dialog's stored relative offset,
-			//		and position the node to top: left: values based on the viewport.
+			//		center the dialog.  Otherwise, use the Dialog's stored relative offset,
+			//		adjusted by the viewport's scroll.
 			if(!domClass.contains(this.ownerDocumentBody, "dojoMove")){	// don't do anything if called during auto-scroll
 				var node = this.domNode,
 					viewport = winUtils.getBox(this.ownerDocument),
@@ -456,7 +456,7 @@ define([
 
 		resize: function(){
 			// summary:
-			//		Called when viewport scrolled or size changed.  Position the Dialog and the underlay.
+			//		Called when viewport scrolled or size changed.  Adjust Dialog as necessary to keep it visible.
 			// tags:
 			//		private
 			if(this.domNode.style.display != "none"){
