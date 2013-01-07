@@ -33,7 +33,7 @@ return declare("dijit.form._ToggleButtonMixin", null, {
 		var node = this.focusNode || this.domNode;
 		domAttr.set(node, "checked", !!value); // "mixed" -> true
 		if(value){
-			node.setAttribute("checked", "");
+			node.setAttribute("checked", "checked");
 		}else{
 			node.removeAttribute("checked");
 		}
