@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>dijit.layout.BorderContainer Test - complex layout</title>
@@ -33,7 +33,7 @@
 		dojo.require("dijit.form.FilteringSelect");
 	</script>
 </head>
-<body class="claro">
+<body class="claro" role="main">
 
 	<h1 class="testTitle">dijit.layout.BorderContainer complex layout test</h1>
 
@@ -164,13 +164,13 @@
 		</div>
 		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"bottom", style:"background-color: #b39b86; height: 150px;"'>
 			<div style="border: 1px solid black;">
-				<div id="editor1" data-dojo-type="dijit/Editor" ><p>bottom bar (edit me)</p></div>
+				<div id="editor1" aria-label="editor" data-dojo-type="dijit/Editor" ><p>bottom bar (edit me)</p></div>
 			</div>
 		</div>
 		<div id="mainCP" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center", style:"background-color: #f5ffbf; padding: 10px;"'>
 			main panel with <a href="http://www.dojotoolkit.org/">a link</a>.<br />
 			(to check we're copying children around properly).<br />
-			<select id="filteringSelect" data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='style:"width:4em;"'>
+			<select id="filteringSelect" aria-label="filtering select" data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='style:"width:4em;"'>
 				<option value="1">foo</option>
 				<option value="2">bar</option>
 				<option value="3">baz</option>

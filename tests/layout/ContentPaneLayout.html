@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>ContentPane layout-related DOH test</title>
@@ -676,7 +676,7 @@
 
 	</script>
 </head>
-<body class="claro">
+<body class="claro" role="main">
 	<h1>dijit.layout.ContentPane layout related DOH test</h1>
 
 	<p>
@@ -684,7 +684,7 @@
 	</p>
 
 	<h2>Tests that href gets loaded when ContentPane is first made visible</h2>
-	<div id="outerTC" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='style:"width: 880px; height: 200px;"'>
+	<div id="outerTC" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='style:"width: 880px; height: 200px;","aria-label":"outerTC"'>
 		<div id="pane1" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"doc0.html", title:"Initially Selected", onLoad:myOnLoad'>
 			initially selected pane
 		</div>
@@ -715,7 +715,7 @@
 	</div>
 
 	<h2>Tests for resizing in a layout container hierarchy</h2>
-	<div id="resizeTC" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='style:"width: 880px; height: 200px;"'>
+	<div id="resizeTC" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='style:"width: 880px; height: 200px;","aria-label":"resizeTC"'>
 		<div id="resizePane1" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Initially Selected", onLoad:myOnLoad'>
 			initially selected pane
 		</div>
@@ -789,7 +789,7 @@
 	</form>
 
 	<h2>Tests that ContentPane resize doesn't trigger reload</h2>
-	<div id="reloadTC" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='style:"width: 880px; height: 200px;"'>
+	<div id="reloadTC" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='style:"width: 880px; height: 200px;","aria-label":"outerTC"'>
 		<div id="reloadTC_pane1" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"doc0.html", title:"Initially Selected", onLoad:myOnLoad, refreshOnShow:true'>
 			initially selected pane
 		</div>

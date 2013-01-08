@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>Accordion Widget Demo</title>
@@ -59,17 +59,17 @@
 		}
 	</style>
 </head>
-<body class="claro" style="padding: 50px;">
+<body class="claro" style="padding: 50px;" role="main">
 
 	<h1 class="testTitle">AccordionContainer Tests</h1>
 
 	<h2>Accordion from markup:</h2>
 
-	<input id="beforeMarkupAccordion" value="for tabIndex testing"/>
+	<input id="beforeMarkupAccordion" aria-label="before markup" value="for tabIndex testing"/>
 	<div id="markupAccordion" data-dojo-type="dijit/layout/AccordionContainer" data-dojo-props='style:"width: 400px; height: 300px; overflow: hidden"'>
 		<div id="pane1" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='selected:true,
 			title:"A Simple Pane", iconClass:"dijitEditorIcon dijitEditorIconSave", tooltip:"tooltip for simple pane" '>
-				<select>
+				<select aria-label="select a color">
 					<option>red</option>
 					<option>blue</option>
 					<option>green</option>
@@ -85,7 +85,7 @@
 				quam.
 				</p>
 				<p>
-				Sed arcu magna, molestie at, <input value="fringilla in, sodales"/> fringilla in, sodales eu, elit.
+				Sed arcu magna, molestie at, <input aria-label="Lorem" value="fringilla in, sodales"/> fringilla in, sodales eu, elit.
 				Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
 				vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
 				augue. Integer fermentum odio lobortis odio. Nullam mollis nisl non
@@ -218,7 +218,7 @@
 			</p>
 		</div>
 	</div>
-	<input id="afterMarkupAccordion" value="for tabIndex testing"/>
+	<input aria-label="after" id="afterMarkupAccordion" value="for tabIndex testing"/>
 	<button onclick="dijit.byId('pane1').set('title', 'My First Pane');">Change title of first pane</button>
 	<button onclick="dijit.byId('pane1').set('iconClass', 'plusIcon');">Change icon of first pane</button>
 	<button onclick="dijit.byId('markupAccordion').removeChild(dijit.byId('lazyLoadPane'));">Remove lazy-load pane</button>
@@ -239,7 +239,7 @@
 				quam.
 			</p>
 			<p>
-				Sed arcu magna, molestie at, <input value="fringilla in, sodales"/> eu, elit.
+				Sed arcu magna, molestie at, <input aria-label="ipsum" value="fringilla in, sodales"/> eu, elit.
 				Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
 				vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
 				augue. Integer fermentum odio lobortis odio. Nullam mollis nisl non
@@ -266,7 +266,7 @@
 				quam.
 			</p>
 			<p>
-				Sed arcu magna, molestie at, <input value="fringilla in, sodales"/> eu, elit.
+				Sed arcu magna, molestie at, <input aria-label="fringill" value="fringilla in, sodales"/> eu, elit.
 				Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
 				vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
 				augue. Integer fermentum odio lobortis odio. Nullam mollis nisl non
@@ -294,7 +294,7 @@
 				quam.
 			</p>
 			<p>
-				Sed arcu magna, molestie at, <input value="fringilla in, sodales"/> eu, elit.
+				Sed arcu magna, molestie at, <input aria-label="fringilla" value="fringilla in, sodales"/> eu, elit.
 				Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
 				vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
 				augue. Integer fermentum odio lobortis odio. Nullam mollis nisl non

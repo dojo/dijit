@@ -1,5 +1,5 @@
 <!DOCTYPE>
-<html>
+<html lang="en">
 	<head>
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
 		<meta name="apple-mobile-web-app-capable" content="yes" />
@@ -25,7 +25,7 @@
 			});
 		</script>
 	</head>
-	<body class="claro">
+	<body class="claro" role="main">
 		<h1>Accordion</h1>
 		<div id="ac" data-dojo-type="dijit/layout/AccordionContainer" style="height: 300px">
 			<div id="acp1" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='selected:true,
@@ -44,7 +44,7 @@
 			<div id="acp2" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='
 					title:"Pane 2", iconClass:"dijitEditorIcon dijitEditorIconSave", tooltip:"tooltip for simple pane" '>
 				<p>
-					Sed arcu magna, molestie at, <input value="fringilla in, sodales"/> fringilla in, sodales eu, elit.
+					Sed arcu magna, molestie at, <input aria-label="fringilla" value="fringilla in, sodales"/> fringilla in, sodales eu, elit.
 					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
 					vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
 					augue. Integer fermentum odio lobortis odio. Nullam mollis nisl non

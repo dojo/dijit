@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>BorderContainer Experiments | The Dojo Toolkit</title>
@@ -43,7 +43,7 @@
 
 			dojo.ready(function(){
 				dojo.declare("my.BorderContainer",dijit.layout.BorderContainer,{
-	
+
 					opts: {
 						// single pane view
 						"a":{
@@ -72,9 +72,9 @@
 								{ id: "pane3", hidden:true }
 							]
 						}
-	
+
 					},
-	
+
 					_clearSplitters: function(){
 						// cleanup all splitters on the page
 						dojo.query(".dijitSplitter",this.domNode).forEach(function(n){
@@ -158,7 +158,7 @@
 		</script>
 
     </head>
-    <body class="claro">
+    <body class="claro" role="main">
 
 		<h1>This is a test</h1>
 		<p>This is only a test. An experiment in dynamically altering a BorderContainer's layout

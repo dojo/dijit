@@ -22,12 +22,12 @@
 		But it also has some nested layout widgets, and when this file is loaded the TabContainer and
 		BorderContainer below should get resize() called on them
 		<div data-dojo-type="dijit/layout/TabContainer" id="<?php echo $id?>InnerTabContainer"
-			data-dojo-props='style:"width: 300px; height: 300px;"'>
+			data-dojo-props='style:"width: 300px; height: 300px;","aria-label":"<?php echo $id ?>"'>
 			<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Tab 1"'><?php echo $id?> tab1</div>
 			<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Tab 2"'><?php echo $id?> tab2</div>
 		</div>
 		<div data-dojo-type="dijit/layout/BorderContainer" id="<?php echo $id?>InnerBorderContainer"
-			data-dojo-props='style:"width: 300px; height: 300px;"'>
+			data-dojo-props='style:"width: 300px; height: 300px;","aria-label":"<?php echo $id ?>"'>
 			<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center"'>inner border container</div>
 		</div>
 	</div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>ContentPane Auto Require Tests</title>
@@ -49,13 +49,13 @@
 		});
 	</script>
 </head>
-<body class="claro">
+<body class="claro" role="main">
 	<h1 class="testTitle">Dijit layout.ContentPane Auto-Require Tests</h1>
 
 	<h2>ContentPane Loading Content that Requires Auto-Require</h2>
 	<div data-dojo-type="dijit/layout/ContentPane" id="parsedPane1"></div>
 	<div data-dojo-type="dijit/layout/ContentPane" id="parsedPane2">
-		<input type="text" id="tb1" data-dojo-type="dijit/form/TextBox" data-dojo-props="value: 'testValue'" />
+		<input type="text" aria-label="tb1" id="tb1" data-dojo-type="dijit/form/TextBox" data-dojo-props="value: 'testValue'" />
 	</div>
 </body>
 </html>

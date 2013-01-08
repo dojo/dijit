@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>dijit.layout.BorderContainer DOH Test</title>
@@ -232,7 +232,7 @@
 
 	</script>
 </head>
-<body class="claro">
+<body class="claro" role="main">
 	<p>Headline layout (default), left is constrained - min:150, max:250</p>
 	<div id="border1" data-dojo-type="dijit/layout/BorderContainer"
 		data-dojo-props='style:"width: 1000px; height: 300px; border: 2px solid blue;"'>
@@ -243,10 +243,10 @@
 		splitter:true, minSize:150, maxSize:250'>
 			left (resizable b/w 150 &rarr; 250)
 		</div>
-		<div role="main" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='id:"border1-center", region:"center", style:"background-color: #f5ffbf; padding: 30px;"'>
-			main panel with <a href="http://www.dojotoolkit.org/">a link</a>.<br />
+		<div role="main" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='id:"border1-center", region:"center", style:"background-color: #f5ffbf; padding: 30px;"' aria-labelledby="mylabel">
+			<label id="mylabel">main panel</label> with <a href="http://www.dojotoolkit.org/">a link</a>.<br />
 			(to check we're copying children around properly).<br />
-			<select data-dojo-type="dijit/form/FilteringSelect">
+			<select aria-label="select" data-dojo-type="dijit/form/FilteringSelect">
 				<option value="1">foo</option>
 				<option value="2">bar</option>
 				<option value="3">baz</option>
@@ -273,7 +273,7 @@
 		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='id:"border2-center", region:"center", style:"background-color: #f5ffbf; padding: 10px;"'>
 			main panel with <a href="http://www.dojotoolkit.org/">a link</a>.<br />
 			(to check we're copying children around properly).<br />
-			<select data-dojo-type="dijit/form/FilteringSelect">
+			<select aria-label="select2" data-dojo-type="dijit/form/FilteringSelect">
 				<option value="1">foo</option>
 				<option value="2">bar</option>
 				<option value="3">baz</option>

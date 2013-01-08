@@ -1,5 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<html lang="en">
 <head>
 	<title>dijit.layout.LayoutContainer Test</title>
 
@@ -137,7 +137,7 @@
 	</script>
 
 </head>
-<body class="claro">
+<body class="claro" role="main">
 	<h2 id="heading" >Dijit layout.LayoutContainer tests</h2>
 
 	<p>Basic layout. Tabindex=&quot;0&quot; added to each pane to test for tab order matching source code order.  Tab order
@@ -158,7 +158,7 @@
 		<div dojoType="dijit.layout.ContentPane" id="centercp_layout1" layoutAlign="client" style="background-color: #f5ffbf; padding: 10px;"  tabindex="0">
 			main panel with <a href="http://www.dojotoolkit.org/">a link</a>.<br />
 			(to check we're copying children around properly).<br />
-			<select dojoType="dijit.form.FilteringSelect">
+			<select dojoType="dijit.form.FilteringSelect" aria-label="select">
 				<option value="1">foo</option>
 				<option value="2">bar</option>
 				<option value="3">baz</option>
@@ -196,7 +196,7 @@
 			main panel with <a href="http://www.dojotoolkit.org/">a link</a>.<br />
 
 			(to check we're copying children around properly).<br />
-			<select dojoType="dijit.form.FilteringSelect">
+			<select dojoType="dijit.form.FilteringSelect" aria-label="select">
 				<option value="1">foo</option>
 				<option value="2">bar</option>
 				<option value="3">baz</option>
@@ -230,7 +230,7 @@
 						<div dojoType="dijit.layout.ContentPane" id="centercp_layout3" layoutAlign="client" style="background-color: #f5ffbf; padding: 10px; margin: 5px;" tabindex="0">
 							main panel with <a href="http://www.dojotoolkit.org/">a link</a>.<br />
 							(to check we're copying children around properly).<br />
-							<select dojoType="dijit.form.FilteringSelect">
+							<select dojoType="dijit.form.FilteringSelect" aria-label="select">
 								<option value="1">foo</option>
 								<option value="2">bar</option>
 								<option value="3">baz</option>
@@ -280,7 +280,7 @@
 		<div dojoType="dijit.layout.ContentPane" layoutAlign="client" style="padding: 10px;">
 			main panel with <a href="http://www.dojotoolkit.org/">a link</a>.<br />
 			(to check we're copying children around properly).<br />
-			<select dojoType="dijit.form.FilteringSelect">
+			<select dojoType="dijit.form.FilteringSelect" aria-label="select">
 				<option value="1">foo</option>
 				<option value="2">bar</option>
 				<option value="3">baz</option>

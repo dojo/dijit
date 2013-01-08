@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>dijit.layout.BorderContainer Test - Full Screen</title>
@@ -36,7 +36,7 @@
 	</script>
 
 </head>
-<body class="claro">
+<body class="claro" role="main">
 	<div id="main" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='design:"sidebar" '>
 		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='id:"main-leading", region:"leading", style:"background-color: #acb386; width: 100px;"'>
 			leading
@@ -47,7 +47,7 @@
 		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='id:"main-center", region:"center", style:"background-color: #f5ffbf; padding: 10px;"'>
 			main panel with <a href="http://www.dojotoolkit.org/">a link</a>.<br />
 			(to check we're copying children around properly).<br />
-			<select data-dojo-type="dijit/form/FilteringSelect">
+			<select aria-label="select" data-dojo-type="dijit/form/FilteringSelect">
 				<option value="1">foo</option>
 				<option value="2">bar</option>
 				<option value="3">baz</option>
