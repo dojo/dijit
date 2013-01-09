@@ -428,7 +428,6 @@ define([
 					textDir: this.textDir
 				});
 				this.focusNode.removeAttribute("aria-activedescendant");
-				this.textbox.setAttribute("aria-owns",popupId); // associate popup with textbox
 			}
 			this._lastInput = key; // Store exactly what was entered by the user.
 			this.inherited(arguments);
