@@ -319,19 +319,23 @@
 							// right-click on form widget
 							robot.mouseMoveAt("formwidget", 500, 1);
 							robot.mouseClick({right: true}, 500);
-	
+
 							robot.sequence(d.getTestCallback(function(){
 								doh.t(helpers.isVisible(menu), "menu is now shown");
 	
 								var widgetCoords = domGeom.position("formwidget");
 									menuCoords = domGeom.position(menu.domNode);
-	
+
 								doh.t(((menuCoords.x > widgetCoords.x) && (menuCoords.x < (widgetCoords.x + widgetCoords.w))) ||
 									(((menuCoords.x + menuCoords.w) > widgetCoords.x) && ((menuCoords.x + menuCoords.w) < (widgetCoords.x + widgetCoords.w))),
 									"begins or ends within the form widget horizontal boundaries");
 								doh.t(((menuCoords.y > widgetCoords.y) && (menuCoords.y < (widgetCoords.y + widgetCoords.h))) ||
 									(((menuCoords.y + menuCoords.h) > widgetCoords.y) && ((menuCoords.y + menuCoords.h) < (widgetCoords.y + widgetCoords.h))),
 									"begins or ends within the form widget vertical boundaries");
+
+								var cm = dom.byId("windowContextMenu");
+								doh.is("region", cm.parentNode.getAttribute("role"), "context menu's wrapper node needs role=region");
+                				doh.is("windowContextMenu", cm.parentNode.getAttribute("aria-label"), "menu's wrapper node needs aria-label");
 							}), 1000);
 	
 							return d;

@@ -170,6 +170,8 @@
 							
 								doh.is("listbox", combo.dropDown.domNode.getAttribute("role"), "dropDown.domNode should have a role");
 								doh.is("setvaluetest", combo.dropDown.domNode.getAttribute("aria-labelledby"), "aria-labelledby should point back to button");
+								doh.is("region", dojo.byId("widget_setvaluetest_dropdown").getAttribute("role"), "popup wrapper should have role=region since it gets appended to the end of the body");
+								doh.is("setvaluetest_popup", dojo.byId("widget_setvaluetest_dropdown").getAttribute("aria-label"), "popup wrapper should have aria-label since role=region");
 							}), 500);
 						});
 

@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
 		"http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<html lang="en">
 <head>
 	<title>popup and BackgroundIFrame unit test</title>
 	<style type="text/css">
@@ -452,14 +452,29 @@
 			// and dialogNestedPopupOpener to close, but not dialogWithNestedPopup.
 			// (TODO)
 
+			doh.register("a11y tests", function ariaOnWrapper(){
+				var popup = new SimpleChoiceWidget({id: "scwPopup"});
+
+				popupUtil.open({
+					popup: popup,
+					orient: "R",
+					x: 10,
+					y: 15
+				});
+
+				var w = popup.domNode;
+				doh.is("region", w.parentNode.getAttribute("role"), "popup's wrapper node needs role=region");
+				doh.is("scwPopup", w.parentNode.getAttribute("aria-label"), "popup's wrapper node needs aria-label");
+			});
+
 			doh.run();
 		});
 	</script>
 </head>
 <body>
 	<h1>popup and BackgroundIFrame Unit Test</h1>
-	<input id="inputAtStart">
+	<label for="inputAtStart">label:</label><input id="inputAtStart">
 	<span id="widgets"></span>
-	<input id="inputAtEnd">
+	<label for="inputAtEnd">label:</label><input id="inputAtEnd">
 </body>
 </html>

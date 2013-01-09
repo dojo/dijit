@@ -110,7 +110,8 @@ define([
 				wrapper = domConstruct.create("div", {
 					"class":"dijitPopup",
 					style:{ display: "none"},
-					role: "presentation"
+					role: "region",
+					"aria-label": widget["aria-label"] || widget.label || widget.name || widget.id
 				}, widget.ownerDocumentBody);
 				wrapper.appendChild(node);
 
