@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>Calendar Widget Test</title>
@@ -59,13 +59,13 @@
 			}
 		</script>
 	</head>
-	<body class="claro">
+	<body class="claro" role="main">
 
 		<h1 class="testTitle">Dijit Calendar Test</h1>
 
-		<input value="input before" id="before"/>
-		<input id="calendar1" data-dojo-type="dijit/Calendar" data-dojo-props='onChange:function(v){ myHandler(this.id, v) }'/>
-		<input value="input after" id="after"/>
+		<label for="before">input before: </label><input id="before"/>
+		<input id="calendar1" data-dojo-type="dijit/Calendar" summary="Small calendar" data-dojo-props='onChange:function(v){ myHandler(this.id, v) }'/>
+		<label for="after">input after: </label><input id="after"/>
 		<p>
 			<a href="#"
 			   onClick="dijit.registry.forEach(function(c){
@@ -76,7 +76,7 @@
 				});">disable weekends</a>
 		</p>
 
-		<p>Customized template with "today" button</p>
+		<p>Big Calendar</p>
 		<div>
 			<!-- Parent div used so we have a handle to use for dojo.parser.parse after BigCalendar gets defined. -->
 			<!-- The input below will be replaced by BigCalendar which is defined in a dojo.ready block. -->
