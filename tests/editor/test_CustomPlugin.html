@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>Editor Custom Plugin Test/Tutorial</title>
@@ -63,6 +63,7 @@
 						if(!this.sourceArea){
 							this.sourceArea = dojo.doc.createElement('textarea');
 							this.sourceArea.style.position = 'absolute';
+							this.sourceArea.setAttribute("aria-label", "sourceArea");
 							dojo.place(this.sourceArea, this.editor.domNode, "last");
 						}
 						if(this.source){
@@ -98,8 +99,8 @@
 		});
 	</script>
 </head>
-<body class="claro">
-	<div id="editor1" data-dojo-type="dijit/Editor" data-dojo-props='extraPlugins:["MyPlugin"], height: 150'><p>
+<body class="claro" role="main">
+	<div id="editor1" data-dojo-type="dijit/Editor" data-dojo-props='"aria-label":"editorExtraPlugin",extraPlugins:["MyPlugin"], height: 150'><p>
 	This editor should have my custom plugin
 	</p></div>
 </body>

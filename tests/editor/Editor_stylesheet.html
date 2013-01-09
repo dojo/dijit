@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<title>Editor StyleSheet Test</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -96,9 +96,9 @@
 		});
 	</script>
 </head>
-<body class="claro">
+<body class="claro" role="main">
 <p>Turning on the stylesheet should make header red</p>
-<div id="editor" data-dojo-type="dijit/Editor" data-dojo-props='name:"field"'>
+<div id="editor" data-dojo-type="dijit/Editor" aria-label="editor" data-dojo-props='name:"field"'>
 	<h1>Adding stylesheet should make my background red</h1>
 	<h2>I shouldn't change</h2>
 </div>

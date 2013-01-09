@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>Editor TabIndent Plugin Test</title>
@@ -21,13 +21,13 @@
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 	</script>
 </head>
-<body class="claro">
+<body class="claro" role="main">
 	<p>Paragraph with focusable <span tabindex="0" style="color:blue">item </span>before editor. </p>
 	<label>Test TabIndent Plugin</label>
 	<div style="border: 1px dotted black;">
 	
 		<div id="tiTest" data-dojo-type="dijit/Editor"
-			data-dojo-props='extraPlugins:["tabIndent"]'>
+			data-dojo-props='"aria-label":"tiTest",extraPlugins:["tabIndent"]'>
 			<div>
 				<ol>
 				<li>the tabIndent plugin allows the use of the tab and shift-tab keys to

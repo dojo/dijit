@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<title>html utility tests</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -15,7 +15,7 @@
 				function general(){
 					var html = htmlAPI.getNodeHtml(dom.byId("general"));
 					html = html.replace(/\s+/g, " ").replace(/>\s*</g, "><").replace(/10%;"/, '10%"');
-					doh.is('<div id="general"><img base="foo" style="width: 10%; height: 10%" /><span><i>hello<b>world</b></i></span></div>', html);
+					doh.is('<div id="general"><img alt="" base="foo" style="width: 10%; height: 10%" /><span><i>hello<b>world</b></i></span></div>', html);
 				},
 				function tagClose(){
 					var html = htmlAPI.getNodeHtml(dom.byId("tagclosure"));
@@ -25,7 +25,7 @@
 				function djrealurl(){
 					var html = htmlAPI.getNodeHtml(dom.byId("djrealurl"));
 					html = html.replace(/\s+/g, " ").replace(/>\s*</g, "><");
-					doh.is('<div id="djrealurl"><a href="real">hi</a><img src="real" /></div>', html);
+					doh.is('<div id="djrealurl"><a href="real">hi</a><img alt="" src="real" /></div>', html);
 				}
 			]);
 
@@ -33,7 +33,7 @@
 				function general(){
 					var html = htmlAPI.getChildrenHtml(dom.byId("general"));
 					html = lang.trim(html.replace(/\s+/g, " ").replace(/>\s*</g, "><").replace(/10%;"/, '10%"'));
-					doh.is('<img base="foo" style="width: 10%; height: 10%" /><span><i>hello<b>world</b></i></span>', html);
+					doh.is('<img alt="" base="foo" style="width: 10%; height: 10%" /><span><i>hello<b>world</b></i></span>', html);
 				},
 				function tagClose(){
 					var html = htmlAPI.getChildrenHtml(dom.byId("tagclosure"));
@@ -43,7 +43,7 @@
 				function djrealurl(){
 					var html = htmlAPI.getChildrenHtml(dom.byId("djrealurl"));
 					html = lang.trim(html.replace(/\s+/g, " ").replace(/>\s*</g, "><"));
-					doh.is('<a href="real">hi</a><img src="real" />', html);
+					doh.is('<a href="real">hi</a><img alt="" src="real" />', html);
 				},
 				function specialchars(){
 					var html = htmlAPI.getChildrenHtml(dom.byId("specialchars"));
@@ -84,14 +84,14 @@
 		});
 	</script>
 </head>
-<body>
+<body role="main">
 
 <!--
 this tests that tag case is normalized, and that attributes are sorted
 (the style vs. base attributes for the <img>
 -->
 <div id="general">
-	<imG style="width: 10%; height: 10%" base="foo">
+	<imG alt="" style="width: 10%; height: 10%" base="foo">
 	<SPAN><i>hello<b>world</b></i></SPAN>
 </div>
 
@@ -107,7 +107,7 @@ src and href attributes get converted to _djrealurl, which is dropped
 -->
 <div id="djrealurl">
 <a href="javascript:1" _djrealurl="real">hi</a>
-<img src="javascript:1" _djrealurl="real">
+<img alt="" src="javascript:1" _djrealurl="real">
 </div>
 
 <div id="specialchars">
