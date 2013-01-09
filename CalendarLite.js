@@ -299,7 +299,7 @@ define([
 			//		Creates the drop down button that displays the current month and lets user pick a new one
 
 			return CalendarLite._MonthWidget({
-				id: this.id + "_mw",
+				id: this.id + "_mddb",
 				lang: this.lang,
 				dateLocaleModule: this.dateLocaleModule
 			}, this.monthNode);
