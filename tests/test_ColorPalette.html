@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>ColorPalette Test</title>
@@ -24,7 +24,7 @@
 	
 		function programatic(){ 
 			var date0 = new Date();
-			palette = new dijit.ColorPalette({palette: "7x10", id: "prog"}, dojo.byId("programPalette"));
+			palette = new dijit.ColorPalette({palette: "7x10", id: "prog", "aria-label": "programatic label"}, dojo.byId("programPalette"));
 			console.log("creation time for 7x10 palette: " + (new Date() - date0) );
 		}
 
@@ -46,27 +46,27 @@
 	</script>
 </head>
 
-<body class="claro">
+<body class="claro" role="main">
 
 	<h1 class="testTitle">dijit.ColorPalette test:</h1>
 
 	<p>Large color palette (7x10), English tooltips:</p>
-	<input id="beforeBig" value="for tabIndex testing"/>
-	<div id="big" data-dojo-type="dijit/ColorPalette" data-dojo-props='onChange:function(){ setColor(this.value); }, lang:"en-us", summary:"This is the palette summary"'></div>
-	Test color is: <span id="outputSpan"></span>.
+	<label for="beforeBig">label:</label><input id="beforeBig" value="for tabIndex testing"/>
+	<div id="big" data-dojo-type="dijit/ColorPalette" data-dojo-props='onChange:function(){ setColor(this.value); }, lang:"en-us", "aria-label":"This is the palette label"'></div>
+	<label for="afterBig">Test color is:</label> <span id="outputSpan"></span>.
 	<input id="afterBig" value="for tabIndex testing"/>
 
 	<p>Small color palette (3x4), Spanish tooltips:</p>
-	<input id="beforeSmall" value="for tabIndex testing"/>
-	<div id="small" data-dojo-type="dijit/ColorPalette" data-dojo-props='palette:"3x4", lang:"es-mx"'></div>
-	<input id="afterSmall" value="for tabIndex testing"/>
+	<label for="beforeSmall">label:</label><input id="beforeSmall" value="for tabIndex testing"/>
+	<div id="small" data-dojo-type="dijit/ColorPalette" data-dojo-props='palette:"3x4", lang:"es-mx","aria-label":"Small color palette"'></div>
+	<label for="afterSmall">label:</label><input id="afterSmall" value="for tabIndex testing"/>
 
 	<p>Default color palette (7x10) created programatically:</p>
 	<div id="programPalette"></div>
 
 	<p>ColorPalette with value pre-selected, using old style parser parameters:</p>
-	<input id="beforeValuePreselected" value="for tabIndex testing"/>
-	<div id="valuePreselected" dojoType="dijit.ColorPalette" value="#0000ff"></div>
-	<input id="afterValuePreselected" value="for tabIndex testing"/>
+	<label for="beforeValuePreselected">label:"</label><input id="beforeValuePreselected" value="for tabIndex testing"/>
+	<label for="valuePreselected">label for color palette</label><div id="valuePreselected" dojoType="dijit.ColorPalette" value="#0000ff"></div>
+	<label for="afterValuePreselected">label:</label><input id="afterValuePreselected" value="for tabIndex testing"/>
 </body>
 </html>
