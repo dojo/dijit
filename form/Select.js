@@ -44,8 +44,8 @@ var _SelectMenu = declare("dijit.form._SelectMenu", Menu, {
 		domClass.remove(o, "dijitMenuTable");
 		n.className = o.className + " dijitSelectMenu";
 		o.className = "dijitReset dijitMenuTable";
-		o.setAttribute("role", "listbox");
-		n.setAttribute("role", "presentation");
+		n.setAttribute("role", "listbox");
+		o.setAttribute("role", "presentation");
 		n.appendChild(o);
 	},
 

@@ -29,14 +29,57 @@
 						registry = robot.window.require("dijit/registry");
 					}
 				]);
+				
+				doh.register("aria", [
+					{
+						name: "tab container attributes",
+						timeout: 10000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							var tc = registry.byId("mainTabContainer");
+							
+							doh.is("tabpanel", tc.containerNode.children[0].getAttribute("role"), "containerNode child role");
+							doh.is("mainTabContainer_tablist_tab1", tc.containerNode.children[0].getAttribute("aria-labelledby"), "containerNode.child (the tabpanel) labelledby");
+							
+							var tablist = tc.tablist;
+							
+							// The tablist that stretches across the top
+							doh.is("tablist", tablist.containerNode.getAttribute("role"), "tablist role");
+							doh.is("tab", tablist.getChildren()[0].focusNode.getAttribute("role"), "tablist child's role should be tab");
+							
+							// Now the drop down button
+							doh.is("button", tablist._menuBtn.domNode.getAttribute("role"), "_menuBtn role");
+							doh.f(tablist._menuBtn.domNode.getAttribute("aria-expanded"), "aria-expanded should initially be absent");
+							doh.f(tablist._menuBtn.domNode.getAttribute("aria-owns"), "aria-owns should initially be absent");
 
-				doh.register("basic navigation",[
+							// Now open the drop down to verify changes in aria-expanded, aria-owns, and aria-labelledby
+							tablist._menuBtn.focus();
+							robot.keyPress(keys.ENTER, 500, {});
+
+							robot.sequence(d.getTestCallback(function(){
+								doh.t(tablist._menuBtn.domNode.getAttribute("aria-expanded"), "aria-expanded with open dropdown");
+								doh.is("mainTabContainer_menu", tablist._menuBtn.domNode.getAttribute("aria-owns"), "menuBtn should own the menu dropdown");
+								
+								var menu = registry.byId("mainTabContainer_menu");
+								doh.is("menu", menu.domNode.getAttribute("role"), "the dropdown role");
+								doh.is("mainTabContainer_tablist_menuBtn", menu.domNode.getAttribute("aria-labelledby"), "aria-labelledby on menu dropdown");
+							
+							}), 500);
+							
+							return d;
+						}
+					}
+				]);
+
+				doh.register("basic navigation", [
 					{
 						name: "focus on button before TabContainer",
 						timeout: 10000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
+							// Note: for this to work, focus needs to start somewhere else; otherwise there will be no
+							// focus event.
 							onFocus(d.getTestCallback(function(node){
 							}));
 

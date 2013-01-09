@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>TooltipDialog Widget Tests</title>
@@ -117,14 +117,13 @@
 		});
 	</script>
 </head>
-<body class="claro">
+<body class="claro" role="main">
 
 	<h1 class="testTitle">dijit.TooltipDialog tests</h1>
-
-	<div id="tooltipDlgButton" data-dojo-type="dijit/form/DropDownButton" >
+	<div id="tooltipDlgButton" data-dojo-type="dijit/form/DropDownButton">
 		<span>Show Tooltip Dialog</span>
 		<div id="tooltipDlg" data-dojo-type="dijit/TooltipDialog" data-dojo-props='title:"Enter Login information"'>
-			<table>
+			<table role="presentation">
 				<tr>
 					<td><label>InlineEditBox:</label></td>
 					<td><div id="inline" data-dojo-type=dijit.InlineEditBox data-dojo-props='editorParams:{type:"text", name:"inline"}'>inline</div></td>
@@ -296,7 +295,7 @@
 	</p>
 	<form>
 		<div style="text-align:center;">
-			<select>
+			<select aria-label="select">
 				<option>1</option>
 				<option>2</option>
 			</select>
@@ -375,7 +374,7 @@
 	</p>
 	<form>
 		<div style="text-align:center;">
-			<select>
+			<select aria-label="select">
 				<option>1</option>
 				<option>2</option>
 			</select>

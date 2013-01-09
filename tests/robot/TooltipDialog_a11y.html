@@ -27,6 +27,41 @@
 
 				doh.register("TooltipDialog normal operation", [
 					{
+						name: "aria roles and attributes",
+						timeout: 5000,
+						button: null,
+						runTest: function(){
+							var d = new doh.Deferred();
+							button = registry.byId("tooltipDlgButton");
+							
+							doh.is("button", button._popupStateNode.getAttribute("role"), "button _popupStateNode role");
+							doh.t(button._popupStateNode.getAttribute("aria-haspopup"), "aria-haspopup on button");
+							doh.is("tooltipDlgButton_label", button._popupStateNode.getAttribute("aria-labelledby"), "aria-labelledby");
+							doh.f(button._popupStateNode.getAttribute("aria-expanded"), "initially missing aria-expanded");
+							doh.f(button._popupStateNode.getAttribute("aria-owns"), "initally missing aria-owns");
+							
+							// now open the drop down
+							robot.sequence(function(){
+								button.focus();
+							}, 500, 500);
+							robot.keyPress(keys.SPACE, 500, {});
+
+							robot.sequence(d.getTestCallback(function(){								
+								doh.t(button._popupStateNode.getAttribute("aria-expanded"), "now aria-expanded should be true");
+								doh.is("tooltipDlg", button._popupStateNode.getAttribute("aria-owns"), "should aria-own the Dlg");
+								// Check roles and attributes on the dialog
+								var dlg = registry.byId("tooltipDlg");
+								doh.is("alertdialog", dlg.domNode.getAttribute("role"), "Dlg.domNode should have a role");
+								doh.is("tooltipDlgButton", dlg.domNode.getAttribute("aria-labelledby"), "aria-labelledby should point back to button");
+							}), 1000);
+						
+							return d;
+						},
+						tearDown: function(){
+							button.closeDropDown();
+						}
+					},
+					{
 						name: "basic navigation",
 						timeout: 10000,
 						runTest: function(){
@@ -385,7 +420,7 @@
 										doh.f(button._opened, "TooltipDialog should not be showing after Esc");
 									}), 1000);
 								}), 0);
-							}
+							};
 
 							// Open TooltipDialog
 							robot.sequence(function(){
