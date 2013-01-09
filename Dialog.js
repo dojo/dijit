@@ -140,30 +140,6 @@ dojo.declare(
 			this.inherited(arguments);
 		},
 
-		_onBlur: function(by){
-			this.inherited(arguments);
-
-			// If focus was accidentally removed from the dialog, such as if the user clicked a blank
-			// area of the screen, or clicked the browser's address bar and then tabbed into the page,
-			// then refocus.   Won't do anything if focus was removed because the Dialog was closed, or
-			// because a new Dialog popped up on top of the old one.
-			var refocus = dojo.hitch(this, function(){
-				if(this.open && !this._destroyed && dijit._DialogLevelManager.isTop(this)){
-					this._getFocusItems(this.domNode);
-					dijit.focus(this._firstFocusItem);
-				}
-			});
-			if(by == "mouse"){
-				// wait for mouse up, and then refocus dialog; otherwise doesn't work
-				var handle = this.connect(dojo.doc, "mouseup", function(){
-					this.disconnect(handle);
-					refocus();
-				});
-			}else{
-				refocus();
-			}
-		},
-
 		_endDrag: function(e){
 			// summary:
 			//		Called after dragging the Dialog. Saves the position of the dialog in the viewport.
