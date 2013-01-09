@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
@@ -111,7 +111,7 @@
 	});
     </script>
 </head>
-<body class="claro">
+<body class="claro" role="main">
 
 	<div id="windowContextMenu" data-dojo-type="dijit/Menu" data-dojo-props='contextMenuForWindow:true, style:"display: none;"'>
 		<div data-dojo-type="dijit/MenuItem" data-dojo-props='onClick:function(){ console.log("Hello world"); }'>Context Menu</div>
@@ -210,14 +210,14 @@
 		</div>
 	</div>
 
-	<table id="formattingTable">
+	<table id="formattingTable" role="presentation">
 		<tr>
 			<td style="width:0;">
 				<!-- This is here for tabIndex testing.
 				     Use textarea since Chrome 1.0 likes it better for TABing and
 				     because it has innerText property and because it doesn't mess
 				     with the URL when clicked -->
-				<textarea id="link" tabIndex="0" readOnly class="dijitReset" style="font-family:monospace;font-size:12px;width:84px;text-decoration:underline;overflow:hidden;background-color:transparent;" rows=1>random link</textarea>
+				<textarea aria-label="random link" id="link" tabIndex="0" readOnly class="dijitReset" style="font-family:monospace;font-size:12px;width:84px;text-decoration:underline;overflow:hidden;background-color:transparent;" rows=1>random link</textarea>
 			</td>
 			<td id="menuBarContainer" style="width:100%;">
 				<div id="menubar" data-dojo-type="dijit/MenuBar">
@@ -324,7 +324,7 @@
 						<div data-dojo-type="dijit/ColorPalette"></div>
 					</div>
 					<div data-dojo-type="dijit/MenuSeparator"></div>
-					<div data-dojo-type="dijit/CheckedMenuItem" data-dojo-props='checked:true, onChange:function(val){ console.log("Now set to " + val); }'>Checked</div>
+					<div id="checked1" data-dojo-type="dijit/CheckedMenuItem" data-dojo-props='checked:true, onChange:function(val){ console.log("Now set to " + val); }'>Checked</div>
 					<div id="checked2" data-dojo-type="dijit/CheckedMenuItem" >Not Checked</div>
 					<div data-dojo-type="dijit/CheckedMenuItem" data-dojo-props='checked:true, disabled:true'>Checked Disabled</div>
 				</div>
@@ -354,17 +354,17 @@
 						the right menu by verifying the left<br/>
 						click one starts with "Left Click Menu"<br/>
 						at the very top.
-						<input id=input2 value="top-right"/>
+						<input aria-label="input2" id=input2 value="top-right"/>
 					</p>
-					<input id=input1 value="top-left"/>
-					<textarea id=textarea>hello there!</textarea><br>
-					<select>
+					<input aria-label="input1" id=input1 value="top-left"/>
+					<textarea aria-label="textara" id=textarea>hello there!</textarea><br>
+					<select aria-label="select">
 						<option>check if i</option>
 						<option>bleed through</option>
 						<option>on IE6</option>
 					</select>
 					<button id=button>push me</button><br>
-					<input data-dojo-type="dijit/form/TextBox" id="formwidget" data-dojo-props='style:"width:25em;", value:"dijit.form._FormWidget focus test"'/>
+					<input data-dojo-type="dijit/form/TextBox" aria-label="focus test" id="formwidget" data-dojo-props='style:"width:25em;", value:"dijit.form._FormWidget focus test"'/>
 				</form>
 
 			    <div id="prog_menu" style="clear: both; border:1px solid blue; padding:10px; margin:20px 0;">
@@ -377,8 +377,8 @@
 				<p>(this space intentionally left blank to aid testing with controls
 				at the bottom of the browser window)</p>
 				<div style="height:500px"></div>
-				<input id=input3 value="bottom-left"/>
-				<p style="text-align:right"><input id=input4 value="bottom-right"/></p>
+				<input id=input3 aria-label="input3" value="bottom-left"/>
+				<p style="text-align:right"><input aria-label="input4" id=input4 value="bottom-right"/></p>
 
 				<p>See also: <a href="form/test_Button.html">form/test_Button</a>
 				(PopupMenu is used with DropDownButton and ComboButton)</p>
@@ -388,7 +388,7 @@
 				<ul>
 					<li>Right click on the client area of the page (ctrl-click for Macintosh). Menu should open.</li>
 					<li>Right click on each of the form controls above. Menu should open.</li>
-					<li>Right click near the righthand window border. Menu should open to the left of the pointer.</li>
+					<li>Right click near the right hand window border. Menu should open to the left of the pointer.</li>
 					<li>Right click near the bottom window border. Menu should open above the pointer.</li>
 				</ul>
 
@@ -398,7 +398,7 @@
 				<ul>
 					<li>Hover over the first item with the pointer. Item should highlight and get focus.</li>
 					<li>Hover over the second (disabled) item. Item should highlight and get focus.</li>
-					<li>Seperator items should not highlight on hover - no items should highlight in this case.</li>
+					<li>Separator items should not highlight on hover - no items should highlight in this case.</li>
 				</ul>
 
 
