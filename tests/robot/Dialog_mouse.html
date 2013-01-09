@@ -57,8 +57,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isVisible("dialog1"), "dialog 1 still visible");
-								doh.is("name", dojo.global.dijit.focus.curNode.id,
-										"focus remains on / returned to dialog");
+								doh.isNot("plainInput", dojo.global.dijit.focus.curNode && dojo.global.dijit.focus.curNode.id, "plain input wasn't focused");
 							}), 1000);
 
 							return d;
