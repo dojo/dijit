@@ -461,7 +461,12 @@ define([
 			//		private
 			if(this.domNode.style.display != "none"){
 				this._size();
-				this._position();
+				if(!has("touch")){
+					// If the user has scrolled the display then reposition the Dialog.  But don't do it for touch
+					// devices, because it will counteract when a keyboard pops up and then the browser auto-scrolls
+					// the focused node into view.
+					this._position();
+				}
 			}
 		},
 
