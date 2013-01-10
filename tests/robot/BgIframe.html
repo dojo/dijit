@@ -131,6 +131,31 @@
 
 							return d;
 						}
+					},
+					{
+						name: "menu_" + xId,
+						timeout: 7000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var wasClicked = false;
+							dijit.byId("copy_"+xId).onClick = function(e){ wasClicked = true; };
+
+							// Show the popup
+							var button = dijit.byId("menuButton_" + xId);
+							doh.robot.mouseMoveAt(button.domNode, 500, 1);
+							doh.robot.mouseClick({left: true}, 500);
+
+							// Click on the popup
+							doh.robot.mouseMoveAt("copy_"+xId);
+							doh.robot.mouseClick({left: true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(wasClicked);
+							}), 1000);
+
+							return d;
+						}
 					}
 					]);
 				});

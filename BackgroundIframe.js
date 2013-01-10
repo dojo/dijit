@@ -12,6 +12,13 @@ define([
 
 	// module:
 	//		dijit/BackgroundIFrame
+
+	// Flag for whether to create background iframe behind popups like Menus and Dialog.
+	// A background iframe is useful to prevent problems with popups appearing behind applets/pdf files,
+	// and is also useful on older versions of IE (IE6 and IE7) to prevent the "bleed through select" problem.
+	// TODO: For 2.0, make this false by default.  Also, possibly move definition to has.js so that this module can be
+	// conditionally required via  dojo/has!bgIfame?dijit/BackgroundIframe
+	has.add("bgIframe", has("ie") || has("mozilla"));
 	// summary:
 	//		new dijit.BackgroundIframe(node)
 	//		Makes a background iframe as a child of node, that fills
@@ -66,7 +73,7 @@ define([
 		//			area (and position) of node
 
 		if(!node.id){ throw new Error("no id"); }
-		if(has("ie") || has("mozilla")){
+		if(has("bgIframe")){
 			var iframe = (this.iframe = _frames.pop());
 			node.appendChild(iframe);
 			if(has("ie")<7 || has("quirks")){
