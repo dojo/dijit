@@ -15,7 +15,7 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../dojo/dojo.js"
-		data-dojo-config="parseOnLoad: true, isDebug: true"></script>
+		data-dojo-config="parseOnLoad: true, isDebug: true, has: {bgIframe: true}"></script>
 
 	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="_testCommon.js"></script>
@@ -23,6 +23,8 @@
 	<script type="text/javascript">
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.Dialog");
+		dojo.require("dijit.DropDownMenu");
+		dojo.require("dijit.MenuItem");
 		dojo.require("dijit.form.DateTextBox");
 		dojo.require("dijit.form.Button");
 		dojo.require("dijit.Tooltip");
@@ -54,6 +56,17 @@
 				<td></td>
 				<td>
 					<input id="dateText_applet" data-dojo-type="dijit/form/DateTextBox" data-dojo-props='type:"text" '/>
+					<button id="menuButton_applet" title="edit title" value="Edit" data-dojo-type="dijit/form/DropDownButton" data-dojo-props='iconClass:"noteIcon"'>
+						<span>Edit<b>!</b></span>
+						<span id="menu_applet" data-dojo-type="dijit/DropDownMenu" >
+							<span id="cut_applet" data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconCut",
+								onClick:function(){ console.log("not actually cutting anything, just a test!"); }'>Cut</span>
+							<span id="copy_applet" data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconCopy",
+								onClick:function(){ console.log("not actually copying anything, just a test!"); }'>Copy</span>
+							<span id="paste_applet" data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconPaste",
+								onClick:function(){ console.log("not actually pasting anything, just a test!"); }'>Paste</span>
+						</span>
+					</button>
 				</td>
 			</tr>
 			<tr>
@@ -89,6 +102,17 @@
 				<td></td>
 				<td>
 					<input id="dateText_xapp" data-dojo-type="dijit/form/DateTextBox" data-dojo-props='type:"text" '/>
+					<button id="menuButton_xapp" title="edit title" value="Edit" data-dojo-type="dijit/form/DropDownButton" data-dojo-props='iconClass:"noteIcon"'>
+						<span>Edit<b>!</b></span>
+						<span id="menu_xapp" data-dojo-type="dijit/DropDownMenu" >
+							<span id="cut_xapp" data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconCut",
+								onClick:function(){ console.log("not actually cutting anything, just a test!"); }'>Cut</span>
+							<span id="copy_xapp" data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconCopy",
+								onClick:function(){ console.log("not actually copying anything, just a test!"); }'>Copy</span>
+							<span id="paste_xapp" data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconPaste",
+								onClick:function(){ console.log("not actually pasting anything, just a test!"); }'>Paste</span>
+						</span>
+					</button>
 				</td>
 			</tr>
 			<tr>
