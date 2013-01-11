@@ -173,7 +173,7 @@ var typematic = (dijit.typematic = {
 			})),
 			on(node, "dblclick", lang.hitch(this, function(evt){
 				event.stop(evt);
-				if(has("ie")){
+				if(has("ie") < 9){
 					typematic.trigger(evt, _this, node, callback, node, subsequentDelay, initialDelay, minDelay);
 					setTimeout(lang.hitch(this, typematic.stop), 50);
 				}
