@@ -363,18 +363,23 @@ define([
 				this._fadeOutDeferred.cancel();
 			}
 
-			this._modalconnects.push(on(window, "scroll", lang.hitch(this, "layout")));
-			this._modalconnects.push(on(window, "resize", lang.hitch(this, function(){
-				// IE gives spurious resize events and can actually get stuck
-				// in an infinite loop if we don't ignore them
-				var viewport = winUtils.getBox();
-				if(!this._oldViewport ||
-						viewport.h != this._oldViewport.h ||
-						viewport.w != this._oldViewport.w){
-					this.layout();
-					this._oldViewport = viewport;
-				}
-			})));
+			if(!has("touch")){
+				// If the user scrolls the display or resizes the viewport then reposition the Dialog.  But don't do it
+				// for touch devices, because it will counteract when a keyboard pops up and then the browser
+				// auto-scrolls the focused node into view.
+				this._modalconnects.push(on(window, "scroll", lang.hitch(this, "layout")));
+				this._modalconnects.push(on(window, "resize", lang.hitch(this, function(){
+					// IE gives spurious resize events and can actually get stuck
+					// in an infinite loop if we don't ignore them
+					var viewport = winUtils.getBox();
+					if(!this._oldViewport ||
+							viewport.h != this._oldViewport.h ||
+							viewport.w != this._oldViewport.w){
+						this.layout();
+						this._oldViewport = viewport;
+					}
+				})));
+			}
 			this._modalconnects.push(on(this.domNode, connect._keypress, lang.hitch(this, "_onKey")));
 
 			domStyle.set(this.domNode, {
