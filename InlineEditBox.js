@@ -1,6 +1,7 @@
 define([
 	"dojo/_base/array", // array.forEach
 	"dojo/_base/declare", // declare
+	"dojo/_base/Deferred",	// Deferred.when
 	"dojo/dom-attr", // domAttr.set domAttr.get
 	"dojo/dom-class", // domClass.add domClass.remove domClass.toggle
 	"dojo/dom-construct", // domConstruct.create domConstruct.destroy
@@ -21,7 +22,7 @@ define([
 	"./form/TextBox",
 	"dojo/text!./templates/InlineEditBox.html",
 	"dojo/i18n!./nls/common"
-], function(array, declare, domAttr, domClass, domConstruct, domStyle, event, i18n, kernel, keys, lang, has,
+], function(array, declare, Deferred, domAttr, domClass, domConstruct, domStyle, event, i18n, kernel, keys, lang, has,
 			fm, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, _Container, Button, _TextBoxMixin, TextBox, template){
 
 /*=====
@@ -476,18 +477,23 @@ var InlineEditBox = declare("dijit.InlineEditBox", _Widget, {
 		// and then when it's finished rendering, we switch from display mode to editor
 		// position:absolute releases screen space allocated to the display node
 		// opacity:0 is the same as visibility:hidden but is still focusable
-		// visiblity:hidden removes focus outline
+		// visibility:hidden removes focus outline
 
 		domStyle.set(this.displayNode, { position: "absolute", opacity: "0" }); // makes display node invisible, display style used for focus-ability
 		domStyle.set(ww.domNode, { position: this._savedPosition, visibility: "visible", opacity: "1" });
 		domAttr.set(this.displayNode, "tabIndex", "-1"); // needed by WebKit for TAB from editor to skip displayNode
 
-		// Replace the display widget with edit widget, leaving them both displayed for a brief time so that
-		// focus can be shifted without incident.  (browser may needs some time to render the editor.)
-		setTimeout(lang.hitch(ww, function(){
-			this.focus(); // both nodes are showing, so we can switch focus safely
-			this._resetValue = this.getValue();
-		}), 0);
+		// After edit widget has finished initializing (in particular need to wait for dijit.Editor),
+		// or immediately if there is no onLoadDeferred Deferred,
+		// replace the display widget with edit widget, leaving them both displayed for a brief time so that
+		// focus can be shifted without incident.
+		Deferred.when(ww.editWidget.onLoadDeferred, function(){
+			// Note: not sure if we still need a setTimeout() now that there's a Deferred.when()
+			setTimeout(function(){
+				ww.focus(); // both nodes are showing, so we can switch focus safely
+				ww._resetValue = ww.getValue();
+			}, 0);
+		});
 	},
 
 	_onBlur: function(){
