@@ -92,6 +92,19 @@
 						}
 					},
 					{
+						name: "aria roles and attribute",
+						runTest: function(){
+							var progressBar = registry.byId("setTestBar");
+							doh.is("progressbar", progressBar.domNode.getAttribute("role"), "ProgressBar needs role=progressbar");
+							doh.is(58, progressBar.domNode.getAttribute("aria-valuenow"), "expect aria-valuenow of 58");
+							doh.is(0, progressBar.domNode.getAttribute("aria-valuemin"), "expect aria-valuemin of 0");
+							doh.is(100, progressBar.domNode.getAttribute("aria-valuemax"), "expect aria-valuemax of 100");
+							doh.is("setTestBar_label", progressBar.domNode.getAttribute("aria-labelledby"), "expect aria-labelledby on progressbar");
+							progressBar = registry.byId("pi");
+							doh.f(progressBar.domNode.getAttribute("aria-valuenow"), "indeterminate progressbars should not have aria-valuenow");
+						}
+					},
+					{
 						name: "set value too high",
 						runTest: function(){
 							var d = new doh.Deferred();
