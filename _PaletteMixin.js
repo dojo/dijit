@@ -85,7 +85,8 @@ dojo.declare("dijit._PaletteMixin",
 					var cellNode = dojo.create("td", {
 						"class": this.cellClass,
 						tabIndex: "-1",
-						title: titles[value]
+						title: titles[value],
+						role: "presentation"
 					});
 
 					// prepare cell inner structure
