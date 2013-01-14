@@ -77,8 +77,8 @@
 		nec, malesuada eget, ornare a, libero. Lorem ipsum dolor sit amet,
 		consectetuer adipiscing elit.
 	</div>
-	<button id="titleButton" onclick="pane1.set('title', 'New Title')">change title</button>
-	<button id="closeButton" onclick="pane1.set('open', false)">close pane</button>
+	<button id="titleButton" type="button" onclick="pane1.set('title', 'New Title')">change title</button>
+	<button id="closeButton" type="button" onclick="pane1.set('open', false)">close pane</button>
 	<h1>Test #2: title pane with form, width=300px</h1>
 
 	<div id="pane_2" data-dojo-type="dijit/TitlePane" data-dojo-props='title:"Title Pane #2", style:"width: 300px;"'>
@@ -104,7 +104,7 @@
 			<a data-dojo-type="dijit/layout/LinkPane" data-dojo-props='href:"layout/tab2.html",  onLoad:function(){ console.log("load of SubTab 2"); }, selected:true'>SubTab 2</a>
 		</div>
 	</div>
-	<button onclick="dijit.byId('closed').set('content', 'hello world! (' + new Date() + ')');">reset content</button>
+	<button type="button" onclick="dijit.byId('closed').set('content', 'hello world! (' + new Date() + ')');">reset content</button>
 
 	<h1>Test #4: title pane with href (initially closed)</h1>
 	<p>The pane should open to "Loading..." message and then 3 seconds later it should slide open more to show loaded data.</p>
