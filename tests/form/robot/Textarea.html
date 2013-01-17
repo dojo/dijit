@@ -280,7 +280,7 @@
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 							doh.robot.sequence(d.getTestCallback(function(){
-								if(dojo.isIE <= 7){
+								if(dojo.isIE <= 6){
 									doh.is(0, w.domNode.scrollTop, "no scroll");
 									doh.t(w.domNode.parentNode.parentNode.clientHeight < w.domNode.parentNode.parentNode.scrollHeight, "scrolled parent");
 								}else{

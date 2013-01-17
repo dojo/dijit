@@ -59,7 +59,7 @@
 			</textarea>
 			<br>
 
-			<div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='persist:true, tabStrip:true, style:{width:"100%", height:"20em"}, "aria-label":"tabContainer"'>
+			<div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='persist:true, tabStrip:true, style:{width:"100%", fontSize:"14px", height:"17em"}, "aria-label":"tabContainer"'>
 				<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Tab 1", "aria-label":"contentpane"'>
 					<label for="programmatic">dijit.form.Textarea in TabContainer, programmatically created with custom styling:</label>
 					<div id="programmaticContainer"></div>
@@ -79,7 +79,7 @@
 						value: "created programatically with\ncustom border, padding,\nmargin",
 						style: {display:"block", border:"5px solid gray", padding:"11px", margin:"7px", fontSize:"14px", minHeight:"49px", maxHeight:"125px"}
 					});
-					setTimeout(function(){ programmaticTextarea.placeAt("programmaticContainer"); }, 500); // make sure sizing can happen later
+					setTimeout(function(){ programmaticTextarea.placeAt("programmaticContainer").startup(); }, 500); // make sure sizing can happen later
 				});
 			</script>
 			<br>
