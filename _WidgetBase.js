@@ -806,6 +806,35 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 			dojo.place(this.domNode, reference, position);
 		}
 		return this;
+	},
+
+	defer: function(fcn, delay){
+		// summary:
+		//		Wrapper to setTimeout to avoid deferred functions executing
+		//		after the originating widget has been destroyed.
+		//		Returns an object handle with a remove method (that returns null) (replaces clearTimeout).
+		// fcn: function reference
+		// delay: Optional number (defaults to 0)
+		// tags:
+		//		protected.
+		var timer = setTimeout(dojo.hitch(this, 
+			function(){ 
+				timer = null;
+				if(!this._destroyed){ 
+					dojo.hitch(this, fcn)(); 
+				} 
+			}),
+			delay || 0
+		);
+		return {
+			remove:	function(){
+					if(timer){
+						clearTimeout(timer);
+						timer = null;
+					}
+					return null; // so this works well: handle = handle.remove();
+				}
+		};
 	}
 });
 
