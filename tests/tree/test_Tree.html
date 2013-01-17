@@ -49,7 +49,7 @@
 		Clicking a folder node will open/close it (openOnclick==true),
 		and clicking a leaf node will log a message to the console.
 	</p>
-	<div id="mytree" data-dojo-type="dijit/Tree" data-dojo-props='model:continentModel, openOnClick:true, onLoad:function(){ console.log("loaded mytree (first tree)"); }'>
+	<div id="mytree" data-dojo-type="dijit/Tree" aria-label="mytree" data-dojo-props='model:continentModel, openOnClick:true, onLoad:function(){ console.log("loaded mytree (first tree)"); }'>
 		<script type="dojo/method" data-dojo-event="onClick" data-dojo-args="item">
 			console.log("Execute of node " + continentStore.getLabel(item)
 				+", population=" + continentStore.getValue(item, "population"));
@@ -67,7 +67,7 @@
 	<h2>A rootless tree (no "continents" node) with context menus, and custom icons</h2>
 
 
-	<div id="tree2" data-dojo-type="dijit/Tree" data-dojo-props='model:continentModel, showRoot:false, openOnClick:true,onLoad:function(){ console.log("loaded tree2 (second tree)"); }'>
+	<div id="tree2" data-dojo-type="dijit/Tree" aria-label="tree2label" data-dojo-props='model:continentModel, showRoot:false, openOnClick:true,onLoad:function(){ console.log("loaded tree2 (second tree)"); }'>
 		<script type="dojo/method" data-dojo-event="getIconClass" data-dojo-args="item, opened">
            return (item == this.model.root || continentStore.getValue(item, "type") == "continent") ?
                    (opened ? "customFolderOpenedIcon" : "customFolderClosedIcon") :
@@ -101,7 +101,7 @@
 		Double-Clicking a folder node will open/close it (openOnDblClick==true),
 		and clicking or Double Clicking a leaf node will log a message to the console.
 	</p>
-	<div id="mytree3" data-dojo-type="dijit/Tree" data-dojo-props='store:continentStore, query:{type:"continent"},
+	<div id="mytree3" aria-label="mytree 3" data-dojo-type="dijit/Tree" data-dojo-props='store:continentStore, query:{type:"continent"},
 		label:"Continents", openOnClick:false, openOnDblClick:true,
 		autoExpand:true, onLoad:function(){ console.log("loaded mytree3 (third tree)"); }'>
 		<script type="dojo/method" data-dojo-event="getLabelStyle" data-dojo-args="item,opened">
@@ -151,7 +151,7 @@
 		state.
 	</p>
 	<div id="thinTree" style="width: 170px; border: solid 1px #759dc0"
-		 data-dojo-type="dijit/Tree" data-dojo-props="model:continentModel">
+		 data-dojo-type="dijit/Tree" aria-label="my thin tree" data-dojo-props="model:continentModel">
 		<script type="dojo/aspect" data-dojo-advice="after" data-dojo-method="_adjustWidths">
 			console.log(this.id + ": adjusted widths of nodes");
 		</script>
