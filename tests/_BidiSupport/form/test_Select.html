@@ -289,7 +289,7 @@
 		<div dojoType="dijit.Dialog" id="dlg1">
 			<div dojoType="dijit.form.Select" id="dlg1Select"required="true"></div>
 			<div dojoType="dijit.form.Button" id="dlg1ValidateBtn">
-				<script type=dojo/method event="onClick">
+				<script type=dojo/method data-dojo-event="onClick">
 					var dlg1 = dijit.byId("dlg1");
 					if(dlg1.validate()){
 						dlg1.hide();
