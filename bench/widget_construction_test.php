@@ -9,7 +9,7 @@
 			@import "../themes/tundra/tundra.css";
 		</style>
 		<script type="text/javascript" src="../../dojo/dojo.js"
-			djConfig="parseOnLoad: true, isDebug: true"></script>
+			data-dojo-config="parseOnLoad: true, isDebug: true"></script>
 		<script type="text/javascript">
 			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 			dojo.require("dijit._Widget");
