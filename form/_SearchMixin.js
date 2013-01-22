@@ -1,15 +1,13 @@
 define([
 	"dojo/data/util/filter", // patternToRegExp
 	"dojo/_base/declare", // declare
-	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys
 	"dojo/_base/lang", // lang.clone lang.hitch
 	"dojo/query", // query
-	"dojo/sniff", // has("ie")
 	"dojo/string", // string.substitute
 	"dojo/when",
 	"../registry"	// registry.byId
-], function(filter, declare, event, keys, lang, query, has, string, when, registry){
+], function(filter, declare, keys, lang, query, string, when, registry){
 
 	// module:
 	//		dijit/form/_SearchMixin

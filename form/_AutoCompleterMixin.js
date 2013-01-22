@@ -1,5 +1,4 @@
 define([
-	"dojo/data/util/filter", // patternToRegExp
 	"dojo/_base/declare", // declare
 	"dojo/dom-attr", // domAttr.get
 	"dojo/_base/event", // event.stop
@@ -8,13 +7,11 @@ define([
 	"dojo/query", // query
 	"dojo/regexp", // regexp.escapeString
 	"dojo/sniff", // has("ie")
-	"dojo/string", // string.substitute
 	"./DataList",
-	"../registry",	// registry.byId
 	"./_TextBoxMixin",	// defines _TextBoxMixin.selectInputText
 	"./_SearchMixin"
-], function(filter, declare, domAttr, event, keys, lang, query, regexp, has, string,
-			DataList, registry, _TextBoxMixin, SearchMixin){
+], function(declare, domAttr, event, keys, lang, query, regexp, has,
+			DataList, _TextBoxMixin, SearchMixin){
 
 	// module:
 	//		dijit/form/_AutoCompleterMixin
