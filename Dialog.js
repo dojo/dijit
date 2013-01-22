@@ -167,25 +167,9 @@ define([
 			this.inherited(arguments);
 		},
 
-		_onBlur: function(by){
-			this.inherited(arguments);
-
-			// If focus was accidentally removed from the dialog, such as if the user clicked a blank
-			// area of the screen, or clicked the browser's address bar and then tabbed into the page,
-			// then refocus.   Won't do anything if focus was removed because the Dialog was closed, or
-			// because a new Dialog popped up on top of the old one.
-			var refocus = lang.hitch(this, function(){
-				if(this.open && !this._destroyed && DialogLevelManager.isTop(this)){
-					this._getFocusItems(this.domNode);
-					focus.focus(this._firstFocusItem);
-				}
-			});
-			if(by == "mouse"){
-				// wait for mouse up, and then refocus dialog; otherwise doesn't work
-				on.once(this.ownerDocument, "mouseup", refocus);
-			}else{
-				refocus();
-			}
+		focus: function(){
+			this._getFocusItems(this.domNode);
+			focus.focus(this._firstFocusItem);
 		},
 
 		_endDrag: function(){
@@ -551,7 +535,7 @@ define([
 			domStyle.set(dialog.domNode, 'zIndex', zIndex);
 
 			// Display the underlay, or if already displayed then adjust for this new dialog
-			DialogUnderlay.show(underlayAttrs, zIndex - 1);
+			DialogUnderlay.show(underlayAttrs, zIndex - 1, lang.hitch(dialog, "focus"));
 
 			ds.push({dialog: dialog, underlayAttrs: underlayAttrs, zIndex: zIndex});
 		},

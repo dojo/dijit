@@ -64,7 +64,12 @@ define([
 			//		Append the underlay to the body
 
 			this.ownerDocumentBody.appendChild(this.domNode);
+			this.own(on(this.domNode, "click", lang.hitch(this, "onFocus")));
 			this.inherited(arguments);
+		},
+
+		onFocus: function(){
+			// Called when underlay is focused or clicked.   Override to get notification
 		},
 
 		layout: function(){
@@ -128,12 +133,16 @@ define([
 		}
 	});
 
-	DialogUnderlay.show = function(/*Object*/ attrs, /*Number*/ zIndex){
+	DialogUnderlay.show = function(/*Object*/ attrs, /*Number*/ zIndex, /*Function?*/ onFocus){
 		// summary:
 		//		Display the underlay with the given attributes set.  If the underlay is already displayed,
 		//		then adjust it's attributes as specified.
-		// attrs: Object
+		// attrs:
 		//		The parameters to create DialogUnderlay with.
+		// zIndex:
+		//		zIndex of the underlay
+		// onFocus:
+		//		Function to call if the underlay is clicked or focused
 
 		var underlay = DialogUnderlay._singleton;
 		if(!underlay || underlay._destroyed){
@@ -145,6 +154,7 @@ define([
 		if(!underlay.open){
 			underlay.show();
 		}
+		underlay.onFocus = onFocus || function(){};
 	};
 
 	DialogUnderlay.hide = function(){
