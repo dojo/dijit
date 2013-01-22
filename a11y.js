@@ -1,13 +1,12 @@
 define([
 	"dojo/_base/array", // array.forEach array.map
-	"dojo/_base/config", // defaultDuration
 	"dojo/_base/declare", // declare
 	"dojo/dom",			// dom.byId
 	"dojo/dom-attr", // domAttr.attr domAttr.has
 	"dojo/dom-style", // style.style
 	"dojo/sniff", // has("ie")
 	"./main"	// for exporting methods to dijit namespace
-], function(array, config, declare, dom, domAttr, domStyle, has, dijit){
+], function(array, declare, dom, domAttr, domStyle, has, dijit){
 
 	// module:
 	//		dijit/a11y
