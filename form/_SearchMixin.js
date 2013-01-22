@@ -1,5 +1,4 @@
 define([
-	"dojo/data/util/filter", // patternToRegExp
 	"dojo/_base/declare", // declare
 	"dojo/keys", // keys
 	"dojo/_base/lang", // lang.clone lang.hitch
@@ -7,7 +6,7 @@ define([
 	"dojo/string", // string.substitute
 	"dojo/when",
 	"../registry"	// registry.byId
-], function(filter, declare, keys, lang, query, string, when, registry){
+], function(declare, keys, lang, query, string, when, registry){
 
 	// module:
 	//		dijit/form/_SearchMixin
@@ -58,7 +57,6 @@ define([
 		//		based on what the user has typed.  Changing this expression will modify
 		//		whether the results are only exact matches, a "starting with" match,
 		//		etc.
-		//		dojo.data query expression pattern.
 		//		`${0}` will be substituted for the user text.
 		//		`*` is used for wildcards.
 		//		`${0}*` means "starts with", `*${0}*` means "contains", `${0}` means "is"
@@ -67,6 +65,34 @@ define([
 		// ignoreCase: Boolean
 		//		Set true if the query should ignore case when matching possible items
 		ignoreCase: true,
+
+		_patternToRegExp: function(pattern){
+			// summary:
+			//		Helper function to convert a simple pattern to a regular expression for matching.
+			// description:
+			//		Returns a regular expression object that conforms to the defined conversion rules.
+			//		For example:
+			//
+			//		- ca*   -> /^ca.*$/
+			//		- *ca*  -> /^.*ca.*$/
+			//		- *c\*a*  -> /^.*c\*a.*$/
+			//		- *c\*a?*  -> /^.*c\*a..*$/
+			//
+			//		and so on.
+			// pattern: string
+			//		A simple matching pattern to convert that follows basic rules:
+			//
+			//		- * Means match anything, so ca* means match anything starting with ca
+			//		- ? Means match single character.  So, b?b will match to bob and bab, and so on.
+			//		- \ is an escape character.  So for example, \* means do not treat * as a match, but literal character *.
+			//
+			//		To use a \ as a character in the string, it must be escaped.  So in the pattern it should be
+			//		represented by \\ to be treated as an ordinary \ character instead of an escape.
+
+			return new RegExp("^" + pattern.replace(/(\\.)|(\*)|(\?)|\W/g, function(str, literal, star, question){
+				return star ? ".*" : question ? "." : literal ? literal : "\\" + str;
+			}) + "$", this.ignoreCase ? "mi" : "m");
+		},
 
 		_abortQuery: function(){
 			// stop in-progress query
@@ -231,7 +257,7 @@ define([
 				// Query on searchAttr is a regex for benefit of dojo/store/Memory,
 				// but with a toString() method to help dojo/store/JsonRest.
 				// Search string like "Co*" converted to regex like /^Co.*$/i.
-				q = filter.patternToRegExp(qs, this.ignoreCase);
+				q = this._patternToRegExp(qs);
 				q.toString = function(){ return qs; };
 			}
 
