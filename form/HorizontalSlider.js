@@ -13,7 +13,7 @@ define([
 	"dojo/dnd/Mover", // Mover Mover.prototype.destroy.apply
 	"dojo/query", // query
 	"dojo/mouse", // mouse.wheel
-	"../registry", // registry.findWidgets
+	"../_base/manager", // defaultDuration
 	"../focus",		// focus.focus()
 	"../typematic",
 	"./Button",
@@ -21,7 +21,7 @@ define([
 	"../_Container",
 	"dojo/text!./templates/HorizontalSlider.html"
 ], function(array, declare, move, event, fx, domGeometry, domStyle, keys, lang, has, Moveable, Mover, query, mouse,
-			registry, focus, typematic, Button, _FormValueWidget, _Container, template){
+			manager, focus, typematic, Button, _FormValueWidget, _Container, template){
 
 // module:
 //		dijit/form/HorizontalSlider
@@ -96,7 +96,7 @@ var HorizontalSlider = declare("dijit.form.HorizontalSlider", [_FormValueWidget,
 	// slideDuration: Number
 	//		The time in ms to take to animate the slider handle from 0% to 100%,
 	//		when clicking the slider bar to make the handle move.
-	slideDuration: registry.defaultDuration,
+	slideDuration: manager.defaultDuration,
 
 	// Map widget attributes to DOMNode attributes.
 	_setIdAttr: "",		// Override _FormWidget which sends id to focusNode
