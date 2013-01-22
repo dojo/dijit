@@ -79,25 +79,32 @@
 
 	<script type="text/javascript">
 		require([
-			"dojo",
-			"dijit/dijit",
-			"dijit/dijit-all",
-			"dojo/parser",
-			"dojo/data/ItemFileReadStore",
-			"dojo/dnd/Source"], function(dojo, dijit){
+			"dojo/_base/array", "dojo/_base/fx", "dojo/dom", "dojo/dom-class", "dojo/date/locale", "dojo/parser", "dojo/store/Memory",
+			"dijit/registry", "dijit/MenuItem", "dijit/tree/ObjectStoreModel",
+
+			// Editors used by InlineEditBox.  Must be pre-loaded.
+			"dijit/form/Textarea", "dijit/form/DateTextBox", "dijit/form/TimeTextBox", "dijit/form/FilteringSelect",
+
+			// These plugins are used by the Editor, and need to be pre-loaded
+			"dijit/_editor/plugins/LinkDialog",	// for createLink
+			"dijit/_editor/plugins/FontChoice",	// for fontName
+
+			// Don't call the parser until the DOM has finished loading
+			"dojo/domReady!"
+		], function(array, baseFx, dom, domClass, locale, parser, Memory, registry, MenuItem, ObjectStoreModel){
 				// various function ripped out of inline script type=dojo/* blocks
 				showDialog = function(){
-					var dlg = dijit.byId('dialog1');
+					var dlg = registry.byId('dialog1');
 					dlg.show();
 					// avoid (trying to) restore focus to a closed menu, go to MenuBar instead
-					dlg._savedFocus = dojo.byId("header");
+					dlg._savedFocus = dom.byId("header");
 				};
 				
 				showDialogAb = function(){
-					var dlg = dijit.byId('dialogAB');
+					var dlg = registry.byId('dialogAB');
 					dlg.show();
 					// avoid (trying to) restore focus to a closed menu, go to MenuBar instead
-					dlg._savedFocus = dojo.byId("header");
+					dlg._savedFocus = dom.byId("header");
 				};
 
 				//var setTextBoxPadding;
@@ -119,16 +126,16 @@
 
 					// Set class on body to get requested padding, and remove any previously set class
 					if(currentInputPadding){
-						dojo.removeClass(dojo.body(), currentInputPadding);
+						domClass.remove(dojo.body(), currentInputPadding);
 						currentInputPadding = "";
 					}
 					if(val != "theme default"){
 						currentInputPadding = "inputPadding" + val.replace("px", "");
-						dojo.addClass(dojo.body(), currentInputPadding);
+						domClass.add(dojo.body(), currentInputPadding);
 					}
 
 					// Clear previously checked MenuItem (radio-button effect).
-					dojo.forEach(this.getParent().getChildren(), function(mi){
+					array.forEach(this.getParent().getChildren(), function(mi){
 						if(mi != this){
 							mi.set("checked", false);
 						}
@@ -153,7 +160,7 @@
 					// summary:
 					//		Print all the widgets to console
 					console.log("Widgets in registry:");
-					dijit.registry.forEach(function(w){
+					registry.forEach(function(w){
 						console.log(w);
 					});
 				};
@@ -161,31 +168,82 @@
 				tearDown = function(){
 					// summary:
 					//		Destroy all widgets, top down, and then check for any orphaned widgets
-					dijit._destroyAll();
+					registry._destroyAll();
 					logWidgets();
 				};
-		
-				dojo.ready(function(){
-					var loadCompleteTime = +new Date();
-					console.log("Total load time: " + (loadCompleteTime - startTime) + "ms");
-		
-					dojo.parser.parse(dojo.byId('container'));
+
+				// Data for Tree, ComboBox, InlineEditBox
+				var data = [
+					{ id: "earth", name:"The earth", type:"planet", population: "6 billion"},
+					{ id: "AF", name:"Africa", type:"continent", population:"900 million", area: "30,221,532 sq km",
+						timezone: "-1 UTC to +4 UTC", parent: "earth"},
+					{ id: "EG", name:"Egypt", type:"country", parent: "AF" },
+					{ id: "KE", name:"Kenya", type:"country", parent: "AF" },
+					{ id: "Nairobi", name:"Nairobi", type:"city", parent: "KE" },
+					{ id: "Mombasa", name:"Mombasa", type:"city", parent: "KE" },
+					{ id: "SD", name:"Sudan", type:"country", parent: "AF" },
+					{ id: "Khartoum", name:"Khartoum", type:"city", parent: "SD" },
+					{ id: "AS", name:"Asia", type:"continent", parent: "earth" },
+					{ id: "CN", name:"China", type:"country", parent: "AS" },
+					{ id: "IN", name:"India", type:"country", parent: "AS" },
+					{ id: "RU", name:"Russia", type:"country", parent: "AS" },
+					{ id: "MN", name:"Mongolia", type:"country", parent: "AS" },
+					{ id: "OC", name:"Oceania", type:"continent", population:"21 million", parent: "earth"},
+					{ id: "AU", name:"Australia", type:"country", population:"21 million", parent: "OC"},
+					{ id: "EU", name:"Europe", type:"continent", parent: "earth" },
+					{ id: "DE", name:"Germany", type:"country", parent: "EU" },
+					{ id: "FR", name:"France", type:"country", parent: "EU" },
+					{ id: "ES", name:"Spain", type:"country", parent: "EU" },
+					{ id: "IT", name:"Italy", type:"country", parent: "EU" },
+					{ id: "NA", name:"North America", type:"continent", parent: "earth" },
+					{ id: "MX", name:"Mexico", type:"country",  population:"108 million", area:"1,972,550 sq km",
+						parent: "NA" },
+					{ id: "Mexico City", name:"Mexico City", type:"city", population:"19 million", timezone:"-6 UTC", parent: "MX"},
+					{ id: "Guadalajara", name:"Guadalajara", type:"city", population:"4 million", timezone:"-6 UTC", parent: "MX" },
+					{ id: "CA", name:"Canada", type:"country",  population:"33 million", area:"9,984,670 sq km", parent: "NA" },
+					{ id: "Ottawa", name:"Ottawa", type:"city", population:"0.9 million", timezone:"-5 UTC", parent: "CA"},
+					{ id: "Toronto", name:"Toronto", type:"city", population:"2.5 million", timezone:"-5 UTC", parent: "CA" },
+					{ id: "US", name:"United States of America", type:"country", parent: "NA" },
+					{ id: "SA", name:"South America", type:"continent", parent: "earth" },
+					{ id: "BR", name:"Brazil", type:"country", population:"186 million", parent: "SA" },
+					{ id: "AR", name:"Argentina", type:"country", population:"40 million", parent: "SA" }
+				];
+
+				// Create test store.
+				continentStore = new Memory({
+					data: data
+				});
+
+				// Since dojo.store.Memory doesn't have various store methods we need, we have to add them manually
+				continentStore.getChildren = function(object){
+					// Add a getChildren() method to store for the data model where
+					// children objects point to their parent (aka relational model)
+					return this.query({parent: this.getIdentity(object)});
+				};
+
+				// Create the model for the Tree
+				continentModel = new ObjectStoreModel({store: continentStore, query: {id: "earth"}});
+
+				var loadCompleteTime = +new Date();
+				console.log("Total load time: " + (loadCompleteTime - startTime) + "ms");
+	
+				parser.parse(dom.byId('container')).then(function(){
 					console.info("Total parse time: " + (+new Date() - loadCompleteTime) + "ms");
-		
-					dojo.byId('loaderInner').innerHTML += " done.";
+
+					dom.byId('loaderInner').innerHTML += " done.";
 					setTimeout(function hideLoader(){
-						dojo.fadeOut({ 
-							node: 'loader', 
+						baseFx.fadeOut({
+							node: 'loader',
 							duration:500,
 							onEnd: function(n){
 								n.style.display = "none";
 							}
 						}).play();
 					}, 250);
-		
+
 					logStrayGlobals();
-		
-					// Fill in menu/links to get to other themes.		
+
+					// Fill in menu/links to get to other themes.
 					// availableThemes[] is just a list of 'official' dijit themes, you can use ?theme=String
 					// for 'un-supported' themes, too. (eg: yours)
 					var availableThemes = [
@@ -194,48 +252,30 @@
 						{ theme:"soria", author:"nikolai", baseUri:"../themes/" },
 						{ theme:"nihilo", author:"nikolai", baseUri:"../themes/" }
 					];
-		
+
 					var tmpString='';
-					dojo.forEach(availableThemes,function(theme){
-						tmpString += 
+					array.forEach(availableThemes,function(theme){
+						tmpString +=
 							'<a href="?theme='+theme.theme+'">'+theme.theme+'</'+'a> (' +
 							'<a href="?theme='+theme.theme+'&dir=rtl">RTL</'+'a> ' +
 							'<a href="?theme='+theme.theme+'&a11y=true">high-contrast</'+'a> ' +
 							'<a href="?theme='+theme.theme+'&dir=rtl&a11y=true">RTL+high-contrast</'+'a> )' +
 							' - by: '+theme.author+' <br>';
-						dijit.byId('themeMenu').addChild(new dijit.MenuItem({
+						registry.byId('themeMenu').addChild(new MenuItem({
 							label: theme.theme,
 							onClick: function(){ location.search = "?theme=" + theme.theme; }
 						}))
 					});
-					dojo.byId('themeData').innerHTML = tmpString;
-				});
-		
-				dojo.ready(function(){
+					dom.byId('themeData').innerHTML = tmpString;
+
 					// It's the server's responsibility to localize the date displayed in the (non-edit) version of an InlineEditBox,
 					// but since we don't have a server we'll hack it in the client
-					dijit.byId("backgroundArea").set('value', dojo.date.locale.format(new Date(2005, 11, 30), { selector: 'date' }));
+					registry.byId("backgroundArea").set('value', locale.format(new Date(2005, 11, 30), { selector: 'date' }));
 		
 					var nineAm = new Date(0);
 					nineAm.setHours(9);
-					dijit.byId("timePicker").set('value', dojo.date.locale.format(nineAm, { selector: 'time' }));
+					registry.byId("timePicker").set('value', locale.format(nineAm, { selector: 'time' }));
 				});
-		
-				/***
-				dojo.ready(function(){
-					// use "before advice" to print log message each time resize is called on a layout widget
-					var origResize = dijit.layout._LayoutWidget.prototype.resize;
-					dijit.layout._LayoutWidget.prototype.resize = function(mb){
-						console.log(this + ": resize({w:"+ mb.w + ", h:" + mb.h + "})");
-						origResize.apply(this, arguments);
-					};
-		
-					// content pane has no children so just use dojo's builtin after advice
-					dojo.connect(dijit.layout.ContentPane.prototype, "resize", function(mb){
-						console.log(this + ": resize({w:"+ mb.w + ", h:" + mb.h + "})");
-					});
-				});
-				***/
 			});
 	</script>
 </head>
@@ -243,13 +283,6 @@
 	<!-- basic preloader: -->
 	<div id="loader"><div id="loaderInner" style="direction:ltr;">Loading themeTester ... </div></div>
 
-	<!-- data for tree and combobox -->
-	<div data-dojo-type="dojo/data/ItemFileReadStore" data-dojo-id="continentStore"
-		data-dojo-props="url:'../tests/_data/countries.json'"></div>
-	<div data-dojo-id="continentModel" data-dojo-type="dijit/tree/ForestStoreModel" data-dojo-props='store:continentStore, query:{type:"continent"},
-		rootId:"continentRoot", rootLabel:"Continents", childrenAttrs:["children"]'></div>
-	<div data-dojo-type="dojo/data/ItemFileReadStore" data-dojo-id="stateStore"
-		data-dojo-props="url:'../tests/_data/states.json'"></div>
 	<!-- contentMenu popup -->												<!-- redundant display:none required here? -->
 	<div data-dojo-type="dijit/Menu" id="submenu1" data-dojo-props='contextMenuForWindow:true, style:"display:none"' style="display: none;">
 		<div data-dojo-type="dijit/MenuItem"
@@ -427,8 +460,8 @@
 
 				<h2>Dialogs</h2>
 				<ul>
-					<li><a href="#" onclick="dijit.byId('dialog1').show()">slow loading modal dialog</a></li>
-					<li><a href="#" onclick="dijit.byId('dialogAB').show()">modal dialog w/action bar</a></li>
+					<li><a href="#" onclick="registry.byId('dialog1').show()">slow loading modal dialog</a></li>
+					<li><a href="#" onclick="registry.byId('dialogAB').show()">modal dialog w/action bar</a></li>
 				</ul>
 
 				<div data-dojo-type="dijit/form/DropDownButton">
@@ -623,7 +656,7 @@
 
 			<div id="textboxTab" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Text Input Widgets", style:"padding:10px;display:none;"'>
 
-				<h2>dijit.form.DateTextBox</h2>
+				<h2>dijit/form/DateTextBox</h2>
 				<label for="date1">Enabled w/placeHolder:</label>
 				<input id="date1" name="date1" type="text" data-dojo-type="dijit/form/DateTextBox" data-dojo-props="placeHolder:'Birthday'">
 				<label for="date2">Disabled w/placeHolder:</label>
@@ -631,13 +664,13 @@
 				<label for="date2">Disabled w/value:</label>
 				<input id="date3" name="date3" type="text" data-dojo-type="dijit/form/DateTextBox" data-dojo-props='value:"2008-12-25", disabled:true'>
 
-				<h2>dijit.form.TimeTextBox</h2>
+				<h2>dijit/form/TimeTextBox</h2>
 				<label for="time1">Enabled:</label>
 				<input id="time1" name="time1" type="text" data-dojo-type="dijit/form/TimeTextBox" value="T17:45:00">
 				<label for="time2">Disabled:</label>
 				<input id="time2" name="time2" type="text" data-dojo-type="dijit/form/TimeTextBox" value="T17:45:00"  data-dojo-props='disabled:true' disabled>
 
-				<h2>dijit.form.CurrencyTextBox</h2>
+				<h2>dijit/form/CurrencyTextBox</h2>
 				<label for="currency1">Enabled:</label>
 				<input id="currency1" type="text" name="income1" value="54775.53" data-dojo-type="dijit/form/CurrencyTextBox"
 					data-dojo-props="
@@ -654,7 +687,7 @@
 				
 				<hr class="spacer">
 
-				<h2>dijit.form.NumberSpinner max=100</h2>
+				<h2>dijit/form/NumberSpinner max=100</h2>
 				<label for="spinner1">Enabled: </label>
 				<input data-dojo-type="dijit/form/NumberSpinner" data-dojo-props='constraints:{max:100,places:0}, value:10' id="spinner1">
 				<label for="spinner2">Disabled: </label>
@@ -664,7 +697,7 @@
 
 			<div id="selectTab" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="title:'Select Widgets', style:'padding:10px;display:none;'">
 
-				<h2>dijit.form.Select</h2>
+				<h2>dijit/form/Select</h2>
 				<!-- fixme: <label for=""> but target a form element like input select etc -->
 				<label>Enabled:</label>
 				<div id="selectEnabled" data-dojo-type="dijit/form/Select" data-dojo-props="value:'AK'">
@@ -688,23 +721,23 @@
 
 				<hr class="spacer">
 
-				<h2>dijit.form.FilteringSelect</h2>
+				<h2>dijit/form/FilteringSelect</h2>
 				<label for="filteringSelect">Enabled w/placeHolder: </label>
 				<input id="filteringSelect" data-dojo-type="dijit/form/FilteringSelect" data-dojo-props="
-					placeHolder:'State',
-					store:stateStore,
+					placeHolder:'place',
+					store:continentStore,
 					searchAttr:'name',
 					name:'state2'
 				">
 
 				<label for="filteringSelect2">Disabled w/placeHolder: </label>
 				<input id="filteringSelect2" data-dojo-type="dijit/form/FilteringSelect" data-dojo-props="
-					disabled:true, store:stateStore, name:'state2', searchAttr:'name'
+					disabled:true, store:continentStore, name:'state2', searchAttr:'name'
 				">
 				
 				<label for="filteringSelect3">Disabled w/value: </label>
 				<input id="filteringSelect3" data-dojo-type="dijit/form/FilteringSelect" data-dojo-props="
-					store: stateStore, searchAttr:'name', disabled:true, value:'CA'
+					store: continentStore, searchAttr:'name', disabled:true, value:'CA'
 				">
 
 			</div>
@@ -713,7 +746,7 @@
 
 				<!--	&#8234; and &#8236; are inserted solely for testing purposes to mark the beginning and end of left-to-right text so that
 					cogniscent browsers don't render garbled punctuation nor exhibit strange home/end key behavior while in right-to-left mode -->
-				<h2>dijit.form.Textarea</h2>
+				<h2>dijit/form/Textarea</h2>
 				<p>Enabled:</p>
 				<textarea data-dojo-type="dijit/form/Textarea" data-dojo-props='name:"areText"' name="areText">This text area will expand and contract as you type &#8234;text.&#8236;
 
@@ -730,7 +763,7 @@ tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo &#8234;conseq
 				</textarea>
 
 
-				<h2>dijit.form.SimpleTextarea</h2>
+				<h2>dijit/form/SimpleTextarea</h2>
 				<p></p>
 				<p>Enabled:</p>
 				<textarea data-dojo-type="dijit/form/SimpleTextarea">This text area has a constant height and displays a scrollbar when &#8234;necessary.&#8236;
@@ -763,7 +796,7 @@ nulla &#8234;facilisi.&#8236;
 					set height on this node to size the whole editor, but causes the tab to not scroll
 					until you select another tab and come back. alternative is no height: here, but that
 					causes editor to become VERY tall, and size to a normal height when selected (like the
-					dijit.form.TextArea in "Form Feel" Tab), but in reverse. refs #3980 and is maybe new bug?
+					dijit/form/TextArea in "Form Feel" Tab), but in reverse. refs #3980 and is maybe new bug?
 				-->
 				<div data-dojo-type="dijit/Editor" data-dojo-props="height:175, extraPlugins:['|', 'createLink', 'fontName'], styleSheets:'../themes/claro/document.css'">
 					<ul>
@@ -788,7 +821,7 @@ nulla &#8234;facilisi.&#8236;
 				<h2>Enabled</h2>
 				<div style="float:right;">
 					<div id='slider2' data-dojo-type="dijit/form/VerticalSlider" data-dojo-props="
-						onChange: function(a){ dojo.byId('slider2input').value = a; },
+						onChange: function(a){ dom.byId('slider2input').value = a; },
 						value:10, maximum:100, minimum:0, discreetValues:11, style:'height:176px; clear:both'
 					">
 						<ol data-dojo-type="dijit/form/VerticalRuleLabels" data-dojo-props="container:'leftDecoration', style:'width:2em;', labelStyle:'right:0px;'">
@@ -805,7 +838,7 @@ nulla &#8234;facilisi.&#8236;
 
 				<div id="horizontal1" data-dojo-type="dijit/form/HorizontalSlider" data-dojo-props="
 					value:10, maximum:100, minimum:0, showButtons:false, intermediateChanges:true, style:'width:50%; height:20px',
-					onChange: function(a){ dojo.byId('slider1input').value = dojo.number.format(a / 100, { places:1, pattern:'#%' }) }
+					onChange: function(a){ dom.byId('slider1input').value = dojo.number.format(a / 100, { places:1, pattern:'#%' }) }
 				">
 					<ol data-dojo-type="dijit/form/HorizontalRuleLabels" data-dojo-props='container:"topDecoration", style:"height:1.2em;font-size:75%;", numericMargin:1, count:6'></ol>
 					<div data-dojo-type="dijit/form/HorizontalRule" data-dojo-props='container:"topDecoration", count:11, style:"height:5px;"'></div>
@@ -898,7 +931,7 @@ nulla &#8234;facilisi.&#8236;
 
 			<div id="InlineEditBoxTab" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"InlineEditBox", style:"padding:10px;"'>
 
-				<h2 class="testTitle">dijit.InlineEditBox + dijit.form.TextBox on &lt;h3&gt;</h2>
+				<h2 class="testTitle">dijit/InlineEditBox + dijit/form/TextBox on &lt;h3&gt;</h2>
 
 				(HTML before)
 				<h3 id="editable" style="font-size:larger;" data-dojo-type="dijit/InlineEditBox">
@@ -908,10 +941,10 @@ nulla &#8234;facilisi.&#8236;
 
 				<hr class="spacer">
 
-				<h2>dijit.InlineEditBox + dijit.form.Textarea</h2>
+				<h2>dijit/InlineEditBox + dijit/form/Textarea</h2>
 
 				(HTML before)
-				<p id="areaEditable" data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor: dijit.form.Textarea, autoSave:false'>
+				<p id="areaEditable" data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor: "dijit/form/Textarea", autoSave:false'>
 					I'm one big &#8234;paragraph.&#8236;  Go ahead and edit &#8234;me.&#8236;  I dare &#8234;you.&#8236;
 					The quick brown fox jumped over the lazy &#8234;dog.&#8236;	 Blah blah blah blah blah blah &#8234;blah ...&#8236;
 				</p>
@@ -919,38 +952,38 @@ nulla &#8234;facilisi.&#8236;
 
 				<p>
 					These links will
-					<a href="#" onclick="dijit.byId('areaEditable').set('disabled', true)">disable</a> /
-					<a href="#" onclick="dijit.byId('areaEditable').set('disabled', false)">enable</a>
+					<a href="#" onclick="registry.byId('areaEditable').set('disabled', true)">disable</a> /
+					<a href="#" onclick="registry.byId('areaEditable').set('disabled', false)">enable</a>
 					the text area above.
 				</p>
 
 				<hr class="spacer">
 
-				<h2>dijit.form.DateTextBox</h2>
+				<h2>dijit/form/DateTextBox</h2>
 
 				(HTML inline before)
 				<!-- set programmatically to match locale; a server might generate this content also. -->
-				<span id="backgroundArea" data-dojo-type="dijit/InlineEditBox" data-dojo-props="editor: dijit.form.DateTextBox, width:'170px'"></span>
+				<span id="backgroundArea" data-dojo-type="dijit/InlineEditBox" data-dojo-props="editor: 'dijit/form/DateTextBox', width:'170px'"></span>
 				(HTML after)
 				<hr class="spacer">
 
-				<h2>dijit.form.TimeTextBox</h2>
+				<h2>dijit/form/TimeTextBox</h2>
 
 				(HTML inline before)
 				<!-- set programmatically to match (; a server might generate this content also. -->
-				<span id="timePicker" data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:dijit.form.TimeTextBox, width:"150px"'></span>
+				<span id="timePicker" data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor: "dijit/form/TimeTextBox", width:"150px"'></span>
 				(HTML after)
 
 				<hr class="spacer">
 
 
-				<h2>dijit.form.FilteringSelect + Inline + remote data store</h2>
+				<h2>dijit/form/FilteringSelect + Inline + remote data store</h2>
 				(HTML inline before)
 				<span id="backgroundArea2" data-dojo-type="dijit/InlineEditBox" data-dojo-props='
-					editor: dijit.form.FilteringSelect,
-					editorParams:{ store: stateStore, autoComplete: true, promptMessage: "Please enter a state"},
+					editor: "dijit/form/FilteringSelect",
+					editorParams:{ store: continentStore, autoComplete: true, promptMessage: "Please enter a place"},
 					width:"300px"
-				'>Indiana</span>
+				'>The earth</span>
 				(HTML after)
 
 			</div><!-- end InlineEditBox tab -->
@@ -958,7 +991,7 @@ nulla &#8234;facilisi.&#8236;
 			<div id="dndTab" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"DnD", style:"padding:10px; display:none;"'>
 				<div style="float:left; margin:5px;">
 					<h3>Vertical Source</h3>
-					<div data-dojo-type="dojo.dnd.Source" style="border:3px solid #ccc; padding: 1em 3em; ">
+					<div data-dojo-type="dojo/dnd/Source" style="border:3px solid #ccc; padding: 1em 3em; ">
 						<div class="dojoDndItem">Item <strong>X</strong></div>
 						<div class="dojoDndItem">Item <strong>Y</strong></div>
 						<div class="dojoDndItem">Item <strong>Z</strong></div>
@@ -966,7 +999,7 @@ nulla &#8234;facilisi.&#8236;
 				</div>
 				<div style="float:left; margin:5px; ">
 					<h3>Horizontal</h3>
-					<div data-dojo-type="dojo.dnd.Source" data-dojo-props="horizontal: true" style="border:3px solid #ccc; padding: 1em 3em; ">
+					<div data-dojo-type="dojo/dnd/Source" data-dojo-props="horizontal: true" style="border:3px solid #ccc; padding: 1em 3em; ">
 						<div class="dojoDndItem">Item <strong>1</strong></div>
 						<div class="dojoDndItem">Item <strong>2</strong></div>
 						<div class="dojoDndItem">Item <strong>3</strong></div>
@@ -1051,7 +1084,7 @@ nulla &#8234;facilisi.&#8236;
 		
 		<div class="dijitDialogPaneActionBar">
 			<button data-dojo-type="dijit/form/Button" type="submit" id="ABdialog1button1">OK</button>
-			<button data-dojo-type="dijit/form/Button" type="button" data-dojo-props="onClick:function(){ dijit.byId('dialogAB').onCancel(); }"
+			<button data-dojo-type="dijit/form/Button" type="button" data-dojo-props="onClick:function(){ registry.byId('dialogAB').onCancel(); }"
 					id="ABdialog1button2">Cancel</button>
 		</div>
 	</div>
