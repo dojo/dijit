@@ -5,7 +5,7 @@ define([
 	"dojo/keys", // keys.ENTER
 	"dojo/_base/lang", // lang.delegate lang.hitch lang.trim
 	"dojo/sniff", // has("ie")
-	"dojo/_base/query", // query
+	"dojo/query", // query
 	"dojo/string", // string.substitute
 	"../../_Widget",
 	"../_Plugin",
