@@ -57,7 +57,12 @@ var Button = declare("dijit.form.Button" + (has("dojo-bidi") ? "_NoBidi" : ""), 
 
 	// Map widget attributes to DOMNode attributes.
 	_setValueAttr: "valueNode",
-	_setNameAttr: "valueNode",
+	_setNameAttr: function(name){
+		// avoid breaking existing subclasses where valueNode undefined.  Perhaps in 2.0 require it to be defined?
+		if(this.valueNode){
+			this._attrToDom("name", name, "valueNode");
+		}
+	},
 
 	_fillContent: function(/*DomNode*/ source){
 		// Overrides _Templated._fillContent().
