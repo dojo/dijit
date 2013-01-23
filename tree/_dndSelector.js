@@ -2,7 +2,6 @@ define([
 	"dojo/_base/array", // array.filter array.forEach array.map
 	"dojo/_base/connect", // connect.isCopyKey
 	"dojo/_base/declare", // declare
-	"dojo/_base/Deferred", // Deferred
 	"dojo/_base/kernel",	// global
 	"dojo/_base/lang", // lang.hitch
 	"dojo/cookie", // cookie
@@ -11,7 +10,7 @@ define([
 	"dojo/on",
 	"dojo/touch",
 	"./_dndContainer"
-], function(array, connect, declare, Deferred, kernel, lang, cookie, dom, mouse, on, touch, _dndContainer){
+], function(array, connect, declare, kernel, lang, cookie, dom, mouse, on, touch, _dndContainer){
 
 	// module:
 	//		dijit/tree/_dndSelector

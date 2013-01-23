@@ -2,7 +2,7 @@ define([
 	"require",
 	"dojo/_base/array", // array.forEach
 	"dojo/_base/declare", // declare
-	"dojo/_base/Deferred", // Deferred
+	"dojo/Deferred", // Deferred
 	"dojo/i18n", // i18n.getLocalization
 	"dojo/dom-attr", // domAttr.set
 	"dojo/dom-class", // domClass.add
