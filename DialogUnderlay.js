@@ -3,16 +3,18 @@ define([
 	"dojo/_base/lang", // lang.hitch
 	"dojo/aspect", // aspect.after
 	"dojo/dom-attr", // domAttr.set
+	"dojo/dom-construct",
 	"dojo/dom-style", // domStyle.getComputedStyle
 	"dojo/on",
+	"dojo/_base/window",
 	"dojo/window", // winUtils.getBox, winUtils.get
 	"./_Widget",
 	"./_TemplatedMixin",
 	"./BackgroundIframe",
 	"./Viewport",
 	"./main" // for back-compat, exporting dijit._underlay (remove in 2.0)
-], function(declare, lang, aspect, domAttr, domStyle, on,
-			winUtils, _Widget, _TemplatedMixin, BackgroundIframe, Viewport, dijit){
+], function(declare, lang, aspect, domAttr, domConstruct, domStyle, on,
+			win, winUtils, _Widget, _TemplatedMixin, BackgroundIframe, Viewport, dijit){
 
 	// module:
 	//		dijit/DialogUnderlay
@@ -33,7 +35,7 @@ define([
 
 		// Template has two divs; outer div is used for fade-in/fade-out, and also to hold background iframe.
 		// Inner div has opacity specified in CSS file.
-		templateString: "<div class='dijitDialogUnderlayWrapper'><div class='dijitDialogUnderlay' data-dojo-attach-point='node'></div></div>",
+		templateString: "<div class='dijitDialogUnderlayWrapper'><div class='dijitDialogUnderlay' tabIndex='0' data-dojo-attach-point='node'></div></div>",
 
 		// Parameters on creation or updatable later
 
@@ -63,9 +65,20 @@ define([
 			// summary:
 			//		Append the underlay to the body
 
-			this.ownerDocumentBody.appendChild(this.domNode);
-			this.own(on(this.domNode, "click", lang.hitch(this, "onFocus")));
 			this.inherited(arguments);
+
+			// Place myself as the first child of <body> so that I get focus if the user tabs in from the URL bar
+			domConstruct.place(this.domNode, this.ownerDocumentBody, "first");
+
+			// If user clicks the underlay, or tabs into it from the URL bar, then focus the top level Dialog.
+			// But be careful to ignore bubbled focus events from focus on menus, etc.
+			this.own(
+				on(this.node, "click, focus", lang.hitch(this, function(evt){
+					if(evt.target == this.node){
+						this.onFocus();
+					}
+				}))
+			);
 		},
 
 		onFocus: function(){
