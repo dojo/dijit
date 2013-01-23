@@ -15,39 +15,27 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
-		data-dojo-config="isDebug: true, parseOnLoad: true"></script>
+		data-dojo-config="isDebug: true"></script>
 
 	<!-- only needed for alternate theme testing: -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
-	<!-- uncomment for profiling
-		<script type="text/javascript"
-			src="../../../dojo/_base/html.js"></script>
-		<script type="text/javascript"
-			src="../../base/Layout.js"></script>
-	-->
 
 	<script type="text/javascript">
-		dojo.require("dijit.dijit"); // optimize: load dijit layer
-		dojo.require("dijit.layout.AccordionContainer");
-		dojo.require("dijit.layout.AccordionPane");
-		dojo.require("dijit.layout.ContentPane");
-		dojo.require("dijit.layout.BorderContainer");
-		dojo.require("dijit.layout.TabContainer");
-		dojo.require("dijit.form.ComboBox");
-	 	dojo.require("dijit.form.Button");
-		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
-		dojo.ready(function(){
-			dojo.subscribe("focusNode", function(node){ console.log("focused on " + (node?(node.id||node.tagName):"nothing"));});
+		require(["dojo/parser", "dijit/registry", "dojo/domReady!"], function(parser, _registry){
+			parser.parse();
+
+			// Set up global, used in button onclick handlers
+			registry = _registry;
+
+			createAccordion = function(){
+				var html='<div data-dojo-type="dijit/layout/AccordionContainer" id="Accordion" style="height: 300px;">' +
+						'<div data-dojo-type="dijit/layout/ContentPane" title="first" id="first">first</div>' +
+						'<div data-dojo-type="dijit/layout/ContentPane" title="second" id="second">second</div>' +
+						'</div>';
+				registry.byId("accPane").set("content",html);
+			};
 		});
-		
-		function createAccordion(){
-			var html='<div data-dojo-type="dijit/layout/AccordionContainer" id="Accordion">' +
-				 	'<div data-dojo-type="dijit/layout/ContentPane" title="first" id="first">first</div>' +
-				 	'<div data-dojo-type="dijit/layout/ContentPane" title="second" id="second">second</div>' +
-					'</div>';
-			dijit.byId("accPane").set("content",html);
-		}
 	</script>
 
 	<style type="text/css">
@@ -219,9 +207,9 @@
 		</div>
 	</div>
 	<input aria-label="after" id="afterMarkupAccordion" value="for tabIndex testing"/>
-	<button onclick="dijit.byId('pane1').set('title', 'My First Pane');">Change title of first pane</button>
-	<button onclick="dijit.byId('pane1').set('iconClass', 'plusIcon');">Change icon of first pane</button>
-	<button onclick="dijit.byId('markupAccordion').removeChild(dijit.byId('lazyLoadPane'));">Remove lazy-load pane</button>
+	<button onclick="registry.byId('pane1').set('title', 'My First Pane');">Change title of first pane</button>
+	<button onclick="registry.byId('pane1').set('iconClass', 'plusIcon');">Change icon of first pane</button>
+	<button onclick="registry.byId('markupAccordion').removeChild(registry.byId('lazyLoadPane'));">Remove lazy-load pane</button>
 
 	<p></p>
 	<h2>Accordion with padding</h2>
@@ -281,8 +269,7 @@
 				ut eros sit amet ante pharetra interdum.
 			</p>
 		</div>
-		<div data-dojo-type="dijit/layout/AccordionPane" data-dojo-props='"class":"extremePadding", title:"AccordionPane w/ Extreme Padding"'>
-			<p>(Leaving one AccordionPane to test deprecation)</p>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='"class":"extremePadding", title:"ContentPane w/ Extreme Padding"'>
 			<p>
 				Nunc consequat nisi vitae quam. Suspendisse sed nunc. Proin
 				suscipit porta magna. Duis accumsan nunc in velit. Nam et nibh.
@@ -317,6 +304,6 @@
 	</div>
 	Click the button twice - it will work correctly unless there was a problem destroying the accordion, in which case the second time
 	the Accordion will not be created and you will see an error like <b>Tried to register widget with id==first_button but that id is already registered</b><br/>
-	<button type="button" onclick="createAccordion()">create Accordion</button>
+	<button type="button" onclick="createAccordion();">create Accordion</button>
 </body>
 </html>
