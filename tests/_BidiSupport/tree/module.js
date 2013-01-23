@@ -1,11 +1,5 @@
-dojo.provide("dijit.tests._BidiSupport.tree.module");
+define(["doh/main", "require"], function(doh, require){
 
-try{
+	doh.register("_BidiSupport.tree.ProgrammaticTree.html", require.toUrl("./ProgrammaticTree.html"), 999999);
 
-	doh.registerUrl("dijit.tests._BidiSupport.tree.ProgrammaticTree.html", dojo.moduleUrl("dijit","tests/_BidiSupport/tree/ProgrammaticTree.html"), 999999);
-
-}catch(e){
-
-	doh.debug(e);
-
-}
+});

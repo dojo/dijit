@@ -1,44 +1,39 @@
-dojo.provide("dijit.tests.general-module");
-
-try{
-	var userArgs = window.location.search.replace(/[\?&](dojoUrl|testUrl|testModule)=[^&]*/g,"").replace(/^&/,"?");
+define(["doh/main", "require"], function(doh, require){
 
 	// top level widget tests
-	doh.registerUrl("dijit.tests.Bidi", dojo.moduleUrl("dijit","tests/Bidi.html"+userArgs), 999999);
+	doh.register("Bidi", require.toUrl("./Bidi.html"), 999999);
 
-	doh.registerUrl("dijit.tests.robot.Menu_mouse", dojo.moduleUrl("dijit","tests/robot/Menu_mouse.html"+userArgs), 999999);
-	doh.registerUrl("dijit.tests.robot.Menu_a11y", dojo.moduleUrl("dijit","tests/robot/Menu_a11y.html"+userArgs), 999999);
-	doh.registerUrl("dijit.tests.robot.Menu_iframe", dojo.moduleUrl("dijit","tests/robot/Menu_iframe.html"+userArgs), 999999);
+	doh.register("robot.Menu_mouse", require.toUrl("./robot/Menu_mouse.html"), 999999);
+	doh.register("robot.Menu_a11y", require.toUrl("./robot/Menu_a11y.html"), 999999);
+	doh.register("robot.Menu_iframe", require.toUrl("./robot/Menu_iframe.html"), 999999);
 
-	doh.registerUrl("dijit.tests.Dialog", dojo.moduleUrl("dijit","tests/Dialog.html"+userArgs), 999999);
-	doh.registerUrl("dijit.tests.robot.Dialog_mouse", dojo.moduleUrl("dijit","tests/robot/Dialog_mouse.html"+userArgs), 999999);
-	doh.registerUrl("dijit.tests.robot.Dialog_a11y", dojo.moduleUrl("dijit","tests/robot/Dialog_a11y.html"+userArgs), 999999);
-	doh.registerUrl("dijit.tests.robot.Dialog_focusDestroy", dojo.moduleUrl("dijit","tests/robot/Dialog_focusDestroy.html"+userArgs), 999999);
+	doh.register("Dialog", require.toUrl("./Dialog.html"), 999999);
+	doh.register("robot.Dialog_mouse", require.toUrl("./robot/Dialog_mouse.html"), 999999);
+	doh.register("robot.Dialog_a11y", require.toUrl("./robot/Dialog_a11y.html"), 999999);
+	doh.register("robot.Dialog_focusDestroy", require.toUrl("./robot/Dialog_focusDestroy.html"), 999999);
 
-	doh.registerUrl("dijit.tests.ProgressBar", dojo.moduleUrl("dijit","tests/ProgressBar.html"+userArgs), 999999);
+	doh.register("ProgressBar", require.toUrl("./ProgressBar.html"), 999999);
 
-	doh.registerUrl("dijit.tests.robot.Tooltip_a11y", dojo.moduleUrl("dijit","tests/robot/Tooltip_a11y.html"+userArgs), 999999);
-	doh.registerUrl("dijit.tests.robot.Tooltip_mouse", dojo.moduleUrl("dijit","tests/robot/Tooltip_mouse.html"+userArgs), 999999);
-	doh.registerUrl("dijit.tests.robot.Tooltip_mouse_quirks", dojo.moduleUrl("dijit","tests/robot/Tooltip_mouse_quirks.html"+userArgs), 999999);
-	doh.registerUrl("dijit.tests.Tooltip-placement", dojo.moduleUrl("dijit","tests/Tooltip-placement.html"+userArgs), 999999);
+	doh.register("robot.Tooltip_a11y", require.toUrl("./robot/Tooltip_a11y.html"), 999999);
+	doh.register("robot.Tooltip_mouse", require.toUrl("./robot/Tooltip_mouse.html"), 999999);
+	doh.register("robot.Tooltip_mouse_quirks", require.toUrl("./robot/Tooltip_mouse_quirks.html"), 999999);
+	doh.register("Tooltip-placement", require.toUrl("./Tooltip-placement.html"), 999999);
 
-	doh.registerUrl("dijit.tests.TooltipDialog", dojo.moduleUrl("dijit","tests/TooltipDialog.html"+userArgs), 999999);
-	doh.registerUrl("dijit.tests.robot.TooltipDialog_mouse", dojo.moduleUrl("dijit","tests/robot/TooltipDialog_mouse.html"+userArgs), 999999);
-	doh.registerUrl("dijit.tests.robot.TooltipDialog_a11y", dojo.moduleUrl("dijit","tests/robot/TooltipDialog_a11y.html"+userArgs), 999999);
+	doh.register("TooltipDialog", require.toUrl("./TooltipDialog.html"), 999999);
+	doh.register("robot.TooltipDialog_mouse", require.toUrl("./robot/TooltipDialog_mouse.html"), 999999);
+	doh.register("robot.TooltipDialog_a11y", require.toUrl("./robot/TooltipDialog_a11y.html"), 999999);
 
-	doh.registerUrl("dijit.tests.robot.InlineEditBox", dojo.moduleUrl("dijit","tests/robot/InlineEditBox.html"+userArgs), 999999);
+	doh.register("robot.InlineEditBox", require.toUrl("./robot/InlineEditBox.html"), 999999);
 	
-	doh.registerUrl("dijit.tests.robot.ColorPalette", dojo.moduleUrl("dijit","tests/robot/ColorPalette.html"+userArgs), 999999);
+	doh.register("robot.ColorPalette", require.toUrl("./robot/ColorPalette.html"), 999999);
 
-	doh.registerUrl("dijit.tests.CalendarLite", dojo.moduleUrl("dijit","tests/CalendarLite.html"+userArgs), 999999);
-	doh.registerUrl("dijit.tests.robot.Calendar_a11y", dojo.moduleUrl("dijit","tests/robot/Calendar_a11y.html"+userArgs), 999999);
+	doh.register("CalendarLite", require.toUrl("./CalendarLite.html"), 999999);
+	doh.register("robot.Calendar_a11y", require.toUrl("./robot/Calendar_a11y.html"), 999999);
 
-	doh.registerUrl("dijit.tests.robot.TitlePane", dojo.moduleUrl("dijit","tests/robot/TitlePane.html"+userArgs), 999999);
+	doh.register("robot.TitlePane", require.toUrl("./robot/TitlePane.html"), 999999);
 
-	doh.registerUrl("dijit.tests.robot.Toolbar", dojo.moduleUrl("dijit","tests/robot/Toolbar.html"+userArgs), 999999);
+	doh.register("robot.Toolbar", require.toUrl("./robot/Toolbar.html"), 999999);
 
-	doh.registerUrl("dijit.tests._TimePicker", dojo.moduleUrl("dijit","tests/_TimePicker.html"+userArgs), 999999);
+	doh.register("_TimePicker", require.toUrl("./_TimePicker.html"), 999999);
 
-}catch(e){
-	doh.debug(e);
-}
+});

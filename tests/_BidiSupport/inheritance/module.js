@@ -1,15 +1,9 @@
-dojo.provide("dijit.tests._BidiSupport.inheritance.module");
+define(["doh/main", "require"], function(doh, require){
 
-try{
+	doh.register("_BidiSupport.inheritance.Inher-Simple", require.toUrl("./Inher-Simple.html"));
 
-	doh.registerUrl("dijit.tests._BidiSupport.inheritance.Inher-Simple", dojo.moduleUrl("dijit", "tests/_BidiSupport/inheritance/Inher-Simple.html"));
+	doh.register("_BidiSupport.inheritance.Inher-MarkupContainers", require.toUrl("./Inher-MarkupContainers.html"));
 
-	doh.registerUrl("dijit.tests._BidiSupport.inheritance.Inher-MarkupContainers", dojo.moduleUrl("dijit", "tests/_BidiSupport/inheritance/Inher-MarkupContainers.html"));
+	doh.register("_BidiSupport.inheritance.Inher-ComplexMarkupContainers", require.toUrl("./Inher-ComplexMarkupContainers.html"));
 
-	doh.registerUrl("dijit.tests._BidiSupport.inheritance.Inher-ComplexMarkupContainers", dojo.moduleUrl("dijit", "tests/_BidiSupport/inheritance/Inher-ComplexMarkupContainers.html"));
-
-}catch(e){
-
-	doh.debug(e);
-
-}
+});

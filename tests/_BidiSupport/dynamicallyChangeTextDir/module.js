@@ -1,11 +1,5 @@
-dojo.provide("dijit.tests._BidiSupport.dynamicallyChangeTextDir.module");
+define(["doh/main", "require"], function(doh, require){
 
-try{
+	doh.register("_BidiSupport.dynamicallyChangeTextDir.DynamicChangeTextDir", require.toUrl("./DynamicChangeTextDir.html"));
 
-	doh.registerUrl("dijit.tests._BidiSupport.dynamicallyChangeTextDir.DynamicChangeTextDir", dojo.moduleUrl("dijit","tests/_BidiSupport/dynamicallyChangeTextDir/DynamicChangeTextDir.html"));
-
-}catch(e){
-
-	doh.debug(e);
-
-}
+});

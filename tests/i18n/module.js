@@ -1,14 +1,10 @@
-dojo.provide("dijit.tests.i18n.module");
+define(["doh/main", "require"], function(doh, require){
 
-try{
-	if(dojo.isBrowser){
-		doh.registerUrl("dijit.tests.i18n.currency", dojo.moduleUrl("dijit", "tests/i18n/currency.html"), 999999);
-		doh.registerUrl("dijit.tests.i18n.date", dojo.moduleUrl("dijit", "tests/i18n/date.html"), 999999);
-		doh.registerUrl("dijit.tests.i18n.number", dojo.moduleUrl("dijit", "tests/i18n/number.html"), 999999);
-		doh.registerUrl("dijit.tests.i18n.textbox", dojo.moduleUrl("dijit", "tests/i18n/textbox.html"), 999999);
-		doh.registerUrl("dijit.tests.i18n.time", dojo.moduleUrl("dijit", "tests/i18n/time.html"), 999999);
-		doh.registerUrl("dijit.tests.i18n.digit", dojo.moduleUrl("dijit", "tests/i18n/digit.html"), 999999);
-	}
-}catch(e){
-	doh.debug(e);
-}
+	doh.register("i18n.currency", require.toUrl("./currency.html"), 999999);
+	doh.register("i18n.date", require.toUrl("./date.html"), 999999);
+	doh.register("i18n.number", require.toUrl("./number.html"), 999999);
+	doh.register("i18n.textbox", require.toUrl("./textbox.html"), 999999);
+	doh.register("i18n.time", require.toUrl("./time.html"), 999999);
+	doh.register("i18n.digit", require.toUrl("./digit.html"), 999999);
+
+});

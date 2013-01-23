@@ -1,41 +1,39 @@
-dojo.provide("dijit.tests.infrastructure-module");
+define(["doh/main", "require"], function(doh, require){
 
-try{
 	// Utility methods (previously in dijit/_base)
-	doh.registerUrl("dijit.tests.registry", dojo.moduleUrl("dijit", "tests/registry.html"), 999999);
-	doh.registerUrl("dijit.tests.focus", dojo.moduleUrl("dijit", "tests/focus.html"), 999999);
-	doh.registerUrl("dijit.tests.place", dojo.moduleUrl("dijit", "tests/place.html"), 999999);
-	doh.registerUrl("dijit.tests.place-margin", dojo.moduleUrl("dijit", "tests/place-margin.html"), 999999);
-	doh.registerUrl("dijit.tests.place-clip", dojo.moduleUrl("dijit", "tests/place-clip.html"), 999999);
-	doh.registerUrl("dijit.tests.popup", dojo.moduleUrl("dijit", "tests/popup.html"), 999999);
-	doh.registerUrl("dijit.tests.a11y", dojo.moduleUrl("dijit", "tests/a11y.html"), 999999);
-	doh.registerUrl("dijit.tests.robot.typematic", dojo.moduleUrl("dijit","tests/robot/typematic.html"), 999999);
+	doh.register("registry", require.toUrl("./registry.html"), 999999);
+	doh.register("focus", require.toUrl("./focus.html"), 999999);
+	doh.register("place", require.toUrl("./place.html"), 999999);
+	doh.register("place-margin", require.toUrl("./place-margin.html"), 999999);
+	doh.register("place-clip", require.toUrl("./place-clip.html"), 999999);
+	doh.register("popup", require.toUrl("./popup.html"), 999999);
+	doh.register("a11y", require.toUrl("./a11y.html"), 999999);
+	doh.register("robot.typematic", require.toUrl("./robot/typematic.html"), 999999);
 
 	// _Widget
-	doh.registerUrl("dijit.tests._Widget-lifecycle", dojo.moduleUrl("dijit", "tests/_Widget-lifecycle.html"), 999999);
-	doh.registerUrl("dijit.tests._Widget-attr", dojo.moduleUrl("dijit", "tests/_Widget-attr.html"), 999999);
-	doh.registerUrl("dijit.tests._Widget-subscribe", dojo.moduleUrl("dijit", "tests/_Widget-subscribe.html"), 999999);
-	doh.registerUrl("dijit.tests._Widget-placeAt", dojo.moduleUrl("dijit", "tests/_Widget-placeAt.html"), 999999);
-	doh.registerUrl("dijit.tests.robot._Widget-on", dojo.moduleUrl("dijit","tests/_Widget-on.html"), 999999);
-	doh.registerUrl("dijit.tests.robot._Widget-deferredConnect", dojo.moduleUrl("dijit","tests/robot/_Widget-deferredConnect.html"), 999999);
-	doh.registerUrl("dijit.tests.robot._Widget-ondijitclick_mouse", dojo.moduleUrl("dijit","tests/robot/_Widget-ondijitclick_mouse.html"), 999999);
-	doh.registerUrl("dijit.tests.robot._Widget-ondijitclick_a11y", dojo.moduleUrl("dijit","tests/robot/_Widget-ondijitclick_a11y.html"), 999999);
+	doh.register("_Widget-lifecycle", require.toUrl("./_Widget-lifecycle.html"), 999999);
+	doh.register("_Widget-attr", require.toUrl("./_Widget-attr.html"), 999999);
+	doh.register("_Widget-subscribe", require.toUrl("./_Widget-subscribe.html"), 999999);
+	doh.register("_Widget-placeAt", require.toUrl("./_Widget-placeAt.html"), 999999);
+	doh.register("robot._Widget-on", require.toUrl("./_Widget-on.html"), 999999);
+	doh.register("robot._Widget-deferredConnect", require.toUrl("./robot/_Widget-deferredConnect.html"), 999999);
+	doh.register("robot._Widget-ondijitclick_mouse", require.toUrl("./robot/_Widget-ondijitclick_mouse.html"), 999999);
+	doh.register("robot._Widget-ondijitclick_a11y", require.toUrl("./robot/_Widget-ondijitclick_a11y.html"), 999999);
 
 	// _Templated and other mixins
-	doh.registerUrl("dijit.tests._TemplatedMixin", dojo.moduleUrl("dijit", "tests/_TemplatedMixin.html"), 999999);
-	doh.registerUrl("dijit.tests._WidgetsInTemplateMixin", dojo.moduleUrl("dijit", "tests/_WidgetsInTemplateMixin.html"), 999999);
-	doh.registerUrl("dijit.tests._Templated-widgetsInTemplate1.x", dojo.moduleUrl("dijit", "tests/_Templated-widgetsInTemplate1.x.html"), 999999);
-	doh.registerUrl("dijit.tests._Container", dojo.moduleUrl("dijit", "tests/_Container.html"), 999999);
-	doh.registerUrl("dijit.tests._KeyNavContainer", dojo.moduleUrl("dijit", "tests/_KeyNavContainer.html"), 999999);
-	doh.registerUrl("dijit.tests._HasDropDown", dojo.moduleUrl("dijit", "tests/_HasDropDown.html"), 999999);
+	doh.register("_TemplatedMixin", require.toUrl("./_TemplatedMixin.html"), 999999);
+	doh.register("_WidgetsInTemplateMixin", require.toUrl("./_WidgetsInTemplateMixin.html"), 999999);
+	doh.register("_Templated-widgetsInTemplate1.x", require.toUrl("./_Templated-widgetsInTemplate1.x.html"), 999999);
+	doh.register("_Container", require.toUrl("./_Container.html"), 999999);
+	doh.register("_KeyNavContainer", require.toUrl("./_KeyNavContainer.html"), 999999);
+	doh.register("_HasDropDown", require.toUrl("./_HasDropDown.html"), 999999);
 
-	doh.registerUrl("dijit.tests.Declaration", dojo.moduleUrl("dijit","tests/test_Declaration.html"), 999999);
-	doh.registerUrl("dijit.tests.Declaration_1.x", dojo.moduleUrl("dijit","tests/test_Declaration_1.x.html"), 999999);
+	doh.register("Declaration", require.toUrl("./test_Declaration.html"), 999999);
+	doh.register("Declaration_1.x", require.toUrl("./test_Declaration_1.x.html"), 999999);
 
 	// Miscellaneous
-	doh.registerUrl("dijit.tests.NodeList-instantiate", dojo.moduleUrl("dijit","tests/NodeList-instantiate.html"), 999999);
-	doh.registerUrl("dijit.tests.Destroyable", dojo.moduleUrl("dijit","tests/Destroyable.html"), 999999);
-	doh.registerUrl("dijit.tests.robot.BgIframe", dojo.moduleUrl("dijit","tests/robot/BgIframe.html"+userArgs), 999999);
-}catch(e){
-	doh.debug(e);
-}
+	doh.register("NodeList-instantiate", require.toUrl("./NodeList-instantiate.html"), 999999);
+	doh.register("Destroyable", require.toUrl("./Destroyable.html"), 999999);
+	doh.register("robot.BgIframe", require.toUrl("./robot/BgIframe.html"), 999999);
+
+});
