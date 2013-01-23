@@ -30,8 +30,8 @@ define([
 			this.nameAttrSetting = "";
 		},
 
-        // Remap name attribute to be mapped to hidden node created in buildRendering(), rather than this.focusNode
-        _setNameAttr: "valueNode",
+		// Remap name attribute to be mapped to hidden node created in buildRendering(), rather than this.focusNode
+		_setNameAttr: "valueNode",
 
 		serialize: function(val /*=====, options =====*/){
 			// summary:
@@ -71,9 +71,9 @@ define([
 			// to make query(input[name=...]) work on IE. (see #8660).
 			// But not doing that for Windows 8 Store apps because it causes a security exception (see #16452).
 			this.valueNode = domConstruct.place("<input type='hidden'" +
-                ((this.name && !has("win8app")) ? ' name="' + this.name.replace(/"/g, "&quot;") + '"' : "") + "/>",
-                this.textbox, "after");
-        },
+				((this.name && !has("win8app")) ? ' name="' + this.name.replace(/"/g, "&quot;") + '"' : "") + "/>",
+				this.textbox, "after");
+		},
 
 		reset: function(){
 			// Overrides `dijit/form/ValidationTextBox.reset` to
