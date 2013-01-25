@@ -147,14 +147,14 @@
 								tab.disconnect(handler);
 								handler = null;
 								setTimeout(d.getTestErrback(function(){
-									tab = registry.byId('dijit_layout_LinkPane_0');
+									tab = registry.byId('tab4a');
 									handler = tab.connect(tab, '_onShow', function(){
 										tab.disconnect(handler);
 										handler = null;
 										setTimeout(d.getTestCallback(function(){
-											var h1 = query('h1', dom.byId('dijit_layout_LinkPane_0'))[0];
-											var p1 = query('p', dom.byId('dijit_layout_LinkPane_0'))[0];
-											var div1 = query('div', dom.byId('dijit_layout_LinkPane_0'))[0];
+											var h1 = query('h1', dom.byId('tab4a'))[0];
+											var p1 = query('p', dom.byId('tab4a'))[0];
+											var div1 = query('div', dom.byId('tab4a'))[0];
 								
 											checkInside(h1, registry.byId("plainTabContainer").domNode);
 											checkInside(p1, registry.byId("plainTabContainer").domNode);
@@ -165,7 +165,7 @@
 											oldPos = newPos;
 										}), 1000);
 									});
-									robot.mouseMoveAt('tab4_tablist_dijit_layout_LinkPane_0', 0, 1);
+									robot.mouseMoveAt('tab4_tablist_tab4a', 0, 1);
 									robot.mouseClick({left: true}, 500);
 								}), 1000);
 							});
@@ -187,11 +187,11 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 							
-							tab = registry.byId('dijit_layout_LinkPane_1');
+							tab = registry.byId('tab4b');
 							handler = tab.connect(tab, '_onShow', function(){
 								setTimeout(d.getTestCallback(function(){
-									var h2 = query('h1', dom.byId('dijit_layout_LinkPane_1'))[0];
-									var p2 = query('p', dom.byId('dijit_layout_LinkPane_1'))[0];
+									var h2 = query('h1', dom.byId('tab4b'))[0];
+									var p2 = query('p', dom.byId('tab4b'))[0];
 
 									checkInside(h2, registry.byId("plainTabContainer").domNode);
 									checkInside(p2, registry.byId("plainTabContainer").domNode);
@@ -202,7 +202,7 @@
 								}), 1000);
 							});
 							
-							robot.mouseMoveAt('tab4_tablist_dijit_layout_LinkPane_1', 0, 1);
+							robot.mouseMoveAt('tab4_tablist_tab4b', 0, 1);
 							robot.mouseClick({left: true}, 500);
 							
 							return d;
@@ -427,14 +427,14 @@
 								tab.disconnect(handler);
 								handler = null;
 								setTimeout(d.getTestErrback(function(){
-									tab = registry.byId('dijit_layout_LinkPane_2');
+									tab = registry.byId('atab4a');
 									handler = tab.connect(tab, '_onShow', function(){
 										tab.disconnect(handler);
 										handler = null;
 										setTimeout(d.getTestCallback(function(){
-											var h1 = query('h1', dom.byId('dijit_layout_LinkPane_2'))[0];
-											var p1 = query('p', dom.byId('dijit_layout_LinkPane_2'))[0];
-											var div1 = query('div', dom.byId('dijit_layout_LinkPane_2'))[0];
+											var h1 = query('h1', dom.byId('atab4a'))[0];
+											var p1 = query('p', dom.byId('atab4a'))[0];
+											var div1 = query('div', dom.byId('atab4a'))[0];
 								
 											checkInside(h1, registry.byId("tableTabContainer").domNode);
 											checkInside(p1, registry.byId("tableTabContainer").domNode);
@@ -445,7 +445,7 @@
 											oldPos = newPos;
 										}), 1000);
 									});
-									robot.mouseMoveAt('atab4_tablist_dijit_layout_LinkPane_2', 0, 1);
+									robot.mouseMoveAt('atab4_tablist_atab4a', 0, 1);
 									robot.mouseClick({left: true}, 500);
 								}), 1000);
 							});
@@ -467,11 +467,11 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 							
-							tab = registry.byId('dijit_layout_LinkPane_3');
+							tab = registry.byId('atab4b');
 							handler = tab.connect(tab, '_onShow', function(){
 								setTimeout(d.getTestCallback(function(){
-									var h2 = query('h1', dom.byId('dijit_layout_LinkPane_3'))[0];
-									var p2 = query('p', dom.byId('dijit_layout_LinkPane_3'))[0];
+									var h2 = query('h1', dom.byId('atab4b'))[0];
+									var p2 = query('p', dom.byId('atab4b'))[0];
 
 									checkInside(h2, registry.byId("tableTabContainer").domNode);
 									checkInside(p2, registry.byId("tableTabContainer").domNode);
@@ -482,7 +482,7 @@
 								}), 1000);
 							});
 							
-							robot.mouseMoveAt('atab4_tablist_dijit_layout_LinkPane_3', 0, 1);
+							robot.mouseMoveAt('atab4_tablist_atab4b', 0, 1);
 							robot.mouseClick({left: true}, 500);
 							
 							return d;
@@ -499,10 +499,10 @@
 							
 							tab = registry.byId('atab5');
 							handler = tab.connect(tab, 'onDownloadEnd', function(){
-								robot.mouseMoveAt('dijit_layout_TabContainer_1_tablist_dijit_layout_ContentPane_2', 1000, 1);
+								robot.mouseMoveAt('tableTabContainer_tablist_atab4a', 1000, 1);
 								robot.mouseClick({left: true}, 500);
 								robot.sequence(d.getTestCallback(function(){
-									var p = query("p", dom.byId('dijit_layout_ContentPane_2'))[0];
+									var p = query("p", dom.byId('atab4a'))[0];
 									checkInside(p, registry.byId("tableTabContainer").domNode);
 
 									var newPos = geom.position(dom.byId("textAfterTabContainer2"), true);
@@ -525,12 +525,12 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 							
-							tab = registry.byId('dijit_layout_ContentPane_3');
+							tab = registry.byId('atab4b');
 							handler = tab.connect(tab, '_onShow', function(){
 								setTimeout(d.getTestCallback(function(){
-									var p1 = query("p", dom.byId('dijit_layout_ContentPane_3'))[0];
-									var p2 = query("p", dom.byId('dijit_layout_ContentPane_3'))[1];
-									var p3 = query("p", dom.byId('dijit_layout_ContentPane_3'))[2];
+									var p1 = query("p", dom.byId('atab4b'))[0];
+									var p2 = query("p", dom.byId('atab4b'))[1];
+									var p3 = query("p", dom.byId('atab4b'))[2];
 									checkInside(p1, registry.byId("tableTabContainer").domNode);
 									checkInside(p2, registry.byId("tableTabContainer").domNode);
 									checkInside(p3, registry.byId("tableTabContainer").domNode);
@@ -541,7 +541,7 @@
 								}), 1000);
 							});
 							
-							robot.mouseMoveAt('dijit_layout_TabContainer_1_tablist_dijit_layout_ContentPane_3', 0, 1);
+							robot.mouseMoveAt('tableTabContainer_tablist_atab4b', 0, 1);
 							robot.mouseClick({left: true}, 500);
 							
 							return d;

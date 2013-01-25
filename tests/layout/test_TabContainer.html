@@ -26,7 +26,6 @@
 		dojo.require("dijit.layout.SplitContainer");
 		dojo.require("dijit.layout.BorderContainer");
 		dojo.require("dijit.Tooltip");
-		dojo.require("dijit.layout.LinkPane");
 		dojo.require("dijit.form.Button");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
@@ -75,7 +74,7 @@
 	<br><br>
 
 	<div id="mainTabContainer" data-dojo-type="dijit/layout/TabContainer"
-				data-dojo-props='persist:false, tabStrip:true, style:"width: 400px;height: 20em;"'>
+				data-dojo-props='persist:false, tabStrip:true' style="width: 400px;height: 20em;">
 
 		<div id="tab1" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab1.html", title:"Tab 1", iconClass:"plusIcon",
 			tooltip:"Tooltip for tab #1"'></div>
@@ -115,8 +114,8 @@
 		</div>
 
 		<div id="inlined" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='title:"Inlined Sub TabContainer", iconClass:"plusIcon", nested:true'>
-			<a id="tab1href" data-dojo-type="dijit/layout/LinkPane" data-dojo-props='href:"tab1.html", onLoad:function(){ console.log("load of SubTab 1"); }, iconClass:"plusIcon" '>SubTab 1</a>
-			<a id="tab2href" data-dojo-type="dijit/layout/LinkPane" data-dojo-props='href:"tab2.html",  onLoad:function(){ console.log("load of SubTab 2"); }, selected:true,  iconClass:"dijitEditorIcon dijitEditorIconSave"'>SubTab 2</a>
+			<div id="tab1href" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab1.html", onLoad:function(){ console.log("load of SubTab 1"); }, iconClass:"plusIcon" ' title="SubTab 1"></div>
+			<div id="tab2href" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab2.html", onLoad:function(){ console.log("load of SubTab 2"); }, selected:true,  iconClass:"dijitEditorIcon dijitEditorIconSave"' title="SubTab 2"></div>
 			<div id="subtab3" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"SubTab 3",  iconClass:"dijitEditorIcon dijitEditorIconCut"'>
 				<h1>I am tab 3, inlined.</h1>
 			</div>
@@ -125,10 +124,10 @@
 			</div>
 		</div>
 
-		<a id="tab3href" data-dojo-type="dijit/layout/LinkPane" data-dojo-props='href:"tab3.html", refreshOnShow:true, closable:true,
-				style:"padding: 0", iconClass:"dijitEditorIcon dijitEditorIconSave"'>Sub TabContainer from href</a>
-		<a id="tab4href" data-dojo-type="dijit/layout/LinkPane" data-dojo-props='href:"tab4.html",
-				closable:true, iconClass:"dijitEditorIcon dijitEditorIconCut"'>SplitContainer from href</a>
+		<div id="tab3href" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab3.html", refreshOnShow:true, closable:true,
+				iconClass:"dijitEditorIcon dijitEditorIconSave"' title="Sub TabContainer from href" style="padding: 0"></div>
+		<div id="tab4href" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab4.html",
+				closable:true, iconClass:"dijitEditorIcon dijitEditorIconCut"' title="SplitContainer from href"></div>
 		<div id="embedded" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Embedded layout widgets",
 				closable:true, iconClass:"dijitEditorIcon dijitEditorIconCopy"'>
 			<p>
@@ -138,8 +137,8 @@
 			<p>
 				Here's a BorderContainer:
 			</p>
-			<div id="bc" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='style:"height:200px; width:300px"'>
-				<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"left", style:"width:100px", splitter:true'>
+			<div id="bc" data-dojo-type="dijit/layout/BorderContainer" style="height:200px; width:300px">
+				<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"left", splitter:true' style="width: 100px">
 					1Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
 					vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
@@ -173,7 +172,7 @@
 			<p>
 				And a TabContainer:
 			</p>
-			<div id="embeddedTC" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='style:"height:200px; width:300px"'>
+			<div id="embeddedTC" data-dojo-type="dijit/layout/TabContainer" style="height:200px; width:300px">
 				<div id="embeddedTab1" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Tab 1"'>
 					1Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
@@ -222,7 +221,7 @@
 		Also, "Tab 3" is initially disabled.
 	</p>
 	<div data-dojo-type="dijit/layout/TabContainer" id="nomenu" data-dojo-props='useMenu:false,
-				persist:false, tabStrip:true, style:"width: 400px;height: 20em;"'>
+				persist:false, tabStrip:true' style="width: 400px;height: 20em;">
 		<div data-dojo-type="dijit/layout/ContentPane" id="nomenu_tab1" data-dojo-props='href:"tab1.html", title:"Tab 1"'></div>
 
 		<div data-dojo-type="dijit/layout/ContentPane" id="nomenu_tab2" data-dojo-props='href:"tab2.html", refreshOnShow:true, title:"Tab 2", selected:true'></div>
@@ -259,8 +258,8 @@
 		</div>
 
 		<div data-dojo-type="dijit/layout/TabContainer"  data-dojo-props='closable:true, title:"Inlined Sub TabContainer", nested:true'>
-			<a data-dojo-type="dijit/layout/LinkPane"  data-dojo-props='href:"tab1.html", onLoad:function(){ console.log("load of SubTab 1"); }'>SubTab 1</a>
-			<a data-dojo-type="dijit/layout/LinkPane"  data-dojo-props='href:"tab2.html",  onLoad:function(){ console.log("load of SubTab 2"); }, selected:true'>SubTab 2</a>
+			<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab1.html", onLoad:function(){ console.log("load of SubTab 1"); }' title="SubTab 1"></div>
+			<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab2.html", onLoad:function(){ console.log("load of SubTab 2"); }, selected:true' title="SubTab 2"></div>
 			<div data-dojo-type="dijit/layout/ContentPane"  data-dojo-props='title:"SubTab 3"'>
 				<h1>I am tab 3, inlined.</h1>
 			</div>
@@ -269,9 +268,9 @@
 			</div>
 		</div>
 
-		<a data-dojo-type="dijit/layout/LinkPane"  data-dojo-props='href:"tab3.html", closable:true, refreshOnShow:true, style:"padding: 0"'>Sub TabContainer from href</a>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab3.html", closable:true, refreshOnShow:true' style="padding: 0" title="Sub TabContainer from href"></div>
 
-		<a data-dojo-type="dijit/layout/LinkPane"  data-dojo-props='closable:true, href:"tab4.html"'>SplitContainer from href</a>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab4.html", closable:true' title="SplitContainer from href"></div>
 
 		<div data-dojo-type="dijit/layout/ContentPane"  data-dojo-props='closable:true, title:"Embedded layout widgets"'>
 			<p>
@@ -281,8 +280,8 @@
 			<p>
 				Here's a BorderContainer:
 			</p>
-			<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='style:"height:200px; width:300px"'>
-				<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"left", style:"width:100px", splitter:true'>
+			<div data-dojo-type="dijit/layout/BorderContainer" style="height:200px; width:300px">
+				<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"left", splitter:true' style="width:100px">
 					1Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
 					vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
@@ -316,7 +315,7 @@
 			<p>
 				And a TabContainer:
 			</p>
-			<div data-dojo-type="dijit/layout/TabContainer"  data-dojo-props='style:"height:200px; width:300px"'>
+			<div data-dojo-type="dijit/layout/TabContainer" style="height:200px; width:300px">
 				<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Tab 1"'>
 					1Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
@@ -359,7 +358,7 @@
 	<br/>
 
 	<p>Tabs w/only icons (except in high-contrast mode where labels display):</p>
-	<div id="iconTabs" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='tabPosition:"top", style:"width: 100%; height: 10em;"'>
+	<div id="iconTabs" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='tabPosition:"top"' style="width: 100%; height: 10em;">
 		<div id="iconTab1" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Cut", tooltip:"tooltip for cut button", showTitle:false, iconClass:"dijitEditorIcon dijitEditorIconCut"'>Cut icon tab</div>
 		<div id="iconTab2" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Copy", showTitle:false, iconClass:"dijitEditorIcon dijitEditorIconCopy"'>Copy icon tab</div>
 		<div id="iconTab3" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Paste", showTitle:false, iconClass:"dijitEditorIcon dijitEditorIconPaste"'>Paste icon tab</div>
@@ -370,7 +369,7 @@
 		This tab container has the Slider function for selecting tabs disabled, using <b>useSlider="false"</b>
 	</p>
 	<div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='useSlider:false,
-				persist:false, tabStrip:true, style:"width: 400px;height: 20em;"'>
+				persist:false, tabStrip:true' style="width: 400px;height: 20em;">
 
 		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab1.html", title:"Tab 1"'></div>
 
@@ -408,8 +407,8 @@
 		</div>
 
 		<div data-dojo-type="dijit/layout/TabContainer"  data-dojo-props='closable:true, title:"Inlined Sub TabContainer", nested:true'>
-			<a data-dojo-type="dijit/layout/LinkPane"  data-dojo-props='href:"tab1.html", onLoad:function(){ console.log("load of SubTab 1"); }'>SubTab 1</a>
-			<a data-dojo-type="dijit/layout/LinkPane"  data-dojo-props='href:"tab2.html",  onLoad:function(){ console.log("load of SubTab 2"); }, selected:true'>SubTab 2</a>
+			<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab1.html", onLoad:function(){ console.log("load of SubTab 1"); }' title="SubTab 1"></div>
+			<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab2.html", onLoad:function(){ console.log("load of SubTab 2"); }, selected:true' title="SubTab 2"></div>
 			<div data-dojo-type="dijit/layout/ContentPane"  data-dojo-props='title:"SubTab 3"'>
 				<h1>I am tab 3, inlined.</h1>
 			</div>
@@ -418,9 +417,10 @@
 			</div>
 		</div>
 
-		<a data-dojo-type="dijit/layout/LinkPane"  data-dojo-props='href:"tab3.html", closable:true, refreshOnShow:true, style:"padding: 0"'>Sub TabContainer from href</a>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab3.html", closable:true, refreshOnShow:true'
+		   title="Sub TabContainer from href" style="padding: 0" ></div>
 
-		<a data-dojo-type="dijit/layout/LinkPane"  data-dojo-props='closable:true, href:"tab4.html"'>SplitContainer from href</a>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab4.html", closable:true' title="SplitContainer from href"></div>
 
 		<div data-dojo-type="dijit/layout/ContentPane"  data-dojo-props='closable:true, title:"Embedded layout widgets"'>
 			<p>
@@ -430,8 +430,8 @@
 			<p>
 				Here's a BorderContainer:
 			</p>
-			<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='style:"height:200px; width:300px"'>
-				<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"left", style:"width:100px", splitter:true'>
+			<div data-dojo-type="dijit/layout/BorderContainer" style="height:200px; width:300px">
+				<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"left", splitter:true' style="width:100px" >
 					1Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
 					vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
@@ -465,7 +465,7 @@
 			<p>
 				And a TabContainer:
 			</p>
-			<div data-dojo-type="dijit/layout/TabContainer"  data-dojo-props='style:"height:200px; width:300px"'>
+			<div data-dojo-type="dijit/layout/TabContainer"  style="height:200px; width:300px">
 				<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Tab 1"'>
 					1Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
@@ -504,10 +504,10 @@
 	</div>
 	<br/>
 	<p>
-		This tab container has the tab strip disabled, using <b>tabStrip="false"</b>
+		This tab container has the tab strip disabled, using <b>tabStrip:false</b>
 	</p>
 	<div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='tabStrip:false,
-				persist:false, tabStrip:true, style:"width: 400px;height: 20em;"'>
+				persist:false' style="width: 400px;height: 20em;">
 
 		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab1.html", title:"Tab 1"'></div>
 
@@ -545,8 +545,8 @@
 		</div>
 
 		<div data-dojo-type="dijit/layout/TabContainer"  data-dojo-props='closable:true, title:"Inlined Sub TabContainer", nested:true'>
-			<a data-dojo-type="dijit/layout/LinkPane"  data-dojo-props='href:"tab1.html", onLoad:function(){ console.log("load of SubTab 1"); }'>SubTab 1</a>
-			<a data-dojo-type="dijit/layout/LinkPane"  data-dojo-props='href:"tab2.html",  onLoad:function(){ console.log("load of SubTab 2"); }, selected:true'>SubTab 2</a>
+			<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab1.html", onLoad:function(){ console.log("load of SubTab 1"); }' title="SubTab 1"></div>
+			<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab2.html", onLoad:function(){ console.log("load of SubTab 2"); }, selected:true' title="SubTab 2"></div>
 			<div data-dojo-type="dijit/layout/ContentPane"  data-dojo-props='title:"SubTab 3"'>
 				<h1>I am tab 3, inlined.</h1>
 			</div>
@@ -555,9 +555,9 @@
 			</div>
 		</div>
 
-		<a data-dojo-type="dijit/layout/LinkPane"  data-dojo-props='href:"tab3.html", closable:true, refreshOnShow:true, style:"padding: 0"'>Sub TabContainer from href</a>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab3.html", closable:true, refreshOnShow:true' style="padding: 0" title="Sub TabContainer from href"></div>
 
-		<a data-dojo-type="dijit/layout/LinkPane"  data-dojo-props='closable:true, href:"tab4.html"'>SplitContainer from href</a>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab4.html", closable:true' title="SplitContainer from href"></div>
 
 		<div data-dojo-type="dijit/layout/ContentPane"  data-dojo-props='closable:true, title:"Embedded layout widgets"'>
 			<p>
@@ -567,8 +567,8 @@
 			<p>
 				Here's a BorderContainer:
 			</p>
-			<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='style:"height:200px; width:300px"'>
-				<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"left", style:"width:100px", splitter:true'>
+			<div data-dojo-type="dijit/layout/BorderContainer" style="height:200px; width:300px">
+				<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"left", splitter:true' style="width:100px">
 					1Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
 					vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
@@ -602,7 +602,7 @@
 			<p>
 				And a TabContainer:
 			</p>
-			<div data-dojo-type="dijit/layout/TabContainer"  data-dojo-props='style:"height:200px; width:300px"'>
+			<div data-dojo-type="dijit/layout/TabContainer" style="height:200px; width:300px">
 				<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Tab 1"'>
 					1Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
@@ -647,7 +647,7 @@
 	</p>
 
 	<div id="mainTabContainerBottom" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='tabPosition:"bottom",
-				persist:true, tabStrip:true, style:"width: 400px; height: 20em;"'>
+				persist:true, tabStrip:true' style="width: 400px; height: 20em;">
 
 		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab1.html", title:"Tab 1"'></div>
 
@@ -685,8 +685,8 @@
 		</div>
 
 		<div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='closable:true, title:"Inlined Sub TabContainer", nested:true'>
-			<a data-dojo-type="dijit/layout/LinkPane"  data-dojo-props='href:"tab1.html", onLoad:function(){ console.log("load of SubTab 1"); }'>SubTab 1</a>
-			<a data-dojo-type="dijit/layout/LinkPane"  data-dojo-props='href:"tab2.html",  onLoad:function(){ console.log("load of SubTab 2"); }, selected:true'>SubTab 2</a>
+			<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab1.html", onLoad:function(){ console.log("load of SubTab 1"); }' title="SubTab 1"></div>
+			<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab2.html",  onLoad:function(){ console.log("load of SubTab 2"); }, selected:true' title="SubTab 2"></div>
 			<div data-dojo-type="dijit/layout/ContentPane"  data-dojo-props='title:"SubTab 3"'>
 				<h1>I am tab 3, inlined.</h1>
 			</div>
@@ -695,9 +695,9 @@
 			</div>
 		</div>
 
-		<a data-dojo-type="dijit/layout/LinkPane" data-dojo-props='closable:true, href:"tab3.html", refreshOnShow:true, style:"padding: 0"'>Sub TabContainer from href</a>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab3.html", closable:true, refreshOnShow:true' title="Sub TabContainer from href" style="padding:0"></div>
 
-		<a data-dojo-type="dijit/layout/LinkPane" data-dojo-props='closable:true, href:"tab4.html"'>SplitContainer from href</a>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab4.html", closable:true' title="SplitContainer from href"></div>
 
 		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='closable:true, title:"Embedded layout widgets"'>
 			<p>
@@ -707,8 +707,8 @@
 			<p>
 				Here's a BorderContainer:
 			</p>
-			<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='style:"height:200px; width:300px"'>
-				<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"left", style:"width:100px", splitter:true'>
+			<div data-dojo-type="dijit/layout/BorderContainer" style="height:200px; width:300px">
+				<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"left", splitter:true' style="width:100px">
 					1Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
 					vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
@@ -742,7 +742,7 @@
 			<p>
 				And a TabContainer:
 			</p>
-			<div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='style:"height:200px; width:300px"'>
+			<div data-dojo-type="dijit/layout/TabContainer" style="height:200px; width:300px">
 				<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Tab 1"'>
 					1Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
@@ -785,7 +785,7 @@
 	</p>
 
 	<div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='tabPosition:"bottom",
-				persist:true, tabStrip:false, style:"width: 400px; height: 20em;"'>
+				persist:true, tabStrip:false' style="width: 400px; height: 20em;">
 
 		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab1.html", title:"Tab 1"'></div>
 
@@ -823,8 +823,8 @@
 		</div>
 
 		<div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='closable:true, title:"Inlined Sub TabContainer", nested:true'>
-			<a data-dojo-type="dijit/layout/LinkPane"  data-dojo-props='href:"tab1.html", onLoad:function(){ console.log("load of SubTab 1"); }'>SubTab 1</a>
-			<a data-dojo-type="dijit/layout/LinkPane"  data-dojo-props='href:"tab2.html",  onLoad:function(){ console.log("load of SubTab 2"); }, selected:true'>SubTab 2</a>
+			<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab1.html", onLoad:function(){ console.log("load of SubTab 1"); }' title="SubTab 1"></div>
+			<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab2.html",  onLoad:function(){ console.log("load of SubTab 2"); }, selected:true' title="SubTab 2"></div>
 			<div data-dojo-type="dijit/layout/ContentPane"  data-dojo-props='title:"SubTab 3"'>
 				<h1>I am tab 3, inlined.</h1>
 			</div>
@@ -833,9 +833,9 @@
 			</div>
 		</div>
 
-		<a data-dojo-type="dijit/layout/LinkPane" data-dojo-props='closable:true, href:"tab3.html", refreshOnShow:true, style:"padding: 0"'>Sub TabContainer from href</a>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab3.html", closable:true, refreshOnShow:true' title="Sub TabContainer from href" style="padding: 0" ></div>
 
-		<a data-dojo-type="dijit/layout/LinkPane" data-dojo-props='closable:true, href:"tab4.html"'>SplitContainer from href</a>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab4.html", closable:true' title="SplitContainer from href"></div>
 
 		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='closable:true, title:"Embedded layout widgets"'>
 			<p>
@@ -845,8 +845,8 @@
 			<p>
 				Here's a BorderContainer:
 			</p>
-			<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='style:"height:200px; width:300px"'>
-				<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"left", style:"width:100px", splitter:true'>
+			<div data-dojo-type="dijit/layout/BorderContainer" style="height:200px; width:300px">
+				<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"left", splitter:true' style="width:100px" >
 					1Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
 					vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
@@ -880,7 +880,7 @@
 			<p>
 				And a TabContainer:
 			</p>
-			<div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='style:"height:200px; width:300px"'>
+			<div data-dojo-type="dijit/layout/TabContainer" style="height:200px; width:300px">
 				<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Tab 1"'>
 					1Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
@@ -923,10 +923,10 @@
 		Tab 1 and Tab 3 can be closed; Tab 3 has a confirm box.
 	</p>
 
-	<div id="ttabs" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='tabPosition:"top", style:"width: 100%; height: 10em;",
+	<div id="ttabs" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='tabPosition:"top",
 		onFocus:function(){ console.log("user focus handler") },
 		onBlur:function(){ console.log("user blur handler") }
-	'>
+	' style="width: 100%; height: 10em;">
 		<div id="ttab1" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab1.html", title:"First", closable:true'></div>
 		<div id="ttab2" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab2.html", refreshOnShow:true, title:"Second"'></div>
 		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Third", onClose:testClose, closable:true'>
@@ -938,14 +938,14 @@
 
 	<p>Tabs with titles on the bottom:</p>
 
-	<div id="btabs" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='tabPosition:"bottom", style:"width: 100%; height: 10em;"'>
+	<div id="btabs" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='tabPosition:"bottom"' style="width: 100%; height: 10em;">
 		<div id="btab1" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab1.html", title:"Tab 1", closable:true'></div>
 		<div id="btab2" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab2.html", refreshOnShow:true, onLoad:function(){ console.debug("Tab2 onLoad"); }, title:"Tab 2"'></div>
 	</div>
 
 	<p>Tabs with titles on the left and tabStrip="false":</p>
 
-	<div id="ltabs" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='style:"width:500px;height:100px", tabStrip:false, tabPosition:"left-h"'>
+	<div id="ltabs" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='tabStrip:false, tabPosition:"left-h"' style="width:500px;height:100px">
 		<div id="LittleRed1" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Little Red Cap"'>
 			Once upon a time there was a dear little girl who was loved by
 			every one who looked at her, but most of all by her grandmother,
@@ -969,7 +969,7 @@
 
 	<p>Tabs with titles on the left and tabStrip=true:</p>
 
-	<div id="ltabsStrip" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='style:"width:500px;height:100px", tabStrip:true, tabPosition:"left-h"'>
+	<div id="ltabsStrip" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='tabStrip:true, tabPosition:"left-h"' style="width:500px;height:100px">
 		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Little Red Cap"'>
 			Once upon a time there was a dear little girl who was loved by
 			every one who looked at her, but most of all by her grandmother,
@@ -993,7 +993,7 @@
 
 	<p>Tabs with titles on the right and tabStrip=true:</p>
 
-	<div id="rtabsStrip" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='tabStrip:true, style:"width:500px;height:100px", tabPosition:"right-h"'>
+	<div id="rtabsStrip" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='tabStrip:true, tabPosition:"right-h"' style="width:500px;height:100px">
 		<div id="LittleRed2" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Little Red Cap"'>
 			Once upon a time there was a dear little girl who was loved by
 			every one who looked at her, but most of all by her grandmother,
@@ -1017,7 +1017,7 @@
 
 	<p>Tabs with titles on the right and tabStrip=false:</p>
 
-	<div id="rtabs" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='tabStrip:false, style:"width:500px;height:100px", tabPosition:"right-h"'>
+	<div id="rtabs" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='tabStrip:false, tabPosition:"right-h"' style="width:500px;height:100px">
 		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Little Red Cap"'>
 			Once upon a time there was a dear little girl who was loved by
 			every one who looked at her, but most of all by her grandmother,

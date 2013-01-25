@@ -25,7 +25,6 @@
 		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.Tooltip");
 		dojo.require("dijit.form.Button");
-		dojo.require("dijit.layout.LinkPane");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
 		function testClose(pane,tab){
@@ -94,11 +93,11 @@
 		</div>
 
 		<div id="tab4" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='title:"Tab 4", doLayout:false, nested:true'>
-			<a data-dojo-type="dijit/layout/LinkPane" data-dojo-props='href:"tab1.html"'>SubTab 1</a>
-			<a data-dojo-type="dijit/layout/LinkPane" data-dojo-props='href:"tab2.html", selected:true'>SubTab 2</a>
+			<div id="tab4a" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab1.html"' title="SubTab 1"></div>
+			<div id="tab4b" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab2.html", selected:true' title="SubTab 2"></div>
 		</div>
 
-		<a id="tab5" data-dojo-type="dijit/layout/LinkPane" data-dojo-props='href:"tab3_noLayout.html", doLayout:false'>Tab 5</a>
+		<div id="tab5" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab3_noLayout.html", doLayout:false' title="Tab 5"></div>
 	</div>
 
 	<p id="textAfterTabContainer1">
@@ -148,11 +147,11 @@
 					</div>
 			
 					<div id="atab4" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='title:"Tab 4", nested:true, doLayout:false'>
-						<a data-dojo-type="dijit/layout/LinkPane" data-dojo-props='href:"tab1.html"'>SubTab 1</a>
-						<a data-dojo-type="dijit/layout/LinkPane" data-dojo-props='href:"tab2.html", selected:true'>SubTab 2</a>
+						<div id="atab4a" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab1.html"' title="SubTab 1"></div>
+						<div id="atab4b" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab2.html", selected:true' title="SubTab 2"></div>
 					</div>
 			
-					<a id="atab5" data-dojo-type="dijit/layout/LinkPane" data-dojo-props='href:"tab3_noLayout.html", doLayout:false'>Tab 5</a>
+					<div id="atab5" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='href:"tab3_noLayout.html", doLayout:false' title="Tab 5"></div>
 				</div>
 			</td>
 			</tr>

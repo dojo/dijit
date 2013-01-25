@@ -610,26 +610,22 @@
 
 	<div id="createTab" data-dojo-type='dijit.form.Button' data-dojo-props='onClick:function(){ createTab() }'>Create a Tab</div>
 	<div id="ttabs" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='tabPosition:"top", style:"width: 100%; height: 20em;"'>
-		<a id="ttab1" data-dojo-type="dijit/layout/LinkPane"
+		<div id="ttab1" data-dojo-type="dijit/layout/ContentPane"
 			data-dojo-props='href:"getResponse.php?messId=3&amp;delay=1000",
-			closable:true
-		'><img alt="copy" src='../images/copy.gif'/> Tab1</a>
-		<a id="ttab2" data-dojo-type="dijit/layout/LinkPane"
+			closable:true'
+		title="Tab1"></div>
+		<div id="ttab2" data-dojo-type="dijit/layout/ContentPane"
 			data-dojo-props='href:"getResponse.php?messId=4&amp;delay=1000",
 			refreshOnShow:true, title:"Tab 2 ",
 			selected:true,
-			closable:true
-		'><i>refreshOnShow</i>
-			<img alt="cut" src='../images/cut.gif'/>
-		</a>
-		<a id="ttab3" data-dojo-type="dijit/layout/LinkPane"
+			closable:true'
+		title="refreshOnShow"></div>
+		<div id="ttab3" data-dojo-type="dijit/layout/ContentPane"
 			data-dojo-props='href:"getResponse.php?messId=5&amp;delay=1000",
 			onClose:testClose,
 			closable:true
-		'>
-			<b>Tab 3</b>
-			<img alt="paste" src='../images/paste.gif'/>
-		</a>
+		' title="Tab 3">
+		</div>
 	</div>
 
 	<h2>AccordionContainer</h2>
