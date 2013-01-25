@@ -130,6 +130,29 @@
 
 				doh.register("Radio button a11y",[
 					{
+						timeout: 5000,
+						name: "radio group tab order",
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							dojo.byId("enableWeatherButton").focus();
+							doh.robot.keyPress(dojo.keys.TAB, 500, {
+								shift: true
+							});
+							doh.robot.keyPress(dojo.keys.TAB, 500, {
+								shift: true
+							});
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+							doh.robot.keyPress(dojo.keys.SPACE, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(dijit.byId('g1rb2').checked, "talk should have been checked");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
 						timeout:6000,
 						name:"weather enabled a11y",
 						runTest:function(){

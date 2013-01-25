@@ -31,14 +31,20 @@ return declare("dijit.form._ToggleButtonMixin", null, {
 	_setCheckedAttr: function(/*Boolean*/ value, /*Boolean?*/ priorityChange){
 		this._set("checked", value);
 		var node = this.focusNode || this.domNode;
-		domAttr.set(node, "checked", !!value); // "mixed" -> true
+		domAttr.remove(node, "checked"); // IE needs this or else TAB won't find selected group widget
 		if(value){
-			node.setAttribute("checked", "checked");
+			domAttr.set(node, "checked", true); // "mixed" -> true
+			node.setAttribute("checked", "checked"); // this is needed or else reset won't work
 		}else{
-			node.removeAttribute("checked");
+			node.removeAttribute('checked');
 		}
 		node.setAttribute(this._aria_attr, String(value)); // aria values should be strings
 		this._handleOnChange(value, priorityChange);
+	},
+
+	startup: function(){
+		this.inherited(arguments);
+		this.set("checked", this.checked, false); // IE needs this or else TAB won't find selected group widget
 	},
 
 	reset: function(){
