@@ -147,6 +147,17 @@ return declare("dijit.layout.ContentPane", [_Widget, _Container, _ContentPaneRes
 	// TODO: this declaration can be commented out in 2.0
 	template: false,
 
+	markupFactory: function(params, node, ctor, returnPromise){
+		var self = new ctor(params, node);
+
+		// If a parse has started but is waiting for modules to load, then return a Promise for when the parser
+		// finishes.  Don't return a promise though for the case when content hasn't started loading because the
+		// ContentPane is hidden and it has an href (ex: hidden pane of a TabContainer).   In that case we consider
+		// that initialization has already finished.
+		return returnPromise && !self.href && self._contentSetter && self._contentSetter.parseDeferred ?
+			self._contentSetter.parseDeferred.then(function(){ return self; }) : self;
+	},
+
 	create: function(params, srcNodeRef){
 		// Convert a srcNodeRef argument into a content parameter, so that the original contents are
 		// processed in the same way as contents set via set("content", ...), calling the parser etc.
