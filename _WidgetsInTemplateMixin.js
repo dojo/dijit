@@ -25,6 +25,11 @@ define([
 		//		declared in markup inside it?  (Remove for 2.0 and assume true)
 		widgetsInTemplate: true,
 
+		// contextRequire: Function
+		//		Used to provide a context require to the dojo/parser in order to be
+		//		able to use relative MIDs (e.g. `./Widget`) in the widget's template.
+		contextRequire: null,
+
 		_beforeFillContent: function(){
 			if(this.widgetsInTemplate){
 				// Before copying over content, instantiate widgets in template
@@ -35,6 +40,7 @@ define([
 					template: true,
 					inherited: {dir: this.dir, lang: this.lang, textDir: this.textDir},
 					propsThis: this,	// so data-dojo-props of widgets in the template can reference "this" to refer to me
+					contextRequire: this.contextRequire,
 					scope: "dojo"	// even in multi-version mode templates use dojoType/data-dojo-type
 				}));
 
