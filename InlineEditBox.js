@@ -46,6 +46,8 @@ define([
 
 		templateString: template,
 
+		contextRequire: require,
+
 		postMixInProperties: function(){
 			this.inherited(arguments);
 			this.messages = i18n.getLocalization("dijit", "common", this.lang);
