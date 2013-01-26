@@ -5,10 +5,11 @@ define([
 	"dojo/dom-style", // domStyle.get
 	"dojo/_base/lang", // lang.hitch lang.isArray
 	"dojo/mouse", // mouse.isLeft
+	"dojo/on",
 	"dojo/sniff", // has("webkit")
 	"dojo/window", // winUtils.scrollIntoView
 	"../a11y"	// a11y.hasDefaultTabStop
-], function(array, declare, domAttr, domStyle, lang, mouse, has, winUtils, a11y){
+], function(array, declare, domAttr, domStyle, lang, mouse, on, has, winUtils, a11y){
 
 // module:
 //		dijit/form/_FormWidgetMixin
@@ -102,24 +103,25 @@ return declare("dijit.form._FormWidgetMixin", null, {
 
 	_onFocus: function(/*String*/ by){
 		// If user clicks on the widget, even if the mouse is released outside of it,
-		// this widget's focusNode should get focus (to mimic native browser hehavior).
+		// this widget's focusNode should get focus (to mimic native browser behavior).
 		// Browsers often need help to make sure the focus via mouse actually gets to the focusNode.
+		// TODO: consider removing all of this for 2.0 or sooner, see #16622 etc.
 		if(by == "mouse" && this.isFocusable()){
 			// IE exhibits strange scrolling behavior when refocusing a node so only do it when !focused.
-			var focusConnector = this.connect(this.focusNode, "onfocus", function(){
-				this.disconnect(mouseUpConnector);
-				this.disconnect(focusConnector);
-			});
+			var focusHandle = this.own(on(this.focusNode, "focus", function(){
+				mouseUpHandle.remove();
+				focusHandle.remove();
+			}))[0];
 			// Set a global event to handle mouseup, so it fires properly
 			// even if the cursor leaves this.domNode before the mouse up event.
-			var mouseUpConnector = this.connect(this.ownerDocumentBody, "onmouseup", function(){
-				this.disconnect(mouseUpConnector);
-				this.disconnect(focusConnector);
+			var mouseUpHandle = this.own(on(this.ownerDocumentBody, "mouseup, touchend", lang.hitch(this, function(){
+				mouseUpHandle.remove();
+				focusHandle.remove();
 				// if here, then the mousedown did not focus the focusNode as the default action
 				if(this.focused){
 					this.focus();
 				}
-			});
+			})))[0];
 		}
 		if(this.scrollOnFocus){
 			this.defer(function(){ winUtils.scrollIntoView(this.domNode); }); // without defer, the input caret position can change on mouse click
