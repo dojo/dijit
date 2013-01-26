@@ -50,7 +50,7 @@ define([
 		},
 
 		_getSubmitValue: function(/*String*/ value){
-			return value === null ? "on" : value;
+			return value == null ? "on" : value;
 		},
 
 		_onClick: function(/*Event*/ e){

@@ -20,6 +20,15 @@
 
 				doh.register("Checkbox a11y",[
 					{
+						name: "reset blank value",
+						runTest: function(){
+							doh.is("", dijit.byId('cb4').params.value, "blank parameter");
+							doh.is("on", dijit.byId('cb4').value, "value initially on");
+							dijit.byId('cb4').reset();
+							doh.is("on", dijit.byId('cb4').value, "on after reset");
+						}
+					},
+					{
 						timeout:5000,
 						name:"uncheck cb0 a11y",
 						runTest:function(){
@@ -129,6 +138,15 @@
 				]);
 
 				doh.register("Radio button a11y",[
+					{
+						name: "reset blank value",
+						runTest: function(){
+							doh.is("", dijit.byId('g1rb3').params.value, "blank parameter");
+							doh.is("", dijit.byId('g1rb3').value, "initially blank");
+							dijit.byId('g1rb3').reset();
+							doh.is("", dijit.byId('g1rb3').value, "blank after reset");
+						}
+					},
 					{
 						timeout: 5000,
 						name: "radio group tab order",
