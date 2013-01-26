@@ -1,4 +1,5 @@
 define([
+	"require",
 	"dojo/_base/array", // array.indexOf array.map
 	"dojo/_base/declare", // declare
 	"dojo/dom-construct", // domConstruct.place
@@ -13,7 +14,7 @@ define([
 	"../_Plugin",
 	"../range",
 	"dojo/i18n!../nls/FontChoice"
-], function(array, declare, domConstruct, i18n, lang, MemoryStore,
+], function(require, array, declare, domConstruct, i18n, lang, MemoryStore,
 	registry, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, FilteringSelect, _Plugin, rangeapi){
 
 
@@ -42,10 +43,14 @@ var _FontDropDown = declare("dijit._editor.plugins._FontDropDown",
 	templateString:
 		"<span style='white-space: nowrap' class='dijit dijitReset dijitInline'>" +
 			"<label class='dijitLeft dijitInline' for='${selectId}'>${label}</label>" +
-			"<input data-dojo-type='dijit.form.FilteringSelect' required='false' " +
+			"<input data-dojo-type='../../form/FilteringSelect' required='false' " +
 			        "data-dojo-props='labelType:\"html\", labelAttr:\"label\", searchAttr:\"name\"' " +
 					"tabIndex='-1' id='${selectId}' data-dojo-attach-point='select' value=''/>" +
 		"</span>",
+
+	// contextRequire: [public] Function
+	//		The context require that is used to resolve modules in template.
+	contextRequire: require,
 
 	postMixInProperties: function(){
 		// summary:
