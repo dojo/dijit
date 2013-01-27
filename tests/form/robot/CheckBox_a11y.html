@@ -149,7 +149,7 @@
 					},
 					{
 						timeout: 5000,
-						name: "radio group tab order",
+						name: "initial tab order",
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -193,8 +193,31 @@
 						}
 					},
 					{
+						timeout: 5000,
+						name: "changed tab order",
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							dojo.byId("enableWeatherButton").focus();
+							doh.robot.keyPress(dojo.keys.TAB, 500, {
+								shift: true
+							});
+							doh.robot.keyPress(dojo.keys.TAB, 500, {
+								shift: true
+							});
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(dijit.byId('g1rb2').checked, "talk should have been checked");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
 						timeout:6000,
-						name:"change value to county a11y",
+						name:"change value to country a11y",
 						runTest:function(){
 							var d = new doh.Deferred();
  
