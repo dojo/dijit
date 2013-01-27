@@ -1,18 +1,34 @@
 define([
-	"dojo/_base/lang", // lang.getObject
-	"dojo/touch",
-	"./_WidgetBase",
-	"dojo/string", // string.substitute string.trim
-	"dojo/cache",	// dojo.cache
+	"require",
 	"dojo/_base/array", // array.forEach
+	"dojo/cache",	// dojo.cache
+	"dojo/_base/connect",	// remove for 2.0
 	"dojo/_base/declare", // declare
 	"dojo/dom-construct", // domConstruct.destroy, domConstruct.toDom
+	"dojo/_base/lang", // lang.getObject
+	"dojo/mouse",
+	"dojo/on",
 	"dojo/sniff", // has("ie")
-	"dojo/_base/unload" // unload.addOnWindowUnload
-], function(lang, touch, _WidgetBase, string, cache, array, declare, domConstruct, has, unload) {
+	"dojo/string", // string.substitute string.trim
+	"dojo/touch",
+	"dojo/_base/unload", // unload.addOnWindowUnload
+	"./_WidgetBase"
+], function(require, array, cache, connect, declare, domConstruct, lang, mouse, on, has, string, touch, unload, _WidgetBase){
 
 	// module:
 	//		dijit/_TemplatedMixin
+
+	// Map from string name like "mouseenter" to synthetic event like mouse.enter
+	var synthEvents = lang.delegate(touch, {
+		"mouseenter": mouse.enter,
+		"mouseleave": mouse.leave,
+		"keypress": connect._keypress	// remove for 2.0
+	});
+
+	// To be lightweight, _TemplatedMixin doesn't require() dijit/a11yclick.
+	// If the subclass has a template using "ondijitclick", it must load dijit/a11yclick itself.
+	// In that case, the a11yclick variable below will get set to point to that synthetic event.
+	var a11yclick;
 
 	var _TemplatedMixin = declare("dijit._TemplatedMixin", null, {
 		// summary:
@@ -203,8 +219,17 @@ define([
 							if(!thisFunc){
 								thisFunc = event;
 							}
-							// Map "press", "move" and "release" to keys.touch, keys.move, keys.release
-							this._attachEvents.push(this.connect(baseNode, touch[event] || event, thisFunc));
+
+							// Map special type names like "mouseenter" to synthetic events.
+							// Subclasses are responsible to require() dijit/a11yclick if they want to use it.
+							event = event.replace(/^on/, "").toLowerCase();
+							if(event == "dijitclick"){
+								event = a11yclick || (a11yclick = require("./a11yclick"));
+							}else{
+								event = synthEvents[event] || event;
+							}
+
+							this._attachEvents.push(this.own(on(baseNode, event, lang.hitch(this, thisFunc)))[0]);
 						}
 					}
 				}
