@@ -387,22 +387,21 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin" + (has("dojo-bidi") ? "_N
 		// Since mouse-up will clear the selection, need to defer selection until after mouse-up.
 		// Don't do anything on focus by tabbing into the widget since there's no associated mouse-up event.
 		if(this.selectOnClick && by == "mouse"){
-			this._selectOnClickHandle = this.connect(this.domNode, "onmouseup", function(){
-				// Only select all text on first click; otherwise users would have no way to clear
-				// the selection.
-				this.disconnect(this._selectOnClickHandle);
-				this._selectOnClickHandle = null;
-
+			// Use on.once() to only select all text on first click only; otherwise users would have no way to clear
+			// the selection.
+			this._selectOnClickHandle = on.once(this.domNode, "mouseup, touchend", lang.hitch(this, function(evt){
 				// Check if the user selected some text manually (mouse-down, mouse-move, mouse-up)
 				// and if not, then select all the text
 				if(!this._isTextSelected()){
 					_TextBoxMixin.selectInputText(this.textbox);
 				}
-			});
+			}));
+			this.own(this._selectOnClickHandle);
+
 			// in case the mouseup never comes
 			this.defer(function(){ 
 				if(this._selectOnClickHandle){
-					this.disconnect(this._selectOnClickHandle);
+					this._selectOnClickHandle.remove();
 					this._selectOnClickHandle = null;
 				}
 			}, 500); // if mouseup not received soon, then treat it as some gesture
