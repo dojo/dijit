@@ -800,14 +800,17 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 		var events = this.events.concat(this.captureEvents);
 		var ap = this.iframe ? this.document : this.editNode;
-		array.forEach(events, function(item){
-			this.connect(ap, item.toLowerCase(), item);
-		}, this);
+		this.own(
+			array.map(events, function(item){
+				var type = item.toLowerCase().replace(/^on/, "");
+				on(ap, type == "keypress" ? require("dojo/_base/connect")._keypress : type, lang.hitch(this, item));
+			}, this)
+		);
 
-		this.connect(ap, "onmouseup", "onClick"); // mouseup in the margin does not generate an onclick event
+		this.own(on(ap, "mouseup", lang.hitch(this, "onClick"))); // mouseup in the margin does not generate an onclick event
 
 		if(has("ie")){ // IE contentEditable
-			this.connect(this.document, "onmousedown", "_onIEMouseDown"); // #4996 fix focus
+			this.own(on(this.document, "mousedown", lang.hitch(this, "_onIEMouseDown"))); // #4996 fix focus
 
 			// give the node Layout on IE
 			// TODO: this may no longer be needed, since we've reverted IE to using an iframe,
@@ -815,13 +818,13 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			// the extra <div> in _getIframeDocTxt()
 			this.editNode.style.zoom = 1.0;
 		}else{
-			this.connect(this.document, "onmousedown", function(){
+			this.own(on(this.document, "mousedown", lang.hitch(this, function(){
 				// Clear the moveToStart focus, as mouse
 				// down will set cursor point.  Required to properly
 				// work with selection/position driven plugins and clicks in
 				// the window. refs: #10678
 				delete this._cursorToStart;
-			});
+			})));
 		}
 
 		if(has("webkit")){
@@ -829,15 +832,15 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			//doesn't update right.  Therefore, help it out a bit with an additional
 			//listener.  A mouse up will typically indicate a display change, so fire this
 			//and get the toolbar to adapt.  Reference: #9532
-			this._webkitListener = this.connect(this.document, "onmouseup", "onDisplayChanged");
-			this.connect(this.document, "onmousedown", function(e){
+			this._webkitListener = this.own(on(this.document, "mouseup", lang.hitch(this, "onDisplayChanged")))[0];
+			this.own(on(this.document, "mousedown", lang.hitch(this, function(e){
 				var t = e.target;
 				if(t && (t === this.document.body || t === this.document)){
 					// Since WebKit uses the inner DIV, we need to check and set position.
 					// See: #12024 as to why the change was made.
 					this.defer("placeCursorAtEnd");
 				}
-			});
+			})));
 		}
 
 		if(has("ie")){
@@ -972,7 +975,9 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		var c = (e.keyChar && e.keyChar.toLowerCase()) || e.keyCode,
 			handlers = this._keyHandlers[c],
 			args = arguments;
-			
+
+		console.log("onKeyPress for " + c);
+
 		if(handlers && !e.altKey){
 			array.some(handlers, function(h){
 				// treat meta- same as ctrl-, for benefit of mac users
