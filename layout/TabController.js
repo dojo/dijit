@@ -128,7 +128,7 @@ define([
 
 		baseClass: "dijitTabController",
 
-		templateString: "<div role='tablist' data-dojo-attach-event='onkeypress:onkeypress'></div>",
+		templateString: "<div role='tablist' data-dojo-attach-event='onkeypress:onkeypress, onkeydown:onkeydown'></div>",
 
 		// tabPosition: String
 		//		Defines where tabs go relative to the content.

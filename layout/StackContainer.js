@@ -6,6 +6,7 @@ define([
 	"dojo/dom-construct",
 	"dojo/has",	// has("dijit-legacy-requires")
 	"dojo/_base/lang",	// lang.extend
+	"dojo/on",
 	"dojo/ready",
 	"dojo/topic", // publish
 	"dojo/when",
@@ -13,7 +14,7 @@ define([
 	"../_WidgetBase",
 	"./_LayoutWidget",
 	"dojo/i18n!../nls/common"
-], function(array, cookie, declare, domClass, domConstruct, has, lang, ready, topic, when,
+], function(array, cookie, declare, domClass, domConstruct, has, lang, on, ready, topic, when,
 			registry, _WidgetBase, _LayoutWidget){
 
 // module:
@@ -67,7 +68,10 @@ var StackContainer = declare("dijit.layout.StackContainer", _LayoutWidget, {
 
 	postCreate: function(){
 		this.inherited(arguments);
-		this.connect(this.domNode, "onkeypress", this._onKeyPress);
+		this.own(
+			on(this.domNode, "keydown", lang.hitch(this, "_onKeyDown")),
+			on(this.domNode, "keypress", lang.hitch(this, "_onKeyPress"))
+		);
 	},
 
 	startup: function(){
@@ -295,8 +299,14 @@ var StackContainer = declare("dijit.layout.StackContainer", _LayoutWidget, {
 		return this.selectChild(this._adjacent(false), true);
 	},
 
+	_onKeyDown: function(e){
+		topic.publish(this.id+"-containerKeyDown", { e: e, page: this});	// publish
+	},
+
 	_onKeyPress: function(e){
-		// TODO: remove for 2.0
+		if(e.ctrlKey && e.charCode == "w"){
+			event.stop(e); // avoid browser tab closing.
+		}
 		topic.publish(this.id+"-containerKeyPress", { e: e, page: this});	// publish
 	},
 

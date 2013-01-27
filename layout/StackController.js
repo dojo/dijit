@@ -56,7 +56,7 @@ define([
 
 		baseClass: "dijitStackController",
 
-		templateString: "<span role='tablist' data-dojo-attach-event='onkeypress'></span>",
+		templateString: "<span role='tablist' data-dojo-attach-event='onkeydown, onkeypress'></span>",
 
 		// containerId: [const] String
 		//		The id of the page container that I point to
@@ -90,13 +90,14 @@ define([
 				topic.subscribe(this.containerId+"-addChild", lang.hitch(this, "onAddChild")),
 				topic.subscribe(this.containerId+"-removeChild", lang.hitch(this, "onRemoveChild")),
 				topic.subscribe(this.containerId+"-selectChild", lang.hitch(this, "onSelectChild")),
+				topic.subscribe(this.containerId+"-containerKeyDown", lang.hitch(this, "onContainerKeyDown")),
 				topic.subscribe(this.containerId+"-containerKeyPress", lang.hitch(this, "onContainerKeyPress"))
 			);
 
 			// Listen for click events to select or close tabs.
 			// No need to worry about ENTER/SPACE key handling: tabs are selected via left/right arrow keys,
 			// and closed via shift-F10 (to show the close menu).
-			this.connect(this.containerNode, 'click', function(evt){
+			this.own(on(this.containerNode, 'click', lang.hitch(this, function(evt){
 				var button = registry.getEnclosingWidget(evt.target);
 				if(button != this.containerNode && !button.disabled && button.page){
 					for(var target = evt.target; target !== this.containerNode; target = target.parentNode){
@@ -109,7 +110,7 @@ define([
 						}
 					}
 				}
-			});
+			})));
 		},
 
 		onStartup: function(/*Object*/ info){
@@ -277,7 +278,7 @@ define([
 		// TODO: this is a bit redundant with forward, back api in StackContainer
 		adjacent: function(/*Boolean*/ forward){
 			// summary:
-			//		Helper for onkeypress to find next/previous button
+			//		Helper for onkeydown to find next/previous button
 			// tags:
 			//		private
 
@@ -298,7 +299,7 @@ define([
 			return child; // dijit/_WidgetBase
 		},
 
-		onkeypress: function(/*Event*/ e){
+		onkeydown: function(/*Event*/ e, /*Boolean?*/ fromContainer){
 			// summary:
 			//		Handle keystrokes on the page list, for advancing to next/previous button
 			//		and closing the current page if the page is closable.
@@ -308,7 +309,7 @@ define([
 			if(this.disabled || e.altKey ){ return; }
 			var forward = null;
 			if(e.ctrlKey || !e._djpage){
-				switch(e.charOrCode){
+				switch(e.keyCode){
 					case keys.LEFT_ARROW:
 					case keys.UP_ARROW:
 						if(!e._djpage){ forward = false; }
@@ -353,17 +354,10 @@ define([
 						}
 						event.stop(e);
 						break;
-					default:
+					case  keys.TAB:
 						if(e.ctrlKey){
-							if(e.charOrCode === keys.TAB){
-								this.onButtonClick(this.adjacent(!e.shiftKey).page);
-								event.stop(e);
-							}else if(e.charOrCode == "w"){
-								if(this._currentChild.closable){
-									this.onCloseButtonClick(this._currentChild);
-								}
-								event.stop(e); // avoid browser tab closing.
-							}
+							this.onButtonClick(this.adjacent(!e.shiftKey).page);
+							event.stop(e);
 						}
 				}
 				// handle next/previous page navigation (left/right arrow, etc.)
@@ -371,6 +365,24 @@ define([
 					this.onButtonClick(this.adjacent(forward).page);
 					event.stop(e);
 				}
+			}
+		},
+
+		onContainerKeyDown: function(/*Object*/ info){
+			// summary:
+			//		Called when there was a keydown on the container
+			// tags:
+			//		private
+			info.e._djpage = info.page;
+			this.onkeydown(info.e);
+		},
+
+		onkeypress: function(/*Event*/ evt){
+			if(evt.ctrlKey && String.fromCharCode(evt.charCode) == "w"){
+				if(this._currentChild.closable){
+					this.onCloseButtonClick(this._currentChild);
+				}
+				event.stop(evt); // avoid browser tab closing.
 			}
 		},
 
