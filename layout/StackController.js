@@ -7,6 +7,7 @@ define([
 	"dojo/keys", // keys
 	"dojo/_base/lang", // lang.getObject
 	"dojo/on",
+	"dojo/topic",
 	"../focus",		// focus.focus()
 	"../registry",	// registry.byId
 	"../_Widget",
@@ -14,7 +15,7 @@ define([
 	"../_Container",
 	"../form/ToggleButton",
 	"dojo/i18n!../nls/common"
-], function(array, declare, domClass, domConstruct, event, keys, lang, on,
+], function(array, declare, domClass, domConstruct, event, keys, lang, on, topic,
 			focus, registry, _Widget, _TemplatedMixin, _Container, ToggleButton){
 
 	// module:
@@ -84,11 +85,13 @@ define([
 			// been created yet, so abstracting it through topics.
 			// Note: for TabContainer we can do this through bubbled events instead of topics; maybe that's
 			// all we support for 2.0?
-			this.subscribe(this.containerId+"-startup", "onStartup");
-			this.subscribe(this.containerId+"-addChild", "onAddChild");
-			this.subscribe(this.containerId+"-removeChild", "onRemoveChild");
-			this.subscribe(this.containerId+"-selectChild", "onSelectChild");
-			this.subscribe(this.containerId+"-containerKeyPress", "onContainerKeyPress");
+			this.own(
+				topic.subscribe(this.containerId+"-startup", lang.hitch(this, "onStartup")),
+				topic.subscribe(this.containerId+"-addChild", lang.hitch(this, "onAddChild")),
+				topic.subscribe(this.containerId+"-removeChild", lang.hitch(this, "onRemoveChild")),
+				topic.subscribe(this.containerId+"-selectChild", lang.hitch(this, "onSelectChild")),
+				topic.subscribe(this.containerId+"-containerKeyPress", lang.hitch(this, "onContainerKeyPress"))
+			);
 
 			// Listen for click events to select or close tabs.
 			// No need to worry about ENTER/SPACE key handling: tabs are selected via left/right arrow keys,
