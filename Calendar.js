@@ -9,13 +9,14 @@ define([
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/keys", // keys
 	"dojo/_base/lang", // lang.hitch
+	"dojo/on",
 	"dojo/sniff", // has("ie")
 	"./CalendarLite",
 	"./_Widget",
 	"./_CssStateMixin",
 	"./_TemplatedMixin",
 	"./form/DropDownButton"
-], function(array, date, local, declare, domAttr, domClass, event, kernel, keys, lang, has,
+], function(array, date, local, declare, domAttr, domClass, event, kernel, keys, lang, on, has,
 			CalendarLite, _Widget, _CssStateMixin, _TemplatedMixin, DropDownButton){
 
 	// module:
@@ -69,11 +70,13 @@ define([
 			this.inherited(arguments);
 
 			// Events specific to Calendar, not used in CalendarLite
-			this.connect(this.domNode, "onkeydown", "_onKeyDown");
-			this.connect(this.dateRowsNode, "onmouseover", "_onDayMouseOver");
-			this.connect(this.dateRowsNode, "onmouseout", "_onDayMouseOut");
-			this.connect(this.dateRowsNode, "onmousedown", "_onDayMouseDown");
-			this.connect(this.dateRowsNode, "onmouseup", "_onDayMouseUp");
+			this.own(
+				on(this.domNode, "keydown", lang.hitch(this, "_onKeyDown")),
+				on(this.dateRowsNode, "mouseover", lang.hitch(this, "_onDayMouseOver")),
+				on(this.dateRowsNode, "mouseout", lang.hitch(this, "_onDayMouseOut")),
+				on(this.dateRowsNode, "mousedown", lang.hitch(this, "_onDayMouseDown")),
+				on(this.dateRowsNode, "mouseup", lang.hitch(this, "_onDayMouseUp"))
+			);
 		},
 
 		_onMonthSelect: function(/*Number*/ newMonth){

@@ -788,9 +788,11 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 		}
 
 		// monitor changes to items
-		this.connect(this.model, "onChange", "_onItemChange");
-		this.connect(this.model, "onChildrenChange", "_onItemChildrenChange");
-		this.connect(this.model, "onDelete", "_onItemDelete");
+		this.own(
+			aspect.after(this.model, "onChange", lang.hitch(this, "_onItemChange"), true),
+			aspect.after(this.model, "onChildrenChange", lang.hitch(this, "_onItemChildrenChange"), true),
+			aspect.after(this.model, "onDelete", lang.hitch(this, "_onItemDelete"), true)
+		);
 
 		this.inherited(arguments);
 

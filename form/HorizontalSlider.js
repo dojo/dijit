@@ -13,6 +13,7 @@ define([
 	"dojo/dnd/Mover", // Mover Mover.prototype.destroy.apply
 	"dojo/query", // query
 	"dojo/mouse", // mouse.wheel
+	"dojo/on",
 	"../_base/manager", // defaultDuration
 	"../focus",		// focus.focus()
 	"../typematic",
@@ -20,7 +21,7 @@ define([
 	"./_FormValueWidget",
 	"../_Container",
 	"dojo/text!./templates/HorizontalSlider.html"
-], function(array, declare, move, event, fx, domGeometry, domStyle, keys, lang, has, Moveable, Mover, query, mouse,
+], function(array, declare, move, event, fx, domGeometry, domStyle, keys, lang, has, Moveable, Mover, query, mouse, on,
 			manager, focus, typematic, Button, _FormValueWidget, _Container, template){
 
 // module:
@@ -322,7 +323,9 @@ var HorizontalSlider = declare("dijit.form.HorizontalSlider", [_FormValueWidget,
 				typematic.addMouseListener(this.incrementButton, this, "_typematicCallback", 25, 500)
 			);
 		}
-		this.connect(this.domNode, mouse.wheel, "_mouseWheeled");
+		this.own(
+			on(this.domNode, mouse.wheel, lang.hitch(this, "_mouseWheeled"))
+		);
 
 		// define a custom constructor for a SliderMover that points back to me
 		var mover = declare(_SliderMover, {

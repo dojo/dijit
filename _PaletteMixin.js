@@ -6,16 +6,17 @@ define([
 	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys
 	"dojo/_base/lang", // lang.getObject
+	"dojo/on",
 	"./_CssStateMixin",
-	"./_OnDijitClickMixin",
+	"./a11yclick",
 	"./focus",
 	"./typematic"
-], function(declare, domAttr, domClass, domConstruct, event, keys, lang, _CssStateMixin, _OnDijitClickMixin, focus, typematic){
+], function(declare, domAttr, domClass, domConstruct, event, keys, lang, on, _CssStateMixin, a11yclick, focus, typematic){
 
 // module:
 //		dijit/_PaletteMixin
 
-var PaletteMixin = declare("dijit._PaletteMixin", [_CssStateMixin, _OnDijitClickMixin], {
+var PaletteMixin = declare("dijit._PaletteMixin", _CssStateMixin, {
 	// summary:
 	//		A keyboard accessible palette, for picking a color/emoticon/etc.
 	// description:
@@ -95,7 +96,7 @@ var PaletteMixin = declare("dijit._PaletteMixin", [_CssStateMixin, _OnDijitClick
 		this._cells = [];
 		var url = this._blankGif;
 
-		this.connect(this.gridNode, "ondijitclick", "_onCellClick");
+		this.own(on(this.gridNode, a11yclick, lang.hitch(this, "_onCellClick")));
 
 		for(var row=0; row < choices.length; row++){
 			var rowNode = domConstruct.create("tr", {tabIndex: "-1", role: "row"}, this.gridNode);

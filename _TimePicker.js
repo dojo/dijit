@@ -13,12 +13,13 @@ define([
 	"dojo/sniff", // has(...)
 	"dojo/query", // query
 	"dojo/mouse", // mouse.wheel
+	"dojo/on",
 	"./typematic",
 	"./_Widget",
 	"./_TemplatedMixin",
 	"./form/_FormValueWidget",
 	"dojo/text!./templates/TimePicker.html"
-], function(array, ddate, locale, stamp, declare, domClass, domConstruct, event, kernel, keys, lang, has, query, mouse,
+], function(array, ddate, locale, stamp, declare, domClass, domConstruct, event, kernel, keys, lang, has, query, mouse, on,
 			typematic, _Widget, _TemplatedMixin, _FormValueWidget, template){
 
 	// module:
@@ -255,14 +256,14 @@ define([
 		},
 
 		postCreate: function(){
+			this.inherited(arguments);
+
 			// assign typematic mouse listeners to the arrow buttons
-			this.connect(this.timeMenu, mouse.wheel, "_mouseWheeled");
 			this.own(
+				on(this.timeMenu, mouse.wheel, lang.hitch(this, "_mouseWheeled")),
 				typematic.addMouseListener(this.upArrow, this, "_onArrowUp", 33, 250),
 				typematic.addMouseListener(this.downArrow, this, "_onArrowDown", 33, 250)
 			);
-
-			this.inherited(arguments);
 		},
 
 		_buttonMouse: function(/*Event*/ e){

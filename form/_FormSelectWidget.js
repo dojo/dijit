@@ -1,5 +1,6 @@
 define([
 	"dojo/_base/array", // array.filter array.forEach array.map array.some
+	"dojo/aspect",
 	"dojo/_base/Deferred",
 	"dojo/aspect", // aspect.after
 	"dojo/data/util/sorter", // util.sorter.createSortFunction
@@ -12,7 +13,7 @@ define([
 	"dojo/when",
 	"dojo/store/util/QueryResults",
 	"./_FormValueWidget"
-], function(array, Deferred, aspect, sorter, declare, dom, domClass, kernel, lang, query, when,
+], function(array, aspect, Deferred, aspect, sorter, declare, dom, domClass, kernel, lang, query, when,
 			QueryResults, _FormValueWidget){
 
 // module:
@@ -618,7 +619,7 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 		this.inherited(arguments);
 
 		// Make our event connections for updating state
-		this.connect(this, "onChange", "_updateSelection");
+		aspect.after(this, "onChange", lang.hitch(this, "_updateSelection"));
 
 		// moved from startup
 		//		Connects in our store, if we have one defined

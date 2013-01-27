@@ -107,7 +107,7 @@ define([
 			//		3. user defined onMouseDown handler fires
 			e.preventDefault();
 
-			this._docHandler = this.connect(this.ownerDocument, "mouseup", "_onDropDownMouseUp");
+			this._docHandler = this.own(on(this.ownerDocument, "mouseup", lang.hitch(this, "_onDropDownMouseUp")))[0];
 
 			this.toggleDropDown();
 		},

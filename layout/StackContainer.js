@@ -296,6 +296,7 @@ var StackContainer = declare("dijit.layout.StackContainer", _LayoutWidget, {
 	},
 
 	_onKeyPress: function(e){
+		// TODO: remove for 2.0
 		topic.publish(this.id+"-containerKeyPress", { e: e, page: this});	// publish
 	},
 

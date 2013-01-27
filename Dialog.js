@@ -1,6 +1,7 @@
 define([
 	"require",
 	"dojo/_base/array", // array.forEach array.indexOf array.map
+	"dojo/aspect",
 	"dojo/_base/declare", // declare
 	"dojo/Deferred", // Deferred
 	"dojo/dom", // dom.isDescendant
@@ -29,7 +30,7 @@ define([
 	"./layout/ContentPane",
 	"dojo/text!./templates/Dialog.html",
 	"dojo/i18n!./nls/common"
-], function(require, array, declare, Deferred,
+], function(require, array, aspect, declare, Deferred,
 			dom, domClass, domGeometry, domStyle, event, fx, i18n, keys, lang, on, ready, has, winUtils,
 			Moveable, TimedMoveable, focus, manager, _Widget, _TemplatedMixin, _CssStateMixin, _FormMixin, _DialogMixin,
 			DialogUnderlay, ContentPane, template){
@@ -144,8 +145,9 @@ define([
 
 			this.inherited(arguments);
 
-			this.connect(this, "onExecute", "hide");
-			this.connect(this, "onCancel", "hide");
+			aspect.after(this, "onExecute", lang.hitch(this, "hide"), true),
+			aspect.after(this, "onCancel", lang.hitch(this, "hide"), true)
+
 			this._modalconnects = [];
 		},
 
@@ -197,7 +199,7 @@ define([
 			if(this.titleBar && this.draggable){
 				this._moveable = new ((has("ie") == 6) ? TimedMoveable // prevent overload, see #5285
 					: Moveable)(node, { handle: this.titleBar });
-				this.connect(this._moveable, "onMoveStop", "_endDrag");
+				aspect.after(this._moveable, "onMoveStop", lang.hitch(this, "_endDrag"), true);
 			}else{
 				domClass.add(node,"dijitDialogFixed");
 			}

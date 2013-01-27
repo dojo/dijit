@@ -1,6 +1,7 @@
 define([
 	"require",
 	"dojo/_base/array", // array.forEach
+	"dojo/aspect",
 	"dojo/_base/declare", // declare
 	"dojo/dom-attr", // domAttr.set domAttr.get
 	"dojo/dom-class", // domClass.add domClass.remove domClass.toggle
@@ -14,6 +15,7 @@ define([
 	"dojo/on",
 	"dojo/sniff", // has("ie")
 	"dojo/when",
+	"./a11yclick",
 	"./focus",
 	"./_Widget",
 	"./_TemplatedMixin",
@@ -24,8 +26,8 @@ define([
 	"./form/TextBox",
 	"dojo/text!./templates/InlineEditBox.html",
 	"dojo/i18n!./nls/common"
-], function(require, array, declare, domAttr, domClass, domConstruct, domStyle, event, i18n, kernel, keys, lang, on, has, when,
-			fm, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, _Container, Button, _TextBoxMixin, TextBox, template){
+], function(require, array, aspect, declare, domAttr, domClass, domConstruct, domStyle, event, i18n, kernel, keys, lang, on, has, when,
+			a11yclick, fm, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, _Container, Button, _TextBoxMixin, TextBox, template){
 
 	// module:
 	//		dijit/InlineEditBox
@@ -114,16 +116,18 @@ define([
 			var ew = this.editWidget;
 
 			if(this.inlineEditBox.autoSave){
-				// Selecting a value from a drop down list causes an onChange event and then we save
-				this.connect(ew, "onChange", "_onChange");
+				this.own(
+					// Selecting a value from a drop down list causes an onChange event and then we save
+					aspect.after(ew, "onChange", lang.hitch(this, "_onChange"), true),
 
-				// ESC and TAB should cancel and save.
-				this.own(on(ew, "keydown", lang.hitch(this, "_onKeyDown")));
+					// ESC and TAB should cancel and save.
+					on(ew, "keydown", lang.hitch(this, "_onKeyDown"))
+				);
 			}else{
 				// If possible, enable/disable save button based on whether the user has changed the value
 				if("intermediateChanges" in ew){
 					ew.set("intermediateChanges", true);
-					this.connect(ew, "onChange", "_onIntermediateChange");
+					this.own(aspect.after(ew, "onChange", lang.hitch(this, "_onIntermediateChange"), true));
 					this.saveButton.set("disabled", true);
 				}
 			}
@@ -360,16 +364,12 @@ define([
 			this.displayNode = this.srcNodeRef;
 
 			// connect handlers to the display node
-			var events = {
-				ondijitclick: "_onClick",
-				onmouseover: "_onMouseOver",
-				onmouseout: "_onMouseOut",
-				onfocus: "_onMouseOver",
-				onblur: "_onMouseOut"
-			};
-			for(var name in events){
-				this.connect(this.displayNode, name, events[name]);
-			}
+			this.own(
+				on(this.displayNode, a11yclick, lang.hitch(this, "_onClick")),
+				on(this.displayNode, "mouseover, focus", lang.hitch(this, "_onMouseOver")),
+				on(this.displayNode, "mouseout, blur", lang.hitch(this, "_onMouseOut"))
+			);
+
 			this.displayNode.setAttribute("role", "button");
 			if(!this.displayNode.getAttribute("tabIndex")){
 				this.displayNode.setAttribute("tabIndex", 0);

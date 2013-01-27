@@ -7,6 +7,7 @@ define([
 	"dojo/_base/event", // event.stop
 	"dojo/i18n", // i18n.getLocalization
 	"dojo/_base/lang", // lang.hitch
+	"dojo/on",
 	"dojo/sniff", // has("ie")
 	"./_FormSelectWidget",
 	"../_HasDropDown",
@@ -16,7 +17,7 @@ define([
 	"../Tooltip",
 	"dojo/text!./templates/Select.html",
 	"dojo/i18n!./nls/validate"
-], function(array, declare, domAttr, domClass, domGeometry, event, i18n, lang, has,
+], function(array, declare, domAttr, domClass, domGeometry, event, i18n, lang, on, has,
 			_FormSelectWidget, _HasDropDown, DropDownMenu, MenuItem, MenuSeparator, Tooltip, template){
 
 // module:
@@ -55,7 +56,10 @@ var _SelectMenu = declare("dijit.form._SelectMenu", DropDownMenu, {
 
 		this.inherited(arguments);
 
-		this.connect(this.domNode, "onselectstart", event.stop);
+		this.own(on(this.domNode, "selectstart", function(evt){
+			evt.preventDefault();
+			evt.stopPropagation();
+		}));
 	},
 
 
@@ -326,7 +330,11 @@ var Select = declare("dijit.form.Select" + (has("dojo-bidi") ? "_NoBidi" : ""), 
 
 		this.inherited(arguments);
 
-		this.connect(this.domNode, "onselectstart", event.stop);
+		this.own(on(this.domNode, "selectstart", function(evt){
+			evt.preventDefault();
+			evt.stopPropagation();
+		}));
+
 		this.domNode.setAttribute("aria-expanded", "false");
 
 		if(has("ie") < 9){

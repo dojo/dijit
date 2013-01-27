@@ -5,11 +5,12 @@ define([
 	"dojo/_base/lang", // lang.hitch
 	"dojo/sniff", // has("mozilla")
 	"dojo/mouse", // mouse.wheel
+	"dojo/on",
 	"../typematic",
 	"./RangeBoundTextBox",
 	"dojo/text!./templates/Spinner.html",
 	"./_TextBoxMixin"	// selectInputText
-], function(declare, event, keys, lang, has, mouse, typematic, RangeBoundTextBox, template, _TextBoxMixin){
+], function(declare, event, keys, lang, has, mouse, on, typematic, RangeBoundTextBox, template, _TextBoxMixin){
 
 	// module:
 	//		dijit/form/_Spinner
@@ -146,8 +147,8 @@ define([
 			this.inherited(arguments);
 
 			// extra listeners
-			this.connect(this.domNode, mouse.wheel, "_mouseWheeled");
 			this.own(
+				on(this.domNode, mouse.wheel, lang.hitch(this, "_mouseWheeled")),
 				typematic.addListener(this.upArrowNode, this.textbox, {charOrCode:keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout, this.minimumTimeout),
 				typematic.addListener(this.downArrowNode, this.textbox, {charOrCode:keys.DOWN_ARROW,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout, this.minimumTimeout),
 				typematic.addListener(this.upArrowNode, this.textbox, {charOrCode:keys.PAGE_UP,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout, this.minimumTimeout),

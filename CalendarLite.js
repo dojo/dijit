@@ -9,13 +9,14 @@ define([
 	"dojo/dom-class", // domClass.contains
 	"dojo/_base/event", // event.stop
 	"dojo/_base/lang", // lang.getObject, lang.hitch
+	"dojo/on",
 	"dojo/sniff", // has("ie") has("webkit")
 	"dojo/string", // string.substitute
 	"./_WidgetBase",
 	"./_TemplatedMixin",
 	"dojo/text!./templates/Calendar.html",
 	"./hccss"	// not used directly, but sets CSS class on <body>
-], function(array, declare, cldrSupplemental, date, locale, stamp, dom, domClass, event, lang, has, string,
+], function(array, declare, cldrSupplemental, date, locale, stamp, dom, domClass, event, lang, on, has, string,
 			_WidgetBase, _TemplatedMixin, template){
 
 
@@ -345,15 +346,17 @@ define([
 			//		protected
 
 			var connect = lang.hitch(this, function(nodeProp, part, amount){
-				this.connect(this[nodeProp], "onclick", function(){
+				return on(this[nodeProp], "click", lang.hitch(this, function(){
 					this._setCurrentFocusAttr(this.dateModule.add(this.currentFocus, part, amount));
-				});
+				}));
 			});
-			
-			connect("incrementMonth", "month", 1);
-			connect("decrementMonth", "month", -1);
-			connect("nextYearLabelNode", "year", 1);
-			connect("previousYearLabelNode", "year", -1);
+
+			this.own(
+				connect("incrementMonth", "month", 1),
+				connect("decrementMonth", "month", -1),
+				connect("nextYearLabelNode", "year", 1),
+				connect("previousYearLabelNode", "year", -1)
+			);
 		},
 		
 		_setCurrentFocusAttr: function(/*Date*/ date, /*Boolean*/ forceFocus){

@@ -2,9 +2,11 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/dom-attr", // domAttr.set
 	"dojo/keys", // keys.ESCAPE
+	"dojo/_base/lang",
+	"dojo/on",
 	"dojo/sniff", // has("ie"), has("quirks")
 	"./_FormWidgetMixin"
-], function(declare, domAttr, keys, has, _FormWidgetMixin){
+], function(declare, domAttr, keys, lang, on, has, _FormWidgetMixin){
 
 	// module:
 	//		dijit/form/_FormValueMixin
@@ -33,7 +35,7 @@ define([
 			this.inherited(arguments);
 
 			if(has("ie")){ // IE won't stop the event with keypress
-				this.connect(this.focusNode || this.domNode, "onkeydown", this._onKeyDown);
+				this.own(on(this.focusNode || this.domNode, "keydown", lang.hitch(this, "_onKeyDown")));
 			}
 			// Update our reset value if it hasn't yet been set (because this.set()
 			// is only called when there *is* a value)

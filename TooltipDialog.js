@@ -5,6 +5,7 @@ define([
 	"dojo/has",
 	"dojo/keys", // keys
 	"dojo/_base/lang", // lang.hitch
+	"dojo/on",
 	"./focus",
 	"./layout/ContentPane",
 	"./_DialogMixin",
@@ -12,7 +13,7 @@ define([
 	"./_TemplatedMixin",
 	"dojo/text!./templates/TooltipDialog.html",
 	"./main"		// exports methods to dijit global
-], function(declare, domClass, event, has, keys, lang,
+], function(declare, domClass, event, has, keys, lang, on,
 			focus, ContentPane, _DialogMixin, _FormMixin, _TemplatedMixin, template, dijit){
 
 	// module:
@@ -61,7 +62,7 @@ define([
 
 		postCreate: function(){
 			this.inherited(arguments);
-			this.connect(this.containerNode, "keydown", "_onKey");
+			this.own(on(this.containerNode, "keydown", lang.hitch(this, "_onKey")));
 		},
 
 		orient: function(/*DomNode*/ node, /*String*/ aroundCorner, /*String*/ tooltipCorner){

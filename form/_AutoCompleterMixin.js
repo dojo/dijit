@@ -1,4 +1,5 @@
 define([
+	"dojo/aspect",
 	"dojo/_base/declare", // declare
 	"dojo/dom-attr", // domAttr.get
 	"dojo/_base/event", // event.stop
@@ -10,7 +11,7 @@ define([
 	"./DataList",
 	"./_TextBoxMixin",	// defines _TextBoxMixin.selectInputText
 	"./_SearchMixin"
-], function(declare, domAttr, event, keys, lang, query, regexp, has,
+], function(aspect, declare, domAttr, event, keys, lang, query, regexp, has,
 			DataList, _TextBoxMixin, SearchMixin){
 
 	// module:
@@ -477,7 +478,7 @@ define([
 
 			}
 			this.inherited(arguments);
-			this.connect(this, "onSearch", "_openResultList");
+			aspect.after(this, "onSearch", lang.hitch(this, "_openResultList"), true);
 		},
 
 		_getMenuLabelFromItem: function(/*Item*/ item){
