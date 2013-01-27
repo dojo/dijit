@@ -540,6 +540,10 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		//
 		//		This method will also destroy internal widgets such as those created from a template,
 		//		assuming those widgets exist inside of this.domNode but outside of this.containerNode.
+		//
+		//		For 2.0 it's planned that this method will also destroy descendant widgets, so apps should not
+		//		depend on the current ability to destroy a widget without destroying its descendants.   Generally
+		//		they should use destroyRecursive() for widgets with children.
 		// preserveDom: Boolean
 		//		If true, this method will leave the original DOM structure alone.
 		//		Note: This will not yet work with _TemplatedMixin widgets
