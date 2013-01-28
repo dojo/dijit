@@ -91,7 +91,7 @@ var FullScreen = declare("dijit._editor.plugins.FullScreen",_Plugin,{
 			setTimeout(lang.hitch(this, function(){this.editor.focus();}), 250);
 			return true;
 		}));
-		this.connect(this.editor.domNode, "onkeydown", "_containFocus");
+		this.own(on(this.editor.domNode, "keydown", lang.hitch(this, "_containFocus")));
 	},
 
 	_containFocus: function(e){

@@ -476,7 +476,7 @@ var FontChoice = declare("dijit._editor.plugins.FontChoice", _Plugin,{
 		this.button = new clazz(lang.delegate({dir: editor.dir, lang: editor.lang}, params));
 
 		// Reflect changes to the drop down in the editor
-		this.connect(this.button.select, "onChange", function(choice){
+		this.own(this.button.select.on("change", lang.hitch(this, function(choice){
 			// User invoked change, since all internal updates set priorityChange to false and will
 			// not trigger an onChange event.
 			this.editor.focus();
@@ -490,7 +490,7 @@ var FontChoice = declare("dijit._editor.plugins.FontChoice", _Plugin,{
 			}else{
 				this.editor.execCommand(this.command, choice);
 			}
-		});
+		})));
 	},
 
 	updateState: function(){

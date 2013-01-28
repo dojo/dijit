@@ -2,8 +2,9 @@ define([
 	"dojo/_base/connect", // connect.connect
 	"dojo/_base/declare", // declare
 	"dojo/_base/lang", // lang.mixin, lang.hitch
+	"../Destroyable",
 	"../form/Button"
-], function(connect, declare, lang, Button){
+], function(connect, declare, lang, Destroyable, Button){
 
 // module:
 //		dijit/_editor/_Plugin
@@ -12,7 +13,7 @@ define([
 //		a single button on the Toolbar and some associated code
 
 
-var _Plugin = declare("dijit._editor._Plugin", null, {
+var _Plugin = declare("dijit._editor._Plugin", Destroyable, {
 	// summary:
 	//		Base class for a "plugin" to the editor, which is usually
 	//		a single button on the Toolbar and some associated code
@@ -25,7 +26,6 @@ var _Plugin = declare("dijit._editor._Plugin", null, {
 
 		this.params = args || {};
 		lang.mixin(this, this.params);
-		this._connects=[];
 		this._attrPairNames = {};
 	},
 
@@ -101,23 +101,23 @@ var _Plugin = declare("dijit._editor._Plugin", null, {
 	},
 
 	destroy: function(){
-		// summary:
-		//		Destroy this plugin
-
-		var h;
-		while(h = this._connects.pop()){ h.remove(); }
 		if(this.dropDown){
 			this.dropDown.destroyRecursive();
 		}
+
+		this.inherited(arguments);
 	},
 
 	connect: function(o, f, tf){
 		// summary:
+		//		Deprecated.  Use this.own() with dojo/on or dojo/aspect.instead.
+		//
 		//		Make a connect.connect() that is automatically disconnected when this plugin is destroyed.
 		//		Similar to `dijit/_Widget.connect()`.
 		// tags:
-		//		protected
-		this._connects.push(connect.connect(o, f, this, tf));
+		//		protected deprecated
+
+		this.own(connect.connect(o, f, this, tf));
 	},
 
 	updateState: function(){
@@ -174,16 +174,16 @@ var _Plugin = declare("dijit._editor._Plugin", null, {
 		// Processing for buttons that execute by calling editor.execCommand()
 		if(this.button && this.useDefaultCommand){
 			if(this.editor.queryCommandAvailable(this.command)){
-				this.connect(this.button, "onClick",
+				this.own(this.button.on("click",
 					lang.hitch(this.editor, "execCommand", this.command, this.commandArg)
-				);
+				));
 			}else{
 				// hide button because editor doesn't support command (due to browser limitations)
 				this.button.domNode.style.display = "none";
 			}
 		}
 
-		this.connect(this.editor, "onNormalizedDisplayChanged", "updateState");
+		this.own(this.editor.on("NormalizedDisplayChanged", lang.hitch(this, "updateState")));
 	},
 
 	setToolbar: function(/*dijit/Toolbar*/ toolbar){

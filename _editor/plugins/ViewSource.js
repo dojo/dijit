@@ -439,14 +439,14 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 
 		// Listen to the source area for key events as well, as we need to be able to hotkey toggle
 		// it from there too.
-		this.connect(this.sourceArea, "onkeydown", lang.hitch(this, function(e){
+		this.own(on(this.sourceArea, "keydown", lang.hitch(this, function(e){
 			if(this._sourceShown && e.keyCode == keys.F12 && e.ctrlKey && e.shiftKey){
 				this.button.focus();
 				this.button.set("checked", false);
 				setTimeout(lang.hitch(this, function(){ed.focus();}), 100);
 				event.stop(e);
 			}
-		}));
+		})));
 	},
 
 	_stripScripts: function(html){

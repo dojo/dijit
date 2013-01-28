@@ -4,6 +4,7 @@ define([
 	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys.ENTER
 	"dojo/_base/lang",
+	"dojo/on",
 	"dojo/sniff", // has("ie") has("mozilla") has("webkit")
 	"dojo/_base/window", // win.withGlobal
 	"dojo/window", // winUtils.scrollIntoView
@@ -11,7 +12,7 @@ define([
 	"../RichText",
 	"../range",
 	"../../_base/focus"
-], function(declare, domConstruct, event, keys, lang, has, win, winUtils, _Plugin, RichText, rangeapi, baseFocus){
+], function(declare, domConstruct, event, keys, lang, on, has, win, winUtils, _Plugin, RichText, rangeapi, baseFocus){
 
 // module:
 //		dijit/_editor/plugins/EnterKeyHandling
@@ -108,20 +109,20 @@ return declare("dijit._editor.plugins.EnterKeyHandling", _Plugin, {
 			// we need to enable customUndo, if not already enabled.
 			this.editor.customUndo = true;
 				editor.onLoadDeferred.then(lang.hitch(this,function(d){
-					this.connect(editor.document, "onkeypress", function(e){
-						if(e.charOrCode == keys.ENTER){
+					this.own(on(editor.document, require("dojo/_base/connect")._keypress, lang.hitch(this, function(e){
+						if(e.keyCode == keys.ENTER){
 							// Just do it manually.  The handleEnterKey has a shift mode that
 							// Always acts like <br>, so just use it.
-							var ne = lang.mixin({},e);
+							var ne = lang.mixin({}, e);
 							ne.shiftKey = true;
 							if(!this.handleEnterKey(ne)){
 								event.stop(e);
 							}
 						}
-					});
+					})));
 					if(has("ie") >= 9){
-						this.connect(editor.document, "onpaste", function(e){
-							setTimeout(dojo.hitch(this, function(){
+						this.own(on(editor.document, "paste", lang.hitch(this, function(e){
+							setTimeout(lang.hitch(this, function(){
 								// Use the old range/selection code to kick IE 9 into updating
 								// its range by moving it back, then forward, one 'character'.
 								var r = this.editor.document.selection.createRange();
@@ -130,7 +131,7 @@ return declare("dijit._editor.plugins.EnterKeyHandling", _Plugin, {
 								r.move('character',1);
 								r.select();
 							}),0);
-						});
+						})));
 					}
 					return d;
 				}));
@@ -140,7 +141,7 @@ return declare("dijit._editor.plugins.EnterKeyHandling", _Plugin, {
 			var h = lang.hitch(this,this.handleEnterKey);
 			editor.addKeyHandler(13, 0, 0, h); //enter
 			editor.addKeyHandler(13, 0, 1, h); //shift+enter
-			this.connect(this.editor,'onKeyPressed','onKeyPressed');
+			this.own(this.editor.on('KeyPressed', lang.hitch(this, 'onKeyPressed')));
 		}
 	},
 	onKeyPressed: function(){

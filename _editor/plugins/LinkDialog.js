@@ -4,6 +4,7 @@ define([
 	"dojo/dom-attr", // domAttr.get
 	"dojo/keys", // keys.ENTER
 	"dojo/_base/lang", // lang.delegate lang.hitch lang.trim
+	"dojo/on",
 	"dojo/sniff", // has("ie")
 	"dojo/query", // query
 	"dojo/string", // string.substitute
@@ -11,7 +12,7 @@ define([
 	"../_Plugin",
 	"../../form/DropDownButton",
 	"../range"
-], function(require, declare, domAttr, keys, lang, has, query, string,
+], function(require, declare, domAttr, keys, lang, on, has, query, string,
 	_Widget, _Plugin, DropDownButton, rangeapi){
 
 
@@ -140,14 +141,12 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 			this._urlInput = registry.byId(this._uniqueId + "_urlInput");
 			this._textInput = registry.byId(this._uniqueId + "_textInput");
 			this._setButton = registry.byId(this._uniqueId + "_setButton");
-			this.connect(registry.byId(this._uniqueId + "_cancelButton"), "onClick", function(){
-				this.dropDown.onCancel();
-			});
+			this.own(registry.byId(this._uniqueId + "_cancelButton").on("click", lang.hitch(this.dropDown, "onCancel")));
 			if(this._urlInput){
-				this.connect(this._urlInput, "onChange", "_checkAndFixInput");
+				this.own(this._urlInput.on("change", lang.hitch(this, "_checkAndFixInput")));
 			}
 			if(this._textInput){
-				this.connect(this._textInput, "onChange", "_checkAndFixInput");
+				this.own(this._textInput.on("change", lang.hitch(this, "_checkAndFixInput")));
 			}
 
 			// Build up the dual check for http/https/file:, and mailto formats.
@@ -160,15 +159,15 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 			});
 
 			// Listen for enter and execute if valid.
-			this.connect(dropDown.domNode, "onkeypress", function(e){
-				if(e && e.charOrCode == keys.ENTER &&
+			this.own(on(dropDown.domNode, "keydown", lang.hitch(this, lang.hitch(this, function(e){
+				if(e && e.keyCode == keys.ENTER &&
 					!e.shiftKey && !e.metaKey && !e.ctrlKey && !e.altKey){
 					if(!this._setButton.get("disabled")){
 						dropDown.onExecute();
 						dropDown.execute(dropDown.get('value'));
 					}
 				}
-			});
+			}))));
 
 			callback();
 		}));
@@ -226,7 +225,7 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 		// summary:
 		//		Over-ridable function that connects tag specific events.
 		this.editor.onLoadDeferred.then(lang.hitch(this, function(){
-			this.connect(this.editor.editNode, "ondblclick", this._onDblClick);
+			this.own(on(this.editor.editNode, "dblclick", lang.hitch(this, "_onDblClick")));
 		}));
 	},
 
@@ -508,7 +507,7 @@ var ImgLinkDialog = declare("dijit._editor.plugins.ImgLinkDialog", [LinkDialog],
 		this.editor.onLoadDeferred.then(lang.hitch(this, function(){
 			// Use onmousedown instead of onclick.  Seems that IE eats the first onclick
 			// to wrap it in a selector box, then the second one acts as onclick.  See #10420
-			this.connect(this.editor.editNode, "onmousedown", this._selectTag);
+			this.own(on(this.editor.editNode, "mousedown", lang.hitch(this, "_selectTag")));
 		}));
 	},
 

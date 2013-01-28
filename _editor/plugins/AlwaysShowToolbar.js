@@ -4,10 +4,11 @@ define([
 	"dojo/dom-construct", // domConstruct.place
 	"dojo/dom-geometry",
 	"dojo/_base/lang", // lang.hitch
+	"dojo/on",
 	"dojo/sniff", // has("ie") has("opera")
 	"dojo/_base/window", // win.body
 	"../_Plugin"
-], function(declare, domClass, domConstruct, domGeometry, lang, has, win, _Plugin){
+], function(declare, domClass, domConstruct, domGeometry, lang, on, has, win, _Plugin){
 
 // module:
 //		dijit/_editor/plugins/AlwaysShowToolbar
@@ -52,8 +53,10 @@ return declare("dijit._editor.plugins.AlwaysShowToolbar", _Plugin, {
 		//		private
 
 		this._updateHeight();
-		this.connect(window, 'onscroll', "globalOnScrollHandler");
-		this.connect(this.editor, 'onNormalizedDisplayChanged', "_updateHeight");
+		this.own(
+			on(window, 'scroll', lang.hitch(this, "globalOnScrollHandler")),
+			this.editor.on('NormalizedDisplayChanged', lang.hitch(this, "_updateHeight"))
+		);
 		return d;
 	},
 
