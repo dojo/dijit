@@ -20,7 +20,7 @@ define([
 	"dojo/dnd/Moveable", // Moveable
 	"dojo/dnd/TimedMoveable", // TimedMoveable
 	"./focus",
-	"./_base/manager",	// manager.defaultDuration
+	"./_base/manager", // manager.defaultDuration
 	"./_Widget",
 	"./_TemplatedMixin",
 	"./_CssStateMixin",
@@ -30,25 +30,22 @@ define([
 	"./layout/ContentPane",
 	"dojo/text!./templates/Dialog.html",
 	"dojo/i18n!./nls/common"
-], function(require, array, aspect, declare, Deferred,
-			dom, domClass, domGeometry, domStyle, event, fx, i18n, keys, lang, on, ready, has, winUtils,
-			Moveable, TimedMoveable, focus, manager, _Widget, _TemplatedMixin, _CssStateMixin, _FormMixin, _DialogMixin,
-			DialogUnderlay, ContentPane, template){
+], function(require, array, aspect, declare, Deferred, dom, domClass, domGeometry, domStyle, event, fx, i18n, keys, lang, on, ready, has, winUtils, Moveable, TimedMoveable, focus, manager, _Widget, _TemplatedMixin, _CssStateMixin, _FormMixin, _DialogMixin, DialogUnderlay, ContentPane, template){
 
 	// module:
 	//		dijit/Dialog
 
 	/*=====
-	dijit._underlay = function(kwArgs){
-		// summary:
-		//		A shared instance of a `dijit.DialogUnderlay`
-		//
-		// description:
-		//		A shared instance of a `dijit.DialogUnderlay` created and
-		//		used by `dijit.Dialog`, though never created until some Dialog
-		//		or subclass thereof is shown.
-	};
-	=====*/
+	 dijit._underlay = function(kwArgs){
+	 // summary:
+	 //		A shared instance of a `dijit.DialogUnderlay`
+	 //
+	 // description:
+	 //		A shared instance of a `dijit.DialogUnderlay` created and
+	 //		used by `dijit.Dialog`, though never created until some Dialog
+	 //		or subclass thereof is shown.
+	 };
+	 =====*/
 
 	var _DialogBase = declare("dijit._DialogBase" + (has("dojo-bidi") ? "_NoBidi" : ""), [_TemplatedMixin, _FormMixin, _DialogMixin, _CssStateMixin], {
 		templateString: template,
@@ -139,14 +136,14 @@ define([
 		postCreate: function(){
 			domStyle.set(this.domNode, {
 				display: "none",
-				position:"absolute"
+				position: "absolute"
 			});
 			this.ownerDocumentBody.appendChild(this.domNode);
 
 			this.inherited(arguments);
 
 			aspect.after(this, "onExecute", lang.hitch(this, "hide"), true),
-			aspect.after(this, "onCancel", lang.hitch(this, "hide"), true)
+				aspect.after(this, "onCancel", lang.hitch(this, "hide"), true)
 
 			this._modalconnects = [];
 		},
@@ -201,12 +198,14 @@ define([
 					: Moveable)(node, { handle: this.titleBar });
 				aspect.after(this._moveable, "onMoveStop", lang.hitch(this, "_endDrag"), true);
 			}else{
-				domClass.add(node,"dijitDialogFixed");
+				domClass.add(node, "dijitDialogFixed");
 			}
 
 			this.underlayAttrs = {
 				dialogId: this.id,
-				"class": array.map(this["class"].split(/\s/), function(s){ return s+"_underlay"; }).join(" "),
+				"class": array.map(this["class"].split(/\s/),function(s){
+					return s + "_underlay";
+				}).join(" "),
 				ownerDocument: this.ownerDocument
 			};
 		},
@@ -229,8 +228,8 @@ define([
 				}
 			}else{
 				domStyle.set(this.containerNode, {
-					width:"auto",
-					height:"auto"
+					width: "auto",
+					height: "auto"
 				});
 			}
 
@@ -259,7 +258,7 @@ define([
 						width: w + "px",
 						height: h + "px",
 						overflow: "auto",
-						position: "relative"	// workaround IE bug moving scrollbar or dragging dialog
+						position: "relative"    // workaround IE bug moving scrollbar or dragging dialog
 					});
 				}
 			}else{
@@ -275,15 +274,15 @@ define([
 			//		in the viewport has been determined (by dragging, for instance),
 			//		center the dialog.  Otherwise, use the Dialog's stored relative offset,
 			//		adjusted by the viewport's scroll.
-			if(!domClass.contains(this.ownerDocumentBody, "dojoMove")){	// don't do anything if called during auto-scroll
+			if(!domClass.contains(this.ownerDocumentBody, "dojoMove")){    // don't do anything if called during auto-scroll
 				var node = this.domNode,
 					viewport = winUtils.getBox(this.ownerDocument),
 					p = this._relativePosition,
 					bb = p ? null : domGeometry.position(node),
 					l = Math.floor(viewport.l + (p ? p.x : (viewport.w - bb.w) / 2)),
 					t = Math.floor(viewport.t + (p ? p.y : (viewport.h - bb.h) / 2))
-				;
-				domStyle.set(node,{
+					;
+				domStyle.set(node, {
 					left: l + "px",
 					top: t + "px"
 				});
@@ -323,7 +322,9 @@ define([
 			// returns: dojo/promise/Promise
 			//		Promise object that resolves when the display animation is complete
 
-			if(this.open){ return; }
+			if(this.open){
+				return;
+			}
 
 			if(!this._started){
 				this.startup();
@@ -332,7 +333,7 @@ define([
 			// first time we show the dialog, there's some initialization stuff to do
 			if(!this._alreadyInitialized){
 				this._setup();
-				this._alreadyInitialized=true;
+				this._alreadyInitialized = true;
 			}
 
 			if(this._fadeOutDeferred){
@@ -349,8 +350,8 @@ define([
 			this._modalconnects.push(on(this.domNode, "keydown", lang.hitch(this, "_onKey")));
 
 			domStyle.set(this.domNode, {
-				opacity:0,
-				display:""
+				opacity: 0,
+				display: ""
 			});
 
 			this._set("open", true);
@@ -422,7 +423,7 @@ define([
 					this._fadeOutDeferred.resolve(true);
 					delete this._fadeOutDeferred;
 				})
-			 }).play();
+			}).play();
 
 			if(this._scrollConnected){
 				this._scrollConnected = false;
@@ -530,10 +531,10 @@ define([
 			//		animation completes.
 
 			// Save current focus
-			ds[ds.length-1].focus = focus.curNode;
+			ds[ds.length - 1].focus = focus.curNode;
 
 			// Set z-index a bit above previous dialog
-			var zIndex = ds[ds.length-1].dialog ? ds[ds.length-1].zIndex + 2 : Dialog._DialogLevelManager._beginZIndex;
+			var zIndex = ds[ds.length - 1].dialog ? ds[ds.length - 1].zIndex + 2 : Dialog._DialogLevelManager._beginZIndex;
 			domStyle.set(dialog.domNode, 'zIndex', zIndex);
 
 			// Display the underlay, or if already displayed then adjust for this new dialog
@@ -551,13 +552,13 @@ define([
 			//		Caller is responsible for either setting display:none on the dialog domNode,
 			//		or calling dijit/popup.hide(), or removing it from the page DOM.
 
-			if(ds[ds.length-1].dialog == dialog){
+			if(ds[ds.length - 1].dialog == dialog){
 				// Removing the top (or only) dialog in the stack, return focus
 				// to previous dialog
 
 				ds.pop();
 
-				var pd = ds[ds.length-1];	// the new active dialog (or the base page itself)
+				var pd = ds[ds.length - 1];	// the new active dialog (or the base page itself)
 
 				// Adjust underlay
 				if(ds.length == 1){
@@ -565,7 +566,7 @@ define([
 					DialogUnderlay.hide();
 				}else{
 					// Popping back to previous dialog, adjust underlay.
-					DialogUnderlay.show(pd.underlayAttrs, pd.zIndex - 1);
+					DialogUnderlay.show(pd.underlayAttrs, pd.zIndex - 1, lang.hitch(pd.dialog, "focus"));
 				}
 
 				// Adjust focus
@@ -586,13 +587,16 @@ define([
 						// before this code runs.  (#15058)
 						try{
 							focus.focus();
-						}catch(e){}
+						}catch(e){
+						}
 					}
 				}
 			}else{
 				// Removing a dialog out of order (#9944, #10705).
 				// Don't need to mess with underlay or z-index or anything.
-				var idx = array.indexOf(array.map(ds, function(elem){return elem.dialog;}), dialog);
+				var idx = array.indexOf(array.map(ds, function(elem){
+					return elem.dialog;
+				}), dialog);
 				if(idx != -1){
 					ds.splice(idx, 1);
 				}
@@ -602,7 +606,7 @@ define([
 		isTop: function(/*dijit/_WidgetBase*/ dialog){
 			// summary:
 			//		Returns true if specified Dialog is the top in the task
-			return ds[ds.length-1].dialog == dialog;
+			return ds[ds.length - 1].dialog == dialog;
 		}
 	};
 
@@ -615,7 +619,7 @@ define([
 	//		underlayAttrs: attributes to set on underlay (when this widget is active)
 	// }
 	var ds = Dialog._dialogStack = [
-		{dialog: null, focus: null, underlayAttrs: null}	// entry for stuff at z-index: 0
+		{dialog: null, focus: null, underlayAttrs: null}    // entry for stuff at z-index: 0
 	];
 
 	// Back compat w/1.6, remove for 2.0
