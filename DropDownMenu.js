@@ -26,15 +26,17 @@ define([
 			this.connectKeyNavHandlers([keys.UP_ARROW], [keys.DOWN_ARROW]);
 		},
 
-		_onKeyPress: function(/*Event*/ evt){
+		_onKeyDown: function(/*Event*/ evt){
 			// summary:
 			//		Handle keyboard based menu navigation.
 			// tags:
 			//		protected
 
-			if(evt.ctrlKey || evt.altKey){ return; }
+			if(evt.ctrlKey || evt.altKey){
+				return;
+			}
 
-			switch(evt.charOrCode){
+			switch(evt.keyCode){
 				case this._openSubMenuKey:
 					this._moveToPopup(evt);
 					event.stop(evt);

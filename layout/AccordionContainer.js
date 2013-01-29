@@ -13,8 +13,8 @@ define([
 	"dojo/_base/lang", // lang.getObject lang.hitch
 	"dojo/sniff", // has("ie") has("dijit-legacy-requires")
 	"dojo/topic", // publish
-	"../focus",			// focus.focus()
-	"../_base/manager",	// manager.defaultDuration
+	"../focus", // focus.focus()
+	"../_base/manager", // manager.defaultDuration
 	"dojo/ready",
 	"../_Widget",
 	"../_Container",
@@ -23,9 +23,7 @@ define([
 	"./StackContainer",
 	"./ContentPane",
 	"dojo/text!./templates/AccordionButton.html"
-], function(require, array, declare, event, fx, dom, domAttr, domClass, domConstruct, domGeometry,
-			keys, lang, has, topic, focus, manager, ready,
-			_Widget, _Container, _TemplatedMixin, _CssStateMixin, StackContainer, ContentPane, template){
+], function(require, array, declare, event, fx, dom, domAttr, domClass, domConstruct, domGeometry, keys, lang, has, topic, focus, manager, ready, _Widget, _Container, _TemplatedMixin, _CssStateMixin, StackContainer, ContentPane, template){
 
 	// module:
 	//		dijit/layout/AccordionContainer
@@ -88,8 +86,8 @@ define([
 
 		buildRendering: function(){
 			this.inherited(arguments);
-			var titleTextNodeId = this.id.replace(' ','_');
-			domAttr.set(this.titleTextNode, "id", titleTextNodeId+"_title");
+			var titleTextNodeId = this.id.replace(' ', '_');
+			domAttr.set(this.titleTextNode, "id", titleTextNodeId + "_title");
 			this.focusNode.setAttribute("aria-labelledby", domAttr.get(this.titleTextNode, "id"));
 			dom.setSelectable(this.domNode, false);
 		},
@@ -106,12 +104,12 @@ define([
 			// summary:
 			//		Callback when someone clicks my title.
 			var parent = this.getParent();
-				parent.selectChild(this.contentWidget, true);
-				focus.focus(this.focusNode);
+			parent.selectChild(this.contentWidget, true);
+			focus.focus(this.focusNode);
 		},
 
-		_onTitleKeyPress: function(/*Event*/ evt){
-			return this.getParent()._onKeyPress(evt, this.contentWidget);
+		_onTitleKeyDown: function(/*Event*/ evt){
+			return this.getParent()._onKeyDown(evt, this.contentWidget);
 		},
 
 		_setSelectedAttr: function(/*Boolean*/ isSelected){
@@ -144,19 +142,19 @@ define([
 		//		When other widgets are added as children to an AccordionContainer they are wrapped in
 		//		this widget.
 
-/*=====
-		// buttonWidget: Function|String
-		//		Class to use to instantiate title
-		//		(Wish we didn't have a separate widget for just the title but maintaining it
-		//		for backwards compatibility, is it worth it?)
-		buttonWidget: null,
-=====*/
+		/*=====
+		 // buttonWidget: Function|String
+		 //		Class to use to instantiate title
+		 //		(Wish we didn't have a separate widget for just the title but maintaining it
+		 //		for backwards compatibility, is it worth it?)
+		 buttonWidget: null,
+		 =====*/
 
-/*=====
-		// contentWidget: dijit/_WidgetBase
-		//		Pointer to the real child widget
-		contentWidget: null,
-=====*/
+		/*=====
+		 // contentWidget: dijit/_WidgetBase
+		 //		Pointer to the real child widget
+		 contentWidget: null,
+		 =====*/
 
 		baseClass: "dijitAccordionInnerContainer",
 
@@ -223,7 +221,9 @@ define([
 			this.button.set("selected", isSelected);
 			if(isSelected){
 				var cw = this.contentWidget;
-				if(cw.onSelected){ cw.onSelected(); }
+				if(cw.onSelected){
+					cw.onSelected();
+				}
 			}
 		},
 
@@ -235,7 +235,9 @@ define([
 		destroy: function(){
 			this.button.destroyRecursive();
 
-			array.forEach(this._contentWidgetWatches || [], function(w){ w.unwatch(); });
+			array.forEach(this._contentWidgetWatches || [], function(w){
+				w.unwatch();
+			});
 
 			delete this.contentWidget._buttonWidget;
 			delete this.contentWidget._wrapperWidget;
@@ -286,12 +288,12 @@ define([
 		//		The name of the widget used to display the title of each pane
 		buttonWidget: AccordionButton,
 
-/*=====
-		// _verticalSpace: Number
-		//		Pixels of space available for the open pane
-		//		(my content box size minus the cumulative size of all the title bars)
-		_verticalSpace: 0,
-=====*/
+		/*=====
+		 // _verticalSpace: Number
+		 //		Pixels of space available for the open pane
+		 //		(my content box size minus the cumulative size of all the title bars)
+		 _verticalSpace: 0,
+		 =====*/
 		baseClass: "dijitAccordionContainer",
 
 		buildRendering: function(){
@@ -301,7 +303,9 @@ define([
 		},
 
 		startup: function(){
-			if(this._started){ return; }
+			if(this._started){
+				return;
+			}
 			this.inherited(arguments);
 			if(this.selectedChildWidget){
 				this.selectedChildWidget._wrapperWidget.set("selected", true);
@@ -314,7 +318,9 @@ define([
 
 			var openPane = this.selectedChildWidget;
 
-			if(!openPane){ return;}
+			if(!openPane){
+				return;
+			}
 
 			// space taken up by title, plus wrapper div (with border/margin) for open pane
 			var wrapperDomNode = openPane._wrapperWidget.domNode,
@@ -415,13 +421,13 @@ define([
 
 		_showChild: function(child){
 			// Override StackContainer._showChild() to set visibility of _wrapperWidget.containerNode
-			child._wrapperWidget.containerNode.style.display="block";
+			child._wrapperWidget.containerNode.style.display = "block";
 			return this.inherited(arguments);
 		},
 
 		_hideChild: function(child){
 			// Override StackContainer._showChild() to set visibility of _wrapperWidget.containerNode
-			child._wrapperWidget.containerNode.style.display="none";
+			child._wrapperWidget.containerNode.style.display = "none";
 			this.inherited(arguments);
 		},
 
@@ -500,9 +506,9 @@ define([
 		},
 
 		// note: we are treating the container as controller here
-		_onKeyPress: function(/*Event*/ e, /*dijit/_WidgetBase*/ fromTitle){
+		_onKeyDown: function(/*Event*/ e, /*dijit/_WidgetBase*/ fromTitle){
 			// summary:
-			//		Handle keypress events
+			//		Handle keydown events
 			// description:
 			//		This is called from a handler on AccordionContainer.domNode
 			//		(setup in StackContainer), and is also called directly from
@@ -510,13 +516,13 @@ define([
 			if(this.disabled || e.altKey || !(fromTitle || e.ctrlKey)){
 				return;
 			}
-			var c = e.charOrCode;
+			var c = e.keyCode;
 			if((fromTitle && (c == keys.LEFT_ARROW || c == keys.UP_ARROW)) ||
-					(e.ctrlKey && c == keys.PAGE_UP)){
+				(e.ctrlKey && c == keys.PAGE_UP)){
 				this._adjacent(false)._buttonWidget._onTitleClick();
 				event.stop(e);
 			}else if((fromTitle && (c == keys.RIGHT_ARROW || c == keys.DOWN_ARROW)) ||
-					(e.ctrlKey && (c == keys.PAGE_DOWN || c == keys.TAB))){
+				(e.ctrlKey && (c == keys.PAGE_DOWN || c == keys.TAB))){
 				this._adjacent(true)._buttonWidget._onTitleClick();
 				event.stop(e);
 			}
