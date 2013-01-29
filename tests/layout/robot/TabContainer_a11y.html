@@ -38,9 +38,6 @@
 							var d = new doh.Deferred();
 							var tc = registry.byId("mainTabContainer");
 							
-							doh.is("tabpanel", tc.containerNode.children[0].getAttribute("role"), "containerNode child role");
-							doh.is("mainTabContainer_tablist_tab1", tc.containerNode.children[0].getAttribute("aria-labelledby"), "containerNode.child (the tabpanel) labelledby");
-							
 							var tablist = tc.tablist;
 							
 							// The tablist that stretches across the top
