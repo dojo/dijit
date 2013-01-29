@@ -15,7 +15,7 @@ define([
 	"dojo/string", // string.substitute
 	"dojo/topic", // topic.publish()
 	"dojo/_base/window", // win.withGlobal
-	"./_base/focus",	// dijit.getBookmark()
+	"./_base/focus", // dijit.getBookmark()
 	"./_Container",
 	"./Toolbar",
 	"./ToolbarSeparator",
@@ -26,12 +26,9 @@ define([
 	"./_editor/html",
 	"./_editor/range",
 	"./_editor/RichText",
-	"./main",	// dijit._scopeName
+	"./main", // dijit._scopeName
 	"dojo/i18n!./_editor/nls/commands"
-], function(require, array, declare, Deferred, i18n, domAttr, domClass, domGeometry, domStyle,
-			event, keys, lang, has, string, topic, win,
-			focusBase, _Container, Toolbar, ToolbarSeparator, _LayoutWidget, ToggleButton,
-			_Plugin, EnterKeyHandling, html, rangeapi, RichText, dijit){
+], function(require, array, declare, Deferred, i18n, domAttr, domClass, domGeometry, domStyle, event, keys, lang, has, string, topic, win, focusBase, _Container, Toolbar, ToolbarSeparator, _LayoutWidget, ToggleButton, _Plugin, EnterKeyHandling, html, rangeapi, RichText, dijit){
 
 	// module:
 	//		dijit/Editor
@@ -70,12 +67,12 @@ define([
 			//		The editor replaces the specified DOMNode.
 
 			if(!lang.isArray(this.plugins)){
-				this.plugins=["undo","redo","|","cut","copy","paste","|","bold","italic","underline","strikethrough","|",
-				"insertOrderedList","insertUnorderedList","indent","outdent","|","justifyLeft","justifyRight","justifyCenter","justifyFull",
-				EnterKeyHandling /*, "createLink"*/];
+				this.plugins = ["undo", "redo", "|", "cut", "copy", "paste", "|", "bold", "italic", "underline", "strikethrough", "|",
+					"insertOrderedList", "insertUnorderedList", "indent", "outdent", "|", "justifyLeft", "justifyRight", "justifyCenter", "justifyFull",
+					EnterKeyHandling /*, "createLink"*/];
 			}
 
-			this._plugins=[];
+			this._plugins = [];
 			this._editInterval = this.editActionInterval * 1000;
 
 			//IE will always lose focus when other element gets focus, while for FF and safari,
@@ -108,11 +105,11 @@ define([
 
 		postCreate: function(){
 			//for custom undo/redo, if enabled.
-			this._steps=this._steps.slice(0);
-			this._undoedSteps=this._undoedSteps.slice(0);
+			this._steps = this._steps.slice(0);
+			this._undoedSteps = this._undoedSteps.slice(0);
 
 			if(lang.isArray(this.extraPlugins)){
-				this.plugins=this.plugins.concat(this.extraPlugins);
+				this.plugins = this.plugins.concat(this.extraPlugins);
 			}
 
 			this.inherited(arguments);
@@ -154,7 +151,7 @@ define([
 					p.destroy();
 				}
 			});
-			this._plugins=[];
+			this._plugins = [];
 			this.toolbar.destroyRecursive();
 			delete this.toolbar;
 			this.inherited(arguments);
@@ -175,9 +172,9 @@ define([
 			//		Used when creating an instance from
 			//		something already in this.plugins. Ensures that the new
 			//		instance is assigned to this.plugins at that index.
-			var args=lang.isString(plugin)?{name:plugin}:lang.isFunction(plugin)?{ctor:plugin}:plugin;
+			var args = lang.isString(plugin) ? {name: plugin} : lang.isFunction(plugin) ? {ctor: plugin} : plugin;
 			if(!args.setEditor){
-				var o={"args":args,"plugin":null,"editor":this};
+				var o = {"args": args, "plugin": null, "editor": this};
 				if(args.name){
 					// search registry for a plugin factory matching args.name, if it's not there then
 					// fallback to 1.0 API:
@@ -203,7 +200,7 @@ define([
 				if(!o.plugin){
 					throw new Error(this.id + ": cannot find plugin [" + args.name + "]");
 				}
-				plugin=o.plugin;
+				plugin = o.plugin;
 			}
 			if(arguments.length > 1){
 				this._plugins[index] = plugin;
@@ -227,11 +224,11 @@ define([
 				_LayoutWidget.prototype.resize.apply(this, arguments);
 			}
 			/*
-			else{
-				// do nothing, the editor is already laid out correctly.   The user has probably specified
-				// the height parameter, which was used to set a size on the iframe
-			}
-			*/
+			 else{
+			 // do nothing, the editor is already laid out correctly.   The user has probably specified
+			 // the height parameter, which was used to set a size on the iframe
+			 }
+			 */
 		},
 		layout: function(){
 			// summary:
@@ -245,11 +242,11 @@ define([
 			// calc off the added margins and padding too. See tracker: #10662
 			var areaHeight = (this._contentBox.h -
 				(this.getHeaderHeight() + this.getFooterHeight() +
-				 domGeometry.getPadBorderExtents(this.iframe.parentNode).h +
-				 domGeometry.getMarginExtents(this.iframe.parentNode).h));
+					domGeometry.getPadBorderExtents(this.iframe.parentNode).h +
+					domGeometry.getMarginExtents(this.iframe.parentNode).h));
 			this.editingArea.style.height = areaHeight + "px";
 			if(this.iframe){
-				this.iframe.style.height="100%";
+				this.iframe.style.height = "100%";
 			}
 			this._layoutMode = true;
 		},
@@ -345,10 +342,10 @@ define([
 			// tags:
 			//		private
 			if(!this._inEditing){
-				this._inEditing=true;
+				this._inEditing = true;
 				this._beginEditing(cmd);
 			}
-			if(this.editActionInterval>0){
+			if(this.editActionInterval > 0){
 				if(this._editTimer){
 					this._editTimer.remove();
 				}
@@ -357,8 +354,8 @@ define([
 		},
 
 		// TODO: declaring these in the prototype is meaningless, just create in the constructor/postCreate
-		_steps:[],
-		_undoedSteps:[],
+		_steps: [],
+		_undoedSteps: [],
 
 		execCommand: function(cmd){
 			// summary:
@@ -423,7 +420,7 @@ define([
 					(e.code == 9 && has("opera") /* Opera not supported */)){
 					// Warn user of platform limitation.  Cannot programmatically access clipboard. See ticket #4136
 					var sub = string.substitute,
-						accel = {cut:'X', copy:'C', paste:'V'};
+						accel = {cut: 'X', copy: 'C', paste: 'V'};
 					alert(sub(this.commands.systemShortcut,
 						[this.commands[cmd], sub(this.commands[has("mac") ? 'appleKey' : 'ctrlKey'], [accel[cmd]])]));
 				}
@@ -458,10 +455,12 @@ define([
 					if(lang.isArray(mark)){
 						//IE CONTROL, have to use the native bookmark.
 						bookmark = [];
-						array.forEach(mark,function(n){
-							bookmark.push(rangeapi.getNode(n,this.editNode));
-						},this);
-						win.withGlobal(this.window,'moveToBookmark',focusBase,[{mark: bookmark, isCollapsed: col}]);
+						array.forEach(mark, function(n){
+							bookmark.push(rangeapi.getNode(n, this.editNode));
+						}, this);
+						win.withGlobal(this.window, 'moveToBookmark', focusBase, [
+							{mark: bookmark, isCollapsed: col}
+						]);
 					}else{
 						if(mark.startContainer && mark.endContainer){
 							// Use the pseudo WC3 range API.  This works better for positions
@@ -470,15 +469,15 @@ define([
 							if(sel && sel.removeAllRanges){
 								sel.removeAllRanges();
 								r = rangeapi.create(this.window);
-								sNode = rangeapi.getNode(mark.startContainer,this.editNode);
-								eNode = rangeapi.getNode(mark.endContainer,this.editNode);
+								sNode = rangeapi.getNode(mark.startContainer, this.editNode);
+								eNode = rangeapi.getNode(mark.endContainer, this.editNode);
 								if(sNode && eNode){
 									// Okay, we believe we found the position, so add it into the selection
 									// There are cases where it may not be found, particularly in undo/redo, when
 									// IE changes the underlying DOM on us (wraps text in a <p> tag or similar.
 									// So, in those cases, don't bother restoring selection.
-									r.setStart(sNode,mark.startOffset);
-									r.setEnd(eNode,mark.endOffset);
+									r.setStart(sNode, mark.startOffset);
+									r.setEnd(eNode, mark.endOffset);
 									sel.addRange(r);
 								}
 							}
@@ -489,14 +488,14 @@ define([
 					if(sel && sel.removeAllRanges){
 						sel.removeAllRanges();
 						r = rangeapi.create(this.window);
-						sNode = rangeapi.getNode(mark.startContainer,this.editNode);
-						eNode = rangeapi.getNode(mark.endContainer,this.editNode);
+						sNode = rangeapi.getNode(mark.startContainer, this.editNode);
+						eNode = rangeapi.getNode(mark.endContainer, this.editNode);
 						if(sNode && eNode){
 							// Okay, we believe we found the position, so add it into the selection
 							// There are cases where it may not be found, particularly in undo/redo, when
 							// formatting as been done and so on, so don't restore selection then.
-							r.setStart(sNode,mark.startOffset);
-							r.setEnd(eNode,mark.endOffset);
+							r.setStart(sNode, mark.startOffset);
+							r.setEnd(eNode, mark.endOffset);
 							sel.addRange(r);
 						}
 					}
@@ -509,8 +508,10 @@ define([
 			// tags:
 			//		private
 			this.setValue(to.text);
-			var b=to.bookmark;
-			if(!b){ return; }
+			var b = to.bookmark;
+			if(!b){
+				return;
+			}
 			this._moveToBookmark(b);
 		},
 		undo: function(){
@@ -522,10 +523,10 @@ define([
 			if(!this._undoRedoActive){
 				this._undoRedoActive = true;
 				this.endEditing(true);
-				var s=this._steps.pop();
-				if(s && this._steps.length>0){
+				var s = this._steps.pop();
+				if(s && this._steps.length > 0){
 					this.focus();
-					this._changeToStep(s,this._steps[this._steps.length-1]);
+					this._changeToStep(s, this._steps[this._steps.length - 1]);
 					this._undoedSteps.push(s);
 					this.onDisplayChanged();
 					delete this._undoRedoActive;
@@ -544,10 +545,10 @@ define([
 			if(!this._undoRedoActive){
 				this._undoRedoActive = true;
 				this.endEditing(true);
-				var s=this._undoedSteps.pop();
-				if(s && this._steps.length>0){
+				var s = this._undoedSteps.pop();
+				if(s && this._steps.length > 0){
 					this.focus();
-					this._changeToStep(this._steps[this._steps.length-1],s);
+					this._changeToStep(this._steps[this._steps.length - 1], s);
 					this._steps.push(s);
 					this.onDisplayChanged();
 					ret = true;
@@ -567,7 +568,7 @@ define([
 			}
 			if(this._inEditing){
 				this._endEditing(ignore_caret);
-				this._inEditing=false;
+				this._inEditing = false;
 			}
 		},
 
@@ -576,8 +577,8 @@ define([
 			//		Get the currently selected text
 			// tags:
 			//		protected
-			var b=win.withGlobal(this.window,focusBase.getBookmark);
-			var tmp=[];
+			var b = win.withGlobal(this.window, focusBase.getBookmark);
+			var tmp = [];
 			if(b && b.mark){
 				var mark = b.mark;
 				if(has("ie") < 9){
@@ -592,24 +593,24 @@ define([
 							if(range){
 								b.mark = range.cloneRange();
 							}else{
-								b.mark = win.withGlobal(this.window,focusBase.getBookmark);
+								b.mark = win.withGlobal(this.window, focusBase.getBookmark);
 							}
 						}
 					}else{
 						// Control ranges (img, table, etc), handle differently.
-						array.forEach(b.mark,function(n){
-							tmp.push(rangeapi.getIndex(n,this.editNode).o);
-						},this);
+						array.forEach(b.mark, function(n){
+							tmp.push(rangeapi.getIndex(n, this.editNode).o);
+						}, this);
 						b.mark = tmp;
 					}
 				}
 				try{
 					if(b.mark && b.mark.startContainer){
-						tmp=rangeapi.getIndex(b.mark.startContainer,this.editNode).o;
-						b.mark={startContainer:tmp,
-							startOffset:b.mark.startOffset,
-							endContainer:b.mark.endContainer===b.mark.startContainer?tmp:rangeapi.getIndex(b.mark.endContainer,this.editNode).o,
-							endOffset:b.mark.endOffset};
+						tmp = rangeapi.getIndex(b.mark.startContainer, this.editNode).o;
+						b.mark = {startContainer: tmp,
+							startOffset: b.mark.startOffset,
+							endContainer: b.mark.endContainer === b.mark.startContainer ? tmp : rangeapi.getIndex(b.mark.endContainer, this.editNode).o,
+							endOffset: b.mark.endOffset};
 					}
 				}catch(e){
 					b.mark = null;
@@ -628,7 +629,7 @@ define([
 				// to make sure selection restores right for the 'initial' state.
 				// and undo is called.  So not using this.value, as it was 'processed'
 				// and the line-up for selections may have been altered.
-				this._steps.push({'text':html.getChildrenHtml(this.editNode),'bookmark':this._getBookmark()});
+				this._steps.push({'text': html.getChildrenHtml(this.editNode), 'bookmark': this._getBookmark()});
 			}
 		},
 		_endEditing: function(){
@@ -637,11 +638,11 @@ define([
 			//		Deals with saving undo; see editActionInterval parameter.
 			// tags:
 			//		private
-			
+
 			// Avoid filtering to make sure selections restore.
 			var v = html.getChildrenHtml(this.editNode);
 
-			this._undoedSteps=[];//clear undoed steps
+			this._undoedSteps = [];//clear undoed steps
 			this._steps.push({text: v, bookmark: this._getBookmark()});
 		},
 		onKeyDown: function(e){
@@ -660,8 +661,8 @@ define([
 				return;
 			}
 			var k = e.keyCode;
-			if(e.ctrlKey && !e.altKey){//undo and redo only if the special right Alt + z/y are not pressed #5892
-				if(k == 90 || k == 122){ //z
+			if(e.ctrlKey && !e.shiftKey && !e.altKey){//undo and redo only if the special right Alt + z/y are not pressed #5892
+				if(k == 90 || k == 122){ //z, but also F11 key
 					event.stop(e);
 					this.undo();
 					return;
@@ -674,50 +675,50 @@ define([
 			this.inherited(arguments);
 
 			switch(k){
-					case keys.ENTER:
-					case keys.BACKSPACE:
-					case keys.DELETE:
+				case keys.ENTER:
+				case keys.BACKSPACE:
+				case keys.DELETE:
+					this.beginEditing();
+					break;
+				case 88: //x
+				case 86: //v
+					if(e.ctrlKey && !e.altKey && !e.metaKey){
+						this.endEditing();//end current typing step if any
+						if(e.keyCode == 88){
+							this.beginEditing('cut');
+						}else{
+							this.beginEditing('paste');
+						}
+						//use timeout to trigger after the paste is complete
+						this.defer("endEditing", 1);
+						break;
+					}
+				//pass through
+				default:
+					if(!e.ctrlKey && !e.altKey && !e.metaKey && (e.keyCode < keys.F1 || e.keyCode > keys.F15)){
 						this.beginEditing();
 						break;
-					case 88: //x
-					case 86: //v
-						if(e.ctrlKey && !e.altKey && !e.metaKey){
-							this.endEditing();//end current typing step if any
-							if(e.keyCode == 88){
-								this.beginEditing('cut');
-							}else{
-								this.beginEditing('paste');
-							}
-							//use timeout to trigger after the paste is complete
-							this.defer("endEditing", 1);
-							break;
-						}
-						//pass through
-					default:
-						if(!e.ctrlKey && !e.altKey && !e.metaKey && (e.keyCode<keys.F1 || e.keyCode>keys.F15)){
-							this.beginEditing();
-							break;
-						}
-						//pass through
-					case keys.ALT:
-						this.endEditing();
-						break;
-					case keys.UP_ARROW:
-					case keys.DOWN_ARROW:
-					case keys.LEFT_ARROW:
-					case keys.RIGHT_ARROW:
-					case keys.HOME:
-					case keys.END:
-					case keys.PAGE_UP:
-					case keys.PAGE_DOWN:
-						this.endEditing(true);
-						break;
-					//maybe ctrl+backspace/delete, so don't endEditing when ctrl is pressed
-					case keys.CTRL:
-					case keys.SHIFT:
-					case keys.TAB:
-						break;
-				}
+					}
+				//pass through
+				case keys.ALT:
+					this.endEditing();
+					break;
+				case keys.UP_ARROW:
+				case keys.DOWN_ARROW:
+				case keys.LEFT_ARROW:
+				case keys.RIGHT_ARROW:
+				case keys.HOME:
+				case keys.END:
+				case keys.PAGE_UP:
+				case keys.PAGE_DOWN:
+					this.endEditing(true);
+					break;
+				//maybe ctrl+backspace/delete, so don't endEditing when ctrl is pressed
+				case keys.CTRL:
+				case keys.SHIFT:
+				case keys.TAB:
+					break;
+			}
 		},
 		_onBlur: function(){
 			// summary:
@@ -735,8 +736,9 @@ define([
 			// tags:
 			//		private
 			try{
-				this._savedSelection=this._getBookmark();
-			}catch(e){ /* Squelch any errors that occur if selection save occurs due to being hidden simultaneously. */}
+				this._savedSelection = this._getBookmark();
+			}catch(e){ /* Squelch any errors that occur if selection save occurs due to being hidden simultaneously. */
+			}
 		},
 		_restoreSelection: function(){
 			// summary:
@@ -750,7 +752,7 @@ define([
 				// only restore the selection if the current range is collapsed
 				// if not collapsed, then it means the editor does not lose
 				// selection and there is no need to restore it
-				if(win.withGlobal(this.window,'isCollapsed',focusBase)){
+				if(win.withGlobal(this.window, 'isCollapsed', focusBase)){
 					this._moveToBookmark(this._savedSelection);
 				}
 				delete this._savedSelection;
@@ -814,7 +816,8 @@ define([
 				if(this.document && this.document.body){
 					domStyle.set(this.document.body, "color", domStyle.get(this.iframe, "color"));
 				}
-			}catch(e){ /* Squelch any errors caused by focus change if hidden during a state change */}
+			}catch(e){ /* Squelch any errors caused by focus change if hidden during a state change */
+			}
 		}
 	});
 
@@ -822,9 +825,11 @@ define([
 	function simplePluginFactory(args){
 		return new _Plugin({ command: args.name });
 	}
+
 	function togglePluginFactory(args){
 		return new _Plugin({ buttonClass: ToggleButton, command: args.name });
 	}
+
 	lang.mixin(_Plugin.registry, {
 		"undo": simplePluginFactory,
 		"redo": simplePluginFactory,
