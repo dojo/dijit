@@ -128,7 +128,7 @@ define([
 
 		baseClass: "dijitTabController",
 
-		templateString: "<div role='tablist' data-dojo-attach-event='onkeypress:onkeypress, onkeydown:onkeydown'></div>",
+		templateString: "<div role='tablist' data-dojo-attach-event='onkeydown:onkeydown'></div>",
 
 		// tabPosition: String
 		//		Defines where tabs go relative to the content.
@@ -148,7 +148,7 @@ define([
 
 			// Setup a close menu to be shared between all the closable tabs (excluding disabled tabs)
 			var closeMenu = new Menu({
-				id: this.id+"_Menu",
+				id: this.id + "_Menu",
 				ownerDocument: this.ownerDocument,
 				dir: this.dir,
 				lang: this.lang,

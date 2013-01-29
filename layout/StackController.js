@@ -8,15 +8,14 @@ define([
 	"dojo/_base/lang", // lang.getObject
 	"dojo/on",
 	"dojo/topic",
-	"../focus",		// focus.focus()
-	"../registry",	// registry.byId
+	"../focus", // focus.focus()
+	"../registry", // registry.byId
 	"../_Widget",
 	"../_TemplatedMixin",
 	"../_Container",
 	"../form/ToggleButton",
 	"dojo/i18n!../nls/common"
-], function(array, declare, domClass, domConstruct, event, keys, lang, on, topic,
-			focus, registry, _Widget, _TemplatedMixin, _Container, ToggleButton){
+], function(array, declare, domClass, domConstruct, event, keys, lang, on, topic, focus, registry, _Widget, _TemplatedMixin, _Container, ToggleButton){
 
 	// module:
 	//		dijit/layout/StackController
@@ -56,7 +55,7 @@ define([
 
 		baseClass: "dijitStackController",
 
-		templateString: "<span role='tablist' data-dojo-attach-event='onkeydown, onkeypress'></span>",
+		templateString: "<span role='tablist' data-dojo-attach-event='onkeydown'></span>",
 
 		// containerId: [const] String
 		//		The id of the page container that I point to
@@ -86,12 +85,11 @@ define([
 			// Note: for TabContainer we can do this through bubbled events instead of topics; maybe that's
 			// all we support for 2.0?
 			this.own(
-				topic.subscribe(this.containerId+"-startup", lang.hitch(this, "onStartup")),
-				topic.subscribe(this.containerId+"-addChild", lang.hitch(this, "onAddChild")),
-				topic.subscribe(this.containerId+"-removeChild", lang.hitch(this, "onRemoveChild")),
-				topic.subscribe(this.containerId+"-selectChild", lang.hitch(this, "onSelectChild")),
-				topic.subscribe(this.containerId+"-containerKeyDown", lang.hitch(this, "onContainerKeyDown")),
-				topic.subscribe(this.containerId+"-containerKeyPress", lang.hitch(this, "onContainerKeyPress"))
+				topic.subscribe(this.containerId + "-startup", lang.hitch(this, "onStartup")),
+				topic.subscribe(this.containerId + "-addChild", lang.hitch(this, "onAddChild")),
+				topic.subscribe(this.containerId + "-removeChild", lang.hitch(this, "onRemoveChild")),
+				topic.subscribe(this.containerId + "-selectChild", lang.hitch(this, "onSelectChild")),
+				topic.subscribe(this.containerId + "-containerKeyDown", lang.hitch(this, "onContainerKeyDown"))
 			);
 
 			// Listen for click events to select or close tabs.
@@ -170,7 +168,7 @@ define([
 			var Cls = lang.isString(this.buttonWidget) ? lang.getObject(this.buttonWidget) : this.buttonWidget;
 			var button = new Cls({
 				id: this.id + "_" + page.id,
-				name: this.id + "_" + page.id,	// note: must match id used in pane2button()
+				name: this.id + "_" + page.id, // note: must match id used in pane2button()
 				label: page.title,
 				disabled: page.disabled,
 				ownerDocument: this.ownerDocument,
@@ -209,7 +207,9 @@ define([
 			// tags:
 			//		private
 
-			if(this._currentChild === page){ this._currentChild = null; }
+			if(this._currentChild === page){
+				this._currentChild = null;
+			}
 
 			var button = this.pane2button(page.id);
 			if(button){
@@ -225,7 +225,9 @@ define([
 			// tags:
 			//		private
 
-			if(!page){ return; }
+			if(!page){
+				return;
+			}
 
 			if(this._currentChild){
 				var oldButton = this.pane2button(this._currentChild.id);
@@ -251,7 +253,7 @@ define([
 			// For TabContainer where the tabs are <span>, need to set focus explicitly when left/right arrow
 			focus.focus(button.focusNode);
 
-			if(this._currentChild && this._currentChild.id === page.id) {
+			if(this._currentChild && this._currentChild.id === page.id){
 				//In case the user clicked the checked button, keep it in the checked state because it remains to be the selected stack page.
 				button.set('checked', true);
 			}
@@ -282,7 +284,9 @@ define([
 			// tags:
 			//		private
 
-			if(!this.isLeftToRight() && (!this.tabPosition || /top|bottom/.test(this.tabPosition))){ forward = !forward; }
+			if(!this.isLeftToRight() && (!this.tabPosition || /top|bottom/.test(this.tabPosition))){
+				forward = !forward;
+			}
 			// find currently focused button in children array
 			var children = this.getChildren();
 			var idx = array.indexOf(children, this.pane2button(this._currentChild.id)),
@@ -306,23 +310,33 @@ define([
 			// tags:
 			//		private
 
-			if(this.disabled || e.altKey ){ return; }
+			if(this.disabled || e.altKey){
+				return;
+			}
 			var forward = null;
 			if(e.ctrlKey || !e._djpage){
 				switch(e.keyCode){
 					case keys.LEFT_ARROW:
 					case keys.UP_ARROW:
-						if(!e._djpage){ forward = false; }
+						if(!e._djpage){
+							forward = false;
+						}
 						break;
 					case keys.PAGE_UP:
-						if(e.ctrlKey){ forward = false; }
+						if(e.ctrlKey){
+							forward = false;
+						}
 						break;
 					case keys.RIGHT_ARROW:
 					case keys.DOWN_ARROW:
-						if(!e._djpage){ forward = true; }
+						if(!e._djpage){
+							forward = true;
+						}
 						break;
 					case keys.PAGE_DOWN:
-						if(e.ctrlKey){ forward = true; }
+						if(e.ctrlKey){
+							forward = true;
+						}
 						break;
 					case keys.HOME:
 						// Navigate to first non-disabled child
@@ -339,7 +353,7 @@ define([
 					case keys.END:
 						// Navigate to last non-disabled child
 						var children = this.getChildren();
-						for(var idx = children.length-1; idx >= 0; idx--){
+						for(var idx = children.length - 1; idx >= 0; idx--){
 							var child = children[idx];
 							if(!child.disabled){
 								this.onButtonClick(child.page);
@@ -349,16 +363,19 @@ define([
 						event.stop(e);
 						break;
 					case keys.DELETE:
-						if(this._currentChild.closable){
+					case "W".charCodeAt(0):    // ctrl-W
+						if(this._currentChild.closable &&
+							(e.keyCode == keys.DELETE || e.ctrlKey)){
 							this.onCloseButtonClick(this._currentChild);
 						}
-						event.stop(e);
+						event.stop(e); // avoid browser tab closing.
 						break;
-					case  keys.TAB:
+					case keys.TAB:
 						if(e.ctrlKey){
 							this.onButtonClick(this.adjacent(!e.shiftKey).page);
 							event.stop(e);
 						}
+						break;
 				}
 				// handle next/previous page navigation (left/right arrow, etc.)
 				if(forward !== null){
@@ -375,24 +392,6 @@ define([
 			//		private
 			info.e._djpage = info.page;
 			this.onkeydown(info.e);
-		},
-
-		onkeypress: function(/*Event*/ evt){
-			if(evt.ctrlKey && String.fromCharCode(evt.charCode) == "w"){
-				if(this._currentChild.closable){
-					this.onCloseButtonClick(this._currentChild);
-				}
-				event.stop(evt); // avoid browser tab closing.
-			}
-		},
-
-		onContainerKeyPress: function(/*Object*/ info){
-			// summary:
-			//		Called when there was a keypress on the container
-			// tags:
-			//		private
-			info.e._djpage = info.page;
-			this.onkeypress(info.e);
 		}
 	});
 
