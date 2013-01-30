@@ -23,8 +23,8 @@ define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
 	doh.register("editor.robot.ToggleDir", require.toUrl("./robot/ToggleDir.html"), 999999);
 	doh.register("editor.robot.ToggleDir_rtl", require.toUrl("./robot/ToggleDir_rtl.html"), 999999);
 	doh.register("editor.robot.TabIndent", require.toUrl("./robot/TabIndent.html"), 999999);
-	
-	if(!dojo.isWebKit){
+
+	if(!has("webkit")){
 		// The back button on webkit is URL for the browser itself, restarting the entire test suite,
 		// rather than just for the iframe holding the test file (BackForwardState.html and BackForwardStateHelper.html)
 		doh.register("editor.robot.BackForwardState", require.toUrl("./robot/BackForwardState.html"), 999999);
