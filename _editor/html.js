@@ -31,7 +31,7 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 			//attributes appear in the dictionary order
 			var attrarray = [];
 			var attr;
-			if(dojo.isIE && node.outerHTML){
+			if(dojo.isIE < 9 && node.outerHTML){
 				var s = node.outerHTML;
 				s = s.substr(0, s.indexOf('>'))
 					.replace(/(['"])[^"']*\1/g, ''); //to make the following regexp safe
