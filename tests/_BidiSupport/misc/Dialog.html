@@ -14,49 +14,44 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../../dojo/dojo.js"
-			data-dojo-config="async: true, parseOnLoad: true, has: { 'dojo-bidi': true }"></script>
+			data-dojo-config="async: true, has: { 'dojo-bidi': true }"></script>
 
 	<script type="text/javascript">
 		require([
 			"doh/runner",
-			"dojo/ready",
 			"dojo/query",
 			"dijit/Dialog",
-			"dojo/parser"
-			], function(runner, ready, query, Dialog){
-			toggleTextDir = function() {
+			"dojo/domReady!"
+		], function(doh, query, Dialog){
+			toggleTextDir = function(){
 				dlg.set("textDir", (dlg.get("textDir") !== "rtl") ? "rtl" : "ltr");
 			};
-			ready(function(){
-				runner.register("tests._BidiSupport.form.DialogBidi", [
-					{
-						name: "Bidi Dialog test",
-						runTest: function(){
-							var d = new doh.Deferred();
-							dlg = new Dialog({
-								textDir: "rtl",
-								title: "Title!",
-								content:
-									"<input id='dlg1_inputA'><br>" +
+			doh.register("tests._BidiSupport.form.DialogBidi", [
+				{
+					name: "Bidi Dialog test",
+					runTest: function(){
+						var d = new doh.Deferred();
+						dlg = new Dialog({
+							textDir: "rtl",
+							title: "Title!",
+							content: "<input id='dlg1_inputA'><br>" +
 									"<input id='dlg1_inputB'><br>" +
 									"<input id='dlg1_inputC'><br>" +
 									"<input type='button' value='Toggle title textDir' onclick='toggleTextDir()'>"
-							});
-							dlg.show().then(d.getTestCallback(function(){
-								runner.is(dlg.get("textDir"), query(".dijitDialogTitle")[0].dir, "Dialog title node should have 'dir' attribute equial to dialog's 'textDir' property");
-								runner.is(String.fromCharCode(8235), query(".dijitDialogTitleBar")[0].title.charAt(0), "Dialog title tooltip should have direction correspondent to dialog's 'textDir'");
-							}));
-							return d;
-						}
+						});
+						dlg.show().then(d.getTestCallback(function(){
+							doh.is(dlg.get("textDir"), query(".dijitDialogTitle")[0].dir, "Dialog title node should have 'dir' attribute equal to dialog's 'textDir' property");
+						}));
+						return d;
 					}
-				]);
-				runner.run();
-			});
+				}
+			]);
+			doh.run();
 		});
 	</script>
 </head>
 <body class="claro">
-	<h1 class="testTitle">Bidi Dialog Test</h1>
+<h1 class="testTitle">Bidi Dialog Test</h1>
 </body>
 </html>
 

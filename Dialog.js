@@ -57,12 +57,7 @@ define([
 		},
 
 		// Map widget attributes to DOMNode attributes.
-		_setTitleAttr: function(/*String*/ title){
-			// Map to both the title bar innerHTML, plus the tooltip when you hover over the title bar.
-			this._set("title", title);
-			this.titleNode.innerHTML = title;
-			this.titleBar.title = title;
-		},
+		_setTitleAttr: { node: "titleNode", type: "innerHTML" },
 
 		// open: [readonly] Boolean
 		//		True if Dialog is currently displayed on screen.
@@ -481,9 +476,9 @@ define([
 	if(has("dojo-bidi")){
 		_DialogBase = declare("dijit._DialogBase", _DialogBase, {
 			_setTitleAttr: function(/*String*/ title){
-				this.inherited(arguments);
+				this._set("title", title);
+				this.titleNode.innerHTML = title;
 				this.applyTextDir(this.titleNode);
-				this.titleBar.title = this.enforceTextDirWithUcc(null, title);
 			},
 
 			_setTextDirAttr: function(textDir){
