@@ -498,21 +498,20 @@ define([
 				this.onLoad(html);
 			});
 
-			// Set the iframe's initial (blank) content.
+			// Attach iframe to document, and set the initial (blank) content.
 			var src = this._getIframeDocTxt(),
 				s = "javascript: '" + src.replace(/\\/g, "\\\\").replace(/'/g, "\\'") + "'";
-			ifr.setAttribute('src', s);
-			this.editingArea.appendChild(ifr);
 
-			if(has("safari") <= 4){
-				src = ifr.getAttribute("src");
-				if(!src || src.indexOf("javascript") === -1){
-					// Safari 4 and earlier sometimes act oddly
-					// So we have to set it again.
-					this.defer(function(){
-						ifr.setAttribute('src', s);
-					});
-				}
+			if(has("ie") >= 9){
+				// On IE9+, attach to document before setting the content, to avoid problem w/iframe running in
+				// wrong security context, see #16633.
+				this.editingArea.appendChild(ifr);
+				ifr.src = s;
+			}else{
+				// For other browsers, set src first, especially for IE6/7 where attaching first gives a warning on
+				// https:// about "this page contains secure and insecure items, do you want to view both?"
+				ifr.setAttribute('src', s);
+				this.editingArea.appendChild(ifr);
 			}
 
 			// TODO: this is a guess at the default line-height, kinda works
