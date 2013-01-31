@@ -1,6 +1,5 @@
 define([
 	"dojo/_base/declare", // declare
-	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys keys.DOWN_ARROW keys.PAGE_DOWN keys.PAGE_UP keys.UP_ARROW
 	"dojo/_base/lang", // lang.hitch
 	"dojo/sniff", // has("mozilla")
@@ -10,7 +9,7 @@ define([
 	"./RangeBoundTextBox",
 	"dojo/text!./templates/Spinner.html",
 	"./_TextBoxMixin"    // selectInputText
-], function(declare, event, keys, lang, has, mouse, on, typematic, RangeBoundTextBox, template, _TextBoxMixin){
+], function(declare, keys, lang, has, mouse, on, typematic, RangeBoundTextBox, template, _TextBoxMixin){
 
 	// module:
 	//		dijit/form/_Spinner
@@ -102,7 +101,8 @@ define([
 			// summary:
 			//		Mouse wheel listener where supported
 
-			event.stop(evt);
+			evt.stopPropagation();
+			evt.preventDefault();
 			// FIXME: Safari bubbles
 
 			// be nice to DOH and scroll as much as the event says to

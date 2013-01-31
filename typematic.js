@@ -1,13 +1,12 @@
 define([
 	"dojo/_base/array", // array.forEach
 	"dojo/_base/connect", // connect.connect
-	"dojo/_base/event", // event.stop
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/lang", // lang.mixin, lang.hitch
 	"dojo/on",
 	"dojo/sniff", // has("ie")
 	"./main"        // setting dijit.typematic global
-], function(array, connect, event, kernel, lang, on, has, dijit){
+], function(array, connect, kernel, lang, on, has, dijit){
 
 // module:
 //		dijit/typematic
@@ -128,7 +127,8 @@ define([
 						(keyObject.altKey === undefined || keyObject.altKey == evt.altKey) &&
 						(keyObject.metaKey === undefined || keyObject.metaKey == (evt.metaKey || false)) && // IE doesn't even set metaKey
 						(keyObject.shiftKey === undefined || keyObject.shiftKey == evt.shiftKey)){
-						event.stop(evt);
+						evt.stopPropagation();
+						evt.preventDefault();
 						typematic.trigger(evt, _this, node, callback, keyObject, subsequentDelay, initialDelay, minDelay);
 					}else if(typematic._obj == keyObject){
 						typematic.stop();

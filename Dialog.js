@@ -8,7 +8,6 @@ define([
 	"dojo/dom-class", // domClass.add domClass.contains
 	"dojo/dom-geometry", // domGeometry.position
 	"dojo/dom-style", // domStyle.set
-	"dojo/_base/event", // event.stop
 	"dojo/_base/fx", // fx.fadeIn fx.fadeOut
 	"dojo/i18n", // i18n.getLocalization
 	"dojo/keys",
@@ -30,7 +29,7 @@ define([
 	"./layout/ContentPane",
 	"dojo/text!./templates/Dialog.html",
 	"dojo/i18n!./nls/common"
-], function(require, array, aspect, declare, Deferred, dom, domClass, domGeometry, domStyle, event, fx, i18n, keys, lang, on, ready, has, winUtils, Moveable, TimedMoveable, focus, manager, _Widget, _TemplatedMixin, _CssStateMixin, _FormMixin, _DialogMixin, DialogUnderlay, ContentPane, template){
+], function(require, array, aspect, declare, Deferred, dom, domClass, domGeometry, domStyle, fx, i18n, keys, lang, on, ready, has, winUtils, Moveable, TimedMoveable, focus, manager, _Widget, _TemplatedMixin, _CssStateMixin, _FormMixin, _DialogMixin, DialogUnderlay, ContentPane, template){
 
 	// module:
 	//		dijit/Dialog
@@ -295,19 +294,23 @@ define([
 				var node = evt.target;
 				if(this._firstFocusItem == this._lastFocusItem){
 					// don't move focus anywhere, but don't allow browser to move focus off of dialog either
-					event.stop(evt);
+					evt.stopPropagation();
+					evt.preventDefault();
 				}else if(node == this._firstFocusItem && evt.shiftKey){
 					// if we are shift-tabbing from first focusable item in dialog, send focus to last item
 					focus.focus(this._lastFocusItem);
-					event.stop(evt);
+					evt.stopPropagation();
+					evt.preventDefault();
 				}else if(node == this._lastFocusItem && !evt.shiftKey){
 					// if we are tabbing from last focusable item in dialog, send focus to first item
 					focus.focus(this._firstFocusItem);
-					event.stop(evt);
+					evt.stopPropagation();
+					evt.preventDefault();
 				}
 			}else if(evt.keyCode == keys.ESCAPE){
 				this.onCancel();
-				event.stop(evt);
+				evt.stopPropagation();
+				evt.preventDefault();
 			}
 		},
 

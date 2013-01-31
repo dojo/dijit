@@ -9,7 +9,6 @@ define([
 	"dojo/dom-construct", // domConstruct.create domConstruct.destroy domConstruct.place
 	"dojo/dom-geometry", // domGeometry.position
 	"dojo/dom-style", // domStyle.getComputedStyle domStyle.set
-	"dojo/_base/event", // event.stop
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/keys", // keys.BACKSPACE keys.TAB
 	"dojo/_base/lang", // lang.clone lang.hitch lang.isArray lang.isFunction lang.isString lang.trim
@@ -28,7 +27,7 @@ define([
 	"./html",
 	"../focus",
 	"../main"    // dijit._scopeName
-], function(array, config, declare, Deferred, dom, domAttr, domClass, domConstruct, domGeometry, domStyle, event, kernel, keys, lang, on, query, domReady, has, topic, unload, _Url, win, _Widget, _CssStateMixin, selectionapi, rangeapi, htmlapi, focus, dijit){
+], function(array, config, declare, Deferred, dom, domAttr, domClass, domConstruct, domGeometry, domStyle, kernel, keys, lang, on, query, domReady, has, topic, unload, _Url, win, _Widget, _CssStateMixin, selectionapi, rangeapi, htmlapi, focus, dijit){
 
 // module:
 //		dijit/_editor/RichText
@@ -904,7 +903,9 @@ define([
 			//		protected
 
 			if(e.keyCode === keys.TAB && this.isTabIndent){
-				event.stop(e); //prevent tab from moving focus out of editor
+				//prevent tab from moving focus out of editor
+				e.stopPropagation();
+				e.preventDefault();
 
 				// FIXME: this is a poor-man's indent/outdent. It would be
 				// better if it added 4 "&nbsp;" chars in an undoable way.
@@ -926,7 +927,8 @@ define([
 					// IE has a bug where if a non-text object is selected in the editor,
 					// hitting backspace would act as if the browser's back button was
 					// clicked instead of deleting the object. see #1069
-					event.stop(e);
+					e.stopPropagation();
+					e.preventDefault();
 					this.execCommand("delete");
 				}
 			}

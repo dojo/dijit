@@ -1,10 +1,9 @@
 define([
 	"dojo/_base/declare", // declare
-	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys.END keys.HOME
 	"./_Spinner",
 	"./NumberTextBox"
-], function(declare, event, keys, _Spinner, NumberTextBox){
+], function(declare, keys, _Spinner, NumberTextBox){
 
 // module:
 //		dijit/form/NumberSpinner
@@ -66,7 +65,8 @@ define([
 					this._setValueAttr(value, false);
 				}
 				// eat home or end key whether we change the value or not
-				event.stop(e);
+				e.stopPropagation();
+				e.preventDefault();
 			}
 		}
 	});

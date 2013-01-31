@@ -7,7 +7,6 @@ define([
 	"dojo/dom-class", // domClass.add domClass.remove domClass.toggle
 	"dojo/dom-construct", // domConstruct.create domConstruct.destroy
 	"dojo/dom-style", // domStyle.getComputedStyle domStyle.set domStyle.get
-	"dojo/_base/event", // event.stop
 	"dojo/i18n", // i18n.getLocalization
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/keys", // keys.ENTER keys.ESCAPE
@@ -26,8 +25,7 @@ define([
 	"./form/TextBox",
 	"dojo/text!./templates/InlineEditBox.html",
 	"dojo/i18n!./nls/common"
-], function(require, array, aspect, declare, domAttr, domClass, domConstruct, domStyle, event, i18n, kernel, keys, lang, on, has, when,
-			a11yclick, fm, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, _Container, Button, _TextBoxMixin, TextBox, template){
+], function(require, array, aspect, declare, domAttr, domClass, domConstruct, domStyle, i18n, kernel, keys, lang, on, has, when, a11yclick, fm, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, _Container, Button, _TextBoxMixin, TextBox, template){
 
 	// module:
 	//		dijit/InlineEditBox
@@ -171,10 +169,12 @@ define([
 				}
 				// If Enter/Esc pressed, treat as save/cancel.
 				if(e.keyCode == keys.ESCAPE){
-					event.stop(e);
+					e.stopPropagation();
+					e.preventDefault();
 					this.cancel(true); // sets editing=false which short-circuits _onBlur processing
 				}else if(e.keyCode == keys.ENTER && e.target.tagName == "INPUT"){
-					event.stop(e);
+					e.stopPropagation();
+					e.preventDefault();
 					this._onChange(); // fire _onBlur and then save
 				}
 
@@ -436,7 +436,8 @@ define([
 				return;
 			}
 			if(e){
-				event.stop(e);
+				e.stopPropagation();
+				e.preventDefault();
 			}
 			this._onMouseOut();
 

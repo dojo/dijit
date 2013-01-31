@@ -6,7 +6,6 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/dom-class", // domClass.add domClass.contains domClass.toggle
 	"dojo/dom-construct", // domConstruct.create
-	"dojo/_base/event", // event.stop
 	"dojo/_base/kernel", // deprecated
 	"dojo/keys", // keys
 	"dojo/_base/lang", // lang.mixin
@@ -19,8 +18,7 @@ define([
 	"./_TemplatedMixin",
 	"./form/_FormValueWidget",
 	"dojo/text!./templates/TimePicker.html"
-], function(array, ddate, locale, stamp, declare, domClass, domConstruct, event, kernel, keys, lang, has, query, mouse, on,
-			typematic, _Widget, _TemplatedMixin, _FormValueWidget, template){
+], function(array, ddate, locale, stamp, declare, domClass, domConstruct, kernel, keys, lang, has, query, mouse, on, typematic, _Widget, _TemplatedMixin, _FormValueWidget, template){
 
 	// module:
 	//		dijit/_TimePicker
@@ -75,32 +73,32 @@ define([
 		//		Example: `2007-06-01T09:00:00`
 		value: new Date(),
 
-		_visibleIncrement:2,
-		_clickableIncrement:1,
-		_totalIncrements:10,
+		_visibleIncrement: 2,
+		_clickableIncrement: 1,
+		_totalIncrements: 10,
 
 		// constraints: TimePicker.__Constraints
 		//		Specifies valid range of times (start time, end time)
-		constraints:{},
+		constraints: {},
 
-/*=====
-		serialize: function(val, options){
-			// summary:
-			//		User overridable function used to convert the attr('value') result to a String
-			// val: Date
-			//		The current value
-			// options: Object?
-			// tags:
-			//		protected
-		},
-=====*/
+		/*=====
+		 serialize: function(val, options){
+		 // summary:
+		 //		User overridable function used to convert the attr('value') result to a String
+		 // val: Date
+		 //		The current value
+		 // options: Object?
+		 // tags:
+		 //		protected
+		 },
+		 =====*/
 		serialize: stamp.toISOString,
 
-/*=====
-		// filterString: string
-		//		The string to filter by
-		filterString: "",
-=====*/
+		/*=====
+		 // filterString: string
+		 //		The string to filter by
+		 filterString: "",
+		 =====*/
 
 		setValue: function(/*Date*/ value){
 			// summary:
@@ -168,7 +166,7 @@ define([
 					lastValue = n.date;
 				}
 				i += inc;
-			}while(nodes.length < maxNum && (i*chk) < max);
+			}while(nodes.length < maxNum && (i * chk) < max);
 			return nodes;
 		},
 
@@ -179,9 +177,9 @@ define([
 			//		private
 			var fromIso = stamp.fromISOString;
 			this.timeMenu.innerHTML = "";
-			this._clickableIncrementDate=fromIso(this.clickableIncrement);
-			this._visibleIncrementDate=fromIso(this.visibleIncrement);
-			this._visibleRangeDate=fromIso(this.visibleRange);
+			this._clickableIncrementDate = fromIso(this.clickableIncrement);
+			this._visibleIncrementDate = fromIso(this.visibleIncrement);
+			this._visibleRangeDate = fromIso(this.visibleRange);
 			// get the value of the increments and the range in seconds (since 00:00:00) to find out how many divs to create
 			var
 				sinceMidnight = function(/*Date*/ date){
@@ -190,11 +188,11 @@ define([
 				clickableIncrementSeconds = sinceMidnight(this._clickableIncrementDate),
 				visibleIncrementSeconds = sinceMidnight(this._visibleIncrementDate),
 				visibleRangeSeconds = sinceMidnight(this._visibleRangeDate),
-				// round reference date to previous visible increment
+			// round reference date to previous visible increment
 				time = (this.value || this.currentFocus).getTime();
 
-			this._refDate = new Date(time - time % (clickableIncrementSeconds*1000));
-			this._refDate.setFullYear(1970,0,1); // match parse defaults
+			this._refDate = new Date(time - time % (clickableIncrementSeconds * 1000));
+			this._refDate.setFullYear(1970, 0, 1); // match parse defaults
 
 			// assume clickable increment is the smallest unit
 			this._clickableIncrement = 1;
@@ -209,17 +207,19 @@ define([
 			this._maxIncrement = (60 * 60 * 24) / clickableIncrementSeconds;
 
 			var
-				// Find the nodes we should display based on our filter.
-				// Limit to 10 nodes displayed as a half-hearted attempt to stop drop down from overlapping <input>.
+			// Find the nodes we should display based on our filter.
+			// Limit to 10 nodes displayed as a half-hearted attempt to stop drop down from overlapping <input>.
 				count = Math.min(this._totalIncrements, 10),
 				after = this._getFilteredNodes(0, (count >> 1) + 1, false),
 				moreAfter = [],
 				estBeforeLength = count - after.length,
 				before = this._getFilteredNodes(0, estBeforeLength, true, after[0]);
 			if(before.length < estBeforeLength && after.length > 0){
-				moreAfter = this._getFilteredNodes(after[after.length-1].idx + 1, estBeforeLength - before.length, false, after[after.length-1]);
+				moreAfter = this._getFilteredNodes(after[after.length - 1].idx + 1, estBeforeLength - before.length, false, after[after.length - 1]);
 			}
-			array.forEach(before.concat(after, moreAfter), function(n){ this.timeMenu.appendChild(n); }, this);
+			array.forEach(before.concat(after, moreAfter), function(n){
+				this.timeMenu.appendChild(n);
+			}, this);
 			// never show empty due to a bad filter
 			if(!before.length && !after.length && !moreAfter.length && this.filterString){
 				this.filterString = '';
@@ -290,7 +290,7 @@ define([
 				+ incrementDate.getMinutes() * index * 60000
 				+ incrementDate.getSeconds() * index * 1000);
 			if(this.constraints.selector == "time"){
-				date.setFullYear(1970,0,1); // make sure each time is for the same date
+				date.setFullYear(1970, 0, 1); // make sure each time is for the same date
 			}
 			var dateString = locale.format(date, this.constraints);
 			if(this.filterString && dateString.toLowerCase().indexOf(this.filterString) !== 0){
@@ -299,31 +299,31 @@ define([
 			}
 
 			var div = this.ownerDocument.createElement("div");
-			div.className = this.baseClass+"Item";
+			div.className = this.baseClass + "Item";
 			div.date = date;
 			div.idx = index;
-			domConstruct.create('div',{
+			domConstruct.create('div', {
 				"class": this.baseClass + "ItemInner",
 				innerHTML: dateString
 			}, div);
 
-			if(index%this._visibleIncrement<1 && index%this._visibleIncrement>-1){
-				domClass.add(div, this.baseClass+"Marker");
-			}else if(!(index%this._clickableIncrement)){
-				domClass.add(div, this.baseClass+"Tick");
+			if(index % this._visibleIncrement < 1 && index % this._visibleIncrement > -1){
+				domClass.add(div, this.baseClass + "Marker");
+			}else if(!(index % this._clickableIncrement)){
+				domClass.add(div, this.baseClass + "Tick");
 			}
 
 			if(this.isDisabledDate(date)){
 				// set disabled
-				domClass.add(div, this.baseClass+"ItemDisabled");
+				domClass.add(div, this.baseClass + "ItemDisabled");
 			}
 			if(this.value && !ddate.compare(this.value, date, this.constraints.selector)){
 				div.selected = true;
-				domClass.add(div, this.baseClass+"ItemSelected");
-				if(domClass.contains(div, this.baseClass+"Marker")){
-					domClass.add(div, this.baseClass+"MarkerSelected");
+				domClass.add(div, this.baseClass + "ItemSelected");
+				if(domClass.contains(div, this.baseClass + "Marker")){
+					domClass.add(div, this.baseClass + "MarkerSelected");
 				}else{
-					domClass.add(div, this.baseClass+"TickSelected");
+					domClass.add(div, this.baseClass + "TickSelected");
 				}
 
 				// Initially highlight the current value.   User can change highlight by up/down arrow keys
@@ -339,7 +339,9 @@ define([
 			// tags:
 			//		private
 			var tdate = tgt.target.date || tgt.target.parentNode.date;
-			if(!tdate || this.isDisabledDate(tdate)){ return; }
+			if(!tdate || this.isDisabledDate(tdate)){
+				return;
+			}
 			this._highlighted_option = null;
 			this.set('value', tdate);
 			this.onChange(tdate);
@@ -357,7 +359,9 @@ define([
 			//		Turns on/off highlight effect on a node based on mouse out/over event
 			// tags:
 			//		private
-			if(!node){return;}
+			if(!node){
+				return;
+			}
 			if(highlight){
 				if(this._highlighted_option){
 					this._highlightOption(this._highlighted_option, false);
@@ -368,11 +372,11 @@ define([
 			}else{
 				this._highlighted_option = null;
 			}
-			domClass.toggle(node, this.baseClass+"ItemHover", highlight);
-			if(domClass.contains(node, this.baseClass+"Marker")){
-				domClass.toggle(node, this.baseClass+"MarkerHover", highlight);
+			domClass.toggle(node, this.baseClass + "ItemHover", highlight);
+			if(domClass.contains(node, this.baseClass + "Marker")){
+				domClass.toggle(node, this.baseClass + "MarkerHover", highlight);
 			}else{
-				domClass.toggle(node, this.baseClass+"TickHover", highlight);
+				domClass.toggle(node, this.baseClass + "TickHover", highlight);
 			}
 		},
 
@@ -384,7 +388,9 @@ define([
 			this._keyboardSelected = null;
 			var tgr = (e.target.parentNode === this.timeMenu) ? e.target : e.target.parentNode;
 			// if we aren't targeting an item, then we return
-			if(!domClass.contains(tgr, this.baseClass+"Item")){return;}
+			if(!domClass.contains(tgr, this.baseClass + "Item")){
+				return;
+			}
 			this._highlightOption(tgr, true);
 		},
 
@@ -404,9 +410,10 @@ define([
 			// tags:
 			//		private
 			this._keyboardSelected = null;
-			event.stop(e);
+			e.stopPropagation();
+			e.preventDefault();
 			// we're not _measuring_ the scroll amount, just direction
-			this[(e.wheelDelta>0 ? "_onArrowUp" : "_onArrowDown")](); // yes, we're making a new dom node every time you mousewheel, or click
+			this[(e.wheelDelta > 0 ? "_onArrowUp" : "_onArrowDown")](); // yes, we're making a new dom node every time you mousewheel, or click
 		},
 
 		_onArrowUp: function(count){
@@ -423,7 +430,9 @@ define([
 				domClass.add(this.upArrow, "dijitUpArrowActive");
 
 			} // typematic end
-			if(!this.timeMenu.childNodes.length){ return; }
+			if(!this.timeMenu.childNodes.length){
+				return;
+			}
 			var index = this.timeMenu.childNodes[0].idx;
 			var divs = this._getFilteredNodes(index, 1, true, this.timeMenu.childNodes[0]);
 			if(divs.length){
@@ -445,7 +454,9 @@ define([
 			}else if(count === 0){
 				domClass.add(this.downArrow, "dijitDownArrowActive");
 			} // typematic end
-			if(!this.timeMenu.childNodes.length){ return; }
+			if(!this.timeMenu.childNodes.length){
+				return;
+			}
 			var index = this.timeMenu.childNodes[this.timeMenu.childNodes.length - 1].idx + 1;
 			var divs = this._getFilteredNodes(index, 1, false, this.timeMenu.childNodes[this.timeMenu.childNodes.length - 1]);
 			if(divs.length){
@@ -461,7 +472,8 @@ define([
 			// tags:
 			//		protected
 			if(e.keyCode == keys.DOWN_ARROW || e.keyCode == keys.UP_ARROW){
-				event.stop(e);
+				e.stopPropagation();
+				e.preventDefault();
 				// Figure out which option to highlight now and then highlight it
 				if(this._highlighted_option && !this._highlighted_option.parentNode){
 					this._highlighted_option = null;
@@ -506,17 +518,17 @@ define([
 
 	/*=====
 	 TimePicker.__Constraints = declare(locale.__FormatOptions, {
-		 // clickableIncrement: String
-		 //		See `dijit/_TimePicker.clickableIncrement`
-		 clickableIncrement: "T00:15:00",
+	 // clickableIncrement: String
+	 //		See `dijit/_TimePicker.clickableIncrement`
+	 clickableIncrement: "T00:15:00",
 
-		 // visibleIncrement: String
-		 //		See `dijit/_TimePicker.visibleIncrement`
-		 visibleIncrement: "T01:00:00",
+	 // visibleIncrement: String
+	 //		See `dijit/_TimePicker.visibleIncrement`
+	 visibleIncrement: "T01:00:00",
 
-		 // visibleRange: String
-		 //		See `dijit/_TimePicker.visibleRange`
-		 visibleRange: "T05:00:00"
+	 // visibleRange: String
+	 //		See `dijit/_TimePicker.visibleRange`
+	 visibleRange: "T05:00:00"
 	 });
 	 =====*/
 

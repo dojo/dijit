@@ -5,7 +5,6 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/dom-attr", // domAttr.get
 	"dojo/dom-class", // domClass.add domClass.contains domClass.remove domClass.toggle
-	"dojo/_base/event", // event.stop
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/keys", // keys
 	"dojo/_base/lang", // lang.hitch
@@ -16,7 +15,7 @@ define([
 	"./_CssStateMixin",
 	"./_TemplatedMixin",
 	"./form/DropDownButton"
-], function(array, date, local, declare, domAttr, domClass, event, kernel, keys, lang, on, has, CalendarLite, _Widget, _CssStateMixin, _TemplatedMixin, DropDownButton){
+], function(array, date, local, declare, domAttr, domClass, kernel, keys, lang, on, has, CalendarLite, _Widget, _CssStateMixin, _TemplatedMixin, DropDownButton){
 
 	// module:
 	//		dijit/Calendar
@@ -222,7 +221,8 @@ define([
 				// summary:
 				//		For handling keydown events on a stand alone calendar
 				if(!this.handleKey(evt)){
-					event.stop(evt);
+					evt.stopPropagation();
+					evt.preventDefault();
 				}
 			},
 

@@ -1,23 +1,21 @@
 define([
 	"dojo/_base/declare", // declare
 	"dojo/_base/Deferred",
-	"dojo/_base/event", // event.stop
 	"dojo/dom", // dom.isDescendant
 	"dojo/dom-attr", // domAttr.set
 	"dojo/dom-class", // domClass.add domClass.contains domClass.remove
 	"dojo/dom-geometry", // domGeometry.marginBox domGeometry.position
 	"dojo/dom-style", // domStyle.set
-	"dojo/has",	// has("touch")
+	"dojo/has", // has("touch")
 	"dojo/keys", // keys.DOWN_ARROW keys.ENTER keys.ESCAPE
 	"dojo/_base/lang", // lang.hitch lang.isFunction
 	"dojo/on",
 	"dojo/window", // winUtils.getBox
-	"./registry",	// registry.byNode()
+	"./registry", // registry.byNode()
 	"./focus",
 	"./popup",
 	"./_FocusMixin"
-], function(declare, Deferred, event,dom, domAttr, domClass, domGeometry, domStyle, has, keys, lang, on,
-			winUtils, registry, focus, popup, _FocusMixin){
+], function(declare, Deferred, dom, domAttr, domClass, domGeometry, domStyle, has, keys, lang, on, winUtils, registry, focus, popup, _FocusMixin){
 
 
 	// module:
@@ -89,7 +87,7 @@ define([
 		//		The list is positions is tried, in order, until a position is found where the drop down fits
 		//		within the viewport.
 		//
-		dropDownPosition: ["below","above"],
+		dropDownPosition: ["below", "above"],
 
 		// _stopClickEvents: Boolean
 		//		When set to false, the click events will not be stopped, in
@@ -99,7 +97,9 @@ define([
 		_onDropDownMouseDown: function(/*Event*/ e){
 			// summary:
 			//		Callback when the user mousedown's on the arrow icon
-			if(this.disabled || this.readOnly){ return; }
+			if(this.disabled || this.readOnly){
+				return;
+			}
 
 			// Prevent default to stop things like text selection, but don't stop propagation, so that:
 			//		1. TimeTextBox etc. can focus the <input> on mousedown
@@ -136,8 +136,7 @@ define([
 				// Find out if our target is somewhere in our dropdown widget,
 				// but not over our _buttonNode (the clickable node)
 				var c = domGeometry.position(this._buttonNode, true);
-				if(!(e.pageX >= c.x && e.pageX <= c.x + c.w) ||
-					!(e.pageY >= c.y && e.pageY <= c.y + c.h)){
+				if(!(e.pageX >= c.x && e.pageX <= c.x + c.w) || !(e.pageY >= c.y && e.pageY <= c.y + c.h)){
 					var t = e.target;
 					while(t && !overMenu){
 						if(domClass.contains(t, "dijitPopup")){
@@ -196,9 +195,10 @@ define([
 				this._onDropDownMouseUp(e);
 			}
 
-			// The drop down was already opened on mousedown/keydown; just need to call stopEvent().
+			// The drop down was already opened on mousedown/keydown; just need to stop the event
 			if(this._stopClickEvents){
-				event.stop(e);
+				e.stopPropagation();
+				e.preventDefault();
 			}
 		},
 
@@ -211,12 +211,12 @@ define([
 			// Add a class to the "dijitDownArrowButton" type class to _buttonNode so theme can set direction of arrow
 			// based on where drop down will normally appear
 			var defaultPos = {
-					"after" : this.isLeftToRight() ? "Right" : "Left",
-					"before" : this.isLeftToRight() ? "Left" : "Right",
-					"above" : "Up",
-					"below" : "Down",
-					"left" : "Left",
-					"right" : "Right"
+				"after": this.isLeftToRight() ? "Right" : "Left",
+				"before": this.isLeftToRight() ? "Left" : "Right",
+				"above": "Up",
+				"below": "Down",
+				"left": "Left",
+				"right": "Right"
 			}[this.dropDownPosition[0]] || this.dropDownPosition[0] || "Down";
 			domClass.add(this._arrowWrapperNode || this._buttonNode, "dijit" + defaultPos + "ArrowButton");
 		},
@@ -252,29 +252,34 @@ define([
 			// summary:
 			//		Callback when the user presses a key while focused on the button node
 
-			if(this.disabled || this.readOnly){ return; }
+			if(this.disabled || this.readOnly){
+				return;
+			}
 			var d = this.dropDown, target = e.target;
 			if(d && this._opened && d.handleKey){
 				if(d.handleKey(e) === false){
 					/* false return code means that the drop down handled the key */
-					event.stop(e);
+					e.stopPropagation();
+					e.preventDefault();
 					return;
 				}
 			}
 			if(d && this._opened && e.keyCode == keys.ESCAPE){
 				this.closeDropDown();
-				event.stop(e);
+				e.stopPropagation();
+				e.preventDefault();
 			}else if(!this._opened &&
-					(e.keyCode == keys.DOWN_ARROW ||
-						( (e.keyCode == keys.ENTER || e.keyCode == keys.SPACE) &&
-						  //ignore enter and space if the event is for a text input
-						  ((target.tagName || "").toLowerCase() !== 'input' ||
-						     (target.type && target.type.toLowerCase() !== 'text'))))){
+				(e.keyCode == keys.DOWN_ARROW ||
+					( (e.keyCode == keys.ENTER || e.keyCode == keys.SPACE) &&
+						//ignore enter and space if the event is for a text input
+						((target.tagName || "").toLowerCase() !== 'input' ||
+							(target.type && target.type.toLowerCase() !== 'text'))))){
 				// Toggle the drop down, but wait until keyup so that the drop down doesn't
 				// get a stray keyup event, or in the case of key-repeat (because user held
 				// down key for too long), stray keydown events
 				this._toggleOnKeyUp = true;
-				event.stop(e);
+				e.stopPropagation();
+				e.preventDefault();
 			}
 		},
 
@@ -358,7 +363,9 @@ define([
 			// tags:
 			//		protected
 
-			if(this.disabled || this.readOnly){ return; }
+			if(this.disabled || this.readOnly){
+				return;
+			}
 			if(!this._opened){
 				this.loadAndOpenDropDown();
 			}else{
@@ -481,7 +488,7 @@ define([
 			domAttr.set(this._popupStateNode, "popupActive", "true");
 			domClass.add(this._popupStateNode, "dijitHasDropDownOpen");
 			this._set("_opened", true);	// use set() because _CssStateMixin is watching
-			
+
 			this._popupStateNode.setAttribute("aria-expanded", "true");
 			this._popupStateNode.setAttribute("aria-owns", dropDown.id);
 
@@ -489,7 +496,7 @@ define([
 			if(ddNode.getAttribute("role") !== "presentation" && !ddNode.getAttribute("aria-labelledby")){
 				ddNode.setAttribute("aria-labelledby", this.id);
 			}
-			
+
 			return retVal;
 		},
 
@@ -505,10 +512,12 @@ define([
 				this._focusDropDownTimer.remove();
 				delete this._focusDropDownTimer;
 			}
-			
+
 			if(this._opened){
 				this._popupStateNode.setAttribute("aria-expanded", "false");
-				if(focus){ this.focus(); }
+				if(focus){
+					this.focus();
+				}
 				popup.close(this.dropDown);
 				this._opened = false;
 			}

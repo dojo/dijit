@@ -6,7 +6,6 @@ define([
 	"dojo/dom-construct", // domConstruct.destroy domConstruct.place
 	"dojo/dom-geometry", // domGeometry.marginBox
 	"dojo/dom-style", // domStyle.style
-	"dojo/_base/event", // event.stop
 	"dojo/keys",
 	"dojo/_base/lang", // lang.getObject lang.hitch
 	"dojo/on",
@@ -16,7 +15,7 @@ define([
 	"../_TemplatedMixin",
 	"./_LayoutWidget",
 	"./utils"        // layoutUtils.layoutChildren
-], function(array, cookie, declare, domClass, domConstruct, domGeometry, domStyle, event, keys, lang, on, touch, _WidgetBase, _Widget, _TemplatedMixin, _LayoutWidget, layoutUtils){
+], function(array, cookie, declare, domClass, domConstruct, domGeometry, domStyle, keys, lang, on, touch, _WidgetBase, _Widget, _TemplatedMixin, _LayoutWidget, layoutUtils){
 
 // module:
 //		dijit/layout/BorderContainer
@@ -143,11 +142,18 @@ define([
 						// TODO: setting style directly (usually) sets content box size, need to set margin box size
 						splitterStyle[splitterAttr] = delta + splitterStart + factor * (boundChildSize - childSize) + "px";
 					}),
-					on(de, "dragstart", event.stop),
-					on(this.ownerDocumentBody, "selectstart", event.stop),
+					on(de, "dragstart", function(e){
+						e.stopPropagation();
+						e.preventDefault();
+					}),
+					on(this.ownerDocumentBody, "selectstart", function(e){
+						e.stopPropagation();
+						e.preventDefault();
+					}),
 					on(de, touch.release, lang.hitch(this, "_stopDrag"))
 				]);
-				event.stop(e);
+				e.stopPropagation();
+				e.preventDefault();
 			},
 
 			_onMouse: function(e){
@@ -204,7 +210,8 @@ define([
 				}
 				var childSize = domGeometry.getMarginSize(this.child.domNode)[ horizontal ? 'h' : 'w' ] + this._factor * tick;
 				this.container._layoutChildren(this.child.id, Math.max(Math.min(childSize, this._computeMaxSize()), this.child.minSize));
-				event.stop(e);
+				e.stopPropagation();
+				e.preventDefault();
 			},
 
 			destroy: function(){

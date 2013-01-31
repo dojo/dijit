@@ -2,7 +2,6 @@ define([
 	"dojo/_base/array", // array.forEach
 	"dojo/_base/declare", // declare
 	"dojo/dnd/move",
-	"dojo/_base/event", // event.stop
 	"dojo/_base/fx", // fx.animateProperty
 	"dojo/dom-geometry", // domGeometry.position
 	"dojo/dom-style", // domStyle.getComputedStyle
@@ -21,7 +20,7 @@ define([
 	"./_FormValueWidget",
 	"../_Container",
 	"dojo/text!./templates/HorizontalSlider.html"
-], function(array, declare, move, event, fx, domGeometry, domStyle, keys, lang, has, Moveable, Mover, query, mouse, on, manager, focus, typematic, Button, _FormValueWidget, _Container, template){
+], function(array, declare, move, fx, domGeometry, domStyle, keys, lang, has, Moveable, Mover, query, mouse, on, manager, focus, typematic, Button, _FormValueWidget, _Container, template){
 
 // module:
 //		dijit/form/HorizontalSlider
@@ -150,7 +149,8 @@ define([
 				default:
 					return;
 			}
-			event.stop(e);
+			e.stopPropagation();
+			e.preventDefault();
 		},
 
 		_onHandleClick: function(e){
@@ -162,7 +162,8 @@ define([
 				// (but don't do on IE because it causes a flicker on mouse up (due to blur then focus)
 				focus.focus(this.sliderHandle);
 			}
-			event.stop(e);
+			e.stopPropagation();
+			e.preventDefault();
 		},
 
 		_isReversed: function(){
@@ -178,7 +179,8 @@ define([
 				return;
 			}
 			focus.focus(this.sliderHandle);
-			event.stop(e);
+			e.stopPropagation();
+			e.preventDefault();
 			var abspos = domGeometry.position(this.sliderBarContainer, true);
 			var pixelValue = e[this._mousePixelCoord] - abspos[this._startingPixelCoord];
 			this._setPixelValue(this._isReversed() ? (abspos[this._pixelCount] - pixelValue) : pixelValue, abspos[this._pixelCount], true);
@@ -297,7 +299,8 @@ define([
 		_mouseWheeled: function(/*Event*/ evt){
 			// summary:
 			//		Event handler for mousewheel where supported
-			event.stop(evt);
+			evt.stopPropagation();
+			evt.preventDefault();
 			this._bumpValue(evt.wheelDelta < 0 ? -1 : 1, true); // negative scroll acts like a decrement
 		},
 

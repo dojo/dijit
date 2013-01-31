@@ -4,7 +4,6 @@ define([
 	"dojo/dom-class", // domClass.add domClass.remove
 	"dojo/dom-geometry",
 	"dojo/dom-style",
-	"dojo/_base/event", // event.stop
 	"dojo/i18n", // i18n.getLocalization
 	"dojo/keys", // keys.F11 keys.TAB
 	"dojo/_base/lang", // lang.hitch
@@ -17,7 +16,7 @@ define([
 	"../../form/ToggleButton",
 	"../../registry", // registry.getEnclosingWidget()
 	"dojo/i18n!../nls/commands"
-], function(aspect, declare, domClass, domGeometry, domStyle, event, i18n, keys, lang, on, has, win, winUtils, focus, _Plugin, ToggleButton, registry){
+], function(aspect, declare, domClass, domGeometry, domStyle, i18n, keys, lang, on, has, win, winUtils, focus, _Plugin, ToggleButton, registry){
 
 
 // module:
@@ -86,7 +85,8 @@ define([
 			this.editor.addKeyHandler(keys.F11, true, true, lang.hitch(this, function(e){
 				// Enable the CTRL-SHIFT-F11 hotkey for fullscreen mode.
 				this.toggle();
-				event.stop(e);
+				e.stopPropagation();
+				e.preventDefault();
 				this.editor.defer("focus", 250);
 				return true;
 			}));
@@ -129,7 +129,8 @@ define([
 							}), 10);
 						}
 					}
-					event.stop(e);
+					event.stopPropagation();
+					event.preventDefault();
 				}else if(ed._fullscreen_oldOnKeyDown){
 					// Only call up when it's a different function.  Traps corner case event issue
 					// on IE which caused stack overflow on handler cleanup.

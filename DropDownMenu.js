@@ -1,11 +1,10 @@
 define([
 	"dojo/_base/declare", // declare
-	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys
 	"dojo/text!./templates/Menu.html",
 	"./_OnDijitClickMixin",
 	"./_MenuBase"
-], function(declare, event, keys, template, _OnDijitClickMixin, _MenuBase){
+], function(declare, keys, template, _OnDijitClickMixin, _MenuBase){
 
 	// module:
 	//		dijit/DropDownMenu
@@ -39,7 +38,8 @@ define([
 			switch(evt.keyCode){
 				case this._openSubMenuKey:
 					this._moveToPopup(evt);
-					event.stop(evt);
+					evt.stopPropagation();
+					evt.preventDefault();
 					break;
 				case this._closeSubMenuKey:
 					if(this.parentMenu){
@@ -49,7 +49,8 @@ define([
 							this.onCancel(false);
 						}
 					}else{
-						event.stop(evt);
+						evt.stopPropagation();
+						evt.preventDefault();
 					}
 					break;
 			}

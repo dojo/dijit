@@ -1,10 +1,9 @@
 define([
 	"dojo/_base/declare", // declare
-	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys.DOWN_ARROW
 	"./_MenuBase",
 	"dojo/text!./templates/MenuBar.html"
-], function(declare, event, keys, _MenuBase, template){
+], function(declare, keys, _MenuBase, template){
 
 // module:
 //		dijit/MenuBar
@@ -70,7 +69,8 @@ define([
 			switch(evt.keyCode){
 				case keys.DOWN_ARROW:
 					this._moveToPopup(evt);
-					event.stop(evt);
+					evt.stopPropagation();
+					evt.preventDefault();
 			}
 		},
 

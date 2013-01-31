@@ -3,7 +3,6 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/dom-class",
 	"dojo/dom-construct",
-	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys
 	"dojo/_base/lang", // lang.getObject
 	"dojo/on",
@@ -15,7 +14,7 @@ define([
 	"../_Container",
 	"../form/ToggleButton",
 	"dojo/i18n!../nls/common"
-], function(array, declare, domClass, domConstruct, event, keys, lang, on, topic, focus, registry, _Widget, _TemplatedMixin, _Container, ToggleButton){
+], function(array, declare, domClass, domConstruct, keys, lang, on, topic, focus, registry, _Widget, _TemplatedMixin, _Container, ToggleButton){
 
 	// module:
 	//		dijit/layout/StackController
@@ -348,7 +347,8 @@ define([
 								break;
 							}
 						}
-						event.stop(e);
+						e.stopPropagation();
+						e.preventDefault();
 						break;
 					case keys.END:
 						// Navigate to last non-disabled child
@@ -360,7 +360,8 @@ define([
 								break;
 							}
 						}
-						event.stop(e);
+						e.stopPropagation();
+						e.preventDefault();
 						break;
 					case keys.DELETE:
 					case "W".charCodeAt(0):    // ctrl-W
@@ -368,19 +369,23 @@ define([
 							(e.keyCode == keys.DELETE || e.ctrlKey)){
 							this.onCloseButtonClick(this._currentChild);
 						}
-						event.stop(e); // avoid browser tab closing.
+						// avoid browser tab closing
+						e.stopPropagation();
+						e.preventDefault();
 						break;
 					case keys.TAB:
 						if(e.ctrlKey){
 							this.onButtonClick(this.adjacent(!e.shiftKey).page);
-							event.stop(e);
+							e.stopPropagation();
+							e.preventDefault();
 						}
 						break;
 				}
 				// handle next/previous page navigation (left/right arrow, etc.)
 				if(forward !== null){
 					this.onButtonClick(this.adjacent(forward).page);
-					event.stop(e);
+					e.stopPropagation();
+					e.preventDefault();
 				}
 			}
 		},

@@ -8,7 +8,6 @@ define([
 	"dojo/dom-class", // domClass.add
 	"dojo/dom-geometry",
 	"dojo/dom-style", // domStyle.set, get
-	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys.F1 keys.F15 keys.TAB
 	"dojo/_base/lang", // lang.getObject lang.hitch
 	"dojo/sniff", // has("ie") has("mac") has("webkit")
@@ -28,7 +27,7 @@ define([
 	"./_editor/RichText",
 	"./main", // dijit._scopeName
 	"dojo/i18n!./_editor/nls/commands"
-], function(require, array, declare, Deferred, i18n, domAttr, domClass, domGeometry, domStyle, event, keys, lang, has, string, topic, win, focusBase, _Container, Toolbar, ToolbarSeparator, _LayoutWidget, ToggleButton, _Plugin, EnterKeyHandling, html, rangeapi, RichText, dijit){
+], function(require, array, declare, Deferred, i18n, domAttr, domClass, domGeometry, domStyle, keys, lang, has, string, topic, win, focusBase, _Container, Toolbar, ToolbarSeparator, _LayoutWidget, ToggleButton, _Plugin, EnterKeyHandling, html, rangeapi, RichText, dijit){
 
 	// module:
 	//		dijit/Editor
@@ -663,11 +662,13 @@ define([
 			var k = e.keyCode;
 			if(e.ctrlKey && !e.shiftKey && !e.altKey){//undo and redo only if the special right Alt + z/y are not pressed #5892
 				if(k == 90 || k == 122){ //z, but also F11 key
-					event.stop(e);
+					e.stopPropagation();
+					e.preventDefault();
 					this.undo();
 					return;
 				}else if(k == 89 || k == 121){ //y
-					event.stop(e);
+					e.stopPropagation();
+					e.preventDefault();
 					this.redo();
 					return;
 				}

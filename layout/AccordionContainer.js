@@ -2,7 +2,6 @@ define([
 	"require",
 	"dojo/_base/array", // array.forEach array.map
 	"dojo/_base/declare", // declare
-	"dojo/_base/event", // event.stop
 	"dojo/_base/fx", // fx.Animation
 	"dojo/dom", // dom.setSelectable
 	"dojo/dom-attr", // domAttr.attr
@@ -23,7 +22,7 @@ define([
 	"./StackContainer",
 	"./ContentPane",
 	"dojo/text!./templates/AccordionButton.html"
-], function(require, array, declare, event, fx, dom, domAttr, domClass, domConstruct, domGeometry, keys, lang, has, topic, focus, manager, ready, _Widget, _Container, _TemplatedMixin, _CssStateMixin, StackContainer, ContentPane, template){
+], function(require, array, declare, fx, dom, domAttr, domClass, domConstruct, domGeometry, keys, lang, has, topic, focus, manager, ready, _Widget, _Container, _TemplatedMixin, _CssStateMixin, StackContainer, ContentPane, template){
 
 	// module:
 	//		dijit/layout/AccordionContainer
@@ -520,11 +519,13 @@ define([
 			if((fromTitle && (c == keys.LEFT_ARROW || c == keys.UP_ARROW)) ||
 				(e.ctrlKey && c == keys.PAGE_UP)){
 				this._adjacent(false)._buttonWidget._onTitleClick();
-				event.stop(e);
+				e.stopPropagation();
+				e.preventDefault();
 			}else if((fromTitle && (c == keys.RIGHT_ARROW || c == keys.DOWN_ARROW)) ||
 				(e.ctrlKey && (c == keys.PAGE_DOWN || c == keys.TAB))){
 				this._adjacent(true)._buttonWidget._onTitleClick();
-				event.stop(e);
+				e.stopPropagation();
+				e.preventDefault();
 			}
 		}
 	});

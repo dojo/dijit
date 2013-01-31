@@ -2,7 +2,6 @@ define([
 	"dojo/_base/array", // array.forEach
 	"dojo/_base/declare", // declare
 	"dojo/dom-attr", // domAttr.set
-	"dojo/_base/event", // event.stop
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/keys", // keys.END keys.HOME
 	"dojo/_base/lang", // lang.hitch
@@ -10,7 +9,7 @@ define([
 	"./_Container",
 	"./_FocusMixin",
 	"./_KeyNavMixin"
-], function(array, declare, domAttr, event, kernel, keys, lang, registry, _Container, _FocusMixin, _KeyNavMixin){
+], function(array, declare, domAttr, kernel, keys, lang, registry, _Container, _FocusMixin, _KeyNavMixin){
 
 
 	// module:
@@ -39,8 +38,12 @@ define([
 			var keyCodes = (this._keyNavCodes = {});
 			var prev = lang.hitch(this, "focusPrev");
 			var next = lang.hitch(this, "focusNext");
-			array.forEach(prevKeyCodes, function(code){ keyCodes[code] = prev; });
-			array.forEach(nextKeyCodes, function(code){ keyCodes[code] = next; });
+			array.forEach(prevKeyCodes, function(code){
+				keyCodes[code] = prev;
+			});
+			array.forEach(nextKeyCodes, function(code){
+				keyCodes[code] = next;
+			});
 			keyCodes[keys.HOME] = lang.hitch(this, "focusFirstChild");
 			keyCodes[keys.END] = lang.hitch(this, "focusLastChild");
 		},
@@ -143,9 +146,9 @@ define([
 				child = this._getSiblingOfChild(child, dir);
 			}
 			var children = this.getChildren();
-			for(var i=0; i < children.length; i++){
+			for(var i = 0; i < children.length; i++){
 				if(!child){
-					child = children[(dir>0) ? 0 : (children.length-1)];
+					child = children[(dir > 0) ? 0 : (children.length - 1)];
 				}
 				if(child.isFocusable()){
 					return child;	// dijit/_WidgetBase

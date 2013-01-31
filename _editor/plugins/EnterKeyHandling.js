@@ -1,7 +1,6 @@
 define([
 	"dojo/_base/declare", // declare
 	"dojo/dom-construct", // domConstruct.destroy domConstruct.place
-	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys.ENTER
 	"dojo/_base/lang",
 	"dojo/on",
@@ -12,7 +11,7 @@ define([
 	"../RichText",
 	"../range",
 	"../../_base/focus"
-], function(declare, domConstruct, event, keys, lang, on, has, win, winUtils, _Plugin, RichText, rangeapi, baseFocus){
+], function(declare, domConstruct, keys, lang, on, has, win, winUtils, _Plugin, RichText, rangeapi, baseFocus){
 
 // module:
 //		dijit/_editor/plugins/EnterKeyHandling
@@ -118,7 +117,8 @@ define([
 							var ne = lang.mixin({}, e);
 							ne.shiftKey = true;
 							if(!this.handleEnterKey(ne)){
-								event.stop(e);
+								e.stopPropagation();
+								e.preventDefault();
 							}
 						}
 					})));

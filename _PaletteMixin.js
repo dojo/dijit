@@ -3,7 +3,6 @@ define([
 	"dojo/dom-attr", // domAttr.set
 	"dojo/dom-class", // domClass.add domClass.remove
 	"dojo/dom-construct", // domConstruct.create domConstruct.place
-	"dojo/_base/event", // event.stop
 	"dojo/keys", // keys
 	"dojo/_base/lang", // lang.getObject
 	"dojo/on",
@@ -11,7 +10,7 @@ define([
 	"./a11yclick",
 	"./focus",
 	"./typematic"
-], function(declare, domAttr, domClass, domConstruct, event, keys, lang, on, _CssStateMixin, a11yclick, focus, typematic){
+], function(declare, domAttr, domClass, domConstruct, keys, lang, on, _CssStateMixin, a11yclick, focus, typematic){
 
 // module:
 //		dijit/_PaletteMixin
@@ -201,7 +200,8 @@ define([
 			focus.focus(target);
 			this._setValueAttr(value, true);
 
-			event.stop(evt);
+			evt.stopPropagation();
+			evt.preventDefault();
 		},
 
 		_setCurrent: function(/*DomNode*/ node){
