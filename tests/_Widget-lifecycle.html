@@ -3,16 +3,16 @@
 <html>
 <head>
 
-	<title>_Widget.destroy() unit test</title>
+	<title>_WidgetBase lifecycle unit test</title>
 
 	<script type="text/javascript" src="../../dojo/dojo.js" data-dojo-config="isDebug: true"></script>
 	<script type="text/javascript">
 		require([
 			"doh/runner",
 			"dojo/_base/declare", "dojo/dom",
-			"dijit/registry", "dijit/_WidgetBase", "dijit/_Widget",
+			"dijit/registry", "dijit/_WidgetBase",
 			"dojo/domReady!"
-		], function(doh, declare, dom, registry, _WidgetBase, _Widget){
+		], function(doh, declare, dom, registry, _WidgetBase){
 
 			var obj = {
 				foo: function(){
@@ -23,7 +23,7 @@
 			// Number of times foo was called while TestWidget existed
 			var calls = 0;
 
-			declare("TestWidget", _Widget, {
+			declare("TestWidget", _WidgetBase, {
 				postMixInProperties: function(){
 					// make sure we can call set for parameters that don't touch the DOM
 					this.set("foo", "bar");
@@ -100,7 +100,7 @@
 				// Make sure setters are called even for anonymous classes (#12122),
 				// and even when there's no value explicitly specified in the parameters
 				var fooSetterCalled,
-					Widget = declare([_Widget], {
+					MyWidget = declare(_WidgetBase, {
 						foo: 345,
 						_setFooAttr: function(val){
 							fooSetterCalled = val;
@@ -108,7 +108,7 @@
 						}
 					});
 
-				new Widget();
+				new MyWidget();
 
 				doh.is(345, fooSetterCalled, "fooSetterCalled");
 			});

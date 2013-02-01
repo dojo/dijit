@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-	<title>_Widget on() test</title>
+	<title>_WidgetBase on() test</title>
 	<style type="text/css">
 		@import "../themes/claro/document.css";
 		@import "../themes/claro/claro.css";
@@ -15,14 +15,14 @@
 		require([
 			"doh/runner",
 			"dojo/_base/declare", "dojo/has", "dojo/_base/lang", "dojo/on", "dojo/parser", "dojo/touch",
-			"dijit/registry", "dijit/_Widget", "dojo/domReady!"
-		], function(doh, declare, has, lang, on, parser, touch, registry, _Widget){
+			"dijit/registry", "dijit/_WidgetBase", "dojo/domReady!"
+		], function(doh, declare, has, lang, on, parser, touch, registry, _WidgetBase){
 
 			var mousedOver, clicked;
 
 			doh.register("on", [
 				function setup(){
-					declare("MyWidget", [_Widget], {
+					declare("MyWidget", _WidgetBase, {
 						postCreate: function(){
 							on(this.domNode, "click", lang.hitch(this, "onFooBar"));
 						},
@@ -56,7 +56,7 @@
 				function test(){
 					var myWidget = registry.byId("myWidget");
 
-					// Test that _Widget.on() catches click event
+					// Test that _WidgetBase.on() catches click event
 					doh.f(clicked, "clicked");
 					on.emit(myWidget.domNode, "click", {
 						bubbles: true,
@@ -65,7 +65,7 @@
 					});
 					doh.t(clicked, "clicked");
 
-					// Test that _Widget.on() catches mouseover event
+					// Test that _WidgetBase.on() catches mouseover event
 					doh.f(mousedOver, "mousedOver");
 					on.emit(myWidget.domNode, "mouseover", {
 						bubbles: true,
@@ -96,7 +96,7 @@
 
 				function syntheticNoCallbackArgs(){
 					var evt = null;
-					var MyWidget = declare(_Widget, {
+					var MyWidget = declare(_WidgetBase, {
 						show: function(){
 							return this.emit('show');
 						},

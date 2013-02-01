@@ -12,21 +12,19 @@
 		<script type="text/javascript" src="../../dojo/dojo.js"
 			data-dojo-config="isDebug: true, async: true"></script>
 		<script type="text/javascript">
-		require(["doh", "dojo/_base/array", "dojo/_base/declare", "dojo/_base/window", "dojo/dom", "dojo/dom-geometry",
-			"dojo/query", "dojo/ready", "dojo/parser", "dijit/registry", "dijit/_Widget", "dijit/_WidgetBase",
-			"dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin", "dijit/form/Button", "dijit/form/CheckBox",
-			"dijit/ProgressBar", "dijit/layout/ContentPane", "dijit/layout/TabContainer", "dijit/_Container",
-			"dijit/_Contained", "dijit/layout/_LayoutWidget", "dijit/tests/resources/TestContextRequireWidget",
-			"dijit/focus"],
-			function(doh, array, declare, win, dom, domGeom, query, ready, parser, registry, _Widget, _WidgetBase,
-				_TemplatedMixin, _WidgetsInTemplateMixin, Button, CheckBox, ProgressBar, ContentPane, TabContainer,
-				_Container, _Contained, _LayoutWidget, TestContextRequireWidget, focusUtil){
+			require([
+				"doh", "dojo/_base/array", "dojo/_base/declare", "dojo/_base/window", "dojo/dom", "dojo/dom-geometry",
+				"dojo/query", "dojo/parser", "dijit/registry", "dijit/_WidgetBase", "dijit/_Widget",
+				"dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin", "dijit/form/Button", "dijit/form/CheckBox",
+				"dijit/ProgressBar", "dijit/layout/ContentPane", "dijit/layout/TabContainer", "dijit/_Container",
+				"dijit/_Contained", "dijit/layout/_LayoutWidget", "dijit/tests/resources/TestContextRequireWidget",
+				"dijit/focus",
+				"dojo/domReady!"
+			], function(doh, array, declare, win, dom, domGeom, query, parser, registry, _WidgetBase, _Widget,
+					_TemplatedMixin, _WidgetsInTemplateMixin, Button, CheckBox, ProgressBar, ContentPane, TabContainer,
+					_Container, _Contained, _LayoutWidget, TestContextRequireWidget, focusUtil){
 
-			ready(function(){
-
-				declare('Test1Widget',
-					[_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin],
-				{
+				declare('Test1Widget', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 					templateString: dom.byId('Test1Template').value,
 					onClick: function(e){
 						if(e.target){
@@ -41,15 +39,11 @@
 					}
 				});
 
-				declare('Test3Widget',
-					[_Widget, _TemplatedMixin, _WidgetsInTemplateMixin],
-				{
+				declare('Test3Widget', [_Widget, _TemplatedMixin, _WidgetsInTemplateMixin], {
 					templateString: dom.byId('Test3Template').value
 				});
 
-				declare('Test4Widget',
-					[_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin],
-				{
+				declare('Test4Widget', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 					templateString: dom.byId('Test4Template').value
 				});
 		
@@ -82,6 +76,7 @@
 						this._destroyed = true;
 					}
 				});
+
 				declare('TestCtnrWidget', [_WidgetBase, _Container], {
 					startup: function(){
 						if(this._started){
@@ -97,6 +92,7 @@
 						this._destroyed = true;
 					}
 				});
+
 				declare('TestCtndWidget', [_WidgetBase, _Contained], {
 					startup: function(){
 						if(this._started){
@@ -112,6 +108,7 @@
 						this._destroyed = true;
 					}
 				});
+
 				declare('TestNonCtnrWidget', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 					templateString: "<div data-dojo-attach-point=containerNode></div>",
 					startup: function(){
@@ -128,6 +125,7 @@
 						this._destroyed = true;
 					}
 				});
+
 				declare('TestStubWidget', _WidgetBase, {
 					startup: function(){
 						if(this._started){
@@ -248,7 +246,7 @@
 							// Test that getDescendants ()
 							// finds direct descendants but skips widgetsInTemplates
 							// and also nested widgets (if direct==true)
-							name: "destruction",
+							name: "getChildren",
 							runTest: function(t){
 								var testW = registry.byId("test3Widget");
 
@@ -270,6 +268,7 @@
 								doh.is(chil[3].id, "3.4");
 								doh.is(chil[4].id, "3.5");
 
+								// remove this test for 2.0
 								var desc = testW.getDescendants();
 								doh.is(7, desc.length, "number of descendants (including nested ones)");
 								doh.is(desc[0].id, "3.1");
@@ -401,7 +400,6 @@
 
 				doh.run();
 			});
-		});
 		</script>
 	</head>
 	<body class="claro">
