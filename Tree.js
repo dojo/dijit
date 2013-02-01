@@ -33,7 +33,8 @@ define([
 	"dojo/text!./templates/Tree.html",
 	"./tree/TreeStoreModel",
 	"./tree/ForestStoreModel",
-	"./tree/_dndSelector"
+	"./tree/_dndSelector",
+	"dojo/query!css2"	// needed when on.selector() used with a string for the selector
 ], function(array, aspect, connect, cookie, declare, Deferred, all,
 			dom, domClass, domGeometry, domStyle, createError, fxUtils, has, kernel, keys, lang, on, topic, touch, when,
 			focus, registry, manager, _Widget, _TemplatedMixin, _Container, _Contained, _CssStateMixin, _KeyNavMixin,
