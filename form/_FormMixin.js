@@ -118,9 +118,7 @@ define([
 				if(values === undefined){
 					continue;
 				}
-				if(!lang.isArray(values)){
-					values = [ values ];
-				}
+				values = [].concat(values);
 				if(typeof widgets[0].checked == 'boolean'){
 					// for checkbox/radio, values is a list of which widgets should be checked
 					array.forEach(widgets, function(w){
