@@ -1,6 +1,5 @@
 define([
 	"dojo/_base/array", // array.filter array.forEach array.map array.some
-	"dojo/aspect",
 	"dojo/_base/Deferred",
 	"dojo/aspect", // aspect.after
 	"dojo/data/util/sorter", // util.sorter.createSortFunction
@@ -13,7 +12,7 @@ define([
 	"dojo/when",
 	"dojo/store/util/QueryResults",
 	"./_FormValueWidget"
-], function(array, aspect, Deferred, aspect, sorter, declare, dom, domClass, kernel, lang, query, when,
+], function(array, Deferred, aspect, sorter, declare, dom, domClass, kernel, lang, query, when,
 			QueryResults, _FormValueWidget){
 
 // module:
@@ -433,6 +432,13 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 		this.inherited(arguments, [ this.multiple ? val : val[0], priorityChange ]);
 		this._updateSelection();
 	},
+
+	// displayedValue: String
+	//		The displayed value is the OPTION label.
+	//		Setting 'displayedValue' through set('displayedValue', ...)
+	//		updates 'value', and vice-versa.  Otherwise 'value' is updated
+	//		from 'displayedValue' periodically, like onBlur etc.
+	displayedValue: "",
 
 	_getDisplayedValueAttr: function(){
 		// summary:
