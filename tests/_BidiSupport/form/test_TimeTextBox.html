@@ -21,31 +21,27 @@
 
 	<script type="text/javascript">
 		require([
-			"dojo/_base/connect",
-			"dojo/ready",
-			"dojo/_base/array",
-			"dojo/dom",
-			"dojo/dom-class",
-			"dijit/registry",
 			"doh/runner",
+			"dojo/_base/array",
+			"dojo/dom-class",
 			"dojo/parser",
-			"dijit/form/TextBox",
-			"dijit/form/NumberTextBox",
-			"dijit/form/Button",
-			"dijit/form/Form",
+			"dijit/registry",
 			"dijit/form/TimeTextBox",
-			"dojo/date/locale",
-			"dijit/tests/helpers"
-		], function(connect, ready, array, dom, domClass, registry, runner){
+			"dojo/domReady!"
+		], function(doh, array, domClass, parser, registry, TimeTextBox){
+
+			doh.register("parse", function(){
+				return parser.parse();
+			});
 
 			function testWidget(element, guiDir, textDir, isfirstChildLatin){
-				runner.is(registry.byId(element).get("textDir"), textDir, "widget textDir");
-				runner.is(registry.byId(element).dir, guiDir, "GUI dir");
+				doh.is(registry.byId(element).get("textDir"), textDir, "widget textDir");
+				doh.is(registry.byId(element).dir, guiDir, "GUI dir");
 				if(textDir == "auto"){
 					textDir = isfirstChildLatin? "ltr" : "rtl";
 				}
-				runner.is(registry.byId(element).focusNode.dir, textDir, "focusNode textDir");
-				runner[guiDir == "rtl" ? "t" : "f"](domClass.contains(registry.byId(element).domNode, "dijitTimeTextBoxRtl"), "dijitTimeTextBoxRtl");
+				doh.is(registry.byId(element).focusNode.dir, textDir, "focusNode textDir");
+				doh[guiDir == "rtl" ? "t" : "f"](domClass.contains(registry.byId(element).domNode, "dijitTimeTextBoxRtl"), "dijitTimeTextBoxRtl");
 			}
 
 			function testDropDownList(widgetId){
@@ -55,180 +51,175 @@
 				var itemTextDir = widgetTextDir;
 				var list = widget.dropDown.getChildren();
 				var correct = true;
-				dojo.forEach(list, function(child){
+				array.forEach(list, function(child){
 					if(widgetTextDir == "auto"){
 						itemTextDir = widget._checkContextual(child.label.replace(/<[^>]*>/gm," "));
 					}
 					correct &= itemTextDir == child.textDirNode.dir;
 				});
 				widget.closeDropDown();
-				runner.t(correct, "child textDir");
+				doh.t(correct, "child textDir");
 			}
 
-			ready(function(){
-
+			doh.register("setup", function(){
 				//change textDir dynamically
 				var btnLtr = registry.byId("btn1");
-				btnLtr.connect(btnLtr, "onClick", function(){
+				btnLtr.on("click", function(){
 					registry.byId("q1").set("textDir", "ltr");
 
 				});
 				var btnRtl = registry.byId("btn2");
-				btnRtl.connect(btnRtl, "onClick", function(){
+				btnRtl.on("click", function(){
 					registry.byId("q1").set("textDir", "rtl");
 
 				});
 				var btnAuto = registry.byId("btn3");
-				btnAuto.connect(btnAuto, "onClick", function(){
+				btnAuto.on("click", function(){
 					registry.byId("q1").set("textDir", "auto");
 
 				});
 
-
-				var programmatic1 = new dijit.form.TimeTextBox({});
+				var programmatic1 = new TimeTextBox({});
 				programmatic1.placeAt('testProgramatic1');
 				programmatic1.set("textDir",'ltr');
 
-				var programmatic2 = new dijit.form.TimeTextBox({});
+				var programmatic2 = new TimeTextBox({});
 				programmatic2.placeAt('testProgramatic2');
 				programmatic2.set("textDir",'rtl');
 
-				var programmatic3 = new dijit.form.TimeTextBox({});
+				var programmatic3 = new TimeTextBox({});
 				programmatic3.placeAt('testProgramatic3');
 				programmatic3.set("textDir",'auto');
-
-				if(!/mode=test/i.test(window.location.href)){ return; }
-
-				runner.register("LTR GUI, LTR textDir", [
-					{
-						name:"textbox",
-						runTest:function(){
-							testWidget("q1", "ltr", "ltr", true);
-						}
-					},
-					{
-						name:"dropdown",
-						runTest:function(){
-							testDropDownList("q1");
-						}
-					}
-				]);
-
-				runner.register("LTR GUI, RTL textDir", [
-					{
-						name:"textbox",
-						runTest:function(){
-							testWidget("q2", "ltr", "rtl", true);
-						}
-					},
-					{
-						name:"dropdown",
-						runTest:function(){
-							testDropDownList("q2");
-						}
-					}
-				]);
-
-				runner.register("LTR GUI, auto textDir with LTR text", [
-					{
-						name:"textbox",
-						runTest:function(){
-							testWidget("q3", "ltr", "auto", true);
-						}
-					},
-					{
-						name:"dropdown",
-						runTest:function(){
-							testDropDownList("q3");
-						}
-					}
-				]);
-
-				runner.register("LTR GUI, auto textDir with RTL text", [
-					{
-						name:"textbox",
-						runTest:function(){
-							testWidget("q4", "ltr", "auto", false);
-						}
-					},
-					{
-						name:"dropdown",
-						runTest:function(){
-							testDropDownList("q4");
-						}
-					}
-				]);
-
-				runner.register("RTL GUI, LTR textDir", [
-					{
-						name:"textbox",
-						runTest:function(){
-							testWidget("q5", "rtl", "ltr", true);
-						}
-					},
-					{
-						name:"dropdown",
-						runTest:function(){
-							testDropDownList("q5");
-						}
-					}
-				]);
-
-				runner.register("RTL GUI, RTL textDir", [
-					{
-						name:"textbox",
-						runTest:function(){
-							testWidget("q6", "rtl", "rtl", true);
-						}
-					},
-					{
-						name:"dropdown",
-						runTest:function(){
-							testDropDownList("q6");
-						}
-					}
-				]);
-
-				runner.register("RTL GUI, auto textDir with LTR text", [
-					{
-						name:"textbox",
-						runTest:function(){
-							testWidget("q7", "rtl", "auto", true);
-						}
-					},
-					{
-						name:"dropdown",
-						runTest:function(){
-							testDropDownList("q7");
-						}
-					}
-				]);
-
-				runner.register("RTL GUI, auto textDir with RTL text", [
-					{
-						name:"textbox",
-						runTest:function(){
-							testWidget("q8", "rtl", "auto", false);
-						}
-					},
-					{
-						name:"dropdown",
-						runTest:function(){
-							testDropDownList("q8");
-						}
-					}
-				]);
-
-				runner.run();
 			});
 
+			doh.register("LTR GUI, LTR textDir", [
+				{
+					name:"textbox",
+					runTest:function(){
+						testWidget("q1", "ltr", "ltr", true);
+					}
+				},
+				{
+					name:"dropdown",
+					runTest:function(){
+						testDropDownList("q1");
+					}
+				}
+			]);
+
+			doh.register("LTR GUI, RTL textDir", [
+				{
+					name:"textbox",
+					runTest:function(){
+						testWidget("q2", "ltr", "rtl", true);
+					}
+				},
+				{
+					name:"dropdown",
+					runTest:function(){
+						testDropDownList("q2");
+					}
+				}
+			]);
+
+			doh.register("LTR GUI, auto textDir with LTR text", [
+				{
+					name:"textbox",
+					runTest:function(){
+						testWidget("q3", "ltr", "auto", true);
+					}
+				},
+				{
+					name:"dropdown",
+					runTest:function(){
+						testDropDownList("q3");
+					}
+				}
+			]);
+
+			doh.register("LTR GUI, auto textDir with RTL text", [
+				{
+					name:"textbox",
+					runTest:function(){
+						testWidget("q4", "ltr", "auto", false);
+					}
+				},
+				{
+					name:"dropdown",
+					runTest:function(){
+						testDropDownList("q4");
+					}
+				}
+			]);
+
+			doh.register("RTL GUI, LTR textDir", [
+				{
+					name:"textbox",
+					runTest:function(){
+						testWidget("q5", "rtl", "ltr", true);
+					}
+				},
+				{
+					name:"dropdown",
+					runTest:function(){
+						testDropDownList("q5");
+					}
+				}
+			]);
+
+			doh.register("RTL GUI, RTL textDir", [
+				{
+					name:"textbox",
+					runTest:function(){
+						testWidget("q6", "rtl", "rtl", true);
+					}
+				},
+				{
+					name:"dropdown",
+					runTest:function(){
+						testDropDownList("q6");
+					}
+				}
+			]);
+
+			doh.register("RTL GUI, auto textDir with LTR text", [
+				{
+					name:"textbox",
+					runTest:function(){
+						testWidget("q7", "rtl", "auto", true);
+					}
+				},
+				{
+					name:"dropdown",
+					runTest:function(){
+						testDropDownList("q7");
+					}
+				}
+			]);
+
+			doh.register("RTL GUI, auto textDir with RTL text", [
+				{
+					name:"textbox",
+					runTest:function(){
+						testWidget("q8", "rtl", "auto", false);
+					}
+				},
+				{
+					name:"dropdown",
+					runTest:function(){
+						testDropDownList("q8");
+					}
+				}
+			]);
+
+			doh.run();
 		});
 	</script>
 
 </head>
 <body class="claro">
 
-	<h1 class="testTitle">dijit.form.TimeTextBox</h1>
+	<h1 class="testTitle">TimeTextBox</h1>
 	<br>
 	<table border="1">
 		<tr>

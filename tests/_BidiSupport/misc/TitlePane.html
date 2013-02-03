@@ -11,38 +11,41 @@
 
 	<link id="themeStyles" rel="stylesheet" href="../../../themes/claro/claro.css"/>
 	<script type="text/javascript" src="../../../../dojo/dojo.js"
-		data-dojo-config="async: true, parseOnLoad: true, has: { 'dojo-bidi': true }"></script>
+		data-dojo-config="async: true, has: { 'dojo-bidi': true }"></script>
 
 	<script type="text/javascript">
 		require([
-			"dijit/registry",
 			"doh/runner",
 			"dojo/dom",
-			"dojo/ready",
-			"dojo/query",
 			"dojo/parser",
-			"dijit/TitlePane"
-			], function(registry, runner, dom, ready, query){
-				ready(function(){
-					runner.register("tests._BidiSupport.misc.TitlePane.Bidi", [
-						{
-							name: "TitlePane Bidi",
-							runTest: function(){
-								registry.byId("pane_2").set('textDir', "rtl");
-								runner.is("rtl", registry.byId("pane_1").titleNode.dir, "title node had direction correspondent to 'textDir'");
-								runner.is("rtl", registry.byId("pane_2").titleNode.dir, "title node had direction correspondent to 'textDir'");
-							}
-						}
-					]);
+			"dojo/query",
+			"dijit/registry",
+			"dijit/TitlePane",
+			"dojo/domReady!"
+		], function(doh, dom, parser, query, registry){
 
-					runner.register("log", function(){
-						dom.byId('failures').innerHTML = runner._failureCount;
-						dom.byId('errors').innerHTML = runner._errorCount;
-					});
-
-					runner.run();
-				});
+			doh.register("parse", function(){
+				return parser.parse();
 			});
+
+			doh.register("tests._BidiSupport.misc.TitlePane.Bidi", [
+				{
+					name: "TitlePane Bidi",
+					runTest: function(){
+						registry.byId("pane_2").set('textDir', "rtl");
+						doh.is("rtl", registry.byId("pane_1").titleNode.dir, "title node had direction correspondent to 'textDir'");
+						doh.is("rtl", registry.byId("pane_2").titleNode.dir, "title node had direction correspondent to 'textDir'");
+					}
+				}
+			]);
+
+			doh.register("log", function(){
+				dom.byId('failures').innerHTML = doh._failureCount;
+				dom.byId('errors').innerHTML = doh._errorCount;
+			});
+
+			doh.run();
+		});
 	</script>
 </head>
 <body class="claro">

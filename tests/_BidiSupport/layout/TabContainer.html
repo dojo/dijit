@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-	<title>TabContainer DOH Test</title>
+	<title>TabContainer BIDI DOH Test</title>
 
 	<style>
 		@import "../../../themes/claro/document.css";
@@ -14,21 +14,25 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../../dojo/dojo.js"
-		data-dojo-config="async: true,isDebug: true, parseOnLoad: true, has: { 'dojo-bidi': true }"></script>
+		data-dojo-config="async: true,isDebug: true, has: { 'dojo-bidi': true }"></script>
 
 	<script type="text/javascript">
-	require([
-		"dijit/registry",
-		"doh/runner",
-		"dojo/dom",
-		"dojo/ready",
-		"dojo/query",
-		"dijit/layout/TabContainer",
-		"dijit/layout/ContentPane",
-		"dojo/parser"
-		], function(registry, runner, dom, ready, query, ContentPane){
-		ready(function(){
-			runner.register("tests._BidiSupport.layout.TabContainer.Bidi", [
+		require([
+			"doh/runner",
+			"dojo/dom",
+			"dojo/parser",
+			"dojo/query",
+			"dijit/registry",
+			"dijit/layout/TabContainer",
+			"dijit/layout/ContentPane",
+			"dojo/domReady!"
+		], function(doh, dom, parser, query, registry, TabContainer, ContentPane){
+
+			doh.register("parse", function(){
+				return parser.parse();
+			});
+
+			doh.register("tests._BidiSupport.layout.TabContainer.Bidi", [
 				{
 					name: 'changing Tabs',
 					runTest: function(){
@@ -50,40 +54,39 @@
 							title: "Panel with no direction,changed title!"
 						});
 
-						runner.is('ltr', query("#tc1_tablist_t1")[0].dir, "Pane have explicit LTR text direction");
-						runner.is('rtl', query("#tc1_tablist_t2")[0].dir, "Pane inherits RTL text direction from container");
-						runner.is('ltr', query("#tc1_tablist_t3")[0].dir, "Pane have explicit LTR text direction");
-						runner.is('rtl', query("#tc1_tablist_t4")[0].dir, "Pane inherits RTL text direction from container");
-						runner.is('rtl', query("#tc1_tablist_newTab1")[0].dir, "Added pane have explicit 'Auto' text direction");
-						runner.is('rtl', query("#tc3_tablist_three")[0].dir, "Pane have explicit RTL text direction");
-						runner.is('rtl', query("#tc3_tablist_four")[0].dir, "Pane have explicit RTL text direction");
+						doh.is('ltr', query("#tc1_tablist_t1")[0].dir, "Pane have explicit LTR text direction");
+						doh.is('rtl', query("#tc1_tablist_t2")[0].dir, "Pane inherits RTL text direction from container");
+						doh.is('ltr', query("#tc1_tablist_t3")[0].dir, "Pane have explicit LTR text direction");
+						doh.is('rtl', query("#tc1_tablist_t4")[0].dir, "Pane inherits RTL text direction from container");
+						doh.is('rtl', query("#tc1_tablist_newTab1")[0].dir, "Added pane have explicit 'Auto' text direction");
+						doh.is('rtl', query("#tc3_tablist_three")[0].dir, "Pane have explicit RTL text direction");
+						doh.is('rtl', query("#tc3_tablist_four")[0].dir, "Pane have explicit RTL text direction");
 					}
 				}
 			]);
 
-			runner.register("testingMenu", {
+			doh.register("testingMenu", {
 				name: "Test menu",
 				runTest: function(){
 					var menuBtn = registry.byId("tc1_tablist_menuBtn");
 					menuBtn.toggleDropDown();
 					var menu = registry.byId("tc1_menu");
-					runner.is('ltr', menu.getChildren()[0].textDirNode.dir, "Menu item should have LTR text direction");
-					runner.is('rtl', menu.getChildren()[1].textDirNode.dir, "Menu item should have RTL text direction 1");
-					runner.is('ltr', menu.getChildren()[2].textDirNode.dir, "Menu item should have LTR text direction 2");
-					runner.is('rtl', menu.getChildren()[3].textDirNode.dir, "Menu item should have RTL text direction 3");
+					doh.is('ltr', menu.getChildren()[0].textDirNode.dir, "Menu item should have LTR text direction");
+					doh.is('rtl', menu.getChildren()[1].textDirNode.dir, "Menu item should have RTL text direction 1");
+					doh.is('ltr', menu.getChildren()[2].textDirNode.dir, "Menu item should have LTR text direction 2");
+					doh.is('rtl', menu.getChildren()[3].textDirNode.dir, "Menu item should have RTL text direction 3");
 
 					menuBtn.closeDropDown();
 				}
 			});
 
-			runner.register("log", function(){
-				dom.byId('failures').innerHTML = runner._failureCount;
-				dom.byId('errors').innerHTML = runner._errorCount;
+			doh.register("log", function(){
+				dom.byId('failures').innerHTML = doh._failureCount;
+				dom.byId('errors').innerHTML = doh._errorCount;
 			});
 
-			runner.run();
+			doh.run();
 		});
-	});
 	</script>
 
 </head>
@@ -107,11 +110,11 @@
 	</div>
 	<br />
 	<h2 class="testTitle">TabContainer with RTL text direction</h2>
-	<div id="tc3" dojoType="dijit/layout/TabContainer" textDir="rtl" data-dojo-id="tc3" style="width: 300px; height:100px;">
-		<div dojoType="dijit/layout/ContentPane" title="Explicit LTR!" textDir="ltr" data-dojo-id="one" id="one">Explicit LTR text direction of content pane</div>
-		<div dojoType="dijit/layout/ContentPane" title="Inherited RTL!" data-dojo-id="two" id="two">Inherited RTL text direction of content pane tab</div>
-		<div dojoType="dijit/layout/ContentPane" title="אExplicit AUTO!" data-dojo-id="three" id="three">Explicit 'auto' text direction of content pane</div>
-		<div dojoType="dijit/layout/ContentPane" title="Explicit RTL!" textDir="rtl" data-dojo-id="four" id="four">Explicit RTL text direction of content pane</div>
+	<div id="tc3" data-dojo-type="dijit/layout/TabContainer" textDir="rtl" data-dojo-id="tc3" style="width: 300px; height:100px;">
+		<div data-dojo-type="dijit/layout/ContentPane" title="Explicit LTR!" textDir="ltr" data-dojo-id="one" id="one">Explicit LTR text direction of content pane</div>
+		<div data-dojo-type="dijit/layout/ContentPane" title="Inherited RTL!" data-dojo-id="two" id="two">Inherited RTL text direction of content pane tab</div>
+		<div data-dojo-type="dijit/layout/ContentPane" title="אExplicit AUTO!" data-dojo-id="three" id="three">Explicit 'auto' text direction of content pane</div>
+		<div data-dojo-type="dijit/layout/ContentPane" title="Explicit RTL!" textDir="rtl" data-dojo-id="four" id="four">Explicit RTL text direction of content pane</div>
 	</div>
 		<br>Errors:&nbsp;<span id="errors">?</span>
 		<br>Failures:&nbsp;<span id="failures">?</span>

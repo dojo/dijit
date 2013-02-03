@@ -806,6 +806,7 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 		map[keys.ENTER] = map[keys.SPACE] = lang.hitch(this, "_onEnterKey");
 
 		if(this.dndController){
+			// TODO: remove string support in 2.0.
 			if(lang.isString(this.dndController)){
 				this.dndController = lang.getObject(this.dndController);
 			}

@@ -14,57 +14,51 @@
 
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../dojo/dojo.js"
-			data-dojo-config="isDebug: true, parseOnLoad: true, has: { 'dojo-bidi': true }"></script>
+			data-dojo-config="isDebug: true, has: { 'dojo-bidi': true }"></script>
 
 		<!-- only needed for alternate theme testing: -->
 		<script type="text/javascript" src="../../_testCommon.js"></script>
 
 		<script type="text/javascript">
-		require([
-			"dojo/_base/sniff",
-			"dojo/dom-construct",
-			"dojo/ready",
-			"dijit/registry",
-			"doh/runner",
-			"dojo/on",
-			"dojo/parser",
-			"dijit/form/Select",
-			"dijit/form/Button",
-			"dijit/form/Form",
-			"dijit/Dialog",
-			"dijit/tests/helpers"
-		], function(has, domConst, ready, registry, runner, on, Button) {
+			require([
+				"doh/runner",
+				"dojo/parser",
+				"dijit/registry",
+				"dijit/form/Select",
+				"dijit/form/Button",
+				"dijit/form/Form",
+				"dijit/Dialog",
+				"dojo/domReady!"
+			], function(doh, parser, registry, Select){
+	
+				var numOptions = 0;
+				var numChanges = 0;
+				var addNum = 10;
+	
+				function testSelectWidget(element, formDir,elementTextDir,isfirstChildLatin){
+					doh.is(registry.byId(element).get("textDir"), elementTextDir);
+					doh.is(registry.byId(element).dir, formDir);
+					var t_dir = elementTextDir;
+					if(t_dir == "auto")
+						t_dir = isfirstChildLatin? "ltr" : "rtl";
+					doh.is(registry.byId(element).containerNode.dir, t_dir);
+				}
+	
+				function testDropdownList(elementName){
+					var element = registry.byId(elementName);
+					var elementTextDir = element.get("textDir");
+					var itemTextDir = elementTextDir;
+					element.loadDropDown(function(){});
+					var list = element.dropDown.getChildren();
+					dojo.forEach(list, function(entry){
+						if(elementTextDir == "auto"){
+							itemTextDir = element._checkContextual(entry.label.replace(/<[^>]*>/gm," "));
+						}
+						doh.is(itemTextDir,entry.textDirNode.dir);
+					});
+				}
 
-			var numOptions = 0;
-			var numChanges = 0;
-			var addNum = 10;
-
-			function testSelectWidget(element, formDir,elementTextDir,isfirstChildLatin){
-				runner.is(registry.byId(element).get("textDir"), elementTextDir);
-				runner.is(registry.byId(element).dir, formDir);
-				var t_dir = elementTextDir;
-				if(t_dir == "auto")
-					t_dir = isfirstChildLatin? "ltr" : "rtl";
-				runner.is(registry.byId(element).containerNode.dir, t_dir);
-			}
-
-			function testDropdownList(elementName){
-				var element = registry.byId(elementName);
-				var elementTextDir = element.get("textDir");
-				var itemTextDir = elementTextDir;
-				element.loadDropDown(function(){});
-				var list = element.dropDown.getChildren();
-				dojo.forEach(list, function(entry){
-					if(elementTextDir == "auto"){
-						itemTextDir = element._checkContextual(entry.label.replace(/<[^>]*>/gm," "));
-					}
-					runner.is(itemTextDir,entry.textDirNode.dir);
-				});
-			}
-
-			ready(function(){
-
-				var programmatic1 = new dijit.form.Select({
+				var programmatic1 = new Select({
 					options: [
 						{ label: 'foo!', value: 'foo!'},
 						{ label: 'bar', value: 'bar' },
@@ -75,7 +69,7 @@
 				programmatic1.placeAt('testProgramatic1');
 				programmatic1.set("textDir",'ltr');
 
-				var programmatic2 = new dijit.form.Select({
+				var programmatic2 = new Select({
 					options: [
 						{ label: 'foo!', value: 'foo!'},
 						{ label: 'bar', value: 'bar' },
@@ -86,7 +80,7 @@
 				programmatic2.placeAt('testProgramatic2');
 				programmatic2.set("textDir",'rtl');
 
-				var programmatic3 = new dijit.form.Select({
+				var programmatic3 = new Select({
 					options: [
 						{ label: 'foo!', value: 'foo!'},
 						{ label: 'bar', value: 'bar' },
@@ -97,35 +91,39 @@
 				programmatic3.placeAt('testProgramatic3');
 				programmatic3.set("textDir",'auto');
 
-				runner.register("dijit.tests._BidiSupport.form.Select in LTR form", [
+				doh.register("parse", function(){
+					return parser.parse();
+				});
+
+				doh.register("dijit.tests._BidiSupport.form.Select in LTR form", [
 					{name:"LTR form, Auto/Hebrew", runTest:function(){testSelectWidget("s10","ltr","auto",false);}},
 					{name:"LTR form, Auto/English",runTest:function(){testSelectWidget("s11","ltr","auto",true);}},
 					{name:"LTR form, LTR",runTest:function(){testSelectWidget("s12","ltr","ltr",true);}},
 					{name:"LTR form, RTL",runTest:function(){testSelectWidget("s13","ltr","rtl",true);}}
 				]);
 
-				runner.register("Bidi dropdown list in Select, LTR form", [
+				doh.register("Bidi dropdown list in Select, LTR form", [
 					{name:"LTR form, Auto/Hebrew", runTest:function(){testDropdownList("s10");}},
 					{name:"LTR form, Auto/English",runTest:function(){testDropdownList("s11");}},
 					{name:"LTR form, LTR",runTest:function(){testDropdownList("s12");}},
 					{name:"LTR form, RTL",runTest:function(){testDropdownList("s13");}}
 				]);
 
-				runner.register("dijit.tests._BidiSupport.form.Select in RTL form", [
+				doh.register("dijit.tests._BidiSupport.form.Select in RTL form", [
 					{name:"RTL form, Auto/Hebrew", runTest:function(){testSelectWidget("s10R","rtl","auto",false);}},
 					{name:"RTL form, Auto/English",runTest:function(){testSelectWidget("s11R","rtl","auto",true);}},
 					{name:"RTL form, LTR",runTest:function(){testSelectWidget("s12R","rtl","ltr",true);}},
 					{name:"RTL form, RTL",runTest:function(){testSelectWidget("s13R","rtl","rtl",true);}}
 				]);
 
-				runner.register("Bidi dropdown list in Select, RTL form", [
+				doh.register("Bidi dropdown list in Select, RTL form", [
 					{name:"LTR form, Auto/Hebrew", runTest:function(){testDropdownList("s10R");}},
 					{name:"LTR form, Auto/English",runTest:function(){testDropdownList("s11R");}},
 					{name:"LTR form, LTR",runTest:function(){testDropdownList("s12R");}},
 					{name:"LTR form, RTL",runTest:function(){testDropdownList("s13R");}}
 				]);
 
-				runner.register("dijit.tests._BidiSupport.form.Select, rich text (auto)", [
+				doh.register("dijit.tests._BidiSupport.form.Select, rich text (auto)", [
 					{name:"Rich text Auto/English Select",runTest:function(){testSelectWidget("s4","ltr","auto",true);}},
 					{name:"Rich text Auto/Hebrew Select", runTest:function(){testSelectWidget("s5","ltr","auto",false);}},
 					{name:"Rich text Auto/English Dropdown",runTest:function(){testDropdownList("s4");}},
@@ -133,19 +131,17 @@
 
 				]);
 
-				runner.run();
+				doh.run();
 			});
-		})
-
 		</script>
 	</head>
 	<body class="claro">
-		<h1 id="_title" class="testTitle">Test: dijit.form.Select <i>BIDI</i></h1>
+		<h1 id="_title" class="testTitle">Test: dijit/form/Select <i>BIDI</i></h1>
 
 		<form id="form" data-dojo-id="formL" data-dojo-type="dijit/form/Form" method="get"
 				onSubmit="return this.validate();">
 		<div dir="ltr">
-			<h2>dijit.form.Select LTR form</h2>
+			<h2>dijit/form/Select LTR form</h2>
 			<h4 class="testSubtitle">Setting Defaults</h4>
 
 			<label for="s10">Test AUTO: </label>
@@ -213,7 +209,7 @@
 <!------------------------>
 		<form id="formR" data-dojo-id="form" data-dojo-type="dijit/form/Form" method="get" >
 		<div dir="rtl">
-			<h2>dijit.form.Select RTL form</h2>
+			<h2>dijit/form/Select RTL form</h2>
 			<h4 class="testSubtitle">Setting Defaults</h4>
 
 			<label for="s10R">Test AUTO: </label>
@@ -286,9 +282,9 @@
 		<span id="testProgramatic3">&nbsp;&nbsp;AUTO:&nbsp;</span>
 
 		<!-- testing that tooltip disappears when dialog is closed -->
-		<div dojoType="dijit.Dialog" id="dlg1">
-			<div dojoType="dijit.form.Select" id="dlg1Select"required="true"></div>
-			<div dojoType="dijit.form.Button" id="dlg1ValidateBtn">
+		<div data-dojo-type="dijit/Dialog" id="dlg1">
+			<div data-dojo-type="dijit/form/Select" id="dlg1Select"required="true"></div>
+			<div data-dojo-type="dijit/form/Button" id="dlg1ValidateBtn">
 				<script type=dojo/method data-dojo-event="onClick">
 					var dlg1 = dijit.byId("dlg1");
 					if(dlg1.validate()){

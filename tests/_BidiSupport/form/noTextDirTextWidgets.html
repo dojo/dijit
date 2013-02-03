@@ -15,14 +15,13 @@
 			data-dojo-config="async: true, isDebug: true, has: { 'dojo-bidi': true }"></script>
 
 		<script type="text/javascript">
-		require([
-			"dijit/registry",
-			"doh/runner",
-			"dojo/dom",
-			"dojo/ready",
-			"dojo/parser"
-		], function(registry, doh, dom, ready, parser){
-			ready(function(){
+			require([
+				"doh/runner",
+				"dojo/dom",
+				"dojo/parser",
+				"dijit/registry",
+				"dojo/domReady!"
+			], function(doh, dom, parser, registry){
 
 				doh.register("parse", function(){
 					// Parse is asynchronous because it pulls in modules like DateTextBox, so return its promise
@@ -169,7 +168,6 @@
 
 				doh.run();
 			});
-		});
 		</script>
 	</head>
 

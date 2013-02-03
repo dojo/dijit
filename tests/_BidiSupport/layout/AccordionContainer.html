@@ -14,38 +14,44 @@
 	<link id="themeStyles" rel="stylesheet" href="../../../../dijit/themes/claro/claro.css"/>
 
 	<script type="text/javascript" src="../../../../dojo/dojo.js"
-		data-dojo-config="async: true,isDebug: true, parseOnLoad: true, has: { 'dojo-bidi': true }"></script>
+		data-dojo-config="async: true, isDebug: true, has: { 'dojo-bidi': true }"></script>
 
 	<script type="text/javascript">
 		require([
-			"dijit/registry",
 			"doh/runner",
 			"dojo/dom",
-			"dojo/ready",
+			"dojo/parser",
 			"dojo/query",
+			"dijit/registry",
+			"dijit/layout/AccordionContainer",
+			"dijit/layout/BorderContainer",
 			"dijit/layout/ContentPane",
-			"dojo/parser"
-		], function(registry, runner, dom, ready, query){
-			ready(function(){
-				runner.register("tests._BidiSupport.layout.Accordion.Bidi", [
-					{
-						name: "Accordion Bidi",
-						runTest: function(){
-							query("span.dijitAccordionText").forEach(function(node, index, arr){
-								if(registry.getEnclosingWidget(node).textDir !== 'auto') {
-									runner.is(node.dir, registry.getEnclosingWidget(node).textDir, "tab button direction should coincide with widget's 'textDir'");
-								}
-							});
-						}
-					}
-				]);
+			"dojo/domReady!"
+		], function(doh, dom, parser, query, registry, ContentPane){
 
-				runner.register("log", function(){
-					dom.byId('failures').innerHTML = runner._failureCount;
-					dom.byId('errors').innerHTML = runner._errorCount;
-				});
-				runner.run();
+			doh.register("parse", function(){
+				return parser.parse();
 			});
+
+			doh.register("tests._BidiSupport.layout.Accordion.Bidi", [
+				{
+					name: "Accordion Bidi",
+					runTest: function(){
+						query("span.dijitAccordionText").forEach(function(node, index, arr){
+							if(registry.getEnclosingWidget(node).textDir !== 'auto') {
+								doh.is(node.dir, registry.getEnclosingWidget(node).textDir, "tab button direction should coincide with widget's 'textDir'");
+							}
+						});
+					}
+				}
+			]);
+
+			doh.register("log", function(){
+				dom.byId('failures').innerHTML = doh._failureCount;
+				dom.byId('errors').innerHTML = doh._errorCount;
+			});
+
+			doh.run();
 		});
 	</script>
 

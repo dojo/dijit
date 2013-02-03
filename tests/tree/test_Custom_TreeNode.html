@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML>
 <html lang="en">
     <head>
         <title>Custom TreeNode Test</title>
@@ -11,9 +11,10 @@
 
         <script type="text/javascript">
 			require([
-				"dojo/_base/declare", "dojo/ready", "dojo/data/ItemFileReadStore",
-				"dijit/_WidgetBase", "dijit/Tree", "dijit/tree/ForestStoreModel"
-			], function(declare, ready, ItemFileReadStore,
+				"dojo/_base/declare", "dojo/data/ItemFileReadStore",
+				"dijit/_WidgetBase", "dijit/Tree", "dijit/tree/ForestStoreModel",
+				"dojo/domReady!"
+			], function(declare, ItemFileReadStore,
 						_WidgetBase, Tree, ForestStoreModel){
 
 				declare("SuperSmartLink", _WidgetBase, {
@@ -76,16 +77,14 @@
 					childrenAttrs: ["children"]
 				});
 
-				ready(function(){
-					tree = new SuperSmartTree({
-						"model": model,
-						showRoot: false,
-						persist: false
+				tree = new SuperSmartTree({
+					"model": model,
+					showRoot: false,
+					persist: false
 
-					}).placeAt("AAA");
+				}).placeAt("AAA");
 
-					tree.startup();
-				});
+				tree.startup();
 			});
         </script>
     </head>

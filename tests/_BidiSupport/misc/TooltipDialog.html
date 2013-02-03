@@ -14,17 +14,16 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../../dojo/dojo.js"
-			data-dojo-config="async: true, parseOnLoad: true, has: { 'dojo-bidi': true }"></script>
+			data-dojo-config="async: true, has: { 'dojo-bidi': true }"></script>
 
 	<script type="text/javascript">
 		require([
 			"doh/runner",
-			"dojo/ready",
 			"dijit/registry",
 			"dijit/TooltipDialog",
 			"dijit/popup",
-			"dojo/parser"
-		], function(doh, ready, registry, TooltipDialog, popup){
+			"dojo/domReady!"
+		], function(doh, registry, TooltipDialog, popup){
 
 			// Setup intentional global
 			toggleTextDir = function(){
@@ -32,34 +31,32 @@
 				td.set("textDir", (td.get("textDir") !== "rtl") ? "rtl" : "ltr");
 			};
 
-			ready(function(){
-				doh.register("tests._BidiSupport.misc.TooltipDialog", [
-					{
-						name: "Bidi TooltipDialog test",
-						runTest: function(){
-							var d = new doh.Deferred();
-							var td = new TooltipDialog({
-								id: "td",
-								textDir: "rtl",
-								title: "Title!",
-								content:
-									"<input id='dlg1_inputA'><br>" +
-									"<input id='dlg1_inputB'><br>" +
-									"<input id='dlg1_inputC'><br>" +
-									"<input type='button' value='Toggle title textDir' onclick='toggleTextDir();'>"
-							});
-							popup.open({
-								popup: td,
-								x: 10,
-								y: 50
-							});
-							doh.is(String.fromCharCode(8235), td.containerNode.title.charAt(0), "Dialog title tooltip should have direction correspondent to dialog's 'textDir'");
-						}
+			doh.register("tests._BidiSupport.misc.TooltipDialog", [
+				{
+					name: "Bidi TooltipDialog test",
+					runTest: function(){
+						var d = new doh.Deferred();
+						var td = new TooltipDialog({
+							id: "td",
+							textDir: "rtl",
+							title: "Title!",
+							content:
+								"<input id='dlg1_inputA'><br>" +
+								"<input id='dlg1_inputB'><br>" +
+								"<input id='dlg1_inputC'><br>" +
+								"<input type='button' value='Toggle title textDir' onclick='toggleTextDir();'>"
+						});
+						popup.open({
+							popup: td,
+							x: 10,
+							y: 50
+						});
+						doh.is(String.fromCharCode(8235), td.containerNode.title.charAt(0), "Dialog title tooltip should have direction correspondent to dialog's 'textDir'");
 					}
-				]);
+				}
+			]);
 
-				doh.run();
-			});
+			doh.run();
 		});
 	</script>
 </head>

@@ -10,34 +10,38 @@
 		</style>
 
 	<script type="text/javascript" src="../../../../dojo/dojo.js"
-			data-dojo-config="async: false, parseOnLoad: true, has: { 'dojo-bidi': true }"></script>
+			data-dojo-config="async: false, has: { 'dojo-bidi': true }"></script>
 	<script type="text/javascript">
 		require([
-			"dijit/registry",
 			"doh/runner",
 			"dojo/dom",
-			"dojo/ready",
 			"dojo/query",
+			"dojo/parser",
+			"dijit/registry",
 			"dijit/form/TextBox",
-			"dojo/parser"
-		], function(registry,runner,dom,ready,query){
-			ready(function(){
-				runner.register("Input tests", [
+			"dojo/domReady!"
+		], function(doh, dom, query, parser, registry){
+
+				doh.register("parse", function(){
+					return parser.parse();
+				});
+
+				doh.register("Input tests", [
 					{
 						name: "Bidi",
 						runTest: function(){
 							var spanPlaceHolder = query("span.dijitPlaceHolder")[0];
-							runner.is("rtl", spanPlaceHolder.dir, "placeholder span 'dir' attribute should be set to 'rtl'");
+							doh.is("rtl", spanPlaceHolder.dir, "placeholder span 'dir' attribute should be set to 'rtl'");
 						}
 					}
 				]);
 
-				runner.register("log", function(){
-					dom.byId('failures').innerHTML = runner._failureCount;
-					dom.byId('errors').innerHTML = runner._errorCount;
+				doh.register("log", function(){
+					dom.byId('failures').innerHTML = doh._failureCount;
+					dom.byId('errors').innerHTML = doh._errorCount;
 				});
-				runner.run();
-			});
+
+				doh.run();
 		});
 	</script>
 	</head>
