@@ -51,7 +51,7 @@
 				doh.robot.sequence(k);
 			}
 			function keyboardSelect(tree, item, modifiers, k){
-				var curFocus = dojo.global.dijit._curFocus,
+				var curFocus = doh.robot.window.require("dijit/focus").curNode,
 					focused = dojo.isDescendant(curFocus, "itemTree");
 				if(!focused){
 					doh.robot.keyPress(dojo.keys.TAB, 250);

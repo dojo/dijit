@@ -628,7 +628,7 @@
 						doh.robot.keyPress(dojo.keys.END, 300);			// go to end
 
 						doh.robot.sequence(d.getTestCallback(function(){
-							doh.is("Argentina", dojo.global.dijit._curFocus.innerHTML, "end key went to this node");
+							doh.is("Argentina", doh.robot.window.require("dijit/focus").curNode.innerHTML, "end key went to this node");
 						}), 500);
 
 						return d;
