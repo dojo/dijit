@@ -22,7 +22,7 @@
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">
-		var testController = /testController=selector/.test(window.location.href.test) ?
+		var testController = /testController=selector/.test(window.location.search) ?
 				"dijit.tree._dndSelector" : "dijit.tree.dndSource";
 		require([
 			"dojo/ready",
