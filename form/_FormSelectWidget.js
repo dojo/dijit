@@ -429,6 +429,13 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 		this._updateSelection();
 	},
 
+	// displayedValue: String
+	//		The displayed value is the OPTION label.
+	//		Setting 'displayedValue' through set('displayedValue', ...)
+	//		updates 'value', and vice-versa.  Otherwise 'value' is updated
+	//		from 'displayedValue' periodically, like onBlur etc.
+	displayedValue: "",
+
 	_getDisplayedValueAttr: function(){
 		// summary:
 		//		returns the displayed value of the widget
