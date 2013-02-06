@@ -15,9 +15,9 @@
 		<script type="text/javascript">
 			require([
 				"doh/runner", "dojo/robotx",
-				"dojo/_base/array", "dojo/date/locale", "dojo/keys", "dojo/_base/lang", "dojo/query",
+				"dojo/_base/array", "dojo/aspect", "dojo/date/locale", "dojo/keys", "dojo/_base/lang", "dojo/query",
 				"dijit/tests/helpers", "dojo/domReady!"
-			], function(doh, robot, array, datelocale, keys, lang, query, helpers){
+			], function(doh, robot, array, aspect, datelocale, keys, lang, query, helpers){
 				robot.initRobot('../test_InlineEditBox.html');
 
 				function moveAndClick(node){
@@ -230,11 +230,11 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							var inlineBox = registry.byId(test.id);
-							var handler = inlineBox.connect(inlineBox, 'edit', function(){
-								inlineBox.disconnect(handler);
+							var handler = aspect.after(inlineBox, 'edit', function(){
+								handler.remove();
 								var editWidget = inlineBox.wrapperWidget.editWidget;
-								handler = editWidget.connect(editWidget, '_onFocus', function(){
-									editWidget.disconnect(handler);
+								var handler2 = aspect.after(editWidget, '_onFocus', function(){
+									handler2.remove();
 									robot.sequence(function(){
 										var
 										textValue = test.textValue,
@@ -242,16 +242,14 @@
 										visible = helpers.isVisible(editWidget),
 										expected = test.widgetValue,
 										actual = editWidget.get("value"),
-										showHandler = inlineBox.connect(inlineBox, 'save',
-											d.getTestCallback(function(){
-												inlineBox.disconnect(cancelHandler);
-												inlineBox.disconnect(showHandler);
-												doh.t(false, "Save was clicked");
-											})
-										),
-										cancelHandler = inlineBox.connect(inlineBox, 'onCancel', function(){
-											inlineBox.disconnect(cancelHandler);
-											inlineBox.disconnect(showHandler);
+										showHandler = aspect.after(inlineBox, 'save', d.getTestCallback(function(){
+											cancelHandler.remove();
+											showHandler.remove();
+											doh.t(false, "Save was clicked");
+										}), true),
+										cancelHandler = aspect.after(inlineBox, 'onCancel', function(){
+											cancelHandler.remove();
+											showHandler.remove();
 											robot.sequence(d.getTestCallback(function(){
 												doh.is(textValue, value, "inline text value");
 												doh.t(visible, "editor widget should be visible");
@@ -259,13 +257,13 @@
 												doh.is(expected.toString(), actual.toString(), "editor widget value");
 												doh.t(helpers.isHidden(inlineBox.wrapperWidget), "editor widget should be hidden");
 											}), 500);
-										}),
+										}, true),
 										buttons = query(".dijitButton", inlineBox.domNode.parentNode);
 										moveAndClick(buttons[buttons.length-2]); // Save should be disabled so nothing happens
 										moveAndClick(buttons[buttons.length-1]);
 									}, 1500);
-								});
-							});
+								}, true);
+							}, true);
 							moveAndClick(inlineBox.domNode);
 							return d;
 						}
