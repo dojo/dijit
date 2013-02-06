@@ -20,18 +20,27 @@
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">
-		dojo.require("doh.runner");
-		dojo.require("dijit.dijit"); // optimize: load dijit layer
-		dojo.require("dijit.layout.TabContainer");
-		dojo.require("dijit.TitlePane");
+		require([
+			"doh/runner",
+			"dojo/aspect",
+			"dojo/parser",
+			"dijit/registry",
+			"dijit/layout/TabContainer",
+			"dijit/layout/ContentPane",
+			"dijit/TitlePane",
+			"dojo/domReady!"
+		], function(doh, aspect, parser,
+					registry, TabContainer, ContentPane, TitlePane, helpers){
 
-		var resized = {};
 
-		dojo.ready(function(){
-			dojo.connect(dijit.layout.TabContainer.prototype, "resize", function(){
+			var resized = {};
+
+
+			aspect.after(TabContainer.prototype, "resize", function(){
 				resized[this.id] = true;
 			});
-			dojo.parser.parse(dojo.body());
+
+			parser.parse();
 
 			// Tests that TabContainer.resize() (for the TabContainers nested in TitlePanes)
 			// is called at the right time.
@@ -49,7 +58,7 @@
 					name: "subtabs2",
 					runTest: function(t){
 						// Since TitlePane 2 is open, subtabs2 should get a resize when tab2 is selected
-						dijit.byId("mainTabContainer").selectChild(dijit.byId("tab2"));
+						registry.byId("mainTabContainer").selectChild(registry.byId("tab2"));
 						doh.t(resized["subtabs2"], "subtabs2");
 						doh.f(resized["subtabs3"], "subtabs3");
 					}
@@ -59,9 +68,9 @@
 					runTest: function(t){
 						// Since TitlePane 3 is closed, subtabs3 shouldn't get a resize until tab3 is selected
 						// and TitlePane is open
-						dijit.byId("mainTabContainer").selectChild(dijit.byId("tab3"));
+						registry.byId("mainTabContainer").selectChild(registry.byId("tab3"));
 						doh.f(resized["subtabs3"], "subtabs3 not sized yet");
-						dijit.byId("tp3").set("open", true);
+						registry.byId("tp3").set("open", true);
 						doh.t(resized["subtabs3"], "subtabs3 sized");
 					}
 				}

@@ -14,33 +14,40 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
-		data-dojo-config="isDebug: true, parseOnLoad: true"></script>
+		data-dojo-config="isDebug: true"></script>
 
 	<!-- only needed for alternate theme testing: do NOT use in your code! -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">
-		dojo.require("dijit.dijit"); // optimize: load dijit layer
-		dojo.require("dijit.layout.ContentPane");
-		dojo.require("dijit.layout.TabContainer");
-		dojo.require("dijit.Tooltip");
-		dojo.require("dijit.form.Button");
-		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
-
 		function testClose(pane,tab){
-		  return confirm("Please confirm that you want tab "+tab.title+" closed");
+			return confirm("Please confirm that you want tab "+tab.title+" closed");
 		}
 
-		var tab = 6;
+		require([
+			"dojo/parser",
+			"dijit/registry",
+			"dijit/layout/ContentPane",
+			"dojo/domReady!"
+		], function(parser, registry, ContentPane){
 
-        function addTab(){
-			cp = new dijit.layout.ContentPane({id: 'newTab' + tab, title: 'Tab' + tab, closable: true});
-			cp.domNode.innerHTML = "Contents of Tab " + tab++;
-			dijit.byId("plainTabContainer").addChild(cp);
-        }
+			var tab = 6;
+
+			addTab = function(){
+				cp = new ContentPane({id: 'newTab' + tab, title: 'Tab' + tab, closable: true});
+				cp.domNode.innerHTML = "Contents of Tab " + tab++;
+				registry.byId("plainTabContainer").addChild(cp);
+			};
+
+			parser.parse();
+		});
 	</script>
 </head>
 <body class="claro" role="main">
+
+	<script type="dojo/require">
+		registry: "dijit/registry"
+	</script>
 
 	<h1 class="testTitle">Dijit layout.TabContainer doLayout=false tests</h1>
 
@@ -52,8 +59,8 @@
 		With doLayout=false mode tabs only (the default) tabPosition=top is supported.
 	</p>
 
-	<button id="addTab" onclick="addTab();">add tab</button>
-	<button id="destroyTabContainer" onclick="dijit.byId('plainTabContainer').destroyRecursive();">destroy tab container</button>
+	<button id="addTabButton" onclick="addTab();">add tab</button>
+	<button id="destroyTabContainer" onclick="registry.byId('plainTabContainer').destroyRecursive();">destroy tab container</button>
 
 	<div id="plainTabContainer" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='doLayout:false, style:"width: 700px;"'>
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-	<title>dijit.layout.BorderContainer Test</title>
+	<title>dijit/layout/BorderContainer Test</title>
 
 	<!-- only needed for test files: -->
 	<style type="text/css">
@@ -32,75 +32,87 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
-		data-dojo-config="isDebug: true, parseOnLoad: true"></script>
+		data-dojo-config="isDebug: true"></script>
 
 	<!-- only needed for alternate theme testing: -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">
-		dojo.require("dijit.dijit"); // optimize: load dijit layer
-		dojo.require("dijit.layout.BorderContainer");
-		dojo.require("dijit.layout.ContentPane");
-		dojo.require("dijit.form.FilteringSelect");
-
-		function togglePanel(button, id){
-			var leftPanel = dijit.byId(id);
-			if(leftPanel){
-				dijit.byId('border1').removeChild(leftPanel);
-				leftPanel.destroy();
-				button.innerHTML='Add left panel';
-			}else{
-				var container = dijit.byId('border1');
-				var div = dojo.doc.createElement('div');
-				div.innerHTML='left';
-				container.domNode.appendChild(div);
-				leftPanel = new dijit.layout.ContentPane({id: id, region:'left', style:'background-color: #acb386; width:200px', splitter:true, minSize:150, maxSize:250}, div);
-				dijit.byId('border1').addChild(leftPanel);
-				button.innerHTML='Remove left panel';
-			}
-		}
-
-		function watchSplitters(bc){
-			var out = dojo.byId("watchedOutput");
-			var moveConnects = {};
-			dojo.forEach(["top", "left"], function(region){
-				var spl = bc.getSplitter(region);
-
-				dojo.connect(spl, "_startDrag", function(){
-
-					dojo.style(spl.child.domNode, "opacity", "0.4");
-					moveConnects[spl.widgetId] = dojo.connect(spl.domNode, "onmousemove", function(evt){
-
-						out.innerHTML = spl.region + ": " + dojo.toJson({
-							x: !spl.horizontal ? spl.domNode.style[spl.region] : 0,
-							y: spl.horizontal ? spl.domNode.style[spl.region] : 0
-						});
-					})
-
-				});
-				dojo.connect(spl, "_stopDrag", function(evt){
-					dojo.style(spl.child.domNode, "opacity", 1);
-					dojo.disconnect(moveConnects[spl.widgetId]);
-					delete moveConnects[spl.widgetId];
-				});
-			})
-		}
-
 		var bc, cp1, cp2, cp3;
-        dojo.ready(function(){
-			watchSplitters( dijit.byId("watchedBC") );
-				
-			bc = new dijit.layout.BorderContainer({style:'height:400px;width:500px;border:1px solid black'}, dojo.byId('main'));
 
-			cp1 = new dijit.layout.ContentPane({region:'top',style:'height:100px;background-color:red',splitter:true, id:"cp1"});
+		require([
+			"dojo/_base/array",
+			"dojo/aspect",
+			"dojo/dom",
+			"dojo/dom-style",
+			"dojo/json",
+			"dojo/on",
+			"dojo/parser",
+			"dijit/registry",
+			"dijit/layout/BorderContainer",
+			"dijit/layout/ContentPane",
+			"dijit/form/FilteringSelect",
+			"dojo/domReady!"
+		], function(array, aspect, dom, domStyle, json, on, parser, registry, BorderContainer, ContentPane, FilteringSelect){
+
+			togglePanel = function(button, id){
+				var leftPanel = registry.byId(id);
+				if(leftPanel){
+					registry.byId('border1').removeChild(leftPanel);
+					leftPanel.destroy();
+					button.innerHTML='Add left panel';
+				}else{
+					var container = registry.byId('border1');
+					var div = document.createElement('div');
+					div.innerHTML='left';
+					container.domNode.appendChild(div);
+					leftPanel = new ContentPane({id: id, region:'left', style:'background-color: #acb386; width:200px', splitter:true, minSize:150, maxSize:250}, div);
+					registry.byId('border1').addChild(leftPanel);
+					button.innerHTML='Remove left panel';
+				}
+			};
+	
+			function watchSplitters(bc){
+				var out = dom.byId("watchedOutput");
+				var moveConnects = {};
+				array.forEach(["top", "left"], function(region){
+					var spl = bc.getSplitter(region);
+	
+					aspect.after(spl, "_startDrag", function(){
+	
+						domStyle.set(spl.child.domNode, "opacity", "0.4");
+						moveConnects[spl.widgetId] = on(spl.domNode, "mousemove", function(evt){
+	
+							out.innerHTML = spl.region + ": " + json.stringify({
+								x: !spl.horizontal ? spl.domNode.style[spl.region] : 0,
+								y: spl.horizontal ? spl.domNode.style[spl.region] : 0
+							});
+						})
+	
+					});
+					aspect.after(spl, "_stopDrag", function(evt){
+						domStyle.set(spl.child.domNode, "opacity", 1);
+						moveConnects[spl.widgetId].remove();
+						delete moveConnects[spl.widgetId];
+					});
+				})
+			}
+
+			parser.parse();
+
+			watchSplitters( registry.byId("watchedBC") );
+				
+			bc = new BorderContainer({style:'height:400px;width:500px;border:1px solid black'}, dom.byId('main'));
+
+			cp1 = new ContentPane({region:'top',style:'height:100px;background-color:red',splitter:true, id:"cp1"});
 			cp1.domNode.innerHTML = "top pane";
 			bc.addChild(cp1);
 
-			cp2 = new dijit.layout.ContentPane({region:'center',style:'background-color:green', id:'cp2'});
+			cp2 = new ContentPane({region:'center',style:'background-color:green', id:'cp2'});
 			cp2.domNode.innerHTML = "center pane";
 			bc.addChild(cp2);
 
-			cp3 = new dijit.layout.ContentPane({region:'left', splitter: true, style:'width: 100px;', id:'cp3'});
+			cp3 = new ContentPane({region:'left', splitter: true, style:'width: 100px;', id:'cp3'});
 			cp3.domNode.innerHTML = "left pane";
 			
 			bc.startup();
@@ -109,7 +121,7 @@
 	</script>
 </head>
 <body class="claro" role="region" aria-label="main">
-	<h2 class="testTitle">dijit.layout.BorderContainer tests</h2>
+	<h2 class="testTitle">dijit/layout/BorderContainer tests</h2>
 	<p>Headline layout (default), left is constrained - min:150, max:250</p>
 	<div id="border1" data-dojo-type="dijit/layout/BorderContainer"
 		data-dojo-props='style:"width: 1000px; height: 300px; border: 2px solid blue;"'>
@@ -257,7 +269,7 @@
 	<div id="watchedOutput" style="border: 1px solid #999">nothing moving</div>
 
 	
-	<h2 class="testTitle">dijit.layout.BorderContainer programmatic test</h2>
+	<h2 class="testTitle">dijit/layout/BorderContainer programmatic test</h2>
 	<div id='main'></div>
 
 	<button id="addLeft" onclick="bc.addChild(cp3);">add left pane</button>

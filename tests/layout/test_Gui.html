@@ -36,10 +36,16 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
-		data-dojo-config="parseOnLoad: true, isDebug: false"></script>
+		data-dojo-config="isDebug: false"></script>
 
 	<!-- do not use: only for debugging / testing themes -->
 	<script type="text/javascript" src="../../tests/_testCommon.js"></script>
+
+	<script type="text/javascript">
+		require(["dojo/parser", "dojo/domReady!"], function(parser){
+			parser.parse();
+		});
+	</script>
 </head>
 <body class="claro" role="main">
 

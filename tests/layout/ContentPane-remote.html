@@ -20,72 +20,79 @@
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">
-		dojo.require("doh.runner");
-		dojo.require("dijit.tests.helpers");	// functions to help test
+		require([
+			"doh/runner",
+			"dojo/_base/array",
+			"dojo/aspect",
+			"dojo/_base/declare",
+			"dojo/dom",
+			"dojo/dom-class",
+			"dojo/_base/lang",
+			"dojo/parser",
+			"dojo/request",
+			"dojo/when",
+			"dijit/registry",
+			"dijit/_WidgetBase",
+			"dijit/_TemplatedMixin",
+			"dijit/Tooltip",
+			"dijit/TooltipDialog",
+			"dijit/form/Button",
+			"dijit/form/DropDownButton",
+			"dijit/layout/ContentPane",
+			"dijit/layout/StackContainer",
+			"dijit/layout/TabContainer",
+			"dijit/layout/AccordionContainer",
+			"dijit/tests/helpers",
+			"dojo/domReady!"
+		], function(doh, array, aspect, declare, dom, domClass, lang, parser, request, when,
+				registry, _WidgetBase, _TemplatedMixin, Tooltip, TooltipDialog, Button, DropDownButton,
+				ContentPane, StackContainer, TabContainer, AccordionContainer, helpers){
 
-		dojo.require("dojo.parser");
+			var tabCounter;
+			testClose = function(pane, tab){
+				// remove html from title
+				var title = lang.trim(tab.title.replace(/<\/?[a-z][a-z0-9]*[^>]*>/ig, ""));
+				return confirm("Please confirm that you want tab "+title+" closed");
+			};
 
-		dojo.require("dijit._Widget");
-		dojo.require("dijit._TemplatedMixin");
 
-		dojo.require("dijit.Tooltip");
-		dojo.require("dijit.TooltipDialog");
+			createTab = function(){
+				if(!tabCounter){ tabCounter = 3; }
+	
+				var title = '<img src="../images/plus.gif" style="background-color:#95B7D3;"/> Tab ' +(++tabCounter);
+				var refreshOnShow = !!(tabCounter % 2);
+	
+				var newTab = new ContentPane({
+					id: "ttab" + tabCounter,
+					title: title + (refreshOnShow ? ' <i>refreshOnShow</i>': ''),
+					closable:true,
+					refreshOnShow: refreshOnShow,
+					href: 'getResponse.php?delay=1000&messId='+tabCounter
+						+"&message="+encodeURI("<h1>Programmatically created Tab "+tabCounter+"</h1>")
+				}, document.createElement('div'));
+	
+				registry.byId('ttabs').addChild(newTab);
+	
+				newTab.startup();
+			};
 
-		dojo.require("dijit.form.Button");
-		dojo.require("dijit.form.DropDownButton");
-
-		dojo.require("dijit.layout.ContentPane");
-		dojo.require("dijit.layout.TabContainer");
-		dojo.require("dijit.layout.AccordionContainer");
-		dojo.require("dijit.layout.LinkPane");
-
-		var tabCounter;
-		function testClose(pane, tab){
-			// remove html from title
-			var title = dojo.trim(tab.title.replace(/<\/?[a-z][a-z0-9]*[^>]*>/ig, ""));
-			return confirm("Please confirm that you want tab "+title+" closed");
-		}
-
-		function createTab(){
-			if(!tabCounter){ tabCounter = 3; }
-
-			var title = '<img src="../images/plus.gif" style="background-color:#95B7D3;"/> Tab ' +(++tabCounter);
-			var refreshOnShow = !!(tabCounter % 2);
-
-			var newTab = new dijit.layout.ContentPane({
-				id: "ttab" + tabCounter,
-				title: title + (refreshOnShow ? ' <i>refreshOnShow</i>': ''),
-				closable:true,
-				refreshOnShow: refreshOnShow,
-				href: 'getResponse.php?delay=1000&messId='+tabCounter
-					+"&message="+encodeURI("<h1>Programmatically created Tab "+tabCounter+"</h1>")
-			}, dojo.doc.createElement('div'));
-
-			dijit.byId('ttabs').addChild(newTab);
-
-			newTab.startup();
-		}
-
-		function isLoading(domNode){
-			return domNode.firstChild.innerHTML == "Loading...";
-		}
-
-		dojo.ready(function(){
 			// create a do nothing, only for test widget
-			dojo.declare("dijit.TestWidget",
-				[dijit._Widget, dijit._TemplatedMixin], {
+			declare("TestWidget",
+				[_WidgetBase, _TemplatedMixin], {
 				templateString: "<span class='dijitTestWidget'></span>"
 			});
 
+
 			doh.register("parse", function parse(){
-				dojo.parser.parse();
+				console.log("parse");
+				return parser.parse();
 			});
 
 			var cp;
 
 			doh.register("ContentPane", [
 				function create(){
-					cp = new dijit.layout.ContentPane({}, dojo.byId("cp"));
+					cp = new ContentPane({}, dom.byId("cp"));
 				},
 
 				{
@@ -97,7 +104,7 @@
 						var d = new doh.Deferred();
 
 						cp.set('href', 'getResponse.php?messId=1').then(d.getTestCallback(function(){
-							doh.is(1, dijit._Widget.prototype.getChildren.call(cp).length);
+							doh.is(1, _WidgetBase.prototype.getChildren.call(cp).length);
 						}));
 						return d;
 					}
@@ -155,10 +162,10 @@
 						cp.set("content", "");
 					},
 					runTest: function(t){
-						dojo.connect(cp, "onUnload", function(){
+						cp.on("unload", function(){
 							console.log("cp unload of: " + cp.get('content'));
 						});
-						dojo.connect(cp, "onLoad", function(){
+						cp.on("load", function(){
 							console.log("cp load of: " + cp.get('content'));
 						});
 						var msgCanceled = "This message be canceled";
@@ -214,8 +221,8 @@
 						// including tracking if they get called repeatedly (they shouldn't)
 						var history = "";
 						var handles = [
-							dojo.connect(cp, "onUnload", function(){ history += "unloaded"}),
-							dojo.connect(cp, "onLoad", function(){ history += " and reloaded"})
+							cp.on("unload", function(){ history += "unloaded"}),
+							cp.on("load", function(){ history += " and reloaded"})
 						];
 
 						cp.set('href', "getResponse.php?delay=300&message=test");
@@ -231,13 +238,15 @@
 						}, 200);
 
 						var d = new t.Deferred();
-						handles.push(dojo.connect(cp, "_setContent", d.getTestCallback(function(){
+						handles.push(aspect.after(cp, "_setContent", d.getTestCallback(function(){
 							doh.f(ilObj.probed, "200ms after href set, cp was not loaded");
 							doh.t(cp.isLoaded, "eventually, cp was loaded");
 							doh.is("unloaded and reloaded", history);
 
-							dojo.forEach(handles, dojo.disconnect);
-						})));
+							array.forEach(handles, function(handle){
+								handle.remove();
+							});
+						}), true));
 						return d;
 					}
 				},
@@ -280,7 +289,7 @@
 
 						var d = new doh.Deferred();
 
-						evtHandle = dojo.connect(cp, 'onDownloadError', d.getTestErrback(function(e){
+						evtHandle = cp.on("downloaderror", d.getTestErrback(function(e){
 							doh.t(e, "onDownloadError got event argument on invokation");
 							setTimeout(d.getTestCallback(function(){
 								doh.is(msg, cp.domNode.innerHTML, "custom errortext set");
@@ -293,7 +302,7 @@
 						return d;
 					},
 					tearDown: function(){
-						dojo.disconnect(evtHandle);
+						evtHandle.remove();
 						cp.onDownloadError = orig;
 					}
 				},
@@ -314,13 +323,13 @@
 						var msg = "custom downloadstart message";
 						cp.onDownloadStart = function(){ return msg; };
 
-						startHandle = dojo.connect(cp, 'onDownloadStart', d.getTestErrback(function(){
+						startHandle = cp.on("downloadstart", d.getTestErrback(function(){
 							setTimeout(d.getTestErrback(function(){
 								// check that custom message was set
 								doh.is(msg, cp.containerNode.innerHTML, "custom download message was set");
 
 								// and then wait for the download to complete						
-								endHandle = dojo.connect(cp, 'onDownloadEnd', d.getTestCallback(function(){
+								endHandle = cp.on("downloadend", d.getTestCallback(function(){
 									// if this gets called (before the test timeout) then test succeeded
 								}));
 							}), 1);
@@ -331,8 +340,8 @@
 					},
 					tearDown: function(){
 						cp.onDownloadStart = origStart;
-						dojo.disconnect(startHandle);
-						dojo.disconnect(endHandle);
+						startHandle.remove();
+						endHandle.remove();
 					}
 				},
 
@@ -346,8 +355,8 @@
 					runTest:function(t){
 						var d = new doh.Deferred();
 
-						loadHandle = dojo.connect(cp, 'onUnload', d.getTestErrback(function(){							
-							unloadHandle = dojo.connect(cp, 'onLoad', d.getTestCallback(function(){
+						loadHandle = cp.on("unload", d.getTestErrback(function(){							
+							unloadHandle = cp.on("load", d.getTestCallback(function(){
 								// if this gets called (before the test timeout) then test succeeded
 							}));
 						}));
@@ -356,8 +365,8 @@
 						return d;
 					},
 					tearDown: function(){
-						dojo.disconnect(loadHandle);
-						dojo.disconnect(unloadHandle);
+						loadHandle.remove();
+						unloadHandle.remove();
 					}
 				}
 			]);
@@ -368,20 +377,20 @@
 
 				var d = new doh.Deferred(),
 					loadingContent,
-					child = dijit.byId(childId),
-					contentNode = dojo.byId(childId);
+					child = registry.byId(childId),
+					contentNode = dom.byId(childId);
 
 				child.ioMethod = function(args){
-					loadingContent = innerText(contentNode);
+					loadingContent = helpers.innerText(contentNode);
 					delete child.ioMethod;
-					return dojo.xhrGet(args);
+					return request(args.url, args);
 				};
 
-				dojo.when(dijit.byId(parentId).selectChild(child), function(){
+				when(registry.byId(parentId).selectChild(child), function(){
 					setTimeout(d.getTestCallback(
 						function(){
 							doh.is(child.loadingMessage.replace(/<[^>]*>/g, ""), loadingContent, "loading message");
-							var startOfActualContent = innerText(contentNode).substring(0, startOfExpectedContent.length);
+							var startOfActualContent = helpers.innerText(contentNode).substring(0, startOfExpectedContent.length);
 							doh.is(startOfExpectedContent, startOfActualContent, "expected content");
 						}
 					), 1); // return from handler, then test
@@ -401,22 +410,22 @@
 					name: "setUp_StackContainer",
 					setUp:function(t){
 						// create a StackContainer
-						st = dojo.byId('stackcontainer');
-						dojo.addClass(st, 'box');
-						st = new dijit.layout.StackContainer({style: {height: "150px"}}, st);
+						st = dom.byId('stackcontainer');
+						domClass.add(st, 'box');
+						st = new StackContainer({style: {height: "150px"}}, st);
 
 						// the first child (by default) is the one that will
 						// be shown
-						st.addChild(new dijit.TestWidget());
+						st.addChild(new TestWidget());
 
 						// the second child *won't* be shown until selected
-						pane3 = new dijit.layout.ContentPane({
+						pane3 = new ContentPane({
 							id:"sc_pane2",
 							href:'getResponse.php?delay=300&message=Loaded!',
 							preventCache: true,
 							onLoad: function(){ pane3LoadCnt++; },
 							onUnload: function(){ pane3UnloadCnt++; }
-						}, dojo.doc.createElement('div'));
+						}, document.createElement('div'));
 						st.addChild(pane3);
 
 						// start the StackContainer; shouldn't cause ContentPane to load.
@@ -448,7 +457,7 @@
 
 						var d = new doh.Deferred();
 
-						dojo.when(st.selectChild(pane3), function(){
+						when(st.selectChild(pane3), function(){
 							setTimeout(d.getTestCallback(function(){
 								doh.t(pane3.isLoaded, "pane3.isLoaded");
 								doh.is(1, pane3LoadCnt, "onload was called");
@@ -472,8 +481,8 @@
 							onUnload: function(){ this._unload_fired = 1; },
 							onLoad: function(){ this._load_fired = 1; }
 						};
-						tmp.unloadHandle = dojo.connect(pane3, 'onUnload', tmp, 'onUnload');
-						tmp.loadHandle = dojo.connect(pane3, 'onLoad', tmp, 'onLoad');
+						tmp.unloadHandle = pane3.on("unload", lang.hitch(tmp, 'onUnload'));
+						tmp.loadHandle = pane3.on("load", lang.hitch(tmp, 'onLoad'));
 
 						pane3.refreshOnShow = true;
 					},
@@ -493,8 +502,8 @@
 						return d;
 					},
 					tearDown: function(){
-						dojo.disconnect(tmp.unloadHandle);
-						dojo.disconnect(tmp.loadHandle);
+						tmp.unloadHandle.remove();
+						tmp.loadHandle.remove();
 						pane3.refreshOnShow = pane3.constructor.prototype.refreshOnShow;
 					}
 				}
@@ -525,16 +534,16 @@
 					runTest: function(t){
 						var d = new doh.Deferred(),
 						wasLoading = false,
-						widget = dijit.byId("ac_pane3"),
+						widget = registry.byId("ac_pane3"),
 						loadhandler = widget.connect(widget, "onDownloadStart",
 							function(){
-    							widget.disconnect(loadhandler);
+    							loadhandler.remove();
 								wasLoading = true;
 							}
 						),
 						showhandler = widget.connect(widget, "_onShow",
 							function(){
-    							widget.disconnect(showhandler);
+    							showhandler.remove();
 								setTimeout(d.getTestCallback(
 									function(){
 										doh.f(wasLoading, "should not have reloaded")
@@ -543,7 +552,7 @@
 							}
 						);
 
-						dijit.byId("ac").selectChild("ac_pane3");
+						registry.byId("ac").selectChild("ac_pane3");
 						
 						return d;
 					}
@@ -562,7 +571,7 @@
 					name: "preload=true",
 					timeout: 5000,
 					runTest: function(t){
-						var dlg = dijit.byId("preloadTooltipDlg");
+						var dlg = registry.byId("preloadTooltipDlg");
 						if(!dlg.isLoaded){
 							doh.t(dlg.onLoadDeferred, "onLoadDeferred exists");
 							return dlg.onLoadDeferred;
@@ -576,12 +585,12 @@
 					timeout: 5000,
 					runTest: function(){
 						// Check that it isn't loaded yet
-						var dlg = dijit.byId("noPreloadTooltipDlg");
+						var dlg = registry.byId("noPreloadTooltipDlg");
 						doh.f(dlg.isLoaded, "didn't load yet");
 	
 						// Open the dialog and then return Deferred waiting for it to load.
 						// If it doesn't load then this test will get a timeout.
-						var btn = dijit.byId("noPreloadTooltipDlgBtn");
+						var btn = registry.byId("noPreloadTooltipDlgBtn");
 						btn.openDropDown();
 						doh.t(dlg.onLoadDeferred, "onLoadDeferred exists");
 						return dlg.onLoadDeferred;
@@ -608,7 +617,7 @@
 	The tabs also tests to insert html in the Tab title
 	</p>
 
-	<div id="createTab" data-dojo-type='dijit.form.Button' data-dojo-props='onClick:function(){ createTab() }'>Create a Tab</div>
+	<div id="createTabButton" data-dojo-type='dijit/form/Button' data-dojo-props='onClick:function(){ createTab() }'>Create a Tab</div>
 	<div id="ttabs" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='tabPosition:"top", style:"width: 100%; height: 20em;"'>
 		<div id="ttab1" data-dojo-type="dijit/layout/ContentPane"
 			data-dojo-props='href:"getResponse.php?messId=3&amp;delay=1000",

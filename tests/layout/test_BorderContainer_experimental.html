@@ -34,15 +34,26 @@
 		<script type="text/javascript" src="../_testCommon.js"></script>
 
 		<script type="text/javascript">
-			dojo.require("dijit.dijit"); // optimize: load dijit layer
-			dojo.require("dijit.form.Button");
-			dojo.require("dijit.layout.ContentPane");
-			dojo.require("dijit.layout.BorderContainer");
+			require([
+				"dojo/_base/array",
+				"dojo/_base/declare",
+				"dojo/dom",
+				"dojo/dom-construct",
+				"dojo/dom-style",
+				"dojo/parser",
+				"dojo/query",
+				"dijit/registry",
+				"dijit/layout/BorderContainer",
+				"dijit/form/Button",
+				"dijit/layout/ContentPane",
+				"dojo/domReady!"
+			], function(array, declare, dom, domConstruct, domStyle, parser, query,
+						registry, BorderContainer, Button, ContentPane){
 
-			var open = false;
+				var open = false;
 
-			dojo.ready(function(){
-				dojo.declare("my.BorderContainer",dijit.layout.BorderContainer,{
+
+				declare("my.BorderContainer", BorderContainer,{
 
 					opts: {
 						// single pane view
@@ -77,10 +88,10 @@
 
 					_clearSplitters: function(){
 						// cleanup all splitters on the page
-						dojo.query(".dijitSplitter",this.domNode).forEach(function(n){
-							dijit.byNode(n).destroy();
+						query(".dijitSplitter",this.domNode).forEach(function(n){
+							registry.byNode(n).destroy();
 						});
-						dojo.query(".dijitSplitterCover").forEach(dojo.destroy);
+						query(".dijitSplitterCover").forEach(domConstruct.destroy);
 						delete this._splitters;
 						this._splitters = {};
 					},
@@ -93,16 +104,16 @@
 							var struct = this.opts[lay] || false;
 							this._clearSplitters();
 	
-							dojo.forEach(struct.panes,function(pane,i){
+							array.forEach(struct.panes,function(pane,i){
 								// setup each pane
-								var d = dijit.byId(pane.id);
+								var d = registry.byId(pane.id);
 								d.region = pane.region || "center";
 								d.splitter = pane.sizeable;
 								if(pane.minSize){ d.minSize = pane.minSize; }
 								if(pane.maxSize){ d.maxSize = pane.maxSize; }
 								if(pane.hidden){
 									// reset this widget to our hidden holder node
-									this.extractChild(d,dojo.byId("holder"));
+									this.extractChild(d,dom.byId("holder"));
 									d.splitter = null;
 									d.region = null;
 									d.maxSize = null;
@@ -110,7 +121,7 @@
 								}else{
 									if(pane.style){
 										// object setter via style only in trunk:
-										dojo.style(d.domNode,pane.style);
+										domStyle.set(d.domNode, pane.style);
 									}
 									this.addChild(d,i);
 								}
@@ -126,7 +137,7 @@
 						var region = child.region;
 						var splitter = this._splitters[region];
 						if(splitter){
-							dijit.byNode(splitter).destroy();
+							registry.byNode(splitter).destroy();
 							delete this._splitters[region];
 						}
 						delete this["_"+region];
@@ -138,19 +149,19 @@
 					}
 				});
 	
-				dojo.parser.parse();
+				parser.parse();
 
 				// make buttons
-				dojo.forEach(["a","av","ah"],function(n){
+				array.forEach(["a","av","ah"],function(n){
 
-					var but = new dijit.form.Button({
+					var but = new Button({
 						label: "Set "+n,
 						onClick: function(){
 							console.log(n);
 							layout.setLayoutENUM(n);
 						}
 					});
-					dojo.byId("buttons").appendChild(but.domNode);
+					dom.byId("buttons").appendChild(but.domNode);
 					but.startup();
 				})
 
@@ -159,6 +170,11 @@
 
     </head>
     <body class="claro" role="main">
+
+		<script type="dojo/require">
+			fx: "dojo/_base/fx",
+			registry: "dijit/registry"
+		</script>
 
 		<h1>This is a test</h1>
 		<p>This is only a test. An experiment in dynamically altering a BorderContainer's layout
@@ -196,14 +212,14 @@
 					<button data-dojo-type="dijit/form/Button">
 					Size Me
 					<script type="dojo/method" data-dojo-event="onClick">
-						var n = dijit.byId("sizing1").domNode;
-						dojo.animateProperty({
+						var n = registry.byId("sizing1").domNode;
+						fx.animateProperty({
 							node:n,
 							duration:1000,
 							properties: { width: { end: (open ? "100" : "400"), units:"px" } },
 							onEnd: function(){
 								open = !open;
-								dijit.byId("animBC").layout();
+								registry.byId("animBC").layout();
 							}
 						}).play(1);
 					</script>

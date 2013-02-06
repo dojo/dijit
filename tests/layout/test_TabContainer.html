@@ -14,46 +14,55 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
-		data-dojo-config="isDebug: true, parseOnLoad: true"></script>
+		data-dojo-config="isDebug: true"></script>
 
 	<!-- only needed for alternate theme testing: do NOT use in your code! -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">
-		dojo.require("dijit.dijit"); // optimize: load dijit layer
-		dojo.require("dijit.layout.ContentPane");
-		dojo.require("dijit.layout.TabContainer");
-		dojo.require("dijit.layout.SplitContainer");
-		dojo.require("dijit.layout.BorderContainer");
-		dojo.require("dijit.Tooltip");
-		dojo.require("dijit.form.Button");
-		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
 		function testClose(pane,tab){
 		  return confirm("Please confirm that you want tab "+tab.title+" closed");
 		}
 
-		startTime = new Date();
-		dojo.ready(function(){
-			var elapsed = new Date().getTime() - startTime;
-			var p = document.createElement("p");
-			p.appendChild(document.createTextNode("Widgets loaded in " + elapsed + "ms"));
-			document.body.appendChild(p);
-		});
+		require([
+			"dojo/parser",
+			"dijit/registry",
+			"dijit/layout/ContentPane",
 
-		var progTabCounter = 1;
-		function makeTab(){
-			var tc = dijit.byId("mainTabContainer");
-			var cp = new dijit.layout.ContentPane({
-				title: 'Programmatically created tab ' + (progTabCounter++) ,
-				closable: true
+			// widgets used by the parser, preloading so not included in the elapsed time measurement
+			"dijit/layout/BorderContainer",
+			"dijit/layout/TabContainer",
+			"dijit/Tooltip",
+			"dijit/form/Button",
+			"dojo/domReady!"
+		], function(parser, registry, ContentPane){
+			startTime = new Date();
+			parser.parse().then(function(){
+				var elapsed = new Date().getTime() - startTime;
+				var p = document.createElement("p");
+				p.appendChild(document.createTextNode("Widgets loaded in " + elapsed + "ms"));
+				document.body.appendChild(p);
 			});
-			cp.domNode.innerHTML = "I was created programmatically!";
-			tc.addChild(cp, 0);
-		}
+
+			var progTabCounter = 1;
+			makeTab = function(){
+				var tc = registry.byId("mainTabContainer");
+				var cp = new ContentPane({
+					title: 'Programmatically created tab ' + (progTabCounter++) ,
+					closable: true
+				});
+				cp.domNode.innerHTML = "I was created programmatically!";
+				tc.addChild(cp, 0);
+			};
+		});
 	</script>
 </head>
 <body class="claro" role="main">
+
+	<script type="dojo/require">
+		registry: "dijit/registry"
+	</script>
 
 	<h1 class="testTitle">Dijit layout.TabContainer tests</h1>
 
@@ -210,10 +219,10 @@
 		</div>
 	</div>
 
-	<button onclick="dijit.byId('tab1').set('title', 'Tab 1 Renamed');">Rename Tab #1</button>
-	<button onclick="dijit.byId('tab2').set('title', 'Tab 2 Renamed To Something Very Long');">Rename Tab #2</button>
-	<button onclick="dijit.byId('tab1').set('closable', !dijit.byId('tab1').get('closable'));">Toggle Tab #1 closable</button>
-	<button onclick="dijit.byId('tab3').set('disabled', !dijit.byId('tab3').get('disabled'));">Toggle Tab #3 disabled</button>
+	<button onclick="registry.byId('tab1').set('title', 'Tab 1 Renamed');">Rename Tab #1</button>
+	<button onclick="registry.byId('tab2').set('title', 'Tab 2 Renamed To Something Very Long');">Rename Tab #2</button>
+	<button onclick="registry.byId('tab1').set('closable', !registry.byId('tab1').get('closable'));">Toggle Tab #1 closable</button>
+	<button onclick="registry.byId('tab3').set('disabled', !registry.byId('tab3').get('disabled'));">Toggle Tab #3 disabled</button>
 
 	<br/>
 	<p>
@@ -352,7 +361,7 @@
 			</p>
 		</div>
 	</div>
-	<button onclick="dijit.byId('nomenu_tab3').set('disabled', !dijit.byId('nomenu_tab3').get('disabled'));">Toggle Tab #3 disabled</button>
+	<button onclick="registry.byId('nomenu_tab3').set('disabled', !registry.byId('nomenu_tab3').get('disabled'));">Toggle Tab #3 disabled</button>
 
 
 	<br/>
