@@ -152,13 +152,13 @@ define([
 			// tags:
 			//		private
 			if(this._checkListLater){
-				if(win.withGlobal(this.editor.window, 'isCollapsed', baseFocus)){
-					var liparent = this.editor._sCall('getAncestorElement', ['LI']);
+				if(win.withGlobal(this.editor.window, 'isCollapsed', baseFocus)){	// TODO: stop using withGlobal(), and baseFocus
+					var liparent = this.editor.selection.getAncestorElement('LI');
 					if(!liparent){
 						// circulate the undo detection code by calling RichText::execCommand directly
 						RichText.prototype.execCommand.call(this.editor, 'formatblock', this.blockNodeForEnter);
 						// set the innerHTML of the new block node
-						var block = this.editor._sCall('getAncestorElement', [this.blockNodeForEnter]);
+						var block = this.editor.selection.getAncestorElement(this.blockNodeForEnter);
 						if(block){
 							block.innerHTML = this.bogusHtmlContent;
 							if(has("ie") <= 9){
@@ -217,7 +217,7 @@ define([
 
 			var selection, range, newrange, startNode, endNode, brNode, doc = this.editor.document, br, rs, txt;
 			if(e.shiftKey){        // shift+enter always generates <br>
-				var parent = this.editor._sCall('getParentElement', []);
+				var parent = this.editor.selection.getParentElement();
 				var header = rangeapi.getAncestor(parent, this.blockNodes);
 				if(header){
 					if(header.tagName == 'LI'){
@@ -316,9 +316,9 @@ define([
 								selection.removeAllRanges();
 								selection.addRange(newrange);
 								if(endEmpty && !has("webkit")){
-									this.editor._sCall("remove", []);
+									this.editor.selection.remove();
 								}else{
-									this.editor._sCall("collapse", [true]);
+									this.editor.selection.collapse(true);
 								}
 							}else{
 								var targetNode;
@@ -339,7 +339,7 @@ define([
 								newrange.setEnd(endNode, endNode.length);
 								selection.removeAllRanges();
 								selection.addRange(newrange);
-								this.editor._sCall("collapse", [true]);
+								this.editor.selection.collapse(true);
 							}
 						}
 					}else{
@@ -392,7 +392,7 @@ define([
 				}
 				// get the newly created block node
 				// FIXME
-				block = {blockNode: this.editor._sCall('getAncestorElement', [this.blockNodeForEnter]),
+				block = {blockNode: this.editor.selection.getAncestorElement(this.blockNodeForEnter),
 					blockContainer: this.editor.editNode};
 				if(block.blockNode){
 					if(block.blockNode != this.editor.editNode &&
@@ -607,7 +607,7 @@ define([
 			// tags:
 			//		private
 			var para = /P|DIV|LI/i.test(container.tagName) ?
-				container : this.editor._sCall("getParentOfType", [container, ['P', 'DIV', 'LI']]);
+				container : this.editor.selection.getParentOfType(container, ['P', 'DIV', 'LI']);
 
 			if(!para){
 				return;

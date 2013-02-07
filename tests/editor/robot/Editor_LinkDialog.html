@@ -288,7 +288,7 @@
 
 							doh.robot.sequence(d.getTestErrback(function(){
 								// Okay, select the text of the hyperlink so we can then perform an edit on it.
-								editor._sCall("selectElement", [node]);
+								editor.selection.selectElement(node);
 							}),500);
 							doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
@@ -345,7 +345,7 @@
 
 							doh.robot.sequence(d.getTestErrback(function(){
 								// Okay, select the text of the hyperlink so we can then perform an edit on it.
-								editor._sCall("selectElement", [node]);
+								editor.selection.selectElement(node);
 							}),500);
 							doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
@@ -730,7 +730,7 @@
 							doh.robot.mouseMoveAt(editor.iframe, 1000, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
-							doh.robot.sequence(d.getTestErrback(function(){editor._sCall("selectElement", [node]);}), 500);
+							doh.robot.sequence(d.getTestErrback(function(){editor.selection.selectElement(node);}), 500);
 							doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							var url, desc, oldDesc;
@@ -777,7 +777,7 @@
 							doh.robot.mouseMoveAt(editor.iframe, 1000, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
-							doh.robot.sequence(d.getTestErrback(function(){editor._sCall("selectElement", [node]);}), 500);
+							doh.robot.sequence(d.getTestErrback(function(){editor.selection.selectElement(node);}), 500);
 							doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							var url, desc, oldDesc;
@@ -830,7 +830,7 @@
 							doh.robot.mouseMoveAt(node, 500, 1);
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.sequence(d.getTestCallback(function(){
-								var selectedElement = editor._sCall("getSelectedElement", [null]);
+								var selectedElement = editor.selection.getSelectedElement(null);
 								doh.t(selectedElement != null);
 								var tag = selectedElement.tagName? selectedElement.tagName.toLowerCase() : "";
 								doh.is("img", tag);

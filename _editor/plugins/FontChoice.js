@@ -321,7 +321,7 @@ var _FormatBlockDropDown = declare("dijit._editor.plugins._FormatBlockDropDown",
 							for(i = 0; i < node.childNodes.length; i++){
 								var c = node.childNodes[i];
 								if(c.nodeType == 1){
-									if(editor._sCall("inSelection", [c])){
+									if(editor.selection.inSelection(c)){
 										var tag = c.tagName? c.tagName.toLowerCase(): "";
 										if(array.indexOf(this.values, tag) !== -1){
 											ary.push(c);
@@ -372,7 +372,7 @@ var _FormatBlockDropDown = declare("dijit._editor.plugins._FormatBlockDropDown",
 					}else{
 						// Probably a multi select, so we have to process it.  Whee.
 						node = start;
-						while(editor._sCall("inSelection", [node])){
+						while(editor.selection.inSelection(node)){
 							if(node.nodeType == 1){
 								tag = node.tagName? node.tagName.toLowerCase(): "";
 								if(array.indexOf(this.values, tag) !== -1){
@@ -409,9 +409,9 @@ var _FormatBlockDropDown = declare("dijit._editor.plugins._FormatBlockDropDown",
 		}else{
 			// Everyone else works fine this way, a paste-over and is native
 			// undo friendly.
-			editor._sCall("selectElementChildren", [node])
-			var html = editor._sCall("getSelectedHtml", [])
-			editor._sCall("selectElement", [node])
+			editor.selection.selectElementChildren(node);
+			var html = editor.selection.getSelectedHtml();
+			editor.selection.selectElement(node);
 			editor.execCommand("inserthtml", html||"");
 		}
 	}

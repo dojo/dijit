@@ -229,7 +229,7 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestErrback(function(){
-								editor._sCall("selectElementChildren", [node]);
+								editor.selection.selectElementChildren(node);
 							}), 500);
 							
 							// Keyboard kill the selection and shift position between I and S.
@@ -264,7 +264,7 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestErrback(function(){
-								editor._sCall("selectElementChildren", [node]);
+								editor.selection.selectElementChildren(node);
 							}), 500);
 							
 							// Keyboard kill the selection and shift position between I and S.
@@ -299,7 +299,7 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestErrback(function(){
-								editor._sCall("selectElementChildren", [node]);
+								editor.selection.selectElementChildren(node);
 							}), 500);
 							
 							// Keyboard kill the selection and shift position between I and S.
@@ -420,7 +420,7 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestErrback(function(){
-								editor._sCall("selectElementChildren", [node]);
+								editor.selection.selectElementChildren(node);
 							}), 500);
 							
 							// Keyboard kill the selection and shift position between I and S.

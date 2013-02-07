@@ -349,10 +349,8 @@
 							// Select middle item ("three")
 							doh.robot.sequence(d.getTestErrback(function(){
 								var node = dojo.byId("three", editor1.document);
-								dojo.global.dojo.withGlobal(editor1.window, function(){
-									dijit._editor.selection.selectElementChildren(node);
-									dijit._editor.selection.collapse(true);
-								});
+								editor1.selection.selectElementChildren(node);
+								editor1.selection.collapse(true);
 							}), 500);
 
 							// Press indent button so "three" becomes part of list

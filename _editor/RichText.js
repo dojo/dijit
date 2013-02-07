@@ -22,7 +22,7 @@ define([
 	"dojo/_base/window", // win.global
 	"../_Widget",
 	"../_CssStateMixin",
-	"./selection",
+	"../selection",
 	"./range",
 	"./html",
 	"../focus",
@@ -306,7 +306,7 @@ define([
 				var node = div.firstChild;
 				while(node){
 					try{
-						this._sCall("selectElement", [node.firstChild]);
+						this.selection.selectElement(node.firstChild);
 						var nativename = node.tagName.toLowerCase();
 						this._local2NativeFormatNames[nativename] = document.queryCommandValue("formatblock");
 						this._native2LocalFormatNames[this._local2NativeFormatNames[nativename]] = nativename;
@@ -488,6 +488,9 @@ define([
 			ifr._loadFunc = lang.hitch(this, function(w){
 				this.window = w;
 				this.document = this.window.document;
+
+				// instantiate class to access selected text in editor's iframe
+				this.selection = new selectionapi.SelectionManager(w);
 
 				if(has("ie")){
 					this._localizeEditorCommands();
@@ -1414,11 +1417,13 @@ define([
 
 		_sCall: function(name, args){
 			// summary:
-			//		Run the named method of dijit/_editor/selection over the
+			//		Deprecated, remove for 2.0.   New code should access this.selection directly.
+			//		Run the named method of dijit/selection over the
 			//		current editor instance's window, with the passed args.
 			// tags:
-			//		private
-			return win.withGlobal(this.window, name, selectionapi, args);
+			//		private deprecated
+
+			return this.selection[name].apply(this.selection, args);
 		},
 
 		// FIXME: this is a TON of code duplication. Why?
@@ -1440,7 +1445,7 @@ define([
 					if(first.nodeType === 3){
 						if(first.nodeValue.replace(/^\s+|\s+$/g, "").length > 0){
 							isvalid = true;
-							this._sCall("selectElement", [ first ]);
+							this.selection.selectElement(first);
 							break;
 						}
 					}else if(first.nodeType === 1){
@@ -1448,10 +1453,10 @@ define([
 						var tg = first.tagName ? first.tagName.toLowerCase() : "";
 						// Collapse before childless tags.
 						if(/br|input|img|base|meta|area|basefont|hr|link/.test(tg)){
-							this._sCall("selectElement", [ first ]);
+							this.selection.selectElement(first);
 						}else{
 							// Collapse inside tags with children.
-							this._sCall("selectElementChildren", [ first ]);
+							this.selection.selectElementChildren(first);
 						}
 						break;
 					}
@@ -1459,10 +1464,10 @@ define([
 				}
 			}else{
 				isvalid = true;
-				this._sCall("selectElementChildren", [ this.editNode ]);
+				this.selection.selectElementChildren(this.editNode);
 			}
 			if(isvalid){
-				this._sCall("collapse", [ true ]);
+				this.selection.collapse(true);
 			}
 		},
 
@@ -1485,22 +1490,22 @@ define([
 					if(last.nodeType === 3){
 						if(last.nodeValue.replace(/^\s+|\s+$/g, "").length > 0){
 							isvalid = true;
-							this._sCall("selectElement", [ last ]);
+							this.selection.selectElement(last);
 							break;
 						}
 					}else if(last.nodeType === 1){
 						isvalid = true;
-						this._sCall("selectElement", [ last.lastChild || last]);
+						this.selection.selectElement(last.lastChild || last);
 						break;
 					}
 					last = last.previousSibling;
 				}
 			}else{
 				isvalid = true;
-				this._sCall("selectElementChildren", [ this.editNode ]);
+				this.selection.selectElementChildren(this.editNode);
 			}
 			if(isvalid){
-				this._sCall("collapse", [ false ]);
+				this.selection.collapse(false);
 			}
 		},
 
@@ -1943,7 +1948,7 @@ define([
 			//		protected
 			var enabled = true;
 			if(has("mozilla") || has("webkit")){
-				enabled = this._sCall("hasAncestorElement", ["a"]);
+				enabled = this.selection.hasAncestorElement("a");
 			}else{
 				enabled = this._browserQueryCommandEnabled("unlink");
 			}
@@ -2053,8 +2058,8 @@ define([
 			// tags:
 			//		protected
 			if((this.queryCommandEnabled("unlink")) && (has("mozilla") || has("webkit"))){
-				var a = this._sCall("getAncestorElement", [ "a" ]);
-				this._sCall("selectElement", [ a ]);
+				var a = this.selection.getAncestorElement("a");
+				this.selection.selectElement(a);
 				return this.document.execCommand("unlink", false, null);
 			}
 			return this.document.execCommand("unlink", false, argument);
@@ -2151,7 +2156,7 @@ define([
 			}else if(has("mozilla") && !argument.length){
 				//mozilla can not inserthtml an empty html to delete current selection
 				//so we delete the selection instead in this case
-				this._sCall("remove"); // FIXME
+				this.selection.remove(); // FIXME
 			}else{
 				rv = this.document.execCommand("inserthtml", false, argument);
 			}
@@ -2655,7 +2660,7 @@ define([
 								newrange.setEnd(sNode, sNode.length);
 								selection.removeAllRanges();
 								selection.addRange(newrange);
-								this._sCall("collapse", [false]);
+								this.selection.collapse(false);
 								sNode.parentNode.innerHTML = "";
 							}else{
 								// No extra tags, so we have to insert a breaker point and rely
@@ -2670,7 +2675,7 @@ define([
 								newrange.setEnd(sNode, sNode.length);
 								selection.removeAllRanges();
 								selection.addRange(newrange);
-								this._sCall("collapse", [false]);
+								this.selection.collapse(false);
 								sNode.parentNode.innerHTML = "";
 							}
 							if(!newblock.firstChild){
@@ -2727,7 +2732,7 @@ define([
 						newrange.setEnd(sNode, sNode.length);
 						selection.removeAllRanges();
 						selection.addRange(newrange);
-						this._sCall("collapse", [false]);
+						this.selection.collapse(false);
 						sNode.parentNode.innerHTML = "";
 						return true;
 					}
@@ -2784,7 +2789,7 @@ define([
 							newrange.setEnd(sc, sc.length);
 							selection.removeAllRanges();
 							selection.addRange(newrange);
-							this._sCall("collapse", [true]);
+							this.selection.collapse(true);
 							return true;
 						}
 					}
@@ -2861,10 +2866,10 @@ define([
 								style = "backgroundColor";
 							}
 							domStyle.set(breaker, style, argument);
-							this._sCall("remove", []);
+							this.selection.remove();
 							domConstruct.destroy(extraSpan);
 							breaker.innerHTML = "&#160;";	// &nbsp;
-							this._sCall("selectElement", [breaker]);
+							this.selection.selectElement(breaker);
 							this.focus();
 						}else{
 							this.execCommand(command, argument);
@@ -2874,7 +2879,7 @@ define([
 							newrange.setEnd(sNode, sNode.length);
 							selection.removeAllRanges();
 							selection.addRange(newrange);
-							this._sCall("collapse", [false]);
+							this.selection.collapse(false);
 							sNode.parentNode.removeChild(sNode);
 						}
 						return true;
