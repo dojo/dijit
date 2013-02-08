@@ -155,7 +155,7 @@ define([
 		//		USed to separate name from content.  Just a colon isn't safe.
 		_NAME_CONTENT_SEP: "@@**%%:%%**@@",
 
-		// onLoadDeferred: [readonly] dojo.Deferred
+		// onLoadDeferred: [readonly] dojo/promise/Promise
 		//		Deferred which is fired when the editor finishes loading.
 		//		Call myEditor.onLoadDeferred.then(callback) it to be informed
 		//		when the rich-text area initialization is finalized.

@@ -111,20 +111,13 @@ return declare("dijit._editor.plugins.AlwaysShowToolbar", _Plugin, {
 		if(!this._scrollSetUp){
 			this._scrollSetUp = true;
 			this._scrollThreshold = domGeometry.position(tdn, true).y;
-//			var db = win.body;
-//			console.log("threshold:", this._scrollThreshold);
-			//what's this for?? comment out for now
-//			if((isIE6)&&(db)&&(domStyle.set or get TODO(db, "backgroundIimage")=="none")){
-//				db.style.backgroundImage = "url(" + dojo.uri.moduleUri("dijit", "templates/blank.gif") + ")";
-//				db.style.backgroundAttachment = "fixed";
-//			}
 		}
 
 		var scrollPos = domGeometry.docScroll(this.editor.ownerDocument).y;
 		var s = tdn.style;
 
 		if(scrollPos > this._scrollThreshold && scrollPos < this._scrollThreshold+this._lastHeight){
-			// dojo.debug(scrollPos);
+			// console.debug(scrollPos);
 			if(!this._fixEnabled){
 				var tdnbox = domGeometry.getMarginSize(tdn);
 				this.editor.iframe.style.marginTop = tdnbox.h+"px";
