@@ -10,14 +10,14 @@
 
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../dojo/dojo.js"
-			djConfig="isDebug: true"></script>
+			data-dojo-config="isDebug: true"></script>
 
 		<script type="text/javascript">
 			require([
 				"doh/runner", "dojo/robotx",
-				"dojo/_base/array", "dojo/date/locale", "dojo/keys", "dojo/_base/lang", "dojo/query",
+				"dojo/_base/array", "dojo/aspect", "dojo/date/locale", "dojo/keys", "dojo/_base/lang", "dojo/query",
 				"dijit/tests/helpers", "dojo/domReady!"
-			], function(doh, robot, array, datelocale, keys, lang, query, helpers){
+			], function(doh, robot, array, aspect, datelocale, keys, lang, query, helpers){
 				robot.initRobot('../test_InlineEditBox.html');
 
 				function moveAndClick(node){
@@ -222,7 +222,7 @@
 					{ widget: "ComboBox", id: "item", textValue: "refrigerators", widgetValue: "refrigerators" },
 					{ widget: "DateTextBox", id: "purchase", textValue: "01/05/2007", widgetValue: datelocale.parse("01/05/2007", {datePattern: 'MM/dd/yyyy', selector:'date'}) },
 					{ widget: "FilteringSelect", id: "state", textValue: "Pennsylvania", widgetValue: "PA" },
-					{ widget: "Select", id: "country", textValue: "US", widgetValue: "US" }
+					{ widget: "Select", id: "country", textValue: "United States of America", widgetValue: "US" }
 				], function(test){
 					doh.register("preDefinedValue " + test.widget, {
 						timeout: 8000,
@@ -230,11 +230,11 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							var inlineBox = registry.byId(test.id);
-							var handler = inlineBox.connect(inlineBox, 'edit', function(){
-								inlineBox.disconnect(handler);
+							var handler = aspect.after(inlineBox, 'edit', function(){
+								handler.remove();
 								var editWidget = inlineBox.wrapperWidget.editWidget;
-								handler = editWidget.connect(editWidget, '_onFocus', function(){
-									editWidget.disconnect(handler);
+								handler = aspect.after(editWidget, '_onFocus', function(){
+									handler.remove();
 									robot.sequence(function(){
 										var
 										textValue = test.textValue,
@@ -242,16 +242,14 @@
 										visible = helpers.isVisible(editWidget),
 										expected = test.widgetValue,
 										actual = editWidget.get("value"),
-										showHandler = inlineBox.connect(inlineBox, 'save',
-											d.getTestCallback(function(){
-												inlineBox.disconnect(cancelHandler);
-												inlineBox.disconnect(showHandler);
-												doh.t(false, "Save was clicked");
-											})
-										),
-										cancelHandler = inlineBox.connect(inlineBox, 'onCancel', function(){
-											inlineBox.disconnect(cancelHandler);
-											inlineBox.disconnect(showHandler);
+										showHandler = aspect.after(inlineBox, 'save', d.getTestCallback(function(){
+											cancelHandler.remove();
+											showHandler.remove();
+											doh.t(false, "Save was clicked");
+										}), true),
+										cancelHandler = aspect.after(inlineBox, 'onCancel', function(){
+											cancelHandler.remove();
+											showHandler.remove();
 											robot.sequence(d.getTestCallback(function(){
 												doh.is(textValue, value, "inline text value");
 												doh.t(visible, "editor widget should be visible");
@@ -259,13 +257,13 @@
 												doh.is(expected.toString(), actual.toString(), "editor widget value");
 												doh.t(helpers.isHidden(inlineBox.wrapperWidget), "editor widget should be hidden");
 											}), 500);
-										}),
+										}, true),
 										buttons = query(".dijitButton", inlineBox.domNode.parentNode);
 										moveAndClick(buttons[buttons.length-2]); // Save should be disabled so nothing happens
 										moveAndClick(buttons[buttons.length-1]);
 									}, 1500);
-								});
-							});
+								}, true);
+							}, true);
 							moveAndClick(inlineBox.domNode);
 							return d;
 						}
@@ -364,23 +362,19 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							var inlineBox = registry.byId("inlineRTE");
-							var handler = inlineBox.connect(inlineBox, 'edit',
-								d.getTestErrback(function(){
-									inlineBox.disconnect(handler);
-									setTimeout(function(){
-										handler = inlineBox.connect(inlineBox, 'save',
-											d.getTestErrback(function(){
-												inlineBox.disconnect(handler);
-												setTimeout(d.getTestCallback(function(){
-													doh.t(helpers.isHidden(inlineBox.wrapperWidget), "editor widget should be visible");
-													doh.t(inlineBox.get("value").indexOf('!start!') >= 0, "value changed");
-												}), 1000);
-											}));
-										robot.typeKeys("!start!", 1, 1400);
-										var buttons = query(".saveButton", inlineBox.domNode.parentNode);
-										moveAndClick(buttons[buttons.length-1]);
-									}, 1000);
-								}));
+							var handler = aspect.after(inlineBox, 'edit', function(){
+								handler.remove();
+								handler = aspect.after(inlineBox, 'save', function(){
+									handler.remove();
+									setTimeout(d.getTestCallback(function(){
+										doh.t(helpers.isHidden(inlineBox.wrapperWidget), "editor widget should be visible");
+										doh.t(inlineBox.get("value").indexOf('!start!') >= 0, "value changed");
+									}), 1000);
+								});
+								robot.typeKeys("!start!", 1, 1400);
+								var buttons = query(".saveButton", inlineBox.domNode.parentNode);
+								moveAndClick(buttons[buttons.length-1]);
+							});
 							moveAndClick(inlineBox.domNode);
 							return d;
 						}
