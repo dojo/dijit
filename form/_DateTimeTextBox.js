@@ -199,7 +199,7 @@ define([
 				// convert null setting into today's date, since there needs to be *some* default at all times.
 				 val = new this.dateClassObj();
 			}
-			this.dropDownDefaultValue = val;
+			this._set("dropDownDefaultValue", val);
 		},
 
 		openDropDown: function(/*Function*/ callback){
