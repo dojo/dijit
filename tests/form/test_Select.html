@@ -311,16 +311,16 @@
 						// the change is reflected in the Select widget
 						function test_changeSelected(t){
 							t.is("AL", s11.value);
-							t.t(/<span.*>Alabama<\/span>/i.test(s11.containerNode.innerHTML));
+							t.t(/<span.*>Alabama<\/span>/i.test(s11.containerNode.innerHTML), "expected Alabama but got " + s11.containerNode.innerHTML);
 							s11.set("value", ["AK"]); // test array
 							t.is("AK", s11.value);
-							t.t(/<span.*>Alaska<\/span>/i.test(s11.containerNode.innerHTML));
+							t.t(/<span.*>Alaska<\/span>/i.test(s11.containerNode.innerHTML), "expected Alaska but got " + s11.containerNode.innerHTML);
 							var d = new doh.Deferred();
 							writeStore.fetchItemByIdentity({
 								identity: "AK",
 								onItem: d.getTestCallback(function(item){
 									writeStore.setValue(item, "label", "North Pole");
-									t.t(/<span.*>North Pole<\/span>/i.test(s11.containerNode.innerHTML), "select displayed value updated " + s11.containerNode.innerHTML);
+									t.t(/<span.*>North Pole<\/span>/i.test(s11.containerNode.innerHTML), "expected North Pole but got " + s11.containerNode.innerHTML);
 								})
 							});
 							return d;

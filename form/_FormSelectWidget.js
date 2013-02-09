@@ -92,14 +92,13 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 	//		callback to be called only once, when the prior setStore completes.
 	onLoadDeferred: null,
 
-	getOptions: function(/*anything*/ optionOrIdx){
+	getOptions: function(/*anything*/ valueOrIdx){
 		// summary:
 		//		Returns a given option (or options).
-		// optionOrIdx:
+		// valueOrIdx:
 		//		If passed in as a string, that string is used to look up the option
 		//		in the array of options - based on the value property.
 		//		(See dijit/form/_FormSelectWidget.__SelectOption).
-		//		Deprecated: use getOptionsByValue instead.
 		//
 		//		If passed in a number, then the option with the given index (0-based)
 		//		within this select will be returned.
@@ -113,8 +112,8 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 		//		If not passed a value, then all options will be returned
 		//
 		// returns:
-		//		The option corresponding with the given value or index.  null
-		//		is returned if any of the following are true:
+		//		The option corresponding with the given value or index.
+		//		null is returned if any of the following are true:
 		//
 		//		- A string value is passed in which doesn't exist
 		//		- An index is passed in which is outside the bounds of the array of options
@@ -124,41 +123,35 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 		//		if the value property matches - NOT if the exact option exists
 		// NOTE: if passing in an array, null elements will be placed in the returned
 		//		array when a value is not found.
-		var lookupValue = optionOrIdx, opts = this.options || [], l = opts.length;
+		var opts = this.options || [];
 
-		if(lookupValue === undefined){
+		if(valueOrIdx == null){
 			return opts; // __SelectOption[]
 		}
-		if(typeof lookupValue == "string"){
-			kernel.deprecated(this.declaredClass+"["+this.id+"]::getOptions('"+lookupValue+"') is deprecated. Use getOptions({value:'"+lookupValue+"'}) instead.", "", "2.0");
-			lookupValue = { value: lookupValue };
+		if(lang.isArray(valueOrIdx)){
+			return array.map(valueOrIdx, "return this.getOptions(item);", this); // __SelectOption[]
 		}
-		if(lang.isArray(lookupValue)){
-			return array.map(lookupValue, "return this.getOptions(item);", this); // __SelectOption[]
+		if(lang.isString(valueOrIdx)){
+			valueOrIdx = { value: valueOrIdx };
 		}
-		if(lang.isObject(lookupValue)){
+		if(lang.isObject(valueOrIdx)){
 			// We were passed an option - so see if it's in our array (directly),
 			// and if it's not, try and find it by value.
-			if(!array.some(this.options, function(option, idx){
-				var isMatch = true;
-				for(var a in lookupValue){
-					if(a in option){
-						isMatch &= option[a] == lookupValue[a]; // == and not === so that 100 matches '100'
-					}else{
-						isMatch = false;
+
+			if(!array.some(opts, function(option, idx){
+				for(var a in valueOrIdx){
+					if(!(a in option) || option[a] != valueOrIdx[a]){ // == and not === so that 100 matches '100'
+						return false;
 					}
-					if(!isMatch){ break; }
 				}
-				if(isMatch){
-					lookupValue = idx;
-				}
-				return isMatch;
+				valueOrIdx = idx;
+				return true; // stops iteration through opts
 			})){
-				lookupValue = -1;
+				valueOrIdx = -1;
 			}
 		}
-		if(typeof lookupValue == "number" && lookupValue >= 0 && lookupValue < l){
-			return this.options[lookupValue]; // __SelectOption
+		if(valueOrIdx >= 0 && valueOrIdx < opts.length){
+			return opts[valueOrIdx]; // __SelectOption
 		}
 		return null; // null
 	},
@@ -169,8 +162,7 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 		//		of the option is empty or missing, a separator is created instead.
 		//		Passing in an array of options will yield slightly better performance
 		//		since the children are only loaded once.
-		if(!lang.isArray(option)){ option = [option]; }
-		array.forEach(option, function(i){
+		array.forEach([].concat(option), function(i){
 			if(i && lang.isObject(i)){
 				this.options.push(i);
 			}
@@ -178,31 +170,24 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 		this._loadChildren();
 	},
 
-	removeOption: function(/*__SelectOption|Number|Array*/ opts){
+	removeOption: function(/*String|__SelectOption|Number|Array*/ valueOrIdx){
 		// summary:
-		//		Removes the given option or options.  You can remove by number (in which case the
+		//		Removes the given option or options.  You can remove by string
+		//		(in which case the value is removed), number (in which case the
 		//		index in the options array is removed), or select option (in
 		//		which case, the select option with a matching value is removed).
 		//		You can also pass in an array of those values for a slightly
 		//		better performance since the children are only loaded once.
-		var isArray = lang.isArray(opts);
-		if(!isArray){ opts = [opts]; }
-		opts = array.map(opts, function(opt){
-			if(typeof opt == "string"){
-				kernel.deprecated(this.declaredClass+"["+this.id+"]::removeOption("+(isArray?"[":"")+"'"+opt+"'"+(isArray?"]":"")+") is deprecated. Use removeOption("+(isArray?"[":"")+"{value:'"+opt+"'}"+(isArray?"]":"")+") instead.", "", "2.0");
-				return { value: opt };
-			}
-			return opt;
-		}, this);
-		var oldOpts = this.getOptions(opts);
-		array.forEach(oldOpts, function(i){
+		//		For numeric option values, specify {value: number} as the argument.
+		var oldOpts = this.getOptions([].concat(valueOrIdx));
+		array.forEach(oldOpts, function(option){
 			// We can get null back in our array - if our option was not found.  In
 			// that case, we don't want to blow up...
-			if(i){
+			if(option){
 				this.options = array.filter(this.options, function(node){
-					return (node.value !== i.value || node.label !== i.label);
+					return (node.value !== option.value || node.label !== option.label);
 				});
-				this._removeOptionItem(i);
+				this._removeOptionItem(option);
 			}
 		}, this);
 		this._loadChildren();
@@ -214,8 +199,7 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 		//		is matched based on the value of the entered option.  Passing
 		//		in an array of new options will yield better performance since
 		//		the children will only be loaded once.
-		if(!lang.isArray(newOption)){ newOption = [newOption]; }
-		array.forEach(newOption, function(i){
+		array.forEach([].concat(newOption), function(i){
 			var oldOpt = this.getOptions({ value: i.value }), k;
 			if(oldOpt){
 				for(k in i){ oldOpt[k] = i[k]; }
@@ -433,21 +417,10 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 		this._updateSelection();
 	},
 
-	// displayedValue: String
-	//		The displayed value is the OPTION label.
-	//		Setting 'displayedValue' through set('displayedValue', ...)
-	//		updates 'value', and vice-versa.  Otherwise 'value' is updated
-	//		from 'displayedValue' periodically, like onBlur etc.
-	displayedValue: "",
-
 	_getDisplayedValueAttr: function(){
 		// summary:
 		//		returns the displayed value of the widget
-		var selected = this.get('selectedOptions');
-		if(!lang.isArray(selected)){
-			selected = [selected];
-		}
-		var ret = array.map(selected, function(v){
+		var ret = array.map([].concat(this.get('selectedOptions')), function(v){
 			if(v && "label" in v){
 				return v.label;
 			}else if(v){
@@ -456,6 +429,12 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 			return null;
 		}, this);
 		return this.multiple ? ret : ret[0];
+	},
+
+	_setDisplayedValueAttr: function(label){
+		// summary:
+		//		Sets the displayed value of the widget
+		this.set('value', this.getOptions(typeof label == "string" ? { label: label } : label));
 	},
 
 	_loadChildren: function(){
@@ -477,10 +456,7 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 		// summary:
 		//		Sets the "selected" class on the item for styling purposes
 		this._set("value", this._getValueFromOpts());
-		var val = this.value;
-		if(!lang.isArray(val)){
-			val = [val];
-		}
+		var val = [].concat(this.value);
 		if(val && val[0]){
 			array.forEach(this._getChildren(), function(child){
 				var isSelected = array.some(val, function(v){

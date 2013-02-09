@@ -222,7 +222,7 @@
 					{ widget: "ComboBox", id: "item", textValue: "refrigerators", widgetValue: "refrigerators" },
 					{ widget: "DateTextBox", id: "purchase", textValue: "01/05/2007", widgetValue: datelocale.parse("01/05/2007", {datePattern: 'MM/dd/yyyy', selector:'date'}) },
 					{ widget: "FilteringSelect", id: "state", textValue: "Pennsylvania", widgetValue: "PA" },
-					{ widget: "Select", id: "country", textValue: "US", widgetValue: "US" }
+					{ widget: "Select", id: "country", textValue: "United States of America", widgetValue: "US" }
 				], function(test){
 					doh.register("preDefinedValue " + test.widget, {
 						timeout: 8000,
@@ -233,8 +233,8 @@
 							var handler = aspect.after(inlineBox, 'edit', function(){
 								handler.remove();
 								var editWidget = inlineBox.wrapperWidget.editWidget;
-								var handler2 = aspect.after(editWidget, '_onFocus', function(){
-									handler2.remove();
+								handler = aspect.after(editWidget, '_onFocus', function(){
+									handler.remove();
 									robot.sequence(function(){
 										var
 										textValue = test.textValue,
@@ -362,23 +362,19 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							var inlineBox = registry.byId("inlineRTE");
-							var handler = inlineBox.connect(inlineBox, 'edit',
-								d.getTestErrback(function(){
-									inlineBox.disconnect(handler);
-									setTimeout(function(){
-										handler = inlineBox.connect(inlineBox, 'save',
-											d.getTestErrback(function(){
-												inlineBox.disconnect(handler);
-												setTimeout(d.getTestCallback(function(){
-													doh.t(helpers.isHidden(inlineBox.wrapperWidget), "editor widget should be visible");
-													doh.t(inlineBox.get("value").indexOf('!start!') >= 0, "value changed");
-												}), 1000);
-											}));
-										robot.typeKeys("!start!", 1, 1400);
-										var buttons = query(".saveButton", inlineBox.domNode.parentNode);
-										moveAndClick(buttons[buttons.length-1]);
-									}, 1000);
-								}));
+							var handler = aspect.after(inlineBox, 'edit', function(){
+								handler.remove();
+								handler = aspect.after(inlineBox, 'save', function(){
+									handler.remove();
+									setTimeout(d.getTestCallback(function(){
+										doh.t(helpers.isHidden(inlineBox.wrapperWidget), "editor widget should be visible");
+										doh.t(inlineBox.get("value").indexOf('!start!') >= 0, "value changed");
+									}), 1000);
+								});
+								robot.typeKeys("!start!", 1, 1400);
+								var buttons = query(".saveButton", inlineBox.domNode.parentNode);
+								moveAndClick(buttons[buttons.length-1]);
+							});
 							moveAndClick(inlineBox.domNode);
 							return d;
 						}
