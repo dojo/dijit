@@ -104,7 +104,7 @@
 						foo: 345,
 						_setFooAttr: function(val){
 							fooSetterCalled = val;
-							this.foo = val;
+							this._set("foo", val);
 						}
 					});
 
