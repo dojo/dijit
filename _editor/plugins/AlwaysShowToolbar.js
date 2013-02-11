@@ -80,6 +80,12 @@ return declare("dijit._editor.plugins.AlwaysShowToolbar", _Plugin, {
 			height = domGeometry.getMarginSize(e.document.body).h;
 		}
 
+		if(this._fixEnabled){
+			// #16204: add toolbar height when it is fixed aka "stuck to the top of the screen" to prevent content from cutting off during autosizing.
+			// Seems like _updateHeight should be taking the intitial margin height from a more appropriate node that includes the marginTop set in globalOnScrollHandler.
+			height += domGeometry.getMarginSize(this.editor.header).h;
+		}
+
 		if(height == 0){
 			console.debug("Can not figure out the height of the editing area!");
 			return; //prevent setting height to 0
