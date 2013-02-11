@@ -98,13 +98,14 @@ define([
 			//		Support get('value')
 
 			// this.value is set to 1AM, but return midnight, local time for back-compat
-			if(this.value && !isNaN(this.value)){
-				var value = new this.dateClassObj(this.value);
+			var storedVal = this._get("value");
+			if(storedVal && !isNaN(storedVal)){
+				var value = new this.dateClassObj(storedVal);
 				value.setHours(0, 0, 0, 0);
 
 				// If daylight savings pushes midnight to the previous date, fix the Date
 				// object to point at 1am so it will represent the correct day. See #9366
-				if(value.getDate() < this.value.getDate()){
+				if(value.getDate() < storedVal.getDate()){
 					value = this.dateModule.add(value, "hour", 1);
 				}
 				return value;

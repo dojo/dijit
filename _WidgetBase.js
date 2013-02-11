@@ -432,7 +432,7 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		// Generally this.foo == this.params.foo, except if postMixInProperties() changed the value of this.foo.
 		var params = {};
 		for(var key in this.params || {}){
-			params[key] = this[key];
+			params[key] = this._get(key);
 		}
 
 		// Step 2: Call set() for each property with a non-falsy value that wasn't passed as a parameter to the constructor
@@ -440,7 +440,7 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 			if(attr in params){
 				// skip this one, do it below
 			}else if(this[attr]){
-				this.set(attr, this[attr]);
+				this.set(attr, this._get(attr));
 			}
 		}, this);
 
@@ -736,7 +736,7 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		//		would be equivalent to the expression
 		//		`widget.bar2`
 		var names = this._getAttrNames(name);
-		return this[names.g] ? this[names.g]() : this[name];
+		return this[names.g] ? this[names.g]() : this._get(name);
 	},
 
 	set: function(name, value){
@@ -821,7 +821,7 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 
 	_set: function(/*String*/ name, /*anything*/ value){
 		// summary:
-		//		Helper function to set new value for specified attribute, and call handlers
+		//		Helper function to set new value for specified property, and call handlers
 		//		registered with watch() if the value has changed.
 		var oldValue = this[name];
 		this[name] = value;
@@ -836,6 +836,15 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 				}
 			});
 		}
+	},
+
+	_get: function(/*String*/ name){
+		// summary:
+		//		Helper function to get value for specified property stored by this._set(),
+		//		i.e. for properties with custom setters.
+
+		// future: return name in this.props ? this.props[name] : this[name];
+		return this[name];
 	},
 
 	emit: function(/*String*/ type, /*Object?*/ eventObj, /*Array?*/ callbackArgs){

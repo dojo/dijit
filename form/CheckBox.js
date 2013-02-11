@@ -77,7 +77,7 @@ define([
 			// description:
 			//		If the CheckBox is checked, returns the value attribute.
 			//		Otherwise returns false.
-			return (this.checked ? this.value : false);
+			return this.checked && this._get("value");
 		},
 
 		// Override behavior from Button, since we don't have an iconNode or valueNode
