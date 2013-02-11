@@ -135,7 +135,7 @@ var _FontDropDown = declare("dijit._editor.plugins._FontDropDown",
 
 		// Save off ths disabled state so the get retrieves it correctly
 		//without needing to have a function proxy it.
-		this.disabled = value;
+		this._set("disabled", value);
 		this.select.set("disabled", value);
 	}
 });

@@ -119,13 +119,12 @@ return declare( "dijit.form._ListBase", null, {
 			var selectedNode = this.selected;
 			if(selectedNode){
 				this.onDeselect(selectedNode);
-				this.selected = null;
 			}
 			if(node){
-				this.selected = node;
 				winUtils.scrollIntoView(node);
 				this.onSelect(node);
 			}
+			this._set("selected", node);
 		}else if(node){
 			this.onSelect(node);
 		}

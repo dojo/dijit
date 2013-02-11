@@ -80,11 +80,11 @@ define([
 		},
 
 		_setEncTypeAttr: function(/*String*/ value){
-			this.encType = value;
 			domAttr.set(this.domNode, "encType", value);
 			if(has("ie")){
 				this.domNode.encoding = value;
 			}
+			this._set("encType", value);
 		},
 
 		reset: function(/*Event?*/ e){

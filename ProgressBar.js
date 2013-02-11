@@ -149,7 +149,7 @@ return declare("dijit.ProgressBar", [_Widget, _TemplatedMixin], {
 
 	_setIndeterminateAttr: function(indeterminate){
 		// Deprecated, use set("value", ...) instead
-		this.indeterminate = indeterminate;
+		this._set("indeterminate", indeterminate);
 		this.update();
 	},
 

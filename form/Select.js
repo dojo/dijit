@@ -149,7 +149,7 @@ define([
 			// set value from selected option
 			if(this.options.length && !this.value && this.srcNodeRef){
 				var si = this.srcNodeRef.selectedIndex || 0; // || 0 needed for when srcNodeRef is not a SELECT
-				this.value = this.options[si >= 0 ? si : 0].value;
+				this._set("value", this.options[si >= 0 ? si : 0].value);
 			}
 			// Create the dropDown widget
 			this.dropDown = new _SelectMenu({ id: this.id + "_menu", parentWidget: this });

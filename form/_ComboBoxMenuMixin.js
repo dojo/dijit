@@ -34,7 +34,7 @@ var ComboBoxMenuMixin = declare("dijit.form._ComboBoxMenuMixin" + (has("dojo-bid
 	},
 
 	_setValueAttr: function(/*Object*/ value){
-		this.value = value;
+		this._set("value", value);
 		this.onChange(value);
 	},
 

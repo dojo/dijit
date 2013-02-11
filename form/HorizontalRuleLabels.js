@@ -103,7 +103,7 @@ if(has("dojo-bidi")){
 	HorizontalRuleLabels.extend({
 		_setTextDirAttr: function(textDir){
 			if(this.textDir != textDir){
-				this.textDir = textDir;
+				this._set("textDir", textDir);
 				query(".dijitRuleLabelContainer", this.domNode).forEach(
 					lang.hitch(this, function(labelNode){
 						labelNode.style.direction = this.getTextDir(labelNode.innerText || labelNode.textContent || "");

@@ -267,7 +267,7 @@ var _Plugin = declare("dijit._editor._Plugin", Destroyable, {
 		// summary:
 		//		Function to set the plugin state and call updateState to make sure the
 		//		button is updated appropriately.
-		this.disabled = disabled;
+		this._set("disabled", disabled);
 		this.updateState();
 	},
 

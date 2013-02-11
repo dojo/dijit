@@ -247,7 +247,9 @@ define([
 
 		_setConstraintsAttr: function(/* Object */ constraints){
 			// brings in visibleRange, increments, etc.
-			lang.mixin(this, constraints);
+			for(var key in constraints){
+				this._set(key, constraints[key]);
+			}
 
 			// locale needs the lang in the constraints as locale
 			if(!constraints.locale){
