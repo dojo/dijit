@@ -135,19 +135,19 @@
 				function customSetters(){
 					var CustomSetters = declare([_WidgetBase], {
 						foo: 0,
-						_setFooAttr: function(val){ this.foo = val + 5; },
-						_getFooAttr: function(val){ return this.foo - 10; }
+						_setFooAttr: function(val){ this._set("foo", val + 5); },
+						_getFooAttr: function(val){ return this._get("foo") - 10; }
 					});
 
 					var widget = new CustomSetters({
 						foo: 100
 					});
 
-					doh.is(105, widget.foo, "custom setter called at initialize time");
+					doh.is(105, widget._get("foo"), "custom setter called at initialize time");
 					doh.is(95, widget.get("foo"), "custom getter called");
 
 					widget.set("foo", 50);
-					doh.is(55, widget.foo, "custom setter called dynamically");
+					doh.is(55, widget._get("foo"), "custom setter called dynamically");
 					doh.is(45, widget.get("foo"), "custom getter still called");
 				},
 
@@ -233,11 +233,11 @@
 						single: null,
 						multiple: [],
 						_setSingleAttr: function(value){
-							this.multiple = value!=null?[value]:null;
+							this._set("multiple", value != null ? [value] : null);
 							this._set("single", value);
 						},
 						_setMultipleAttr: function(value){
-							this.single = value?(value.length >0?value[0]:null):null;
+							this._set("single", value ? (value.length > 0 ? value[0] : null) : null);
 							this._set("multiple", value);
 						}
 					});
@@ -258,14 +258,14 @@
 					var Widget = declare([_WidgetBase], {
 						foo: 10,
 						_setFooAttr: function(val){
-							this.foo = val;
-							this.bar = val + 1;
+							this._set("foo", val);
+							this._set("bar", val + 1);
 						},
 
 						bar: 11,
 						_setBarAttr: function(val){
-							this.bar = val;
-							this.foo = val - 1;
+							this._set("bar", val);
+							this._set("foo", val - 1);
 						}
 					});
 
