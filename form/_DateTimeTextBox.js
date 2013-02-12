@@ -188,7 +188,8 @@ define([
 
 		_set: function(attr, value){
 			// Avoid spurious watch() notifications when value is changed to new Date object w/the same value
-			if(attr == "value" && this.value instanceof Date && this.compare(value, this.value) == 0){
+			var oldValue = this._get("value");
+			if(attr == "value" && oldValue instanceof Date && this.compare(value, oldValue) == 0){
 				return;
 			}
 			this.inherited(arguments);
