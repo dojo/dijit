@@ -54,7 +54,7 @@ define([
 		// than a straight regexp to deal with locale (plus formatting options too?)
 		pattern: function(constraints){
 			// if focused, accept either currency data or NumberTextBox format
-			return '(' + (this.focused ? this.inherited(arguments, [ lang.mixin({}, constraints, this.editOptions) ]) + '|' : '')
+			return '(' + (this.focused ? this.inherited(arguments, [ lang.delegate(constraints, this.editOptions) ]) + '|' : '')
 				+ currency.regexp(constraints) + ')';
 		},
 
@@ -70,7 +70,7 @@ define([
 			//		protected extension
 			var v = this.inherited(arguments);
 			if(isNaN(v) && /\d+/.test(value)){ // currency parse failed, but it could be because they are using NumberTextBox format so try its parse
-				v = lang.hitch(lang.mixin({}, this, { _parser: NumberTextBox.prototype._parser }), "inherited")(arguments);
+				v = lang.hitch(lang.delegate(this, { _parser: NumberTextBox.prototype._parser }), "inherited")(arguments);
 			}
 			return v;
 		},
