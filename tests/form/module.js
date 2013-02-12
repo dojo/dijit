@@ -4,8 +4,9 @@ define(["doh/main", "require"], function(doh, require){
 	doh.register("form.ToggleButtonMixin", require.toUrl("./ToggleButtonMixin.html"));
 	doh.register("form.robot.Button_mouse", require.toUrl("./robot/Button_mouse.html"), 999999);
 	doh.register("form.robot.Button_a11y", require.toUrl("./robot/Button_a11y.html"), 999999);
-	
+
 	doh.register("form.CheckBoxMixin", require.toUrl("./CheckBoxMixin.html"));
+	doh.register("form.CheckBox", require.toUrl("./CheckBox.html"));
 	doh.register("form.RadioButtonMixin", require.toUrl("./RadioButtonMixin.html"));
 	doh.register("form.robot.CheckBox_mouse", require.toUrl("./robot/CheckBox_mouse.html"), 999999);
 	doh.register("form.robot.CheckBox_a11y", require.toUrl("./robot/CheckBox_a11y.html"), 999999);

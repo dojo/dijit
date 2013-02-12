@@ -20,15 +20,6 @@
 
 				doh.register("Checkbox a11y",[
 					{
-						name: "reset blank value",
-						runTest: function(){
-							doh.is("", dijit.byId('cb4').params.value, "blank parameter");
-							doh.is("on", dijit.byId('cb4').value, "value initially on");
-							dijit.byId('cb4').reset();
-							doh.is("on", dijit.byId('cb4').value, "on after reset");
-						}
-					},
-					{
 						timeout:5000,
 						name:"uncheck cb0 a11y",
 						runTest:function(){
@@ -404,29 +395,6 @@
 						}
 					}
 				]);
-
-				doh.register("CheckBox watch",
-					[
-						function w(){
-							var cb = dijit.byId('cb2');
-							cb.set("checked", true);
-
-							var oldWatch, newWatch;
-							cb.watch("checked", function(name, o, n){
-								oldWatch = o;
-								newWatch = n;
-							});
-
-							cb.set("checked", false);
-							doh.t(oldWatch, "old value was checked");
-							doh.f(newWatch, "new value is unchecked");
-
-							cb.set("checked", true);
-							doh.f(oldWatch, "old value was unchecked");
-							doh.t(newWatch, "new value is checked");
-						}
-					]
-				);
 
 				doh.run();
 			});

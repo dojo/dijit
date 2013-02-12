@@ -13,7 +13,6 @@
 
 		<script type="text/javascript">
 			dojo.require("dijit.robotx");
-			dojo.require("dijit.form.CheckBox");
 			dojo.require("dijit.tests.helpers");	// functions to help test
 
 			// These are the values assigned to the widgets in the page's HTML
@@ -68,28 +67,6 @@
 			dojo.ready(function(){
 				doh.robot.initRobot('../test_CheckBox.html');
 
-				// should be able to query for all of the inputs, including hidden ones
-				doh.register("query input by checked state", [
-					{
-						name: "query checked",
-						runTest: function(){
-							var queried=dojo.query("input[checked]", dojo.byId('myForm'));
-							doh.is(5,queried.length,"expected: 5 checked widgets, got: "+queried.length);
-						}
-					}
-				]);
-
-				doh.register("query input by name", [
-					{
-						name: "query name",
-						runTest: function(){
-							var queried=dojo.query("input[name]", dojo.byId('myForm'));
-							doh.is(13,queried.length,"expected: 13 named widgets, got: "+queried.length);
-						}
-					}
-				]);
-
-				var formWidget = dijit.byId("myForm");
 
 				var submitForm = function(name, testValues){
 					return {
@@ -97,6 +74,7 @@
 						timeout: 5000,
 						runTest: function(){
 							var d = new doh.Deferred();
+							var formWidget = dijit.byId("myForm");
 							submittedValues = function(formValues){
 								d.getTestCallback(function(){
 									for(var i in originalGet){ doh.is(testValues[i], formValues[i], i); }
@@ -112,41 +90,6 @@
 				};
 
 				doh.register("CheckBox values", [
-					function getValues(){
-						doh.is( dojo.toJson(originalGet), dojo.global.dojo.toJson(dijit.byId("myForm").get('value')) );
-					},
-					{
-						timeout:3000,
-						name:"setValues",
-						runTest:function(){
-							var d = new doh.Deferred();
-
-							doh.robot.sequence(function(){ submitForm("original submit", originalSubmit); }, 500); 
-							doh.robot.sequence(function(){ dijit.byId("myForm").set('value', change); }, 500); 
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is( dojo.toJson(changedGet), dojo.global.dojo.toJson(dijit.byId("myForm").get('value')) );
-							}), 1000);
-
-							return d;
-						}
-					},
-					{
-						timeout:3000,
-						name:"resetValues",
-						runTest:function(){
-							var d = new doh.Deferred();
-
-							doh.robot.sequence(function(){ submitForm("changed submit", changedSubmit); }, 500); 
-							doh.robot.sequence(function(){ dijit.byId("myForm").reset(); }, 500); 
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is( dojo.toJson(originalGet), dojo.global.dojo.toJson(dijit.byId("myForm").get('value')), "reset to original values" );
-							}), 1000);
-
-							return d;
-						}
-					},
 					{
 						timeout:3000,
 						name:"readOnly",
@@ -167,32 +110,6 @@
 					}
 				]);
 
-				doh.register("CheckBox onChange",
-					[
-						function fireOnChange(){
-							var d = new doh.Deferred();
-							var cb = dijit.byId('cb2');
-							var lastOnChange = dojo.byId('oncheckedoutput').innerHTML;
-							cb.set('checked', !cb.get('checked'));
-							setTimeout(d.getTestCallback(function(){
-								doh.isNot(lastOnChange, dojo.byId('oncheckedoutput').innerHTML);
-							}), 500);
-							return d;
-						},
-
-						function skipOnChange(){
-							var d = new doh.Deferred();
-							var cb = dijit.byId('cb2');
-							var lastOnChange = dojo.byId('oncheckedoutput').innerHTML;
-							cb.set('checked', !cb.get('checked'), false);
-							setTimeout(d.getTestCallback(function(){
-								doh.is(lastOnChange, dojo.byId('oncheckedoutput').innerHTML);
-							}), 500);
-							return d;
-						}
-					]
-				);
-				
 				doh.register("Radio button onChange",[
 					function checkInitialValues(){
 						doh.f(dijit.byId('g1rb1').checked, "news was checked");
