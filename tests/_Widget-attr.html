@@ -248,10 +248,10 @@
 					var w2 = new TestWidget({
 							multiple: [5]
 					});
-					doh.is(5, w1.single, "w1.single");
-					doh.is([5], w1.multiple, "w1.multiple");
-					doh.is(5, w2.single, "w2.single");
-					doh.is([5], w2.multiple, "w2.multiple");
+					doh.is(5, w1.get("single"), "w1.single");
+					doh.is([5], w1.get("multiple"), "w1.multiple");
+					doh.is(5, w2.get("single"), "w2.single");
+					doh.is([5], w2.get("multiple"), "w2.multiple");
 				},
 
 				function moreCorrelatedProperties(){
@@ -270,16 +270,16 @@
 					});
 
 					var w1 = new Widget({foo: 30});
-					doh.is(30, w1.foo, "w1.foo");
-					doh.is(31, w1.bar, "w1.bar");
+					doh.is(30, w1.get("foo"), "w1.foo");
+					doh.is(31, w1.get("bar"), "w1.bar");
 
 					var w2 = new Widget({bar: 30});
-					doh.is(30, w2.bar, "w2.foo");
-					doh.is(29, w2.foo, "w2.bar");
+					doh.is(30, w2.get("bar"), "w2.bar");
+					doh.is(29, w2.get("foo"), "w2.foo");
 
 					var w3 = new Widget({});
-					doh.is(10, w3.foo, "w3.foo");
-					doh.is(11, w3.bar, "w3.bar");
+					doh.is(10, w3.get("foo"), "w3.foo");
+					doh.is(11, w3.get("bar"), "w3.bar");
 				}
 			]);	// doh.register()
 
