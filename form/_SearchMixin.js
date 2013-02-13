@@ -124,7 +124,7 @@ define([
 			var key = evt.charOrCode;
 
 			// except for cutting/pasting case - ctrl + x/v
-			if(evt.type.substring(0,3) == "key" && (evt.altKey || ((evt.ctrlKey || evt.metaKey) && (key != 'x' && key != 'v')) || key == keys.SHIFT)){
+			if("type" in evt && evt.type.substring(0,3) == "key" && (evt.altKey || ((evt.ctrlKey || evt.metaKey) && (key != 'x' && key != 'v')) || key == keys.SHIFT)){
 				return; // throw out weird key combinations and spurious events
 			}
 
