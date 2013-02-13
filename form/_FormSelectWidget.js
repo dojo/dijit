@@ -317,12 +317,13 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 			when(this._queryRes, lang.hitch(this, function(items){
 
 				if(this.sortByLabel && !fetchArgs.sort && items.length){
-					if(items[0].getValue){
+					if(store.getValue){
 						// Old dojo.data API to access items, remove for 2.0
 						items.sort(sorter.createSortFunction([{
 							attribute: store.getLabelAttributes(items[0])[0]
 						}], store));
 					}else{
+						// TODO: remove sortByLabel completely for 2.0?  It can be handled by queryOptions: {sort: ... }.
 						var labelAttr = this.labelAttr;
 						items.sort(function(a, b){
 							return a[labelAttr] > b[labelAttr] ? 1 :  b[labelAttr] > a[labelAttr] ? -1 : 0;
