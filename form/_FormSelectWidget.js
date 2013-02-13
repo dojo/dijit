@@ -317,7 +317,7 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 			when(this._queryRes, lang.hitch(this, function(items){
 
 				if(this.sortByLabel && !fetchArgs.sort && items.length){
-					if(items[0].getValue){
+					if(store.getValue){
 						// Old dojo.data API to access items, remove for 2.0
 						items.sort(sorter.createSortFunction([{
 							attribute: store.getLabelAttributes(items[0])[0]
