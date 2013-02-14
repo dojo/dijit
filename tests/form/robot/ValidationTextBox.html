@@ -933,7 +933,7 @@
 							
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.is("", textWidget.get('value'), "get('value')");
-								doh.is("none", textWidget._phspan.style.display, "_phspan.style.display");
+								doh.isNot("none", textWidget._phspan.style.display, "_phspan.style.display");
 								
 								doh.robot.keyPress(dojo.keys.TAB, 500, {shift:true});
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -958,7 +958,7 @@
 							
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.is("", textWidget.get('value'), "get('value')");
-								doh.is("none", textWidget._phspan.style.display, "_phspan.style.display 1");
+								doh.isNot("none", textWidget._phspan.style.display, "_phspan.style.display 1");
 								
 								doh.robot.typeKeys('new', 0, 600);
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -979,13 +979,13 @@
 							textWidget.set('value','');
 							
 							doh.is("", textWidget.get('value'), "get('value') 1");
-							doh.is("none", textWidget._phspan.style.display, "_phspan.style.display");
+							doh.isNot("none", textWidget._phspan.style.display, "_phspan.style.display");
 							
 							textWidget.set('value','abc');
 							textWidget.reset();
 							
 							doh.is("", textWidget.get('value'), "get('value') 2");
-							doh.is("none", textWidget._phspan.style.display, "_phspan.style.display 1");
+							doh.isNot("none", textWidget._phspan.style.display, "_phspan.style.display 1");
 							
 							var handler = textWidget.connect(textWidget, '_onBlur',
 								function(){
