@@ -283,6 +283,62 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 	 },
 	=====*/
 
+	_introspect: function(){
+		// summary:
+		//		Collect metadata about this widget (only once per class, not once per instance):
+		//
+		//			- generate setter and getter methods for each relevant property, storing in this.constructor._props
+		//			- generate this.constructor._onMap, mapping names like "mousedown" to functions like onMouseDown
+
+		var ctor = this.constructor;
+		if(!ctor._props){
+			// hash from property name to setter and getter functions for that property
+			var props = (ctor._props = {});
+			function registerProp(name, setter, getter){
+				// Create custom setter/getter functions for specified property, and store in props{}.
+				// Setter and getter are either from this.attributeMap[] or widget's _setFooAttr and _getFooAttr.
+				props[name] = {
+					s: typeof setter == "function" ? setter : (setter || setter === "") ? function(val){
+						// Setter for this.attributeMap[name], or for when _setFooAttr is a string/object, including "".
+						this._attrToDom(name, val, setter);
+						this._set(name, val);
+					} : function(val){
+						// _setFooAttr: null or _setFooAttr: undefined means to *not* call _attrToDom()
+						this._set(name, val);
+					},
+					g: typeof getter == "function" ? getter : function(){
+						return this[name];
+						// future: return this.props[name];
+					}
+				};
+			}
+
+			// Create ctor._props entries for items in this.attributeMap.  For back-compat, remove for 2.0.
+			for(var name in this.attributeMap){
+				registerProp(name, this.attributeMap[name]);
+			}
+
+			// Loop over widget properties, creating ctor._props entries and filling in ctor._onMap.
+			var proto = ctor.prototype, onMap = (ctor._onMap = {});
+			for(name in proto){
+				if(/^on/.test(name)){
+					onMap[name.substring(2).toLowerCase()] = name;
+				}
+
+				if(/^_[sg]et[A-Z](.*)Attr$/.test(name)){
+					name = name.charAt(4).toLowerCase() + name.substr(5, name.length - 9);
+					if(!(name in props)){
+						var names = this._getAttrNames(name);
+						registerProp(name, proto[names.s], proto[names.g]);
+					}
+				}
+			}
+
+			// Note: this isn't picking up info on properties like aria-label and role, that don't have custom setters
+			// but that set() maps to this.domNode or this.focusNode,
+		}
+	 },
+
 	postscript: function(/*Object?*/params, /*DomNode|String*/srcNodeRef){
 		// summary:
 		//		Kicks off widget instantiation.  See create() for details.
@@ -317,6 +373,9 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		//		- otherwise, replace srcNodeRef with my generated DOM tree
 		// tags:
 		//		private
+
+		// First time widget is instantiated, scan prototype to figure out info about custom setters etc.
+		this._introspect();
 
 		// store pointer to original DOM tree
 		this.srcNodeRef = dom.byId(srcNodeRef);
@@ -400,28 +459,6 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		// tags:
 		//		private
 
-		// Get list of attributes where this.set(name, value) will do something beyond
-		// setting this[name] = value.  Specifically, attributes that have:
-		//		- associated _setXXXAttr() method/hash/string/array
-		//		- entries in attributeMap (remove this for 2.0);
-		var ctor = this.constructor,
-			list = ctor._setterAttrs;
-		if(!list){
-			list = (ctor._setterAttrs = []);
-			for(var attr in this.attributeMap){
-				list.push(attr);
-			}
-
-			var proto = ctor.prototype;
-			for(var fxName in proto){
-				if(fxName in this.attributeMap){ continue; }
-				var setterName = "_set" + fxName.replace(/^[a-z]|-[a-zA-Z]/g, function(c){ return c.charAt(c.length-1).toUpperCase(); }) + "Attr";
-				if(setterName in proto){
-					list.push(fxName);
-				}
-			}
-		}
-
 		// Call this.set() for each property that was either specified as parameter to constructor,
 		// or is in the list found above.	For correlated properties like value and displayedValue, the one
 		// specified as a parameter should take precedence.
@@ -435,14 +472,16 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 			params[key] = this._get(key);
 		}
 
-		// Step 2: Call set() for each property with a non-falsy value that wasn't passed as a parameter to the constructor
-		array.forEach(list, function(attr){
-			if(attr in params){
-				// skip this one, do it below
-			}else if(this[attr]){
-				this.set(attr, this._get(attr));
+		// Step 2: Call setter for each property with a non-falsy value that wasn't passed as a parameter to the constructor
+		var props = this.constructor._props;
+		for(key in props){
+			if(!(key in params)){
+				var val = this._get(key);
+				if(val){
+					this.set(key, val);
+				}
 			}
-		}, this);
+		}
 
 		// Step 3: Call set() for each property that was specified as parameter to constructor.
 		// Use params hash created above to ignore side effects from step #2 above.
@@ -697,7 +736,7 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 						(/^on[A-Z][a-zA-Z]*$/.test(attr) ? attr.toLowerCase() : attr);
 
 					if(mapNode.tagName){
-						// Normal case, mapping to a DOMNode.  Note that modern browsers will have a mapNode.set()
+						// Normal case, mapping to a DOMNode.  Note that modern browsers will have a mapNode.setAttribute()
 						// method, but for consistency we still call domAttr
 						domAttr.set(mapNode, attrName, value);
 					}else{
@@ -735,8 +774,14 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		//		`widget._getFooAttr()` and `myWidget.get("bar")`
 		//		would be equivalent to the expression
 		//		`widget.bar2`
-		var names = this._getAttrNames(name);
-		return this[names.g] ? this[names.g]() : this._get(name);
+
+		// Look up custom getter for specified property.
+		// normalizedName: supports get("accept-charset", ...) rather than set("acceptCharset").   Remove for 2.0.
+		var normalizedName = name.replace(/-[a-zA-Z]/g, function(c){ return c.charAt(1).toUpperCase(); }),
+			prop = this.constructor._props[normalizedName],
+			getter = prop && prop.g;
+
+		return getter ? getter.call(this) : this._get(name);
 	},
 
 	set: function(name, value){
@@ -771,26 +816,28 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 			}
 			return this;
 		}
-		var names = this._getAttrNames(name),
-			setter = this[names.s];
-		if(lang.isFunction(setter)){
-			// use the explicit setter
+
+		// Look up custom setter for specified property.
+		// normalizedName: supports set("accept-charset", ...) rather than set("acceptCharset").   Remove for 2.0.
+		var normalizedName = name.replace(/-[a-zA-Z]/g, function(c){ return c.charAt(1).toUpperCase(); }),
+			prop = this.constructor._props[normalizedName],
+			setter = prop && prop.s;
+
+		if(setter){
 			var result = setter.apply(this, Array.prototype.slice.call(arguments, 1));
 		}else{
-			// Mapping from widget attribute to DOMNode/subwidget attribute/value/etc.
-			// Map according to:
-			//		1. attributeMap setting, if one exists (TODO: attributeMap deprecated, remove in 2.0)
-			//		2. _setFooAttr: {...} type attribute in the widget (if one exists)
-			//		3. apply to focusNode or domNode if standard attribute name, excluding funcs like onClick.
+			// Default setter code.
+			// Apply to focusNode or domNode if standard attribute name, excluding funcs like onClick.
 			// Checks if an attribute is a "standard attribute" by whether the DOMNode JS object has a similar
 			// attribute name (ex: accept-charset attribute matches jsObject.acceptCharset).
 			// Note also that Tree.focusNode() is a function not a DOMNode, so test for that.
-			var defaultNode = this.focusNode && !lang.isFunction(this.focusNode) ? "focusNode" : "domNode",
+			// Consider removing this for 2.0, or changing it so that it doesn't need so much calculation
+			// each time it's run.
+			var names = this._getAttrNames(name),
+				defaultNode = this.focusNode && !lang.isFunction(this.focusNode) ? "focusNode" : "domNode",
 				tag = this[defaultNode] && this[defaultNode].tagName,
 				attrsForTag = tag && (tagAttrs[tag] || (tagAttrs[tag] = getAttrs(this[defaultNode]))),
-				map =	name in this.attributeMap ? this.attributeMap[name] :
-						names.s in this ? this[names.s] :
-						((attrsForTag && names.l in attrsForTag && typeof value != "function") ||
+				map = ((attrsForTag && names.l in attrsForTag && typeof value != "function") ||
 							/^aria-|^data-|^role$/.test(name)) ? defaultNode : null;
 			if(map != null){
 				this._attrToDom(name, value, map);
@@ -841,7 +888,9 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 	_get: function(/*String*/ name){
 		// summary:
 		//		Helper function to get value for specified property stored by this._set(),
-		//		i.e. for properties with custom setters.
+		//		i.e. for properties with custom setters.  Used mainly by custom getters.
+		//
+		//		For example, CheckBox._getValueAttr() calls this._get("value").
 
 		// future: return name in this.props ? this.props[name] : this[name];
 		return this[name];
@@ -906,16 +955,8 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		// summary:
 		//		Maps on() type parameter (ex: "mousemove") to method name (ex: "onMouseMove").
 		//		If type is a synthetic event like touch.press then returns undefined.
-		var ctor = this.constructor, map = ctor._onMap;
-		if(!map){
-			map = (ctor._onMap = {});
-			for(var attr in ctor.prototype){
-				if(/^on/.test(attr)){
-					map[attr.replace(/^on/, "").toLowerCase()] = attr;
-				}
-			}
-		}
-		return map[typeof type == "string" && type.toLowerCase()];	// String
+
+		return this.constructor._onMap[typeof type == "string" && type.toLowerCase()];	// String
 	},
 
 	toString: function(){
