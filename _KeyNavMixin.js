@@ -180,7 +180,7 @@ define([
 				return;
 			}
 
-			this.focusFirstChild();
+			this.focus();
 		},
 
 		_onFocus: function(){
@@ -201,6 +201,7 @@ define([
 			domAttr.set(this.domNode, "tabIndex", this.tabIndex);
 			if(this.focusedChild){
 				this.focusedChild.set("tabIndex", "-1");
+				this.lastFocusedChild = this.focusedChild;
 				this._set("focusedChild", null);
 			}
 			this.inherited(arguments);

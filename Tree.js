@@ -1776,6 +1776,18 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 		//		of just specifying a widget for the label, rather than one that contains
 		//		the children too.
 		return new TreeNode(args);
+	},
+
+	focus: function(){
+		// summary:
+		//		Default focus() implementation: focus the previously focused child, or first child.
+		//		Some applications may want to change this method to focus the [first] selected child.
+
+		if(this.lastFocusedChild){
+			this.lastFocusedChild.focus();
+		}else{
+			this.focusFirstChild();
+		}
 	}
 });
 
