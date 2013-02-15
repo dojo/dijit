@@ -60,7 +60,7 @@ var Button = declare("dijit.form.Button" + (has("dojo-bidi") ? "_NoBidi" : ""), 
 	_setNameAttr: function(name){
 		// avoid breaking existing subclasses where valueNode undefined.  Perhaps in 2.0 require it to be defined?
 		if(this.valueNode){
-			this._attrToDom("name", name, "valueNode");
+			this.valueNode.setAttribute("name", name);
 		}
 	},
 
