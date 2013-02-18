@@ -19,60 +19,14 @@
 		var treeIds = ["mytree", "tree2"],
 			registry;
 
-		function forceLoadChildItems(/*dijit._TreeNode*/ inNode, /*dijit.Tree*/ inTree){
-			if(inTree.model.mayHaveChildren(inNode.item)){
-				if(inNode.getChildren().length > 0){
-					return;
-				}
-				var childItems = null;
-				inTree.model.getChildren(inNode.item, function(items){ childItems = items; });
-				inNode.setChildItems(childItems);
-				childItems = null;
-			}
-		}
-
 		function testTreeItemRole(/*dijit._TreeNode*/ inRoot, /*dijit.Tree*/ inTree){
 			if(inRoot){
 				var expectedrole = inTree.showRoot || inRoot!==inTree.rootNode ? 'treeitem' : 'presentation';
 				doh.is(expectedrole, inRoot.labelNode.getAttribute("role"), inRoot.label + "[" + inTree.id + "]: aria role (" + expectedrole + ")");
 				// recurse
-				forceLoadChildItems(inRoot, inTree);
 				var children = inRoot.getChildren();
 				for(var i = 0; i < children.length; i++){
 					testTreeItemRole(children[i], inTree);
-				}
-			}
-		}
-
-		function test1TreeItemExpandedState(/*dijit._TreeNode*/ inItem, /*dijit.Tree*/ inTree){
-			if(inItem){
-				if(inItem.isExpandable){
-					var wasExpanded = inItem.isExpanded;
-					inTree._expandNode(inItem);
-					var nowExpanded = inItem.labelNode.getAttribute("aria-expanded");
-					inTree._collapseNode(inItem);
-					var nowCollapsed = inItem.labelNode.getAttribute("aria-expanded");
-					if(wasExpanded){
-						inTree._expandNode(inItem);
-					}
-					doh.is("true", nowExpanded, inItem.label + "[" + inTree.id + "]: aria state expanded=true");
-					doh.is("false", nowCollapsed, inItem.label + "[" + inTree.id + "]: aria state expanded=false");
-				}else{
-					// On IE9 getAttribute("aria-expanded") returns "", on other browsers null
-					var attr = inItem.labelNode.getAttribute("aria-expanded");
-					doh.t(attr === null || attr === "", inItem.label + "[" + inTree.id + "]: aria state expanded=false");
-				}
-			}
-		}
-
-		function testTreeItemExpandedState(/*dijit._TreeNode*/ inRoot, /*dijit.Tree*/ inTree){
-			if(inRoot){
-				test1TreeItemExpandedState(inRoot, inTree);
-				// recurse
-				forceLoadChildItems(inRoot, inTree);
-				var children = inRoot.getChildren();
-				for(var i = 0; i < children.length; i++){
-					testTreeItemExpandedState(children[i], inTree);
 				}
 			}
 		}
@@ -107,21 +61,21 @@
 					doh.is("tree2label", tree.rootNode.containerNode.getAttribute("aria-label"), "rootless tree has aria-label on containerNode");
 				},
 
-				function ariaTreeStateExpanded(){
-					for(i=0; i<treeIds.length; i++){
-						var tree = registry.byId(treeIds[i]);
-						var wasExpanded = tree.rootNode.isExpanded;
-						tree.rootNode.expand();
-						var nowExpanded = tree.domNode.getAttribute("aria-expanded");
-						tree.rootNode.collapse();
-						var nowCollapsed = tree.domNode.getAttribute("aria-expanded");
-						if(wasExpanded){
-							tree.rootNode.expand();
-						}
-						if(tree.showRoot){	//skip rootless trees that are always expanded
-							doh.is("true", nowExpanded, tree.id + ": aria state expanded=true");
-							doh.is("false", nowCollapsed, tree.id + ": aria state expanded=false ");
-						}
+				{
+					name: "ariaTreeItemStateExpanded",
+					timeout: 8000,
+					runTest: function(){
+						return mytree.expandAll().then(function(){
+							dojo.query('[widgetId]', mytree.containerNode).map(registry.byNode).forEach(function(/*TreeNode*/ inItem){
+								if(inItem.isExpandable){
+									doh.is("true", inItem.labelNode.getAttribute("aria-expanded"), inItem.label + "[" + mytree.id + "]: aria state expanded=true");
+								}else{
+									// On IE9 getAttribute("aria-expanded") returns "", on other browsers null
+									var attr = inItem.labelNode.getAttribute("aria-expanded");
+									doh.t(attr === null || attr === "", inItem.label + "[" + mytree.id + "]: aria state expanded=false");
+								}
+							});
+						});
 					}
 				},
 
@@ -132,10 +86,21 @@
 					}
 				},
 
-				function ariaTreeItemStateExpanded(){
-					for(i=0; i<treeIds.length; i++){
-						var tree = registry.byId(treeIds[i]);
-						testTreeItemExpandedState(tree.rootNode, tree);
+				{
+					name: "ariaTreeItemStateCollapsed",
+					timeout: 8000,
+					runTest: function(){
+						return mytree.collapseAll().then(function(){
+							dojo.query('[widgetId]', mytree.containerNode).map(registry.byNode).forEach(function(/*TreeNode*/ inItem){
+								if(inItem.isExpandable){
+									doh.is("false", inItem.labelNode.getAttribute("aria-expanded"), inItem.label + "[" + mytree.id + "]: aria state expanded=false");
+								}else{
+									// On IE9 getAttribute("aria-expanded") returns "", on other browsers null
+									var attr = inItem.labelNode.getAttribute("aria-expanded");
+									doh.t(attr === null || attr === "", inItem.label + "[" + mytree.id + "]: aria state expanded=false");
+								}
+							});
+						});
 					}
 				}
 			]);
