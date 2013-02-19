@@ -4,9 +4,9 @@ define([
 	"dojo/dom-style", // domStyle.getComputedStyle
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/window", // win.body
-	"dojo/window", // winUtils.getBox
+	"./Viewport", // getEffectiveBox
 	"."	// dijit (defining dijit.place to match API doc)
-], function(array, domGeometry, domStyle, kernel, win, winUtils, dijit){
+], function(array, domGeometry, domStyle, kernel, win, Viewport, dijit){
 
 	// module:
 	//		dijit/place
@@ -33,7 +33,7 @@ define([
 
 		// get {x: 10, y: 10, w: 100, h:100} type obj representing position of
 		// viewport over document
-		var view = winUtils.getBox();
+		var view = Viewport.getEffectiveBox(node.ownerDocument);
 
 		// This won't work if the node is inside a <div style="position: relative">,
 		// so reattach it to win.doc.body.	 (Otherwise, the positioning will be wrong
