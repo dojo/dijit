@@ -2,10 +2,11 @@ define([
 	"dojo/Evented",
 	"dojo/on",
 	"dojo/domReady",
-	"dojo/sniff",
+	"dojo/sniff",	// has("ie"), has("ios")
 	"dojo/_base/window", // global
-	"dojo/window" // getBox()
-], function(Evented, on, domReady, has, win, winUtils){
+	"dojo/window", // getBox()
+	"dijit/focus"
+], function(Evented, on, domReady, has, win, winUtils, focus){
 
 	// module:
 	//		dijit/Viewport
@@ -44,6 +45,23 @@ define([
 				}
 			}, 500);
 		}
+
+		Viewport.getEffectiveBox = function(/*Document*/ doc){
+			// summary:
+			//		Get the size of the viewport, or on mobile devices, the part of the viewport not obscured by the
+			//		virtual keyboard.
+
+			var box = winUtils.getBox(doc);
+
+			// Account for iOS virtual keyboard, if it's being shown.  Unfortunately no direct way to check or measure.
+			var fn = focus.curNode;
+			if(has("ios") && fn && /^(input|textarea)$/i.test(fn.tagName) &&
+					/^(color|email|number|password|search|tel|text|url)$/.test(fn.type)){
+				box.h *= (box.h > box.w ? 0.66 : 0.40);
+			}
+
+			return box;
+		};
 	});
 
 	return Viewport;

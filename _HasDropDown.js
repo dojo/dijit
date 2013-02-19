@@ -10,12 +10,13 @@ define([
 	"dojo/keys", // keys.DOWN_ARROW keys.ENTER keys.ESCAPE
 	"dojo/_base/lang", // lang.hitch lang.isFunction
 	"dojo/on",
-	"dojo/window", // winUtils.getBox
 	"./registry", // registry.byNode()
 	"./focus",
 	"./popup",
-	"./_FocusMixin"
-], function(declare, Deferred, dom, domAttr, domClass, domGeometry, domStyle, has, keys, lang, on, winUtils, registry, focus, popup, _FocusMixin){
+	"./_FocusMixin",
+	"./Viewport"
+], function(declare, Deferred, dom, domAttr, domClass, domGeometry, domStyle, has, keys, lang, on,
+			registry, focus, popup, _FocusMixin, Viewport){
 
 
 	// module:
@@ -422,7 +423,7 @@ define([
 				if(maxHeight == -1){
 					// limit height to space available in viewport either above or below my domNode
 					// (whichever side has more room)
-					var viewport = winUtils.getBox(this.ownerDocument),
+					var viewport = Viewport.getEffectiveBox(this.ownerDocument),
 						position = domGeometry.position(aroundNode, false);
 					maxHeight = Math.floor(Math.max(position.y, viewport.h - (position.y + position.h)));
 				}
@@ -439,8 +440,7 @@ define([
 				var mb = domGeometry.getMarginSize(ddNode);
 				var overHeight = (maxHeight && mb.h > maxHeight);
 				domStyle.set(ddNode, {
-					overflowX: "visible",
-					overflowY: overHeight ? "auto" : "visible"
+					overflow: overHeight ? "auto" : "visible"
 				});
 				if(overHeight){
 					mb.h = maxHeight;
