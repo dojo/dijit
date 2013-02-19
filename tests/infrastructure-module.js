@@ -21,6 +21,7 @@ define(["doh/main", "require"], function(doh, require){
 	doh.register("robot._Widget-ondijitclick_a11y", require.toUrl("./robot/_Widget-ondijitclick_a11y.html"), 999999);
 
 	// _Templated and other mixins
+	doh.register("_AttachMixin", require.toUrl("./_AttachMixin.html"), 999999);
 	doh.register("_TemplatedMixin", require.toUrl("./_TemplatedMixin.html"), 999999);
 	doh.register("_WidgetsInTemplateMixin", require.toUrl("./_WidgetsInTemplateMixin.html"), 999999);
 	doh.register("_Templated-widgetsInTemplate1.x", require.toUrl("./_Templated-widgetsInTemplate1.x.html"), 999999);
