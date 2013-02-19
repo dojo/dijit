@@ -134,6 +134,12 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
+							var watchedActiveStack, activeStackWatchNotifications = 0;
+							focus.watch("activeStack", function(attr, oldVal, newVal){
+								watchedActiveStack = newVal;
+								activeStackWatchNotifications++;
+							});
+
 							// This onFocus() function from helpers.js would be useful here, except it
 							// defeats the purpose of the test by using dijit/focus.
 							on.once(registry.byId("select").focusNode, "focus", function(){
@@ -145,6 +151,10 @@
 									// The focus stack should show the ComboBox plus all parent widgets
 									var stack = focus.activeStack;
 									doh.is("form, fieldset1, select", stack.join(", "), "active stack");
+
+									// Also check that we got (exactly) one watch notification about active stack
+									doh.is(1, activeStackWatchNotifications, "one watch() on activeStack");
+									doh.is("form, fieldset1, select", watchedActiveStack.join(", "), "watched active stack");
 
 									// _onFocus()/_onBlur was called appropriately
 									doh.f(focusEvents["form"], "form was already focused, no duplicate event");
@@ -158,6 +168,32 @@
 								}), 100);
 							});
 							registry.byId("select").focus();
+
+							return d;
+						}
+					},
+					{
+						name: "focus combobox again",
+						timeout: 4000,
+						setUp: function(){
+							resetEvents();
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var again;
+							focus.watch("activeStack", function(){
+								again = true;
+							});
+
+							registry.byId("select").focus();
+
+							on.emit(registry.byId("select").focusNode, "mousedown", {bubbles: true});
+							on.emit(registry.byId("select").focusNode, "mouseup", {bubbles: true});
+
+							setTimeout(d.getTestCallback(function(){
+								doh.f(again, "duplicate notification about activeStack");
+							}), 100);
 
 							return d;
 						}

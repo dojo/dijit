@@ -288,19 +288,19 @@ define([
 			// by:
 			//		"mouse" if the focus/touch was caused by a mouse down event
 
-			var oldStack = this.activeStack;
-			this.set("activeStack", newStack);
+			var oldStack = this.activeStack, lastOldIdx = oldStack.length - 1, lastNewIdx = newStack.length - 1;
 
-			// compare old stack to new stack to see how many elements they have in common
-			for(var nCommon=0; nCommon<Math.min(oldStack.length, newStack.length); nCommon++){
-				if(oldStack[nCommon] != newStack[nCommon]){
-					break;
-				}
+			if(newStack[lastNewIdx] == oldStack[lastOldIdx]){
+				// no changes, return now to avoid spurious notifications about changes to activeStack
+				return;
 			}
 
-			var widget;
+			this.set("activeStack", newStack);
+
+			var widget, i;
+
 			// for all elements that have gone out of focus, set focused=false
-			for(var i=oldStack.length-1; i>=nCommon; i--){
+			for(i = lastOldIdx; i >= 0 && oldStack[i] != newStack[i]; i--){
 				widget = registry.byId(oldStack[i]);
 				if(widget){
 					widget._hasBeenBlurred = true;		// TODO: used by form widgets, should be moved there
@@ -313,7 +313,7 @@ define([
 			}
 
 			// for all element that have come into focus, set focused=true
-			for(i=nCommon; i<newStack.length; i++){
+			for(i++; i <= lastNewIdx; i++){
 				widget = registry.byId(newStack[i]);
 				if(widget){
 					widget.set("focused", true);
