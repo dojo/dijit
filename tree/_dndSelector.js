@@ -313,7 +313,7 @@ define([
 					//add everything betweeen begin and end inclusively
 					while(begin != end){
 						nodes.push(begin);
-						begin = this.tree._getNextNode(begin);
+						begin = this.tree._getNext(begin);
 					}
 					nodes.push(end);
 

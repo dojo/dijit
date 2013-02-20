@@ -1,8 +1,9 @@
 define([
 	"dojo/_base/array", // array.forEach array.indexOf
 	"dojo/_base/declare", // declare
-	"dojo/dom-construct" // domConstruct.place
-], function(array, declare, domConstruct){
+	"dojo/dom-construct", // domConstruct.place
+	"dojo/_base/kernel" // kernel.deprecated
+], function(array, declare, domConstruct, kernel, registry){
 
 	// module:
 	//		dijit/_Container
@@ -90,8 +91,9 @@ define([
 			//		if -1, get the previous sibling
 			// tags:
 			//		private
+			kernel.deprecated(this.declaredClass+"::_getSiblingOfChild() is deprecated. Use _KeyNavMixin::_getNext() instead.", "", "2.0");
 			var children = this.getChildren(),
-				idx = array.indexOf(this.getChildren(), child);	// int
+				idx = array.indexOf(children, child);	// int
 			return children[idx + dir];
 		},
 

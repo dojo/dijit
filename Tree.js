@@ -1227,7 +1227,7 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 		// summary:
 		//		down arrow pressed; get next visible node, set focus there
 
-		var nextNode = this._getNextNode(node);
+		var nextNode = this._getNext(node);
 		if(nextNode && nextNode.isTreeNode){
 			this.focusNode(nextNode);
 		}
@@ -1291,19 +1291,29 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 		}
 	},
 
-	focusFirstChild: function(){
-		// summary:
-		//		Home key pressed; get first visible node, and set focus there
-		var node = this._getRootOrFirstNode();
-		if(node){
-			this.focusNode(node);
-		}
-	},
-
 	focusLastChild: function(){
 		// summary:
 		//		End key pressed; go to last visible node.
 
+		var node = this._getLast();
+		if(node && node.isTreeNode){
+			this.focusNode(node);
+		}
+	},
+
+	_getFirst: function(){
+		// summary:
+		//		Returns the first child.
+		// tags:
+		//		abstract extension
+		return this.showRoot ? this.rootNode : this.rootNode.getChildren()[0];
+	},
+
+	_getLast: function(){
+		// summary:
+		//		Returns the last descendant.
+		// tags:
+		//		abstract extension
 		var node = this.rootNode;
 		while(node.isExpanded){
 			var c = node.getChildren();
@@ -1312,21 +1322,32 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 			}
 			node = c[c.length - 1];
 		}
-
-		if(node && node.isTreeNode){
-			this.focusNode(node);
-		}
+		return node;
 	},
 
-	_getNextFocusableChild: function(node){
-		node = this._getNextNode(node);
+	// Tree only searches forward so dir parameter is unused
+	_getNext: function(node){
+		// summary:
+		//		Returns the next descendant, compared to "child".
+		// node: Widget
+		//		The current widget
+		// tags:
+		//		abstract extension
 
-		//check for last node, jump to first node if necessary
-		if(!node){
-			node = this._getRootOrFirstNode();
+		if(node.isExpandable && node.isExpanded && node.hasChildren()){
+			// if this is an expanded node, get the first child
+			return node.getChildren()[0];		// TreeNode
+		}else{
+			// find a parent node with a sibling
+			while(node && node.isTreeNode){
+				var returnNode = node.getNextSibling();
+				if(returnNode){
+					return returnNode;		// TreeNode
+				}
+				node = node.getParent();
+			}
+			return null;
 		}
-
-		return node;
 	},
 
 	// Implement _KeyNavContainer.childSelector, to identify which nodes are navigable
@@ -1443,26 +1464,15 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 		// summary:
 		//		Get next visible node
 
-		if(node.isExpandable && node.isExpanded && node.hasChildren()){
-			// if this is an expanded node, get the first child
-			return node.getChildren()[0];		// TreeNode
-		}else{
-			// find a parent node with a sibling
-			while(node && node.isTreeNode){
-				var returnNode = node.getNextSibling();
-				if(returnNode){
-					return returnNode;		// TreeNode
-				}
-				node = node.getParent();
-			}
-			return null;
-		}
+		kernel.deprecated(this.declaredClass+"::_getNextNode(node) is deprecated. Use _getNext(node) instead.", "", "2.0");
+		return this._getNext(node);
 	},
 
 	_getRootOrFirstNode: function(){
 		// summary:
 		//		Get first visible node
-		return this.showRoot ? this.rootNode : this.rootNode.getChildren()[0];
+		kernel.deprecated(this.declaredClass+"::_getRootOrFirstNode() is deprecated. Use _getFirst() instead.", "", "2.0");
+		return this._getFirst();
 	},
 
 	_collapseNode: function(/*TreeNode*/ node){
@@ -1784,7 +1794,7 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 		//		Some applications may want to change this method to focus the [first] selected child.
 
 		if(this.lastFocusedChild){
-			this.lastFocusedChild.focus();
+			this.focusNode(this.lastFocusedChild);
 		}else{
 			this.focusFirstChild();
 		}

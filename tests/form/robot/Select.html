@@ -375,11 +375,93 @@
 						}
 					},
 					{
-						name: "single letter searching",
+						name: "single letter search after failed multiple letter search, no dropdown",
 						timeout: 9000,
 						setUp: function(){
 							s2.set("value", "CA");
 							s2.focus();
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// c search fails to find CA due to multi-character searching
+							doh.robot.typeKeys("aaaaaaac", 1000, 1200);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("AZ", s2.get("value"), "hidden value");
+							}), 1000);
+
+							return d;
+						}
+					},
+					{
+						name: "multiple letter search after failed multiple letter search, no dropdown",
+						timeout: 9000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// ala suffix fails to find either alabama or alaska due to multi-character searching
+							doh.robot.typeKeys("aaaaaaaaala", 1000, 1400);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("AR", s2.get("value"), "hidden value");
+							}), 1000);
+
+							return d;
+						}
+					},
+					{
+						name: "multiple letter searching from current, no dropdown",
+						timeout: 9000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// search for Alabama
+							doh.robot.typeKeys("al", 1000, 1600); // al search finds alabama
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("AL", s2.get("value"), "hidden value");
+							}), 1000);
+
+							return d;
+						}
+					},
+					{
+						name: "multiple letter searching find next, no dropdown",
+						timeout: 9000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.typeKeys("alas", 1000, 1600); // s search finds alaska
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("AK", s2.get("value"), "hidden value");
+							}), 1000);
+
+							return d;
+						}
+					},
+					{
+						name: "single letter searching, no dropdown",
+						timeout: 9000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// c search fails to find CA due to multi-character searching
+							doh.robot.typeKeys("c", 500, 1200);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("CA", s2.get("value"), "hidden value");
+							}), 1000);
+
+							return d;
+						}
+					},
+					{
+						name: "single letter searching from dropdown",
+						timeout: 9000,
+						setUp: function(){
+							s2.set("value", "CA");
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -398,7 +480,7 @@
 						}
 					},
 					{
-						name: "multiple letter searching no match",
+						name: "multiple letter searching no match from dropdown",
 						timeout: 9000,
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -417,7 +499,7 @@
 						}
 					},
 					{
-						name: "multiple letter searching from current",
+						name: "multiple letter searching from current from dropdown",
 						timeout: 9000,
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -441,7 +523,7 @@
 						}
 					},
 					{
-						name: "multiple letter searching find next",
+						name: "multiple letter searching find next from dropdown",
 						timeout: 9000,
 						runTest: function(){
 							var d = new doh.Deferred();

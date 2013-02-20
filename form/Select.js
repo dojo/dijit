@@ -14,9 +14,11 @@ define([
 	"../MenuItem",
 	"../MenuSeparator",
 	"../Tooltip",
+	"../_KeyNavMixin",
+	"../registry", // registry.byNode
 	"dojo/text!./templates/Select.html",
 	"dojo/i18n!./nls/validate"
-], function(array, declare, domAttr, domClass, domGeometry, i18n, lang, on, has, _FormSelectWidget, _HasDropDown, DropDownMenu, MenuItem, MenuSeparator, Tooltip, template){
+], function(array, declare, domAttr, domClass, domGeometry, i18n, lang, on, has, _FormSelectWidget, _HasDropDown, DropDownMenu, MenuItem, MenuSeparator, Tooltip, _KeyNavMixin, registry, template){
 
 // module:
 //		dijit/form/Select
@@ -103,7 +105,7 @@ define([
 		}
 	});
 
-	var Select = declare("dijit.form.Select" + (has("dojo-bidi") ? "_NoBidi" : ""), [_FormSelectWidget, _HasDropDown], {
+	var Select = declare("dijit.form.Select" + (has("dojo-bidi") ? "_NoBidi" : ""), [_KeyNavMixin, _FormSelectWidget, _HasDropDown], {
 		// summary:
 		//		This is a "styleable" select box - it is basically a DropDownButton which
 		//		can take a `<select>` as its input.
@@ -197,6 +199,56 @@ define([
 			return this.dropDown.getChildren();
 		},
 
+		focusChild: function(/*dijit/_WidgetBase*/ widget){
+			// summary:
+			//		Sets the value to the given option, used during search by letter.
+			// widget:
+			//		Reference to option's widget
+			// tags:
+			//		protected
+			if(widget){
+				this.set('value', widget.option);
+			}
+		},
+
+		_getFirst: function(){
+			// summary:
+			//		Returns the first child widget.
+			// tags:
+			//		abstract extension
+			var children = this._getChildren();
+			return children.length ? children[0] : null;
+		},
+
+		_getLast: function(){
+			// summary:
+			//		Returns the last child widget.
+			// tags:
+			//		abstract extension
+			var children = this._getChildren();
+			return children.length ? children[children.length-1] : null;
+		},
+
+		childSelector: function(/*DOMNode*/ node){
+			// Implement _KeyNavMixin.childSelector, to identify focusable child nodes.
+			// If we allowed a dojo/query dependency from this module this could more simply be a string "> *"
+			// instead of this function.
+
+			var node = registry.byNode(node);
+			return node && node.getParent() == this.dropDown;
+		},
+
+		onKeyboardSearch: function(/*dijit/_WidgetBase*/ item, /*Event*/ evt, /*String*/ searchString, /*Number*/ numMatches){
+			// summary:
+			//		When a key is pressed that matches a child item,
+			//		this method is called so that a widget can take appropriate action is necessary.
+			// tags:
+			//		protected
+			if(item){
+				this.focusChild(item);
+			}
+		},
+
 		_loadChildren: function(/*Boolean*/ loadMenuItems){
 			// summary:
 			//		Resets the menu and the length attribute of the button - and
@@ -211,6 +263,7 @@ define([
 				// issues later in _setSelected). (see #10296)
 				if(this.dropDown){
 					delete this.dropDown.focusedChild;
+					this.focusedChild = null;
 				}
 				if(this.options.length){
 					this.inherited(arguments);
@@ -421,6 +474,19 @@ define([
 	}
 
 	Select._Menu = _SelectMenu;	// for monkey patching
+
+	// generic event helper to ensure the dropdown items are loaded before the real event handler is called
+	function _onEventAfterLoad(method){
+		return function(evt){
+			if(!this._isLoaded){
+				this.loadDropDown(lang.hitch(this, method, evt));
+			}else{
+				this.inherited(method, arguments);
+			}
+		};
+	}
+	Select.prototype._onContainerKeydown = _onEventAfterLoad("_onContainerKeydown");
+	Select.prototype._onContainerKeypress = _onEventAfterLoad("_onContainerKeypress");
 
 	return Select;
 });

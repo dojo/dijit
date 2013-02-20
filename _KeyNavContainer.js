@@ -15,7 +15,7 @@ define([
 	// module:
 	//		dijit/_KeyNavContainer
 
-	return declare("dijit._KeyNavContainer", [_FocusMixin, _Container, _KeyNavMixin], {
+	return declare("dijit._KeyNavContainer", [_FocusMixin, _KeyNavMixin, _Container], {
 		// summary:
 		//		A _Container with keyboard navigation of its children.
 		// description:
@@ -79,38 +79,22 @@ define([
 			widget.set("tabIndex", "-1");
 		},
 
-		_getFirstFocusableChild: function(){
+		_getFirst: function(){
 			// summary:
-			//		Returns first child that can be focused.
-
-			// Leverage _getNextFocusableChild() to skip disabled children
-			return this._getNextFocusableChild(null, 1);	// dijit/_WidgetBase
-		},
-
-		_getLastFocusableChild: function(){
-			// summary:
-			//		Returns last child that can be focused.
-
-			// Leverage _getNextFocusableChild() to skip disabled children
-			return this._getNextFocusableChild(null, -1);	// dijit/_WidgetBase
-		},
-
-		focusFirstChild: function(){
-			// summary:
-			//		Focus the first focusable child in the container.
+			//		Returns the first child.
 			// tags:
-			//		protected
-
-			this.focusChild(this._getFirstFocusableChild());
+			//		abstract extension
+			var children = this.getChildren();
+			return children.length ? children[0] : null;
 		},
 
-		focusLastChild: function(){
+		_getLast: function(){
 			// summary:
-			//		Focus the last focusable child in the container.
+			//		Returns the last descendant.
 			// tags:
-			//		protected
-
-			this.focusChild(this._getLastFocusableChild());
+			//		abstract extension
+			var children = this.getChildren();
+			return children.length ? children[children.length - 1] : null;
 		},
 
 		focusNext: function(){
@@ -128,35 +112,6 @@ define([
 			// tags:
 			//		protected
 			this.focusChild(this._getNextFocusableChild(this.focusedChild, -1), true);
-		},
-
-		_getNextFocusableChild: function(child, dir){
-			// summary:
-			//		Returns the next or previous focusable child, compared to "child".
-			//		Implements and extends _KeyNavMixin._getNextFocusableChild() for a _Container.
-			// child: Widget
-			//		The current widget
-			// dir: Integer
-			//		- 1 = after
-			//		- -1 = before
-			// tags:
-			//		abstract extension
-
-			if(child){
-				child = this._getSiblingOfChild(child, dir);
-			}
-			var children = this.getChildren();
-			for(var i = 0; i < children.length; i++){
-				if(!child){
-					child = children[(dir > 0) ? 0 : (children.length - 1)];
-				}
-				if(child.isFocusable()){
-					return child;	// dijit/_WidgetBase
-				}
-				child = this._getSiblingOfChild(child, dir);
-			}
-			// no focusable child found
-			return null;	// dijit/_WidgetBase
 		},
 
 		childSelector: function(/*DOMNode*/ node){

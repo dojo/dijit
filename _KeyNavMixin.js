@@ -20,14 +20,13 @@ define([
 		//
 		//		To use this mixin, the subclass must:
 		//
-		//			- Implement  focusFirstChild(), focusLastChild(), _onLeftArrow(), _onRightArrow()
+		//			- Implement  _getNext(), _getFirst(), _getLast(), _onLeftArrow(), _onRightArrow()
 		//			  _onDownArrow(), _onUpArrow() methods to handle home/end/left/right/up/down keystrokes.
-		//			- Implement _getNextFocusableChild() to find the next or previous child relative to a current child.
-		//			  Next and previous in this context refer to a linear ordering of the children or descendants used
+		//			  Next and previous in this context refer to a linear ordering of the descendants used
 		//			  by letter key search.
 		//			- Set all descendants' initial tabIndex to "-1"; both initial descendants and any
 		//			  descendants added later, by for example addChild()
-		//			- Define childSelector to a function or string that identifies focusable child widgets
+		//			- Define childSelector to a function or string that identifies focusable descendant widgets
 		//
 		//		Also, child widgets must implement a focus() method.
 
@@ -71,8 +70,9 @@ define([
 			}
 
 			var self = this,
-				childSelector = typeof this.childSelector == "string" ? this.childSelector :
-					lang.hitch(this, "childSelector");
+				childSelector = typeof this.childSelector == "string"
+					? this.childSelector
+					: lang.hitch(this, "childSelector");
 			this.own(
 				on(this.domNode, "keypress", lang.hitch(this, "_onContainerKeypress")),
 				on(this.domNode, "keydown", lang.hitch(this, "_onContainerKeydown")),
@@ -119,18 +119,38 @@ define([
 			this.focusFirstChild();
 		},
 
+		_getFirstFocusableChild: function(){
+			// summary:
+			//		Returns first child that can be focused.
+
+			// Leverage _getNextFocusableChild() to skip disabled children
+			return this._getNextFocusableChild(null, 1);	// dijit/_WidgetBase
+		},
+
+		_getLastFocusableChild: function(){
+			// summary:
+			//		Returns last child that can be focused.
+
+			// Leverage _getNextFocusableChild() to skip disabled children
+			return this._getNextFocusableChild(null, -1);	// dijit/_WidgetBase
+		},
+
 		focusFirstChild: function(){
 			// summary:
 			//		Focus the first focusable child in the container.
 			// tags:
-			//		abstract extension
+			//		protected
+
+			this.focusChild(this._getFirstFocusableChild());
 		},
 
 		focusLastChild: function(){
 			// summary:
 			//		Focus the last focusable child in the container.
 			// tags:
-			//		abstract extension
+			//		protected
+
+			this.focusChild(this._getLastFocusableChild());
 		},
 
 		focusChild: function(/*dijit/_WidgetBase*/ widget, /*Boolean*/ last){
@@ -365,14 +385,75 @@ define([
 			//		protected
 		},
 
-		_getNextFocusableChild: function(child){
+		_getNextFocusableChild: function(child, dir){
 			// summary:
-			//		Returns the next focusable child, compared to "child".
+			//		Returns the next or previous focusable descendant, compared to "child".
+			//		Implements and extends _KeyNavMixin._getNextFocusableChild() for a _Container.
 			// child: Widget
 			//		The current widget
+			// dir: Integer
+			//		- 1 = after
+			//		- -1 = before
 			// tags:
 			//		abstract extension
 
+			var wrappedValue = child;
+			do{
+				if(!child){
+					child = this[dir > 0 ? "_getFirst" : "_getLast"]();
+					if(!child){ break; }
+				}else{
+					child = this._getNext(child, dir);
+				}
+				if(child != null && child != wrappedValue && child.isFocusable()){
+					return child;	// dijit/_WidgetBase
+				}
+			}while(child != wrappedValue);
+			// no focusable child found
+			return null;	// dijit/_WidgetBase
+		},
+
+		_getFirst: function(){
+			// summary:
+			//		Returns the first child.
+			// tags:
+			//		abstract extension
+
+			return null;	// dijit/_WidgetBase
+		},
+
+		_getLast: function(){
+			// summary:
+			//		Returns the last descendant.
+			// tags:
+			//		abstract extension
+
+			return null;	// dijit/_WidgetBase
+		},
+
+		_getNext: function(child, dir){
+			// summary:
+			//		Returns the next descendant, compared to "child".
+			// child: Widget
+			//		The current widget
+			// dir: Integer
+			//		- 1 = after
+			//		- -1 = before
+			// tags:
+			//		abstract extension
+
+			if(child){
+				child = child.domNode;
+				while(child){
+					child = child[dir < 0 ? "previousSibling" : "nextSibling"];
+					if(child  && "getAttribute" in child){
+						var w = registry.byNode(child);
+						if(w){
+							return w; // dijit/_WidgetBase
+						}
+					}
+				}
+			}
 			return null;	// dijit/_WidgetBase
 		}
 	});

@@ -456,13 +456,18 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 	_updateSelection: function(){
 		// summary:
 		//		Sets the "selected" class on the item for styling purposes
+		this.focusedChild = null;
 		this._set("value", this._getValueFromOpts());
 		var val = [].concat(this.value);
 		if(val && val[0]){
+			var self = this;
 			array.forEach(this._getChildren(), function(child){
 				var isSelected = array.some(val, function(v){
 					return child.option && (v === child.option.value);
 				});
+				if(isSelected && !self.multiple){
+					self.focusedChild = child;
+				}
 				domClass.toggle(child.domNode, this.baseClass.replace(/\s+|$/g, "SelectedOption "), isSelected);
 				child.domNode.setAttribute("aria-selected", isSelected ? "true" : "false");
 			}, this);
