@@ -24,10 +24,22 @@ return declare( "dijit.form._ListMouseMixin", _ListBase, {
 
 	postCreate: function(){
 		this.inherited(arguments);
-		this.connect(this.domNode, touch.press, "_onMouseDown");
-		this.connect(this.domNode, touch.release, "_onMouseUp");
+		this.connect(this.domNode, "onclick", function(evt){ this._onClick(evt, this._getTarget(evt)); });
+		this.connect(this.domNode, "onmousedown", "_onMouseDown");
+		this.connect(this.domNode, "onmouseup", "_onMouseUp");
 		this.connect(this.domNode, "onmouseover", "_onMouseOver");
 		this.connect(this.domNode, "onmouseout", "_onMouseOut");
+	},
+
+	_onClick: function(/*Event*/ evt, /*DomNode*/ target){
+		this._setSelectedAttr(target);
+		if(this._deferredClick){
+			this._deferredClick.remove();
+		}
+		this._deferredClick = this.defer(function(){
+			this._deferredClick = null;
+			this.onClick(target);
+		});
 	},
 
 	_onMouseDown: function(/*Event*/ evt){
@@ -47,10 +59,9 @@ return declare( "dijit.form._ListMouseMixin", _ListBase, {
 		var target = this._getTarget(evt);
 		var hoveredNode = this._hoveredNode;
 		if(selectedNode && target == selectedNode){
-			this.onClick(selectedNode);
-		}else if(hoveredNode && target == hoveredNode){ // drag to select
-			this._setSelectedAttr(hoveredNode);
-			this.onClick(hoveredNode);
+			this.defer(function(){ this._onClick(evt, selectedNode); });
+		}else if(hoveredNode){ // drag to select
+			this.defer(function(){ this._onClick(evt, hoveredNode); });
 		}
 	},
 

@@ -1007,6 +1007,7 @@ return declare("dijit._WidgetBase", Stateful, {
 		//		protected.
 		var timer = setTimeout(lang.hitch(this, 
 			function(){ 
+				if(!timer){ return; }
 				timer = null;
 				if(!this._destroyed){ 
 					lang.hitch(this, fcn)(); 
