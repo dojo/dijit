@@ -1124,6 +1124,7 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		//		protected.
 		var timer = setTimeout(lang.hitch(this, 
 			function(){ 
+				if(!timer){ return; }
 				timer = null;
 				if(!this._destroyed){ 
 					lang.hitch(this, fcn)(); 
