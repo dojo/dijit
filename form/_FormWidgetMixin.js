@@ -119,7 +119,7 @@ return declare("dijit.form._FormWidgetMixin", null, {
 				focusHandle.remove();
 				// if here, then the mousedown did not focus the focusNode as the default action
 				if(this.focused){
-					this.focus();
+					this.defer("focus");
 				}
 			})))[0];
 		}
