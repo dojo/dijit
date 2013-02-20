@@ -4,9 +4,8 @@ define([
 	"dojo/domReady",
 	"dojo/sniff",	// has("ie"), has("ios")
 	"dojo/_base/window", // global
-	"dojo/window", // getBox()
-	"dijit/focus"
-], function(Evented, on, domReady, has, win, winUtils, focus){
+	"dojo/window" // getBox()
+], function(Evented, on, domReady, has, win, winUtils){
 
 	// module:
 	//		dijit/Viewport
@@ -25,6 +24,8 @@ define([
 	=====*/
 
 	var Viewport = new Evented();
+
+	var focusedNode;
 
 	domReady(function(){
 		var oldBox = winUtils.getBox();
@@ -46,23 +47,32 @@ define([
 			}, 500);
 		}
 
-		Viewport.getEffectiveBox = function(/*Document*/ doc){
-			// summary:
-			//		Get the size of the viewport, or on mobile devices, the part of the viewport not obscured by the
-			//		virtual keyboard.
-
-			var box = winUtils.getBox(doc);
-
-			// Account for iOS virtual keyboard, if it's being shown.  Unfortunately no direct way to check or measure.
-			var fn = focus.curNode;
-			if(has("ios") && fn && /^(input|textarea)$/i.test(fn.tagName) &&
-					/^(color|email|number|password|search|tel|text|url)$/.test(fn.type)){
-				box.h *= (box.h > box.w ? 0.66 : 0.40);
-			}
-
-			return box;
-		};
+		// On iOS, keep track of the focused node so we can guess when the keyboard is/isn't being displayed.
+		if(true || has("ios")){
+			on(document, "focusin", function(evt){
+				focusedNode = evt.target;
+			});
+			on(document, "focusout", function(evt){
+				focusedNode = null;
+			});
+		}
 	});
+
+	Viewport.getEffectiveBox = function(/*Document*/ doc){
+		// summary:
+		//		Get the size of the viewport, or on mobile devices, the part of the viewport not obscured by the
+		//		virtual keyboard.
+
+		var box = winUtils.getBox(doc);
+
+		// Account for iOS virtual keyboard, if it's being shown.  Unfortunately no direct way to check or measure.
+		if(has("ios") && focusedNode && /^(input|textarea)$/i.test(focusedNode.tagName) &&
+			/^(color|email|number|password|search|tel|text|url)$/.test(focusedNode.type)){
+			box.h *= (box.h > box.w ? 0.66 : 0.40);
+		}
+
+		return box;
+	};
 
 	return Viewport;
 });
