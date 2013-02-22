@@ -37,59 +37,7 @@
 				function extended_range(){
 					var t1 = dijit.byId("t1");
 					t1.set('value', new Date("December 11, 2011 00:09:30"));
-					doh.is(8, t1.timeMenu.children.length, 'num entries 1');
-					doh.is(new Date("January 1, 1970 00:00:00"), t1.timeMenu.children[0].date, 'first date 1');
-					doh.is(new Date("January 1, 1970 01:45:00"), t1.timeMenu.children[t1.timeMenu.children.length-1].date, 'last date 1');
-
-					t1.set('value', new Date("December 11, 2011 23:30:00"));
-					doh.is(8, t1.timeMenu.children.length, 'num entries 2');
-					doh.is(new Date("January 1, 1970 22:00:00"), t1.timeMenu.children[0].date, 'first date 2');
-					doh.is(new Date("January 1, 1970 23:45:00"), t1.timeMenu.children[t1.timeMenu.children.length-1].date, 'last date 2');
-				},
-				function truncated_range(){
-					var t2 = dijit.byId("t2");
-					t2.set('value', new Date("December 11, 2011 00:00:00"));
-					doh.is(10, t2.timeMenu.children.length, 'num entries 1');
-					doh.is(new Date("January 1, 1970 00:00:00"), t2.timeMenu.children[0].date, 'first date 1');
-					doh.is(new Date("January 1, 1970 02:15:00"), t2.timeMenu.children[t2.timeMenu.children.length-1].date, 'last date 1');
-
-					t2.set('value', new Date("December 11, 2011 23:59:59"));
-					doh.is(10, t2.timeMenu.children.length, 'num entries 2');
-					doh.is(new Date("January 1, 1970 21:30:00"), t2.timeMenu.children[0].date, 'first date 2');
-					doh.is(new Date("January 1, 1970 23:45:00"), t2.timeMenu.children[t2.timeMenu.children.length-1].date, 'last date 2');
-
-					t2.set('filterString', "5:3");
-					doh.is(2, t2.timeMenu.children.length, 'num entries 3');
-					doh.is(new Date("January 1, 1970 05:30:00"), t2.timeMenu.children[0].date, 'first date 3');
-					doh.is(new Date("January 1, 1970 17:30:00"), t2.timeMenu.children[t2.timeMenu.children.length-1].date, 'last date 3');
-				},
-				function scrolling(){
-					var t3 = dijit.byId("t3");
-					t3.set('value', new Date("December 11, 2011 00:45:00"));
-					doh.is(7, t3.timeMenu.children.length, 'num entries 1');
-					doh.is(new Date("January 1, 1970 00:00:00"), t3.timeMenu.children[0].date, 'first date 1a');
-					doh.is(new Date("January 1, 1970 01:30:00"), t3.timeMenu.children[t3.timeMenu.children.length-1].date, 'last date 1a');
-					t3._onArrowUp(0);
-					t3._onArrowUp(-1);
-					doh.is(new Date("January 1, 1970 00:00:00"), t3.timeMenu.children[0].date, 'first date 1b');
-					doh.is(new Date("January 1, 1970 01:30:00"), t3.timeMenu.children[t3.timeMenu.children.length-1].date, 'last date 1b');
-					t3._onArrowDown(0);
-					t3._onArrowDown(-1);
-					doh.is(new Date("January 1, 1970 00:15:00"), t3.timeMenu.children[0].date, 'first date 1c');
-					doh.is(new Date("January 1, 1970 01:45:00"), t3.timeMenu.children[t3.timeMenu.children.length-1].date, 'last date 1c');
-
-					t3.set('value', new Date("December 11, 2011 23:00:00"));
-					doh.is(7, t3.timeMenu.children.length, 'num entries 2');
-					doh.is(new Date("January 1, 1970 22:15:00"), t3.timeMenu.children[0].date, 'first date 2a');
-					doh.is(new Date("January 1, 1970 23:45:00"), t3.timeMenu.children[t3.timeMenu.children.length-1].date, 'last date 2a');
-					t3._onArrowDown(0);
-					t3._onArrowDown(-1);
-					doh.is(new Date("January 1, 1970 22:15:00"), t3.timeMenu.children[0].date, 'first date 2b');
-					doh.is(new Date("January 1, 1970 23:45:00"), t3.timeMenu.children[t3.timeMenu.children.length-1].date, 'last date 2b');
-					t3._onArrowUp(0);
-					t3._onArrowUp(-1);
-					doh.is(new Date("January 1, 1970 22:00:00"), t3.timeMenu.children[0].date, 'first date 2c');
-					doh.is(new Date("January 1, 1970 23:30:00"), t3.timeMenu.children[t3.timeMenu.children.length-1].date, 'last date 2c');
+					doh.is(96, t1.timeMenu.children.length, 'num entries 1');
 				}
 			);
 

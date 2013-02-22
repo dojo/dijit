@@ -1984,6 +1984,10 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 
 /* TimePicker */
 
+.dijitTimePicker {
+	background-color: white;
+}
+
 .dijitTimePickerItemInner {
 	text-align:center;
 	border:0;
