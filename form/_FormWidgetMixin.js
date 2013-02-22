@@ -114,12 +114,16 @@ return declare("dijit.form._FormWidgetMixin", null, {
 			}))[0];
 			// Set a global event to handle mouseup, so it fires properly
 			// even if the cursor leaves this.domNode before the mouse up event.
-			var mouseUpHandle = this.own(on(this.ownerDocumentBody, "mouseup, touchend", lang.hitch(this, function(){
+			var mouseUpHandle = this.own(on(this.ownerDocumentBody, "mouseup, touchend", lang.hitch(this, function(evt){
 				mouseUpHandle.remove();
 				focusHandle.remove();
 				// if here, then the mousedown did not focus the focusNode as the default action
 				if(this.focused){
-					this.defer("focus");
+					if(evt.type == "touchend"){
+						this.defer("focus"); // native focus hasn't occurred yet
+					}else{
+						this.focus(); // native focus already occurred on mousedown
+					}
 				}
 			})))[0];
 		}
