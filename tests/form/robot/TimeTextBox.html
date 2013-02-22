@@ -255,8 +255,8 @@
 								var popup = dijit.byId('q2_popup');
 								doh.t(popup && isVisible(popup), "popup visible");
 
-								// drop down list should be filtered to times starting with 12:,
-								// and they should appear in chronological order
+								// illegal pattern, so all entries are in the drop down;
+								// limited to 10 entries though because of #8387
 								var children = dojo.query(".dijitTimePickerItem", popup.domNode);
 								doh.is(10, children.length, "# of items in drop down");
 							}), 1000);
