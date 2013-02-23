@@ -18,7 +18,7 @@ define([
 	"dojo/ready",
 	"dojo/Stateful", // Stateful
 	"dojo/topic",
-	"dojo/_base/window", // win.doc, win.body()
+	"dojo/_base/window", // win.body()
 	"./Destroyable",
 	"dojo/has!dojo-bidi?./_BidiMixin",
 	"./registry"	// registry.getUniqueId(), registry.findWidgets()
@@ -386,7 +386,7 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		}
 
 		// The document and <body> node this widget is associated with
-		this.ownerDocument = this.ownerDocument || (this.srcNodeRef ? this.srcNodeRef.ownerDocument : win.doc);
+		this.ownerDocument = this.ownerDocument || (this.srcNodeRef ? this.srcNodeRef.ownerDocument : document);
 		this.ownerDocumentBody = win.body(this.ownerDocument);
 
 		registry.add(this);

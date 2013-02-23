@@ -3,9 +3,8 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/has", // has("dom-addeventlistener")
 	"dojo/keys", // keys.ENTER keys.SPACE
-	"dojo/on",
-	"dojo/_base/window" // win.doc
-], function(array, declare, has, keys, on, win){
+	"dojo/on"
+], function(array, declare, has, keys, on){
 
 	// module:
 	//		dijit/a11yclick
@@ -18,7 +17,7 @@ define([
 	// 4. onkeyup event fires, causing the ondijitclick handler to fire
 	var lastKeyDownNode = null;
 	if(has("dom-addeventlistener")){
-		win.doc.addEventListener('keydown', function(evt){
+		document.addEventListener('keydown', function(evt){
 			lastKeyDownNode = evt.target;
 		}, true);
 	}else{
@@ -27,9 +26,9 @@ define([
 			var keydownCallback = function(evt){
 				lastKeyDownNode = evt.srcElement;
 			};
-			win.doc.attachEvent('onkeydown', keydownCallback);
+			document.attachEvent('onkeydown', keydownCallback);
 			on(window, "unload", function(){
-				win.doc.detachEvent('onkeydown', keydownCallback);
+				document.detachEvent('onkeydown', keydownCallback);
 			});
 		})();
 	}

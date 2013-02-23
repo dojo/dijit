@@ -6,9 +6,8 @@ define([
 	"dojo/dom-style", // domStyle.set
 	"dojo/_base/lang", // lang.extend lang.hitch
 	"dojo/on",
-	"dojo/sniff", // has("ie"), has("mozilla"), has("quirks")
-	"dojo/_base/window" // win.doc.createElement
-], function(require, dijit, config, domConstruct, domStyle, lang, on, has, win){
+	"dojo/sniff" // has("ie"), has("mozilla"), has("quirks")
+], function(require, dijit, config, domConstruct, domStyle, lang, on, has){
 
 	// module:
 	//		dijit/BackgroundIFrame
@@ -39,7 +38,7 @@ define([
 					var html="<iframe src='" + burl + "' role='presentation'"
 						+ " style='position: absolute; left: 0px; top: 0px;"
 						+ "z-index: -1; filter:Alpha(Opacity=\"0\");'>";
-					iframe = win.doc.createElement(html);
+					iframe = document.createElement(html);
 				}else{
 					iframe = domConstruct.create("iframe");
 					iframe.src = 'javascript:""';

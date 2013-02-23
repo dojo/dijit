@@ -10,7 +10,7 @@ define([
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on",
 	"dojo/sniff", // has("ie"), has("quirks")
-	"dojo/_base/window", // win.body win.doc.documentElement win.doc.frames
+	"dojo/_base/window", // win.body
 	"dojo/window", // winUtils.get
 	"./popup",
 	"./DropDownMenu",
@@ -106,7 +106,7 @@ return declare("dijit.Menu", DropDownMenu, {
 		return winUtils.get(this._iframeContentDocument(iframe_el)) ||
 			// Moz. TODO: is this available when defaultView isn't?
 			this._iframeContentDocument(iframe_el)['__parent__'] ||
-			(iframe_el.name && win.doc.frames[iframe_el.name]) || null;	//	Window
+			(iframe_el.name && document.frames[iframe_el.name]) || null;	//	Window
 	},
 
 	_iframeContentDocument: function(/* HTMLIFrameElement */iframe_el){
@@ -116,7 +116,7 @@ return declare("dijit.Menu", DropDownMenu, {
 		//		protected
 		return iframe_el.contentDocument // W3
 			|| (iframe_el.contentWindow && iframe_el.contentWindow.document) // IE
-			|| (iframe_el.name && win.doc.frames[iframe_el.name] && win.doc.frames[iframe_el.name].document)
+			|| (iframe_el.name && document.frames[iframe_el.name] && document.frames[iframe_el.name].document)
 			|| null;	//	HTMLDocument
 	},
 
