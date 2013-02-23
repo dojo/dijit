@@ -34,8 +34,8 @@ define([
 		var view = Viewport.getEffectiveBox(node.ownerDocument);
 
 		// This won't work if the node is inside a <div style="position: relative">,
-		// so reattach it to win.doc.body.	 (Otherwise, the positioning will be wrong
-		// and also it might get cutoff)
+		// so reattach it to <body>.	 (Otherwise, the positioning will be wrong
+		// and also it might get cutoff.)
 		if(!node.parentNode || String(node.parentNode.tagName).toLowerCase() != "body"){
 			win.body(node.ownerDocument).appendChild(node);
 		}

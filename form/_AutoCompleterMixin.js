@@ -70,8 +70,8 @@ define([
 				pos = element.selectionStart;
 			}else if(has("ie")){
 				// in the case of a mouse click in a popup being handled,
-				// then the win.doc.selection is not the textarea, but the popup
-				// var r = win.doc.selection.createRange();
+				// then the document.selection is not the textarea, but the popup
+				// var r = document.selection.createRange();
 				// hack to get IE 6 to play nice. What a POS browser.
 				var tr = element.ownerDocument.selection.createRange().duplicate();
 				var ntr = element.createTextRange();

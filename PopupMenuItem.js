@@ -42,8 +42,8 @@ define([
 			if(this._started){ return; }
 			this.inherited(arguments);
 
-			// we didn't copy the dropdown widget from the this.srcNodeRef, so it's in no-man's
-			// land now.  move it to win.doc.body.
+			// We didn't copy the dropdown widget from the this.srcNodeRef, so it's in no-man's
+			// land now.  Move it to <body>.
 			if(!this.popup){
 				var node = query("[widgetId]", this.dropDownContainer)[0];
 				this.popup = registry.byNode(node);
