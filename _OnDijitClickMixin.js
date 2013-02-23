@@ -4,10 +4,8 @@ define([
 	"dojo/keys", // keys.ENTER keys.SPACE
 	"dojo/_base/declare", // declare
 	"dojo/has", // has("dom-addeventlistener")
-	"dojo/_base/unload", // unload.addOnWindowUnload
-	"dojo/_base/window", // win.doc.addEventListener win.doc.attachEvent win.doc.detachEvent
 	"./a11yclick"
-], function(on, array, keys, declare, has, unload, win, a11yclick){
+], function(on, array, keys, declare, has, a11yclick){
 
 	// module:
 	//		dijit/_OnDijitClickMixin
