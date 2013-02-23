@@ -1,12 +1,11 @@
 define([
-	"dojo/on",
 	"dojo/_base/array", // array.forEach
-	"dojo/keys", // keys.ENTER keys.SPACE
 	"dojo/_base/declare", // declare
 	"dojo/has", // has("dom-addeventlistener")
-	"dojo/_base/unload", // unload.addOnWindowUnload
-	"dojo/_base/window" // win.doc.addEventListener win.doc.attachEvent win.doc.detachEvent
-], function(on, array, keys, declare, has, unload, win){
+	"dojo/keys", // keys.ENTER keys.SPACE
+	"dojo/on",
+	"dojo/_base/window" // win.doc
+], function(array, declare, has, keys, on, win){
 
 	// module:
 	//		dijit/a11yclick
@@ -29,7 +28,7 @@ define([
 				lastKeyDownNode = evt.srcElement;
 			};
 			win.doc.attachEvent('onkeydown', keydownCallback);
-			unload.addOnWindowUnload(function(){
+			on(window, "unload", function(){
 				win.doc.detachEvent('onkeydown', keydownCallback);
 			});
 		})();

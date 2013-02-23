@@ -3,11 +3,11 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/dom-construct", // domConstruct.destroy, domConstruct.toDom
 	"dojo/_base/lang", // lang.getObject
+	"dojo/on",
 	"dojo/sniff", // has("ie")
 	"dojo/string", // string.substitute string.trim
-	"dojo/_base/unload", // unload.addOnWindowUnload
 	"./_AttachMixin"
-], function(cache, declare, domConstruct, lang, has, string, unload, _AttachMixin){
+], function(cache, declare, domConstruct, lang, on, has, string, _AttachMixin){
 
 	// module:
 	//		dijit/_TemplatedMixin
@@ -155,7 +155,7 @@ define([
 	};
 
 	if(has("ie")){
-		unload.addOnWindowUnload(function(){
+		on(window, "unload", function(){
 			var cache = _TemplatedMixin._templateCache;
 			for(var key in cache){
 				var value = cache[key];

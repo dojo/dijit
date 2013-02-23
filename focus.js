@@ -10,13 +10,12 @@ define([
 	"dojo/domReady",
 	"dojo/sniff", // has("ie")
 	"dojo/Stateful",
-	"dojo/_base/unload", // unload.addOnWindowUnload
 	"dojo/_base/window", // win.body
 	"dojo/window", // winUtils.get
 	"./a11y",	// a11y.isTabNavigable
 	"./registry",	// registry.byId
 	"./main"		// to set dijit.focus
-], function(aspect, declare, dom, domAttr, domConstruct, Evented, lang, on, domReady, has, Stateful, unload, win, winUtils,
+], function(aspect, declare, dom, domAttr, domConstruct, Evented, lang, on, domReady, has, Stateful, win, winUtils,
 			a11y, registry, dijit){
 
 	// module:
@@ -340,7 +339,7 @@ define([
 	domReady(function(){
 		var handle = singleton.registerWin(winUtils.get(win.doc));
 		if(has("ie")){
-			unload.addOnWindowUnload(function(){
+			on(window, "unload", function(){
 				if(handle){	// because this gets called twice when doh.robot is running
 					handle.remove();
 					handle = null;
