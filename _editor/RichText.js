@@ -197,6 +197,14 @@ define([
 			this.inherited(arguments);
 
 			topic.publish(dijit._scopeName + "._editor.RichText::init", this);
+		},
+
+		startup: function(){
+			this.inherited(arguments);
+
+			// Don't call open() until startup() because we need to be attached to the DOM, and also if we are the
+			// child of a StackContainer, let StackContainer._setupChild() do DOM manipulations before iframe is
+			// created, to avoid duplicate onload call.
 			this.open();
 			this.setupDefaultShortcuts();
 		},

@@ -103,6 +103,8 @@ define([
 		},
 
 		postCreate: function(){
+			this.inherited(arguments);
+
 			//for custom undo/redo, if enabled.
 			this._steps = this._steps.slice(0);
 			this._undoedSteps = this._undoedSteps.slice(0);
@@ -111,9 +113,19 @@ define([
 				this.plugins = this.plugins.concat(this.extraPlugins);
 			}
 
-			this.inherited(arguments);
-
 			this.commands = i18n.getLocalization("dijit._editor", "commands", this.lang);
+
+			if(has("webkit")){
+				// Disable selecting the entire editor by inadvertent double-clicks.
+				// on buttons, title bar, etc.  Otherwise clicking too fast on
+				// a button such as undo/redo selects the entire editor.
+				domStyle.set(this.domNode, "KhtmlUserSelect", "none");
+			}
+		},
+
+		startup: function(){
+
+			this.inherited(arguments);
 
 			if(!this.toolbar){
 				// if we haven't been assigned a toolbar, create one
@@ -135,15 +147,10 @@ define([
 			domClass.add(this.iframe, "dijitEditorIFrame");
 			domAttr.set(this.iframe, "allowTransparency", true);
 
-			if(has("webkit")){
-				// Disable selecting the entire editor by inadvertent double-clicks.
-				// on buttons, title bar, etc.  Otherwise clicking too fast on
-				// a button such as undo/redo selects the entire editor.
-				domStyle.set(this.domNode, "KhtmlUserSelect", "none");
-			}
 			this.toolbar.startup();
 			this.onNormalizedDisplayChanged(); //update toolbar button status
 		},
+
 		destroy: function(){
 			array.forEach(this._plugins, function(p){
 				if(p && p.destroy){

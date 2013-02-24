@@ -51,11 +51,13 @@
 				value: "Custom Initial Content.",
 				"aria-label": "progEditor"
 			}, "programmatic3");
+			progEditor.startup();
 
 			var progEditor2 = new dijit.Editor({
 				contentPreFilters: [function(txt){ return txt; }],
 				"aria-label": "progEditor2"
 			}, "programmatic4");
+			progEditor2.startup();
 		});
 
 	</script>
