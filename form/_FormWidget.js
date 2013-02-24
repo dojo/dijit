@@ -1,6 +1,6 @@
 define([
 	"dojo/_base/declare",	// declare
-	"dojo/sniff",			// has("dijit-legacy-requires"), has("win8app")
+	"dojo/sniff",			// has("dijit-legacy-requires"), has("msapp")
 	"dojo/_base/kernel",	// kernel.deprecated
 	"dojo/ready",
 	"../_Widget",
@@ -61,7 +61,7 @@ return declare("dijit.form._FormWidget", [_Widget, _TemplatedMixin, _CssStateMix
 		// Also, don't do this for Windows 8 Store Apps because it causes a security exception (see #16452).
 		// Regarding escaping, see heading "Attribute values" in
 		// http://www.w3.org/TR/REC-html40/appendix/notes.html#h-B.3.2
-		this.nameAttrSetting = (this.name && !has("win8app")) ? ('name="' + this.name.replace(/"/g, "&quot;") + '"') : '';
+		this.nameAttrSetting = (this.name && !has("msapp")) ? ('name="' + this.name.replace(/"/g, "&quot;") + '"') : '';
 		this.inherited(arguments);
 	},
 

@@ -1,6 +1,6 @@
 define([
 	"dojo/_base/declare", // declare
-	"dojo/sniff", // has("win8app")
+	"dojo/sniff", // has("msapp")
 	"dojo/dom-construct", // domConstruct.place
 	"./ValidationTextBox"
 ], function(declare, has, domConstruct, ValidationTextBox){
@@ -71,7 +71,7 @@ define([
 			// to make query(input[name=...]) work on IE. (see #8660).
 			// But not doing that for Windows 8 Store apps because it causes a security exception (see #16452).
 			this.valueNode = domConstruct.place("<input type='hidden'" +
-				((this.name && !has("win8app")) ? ' name="' + this.name.replace(/"/g, "&quot;") + '"' : "") + "/>",
+				((this.name && !has("msapp")) ? ' name="' + this.name.replace(/"/g, "&quot;") + '"' : "") + "/>",
 				this.textbox, "after");
 		},
 
