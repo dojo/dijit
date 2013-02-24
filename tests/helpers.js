@@ -99,7 +99,8 @@ waitForLoad: function(){
 			// Deferred fires when all widgets with an onLoadDeferred have fired
 			var widgets = array.filter(registry.toArray(), function(w){ return w.onLoadDeferred; }),
 				deferreds = array.map(widgets, function(w){ return w.onLoadDeferred; });
-			console.log("Waiting for " + widgets.length + " widgets");
+			console.log("Waiting for " + widgets.length + " widgets: " +
+				array.map(widgets, function(w){ return w.id; }).join(", "));
 			new all(deferreds).then(function(){
 				console.log("All widgets loaded.");
 				d.resolve(widgets);
