@@ -176,11 +176,14 @@ return declare("dijit.layout._ContentPaneResizeMixin", null, {
 		}else{
 			// All my child widgets are independently sized (rather than matching my size),
 			// but I still need to call resize() on each child to make it layout.
-			array.forEach(this.getChildren(), function(widget){
+			var children = this.getChildren(),
+				widget,
+				i = 0;
+			while(widget = children[i++]){
 				if(widget.resize){
 					widget.resize();
 				}
-			});
+			}
 		}
 	},
 
