@@ -63,8 +63,8 @@ require([
 
 				robot.sequence(d.getTestCallback(function(){
 					doh.t(helpers.isVisible("dialog1"), "dialog 1 still visible");
-					doh.is("name", dfocus.curNode && dfocus.curNode.id,
-							"focus remains on / returned to dialog");
+					doh.isNot("plainInput", dfocus.curNode && dfocus.curNode.id,
+							"focus did not go to plain input");
 				}), 1000);
 
 				return d;
@@ -263,7 +263,8 @@ require([
 		}
 	]);
 
-	doh.register("nested", [
+	// Opening a context menu shifts focus away from the Dialog but we shouldn't automatically shift focus back
+	doh.register("context menu", [
 		{
 			name: "open first",
 			timeout: 10000,
@@ -272,50 +273,19 @@ require([
 			}
 		},
 		{
-			name: "open second",
-			timeout: 10000,
-			runTest: function(){
-				return registry.byId('fifthDlg').show();
-			}
-		},
-		{
-			name: "click outside second dialog",
+			name: "open context menu",
 			timeout: 10000,
 			runTest: function(){
 				var d = new doh.Deferred();
 
-				robot.mouseMoveAt("plainInput", 500);
-				robot.mouseClick({left: true}, 1000);
-
-				robot.sequence(d.getTestCallback(function(){
-					doh.t(helpers.isVisible("fifthDlg"), "dialog 5 still visible");
-					doh.is("timeref", dfocus.curNode && dfocus.curNode.id,
-							"focus remains on / returned to dialog");
-				}), 1000);
-
-				return d;
-			}
-		},
-		{
-			name: "close second",
-			timeout: 10000,
-			runTest: function(){
-				return registry.byId('fifthDlg').hide();
-			}
-		},
-		{
-			name: "click outside first dialog",
-			timeout: 10000,
-			runTest: function(){
-				var d = new doh.Deferred();
-
-				robot.mouseMoveAt("plainInput", 500);
-				robot.mouseClick({left: true}, 1000);
+				robot.mouseMoveAt("dialog1", 500);
+				robot.mouseClick({right: true}, 1000);
 
 				robot.sequence(d.getTestCallback(function(){
 					doh.t(helpers.isVisible("dialog1"), "dialog 1 still visible");
-					doh.is("name", dfocus.curNode && dfocus.curNode.id,
-							"focus remains on / returned to dialog");
+					doh.t(helpers.isVisible("dialog1ContextMenu"), "context menu visible");
+					doh.is("firstMenuItem", dfocus.curNode && dfocus.curNode.id,
+							"focus on Menu");
 				}), 1000);
 
 				return d;

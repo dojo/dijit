@@ -567,7 +567,7 @@ define([
 					DialogUnderlay.hide();
 				}else{
 					// Popping back to previous dialog, adjust underlay.
-					DialogUnderlay.show(pd.underlayAttrs, pd.zIndex - 1, lang.hitch(pd.dialog, "focus"));
+					DialogUnderlay.show(pd.underlayAttrs, pd.zIndex - 1);
 				}
 
 				// Adjust focus
@@ -622,6 +622,25 @@ define([
 	var ds = Dialog._dialogStack = [
 		{dialog: null, focus: null, underlayAttrs: null}    // entry for stuff at z-index: 0
 	];
+
+	// If focus was accidentally removed from the dialog, such as if the user clicked a blank
+	// area of the screen, or clicked the browser's address bar and then tabbed into the page,
+	// then refocus.   Won't do anything if focus was removed because the Dialog was closed, or
+	// because a new Dialog popped up on top of the old one, or when focus moves to popups
+	focus.watch("curNode", function(attr, oldNode, node){
+		var topDialog = ds[ds.length - 1].dialog;
+		if(node && topDialog){	// if no dialogs, ds.length==1 but ds[ds.length-1].dialog is null
+			// If the node that was focused is inside the dialog or in a popup, even a context menu that isn't
+			// technically a descendant of the the dialog, don't do anything.
+			do{
+				if(node == topDialog.domNode || domClass.contains(node, "dijitPopup")){ return; }
+			}while(node = node.parentNode);
+
+			// Otherwise, return focus to the dialog.  Use a delay to avoid confusing dijit/focus code's
+			// own tracking of focus.
+			topDialog.focus();
+		}
+	});
 
 	// Back compat w/1.6, remove for 2.0
 	if(has("dijit-legacy-requires")){

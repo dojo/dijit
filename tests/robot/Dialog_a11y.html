@@ -460,6 +460,73 @@
 					}
 				]);
 
+				// Testing if focus somehow gets shifted to an element behind the underlay, by (for example)
+				// access keys, or tabbing in from the URL bar, or clicking the underlay, thus focusing <body>.
+				doh.register("focus return", [
+					{
+						name: "open first",
+						timeout: 10000,
+						runTest: function(){
+							return registry.byId('dialog1').show();
+						}
+					},
+					{
+						name: "open second",
+						timeout: 10000,
+						runTest: function(){
+							return registry.byId('fifthDlg').show();
+						}
+					},
+					{
+						name: "focus main page",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							dom.byId("plainInput").focus();
+
+							setTimeout(d.getTestCallback(function(){
+								doh.t(helpers.isVisible("fifthDlg"), "dialog 5 still visible");
+								doh.is("timeref", dfocus.curNode && dfocus.curNode.id,
+										"focus remains on / returned to dialog");
+							}), 1000);
+
+							return d;
+						}
+					},
+					{
+						name: "close second",
+						timeout: 10000,
+						runTest: function(){
+							return registry.byId('fifthDlg').hide();
+						}
+					},
+					{
+						name: "focus main page again",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							dom.byId("plainInput").focus();
+
+							setTimeout(d.getTestCallback(function(){
+								doh.t(helpers.isVisible("dialog1"), "dialog 1 still visible");
+								doh.is("name", dfocus.curNode && dfocus.curNode.id,
+										"focus remains on / returned to dialog");
+							}), 1000);
+
+							return d;
+						}
+					},
+					{
+						name: "close first",
+						timeout: 10000,
+						runTest: function(){
+							return registry.byId('dialog1').hide();
+						}
+					}
+				]);
+
 				doh.run();
 			});
 		</script>

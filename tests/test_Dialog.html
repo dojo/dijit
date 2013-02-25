@@ -120,6 +120,21 @@
 		</table>
 	</div>
 
+	<div id="dialog1ContextMenu" data-dojo-type="dijit/Menu" data-dojo-props='targetNodeIds:["dialog1"], style:"display: none;"'>
+		<div data-dojo-type="dijit/MenuItem" data-dojo-props='disabled:true'
+				id="firstMenuItem">Dialog1 Menu</div>
+		<div data-dojo-type="dijit/MenuItem" data-dojo-props='onClick:function(){ console.log("Hello world"); }'
+			 	id="enabledMenuItem">Enabled Item</div>
+		<div data-dojo-type="dijit/MenuItem" data-dojo-props='disabled:true'>Disabled Item</div>
+		<div data-dojo-type="dijit/MenuSeparator"></div>
+		<div data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconCut",
+			onClick:function(){ console.log("not actually cutting anything, just a test!") }'>Cut</div>
+		<div data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconCopy",
+			onClick:function(){ console.log("not actually copying anything, just a test!") }'>Copy</div>
+		<div data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconPaste",
+			onClick:function(){ console.log("not actually pasting anything, just a test!") }'>Paste</div>
+	</div>
+
 
 	<button data-dojo-type="dijit/form/Button" data-dojo-props='onClick:function(){ createDialog() }, title:"shows after 3 second delay, with blue background"'>Programatic Dialog (3 second delay)</button> |
 
