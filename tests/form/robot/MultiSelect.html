@@ -240,20 +240,6 @@
 							}), 1000);
 							return d;
 						}
-					},
-					{
-						name: "formSubmit",
-						timeout: 1500,
-						runTest: function(){
-							var d=new doh.Deferred();
-							dijit.byId('select3').set('value', ['TN','FL']);
-
-							doh.robot.sequence(d.getTestCallback(function(){
-									var vals = dojo.fromJson(dojo.formToJson("test"));
-									doh.is("TN,FL", vals.select3);
-							}), 500);
-							return d;
-						}
 					}
 
 				]);

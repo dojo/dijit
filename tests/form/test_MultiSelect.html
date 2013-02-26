@@ -26,76 +26,130 @@
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
-		data-dojo-config="isDebug: true, parseOnLoad: true"></script>
+		data-dojo-config="isDebug: true, parseOnLoad: false"></script>
 
 	<!-- only needed for alternate theme testing: -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">
-		var globalVals = null;
+		require([
+			"doh/runner",
+			"dojo/query",
+			"dojo/dom-form",
+			"dojo/_base/json",
+			"dojo/_base/array",
+			"dojo/_base/lang",
+			"dojo/dom-class",
+			"dojo/parser",
+			"dijit/dijit",
+			"dijit/focus",
+			"dijit/registry",
+			"dijit/form/MultiSelect",
+			"dijit/form/Button",
+			"dijit/form/Form",
+			"dijit/tests/helpers",
+			"dojo/domReady!"
+		], function(doh, query, domForm, json, array, lang, domClass, parser, dijit, focus, registry, MultiSelect, Button, Form,  helpers){
 
-		dojo.require("dijit.dijit"); // optimize: load dijit layer
-		dojo.require("dijit.form.MultiSelect");
+			parser.parse();
 
-		// needed for tests:
-		dojo.require("dijit.form.Form");
-		dojo.require("dijit.form.Button");
-		dojo.require("dijit.layout.SplitContainer");
-
-		dojo.ready(function(){
+			// Add mode=test to the URL to run unit tests.
+			var test = /mode=test/i.test(window.location.href);
 
 			// ref a clonable node, then split it between two selects
-			var c = dojo.query(".clone")[0];
+			var c = query(".clone")[0];
 			var l = -1;
 			opt = function(){
 				return dojo.byId((++l % 2 == 0 ? "select" : "select2" ));
 			};
 			// based on the the 'dijit' object
 			var count=0;
+			var select1Values = "dojo._defaultEasing";
 			for(var i in dijit){
 				var n = opt().appendChild(dojo.clone(c));
 				n.value = count++;
+				if(l % 2 == 0){
+					select1Values += "," + i;
+				}
 				n.innerHTML = i;
 			}
 
 			// turn any non-data-dojo-type selects into widgets programatically:
-			dojo.query("select").forEach(function(n){
+			query("select").forEach(function(n){
 				if(!dijit.byNode(n)){
-					var foo = new dijit.form.MultiSelect({ name: n.name }, n);
+					var foo = new dijit.form.MultiSelect({ name: n.name }, n).startup();
 				}
 			});
 
 			// listen to the "move items" buttons
-			dojo.query("button.switch")
+			query("button.switch")
 				.connect("onclick",function(e){
 					switch(e.target.id.toString()){
-						case "left" : dijit.byId("select").addSelected(dijit.byId("select2")); break;
-						case "right" : dijit.byId("select2").addSelected(dijit.byId("select")); break;
+						case "left" : registry.byId("select").addSelected(registry.byId("select2")); break;
+						case "right" : registry.byId("select2").addSelected(registry.byId("select")); break;
 					}
 			});
 
 			// listen to the invert buttons
-			dojo.query("button.invert")
+			query("button.invert")
 				.connect("onclick",function(e){
 					switch(e.target.id.toString()){
-						case "i1" : dijit.byId("select").invertSelection(); break;
-						case "i2" : dijit.byId("select2").invertSelection(); break;
-						case "i3" : dijit.byId("select3").invertSelection(); break;
+						case "i1" : registry.byId("select").invertSelection(); break;
+						case "i2" : registry.byId("select2").invertSelection(); break;
+						case "i3" : registry.byId("select3").invertSelection(); break;
 					}
 			});
 
 			// there is only one debug button
-			dojo.query(".debug").connect("onclick",function(e){
-				console.log('select value:',dijit.byId("select").get('value') + '/' + dijit.byId("select").value);
-				console.log('select2 value:',dijit.byId("select2").get('value') + '/' + dijit.byId("select2").value);
-				console.log('select3 value:',dijit.byId("select3").get('value') + '/' + dijit.byId("select3").value);
+			query(".debug").connect("onclick",function(e){
+				console.log('select value:',registry.byId("select").get('value') + '/' + registry.byId("select").value);
+				console.log('select2 value:',registry.byId("select2").get('value') + '/' + registry.byId("select2").value);
+				console.log('select3 value:',registry.byId("select3").get('value') + '/' + registry.byId("select3").value);
 			});
 
-			dojo.connect(dojo.byId("formSubmit"), "onclick", function(e){
+			query("#formSubmit").connect("onclick", function(e){
 				// see what the real form says about our widgets:
-				var vals = dojo.formToJson("test");
+				var vals = domForm.toJson("test");
 				console.log(vals);
 			});
+
+			query("#s1").connect("onclick", function(e){
+				registry.byId('select3').set('value', ['VA', 'WA']);
+			});
+
+			if(test){
+				doh.register("API", [
+					function initial(t){
+						var vals = json.fromJson(domForm.toJson("test"));
+						t.is(select1Values, query("option", registry.byId('select').containerNode).map(function(n){ return n.innerHTML; }).join(','));
+						t.is("", registry.byId('select').get('value').join(''), 'easing widget value');
+						t.is("", registry.byId('select2').get('value').join(''), 'second widget value');
+						t.is("TN", registry.byId('select3').get('value').join(''), 'select3 widget value');
+						t.is("", vals.easing, 'easing form value');
+						t.is("", vals.second, 'second form value');
+						t.is("TN", vals.select3, 'select3 form value');
+						t.t(domClass.contains(registry.byId('select2').domNode, "dijitMultiSelect"), 'second base class');
+						t.t(domClass.contains(registry.byId('select3').domNode, "dijitMultiSelect"), 'select3 base class');
+						t.t(domClass.contains(registry.byId('select3').domNode, "addedClass"), 'select3 added class');
+					},
+					{
+						name: "set",
+						timeout: 1000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+							registry.byId('select3').set('value', ['TN','FL']);
+							setTimeout(d.getTestCallback(function(){
+								var vals = json.fromJson(domForm.toJson("test"));
+								t.is("TN,FL", registry.byId('select3').get('value').join(','), "select3 widget value");
+								t.is("TN,FL", vals.select3, "select3 form value");
+							}), 500);
+							return d;
+						}
+					}
+				]);
+
+				doh.run();
+			}
 		});
 	</script>
 </head>
@@ -136,9 +190,8 @@
 
 		<h3><label for="select3">markup:</label></h3>
 
-		<select id="select3" multiple data-dojo-type="dijit/form/MultiSelect"
-			data-dojo-props='name:"select3",
-			style:{height:"200px", width:"175px", border:"5px solid #ededed"}'>
+		<select class="addedClass" id="select3" multiple data-dojo-type="dijit/form/MultiSelect"
+			data-dojo-props='name:"select3",style:{height:"200px", width:"175px", border:"5px solid #ededed"}'>
 
 			<option value="TN" selected>Tennessee</option>
 			<option value="VA">Virginia</option>
@@ -150,7 +203,6 @@
 		</form>
 		<br><br>
 		<button class='invert' id="i3">invert markup list</button>
-		<button class='set' id="s1" onclick="dijit.byId('select3').set('value', ['VA', 'WA']);">set markup list to [VA, WA]</button>
-		
+		<button class='set' id="s1">set markup list to [VA, WA]</button>
 </body>
 </html>

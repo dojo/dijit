@@ -21,6 +21,8 @@ var MultiSelect = declare("dijit.form.MultiSelect" + (has("dojo-bidi") ? "_NoBid
 	//		set the size via style="..." or CSS class names instead.
 	size: 7,
 
+	baseClass: "dijitMultiSelect",
+
 	templateString: "<select multiple='true' ${!nameAttrSetting} data-dojo-attach-point='containerNode,focusNode' data-dojo-attach-event='onchange: _onChange'></select>",
 
 	addSelected: function(/*dijit/form/MultiSelect*/ select){

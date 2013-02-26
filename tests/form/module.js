@@ -35,6 +35,7 @@ define(["doh/main", "require"], function(doh, require){
 	doh.register("form.robot.FilteringSelect_mouse", require.toUrl("./robot/_autoComplete_mouse.html?testWidget=dijit.form.FilteringSelect"), 999999);
 	doh.register("form.robot.FilteringSelect_a11y", require.toUrl("./robot/_autoComplete_a11y.html?testWidget=dijit.form.FilteringSelect"), 999999);
 
+	doh.register("form.MultiSelect", require.toUrl("./test_MultiSelect.html?mode=test"), 999999);
 	doh.register("form.robot.MultiSelect", require.toUrl("./robot/MultiSelect.html"), 999999);
 
 	doh.register("form.robot.SimpleTextarea", require.toUrl("./robot/SimpleTextarea.html"), 999999);
