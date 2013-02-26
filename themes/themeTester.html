@@ -29,6 +29,14 @@
 		border: 0;
 	}
 
+/***
+	Uncomment this rule to test border-box sizing
+	* {
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+***/
+
 	#header {
 		margin: 0;
 	}
@@ -125,7 +133,8 @@
 
 <script type="text/javascript">
 	require([
-		"dojo/_base/array", "dojo/_base/fx", "dojo/dom", "dojo/dom-class", "dojo/date/locale", "dojo/parser", "dojo/store/Memory",
+		"dojo/_base/array", "dojo/_base/fx", "dojo/dom", "dojo/dom-class", "dojo/dom-geometry", "dojo/dom-style",
+		"dojo/date/locale", "dojo/parser", "dojo/store/Memory",
 		"dijit/registry", "dijit/MenuItem", "dijit/tree/ObjectStoreModel",
 
 		// Editors used by InlineEditBox.  Must be pre-loaded.
@@ -137,7 +146,13 @@
 
 		// Don't call the parser until the DOM has finished loading
 		"dojo/domReady!"
-	], function(array, baseFx, dom, domClass, locale, parser, Memory, registry, MenuItem, ObjectStoreModel){
+	], function(array, baseFx, dom, domClass, domGeom, domStyle, locale, parser,Memory, registry, MenuItem, ObjectStoreModel){
+		// If you are doing box-model sizing then need to tell dom-geometry, see #15104
+		if(domStyle.get(document.body, "boxSizing") == "border-box" ||
+				domStyle.get(document.body, "MozBoxSizing") == "border-box"){
+			domGeom.boxModel = "border-box";
+		}
+
 		// various function ripped out of inline script type=dojo/* blocks
 		showDialog = function(){
 			var dlg = registry.byId('dialog1');
