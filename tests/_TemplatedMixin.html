@@ -245,6 +245,22 @@
 				}
 			]);
 
+			doh.register("_rendered", [
+				function preRendered(){
+					// Testing for when a widget's template is expanded on the server, so _rendered:true is passed
+					// as a parameter to the widget constructor.
+					var MyWidget = declare([_WidgetBase, _TemplatedMixin], {
+						declaredClass: "MyWidget",
+						templateString: "<input>"	// shouldn't be used, just listing a template for testing purposes
+					});
+					var widget = new MyWidget({
+						_rendered: true	// flag to not do template insertion
+					}, dom.byId("prerendered"));
+					doh.t(widget.heading, "heading attach point setup");
+					doh.is("h2", widget.heading.tagName.toLowerCase());
+				}
+			]);
+
 			doh.run();
 		});
 	</script>
@@ -259,5 +275,10 @@
 	<div id="attachPointWrapper"></div>
 	<div id="attachEventWrapper"></div>
 	<span id="replaceMe"></span>
+
+	<!-- test for _rendered=true flag -->
+	<div id="prerendered">
+		<h2 data-dojo-attach-point="heading">hi</h2>
+	</div>
 	</body>
 </html>
