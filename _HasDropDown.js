@@ -442,29 +442,23 @@ define([
 				domStyle.set(ddNode, {
 					overflow: overHeight ? "auto" : "visible"
 				});
+
+				// Set height and/or width of drop down if necessary
+				var resizeArgs = {};
 				if(overHeight){
-					mb.h = maxHeight;
-					if("w" in mb){
-						mb.w += 16;	// room for vertical scrollbar
-					}
-				}else{
-					delete mb.h;
+					// Need to reduce height of drop down, causing vertical scrollbar.  Strangely,
+					// also need to set width, otherwise it's too narrow and we get a horizontal scrollbar too.
+					resizeArgs.h = maxHeight;
+					resizeArgs.w = mb.w + 18;	// room for vertical scrollbar
 				}
-
-				// Adjust dropdown width to match or be larger than my width
-				if(this.forceWidth){
-					mb.w = aroundNode.offsetWidth;
-				}else if(this.autoWidth){
-					mb.w = Math.max(mb.w, aroundNode.offsetWidth);
-				}else{
-					delete mb.w;
+				if(this.forceWidth || (this.autoWidth && aroundNode.offsetWidth >
+						("w" in resizeArgs ? resizeArgs.w : mb.w))){
+					resizeArgs.w = aroundNode.offsetWidth;
 				}
-
-				// And finally, resize the dropdown to calculated height and width
 				if(lang.isFunction(dropDown.resize)){
-					dropDown.resize(mb);
+					dropDown.resize(resizeArgs);
 				}else{
-					domGeometry.setMarginBox(ddNode, mb);
+					domGeometry.setMarginBox(ddNode, resizeArgs);
 				}
 			}
 

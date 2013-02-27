@@ -20,9 +20,8 @@ define([
 	"dojo/i18n!./nls/validate"
 ], function(array, declare, domAttr, domClass, domGeometry, i18n, lang, on, has, _FormSelectWidget, _HasDropDown, DropDownMenu, MenuItem, MenuSeparator, Tooltip, _KeyNavMixin, registry, template){
 
-// module:
-//		dijit/form/Select
-
+	// module:
+	//		dijit/form/Select
 
 	var _SelectMenu = declare("dijit.form._SelectMenu", DropDownMenu, {
 		// summary:
@@ -38,7 +37,6 @@ define([
 			this.inherited(arguments);
 			var o = (this.menuTableNode = this.domNode);
 			var n = (this.domNode = this.ownerDocument.createElement("div"));
-			n.style.cssText = "overflow-x: hidden; overflow-y: scroll";
 			if(o.parentNode){
 				o.parentNode.replaceChild(n, o);
 			}
