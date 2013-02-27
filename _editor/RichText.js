@@ -19,7 +19,7 @@ define([
 	"dojo/topic", // topic.publish() (publish)
 	"dojo/_base/unload", // unload
 	"dojo/_base/url", // url
-	"dojo/_base/window", // win.global
+	"dojo/window", // winUtils.get()
 	"../_Widget",
 	"../_CssStateMixin",
 	"../selection",
@@ -27,20 +27,18 @@ define([
 	"./html",
 	"../focus",
 	"../main"    // dijit._scopeName
-], function(array, config, declare, Deferred, dom, domAttr, domClass, domConstruct, domGeometry, domStyle, kernel, keys, lang, on, query, domReady, has, topic, unload, _Url, win, _Widget, _CssStateMixin, selectionapi, rangeapi, htmlapi, focus, dijit){
+], function(array, config, declare, Deferred, dom, domAttr, domClass, domConstruct, domGeometry, domStyle,
+			kernel, keys, lang, on, query, domReady, has, topic, unload, _Url, winUtils,
+			_Widget, _CssStateMixin, selectionapi, rangeapi, htmlapi, focus, dijit){
 
-// module:
-//		dijit/_editor/RichText
-// summary:
-//		dijit/_editor/RichText is the core of dijit/Editor, which provides basic
-//		WYSIWYG editing features.
+	// module:
+	//		dijit/_editor/RichText
 
-// if you want to allow for rich text saving with back/forward actions, you must add a text area to your page with
-// the id==dijit._scopeName + "._editor.RichText.value" (typically "dijit/_editor/RichText.value). For example,
-// something like this will work:
-//
-//	<textarea id="dijit._editor.RichText.value" style="display:none;position:absolute;top:-100px;left:-100px;height:3px;width:3px;overflow:hidden;"></textarea>
-//
+	// If you want to allow for rich text saving with back/forward actions, you must add a text area to your page with
+	// the id==dijit._scopeName + "._editor.RichText.value" (typically "dijit/_editor/RichText.value). For example,
+	// something like this will work:
+	//
+	//	<textarea id="dijit._editor.RichText.value" style="display:none;position:absolute;top:-100px;left:-100px;height:3px;width:3px;overflow:hidden;"></textarea>
 
 	var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		// summary:
@@ -682,9 +680,9 @@ define([
 			files = files.concat(this.editingAreaStyleSheets);
 			this.editingAreaStyleSheets = [];
 
-			var text = '', i = 0, url;
+			var text = '', i = 0, url, ownerWindow = winUtils.get(this.ownerDocument);
 			while((url = files[i++])){
-				var abstring = (new _Url(win.global.location, url)).toString();
+				var abstring = (new _Url(ownerWindow.location, url)).toString();
 				this.editingAreaStyleSheets.push(abstring);
 				text += '<link rel="stylesheet" type="text/css" href="' + abstring + '"/>';
 			}
@@ -696,11 +694,11 @@ define([
 			//		add an external stylesheet for the editing area
 			// uri:
 			//		Url of the external css file
-			var url = uri.toString();
+			var url = uri.toString(), ownerWindow = winUtils.get(this.ownerDocument);
 
 			//if uri is relative, then convert it to absolute so that it can be resolved correctly in iframe
 			if(url.charAt(0) === '.' || (url.charAt(0) !== '/' && !uri.host)){
-				url = (new _Url(win.global.location, url)).toString();
+				url = (new _Url(ownerWindow.location, url)).toString();
 			}
 
 			if(array.indexOf(this.editingAreaStyleSheets, url) > -1){
@@ -726,10 +724,10 @@ define([
 		removeStyleSheet: function(/*dojo/_base/url*/ uri){
 			// summary:
 			//		remove an external stylesheet for the editing area
-			var url = uri.toString();
+			var url = uri.toString(), ownerWindow = winUtils.get(this.ownerDocument);
 			//if uri is relative, then convert it to absolute so that it can be resolved correctly in iframe
 			if(url.charAt(0) === '.' || (url.charAt(0) !== '/' && !uri.host)){
-				url = (new _Url(win.global.location, url)).toString();
+				url = (new _Url(ownerWindow.location, url)).toString();
 			}
 			var index = array.indexOf(this.editingAreaStyleSheets, url);
 			if(index === -1){
