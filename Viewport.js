@@ -3,9 +3,8 @@ define([
 	"dojo/on",
 	"dojo/domReady",
 	"dojo/sniff",	// has("ie"), has("ios")
-	"dojo/_base/window", // global
 	"dojo/window" // getBox()
-], function(Evented, on, domReady, has, win, winUtils){
+], function(Evented, on, domReady, has, winUtils){
 
 	// module:
 	//		dijit/Viewport
@@ -29,7 +28,7 @@ define([
 
 	domReady(function(){
 		var oldBox = winUtils.getBox();
-		Viewport._rlh = on(win.global, "resize", function(){
+		Viewport._rlh = on(window, "resize", function(){
 			var newBox = winUtils.getBox();
 			if(oldBox.h == newBox.h && oldBox.w == newBox.w){ return; }
 			oldBox = newBox;
