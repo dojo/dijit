@@ -1,5 +1,6 @@
 define([
 	"dojo/_base/array", // array.forEach
+	"dojo/aspect", // Aspect commands for advice
 	"dojo/_base/declare", // declare
 	"dojo/dom-attr", // domAttr.set
 	"dojo/dom-construct", // domConstruct.create domConstruct.place
@@ -9,17 +10,16 @@ define([
 	"dojo/keys", // keys.F12
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on", // on()
-	"dojo/sniff", // has("ie") has("webkit")
-	"dojo/_base/window", // win.body win.global
+	"dojo/sniff", // has("ie")
 	"dojo/window", // winUtils.getBox
 	"../../focus", // focus.focus()
 	"../_Plugin",
 	"../../form/ToggleButton",
 	"../..", // dijit._scopeName
 	"../../registry", // registry.getEnclosingWidget()
-	"dojo/aspect", // Aspect commands for adice
 	"dojo/i18n!../nls/commands"
-], function(array, declare, domAttr, domConstruct, domGeometry, domStyle, i18n, keys, lang, on, has, win, winUtils, focus, _Plugin, ToggleButton, dijit, registry, aspect){
+], function(array, aspect, declare, domAttr, domConstruct, domGeometry, domStyle, i18n, keys, lang, on, has, winUtils,
+			focus, _Plugin, ToggleButton, dijit, registry){
 
 // module:
 //		dijit/_editor/plugins/ViewSource
@@ -521,23 +521,19 @@ define([
 			// summary:
 			//		Internal function to set the caret in the sourceArea
 			//		to 0x0
-			var global = win.global;
 			var elem = this.sourceArea;
 			focus.focus(elem);
 			if(this._sourceShown && !this.readOnly){
-				if(has("ie")){
-					if(this.sourceArea.createTextRange){
-						var range = elem.createTextRange();
-						range.collapse(true);
-						range.moveStart("character", -99999); // move to 0
-						range.moveStart("character", 0); // delta from 0 is the correct position
-						range.moveEnd("character", 0);
-						range.select();
-					}
-				}else if(global.getSelection){
-					if(elem.setSelectionRange){
-						elem.setSelectionRange(0, 0);
-					}
+				if(elem.setSelectionRange){
+					elem.setSelectionRange(0, 0);
+				}else if(this.sourceArea.createTextRange){
+					// IE
+					var range = elem.createTextRange();
+					range.collapse(true);
+					range.moveStart("character", -99999); // move to 0
+					range.moveStart("character", 0); // delta from 0 is the correct position
+					range.moveEnd("character", 0);
+					range.select();
 				}
 			}
 		},
