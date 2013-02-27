@@ -202,7 +202,7 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 
 	// ownerDocument: [const] Document?
 	//		The document this widget belongs to.  If not specified to constructor, will default to
-	//		srcNodeRef.ownerDocument, or if no sourceRef specified, then to dojo/_base/window::doc
+	//		srcNodeRef.ownerDocument, or if no sourceRef specified, then to the document global
 	ownerDocument: null,
 	_setOwnerDocumentAttr: function(val){
 		// this setter is merely to avoid automatically trying to set this.domNode.ownerDocument
