@@ -16,11 +16,11 @@ define([
 	"dojo/_base/xhr", // xhr.get
 	"dojo/i18n", // i18n.getLocalization
 	"dojo/when"
-], function(kernel, lang, _Widget, _Container, _ContentPaneResizeMixin, string, html, nlsLoading, array, declare, Deferred, dom, domAttr, domConstruct, xhr, i18n, when){
+], function(kernel, lang, _Widget, _Container, _ContentPaneResizeMixin, string, html, nlsLoading, array, declare,
+			Deferred, dom, domAttr, domConstruct, xhr, i18n, when){
 
-// module:
-//		dijit/layout/ContentPane
-
+	// module:
+	//		dijit/layout/ContentPane
 
 	return declare("dijit.layout.ContentPane", [_Widget, _Container, _ContentPaneResizeMixin], {
 		// summary:
@@ -650,5 +650,4 @@ define([
 			//		callback
 		}
 	});
-
 });

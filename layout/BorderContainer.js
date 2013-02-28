@@ -15,10 +15,11 @@ define([
 	"../_TemplatedMixin",
 	"./_LayoutWidget",
 	"./utils"        // layoutUtils.layoutChildren
-], function(array, cookie, declare, domClass, domConstruct, domGeometry, domStyle, keys, lang, on, touch, _WidgetBase, _Widget, _TemplatedMixin, _LayoutWidget, layoutUtils){
+], function(array, cookie, declare, domClass, domConstruct, domGeometry, domStyle, keys, lang, on, touch,
+			_WidgetBase, _Widget, _TemplatedMixin, _LayoutWidget, layoutUtils){
 
-// module:
-//		dijit/layout/BorderContainer
+	// module:
+	//		dijit/layout/BorderContainer
 
 	var _Splitter = declare("dijit.layout._Splitter", [_Widget, _TemplatedMixin ],
 		{
@@ -557,12 +558,12 @@ define([
 		maxSize: Infinity
 	};
 
-// Since any widget can be specified as a LayoutContainer child, mix it
-// into the base widget class.  (This is a hack, but it's effective.)
-// This is for the benefit of the parser.   Remove for 2.0.  Also, hide from doc viewer.
+	// Since any widget can be specified as a LayoutContainer child, mix it
+	// into the base widget class.  (This is a hack, but it's effective.)
+	// This is for the benefit of the parser.   Remove for 2.0.  Also, hide from doc viewer.
 	lang.extend(_WidgetBase, /*===== {} || =====*/ BorderContainer.ChildWidgetProperties);
 
-// For monkey patching
+	// For monkey patching
 	BorderContainer._Splitter = _Splitter;
 	BorderContainer._Gutter = _Gutter;
 
