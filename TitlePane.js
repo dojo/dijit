@@ -16,9 +16,8 @@ define([
 	"./_base/manager"    // defaultDuration
 ], function(array, declare, dom, domAttr, domClass, domGeometry, fxUtils, has, kernel, keys, _CssStateMixin, _TemplatedMixin, ContentPane, template, manager){
 
-// module:
-//		dijit/TitlePane
-
+	// module:
+	//		dijit/TitlePane
 
 	var TitlePane = declare("dijit.TitlePane", [ContentPane, _TemplatedMixin, _CssStateMixin], {
 		// summary:

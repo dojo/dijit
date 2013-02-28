@@ -12,8 +12,8 @@ define([
 	"./typematic"
 ], function(declare, domAttr, domClass, domConstruct, keys, lang, on, _CssStateMixin, a11yclick, focus, typematic){
 
-// module:
-//		dijit/_PaletteMixin
+	// module:
+	//		dijit/_PaletteMixin
 
 	var PaletteMixin = declare("dijit._PaletteMixin", _CssStateMixin, {
 		// summary:
@@ -307,37 +307,33 @@ define([
 	});
 
 	/*=====
-	 PaletteMixin.__Dye = declare("dijit.Dye",
-	 null,
-	 {
-	 // summary:
-	 //		Interface for the JS Object associated with a palette cell (i.e. DOMNode)
+	 PaletteMixin.__Dye = declare("dijit.Dye", null, {
+		 // summary:
+		 //		Interface for the JS Object associated with a palette cell (i.e. DOMNode)
 
-	 constructor: function(alias, row, col){
-	 // summary:
-	 //		Initialize according to value or alias like "white"
-	 // alias: String
-	 },
+		 constructor: function(alias, row, col){
+			 // summary:
+			 //		Initialize according to value or alias like "white"
+			 // alias: String
+		 },
 
-	 getValue: function(){
-	 // summary:
-	 //		Return "value" of cell; meaning of "value" varies by subclass.
-	 // description:
-	 //		For example color hex value, emoticon ascii value etc, entity hex value.
-	 },
+		 getValue: function(){
+			 // summary:
+			 //		Return "value" of cell; meaning of "value" varies by subclass.
+			 // description:
+			 //		For example color hex value, emoticon ascii value etc, entity hex value.
+		 },
 
-	 fillCell: function(cell, blankGif){
-	 // summary:
-	 //		Add cell DOMNode inner structure
-	 // cell: DomNode
-	 //		The surrounding cell
-	 // blankGif: String
-	 //		URL for blank cell image
-	 }
-	 }
-	 );
+		 fillCell: function(cell, blankGif){
+			 // summary:
+			 //		Add cell DOMNode inner structure
+			 // cell: DomNode
+			 //		The surrounding cell
+			 // blankGif: String
+			 //		URL for blank cell image
+		 }
+	 });
 	 =====*/
 
 	return PaletteMixin;
-
 });

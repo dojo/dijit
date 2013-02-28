@@ -11,8 +11,8 @@ define([
 	"./registry"
 ], function(array, declare, dom, domClass, has, lang, on, domReady, win, registry){
 
-// module:
-//		dijit/_CssStateMixin
+	// module:
+	//		dijit/_CssStateMixin
 
 	var CssStateMixin = declare("dijit._CssStateMixin", [], {
 		// summary:

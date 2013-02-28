@@ -8,8 +8,8 @@ define([
 	"./main"        // setting dijit.typematic global
 ], function(array, connect, kernel, lang, on, has, dijit){
 
-// module:
-//		dijit/typematic
+	// module:
+	//		dijit/typematic
 
 	var typematic = (dijit.typematic = {
 		// summary:
@@ -209,5 +209,4 @@ define([
 	});
 
 	return typematic;
-
 });

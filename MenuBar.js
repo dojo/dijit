@@ -5,8 +5,8 @@ define([
 	"dojo/text!./templates/MenuBar.html"
 ], function(declare, keys, _MenuBase, template){
 
-// module:
-//		dijit/MenuBar
+	// module:
+	//		dijit/MenuBar
 
 	return declare("dijit.MenuBar", _MenuBase, {
 		// summary:
@@ -88,5 +88,4 @@ define([
 			}
 		}
 	});
-
 });

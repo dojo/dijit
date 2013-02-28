@@ -18,8 +18,7 @@ define([
 	//		dijit/MenuItem
 
 	var MenuItem = declare("dijit.MenuItem" + (has("dojo-bidi") ? "_NoBidi" : ""),
-		[_Widget, _TemplatedMixin, _Contained, _CssStateMixin],
-		{
+		[_Widget, _TemplatedMixin, _Contained, _CssStateMixin], {
 		// summary:
 		//		A line item in a Menu Widget
 
@@ -38,9 +37,9 @@ define([
 			var text;
 			var ndx = val.search(/{\S}/);
 			if(ndx >= 0){
-				shortcutKey = val.charAt(ndx+1);
+				shortcutKey = val.charAt(ndx + 1);
 				var prefix = val.substr(0, ndx);
-				var suffix = val.substr(ndx+3);
+				var suffix = val.substr(ndx + 3);
 				text = prefix + shortcutKey + suffix;
 				val = prefix + '<span class="dijitMenuItemShortcutKey">' + shortcutKey + '</span>' + suffix;
 			}else{
@@ -51,14 +50,14 @@ define([
 			this._set('shortcutKey', shortcutKey);
 		},
 
-/*=====
+		/*=====
 		// shortcutKey: [readonly] String
 		//		Single character (underlined when the parent Menu is focused) used to navigate directly to this widget,
 		//		also known as [a mnemonic](http://en.wikipedia.org/wiki/Mnemonics_(keyboard%29).
 		//		This is denoted in the label by surrounding the single character with {}.
 		//		For example, if label="{F}ile", then shortcutKey="F".
 		shortcutKey: "",
-=====*/
+		=====*/
 
 		// iconClass: String
 		//		Class to apply to DOMNode to make it display an icon.
@@ -88,7 +87,7 @@ define([
 
 		buildRendering: function(){
 			this.inherited(arguments);
-			var label = this.id+"_text";
+			var label = this.id + "_text";
 			domAttr.set(this.containerNode, "id", label); // only needed for backward compat
 			if(this.accelKeyNode){
 				domAttr.set(this.accelKeyNode, "id", this.id + "_accel"); // only needed for backward compat
@@ -181,10 +180,10 @@ define([
 			//		Set accelKey on this menu item.
 
 			if(this.accelKeyNode){
-				this.accelKeyNode.style.display=value?"":"none";
-				this.accelKeyNode.innerHTML=value;
+				this.accelKeyNode.style.display = value ? "" : "none";
+				this.accelKeyNode.innerHTML = value;
 				//have to use colSpan to make it work in IE
-				domAttr.set(this.containerNode,'colSpan',value?"1":"2");
+				domAttr.set(this.containerNode, 'colSpan', value ? "1" : "2");
 			}
 			this._set("accelKey", value);
 		}
