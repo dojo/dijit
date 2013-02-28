@@ -20,11 +20,11 @@ define([
 	"./_FormValueWidget",
 	"../_Container",
 	"dojo/text!./templates/HorizontalSlider.html"
-], function(array, declare, move, fx, domGeometry, domStyle, keys, lang, has, Moveable, Mover, query, mouse, on, manager, focus, typematic, Button, _FormValueWidget, _Container, template){
+], function(array, declare, move, fx, domGeometry, domStyle, keys, lang, has, Moveable, Mover, query, mouse, on,
+			manager, focus, typematic, Button, _FormValueWidget, _Container, template){
 
-// module:
-//		dijit/form/HorizontalSlider
-
+	// module:
+	//		dijit/form/HorizontalSlider
 
 	var _SliderMover = declare("dijit.form._SliderMover", Mover, {
 		onMouseMove: function(e){

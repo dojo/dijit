@@ -9,8 +9,8 @@ define([
 	"../main"    // for exporting dijit._setSelectionRange, dijit.selectInputText
 ], function(array, declare, dom, has, keys, lang, on, dijit){
 
-// module:
-//		dijit/form/_TextBoxMixin
+	// module:
+	//		dijit/form/_TextBoxMixin
 
 	var _TextBoxMixin = declare("dijit.form._TextBoxMixin" + (has("dojo-bidi") ? "_NoBidi" : ""), null, {
 		// summary:

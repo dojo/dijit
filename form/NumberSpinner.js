@@ -5,9 +5,8 @@ define([
 	"./NumberTextBox"
 ], function(declare, keys, _Spinner, NumberTextBox){
 
-// module:
-//		dijit/form/NumberSpinner
-
+	// module:
+	//		dijit/form/NumberSpinner
 
 	return declare("dijit.form.NumberSpinner", [_Spinner, NumberTextBox.Mixin], {
 		// summary:
@@ -70,5 +69,4 @@ define([
 			}
 		}
 	});
-
 });

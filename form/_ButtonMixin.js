@@ -5,8 +5,8 @@ define([
 	"../registry"        // registry.byNode
 ], function(declare, dom, has, registry){
 
-// module:
-//		dijit/form/_ButtonMixin
+	// module:
+	//		dijit/form/_ButtonMixin
 
 	var ButtonMixin = declare("dijit.form._ButtonMixin" + (has("dojo-bidi") ? "_NoBidi" : ""), null, {
 		// summary:
@@ -113,5 +113,4 @@ define([
 	}
 
 	return ButtonMixin;
-
 });

@@ -6,8 +6,8 @@ define([
 	"dojo/text!./templates/ComboButton.html"
 ], function(declare, keys, focus, DropDownButton, template){
 
-// module:
-//		dijit/form/ComboButton
+	// module:
+	//		dijit/form/ComboButton
 
 	return declare("dijit.form.ComboButton", DropDownButton, {
 		// summary:
@@ -80,5 +80,4 @@ define([
 			}
 		}
 	});
-
 });

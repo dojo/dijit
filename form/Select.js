@@ -18,7 +18,8 @@ define([
 	"../registry", // registry.byNode
 	"dojo/text!./templates/Select.html",
 	"dojo/i18n!./nls/validate"
-], function(array, declare, domAttr, domClass, domGeometry, i18n, lang, on, has, _FormSelectWidget, _HasDropDown, DropDownMenu, MenuItem, MenuSeparator, Tooltip, _KeyNavMixin, registry, template){
+], function(array, declare, domAttr, domClass, domGeometry, i18n, lang, on, has,
+			_FormSelectWidget, _HasDropDown, DropDownMenu, MenuItem, MenuSeparator, Tooltip, _KeyNavMixin, registry, template){
 
 	// module:
 	//		dijit/form/Select

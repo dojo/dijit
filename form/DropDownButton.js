@@ -10,9 +10,8 @@ define([
 	"dojo/text!./templates/DropDownButton.html"
 ], function(declare, lang, query, registry, popup, Button, _Container, _HasDropDown, template){
 
-// module:
-//		dijit/form/DropDownButton
-
+	// module:
+	//		dijit/form/DropDownButton
 
 	return declare("dijit.form.DropDownButton", [Button, _Container, _HasDropDown], {
 		// summary:
@@ -97,5 +96,4 @@ define([
 			return this.inherited(arguments) && !this._mouseDown;
 		}
 	});
-
 });
