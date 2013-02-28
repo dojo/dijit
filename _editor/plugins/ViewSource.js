@@ -21,9 +21,8 @@ define([
 ], function(array, aspect, declare, domAttr, domConstruct, domGeometry, domStyle, i18n, keys, lang, on, has, winUtils,
 			focus, _Plugin, ToggleButton, dijit, registry){
 
-// module:
-//		dijit/_editor/plugins/ViewSource
-
+	// module:
+	//		dijit/_editor/plugins/ViewSource
 
 	var ViewSource = declare("dijit._editor.plugins.ViewSource", _Plugin, {
 		// summary:
@@ -561,8 +560,8 @@ define([
 		}
 	});
 
-// Register this plugin.
-// For back-compat accept "viewsource" (all lowercase) too, remove in 2.0
+	// Register this plugin.
+	// For back-compat accept "viewsource" (all lowercase) too, remove in 2.0
 	_Plugin.registry["viewSource"] = _Plugin.registry["viewsource"] = function(args){
 		return new ViewSource({
 			readOnly: ("readOnly" in args) ? args.readOnly : false,

@@ -13,8 +13,8 @@ define([
 	"../../_base/focus"
 ], function(declare, domConstruct, keys, lang, on, has, win, winUtils, _Plugin, RichText, rangeapi, baseFocus){
 
-// module:
-//		dijit/_editor/plugins/EnterKeyHandling
+	// module:
+	//		dijit/_editor/plugins/EnterKeyHandling
 
 	return declare("dijit._editor.plugins.EnterKeyHandling", _Plugin, {
 		// summary:

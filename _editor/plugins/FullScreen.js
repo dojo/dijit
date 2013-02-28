@@ -16,12 +16,11 @@ define([
 	"../../form/ToggleButton",
 	"../../registry", // registry.getEnclosingWidget()
 	"dojo/i18n!../nls/commands"
-], function(aspect, declare, domClass, domGeometry, domStyle, i18n, keys, lang, on, has, win, winUtils, focus, _Plugin, ToggleButton, registry){
+], function(aspect, declare, domClass, domGeometry, domStyle, i18n, keys, lang, on, has, win, winUtils,
+			focus, _Plugin, ToggleButton, registry){
 
-
-// module:
-//		dijit/_editor/plugins/FullScreen
-
+	// module:
+	//		dijit/_editor/plugins/FullScreen
 
 	var FullScreen = declare("dijit._editor.plugins.FullScreen", _Plugin, {
 		// summary:
@@ -443,8 +442,8 @@ define([
 		}
 	});
 
-// Register this plugin.
-// For back-compat accept "fullscreen" (all lowercase) too, remove in 2.0
+	// Register this plugin.
+	// For back-compat accept "fullscreen" (all lowercase) too, remove in 2.0
 	_Plugin.registry["fullScreen"] = _Plugin.registry["fullscreen"] = function(args){
 		return new FullScreen({
 			zIndex: ("zIndex" in args) ? args.zIndex : 500
