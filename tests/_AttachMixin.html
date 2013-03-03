@@ -74,7 +74,7 @@
 
 							_counter: 999,
 
-							templateString: "<div data-dojo-attach-point='containerNode'>" +
+							templateString: "<div>" +
 								"<h2 data-dojo-attach-point='heading'></h2>" +
 								"<span data-dojo-attach-point='myspan' data-dojo-attach-event='click: _spanClicked'>I yearn for your click.</span>" +
 								"</div>",
@@ -104,7 +104,7 @@
 						/*** TEST _AttachMixin combined with _TemplatedMixin and _WidgetsInTemplateMixin ***/
 						var TemplatedAttachWidgetsCombo = declare([ _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin ], {
 
-							templateString: "<div data-dojo-attach-point='containerNode'>" +
+							templateString: "<div>" +
 								"<h2 data-dojo-attach-point='heading'></h2>" +
 								"<button data-dojo-type='dijit/form/Button' " +
 								" data-dojo-attach-point='mybutton' " +
@@ -200,14 +200,18 @@
 						
 						var OuterDijit = declare([ _WidgetBase, _TemplatedMixin ], {
 							declaredClass: "OuterDijit",	// for debugging
-							templateString: "<div data-dojo-attach-point='containerNode'><h2 data-dojo-attach-point='heading'>Initial value</h2></div>",
+							templateString:
+									"<div>" +
+										"<h2 data-dojo-attach-point='heading'>Initial value</h2>" +
+										"<div data-dojo-attach-point='content'></div>" +
+									"</div>",
 							buildRendering: function() {
 								this.inherited(arguments);
 								this.iw = new InnerDijit({
 									attachScope: this // Cause attach points in inner dijit to attach to us
 								});
 								// NB don't own as we will do a destroy test later this.own(id);
-								this.iw.placeAt(this.containerNode, 'last');
+								this.iw.placeAt(this.content, 'last');
 							},
 							// This handler is attached to the field in our inner dijit
 							inputKeyUp: function(e) {
@@ -237,7 +241,15 @@
 						od.iw.destroy();
 						delete od.iw;
 						doh.t(od.heading, "heading remains"); // heading remains
-						doh.t(!od.field, "inner content was detached");  // inner content was detached
+						doh.f(od.field, "inner content was detached");  // inner content was detached
+					},
+
+					function containerNode(){
+						// Test that code inside of containerNode isn't scanned
+						var WidgetWithAttachMagic = declare([ _WidgetBase, _AttachMixin ]);
+						var cd = new WidgetWithAttachMagic({}, dom.byId("attachMeFive"));
+						doh.t(cd.heading, "heading attach point set up");
+						doh.f("mybutton" in cd, "attach point inside containerNode ignored");
 					}
 				]);
 				
@@ -276,7 +288,7 @@
 		
 		<div class="testcontainer">
 			<p>This test shows that a _AttachMixin dijit with _WidgetsInTemplate properly attaches widgets from the template.<br>
-			<div id="attachMeThree" data-dojo-attach-point='containerNode'>
+			<div id="attachMeThree">
 				<h2 data-dojo-attach-point='heading'></h2>
 				<button data-dojo-type='dijit/form/Button'
 						data-dojo-attach-point='mybutton'
@@ -288,7 +300,7 @@
 		<div id="parseMeRoot">
 			<div class="testcontainer">
 				<p>This test shows a parseOnLoad situation where the parser does not re-instantiate the dijit/Editor instantiated during parsing of the outer dijit.</p>
-				<div id="attachMeFour" data-dojo-type="mystuff/AttachWidgetsCombo2" data-dojo-attach-point='containerNode'>
+				<div id="attachMeFour" data-dojo-type="mystuff/AttachWidgetsCombo2">
 					<h2 data-dojo-attach-point='heading'></h2>
 					<div data-dojo-type="dijit/Editor" data-dojo-attach-point="editor"></div>
 				</div>
@@ -299,5 +311,21 @@
 			<p>This test shows an inner dijit being created with attachScope referencing its enclosing dijit.</p>
 			<div id="destthree"></div>
 		</div>
+
+		<!-- Test that data-dojo-attach-point etc. inside containerNode are ignored -->
+		<div class="testcontainer">
+			<p>This tests that nodes inside of data-dojo-attach-point="containerNode" are ignored<br>
+			<div id="attachMeFive">
+				<h2 data-dojo-attach-point='heading'></h2>
+				<div data-dojo-attach-point='containerNode'>
+					<span data-dojo-type='AnotherAttachPointWidget'>
+						<button data-dojo-attach-point='mybutton'
+							data-dojo-attach-event='onClick: _buttonClicked'>A button
+						</button>
+					</span>
+				</div>
+			</div>
+		</div>
+
 	</body>
 </html>

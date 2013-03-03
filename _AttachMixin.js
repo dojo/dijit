@@ -52,6 +52,12 @@ define([
 		//		Object to which attach points and events will be scoped.  Defaults
 		//		to 'this'.
 		attachScope: undefined,
+
+		// searchContainerNode: [protected] Boolean
+		//		Search descendants of this.containerNode for data-dojo-attach-point and data-dojo-attach-event.
+		//		Should generally be left false (the default value) both for performance and to avoid failures when
+		//		this.containerNode holds other _AttachMixin instances with their own attach points and events.
+ 		searchContainerNode: false,
  =====*/
 
 		constructor: function(/*===== params, srcNodeRef =====*/){
@@ -107,64 +113,96 @@ define([
 			// tags:
 			//		private
 
-			var nodes = lang.isArray(rootNode) ? rootNode : (rootNode.all || rootNode.getElementsByTagName("*")),
-				_attachScope = this.attachScope || this;
-			var x = lang.isArray(rootNode) ? 0 : -1;
-			for(; x < 0 || nodes[x]; x++){	// don't access nodes.length on IE, see #14346
-				var baseNode = (x == -1) ? rootNode : nodes[x];
-				if(this.widgetsInTemplate && (getAttrFunc(baseNode, "dojoType") || getAttrFunc(baseNode, "data-dojo-type"))){
-					continue;
+			if(lang.isArray(rootNode)){
+				// Special path used by _WidgetsInTemplateMixin
+				for(var i = 0; i < rootNode.length; i++){
+					this._processNode(rootNode[i], getAttrFunc);
 				}
-				// Process data-dojo-attach-point
-				var attachPoint = getAttrFunc(baseNode, "dojoAttachPoint") || getAttrFunc(baseNode, "data-dojo-attach-point");
-				if(attachPoint){
-					var point, points = attachPoint.split(/\s*,\s*/);
-					while((point = points.shift())){
-						if(lang.isArray(_attachScope[point])){
-							_attachScope[point].push(baseNode);
-						}else{
-							_attachScope[point]=baseNode;
+			}else{
+				// DFS to process all nodes except those inside of this.containerNode
+				var node = rootNode;
+				while(true){
+					if(node.nodeType == 1 && (this._processNode(node, getAttrFunc) || this.searchContainerNode)
+							&& node.firstChild){
+						node = node.firstChild;
+					}else{
+						if(node == rootNode){ return; }
+						while(!node.nextSibling){
+							node = node.parentNode;
+							if(node == rootNode){ return; }
 						}
-						this._attachPoints.push(point);
-					}
-				}
-
-				// Process data-dojo-attach-event
-				var attachEvent = getAttrFunc(baseNode, "dojoAttachEvent") || getAttrFunc(baseNode, "data-dojo-attach-event");
-				if(attachEvent){
-					// NOTE: we want to support attributes that have the form
-					// "domEvent: nativeEvent; ..."
-					var event, events = attachEvent.split(/\s*,\s*/);
-					var trim = lang.trim;
-					while((event = events.shift())){
-						if(event){
-							var thisFunc = null;
-							if(event.indexOf(":") != -1){
-								// oh, if only JS had tuple assignment
-								var funcNameArr = event.split(":");
-								event = trim(funcNameArr[0]);
-								thisFunc = trim(funcNameArr[1]);
-							}else{
-								event = trim(event);
-							}
-							if(!thisFunc){
-								thisFunc = event;
-							}
-
-							// Map special type names like "mouseenter" to synthetic events.
-							// Subclasses are responsible to require() dijit/a11yclick if they want to use it.
-							event = event.replace(/^on/, "").toLowerCase();
-							if(event == "dijitclick"){
-								event = a11yclick || (a11yclick = require("./a11yclick"));
-							}else{
-								event = synthEvents[event] || event;
-							}
-
-							this._attachEvents.push(this.own(on(baseNode, event, lang.hitch(_attachScope, thisFunc)))[0]);
-						}
+						node = node.nextSibling;
 					}
 				}
 			}
+		},
+
+		_processNode: function(/*DOMNode|Widget*/ baseNode, getAttrFunc){
+			// summary:
+			//		Process data-dojo-attach-point and data-dojo-attach-event for given node or widget.
+			//		Returns true if caller should process baseNode's children too.
+
+			if(this.widgetsInTemplate && (getAttrFunc(baseNode, "dojoType") || getAttrFunc(baseNode, "data-dojo-type"))){
+				// These will be processed later, after _WidgetsInTemplateMixin calls parse() and then calls
+				// _attachTemplateNodes() again.
+				return true;
+			}
+
+			var ret = true;
+
+			// Process data-dojo-attach-point
+			var _attachScope = this.attachScope || this,
+				attachPoint = getAttrFunc(baseNode, "dojoAttachPoint") || getAttrFunc(baseNode, "data-dojo-attach-point");
+			if(attachPoint){
+				var point, points = attachPoint.split(/\s*,\s*/);
+				while((point = points.shift())){
+					if(lang.isArray(_attachScope[point])){
+						_attachScope[point].push(baseNode);
+					}else{
+						_attachScope[point] = baseNode;
+					}
+					ret = (point != "containerNode");
+					this._attachPoints.push(point);
+				}
+			}
+
+			// Process data-dojo-attach-event
+			var attachEvent = getAttrFunc(baseNode, "dojoAttachEvent") || getAttrFunc(baseNode, "data-dojo-attach-event");
+			if(attachEvent){
+				// NOTE: we want to support attributes that have the form
+				// "domEvent: nativeEvent; ..."
+				var event, events = attachEvent.split(/\s*,\s*/);
+				var trim = lang.trim;
+				while((event = events.shift())){
+					if(event){
+						var thisFunc = null;
+						if(event.indexOf(":") != -1){
+							// oh, if only JS had tuple assignment
+							var funcNameArr = event.split(":");
+							event = trim(funcNameArr[0]);
+							thisFunc = trim(funcNameArr[1]);
+						}else{
+							event = trim(event);
+						}
+						if(!thisFunc){
+							thisFunc = event;
+						}
+
+						// Map special type names like "mouseenter" to synthetic events.
+						// Subclasses are responsible to require() dijit/a11yclick if they want to use it.
+						event = event.replace(/^on/, "").toLowerCase();
+						if(event == "dijitclick"){
+							event = a11yclick || (a11yclick = require("./a11yclick"));
+						}else{
+							event = synthEvents[event] || event;
+						}
+
+						this._attachEvents.push(this.own(on(baseNode, event, lang.hitch(_attachScope, thisFunc)))[0]);
+					}
+				}
+			}
+
+			return ret;
 		},
 
 		destroyRendering: function(){
