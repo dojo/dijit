@@ -821,11 +821,6 @@ define([
 
 			this._load();
 
-			// If no path was specified to the constructor, use path saved in cookie
-			if(!this.params.path && !this.params.paths && this.persist){
-				this.set("paths", this.dndController._getSavedPaths());
-			}
-
 			// onLoadDeferred should fire when all commands that are part of initialization have completed.
 			// It will include all the set("paths", ...) commands that happen during initialization.
 			this.onLoadDeferred = shimmedPromise(this.pendingCommandsPromise);
@@ -925,8 +920,7 @@ define([
 
 					// Load top level children, and if persist==true, all nodes that were previously opened
 					this._expandNode(rn).then(lang.hitch(this, function(){
-						// Then, select the nodes that were selected last time, or
-						// the ones specified by params.paths[].
+						// Then, select the nodes specified by params.paths[].
 
 						this.rootLoadingIndicator.style.display = "none";
 						this.expandChildrenDeferred.resolve(true);

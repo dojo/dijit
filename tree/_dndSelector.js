@@ -4,21 +4,19 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/_base/kernel",	// global
 	"dojo/_base/lang", // lang.hitch
-	"dojo/cookie", // cookie
 	"dojo/dom", // isDescendant
 	"dojo/mouse", // mouse.isLeft
 	"dojo/on",
 	"dojo/touch",
 	"./_dndContainer"
-], function(array, connect, declare, kernel, lang, cookie, dom, mouse, on, touch, _dndContainer){
+], function(array, connect, declare, kernel, lang, dom, mouse, on, touch, _dndContainer){
 
 	// module:
 	//		dijit/tree/_dndSelector
 
-
 	return declare("dijit.tree._dndSelector", _dndContainer, {
 		// summary:
-		//		This is a base class for `dijit/tree/dndSource` , and isn't meant to be used directly.
+		//		This is a base class for `dijit/tree/dndSource`, and isn't meant to be used directly.
 		//		It's based on `dojo/dnd/Selector`.
 		// tags:
 		//		protected
@@ -38,10 +36,6 @@ define([
 
 			this.selection={};
 			this.anchor = null;
-
-			if(!this.cookieName && this.tree.id){
-				this.cookieName = this.tree.id + "SaveSelectedCookie";
-			}
 
 			this.events.push(
 				on(this.tree.domNode, touch.press, lang.hitch(this,"onMouseDown")),
@@ -175,26 +169,8 @@ define([
 			this.tree._set("selectedNode", nodes[0] || null);
 			this.tree._set("selectedItems", items);
 			this.tree._set("selectedItem", items[0] || null);
-            if (this.tree.persist && selects.length > 0) {
-                cookie(this.cookieName, selects.join(","), {expires:365});
-            }
 		},
-		_getSavedPaths: function(){
-			// summary:
-			//		Returns paths of nodes that were selected previously and saved in the cookie.
 
-			var tree = this.tree;
-			if(tree.persist && tree.dndController.cookieName){
-				var oreo, paths = [];
-				oreo = cookie(tree.dndController.cookieName);
-				if(oreo){
-					paths = array.map(oreo.split(","), function(path){
-					   return path.split("/");
-					})
-				}
-				return paths;
-			}
-		},
 		// mouse events
 		onMouseDown: function(e){
 			// summary:
