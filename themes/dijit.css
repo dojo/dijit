@@ -105,7 +105,7 @@ TABLE.dijitSelect {
 
 .dijitOffScreen { /* these class attributes should supercede any inline positioning style */
 	position: absolute !important;
-	left: 50% !important;
+	left: -10000px !important;
 	top: -10000px !important;
 }
 

@@ -135,11 +135,16 @@ define([
 			// Create wrapper if not already there
 			var wrapper = this._createWrapper(widget);
 
-			domStyle.set(wrapper, {
-				visibility: "hidden",
-				top: "-9999px", // prevent transient scrollbar causing misalign (#5776), and initial flash in upper left (#10111)
-				display: ""
-			});
+			// Besides setting visibility:hidden, move it out of the viewport, see #5776, #10111, #13604
+			var ltr = domGeometry.isBodyLtr(widget.ownerDocument),
+				style = {
+					visibility: "hidden",
+					top: "-9999px",
+					display: ""
+				};
+			style[ltr ? "left" : "right"] = "-9999px";
+			style[ltr ? "right" : "left"] = "auto";
+			domStyle.set(wrapper, style);
 		},
 
 		hide: function(/*Widget*/ widget){
