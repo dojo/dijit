@@ -80,9 +80,9 @@
 .claro .dijitTab {
   border: 1px solid #b5bcc7;
   background-color: #efefef;
-  -webkit-transition-property: background-color border;
-  -moz-transition-property: background-color border;
-  transition-property: background-color border;
+  -webkit-transition-property: background-color, border;
+  -moz-transition-property: background-color, border;
+  transition-property: background-color, border;
   -webkit-transition-duration: 0.35s;
   -moz-transition-duration: 0.35s;
   transition-duration: 0.35s;
@@ -131,10 +131,10 @@
   text-align: center;
   background-image: url("images/tabTopUnselected.png");
   background-repeat: repeat-x;
-  background-image: -moz-linear-gradient(top #ffffff 0px #ffffff 1px rgba(255, 255, 255, 0.1) 2px rgba(255, 255, 255, 0.6) 7px rgba(255, 255, 255, 0) 100%);
-  background-image: -webkit-linear-gradient(top #ffffff 0px #ffffff 1px rgba(255, 255, 255, 0.1) 2px rgba(255, 255, 255, 0.6) 7px rgba(255, 255, 255, 0) 100%);
-  background-image: -o-linear-gradient(top #ffffff 0px #ffffff 1px rgba(255, 255, 255, 0.1) 2px rgba(255, 255, 255, 0.6) 7px rgba(255, 255, 255, 0) 100%);
-  background-image: linear-gradient(top #ffffff 0px #ffffff 1px rgba(255, 255, 255, 0.1) 2px rgba(255, 255, 255, 0.6) 7px rgba(255, 255, 255, 0) 100%);
+  background-image: -moz-linear-gradient(top, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.6) 7px, rgba(255, 255, 255, 0) 100%);
+  background-image: -webkit-linear-gradient(top, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.6) 7px, rgba(255, 255, 255, 0) 100%);
+  background-image: -o-linear-gradient(top, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.6) 7px, rgba(255, 255, 255, 0) 100%);
+  background-image: linear-gradient(top, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.6) 7px, rgba(255, 255, 255, 0) 100%);
   -webkit-box-shadow: 0 -1px 1px rgba(0, 0, 0, 0.04);
   -moz-box-shadow: 0 -1px 1px rgba(0, 0, 0, 0.04);
   box-shadow: 0 -1px 1px rgba(0, 0, 0, 0.04);
@@ -145,10 +145,10 @@
   padding-bottom: 4px;
   padding-top: 9px;
   background-image: url("images/tabTopSelected.png");
-  background-image: -moz-linear-gradient(top #ffffff 0px #ffffff 1px rgba(255, 255, 255, 0) 2px #ffffff 7px);
-  background-image: -webkit-linear-gradient(top #ffffff 0px #ffffff 1px rgba(255, 255, 255, 0) 2px #ffffff 7px);
-  background-image: -o-linear-gradient(top #ffffff 0px #ffffff 1px rgba(255, 255, 255, 0) 2px #ffffff 7px);
-  background-image: linear-gradient(top #ffffff 0px #ffffff 1px rgba(255, 255, 255, 0) 2px #ffffff 7px);
+  background-image: -moz-linear-gradient(top, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0) 2px, #ffffff 7px);
+  background-image: -webkit-linear-gradient(top, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0) 2px, #ffffff 7px);
+  background-image: -o-linear-gradient(top, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0) 2px, #ffffff 7px);
+  background-image: linear-gradient(top, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0) 2px, #ffffff 7px);
   -webkit-box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.05);
   box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.05);
@@ -169,10 +169,10 @@
   background-image: url("images/tabBottomUnselected.png");
   background-repeat: repeat-x;
   background-position: bottom;
-  background-image: -moz-linear-gradient(bottom #ffffff 0px #ffffff 1px rgba(255, 255, 255, 0.1) 2px rgba(255, 255, 255, 0.6) 7px rgba(255, 255, 255, 0) 100%);
-  background-image: -webkit-linear-gradient(bottom #ffffff 0px #ffffff 1px rgba(255, 255, 255, 0.1) 2px rgba(255, 255, 255, 0.6) 7px rgba(255, 255, 255, 0) 100%);
-  background-image: -o-linear-gradient(bottom #ffffff 0px #ffffff 1px rgba(255, 255, 255, 0.1) 2px rgba(255, 255, 255, 0.6) 7px rgba(255, 255, 255, 0) 100%);
-  background-image: linear-gradient(bottom #ffffff 0px #ffffff 1px rgba(255, 255, 255, 0.1) 2px rgba(255, 255, 255, 0.6) 7px rgba(255, 255, 255, 0) 100%);
+  background-image: -moz-linear-gradient(bottom, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.6) 7px, rgba(255, 255, 255, 0) 100%);
+  background-image: -webkit-linear-gradient(bottom, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.6) 7px, rgba(255, 255, 255, 0) 100%);
+  background-image: -o-linear-gradient(bottom, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.6) 7px, rgba(255, 255, 255, 0) 100%);
+  background-image: linear-gradient(bottom, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.6) 7px, rgba(255, 255, 255, 0) 100%);
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
@@ -182,10 +182,10 @@
   padding-bottom: 9px;
   padding-top: 4px;
   background-image: url("images/tabBottomSelected.png");
-  background-image: -moz-linear-gradient(bottom #ffffff 0px #ffffff 1px rgba(255, 255, 255, 0) 2px #ffffff 7px);
-  background-image: -webkit-linear-gradient(bottom #ffffff 0px #ffffff 1px rgba(255, 255, 255, 0) 2px #ffffff 7px);
-  background-image: -o-linear-gradient(bottom #ffffff 0px #ffffff 1px rgba(255, 255, 255, 0) 2px #ffffff 7px);
-  background-image: linear-gradient(bottom #ffffff 0px #ffffff 1px rgba(255, 255, 255, 0) 2px #ffffff 7px);
+  background-image: -moz-linear-gradient(bottom, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0) 2px, #ffffff 7px);
+  background-image: -webkit-linear-gradient(bottom, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0) 2px, #ffffff 7px);
+  background-image: -o-linear-gradient(bottom, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0) 2px, #ffffff 7px);
+  background-image: linear-gradient(bottom, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0) 2px, #ffffff 7px);
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -202,20 +202,20 @@
   padding: 3px 8px 4px 4px;
   background-image: url("images/tabLeftUnselected.png");
   background-repeat: repeat-y;
-  background-image: -moz-linear-gradient(left #ffffff 0px #ffffff 1px rgba(255, 255, 255, 0.1) 2px rgba(255, 255, 255, 0.6) 7px rgba(255, 255, 255, 0) 100%);
-  background-image: -webkit-linear-gradient(left #ffffff 0px #ffffff 1px rgba(255, 255, 255, 0.1) 2px rgba(255, 255, 255, 0.6) 7px rgba(255, 255, 255, 0) 100%);
-  background-image: -o-linear-gradient(left #ffffff 0px #ffffff 1px rgba(255, 255, 255, 0.1) 2px rgba(255, 255, 255, 0.6) 7px rgba(255, 255, 255, 0) 100%);
-  background-image: linear-gradient(left #ffffff 0px #ffffff 1px rgba(255, 255, 255, 0.1) 2px rgba(255, 255, 255, 0.6) 7px rgba(255, 255, 255, 0) 100%);
+  background-image: -moz-linear-gradient(left, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.6) 7px, rgba(255, 255, 255, 0) 100%);
+  background-image: -webkit-linear-gradient(left, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.6) 7px, rgba(255, 255, 255, 0) 100%);
+  background-image: -o-linear-gradient(left, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.6) 7px, rgba(255, 255, 255, 0) 100%);
+  background-image: linear-gradient(left, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.6) 7px, rgba(255, 255, 255, 0) 100%);
 }
 /* selected tab */
 .claro .dijitTabContainerLeft-tabs .dijitTabChecked {
   border-right-width: 0;
   padding-right: 9px;
   background-image: url("images/tabLeftSelected.png");
-  background-image: -moz-linear-gradient(left rgba(255, 255, 255, 0.5) 0px #ffffff 30px);
-  background-image: -webkit-linear-gradient(left rgba(255, 255, 255, 0.5) 0px #ffffff 30px);
-  background-image: -o-linear-gradient(left rgba(255, 255, 255, 0.5) 0px #ffffff 30px);
-  background-image: linear-gradient(left rgba(255, 255, 255, 0.5) 0px #ffffff 30px);
+  background-image: -moz-linear-gradient(left, rgba(255, 255, 255, 0.5) 0px, #ffffff 30px);
+  background-image: -webkit-linear-gradient(left, rgba(255, 255, 255, 0.5) 0px, #ffffff 30px);
+  background-image: -o-linear-gradient(left, rgba(255, 255, 255, 0.5) 0px, #ffffff 30px);
+  background-image: linear-gradient(left, rgba(255, 255, 255, 0.5) 0px, #ffffff 30px);
   -webkit-box-shadow: -1px 0 2px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: -1px 0 2px rgba(0, 0, 0, 0.05);
   box-shadow: -1px 0 2px rgba(0, 0, 0, 0.05);
@@ -233,10 +233,10 @@
   background-image: url("images/tabRightUnselected.png");
   background-repeat: repeat-y;
   background-position: right;
-  background-image: -moz-linear-gradient(right #ffffff 0px #ffffff 1px rgba(255, 255, 255, 0.1) 2px rgba(255, 255, 255, 0.6) 7px rgba(255, 255, 255, 0) 100%);
-  background-image: -webkit-linear-gradient(right #ffffff 0px #ffffff 1px rgba(255, 255, 255, 0.1) 2px rgba(255, 255, 255, 0.6) 7px rgba(255, 255, 255, 0) 100%);
-  background-image: -o-linear-gradient(right #ffffff 0px #ffffff 1px rgba(255, 255, 255, 0.1) 2px rgba(255, 255, 255, 0.6) 7px rgba(255, 255, 255, 0) 100%);
-  background-image: linear-gradient(right #ffffff 0px #ffffff 1px rgba(255, 255, 255, 0.1) 2px rgba(255, 255, 255, 0.6) 7px rgba(255, 255, 255, 0) 100%);
+  background-image: -moz-linear-gradient(right, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.6) 7px, rgba(255, 255, 255, 0) 100%);
+  background-image: -webkit-linear-gradient(right, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.6) 7px, rgba(255, 255, 255, 0) 100%);
+  background-image: -o-linear-gradient(right, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.6) 7px, rgba(255, 255, 255, 0) 100%);
+  background-image: linear-gradient(right, #ffffff 0px, #ffffff 1px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.6) 7px, rgba(255, 255, 255, 0) 100%);
 }
 .claro .dijitTabContainerRight-tabs .dijitTabChecked {
   /* selected tab */
@@ -244,10 +244,10 @@
   padding-left: 5px;
   border-left-width: 0;
   background-image: url("images/tabRightSelected.png");
-  background-image: -moz-linear-gradient(right rgba(255, 255, 255, 0.5) 0px #ffffff 30px);
-  background-image: -webkit-linear-gradient(right rgba(255, 255, 255, 0.5) 0px #ffffff 30px);
-  background-image: -o-linear-gradient(right rgba(255, 255, 255, 0.5) 0px #ffffff 30px);
-  background-image: linear-gradient(right rgba(255, 255, 255, 0.5) 0px #ffffff 30px);
+  background-image: -moz-linear-gradient(right, rgba(255, 255, 255, 0.5) 0px, #ffffff 30px);
+  background-image: -webkit-linear-gradient(right, rgba(255, 255, 255, 0.5) 0px, #ffffff 30px);
+  background-image: -o-linear-gradient(right, rgba(255, 255, 255, 0.5) 0px, #ffffff 30px);
+  background-image: linear-gradient(right, rgba(255, 255, 255, 0.5) 0px, #ffffff 30px);
   -webkit-box-shadow: 1px 0 2px rgba(0, 0, 0, 0.07);
   -moz-box-shadow: 1px 0 2px rgba(0, 0, 0, 0.07);
   box-shadow: 1px 0 2px rgba(0, 0, 0, 0.07);
@@ -278,18 +278,18 @@
 .claro .dijitTabListContainer-top .tabStripButton {
   padding: 4px 3px;
   margin-top: 7px;
-  background-image: -moz-linear-gradient(top #ffffff 0px rgba(255, 255, 255, 0.1) 1px rgba(255, 255, 255, 0.6) 6px rgba(255, 255, 255, 0) 100%);
-  background-image: -webkit-linear-gradient(top #ffffff 0px rgba(255, 255, 255, 0.1) 1px rgba(255, 255, 255, 0.6) 6px rgba(255, 255, 255, 0) 100%);
-  background-image: -o-linear-gradient(top #ffffff 0px rgba(255, 255, 255, 0.1) 1px rgba(255, 255, 255, 0.6) 6px rgba(255, 255, 255, 0) 100%);
-  background-image: linear-gradient(top #ffffff 0px rgba(255, 255, 255, 0.1) 1px rgba(255, 255, 255, 0.6) 6px rgba(255, 255, 255, 0) 100%);
+  background-image: -moz-linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);
+  background-image: -webkit-linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);
+  background-image: -o-linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);
+  background-image: linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);
 }
 .claro .dijitTabListContainer-bottom .tabStripButton {
   padding: 4px 3px;
   margin-bottom: 7px;
-  background-image: -moz-linear-gradient(bottom #ffffff 0px rgba(255, 255, 255, 0.1) 1px rgba(255, 255, 255, 0.6) 6px rgba(255, 255, 255, 0) 100%);
-  background-image: -webkit-linear-gradient(bottom #ffffff 0px rgba(255, 255, 255, 0.1) 1px rgba(255, 255, 255, 0.6) 6px rgba(255, 255, 255, 0) 100%);
-  background-image: -o-linear-gradient(bottom #ffffff 0px rgba(255, 255, 255, 0.1) 1px rgba(255, 255, 255, 0.6) 6px rgba(255, 255, 255, 0) 100%);
-  background-image: linear-gradient(bottom #ffffff 0px rgba(255, 255, 255, 0.1) 1px rgba(255, 255, 255, 0.6) 6px rgba(255, 255, 255, 0) 100%);
+  background-image: -moz-linear-gradient(bottom, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);
+  background-image: -webkit-linear-gradient(bottom, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);
+  background-image: -o-linear-gradient(bottom, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);
+  background-image: linear-gradient(bottom, #ffffff 0px, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0.6) 6px, rgba(255, 255, 255, 0) 100%);
 }
 .claro .tabStripButtonHover {
   background-color: #abd6ff;
@@ -340,9 +340,9 @@
   border: none;
   padding: 4px;
   border-color: rgba(118, 157, 192, 0);
-  -webkit-transition-property: background-color border-color;
-  -moz-transition-property: background-color border-color;
-  transition-property: background-color border-color;
+  -webkit-transition-property: background-color, border-color;
+  -moz-transition-property: background-color, border-color;
+  transition-property: background-color, border-color;
   -webkit-transition-duration: 0.3s;
   -moz-transition-duration: 0.3s;
   transition-duration: 0.3s;
@@ -374,10 +374,10 @@
   border: solid 1px #759dc0;
   padding: 3px;
   background: #abd6ff url("images/tabNested.png") repeat-x;
-  background-image: -moz-linear-gradient(rgba(255, 255, 255, 0.61) 0% rgba(255, 255, 255, 0) 17% rgba(255, 255, 255, 0) 83% rgba(255, 255, 255, 0.61) 100%);
-  background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0.61) 0% rgba(255, 255, 255, 0) 17% rgba(255, 255, 255, 0) 83% rgba(255, 255, 255, 0.61) 100%);
-  background-image: -o-linear-gradient(rgba(255, 255, 255, 0.61) 0% rgba(255, 255, 255, 0) 17% rgba(255, 255, 255, 0) 83% rgba(255, 255, 255, 0.61) 100%);
-  background-image: linear-gradient(rgba(255, 255, 255, 0.61) 0% rgba(255, 255, 255, 0) 17% rgba(255, 255, 255, 0) 83% rgba(255, 255, 255, 0.61) 100%);
+  background-image: -moz-linear-gradient(rgba(255, 255, 255, 0.61) 0%, rgba(255, 255, 255, 0) 17%, rgba(255, 255, 255, 0) 83%, rgba(255, 255, 255, 0.61) 100%);
+  background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0.61) 0%, rgba(255, 255, 255, 0) 17%, rgba(255, 255, 255, 0) 83%, rgba(255, 255, 255, 0.61) 100%);
+  background-image: -o-linear-gradient(rgba(255, 255, 255, 0.61) 0%, rgba(255, 255, 255, 0) 17%, rgba(255, 255, 255, 0) 83%, rgba(255, 255, 255, 0.61) 100%);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.61) 0%, rgba(255, 255, 255, 0) 17%, rgba(255, 255, 255, 0) 83%, rgba(255, 255, 255, 0.61) 100%);
   -webkit-transition-duration: 0.1s;
   -moz-transition-duration: 0.1s;
   transition-duration: 0.1s;
