@@ -25,10 +25,10 @@
   background-color: #efefef;
   background-image: url("../images/standardGradient.png");
   background-repeat: repeat-x;
-  background-image: -moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
-  background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
-  background-image: -o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
-  background-image: linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: -moz-linear-gradient(rgba(255, 255, 255, 0.7) 0% rgba(255, 255, 255, 0) 100%);
+  background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0% rgba(255, 255, 255, 0) 100%);
+  background-image: -o-linear-gradient(rgba(255, 255, 255, 0.7) 0% rgba(255, 255, 255, 0) 100%);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.7) 0% rgba(255, 255, 255, 0) 100%);
   _background-image: none;
 }
 .claro .dijitSelect .dijitArrowButton .dijitArrowButtonInner {
@@ -37,10 +37,10 @@
 /* hover status */
 .claro .dijitSelectHover {
   background-color: #e5f2fe;
-  background-image: -moz-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
-  background-image: -webkit-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
-  background-image: -o-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
-  background-image: linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
+  background-image: -moz-linear-gradient(rgba(127, 127, 127, 0.2) 0% rgba(127, 127, 127, 0) 2px);
+  background-image: -webkit-linear-gradient(rgba(127, 127, 127, 0.2) 0% rgba(127, 127, 127, 0) 2px);
+  background-image: -o-linear-gradient(rgba(127, 127, 127, 0.2) 0% rgba(127, 127, 127, 0) 2px);
+  background-image: linear-gradient(rgba(127, 127, 127, 0.2) 0% rgba(127, 127, 127, 0) 2px);
   background-repeat: repeat-x;
 }
 .claro .dijitSelectFocused,
@@ -58,10 +58,10 @@
   background-color: #7dbefa;
   background-image: url("../images/activeGradient.png");
   background-repeat: repeat-x;
-  background-image: -moz-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
-  background-image: -webkit-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
-  background-image: -o-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
-  background-image: linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
+  background-image: -moz-linear-gradient(rgba(190, 190, 190, 0.98) 0px rgba(255, 255, 255, 0.65) 3px rgba(255, 255, 255, 0) 100%);
+  background-image: -webkit-linear-gradient(rgba(190, 190, 190, 0.98) 0px rgba(255, 255, 255, 0.65) 3px rgba(255, 255, 255, 0) 100%);
+  background-image: -o-linear-gradient(rgba(190, 190, 190, 0.98) 0px rgba(255, 255, 255, 0.65) 3px rgba(255, 255, 255, 0) 100%);
+  background-image: linear-gradient(rgba(190, 190, 190, 0.98) 0px rgba(255, 255, 255, 0.65) 3px rgba(255, 255, 255, 0) 100%);
   _background-image: none;
 }
 .claro .dijitSelectFocused .dijitArrowButton {

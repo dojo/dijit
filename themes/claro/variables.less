@@ -185,84 +185,42 @@
 
 // Mixins
 
-.border-radius (@radius) {
-	-moz-border-radius: @radius;
-	border-radius: @radius;
+.border-radius (...) {
+	-moz-border-radius: @arguments;
+	border-radius: @arguments;
 }
 
-.box-shadow (@value) {
-	-webkit-box-shadow: @value;
-	-moz-box-shadow: @value;
-	box-shadow: @value;
+.box-shadow (...) {
+	-webkit-box-shadow: @arguments;
+	-moz-box-shadow: @arguments;
+	box-shadow: @arguments;
 }
 
-.transition-property (@value) {
-	-webkit-transition-property: @value;
-	-moz-transition-property: @value;
-	transition-property: @value;
+.transition-property (...) {
+	-webkit-transition-property: @arguments;
+	-moz-transition-property: @arguments;
+	transition-property: @arguments;
 }
 
-.transition-property (@value1, @value2) {
-	-webkit-transition-property: @value1, @value2;
-	-moz-transition-property: @value1, @value2;
-	transition-property: @value1, @value2;
+.transition-duration (...) {
+	-webkit-transition-duration: @arguments;
+	-moz-transition-duration: @arguments;
+	transition-duration: @arguments;
 }
 
-.transition-duration (@value) {
-	-webkit-transition-duration: @value;
-	-moz-transition-duration: @value;
-	transition-duration: @value;
+.transition-timing-function (...) {
+	-webkit-transition-timing-function: @arguments;
+	-moz-transition-timing-function: @arguments;
+	transition-timing-function: @arguments;
 }
 
-.transition-duration (@value1, @value2) {
-	-webkit-transition-duration: @value1, @value2;
-	-moz-transition-duration: @value1, @value2;
-	transition-duration: @value1, @value2;
-}
-
-.transition-timing-function (@value) {
-	-webkit-transition-timing-function: @value;
-	-moz-transition-timing-function: @value;
-	transition-timing-function: @value;
-}
-
-.linear-gradient (@value1, @value2) {
+.linear-gradient (...) {
 	// summary:
-	//		Expands to browser specific background-image specifications for a linear-gradient (2 stops)
- 	background-image: -moz-linear-gradient(@value1, @value2); // FF3.6 - FF15 (FF16+ supports linear-gradient)
- 	background-image: -webkit-linear-gradient(@value1, @value2); // Chrome10+, Safari5.1+
- 	background-image: -o-linear-gradient(@value1, @value2); // Opera 11.10+
- 	background-image: linear-gradient(@value1, @value2);
-}
-.linear-gradient (@value1, @value2, @value3) {
- 	background-image: -moz-linear-gradient(@value1, @value2, @value3); // FF3.6 - FF15 (FF16+ supports linear-gradient)
- 	background-image: -webkit-linear-gradient(@value1, @value2, @value3); // Chrome10+, Safari5.1+
- 	background-image: -o-linear-gradient(@value1, @value2, @value3); // Opera 11.10+
- 	background-image: linear-gradient(@value1, @value2, @value3);
-}
-.linear-gradient (@value1, @value2, @value3, @value4) {
- 	background-image: -moz-linear-gradient(@value1, @value2, @value3, @value4); // FF3.6 - FF15 (FF16+ supports linear-gradient)
- 	background-image: -webkit-linear-gradient(@value1, @value2, @value3, @value4); // Chrome10+, Safari5.1+
- 	background-image: -o-linear-gradient(@value1, @value2, @value3, @value4); // Opera 11.10+
- 	background-image: linear-gradient(@value1, @value2, @value3, @value4);
-}
-.linear-gradient (@value1, @value2, @value3, @value4, @value5) {
- 	background-image: -moz-linear-gradient(@value1, @value2, @value3, @value4, @value5); // FF3.6 - FF15 (FF16+ supports linear-gradient)
- 	background-image: -webkit-linear-gradient(@value1, @value2, @value3, @value4, @value5); // Chrome10+, Safari5.1+
- 	background-image: -o-linear-gradient(@value1, @value2, @value3, @value4, @value5); // Opera 11.10+
- 	background-image: linear-gradient(@value1, @value2, @value3, @value4, @value5);
-}
-.linear-gradient (@value1, @value2, @value3, @value4, @value5, @value6) {
- 	background-image: -moz-linear-gradient(@value1, @value2, @value3, @value4, @value5, @value6); // FF3.6 - FF15 (FF16+ supports linear-gradient)
- 	background-image: -webkit-linear-gradient(@value1, @value2, @value3, @value4, @value5, @value6); // Chrome10+, Safari5.1+
- 	background-image: -o-linear-gradient(@value1, @value2, @value3, @value4, @value5, @value6); // Opera 11.10+
- 	background-image: linear-gradient(@value1, @value2, @value3, @value4, @value5, @value6);
-}
-.linear-gradient (@value1, @value2, @value3, @value4, @value5, @value6, @value7) {
- 	background-image: -moz-linear-gradient(@value1, @value2, @value3, @value4, @value5, @value6, @value7); // FF3.6 - FF15 (FF16+ supports linear-gradient)
- 	background-image: -webkit-linear-gradient(@value1, @value2, @value3, @value4, @value5, @value6, @value7); // Chrome10+, Safari5.1+
- 	background-image: -o-linear-gradient(@value1, @value2, @value3, @value4, @value5, @value6, @value7); // Opera 11.10+
- 	background-image: linear-gradient(@value1, @value2, @value3, @value4, @value5, @value6, @value7);
+	//		Expands to browser specific background-image specifications for a linear-gradient
+ 	background-image: -moz-linear-gradient(@arguments); // FF3.6 - FF15 (FF16+ supports linear-gradient)
+ 	background-image: -webkit-linear-gradient(@arguments); // Chrome10+, Safari5.1+
+ 	background-image: -o-linear-gradient(@arguments); // Opera 11.10+
+ 	background-image: linear-gradient(@arguments);
 }
 
 .alpha-white-gradient (@opacity1, @stop1, @opacity2, @stop2) {

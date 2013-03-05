@@ -45,9 +45,9 @@
   /* color for (outer) border on *TextBox widgets, and border between input and buttons on ComboBox and Spinner */
 
   border-color: #b5bcc7;
-  -webkit-transition-property: background-color, border;
-  -moz-transition-property: background-color, border;
-  transition-property: background-color, border;
+  -webkit-transition-property: background-color border;
+  -moz-transition-property: background-color border;
+  transition-property: background-color border;
   -webkit-transition-duration: 0.35s;
   -moz-transition-duration: 0.35s;
   transition-duration: 0.35s;
@@ -68,10 +68,10 @@
 }
 .claro .dijitTextBoxHover {
   background-color: #e5f2fe;
-  background-image: -moz-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
-  background-image: -webkit-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
-  background-image: -o-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
-  background-image: linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
+  background-image: -moz-linear-gradient(rgba(127, 127, 127, 0.2) 0% rgba(127, 127, 127, 0) 2px);
+  background-image: -webkit-linear-gradient(rgba(127, 127, 127, 0.2) 0% rgba(127, 127, 127, 0) 2px);
+  background-image: -o-linear-gradient(rgba(127, 127, 127, 0.2) 0% rgba(127, 127, 127, 0) 2px);
+  background-image: linear-gradient(rgba(127, 127, 127, 0.2) 0% rgba(127, 127, 127, 0) 2px);
 }
 /* error state */
 .claro .dijitSelectError,
@@ -92,10 +92,10 @@
 }
 .claro .dijitTextBoxFocused {
   background-color: #ffffff;
-  background-image: -moz-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
-  background-image: -webkit-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
-  background-image: -o-linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
-  background-image: linear-gradient(rgba(127, 127, 127, 0.2) 0%, rgba(127, 127, 127, 0) 2px);
+  background-image: -moz-linear-gradient(rgba(127, 127, 127, 0.2) 0% rgba(127, 127, 127, 0) 2px);
+  background-image: -webkit-linear-gradient(rgba(127, 127, 127, 0.2) 0% rgba(127, 127, 127, 0) 2px);
+  background-image: -o-linear-gradient(rgba(127, 127, 127, 0.2) 0% rgba(127, 127, 127, 0) 2px);
+  background-image: linear-gradient(rgba(127, 127, 127, 0.2) 0% rgba(127, 127, 127, 0) 2px);
 }
 .claro .dijitTextBoxFocused .dijitInputContainer {
   background: #ffffff;
@@ -164,10 +164,10 @@
   background-color: #efefef;
   background-image: url("../images/standardGradient.png");
   background-repeat: repeat-x;
-  background-image: -moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
-  background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
-  background-image: -o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
-  background-image: linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: -moz-linear-gradient(rgba(255, 255, 255, 0.7) 0% rgba(255, 255, 255, 0) 100%);
+  background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0% rgba(255, 255, 255, 0) 100%);
+  background-image: -o-linear-gradient(rgba(255, 255, 255, 0.7) 0% rgba(255, 255, 255, 0) 100%);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.7) 0% rgba(255, 255, 255, 0) 100%);
   _background-image: none;
 }
 /* Arrow "hover" effect:
@@ -189,10 +189,10 @@
   background-color: #7dbdfa;
   background-image: url("../images/activeGradient.png");
   background-repeat: repeat-x;
-  background-image: -moz-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
-  background-image: -webkit-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
-  background-image: -o-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
-  background-image: linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
+  background-image: -moz-linear-gradient(rgba(190, 190, 190, 0.98) 0px rgba(255, 255, 255, 0.65) 3px rgba(255, 255, 255, 0) 100%);
+  background-image: -webkit-linear-gradient(rgba(190, 190, 190, 0.98) 0px rgba(255, 255, 255, 0.65) 3px rgba(255, 255, 255, 0) 100%);
+  background-image: -o-linear-gradient(rgba(190, 190, 190, 0.98) 0px rgba(255, 255, 255, 0.65) 3px rgba(255, 255, 255, 0) 100%);
+  background-image: linear-gradient(rgba(190, 190, 190, 0.98) 0px rgba(255, 255, 255, 0.65) 3px rgba(255, 255, 255, 0) 100%);
   _background-image: none;
   padding: 1px;
 }
