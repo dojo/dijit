@@ -369,6 +369,9 @@ define([
 				delete this._fadeInDeferred;
 			}));
 
+			// If delay is 0, code below will delete this._fadeInDeferred instantly, so grab promise while we can.
+			var promise = this._fadeInDeferred.promise;
+
 			fadeIn = fx.fadeIn({
 				node: this.domNode,
 				duration: this.duration,
@@ -387,7 +390,7 @@ define([
 				})
 			}).play();
 
-			return this._fadeInDeferred.promise;
+			return promise;
 		},
 
 		hide: function(){
@@ -412,8 +415,12 @@ define([
 				fadeOut.stop();
 				delete this._fadeOutDeferred;
 			}));
+
 			// fire onHide when the promise resolves.
 			this._fadeOutDeferred.then(lang.hitch(this, 'onHide'));
+
+			// If delay is 0, code below will delete this._fadeOutDeferred instantly, so grab promise while we can.
+			var promise = this._fadeOutDeferred.promise;
 
 			fadeOut = fx.fadeOut({
 				node: this.domNode,
@@ -439,7 +446,7 @@ define([
 			}
 			this._set("open", false);
 
-			return this._fadeOutDeferred.promise;
+			return promise;
 		},
 
 		resize: function(){

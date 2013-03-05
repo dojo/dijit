@@ -488,6 +488,34 @@
 				}
 			]);
 
+			doh.register("zero duration", [
+				{
+					name: "open",
+					timeout: 10000,
+					runTest: function(){
+						dlg1 = new Dialog({
+							id: "dlg1",
+							title: "dialog 1",
+							duration: 0,
+							content: "<input id='dlg1_inputA'>"
+						});
+
+						var promise = dlg1.show();
+						doh.t(promise.isResolved(), "resolved");
+						doh.t(helpers.isVisible(dlg1), "dialog visible");
+					}
+				},
+				{
+					name: "close",
+					timeout: 10000,
+					runTest: function(){
+						var promise = dlg1.hide();
+						doh.t(promise.isResolved(), "resolved");
+						doh.t(helpers.isHidden(dlg1), "dialog hidden");
+					}
+				}
+			]);
+
 			doh.run();
 		});
 	</script>
