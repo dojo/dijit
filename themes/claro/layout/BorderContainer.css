@@ -34,7 +34,8 @@ Splitters and gutters:
 
   padding: 5px;
 }
-.claro .dijitSplitContainer-child, .claro .dijitBorderContainer-child {
+.claro .dijitSplitContainer-child,
+.claro .dijitBorderContainer-child {
   /* By default put borders on all children of BorderContainer,
 	 *  to give illusion of borders on the splitters themselves.
 	 */
@@ -59,7 +60,8 @@ Splitters and gutters:
   padding: 0;
 }
 /* Splitters and gutters */
-.claro .dijitSplitterH, .claro .dijitGutterH {
+.claro .dijitSplitterH,
+.claro .dijitGutterH {
   background: none;
   border: 0;
   height: 5px;
@@ -70,7 +72,8 @@ Splitters and gutters:
   top: 2px;
   width: 19px;
 }
-.claro .dijitSplitterV, .claro .dijitGutterV {
+.claro .dijitSplitterV,
+.claro .dijitGutterV {
   background: none;
   border: 0;
   width: 5px;
@@ -84,7 +87,8 @@ Splitters and gutters:
   margin: 0;
 }
 /* hovered splitter */
-.claro .dijitSplitterHHover, .claro .dijitSplitterVHover {
+.claro .dijitSplitterHHover,
+.claro .dijitSplitterVHover {
   font-size: 1px;
   background-color: #cfe5fa;
 }
@@ -100,11 +104,13 @@ Splitters and gutters:
   background-image: -o-linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0) 50%, #ffffff 100%);
   background-image: linear-gradient(top, #ffffff 0px, rgba(255, 255, 255, 0) 50%, #ffffff 100%);
 }
-.claro .dijitSplitterHHover .dijitSplitterThumb, .claro .dijitSplitterVHover .dijitSplitterThumb {
+.claro .dijitSplitterHHover .dijitSplitterThumb,
+.claro .dijitSplitterVHover .dijitSplitterThumb {
   background: #759dc0 none;
 }
 /* active splitter */
-.claro .dijitSplitterHActive, .claro .dijitSplitterVActive {
+.claro .dijitSplitterHActive,
+.claro .dijitSplitterVActive {
   font-size: 1px;
   background-color: #abd6ff;
   background-image: none;

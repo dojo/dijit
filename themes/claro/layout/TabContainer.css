@@ -311,7 +311,8 @@
   background-position: -51px 50%;
 }
 /*disabled styles for tab strip buttons*/
-.claro .dijitTabListContainer-top .tabStripButtonDisabled, .claro .dijitTabListContainer-bottom .tabStripButtonDisabled {
+.claro .dijitTabListContainer-top .tabStripButtonDisabled,
+.claro .dijitTabListContainer-bottom .tabStripButtonDisabled {
   background-color: #d3d3d3;
   border: 1px solid #b5bcc7;
   /* to match border of TabContainer itself */
@@ -395,6 +396,7 @@
   /* prevent double border */
 
 }
-.claro .dijitTabContainer .dijitTab, .claro .dijitTabContainer .tabStripButton {
+.claro .dijitTabContainer .dijitTab,
+.claro .dijitTabContainer .tabStripButton {
   _background-image: none;
 }

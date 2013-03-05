@@ -110,7 +110,8 @@
   background-position: -42px;
 }
 /* Tooltip and TooltipDialog */
-.claro .dijitTooltip, .claro .dijitTooltipDialog {
+.claro .dijitTooltip,
+.claro .dijitTooltipDialog {
   /* the outermost dom node, holding the connector and container */
 
   background: transparent;
@@ -181,7 +182,8 @@
   width: 16px;
   height: 14px;
 }
-.dj_ie7 .claro .dijitTooltipAbove .dijitTooltipConnector, .dj_ie6 .claro .dijitTooltipAbove .dijitTooltipConnector {
+.dj_ie7 .claro .dijitTooltipAbove .dijitTooltipConnector,
+.dj_ie6 .claro .dijitTooltipAbove .dijitTooltipConnector {
   bottom: -1px;
 }
 .claro .dijitTooltipABRight .dijitTooltipConnector {
