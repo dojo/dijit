@@ -389,6 +389,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("AZ", s2.get("value"), "hidden value");
+								doh.f(isVisible(s2_menu), "no menu");
 							}), 1000);
 
 							return d;
@@ -405,6 +406,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("AR", s2.get("value"), "hidden value");
+								doh.f(isVisible(s2_menu), "no menu");
 							}), 1000);
 
 							return d;
@@ -421,6 +423,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("AL", s2.get("value"), "hidden value");
+								doh.f(isVisible(s2_menu), "no menu");
 							}), 1000);
 
 							return d;
@@ -436,6 +439,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("AK", s2.get("value"), "hidden value");
+								doh.f(isVisible(s2_menu), "no menu");
 							}), 1000);
 
 							return d;
@@ -447,11 +451,29 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							// c search fails to find CA due to multi-character searching
-							doh.robot.typeKeys("c", 500, 1200);
+							// c search finds CA 
+							doh.robot.typeKeys("c", 500, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("CA", s2.get("value"), "hidden value");
+								doh.f(isVisible(s2_menu), "no menu");
+							}), 1000);
+
+							return d;
+						}
+					},
+					{
+						name: "multi letter searching with SPACE, no dropdown",
+						timeout: 9000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// c search fails to find CA due to multi-character searching
+							doh.robot.typeKeys("new m", 500, 1200);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("NM", s2.get("value"), "hidden value");
+								doh.f(isVisible(s2_menu), "no menu");
 							}), 1000);
 
 							return d;
@@ -470,8 +492,8 @@
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
 							doh.robot.typeKeys("aaaaaaac", 1000, 1200); // c search fails to find CA due to multi-character searching
 
-							// ENTER to close menu
-							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+							// SPACE to close menu
+							doh.robot.keyPress(dojo.keys.SPACE, 1100, {}); // long delay so that multi-letter searching is deactivated
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("AZ", s2.get("value"), "hidden value");
 							}), 1000);
@@ -485,8 +507,8 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							// down arrow to open drop down and search with several a's
-							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+							// ENTER to open drop down and search with several a's
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 							doh.robot.typeKeys("aaaaaaaaala", 1000, 1400); // ala suffix fails to find either alabama or alaska
 
 							// ENTER to close menu
@@ -505,15 +527,15 @@
 							var d = new doh.Deferred();
 							var wasVisible;
 
-							// down arrow to open drop down and search with several a's
-							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+							// SPACE to open drop down and search with several a's
+							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
 							doh.robot.typeKeys("al", 1000, 1600); // al search finds alabama
 							doh.robot.sequence(function(){
 								wasVisible = isVisible(s2_menu);
 							}, 1000);
 
-							// ENTER to close menu
-							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+							// SPACE to close menu
+							doh.robot.keyPress(dojo.keys.SPACE, 1100, {}); // long delay so that multi-letter searching is deactivated
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(wasVisible, "no auto selection");
 								doh.is("AL", s2.get("value"), "hidden value");

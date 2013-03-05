@@ -742,12 +742,72 @@
 						}
 					},
 					{
+						name: "search with SPACE",
+						timeout: 9000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							robot.typeKeys("submenu Item t", 600, 2000); // multi letter search should work
+
+							robot.sequence(d.getTestCallback(function(){
+								doh.is("Submenu Item Two", registry.getEnclosingWidget(dfocus.curNode).label, "focus on second MenuItem in sub Menu");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "search with full text to make sure it's found",
+						timeout: 9000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							robot.typeKeys("sUBMENU iTEM oNE", 600, 3000); // multi letter search should work
+
+							robot.sequence(d.getTestCallback(function(){
+								doh.is("Submenu Item One", registry.getEnclosingWidget(dfocus.curNode).label, "focus on second MenuItem in sub Menu");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "search with full text to make sure it's moving",
+						timeout: 9000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							robot.typeKeys("submenu item two", 600, 3000); // multi letter search should work
+
+							robot.sequence(d.getTestCallback(function(){
+								doh.is("Submenu Item Two", registry.getEnclosingWidget(dfocus.curNode).label, "focus on second MenuItem in sub Menu");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "search again with the same full text to make sure it's not just picking the next item",
+						timeout: 9000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							robot.typeKeys("submenu item two", 600, 3000); // multi letter search should work
+
+							robot.sequence(d.getTestCallback(function(){
+								doh.is("Submenu Item Two", registry.getEnclosingWidget(dfocus.curNode).label, "focus on second MenuItem in sub Menu");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
 						name: "search opens sub-menu",
 						timeout: 9000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							robot.typeKeys("sds", 100, 3300); // single letter search should work after long delays
+							robot.typeKeys("sds", 600, 3500); // single letter search should work after long delays
 
 							robot.sequence(d.getTestCallback(function(){
 								var menu = registry.byId("navMenuSub2");
@@ -756,9 +816,22 @@
 							}), 500);
 
 							return d;
-						},
-						tearDown: function(){
-							registry.byId("navMenu")._cleanUp();
+						}
+					},
+					{
+						name: "SPACE closes menu after keyboard search",
+						timeout: 9000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							robot.typeKeys(" ", 600, 300);
+
+							robot.sequence(d.getTestCallback(function(){
+								doh.f(helpers.isVisible(registry.byId("navMenuSub1")), "sub-menu is shown");
+								doh.f(helpers.isVisible(registry.byId("navMenuSub2")), "sub-sub-menu is shown");
+							}), 500);
+
+							return d;
 						}
 					}
 				]);
