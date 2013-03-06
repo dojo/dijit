@@ -1,85 +1,116 @@
 define([
+	"dojo/_base/array",
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/lang",
 	"dojo/_base/declare", // declare
 	"../_WidgetBase",
 	"./_LayoutWidget",
 	"./utils" // layoutUtils.layoutChildren
-], function(kernel, lang, declare, _WidgetBase, _LayoutWidget, layoutUtils){
+], function(array, kernel, lang, declare, _WidgetBase, _LayoutWidget, layoutUtils){
 
 	// module:
 	//		dijit/layout/LayoutContainer
 
 	var LayoutContainer = declare("dijit.layout.LayoutContainer", _LayoutWidget, {
 		// summary:
-		//		Deprecated.  Use `dijit/layout/BorderContainer` instead.
-		// description:
-		//		Provides Delphi-style panel layout semantics.
+		//		A LayoutContainer is a box with a specified size, such as style="width: 500px; height: 500px;",
+		//		that contains a child widget marked region="center" and optionally children widgets marked
+		//		region equal to "top", "bottom", "leading", "trailing", "left" or "right".
+		//		Children along the edges will be laid out according to width or height dimensions and may
+		//		include optional splitters (splitter="true") to make them resizable by the user.  The remaining
+		//		space is designated for the center region.
 		//
-		//		A LayoutContainer is a box with a specified size (like style="width: 500px; height: 500px;"),
-		//		that contains children widgets marked with "layoutAlign" of "left", "right", "bottom", "top", and "client".
-		//		It takes it's children marked as left/top/bottom/right, and lays them out along the edges of the box,
-		//		and then it takes the child marked "client" and puts it into the remaining space in the middle.
+		//		The outer size must be specified on the LayoutContainer node.  Width must be specified for the sides
+		//		and height for the top and bottom, respectively.  No dimensions should be specified on the center;
+		//		it will fill the remaining space.  Regions named "leading" and "trailing" may be used just like
+		//		"left" and "right" except that they will be reversed in right-to-left environments.
 		//
-		//		Left/right positioning is similar to CSS's "float: left" and "float: right",
-		//		and top/bottom positioning would be similar to "float: top" and "float: bottom", if there were such
-		//		CSS.
-		//
-		//		Note that there can only be one client element, but there can be multiple left, right, top,
-		//		or bottom elements.
+		//		For complex layouts, multiple children can be specified for a single region.   In this case, the
+		//		layoutPriority flag on the children determines which child is closer to the edge (low layoutPriority)
+		//		and which child is closer to the center (high layoutPriority).   layoutPriority can also be used
+		//		instead of the design attribute to control layout precedence of horizontal vs. vertical panes.
 		//
 		//		See `LayoutContainer.ChildWidgetProperties` for details on the properties that can be set on
 		//		children of a `LayoutContainer`.
 		//
-		// example:
-		// |	<style>
-		// |		html, body{ height: 100%; width: 100%; }
-		// |	</style>
-		// |	<div data-dojo-type="dijit/layout/LayoutContainer" style="width: 100%; height: 100%">
-		// |		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="layoutAlign: 'top'">header text</div>
-		// |		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="layoutAlign: 'left'" style="width: 200px;">table of contents</div>
-		// |		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="layoutAlign: 'client'">client area</div>
-		// |	</div>
-		//
-		//		Lays out each child in the natural order the children occur in.
+		//		If layoutPriority is not set, lays out each child in the natural order the children occur in.
 		//		Basically each child is laid out into the "remaining space", where "remaining space" is initially
 		//		the content area of this widget, but is reduced to a smaller rectangle each time a child is added.
-		// tags:
-		//		deprecated
+
+		// design: String
+		//		Which design is used for the layout:
+		//
+		//		- "headline" (default) where the top and bottom extend the full width of the container
+		//		- "sidebar" where the left and right sides extend from top to bottom.
+		design: "headline",
 
 		baseClass: "dijitLayoutContainer",
 
-		constructor: function(){
-			kernel.deprecated("dijit.layout.LayoutContainer is deprecated", "use BorderContainer instead", 2.0);
+		_getOrderedChildren: function(){
+			// summary:
+			//		Return list of my children in the order that I want layoutChildren()
+			//		to process them (i.e. from the outside to the inside)
+
+			var wrappers = array.map(this.getChildren(), function(child, idx){
+				return {
+					pane: child,
+					weight: [
+						child.region == "center" ? Infinity : 0,
+						child.layoutPriority,
+						(this.design == "sidebar" ? 1 : -1) * (/top|bottom/.test(child.region) ? 1 : -1),
+						idx
+					]
+				};
+			}, this);
+			wrappers.sort(function(a, b){
+				var aw = a.weight, bw = b.weight;
+				for(var i = 0; i < aw.length; i++){
+					if(aw[i] != bw[i]){
+						return aw[i] - bw[i];
+					}
+				}
+				return 0;
+			});
+
+			return array.map(wrappers, function(w){ return w.pane; });
 		},
 
 		layout: function(){
-			layoutUtils.layoutChildren(this.domNode, this._contentBox, this.getChildren());
+			layoutUtils.layoutChildren(this.domNode, this._contentBox, this._getOrderedChildren());
 		},
 
 		addChild: function(/*dijit/_WidgetBase*/ child, /*Integer?*/ insertIndex){
 			this.inherited(arguments);
 			if(this._started){
-				layoutUtils.layoutChildren(this.domNode, this._contentBox, this.getChildren());
+				this.layout();
 			}
 		},
 
 		removeChild: function(/*dijit/_WidgetBase*/ widget){
 			this.inherited(arguments);
 			if(this._started){
-				layoutUtils.layoutChildren(this.domNode, this._contentBox, this.getChildren());
+				this.layout();
 			}
 		}
 	});
 
 	LayoutContainer.ChildWidgetProperties = {
 		// summary:
-		//		This property can be specified for the children of a LayoutContainer.
+		//		These properties can be specified for the children of a LayoutContainer.
 
-		// layoutAlign: String
-		//		"none", "left", "right", "bottom", "top", and "client".
-		//		See the LayoutContainer description for details on this parameter.
-		layoutAlign: 'none'
+		// region: [const] String
+		//		Values: "top", "bottom", "leading", "trailing", "left", "right", "center".
+		//		See the `dijit/layout/LayoutContainer` description for details.
+		region: '',
+
+		// layoutAlign: [const deprecated] String
+		//		Synonym for region.  Deprecated; use region instead.
+		layoutAlign: '',
+
+		// layoutPriority: [const] Number
+		//		Children with a higher layoutPriority will be placed closer to the LayoutContainer center,
+		//		between children with a lower layoutPriority.
+		layoutPriority: 0
 	};
 
 	// Since any widget can be specified as a LayoutContainer child, mix it
