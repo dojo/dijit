@@ -93,7 +93,7 @@ define([
 		_beforeFillContent: function(){
 		},
 
-		_attachTemplateNodes: function(rootNode, getAttrFunc){
+		_attachTemplateNodes: function(rootNode, getAttrFunc, attachFunc){
 			// summary:
 			//		Iterate through the dom nodes and attach functions and nodes accordingly.
 			//		Alternately, if rootNode is an array of widgets, then will process data-dojo-attach-point
@@ -106,23 +106,25 @@ define([
 			//		- dojoAttachPoint/data-dojo-attach-point
 			//		- dojoAttachEvent/data-dojo-attach-event
 			// rootNode: DomNode|Widget[]
-			//		the node to search for properties. All children will be searched.
+			//		The node to search for properties. All children will be searched.
 			// getAttrFunc: Function
-			//		a function which will be used to obtain property for a given
-			//		DomNode/Widget
+			//		Function to get the specified property for a given DomNode/Widget.
+			// attachFunc: Function?
+			//		Attaches an event handler from the specified node/widget to specified function.
+			//		If not specified uses this._attach().
 			// tags:
 			//		private
 
 			if(lang.isArray(rootNode)){
-				// Special path used by _WidgetsInTemplateMixin
+				// Special path used by _WidgetsInTemplateMixin.  Move to separate function for 2.0.
 				for(var i = 0; i < rootNode.length; i++){
-					this._processNode(rootNode[i], getAttrFunc);
+					this._processNode(rootNode[i], getAttrFunc, attachFunc);
 				}
 			}else{
 				// DFS to process all nodes except those inside of this.containerNode
 				var node = rootNode;
 				while(true){
-					if(node.nodeType == 1 && (this._processNode(node, getAttrFunc) || this.searchContainerNode)
+					if(node.nodeType == 1 && (this._processNode(node, getAttrFunc, this._attach) || this.searchContainerNode)
 							&& node.firstChild){
 						node = node.firstChild;
 					}else{
@@ -137,7 +139,7 @@ define([
 			}
 		},
 
-		_processNode: function(/*DOMNode|Widget*/ baseNode, getAttrFunc){
+		_processNode: function(/*DOMNode|Widget*/ baseNode, getAttrFunc, attachFunc){
 			// summary:
 			//		Process data-dojo-attach-point and data-dojo-attach-event for given node or widget.
 			//		Returns true if caller should process baseNode's children too.
@@ -188,21 +190,37 @@ define([
 							thisFunc = event;
 						}
 
-						// Map special type names like "mouseenter" to synthetic events.
-						// Subclasses are responsible to require() dijit/a11yclick if they want to use it.
-						event = event.replace(/^on/, "").toLowerCase();
-						if(event == "dijitclick"){
-							event = a11yclick || (a11yclick = require("./a11yclick"));
-						}else{
-							event = synthEvents[event] || event;
-						}
-
-						this._attachEvents.push(this.own(on(baseNode, event, lang.hitch(_attachScope, thisFunc)))[0]);
+						this._attachEvents.push(this.own(attachFunc(baseNode, event, lang.hitch(_attachScope, thisFunc)))[0]);
 					}
 				}
 			}
 
 			return ret;
+		},
+
+		_attach: function(node, type, func){
+			// summary:
+			//		Roughly corresponding to dojo/on, this is the default function for processing a
+			//		data-dojo-attach-event.  Meant to attach to DOMNodes, not to widgets.
+			// node: DOMNode
+			//		The node to setup a listener on.
+			// type: String
+			//		Event name like "click".
+			// getAttrFunc: Function
+			//		Function to get the specified property for a given DomNode/Widget.
+			// attachFunc: Function?
+			//		Attaches an event handler from the specified node/widget to specified function.
+
+			// Map special type names like "mouseenter" to synthetic events.
+			// Subclasses are responsible to require() dijit/a11yclick if they want to use it.
+			type = type.replace(/^on/, "").toLowerCase();
+			if(type == "dijitclick"){
+				type = a11yclick || (a11yclick = require("./a11yclick"));
+			}else{
+				type = synthEvents[type] || type;
+			}
+
+			return on(node, type, func);
 		},
 
 		destroyRendering: function(){

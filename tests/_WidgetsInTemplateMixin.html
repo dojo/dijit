@@ -213,164 +213,188 @@
 					parser.parse();
 				});
 
-				doh.register("_Templated-widgetsInTemplate",
-					[
-						{
-							name: "data-dojo-attach-point",
-							runTest: function(t){
-								var testW = registry.byId("test1Widget");
-								doh.t(testW, "test1Widget was instantiated");
-								doh.t(testW.normalNode, "normalNode");
-								doh.f(isNaN(testW.normalNode.nodeType), "normalNode.nodeType");
-								doh.t(testW.buttonWidget instanceof Button, "buttonWidget is Button");
-								doh.t(testW.checkboxWidget instanceof CheckBox, "checkboxWidget is CheckBox");
-								doh.t(testW.progressBarWidget instanceof ProgressBar, "progressBarWidget is ProgressBar");
-							}
-						},
-						{
-							name: "data-dojo-attach-event",
-							runTest: function(t){
-								var testW = registry.byId("test1Widget");
-								testW.buttonWidget._counter=0;
-								testW.buttonWidget.onClick(testW.buttonWidget);
-								testW.checkboxWidget._counter=0;
-								testW.checkboxWidget.onClick(testW.checkboxWidget);
-								testW.progressBarWidget._counter=0;
-								testW.progressBarWidget.onChange(testW.progressBarWidget);
-								doh.is(1,testW.buttonWidget._counter, "buttonWidget._counter");
-								doh.is(1,testW.checkboxWidget._counter, "checkboxWidget._counter");
-								doh.is(1,testW.progressBarWidget._counter, "progressBarWidget._counter");
-							}
-						},
-						{
-							// Test that getDescendants ()
-							// finds direct descendants but skips widgetsInTemplates
-							// and also nested widgets (if direct==true)
-							name: "getChildren",
-							runTest: function(t){
-								var testW = registry.byId("test3Widget");
+				doh.register("_Templated-widgetsInTemplate", [
+					{
+						name: "data-dojo-attach-point",
+						runTest: function(t){
+							var testW = registry.byId("test1Widget");
+							doh.t(testW, "test1Widget was instantiated");
+							doh.t(testW.normalNode, "normalNode");
+							doh.f(isNaN(testW.normalNode.nodeType), "normalNode.nodeType");
+							doh.t(testW.buttonWidget instanceof Button, "buttonWidget is Button");
+							doh.t(testW.checkboxWidget instanceof CheckBox, "checkboxWidget is CheckBox");
+							doh.t(testW.progressBarWidget instanceof ProgressBar, "progressBarWidget is ProgressBar");
+						}
+					},
+					{
+						name: "data-dojo-attach-event",
+						runTest: function(t){
+							var testW = registry.byId("test1Widget");
+							testW.buttonWidget._counter=0;
+							testW.buttonWidget.onClick(testW.buttonWidget);
+							testW.checkboxWidget._counter=0;
+							testW.checkboxWidget.onClick(testW.checkboxWidget);
+							testW.progressBarWidget._counter=0;
+							testW.progressBarWidget.onChange(testW.progressBarWidget);
+							doh.is(1,testW.buttonWidget._counter, "buttonWidget._counter");
+							doh.is(1,testW.checkboxWidget._counter, "checkboxWidget._counter");
+							doh.is(1,testW.progressBarWidget._counter, "progressBarWidget._counter");
+						}
+					},
+					{
+						name: "data-dojo-attach-event strange name",
+						runTest: function(t){
+							// This is for testing data-dojo-attach-event to attach to a method in the widget,
+							// rather than using _WidgetBase.on(...).   Remove for 2.0.
+							var SubWidget = declare("SubWidget", _WidgetBase, {
+								f: function(){
+									// just for attaching to
+								}
+							});
+							var MainWidget = declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+								templateString:
+									'<div>' +
+										'<div data-dojo-type="SubWidget" data-dojo-attach-point="sw" ' +
+											' data-dojo-attach-event="f: g">' +
+									'</div>',
+								g: function(){
+									this.gWasCalled = true;
+								}
+							});
+							var mw = new MainWidget();
+							doh.t(mw.sw, "attach-point exists");
+							mw.sw.f();
+							doh.t(mw.gWasCalled, "attach-event worked");
+						}
+					},
+					{
+						// Test that getDescendants ()
+						// finds direct descendants but skips widgetsInTemplates
+						// and also nested widgets (if direct==true)
+						name: "getChildren",
+						runTest: function(t){
+							var testW = registry.byId("test3Widget");
 
 /*** performance tests
-								var start = new Date();
-								for(var i=0; i<1000; i++)
-									testW.getChildren();
-								console.log("*** time for getChildren(): " + (new Date()-start));
-								var start = new Date();
-								for(var i=0; i<1000; i++)
-									testW.getDescendants();
-								console.log("*** time for getDescendants(false): " + (new Date()-start));
+							var start = new Date();
+							for(var i=0; i<1000; i++)
+								testW.getChildren();
+							console.log("*** time for getChildren(): " + (new Date()-start));
+							var start = new Date();
+							for(var i=0; i<1000; i++)
+								testW.getDescendants();
+							console.log("*** time for getDescendants(false): " + (new Date()-start));
 ***/
-								var chil = testW.getChildren();
-								doh.is(5, chil.length, "number of direct descendants");
-								doh.is(chil[0].id, "3.1");
-								doh.is(chil[1].id, "3.2");
-								doh.is(chil[2].id, "3.3");
-								doh.is(chil[3].id, "3.4");
-								doh.is(chil[4].id, "3.5");
+							var chil = testW.getChildren();
+							doh.is(5, chil.length, "number of direct descendants");
+							doh.is(chil[0].id, "3.1");
+							doh.is(chil[1].id, "3.2");
+							doh.is(chil[2].id, "3.3");
+							doh.is(chil[3].id, "3.4");
+							doh.is(chil[4].id, "3.5");
 
-								// remove this test for 2.0
-								var desc = testW.getDescendants();
-								doh.is(7, desc.length, "number of descendants (including nested ones)");
-								doh.is(desc[0].id, "3.1");
-								doh.is(desc[1].id, "3.2");
-								doh.is(desc[2].id, "3.3");
-								doh.is(desc[3].id, "3.nested");
-								doh.is(desc[4].id, "3.nested2");
-								doh.is(desc[5].id, "3.4");
-								doh.is(desc[6].id, "3.5");
-							}
-						},
-						{
-							// Check that declarative widget with layout widgets in template is correctly created and rendered
-							name: "declarative widget with layout widgets",
-							runTest: function(t){
-								validateTest4Widget(t, registry.byId("test4Widget"));
-							}
-						},
-						{
-							// Check that programatic widget with layout widgets in template is correctly created and rendered
-							name: "programmatic widget with layout widgets",
-							runTest: function(t){
-								test4WidgetProgrammatic = new Test4Widget({}).placeAt("test4Widget", "after");
-								test4WidgetProgrammatic.startup();
-								validateTest4Widget(t, test4WidgetProgrammatic);
-							}
-						},
-						{
-							// Compare programmatic and declaratively created widget with layout widgets in template
-							name: "programmatic vs declarative with layout widgets",
-							runTest: function(t){
-								// Focus the body, so that we don't have different classes on our
-								// two widgets
-								focusUtil.focus(win.body());
-								var declW = registry.byId("test4Widget");
-								var progW = test4WidgetProgrammatic;
-
-								// Check that generated HTML in DOM is same
-								var declNeutralHtml = declW.domNode.innerHTML.replace(/_\d+/g, "");
-								var progNeutralHtml = progW.domNode.innerHTML.replace(/_\d+/g, "");
-								if(declNeutralHtml != progNeutralHtml){
-									for(var i=0; i<declNeutralHtml.length; i++){
-										if(progNeutralHtml.charAt(i) != declNeutralHtml.charAt(i)){
-											console.log("***Difference starting at " + i);
-											console.log("declarative: " + declNeutralHtml.substr(Math.max(0, i-5), 50));
-											console.log("programmatic: " + progNeutralHtml.substr(Math.max(0, i-5), 50));
-											break;
-										}
-									}
-									doh.t(declNeutralHtml == progNeutralHtml, "declNeutralHtml == progNeutralHtml");
-								}
-
-								// Check that dimensions are same
-								var declBox = domGeom.getContentBox(declW.domNode);
-								var progBox = domGeom.getContentBox(progW.domNode);
-								doh.is(declBox.h, progBox.h, "progBox.h");
-								doh.is(declBox.w, progBox.w, "progBox.w");
-							}
-						},
-						{
-							// Check that declarative widget with other widgets in template is correctly started
-							name: "declarative widget with many child widgets",
-							runTest: function(t){
-								validateTest5Widget(t, registry.byId("test5Widget"));
-							}
-						},
-						{
-							// Check that programmatic widget with other widgets in template is correctly started
-							name: "programmatic widget with many child widgets",
-							runTest: function(t){
-								test5WidgetProgrammatic = new Test5Widget().placeAt("test5Widget", "after");
-								test5WidgetProgrammatic.startup();
-								validateTest5Widget(t, test5WidgetProgrammatic);
-							}
-						},
-						{
-							// Check that destroying our declarative widget works correctly
-							name: "declarative widget destruction",
-							runTest: function(t){
-								validateTest5WidgetDestroy(t, registry.byId("test5Widget"));
-							}
-						},
-						{
-							// Check that destroying our programmatic widget works correctly
-							name: "programmatic widget destruction",
-							runTest: function(t){
-								validateTest5WidgetDestroy(t, test5WidgetProgrammatic);
-							}
-						},
-						{
-							// Test that data-dojo-attach-point inside of a ContentPane (inside of a template) works
-							name: "ContentPane",
-							runTest: function(){
-								var testW = registry.byId("missing");
-								doh.t(testW, "widget was created");
-								doh.t(testW.missingButton, "data-dojo-attach-point created");
-								doh.is("dijit.form.Button", testW.missingButton.declaredClass, "and it's to a widget");
-								doh.t(registry.byId("missingButtonId"), "nested widget also registered by id");
-							}
+							// remove this test for 2.0
+							var desc = testW.getDescendants();
+							doh.is(7, desc.length, "number of descendants (including nested ones)");
+							doh.is(desc[0].id, "3.1");
+							doh.is(desc[1].id, "3.2");
+							doh.is(desc[2].id, "3.3");
+							doh.is(desc[3].id, "3.nested");
+							doh.is(desc[4].id, "3.nested2");
+							doh.is(desc[5].id, "3.4");
+							doh.is(desc[6].id, "3.5");
 						}
-					]
-				);
+					},
+					{
+						// Check that declarative widget with layout widgets in template is correctly created and rendered
+						name: "declarative widget with layout widgets",
+						runTest: function(t){
+							validateTest4Widget(t, registry.byId("test4Widget"));
+						}
+					},
+					{
+						// Check that programatic widget with layout widgets in template is correctly created and rendered
+						name: "programmatic widget with layout widgets",
+						runTest: function(t){
+							test4WidgetProgrammatic = new Test4Widget({}).placeAt("test4Widget", "after");
+							test4WidgetProgrammatic.startup();
+							validateTest4Widget(t, test4WidgetProgrammatic);
+						}
+					},
+					{
+						// Compare programmatic and declaratively created widget with layout widgets in template
+						name: "programmatic vs declarative with layout widgets",
+						runTest: function(t){
+							// Focus the body, so that we don't have different classes on our
+							// two widgets
+							focusUtil.focus(win.body());
+							var declW = registry.byId("test4Widget");
+							var progW = test4WidgetProgrammatic;
+
+							// Check that generated HTML in DOM is same
+							var declNeutralHtml = declW.domNode.innerHTML.replace(/_\d+/g, "");
+							var progNeutralHtml = progW.domNode.innerHTML.replace(/_\d+/g, "");
+							if(declNeutralHtml != progNeutralHtml){
+								for(var i=0; i<declNeutralHtml.length; i++){
+									if(progNeutralHtml.charAt(i) != declNeutralHtml.charAt(i)){
+										console.log("***Difference starting at " + i);
+										console.log("declarative: " + declNeutralHtml.substr(Math.max(0, i-5), 50));
+										console.log("programmatic: " + progNeutralHtml.substr(Math.max(0, i-5), 50));
+										break;
+									}
+								}
+								doh.t(declNeutralHtml == progNeutralHtml, "declNeutralHtml == progNeutralHtml");
+							}
+
+							// Check that dimensions are same
+							var declBox = domGeom.getContentBox(declW.domNode);
+							var progBox = domGeom.getContentBox(progW.domNode);
+							doh.is(declBox.h, progBox.h, "progBox.h");
+							doh.is(declBox.w, progBox.w, "progBox.w");
+						}
+					},
+					{
+						// Check that declarative widget with other widgets in template is correctly started
+						name: "declarative widget with many child widgets",
+						runTest: function(t){
+							validateTest5Widget(t, registry.byId("test5Widget"));
+						}
+					},
+					{
+						// Check that programmatic widget with other widgets in template is correctly started
+						name: "programmatic widget with many child widgets",
+						runTest: function(t){
+							test5WidgetProgrammatic = new Test5Widget().placeAt("test5Widget", "after");
+							test5WidgetProgrammatic.startup();
+							validateTest5Widget(t, test5WidgetProgrammatic);
+						}
+					},
+					{
+						// Check that destroying our declarative widget works correctly
+						name: "declarative widget destruction",
+						runTest: function(t){
+							validateTest5WidgetDestroy(t, registry.byId("test5Widget"));
+						}
+					},
+					{
+						// Check that destroying our programmatic widget works correctly
+						name: "programmatic widget destruction",
+						runTest: function(t){
+							validateTest5WidgetDestroy(t, test5WidgetProgrammatic);
+						}
+					},
+					{
+						// Test that data-dojo-attach-point inside of a ContentPane (inside of a template) works
+						name: "ContentPane",
+						runTest: function(){
+							var testW = registry.byId("missing");
+							doh.t(testW, "widget was created");
+							doh.t(testW.missingButton, "data-dojo-attach-point created");
+							doh.is("dijit.form.Button", testW.missingButton.declaredClass, "and it's to a widget");
+							doh.t(registry.byId("missingButtonId"), "nested widget also registered by id");
+						}
+					}
+				]);
 
 				// Test that "this" referenced from data-dojo-props can refer to the hosting widget
 				doh.register("data-dojo-props this", function(){

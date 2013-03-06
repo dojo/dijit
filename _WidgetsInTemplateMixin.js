@@ -1,9 +1,10 @@
 define([
-	"dojo/_base/array", // array.forEach
-	"dojo/_base/declare", // declare
-	"dojo/_base/lang",	// lang.hitch()
-	"dojo/parser" // parser.parse
-], function(array, declare, lang, parser){
+	"dojo/_base/array", // forEach()
+	"dojo/aspect", // after()
+	"dojo/_base/declare", // declare()
+	"dojo/_base/lang",	// hitch()
+	"dojo/parser" // parse()
+], function(array, aspect, declare, lang, parser){
 
 	// module:
 	//		dijit/_WidgetsInTemplateMixin
@@ -51,6 +52,15 @@ define([
 					// of this.domNode (like Dialog, which is moved to <body>).
 					this._attachTemplateNodes(widgets, function(n,p){
 						return n[p];
+					}, function(widget, type, callback){
+						// function to do data-dojo-attach-event to a widget
+						if(type in widget){
+							// back-compat, remove for 2.0
+							return aspect.after(widget, type, callback, true);
+						}else{
+							// 1.x may never hit this branch, but it's the default for 2.0
+							return widget.on(type, callback, true);
+						}
 					});
 				}));
 
