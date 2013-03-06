@@ -291,31 +291,13 @@ define([
 			this.inherited(arguments);
 		},
 
-		startup: function(){
-			if(this._started){
-				return;
-			}
-			array.forEach(this.getChildren(), this._setupChild, this);
-			this.inherited(arguments);
-		},
-
 		_setupChild: function(/*dijit/_WidgetBase*/ child){
-			// Override _LayoutWidget._setupChild().
+			// Override LayoutContainer._setupChild().
+
+			this.inherited(arguments);
 
 			var region = child.region;
 			if(region){
-				this.inherited(arguments);
-
-				domClass.add(child.domNode, this.baseClass + "Pane");
-
-				var ltr = this.isLeftToRight();
-				if(region == "leading"){
-					region = ltr ? "left" : "right";
-				}
-				if(region == "trailing"){
-					region = ltr ? "right" : "left";
-				}
-
 				// Create draggable splitter for resizing pane,
 				// or alternately if splitter=false but BorderContainer.gutters=true then
 				// insert dummy div just for spacing
@@ -336,13 +318,12 @@ define([
 
 					// Make the tab order match the visual layout by placing the splitter before or after the pane,
 					// depending on where the splitter is visually compared to the pane.
-					var before = region == "bottom" || region == (ltr ? "right" : "left");
+					var before = region == "bottom" || region == (this.isLeftToRight() ? "right" : "left");
 					domConstruct.place(splitter.domNode, child.domNode, before ? "before" : "after");
 
 					// Splitters aren't added as Contained children, so we need to call startup explicitly
 					splitter.startup();
 				}
-				child.region = region;	// TODO: technically wrong since it overwrites "trailing" with "left" etc.
 			}
 		},
 
@@ -354,7 +335,6 @@ define([
 		removeChild: function(/*dijit/_WidgetBase*/ child){
 			// Override _LayoutWidget.removeChild().
 
-			var region = child.region;
 			var splitter = child._splitterWidget;
 			if(splitter){
 				splitter.destroy();
@@ -362,18 +342,6 @@ define([
 			}
 
 			this.inherited(arguments);
-
-			// Clean up whatever style changes we made to the child pane.
-			// Unclear how height and width should be handled.
-			domClass.remove(child.domNode, this.baseClass + "Pane");
-			domStyle.set(child.domNode, {
-				top: "auto",
-				bottom: "auto",
-				left: "auto",
-				right: "auto",
-				position: "static"
-			});
-			domStyle.set(child.domNode, region == "top" || region == "bottom" ? "width" : "height", "auto");
 		},
 
 		getChildren: function(){

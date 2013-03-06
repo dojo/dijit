@@ -1,12 +1,14 @@
 define([
 	"dojo/_base/array",
+	"dojo/_base/declare", // declare
+	"dojo/dom-class",
+	"dojo/dom-style",
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/lang",
-	"dojo/_base/declare", // declare
 	"../_WidgetBase",
 	"./_LayoutWidget",
 	"./utils" // layoutUtils.layoutChildren
-], function(array, kernel, lang, declare, _WidgetBase, _LayoutWidget, layoutUtils){
+], function(array, declare, domClass, domStyle, kernel, lang, _WidgetBase, _LayoutWidget, layoutUtils){
 
 	// module:
 	//		dijit/layout/LayoutContainer
@@ -45,6 +47,34 @@ define([
 		design: "headline",
 
 		baseClass: "dijitLayoutContainer",
+
+		startup: function(){
+			if(this._started){
+				return;
+			}
+			array.forEach(this.getChildren(), this._setupChild, this);
+			this.inherited(arguments);
+		},
+
+		_setupChild: function(/*dijit/_WidgetBase*/ child){
+			// Override _LayoutWidget._setupChild().
+
+			this.inherited(arguments);
+
+			var region = child.region;
+			if(region){
+				domClass.add(child.domNode, this.baseClass + "Pane");
+
+				var ltr = this.isLeftToRight();
+				if(region == "leading"){
+					region = ltr ? "left" : "right";
+				}
+				if(region == "trailing"){
+					region = ltr ? "right" : "left";
+				}
+				child.region = region;	// TODO: technically wrong since it overwrites "trailing" with "left" etc.
+			}
+		},
 
 		_getOrderedChildren: function(){
 			// summary:
@@ -86,11 +116,23 @@ define([
 			}
 		},
 
-		removeChild: function(/*dijit/_WidgetBase*/ widget){
+		removeChild: function(/*dijit/_WidgetBase*/ child){
 			this.inherited(arguments);
 			if(this._started){
 				this.layout();
 			}
+
+			// Clean up whatever style changes we made to the child pane.
+			// Unclear how height and width should be handled.
+			domClass.remove(child.domNode, this.baseClass + "Pane");
+			domStyle.set(child.domNode, {
+				top: "auto",
+				bottom: "auto",
+				left: "auto",
+				right: "auto",
+				position: "static"
+			});
+			domStyle.set(child.domNode, /top|bottom/.test(child.region) ? "width" : "height", "auto");
 		}
 	});
 
