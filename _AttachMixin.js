@@ -85,7 +85,7 @@ define([
 
 			// recurse through the node, looking for, and attaching to, our
 			// attachment points and events, which should be defined on the template node.
-			this._attachTemplateNodes(this.domNode, function(n,p){ return n.getAttribute(p); });
+			this._attachTemplateNodes(this.domNode);
 
 			this._beforeFillContent();		// hook for _WidgetsInTemplateMixin
 		},
@@ -93,11 +93,9 @@ define([
 		_beforeFillContent: function(){
 		},
 
-		_attachTemplateNodes: function(rootNode, getAttrFunc, attachFunc){
+		_attachTemplateNodes: function(rootNode){
 			// summary:
 			//		Iterate through the dom nodes and attach functions and nodes accordingly.
-			//		Alternately, if rootNode is an array of widgets, then will process data-dojo-attach-point
-			//		etc. for those widgets.
 			// description:
 			//		Map widget properties and functions to the handlers specified in
 			//		the dom node and it's descendants. This function iterates over all
@@ -105,50 +103,32 @@ define([
 			//
 			//		- dojoAttachPoint/data-dojo-attach-point
 			//		- dojoAttachEvent/data-dojo-attach-event
-			// rootNode: DomNode|Widget[]
-			//		The node to search for properties. All children will be searched.
-			// getAttrFunc: Function
-			//		Function to get the specified property for a given DomNode/Widget.
-			// attachFunc: Function?
-			//		Attaches an event handler from the specified node/widget to specified function.
-			//		If not specified uses this._attach().
+			// rootNode: DomNode
+			//		The node to search for properties. All descendants will be searched.
 			// tags:
 			//		private
 
-			if(lang.isArray(rootNode)){
-				// Special path used by _WidgetsInTemplateMixin.  Move to separate function for 2.0.
-				for(var i = 0; i < rootNode.length; i++){
-					this._processNode(rootNode[i], getAttrFunc, attachFunc);
-				}
-			}else{
-				// DFS to process all nodes except those inside of this.containerNode
-				var node = rootNode;
-				while(true){
-					if(node.nodeType == 1 && (this._processNode(node, getAttrFunc, this._attach) || this.searchContainerNode)
-							&& node.firstChild){
-						node = node.firstChild;
-					}else{
+			// DFS to process all nodes except those inside of this.containerNode
+			var node = rootNode;
+			while(true){
+				if(node.nodeType == 1 && (this._processTemplateNode(node, function(n,p){ return n.getAttribute(p); },
+						this._attach) || this.searchContainerNode) && node.firstChild){
+					node = node.firstChild;
+				}else{
+					if(node == rootNode){ return; }
+					while(!node.nextSibling){
+						node = node.parentNode;
 						if(node == rootNode){ return; }
-						while(!node.nextSibling){
-							node = node.parentNode;
-							if(node == rootNode){ return; }
-						}
-						node = node.nextSibling;
 					}
+					node = node.nextSibling;
 				}
 			}
 		},
 
-		_processNode: function(/*DOMNode|Widget*/ baseNode, getAttrFunc, attachFunc){
+		_processTemplateNode: function(/*DOMNode|Widget*/ baseNode, getAttrFunc, attachFunc){
 			// summary:
 			//		Process data-dojo-attach-point and data-dojo-attach-event for given node or widget.
 			//		Returns true if caller should process baseNode's children too.
-
-			if(this.widgetsInTemplate && (getAttrFunc(baseNode, "dojoType") || getAttrFunc(baseNode, "data-dojo-type"))){
-				// These will be processed later, after _WidgetsInTemplateMixin calls parse() and then calls
-				// _attachTemplateNodes() again.
-				return true;
-			}
 
 			var ret = true;
 

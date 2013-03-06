@@ -50,18 +50,23 @@ define([
 					// _WidgetBase::destroy() will destroy any supporting widgets under this.domNode.
 					// If we wanted to, we could call this.own() on anything in this._startupWidgets that was moved outside
 					// of this.domNode (like Dialog, which is moved to <body>).
-					this._attachTemplateNodes(widgets, function(n,p){
-						return n[p];
-					}, function(widget, type, callback){
-						// function to do data-dojo-attach-event to a widget
-						if(type in widget){
-							// back-compat, remove for 2.0
-							return aspect.after(widget, type, callback, true);
-						}else{
-							// 1.x may never hit this branch, but it's the default for 2.0
-							return widget.on(type, callback, true);
-						}
-					});
+
+					// Hook up attach points and events for nodes that were converted to widgets
+					for(var i = 0; i < widgets.length; i++){
+						this._processTemplateNode(widgets[i], function(n,p){
+							// callback to get a property of a widget
+							return n[p];
+						}, function(widget, type, callback){
+							// callback to do data-dojo-attach-event to a widget
+							if(type in widget){
+								// back-compat, remove for 2.0
+								return aspect.after(widget, type, callback, true);
+							}else{
+								// 1.x may never hit this branch, but it's the default for 2.0
+								return widget.on(type, callback, true);
+							}
+						});
+					}
 				}));
 
 				if(!this._startupWidgets){
@@ -69,6 +74,17 @@ define([
 						"unsupported by _WidgetsInTemplateMixin.   Must pre-load all supporting widgets before instantiation.");
 				}
 			}
+		},
+
+		_processTemplateNode: function(/*DOMNode|Widget*/ baseNode, getAttrFunc, attachFunc){
+			// Override _AttachMixin._processNode to skip DOMNodes with data-dojo-type set.   They are handled separately
+			// in the _beforeFillContent() code above.
+
+			if(getAttrFunc(baseNode, "dojoType") || getAttrFunc(baseNode, "data-dojo-type")){
+				return true;
+			}
+
+			return this.inherited(arguments);
 		},
 
 		startup: function(){
