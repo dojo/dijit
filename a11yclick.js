@@ -3,7 +3,8 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/has", // has("dom-addeventlistener")
 	"dojo/keys", // keys.ENTER keys.SPACE
-	"dojo/on"
+	"dojo/on",
+	"dojo/touch" // touch support for click is now there
 ], function(array, declare, has, keys, on){
 
 	// module:
@@ -51,44 +52,6 @@ define([
 			});
 		}
 	});
-
-	if(has("touch")){
-		// touchstart-->touchend will automatically generate a click event, but there are problems
-		// on iOS after focus has been programatically shifted (#14604, #14918), so setup a failsafe
-		// if click doesn't fire naturally.
-
-		var clickTimer;
-
-		on(document, "touchend", function(e){
-			var target = e.target;
-			if(marked(target)){
-				var naturalClickListener = on.once(target, "click", function(e){
-					// If browser generates a click naturally, clear the timer to fire a synthetic click event
-					if(clickTimer){
-						clearTimeout(clickTimer);
-						clickTimer = null;
-					}
-				});
-
-				if(clickTimer){
-					clearTimeout(clickTimer);
-				}
-				clickTimer = setTimeout(function(){
-					clickTimer = null;
-					naturalClickListener.remove();
-					on.emit(target, "click", {
-						cancelable: true,
-						bubbles: true
-					});
-				}, 600);
-			}
-		});
-
-		// TODO: if the touchstart and touchend were <100ms apart, and then there's another touchstart
-		// event <300ms after the touchend event, then clear the synthetic click timer, because user
-		// is doing a zoom.   Alternately monitor screen.deviceXDPI (or something similar) to see if
-		// zoom level has changed.
-	}
 
 	return function(node, listener){
 		// summary:
