@@ -8,6 +8,7 @@
 		<style type="text/css">
 			@import "../themes/claro/document.css";
 			@import "css/dijitTests.css";
+
 			/* Make our tests stand out as easily identifiable content */
 			.testcontainer {
 				border: 10px yellow;
@@ -34,13 +35,13 @@
 		<script type="text/javascript">
 			require([
 				"doh/runner", "dojo/_base/declare", "dojo/dom", "dojo/html", "dojo/on", "dojo/parser",
-				"dijit/registry", "dijit/_WidgetBase", "dijit/_AttachMixin", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin",
+				"dijit/registry", "dijit/_WidgetBase", "dijit/_AttachMixin", "dijit/_TemplatedMixin",
 				"dijit/form/Button", "dijit/Editor", "dojo/domReady!"
 			], function(doh, declare, dom, html, on, parser,
-				registry, _WidgetBase, _AttachMixin, _TemplatedMixin, _WidgetsInTemplateMixin, Button, Editor) {
+				registry, _WidgetBase, _AttachMixin, _TemplatedMixin, Button, Editor) {
 
 				doh.register("_AttachMixin", [
-					function createWidgetWithAttachMagic() {
+					function basic() {
 						
 						/*** TEST _AttachMixin on a simple _WidgetBase ***/
 						var WidgetWithAttachMagic = declare([ _WidgetBase, _AttachMixin ], {
@@ -66,130 +67,8 @@
 						
 						doh.is("Oooh! Saucy! Now I am 'something new'", mydijit.heading.innerHTML, "Post-op value");
 					},
-					
-					function createTemplatedAttachCombo() {
-				
-						/*** TEST _AttachMixin combined with _TemplatedMixin ***/
-						var TemplatedAttachCombo = declare([ _WidgetBase, _TemplatedMixin ], {
 
-							_counter: 999,
-
-							templateString: "<div>" +
-								"<h2 data-dojo-attach-point='heading'></h2>" +
-								"<span data-dojo-attach-point='myspan' data-dojo-attach-event='click: _spanClicked'>I yearn for your click.</span>" +
-								"</div>",
-
-							postCreate: function() {
-								html.set(this.heading, "My template is my best friend.");
-							},
-							_spanClicked: function(e) {
-								html.set(this.heading, "Again! Again! Just " + (--this._counter) + " more and you could be a winner!");
-							}
-						});
-
-						var mytac = new TemplatedAttachCombo({}, dom.byId('dest'));
-						
-						doh.t(mytac.heading, "heading");
-						doh.t(mytac.myspan, "myspan");
-						doh.is("My template is my best friend.", mytac.heading.innerHTML, "Initial value");
-						
-						// Simulate a change
-						on.emit(mytac.myspan, "click", {bubbles: true});
-
-						
-						doh.is("Again! Again! Just 998 more and you could be a winner!", mytac.heading.innerHTML, "Post-op value");
-					},
-					
-					function createTemplatedAttachWidgetsCombo() {
-						/*** TEST _AttachMixin combined with _TemplatedMixin and _WidgetsInTemplateMixin ***/
-						var TemplatedAttachWidgetsCombo = declare([ _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin ], {
-
-							templateString: "<div>" +
-								"<h2 data-dojo-attach-point='heading'></h2>" +
-								"<button data-dojo-type='dijit/form/Button' " +
-								" data-dojo-attach-point='mybutton' " +
-								" data-dojo-attach-event='onClick: _buttonClicked'>A button</button>" +
-								"</div>",
-
-							postCreate: function() {
-								html.set(this.heading, "Amazing things will happen if you click this button!!!");
-							},
-							_buttonClicked: function(e) {
-								html.set(this.heading, "Well that was boring. " +
-									"My attach point button thinks it is a " + (this.mybutton.isInstanceOf(Button) ? 'dijit/form/Button':'Gruffalo'));
-							}
-						});
-
-						var mytawc = new TemplatedAttachWidgetsCombo({}, dom.byId('desttoo'));
-						
-						doh.t(mytawc.heading, "heading");
-						doh.t(mytawc.mybutton, "mybutton");
-						doh.is("Amazing things will happen if you click this button!!!", mytawc.heading.innerHTML, "Initial value");
-						
-						// Simulate a change
-						mytawc.mybutton.onClick();
-						
-						doh.is("Well that was boring. My attach point button thinks it is a dijit/form/Button", mytawc.heading.innerHTML, "Post-op value");
-
-					},
-
-					function createAttachWidgetsCombo() {
-						/*** TEST _AttachMixin combined with _TemplatedMixin and _WidgetsInTemplateMixin ***/
-						var AttachWidgetsCombo = declare([ _WidgetBase, _AttachMixin, _WidgetsInTemplateMixin ], {
-
-							postCreate: function() {
-								html.set(this.heading, "Amazing things will happen if you click this button!!!");
-							},
-							_buttonClicked: function(e) {
-								html.set(this.heading, "Well that was boring. " +
-									"My attach point button thinks it is a " + (this.mybutton.isInstanceOf(Button) ? 'dijit/form/Button':'Gruffalo'));
-							}
-						});
-
-						var myawc = new AttachWidgetsCombo({}, dom.byId('attachMeThree'));
-
-						doh.t(myawc.heading, "heading");
-						doh.t(myawc.mybutton, "mybutton");
-						doh.is("Amazing things will happen if you click this button!!!", myawc.heading.innerHTML, "Initial value");
-						
-						// Simulate a change
-						myawc.mybutton.onClick();
-
-						doh.is("Well that was boring. My attach point button thinks it is a dijit/form/Button", myawc.heading.innerHTML, "Post-op value");
-					},
-					
-					function createAttachWidgetsCombo2() {
-						/***** MIMIC A PAGE USING PARSEONLOAD: TRUE *****/
-
-						/*** TEST _AttachMixin combined with _TemplatedMixin and _WidgetsInTemplateMixin and dijit/Editor
-						 * When the parser runs, it must not recurse into 'attachMeFour's dom nodes and instantiate the Editor.
-						 * The parser will only instantiate the AttachWidgetsCombo2 instance,
-						 * and its construction will cause _WidgetsInTemplatemixin to instantiate
-						 * its inner nodes (in this case, dijit/Editor) and attach the Editor instance to
-						 * the dijit at an attach point.
-						 ****/
-						var AttachWidgetsCombo2 = declare("mystuff/AttachWidgetsCombo2", [ _WidgetBase, _AttachMixin, _WidgetsInTemplateMixin ], {
-
-							// Prevent the parser from parsing our dijit/Editor.  _WITM does that.
-							stopParser: true,
-
-							postCreate: function() {
-								html.set(this.heading, "My editor reference is a " +
-									(this.editor.isInstanceOf(Editor) ? 'dijit/Editor' : 'Gruffalo'));
-							}
-						});
-
-						// Simulate parseOnLoad (parse what's on the page after defining,
-						//  but before we start instantiating, our own dijits)
-						parser.parse(dom.byId('parseMeRoot'));
-
-						var awc2 = registry.byId('attachMeFour');
-						doh.t(awc2.editor, "awc2.editor");
-						doh.t(awc2.editor.isInstanceOf(Editor), "isInstanceOf(Editor)");
-						doh.is("My editor reference is a dijit/Editor", awc2.heading.innerHTML, "Test heading value.");
-					},
-					
-					function createInnerWidgetAttachScopedToOuterWidget() {
+					function attachScope() {
 						/*** Test an inner dijit's attach-point and attach-event behaviour being attached to a
 						 * different widget instance, in this case the outer one.
 						 */
@@ -271,39 +150,6 @@
 				<input id="${id}_field" placeHolder="I say 'Goodbye'"
 					   data-dojo-attach-point="field"
 					   data-dojo-attach-event="onkeyup: _fieldChanged">
-			</div>
-		</div>
-		
-		<div class="testcontainer">
-			<p>This test shows that simple templated dijits with a templateString work as expected.<br>
-			Click the lower text to see attach event and attach point at work.</p>
-			<div id="dest"></div>
-		</div>
-
-		<div class="testcontainer">
-			<p>This test shows that more complex templated dijits that use _WidgetsInTemplateMixin work as expected.<br>
-			Click the button to see a dijit/form/Button attach-event handler at work.</p>
-			<div id="desttoo"></div>
-		</div>
-		
-		<div class="testcontainer">
-			<p>This test shows that a _AttachMixin dijit with _WidgetsInTemplate properly attaches widgets from the template.<br>
-			<div id="attachMeThree">
-				<h2 data-dojo-attach-point='heading'></h2>
-				<button data-dojo-type='dijit/form/Button'
-						data-dojo-attach-point='mybutton'
-						data-dojo-attach-event='onClick: _buttonClicked'>A button</button>
-			</div>
-		</div>
-		
-		<!-- This simulates the body of a page being hit by parseOnLoad:true -->
-		<div id="parseMeRoot">
-			<div class="testcontainer">
-				<p>This test shows a parseOnLoad situation where the parser does not re-instantiate the dijit/Editor instantiated during parsing of the outer dijit.</p>
-				<div id="attachMeFour" data-dojo-type="mystuff/AttachWidgetsCombo2">
-					<h2 data-dojo-attach-point='heading'></h2>
-					<div data-dojo-type="dijit/Editor" data-dojo-attach-point="editor"></div>
-				</div>
 			</div>
 		</div>
 		
