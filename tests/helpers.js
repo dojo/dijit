@@ -3,11 +3,11 @@
 define([
 	"dojo/_base/array", "dojo/Deferred", "dojo/promise/all",
 	"dojo/dom-attr", "dojo/dom-class", "dojo/dom-geometry", "dojo/dom-style",
-	"dojo/_base/kernel", "dojo/_base/lang", "dojo/query", "dojo/ready", "dojo/sniff",
-	"dijit/a11y"	// isTabNavigable, dijit._isElementShown (latter only avail. via global; not part of module return value)
-], function(array, Deferred, all,
+	"dojo/_base/kernel", "dojo/_base/lang", "dojo/on", "dojo/query", "dojo/ready", "dojo/sniff",
+	"dijit/a11y"	// isTabNavigable, dijit._isElementShown
+], function(array,  Deferred, all,
 			domAttr, domClass, domGeometry, domStyle,
-			kernel, lang, query, ready, has, a11y){
+			kernel, lang, on, query, ready, has, a11y){
 
 
 var exports = {
@@ -49,7 +49,7 @@ tabOrder: function tabOrder(/*DomNode?*/ root){
 		query("> *", parent).forEach(function(child){
 			// Skip hidden elements, and also non-HTML elements (those in custom namespaces) in IE,
 			// since show() invokes getAttribute("type"), which crashes on VML nodes in IE.
-			if((has("ie") <= 8 && child.scopeName !== "HTML") || !dijit._isElementShown(child)){
+			if((has("ie") <= 8 && child.scopeName !== "HTML") || !a11y._isElementShown(child)){
 				return;
 			}
 
@@ -71,7 +71,7 @@ tabOrder: function tabOrder(/*DomNode?*/ root){
 	elems.sort(function(a, b){
 		return a.tabIndex != b.tabIndex ? a.tabIndex - b.tabIndex : a.pos - b.pos;
 	});
-	return dojo.map(elems, function(elem){ return elem.elem; });
+	return array.map(elems, function(elem){ return elem.elem; });
 },
 
 
@@ -80,12 +80,22 @@ onFocus: function onFocus(func){
 	//		On the next change of focus, and after widget has had time to react to focus event,
 	//		call func(node) with the newly focused node
 
-	// This is still using global dojo so it works with robot... it needs to get
-	// notifications from the iframe dojo, not the outer dojo running doh.
-	var handle = dojo.subscribe("focusNode", function(node){
-		dojo.unsubscribe(handle);
-		setTimeout(function(){ func(node); }, 0);
-	});
+
+	// On IE, dojo/on can't remove handlers setup on an iframe (nor does on.once() stop after one time). So workaround it.
+	// Using dojo.doc to get pointer to iframe (if we are running robot) or otherwise main window.
+	if(!exports._focusListenerHandle){
+		exports._focusListenerHandle = on(dojo.doc, "focusin", focusListener = function(evt){
+			if(exports._focusCallback){
+				var node = evt.target, callback = exports._focusCallback;
+				exports._focusCallback = null;
+				setTimeout(function(){
+					callback(node);
+				}, 10);
+			}
+		});
+	}
+
+	exports._focusCallback = func;
 },
 
 waitForLoad: function(){
