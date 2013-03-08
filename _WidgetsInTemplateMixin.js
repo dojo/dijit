@@ -74,7 +74,7 @@ define([
 					}
 
 					// Cleanup flag set above, just in case
-					if(this.containerNode){
+					if(this.containerNode && this.containerNode.stopParser){
 						delete this.containerNode.stopParser;
 					}
 				}));
