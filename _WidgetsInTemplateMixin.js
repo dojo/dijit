@@ -43,7 +43,7 @@ define([
 				}
 
 				parser.parse(node, {
-					noStart: true,
+					noStart: !this._earlyTemplatedStartup,
 					template: true,
 					inherited: {dir: this.dir, lang: this.lang, textDir: this.textDir},
 					propsThis: this,	// so data-dojo-props of widgets in the template can reference "this" to refer to me
