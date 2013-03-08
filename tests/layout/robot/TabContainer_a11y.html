@@ -80,7 +80,7 @@
 
 							// Note: for this to work, focus needs to start somewhere else; otherwise there will be no
 							// focus event.
-							onFocus(d.getTestCallback(function(node){
+							helpers.onFocus(d.getTestCallback(function(node){
 							}));
 
 							query("button")[0].focus();							
@@ -94,7 +94,7 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 							
-							onFocus(d.getTestCallback(function(node){
+							helpers.onFocus(d.getTestCallback(function(node){
 								doh.is("mainTabContainer_tablist_tab2", node.id, "focus");
 							}));
 
@@ -109,7 +109,7 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							onFocus(d.getTestCallback(function(node){
+							helpers.onFocus(d.getTestCallback(function(node){
 								var tc = registry.byId("mainTabContainer");
 								doh.is('mainTabContainer_tablist_tab3', node.id, "currently chosen tab");
 								doh.is("tab3", tc.selectedChildWidget.id, "currently displayed pane");
@@ -127,7 +127,7 @@
 							var d = new doh.Deferred();
 							
 							var tc = registry.byId("mainTabContainer");							
-							onFocus(d.getTestCallback(function(node){
+							helpers.onFocus(d.getTestCallback(function(node){
 								doh.is('mainTabContainer_tablist_tab2', node.id, "currently chosen tab");
 								doh.is("tab2", tc.selectedChildWidget.id, "currently chosen pane");
 							}));
@@ -144,7 +144,7 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							onFocus(d.getTestCallback(function(node){
+							helpers.onFocus(d.getTestCallback(function(node){
 							}));
 							
 							robot.keyPress(keys.RIGHT_ARROW, 500, {});
@@ -158,7 +158,7 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							onFocus(d.getTestCallback(function(node){
+							helpers.onFocus(d.getTestCallback(function(node){
 							}));
 							
 							robot.keyPress(keys.RIGHT_ARROW, 500, {});
@@ -173,7 +173,7 @@
 						runTest: function(t){
 								var d = new doh.Deferred();
 
-								onFocus(d.getTestCallback(function(node){
+								helpers.onFocus(d.getTestCallback(function(node){
 									doh.is('inlined_tablist_tab2href', node.id);
 								}));								
 								
@@ -189,7 +189,7 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							onFocus(d.getTestCallback(function(node){
+							helpers.onFocus(d.getTestCallback(function(node){
 							}));
 							
 							robot.keyPress(keys.RIGHT_ARROW, 500, {});
@@ -203,7 +203,7 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 							
-							onFocus(d.getTestCallback(function(node){
+							helpers.onFocus(d.getTestCallback(function(node){
 							}));
 
 							robot.keyPress(keys.TAB, 750, {shift:true});
@@ -217,7 +217,7 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 							
-							onFocus(d.getTestCallback(function(node){
+							helpers.onFocus(d.getTestCallback(function(node){
 								doh.is('mainTabContainer_tablist_tab3', node.id);
 							}));
 
@@ -232,7 +232,7 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 							
-							onFocus(d.getTestCallback(function(node){
+							helpers.onFocus(d.getTestCallback(function(node){
 							}));
 
 							robot.keyPress(keys.RIGHT_ARROW, 500, {});
@@ -247,7 +247,7 @@
 							var d = new doh.Deferred();
 							
 							//verify that the third nested tab is still selected
-							onFocus(d.getTestCallback(function(node){
+							helpers.onFocus(d.getTestCallback(function(node){
 								doh.is('inlined_tablist_subtab3', node.id);
 							}));
 
@@ -280,7 +280,7 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 								
-							onFocus(d.getTestCallback(function(node){
+							helpers.onFocus(d.getTestCallback(function(node){
 								doh.is('mainTabContainer_tablist_tab1', node.id);
 							}));
 
@@ -295,7 +295,7 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 								
-							onFocus(d.getTestCallback(function(node){
+							helpers.onFocus(d.getTestCallback(function(node){
 								doh.is('mainTabContainer_tablist_embedded', node.id);
 							}));
 
@@ -310,7 +310,7 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 								
-							onFocus(d.getTestCallback(function(node){
+							helpers.onFocus(d.getTestCallback(function(node){
 								doh.is('mainTabContainer_tablist_tab4href', node.id);
 							}));
 
@@ -342,7 +342,7 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							onFocus(d.getTestCallback(function(node){
+							helpers.onFocus(d.getTestCallback(function(node){
 							}));
 
 							query("button")[0].focus();
@@ -356,7 +356,7 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							onFocus(d.getTestCallback(function(node){
+							helpers.onFocus(d.getTestCallback(function(node){
 								doh.is("mainTabContainer_tablist_tab2", node.id, "focus");
 							}));
 
@@ -371,7 +371,7 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							onFocus(d.getTestCallback(function(node){
+							helpers.onFocus(d.getTestCallback(function(node){
 								var tc = registry.byId("mainTabContainer");
 								doh.is('mainTabContainer_tablist_inlined', node.id, "currently chosen tab");
 								doh.is("inlined", tc.selectedChildWidget.id, "currently displayed pane");
@@ -389,7 +389,7 @@
 							var d = new doh.Deferred();
 
 							var tc = registry.byId("mainTabContainer");
-							onFocus(d.getTestCallback(function(node){
+							helpers.onFocus(d.getTestCallback(function(node){
 								doh.is('mainTabContainer_tablist_tab2', node.id, "currently chosen tab");
 								doh.is("tab2", tc.selectedChildWidget.id, "currently chosen pane");
 							}));
@@ -405,7 +405,7 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							onFocus(d.getTestCallback(function(node){
+							helpers.onFocus(d.getTestCallback(function(node){
 								doh.is('mainTabContainer_tablist_tab4href', node.id);
 							}));
 
@@ -420,7 +420,7 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							onFocus(d.getTestCallback(function(node){
+							helpers.onFocus(d.getTestCallback(function(node){
 								doh.is('mainTabContainer_tablist_tab2', node.id);
 							}));
 
@@ -551,7 +551,7 @@
 
 							dom.byId("ltabs_tablist_HanselGretel1").focus();
 
-							onFocus(d.getTestCallback(function(node){
+							helpers.onFocus(d.getTestCallback(function(node){
 								doh.is('ltabs_tablist_GreenTwigs1', node.id, "currently chosen tab");
 								doh.is("GreenTwigs1", tc.selectedChildWidget.id, "currently displayed pane");
 							}));
@@ -568,7 +568,7 @@
 							var d = new doh.Deferred();
 
 							var tc = registry.byId("ltabs");
-							onFocus(d.getTestCallback(function(node){
+							helpers.onFocus(d.getTestCallback(function(node){
 								doh.is('ltabs_tablist_HanselGretel1', node.id, "currently chosen tab");
 								doh.is("HanselGretel1", tc.selectedChildWidget.id, "currently chosen pane");
 							}));

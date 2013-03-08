@@ -187,30 +187,30 @@ require([
 			var nWidgetsBefore = registry.length;
 			bc.addChild(cp3);
 			bcTest.checkBCpanes(bc);
-			doh.t(isVisible(cp3));
+			doh.t(helpers.isVisible(cp3));
 			doh.is(nWidgetsBefore + 1, registry.length, "splitter widget created");
 		},
 		function removeTopPane(){
 			var nWidgetsBefore = registry.length;
 			bc.removeChild(cp1);
 			bcTest.checkBCpanes(bc);
-			doh.f(isVisible(cp1));
+			doh.f(helpers.isVisible(cp1));
 			doh.is(nWidgetsBefore - 1, registry.length, "splitter widget destroyed");
 		},
 		function removeLeftPane(){
 			bc.removeChild(cp3);
 			bcTest.checkBCpanes(bc);
-			doh.f(isVisible(cp3));
+			doh.f(helpers.isVisible(cp3));
 		},
 		function addLeftPane2(){
 			bc.addChild(cp3);
 			bcTest.checkBCpanes(bc);
-			doh.t(isVisible(cp3));
+			doh.t(helpers.isVisible(cp3));
 		},
 		function addTopPane(){
 			bc.addChild(cp1);
 			bcTest.checkBCpanes(bc);
-			doh.t(isVisible(cp3));
+			doh.t(helpers.isVisible(cp3));
 		},
 		function destroyAll(){
 			bc.destroyRecursive();

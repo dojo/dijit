@@ -170,9 +170,9 @@
 						t.t(right, "verify right scroll button exists");
 						t.t(menu, "verify dropdown menu button exists");
 							
-						t.t(isVisible(left), "left scroll button is displayed");
-						t.t(isVisible(right), "right scroll button is displayed");
-						t.t(isVisible(menu), "menu button is displayed");	
+						t.t(helpers.isVisible(left), "left scroll button is displayed");
+						t.t(helpers.isVisible(right), "right scroll button is displayed");
+						t.t(helpers.isVisible(menu), "menu button is displayed");	
 					}
 				}
 			]);
@@ -307,9 +307,9 @@
 						var right = registry.byId("tc3_tablist_rightBtn").domNode;
 						var menu = registry.byId("tc3_tablist_menuBtn").domNode;
 						
-						t.t(isHidden(left), "left scroll is hidden");
-						t.t(isHidden(right), "right scroll is hidden");
-						t.t(isHidden(menu), "menu is hidden");
+						t.t(helpers.isHidden(left), "left scroll is hidden");
+						t.t(helpers.isHidden(right), "right scroll is hidden");
+						t.t(helpers.isHidden(menu), "menu is hidden");
 					}
 				}
 			]);
@@ -343,7 +343,7 @@
 					menuBtn.toggleDropDown();
 
 					var menu = registry.byId("tc1_menu");
-					doh.t(isVisible(menu), "menu exists and is visible");
+					doh.t(helpers.isVisible(menu), "menu exists and is visible");
 					doh.is(menu.getChildren().length, children.length, "# of menu children");
 					doh.is("new title", innerText(menu.getChildren()[0].containerNode));
 					doh.is("noteIcon", menu.getChildren()[0].iconClass);
@@ -494,7 +494,7 @@
 
 					var children = emptyTC.getChildren();
 					doh.is(0, children.length);
-					doh.t(isVisible(emptyTC));
+					doh.t(helpers.isVisible(emptyTC));
 					
 					var pos = domGeom.position(emptyTC.domNode);
 					var heightDiff = 200 - pos.h;
@@ -511,7 +511,7 @@
 					doh.is("Tab1", children[0].title);
 					doh.is("Contents of Tab 1", tc.selectedChildWidget.domNode.innerHTML);
 
-					doh.t(isVisible(tc.tablist.containerNode.childNodes[0]));
+					doh.t(helpers.isVisible(tc.tablist.containerNode.childNodes[0]));
 				},
 				function add2ndTabToEmptyTabContainer(){
 					var tc = registry.byId("emptyTC");
@@ -523,7 +523,7 @@
 					doh.is("Tab2", children[1].title);
 					doh.is("Contents of Tab 2", tc.selectedChildWidget.domNode.innerHTML);
 					
-					doh.t(isVisible(tc.tablist.containerNode.childNodes[1]));
+					doh.t(helpers.isVisible(tc.tablist.containerNode.childNodes[1]));
 				},
 				function remove2ndTabToEmptyTabContainer(){
 					var tc = registry.byId("emptyTC");
