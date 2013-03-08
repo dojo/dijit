@@ -54,8 +54,6 @@ define([
 		//		The css class to apply to the tab strip, if it is visible.
 		tabStripClass: "",
 
-		widgetsInTemplate: true,
-
 		// _minScroll: Number
 		//		The distance in pixels from the edge of the tab strip which,
 		//		if a scroll animation is less than, forces the scroll to
