@@ -1,29 +1,24 @@
 define([
-	"dojo/_base/array", // array.forEach
-	"dojo/_base/declare", // declare
-	"dojo/has", // has("dom-addeventlistener")
 	"dojo/keys", // keys.ENTER keys.SPACE
 	"dojo/on",
 	"dojo/touch" // touch support for click is now there
-], function(array, declare, has, keys, on){
+], function(keys, on){
 
 	// module:
 	//		dijit/a11yclick
 
-	function marked(/*DOMNode*/ node){
-		// Test if a node or its ancestor has been marked with the dojoClick property to indicate special processing
-		do{
-			if(node.dojoClick){ return true; }
-		}while(node = node.parentNode);
-	}
-
 	function clickKey(/*Event*/ e){
-		// Test if this keyboard event should be tracked as the start (if keyup) or end (if keydown) of a click event.
+		// Test if this keyboard event should be tracked as the start (if keydown) or end (if keyup) of a click event.
 		// Only track for nodes marked to be tracked, and not for buttons or inputs since they handle keyboard click
 		// natively.
-		return (e.keyCode === keys.ENTER || e.keyCode === keys.SPACE) &&
-			!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey && !/input|button/i.test(e.target.nodeName) &&
-			marked(e.target);
+		if((e.keyCode === keys.ENTER || e.keyCode === keys.SPACE) &&
+				!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey && !/input|button/i.test(e.target.nodeName)){
+
+			// Test if a node or its ancestor has been marked with the dojoClick property to indicate special processing
+			for(var node = e.target; node; node = node.parentNode){
+				if(node.dojoClick){ return true; }
+			}
+		}
 	}
 
 	var lastKeyDownNode;
