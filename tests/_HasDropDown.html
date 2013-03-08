@@ -66,20 +66,26 @@ require([
 	// Synthetic events.   Could alternately use robot.
 	function key(node, key){
 		on.emit(node, "keydown", {
-			keyCode: key
+			keyCode: key,
+			bubbles: true
 		});
 		on.emit(node, "keyup", {
-			keyCode: key
+			keyCode: key,
+			bubbles: true
 		});
 	}
 	function click(node){
 		on.emit(node, "mousedown", {
-			left: true
+			left: true,
+			bubbles: true
 		});
 		on.emit(node, "mouseup", {
-			left: true
+			left: true,
+			bubbles: true
 		});
-		on.emit(node, "click", {});
+		on.emit(node, "click", {
+				bubbles: true
+		});
 	}
 
 	doh.register("basic", [
