@@ -29,14 +29,14 @@
 				"dojo/html", "dojo/query", "dojo/parser",
 				"dijit/registry", "dijit/_WidgetBase", "dijit/_Widget",
 				"dijit/_AttachMixin", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin",
-				"dijit/form/Button", "dijit/form/CheckBox", "dijit/Editor",
+				"dijit/form/Button", "dijit/form/CheckBox",
 				"dijit/ProgressBar", "dijit/layout/ContentPane", "dijit/layout/TabContainer", "dijit/_Container",
 				"dijit/_Contained", "dijit/layout/_LayoutWidget", "dijit/tests/resources/TestContextRequireWidget",
 				"dijit/focus",
 				"dojo/domReady!"
 			], function(doh, array, declare, win, dom, domGeom, html, query, parser,
 					registry, _WidgetBase, _Widget, _AttachMixin, _TemplatedMixin, _WidgetsInTemplateMixin,
-					Button, CheckBox, Editor, ProgressBar, ContentPane, TabContainer,
+					Button, CheckBox, ProgressBar, ContentPane, TabContainer,
 					_Container, _Contained, _LayoutWidget, TestContextRequireWidget, focusUtil){
 
 				declare('Test1Widget', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
@@ -250,35 +250,29 @@
 						doh.is("Well that was boring. My attach point button thinks it is a dijit/form/Button", myawc.heading.innerHTML, "Post-op value");
 					},
 
-					function createAttachWidgetsCombo2() {
-						/***** MIMIC A PAGE USING PARSEONLOAD: TRUE *****/
+					function containerNode(){
+						// Test that widgets inside of containerNode aren't parsed by _WidgetsInTemplateMixin
 
-						/*** TEST _AttachMixin combined with _TemplatedMixin and _WidgetsInTemplateMixin and dijit/Editor
-						 * When the parser runs, it must not recurse into 'attachMeFour's dom nodes and instantiate the Editor.
-						 * The parser will only instantiate the AttachWidgetsCombo2 instance,
-						 * and its construction will cause _WidgetsInTemplatemixin to instantiate
-						 * its inner nodes (in this case, dijit/Editor) and attach the Editor instance to
-						 * the dijit at an attach point.
-						 ****/
-						var AttachWidgetsCombo2 = declare("AttachWidgetsCombo2", [ _WidgetBase, _AttachMixin, _WidgetsInTemplateMixin ], {
-
-							// Prevent the parser from parsing our dijit/Editor.  _WITM does that.
+						declare("OuterWidget", [ _WidgetBase, _AttachMixin, _WidgetsInTemplateMixin ], {
+							// Prevent the main parser call from hitting my supporting widgets.
+							// But this also stops the parser from hitting anything inside my containerNode, so I need
+							// to do a recursive parse() like ContentPane does (or just extend ContentPane)
 							stopParser: true,
 
-							postCreate: function() {
-								html.set(this.heading, "My editor reference is a " +
-										(this.editor.isInstanceOf(Editor) ? 'dijit/Editor' : 'Gruffalo'));
+							postCreate: function(){
+								doh.is(0, this.getChildren().length, "contained widget not created yet");
+								parser.parse(this.containerNode);
 							}
 						});
+						declare("SupportingWidget", _WidgetBase);
+						declare("ContainedWidget", _WidgetBase);
+						parser.parse(dom.byId("containerNode"));
 
-						// Simulate parseOnLoad (parse what's on the page after defining,
-						//  but before we start instantiating, our own dijits)
-						parser.parse(dom.byId('parseMeRoot'));
+						doh.t("outerWidget" in window, "outer widget created");
+						doh.t(outerWidget.supportingWidget, "supporting widget instantiated");
+						doh.f(outerWidget.containedWidget, "contained widget not instantiated by _WidgetsInTemplateMixin parse call");
 
-						var awc2 = registry.byId('attachMeFour');
-						doh.t(awc2.editor, "awc2.editor");
-						doh.t(awc2.editor.isInstanceOf(Editor), "isInstanceOf(Editor)");
-						doh.is("My editor reference is a dijit/Editor", awc2.heading.innerHTML, "Test heading value.");
+						doh.is(1, outerWidget.getChildren().length, "contained widget created too");
 					}
 				]);
 
@@ -512,17 +506,17 @@
 			</div>
 		</div>
 
-		<!-- This simulates the body of a page being hit by parseOnLoad:true -->
-		<div id="parseMeRoot">
-			<div class="testcontainer">
-				<p>This test shows a parseOnLoad situation where the parser does not re-instantiate the dijit/Editor instantiated during parsing of the outer dijit.</p>
-				<div id="attachMeFour" data-dojo-type="AttachWidgetsCombo2">
-					<h2 data-dojo-attach-point='heading'></h2>
-					<div data-dojo-type="dijit/Editor" data-dojo-attach-point="editor"></div>
+		<!-- Test that widgets inside containerNode aren't parsed by _WidgetsInTemplateMixin-->
+		<div id="containerNode" class="testcontainer">
+			<p>This tests that nodes inside of data-dojo-attach-point="containerNode" are ignored<br>
+			<div data-dojo-id="outerWidget" data-dojo-type="OuterWidget">
+				<h2 data-dojo-attach-point="heading">heading</h2>
+				<div data-dojo-type="SupportingWidget" data-dojo-attach-point="supportingWidget">supporting widget</div>
+				<div data-dojo-attach-point="containerNode">
+					<span data-dojo-type="ContainedWidget" data-dojo-attach-point="containedWidget">contained widget</span>
 				</div>
 			</div>
 		</div>
-
 
 		<!-- Tests for _WidgetsInTemplateMixin combined with _TemplatedMixin -->
 		<div id="templateTests">

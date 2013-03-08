@@ -37,6 +37,11 @@ define([
 				// Before copying over content, instantiate widgets in template
 				var node = this.domNode;
 
+				if(this.containerNode && !this.searchContainerNode){
+					// Tell parse call below not to look for widgets inside of this.containerNode
+					this.containerNode.stopParser = true;
+				}
+
 				parser.parse(node, {
 					noStart: true,
 					template: true,
@@ -66,6 +71,11 @@ define([
 								return widget.on(type, callback, true);
 							}
 						});
+					}
+
+					// Cleanup flag set above, just in case
+					if(this.containerNode){
+						delete this.containerNode.stopParser;
 					}
 				}));
 
