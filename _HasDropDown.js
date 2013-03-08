@@ -173,7 +173,9 @@ define([
 			}else{
 				// The drop down arrow icon probably can't receive focus, but widget itself should get focus.
 				// defer() needed to make it work on IE (test DateTextBox)
-				this.defer("focus");
+				if(this.focus){
+					this.defer("focus");
+				}
 			}
 
 			if(has("touch")){
