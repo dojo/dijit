@@ -1789,8 +1789,8 @@ define([
 			}
 
 			if(this._webkitListener){
-				//Cleaup of WebKit fix: #9532
-				this.disconnect(this._webkitListener);
+				// Cleanup of WebKit fix: #9532
+				this._webkitListener.remove();
 				delete this._webkitListener;
 			}
 

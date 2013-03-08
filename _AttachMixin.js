@@ -212,7 +212,7 @@ define([
 			this._attachPoints = [];
 
 			// And same for event handlers
-			array.forEach(this._attachEvents, this.disconnect, this);
+			array.forEach(this._attachEvents, function(handle){ handle.remove(); });
 			this._attachEvents = [];
 
 			this.inherited(arguments);

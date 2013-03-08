@@ -127,7 +127,8 @@ define([
 			//		2. move mouse to a menu item while holding down the mouse button
 			//		3. mouse up.  this selects the menu item as though the user had clicked it.
 			if(e && this._docHandler){
-				this.disconnect(this._docHandler);
+				this._docHandler.remove();
+				this._docHandler = null;
 			}
 			var dropDown = this.dropDown, overMenu = false;
 
