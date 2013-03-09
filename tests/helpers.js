@@ -63,12 +63,30 @@ function tabOrder(/*DomNode?*/ root){
 }
 
 
-function onFocus(func){
+var focusListener, curFocusNode, focusCallback, focusCallbackDelay;
+
+function onFocus(func, delay){
 	// summary:
-	//		On the next change of focus, and after widget has had time to react to focus event,
-	//		call func(node) with the newly focused node
-	var handle = dojo.subscribe("focusNode", function(node){
-		dojo.unsubscribe(handle);
-		setTimeout(function(){ func(node); }, 0);
-	});
+	//		Wait for the next change of focus, and then delay ms (so widget has time to react to focus event),
+	//		then call func(node) with the currently focused node.  Note that if focus changes again during delay,
+	//		newest focused node is passed to func.
+
+	if(!focusListener){
+		focusListener = dojo.connect(dojo.doc, "focusin", function(evt){
+			// Track most recently focused node; note it may change again before delay completes
+			curFocusNode = evt.target;
+
+			// If a handler was specified to fire after the next focus event (plus delay), set timeout to run it.
+			if(focusCallback){
+				var callback = focusCallback;
+				focusCallback = null;
+				setTimeout(function(){
+					callback(curFocusNode);		// return current focus, may be different than 10ms earlier
+				}, focusCallbackDelay);	// allow time for focus to change again, see #8285
+			}
+		});
+	}
+
+	focusCallback = func;
+	focusCallbackDelay = delay || 10;
 }
