@@ -10,6 +10,9 @@ define([
 			kernel, lang, on, query, ready, has, a11y){
 
 
+// Globals used by onFocus()
+var curFocusNode, focusListener, focusCallback, focusCallbackDelay;
+
 var exports = {
 
 isVisible: function isVisible(/*dijit/_WidgetBase|DomNode*/ node){
@@ -75,27 +78,30 @@ tabOrder: function tabOrder(/*DomNode?*/ root){
 },
 
 
-onFocus: function onFocus(func){
+onFocus: function onFocus(func, delay){
 	// summary:
-	//		On the next change of focus, and after widget has had time to react to focus event,
-	//		call func(node) with the newly focused node
+	//		Wait for the next change of focus, and then delay ms (so widget has time to react to focus event),
+	//		then call func(node) with the currently focused node.  Note that if focus changes again during delay,
+	//		newest focused node is passed to func.
 
+	if(!focusListener){
+		focusListener = on(dojo.doc, "focusin", function(evt){
+			// Track most recently focused node; note it may change again before delay completes
+			curFocusNode = evt.target;
 
-	// On IE, dojo/on can't remove handlers setup on an iframe (nor does on.once() stop after one time). So workaround it.
-	// Using dojo.doc to get pointer to iframe (if we are running robot) or otherwise main window.
-	if(!exports._focusListenerHandle){
-		exports._focusListenerHandle = on(dojo.doc, "focusin", focusListener = function(evt){
-			if(exports._focusCallback){
-				var node = evt.target, callback = exports._focusCallback;
-				exports._focusCallback = null;
+			// If a handler was specified to fire after the next focus event (plus delay), set timeout to run it.
+			if(focusCallback){
+				var callback = focusCallback;
+				focusCallback = null;
 				setTimeout(function(){
-					callback(node);
-				}, 10);
+					callback(curFocusNode);		// return current focus, may be different than 10ms earlier
+				}, focusCallbackDelay);	// allow time for focus to change again, see #8285
 			}
 		});
 	}
 
-	exports._focusCallback = func;
+	focusCallback = func;
+	focusCallbackDelay = delay || 10;
 },
 
 waitForLoad: function(){

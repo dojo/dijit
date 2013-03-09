@@ -77,15 +77,13 @@ require([
 			runTest: function(){
 				var d = new doh.Deferred();
 
-				onFocus(function(){
-					// Focus might first go to input, then to calendar, so wait for that
-					setTimeout(d.getTestCallback(function(){
-						var calDomNode = query(".dijitCalendarContainer");
-						doh.t(1, calDomNode.length, "found calendar");
-						doh.t(helpers.isVisible(calDomNode[0]), "calendar is being shown");
-						doh.t(dom.isDescendant(dfocus.curNode, calDomNode[0]), "focus is on the calendar");
-					}), 500);
-				});
+				helpers.onFocus(d.getTestCallback(function(){
+					var calDomNode = query(".dijitCalendarContainer");
+					doh.t(1, calDomNode.length, "found calendar");
+					doh.t(helpers.isVisible(calDomNode[0]), "calendar is being shown");
+					doh.t(dom.isDescendant(dfocus.curNode, calDomNode[0]), "focus is on the calendar");
+				}), 500);	// Focus might first go to input, then to calendar, so wait for that
+
 
 				robot.mouseMoveAt(function(){
 					return query(".dijitArrowButton", registry.byId("date").domNode)[0];
@@ -117,18 +115,19 @@ require([
 
 		{
 			name: "cancel dialog",
-			timeout: 4000,
+			timeout: 5000,
 			runTest: function(){
 				var d = new doh.Deferred();
 
-				onFocus(d.getTestCallback(function(node){
+				helpers.onFocus(d.getTestCallback(function(node){
 					doh.is("dialog1button", node.id, "focus returned to button");
 					doh.t(helpers.isHidden("dialog1"), "dialog 1 was closed");
-				}));
+				}), 500); // Focus will first go to close icon (see #8285), then to the dialog button, so wait for that.
+
 
 				var button = query("#dialog1 .dijitDialogCloseIcon")[0];
 				robot.mouseMoveAt(button, 500);
-				robot.mouseClick({left: true}, 1000);
+				robot.mouseClick({left: true}, 500);
 
 				return d;
 			}
