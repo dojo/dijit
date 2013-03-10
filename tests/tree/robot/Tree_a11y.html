@@ -162,24 +162,6 @@
 				},
 
 				{
-					name: "select",
-					timeout: 4000,
-					runTest: function(){
-						var d = new doh.Deferred();
-
-						doh.robot.keyPress(dojo.keys.ENTER, 300);			// select it
-
-						doh.robot.sequence(d.getTestCallback(function(){
-							var item = mytree.get("selectedItem"),
-								label = mytree.model.getLabel(item);
-							doh.is("Africa", label, "Africa is selected");
-						}), 500);
-
-						return d;
-					}
-				},
-
-				{
 					name: "left arrow",
 					timeout: 6000,
 					runTest: function(){
@@ -230,10 +212,6 @@
 
 						doh.robot.sequence(d.getTestCallback(function(){
 							doh.is("Egypt", mytree.focusedChild.label, "Egypt is focused");
-
-							var item = mytree.get("selectedItem"),
-									label = mytree.model.getLabel(item);
-							doh.is("Africa", label, "but Africa is still selected");
 						}), 500);
 
 						return d;
@@ -254,14 +232,8 @@
 						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 300);
 						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 300);
 
-						doh.robot.sequence(d.getTestErrback(function(){
-							doh.is("Khartoum", mytree.focusedChild.label, "went down to child of Sudan");
-						}), 500);
-
-						// Test that down arrow pops up two levels
-						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 300);
 						doh.robot.sequence(d.getTestCallback(function(){
-							doh.is("Asia", mytree.focusedChild.label, "popped up to grandparent of Khartoum");
+							doh.is("Khartoum", mytree.focusedChild.label, "went down to child of Sudan");
 						}), 500);
 
 						return d;
@@ -269,19 +241,76 @@
 				},
 
 				{
-					name: "select Asia",
+					name: "select Khartoum",
+					timeout: 4000,
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						doh.robot.keyPress(dojo.keys.ENTER, 300);			// select it
+
+						doh.robot.sequence(d.getTestCallback(function(){
+							var item = mytree.get("selectedItem"),
+									label = mytree.model.getLabel(item);
+							doh.is("Khartoum", label, "selected");
+							doh.is("Khartoum", mytree.focusedChild.label, "and still focused");
+						}), 500);
+
+						return d;
+					}
+				},
+
+				{
+					name: "down arrow #3",
+					timeout: 4000,
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						// Test that down arrow pops up two levels
+						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 300);
+						doh.robot.sequence(d.getTestCallback(function(){
+							doh.is("Asia", mytree.focusedChild.label, "popped up to great uncle of Khartoum");
+
+							var item = mytree.get("selectedItem"),
+									label = mytree.model.getLabel(item);
+							doh.is("Khartoum", label, "but Khartoum is still selected");
+						}), 500);
+
+						return d;
+					}
+				},
+
+				{
+					name: "click to open",
 					timeout: 4000,
 					runTest: function(){
 						var d = new doh.Deferred();
 
 						var mytree = registry.byId("mytree");
 
-						doh.robot.keyPress(dojo.keys.ENTER, 300);			// select it
+						doh.f(mytree.focusedChild.isExpanded, "initially collapsed");
+
+						doh.robot.keyPress(dojo.keys.ENTER, 300);	// since openOnClick==true, this closes the node
 
 						doh.robot.sequence(d.getTestCallback(function(){
-							var item = mytree.get("selectedItem"),
-								label = mytree.model.getLabel(item);
-							doh.is("Asia", label, "after ENTER focus shifted from Africa to Asia");
+							doh.t(mytree.focusedChild.isExpanded, "now expanded");
+						}), 500);
+
+						return d;
+					}
+				},
+
+				{
+					name: "click to close",
+					timeout: 4000,
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						var mytree = registry.byId("mytree");
+
+						doh.robot.keyPress(dojo.keys.ENTER, 300);	// since openOnClick==true, this opens the node
+
+						doh.robot.sequence(d.getTestCallback(function(){
+							doh.f(mytree.focusedChild.isExpanded, "now collapsed");
 						}), 500);
 
 						return d;

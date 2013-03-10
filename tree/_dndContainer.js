@@ -37,9 +37,8 @@ define([
 		//		protected
 
 		/*=====
-		 // current: DomNode
-		 //		The currently hovered TreeNode.rowNode (which is the DOM node
-		 //		associated w/a given node in the tree, excluding it's descendants)
+		 // current: TreeNode
+		 //		The currently hovered TreeNode.  Not set to anything for keyboard operation.  (TODO: change?)
 		 current: null,
 		 =====*/
 
@@ -55,9 +54,6 @@ define([
 			this.tree = tree;
 			this.node = tree.domNode;	// TODO: rename; it's not a TreeNode but the whole Tree
 			lang.mixin(this, params);
-
-			// class-specific variables
-			this.current = null;	// current TreeNode's DOM node
 
 			// states
 			this.containerState = "";

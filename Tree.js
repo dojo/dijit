@@ -20,6 +20,7 @@ define([
 	"dojo/topic",
 	"dojo/touch",
 	"dojo/when",
+	"./a11yclick",
 	"./focus",
 	"./registry", // registry.byNode(), registry.getEnclosingWidget()
 	"./_base/manager", // manager.defaultDuration
@@ -37,7 +38,7 @@ define([
 	"dojo/query!css2"	// needed when on.selector() used with a string for the selector
 ], function(array, aspect, connect, cookie, declare, Deferred, all,
 			dom, domClass, domGeometry, domStyle, createError, fxUtils, has, kernel, keys, lang, on, topic, touch, when,
-			focus, registry, manager, _Widget, _TemplatedMixin, _Container, _Contained, _CssStateMixin, _KeyNavMixin,
+			a11yclick, focus, registry, manager, _Widget, _TemplatedMixin, _Container, _Contained, _CssStateMixin, _KeyNavMixin,
 			treeNodeTemplate, treeTemplate, TreeStoreModel, ForestStoreModel, _dndSelector){
 
 	// module:
@@ -776,8 +777,11 @@ define([
 				on(this.containerNode, on.selector(".dijitTreeNode", touch.leave), function(evt){
 					self._onNodeMouseLeave(registry.byNode(this), evt);
 				}),
-				on(this.containerNode, on.selector(".dijitTreeNode", "click"), function(evt){
-					self._onClick(registry.byNode(this), evt);
+				on(this.containerNode, a11yclick, function(evt){
+					var node = registry.getEnclosingWidget(evt.target);
+					if(node.isInstanceOf(TreeNode)){
+						self._onClick(node, evt);
+					}
 				}),
 				on(this.containerNode, on.selector(".dijitTreeNode", "dblclick"), function(evt){
 					self._onDblClick(registry.byNode(this), evt);
@@ -797,13 +801,6 @@ define([
 			);
 
 			this.inherited(arguments);
-
-			// Setup handlers for ENTER and SPACE keys.
-			// On WebKit based browsers, the combination ctrl-enter does not get passed through. To allow accessible
-			// multi-select on those browsers, the space key is also used for selection.
-			// Therefore, also allow space key for keyboard "click" operation.
-			var map = this._keyNavCodes;
-			map[keys.ENTER] = map[keys.SPACE] = lang.hitch(this, "_onEnterKey");
 
 			if(this.dndController){
 				// TODO: remove string support in 2.0.
@@ -1210,12 +1207,6 @@ define([
 
 		/////////// Keyboard and Mouse handlers ////////////////////
 
-
-		_onEnterKey: function(/*Event*/ evt, /*TreeNode*/ node){
-			this._publish("execute", { item: node.item, node: node });
-			this.dndController.userSelect(node, connect.isCopyKey(evt), evt.shiftKey);
-			this.onClick(node.item, node, evt);
-		},
 
 		_onDownArrow: function(/*Event*/ evt, /*TreeNode*/ node){
 			// summary:
