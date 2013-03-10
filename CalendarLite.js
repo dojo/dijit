@@ -14,6 +14,7 @@ define([
 	"./_WidgetBase",
 	"./_TemplatedMixin",
 	"dojo/text!./templates/Calendar.html",
+	"./a11yclick",	// not used directly, but template has ondijitclick in it
 	"./hccss"    // not used directly, but sets CSS class on <body>
 ], function(array, declare, cldrSupplemental, date, locale, stamp, dom, domClass, lang, on, has, string, _WidgetBase, _TemplatedMixin, template){
 

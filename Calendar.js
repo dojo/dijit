@@ -200,10 +200,6 @@ define([
 						newValue = new this.dateClassObj(newValue);
 						newValue.setDate(1);
 						break;
-					case keys.ENTER:
-					case keys.SPACE:
-						this.set("value", this.currentFocus);
-						break;
 					default:
 						return true;
 				}
