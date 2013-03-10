@@ -13,8 +13,10 @@ define([
 	"./_TemplatedMixin",
 	"./layout/ContentPane",
 	"dojo/text!./templates/TitlePane.html",
-	"./_base/manager"    // defaultDuration
-], function(array, declare, dom, domAttr, domClass, domGeometry, fxUtils, has, kernel, keys, _CssStateMixin, _TemplatedMixin, ContentPane, template, manager){
+	"./_base/manager",    // defaultDuration
+	"dijit/a11yclick"	// template uses ondijitclick
+], function(array, declare, dom, domAttr, domClass, domGeometry, fxUtils, has, kernel, keys,
+			_CssStateMixin, _TemplatedMixin, ContentPane, template, manager){
 
 	// module:
 	//		dijit/TitlePane
@@ -230,13 +232,7 @@ define([
 			// tags:
 			//		private
 
-			if(e.keyCode == keys.ENTER || e.keyCode == keys.SPACE){
-				if(this.toggleable){
-					this.toggle();
-					e.stopPropagation();
-					e.preventDefault();
-				}
-			}else if(e.keyCode == keys.DOWN_ARROW && this.open){
+			if(e.keyCode == keys.DOWN_ARROW && this.open){
 				this.containerNode.focus();
 				e.preventDefault();
 			}
