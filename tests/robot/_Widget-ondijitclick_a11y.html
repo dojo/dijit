@@ -81,14 +81,20 @@
 								w.domNode.focus();
 							}, 500);
 				
-							// Try shift-space/shift-enter just to make sure it doesn't do anything.
+							// Try shift-space/shift-enter.
 							// Don't try ctrl-space or meta-space since those keystrokes have special functions
-							// (like context menu) in various browsers
+							// (like context menu) in various browsers.
+
+							var shift;
+							aspect.after(w, "onClick", function(evt){
+								shift = evt.shiftKey;
+							}, true);
+
 							robot.keyPress(keys[key], 100, {shift: true});
 
-							// Check that ondijitclick didn't fire
 							robot.sequence(d.getTestCallback(function(){
-								doh.is(0, widgetClicks, "ondijitclick handler wasn't fired");
+								doh.is(1, widgetClicks, "ondijitclick handler fired");
+								doh.t(shift, "shift flag was set");
 								doh.is(0, buttonClicks, "button click handler wasn't fired");
 							}), 500);
 

@@ -24,9 +24,9 @@
 				clickCount: 0,
 				onClick: function(){
 				},
-				_onClick: function(){
+				_onClick: function(evt){
 					this.clickCount++;
-					this.onClick();
+					this.onClick(evt);
 				},
 				postCreate: function(){
 					this.connect(this.domNode, "ondijitclick", "_onClick");
