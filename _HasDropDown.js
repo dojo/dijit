@@ -10,12 +10,13 @@ define([
 	"dojo/keys", // keys.DOWN_ARROW keys.ENTER keys.ESCAPE
 	"dojo/_base/lang", // lang.hitch lang.isFunction
 	"dojo/on",
+	"dojo/touch",
 	"./registry", // registry.byNode()
 	"./focus",
 	"./popup",
 	"./_FocusMixin",
 	"./Viewport"
-], function(declare, Deferred, dom, domAttr, domClass, domGeometry, domStyle, has, keys, lang, on,
+], function(declare, Deferred, dom, domAttr, domClass, domGeometry, domStyle, has, keys, lang, on, touch,
 			registry, focus, popup, _FocusMixin, Viewport){
 
 
@@ -97,7 +98,7 @@ define([
 
 		_onDropDownMouseDown: function(/*Event*/ e){
 			// summary:
-			//		Callback when the user mousedown's on the arrow icon
+			//		Callback when the user mousedown/touchstart on the arrow icon.
 			if(this.disabled || this.readOnly){
 				return;
 			}
@@ -108,15 +109,18 @@ define([
 			//		3. user defined onMouseDown handler fires
 			e.preventDefault();
 
-			this._docHandler = this.own(on(this.ownerDocument, "mouseup", lang.hitch(this, "_onDropDownMouseUp")))[0];
+			this._docHandler = this.own(on(this.ownerDocument, touch.release, lang.hitch(this, "_onDropDownMouseUp")))[0];
 
 			this.toggleDropDown();
 		},
 
 		_onDropDownMouseUp: function(/*Event?*/ e){
 			// summary:
-			//		Callback when the user lifts their mouse after mouse down on the arrow icon.
-			//		If the drop down is a simple menu and the mouse is over the menu, we execute it, otherwise, we focus our
+			//		Callback on mouseup/touchend after mousedown/touchstart on the arrow icon.
+			//		Note that this function is called regardless of what node the event occurred on (but only after
+			//		a mousedown/touchstart on the arrow).
+			//
+			//		If the drop down is a simple menu and the cursor is over the menu, we execute it, otherwise, we focus our
 			//		drop down widget.  If the event is missing, then we are not
 			//		a mouseup event.
 			//
@@ -178,27 +182,9 @@ define([
 					this.defer("focus");
 				}
 			}
-
-			if(has("touch")){
-				this._justGotMouseUp = true;
-				this.defer(function(){
-					this._justGotMouseUp = false;
-				});
-			}
 		},
 
 		_onDropDownClick: function(/*Event*/ e){
-			if(has("touch") && !this._justGotMouseUp){
-				// If there was no preceding mousedown/mouseup (like on android), then simulate them to
-				// toggle the drop down.
-				//
-				// The if(has("touch") is necessary since IE and desktop safari get spurious onclick events
-				// when there are nested tables (specifically, clicking on a table that holds a dijit/form/Select,
-				// but not on the Select itself, causes an onclick event on the Select)
-				this._onDropDownMouseDown(e);
-				this._onDropDownMouseUp(e);
-			}
-
 			// The drop down was already opened on mousedown/keydown; just need to stop the event
 			if(this._stopClickEvents){
 				e.stopPropagation();
@@ -233,7 +219,7 @@ define([
 
 			var keyboardEventNode = this.focusNode || this.domNode;
 			this.own(
-				on(this._buttonNode, "mousedown", lang.hitch(this, "_onDropDownMouseDown")),
+				on(this._buttonNode, touch.press, lang.hitch(this, "_onDropDownMouseDown")),
 				on(this._buttonNode, "click", lang.hitch(this, "_onDropDownClick")),
 				on(keyboardEventNode, "keydown", lang.hitch(this, "_onKey")),
 				on(keyboardEventNode, "keyup", lang.hitch(this, "_onKeyUp"))

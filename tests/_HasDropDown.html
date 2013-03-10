@@ -76,11 +76,11 @@ require([
 	}
 	function click(node){
 		on.emit(node, "mousedown", {
-			left: true,
+			button: 0,	// left button (except on IE quirks mode, when it's 1)
 			bubbles: true
 		});
 		on.emit(node, "mouseup", {
-			left: true,
+			button: 0,	// left button (except on IE quirks mode, when it's 1)
 			bubbles: true
 		});
 		on.emit(node, "click", {
