@@ -12,10 +12,6 @@
 
 		<script language="JavaScript" type="text/javascript">
 			require([
-				"dojo/_base/kernel",
-				"dijit",
-				"dojo/on",
-				"dojo/_base/window",
 				"dojo/parser",
 
 				"dijit/form/Button",
@@ -35,41 +31,14 @@
 
 				"dijit/form/FilteringSelect",
 				"dijit/form/Select",
+				"dijit/form/MultiSelect",
 
 				"dijit/form/HorizontalSlider",
 				"dijit/form/HorizontalRule",
 				"dijit/form/HorizontalRuleLabels",
 				"dojo/domReady!"
-			], function(dojo, dijit, on, win){
-				dojo.parser.parse();
-
-				// Experimental code to get responsive clicks (without the 300ms delay).
-				// However, it breaks page scrolling and page zoom, so it's commented out.
-				on(win.body(), "touchstart", function(evt){
-					start = new Date();
-					console.log("0 touchstart");
-
-					// This is needed to prevent native click when the user presses for >100ms, but it has the side
-					// effect of disabling scroll and zoom
-					//evt.preventDefault();
-				});
-				on(win.body(), "touchend", function(evt){
-					console.log(((new Date()) - start) + ": touchend, fire synthetic click");
-/*
-					// try to prevent native click, but it won't stop native click if you press for >100ms
-					evt.preventDefault();
-
-					// fire synthetic click
-					on.emit(evt.target, "click", {
-						cancelable: true,
-						bubbles: true
-					});
-*/
-				});
-				on(win.body(), "click", function(evt){
-					console.log(((new Date()) - start) + ": click");
-				});
-
+			], function(parser){
+				parser.parse();
 			});
 		</script>
 	</head>
@@ -103,8 +72,6 @@
 		<h1>CheckBox, RadioButton</h1>
 		<fieldset>
 			<legend>check boxes</legend>
-			<label for="nativeCb">native</label>
-			<input id="nativeCb" type=checkbox onclick="console.log('clicked native cb');"/>
 			<label for="cb1">cb1:</label>
 			<input id="cb1" data-dojo-id="cb1" data-dojo-type="dijit/form/CheckBox" data-dojo-props='name:"cb1", value:"foo", onClick:function(){ console.log("clicked cb1") }'/>
 			<label for="cb2">cb2</label>
@@ -208,6 +175,16 @@
 			<option value="WV">West Virginia</option>
 			<option value="WI">Wisconsin</option>
 			<option value="WY">Wyoming</option>
+		</select>
+		<select id="multiselect" multiple data-dojo-type="dijit/form/MultiSelect"
+				name="multiselect" style="height:100px; width:175px;">
+
+			<option value="TN" selected>Tennessee</option>
+			<option value="VA">Virginia</option>
+			<option value="WA">Washington</option>
+			<option value="FL">Florida</option>
+			<option value="CA">California</option>
+
 		</select>
 
 		<h1>HorizontalSlider</h1>
