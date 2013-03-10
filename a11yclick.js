@@ -1,11 +1,37 @@
 define([
 	"dojo/keys", // keys.ENTER keys.SPACE
+	"dojo/mouse",
 	"dojo/on",
 	"dojo/touch" // touch support for click is now there
-], function(keys, on){
+], function(keys, mouse, on, touch){
 
 	// module:
 	//		dijit/a11yclick
+
+	/*=====
+	return {
+		// summary:
+		//		Custom press, release, and click synthetic events
+		//		which trigger on a left mouse click, touch, or space/enter keyup.
+
+		click: function(node, listener){
+			// summary:
+			//		Logical click operation for mouse, touch, or keyboard (space/enter key)
+		},
+		press: function(node, listener){
+			// summary:
+			//		Mousedown (left button), touchstart, or keydown (space or enter) corresponding to logical click operation.
+		},
+		release: function(node, listener){
+			// summary:
+			//		Mouseup (left button), touchend, or keyup (space or enter) corresponding to logical click operation.
+		},
+		move: function(node, listener){
+			// summary:
+			//		Mouse cursor or a finger is dragged over the given node.
+		}
+	};
+	=====*/
 
 	function clickKey(/*Event*/ e){
 		// Test if this keyboard event should be tracked as the start (if keydown) or end (if keyup) of a click event.
@@ -53,13 +79,58 @@ define([
 		}
 	});
 
-	return function(node, listener){
-		// summary:
-		//		Custom a11yclick (a.k.a. ondijitclick) event
-		//		which triggers on a mouse click, touch, or space/enter keyup.
+	// I want to return a hash of the synthetic events, but for backwards compatibility the main return value
+	// needs to be the click event.   Change for 2.0.
 
+	var click = function(node, listener){
+		// Set flag on node so that keydown/keyup above emits click event
 		node.dojoClick = true;
 
 		return on(node, "click", listener);
 	};
+	click.click = click;	// forward compatibility with 2.0
+
+	click.press =  function(node, listener){
+		var touchListener = on(node, touch.press, function(evt){
+			if(evt.type == "mousedown" && !mouse.isLeft(evt)){
+				// Ignore right click
+				return;
+			}
+			listener(evt);
+		}), keyListener = on(node, "keydown", function(evt){
+			if(evt.keyCode === keys.ENTER || evt.keyCode === keys.SPACE){
+				listener(evt);
+			}
+		});
+		return {
+			remove: function(){
+				touchListener.remove();
+				keyListener.remove();
+			}
+		};
+	};
+
+	click.release =  function(node, listener){
+		var touchListener = on(node, touch.release, function(evt){
+			if(evt.type == "mouseup" && !mouse.isLeft(evt)){
+				// Ignore right click
+				return;
+			}
+			listener(evt);
+		}), keyListener = on(node, "keyup", function(evt){
+			if(evt.keyCode === keys.ENTER || evt.keyCode === keys.SPACE){
+				listener(evt);
+			}
+		});
+		return {
+			remove: function(){
+				touchListener.remove();
+				keyListener.remove();
+			}
+		};
+	};
+
+	click.move = touch.move;	// just for convenience
+
+	return click;
 });

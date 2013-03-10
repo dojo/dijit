@@ -7,9 +7,11 @@ define([
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on",
 	"dojo/domReady",
+	"dojo/touch",
 	"dojo/_base/window", // win.body
+	"./a11yclick",
 	"./registry"
-], function(array, declare, dom, domClass, has, lang, on, domReady, win, registry){
+], function(array, declare, dom, domClass, has, lang, on, domReady, touch, win, a11yclick, registry){
 
 	// module:
 	//		dijit/_CssStateMixin
@@ -94,10 +96,12 @@ define([
 						break;
 					case "mousedown":
 					case "touchstart":
+					case "keydown":
 						this._set("active", true);
 						break;
 					case "mouseup":
-					case "touchend":
+					case "dojotouchend":
+					case "keyup":
 						this._set("active", false);
 						break;
 				}
@@ -233,10 +237,12 @@ define([
 					break;
 				case "mousedown":
 				case "touchstart":
+				case "keydown":
 					active(true);
 					break;
 				case "mouseup":
-				case "touchend":
+				case "dojotouchend":
+				case "keyup":
 					active(false);
 					break;
 				case "focus":
@@ -278,48 +284,56 @@ define([
 		// Document level listener to catch hover etc. events on widget root nodes and subnodes.
 		// Note that when the mouse is moved quickly, a single onmouseenter event could signal that multiple widgets
 		// have been hovered or unhovered (try test_Accordion.html)
-		function handler(evt){
+
+		function pointerHandler(evt, target, relatedTarget){
+			// Handler for mouseover, mouseout, a11yclick.press and a11click.release events
+
 			// Poor man's event propagation.  Don't propagate event to ancestors of evt.relatedTarget,
 			// to avoid processing mouseout events moving from a widget's domNode to a descendant node;
 			// such events shouldn't be interpreted as a mouseleave on the widget.
-			if(!dom.isDescendant(evt.relatedTarget, evt.target)){
-				for(var node = evt.target; node && node != evt.relatedTarget; node = node.parentNode){
-					// Process any nodes with _cssState property.   They are generally widget root nodes,
-					// but could also be sub-nodes within a widget
-					if(node._cssState){
-						var widget = registry.getEnclosingWidget(node);
-						if(widget){
-							if(node == widget.domNode){
-								// event on the widget's root node
-								widget._cssMouseEvent(evt);
-							}else{
-								// event on widget's sub-node
-								widget._subnodeCssMouseEvent(node, node._cssState, evt);
-							}
+			if(relatedTarget && dom.isDescendant(relatedTarget, target)){
+				return;
+			}
+
+			for(var node = target; node && node != relatedTarget; node = node.parentNode){
+				// Process any nodes with _cssState property.   They are generally widget root nodes,
+				// but could also be sub-nodes within a widget
+				if(node._cssState){
+					var widget = registry.getEnclosingWidget(node);
+					if(widget){
+						if(node == widget.domNode){
+							// event on the widget's root node
+							widget._cssMouseEvent(evt);
+						}else{
+							// event on widget's sub-node
+							widget._subnodeCssMouseEvent(node, node._cssState, evt);
 						}
 					}
 				}
 			}
 		}
 
-		function ieHandler(evt){
-			evt.target = evt.srcElement;
-			handler(evt);
-		}
+		var body = win.body(), activeNode;
 
-		// Use addEventListener() (and attachEvent() on IE) to catch the relevant events even if other handlers
-		// (on individual nodes) call evt.stopPropagation().
-		// Currently typematic.js is doing that, not sure why.
-		// Don't monitor mouseover/mouseout on mobile because iOS generates "phantom" mouseover/mouseout events when
-		// drag-scrolling, at the point in the viewport where the drag originated.   Test the Tree in api viewer.
-		var body = win.body(),
-			types = (has("touch") ? [] : ["mouseover", "mouseout"]).concat(["mousedown", "touchstart", "mouseup", "touchend"]);
-		array.forEach(types, function(type){
-			if(body.addEventListener){
-				body.addEventListener(type, handler, true);	// W3C
-			}else{
-				body.attachEvent("on" + type, ieHandler);	// IE
-			}
+		// Handle pointer related events (i.e. mouse or touch)
+		on(body, touch.over, function(evt){
+			// Using touch.over rather than mouseover mainly to ignore phantom mouse events on iOS.
+			pointerHandler(evt, evt.target, evt.relatedTarget);
+		});
+		on(body, touch.out, function(evt){
+			// Using touch.out rather than mouseout mainly to ignore phantom mouse events on iOS.
+			pointerHandler(evt, evt.target, evt.relatedTarget);
+		});
+		on(body, a11yclick.press, function(evt){
+			// Save the a11yclick.press target to reference when the a11yclick.release comes.
+			activeNode = evt.target;
+			pointerHandler(evt, activeNode)
+		});
+		on(body, a11yclick.release, function(evt){
+			// The release event could come on a separate node than the press event, if for example user slid finger.
+			// Reference activeNode to reset the state of the node that got state set in the a11yclick.press handler.
+			pointerHandler(evt, activeNode);
+			activeNode = null;
 		});
 
 		// Track focus events on widget sub-nodes that have been registered via _trackMouseState().
