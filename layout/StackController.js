@@ -13,6 +13,7 @@ define([
 	"../_TemplatedMixin",
 	"../_Container",
 	"../form/ToggleButton",
+	"dojo/touch",	// for normalized click handling, see dojoClick property setting in postCreate()
 	"dojo/i18n!../nls/common"
 ], function(array, declare, domClass, domConstruct, keys, lang, on, topic, focus, registry, _Widget, _TemplatedMixin, _Container, ToggleButton){
 
@@ -94,6 +95,8 @@ define([
 			// Listen for click events to select or close tabs.
 			// No need to worry about ENTER/SPACE key handling: tabs are selected via left/right arrow keys,
 			// and closed via shift-F10 (to show the close menu).
+			// Also, add flag to use normalized click handling from dojo/touch
+			this.containerNode.dojoClick = true;
 			this.own(on(this.containerNode, 'click', lang.hitch(this, function(evt){
 				var button = registry.getEnclosingWidget(evt.target);
 				if(button != this.containerNode && !button.disabled && button.page){

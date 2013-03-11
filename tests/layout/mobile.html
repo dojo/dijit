@@ -12,6 +12,13 @@
 		<script language="JavaScript" type="text/javascript">
 			require([
 				"dojo/parser",
+
+				// Modules that the parser will automatically pull in, but put here to avoid spurious exceptions
+				"dijit/layout/AccordionContainer",
+				"dijit/layout/BorderContainer",
+				"dijit/layout/ContentPane",
+				"dijit/layout/TabContainer",
+
 				"dojo/domReady!"
 			], function(parser){
 				parser.parse();
