@@ -323,8 +323,10 @@ define([
 				});
 
 				this.currentPopup = popup;
+				this.currentPopupParent = from_item;
+
 				// detect mouseovers to handle lazy mouse movements that temporarily focus other menu items
-				popup.connect(popup.domNode, "onmouseenter", lang.hitch(self, "_onPopupHover")); // cleaned up when the popped-up widget is destroyed on close
+				popup.own(on(popup.domNode, "mouseenter", lang.hitch(self, "_onPopupHover"))); // cleaned up when the popped-up widget is destroyed on close
 			}
 
 			if(focus && popup.focus){
@@ -403,13 +405,13 @@ define([
 				// and also so keyboard users don't lose control.
 				// Likely, immediately after a user defined onClick handler will move focus somewhere
 				// else, like a Dialog.
-				if(array.indexOf(this._focusManager.activeStack, this.id) >= 0){
-					domAttr.set(this.focusedChild.focusNode, "tabIndex", this.tabIndex);
-					this.focusedChild.focusNode.focus();
+				if(this.focused){
+					domAttr.set(this.currentPopupParent.focusNode, "tabIndex", this.tabIndex);
+					this.currentPopupParent.focusNode.focus();
 				}
 				// Close all popups that are open and descendants of this menu
 				pm.close(this.currentPopup);
-				this.currentPopup = null;
+				this.currentPopup = this.currentPopupParent = null;
 			}
 
 			if(this.focusedChild){ // unhighlight the focused item
