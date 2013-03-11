@@ -1131,6 +1131,7 @@ define([
 				domConstruct.place(this.domNode, ref, position);
 
 				// Start this iff it has a parent widget that's already started.
+				// TODO: for 2.0 maybe it should also start the widget when this.getParent() returns null??
 				if(!this._started && (this.getParent() || {})._started){
 					this.startup();
 				}
