@@ -1,17 +1,16 @@
 define([
 	"dojo/_base/declare", // declare
-	"dojo/mouse",
 	"dojo/on",
 	"dojo/touch",
 	"./_ListBase"
-], function(declare, mouse, on, touch, _ListBase){
+], function(declare, on, touch, _ListBase){
 
 	// module:
 	//		dijit/form/_ListMouseMixin
 
 	return declare("dijit.form._ListMouseMixin", _ListBase, {
 		// summary:
-		//		a Mixin to handle mouse or touch events for a focus-less menu
+		//		A mixin to handle mouse or touch events for a focus-less menu
 		//		Abstract methods that must be defined externally:
 		//
 		//		- onClick: item was chosen (mousedown somewhere on the menu and mouseup somewhere on the menu)
@@ -21,14 +20,17 @@ define([
 		postCreate: function(){
 			this.inherited(arguments);
 
+			// Add flag to use normalized click handling from dojo/touch
+			this.domNode.dojoClick = true;
+
 			this.own(on(this.domNode, "mousedown", function(evt){
 				evt.preventDefault();
 			})); // prevent focus shift on list scrollbar press
 			this._listConnect("click", "_onClick");
-			this._listConnect("mousedown", "_onMouseDown");
-			this._listConnect("mouseup", "_onMouseUp");
-			this._listConnect("mouseover", "_onMouseOver");
-			this._listConnect("mouseout", "_onMouseOut");
+			this._listConnect(touch.press, "_onMouseDown");
+			this._listConnect(touch.release, "_onMouseUp");
+			this._listConnect(touch.over, "_onMouseOver");
+			this._listConnect(touch.out, "_onMouseOut");
 		},
 
 		_onClick: function(/*Event*/ evt, /*DomNode*/ target){
