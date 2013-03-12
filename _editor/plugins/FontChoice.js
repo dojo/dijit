@@ -478,7 +478,11 @@ define([
 			this.own(this.button.select.on("change", lang.hitch(this, function(choice){
 				// User invoked change, since all internal updates set priorityChange to false and will
 				// not trigger an onChange event.
-				this.editor.focus();
+
+				if(this.editor.focused){
+					// put focus back in the iframe, unless focus has somehow been shifted out of the editor completely
+					this.editor.focus();
+				}
 
 				if(this.command == "fontName" && choice.indexOf(" ") != -1){
 					choice = "'" + choice + "'";

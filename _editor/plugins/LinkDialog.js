@@ -312,7 +312,11 @@ define([
 		_onCloseDialog: function(){
 			// summary:
 			//		Handler for close event on the dialog
-			this.editor.focus();
+
+			if(this.editor.focused){
+				// put focus back in the edit area, unless the dialog closed because the user clicked somewhere else
+				this.editor.focus();
+			}
 		},
 
 		_getCurrentValues: function(a){

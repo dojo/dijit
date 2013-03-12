@@ -124,8 +124,11 @@ define([
 
 				// Call the focus shift outside of the handler.
 				setTimeout(lang.hitch(this, function(){
-					// We over-ride focus, so we just need to call.
-					this.editor.focus();
+					// Focus the textarea... unless focus has moved outside of the editor completely during the timeout.
+					// Since we override focus, so we just need to call it.
+					if(this.editor.focused){
+						this.editor.focus();
+					}
 				}), 100);
 			}));
 		},
