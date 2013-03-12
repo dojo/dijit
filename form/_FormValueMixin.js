@@ -34,9 +34,6 @@ define([
 		postCreate: function(){
 			this.inherited(arguments);
 
-			if(has("ie")){ // IE won't stop the event with keypress
-				this.own(on(this.focusNode || this.domNode, "keydown", lang.hitch(this, "_onKeyDown")));
-			}
 			// Update our reset value if it hasn't yet been set (because this.set()
 			// is only called when there *is* a value)
 			if(this._resetValue === undefined){
@@ -73,19 +70,6 @@ define([
 			//		Reset the widget's value to what it was at initialization time
 			this._hasBeenBlurred = false;
 			this._setValueAttr(this._resetValue, true);
-		},
-
-		_onKeyDown: function(e){
-			if(e.keyCode == keys.ESCAPE && !(e.ctrlKey || e.altKey || e.metaKey)){
-				if(has("ie") < 9 || (has("ie") && has("quirks"))){
-					e.preventDefault(); // default behavior needs to be stopped here since keypress is too late
-					var node = e.srcElement,
-						te = node.ownerDocument.createEventObject();
-					te.keyCode = keys.ESCAPE;
-					te.shiftKey = e.shiftKey;
-					node.fireEvent('onkeypress', te);
-				}
-			}
 		}
 	});
 });
