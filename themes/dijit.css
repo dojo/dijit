@@ -67,7 +67,7 @@ table.dijitInline {
 .dj_ie7 .dijitInputContainer {
 	float: left !important; /* needed by IE to squeeze the INPUT in */
 	clear: left;
-	display: inline-block !important; /* to fix wrong text alignment in rtl text box */
+	display: inline-block !important; /* to fix wrong text alignment in textdir=rtl text box */
 }
 
 .dj_ie .dijitSelect input,
