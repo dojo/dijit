@@ -90,9 +90,9 @@ define([
 
 		// state: [private] String
 		//		Dynamic loading-related stuff.
-		//		When an empty folder node appears, it is "UNCHECKED" first,
-		//		then after dojo.data query it becomes "LOADING" and, finally "LOADED"
-		state: "UNCHECKED",
+		//		When an empty folder node appears, it is "NotLoaded" first,
+		//		then after dojo.data query it becomes "Loading" and, finally "Loaded"
+		state: "NotLoaded",
 
 		templateString: treeNodeTemplate,
 
@@ -148,7 +148,7 @@ define([
 			//		Visually denote that tree is loading data, etc.
 			// tags:
 			//		private
-			this.state = "LOADING";
+			this.state = "Loading";
 			this._setExpando(true);
 		},
 
@@ -407,7 +407,7 @@ define([
 				});
 			});
 
-			this.state = "LOADED";
+			this.state = "Loaded";
 
 			if(items && items.length > 0){
 				this.isExpandable = true;
@@ -1470,7 +1470,7 @@ define([
 				delete node._expandNodeDeferred;
 			}
 
-			if(node.state == "LOADING"){
+			if(node.state == "Loading"){
 				// ignore clicks while we are in the process of loading data
 				return;
 			}
