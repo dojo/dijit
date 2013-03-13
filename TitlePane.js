@@ -220,8 +220,11 @@ define([
 
 			var node = this.titleBarNode || this.focusNode;
 			var oldCls = this._titleBarClass;
-			this._titleBarClass = "dijit" + (this.toggleable ? "" : "Fixed") + (this.open ? "Open" : "Closed");
+			this._titleBarClass = "dijitTitlePaneTitle" + (this.toggleable ? "" : "Fixed") + (this.open ? "Open" : "Closed");
 			domClass.replace(node, this._titleBarClass, oldCls || "");
+
+			// Back compat, remove for 2.0
+			domClass.replace(node, this._titleBarClass.replace("TitlePaneTitle", ""), (oldCls || "").replace("TitlePaneTitle", ""));
 
 			this.arrowNodeInner.innerHTML = this.open ? "-" : "+";
 		},

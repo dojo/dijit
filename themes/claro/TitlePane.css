@@ -29,6 +29,12 @@
   border: 1px solid #b5bcc7;
   padding: 0 7px 3px 7px;
   min-height: 17px;
+  color: #494949;
+}
+.claro .dijitTitlePaneTitleOpen,
+.claro .dijitTitlePaneTitleFixedOpen {
+  background-color: #cfe5fa;
+  color: #000000;
 }
 .claro .dijitTitlePaneTitleHover {
   background-color: #abd6ff;
@@ -55,14 +61,11 @@
   height: 8px;
   width: 7px;
 }
-.claro .dijitTitlePane .dijitOpen .dijitArrowNode {
+.claro .dijitTitlePaneTitleOpen .dijitArrowNode {
   background-position: 0 0;
 }
-.claro .dijitTitlePane .dijitClosed .dijitArrowNode {
+.claro .dijitTitlePaneTitleClosed .dijitArrowNode {
   background-position: -14px 0;
-}
-.claro .dijitTitlePane .dijitTitlePaneTextNode {
-  color: #000000;
 }
 .claro .dijitTitlePaneContentOuter {
   background: #ffffff;
