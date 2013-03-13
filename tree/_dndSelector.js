@@ -195,8 +195,15 @@ define([
 				e.preventDefault();
 			}
 
-			var treeNode = e.type == "keydown" ? this.tree.focusedChild : this.current,
-			  copy = connect.isCopyKey(e), id = treeNode.id;
+			var treeNode = e.type == "keydown" ? this.tree.focusedChild : this.current;
+
+			if(!treeNode){
+				// Click must be on the Tree but not on a TreeNode, happens especially when Tree is stretched to fill
+				// a pane of a BorderContainer, etc.
+				return;
+			}
+
+			var copy = connect.isCopyKey(e), id = treeNode.id;
 
 			// if shift key is not pressed, and the node is already in the selection,
 			// delay deselection until onmouseup so in the case of DND, deselection
