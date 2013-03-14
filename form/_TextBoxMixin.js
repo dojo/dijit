@@ -185,19 +185,15 @@ define([
 			//		protected
 		},
 
-		/*=====
-		 onInput: function(event){
-		 // summary:
-		 //		Connect to this function to receive notifications of various user data-input events.
-		 //		Return false to cancel the event and prevent it from being processed.
-		 // event:
-		 //		keydown | keypress | cut | paste | input
-		 // tags:
-		 //		callback
+		 onInput: function(/*===== event =====*/){
+			 // summary:
+			 //		Connect to this function to receive notifications of various user data-input events.
+			 //		Return false to cancel the event and prevent it from being processed.
+			 // event:
+			 //		keydown | keypress | cut | paste | input
+			 // tags:
+			 //		callback
 		 },
-		 =====*/
-		onInput: function(){
-		},
 
 		__skipInputEvent: false,
 		_onInput: function(/*Event*/ evt){
@@ -393,6 +389,9 @@ define([
 		},
 
 		_setBlurValue: function(){
+			// Format the displayed value, for example (for NumberTextBox) convert 1.4 to 1.400,
+			// or (for CurrencyTextBox) 2.50 to $2.50
+
 			this._setValueAttr(this.get('value'), true);
 		},
 
