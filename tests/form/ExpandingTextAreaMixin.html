@@ -103,18 +103,18 @@
 
 						function onFocus(){
 							dijit_events.set('onFocus', nop);
-							dijit_events.textbox.value = "Focus";
+							dijit_events.set("value", "Focus");
 							dijit_events.set('onBlur', onBlur);
 							dijit.byId('mobile_events').focus();
 						}
 						function onBlur(){
 							dijit_events.set('onChange', onChange);
 							dijit_events.set('onBlur', nop);
-							dijit_events.textbox.value = "Blur";
+							dijit_events.set("value", "Blur");
 						}
 						function onChange(){
 							dijit_events.set('onChange', nop);
-							dijit_events.textbox.value = "Change";
+							dijit_events.set("value", "Change");
 							dijit_events.focus();
 							d.callback(true);
 						}
@@ -139,18 +139,18 @@
 
 						function onFocus(){
 							mobile_events.disconnect(focusHandle);
-							mobile_events.textbox.value = "Focus";
+							mobile_events.set("value", "Focus");
 							blurhandle = mobile_events.connect(mobile_events, '_onBlur', onBlur);
 							dijit.byId('dijit_events').focus();
 						}
 						function onBlur(){
 							mobile_events.set('onChange', onChange);
 							mobile_events.disconnect(blurhandle);
-							mobile_events.textbox.value = "Blur";
+							mobile_events.set("value", "Blur");
 						}
 						function onChange(){
 							mobile_events.set('onChange', nop);
-							mobile_events.textbox.value = "Change";
+							mobile_events.set("value", "Change");
 							mobile_events.focus();
 							d.callback(true);
 						}
