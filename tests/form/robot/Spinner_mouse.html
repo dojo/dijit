@@ -86,7 +86,7 @@
 							doh.robot.mouseMoveAt(spin1.focusNode, 1, 0);
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.sequence(function(){
-								spin1.focusNode.value="";
+								spin1.set("value", NaN);
 							}, 500);
 							doh.robot.typeKeys("0.5", 500, 600);
 							doh.robot.sequence(function(){
@@ -116,7 +116,7 @@
 							doh.robot.mouseMoveAt(spin3.focusNode, 1, 0);
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.sequence(function(){
-								spin3.focusNode.value="";
+								spin3.set("value", NaN);
 							}, 500);
 							doh.robot.typeKeys("0.a", 500, 600); // vs 0.5 in spinner1_invalid, spin3 would accept that
 							doh.robot.sequence(function(){

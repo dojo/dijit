@@ -54,8 +54,10 @@
 					results = populateExpected(spinner);
 					strokeIndex = 0;
 					noteConnect = spinner.connect(spinner.focusNode, "onkeypress", function(){
-						results[strokeIndex].actual = spinner.get('value');
-						strokeIndex++;
+						setTimeout(function(){
+							results[strokeIndex].actual = spinner.get('value');
+							strokeIndex++;
+						}, 5);
 					});
 				}
 
@@ -313,7 +315,7 @@
 						runTest: function(){
 							// assert invalid works
 							var d=new doh.Deferred();
-							spin2.focusNode.value="";
+							spin2.set("value", NaN);
 							focusThenRun(spin2, function(){
 								doh.robot.typeKeys("0.5", 1, 600);
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -524,7 +526,7 @@
 						timeout: 5000,
 						runTest: function(){
 							var d=new doh.Deferred();
-							spin4.focusNode.value="";
+							spin4.set("value", NaN);
 							focusThenRun(spin4, function(){
 								var handler = spin4.connect(spin4, '_onBlur',
 									function(){
@@ -547,7 +549,7 @@
 						timeout: 5000,
 						runTest: function(){
 							var d=new doh.Deferred();
-							spin4.focusNode.value="";
+							spin4.set("value", NaN);
 							focusThenRun(spin4, function(){
 								var handler = spin4.connect(spin4, '_onBlur',
 									function(){
@@ -571,7 +573,7 @@
 						timeout: 9000,
 						runTest: function(){
 							var d=new doh.Deferred();
-							spin4.focusNode.value="";
+							spin4.set("value", NaN);
 							focusThenRun(spin4, function(){
 								var handler = spin4.connect(spin4, '_onBlur',
 									function(){
@@ -601,7 +603,7 @@
 						timeout: 5000,
 						runTest: function(){
 							var d=new doh.Deferred();
-							spin4.focusNode.value="";
+							spin4.set("value", NaN);
 							focusThenRun(spin4, function(){
 								doh.robot.typeKeys("0.5e99", 1, 1200);
 								doh.robot.keyPress(dojo.keys.HOME, 500);
@@ -620,7 +622,7 @@
 						timeout: 9000,
 						runTest: function(){
 							var d=new doh.Deferred();
-							spin4.focusNode.value="";
+							spin4.set("value", NaN);
 							focusThenRun(spin4, function(){
 								doh.robot.typeKeys(".5e9a", 1, 1000);
 								doh.robot.keyPress(dojo.keys.HOME, 500);
@@ -646,7 +648,7 @@
 						timeout: 5000,
 						runTest: function(){
 							var d=new doh.Deferred();
-							spin3.focusNode.value="";
+							spin3.set("value", NaN);
 							focusThenRun(spin3, function(){
 								var handler = spin3.connect(spin3, '_onBlur',
 									function(){
@@ -668,7 +670,7 @@
 						timeout: 5000,
 						runTest: function(){
 							var d=new doh.Deferred();
-							spin4.focusNode.value="";
+							spin4.set("value", NaN);
 							focusThenRun(spin4, function(){
 								var handler = spin4.connect(spin4, '_onBlur',
 									function(){
