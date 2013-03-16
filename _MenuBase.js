@@ -81,8 +81,6 @@ return declare("dijit._MenuBase",
 		// tags:
 		//		private
 
-		this.popupHoverHandle.remove();
-
 		// if the mouse hovers over a menu popup that is in pending-close state,
 		// then stop the close operation.
 		// This can't be done in onItemHover since some popup targets don't have MenuItems (e.g. ColorPicker)
@@ -265,6 +263,9 @@ return declare("dijit._MenuBase",
 		this.currentPopup = popup;
 
 		// detect mouseovers to handle lazy mouse movements that temporarily focus other menu items
+		if(this.popupHoverHandle){
+			this.disconnect(this.popupHoverHandle);
+		}
 		this.popupHoverHandle = this.connect(popup.domNode, "onmouseenter", "_onPopupHover");
 
 		if(popup.focus){
