@@ -486,7 +486,9 @@
 								doh.t(helpers.isHidden("editMenu"), "View menu is hidden");
 							}), 500);
 
-							// move to View item with keyboard
+							// Move to View item with keyboard.  Focus should still on "File".  Previously this test
+							// assumed that hovering "edit" would move focus there.
+							robot.keyPress(keys.RIGHT_ARROW, 1000, {});
 							robot.keyPress(keys.RIGHT_ARROW, 1000, {});
 							robot.sequence(d.getTestCallback(function(){
 								doh.t(helpers.isHidden("viewMenu"), "View menu is hidden");

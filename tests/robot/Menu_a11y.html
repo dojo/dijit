@@ -176,6 +176,180 @@
 					}
 				]);
 
+				doh.register("dijit.MenuBar focus after execute", [
+					{
+						name: "open edit menu",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// Start at the link
+							robot.sequence(function(){
+								dom.byId("link").focus();
+							}, 500, 500);
+
+							// tab to the MenuBar... then focus should automatically shift to "File" menu
+							robot.keyPress(keys.TAB, 500, {});
+
+							// arrow to edit menu
+							robot.keyPress(keys.RIGHT_ARROW, 500, {});		// TODO: use left arrow in RTL mode
+
+							// and then down arrow to menu... focus should go to "Cut"
+							robot.keyPress(keys.DOWN_ARROW, 500, {});
+
+							robot.sequence(d.getTestCallback(function(){
+								doh.is("Cut", helpers.innerText(dfocus.curNode).substr(0, 3));
+							}), 1000);
+
+							return d;
+						}
+					},
+
+					{
+						name: "click 'cut' using enter key",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							robot.keyPress(keys.ENTER, 500, {});
+
+							robot.sequence(d.getTestCallback(function(){
+								// Although "Edit" is not marked as selected, and although the MenuBar is in passive
+								// mode, focus should be back on "Edit"
+								doh.is("Edit", helpers.innerText(dfocus.curNode), "focus back on Edit in MenuBar")
+							}), 1000);
+
+							return d;
+						}
+					},
+
+					{
+						name: "right arrow to view",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// arrow to view MenuBarItem
+							robot.keyPress(keys.RIGHT_ARROW, 500, {});		// TODO: use left arrow in RTL mode
+
+							robot.sequence(d.getTestCallback(function(){
+								doh.is("View", helpers.innerText(dfocus.curNode));
+								doh.t(domClass.contains(dom.byId("view"), "dijitMenuItemSelected"),
+										"View MenuBarItem should have selected class, actual class is:" + dom.byId("view").className);
+							}), 1000);
+
+							return d;
+						}
+					}
+				]);
+
+				doh.register("dijit.MenuBar repeat open keyboard tests", [
+					{
+						name: "start focus on the link, outside of menubar",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// Start at the link
+							robot.sequence(function(){
+								dom.byId("link").focus();
+							}, 500, 500);
+
+							robot.sequence(d.getTestCallback(function(){
+								doh.t(dfocus.curNode, "something has focus");
+								doh.is("random link", dfocus.curNode.innerHTML, "focus on the link");
+							}), 1000);
+
+							return d;
+						}
+					},
+
+					{
+						name: "tab to the menubar",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// tab to the MenuBar... then focus should automatically shift to "File" menu,
+							robot.keyPress(keys.TAB, 500, {});
+
+							robot.sequence(d.getTestCallback(function(){
+								doh.is("File", helpers.innerText(dfocus.curNode), "focus on File menu");
+							}), 1000);
+
+							return d;
+						}
+					},
+
+					{
+						name: "open file menu #1",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							robot.keyPress(keys.DOWN_ARROW, 500, {});
+
+							robot.sequence(d.getTestCallback(function(){
+								doh.is("New", helpers.innerText(dfocus.curNode).substr(0, 3),
+										"focus on New MenuItem");
+							}), 500);
+
+							return d;
+						}
+					},
+
+					{
+						name: "close file menu #1",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							robot.keyPress(keys.ENTER, 500, {});
+
+							robot.sequence(d.getTestCallback(function(){
+								doh.is("File", helpers.innerText(dfocus.curNode),
+										"focus on File MenuBarItem again");
+							}), 500);
+
+							return d;
+						}
+					},
+
+					{
+						name: "open file menu #2",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							robot.keyPress(keys.DOWN_ARROW, 500, {});
+
+							robot.sequence(d.getTestCallback(function(){
+								doh.is("New", helpers.innerText(dfocus.curNode).substr(0, 3),
+										"focus on New MenuItem again");
+							}), 750);
+
+							return d;
+						}
+					},
+
+					{
+						name: "close file menu #2",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							robot.keyPress(keys.ENTER, 500, {});
+
+							robot.sequence(d.getTestCallback(function(){
+								doh.is("File", helpers.innerText(dfocus.curNode),
+										"focus on File MenuBarItem yet again");
+							}), 500);
+
+							return d;
+						}
+					}
+				]);
+
 				// Using left-arrow to back up (#10437)
 				doh.register("dijit.MenuBar left arrow tests", [
 					{

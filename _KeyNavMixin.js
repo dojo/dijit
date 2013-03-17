@@ -169,14 +169,14 @@ define([
 			}
 
 			if(this.focusedChild && widget !== this.focusedChild){
-				this._onChildBlur(this.focusedChild);	// used by _MenuBase
+				this._onChildBlur(this.focusedChild);	// used to be used by _MenuBase
 			}
 			widget.set("tabIndex", this.tabIndex);	// for IE focus outline to appear, must set tabIndex before focus
 			widget.focus(last ? "end" : "start");
 
 			// Don't set focusedChild here, because the focus event should trigger a call to _onChildFocus(), which will
 			// set it.   More importantly, _onChildFocus(), which may be executed asynchronously (after this function
-			//  returns) needs to know the old focusedChild to set its tabIndex to -1.
+			// returns) needs to know the old focusedChild to set its tabIndex to -1.
 		},
 
 		_onContainerFocus: function(evt){
@@ -217,6 +217,9 @@ define([
 			// then restore the container's tabIndex so that user can tab to it again.
 			// Note that using _onBlur() so that this doesn't happen when focus is shifted
 			// to one of my child widgets (typically a popup)
+
+			// TODO: for 2.0 consider changing this to blur whenever the container blurs, to be truthful that there is
+			// no focused child at that time.
 
 			domAttr.set(this.domNode, "tabIndex", this.tabIndex);
 			if(this.focusedChild){
@@ -390,7 +393,7 @@ define([
 			// summary:
 			//		Called when focus leaves a child widget to go
 			//		to a sibling widget.
-			//		Used by MenuBase.js (TODO: move code there)
+			//		Used to be used by MenuBase.js (remove for 2.0)
 			// tags:
 			//		protected
 		},

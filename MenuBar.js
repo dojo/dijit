@@ -56,21 +56,29 @@ define([
 			}
 		},
 
+		onItemHover: function(/*MenuItem*/ item){
+			// overload onItemHover so that whenever the selection is moved to a new item,
+			// check the previous selection whether it has its popup open, if so, after
+			// selecting the new item, open its submenu immediately
+
+			var prev_item = this.selected,
+				showpopup = prev_item && prev_item.popup && prev_item.popup.isShowingNow;
+			this.inherited(arguments);
+			if(showpopup && item.popup && !item.disabled){
+				this._openPopup(item, false);
+			}
+		},
+
 		_onKeyDown: function(/*Event*/ evt){
 			// summary:
-			//		Handle keyboard based menu navigation.
+			//		Handle down arrow key
 			// tags:
 			//		protected
 
-			if(evt.ctrlKey || evt.altKey){
-				return;
-			}
-
-			switch(evt.keyCode){
-				case keys.DOWN_ARROW:
-					this._moveToPopup(evt);
-					evt.stopPropagation();
-					evt.preventDefault();
+			if(evt.keyCode == keys.DOWN_ARROW){
+				this._moveToPopup(evt);
+				evt.stopPropagation();
+				evt.preventDefault();
 			}
 		},
 
@@ -82,7 +90,8 @@ define([
 			// tags:
 			//		private
 			if(item.popup && item.popup.isShowingNow && (!/^key/.test(evt.type) || evt.keyCode !== keys.DOWN_ARROW)){
-				item.popup.onCancel();
+				item.focusNode.focus();
+				this._cleanUp();
 			}else{
 				this.inherited(arguments);
 			}
