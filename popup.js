@@ -21,46 +21,46 @@ define([
 
 	/*=====
 	 var __OpenArgs = {
-	 // popup: Widget
-	 //		widget to display
-	 // parent: Widget
-	 //		the button etc. that is displaying this popup
-	 // around: DomNode
-	 //		DOM node (typically a button); place popup relative to this node.  (Specify this *or* "x" and "y" parameters.)
-	 // x: Integer
-	 //		Absolute horizontal position (in pixels) to place node at.  (Specify this *or* "around" parameter.)
-	 // y: Integer
-	 //		Absolute vertical position (in pixels) to place node at.  (Specify this *or* "around" parameter.)
-	 // orient: Object|String
-	 //		When the around parameter is specified, orient should be a list of positions to try, ex:
-	 //	|	[ "below", "above" ]
-	 //		For backwards compatibility it can also be an (ordered) hash of tuples of the form
-	 //		(around-node-corner, popup-node-corner), ex:
-	 //	|	{ "BL": "TL", "TL": "BL" }
-	 //		where BL means "bottom left" and "TL" means "top left", etc.
-	 //
-	 //		dijit/popup.open() tries to position the popup according to each specified position, in order,
-	 //		until the popup appears fully within the viewport.
-	 //
-	 //		The default value is ["below", "above"]
-	 //
-	 //		When an (x,y) position is specified rather than an around node, orient is either
-	 //		"R" or "L".  R (for right) means that it tries to put the popup to the right of the mouse,
-	 //		specifically positioning the popup's top-right corner at the mouse position, and if that doesn't
-	 //		fit in the viewport, then it tries, in order, the bottom-right corner, the top left corner,
-	 //		and the top-right corner.
-	 // onCancel: Function
-	 //		callback when user has canceled the popup by:
-	 //
-	 //		1. hitting ESC or
-	 //		2. by using the popup widget's proprietary cancel mechanism (like a cancel button in a dialog);
-	 //		   i.e. whenever popupWidget.onCancel() is called, args.onCancel is called
-	 // onClose: Function
-	 //		callback whenever this popup is closed
-	 // onExecute: Function
-	 //		callback when user "executed" on the popup/sub-popup by selecting a menu choice, etc. (top menu only)
-	 // padding: place.__Position
-	 //		adding a buffer around the opening position. This is only useful when around is not set.
+		 // popup: Widget
+		 //		widget to display
+		 // parent: Widget
+		 //		the button etc. that is displaying this popup
+		 // around: DomNode
+		 //		DOM node (typically a button); place popup relative to this node.  (Specify this *or* "x" and "y" parameters.)
+		 // x: Integer
+		 //		Absolute horizontal position (in pixels) to place node at.  (Specify this *or* "around" parameter.)
+		 // y: Integer
+		 //		Absolute vertical position (in pixels) to place node at.  (Specify this *or* "around" parameter.)
+		 // orient: Object|String
+		 //		When the around parameter is specified, orient should be a list of positions to try, ex:
+		 //	|	[ "below", "above" ]
+		 //		For backwards compatibility it can also be an (ordered) hash of tuples of the form
+		 //		(around-node-corner, popup-node-corner), ex:
+		 //	|	{ "BL": "TL", "TL": "BL" }
+		 //		where BL means "bottom left" and "TL" means "top left", etc.
+		 //
+		 //		dijit/popup.open() tries to position the popup according to each specified position, in order,
+		 //		until the popup appears fully within the viewport.
+		 //
+		 //		The default value is ["below", "above"]
+		 //
+		 //		When an (x,y) position is specified rather than an around node, orient is either
+		 //		"R" or "L".  R (for right) means that it tries to put the popup to the right of the mouse,
+		 //		specifically positioning the popup's top-right corner at the mouse position, and if that doesn't
+		 //		fit in the viewport, then it tries, in order, the bottom-right corner, the top left corner,
+		 //		and the top-right corner.
+		 // onCancel: Function
+		 //		callback when user has canceled the popup by:
+		 //
+		 //		1. hitting ESC or
+		 //		2. by using the popup widget's proprietary cancel mechanism (like a cancel button in a dialog);
+		 //		   i.e. whenever popupWidget.onCancel() is called, args.onCancel is called
+		 // onClose: Function
+		 //		callback whenever this popup is closed
+		 // onExecute: Function
+		 //		callback when user "executed" on the popup/sub-popup by selecting a menu choice, etc. (top menu only)
+		 // padding: place.__Position
+		 //		adding a buffer around the opening position. This is only useful when around is not set.
 	 };
 	 =====*/
 
