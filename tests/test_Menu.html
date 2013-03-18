@@ -114,7 +114,8 @@
 <body class="claro" role="main">
 
 	<div id="windowContextMenu" data-dojo-type="dijit/Menu" data-dojo-props='contextMenuForWindow:true, style:"display: none;"'>
-		<div data-dojo-type="dijit/MenuItem" data-dojo-props='onClick:function(){ console.log("Hello world"); }'>Context Menu</div>
+		<div data-dojo-type="dijit/MenuItem" id="windowContextMenuFirstChoice"
+			 data-dojo-props='onClick:function(){ console.log("Hello world"); }'>Context Menu</div>
 		<div data-dojo-type="dijit/MenuSeparator"></div>
 		<div data-dojo-type="dijit/MenuItem" data-dojo-props='disabled:true, onClick:function(){ alert("this should NOT appear"); }'>Disabled Item</div>
 		<div data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconCut",

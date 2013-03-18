@@ -280,6 +280,8 @@
 								doh.t(menuCoords.x < linkCoords.x + linkCoords.w, "to left of link right edge");
 								doh.t(menuCoords.y > linkCoords.y, "menu (" + menuCoords.y + ") starts below top of link (" + linkCoords.y + ")");
 								doh.t(menuCoords.y < linkCoords.y + linkCoords.h, "menu (" + menuCoords.y + ") starts above bottom of link (" + linkCoords.y + "+" + linkCoords.h + ")");
+
+								doh.f(domClass.contains("windowContextMenuFirstChoice", "dijitMenuItemSelected"), "first choice not marked as selected");
 							}), 1000);
 
 							return d;

@@ -717,6 +717,9 @@
 								doh.t(menuCoords.y < 50, "y < 50", "actual y: " + menuCoords.y);
 								doh.t(menuCoords.x >= 0, "x >= 0", "actual x: " + menuCoords.x);
 								doh.t(menuCoords.y >= 0, "y >= 0", "actual y: " + menuCoords.y);
+								doh.t(domClass.contains("windowContextMenuFirstChoice", "dijitMenuItemSelected"),
+										"first choice selected");
+
 								robot.keyPress(keys.ESCAPE, 0, {}, true); // close context menu
 							}), 1000);
 

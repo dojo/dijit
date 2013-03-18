@@ -284,7 +284,8 @@ define([
 
 			var target = args.target,
 				iframe = args.iframe,
-				coords = args.coords;
+				coords = args.coords,
+				byKeyboard = !coords;
 
 			// To be used by MenuItem event handlers to tell which node the menu was opened on
 			this.currentTarget = target;
@@ -333,7 +334,13 @@ define([
 				onCancel: closeAndRestoreFocus,
 				orient: this.isLeftToRight() ? 'L' : 'R'
 			});
+
+			// Focus the menu even when opened by mouse, so that a click on blank area of screen will close it
 			this.focus();
+			if(!byKeyboard){
+				// But then (when opened by mouse), mark Menu as passive, so that the first item isn't highlighted.
+				this._cleanUp(true);
+			}
 
 			this._onBlur = function(){
 				this.inherited('_onBlur', arguments);
