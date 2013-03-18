@@ -20,17 +20,8 @@ define([
 		//		This is a MenuBar widget, not a (vertical) Menu widget.
 		_isMenuBar: true,
 
-		postCreate: function(){
-			this.inherited(arguments);
-			var l = this.isLeftToRight();
-			this.connectKeyNavHandlers(
-				l ? [keys.LEFT_ARROW] : [keys.RIGHT_ARROW],
-				l ? [keys.RIGHT_ARROW] : [keys.LEFT_ARROW]
-			);
-
-			// parameter to dijit.popup.open() about where to put popup (relative to this.domNode)
-			this._orient = ["below"];
-		},
+		// parameter to dijit.popup.open() about where to put popup (relative to this.domNode)
+		_orient: ["below"],
 
 		_moveToPopup: function(/*Event*/ evt){
 			// summary:
@@ -73,17 +64,17 @@ define([
 			this.inherited(arguments);
 		},
 
-		_onKeyDown: function(/*Event*/ evt){
-			// summary:
-			//		Handle down arrow key
-			// tags:
-			//		protected
-
-			if(evt.keyCode == keys.DOWN_ARROW){
-				this._moveToPopup(evt);
-				evt.stopPropagation();
-				evt.preventDefault();
-			}
+		// Arrow key navigation
+		_onLeftArrow: function(){
+			this.focusPrev();
+		},
+		_onRightArrow: function(){
+			this.focusNext();
+		},
+		_onDownArrow: function(/*Event*/ evt){
+			this._moveToPopup(evt);
+		},
+		_onUpArrow: function(){
 		},
 
 		onItemClick: function(/*dijit/_WidgetBase*/ item, /*Event*/ evt){

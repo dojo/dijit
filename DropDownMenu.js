@@ -17,42 +17,28 @@ define([
 
 		baseClass: "dijitMenu",
 
-		postCreate: function(){
-			this.inherited(arguments);
-			var l = this.isLeftToRight();
-			this._openSubMenuKey = l ? keys.RIGHT_ARROW : keys.LEFT_ARROW;
-			this._closeSubMenuKey = l ? keys.LEFT_ARROW : keys.RIGHT_ARROW;
-			this.connectKeyNavHandlers([keys.UP_ARROW], [keys.DOWN_ARROW]);
+		// Arrow key navigation
+		_onUpArrow: function(){
+			this.focusPrev();
 		},
-
-		_onKeyDown: function(/*Event*/ evt){
-			// summary:
-			//		Handle keyboard based menu navigation.
-			// tags:
-			//		protected
-
-			if(evt.ctrlKey || evt.altKey){
-				return;
-			}
-
-			switch(evt.keyCode){
-				case this._openSubMenuKey:
-					this._moveToPopup(evt);
-					evt.stopPropagation();
-					evt.preventDefault();
-					break;
-				case this._closeSubMenuKey:
-					if(this.parentMenu){
-						if(this.parentMenu._isMenuBar){
-							this.parentMenu.focusPrev();
-						}else{
-							this.onCancel(false);
-						}
-					}else{
-						evt.stopPropagation();
-						evt.preventDefault();
-					}
-					break;
+		_onDownArrow: function(){
+			this.focusNext();
+		},
+		_onRightArrow: function(/*Event*/ evt){
+			this._moveToPopup(evt);
+			evt.stopPropagation();
+			evt.preventDefault();
+		},
+		_onLeftArrow: function(){
+			if(this.parentMenu){
+				if(this.parentMenu._isMenuBar){
+					this.parentMenu.focusPrev();
+				}else{
+					this.onCancel(false);
+				}
+			}else{
+				evt.stopPropagation();
+				evt.preventDefault();
 			}
 		}
 	});
