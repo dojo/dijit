@@ -9,13 +9,12 @@ define([
 	"dojo/on",
 	"dojo/window",
 	"./a11yclick",
-	"./popup",
 	"./registry",
 	"./_Widget",
 	"./_CssStateMixin",
 	"./_KeyNavContainer",
 	"./_TemplatedMixin"
-], function(array, declare, dom, domAttr, domClass, lang, mouse, on, winUtils, a11yclick, pm,
+], function(array, declare, dom, domAttr, domClass, lang, mouse, on, winUtils, a11yclick,
 			registry, _Widget, _CssStateMixin, _KeyNavContainer, _TemplatedMixin){
 
 	// module:
@@ -160,13 +159,12 @@ define([
 			// if the mouse hovers over a menu popup that is in pending-close state,
 			// then stop the close operation.
 			// This can't be done in onItemHover since some popup targets don't have MenuItems (e.g. ColorPicker)
-			if(this.currentPopup && this.currentPopup._pendingClose_timer){
-				var parentMenu = this.currentPopup.parentMenu;
-				// highlight the parent menu item pointing to this popup
-				this.set("selected", this.currentPopup.from_item);
-				// cancel the pending close
-				this._stopPendingCloseTimer(this.currentPopup);
-			}
+
+			// highlight the parent menu item pointing to this popup (in case user temporarily moused over another MenuItem)
+			this.set("selected", this.currentPopupItem);
+
+			// cancel the pending close (if there is one) (in case user temporarily moused over another MenuItem)
+			this._stopPendingCloseTimer();
 		},
 
 		onItemHover: function(/*MenuItem*/ item){
@@ -183,7 +181,7 @@ define([
 				this.set("selected", item);
 				if(item.popup && !item.disabled && !this.hover_timer){
 					this.hover_timer = this.defer(function(){
-						this._openPopup(item);
+						this._openItemPopup(item);
 					}, this.popupDelay);
 				}
 			}
@@ -195,21 +193,18 @@ define([
 
 		_onChildDeselect: function(item){
 			// summary:
-			//		Called when a child MenuItem becomes deselected
+			//		Called when a child MenuItem becomes deselected.   Setup timer to close its popup.
 
 			this._stopPopupTimer();
 
 			// Setup timer to close all popups that are open and descendants of this menu.
 			// Will be canceled if user quickly moves the mouse over the popup.
-			var itemPopup = item.popup;
-			if(itemPopup && this.currentPopup == itemPopup){
-				this._stopPendingCloseTimer(itemPopup);
-				itemPopup._pendingClose_timer = this.defer(function(){
-					itemPopup._pendingClose_timer = null;
-					if(itemPopup.parentMenu){
-						itemPopup.parentMenu.currentPopup = null;
-					}
-					pm.close(itemPopup); // this calls onClose
+			if(this.currentPopupItem == item){
+				this._stopPendingCloseTimer();
+				this._pendingClose_timer = this.defer(function(){
+					this._pendingClose_timer = null;
+					this.currentPopupItem = null;
+					item._closePopup(); // this calls onClose
 				}, this.popupDelay);
 			}
 		},
@@ -239,23 +234,13 @@ define([
 			}
 		},
 
-		_stopPendingCloseTimer: function(/*dijit/_WidgetBase*/ popup){
+		_stopPendingCloseTimer: function(){
 			// summary:
 			//		Cancels the pending-close timer because the close has been preempted
 			// tags:
 			//		private
-			if(popup._pendingClose_timer){
-				popup._pendingClose_timer = popup._pendingClose_timer.remove();
-			}
-		},
-
-		_stopFocusTimer: function(){
-			// summary:
-			//		Cancels the pending-focus timer because the menu was closed before focus occurred
-			// tags:
-			//		private
-			if(this._focus_timer){
-				this._focus_timer = this._focus_timer.remove();
+			if(this._pendingClose_timer){
+				this._pendingClose_timer = this._pendingClose_timer.remove();
 			}
 		},
 
@@ -287,7 +272,7 @@ define([
 			}
 
 			if(item.popup){
-				this._openPopup(item, /^key/.test(evt.type));
+				this._openItemPopup(item, /^key/.test(evt.type));
 			}else{
 				// before calling user defined handler, close hierarchy of menus
 				// and restore focus to place it was when menu was opened
@@ -298,68 +283,58 @@ define([
 			}
 		},
 
-		_openPopup: function(/*dijit/MenuItem*/ from_item, /*Boolean*/ focus){
+		_openItemPopup: function(/*dijit/MenuItem*/ from_item, /*Boolean*/ focus){
 			// summary:
 			//		Open the popup to the side of/underneath the current menu item, and optionally focus first item
 			// tags:
 			//		protected
 
+			if(from_item == this.currentPopupItem){
+				// Specified popup is already being shown, so just return
+				return;
+			}
+			if(this.currentPopupItem){
+				// If another popup is currently shown, then close it
+				this._stopPendingCloseTimer();
+				this.currentPopupItem._closePopup();
+			}
 			this._stopPopupTimer();
+
 			var popup = from_item.popup;
-			if(!popup.isShowingNow){
-				if(this.currentPopup){
-					this._stopPendingCloseTimer(this.currentPopup);
-					pm.close(this.currentPopup);
-				}
-				popup.parentMenu = this;
-				popup.from_item = from_item; // helps finding the parent item that should be highlighted for this popup
+			popup.parentMenu = this;
 
-				// detect mouseover of the popup to handle lazy mouse movements that temporarily focus other menu items\c
-				this.own(this._mouseoverHandle = on.once(popup.domNode, "mouseover", lang.hitch(this, "_onPopupHover")));
+			// detect mouseover of the popup to handle lazy mouse movements that temporarily focus other menu items\c
+			this.own(this._mouseoverHandle = on.once(popup.domNode, "mouseover", lang.hitch(this, "_onPopupHover")));
 
-				var self = this;
-				pm.open({
-					parent: this,
-					popup: popup,
-					around: from_item.domNode,
-					orient: this._orient || ["after", "before"],
-					onCancel: function(){ // called when the child menu is canceled
-						// set isActive=false (_closeChild vs _cleanUp) so that subsequent hovering will NOT open child menus
-						// which seems aligned with the UX of most applications (e.g. notepad, wordpad, paint shop pro)
-						if(focus){
-							// put focus back on my node before focused node is hidden
-							self.focusChild(from_item);
-						}
-
-						// close the submenu (be sure this is done _after_ focus is moved)
-						self._cleanUp();
-
-						// oops, _cleanUp() deselected the item
-						self.set("selected", from_item);
-					},
-					onExecute: lang.hitch(this, "_cleanUp"),
-					onClose: function(){
-						// Remove handler created by onItemHover
-						if(self._mouseoverHandle){
-							self._mouseoverHandle.remove();
-							delete self._mouseoverHandle;
-						}
+			var self = this;
+			from_item._openPopup({
+				parent: this,
+				orient: this._orient || ["after", "before"],
+				onCancel: function(){ // called when the child menu is canceled
+					// set isActive=false (_closeChild vs _cleanUp) so that subsequent hovering will NOT open child menus
+					// which seems aligned with the UX of most applications (e.g. notepad, wordpad, paint shop pro)
+					if(focus){
+						// put focus back on my node before focused node is hidden
+						self.focusChild(from_item);
 					}
-				});
 
-				this.currentPopup = popup;
-			}
+					// close the submenu (be sure this is done _after_ focus is moved)
+					self._cleanUp();
 
-			if(focus && popup.focus){
-				// If user is opening the popup via keyboard (right arrow, or down arrow for MenuBar), then focus the popup.
-				// If the cursor happens to collide with the popup, it will generate an onmouseover event
-				// even though the mouse wasn't moved.  Use defer() to call popup.focus so that
-				// our focus() call overrides the onmouseover event, rather than vice-versa.  (#8742)
-				popup._focus_timer = this.defer(lang.hitch(popup, function(){
-					this._focus_timer = null;
-					this.focus();
-				}));
-			}
+					// oops, _cleanUp() deselected the item
+					self.set("selected", from_item);
+				},
+				onExecute: lang.hitch(this, "_cleanUp"),
+				onClose: function(){
+					// Remove handler created by onItemHover
+					if(self._mouseoverHandle){
+						self._mouseoverHandle.remove();
+						delete self._mouseoverHandle;
+					}
+				}
+			}, focus);
+
+			this.currentPopupItem = from_item;
 
 			// TODO: focusing a popup should clear tabIndex on Menu (and it's child MenuItems), so that neither
 			// TAB nor SHIFT-TAB returns to the menu.  Only ESC or ENTER should return to the menu.
@@ -410,7 +385,6 @@ define([
 			// tags:
 			//		private
 
-			this._stopFocusTimer();
 			this._markInactive();
 			this.set("selected", null);
 			this.isShowingNow = false;
@@ -424,7 +398,7 @@ define([
 			//		private
 			this._stopPopupTimer();
 
-			if(this.currentPopup){
+			if(this.currentPopupItem){
 				// If focus is on a descendant MenuItem then move focus to me,
 				// because IE doesn't like it when you display:none a node with focus,
 				// and also so keyboard users don't lose control.
@@ -434,10 +408,10 @@ define([
 					domAttr.set(this.selected.focusNode, "tabIndex", this.tabIndex);
 					this.selected.focusNode.focus();
 				}
-				// Close all popups that are open and descendants of this menu
-				pm.close(this.currentPopup);
 
-				this.currentPopup = null;
+				// Close all popups that are open and descendants of this menu
+				this.currentPopupItem._closePopup();
+				this.currentPopupItem = null;
 			}
 		},
 
