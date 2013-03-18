@@ -45,28 +45,32 @@ define([
 		},
 
 		focusChild: function(item){
-			// overload focusChild so that whenever the focus is moved to a new item,
-			// check the previous focused whether it has its popup open, if so, after
-			// focusing the new item, open its submenu immediately
-			var prev_item = this.focusedChild,
-				showpopup = prev_item && prev_item.popup && prev_item.popup.isShowingNow;
+			// Overload focusChild so that whenever a new item is focused and the menu is active, open its submenu immediately.
+
 			this.inherited(arguments);
-			if(showpopup && item.popup && !item.disabled){
+			if(this.activated && item.popup && !item.disabled){
 				this._openItemPopup(item, true);	// TODO: on down arrow, _openItemPopup() is called here and in onItemClick()
 			}
 		},
 
 		onItemHover: function(/*MenuItem*/ item){
-			// overload onItemHover so that whenever the selection is moved to a new item,
-			// check the previous selection whether it has its popup open, if so, after
-			// selecting the new item, open its submenu immediately
+			// Overload onItemHover so that whenever a new item is hovered and the menu is active, open its submenu immediately.
 
-			var prev_item = this.selected,
-				showpopup = prev_item && prev_item.popup && prev_item.popup.isShowingNow;
 			this.inherited(arguments);
-			if(showpopup && item.popup && !item.disabled){
+			if(this.activated && item.popup && !item.disabled){
 				this._openItemPopup(item, false);
 			}
+		},
+
+		_onChildDeselect: function(item){
+			// override _MenuBase._onChildDeselect() to close submenu immediately
+
+			if(this.currentPopupItem == item){
+				this.currentPopupItem = null;
+				item._closePopup(); // this calls onClose
+			}
+
+			this.inherited(arguments);
 		},
 
 		_onKeyDown: function(/*Event*/ evt){

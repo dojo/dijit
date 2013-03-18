@@ -43,6 +43,19 @@ define([
 			}
 		},
 
+		// activated: [readonly] Boolean
+		//		This Menu has been clicked (mouse or via space/arrow key) or opened as a submenu,
+		//		so mere mouseover will open submenus.  Focusing a menu via TAB does NOT automatically make it active
+		//		since TAB is a navigation operation and not a selection one.
+		//		For Windows apps, pressing the ALT key focuses the menubar menus (similar to TAB navigation) but the
+		//		menu is not active (ie no dropdown) until an item is clicked.
+		activated: false,
+		_setActivatedAttr: function(val){
+			domClass.toggle(this.domNode, "dijitMenuActive", val);
+			domClass.toggle(this.domNode, "dijitMenuPassive", !val);
+			this._set("activated", val);
+		},
+
 		// parentMenu: [readonly] Widget
 		//		pointer to menu that displayed me
 		parentMenu: null,
@@ -177,7 +190,7 @@ define([
 			//		1) clicking it
 			//		2) opening it from a parent menu (which automatically activates it)
 
-			if(this.isActive){
+			if(this.activated){
 				this.set("selected", item);
 				if(item.popup && !item.disabled && !this.hover_timer){
 					this.hover_timer = this.defer(function(){
@@ -259,19 +272,15 @@ define([
 			// tags:
 			//		private
 
-			// this can't be done in _onFocus since the _onFocus events occurs asynchronously
-			if(typeof this.isShowingNow == 'undefined'){ // non-popup menu
-				this._markActive();
-			}
-
 			this.focusChild(item);
-			this.set("selected", item);
 
 			if(item.disabled){
 				return false;
 			}
 
 			if(item.popup){
+				this.set("selected", item);
+				this.set("activated", true);
 				this._openItemPopup(item, /^key/.test(evt.type));
 			}else{
 				// before calling user defined handler, close hierarchy of menus
@@ -311,8 +320,6 @@ define([
 				parent: this,
 				orient: this._orient || ["after", "before"],
 				onCancel: function(){ // called when the child menu is canceled
-					// set isActive=false (_closeChild vs _cleanUp) so that subsequent hovering will NOT open child menus
-					// which seems aligned with the UX of most applications (e.g. notepad, wordpad, paint shop pro)
 					if(focus){
 						// put focus back on my node before focused node is hidden
 						self.focusChild(from_item);
@@ -340,24 +347,6 @@ define([
 			// TAB nor SHIFT-TAB returns to the menu.  Only ESC or ENTER should return to the menu.
 		},
 
-		_markActive: function(){
-			// summary:
-			//		Mark this menu's state as active.
-			//		Called when this Menu gets focus from:
-			//
-			//		1. clicking it (mouse or via space/arrow key)
-			//		2. being opened by a parent menu.
-			//
-			//		This is not called just from mouse hover.
-			//		Focusing a menu via TAB does NOT automatically set isActive
-			//		since TAB is a navigation operation and not a selection one.
-			//		For Windows apps, pressing the ALT key focuses the menubar
-			//		menus (similar to TAB navigation) but the menu is not active
-			//		(ie no dropdown) until an item is clicked.
-			this.isActive = true;
-			domClass.replace(this.domNode, "dijitMenuActive", "dijitMenuPassive");
-		},
-
 		onOpen: function(/*Event*/ /*===== e =====*/){
 			// summary:
 			//		Callback when this menu is opened.
@@ -367,14 +356,7 @@ define([
 			//		private
 
 			this.isShowingNow = true;
-			this._markActive();
-		},
-
-		_markInactive: function(){
-			// summary:
-			//		Mark this menu's state as inactive.
-			this.isActive = false; // don't do this in _onBlur since the state is pending-close until we get here
-			domClass.replace(this.domNode, "dijitMenuPassive", "dijitMenuActive");
+			this.set("activated", true);
 		},
 
 		onClose: function(){
@@ -385,7 +367,7 @@ define([
 			// tags:
 			//		private
 
-			this._markInactive();
+			this.set("activated", false);
 			this.set("selected", null);
 			this.isShowingNow = false;
 			this.parentMenu = null;
@@ -449,7 +431,7 @@ define([
 
 			this._closeChild(); // don't call this.onClose since that's incorrect for MenuBar's that never close
 			if(typeof this.isShowingNow == 'undefined'){ // non-popup menu doesn't call onClose
-				this._markInactive();
+				this.set("activated", false);
 			}
 
 			this.set("selected", null);
