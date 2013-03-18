@@ -61,8 +61,14 @@ define([
 		parentMenu: null,
 
 		// popupDelay: Integer
-		//		number of milliseconds before hovering (without clicking) causes the popup to automatically open.
+		//		After a menu has been activated (by clicking on it etc.), number of milliseconds before hovering
+		//		(without clicking) another MenuItem causes that MenuItem's popup to automatically open.
 		popupDelay: 500,
+
+		// passivePopupDelay: Integer
+		//		For a passive (unclicked) Menu, number of milliseconds before hovering (without clicking) will cause
+		//		the popup to open.  Default is Infinity, meaning you need to click the menu to open it.
+		passivePopupDelay: Infinity,
 
 		// autoFocus: Boolean
 		//		A toggle to control whether or not a Menu gets focused when opened as a drop down from a MenuBar
@@ -197,6 +203,13 @@ define([
 						this._openItemPopup(item);
 					}, this.popupDelay);
 				}
+			}else if(this.passivePopupDelay < Infinity){
+				if(this.passive_hover_timer){
+					this.passive_hover_timer.remove();
+				}
+				this.passive_hover_timer = this.defer(function(){
+					this.onItemClick(item, {type: "click"});
+				}, this.passivePopupDelay);
 			}
 
 			this._hoveredChild = item;
@@ -230,6 +243,11 @@ define([
 
 			if(this._hoveredChild == item){
 				this._hoveredChild = null;
+			}
+
+			if(this.passive_hover_timer){
+				this.passive_hover_timer.remove();
+				this.passive_hover_timer = null;
 			}
 
 			item._set("hovering", false);
@@ -271,6 +289,10 @@ define([
 			//		Handle clicks on an item.
 			// tags:
 			//		private
+
+			if(this.passive_hover_timer){
+				this.passive_hover_timer.remove();
+			}
 
 			this.focusChild(item);
 
