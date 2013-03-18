@@ -126,6 +126,7 @@ There are three areas of styling for the Menu:
   background-image: url("images/spriteArrows.png");
   background-position: -14px 0;
   margin-right: 3px;
+  margin-bottom: 4px;
 }
 .claro .dijitMenuItemDisabled .dijitMenuItemIconCell {
   opacity: 1;
