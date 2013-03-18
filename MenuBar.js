@@ -80,7 +80,7 @@ define([
 			//		private
 			if(item.popup && item.popup.isShowingNow && (!/^key/.test(evt.type) || evt.keyCode !== keys.DOWN_ARROW)){
 				item.focusNode.focus();
-				this._cleanUp();
+				this._cleanUp(true);
 			}else{
 				this.inherited(arguments);
 			}

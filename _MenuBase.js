@@ -327,11 +327,8 @@ define([
 
 					// close the submenu (be sure this is done _after_ focus is moved)
 					self._cleanUp();
-
-					// oops, _cleanUp() deselected the item
-					self.set("selected", from_item);
 				},
-				onExecute: lang.hitch(this, "_cleanUp"),
+				onExecute: lang.hitch(this, "_cleanUp", true),
 				onClose: function(){
 					// Remove handler created by onItemHover
 					if(self._mouseoverHandle){
@@ -419,11 +416,11 @@ define([
 			// tags:
 			//		protected
 
-			this._cleanUp();
+			this._cleanUp(true);
 			this.inherited(arguments);
 		},
 
-		_cleanUp: function(){
+		_cleanUp: function(/*Boolean*/ clearSelectedItem){
 			// summary:
 			//		Called when the user is done with this menu.  Closes hierarchy of menus.
 			// tags:
@@ -434,7 +431,9 @@ define([
 				this.set("activated", false);
 			}
 
-			this.set("selected", null);
+			if(clearSelectedItem){
+				this.set("selected", null);
+			}
 		}
 	});
 });
