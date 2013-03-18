@@ -16,6 +16,9 @@ define([
 
 		baseClass: "dijitMenuBar",
 
+		// By default open popups for MenuBar instantly
+		popupDelay: 0,
+
 		// _isMenuBar: [protected] Boolean
 		//		This is a MenuBar widget, not a (vertical) Menu widget.
 		_isMenuBar: true,
@@ -40,16 +43,7 @@ define([
 
 			this.inherited(arguments);
 			if(this.activated && item.popup && !item.disabled){
-				this._openItemPopup(item, true);	// TODO: on down arrow, _openItemPopup() is called here and in onItemClick()
-			}
-		},
-
-		onItemHover: function(/*MenuItem*/ item){
-			// Overload onItemHover so that whenever a new item is hovered and the menu is active, open its submenu immediately.
-
-			this.inherited(arguments);
-			if(this.activated && item.popup && !item.disabled){
-				this._openItemPopup(item, false);
+				this._openItemPopup(item, true);
 			}
 		},
 
