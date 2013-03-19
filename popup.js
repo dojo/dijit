@@ -91,6 +91,32 @@ define([
 
 		_idGen: 1,
 
+		_repositionAll: function(){
+			// summary:
+			//		If screen has been scrolled, reposition all the popups in the stack.
+			//		Then set timer to check again later.
+
+			var oldPos = this._firstAroundPosition,
+				newPos = domGeometry.position(this._firstAroundNode, true),
+				dx = newPos.x - oldPos.x,
+				dy = newPos.y - oldPos.y;
+
+			if(dx || dy){
+				this._firstAroundPosition = newPos;
+				for(var i = 0; i < this._stack.length; i++){
+					var style = this._stack[i].wrapper.style;
+					style.top = (parseInt(style.top, 10) + dy) + "px";
+					if(style.right == "auto"){
+						style.left = (parseInt(style.left, 10) + dx) + "px";
+					}else{
+						style.right = (parseInt(style.right, 10) - dx) + "px";
+					}
+				}
+			}
+
+			this._aroundMoveListener = setTimeout(lang.hitch(this, "_repositionAll"), dx || dy ? 10 : 50);
+		},
+
 		_createWrapper: function(/*Widget*/ widget){
 			// summary:
 			//		Initialization for widgets that will be used as popups.
@@ -216,6 +242,13 @@ define([
 				dijitPopupParent: args.parent ? args.parent.id : ""
 			});
 
+			if(stack.length == 0 && around){
+				// First element on stack. Save position of aroundNode and setup listener for changes to that position.
+				this._firstAroundNode = around;
+				this._firstAroundPosition = domGeometry.position(around, true);
+				this._aroundMoveListener = setTimeout(lang.hitch(this, "_repositionAll"), 50);
+			}
+
 			if(has("config-bgIframe") && !widget.bgIframe){
 				// setting widget.bgIframe triggers cleanup in _Widget.destroy()
 				widget.bgIframe = new BackgroundIframe(wrapper);
@@ -266,6 +299,7 @@ define([
 
 			stack.push({
 				widget: widget,
+				wrapper: wrapper,
 				parent: args.parent,
 				onExecute: args.onExecute,
 				onCancel: args.onCancel,
@@ -321,6 +355,11 @@ define([
 				if(onClose){
 					onClose();
 				}
+			}
+
+			if(stack.length == 0 && this._aroundMoveListener){
+				clearTimeout(this._aroundMoveListener);
+				this._firstAroundNode = this._firstAroundPosition = this._aroundMoveListener = null;
 			}
 		}
 	});
