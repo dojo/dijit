@@ -4,8 +4,7 @@ define([
 	"dojo/dom-geometry", // domGeometry.setMarginBox
 	"dojo/has",
 	"dojo/query", // query
-	"./_FormValueWidget",
-	"dojo/touch" // not used directly, but allows me to set dojoClick flag on node and get responsive click handling
+	"./_FormValueWidget"
 ], function(array, declare, domGeometry, has, query, _FormValueWidget){
 
 	// module:
@@ -25,13 +24,6 @@ define([
 		baseClass: "dijitMultiSelect",
 
 		templateString: "<select multiple='true' ${!nameAttrSetting} data-dojo-attach-point='containerNode,focusNode' data-dojo-attach-event='onchange: _onChange'></select>",
-
-		buildRendering: function(){
-			this.inherited(arguments);
-
-			// get responsive click handling, see dojo/touch
-			this.domNode.dojoClick = true;
-		},
 
 		addSelected: function(/*dijit/form/MultiSelect*/ select){
 			// summary:
