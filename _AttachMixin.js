@@ -170,7 +170,7 @@ define([
 							thisFunc = event;
 						}
 
-						this._attachEvents.push(this.own(attachFunc(baseNode, event, lang.hitch(_attachScope, thisFunc)))[0]);
+						this._attachEvents.push(attachFunc(baseNode, event, lang.hitch(_attachScope, thisFunc)));
 					}
 				}
 			}
@@ -203,7 +203,10 @@ define([
 			return on(node, type, func);
 		},
 
-		destroyRendering: function(){
+		_detachTemplateNodes: function() {
+			// summary:
+			//		Detach and clean up the attachments made in _attachtempalteNodes.
+
 			// Delete all attach points to prevent IE6 memory leaks.
 			var _attachScope = this.attachScope || this;
 			array.forEach(this._attachPoints, function(point){
@@ -214,7 +217,10 @@ define([
 			// And same for event handlers
 			array.forEach(this._attachEvents, function(handle){ handle.remove(); });
 			this._attachEvents = [];
+		},
 
+		destroyRendering: function(){
+			this._detachTemplateNodes();
 			this.inherited(arguments);
 		}
 	});
