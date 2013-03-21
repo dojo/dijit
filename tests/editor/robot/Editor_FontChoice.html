@@ -334,7 +334,7 @@
 							doh.robot.mouseClick({left:true}, 1000);
 
 							// Verify the formatBlock plugin was found
-							doh.t(fcPlugin !== null, "formatBlock was found");
+							doh.isNot(null, fcPlugin, "formatBlock was found");
 
 							doh.robot.sequence(d.getTestErrback(function(){
 								var p = dojo.byId("text", editor.document);
@@ -358,17 +358,18 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								// Now check that the elements are all gone.
 								var selection = dojo.byId("selectionContainer", editor.document);
-								doh.t(selection.childNodes.length > 0, "Checking that there are still child nodes.");
+								doh.t(selection.childNodes.length > 0,
+										"Checking that there are still child nodes, actual was " + selection.childNodes.length);
 
 								var i;
 								var nodes = selection.childNodes;
 								for(i = 0; i < nodes.length; i++){
 									var n = nodes[i];
 									if(n.nodeType == 1){
-										var tag = n.nodeName? n.nodeName.toLowerCase() : "";
-										doh.t(tag != "p");
-										doh.t(tag != "h3");
-										doh.t(tag != "pre");
+										var tag = n.nodeName ? n.nodeName.toLowerCase() : "";
+										doh.isNot("p", tag, "selection node #" + i + " of " + nodes.length);
+										doh.isNot("h3", tag, "selection node #" + i + " of " + nodes.length);
+										doh.isNot("pre", tag, "selection node #" + i + " of " + nodes.length);
 									}
 								}
 							}), 1000);
