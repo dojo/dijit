@@ -614,6 +614,7 @@ define([
 			this.iframe.setAttribute("title", title);
 
 			return [
+				"<!DOCTYPE html>",
 				this.isLeftToRight() ? "<html lang='" + this.lang + "'>\n<head>\n" : "<html dir='rtl' lang='" + this.lang + "'>\n<head>\n",
 				//(has("mozilla") && label.length ? "<title>" + label[0].innerHTML + "</title>\n" : ""),
 				title ? "<title>" + title + "</title>" : "",
