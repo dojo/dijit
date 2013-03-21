@@ -86,8 +86,11 @@ define([
 				childSize = domGeometry.getMarginBox(this.child.domNode)[dim],
 				center = array.filter(this.container.getChildren(), function(child){
 					return child.region == "center";
-				})[0],
-				spaceAvailable = domGeometry.getMarginBox(center.domNode)[dim];	// can expand until center is crushed to 0
+				})[0];
+
+			// Can expand until center is crushed.  But always leave room for center's padding + border,
+			//  otherwise on the next call domGeometry methods start to lie about size.
+			var spaceAvailable = domGeometry.getContentBox(center.domNode)[dim] - 10;
 
 			return Math.min(this.child.maxSize, childSize + spaceAvailable);
 		},
@@ -120,9 +123,10 @@ define([
 				pageStart = e[axis],
 				splitterStyle = this.domNode.style,
 				dim = isHorizontal ? 'h' : 'w',
-				childStart = domGeometry.getMarginBox(this.child.domNode)[dim],
+				childCS = domStyle.getComputedStyle(this.child.domNode),
+				childStart = domGeometry.getMarginBox(this.child.domNode, childCS)[dim],
 				max = this._computeMaxSize(),
-				min = this.child.minSize || 20,
+				min = Math.max(this.child.minSize, domGeometry.getPadBorderExtents(this.child.domNode, childCS)[dim] + 10),
 				region = this.region,
 				splitterAttr = region == "top" || region == "bottom" ? "top" : "left", // style attribute of splitter to adjust
 				splitterStart = parseInt(splitterStyle[splitterAttr], 10),
