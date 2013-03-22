@@ -26,6 +26,7 @@
 			"dojo/aspect",
 			"dojo/cookie",
 			"dojo/dom-class",
+			"dojo/_base/lang",
 			"dojo/on",
 			"dojo/_base/window",
 			"dojo/store/Memory",
@@ -37,7 +38,7 @@
 			"dijit/tests/_data/geography",
 			"dijit/tests/helpers",	// functions to help test
 			"dojo/domReady!"
-		], function(doh, array, aspect, cookie, domClass, on, win, Memory, Observable,
+		], function(doh, array, aspect, cookie, domClass, lang, on, win, Memory, Observable,
 					registry, Tree, ObjectStoreModel, dndSource, data, helpers){
 
 			var myStore, myModel, myTree, myTree2;
@@ -850,6 +851,106 @@
 				}
 			]);
 
+			doh.register("HTML tree", [
+				function create(){
+					var d = new doh.Deferred();
+
+					// Create test store.
+					htmlData = array.map(data, function(o){
+						var n = lang.clone(o);
+						n.name = "<i>" + o.name + "</i>";
+						return n;
+					});
+					htmlStore = new Memory({
+						data: htmlData
+					});
+
+					// Since dojo.store.Memory doesn't have various store methods we need, we have to add them manually
+					htmlStore.getChildren = function(object){
+						// Add a getChildren() method to store for the data model where
+						// children objects point to their parent (aka relational model)
+						return this.query({parent: this.getIdentity(object)});
+					};
+
+					// Create the model
+					htmlModel = new ObjectStoreModel({
+						store: htmlStore,
+						labelType: "html",
+						query: {id: "earth"}
+					});
+					doh.t(htmlModel, "model created");
+
+					htmlTree = new Tree({
+						id: "htmlTree",
+						model: htmlModel
+					}).placeAt(win.body());
+					doh.t(htmlTree, "tree created");
+
+					htmlTree.startup();
+
+					world = htmlTree.rootNode;
+
+					return htmlTree.expandAll().then(function(){
+						doh.t(world, "root node exists");
+						doh.is("<i>The earth</i>", world.label, "world node label");
+						doh.is("<i>the earth</i>", world.labelNode.innerHTML.toLowerCase(), "world node labelNode.innerHTML");
+
+						var children = world.getChildren();
+						doh.is("<i>Africa</i>", children[0].label, "first child");
+						doh.is("<i>africa</i>", children[0].labelNode.innerHTML.toLowerCase(), "first child labelNode.innerHTML");
+					});
+				}
+			]);
+
+			doh.register("plain text tree", [
+				function create(){
+					var d = new doh.Deferred();
+
+					// Create test store.
+					plainTextData = array.map(data, function(o){
+						var n = lang.clone(o);
+						n.name = "<>&" + o.name;
+						return n;
+					});
+					plainTextStore = new Memory({
+						data: plainTextData
+					});
+
+					// Since dojo.store.Memory doesn't have various store methods we need, we have to add them manually
+					plainTextStore.getChildren = function(object){
+						// Add a getChildren() method to store for the data model where
+						// children objects point to their parent (aka relational model)
+						return this.query({parent: this.getIdentity(object)});
+					};
+
+					// Create the model
+					plainTextModel = new ObjectStoreModel({
+						store: plainTextStore,
+						labelType: "text",
+						query: {id: "earth"}
+					});
+					doh.t(plainTextModel, "model created");
+
+					plainTextTree = new Tree({
+						id: "plainTextTree",
+						model: plainTextModel
+					}).placeAt(win.body());
+					doh.t(plainTextTree, "tree created");
+
+					plainTextTree.startup();
+
+					world = plainTextTree.rootNode;
+
+					return plainTextTree.expandAll().then(function(){
+						doh.t(world, "root node exists");
+						doh.is("<>&The earth", world.label, "world node label");
+						doh.is("<>&The earth", helpers.innerText(world.labelNode), "world node labelNode.innerText");
+
+						var children = world.getChildren();
+						doh.is("<>&Africa", helpers.innerText(children[0].labelNode), "first child");
+					});
+				}
+			]);
 			doh.run();
 
  		});

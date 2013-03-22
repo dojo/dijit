@@ -33,6 +33,11 @@ define([
 		//		Get label for tree node from this attribute
 		labelAttr: "name",
 
+		// labelType: [const] String
+		//		Specifies how to interpret the labelAttr in the data store items.
+		//		Can be "html" or "text".
+		labelType: "text",
+
 		// root: [readonly] Object
 		//		Pointer to the root item from the dojo/store/api/Store (read only, not a parameter)
 		root: null,

@@ -78,7 +78,15 @@ define([
 		// label: String
 		//		Text of this tree node
 		label: "",
-		_setLabelAttr: {node: "labelNode", type: "innerText"},
+		_setLabelAttr: function(val){
+			this.labelNode[this.labelType == "html" ? "innerHTML" : "innerText" in this.labelNode ?
+				"innerText" : "textContent"] = val;
+			this._set("label", val);
+		},
+
+		// labelType: [const] String
+		//		Specifies how to interpret the label.  Can be "html" or "text".
+		labelType: "text",
 
 		// isExpandable: [private] Boolean
 		//		This node has children, so show the expando node (+ sign)
@@ -434,6 +442,7 @@ define([
 							tree: tree,
 							isExpandable: model.mayHaveChildren(item),
 							label: tree.getLabel(item),
+							labelType: (tree.model && tree.model.labelType) || "text",
 							tooltip: tree.getTooltip(item),
 							ownerDocument: tree.ownerDocument,
 							dir: tree.dir,
@@ -876,6 +885,7 @@ define([
 						tree: this,
 						isExpandable: true,
 						label: this.label || this.getLabel(item),
+						labelType: this.model.labelType || "text",
 						textDir: this.textDir,
 						indent: this.showRoot ? 0 : -1
 					}));
