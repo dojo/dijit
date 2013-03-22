@@ -44,7 +44,7 @@ define([
 		indeterminate: false,
 
 		// label: String?
-		//		Label on progress bar.   Defaults to percentage for determinate progress bar and
+		//		HTML label on progress bar.   Defaults to percentage for determinate progress bar and
 		//		blank for indeterminate progress bar.
 		label: "",
 
@@ -147,7 +147,7 @@ define([
 
 		report: function(/*float*/percent){
 			// summary:
-			//		Generates message to show inside progress bar (normally indicating amount of task completed).
+			//		Generates HTML message to show inside progress bar (normally indicating amount of task completed).
 			//		May be overridden.
 			// tags:
 			//		extension

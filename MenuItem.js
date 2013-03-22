@@ -29,7 +29,7 @@ define([
 		baseClass: "dijitMenuItem",
 
 		// label: String
-		//		Menu text
+		//		Menu text as HTML
 		label: "",
 		_setLabelAttr: function(val){
 			this._set("label", val);

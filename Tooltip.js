@@ -304,7 +304,7 @@ define([
 		//		Also provides static show() and hide() methods that can be used without instantiating a dijit/Tooltip.
 
 		// label: String
-		//		Text to display in the tooltip.
+		//		HTML to display in the tooltip.
 		//		Specified as innerHTML when creating the widget from markup.
 		label: "",
 

@@ -152,7 +152,8 @@ define([
 		//		the widget (just like the native HTML title attribute).
 		//
 		//		For TitlePane or for when this widget is a child of a TabContainer, AccordionContainer,
-		//		etc., it's used to specify the tab label, accordion pane title, etc.
+		//		etc., it's used to specify the tab label, accordion pane title, etc.  In this case it's
+		//		interpreted as HTML.
 		title: "",
 
 		// tooltip: String
