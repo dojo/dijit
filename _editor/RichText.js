@@ -1278,7 +1278,10 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		//focus() is required for IE to work
 		//In addition, focus() makes sure after the execution of
 		//the command, the editor receives the focus as expected
-		this.focus();
+		if(this.focused){
+			// put focus back in the iframe, unless focus has somehow been shifted out of the editor completely
+			this.focus();
+		}
 
 		command = this._normalizeCommand(command, argument);
 		
