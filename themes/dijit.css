@@ -81,6 +81,7 @@ table.dijitInline {
 }
 TABLE.dijitSelect {
 	padding: 0 !important; /* messes up border alignment */
+	border-collapse: separate; /* so jsfiddle works with Normalized CSS checked */
 }
 .dijitTextBox .dijitSpinnerButtonContainer,
 .dijitTextBox .dijitArrowButtonContainer,
