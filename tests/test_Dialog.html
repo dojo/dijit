@@ -115,7 +115,7 @@
 			</tr>
 			<tr>
 				<td colspan="2" style="text-align:center;">
-					<button id="ok" data-dojo-type="dijit/form/Button" data-dojo-props='type:"submit"'>OK</button></td>
+					<button id="ok" data-dojo-type="dijit/form/Button" type="submit">OK</button></td>
 			</tr>
 		</table>
 	</div>
@@ -238,7 +238,7 @@
 
 	<div id="preventer" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Confirm Close"'>
 		I am done entering data:
-		<button id="preventerOK" data-dojo-type="dijit/form/Button" data-dojo-props='type:"submit", onClick:function(){ return confirm("Are you sure?") }'>OK</button>
+		<button id="preventerOK" data-dojo-type="dijit/form/Button" type="submit" onClick='return confirm("Are you sure?");'>OK</button>
 	</div>
 
 	<button data-dojo-type="dijit/form/Button" data-dojo-props='onClick:function(){ dijit.byId("embedded").show() }'>Dialog w/embedded layout widgets</button> |
@@ -340,8 +340,8 @@
 		
 		
 		<div class="dijitDialogPaneActionBar">
-			<button id="ABdialog1button1" data-dojo-type="dijit/form/Button" data-dojo-props='type:"submit" '>OK</button>
-			<button id="ABdialog1button2" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button", onClick:function(){ dijit.byId("ABDlg1").onCancel(); }
+			<button id="ABdialog1button1" data-dojo-type="dijit/form/Button" type="submit">OK</button>
+			<button id="ABdialog1button2" data-dojo-type="dijit/form/Button" type="button" data-dojo-props='onClick:function(){ dijit.byId("ABDlg1").onCancel(); }
 					'>Cancel</button>
 		</div>
 	</div>
@@ -406,6 +406,19 @@
 	<div id="SelfDestructDlgBtn2" style="border: 1px solid black;" class="dijitInline" onclick="showSelfDestructDlg();" role="button">Show Self-Destruct Dialog (unfocusable div)</div>
 
 	<button data-dojo-type="dijit/form/Button" data-dojo-props='onClick:function(){ createDialog() }, title:"shows after 3 second delay, with blue background"'>Programatic Dialog (3 second delay)</button> |
+
+	<button id="unclosableButton" data-dojo-type="dijit/form/Button"  data-dojo-props='onClick:function(){ dijit.byId("unclosable").show() }'>Show Unclosable Dialog</button> |
+
+	<div id="unclosable" data-dojo-type="dijit/Dialog" title="Unclosable Dialog" data-dojo-props="closable:false">
+		<div class="dijitDialogPaneContentArea">
+			This dialog has no close icon and the ESCAPE key won't close it.  You need to use the buttons.
+		</div>
+		<div class="dijitDialogPaneActionBar">
+			<button id="unclosableSubmit" data-dojo-type="dijit/form/Button" type="submit">OK</button>
+			<button id="unclosableCancel" data-dojo-type="dijit/form/Button" type="button"
+					onClick='dijit.byId("unclosable").onCancel();'>Cancel</button>
+		</div>
+	</div>
 
 	<p><b><i>(scroll down to see more links to click, for testing positioning / scroll handling)</i></b></p>
 

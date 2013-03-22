@@ -99,30 +99,27 @@ define([
 		doLayout: false,
 
 		// draggable: Boolean
-		//		Toggles the moveable aspect of the Dialog. If true, Dialog
+		//		Toggles the movable aspect of the Dialog. If true, Dialog
 		//		can be dragged by it's title. If false it will remain centered
 		//		in the viewport.
 		draggable: true,
-
 		_setDraggableAttr: function(/*Boolean*/ val){
 			// Avoid _WidgetBase behavior of copying draggable attribute to this.domNode,
 			// as that prevents text select on modern browsers (#14452)
 			this._set("draggable", val);
 		},
 
-		// aria-describedby: String
-		//		Allows the user to add an aria-describedby attribute onto the dialog. The value should
-		//		be the id of the container element of text that describes the dialog purpose (usually
-		//		the first text in the dialog).
-		//	|	<div data-dojo-type="dijit/Dialog" aria-describedby="intro" .....>
-		//	|		<div id="intro">Introductory text</div>
-		//	|		<div>rest of dialog contents</div>
-		//	|	</div>
-		"aria-describedby": "",
-
 		// maxRatio: Number
 		//		Maximum size to allow the dialog to expand to, relative to viewport size
 		maxRatio: 0.9,
+
+		// closable: Boolean
+		//		Dialog show [x] icon to close itself, and ESC key will close the dialog.
+		closable: true,
+		_setClosableAttr: function(val){
+			this.closeButtonNode.style.display = val ? "" : "none";
+			this._set("closable", val);
+		},
 
 		postMixInProperties: function(){
 			var _nlsResources = i18n.getLocalization("dijit", "common");
@@ -310,7 +307,7 @@ define([
 					evt.stopPropagation();
 					evt.preventDefault();
 				}
-			}else if(evt.keyCode == keys.ESCAPE){
+			}else if(this.closable && evt.keyCode == keys.ESCAPE){
 				this.onCancel();
 				evt.stopPropagation();
 				evt.preventDefault();
