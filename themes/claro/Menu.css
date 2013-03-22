@@ -143,21 +143,30 @@ There are three areas of styling for the Menu:
   margin-bottom: 1px;
 }
 /* the checked menu item */
-.claro .dijitCheckedMenuItemIconChar {
-  display: none;
-}
-.claro .dijitCheckedMenuItemIcon {
+.claro .dijitCheckedMenuItem .dijitMenuItemIcon,
+.claro .dijitRadioMenuItem .dijitMenuItemIcon {
   background-image: url("form/images/checkboxRadioButtonStates.png");
   background-repeat: no-repeat;
   background-position: -15px 50%;
+  /* unchecked checkmark box */
+
   width: 15px;
   height: 16px;
 }
-.dj_ie6 .claro .dijitCheckedMenuItemIcon {
+.dj_ie6 .claro .dijitCheckedMenuItem .dijitMenuItemIcon,
+.dj_ie6 .claro .dijitRadioMenuItem .dijitMenuItemIcon {
   background-image: url("form/images/checkboxAndRadioButtons_IE6.png");
 }
 .claro .dijitCheckedMenuItemChecked .dijitCheckedMenuItemIcon {
   background-position: 0 50%;
+}
+.claro .dijitRadioMenuItem .dijitMenuItemIcon {
+  background-position: -105px 50%;
+  /* unfilled in circle */
+
+}
+.claro .dijitRadioMenuItemChecked .dijitMenuItemIcon {
+  background-position: -90px 50%;
 }
 /*ComboBox Menu*/
 .claro .dijitComboBoxMenu {

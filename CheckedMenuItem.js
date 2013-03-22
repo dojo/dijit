@@ -13,6 +13,8 @@ define([
 		// summary:
 		//		A checkbox-like menu item for toggling on and off
 
+		baseClass: "dijitCheckedMenuItem",
+
 		templateString: template,
 
 		// checked: Boolean
@@ -22,12 +24,18 @@ define([
 			// summary:
 			//		Hook so attr('checked', bool) works.
 			//		Sets the class and state for the check box.
-			domClass.toggle(this.domNode, "dijitCheckedMenuItemChecked", checked);
+			domClass.toggle(this.domNode, this.baseClass + "Checked", checked);
 			this.domNode.setAttribute("aria-checked", checked ? "true" : "false");
 			this._set("checked", checked);
 		},
 
 		iconClass: "",	// override dijitNoIcon
+
+		role: "menuitemcheckbox",
+
+		// checkedChar: String
+		//		Character (or string) used in place of checkbox icon when display in high contrast mode
+		checkedChar: "&#10003;",
 
 		onChange: function(/*Boolean*/ /*===== checked =====*/){
 			// summary:

@@ -134,8 +134,10 @@
 <script type="text/javascript">
 	require([
 		"dojo/_base/array", "dojo/_base/fx", "dojo/dom", "dojo/dom-class", "dojo/dom-geometry", "dojo/dom-style",
-		"dojo/date/locale", "dojo/parser", "dojo/store/Memory",
-		"dijit/registry", "dijit/MenuItem", "dijit/tree/ObjectStoreModel",
+		"dojo/hccss", "dojo/date/locale", "dojo/parser", "dojo/store/Memory",
+		"dijit/registry", "dijit/tree/ObjectStoreModel",
+
+		"dijit/CheckedMenuItem", "dijit/RadioMenuItem", "dijit/MenuSeparator",
 
 		// Editors used by InlineEditBox.  Must be pre-loaded.
 		"dijit/form/Textarea", "dijit/form/DateTextBox", "dijit/form/TimeTextBox", "dijit/form/FilteringSelect",
@@ -146,7 +148,8 @@
 
 		// Don't call the parser until the DOM has finished loading
 		"dojo/domReady!"
-	], function(array, baseFx, dom, domClass, domGeom, domStyle, locale, parser,Memory, registry, MenuItem, ObjectStoreModel){
+	], function(array, baseFx, dom, domClass, domGeom, domStyle, has, locale, parser, Memory, registry, ObjectStoreModel,
+			CheckedMenuItem, RadioMenuItem, MenuSeparator){
 		// If you are doing box-model sizing then need to tell dom-geometry, see #15104
 		if(domStyle.get(document.body, "boxSizing") == "border-box" ||
 				domStyle.get(document.body, "MozBoxSizing") == "border-box"){
@@ -304,7 +307,6 @@
 
 			logStrayGlobals();
 
-			// Fill in menu/links to get to other themes.
 			// availableThemes[] is just a list of 'official' dijit themes, you can use ?theme=String
 			// for 'un-supported' themes, too. (eg: yours)
 			var availableThemes = [
@@ -314,22 +316,61 @@
 				{ theme: "nihilo", author: "nikolai", baseUri: "../themes/" }
 			];
 
+			// Get current theme, a11y, and dir setting for page
+			var curTheme = location.search.replace(/.*theme=([a-z]+).*/, "$1") || "claro",
+				a11y = has("highcontrast") || /a11y=true/.test(location.search),
+				rtl = document.body.parentNode.dir == "rtl";
+			console.log("Theme: " + curTheme + ", high contrast = " + a11y + ", dir = " + (rtl ? "rtl" : "ltr"));
+
+			function setUrl(theme, rtl, a11y){
+				// Function to reload page with specified theme, rtl, and a11y settings
+				location.search = "?theme=" + theme + (rtl ? "&dir=rtl" : "") + (a11y ? "&a11y=true" : "");
+			}
+
+			// Create menu choices and links to test other themes
 			var tmpString = '';
 			array.forEach(availableThemes, function(theme){
-				tmpString +=
-						'<a href="?theme=' + theme.theme + '">' + theme.theme + '</' + 'a> (' +
-								'<a href="?theme=' + theme.theme + '&dir=rtl">RTL</' + 'a> ' +
-								'<a href="?theme=' + theme.theme + '&a11y=true">high-contrast</' + 'a> ' +
-								'<a href="?theme=' + theme.theme + '&dir=rtl&a11y=true">RTL+high-contrast</' + 'a> )' +
-								' - by: ' + theme.author + ' <br>';
-				registry.byId('themeMenu').addChild(new MenuItem({
-					label: theme.theme,
-					onClick: function(){
-						location.search = "?theme=" + theme.theme;
-					}
-				}))
+				if(theme != curTheme){
+					tmpString +=
+							'<a href="?theme=' + theme.theme + '">' + theme.theme + '</' + 'a> (' +
+									'<a href="?theme=' + theme.theme + '&dir=rtl">RTL</' + 'a> ' +
+									'<a href="?theme=' + theme.theme + '&a11y=true">high-contrast</' + 'a> ' +
+									'<a href="?theme=' + theme.theme + '&dir=rtl&a11y=true">RTL+high-contrast</' + 'a> )' +
+									' - by: ' + theme.author + ' <br>';
+				}
 			});
 			dom.byId('themeData').innerHTML = tmpString;
+
+			// Create menu choices to test other themes
+			array.forEach(availableThemes, function(theme){
+				registry.byId('themeMenu').addChild(new RadioMenuItem({
+					id: theme.theme + "_radio",
+					label: theme.theme,
+					group: "theme",
+					checked: theme.theme == curTheme,
+					onClick: function(){
+						// Change theme, keep current a11y and rtl settings
+						setUrl(theme.theme, a11y, rtl);
+					}
+				}));
+			});
+			registry.byId('themeMenu').addChild(new MenuSeparator({}));
+			registry.byId('themeMenu').addChild(new CheckedMenuItem({
+				label: "RTL",
+				checked: rtl,
+				onChange: function(val){
+					// Keep current theme and a11y setting, but use new dir setting
+					setUrl(curTheme, val, a11y);
+				}
+			}));
+			registry.byId('themeMenu').addChild(new CheckedMenuItem({
+				label: "high contrast",
+				checked: a11y,
+				onChange: function(val){
+					// Keep current theme and dir setting, but use high-contrast (or not-high-contrast) setting
+					setUrl(curTheme, rtl, val);
+				}
+			}));
 
 			// It's the server's responsibility to localize the date displayed in the (non-edit) version of an InlineEditBox,
 			// but since we don't have a server we'll hack it in the client
@@ -469,11 +510,11 @@
 				<span>Zoom</span>
 
 				<div data-dojo-type="dijit/Menu" id="zoomMenu">
-					<div data-dojo-type="dijit/MenuItem">50%</div>
-					<div data-dojo-type="dijit/MenuItem">75%</div>
-					<div data-dojo-type="dijit/MenuItem">100%</div>
-					<div data-dojo-type="dijit/MenuItem">150%</div>
-					<div data-dojo-type="dijit/MenuItem">200%</div>
+					<div data-dojo-type="dijit/RadioMenuItem" data-dojo-props="group:'zoom'">50%</div>
+					<div data-dojo-type="dijit/RadioMenuItem" data-dojo-props="group:'zoom'">75%</div>
+					<div data-dojo-type="dijit/RadioMenuItem" data-dojo-props="group:'zoom', checked:true">100%</div>
+					<div data-dojo-type="dijit/RadioMenuItem" data-dojo-props="group:'zoom'">150%</div>
+					<div data-dojo-type="dijit/RadioMenuItem" data-dojo-props="group:'zoom'">200%</div>
 				</div>
 			</div>
 		</div>
@@ -495,15 +536,15 @@
 		<span>TextBox Padding</span>
 
 		<div data-dojo-type="dijit/Menu" id="inputPaddingMenu">
-			<div data-dojo-type="dijit/CheckedMenuItem" data-dojo-props="onClick:setTextBoxPadding, checked:true">theme
+			<div data-dojo-type="dijit/RadioMenuItem" data-dojo-props="group:'padding', onClick:setTextBoxPadding, checked:true">theme
 				default
 			</div>
-			<div data-dojo-type="dijit/CheckedMenuItem" data-dojo-props="onClick:setTextBoxPadding">0px</div>
-			<div data-dojo-type="dijit/CheckedMenuItem" data-dojo-props="onClick:setTextBoxPadding">1px</div>
-			<div data-dojo-type="dijit/CheckedMenuItem" data-dojo-props="onClick:setTextBoxPadding">2px</div>
-			<div data-dojo-type="dijit/CheckedMenuItem" data-dojo-props="onClick:setTextBoxPadding">3px</div>
-			<div data-dojo-type="dijit/CheckedMenuItem" data-dojo-props="onClick:setTextBoxPadding">4px</div>
-			<div data-dojo-type="dijit/CheckedMenuItem" data-dojo-props="onClick:setTextBoxPadding">5px</div>
+			<div data-dojo-type="dijit/RadioMenuItem" data-dojo-props="group:'padding', onClick:setTextBoxPadding">0px</div>
+			<div data-dojo-type="dijit/RadioMenuItem" data-dojo-props="group:'padding', onClick:setTextBoxPadding">1px</div>
+			<div data-dojo-type="dijit/RadioMenuItem" data-dojo-props="group:'padding', onClick:setTextBoxPadding">2px</div>
+			<div data-dojo-type="dijit/RadioMenuItem" data-dojo-props="group:'padding', onClick:setTextBoxPadding">3px</div>
+			<div data-dojo-type="dijit/RadioMenuItem" data-dojo-props="group:'padding', onClick:setTextBoxPadding">4px</div>
+			<div data-dojo-type="dijit/RadioMenuItem" data-dojo-props="group:'padding', onClick:setTextBoxPadding">5px</div>
 		</div>
 	</div>
 	<div data-dojo-type="dijit/PopupMenuBarItem" id="help">

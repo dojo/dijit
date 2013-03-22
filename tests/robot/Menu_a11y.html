@@ -167,7 +167,7 @@
 							robot.typeKeys("z", 500, 200);
 
 							robot.sequence(d.getTestCallback(function(){
-								doh.is("50%", helpers.innerText(dfocus.curNode).substr(0, 3), "focus on '50%'");
+								doh.t(/50%/.test(helpers.innerText(dfocus.curNode)), "focus on '50%'");
 								robot.keyPress(keys.ENTER, 0, {}, true); // close popup menus
 							}), 1000, 500);
 

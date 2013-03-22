@@ -3,6 +3,7 @@ define(["doh/main", "require"], function(doh, require){
 	// top level widget tests
 	doh.register("Bidi", require.toUrl("./Bidi.html"), 999999);
 
+	doh.register("Menu", require.toUrl("./Menu.html"), 999999);
 	doh.register("robot.Menu_mouse", require.toUrl("./robot/Menu_mouse.html"), 999999);
 	doh.register("robot.Menu_a11y", require.toUrl("./robot/Menu_a11y.html"), 999999);
 	doh.register("robot.Menu_iframe", require.toUrl("./robot/Menu_iframe.html"), 999999);

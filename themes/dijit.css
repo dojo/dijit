@@ -1321,19 +1321,17 @@ Hiding the focus border also works around webkit bug https://code.google.com/p/c
 	font-size: 1px;
 }
 
-/* the checked menu item */
-.dijitCheckedMenuItemIconChar {
-	vertical-align: middle;
-	visibility:hidden;
+/* CheckedMenuItem and RadioMenuItem */
+.dijitMenuItemIconChar {
+	display: none;		/* don't display except in high contrast mode */
+	visibility: hidden;	/* for high contrast mode when menuitem is unchecked: leave space for when it is checked */
 }
-.dijitCheckedMenuItemChecked .dijitCheckedMenuItemIconChar {
-	visibility: visible;
+.dj_a11y .dijitMenuItemIconChar {
+	display: inline;	/* display character in high contrast mode, since icon doesn't show */
 }
-.dj_a11y .dijitCheckedMenuItemIconChar {
-	display:inline !important;
-}
-.dj_a11y .dijitCheckedMenuItemIcon {
-	display: none;
+.dijitCheckedMenuItemChecked .dijitMenuItemIconChar,
+.dijitRadioMenuItemChecked .dijitMenuItemIconChar {
+	visibility: visible; /* menuitem is checked */
 }
 .dj_ie .dj_a11y .dijitMenuBar .dijitMenuItem {
 	/* so bottom border of MenuBar appears on IE7 in high-contrast mode */

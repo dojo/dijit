@@ -42,6 +42,7 @@
 		dojo.require("dijit.MenuItem");
 		dojo.require("dijit.PopupMenuItem");
 		dojo.require("dijit.CheckedMenuItem");
+		dojo.require("dijit.RadioMenuItem");
 		dojo.require("dijit.MenuSeparator");
 
 		dojo.require("dijit.MenuBar");
@@ -251,11 +252,11 @@
 							<div data-dojo-type="dijit/PopupMenuItem">
 								<span>{Z}oom</span>
 								<div id="zoomMenu" data-dojo-type="dijit/Menu" >
-									<div data-dojo-type="dijit/MenuItem">50%</div>
-									<div data-dojo-type="dijit/MenuItem">75%</div>
-									<div data-dojo-type="dijit/MenuItem">100%</div>
-									<div data-dojo-type="dijit/MenuItem">150%</div>
-									<div data-dojo-type="dijit/MenuItem">200%</div>
+									<div data-dojo-type="dijit/RadioMenuItem" data-dojo-props="group:'zoom'">50%</div>
+									<div data-dojo-type="dijit/RadioMenuItem" data-dojo-props="group:'zoom'">75%</div>
+									<div data-dojo-type="dijit/RadioMenuItem" data-dojo-props="group:'zoom', checked:true">100%</div>
+									<div data-dojo-type="dijit/RadioMenuItem" data-dojo-props="group:'zoom'">150%</div>
+									<div data-dojo-type="dijit/RadioMenuItem" data-dojo-props="group:'zoom'">200%</div>
 								</div>
 							</div>
 						</div>
