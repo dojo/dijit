@@ -33,7 +33,7 @@ define([
 
 		// Template has two divs; outer div is used for fade-in/fade-out, and also to hold background iframe.
 		// Inner div has opacity specified in CSS file.
-		templateString: "<div class='dijitDialogUnderlayWrapper'><div class='dijitDialogUnderlay' data-dojo-attach-point='node'></div></div>",
+		templateString: "<div class='dijitDialogUnderlayWrapper'><div class='dijitDialogUnderlay' tabIndex='-1' data-dojo-attach-point='node'></div></div>",
 
 		// Parameters on creation or updatable later
 
@@ -60,10 +60,11 @@ define([
 		},
 
 		postCreate: function(){
-			// summary:
-			//		Append the underlay to the body
-
+			// Append the underlay to the body
 			this.ownerDocumentBody.appendChild(this.domNode);
+
+			this.own(on(this.domNode, "keydown", lang.hitch(this, "_onKeyDown")));
+
 			this.inherited(arguments);
 		},
 
@@ -125,6 +126,11 @@ define([
 		destroy: function(){
 			while(this._modalConnects.length){ (this._modalConnects.pop()).remove(); }
 			this.inherited(arguments);
+		},
+
+		_onKeyDown: function(){
+			// summary:
+			//		Extension point so Dialog can monitor keyboard events on the underlay.
 		}
 	});
 

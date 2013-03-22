@@ -200,6 +200,7 @@ define([
 				"class": array.map(this["class"].split(/\s/),function(s){
 					return s + "_underlay";
 				}).join(" "),
+				_onKeyDown: lang.hitch(this, "_onKey"),
 				ownerDocument: this.ownerDocument
 			};
 		},
@@ -543,7 +544,7 @@ define([
 			domStyle.set(dialog.domNode, 'zIndex', zIndex);
 
 			// Display the underlay, or if already displayed then adjust for this new dialog
-			DialogUnderlay.show(underlayAttrs, zIndex - 1, lang.hitch(dialog, "focus"));
+			DialogUnderlay.show(underlayAttrs, zIndex - 1);
 
 			ds.push({dialog: dialog, underlayAttrs: underlayAttrs, zIndex: zIndex});
 		},

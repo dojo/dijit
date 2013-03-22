@@ -15,9 +15,9 @@
 <script type="text/javascript">
 require([
 	"doh/runner", "dojo/robotx",
-	"dojo/aspect", "dojo/dom", "dojo/query",
+	"dojo/aspect", "dojo/dom", "dojo/keys", "dojo/query",
 	"dijit/tests/helpers", "dojo/domReady!"
-], function(doh, robot, aspect, dom, query, helpers){
+], function(doh, robot, aspect, dom, keys, query, helpers){
 
 	robot.initRobot('../test_Dialog.html');
 
@@ -295,6 +295,59 @@ require([
 			timeout: 10000,
 			runTest: function(){
 				return registry.byId('dialog1').hide();
+			}
+		}
+	]);
+
+	doh.register("ESC", [
+		{
+			name: "open dialog",
+			timeout: 4000,
+			runTest: function(){
+				var d = new doh.Deferred();
+
+				// Open the dialog
+				robot.mouseMoveAt("dialog1button", 1000);
+				robot.mouseClick({left: true}, 1000);
+				robot.sequence(d.getTestCallback(function(){}));
+
+				return d;
+			}
+		},
+
+		{
+			name: "click background",
+			timeout: 4000,
+			runTest: function(){
+				var d = new doh.Deferred();
+
+				robot.mouseMoveAt("plainInput", 500);
+				robot.mouseClick({left: true}, 1000);
+
+				robot.sequence(d.getTestCallback(function(){
+					doh.t(helpers.isVisible("dialog1"), "dialog 1 still visible");
+					doh.isNot("plainInput", dfocus.curNode && dfocus.curNode.id,
+							"focus did not go to plain input");
+				}), 1000);
+
+				return d;
+			}
+		},
+
+		{
+			name: "close via ESC",
+			timeout: 4000,
+			runTest: function(){
+				var d = new doh.Deferred();
+
+				robot.keyPress(keys.ESCAPE, 500, {});
+
+				robot.sequence(d.getTestCallback(function(){
+					doh.t(helpers.isHidden("dialog1"), "dialog 1 was closed");
+					doh.is("dialog1button", dfocus.curNode.id, "focus returned to button");
+				}), 1000);
+
+				return d;
 			}
 		}
 	]);
