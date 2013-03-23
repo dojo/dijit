@@ -148,7 +148,7 @@ There are three areas of styling for the Menu:
   background-image: url("form/images/checkboxRadioButtonStates.png");
   background-repeat: no-repeat;
   background-position: -15px 50%;
-  /* unchecked checkmark box */
+  /* unchecked checkbox */
 
   width: 15px;
   height: 16px;
@@ -159,14 +159,18 @@ There are three areas of styling for the Menu:
 }
 .claro .dijitCheckedMenuItemChecked .dijitCheckedMenuItemIcon {
   background-position: 0 50%;
+  /* checked checkbox */
+
 }
 .claro .dijitRadioMenuItem .dijitMenuItemIcon {
   background-position: -105px 50%;
-  /* unfilled in circle */
+  /* unfilled circle */
 
 }
 .claro .dijitRadioMenuItemChecked .dijitMenuItemIcon {
   background-position: -90px 50%;
+  /* filled circle */
+
 }
 /*ComboBox Menu*/
 .claro .dijitComboBoxMenu {
