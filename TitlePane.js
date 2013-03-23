@@ -95,7 +95,7 @@ define([
 			// This should really be controlled from _setToggleableAttr() but _CssStateMixin
 			// doesn't provide a way to disconnect a previous _trackMouseState() call
 			if(this.toggleable){
-				this._trackMouseState(this.titleBarNode, "dijitTitlePaneTitle");
+				this._trackMouseState(this.titleBarNode, this.baseClass + "Title");
 			}
 
 			// setup open/close animations
@@ -220,7 +220,7 @@ define([
 
 			var node = this.titleBarNode || this.focusNode;
 			var oldCls = this._titleBarClass;
-			this._titleBarClass = "dijitTitlePaneTitle" + (this.toggleable ? "" : "Fixed") + (this.open ? "Open" : "Closed");
+			this._titleBarClass = this.baseClass + "Title" + (this.toggleable ? "" : "Fixed") + (this.open ? "Open" : "Closed");
 			domClass.replace(node, this._titleBarClass, oldCls || "");
 
 			// Back compat, remove for 2.0

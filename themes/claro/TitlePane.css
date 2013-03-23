@@ -1,4 +1,4 @@
-/* TitlePane 
+/* TitlePane and Fieldset
  * 
  * Styling TitlePane means styling the TitlePane title and its content container  (dijitTitlePane)
  * 
@@ -31,6 +31,10 @@
   min-height: 17px;
   color: #494949;
 }
+.claro .dijitFieldset {
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
 .claro .dijitTitlePaneTitleOpen,
 .claro .dijitTitlePaneTitleFixedOpen {
   background-color: #cfe5fa;
@@ -55,16 +59,19 @@
   margin-top: 3px;
   padding-bottom: 2px;
 }
-.claro .dijitTitlePane .dijitArrowNode {
+.claro .dijitTitlePane .dijitArrowNode,
+.claro .dijitFieldset .dijitArrowNode {
   background-image: url("images/spriteArrows.png");
   background-repeat: no-repeat;
   height: 8px;
   width: 7px;
 }
-.claro .dijitTitlePaneTitleOpen .dijitArrowNode {
+.claro .dijitTitlePaneTitleOpen .dijitArrowNode,
+.claro .dijitFieldsetTitleOpen .dijitArrowNode {
   background-position: 0 0;
 }
-.claro .dijitTitlePaneTitleClosed .dijitArrowNode {
+.claro .dijitTitlePaneTitleClosed .dijitArrowNode,
+.claro .dijitFieldsetTitleClosed .dijitArrowNode {
   background-position: -14px 0;
 }
 .claro .dijitTitlePaneContentOuter {
@@ -75,7 +82,11 @@
 .claro .dijitTitlePaneContentInner {
   padding: 10px;
 }
-.claro .dijitTitlePaneTextNode {
+.claro .dijitFieldsetContentInner {
+  padding: 4px;
+}
+.claro .dijitTitlePaneTextNode,
+.claro .dijitFieldsetLegendNode {
   margin-left: 4px;
   margin-right: 4px;
   vertical-align: text-top;

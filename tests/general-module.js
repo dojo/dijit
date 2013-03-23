@@ -32,6 +32,7 @@ define(["doh/main", "require"], function(doh, require){
 	doh.register("robot.Calendar_a11y", require.toUrl("./robot/Calendar_a11y.html"), 999999);
 
 	doh.register("robot.TitlePane", require.toUrl("./robot/TitlePane.html"), 999999);
+	doh.register("Fieldset", require.toUrl("./Fieldset.html"), 999999);
 
 	doh.register("robot.Toolbar", require.toUrl("./robot/Toolbar.html"), 999999);
 

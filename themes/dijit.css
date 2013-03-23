@@ -1005,13 +1005,16 @@ body .dijitAlignClient { position: absolute; }
 	margin-right: 9px;
 }
 
-/* TitlePane */
+/* TitlePane and Fieldset */
 
 .dijitTitlePane {
 	display: block;
 	overflow: hidden;
 }
-.dijitTitlePaneTitle {
+.dijitFieldset {
+	border: 1px solid gray;
+}
+.dijitTitlePaneTitle, .dijitFieldset legend {
 	cursor: pointer;
 	-webkit-tap-highlight-color: transparent;
 }
@@ -1028,17 +1031,17 @@ body .dijitAlignClient { position: absolute; }
 .dijitTitlePaneTitle * {
 	vertical-align: middle;
 }
-.dijitTitlePane .dijitArrowNodeInner {
+.dijitTitlePane .dijitArrowNodeInner, .dijitFieldset .dijitArrowNodeInner {
 	/* normally, hide arrow text in favor of icon */
 	display: none;
 }
-.dj_a11y .dijitTitlePane .dijitArrowNodeInner {
+.dj_a11y .dijitTitlePane .dijitArrowNodeInner, .dj_a11y .dijitFieldset .dijitArrowNodeInner {
 	/* ... except in a11y mode, then show text arrow */
 	display:inline !important;
 	font-family: monospace;		/* because - and + are different widths */
 }
-.dj_a11y .dijitTitlePane .dijitArrowNode {
-	/* ... and hide icon */
+.dj_a11y .dijitTitlePane .dijitArrowNode, .dj_a11y .dijitFieldset .dijitArrowNode {
+	/* ... and hide icon (TODO: just point dijitIcon class on the icon, and it hides automatically) */
 	display:none;
 }
 
