@@ -118,7 +118,7 @@ define([
 					var tag = evt.target.tagName.toLowerCase();
 					if(tag == "#document" || tag == "body"){ return; }
 
-					if(a11y.isTabNavigable(evt.srcElement)){
+					if(a11y.isTabNavigable(evt.target)){
 						// If condition doesn't seem quite right, but it is correctly preventing focus events for
 						// clicks on disabled buttons.
 						_this._onFocusNode(effectiveNode || evt.target);
