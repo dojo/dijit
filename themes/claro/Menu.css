@@ -45,14 +45,6 @@ There are three areas of styling for the Menu:
 .claro .dijitMenu {
   background-color: #ffffff;
   border: 1px solid #759dc0;
-  /* so adjoining borders of MenuBar/ComboBox and Menu overlap, avoiding double border */
-
-  margin: -1px 0;
-}
-.dj_ie6 .claro .dijitMenu {
-  margin: 0;
-  /* above -1px makes top/bottom borders disappear on IE6 */
-
 }
 .claro .dijitMenuItem {
   color: #000000;

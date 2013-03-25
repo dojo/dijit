@@ -13,8 +13,10 @@ define([
 	"dojo/on",
 	"./place",
 	"./BackgroundIframe",
+	"./Viewport",
 	"./main"    // dijit (defining dijit.popup to match API doc)
-], function(array, aspect, declare, dom, domAttr, domConstruct, domGeometry, domStyle, has, keys, lang, on, place, BackgroundIframe, dijit){
+], function(array, aspect, declare, dom, domAttr, domConstruct, domGeometry, domStyle, has, keys, lang, on,
+			place, BackgroundIframe, Viewport, dijit){
 
 	// module:
 	//		dijit/popup
@@ -61,6 +63,10 @@ define([
 		 //		callback when user "executed" on the popup/sub-popup by selecting a menu choice, etc. (top menu only)
 		 // padding: place.__Position
 		 //		adding a buffer around the opening position. This is only useful when around is not set.
+		 // maxHeight: Integer
+		 //		The max height for the popup.  Any popup taller than this will have scrollbars.
+		 //		Set to Infinity for no max height.  Default is to limit height to available space in viewport,
+		 //		above or below the aroundNode or specified x/y position.
 	 };
 	 =====*/
 
@@ -171,6 +177,8 @@ define([
 			style[ltr ? "left" : "right"] = "-9999px";
 			style[ltr ? "right" : "left"] = "auto";
 			domStyle.set(wrapper, style);
+
+			return wrapper;
 		},
 
 		hide: function(/*Widget*/ widget){
@@ -187,6 +195,13 @@ define([
 			var wrapper = this._createWrapper(widget);
 
 			domStyle.set(wrapper, "display", "none");
+
+			// Open() may have moved border from popup to wrapper.  Move it back.
+			var node = widget.domNode;
+			if("_originalStyle" in node){
+				node.style.cssText = node._originalStyle;
+				wrapper.style.border = "";
+			}
 		},
 
 		getTopPopup: function(){
@@ -217,6 +232,7 @@ define([
 
 			var stack = this._stack,
 				widget = args.popup,
+				node = widget.domNode,
 				orient = args.orient || ["below", "below-alt", "above", "above-alt"],
 				ltr = args.parent ? args.parent.isLeftToRight() : domGeometry.isBodyLtr(widget.ownerDocument),
 				around = args.around,
@@ -229,9 +245,43 @@ define([
 				this.close(stack[stack.length - 1].widget);
 			}
 
-			// Get pointer to popup wrapper, and create wrapper if it doesn't exist
-			var wrapper = this._createWrapper(widget);
+			// Get pointer to popup wrapper, and create wrapper if it doesn't exist.  Remove display:none (but keep
+			// off screen) so we can do sizing calculations.
+			var wrapper = this.moveOffScreen(widget);
 
+			if(widget.startup && !widget._started){
+				widget.startup(); // this has to be done after being added to the DOM
+			}
+
+			// Limit height to space available in viewport either above or below aroundNode (whichever side has more
+			// room), adding scrollbar if necessary. Can't add scrollbar to widget because it may be a <table> (ex:
+			// dijit/Menu), so add to wrapper, and then move popup's border to wrapper so scroll bar inside border.
+			var maxHeight, popupSize = domGeometry.position(node);
+			if("maxHeight" in args && args.maxHeight != -1){
+				maxHeight = args.maxHeight || Infinity;	// map 0 --> infinity for back-compat of _HasDropDown.maxHeight
+			}else{
+				var viewport = Viewport.getEffectiveBox(this.ownerDocument),
+					aroundPos = around ? domGeometry.position(around, false) : {y: args.y - (args.padding||0), h: (args.padding||0) * 2};
+				maxHeight = Math.floor(Math.max(aroundPos.y, viewport.h - (aroundPos.y + aroundPos.h)));
+			}
+			if(popupSize.h > maxHeight){
+				// Get style of popup's border.  Unfortunately domStyle.get(node, "border") doesn't work on FF or IE,
+				// and domStyle.get(node, "borderColor") etc. doesn't work on FF, so need to use fully qualified names.
+				var cs = domStyle.getComputedStyle(node),
+					borderStyle = cs.borderLeftWidth + " " + cs.borderLeftStyle + " " + cs.borderLeftColor;
+				domStyle.set(wrapper, {
+					overflowY: "scroll",
+					height: maxHeight + "px",
+					border: borderStyle	// so scrollbar is inside border
+				});
+				node._originalStyle = node.style.cssText;
+				node.style.border = "none";
+			}else{
+				domStyle.set(wrapper, {
+					overflow: "visible",
+					height: "auto"
+				});
+			}
 
 			domAttr.set(wrapper, {
 				id: id,
@@ -261,9 +311,8 @@ define([
 					place.at(wrapper, args, orient == 'R' ? ['TR', 'BR', 'TL', 'BL'] : ['TL', 'BL', 'TR', 'BR'], args.padding,
 						layoutFunc);
 
-			wrapper.style.display = "";
 			wrapper.style.visibility = "visible";
-			widget.domNode.style.visibility = "visible";	// counteract effects from _HasDropDown
+			node.style.visibility = "visible";	// counteract effects from _HasDropDown
 
 			var handlers = [];
 

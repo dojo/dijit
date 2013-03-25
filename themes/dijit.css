@@ -120,6 +120,7 @@ TABLE.dijitSelect {
 	margin: 0;
 	border: 0;
 	padding: 0;
+	-webkit-overflow-scrolling: touch;
 }
 
 .dijitPositionOnly {
@@ -2151,13 +2152,6 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 /* Fix the styling of the dropdown menu to be more combobox-like */
 .dijitSelectMenu {
 	border-width: 1px;
-}
-
-/* Style the different areas of the button to look like a "real" dropdown */
-/* Remove margins on the sub-table */
-.dijitSelectMenu .dijitMenuTable {
-	margin: 0;
-	background-color: transparent;
 }
 
 /* Used in cases, such as FullScreen plugin, when we need to force stuff to static positioning. */

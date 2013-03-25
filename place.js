@@ -263,10 +263,25 @@ define([
 			//		(ie, put node above aroundNode, with right edges aligned)
 			//
 
-			// if around is a DOMNode (or DOMNode id), convert to coordinates
-			var aroundNodePos = (typeof anchor == "string" || "offsetWidth" in anchor)
-				? domGeometry.position(anchor, true)
-				: anchor;
+			// If around is a DOMNode (or DOMNode id), convert to coordinates.  Subtract width of border so that popup
+			// and aroundNode borders overlap, preventing a double-border effect.  Unfortunately, diffcult to measure
+			// the border width of either anchor or popup because in both cases the border may be on an inner node.
+			var aroundNodePos;
+			if(typeof anchor == "string" || "offsetWidth" in anchor){
+				aroundNodePos = domGeometry.position(anchor, true);
+				var anchorBorder = domGeometry.getBorderExtents(anchor),
+					anchorChildBorder = anchor.firstChild ? domGeometry.getBorderExtents(anchor.firstChild) : {t:0,l:0,b:0,r:0},
+					nodeBorder =  domGeometry.getBorderExtents(node),
+					nodeChildBorder = node.firstChild ? domGeometry.getBorderExtents(node.firstChild) : {t:0,l:0,b:0,r:0};
+				aroundNodePos.t += Math.min(anchorBorder.t + anchorChildBorder.t, nodeBorder.t + nodeChildBorder.t);
+				aroundNodePos.l += Math.min(anchorBorder.l + anchorChildBorder.l, nodeBorder.l + nodeChildBorder.l);
+				aroundNodePos.h -=  Math.min(anchorBorder.t + anchorChildBorder.t, nodeBorder.t+ nodeChildBorder.t) +
+					Math.min(anchorBorder.b + anchorChildBorder.b, nodeBorder.b + nodeChildBorder.b);
+				aroundNodePos.w -= Math.min(anchorBorder.l + anchorChildBorder.l, nodeBorder.l + nodeChildBorder.l) +
+					Math.min(anchorBorder.r + anchorChildBorder.r, nodeBorder.r + nodeChildBorder.r);
+			}else{
+				aroundNodePos = anchor;
+			}
 
 			// Compute position and size of visible part of anchor (it may be partially hidden by ancestor nodes w/scrollbars)
 			if(anchor.parentNode){

@@ -40,11 +40,11 @@
 		require([
 			"doh/runner",
 			"dojo/_base/declare",
-			"dojo/dom", "dojo/dom-construct", "dojo/dom-geometry",
-			"dojo/query", "dojo/sniff","dojo/_base/window",
+			"dojo/dom", "dojo/dom-construct", "dojo/dom-geometry", "dojo/dom-style",
+			"dojo/query", "dojo/sniff", "dojo/_base/window", "dojo/window",
 			"dijit/popup", "dijit/registry", "dijit/_WidgetBase", "dijit/_TemplatedMixin",
 			"dijit/tests/helpers", "dojo/domReady!"
-		], function(doh, declare, dom, domConstruct, domGeometry, query, has, win,
+		], function(doh, declare, dom, domConstruct, domGeometry, domStyle, query, has, win, winUtils,
 					popupUtil, registry, _WidgetBase, _TemplatedMixin){
 
 
@@ -152,12 +152,33 @@
 				}
 			});
 
+			declare("LotsOfChoicesWidget",  [_WidgetBase], {
+				// summary:
+				//		A list of values; select a value by pressing an entry in the list.
+
+				length: 100,
+
+				postCreate: function(){
+					for(var i=0; i< this.length; i++){
+						domConstruct.place("<div>choice #" + i + "</div>", this.domNode);
+					}
+				}
+			});
+
 			// Create a button that displays a simple drop down
 			choiceDropDown = new SimpleChoiceWidget();
 			(choiceDropDownButton = new SimpleDropDownButton({
 				id: "choiceDropDownButton",
 				label: "show choice drop down",
 				popup: choiceDropDown
+			})).placeAt(dom.byId("widgets"));
+
+			// Create a tall drop down, should get scroll bar
+			tallChoiceDropDown = new LotsOfChoicesWidget({length: 100});
+			(tallChoiceDropDownButton = new SimpleDropDownButton({
+				id: "tallChoiceDropDownButton",
+				label: "show tall drop down",
+				popup: tallChoiceDropDown
 			})).placeAt(dom.byId("widgets"));
 
 			declare("DialogWithPopupWidget",  [_WidgetBase, _TemplatedMixin], {
@@ -555,6 +576,31 @@
 				doh.is("region", w.parentNode.getAttribute("role"), "popup's wrapper node needs role=region");
 				doh.is("scwPopup", w.parentNode.getAttribute("aria-label"), "popup's wrapper node needs aria-label");
 			});
+
+			doh.register("scrollbar tests", [
+				function scrollbarAt(){
+					var popup = new LotsOfChoicesWidget({id: "tallPopup1"});
+
+					popupUtil.open({
+						popup: popup,
+						orient: "R",
+						x: 10,
+						y: 15
+					});
+
+					var w = popup.domNode;
+					doh.t(domStyle.get(w, "height") > winUtils.getBox().h, "popup is taller than the viewport");
+					doh.t(domStyle.get(w.parentNode, "height") < winUtils.getBox().h, "but wrapper " +
+							domStyle.get(w.parentNode, "height") + " is shorter than viewport " + winUtils.getBox().h);
+				},
+				function scrollbarAround(){
+					tallChoiceDropDownButton.openPopup();
+
+					var w = tallChoiceDropDown.domNode;
+					doh.t(domStyle.get(w, "height") > winUtils.getBox().h, "popup is taller than the viewport");
+					doh.t(domStyle.get(w.parentNode, "height") < winUtils.getBox().h, "but wrapper is shorter than viewport");
+				}
+			]);
 
 			doh.run();
 		});

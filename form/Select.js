@@ -32,21 +32,9 @@ define([
 		autoFocus: true,
 
 		buildRendering: function(){
-			// summary:
-			//		Stub in our own changes, so that our domNode is not a table
-			//		otherwise, we won't respond correctly to heights/overflows
 			this.inherited(arguments);
-			var o = (this.menuTableNode = this.domNode);
-			var n = (this.domNode = this.ownerDocument.createElement("div"));
-			if(o.parentNode){
-				o.parentNode.replaceChild(n, o);
-			}
-			domClass.remove(o, "dijitMenuTable");
-			n.className = o.className + " dijitSelectMenu";
-			o.className = "dijitReset dijitMenuTable";
-			n.setAttribute("role", "listbox");
-			o.setAttribute("role", "presentation");
-			n.appendChild(o);
+
+			this.domNode.setAttribute("role", "listbox");
 		},
 
 		postCreate: function(){
@@ -60,7 +48,6 @@ define([
 				evt.stopPropagation();
 			}));
 		},
-
 
 		focus: function(){
 			// summary:
@@ -80,26 +67,6 @@ define([
 			}
 			if(!found){
 				this.inherited(arguments); // focus first item by default
-			}
-		},
-
-		resize: function(/*Object*/ mb){
-			// summary:
-			//		Overridden so that we are able to handle resizing our
-			//		internal widget.  Note that this is not a "full" resize
-			//		implementation - it only works correctly if you pass it a
-			//		marginBox.
-			//
-			// mb: Object
-			//		The margin box to set this dropdown to.
-			if(mb){
-				domGeometry.setMarginBox(this.domNode, mb);
-				if("w" in mb){
-					// We've explicitly set the wrapper <div>'s width, so set <table> width to match.
-					// 100% is safer than a pixel value because there may be a scroll bar with
-					// browser/OS specific width.
-					this.menuTableNode.style.width = "100%";
-				}
 			}
 		}
 	});
@@ -429,18 +396,6 @@ define([
 			this._loadChildren(true);
 			this._isLoaded = true;
 			loadCallback();
-		},
-
-		closeDropDown: function(){
-			// overriding _HasDropDown.closeDropDown()
-			this.inherited(arguments);
-
-			if(this.dropDown && this.dropDown.menuTableNode){
-				// Erase possible width: 100% setting from _SelectMenu.resize().
-				// Leaving it would interfere with the next openDropDown() call, which
-				// queries the natural size of the drop down.
-				this.dropDown.menuTableNode.style.width = "";
-			}
 		},
 
 		destroy: function(preserveDom){

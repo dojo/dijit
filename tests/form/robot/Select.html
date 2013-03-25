@@ -195,7 +195,7 @@
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(isVisible(s8a_menu.domNode), "drop down menu displayed after mouse down");
 								
-								var pos = dojo.position(s8a_menu.domNode);
+								var pos = dojo.position(s8a_menu.domNode.parentNode);	// scrollbar on wrapper
 								doh.t(pos.h >= 200, "height at least 200: " + pos.h);
 								doh.t(pos.h < 220, "height including borders not much more than 200: " + pos.h);
 							}), 1000);
