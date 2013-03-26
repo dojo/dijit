@@ -303,7 +303,7 @@ define([
 			if(item.popup){
 				this.set("selected", item);
 				this.set("activated", true);
-				this._openItemPopup(item, /^key/.test(evt.type));
+				this._openItemPopup(item, /^key/.test(evt._origType || evt.type));
 			}else{
 				// before calling user defined handler, close hierarchy of menus
 				// and restore focus to place it was when menu was opened

@@ -74,7 +74,8 @@ define([
 				ctrlKey: e.ctrlKey,
 				shiftKey: e.shiftKey,
 				metaKey: e.metaKey,
-				altKey: e.altKey
+				altKey: e.altKey,
+				_origType: e.type
 			});
 		}
 	});
