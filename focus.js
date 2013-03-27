@@ -94,7 +94,7 @@ define([
 				body = targetWindow.document && targetWindow.document.body;
 
 			if(body){
-				var mdh = on(body, 'mousedown', function(evt){
+				var mdh = on(targetWindow.document, 'mousedown, touchstart', function(evt){
 					_this._justMouseDowned = true;
 					setTimeout(function(){ _this._justMouseDowned = false; }, 0);
 
