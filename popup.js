@@ -194,13 +194,17 @@ define([
 			// Create wrapper if not already there
 			var wrapper = this._createWrapper(widget);
 
-			domStyle.set(wrapper, "display", "none");
+			domStyle.set(wrapper, {
+				display: "none",
+				height: "auto",		// Open may have limited the height to fit in the viewport
+				overflow: "visible",
+				border: ""			// Open() may have moved border from popup to wrapper.
+			});
 
 			// Open() may have moved border from popup to wrapper.  Move it back.
 			var node = widget.domNode;
 			if("_originalStyle" in node){
 				node.style.cssText = node._originalStyle;
-				wrapper.style.border = "";
 			}
 		},
 
@@ -276,11 +280,6 @@ define([
 				});
 				node._originalStyle = node.style.cssText;
 				node.style.border = "none";
-			}else{
-				domStyle.set(wrapper, {
-					overflow: "visible",
-					height: "auto"
-				});
 			}
 
 			domAttr.set(wrapper, {
