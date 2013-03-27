@@ -408,7 +408,6 @@ define([
 			}
 
 			if(stack.length == 0 && this._aroundMoveListener){
-				console.log("clear timeout of ", this._aroundMoveListener);
 				clearTimeout(this._aroundMoveListener);
 				this._firstAroundNode = this._firstAroundPosition = this._aroundMoveListener = null;
 			}
