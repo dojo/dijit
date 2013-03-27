@@ -14,10 +14,9 @@ define([
 	"./registry", // registry.byNode()
 	"./focus",
 	"./popup",
-	"./_FocusMixin",
-	"./Viewport"
+	"./_FocusMixin"
 ], function(declare, Deferred, dom, domAttr, domClass, domGeometry, domStyle, has, keys, lang, on, touch,
-			registry, focus, popup, _FocusMixin, Viewport){
+			registry, focus, popup, _FocusMixin){
 
 
 	// module:
@@ -288,13 +287,10 @@ define([
 			// summary:
 			//		Called magically when focus has shifted away from this widget and it's dropdown
 
-			// Don't focus on button if the user has explicitly focused on something else (happens
-			// when user clicks another control causing the current popup to close)..
-			// But if focus is inside of the drop down then reset focus to me, because IE doesn't like
-			// it when you display:none a node with focus.
-			var focusMe = focus.curNode && this.dropDown && dom.isDescendant(focus.curNode, this.dropDown.domNode);
-
-			this.closeDropDown(focusMe);
+			// Close dropdown but don't focus my <input>.  User may have focused somewhere else (ex: clicked another
+			// input), and even if they just clicked a blank area of the screen, focusing my <input> will unwantedly
+			// popup the keyboard on mobile.
+			this.closeDropDown(false);
 
 			this.inherited(arguments);
 		},
