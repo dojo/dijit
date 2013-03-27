@@ -102,25 +102,27 @@ define([
 			//		If screen has been scrolled, reposition all the popups in the stack.
 			//		Then set timer to check again later.
 
-			var oldPos = this._firstAroundPosition,
-				newPos = domGeometry.position(this._firstAroundNode, true),
-				dx = newPos.x - oldPos.x,
-				dy = newPos.y - oldPos.y;
+			if(this._firstAroundNode){	// guard for when clearTimeout() on IE doesn't work
+				var oldPos = this._firstAroundPosition,
+					newPos = domGeometry.position(this._firstAroundNode, true),
+					dx = newPos.x - oldPos.x,
+					dy = newPos.y - oldPos.y;
 
-			if(dx || dy){
-				this._firstAroundPosition = newPos;
-				for(var i = 0; i < this._stack.length; i++){
-					var style = this._stack[i].wrapper.style;
-					style.top = (parseInt(style.top, 10) + dy) + "px";
-					if(style.right == "auto"){
-						style.left = (parseInt(style.left, 10) + dx) + "px";
-					}else{
-						style.right = (parseInt(style.right, 10) - dx) + "px";
+				if(dx || dy){
+					this._firstAroundPosition = newPos;
+					for(var i = 0; i < this._stack.length; i++){
+						var style = this._stack[i].wrapper.style;
+						style.top = (parseInt(style.top, 10) + dy) + "px";
+						if(style.right == "auto"){
+							style.left = (parseInt(style.left, 10) + dx) + "px";
+						}else{
+							style.right = (parseInt(style.right, 10) - dx) + "px";
+						}
 					}
 				}
-			}
 
-			this._aroundMoveListener = setTimeout(lang.hitch(this, "_repositionAll"), dx || dy ? 10 : 50);
+				this._aroundMoveListener = setTimeout(lang.hitch(this, "_repositionAll"), dx || dy ? 10 : 50);
+			}
 		},
 
 		_createWrapper: function(/*Widget*/ widget){
@@ -406,6 +408,7 @@ define([
 			}
 
 			if(stack.length == 0 && this._aroundMoveListener){
+				console.log("clear timeout of ", this._aroundMoveListener);
 				clearTimeout(this._aroundMoveListener);
 				this._firstAroundNode = this._firstAroundPosition = this._aroundMoveListener = null;
 			}
