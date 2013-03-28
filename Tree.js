@@ -979,10 +979,10 @@ define([
 			// summary:
 			//		Singular variant of _setPathsAttr
 			if(path.length){
-				return this.set("paths", [path]);
+				return shimmedPromise(this.set("paths", [path]).then(function(paths){ return paths[0]; }));
 			}else{
 				// Empty list is interpreted as "select nothing"
-				return this.set("paths", []);
+				return shimmedPromise(this.set("paths", []).then(function(paths){ return paths[0]; }));
 			}
 		},
 
@@ -995,26 +995,6 @@ define([
 			//		Promise to indicate when the set is complete
 
 			var tree = this;
-
-			// Let any previous set("path", ...) commands complete before this one starts.
-			// TODO for 2.0: make the user do this wait themselves?
-			return shimmedPromise(this.pendingCommandsPromise = this.pendingCommandsPromise.always(function(){
-				// We may need to wait for some nodes to expand, so setting
-				// each path will involve a Deferred. We bring those deferreds
-				// together with a dojo/promise/all.
-				return all(array.map(paths, function(path){
-					// normalize path to use identity
-					path = array.map(path, function(item){
-						return lang.isString(item) ? item : tree.model.getIdentity(item);
-					});
-
-					if(path.length){
-						return selectPath(path, [tree.rootNode]);
-					}else{
-						throw new Tree.PathError("Empty path");
-					}
-				}));
-			}).then(setNodes));
 
 			function selectPath(path, nodes){
 				// Traverse path, returning Promise for node at the end of the path.
@@ -1037,10 +1017,29 @@ define([
 				}
 			}
 
-			function setNodes(newNodes){
+			// Let any previous set("path", ...) commands complete before this one starts.
+			// TODO for 2.0: make the user do this wait themselves?
+			return shimmedPromise(this.pendingCommandsPromise = this.pendingCommandsPromise.always(function(){
+				// We may need to wait for some nodes to expand, so setting
+				// each path will involve a Deferred. We bring those deferreds
+				// together with a dojo/promise/all.
+				return all(array.map(paths, function(path){
+					// normalize path to use identity
+					path = array.map(path, function(item){
+						return lang.isString(item) ? item : tree.model.getIdentity(item);
+					});
+
+					if(path.length){
+						return selectPath(path, [tree.rootNode]);
+					}else{
+						throw new Tree.PathError("Empty path");
+					}
+				}));
+			}).then(function setNodes(newNodes){
 				// After all expansion is finished, set the selection to last element from each path
 				tree.set("selectedNodes", newNodes);
-			}
+				return tree.paths;
+			}));
 		},
 
 		_setSelectedNodeAttr: function(node){

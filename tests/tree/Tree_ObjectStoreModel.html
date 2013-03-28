@@ -385,7 +385,8 @@
 				function copyPath(){
 					var d = new doh.Deferred();
 
-					myTree.set("path", myTree2.get("path")).then(d.getTestCallback(function(){
+					myTree.set("path", myTree2.get("path")).then(d.getTestCallback(function(items){
+						doh.is("earth, EU, IT", array.map(items, function(item){ return item.id; }).join(", "));
 						doh.t(world.isExpanded, "root node is expanded");
 						doh.t(world.getChildren()[3].isExpanded, "europe node is expanded");
 						doh.is("Italy", myTree.get("selectedNode").label, "selected correct node");
@@ -438,10 +439,12 @@
 					var d = new doh.Deferred();
 
 					myTree2.set("paths", [["earth", "AF", "KE", "Nairobi"],
-										  ["earth", "NA", "MX", "Guadalajara"]]).then(d.getTestCallback(function(){
-							  var ids = array.map(myTree2.selectedItems, function(x){return myTree2.model.getIdentity(x);}).sort();
-							  doh.is(["Guadalajara", "Nairobi"], ids);
-						  }));
+										["earth", "NA", "MX", "Guadalajara"]]).then(d.getTestCallback(function(paths){
+						doh.is("earth, AF, KE, Nairobi", array.map(paths[0], function(item){ return item.id; }).join(", "));
+						doh.is("earth, NA, MX, Guadalajara", array.map(paths[1], function(item){ return item.id; }).join(", "));
+						var ids = array.map(myTree2.selectedItems, function(x){return myTree2.model.getIdentity(x);}).sort();
+						doh.is(["Guadalajara", "Nairobi"], ids);
+					}));
 					return d;
 				},
 				function setEmptyPath(){
