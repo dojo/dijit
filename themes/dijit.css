@@ -991,6 +991,7 @@ body .dijitAlignClient { position: absolute; }
 .dijitContentPane {
 	display: block;
 	overflow: auto;	/* if we don't have this (or overflow:hidden), then Widget.resizeTo() doesn't make sense for ContentPane */
+	-webkit-overflow-scrolling: touch;
 }
 
 .dijitContentPaneSingleChild {
