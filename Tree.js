@@ -628,7 +628,7 @@ define([
 
 		// persist: Boolean
 		//		Enables/disables use of cookies for state saving.
-		persist: true,
+		persist: false,
 
 		// autoExpand: Boolean
 		//		Fully expand the tree on load.   Overrides `persist`.
