@@ -301,14 +301,6 @@ define([
 				evt.stopPropagation();
 				evt.preventDefault();
 				this._searchString = ''; // so a DOWN_ARROW b doesn't search for ab
-			}else if(evt.keyCode == keys.SPACE && this._searchTimer && !(evt.ctrlKey || evt.altKey || evt.metaKey)){
-				evt.stopImmediatePropagation(); // stop _HasDropDown from processing the SPACE as well
-				evt.preventDefault(); // stop default actions like page scrolling on SPACE, but also keypress unfortunately
-				on.emit(this.domNode, "keypress", {
-					charCode: keys.SPACE,
-					cancelable: true,
-					bubbles: true
-				});
 			}
 		},
 

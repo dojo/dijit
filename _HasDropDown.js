@@ -259,7 +259,8 @@ define([
 				e.preventDefault();
 			}else if(!this._opened &&
 				(e.keyCode == keys.DOWN_ARROW ||
-					( (e.keyCode == keys.ENTER || e.keyCode == keys.SPACE) &&
+					// ignore unmodified SPACE if _KeyNavMixin has active searching in progress
+					( (e.keyCode == keys.ENTER || (e.keyCode == keys.SPACE && (!this._searchTimer || (e.ctrlKey || e.altKey || e.metaKey)))) &&
 						//ignore enter and space if the event is for a text input
 						((target.tagName || "").toLowerCase() !== 'input' ||
 							(target.type && target.type.toLowerCase() !== 'text'))))){
