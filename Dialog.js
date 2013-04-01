@@ -152,11 +152,14 @@ define([
 
 			// when href is specified we need to reposition the dialog after the data is loaded
 			// and find the focusable elements
+			this._size();
 			this._position();
+
 			if(this.autofocus && DialogLevelManager.isTop(this)){
 				this._getFocusItems(this.domNode);
 				focus.focus(this._firstFocusItem);
 			}
+
 			this.inherited(arguments);
 		},
 

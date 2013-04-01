@@ -21,10 +21,10 @@
 	<script type="text/javascript">
 		require([
 			"doh/runner",
-			"dojo/dom", "dojo/dom-style",
+			"dojo/dom", "dojo/dom-geometry", "dojo/dom-style", "dojo/window",
 			"dijit/focus", "dijit/registry", "dijit/Dialog", "dijit/DialogUnderlay",
 			"dijit/tests/helpers", "dojo/domReady!"
-		], function(doh, dom, domStyle, focus, registry, Dialog, DialogUnderlay, helpers){
+		], function(doh, dom, domGeom, domStyle, winUtils, focus, registry, Dialog, DialogUnderlay, helpers){
 			// Non robot tests to see if nested dialogs work correctly
 			// when obscured dialogs are destroyed/hidden, on race conditions of
 			// multiple dialogs fading in/out at once, etc.
@@ -512,6 +512,27 @@
 						var promise = dlg1.hide();
 						doh.t(promise.isResolved(), "resolved");
 						doh.t(helpers.isHidden(dlg1), "dialog hidden");
+					}
+				}
+			]);
+
+			doh.register("sizing", [
+				{
+					name: "href",
+					timeout: 10000,
+					runTest: function(){
+						var dlg1 = new Dialog({
+							id: "bigHref",
+							title: "big dialog with href",
+							href: "loremIpsum"
+						});
+
+						return dlg1.show().then(function(){
+							var dlgPos = domGeom.position(dlg1.domNode),
+								viewport = winUtils.getBox();
+							doh.t(dlgPos.h < viewport.h, "viewport height");
+							doh.t(dlgPos.y > 0, "position");
+						});
 					}
 				}
 			]);
