@@ -257,20 +257,22 @@
 							dlg3 = registry.byId("dlg3"),
 							dlg4 = registry.byId("dlg4");
 
-						// Closing fourth dialog should move focus to second dialog,
-						// since we already destroyed the third dialog
-						dlg4.hide().then(d.getTestCallback(function(){
-							doh.t(helpers.isHidden(dlg4), "dialog 4 is hidden");
-							doh.t(helpers.isHidden(dlg3), "dialog 3 is hidden");
-							doh.t(helpers.isVisible(dlg2), "dialog 2 is visible");
+						// Closing fourth dialog should move focus to second dialog, since we already destroyed the
+						// third dialog.  Delay needed for IE9+ where focus shift is asynchronous.
+						dlg4.hide().then(function(){
+							setTimeout(d.getTestCallback(function(){
+								doh.t(helpers.isHidden(dlg4), "dialog 4 is hidden");
+								doh.t(helpers.isHidden(dlg3), "dialog 3 is hidden");
+								doh.t(helpers.isVisible(dlg2), "dialog 2 is visible");
 
-							var dialog2Z = domStyle.get(dlg2.domNode, "zIndex"),
-								underlayZ = domStyle.get(DialogUnderlay._singleton.domNode, "zIndex");
-							doh.t(dialog2Z > underlayZ, "dialog2 (zIndex=" + dialog2Z +
-								") above underlay (zIndex=" + underlayZ + ")");
+								var dialog2Z = domStyle.get(dlg2.domNode, "zIndex"),
+										underlayZ = domStyle.get(DialogUnderlay._singleton.domNode, "zIndex");
+								doh.t(dialog2Z > underlayZ, "dialog2 (zIndex=" + dialog2Z +
+										") above underlay (zIndex=" + underlayZ + ")");
 
-							doh.is("dlg2_inputA", focus.curNode.id, "focus is on the first field");
-						}));
+								doh.is("dlg2_inputA", focus.curNode.id, "focus is on the first field");
+							}));
+						});
 
 						return d;
 					}
@@ -283,13 +285,16 @@
 							dlg2 = registry.byId("dlg2");
 
 						// Since we already destroyed first dialog, closing second dialog should hide underlay and
-						// revert focus to the main page
-						dlg2.hide().then(d.getTestCallback(function(){
-							doh.t(helpers.isHidden(dlg2), "dialog 4 is hidden");
-							doh.t(helpers.isHidden(DialogUnderlay._singleton), "underlay hidden");
+						// revert focus to the main page.  Need the setTimeout() for IE9+ where focus change is not
+						// instant.
+						dlg2.hide().then(function(){
+							setTimeout(d.getTestCallback(function(){
+								doh.t(helpers.isHidden(dlg2), "dialog 4 is hidden");
+								doh.t(helpers.isHidden(DialogUnderlay._singleton), "underlay hidden");
 
-							doh.is("button", focus.curNode.id, "focus is on the main page");
-						}));
+								doh.is("button", focus.curNode.id, "focus is on the main page");
+							}));
+						});
 
 						return d;
 					}
