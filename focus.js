@@ -22,6 +22,8 @@ define([
 	// module:
 	//		dijit/focus
 
+	var lastFocusin;
+
 	var FocusManager = declare([Stateful, Evented], {
 		// summary:
 		//		Tracks the currently focused node, and which widgets are currently "active".
@@ -114,6 +116,8 @@ define([
 
 				var fih = on(body, 'focusin', function(evt){
 
+					lastFocusin = (new Date()).getTime();
+
 					// When you refocus the browser window, IE gives an event with an empty srcElement
 					if(!evt.target.tagName) { return; }
 
@@ -133,6 +137,12 @@ define([
 				});
 
 				var foh = on(body, 'focusout', function(evt){
+					// IE9+ has a problem where focusout events come after the corresponding focusin event.  At least
+					// when moving focus from the Editor's <iframe> to a normal DOMNode.
+					if((new Date()).getTime() < lastFocusin + 100){
+						return;
+					}
+
 					_this._onBlurNode(effectiveNode || evt.target);
 				});
 
