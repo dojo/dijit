@@ -14,7 +14,7 @@
 	<script>
 		require([
 			"doh/runner",
-			"dojo/_base/declare", "dojo/has", "dojo/_base/lang", "dojo/on", "dojo/parser", "dojo/touch",
+			"dojo/_base/declare", "dojo/sniff", "dojo/_base/lang", "dojo/on", "dojo/parser", "dojo/touch",
 			"dijit/registry", "dijit/_WidgetBase", "dojo/domReady!"
 		], function(doh, declare, has, lang, on, parser, touch, registry, _WidgetBase){
 
@@ -85,7 +85,7 @@
 						touched = true;
 					});
 
-					on.emit(myWidget.domNode, has("touch") ? "touchstart" : "mousedown", {
+					on.emit(myWidget.domNode, has("ie") >= 10 ? "MSPointerDown" : has("touch") ? "touchstart" : "mousedown", {
 						bubbles: true,
 						cancelable: true,
 						which: 1
