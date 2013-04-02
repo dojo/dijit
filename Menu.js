@@ -339,7 +339,10 @@ define([
 			this.focus();
 			if(!byKeyboard){
 				// But then (when opened by mouse), mark Menu as passive, so that the first item isn't highlighted.
-				this._cleanUp(true);
+				// On IE9+ this needs to be on a delay because the focus is asynchronous.
+				this.defer(function(){
+					this._cleanUp(true);
+				});
 			}
 
 			this._onBlur = function(){
