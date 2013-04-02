@@ -11,10 +11,10 @@
 <script type="text/javascript">
 require([
 	"doh/runner",
-	"dojo/_base/declare", "dojo/keys", "dojo/on", "dojo/_base/window", "dojo/sniff",
+	"dojo/_base/declare", "dojo/keys", "dojo/on", "dojo/_base/window",
 	"dijit/_HasDropDown", "dijit/_WidgetBase", "dijit/_TemplatedMixin",
 	"dijit/tests/helpers", "dojo/domReady!"
-], function(doh, declare, keys, on, win, has,
+], function(doh, declare, keys, on, win,
 			_HasDropDown, _WidgetBase, _TemplatedMixin, helpers){
 
 
@@ -75,11 +75,11 @@ require([
 		});
 	}
 	function click(node){
-		on.emit(node, has("ie") >= 10 ? "MSPointerDown" : "mousedown", {
+		on.emit(node, navigator.msPointerEnabled ? "MSPointerDown" : "mousedown", {
 			button: 0,	// left button (except on IE quirks mode, when it's 1)
 			bubbles: true
 		});
-		on.emit(node, has("ie") >= 10 ? "MSPointerUp" : "mouseup", {
+		on.emit(node, navigator.msPointerEnabled ? "MSPointerUp" : "mouseup", {
 			button: 0,	// left button (except on IE quirks mode, when it's 1)
 			bubbles: true
 		});
