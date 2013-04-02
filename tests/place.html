@@ -109,7 +109,8 @@
 					doh.is("BL", ret.aroundCorner, "around corner");
 					doh.is("TL", ret.corner, "popup's corner");
 					doh.is("20px", popup.style.top, "underneath around node");
-					doh.is(domGeometry.position(aroundTop).x+"px", popup.style.left, "left sides aligned");
+					doh.is(Math.round(domGeometry.position(aroundTop).x), Math.round(popup.style.left.replace("px", "")),
+							"left sides aligned");
 				},
 				function aroundTooltip(t){
 					// Same as above test except that shape of drop down changes depending on where it's positioned.
