@@ -119,15 +119,13 @@ require([
 			runTest: function(){
 				var d = new doh.Deferred();
 
-				helpers.onFocus(d.getTestCallback(function(node){
-					doh.is("dialog1button", node.id, "focus returned to button");
-					doh.t(helpers.isHidden("dialog1"), "dialog 1 was closed");
-				}), 500); // Focus will first go to close icon (see #8285), then to the dialog button, so wait for that.
-
-
 				var button = query("#dialog1 .dijitDialogCloseIcon")[0];
 				robot.mouseMoveAt(button, 500);
 				robot.mouseClick({left: true}, 500);
+
+				robot.sequence(d.getTestCallback(function(node){
+					doh.t(helpers.isHidden("dialog1"), "dialog 1 was closed");
+				}), 500);
 
 				return d;
 			}
@@ -344,7 +342,6 @@ require([
 
 				robot.sequence(d.getTestCallback(function(){
 					doh.t(helpers.isHidden("dialog1"), "dialog 1 was closed");
-					doh.is("dialog1button", dfocus.curNode.id, "focus returned to button");
 				}), 1000);
 
 				return d;
