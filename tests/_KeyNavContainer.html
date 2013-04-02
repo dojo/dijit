@@ -56,62 +56,92 @@
 				{
 					name: "tab in",
 					runTest: function(t){
+						var d = new doh.Deferred();
+
 						var c = registry.byId("container");
 
 						// focusing container (simulated tabbing into container) should move focus to first child
 						c.focus();
 
-						doh.is("zero", focus.curNode.id, "focus moved to first child");
-						doh.t(a11y.isTabNavigable("zero"), "child is tab navigable");
-						doh.isNot(0, c.domNode.getAttribute("tabIndex"), "container tabIndex removed or set to -1");
+						setTimeout(d.getTestCallback(function(){
+							doh.is("zero", focus.curNode.id, "focus moved to first child");
+							doh.t(a11y.isTabNavigable("zero"), "child is tab navigable");
+							doh.isNot(0, c.domNode.getAttribute("tabIndex"), "container tabIndex removed or set to -1");
+						}), 0);
+
+						return d;
 					}
 				},
 				{
 					name: "next",
 					runTest: function(t){
+						var d = new doh.Deferred();
+
 						var c = registry.byId("container");
 
 						on.emit(c.domNode, "keydown", {keyCode: keys.DOWN_ARROW, bubbles: true, cancelable: true});
 
-						doh.is("one", focus.curNode.id, "focus moved to second child");
-						doh.f(a11y.isTabNavigable("zero"), "zero not tab navigable");
-						doh.t(a11y.isTabNavigable("one"), "one tab navigable");
+						setTimeout(d.getTestCallback(function(){
+							doh.is("one", focus.curNode.id, "focus moved to second child");
+							doh.f(a11y.isTabNavigable("zero"), "zero not tab navigable");
+							doh.t(a11y.isTabNavigable("one"), "one tab navigable");
+						}), 0);
+
+						return d;
 					}
 				},
 				{
 					name: "previous",
 					runTest: function(t){
+						var d = new doh.Deferred();
+
 						var c = registry.byId("container");
 
 						on.emit(c.domNode, "keydown", {keyCode: keys.LEFT_ARROW, bubbles: true, cancelable: true});
 
-						doh.is("zero", focus.curNode.id, "focus moved to first child");
-						doh.f(a11y.isTabNavigable("one"), "one not tab navigable");
-						doh.t(a11y.isTabNavigable("zero"), "zero tab navigable");
+						setTimeout(d.getTestCallback(function(){
+							doh.is("zero", focus.curNode.id, "focus moved to first child");
+							doh.f(a11y.isTabNavigable("one"), "one not tab navigable");
+							doh.t(a11y.isTabNavigable("zero"), "zero tab navigable");
+						}), 0);
+
+						return d;
 					}
 				},
 				{
 					name: "tab out",
 					runTest: function(t){
+						var d = new doh.Deferred();
+
 						var c = registry.byId("container");
 
 						dom.byId("input").focus();
 
 						// tab index on container restored
-						doh.f(a11y.isTabNavigable("zero"), "child not tab navigable");
-						doh.is(0, c.domNode.getAttribute("tabIndex"), "container tabIndex restored");
+						setTimeout(d.getTestCallback(function(){
+							doh.f(a11y.isTabNavigable("zero"), "child not tab navigable");
+							doh.is(0, c.domNode.getAttribute("tabIndex"), "container tabIndex restored");
+						}), 0);
+
+						return d;
 					}
 				},
 				{
 					name: "mouse in",
 					runTest: function(t){
+						var d = new doh.Deferred();
+
 						var c = registry.byId("container");
 
 						dom.byId("zero").focus();
 
 						// focusing first child directly (simulated mouse click) should remove tabIndex on container
-						doh.isNot(0, c.domNode.getAttribute("tabIndex"), "container tabIndex removed or set to -1");
-						doh.t(a11y.isTabNavigable("zero"), "child tab navigable");
+						setTimeout(d.getTestCallback(function(){
+							doh.isNot(0, c.domNode.getAttribute("tabIndex"), "container tabIndex removed or set to -1");
+							doh.t(a11y.isTabNavigable("zero"), "child tab navigable");
+						}), 0);
+
+						return d;
 					}
 				}
 			]);
