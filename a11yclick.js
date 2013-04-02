@@ -35,9 +35,10 @@ define([
 
 	function clickKey(/*Event*/ e){
 		// Test if this keyboard event should be tracked as the start (if keydown) or end (if keyup) of a click event.
-		// Only track for nodes marked to be tracked, and not for buttons or inputs since they handle keyboard click
-		// natively.
-		if((e.keyCode === keys.ENTER || e.keyCode === keys.SPACE) && !/input|button/i.test(e.target.nodeName)){
+		// Only track for nodes marked to be tracked, and not for buttons or inputs,
+		// since buttons handle keyboard click natively, and text inputs should not
+		// prevent typing spaces or newlines.
+		if((e.keyCode === keys.ENTER || e.keyCode === keys.SPACE) && !/input|button|textarea/i.test(e.target.nodeName)){
 
 			// Test if a node or its ancestor has been marked with the dojoClick property to indicate special processing
 			for(var node = e.target; node; node = node.parentNode){
