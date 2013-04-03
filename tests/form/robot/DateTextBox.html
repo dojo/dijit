@@ -153,30 +153,32 @@
 							handler = dojo.connect(american, 'openDropDown', function(){
 								dojo.disconnect(handler);
 								calendar = dijit.byId("american_popup");
-								handler = dojo.connect(calendar, 'focus', d.getTestCallback(function(){
+								handler = dojo.connect(calendar, 'focus', function(){
+									// Use setTimeout() because focus on IE9+ is asynchronous.
+									setTimeout(d.getTestCallback(function(){
+										// calendar exists and is shown
+										doh.t(calendar && isVisible(calendar), "calendar is visible");
 
-									// calendar exists and is shown
-									doh.t(calendar && isVisible(calendar), "calendar is visible");
-	
-									// calendar is on the right month
-									doh.is("May", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "calendar starts on month selected in input box");
-	
-									// and the right year
-									var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", calendar.domNode);
-									doh.is(1, selectedYearButtons.length, "current year is shown");
-									doh.is("2005", innerText(selectedYearButtons[0]), "current year is 2005");
-	
-									// and the currently selected date is right too
-									var selectedDays = dojo.query(".dijitCalendarSelectedDate", calendar.domNode);
-									doh.is(1, selectedDays.length, "one day selected");
-									doh.is("10", innerText(selectedDays[0]), "correct day is selected");
-	
-									// focus moved to the calendar
-									doh.is(10, innerText(dojo.global.dijit.focus.curNode), "focus on selected calendar cell");
-	
-									doh.is(0, changes.length, "no onchange events yet");
-									doh.is(0, watches.length, "no watch(value) events yet");
-								}));
+										// calendar is on the right month
+										doh.is("May", innerText(dojo.query(".dijitCalendarCurrentMonthLabel", calendar.domNode)[0]), "calendar starts on month selected in input box");
+
+										// and the right year
+										var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", calendar.domNode);
+										doh.is(1, selectedYearButtons.length, "current year is shown");
+										doh.is("2005", innerText(selectedYearButtons[0]), "current year is 2005");
+
+										// and the currently selected date is right too
+										var selectedDays = dojo.query(".dijitCalendarSelectedDate", calendar.domNode);
+										doh.is(1, selectedDays.length, "one day selected");
+										doh.is("10", innerText(selectedDays[0]), "correct day is selected");
+
+										// focus moved to the calendar
+										doh.is(10, innerText(dojo.global.dijit.focus.curNode), "focus on selected calendar cell");
+
+										doh.is(0, changes.length, "no onchange events yet");
+										doh.is(0, watches.length, "no watch(value) events yet");
+									}), 0);
+								});
 							});
 
 							doh.robot.typeKeys("5/10/2005", 1000, 1800);
