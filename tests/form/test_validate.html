@@ -413,8 +413,20 @@
 					function showDialog(){
 						// Show dialog, returning Deferred that fires when show dialog is finished.
 						// Before showing, focus the open button, so that Dialog knows where to return focus to.
+
+						var d = new doh.Deferred();
+
 						dijit.byId("dlgOpenBtn").focus();
-						return dijit.byId("dlg").show();
+
+						// Focus on IE9+ is asynchronous, so wait for it to occur before showing Dialog.   Otherwise,
+						// when Dialog closes it restores focus somewhere strange.
+						setTimeout(function(){
+							dijit.byId("dlg").show().then(function(){
+								d.resolve(true);
+							});
+						}, 0);
+
+						return d;
 					},
 					function enterInvalidValue(){
 						// Entering invalid value should make validation tooltip appear
