@@ -356,7 +356,7 @@ define([
 			if(!this._opened){
 				this.loadAndOpenDropDown();
 			}else{
-				this.closeDropDown();
+				this.closeDropDown(true);	// refocus button to avoid hiding node w/focus
 			}
 		},
 
