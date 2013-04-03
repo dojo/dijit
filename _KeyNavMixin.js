@@ -301,6 +301,8 @@ define([
 				evt.stopPropagation();
 				evt.preventDefault();
 				this._searchString = ''; // so a DOWN_ARROW b doesn't search for ab
+			}else if(evt.keyCode == keys.SPACE && this._searchTimer && !(evt.ctrlKey || evt.altKey)){
+				evt.stopImmediatePropagation(); // stop a11yclick and _HasDropdown from seeing SPACE if we're doing keyboard searching
 			}
 		},
 
