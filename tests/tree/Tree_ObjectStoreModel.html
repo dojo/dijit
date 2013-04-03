@@ -350,10 +350,10 @@
 					var france = europe.getChildren()[0];
 
 					// Select the node.   can't emit "click" because dndSelector listens for mousedown & mouseup.
-					// And before the mousedown, we need a mouseover event, so _dndContainer.js set this.current.
-					on.emit(france.labelNode, "mouseover", {bubbles: true});
-					on.emit(france.labelNode, "mousedown", {button: dojo.mouseButtons.LEFT, bubbles: true});
-					on.emit(france.labelNode, "mouseup", {button: dojo.mouseButtons.LEFT, bubbles: true});
+					// And before the mousedown, we need a mouseover event, so _dndContainer.js sets this.current.
+					on.emit(france.labelNode, navigator.msPointerEnabled ? "MSPointerOver" : "mouseover", {bubbles: true});
+					on.emit(france.labelNode, navigator.msPointerEnabled ? "MSPointerDown" : "mousedown", {button: dojo.mouseButtons.LEFT, bubbles: true});
+					on.emit(france.labelNode, navigator.msPointerEnabled ? "MSPointerUp" : "mouseup", {button: dojo.mouseButtons.LEFT, bubbles: true});
 
 					var path = myTree.get("path");
 					doh.is("earth, EU, FR",
