@@ -139,7 +139,7 @@
 								doh.t(clicked, "new was clicked");
 								doh.t(helpers.isHidden("fileMenu"), "File menu disappeared");
 								doh.f(domClass.contains("file", "dijitMenuItemSelected"),
-									"File MenuBarItem should no longer have selected effect, actual class is: " + dom.byId("edit").className);
+									"File MenuBarItem should no longer have selected effect, actual class is: " + dom.byId("file").className);
 							}), 1000);
 
 							return d;
