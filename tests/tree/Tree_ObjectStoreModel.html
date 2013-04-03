@@ -84,39 +84,43 @@
 			doh.register("setup", setup);
 
 			doh.register("basic", [
-				function create(){
-					var d = new doh.Deferred();
+				{
+					name: "create",
+					timeout: 5000,
+					runTest: function(){
+						var d = new doh.Deferred();
 
-					myTree = new Tree({
-						id: "myTree",
-						model: myModel,
-						persist: false,		// persist==true is too hard to test
-						dndController: dndSource
-					}).placeAt(win.body());
-					doh.t(myTree, "tree created");
+						myTree = new Tree({
+							id: "myTree",
+							model: myModel,
+							persist: false,		// persist==true is too hard to test
+							dndController: dndSource
+						}).placeAt(win.body());
+						doh.t(myTree, "tree created");
 
-					myTree.startup();
+						myTree.startup();
 
-					world = myTree.rootNode;
+						world = myTree.rootNode;
 
-					// Give the tree time to load, and the do checks that it
-					// loaded correctly
-					setTimeout(d.getTestCallback(function(){
-						doh.t(world, "root node exists");
-						doh.is("The earth", world.label, "world node label");
-						doh.t(world.isExpanded, "root node is expanded");
+						// Give the tree time to load, and the do checks that it
+						// loaded correctly
+						setTimeout(d.getTestCallback(function(){
+							doh.t(world, "root node exists");
+							doh.is("The earth", world.label, "world node label");
+							doh.t(world.isExpanded, "root node is expanded");
 
-						var children = world.getChildren();
-						doh.is(6, children.length, "six children");
-						doh.is("Africa", children[0].label, "first child");
-						doh.f(children[0].isExpanded, "first child not expanded");
-						doh.is("South America", children[5].label, "last child");
+							var children = world.getChildren();
+							doh.is(6, children.length, "six children");
+							doh.is("Africa", children[0].label, "first child");
+							doh.f(children[0].isExpanded, "first child not expanded");
+							doh.is("South America", children[5].label, "last child");
 
-						// Last child has special CSS for drawing the grid lines
-						doh.f(domClass.contains(children[3].domNode, "dijitTreeIsLast"), "middle node doesn't have dijitTreeIsLast");
-						doh.t(domClass.contains(children[5].domNode, "dijitTreeIsLast"), "last node has dijitTreeIsLast");
-					}), 750);
-					return d;
+							// Last child has special CSS for drawing the grid lines
+							doh.f(domClass.contains(children[3].domNode, "dijitTreeIsLast"), "middle node doesn't have dijitTreeIsLast");
+							doh.t(domClass.contains(children[5].domNode, "dijitTreeIsLast"), "last node has dijitTreeIsLast");
+						}), 750);
+						return d;
+					}
 				},
 
 				function openEurope(){
@@ -481,7 +485,6 @@
 			doh.register("destroy", [
 				function destroyTree(){
 					// Just running this to make sure we don"t get an exception
-					console.log("destroying tree");
 					myTree.destroy();
 					myTree2.destroy();
 				}
@@ -679,25 +682,30 @@
 				// Reset the data to original values
 				setup,
 
-				function create(){
-					if(registry.byId("myTree")){
-						registry.byId("myTree").destroy();
+				{
+					name: "create",
+					timeout: 5000,
+					runTest: function(){
+						if(registry.byId("myTree")){
+							registry.byId("myTree").destroy();
+						}
+						cookie("myTreeSaveStateCookie", "");
+
+						myTree = new Tree({
+							id: "myTree",
+							model: myModel,
+							persist: true
+						}).placeAt(win.body());
+						doh.t(myTree, "tree created");
+
+						myTree.startup();
+
+						world = myTree.rootNode;
+
+						return myTree.onLoadDeferred;
 					}
-					cookie("myTreeSaveStateCookie", "");
-
-					myTree = new Tree({
-						id: "myTree",
-						model: myModel,
-						persist: true
-					}).placeAt(win.body());
-					doh.t(myTree, "tree created");
-
-					myTree.startup();
-
-					world = myTree.rootNode;
-
-					return myTree.onLoadDeferred;
 				},
+
 				{
 					name: "expand and contract",
 					timeout: 5000,
@@ -785,17 +793,21 @@
 				// Reset the data to original values
 				setup,
 
-				function create(){
-					cookie("myDeleteTreeSaveStateCookie", "");
-					myTree = new Tree({
-						id: "myDeleteTree",
-						model: myModel,
-						persist: true
-					}).placeAt(win.body());
-					doh.t(myTree, "tree created");
+				{
+					name: "create",
+					timeout: 5000,
+					runTest: function(){
+						cookie("myDeleteTreeSaveStateCookie", "");
+						myTree = new Tree({
+							id: "myDeleteTree",
+							model: myModel,
+							persist: true
+						}).placeAt(win.body());
+						doh.t(myTree, "tree created");
 
-					myTree.startup();
-					doh.is("earth", cookie("myDeleteTreeSaveStateCookie"), "initial persistence cookie just earth");
+						myTree.startup();
+						doh.is("earth", cookie("myDeleteTreeSaveStateCookie"), "initial persistence cookie just earth");
+					}
 				},
 
 				function removedFromSelection(){
@@ -854,8 +866,10 @@
 				}
 			]);
 
-			doh.register("HTML tree", [
-				function create(){
+			doh.register("HTML tree", {
+				name: "create",
+				timeout: 5000,
+				runTest: function(){
 					var d = new doh.Deferred();
 
 					// Create test store.
@@ -903,10 +917,12 @@
 						doh.is("<i>africa</i>", children[0].labelNode.innerHTML.toLowerCase(), "first child labelNode.innerHTML");
 					});
 				}
-			]);
+			});
 
-			doh.register("plain text tree", [
-				function create(){
+			doh.register("plain text tree", {
+				name: "create",
+				timeout: 5000,
+				runTest: function(){
 					var d = new doh.Deferred();
 
 					// Create test store.
@@ -953,7 +969,8 @@
 						doh.is("<>&Africa", helpers.innerText(children[0].labelNode), "first child");
 					});
 				}
-			]);
+			});
+
 			doh.run();
 
  		});
