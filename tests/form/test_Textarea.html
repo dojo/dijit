@@ -13,21 +13,52 @@
 		</style>
 
 		<!-- required: the default dijit theme: -->
-		<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro.css"/>
+		<link id="themeStyles" rel="stylesheet" href="../../themes/claro/claro.css"/>
 
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../dojo/dojo.js"
-			data-dojo-config="isDebug: true, parseOnLoad: true"></script>
+			data-dojo-config="isDebug: true"></script>
 
 		<!-- only needed for alternate theme testing: -->
 		<script type="text/javascript" src="../_testCommon.js"></script>
 
 		<script type="text/javascript">
-			dojo.require("dijit.dijit"); // optimize: load dijit layer
-			dojo.require("dijit.form.Textarea");
-			dojo.require("dijit.layout.ContentPane");
-			dojo.require("dijit.layout.TabContainer");
-			dojo.require("dojo.parser");
+			require([
+				"dojo/dom", "dojo/_base/lang", "dojo/parser",
+				"dijit/registry", "dijit/form/Textarea", "dijit/layout/ContentPane", "dijit/layout/TabContainer",
+				"dojo/domReady!"
+			], function(dom, lang, parser, registry, Textarea){
+				parser.parse();
+
+				programmaticTextarea = new Textarea({
+					id: "programmatic",
+					name: "programmaticTextArea",
+					cols: "70",
+					value: "created programatically with\ncustom border, padding,\nmargin",
+					style: {display:"block", border:"5px solid gray", padding:"11px", margin:"7px", fontSize:"14px", minHeight:"49px", maxHeight:"125px"}
+				});
+				setTimeout(function(){ programmaticTextarea.placeAt("programmaticContainer").startup(); }, 500); // make sure sizing can happen later
+
+				displayData = function(){
+					var f = dom.byId("form1");
+					var s = "";
+					for(var i = 0; i < f.elements.length; i++){
+						var elem = f.elements[i];
+						if(elem.name == "button" || !lang.isString(elem.value)){ continue; }
+						s += elem.name + ":[" + elem.value + "]\n";
+					}
+					console.log(s);
+				};
+
+				setAttr = function(attr, value){
+					var widgets = registry.findWidgets(document.body);
+					for(var i = 0 ; i < widgets.length; i++){
+						if(widgets[i].isInstanceOf(Textarea)){
+							widgets[i].set(attr, value);
+						}
+					}
+				}
+			});
 		</script>
 
 	</head>
@@ -69,19 +100,6 @@
 				</div>
 			</div>
 			</fieldset>
-			<script type="text/javascript">
-				// See if we can make a widget in script
-				dojo.ready(function(){
-					programmaticTextarea = new dijit.form.Textarea({
-						id: "programmatic",
-						name: "programmaticTextArea",
-						cols: "70",
-						value: "created programatically with\ncustom border, padding,\nmargin",
-						style: {display:"block", border:"5px solid gray", padding:"11px", margin:"7px", fontSize:"14px", minHeight:"49px", maxHeight:"125px"}
-					});
-					setTimeout(function(){ programmaticTextarea.placeAt("programmaticContainer").startup(); }, 500); // make sure sizing can happen later
-				});
-			</script>
 			<br>
 
 
@@ -111,12 +129,7 @@ Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh 
 
 &#8234;This is the end.&#8236;</textarea>
 
-			<h2>Set properties for every dijit.form.Textarea</h2>			
-			<script>
-				function setAttr(attr, value){
-					dijit.registry.byClass('dijit.form.Textarea').forEach(function(widget){ widget.set(attr, value);});
-				}
-			</script>
+			<h2>Set properties for every dijit.form.Textarea</h2>
 			<input type="button" onclick="setAttr('readOnly', false);" value="Remove readOnly"/>
 			<input type="button" onclick="setAttr('readOnly', true);" value="Set readOnly"/>
 			<input type="button" onclick="setAttr('disabled', true);" value="Disable"/>
@@ -127,19 +140,6 @@ Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh 
 				<button type="button" name="button" onclick="displayData();">view data</button>
 				<input type="submit" name="submit" />
 			</div>
-			<script type="text/javascript">
-				function displayData(){
-					var f = dojo.byId("form1");
-					var s = "";
-					for(var i = 0; i < f.elements.length; i++){
-						var elem = f.elements[i];
-						if(elem.name == "button" || !dojo.isString(elem.value)){ continue; }
-						s += elem.name + ":[" + elem.value + "]\n";
-					}
-					console.log(s);
-				}
-			</script>
-
 		</form>
 	</body>
 </html>
