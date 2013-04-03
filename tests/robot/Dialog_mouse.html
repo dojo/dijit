@@ -114,7 +114,7 @@
 							onFocus(d.getTestCallback(function(node){
 								doh.t(isHidden("dialog1"), "dialog 1 was closed");
 								doh.is("dialog1button", node.id, "focus returned to button");
-							}));
+							}), 500);
 
 							var button = dojo.query("#dialog1 .dijitDialogCloseIcon")[0];
 							doh.robot.mouseMoveAt(button, 500);
