@@ -34,30 +34,14 @@
 
 			doh.register("arrow navigation", [
 				{
-					name:"focus root",
-					timeout:4000,
-					runTest:function(){
+					name: "right arrow, down arrow",
+					timeout: 4000,
+					runTest: function(){
 						var d = new doh.Deferred();
 
 						var firstVisibleNode = dojo.query(".dijitTreeLabel")[1];
-						doh.robot.mouseMoveAt(firstVisibleNode, 500, 500);
-						doh.robot.mouseClick({left: true}, 500);
+						firstVisibleNode.focus();
 
-						doh.robot.sequence(d.getTestCallback(function(){
-							var focus = dojo.global.dijit.focus.curNode;
-							doh.is("The Root", innerText(focus), "focused on root");
-						}), 500);
-
-						return d;
-					}
-				},
-				{
-					name:"right arrow, down arrow",
-					timeout:4000,
-					runTest:function(){
-						var d = new doh.Deferred();
-
-						// From Continents node, press "A".   Should go to Africa.
 						doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100);
 						doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100);
 						doh.robot.sequence(d.getTestCallback(function(){
