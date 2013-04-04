@@ -303,6 +303,8 @@ define([
 				this._searchString = ''; // so a DOWN_ARROW b doesn't search for ab
 			}else if(evt.keyCode == keys.SPACE && this._searchTimer && !(evt.ctrlKey || evt.altKey)){
 				evt.stopImmediatePropagation(); // stop a11yclick and _HasDropdown from seeing SPACE if we're doing keyboard searching
+				evt.preventDefault(); // stop IE from scrolling, and most browsers (except FF) from sending keypress
+				this._keyboardSearch(evt, ' ');
 			}
 		},
 
@@ -312,15 +314,25 @@ define([
 			// tags:
 			//		private
 
-			if(evt.charCode < 32){
+			if(evt.charCode < keys.SPACE || (evt.ctrlKey || evt.altKey) || (evt.charCode == keys.SPACE && this._searchTimer)){
 				// Avoid duplicate events on firefox (this is an arrow key that will be handled by keydown handler)
 				return;
 			}
+			evt.preventDefault();
+			evt.stopPropagation();
 
-			if(evt.ctrlKey || evt.altKey){
-				return;
-			}
+			this._keyboardSearch(evt, String.fromCharCode(evt.charCode).toLowerCase());
+		},
 
+		_keyboardSearch: function(/*Event*/ evt, /*String*/ keyChar){
+			// summary:
+			//		Perform a search of the widget's options based on the user's keyboard activity
+			// description:
+			//		Called on keypress (and sometimes keydown), searches through this widget's children
+			//		looking for items that match the user's typed search string.  Multiple characters
+			//		typed within 1 sec of each other are combined for multicharacter searching.
+			// tags:
+			//		private
 			var
 				matchedItem = null,
 				searchString,
@@ -372,11 +384,8 @@ define([
 					//		search();
 					//	}
 					//}
-				}),
-				keyChar = String.fromCharCode(evt.charCode).toLowerCase();
+				});
 
-			evt.preventDefault();
-			evt.stopPropagation();
 			search();
 			// commented out code block to search again if the multichar search fails after a smaller timeout
 			//this._typingSlowly = false;
