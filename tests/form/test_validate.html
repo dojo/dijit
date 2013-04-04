@@ -379,31 +379,34 @@
 						name: "focused places:2,4. blur to places:5",
 						timeout: 2000,
 						textbox: "q05",
-						setUp: function(){
-							this.textbox = dijit.byId(this.textbox);
-							this.textbox.set('constraints', { places: 5 });
-							this.textbox.set('editOptions', { places: "2,4" });
-							this.textbox.focus();
-						},
 						runTest: function(){
 							var d = new doh.Deferred();
 							var textbox = this.textbox;
-							textbox.set('value', 1.125);
 
-							doh.is(1.125, textbox.get('value'), 'numeric value is unchanged');
-							doh.is('1.125', textbox.get('displayedValue'), 'formatted displayed value');
-							// doh.t(textbox.isValid(true), 'focused is valid'); uncomment when #16964 fixed
+							textbox = dijit.byId(this.textbox);
+							textbox.set('constraints', { places: 5 });
+							textbox.set('editOptions', { places: "2,4" });
+							textbox.focus();
+
+							setTimeout(d.getTestErrback(function(){	// allow time for async focus on IE9+
+								textbox.set('value', 1.125);
+
+								doh.is(1.125, textbox.get('value'), 'numeric value is unchanged');
+								doh.is('1.125', textbox.get('displayedValue'), 'formatted displayed value');
+								// doh.t(textbox.isValid(true), 'focused is valid'); uncomment when #16964 fixed
 
 
-							var handler = textbox.on("blur", function(){
-								handler.remove();
-								setTimeout(d.getTestCallback(function(){
-									doh.is(1.125, textbox.get('value'), 'numeric value is unchanged #2');
-									doh.is('1.12500', textbox.get('displayedValue'), 'formatted displayed value #2');
-									doh.t(textbox.isValid(false), 'nonfocused is valid #2');
-								}), 150);
-							});
-							dojo.byId("q01").focus();
+								var handler = textbox.on("blur", function(){
+									handler.remove();
+									setTimeout(d.getTestCallback(function(){
+										doh.is(1.125, textbox.get('value'), 'numeric value is unchanged #2');
+										doh.is('1.12500', textbox.get('displayedValue'), 'formatted displayed value #2');
+										doh.t(textbox.isValid(false), 'nonfocused is valid #2');
+									}), 150);
+								});
+								dojo.byId("q01").focus();
+							}), 0);
+
 							return d;
 						}
 					}
