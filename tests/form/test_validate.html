@@ -372,7 +372,7 @@
 							this.textbox.set('value', 1.625);
 							doh.is(1.625, this.textbox.get('value'), 'numeric value is unchanged');
 							doh.is('1.62500', this.textbox.get('displayedValue'), 'formatted displayed value');
-							//doh.t(this.textbox.isValid(false), 'nonfocused is valid'); uncomment when #16964 fixed
+							doh.t(this.textbox.isValid(false), 'nonfocused is valid');
 						}
 					},
 					{
@@ -393,7 +393,7 @@
 
 								doh.is(1.125, textbox.get('value'), 'numeric value is unchanged');
 								doh.is('1.125', textbox.get('displayedValue'), 'formatted displayed value');
-								// doh.t(textbox.isValid(true), 'focused is valid'); uncomment when #16964 fixed
+								doh.t(textbox.isValid(true), 'focused is valid');
 
 
 								var handler = textbox.on("blur", function(){

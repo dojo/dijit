@@ -66,6 +66,10 @@ define([
 			this._set("type", "text"); // in case type="number" was specified which messes up parse/format
 		},
 
+		_getConstraintsAttr: function(){
+			return this.editOptions && this.focused ? lang.mixin({}, this.constraints, this.editOptions) : this.constraints;
+		},
+
 		_setConstraintsAttr: function(/*Object*/ constraints){
 			var places = typeof constraints.places == "number"? constraints.places : 0;
 			if(places){ places++; } // decimal rounding errors take away another digit of precision
