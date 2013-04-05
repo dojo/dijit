@@ -475,7 +475,10 @@
 						name: "open second",
 						timeout: 10000,
 						runTest: function(){
-							return registry.byId('fifthDlg').show();
+							var fifthDlg = registry.byId('fifthDlg');
+							return fifthDlg.show().then(function(){
+								return fifthDlg.onLoadDeferred;
+							});
 						}
 					},
 					{
