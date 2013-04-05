@@ -111,6 +111,13 @@ define([
 				sizeSetting[child.region == "top" || child.region == "bottom" ? "h" : "w"] = changedRegionSize;
 			}
 
+			if(pos == "leading"){
+				pos = child.isLeftToRight() ? "left" : "right";
+			}
+			if(pos == "trailing"){
+				pos = child.isLeftToRight() ? "right" : "left";
+			}
+
 			// set size && adjust record of remaining space.
 			// note that setting the width of a <div> may affect its height.
 			if(pos == "top" || pos == "bottom"){

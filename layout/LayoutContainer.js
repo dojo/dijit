@@ -63,15 +63,6 @@ define([
 			var region = child.region;
 			if(region){
 				domClass.add(child.domNode, this.baseClass + "Pane");
-
-				var ltr = this.isLeftToRight();
-				if(region == "leading"){
-					region = ltr ? "left" : "right";
-				}
-				if(region == "trailing"){
-					region = ltr ? "right" : "left";
-				}
-				child.region = region;	// TODO: technically wrong since it overwrites "trailing" with "left" etc.
 			}
 		},
 

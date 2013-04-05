@@ -298,7 +298,14 @@ define([
 
 			this.inherited(arguments);
 
-			var region = child.region;
+			var region = child.region, ltr = child.isLeftToRight();
+			if(region == "leading"){
+				region = ltr ? "left" : "right";
+			}
+			if(region == "trailing"){
+				region = ltr ? "right" : "left";
+			}
+
 			if(region){
 				// Create draggable splitter for resizing pane,
 				// or alternately if splitter=false but BorderContainer.gutters=true then
