@@ -9,7 +9,7 @@ define([
 	"./_CheckBoxMixin",
 	"dojo/text!./templates/CheckBox.html",
 	"dojo/NodeList-dom", // NodeList.addClass/removeClass
-	"dijit/a11yclick"	// template uses ondijitclick
+	"../a11yclick"	// template uses ondijitclick
 ], function(require, declare, domAttr, has, query, ready, ToggleButton, _CheckBoxMixin, template){
 
 	// module:

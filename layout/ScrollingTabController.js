@@ -20,7 +20,7 @@ define([
 	"../form/Button",
 	"../_HasDropDown",
 	"dojo/NodeList-dom", // NodeList.style
-	"dijit/a11yclick"	// template uses ondijitclick (not for keyboard support, but for responsive touch support)
+	"../a11yclick"	// template uses ondijitclick (not for keyboard support, but for responsive touch support)
 ], function(array, declare, domClass, domGeometry, domStyle, fx, lang, on, query, has,
 	registry, tabControllerTemplate, buttonTemplate, TabController, layoutUtils, _WidgetsInTemplateMixin,
 	Menu, MenuItem, Button, _HasDropDown){

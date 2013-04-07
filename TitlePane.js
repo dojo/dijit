@@ -14,7 +14,7 @@ define([
 	"./layout/ContentPane",
 	"dojo/text!./templates/TitlePane.html",
 	"./_base/manager",    // defaultDuration
-	"dijit/a11yclick"	// template uses ondijitclick
+	"./a11yclick"	// template uses ondijitclick
 ], function(array, declare, dom, domAttr, domClass, domGeometry, fxUtils, has, kernel, keys,
 			_CssStateMixin, _TemplatedMixin, ContentPane, template, manager){
 

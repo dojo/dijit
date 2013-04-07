@@ -22,7 +22,7 @@ define([
 	"./StackContainer",
 	"./ContentPane",
 	"dojo/text!./templates/AccordionButton.html",
-	"dijit/a11yclick" // AccordionButton template uses ondijitclick; not for keyboard, but for responsive touch.
+	"../a11yclick" // AccordionButton template uses ondijitclick; not for keyboard, but for responsive touch.
 ], function(require, array, declare, fx, dom, domAttr, domClass, domConstruct, domGeometry, keys, lang, has, topic,
 			focus, manager, ready, _Widget, _Container, _TemplatedMixin, _CssStateMixin, StackContainer, ContentPane, template){
 
