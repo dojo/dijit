@@ -450,7 +450,8 @@
 
 			var nwStartupCalls = 0, nwDestroyCalls = 0;
 			declare("NonWidget", null, {
-				// summary: doesn't extend _Widget, used to test that startup() is still called
+				// summary:
+				//		Doesn't extend _WidgetBase.  Used to test that startup() is still called.
 				startup: function(){
 					if(!this._started){
 						nwStartupCalls++;

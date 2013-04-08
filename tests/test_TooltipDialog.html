@@ -41,7 +41,7 @@
 	<script type="text/javascript" src="_testCommon.js"></script>
 
 	<script type="text/javascript">
-		dojo.require("dijit._Widget");
+		dojo.require("dijit._WidgetBase");
 		dojo.require("dijit._TemplatedMixin");
 
 		dojo.require("dijit.TooltipDialog");
@@ -69,8 +69,7 @@
 
 		dojo.ready(function(){
 			// create a do nothing, only for test widget
-			dojo.declare("TestWidget",
-				[dijit._Widget, dijit._TemplatedMixin], {
+			dojo.declare("TestWidget", [dijit._WidgetBase, dijit._TemplatedMixin], {
 				templateString: "<div style='margin: 10px; border: inset #700 4px; padding: 5px;' dojoAttachPoint='containerNode'></div>"
 			});
 

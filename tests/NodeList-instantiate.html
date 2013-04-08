@@ -5,7 +5,7 @@
 		<style type="text/css">
 			@import "../themes/claro/document.css";
 			@import "css/dijitTests.css";
-			#container { height:200px; }
+			#container { height: 200px; }
 		</style>
 
 		<!-- required: a default dijit theme: -->
@@ -20,8 +20,8 @@
 
 		<script type="text/javascript">
 			dojo.require("doh.runner");
-			dojo.require("dijit.dijit"); // optimize: load dijit layer
-			dojo.require("dijit._Widget");
+			dojo.require("dojo.on");
+			dojo.require("dijit._WidgetBase");
 			dojo.require("dijit.form.Button");
 			dojo.require("dijit.layout.TabContainer");
 			dojo.require("dijit.layout.ContentPane");
@@ -29,55 +29,55 @@
 	    	dojo.ready(function(){
 
 				// declare a simple widget to use as a base test:
-				dojo.declare("test._Widget",dijit._Widget,{
-					message:"",
+				dojo.declare("TestWidget", dijit._WidgetBase, {
+					message: "",
 					postCreate:function(){
 						this.inherited(arguments);
-						this.connect(this.domNode,"onclick","workit");
-						dojo.style(this.domNode,{
-							cursor:"pointer",
-							color:"#333"
+						this.own(dojo.on(this.domNode, "click", dojo.hitch(this, "workit")));
+						dojo.style(this.domNode, {
+							cursor: "pointer",
+							color: "#333"
 						});
 						this.domNode.innerHTML += this.message +" ("+this.id +")";
-						console.log('created',this.id);
+						console.log('created', this.id);
 					},
-					workit:function(){
-						dojo.place(this.domNode,this.domNode.parentNode,"end");
+					workit: function(){
+						dojo.place(this.domNode, this.domNode.parentNode, "end");
 					}
 				});
 		
 				doh.register("Instantiate", [
 					function testWidget(){
-						dojo.query("#list1 li").instantiate(test._Widget,{}).connect("onclick",console.log);
+						dojo.query("#list1 li").instantiate(TestWidget, {}).connect("onclick", console.log);
 	
-						var li = dijit.byId("test__Widget_0");
-						doh.t(li, "test__Widget_0 exists");
-						doh.is("pointer", dojo.style("test__Widget_0", "cursor"));
-						doh.is("inner (test__Widget_0)", li.domNode.innerHTML);
+						var li = dijit.byId("TestWidget_0");
+						doh.t(li, "TestWidget_0 exists");
+						doh.is("pointer", dojo.style("TestWidget_0", "cursor"));
+						doh.is("inner (TestWidget_0)", li.domNode.innerHTML);
 					},
 					
 					function testWidget2(){
-						dojo.query("#list2 li").instantiate(test._Widget,{ message:"woot" });
+						dojo.query("#list2 li").instantiate(TestWidget, { message: "woot" });
 	
-						li = dijit.byId("test__Widget_12");
-						doh.t(li, "test__Widget_12 exists");
-						doh.is("pointer", dojo.style("test__Widget_12", "cursor"));
-						doh.is("innerwoot (test__Widget_12)", li.domNode.innerHTML);
+						li = dijit.byId("TestWidget_12");
+						doh.t(li, "TestWidget_12 exists");
+						doh.is("pointer", dojo.style("TestWidget_12", "cursor"));
+						doh.is("innerwoot (TestWidget_12)", li.domNode.innerHTML);
 					},
 	
 					function TabContainer(){
 						// make a tab container from some div, and all it's children div's
 						dojo.query("#container")
 							.forEach(function(n){
-								dojo.query("div",n)
+								dojo.query("div", n)
 									// create contentpanes from the children and style them
-									.instantiate(dijit.layout.ContentPane,{})
-									.forEach(function(wn,idx){
-										dojo.mixin(dijit.byNode(wn),{ title:"tab" + (idx + 1) })
+									.instantiate(dijit.layout.ContentPane, {})
+									.forEach(function(wn, idx){
+										dojo.mixin(dijit.byNode(wn), { title: "tab" + (idx + 1) })
 									})
 								;
 							})
-							.instantiate(dijit.layout.TabContainer,{})
+							.instantiate(dijit.layout.TabContainer, {})
 						;
 						// should we add auto-startup calling?
 						dijit.byId("container").startup();
@@ -99,7 +99,7 @@
 					function Buttons(){
 						// bunches of buttons, use you imagination on how to relate them to something
 						dojo.query("#buttonTest").forEach(function(n){
-							dojo.query("button",n).instantiate(dijit.form.Button,{
+							dojo.query("button", n).instantiate(dijit.form.Button, {
 								onClick:function(){
 									this.containerNode.innerHTML = this.label + " was clicked";
 								}
