@@ -264,9 +264,6 @@ define([
 		//		See `BorderContainer.ChildWidgetProperties` for details on the properties that can be set on
 		//		children of a `BorderContainer`.
 
-		// Override default design setting from LayoutContainer for back-compat with BorderContainer in 1.8
-		design: "headline",
-
 		// gutters: [const] Boolean
 		//		Give each pane a border and margin.
 		//		Margin determined by domNode.paddingLeft.
