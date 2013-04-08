@@ -8,6 +8,7 @@ define(["doh/main", "require"], function(doh, require){
 
 	doh.register("layout.robot.GUI", require.toUrl("./robot/GUI.html"), 999999);
 
+	doh.register("layout.LayoutContainer_v1", require.toUrl("./LayoutContainer_v1.html"), 999999);
 	doh.register("layout.LayoutContainer", require.toUrl("./LayoutContainer.html"), 999999);
 
 	doh.register("layout.StackContainer", require.toUrl("./StackContainer.html"), 999999);

@@ -185,11 +185,11 @@ define([
 			this._buttons.style("display", enable ? "" : "none");
 
 			// Position and size the navigation buttons and the tablist
-			this._leftBtn.layoutAlign = "left";
-			this._rightBtn.layoutAlign = "right";
-			this._menuBtn.layoutAlign = this.isLeftToRight() ? "right" : "left";
+			this._leftBtn.region = "left";
+			this._rightBtn.region = "right";
+			this._menuBtn.region = this.isLeftToRight() ? "right" : "left";
 			layoutUtils.layoutChildren(this.domNode, this._contentBox,
-				[this._menuBtn, this._leftBtn, this._rightBtn, {domNode: this.scrollNode, layoutAlign: "client"}]);
+				[this._menuBtn, this._leftBtn, this._rightBtn, {domNode: this.scrollNode, region: "center"}]);
 
 			// set proper scroll so that selected tab is visible
 			if(this._selectedTab){

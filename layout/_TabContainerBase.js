@@ -103,13 +103,13 @@ define([
 			if(this.doLayout){
 				// position and size the titles and the container node
 				var titleAlign = this.tabPosition.replace(/-h/, "");
-				this.tablist.layoutAlign = titleAlign;
+				this.tablist.region = titleAlign;
 				var children = [this.tablist, {
 					domNode: this.tablistSpacer,
-					layoutAlign: titleAlign
+					region: titleAlign
 				}, {
 					domNode: this.containerNode,
-					layoutAlign: "client"
+					region: "center"
 				}];
 				layoutUtils.layoutChildren(this.domNode, this._contentBox, children);
 

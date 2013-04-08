@@ -3,12 +3,11 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/dom-class",
 	"dojo/dom-style",
-	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/lang",
 	"../_WidgetBase",
 	"./_LayoutWidget",
 	"./utils" // layoutUtils.layoutChildren
-], function(array, declare, domClass, domStyle, kernel, lang, _WidgetBase, _LayoutWidget, layoutUtils){
+], function(array, declare, domClass, domStyle, lang, _WidgetBase, _LayoutWidget, layoutUtils){
 
 	// module:
 	//		dijit/layout/LayoutContainer
@@ -136,7 +135,7 @@ define([
 		region: '',
 
 		// layoutAlign: [const deprecated] String
-		//		Synonym for region.  Deprecated; use region instead.
+		//		Synonym for region, except using "client" instead of "center".  Deprecated; use region instead.
 		layoutAlign: '',
 
 		// layoutPriority: [const] Number
