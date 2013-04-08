@@ -334,7 +334,7 @@ define([
 		// TODO: in 2.0 remove support for multiple connectIds.   selector gives the same effect.
 		// So, change connectId to a "", remove addTarget()/removeTarget(), etc.
 
-		_setConnectIdAttr: function(/*String|String[]}DomNode|DomNode[]*/ newId){
+		_setConnectIdAttr: function(/*String|String[]|DomNode|DomNode[]*/ newId){
 			// summary:
 			//		Connect to specified node(s)
 
