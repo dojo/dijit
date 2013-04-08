@@ -65,6 +65,10 @@ define([
 			//		- region or layoutAlign: position to place DOM node
 			//		- resize(): (optional) method to set size of node
 			//		- id: (optional) Id of widgets, referenced from resize object, below.
+			//
+			//		The widgets in this array should be ordered according to how they should be laid out
+			//		(each element will be processed in order, and take up as much remaining space as needed),
+			//		with the center widget last.
 			// changedRegionId:
 			//		If specified, the slider for the region with the specified id has been dragged, and thus
 			//		the region's height or width should be adjusted according to changedRegionSize
@@ -78,7 +82,7 @@ define([
 
 			// Move "client" elements to the end of the array for layout.  a11y dictates that the author
 			// needs to be able to put them in the document in tab-order, but this algorithm requires that
-			// client be last.    TODO: move these lines to LayoutContainer?   Unneeded other places I think.
+			// client be last.    TODO: remove for 2.0, all dijit client code already sends children as last item.
 			children = array.filter(children, function(item){ return item.region != "center" && item.layoutAlign != "client"; })
 				.concat(array.filter(children, function(item){ return item.region == "center" || item.layoutAlign == "client"; }));
 
