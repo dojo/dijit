@@ -492,7 +492,7 @@ define([
 			//		protected
 
 			if(!this.domNode){
-				// Create root node if it wasn't created by _Templated
+				// Create root node if it wasn't created by _TemplatedMixin
 				this.domNode = this.srcNodeRef || this.ownerDocument.createElement("div");
 			}
 

@@ -97,7 +97,7 @@ define([
 				this.domNode = node;
 			}
 
-			// Call down to _Widget.buildRendering() to get base classes assigned
+			// Call down to _WidgetBase.buildRendering() to get base classes assigned
 			// TODO: change the baseClass assignment to _setBaseClassAttr
 			this.inherited(arguments);
 
