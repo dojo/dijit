@@ -3,7 +3,7 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/dom-construct", // domConstruct.place
 	"dojo/_base/kernel" // kernel.deprecated
-], function(array, declare, domConstruct, kernel, registry){
+], function(array, declare, domConstruct, kernel){
 
 	// module:
 	//		dijit/_Container
