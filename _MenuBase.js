@@ -22,7 +22,8 @@ define([
 
 	return declare("dijit._MenuBase", [_Widget, _TemplatedMixin, _KeyNavContainer, _CssStateMixin], {
 		// summary:
-		//		Base class for Menu and MenuBar
+		//		Abstract base class for Menu and MenuBar.
+		//		Subclass should implement _onUpArrow(), _onDownArrow(), _onLeftArrow(), and _onRightArrow().
 
 		// selected: dijit/MenuItem
 		//		Currently selected (a.k.a. highlighted) MenuItem, or null if no MenuItem is selected.

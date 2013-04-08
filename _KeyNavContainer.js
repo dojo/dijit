@@ -25,7 +25,9 @@ define([
 
 		connectKeyNavHandlers: function(/*keys[]*/ prevKeyCodes, /*keys[]*/ nextKeyCodes){
 			// summary:
-			//		Call in postCreate() to attach the keyboard handlers to the container.
+			//		Deprecated.  You can call this in postCreate() to attach the keyboard handlers to the container,
+			//		but the preferred method is to override _onLeftArrow() and _onRightArrow(), or
+			//		_onUpArrow() and _onDownArrow(), to call focusPrev() and focusNext().
 			// prevKeyCodes: keys[]
 			//		Key codes for navigating to the previous child.
 			// nextKeyCodes: keys[]
