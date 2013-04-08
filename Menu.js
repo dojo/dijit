@@ -88,9 +88,6 @@ define([
 			if(this.contextMenuForWindow){
 				this.bindDomNode(this.ownerDocumentBody);
 			}else{
-				// TODO: should have _setTargetNodeIds() method to handle initialization and a possible
-				// later set('targetNodeIds', ...) call.  There's also a problem that targetNodeIds[]
-				// gets stale after calls to bindDomNode()/unBindDomNode() as it still is just the original list (see #9610)
 				array.forEach(this.targetNodeIds, this.bindDomNode, this);
 			}
 			this.inherited(arguments);
