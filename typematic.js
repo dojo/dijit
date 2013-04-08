@@ -1,12 +1,11 @@
 define([
 	"dojo/_base/array", // array.forEach
-	"dojo/_base/connect", // connect.connect
-	"dojo/_base/kernel", // kernel.deprecated
+	"dojo/_base/connect", // connect._keyPress
 	"dojo/_base/lang", // lang.mixin, lang.hitch
 	"dojo/on",
 	"dojo/sniff", // has("ie")
 	"./main"        // setting dijit.typematic global
-], function(array, connect, kernel, lang, on, has, dijit){
+], function(array, connect, lang, on, has, dijit){
 
 	// module:
 	//		dijit/typematic
