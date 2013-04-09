@@ -42,6 +42,7 @@ define([
 				"<label class='dijitLeft dijitInline' for='${selectId}'>${label}</label>" +
 				"<input data-dojo-type='../../form/FilteringSelect' required='false' " +
 				"data-dojo-props='labelType:\"html\", labelAttr:\"label\", searchAttr:\"name\"' " +
+				"class='${comboClass}' " +
 				"tabIndex='-1' id='${selectId}' data-dojo-attach-point='select' value=''/>" +
 				"</span>",
 
@@ -150,6 +151,8 @@ define([
 		//		The editor 'command' implemented by this plugin.
 		command: "fontName",
 
+		comboClass: "dijitFontNameCombo",
+
 		postMixInProperties: function(){
 			// summary:
 			//		Over-ride for the default posr mixin control
@@ -212,6 +215,8 @@ define([
 		//		The editor 'command' implemented by this plugin.
 		command: "fontSize",
 
+		comboClass: "dijitFontSizeCombo",
+
 		// values: [public] Number[]
 		//		The HTML font size values supported by this plugin
 		values: [1, 2, 3, 4, 5, 6, 7], // sizes according to the old HTML FONT SIZE
@@ -256,6 +261,8 @@ define([
 		// command: [public] String
 		//		The editor 'command' implemented by this plugin.
 		command: "formatBlock",
+
+		comboClass: "dijitFormatBlockCombo",
 
 		// values: [public] Array
 		//		The HTML format tags supported by this plugin
