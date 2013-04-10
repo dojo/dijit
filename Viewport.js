@@ -47,7 +47,7 @@ define([
 		}
 
 		// On iOS, keep track of the focused node so we can guess when the keyboard is/isn't being displayed.
-		if(true || has("ios")){
+		if(has("ios")){
 			on(document, "focusin", function(evt){
 				focusedNode = evt.target;
 			});
@@ -68,7 +68,16 @@ define([
 		var tag = focusedNode && focusedNode.tagName && focusedNode.tagName.toLowerCase();
 		if(has("ios") && !focusedNode.readOnly && (tag == "textarea" || (tag == "input" &&
 			/^(color|email|number|password|search|tel|text|url)$/.test(focusedNode.type)))){
-			box.h *= (box.h > box.w ? 0.66 : 0.40);
+
+			// Box represents the size of the viewport.  Some of the viewport is likely covered by the keyboard.
+			// Estimate height of visible viewport assuming viewport goes to bottom of screen, but is covered by keyboard.
+			box.h *= (orientation == 0 || orientation == 180 ? 0.66 : 0.40);
+
+			// Above measurement will be inaccurate if viewport was scrolled up so far that it ends before the bottom
+			// of the screen.   In this case, keyboard isn't covering as much of the viewport as we thought.
+			// We know the visible size is at least the distance from the top of the viewport to the focused node.
+			var rect = focusedNode.getBoundingClientRect();
+			box.h = Math.max(box.h, rect.top + rect.height);
 		}
 
 		return box;
