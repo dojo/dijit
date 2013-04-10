@@ -66,7 +66,7 @@ define([
 
 		// Account for iOS virtual keyboard, if it's being shown.  Unfortunately no direct way to check or measure.
 		var tag = focusedNode && focusedNode.tagName && focusedNode.tagName.toLowerCase();
-		if(has("ios") && (tag == "textarea" || (tag == "input" &&
+		if(has("ios") && !focusedNode.readOnly && (tag == "textarea" || (tag == "input" &&
 			/^(color|email|number|password|search|tel|text|url)$/.test(focusedNode.type)))){
 			box.h *= (box.h > box.w ? 0.66 : 0.40);
 		}
