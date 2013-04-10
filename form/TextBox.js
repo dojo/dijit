@@ -4,12 +4,13 @@ define([
 	"dojo/dom-style", // domStyle.getComputedStyle
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/lang", // lang.hitch
+	"dojo/on",
 	"dojo/sniff", // has("ie") has("mozilla")
 	"./_FormValueWidget",
 	"./_TextBoxMixin",
 	"dojo/text!./templates/TextBox.html",
 	"../main"	// to export dijit._setSelectionRange, remove in 2.0
-], function(declare, domConstruct, domStyle, kernel, lang, has,
+], function(declare, domConstruct, domStyle, kernel, lang, on, has,
 			_FormValueWidget, _TextBoxMixin, template, dijit){
 
 	// module:
@@ -68,6 +69,11 @@ define([
 				// parent node already has dijitInputField class but it doesn't affect this <span>
 				// since it's position: absolute.
 				this._phspan = domConstruct.create('span',{ onmousedown:function(e){ e.preventDefault(); }, className:'dijitPlaceHolder dijitInputField'},this.textbox,'after');
+				this.own(on(this._phspan, "touchend, MSPointerUp", lang.hitch(this, function(){
+					// If the user clicks placeholder rather than the <input>, need programmatic focus.  Normally this
+					// is done in _FormWidgetMixin._onFocus() but after [30663] it's done on a delay, which is ineffective.
+					this.focus();
+				})));
 			}
 			this._phspan.innerHTML="";
 			this._phspan.appendChild(this._phspan.ownerDocument.createTextNode(v));
