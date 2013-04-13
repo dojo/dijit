@@ -187,7 +187,7 @@ define([
 			//		protected
 
 			// ignore mouse or touch on expando node
-			if(this.current && this.tree.isExpandoNode(e.target, this.current)){ return; }
+			if(this.current && this.current.isExpandable && this.tree.isExpandoNode(e.target, this.current)){ return; }
 
 			if(mouse.isLeft(e)){
 				// Prevent text selection while dragging on desktop, see #16328.   But don't call preventDefault()

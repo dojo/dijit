@@ -45,6 +45,11 @@
 					doh.robot.keyUp(modifiers[i], 250);
 				}
 			}
+			function mouseSelectExpendo(tree, item, modifiers, k){
+				doh.robot.mouseMoveAt(item.expandoNode, 250);
+				clickItem(modifiers);
+				doh.robot.sequence(k);
+			}
 			function mouseSelect(tree, item, modifiers, k){
 				doh.robot.mouseMoveAt(item.domNode, 250, 200);
 				clickItem(modifiers);
@@ -83,11 +88,11 @@
 				selected.sort(function(a, b){return a.item.id<b.item.id?-1:1});
 				return selected;
 			}
-			function testSingleItem(selector, clicker){
+			function testSingleItem(selector, clicker, itemName){
 				var d = new doh.Deferred();
 				
 				// Find the fruitsTreeNode category
-				var fruitsTreeNode = findTreeNode("itemTree", "Fruits");
+				var fruitsTreeNode = findTreeNode("itemTree", itemName || "Fruits");
 				var tree = registry.byId("itemTree");
 				
 				// select fruit item
@@ -210,6 +215,9 @@
 				});
 				doh.register("item selection (keyboard)", itemSelection(keyboardSelect, pressEnter) );
 				doh.register("item selection (mouse)", itemSelection(mouseSelect, clickItem) );
+				doh.register({name:"item selection (mouse on expando)", timeout: 15000, runTest: function(){
+					return testSingleItem(mouseSelectExpendo, clickItem, 'Cereals');
+				}});
 
 				// Failsafe to clear pressed keys in case above tests timeout etc.
 				doh.register("clear pressed keys", function(){

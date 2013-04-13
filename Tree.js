@@ -1360,11 +1360,9 @@ define([
 			var domElement = e.target,
 				isExpandoClick = this.isExpandoNode(domElement, nodeWidget);
 
-			if((this.openOnClick && nodeWidget.isExpandable) || isExpandoClick){
+			if(nodeWidget.isExpandable && (this.openOnClick || isExpandoClick)){
 				// expando node was clicked, or label of a folder node was clicked; open it
-				if(nodeWidget.isExpandable){
-					this._onExpandoClick({node: nodeWidget});
-				}
+				this._onExpandoClick({node: nodeWidget});
 			}else{
 				this._publish("execute", { item: nodeWidget.item, node: nodeWidget, evt: e });
 				this.onClick(nodeWidget.item, nodeWidget, e);
@@ -1380,11 +1378,9 @@ define([
 			var domElement = e.target,
 				isExpandoClick = (domElement == nodeWidget.expandoNode || domElement == nodeWidget.expandoNodeText);
 
-			if((this.openOnDblClick && nodeWidget.isExpandable) || isExpandoClick){
+			if(nodeWidget.isExpandable && (this.openOnClick || isExpandoClick)){
 				// expando node was clicked, or label of a folder node was clicked; open it
-				if(nodeWidget.isExpandable){
-					this._onExpandoClick({node: nodeWidget});
-				}
+				this._onExpandoClick({node: nodeWidget});
 			}else{
 				this._publish("execute", { item: nodeWidget.item, node: nodeWidget, evt: e });
 				this.onDblClick(nodeWidget.item, nodeWidget, e);
