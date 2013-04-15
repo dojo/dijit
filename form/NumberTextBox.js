@@ -17,7 +17,11 @@ define([
 
 		// Override ValidationTextBox.pattern.... we use a reg-ex generating function rather
 		// than a straight regexp to deal with locale (plus formatting options too?)
-		pattern: number.regexp,
+		pattern: function(constraints){
+			// if focused, accept either currency data or NumberTextBox format
+			return '(' + (this.focused && this.editOptions ? this._regExpGenerator(lang.delegate(constraints, this.editOptions)) + '|' : '')
+				+ this._regExpGenerator(constraints) + ')';
+		},
 
 		/*=====
 		// constraints: NumberTextBox.__Constraints
@@ -61,13 +65,23 @@ define([
 		 =====*/
 		_formatter: number.format,
 
+		/*=====
+		_regExpGenerator: function(constraints){
+			// summary:
+			//		Generate a localized regular expression as a string, according to constraints.
+			// constraints: number.__ParseOptions
+			//		Formatting options
+			// tags:
+			//		protected
+
+			return "(\d*).(\d*)";	// string
+		},
+		=====*/
+		_regExpGenerator: number.regexp,
+
 		postMixInProperties: function(){
 			this.inherited(arguments);
 			this._set("type", "text"); // in case type="number" was specified which messes up parse/format
-		},
-
-		_getConstraintsAttr: function(){
-			return this.editOptions && this.focused ? lang.mixin({}, this.constraints, this.editOptions) : this.constraints;
 		},
 
 		_setConstraintsAttr: function(/*Object*/ constraints){
