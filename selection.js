@@ -158,7 +158,7 @@ define([
 			return this.getParentOfType(node, arguments); //DOMNode
 		};
 
-		function isTag(/*DomNode*/ node, /*String[]*/ tags){
+		this.isTag = function(/*DomNode*/ node, /*String[]*/ tags){
 			// summary:
 			//		Function to determine if a node is one of an array of tags.
 			// node:
@@ -175,7 +175,7 @@ define([
 				}
 			}
 			return "";
-		}
+		};
 
 		this.getParentOfType = function(/*DomNode*/ node, /*String[]*/ tags){
 			// summary:
@@ -185,7 +185,7 @@ define([
 			// tags:
 			//		An array of tag name strings to check to see if the node matches.
 			while(node){
-				if(isTag(node, tags).length){
+				if(this.isTag(node, tags).length){
 					return node; // DOMNode
 				}
 				node = node.parentNode;
