@@ -6,6 +6,9 @@
 //		(Used by _testCommon.html)
 //
 //		Usage: ready(1, function(){ require(["dijit/tests/delay!300"]); });
+
+// TODO: remove for 2.0, it's only used by _testCommon.js which will also be removed.
+
 define({
 	load: function(delay, req, loaded){
 		setTimeout(function(){

@@ -1,20 +1,8 @@
 // module:
 //		dijit/tests/_testCommon.js
 // description:
-//		A simple module to be included in dijit test pages to allow
-//		for easy switching between the many many points of the test-matrix.
-//
-//		in your test browser, provides a way to switch between available themes,
-//		and optionally enable RTL (right to left) mode, and/or dj_a11y (high-
-//		contrast/image off emulation) ... probably not a genuine test for a11y.
-//
-//		usage: on any dijit test_* page, press ctrl-f9 to popup links.
-//
-//		there are currently (3 themes * 4 tests) * (10 variations of supported browsers)
-//		not including testing individual locale-strings
-//
-//		you should NOT be using this in a production environment. include
-//		your css and set your classes manually. for test purposes only ...
+//		Deprecated, remove in 2.0.   New test files should use boilerplate.html rather than this file,
+//		and non-test files shouldn't be using either.
 
 require([
 	"require",
