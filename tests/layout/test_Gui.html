@@ -4,11 +4,9 @@
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>Dijit UI Tester</title>
 
-	<!-- required: a default theme -->
-	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro.css"/>
-	<style type="text/css">
-		@import "../../themes/claro/document.css";
+	<script src="../boilerplate.js"></script>
 
+	<style type="text/css">
 		html, body {
 			height: 100%;
 			width: 100%;
@@ -33,13 +31,6 @@
 			height: 40%;
 		}
 	</style>
-
-	<!-- required: dojo.js -->
-	<script type="text/javascript" src="../../../dojo/dojo.js"
-		data-dojo-config="isDebug: false"></script>
-
-	<!-- do not use: only for debugging / testing themes -->
-	<script type="text/javascript" src="../../tests/_testCommon.js"></script>
 
 	<script type="text/javascript">
 		require(["dojo/parser", "dojo/domReady!"], function(parser){

@@ -4,10 +4,9 @@
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>dijit/layout/BorderContainer Test - Full Screen</title>
 
-	<style type="text/css">
-		@import "../../themes/claro/document.css";
-		@import "../css/dijitTests.css";
+	<script src="../boilerplate.js"></script>
 
+	<style type="text/css">
 		html, body, #main{
 			width: 100%;	/* make the body expand to fill the visible window */
 			height: 100%;
@@ -18,22 +17,11 @@
 		}
 	</style>
 
-	<!-- required: the default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro.css"/>
-
-	<!-- required: dojo.js -->
-	<script type="text/javascript" src="../../../dojo/dojo.js"
-		data-dojo-config="isDebug: true"></script>
-
-	<!-- only needed for alternate theme testing: do NOT use in your code! -->
-	<script type="text/javascript" src="../_testCommon.js"></script>
-
 	<script type="text/javascript">
 		require(["dojo/parser", "dojo/domReady!"], function(parser){
 			parser.parse();
 		});
 	</script>
-
 </head>
 <body class="claro" role="main">
 	<div id="main" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='design:"sidebar" '>

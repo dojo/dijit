@@ -4,11 +4,9 @@
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>dijit/layout/BorderContainer Test</title>
 
-	<!-- only needed for test files: -->
-	<style type="text/css">
-		@import "../../themes/claro/document.css";
-		@import "../css/dijitTests.css";
+	<script src="../boilerplate.js"></script>
 
+	<style type="text/css">
 		/* styles for this test */
 		.dijitContentPane:focus { color: cyan; font-weight: bold }
 		body { margin-left: 20px }
@@ -26,16 +24,6 @@
 		#mondrian .dijitContentPane { padding: 0 }
 
 	</style>
-
-	<!-- required: the default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro.css"/>
-
-	<!-- required: dojo.js -->
-	<script type="text/javascript" src="../../../dojo/dojo.js"
-		data-dojo-config="isDebug: true"></script>
-
-	<!-- only needed for alternate theme testing: -->
-	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">
 		var bc, cp1, cp2, cp3;
