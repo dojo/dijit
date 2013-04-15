@@ -27,7 +27,7 @@
 					function setup(){
 						// get pointers to singletons loaded on test page
 						registry = robot.window.require("dijit/registry");
-						focus = robot.window.require("dijit/focus");
+						doh.t(!!registry, "got registry");
 					}
 				]);
 	
@@ -62,13 +62,12 @@
 							
 							robot.mouseMoveAt('mainTabContainer_tablist_tab3', 500);
 							robot.mouseClick({left: true}, 500);
-							robot.mouseClick({left: true}, 500);
 							
 							var tc = registry.byId("mainTabContainer");
 							
-							robot.sequence(d.getTestCallback(function(){
+							helpers.onFocus(d.getTestCallback(function(curNode){
 								// verify tab button is selected
-								doh.is('mainTabContainer_tablist_tab3', focus.curNode.id, "verify chosen tab is in its chosen state and focused");
+								doh.is('mainTabContainer_tablist_tab3', curNode.id, "verify chosen tab is in its chosen state and focused");
 
 								// verify pane is shown
 								doh.is("tab3", tc.selectedChildWidget.id, "verify that the appropiate contentpane is displayed");
