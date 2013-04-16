@@ -102,7 +102,7 @@ define([
 			this.domNode.style.display = "block";
 			this.open = true;
 			this.layout();
-			this.bgIframe = new BackgroundIframe(this.domNode, true);
+			this.bgIframe = new BackgroundIframe(this.domNode);
 
 			var win = winUtils.get(this.ownerDocument);
 			this._modalConnects = [

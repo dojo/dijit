@@ -21,29 +21,6 @@ define([
 
 	// TODO: remove _frames, it isn't being used much, since popups never release their
 	// iframes (see [22236])
-
-	function make(/*Boolean*/ transparent){
-		var iframe;
-		if(has("ie") < 9){
-			var burl = config["dojoBlankHtmlUrl"] || require.toUrl("dojo/resources/blank.html") || "javascript:\"\"";
-			var html="<iframe src='" + burl + "' role='presentation'"
-				+ " style='position: absolute; left: 0px; top: 0px; z-index: -1;"
-				+ (transparent ? "filter:Alpha(Opacity=\"0\");" : "")
-				+ "'>";
-			iframe = document.createElement(html);
-		}else{
-			iframe = domConstruct.create("iframe");
-			iframe.src = 'javascript:""';
-			iframe.className = "dijitBackgroundIframe";
-			iframe.setAttribute("role", "presentation");
-			if(transparent){
-				domStyle.set(iframe, "opacity", 0.1);
-			}
-		}
-		iframe.tabIndex = -1; // Magic to prevent iframe from getting focus on tab keypress - as style didn't work.
-		return iframe;
-	}
-
 	var _frames = new function(){
 		// summary:
 		//		cache of iframes
@@ -56,7 +33,21 @@ define([
 				iframe = queue.pop();
 				iframe.style.display="";
 			}else{
-				return make();
+				// transparency needed for DialogUnderlay and for tooltips on IE (to see screen near connector)
+				if(has("ie") < 9){
+					var burl = config["dojoBlankHtmlUrl"] || require.toUrl("dojo/resources/blank.html") || "javascript:\"\"";
+					var html="<iframe src='" + burl + "' role='presentation'"
+						+ " style='position: absolute; left: 0px; top: 0px;"
+						+ "z-index: -1; filter:Alpha(Opacity=\"0\");'>";
+					iframe = document.createElement(html);
+				}else{
+					iframe = domConstruct.create("iframe");
+					iframe.src = 'javascript:""';
+					iframe.className = "dijitBackgroundIframe";
+					iframe.setAttribute("role", "presentation");
+					domStyle.set(iframe, "opacity", 0.1);
+				}
+				iframe.tabIndex = -1; // Magic to prevent iframe from getting focus on tab keypress - as style didn't work.
 			}
 			return iframe;
 		};
@@ -68,7 +59,7 @@ define([
 	}();
 
 
-	dijit.BackgroundIframe = function(/*DomNode*/ node, /*Boolean*/ transparent){
+	dijit.BackgroundIframe = function(/*DomNode*/ node){
 		// summary:
 		//		For IE/FF z-index shenanigans. id attribute is required.
 		//
@@ -80,7 +71,7 @@ define([
 
 		if(!node.id){ throw new Error("no id"); }
 		if(has("config-bgIframe")){
-			var iframe = (this.iframe = transparent ? make(true) : _frames.pop());
+			var iframe = (this.iframe = _frames.pop());
 			node.appendChild(iframe);
 			if(has("ie")<7 || has("quirks")){
 				this.resize(node);
