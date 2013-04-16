@@ -65,7 +65,7 @@ define([
 							// callback to do data-dojo-attach-event to a widget
 							if(type in widget){
 								// back-compat, remove for 2.0
-								return aspect.after(widget, type, callback, true);
+								return widget.connect(widget, type, callback);
 							}else{
 								// 1.x may never hit this branch, but it's the default for 2.0
 								return widget.on(type, callback, true);

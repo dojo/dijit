@@ -29,14 +29,14 @@
 				"dojo/html", "dojo/query", "dojo/parser",
 				"dijit/registry", "dijit/_WidgetBase", "dijit/_Widget",
 				"dijit/_AttachMixin", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin",
-				"dijit/form/Button", "dijit/form/CheckBox",
+				"dijit/form/Button", "dijit/form/CheckBox", "dijit/form/TextBox",
 				"dijit/ProgressBar", "dijit/layout/ContentPane", "dijit/layout/TabContainer", "dijit/_Container",
 				"dijit/_Contained", "dijit/layout/_LayoutWidget", "dijit/tests/resources/TestContextRequireWidget",
 				"dijit/focus",
 				"dojo/domReady!"
 			], function(doh, array, declare, win, dom, domGeom, html, query, parser,
 					registry, _WidgetBase, _Widget, _AttachMixin, _TemplatedMixin, _WidgetsInTemplateMixin,
-					Button, CheckBox, ProgressBar, ContentPane, TabContainer,
+					Button, CheckBox, TextBox, ProgressBar, ContentPane, TabContainer,
 					_Container, _Contained, _LayoutWidget, TestContextRequireWidget, focusUtil){
 
 				declare('Test1Widget', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
@@ -173,6 +173,14 @@
 						}
 						this.inherited(arguments);
 						this._destroyed = true;
+					}
+				});
+
+				declare('Test6Widget', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+					templateString: dom.byId('Test6Template').value,
+					clickCount: 0,
+					handleClick: function(){
+						this.clickCount++;
 					}
 				});
 
@@ -459,6 +467,18 @@
 							doh.is("dijit.form.Button", testW.missingButton.declaredClass, "and it's to a widget");
 							doh.t(registry.byId("missingButtonId"), "nested widget also registered by id");
 						}
+					},
+					{
+						// Test that data-dojo-attach-event bindings work with widgets in template, when
+						// binding to dijit/_Widget methods
+						name: "_Widget Deferred Connect methods",
+						runTest: function(){
+							var test6Widget = registry.byId("test6Widget");
+							doh.t(test6Widget.clickCount === 0, "click count was initially zero");
+							// Issue a 'click' event directly on the interior input of the TextBox
+							test6Widget.textbox.textbox.click();
+							doh.t(test6Widget.clickCount === 1, "click count incremented properly");
+						}
 					}
 				]);
 
@@ -608,6 +628,16 @@
 
 			<!-- Test templated widget containing relative MIDs for data-dojo-type -->
 			<div data-dojo-type="dijit/tests/resources/TestContextRequireWidget" data-dojo-props="id: 'testContextWidget'"></div>
+
+			<!-- Test templated widget for back-compat with inherited onClick etc events when using widgets in template -->
+			<textarea id="Test6Template" style="display:none;">
+				<div>
+					<div data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="textbox" data-dojo-attach-event="onClick: handleClick"></div>
+				</div>
+			</textarea>
+
+			<div data-dojo-type="Test6Widget" data-dojo-props="id: 'test6Widget'"></div>
+
 		</div>
 
 	</body>
