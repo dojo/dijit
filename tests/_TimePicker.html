@@ -4,35 +4,18 @@
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>_TimePicker DOH Test</title>
 
-	<style>
-		@import "../../dojo/resources/dojo.css";
-		@import "css/dijitTests.css";
-	</style>
-
-	<!-- required: the default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../themes/claro/claro.css"/>
-
-	<!-- required: dojo.js -->
-	<script type="text/javascript" src="../../dojo/dojo.js"
-		data-dojo-config="isDebug: true, parseOnLoad: false"></script>
-
-	<!-- only needed for alternate theme testing: do NOT use in your code! -->
-	<script type="text/javascript" src="_testCommon.js"></script>
-
+	<script type="text/javascript" src="boilerplate.js"></script>
 
 	<script type="text/javascript">
-		dojo.require('doh.runner');
-		dojo.require("dijit.dijit"); // optimize: load dijit layer
-		dojo.require("dijit._TimePicker");
-		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
-		dojo.require("dijit.tests.helpers");	// functions to help test
-
-		dojo.ready(function(){
+		require([
+			"doh/runner",
+			"dijit/_TimePicker",
+			"dojo/domReady!"
+		], function(doh, _TimePicker){
 
 			doh.register("tests",
 				function extended_range(){
-					var t1 = new dijit._TimePicker({
-					}, dojo.byId("t1"));
+					var t1 = _TimePicker({}, "t1");
 					t1.set('value', new Date("December 11, 2011 00:09:30"));
 					doh.is(96, t1.timeMenu.children.length, 'num entries 1');
 				}

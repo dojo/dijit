@@ -4,48 +4,38 @@
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>Dojo Toolbar Widget Test</title>
 
-	<style type="text/css">
-		@import "../themes/claro/document.css";
-		@import "css/dijitTests.css";
-	</style>
-
-	<!-- required: a default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/claro/claro.css"/>
-
-	<!-- required: dojo.js -->
-	<script type="text/javascript" src="../../dojo/dojo.js"
-		data-dojo-config="parseOnLoad: true, isDebug: true"></script>
-
-	<!-- not needed, for testing alternate themes -->
-	<script type="text/javascript" src="_testCommon.js"></script>
+	<script type="text/javascript" src="boilerplate.js"></script>
 
 	<script type="text/javascript">
-		dojo.require("dijit.dijit"); // optimize: load dijit layer
+		require([
+			"dojo/_base/array",
+			"dojo/dom",
+			"dojo/parser",
+	
+			"dijit/Toolbar",
+			"dijit/form/Button",
 
-		dojo.require("dijit.Declaration");
-		dojo.require("dijit.Toolbar");
-		dojo.require("dijit.ToolbarSeparator");
+			"dijit/ToolbarSeparator",
+			"dijit/Declaration",
+			"dijit/form/DropDownButton",
+			"dijit/form/ComboButton",
+			"dijit/form/ToggleButton",
+	
+			"dijit/ColorPalette",
+			"dijit/TooltipDialog",
+			"dijit/form/TextBox",
+	
+			"dijit/Menu",
+			"dijit/MenuItem",
+	
+			"dojo/domReady!"
+		], function(array, dom, parser, Toolbar, Button){
 
-		dojo.require("dijit.form.Button");
-		dojo.require("dijit.form.DropDownButton");
-		dojo.require("dijit.form.ComboButton");
-		dojo.require("dijit.form.ToggleButton");
-
-		dojo.require("dijit.ColorPalette");
-		dojo.require("dijit.TooltipDialog");
-		dojo.require("dijit.form.TextBox");
-
-		dojo.require("dijit.Menu");
-		dojo.require("dijit.MenuItem");
-
-		dojo.require("dojo.parser");
-
-		dojo.ready(function(){
 			// programatic creation
-			dojo.forEach(["toolbar2", "toolbar3", "toolbar4"], function(toolbarId){
-				var toolbar = new dijit.Toolbar({}, dojo.byId(toolbarId));
-				dojo.forEach(["Cut", "Copy", "Paste"], function(label){
-					var button = new dijit.form.Button({
+			array.forEach(["toolbar2", "toolbar3", "toolbar4"], function(toolbarId){
+				var toolbar = new Toolbar({}, dom.byId(toolbarId));
+				array.forEach(["Cut", "Copy", "Paste"], function(label){
+					var button = new Button({
                         id: toolbarId+"."+label,
                         // note: should always specify a label, for accessibility reasons.
                         // Just set showLabel=false if you don't want it to be displayed normally
@@ -56,7 +46,8 @@
                     toolbar.addChild(button);
 				});
 			});
-			
+
+			parser.parse();
 		});
 	</script>
 </head>

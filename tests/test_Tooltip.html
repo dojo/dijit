@@ -4,68 +4,62 @@
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>Dojo Tooltip Widget Test</title>
 
-	<style type="text/css">
-		@import "../themes/claro/document.css";
-		@import "css/dijitTests.css";
+	<script type="text/javascript" src="boilerplate.js"></script>
 
+	<style type="text/css">
 		#instructionTable.td { padding: 20px; }
 	</style>
 
-	<!-- required: a default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/claro/claro.css"/>
-
-	<!-- required: dojo.js -->
-	<script type="text/javascript" src="../../dojo/dojo.js"
-		data-dojo-config="parseOnLoad: true, isDebug: true"></script>
-
-	<!-- not needed, for testing alternate themes -->
-	<script type="text/javascript" src="_testCommon.js"></script>
-
 	<script type="text/javascript">
-		dojo.require("dojo.parser");
+		require([
+			"dojo/dom",
+			"dojo/parser",
+			"dijit/registry",
+			"dijit/Tooltip",
 
-		dojo.require("dijit.Tooltip");
-		dojo.require("dijit.ColorPalette");
-		dojo.require("dijit.form.DateTextBox");
+			"dijit/ColorPalette",
+			"dijit/form/DateTextBox",
+			"dijit/form/DropDownButton",
+			"dijit/DropDownMenu",
+			"dijit/MenuItem",
+			"dijit/TitlePane",
+				
+			"dojo/domReady!"
+		], function(dom, parser, registry, Tooltip){
+			updateDynamicIds = function(){
+				dom.byId("t_connected_id").innerHTML = "Tooltip connected with nodes: " + registry.byId("t_tooltip").get("connectId");
+			};
+			addDynamicTarget = function(id){
+				registry.byId("t_tooltip").addTarget(id);
+				updateDynamicIds();
+			};
+			removeDynamicTarget = function(id){
+				registry.byId("t_tooltip").removeTarget(id);
+				updateDynamicIds();
+			};
+	
+			setDefaultAlign = function(array){
+				Tooltip.defaultPosition = array;
+				dom.byId('current').innerHTML = "Current: " + array;
+			};
 
-		dojo.require("dijit.form.DropDownButton");
-		dojo.require("dijit.DropDownMenu");
-		dojo.require("dijit.MenuItem");
-		dojo.require("dijit.TitlePane");
-
-		dojo.ready(function(){
 			console.log("on load func");
-			var tt = new dijit.Tooltip({label:"programmatically created tooltip", connectId:["programmaticTest"]});
+			var tt = new Tooltip({label:"programmatically created tooltip", connectId:["programmaticTest"]});
 			console.log("created", tt, tt.id);
 
-			dojo.connect(dijit.byId("t_tooltip"),"onShow",function(t, p){
+			parser.parse();
+
+			registry.byId("t_tooltip").on("show",function(t, p){
 				console.log("Dynamic target tooltip onShow", t, p);//To check correct order in event call
-				if(!p || !p.length){ p = dijit.Tooltip.defaultPosition; }
-				dojo.byId("t_shown").innerHTML = "Tooltip shown for node " + t.id + " at position " + p;
+				if(!p || !p.length){ p = Tooltip.defaultPosition; }
+				dom.byId("t_shown").innerHTML = "Tooltip shown for node " + t.id + " at position " + p;
 			});
-			dojo.connect(dijit.byId("t_tooltip"),"onHide",function(){
+			registry.byId("t_tooltip").on("hide", function(){
 				console.log("Dynamic target tooltip onHide");//To check correct order in event call
-				dojo.byId("t_shown").innerHTML = "Tooltip hidden";
+				dom.byId("t_shown").innerHTML = "Tooltip hidden";
 			});
 			updateDynamicIds();
 		});
-
-		function updateDynamicIds(){
-			dojo.byId("t_connected_id").innerHTML = "Tooltip connected with nodes: " + dijit.byId("t_tooltip").get("connectId");
-		}
-		function addDynamicTarget(id){
-			dijit.byId("t_tooltip").addTarget(id);
-			updateDynamicIds();
-		}
-		function removeDynamicTarget(id){
-			dijit.byId("t_tooltip").removeTarget(id);
-			updateDynamicIds();
-		}
-
-		function setDefaultAlign(array){
-			dijit.Tooltip.defaultPosition = array;
-			dojo.byId('current').innerHTML = "Current: " + array;
-		}
 	</script>
 </head>
 <body class="claro" role="main">
@@ -150,7 +144,7 @@
 
 	<button id="four">button w/tooltip</button>
 	<span id="btnTt" data-dojo-type="dijit/Tooltip" data-dojo-props='connectId:["four"]'>tooltip on a button</span>
-	<button id="removeButton" onclick="dijit.byId('btnTt').destroy()">Remove</button> tooltip from "button w/tooltip".
+	<button id="removeButton" onclick="registry.byId('btnTt').destroy()">Remove</button> tooltip from "button w/tooltip".
 
 	<span style="float: right">
 		Test tooltip on right aligned element.  Tooltip should flow to the left --&gt;

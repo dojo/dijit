@@ -3,14 +3,8 @@
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>dijit/a11y unit test</title>
-	<style type="text/css">
-		@import "../themes/claro/document.css";
-		@import "css/dijitTests.css";
-		@import "../themes/claro/claro.css";
-	</style>
-	<script type="text/javascript" src="../../dojo/dojo.js"
-		data-dojo-config="isDebug: true"></script>
-	<script type="text/javascript" src="_testCommon.js"></script>
+
+	<script src="boilerplate.js"></script>
 
 	<script type="text/javascript">
 		require([
@@ -25,21 +19,21 @@
 
 				function isTabNavigable(t){
 					var d = new doh.Deferred();
-					doh.t(a11y.isTabNavigable(dojo.byId("a-with-href")), "a-with-href");
-					doh.f(a11y.isTabNavigable(dojo.byId("a-without-href")), "a-without-href");
-					doh.t(a11y.isTabNavigable(dojo.byId("area")), "area");
-					doh.t(a11y.isTabNavigable(dojo.byId("button")), "button");
-					doh.t(a11y.isTabNavigable(dojo.byId("input")), "input");
-					doh.t(a11y.isTabNavigable(dojo.byId("object")), "object");
-					doh.t(a11y.isTabNavigable(dojo.byId("select")), "select");
-					doh.t(a11y.isTabNavigable(dojo.byId("textarea")), "textarea");
-					doh.f(a11y.isTabNavigable(dojo.byId("empty")), "empty");
-					doh.t(a11y.isTabNavigable(dojo.byId("zero-tabindex-div")), "zero-tabindex-div");
-					doh.f(a11y.isTabNavigable(dojo.byId("no-tabindex-div")), "no-tabindex-div");
-					doh.f(a11y.isTabNavigable(dojo.byId("iframe")), "iframe");
+					doh.t(a11y.isTabNavigable(dom.byId("a-with-href")), "a-with-href");
+					doh.f(a11y.isTabNavigable(dom.byId("a-without-href")), "a-without-href");
+					doh.t(a11y.isTabNavigable(dom.byId("area")), "area");
+					doh.t(a11y.isTabNavigable(dom.byId("button")), "button");
+					doh.t(a11y.isTabNavigable(dom.byId("input")), "input");
+					doh.t(a11y.isTabNavigable(dom.byId("object")), "object");
+					doh.t(a11y.isTabNavigable(dom.byId("select")), "select");
+					doh.t(a11y.isTabNavigable(dom.byId("textarea")), "textarea");
+					doh.f(a11y.isTabNavigable(dom.byId("empty")), "empty");
+					doh.t(a11y.isTabNavigable(dom.byId("zero-tabindex-div")), "zero-tabindex-div");
+					doh.f(a11y.isTabNavigable(dom.byId("no-tabindex-div")), "no-tabindex-div");
+					doh.f(a11y.isTabNavigable(dom.byId("iframe")), "iframe");
 
 					registry.byId("editor").onLoadDeferred.then(d.getTestCallback(function(){
-						doh.t(a11y.isTabNavigable(dojo.byId("editor_iframe")), "editor_iframe");
+						doh.t(a11y.isTabNavigable(dom.byId("editor_iframe")), "editor_iframe");
 					}));
 
 					return d;
@@ -83,8 +77,8 @@
 					doh.is("textarea", a11y.getLastInTabbingOrder("textarea-container").id);
 				},
 				function findTabOnElementRatherThanString(t){
-					doh.is("a-with-href", a11y.getFirstInTabbingOrder(dojo.byId("a-with-href-container")).id);
-					doh.is("a-with-href", a11y.getLastInTabbingOrder(dojo.byId("a-with-href-container")).id);
+					doh.is("a-with-href", a11y.getFirstInTabbingOrder(dom.byId("a-with-href-container")).id);
+					doh.is("a-with-href", a11y.getLastInTabbingOrder(dom.byId("a-with-href-container")).id);
 				},
 				function findTabSkipDisabled(t){
 					doh.is("not-disabled-input", a11y.getFirstInTabbingOrder("skip-disabled").id);

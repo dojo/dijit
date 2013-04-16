@@ -3,11 +3,10 @@
 <html>
 <head>
 	<title>dijit/place on clipped nodes unit test</title>
-	<style type="text/css">
-		@import "../themes/claro/document.css";
-		@import "../themes/claro/claro.css";
-		@import "css/dijitTests.css";
 
+	<script src="boilerplate.js"></script>
+
+	<style type="text/css">
 		html, body, div {
 			border: none;
 			margin: 0px;
@@ -39,16 +38,15 @@
 			color: white;
 		}
 	</style>
-	<script type="text/javascript" src="../../dojo/dojo.js"
-		data-dojo-config="isDebug: true, parseOnLoad: true"></script>
-	<script type="text/javascript" src="_testCommon.js"></script>
 
 	<script type="text/javascript">
 		require([
 			"doh/runner",
 			"dojo/dom", "dojo/dom-geometry", "dojo/window",
 			"dijit/place", "dojo/parser", "dojo/domReady!"
-		], function(doh, dom, domGeometry, winUtils, place){
+		], function(doh, dom, domGeometry, winUtils, place, parser){
+
+			parser.parse();
 
 			// The around nodes
 			var aroundOne = dom.byId("around1"),

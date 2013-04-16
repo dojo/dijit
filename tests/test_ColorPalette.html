@@ -4,45 +4,25 @@
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>ColorPalette Test</title>
 
-	<style type="text/css">
-		@import "../themes/claro/document.css";
-		@import "css/dijitTests.css";
-	</style>
-
-	<!-- required: a default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/claro/claro.css"/>
-
-	<!-- required: dojo.js -->
-	<script type="text/javascript" src="../../dojo/dojo.js"
-		data-dojo-config="parseOnLoad: true, isDebug: true, async:0, extraLocale: ['en-us', 'es-mx']"></script>
-
-	<!-- not needed, for testing alternate themes -->
-	<script type="text/javascript" src="_testCommon.js"></script>
+	<script src="boilerplate.js" data-dojo-config="extraLocale: ['en-us', 'es-mx']"></script>
 
 	<script type="text/javascript">
-		var palette;
-	
-		function programatic(){ 
+		require(["dojo/dom", "dojo/parser", "dijit/ColorPalette", "dojo/domReady!"],
+				function(dom, parser, ColorPalette){
+
+			setColor = function(color){
+				var theSpan = dom.byId("outputSpan");
+				theSpan.style.color = color;
+				theSpan.innerHTML = color;
+			};
+
+			parser.parse();
+
 			var date0 = new Date();
-			palette = new dijit.ColorPalette({palette: "7x10", id: "prog", "aria-label": "programatic label"}, dojo.byId("programPalette"));
+			var palette = new ColorPalette({palette: "7x10", id: "prog", "aria-label": "programatic label"}, "programPalette");
 			console.log("creation time for 7x10 palette: " + (new Date() - date0) );
-		}
+		});
 
-		function setColor(color){
-			var theSpan = dojo.byId("outputSpan");
-			theSpan.style.color = color;
-			theSpan.innerHTML = color;
-		}
-
-		var async= 0;
-		if(async){
-			require(["dijit/dijit", "dijit/ColorPalette", "dojo/parser", "dojo/domReady!"], programatic);
-		}else{
-			dojo.require("dijit.dijit"); // optimize: load dijit layer
-			dojo.require("dijit.ColorPalette");
-			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
-			dojo.ready(programatic);
-		}
 	</script>
 </head>
 

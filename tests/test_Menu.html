@@ -6,10 +6,9 @@
 
 	<title>Menu System Test</title>
 
-	<style type="text/css">
-		@import "../themes/claro/document.css";
-		@import "css/dijitTests.css";
+	<script type="text/javascript" src="boilerplate.js"></script>
 
+	<style type="text/css">
 		body { padding: 0; }
 
 		/* styling for left-hand-side navigation menu to become a column equal to length of page */
@@ -25,91 +24,86 @@
 		}
 	</style>
 
-	<!-- required: a default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/claro/claro.css"/>
-
-	<!-- required: dojo.js -->
-	<script type="text/javascript" src="../../dojo/dojo.js"
-		data-dojo-config="parseOnLoad: true, isDebug: true"></script>
-
-	<!-- not needed, for testing alternate themes -->
-	<script type="text/javascript" src="_testCommon.js"></script>
 
 	<script type="text/javascript">
-		dojo.require("dijit.dijit"); // optimize: load dijit layer
 
-		dojo.require("dijit.Menu");
-		dojo.require("dijit.MenuItem");
-		dojo.require("dijit.PopupMenuItem");
-		dojo.require("dijit.CheckedMenuItem");
-		dojo.require("dijit.RadioMenuItem");
-		dojo.require("dijit.MenuSeparator");
+		require([
+			"dojo/dom",
+			"dojo/parser",	// scan page for widgets and instantiate them
+	
+			"dijit/Menu",
+			"dijit/MenuItem",
+			"dijit/PopupMenuItem",
+			"dijit/CheckedMenuItem",
+			"dijit/RadioMenuItem",
+			"dijit/MenuSeparator",
+	
+			"dijit/MenuBar",
+			"dijit/MenuBarItem",
+			"dijit/PopupMenuBarItem",
+	
+			"dijit/ColorPalette",
+			"dijit/form/TextBox",
+					
+			"dojo/domReady!"
+		], function(dom, parser, Menu, MenuItem, PopupMenuItem, CheckedMenuItem, RadioMenuItem, MenuSeparator){
 
-		dojo.require("dijit.MenuBar");
-		dojo.require("dijit.MenuBarItem");
-		dojo.require("dijit.PopupMenuBarItem");
+			createMenu = function(){
+				// create a menu programmatically
+				function fClick(){console.log("clicked!")}
+	
+				pMenu = new Menu({targetNodeIds:["prog_menu"], id:"progMenu"});
+				pMenu.addChild(new MenuItem({label:"Programmatic Context Menu", disabled:true}));
+				pMenu.addChild(new MenuSeparator());
+				pMenu.addChild(new MenuItem({label:"Simple menu item", onClick:fClick, accelKey:"Shift+S"}));
+				pMenu.addChild(new MenuItem({label:"Another menu item", onClick:fClick, accelKey:"Ctrl+A"}));
+				pMenu.addChild(new MenuItem({label:"With an icon", iconClass:"dijitEditorIcon dijitEditorIconCut", onClick:fClick}));
+				var mItem = new MenuItem({label:"dojo.event clicking", accelKey: "Alt+D"});
+				mItem.on("click", function(){console.log("click! handler created via dojo.connect()")});
+				pMenu.addChild(mItem);
+	
+				mItem = new CheckedMenuItem({label:"checkable menu item"});
+				pMenu.addChild(mItem);
+	
+				var pSubMenu = new Menu({parentMenu:pMenu, id:"progSubMenu"});
+				pSubMenu.addChild(new MenuItem({label:"Submenu item", onClick:fClick}));
+				pSubMenu.addChild(new MenuItem({label:"Submenu item", onClick:fClick}));
+				
+				var pSubSubMenu = new Menu({parentMenu:pSubMenu, id:"progSubSubMenu"});
+				pSubSubMenu.addChild(new MenuItem({label:"SubSubmenu item", onClick:fClick}));
+				pSubSubMenu.addChild(new MenuItem({label:"SubSubmenu item", onClick:fClick}));
+				pSubMenu.addChild(new PopupMenuItem({label:"SubSubmenu", popup:pSubSubMenu, id:"progPopupMenuItem2"}));
+	
+				pMenu.addChild(new PopupMenuItem({label:"Submenu", popup:pSubMenu, id:"progPopupMenuItem"}));
+	
+				pMenu.startup();
+	
+				updateButtons(true);
+				dom.byId("prog_menu").innerHTML="This div has a programmatic context menu on it that's different to the page menu.";
+	
+				dom.byId("createButton").disabled = true;
+				dom.byId("destroyButton").disabled = false;
+			};
 
-		dojo.require("dijit.ColorPalette");
-		dojo.require("dijit.form.TextBox");
+			destroyMenu = function (){
+				pMenu.destroyRecursive();
+				updateButtons(false);
+			};
 
-		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
-	</script>
+			updateButtons = function (created){
+				dom.byId("prog_menu").innerHTML=created?"This div has a programmatic context menu on it that's different to the page menu.":"No programmatic menu on this div, should get page level menu.";
+				dom.byId("createButton").disabled = created;
+				dom.byId("destroyButton").disabled = !created;
+			};
 
-    <script type="text/javascript">
-        function createMenu(){
-            // create a menu programmatically
-            function fClick(){console.log("clicked!")}
+			// need to explicitly update our buttons states, otherwise the
+			// browser will remember the last states of them before reloading
+			// (so a programmatic menu is created, reload, and "the create
+			// programmatic menu" button is still in disabled state)
+			updateButtons(false);
 
-            pMenu = new dijit.Menu({targetNodeIds:["prog_menu"], id:"progMenu"});
-            pMenu.addChild(new dijit.MenuItem({label:"Programmatic Context Menu", disabled:true}));
-            pMenu.addChild(new dijit.MenuSeparator());
-            pMenu.addChild(new dijit.MenuItem({label:"Simple menu item", onClick:fClick, accelKey:"Shift+S"}));
-            pMenu.addChild(new dijit.MenuItem({label:"Another menu item", onClick:fClick, accelKey:"Ctrl+A"}));
-            pMenu.addChild(new dijit.MenuItem({label:"With an icon", iconClass:"dijitEditorIcon dijitEditorIconCut", onClick:fClick}));
-            var mItem = new dijit.MenuItem({label:"dojo.event clicking", accelKey: "Alt+D"});
-            dojo.connect(mItem, "onClick", function(){console.log("click! handler created via dojo.connect()")});
-            pMenu.addChild(mItem);
-
-            mItem = new dijit.CheckedMenuItem({label:"checkable menu item"});
-            pMenu.addChild(mItem);
-
-            var pSubMenu = new dijit.Menu({parentMenu:pMenu, id:"progSubMenu"});
-            pSubMenu.addChild(new dijit.MenuItem({label:"Submenu item", onClick:fClick}));
-            pSubMenu.addChild(new dijit.MenuItem({label:"Submenu item", onClick:fClick}));
-			
-            var pSubSubMenu = new dijit.Menu({parentMenu:pSubMenu, id:"progSubSubMenu"});
-            pSubSubMenu.addChild(new dijit.MenuItem({label:"SubSubmenu item", onClick:fClick}));
-            pSubSubMenu.addChild(new dijit.MenuItem({label:"SubSubmenu item", onClick:fClick}));
-            pSubMenu.addChild(new dijit.PopupMenuItem({label:"SubSubmenu", popup:pSubSubMenu, id:"progPopupMenuItem2"}));
-
-            pMenu.addChild(new dijit.PopupMenuItem({label:"Submenu", popup:pSubMenu, id:"progPopupMenuItem"}));
-
-            pMenu.startup();
-
-	    updateButtons(true);
-            dojo.byId("prog_menu").innerHTML="This div has a programmatic context menu on it that's different to the page menu.";
-
-            dojo.byId("createButton").disabled = true;
-            dojo.byId("destroyButton").disabled = false;
-        }
-
-        function destroyMenu(){
-        	pMenu.destroyRecursive();
-            updateButtons(false);
-        }
-
-	function updateButtons(created){
-            dojo.byId("prog_menu").innerHTML=created?"This div has a programmatic context menu on it that's different to the page menu.":"No programmatic menu on this div, should get page level menu.";
-            dojo.byId("createButton").disabled = created;
-            dojo.byId("destroyButton").disabled = !created;
-	}
-	dojo.ready(function(){
-		// need to explicitly update our buttons states, otherwise the
-		// browser will remember the last states of them before reloading
-		// (so a programmatic menu is created, reload, and "the create
-		// programmatic menu" button is still in disabled state)
-		updateButtons(false);
-	});
+			parser.parse();
+		});
     </script>
 </head>
 <body class="claro" role="main">

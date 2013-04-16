@@ -4,46 +4,38 @@
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>Dojo Tooltip Placement Test</title>
 
+	<script type="text/javascript" src="boilerplate.js"></script>
+
 	<style type="text/css">
-		@import "../themes/claro/document.css";
-		@import "css/dijitTests.css";
-		
 		div {font-size:9px}
 	</style>
 
-	<!-- required: a default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/claro/claro.css"/>
-
-	<!-- required: dojo.js -->
-	<script type="text/javascript" src="../../dojo/dojo.js"
-		data-dojo-config="isDebug: true"></script>
-
-	<!-- not needed, for testing alternate themes -->
-	<script type="text/javascript" src="_testCommon.js"></script>
 	<script type="text/javascript">
-		dojo.require("doh.runner");
-		dojo.require("dijit.Tooltip");
-		
-		dojo.ready(function(){
+		require([
+			"doh/runner",
+			"dojo/dom", "dojo/dom-geometry", "dojo/dom-style", "dojo/query", "dojo/sniff", "dojo/window",
+			"dijit/Tooltip",
+			"dojo/domReady!"
+		], function(doh, dom, domGeom, domStyle, query, has, winUtils, Tooltip){
 			doh.register("setup", function(){
-				dijit._MasterTooltip.prototype.duration = 0.05; // speed up tooltip fading
-				var view = dojo.window.getBox();
+				Tooltip._MasterTooltip.prototype.duration = 0.05; // speed up tooltip fading
+				var view = winUtils.getBox();
 				var width = view.w;
 				var height = view.h;
 				
 				if(width < 600){
 					//Make the larger tooltips smaller so they fit on the page and pass all tests
-					dojo.byId("test2").setAttribute("promptMessage", "really really really really really really really really really really really really really really really really really really really really");
-					dojo.byId("test5").setAttribute("promptMessage", "really really really really really really really really really really really really really really really really really really really really");
-					dojo.byId("test12").setAttribute("promptMessage", "really really really really really really really really really really really really really really really really really really really really");
-					dojo.byId("test17").setAttribute("promptMessage", "really really really really really really really really really really really really really really really really really really really really");
-					dojo.byId("test19").setAttribute("promptMessage", "really really really really really really really really really really really really really really really really really really really really");
+					dom.byId("test2").setAttribute("promptMessage", "really really really really really really really really really really really really really really really really really really really really");
+					dom.byId("test5").setAttribute("promptMessage", "really really really really really really really really really really really really really really really really really really really really");
+					dom.byId("test12").setAttribute("promptMessage", "really really really really really really really really really really really really really really really really really really really really");
+					dom.byId("test17").setAttribute("promptMessage", "really really really really really really really really really really really really really really really really really really really really");
+					dom.byId("test19").setAttribute("promptMessage", "really really really really really really really really really really really really really really really really really really really really");
 				}else if(width > 1200){
 					//Make a shorter tooltip longer in order to span the whole width
-					dojo.byId("test1").setAttribute("promptMessage", "really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really<br><br><br><br><br><br><br><br><br><br><br><br><br><br>a");
-					dojo.byId("test4").setAttribute("promptMessage", "really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really<br><br><br><br><br><br><br><br><br>a");
-					dojo.byId("test10").setAttribute("promptMessage", "really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really<br><br><br><br><br><br><br><br><br>a");
-					dojo.byId("test20").setAttribute("promptMessage", "really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really<br><br><br><br><br><br><br><br><br>a");
+					dom.byId("test1").setAttribute("promptMessage", "really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really<br><br><br><br><br><br><br><br><br><br><br><br><br><br>a");
+					dom.byId("test4").setAttribute("promptMessage", "really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really<br><br><br><br><br><br><br><br><br>a");
+					dom.byId("test10").setAttribute("promptMessage", "really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really<br><br><br><br><br><br><br><br><br>a");
+					dom.byId("test20").setAttribute("promptMessage", "really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really<br><br><br><br><br><br><br><br><br>a");
 				}
 				
 				if(height < 600){
@@ -52,52 +44,52 @@
 						if(i==7){
 							//skip
 						}else{
-							dojo.byId("test"+i+"_tall_skinny").setAttribute("promptMessage", "<br><br><br><br>a");
+							dom.byId("test"+i+"_tall_skinny").setAttribute("promptMessage", "<br><br><br><br>a");
 						}
 					}
 				}
 				
-				dojo.style("test1", "width", width*(0.3)+"px");
-				dojo.style("test1_tall_skinny", "width", width*(0.3)+"px");
-				dojo.style("test2", "width", width*(0.6)+"px");
-				dojo.style("test2_tall_skinny", "width", width*(0.6)+"px");
-				dojo.style("test3", "width", width*(0.9)+"px");
-				dojo.style("test3_tall_skinny", "width", width*(0.9)+"px");
-				dojo.style("test4", "width", width*(0.3)+"px");
-				dojo.style("test4_tall_skinny", "width", width*(0.3)+"px");
-				dojo.style("test5", "width", width*(0.6)+"px");
-				dojo.style("test5_tall_skinny", "width", width*(0.6)+"px");
-				dojo.style("test6", "width", width*(0.9)+"px");
-				dojo.style("test6_tall_skinny", "width", width*(0.9)+"px");
-				dojo.style("test7", "width", width*(1.1)+"px");
-				dojo.style("test8", "width", width*(0.2)+"px");
-				dojo.style("test8_tall_skinny", "width", width*(0.2)+"px");
-				dojo.style("test9", "width", width*(0.3)+"px");
-				dojo.style("test9_tall_skinny", "width", width*(0.3)+"px");
-				dojo.style("test10", "width", width*(0.6)+"px");
-				dojo.style("test10_tall_skinny", "width", width*(0.6)+"px");
-				dojo.style("test11", "width", width*(0.9)+"px");
-				dojo.style("test11_tall_skinny", "width", width*(0.9)+"px");
-				dojo.style("test12", "width", width*(0.3)+"px");
-				dojo.style("test12_tall_skinny", "width", width*(0.3)+"px");
-				dojo.style("test13", "width", width*(0.6)+"px");
-				dojo.style("test13_tall_skinny", "width", width*(0.6)+"px");
-				dojo.style("test14", "width", width*(0.9)+"px");
-				dojo.style("test14_tall_skinny", "width", width*(0.9)+"px");
-				dojo.style("test15", "width", width*(0.9)+"px");
-				dojo.style("test15_tall_skinny", "width", width*(0.9)+"px");
-				dojo.style("test16", "width", width*(0.3)+"px");
-				dojo.style("test16_tall_skinny", "width", width*(0.3)+"px");
-				dojo.style("test17", "width", width*(0.6)+"px");
-				dojo.style("test17_tall_skinny", "width", width*(0.6)+"px");
-				dojo.style("test18", "width", width*(0.9)+"px");
-				dojo.style("test18_tall_skinny", "width", width*(0.9)+"px");
-				dojo.style("test19", "width", width*(0.3)+"px");
-				dojo.style("test19_tall_skinny", "width", width*(0.3)+"px");
-				dojo.style("test20", "width", width*(0.6)+"px");
-				dojo.style("test20_tall_skinny", "width", width*(0.6)+"px");
-				dojo.style("test21", "width", width*(0.9)+"px");
-				dojo.style("test21_tall_skinny", "width", width*(0.9)+"px");
+				domStyle.set("test1", "width", width*(0.3)+"px");
+				domStyle.set("test1_tall_skinny", "width", width*(0.3)+"px");
+				domStyle.set("test2", "width", width*(0.6)+"px");
+				domStyle.set("test2_tall_skinny", "width", width*(0.6)+"px");
+				domStyle.set("test3", "width", width*(0.9)+"px");
+				domStyle.set("test3_tall_skinny", "width", width*(0.9)+"px");
+				domStyle.set("test4", "width", width*(0.3)+"px");
+				domStyle.set("test4_tall_skinny", "width", width*(0.3)+"px");
+				domStyle.set("test5", "width", width*(0.6)+"px");
+				domStyle.set("test5_tall_skinny", "width", width*(0.6)+"px");
+				domStyle.set("test6", "width", width*(0.9)+"px");
+				domStyle.set("test6_tall_skinny", "width", width*(0.9)+"px");
+				domStyle.set("test7", "width", width*(1.1)+"px");
+				domStyle.set("test8", "width", width*(0.2)+"px");
+				domStyle.set("test8_tall_skinny", "width", width*(0.2)+"px");
+				domStyle.set("test9", "width", width*(0.3)+"px");
+				domStyle.set("test9_tall_skinny", "width", width*(0.3)+"px");
+				domStyle.set("test10", "width", width*(0.6)+"px");
+				domStyle.set("test10_tall_skinny", "width", width*(0.6)+"px");
+				domStyle.set("test11", "width", width*(0.9)+"px");
+				domStyle.set("test11_tall_skinny", "width", width*(0.9)+"px");
+				domStyle.set("test12", "width", width*(0.3)+"px");
+				domStyle.set("test12_tall_skinny", "width", width*(0.3)+"px");
+				domStyle.set("test13", "width", width*(0.6)+"px");
+				domStyle.set("test13_tall_skinny", "width", width*(0.6)+"px");
+				domStyle.set("test14", "width", width*(0.9)+"px");
+				domStyle.set("test14_tall_skinny", "width", width*(0.9)+"px");
+				domStyle.set("test15", "width", width*(0.9)+"px");
+				domStyle.set("test15_tall_skinny", "width", width*(0.9)+"px");
+				domStyle.set("test16", "width", width*(0.3)+"px");
+				domStyle.set("test16_tall_skinny", "width", width*(0.3)+"px");
+				domStyle.set("test17", "width", width*(0.6)+"px");
+				domStyle.set("test17_tall_skinny", "width", width*(0.6)+"px");
+				domStyle.set("test18", "width", width*(0.9)+"px");
+				domStyle.set("test18_tall_skinny", "width", width*(0.9)+"px");
+				domStyle.set("test19", "width", width*(0.3)+"px");
+				domStyle.set("test19_tall_skinny", "width", width*(0.3)+"px");
+				domStyle.set("test20", "width", width*(0.6)+"px");
+				domStyle.set("test20_tall_skinny", "width", width*(0.6)+"px");
+				domStyle.set("test21", "width", width*(0.9)+"px");
+				domStyle.set("test21_tall_skinny", "width", width*(0.9)+"px");
 			});
 
 			//Verify the following is true:
@@ -108,8 +100,8 @@
 			function testRightOrLeft(textbox, verifyFullWidthIsUtilized){
 				verifyTooltipArrowPosition(textbox);
 
-				var textboxPos = dojo.position(textbox);
-				var tooltipContainerPos = dojo.position(dojo.query(".dijitTooltip")[0]);
+				var textboxPos = domGeom.position(textbox);
+				var tooltipContainerPos = domGeom.position(query(".dijitTooltip")[0]);
 				
 				var xDiff = textboxPos.x - tooltipContainerPos.x - tooltipContainerPos.w;
 				var toTheLeft = xDiff >= -0.5 && xDiff < 2;
@@ -119,13 +111,13 @@
 
 				doh.t(toTheLeft || toTheRight, "The tooltip was not to the left or right");
 
-				var tooltip = dijit.Tooltip._masterTT.containerNode;
-				var tooltipPos = dojo.position(tooltip);
+				var tooltip = Tooltip._masterTT.containerNode;
+				var tooltipPos = domGeom.position(tooltip);
 
-				var view = dojo.window.getBox();
-				var isIE6 = dojo.isIE < 7;
+				var view = winUtils.getBox();
+				var isIE6 = has("ie") < 7;
 				//verify the entire width is utilized.  Small tooltips will not utilize the entire width.
-				if(verifyFullWidthIsUtilized && !isIE6 && !dojo.isOpera){
+				if(verifyFullWidthIsUtilized && !isIE6 && !has("opera")){
 					if(toTheLeft){
 						doh.t(tooltipContainerPos.w + 3/*space in between arrow and textbox*/ >= textboxPos.x, "The entire width was not utilized to the left");					
 					}else{
@@ -136,7 +128,7 @@
 				//If we cannot view the entire tooltip, verify they side with the most space was choosen and the entire height was utilized.
 				var canViewEntireTooltip = (tooltipContainerPos.x + tooltipContainerPos.w <= view.w+1) && 
 										   (tooltipPos.y + tooltipPos.h <= view.h+1);			
-				if(!canViewEntireTooltip && !isIE6 && !dojo.isOpera){
+				if(!canViewEntireTooltip && !isIE6 && !has("opera")){
 					if(toTheLeft){
 						//verify there is more space on the left than the right
 						doh.t(textboxPos.x >= (view.w - textboxPos.x - textboxPos.w), "There is not more space on the left than the right");
@@ -149,8 +141,8 @@
 			}
 			
 			function toTheLeftOrRight(textbox){
-				var textboxPos = dojo.position(textbox);
-				var tooltipContainerPos = dojo.position(dojo.query(".dijitTooltip")[0]);
+				var textboxPos = domGeom.position(textbox);
+				var tooltipContainerPos = domGeom.position(query(".dijitTooltip")[0]);
 				
 				var xDiff = textboxPos.x - tooltipContainerPos.x - tooltipContainerPos.w;
 				var toTheLeft = xDiff >= -1 && xDiff < 2;
@@ -163,8 +155,8 @@
 			
 			//Verify the tooltip arrow is next to the textbox
 			function verifyTooltipArrowPosition(textbox){
-				var textboxPos = dojo.position(textbox);
-				var tooltipConnectorPos = dojo.position(dojo.query(".dijitTooltipConnector")[0]);
+				var textboxPos = domGeom.position(textbox);
+				var tooltipConnectorPos = domGeom.position(query(".dijitTooltipConnector")[0]);
 				
 				var middleOfTextbox = textboxPos.y + (textboxPos.h / 2);
 				var middleOfTooltipConnector = tooltipConnectorPos.y + (tooltipConnectorPos.h /2);
@@ -184,9 +176,9 @@
 			}
 		
 			function testAboveBelow(textbox, verifyConnectorPosition){
-				var textboxPos = dojo.position(textbox);
-				var tooltipConnectorPos = dojo.position(dojo.query(".dijitTooltipConnector")[0]);
-				var tooltipContainerPos = dojo.position(dojo.query(".dijitTooltip")[0]);
+				var textboxPos = domGeom.position(textbox);
+				var tooltipConnectorPos = domGeom.position(query(".dijitTooltipConnector")[0]);
+				var tooltipContainerPos = domGeom.position(query(".dijitTooltip")[0]);
 
 				if(verifyConnectorPosition){
 					var xAxisValid = textboxPos.x <= tooltipConnectorPos.x && tooltipConnectorPos.x <= (textboxPos.x + textboxPos.w);
@@ -207,16 +199,16 @@
 				if(i==7){ continue; }
 				(function(i){
 					// Need the closure to run tests on each node, rather than repeating on "test21" node
-					var node = dojo.byId("test"+i),
-						skinnyNode = dojo.byId("test"+i+"_tall_skinny"),
+					var node = dom.byId("test"+i),
+						skinnyNode = dom.byId("test"+i+"_tall_skinny"),
 						nowrapTest = (i==3 || i==6 || i==8 || i==9 || i==13 || i==16 || i==21);
 					doh.register("test" + i, [
 						{
 							name: "test"+i+"_tall_skinny",
 							runTest: function(){
 								var d = new doh.Deferred();
-								dojo.window.scrollIntoView(skinnyNode);
-								dijit.Tooltip.show(skinnyNode.getAttribute("promptMessage"), skinnyNode);
+								winUtils.scrollIntoView(skinnyNode);
+								Tooltip.show(skinnyNode.getAttribute("promptMessage"), skinnyNode);
 								setTimeout(d.getTestCallback(function(){
 									// use timeout to wait for fade out of tooltip from old position, and fade in to new position
 									testRightOrLeft(skinnyNode, false);
@@ -228,8 +220,8 @@
 							name: "test"+i,
 							runTest: function(){
 								var d = new doh.Deferred();
-								dojo.window.scrollIntoView(node);
-								dijit.Tooltip.show(node.getAttribute("promptMessage"), node);
+								winUtils.scrollIntoView(node);
+								Tooltip.show(node.getAttribute("promptMessage"), node);
 								setTimeout(d.getTestCallback(function(){
 									// use timeout to wait for fade out of tooltip from old position, and fade in to new position
 									if(nowrapTest){
@@ -246,7 +238,7 @@
 							name: "test"+i+"_lrs",
 							runTest: function(){
 								var d = new doh.Deferred();
-								dijit.Tooltip.show("!", node);
+								Tooltip.show("!", node);
 								setTimeout(d.getTestCallback(function(){
 									// use timeout to wait for fade out of tooltip from old position, and fade in to new position
 									testRightOrLeft(node, false);
@@ -258,9 +250,9 @@
 							name: "test"+i+"_abs",
 							runTest: function(){
 								var d = new doh.Deferred();
-								dojo.window.scrollIntoView(node);
-								dijit.Tooltip.hide(node);	// needed since show() below matches node & content of show() above
-								dijit.Tooltip.show("!", node, ["below", "above"]);
+								winUtils.scrollIntoView(node);
+								Tooltip.hide(node);	// needed since show() below matches node & content of show() above
+								Tooltip.show("!", node, ["below", "above"]);
 								setTimeout(d.getTestCallback(function(){
 									// use timeout to wait for fade out of tooltip from old position, and fade in to new position
 									testAboveBelow(node, true);
@@ -272,7 +264,7 @@
 							name: "test"+i+"_ab",
 							runTest: function(){
 								var d = new doh.Deferred();
-								dijit.Tooltip.show(node.getAttribute("promptMessage"), node, ["below", "above"]);
+								Tooltip.show(node.getAttribute("promptMessage"), node, ["below", "above"]);
 								setTimeout(d.getTestCallback(function(){
 									// use timeout to wait for fade out of tooltip from old position, and fade in to new position
 									if(nowrapTest){
@@ -290,8 +282,8 @@
 							name: "test"+i+"_ab_tall_skinny",
 							runTest: function(){
 								var d = new doh.Deferred();
-								dojo.window.scrollIntoView(skinnyNode);
-								dijit.Tooltip.show(skinnyNode.getAttribute("promptMessage"), skinnyNode, ["below", "above"]);
+								winUtils.scrollIntoView(skinnyNode);
+								Tooltip.show(skinnyNode.getAttribute("promptMessage"), skinnyNode, ["below", "above"]);
 								setTimeout(d.getTestCallback(function(){
 									// use timeout to wait for fade out of tooltip from old position, and fade in to new position
 									testAboveBelow(skinnyNode, true);
@@ -308,11 +300,11 @@
 					name: "test22",
 					runTest: function(){
 						var d = new doh.Deferred();
-						var node = dojo.byId("test22");
-						var cp = dojo.byId("test22_cp");
-						dojo.window.scrollIntoView(cp);
-						dijit.Tooltip.hide(node);	// needed since show() below matches node & content of show() above
-						dijit.Tooltip.show(node.getAttribute("promptMessage"), node);
+						var node = dom.byId("test22");
+						var cp = dom.byId("test22_cp");
+						winUtils.scrollIntoView(cp);
+						Tooltip.hide(node);	// needed since show() below matches node & content of show() above
+						Tooltip.show(node.getAttribute("promptMessage"), node);
 						setTimeout(d.getTestCallback(function(){
 							// use timeout to wait for fade out of tooltip from old position, and fade in to new position
 							toTheLeftOrRight(cp, true);
@@ -324,9 +316,9 @@
 					name: "test23",
 					runTest: function(){
 						var d = new doh.Deferred();
-						var node = dojo.byId("test23");
-						var cp = dojo.byId("test23_cp");
-						dijit.Tooltip.show(node.getAttribute("promptMessage"), node, null, true);
+						var node = dom.byId("test23");
+						var cp = dom.byId("test23_cp");
+						Tooltip.show(node.getAttribute("promptMessage"), node, null, true);
 						setTimeout(d.getTestCallback(function(){
 							// use timeout to wait for fade out of tooltip from old position, and fade in to new position
 							toTheLeftOrRight(cp, true);

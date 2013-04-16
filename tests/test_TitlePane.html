@@ -4,40 +4,30 @@
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>TitlePane Test</title>
 
-	<style type="text/css">
-		@import "../themes/claro/document.css";
-		@import "css/dijitTests.css";
-	</style>
-
-	<!-- required: a default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/claro/claro.css"/>
-
-	<!-- required: dojo.js -->
-	<script type="text/javascript" src="../../dojo/dojo.js"
-		data-dojo-config="parseOnLoad: false, isDebug: true"></script>
-
-	<!-- not needed, for testing alternate themes -->
-	<script type="text/javascript" src="_testCommon.js"></script>
+	<script type="text/javascript" src="boilerplate.js"></script>
 
 	<script type="text/javascript">
-		dojo.require("dijit.dijit"); // optimize: load dijit layer
-		dojo.require("dijit.TitlePane");
-		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+		require([
+			"dojo/_base/declare",
+			"dojo/parser",
+			"dijit/TitlePane",
 
-		// widgets used inside subpage loaded via href=
-		dojo.require("dijit.form.Button");
-		dojo.require("dijit.form.ComboBox");
-		dojo.require("dijit.layout.TabContainer");
-		dojo.require("dijit.layout.AccordionContainer");
-		dojo.require("dijit.layout.ContentPane");
+			// widgets used inside subpage loaded via href=
+			"dijit/form/Button",
+			"dijit/form/ComboBox",
+			"dijit/layout/TabContainer",
+			"dijit/layout/AccordionContainer",
+			"dijit/layout/ContentPane",
 
-		function randomMessageId(){
-			return Math.floor(Math.random() * 3) + 3;
-		}
+			"dojo/domReady!"
+		], function(declare, parser, TitlePane){
 
-	    dojo.ready(function(){
+			randomMessageId = function(){
+				return Math.floor(Math.random() * 3) + 3;
+			};
+
 	
-			dojo.declare("TestTitlePane", dijit.TitlePane, {
+			declare("TestTitlePane", TitlePane, {
 				templateString: '<div class="dijitTitlePane">' +
 								'    <div class="dijitTitlePaneTitle" data-dojo-attach-point="titleBarNode" style="cursor: default;" id="${id}_titleBarNode">' +
 								        '<span data-dojo-attach-event="onclick:toggle,onkeypress: _onTitleKey" tabindex="0"' +
@@ -56,7 +46,7 @@
 								'</div>'
 			});
 	
-		    dojo.parser.parse();
+		    parser.parse();
 	    });
 	</script>
 </head>

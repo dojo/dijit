@@ -4,11 +4,7 @@
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>Calendar Widget Test</title>
 
-		<!-- for tests -->
-		<style type="text/css">
-			@import "../themes/claro/document.css";
-			@import "css/dijitTests.css";
-		</style>
+		<script type="text/javascript" src="boilerplate.js"></script>
 
 		<style>
 			#calendar5 .dijitCalendarDateTemplate { height: 50px; width: 50px; border: 1px solid #ccc; vertical-align: top }
@@ -19,38 +15,27 @@
 			.blue { color: blue !important /* override claro rule */ }
 		</style>
 
-		<!-- required: a default dijit theme: -->
-		<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/claro/claro.css"/>
-
-		<!-- required: dojo.js -->
-		<script type="text/javascript" src="../../dojo/dojo.js"
-			data-dojo-config="parseOnLoad: true, isDebug: true"></script>
-
-		<!-- not needed, for testing alternate themes -->
-		<script type="text/javascript" src="_testCommon.js"></script>
-
 		<script type="text/javascript">
-			dojo.require("dijit.dijit"); // optimize: load dijit layer
-			dojo.require("dijit.Calendar");
-			dojo.require("dojo.date.locale");
-			dojo.require("dojo.parser"); // scan page for widgets
-
-			dojo.ready(function(){
-				//Need to declare BigCalendar here in an addOnLoad block so that it works
-				//with xdomain loading, where the dojo.require for dijit.Calendar
-				//may load asynchronously. This also means we cannot have HTML
-				//markup in the body tag for BigCalendar, but instead inject it in this
-				//onload handler after BigCalendar is defined.
-				dojo.declare("BigCalendar", dijit.Calendar, {
-					isDisabledDate: dojo.date.locale.isWeekend,
+			require([
+				"dojo/_base/declare",
+				"dojo/date/locale",
+				"dojo/parser",
+				"dijit/Calendar",
+				"dojo/domReady!"
+			], function(declare, locale, parser, Calendar){
+				declare("BigCalendar", Calendar, {
+					isDisabledDate: locale.isWeekend,
 					getClassForDate: function(date){
 						if(!(date.getDate() % 10)){ return "blue"; } // apply special style to all days divisible by 10
 					}
 				});
 
-				var bigCalendar = dojo.byId("calendar5");
-				bigCalendar.setAttribute("data-dojo-type", "BigCalendar");
-				dojo.parser.parse(bigCalendar.parentNode);
+				parser.parse();
+
+				disableWeekends = function(){
+					calendar1.isDisabledDate = locale.isWeekend;
+					calendar1._populateGrid();
+				};
 			});
 
 			function myHandler(id,newValue){
@@ -63,23 +48,13 @@
 		<h1 class="testTitle">Dijit Calendar Test</h1>
 
 		<label for="before">input before: </label><input id="before"/>
-		<input id="calendar1" data-dojo-type="dijit/Calendar" summary="Small calendar" data-dojo-props='onChange:function(v){ myHandler(this.id, v) }'/>
+		<input id="calendar1" data-dojo-id="calendar1" data-dojo-type="dijit/Calendar" summary="Small calendar" data-dojo-props='onChange:function(v){ myHandler(this.id, v) }'/>
 		<label for="after">input after: </label><input id="after"/>
 		<p>
-			<a href="#"
-			   onClick="dijit.registry.forEach(function(c){
-			   		if(c.isDisabledDate){
-						c.isDisabledDate = dojo.date.locale.isWeekend;
-						c._populateGrid();
-					}
-				});">disable weekends</a>
+			<a href="#" onclick="disableWeekends();">disable weekends</a>
 		</p>
 
 		<p>Big Calendar</p>
-		<div>
-			<!-- Parent div used so we have a handle to use for dojo.parser.parse after BigCalendar gets defined. -->
-			<!-- The input below will be replaced by BigCalendar which is defined in a dojo.ready block. -->
-			<input id="calendar5" data-dojo-props='dayWidth:"abbr"' value="2008-03-14"/>
-		</div>
+		<input id="calendar5" data-dojo-type="BigCalendar" data-dojo-props='dayWidth:"abbr"' value="2008-03-14"/>
 	</body>
 </html>

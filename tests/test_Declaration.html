@@ -5,34 +5,23 @@
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 
 	<title>Dojo Toolkit - Declaration test</title>
-	<style type="text/css">
-		@import "../themes/claro/document.css";
-		@import "css/dijitTests.css";
-	</style>
 
-	<!-- required: a default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/claro/claro.css"/>
-
-	<!-- required: dojo.js -->
-	<script type="text/javascript" src="../../dojo/dojo.js"
-		data-dojo-config="isDebug: true"></script>
-
-	<!-- not needed, for testing alternate themes -->
-	<script type="text/javascript" src="_testCommon.js"></script>
+	<script type="text/javascript" src="boilerplate.js"></script>
 
 	<script type="text/javascript">
-		dojo.require("dijit.dijit"); // optimize: load dijit layer
-		dojo.require("dijit.Declaration");
-		dojo.require("dijit.ProgressBar");
-		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
-		dojo.require("dojo.on");
-		dojo.require("doh.runner");
+		require([
+			"doh/runner",
+			"dojo/on",
+			"dojo/parser",
+			"dijit/Declaration",
+			"dijit/ProgressBar",
+				"dojo/domReady!"
+		], function(doh, on, parser){
 
-		dojo.ready(function(){
 			doh.register("dijit.Declaration", [
 				function parse(){
 					// run parser inside of DOH so we can tell if there are any exceptions
-					dojo.parser.parse();
+					parser.parse();
 
 					// test instantiation of dojo.Declaration widgets
 					doh.t(hideButtonA, "hideButtonA instantiated");
@@ -70,7 +59,7 @@
 					button1.on("ButtonClick", function(){
 						clicked = true;
 					});
-					dojo.on.emit(button1.domNode, "click", {});
+					on.emit(button1.domNode, "click", {});
 					doh.t(clicked, "clicked");
 				}
 			]);
