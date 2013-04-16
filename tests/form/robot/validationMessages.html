@@ -75,7 +75,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(!rangeBound, textbox.isValid(false), "isValid");
+											doh.is(!rangeBound, textbox.isValid(true), "isValid");
 											doh.is(rangeBound ? "Incomplete" : "", textbox.state, "state");
 											doh.is(rangeBound? promptMessage : "", tooltip, "tooltip");
 										});
@@ -89,7 +89,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(true, textbox.isValid(false), "isValid");
+											doh.is(true, textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
 										});
@@ -103,7 +103,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(false, textbox.isValid(false), "isValid");
+											doh.is(false, textbox.isValid(true), "isValid");
 											doh.is("Error", textbox.state, "state");
 											doh.is(invalidMessage||promptMessage, tooltip, "tooltip");
 										});
@@ -117,7 +117,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(true, textbox.isValid(false), "isValid");
+											doh.is(true, textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
 										});
@@ -131,9 +131,10 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(false, textbox.isValid(false), "isValid");
-											doh.is("Incomplete", textbox.state, "state");
-											doh.is(promptMessage, tooltip, "tooltip");
+											// number.parse("12.", {fractional:[true,false], pattern:"#.#####"}) is valid
+											doh.is(true, textbox.isValid(true), "isValid");
+											doh.is("", textbox.state, "state");
+											doh.is("", tooltip, "tooltip");
 										});
 										doh.robot.typeKeys(".", 0, 0);
 										return d;
@@ -145,7 +146,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(false, textbox.isValid(false), "isValid");
+											doh.is(false, textbox.isValid(true), "isValid");
 											doh.is("Error", textbox.state, "state");
 											doh.is(invalidMessage||promptMessage, tooltip, "tooltip");
 										});
@@ -159,9 +160,9 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(false, textbox.isValid(false), "isValid");
-											doh.is("Incomplete", textbox.state, "state");
-											doh.is(promptMessage, tooltip, "tooltip");
+											doh.is(true, textbox.isValid(true), "isValid");
+											doh.is("", textbox.state, "state");
+											doh.is("", tooltip, "tooltip");
 										});
 										doh.robot.keyPress(dojo.keys.BACKSPACE, 0);
 										return d;
@@ -173,7 +174,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(true, textbox.isValid(false), "isValid");
+											doh.is(true, textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
 										});
@@ -187,7 +188,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(false, textbox.isValid(false), "isValid");
+											doh.is(false, textbox.isValid(true), "isValid");
 											doh.is("Error", textbox.state, "state");
 											doh.is(invalidMessage||promptMessage, tooltip, "tooltip");
 										});
@@ -201,7 +202,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(true, textbox.isValid(false), "isValid");
+											doh.is(true, textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
 										});
@@ -215,9 +216,9 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(false, textbox.isValid(false), "isValid");
-											doh.is("Incomplete", textbox.state, "state");
-											doh.is(promptMessage, tooltip, "tooltip");
+											doh.is(true, textbox.isValid(true), "isValid");
+											doh.is("", textbox.state, "state");
+											doh.is("", tooltip, "tooltip");
 										});
 										doh.robot.keyPress(dojo.keys.BACKSPACE, 0);
 										return d;
@@ -229,7 +230,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(true, textbox.isValid(false), "isValid");
+											doh.is(true, textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
 										});
@@ -243,7 +244,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(!rangeBound, textbox.isValid(false), "isValid");
+											doh.is(!rangeBound, textbox.isValid(true), "isValid");
 											doh.is(rangeBound ? "Incomplete" : "", textbox.state, "state");
 											doh.is(rangeBound? promptMessage : "", tooltip, "tooltip");
 										});
@@ -370,7 +371,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(!rangeBound, textbox.isValid(false), "isValid");
+											doh.is(!rangeBound, textbox.isValid(true), "isValid");
 											doh.is(rangeBound ? "Error" : "", textbox.state, "state");
 											doh.is(rangeBound? textbox.rangeMessage : "", tooltip, "tooltip");
 										});
@@ -389,7 +390,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(true, textbox.isValid(false), "isValid");
+											doh.is(true, textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
 
@@ -404,9 +405,9 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(false, textbox.isValid(false), "isValid");
-											doh.is("Incomplete", textbox.state, "state");
-											doh.is(promptMessage, tooltip, "tooltip");
+											doh.is(true, textbox.isValid(true), "isValid");
+											doh.is("", textbox.state, "state");
+											doh.is("", tooltip, "tooltip");
 										});
 										doh.robot.typeKeys(".", 0, 0);
 										return d;
@@ -418,7 +419,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(false, textbox.isValid(false), "isValid");
+											doh.is(false, textbox.isValid(true), "isValid");
 											doh.is("Error", textbox.state, "state");
 											doh.is(invalidMessage||promptMessage, tooltip, "tooltip");
 										});
@@ -432,9 +433,9 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(false, textbox.isValid(false), "isValid");
-											doh.is("Error", textbox.state, "state");
-											doh.is(invalidMessage||promptMessage, tooltip, "tooltip");
+											doh.is(true, textbox.isValid(true), "isValid");
+											doh.is("", textbox.state, "state");
+											doh.is("", tooltip, "tooltip");
 										});
 										doh.robot.keyPress(dojo.keys.BACKSPACE, 0);
 										return d;
@@ -446,7 +447,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(true, textbox.isValid(false), "isValid");
+											doh.is(true, textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
 										});
@@ -460,7 +461,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(false, textbox.isValid(false), "isValid");
+											doh.is(false, textbox.isValid(true), "isValid");
 											doh.is("Error", textbox.state, "state");
 											doh.is(invalidMessage||promptMessage, tooltip, "tooltip");
 										});
@@ -474,7 +475,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(true, textbox.isValid(false), "isValid");
+											doh.is(true, textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
 										});
@@ -488,9 +489,9 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(false, textbox.isValid(false), "isValid");
-											doh.is("Incomplete", textbox.state, "state");
-											doh.is(promptMessage, tooltip, "tooltip");
+											doh.is(true, textbox.isValid(true), "isValid");
+											doh.is("", textbox.state, "state");
+											doh.is("", tooltip, "tooltip");
 										});
 										doh.robot.keyPress(dojo.keys.BACKSPACE, 0);
 										return d;
@@ -502,7 +503,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(true, textbox.isValid(false), "isValid");
+											doh.is(true, textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
 										});
@@ -529,7 +530,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(!required, textbox.isValid(false), "isValid");
+											doh.is(!required, textbox.isValid(true), "isValid");
 											doh.is(required ? "Incomplete" : "", textbox.state, "state");
 											doh.is(promptMessage, tooltip, "tooltip");
 										});
