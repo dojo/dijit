@@ -105,13 +105,18 @@ define([
 
 		mayHaveChildren: function(/*===== item =====*/){
 			// summary:
-			//		Tells if an item has or may have children.  Implementing logic here
-			//		avoids showing +/- expando icon for nodes that we know don't have children.
+			//		Tells if an item has or might have children.  Implementing logic here
+			//		avoids showing +/- expando icon for nodes that we know won't have children.
 			//		(For efficiency reasons we may not want to check if an element actually
 			//		has children until user clicks the expando node).
 			//
 			//		Application code should override this method based on the data, for example
 			//		it could be `return item.leaf == true;`.
+			//
+			//		Note that mayHaveChildren() must return true for an item if it could possibly
+			//		have children in the future, due to drag-an-drop or some other data store update.
+			//		Also note that it may return true if it's just too expensive to check during tree
+			//		creation whether or not the item has children.
 			// item: Object
 			//		Item from the dojo/store
 			return true;
