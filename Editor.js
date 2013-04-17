@@ -13,8 +13,6 @@ define([
 	"dojo/sniff", // has("ie") has("mac") has("webkit")
 	"dojo/string", // string.substitute
 	"dojo/topic", // topic.publish()
-	"dojo/_base/window", // win.withGlobal
-	"./_base/focus", // dijit.getBookmark()
 	"./_Container",
 	"./Toolbar",
 	"./ToolbarSeparator",
@@ -27,7 +25,10 @@ define([
 	"./_editor/RichText",
 	"./main", // dijit._scopeName
 	"dojo/i18n!./_editor/nls/commands"
-], function(require, array, declare, Deferred, i18n, domAttr, domClass, domGeometry, domStyle, keys, lang, has, string, topic, win, focusBase, _Container, Toolbar, ToolbarSeparator, _LayoutWidget, ToggleButton, _Plugin, EnterKeyHandling, html, rangeapi, RichText, dijit){
+], function(require, array, declare, Deferred, i18n, domAttr, domClass, domGeometry, domStyle,
+			keys, lang, has, string, topic,
+			_Container, Toolbar, ToolbarSeparator, _LayoutWidget, ToggleButton,
+			_Plugin, EnterKeyHandling, html, rangeapi, RichText, dijit){
 
 	// module:
 	//		dijit/Editor
@@ -459,14 +460,12 @@ define([
 			if(mark){
 				if(has("ie") < 9){
 					if(lang.isArray(mark)){
-						//IE CONTROL, have to use the native bookmark.
+						// IE CONTROL, have to use the native bookmark.
 						bookmark = [];
 						array.forEach(mark, function(n){
 							bookmark.push(rangeapi.getNode(n, this.editNode));
 						}, this);
-						win.withGlobal(this.window, 'moveToBookmark', focusBase, [
-							{mark: bookmark, isCollapsed: col}
-						]);
+						this.selection.moveToBookmark({mark: bookmark, isCollapsed: col});
 					}else{
 						if(mark.startContainer && mark.endContainer){
 							// Use the pseudo WC3 range API.  This works better for positions
@@ -583,7 +582,7 @@ define([
 			//		Get the currently selected text
 			// tags:
 			//		protected
-			var b = win.withGlobal(this.window, focusBase.getBookmark);
+			var b = this.selection.getBookmark();
 			var tmp = [];
 			if(b && b.mark){
 				var mark = b.mark;
@@ -599,7 +598,7 @@ define([
 							if(range){
 								b.mark = range.cloneRange();
 							}else{
-								b.mark = win.withGlobal(this.window, focusBase.getBookmark);
+								b.mark = this.selection.getBookmark();
 							}
 						}
 					}else{
@@ -760,7 +759,7 @@ define([
 				// only restore the selection if the current range is collapsed
 				// if not collapsed, then it means the editor does not lose
 				// selection and there is no need to restore it
-				if(win.withGlobal(this.window, 'isCollapsed', focusBase)){
+				if(this.selection.isCollapsed()){
 					this._moveToBookmark(this._savedSelection);
 				}
 				delete this._savedSelection;
