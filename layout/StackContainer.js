@@ -129,8 +129,10 @@ define([
 
 			// For aria support, wrap child widget in a <div role="tabpanel">
 			var childNode = child.domNode,
-				wrapper = domConstruct.place("<div role='tabpanel' class='" + this.baseClass + "ChildWrapper'>",
-					child.domNode, "replace"),
+				wrapper = domConstruct.place(
+					"<div role='tabpanel' class='" + this.baseClass + "ChildWrapper dijitHidden'>",
+					child.domNode,
+					"replace"),
 				label = child["aria-label"] || child.title || child.label;
 			if(label){
 				// setAttribute() escapes special chars, and if() statement avoids setting aria-label="undefined"
@@ -140,8 +142,6 @@ define([
 			child._wrapper = wrapper;	// to set the aria-labelledby in StackController
 
 			this.inherited(arguments);
-
-			domClass.replace(wrapper, "dijitHidden", "dijitVisible");
 
 			// child may have style="display: none" (at least our test cases do), so remove that
 			if(childNode.style.display == "none"){
@@ -328,7 +328,9 @@ define([
 			page.isLastChild = (page == children[children.length - 1]);
 			page._set("selected", true);
 
-			domClass.replace(page._wrapper, "dijitVisible", "dijitHidden");
+			if(page._wrapper){	// false if not started yet
+				domClass.replace(page._wrapper, "dijitVisible", "dijitHidden");
+			}
 
 			return (page._onShow && page._onShow()) || true;
 		},
@@ -338,7 +340,10 @@ define([
 			//		Hide the specified child by changing it's CSS, and call _onHide() so
 			//		it's notified.
 			page._set("selected", false);
-			domClass.replace(page._wrapper, "dijitHidden", "dijitVisible");
+
+			if(page._wrapper){	// false if not started yet
+				domClass.replace(page._wrapper, "dijitHidden", "dijitVisible");
+			}
 
 			page.onHide && page.onHide();
 		},

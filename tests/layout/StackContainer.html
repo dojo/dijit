@@ -303,6 +303,34 @@
 				doh.is(5, oldNumWidgets - newNumWidgets, newNumWidgets + "-" + oldNumWidgets + " destroyed");
 			});
 
+			doh.register("selectChild before startup", function selectBeforeStartup(){
+				var container = new StackContainer({ id: "sbs","aria-label":"sbs" });
+				container.addChild(new ContentPane({
+					id: "sbs1",
+					title: "Page 1",
+					content: "select before startup page 1"
+				}));
+				container.addChild(new ContentPane({
+					id: "sbs2",
+					title: "Page 2",
+					content: "select before startup page 2"
+				}));
+				var page3;
+				container.addChild(page3 = new ContentPane({
+					id: "sbs3",
+					title: "Page 3",
+					content: "select before startup page 3"
+				}));
+
+				container.selectChild(page3);
+				container.placeAt(document.body);
+				container.startup();
+
+				doh.t(helpers.isHidden(dom.byId("sbs1")), "page1 hidden");
+				doh.t(helpers.isHidden(dom.byId("sbs2")), "page2 hidden");
+				doh.t(helpers.isVisible(dom.byId("sbs3")), "page2 visible");
+			});
+
 			doh.run();
 		});
 
