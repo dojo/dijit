@@ -71,7 +71,7 @@ define([
 		}
 	});
 
-	var Select = declare("dijit.form.Select" + (has("dojo-bidi") ? "_NoBidi" : ""), [_KeyNavMixin, _FormSelectWidget, _HasDropDown], {
+	var Select = declare("dijit.form.Select" + (has("dojo-bidi") ? "_NoBidi" : ""), [_FormSelectWidget, _HasDropDown, _KeyNavMixin], {
 		// summary:
 		//		This is a "styleable" select box - it is basically a DropDownButton which
 		//		can take a `<select>` as its input.
@@ -163,6 +163,18 @@ define([
 				return [];
 			}
 			return this.dropDown.getChildren();
+		},
+
+		focus: function(){
+			// Override _KeyNavMixin::focus(), which calls focusFirstChild().
+			// We just want the standard form widget behavior.
+			if(!this.disabled && this.focusNode.focus){
+				try{
+					this.focusNode.focus();
+				}catch(e){
+					/*squelch errors from hidden nodes*/
+				}
+			}
 		},
 
 		focusChild: function(/*dijit/_WidgetBase*/ widget){
