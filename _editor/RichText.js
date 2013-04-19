@@ -624,13 +624,17 @@ define([
 				"\t\tbackground:transparent;\n",
 				"\t\tpadding: 1px 0 0 0;\n",
 				"\t\tmargin: -1px 0 0 0;\n", // remove extraneous vertical scrollbar on safari and firefox
-
-				// Set the html/body sizing.  Webkit always needs this, other browsers
-				// only set it when height is defined (not auto-expanding), otherwise
-				// scrollers do not appear.
-				((has("webkit")) ? "\t\twidth: 100%;\n" : ""),
-				((has("webkit")) ? "\t\theight: 100%;\n" : ""),
 				"\t}\n",
+				"\tbody,html, #dijitEditorBody{ outline: none; }",
+
+				// Set <body> to expand to full size of editor, so clicking anywhere will work.
+				// Except in auto-expand mode, in which case the editor expands to the size of <body>.
+				// Also determine how scrollers should be applied.  In autoexpand mode (height = "") no scrollers on y at all.
+				// But in fixed height mode we want both x/y scrollers.
+				// Scrollers go on <body> since it's been set to height: 100%.
+				"html { height: 100%; width: 100%; overflow: hidden; }\n",	// scroll bar is on <body>, shouldn't be on <html>
+				this.height ? "\tbody { height: 100%; width: 100%; overflow: auto; }\n" :
+					"\tbody { min-height: " + this.minHeight + "; width: 100%; overflow-x: auto; overflow-y: hidden; }\n",
 
 				// TODO: left positioning will cause contents to disappear out of view
 				//	   if it gets too wide for the visible area
@@ -640,17 +644,10 @@ define([
 				"\t\tright:0px;\n",
 				"\t\tfont:", font, ";\n",
 				((this.height || has("opera")) ? "" : "\t\tposition: fixed;\n"),
-				// FIXME: IE 6 won't understand min-height?
-				"\t\tmin-height:", this.minHeight, ";\n",
 				"\t\tline-height:", lineHeight, ";\n",
 				"\t}\n",
 				"\tp{ margin: 1em 0; }\n",
 
-				// Determine how scrollers should be applied.  In autoexpand mode (height = "") no scrollers on y at all.
-				// But in fixed height mode we want both x/y scrollers.  Also, if it's using wrapping div and in auto-expand
-				// (Mainly IE) we need to kill the y scroller on body and html.
-				(!setBodyId && !this.height ? "\tbody,html {overflow-y: hidden;}\n" : ""),
-				"\t#dijitEditorBody{overflow-x: auto; overflow-y:" + (this.height ? "auto;" : "hidden;") + " outline: 0px;}\n",
 				"\tli > ul:-moz-first-node, li > ol:-moz-first-node{ padding-top: 1.2em; }\n",
 				// Can't set min-height in IE9, it puts layout on li, which puts move/resize handles.
 				(!has("ie") ? "\tli{ min-height:1.2em; }\n" : ""),
