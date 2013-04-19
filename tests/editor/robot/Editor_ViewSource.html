@@ -23,17 +23,24 @@
 				var fsPlugin;
 				var vsPlugin;
 
-				doh.register("ViewSource_Tests", [
+				var registry;
+				doh.register("setup", [
 					{
 						name: "wait for editors to load",
 						timeout: 5000,
 						runTest: waitForLoad
 					},
+					function setVars(){
+						registry = doh.robot.window.require("dijit/registry");
+					}
+				]);
+
+				doh.register("ViewSource_Tests", [
 					{
 						name: "Keyboard: Go to view source (CTRL-SHIFT-F12)",
 						timeout: 20000,
 						setUp: function(){
-							editor0 = dijit.byId("editor0");
+							editor0 = registry.byId("editor0");
 							var edPlugins = editor0._plugins, i;
 							for(i = 0; i < edPlugins.length; i++){
 								var p = edPlugins[i];
@@ -78,7 +85,7 @@
 						name: "Keyboard: Go to source mode and back",
 						timeout: 20000,
 						setUp: function(){
-							editor0 = dijit.byId("editor0");
+							editor0 = registry.byId("editor0");
 							var edPlugins = editor0._plugins, i;
 							for(i = 0; i < edPlugins.length; i++){
 								var p = edPlugins[i];
@@ -121,7 +128,7 @@
 						name: "Mouse Click: Go to View Source",
 						timeout: 20000,
 						setUp: function(){
-							editor0 = dijit.byId("editor0");
+							editor0 = registry.byId("editor0");
 							var edPlugins = editor0._plugins, i;
 							for(i = 0; i < edPlugins.length; i++){
 								var p = edPlugins[i];
@@ -163,7 +170,7 @@
 						name: "Mouse Click: Go to View Source, then mouseclick twice (open/close sourceview)",
 						timeout: 20000,
 						setUp: function(){
-							editor0 = dijit.byId("editor0");
+							editor0 = registry.byId("editor0");
 							var edPlugins = editor0._plugins, i;
 							for(i = 0; i < edPlugins.length; i++){
 								var p = edPlugins[i];
@@ -207,7 +214,7 @@
 						name: "Combination Test:  FullScreen + ViewSource (Verify view source works in fullscreen mode)",
 						timeout: 20000,
 						setUp: function(){
-							editor1 = dijit.byId("editor1");
+							editor1 = registry.byId("editor1");
 							var edPlugins = editor1._plugins, i;
 							for(i = 0; i < edPlugins.length; i++){
 								var p = edPlugins[i];
@@ -260,7 +267,7 @@
 						name: "Combination Test:  FullScreen + ViewSource (toggle on and off)",
 						timeout: 20000,
 						setUp: function(){
-							editor1 = dijit.byId("editor1");
+							editor1 = registry.byId("editor1");
 							var edPlugins = editor1._plugins, i;
 							for(i = 0; i < edPlugins.length; i++){
 								var p = edPlugins[i];
@@ -319,7 +326,7 @@
 						name: "XSS: Verify simple script tags get stripped.",
 						timeout: 30000,
 						setUp: function(){
-							editor0 = dijit.byId("editor0");
+							editor0 = registry.byId("editor0");
 							var edPlugins = editor0._plugins, i;
 							for(i = 0; i < edPlugins.length; i++){
 								var p = edPlugins[i];
@@ -381,7 +388,7 @@
 						name: "XSS: Verify complex/odd script tags get stripped.",
 						timeout: 30000,
 						setUp: function(){
-							editor0 = dijit.byId("editor0");
+							editor0 = registry.byId("editor0");
 							var edPlugins = editor0._plugins, i;
 							for(i = 0; i < edPlugins.length; i++){
 								var p = edPlugins[i];
@@ -436,7 +443,7 @@
 						name: "XSS: Verify single line comment blocks are stripped.",
 						timeout: 30000,
 						setUp: function(){
-							editor0 = dijit.byId("editor0");
+							editor0 = registry.byId("editor0");
 							var edPlugins = editor0._plugins, i;
 							for(i = 0; i < edPlugins.length; i++){
 								var p = edPlugins[i];
@@ -493,7 +500,7 @@
 						name: "XSS: Verify multi line comment blocks are stripped.",
 						timeout: 30000,
 						setUp: function(){
-							editor0 = dijit.byId("editor0");
+							editor0 = registry.byId("editor0");
 							var edPlugins = editor0._plugins, i;
 							for(i = 0; i < edPlugins.length; i++){
 								var p = edPlugins[i];
@@ -553,7 +560,7 @@
 						name: "XSS: Verify iframe tags are stripped.",
 						timeout: 30000,
 						setUp: function(){
-							editor0 = dijit.byId("editor0");
+							editor0 = registry.byId("editor0");
 							var edPlugins = editor0._plugins, i;
 							for(i = 0; i < edPlugins.length; i++){
 								var p = edPlugins[i];
@@ -612,7 +619,7 @@
 						name: "XSS Disabled: Verify script, comment, and iframes are not stripped.",
 						timeout: 30000,
 						setUp: function(){
-							editor3 = dijit.byId("editor3");
+							editor3 = registry.byId("editor3");
 							var edPlugins = editor3._plugins, i;
 							for(i = 0; i < edPlugins.length; i++){
 								var p = edPlugins[i];
@@ -686,7 +693,7 @@
 						name: "ReadOnly:  Verify View Source can be put in ReadOnly mode.",
 						timeout: 30000,
 						setUp: function(){
-							editor2 = dijit.byId("editor2");
+							editor2 = registry.byId("editor2");
 							var edPlugins = editor2._plugins, i;
 							for(i = 0; i < edPlugins.length; i++){
 								var p = edPlugins[i];
@@ -730,7 +737,7 @@
 						name: "ViewSource:  GetValue",
 						timeout: 20000,
 						setUp: function(){
-							editor0 = dijit.byId("editor0");
+							editor0 = registry.byId("editor0");
 							value = editor0.get("value");
 							var edPlugins = editor0._plugins, i;
 							for(i = 0; i < edPlugins.length; i++){
@@ -781,7 +788,7 @@
 						name: "ViewSource:  SetValue",
 						timeout: 20000,
 						setUp: function(){
-							editor0 = dijit.byId("editor0");
+							editor0 = registry.byId("editor0");
 							value = editor0.get("value");
 							var edPlugins = editor0._plugins, i;
 							for(i = 0; i < edPlugins.length; i++){

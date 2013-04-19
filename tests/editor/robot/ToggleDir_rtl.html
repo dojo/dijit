@@ -19,13 +19,20 @@
 				doh.robot.initRobot('../test_ToggleDir_rtl.html');
 					
 				var metaKey = {ctrl: true};
-					
-				doh.register("testToggleDir", [
+
+				var registry;
+				doh.register("setup", [
 					{
 						name: "wait for editors to load",
 						timeout: 5000,
 						runTest: waitForLoad
 					},
+					function setVars(){
+						registry = doh.robot.window.require("dijit/registry");
+					}
+				]);
+
+				doh.register("testToggleDir", [
 					{
 						name: "toggleDir_toggleOn",
 						timeout: 6000,
@@ -39,7 +46,7 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								var editor = dijit.byId("ed0");
+								var editor = registry.byId("ed0");
 								var editDoc = editor.editorObject.contentWindow.document.documentElement;
 			                    editDoc = editDoc.getElementsByTagName("body")[0];
 			                    doh.is("ltr", editDoc.dir);
@@ -61,7 +68,7 @@
 							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								var editor = dijit.byId("ed0");
+								var editor = registry.byId("ed0");
 								var editDoc = editor.editorObject.contentWindow.document.documentElement;
 			                    editDoc = editDoc.getElementsByTagName("body")[0];
 			                    doh.is("rtl", editDoc.dir);

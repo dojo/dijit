@@ -15,17 +15,26 @@
 			dojo.require("dijit.robotx");
 			dojo.require("dijit.tests.helpers");	// functions to help test
 
+			// TODO: convert this to non-robot test, clicking button using button.click()
+
 			dojo.ready(function(){
 				doh.robot.initRobot('../test_CustomPlugin.html');
-				
-				var myPlugin;
 
-				doh.register("isVisible", [
+				var registry;
+				doh.register("setup", [
 					{
 						name: "wait for editors to load",
 						timeout: 5000,
 						runTest: waitForLoad
 					},
+					function setVars(){
+						registry = doh.robot.window.require("dijit/registry");
+					}
+				]);
+
+				var myPlugin;
+
+				doh.register("isVisible", [
 					function initialConditions(){
 						var pluginIcon = dojo.query(".customIcon")[0];
 						doh.t(isVisible(pluginIcon), "isVisible(pluginIcon)");
@@ -37,7 +46,7 @@
 					{
 						name: "toggleOn",
 						setUp: function(){
-							var editor = dijit.byId("editor1");
+							var editor = registry.byId("editor1");
 							dojo.forEach(editor._plugins, function(plugin){
 								if(plugin.name === "MyPlugin"){
 									myPlugin = plugin;
@@ -46,7 +55,7 @@
 						},
 						timeout: 15000,
 						runTest: function(){
-							var d = new doh.Deferred();	
+							var d = new doh.Deferred();
 							myPlugin.button.focus();
 							doh.robot.mouseMoveAt(myPlugin.button.domNode, 500);
 							doh.robot.mouseClick({left:true}, 500);
@@ -63,7 +72,7 @@
 					{
 						name: "toggleOff",
 						setUp: function(){
-							var editor = dijit.byId("editor1");
+							var editor = registry.byId("editor1");
 							dojo.forEach(editor._plugins, function(plugin){
 								if(plugin.name === "MyPlugin"){
 									myPlugin = plugin;

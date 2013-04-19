@@ -33,17 +33,24 @@
 					throw new Error("didn't find plugin");
 				}
 
-				doh.register("NewPage_tests", [
+				var registry;
+				doh.register("setup", [
 					{
 						name: "wait for editors to load",
 						timeout: 5000,
 						runTest: waitForLoad
 					},
+					function setVars(){
+						registry = doh.robot.window.require("dijit/registry");
+					}
+				]);
+
+				doh.register("NewPage_tests", [
 					{
 						name: "Mouse: Click new page clears editor",
 						timeout: 20000,
 						setUp: function(){
-							editor = dijit.byId("editor0");
+							editor = registry.byId("editor0");
 							npPlugin = getPlugin(editor);
 						},
 						runTest: function(){
@@ -79,7 +86,7 @@
 						name: "Mouse: Click new page sets editor with default content.",
 						timeout: 20000,
 						setUp: function(){
-							editor = dijit.byId("editor1");
+							editor = registry.byId("editor1");
 							npPlugin = getPlugin(editor);
 						},
 						runTest: function(){

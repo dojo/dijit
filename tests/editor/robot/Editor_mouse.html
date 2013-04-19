@@ -44,7 +44,7 @@
 						runTest: helpers.waitForLoad
 					},
 					function setVars(){
-						registry = robot.window.require("dijit/registry");
+						registry = doh.robot.window.require("dijit/registry");
 						editor0 = registry.byId("editor0");
 						doh.t(!!editor0, "editor0");
 						editor1 = registry.byId("editor1");

@@ -4,36 +4,26 @@
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>Editor Test</title>
 
-	<style type="text/css">
-		@import "../../themes/claro/document.css";
-		@import "../css/dijitTests.css";
-	</style>
-
-	<!-- required: a default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro.css"/>
-
-	<!-- required: dojo.js -->
-	<script type="text/javascript" src="../../../dojo/dojo.js"
-		data-dojo-config="isDebug: true"></script>
-
-	<!-- not needed, for testing alternate themes -->
-	<script type="text/javascript" src="../_testCommon.js"></script>
+	<script type="text/javascript" src="../boilerplate.js"></script>
 
 
 	<script type="text/javascript">
-		dojo.require("dijit.dijit"); // optimize: load dijit layer
-		dojo.require("dijit.Editor");
-		dojo.require("dijit._editor._Plugin");
-		dojo.require("dijit._editor.plugins.AlwaysShowToolbar");
-		dojo.require("dijit._editor.plugins.FontChoice");  // 'fontName','fontSize','formatBlock'
-		dojo.require("dijit._editor.plugins.TextColor");
-		dojo.require("dijit._editor.plugins.LinkDialog");
-		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+		require([
+			"dojo/_base/declare",
+			"dojo/parser",	// scan page for widgets and instantiate them
+			"dijit/Editor",
+			"dijit/_editor/_Plugin",
+			"dijit/_editor/plugins/AlwaysShowToolbar",
+			"dijit/_editor/plugins/FontChoice",  // 'fontName','fontSize','formatBlock'
+			"dijit/_editor/plugins/TextColor",
+			"dijit/_editor/plugins/LinkDialog",
+			"dojo/NodeList-dom",	// orphan()
+			"dojo/domReady!"
+		], function(declare, parser, Editor, _Plugin){
 
-		dojo.ready(function(){
 			// Dummy simple plugin for testing that filters registered this way work
 			// properly with content setting on load.
-			dojo.declare("dijit.tests.editor.TestFilter", [dijit._editor._Plugin], {
+			declare("TestFilter", _Plugin, {
 				setEditor: function(editor){
 					this.editor = editor;
 					this.editor.contentPreFilters.push(function(val){
@@ -45,15 +35,15 @@
 				}
 			});
 
-			dojo.parser.parse();
+			parser.parse();
 
-			var progEditor = new dijit.Editor({
+			var progEditor = new Editor({
 				value: "Custom Initial Content.",
 				"aria-label": "progEditor"
 			}, "programmatic3");
 			progEditor.startup();
 
-			var progEditor2 = new dijit.Editor({
+			var progEditor2 = new Editor({
 				contentPreFilters: [function(txt){ return txt; }],
 				"aria-label": "progEditor2"
 			}, "programmatic4");
@@ -64,24 +54,31 @@
 </head>
 
 <body class="claro" role="main">
+	<script type="dojo/require">
+		dom: "dojo/dom",
+		lang: "dojo/_base/lang",
+		query: "dojo/query",
+		registry: "dijit/registry",
+		Editor: "dijit/Editor"
+	</script>
 	<div data-dojo-type="dijit/Editor" data-dojo-props="plugins:[], focusOnLoad:true, height:'1.5em', style:'border:0px;','aria-label':'automated'" id="automated"
 	>Automated Test - all check boxes should be checked<script type='dojo/method' data-dojo-event='onFocus'>
 			if(!document.getElementById('onFocusFired').checked){
 				document.getElementById('onFocusFired').checked=true;
-				document.getElementById('initialValueOK').checked = (dijit.byId('automated').getValue() == 'Automated Test - all check boxes should be checked');
-				dijit.byId('automated').document.execCommand('selectall', false, false);
+				document.getElementById('initialValueOK').checked = (registry.byId('automated').getValue() == 'Automated Test - all check boxes should be checked');
+				registry.byId('automated').document.execCommand('selectall', false, false);
 				document.getElementById('onChangeOKnow').checked=true;
-				dijit.byId('automated').document.execCommand('underline', false, false);
-				setTimeout(dojo.hitch(dijit.byId('editor0'),"focus",0));
+				registry.byId('automated').document.execCommand('underline', false, false);
+				setTimeout(lang.hitch(registry.byId('editor0'),"focus",0));
 			}
 		</script
 		><script type='dojo/method' data-dojo-event='onBlur'>
 			if(!document.getElementById('onBlurFired').checked){
 				document.getElementById('onBlurFired').checked=true;
-				dijit.byId('automated').set('disabled', true);
+				registry.byId('automated').set('disabled', true);
 				setTimeout(function(){ try {
-					dijit.byId('automated').document.execCommand('bold', false, false);
-					document.getElementById('disabledOK').checked = (dijit.byId('automated').document.queryCommandState('bold') == false);
+					registry.byId('automated').document.execCommand('bold', false, false);
+					document.getElementById('disabledOK').checked = (registry.byId('automated').document.queryCommandState('bold') == false);
 				}catch(e){ document.getElementById('disabledOK').checked = true; }}, 0);
 			}
 		</script
@@ -112,9 +109,9 @@
 	The following HTML should appear as source: &lt;INPUT TYPE="IMAGE" SRC="javascript:alert('no scripting attacks')"&gt;
 	</div>
 	<label for="focusAfter">lbl:</label><input id="focusAfter" value="input after editor1"/>
-	<button onClick="dijit.byId('editor1').destroy()">destroy</button>
-	<button onClick="dijit.byId('editor1').set('disableSpellCheck', !dijit.byId('editor1').get('disableSpellCheck'))">toggle spell check</button>
-	<button onclick="console.log(dijit.byId('editor1').get('value'))">getValue</button>
+	<button onClick="registry.byId('editor1').destroy()">destroy</button>
+	<button onClick="registry.byId('editor1').set('disableSpellCheck', !registry.byId('editor1').get('disableSpellCheck'))">toggle spell check</button>
+	<button onclick="console.log(registry.byId('editor1').get('value'))">getValue</button>
 	<hr/>
 
 	<h2>Created from div, auto-expanding</h2>
@@ -145,7 +142,7 @@
 		data-dojo-props="plugins:['bold','italic','|','createLink','foreColor','hiliteColor',{name:'dijit/_editor/plugins/FontChoice', command:'fontName', generic:true},'fontSize','formatBlock','insertImage','insertHorizontalRule'], styleSheets:'../../themes/claro/document.css'"
 		id="blah" aria-labelledby="label_blah">
 		This instance includes optional toolbar buttons which pull in additional ui (dijit) code.
-		Note the dojo.require() statements required to pull in the associated editor plugins to make
+		Note the require() arguments to pull in the associated editor plugins to make
 		this work.
 		<br>
 		<span style="font-family: serif">This is serif.</span>
@@ -160,7 +157,7 @@
 		<br>
 	</div>
 	<h3>..after</h3>
-	<button onclick="alert(dijit.byId('blah').get('value'));">getValue</button>
+	<button onclick="alert(registry.byId('blah').get('value'));">getValue</button>
 	<hr/>
 
 	<h2>Plugins specified</h2>
@@ -183,7 +180,7 @@
 	</div> 
 
 	<h2>Checking pre-filter application</h2> 
-	<div data-dojo-type="dijit/Editor" data-dojo-props="extraPlugins:[{name: 'dijit.tests.editor.TestFilter'}]" aria-label="filteredEditor" id="filteredEditor">
+	<div data-dojo-type="dijit/Editor" data-dojo-props="extraPlugins:[{name: 'TestFilter'}]" aria-label="filteredEditor" id="filteredEditor">
 		notdojo 
 	</div> 
 
@@ -199,13 +196,13 @@
 	<div id="programmatic">This div will become an editor.</div>
 	<button
 		id="create"
-		onclick="new dijit.Editor({}, dojo.byId('programmatic')); dojo.query('#create').orphan();">
+		onclick="new Editor({}, dom.byId('programmatic')); query('#create').orphan();">
 	create static editor
 	</button>
 	<div id="programmatic2">This div will become an auto-expanding editor.</div>
 	<button
 		id="create2"
-		onclick="new dijit.Editor({height: '', extraPlugins: ['dijit/_editor/plugins/AlwaysShowToolbar']}, dojo.byId('programmatic2')); dojo.query('#create2').orphan();">
+		onclick="new Editor({height: '', extraPlugins: ['dijit/_editor/plugins/AlwaysShowToolbar']}, dom.byId('programmatic2')); query('#create2').orphan();">
 	create expanding editor
 	</button>
 

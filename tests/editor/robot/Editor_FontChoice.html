@@ -24,7 +24,7 @@
 				var value;		// HTML value of editor
 
 				function getPlugin(/*String*/ command){
-					var editor = dijit.byId("editor0");
+					var editor = registry.byId("editor0");
 					var edPlugins = editor._plugins, i;
 					for(i = 0; i < edPlugins.length; i++){
 						var p = edPlugins[i];
@@ -35,12 +35,18 @@
 					throw new Error("didn't find plugin " + command);
 				}
 
-				
-				doh.register("init", {
-					name: "wait for editors to load",
-					timeout: 5000,
-					runTest: waitForLoad
-				});
+
+				var registry;
+				doh.register("setup", [
+					{
+						name: "wait for editors to load",
+						timeout: 5000,
+						runTest: waitForLoad
+					},
+					function setVars(){
+						registry = doh.robot.window.require("dijit/registry");
+					}
+				]);
 
 				// Verify that the formatBlock, fontSize, and fontName
 				// plugins correctly display the format / font-size / font-name of the selected text.
@@ -69,7 +75,7 @@
 									].join(" ").replace(/ +/g, " "),
 								timeout: 20000,
 								setUp: function(){
-									editor = dijit.byId("editor0");
+									editor = registry.byId("editor0");
 									value = editor.get("value");
 								},
 								runTest: function(){
@@ -187,7 +193,7 @@
 						name: "formatBlock: Verify changing multiple nodes to h3",
 						timeout: 20000,
 						setUp: function(){
-							editor = dijit.byId("editor0");
+							editor = registry.byId("editor0");
 							fcPlugin = getPlugin("formatBlock");
 							value = editor.get("value");
 						},
@@ -268,7 +274,7 @@
 						name: "formatBlock: Verify single level format is removed (inside format block).",
 						timeout: 20000,
 						setUp: function(){
-							editor = dijit.byId("editor0");
+							editor = registry.byId("editor0");
 							fcPlugin = getPlugin("formatBlock");
 							value = editor.get("value");
 						},
@@ -320,7 +326,7 @@
 						name: "formatBlock: Verify multiple format removal via selection",
 						timeout: 20000,
 						setUp: function(){
-							editor = dijit.byId("editor0");
+							editor = registry.byId("editor0");
 							fcPlugin = getPlugin("formatBlock");
 							value = editor.get("value");
 						},
@@ -387,7 +393,7 @@
 						name: "FontChoice: Plain Text labels",
 						timeout: 20000,
 						setUp: function(){
-							editor = dijit.byId("editor1");
+							editor = registry.byId("editor1");
 							fcPlugin = [];
 							var edPlugins = editor._plugins, i;
 							for(i = 0; i < edPlugins.length; i++){
@@ -431,7 +437,7 @@
 						name: "FontChoice: Validate usage of generic names",
 						timeout: 20000,
 						setUp: function(){
-							editor = dijit.byId("generic");
+							editor = registry.byId("generic");
 							fcPlugin = null;
 							var edPlugins = editor._plugins, i;
 							for(i = 0; i < edPlugins.length; i++){
@@ -482,7 +488,7 @@
 						name: "FontChoice: Validate custom font names",
 						timeout: 20000,
 						setUp: function(){
-							editor = dijit.byId("custom");
+							editor = registry.byId("custom");
 							fcPlugin = null;
 							var edPlugins = editor._plugins, i;
 							for(i = 0; i < edPlugins.length; i++){

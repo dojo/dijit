@@ -30,17 +30,24 @@
 					})[0];
 				}
 
-				doh.register("Miscellaneous_tests", [
+				var registry;
+				doh.register("setup", [
 					{
 						name: "wait for editors to load",
 						timeout: 5000,
 						runTest: waitForLoad
 					},
+					function setVars(){
+						registry = doh.robot.window.require("dijit/registry");
+					}
+				]);
+
+				doh.register("Miscellaneous_tests", [
 					{
 						name: "addStylesheet",
 						timeout: 3000,
 						setUp: function(){
-							editor1 = dijit.byId("editor1");
+							editor1 = registry.byId("editor1");
 							editor1.setValue("<h1>header one</h1>");
 							var editorTextNode = editor1.editNode.firstChild;
 							editor1OriginalBackgroundColor = dojo.getComputedStyle(editorTextNode).backgroundColor;
@@ -86,7 +93,7 @@
 						name: "auto expand",
 						timeout: 20000,
 						setUp: function(){
-							editor0 = dijit.byId("thud");
+							editor0 = registry.byId("thud");
 							height = dojo.style(editor0.domNode, "height");
 							value = editor0.get("value");
 						},
@@ -120,7 +127,7 @@
 					{
 						name: "font-size style migrated to editor body",
 						runTest: function(){
-							editor0 = dijit.byId("fontSizedEditor");
+							editor0 = registry.byId("fontSizedEditor");
 							var bStyle = editor0.document.body.style["fontSize"];
 							doh.t(bStyle != null, "bStyle set");
 							doh.is("30pt", bStyle.toLowerCase());
@@ -130,7 +137,7 @@
 						name: "prefilters do process initial content",
 						timeout: 20000,
 						setUp: function(){
-							editor0 = dijit.byId("filteredEditor");
+							editor0 = registry.byId("filteredEditor");
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -154,7 +161,7 @@
 						name: "placeCursorAtStart (br tag) moves input before br, not inside",
 						timeout: 20000,
 						setUp: function(){
-							editor0 = dijit.byId("brEditor");
+							editor0 = registry.byId("brEditor");
 							value = editor0.get("value");
 						},
 						runTest: function(){
@@ -184,7 +191,7 @@
 						name: "custom editor content (programmatic creation)",
 						timeout: 20000,
 						setUp: function(){
-							editor0 = dijit.byId("programmatic3");
+							editor0 = registry.byId("programmatic3");
 							value = editor0.get("value");
 						},
 						runTest: function(){
@@ -210,7 +217,7 @@
 						name: "custom filters passed in constructor are not lost",
 						timeout: 20000,
 						setUp: function(){
-							editor0 = dijit.byId("programmatic4");
+							editor0 = registry.byId("programmatic4");
 							value = editor0.get("value");
 						},
 						runTest: function(){
@@ -235,7 +242,7 @@
 						name: "replaceValue",
 						timeout: 20000,
 						setUp: function(){
-							editor0 = dijit.byId("programmatic4");
+							editor0 = registry.byId("programmatic4");
 							value = editor0.get("value");
 						},
 						runTest: function(){
@@ -268,7 +275,7 @@
 						name: "page up/down",
 						timeout: 6000,
 						setUp: function(){
-							editor0 = dijit.byId("editor0");
+							editor0 = registry.byId("editor0");
 							value = editor0.get("value");
 						},
 						runTest: function(){
@@ -302,7 +309,7 @@
 						name: "emptyAltTag",
 						timeout: 20000,
 						setUp: function(){
-							editor0 = dijit.byId("programmatic4");
+							editor0 = registry.byId("programmatic4");
 							value = editor0.get("value");
 						},
 						runTest: function(){
@@ -331,7 +338,7 @@
 						name: "caret pos #1",
 						timeout: 20000,
 						setUp: function(){
-							editor1 = dijit.byId("editor1");
+							editor1 = registry.byId("editor1");
 							value = editor1.get("value");
 						},
 						runTest: function(){
