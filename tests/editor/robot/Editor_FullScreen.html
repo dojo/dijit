@@ -33,17 +33,21 @@
 					throw new Error("didn't find plugin");
 				}
 
-				doh.register("load", [
+				var registry;
+				doh.register("setup", [
 					{
 						name: "wait for editors to load",
 						timeout: 5000,
 						runTest: waitForLoad
+					},
+					function setVars(){
+						registry = doh.robot.window.require("dijit/registry");
 					}
 				]);
 
 				doh.register("General", [
 					function setUp(){
-						editor = dijit.byId("editor0");
+						editor = registry.byId("editor0");
 						fsPlugin = getPlugin(editor);
 					},
 					{
@@ -190,9 +194,9 @@
 
 				doh.register("BorderContainer", [
 					function setUp(){
-						editor = dijit.byId("editor1");
+						editor = registry.byId("editor1");
 						fsPlugin = getPlugin(editor);
-						container = dijit.byId("bc");
+						container = registry.byId("bc");
 					},
 
 					{
@@ -301,9 +305,9 @@
 
 				doh.register("TabContainer", [
 					function setUp(){
-						editor = dijit.byId("editor2");
+						editor = registry.byId("editor2");
 						fsPlugin = getPlugin(editor);
-						container = dijit.byId("tc");
+						container = registry.byId("tc");
 					},
 
 					{
@@ -412,9 +416,9 @@
 
 				doh.register("AccordionContainer", [
 					function setUp(){
-						editor = dijit.byId("editor3");
+						editor = registry.byId("editor3");
 						fsPlugin = getPlugin(editor);
-						container = dijit.byId("ac");
+						container = registry.byId("ac");
 					},
 
 					{
@@ -523,9 +527,9 @@
 
 				doh.register("StackContainer", [
 					function setUp(){
-						editor = dijit.byId("editor4");
+						editor = registry.byId("editor4");
 						fsPlugin = getPlugin(editor);
-						container = dijit.byId("sc");
+						container = registry.byId("sc");
 					},
 
 					{

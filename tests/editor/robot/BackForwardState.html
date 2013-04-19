@@ -16,26 +16,33 @@
 			dojo.require("dijit.tests.helpers");	// functions to help test
 
 			// This page tests that the editor's value won't be lost if the user
-			// accidentlly navigates to a different page, and then returns to the
+			// accidentally navigates to a different page, and then returns to the
 			// page w/the editor by pressing the back button.
 
 			dojo.ready(function(){
 				doh.robot.initRobot('../BackForwardState.html');
 
-				doh.register("back button restore", [
+				var registry;
+				doh.register("setup", [
 					{
 						name: "wait for editors to load",
 						timeout: 5000,
 						runTest: waitForLoad
 					},
+					function setVars(){
+						registry = doh.robot.window.require("dijit/registry");
+					}
+				]);
+
+				doh.register("back button restore", [
 					{
 						name: "set editor value",
 						timeout: 10000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							var editor0 = dijit.byId("editor0"),
-								editor1 = dijit.byId("editor1");
+							var editor0 = registry.byId("editor0"),
+								editor1 = registry.byId("editor1");
 
 							doh.is("editor0 original contents", editor0.get('value'));
 							doh.is("editor1 original contents", editor1.get('value'));
@@ -89,7 +96,9 @@
 						timeout: 5000,
 						runTest: waitForLoad
 					},
-
+					function setVarsAgain(){
+						registry = doh.robot.window.require("dijit/registry");
+					},
 					{
 						name: "check that editor values restored",
 						timeout: 10000,
@@ -97,8 +106,8 @@
 							var d = new doh.Deferred();
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								var editor0 = dijit.byId("editor0"),
-									editor1 = dijit.byId("editor1");
+								var editor0 = registry.byId("editor0"),
+									editor1 = registry.byId("editor1");
 
 								doh.t(editor0, "editor0 found");
 								doh.is("hello", editor0.get('value'));

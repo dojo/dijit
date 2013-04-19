@@ -37,15 +37,17 @@
 				var editor0,
 					editor1, editor1oldValue, editor1newValue, editor1onChange = "no onchange event yet";
 
+				var registry;
 				doh.register("setup", [
 					{
 						name: "wait for editors to load",
 						timeout: 5000,
 						runTest: waitForLoad
 					},
-					function setUp(){
-						editor0 = dijit.byId("editor0");
-						editor1 = dijit.byId("editor1");					
+					function setVars(){
+						registry = doh.robot.window.require("dijit/registry");
+						editor0 = registry.byId("editor0");
+						editor1 = registry.byId("editor1");
 						editor1.watch("value", function(attr, oldVal, newVal){
 							editor1oldValue = normalize(oldVal);
 							editor1newValue = normalize(newVal);

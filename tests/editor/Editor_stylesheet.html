@@ -4,33 +4,25 @@
 	<title>Editor StyleSheet Test</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-	<style type="text/css">
-		@import "../../themes/claro/document.css";
-	</style>
-
-	<!-- required: a default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro.css"/>
-
-	<!-- required: dojo.js -->
-	<script type="text/javascript" src="../../../dojo/dojo.js"
-		data-dojo-config="isDebug: true"></script>
-
-	<script type="text/javascript" src="../_testCommon.js"></script>
+	<script type="text/javascript" src="../boilerplate.js"></script>
 
 	<script type="text/javascript">
-		dojo.require("doh.runner");
-		dojo.require("dijit.dijit");
-		dojo.require("dijit.Editor");
-		dojo.require("dojo.parser");
-		
-		dojo.ready(function(){
+		require([
+			"doh/runner",
+			"dojo/parser",
+			"dojo/query",
+			"dijit/registry",
+			"dijit/Editor",
+			"dojo/NodeList-dom",	// style()
+			"dojo/domReady!"
+		], function(doh, parser, query, registry){
 
 			var editor;
 
 			doh.register("setup", [
 				function parse(){
-					dojo.parser.parse();
-					editor = dijit.byId("editor");
+					parser.parse();
+					editor = registry.byId("editor");
 				},
 				{
 					name: "wait for load",
@@ -63,7 +55,7 @@
 						// Not checking background color because it could be "red" or #FF0000 or rgb(...
 						var d = new doh.Deferred();
 						setTimeout(d.getTestCallback(function(){
-							var h1styles = dojo.query("h1", editor.window.document).style("borderTopStyle");
+							var h1styles = query("h1", editor.window.document).style("borderTopStyle");
 							doh.is(1, h1styles.length, "found h1");
 							doh.is("solid", h1styles[0], "h1 border");
 						}), 250);
@@ -75,7 +67,7 @@
 					runTest: function(){
 						editor.removeStyleSheet('test_editor.css');
 
-						var h1styles = dojo.query("h1", editor.window.document).style("borderTopWidth");
+						var h1styles = query("h1", editor.window.document).style("borderTopWidth");
 
 						// Wait for stylesheet removal to take effect and then check if <h1> has border.
 						// Not checking background color because it could be "red" or #FF0000 or rgb(...
@@ -83,7 +75,7 @@
 						// (which means that there's really no border).
 						var d = new doh.Deferred();
 						setTimeout(d.getTestCallback(function(){
-							var h1styles = dojo.query("h1", editor.window.document).style("borderTopStyle");
+							var h1styles = query("h1", editor.window.document).style("borderTopStyle");
 							doh.is(1, h1styles.length, "found h1");
 							doh.is("none", h1styles[0], "h1 border style");
 						}), 250);
@@ -97,13 +89,16 @@
 	</script>
 </head>
 <body class="claro" role="main">
+<script type="dojo/require">
+	registry: "dijit/registry"
+</script>
 <p>Turning on the stylesheet should make header red</p>
 <div id="editor" data-dojo-type="dijit/Editor" aria-label="editor" data-dojo-props='name:"field"'>
 	<h1>Adding stylesheet should make my background red</h1>
 	<h2>I shouldn't change</h2>
 </div>
-<button id="addStyleSheet" onclick="dijit.byId('editor').addStyleSheet('test_editor.css');">add stylesheet</button>
-<button id="removeStyleSheet" onclick="dijit.byId('editor').removeStyleSheet('test_editor.css');">remove stylesheet</button>
+<button id="addStyleSheet" onclick="registry.byId('editor').addStyleSheet('test_editor.css');">add stylesheet</button>
+<button id="removeStyleSheet" onclick="registry.byId('editor').removeStyleSheet('test_editor.css');">remove stylesheet</button>
 
 </body>
 </html>

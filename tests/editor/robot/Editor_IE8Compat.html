@@ -21,16 +21,16 @@
 
 				var editor1;
 
+				var registry;
 				doh.register("setup", [
 					{
 						name: "wait for editors to load",
 						timeout: 5000,
 						runTest: waitForLoad
 					},
-					function setUp(){
-						dojo.global.require(["dijit/registry"], function(registry){
-							editor1 = registry.byId("editor1");
-						});
+					function setVars(){
+						registry = doh.robot.window.require("dijit/registry");
+						editor1 = registry.byId("editor1");
 					}
 				]);
 
