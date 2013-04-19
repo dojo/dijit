@@ -736,7 +736,7 @@ define([
 				return;
 			}
 			delete this.editingAreaStyleSheets[index];
-			query('link:[href="' + url + '"]', this.window.document).orphan();
+			query('link[href="' + url + '"]', this.window.document).orphan();
 		},
 
 		// disabled: Boolean
