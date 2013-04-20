@@ -4,35 +4,21 @@
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>Dijit Tree Test</title>
 
-	<style type="text/css">
-		@import "../../themes/claro/document.css";
-		@import "../css/dijitTests.css";
-	</style>
-
-	<!-- required: a default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro.css"/>
-
-	<!-- required: dojo.js -->
-	<script type="text/javascript" src="../../../dojo/dojo.js"
-		data-dojo-config="parseOnLoad: true, isDebug: true"></script>
-
-	<!-- not needed, for testing alternate themes -->
-	<script type="text/javascript" src="../_testCommon.js"></script>
+	<script type="text/javascript" src="../boilerplate.js"></script>
 
 	<script type="text/javascript">
-		dojo.require("dojo.data.ItemFileWriteStore");
-		dojo.require("dijit.dijit"); // optimize: load dijit layer
-
-		dojo.require("dijit.Tree");
-		dojo.require("dijit.tree.ForestStoreModel");
-
-		dojo.require("dijit.ColorPalette");
-
-		dojo.require("dijit.Menu");
-		dojo.require("dijit.MenuItem");
-		dojo.require("dijit.PopupMenuItem");
-
-		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+		require([
+			"dojo/parser",
+			"dojo/data/ItemFileWriteStore",
+			"dijit/Tree",
+			"dijit/tree/ForestStoreModel",
+			"dijit/ColorPalette",
+			"dijit/MenuItem",
+			"dijit/PopupMenuItem",
+			"dojo/domReady!"
+		], function(parser){
+			parser.parse();
+		});
 	</script>
 
 </head>

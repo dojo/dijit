@@ -4,20 +4,7 @@
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>dijit.Tree / dijit.tree.ObjectStoreModel automated test</title>
 
-	<style type="text/css">
-		@import "../../themes/claro/document.css";
-		@import "../css/dijitTests.css";
-	</style>
-
-	<!-- required: a default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro.css"/>
-
-	<!-- required: dojo.js -->
-	<script type="text/javascript" src="../../../dojo/dojo.js"
-		data-dojo-config="isDebug: true, async: true"></script>
-
-	<!-- not needed, for testing alternate themes -->
-	<script type="text/javascript" src="../_testCommon.js"></script>
+	<script type="text/javascript" src="../boilerplate.js"></script>
 
 	<script type="text/javascript">
 		require([
@@ -227,7 +214,7 @@
 				},
 
 				function topLevelItemModify(){
-					// Modify a top level item so it"s no longer top level.
+					// Modify a top level item so it's no longer top level.
 
 					myStore.put({
 						id: "PA",

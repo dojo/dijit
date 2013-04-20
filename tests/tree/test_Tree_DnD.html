@@ -5,21 +5,11 @@
 	<title>Dijit Tree Test</title>
 
 	<style type="text/css">
-		@import "../../themes/claro/document.css";
-		@import "../css/dijitTests.css";
 		@import "../../../dojo/resources/dnd.css";
 		@import "../../../dojo/tests/dnd/dndDefault.css";
 	</style>
 
-	<!-- required: the default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/claro/claro.css"/>
-
-	<!-- required: dojo.js -->
-	<script type="text/javascript" src="../../../dojo/dojo.js"
-		data-dojo-config="isDebug: true, async: true"></script>
-
-	<!-- only needed for alternate theme testing: do NOT use in your code! -->
-	<script type="text/javascript" src="../_testCommon.js"></script>
+	<script type="text/javascript" src="../boilerplate.js"></script>
 
 	<script type="text/javascript">
 		require([
@@ -38,7 +28,7 @@
 			"dijit/focus",	// not used directly, but needed by robot test drivers, ex: Tree_Selector.html
 			"dojo/domReady!"
 		], function(aspect, Source, ItemFileWriteStore, dom, parser, topic,
-					registry, Tree, TreeStoreModel, testController, Menu, Button){
+					registry, Tree, TreeStoreModel, testController){
 
 			myStore = new ItemFileWriteStore({
 				url: "../_data/categories.json"
