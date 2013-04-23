@@ -24,7 +24,7 @@
 				var value;
 				var node;
 
-				var registry;
+				var registry, focus;
 				doh.register("setup", [
 					{
 						name: "wait for editors to load",
@@ -33,6 +33,7 @@
 					},
 					function setVars(){
 						registry = doh.robot.window.require("dijit/registry");
+						focus = doh.robot.window.require("dijit/focus");
 					}
 				]);
 
@@ -591,16 +592,16 @@
 							var f;
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(isVisible(ldPlugin.dropDown.domNode),  "tooltip dialog is visible");
-								f = dijit.getFocus();
-								doh.isNot(null, f && f.node, "is focus");
-								var w = dijit.getEnclosingWidget(f.node);
+								f = focus.curNode;
+								doh.isNot(null, f, "is focus");
+								var w = registry.getEnclosingWidget(f);
 								doh.isNot(null, w, "focused on widget");
 								var val = w.get("value");
 								doh.t(new RegExp("http://www.example.com/example.html").test(val), "Verifying the contents contained link url");
 							}), 2000);
 
 							// Clicking the <input> shouldn't close TooltipDialog (#14395)
-							doh.robot.mouseMoveAt(function(){ return f.node; }, 500, 1);
+							doh.robot.mouseMoveAt(function(){ return f; }, 500, 1);
 							doh.robot.mouseClick({left:true}, 100);
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isVisible(ldPlugin.dropDown.domNode),  "tooltip dialog still visible");
@@ -870,10 +871,10 @@
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(isVisible(ldPlugin.dropDown.domNode),  "tooltip dialog is visible");
 
-								f = dijit.getFocus();
-								doh.t(f.node, "got focus");
+								f = focus.curNode;
+								doh.t(f, "got focus");
 
-								var w = dijit.getEnclosingWidget(f.node);
+								var w = registry.getEnclosingWidget(f);
 								doh.t(w, "found enclosing widget");
 
 								var val = w.get("value");
@@ -881,7 +882,7 @@
 							}), 2000);
 
 							// Clicking the <input> shouldn't close TooltipDialog (#14395)
-							doh.robot.mouseMoveAt(function(){ return f.node; }, 500, 1);
+							doh.robot.mouseMoveAt(function(){ return f; }, 500, 1);
 							doh.robot.mouseClick({left:true}, 100);
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isVisible(ldPlugin.dropDown.domNode),  "tooltip dialog still visible");

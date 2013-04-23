@@ -3,8 +3,9 @@ define([
 	"dojo/dom", // dom.byId
 	"dojo/_base/lang",
 	"dojo/sniff", // has("ie") has("opera")
-	"dojo/_base/window"
-], function(array, dom, lang, has, baseWindow){
+	"dojo/_base/window",
+	"dijit/focus"
+], function(array, dom, lang, has, baseWindow, focus){
 
 	// module:
 	//		dijit/selection
