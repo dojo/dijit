@@ -66,7 +66,7 @@ define([
 
 		// Account for iOS virtual keyboard, if it's being shown.  Unfortunately no direct way to check or measure.
 		var tag = focusedNode && focusedNode.tagName && focusedNode.tagName.toLowerCase();
-		if(has("ios") && !focusedNode.readOnly && (tag == "textarea" || (tag == "input" &&
+		if(has("ios") && focusedNode && !focusedNode.readOnly && (tag == "textarea" || (tag == "input" &&
 			/^(color|email|number|password|search|tel|text|url)$/.test(focusedNode.type)))){
 
 			// Box represents the size of the viewport.  Some of the viewport is likely covered by the keyboard.
