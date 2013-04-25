@@ -527,8 +527,11 @@ define([
 			// description:
 			//		Called after a widget and its children have been created and added to the page,
 			//		and all related widgets have finished their create() cycle, up through postCreate().
-			//		This is useful for composite widgets that need to control or layout sub-widgets.
-			//		Many layout widgets can use this as a wiring phase.
+			//
+			//		Note that startup() may be called while the widget is still hidden, for example if the widget is
+			//		inside a hidden dijit/Dialog or an unselected tab of a dijit/layout/TabContainer.
+			//		For widgets that need to do layout, it's best to put that layout code inside resize(), and then
+			//		extend dijit/layout/_LayoutWidget so that resize() is called when the widget is visible.
 			if(this._started){
 				return;
 			}
