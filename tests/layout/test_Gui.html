@@ -33,7 +33,15 @@
 	</style>
 
 	<script type="text/javascript">
-		require(["dojo/parser", "dojo/domReady!"], function(parser){
+		require([
+			"dojo/parser",
+			"dijit/layout/BorderContainer",
+			"dijit/layout/AccordionContainer",
+			"dijit/layout/TabContainer",
+			"dijit/layout/ContentPane",
+			"dijit/TitlePane",
+			"dojo/domReady!"
+		], function(parser){
 			parser.parse();
 		});
 	</script>
