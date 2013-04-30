@@ -7,7 +7,14 @@
 	<script src="../boilerplate.js"></script>
 
 	<script type="text/javascript">
-		require(["dojo/parser", "dojo/domReady!"], function(parser){
+		require([
+			"dojo/parser",
+			"dijit/layout/BorderContainer",
+			"dijit/layout/ContentPane",
+			"dijit/form/FilteringSelect",
+			"dijit/layout/TabContainer",
+			"dojo/domReady!"
+		], function(parser){
 			parser.parse();
 		});
 	</script>

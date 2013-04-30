@@ -7,7 +7,15 @@
 	<script src="../boilerplate.js"></script>
 
 	<script type="text/javascript">
-		require(["dojo/parser", "dijit/registry", "dojo/domReady!"], function(parser, _registry){
+		require([
+			"dojo/parser",
+			"dijit/registry",
+			"dijit/layout/AccordionContainer",
+			"dijit/layout/BorderContainer",
+			"dijit/layout/ContentPane",
+			"dijit/layout/TabContainer",
+			"dojo/domReady!"
+		], function(parser, _registry){
 			parser.parse();
 
 			// Set up global, used in button onclick handlers

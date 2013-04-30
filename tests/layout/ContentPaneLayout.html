@@ -30,6 +30,7 @@
 			"dijit/_WidgetBase",
 			"dijit/_TemplatedMixin",
 			"dijit/Dialog",
+			"dijit/form/ComboBox",
 			"dijit/form/Form",
 			"dijit/layout/BorderContainer",
 			"dijit/layout/ContentPane",
@@ -73,12 +74,31 @@
 					}
 				}
 			});
-	
-			// Keep track of the number of startup() calls to every widget.
-			// Since the href's widgets haven't been created yet we monitor startup() calls on the prototype
+
+			// Monitor lifecycle of widgets.  This used to be done by attaching to _WidgetBase.prototype and
+			// _LayoutWidget.prototype, but that leads to race conditions since declare() runs first, and looks
+			// at the original methods, not the advised-methods.
 			var startups = {};
-			aspect.after(_WidgetBase.prototype, "startup", function(){
-				startups[this.id] = (startups[this.id] || 0) + 1;
+			var layoutResizes = {};
+			aspect.after(registry, "add", function(widget){
+				// Keep track of the number of startup() calls to every widget.
+				// Since the href's widgets haven't been created yet we monitor startup() calls on the prototype
+				aspect.after(widget, "startup", function(){
+					startups[widget.id] = (startups[widget.id] || 0) + 1;
+				}, true);
+
+				// Keep track of which layout widgets each resize call to each layout widget,
+				// specifically whether each call specified a size or not.
+				// Since the href's widgets haven't been created yet we can't connect to their resize()
+				// methods, but we can monitor resize() on the prototype
+				aspect.after(widget, "resize", function(){
+					// this is the pointer to the widget, and arguments are newsize/curSize args to resize()
+					var ary = layoutResizes[widget.id];
+					if(!ary){
+						ary = layoutResizes[widget.id] = [];
+					}
+					ary.push(arguments);
+				}, true);
 			}, true);
 
 			doh.register("parse", function(){
@@ -220,20 +240,6 @@
 					}
 				}
 			]);
-
-			// Keep track of which layout widgets each resize call to each layout widget,
-			// specifically whether each call specified a size or not.
-			// Since the href's widgets haven't been created yet we can't connect to their resize()
-			// methods, but we can monitor resize() on the prototype
-			var layoutResizes = {};
-			aspect.after(_LayoutWidget.prototype, "resize", function(){
-				// this is the pointer to the widget, and arguments are newsize/curSize args to resize()
-				var ary = layoutResizes[this.id];
-				if(!ary){
-					ary = layoutResizes[this.id] = [];
-				}
-				ary.push(arguments);
-			}, true);
 
 			doh.register("resize events", [
 				// Test that when ContentPane w/single resizable child is shown,
