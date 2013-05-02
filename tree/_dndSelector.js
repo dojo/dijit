@@ -4,13 +4,14 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/_base/kernel",	// global
 	"dojo/_base/lang", // lang.hitch
+	"dojo/dnd/common",
 	"dojo/dom", // isDescendant
 	"dojo/mouse", // mouse.isLeft
 	"dojo/on",
 	"dojo/touch",
 	"../a11yclick",
 	"./_dndContainer"
-], function(array, connect, declare, kernel, lang, dom, mouse, on, touch, a11yclick, _dndContainer){
+], function(array, connect, declare, kernel, lang, dndCommon, dom, mouse, on, touch, a11yclick, _dndContainer){
 
 	// module:
 	//		dijit/tree/_dndSelector
@@ -203,7 +204,7 @@ define([
 				return;
 			}
 
-			var copy = connect.isCopyKey(e), id = treeNode.id;
+			var copy = dndCommon.getCopyKeyState(e), id = treeNode.id;
 
 			// if shift key is not pressed, and the node is already in the selection,
 			// delay deselection until onmouseup so in the case of DND, deselection
