@@ -92,7 +92,7 @@
 					}));
 
 					// make the controller
-					controller = new StackController({containerId: "sc"}, "holder");
+					controller = new StackController({id: "holder", containerId: "sc"}, "holder");
 
 					// start 'em up
 					controller.startup();
@@ -179,15 +179,15 @@
 					doh.t(helpers.isHidden(dom.byId("page3")), "page3 hidden");
 				},
 				function clickPage2(){
-					click("dijit_layout_StackController_0_page2");
+					click("myStackController_page2");
 					doh.t(helpers.isHidden(dom.byId("page1")), "page1 hidden");
 					doh.t(helpers.isVisible(dom.byId("page2")), "page2 visible");
 					doh.t(helpers.isHidden(dom.byId("page3")), "page3 hidden");
 				},
 				function clickTwice(){
-					click("dijit_layout_StackController_0_page1");
-					click("dijit_layout_StackController_0_page1");
-					var button = registry.byId("dijit_layout_StackController_0_page1");
+					click("myStackController_page1");
+					click("myStackController_page1");
+					var button = registry.byId("myStackController_page1");
 					doh.t(button.checked, "Page 1 button is still checked");
 				}
 			]);
@@ -345,7 +345,7 @@
 	<h1 class="testTitle">A Tale Of Two Cities</h1>
 
 	<button id="previous" data-dojo-type="dijit/form/Button" data-dojo-props='onClick:function(){ registry.byId("myStackContainer").back() }'>&lt;</button>
-	<span data-dojo-type="dijit/layout/StackController" data-dojo-props='containerId:"myStackContainer"'></span>
+	<span data-dojo-type="dijit/layout/StackController" id="myStackController" data-dojo-props='containerId:"myStackContainer"'></span>
 	<button id="next" data-dojo-type="dijit/form/Button" data-dojo-props='onClick:function(){ registry.byId("myStackContainer").forward() }'>&gt;</button>
 
 	<div id="myStackContainer" data-dojo-type="dijit/layout/StackContainer"
