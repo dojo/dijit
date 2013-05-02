@@ -1,7 +1,6 @@
 define([
 	"dojo/_base/array", // array.filter array.forEach array.map
 	"dojo/aspect",
-	"dojo/_base/connect", // connect.isCopyKey()
 	"dojo/cookie", // cookie
 	"dojo/_base/declare", // declare
 	"dojo/Deferred", // Deferred
@@ -36,7 +35,7 @@ define([
 	"./tree/ForestStoreModel",
 	"./tree/_dndSelector",
 	"dojo/query!css2"	// needed when on.selector() used with a string for the selector
-], function(array, aspect, connect, cookie, declare, Deferred, all,
+], function(array, aspect, cookie, declare, Deferred, all,
 			dom, domClass, domGeometry, domStyle, createError, fxUtils, has, kernel, keys, lang, on, topic, touch, when,
 			a11yclick, focus, registry, manager, _Widget, _TemplatedMixin, _Container, _Contained, _CssStateMixin, _KeyNavMixin,
 			treeNodeTemplate, treeTemplate, TreeStoreModel, ForestStoreModel, _dndSelector){
