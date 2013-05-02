@@ -37,18 +37,6 @@ define([
 	// module:
 	//		dijit/Dialog
 
-	/*=====
-	dijit._underlay = function(kwArgs){
-		// summary:
-		//		A shared instance of a `dijit.DialogUnderlay`
-		//
-		// description:
-		//		A shared instance of a `dijit.DialogUnderlay` created and
-		//		used by `dijit.Dialog`, though never created until some Dialog
-		//		or subclass thereof is shown.
-	};
-	=====*/
-
 	var _DialogBase = declare("dijit._DialogBase" + (has("dojo-bidi") ? "_NoBidi" : ""), [_TemplatedMixin, _FormMixin, _DialogMixin, _CssStateMixin], {
 		templateString: template,
 
