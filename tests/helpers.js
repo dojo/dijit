@@ -3,11 +3,11 @@
 define([
 	"dojo/_base/array", "dojo/Deferred", "dojo/promise/all",
 	"dojo/dom-attr", "dojo/dom-class", "dojo/dom-geometry", "dojo/dom-style",
-	"dojo/_base/kernel", "dojo/_base/lang", "dojo/on", "dojo/query", "dojo/ready", "dojo/sniff",
-	"dijit/a11y"	// isTabNavigable, dijit._isElementShown
-], function(array,  Deferred, all,
+	"dojo/_base/kernel", "dojo/_base/lang", "dojo/on", "dojo/query", "dojo/sniff",
+	"dijit/a11y"	// isTabNavigable, _isElementShown
+], function(array, Deferred, all,
 			domAttr, domClass, domGeometry, domStyle,
-			kernel, lang, on, query, ready, has, a11y){
+			kernel, lang, on, query, has, a11y){
 
 
 // Globals used by onFocus()
