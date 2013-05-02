@@ -6,14 +6,11 @@
 
 <title>Dijit Theme Tester</title>
 
+<script type="text/javascript" src="../tests/boilerplate.js"></script>
+
 <script>
 	var startTime = new Date();
 </script>
-
-<!-- required: a default theme -->
-<link rel="stylesheet" href="../themes/claro/document.css"/>
-<link rel="stylesheet" href="../../dijit/themes/claro/claro.css"/>
-<link rel="stylesheet" href="../tests/css/dijitTests.css"/>
 
 <style type="text/css">
 	html, body {
@@ -118,18 +115,31 @@
 
 <!-- a check for stray globals: not needed! -->
 <script type="text/javascript">
-	window.__globalList = { dojo: true, dijit: true, dojox: true, dojoConfig: true };
+	window.__globalList = {
+		// ignore globals created by this file
+		setBackground: true,
+		dojo: true,
+		dijit: true,
+		dojox: true,
+		showDialog: true,
+		showDialogAb: true,
+		setTextBoxPadding: true,
+		logStrayGlobals: true,
+		logWidgets: true, tearDown: true,
+		continentStore: true,
+		continentModel: true,
+		dom: true,
+		registry: true,
+		require: true,
+		dojoConfig: true
+	};
+
+	// ignore natural globals
 	for(var i in window){
 		window.__globalList[i] = true;
 	}
 </script>
 
-<!-- required: dojo.js -->
-<script type="text/javascript" src="../../dojo/dojo.js"
-		data-dojo-config="parseOnLoad: false, async:true"></script>
-
-<!-- only needed for alternate theme testing: -->
-<script type="text/javascript" src="../tests/_testCommon.js"></script>
 
 <script type="text/javascript">
 	require([
@@ -146,6 +156,16 @@
 		"dijit/_editor/plugins/LinkDialog", // for createLink
 		"dijit/_editor/plugins/FontChoice", // for fontName
 
+		// Modules referenced by the parser
+		"dijit/Menu", "dijit/PopupMenuItem", "dijit/ColorPalette", "dijit/layout/BorderContainer", "dijit/MenuBar",
+		"dijit/PopupMenuBarItem", "dijit/layout/AccordionContainer", "dijit/layout/ContentPane", "dijit/TooltipDialog",
+		"dijit/Tree", "dijit/layout/TabContainer", "dijit/form/ComboButton", "dijit/form/ToggleButton",
+		"dijit/form/CheckBox", "dijit/form/RadioButton", "dijit/form/CurrencyTextBox", "dijit/form/NumberSpinner",
+		"dijit/form/Select", "dijit/Editor", "dijit/form/VerticalSlider", "dijit/form/VerticalRuleLabels",
+		"dijit/form/VerticalRule", "dijit/form/HorizontalSlider", "dijit/form/HorizontalRuleLabels",
+		"dijit/form/HorizontalRule", "dijit/TitlePane", "dijit/ProgressBar", "dijit/InlineEditBox", "dojo/dnd/Source",
+		"dijit/Dialog",
+			
 		// Don't call the parser until the DOM has finished loading
 		"dojo/domReady!"
 	], function(array, baseFx, dom, domClass, domGeom, domStyle, has, locale, parser, Memory, registry, ObjectStoreModel,
@@ -1279,17 +1299,14 @@
 
 <div data-dojo-type="dijit/layout/TabContainer"
 	 data-dojo-props="closable:true, title:'Nested TabContainer', nested:true" id="inlined">
-	<a data-dojo-type="dijit/layout/LinkPane" id="tab1href"
-	   data-dojo-props="href:'../tests/layout/tab1.html', onLoad:function(){ console.log('load of SubTab 1'); }">SubTab
-		1</a>
-	<a data-dojo-type="dijit/layout/LinkPane" id="tab2href"
-	   data-dojo-props="href:'../tests/layout/tab2.html', onLoad:function(){ console.log('load of SubTab 2'); }, selected:true">SubTab
-		2</a>
-
-	<div data-dojo-type="dijit/layout/ContentPane" id="subtab3" data-dojo-props='title:"SubTab 3"'>
+	<div data-dojo-type="dijit/layout/ContentPane" id="tab1href"
+		 href='../tests/layout/tab1.html' title="SubTab 1"></div>
+	<div data-dojo-type="dijit/layout/ContentPane" id="tab2href"
+		 href='../tests/layout/tab2.html' title="SubTab 2"></div>
+	<div data-dojo-type="dijit/layout/ContentPane" id="subtab3" title="SubTab 3">
 		<h1>I am tab 3, inlined.</h1>
 	</div>
-	<div data-dojo-type="dijit/layout/ContentPane" id="subtab4" data-dojo-props='title:"SubTab 4"'>
+	<div data-dojo-type="dijit/layout/ContentPane" id="subtab4"  title="SubTab 4">
 		<h1>I am tab 4, inlined.</h1>
 	</div>
 </div>
