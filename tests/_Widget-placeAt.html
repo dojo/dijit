@@ -10,11 +10,11 @@
 
 	<script type="text/javascript">
 		require([
-			"doh/runner", "dojo/_base/declare", "dojo/dom",
+			"doh/runner", "dojo/aspect", "dojo/_base/declare", "dojo/dom",
 			"dijit/_WidgetBase", "dijit/form/Button",
 			"dijit/layout/ContentPane", "dijit/layout/TabContainer", "dijit/layout/BorderContainer",
 			"dojo/domReady!"
-		], function(doh, declare, dom, _WidgetBase, Button, ContentPane, TabContainer, BorderContainer){
+		], function(doh, aspect, declare, dom, _WidgetBase, Button, ContentPane, TabContainer, BorderContainer){
 
 			var SimpleWidget = declare(_WidgetBase, {
 				buildRendering: function(){
@@ -153,8 +153,8 @@
 						id: "bc",
 						style: "width:600px; height:400px"
 					});
-					bc.placeAt(dojo.body());
-					doh.is(dojo.body(), bc.domNode.parentNode, "BorderContainer parentNode == dojo.body()");
+					bc.placeAt(document.body);
+					doh.is(document.body, bc.domNode.parentNode, "BorderContainer parentNode == document.body");
 
 					// add a center pane before BC startup
 					var centerStarted;
@@ -162,7 +162,7 @@
 						region: "center",
 						content: "<p>center</p>"
 					});
-					dojo.connect(center, "startup", function(){ centerStarted = true; });
+					aspect.after(center, "startup", function(){ centerStarted = true; }, true);
 					center.placeAt(bc);
 					doh.f(centerStarted, "center not started");	// shouldn't be started since BC itself isn't started
 					doh.is(bc, center.getParent(), "center ContentPane parent == BorderContainer");
@@ -178,7 +178,7 @@
 						content: "<p>wowzers</p>",
 						style: "width:100px"
 					});
-					dojo.connect(left, "startup", function(){ leftStarted = true; });
+					aspect.after(left, "startup", function(){ leftStarted = true; }, true);
 					left.placeAt("bc");
 					doh.is(bc, left.getParent(), "left ContentPane parent == BorderContainer");
 					doh.t(leftStarted, "left ContentPane automatically started since BorderContainer was already started");
@@ -189,7 +189,7 @@
 						region: "top",
 						style: "height:100px"
 					});
-					dojo.connect(top, "startup", function(){ topStarted = true; });
+					aspect.after(top, "startup", function(){ topStarted = true; }, true);
 					top.placeAt(bc).set("content","<div>some HTML text</div>");
 					doh.is(bc, top.getParent(), "top ContentPane parent == BorderContainer");
 					doh.t(topStarted, "top ContentPane automatically started since BorderContainer was already started");

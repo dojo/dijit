@@ -25,6 +25,10 @@
 </head>
 <body class="claro" role="main">
 
+	<script type="dojo/require">
+		registry: "dijit/registry"
+	</script>
+
 	<h1 class="testTitle">Dijit Tree Test</h1>
 
 	<div data-dojo-id="continentStore" data-dojo-type="dojo/data/ItemFileWriteStore" data-dojo-props='url:"../_data/countries.json"'></div>
@@ -70,9 +74,9 @@
 	<ul id="tree_menu" data-dojo-type="dijit/Menu"
 			data-dojo-props='style:"display: none;", targetNodeIds: ["tree2"], selector: ".dijitTreeNode"'>
 		<li data-dojo-type="dijit/MenuItem">
-			<script type="dojo/connect" data-dojo-event="onClick">
+			<script type="dojo/on" data-dojo-event="click">
 				// get a hold of the dijit.TreeNode that was the source of this open event
-				var tn = dijit.byNode(this.getParent().currentTarget);
+				var tn = registry.byNode(this.getParent().currentTarget);
 
 				// now print the data store item that backs the tree node
 				console.debug("menu click for item: ", tn.item.name);

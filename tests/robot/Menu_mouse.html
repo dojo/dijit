@@ -413,40 +413,37 @@
 								var
 								fileMenu = registry.byId("fileMenu"),
 								editMenu = registry.byId("editMenu"),
-								handler = fileMenu.connect(fileMenu, 'onOpen',
-									function(){
-										fileMenu.disconnect(handler);
-										setTimeout(d.getTestErrback(function(){
-											doh.t(helpers.isVisible(fileMenu), "File menu should be visible #2");
-											handler = fileMenu.connect(fileMenu, 'onClose',
-												function(){
-													fileMenu.disconnect(handler);
+								handler = fileMenu.on("open", function(){
+									handler.remove();
+									setTimeout(d.getTestErrback(function(){
+										doh.t(helpers.isVisible(fileMenu), "File menu should be visible #2");
+										handler = fileMenu.on("close", function(){
+											handler.remove();
+											setTimeout(d.getTestErrback(function(){
+												doh.t(helpers.isHidden(fileMenu), "File menu should be hidden #3");
+												handler = editMenu.on("open", function(){
+													handler.remove();
 													setTimeout(d.getTestErrback(function(){
-														doh.t(helpers.isHidden(fileMenu), "File menu should be hidden #3");
-														handler = editMenu.connect(editMenu, 'onOpen',
+														doh.t(helpers.isVisible(editMenu), "Edit menu should be visible");
+														handler = editMenu.on("close",
 															function(){
-																editMenu.disconnect(handler);
-																setTimeout(d.getTestErrback(function(){
-																	doh.t(helpers.isVisible(editMenu), "Edit menu should be visible");
-																	handler = editMenu.connect(editMenu, 'onClose',
-																		function(){
-																			editMenu.disconnect(handler);
-																			setTimeout(d.getTestCallback(function(){
-																				doh.t(helpers.isHidden(editMenu), "Edit menu disappeared #2");
-																			}), 150);
-																		});
-																	var paste = domGeom.position('paste');
-																	robot._mouseMove(paste.x + (paste.w >> 1), paste.y + paste.h + 20, false, 1);
-																	// click point on screen under the Edit menu
-																	robot.mouseClick({left: true}, 100);
+																handler.remove();
+																setTimeout(d.getTestCallback(function(){
+																	doh.t(helpers.isHidden(editMenu), "Edit menu disappeared #2");
 																}), 150);
 															});
-														robot.mouseMoveAt("edit", 0, 1);
+														var paste = domGeom.position('paste');
+														robot._mouseMove(paste.x + (paste.w >> 1), paste.y + paste.h + 20, false, 1);
+														// click point on screen under the Edit menu
+														robot.mouseClick({left: true}, 100);
 													}), 150);
 												});
-											robot.mouseMoveAt("view", 0, 1); // #9846
-										}), 150);
-									});
+											robot.mouseMoveAt("edit", 0, 1);
+											}), 150);
+										});
+										robot.mouseMoveAt("view", 0, 1); // #9846
+									}), 150);
+								});
 							}, 1);
 							robot.mouseClick({left: true}, 1); // click File that starts the event sequence above
 

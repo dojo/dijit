@@ -35,7 +35,9 @@
 							var d = new doh.Deferred();
 
 							menu = registry.byId("menu");
-							handler = menu.connect(menu, 'onOpen', function(){ d.errback(new doh._AssertFailure('user context menu should not have opened')); });
+							handler = menu.on('open', function(){
+								d.errback(new doh._AssertFailure('user context menu should not have opened'));
+							});
 							robot.mouseMoveAt("detachMenu", 500, 1);
 							robot.mouseClick({left:true}, 500);
 							robot.mouseMoveAt("iframe", 1000, 1);
@@ -51,7 +53,9 @@
 							return d;
 						},
 						tearDown: function(){
-							menu.disconnect(handler);
+							if(handler){
+								handler.remove();
+							}
 						}
 					},
 					{
@@ -106,7 +110,9 @@
 							var d = new doh.Deferred();
 
 							menu = registry.byId("menu");
-							handler = menu.connect(menu, 'onOpen', function(){ d.errback(new doh._AssertFailure('user context menu should not have opened')); });
+							handler = menu.on('open', function(){
+								d.errback(new doh._AssertFailure('user context menu should not have opened'));
+							});
 							robot.mouseMoveAt("detachMenu", 500, 1);
 							robot.mouseClick({left:true}, 500);
 							robot.mouseMoveAt("iframe", 1000, 1);
@@ -122,7 +128,9 @@
 							return d;
 						},
 						tearDown: function(){
-							menu.disconnect(handler);
+							if(handler){
+								handler.remove();
+							}
 						}
 					},
 					{
@@ -178,7 +186,9 @@
 							var d = new doh.Deferred();
 
 							menu = registry.byId("menu");
-							handler = menu.connect(menu, 'onOpen', function(){ d.errback(new doh._AssertFailure('user context menu should not have opened')); });
+							handler = menu.on('open', function(){
+								d.errback(new doh._AssertFailure('user context menu should not have opened'));
+							});
 							robot.mouseMoveAt("detachMenu", 500, 1);
 							robot.mouseClick({left:true}, 500);
 							robot.mouseMoveAt("iframe", 1000, 1);
@@ -194,7 +204,9 @@
 							return d;
 						},
 						tearDown: function(){
-							menu.disconnect(handler);
+							if(handler){
+								handler.remove();
+							}
 						}
 					},
 					{

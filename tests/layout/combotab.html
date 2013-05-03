@@ -2,7 +2,7 @@
 State:
 <span id="editable" data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit/form/ComboBox",
 	editorParams:{value: "California", store: stateStore, searchAttr: "name", promptMessage: "Please enter a state"}'>
-	<script type="dojo/connect" data-dojo-event="onChange">
+	<script type="dojo/on" data-dojo-event="change">
 		// connect to editable onChange event, Note that we don't need to disconnect
 		console.log('User selected:'+this.getValue());
 	</script>

@@ -522,22 +522,18 @@
 						var d = new doh.Deferred(),
 						wasLoading = false,
 						widget = registry.byId("ac_pane3"),
-						loadhandler = widget.connect(widget, "onDownloadStart",
-							function(){
-    							loadhandler.remove();
-								wasLoading = true;
-							}
-						),
-						showhandler = widget.connect(widget, "_onShow",
-							function(){
-    							showhandler.remove();
-								setTimeout(d.getTestCallback(
-									function(){
-										doh.f(wasLoading, "should not have reloaded")
-									}
-								), 1000);
-							}
-						);
+						loadhandler = widget.on("downloadStart", function(){
+							loadhandler.remove();
+							wasLoading = true;
+						}),
+						showhandler = widget.on("show", function(){
+							showhandler.remove();
+							setTimeout(d.getTestCallback(
+								function(){
+									doh.f(wasLoading, "should not have reloaded")
+								}
+							), 1000);
+						});
 
 						registry.byId("ac").selectChild("ac_pane3");
 						
