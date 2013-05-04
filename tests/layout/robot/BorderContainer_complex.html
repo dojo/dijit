@@ -41,12 +41,12 @@
 					{
 						name: "tab2Selected",
 						runTest: function(t){
-							doh.t(registry.byId("tab2").selected, "tab2 was not selected");
-							doh.f(registry.byId("tab1").selected, "tab1 was selected");
-							doh.f(registry.byId("tab3").selected, "tab3 was selected");
-							doh.f(registry.byId("tab4").selected, "tab4 was selected");
-							doh.f(registry.byId("tab5").selected, "tab5 was selected");
-							doh.f(registry.byId("tab6").selected, "tab6 was selected");
+							doh.f(registry.byId("tab1").selected, "tab1 not selected");
+							doh.t(registry.byId("tab2").selected, "tab2 selected");
+							doh.f(registry.byId("tab3").selected, "tab3 not selected");
+							doh.f(registry.byId("tab4").selected, "tab4 not selected");
+							doh.f(registry.byId("tab5").selected, "tab5 not selected");
+							doh.f(registry.byId("tab6").selected, "tab6 not selected");
 						}
 					},
 					{
@@ -59,12 +59,11 @@
 							robot.mouseClick({left:true}, 500);
 							
 							robot.sequence(d.getTestCallback(function(){
-								doh.is("mainTabContainer_tablist_tab1", focus.curNode.id, "current focus was not tab1");
-								doh.is("tab1", registry.byId("mainTabContainer").selectedChildWidget.id, "Tab1 pane is not the selected pane");
-								doh.t(helpers.isVisible(registry.byId("tab1")), "Tab1 is hidden");
-								doh.t(helpers.isHidden(registry.byId("tab2")), "Tab2 is visible");
+								doh.is("mainTabContainer_tablist_tab1", focus.curNode.id, "current focus");
+								doh.is("tab1", registry.byId("mainTabContainer").selectedChildWidget.id, "selectedChildWidget");
+								doh.t(helpers.isVisible(registry.byId("tab1")), "tab1 visible");
 							}), 1000);
-							
+
 							return d;
 						}
 					},
@@ -72,16 +71,16 @@
 						name: "tabsCanBeShownWhenSelected_tab2",
 						timeout: 3000,
 						runTest: function(t){
-							var d = new doh.Deferred();		
+							var d = new doh.Deferred();
 							robot.keyPress(keys.RIGHT_ARROW, 1000, {});
 
 							robot.sequence(d.getTestCallback(function(){
-								doh.is("mainTabContainer_tablist_tab2", focus.curNode.id, "current focus was not tab2");
-								doh.is("tab2", registry.byId("mainTabContainer").selectedChildWidget.id, "Tab2 pane is not the selected pane");
-								doh.t(helpers.isVisible(registry.byId("tab2")), "Tab2 is hidden");
-								doh.t(helpers.isHidden(registry.byId("tab1")), "Tab1 is visible");
+								doh.is("mainTabContainer_tablist_tab2", focus.curNode.id, "current focus");
+								doh.is("tab2", registry.byId("mainTabContainer").selectedChildWidget.id, "selectedChildWidget");
+								doh.t(helpers.isVisible(registry.byId("tab2")), "tab2 visible");
+								doh.t(helpers.isHidden(registry.byId("tab1")), "tab1 hidden");
 							}), 1000);
-							
+
 							return d;
 						}
 					},
@@ -89,16 +88,16 @@
 						name: "tabsCanBeShownWhenSelected_tab3",
 						timeout: 3000,
 						runTest: function(t){
-							var d = new doh.Deferred();		
+							var d = new doh.Deferred();
 							robot.keyPress(keys.RIGHT_ARROW, 1000, {});
-							
+
 							robot.sequence(d.getTestCallback(function(){
-								doh.is("mainTabContainer_tablist_tab3", focus.curNode.id, "current focus was not tab3");
-								doh.is("tab3", registry.byId("mainTabContainer").selectedChildWidget.id, "Tab3 pane is not the selected pane");
-								doh.t(helpers.isVisible(registry.byId("tab3")), "Tab3 is hidden");
-								doh.t(helpers.isHidden(registry.byId("tab2")), "Tab2 is visible");
+								doh.is("mainTabContainer_tablist_tab3", focus.curNode.id, "current focus");
+								doh.is("tab3", registry.byId("mainTabContainer").selectedChildWidget.id, "selectedChildWidget");
+								doh.t(helpers.isVisible(registry.byId("tab3")), "tab3 visible");
+								doh.t(helpers.isHidden(registry.byId("tab2")), "tab2 hidden");
 							}), 1000);
-							
+
 							return d;
 						}
 					},
@@ -106,12 +105,12 @@
 						name: "tabsCanBeShownWhenSelected_tab4",
 						timeout: 3000,
 						runTest: function(t){
-							var d = new doh.Deferred();		
+							var d = new doh.Deferred();
 							robot.keyPress(keys.RIGHT_ARROW, 1000, {});
-							
+
 							robot.sequence(d.getTestCallback(function(){
-								doh.is("mainTabContainer_tablist_tab4", focus.curNode.id, "current focus was not tab4");
-								doh.is("tab4", registry.byId("mainTabContainer").selectedChildWidget.id, "Tab4 pane is not the selected pane");
+								doh.is("mainTabContainer_tablist_tab4", focus.curNode.id, "current focus");
+								doh.is("tab4", registry.byId("mainTabContainer").selectedChildWidget.id, "selectedChildeWidget");
 								doh.t(helpers.isVisible(registry.byId("tab4")), "Tab4 is hidden");
 								doh.t(helpers.isHidden(registry.byId("tab3")), "Tab3 is visible");
 							}), 1000);
@@ -127,10 +126,10 @@
 							robot.keyPress(keys.RIGHT_ARROW, 1000, {});
 
 							robot.sequence(d.getTestCallback(function(){
-								doh.is("mainTabContainer_tablist_tab5", focus.curNode.id, "current focus was not tab5");
-								doh.is("tab5", registry.byId("mainTabContainer").selectedChildWidget.id, "Tab5 pane is not the selected pane");
-								doh.t(helpers.isVisible(registry.byId("tab5")), "Tab5 is hidden");
-								doh.t(helpers.isHidden(registry.byId("tab4")), "Tab4 is visible");
+								doh.is("mainTabContainer_tablist_tab5", focus.curNode.id, "current focus");
+								doh.is("tab5", registry.byId("mainTabContainer").selectedChildWidget.id, "selectedChildWidget");
+								doh.t(helpers.isVisible(registry.byId("tab5")), "tab5 visible");
+								doh.t(helpers.isHidden(registry.byId("tab4")), "tab4 hidden");
 							}), 1000);
 							
 							return d;
@@ -144,10 +143,10 @@
 							robot.keyPress(keys.RIGHT_ARROW, 1000, {});
 
 							robot.sequence(d.getTestCallback(function(){
-								doh.is("mainTabContainer_tablist_tab6", focus.curNode.id, "current focus was not tab6");
-								doh.is("tab6", registry.byId("mainTabContainer").selectedChildWidget.id, "Tab6 pane is not the selected pane");
-								doh.t(helpers.isVisible(registry.byId("tab6")), "Tab6 is hidden");
-								doh.t(helpers.isHidden(registry.byId("tab5")), "Tab5 is visible");
+								doh.is("mainTabContainer_tablist_tab6", focus.curNode.id, "current focus");
+								doh.is("tab6", registry.byId("mainTabContainer").selectedChildWidget.id, "selectedChildWidget");
+								doh.t(helpers.isVisible(registry.byId("tab6")), "tab6 visible");
+								doh.t(helpers.isHidden(registry.byId("tab5")), "tab5 hidden");
 							}), 1000);
 							
 							return d;
@@ -182,10 +181,10 @@
 							// Connect to _hideChild() as a trick to tell when animation is finished
 							handle = aspect.after(registry.byId("ac1"), "_hideChild", function(){
 								setTimeout(d.getTestCallback(function(){
-									doh.is("ap2_button", focus.curNode.parentNode.id, "current focus was not ap2");
-									doh.is("ap2", registry.byId("ac1").selectedChildWidget.id, "ap2 is not the selected pane");
-									doh.t(helpers.isVisible(registry.byId("ap2")), "ap2 is visible");
-									doh.t(helpers.isHidden(registry.byId("ap1")), "ap1 is hidden");
+									doh.is("ap2_button", focus.curNode.parentNode.id, "current focus");
+									doh.is("ap2", registry.byId("ac1").selectedChildWidget.id, "selectedChildWidget");
+									doh.t(helpers.isVisible(registry.byId("ap2")), "ap2 visible");
+									doh.t(helpers.isHidden(registry.byId("ap1")), "ap1 hidden");
 								}), 0);
 							});
 							
@@ -206,10 +205,10 @@
 							// Connect to _hideChild() as a trick to tell when animation is finished
 							handle = aspect.after(registry.byId("ac1"), "_hideChild", function(){
 								setTimeout(d.getTestCallback(function(){
-									doh.is("ap3_button", focus.curNode.parentNode.id, "current focus was not ap3");
-									doh.is("ap3", registry.byId("ac1").selectedChildWidget.id, "ap3 is not the selected pane");
-									doh.t(helpers.isVisible(registry.byId("ap3")), "ap3 is visible");
-									doh.t(helpers.isHidden(registry.byId("ap2")), "ap2 is hidden");
+									doh.is("ap3_button", focus.curNode.parentNode.id, "current focus");
+									doh.is("ap3", registry.byId("ac1").selectedChildWidget.id, "selectedChildWidget");
+									doh.t(helpers.isVisible(registry.byId("ap3")), "ap3 visible");
+									doh.t(helpers.isHidden(registry.byId("ap2")), "ap2 hidden");
 								}), 0);
 							}, true);
 							
