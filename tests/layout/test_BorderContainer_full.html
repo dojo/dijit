@@ -18,7 +18,13 @@
 	</style>
 
 	<script type="text/javascript">
-		require(["dojo/parser", "dojo/domReady!"], function(parser){
+		require([
+			"dojo/parser",
+			"dijit/layout/BorderContainer",
+			"dijit/layout/ContentPane",
+			"dijit/form/FilteringSelect",
+			"dojo/domReady!"
+		], function(parser){
 			parser.parse();
 		});
 	</script>
