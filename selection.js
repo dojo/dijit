@@ -368,7 +368,7 @@ define([
 				}
 			}
 			return false; // Boolean
-		},
+		};
 
 		this.getBookmark = function(){
 			// summary:
