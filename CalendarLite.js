@@ -182,6 +182,7 @@ define([
 
 			var month = new this.dateClassObj(this.currentFocus);
 			month.setDate(1);
+			month = this._patchDate(month);	// needed if currentFocus is start or end of DST, see #17033
 
 			var firstDay = month.getDay(),
 				daysInMonth = this.dateModule.getDaysInMonth(month),
@@ -247,6 +248,8 @@ define([
 
 				// Each cell has an associated integer value representing it's date
 				var dateVal = date.valueOf();
+				if(idx==0)
+					console.log("setting date2cell[" + dateVal + "]");
 				this._date2cell[dateVal] = template;
 				template.dijitDateValue = dateVal;
 
