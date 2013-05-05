@@ -27,7 +27,8 @@ var dir = "",
 
 dojoConfig = {
 	async: true,
-	isDebug: true
+	isDebug: true,
+	locale: "en-us"
 };
 
 // Parse the URL, get parameters
