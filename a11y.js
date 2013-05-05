@@ -11,6 +11,8 @@ define([
 	// module:
 	//		dijit/a11y
 
+	var undefined;
+
 	var a11y = {
 		// summary:
 		//		Accessibility utility functions (keyboard, tab stops, etc.)
@@ -67,20 +69,33 @@ define([
 			}
 		},
 
+		effectiveTabIndex: function(/*Element*/ elem){
+			// summary:
+			//		Returns effective tabIndex of an element, either a number, or undefined if element isn't focusable.
+
+			if(domAttr.get(elem, "disabled")){
+				return undefined;
+			}else if(domAttr.has(elem, "tabIndex")){
+				// Explicit tab index setting
+				return +domAttr.get(elem, "tabIndex");// + to convert string --> number
+			}else{
+				// No explicit tabIndex setting, so depends on node type
+				return a11y.hasDefaultTabStop(elem) ? 0 : undefined;
+			}
+		},
+
 		isTabNavigable: function(/*Element*/ elem){
 			// summary:
 			//		Tests if an element is tab-navigable
 
-			// TODO: convert (and rename method) to return effective tabIndex; will save time in _getTabNavigable()
-			if(domAttr.get(elem, "disabled")){
-				return false;
-			}else if(domAttr.has(elem, "tabIndex")){
-				// Explicit tab index setting
-				return domAttr.get(elem, "tabIndex") >= 0; // boolean
-			}else{
-				// No explicit tabIndex setting, so depends on node type
-				return a11y.hasDefaultTabStop(elem);
-			}
+			return a11y.effectiveTabIndex(elem) >= 0;
+		},
+
+		isFocusable: function(/*Element*/ elem){
+			// summary:
+			//		Tests if an element is focusable by tabbing to it, or clicking it with the mouse.
+
+			return a11y.effectiveTabIndex(elem) >= -1;
 		},
 
 		_getTabNavigable: function(/*DOMNode*/ root){
@@ -106,7 +121,7 @@ define([
 					node.name && node.name.toLowerCase();
 			}
 
-			var shown = a11y._isElementShown, isTabNavigable = a11y.isTabNavigable;
+			var shown = a11y._isElementShown, effectiveTabIndex = a11y.effectiveTabIndex;
 			var walkTree = function(/*DOMNode*/ parent){
 				for(var child = parent.firstChild; child; child = child.nextSibling){
 					// Skip text elements, hidden elements, and also non-HTML elements (those in custom namespaces) in IE,
@@ -115,9 +130,9 @@ define([
 						continue;
 					}
 
-					if(isTabNavigable(child)){
-						var tabindex = +domAttr.get(child, "tabIndex");	// + to convert string --> number
-						if(!domAttr.has(child, "tabIndex") || tabindex == 0){
+					var tabindex = effectiveTabIndex(child);
+					if(tabindex >= 0){
+						if(tabindex == 0){
 							if(!first){
 								first = child;
 							}

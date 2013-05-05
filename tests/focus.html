@@ -71,6 +71,23 @@
 				}
 				resetEvents();
 
+				function click(node){
+					on.emit(node, "mousedown", {
+						bubbles: true,
+						cancelable: true,
+						which: 1
+					});
+					on.emit(node, "mouseup", {
+						bubbles: true,
+						cancelable: true,
+						which: 1
+					});
+					on.emit(node, "click", {
+						bubbles: true,
+						cancelable: true,
+						which: 1
+					});
+				}
 				doh.register("basic", [
 					{
 						name: "focus simple input",
@@ -241,21 +258,7 @@
 							var upArrow = query(".dijitSpinner .dijitUpArrowButton")[0];
 							doh.t(upArrow, "found the up arrow");
 
-							on.emit(upArrow, "mousedown", {
-								bubbles: true,
-								cancelable: true,
-								which: 1
-							});
-							on.emit(upArrow, "mouseup", {
-								bubbles: true,
-								cancelable: true,
-								which: 1
-							});
-							on.emit(upArrow, "click", {
-								bubbles: true,
-								cancelable: true,
-								which: 1
-							});
+							click(upArrow);
 
 							setTimeout(d.getTestCallback(function(){
 								// The focus stack should show the Spinner plus all parent widgets
@@ -270,7 +273,58 @@
 
 							return d;
 						}
-					}/*,
+					},
+
+					// Clicking a tabIndex=-1 node should set focus.curNode even though it's not tab navigable
+					{
+						name: "tabIndex=-1",
+						timeout: 4000,
+						setUp: function(){
+							resetEvents();
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var minusOne = query("#minusOne")[0];
+							doh.t(minusOne, "found tabIndex=-1 button");
+
+							minusOne.focus();
+
+							setTimeout(d.getTestCallback(function(){
+								doh.is("minusOne", focus.curNode.id);
+							}), 500);
+
+							return d;
+						}
+					},
+
+					// Clicking a disabled button should not set focus.curNode
+					{
+						name: "disabled button",
+						timeout: 4000,
+						setUp: function(){
+							resetEvents();
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var disabledButton = query("#disabledButton")[0];
+							doh.t(disabledButton, "found disabled button");
+
+							try{
+								disabledButton.focus();
+							}catch(e){
+								/* IE throws exception trying to focus disabled button */
+							}
+
+							setTimeout(d.getTestCallback(function(){
+								doh.is("minusOne", focus.curNode.id, "focus.curNode still old value");
+							}), 500);
+
+							return d;
+						}
+					}
+					/*,
 					// FIXME: this test is invalid because focus is not designed to change on mouse click to the first item in the menu
 					{
 						name: "combo button menu",
@@ -387,6 +441,8 @@
 					</div>
 				</div>
 			</fieldset>
+			<button tabIndex="-1" id="minusOne" type="button">non tab-navigable button</button>
+			<button id="disabledButton" type="button" disabled>disabled button</button>
 		</form>
 	</body>
 </html>
