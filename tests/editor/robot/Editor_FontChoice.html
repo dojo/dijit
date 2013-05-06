@@ -8,16 +8,15 @@
 			@import "../../../../util/doh/robot/robot.css";
 		</style>
 
-		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../dojo/dojo.js"></script>
 
 		<script type="text/javascript">
-			dojo.require("dojo.window");
-			dojo.require("dijit.robotx");
-			dojo.require("dijit.tests.helpers");	// functions to help test
+			require([
+				"doh/runner", "dojo/robotx",
+				"dojo/_base/array", "dojo/dom", "dojo/sniff", "dojo/window", "dijit/tests/helpers", "dojo/domReady!"
+			], function(doh, robot, array, dom, has, winUtils, helpers){
 
-			dojo.ready(function(){
-				doh.robot.initRobot('../test_FontChoice.html');
+				robot.initRobot('../test_FontChoice.html');
 
 				var editor;		// points to one of the editors (editor0, editor1, etc.)
 				var fcPlugin;	// formatBlock, fontSize, or fontName plugin
@@ -41,10 +40,10 @@
 					{
 						name: "wait for editors to load",
 						timeout: 5000,
-						runTest: waitForLoad
+						runTest: helpers.waitForLoad
 					},
 					function setVars(){
-						registry = doh.robot.window.require("dijit/registry");
+						registry = robot.window.require("dijit/registry");
 					}
 				]);
 
@@ -52,7 +51,7 @@
 				// plugins correctly display the format / font-size / font-name of the selected text.
 
 				doh.register("FontChoice: verify current format/font-size/font-name",
-					dojo.map(
+					array.map(
 						[
 							{id: "para0", format: "p"},
 							{id: "pre0", format: "pre"},
@@ -82,27 +81,25 @@
 									var d = new doh.Deferred();
 		
 									// Focus on the editor window
-									dojo.window.scrollIntoView(editor.domNode);
+									winUtils.scrollIntoView(editor.domNode);
 									editor.focus();
-									doh.robot.mouseMoveAt(editor.iframe, 1000);
-									doh.robot.mouseClick({left:true}, 1000);
+									robot.mouseMoveAt(editor.iframe, 1000);
+									robot.mouseClick({left:true}, 1000);
 	
-									doh.robot.sequence(d.getTestErrback(function(){
+									robot.sequence(d.getTestErrback(function(){
 										// Find node w/specified id
-										var node = dojo.byId(params.id, editor.document);
+										var node = dom.byId(params.id, editor.document);
 										doh.is(params.id, node && node.id, "found " + params.id);
 
 										// Select the text, collapse to the start of it
-										// Using "dojo.global.dojo" to access the inner dojo, in test_FontChoice.html
-										// (not the one in this file), since that's the one that dijit is referencing.
 										editor.selection.selectElementChildren(node);
 										editor.selection.collapse(true);
 									}),1000);
-					                doh.robot.sequence(d.getTestErrback(function(){
+					                robot.sequence(d.getTestErrback(function(){
 										// Make sure states update.
 										editor.onDisplayChanged();
 									}), 1000);
-									doh.robot.sequence(d.getTestCallback(function(){
+									robot.sequence(d.getTestCallback(function(){
 										if(params.format){
 											doh.is(params.format, getPlugin("formatBlock").button.get("value"), "format " + params.format + " identified.");
 										}
@@ -121,12 +118,12 @@
 								}
 							};	// end of return { ...
 						}	// end of function()
-					)	// end of dojo.map()
-				);	// end of dojo.register()
+					)	// end of array.map()
+				);	// end of doh.register()
 
 				// Test changing format/font-size/font-name (ex: changing an <h1> to an <h2>)
 				doh.register("FontChoice: change format/font-size/font",
-					dojo.map(
+					array.map(
 						[
 							{id: "text", type: "formatBlock", from: "p", to: "pre"},
 							{id: "text", type: "formatBlock", from: "pre", to: "h1"},
@@ -148,31 +145,31 @@
 									var d = new doh.Deferred();
 
 									// Focus on the editor window
-									dojo.window.scrollIntoView(editor.domNode);
+									winUtils.scrollIntoView(editor.domNode);
 									editor.focus();
-									doh.robot.mouseMoveAt(editor.iframe, 1000);
-									doh.robot.mouseClick({left:true}, 1000);
+									robot.mouseMoveAt(editor.iframe, 1000);
+									robot.mouseClick({left:true}, 1000);
 	
-									doh.robot.sequence(d.getTestErrback(function(){
+									robot.sequence(d.getTestErrback(function(){
 										// Find node
-										var p = dojo.byId(params.id, editor.document);
+										var p = dom.byId(params.id, editor.document);
 										doh.is(params.id, p && p.id, "found node");
 	
 										// Select the text, collapse to the start of it
 										editor.selection.selectElementChildren(p);
 										// Disable collapse.  Webkit changed behavior so it now requires
 										// a selection.
-										if(!dojo.isWebKit){ editor.selection.collapse(true) }
+										if(!has("webkit")){ editor.selection.collapse(true) }
 
 										// Set the format / font-size / font-name plugin to the new value
 										// TODO: use mouse/keyboard to set the value
 										fcPlugin.button.set("value", params.to);
 									}),1000);
-					                doh.robot.sequence(d.getTestErrback(function(){
+					                robot.sequence(d.getTestErrback(function(){
 										// Make sure states update.
 										editor.onDisplayChanged();
 									}), 1000);
-									doh.robot.sequence(d.getTestCallback(function(){
+									robot.sequence(d.getTestCallback(function(){
 										doh.is(params.to, fcPlugin.button.get("value"), "verify converted");
 
 										// TODO: check that it actually changed the format / font-size / font-name (in the editor contents)
@@ -185,8 +182,8 @@
 								}
 							};	// end of return { ...
 						}	// end of function()
-					)	// end of dojo.map()
-				);	// end of dojo.register()
+					)	// end of array.map()
+				);	// end of doh.register()
 
 				doh.register("formatBlock: multiple changes",
 					{
@@ -201,16 +198,16 @@
 							var d = new doh.Deferred();
 
 							// Focus on the editor window
-							dojo.window.scrollIntoView(editor.domNode);
+							winUtils.scrollIntoView(editor.domNode);
 							editor.focus();
-							doh.robot.mouseMoveAt(editor.iframe, 1000);
-							doh.robot.mouseClick({left:true}, 1000);
+							robot.mouseMoveAt(editor.iframe, 1000);
+							robot.mouseClick({left:true}, 1000);
 
 							// Verify the formatBlock plugin was found
 							doh.t(fcPlugin !== null, "formatBlock was found");
 
-							doh.robot.sequence(d.getTestErrback(function(){
-								var p = dojo.byId("text", editor.document);
+							robot.sequence(d.getTestErrback(function(){
+								var p = dom.byId("text", editor.document);
 								doh.is("text", p && p.id, "found text");
 
 								// Select the text, collapse to the start of it
@@ -221,18 +218,18 @@
 								// TODO: use mouse/keyboard to set the value
 								fcPlugin.button.set("value", "h3");
 							}),1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Make sure states update.
 								editor.onDisplayChanged();
 							}), 1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								doh.is("h3", fcPlugin.button.get("value"), "Verify first P converted to H3.");
 								// TODO: check that it actually changed the format (in the editor contents)
 							}), 2000);
 
 							// Move to the next block and try to change it to h3 too.
-							doh.robot.sequence(d.getTestErrback(function(){
-								var p = dojo.byId("text1", editor.document);
+							robot.sequence(d.getTestErrback(function(){
+								var p = dom.byId("text1", editor.document);
 								doh.is("text1", p && p.id, "found text1");
 
 								// Select the text, collapse to the start of it
@@ -243,20 +240,20 @@
 								// TODO: use mouse/keyboard to set the value
 								fcPlugin.button.set("value", "h3");
 							}),1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Make sure states update.
 								editor.onDisplayChanged();
 							}), 1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// state should have updated, so, now set value.
 								// TODO: use mouse/keyboard to set the value
 								fcPlugin.button.set("value", "h3");
 							}),1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Make sure states update.
 								editor.onDisplayChanged();
 							}), 1000);
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								doh.is("h3", fcPlugin.button.get("value"), "Verify second P converted to H3.");
 								// TODO: check that it actually changed the format (in the editor contents)
 							}), 2000);
@@ -282,36 +279,36 @@
 							var d = new doh.Deferred();
 
 							// Focus on the editor window
-							dojo.window.scrollIntoView(editor.domNode);
+							winUtils.scrollIntoView(editor.domNode);
 							editor.focus();
-							doh.robot.mouseMoveAt(editor.iframe, 1000);
-							doh.robot.mouseClick({left:true}, 1000);
+							robot.mouseMoveAt(editor.iframe, 1000);
+							robot.mouseClick({left:true}, 1000);
 
 							// Verify the formatBlock plugin was found
 							doh.t(fcPlugin !== null, "formatBlock was found");
 
-							doh.robot.sequence(d.getTestErrback(function(){
-								var p = dojo.byId("text", editor.document);
+							robot.sequence(d.getTestErrback(function(){
+								var p = dom.byId("text", editor.document);
 								doh.is("text", p && p.id, "found text");
 
 								// Select the text, collapse to the start of it
 								editor.selection.selectElementChildren(p);
 								editor.selection.collapse(true);
 							}),1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Make sure states update.
 								editor.onDisplayChanged();
 							}), 1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								fcPlugin.button.set("value", "noFormat");
 							}), 1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Make sure states update.
 								// If change occurred, then the value should 
 								// still be noFormat.
 								editor.onDisplayChanged();
 							}), 1000);
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
                                 doh.is("noFormat", fcPlugin.button.get("value"), 
 									"Validating current cursor point format is noFormat");
 							}), 1000);
@@ -334,36 +331,36 @@
 							var d = new doh.Deferred();
 
 							// Focus on the editor window
-							dojo.window.scrollIntoView(editor.domNode);
+							winUtils.scrollIntoView(editor.domNode);
 							editor.focus();
-							doh.robot.mouseMoveAt(editor.iframe, 1000);
-							doh.robot.mouseClick({left:true}, 1000);
+							robot.mouseMoveAt(editor.iframe, 1000);
+							robot.mouseClick({left:true}, 1000);
 
 							// Verify the formatBlock plugin was found
 							doh.isNot(null, fcPlugin, "formatBlock was found");
 
-							doh.robot.sequence(d.getTestErrback(function(){
-								var p = dojo.byId("text", editor.document);
+							robot.sequence(d.getTestErrback(function(){
+								var p = dom.byId("text", editor.document);
 								doh.is("text", p && p.id, "found text");
 
 								// Select the text, collapse to the start of it
 								editor.selection.selectElementChildren(p);
 								editor.selection.collapse(true);
 							}),1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Make sure states update.
 								editor.onDisplayChanged();
 							}), 1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Select the children of the block and try to flatten the formatting.
-								var selection = dojo.byId("selectionContainer", editor.document);
-								dojo.window.scrollIntoView(selection);
+								var selection = dom.byId("selectionContainer", editor.document);
+								winUtils.scrollIntoView(selection);
 								editor.selection.selectElementChildren(selection);
 								fcPlugin.button.set("value", "noFormat");
 							}), 1000);
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								// Now check that the elements are all gone.
-								var selection = dojo.byId("selectionContainer", editor.document);
+								var selection = dom.byId("selectionContainer", editor.document);
 								doh.t(selection.childNodes.length > 0,
 										"Checking that there are still child nodes, actual was " + selection.childNodes.length);
 
@@ -411,11 +408,11 @@
 							var d = new doh.Deferred();
 
 							// Focus on the editor window
-							dojo.window.scrollIntoView(editor.domNode);
+							winUtils.scrollIntoView(editor.domNode);
 							editor.focus();
-							doh.robot.mouseMoveAt(editor.iframe, 1000);
-							doh.robot.mouseClick({left:true}, 1000);
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.mouseMoveAt(editor.iframe, 1000);
+							robot.mouseClick({left:true}, 1000);
+							robot.sequence(d.getTestCallback(function(){
 								for(var i = 0; i < fcPlugin.length; i++){
 									var p = fcPlugin[i];
 									var store = p.button.select.store;
@@ -455,11 +452,11 @@
 							var d = new doh.Deferred();
 
 							// Focus on the editor window
-							dojo.window.scrollIntoView(editor.domNode);
+							winUtils.scrollIntoView(editor.domNode);
 							editor.focus();
-							doh.robot.mouseMoveAt(editor.iframe, 1000);
-							doh.robot.mouseClick({left:true}, 1000);
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.mouseMoveAt(editor.iframe, 1000);
+							robot.mouseClick({left:true}, 1000);
+							robot.sequence(d.getTestCallback(function(){
 								var map = {
 									"sans-serif": false,
 									"serif": false,
@@ -506,11 +503,11 @@
 							var d = new doh.Deferred();
 
 							// Focus on the editor window
-							dojo.window.scrollIntoView(editor.domNode);
+							winUtils.scrollIntoView(editor.domNode);
 							editor.focus();
-							doh.robot.mouseMoveAt(editor.iframe, 1000);
-							doh.robot.mouseClick({left:true}, 1000);
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.mouseMoveAt(editor.iframe, 1000);
+							robot.mouseClick({left:true}, 1000);
+							robot.sequence(d.getTestCallback(function(){
 								var map = {
 									"Verdana": false,
 									"Myriad": false,

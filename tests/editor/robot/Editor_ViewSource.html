@@ -8,16 +8,16 @@
 			@import "../../../../util/doh/robot/robot.css";
 		</style>
 
-		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../dojo/dojo.js"></script>
 
 		<script type="text/javascript">
-			dojo.require("dojo.window");
-			dojo.require("dijit.robotx");
-			dojo.require("dijit.tests.helpers");	// functions to help test
+			require([
+				"doh/runner", "dojo/robotx",
+				"dojo/dom-attr", "dojo/dom-style", "dojo/keys", "dojo/sniff", "dojo/window",
+				"dijit/tests/helpers", "dojo/domReady!"
+			], function(doh, robot, domAttr, domStyle, keys, has, winUtils, helpers){
 
-			dojo.ready(function(){
-				doh.robot.initRobot('../test_ViewSource.html');
+				robot.initRobot('../test_ViewSource.html');
 
 				var editor0, editor1, editor2, editor3;
 				var fsPlugin;
@@ -28,10 +28,10 @@
 					{
 						name: "wait for editors to load",
 						timeout: 5000,
-						runTest: waitForLoad
+						runTest: helpers.waitForLoad
 					},
 					function setVars(){
-						registry = doh.robot.window.require("dijit/registry");
+						registry = robot.window.require("dijit/registry");
 					}
 				]);
 
@@ -59,17 +59,17 @@
 
 							//Timing gets wonky here, so we need to do this on a timeout
 							//so the browser has time  to shift focus.
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								editor0.focus();
 							}), 500);
 
-							doh.robot.keyPress(dojo.keys.F12, 1000, {ctrl:true,shift:true});
+							robot.keyPress(keys.F12, 1000, {ctrl:true,shift:true});
 
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
 								doh.t(vsPlugin._sourceShown, "Verifying the plugin believes the source is shown.");
-								doh.is("none", dojo.style(editor0.iframe, "display"), "Verifying iframe is invisible");
-								doh.is("block", dojo.style(vsPlugin.sourceArea, "display"), "Verifying source view node is visible");
+								doh.is("none", domStyle.get(editor0.iframe, "display"), "Verifying iframe is invisible");
+								doh.is("block", domStyle.get(vsPlugin.sourceArea, "display"), "Verifying source view node is visible");
 								doh.is(vsPlugin.sourceArea.nextSibling, editor0.iframe, "Verifying source view node's next sibling is the hidden iframe node.");
 							}), 3000);
 
@@ -102,19 +102,18 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								editor0.focus();
 							}), 1000);
 
-							//Find the view source plugin, we'll need it.
-							doh.robot.keyPress(dojo.keys.F12, 500, {ctrl:true,shift:true});
-							doh.robot.keyPress(dojo.keys.F12, 1000, {ctrl:true,shift:true});
+							robot.keyPress(keys.F12, 500, {ctrl:true,shift:true});
+							robot.keyPress(keys.F12, 1000, {ctrl:true,shift:true});
 
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
 								doh.f(vsPlugin._sourceShown, "Verifying the plugin states the source is not shown.");
-								doh.is("block", dojo.style(editor0.iframe, "display"), "Verifying iframe is visible");
-								doh.is("none", dojo.style(vsPlugin.sourceArea, "display"), "Verifying source view node is invisible");
+								doh.is("block", domStyle.get(editor0.iframe, "display"), "Verifying iframe is visible");
+								doh.is("none", domStyle.get(vsPlugin.sourceArea, "display"), "Verifying source view node is invisible");
 								doh.is(vsPlugin.sourceArea.nextSibling, editor0.iframe, "Verifying source view node's next sibling is the hidden iframe node.");
 							}), 2000);
 
@@ -143,18 +142,18 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								editor0.focus();
 							}), 1000);
 
-							doh.robot.mouseMoveAt(vsPlugin.button.domNode, 500);
-							doh.robot.mouseClick({left: true}, 750);
+							robot.mouseMoveAt(vsPlugin.button.domNode, 500);
+							robot.mouseClick({left: true}, 750);
 
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
 								doh.t(vsPlugin._sourceShown, "Verifying the plugin believes the source is shown.");
-								doh.is("none", dojo.style(editor0.iframe, "display"), "Verifying iframe is invisible");
-								doh.is("block", dojo.style(vsPlugin.sourceArea, "display"), "Verifying source view node is visible");
+								doh.is("none", domStyle.get(editor0.iframe, "display"), "Verifying iframe is invisible");
+								doh.is("block", domStyle.get(vsPlugin.sourceArea, "display"), "Verifying source view node is visible");
 								doh.is(vsPlugin.sourceArea.nextSibling, editor0.iframe, "Verifying source view node's next sibling is the hidden iframe node.");
 							}), 1000);
 
@@ -185,20 +184,20 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								editor0.focus();
 							}), 500);
 
-							doh.robot.mouseMoveAt(vsPlugin.button.domNode, 500);
-							doh.robot.mouseClick({left: true}, 750);
-							doh.robot.mouseMoveAt(vsPlugin.button.domNode, 500);
-							doh.robot.mouseClick({left: true}, 750);
+							robot.mouseMoveAt(vsPlugin.button.domNode, 500);
+							robot.mouseClick({left: true}, 750);
+							robot.mouseMoveAt(vsPlugin.button.domNode, 500);
+							robot.mouseClick({left: true}, 750);
 
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
 								doh.t(!vsPlugin._sourceShown, "Verifying the plugin believes the source is not shown.");
-								doh.is("block", dojo.style(editor0.iframe, "display"), "Verifying iframe is visible");
-								doh.is("none", dojo.style(vsPlugin.sourceArea, "display"), "Verifying source view node is invisible");
+								doh.is("block", domStyle.get(editor0.iframe, "display"), "Verifying iframe is visible");
+								doh.is("none", domStyle.get(vsPlugin.sourceArea, "display"), "Verifying source view node is invisible");
 								doh.is(vsPlugin.sourceArea.nextSibling, editor0.iframe, "Verifying source view node's next sibling is the hidden iframe node.");
 							}), 1000);
 
@@ -236,21 +235,21 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								editor1.focus();
 							}), 1000);
 
-							doh.robot.mouseMoveAt(fsPlugin.button.domNode, 1000);
-							doh.robot.mouseClick({left: true}, 500);
-							doh.robot.mouseMoveAt(vsPlugin.button.domNode, 1000);
-							doh.robot.mouseClick({left: true}, 500);
+							robot.mouseMoveAt(fsPlugin.button.domNode, 1000);
+							robot.mouseClick({left: true}, 500);
+							robot.mouseMoveAt(vsPlugin.button.domNode, 1000);
+							robot.mouseClick({left: true}, 500);
 
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
 								doh.t(fsPlugin.isFullscreen, "Verifying the plugin believes the editor is in full screen mode.");
 								doh.t(vsPlugin._sourceShown, "Verifying the plugin believes the source is shown.");
-								doh.is("none", dojo.style(editor1.iframe, "display"), "Verifying iframe is invisible");
-								doh.is("block", dojo.style(vsPlugin.sourceArea, "display"), "Verifying source view node is visible");
+								doh.is("none", domStyle.get(editor1.iframe, "display"), "Verifying iframe is invisible");
+								doh.is("block", domStyle.get(vsPlugin.sourceArea, "display"), "Verifying source view node is visible");
 								doh.is(vsPlugin.sourceArea.nextSibling, editor1.iframe, "Verifying source view node's next sibling is the hidden iframe node.");
 							}), 2000);
 
@@ -289,27 +288,27 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								//Focus on the editor window
-								dojo.window.scrollIntoView(editor1.domNode);
+								winUtils.scrollIntoView(editor1.domNode);
 								editor1.focus();
 							}), 1000);
 
 							//Toggle fs on, the source on.
-							doh.robot.mouseMoveAt(fsPlugin.button.domNode, 500);
-							doh.robot.mouseClick({left: true}, 750);
-							doh.robot.mouseMoveAt(vsPlugin.button.domNode, 1000);
-							doh.robot.mouseClick({left: true}, 1000);
-							doh.robot.mouseMoveAt(vsPlugin.button.domNode, 500);
-							doh.robot.mouseClick({left: true}, 1000);
-							doh.robot.mouseMoveAt(fsPlugin.button.domNode, 500);
-							doh.robot.mouseClick({left: true}, 1000);
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.mouseMoveAt(fsPlugin.button.domNode, 500);
+							robot.mouseClick({left: true}, 750);
+							robot.mouseMoveAt(vsPlugin.button.domNode, 1000);
+							robot.mouseClick({left: true}, 1000);
+							robot.mouseMoveAt(vsPlugin.button.domNode, 500);
+							robot.mouseClick({left: true}, 1000);
+							robot.mouseMoveAt(fsPlugin.button.domNode, 500);
+							robot.mouseClick({left: true}, 1000);
+							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
 								doh.t(!fsPlugin.isFullscreen, "Verifying the plugin believes the editor is not in full screen mode.");
 								doh.t(!vsPlugin._sourceShown, "Verifying the plugin believes the source is not shown.");
-								doh.is("block", dojo.style(editor1.iframe, "display"), "Verifying iframe is visible");
-								doh.is("none", dojo.style(vsPlugin.sourceArea, "display"), "Verifying source view node is invisible");
+								doh.is("block", domStyle.get(editor1.iframe, "display"), "Verifying iframe is visible");
+								doh.is("none", domStyle.get(vsPlugin.sourceArea, "display"), "Verifying source view node is invisible");
 								doh.is(vsPlugin.sourceArea.nextSibling, editor1.iframe, "Verifying source view node's next sibling is the hidden iframe node.");
 							}), 1000);
 
@@ -347,9 +346,9 @@
 
 							//Timing gets wonky here, so we need to do this on a timeout
 							//so the browser has time  to shift focus.
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								//Focus on the editor window
-								dojo.window.scrollIntoView(editor0.domNode);
+								winUtils.scrollIntoView(editor0.domNode);
 								editor0.focus();
 							}), 500);
 
@@ -358,8 +357,8 @@
 
 							//Type in some script stuff.
 
-							doh.robot.keyPress(dojo.keys.F12, 1000, {ctrl:true,shift:true});
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.keyPress(keys.F12, 1000, {ctrl:true,shift:true});
+							robot.sequence(d.getTestErrback(function(){
 								vsPlugin.sourceArea.value = "\n\n" +
 										simpleScript0 +
 										"\n\n" +
@@ -367,8 +366,8 @@
 										"\n" +
 										vsPlugin.sourceArea.value;
 							}), 1000);
-							doh.robot.keyPress(dojo.keys.F12, 1000, {ctrl:true,shift:true});
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.keyPress(keys.F12, 1000, {ctrl:true,shift:true});
+							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
 								var val = editor0.get("value");
 								doh.is(-1, val.indexOf("Hack!"), "Validating inline script tag was stripped");
@@ -409,22 +408,22 @@
 
 							//Timing gets wonky here, so we need to do this on a timeout
 							//so the browser has time  to shift focus.
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								//Focus on the editor window
-								dojo.window.scrollIntoView(editor0.domNode);
+								winUtils.scrollIntoView(editor0.domNode);
 								editor0.focus();
 							}), 500);
 
 							var complexScript = '< scr' + 'IPt type="text/javascript"            \n>\n   var foo = "Hack!"  \n</SCr' + 'ipt  >';
-							doh.robot.keyPress(dojo.keys.F12, 500, {ctrl:true,shift:true});
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.keyPress(keys.F12, 500, {ctrl:true,shift:true});
+							robot.sequence(d.getTestErrback(function(){
 								vsPlugin.sourceArea.value = "\n\n" +
 										complexScript +
 										"\n\n" +
 										vsPlugin.sourceArea.value;
 							}), 1000);
-							doh.robot.keyPress(dojo.keys.F12, 500, {ctrl:true,shift:true});
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.keyPress(keys.F12, 500, {ctrl:true,shift:true});
+							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
 								var val = editor0.get("value");
 								doh.is(-1, val.indexOf("< scrIPt "), "Validating script tag was stripped");
@@ -463,25 +462,25 @@
 
 							//Timing gets wonky here, so we need to do this on a timeout
 							//so the browser has time  to shift focus.
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								//Focus on the editor window
-								dojo.window.scrollIntoView(editor0.domNode);
+								winUtils.scrollIntoView(editor0.domNode);
 								editor0.focus();
 							}), 500);
 
 							var simpleComment = '<!--  Hello, this is a comment! -->';
 
 							//Type in some script stuff.
-							doh.robot.keyPress(dojo.keys.F12, 500, {ctrl:true,shift:true});
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.keyPress(keys.F12, 500, {ctrl:true,shift:true});
+							robot.sequence(d.getTestErrback(function(){
 								vsPlugin.sourceArea.value = "\n\n" +
 										simpleComment +
 										"\n\n" +
 										vsPlugin.sourceArea.value;
 							}), 1000);
-							doh.robot.keyPress(dojo.keys.F12, 500, {ctrl:true,shift:true});
+							robot.keyPress(keys.F12, 500, {ctrl:true,shift:true});
 
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
 								var val = editor0.get("value");
 								doh.is(-1, val.indexOf("Hello, this is a comment!"), "Validating comment block was stripped");
@@ -521,15 +520,15 @@
 
 							//Timing gets wonky here, so we need to do this on a timeout
 							//so the browser has time  to shift focus.
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								//Focus on the editor window
-								dojo.window.scrollIntoView(editor0.domNode);
+								winUtils.scrollIntoView(editor0.domNode);
 								editor0.focus();
 							}), 500);
 
 							//Type in some script stuff.
-							doh.robot.keyPress(dojo.keys.F12, 1000, {ctrl:true,shift:true});
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.keyPress(keys.F12, 1000, {ctrl:true,shift:true});
+							robot.sequence(d.getTestErrback(function(){
 								vsPlugin.sourceArea.value = "\n\n" +
 										"<!--\n" +
 										"Hello, this is a comment!\n" +
@@ -537,9 +536,9 @@
 										"\n\n" +
 										vsPlugin.sourceArea.value;
 							}), 1000);
-							doh.robot.keyPress(dojo.keys.F12, 1000, {ctrl:true,shift:true});
+							robot.keyPress(keys.F12, 1000, {ctrl:true,shift:true});
 
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
 								var val = editor0.get("value");
 								doh.is(-1, val.indexOf("Hello, this is a comment!"), "Validating multiline comment block was stripped");
@@ -582,25 +581,25 @@
 
 							//Timing gets wonky here, so we need to do this on a timeout
 							//so the browser has time  to shift focus.
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								//Focus on the editor window
-								dojo.window.scrollIntoView(editor0.domNode);
+								winUtils.scrollIntoView(editor0.domNode);
 								editor0.focus();
 							}), 500);
 
 							var simpleIFrame = '<iframe src="http://example.com/hack.html" width=0 height=0 style="display: none;"></iframe>';
 
 							//Type in some script stuff.
-							doh.robot.keyPress(dojo.keys.F12, 1000, {ctrl:true,shift:true});
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.keyPress(keys.F12, 1000, {ctrl:true,shift:true});
+							robot.sequence(d.getTestErrback(function(){
 								vsPlugin.sourceArea.value = "\n\n" +
 									simpleIFrame +
 									"\n\n" +
 									vsPlugin.sourceArea.value;
 							}), 1000);
-							doh.robot.keyPress(dojo.keys.F12, 1000, {ctrl:true,shift:true});
+							robot.keyPress(keys.F12, 1000, {ctrl:true,shift:true});
 
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
 								var val = editor0.get("value");
 								doh.is(-1, val.indexOf("<iframe"), "Validating iframe tag was stripped stripped");
@@ -639,9 +638,9 @@
 
 							//Timing gets wonky here, so we need to do this on a timeout
 							//so the browser has time  to shift focus.
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								//Focus on the editor window
-								dojo.window.scrollIntoView(editor3.domNode);
+								winUtils.scrollIntoView(editor3.domNode);
 								editor3.focus();
 							}), 500);
 
@@ -651,9 +650,9 @@
 							var simpleComment = '<!--  Hello, this is a comment! -->';
 
 							//Type in some script stuff.
-							doh.robot.keyPress(dojo.keys.F12, 1000, {ctrl:true,shift:true});
+							robot.keyPress(keys.F12, 1000, {ctrl:true,shift:true});
 
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								vsPlugin.sourceArea.value = "\n\n" +
 										"<div>\n" +
 										simpleScript0 +
@@ -668,14 +667,14 @@
 										"\n\n" +
 										vsPlugin.sourceArea.value;
 							}), 1000);
-							doh.robot.keyPress(dojo.keys.F12, 1000, {ctrl:true,shift:true});
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.keyPress(keys.F12, 1000, {ctrl:true,shift:true});
+							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
 								var val = editor3.get("value");
 								// IE strips scripts anyway, need to look more at this sometime.
 								// It's not the plugin doing it.
-								doh.t((0 <= val.indexOf("Hack!")) || dojo.isIE, "Validating inline script tag was left");
-								doh.t((0 <= val.indexOf("hack.js") || dojo.isIE), "Validating import script tag was left");
+								doh.t((0 <= val.indexOf("Hack!")) || has("ie"), "Validating inline script tag was left");
+								doh.t((0 <= val.indexOf("hack.js") || has("ie")), "Validating import script tag was left");
 								doh.t(0 <= val.indexOf("<iframe"), "Validating iframe tag was left");
 								doh.t(0 <= val.indexOf("Hello, this is a comment!"), "Validating comment was left");
 								editor3.set("value", oldValue);
@@ -711,18 +710,18 @@
 
 							//Timing gets wonky here, so we need to do this on a timeout
 							//so the browser has time  to shift focus.
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								//Focus on the editor window
-								dojo.window.scrollIntoView(editor2.domNode);
+								winUtils.scrollIntoView(editor2.domNode);
 								editor2.focus();
 							}), 500);
 
-							doh.robot.mouseMoveAt(vsPlugin.button.domNode, 500);
-							doh.robot.mouseClick({left: true}, 750);
+							robot.mouseMoveAt(vsPlugin.button.domNode, 500);
+							robot.mouseClick({left: true}, 750);
 
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
-								doh.is(true, dojo.attr(vsPlugin.sourceArea, "readOnly"), "Verify the source area is read only.");
+								doh.is(true, domAttr.has(vsPlugin.sourceArea, "readOnly"), "Verify the source area is read only.");
 							}), 2000);
 
 							return d;
@@ -757,19 +756,19 @@
 
 							//Timing gets wonky here, so we need to do this on a timeout
 							//so the browser has time  to shift focus.
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								//Focus on the editor window
-								dojo.window.scrollIntoView(editor0.domNode);
+								winUtils.scrollIntoView(editor0.domNode);
 								editor0.focus();
 							}), 500);
 
-							doh.robot.keyPress(dojo.keys.F12, 1000, {ctrl:true,shift:true});
+							robot.keyPress(keys.F12, 1000, {ctrl:true,shift:true});
 
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
 								doh.t(vsPlugin._sourceShown, "Verifying the plugin believes the source is shown.");
-								doh.is("none", dojo.style(editor0.iframe, "display"), "Verifying iframe is invisible");
-								doh.is("block", dojo.style(vsPlugin.sourceArea, "display"), "Verifying source view node is visible");
+								doh.is("none", domStyle.get(editor0.iframe, "display"), "Verifying iframe is invisible");
+								doh.is("block", domStyle.get(vsPlugin.sourceArea, "display"), "Verifying source view node is visible");
 								doh.is(vsPlugin.sourceArea.nextSibling, editor0.iframe, "Verifying source view node's next sibling is the hidden iframe node.");
 								vsPlugin.sourceArea.value = "FOO";
 								doh.is("FOO", editor0.get("value"), "Verifying the source area returns foo when getValue is called.");
@@ -808,19 +807,19 @@
 
 							//Timing gets wonky here, so we need to do this on a timeout
 							//so the browser has time  to shift focus.
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								//Focus on the editor window
-								dojo.window.scrollIntoView(editor0.domNode);
+								winUtils.scrollIntoView(editor0.domNode);
 								editor0.focus();
 							}), 500);
 
-							doh.robot.keyPress(dojo.keys.F12, 1000, {ctrl:true,shift:true});
+							robot.keyPress(keys.F12, 1000, {ctrl:true,shift:true});
 
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
 								doh.t(vsPlugin._sourceShown, "Verifying the plugin believes the source is shown.");
-								doh.is("none", dojo.style(editor0.iframe, "display"), "Verifying iframe is invisible");
-								doh.is("block", dojo.style(vsPlugin.sourceArea, "display"), "Verifying source view node is visible");
+								doh.is("none", domStyle.get(editor0.iframe, "display"), "Verifying iframe is invisible");
+								doh.is("block", domStyle.get(vsPlugin.sourceArea, "display"), "Verifying source view node is visible");
 								doh.is(vsPlugin.sourceArea.nextSibling, editor0.iframe, "Verifying source view node's next sibling is the hidden iframe node.");
 								editor0.set("value", "FOO");
 								doh.is("FOO", editor0.get("value"), "Verifying the source area returns FOO when getValue is called.");

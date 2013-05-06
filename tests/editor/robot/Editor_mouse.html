@@ -8,7 +8,6 @@
 			@import "../../../../util/doh/robot/robot.css";
 		</style>
 
-		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../dojo/dojo.js" data-dojo-config="async: true"></script>
 
 		<script type="text/javascript">
@@ -44,7 +43,7 @@
 						runTest: helpers.waitForLoad
 					},
 					function setVars(){
-						registry = doh.robot.window.require("dijit/registry");
+						registry = robot.window.require("dijit/registry");
 						editor0 = registry.byId("editor0");
 						doh.t(!!editor0, "editor0");
 						editor1 = registry.byId("editor1");

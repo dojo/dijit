@@ -8,15 +8,16 @@
 			@import "../../../../util/doh/robot/robot.css";
 		</style>
 
-		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../dojo/dojo.js"></script>
 
 		<script type="text/javascript">
-			dojo.require("dijit.robotx");
-			dojo.require("dijit.tests.helpers");	// functions to help test
+			require([
+				"doh/runner", "dojo/robotx",
+				"dojo/query", "dojo/window",
+				"dijit/tests/helpers", "dojo/domReady!"
+			], function(doh, robot, query, winUtils, helpers){
 
-			dojo.ready(function(){
-				doh.robot.initRobot('../test_ToggleDir_rtl.html');
+				robot.initRobot('../test_ToggleDir_rtl.html');
 					
 				var metaKey = {ctrl: true};
 
@@ -25,10 +26,10 @@
 					{
 						name: "wait for editors to load",
 						timeout: 5000,
-						runTest: waitForLoad
+						runTest: helpers.waitForLoad
 					},
 					function setVars(){
-						registry = doh.robot.window.require("dijit/registry");
+						registry = robot.window.require("dijit/registry");
 					}
 				]);
 
@@ -39,13 +40,13 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							
-							doh.robot.mouseMoveAt(dojo.query(".dijitEditorIconToggleDir")[0], 1000);
-							doh.robot.mouseClick({left:true}, 500);
+							robot.mouseMoveAt(query(".dijitEditorIconToggleDir", robot.doc)[0], 1000);
+							robot.mouseClick({left:true}, 500);
 							
-							doh.robot.mouseMoveAt("ed0", 1000);
-							doh.robot.mouseClick({left:true}, 500);
+							robot.mouseMoveAt("ed0", 1000);
+							robot.mouseClick({left:true}, 500);
 
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								var editor = registry.byId("ed0");
 								var editDoc = editor.editorObject.contentWindow.document.documentElement;
 			                    editDoc = editDoc.getElementsByTagName("body")[0];
@@ -61,13 +62,13 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							
-							doh.robot.mouseMoveAt(dojo.query(".dijitEditorIconToggleDir")[0], 1000);
-							doh.robot.mouseClick({left:true}, 500);
+							robot.mouseMoveAt(query(".dijitEditorIconToggleDir", robot.doc)[0], 1000);
+							robot.mouseClick({left:true}, 500);
 							
-							doh.robot.mouseMoveAt("ed0", 1000);
-							doh.robot.mouseClick({left:true}, 500);
+							robot.mouseMoveAt("ed0", 1000);
+							robot.mouseClick({left:true}, 500);
 
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								var editor = registry.byId("ed0");
 								var editDoc = editor.editorObject.contentWindow.document.documentElement;
 			                    editDoc = editDoc.getElementsByTagName("body")[0];
@@ -77,6 +78,7 @@
 						}
 					}					
 				]);
+
 				doh.run();
 			});
 		</script>

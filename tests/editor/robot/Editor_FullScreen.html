@@ -8,16 +8,16 @@
 			@import "../../../../util/doh/robot/robot.css";
 		</style>
 
-		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../dojo/dojo.js"></script>
 
 		<script type="text/javascript">
-			dojo.require("dojo.window");
-			dojo.require("dijit.robotx");
-			dojo.require("dijit.tests.helpers");	// functions to help test
-
-			dojo.ready(function(){
-				doh.robot.initRobot('../test_FullScreen.html');
+			require([
+				"doh/runner", "dojo/robotx",
+				"dojo/dom-geometry", "dojo/dom-style", "dojo/keys", "dojo/window",
+				"dijit/tests/helpers", "dojo/domReady!"
+			], function(doh, robot, domGeom, domStyle, keys, winUtils, helpers){
+	
+				robot.initRobot('../test_FullScreen.html');
 
 				function getPlugin(/*Editor*/ editor){
 					// summary:
@@ -38,10 +38,10 @@
 					{
 						name: "wait for editors to load",
 						timeout: 5000,
-						runTest: waitForLoad
+						runTest: helpers.waitForLoad
 					},
 					function setVars(){
-						registry = doh.robot.window.require("dijit/registry");
+						registry = robot.window.require("dijit/registry");
 					}
 				]);
 
@@ -57,21 +57,21 @@
 							var d = new doh.Deferred();
 
 							//Focus on the editor window
-							doh.robot.sequence(d.getTestErrback(function(){
-								dojo.window.scrollIntoView(editor.domNode);
+							robot.sequence(d.getTestErrback(function(){
+								winUtils.scrollIntoView(editor.domNode);
 								editor.focus();
 							}), 500);
 
-							doh.robot.keyPress(dojo.keys.F11, 500, {ctrl:true,shift:true});
+							robot.keyPress(keys.F11, 500, {ctrl:true,shift:true});
 
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
 								doh.t(fsPlugin.isFullscreen, "isFullScreen");
-								var vp = dojo.window.getBox();
-								var edPos = dojo.position(editor.domNode);
-								doh.is("absolute", dojo.style(editor.domNode, "position"));
-								doh.is("0", dojo.style(editor.domNode, "top"), "Top position check");
-								doh.is("0", dojo.style(editor.domNode, "left"), "Left position check");
+								var vp = winUtils.getBox();
+								var edPos = domGeom.position(editor.domNode);
+								doh.is("absolute", domStyle.get(editor.domNode, "position"));
+								doh.is("0", domStyle.get(editor.domNode, "top"), "Top position check");
+								doh.is("0", domStyle.get(editor.domNode, "left"), "Left position check");
 
 								//There may be a difference of a pixel or two, so check that the editor is real close
 								//to the viewport size.
@@ -92,19 +92,19 @@
 							var d = new doh.Deferred();
 
 							//Focus on the editor window
-							doh.robot.sequence(d.getTestErrback(function(){
-								dojo.window.scrollIntoView(editor.domNode);
+							robot.sequence(d.getTestErrback(function(){
+								winUtils.scrollIntoView(editor.domNode);
 								editor.focus();
 							}), 500);
 
-							doh.robot.keyPress(dojo.keys.F11, 500, {ctrl:true,shift:true});
-							doh.robot.keyPress(dojo.keys.F11, 1000, {ctrl:true,shift:true});
+							robot.keyPress(keys.F11, 500, {ctrl:true,shift:true});
+							robot.keyPress(keys.F11, 1000, {ctrl:true,shift:true});
 
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
 								doh.f(fsPlugin.isFullscreen, "isFullScreen");
-								var edPos = dojo.position(editor.domNode);
-								doh.isNot("absolute", dojo.style(editor.domNode, "position"));
+								var edPos = domGeom.position(editor.domNode);
+								doh.isNot("absolute", domStyle.get(editor.domNode, "position"));
 
 								//There may be a difference of a pixel or two depending on how the browser sizes
 								//so check that the editor is real close to the expected size defined in the test doc.
@@ -125,22 +125,22 @@
 							var d = new doh.Deferred();
 
 							//Focus on the editor window
-							doh.robot.sequence(d.getTestErrback(function(){
-								dojo.window.scrollIntoView(editor.domNode);
+							robot.sequence(d.getTestErrback(function(){
+								winUtils.scrollIntoView(editor.domNode);
 								editor.focus();
 							}), 500);
 
-							doh.robot.mouseMoveAt(fsPlugin.button.domNode, 500);
-							doh.robot.mouseClick({left: true}, 750);
+							robot.mouseMoveAt(fsPlugin.button.domNode, 500);
+							robot.mouseClick({left: true}, 750);
 
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
 								doh.t(fsPlugin.isFullscreen, "isFullScreen");
-								var vp = dojo.window.getBox();
-								var edPos = dojo.position(editor.domNode);
-								doh.is("absolute", dojo.style(editor.domNode, "position"));
-								doh.is("0", dojo.style(editor.domNode, "top"), "Top position check");
-								doh.is("0", dojo.style(editor.domNode, "left"), "Left position check");
+								var vp = winUtils.getBox();
+								var edPos = domGeom.position(editor.domNode);
+								doh.is("absolute", domStyle.get(editor.domNode, "position"));
+								doh.is("0", domStyle.get(editor.domNode, "top"), "Top position check");
+								doh.is("0", domStyle.get(editor.domNode, "left"), "Left position check");
 
 								//There may be a difference of a pixel or two, so check that the editor is real close
 								//to the viewport size.
@@ -161,22 +161,22 @@
 							var d = new doh.Deferred();
 
 							//Focus on the editor window
-							doh.robot.sequence(d.getTestErrback(function(){
-								dojo.window.scrollIntoView(editor.domNode);
+							robot.sequence(d.getTestErrback(function(){
+								winUtils.scrollIntoView(editor.domNode);
 								editor.focus();
 							}), 500);
 
 							//Click it, then click it again!
-							doh.robot.mouseMoveAt(fsPlugin.button.domNode, 500);
-							doh.robot.mouseClick({left: true}, 750);
-							doh.robot.mouseMoveAt(fsPlugin.button.domNode, 500);
-							doh.robot.mouseClick({left: true}, 750);
+							robot.mouseMoveAt(fsPlugin.button.domNode, 500);
+							robot.mouseClick({left: true}, 750);
+							robot.mouseMoveAt(fsPlugin.button.domNode, 500);
+							robot.mouseClick({left: true}, 750);
 
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
 								doh.f(fsPlugin.isFullscreen, "isFullScreen");
-								var edPos = dojo.position(editor.domNode);
-								doh.isNot("absolute", dojo.style(editor.domNode, "position"));
+								var edPos = domGeom.position(editor.domNode);
+								doh.isNot("absolute", domStyle.get(editor.domNode, "position"));
 
 								//There may be a difference of a pixel or two depending on how the browser sizes
 								//so check that the editor is real close to the expected size defined in the test doc.
@@ -206,32 +206,32 @@
 							var d = new doh.Deferred();
 
 							//Focus on the editor window
-							doh.robot.sequence(d.getTestErrback(function(){
-								dojo.window.scrollIntoView(editor.domNode);
+							robot.sequence(d.getTestErrback(function(){
+								winUtils.scrollIntoView(editor.domNode);
 								editor.focus();
 							}), 500);
 
-							var origEditorSize = dojo.marginBox(editor.domNode);
-							var origContainerSize = dojo.marginBox(container.domNode);
+							var origEditorSize = domGeom.getMarginBox(editor.domNode);
+							var origContainerSize = domGeom.getMarginBox(container.domNode);
 							os = {w: origContainerSize.w, h: origContainerSize.h};
 
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Engage FullScreen Mode
 								fsPlugin.button.set("checked", true);
 							}), 1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Resize the container
 								container.resize({w: 400, h: 400});
 							}), 1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Disengage FullScreen Mode
 								fsPlugin.button.set("checked", false);
 							}), 1000);
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								// Now validate the editor resized when it returned since
 								// the Container was resized.
-								var curEditorSize = dojo.marginBox(editor.domNode);
-								var curContainerSize = dojo.marginBox(container.domNode);
+								var curEditorSize = domGeom.getMarginBox(editor.domNode);
+								var curContainerSize = domGeom.getMarginBox(container.domNode);
 								var containerWdiff = origContainerSize.w - curContainerSize.w;
 								var containerHdiff = origContainerSize.h - curContainerSize.h;
 								var eWdiff = origEditorSize.w - curEditorSize.w;
@@ -257,32 +257,32 @@
 							var d = new doh.Deferred();
 
 							//Focus on the editor window
-							doh.robot.sequence(d.getTestErrback(function(){
-								dojo.window.scrollIntoView(editor.domNode);
+							robot.sequence(d.getTestErrback(function(){
+								winUtils.scrollIntoView(editor.domNode);
 								editor.focus();
 							}), 500);
 
-							var origEditorSize = dojo.marginBox(editor.domNode);
-							var origContainerSize = dojo.marginBox(container.domNode);
+							var origEditorSize = domGeom.getMarginBox(editor.domNode);
+							var origContainerSize = domGeom.getMarginBox(container.domNode);
 							os = {w: origContainerSize.w, h: origContainerSize.h};
 
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Engage FullScreen Mode
 								fsPlugin.button.set("checked", true);
 							}), 1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Resize the container
 								container.resize({w: 800, h: 800});
 							}), 1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Disengage FullScreen Mode
 								fsPlugin.button.set("checked", false);
 							}), 1000);
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								// Now validate the editor resized when it returned since
 								// the Container was resized.
-								var curEditorSize = dojo.marginBox(editor.domNode);
-								var curContainerSize = dojo.marginBox(container.domNode);
+								var curEditorSize = domGeom.getMarginBox(editor.domNode);
+								var curContainerSize = domGeom.getMarginBox(container.domNode);
 								var containerWdiff = -(origContainerSize.w - curContainerSize.w);
 								var containerHdiff = -(origContainerSize.h - curContainerSize.h);
 								var eWdiff = -(origEditorSize.w - curEditorSize.w);
@@ -317,32 +317,32 @@
 							var d = new doh.Deferred();
 
 							//Focus on the editor window
-							doh.robot.sequence(d.getTestErrback(function(){
-								dojo.window.scrollIntoView(editor.domNode);
+							robot.sequence(d.getTestErrback(function(){
+								winUtils.scrollIntoView(editor.domNode);
 								editor.focus();
 							}), 500);
 
-							var origEditorSize = dojo.marginBox(editor.domNode);
-							var origContainerSize = dojo.marginBox(container.domNode);
+							var origEditorSize = domGeom.getMarginBox(editor.domNode);
+							var origContainerSize = domGeom.getMarginBox(container.domNode);
 							os = {w: origContainerSize.w, h: origContainerSize.h};
 
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Engage FullScreen Mode
 								fsPlugin.button.set("checked", true);
 							}), 1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Resize the container
 								container.resize({w: 400, h: 400});
 							}), 1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Disengage FullScreen Mode
 								fsPlugin.button.set("checked", false);
 							}), 1000);
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								// Now validate the editor resized when it returned since
 								// the Container was resized.
-								var curEditorSize = dojo.marginBox(editor.domNode);
-								var curContainerSize = dojo.marginBox(container.domNode);
+								var curEditorSize = domGeom.getMarginBox(editor.domNode);
+								var curContainerSize = domGeom.getMarginBox(container.domNode);
 								var containerWdiff = origContainerSize.w - curContainerSize.w;
 								var containerHdiff = origContainerSize.h - curContainerSize.h;
 								var eWdiff = origEditorSize.w - curEditorSize.w;
@@ -368,32 +368,32 @@
 							var d = new doh.Deferred();
 
 							//Focus on the editor window
-							doh.robot.sequence(d.getTestErrback(function(){
-								dojo.window.scrollIntoView(editor.domNode);
+							robot.sequence(d.getTestErrback(function(){
+								winUtils.scrollIntoView(editor.domNode);
 								editor.focus();
 							}), 500);
 
-							var origEditorSize = dojo.marginBox(editor.domNode);
-							var origContainerSize = dojo.marginBox(container.domNode);
+							var origEditorSize = domGeom.getMarginBox(editor.domNode);
+							var origContainerSize = domGeom.getMarginBox(container.domNode);
 							os = {w: origContainerSize.w, h: origContainerSize.h};
 
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Engage FullScreen Mode
 								fsPlugin.button.set("checked", true);
 							}), 1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Resize the container
 								container.resize({w: 800, h: 800});
 							}), 1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Disengage FullScreen Mode
 								fsPlugin.button.set("checked", false);
 							}), 1000);
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								// Now validate the editor resized when it returned since
 								// the Container was resized.
-								var curEditorSize = dojo.marginBox(editor.domNode);
-								var curContainerSize = dojo.marginBox(container.domNode);
+								var curEditorSize = domGeom.getMarginBox(editor.domNode);
+								var curContainerSize = domGeom.getMarginBox(container.domNode);
 								var containerWdiff = -(origContainerSize.w - curContainerSize.w);
 								var containerHdiff = -(origContainerSize.h - curContainerSize.h);
 								var eWdiff = -(origEditorSize.w - curEditorSize.w);
@@ -428,32 +428,32 @@
 							var d = new doh.Deferred();
 
 							//Focus on the editor window
-							doh.robot.sequence(d.getTestErrback(function(){
-								dojo.window.scrollIntoView(editor.domNode);
+							robot.sequence(d.getTestErrback(function(){
+								winUtils.scrollIntoView(editor.domNode);
 								editor.focus();
 							}), 500);
 
-							var origEditorSize = dojo.marginBox(editor.domNode);
-							var origContainerSize = dojo.marginBox(container.domNode);
+							var origEditorSize = domGeom.getMarginBox(editor.domNode);
+							var origContainerSize = domGeom.getMarginBox(container.domNode);
 							os = {w: origContainerSize.w, h: origContainerSize.h};
 
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Engage FullScreen Mode
 								fsPlugin.button.set("checked", true);
 							}), 1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Resize the container
 								container.resize({w: 400, h: 400});
 							}), 1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Disengage FullScreen Mode
 								fsPlugin.button.set("checked", false);
 							}), 1000);
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								// Now validate the editor resized when it returned since
 								// the Container was resized.
-								var curEditorSize = dojo.marginBox(editor.domNode);
-								var curContainerSize = dojo.marginBox(container.domNode);
+								var curEditorSize = domGeom.getMarginBox(editor.domNode);
+								var curContainerSize = domGeom.getMarginBox(container.domNode);
 								var containerWdiff = origContainerSize.w - curContainerSize.w;
 								var containerHdiff = origContainerSize.h - curContainerSize.h;
 								var eWdiff = origEditorSize.w - curEditorSize.w;
@@ -479,32 +479,32 @@
 							var d = new doh.Deferred();
 
 							//Focus on the editor window
-							doh.robot.sequence(d.getTestErrback(function(){
-								dojo.window.scrollIntoView(editor.domNode);
+							robot.sequence(d.getTestErrback(function(){
+								winUtils.scrollIntoView(editor.domNode);
 								editor.focus();
 							}), 500);
 
-							var origEditorSize = dojo.marginBox(editor.domNode);
-							var origContainerSize = dojo.marginBox(container.domNode);
+							var origEditorSize = domGeom.getMarginBox(editor.domNode);
+							var origContainerSize = domGeom.getMarginBox(container.domNode);
 							os = {w: origContainerSize.w, h: origContainerSize.h};
 
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Engage FullScreen Mode
 								fsPlugin.button.set("checked", true);
 							}), 1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Resize the container
 								container.resize({w: 800, h: 800});
 							}), 1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Disengage FullScreen Mode
 								fsPlugin.button.set("checked", false);
 							}), 1000);
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								// Now validate the editor resized when it returned since
 								// the Container was resized.
-								var curEditorSize = dojo.marginBox(editor.domNode);
-								var curContainerSize = dojo.marginBox(container.domNode);
+								var curEditorSize = domGeom.getMarginBox(editor.domNode);
+								var curContainerSize = domGeom.getMarginBox(container.domNode);
 								var containerWdiff = -(origContainerSize.w - curContainerSize.w);
 								var containerHdiff = -(origContainerSize.h - curContainerSize.h);
 								var eWdiff = -(origEditorSize.w - curEditorSize.w);
@@ -539,32 +539,32 @@
 							var d = new doh.Deferred();
 
 							//Focus on the editor window
-							doh.robot.sequence(d.getTestErrback(function(){
-								dojo.window.scrollIntoView(editor.domNode);
+							robot.sequence(d.getTestErrback(function(){
+								winUtils.scrollIntoView(editor.domNode);
 								editor.focus();
 							}), 500);
 
-							var origEditorSize = dojo.marginBox(editor.domNode);
-							var origContainerSize = dojo.marginBox(container.domNode);
+							var origEditorSize = domGeom.getMarginBox(editor.domNode);
+							var origContainerSize = domGeom.getMarginBox(container.domNode);
 							os = {w: origContainerSize.w, h: origContainerSize.h};
 
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Engage FullScreen Mode
 								fsPlugin.button.set("checked", true);
 							}), 1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Resize the container
 								container.resize({w: 400, h: 400});
 							}), 1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Disengage FullScreen Mode
 								fsPlugin.button.set("checked", false);
 							}), 1000);
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								// Now validate the editor resized when it returned since
 								// the Container was resized.
-								var curEditorSize = dojo.marginBox(editor.domNode);
-								var curContainerSize = dojo.marginBox(container.domNode);
+								var curEditorSize = domGeom.getMarginBox(editor.domNode);
+								var curContainerSize = domGeom.getMarginBox(container.domNode);
 								var containerWdiff = origContainerSize.w - curContainerSize.w;
 								var containerHdiff = origContainerSize.h - curContainerSize.h;
 								var eWdiff = origEditorSize.w - curEditorSize.w;
@@ -590,32 +590,32 @@
 							var d = new doh.Deferred();
 
 							//Focus on the editor window
-							doh.robot.sequence(d.getTestErrback(function(){
-								dojo.window.scrollIntoView(editor.domNode);
+							robot.sequence(d.getTestErrback(function(){
+								winUtils.scrollIntoView(editor.domNode);
 								editor.focus();
 							}), 500);
 
-							var origEditorSize = dojo.marginBox(editor.domNode);
-							var origContainerSize = dojo.marginBox(container.domNode);
+							var origEditorSize = domGeom.getMarginBox(editor.domNode);
+							var origContainerSize = domGeom.getMarginBox(container.domNode);
 							os = {w: origContainerSize.w, h: origContainerSize.h};
 
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Engage FullScreen Mode
 								fsPlugin.button.set("checked", true);
 							}), 1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Resize the container
 								container.resize({w: 800, h: 800});
 							}), 1000);
-							doh.robot.sequence(d.getTestErrback(function(){
+							robot.sequence(d.getTestErrback(function(){
 								// Disengage FullScreen Mode
 								fsPlugin.button.set("checked", false);
 							}), 1000);
-							doh.robot.sequence(d.getTestCallback(function(){
+							robot.sequence(d.getTestCallback(function(){
 								// Now validate the editor resized when it returned since
 								// the Container was resized.
-								var curEditorSize = dojo.marginBox(editor.domNode);
-								var curContainerSize = dojo.marginBox(container.domNode);
+								var curEditorSize = domGeom.getMarginBox(editor.domNode);
+								var curContainerSize = domGeom.getMarginBox(container.domNode);
 								var containerWdiff = -(origContainerSize.w - curContainerSize.w);
 								var containerHdiff = -(origContainerSize.h - curContainerSize.h);
 								var eWdiff = -(origEditorSize.w - curEditorSize.w);
