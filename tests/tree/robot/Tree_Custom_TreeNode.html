@@ -2,32 +2,33 @@
 		"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-	<title>doh.robot Custom TreeNode Test</title>
+	<title>robot Custom TreeNode Test</title>
 
 	<style>
 		@import "../../../../util/doh/robot/robot.css";
 	</style>
 
-	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../../dojo/dojo.js"></script>
 
 	<script type="text/javascript">
-		dojo.require("dijit.robotx");
-		dojo.require("dijit.tests.helpers");		// for waitForLoad()
+		require([
+			"doh/runner", "dojo/robotx",
+			"dojo/keys", "dojo/query",
+			"dijit/tests/helpers","dojo/domReady!"
+		], function(doh, robot, keys, query, helpers){
 
-		var tree,registry;
+			var tree,registry;
 
-		dojo.ready(function(){
-			doh.robot.initRobot('../test_Custom_TreeNode.html');
+			robot.initRobot('../test_Custom_TreeNode.html');
 
 			doh.register("_setup", [
 				{
 					name: "wait for widgets to load",
 					timeout: 10000,
-					runTest: waitForLoad
+					runTest: helpers.waitForLoad
 				},
 				function setVars(){
-					registry = dojo.global.require("dijit/registry");
+					registry = robot.window.require("dijit/registry");
 					tree = dojo.global.tree;
 				}
 			]);
@@ -39,14 +40,14 @@
 					runTest: function(){
 						var d = new doh.Deferred();
 
-						var firstVisibleNode = dojo.query(".dijitTreeLabel")[1];
+						var firstVisibleNode = query(".dijitTreeLabel", robot.doc)[1];
 						firstVisibleNode.focus();
 
-						doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100);
-						doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100);
-						doh.robot.sequence(d.getTestCallback(function(){
+						robot.keyPress(keys.RIGHT_ARROW, 100);
+						robot.keyPress(keys.RIGHT_ARROW, 100);
+						robot.sequence(d.getTestCallback(function(){
 							var focus = dojo.global.dijit.focus.curNode;
-							doh.is("Child_0", innerText(focus), "focused on first child");
+							doh.is("Child_0", helpers.innerText(focus), "focused on first child");
 						}), 500);
 
 						return d;
