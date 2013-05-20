@@ -352,7 +352,9 @@ define([
 			var node = evt.target;
 			if(node._cssState && !node.getAttribute("widgetId")){
 				var widget = registry.getEnclosingWidget(node);
-				widget._subnodeCssMouseEvent(node, node._cssState, evt);
+				if(widget){
+					widget._subnodeCssMouseEvent(node, node._cssState, evt);
+				}
 			}
 		});
 	});
