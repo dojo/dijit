@@ -301,7 +301,7 @@ define([
 				evt.stopPropagation();
 				evt.preventDefault();
 				this._searchString = ''; // so a DOWN_ARROW b doesn't search for ab
-			}else if(evt.keyCode == keys.SPACE && this._searchTimer && !(evt.ctrlKey || evt.altKey)){
+			}else if(evt.keyCode == keys.SPACE && this._searchTimer && !(evt.ctrlKey || evt.altKey || evt.metaKey)){
 				evt.stopImmediatePropagation(); // stop a11yclick and _HasDropdown from seeing SPACE if we're doing keyboard searching
 				evt.preventDefault(); // stop IE from scrolling, and most browsers (except FF) from sending keypress
 				this._keyboardSearch(evt, ' ');
@@ -314,8 +314,10 @@ define([
 			// tags:
 			//		private
 
-			if(evt.charCode < keys.SPACE || (evt.ctrlKey || evt.altKey) || (evt.charCode == keys.SPACE && this._searchTimer)){
-				// Avoid duplicate events on firefox (this is an arrow key that will be handled by keydown handler)
+			if(evt.charCode < keys.SPACE || evt.ctrlKey || evt.altKey || evt.metaKey ||
+					(evt.charCode == keys.SPACE && this._searchTimer)){
+				// Avoid duplicate events on firefox (ex: arrow key that will be handled by keydown handler),
+				// and also control sequences like CMD-Q
 				return;
 			}
 			evt.preventDefault();
