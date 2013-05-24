@@ -26,7 +26,7 @@ define([
 		templateString: template,
 
 		postCreate: function() {
-			if(!this.legend){
+			if(!this.title){
 				var legends = query('legend', this.containerNode);
 				if(legends.length) { // oops, no legend?
 					this.set('title', legends[0].innerHTML);
