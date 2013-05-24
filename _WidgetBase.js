@@ -1148,10 +1148,13 @@ define([
 			//		Wrapper to setTimeout to avoid deferred functions executing
 			//		after the originating widget has been destroyed.
 			//		Returns an object handle with a remove method (that returns null) (replaces clearTimeout).
-			// fcn: function reference
-			// delay: Optional number (defaults to 0)
+			// fcn: Function
+			//		Function reference.
+			// delay: Number?
+			//		Delay, defaults to 0.
 			// tags:
-			//		protected.
+			//		protected
+
 			var timer = setTimeout(lang.hitch(this,
 				function(){
 					if(!timer){
