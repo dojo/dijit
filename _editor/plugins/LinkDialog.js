@@ -8,12 +8,11 @@ define([
 	"dojo/sniff", // has("ie")
 	"dojo/query", // query
 	"dojo/string", // string.substitute
-	"../../_Widget",
 	"../_Plugin",
 	"../../form/DropDownButton",
 	"../range"
 ], function(require, declare, domAttr, keys, lang, on, has, query, string,
-	_Widget, _Plugin, DropDownButton, rangeapi){
+	_Plugin, DropDownButton, rangeapi){
 
 	// module:
 	//		dijit/_editor/plugins/LinkDialog
