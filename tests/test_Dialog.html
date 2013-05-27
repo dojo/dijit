@@ -81,10 +81,13 @@
 <body class="claro" role="main">
 
 	<script type="dojo/require">
+		dom: "dojo/dom",
 		registry: "dijit/registry"
 	</script>
 
 	<h1 class="testTitle">Dijit.Dialog tests</h1>
+
+	<h2>General Dialogs:</h2>
 	<button id="dialog1button" data-dojo-type="dijit/form/Button"  data-dojo-props='onClick:function(){ registry.byId("dialog1").show() }'>Show Dialog</button> |
 
 	<div id="dialog1" data-dojo-type="dijit/Dialog" data-dojo-props='title:"First Dialog",
@@ -422,6 +425,29 @@
 					onClick='registry.byId("unclosable").onCancel();'>Cancel</button>
 		</div>
 	</div>
+
+	<h2>Simulated Editor with Dialog:</h2>
+	<div id="editorDialog" data-dojo-type="dijit/Dialog" title="Insert Text" data-dojo-props="refocus: false">
+		<script type="dojo/method" data-dojo-event="execute">
+			var editor = dom.byId("editor"), newVal = dom.byId("dialogTextarea").value;
+			console.log("focusing editor and setting value to " + newVal);
+			editor.focus();
+			editor.value = newVal;
+		</script>
+		<p>
+			Enter text then hit OK.
+			Focus will be shifted to "editor" below and text will be inserted.
+		</p>
+		<textarea id="dialogTextarea" style="width: 90%" placeholder="enter text here"></textarea>
+		<br>
+		<button data-dojo-type="dijit/form/Button" type="submit">OK</button>
+	</div>
+	<div style="background-color: #eee; border: solid gray 1px; width: 90%;">
+		<button id="insertTextButton" onclick="registry.byId('editorDialog').show();">insert text</button>
+	</div>
+	<textarea id="editor" style="width: 90%; border: solid gray 1px; border-top: none;">
+		The button above will open a Dialog to reset the text in this textarea.
+	</textarea>
 
 	<p><b><i>(scroll down to see more links to click, for testing positioning / scroll handling)</i></b></p>
 
