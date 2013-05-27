@@ -566,7 +566,10 @@ define([
 					DialogUnderlay.show(pd.underlayAttrs, pd.zIndex - 1);
 				}
 
-				// Adjust focus
+				// Adjust focus.
+				// TODO: regardless of setting of dialog.refocus, if the exeucte() method set focus somewhere,
+				// don't shift focus back to button.  Note that execute() runs at the start of the fade-out but
+				// this code runs later, at the end of the fade-out.  Menu has code like this.
 				if(dialog.refocus){
 					// If we are returning control to a previous dialog but for some reason
 					// that dialog didn't have a focused field, set focus to first focusable item.
@@ -624,8 +627,11 @@ define([
 	// then refocus.   Won't do anything if focus was removed because the Dialog was closed, or
 	// because a new Dialog popped up on top of the old one, or when focus moves to popups
 	focus.watch("curNode", function(attr, oldNode, node){
+ 		// Note: if no dialogs, ds.length==1 but ds[ds.length-1].dialog is null
 		var topDialog = ds[ds.length - 1].dialog;
-		if(node && topDialog){	// if no dialogs, ds.length==1 but ds[ds.length-1].dialog is null
+
+		// If a node was focused, and there's a Dialog currently showing, and not in the process of fading out...
+		if(node && topDialog && !topDialog._fadeOutDeferred){
 			// If the node that was focused is inside the dialog or in a popup, even a context menu that isn't
 			// technically a descendant of the the dialog, don't do anything.
 			do{

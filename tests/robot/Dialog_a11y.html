@@ -531,6 +531,37 @@
 					}
 				]);
 
+				// Negative test for "focus return".   If the execute() handler shifts focus somewhere,
+				// make sure it isn't automatically shifted back to the Dialog (which is fading out but
+				// not yet hidden).
+				doh.register("focus in execute", [
+					{
+						name: "use dialog",
+						timeout: 15000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// Open the dialog
+							dom.byId("insertTextButton", robot.doc).focus();
+							robot.keyPress(keys.SPACE, 500, {});
+
+							// Enter some info
+							robot.typeKeys("Hello world", 2000, 600);
+
+							// Submit
+							robot.keyPress(keys.TAB, 1000, {});
+							robot.keyPress(keys.SPACE, 1000, {});
+
+							robot.sequence(d.getTestCallback(function(){
+								doh.is("editor", dfocus.curNode.id, "focus returned to editor");
+								doh.is("Hello world", dom.byId("editor", robot.doc).value, "text inserted");
+							}), 1000);
+
+							return d;
+						}
+					}
+				]);
+
 				doh.register("closable", [
 					{
 						name: "open dialog",
