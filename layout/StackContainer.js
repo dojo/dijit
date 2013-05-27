@@ -12,8 +12,7 @@ define([
 	"dojo/when",
 	"../registry", // registry.byId
 	"../_WidgetBase",
-	"./_LayoutWidget",
-	"dojo/i18n!../nls/common"
+	"./_LayoutWidget"
 ], function(array, cookie, declare, domClass, domConstruct, has, lang, on, ready, topic, when, registry, _WidgetBase, _LayoutWidget){
 
 	// module:
