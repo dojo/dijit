@@ -32,12 +32,12 @@
 			});
 
 			doh.register("programmatic", function(){
-				var fs2 = (new Fieldset({
-					id: 'fs2',
+				var fsProg = (new Fieldset({
+					id: 'fsProg',
 					title: 'Programmatic',
 					content: '<p>I was created programmatically!</p>'
 				})).placeAt(document.body);
-				doh.t(!!fs2, "widget created");
+				doh.t(!!fsProg, "widget created");
 			});
 
 			doh.run();
@@ -48,6 +48,10 @@
 	<h1 class="testTitle">Fieldset Automated (non-robot) tests</h1>
 	<fieldset id="fs1" data-dojo-id="fs1" data-dojo-type="dijit/Fieldset">
 		<legend>Declarative</legend>
+		<p>Some content</p>
+	</fieldset>
+	<fieldset id="fs2" data-dojo-id="fs2" data-dojo-type="dijit/Fieldset" data-dojo-props="toggleable: false">
+		<legend>Not Toggleable</legend>
 		<p>Some content</p>
 	</fieldset>
 </body>

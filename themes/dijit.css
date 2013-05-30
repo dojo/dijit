@@ -1016,20 +1016,15 @@ body .dijitAlignClient { position: absolute; }
 .dijitFieldset {
 	border: 1px solid gray;
 }
-.dijitTitlePaneTitle, .dijitFieldset legend {
+.dijitTitlePaneTitle, .dijitFieldsetTitle {
 	cursor: pointer;
 	-webkit-tap-highlight-color: transparent;
 }
-.dijitFixedOpen, .dijitFixedClosed {
-	/* TitlePane that cannot be toggled */
+.dijitTitlePaneTitleFixedOpen, .dijitTitlePaneTitleFixedClosed,
+.dijitFieldsetTitleFixedOpen, .dijitFieldsetTitleFixedClosed {
+	/* TitlePane or Fieldset that cannot be toggled */
 	cursor: default;
 }
-.dijitFixedOpen .dijitArrowNode, .dijitFixedOpen .dijitArrowNodeInner,
-.dijitFixedClosed .dijitArrowNode, .dijitFixedClosed .dijitArrowNodeInner{
-	/* don't show the open close icon, it makes the user think the pane is closable*/
-	display: none;
-}
-
 .dijitTitlePaneTitle * {
 	vertical-align: middle;
 }
@@ -1039,12 +1034,19 @@ body .dijitAlignClient { position: absolute; }
 }
 .dj_a11y .dijitTitlePane .dijitArrowNodeInner, .dj_a11y .dijitFieldset .dijitArrowNodeInner {
 	/* ... except in a11y mode, then show text arrow */
-	display:inline !important;
+	display: inline;
 	font-family: monospace;		/* because - and + are different widths */
 }
 .dj_a11y .dijitTitlePane .dijitArrowNode, .dj_a11y .dijitFieldset .dijitArrowNode {
 	/* ... and hide icon (TODO: just point dijitIcon class on the icon, and it hides automatically) */
-	display:none;
+	display: none;
+}
+.dijitTitlePaneTitleFixedOpen .dijitArrowNode, .dijitTitlePaneTitleFixedOpen .dijitArrowNodeInner,
+.dijitTitlePaneTitleFixedClosed .dijitArrowNode, .dijitTitlePaneTitleFixedClosed .dijitArrowNodeInner,
+.dijitFieldsetTitleFixedOpen .dijitArrowNode, .dijitFieldsetTitleFixedOpen .dijitArrowNodeInner,
+.dijitFieldsetTitleFixedClosed .dijitArrowNode, .dijitFieldsetTitleFixedClosed .dijitArrowNodeInner {
+	/* don't show the open close icon or text arrow; it makes the user think the pane is closable */
+	display: none !important;	/* !important to override above a11y rules to show text arrow */
 }
 
 .dj_ie6 .dijitTitlePaneContentOuter,
