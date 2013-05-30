@@ -28,33 +28,46 @@
 		<script type="text/javascript" src="../_testCommon.js"></script>
 
 		<script type="text/javascript">
-				dojo.require("dijit.dijit"); // optimize: load dijit layer
+			var registry, dom;
+			require([
+				"doh/runner",
+				"dojo/dom",
+				"dojo/parser",
+				"dojo/ready",
+				"dijit/registry",
+				"dijit/tests/helpers",
+				"dijit/form/Button",
+				"dijit/form/HorizontalSlider",
+				"dijit/form/VerticalSlider",
+				"dijit/form/HorizontalRule",
+				"dijit/form/VerticalRule",
+				"dijit/form/HorizontalRuleLabels",
+				"dijit/form/VerticalRuleLabels",
+				"dojo/domReady!"
+			], function(doh, dm, parser, ready, rgstry, helpers,
+					Button, HorizontalSlider, VerticalSlider, HorizontalRule, VerticalRule, HorizontalRuleLabels, VerticalRuleLabels){
 
-				dojo.require("dijit.form.HorizontalSlider");
-				dojo.require("dijit.form.VerticalSlider");
-				dojo.require("dijit.form.HorizontalRule");
-				dojo.require("dijit.form.VerticalRule");
-				dojo.require("dijit.form.HorizontalRuleLabels");
-				dojo.require("dijit.form.VerticalRuleLabels");
-
-				dojo.require("dijit.form.Button");
-				dojo.require("dojo.parser"); // scan page for widgets
+				// Add test=true to the URL to run unit tests.
+				var test = /mode=test/i.test(window.location.href);
+	
+				registry = rgstry;
+				dom = dm;
 
 				// programatic vertical slider and labels
 				var programaticExample = function(noSrcNodeRef){
 
 					var node;
-					if (!noSrcNodeRef){ node = dojo.byId("programaticSlider"); }
+					if (!noSrcNodeRef){ node = dom.byId("programaticSlider"); }
 					// or var node = dojo.body().appendChild(document.createElement('div'));
 
 					// setup the rules
-					var sliderRules = new dijit.form.VerticalRule({
+					var sliderRules = new VerticalRule({
 						count:11,
 						style:{width:"5px"}
 					}, noSrcNodeRef ? undefined : dojo.create("div", {}, node));
 
 					// setup RuleLabels
-					var sliderRuleLabels = new dijit.form.VerticalRuleLabels({
+					var sliderRuleLabels = new VerticalRuleLabels({
 						labels: ["low", "mid", "high"]
 					}, noSrcNodeRef ? undefined : dojo.create("div", {}, node));
 
@@ -64,7 +77,7 @@
 						name:"programaticSlider",
 						"aria-label":"programatic slider",
 						slideDuration:0,
-						onChange:function(val){ dojo.byId('sliderProgInput').value=val; },
+						onChange:function(val){ dom.byId('sliderProgInput').value=val; },
 						style:{height:"165px"},
 						minimum:1000,
 						maximum:3000,
@@ -78,7 +91,7 @@
 						sliderProps.id = sliderProps.name = "programmaticSliderNoSrc";
 					}
 
-					var theSlider = new dijit.form.VerticalSlider(sliderProps, node);
+					var theSlider = new VerticalSlider(sliderProps, node);
 
 					if(noSrcNodeRef){
 						node = theSlider.containerNode;
@@ -94,15 +107,75 @@
 					sliderRuleLabels.startup();
 				};
 				// test programmatic VerticalSlider/Rule/RuleDef with srcNodeRef
-				dojo.ready(programaticExample);
+				ready(programaticExample);
 				// test programmatic VerticalSlider/Rule/RuleDef WITHOUT srcNodeRef
-				dojo.ready(function(){
+				ready(function(){
 					try{
 						programaticExample(true);
 					}catch(e){
 						console.error("BUG #13815", e);
 					}
+
+					if(test){
+						// aria role and properties tests.
+						doh.register("aria",
+							function testit(){
+								var slider = registry.byId("slider1");
+								doh.is("slider", slider.focusNode.getAttribute("role"), "aria role (slider)");
+								doh.is(slider.minimum, slider.focusNode.getAttribute("aria-valuemin"), "aria-valuemin");
+								doh.is(slider.maximum, slider.focusNode.getAttribute("aria-valuemax"), "aria-valuemax");
+								doh.is(slider.get('value'), slider.focusNode.getAttribute("aria-valuenow"), "initial aria-valuenow");
+								var half = (slider.maximum + slider.minimum) >> 1;
+								slider.set('value', half, true);
+								doh.is(half, slider.focusNode.getAttribute("aria-valuenow"), "half aria-valuenow");
+							}
+						);
+	
+						doh.register("API", [
+							function increment(){
+								var slider = registry.byId("slider1");
+								var v = slider.get('value');
+								slider._bumpValue(1, true);
+								var v2 = slider.get('value');
+								doh.t(v2 > v, "increment");
+								slider.maximum = v2;
+								slider._bumpValue(1, true);
+								var v3 = slider.get('value');
+								doh.is(v2, v3, "no increment");
+							},
+							function decrement(){
+								var slider = registry.byId("slider1");
+								var v = slider.get('value');
+								slider._bumpValue(-1, true);
+								var v2 = slider.get('value');
+								doh.t(v2 < v, "decrement");
+								slider.minimum = v2;
+								slider._bumpValue(-1, true);
+								var v3 = slider.get('value');
+								doh.is(v2, v3, "no decrement");
+							},
+							function locked(){
+								var slider = registry.byId("slider1");
+								var v = slider.get('value');
+								slider.maximum = slider.minimum;
+								slider._bumpValue(-1, true);
+								var v2 = slider.get('value');
+								doh.is(v, v2, "no decrement");
+								slider._bumpValue(1, true);
+								var v2 = slider.get('value');
+								doh.is(v, v2, "no increment");
+								this.slideDuration = 0;
+								slider.set('value', v, true);
+								slider.progressBar.style.width = "0%";
+								slider.remainingBar.style.width = "100%";
+								
+							}
+						]);
+					
+						doh.run();
+					}
 				});
+			});
 		</script>
 	</head>
 
@@ -116,7 +189,7 @@
 		<br>initial value=10, min=0, max=100, pageIncrement=100, onChange event triggers input box value change immediately<br>
 		<strong>Horizontal Slider Example</strong>
 		<div id="slider1" data-dojo-type="dijit/form/HorizontalSlider" aria-label="slider 1" data-dojo-props='name:"horizontal1",
-			onChange:function(val){ dojo.byId("slider1input").value=dojo.number.format(val/100,{places:1,pattern:"#%"}); },
+			onChange:function(val){ dom.byId("slider1input").value=dojo.number.format(val/100,{places:1,pattern:"#%"}); },
 			value:10,
 			maximum:100,
 			minimum:0,
@@ -138,13 +211,13 @@
 
 		<label for="slider1input">Slider1 Value:</label><input readonly id="slider1input" size="4" value="10.0%"/>
 		<br>
-		<button id="disableButton" data-dojo-type="dijit/form/Button" data-dojo-props='onClick:function(){ dijit.byId("slider1").set("disabled", true);dijit.byId("disableButton").set("disabled",true);dijit.byId("enableButton").set("disabled",false); }'>Disable previous slider</button>
-		<button id="enableButton" data-dojo-type="dijit/form/Button" data-dojo-props='onClick:function(){ dijit.byId("slider1").set("disabled",false);dijit.byId("disableButton").set("disabled",false);dijit.byId("enableButton").set("disabled", true); }, disabled:true'>Enable previous slider</button>
+		<button id="disableButton" data-dojo-type="dijit/form/Button" data-dojo-props='onClick:function(){ registry.byId("slider1").set("disabled", true);registry.byId("disableButton").set("disabled",true);registry.byId("enableButton").set("disabled",false); }'>Disable previous slider</button>
+		<button id="enableButton" data-dojo-type="dijit/form/Button" data-dojo-props='onClick:function(){ registry.byId("slider1").set("disabled",false);registry.byId("disableButton").set("disabled",false);registry.byId("enableButton").set("disabled", true); }, disabled:true'>Enable previous slider</button>
 		<br>
 		<br>initial value=10, min=0, max=100, onChange event triggers input box value change when you mouse up or tab away<br>
 		<strong>Vertical Slider Example</strong>
 		<div id="slider2" data-dojo-type="dijit/form/VerticalSlider" data-dojo-props='name:"vertical1",
-			onChange:function(val){ dojo.byId("slider2input").value = val; },
+			onChange:function(val){ dom.byId("slider2input").value = val; },
 			value:10,
 			maximum:100,
 			minimum:0,
@@ -198,7 +271,7 @@
 		<h1>horizontal, with buttons, disabled (to show styling):</h1>
 
 		<div id="sliderH2" aria-label="horizontal slider 2" data-dojo-type="dijit/form/HorizontalSlider" data-dojo-props='name:"horizontalH2",
-			onChange:function(val){ dojo.byId("slider1input").value = val; },
+			onChange:function(val){ dom.byId("slider1input").value = val; },
 			value:10,
 			maximum:100,
 			minimum:0,

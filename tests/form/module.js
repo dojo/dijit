@@ -40,6 +40,7 @@ define(["doh/main", "require"], function(doh, require){
 
 	doh.register("form.robot.SimpleTextarea", require.toUrl("./robot/SimpleTextarea.html"), 999999);
 	
+	doh.register("form.Slider", require.toUrl("./test_Slider.html?mode=test"), 999999);
 	doh.register("form.robot.Slider_mouse", require.toUrl("./robot/Slider_mouse.html"), 999999);
 	doh.register("form.robot.Slider_a11y", require.toUrl("./robot/Slider_a11y.html"), 999999);
 
