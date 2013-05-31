@@ -162,7 +162,7 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 		//		of the option is empty or missing, a separator is created instead.
 		//		Passing in an array of options will yield slightly better performance
 		//		since the children are only loaded once.
-		array.forEach([].concat(option), function(i){
+		array.forEach(lang.isArray(option) ? option : [option], function(i){
 			if(i && lang.isObject(i)){
 				this.options.push(i);
 			}
@@ -179,7 +179,7 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 		//		You can also pass in an array of those values for a slightly
 		//		better performance since the children are only loaded once.
 		//		For numeric option values, specify {value: number} as the argument.
-		var oldOpts = this.getOptions([].concat(valueOrIdx));
+		var oldOpts = this.getOptions(lang.isArray(valueOrIdx) ? valueOrIdx : [valueOrIdx]);
 		array.forEach(oldOpts, function(option){
 			// We can get null back in our array - if our option was not found.  In
 			// that case, we don't want to blow up...
@@ -199,7 +199,7 @@ var _FormSelectWidget = declare("dijit.form._FormSelectWidget", _FormValueWidget
 		//		is matched based on the value of the entered option.  Passing
 		//		in an array of new options will yield better performance since
 		//		the children will only be loaded once.
-		array.forEach([].concat(newOption), function(i){
+		array.forEach(lang.isArray(newOption) ? newOption : [newOption], function(i){
 			var oldOpt = this.getOptions({ value: i.value }), k;
 			if(oldOpt){
 				for(k in i){ oldOpt[k] = i[k]; }

@@ -448,14 +448,17 @@
 						// TODO: should be supported/tested through set("store", ...), although
 						// I guess that wouldn't allow setting the selected item at the same time.
 						function test_setStore(t){
+							t.is(7, ds12.getOptions().length);
 							t.is("AL", ds12.value);
 							ds12.setStore(memoryStore2, "FL");
+							t.is(7, ds12.getOptions().length);
 							t.is("FL", ds12.value);
 							ds12.setStore(memoryStore, "CA");
+							t.is(7, ds12.getOptions().length);
 							t.is("CA", ds12.value);
 							ds12.setStore(memoryStore2);
-							t.is("DE", ds12.value);
 							t.is(7, ds12.getOptions().length);
+							t.is("DE", ds12.value);
 						}
 					]);
 					
