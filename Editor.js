@@ -458,7 +458,7 @@ define([
 			var col = b.isCollapsed;
 			var r, sNode, eNode, sel;
 			if(mark){
-				if(has("ie") < 9){
+				if(has("ie") < 9 || (has("ie") === 9 && has("quirks"))){
 					if(lang.isArray(mark)){
 						// IE CONTROL, have to use the native bookmark.
 						bookmark = [];
@@ -586,7 +586,7 @@ define([
 			var tmp = [];
 			if(b && b.mark){
 				var mark = b.mark;
-				if(has("ie") < 9){
+				if(has("ie") < 9 || (has("ie") === 9 && has("quirks"))){
 					// Try to use the pseudo range API on IE for better accuracy.
 					var sel = rangeapi.getSelection(this.window);
 					if(!lang.isArray(mark)){
