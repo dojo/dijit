@@ -340,6 +340,9 @@ define([
 				this.defer(function(){
 					this._onInput(faux);
 				}); // widget notification after key has posted
+				if(e.type == "keypress"){
+					e.stopPropagation(); // don't allow parents to stop printables from being typed
+				}
 			};
 			this.own(on(this.textbox, "keydown, keypress, paste, cut, input, compositionend", lang.hitch(this, handleEvent)));
 		},
