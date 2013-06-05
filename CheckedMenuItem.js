@@ -13,7 +13,7 @@ define([
 		// summary:
 		//		A checkbox-like menu item for toggling on and off
 
-		baseClass: "dijitCheckedMenuItem",
+		baseClass: "dijitMenuItem dijitCheckedMenuItem",
 
 		templateString: template,
 
