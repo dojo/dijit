@@ -349,6 +349,31 @@ require([
 		}
 	]);
 
+	doh.register("dijit.Dialog InlineEditBox w/Editor tests", [
+		{
+			name: "#17225",
+			timeout: 10000,
+			runTest: function(){
+				var d = new doh.Deferred();
+
+				// Open the dialog
+				robot.mouseMoveAt("iebDialogBtn", 1000);
+				robot.mouseClick({left: true}, 1000);
+
+				// Open second InlineEditBox
+				robot.mouseMoveAt("inlineRTE2", 1000);
+				robot.mouseClick({left: true}, 1000);
+
+				// Test that editor didn't close immediately and focus move back to the first field
+				robot.sequence(d.getTestCallback(function(){
+					doh.t(helpers.isVisible("RTE2"), "editor 2 visible");
+				}), 1000);
+
+				return d;
+			}
+		}
+	]);
+
 	doh.run();
 });
 </script>

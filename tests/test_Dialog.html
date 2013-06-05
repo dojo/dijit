@@ -23,6 +23,8 @@
 			"dijit/Dialog",
 
 			// used by parser
+			"dijit/Editor",
+			"dijit/_editor/plugins/AlwaysShowToolbar",
 			"dijit/InlineEditBox",
 			"dijit/Menu",
 			"dijit/MenuItem",
@@ -424,6 +426,34 @@
 			<button id="unclosableCancel" data-dojo-type="dijit/form/Button" type="button"
 					onClick='registry.byId("unclosable").onCancel();'>Cancel</button>
 		</div>
+	</div>
+
+	<button id="iebDialogBtn" data-dojo-type="dijit/form/Button"
+			data-dojo-props='onClick:function(){ registry.byId("iebDialog").show(); }'>
+		Show Dialog With InlineEditBox Editors
+	</button> |
+	<div id="iebDialog" data-dojo-type="dijit/Dialog" title="Test Dialog with Autosave Inline Rich Text Editors">
+		<h2>Editor 1</h2>
+		<div id="inlineRTE1" data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit/Editor",
+            autoSave:true, renderAsHtml:true,
+            editorParams:{id: "RTE1", height: "", extraPlugins: ["dijit._editor.plugins.AlwaysShowToolbar"]}'>
+			first text
+		</div>
+
+		<h2>Editor 2</h2>
+		<div id="inlineRTE2" data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit/Editor",
+            autoSave:true, renderAsHtml:true,
+            editorParams:{id: "RTE2", height: "", extraPlugins: ["dijit._editor.plugins.AlwaysShowToolbar"]}'>
+			second text
+		</div>
+
+		<h2>Editor 3</h2>
+		<div id="inlineRTE3" data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:"dijit/Editor",
+            autoSave:true, renderAsHtml:true,
+            editorParams:{id: "RTE3", height: "", extraPlugins: ["dijit._editor.plugins.AlwaysShowToolbar"]}'>
+			third text
+		</div>
+
 	</div>
 
 	<h2>Simulated Editor with Dialog:</h2>
