@@ -508,6 +508,49 @@
 				}
 			]);
 
+			doh.register("show/hide return", [
+				{
+					name: "open",
+					timeout: 10000,
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						dlg5 = new Dialog({
+							id: "dlg5",
+							title: "dialog 1",
+							content: "<input id='dlg1_inputA'>"
+						});
+
+						// This tests that show() returns a promise.
+						dlg5.show().then(d.getTestCallback(function(){
+							// And this tests that it still returns a promise even when the Dialog is already shown.
+							var promise = dlg5.show();
+							doh.t(promise.isResolved(), "resolved");
+							doh.t(helpers.isVisible(dlg5), "dialog visible");
+						}));
+						
+						return d;
+					}
+				},
+				{
+					name: "close",
+					timeout: 10000,
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						// This tests that hide() returns a promise.
+						dlg5.hide().then(d.getTestCallback(function(){
+							// And this tests that it still returns a promise even when the Dialog is already hidden.
+							var promise = dlg5.hide();
+							doh.t(promise.isResolved(), "resolved");
+							doh.t(helpers.isHidden(dlg5), "dialog hidden");
+						}));
+
+						return d;
+					}
+				}
+			]);
+
 			doh.register("sizing", [
 				{
 					name: "href",

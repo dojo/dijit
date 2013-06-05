@@ -37,6 +37,9 @@ define([
 	// module:
 	//		dijit/Dialog
 
+	var resolvedDeferred = new Deferred();
+	resolvedDeferred.resolve(true);
+
 	var _DialogBase = declare("dijit._DialogBase" + (has("dojo-bidi") ? "_NoBidi" : ""), [_TemplatedMixin, _FormMixin, _DialogMixin, _CssStateMixin], {
 		templateString: template,
 
@@ -313,7 +316,7 @@ define([
 			//		Promise object that resolves when the display animation is complete
 
 			if(this.open){
-				return;
+				return resolvedDeferred.promise;
 			}
 
 			if(!this._started){
@@ -391,7 +394,7 @@ define([
 			// If we haven't been initialized yet then we aren't showing and we can just return.
 			// Likewise if we are already hidden, or are currently fading out.
 			if(!this._alreadyInitialized || !this.open){
-				return;
+				return resolvedDeferred.promise;
 			}
 			if(this._fadeInDeferred){
 				this._fadeInDeferred.cancel();
