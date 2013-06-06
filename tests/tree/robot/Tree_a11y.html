@@ -111,6 +111,23 @@
 			//		- home/end
 			//		- space/enter to select tree nodes (although this is also covered in Tree_selector.html)
 
+			function toggleOpen(func, expanded){
+				return function(){
+					var d = new doh.Deferred();
+
+					var mytree = registry.byId("mytree");
+
+					doh.is(expanded, mytree.focusedChild.isExpanded, "original state");
+
+					func(mytree.focusedChild.domNode);
+
+					robot.sequence(d.getTestCallback(function(){
+						doh.is(!expanded, mytree.focusedChild.isExpanded, "after state");
+					}), 500);
+
+					return d;
+				};
+			}
 			doh.register("basic keyboard", [
 				{
 					name: "setup",
@@ -280,41 +297,19 @@
 				},
 
 				{
-					name: "click to open",
+					name: "ENTER to open",
 					timeout: 4000,
-					runTest: function(){
-						var d = new doh.Deferred();
-
-						var mytree = registry.byId("mytree");
-
-						doh.f(mytree.focusedChild.isExpanded, "initially collapsed");
-
-						robot.keyPress(keys.ENTER, 300);	// since openOnClick==true, this closes the node
-
-						robot.sequence(d.getTestCallback(function(){
-							doh.t(mytree.focusedChild.isExpanded, "now expanded");
-						}), 500);
-
-						return d;
-					}
+					runTest: toggleOpen(function(){
+							robot.keyPress(keys.ENTER, 300);        // since openOnClick==true, this opens the node
+						}, false)
 				},
 
 				{
-					name: "click to close",
+					name: "ENTER to close",
 					timeout: 4000,
-					runTest: function(){
-						var d = new doh.Deferred();
-
-						var mytree = registry.byId("mytree");
-
-						robot.keyPress(keys.ENTER, 300);	// since openOnClick==true, this opens the node
-
-						robot.sequence(d.getTestCallback(function(){
-							doh.f(mytree.focusedChild.isExpanded, "now collapsed");
-						}), 500);
-
-						return d;
-					}
+					runTest: toggleOpen(function(){
+							robot.keyPress(keys.ENTER, 300);        // since openOnClick==true, this closes the node
+						}, true)
 				},
 
 				{
@@ -424,6 +419,55 @@
 
 						return d;
 					}
+				},
+
+				{
+					name: "click to open",
+					timeout: 8000,
+					setUp: function(){
+						var node = dom.byId("mytree_before", robot.doc);
+						winUtils.scrollIntoView(node);
+						registry.byId("mytree").focus();
+						mytree.set("selectedItem", "AF"); // select African
+						mytree.focusedChild = mytree.get("selectedNode");
+					},
+					runTest: toggleOpen(function(node){
+							robot.mouseMoveAt(node);
+							robot.mouseClick({left:true}, 100);
+						}, true)
+				},
+
+				{
+					name: "click to close",
+					timeout: 8000,
+					runTest: toggleOpen(function(node){
+							robot.mouseClick({left:true}, 100);
+						}, false)
+				},
+
+				{
+					name: "double click to open",
+					timeout: 8000,
+					setUp: function(){
+						var mytree = registry.byId("mytree");
+						mytree.openOnClick = false;
+						mytree.openOnDblClick = true;
+					},
+					runTest: toggleOpen(function(node){
+							//robot.mouseMoveAt(node);
+							robot.mouseClick({left:true}, 100);
+							robot.mouseClick({left:true}, 100);
+						}, true)
+				},
+
+				{
+					name: "double click to close",
+					timeout: 8000,
+					runTest: toggleOpen(function(node){
+							//robot.mouseMoveAt(node);
+							robot.mouseClick({left:true}, 100);
+							robot.mouseClick({left:true}, 100);
+						}, false)
 				}
 			]);
 

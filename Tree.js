@@ -1352,41 +1352,30 @@ define([
 			return dom.isDescendant(node, widget.expandoNode) || dom.isDescendant(node, widget.expandoNodeText);
 		},
 
-		_onClick: function(/*TreeNode*/ nodeWidget, /*Event*/ e){
-			// summary:
-			//		Translates click events into commands for the controller to process
-
+		__click: function(/*TreeNode*/ nodeWidget, /*Event*/ e, /*Boolean*/doOpen, /*String*/func){
 			var domElement = e.target,
 				isExpandoClick = this.isExpandoNode(domElement, nodeWidget);
 
-			if(nodeWidget.isExpandable && (this.openOnClick || isExpandoClick)){
+			if(nodeWidget.isExpandable && (doOpen || isExpandoClick)){
 				// expando node was clicked, or label of a folder node was clicked; open it
 				this._onExpandoClick({node: nodeWidget});
 			}else{
 				this._publish("execute", { item: nodeWidget.item, node: nodeWidget, evt: e });
-				this.onClick(nodeWidget.item, nodeWidget, e);
+				this[func](nodeWidget.item, nodeWidget, e);
 				this.focusNode(nodeWidget);
 			}
 			e.stopPropagation();
 			e.preventDefault();
 		},
+		_onClick: function(/*TreeNode*/ nodeWidget, /*Event*/ e){
+			// summary:
+			//		Translates click events into commands for the controller to process
+			this.__click(nodeWidget, e, this.openOnClick, 'onClick');
+		},
 		_onDblClick: function(/*TreeNode*/ nodeWidget, /*Event*/ e){
 			// summary:
 			//		Translates double-click events into commands for the controller to process
-
-			var domElement = e.target,
-				isExpandoClick = (domElement == nodeWidget.expandoNode || domElement == nodeWidget.expandoNodeText);
-
-			if(nodeWidget.isExpandable && (this.openOnClick || isExpandoClick)){
-				// expando node was clicked, or label of a folder node was clicked; open it
-				this._onExpandoClick({node: nodeWidget});
-			}else{
-				this._publish("execute", { item: nodeWidget.item, node: nodeWidget, evt: e });
-				this.onDblClick(nodeWidget.item, nodeWidget, e);
-				this.focusNode(nodeWidget);
-			}
-			e.stopPropagation();
-			e.preventDefault();
+			this.__click(nodeWidget, e, this.openOnDblClick, 'onDblClick');
 		},
 
 		_onExpandoClick: function(/*Object*/ message){
