@@ -111,6 +111,23 @@
 			//		- home/end
 			//		- space/enter to select tree nodes (although this is also covered in Tree_selector.html)
 
+			function toggle(func, expanded){
+				return function(){
+					var d = new doh.Deferred();
+
+					var mytree = registry.byId("mytree");
+
+					doh.is(expanded, mytree.focusedChild.isExpanded, "original state");
+
+					func(mytree.focusedChild.click );
+
+					robot.sequence(d.getTestCallback(function(){
+						doh.is(!expanded, mytree.focusedChild.isExpanded, "after state");
+					}), 500);
+
+					return d;
+				};
+			}
 			doh.register("basic keyboard", [
 				{
 					name: "setup",
@@ -280,41 +297,19 @@
 				},
 
 				{
-					name: "click to open",
+					name: "ENTER to open",
 					timeout: 4000,
-					runTest: function(){
-						var d = new doh.Deferred();
-
-						var mytree = registry.byId("mytree");
-
-						doh.f(mytree.focusedChild.isExpanded, "initially collapsed");
-
-						robot.keyPress(keys.ENTER, 300);	// since openOnClick==true, this closes the node
-
-						robot.sequence(d.getTestCallback(function(){
-							doh.t(mytree.focusedChild.isExpanded, "now expanded");
-						}), 500);
-
-						return d;
-					}
+					runTest: toggle(function(){
+						robot.keyPress(keys.ENTER, 300);        // since openOnClick==true, this opens the node
+					}, false)
 				},
 
 				{
-					name: "click to close",
+					name: "ENTER to close",
 					timeout: 4000,
-					runTest: function(){
-						var d = new doh.Deferred();
-
-						var mytree = registry.byId("mytree");
-
-						robot.keyPress(keys.ENTER, 300);	// since openOnClick==true, this opens the node
-
-						robot.sequence(d.getTestCallback(function(){
-							doh.f(mytree.focusedChild.isExpanded, "now collapsed");
-						}), 500);
-
-						return d;
-					}
+					runTest: toggle(function(){
+						robot.keyPress(keys.ENTER, 300);        // since openOnClick==true, this closes the node
+					}, true)
 				},
 
 				{
