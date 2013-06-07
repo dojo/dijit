@@ -8,6 +8,7 @@ define(["doh/main", "require"], function(doh, require){
 
 	if(test_robot){
 		doh.register("tree.robot.Tree_a11y", require.toUrl("./robot/Tree_a11y.html"), 999999);
+		doh.register("tree.robot.Tree_mouse", require.toUrl("./robot/Tree_mouse.html"), 999999);
 		doh.register("tree.robot.Tree_Custom_TreeNode", require.toUrl("./robot/Tree_Custom_TreeNode.html"), 999999);
 		doh.register("tree.robot.Tree_DnD", require.toUrl("./robot/Tree_dnd.html"), 999999);
 		doh.register("tree.robot.Tree_selector", require.toUrl("./robot/Tree_selector.html"), 999999);
