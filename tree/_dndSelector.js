@@ -1,6 +1,5 @@
 define([
 	"dojo/_base/array", // array.filter array.forEach array.map
-	"dojo/_base/connect", // connect.isCopyKey
 	"dojo/_base/declare", // declare
 	"dojo/_base/kernel",	// global
 	"dojo/_base/lang", // lang.hitch
@@ -11,7 +10,7 @@ define([
 	"dojo/touch",
 	"../a11yclick",
 	"./_dndContainer"
-], function(array, connect, declare, kernel, lang, dndCommon, dom, mouse, on, touch, a11yclick, _dndContainer){
+], function(array, declare, kernel, lang, dndCommon, dom, mouse, on, touch, a11yclick, _dndContainer){
 
 	// module:
 	//		dijit/tree/_dndSelector
@@ -233,7 +232,7 @@ define([
 			// the deselection logic here, the user can drag an already selected item.
 			if(!this._doDeselect){ return; }
 			this._doDeselect = false;
-			this.userSelect(e.type == "keyup" ? this.tree.focusedChild : this.current, connect.isCopyKey(e), e.shiftKey);
+			this.userSelect(e.type == "keyup" ? this.tree.focusedChild : this.current, dndCommon.getCopyKeyState(e), e.shiftKey);
 		},
 		onMouseMove: function(/*===== e =====*/){
 			// summary:
