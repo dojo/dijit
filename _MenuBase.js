@@ -304,7 +304,9 @@ define([
 			if(item.popup){
 				this.set("selected", item);
 				this.set("activated", true);
-				this._openItemPopup(item, /^key/.test(evt._origType || evt.type));
+				var byKeyboard = /^key/.test(evt._origType || evt.type) ||
+					(evt.clientX == 0 && evt.clientY == 0);	// detects accessKey like ALT+SHIFT+F, where type is "click"
+				this._openItemPopup(item, byKeyboard);
 			}else{
 				// before calling user defined handler, close hierarchy of menus
 				// and restore focus to place it was when menu was opened
