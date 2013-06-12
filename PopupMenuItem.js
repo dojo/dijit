@@ -76,6 +76,7 @@ define([
 				this.popup = registry.byNode(node);
 			}
 			this.ownerDocumentBody.appendChild(this.popup.domNode);
+			this.popup.domNode.setAttribute("aria-labelledby", this.containerNode.id);
 			this.popup.startup();
 
 			this.popup.domNode.style.display="none";

@@ -118,6 +118,14 @@
 							robot.sequence(d.getTestCallback(function(){
 								doh.is("New", helpers.innerText(dfocus.curNode).substr(0, 3),
 										"focus on New menu item of the File menu (indirectly checks that menu is visible)");
+
+								// Check aria-labelledby property
+								var menuNode;
+								for(var menuNode = dfocus.curNode; menuNode.getAttribute("role") != "menu";
+									menuNode = menuNode.parentNode){}
+								var menuLabelNode = dom.byId(menuNode.getAttribute("aria-labelledby"), robot.doc),
+									menuLabel = helpers.innerText(menuLabelNode);
+								doh.is("File", menuLabel, "label of menu");
 							}), 1000);
 
 							return d;
