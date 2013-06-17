@@ -79,6 +79,38 @@
 					},
 
 					{
+						name: "click blank part of screen",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveTo({x: 10, y: 10}, 0, 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(isHidden("editMenu"), "edit menu was closed: " + dijit.byId("editMenu").domNode.style.cssText);
+							}), 1000);
+							return d;
+						}
+					},
+
+					{
+						name: "click button again",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveAt("edit", 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(isVisible("editMenu"), "edit menu is visible: " + dijit.byId("editMenu").domNode.style.cssText);
+							}), 1000);
+							return d;
+						}
+					},
+
+					{
 						name: "click menu",
 						timeout: 4000,
 						runTest: function(){
@@ -93,7 +125,6 @@
 							return d;
 						}
 					}
-
 				]);
 
 				doh.register("dijit.form.ComboButton", [
@@ -121,6 +152,41 @@
 
 					{
 						name: "click drop down button",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var rightPart = dojo.query(".dijitDownArrowButton", dojo.byId("save"))[0];
+							doh.t(rightPart, "found right part of button");
+
+							doh.robot.mouseMoveAt(rightPart, 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(isVisible("saveMenu"), "save menu is visible: " + dijit.byId("saveMenu").domNode.style.cssText);
+							}), 1000);
+							return d;
+						}
+					},
+
+					{
+						name: "click blank part of screen",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseMoveTo({x: 10, y: 10}, 0, 500);
+							doh.robot.mouseClick({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(isHidden("saveMenu"), "save menu was closed: " + dijit.byId("saveMenu").domNode.style.cssText);
+							}), 1000);
+							return d;
+						}
+					},
+
+					{
+						name: "click drop down button again",
 						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();

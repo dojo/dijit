@@ -110,7 +110,12 @@ define([
 			//		1. TimeTextBox etc. can focusthe <input> on mousedown
 			//		2. dropDownButtonActive class applied by _CssStateMixin (on button depress)
 			//		3. user defined onMouseDown handler fires
-			e.preventDefault();
+			//
+			// Also, don't call preventDefault() on MSPointerDown event (on IE10) because that prevents the button
+			// from getting focus, and then the focus manager doesn't know what's going on (#17262)
+			if(e.type != "MSPointerDown" && e.type != "pointerdown"){
+				e.preventDefault();
+			}
 
 			this._docHandler = this.connect(win.doc, touch.release, "_onDropDownMouseUp");
 
