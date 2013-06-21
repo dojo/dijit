@@ -231,6 +231,12 @@ define([
 		},
 
 		destroy: function(){
+			// If dropdown is open, close it, to avoid leaving dijit/focus in a strange state.
+			// Put focus back on me to avoid the focused node getting destroyed, which flummoxes IE.
+			if(this._opened){
+				this.closeDropDown(true);
+			}
+
 			if(this.dropDown){
 				// Destroy the drop down, unless it's already been destroyed.  This can happen because
 				// the drop down is a direct child of <body> even though it's logically my child.
@@ -441,7 +447,7 @@ define([
 
 			if(this._opened){
 				this._popupStateNode.setAttribute("aria-expanded", "false");
-				if(focus){
+				if(focus && this.focus){
 					this.focus();
 				}
 				popup.close(this.dropDown);

@@ -139,6 +139,27 @@ require([
 		}
 	]);
 
+	doh.register("destroy", [
+		function setup(){
+			dd = new SimpleDropDownButton({id: "dd2"}).placeAt(win.body());
+			popup = dd.dropDown;
+			doh.t(!!popup, "popup exists");
+		},
+		function open(){
+			var d = new doh.Deferred();
+			click(dd.domNode);
+			setTimeout(d.getTestCallback(function(){
+				doh.t(helpers.isVisible(popup), "popup visible");
+				doh.is(1, require("dijit/popup")._stack.length, "in popup manager stack");
+			}), 10);
+			return d;
+		},
+		function destroy(){
+			dd.destroy();
+			doh.is(0, require("dijit/popup")._stack.length, "popup was closed");
+		}
+	]);
+
 	doh.run();
 });
 </script>
