@@ -101,6 +101,9 @@ define([
 					self.onItemClick(registry.byNode(this), evt);
 					evt.stopPropagation();
 					evt.preventDefault();
+				}),
+				on(this.containerNode, on.selector(matches, "focusin"), function(){
+					self._onItemFocus(registry.byNode(this));
 				})
 			);
 			this.inherited(arguments);

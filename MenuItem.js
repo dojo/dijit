@@ -116,18 +116,6 @@ define([
 			}
 		},
 
-		_onFocus: function(){
-			// summary:
-			//		This is called by the focus manager when focus
-			//		goes to this MenuItem or a child menu.
-			// tags:
-			//		protected
-
-			this.getParent()._onItemFocus(this);
-
-			this.inherited(arguments);
-		},
-
 		_setSelected: function(selected){
 			// summary:
 			//		Indicate that this node is the currently selected one
