@@ -123,7 +123,7 @@ function boilerplateOnLoad(){
 		// set dir=rtl on <html> node
 		document.body.parentNode.setAttribute("dir", "rtl");
 
-		require(["dojo/query!css2"], function(query){
+		require(["dojo/query!css2", "dojo/NodeList-dom"], function(query){
 			// pretend all the labels are in an RTL language, because
 			// that affects how they lay out relative to inline form widgets
 			query("label").attr("dir", "rtl");
