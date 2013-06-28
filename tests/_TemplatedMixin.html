@@ -33,7 +33,7 @@
 
 				num: 5,
 				bool: false,
-				text: "hello <\"' world",
+				text: "hello <i>&quot;'\" world",
 
 				templateString: "<button><span num=\"${num}\" value=\"${bool}\">${text}</span></button>"
 			});
@@ -101,10 +101,10 @@
 				function variables(t){
 					var widget = new VariableTemplate();
 					var span = widget.domNode.getElementsByTagName("span")[0];
-					var text = span.innerHTML;
-					t.is("5", span.getAttribute("num"));
-					t.is("false", span.getAttribute("value"));
-					t.is("hello &lt;\"' world", text);
+					var text = (span.innerText || span.textContent).replace("&#x27", "'");
+					t.is("5", span.getAttribute("num"), "num attr");
+					t.is("false", span.getAttribute("value"), "value attr");
+					t.is("hello <i>&quot;'\" world", text, "span textContent");
 				},
 				function variables2(t){
 					var widget = new VariableTemplate({id: "myid", num: -5, bool: true, text: ""});
