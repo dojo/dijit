@@ -65,7 +65,8 @@ define([
 
 		_escapeValue: function(/*String*/ val){
 			// summary:
-			//		Escape a value to be inserted into the template
+			//		Escape a value to be inserted into the template, either into an attribute value
+			//		(ex: foo="${bar}") or as inner text of an element (ex: <span>${foo}</span>)
 
 			// Safer substitution, see heading "Attribute values" in
 			// http://www.w3.org/TR/REC-html40/appendix/notes.html#h-B.3.2
@@ -76,8 +77,7 @@ define([
 					"<": "&lt;",
 					">": "&gt;",
 					"\"": "&quot;",
-					"'": "&#x27",
-					"/": "&#x2F;"
+					"'": "&#x27;"
 				}[val];
 			});
 		},
