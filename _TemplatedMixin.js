@@ -59,7 +59,7 @@ define([
 
 				// Substitution keys beginning with ! will skip the transform step,
 				// in case a user wishes to insert unescaped markup, e.g. ${!foo}
-				return key.charAt(0) == "!" ? value : this._escapeValue(value.toString());
+				return key.charAt(0) == "!" ? value : this._escapeValue("" + value);
 			}, this);
 		},
 
