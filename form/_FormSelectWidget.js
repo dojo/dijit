@@ -636,6 +636,8 @@ define([
 
 			// Make our event connections for updating state
 			aspect.after(this, "onChange", lang.hitch(this, "_updateSelection"));
+			// do _loadChildren after startup to set label correctly for CheckedMultiSelect
+			aspect.after(this, "startup", lang.hitch(this, "_loadChildren"));
 
 			// moved from startup
 			//		Connects in our store, if we have one defined
@@ -646,12 +648,6 @@ define([
 				this.store = null;
 				this.setStore(store, this._oValue);
 			}
-		},
-
-		startup: function(){
-			// summary:
-			this._loadChildren();
-			this.inherited(arguments);
 		},
 
 		destroy: function(){
