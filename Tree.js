@@ -785,14 +785,11 @@ define([
 				on(this.containerNode, on.selector(".dijitTreeNode", touch.leave), function(evt){
 					self._onNodeMouseLeave(registry.byNode(this), evt);
 				}),
-				on(this.containerNode, a11yclick, function(evt){
-					var node = registry.getEnclosingWidget(evt.target);
-					if(node.isInstanceOf(TreeNode)){
-						self._onClick(node, evt);
-					}
+				on(this.containerNode, on.selector(".dijitTreeRow", a11yclick), function(evt){
+					self._onClick(registry.getEnclosingWidget(this), evt);
 				}),
-				on(this.containerNode, on.selector(".dijitTreeNode", "dblclick"), function(evt){
-					self._onDblClick(registry.byNode(this), evt);
+				on(this.containerNode, on.selector(".dijitTreeRow", "dblclick"), function(evt){
+					self._onDblClick(registry.getEnclosingWidget(this), evt);
 				})
 			);
 
