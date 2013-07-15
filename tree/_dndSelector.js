@@ -158,15 +158,11 @@ define([
 			//		path[s], selectedItem[s], selectedNode[s]
 
 			var selected = this.getSelectedTreeNodes();
-			var paths = [], nodes = [], selects = [];
+			var paths = [], nodes = [];
 			array.forEach(selected, function(node){
-				var ary = node.getTreePath(), model = this.tree.model;
+				var ary = node.getTreePath();
 				nodes.push(node);
 				paths.push(ary);
-				ary = array.map(ary, function(item){
-					return model.getIdentity(item);
-				}, this);
-				selects.push(ary.join("/"))
 			}, this);
 			var items = array.map(nodes,function(node){ return node.item; });
 			this.tree._set("paths", paths);
