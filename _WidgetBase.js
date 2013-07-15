@@ -141,6 +141,10 @@ define([
 		"class": "",
 		_setClassAttr: { node: "domNode", type: "class" },
 
+		// Override automatic assigning type --> focusNode, it causes exception on IE6-8.
+		// Instead, type must be specified as ${type} in the template, as part of the original DOM.
+		_setTypeAttr: null,
+
 		// style: String||Object
 		//		HTML style attributes as cssText string or name/value hash
 		style: "",

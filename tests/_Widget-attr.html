@@ -131,6 +131,17 @@
 					}
 				},
 
+				// Test that creating a widget with type defined doesn't causes exceptions on IE6-8.
+				// This is really trying to test that markup like <input dojoType=WidgetBase type=text> works.
+				// (Todo: remove for 2.0)
+				function typeException(){
+					var node = document.createElement("input");
+					document.body.appendChild(node);
+					new _WidgetBase({
+						type: "text"
+					}, node);
+				},
+
 				// Test custom setters/getter methods
 				function customSetters(){
 					var CustomSetters = declare([_WidgetBase], {
