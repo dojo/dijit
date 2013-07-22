@@ -189,6 +189,7 @@ define([
 			}
 			if(has("ie")){
 				// IE generates <strong> and <em> but we want to normalize to <b> and <i>
+				// Still happens in IE11!
 				this.contentPostFilters = [this._normalizeFontStyle].concat(this.contentPostFilters);
 				this.contentDomPostFilters = [lang.hitch(this, this._stripBreakerNodes)].concat(this.contentDomPostFilters);
 			}
@@ -1120,7 +1121,7 @@ define([
 					return;
 				}
 			}
-			if(!has("ie")){
+			if(!has("ie") || has("ie") >= 11){
 				focus.focus(this.iframe);
 			}else if(this.editNode && this.editNode.focus){
 				// editNode may be hidden in display:none div, lets just punt in this case
@@ -1923,7 +1924,7 @@ define([
 			if(!command){
 				return false;
 			}
-			var elem = has("ie") ? this.document.selection.createRange() : this.document;
+			var elem = has("ie") < 11 ? this.document.selection.createRange() : this.document;
 			try{
 				return elem.queryCommandEnabled(command);
 			}catch(e){
