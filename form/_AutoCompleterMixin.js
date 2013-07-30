@@ -383,7 +383,12 @@ define([
 			}else{
 				var item = this.dropDown.items[node.getAttribute("item")];
 				newValue = (this.store._oldAPI ? // remove getValue() for 2.0 (old dojo.data API)
-					this.store.getValue(item, this.searchAttr) : item[this.searchAttr]).toString();
+					this.store.getValue(item, this.searchAttr) : item[this.searchAttr]).toString(),
+				caseFilter = this.ignoreCase? 'toLowerCase' : 'substr';
+				if (newValue[caseFilter](0).indexOf(this._lastInput[caseFilter](0)) > 0) {
+					//must've been a contains match, so automcomplete won't work.
+					return;
+				}
 				this.set('item', item, false, newValue);
 			}
 			// get the text that the user manually entered (cut off autocompleted text)
