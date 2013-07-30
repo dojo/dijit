@@ -8,10 +8,11 @@
 	<script type="text/javascript">
 		require([
 			"doh/runner",
-			"dojo/dom", "dojo/dom-geometry", "dojo/dom-style", "dojo/window",
-			"dijit/focus", "dijit/registry", "dijit/Dialog", "dijit/DialogUnderlay",
+			"dojo/_base/declare", "dojo/dom", "dojo/dom-geometry", "dojo/dom-style", "dojo/window",
+			"dijit/focus", "dijit/registry", "dijit/Dialog", "dijit/DialogUnderlay", "dijit/_WidgetBase",
 			"dijit/tests/helpers", "dojo/domReady!"
-		], function(doh, dom, domGeom, domStyle, winUtils, focus, registry, Dialog, DialogUnderlay, helpers){
+		], function(doh, declare, dom, domGeom, domStyle, winUtils,
+					focus, registry, Dialog, DialogUnderlay, _WidgetBase, helpers){
 			// Non robot tests to see if nested dialogs work correctly
 			// when obscured dialogs are destroyed/hidden, on race conditions of
 			// multiple dialogs fading in/out at once, etc.
@@ -551,25 +552,98 @@
 				}
 			]);
 
+			LayoutWidget = declare(_WidgetBase, {
+				resize: function(dim){
+					this._resized = true;
+					this._resizeArg = dim;
+				}
+			});
+
 			doh.register("sizing", [
 				{
 					name: "href",
 					timeout: 10000,
 					runTest: function(){
-						var dlg1 = new Dialog({
+						hrefDlg = new Dialog({
 							id: "bigHref",
 							title: "big dialog with href",
 							href: "loremIpsum"
 						});
 
-						return dlg1.show().then(function(){
-							var dlgPos = domGeom.position(dlg1.domNode),
+						return hrefDlg.show().then(function(){
+							var dlgPos = domGeom.position(hrefDlg.domNode),
 								viewport = winUtils.getBox();
 							doh.t(dlgPos.h < viewport.h, "viewport height");
 							doh.t(dlgPos.y > 0, "position");
 						});
 					}
+				},
+				{
+					name: "resize",
+					timeout: 10000,
+					runTest: function(){
+						hrefDlg.resize({h: 200, w: 300});
+
+						var domPos = domGeom.position(hrefDlg.domNode);
+						doh.is(200, domPos.h, "domNode.h");
+						doh.is(300, domPos.w, "domNode.w");
+
+						// containerNode should be slightly smaller
+						var containerPos = domGeom.position(hrefDlg.containerNode);
+						doh.t(containerPos.h > 150 && containerPos.h < 190, "containerNode.h " + containerPos.h);
+						doh.is(298, containerPos.w, "containerNode.h " + containerPos.h);
+						doh.is("auto", hrefDlg.containerNode.style.overflow, "overflow style")
+					}
+				},
+				{
+					name: "single layout child",
+					timeout: 10000,
+					runTest: function(){
+						single = new Dialog({
+							id: "singleLayoutChild",
+							title: "single layout child",
+							content: "<div data-dojo-type=LayoutWidget data-dojo-id=layout1></div>"
+						});
+
+						// resize() should be called on the child layout widget, but without any size specified,
+						// because the Dialog itself doesn't have a size specified
+						single.show();
+						doh.t(layout1._resized, "resized");
+						doh.is(undefined, layout1._resizeArg, "resize arg");
+
+						// Calling resize on the Dialog should resize the single layout child widget
+						single.resize({h: 200, w: 300});
+						doh.isNot(undefined, layout1._resizeArg, "resize arg");
+						doh.t(layout1._resizeArg.h > 150 && layout1._resizeArg.h < 190, "single child resize() call param");
+					}
+				},
+				{
+					name: "multiple layout children",
+					timeout: 10000,
+					runTest: function(){
+						multiple = new Dialog({
+							id: "multipleLayoutChildren",
+							title: "multiple layout children",
+							content:
+								"<div data-dojo-type=LayoutWidget data-dojo-id=layout2></div>" +
+								"<div data-dojo-type=LayoutWidget data-dojo-id=layout3></div>"
+						});
+
+						// resize() should be called on each child layout widget, but without any size specified
+						multiple.show();
+						doh.t(layout2._resized, "layout2 resized");
+						doh.is(undefined, layout2._resizeArg, "layout2 resize arg");
+						doh.t(layout3._resized, "layout3 resized");
+						doh.is(undefined, layout3._resizeArg, "layout3 resize arg");
+
+						// Calling resize on the Dialog might resize the layout child widgets, but they still
+						// shouldn't get a size specified
+						multiple.resize({h: 200, w: 300});
+						doh.is(undefined, layout2._resizeArg, "layout2 resize arg after dialog resize");
+						doh.is(undefined, layout3._resizeArg, "layout3 resize arg after dialog resize");
+					}
 				}
+
 			]);
 
 			doh.run();

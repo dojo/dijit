@@ -74,6 +74,8 @@ define([
 			//		and should propagate startup() and resize() calls to it.
 			//		Skips over things like data stores since they aren't visible.
 
+			if(!this.doLayout){ return; }
+
 			var candidateWidgets = [],
 				otherVisibleNodes = false;
 
@@ -163,9 +165,7 @@ define([
 		_layoutChildren: function(){
 			// Call _checkIfSingleChild() again in case app has manually mucked w/the content
 			// of the ContentPane (rather than changing it through the set("content", ...) API.
-			if(this.doLayout){
-				this._checkIfSingleChild();
-			}
+			this._checkIfSingleChild();
 
 			if(this._singleChild && this._singleChild.resize){
 				var cb = this._contentBox || domGeometry.getContentBox(this.containerNode);
