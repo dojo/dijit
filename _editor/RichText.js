@@ -1128,7 +1128,7 @@ define([
 				//this.editNode.focus(); -> causes IE to scroll always (strict and quirks mode) to the top the Iframe
 				// if we fire the event manually and let the browser handle the focusing, the latest
 				// cursor position is focused like in FF
-				if(has("ie") < 11){
+				if(has("ie") < 9){
 					this.iframe.fireEvent('onfocus', document.createEventObject()); // createEventObject/fireEvent only in IE < 11
 				}else{
 					// IE11 seems to be in a strange limbo where neither focus.focus nor fireEvent work.
@@ -1932,7 +1932,7 @@ define([
 			if(!command){
 				return false;
 			}
-			var elem = has("ie") < 11 ? this.document.selection.createRange() : this.document;
+			var elem = has("ie") < 9 ? this.document.selection.createRange() : this.document;
 			try{
 				return elem.queryCommandEnabled(command);
 			}catch(e){
