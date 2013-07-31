@@ -18,13 +18,14 @@
 			"dojo/_base/lang",
 			"dojo/parser",
 			"dojo/query",
+			"dijit/focus",
 			"dijit/registry",
 			"dijit/layout/TabContainer",
 			"dijit/layout/ContentPane",
 			"dijit/tests/helpers",
 			"dojo/domReady!"
 		], function(doh, array, aspect, dom, domClass, domGeom, json, lang, parser, query,
-					registry, TabContainer, ContentPane, helpers){
+					focus, registry, TabContainer, ContentPane, helpers){
 
 
 			doh.register("parse", function(){
@@ -194,6 +195,21 @@
 						
 						return d;
 					}
+				},
+				function focusOutside(){
+					// Test what happens when focus is outside the TabContainer and you call selectChild().
+					// In this case, focus shouldn't be changed.
+					registry.byId("tc1").selectChild("t2");
+					dom.byId("inputBeforeTc1").focus();
+					registry.byId("tc1").selectChild("cpTitle");
+					doh.is("inputBeforeTc1", focus.curNode.id);
+				},
+				function focusInside(){
+					// Test what happens when focus is inside tab1 and you call selectChild() to select tab2.
+					// In this case focus should be put on the tab label, so that it isn't in a hidden pane.
+					dom.byId("inputInsideCpTitle").focus();
+					registry.byId("tc1").selectChild("t2");
+					doh.is("tc1_tablist_t2", focus.curNode.id);
 				}
 			]);
 
@@ -559,12 +575,14 @@
 <body class="claro" role="main">
 
 	<h1 class="testTitle">Dijit layout.TabContainer DOH tests</h1>
-	
+
+	<input id="inputBeforeTc1" value="for focus testing">
 	<div id="tc1" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='style:"width: 300px; height: 100px;","aria-label":"my super label" '>
 		<div id="cpTitle" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"tab1", selected:true'>
 			Lorem ipsum and all around...
+			<input id="inputInsideCpTitle" value="for focus testing">
 		</div>
-		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"tab2"'>
+		<div id="t2" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"tab2"'>
 			Lorem ipsum and all around - second...
 		</div>
 		<div id="t3" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"tab3", closable:true'>

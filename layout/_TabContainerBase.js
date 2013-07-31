@@ -1,13 +1,14 @@
 define([
-	"dojo/text!./templates/TabContainer.html",
-	"./StackContainer",
-	"./utils", // marginBox2contextBox, layoutChildren
-	"../_TemplatedMixin",
 	"dojo/_base/declare", // declare
 	"dojo/dom-class", // domClass.add
 	"dojo/dom-geometry", // domGeometry.contentBox
-	"dojo/dom-style" // domStyle.style
-], function(template, StackContainer, layoutUtils, _TemplatedMixin, declare, domClass, domGeometry, domStyle){
+	"dojo/dom-style", // domStyle.style
+	"./StackContainer",
+	"./utils", // marginBox2contextBox, layoutChildren
+	"../registry",
+	"../_TemplatedMixin",
+	"dojo/text!./templates/TabContainer.html"
+], function(declare, domClass, domGeometry, domStyle, StackContainer, layoutUtils, registry, _TemplatedMixin, template){
 
 	// module:
 	//		dijit/layout/_TabContainerBase
@@ -143,6 +144,18 @@ define([
 				this.tablist.destroy(preserveDom);
 			}
 			this.inherited(arguments);
+		},
+
+		selectChild: function(/*dijit/_WidgetBase|String*/ page, /*Boolean*/ animate){
+			// Override _StackContainer.selectChild() so the page's focus isn't left in a strange state.
+
+			if(this._focused){
+				// Focus must be inside the currently selected tab,
+				// or on the currently selected tab label.
+				page = registry.byId(page);
+				this.tablist.pane2button(page.id).focus();
+			}
+			return this.inherited(arguments);
 		}
 	});
 });
