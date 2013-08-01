@@ -371,10 +371,11 @@ define([
 						if(this._currentChild.closable &&
 							(e.keyCode == keys.DELETE || e.ctrlKey)){
 							this.onCloseButtonClick(this._currentChild);
+
+							// avoid browser tab closing
+							e.stopPropagation();
+							e.preventDefault();
 						}
-						// avoid browser tab closing
-						e.stopPropagation();
-						e.preventDefault();
 						break;
 					case keys.TAB:
 						if(e.ctrlKey){
