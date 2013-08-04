@@ -184,7 +184,11 @@ define([
 			//		Handler for when the container itself gets focus.
 			// description:
 			//		Initially the container itself has a tabIndex, but when it gets
-			//		focus, switch focus to first child...
+			//		focus, switch focus to first child.
+			//
+			//		TODO for 2.0 (or earlier): Instead of having the container tabbable, always maintain a single child
+			//		widget as tabbable, Requires code in startup(), addChild(), and removeChild().
+			//		That would avoid various issues like #17347.
 			// tags:
 			//		private
 

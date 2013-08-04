@@ -13,13 +13,13 @@
 	<script type="text/javascript">
 		require([
 			"doh/runner", "dojo/robotx",
-			"dojo/query",
+			"dojo/aspect", "dojo/query",
 			"dijit/tests/helpers", "dojo/domReady!"
-		], function(doh, robot, query, helpers){
+		], function(doh, robot, aspect, query, helpers){
 
 			robot.initRobot('../test_Tree.html');
 
-			var registry, mytree, africa;
+			var registry, focus, mytree, africa;
 
 			doh.register("_setup", [
 				{
@@ -29,11 +29,14 @@
 				},
 				function setVars(){
 					registry = robot.window.require("dijit/registry");
+					focus = robot.window.require("dijit/focus");
 					mytree = registry.byId("mytree");
 
-					// find TreeNode for Africa
-					var node = query(".dijitTreeLabel")[1];
-					africa = registry.getEnclosingWidget(node);
+					// find TreeNodes for Africa, Asia (this assumes that we haven't loaded any of mytree's
+					// grandchild TreeNodes yet)
+					var nodes = query(".dijitTreeLabel");
+					africa = registry.getEnclosingWidget(nodes[1]);
+					asia = registry.getEnclosingWidget(nodes[2]);
 				}
 			]);
 
@@ -133,6 +136,65 @@
 							doh.isNot("Europe", mytree.focusedChild.label, "focus didn't shift to Europe");
 						}), 500);
 
+						return d;
+					}
+				}
+			]);
+
+			doh.register("focus", [
+				{
+					name: "setup",
+					runTest: function(){
+						// prevent TreeNodes from moving around as we are moving the mouse to find them
+						mytree.set("openOnClick", false);
+					}
+				},
+				{
+					name: "focus africa",
+					timeout: 8000,
+					runTest: function(){
+						var d = new doh.Deferred();
+						robot.mouseMoveAt(africa.labelNode);
+						robot.mouseClick({left:true}, 100);
+						robot.sequence(d.getTestCallback(function(){
+							doh.is("Africa", helpers.innerText(focus.curNode));
+						}), 500);
+						return d;
+					}
+				},
+
+				{
+					name: "blur tree",
+					timeout: 8000,
+					runTest: function(){
+						var d = new doh.Deferred();
+						robot.mouseMoveAt("mytree_before");
+						robot.mouseClick({left:true}, 100);
+						robot.sequence(d.getTestCallback(function(){
+							doh.is("mytree_before", focus.curNode.id);
+						}), 500);
+						return d;
+					}
+				},
+
+				{
+					name: "click on asia's expando",
+					timeout: 8000,
+					runTest: function(){
+						var d = new doh.Deferred(),
+							africaGotFocus;
+						aspect.after(africa, "focus", function(){
+							africaGotFocus = true;
+						});
+						robot.mouseMoveAt(asia.expandoNode);
+						robot.mouseClick({left:true}, 100);
+						robot.sequence(d.getTestCallback(function(){
+							// Clicking the expando or anywhere on the row should focus that row.
+							// In addition, there shouldn't even be a momentary (possibly scroll inducing) focus on
+							// the previously focused row.
+							doh.is("Asia", helpers.innerText(focus.curNode));
+							doh.f(africaGotFocus, "africa didn't get momentary focus");
+						}), 500);
 						return d;
 					}
 				}
