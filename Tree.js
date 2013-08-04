@@ -785,6 +785,9 @@ define([
 				on(this.containerNode, on.selector(".dijitTreeNode", touch.leave), function(evt){
 					self._onNodeMouseLeave(registry.byNode(this), evt);
 				}),
+				on(this.containerNode, on.selector(".dijitTreeRow", a11yclick.press), function(evt){
+					self._onNodePress(registry.getEnclosingWidget(this), evt);
+				}),
 				on(this.containerNode, on.selector(".dijitTreeRow", a11yclick), function(evt){
 					self._onClick(registry.getEnclosingWidget(this), evt);
 				}),
@@ -1347,6 +1350,13 @@ define([
 			// summary:
 			//		check whether a dom node is the expandoNode for a particular TreeNode widget
 			return dom.isDescendant(node, widget.expandoNode) || dom.isDescendant(node, widget.expandoNodeText);
+		},
+
+		_onNodePress: function(/*TreeNode*/ nodeWidget, /*Event*/ e){
+			// Touching a node should focus it, even if you touch the expando node or the edges rather than the label.
+			// Especially important to avoid _KeyNavMixin._onContainerFocus() causing the previously focused TreeNode
+			// to get focus
+			nodeWidget.focus();
 		},
 
 		__click: function(/*TreeNode*/ nodeWidget, /*Event*/ e, /*Boolean*/doOpen, /*String*/func){
