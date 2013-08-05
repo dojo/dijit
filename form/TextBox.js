@@ -142,7 +142,7 @@ define([
 		}
 	});
 
-	if(has("ie")){
+	if(has("ie") < 9){
 		TextBox.prototype._isTextSelected = function(){
 			var range = this.ownerDocument.selection.createRange();
 			var parent = range.parentElement();
