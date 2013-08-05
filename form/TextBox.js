@@ -107,7 +107,7 @@ define([
 		}
 	});
 
-	if(has("ie")){
+	if(has("ie") < 9){
 		TextBox = declare(/*===== "dijit.form.TextBox.IEMixin", =====*/ TextBox, {
 			declaredClass: "dijit.form.TextBox",	// for user code referencing declaredClass
 
