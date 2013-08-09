@@ -152,9 +152,10 @@ define([
 			// fire.
 			// Connect to <html> (rather than document) on IE to avoid memory leaks, but document on other browsers because
 			// (at least for FF) the focus event doesn't fire on <html> or <body>.
-			var doc = has("ie") ? targetWindow.document.documentElement : targetWindow.document;
+			var doc = has("ie") < 9 ? targetWindow.document.documentElement : targetWindow.document;
 			if(doc){
-				if(has("ie")){
+				// this IE branch isn't even in 1.9
+				if(has("ie") < 9){
 					targetWindow.document.body.attachEvent('onmousedown', mousedownListener);
 					var activateListener = function(evt){
 						// IE reports that nodes like <body> have gotten focus, even though they have tabIndex=-1,
