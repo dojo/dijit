@@ -110,9 +110,10 @@ define([
 			// which watches events at the bubbling phase rather than capturing phase, like addEventListener(..., false).
 			// Connect to <html> (rather than document) on IE to avoid memory leaks, but document on other browsers because
 			// (at least for FF) the focus event doesn't fire on <html> or <body>.
-			var doc = has("ie") ? targetWindow.document.documentElement : targetWindow.document;
+			var doc = has("ie") < 9 ? targetWindow.document.documentElement : targetWindow.document;
 			if(doc){
-				if(has("ie")){
+				// this IE branch isn't even in 1.9
+				if(has("ie") < 9){
 					targetWindow.document.body.attachEvent('onmousedown', mousedownListener);
 					var focusinListener = function(evt){
 						// When you refocus the browser window, IE gives an event with an empty srcElement
