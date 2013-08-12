@@ -13,6 +13,7 @@ define([
 		// summary:
 		//		A checkbox-like menu item for toggling on and off
 
+		// Use both base classes so we get styles like dijitMenuItemDisabled
 		baseClass: "dijitMenuItem dijitCheckedMenuItem",
 
 		templateString: template,
@@ -21,12 +22,8 @@ define([
 		//		Our checked state
 		checked: false,
 		_setCheckedAttr: function(/*Boolean*/ checked){
-			// summary:
-			//		Hook so attr('checked', bool) works.
-			//		Sets the class and state for the check box.
-			domClass.toggle(this.domNode, this.baseClass + "Checked", checked);
 			this.domNode.setAttribute("aria-checked", checked ? "true" : "false");
-			this._set("checked", checked);
+			this._set("checked", checked);	// triggers CSS update via _CssStateMixin
 		},
 
 		iconClass: "",	// override dijitNoIcon
