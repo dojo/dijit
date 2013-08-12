@@ -11,7 +11,8 @@ define([
 		// summary:
 		//		A radio-button-like menu item for toggling on and off
 
-		baseClass: "dijitRadioMenuItem",
+		// Use both base classes so we get styles like dijitMenuItemDisabled
+		baseClass: "dijitMenuItem dijitRadioMenuItem",
 
 		role: "menuitemradio",
 
