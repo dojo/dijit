@@ -22,7 +22,7 @@ define([
 	// 3. onclick handler fires and shifts focus to another node, with an ondijitclick handler
 	// 4. onkeyup event fires, causing the ondijitclick handler to fire
 	var lastKeyDownNode = null;
-	if(has("ie")){
+	if(has("ie") < 9){
 		(function(){
 			var keydownCallback = function(evt){
 				lastKeyDownNode = evt.srcElement;
