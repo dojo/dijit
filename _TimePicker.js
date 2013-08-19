@@ -235,10 +235,9 @@ define([
 			//		private
 			var date = new Date(this._refDate);
 			var incrementDate = this._clickableIncrementDate;
-			date.setTime(date.getTime()
-				+ incrementDate.getHours() * index * 3600000
-				+ incrementDate.getMinutes() * index * 60000
-				+ incrementDate.getSeconds() * index * 1000);
+			date.setHours(date.getHours() + incrementDate.getHours() * index,
+				date.getMinutes() + incrementDate.getMinutes() * index,
+				date.getSeconds() + incrementDate.getSeconds() * index);
 			if(this.constraints.selector == "time"){
 				date.setFullYear(1970, 0, 1); // make sure each time is for the same date
 			}
