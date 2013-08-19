@@ -271,7 +271,7 @@
 			function getProgressReport(){
 				var deferred = new Deferred();
 				fakeProgress = Math.min(fakeProgress + 10, 100);
-				deferred.callback(fakeProgress+"%");
+				deferred.resolve(fakeProgress+"%");
 				return deferred;
 			}
 
@@ -301,6 +301,10 @@
 	</script>
 </head>
 <body class="claro" role="main">
+
+	<script type=dojo/require>
+		registry: "dijit/registry"
+	</script>
 
 	<h1 class="testTitle">Dijit ProgressBar Tests</h1>
 
