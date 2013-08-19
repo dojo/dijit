@@ -394,6 +394,8 @@
 						// Tests that when the currently selected item is changed in the data store,
 						// the change is reflected in the Select widget
 						function test_changeSelected(t){
+							// destroy second widget that shares same store to make sure Observable handles are cleaned up
+							ds11a.destroy();
 							t.is("AL", ds11.value);
 							t.t(/<span.*>Alabama<\/span>/i.test(ds11.containerNode.innerHTML));
 							ds11.set("value", "AK");
@@ -881,9 +883,13 @@
 			<select id="ds10" data-dojo-id="ds10"
 					data-dojo-type="dijit/form/Select" data-dojo-props='name:"ds10", store:memoryStore, labelAttr:"label" '>
 			</select>
-			<label for="ds11">Example 3</label>
+			<label for="ds11">Example 3 (Observable)</label>
 			<select id="ds11" data-dojo-id="ds11" data-dojo-type="dijit/form/Select"
 					data-dojo-props='name:"ds11", store:memoryStore3, labelAttr:"label" '>
+			</select>
+			<label for="ds11a">Example 3a (Observable, same store as 3)</label>
+			<select id="ds11a" data-dojo-id="ds11a" data-dojo-type="dijit/form/Select"
+					data-dojo-props='name:"ds11a", store:memoryStore3, labelAttr:"label" '>
 			</select>
 			<label for="ds12">Example 4</label>
 			<select id="ds12" data-dojo-id="ds12" data-dojo-type="dijit/form/Select"
