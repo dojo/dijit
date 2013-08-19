@@ -303,9 +303,15 @@ define([
 				this.removeOption(this.options);
 			}
 
-			// Cancel listener for updates to old store
+			// Cancel listener for updates to old (dojo.data) store
 			if(this._queryRes && this._queryRes.close){
 				this._queryRes.close();
+			}
+			
+			// Cancel listener for updates to new (dojo.store) store
+			if(this._observeHandle && this._observeHandle.remove){
+				this._observeHandle.remove();
+				this._observeHandle = null;
 			}
 
 			// If user has specified new query and query options along with this new store, then use them.
@@ -352,7 +358,8 @@ define([
 
 					// Register listener for store updates
 					if(this._queryRes.observe){
-						this._queryRes.observe(lang.hitch(this, function(object, deletedFrom, insertedInto){
+						// observe returns yet another handle that needs its own explicit gc
+						this._observeHandle = this._queryRes.observe(lang.hitch(this, function(object, deletedFrom, insertedInto){
 							if(deletedFrom == insertedInto){
 								this._onSetItem(object);
 							}else{
@@ -666,6 +673,12 @@ define([
 			// Cancel listener for store updates
 			if(this._queryRes && this._queryRes.close){
 				this._queryRes.close();
+			}
+
+			// Cancel listener for updates to new (dojo.store) store
+			if(this._observeHandle && this._observeHandle.remove){
+				this._observeHandle.remove();
+				this._observeHandle = null;
 			}
 
 			this.inherited(arguments);
