@@ -27,10 +27,10 @@ define([
 				evt.preventDefault();
 			})); // prevent focus shift on list scrollbar press
 			this._listConnect("click", "_onClick");
-			this._listConnect(touch.press, "_onMouseDown");
-			this._listConnect(touch.release, "_onMouseUp");
-			this._listConnect(touch.over, "_onMouseOver");
-			this._listConnect(touch.out, "_onMouseOut");
+			this._listConnect("mousedown", "_onMouseDown");
+			this._listConnect("mouseup", "_onMouseUp");
+			this._listConnect("mouseover", "_onMouseOver");
+			this._listConnect("mouseout", "_onMouseOut");
 		},
 
 		_onClick: function(/*Event*/ evt, /*DomNode*/ target){
