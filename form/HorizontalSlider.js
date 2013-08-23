@@ -205,10 +205,10 @@ define([
 			// summary:
 			//		Hook so set('value', value) works.
 
-			//-- Force limit incomming value to be within min/max limits
-			if ( value > this.maximum ) {
+			// Force limit incomming value to be within min/max limits
+			if(value > this.maximum){
 				value = this.maximum;
-			} else if ( value < this.minimum ) {
+			}else if( value < this.minimum){
 				value = this.minimum;
 			}
 
