@@ -204,6 +204,14 @@ define([
 		_setValueAttr: function(/*Number*/ value, /*Boolean?*/ priorityChange){
 			// summary:
 			//		Hook so set('value', value) works.
+
+			//-- Force limit incomming value to be within min/max limits
+			if ( value > this.maximum ) {
+				value = this.maximum;
+			} else if ( value < this.minimum ) {
+				value = this.minimum;
+			}
+
 			this._set("value", value);
 			this.valueNode.value = value;
 			this.focusNode.setAttribute("aria-valuenow", value);
