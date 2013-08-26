@@ -375,7 +375,8 @@ define([
 				padding: "0px",
 				margin: "0px",
 				borderWidth: "0px",
-				borderStyle: "none"
+				borderStyle: "none",
+				direction: "ltr"
 			});
 			domAttr.set(this.sourceArea, "aria-label", this.editor.id);
 

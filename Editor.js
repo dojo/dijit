@@ -20,6 +20,7 @@ define([
 	"./form/ToggleButton",
 	"./_editor/_Plugin",
 	"./_editor/plugins/EnterKeyHandling",
+	"dojo/has!dojo-bidi?./_editor/plugins/BidiSupport",
 	"./_editor/html",
 	"./_editor/range",
 	"./_editor/RichText",
@@ -28,7 +29,7 @@ define([
 ], function(require, array, declare, Deferred, i18n, domAttr, domClass, domGeometry, domStyle,
 			keys, lang, has, string, topic,
 			_Container, Toolbar, ToolbarSeparator, _LayoutWidget, ToggleButton,
-			_Plugin, EnterKeyHandling, html, rangeapi, RichText, dijit){
+			_Plugin, EnterKeyHandling, BidiSupport, html, rangeapi, RichText, dijit){
 
 	// module:
 	//		dijit/Editor
@@ -70,10 +71,18 @@ define([
 				this.plugins = ["undo", "redo", "|", "cut", "copy", "paste", "|", "bold", "italic", "underline", "strikethrough", "|",
 					"insertOrderedList", "insertUnorderedList", "indent", "outdent", "|", "justifyLeft", "justifyRight", "justifyCenter", "justifyFull",
 					EnterKeyHandling /*, "createLink"*/];
+				if(has("dojo-bidi")){
+					this.plugins = this.plugins.concat(["|", {name:"dijit/_editor/plugins/BidiSupport"}]);
+				}
 			}
 
 			this._plugins = [];
 			this._editInterval = this.editActionInterval * 1000;
+			
+			// advancedBidi: [public] Boolean
+			//		Flag shows that advanced bidi support is added. Should be set by plugin,
+			//		which actually provides this support.			
+			this.advancedBidi = false;
 
 			//IE will always lose focus when other element gets focus, while for FF and safari,
 			//when no iframe is used, focus will be lost whenever another element gets focus.

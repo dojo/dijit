@@ -44,6 +44,8 @@ define({ root:
 	"viewSource": "View HTML Source",
 	"print": "Print",
 	"newPage": "New Page",
+	"ltr": "Left-To-Right Text Direction",
+	"rtl": "Right-To-Left Text Direction",
 	/* Error messages */
 	'systemShortcut': 'The "${0}" action is only available in your browser using a keyboard shortcut. Use ${1}.',
 	'ctrlKey':'ctrl+${0}',

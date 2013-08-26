@@ -296,6 +296,10 @@ define([
 			//		Over-ride for default exec-command label.
 			//		Allows us to treat 'none' as special.
 			if(choice === "noFormat"){
+				if(editor.advancedBidi){	//Moving inline and text elements out of block element isn't acceptable in bidi mode
+					editor.execCommand(command, "DIV");
+					return;
+				}				
 				var start;
 				var end;
 				var sel = rangeapi.getSelection(editor.window);

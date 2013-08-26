@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<title>doh.robot Editor BidiSupport Plugin Test</title>
+
+		<style>
+			@import "../../../../util/doh/robot/robot.css";
+		</style>
+		<script type="text/javascript" src="../../../../dojo/dojo.js"></script>
+		
+		<script type="text/javascript">
+			require([
+				"doh/runner", "dojo/robotx",
+				"dojo/dom-style", "dojo/has", "dojo/query", "dojo/window",
+				"dijit/tests/helpers", "dijit/_editor/range", "dojo/domReady!"
+			], function(doh, robot, domStyle, has, query, winUtils, helpers, rangeApi){				
+				var editor;		// points to one of the editors (e1, e2, etc.)
+				var value;		// HTML value of editor
+				var hOrient, hBlockMode, hAction, htmlContent, htmlMessage;
+				var sel, range, node, div, fcPlugin, fbPlugin, poPlugin, puPlugin;
+				var oppositeDir, oppositeAlignment, sameAlignment;
+				var start = false;
+				var metaKey = {ctrl: true};
+				var registry, params1 = {id: "e1", dir: "RTL", blockmode: "DIV", div: "d1"};
+
+				function typeText(text) {
+	                var sel = rangeApi.getSelection(editor.window);
+            		var range = sel.getRangeAt(0).cloneRange();
+            		var parent = range.startContainer;
+            		var htmlMsg = dojo.byId("htmlMessage");
+            		if (parent.nodeType == 1) {
+                		htmlMsg += "Node type 1, node: " + parent.innerHTML + ", parent: " + parent.parentNode.innerHTML;
+	            		parent.innerHTML = text;
+            		}
+            		else
+	            		parent.nodeValue = text;
+					range.setStart(parent,0);
+					range.setEnd(parent,0);
+					sel.removeAllRanges();
+					sel.addRange(range);
+				}
+				
+				robot.initRobot('../test_BidiSupport_rtl.html');
+				
+				doh.register("setup", [
+					{
+						name: "wait for editors to load",
+						timeout: 5000,
+						runTest: helpers.waitForLoad
+					},
+					function setVars(){
+						registry = robot.window.require("dijit/registry");
+					}
+				]);
+				
+				doh.register("change direction of simple blocks", [
+					{										
+						name: "Change direction of simple blocks (orientation: " + params1.dir + ", blockMode: " + params1.blockmode, 
+						timeout: 80000,
+						setUp: function(){
+							editor = registry.byId(params1.id);										
+							var edPlugins = editor._plugins, i;
+							for(i = 0; i < edPlugins.length; i++){
+								var p = edPlugins[i];
+								if (p.declaredClass === "dijit._editor.plugins.EnterKeyHandling") {
+									p.blockNodeForEnter = params1.blockmode;
+								}
+								else if(p.declaredClass === "dijit._editor.plugins.BidiSupport") {
+									p.blockMode = params1.blockmode;
+									fbPlugin = p;
+								}	
+							}				
+							div = dojo.byId(params1.div);
+							hOrient = dojo.byId("hOrient");
+							hBlockMode = dojo.byId("hBlockMode");
+							htmlContent = dojo.byId("htmlContent");
+							htmlMessage = dojo.byId("htmlMessage");
+							hAction = dojo.byId("hAction");
+							oppositeDir = params1.dir == "LTR"? "RTL" : "LTR";
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							try{
+								robot.sequence(function() {
+									div.scrollIntoView(true);
+									editor.focus();
+									hOrient.innerHTML = params1.dir;
+									hBlockMode.innerHTML = params1.blockmode;
+									hAction.innerHTML = "Change direction of simple blocks";
+									htmlContent.value = editor.get("value");
+								},400);
+								doh.assertTrue(fbPlugin !== null, "BidiSupport plugin isn't found");											
+								robot.sequence(function() {
+									editor.selection.selectElementChildren(editor.editNode);
+									editor.selection.collapse(true);
+									editor.onDisplayChanged();												
+								},400);											
+								robot.keyPress(dojo.keys.END, 100);
+								robot.keyPress(dojo.keys.ENTER, 100);
+								robot.sequence(function() {
+									typeText("Second line of the text.");
+								},400);
+								robot.keyPress(dojo.keys.END, 100);
+								robot.keyPress(dojo.keys.ENTER, 100);
+								robot.sequence(function() {
+									typeText("Third line of the text.");
+								},400);
+								robot.sequence(function() {
+									htmlContent.value = editor.get("value");
+									editor.selection.selectElementChildren(editor.editNode);
+								},400);
+				                robot.sequence(function(){
+					                fbPlugin._changeState(oppositeDir.toLowerCase());
+									htmlContent.value = editor.get("value");											
+									editor.onDisplayChanged();
+								}, 400);
+				                robot.sequence(function(){
+									editor.selection.selectElementChildren(editor.editNode.firstChild);
+									editor.selection.collapse(true);
+					                fbPlugin._changeState(params1.dir.toLowerCase());
+									htmlContent.value = editor.get("value");											
+									editor.onDisplayChanged();
+								}, 400);																																							                
+				                robot.keyPress(dojo.keys.DOWN_ARROW, 100);
+				                robot.keyPress(dojo.keys.DOWN_ARROW, 100);							                
+				                robot.sequence(function(){
+					                fbPlugin._changeState(params1.dir.toLowerCase());
+									htmlContent.value = editor.get("value");											
+									editor.onDisplayChanged();
+								}, 400);																												                
+				                robot.sequence(function(){
+					                var sel = rangeApi.getSelection(editor.window);
+				            		var range = sel.getRangeAt(0).cloneRange();								                
+									range.setStart(editor.editNode.firstChild.firstChild, 11);
+									range.setEnd(editor.editNode.lastChild.firstChild,10);
+									sel.removeAllRanges();
+									sel.addRange(range);																						
+									editor.onDisplayChanged();												
+				                }, 400);
+				                robot.sequence(function(){
+					                fbPlugin._changeState(oppositeDir.toLowerCase());
+									htmlContent.value = editor.get("value");											
+									editor.onDisplayChanged();
+								}, 400);
+				                robot.sequence(function(){
+									editor.selection.selectElementChildren(editor.editNode.lastChild);
+									editor.selection.collapse(false);
+				                }, 400);											
+			                	robot.keyPress(dojo.keys.ENTER, 100);
+				                robot.sequence(function(){
+									htmlContent.value = editor.get("value");											
+									editor.onDisplayChanged();
+								}, 400);
+			                	robot.keyPress(dojo.keys.ENTER, 100);
+								robot.sequence(function() {
+									typeText("One more line of text.");
+								},400);											
+								robot.keyPress(dojo.keys.UP_ARROW, 100);
+				                robot.sequence(function(){
+					                fbPlugin._changeState(params1.dir.toLowerCase());								                
+									htmlContent.value = editor.get("value");											
+									editor.onDisplayChanged();
+								}, 400);
+								robot.sequence(function() {
+									typeText("The only line with opposite direction.");
+								},400);																						
+				                robot.sequence(function(){
+									htmlContent.value = editor.get("value");											
+									editor.onDisplayChanged();
+								}, 400);
+				                robot.sequence(function(){
+									editor.selection.selectElementChildren(editor.editNode);
+								}, 400);	
+				                robot.sequence(function(){
+				                	fbPlugin._changeState("mirror");
+									htmlContent.value = editor.get("value");											
+									editor.onDisplayChanged();
+									editor.selection.collapse(false);
+								}, 400);	
+
+								robot.sequence(d.getTestCallback(function(){
+									node = editor.editNode.firstChild;
+									var i = 0;
+									while (node) {
+										var curDir = dojo.getComputedStyle(node).direction.toUpperCase();
+										if (i != 3)
+											doh.assertEqual(params1.dir, curDir, "Direction of " + (++i) + " line isn't correct.[" + node.outerHTML + "]");
+										else
+											doh.assertFalse(params1.dir == curDir, "Direction of " + (++i) + " line isn't correct.["+ node.outerHTML + "]");
+										node = node.nextSibling;
+									}
+								}), 500);
+							}catch(e){
+								d.errback(e);
+							}
+							return d;
+						},
+						tearDown: function(){
+							editor.setValue("Some text here.");
+			                htmlContent.value = "";				                
+						}
+					}
+				]);
+				
+				doh.register("working with lists", [
+					{
+						name: "Working with lists (orientation: " + params1.dir + ", blockMode: " + params1.blockmode + ")", 
+						timeout: 100000,
+						setUp: function(){
+							editor = registry.byId(params1.id);
+							var edPlugins = editor._plugins, i;
+							for(i = 0; i < edPlugins.length; i++){
+								var p = edPlugins[i];
+								if (p.declaredClass === "dijit._editor.plugins.EnterKeyHandling") {
+									p.blockNodeForEnter = params1.blockmode;
+								}
+								else if(p.declaredClass === "dijit._editor.plugins.BidiSupport") {
+									p.blockMode = params1.blockmode;
+									fbPlugin = p;
+								}
+							}				
+							div = dojo.byId(params1.div);
+							hOrient = dojo.byId("hOrient");
+							hBlockMode = dojo.byId("hBlockMode");
+							htmlContent = dojo.byId("htmlContent");
+							hAction = dojo.byId("hAction");
+							oppositeDir = params1.dir == "LTR"? "RTL" : "LTR";
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+							try{
+								robot.sequence(function() {
+									div.scrollIntoView(true);													
+									editor.focus();
+									hOrient.innerHTML = params1.dir;
+									hBlockMode.innerHTML = params1.blockmode;
+									hAction.innerHTML = "Working with lists";
+									htmlContent.value = editor.get("value");																									
+									editor.selection.selectElementChildren(editor.editNode);
+									editor.selection.collapse(true);
+									editor.onDisplayChanged();
+								}, 400);
+								doh.assertTrue(fbPlugin !== null, "BidiSupport plugin isn't found");
+								robot.keyPress(dojo.keys.END, 100);
+								robot.keyPress(dojo.keys.ENTER, 100);
+								robot.sequence(function() {
+									typeText("Second line of the text.");
+								}, 400);												
+								robot.sequence(function() {
+									htmlContent.value = editor.get("value");
+									editor.selection.selectElementChildren(editor.editNode);
+									editor.onDisplayChanged();
+								}, 400);
+								robot.sequence(function(){
+								    fbPlugin._insertLists("insertorderedlist");
+									htmlContent.value = editor.get("value");											
+									editor.selection.selectElementChildren(editor.editNode.lastChild);
+									editor.selection.collapse(true);
+									editor.onDisplayChanged();
+								}, 400);
+								robot.keyPress(dojo.keys.END, 100);
+								robot.keyPress(dojo.keys.ENTER, 100);
+								robot.sequence(function() {
+									typeText("Third line of the text.");
+								}, 400);												
+								robot.sequence(function() {
+									htmlContent.value = editor.get("value");
+									editor.selection.selectElementChildren(editor.editNode);
+									editor.onDisplayChanged();													
+								}, 400);
+								robot.sequence(function(){
+								    fbPlugin._changeState(oppositeDir.toLowerCase());
+									htmlContent.value = editor.get("value");											
+									editor.onDisplayChanged();
+								}, 400);
+								robot.sequence(function(){
+									editor.selection.collapse(true);
+									editor.onDisplayChanged();
+								}, 400);												
+								robot.keyPress(dojo.keys.DOWN_ARROW, 100);
+								robot.keyPress(dojo.keys.END, 100);
+								robot.keyPress(dojo.keys.ENTER, 100);
+								robot.sequence(function() {
+									typeText("Forth line of the text.");
+								}, 400);	
+								robot.sequence(function(){
+									fbPlugin._changeState(params1.dir.toLowerCase());
+									htmlContent.value = editor.get("value");
+									editor.selection.selectElementChildren(editor.editNode);
+									editor.onDisplayChanged();
+								}, 400);												
+								robot.sequence(function(){
+								    fbPlugin._insertLists("insertorderedlist");
+									htmlContent.value = editor.get("value");											
+									editor.onDisplayChanged();
+								}, 400);												
+								robot.sequence(function(){
+									editor.selection.collapse(false);
+									editor.onDisplayChanged();															                
+								}, 400);
+								robot.keyPress(dojo.keys.HOME, 100);												
+								robot.keyPress(dojo.keys.UP_ARROW, 100);
+								robot.keyPress(dojo.keys.ENTER, 100);
+								robot.sequence(function() {
+									typeText("Fifth line of the text.");
+								}, 400);
+								robot.sequence(function(){
+								   	htmlContent.value = editor.get("value");
+									var sel = rangeApi.getSelection(editor.window);
+								    var range = sel.getRangeAt(0).cloneRange();								                
+									range.setStart(editor.editNode.firstChild.firstChild, 11);
+									range.setEnd(editor.editNode.firstChild.nextSibling.nextSibling.firstChild,10);
+									sel.removeAllRanges();
+									sel.addRange(range);																						
+									editor.onDisplayChanged();												
+								}, 400);
+								robot.sequence(function(){
+									fbPlugin._insertLists("insertorderedlist");
+									htmlContent.value = editor.get("value");
+									editor.onDisplayChanged();
+									fbPlugin._insertLists("insertunorderedlist");
+									editor.onDisplayChanged();
+								}, 400);
+								robot.sequence(function(){
+									editor.selection.selectElementChildren(editor.editNode);
+									var sel = rangeApi.getSelection(editor.window);
+								    var range = sel.getRangeAt(0).cloneRange();								                
+									range.setStart(editor.editNode.lastChild.previousSibling.firstChild, 11);
+									range.setEnd(editor.editNode.lastChild.firstChild,10);
+									sel.removeAllRanges();
+									sel.addRange(range);																						
+									editor.onDisplayChanged();												
+							    }, 400);
+								robot.sequence(function(){
+								    fbPlugin._insertLists("insertorderedlist");
+									htmlContent.value = editor.get("value");											
+									editor.onDisplayChanged();
+								}, 400);
+								robot.sequence(d.getTestCallback(function(){									
+									doh.assertTrue(editor.editNode.childNodes.length==2,"Editor should contain exactly 2 elements 1"); 
+									node = editor.editNode.firstChild.firstChild;
+									var i = 0;
+									doh.assertTrue(editor.editNode.firstChild.tagName.toUpperCase()==="UL","First element should be unordered list");
+									doh.assertTrue(editor.editNode.lastChild.tagName.toUpperCase()==="OL","Last element should be ordered list");
+									while(node){
+										var curDir = dojo.getComputedStyle(node).direction.toUpperCase();
+										doh.assertEqual(i<2? oppositeDir:params1.dir, curDir, "Direction of " + (++i) + " line isn't correct. [" + node.outerHTML + "]");
+										node = node.nextSibling;
+									}
+									node = editor.editNode.lastChild.firstChild;
+									while(node){
+										var curDir = dojo.getComputedStyle(node).direction.toUpperCase();
+										doh.assertEqual(i==4? oppositeDir:params1.dir, curDir, "Direction of " + (++i) + " line isn't correct. [" + node.outerHTML + "]");
+										node = node.nextSibling;
+									}													
+								}), 500);	
+							}catch(e){
+								d.errback(e);
+							}
+							return d;
+						},										
+						tearDown: function(){
+							editor.setValue("Some text here.");
+							htmlContent.value = "";
+						}
+					}
+				]);
+
+				doh.register("indent and outdent", [
+					{
+						name: "Indent and outdent (orientation: " + params1.dir + ", blockMode: " + params1.blockmode + ")", 
+						timeout: 100000,
+						setUp: function(){
+							editor = registry.byId(params1.id);
+							var edPlugins = editor._plugins, i;
+							for(i = 0; i < edPlugins.length; i++){
+								var p = edPlugins[i];
+								if (p.declaredClass === "dijit._editor.plugins.EnterKeyHandling") {
+									p.blockNodeForEnter = params1.blockmode;
+								}else if(p.declaredClass === "dijit._editor.plugins.BidiSupport") {
+									p.blockMode = params1.blockmode;
+									fbPlugin = p;
+								}	
+							}				
+							div = dojo.byId(params1.div);
+							hOrient = dojo.byId("hOrient");
+							hBlockMode = dojo.byId("hBlockMode");
+							htmlContent = dojo.byId("htmlContent");
+							hAction = dojo.byId("hAction");
+							oppositeDir = params1.dir == "LTR"? "RTL" : "LTR";
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+							try{
+								robot.sequence(function() {
+									div.scrollIntoView(true);													
+									editor.focus();
+									hOrient.innerHTML = params1.dir;
+									hBlockMode.innerHTML = params1.blockmode;
+									hAction.innerHTML = "Indent and outdent";
+									htmlContent.value = editor.get("value");																									
+									editor.selection.selectElementChildren(editor.editNode);
+									editor.selection.collapse(false);
+								}, 400);
+								doh.assertTrue(fbPlugin !== null, "BidiSupport plugin isn't found");
+								editor.selection.selectElementChildren(editor.editNode);
+								editor.selection.collapse(true);
+								robot.keyPress(dojo.keys.END, 100);
+						        robot.keyPress(dojo.keys.ENTER, 100);
+								robot.sequence(function() {
+									typeText("Second line of the text.");													
+								}, 400);				                
+								robot.keyPress(dojo.keys.END, 100);
+						        robot.keyPress(dojo.keys.ENTER, 100);
+								robot.sequence(function() {
+									typeText("Third line of the text.");													
+								}, 400);				                				                
+								robot.sequence(function(){
+									fbPlugin._indentAndOutdent("indent");
+								}, 200);
+								robot.sequence(function(){
+									fbPlugin._indentAndOutdent("indent");
+								}, 200);								
+						        robot.sequence(function(){
+									htmlContent.value = editor.get("value");											
+									editor.onDisplayChanged();
+								}, 400);
+						        robot.keyPress(dojo.keys.UP_ARROW, 100);
+								robot.sequence(function(){
+									fbPlugin._indentAndOutdent("indent");
+								}, 200);																
+						        robot.sequence(function(){
+									htmlContent.value = editor.get("value");
+									editor.selection.selectElementChildren(editor.editNode);
+									editor.onDisplayChanged();
+								}, 400);
+						        robot.sequence(function(){
+							        fbPlugin._changeState(oppositeDir.toLowerCase());
+									htmlContent.value = editor.get("value");
+									editor.selection.collapse(true);
+									editor.onDisplayChanged();
+								}, 400);
+								robot.sequence(function(){
+									fbPlugin._indentAndOutdent("indent");
+								}, 400);																																
+						        robot.keyPress(dojo.keys.DOWN_ARROW, 100);
+						        robot.sequence(function(){
+							    	fbPlugin._changeState(params1.dir.toLowerCase());
+									htmlContent.value = editor.get("value");
+								    var sel = rangeApi.getSelection(editor.window);
+							        var range = sel.getRangeAt(0).cloneRange();								                
+									range.setStart(editor.editNode.firstChild, 0);
+									range.setEnd(editor.editNode.firstChild.nextSibling,1);
+									sel.removeAllRanges();
+									sel.addRange(range);																						
+									editor.onDisplayChanged();
+								}, 400);
+						        robot.sequence(function(){
+							    	fbPlugin._indentAndOutdent("outdent");
+									htmlContent.value = editor.get("value");									
+									editor.onDisplayChanged();
+								}, 400);								
+						        robot.sequence(function(){
+									editor.selection.collapse(true);
+								}, 400);
+						        robot.keyPress(dojo.keys.END, 100);
+						        robot.keyPress(dojo.keys.ENTER, 100);
+						        robot.sequence(function(){
+									typeText("Forth line of the text.");
+								}, 400);								
+						        robot.keyPress(dojo.keys.END, 100);				                
+						        robot.keyPress(dojo.keys.ENTER, 100);
+						        robot.sequence(function(){
+									typeText("Fifth line of the text.");
+								}, 400);												                				                
+						        robot.keyPress(dojo.keys.DOWN_ARROW, 100);
+						        robot.keyPress(dojo.keys.END, 100);
+						        robot.keyPress(dojo.keys.ENTER, 100);
+						        robot.sequence(function(){
+									typeText("Sixth line of the text.");
+								}, 400);								
+						        robot.keyPress(dojo.keys.END, 100);				                				                				                
+						        robot.keyPress(dojo.keys.ENTER, 100);
+						        robot.sequence(function(){
+									typeText("Seventh line of the text.");
+								}, 400);												                				                				                				                
+						        for(var i=0; i<4; i++){
+						           	robot.keyPress(dojo.keys.UP_ARROW, 100);
+						        }
+						        robot.keyPress(dojo.keys.HOME, 100);
+						        robot.sequence(function(){
+									htmlContent.value = editor.get("value");
+								    var sel = rangeApi.getSelection(editor.window);
+							        var range = sel.getRangeAt(0).cloneRange();								                
+									range.setEnd(range.startContainer.parentNode.nextSibling,1);
+									sel.removeAllRanges();
+									sel.addRange(range);																						
+									editor.onDisplayChanged();
+								}, 400);
+						        robot.sequence(function(){
+							    	fbPlugin._indentAndOutdent("indent");
+									htmlContent.value = editor.get("value");									
+									editor.onDisplayChanged();
+								}, 400);
+						        robot.sequence(function(){
+									editor.selection.collapse(false);
+								}, 400);
+						        robot.sequence(function(){
+							    	fbPlugin._changeState(params1.dir.toLowerCase());
+									htmlContent.value = editor.get("value");
+									editor.onDisplayChanged();
+								}, 400);
+						        robot.keyPress(dojo.keys.DOWN_ARROW, 100);
+						        robot.keyPress(dojo.keys.DOWN_ARROW, 100);
+						        robot.keyPress(dojo.keys.HOME, 100);
+						        robot.sequence(function(){
+									var sel = rangeApi.getSelection(editor.window);
+							    	var range = sel.getRangeAt(0).cloneRange();								                
+									range.setEnd(range.startContainer.parentNode.nextSibling,1);
+									sel.removeAllRanges();
+									sel.addRange(range);																						
+									editor.onDisplayChanged();
+								}, 400);
+						        robot.sequence(function(){
+							    	fbPlugin._indentAndOutdent("indent");
+									htmlContent.value = editor.get("value");									
+									editor.onDisplayChanged();
+								}, 400);
+						        robot.sequence(function(){
+									editor.selection.collapse(false);
+								}, 400);
+						        robot.sequence(function(){
+							    	fbPlugin._changeState(oppositeDir.toLowerCase());
+									htmlContent.value = editor.get("value");
+									editor.onDisplayChanged();
+								}, 400);
+						        robot.keyPress(dojo.keys.UP_ARROW, 100);
+						        robot.keyPress(dojo.keys.END, 100);
+						        robot.keyPress(dojo.keys.ENTER, 100);
+						        robot.sequence(function(){
+									typeText("Eighth line of the text.");
+								}, 400);				                
+						        robot.keyPress(dojo.keys.DOWN_ARROW, 100);
+						        robot.keyPress(dojo.keys.END, 100);
+						        robot.keyPress(dojo.keys.ENTER, 100);
+						        robot.sequence(function(){
+									typeText("Ninth line of the text.");
+								}, 400);
+						        robot.keyPress(dojo.keys.END, 100);	
+						        robot.sequence(function(){
+									htmlContent.value = editor.get("value");									
+							        var sel = rangeApi.getSelection(editor.window);
+						            var range = sel.getRangeAt(0).cloneRange();
+						            if (!has("mozilla")){
+						            	node = range.startContainer.parentNode.parentNode;
+										range.setStart(node.firstChild,0);
+										range.setEnd(node.lastChild,1);
+						            }else{
+						            	node = range.startContainer.parentNode;
+						            	range.setEnd(node,0);
+						            	node = node.previousSibling.previousSibling.previousSibling;
+						            	range.setStart(node,0);
+						            }
+									sel.removeAllRanges();
+									sel.addRange(range);																						
+									editor.onDisplayChanged();
+								}, 400);
+						        robot.sequence(function(){
+							    	fbPlugin._indentAndOutdent("outdent");
+									htmlContent.value = editor.get("value");									
+									editor.onDisplayChanged();
+								}, 400);
+								robot.sequence(d.getTestCallback(function(){
+									if (!has("mozilla")){
+										node = editor.editNode.firstChild;
+			                            doh.assertEqual(params1.blockmode, node.tagName, "Line 1 isn't in the " + params1.blockMode);
+			                            doh.assertTrue(oppositeDir == dojo.getComputedStyle(node).direction.toUpperCase(), "Direction of first node isn't correct");
+										node = node.nextSibling;
+										doh.assertEqual("blockquote", node.tagName.toLowerCase(), "Node 2 isn't blockquote");
+										doh.assertFalse(dojo.style(node, "direction").toUpperCase() == oppositeDir, "Direction of blockquote 1 is defined explicitly");
+										node = node.firstChild;
+			                            doh.assertEqual(params1.blockmode, node.tagName, "Line 2 isn't in the " + params1.blockMode);
+			                            doh.assertTrue(oppositeDir == dojo.getComputedStyle(node).direction.toUpperCase(), "Direction of line 2 isn't correct");
+										node = node.nextSibling;
+			                            doh.assertEqual(params1.blockmode, node.tagName, "Line 3 isn't in the " + params1.blockMode);
+			                            doh.assertTrue(params1.dir == dojo.getComputedStyle(node).direction.toUpperCase(), "Direction of line 3 isn't correct");
+										node = node.parentNode.nextSibling;
+										for(var i=4; i<9; i++){
+				                        	doh.assertEqual(params1.blockmode, node.tagName, "Line " + i + " isn't in the " + params1.blockMode);
+				                            doh.assertEqual(i < 7? params1.dir : oppositeDir, dojo.getComputedStyle(node).direction.toUpperCase(), "Direction of line " + i + " isn't correct");
+				                            node = node.nextSibling;
+										}
+										doh.assertEqual("blockquote", node.tagName.toLowerCase(), "Last node isn't blockquote");
+										doh.assertFalse(dojo.style(node, "direction").toUpperCase() == oppositeDir, "Direction of blockquote 2 is defined explicitly");
+										node = node.firstChild;
+										doh.assertEqual("blockquote", node.tagName.toLowerCase(), "First child of the last node isn't blockquote");
+										doh.assertFalse(dojo.style(node, "direction").toUpperCase() == oppositeDir, "Direction of blockquote 3 is defined explicitly");
+										node = node.firstChild;
+			                            doh.assertEqual(params1.blockmode, node.tagName, "Last line isn't in the " + params1.blockMode);
+			                            doh.assertTrue(oppositeDir == dojo.getComputedStyle(node).direction.toUpperCase(), "Direction of the last line isn't correct");
+									}else{
+										doh.assertTrue(query("blockquote",editor.editNode).length == 0, "Editor in Mozilla contains blockquote");
+										doh.assertTrue(query(params1.blockmode,editor.editNode).length == 9, "Some lines are not in the " + params1.blockmode);
+										node = editor.editNode.firstChild;
+										for(var i=1; i<10; i++){
+											var dir = dojo.getComputedStyle(node).direction.toUpperCase();
+				                            doh.assertEqual(i >=3 && i<=6? params1.dir : oppositeDir, dir, "Direction of line " + i + " isn't correct");
+				                            var indent = fbPlugin._getLIIndent(node), expected;				                            
+				                            if (i == 1 || i>=4 && i<=8){
+				                            	expected = 0;
+				                            }else if(i==9){
+				                            	expected = 80;
+				                            }else{
+				                            	expected = 40;
+				                            }
+				                            doh.assertTrue(indent == expected, "Indent of line " + i + " isn't correct");
+				                            node = node.nextSibling;
+										}										
+									}
+								}), 500);																																		
+							}catch(e){
+								d.errback(e);
+							}
+							return d;
+						},
+						tearDown: function(){
+							editor.setValue("Some text here.");
+						    htmlContent.value = "";
+						}
+					}
+				]);				
+
+				doh.register("indent and outdent with lists", [
+					{
+						name: "Indent and outdent with lists (orientation: " + params1.dir + ", blockMode: " + params1.blockmode + ")", 
+						timeout: 100000,
+						setUp: function(){
+							editor = registry.byId(params1.id);
+							var edPlugins = editor._plugins, i;
+							for(i = 0; i < edPlugins.length; i++){
+								var p = edPlugins[i];
+								if (p.declaredClass === "dijit._editor.plugins.EnterKeyHandling") {
+									p.blockNodeForEnter = params1.blockmode;
+								}
+								else if(p.declaredClass === "dijit._editor.plugins.BidiSupport") {
+									p.blockMode = params1.blockmode;
+									fbPlugin = p;
+								}	
+							}				
+							div = dojo.byId(params1.div);
+							hOrient = dojo.byId("hOrient");
+							hBlockMode = dojo.byId("hBlockMode");
+							htmlContent = dojo.byId("htmlContent");
+							hAction = dojo.byId("hAction");
+							oppositeDir = params1.dir == "LTR"? "RTL" : "LTR";
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+							var start, end;
+							try{
+								robot.sequence(function(){
+									div.scrollIntoView(true);													
+									editor.focus();
+									hOrient.innerHTML = params1.dir;
+									hBlockMode.innerHTML = params1.blockmode;
+									hAction.innerHTML = "Indent and outdent with lists";
+									htmlContent.value = editor.get("value");																									
+									editor.selection.selectElementChildren(editor.editNode);
+									editor.selection.collapse(true);
+								}, 400);
+								robot.keyPress(dojo.keys.END, 100);
+						        robot.keyPress(dojo.keys.ENTER, 100);
+								doh.assertTrue(fbPlugin !== null, "BidiSupport plugin isn't found");
+								robot.sequence(function() {
+									typeText("Second line of the text.");
+								}, 500);
+						        robot.keyPress(dojo.keys.END, 100);
+						        robot.keyPress(dojo.keys.ENTER, 100);
+								robot.sequence(function(){
+									typeText("Third line of the text.");
+								}, 400);
+						        robot.keyPress(dojo.keys.END, 100);
+						        robot.keyPress(dojo.keys.ENTER, 100);
+								robot.sequence(function() {
+									typeText("Forth line of the text.");
+								}, 400);		                		
+								robot.keyPress(dojo.keys.END, 100);      		                
+						        robot.keyPress(dojo.keys.ENTER, 100);
+								robot.sequence(function() {
+									typeText("Fifth line of the text.");
+								}, 400);		                		
+								robot.keyPress(dojo.keys.END, 100);      		                		                
+						        robot.keyPress(dojo.keys.ENTER, 100);
+								robot.sequence(function() {
+									typeText("Sixth line of the text.");
+								}, 400);		                				                	                
+						        robot.sequence(function(){
+									htmlContent.value = editor.get("value");
+								    var sel = dijit.range.getSelection(editor.window);
+							    	var range = sel.getRangeAt(0).cloneRange();								                
+									range.setStart(editor.editNode.firstChild, 0);
+									range.setEnd(editor.editNode.lastChild,1);
+									sel.removeAllRanges();
+									sel.addRange(range);																						
+									editor.onDisplayChanged();
+								}, 400);
+						        robot.sequence(function(){
+							    	fbPlugin._insertLists("insertorderedlist");
+									htmlContent.value = editor.get("value");											
+									editor.onDisplayChanged();
+								}, 400);						
+						        robot.sequence(function(){
+							    	fbPlugin._indentAndOutdent("indent");
+									htmlContent.value = editor.get("value");											
+									var sel = dijit.range.getSelection(editor.window);
+								    var range = sel.getRangeAt(0).cloneRange();
+								    range.setStart(editor.editNode.firstChild.firstChild.firstChild.nextSibling, 0);
+								    range.setEnd(editor.editNode.firstChild.firstChild.lastChild.previousSibling, 1);
+									sel.removeAllRanges();
+									sel.addRange(range);			            				            		
+									editor.onDisplayChanged();							
+								}, 400);
+						        robot.sequence(function(){
+							        fbPlugin._indentAndOutdent("indent");
+									htmlContent.value = editor.get("value");											
+								    var sel = dijit.range.getSelection(editor.window);
+							        var range = sel.getRangeAt(0).cloneRange();
+							        range.setStart(editor.editNode.firstChild.firstChild.firstChild.nextSibling.firstChild.nextSibling, 0);
+							        range.setEnd(editor.editNode.firstChild.firstChild.firstChild.nextSibling.lastChild.previousSibling, 1);
+									sel.removeAllRanges();
+									sel.addRange(range);			            				            		
+									editor.onDisplayChanged();							
+								}, 400);
+						        robot.sequence(function(){
+						           	fbPlugin._indentAndOutdent("indent");
+									htmlContent.value = editor.get("value");											
+									editor.onDisplayChanged();
+									editor.selection.selectElementChildren(editor.editNode.firstChild.firstChild);
+								}, 400);
+						        robot.sequence(function(){
+							    	fbPlugin._insertLists("insertunorderedlist");
+									htmlContent.value = editor.get("value");											
+									editor.onDisplayChanged();
+								}, 400);						
+						        robot.sequence(function(){
+							    	fbPlugin._insertLists("insertorderedlist");
+									htmlContent.value = editor.get("value");											
+									editor.onDisplayChanged();
+									editor.selection.collapse(false);
+								}, 400);						
+						        robot.sequence(function(){
+							    	fbPlugin._changeState(oppositeDir.toLowerCase());
+								}, 400);												
+								robot.keyPress(dojo.keys.UP_ARROW, 100);
+						        robot.sequence(function(){
+							    	fbPlugin._changeState(oppositeDir.toLowerCase());
+								}, 400);																		
+								robot.keyPress(dojo.keys.UP_ARROW, 100);
+						        robot.sequence(function(){
+						           	fbPlugin._changeState(oppositeDir.toLowerCase());
+									htmlContent.value = editor.get("value");											
+									editor.onDisplayChanged();
+									editor.selection.selectElementChildren(editor.editNode);
+									fbPlugin._changeState("mirror");
+								}, 400);
+						        robot.sequence(function(){
+							    	fbPlugin._indentAndOutdent("outdent");
+									htmlContent.value = editor.get("value");											
+									editor.onDisplayChanged();
+								}, 400);
+						        robot.sequence(function(){
+							    	fbPlugin._indentAndOutdent("outdent");
+									htmlContent.value = editor.get("value");											
+									editor.onDisplayChanged();
+								}, 400);
+						        robot.sequence(function(){
+						        	editor.selection.collapse(true);
+							    	fbPlugin._insertLists("insertorderedlist");
+									editor.selection.selectElementChildren(editor.editNode.lastChild);
+									fbPlugin._insertLists("insertorderedlist");
+									htmlContent.value = editor.get("value");																				
+									editor.onDisplayChanged();
+								}, 400);
+						        robot.sequence(function(){
+						        	editor.selection.selectElementChildren(editor.editNode);
+						        	fbPlugin._indentAndOutdent("indent");
+						        	editor.selection.collapse(true);
+									htmlContent.value = editor.get("value");																				
+									editor.onDisplayChanged();
+								}, 400);						        
+								robot.sequence(d.getTestCallback(function(){
+									node = editor.editNode.firstChild;
+									doh.assertEqual(node.tagName.toUpperCase(), "OL", "First node isn't ordered list");
+									doh.assertTrue(!node.nextSibling, "Editor contains more then 1 node");
+									node = node.firstChild;
+									doh.assertEqual(node.tagName.toUpperCase(), "OL", "Second level ordered list isn't found");
+									node = node.firstChild;
+									var iNode;
+									var i = 0;
+									while(node){
+										if (i<2){
+											doh.assertEqual(oppositeDir, dojo.getComputedStyle(node).direction.toUpperCase(), "Direction of line " + (i+1) + " isn't correct");
+										}else if(i>3){
+											doh.assertEqual(params1.dir, dojo.getComputedStyle(node).direction.toUpperCase(), "Direction of line " + (i+1) + " isn't correct");
+										}else{
+											doh.assertEqual(node.tagName.toUpperCase(), "OL", "Third level ordered list isn't found");
+											iNode = node.firstChild;
+											while(iNode){
+												if (i ==2){
+													doh.assertEqual(oppositeDir, dojo.getComputedStyle(iNode).direction.toUpperCase(), "Direction of line " + (i+1) + " isn't correct");											
+												}else{
+													doh.assertEqual(params1.dir, dojo.getComputedStyle(iNode).direction.toUpperCase(), "Direction of line " + (i+1) + " isn't correct");
+												}
+												i++;
+												iNode = iNode.nextSibling;
+											}
+										}
+										i++;
+										node = node.nextSibling;
+									}
+								}), 500);																																		
+							}catch(e){
+								d.errback(e);
+							}
+						return d;
+					},
+					tearDown: function(){
+						editor.setValue("Some text here.");
+						htmlContent.value = "";
+					}
+				}
+			]);								
+
+			doh.register("format blocks", [ 
+				{
+					name: "Format blocks (orientation: " + params1.dir + ", blockMode: " + params1.blockmode + ")", 
+					timeout: 100000,
+					setUp: function(){
+						editor = registry.byId(params1.id);
+						var edPlugins = editor._plugins, i;
+						for(i = 0; i < edPlugins.length; i++){
+							var p = edPlugins[i];
+							if (p.declaredClass === "dijit._editor.plugins.EnterKeyHandling") {
+								p.blockNodeForEnter = params1.blockmode;
+							}
+							else if(p.declaredClass === "dijit._editor.plugins.BidiSupport") {
+								p.blockMode = params1.blockmode;
+								fbPlugin = p;
+							}else if (p.declaredClass === "dijit._editor.plugins.FontChoice"){
+								fcPlugin = p;
+							}	
+						}				
+						div = dojo.byId(params1.div);
+						hOrient = dojo.byId("hOrient");
+						hBlockMode = dojo.byId("hBlockMode");
+						htmlContent = dojo.byId("htmlContent");
+						hAction = dojo.byId("hAction");
+						oppositeDir = params1.dir == "LTR"? "RTL" : "LTR";
+					},
+					runTest: function(){
+						var d = new doh.Deferred();
+						var start;
+						try{
+							robot.sequence(function() {
+								div.scrollIntoView(true);													
+								editor.focus();
+								hOrient.innerHTML = params1.dir;
+								hBlockMode.innerHTML = params1.blockmode;
+								hAction.innerHTML = "Format blocks";
+								htmlContent.value = editor.get("value");																									
+								editor.selection.selectElementChildren(editor.editNode);
+								editor.selection.collapse(true);
+							}, 400);
+							doh.assertTrue(fbPlugin !== null, "BidiSupport plugin isn't found");
+							doh.assertTrue(fcPlugin !== null, "FontChoice plugin isn't found");
+							robot.keyPress(dojo.keys.END, 100);
+						    robot.keyPress(dojo.keys.ENTER, 100);
+							robot.sequence(function() {
+								typeText("Second line of the text.");
+							}, 400);
+							robot.keyPress(dojo.keys.END, 100);
+						    robot.keyPress(dojo.keys.ENTER, 100);
+							robot.sequence(function() {
+								typeText("Third line of the text.");
+							}, 400);		                
+							robot.keyPress(dojo.keys.END, 100);
+						    robot.keyPress(dojo.keys.ENTER, 100);
+							robot.sequence(function() {
+								typeText("Forth line of the text.");
+							}, 400);	
+							robot.keyPress(dojo.keys.END, 100);	                		                
+						    robot.keyPress(dojo.keys.ENTER, 100);
+						    robot.sequence(function(){
+						       	typeText("Fifth line of the text.");
+								htmlContent.value = editor.get("value");
+								editor.onDisplayChanged();
+							}, 400);	                
+						    robot.sequence(function(){
+						    	node = editor.editNode.firstChild;
+								editor.selection.selectElementChildren(node);
+								fbPlugin._formatBlocks("h2");
+								htmlContent.value = editor.get("value");
+								node = editor.editNode.firstChild;
+								editor.onDisplayChanged();
+							}, 400);
+						    robot.sequence(function(){
+						    	editor.selection.selectElementChildren(node.nextSibling);
+								fbPlugin._formatBlocks("h3");	
+								htmlContent.value = editor.get("value");
+								node = node.nextSibling;
+								editor.onDisplayChanged();			                
+							}, 400);
+						    robot.sequence(function(){
+						    	editor.selection.selectElementChildren(node.nextSibling);
+								fbPlugin._formatBlocks("pre");
+								htmlContent.value = editor.get("value");
+								node = node.nextSibling;
+								editor.onDisplayChanged();
+							}, 400);
+						    robot.sequence(function(){
+						    	editor.selection.selectElementChildren(node.nextSibling);
+						       	fbPlugin._formatBlocks("p");
+								htmlContent.value = editor.get("value");
+								editor.onDisplayChanged();
+							}, 400);
+						    robot.sequence(function(){
+								editor.selection.selectElementChildren(editor.editNode);
+							}, 400);							
+						    robot.sequence(function(){
+								fbPlugin._changeState(oppositeDir.toLowerCase());
+								editor.selection.collapse(false);
+								editor.onDisplayChanged();
+							}, 400);							
+						    robot.sequence(function(){
+						       	fbPlugin._formatBlocks("h1");
+								htmlContent.value = editor.get("value");
+								editor.onDisplayChanged();		                	
+							}, 400);	
+						    robot.sequence(function(){
+								var sel = dijit.range.getSelection(editor.window);
+							    var range = sel.getRangeAt(0).cloneRange();
+							    node = range.startContainer;
+								editor.onDisplayChanged();							
+							}, 400);
+						    robot.sequence(function(){
+						       	doh.assertTrue(node.parentNode.parentNode === editor.editNode, "Node, formatted from div, is included into this div");
+							}, 300);		                
+						    robot.sequence(function(){
+						       	fbPlugin._formatBlocks("pre");
+								htmlContent.value = editor.get("value");
+								editor.onDisplayChanged();		                	
+							}, 400);
+						    robot.sequence(function(){
+						       	fcPlugin.button.set("value", "noFormat");
+								htmlContent.value = editor.get("value");
+								editor.onDisplayChanged();		                	
+							}, 400);
+						    robot.sequence(function(){
+								editor.selection.selectElementChildren(editor.editNode);
+							}, 400);							
+						    robot.sequence(function(){
+								fbPlugin._insertLists("insertorderedlist");
+								htmlContent.value = editor.get("value");											
+								editor.onDisplayChanged();
+							}, 400);						
+						    robot.sequence(function(){
+								editor.selection.collapse(true);
+							}, 400);							
+						    robot.sequence(function(){
+								fbPlugin._changeState(params1.dir.toLowerCase());
+								htmlContent.value = editor.get("value");											
+								editor.onDisplayChanged();
+							}, 400);						
+						    robot.keyPress(dojo.keys.DOWN_ARROW, 100);
+						    robot.keyPress(dojo.keys.DOWN_ARROW, 100);
+						    robot.sequence(function(){
+								fbPlugin._changeState(params1.dir.toLowerCase());
+								htmlContent.value = editor.get("value");											
+								editor.onDisplayChanged();
+							}, 400);						
+						    robot.keyPress(dojo.keys.DOWN_ARROW, 100);
+						    robot.keyPress(dojo.keys.DOWN_ARROW, 100);
+						    robot.sequence(function(){
+								fbPlugin._changeState(params1.dir.toLowerCase());
+								htmlContent.value = editor.get("value");											
+								editor.onDisplayChanged();
+							}, 400);
+						    robot.sequence(function(){
+								editor.selection.selectElementChildren(editor.editNode);
+							}, 400);													
+						    robot.sequence(function(){
+						    	fbPlugin._changeState("mirror");
+								htmlContent.value = editor.get("value");											
+								editor.onDisplayChanged();
+							}, 400);
+						    robot.sequence(function(){
+								var sel = dijit.range.getSelection(editor.window);
+						        var range = sel.getRangeAt(0).cloneRange();
+						        range.setStart(editor.editNode.firstChild.firstChild.nextSibling.firstChild.firstChild,1);
+						        range.setEnd(editor.editNode.firstChild.lastChild.previousSibling,1);
+								sel.removeAllRanges();
+								sel.addRange(range);
+								editor.onDisplayChanged();			            				            		
+							}, 400);							
+						    robot.sequence(function(){
+						       	fbPlugin._formatBlocks("h1");
+								htmlContent.value = editor.get("value");
+								editor.onDisplayChanged();		                	
+							}, 400);	
+						   
+						    robot.sequence(function(){
+						    	node = editor.editNode.firstChild.firstChild.nextSibling;
+						    	editor.selection.selectElementChildren(node);
+						       	fbPlugin._formatBlocks("h3");
+						       	node = editor.editNode.firstChild.firstChild.nextSibling;
+								htmlContent.value = editor.get("value");
+								editor.onDisplayChanged();		                	
+							}, 400);	
+						    robot.sequence(function(){
+						    	editor.selection.selectElementChildren(node.nextSibling);
+						       	fbPlugin._formatBlocks("pre");
+						    	node = node.nextSibling;
+								htmlContent.value = editor.get("value");
+								editor.onDisplayChanged();		                	
+							}, 400);	
+						    robot.sequence(function(){
+						    	editor.selection.selectElementChildren(node.nextSibling);
+						       	fbPlugin._formatBlocks("p");
+								htmlContent.value = editor.get("value");
+								editor.onDisplayChanged();		                	
+							}, 400);	
+						    robot.sequence(function(){
+								editor.selection.selectElementChildren(editor.editNode);
+							}, 400);															                
+						    robot.sequence(function(){
+								fbPlugin._insertLists("insertorderedlist");
+								htmlContent.value = editor.get("value");											
+								editor.onDisplayChanged();
+							}, 400);						
+						    robot.sequence(function(){
+								editor.selection.collapse(false);
+							}, 400);
+							robot.sequence(d.getTestCallback(function(){
+								node = editor.editNode.firstChild;
+								doh.assertEqual("H2", node.tagName.toUpperCase(), "Node 1 isn't H2");
+								doh.assertTrue(oppositeDir == dojo.getComputedStyle(node).direction.toUpperCase(),"Directionf of node 1 isn't correct");
+								node = node.nextSibling;
+								doh.assertEqual("H3", node.tagName.toUpperCase(), "Node 2 isn't H3");
+								doh.assertTrue(params1.dir == dojo.getComputedStyle(node).direction.toUpperCase(),"Directionf of node 2 isn't correct");
+								node = node.nextSibling;
+								doh.assertEqual("PRE", node.tagName.toUpperCase(), "Node 3 isn't PRE");
+								doh.assertTrue(oppositeDir == dojo.getComputedStyle(node).direction.toUpperCase(),"Directionf of node 3 isn't correct");
+								node = node.nextSibling;
+								doh.assertEqual("P", node.tagName.toUpperCase(), "Node 4 isn't " + "P");
+								doh.assertTrue(params1.dir == dojo.getComputedStyle(node).direction.toUpperCase(),"Directionf of node 4 isn't correct");
+								node = node.nextSibling;
+								doh.assertEqual(params1.blockmode, node.tagName.toUpperCase(), "Node 5 isn't " + params1.blockmode);
+								doh.assertTrue(oppositeDir == dojo.getComputedStyle(node).direction.toUpperCase(),"Directionf of node 4 isn't correct");
+								doh.assertTrue(node.firstChild.nodeType == 3, params1.blockmode + " has block child");
+							}), 500);																																		
+						}catch(e){
+							d.errback(e);
+						}
+						return d;
+					},
+					tearDown: function(){
+						editor.setValue("Some text here.");
+						htmlContent.value = "";
+					}
+				}
+			]);								
+			
+			doh.register("alignment", [
+				{
+					name: "Alignment (orientation: " + params1.dir + ", blockMode: " + params1.blockmode + ")", 
+					timeout: 100000,
+					setUp: function(){
+						editor = registry.byId(params1.id);
+						var edPlugins = editor._plugins, i;
+						for(i = 0; i < edPlugins.length; i++){
+							var p = edPlugins[i];
+							if (p.declaredClass === "dijit._editor.plugins.EnterKeyHandling") {
+								p.blockNodeForEnter = params1.blockmode;
+							}
+							else if(p.declaredClass === "dijit._editor.plugins.BidiSupport") {
+								p.blockMode = params1.blockmode;
+								fbPlugin = p;
+							}	
+						}				
+						div = dojo.byId(params1.div);
+						hOrient = dojo.byId("hOrient");
+						hBlockMode = dojo.byId("hBlockMode");
+						htmlContent = dojo.byId("htmlContent");
+						hAction = dojo.byId("hAction");
+						oppositeDir = params1.dir == "LTR"? "RTL" : "LTR";
+						sameAlignment = params1.dir == "LTR"? "LEFT" : "RIGHT";
+						oppositeAlignment = params1.dir == "LTR"? "RIGHT" : "LEFT";
+					},
+					runTest: function(){
+						var d = new doh.Deferred();
+						try{
+							robot.sequence(function() {
+								div.scrollIntoView(true);													
+								editor.focus();
+								hOrient.innerHTML = params1.dir;
+								hBlockMode.innerHTML = params1.blockmode;
+								hAction.innerHTML = "Alignment";
+								htmlContent.value = editor.get("value");																									
+								editor.selection.selectElementChildren(editor.editNode);
+								editor.selection.collapse(true);
+							}, 400);
+							doh.assertTrue(fbPlugin !== null, "BidiSupport plugin isn't found");																
+							robot.keyPress(dojo.keys.END, 100);
+							robot.keyPress(dojo.keys.ENTER, 100);
+							robot.sequence(function() {
+								typeText("Second line of the text.");
+							}, 400);
+							robot.keyPress(dojo.keys.END, 100);								
+							robot.keyPress(dojo.keys.ENTER, 100);
+							robot.sequence(function() {
+								typeText("Third line of the text.");
+							}, 400);
+							robot.keyPress(dojo.keys.END, 100);
+							robot.keyPress(dojo.keys.ENTER, 100);
+							robot.sequence(function() {
+								typeText("Forth line of the text.");
+							}, 400);
+							robot.keyPress(dojo.keys.END, 100);
+							robot.keyPress(dojo.keys.ENTER, 100);
+							robot.sequence(function() {
+								typeText("Fifth line of the text.");
+								htmlContent.value = editor.get("value");
+								editor.selection.selectElementChildren(editor.editNode);
+								editor.selection.collapse(true);
+								editor.onDisplayChanged();
+							}, 400);
+							robot.sequence(function() {
+								fbPlugin._changeState(oppositeDir.toLowerCase());
+							}, 400);								
+							robot.sequence(function(){
+							   	fbPlugin._changeState(sameAlignment.toLowerCase());
+								htmlContent.value = editor.get("value");											
+								editor.onDisplayChanged();
+							}, 400);
+							robot.keyPress(dojo.keys.DOWN_ARROW, 100);
+							robot.sequence(function(){
+								fbPlugin._changeState(oppositeAlignment.toLowerCase());
+								htmlContent.value = editor.get("value");											
+								editor.onDisplayChanged();
+							}, 400);
+							robot.keyPress(dojo.keys.DOWN_ARROW, 100);
+							robot.sequence(function(){
+								fbPlugin._changeState("center");
+								htmlContent.value = editor.get("value");											
+								editor.onDisplayChanged();
+							}, 400);
+							robot.keyPress(dojo.keys.DOWN_ARROW, 100);
+							robot.sequence(function(){
+							   	fbPlugin._formatBlocks("h3");
+							}, 400);	
+							robot.sequence(function(){
+								fbPlugin._changeState(oppositeAlignment.toLowerCase());
+								htmlContent.value = editor.get("value");											
+								editor.onDisplayChanged();
+							}, 400);
+							robot.keyPress(dojo.keys.DOWN_ARROW, 100);
+							robot.sequence(function(){
+							   	fbPlugin._formatBlocks("h3");
+							}, 400);
+							robot.sequence(function(){
+							   	fbPlugin._changeState(oppositeDir.toLowerCase());
+							}, 400);								
+							robot.sequence(function(){
+								fbPlugin._changeState(sameAlignment.toLowerCase());
+								htmlContent.value = editor.get("value");											
+								editor.onDisplayChanged();
+							}, 400);
+							robot.sequence(function(){
+								var sel = dijit.range.getSelection(editor.window);
+								var range = sel.getRangeAt(0).cloneRange();
+								range.setStart(editor.editNode.firstChild,0);
+								range.setEnd(editor.editNode.firstChild.nextSibling,0);
+								sel.removeAllRanges();
+								sel.addRange(range);
+								editor.onDisplayChanged();
+							}, 400);							
+							robot.sequence(function(){
+								fbPlugin._insertLists("insertorderedlist");
+								htmlContent.value = editor.get("value");											
+								editor.onDisplayChanged();
+							}, 400);
+							robot.sequence(function(){
+								var sel = dijit.range.getSelection(editor.window);
+								var range = sel.getRangeAt(0).cloneRange();
+								range.setStart(editor.editNode.lastChild.previousSibling,0);
+								range.setEnd(editor.editNode.lastChild,1);
+								sel.removeAllRanges();
+								sel.addRange(range);		
+								editor.onDisplayChanged();	            				            		
+							}, 400);							
+							robot.sequence(function(){
+								fbPlugin._insertLists("insertorderedlist");
+								htmlContent.value = editor.get("value");											
+								editor.onDisplayChanged();
+							}, 400);	
+							robot.sequence(function(){
+								var sel = dijit.range.getSelection(editor.window);
+								var range = sel.getRangeAt(0).cloneRange();
+								range.setStart(editor.editNode.firstChild.nextSibling,0);
+								range.setEnd(editor.editNode.firstChild.nextSibling,0);
+								sel.removeAllRanges();
+								sel.addRange(range);
+								editor.onDisplayChanged();			            				            		
+							}, 400);	
+							robot.keyPress(dojo.keys.END, 100);
+							robot.sequence(function(){
+							   	fbPlugin._formatBlocks("h1");
+							}, 400);									
+							robot.sequence(function(){
+								fbPlugin._changeState("mirror");
+								htmlContent.value = editor.get("value");											
+								editor.onDisplayChanged();
+							}, 400);
+			                robot.sequence(function(){
+				                var sel = dijit.range.getSelection(editor.window);
+								var range = sel.getRangeAt(0).cloneRange();
+								range.setStart(editor.editNode.firstChild.firstChild,0);
+								range.setEnd(editor.editNode.firstChild.lastChild,1);
+								sel.removeAllRanges();
+								sel.addRange(range);
+								editor.onDisplayChanged();
+							}, 400);	
+							robot.sequence(function(){
+								fbPlugin._indentAndOutdent("outdent");
+								htmlContent.value = editor.get("value");											
+								editor.onDisplayChanged();
+							}, 400);
+							robot.sequence(function(){
+								var sel = dijit.range.getSelection(editor.window);
+								var range = sel.getRangeAt(0).cloneRange();
+								range.setStart(editor.editNode.lastChild.firstChild,0);
+								range.setEnd(editor.editNode.lastChild.lastChild,1);
+								sel.removeAllRanges();
+								sel.addRange(range);		
+								editor.onDisplayChanged();
+							}, 400);
+							robot.sequence(function(){
+								fbPlugin._indentAndOutdent("outdent");
+								htmlContent.value = editor.get("value");											
+								editor.onDisplayChanged();
+							}, 400);
+							robot.sequence(function() {
+								editor.selection.collapse(false);
+							}, 400);	
+							robot.sequence(d.getTestCallback(function(){
+								node = editor.editNode.firstChild;
+								for(var i=0; i<5; i++){
+									if (i%2 == 0){
+										doh.assertTrue(oppositeDir == dojo.getComputedStyle(node).direction.toUpperCase(), 
+											"Direction of node " + i + " isn't correct");
+									}else{
+										doh.assertTrue(params1.dir == dojo.getComputedStyle(node).direction.toUpperCase(), 
+											"Direction of node " + i + " isn't correct");
+									}											
+									if (i==0 || i == 4){
+										doh.assertTrue(sameAlignment == dojo.getComputedStyle(node).textAlign.toUpperCase(),
+											"Alignment of node " + i + " isn't correct");
+									}else if(i==1 || i==3){
+										doh.assertTrue(oppositeAlignment == dojo.getComputedStyle(node).textAlign.toUpperCase(),
+											"Alignment of node " + i + " isn't correct");
+									}else{
+										doh.assertTrue("CENTER" == dojo.getComputedStyle(node).textAlign.toUpperCase(),
+											"Alignment of node " + i + " isn't correct");
+									}
+									if (i==3 || i==4){
+										doh.assertEqual("H3", node.tagName.toUpperCase(), "Node " + i + " isn't h3");
+									}
+									node = node.nextSibling;
+								}
+							}), 500);																																		
+						}catch(e){
+							d.errback(e);
+						}
+						return d;
+					},
+					tearDown: function(){
+	                	editor.setValue("Some text here.");
+	                	htmlContent.value = "";
+					}
+				}			
+			]);								
+			
+			doh.run();
+		});
+		</script>
+	</head>
+</html>

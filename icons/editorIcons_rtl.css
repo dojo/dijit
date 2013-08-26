@@ -20,4 +20,6 @@ editorIcons_rtl.css contains references to the dijit editor widget icons. There 
 	background-image: url('images/editorIconsEnabled_rtl.png');
 }
 
+.dijitToolbarRtl .dijitEditorIconParaLeftToRight { background-position: -846px; }
+.dijitToolbarRtl .dijitEditorIconParaRightToLeft { background-position: -828px; } 
 /* took this information above from editorRtl.css - good or bad? */
