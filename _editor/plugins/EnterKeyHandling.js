@@ -89,8 +89,12 @@ define([
 		//
 		//		See class description for more details.
 		blockNodeForEnter: 'BR',
-		_alwaysShiftKey: true,
-
+		
+		// _alwaysShiftKey: boolean
+		//		This property decides, if behavior of Enter and Shift-Enter should be
+		//		the same or different. 
+		 _alwaysShiftKey: true, 
+		 
 		constructor: function(args){
 			if(args){
 				if("blockNodeForEnter" in args){
@@ -106,16 +110,14 @@ define([
 				return;
 			}
 			this.editor = editor;
-			if(this.blockNodeForEnter){
+			if(this.blockNodeForEnter == 'BR'){
 				// While Moz has a mode tht mostly works, it's still a little different,
 				// So, try to just have a common mode and be consistent.  Which means
 				// we need to enable customUndo, if not already enabled.
-				if(this.blockNodeForEnter == 'BR'){
-					this.editor.customUndo = true;
-				}
+				this.editor.customUndo = true;
 				editor.onLoadDeferred.then(lang.hitch(this, function(d){
 					this.own(on(editor.document, "keydown", lang.hitch(this, function(e){
-						if(e.keyCode == keys.ENTER && this.blockNodeForEnter == 'BR'){
+						if(e.keyCode == keys.ENTER){
 							// Just do it manually.  The handleEnterKey has a shift mode that
 							// Always acts like <br>, so just use it.
 							var ne = lang.mixin({}, e);
@@ -131,22 +133,19 @@ define([
 							setTimeout(lang.hitch(this, function(){
 								// Use the old range/selection code to kick IE 9 into updating
 								// its range by moving it back, then forward, one 'character'.
-								if(this.blockNodeForEnter == 'BR'){
-									var r = this.editor.document.selection.createRange();
-									r.move('character', -1);
-									r.select();
-									r.move('character', 1);
-									r.select();
-								}
+								var r = this.editor.document.selection.createRange();
+								r.move('character', -1);
+								r.select();
+								r.move('character', 1);
+								r.select();
 							}), 0);
 						})));
 					}
 					return d;
 				}));
-				if(this.blockNodeForEnter != 'BR'){
-					// add enter key handler
-					this._setBlockHandlers();
-				}
+			}else if(this.blockNodeForEnter){
+				// add enter key handler
+				this._setBlockHandlers();
 			}
 		},
 		_setBlockHandlers: function(){
@@ -506,7 +505,7 @@ define([
 				//IE: When scrollIntoView is called after resetting selection, it causes problem with appearance of the text,
 				//which is placed in the right side of the editing area (for example, rtl-oriented and right aligned blocks)
 				if(this.editor.height){
-					dojo.window.scrollIntoView(newblock);
+					winUtils.scrollIntoView(newblock);
 				}				
 				// lets move caret to the newly created block
 				newrange = rangeapi.create(this.editor.window);
