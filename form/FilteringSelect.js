@@ -209,8 +209,10 @@ define([
 				this._set("displayedValue", label);	// for watch("displayedValue") notification
 				var _this = this;
 				var options = {
-					ignoreCase: this.ignoreCase,
-					deep: true
+					queryOptions: {
+						ignoreCase: this.ignoreCase,
+						deep: true
+					}
 				};
 				lang.mixin(options, this.fetchProperties);
 				this._fetchHandle = this.store.query(query, options);
