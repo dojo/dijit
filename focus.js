@@ -4,6 +4,7 @@ define([
 	"dojo/dom", // domAttr.get dom.isDescendant
 	"dojo/dom-attr", // domAttr.get dom.isDescendant
 	"dojo/dom-construct", // connect to domConstruct.empty, domConstruct.destroy
+	"dojo/dom-class",
 	"dojo/Evented",
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on",
@@ -15,7 +16,7 @@ define([
 	"./a11y",	// a11y.isTabNavigable
 	"./registry",	// registry.byId
 	"./main"		// to set dijit.focus
-], function(aspect, declare, dom, domAttr, domConstruct, Evented, lang, on, domReady, has, Stateful, win, winUtils,
+], function(aspect, declare, dom, domAttr, domConstruct, domClass, Evented, lang, on, domReady, has, Stateful, win, winUtils,
 			a11y, registry, dijit){
 
 	// module:
@@ -204,6 +205,12 @@ define([
 			// compute stack of active widgets (ex: ComboButton --> Menu --> MenuItem)
 			var newStack=[];
 			try{
+				// attempting to scroll with the scrollbar using a mouse in a global context menu causes it to
+				// close because it has no popup parent; see #17435
+				if(node && domClass.contains(node, "dijitMenuPopup") && !node.getAttribute("dijitPopupParent")){
+					node=node.firstChild;
+				}
+
 				while(node){
 					var popupParent = domAttr.get(node, "dijitPopupParent");
 					if(popupParent){
