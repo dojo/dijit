@@ -324,8 +324,8 @@
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.is("ltr", autoCompleted.focusNode.dir, "input field of fruitContextualAC");
 								var entries = dojo.query("div", dojo.byId("fruitContextualAC_popup"));
-								doh.is("ltr", entries[1].dir, "list #1");
-								doh.is("rtl", entries[2].dir, "list #2");
+								doh.is("ltr", entries[1].dir, "list #1 - :");
+								doh.is("rtl", entries[2].dir, "list #2 - :");
 							}), 900);
 
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200);
@@ -340,7 +340,7 @@
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.is("ltr", autoCompleted.focusNode.dir, "input field of fruitContextualAC");
 								var entries = dojo.query("div", dojo.byId("fruitContextualAC_popup"));
-								doh.is("ltr", entries[1].dir, "list #1");
+								doh.is("ltr", entries[1].dir, "list #1 - @");
 							}), 900);
 
 							doh.robot.sequence(function(){ autoCompleted.set("value", null); }, 400);
@@ -349,7 +349,7 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("rtl", autoCompleted.focusNode.dir, "input field of fruitContextualAC");
 								var entries = dojo.query("div", dojo.byId("fruitContextualAC_popup"));
-								doh.is("rtl", entries[1].dir, "list #1");
+								doh.is("rtl", entries[1].dir, "list #1 - *");
 							}), 900);
 
 							return d;
