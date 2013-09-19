@@ -3,6 +3,7 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/dom", // domAttr.get dom.isDescendant
 	"dojo/dom-attr", // domAttr.get dom.isDescendant
+	"dojo/dom-class",
 	"dojo/dom-construct", // connect to domConstruct.empty, domConstruct.destroy
 	"dojo/Evented",
 	"dojo/_base/lang", // lang.hitch
@@ -15,7 +16,7 @@ define([
 	"./a11y",	// a11y.isTabNavigable
 	"./registry",	// registry.byId
 	"./main"		// to set dijit.focus
-], function(aspect, declare, dom, domAttr, domConstruct, Evented, lang, on, domReady, has, Stateful, win, winUtils,
+], function(aspect, declare, dom, domAttr, domClass, domConstruct, Evented, lang, on, domReady, has, Stateful, win, winUtils,
 			a11y, registry, dijit){
 
 	// module:
@@ -199,6 +200,12 @@ define([
 			if(this._clearActiveWidgetsTimer){
 				clearTimeout(this._clearActiveWidgetsTimer);
 				delete this._clearActiveWidgetsTimer;
+			}
+
+			// if the click occurred on the scrollbar of a dropdown, treat it as a click on the dropdown,
+			// even though the scrollbar is technically on the popup wrapper (see #10631)
+			if(domClass.contains(node, "dijitPopup")){
+				node = node.firstChild;
 			}
 
 			// compute stack of active widgets (ex: ComboButton --> Menu --> MenuItem)
