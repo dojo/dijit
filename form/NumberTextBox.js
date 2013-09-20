@@ -100,7 +100,7 @@ define([
 		},
 
 		_onFocus: function(){
-			if(this.disabled){ return; }
+			if(this.disabled || this.readOnly){ return; }
 			var val = this.get('value');
 			if(typeof val == "number" && !isNaN(val)){
 				var formattedValue = this.format(val, this.constraints);
