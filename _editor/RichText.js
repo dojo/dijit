@@ -906,7 +906,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 				this.execCommand((e.shiftKey ? "outdent" : "indent"));
 			}
 		}
-		if(has("ie")){
+			if(has("ie") < 9){
 			if(e.keyCode == keys.TAB && !this.isTabIndent){
 				if(e.shiftKey && !e.ctrlKey && !e.altKey){
 					// focus the BODY so the browser will tab away from it instead
@@ -2107,7 +2107,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		//		protected
 		argument = this._preFilterContent(argument);
 		var rv = true;
-		if(has("ie")){
+			if(has("ie") < 9){
 			var insertRange = this.document.selection.createRange();
 			if(this.document.selection.type.toUpperCase() === 'CONTROL'){
 				var n=insertRange.item(0);
