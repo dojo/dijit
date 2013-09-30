@@ -28,7 +28,7 @@ define([
 			evt.stopPropagation();
 			evt.preventDefault();
 		},
-		_onLeftArrow: function(){
+		_onLeftArrow: function(/*Event*/ evt){
 			if(this.parentMenu){
 				if(this.parentMenu._isMenuBar){
 					this.parentMenu.focusPrev();
