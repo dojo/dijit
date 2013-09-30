@@ -58,7 +58,7 @@ define([
 			if(this.onClick(e) === false){
 				e.preventDefault();
 			}
-			cancelled = e.defaultPrevented;
+			var cancelled = e.defaultPrevented;
 
 			// Signal Form/Dialog to submit/close.  For 2.0, consider removing this code and instead making the Form/Dialog
 			// listen for bubbled click events where evt.target.type == "submit" && !evt.defaultPrevented.
