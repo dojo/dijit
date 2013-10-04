@@ -420,7 +420,6 @@ define([
 
 		_onFocus: function(){
 			this.validate(true);	// show tooltip if second focus of required tooltip, but no selection
-			this.inherited(arguments);
 		},
 
 		_onBlur: function(){
