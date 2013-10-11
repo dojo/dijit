@@ -264,6 +264,9 @@
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.is("s1", dojo.global.dijit.focus.curNode.id)
+
+								// Make sure _KeyNavMixin superclass didn't set tabIndex to -1.
+								doh.is("0", dijit.byId("s1").domNode.tabIndex, "tabIndex")
 							}), 1000);
 
 							// tab to button after s1
