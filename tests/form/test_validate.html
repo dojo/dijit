@@ -94,7 +94,7 @@
 				var props = {
 					name: "elevation",
 					value: 3000,
-					constraints: {min:-20000,max:20000,places:0},
+					constraints: {min:-20000,max:20000,places:0,allowCruft:true},
 					promptMessage: "Enter a value between -20000 and +20000",
 					required: true,
 					style:{ textAlign: document.documentElement.dir == "rtl" ? "left" : "right" },
@@ -103,7 +103,7 @@
 					onChange: function(val){dojo.byId('oc5').value = val; },
 					"class": "medium"
 				};
-				(new dijit.form.NumberTextBox(props, "q05")).startup();
+				(new dojo.declare("customNumberTextBox", dijit.form.NumberTextBox, props)({}, "q05")).startup();
 
 				props = {
 					name: "ticket1651",
@@ -136,6 +136,7 @@
 						doh.is("3000", form1.elevation.value, "elevation");
 						doh.is("3,000", dojo.byId("q05").value, "elevation display value");
 						doh.is("not fired yet!", dojo.byId("oc5").value, "elevation onchange");
+						doh.t(!!dijit.byId("q05").constraints.allowCruft, "constructor constraints value");
 						
 						doh.is("54775.53", form1.income1.value, "income1");
 						doh.is("$54,775.53", dojo.byId("q08").value, "income1 display value");
@@ -143,6 +144,7 @@
 
 						doh.is("54775.53", form1.income2.value, "income2");
 						doh.is("€54,775.53", dojo.byId("q08eur").value, "income2 display value");
+						doh.f(!!dijit.byId("q08eur").constraints.allowCruft, "constructor constraints value not proliferated");
 
 						doh.is("someTestString", form1.phone.value, "phone");
 						doh.is("", form1.password.value, "password");

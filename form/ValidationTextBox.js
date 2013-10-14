@@ -1,12 +1,13 @@
 define([
 	"dojo/_base/declare", // declare
 	"dojo/_base/kernel", // kernel.deprecated
+	"dojo/_base/lang",
 	"dojo/i18n", // i18n.getLocalization
 	"./TextBox",
 	"../Tooltip",
 	"dojo/text!./templates/ValidationTextBox.html",
 	"dojo/i18n!./nls/validate"
-], function(declare, kernel, i18n, TextBox, Tooltip, template){
+], function(declare, kernel, lang, i18n, TextBox, Tooltip, template){
 
 	// module:
 	//		dijit/form/ValidationTextBox
@@ -222,7 +223,7 @@ define([
 			// srcNodeRef: DOMNode|String?
 			//		If a srcNodeRef (DOM node) is specified, replace srcNodeRef with my generated DOM tree.
 
-			this.constraints = {};
+			this.constraints = lang.clone(this.constraints);
 			this.baseClass += ' dijitValidationTextBox';
 		},
 
