@@ -146,6 +146,25 @@
 						doh.is("123px", dojo.style(widget.domNode).height);
 						doh.is("456px", dojo.style(widget.domNode).width);
 						doh.is("hello world &lt;&gt;&amp;;", widget.plainTextNode.innerHTML);
+					},
+
+					function widgetWatch() {
+						var widget = new dijit._WidgetBase({}),
+							expected = [ 'a', NaN ],
+							actual = [];
+
+						widget.watch('foo', function (key, oldValue, value) {
+							actual.push(value);
+						});
+
+						widget.set('foo', 'a');
+						widget.set('foo', 'a');
+						widget.set('foo', NaN);
+						widget.set('foo', NaN);
+
+						doh.is(expected, actual);
+
+						widget.destroyRecursive();
 					}
 				]
 			);

@@ -2,6 +2,15 @@ define("dijit/_WidgetBase", ["dojo", "dijit", "dijit/_base/manager", "dojo/State
 
 (function(){
 
+function isEqual(a, b){
+	// summary:
+	//		Function that determines whether two values are identical,
+	//		taking into account that NaN is not normally equal to itself
+	//		in JS.
+
+	return a === b || (/* a is NaN */ a !== a && /* b is NaN */ b !== b);
+}
+
 dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 	// summary:
 	//		Future base class for all Dijit widgets.
@@ -631,7 +640,7 @@ dojo.declare("dijit._WidgetBase", dojo.Stateful, {
 		//		registered with watch() if the value has changed.
 		var oldValue = this[name];
 		this[name] = value;
-		if(this._watchCallbacks && this._created && value !== oldValue){
+		if(this._watchCallbacks && this._created && !isEqual(value, oldValue)){
 			this._watchCallbacks(name, oldValue, value);
 		}
 	},
