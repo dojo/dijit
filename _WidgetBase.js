@@ -67,6 +67,15 @@ define([
 		};
 	}
 
+	function isEqual(a, b){
+		//	summary:
+		//		Function that determines whether two values are identical,
+		//		taking into account that NaN is not normally equal to itself
+		//		in JS.
+
+		return a === b || (/* a is NaN */ a !== a && /* b is NaN */ b !== b);
+	}
+
 	var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		// summary:
 		//		Future base class for all Dijit widgets.
@@ -863,7 +872,7 @@ define([
 			//		registered with watch() if the value has changed.
 			var oldValue = this[name];
 			this[name] = value;
-			if(this._created && value !== oldValue){
+			if(this._created && !isEqual(oldValue, value)){
 				if(this._watchCallbacks){
 					this._watchCallbacks(name, oldValue, value);
 				}

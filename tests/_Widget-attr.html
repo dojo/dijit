@@ -291,6 +291,25 @@
 					var w3 = new Widget({});
 					doh.is(10, w3.get("foo"), "w3.foo");
 					doh.is(11, w3.get("bar"), "w3.bar");
+				},
+
+				function widgetWatch() {
+					var widget = new _WidgetBase({}),
+						expected = [ 'a', NaN ],
+						actual = [];
+
+					widget.watch('foo', function (key, oldValue, value) {
+						actual.push(value);
+					});
+
+					widget.set('foo', 'a');
+					widget.set('foo', 'a');
+					widget.set('foo', NaN);
+					widget.set('foo', NaN);
+
+					doh.is(expected, actual);
+
+					widget.destroyRecursive();
 				}
 			]);	// doh.register()
 
