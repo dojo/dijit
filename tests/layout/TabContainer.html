@@ -438,6 +438,11 @@
 						array.forEach(newGrandchildren, lang.hitch(child, "removeChild"));
 						var height2 = domGeom.position(content).h;
 						doh.is(height0, height2, "after deleting extra children height restored to original");
+
+						// Setting the title of nested TabContainer shouldn't make a tooltip over it
+						doh.f(child.domNode.hasAttribute && child.domNode.hasAttribute("title"), "child.hasAttribute(title) before");
+						child.set("title", "Nested new title");
+						doh.f(child.domNode.hasAttribute && child.domNode.hasAttribute("title"), "child.hasAttribute(title) after");
 					}
 				},
 				{

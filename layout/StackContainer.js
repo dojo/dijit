@@ -148,7 +148,7 @@ define([
 			}
 
 			// remove the title attribute so it doesn't show up when i hover over a node
-			child.domNode.title = "";
+			child.domNode.removeAttribute("title");
 		},
 
 		addChild: function(/*dijit/_WidgetBase*/ child, /*Integer?*/ insertIndex){
