@@ -60,6 +60,14 @@ define([
 				this.onChange(true);
 			}
 			this.onClick(evt);
+		},
+		
+		destroy: function(){
+			this.inherited(arguments);
+			
+			if(this._currentlyChecked[this.group] == this){
+				delete this._currentlyChecked[this.group];
+			}
 		}
 	});
 });

@@ -8,11 +8,12 @@
 	<script type="text/javascript">
 		require([
 			"doh/runner",
-			"dojo/dom", "dojo/dom-class", "dojo/on", "dojo/parser", "dojo/query", "dojo/domReady!",
-
-			"dojo/NodeList-dom",	// attr()
-			"dijit/DropDownMenu", "dijit/RadioMenuItem", "dijit/MenuSeparator"			// used by parser
-		], function(doh, dom, domClass, on, parser, query){
+			"dojo/dom", "dojo/dom-class", "dojo/on", "dojo/parser", "dojo/query",
+			"dijit/registry", "dijit/RadioMenuItem",
+			"dojo/NodeList-dom",	// allows NodeList.attr()
+			"dijit/DropDownMenu", "dijit/MenuSeparator",			// used only by parser
+			"dojo/domReady!"
+		], function(doh, dom, domClass, on, parser, query, registry, RadioMenuItem){
 
 			doh.register("parse", function parse(){
 				return parser.parse();
@@ -43,6 +44,18 @@
 					// clear selected item in group 1
 					g1r1.set("checked", false);
 					doh.is("g2r1", query(".dijitRadioMenuItemChecked").attr("id").join(", "), "cleared g2r1");
+				},
+				function destroySelected(){
+					// Test to make sure that destroying the selected node and recreating it doesn't throw an exception
+					g1r1.set("checked", true);
+					g1r1.destroyRecursive();
+					var reincarnated = new RadioMenuItem({
+						id: "g1r1",
+						group: "g1",
+						checked: true,
+						label: "reincarnated"
+					});
+					registry.byId("menu").addChild(reincarnated, 2);
 				}
 			]);
 
