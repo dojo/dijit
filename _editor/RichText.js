@@ -2107,14 +2107,37 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		//		protected
 		argument = this._preFilterContent(argument);
 		var rv = true;
-			if(has("ie") < 9){
+		if(has("ie") >= 9){
+			var insertRange;
+			var selection = rangeapi.getSelection(this.window);
+			if(selection && selection.rangeCount && selection.getRangeAt){
+				insertRange = selection.getRangeAt(0);
+				insertRange.deleteContents();
+
+				var div = domConstruct.create('div');
+				div.innerHTML = argument;
+				var node, lastNode;
+				var n = this.document.createDocumentFragment();
+				while((node = div.firstChild)){
+					lastNode = n.appendChild(node);
+				}
+				insertRange.insertNode(n);
+				if(lastNode) {
+					insertRange = insertRange.cloneRange();
+					insertRange.setStartAfter(lastNode);
+					insertRange.collapse(false);
+					selection.removeAllRanges();
+					selection.addRange(insertRange);
+				}
+			}
+		}else if(has("ie") < 9){
 			var insertRange = this.document.selection.createRange();
 			if(this.document.selection.type.toUpperCase() === 'CONTROL'){
-				var n=insertRange.item(0);
+				var n = insertRange.item(0);
 				while(insertRange.length){
 					insertRange.remove(insertRange.item(0));
 				}
-				n.outerHTML=argument;
+				n.outerHTML = argument;
 			}else{
 				insertRange.pasteHTML(argument);
 			}
