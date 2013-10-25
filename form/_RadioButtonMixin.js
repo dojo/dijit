@@ -3,7 +3,7 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/dom-attr", // domAttr.set
 	"dojo/_base/lang", // lang.hitch
-	"dojo/query", // query
+	"dojo/query!css2", // query
 	"../registry"    // registry.getEnclosingWidget
 ], function(array, declare, domAttr, lang, query, registry){
 
