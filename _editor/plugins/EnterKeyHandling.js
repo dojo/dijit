@@ -1,6 +1,7 @@
 define([
 	"dojo/_base/declare", // declare
 	"dojo/dom-construct", // domConstruct.destroy domConstruct.place
+	"dojo/dom-style",
 	"dojo/keys", // keys.ENTER
 	"dojo/_base/lang",
 	"dojo/on",
@@ -9,8 +10,9 @@ define([
 	"dojo/window", // winUtils.scrollIntoView
 	"../_Plugin",
 	"../RichText",
-	"../range"
-], function(declare, domConstruct, keys, lang, on, has, win, winUtils, _Plugin, RichText, rangeapi){
+	"../range",
+	"../../_base/focus"
+], function(declare, domConstruct, domStyle, keys, lang, on, has, win, winUtils, _Plugin, RichText, rangeapi, baseFocus){
 
 	// module:
 	//		dijit/_editor/plugins/EnterKeyHandling
@@ -87,7 +89,12 @@ define([
 		//
 		//		See class description for more details.
 		blockNodeForEnter: 'BR',
-
+		
+		// _alwaysShiftKey: boolean
+		//		This property decides, if behavior of Enter and Shift-Enter should be
+		//		the same or different. 
+		 _alwaysShiftKey: true, 
+		 
 		constructor: function(args){
 			if(args){
 				if("blockNodeForEnter" in args){
@@ -114,7 +121,7 @@ define([
 							// Just do it manually.  The handleEnterKey has a shift mode that
 							// Always acts like <br>, so just use it.
 							var ne = lang.mixin({}, e);
-							ne.shiftKey = true;
+							ne.shiftKey = this._alwaysShiftKey;
 							if(!this.handleEnterKey(ne)){
 								e.stopPropagation();
 								e.preventDefault();
@@ -138,11 +145,19 @@ define([
 				}));
 			}else if(this.blockNodeForEnter){
 				// add enter key handler
-				var h = lang.hitch(this, "handleEnterKey");
-				editor.addKeyHandler(13, 0, 0, h); //enter
-				editor.addKeyHandler(13, 0, 1, h); //shift+enter
-				this.own(this.editor.on('KeyPressed', lang.hitch(this, 'onKeyPressed')));
+				this._setBlockHandlers();
 			}
+		},
+		_setBlockHandlers: function(){
+			var h = lang.hitch(this, "handleEnterKey");
+			this.editor.addKeyHandler(13, 0, 0, h); //enter
+			this.editor.addKeyHandler(13, 0, 1, h); //shift+enter
+			this.own(this.editor.on('KeyPressed', lang.hitch(this, 'onKeyPressed')));			
+		},
+		changeBlockNodeFromBrToDiv: function(){
+			this.blockNodeForEnter = "DIV";
+			this._alwaysShiftKey = false;
+			this._setBlockHandlers();
 		},
 		onKeyPressed: function(){
 			// summary:
@@ -150,6 +165,9 @@ define([
 			//		Connected to RichText's onKeyPressed() method.
 			// tags:
 			//		private
+			if(this.blockNodeForEnter == 'BR'){
+				return;
+			}
 			if(this._checkListLater){
 				if(this.editor.selection.isCollapsed()){
 					var liparent = this.editor.selection.getAncestorElement('LI');
@@ -171,10 +189,62 @@ define([
 						}
 					}else{
 						if(has("mozilla")){
+							selection = rangeapi.getSelection(this.editor.window);
+							range = selection.getRangeAt(0);
+							var cont = range.startContainer;
+							if(cont.tagName && cont.tagName.toUpperCase() == "LI" && cont.childNodes.length == 1 && 
+									cont.firstChild.tagName && cont.firstChild.tagName.toUpperCase() == "BR"){ //new LI
+								var prev = cont.previousSibling, block = prev.firstChild;
+								if(block.tagName && this.blockNodes.test(block.tagName.toUpperCase())){
+									domConstruct.create(block.tagName,{innerHTML: cont.innerHTML},cont,"only");
+									selection.removeAllRanges();
+									range.setStart(cont.firstChild,0);
+									range.setEnd(cont.firstChild,0);
+									selection.addRange(range);
+								}
+							}
 							if(liparent.parentNode.parentNode.nodeName == 'LI'){
 								liparent = liparent.parentNode.parentNode;
 							}
 						}
+						if(has("webkit")){
+							// Create new item, containing "formatted" text
+							selection = rangeapi.getSelection(this.editor.window);
+							range = selection.getRangeAt(0);
+							var cont = range.startContainer;
+							var block,item;
+							var li = cont.tagName && this.blockNodes.test(cont.tagName.toUpperCase())? cont : cont.parentNode;
+							while(li !== this.editor.editNode){
+								var name = li.tagName.toUpperCase();
+								if(name === "TD"){
+									break;
+								}else if(name === "LI"){
+									item = li;
+									break;
+								}else if(!block && this.blockNodes.test(name)){
+									block = li;
+								}
+								li = li.parentNode;
+							}
+							if(item && block){
+								var prev = block.previousSibling;
+								if(prev && prev.tagName && this.blockNodes.test(prev.tagName)){
+									var newItem = domConstruct.create("li",null,item,"after");
+									if(prev.tagName.toUpperCase() !== block.tagName.toUpperCase()){
+										domConstruct.create(prev.tagName,{innerHTML: block.innerHTML},newItem,"first");
+										block.parentNode.removeChild(block);
+									}else{
+										domConstruct.place(block,newItem,"first");
+									}
+									newItem.style.cssText = item.style.cssText;
+									selection.removeAllRanges();
+									range.setStart(newItem.firstChild,0);
+									range.setEnd(newItem.firstChild,0);
+									selection.addRange(range);
+								}
+							}
+						}
+
 						var fc = liparent.firstChild;
 						if(fc && fc.nodeType == 1 && (fc.nodeName == 'UL' || fc.nodeName == 'OL')){
 							liparent.insertBefore(fc.ownerDocument.createTextNode('\xA0'), fc);
@@ -203,7 +273,7 @@ define([
 
 		// blockNodes: [private] Regex
 		//		Regex for testing if a given tag is a block level (display:block) tag
-		blockNodes: /^(?:P|H1|H2|H3|H4|H5|H6|LI)$/,
+		blockNodes: /^(?:P|H1|H2|H3|H4|H5|H6|LI|DIV)$/,
 
 		handleEnterKey: function(e){
 			// summary:
@@ -215,7 +285,7 @@ define([
 			//		private
 
 			var selection, range, newrange, startNode, endNode, brNode, doc = this.editor.document, br, rs, txt;
-			if(e.shiftKey){        // shift+enter always generates <br>
+			if(e.shiftKey && !this.editor.advancedBidi){	// shift+enter always generates <br>
 				var parent = this.editor.selection.getParentElement();
 				var header = rangeapi.getAncestor(parent, this.blockNodes);
 				if(header){
@@ -408,6 +478,14 @@ define([
 
 			var newblock = doc.createElement(this.blockNodeForEnter);
 			newblock.innerHTML = this.bogusHtmlContent;
+			// Clone any block level styles.
+			if(block.blockNode.style){                      
+				if(newblock.style){
+					if(block.blockNode.style.cssText){
+						newblock.style.cssText = block.blockNode.style.cssText;
+					}
+				}
+			}
 			this.removeTrailingBr(block.blockNode);
 			var endOffset = range.endOffset;
 			var node = range.endContainer;
@@ -424,6 +502,11 @@ define([
 					domConstruct.place(newblock, block.blockNode, "after");
 				}
 				_letBrowserHandle = false;
+				//IE: When scrollIntoView is called after resetting selection, it causes problem with appearance of the text,
+				//which is placed in the right side of the editing area (for example, rtl-oriented and right aligned blocks)
+				if(this.editor.height){
+					winUtils.scrollIntoView(newblock);
+				}				
 				// lets move caret to the newly created block
 				newrange = rangeapi.create(this.editor.window);
 				newrange.setStart(newblock, 0);

@@ -23,6 +23,8 @@ define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
 	doh.register("editor.robot.ToggleDir", require.toUrl("./robot/ToggleDir.html"), 999999);
 	doh.register("editor.robot.ToggleDir_rtl", require.toUrl("./robot/ToggleDir_rtl.html"), 999999);
 	doh.register("editor.robot.TabIndent", require.toUrl("./robot/TabIndent.html"), 999999);
+	doh.register("editor.robot.BidiSupport", require.toUrl("./robot/Editor_BidiSupport.html"), 999999);
+	doh.register("editor.robot.BidiSupportRtl", require.toUrl("./robot/Editor_BidiSupport_rtl.html"), 999999);
 
 	if(!has("webkit")){
 		// The back button on webkit is URL for the browser itself, restarting the entire test suite,

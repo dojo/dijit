@@ -549,7 +549,7 @@ define([
 			if(has("ie") || has("webkit") || (!this.height && !has("mozilla"))){
 				// In auto-expand mode, need a wrapper div for AlwaysShowToolbar plugin to correctly
 				// expand/contract the editor as the content changes.
-				html = "<div id='dijitEditorBody'></div>";
+				html = "<div id='dijitEditorBody' dir='" + (this.isTextDirLeftToRight()? "ltr" : "rtl") + "'></div>";
 				setBodyId = false;
 			}else if(has("mozilla")){
 				// workaround bug where can't select then delete text (until user types something
@@ -656,7 +656,8 @@ define([
 				this._applyEditingAreaStyleSheets(), "\n",
 				"</head>\n<body role='main' ",
 				(setBodyId ? "id='dijitEditorBody' " : ""),
-
+				(setBodyId? " dir='" + (this.isTextDirLeftToRight()? "ltr" : "rtl") + "' " : ""),
+				
 				// Onload handler fills in real editor content.
 				// On IE9, sometimes onload is called twice, and the first time frameElement is null (test_FullScreen.html)
 				"onload='frameElement && frameElement._loadFunc(window,document)' ",
@@ -2994,9 +2995,41 @@ define([
 				domConstruct.destroy(b);
 			});
 			return node;
+		},
+		
+		isTextDirLeftToRight: function(){
+			return this.isLeftToRight();
 		}
 	});
 
-	return RichText;
+	if(has("dojo-bidi")){
+		RichText.extend({
+			_setTextDirAttr: function(/*String*/ value){
+				// summary:
+				//		Sets textDir attribute. Sets direction of editNode accordingly.
+				this._set("textDir", value);
+				this.editNode.dir = this.isTextDirLeftToRight()? "ltr" : "rtl";
+			},
 
+			isTextDirLeftToRight: function(){
+				// summary:
+				//		Returns default text direction.
+				//		Default text direction is defined by textDir attribute provided that it contains one of 
+				//		"ltr" or "rtl" values. In other cases default text direction is the same, as orientation
+				//		of the editor.
+				if(!this.textDir){
+					return this.isLeftToRight();
+				}
+				var textDir = this.textDir.toUpperCase();
+				if(textDir == "LTR"){
+					return true;
+				}else if(textDir == "RTL"){
+					return false;
+				}else{
+					return this.isLeftToRight();
+				}
+			}
+		});
+	}
+	return RichText;
 });

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title>Editor Test: BidiSupport Plugin</title>
+	<style type="text/css">
+		@import "../../../dojo/resources/dojo.css";
+		@import "../css/dijitTests.css";
+		@import "../../../dojox/editor/plugins/resources/css/Breadcrumb.css";
+		@import "../../../dojox/editor/plugins/resources/css/ShowBlockNodes.css";		
+		@import "../../../dojox/editor/plugins/resources/css/Blockquote.css";				
+		@import "../../../dojox/editor/plugins/resources/editorPlugins.css";		
+	</style>
+	<script type="text/javascript" src="../boilerplate.js"
+		data-dojo-config="parseOnLoad: false, has: {'dojo-bidi': true}"></script>
+
+	<script type="text/javascript">
+		require([
+			"dojo/parser",
+			"dijit/Editor",
+			"dijit/_editor/plugins/BidiSupport",
+			"dijit/_editor/plugins/FontChoice",
+			"dijit/_editor/plugins/ViewSource",
+			"dijit/_editor/plugins/EnterKeyHandling",
+			"dojo/domReady!"
+		], function(parser){
+			parser.parse();
+		});	
+	</script>
+</head>
+<body class="claro">
+<h2 align="center">Editor Test: BidiSupport plugin</h2>
+<h3 align="center">Orientation: <span id="hOrient" style="font-style: italic; font-weight: bold;"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;New Block Mode: <span id="hBlockMode" style="font-style: italic; font-weight: bold;"></span></h3>
+<h3 align="center"><span id="hAction" style="font-style: italic; font-weight: bold;">Test</span></h3>
+<div id="hMouse" align="center">&nbsp;</div>
+<div id="d1" style="border: 1px dotted black;">
+	<div id="e1" data-dojo-type="dijit.Editor" 
+	        data-dojo-props='plugins: ["bold","italic","|","justifyLeft","justifyCenter","justifyRight","|","formatBlock"], 
+			extraPlugins: ["|","insertOrderedList","insertUnorderedList","|","indent","outdent","|","bidiSupport","|",
+			"dijit._editor.plugins.ViewSource",], height: "460px", dir: "rtl"'>
+Some text here.				
+	</div>
+</div>
+<br>
+<h4 align="center">HTML contents</h4>
+<textarea id="htmlContent" readonly style="border-style: solid; border-width: 1px; width: 100%; height: 70px;"></textarea>
+</body>
+</html>

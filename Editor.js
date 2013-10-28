@@ -57,6 +57,11 @@ define([
 		// extraPlugins: [const] Object[]
 		//		A list of extra plugin names which will be appended to plugins array
 		extraPlugins: null,
+		
+		// advancedBidi: [public] Boolean
+		//		Flag shows that advanced bidi support is added. Should be set by plugin,
+		//		which actually provides this support.			
+		advancedBidi: false,
 
 		constructor: function(/*===== params, srcNodeRef =====*/){
 			// summary:
