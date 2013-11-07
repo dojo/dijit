@@ -127,7 +127,7 @@ define([
 				if(value === null || value === ''){
 					value = '';
 					if(!lang.isString(displayedValue)){
-						this._setDisplayedValueAttr(displayedValue||'', priorityChange);
+						this._setDisplayedValueAttr(displayedValue||null, priorityChange);
 						return;
 					}
 				}
@@ -166,8 +166,14 @@ define([
 			// description:
 			//		Sets textbox to display label. Also performs reverse lookup
 			//		to set the hidden value.  label should corresponding to item.searchAttr.
-
-			if(label == null){ label = ''; }
+			
+			if(label === null){ // clear 
+				this.textbox.value = null;
+				this.valueNode.value = null;
+				this._lastDisplayedValue = "";
+				this._lastQuery = null;
+				return;
+			}
 
 			// This is called at initialization along with every custom setter.
 			// Usually (or always?) the call can be ignored.   If it needs to be
