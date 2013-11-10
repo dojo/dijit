@@ -494,7 +494,7 @@ define([
 			ifr.frameBorder = 0;
 			ifr._loadFunc = lang.hitch(this, function(w){
 				this.window = w;
-				this.document = this.window.document;
+				this.document = w.document;
 
 				// instantiate class to access selected text in editor's iframe
 				this.selection = new selectionapi.SelectionManager(w);
@@ -544,19 +544,9 @@ define([
 			var _cs = domStyle.getComputedStyle(this.domNode);
 
 			// The contents inside of <body>.  The real contents are set later via a call to setValue().
-			var html = "";
-			var setBodyId = true;
-			if(has("ie") || has("webkit") || (!this.height && !has("mozilla"))){
-				// In auto-expand mode, need a wrapper div for AlwaysShowToolbar plugin to correctly
-				// expand/contract the editor as the content changes.
-				html = "<div id='dijitEditorBody'></div>";
-				setBodyId = false;
-			}else if(has("mozilla")){
-				// workaround bug where can't select then delete text (until user types something
-				// into the editor)... and/or issue where typing doesn't erase selected text
-				this._cursorToStart = true;
-				html = "&#160;";	// &nbsp;
-			}
+			// In auto-expand mode, need a wrapper div for AlwaysShowToolbar plugin to correctly
+			// expand/contract the editor as the content changes.
+			var html = "<div id='dijitEditorBody'></div>";
 
 			var font = [ _cs.fontWeight, _cs.fontSize, _cs.fontFamily ].join(" ");
 
@@ -617,7 +607,6 @@ define([
 			return [
 				"<!DOCTYPE html>",
 				this.isLeftToRight() ? "<html lang='" + this.lang + "'>\n<head>\n" : "<html dir='rtl' lang='" + this.lang + "'>\n<head>\n",
-				//(has("mozilla") && label.length ? "<title>" + label[0].innerHTML + "</title>\n" : ""),
 				title ? "<title>" + title + "</title>" : "",
 				"<meta http-equiv='Content-Type' content='text/html'>\n",
 				"<style>\n",
@@ -655,7 +644,6 @@ define([
 				"</style>\n",
 				this._applyEditingAreaStyleSheets(), "\n",
 				"</head>\n<body role='main' ",
-				(setBodyId ? "id='dijitEditorBody' " : ""),
 
 				// Onload handler fills in real editor content.
 				// On IE9, sometimes onload is called twice, and the first time frameElement is null (test_FullScreen.html)
@@ -748,41 +736,30 @@ define([
 			if(!this.isLoaded){
 				return;
 			} // this method requires init to be complete
-			if(has("ie") || has("webkit") || has("opera")){
-				var preventIEfocus = has("ie") && (this.isLoaded || !this.focusOnLoad);
-				if(preventIEfocus){
-					this.editNode.unselectable = "on";
-				}
-				this.editNode.contentEditable = !value;
-				if(preventIEfocus){
-					this.defer(function(){
-						if(this.editNode){        // guard in case widget destroyed before timeout
-							this.editNode.unselectable = "off";
-						}
-					});
-				}
-			}else{ //moz
-				try{
-					this.document.designMode = (value ? 'off' : 'on');
-				}catch(e){
-					return;
-				} // ! _disabledOK
-				if(!value && this._mozSettingProps){
-					var ps = this._mozSettingProps;
-					var n;
-					for(n in ps){
-						if(ps.hasOwnProperty(n)){
-							try{
-								this.document.execCommand(n, false, ps[n]);
-							}catch(e2){
-							}
+			var preventIEfocus = has("ie") && (this.isLoaded || !this.focusOnLoad);
+			if(preventIEfocus){
+				this.editNode.unselectable = "on";
+			}
+			this.editNode.contentEditable = !value;
+			this.editNode.tabIndex = value ? "-1" : this.tabIndex;
+			if(preventIEfocus){
+				this.defer(function(){
+					if(this.editNode){        // guard in case widget destroyed before timeout
+						this.editNode.unselectable = "off";
+					}
+				});
+			}
+			if(has("mozilla") && !value && this._mozSettingProps){
+				var ps = this._mozSettingProps;
+				var n;
+				for(n in ps){
+					if(ps.hasOwnProperty(n)){
+						try{
+							this.document.execCommand(n, false, ps[n]);
+						}catch(e2){
 						}
 					}
 				}
-//			this.document.execCommand('contentReadOnly', false, value);
-//				if(value){
-//					this.blur(); //to remove the blinking caret
-//				}
 			}
 			this._disabledOK = true;
 		},
@@ -804,19 +781,19 @@ define([
 				this.window.__registeredWindow = true;
 				this._iframeRegHandle = focus.registerIframe(this.iframe);
 			}
-			if(!has("ie") && !has("webkit") && (this.height || has("mozilla"))){
-				this.editNode = this.document.body;
-			}else{
-				// there's a wrapper div around the content, see _getIframeDocTxt().
-				this.editNode = this.document.body.firstChild;
-				var _this = this;
-				if(has("ie")){ // #4996 IE wants to focus the BODY tag
-					this.tabStop = domConstruct.create('div', { tabIndex: -1 }, this.editingArea);
-					this.iframe.onfocus = function(){
-						_this.editNode.setActive();
-					};
-				}
-			}
+
+			// there's a wrapper div around the content, see _getIframeDocTxt().
+			this.editNode = this.document.body.firstChild;
+			var _this = this;
+
+			// Helper code so IE and FF skip over focusing on the <iframe> and just focus on the inner <div>.
+			// See #4996 IE wants to focus the BODY tag.
+			this.beforeIframeNode = domConstruct.place("<div tabIndex=-1></div>", this.iframe, "before");
+			this.afterIframeNode = domConstruct.place("<div tabIndex=-1></div>", this.iframe, "after");
+			this.iframe.onfocus = this.document.onfocus = function(){
+				_this.editNode.focus();
+			};
+
 			this.focusNode = this.editNode; // for InlineEditBox
 
 
@@ -829,7 +806,10 @@ define([
 				}, this)
 			);
 
-			this.own(on(ap, "mouseup", lang.hitch(this, "onClick"))); // mouseup in the margin does not generate an onclick event
+			this.own(
+				// mouseup in the margin does not generate an onclick event
+				on(ap, "mouseup", lang.hitch(this, "onClick"))
+			);
 
 			if(has("ie")){ // IE contentEditable
 				this.own(on(this.document, "mousedown", lang.hitch(this, "_onIEMouseDown"))); // #4996 fix focus
@@ -922,24 +902,28 @@ define([
 					this.execCommand((e.shiftKey ? "outdent" : "indent"));
 				}
 			}
-			if(has("ie") < 9){
-				if(e.keyCode == keys.TAB && !this.isTabIndent){
-					if(e.shiftKey && !e.ctrlKey && !e.altKey){
-						// focus the BODY so the browser will tab away from it instead
-						this.iframe.focus();
-					}else if(!e.shiftKey && !e.ctrlKey && !e.altKey){
-						// focus the BODY so the browser will tab away from it instead
-						this.tabStop.focus();
-					}
-				}else if(e.keyCode === keys.BACKSPACE && this.document.selection.type === "Control"){
-					// IE has a bug where if a non-text object is selected in the editor,
-					// hitting backspace would act as if the browser's back button was
-					// clicked instead of deleting the object. see #1069
-					e.stopPropagation();
-					e.preventDefault();
-					this.execCommand("delete");
+
+			// Make tab and shift-tab skip over the <iframe>, going from the nested <div> to the toolbar
+			// or next element after the editor.   Needed on IE<9 and firefox.
+			if(e.keyCode == keys.TAB && !this.isTabIndent){
+				if(e.shiftKey && !e.ctrlKey && !e.altKey){
+					// focus the <iframe> so the browser will shift-tab away from it instead
+					this.beforeIframeNode.focus();
+				}else if(!e.shiftKey && !e.ctrlKey && !e.altKey){
+					// focus node after the <iframe> so the browser will tab away from it instead
+					this.afterIframeNode.focus();
 				}
 			}
+
+			if(has("ie") < 9 && e.keyCode === keys.BACKSPACE && this.document.selection.type === "Control"){
+				// IE has a bug where if a non-text object is selected in the editor,
+				// hitting backspace would act as if the browser's back button was
+				// clicked instead of deleting the object. see #1069
+				e.stopPropagation();
+				e.preventDefault();
+				this.execCommand("delete");
+			}
+
 			if(has("ff")){
 				if(e.keyCode === keys.PAGE_UP || e.keyCode === keys.PAGE_DOWN){
 					if(this.editNode.clientHeight >= this.editNode.scrollHeight){
@@ -1121,25 +1105,20 @@ define([
 					return;
 				}
 			}
-			if(!has("ie")){
-				focus.focus(this.iframe);
-			}else if(this.editNode && this.editNode.focus){
-				// editNode may be hidden in display:none div, lets just punt in this case
+			if(has("ie") < 9){
 				//this.editNode.focus(); -> causes IE to scroll always (strict and quirks mode) to the top the Iframe
 				// if we fire the event manually and let the browser handle the focusing, the latest
 				// cursor position is focused like in FF
-				if(has("ie") < 9){
-					this.iframe.fireEvent('onfocus', document.createEventObject()); // createEventObject/fireEvent only in IE < 11
-				}else{
-					// IE11 seems to be in a strange limbo where neither focus.focus nor fireEvent work.
-					// It seems to require a moz-style focus synthetic event.
-					var e = document.createEvent("UIEvents");
-					e.initEvent('focus', true, false);
-					this.iframe.dispatchEvent(e);
-				}
-				//	}else{
-				// TODO: should we throw here?
-				// console.debug("Have no idea how to focus into the editor!");
+				this.iframe.fireEvent('onfocus', document.createEventObject()); // createEventObject/fireEvent only in IE < 11
+			}else if(has("ie")){
+				// IE11 seems to be in a strange limbo where neither focus.focus nor fireEvent work.
+				// It seems to require a moz-style focus synthetic event.
+				var e = document.createEvent("UIEvents");
+				e.initEvent('focus', true, false);
+				this.iframe.dispatchEvent(e);
+			}else{
+				// Firefox and chrome
+				this.editNode.focus();
 			}
 		},
 
@@ -1580,9 +1559,6 @@ define([
 			}else{
 				html = this._preFilterContent(html);
 				var node = this.isClosed ? this.domNode : this.editNode;
-				if(html && has("mozilla") && html.toLowerCase() === "<p></p>"){
-					html = "<p>&#160;</p>";	// &nbsp;
-				}
 
 				// Use &nbsp; to avoid webkit problems where editor is disabled until the user clicks it
 				if(!html && has("webkit")){
@@ -1612,10 +1588,6 @@ define([
 			}else if(this.window && this.window.getSelection){ // Moz
 				html = this._preFilterContent(html);
 				this.execCommand("selectall");
-				if(!html){
-					this._cursorToStart = true;
-					html = "&#160;";	// &nbsp;
-				}
 				this.execCommand("inserthtml", html);
 				this._preDomFilterContent(this.editNode);
 			}else if(this.document && this.document.selection){//IE
