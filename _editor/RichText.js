@@ -483,7 +483,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		ifr.frameBorder = 0;
 		ifr._loadFunc = lang.hitch( this, function(w){
 			this.window = w;
-			this.document = this.window.document;
+				this.document = w.document;
 
 			if(has("ie")){
 				this._localizeEditorCommands();
@@ -551,19 +551,9 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		var _cs = domStyle.getComputedStyle(this.domNode);
 
 		// The contents inside of <body>.  The real contents are set later via a call to setValue().
-		var html = "";
-		var setBodyId = true;
-		if(has("ie") || has("webkit") || (!this.height && !has("mozilla"))){
 			// In auto-expand mode, need a wrapper div for AlwaysShowToolbar plugin to correctly
 			// expand/contract the editor as the content changes.
-			html = "<div id='dijitEditorBody'></div>";
-			setBodyId = false;
-		}else if(has("mozilla")){
-			// workaround bug where can't select then delete text (until user types something
-			// into the editor)... and/or issue where typing doesn't erase selected text
-			this._cursorToStart = true;
-			html = "&#160;";	// &nbsp;
-		}
+			var html = "<div id='dijitEditorBody'></div>";
 
 		var font = [ _cs.fontWeight, _cs.fontSize, _cs.fontFamily ].join(" ");
 
@@ -649,7 +639,6 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			"</style>\n",
 			this._applyEditingAreaStyleSheets(),"\n",
 			"</head>\n<body ",
-			(setBodyId?"id='dijitEditorBody' ":""),
 
 			// Onload handler fills in real editor content.
 			// On IE9, sometimes onload is called twice, and the first time frameElement is null (test_FullScreen.html)
@@ -740,10 +729,12 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		value = !!value;
 		this._set("disabled", value);
 		if(!this.isLoaded){ return; } // this method requires init to be complete
-		if(has("ie") || has("webkit") || has("opera")){
 			var preventIEfocus = has("ie") && (this.isLoaded || !this.focusOnLoad);
-			if(preventIEfocus){ this.editNode.unselectable = "on"; }
+			if(preventIEfocus){
+				this.editNode.unselectable = "on";
+			}
 			this.editNode.contentEditable = !value;
+			this.editNode.tabIndex = value ? "-1" : this.tabIndex;
 			if(preventIEfocus){
 				var _this = this;
 				setTimeout(function(){
@@ -752,26 +743,18 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 					}
 				}, 0);
 			}
-		}else{ //moz
-			try{
-				this.document.designMode=(value?'off':'on');
-			}catch(e){ return; } // ! _disabledOK
-			if(!value && this._mozSettingProps){
+			if(has("mozilla") && !value && this._mozSettingProps){
 				var ps = this._mozSettingProps;
 				var n;
 				for(n in ps){
 					if(ps.hasOwnProperty(n)){
 						try{
 							this.document.execCommand(n,false,ps[n]);
-						}catch(e2){}
+						}catch(e2){
 					}
 				}
 			}
-//			this.document.execCommand('contentReadOnly', false, value);
-//				if(value){
-//					this.blur(); //to remove the blinking caret
-//				}
-		}
+			}
 		this._disabledOK = true;
 	},
 
@@ -792,17 +775,19 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			this.window.__registeredWindow = true;
 			this._iframeRegHandle = focus.registerIframe(this.iframe);
 		}
-		if(!has("ie") && !has("webkit") && (this.height || has("mozilla"))){
-			this.editNode=this.document.body;
-		}else{
+
 			// there's a wrapper div around the content, see _getIframeDocTxt().
 			this.editNode=this.document.body.firstChild;
 			var _this = this;
-			if(has("ie")){ // #4996 IE wants to focus the BODY tag
-				this.tabStop = domConstruct.create('div', { tabIndex: -1 }, this.editingArea);
-				this.iframe.onfocus = function(){ _this.editNode.setActive(); };
-			}
-		}
+
+			// Helper code so IE and FF skip over focusing on the <iframe> and just focus on the inner <div>.
+			// See #4996 IE wants to focus the BODY tag.
+			this.beforeIframeNode = domConstruct.place("<div tabIndex=-1></div>", this.iframe, "before");
+			this.afterIframeNode = domConstruct.place("<div tabIndex=-1></div>", this.iframe, "after");
+			this.iframe.onfocus = this.document.onfocus = function(){
+				_this.editNode.focus();
+			};
+
 		this.focusNode = this.editNode; // for InlineEditBox
 
 
@@ -906,20 +891,25 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 				this.execCommand((e.shiftKey ? "outdent" : "indent"));
 			}
 		}
-			if(has("ie") < 9){
+
+			// Make tab and shift-tab skip over the <iframe>, going from the nested <div> to the toolbar
+			// or next element after the editor.   Needed on IE<9 and firefox.
 			if(e.keyCode == keys.TAB && !this.isTabIndent){
 				if(e.shiftKey && !e.ctrlKey && !e.altKey){
-					// focus the BODY so the browser will tab away from it instead
-					this.iframe.focus();
+					// focus the <iframe> so the browser will shift-tab away from it instead
+					this.beforeIframeNode.focus();
 				}else if(!e.shiftKey && !e.ctrlKey && !e.altKey){
-					// focus the BODY so the browser will tab away from it instead
-					this.tabStop.focus();
+					// focus node after the <iframe> so the browser will tab away from it instead
+					this.afterIframeNode.focus();
 				}
-			}else if(e.keyCode === keys.BACKSPACE && this.document.selection.type === "Control"){
+			}
+
+			if(has("ie") < 9 && e.keyCode === keys.BACKSPACE && this.document.selection.type === "Control"){
 				// IE has a bug where if a non-text object is selected in the editor,
 				// hitting backspace would act as if the browser's back button was
 				// clicked instead of deleting the object. see #1069
-				event.stop(e);
+				e.stopPropagation();
+				e.preventDefault();
 				this.execCommand("delete");
 			}else if((65 <= e.keyCode && e.keyCode <= 90) ||
 				(e.keyCode>=37 && e.keyCode<=40) // FIXME: get this from connect() instead!
@@ -927,7 +917,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 				e.charCode = e.keyCode;
 				this.onKeyPress(e);
 			}
-		}
+
 		if(has("ff")){
 			if(e.keyCode === keys.PAGE_UP || e.keyCode === keys.PAGE_DOWN ){
 				if(this.editNode.clientHeight >= this.editNode.scrollHeight){
@@ -1528,9 +1518,6 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		}else{
 			html = this._preFilterContent(html);
 			var node = this.isClosed ? this.domNode : this.editNode;
-			if(html && has("mozilla") && html.toLowerCase() === "<p></p>"){
-				html = "<p>&#160;</p>";	// &nbsp;
-			}
 
 			// Use &nbsp; to avoid webkit problems where editor is disabled until the user clicks it
 			if(!html && has("webkit")){
@@ -1560,10 +1547,6 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		}else if(this.window && this.window.getSelection){ // Moz
 			html = this._preFilterContent(html);
 			this.execCommand("selectall");
-			if(!html){
-				this._cursorToStart = true;
-				html = "&#160;";	// &nbsp;
-			}
 			this.execCommand("inserthtml", html);
 			this._preDomFilterContent(this.editNode);
 		}else if(this.document && this.document.selection){//IE
