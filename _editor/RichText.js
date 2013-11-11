@@ -633,16 +633,16 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			"\t\tpadding: 1px 0 0 0;\n",
 			"\t\tmargin: -1px 0 0 0;\n", // remove extraneous vertical scrollbar on safari and firefox
 			"\t}\n",
-				"\tbody,html, #dijitEditorBody{ outline: none; }",
+				"\tbody,html,#dijitEditorBody { outline: none; }",
 
 				// Set <body> to expand to full size of editor, so clicking anywhere will work.
 				// Except in auto-expand mode, in which case the editor expands to the size of <body>.
 				// Also determine how scrollers should be applied.  In autoexpand mode (height = "") no scrollers on y at all.
 				// But in fixed height mode we want both x/y scrollers.
 				// Scrollers go on <body> since it's been set to height: 100%.
-				"html { height: 100%; width: 100%; overflow: hidden; }\n",	// scroll bar is on <body>, shouldn't be on <html>
-				this.height ? "\tbody { height: 100%; width: 100%; overflow: auto; }\n" :
-					"\tbody { min-height: " + this.minHeight + "; width: 100%; overflow-x: auto; overflow-y: hidden; }\n",
+				"html { height: 100%; width: 100%; overflow: hidden; }\n",	// scroll bar is on #dijitEditorBody, shouldn't be on <html>
+				this.height ? "\tbody,#dijitEditorBody { height: 100%; width: 100%; overflow: auto; }\n" :
+					"\tbody,#dijitEditorBody { min-height: " + this.minHeight + "; width: 100%; overflow-x: auto; overflow-y: hidden; }\n",
 
 			// TODO: left positioning will cause contents to disappear out of view
 			//	   if it gets too wide for the visible area
