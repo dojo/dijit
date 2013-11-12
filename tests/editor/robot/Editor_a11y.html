@@ -115,6 +115,7 @@
 								doh.is("no onchange event yet", editor1onChange, "onChange not called");
 							}), 500);
 							robot.keyPress(keys.TAB, 500);	// goes to content
+							robot.keyPress(keys.HOME, 500, {});	// go to start of content
 							robot.sequence(d.getTestCallback(function(){
 								// just to signal that we are done
 							}));
@@ -127,10 +128,6 @@
 						timeout: 10000,
 						runTest: function(){
 							var d = new doh.Deferred();
-
-							robot.sequence(d.getTestErrback(function(){
-								editor1.placeCursorAtStart();
-							}), 500);
 
 							robot.sequence(d.getTestCallback(function(){
 								var toolbar = editor1.toolbar;
