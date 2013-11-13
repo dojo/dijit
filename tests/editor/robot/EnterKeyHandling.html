@@ -105,7 +105,7 @@
 								value = value.replace(/&nbsp;/g, "");
 								value = value.replace(/ /g, "");
 								value = value.replace(/\xA0/g, "");
-								doh.is('ab345<br/>ab345<br/>ab345<br/>ab345<br/>',
+								doh.is('ab345<br/>ab345<br/>ab345<br/>ab345',
 										value,
 										"get('value')");
 							}), 1000);
@@ -147,12 +147,8 @@
 									value = value.replace(/\n/g, "");
 									value = value.replace(/\r\f/g, "");
 								}
-								
-								// Safari may end with a trailing/extra br, so we need to remove it.
-								if(/<br\/><br\/>$/.test(value)){
-									value = value.substring(0, value.length - 5);
-								}
-								doh.is('testingCopyAndPastetestingCopyAndPastetestingCopyAndPaste<br/>',
+
+								doh.is('testingCopyAndPastetestingCopyAndPastetestingCopyAndPaste',
 										value,
 										"get('value')");
 							}), 1000);
@@ -349,7 +345,7 @@
 									value = value.replace(/\n/g, "");
 									value = value.replace(/\r\f/g, "");
 								}
-								doh.is('<div>testingCopyAndPastetestingCopyAndPastetestingCopyAndPaste</div><div></div>',
+								doh.is('<div>testingCopyAndPastetestingCopyAndPastetestingCopyAndPaste</div>',
 										value,
 										"get('value')");
 							}), 1000);
@@ -491,7 +487,7 @@
 									value = value.replace(/\r\f/g, "");
 								}
 								
-								doh.is('<p>testingCopyAndPastetestingCopyAndPastetestingCopyAndPaste</p><p></p>',
+								doh.is('<p>testingCopyAndPastetestingCopyAndPastetestingCopyAndPaste</p>',
 									value,
 									"get('value')");
 							}), 1000);

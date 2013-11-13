@@ -65,13 +65,7 @@
 
 							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
-								var newVal = editor.get("value");
-								doh.isNot(value, newVal, "Verify the contents have changed.");
-								newVal = lang.trim(newVal);
-								newVal = newVal.replace("/>", ">");
-								newVal = newVal.replace(" >", ">");
-								newVal = newVal.toLowerCase();
-								doh.is("<br>", newVal, "Validate the contents are a single br");
+								doh.is("", editor.get("value"), "editor.get('value')");
 							}), 1000);
 
 							return d;
