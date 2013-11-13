@@ -191,8 +191,9 @@ define([
 				// IE generates <strong> and <em> but we want to normalize to <b> and <i>
 				// Still happens in IE11!
 				this.contentPostFilters = [this._normalizeFontStyle].concat(this.contentPostFilters);
-				this.contentDomPostFilters = [lang.hitch(this, this._stripBreakerNodes)].concat(this.contentDomPostFilters);
+				this.contentDomPostFilters = [lang.hitch(this, "_stripBreakerNodes")].concat(this.contentDomPostFilters);
 			}
+			this.contentDomPostFilters = [lang.hitch(this, "_stripTrailingEmptyNodes")].concat(this.contentDomPostFilters);
 			this.inherited(arguments);
 
 			topic.publish(dijit._scopeName + "._editor.RichText::init", this);
@@ -1698,10 +1699,6 @@ define([
 				ec = "";
 			}
 
-			//	if(has("ie")){
-			//		//removing appended <P>&nbsp;</P> for IE
-			//		ec = ec.replace(/(?:<p>&nbsp;</p>[\n\r]*)+$/i,"");
-			//	}
 			array.forEach(this.contentPostFilters, function(ef){
 				ec = ef(ec);
 			});
@@ -2403,7 +2400,7 @@ define([
 			//		private.
 			if(node.nodeType === 1/*element*/){
 				if(node.childNodes.length > 0){
-					return this._isNodeEmpty(node.childNodes[0], startOffset);
+					return this._isNodeEmpty(node.childNodes[0], startOffset);	// huh?   why test just first child?
 				}
 				return true;
 			}else if(node.nodeType === 3/*text*/){
@@ -2970,6 +2967,24 @@ define([
 				}
 				domConstruct.destroy(b);
 			});
+			return node;
+		},
+
+		_stripTrailingEmptyNodes: function(/*DOMNode*/ node){
+			// summary:
+			//		Function for stripping trailing <p> nodes without any text, but not stripping trailing nodes
+			//		like <img> or <div><img></div>, even though they don't have text either.
+
+			function isEmpty(node){
+				// If not for old IE we could check for Element children by node.firstElementChild
+				return (/^(p|div|br)$/i.test(node.nodeName) && node.children.length == 0 &&
+					lang.trim(node.textContent || node.innerText || "") == "") ||
+					(node.nodeType === 3/*text*/ && lang.trim(node.nodeValue) == "");
+			}
+			while(node.lastChild && isEmpty(node.lastChild)){
+				domConstruct.destroy(node.lastChild);
+			}
+
 			return node;
 		}
 	});
