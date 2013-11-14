@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Editor Test</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-2"/>
+
+	<script type="text/javascript" src="../boilerplate.js"></script>
+
+	<script type="text/javascript">
+		require([
+			"doh/runner",
+			"dojo/parser",
+			"dijit/registry",
+			"dijit/tests/helpers",
+			"dijit/Editor",
+			"dojo/domReady!"
+		], function(doh, parser, registry, helpers){
+
+			doh.register("setup", [
+				{
+					name: "parse",
+					timeout: 5000,
+					runTest: function(){
+						parser.parse();
+					}
+				},
+				{
+					name: "wait for editors to load",
+					timeout: 5000,
+					runTest: helpers.waitForLoad
+				}
+			]);
+
+			doh.register("miscellaneous", [
+				{
+					name: "set value on unfocused editor",
+					timeout: 10000,
+					runTest: function(){
+						editor.set("value", "hello");
+						editor.focus();
+						doh.is("hello", editor.editNode.textContent || editor.editNode.innerText);
+					}
+				}
+			]);
+
+			doh.run();
+		});
+	</script>
+</head>
+<body class="claro" role="main">
+	<div data-dojo-id="editor" data-dojo-type="dijit/Editor" data-dojo-props='"aria-label":"editor", name:"field"'></div>
+</body>
+</html>
