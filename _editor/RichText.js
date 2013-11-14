@@ -820,14 +820,6 @@ define([
 				// not contentEditable.   Removing it would also probably remove the need for creating
 				// the extra <div> in _getIframeDocTxt()
 				this.editNode.style.zoom = 1.0;
-			}else{
-				this.own(on(this.document, "mousedown", lang.hitch(this, function(){
-					// Clear the moveToStart focus, as mouse
-					// down will set cursor point.  Required to properly
-					// work with selection/position driven plugins and clicks in
-					// the window. refs: #10678
-					delete this._cursorToStart;
-				})));
 			}
 
 			if(has("webkit")){
@@ -1098,13 +1090,6 @@ define([
 			if(!this.isLoaded){
 				this.focusOnLoad = true;
 				return;
-			}
-			if(this._cursorToStart){
-				delete this._cursorToStart;
-				if(this.editNode.childNodes){
-					this.placeCursorAtStart(); // this calls focus() so return
-					return;
-				}
 			}
 			if(has("ie") < 9){
 				//this.editNode.focus(); -> causes IE to scroll always (strict and quirks mode) to the top the Iframe
@@ -1554,7 +1539,6 @@ define([
 				}));
 				return;
 			}
-			this._cursorToStart = true;
 			if(this.textarea && (this.isClosed || !this.isLoaded)){
 				this.textarea.value = html;
 			}else{
