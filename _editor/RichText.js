@@ -1545,10 +1545,6 @@ define([
 				html = this._preFilterContent(html);
 				var node = this.isClosed ? this.domNode : this.editNode;
 
-				// Use &nbsp; to avoid webkit problems where editor is disabled until the user clicks it
-				if(!html && has("webkit")){
-					html = "&#160;";	// &nbsp;
-				}
 				node.innerHTML = html;
 				this._preDomFilterContent(node);
 			}

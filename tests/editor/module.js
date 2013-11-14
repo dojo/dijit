@@ -1,6 +1,7 @@
 define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
 
 	// inline doh tests
+	doh.register("editor.Editor", require.toUrl("./Editor.html"), 999999);
 	doh.register("editor.nls_8859-2", require.toUrl("./nls_8859-2.html"), 999999);
 	doh.register("editor.nls_sjis", require.toUrl("./nls_sjis.html"), 999999);
 	doh.register("editor.nls_utf8", require.toUrl("./nls_utf8.html"), 999999);
