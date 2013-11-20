@@ -559,7 +559,7 @@ define([
 			// The contents inside of <body>.  The real contents are set later via a call to setValue().
 			// In auto-expand mode, need a wrapper div for AlwaysShowToolbar plugin to correctly
 			// expand/contract the editor as the content changes.
-			var html = "<div id='dijitEditorBody'></div>";
+			var html = "<div id='dijitEditorBody' dir='" + (this.isTextDirLeftToRight()? "ltr" : "rtl") + "'></div>";
 
 			var font = [ _cs.fontWeight, _cs.fontSize, _cs.fontFamily ].join(" ");
 
@@ -2966,9 +2966,33 @@ define([
 			}
 
 			return node;
+		},
+
+		isTextDirLeftToRight: function(){
+			return this.isLeftToRight();
 		}
 	});
 
-	return RichText;
+	if(has("dojo-bidi")){
+		RichText.extend({
+			_setTextDirAttr: function(/*String*/ value){
+				// summary:
+				//		Sets textDir attribute. Sets direction of editNode accordingly.
+				this._set("textDir", value);
+				if(this.editNode){
+					this.editNode.dir = this.isTextDirLeftToRight() ? "ltr" : "rtl";
+				}
+			},
 
+			isTextDirLeftToRight: function(){
+				// summary:
+				//		Returns default text direction.
+				//		Default text direction is defined by textDir attribute provided that it contains one of 
+				//		"ltr" or "rtl" values. In other cases default text direction is the same, as orientation
+				//		of the editor.
+				return this.textDir === "ltr" ? true : (this.textDir === "rtl" ? false : this.isLeftToRight());
+			}
+		});
+	}
+	return RichText;
 });
