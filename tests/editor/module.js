@@ -11,6 +11,7 @@ define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
 	doh.register("editor.robot.Editor_mouse", require.toUrl("./robot/Editor_mouse.html"), 999999);
 	doh.register("editor.robot.Editor_a11y", require.toUrl("./robot/Editor_a11y.html"), 999999);
 	doh.register("editor.robot.Misc", require.toUrl("./robot/Editor_misc.html"), 999999);
+	doh.register("editor.robot.Bidi", require.toUrl("./robot/Editor_bidi.html"), 999999);
 
 	// Plugins
 	doh.register("editor.robot.CustomPlugin", require.toUrl("./robot/CustomPlugin.html"), 999999);
