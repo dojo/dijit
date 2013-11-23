@@ -495,8 +495,20 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		});
 
 		// Attach iframe to document, and set the initial (blank) content.
-		var src = this._getIframeDocTxt(),
-			s = "javascript: '" + src.replace(/\\/g, "\\\\").replace(/'/g, "\\'") + "'";
+		var src = this._getIframeDocTxt().replace(/\\/g, "\\\\").replace(/'/g, "\\'"),
+			s;
+
+		// IE10 and earlier will throw an "Access is denied" error when attempting to access the parent frame if
+		// document.domain has been set, unless the child frame also has the same document.domain set. The child frame
+		// can only set document.domain while the document is being constructed using open/write/close; attempting to
+		// set it later results in a different "This method can't be used in this context" error. See #17529
+		if (has("ie") < 11) {
+			s = 'javascript:document.open();try{parent.window;}catch(e){document.domain="' + document.domain + '";}' +
+				'document.write(\'' + src + '\');document.close()';
+		}
+		else {
+			s = "javascript: '" + src + "'";
+		}
 
 		if(has("ie") >= 9){
 			// On IE9+, attach to document before setting the content, to avoid problem w/iframe running in
