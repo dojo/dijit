@@ -218,8 +218,10 @@ define([
 
 		_setConstraintsAttr: function(/* Object */ constraints){
 			// brings in increments, etc.
-			for(var key in constraints){
-				this._set(key, constraints[key]);
+			for (var key in { clickableIncrement: 1, visibleIncrement: 1 }) {
+				if (key in constraints) {
+					this[key] = constraints[key];
+				}
 			}
 
 			// locale needs the lang in the constraints as locale
