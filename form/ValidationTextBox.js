@@ -242,6 +242,7 @@ define([
 
 		_setPatternAttr: function(/*String|Function*/ pattern){
 			this._set("pattern", pattern); // don't set on INPUT to avoid native HTML5 validation
+			this._refreshState();
 		},
 
 		_computeRegexp: function(/*__Constraints*/ constraints){
