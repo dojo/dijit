@@ -351,8 +351,10 @@
 							var w = dijit.byId('q22');
 							w.set('value', 'someTestString');
 							w.set('pattern', function(){ return "[a-z]+"; }); // invalid
+							doh.is('Error', w.get('state'));
 							doh.is(false, w.isValid(false), "invalid string");
 							w.set('pattern', function(){ return "[a-zTS]+"; }); // valid
+							doh.is('', w.get('state'));
 							doh.is(true, w.isValid(false), "valid string");
 						}
 					}
