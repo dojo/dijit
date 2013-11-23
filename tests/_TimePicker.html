@@ -33,7 +33,7 @@
 				dojo.parser.parse();
 			});
 
-			doh.register("tests",
+			doh.register("tests", [
 				function extended_range(){
 					var t1 = dijit.byId("t1");
 					t1.set('value', new Date("December 11, 2011 00:09:30"));
@@ -90,8 +90,27 @@
 					t3._onArrowUp(-1);
 					doh.is(new Date("January 1, 1970 22:00:00"), t3.timeMenu.children[0].date, 'first date 2c');
 					doh.is(new Date("January 1, 1970 23:30:00"), t3.timeMenu.children[t3.timeMenu.children.length-1].date, 'last date 2c');
+				},
+				function constraints17250(){
+					var tp = new (dojo.declare(dijit._TimePicker, {
+						isDisabledDate: function () {
+							return this.inherited(arguments);
+						}
+					}))();
+
+					tp.set('constraints', {
+						constructor: null,
+						clickableIncrement: 'T01:00:00',
+						visibleRange: 'T12:00:00',
+						set: function () {
+							throw new Error('Wrong set called');
+						}
+					});
+
+					tp.set('value', new Date());
+					doh.is(10, tp.timeMenu.children.length, 'Increment constraints should be copied but other non-constraint properties should not');
 				}
-			);
+			]);
 
 			doh.run();
 		});
