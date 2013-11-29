@@ -110,7 +110,7 @@ define([
 			//
 			// Also, don't call preventDefault() on MSPointerDown event (on IE10) because that prevents the button
 			// from getting focus, and then the focus manager doesn't know what's going on (#17262)
-			if(e.type != "MSPointerDown"){
+			if(e.type != "MSPointerDown" && e.type != "pointerdown"){
 				e.preventDefault();
 			}
 
