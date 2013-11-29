@@ -88,22 +88,27 @@ define([
 				switch(event.type){
 					case "mouseover":
 					case "MSPointerOver":
+					case "pointerover":
 						this._set("hovering", true);
 						this._set("active", this._mouseDown);
 						break;
 					case "mouseout":
 					case "MSPointerOut":
+					case "pointerout":
 						this._set("hovering", false);
 						this._set("active", false);
 						break;
 					case "mousedown":
 					case "touchstart":
 					case "MSPointerDown":
+					case "pointerdown":
 					case "keydown":
 						this._set("active", true);
 						break;
 					case "mouseup":
 					case "dojotouchend":
+					case "MSPointerUp":
+					case "pointerup":
 					case "keyup":
 						this._set("active", false);
 						break;
@@ -233,21 +238,25 @@ define([
 			switch(evt.type){
 				case "mouseover":
 				case "MSPointerOver":
+				case "pointerover":
 					hover(true);
 					break;
 				case "mouseout":
 				case "MSPointerOut":
+				case "pointerout":
 					hover(false);
 					active(false);
 					break;
 				case "mousedown":
 				case "touchstart":
 				case "MSPointerDown":
+				case "pointerdown":
 				case "keydown":
 					active(true);
 					break;
 				case "mouseup":
 				case "MSPointerUp":
+				case "pointerup":
 				case "dojotouchend":
 				case "keyup":
 					active(false);

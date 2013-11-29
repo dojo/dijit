@@ -72,11 +72,11 @@ require([
 		});
 	}
 	function click(node){
-		on.emit(node, navigator.msPointerEnabled ? "MSPointerDown" : "mousedown", {
+		on.emit(node, navigator.pointerEnabled ? "pointerdown" : navigator.msPointerEnabled ? "MSPointerDown" : "mousedown", {
 			button: 0,	// left button (except on IE quirks mode, when it's 1)
 			bubbles: true
 		});
-		on.emit(node, navigator.msPointerEnabled ? "MSPointerUp" : "mouseup", {
+		on.emit(node, navigator.pointerEnabled ? "pointerup" : navigator.msPointerEnabled ? "MSPointerUp" : "mouseup", {
 			button: 0,	// left button (except on IE quirks mode, when it's 1)
 			bubbles: true
 		});

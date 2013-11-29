@@ -69,7 +69,7 @@ define([
 				// parent node already has dijitInputField class but it doesn't affect this <span>
 				// since it's position: absolute.
 				this._phspan = domConstruct.create('span',{ onmousedown:function(e){ e.preventDefault(); }, className:'dijitPlaceHolder dijitInputField'},this.textbox,'after');
-				this.own(on(this._phspan, "touchend, MSPointerUp", lang.hitch(this, function(){
+				this.own(on(this._phspan, "touchend, pointerup, MSPointerUp", lang.hitch(this, function(){
 					// If the user clicks placeholder rather than the <input>, need programmatic focus.  Normally this
 					// is done in _FormWidgetMixin._onFocus() but after [30663] it's done on a delay, which is ineffective.
 					this.focus();
