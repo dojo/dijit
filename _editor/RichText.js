@@ -509,8 +509,8 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			s = "javascript: '" + src + "'";
 		}
 
-		if(has("ie") >= 9){
-			// On IE9+, attach to document before setting the content, to avoid problem w/iframe running in
+			if(has("ie") == 9){
+				// On IE9, attach to document before setting the content, to avoid problem w/iframe running in
 			// wrong security context, see #16633.
 			this.editingArea.appendChild(ifr);
 			ifr.src = s;
