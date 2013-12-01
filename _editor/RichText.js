@@ -187,7 +187,7 @@ define([
 				this.contentPreFilters = [this._removeWebkitBogus].concat(this.contentPreFilters);
 				this.contentPostFilters = [this._removeWebkitBogus].concat(this.contentPostFilters);
 			}
-			if(has("ie")){
+			if(has("ie") || has("trident")){
 				// IE generates <strong> and <em> but we want to normalize to <b> and <i>
 				// Still happens in IE11!
 				this.contentPostFilters = [this._normalizeFontStyle].concat(this.contentPostFilters);
@@ -1108,12 +1108,6 @@ define([
 				// if we fire the event manually and let the browser handle the focusing, the latest
 				// cursor position is focused like in FF
 				this.iframe.fireEvent('onfocus', document.createEventObject()); // createEventObject/fireEvent only in IE < 11
-			}else if(has("ie")){
-				// IE11 seems to be in a strange limbo where neither focus.focus nor fireEvent work.
-				// It seems to require a moz-style focus synthetic event.
-				var e = document.createEvent("UIEvents");
-				e.initEvent('focus', true, false);
-				this.iframe.dispatchEvent(e);
 			}else{
 				// Firefox and chrome
 				this.editNode.focus();
@@ -1289,7 +1283,7 @@ define([
 					return false;
 			}
 
-			return (has("ie") && supportedBy.ie) ||
+			return ((has("ie") || has("trident")) && supportedBy.ie) ||
 				(has("mozilla") && supportedBy.mozilla) ||
 				(has("webkit") && supportedBy.webkit) ||
 				(has("opera") && supportedBy.opera);	// Boolean return true if the command is supported, false otherwise
@@ -1319,7 +1313,7 @@ define([
 			if(argument !== undefined){
 				if(command === "heading"){
 					throw new Error("unimplemented");
-				}else if((command === "formatblock") && has("ie")){
+				}else if(command === "formatblock" && (has("ie") || has("trident"))){
 					argument = '<' + argument + '>';
 				}
 			}
@@ -2125,7 +2119,19 @@ define([
 			//		protected
 			argument = this._preFilterContent(argument);
 			var rv = true;
-			if(has("ie") >= 9){
+			if(has("ie") < 9){
+				var insertRange = this.document.selection.createRange();
+				if(this.document.selection.type.toUpperCase() === 'CONTROL'){
+					var n = insertRange.item(0);
+					while(insertRange.length){
+						insertRange.remove(insertRange.item(0));
+					}
+					n.outerHTML = argument;
+				}else{
+					insertRange.pasteHTML(argument);
+				}
+				insertRange.select();
+			}else if(has("trident") < 8){
 				var insertRange;
 				var selection = rangeapi.getSelection(this.window);
 				if(selection && selection.rangeCount && selection.getRangeAt){
@@ -2148,19 +2154,6 @@ define([
 						selection.addRange(insertRange);
 					}
 				}
-			}else if(has("ie") < 9){
-				var insertRange = this.document.selection.createRange();
-				if(this.document.selection.type.toUpperCase() === 'CONTROL'){
-					var n = insertRange.item(0);
-					while(insertRange.length){
-						insertRange.remove(insertRange.item(0));
-					}
-					n.outerHTML = argument;
-				}else{
-					insertRange.pasteHTML(argument);
-				}
-				insertRange.select();
-				//insertRange.collapse(true);
 			}else if(has("mozilla") && !argument.length){
 				//mozilla can not inserthtml an empty html to delete current selection
 				//so we delete the selection instead in this case
