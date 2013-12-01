@@ -53,7 +53,7 @@
 					var spinner = dijit.byId(inSpinnerId);
 					results = populateExpected(spinner);
 					strokeIndex = 0;
-					noteConnect = spinner.connect(spinner.focusNode, "onkeypress", function(){
+					noteConnect = spinner.connect(spinner.focusNode, "onkeydown", function(){
 						setTimeout(function(){
 							results[strokeIndex].actual = spinner.get('value');
 							strokeIndex++;
