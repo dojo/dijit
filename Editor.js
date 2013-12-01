@@ -87,7 +87,7 @@ define([
 			//see whether user clicks out of a focus editor, if so, save selection (focus will
 			//only lost after onmousedown event is fired, so we can obtain correct caret pos.)
 			//2) when user tabs away from the editor, which is handled in onKeyDown below.
-			if(has("ie")){
+			if(has("ie") || has("trident")){
 				this.events.push("onBeforeDeactivate");
 				this.events.push("onBeforeActivate");
 			}
