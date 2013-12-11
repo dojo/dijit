@@ -1505,7 +1505,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			}
 		}
 
-		return this._postFilterContent(null, nonDestructive);
+		return this.isLoaded ? this._postFilterContent(null, nonDestructive) : this.value;
 	},
 	_getValueAttr: function(){
 		// summary:
