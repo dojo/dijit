@@ -1521,7 +1521,7 @@ define([
 				}
 			}
 
-			return this._postFilterContent(null, nonDestructive);
+			return this.isLoaded ? this._postFilterContent(null, nonDestructive) : '';
 		},
 		_getValueAttr: function(){
 			// summary:
