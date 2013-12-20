@@ -246,20 +246,22 @@
 							dlg3 = dijit.byId("dlg3"),
 							dlg4 = dijit.byId("dlg4");
 
-						// Closing fourth dialog should move focus to second dialog,
-						// since we already destroyed the third dialog
-						dlg4.hide().then(d.getTestCallback(function(){
+						// Closing fourth dialog should move focus to second dialog, since we already destroyed the
+						// third dialog.  Delay needed for IE9+ where focus shift is asynchronous.
+						dlg4.hide().then(function(){
+							setTimeout(d.getTestCallback(function(){
 							doh.t(isHidden(dlg4), "dialog 4 is hidden");
 							doh.t(isHidden(dlg3), "dialog 3 is hidden");
 							doh.t(isVisible(dlg2), "dialog 2 is visible");
 
 							var dialog2Z = dojo.style(dlg2.domNode, "zIndex"),
 								underlayZ = dojo.style(dijit.DialogUnderlay._singleton.domNode, "zIndex");
-							doh.t(dialog2Z > underlayZ, "dialog2 (zIndex=" + dialog2Z +
-								") above underlay (zIndex=" + underlayZ + ")");
+								doh.t(dialog2Z > underlayZ, "dialog2 (zIndex=" + dialog2Z +
+										") above underlay (zIndex=" + underlayZ + ")");
 
 							doh.is("dlg2_inputA", dojo.global.dijit.focus.curNode.id, "focus is on the first field");
-						}));
+							}));
+						});
 
 						return d;
 					}
@@ -272,13 +274,16 @@
 							dlg2 = dijit.byId("dlg2");
 
 						// Since we already destroyed first dialog, closing second dialog should hide underlay and
-						// revert focus to the main page
-						dlg2.hide().then(d.getTestCallback(function(){
+						// revert focus to the main page.  Need the setTimeout() for IE9+ where focus change is not
+						// instant.
+						dlg2.hide().then(function(){
+							setTimeout(d.getTestCallback(function(){
 							doh.t(isHidden(dlg2), "dialog 4 is hidden");
 							doh.t(isHidden(dijit.DialogUnderlay._singleton), "underlay hidden");
 
 							doh.is("button", dojo.global.dijit.focus.curNode.id, "focus is on the main page");
-						}));
+							}));
+						});
 
 						return d;
 					}

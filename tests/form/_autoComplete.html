@@ -203,7 +203,7 @@
 						var handler = dojo.connect(combo.textbox, "onfocus", function(){
 							dojo.disconnect(handler);
 							setTimeout(d.getTestCallback(function(){
-								doh.is("none", combo._phspan.style.display, "_phspan.style.display 2");
+								doh.isNot("none", combo._phspan.style.display, "_phspan.style.display 2");
 							}), 0);
 						});
 						combo.focus();

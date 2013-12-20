@@ -94,7 +94,8 @@
 						doh.is("BL", ret.aroundCorner, "around corner");
 						doh.is("TL", ret.corner, "popup's corner");
 						doh.is("20px", popup.style.top, "underneath around node");
-						doh.is(dojo.position(aroundTop).x+"px", popup.style.left, "left sides aligned");
+						doh.is(Math.round(dojo.position(aroundTop).x), Math.round(popup.style.left.replace("px", "")),
+								"left sides aligned");
 					},
 					function placeOnScreenAroundNodeTooltip(t){
 						// Same as above test except that shape of drop down changes depending on where it's positioned.
@@ -113,8 +114,8 @@
 						doh.is("BR", ret.aroundCorner, "around corner");
 						doh.is("TR", ret.corner, "popup's corner");
 						doh.is("20px", popup.style.top, "underneath around node");
-						doh.is(dojo.position(aroundTop).x+dojo.position(aroundTop).w,
-							dojo.position(popup).x+dojo.position(popup).w,
+						doh.is(Math.round(dojo.position(aroundTop).x + dojo.position(aroundTop).w),
+							Math.round(dojo.position(popup).x + dojo.position(popup).w),
 							"right sides aligned");
 					},
 					function placeOnScreenAroundNodeB(t){
@@ -128,7 +129,8 @@
 
 						doh.is("TL", ret.aroundCorner, "around corner");
 						doh.is("BL", ret.corner, "popup's corner");
-						doh.is(dojo.position(aroundBottom).y, dojo.position(popup).y + dojo.position(popup).h, "above around node");
+						doh.is(Math.round(dojo.position(aroundBottom).y),
+								Math.round(dojo.position(popup).y + dojo.position(popup).h), "above around node");
 					},
 					function placeOnScreenAroundNodeBM(t){
 						// bottom middle popup from "aroundBottom" node
@@ -143,7 +145,7 @@
 						doh.is("BM", ret.corner, "popup's middle");
 						var popupPos = dojo.position(popup);
 						var aroundPos = dojo.position(aroundBottom);
-						doh.is(aroundPos.y, popupPos.y + popupPos.h, "above around node");
+						doh.is(Math.round(aroundPos.y), Math.round(popupPos.y + popupPos.h), "above around node");
 						doh.t(aroundPos.x > popupPos.x, "starts before around node");
 						doh.t(aroundPos.x < (popupPos.x + popupPos.w), "ends after around node");
 					},
@@ -194,7 +196,7 @@
 						doh.is("MR", ret.corner, "popup's middle");
 						var popupPos = dojo.position(popup);
 						var aroundPos = dojo.position(aroundRight);
-						doh.is(popupPos.x + popupPos.w, aroundPos.x, "before around node");
+						doh.is(Math.round(popupPos.x + popupPos.w), Math.round(aroundPos.x), "before around node");
 						doh.t(aroundPos.y > popupPos.y, "starts before around node");
 						doh.t(aroundPos.y < (popupPos.y + popupPos.h), "ends after around node");
 					},
@@ -225,8 +227,9 @@
 						doh.is("BM", ret.corner, "popup's middle");
 						var popupPos = dojo.position(popup);
 						var aroundPos = dojo.position(aroundRight);
-						doh.is(popupPos.x + popupPos.w, aroundPos.x + aroundPos.w + 1/*right:1px*/, "right aligned with around node");
-						doh.is(popupPos.y + popupPos.h, aroundPos.y, "above around node");
+						doh.is(Math.round(popupPos.x + popupPos.w),
+								Math.round(aroundPos.x + aroundPos.w + 1/*right:1px*/), "right aligned with around node");
+						doh.is(Math.round(popupPos.y + popupPos.h), Math.round(aroundPos.y), "above around node");
 					},
 					function placeOnScreenAroundNodeTML(t){
 						// middle left popup from "aroundTop" node
@@ -240,7 +243,7 @@
 						doh.is("MR", ret.corner, "popup's middle");
 						var popupPos = dojo.position(popup);
 						var aroundPos = dojo.position(aroundTop);
-						doh.is(aroundPos.x, popupPos.x + popupPos.w, "before around node");
+						doh.is(Math.round(aroundPos.x), Math.round(popupPos.x + popupPos.w), "before around node");
 						doh.is(aroundPos.y, popupPos.y, "top aligned with around node");
 					},
 					function placeOnScreenAroundNodeBMR(t){
@@ -255,8 +258,9 @@
 						doh.is("ML", ret.corner, "popup's middle");
 						var popupPos = dojo.position(popup);
 						var aroundPos = dojo.position(aroundBottom);
-						doh.is(aroundPos.x + aroundPos.w, popupPos.x, "after around node");
-						doh.is(aroundPos.y + aroundPos.h + 5/*bottom:5px*/, popupPos.y + popupPos.h, "bottom aligned with around node");
+						doh.is(Math.round(aroundPos.x + aroundPos.w), Math.round(popupPos.x), "after around node");
+						doh.is(Math.round(aroundPos.y + aroundPos.h + 5/*bottom:5px*/),
+								Math.round(popupPos.y + popupPos.h), "bottom aligned with around node");
 					}
 				]
 			);
