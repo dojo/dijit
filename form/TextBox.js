@@ -74,9 +74,17 @@ define([
 			this._updatePlaceHolder();
 		},
 
+		_onInput: function(/*Event*/ evt){
+			// summary:
+			//		Called AFTER the input event has happened
+			//		See if the placeHolder text should be removed or added while editing.
+			this.inherited(arguments);
+			this._updatePlaceHolder();
+		},
+
 		_updatePlaceHolder: function(){
 			if(this._phspan){
-				this._phspan.style.display=(this.placeHolder&&!this.focused&&!this.textbox.value)?"":"none";
+				this._phspan.style.display = (this.placeHolder && !this.textbox.value) ? "" : "none";
 			}
 		},
 
