@@ -35,7 +35,8 @@ define([
 				var destroyMethodName =
 					"destroyRecursive" in handle ? "destroyRecursive" : // remove "destroyRecursive" for 2.0
 						"destroy" in handle ? "destroy" :
-							"remove";
+							"remove" in handle ? "remove" :
+								"cancel";
 
 				// When this.destroy() is called, destroy handle.  Since I'm using aspect.before(),
 				// the handle will be destroyed before a subclass's destroy() method starts running, before it calls
