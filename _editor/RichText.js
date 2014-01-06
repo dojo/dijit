@@ -614,6 +614,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		this.iframe.setAttribute("title", title);
 		
 		return [
+				"<!DOCTYPE html>",
 			this.isLeftToRight() ? "<html lang='"+this.lang+"'>\n<head>\n" : "<html dir='rtl' lang='"+this.lang+"'>\n<head>\n",
 			title ? "<title>" + title + "</title>" : "",
 			"<meta http-equiv='Content-Type' content='text/html'>\n",
