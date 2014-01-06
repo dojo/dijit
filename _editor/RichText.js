@@ -602,6 +602,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		var label=query('label[for="'+this.id+'"]');
 
 		return [
+			"<!DOCTYPE html>",
 			this.isLeftToRight() ? "<html>\n<head>\n" : "<html dir='rtl'>\n<head>\n",
 			(has("mozilla") && label.length ? "<title>" + label[0].innerHTML + "</title>\n" : ""),
 			"<meta http-equiv='Content-Type' content='text/html'>\n",
