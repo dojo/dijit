@@ -30,6 +30,15 @@ require([
 				name: "watchMe",
 				x: 0
 			});
+			var Cancellable = declare([], {
+				cancelCalls: 0,
+				constructor: function(name){
+					this.name = name;
+				},
+				cancel: function(){
+					this.cancelCalls++;
+				}
+			});
 			var DestroyableSubClass = declare(Destroyable, {
 				// number of times my button was clicked
 				clicks: 0,
@@ -51,6 +60,10 @@ require([
 					// Setup two supporting widgets, to be destroyed when I'm destroyed
 					this.own(this.sw1 = new SupportingWidget("sw1"));
 					this.own(this.sw2 = new SupportingWidget("sw2"));
+					
+					this.own(this.c1 = new Cancellable("c1"));
+					this.own(this.c2 = new Cancellable("c2"));
+					
 				}
 			});
 
@@ -68,14 +81,23 @@ require([
 			// manually destroy one of the supporting widgets
 			destroyable1.sw1.destroy();
 			doh.is(1, destroyable1.sw1.destroyCalls);
+			
+			// manually destroy one of the supporting widgets
+			destroyable1.c1.cancel();
+			doh.is(1, destroyable1.c1.cancelCalls);
 
 			// Destroy the Destroyable instance itself.   destroyable1 should:
 			// 		- destroy the sw2 supporting widget, but not try to re-destroy sw1
+			// 		- cancel the c2 class, but not try to re-cancel c1
 			//		- disconnect the watch() listener on watchMe
 			//		- disconnect the click event handler on destroyable1.domNode
 			destroyable1.destroy();
 			doh.is(1, destroyable1.sw1.destroyCalls, "sw1 wasn't redestroyed");
 			doh.is(1, destroyable1.sw2.destroyCalls, "sw2 was destroyed");
+			
+			doh.is(1, destroyable1.c1.cancelCalls, "c1 wasn't re-cancelled");
+			doh.is(1, destroyable1.c2.cancelCalls, "c2 was cancelled");
+			
 			destroyable1.domNode.click();
 			doh.is(1, destroyable1.clicks, "no new click notification");
 			watchMe.set("x", 2);
