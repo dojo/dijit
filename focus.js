@@ -97,7 +97,10 @@ define([
 			if(body){
 				var mdh = on(body, 'mousedown', function(evt){
 					_this._justMouseDowned = true;
-					setTimeout(function(){ _this._justMouseDowned = false; }, 0);
+					// Use a 13 ms timeout to work-around Chrome resolving too fast and focusout
+					// events not seeing that a mousedown just happened when a popup closes.
+					// See https://bugs.dojotoolkit.org/ticket/17668
+					setTimeout(function(){ _this._justMouseDowned = false; }, 13);
 
 					// workaround weird IE bug where the click is on an orphaned node
 					// (first time clicking a Select/DropDownButton inside a TooltipDialog).
