@@ -883,7 +883,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		// such as the backspace. It might be possible to add this to Dojo, so that
 		// keyPress events can be emulated by the keyDown and keyUp detection.
 
-		if(e.keyCode === keys.TAB && this.isTabIndent ){
+		if(e.keyCode === keys.TAB && this.isTabIndent){
 			event.stop(e); //prevent tab from moving focus out of editor
 
 			// FIXME: this is a poor-man's indent/outdent. It would be
@@ -895,12 +895,12 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		}
 
 			// Make tab and shift-tab skip over the <iframe>, going from the nested <div> to the toolbar
-			// or next element after the editor.   Needed on IE<9 and firefox.
-			if(e.keyCode == keys.TAB && !this.isTabIndent){
-				if(e.shiftKey && !e.ctrlKey && !e.altKey){
+			// or next element after the editor
+			if(e.keyCode == keys.TAB && !this.isTabIndent && !e.ctrlKey && !e.altKey){
+				if(e.shiftKey){
 					// focus the <iframe> so the browser will shift-tab away from it instead
 					this.beforeIframeNode.focus();
-				}else if(!e.shiftKey && !e.ctrlKey && !e.altKey){
+				}else{
 					// focus node after the <iframe> so the browser will tab away from it instead
 					this.afterIframeNode.focus();
 				}
@@ -968,6 +968,14 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		//		Handle the various key events
 		// tags:
 		//		protected
+
+		if(e.keyCode === keys.SHIFT ||
+		   e.keyCode === keys.ALT ||
+		   e.keyCode === keys.META ||
+		   e.keyCode === keys.CTRL ||
+		   (e.keyCode == keys.TAB && !this.isTabIndent && !e.ctrlKey && !e.altKey)){
+			return true;
+		}
 
 		var c = (e.keyChar && e.keyChar.toLowerCase()) || e.keyCode,
 			handlers = this._keyHandlers[c],
