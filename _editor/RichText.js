@@ -895,6 +895,15 @@ define([
 			// tags:
 			//		protected
 
+			// Modifier keys should not cause the onKeyPressed event because they do not cause any change to the
+			// display
+			if(e.keyCode === keys.SHIFT ||
+			   e.keyCode === keys.ALT ||
+			   e.keyCode === keys.META ||
+			   e.keyCode === keys.CTRL){
+				return true;
+			}
+
 			if(e.keyCode === keys.TAB && this.isTabIndent){
 				//prevent tab from moving focus out of editor
 				e.stopPropagation();
@@ -909,15 +918,19 @@ define([
 			}
 
 			// Make tab and shift-tab skip over the <iframe>, going from the nested <div> to the toolbar
-			// or next element after the editor.   Needed on IE<9 and firefox.
-			if(e.keyCode == keys.TAB && !this.isTabIndent){
-				if(e.shiftKey && !e.ctrlKey && !e.altKey){
+			// or next element after the editor
+			if(e.keyCode == keys.TAB && !this.isTabIndent && !e.ctrlKey && !e.altKey){
+				if(e.shiftKey){
 					// focus the <iframe> so the browser will shift-tab away from it instead
 					this.beforeIframeNode.focus();
-				}else if(!e.shiftKey && !e.ctrlKey && !e.altKey){
+				}else{
 					// focus node after the <iframe> so the browser will tab away from it instead
 					this.afterIframeNode.focus();
 				}
+
+				// Prevent onKeyPressed from firing in order to avoid triggering a display change event when the
+				// editor is tabbed away; this fixes toolbar controls being inappropriately disabled in IE9+
+				return true;
 			}
 
 			if(has("ie") < 9 && e.keyCode === keys.BACKSPACE && this.document.selection.type === "Control"){
