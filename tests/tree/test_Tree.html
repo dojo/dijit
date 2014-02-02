@@ -20,6 +20,9 @@
 		], function(parser){
 			parser.parse();
 		});
+
+		// Global variable used by mytree (and in turn referenced by Tree_mouse.html robot test)
+		mouseDowns = 0;
 	</script>
 
 </head>
@@ -51,6 +54,9 @@
 		</script>
 		<script type="dojo/method" data-dojo-event="onClose" data-dojo-args="item">
 			console.log("Close of node " + (continentStore.getLabel(item) || "root"));
+		</script>
+		<script type="dojo/method" data-dojo-event="onMouseDown" data-dojo-args="evt">
+			mouseDowns++;
 		</script>
 	</div>
 
