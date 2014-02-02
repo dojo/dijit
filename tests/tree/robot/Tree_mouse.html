@@ -46,7 +46,7 @@
 
 					doh.is(expanded, africa.isExpanded, "original state");
 
-					func();
+					func(d);
 
 					robot.sequence(d.getTestCallback(function(){
 						doh.is(!expanded, africa.isExpanded, "after state");
@@ -60,9 +60,12 @@
 				{
 					name: "click to open",
 					timeout: 8000,
-					runTest: toggle(function(){
+					runTest: toggle(function(d){
 						robot.mouseMoveAt(africa.labelNode);
 						robot.mouseClick({left:true}, 100);
+						robot.sequence(d.getTestErrback(function(){
+							doh.is(1, robot.window.mouseDowns, "mouse down reported");
+						}), 500);
 					}, false)
 				},
 
