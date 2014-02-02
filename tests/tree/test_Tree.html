@@ -20,6 +20,7 @@
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">
+<<<<<<< HEAD
 		dojo.require("dojo.data.ItemFileWriteStore");
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 
@@ -33,6 +34,24 @@
 		dojo.require("dijit.PopupMenuItem");
 
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+=======
+		require([
+			"dojo/parser",
+			"dojo/data/ItemFileWriteStore",
+			"dijit/Tree",
+			"dijit/tree/ForestStoreModel",
+			"dijit/ColorPalette",
+			"dijit/Menu",
+			"dijit/MenuItem",
+			"dijit/PopupMenuItem",
+			"dojo/domReady!"
+		], function(parser){
+			parser.parse();
+		});
+
+		// Global variable used by mytree (and in turn referenced by Tree_mouse.html robot test)
+		mouseDowns = 0;
+>>>>>>> d4334c3... Don't call preventDefault() on MSPointerDown/pointerdown event.
 	</script>
 
 </head>
@@ -59,6 +78,9 @@
 		</script>
 		<script type="dojo/method" data-dojo-event="onClose" data-dojo-args="item">
 			console.log("Close of node " + continentStore.getLabel(item)||"root");
+		</script>
+		<script type="dojo/method" data-dojo-event="onMouseDown" data-dojo-args="evt">
+			mouseDowns++;
 		</script>
 	</div>
 
