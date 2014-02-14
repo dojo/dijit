@@ -130,14 +130,10 @@ define([
 		// has sized the node, due to browser quirks when the viewport is scrolled
 		// (specifically that a Tooltip will shrink to fit as though the window was
 		// scrolled to the left).
-		//
-		// In RTL mode, set style.right rather than style.left so in the common case,
-		// window resizes move the popup along with the aroundNode.
-		var l = domGeometry.isBodyLtr(),
-			s = node.style;
+		var s = node.style;
 		s.top = best.y + "px";
-		s[l ? "left" : "right"] = (l ? best.x : view.w - best.x - best.w) + "px";
-		s[l ? "right" : "left"] = "auto";	// needed for FF or else tooltip goes to far left
+		s.left = best.x + "px";
+		s.right = "auto";	// needed for FF or else tooltip goes to far left
 
 		return best;
 	}
