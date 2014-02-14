@@ -12,13 +12,13 @@ define([
 	"dojo/_base/lang", // lang.hitch lang.isFunction
 	"dojo/touch",
 	"dojo/_base/window", // win.doc
-	"dojo/window", // winUtils.getBox
 	"./registry",	// registry.byNode()
 	"./focus",
 	"./popup",
-	"./_FocusMixin"
+	"./_FocusMixin",
+	"./ViewPort"
 ], function(declare, Deferred, event,dom, domAttr, domClass, domGeometry, domStyle, has, keys, lang, touch,
-			win, winUtils, registry, focus, popup, _FocusMixin){
+			win, registry, focus, popup, _FocusMixin, Viewport){
 
 /*=====
 	var _FocusMixin = dijit._FocusMixin;
@@ -413,7 +413,7 @@ define([
 				if(maxHeight == -1){
 					// limit height to space available in viewport either above or below my domNode
 					// (whichever side has more room)
-					var viewport = winUtils.getBox(),
+					var viewport = Viewport.getEffectiveBox(this.ownerDocument),
 						position = domGeometry.position(aroundNode, false);
 					maxHeight = Math.floor(Math.max(position.y, viewport.h - (position.y + position.h)));
 				}
@@ -429,8 +429,7 @@ define([
 				var mb = domGeometry.getMarginSize(ddNode);
 				var overHeight = (maxHeight && mb.h > maxHeight);
 				domStyle.set(ddNode, {
-					overflowX: "hidden",
-					overflowY: overHeight ? "auto" : "hidden"
+					overflow: overHeight ? "auto" : "visible"
 				});
 				if(overHeight){
 					mb.h = maxHeight;
