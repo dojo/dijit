@@ -15,7 +15,7 @@ define([
 	"./focus",
 	"./popup",
 	"./_FocusMixin",
-	"./ViewPort"
+	"./Viewport"
 ], function(declare, Deferred, event,dom, domAttr, domClass, domGeometry, domStyle, has, keys, lang, on,
 			registry, focus, popup, _FocusMixin, Viewport){
 
