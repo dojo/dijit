@@ -13,8 +13,9 @@
 			"dijit/registry",
 			"dijit/tests/helpers",
 			"dijit/Editor",
+			"dijit/form/Form",
 			"dojo/domReady!"
-		], function(doh, parser, registry, helpers){
+		], function(doh, parser, registry, helpers, Editor){
 
 			doh.register("setup", [
 				{
@@ -22,6 +23,8 @@
 					timeout: 5000,
 					runTest: function(){
 						parser.parse();
+						// In some browsers, the editor will not yet be loaded.  Testing that no error occurs
+						// when retrieving the value.
 						doh.is("", editor.get("value"));
 					}
 				},
@@ -40,6 +43,44 @@
 						editor.set("value", "hello");
 						editor.focus();
 						doh.is("hello", editor.editNode.textContent || editor.editNode.innerText);
+						doh.is("hello", editor.get("value"));
+					}
+				},
+				{
+					name: "initial value of unloaded editor",
+					timeout: 10000,
+					runTest: function(){
+						var tmpEditor = new Editor({});
+						doh.t(tmpEditor.get("value") == null);
+						doh.f(tmpEditor.isLoaded);
+					}
+				},
+				{
+					name: "initial value of unloaded editor",
+					timeout: 10000,
+					runTest: function(){
+						var tmpEditor = new Editor({});
+						doh.t(tmpEditor.get("value") == null);
+						doh.t(tmpEditor.value == null);
+						doh.f(tmpEditor.isLoaded);
+						tmpEditor.startup();
+						doh.is("", tmpEditor.get("value"));
+						doh.is("", tmpEditor.value);
+						doh.f(tmpEditor.isLoaded);
+					}
+				},
+				{
+					name: "get value of unloaded editor",
+					timeout: 10000,
+					runTest: function(){
+						var tmpEditor = new Editor({ value: "test editor value"});
+						doh.is("test editor value", tmpEditor.get("value"));
+						doh.is("test editor value", tmpEditor.value);
+						doh.f(tmpEditor.isLoaded);
+						tmpEditor.startup();
+						doh.is("test editor value", tmpEditor.get("value"));
+						doh.is("test editor value", tmpEditor.value);
+						doh.f(tmpEditor.isLoaded);
 					}
 				}
 			]);

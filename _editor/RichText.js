@@ -362,7 +362,6 @@ define([
 				// relying on the initial content being contained within the target
 				// domNode.
 				html = this.value;
-				delete this.value;
 				dn.innerHTML = "";
 			}else if(dn.nodeName && dn.nodeName.toLowerCase() == "textarea"){
 				// if we were created from a textarea, then we need to create a
@@ -1521,7 +1520,7 @@ define([
 				}
 			}
 
-			return this.isLoaded ? this._postFilterContent(null, nonDestructive) : '';
+			return this.isLoaded ? this._postFilterContent(null, nonDestructive) : this.value;
 		},
 		_getValueAttr: function(){
 			// summary:
