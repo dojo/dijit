@@ -181,7 +181,10 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 		// Push in the builtin filters now, making them the first executed, but not over-riding anything
 		// users passed in.  See: #6062
-		this.contentPreFilters = [lang.hitch(this, "_preFixUrlAttributes")].concat(this.contentPreFilters);
+		this.contentPreFilters = [
+			lang.trim,	// avoid IE10 problem hitting ENTER on last line when there's a trailing \n.
+			lang.hitch(this, "_preFixUrlAttributes")
+		].concat(this.contentPreFilters);
 		if(has("mozilla")){
 			this.contentPreFilters = [this._normalizeFontStyle].concat(this.contentPreFilters);
 			this.contentPostFilters = [this._removeMozBogus].concat(this.contentPostFilters);
@@ -192,13 +195,13 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			this.contentPreFilters = [this._removeWebkitBogus].concat(this.contentPreFilters);
 			this.contentPostFilters = [this._removeWebkitBogus].concat(this.contentPostFilters);
 		}
-			if(has("ie") || has("trident")){
+		if(has("ie") || has("trident")){
 			// IE generates <strong> and <em> but we want to normalize to <b> and <i>
-				// Still happens in IE11!
+			// Still happens in IE11!
 			this.contentPostFilters = [this._normalizeFontStyle].concat(this.contentPostFilters);
 				this.contentDomPostFilters = [lang.hitch(this, "_stripBreakerNodes")].concat(this.contentDomPostFilters);
 		}
-			this.contentDomPostFilters = [lang.hitch(this, "_stripTrailingEmptyNodes")].concat(this.contentDomPostFilters);
+		this.contentDomPostFilters = [lang.hitch(this, "_stripTrailingEmptyNodes")].concat(this.contentDomPostFilters);
 		this.inherited(arguments);
 
 		topic.publish(dijit._scopeName + "._editor.RichText::init", this);
@@ -2925,14 +2928,14 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 		_stripTrailingEmptyNodes: function(/*DOMNode*/ node){
 			// summary:
-			//		Function for stripping trailing <p> nodes without any text, but not stripping trailing nodes
+			//		Function for stripping trailing nodes without any text, excluding trailing nodes
 			//		like <img> or <div><img></div>, even though they don't have text either.
 
 			function isEmpty(node){
 				// If not for old IE we could check for Element children by node.firstElementChild
 				return (/^(p|div|br)$/i.test(node.nodeName) && node.children.length == 0 &&
-					lang.trim(node.textContent || node.innerText || "") == "") ||
-					(node.nodeType === 3/*text*/ && lang.trim(node.nodeValue) == "");
+					/^[\s\xA0]*$/.test(node.textContent || node.innerText || "")) ||
+					(node.nodeType === 3/*text*/ && /^[\s\xA0]*$/.test(node.nodeValue));
 			}
 			while(node.lastChild && isEmpty(node.lastChild)){
 				domConstruct.destroy(node.lastChild);
