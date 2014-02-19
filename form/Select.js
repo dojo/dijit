@@ -44,7 +44,7 @@ define([
 			this.inherited(arguments);
 
 			this.own(on(this.domNode, "selectstart", function(evt){
-				evt.preventDefault();
+ 				evt.preventDefault();
 				evt.stopPropagation();
 			}));
 		},
@@ -110,6 +110,11 @@ define([
 		//		Whether or not our children have been loaded
 		_childrenLoaded: false,
 
+		// labelType: String
+		//		Specifies how to interpret the labelAttr in the data store items.
+		//		Can be "html" or "text".
+		labelType: "html",
+
 		_fillContent: function(){
 			// summary:
 			//		Set the value to be the first, or the selected index
@@ -136,7 +141,9 @@ define([
 				var click = lang.hitch(this, "_setValueAttr", option);
 				var item = new MenuItem({
 					option: option,
-					label: option.label || this.emptyLabel,
+					label: (this.labelType === 'text' ? (option.label || '').toString()
+						.replace(/&/g, '&amp;').replace(/</g, '&lt;') :
+						option.label) || this.emptyLabel,
 					onClick: click,
 					ownerDocument: this.ownerDocument,
 					dir: this.dir,
@@ -308,7 +315,10 @@ define([
 		_setDisplay: function(/*String*/ newDisplay){
 			// summary:
 			//		sets the display for the given value (or values)
-			var lbl = newDisplay || this.emptyLabel;
+
+			var lbl = (this.labelType === 'text' ? (newDisplay || '')
+					.replace(/&/g, '&amp;').replace(/</g, '&lt;') :
+					newDisplay) || this.emptyLabel;
 			this.containerNode.innerHTML = '<span role="option" class="dijitReset dijitInline ' + this.baseClass.replace(/\s+|$/g, "Label ") + '">' + lbl + '</span>';
 		},
 
