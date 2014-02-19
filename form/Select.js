@@ -44,7 +44,7 @@ define([
 			this.inherited(arguments);
 
 			this.own(on(this.domNode, "selectstart", function(evt){
- 				evt.preventDefault();
+				evt.preventDefault();
 				evt.stopPropagation();
 			}));
 		},
