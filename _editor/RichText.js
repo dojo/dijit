@@ -176,7 +176,10 @@ define([
 
 			// Push in the builtin filters now, making them the first executed, but not over-riding anything
 			// users passed in.  See: #6062
-			this.contentPreFilters = [lang.hitch(this, "_preFixUrlAttributes")].concat(this.contentPreFilters);
+			this.contentPreFilters = [
+				lang.trim,	// avoid IE10 problem hitting ENTER on last line when there's a trailing \n.
+				lang.hitch(this, "_preFixUrlAttributes")
+			].concat(this.contentPreFilters);
 			if(has("mozilla")){
 				this.contentPreFilters = [this._normalizeFontStyle].concat(this.contentPreFilters);
 				this.contentPostFilters = [this._removeMozBogus].concat(this.contentPostFilters);
@@ -2965,14 +2968,14 @@ define([
 
 		_stripTrailingEmptyNodes: function(/*DOMNode*/ node){
 			// summary:
-			//		Function for stripping trailing <p> nodes without any text, but not stripping trailing nodes
+			//		Function for stripping trailing nodes without any text, excluding trailing nodes
 			//		like <img> or <div><img></div>, even though they don't have text either.
 
 			function isEmpty(node){
 				// If not for old IE we could check for Element children by node.firstElementChild
 				return (/^(p|div|br)$/i.test(node.nodeName) && node.children.length == 0 &&
-					lang.trim(node.textContent || node.innerText || "") == "") ||
-					(node.nodeType === 3/*text*/ && lang.trim(node.nodeValue) == "");
+					/^[\s\xA0]*$/.test(node.textContent || node.innerText || "")) ||
+					(node.nodeType === 3/*text*/ && /^[\s\xA0]*$/.test(node.nodeValue));
 			}
 			while(node.lastChild && isEmpty(node.lastChild)){
 				domConstruct.destroy(node.lastChild);
