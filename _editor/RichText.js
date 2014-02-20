@@ -194,8 +194,9 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			// IE generates <strong> and <em> but we want to normalize to <b> and <i>
 				// Still happens in IE11!
 			this.contentPostFilters = [this._normalizeFontStyle].concat(this.contentPostFilters);
-			this.contentDomPostFilters = [lang.hitch(this, this._stripBreakerNodes)].concat(this.contentDomPostFilters);
+				this.contentDomPostFilters = [lang.hitch(this, "_stripBreakerNodes")].concat(this.contentDomPostFilters);
 		}
+			this.contentDomPostFilters = [lang.hitch(this, "_stripTrailingEmptyNodes")].concat(this.contentDomPostFilters);
 		this.inherited(arguments);
 
 		topic.publish(dijit._scopeName + "._editor.RichText::init", this);
@@ -1649,10 +1650,6 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			ec = "";
 		}
 
-		//	if(has("ie")){
-		//		//removing appended <P>&nbsp;</P> for IE
-		//		ec = ec.replace(/(?:<p>&nbsp;</p>[\n\r]*)+$/i,"");
-		//	}
 		array.forEach(this.contentPostFilters, function(ef){
 			ec = ef(ec);
 		});
@@ -2340,7 +2337,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		//		private.
 		if(node.nodeType === 1/*element*/){
 			if(node.childNodes.length > 0){
-				return this._isNodeEmpty(node.childNodes[0], startOffset);
+					return this._isNodeEmpty(node.childNodes[0], startOffset);	// huh?   why test just first child?
 	}
 			return true;
 		}else if(node.nodeType === 3/*text*/){
@@ -2906,17 +2903,30 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		//		Function for stripping out the breaker spans inserted by the formatting command.
 		//		Registered as a filter for IE, handles the breaker spans needed to fix up
 		//		How bold/italic/etc, work when selection is collapsed (single cursor).
-		win.withGlobal(this.window, lang.hitch(this, function(){
-			var breakers = query(".ieFormatBreakerSpan", node);
-			var i;
-			for(i = 0; i < breakers.length; i++){
-				var b = breakers[i];
-				while(b.firstChild){
-					domConstruct.place(b.firstChild, b, "before");
-				}
-				domConstruct.destroy(b);
-			}		
-		}));
+		query(".ieFormatBreakerSpan", node).forEach(function(b){
+			while(b.firstChild){
+				domConstruct.place(b.firstChild, b, "before");
+			}
+			domConstruct.destroy(b);
+		});
+			return node;
+		},
+
+		_stripTrailingEmptyNodes: function(/*DOMNode*/ node){
+			// summary:
+			//		Function for stripping trailing <p> nodes without any text, but not stripping trailing nodes
+			//		like <img> or <div><img></div>, even though they don't have text either.
+
+			function isEmpty(node){
+				// If not for old IE we could check for Element children by node.firstElementChild
+				return (/^(p|div|br)$/i.test(node.nodeName) && node.children.length == 0 &&
+					lang.trim(node.textContent || node.innerText || "") == "") ||
+					(node.nodeType === 3/*text*/ && lang.trim(node.nodeValue) == "");
+			}
+			while(node.lastChild && isEmpty(node.lastChild)){
+				domConstruct.destroy(node.lastChild);
+			}
+
 		return node;
 	}
 });
