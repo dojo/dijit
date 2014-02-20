@@ -43,9 +43,6 @@ return declare( "dijit.form._ListMouseMixin", _ListBase, {
 	},
 
 	_onMouseDown: function(/*Event*/ evt){
-		if(!/^touch/.test(evt.type)){
-			event.stop(evt);
-		}
 		if(this._hoveredNode){
 			this.onUnhover(this._hoveredNode);
 			this._hoveredNode = null;
@@ -55,9 +52,6 @@ return declare( "dijit.form._ListMouseMixin", _ListBase, {
 	},
 
 	_onMouseUp: function(/*Event*/ evt){
-		if(!/^touch/.test(evt.type)){
-			event.stop(evt);
-		}
 		this._isDragging = false;
 		var selectedNode = this._getSelectedAttr();
 		var target = this._getTarget(evt);
