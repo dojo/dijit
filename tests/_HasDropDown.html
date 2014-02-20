@@ -8,10 +8,10 @@
 <script type="text/javascript">
 require([
 	"doh/runner",
-	"dojo/_base/declare", "dojo/keys", "dojo/on", "dojo/_base/window",
+	"dojo/_base/declare", "dojo/dom-geometry", "dojo/keys", "dojo/on", "dojo/_base/window",
 	"dijit/_HasDropDown", "dijit/_WidgetBase", "dijit/_TemplatedMixin",
 	"dijit/tests/helpers", "dojo/domReady!"
-], function(doh, declare, keys, on, win,
+], function(doh, declare, domGeom, keys, on, win,
 			_HasDropDown, _WidgetBase, _TemplatedMixin, helpers){
 
 
@@ -20,14 +20,14 @@ require([
 		//		A trivial popup widget
 
 		label: "i'm a popup",
-		templateString: "<span>${label}</span>"
+		templateString: "<div>${label}</div>"
 	});
 
 	var SimpleDropDownButton = declare([_WidgetBase, _TemplatedMixin, _HasDropDown], {
 		// summary:
 		//		A button that shows a popup.
 
-		label: "show popup",
+		label: "show dropdown",
 		popupLabel: "i'm a popup",
 		orient: ["below"],
 
@@ -87,7 +87,10 @@ require([
 
 	doh.register("basic", [
 		function setup(){
-			dd = new SimpleDropDownButton({id: "dd"}).placeAt(win.body());
+			dd = new SimpleDropDownButton({
+				id: "dd",
+				label: "show dropdown - ltr"
+			}).placeAt(win.body());
 			popup = dd.dropDown;
 			doh.t(!!popup, "popup exists");
 		},
@@ -96,6 +99,10 @@ require([
 			click(dd.domNode);
 			setTimeout(d.getTestCallback(function(){
 				doh.t(helpers.isVisible(popup), "popup visible");
+				var anchorPos = domGeom.position(dd.domNode),
+					dropDownPos = domGeom.position(popup.domNode);
+				doh.t(Math.abs(anchorPos.x - dropDownPos.x) < 1, "drop down and anchor left aligned");
+				doh.t(Math.abs(anchorPos.w - dropDownPos.w) < 1, "drop down same width as anchor");
 			}), 10);
 			return d;
 		},
@@ -119,6 +126,29 @@ require([
 		// TODO: open by down arrow
 	]);
 
+	doh.register("rtl", [
+		function setup(){
+			dd = new SimpleDropDownButton({
+				id: "rdd",
+				dir: "rtl",
+				label: "show dropdown - rtl"
+			}).placeAt(win.body());
+			popup = dd.dropDown;
+			doh.t(!!popup, "popup exists");
+		},
+		function open(){
+			var d = new doh.Deferred();
+			click(dd.domNode);
+			setTimeout(d.getTestCallback(function(){
+				doh.t(helpers.isVisible(popup), "popup visible");
+				var anchorPos = domGeom.position(dd.domNode),
+					dropDownPos = domGeom.position(popup.domNode);
+				doh.t(Math.abs(anchorPos.x - dropDownPos.x) < 1, "drop down and anchor left aligned");
+				doh.t(Math.abs(anchorPos.w - dropDownPos.w) < 1, "drop down same width as anchor");
+			}), 10);
+			return d;
+		}
+	]);
 
 	doh.register("non focusable", [
 		function setup(){
@@ -136,6 +166,43 @@ require([
 		},
 		function close(){
 			ndd.closeDropDown();
+		}
+	]);
+
+	doh.register("alignment", [
+		function left(){
+			var d = new doh.Deferred();
+			var ltr = new SimpleDropDownButton({
+				id: "ltr",
+				label: "show non-auto-width dropdown - ltr",
+				autoWidth: false
+			}).placeAt(win.body());
+			click(ltr.domNode);
+			setTimeout(d.getTestCallback(function(){
+				var anchorPos = domGeom.position(ltr.domNode),
+					dropDownPos = domGeom.position(ltr.dropDown.domNode);
+				doh.t(Math.abs(anchorPos.x - dropDownPos.x) < 1, "drop down and anchor left aligned");
+				doh.t(anchorPos.w > dropDownPos.w, "anchor wider than drop down");
+			}), 10);
+			return d;
+		},
+		function right(){
+			var d = new doh.Deferred();
+			var rtl = new SimpleDropDownButton({
+				id: "rtl",
+				dir: "rtl",
+				label: "show non-auto-width dropdown - rtl",
+				autoWidth: false
+			}).placeAt(win.body());
+			click(rtl.domNode);
+			setTimeout(d.getTestCallback(function(){
+				var anchorPos = domGeom.position(rtl.domNode),
+					dropDownPos = domGeom.position(rtl.dropDown.domNode);
+				doh.t(Math.abs((anchorPos.x + anchorPos.w) - (dropDownPos.x + dropDownPos.w)) < 1,
+						"drop down and anchor right aligned");
+				doh.t(anchorPos.w > dropDownPos.w, "anchor wider than drop down");
+			}), 10);
+			return d;
 		}
 	]);
 
