@@ -406,13 +406,20 @@ define([
 			// Set width of drop down if necessary, so that dropdown width + width of scrollbar (from popup wrapper)
 			// matches width of aroundNode
 			if(this.forceWidth || (this.autoWidth && aroundNode.offsetWidth > dropDown._popupWrapper.offsetWidth)){
+				var widthAdjust = aroundNode.offsetWidth - dropDown._popupWrapper.offsetWidth;
 				var resizeArgs = {
-					w: aroundNode.offsetWidth - (dropDown._popupWrapper.offsetWidth - dropDown.domNode.offsetWidth)
+					w: dropDown.domNode.offsetWidth + widthAdjust
 				};
 				if(lang.isFunction(dropDown.resize)){
 					dropDown.resize(resizeArgs);
 				}else{
 					domGeometry.setMarginBox(ddNode, resizeArgs);
+				}
+
+				// If dropdown is right-aligned then compensate for width change by changing horizontal position
+				if(retVal.corner[1] == "R"){
+					dropDown._popupWrapper.style.left =
+						(dropDown._popupWrapper.style.left.replace("px", "") - widthAdjust) + "px";
 				}
 			}
 
