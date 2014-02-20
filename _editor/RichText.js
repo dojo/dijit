@@ -1064,9 +1064,9 @@ define([
 			// tags:
 			//		protected
 
-			// Workaround IE9+ problems when you blur the browser windows while an editor is focused: IE hangs
+			// Workaround IE problem when you blur the browser windows while an editor is focused: IE hangs
 			// when you focus editor #1, blur the browser window, and then click editor #0.  See #16939.
-			if(has("ie") >= 9){
+			if(has("ie") || has("trident")){
 				this.defer(function(){
 					if(!focus.curNode){
 						this.ownerDocumentBody.focus();
