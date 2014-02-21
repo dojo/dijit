@@ -38,7 +38,11 @@
 				parser.parse();
 
 				// programmatic creation
-				new InlineEditBox({ renderAsHtml: true, onChange:myHandler }, 'programmatic');
+				programmaticCreate = function(){
+					programmatic = new InlineEditBox({renderAsHtml: true, onChange:myHandler },
+						document.createElement("div"));	// shouldn't have to specify a srcNodeRef, but you do.
+					programmatic.placeAt("programmaticContainer");
+				};
 			});
 
 			function myHandler(newValue){
@@ -234,7 +238,9 @@ tortor pharetra congue. Suspendisse pulvinar.
 		<hr style="width:100%;"/>
 
 		<h2>Programmatically created:</h2>
-		before block<div style="display:block;" id="programmatic">Click here to edit a block programmatically created inline edit region</div>after
+		<button type=button onclick="programmaticCreate();">create</button>
+		<button type=button onclick="programmatic.destroy();">destroy</button>
+		<div id="programmaticContainer"></div>
 
 		<hr style="width:100%;"/>
 		<h2>Complex renderAsHtml="false"</h2>
