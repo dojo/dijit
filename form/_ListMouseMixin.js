@@ -23,9 +23,6 @@ define([
 			// Add flag to use normalized click handling from dojo/touch
 			this.domNode.dojoClick = true;
 
-			this.own(on(this.domNode, "mousedown", function(evt){
-				evt.preventDefault();
-			})); // prevent focus shift on list scrollbar press
 			this._listConnect("click", "_onClick");
 			this._listConnect("mousedown", "_onMouseDown");
 			this._listConnect("mouseup", "_onMouseUp");
