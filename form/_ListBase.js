@@ -45,9 +45,6 @@ return declare( "dijit.form._ListBase", null, {
 				eventType
 			),
 			function(evt){
-				if(!/^touch/.test(evt.type)){
-					evt.preventDefault();
-				}
 				self[callbackFuncName](evt, this);
 			}
 		));

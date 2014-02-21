@@ -21,7 +21,6 @@ return declare( "dijit.form._ListMouseMixin", _ListBase, {
 	postCreate: function(){
 		this.inherited(arguments);
 
-		this.own(on(this.domNode, "mousedown", function(evt){ evt.preventDefault(); })); // prevent focus shift on list scrollbar press
 		this._listConnect("click", "_onClick");
 		this._listConnect("mousedown", "_onMouseDown");
 		this._listConnect("mouseup", "_onMouseUp");
