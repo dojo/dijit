@@ -165,34 +165,6 @@
 						}
 					},
 					{
-						name: "onChange set value",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							var inlineBox = registry.byId("editable");
-							inlineBox.set("value", "programmatic value");
-							robot.sequence(d.getTestCallback(function(){
-								doh.is("programmatic value", inlineBox._onChangeValue, "programmatic set causes onChange");
-							}), 500);
-							return d;
-						}
-					},
-					{
-						name: "onChange programmatic creation",
-						timeout: 2000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							var inlineBox = registry.byId("programmatic");
-							inlineBox.edit();
-							inlineBox.wrapperWidget.editWidget.set('value', 'changed');
-							inlineBox.save();
-							robot.sequence(d.getTestCallback(function(){
-								doh.is("changed", inlineBox._onChangeValue, "editing causes onChange");
-							}), 500);
-							return d;
-						}
-					},
-					{
 						name: "Textarea test",
 						timeout: 15000,
 						runTest: function(){
@@ -396,6 +368,57 @@
 								inlineBox.cancel();
 							}), 1000);
 							return d;
+						}
+					}
+				]);
+
+				doh.register("programmatic", [
+					{
+						name: "create",
+						timeout: 4000,
+						runTest: function(){
+							// Actually, it was already created by test_InlineEditBox
+							numWidgetsBeforeProgCreate = registry.length;
+							robot.window.programmaticCreate();
+							doh.t(!!robot.window.programmatic);
+						}
+					},
+					{
+						name: "set()",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var inlineBox = registry.byId("editable");
+							inlineBox.set("value", "programmatic value");
+							robot.sequence(d.getTestCallback(function(){
+								doh.is("programmatic value", inlineBox._onChangeValue, "programmatic set causes onChange");
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "edit",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var inlineBox = robot.window.programmatic;
+							inlineBox.edit();
+							inlineBox.wrapperWidget.editWidget.set('value', 'changed');
+							inlineBox.save();
+							robot.sequence(d.getTestCallback(function(){
+								doh.is("changed", inlineBox._onChangeValue, "editing causes onChange");
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "destroy",
+						timeout: 4000,
+						runTest: function(){
+							robot.window.programmatic.destroy();
+							var numWidgetsAfterDestroy = registry.length;
+							doh.is(numWidgetsBeforeProgCreate, numWidgetsAfterDestroy,
+									"no orphaned widgets");
 						}
 					}
 				]);
