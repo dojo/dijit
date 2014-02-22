@@ -346,10 +346,10 @@
 					setTimeout(d.getTestCallback(function(){
 						doh.t(isVisible(popup.domNode), "popup is visible");
 
-						if(has("ie") <= 6){
+						if(has("config-bgIframe")){
 							// Test the BackgroundIFrame
 							var iframes = query("iframe");
-							doh.is(1, iframes.length, "one background iframe on IE6");
+							doh.is(1, iframes.length, "one background iframe");
 
 							var popupCoords = domGeometry.position(popup.domNode),
 								iframeCoords = domGeometry.position(iframes[0]);
