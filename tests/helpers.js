@@ -1,19 +1,134 @@
 // Helper methods for automated testing
 
 define([
-	"dojo/_base/array", "dojo/Deferred", "dojo/promise/all",
+	"dojo/_base/array", "dojo/_base/Deferred",// "dojo/promise/all",
 	"dojo/dom-attr", "dojo/dom-class", "dojo/dom-geometry", "dojo/dom-style",
-	"dojo/_base/kernel", "dojo/_base/lang", "dojo/on", "dojo/query", "dojo/ready", "dojo/sniff",
+	"dojo/_base/kernel", "dojo/_base/lang", "dojo/on", "dojo/query", "dojo/ready", "dojo/_base/sniff",
 	"dijit/a11y"	// isTabNavigable, dijit._isElementShown
-], function(array,  Deferred, all,
+], function(array,  Deferred,// all,
 			domAttr, domClass, domGeometry, domStyle,
 			kernel, lang, on, query, ready, has, a11y){
 
+	// 1.8 promises - so this is why DOH should be decoupled from Dojo
+	function all(objectOrArray){
+		// summary:
+		//		Takes multiple promises and returns a new promise that is fulfilled
+		//		when all promises have been fulfilled.
+		// description:
+		//		Takes multiple promises and returns a new promise that is fulfilled
+		//		when all promises have been fulfilled. If one of the promises is rejected,
+		//		the returned promise is also rejected. Canceling the returned promise will
+		//		*not* cancel any passed promises.
+		// objectOrArray: Object|Array?
+		//		The promise will be fulfilled with a list of results if invoked with an
+		//		array, or an object of results when passed an object (using the same
+		//		keys). If passed neither an object or array it is resolved with an
+		//		undefined value.
+		// returns: dojo/promise/Promise
 
+		var object, _array;
+		if(objectOrArray instanceof Array){
+			_array = objectOrArray;
+		}else if(objectOrArray && typeof objectOrArray === "object"){
+			object = objectOrArray;
+		}
+
+		var results;
+		var keyLookup = [];
+		if(object){
+			_array = [];
+			for(var key in object){
+				if(Object.hasOwnProperty.call(object, key)){
+					keyLookup.push(key);
+					_array.push(object[key]);
+				}
+			}
+			results = {};
+		}else if(_array){
+			results = [];
+		}
+
+		if(!_array || !_array.length){
+			return new Deferred().resolve(results);
+		}
+
+		var deferred = new Deferred();
+		// no sugar coating like always in 1.7 - stick to the basics
+		/*deferred.promise.always(function(){
+			results = keyLookup = null;
+		});*/
+		var f=function(){
+			results = keyLookup = null;
+		};
+		deferred.promise.then(f,f);
+		
+		// cleaner impl of crazy some/when/always/otherwise nonsense
+		var waiting = _array.length;
+		for(var i=0; i<_array.length; i++){
+			var nextPromise=_array[i];
+			nextPromise.then(function(){
+				waiting--;
+				console.log("WAITIG: "+waiting);
+				if(waiting==0){
+					deferred.resolve(results);
+				}
+			});
+		}
+		return deferred.promise;	// dojo/promise/Promise
+	};
+	function when(valueOrPromise, callback, errback, progback){
+		// summary:
+		//		Transparently applies callbacks to values and/or promises.
+		// description:
+		//		Accepts promises but also transparently handles non-promises. If no
+		//		callbacks are provided returns a promise, regardless of the initial
+		//		value. Foreign promises are converted.
+		//
+		//		If callbacks are provided and the initial value is not a promise,
+		//		the callback is executed immediately with no error handling. Returns
+		//		a promise if the initial value is a promise, or the result of the
+		//		callback otherwise.
+		// valueOrPromise:
+		//		Either a regular value or an object with a `then()` method that
+		//		follows the Promises/A specification.
+		// callback: Function?
+		//		Callback to be invoked when the promise is resolved, or a non-promise
+		//		is received.
+		// errback: Function?
+		//		Callback to be invoked when the promise is rejected.
+		// progback: Function?
+		//		Callback to be invoked when the promise emits a progress update.
+		// returns: dojo/promise/Promise
+		//		Promise, or if a callback is provided, the result of the callback.
+
+		var receivedPromise = valueOrPromise && typeof valueOrPromise.then === "function";
+		var nativePromise = false;//receivedPromise && valueOrPromise instanceof Promise;
+
+		if(!receivedPromise){
+			if(arguments.length > 1){
+				return callback ? callback(valueOrPromise) : valueOrPromise;
+			}else{
+				return new Deferred().resolve(valueOrPromise);
+			}
+		}else if(!nativePromise){
+			var deferred = new Deferred(valueOrPromise.cancel);
+			valueOrPromise.then(deferred.resolve, deferred.reject, deferred.progress);
+			valueOrPromise = deferred.promise;
+		}
+
+		if(callback || errback || progback){
+			return valueOrPromise.then(callback, errback, progback);
+		}
+		return valueOrPromise;
+	};
+			
 // Globals used by onFocus()
 var curFocusNode, focusListener, focusCallback, focusCallbackDelay;
 
 var exports = {
+
+all:all,
+when:when,
 
 isVisible: function isVisible(/*dijit/_WidgetBase|DomNode*/ node){
 	// summary:
