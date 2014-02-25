@@ -15,7 +15,7 @@
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		data-dojo-config="isDebug: true"></script>
-	<script type="text/javascript" src="../helpers.js"></script>
+	<script type="text/javascript">dojo.require("dijit.tests.helpers"); // this instead of script tag for AMD 1.7</script>
 
 	<!-- only needed for alternate theme testing: do NOT use in your code! -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
