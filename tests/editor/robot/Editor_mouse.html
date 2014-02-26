@@ -11,13 +11,10 @@
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../dojo/dojo.js" data-dojo-config="async: true"></script>
 
-		<!-- functions to help test -->
-		<script type="text/javascript">dojo.require("dijit.tests.helpers"); // this instead of script tag for AMD 1.7</script>
-
 		<script type="text/javascript">
 			require([
 				"doh/runner",  "dojo/robotx",
-				"dojo/dom-class", "dojo/keys", "dojo/query", "dojo/sniff",
+				"dojo/dom-class", "dojo/keys", "dojo/query", "dojo/_base/sniff",
 				"dijit/tests/helpers", "dojo/domReady!"
 			], function(doh, robot, domClass, keys, query, has, helpers){
 

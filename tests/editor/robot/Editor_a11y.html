@@ -11,12 +11,10 @@
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../dojo/dojo.js"></script>
 
-		<!-- functions to help test -->
-		<script type="text/javascript">dojo.require("dijit.tests.helpers"); // this instead of script tag for AMD 1.7</script>
-
 		<script type="text/javascript">
 			dojo.require("dojo.window");
 			dojo.require("dijit.robotx");
+			dojo.require("dijit.tests.helpers");	// functions to help test
 
 			function normalize(str){
 				// try to do some normalization to make all browsers look
@@ -39,19 +37,17 @@
 				var editor0,
 					editor1, editor1oldValue, editor1newValue, editor1onChange = "no onchange event yet";
 
+				var registry;
 				doh.register("setup", [
 					{
 						name: "wait for editors to load",
 						timeout: 5000,
-						runTest: function(){
-						    return new dojo.DeferredList(
-						        dijit.registry.filter(function(w){ return w.onLoadDeferred; }).map(function(w){ return w.onLoadDeferred; })
-						    );
-						}
+						runTest: waitForLoad
 					},
-					function setUp(){
-						editor0 = dijit.byId("editor0");
-						editor1 = dijit.byId("editor1");					
+					function setVars(){
+						registry = doh.robot.window.require("dijit/registry");
+						editor0 = registry.byId("editor0");
+						editor1 = registry.byId("editor1");
 						editor1.watch("value", function(attr, oldVal, newVal){
 							editor1oldValue = normalize(oldVal);
 							editor1newValue = normalize(newVal);
@@ -244,7 +240,7 @@
 								// probably happen as pre and post filters on the editor
 								var val = normalize(editor1.get('value'));
 								doh.is("hello <b>world</b>", val);
-							}), 500);
+							}), 1500);
 
 							return d;
 						}
