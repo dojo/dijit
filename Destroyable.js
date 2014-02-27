@@ -48,9 +48,9 @@ define([
 
 				// If handle is destroyed manually before this.destroy() is called, remove the listener set directly above.
 				var hdh = aspect.after(handle, destroyMethodName, function(){
-						odh.remove();
-						hdh.remove();
-					}, true);
+					odh.remove();
+					hdh.remove();
+				}, true);
 				
 				if(destroyMethodName == "destroyRecursive") { // remove "destroyRecursive" for 2.0
 					var hdhRecursiveBefore = aspect.before(handle, destroyMethodName, function(){
