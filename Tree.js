@@ -1356,7 +1356,7 @@ define([
 			// Touching a node should focus it, even if you touch the expando node or the edges rather than the label.
 			// Especially important to avoid _KeyNavMixin._onContainerFocus() causing the previously focused TreeNode
 			// to get focus
-			nodeWidget.focus();
+			this.focusNode(nodeWidget);
 		},
 
 		__click: function(/*TreeNode*/ nodeWidget, /*Event*/ e, /*Boolean*/doOpen, /*String*/func){
@@ -1556,7 +1556,9 @@ define([
 			// tags:
 			//		protected
 
+			var scrollLeft = this.domNode.scrollLeft;
 			this.focusChild(node);
+			this.domNode.scrollLeft = scrollLeft;
 		},
 
 		_onNodeMouseEnter: function(/*dijit/_WidgetBase*/ /*===== node =====*/){

@@ -37,6 +37,8 @@
 	<div data-dojo-id="continentStore" data-dojo-type="dojo/data/ItemFileWriteStore" data-dojo-props='url:"../_data/countries.json"'></div>
 	<div data-dojo-id="continentModel" data-dojo-type="dijit/tree/ForestStoreModel" data-dojo-props='store:continentStore, query:{type:"continent"},
 		rootId:"continentRoot", rootLabel:"Continents", childrenAttrs:["children"]'></div>
+	<div data-dojo-id="wideModel" data-dojo-type="dijit/tree/ForestStoreModel" data-dojo-props='store:continentStore, query:{type:"continent"},
+		rootId:"continentRoot", rootLabel:"Long label that causes scrolling", childrenAttrs:["children"]'></div>
 
 	<h2>Tree with hardcoded root node (not corresponding to any item in the store)</h2>
 	<p>
@@ -150,7 +152,7 @@
 		state.
 	</p>
 	<div id="thinTree" style="width: 170px; border: solid 1px #759dc0"
-		 data-dojo-type="dijit/Tree" aria-label="my thin tree"  data-dojo-props="model:continentModel">
+		 data-dojo-type="dijit/Tree" aria-label="my thin tree"  data-dojo-props="model:wideModel">
 		<script type="dojo/aspect" data-dojo-advice="after" data-dojo-method="_adjustWidths">
 			console.log(this.id + ": adjusted widths of nodes");
 		</script>
