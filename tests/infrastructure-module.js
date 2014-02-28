@@ -27,6 +27,7 @@ define(["doh/main", "require"], function(doh, require){
 	doh.register("_Templated-widgetsInTemplate1.x", require.toUrl("./_Templated-widgetsInTemplate1.x.html"), 999999);
 	doh.register("_Container", require.toUrl("./_Container.html"), 999999);
 	doh.register("_KeyNavContainer", require.toUrl("./_KeyNavContainer.html"), 999999);
+	doh.register("robot._KeyNavContainer", require.toUrl("./robot/_KeyNavContainer.html"), 999999);
 	doh.register("_HasDropDown", require.toUrl("./_HasDropDown.html"), 999999);
 
 	doh.register("Declaration", require.toUrl("./test_Declaration.html"), 999999);
