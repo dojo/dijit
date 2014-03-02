@@ -14,10 +14,10 @@
 		<script type="text/javascript">
 			require([
 				"doh/runner", "dojo/robotx",
-				"dojo/dom", "dojo/dom-class", "dojo/dom-geometry",
+				"dojo/_base/array", "dojo/dom", "dojo/dom-class", "dojo/dom-geometry",
 				"dojo/keys", "dojo/query", "dojo/sniff",
 				"dijit/tests/helpers", "dojo/domReady!"
-			], function(doh, robot, dom, domClass, domGeom, keys, query, has, helpers){
+			], function(doh, robot, array, dom, domClass, domGeom, keys, query, has, helpers){
 
 				robot.initRobot('../test_Menu.html');
 
@@ -691,49 +691,52 @@
 				// Run test about opening context menu via keyboard, except on safari/mac where that isn't
 				// possible (#9927)
 				if(!has("mac") || !has("webkit")){
-					doh.register("Context menu keyboard tests", [{
-						name: "open global context menu (keyboard)",
-						timeout: 5000,
-						runTest: function(){
-							var d = new doh.Deferred();
+					var tests = has("mac") ?
+						[
+							{label: "ctrl-space", key: keys.SPACE, options: {ctrl: true}}
+						] :
+						[
+							{label: "context menu key", key: 525, options: {}},	// 93 in JS but 525 in Java
+							{label: "shift-F10", key: keys.F10, options: {shift: true}}
+						];
+					doh.register("Context menu keyboard tests", array.map(tests, function(test){
+						return {
+							name: "open global context menu via " + test.label,
+							timeout: 5000,
+							runTest: function(){
+								var d = new doh.Deferred();
 
-							// Put focus on the link; this is just a random place on the screen to have focus
-							robot.sequence(function(){
-								dom.byId("link").focus();
-							}, 500, 500);
+								// Focus random element to make sure menu is opened near focus point.
+								robot.sequence(function(){
+									dom.byId("input").focus();
+								}, 500);
 
-							// open via keyboard
-							if(has("mac")){
-								robot.keyPress(keys.SPACE, 500, {
-									ctrl: true
-								});
-							}else{
-								robot.keyPress(keys.F10, 500, {
-									shift: true
-								});
+								// open via keyboard
+								robot.keyPress(test.key, 500, test.options);
+
+								robot.sequence(d.getTestCallback(function(){
+									var menu = registry.byId("windowContextMenu");
+									doh.t(helpers.isVisible(menu), "menu is now shown");
+
+									var menuCoords = domGeom.position(menu.domNode),
+										aroundCoords = domGeom.position("input");
+
+									// Check that menu's top left corner is near focus point,
+									// rather than upper-left hand corner of browser window.
+									doh.t(menuCoords.x < aroundCoords.x + 100, "x < 100", "actual x: " + menuCoords.x);
+									doh.t(menuCoords.y < aroundCoords.y + 50, "y < 50", "actual y: " + menuCoords.y);
+									doh.t(menuCoords.x >= aroundCoords.x, "x >= 0", "actual x: " + menuCoords.x);
+									doh.t(menuCoords.y >= aroundCoords.y, "y >= 0", "actual y: " + menuCoords.y);
+									doh.t(domClass.contains("windowContextMenuFirstChoice", "dijitMenuItemSelected"),
+											"first choice selected");
+
+									robot.keyPress(keys.ESCAPE, 0, {}, true); // close context menu
+								}), 1000);
+
+								return d;
 							}
-
-
-							robot.sequence(d.getTestCallback(function(){
-								var menu = registry.byId("windowContextMenu");
-								doh.t(helpers.isVisible(menu), "menu is now shown");
-
-								var menuCoords = domGeom.position(menu.domNode),
-									linkCoords = domGeom.position("link");
-
-								doh.t(menuCoords.x < 100, "x < 100", "actual x: " + menuCoords.x);
-								doh.t(menuCoords.y < 50, "y < 50", "actual y: " + menuCoords.y);
-								doh.t(menuCoords.x >= 0, "x >= 0", "actual x: " + menuCoords.x);
-								doh.t(menuCoords.y >= 0, "y >= 0", "actual y: " + menuCoords.y);
-								doh.t(domClass.contains("windowContextMenuFirstChoice", "dijitMenuItemSelected"),
-										"first choice selected");
-
-								robot.keyPress(keys.ESCAPE, 0, {}, true); // close context menu
-							}), 1000);
-
-							return d;
-						}
-					}]);
+						};
+					}));
 				}
 
 				doh.register("Cancellation (ESCAPE) tests", [
