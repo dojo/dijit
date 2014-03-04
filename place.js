@@ -233,7 +233,7 @@ define([
 			//
 
 			// if around is a DOMNode (or DOMNode id), convert to coordinates
-			var aroundNodePos = (typeof anchor == "string" || "offsetWidth" in anchor)
+			var aroundNodePos = (typeof anchor == "string" || "offsetWidth" in anchor || "ownerSVGElement" in anchor)
 				? domGeometry.position(anchor, true)
 				: anchor;
 

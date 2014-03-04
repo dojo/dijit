@@ -23,7 +23,7 @@
 	<script type="text/javascript">
 		dojo.require("doh.runner");
 		dojo.require("dijit.Tooltip");
-		
+
 		dojo.ready(function(){
 			doh.register("setup", function(){
 				dijit._MasterTooltip.prototype.duration = 0.05; // speed up tooltip fading
@@ -133,7 +133,7 @@
 					}
 				}
 			
-				//If we cannot view the entire tooltip, verify they side with the most space was choosen and the entire height was utilized.
+				//If we cannot view the entire tooltip, verify they side with the most space was chosen and the entire height was utilized.
 				var canViewEntireTooltip = (tooltipContainerPos.x + tooltipContainerPos.w <= view.w+1) && 
 										   (tooltipPos.y + tooltipPos.h <= view.h+1);			
 				if(!canViewEntireTooltip && !isIE6 && !dojo.isOpera){
@@ -335,6 +335,38 @@
 					}
 				}
 			]);
+
+			if(typeof SVGAngle !== "undefined"){
+				doh.register("svg tooltip", [
+					{
+						name: "setup",
+						runTest: function(){
+							document.body.insertAdjacentHTML("beforeend",
+								"<div id='svgWrapper' style='position: relative; top: 100px; left: 100px;'>" +
+									"<svg xmlns='http://www.w3.org/2000/svg' version='1.1'>" +
+										"<rect id='theRectangle' width='300' height='100' " +
+											"style='fill:rgb(0,0,255);stroke-width:1;stroke:rgb(0,0,0)' />" +
+									"</svg>" +
+								"</div>"
+							);
+							dojo.window.scrollIntoView("svgWrapper");
+						}
+					},
+					{
+						name: "display",
+						runTest: function(){
+							var d = new doh.Deferred();
+							var cp = dojo.byId("theRectangle");
+							dijit.showTooltip("SVG tooltip", cp, null, true);
+							setTimeout(d.getTestCallback(function(){
+								// use timeout to wait for fade out of tooltip from old position, and fade in to new position
+								toTheLeftOrRight(cp, true);
+							}), 100);
+							return d;
+						}
+					}
+				]);
+			}
 
 			doh.run();
 		});
