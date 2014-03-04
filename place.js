@@ -262,7 +262,7 @@ define([
 
 			// If around is a DOMNode (or DOMNode id), convert to coordinates.
 			var aroundNodePos;
-			if(typeof anchor == "string" || "offsetWidth" in anchor){
+			if(typeof anchor == "string" || "offsetWidth" in anchor || "ownerSVGElement" in anchor){
 				aroundNodePos = domGeometry.position(anchor, true);
 
 				// For above and below dropdowns, subtract width of border so that popup and aroundNode borders
