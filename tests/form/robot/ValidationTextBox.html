@@ -593,7 +593,7 @@
 							dijit.byId('q01').focusNode.focus();
 						}), 500);
 						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-							doh.is('???1.00', this.textbox.focusNode.value, "focusNode.value");
+							doh.is('\u20AC1.00', this.textbox.focusNode.value, "focusNode.value");
 							doh.is('1', this.textbox.get('value'), "get('value')");
 							doh.is(true, this.textbox.isValid(), "isValid()");
 						})), 1000);
@@ -906,7 +906,7 @@
 						runTest: function(){
 							var textWidget = dijit.byId("q08eurde");
 							textWidget.set('value', 12345.25);
-							doh.is("12.345,25\xa0???", textWidget.get('displayedValue'), "EUR value");
+							doh.is("12.345,25\xa0€", textWidget.get('displayedValue'), "EUR value");
 							textWidget.set('constraints', {currency:'USD', locale:'en-us'});
 							doh.is("$12,345.25", textWidget.get('displayedValue'), "USD value");
 						}
