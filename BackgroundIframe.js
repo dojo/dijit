@@ -19,8 +19,6 @@ define([
 	// conditionally required via  dojo/has!bgIfame?dijit/BackgroundIframe
 	has.add("config-bgIframe", !has("touch"));
 
-	// TODO: remove _frames, it isn't being used much, since popups never release their
-	// iframes (see [22236])
 	var _frames = new function(){
 		// summary:
 		//		cache of iframes
@@ -105,6 +103,7 @@ define([
 				this._conn = null;
 			}
 			if(this.iframe){
+				this.iframe.parentNode.removeChild(this.iframe);
 				_frames.push(this.iframe);
 				delete this.iframe;
 			}

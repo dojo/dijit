@@ -385,6 +385,12 @@ define([
 					widget = top.widget,
 					onClose = top.onClose;
 
+				if (widget.bgIframe) {
+					// push the iframe back onto the stack.
+					widget.bgIframe.destroy();
+					delete widget.bgIframe;
+				}
+
 				if(widget.onClose){
 					// TODO: in 2.0 standardize onHide() (used by StackContainer) and onClose() (used here).
 					// Actually, StackContainer also calls onClose(), but to mean that the pane is being deleted
