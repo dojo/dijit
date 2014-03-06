@@ -903,118 +903,115 @@
 					}
 				]);
 
-				if(document.createElement('input').placeholder === undefined){
-					//no native place holder support, test js implementation
-					doh.register("placeholder", [
-						{
-							name: "textbox",
-							runTest: function(){
-								var textWidget = dijit.byId("q26");
-								doh.is('', textWidget.get('value'),'initial value is empty');
-								doh.is('placeholder is here', textWidget._phspan.innerHTML, '_phspan.innerHTML');
-								textWidget.set('value','abc');
-								doh.is('abc', textWidget.get('value'));
-								textWidget.set('placeHolder','new placholder');
-								doh.is('abc', textWidget.get('value'));
-								textWidget.set('value','');
-								doh.is('new placholder', textWidget._phspan.innerHTML, '_phspan.innerHTML 1');
-								doh.is('', textWidget.get('value'));
-							}
-						},
-						{
-							name: "focus/blur textbox",
-							timeout: 9000,
-							runTest: function(){
-								var d = new doh.Deferred(), textWidget = dijit.byId("q26");
-								textWidget.set('placeHolder','placeholder is here');
-								textWidget.set('value','');
-								
-								//  Clicking into the input should hide _phspan
-								doh.robot.mouseMoveAt(textWidget.focusNode, 500, 1);
-								doh.robot.mouseClick({left: true}, 500);
-								
-								doh.robot.sequence(d.getTestErrback(function(){
-									doh.is("", textWidget.get('value'), "get('value')");
-									doh.isNot("none", textWidget._phspan.style.display, "_phspan.style.display");
-									
-									doh.robot.keyPress(dojo.keys.TAB, 500, {shift:true});
-									doh.robot.sequence(d.getTestCallback(function(){
-										doh.is("", textWidget.get('value'), "get('value')");
-										doh.isNot("none", textWidget._phspan.style.display, "_phspan.style.display 1");
-									}), 1000);
-								}), 1000);
-								return d;
-							}
-						},
-						{
-							name: "type in textbox",
-							timeout: 9000,
-							runTest: function(){
-								var d = new doh.Deferred(), textWidget = dijit.byId("q26");
-								textWidget.set('placeHolder','placeholder is here');
-								textWidget.set('value','');
-								
-								//  Clicking into the input should hide _phspan
-								doh.robot.mouseMoveAt(textWidget.focusNode, 500, 1);
-								doh.robot.mouseClick({left: true}, 500);
-								
-								doh.robot.sequence(d.getTestErrback(function(){
-									doh.is("", textWidget.get('value'), "get('value')");
-									doh.isNot("none", textWidget._phspan.style.display, "_phspan.style.display 1");
-									
-									doh.robot.typeKeys('new', 0, 600);
-									doh.robot.sequence(d.getTestCallback(function(){
-										doh.is("new", textWidget.get('value'), "get('value')");
-										doh.is("none", textWidget._phspan.style.display, "_phspan.style.display 2");
-									}), 500);
-								}), 1000);
-								return d;
-							}
-						},
-						{
-							name: "reset textbox",
-							timeout: 9000,
-							runTest: function(){
-								var textWidget = dijit.byId("q26"), d = new doh.Deferred();
-								textWidget.focus();
-								textWidget.set('placeHolder','placeholder is here');
-								textWidget.set('value','');
-								
-								doh.is("", textWidget.get('value'), "get('value') 1");
+				doh.register("placeholder", [
+					{
+						name: "textbox",
+						runTest: function(){
+							var textWidget = dijit.byId("q26");
+							doh.is('', textWidget.get('value'),'initial value is empty');
+							doh.is('placeholder is here', textWidget._phspan.innerHTML, '_phspan.innerHTML');
+							textWidget.set('value','abc');
+							doh.is('abc', textWidget.get('value'));
+							textWidget.set('placeHolder','new placholder');
+							doh.is('abc', textWidget.get('value'));
+							textWidget.set('value','');
+							doh.is('new placholder', textWidget._phspan.innerHTML, '_phspan.innerHTML 1');
+							doh.is('', textWidget.get('value'));
+						}
+					},
+					{
+						name: "focus/blur textbox",
+						timeout: 9000,
+						runTest: function(){
+							var d = new doh.Deferred(), textWidget = dijit.byId("q26");
+							textWidget.set('placeHolder','placeholder is here');
+							textWidget.set('value','');
+							
+							//  Clicking into the input should hide _phspan
+							doh.robot.mouseMoveAt(textWidget.focusNode, 500, 1);
+							doh.robot.mouseClick({left: true}, 500);
+							
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.is("", textWidget.get('value'), "get('value')");
 								doh.isNot("none", textWidget._phspan.style.display, "_phspan.style.display");
 								
-								textWidget.set('value','abc');
-								textWidget.reset();
-								
-								doh.is("", textWidget.get('value'), "get('value') 2");
+								doh.robot.keyPress(dojo.keys.TAB, 500, {shift:true});
+								doh.robot.sequence(d.getTestCallback(function(){
+									doh.is("", textWidget.get('value'), "get('value')");
+									doh.isNot("none", textWidget._phspan.style.display, "_phspan.style.display 1");
+								}), 1000);
+							}), 1000);
+							return d;
+						}
+					},
+					{
+						name: "type in textbox",
+						timeout: 9000,
+						runTest: function(){
+							var d = new doh.Deferred(), textWidget = dijit.byId("q26");
+							textWidget.set('placeHolder','placeholder is here');
+							textWidget.set('value','');
+							
+							//  Clicking into the input should hide _phspan
+							doh.robot.mouseMoveAt(textWidget.focusNode, 500, 1);
+							doh.robot.mouseClick({left: true}, 500);
+							
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.is("", textWidget.get('value'), "get('value')");
 								doh.isNot("none", textWidget._phspan.style.display, "_phspan.style.display 1");
 								
-								var handler = textWidget.connect(textWidget, '_onBlur',
-									function(){
-										textWidget.disconnect(handler);
-										textWidget.set('value','xyz');
-										textWidget.reset();
-										setTimeout(d.getTestCallback(function(){
-											doh.is("", textWidget.get('value'), "get('value')");
-											doh.isNot("none", textWidget._phspan.style.display, "_phspan.style.display 2");
-										}), 150);
-									});
-								doh.robot.keyPress(dojo.keys.TAB, 500, {});
-								
-								return d;
-							}
-						},
-						{
-							name: "set textbox value",
-							runTest: function(){
-								var textWidget = dijit.byId("q26");
-								textWidget.set('placeHolder','placeholder is here');
-								textWidget.set('value','value');
-								doh.is("none", textWidget._phspan.style.display, "_phspan.style.display");
-							}
+								doh.robot.typeKeys('new', 0, 600);
+								doh.robot.sequence(d.getTestCallback(function(){
+									doh.is("new", textWidget.get('value'), "get('value')");
+									doh.is("none", textWidget._phspan.style.display, "_phspan.style.display 2");
+								}), 500);
+							}), 1000);
+							return d;
 						}
-					]);
-				}
+					},
+					{
+						name: "reset textbox",
+						timeout: 9000,
+						runTest: function(){
+							var textWidget = dijit.byId("q26"), d = new doh.Deferred();
+							textWidget.focus();
+							textWidget.set('placeHolder','placeholder is here');
+							textWidget.set('value','');
+							
+							doh.is("", textWidget.get('value'), "get('value') 1");
+							doh.isNot("none", textWidget._phspan.style.display, "_phspan.style.display");
+							
+							textWidget.set('value','abc');
+							textWidget.reset();
+							
+							doh.is("", textWidget.get('value'), "get('value') 2");
+							doh.isNot("none", textWidget._phspan.style.display, "_phspan.style.display 1");
+							
+							var handler = textWidget.connect(textWidget, '_onBlur',
+								function(){
+									textWidget.disconnect(handler);
+									textWidget.set('value','xyz');
+									textWidget.reset();
+									setTimeout(d.getTestCallback(function(){
+										doh.is("", textWidget.get('value'), "get('value')");
+										doh.isNot("none", textWidget._phspan.style.display, "_phspan.style.display 2");
+									}), 150);
+								});
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+							
+							return d;
+						}
+					},
+					{
+						name: "set textbox value",
+						runTest: function(){
+							var textWidget = dijit.byId("q26");
+							textWidget.set('placeHolder','placeholder is here');
+							textWidget.set('value','value');
+							doh.is("none", textWidget._phspan.style.display, "_phspan.style.display");
+						}
+					}
+				]);
 
 				function testOn(evt, widget, deferred, callback, delay){
 					var handler = widget.connect(widget.focusNode, "on"+evt,
