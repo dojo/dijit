@@ -2816,7 +2816,7 @@ define([
 
 		_handleTextColorOrProperties: function(command, argument){
 			// summary:
-			//		This function handles appplying text color as best it is
+			//		This function handles applying text color as best it is
 			//		able to do so when the selection is collapsed, making the
 			//		behavior cross-browser consistent. It also handles the name
 			//		and size for IE.

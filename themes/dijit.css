@@ -104,7 +104,7 @@ TABLE.dijitSelect {
 	line-height:1px;
 }
 
-.dijitOffScreen { /* these class attributes should supercede any inline positioning style */
+.dijitOffScreen { /* these class attributes should supersede any inline positioning style */
 	position: absolute !important;
 	left: -10000px !important;
 	top: -10000px !important;
