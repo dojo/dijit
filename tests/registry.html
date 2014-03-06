@@ -39,7 +39,7 @@
 			doh.register("dijit/registry", [
 				function byId(){
 					doh.is(registry.byId("three").name, "your");
-					doh.f(registry.byId("nonexistant"));
+					doh.f(registry.byId("nonexistent"));
 				},
 				function toArray(){
 					var wa = registry.toArray();

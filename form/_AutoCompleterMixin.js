@@ -513,7 +513,7 @@ define([
 				i = this.queryExpr.indexOf("${0}");
 			find = regexp.escapeString(find); // escape regexp special chars
 			//If < appears in label, and user presses t, we don't want to highlight the t in the escaped "&lt;"
-			//first find out every occurences of "find", wrap each occurence in a pair of "\uFFFF" characters (which
+			//first find out every occurrences of "find", wrap each occurrence in a pair of "\uFFFF" characters (which
 			//should not appear in any string). then html escape the whole string, and replace '\uFFFF" with the
 			//HTML highlight markup. 
 			return this._escapeHtml(label.replace(
