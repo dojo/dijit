@@ -30,19 +30,13 @@ define([
 			// returns:
 			//		The array of specified handles, so you can do for example:
 			//	|		var handle = this.own(on(...))[0];
-			var cleanupMethods = [
-				"destroyRecursive",
-				"destroy",
-				"remove",
-				"cancel"
-			];
 
 			array.forEach(arguments, function(handle){
 				var destroyMethodName =
-					"destroyRecursive" in handle ? cleanupMethods[0] : // remove "destroyRecursive" for 2.0
-						"destroy" in handle ? cleanupMethods[1] :
-							"remove" in handle ? cleanupMethods[2] :
-								cleanupMethods[3]; //cancel
+					"destroyRecursive" in handle ? "destroyRecursive" : // remove "destroyRecursive" for 2.0
+						"destroy" in handle ? "destroy" :
+							"remove" in handle ? "remove" :
+								"cancel";
 
 				// When this.destroy() is called, destroy handle.  Since I'm using aspect.before(),
 				// the handle will be destroyed before a subclass's destroy() method starts running, before it calls
@@ -53,15 +47,25 @@ define([
 				});
 
 				// If handle is destroyed manually before this.destroy() is called, remove the listener set directly above.
-				var hdhs = [];
-				array.forEach(cleanupMethods, function(cleanupMethod) {
-					if(typeof handle[cleanupMethod] === "function") {
-						hdhs.push(aspect.after(handle, cleanupMethod, function(){
-							odh.remove();
-							array.forEach(hdhs, function(hdh) { hdh.remove(); });
-						}, true));
-					}
-				}, this);
+				var hdh = aspect.after(handle, destroyMethodName, function(){
+					odh.remove();
+					hdh.remove();
+				}, true);
+				
+				if(destroyMethodName == "destroyRecursive") { // remove "destroyRecursive" for 2.0
+					var hdhRecursiveBefore = aspect.before(handle, destroyMethodName, function(){
+						//no need to handle anymore "destroy" as it's fired by "destroyRecursive"
+						hdhRecursiveBefore.remove();
+						hdhRecursiveAfter.remove();
+					}, true);
+					var hdhRecursiveAfter = aspect.after(handle, "destroy", function(){
+						//"destroy" was manually called so we clean up all handlers
+						odh.remove();
+						hdh.remove();
+						hdhRecursiveAfter.remove();
+						hdhRecursiveBefore.remove();
+					}, true);
+				}
 			}, this);
 
 			return arguments;		// handle
