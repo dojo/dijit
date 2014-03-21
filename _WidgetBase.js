@@ -1142,7 +1142,7 @@ define([
 				// "reference" is a plain DOMNode, or we can't use refWidget.addChild().   Use domConstruct.place() and
 				// target refWidget.containerNode for nested placement (position==number, "first", "last", "only"), and
 				// refWidget.domNode otherwise ("after"/"before"/"replace").  (But not supported officially, see #14946.)
-				var ref = refWidget ?
+				var ref = refWidget && ("domNode" in refWidget) ?
 					(refWidget.containerNode && !/after|before|replace/.test(position || "") ?
 						refWidget.containerNode : refWidget.domNode) : dom.byId(reference, this.ownerDocument);
 				domConstruct.place(this.domNode, ref, position);
