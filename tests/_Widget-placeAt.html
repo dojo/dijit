@@ -24,6 +24,45 @@
 				}
 			});
 
+			function getFragment() {
+				var frag = document.createDocumentFragment();
+				frag.appendChild(document.createElement('div'));
+				frag.appendChild(document.createElement('div'));
+				frag.appendChild(document.createElement('div'));
+				return frag;
+			}
+
+			doh.register("placeAt document fragment", [
+				function placeAsLastNode(){
+					var frag = getFragment();
+					simple = (new SimpleWidget({id: "simple"})).placeAt(frag);
+					doh.assertEqual(simple.domNode, frag.lastChild);
+					simple.destroy();
+				},
+
+				function placeAsFirstNode(){
+					var frag = getFragment();
+					simple = (new SimpleWidget({id: "simple"})).placeAt(frag, "first");
+					doh.assertEqual(simple.domNode, frag.firstChild);
+					simple.destroy();
+				},
+
+				function placeAsOnlyNode() {
+					var frag = getFragment();
+					simple = (new SimpleWidget({id: "simple"})).placeAt(frag, "only");
+					doh.assertEqual(frag.childNodes.length, 1);
+					doh.assertEqual(simple.domNode, frag.firstChild);
+					simple.destroy();
+				},
+
+				function placeAtPosition() {
+					var frag = getFragment();
+					simple = (new SimpleWidget({id: "simple"})).placeAt(frag, 2);
+					doh.assertEqual(simple.domNode, frag.childNodes[2]);
+					simple.destroy();
+				}
+			]);
+
 			var simple, pane1, pane2, pane3, pane4, pane5;
 			doh.register("parent without addChild", [
 				function placeAsDOMNodeChild(){
