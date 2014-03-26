@@ -50,7 +50,7 @@
 				function placeAsOnlyNode() {
 					var frag = getFragment();
 					simple = (new SimpleWidget({id: "simple"})).placeAt(frag, "only");
-					doh.assertEqual(frag.children.length, 1);
+					doh.assertEqual(frag.childNodes.length, 1);
 					doh.assertEqual(simple.domNode, frag.firstChild);
 					simple.destroy();
 				},
@@ -58,7 +58,7 @@
 				function placeAtPosition() {
 					var frag = getFragment();
 					simple = (new SimpleWidget({id: "simple"})).placeAt(frag, 2);
-					doh.assertEqual(simple.domNode, frag.children[2]);
+					doh.assertEqual(simple.domNode, frag.childNodes[2]);
 					simple.destroy();
 				}
 			]);
