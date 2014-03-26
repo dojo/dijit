@@ -25,8 +25,7 @@
 					registry = robot.window.require("dijit/registry");
 				});
 
-				// Test for applets and flash, except on chrome where flash is still problematic
-				array.forEach(has("webkit") ? ["applet"] : ["applet", "xapp"], function(xId){
+				array.forEach(["pdf", "flash"], function(xId){
 					doh.register(xId, [
 					{
 						name: "dialog_" + xId,
@@ -43,7 +42,7 @@
 							// dialog" button off the screen)
 							registry.byId("dialog").show();
 							
-							// drag the dialog on top of the applet
+							// drag the dialog on top of the pdf
 							robot.mouseMoveAt(registry.byId("dialog").titleNode, 2000,  1);
 							robot.mousePress({left: true}, 500);
 							robot.mouseMoveAt(xId, 500,  1000);

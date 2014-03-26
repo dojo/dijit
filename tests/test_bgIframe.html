@@ -25,16 +25,16 @@
 
 </head>
 <body class="claro">
-	<span data-dojo-type="dijit/Tooltip" data-dojo-props='connectId:["one_applet"]'>
+	<span data-dojo-type="dijit/Tooltip" data-dojo-props='connectId:["one_pdf"]'>
 		This is one tooltip.
 	</span>
-	<span data-dojo-type="dijit/Tooltip" data-dojo-props='connectId:["two_applet"]'>
+	<span data-dojo-type="dijit/Tooltip" data-dojo-props='connectId:["two_pdf"]'>
 		This is another tooltip.  A little longer...
 	</span>
-	<span data-dojo-type="dijit/Tooltip" data-dojo-props='connectId:["one_xapp"]'>
+	<span data-dojo-type="dijit/Tooltip" data-dojo-props='connectId:["one_flash"]'>
 		This is one tooltip.
 	</span>
-	<span data-dojo-type="dijit/Tooltip" data-dojo-props='connectId:["two_xapp"]'>
+	<span data-dojo-type="dijit/Tooltip" data-dojo-props='connectId:["two_flash"]'>
 		This is another tooltip.  A little longer...
 	</span>
 	<button id="showDialog" data-dojo-type="dijit/form/Button">
@@ -47,15 +47,15 @@
 			<tr>
 				<td></td>
 				<td>
-					<input id="dateText_applet" data-dojo-type="dijit/form/DateTextBox" data-dojo-props='type:"text" '/>
-					<button id="menuButton_applet" title="edit title" value="Edit" data-dojo-type="dijit/form/DropDownButton" data-dojo-props='iconClass:"noteIcon"'>
+					<input id="dateText_pdf" data-dojo-type="dijit/form/DateTextBox" data-dojo-props='type:"text" '/>
+					<button id="menuButton_pdf" title="edit title" value="Edit" data-dojo-type="dijit/form/DropDownButton" data-dojo-props='iconClass:"noteIcon"'>
 						<span>Edit<b>!</b></span>
-						<span id="menu_applet" data-dojo-type="dijit/DropDownMenu" >
-							<span id="cut_applet" data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconCut",
+						<span id="menu_pdf" data-dojo-type="dijit/DropDownMenu" >
+							<span id="cut_pdf" data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconCut",
 								onClick:function(){ console.log("not actually cutting anything, just a test!"); }'>Cut</span>
-							<span id="copy_applet" data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconCopy",
+							<span id="copy_pdf" data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconCopy",
 								onClick:function(){ console.log("not actually copying anything, just a test!"); }'>Copy</span>
-							<span id="paste_applet" data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconPaste",
+							<span id="paste_pdf" data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconPaste",
 								onClick:function(){ console.log("not actually pasting anything, just a test!"); }'>Paste</span>
 						</span>
 					</button>
@@ -68,24 +68,19 @@
 						when the dialog is displayed.
 						But the dialog's iframe shouldn't make it disappear because they shouldn't overlap.
 					</div>
-					<select id="dropDown_applet">
+					<select id="dropDown_pdf">
 						<option>cat</option>
 						<option>dog</option>
 						<option>mouse</option>
 					</select>
 					<br><br>
 
-					<div id="one_applet">Mouse over this to see the tooltip</div>
+					<div id="one_pdf">Mouse over this to see the tooltip</div>
 					<br>
-					<div id="two_applet">Mouse over this to see a different tooltip</div>
+					<div id="two_pdf">Mouse over this to see a different tooltip</div>
 				</td>
-				<td id="applet_td">
-					<!-- TODO: remove the applet tag which is deprecated -->
-					<applet id="applet" width="400" height="300" code="javax.swing.JApplet">
-						<param name="mayscript" value="false">
-						<param name="scriptable" value="false">
-						<param name="initial_focus" value="false">
-					</applet>
+				<td id="pdf_td">
+					<embed id="pdf" src="resources/helloWorld.pdf" width="500" height="375">
 				</td>
 			</tr>
 	</table>
@@ -93,15 +88,15 @@
 			<tr>
 				<td></td>
 				<td>
-					<input id="dateText_xapp" data-dojo-type="dijit/form/DateTextBox" data-dojo-props='type:"text" '/>
-					<button id="menuButton_xapp" title="edit title" value="Edit" data-dojo-type="dijit/form/DropDownButton" data-dojo-props='iconClass:"noteIcon"'>
+					<input id="dateText_flash" data-dojo-type="dijit/form/DateTextBox" data-dojo-props='type:"text" '/>
+					<button id="menuButton_flash" title="edit title" value="Edit" data-dojo-type="dijit/form/DropDownButton" data-dojo-props='iconClass:"noteIcon"'>
 						<span>Edit<b>!</b></span>
-						<span id="menu_xapp" data-dojo-type="dijit/DropDownMenu" >
-							<span id="cut_xapp" data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconCut",
+						<span id="menu_flash" data-dojo-type="dijit/DropDownMenu" >
+							<span id="cut_flash" data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconCut",
 								onClick:function(){ console.log("not actually cutting anything, just a test!"); }'>Cut</span>
-							<span id="copy_xapp" data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconCopy",
+							<span id="copy_flash" data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconCopy",
 								onClick:function(){ console.log("not actually copying anything, just a test!"); }'>Copy</span>
-							<span id="paste_xapp" data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconPaste",
+							<span id="paste_flash" data-dojo-type="dijit/MenuItem" data-dojo-props='iconClass:"dijitEditorIcon dijitEditorIconPaste",
 								onClick:function(){ console.log("not actually pasting anything, just a test!"); }'>Paste</span>
 						</span>
 					</button>
@@ -114,19 +109,19 @@
 						when the dialog is displayed.
 						But the dialog's iframe shouldn't make it disappear because they shouldn't overlap.
 					</div>
-					<select id="dropDown_xapp">
+					<select id="dropDown_flash">
 						<option>cat</option>
 						<option>dog</option>
 						<option>mouse</option>
 					</select>
 					<br><br>
 
-					<div id="one_xapp">Mouse over this to see the tooltip</div>
+					<div id="one_flash">Mouse over this to see the tooltip</div>
 					<br>
-					<div id="two_xapp">Mouse over this to see a different tooltip</div>
+					<div id="two_flash">Mouse over this to see a different tooltip</div>
 				</td>
 				<td>
-					<embed id="xapp" src="../../dojox/av/resources/video.swf" width="400" height="300" />
+					<embed id="flash" src="../../dojox/av/resources/video.swf" width="400" height="300" />
 				</td>
 			</tr>
 	</table>

@@ -6,7 +6,7 @@ define([
 	"dojo/dom-style", // domStyle.set
 	"dojo/_base/lang", // lang.extend lang.hitch
 	"dojo/on",
-	"dojo/sniff" // has("ie"), has("mozilla"), has("quirks")
+	"dojo/sniff" // has("ie"), has("trident"), has("quirks")
 ], function(require, dijit, config, domConstruct, domStyle, lang, on, has){
 
 	// module:
@@ -15,9 +15,10 @@ define([
 	// Flag for whether to create background iframe behind popups like Menus and Dialog.
 	// A background iframe is useful to prevent problems with popups appearing behind applets/pdf files,
 	// and is also useful on older versions of IE (IE6 and IE7) to prevent the "bleed through select" problem.
+	// By default, it's enabled for IE6-10, and IE11 on Windows 7 and Windows 2008 Server.
 	// TODO: For 2.0, make this false by default.  Also, possibly move definition to has.js so that this module can be
 	// conditionally required via  dojo/has!bgIfame?dijit/BackgroundIframe
-	has.add("config-bgIframe", !has("touch"));
+	has.add("config-bgIframe", has("ie") || (has("trident") &&  /Windows NT 6.[01]/.test(navigator.userAgent)));
 
 	var _frames = new function(){
 		// summary:
