@@ -102,6 +102,52 @@ require([
 			doh.is(1, destroyable1.clicks, "no new click notification");
 			watchMe.set("x", 2);
 			doh.is(1, destroyable1.watches, "no new watch notification");
+
+			var destroyRecursiveCount = 0;
+			var destroyCount = 0;
+			var W1 = declare([Destroyable], {
+				destroyRecursive: function() {
+					destroyRecursiveCount++;
+					this.destroy();
+					this.inherited(arguments);
+				},
+				destroy: function() {
+					destroyCount++;
+					this.inherited(arguments);
+				}
+			});
+			var W2 = declare([Destroyable], {
+				test: function() {
+					var w1 = new W1();
+					this.own(w1);
+					w1.destroy();
+				},
+				destroy: function() {
+					this.inherited(arguments);
+				}
+			});
+			var W3 = declare([Destroyable], {
+				test: function() {
+					var w1 = new W1();
+					this.own(w1);
+					w1.destroyRecursive();
+				},
+				destroy: function() {
+					this.inherited(arguments);
+				}
+			});
+			var w2 = new W2();
+			w2.test();
+			w2.destroy();
+			doh.is(0, destroyRecursiveCount, "destroyRecursive was not called as expected");
+			doh.is(1, destroyCount, "destroy was not called as expected");
+			destroyRecursiveCount = 0;
+			destroyCount = 0;
+			var w3 = new W3();
+			w3.test();
+			w3.destroy();
+			doh.is(1, destroyRecursiveCount, "destroyRecursive was not called as expected");
+			doh.is(1, destroyCount, "destroy was not called as expected");
 		}
 	]);	// doh.register()
 
