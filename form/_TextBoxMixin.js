@@ -310,7 +310,7 @@ define([
 				// create fake event to set charOrCode and to know if preventDefault() was called
 				var faux = { faux: true }, attr;
 				for(attr in e){
-					if(attr != "layerX" && attr != "layerY"){ // prevent WebKit warnings
+					if(!/^(layer[XY]|returnValue|keyLocation)$/.test(attr)){ // prevent WebKit warnings
 						var v = e[attr];
 						if(typeof v != "function" && typeof v != "undefined"){
 							faux[attr] = v;
