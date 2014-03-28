@@ -15,6 +15,7 @@
 
 		<script type="text/javascript">
 			dojo.require("dijit.robotx");
+			dojo.require("dojo.on");
 			dojo.require("dijit.tests.helpers");	// functions to help test
 
 			dojo.ready(function(){
@@ -32,12 +33,29 @@
 					runTest: function(){
 						var d = new doh.Deferred();
 						var onChange = dojo.byId('oc1');
+						var keyPressOnTextBox;
+						this.textbox.on("keypress", function(){
+							keypressOnTextbox = true;
+						});
+
+						var keypressOnParent;
+						dojo.on(this.textbox.domNode.parentNode, "keypress", function(){
+							keypressOnParent = true;
+						});
+
 						doh.robot.typeKeys('Testing', 1000, 1400);
+
 						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 							// test that value changed while typing since intermediateChanges = true
 							doh.is('Testing', this.textbox.focusNode.value, "focusNode value");
 							doh.is('Testing', this.textbox.get('value'), "attr value");
 							doh.is('Testing', onChange.value, "onChange.value");
+
+							// Test that keypress event visible on TextBox but doesn't bubble to TextBox's parent.
+							// This is necessary when a TextBox is inside a Toolbar, which interprets keystrokes
+							// as keyboard search (to the Toolbar's children)
+							doh.t(keypressOnTextbox, "keypressOnTextbox");
+							doh.f(keypressOnParent, "keypressOnParent");
 						})), 1000);
 						return d;
 					}

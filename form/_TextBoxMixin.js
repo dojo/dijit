@@ -233,7 +233,7 @@ define([
 			//	onkeypress: do not forward numeric charOrCode keys (already sent through onkeydown)
 			//	onpaste & oncut: set charOrCode to 229 (IME)
 			//	oninput: if primary event not already processed, set charOrCode to 229 (IME), else do not forward
-			var handleEvent = function(e){
+			function handleEvent(e){
 				var charOrCode;
 				if(e.type == "keydown"){
 					charOrCode = e.keyCode;
@@ -310,7 +310,7 @@ define([
 				// create fake event to set charOrCode and to know if preventDefault() was called
 				var faux = { faux: true }, attr;
 				for(attr in e){
-					if(attr != "layerX" && attr != "layerY"){ // prevent WebKit warnings
+					if(!/^(layer[XY]|returnValue|keyLocation)$/.test(attr)){ // prevent WebKit warnings
 						var v = e[attr];
 						if(typeof v != "function" && typeof v != "undefined"){
 							faux[attr] = v;
@@ -340,11 +340,15 @@ define([
 				this.defer(function(){
 					this._onInput(faux);
 				}); // widget notification after key has posted
-				if(e.type == "keypress"){
-					e.stopPropagation(); // don't allow parents to stop printables from being typed
-				}
-			};
-			this.own(on(this.textbox, "keydown, keypress, paste, cut, input, compositionend", lang.hitch(this, handleEvent)));
+			}
+			this.own(
+				on(this.textbox, "keydown, keypress, paste, cut, input, compositionend", lang.hitch(this, handleEvent)),
+
+				// Allow keypress to bubble to this.domNode, so that TextBox.on("keypress", ...) works,
+				// but prevent it from further propagating, so that typing into a TextBox inside a Toolbar doesn't
+				// trigger the Toolbar's letter key navigation.
+				on(this.domNode, "keypress", function(e){ e.stopPropagation(); })
+			);
 		},
 
 		_blankValue: '', // if the textbox is blank, what value should be reported
