@@ -53,9 +53,13 @@
 		<!-- required: the default dijit theme: -->
 		<link id="themeStyles" rel="stylesheet" href="../../themes/claro/claro.css"/>
 
-		<!-- required: dojo.js -->
+		<!--
+			required: dojo.js
+			Note that the locale is hardcoded to english, for benefit of the robot/ValidationTextBox.html test
+			(when running on a non-US computer).
+		 -->
 		<script type="text/javascript" src="../../../dojo/dojo.js"
-			data-dojo-config="isDebug: true, parseOnLoad: true, extraLocale: ['de-de']"></script>
+			data-dojo-config="isDebug: true, parseOnLoad: true, locale: 'en-us', extraLocale: ['de-de']"></script>
 
 		<!-- only needed for alternate theme testing: -->
 		<script type="text/javascript" src="../_testCommon.js"></script>
