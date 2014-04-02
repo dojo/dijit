@@ -1,4 +1,6 @@
-define(["doh/main", "require"], function(doh, require){
+define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
+
+	var test_robot = !has("ios") && !has("android");
 
 	doh.register("_BidiSupport.form.test_PlaceholderInput.", require.toUrl("./test_PlaceholderInput.html"));
 
@@ -12,15 +14,17 @@ define(["doh/main", "require"], function(doh, require){
 
 	doh.register("_BidiSupport.form.Slider", require.toUrl("./test_Slider.html"));
 
-	doh.register("_BidiSupport.form.robot.Textarea", require.toUrl("./robot/Textarea.html"), 999999);
+	if(test_robot){
+		doh.register("_BidiSupport.form.robot.Textarea", require.toUrl("./robot/Textarea.html"), 999999);
 
-	doh.register("_BidiSupport.form.robot.SimpleComboBoxes", require.toUrl("./robot/SimpleComboBoxes.html"), 999999);
+		doh.register("_BidiSupport.form.robot.SimpleComboBoxes", require.toUrl("./robot/SimpleComboBoxes.html"), 999999);
 
-	doh.register("_BidiSupport.form.robot.SimpleTextarea", require.toUrl("./robot/SimpleTextarea.html"), 999999);
+		doh.register("_BidiSupport.form.robot.SimpleTextarea", require.toUrl("./robot/SimpleTextarea.html"), 999999);
 
-	doh.register("_BidiSupport.form.robot.TextBoxes", require.toUrl("./robot/TextBoxes.html"), 999999);
+		doh.register("_BidiSupport.form.robot.TextBoxes", require.toUrl("./robot/TextBoxes.html"), 999999);
 
-	doh.register("_BidiSupport.form.robot.InlineEditBox", require.toUrl("./robot/InlineEditBox.html"), 999999);
+		doh.register("_BidiSupport.form.robot.InlineEditBox", require.toUrl("./robot/InlineEditBox.html"), 999999);
+	}
 
 	doh.register("_BidiSupport.form.TimeTextBox", require.toUrl("./test_TimeTextBox.html?mode=test"), 999999);
 

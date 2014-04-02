@@ -1,5 +1,6 @@
-define(["doh/main", "require"], function(doh, require){
-	var test_robot = true;
+define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
+
+	var test_robot = !has("ios") && !has("android");
 
 	doh.register("tree.CustomLabel", require.toUrl("./CustomLabel.html"), 999999);
 	doh.register("tree.Tree_ForestStoreModel", require.toUrl("./Tree_ForestStoreModel.html"), 999999);
