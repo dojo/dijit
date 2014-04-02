@@ -1,6 +1,6 @@
-define(["doh/main", "require"], function(doh, require){
+define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
 
-	var test_robot = true;
+	var test_robot = !has("ios") && !has("android");
 
 	doh.register("_base.manager", require.toUrl("./manager.html"), 999999);
 	doh.register("_base.wai", require.toUrl("./wai.html"), 999999);
