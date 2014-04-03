@@ -85,11 +85,58 @@
 						touched = true;
 					});
 
-					on.emit(myWidget.domNode, navigator.pointerEnabled ? "pointerdown" : navigator.msPointerEnabled ? "MSPointerDown" : has("touch") ? "touchstart" : "mousedown", {
-						bubbles: true,
-						cancelable: true,
-						which: 1
-					});
+					var eventType = navigator.pointerEnabled ? "pointerdown" : navigator.msPointerEnabled ?
+									"MSPointerDown" : has("touch") ? "touchstart" : "mousedown",
+						target = myWidget.domNode;
+
+					if(document.createEvent && target.dispatchEvent){
+						// This branch needed or the test fails on iOS in dojo/on,
+						// because changedTouches[0] isn't defined.
+
+						var touch = {
+							identifier: (new Date()).getTime(),
+							target: target,
+							screenX: 0,
+							screenY: 0,
+							clientX: 0,
+							clientY: 0,
+							pageX: 0,
+							pageY: 0
+						};
+
+						var mouseEvent = document.createEvent("MouseEvent");
+						mouseEvent.initMouseEvent(
+							eventType,
+							true,
+							true,
+							target.ownerDocument.defaultView,
+							0,
+							0,
+							0,
+							0,
+							0,
+							false,
+							false,
+							false,
+							false,
+							0,
+							document.body	// relatedTarget, for mouseout events
+						);
+
+						if(/touch/.test(eventType)){
+							mouseEvent['touches'] = [touch];
+							mouseEvent['targetTouches'] = [touch];
+							mouseEvent['changedTouches'] = [touch];
+						}
+
+						target.dispatchEvent(mouseEvent);
+					}else{
+						on.emit(myWidget.domNode, eventType, {
+							bubbles: true,
+							cancelable: true,
+							which: 1
+						});
+					}
 
 					doh.t(touched, "touched");
 				},
