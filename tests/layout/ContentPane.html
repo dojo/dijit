@@ -4,10 +4,6 @@
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>ContentPane DOH test</title>
 	<style type="text/css">
-		@import "../../themes/claro/document.css";
-		@import "../../themes/claro/claro.css";
-		@import "../css/dijitTests.css";
-
 		.box {
 			border: 1px solid black;
 			padding: 8px;
@@ -19,8 +15,8 @@
 		}
 	</style>
 
-	<script type="text/javascript" src="../../../dojo/dojo.js"
-		data-dojo-config="isDebug: true"></script>
+	<script type="text/javascript" src="../boilerplate.js"></script>
+
 	<script type="text/javascript">
 		require([
 			"doh/runner",
@@ -511,7 +507,7 @@
 		});
 	</script>
 </head>
-<body class="claro" role="main">
+<body role="main">
 	<h2>dijit/layout/ContentPane DOH test</h2>
 	<h3>Test designed to run on localhost (minimize impact from network latency)</h3>
 

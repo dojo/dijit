@@ -4,20 +4,8 @@
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>Bidi TimeTextBox</title>
 
-	<!-- required: the default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../../../dijit/themes/claro/claro.css"/>
-
-	<style>
-		@import url(../../../themes/claro/document.css);
-		@import url(../../css/dijitTests.css);
-	</style>
-
-	<!-- required: dojo.js -->
-	<script type="text/javascript" src="../../../../dojo/dojo.js"
-		data-dojo-config="isDebug: true, parseOnLoad: true, has: { 'dojo-bidi': true }"></script>
-
-	<!-- only needed for alternate theme testing: -->
-	<script type="text/javascript" src="../../_testCommon.js"></script>
+	<script type="text/javascript" src="../../boilerplate.js"
+			data-dojo-config="parseOnLoad: true, has: { 'dojo-bidi': true }"></script>
 
 	<script type="text/javascript">
 		require([
@@ -27,6 +15,7 @@
 			"dojo/parser",
 			"dijit/registry",
 			"dijit/form/TimeTextBox",
+			"dijit/form/Button",
 			"dojo/domReady!"
 		], function(doh, array, domClass, parser, registry, TimeTextBox){
 
@@ -217,7 +206,7 @@
 	</script>
 
 </head>
-<body class="claro">
+<body>
 
 	<h1 class="testTitle">TimeTextBox</h1>
 	<br>
