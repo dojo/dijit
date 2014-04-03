@@ -9,7 +9,7 @@ define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
 		doh.register("form.robot.Button_a11y", require.toUrl("./robot/Button_a11y.html"), 999999);
 	}
 
-	doh.register("form.CheckBoxMixin", require.toUrl("./CheckBoxMixin.html"));
+	doh.register("form.CheckBoxMixin", require.toUrl("./CheckBoxMixin.html"), 999999);
 	doh.register("form.CheckBox", require.toUrl("./CheckBox.html"));
 	doh.register("form.RadioButtonMixin", require.toUrl("./RadioButtonMixin.html"));
 	if(test_robot){
