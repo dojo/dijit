@@ -375,18 +375,17 @@
 							return d;
 						},
 
-						// Test that a Select's store can be changed
-						// TODO: should be supported/tested through set("store", ...), although
-						// I guess that wouldn't allow setting the selected item at the same time.
-						function test_setStore(t){
-							t.is("AL", s12.value);
-							s12.setStore(store2, "FL");
-							t.is("FL", s12.value);
-							s12.setStore(readStore, "CA");
-							t.is("CA", s12.value);
-							s12.setStore(store2);
-							t.is("DE", s12.value);
-							t.is(7, s12.getOptions().length);
+						// Test that a Select's store can be changed using deprecated API
+						// TODO remove in 2.0
+						function test_deprecatedSetStore(t){
+							t.is("AL", s12_dep.value);
+							s12_dep.setStore(store2, "FL");
+							t.is("FL", s12_dep.value);
+							s12_dep.setStore(readStore, "CA");
+							t.is("CA", s12_dep.value);
+							s12_dep.setStore(store2);
+							t.is("DE", s12_dep.value);
+							t.is(7, s12_dep.getOptions().length);
 						}
 					]);
 
@@ -446,23 +445,41 @@
 							return d;
 						},
 
-						// Test that a Select's store can be changed
-						// TODO: should be supported/tested through set("store", ...), although
-						// I guess that wouldn't allow setting the selected item at the same time.
+						// Test that a Select's store can be changed using set API
 						function test_setStore(t){
 							t.is(7, ds12.getOptions().length);
 							t.is("AL", ds12.value);
-							ds12.setStore(memoryStore2, "FL");
+							ds12.set("store", memoryStore2);
+							ds12.set("value", "FL")
 							t.is(7, ds12.getOptions().length);
 							t.is("FL", ds12.value);
-							ds12.setStore(memoryStore, "CA");
+							ds12.set("store", memoryStore);
+							ds12.set("value", "CA")
 							t.is(7, ds12.getOptions().length);
 							// ensure that escaping prevented child nodes
 							t.is(ds12.containerNode.firstChild.childNodes.length, 1);
 							t.is("CA", ds12.value);
-							ds12.setStore(memoryStore2);
+							ds12.set("store", memoryStore2);
 							t.is(7, ds12.getOptions().length);
 							t.is("DE", ds12.value);
+						},
+
+						// Test that a Select's store can be changed using deprecated API
+						// TODO remove in 2.0
+						function test_deprecatedSetStore(t){
+							t.is(7, ds12_dep.getOptions().length);
+							t.is("AL", ds12_dep.value);
+							ds12_dep.setStore(memoryStore2, "FL");
+							t.is(7, ds12_dep.getOptions().length);
+							t.is("FL", ds12_dep.value);
+							ds12_dep.setStore(memoryStore, "CA");
+							t.is(7, ds12_dep.getOptions().length);
+							// ensure that escaping prevented child nodes
+							t.is(ds12_dep.containerNode.firstChild.childNodes.length, 1);
+							t.is("CA", ds12_dep.value);
+							ds12_dep.setStore(memoryStore2);
+							t.is(7, ds12_dep.getOptions().length);
+							t.is("DE", ds12_dep.value);
 						}
 					]);
 					
@@ -871,8 +888,8 @@
 			<label for="s11">Example 3</label>
 			<select id="s11" data-dojo-id="s11" data-dojo-type="dijit/form/Select" data-dojo-props='name:"s11", store:writeStore '>
 			</select>
-			<label for="s12">Example 4</label>
-			<select id="s12" data-dojo-id="s12" data-dojo-type="dijit/form/Select" data-dojo-props='name:"s12", store:readStore '>
+			<label for="s12_dep">Example 4 Legacy</label>
+			<select id="s12_dep" data-dojo-id="s12_dep" data-dojo-type="dijit/form/Select" data-dojo-props='name:"s12_dep", store:readStore '>
 			</select>
 
 			<hr>
@@ -896,6 +913,10 @@
 			<label for="ds12">Example 4</label>
 			<select id="ds12" data-dojo-id="ds12" data-dojo-type="dijit/form/Select"
 					data-dojo-props='name:"ds12", labelType: "text", store:memoryStore, labelAttr:"label" '>
+			</select>
+			<label for="ds12_dep">Example 5 Legacy</label>
+			<select id="ds12_dep" data-dojo-id="ds12_dep" data-dojo-type="dijit/form/Select"
+					data-dojo-props='name:"ds12_dep", labelType: "text", store:memoryStore, labelAttr:"label" '>
 			</select>
 
 			<hr>
