@@ -447,7 +447,7 @@ define([
 
 		postMixInProperties: function(){
 			this.inherited(arguments);
-			if(!this.store){
+			if(!this.store && this.srcNodeRef){
 				var srcNodeRef = this.srcNodeRef;
 				// if user didn't specify store, then assume there are option tags
 				this.store = new DataList({}, srcNodeRef);
@@ -515,7 +515,7 @@ define([
 			//If < appears in label, and user presses t, we don't want to highlight the t in the escaped "&lt;"
 			//first find out every occurrences of "find", wrap each occurrence in a pair of "\uFFFF" characters (which
 			//should not appear in any string). then html escape the whole string, and replace '\uFFFF" with the
-			//HTML highlight markup. 
+			//HTML highlight markup.
 			return this._escapeHtml(label.replace(
 				new RegExp((i == 0 ? "^" : "") + "(" + find + ")" + (i == (this.queryExpr.length - 4) ? "$" : ""), modifiers),
 				'\uFFFF$1\uFFFF')).replace(

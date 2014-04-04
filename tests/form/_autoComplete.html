@@ -289,6 +289,63 @@
 				}
 			]);
 
+			if(!isComboBox) {
+
+				var fsStore;
+				
+				doh.register("FilteringSelect data", [
+					function setupMemoryStore() {
+						fsStore = new dojo.store.Memory({
+							data: [{
+								id: 1,
+								name: "one",
+								value: "one"
+							},	{
+								id: 2,
+								name: "two",
+								value: "two"
+							}, {
+								id: 3,
+								name: "three",
+								value: "three"
+							}]
+						});
+					},{
+						timeout: 5000,
+						name: "set store after construction",
+						runTest: function() {
+							var fs = new dijit.form.FilteringSelect({});
+							fs.set('store', fsStore);
+							doh.is(fs.get('store'), fsStore);
+							fs.destroy();
+						}
+					},{
+						timeout: 5000,
+						name: "set store and place after construction",
+						runTest: function() {
+							var fs = new dijit.form.FilteringSelect({});
+							var ele = document.getElementById("filteringSelect");
+							fs.set('store', fsStore);
+							fs.placeAt(ele);
+							doh.is(fs.domNode, ele.firstChild);
+							fs.destroy();
+						}
+					}, {
+						timeout: 5000,
+						name: "set store and value after construction",
+						runTest: function() {
+							var fs = new dijit.form.FilteringSelect({});
+							var ele = document.getElementById("filteringSelect");
+							fs.set('store', fsStore);
+							fs.placeAt(ele);
+							fs.set('value', 2);
+							doh.is(fs.get("displayedValue"), fsStore.get(2).name);
+							fs.destroy();
+						}
+					}
+				]);
+			}
+
 			doh.register("asynchronous data store", [
 				{
 					timeout:5000,
@@ -832,6 +889,8 @@
 
 	<p><label for="subclass">User-defined subclass of ComboBox/FilteringSelect:</label></p>
 	<input id="subclass" data-dojo-type="StateSelect"/>
+
+	<div id="filteringSelect"></div>
 
 </body>
 </html>
