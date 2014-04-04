@@ -289,6 +289,95 @@
 				}
 			]);
 
+			function getFilteringSelect(cb) {
+				
+				require([
+					"dijit/form/FilteringSelect", 
+					"dojo/store/Memory",
+					"dojo/domReady!"
+					], function(FilteringSelect, Memory) {
+						var ele = document.getElementById("filteringSelect");
+						cb(ele, FilteringSelect, Memory, [{
+							id: 1,
+							name: "one",
+							value: "one"
+						},	{
+							id: 2,
+							name: "two",
+							value: "two"
+						}, {
+							id: 3,
+							name: "three",
+							value: "three"
+						}]);
+					});
+			}
+			
+			doh.register("FilteringSelect data", [
+				{
+					timeout: 5000,
+					name: "set store after construction",
+					runTest: function() {
+						var d = new doh.Deferred();
+
+						getFilteringSelect(function(ele, FilteringSelect, Store, data){
+							var s = new Store({data:data});
+							var fs = new FilteringSelect({});
+							fs.set('store', s);
+							d.getTestCallback(function(){
+								doh.assertTrue(fs.get('store') === s);
+								fs.destroy();
+							})();
+						});
+
+						return d;
+					}
+				},{
+					timeout: 5000,
+					name: "set store and place after construction",
+					runTest: function() {
+						var d = new doh.Deferred();
+
+						getFilteringSelect(function(ele, FilteringSelect, Store, data){
+							var s = new Store({data:data});
+							var fs = new FilteringSelect({});
+							fs.set('store', s);
+							fs.placeAt(ele);
+							d.getTestCallback(function(){
+								doh.assertTrue(fs.get('store') === s);
+								doh.assertTrue(fs.domNode === ele.firstChild);
+								fs.destroy();
+							})();
+						});
+
+						return d;
+					}
+				}, {
+					timeout: 5000,
+					name: "set store and value after construction",
+					runTest: function() {
+						var d = new doh.Deferred();
+
+						getFilteringSelect(function(ele, FilteringSelect, Store, data){
+							var s = new Store({data:data});
+							var fs = new FilteringSelect({});
+							fs.set('store', s);
+							fs.placeAt(ele);
+							fs.set('value', 2);
+							d.getTestCallback(function(){
+								doh.assertTrue(fs.get('store') === s);
+								doh.assertEqual(fs.get('value'), 2);
+								fs.destroy();
+							})();
+						});
+
+						return d;
+					}
+			
+					
+				}
+			]);
+
 			doh.register("asynchronous data store", [
 				{
 					timeout:5000,
@@ -832,6 +921,8 @@
 
 	<p><label for="subclass">User-defined subclass of ComboBox/FilteringSelect:</label></p>
 	<input id="subclass" data-dojo-type="StateSelect"/>
+
+	<div id="filteringSelect"></div>
 
 </body>
 </html>
