@@ -211,7 +211,7 @@ define([
 		},
 
 		setStore: function(store, selectedValue, fetchArgs){
-			kernel.deprecated(this.declaredClass+"::setStore(...) is deprecated. Use set('store' store) instead.", "", "2.0");
+			kernel.deprecated(this.declaredClass+"::setStore(store, selectedValue, fetchArgs) is deprecated. Use set('query', fetchArgs.query), set('queryOptions', fetchArgs.queryOptions), set('store', store), or set('value', selectedValue) instead.", "", "2.0");
 			this._deprecatedSetStore(store, selectedValue, fetchArgs);
 		},
 
@@ -401,12 +401,8 @@ define([
 
 		// TODO: implement set() and watch() for store and query, although not sure how to handle
 		// setting them individually rather than together (as in setStore() above)
-		set: function(name, val){
-			if(name === "store"){
-				this._deprecatedSetStore(val);
-			} else {
-				this.inherited(arguments);
-			}
+		_setStoreAttr: function(val) {
+			this._deprecatedSetStore(val);
 		},
 
 		_setValueAttr: function(/*anything*/ newValue, /*Boolean?*/ priorityChange){
