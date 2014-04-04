@@ -40,13 +40,14 @@
 	<div data-dojo-id="wideModel" data-dojo-type="dijit/tree/ForestStoreModel" data-dojo-props='store:continentStore, query:{type:"continent"},
 		rootId:"continentRoot", rootLabel:"Long label that causes scrolling", childrenAttrs:["children"]'></div>
 
-	<h2>Tree with hardcoded root node (not corresponding to any item in the store)</h2>
+	<h2 id="mytreeLabel">Tree with hardcoded root node (not corresponding to any item in the store)</h2>
 	<p>
 		Clicking a folder node will open/close it (openOnclick==true),
 		and clicking a leaf node will log a message to the console.
 	</p>
 	<label for="mytree_before">before:</label><input id="mytree_before"/>
-	<div id="mytree" data-dojo-type="dijit/Tree" aria-label="mytree" data-dojo-props='model:continentModel, openOnClick:true, onLoad:function(){ console.log("loaded mytree (first tree)"); }'>
+	<div id="mytree" data-dojo-type="dijit/Tree" aria-labelledby="mytreeLabel"
+		 data-dojo-props='model:continentModel, openOnClick:true, onLoad:function(){ console.log("loaded mytree (first tree)"); }'>
 		<script type="dojo/method" data-dojo-event="onClick" data-dojo-args="item">
 			console.log("Execute of node " + continentStore.getLabel(item)
 				+", population=" + continentStore.getValue(item, "population"));
@@ -64,10 +65,10 @@
 
 	<button id="mytreeDestroyButton" onclick="dijit.byId('mytree').destroyRecursive();">destroy</button>
 
-	<h2>A rootless tree (no "continents" node) with context menus, and custom icons</h2>
+	<h2 id="tree2Label">A rootless tree (no "continents" node) with context menus, and custom icons</h2>
 
 	<label for="tree2_before">before:</label><input id="tree2_before"/>
-	<div id="tree2" data-dojo-type="dijit/Tree" aria-label="tree2label" data-dojo-props='model:continentModel, showRoot:false, openOnClick:true,onLoad:function(){ console.log("loaded tree2 (second tree)"); }'>
+	<div id="tree2" data-dojo-type="dijit/Tree" aria-labelledby="tree2Label" data-dojo-props='model:continentModel, showRoot:false, openOnClick:true,onLoad:function(){ console.log("loaded tree2 (second tree)"); }'>
 		<script type="dojo/method" data-dojo-event="getIconClass" data-dojo-args="item, opened">
            return (item == this.model.root || continentStore.getValue(item, "type") == "continent") ?
                    (opened ? "customFolderOpenedIcon" : "customFolderClosedIcon") :
@@ -96,13 +97,14 @@
 	<button id="tree2ExpandAll" onclick="dijit.byId('tree2').expandAll();">expand all</button>
 	<button onclick="dijit.byId('tree2').collapseAll();">collapse all</button>
 
-	<h2>Double click, expand on load, direct style setting, tooltip test</h2>
+	<h2 id="mytree3Label">Double click, expand on load, direct style setting, tooltip test tree</h2>
 	<p>
 		Double-Clicking a folder node will open/close it (openOnDblClick==true),
 		and clicking or Double Clicking a leaf node will log a message to the console.
 	</p>
 	<label for="mytree3_before">before:</label> <input id="mytree3_before"/>
-	<div id="mytree3" aria-label="mytree 3"  data-dojo-type="dijit/Tree" data-dojo-props='store:continentStore, query:{type:"continent"},
+	<div id="mytree3" aria-labelledby="mytree3Label"  data-dojo-type="dijit/Tree"
+		 data-dojo-props='store:continentStore, query:{type:"continent"},
 		label:"Continents", openOnClick:false, openOnDblClick:true,
 		autoExpand:true, onLoad:function(){ console.log("loaded mytree3 (third tree)"); }'>
 		<script type="dojo/method" data-dojo-event="getLabelStyle" data-dojo-args="item,opened">
@@ -138,7 +140,7 @@
 		</script>
 	</div>
 
-	<h2>Tree w/horizontal scroll</h2>
+	<h2 id="thinTreeLabel">Tree w/horizontal scroll</h2>
 	<p>
 		For checking that selection and highlighting effect goes all the way to the right.
 	</p>
@@ -152,7 +154,7 @@
 		state.
 	</p>
 	<div id="thinTree" style="width: 170px; border: solid 1px #759dc0"
-		 data-dojo-type="dijit/Tree" aria-label="my thin tree"  data-dojo-props="model:wideModel">
+		 data-dojo-type="dijit/Tree" aria-labelledby="thinTreeLabel"  data-dojo-props="model:wideModel">
 		<script type="dojo/aspect" data-dojo-advice="after" data-dojo-method="_adjustWidths">
 			console.log(this.id + ": adjusted widths of nodes");
 		</script>
@@ -168,7 +170,6 @@
 	<button onclick="continentStore.fetchItemByIdentity({identity: 'US', onItem: function(item){ continentStore.setValue(item, 'name', 'USA'); }});">
 		set short name for USA
 	</button>
-
 
 </body>
 </html>
