@@ -22,7 +22,7 @@
 		<script type="text/javascript">
 			require([
 				"doh", "dojo/_base/array", "dojo/_base/declare", "dojo/_base/window", "dojo/dom", "dojo/dom-geometry",
-				"dojo/html", "dojo/query", "dojo/parser",
+				"dojo/html", "dojo/on", "dojo/query", "dojo/parser",
 				"dijit/registry", "dijit/_WidgetBase", "dijit/_Widget",
 				"dijit/_AttachMixin", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin",
 				"dijit/form/Button", "dijit/form/CheckBox", "dijit/form/TextBox",
@@ -30,7 +30,7 @@
 				"dijit/layout/ContentPane", "dijit/layout/_LayoutWidget", "dijit/layout/LayoutContainer",
 				"dijit/tests/resources/TestContextRequireWidget",
 				"dojo/domReady!"
-			], function(doh, array, declare, win, dom, domGeom, html, query, parser,
+			], function(doh, array, declare, win, dom, domGeom, html, on, query, parser,
 					registry, _WidgetBase, _Widget, _AttachMixin, _TemplatedMixin, _WidgetsInTemplateMixin,
 					Button, CheckBox, TextBox, ProgressBar, _Container, _Contained, _LayoutWidget, LayoutContainer){
 
@@ -235,8 +235,12 @@
 						doh.t(myawc.mybutton, "mybutton");
 						doh.is("Amazing things will happen if you click this button!!!", myawc.heading.innerHTML, "Initial value");
 
-						// Simulate a change
-						myawc.mybutton.focusNode.click();
+						// Simulate clicking the button.   Don't use click() because it's not supported on a <span>
+						// in Android < 4.4.
+						on.emit(myawc.mybutton.focusNode, "click", {
+							bubbles: true,
+							cancelable: true
+						});
 
 						doh.is("Well that was boring. My attach point button thinks it is a dijit/form/Button", myawc.heading.innerHTML, "Post-op value");
 					},
@@ -477,7 +481,7 @@
 								" data-dojo-attach-point='subWidget'></div>" +
 							"</div>"
 					});
-					
+
 					var hostWidget = new host(),
 						subWidget = hostWidget && hostWidget.subWidget;
 					doh.isNot(undefined, hostWidget, "created host widget");
