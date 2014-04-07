@@ -289,15 +289,13 @@
 				}
 			]);
 
-			function getFilteringSelect(cb) {
-				
-				require([
-					"dijit/form/FilteringSelect", 
-					"dojo/store/Memory",
-					"dojo/domReady!"
-					], function(FilteringSelect, Memory) {
-						var ele = document.getElementById("filteringSelect");
-						cb(ele, FilteringSelect, Memory, [{
+			if(!isComboBox) {
+
+				var fsStore;
+
+				function setupMemoryStore() {
+					fsStore = new dojo.store.Memory({
+						data: [{
 							id: 1,
 							name: "one",
 							value: "one"
@@ -309,74 +307,62 @@
 							id: 3,
 							name: "three",
 							value: "three"
-						}]);
+						}]
 					});
-			}
-			
-			doh.register("FilteringSelect data", [
-				{
-					timeout: 5000,
-					name: "set store after construction",
-					runTest: function() {
-						var d = new doh.Deferred();
-
-						getFilteringSelect(function(ele, FilteringSelect, Store, data){
-							var s = new Store({data:data});
-							var fs = new FilteringSelect({});
-							fs.set('store', s);
+				}
+				
+				doh.register("FilteringSelect data", [
+					{
+						timeout: 5000,
+						name: "set store after construction",
+						setUp: setupMemoryStore,
+						runTest: function() {
+							var d = new doh.Deferred();
+							var fs = new dijit.form.FilteringSelect({});
+							fs.set('store', fsStore);
 							d.getTestCallback(function(){
-								doh.assertTrue(fs.get('store') === s);
+								doh.is(fs.get('store'), fsStore);
 								fs.destroy();
 							})();
-						});
-
-						return d;
-					}
-				},{
-					timeout: 5000,
-					name: "set store and place after construction",
-					runTest: function() {
-						var d = new doh.Deferred();
-
-						getFilteringSelect(function(ele, FilteringSelect, Store, data){
-							var s = new Store({data:data});
-							var fs = new FilteringSelect({});
-							fs.set('store', s);
+							return d;
+						}
+					},{
+						timeout: 5000,
+						name: "set store and place after construction",
+						setUp: setupMemoryStore,
+						runTest: function() {
+							var d = new doh.Deferred();
+							var fs = new dijit.form.FilteringSelect({});
+							var ele = document.getElementById("filteringSelect");
+							fs.set('store', fsStore);
 							fs.placeAt(ele);
 							d.getTestCallback(function(){
-								doh.assertTrue(fs.get('store') === s);
-								doh.assertTrue(fs.domNode === ele.firstChild);
+								doh.is(fs.domNode, ele.firstChild);
 								fs.destroy();
 							})();
-						});
-
-						return d;
-					}
-				}, {
-					timeout: 5000,
-					name: "set store and value after construction",
-					runTest: function() {
-						var d = new doh.Deferred();
-
-						getFilteringSelect(function(ele, FilteringSelect, Store, data){
-							var s = new Store({data:data});
-							var fs = new FilteringSelect({});
-							fs.set('store', s);
+							return d;
+						}
+					}, {
+						timeout: 5000,
+						name: "set store and value after construction",
+						runTest: function() {
+							var d = new doh.Deferred();
+							var fs = new dijit.form.FilteringSelect({});
+							var ele = document.getElementById("filteringSelect");
+							fs.set('store', fsStore);
 							fs.placeAt(ele);
 							fs.set('value', 2);
 							d.getTestCallback(function(){
-								doh.assertTrue(fs.get('store') === s);
-								doh.assertEqual(fs.get('value'), 2);
+								doh.is(fs.get("displayedValue"), fsStore.get(2).name);
 								fs.destroy();
 							})();
-						});
 
-						return d;
+							return d;
+						}
 					}
-			
-					
-				}
-			]);
+				]);
+				
+			}
 
 			doh.register("asynchronous data store", [
 				{
