@@ -89,9 +89,8 @@
 
 						world = myTree.rootNode;
 
-						// Give the tree time to load, and the do checks that it
-						// loaded correctly
-						setTimeout(d.getTestCallback(function(){
+						// Give the tree time to load, and the do checks that it loaded correctly
+						myTree.onLoadDeferred.then(d.getTestCallback(function(){
 							doh.t(world, "root node exists");
 							doh.is("The earth", world.label, "world node label");
 							doh.t(world.isExpanded, "root node is expanded");
@@ -105,7 +104,8 @@
 							// Last child has special CSS for drawing the grid lines
 							doh.f(domClass.contains(children[3].domNode, "dijitTreeIsLast"), "middle node doesn't have dijitTreeIsLast");
 							doh.t(domClass.contains(children[5].domNode, "dijitTreeIsLast"), "last node has dijitTreeIsLast");
-						}), 750);
+						}));
+
 						return d;
 					}
 				},
@@ -426,18 +426,31 @@
 					return d;
 				},
 
-				function setPaths(){
-					var d = new doh.Deferred();
+				{
+					name: "setPaths",
+					timeout: 5000,
+					runTest: function(){
+						var d = new doh.Deferred();
 
-					myTree2.set("paths", [["earth", "AF", "KE", "Nairobi"],
-										["earth", "NA", "MX", "Guadalajara"]]).then(d.getTestCallback(function(paths){
-						doh.is("earth, AF, KE, Nairobi", array.map(paths[0], function(item){ return item.id; }).join(", "));
-						doh.is("earth, NA, MX, Guadalajara", array.map(paths[1], function(item){ return item.id; }).join(", "));
-						var ids = array.map(myTree2.selectedItems, function(x){return myTree2.model.getIdentity(x);}).sort();
-						doh.is(["Guadalajara", "Nairobi"], ids);
-					}));
-					return d;
+						myTree2.set("paths", [
+							["earth", "AF", "KE", "Nairobi"],
+							["earth", "NA", "MX", "Guadalajara"]
+						]).then(d.getTestCallback(function (paths) {
+							doh.is("earth, AF, KE, Nairobi", array.map(paths[0], function (item) {
+								return item.id;
+							}).join(", "));
+							doh.is("earth, NA, MX, Guadalajara", array.map(paths[1], function (item) {
+								return item.id;
+							}).join(", "));
+							var ids = array.map(myTree2.selectedItems, function (x) {
+								return myTree2.model.getIdentity(x);
+							}).sort();
+							doh.is(["Guadalajara", "Nairobi"], ids);
+						}));
+						return d;
+					}
 				},
+
 				function setEmptyPath(){
 					var d = new doh.Deferred();
 
@@ -480,7 +493,7 @@
 			doh.register("delete selected node", [
 				{
 					name: "create",
-					timeout: 5000,
+					timeout: 10000,
 					runTest: function(){
 						var d = new doh.Deferred();
 
@@ -531,7 +544,7 @@
 			doh.register("expand/contract", [
 				{
 					name: "initiallyExpanded",
-					timeout: 5000,
+					timeout: 10000,
 					runTest: function(){
 						var d = new doh.Deferred();
 
@@ -565,7 +578,7 @@
 				},
 				{
 					name: "collapseAll",
-					timeout: 5000,
+					timeout: 10000,
 					runTest: function(){
 						var d = new doh.Deferred();
 
@@ -587,7 +600,7 @@
 				},
 				{
 					name: "expandAll",
-					timeout: 5000,
+					timeout: 10000,
 					runTest: function(){
 						var d = new doh.Deferred();
 
@@ -797,31 +810,35 @@
 					}
 				},
 
-				function removedFromSelection(){
-					var d = new doh.Deferred();
-					// Select Mexico city
-					myTree.set("path", ["earth", "NA", "MX", "Mexico City"]).then(d.getTestErrback(function(){
-						doh.is(1, myTree.get("paths").length, "one selected node");
-						var selectedNode = myTree.get("selectedNode");
+				{
+					name: "removedFromSelection",
+					timeout: 10000,
+					runTest: function () {
+						var d = new doh.Deferred();
+						// Select Mexico city
+						myTree.set("path", ["earth", "NA", "MX", "Mexico City"]).then(d.getTestErrback(function () {
+							doh.is(1, myTree.get("paths").length, "one selected node");
+							var selectedNode = myTree.get("selectedNode");
 
-						// Ancestors of the selected node should be expanded, and that should be saved
-						// in the cookie
-						doh.is("earth,earth/NA,earth/NA/MX", cookie("myDeleteTreeSaveStateCookie"),
-								"Earth, North America, Mexico should be listed as expanded");
+							// Ancestors of the selected node should be expanded, and that should be saved
+							// in the cookie
+							doh.is("earth,earth/NA,earth/NA/MX", cookie("myDeleteTreeSaveStateCookie"),
+									"Earth, North America, Mexico should be listed as expanded");
 
-						// Remove selection's ancestor
-						myStore.remove("NA");
+							// Remove selection's ancestor
+							myStore.remove("NA");
 
-						// use setTimeout() to give Tree time to realize this isn't a drag & drop, but that
-						// the North America subtree was truly deleted
-						setTimeout(d.getTestCallback(function(){
-							doh.t(selectedNode._destroyed, "the selected node was destroyed (along with it's ancestor)");
-							doh.is(0, myTree.get("paths").length, "no selected nodes");
-							doh.is("earth", cookie("myDeleteTreeSaveStateCookie"),
-									"North America and Mexico should have been removed from list of expanded nodes")
-						}), 10)
-					}));
-					return d;
+							// use setTimeout() to give Tree time to realize this isn't a drag & drop, but that
+							// the North America subtree was truly deleted
+							setTimeout(d.getTestCallback(function () {
+								doh.t(selectedNode._destroyed, "the selected node was destroyed (along with it's ancestor)");
+								doh.is(0, myTree.get("paths").length, "no selected nodes");
+								doh.is("earth", cookie("myDeleteTreeSaveStateCookie"),
+										"North America and Mexico should have been removed from list of expanded nodes")
+							}), 10)
+						}));
+						return d;
+					}
 				},
 
 				{
@@ -855,7 +872,7 @@
 
 			doh.register("HTML tree", {
 				name: "create",
-				timeout: 5000,
+				timeout: 10000,
 				runTest: function(){
 					var d = new doh.Deferred();
 
@@ -908,7 +925,7 @@
 
 			doh.register("plain text tree", {
 				name: "create",
-				timeout: 5000,
+				timeout: 10000,
 				runTest: function(){
 					var d = new doh.Deferred();
 

@@ -107,13 +107,17 @@
 						return registry.byNode(node).id;
 					}).join(" "), "children of wrapper divs");
 				},
-				function selectHref(){
-					var d = new doh.Deferred();
-					registry.byId("sc").selectChild(registry.byId("page4Prog")).then(d.getTestCallback(function(){
-						doh.t(helpers.isVisible(dom.byId("page4Prog")), "page4 visible");
-						doh.t(helpers.isHidden(dom.byId("page1Prog")), "page1 hidden");
-					}));
-					return d;
+				{
+					name: "selectHref",
+					timeout: 5000,
+					runTest: function(){
+						var d = new doh.Deferred();
+						registry.byId("sc").selectChild(registry.byId("page4Prog")).then(d.getTestCallback(function(){
+							doh.t(helpers.isVisible(dom.byId("page4Prog")), "page4 visible");
+							doh.t(helpers.isHidden(dom.byId("page1Prog")), "page1 hidden");
+						}));
+						return d;
+					}
 				},
 				function selectPlain(){
 					var d = new doh.Deferred();

@@ -2,17 +2,17 @@ define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
 
 	var test_robot = !has("ios") && !has("android");
 
-	doh.register("_BidiSupport.form.test_PlaceholderInput.", require.toUrl("./test_PlaceholderInput.html"));
+	doh.register("_BidiSupport.form.test_PlaceholderInput.", require.toUrl("./test_PlaceholderInput.html"), 999999);
 
-	doh.register("_BidiSupport.form.multiSelect", require.toUrl("./multiSelect.html"));
+	doh.register("_BidiSupport.form.multiSelect", require.toUrl("./multiSelect.html"), 999999);
 
-	doh.register("_BidiSupport.form.noTextDirTextWidgets", require.toUrl("./noTextDirTextWidgets.html"));
+	doh.register("_BidiSupport.form.noTextDirTextWidgets", require.toUrl("./noTextDirTextWidgets.html"), 999999);
 
-	doh.register("_BidiSupport.form.Button", require.toUrl("./Button.html"));
+	doh.register("_BidiSupport.form.Button", require.toUrl("./Button.html"), 999999);
 
-	doh.register("_BidiSupport.form.Select", require.toUrl("./test_Select.html"));
+	doh.register("_BidiSupport.form.Select", require.toUrl("./test_Select.html"), 999999);
 
-	doh.register("_BidiSupport.form.Slider", require.toUrl("./test_Slider.html"));
+	doh.register("_BidiSupport.form.Slider", require.toUrl("./test_Slider.html"), 999999);
 
 	if(test_robot){
 		doh.register("_BidiSupport.form.robot.Textarea", require.toUrl("./robot/Textarea.html"), 999999);

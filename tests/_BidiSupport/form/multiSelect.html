@@ -141,8 +141,12 @@
 				"\u202AFlorida...\u202C",
 				"\u202ACalifornia...\u202C"
 			];
-			doh.register("parse", function(){
-				dojo.parser.parse();
+			doh.register("parse", {
+				name: "parse",
+				timeout: 5000,
+				runTest: function() {
+					dojo.parser.parse();
+				}
 			});
 			var select1 = dijit.byId("select1"),
 				select2 = dijit.byId("select2"),

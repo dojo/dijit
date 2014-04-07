@@ -82,7 +82,7 @@
 
 				{
 					name: "createWithPath",
-					timeout: 5000,
+					timeout: 10000,
 					runTest: function(){
 						var d = new doh.Deferred();
 						myTree2 = new Tree({
@@ -159,15 +159,23 @@
 					return d;
 				},
 
-				function setPaths(){
-					var d = new doh.Deferred();
+				{
+					name: "setPaths",
+					timeout: 5000,
+					runTest: function() {
+						var d = new doh.Deferred();
 
-					myTree2.set("paths", [["earth","AF","KE","Nairobi"],
-										  ["earth","NA","MX","Guadalajara"]]).then(d.getTestCallback(function(){
-						var ids = dojo.map(myTree2.selectedItems, function(x){return myTree2.model.getIdentity(x);}).sort();
-						doh.is(["Guadalajara", "Nairobi"], ids);
-				  	}));
-					return d;
+						myTree2.set("paths", [
+							["earth", "AF", "KE", "Nairobi"],
+							["earth", "NA", "MX", "Guadalajara"]
+						]).then(d.getTestCallback(function () {
+							var ids = dojo.map(myTree2.selectedItems, function (x) {
+								return myTree2.model.getIdentity(x);
+							}).sort();
+							doh.is(["Guadalajara", "Nairobi"], ids);
+						}));
+						return d;
+					}
 				}
 			]);
 
@@ -297,25 +305,29 @@
 			]);
 
 			doh.register("delete selected node", [
-				function create(){
-					var d = new doh.Deferred();
+				{
+					name: "create",
+					timeout: 10000,
+					runTest: function() {
+						var d = new doh.Deferred();
 
-					myTree = new Tree({
-						id: "myTree",
-						model: myModel,
-						persist: false,		// persist==true is too hard to test
-						path: ["earth", "EU", "IT"]
-					});
-					doh.t(myTree, "tree created");
+						myTree = new Tree({
+							id: "myTree",
+							model: myModel,
+							persist: false,		// persist==true is too hard to test
+							path: ["earth", "EU", "IT"]
+						});
+						doh.t(myTree, "tree created");
 
-					dom.byId("container").appendChild(myTree.domNode);
-					myTree.startup();
+						dom.byId("container").appendChild(myTree.domNode);
+						myTree.startup();
 
-					myTree.onLoadDeferred.then(d.getTestCallback(function(){
-						var item = myTree.get("selectedItem");
-						doh.is("IT", myStore.getValue(item, "id"));
-					}));
-					return d;
+						myTree.onLoadDeferred.then(d.getTestCallback(function () {
+							var item = myTree.get("selectedItem");
+							doh.is("IT", myStore.getValue(item, "id"));
+						}));
+						return d;
+					}
 				},
 
 				function deleteSelectedItem(){
@@ -329,16 +341,18 @@
 				}
 			]);
 
-			doh.register("nobidi", [
-				// Make sure that Tree doesn't have spurious lang="" dir="" on nodes
-				function noLangDir(){
+			// Make sure that Tree doesn't have spurious lang="" dir="" on nodes
+			doh.register("nobidi", {
+				name: "noLangDir",
+				timeout: 10000,
+				runTest: function () {
 					var d = new doh.Deferred();
-					myStore = new dojo.data.ItemFileWriteStore({url:'../_data/countries.json'});
+					myStore = new dojo.data.ItemFileWriteStore({url: '../_data/countries.json'});
 					doh.t(myStore, "store created");
 
 					myModel = new ForestStoreModel({
 						store: myStore,
-						query: {type:'continent'},
+						query: {type: 'continent'},
 						rootId: "earth",
 						rootLabel: "Earth",
 						childrenAttrs: ["children"]
@@ -370,7 +384,7 @@
 					}));
 					return d;
 				}
-			]);
+			});
 
 			doh.run();
 		});

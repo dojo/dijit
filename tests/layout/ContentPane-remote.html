@@ -120,25 +120,27 @@
 				{
 					// test that setHref cancels a inflight setHref
 					name: "setHref_cancels_previous_setHref",
-					timeout: 2800,
+					timeout: 10000,
 					setUp: function(t){
 						cp.set("content", "");
 					},
 					runTest: function(t){
+						var d = new t.Deferred();
+
 						var msgCanceled = "This should be canceled";
 						cp.set('href', "getResponse.php?delay=1000&message="+encodeURI(msgCanceled));
 
-						var msg = "This message should win over the previous";
-						setTimeout(function(){
+						setTimeout(d.getTestErrback(function(){
+							var msg = "This message should win over the previous";
 							cp.set('href', "getResponse.php?message="+encodeURI(msg));
-						}, 900);
 
-						var d = new t.Deferred();
-						setTimeout(d.getTestCallback(
-							function(){
-								doh.is(msg, cp.domNode.innerHTML);
-							}
-						), 2500);
+							setTimeout(d.getTestCallback(
+									function(){
+										doh.is(msg, cp.domNode.innerHTML);
+									}
+							), 1600);
+						}), 900);
+
 						return d;
 					}
 				},

@@ -106,20 +106,21 @@
 			doh.register("startup events",
 				{
 					name: "startup on href pane's children",
-					timeout: 5000,
-					runTest: function(t){
+					timeout: 10000,
+					runTest: function(){
 						var d = new doh.Deferred();
+
 						// Wait for load events to occur (after fetching URL's)
-						setTimeout(d.getTestCallback(function(){
-							var pane1 = registry.byId("pane1"),
-								children = pane1.getChildren();
+						var pane1 = registry.byId("pane1");
+						pane1.onLoadDeferred.then(d.getTestCallback(function(){
+							var children = pane1.getChildren();
 							doh.is(2, children.length, "found combobox and button");
 							doh.is(1, startups[children[0].id], "combobox started once");
 							doh.is(1, startups[children[0].id], "button started once");
-							
-							// startup of layout widgets is tested below, indirectly, by
-							// monitoring how man times resize is called etc. 
-						}), 4000);
+						}));
+
+						// startup of layout widgets is tested below, indirectly, by
+						// monitoring how man times resize is called etc.
 						return d;
 					}
 				}
@@ -129,23 +130,22 @@
 			doh.register("load events", [
 				{
 					name: "initial conditions",
-					timeout: 5000,
-					runTest: function(t){
+					timeout: 10000,
+					runTest: function(){
 						var d = new doh.Deferred();
 						// Wait for load events to occur (after fetching URL's)
-						setTimeout(d.getTestCallback(function(){
-							doh.is(1, loadEvents.pane1, "pane1");
+						registry.byId("pane1").onLoadDeferred.then(d.getTestCallback(function(){
 							array.forEach(["pane2", "innerPane1", "innerPane2", "bcPane1", "bcPane2"], function(pane){
 								doh.f(loadEvents[pane], pane, pane + " shouldn't be loaded");
 							});
-						}), 4000);
+						}));
 						return d;
 					}
 				},
 				{
 					name: "reset href in hidden pane, pane2",
 					timeout: 2000,
-					runTest: function(t){
+					runTest: function(){
 						// Resetting an href on a hidden pane should have no effect
 						var d = new doh.Deferred();
 
@@ -160,7 +160,7 @@
 				{
 					name: "reset href in hidden pane, innerPane1",
 					timeout: 2000,
-					runTest: function(t){
+					runTest: function(){
 						// Resetting an href on a hidden pane should have no effect
 						var d = new doh.Deferred();
 
@@ -175,7 +175,7 @@
 				{
 					name: "reset href in hidden pane, bcPane2",
 					timeout: 2000,
-					runTest: function(t){
+					runTest: function(){
 						// Resetting an href on a hidden pane should have no effect
 						var d = new doh.Deferred();
 
@@ -189,50 +189,39 @@
 				},
 				{
 					name: "selecting ContentPane causes it to load",
-					timeout: 5000,
-					runTest: function(t){
-						var d = new doh.Deferred();
-
-						registry.byId("outerTC").selectChild(registry.byId("pane2"));
-						setTimeout(d.getTestCallback(function(){
-							doh.is(1, loadEvents.pane2, "pane2");
-						}), 4000);
-
-						return d;
+					timeout: 10000,
+					runTest: function(){
+						var pane2 = registry.byId("pane2");
+						doh.f(pane2.onLoadDeferred.isResolved(), "pane2 not loaded yet");
+						registry.byId("outerTC").selectChild(pane2);
+						return pane2.onLoadDeferred;
 					}
 				},
 				{
-					name: "selecting a TabContainer causes it's selected child to load",
-					timeout: 5000,
-					runTest: function(t){
-						var d = new doh.Deferred();
+					name: "selecting a TabContainer causes its selected child to load",
+					timeout: 10000,
+					runTest: function(){
+						var innerPane1 = registry.byId("innerPane1");
 
-						doh.f(loadEvents.innerPane1, "innerPane1 not loaded yet");
+						doh.f(innerPane1.onLoadDeferred.isResolved(), "innerPane1 not loaded yet");
+
 						registry.byId("outerTC").selectChild(registry.byId("innerTC"));
-						setTimeout(d.getTestCallback(function(){
-							doh.is(1, loadEvents.innerPane1, "innerPane1 now loaded");
-						}), 4000);
 
-						return d;
+						return innerPane1.onLoadDeferred;
 					}
 				},
 				{
-					name: "selecting a BorderContainer causes it's children to load",
-					timeout: 5000,
-					runTest: function(t){
-						var d = new doh.Deferred();
-
-						//doh.f(loadEvents.bcPane1, "bcPane1 not loaded");
-						//doh.f(loadEvents.bcPane2, "bcPane2 not loaded");
+					name: "selecting a BorderContainer causes its children to load",
+					timeout: 10000,
+					runTest: function(){
+						doh.f(registry.byId("bcPane1").onLoadDeferred.isResolved(), "bcPane1 not loaded");
+						doh.f(registry.byId("bcPane2").onLoadDeferred.isResolved(), "bcPane1 not loaded");
 
 						registry.byId("outerTC").selectChild(registry.byId("bc"));
 
-						setTimeout(d.getTestCallback(function(){
-							doh.is(1, loadEvents.bcPane1, "bcPane1");
-							doh.is(1, loadEvents.bcPane2, "bcPane2");
-						}), 4000);
-
-						return d;
+						return registry.byId("bcPane1").onLoadDeferred.then(function(){
+							return registry.byId("bcPane2").onLoadDeferred;
+						});
 					}
 				}
 			]);
@@ -242,7 +231,7 @@
 				// the child is sized to match the ContentPane
 				{
 					name: "single child",
-					runTest: function(t){
+					runTest: function(){
 						var child = registry.byId("singleChildResizable");
 						doh.is(0, child._resized, "hasn't been shown yet so no resize events");
 
@@ -261,7 +250,7 @@
 				// resize on them so they can lay themselves out
 				{
 					name: "multiple children",
-					runTest: function(t){
+					runTest: function(){
 						var child1 = registry.byId("multipleChildResizable1"),
 							child2 = registry.byId("multipleChildResizable2");
 
@@ -279,7 +268,7 @@
 
 				{
 					name: "single resizable widget, plus invisible widget",
-					runTest: function(t){
+					runTest: function(){
 						var child = registry.byId("fss2_rc");
 						doh.t(child._resized, "got resize event for child");
 						doh.is(1, child._resizeArgs && child._resizeArgs.length, "size specified");
@@ -289,7 +278,7 @@
 
 				{
 					name: "multiple resizable widgets in form with size",
-					runTest: function(t){
+					runTest: function(){
 						var child1 = registry.byId("fsmc1"),
 							child2 = registry.byId("fsmc2");
 
@@ -301,7 +290,7 @@
 				},
 				{
 					name: "single resizable widget, single non-resizable (but visible) widget",
-					runTest: function(t){
+					runTest: function(){
 						var child = registry.byId("fsm2_rc");
 						doh.t(child._resized, "got resize event for child");
 						doh.is(0, child._resizeArgs && child._resizeArgs.length, "no size specified for child");
@@ -311,14 +300,15 @@
 				// Test that resize event works correctly for href w/single layout widget
 				{
 					name: "single resizable href",
-					timeout: 5000,
-					runTest: function(t){
+					timeout: 10000,
+					runTest: function(){
 						var d = new doh.Deferred();
+						var singleChildHref = registry.byId("singleChildHref");
 
-						registry.byId("resizeTC").selectChild(registry.byId("singleChildHref"));
+						registry.byId("resizeTC").selectChild(singleChildHref);
 
 						// Wait for load events to occur (after fetching URL's)
-						setTimeout(d.getTestCallback(function(){
+						singleChildHref.onLoadDeferred.then(d.getTestCallback(function(){
 							// Check top level border container got sized to fit ContentPane
 							var child = registry.byId("singleChildHrefBorderContainer");
 							doh.t(child, "href was loaded and top level BorderContainer was created");
@@ -334,7 +324,8 @@
 							doh.t(child2, "inner TabContainer was created");
 							doh.t(layoutResizes["singleChildHrefInnerTabContainer"], "got resize event");
 							doh.is(0, layoutResizes["singleChildHrefInnerTabContainer"][0].length, "no size specified")
-						}), 4000);
+						}));
+
 						return d;
 					}
 				},
@@ -342,20 +333,22 @@
 				// Test that resize event works correctly for href w/multiple layout widgets
 				{
 					name: "multiple resizable href",
-					timeout: 5000,
-					runTest: function(t){
+					timeout: 10000,
+					runTest: function(){
 						var d = new doh.Deferred();
+						var multipleChildHref = registry.byId("multipleChildHref")
 
-						registry.byId("resizeTC").selectChild(registry.byId("multipleChildHref"));
+						registry.byId("resizeTC").selectChild(multipleChildHref);
 
 						// Wait for load events to occur (after fetching URL's)
-						setTimeout(d.getTestCallback(function(){
+						multipleChildHref.onLoadDeferred.then(d.getTestCallback(function(){
 							// Check that resize() done on TabContainer
 							var child = registry.byId("multipleChildHrefTabContainer");
 							doh.t(child, "TabContainer was created");
 							doh.t(layoutResizes["multipleChildHrefTabContainer"], "got resize event");
 							doh.is(0, layoutResizes["multipleChildHrefTabContainer"][0].length, "no size specified")
-						}), 4000);
+						}));
+
 						return d;
 					}
 				},
@@ -364,7 +357,7 @@
 				// where the form widget is inside a layout container
 				{
 					name: "multiple resizable elements hidden in form in TabContainer",
-					runTest: function(t){
+					runTest: function(){
 						var child1 = registry.byId("resizableInForm1"),
 							child2 = registry.byId("resizableInForm2");
 
@@ -387,7 +380,7 @@
 
 				{
 					name: "single resizable element hidden in form in TabContainer",
-					runTest: function(t){
+					runTest: function(){
 						var child = registry.byId("resizableInForm0");
 
 						doh.is(0, child._resized, "child hasn't been shown yet so no resize events");
@@ -405,7 +398,7 @@
 				// on it's child layout widgets
 				{
 					name: "single resizable element in form with size",
-					runTest: function(t){
+					runTest: function(){
 						var child = registry.byId("fssc");
 						doh.t(child._resized, "got resize event for child");
 						doh.is(1, child._resizeArgs && child._resizeArgs.length, "size specified")
@@ -414,7 +407,7 @@
 
 				{
 					name: "multiple resizable elements in form with size",
-					runTest: function(t){
+					runTest: function(){
 						var child1 = registry.byId("fsmc1"),
 							child2 = registry.byId("fsmc2");
 
@@ -427,7 +420,7 @@
 
 				{
 					name: "single resizable elements in form with no size, doLayout=false",
-					runTest: function(t){
+					runTest: function(){
 						var child = registry.byId("fnsc");
 
 						doh.t(child._resized, "got resize event for child");
@@ -437,7 +430,7 @@
 
 				{
 					name: "multiple resizable elements in form with no size",
-					runTest: function(t){
+					runTest: function(){
 						var child1 = registry.byId("fnmc1"),
 							child2 = registry.byId("fnmc2");
 
@@ -458,7 +451,7 @@
 				{
 					name: "initially open, single child",
 					timeout: 2000,
-					runTest: function(t){
+					runTest: function(){
 						var d = new doh.Deferred();
 
 						var tp = registry.byId("otpHsc");
@@ -479,22 +472,19 @@
 			  */
 				{
 					name: "initially open, href multiple children",
-					timeout: 5000,
-					runTest: function(t){
+					timeout: 10000,
+					runTest: function(){
 						var d = new doh.Deferred();
 
 						var tp = registry.byId("otpHmc");
 
 						// Allow time for href to load
-						setTimeout(d.getTestCallback(function(){
-							// Check that href loaded
-							doh.is(1, loadEvents["otpHmc"], "otpHmc loaded on page load");
-
+						tp.onLoadDeferred.then(d.getTestCallback(function(){
 							// Check that resize() done on children
 							doh.t(layoutResizes["otpHmcBorderContainer"], "got resize event for BC");
 							doh.t(layoutResizes["otpHmcTabContainer"], "got resize event for TC");
 							doh.is(0, layoutResizes["otpHmcBorderContainer"][0].length, "no size specified for BC")
-						}), 4000);
+						}));
 
 						return d;
 					}
@@ -502,7 +492,7 @@
 
 				{
 					name: "initially open, multiple children",
-					runTest: function(t){
+					runTest: function(){
 						var tp = registry.byId("otpMc");
 
 						// Check that resize() done on children
@@ -513,8 +503,8 @@
 
 				{
 					name: "initially closed, href multiple children",
-					timeout: 5000,
-					runTest: function(t){
+					timeout: 10000,
+					runTest: function(){
 						var d = new doh.Deferred();
 
 						doh.f(loadEvents["ctpHmc"], "ctpHmc load deferred until open");
@@ -523,15 +513,12 @@
 						tp.set("open", true);
 
 						// Allow time for href to load, pane to expand, and resize to be called on children
-						setTimeout(d.getTestCallback(function(){
-							// Check that href loaded
-							doh.is(1, loadEvents["ctpHmc"], "ctpHmc loaded when expanded");
-
+						tp.onLoadDeferred.then(d.getTestCallback(function(){
 							// Check that resize() done on children
 							doh.t(layoutResizes["ctpHmcBorderContainer"], "got resize event for BC");
 							doh.t(layoutResizes["ctpHmcTabContainer"], "got resize event for TC");
 							doh.is(0, layoutResizes["ctpHmcBorderContainer"][0].length, "no size specified for BC")
-						}), 4000);
+						}));
 
 						return d;
 					}
@@ -540,7 +527,7 @@
 				{
 					name: "initially closed, multiple children",
 					timeout: 2000,
-					runTest: function(t){
+					runTest: function(){
 						var d = new doh.Deferred();
 
 						doh.f(registry.byId("ctpMc_child1")._resized, "resize event for child1 deferred");
@@ -562,13 +549,13 @@
 			]);
 
 			// Make sure that Dialog loads it's href when shown, and also that
-			// it calls resize on it's children when shown (since that's the contract
+			// it calls resize on its children when shown (since that's the contract
 			// for layout widgets, and ContentPane is acting as a layout widget).
 			doh.register("Dialog", [
 				{
 					name: "href multiple children",
-					timeout: 5000,
-					runTest: function(t){
+					timeout: 10000,
+					runTest: function(){
 						var d = new doh.Deferred();
 
 						doh.f(loadEvents["dlgHmc"], "dlgHmc load deferred until open");
@@ -577,7 +564,7 @@
 						dlg.show();
 
 						// Allow time for href to load, pane to expand, and resize to be called on children
-						setTimeout(d.getTestCallback(function(){
+						dlg.onLoadDeferred.then(d.getTestCallback(function(){
 							// Check that href loaded
 							doh.is(1, loadEvents["dlgHmc"], "dlgHmc loaded when expanded");
 
@@ -585,11 +572,13 @@
 							doh.t(layoutResizes["dlgHmcBorderContainer"], "got resize event for BC");
 							doh.t(layoutResizes["dlgHmcTabContainer"], "got resize event for TC");
 							doh.is(0, layoutResizes["dlgHmcBorderContainer"][0].length, "no size specified for BC")
-						}), 4000);
+						}));
 
 						return d;
 					},
 					tearDown: function(){
+						// Note: this currently triggers an CancelError to the console;
+						// we are apparently canceling a Deferred that has already been resolved.
 						var dlg = registry.byId("dlgHmc");
 						dlg.hide();
 					}
@@ -598,7 +587,7 @@
 				{
 					name: "multiple inlined children",
 					timeout: 2000,
-					runTest: function(t){
+					runTest: function(){
 						var d = new doh.Deferred();
 
 						doh.f(registry.byId("dlgMc_child1")._resized, "resize event for child1 deferred");
@@ -627,40 +616,43 @@
 			doh.register("TabContainer resize/reload tests", [
 				{
 					name: "initial conditions",
-					timeout: 5000,
-					runTest: function(t){
-						var d = new doh.Deferred();
+					timeout: 10000,
+					runTest: function(){
 						// Wait for load events to occur (after fetching URL's)
-						setTimeout(d.getTestCallback(function(){
-							doh.is(1, loadEvents.reloadTC_pane1, "pane1 loaded");
-						}), 4000);
-						return d;
+						return registry.byId("reloadTC_pane1").onLoadDeferred;
 					}
 				},
 				{
 					name: "reload on reshow",
-					timeout: 5000,
-					runTest: function(t){
+					timeout: 10000,
+					runTest: function(){
 						var d = new doh.Deferred();
+						var reloadTC = registry.byId("reloadTC"),
+							pane1 = registry.byId("reloadTC_pane1"),
+							pane2 = registry.byId("reloadTC_pane2");
 
-						registry.byId("reloadTC").selectChild(registry.byId("reloadTC_pane2"));
-						registry.byId("reloadTC").selectChild(registry.byId("reloadTC_pane1"));
-						setTimeout(d.getTestCallback(function(){
-							doh.is(2, loadEvents.reloadTC_pane1, "pane1 loaded again");
-						}), 4000);
-						return d;
+						var originalPane1OnLoadDeferred = pane1.onLoadDeferred;
+
+						reloadTC.selectChild(pane2);
+						reloadTC.selectChild(pane1);
+
+						doh.isNot(originalPane1OnLoadDeferred, pane1.onLoadDeferred,
+								"selecting pane1 again created new onLoadDeferred");
+
+						return pane1.onLoadDeferred;
 					}
 				},
 				{
 					name: "no reload on TabContainer resize",
-					timeout: 5000,
-					runTest: function(t){
+					timeout: 10000,
+					runTest: function(){
 						var d = new doh.Deferred();
 
 						registry.byId("reloadTC").resize({h: 300, w: 300});
 						setTimeout(d.getTestCallback(function(){
 							doh.is(2, loadEvents.reloadTC_pane1, "pane1 not loaded again");
-						}), 4000);
+						}), 750);
+
 						return d;
 					}
 				}

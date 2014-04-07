@@ -212,8 +212,8 @@
 					},
 					{
 						name:"testSubmit",
-					        timeout:5000,
-					        runTest:function(){
+						timeout: 10000,
+						runTest:function(){
 							var d=new doh.Deferred();
 							submittedValues = function(values){
 								testSubmittedValues(d, original, values);

@@ -3,21 +3,21 @@ define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
 	var test_robot = !has("ios") && !has("android");
 
 	doh.register("form.Button", require.toUrl("./test_Button.html?mode=test"), 999999);
-	doh.register("form.ToggleButtonMixin", require.toUrl("./ToggleButtonMixin.html"));
+	doh.register("form.ToggleButtonMixin", require.toUrl("./ToggleButtonMixin.html"), 999999);
 	if(test_robot){
 		doh.register("form.robot.Button_mouse", require.toUrl("./robot/Button_mouse.html"), 999999);
 		doh.register("form.robot.Button_a11y", require.toUrl("./robot/Button_a11y.html"), 999999);
 	}
 
 	doh.register("form.CheckBoxMixin", require.toUrl("./CheckBoxMixin.html"), 999999);
-	doh.register("form.CheckBox", require.toUrl("./CheckBox.html"));
-	doh.register("form.RadioButtonMixin", require.toUrl("./RadioButtonMixin.html"));
+	doh.register("form.CheckBox", require.toUrl("./CheckBox.html"), 999999);
+	doh.register("form.RadioButtonMixin", require.toUrl("./RadioButtonMixin.html"), 999999);
 	if(test_robot){
 		doh.register("form.robot.CheckBox_mouse", require.toUrl("./robot/CheckBox_mouse.html"), 999999);
 		doh.register("form.robot.CheckBox_a11y", require.toUrl("./robot/CheckBox_a11y.html"), 999999);
 	}
 
-	doh.register("form.ButtonMixin", require.toUrl("./ButtonMixin.html"));
+	doh.register("form.ButtonMixin", require.toUrl("./ButtonMixin.html"), 999999);
 	doh.register("form.test_validate", require.toUrl("./test_validate.html?mode=test"), 999999);
 	if(test_robot){
 		doh.register("form.robot.ValidationTextBox", require.toUrl("./robot/ValidationTextBox.html"), 999999);
@@ -41,7 +41,7 @@ define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
 		doh.register("form.robot.Select", require.toUrl("./robot/Select.html"), 999999);
 	}
 
-	doh.register("form.AutoCompleterMixin", require.toUrl("./AutoCompleterMixin.html"));
+	doh.register("form.AutoCompleterMixin", require.toUrl("./AutoCompleterMixin.html"), 999999);
 	doh.register("form.ComboBox", require.toUrl("./_autoComplete.html?testWidget=dijit.form.ComboBox&mode=test"), 999999);
 	if(test_robot){
 		doh.register("form.robot.ComboBox_mouse", require.toUrl("./robot/_autoComplete_mouse.html?testWidget=dijit.form.ComboBox"), 999999);
@@ -73,7 +73,7 @@ define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
 		doh.register("form.robot.Spinner_a11y", require.toUrl("./robot/Spinner_a11y.html"), 999999);
 	}
 
-	doh.register("form.ExpandingTextAreaMixin", require.toUrl("./ExpandingTextAreaMixin.html"));
+	doh.register("form.ExpandingTextAreaMixin", require.toUrl("./ExpandingTextAreaMixin.html"), 999999);
 	if(test_robot){
 		doh.register("form.robot.Textarea", require.toUrl("./robot/Textarea.html"), 999999);
 	}

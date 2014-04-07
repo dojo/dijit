@@ -69,7 +69,7 @@
 			doh.register("events", [
 				{
 					name: "dijit",
-					timeout: 2000,
+					timeout: 5000,
 					runTest: function(){
 						var
 							d = new doh.Deferred(),
@@ -106,7 +106,7 @@
 	 			},
 				{
 					name: "mobile",
-					timeout: 2000,
+					timeout: 5000,
 					runTest: function(){
 						var
 							d = new doh.Deferred(),
@@ -145,7 +145,7 @@
 			doh.register("programmatic", [
 				{
 					name: "dijit",
-					timeout: 2000,
+					timeout: 5000,
 					runTest: function(){
 						new dijit.form.ComboBox({id:"dijit_programmatic", list:"states", "aria-label":"dijit_programmatic",value:"Alabama"}).placeAt("dijit_programmatic_container", "first");
 						var dijit_programmatic = dijit.byId('dijit_programmatic');
@@ -167,7 +167,7 @@
 	 			},
 				{
 					name: "mobile",
-					timeout: 2000,
+					timeout: 5000,
 					runTest: function(){
 						new dojox.mobile.ComboBox({id:"mobile_programmatic", list:"states", "aria-label":"mobile_programmatic", value:"Alabama"}).placeAt("mobile_programmatic_container", "first");
 						var mobile_programmatic = dijit.byId('mobile_programmatic');

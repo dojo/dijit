@@ -78,7 +78,7 @@
 			doh.register("events", [
 				{
 					name: "dijit",
-					timeout: 2000,
+					timeout: 5000,
 					runTest: function(){
 						var
 							d = new doh.Deferred(),
@@ -98,7 +98,7 @@
 	 			},
 				{
 					name: "mobile",
-					timeout: 2000,
+					timeout: 5000,
 					runTest: function(){
 						var
 							d = new doh.Deferred(),
@@ -120,7 +120,7 @@
 			doh.register("programmatic", [
 				{
 					name: "dijit",
-					timeout: 2000,
+					timeout: 5000,
 					runTest: function(){
 						new dijit.form.RadioButton({name:"dijit_programmatic", id:"dijit_programmatic", checked:true, "aria-label":"dijit_programmatic"}).placeAt("dijit_programmatic_container", "first");
 						var dijit_programmatic = dijit.byId('dijit_programmatic');
@@ -132,7 +132,7 @@
 	 			},
 				{
 					name: "mobile",
-					timeout: 2000,
+					timeout: 5000,
 					runTest: function(){
 						new dojox.mobile.RadioButton({name:"mobile_programmatic", id:"mobile_programmatic", checked:true, "aria-label":"mobile_programmatic"}).placeAt("mobile_programmatic_container", "first");
 						var mobile_programmatic = dijit.byId('mobile_programmatic');

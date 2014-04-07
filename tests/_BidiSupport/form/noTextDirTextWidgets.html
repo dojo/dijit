@@ -23,9 +23,13 @@
 				"dojo/domReady!"
 			], function(doh, dom, parser, registry){
 
-				doh.register("parse", function(){
-					// Parse is asynchronous because it pulls in modules like DateTextBox, so return its promise
-					return parser.parse();
+				doh.register("parse", {
+					name: "parse",
+					timeout: 10000,
+					runTest: function() {
+						// Parse is asynchronous because it pulls in modules like DateTextBox, so return its promise
+						return parser.parse();
+					}
 				});
 
 				doh.register("initial direction of the textBoxes", [

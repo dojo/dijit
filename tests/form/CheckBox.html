@@ -116,7 +116,7 @@
 						doh.is( json.stringify(originalGet), json.stringify(registry.byId("myForm").get('value')) );
 					},
 					{
-						timeout:3000,
+						timeout: 6000,
 						name: "setValues",
 						runTest: function(){
 							var d = new doh.Deferred();
@@ -135,7 +135,7 @@
 						}
 					},
 					{
-						timeout: 3000,
+						timeout: 6000,
 						name: "resetValues",
 						runTest: function(){
 							var d = new doh.Deferred();

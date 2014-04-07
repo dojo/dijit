@@ -10,40 +10,43 @@
 		require([
 			"doh/runner",
 			"dojo/parser",
+			"dijit/registry",
+			"dijit/tests/helpers",
+
+			// Accessed by parser
 			"dojo/data/ItemFileReadStore",
 			"dijit/Tree",
 			"dijit/tree/ForestStoreModel",
 			"dojo/domReady!"
-		], function(doh, parser){
+		], function(doh, parser, registry, helpers){
 
 			doh.register("Test custom label", [
 				function parse(){
 					return parser.parse();
 				},
 				{
+					name: "wait for load",
+					timeout: 10000,
+					runTest: helpers.waitForLoad
+				},
+				{
 					name: "testLabels",
 					timeout: 1000,
 					runTest: function(){
-						var d = new doh.Deferred();
+						var nameTree = registry.byId("nameTree");
+						var nameChildren = nameTree.rootNode.getChildren();
+						doh.is("Arizona", nameChildren[3].label);
+						doh.is("Colorado", nameChildren[9].label);
 
-						setTimeout(d.getTestCallback(function(){
-							var nameTree = dijit.byId("nameTree");
-							var nameChildren = nameTree.rootNode.getChildren();
-							doh.is("Arizona", nameChildren[3].label);
-							doh.is("Colorado", nameChildren[9].label);
+						var codeTree = registry.byId("codeTree");
+						var codeChildren = codeTree.rootNode.getChildren();
+						doh.is("AZ", codeChildren[3].label);
+						doh.is("CO", codeChildren[9].label);
 
-							var codeTree = dijit.byId("codeTree");
-							var codeChildren = codeTree.rootNode.getChildren();
-							doh.is("AZ", codeChildren[3].label);
-							doh.is("CO", codeChildren[9].label);
-
-							var customTree = dijit.byId("customTree");
-							var customChildren = customTree.rootNode.getChildren();
-							doh.is("Arizona (AZ)", customChildren[3].label);
-							doh.is("Colorado (CO)", customChildren[9].label);
-						}), 500);
-
-						return d;
+						var customTree = registry.byId("customTree");
+						var customChildren = customTree.rootNode.getChildren();
+						doh.is("Arizona (AZ)", customChildren[3].label);
+						doh.is("Colorado (CO)", customChildren[9].label);
 					}
 				}
 			]);
@@ -74,7 +77,6 @@
 		</script>
 	</div>
 	<div id="customTree" data-dojo-type="dijit/Tree" data-dojo-props='model:customModel, openOnClick:true'></div>
-
 
 </body>
 </html>

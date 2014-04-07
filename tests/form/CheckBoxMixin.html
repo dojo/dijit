@@ -109,7 +109,7 @@
 			doh.register("events", [
 				{
 					name: "dijit",
-					timeout: 2000,
+					timeout: 5000,
 					runTest: function(){
 						var
 							d = new doh.Deferred(),
@@ -129,7 +129,7 @@
 	 			},
 				{
 					name: "mobile",
-					timeout: 2000,
+					timeout: 5000,
 					runTest: function(){
 						var
 							d = new doh.Deferred(),
@@ -151,7 +151,7 @@
 			doh.register("programmatic", [
 				{
 					name: "dijit",
-					timeout: 2000,
+					timeout: 5000,
 					runTest: function(){
 						new dijit.form.CheckBox({id:"dijit_programmatic", checked:true,"aria-label":"check3dijit"}).placeAt("dijit_programmatic_container", "first");
 						var dijit_programmatic = dijit.byId('dijit_programmatic');
@@ -163,7 +163,7 @@
 	 			},
 				{
 					name: "mobile",
-					timeout: 2000,
+					timeout: 5000,
 					runTest: function(){
 						new dojox.mobile.CheckBox({id:"mobile_programmatic", checked:true,"aria-label":"check3mobile"}).placeAt("mobile_programmatic_container", "first");
 						var mobile_programmatic = dijit.byId('mobile_programmatic');
@@ -181,12 +181,11 @@
 			var form = dojo.byId('onClickTests');
 			form.reset(); // so reload works
 
-			dojo.query("INPUT[type=checkbox]", form).forEach(function(inputNode){
-				// click all the checkboxes, but not too fast
-				doh.register("click " + inputNode.id,
-				{
-					timeout: 2000,
-					name: inputNode.id,
+			// click all the checkboxes, but not too fast
+			doh.register("click all checkboxes",  dojo.query("INPUT[type=checkbox]", form).map(function(inputNode){
+				return {
+					timeout: 5000,
+					name: "click " + inputNode.id,
 					runTest: function(){
 						var d = new doh.Deferred();
 						on.once(form, "click", function(){
@@ -195,24 +194,26 @@
 						setTimeout(function(){ inputNode.click(); }, 1);
 						return d;
 					}
-				});
-			});
+				};
+			}));
 
+			// check widgets
 			var widgets = dijit.findWidgets(form);
-			dojo.forEach(widgets, function(widget){
-				doh.register("onclick " + widget.id,
-					function(){
-						var	id = widget.id,
-							testId = "t" + id.substr(1),
-							native = dojo.byId(testId);
+			doh.register("onclick widgets", dojo.map(widgets, function(widget){
+				return {
+					name: widget.id,
+					runTest: function () {
+						var id = widget.id,
+								testId = "t" + id.substr(1),
+								native = dojo.byId(testId);
 						var widgetVal = widget.checked;
 						var expectedVal = !!native.checked;
 						var widgetNodeVal = !!dojo.byId(id).checked;
 						doh.is(expectedVal, widgetVal, 'widget value');
 						doh.is(expectedVal, widgetNodeVal, 'hidden node');
 					}
-				);
-			});
+				};
+			}));
 
 			doh.run();
 		});

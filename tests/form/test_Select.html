@@ -495,15 +495,19 @@
 							}), 300);
 							return d;
 						},
-						function hideDialog(){
-							// Hiding the dialog should make the validation tooltip disappear
-							var d = new doh.Deferred();
-							registry.byId("dlg1").hide().then(function(){
-								setTimeout(d.getTestCallback(function(){
-									doh.t(helpers.isHidden(masterTT.domNode), "tooltip hidden");
-								}), 300);
-							});
-							return d;
+						{
+							name: "hideDialog",
+							timeout: 5000,
+							runTest: function(){
+								// Hiding the dialog should make the validation tooltip disappear
+								var d = new doh.Deferred();
+								registry.byId("dlg1").hide().then(function(){
+									setTimeout(d.getTestCallback(function(){
+										doh.t(helpers.isHidden(masterTT.domNode), "tooltip hidden");
+									}), 300);
+								});
+								return d;
+							}
 						},
 						function showDialogAgain(){
 							// Show dialog, returning Deferred that fires when show dialog is finished.
