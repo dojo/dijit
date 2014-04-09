@@ -211,6 +211,11 @@ define([
 		},
 
 		setStore: function(store, selectedValue, fetchArgs){
+			kernel.deprecated(this.declaredClass+"::setStore(store, selectedValue, fetchArgs) is deprecated. Use set('query', fetchArgs.query), set('queryOptions', fetchArgs.queryOptions), set('store', store), or set('value', selectedValue) instead.", "", "2.0");
+			this._deprecatedSetStore(store, selectedValue, fetchArgs);
+		},
+
+		_deprecatedSetStore: function(store, selectedValue, fetchArgs){
 			// summary:
 			//		Sets the store you would like to use with this select widget.
 			//		The selected value is the value of the new store to set.  This
@@ -307,7 +312,7 @@ define([
 			if(this._queryRes && this._queryRes.close){
 				this._queryRes.close();
 			}
-			
+
 			// Cancel listener for updates to new (dojo.store) store
 			if(this._observeHandle && this._observeHandle.remove){
 				this._observeHandle.remove();
@@ -321,7 +326,7 @@ define([
 			}
 
 			// Add our new options
-			if(store){
+			if(store && store.query){
 				this._loadingStore = true;
 				this.onLoadDeferred = new Deferred();
 
@@ -396,6 +401,9 @@ define([
 
 		// TODO: implement set() and watch() for store and query, although not sure how to handle
 		// setting them individually rather than together (as in setStore() above)
+		_setStoreAttr: function(val) {
+			this._deprecatedSetStore(val);
+		},
 
 		_setValueAttr: function(/*anything*/ newValue, /*Boolean?*/ priorityChange){
 			// summary:
