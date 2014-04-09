@@ -82,7 +82,7 @@ define([
 		// Put the summary to the node with role=grid
 		_setSummaryAttr: "gridNode",
 
-		baseClass: "dijitCalendar",
+		baseClass: "dijitCalendar dijitCalendarLite",
 
 		_isValidDate: function(/*Date*/ value){
 			// summary:
