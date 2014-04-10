@@ -65,7 +65,8 @@ define([
 				delete this.dropDownContainer;
 			}
 			if(this.dropDown){
-				popup.hide(this.dropDown);
+				//send text for aria-label fallback
+				popup.hide(this.dropDown, this.label || this.name);
 			}
 
 			this.inherited(arguments);
