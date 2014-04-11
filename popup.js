@@ -159,7 +159,7 @@ define([
 				// Need to be careful though that you can still focus <input>'s and click <button>'s in a TooltipDialog.
 				if("ontouchstart" in document) {
 					on(wrapper, "touchstart", function (evt){
-						if(!/^(input|button)$/i.test(evt.target.tagName)) {
+						if(!/^(input|button|textarea)$/i.test(evt.target.tagName)) {
 							evt.preventDefault();
 						}
 					});
