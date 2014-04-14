@@ -34,8 +34,7 @@ define([
 			var cleanupMethods = [
 				"destroyRecursive",
 				"destroy",
-				"remove",
-				"cancel"
+				"remove"
 			];
 
 			array.forEach(arguments, function(handle){
@@ -44,26 +43,38 @@ define([
 				// this.inherited() or even if it doesn't call this.inherited() at all.  If that's an issue, make an
 				// onDestroy() method and connect to that instead.
 				var destroyMethodName;
-				var odh = aspect.before(this, "destroy", function(preserveDom){
+				var odh = aspect.before(this, "destroy", function (preserveDom){
 					handle[destroyMethodName](preserveDom);
 				});
 
-				// If handle is destroyed manually before this.destroy() is called, remove the listener set directly above.
-				// This loop also computes destroyMethodName, used in above listener.
+				// Callback for when handle is manually destroyed.
 				var hdhs = [];
 				function onManualDestroy(){
 					odh.remove();
-					array.forEach(hdhs, function(hdh){ hdh.remove(); });
+					array.forEach(hdhs, function(hdh){
+						hdh.remove();
+					});
 				}
-				array.forEach(cleanupMethods, function(cleanupMethod){
-					if(typeof handle[cleanupMethod] === "function") {
-						if(!destroyMethodName){
-							// Use first matching method name in above listener (prefer destroyRecursive() to destroy())
-							destroyMethodName = cleanupMethod;
+
+				// Setup listeners for manual destroy of handle.
+				// Also computes destroyMethodName, used in listener above.
+				if(handle.then){
+					// Special path for Promises.  Detect when Promise is resolved, rejected, or
+					// or canceled (nb: cancelling a Promise causes it to be rejected).
+					destroyMethodName = "cancel";
+					handle.then(onManualDestroy, onManualDestroy);
+				}else{
+					// Path for other handles.  Just use AOP to detect when handle is manually destroyed.
+					array.forEach(cleanupMethods, function(cleanupMethod){
+						if(typeof handle[cleanupMethod] === "function"){
+							if(!destroyMethodName){
+								// Use first matching method name in above listener (prefer destroyRecursive() to destroy())
+								destroyMethodName = cleanupMethod;
+							}
+							hdhs.push(aspect.after(handle, cleanupMethod, onManualDestroy, true));
 						}
-						hdhs.push(aspect.after(handle, cleanupMethod, onManualDestroy, true));
-					}
-				});
+					});
+				}
 			}, this);
 
 			return arguments;		// handle
