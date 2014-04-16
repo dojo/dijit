@@ -60,7 +60,7 @@ define([
 				// Also computes destroyMethodName, used in listener above.
 				if(handle.then){
 					// Special path for Promises.  Detect when Promise is resolved, rejected, or
-					// or canceled (nb: cancelling a Promise causes it to be rejected).
+					// canceled (nb: cancelling a Promise causes it to be rejected).
 					destroyMethodName = "cancel";
 					handle.then(onManualDestroy, onManualDestroy);
 				}else{
