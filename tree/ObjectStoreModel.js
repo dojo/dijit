@@ -2,9 +2,10 @@ define([
 	"dojo/_base/array", // array.filter array.forEach array.indexOf array.some
 	"dojo/aspect", // aspect.before, aspect.after
 	"dojo/_base/declare", // declare
+	"dojo/Deferred",
 	"dojo/_base/lang", // lang.hitch
 	"dojo/when"
-], function(array, aspect, declare, lang, when){
+], function(array, aspect, declare, Deferred, lang, when){
 
 	// module:
 	//		dijit/tree/ObjectStoreModel
@@ -58,7 +59,8 @@ define([
 
 			lang.mixin(this, args);
 
-			this.childrenCache = {};	// map from id to array of children
+			// Map from id of each parent node to array of its children, or to Promise for that array of children.
+			this.childrenCache = {};
 		},
 
 		destroy: function(){
@@ -129,18 +131,21 @@ define([
 			//		Item from the dojo/store
 
 			var id = this.store.getIdentity(parentItem);
+
 			if(this.childrenCache[id]){
+				// If this.childrenCache[id] is defined, then it always has the latest list of children
+				// (like a live collection), so just return it.
 				when(this.childrenCache[id], onComplete, onError);
 				return;
 			}
 
+			// Query the store.
+			// Cache result so that we can close the query on destroy(), and to avoid setting up multiple observers
+			// when getChildren() is called multiple times for the same parent.
+			// The only problem is that getChildren() on non-Observable stores may return a stale value.
 			var res = this.childrenCache[id] = this.store.getChildren(parentItem);
 
-			// User callback
-			when(res, onComplete, onError);
-
-			// Setup listener in case children list changes, or the item(s) in the children list are
-			// updated in some way.
+			// Setup observer in case children list changes, or the item(s) in the children list are updated.
 			if(res.observe){
 				res.observe(lang.hitch(this, function(obj, removedFrom, insertedInto){
 					//console.log("observe on children of ", id, ": ", obj, removedFrom, insertedInto);
@@ -156,6 +161,9 @@ define([
 					}
 				}), true);	// true means to notify on item changes
 			}
+
+			// User callback
+			when(res, onComplete, onError);
 		},
 
 		// =======================================================================
@@ -195,7 +203,9 @@ define([
 			//		Move or copy an item from one parent item to another.
 			//		Used in drag & drop
 
-			if(!bCopy){
+			var d = new Deferred();
+
+			if(oldParentItem && !bCopy){
 				// In order for DnD moves to work correctly, childItem needs to be orphaned from oldParentItem
 				// before being adopted by newParentItem.   That way, the TreeNode is moved rather than
 				// an additional TreeNode being created, and the old TreeNode subsequently being deleted.
@@ -204,17 +214,27 @@ define([
 				// on when the TreeNodes in question originally appeared, and not based on the drag-from
 				// TreeNode vs. the drop-onto TreeNode.
 
-				var oldParentChildren = [].concat(this.childrenCache[this.getIdentity(oldParentItem)]), // concat to make copy
-					index = array.indexOf(oldParentChildren, childItem);
-				oldParentChildren.splice(index, 1);
-				this.onChildrenChange(oldParentItem, oldParentChildren);
+				this.getChildren(this.getIdentity(oldParentItem), lang.hitch(this, function(oldParentChildren){
+					oldParentChildren = [].concat(oldParentChildren); // concat to make copy
+					var index = array.indexOf(oldParentChildren, childItem);
+					oldParentChildren.splice(index, 1);
+					this.onChildrenChange(oldParentItem, oldParentChildren);
+
+					d.resolve(this.store.put(childItem, {
+						overwrite: true,
+						parent: newParentItem,
+						before: before
+					}));
+				}));
+			}else{
+				d.resolve(this.store.put(childItem, {
+					overwrite: true,
+					parent: newParentItem,
+					before: before
+				}));
 			}
 
-			return this.store.put(childItem, {
-				overwrite: true,
-				parent: newParentItem,
-				before: before
-			});
+			return d;
 		},
 
 		// =======================================================================

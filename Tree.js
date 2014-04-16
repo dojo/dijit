@@ -926,10 +926,11 @@ define([
 
 					// Load top level children, and if persist==true, all nodes that were previously opened
 					this._expandNode(rn).then(lang.hitch(this, function(){
-						// Then, select the nodes specified by params.paths[].
-
-						this.rootLoadingIndicator.style.display = "none";
-						this.expandChildrenDeferred.resolve(true);
+						// Then, select the nodes specified by params.paths[], assuming Tree hasn't been deleted.
+						if(!this._destroyed){
+							this.rootLoadingIndicator.style.display = "none";
+							this.expandChildrenDeferred.resolve(true);
+						}
 					}));
 				}),
 				lang.hitch(this, function(err){
