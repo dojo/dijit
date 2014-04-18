@@ -181,7 +181,7 @@ define([
 					// Can't drop before or after tree's root node; the dropped node would just disappear (at least visually)
 					m.canDrop(false);
 				}else{
-					// Guard against dropping onto yourself (TODO: guard against dropping onto your descendant, #7140)
+					// Guard against dropping onto yourself
 					var sameId = false;
 					if(m.source == this){
 						for(var dragId in this.selection){
