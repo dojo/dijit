@@ -215,7 +215,7 @@ define([
 				// on when the TreeNodes in question originally appeared, and not based on the drag-from
 				// TreeNode vs. the drop-onto TreeNode.
 
-				this.getChildren(this.getIdentity(oldParentItem), lang.hitch(this, function(oldParentChildren){
+				this.getChildren(oldParentItem, lang.hitch(this, function(oldParentChildren){
 					oldParentChildren = [].concat(oldParentChildren); // concat to make copy
 					var index = array.indexOf(oldParentChildren, childItem);
 					oldParentChildren.splice(index, 1);
