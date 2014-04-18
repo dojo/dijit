@@ -4,13 +4,14 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/Deferred",
 	"dojo/_base/lang", // lang.hitch
-	"dojo/when"
-], function(array, aspect, declare, Deferred, lang, when){
+	"dojo/when",
+	"../Destroyable"
+], function(array, aspect, declare, Deferred, lang, when, Destroyable){
 
 	// module:
 	//		dijit/tree/ObjectStoreModel
 
-	return declare("dijit.tree.ObjectStoreModel", null, {
+	return declare("dijit.tree.ObjectStoreModel", Destroyable, {
 		// summary:
 		//		Implements dijit/tree/model connecting dijit/Tree to a dojo/store/api/Store that implements
 		//		getChildren().
@@ -63,13 +64,6 @@ define([
 			this.childrenCache = {};
 		},
 
-		destroy: function(){
-			// TODO: should cancel any in-progress processing of getRoot(), getChildren()
-			for(var id in this.childrenCache){
-				this.childrenCache[id].close && this.childrenCache[id].close();
-			}
-		},
-
 		// =======================================================================
 		// Methods for traversing hierarchy
 
@@ -80,8 +74,12 @@ define([
 			if(this.root){
 				onItem(this.root);
 			}else{
-				var res;
-				when(res = this.store.query(this.query),
+				var res = this.store.query(this.query);
+				if(res.then){
+					this.own(res);	// in case app calls destroy() before query completes
+				}
+
+				when(res,
 					lang.hitch(this, function(items){
 						//console.log("queried root: ", res);
 						if(items.length != 1){
@@ -144,10 +142,13 @@ define([
 			// when getChildren() is called multiple times for the same parent.
 			// The only problem is that getChildren() on non-Observable stores may return a stale value.
 			var res = this.childrenCache[id] = this.store.getChildren(parentItem);
+			if(res.then){
+				this.own(res);	// in case app calls destroy() before query completes
+			}
 
 			// Setup observer in case children list changes, or the item(s) in the children list are updated.
 			if(res.observe){
-				res.observe(lang.hitch(this, function(obj, removedFrom, insertedInto){
+				this.own(res.observe(lang.hitch(this, function(obj, removedFrom, insertedInto){
 					//console.log("observe on children of ", id, ": ", obj, removedFrom, insertedInto);
 
 					// If removedFrom == insertedInto, this call indicates that the item has changed.
@@ -159,7 +160,7 @@ define([
 						// res.then(...)) has already been updated (like a live collection), so just use it.
 						when(res, lang.hitch(this, "onChildrenChange", parentItem));
 					}
-				}), true);	// true means to notify on item changes
+				}), true));	// true means to notify on item changes
 			}
 
 			// User callback
