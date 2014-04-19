@@ -13,9 +13,10 @@
 		<script type="text/javascript">
 			require([
 				"doh/runner", "dojo/robotx",
-				"dojo/dom", "dojo/dom-class", "dojo/dom-geometry", "dojo/keys", "dojo/sniff", "dojo/window",
+				"dojo/dom", "dojo/dom-class", "dojo/dom-geometry", "dojo/keys",
+				"dojo/query", "dojo/sniff", "dojo/window",
 				"dijit/tests/helpers", "dijit/tests/tree/robot/Tree_dnd", "dojo/domReady!"
-			], function(doh, robot, dom, domClass, domGeom, keys, has, winUtils, helpers, dndHelpers){
+			], function(doh, robot, dom, domClass, domGeom, keys, query, has, winUtils, helpers, dndHelpers){
 
 				robot.initRobot('../test_Tree_DnD.html');
 
@@ -105,6 +106,15 @@
 							robot.mousePress({left: true}, 500);
 							robot.mouseMoveAt(citrusTreeNode.labelNode, 500, 1000);
 							robot.mouseMoveAt(citrusTreeNode.labelNode, 500, 1000);// If prev. mouseMove caused scroll, readjust
+
+							robot.sequence(d.getTestErrback(function(){
+								// Avatar should be green indicating a drop is OK
+								var avatars = query(".dojoDndAvatar");
+								doh.is(1, avatars.length, "found avatar");
+								var canDrop = query(".dojoDndAvatarCanDrop");
+								doh.is(1, canDrop.length, "able to drop")
+							}), 2000);
+
 							robot.mouseRelease({left: true}, 500);
 
 							robot.sequence(d.getTestCallback(function(){
@@ -135,6 +145,35 @@
 								doh.is("Orange", helpers.innerText(citrusTreeNodeChildren[0].labelNode), "child of Citrus TreeNode");
 								doh.is("Apple", helpers.innerText(citrusTreeNodeChildren[1].labelNode), "child of Citrus TreeNode");
 							}), 2000);
+
+							return d;
+						}
+					},
+
+					{
+						name: "drag 'Apple' over 'Orange'",
+						timeout: 10000,
+						runTest: function(){
+							var
+								d = new doh.Deferred(),
+								appleTreeNode = dndHelpers.findTreeNode("itemTree", "Apple"),
+								orangeTreeNode = dndHelpers.findTreeNode("itemTree", "Orange");
+
+							robot.mouseMoveAt(appleTreeNode.labelNode, 500, 1);
+							robot.mousePress({left: true}, 500);
+							robot.mouseMoveAt(orangeTreeNode.labelNode, 500, 1000);
+
+							robot.sequence(d.getTestErrback(function(){
+								// Avatar should be red, since 'Orange' is not a container node.
+								var avatars = query(".dojoDndAvatar");
+								doh.is(1, avatars.length, "found avatar");
+								var canDrop = query(".dojoDndAvatarCanDrop");
+								doh.is(0, canDrop.length, "shouldn't be able to drop")
+							}), 2000);
+
+							robot.mouseRelease({left: true}, 500);
+							robot.sequence(d.getTestCallback(function() {
+							}));
 
 							return d;
 						}
@@ -220,11 +259,12 @@
 							winUtils.scrollIntoView(vegetablesTreeNode.domNode);
 
 							// Drag 'Vegetables' and drop near bottom edge of 'Citrus'.
-							// It should become Citrus' prior-sibling
+							// It should become Citrus' next-sibling
 							robot.mouseMoveAt(vegetablesTreeNode.domNode, 500, 1);
 							robot.mousePress({left: true}, 500);
 							robot.mouseMoveAt(citrusTreeNode.domNode, 1000, 2000, 50, citrusTreeNodeSize.h - 2);
 							robot.mouseRelease({left: true}, 500);
+							robot.mouseRelease({left: true}, 500);	// workaround interimittent robot bug
 
 							robot.sequence(d.getTestCallback(function(){
 								var myStore = robot.window.myStore;
@@ -257,8 +297,47 @@
 
 							return d;
 						}
-					}
+					},
 
+					{
+						name: "drag 'Citrus' over parent, itself",
+						timeout: 10000,
+						runTest: function(){
+							var
+								d = new doh.Deferred(),
+								citrusTreeNode = dndHelpers.findTreeNode("itemTree", "Citrus"),
+								fruitsTreeNode = dndHelpers.findTreeNode("itemTree", "Fruits");
+
+							robot.mouseMoveAt(citrusTreeNode.labelNode, 500, 1);
+							robot.mousePress({left: true}, 500);
+							robot.mouseMoveAt(fruitsTreeNode.labelNode, 500, 1000);
+
+							robot.sequence(d.getTestErrback(function(){
+								// Avatar should be red, since dropping an item onto its own parent is meaningless
+								var avatars = query(".dojoDndAvatar");
+								doh.is(1, avatars.length, "found avatar");
+								var canDrop = query(".dojoDndAvatarCanDrop");
+								doh.is(0, canDrop.length, "shouldn't be able to drop")
+							}), 2000);
+
+							robot.mouseMoveAt(citrusTreeNode.labelNode, 500, 1);
+
+							robot.sequence(d.getTestErrback(function(){
+								// Avatar should be red, since dropping an item onto itself is meaningless
+								var avatars = query(".dojoDndAvatar");
+								doh.is(1, avatars.length, "found avatar");
+								var canDrop = query(".dojoDndAvatarCanDrop");
+								doh.is(0, canDrop.length, "shouldn't be able to drop")
+							}), 2000);
+
+							robot.mouseRelease({left: true}, 500);
+
+							robot.sequence(d.getTestCallback(function(){
+							}), 500);
+
+							return d;
+						}
+					}
 				]);
 
 				doh.register("drag between trees", [
@@ -282,14 +361,14 @@
 								// Check that data store item was orphaned from Fruits
 								var fruitsItemChildren = dndHelpers.getNamesOfChildrenOfItem("Fruits");
 								doh.is(1, fruitsItemChildren.categories.length, "one fruits child");
-								doh.is("Citrus", fruitsItemChildren.categories[0], "one fruits child");
+								doh.is("Citrus", fruitsItemChildren.categories[0], "fruit child 0");
 
 								// And added to Foods
 								var foodsItemChildren = dndHelpers.getNamesOfChildrenOfItem("Foods");
 								doh.is(3, foodsItemChildren.categories.length, "three foods children");
-								doh.is("Fruits", foodsItemChildren.categories[0], "food child");
-								doh.is("Cereals", foodsItemChildren.categories[1], "food child");
-								doh.is("Vegetables", foodsItemChildren.categories[2], "food child");
+								doh.is("Fruits", foodsItemChildren.categories[0], "food child 0");
+								doh.is("Cereals", foodsItemChildren.categories[1], "food child 1");
+								doh.is("Vegetables", foodsItemChildren.categories[2], "food child 2");
 							}), 500);
 
 							return d;
@@ -589,7 +668,7 @@
 						runTest: function(){
 							var
 								d = new doh.Deferred(),
-								citrusTreeNode = dndHelpers.findTreeNode("itemTree", "Citrus"), 
+								citrusTreeNode = dndHelpers.findTreeNode("itemTree", "Citrus"),
 								citrusParent = citrusTreeNode.getParent(),
 								orangeTreeNode = dndHelpers.findTreeNode("itemTree", "Orange"),
 								appleTreeNode = dndHelpers.findTreeNode("itemTree", "Apple"),
@@ -677,7 +756,8 @@
 							robot.mouseClick({left: true}, 500);
 							robot.keyUp(has("mac") ? keys.META : keys.CTRL, 500);
 
-							// drag to root item Foods
+							// Drop onto root item Foods.
+							// Note that Vegetables is already a child of Foods.
 							robot.mousePress({left: true}, 500);
 							robot.mouseMoveAt(foodsTreeNode.rowNode, 500, 500);
 							robot.mouseRelease({left: true}, 500);

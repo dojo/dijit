@@ -386,8 +386,20 @@
 								doh.is(3, asia.getChildren().length, "asia children");
 								doh.is(3, africa.getChildren().length, "africa children");
 							});
-						}
+						},
 
+						// Drag Europe onto root, to make sure it doesn't disappear (#16692)
+						function dragEuropeToRoot(){
+							var world = myTree.rootNode;
+							doh.is(6, world.getChildren().length, "world children before paste");
+							return all([myStore.get("earth"), myStore.get("EU")]).then(function(items){
+								var worldItem = items[0],
+									europeItem = items[1];
+								return myModel.pasteItem(europeItem, worldItem, worldItem);
+							}).then(function(){
+								doh.is(6, world.getChildren().length, "world children after paste");
+							});
+						}
 					]);
 				}
 				doh.register(category + "tearDown", function destroyTree(){

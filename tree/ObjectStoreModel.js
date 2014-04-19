@@ -202,9 +202,17 @@ define([
 					/*Boolean*/ bCopy, /*int?*/ insertIndex, /*Item*/ before){
 			// summary:
 			//		Move or copy an item from one parent item to another.
-			//		Used in drag & drop
+			//		Used in drag & drop.
 
 			var d = new Deferred();
+
+			if(oldParentItem === newParentItem && !bCopy && !before){
+				// Avoid problem when items visually disappear when dropped onto their parent.
+				// Happens because the (no-op) store.put() call doesn't generate any notification
+				// that the childItem was added/moved.
+				d.resolve(true);
+				return d;
+			}
 
 			if(oldParentItem && !bCopy){
 				// In order for DnD moves to work correctly, childItem needs to be orphaned from oldParentItem

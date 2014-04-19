@@ -115,7 +115,10 @@
 				}, pInfo);
 			});
 
-			//since we don't have a server, we're going to connect to the store and do a few things the server/store combination would normal be taking care of for us
+			// since we don't have a server, we're going to connect to the store and
+			// do a few things the server/store combination would normal be taking care of for us.
+			// TODO: This isn't monitoring moves, deletes, etc.  Instead of this code, why not monitor
+			// when an items children[] list changes?
 			aspect.after(myStore, "onNew", function(item, pInfo){
 				var p = pInfo && pInfo.item;
 				if(p){

@@ -181,25 +181,28 @@ define([
 					// Can't drop before or after tree's root node; the dropped node would just disappear (at least visually)
 					m.canDrop(false);
 				}else{
-					// Guard against dropping onto yourself
-					var sameId = false;
+					// Guard against dropping onto yourself or your parent.
+					// But when dragging multiple objects, it's OK if some of them are being dropped onto own parent.
+					var dropOntoSelf = false,
+						dropOntoParent = false;
 					if(m.source == this){
+						dropOntoParent = (newDropPosition === "Over");
 						for(var dragId in this.selection){
 							var dragNode = this.selection[dragId];
 							if(dragNode.item === newTarget.item){
-								sameId = true;
+								dropOntoSelf = true;
 								break;
+							}
+							if(dragNode.getParent().id !== newTarget.id){
+								dropOntoParent = false;
 							}
 						}
 					}
-					if(sameId){
-						m.canDrop(false);
-					}else if(this.checkItemAcceptance(newTarget.rowNode, m.source, newDropPosition.toLowerCase())
-						&& !this._isParentChildDrop(m.source, newTarget.rowNode)){
-						m.canDrop(true);
-					}else{
-						m.canDrop(false);
-					}
+					m.canDrop(
+						!dropOntoSelf && !dropOntoParent &&
+						!this._isParentChildDrop(m.source, newTarget.rowNode) &&
+						this.checkItemAcceptance(newTarget.rowNode, m.source, newDropPosition.toLowerCase())
+					);
 				}
 
 				this.targetAnchor = newTarget;
