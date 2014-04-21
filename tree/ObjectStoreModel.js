@@ -128,6 +128,18 @@ define([
 			// parentItem:
 			//		Item from the dojo/store
 
+			// TODO:
+			// For 2.0, change getChildren(), getRoot(), etc. to return a cancelable promise, rather than taking
+			// onComplete() and onError() callbacks.   Also, probably get rid of the caching.
+			//
+			// But be careful if we continue to maintain ObjectStoreModel as a separate class
+			// from Tree, because in that case ObjectStoreModel can be shared by two trees, and destroying one tree
+			// should not interfere with an in-progress getChildren() call from another tree.  Also, need to make
+			// sure that multiple calls to getChildren() for the same parentItem don't trigger duplicate calls
+			// to onChildrenChange() and onChange().
+			//
+			// I think for 2.0 though that ObjectStoreModel should be rolled into Tree itself.
+
 			var id = this.store.getIdentity(parentItem);
 
 			if(this.childrenCache[id]){
