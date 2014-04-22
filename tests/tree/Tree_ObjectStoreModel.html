@@ -19,6 +19,7 @@
 			"dojo/promise/all",
 			"dojo/store/Memory",
 			"dojo/store/Observable",
+			"dijit/focus",
 			"dijit/registry",
 			"dijit/Tree",
 			"dijit/tree/ObjectStoreModel",
@@ -28,7 +29,7 @@
 			"dijit/tests/helpers",	// functions to help test
 			"dojo/domReady!"
 		], function(doh, array, aspect, cookie, domClass, lang, on, win, all, Memory, Observable,
-					registry, Tree, ObjectStoreModel, dndSource, data, AsyncMemoryStore, helpers){
+					focus, registry, Tree, ObjectStoreModel, dndSource, data, AsyncMemoryStore, helpers){
 
 			var myStore, myModel, myTree, myTree2;
 
@@ -407,6 +408,7 @@
 					myModel.destroy();
 				});
 			}
+
 			registerBasicTests(false, true);
 			registerBasicTests(true, true);
 			registerBasicTests(true, false);
@@ -1077,6 +1079,159 @@
 				}
 			});
 
+			// Repeat of suite in Tree_a11y.html, but here to run against ObjectStoreModel instead of TreeStoreModel.
+			var myTree_before = document.createElement("input");
+			doh.register("destroy and focus", [
+				{
+					name: "create",
+					timeout: 5000,
+					runTest: function(){
+						setupStoreAndModel(Memory, true);
+						
+						win.body().appendChild(myTree_before);
+						myTree = new Tree({
+							id: "myTree",
+							model: myModel,
+							persist: false,		// persist==true is too hard to test
+							dndController: dndSource
+						}).placeAt(win.body());
+						doh.t(myTree, "tree created");
+
+						myTree.startup();
+
+						return myTree.expandAll();
+					}
+				},
+
+				{
+					name: "destroy previously focused node",
+					timeout: 20000,
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						// Go to Africa node
+						var rootNode = registry.byId("myTree").getChildren()[0];
+						rootNode.getChildren()[0].focus();
+
+						setTimeout(d.getTestErrback(function(){
+							doh.is("Africa", myTree.focusedChild.label, "focus");
+							var previouslyFocusedChild = myTree.focusedChild;
+
+							// Tab out of Tree, and then destroy previously focused node.
+							myTree_before.focus();
+							setTimeout(d.getTestErrback(function(){
+								var store = myTree.model.store;
+								store.remove("AF");
+
+								// Refocus Tree.  Since previously focused node was destroyed,
+								// focus should go to The earth.
+								setTimeout(d.getTestErrback(function(){
+									myTree.focus();
+									setTimeout(d.getTestCallback(function(){
+										doh.is("The earth", focus.curNode.innerHTML, "focus");
+									}), 500);
+								}), 500);
+							}), 500);
+						}), 500);
+
+						return d;
+					}
+				},
+
+				{
+					name: "destroy previously focused node's ancestor",
+					timeout: 20000,
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						// Go to China node
+						var rootNode = registry.byId("myTree").getChildren()[0];
+						rootNode.getChildren()[0].getChildren()[0].focus();
+
+						setTimeout(d.getTestErrback(function(){
+							doh.is("China", myTree.focusedChild.label, "focus");
+							var previouslyFocusedChild = myTree.focusedChild;
+
+							// Tab out of Tree, and then destroy previously focused node's ancestor
+							myTree_before.focus();
+							setTimeout(d.getTestErrback(function(){
+								var store = myTree.model.store;
+								store.remove("AS");
+
+								// Refocus Tree.  Since previously focused node was destroyed,
+								// focus should go to The earth.
+								setTimeout(d.getTestErrback(function(){
+									myTree.focus();
+									setTimeout(d.getTestCallback(function(){
+										doh.is("The earth", focus.curNode.innerHTML, "focus");
+									}), 500);
+								}), 500);
+							}), 500);
+						}), 500);
+
+						return d;
+					}
+				},
+
+				{
+					name: "destroy currently focused node",
+					timeout: 4000,
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						// Go to Oceania node
+						var rootNode = registry.byId("myTree").getChildren()[0];
+						rootNode.getChildren()[0].focus();
+
+						setTimeout(d.getTestErrback(function(){
+							doh.is("Oceania", myTree.focusedChild.label, "focus");
+
+							// Destroy currently focused node
+							setTimeout(d.getTestErrback(function(){
+								var store = myTree.model.store;
+								store.remove("OC");
+
+								// Focus should go to The earth
+								setTimeout(d.getTestCallback(function(){
+									doh.is("The earth", focus.curNode.innerHTML, "focus");
+								}), 500);
+							}), 500);
+						}), 500);
+
+						return d;
+					}
+				},
+
+				{
+					name: "destroy currently focused node's ancestor",
+					timeout: 4000,
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						// Go to Germany node
+						var rootNode = registry.byId("myTree").getChildren()[0];
+						rootNode.getChildren()[0].getChildren()[0].focus();
+
+						setTimeout(d.getTestErrback(function(){
+							doh.is("Germany", myTree.focusedChild.label, "focus");
+
+							// Destroy currently focused node's ancestor
+							setTimeout(d.getTestErrback(function(){
+								var store = myTree.model.store;
+								store.remove("EU");
+
+								// Focus should go to The earth
+								setTimeout(d.getTestCallback(function(){
+									doh.is("The earth", focus.curNode.innerHTML, "focus");
+								}), 500);
+							}), 500);
+						}), 500);
+
+						return d;
+					}
+				}
+			]);
+			
 			doh.run();
 
  		});

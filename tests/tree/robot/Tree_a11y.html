@@ -633,6 +633,155 @@
 				}
 			]);
 
+			doh.register("destroy and focus", [
+				{
+					name: "setup",
+					timeout: 8000,
+					runTest: function(){
+						return mytree.expandAll();
+					}
+				},
+
+				{
+					name: "destroy previously focused node",
+					timeout: 20000,
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						// Go to Africa node
+						dom.byId("mytree_before", robot.doc).focus();
+						robot.keyPress(keys.TAB, 300);
+						robot.keyPress(keys.HOME, 300);
+						robot.keyPress(keys.DOWN_ARROW, 300);
+
+						var previouslyFocusedChild;
+						robot.sequence(d.getTestErrback(function(){
+							doh.is("Africa", mytree.focusedChild.label, "focus");
+							previouslyFocusedChild = mytree.focusedChild;
+						}), 500);
+
+
+						// Tab out of Tree, and then destroy previously focused node.
+						robot.keyPress(keys.TAB, 300, {shift: true});
+						robot.sequence(d.getTestErrback(function(){
+							doh.is("mytree_before", focus.curNode.id, "focus");
+
+							var store = mytree.model.store;
+							var item = previouslyFocusedChild.item;
+							store.deleteItem(item);
+						}), 500);
+
+						// Refocus Tree.  Since previously focused node was destroyed, focus should go to Continents.
+						robot.keyPress(keys.TAB, 300);
+						robot.sequence(d.getTestCallback(function(){
+							doh.is("Continents", focus.curNode.innerHTML, "focus");
+						}), 500);
+
+						return d;
+					}
+				},
+
+				{
+					name: "destroy previously focused node's ancestor",
+					timeout: 20000,
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						dom.byId("mytree_before", robot.doc).focus();
+						robot.keyPress(keys.TAB, 300);
+						robot.keyPress(keys.HOME, 300);
+						robot.keyPress(keys.DOWN_ARROW, 300);		// move down to Asia (since Africa is gone)
+						robot.keyPress(keys.DOWN_ARROW, 300);		// move down to China
+
+						var previouslyFocusedChild;
+						robot.sequence(d.getTestErrback(function(){
+							doh.is("China", mytree.focusedChild.label, "focus");
+							previouslyFocusedChild = mytree.focusedChild;
+						}), 500);
+
+						// Tab out, and then destroy Asia (previously focused node's ancestor)
+						robot.keyPress(keys.TAB, 300, {shift: true});
+						robot.sequence(d.getTestErrback(function(){
+							doh.is("mytree_before", focus.curNode.id, "focus");
+
+							var store = mytree.model.store;
+							var item = previouslyFocusedChild.getParent().item;
+							store.deleteItem(item);
+						}), 500);
+
+						// Refocus Tree.  Since previously focused node's ancestor was destroyed,
+						// focus should go to Continents.
+						robot.keyPress(keys.TAB, 300);
+						robot.sequence(d.getTestCallback(function(){
+							doh.is("Continents", focus.curNode.innerHTML, "focus");
+						}), 500);
+
+						return d;
+					}
+				},
+
+				{
+					name: "destroy currently focused node",
+					timeout: 4000,
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						// Go to Oceania node
+						dom.byId("mytree_before", robot.doc).focus();
+						robot.keyPress(keys.TAB, 300);
+						robot.keyPress(keys.HOME, 300);
+						robot.keyPress(keys.DOWN_ARROW, 300);
+
+						// Destroy it
+						robot.sequence(d.getTestErrback(function(){
+							doh.is("Oceania", mytree.focusedChild.label, "focus");
+
+							var store = mytree.model.store;
+							var item = mytree.focusedChild.item;
+							store.deleteItem(item);
+						}), 500);
+
+						// Focus should go to Continents
+						robot.sequence(d.getTestCallback(function(){
+							doh.is("Continents", mytree.focusedChild.label, "focus");
+						}), 500);
+
+						return d;
+					}
+				},
+
+				{
+					name: "destroy currently focused node's ancestor",
+					timeout: 4000,
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						// Go to Germany node
+						dom.byId("mytree_before", robot.doc).focus();
+						robot.keyPress(keys.TAB, 300);
+						robot.keyPress(keys.HOME, 300);
+						robot.keyPress(keys.DOWN_ARROW, 300);	// to Europe
+						robot.keyPress(keys.DOWN_ARROW, 300);	// to Germany
+
+						// Destroy Europe (Germany's ancestor)
+						robot.sequence(d.getTestErrback(function(){
+							doh.is("Germany", mytree.focusedChild.label, "focus");
+
+							var store = mytree.model.store;
+							var item = mytree.focusedChild.getParent().item;
+							store.deleteItem(item);
+						}), 500);
+
+						// Focus should go to Continents
+						robot.sequence(d.getTestCallback(function(){
+							doh.is("Continents", mytree.focusedChild.label, "focus");
+						}), 500);
+
+						return d;
+					}
+				}
+			]);
+
 			doh.run();
 		});
 
