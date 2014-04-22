@@ -399,7 +399,8 @@ div.dijitArrowButton {
 	position: absolute;
 	top: 0;
 	left: 0;
-	#filter: ""; /* make this showup in IE6 after the rendering of the widget */
+	#filter: ""; /* make this show up in IE6 after the rendering of the widget */
+	white-space: nowrap;
 }
 
 .dijitTimeTextBox {

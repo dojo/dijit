@@ -930,10 +930,12 @@
 							doh.is('placeholder is here', textWidget._phspan.innerHTML, '_phspan.innerHTML');
 							textWidget.set('value','abc');
 							doh.is('abc', textWidget.get('value'));
-							textWidget.set('placeHolder','new placholder');
+							textWidget.set('placeHolder','new placeholder');
+							doh.f(textWidget.focusNode.hasAttribute("placeholder"),
+									"make sure placeholder attribute didn't get set natively on <input> too")
 							doh.is('abc', textWidget.get('value'));
 							textWidget.set('value','');
-							doh.is('new placholder', textWidget._phspan.innerHTML, '_phspan.innerHTML 1');
+							doh.is('new placeholder', textWidget._phspan.innerHTML, '_phspan.innerHTML 1');
 							doh.is('', textWidget.get('value'));
 						}
 					},

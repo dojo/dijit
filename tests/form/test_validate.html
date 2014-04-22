@@ -849,6 +849,9 @@
 		</div>
 		<div class="testExample">
 			<input id="q26" data-dojo-type="dijit/form/TextBox" placeHolder="placeholder is here" name="placeHolder" value=""/>
+			<button type="button" onclick="dijit.byId('q26').set('placeHolder', 'this is a very long placeholder that will overflow the input');">
+				set long placeholder
+			</button>
 		</div>
 		<h2>Tooltip positioning</h2>
 		<p>
