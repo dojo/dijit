@@ -209,7 +209,7 @@
 								doh.t(tooltipPos.y + tooltipPos.h/2 <= anchorPos.y + anchorPos.h,
 										"tooltip pos " + tooltipPos.y + " height " + tooltipPos.h +
 										"anchor " + anchorPos.y + " + height " + anchorPos.h);
-							}), 500);
+							}), 800);
 
 							return d;
 						}
@@ -282,7 +282,75 @@
 					}
 				]);
 
-				doh.run();
+			doh.register("hideDelay", [
+				{
+					name: "mouse over button",
+					timeout: 4000,
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						robot.mouseMoveAt("four", 500);
+
+						robot.sequence(d.getTestCallback(function(){
+							doh.t(masterTT && helpers.isVisible(masterTT.domNode), "tooltip shown");
+						}), 2000);
+
+						return d;
+					}
+				},
+
+				{
+					name: "mouse over tooltip",
+					timeout: 4000,
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						robot.mouseMoveAt(masterTT.domNode, 500);
+
+						robot.sequence(d.getTestCallback(function(){
+							doh.t(masterTT && helpers.isVisible(masterTT.domNode), "tooltip still shown");
+						}), 2000);
+
+						return d;
+					}
+				},
+
+				{
+					name: "mouse over button again",
+					timeout: 4000,
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						robot.mouseMoveAt("four", 500);
+
+						robot.sequence(d.getTestCallback(function(){
+							doh.t(masterTT && helpers.isVisible(masterTT.domNode), "tooltip still shown");
+						}), 2000);
+
+						return d;
+					}
+				},
+
+
+				{
+					name: "mouse away",
+					timeout: 10000,
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						// move to node that doesn't have a tooltip
+						robot.mouseMoveAt(query("h1")[0], 500);
+
+						robot.sequence(d.getTestCallback(function(){
+							doh.t(masterTT && helpers.isHidden(masterTT.domNode), "tooltip hidden");
+						}), 2000);
+
+						return d;
+					}
+				}
+			]);
+
+			doh.run();
 			});
 		</script>
 	</head>
