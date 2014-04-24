@@ -104,6 +104,32 @@ define([
 			// summary:
 			//		Gets the index of the child in this container or -1 if not found
 			return array.indexOf(this.getChildren(), child);	// int
-		}
+		},
+		
+		/**
+		 * This variable allows to add a list of children
+		 * ex:
+		 * 
+		 * var accordion = new AccordionContainer({
+		 *     region: 'left', splitter: true,
+                 *     children: [
+                 *         new ContentPane({title: 'top', content: 'top'}),
+                 *         new ContentPane({title: 'middle', content: 'middle'}),
+                 *         new ContentPane({title: 'bottom', content: 'bottom'})
+                 *      ]
+                 * })
+		 */
+		children: [],
+		
+		/**
+		 * Add children after creation
+		 */
+		postCreate: function(params, srcNodeRef) {
+	            this.inherited(arguments);
+	            
+	            for(var i in this.children) {
+	                this.addChild(this.children[i]);
+	            }
+	        }
 	});
 });
