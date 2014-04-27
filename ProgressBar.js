@@ -78,6 +78,7 @@ define([
 		_setDirAttr: function(val){
 			// Normally _CssStateMixin takes care of this, but we aren't extending it
 			domClass.toggle(this.domNode, "dijitProgressBarRtl", val == "rtl");
+			domClass.toggle(this.domNode, "dijitProgressBarIndeterminateRtl", this.indeterminate && val == "rtl");
 			this.inherited(arguments);
 		},
 
@@ -121,6 +122,7 @@ define([
 			this.labelNode.innerHTML = this.report(percent);
 
 			domClass.toggle(this.domNode, "dijitProgressBarIndeterminate", this.indeterminate);
+
 			tip.style.width = (percent * 100) + "%";
 			this.onChange();
 		},
