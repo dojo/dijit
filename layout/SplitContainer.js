@@ -106,7 +106,7 @@ var SplitContainer = declare("dijit.layout.SplitContainer", _LayoutWidget, {
 		dom.setSelectable(sizer, false);
 		
 		// Bidi Support
-                this.dir = domStyle.getComputedStyle(this.domNode).direction;
+		this.dir = domStyle.getComputedStyle(this.domNode).direction;
 		
 	},
 
