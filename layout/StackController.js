@@ -120,7 +120,7 @@ define([
 			//		private
 			this.textDir = info.textDir;
 			// Bidi Support
-			this.domNode.dir = info.selected.domNode.dir ; 
+			this.domNode.dir = info.selected.domNode.dir; 
 			
 			array.forEach(info.children, this.onAddChild, this);
 			if(info.selected){
