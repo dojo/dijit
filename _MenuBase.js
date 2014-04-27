@@ -345,6 +345,8 @@ define([
 			var self = this;
 			from_item._openPopup({
 				parent: this,
+				// Bidi Support
+				dir: from_item.dir,
 				orient: this._orient || ["after", "before"],
 				onCancel: function(){ // called when the child menu is canceled
 					if(focus){

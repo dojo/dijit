@@ -250,7 +250,8 @@ define([
 				widget = args.popup,
 				node = widget.domNode,
 				orient = args.orient || ["below", "below-alt", "above", "above-alt"],
-				ltr = args.parent ? args.parent.isLeftToRight() : domGeometry.isBodyLtr(widget.ownerDocument),
+				// Bidi Support
+				ltr = typeof args.direction!="undefined"?args.direction: (args.parent ? args.parent.isLeftToRight() : domGeometry.isBodyLtr(widget.ownerDocument)),
 				around = args.around,
 				id = (args.around && args.around.id) ? (args.around.id + "_dropdown") : ("popup_" + this._idGen++);
 
@@ -296,6 +297,8 @@ define([
 
 			domAttr.set(wrapper, {
 				id: id,
+				// Bidi Support
+				dir: node.dir,
 				style: {
 					zIndex: this._beginZIndex + stack.length
 				},
@@ -315,11 +318,29 @@ define([
 				widget.bgIframe = new BackgroundIframe(wrapper);
 			}
 
+			// Bidi Support
+			var isBodyLtr = domGeometry.isBodyLtr(this.ownerDocument) ;
+			var isLTR = (args.popup.dir == "ltr");
+			
+			if(args.parent != null){
+				isLTR = args.parent.isLeftToRight();
+				if(isLTR != isBodyLtr){
+					orient = ["below-alt", "above-alt"];
+				}
+			}
+			if(ltr){
+				node.parentNode.dir = "ltr";
+			}else{
+				node.parentNode.dir = "rtl";
+			}
+
+			
 			// position the wrapper node and make it visible
 			var layoutFunc = widget.orient ? lang.hitch(widget, "orient") : null,
 				best = around ?
 					place.around(wrapper, around, orient, ltr, layoutFunc) :
-					place.at(wrapper, args, orient == 'R' ? ['TR', 'BR', 'TL', 'BL'] : ['TL', 'BL', 'TR', 'BR'], args.padding,
+					// Bidi Support
+					place.at(wrapper, args, (!(orient == 'R') ^ ltr) ? ['TR', 'BR', 'TL', 'BL'] : ['TL', 'BL', 'TR', 'BR'], args.padding,
 						layoutFunc);
 
 			wrapper.style.visibility = "visible";
