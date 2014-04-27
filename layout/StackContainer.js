@@ -149,6 +149,8 @@ define([
 
 			// remove the title attribute so it doesn't show up when i hover over a node
 			child.domNode.removeAttribute("title");
+			// Bidi Support
+			child.domNode.dir = this.dir;
 		},
 
 		addChild: function(/*dijit/_WidgetBase*/ child, /*Integer?*/ insertIndex){

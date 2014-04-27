@@ -119,6 +119,9 @@ define([
 			// tags:
 			//		private
 			this.textDir = info.textDir;
+			// Bidi Support
+			this.domNode.dir = info.selected.domNode.dir ; 
+			
 			array.forEach(info.children, this.onAddChild, this);
 			if(info.selected){
 				// Show button corresponding to selected pane (unless selected
@@ -174,7 +177,8 @@ define([
 				label: page.title,
 				disabled: page.disabled,
 				ownerDocument: this.ownerDocument,
-				dir: page.dir,
+				// Bidi Support
+				dir: this.domNode.dir,
 				lang: page.lang,
 				textDir: page.textDir || this.textDir,
 				showLabel: page.showTitle,
