@@ -1086,6 +1086,12 @@ define([
 			//		Return this widget's explicit or implicit orientation (true for LTR, false for RTL)
 			// tags:
 			//		protected
+			
+			// Bidi Support
+			// handle programmatic creation of the widget with the dir attribute in the div
+			if(!this.dir && this.srcNodeRef && this.srcNodeRef.dir != undefined){
+				this.dir = this.srcNodeRef.dir ;
+			}
 			return this.dir ? (this.dir == "ltr") : domGeometry.isBodyLtr(this.ownerDocument); //Boolean
 		},
 
