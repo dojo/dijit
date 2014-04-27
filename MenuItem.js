@@ -95,6 +95,24 @@ define([
 			dom.setSelectable(this.domNode, false);
 		},
 
+		// Bidi Support
+		postCreate:function()
+		{
+			if(this.getParent()!= null){
+				var mainMenuDirection = this.getParent().isLeftToRight();//get the parent menu direction
+				var curMenuItemDirection = this.isLeftToRight();
+				if(curMenuItemDirection != mainMenuDirection)
+				{
+					var itemsLength = this.focusNode.children.length;
+					var domConstruct = require("dojo/dom-construct");
+					for(var i =0;i<itemsLength-1;i++)
+						{
+						domConstruct.place(this.focusNode.children[i+1],this.focusNode.children[0], "before");
+						}
+				}
+			}
+		},
+
 		onClick: function(/*Event*/){
 			// summary:
 			//		User defined function to handle clicks
