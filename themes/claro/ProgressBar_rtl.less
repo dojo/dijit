@@ -9,3 +9,17 @@
 	border-left-width: 1px;
 	border-right-width: 0px;
 }
+
+/* Bidi Support */
+.claro .dijitProgressBarIndeterminateRtl .dijitProgressBarTile {
+  /* use an animated gif for the progress bar in 'indeterminate' mode;
+		background-color won't appear unless user has turned off background images */
+
+	background: #efefef url("images/progressBarAnim.gif") repeat-x top;
+	-moz-transform: scaleX(-1);
+	-o-transform: scaleX(-1);
+	-webkit-transform: scaleX(-1);
+	transform: scaleX(-1);
+	filter: FlipH;
+	-ms-filter: "FlipH";
+}
