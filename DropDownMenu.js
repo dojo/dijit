@@ -24,11 +24,20 @@ define([
 			this.focusNext();
 		},
 		_onRightArrow: function(/*Event*/ evt){
-			this._moveToPopup(evt);
-			evt.stopPropagation();
-			evt.preventDefault();
+			// Bidi Support
+			if(!this.isLeftToRight()){
+				this._onLeftArrow();
+			}else{
+				this._moveToPopup(evt);
+				evt.stopPropagation();
+				evt.preventDefault();
+			}
 		},
 		_onLeftArrow: function(/*Event*/ evt){
+			// Bidi Support
+			if(!this.isLeftToRight()){
+				this._onRightArrow();
+			}else{
 			if(this.parentMenu){
 				if(this.parentMenu._isMenuBar){
 					this.parentMenu.focusPrev();
@@ -39,6 +48,7 @@ define([
 				evt.stopPropagation();
 				evt.preventDefault();
 			}
+		    }
 		}
 	});
 });
