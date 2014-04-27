@@ -475,7 +475,8 @@ define([
 					value: this.value,
 					buttonSave: this.buttonSave,
 					buttonCancel: this.buttonCancel,
-					dir: this.dir,
+					// Bidi Support
+					dir: this.domNode.dir,
 					lang: this.lang,
 					tabIndex: this._savedTabIndex,
 					editor: this.editor,
