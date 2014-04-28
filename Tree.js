@@ -361,6 +361,8 @@ define([
 				defs = [];	// list of deferreds that need to fire before I am complete
 
 
+			var focusedChild = tree.focusedChild;
+
 			// Orphan all my existing children.
 			// If items contains some of the same items as before then we will reattach them.
 			// Don't call this.removeChild() because that will collapse the tree etc.
@@ -408,10 +410,19 @@ define([
 							tree._saveExpandedNodes();
 						}
 
+						// If we've orphaned the focused node then move focus to the root node
+						if(tree.lastFocusedChild && !dom.isDescendant(tree.lastFocusedChild, tree.domNode)){
+							delete tree.lastFocusedChild;
+						}
+						if(focusedChild && !dom.isDescendant(focusedChild, tree.domNode)){
+							tree.focus();	// could alternately focus this node (parent of the deleted node)
+						}
+
 						// And finally we can destroy the node
 						node.destroyRecursive();
 					}
 				});
+
 			});
 
 			this.state = "Loaded";
@@ -1630,6 +1641,15 @@ define([
 						// if node has not already been orphaned from a _onSetItem(parent, "children", ..) call...
 						parent.removeChild(node);
 					}
+
+					// If we've orphaned the focused node then move focus to the root node
+					if(this.lastFocusedChild && !dom.isDescendant(this.lastFocusedChild, this.domNode)){
+						delete this.lastFocusedChild;
+					}
+					if(this.focusedChild && !dom.isDescendant(this.focusedChild, this.domNode)){
+						this.focus();
+					}
+
 					node.destroyRecursive();
 				}, this);
 				delete this._itemNodesMap[identity];
