@@ -143,7 +143,7 @@
 
 <script type="text/javascript">
 	require([
-		"dojo/_base/array", "dojo/_base/fx", "dojo/dom", "dojo/dom-class", "dojo/dom-geometry", "dojo/dom-style",
+		"dojo/_base/array", "dojo/_base/fx", "dojo/_base/window", "dojo/dom", "dojo/dom-class", "dojo/dom-geometry", "dojo/dom-style",
 		"dojo/hccss", "dojo/date/locale", "dojo/parser", "dojo/store/Memory",
 		"dijit/registry", "dijit/tree/ObjectStoreModel",
 
@@ -168,7 +168,7 @@
 			
 		// Don't call the parser until the DOM has finished loading
 		"dojo/domReady!"
-	], function(array, baseFx, dom, domClass, domGeom, domStyle, has, locale, parser, Memory, registry, ObjectStoreModel,
+	], function(array, baseFx, win, dom, domClass, domGeom, domStyle, has, locale, parser, Memory, registry, ObjectStoreModel,
 			CheckedMenuItem, RadioMenuItem, MenuSeparator){
 		// If you are doing box-model sizing then need to tell dom-geometry, see #15104
 		if(domStyle.get(document.body, "boxSizing") == "border-box" ||
@@ -210,12 +210,12 @@
 
 			// Set class on body to get requested padding, and remove any previously set class
 			if(currentInputPadding){
-				domClass.remove(dojo.body(), currentInputPadding);
+				domClass.remove(win.body(), currentInputPadding);
 				currentInputPadding = "";
 			}
 			if(val != "theme default"){
 				currentInputPadding = "inputPadding" + val.replace("px", "");
-				domClass.add(dojo.body(), currentInputPadding);
+				domClass.add(win.body(), currentInputPadding);
 			}
 
 			// Clear previously checked MenuItem (radio-button effect).
