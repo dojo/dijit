@@ -425,6 +425,7 @@ define([
 				this.dropDown.destroyRecursive(preserveDom);
 				delete this.dropDown;
 			}
+			Tooltip.hide(this.domNode);	// in case Select (or enclosing Dialog) destroyed while tooltip shown
 			this.inherited(arguments);
 		},
 

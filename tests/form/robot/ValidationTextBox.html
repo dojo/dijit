@@ -1043,7 +1043,7 @@
 
 				// Supplementary test from validationMessages.html, to make sure tooltip doesn't flash
 				// on typing multiple invalid characters
-				doh.register("validation", [
+				doh.register("no flashing on validation", [
 					{
 						name: "first focus, empty value",
 						timeout: 5000,
@@ -1118,6 +1118,40 @@
 									"same message");
 							});
 							doh.robot.keyPress(dojo.keys.TAB, 0, { shift:true });
+							return d;
+						}
+					}
+				]);
+
+				// This should be the last test since it destroys a ValidationTextBox
+				doh.register("tooltip hide on destroy", [
+					{
+						name: "focus",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							textbox = dijit.byId("q03");
+							textbox.focusNode.scrollIntoView();
+							textbox.set("value", "");
+							textbox.focus();
+							setTimeout(d.getTestCallback(function(){
+								// Tooltip should appear with information message
+								masterTT = dojo.global.dijit._masterTT;
+								doh.t(masterTT && isVisible(masterTT.domNode), "visible");
+							}), 750);
+						}
+					},
+					{
+						name: "destroy",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							textbox.destroy();
+							setTimeout(d.getTestCallback(function(){
+								// Tooltip should disappear when ValidationTextBox (or enclosing Dialog) destroyed
+								masterTT = dojo.global.dijit._masterTT;
+								doh.t(masterTT && isHidden(masterTT.domNode), "hidden");
+							}), 300);
 							return d;
 						}
 					}

@@ -546,6 +546,14 @@
 							}), 300);
 							return d;
 						},
+						function destroyingSelectHidesTooltip(){
+							var d = new doh.Deferred();
+							registry.byId("dlg1Select").destroy();
+							setTimeout(d.getTestCallback(function(){
+								doh.t(helpers.isHidden(masterTT.domNode), "tooltip hidden");
+							}), 300);
+							return d;
+						},
 						function tearDown(){
 							return registry.byId("dlg1").hide();
 						}

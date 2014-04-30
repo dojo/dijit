@@ -327,6 +327,11 @@ define([
 			this.displayMessage('');
 
 			this.inherited(arguments);
+		},
+
+		destroy: function(){
+			Tooltip.hide(this.domNode);	// in case tooltip show when ValidationTextBox (or enclosing Dialog) destroyed
+			this.inherited(arguments);
 		}
 	});
 });
