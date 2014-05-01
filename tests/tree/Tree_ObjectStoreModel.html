@@ -55,7 +55,7 @@
 					aspect.around(myStore, "put", function(originalPut){
 						// To support DnD, the store must support put(child, {parent: parent}).
 						// Since our store is relational, that just amounts to setting child.parent
-						// to the parent"s id.
+						// to the parent's id.
 						return function(obj, options){
 							if(options && options.parent){
 								obj.parent = options.parent.id;

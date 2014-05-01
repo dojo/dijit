@@ -244,6 +244,7 @@ define([
 					d.resolve(this.store.put(childItem, {
 						overwrite: true,
 						parent: newParentItem,
+						oldParent: oldParentItem,
 						before: before
 					}));
 				}));
@@ -251,6 +252,7 @@ define([
 				d.resolve(this.store.put(childItem, {
 					overwrite: true,
 					parent: newParentItem,
+					oldParent: oldParentItem,
 					before: before
 				}));
 			}
