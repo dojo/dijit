@@ -85,7 +85,8 @@ define([
 	// needs to be the click event.   Change for 2.0.
 
 	var click = function(node, listener){
-		// Set flag on node so that keydown/keyup above emits click event
+		// Set flag on node so that keydown/keyup above emits click event.
+		// Also enables fast click processing from dojo/touch.
 		node.dojoClick = true;
 
 		return on(node, "click", listener);
