@@ -158,13 +158,13 @@
 
 		// Modules referenced by the parser
 		"dijit/Menu", "dijit/PopupMenuItem", "dijit/ColorPalette", "dijit/layout/BorderContainer", "dijit/MenuBar",
-		"dijit/PopupMenuBarItem", "dijit/layout/AccordionContainer", "dijit/layout/ContentPane", "dijit/TooltipDialog",
+		"dijit/PopupMenuBarItem", "dijit/layout/AccordionContainer", "dijit/layout/ContentPane", "dijit/ConfirmTooltipDialog",
 		"dijit/Tree", "dijit/layout/TabContainer", "dijit/form/ComboButton", "dijit/form/ToggleButton",
 		"dijit/form/CheckBox", "dijit/form/RadioButton", "dijit/form/CurrencyTextBox", "dijit/form/NumberSpinner",
 		"dijit/form/Select", "dijit/Editor", "dijit/form/VerticalSlider", "dijit/form/VerticalRuleLabels",
 		"dijit/form/VerticalRule", "dijit/form/HorizontalSlider", "dijit/form/HorizontalRuleLabels",
 		"dijit/form/HorizontalRule", "dijit/TitlePane", "dijit/ProgressBar", "dijit/InlineEditBox", "dojo/dnd/Source",
-		"dijit/Dialog",
+		"dijit/ConfirmDialog",
 			
 		// Don't call the parser until the DOM has finished loading
 		"dojo/domReady!"
@@ -657,7 +657,7 @@
 			<div data-dojo-type="dijit/form/DropDownButton">
 				<span>Show Tooltip Dialog</span>
 
-				<div data-dojo-type="dijit/TooltipDialog" id="tooltipDlg" data-dojo-props='
+				<div data-dojo-type="dijit/ConfirmTooltipDialog" id="tooltipDlg" data-dojo-props='
 						title:"Enter Login information",
 						execute: function(){ alert("submitted w/args:\n" + dojo.toJson(arguments[0], true)); }
 					'>
@@ -669,10 +669,6 @@
 						<tr>
 							<td><label for="pwd">Password:</label></td>
 							<td><input data-dojo-type="dijit/form/TextBox" type="password" id="pwd" name="pwd"></td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<button data-dojo-type="dijit/form/Button" type="submit" name="submit">Login</button>
 						</tr>
 					</table>
 				</div>
@@ -1359,37 +1355,27 @@
 <!-- end of BorderContainer -->
 
 <!-- dialog in body -->
-<div id="dialog1" data-dojo-type="dijit/Dialog" style="display:none;" data-dojo-props="
+<div id="dialog1" data-dojo-type="dijit/ConfirmDialog" style="display:none;" data-dojo-props="
 		title:'Floating Modal Dialog from href',
 		href:'../tests/layout/getResponse.php?delay=3000&amp;messId=3',
 		style: 'width: 400px;',
 		refreshOnShow:true
 	"></div>
-<div id="dialogAB" data-dojo-type="dijit/Dialog" data-dojo-props="title:'Floating Modal Dialog'" style="display:none;">
-	<div class="dijitDialogPaneContentArea">
-		<table>
-			<tr>
-				<td><label for="name">Name: </label></td>
-				<td><input data-dojo-type="dijit/form/TextBox" type="text" name="name" id="name"></td>
-			</tr>
-			<tr>
-				<td><label for="loc">Location: </label></td>
-				<td><input data-dojo-type="dijit/form/TextBox" type="text" name="loc" id="loc"></td>
-			</tr>
-			<tr>
-				<td><label for="date">Date: </label></td>
-				<td><input data-dojo-type="dijit/form/DateTextBox" type="text" name="date" id="date"></td>
-			</tr>
-		</table>
-	</div>
-
-	<div class="dijitDialogPaneActionBar">
-		<button data-dojo-type="dijit/form/Button" type="submit" id="ABdialog1button1">OK</button>
-		<button data-dojo-type="dijit/form/Button" type="button"
-				data-dojo-props="onClick:function(){ registry.byId('dialogAB').onCancel(); }"
-				id="ABdialog1button2">Cancel
-		</button>
-	</div>
+<div id="dialogAB" data-dojo-type="dijit/ConfirmDialog" data-dojo-props="title:'Floating Modal Dialog'" style="display:none;">
+	<table>
+		<tr>
+			<td><label for="name">Name: </label></td>
+			<td><input data-dojo-type="dijit/form/TextBox" type="text" name="name" id="name"></td>
+		</tr>
+		<tr>
+			<td><label for="loc">Location: </label></td>
+			<td><input data-dojo-type="dijit/form/TextBox" type="text" name="loc" id="loc"></td>
+		</tr>
+		<tr>
+			<td><label for="date">Date: </label></td>
+			<td><input data-dojo-type="dijit/form/DateTextBox" type="text" name="date" id="date"></td>
+		</tr>
+	</table>
 </div>
 
 </body>

@@ -7,4 +7,9 @@
 		</span>
 	</div>
 	<div data-dojo-attach-point="containerNode" class="dijitDialogPaneContent"></div>
+	<div class="dijitDialogPaneActionBar">
+		<button data-dojo-type='dijit/form/Button' type='submit' data-dojo-attach-point="okButton"></button>
+		<button data-dojo-type='dijit/form/Button' type='button'
+				data-dojo-attach-point="cancelButton" data-dojo-attach-event='click:onCancel'></button>
+	</div>
 </div>

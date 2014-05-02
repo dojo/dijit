@@ -17,6 +17,7 @@ define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
 		doh.register("robot.Dialog_mouse", require.toUrl("./robot/Dialog_mouse.html"), 999999);
 		doh.register("robot.Dialog_a11y", require.toUrl("./robot/Dialog_a11y.html"), 999999);
 		doh.register("robot.Dialog_focusDestroy", require.toUrl("./robot/Dialog_focusDestroy.html"), 999999);
+		doh.register("robot.ConfirmDialog_a11y", require.toUrl("./robot/ConfirmDialog_a11y.html"), 999999);
 	}
 
 	doh.register("ProgressBar", require.toUrl("./ProgressBar.html"), 999999);
@@ -32,6 +33,7 @@ define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
 	if(test_robot){
 		doh.register("robot.TooltipDialog_mouse", require.toUrl("./robot/TooltipDialog_mouse.html"), 999999);
 		doh.register("robot.TooltipDialog_a11y", require.toUrl("./robot/TooltipDialog_a11y.html"), 999999);
+		doh.register("robot.ConfirmTooltipDialog_a11y", require.toUrl("./robot/ConfirmTooltipDialog_a11y.html"), 999999);
 	}
 
 	if(test_robot){

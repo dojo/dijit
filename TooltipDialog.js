@@ -60,7 +60,7 @@ define([
 
 			postCreate: function(){
 				this.inherited(arguments);
-				this.own(on(this.containerNode, "keydown", lang.hitch(this, "_onKey")));
+				this.own(on(this.domNode, "keydown", lang.hitch(this, "_onKey")));
 			},
 
 			orient: function(/*DomNode*/ node, /*String*/ aroundCorner, /*String*/ tooltipCorner){
@@ -104,7 +104,7 @@ define([
 			focus: function(){
 				// summary:
 				//		Focus on first field
-				this._getFocusItems(this.containerNode);
+				this._getFocusItems();
 				focus.focus(this._firstFocusItem);
 			},
 
@@ -155,7 +155,7 @@ define([
 					evt.preventDefault();
 				}else if(evt.keyCode == keys.TAB){
 					var node = evt.target;
-					this._getFocusItems(this.containerNode);
+					this._getFocusItems();
 					if(this._firstFocusItem == this._lastFocusItem){
 						evt.stopPropagation();
 						evt.preventDefault();

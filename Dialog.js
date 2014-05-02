@@ -142,7 +142,7 @@ define([
 			this._position();
 
 			if(this.autofocus && DialogLevelManager.isTop(this)){
-				this._getFocusItems(this.domNode);
+				this._getFocusItems();
 				focus.focus(this._firstFocusItem);
 			}
 
@@ -150,7 +150,7 @@ define([
 		},
 
 		focus: function(){
-			this._getFocusItems(this.domNode);
+			this._getFocusItems();
 			focus.focus(this._firstFocusItem);
 		},
 
@@ -227,7 +227,7 @@ define([
 			//		private
 
 			if(evt.keyCode == keys.TAB){
-				this._getFocusItems(this.domNode);
+				this._getFocusItems();
 				var node = evt.target;
 				if(this._firstFocusItem == this._lastFocusItem){
 					// don't move focus anywhere, but don't allow browser to move focus off of dialog either
@@ -318,7 +318,7 @@ define([
 					if(this.autofocus && DialogLevelManager.isTop(this)){
 						// find focusable items each time dialog is shown since if dialog contains a widget the
 						// first focusable items can change
-						this._getFocusItems(this.domNode);
+						this._getFocusItems();
 						focus.focus(this._firstFocusItem);
 					}
 					this._fadeInDeferred.resolve(true);
@@ -606,7 +606,7 @@ define([
 					// since a dialog doesn't set it's focus until the fade-in is finished.
 					var focus = pd.focus;
 					if(pd.dialog && (!focus || !dom.isDescendant(focus, pd.dialog.domNode))){
-						pd.dialog._getFocusItems(pd.dialog.domNode);
+						pd.dialog._getFocusItems();
 						focus = pd.dialog._firstFocusItem;
 					}
 
