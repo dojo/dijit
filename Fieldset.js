@@ -2,7 +2,8 @@ define([
 	"dojo/_base/declare",
 	"dojo/query!css2",
 	"dijit/TitlePane",
-	"dojo/text!./templates/Fieldset.html"
+	"dojo/text!./templates/Fieldset.html",
+	"./a11yclick"	// template uses ondijitclick
 ], function(declare, query, TitlePane, template){
 
 

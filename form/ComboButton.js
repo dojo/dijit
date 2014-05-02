@@ -3,7 +3,8 @@ define([
 	"dojo/keys", // keys
 	"../focus", // focus.focus()
 	"./DropDownButton",
-	"dojo/text!./templates/ComboButton.html"
+	"dojo/text!./templates/ComboButton.html",
+	"../a11yclick"	// template uses ondijitclick
 ], function(declare, keys, focus, DropDownButton, template){
 
 	// module:
