@@ -10,6 +10,11 @@ define([
 		// summary:
 		//		This provides functions useful to Dialog and TooltipDialog
 
+		// actionBarTemplate: String
+		//		HTML snippet to show the action bar (gray bar with OK/cancel buttons).
+		//		Blank by default, but used by ConfirmDialog/ConfirmTooltipDialog subclasses.
+		actionBarTemplate: "",
+
 		execute: function(/*Object*/ /*===== formContents =====*/){
 			// summary:
 			//		Callback when the user hits the submit button.
