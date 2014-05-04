@@ -9,12 +9,14 @@
 	<script type="text/javascript">
 		require([
 			"doh/runner",
+			"dojo/dom",
+			"dojo/dom-construct",
 			"dojo/parser",
 			"dijit/registry",
 			"dijit/tests/helpers",
 			"dijit/Editor",
 			"dojo/domReady!"
-		], function(doh, parser, registry, helpers, Editor){
+		], function(doh, dom, domConstruct, parser, registry, helpers, Editor){
 
 			doh.register("setup", [
 				{
@@ -60,12 +62,47 @@
 				}
 			]);
 
+			doh.register("reparent", [
+				{
+					name: "update editor's value",
+					runTest: function(){
+						var d = new doh.Deferred();
+						editor.set("value", "updated content");
+						setTimeout(function(){
+							d.callback();
+						}, 500);
+						return d;
+					}
+				},
+				{
+					name: "reparent",
+					runTest: function(){
+						var d = new doh.Deferred();
+						domConstruct.place(dom.byId("editorWrapper"), "anchorDiv", "before");
+
+						// Reparenting the editor causing another onLoad event on the iframe.
+						// Wait for that to complete and then check that editor's value wasn't corrupted.
+						setTimeout(d.getTestCallback(function(){
+							doh.is("updated content", editor.get("value"), "get('value')");
+
+							var realContent = editor.iframe.contentDocument.body.textContent ||
+								editor.iframe.contentDocument.body.innerText;
+							doh.is("updated content", realContent, "real content")
+						}), 500);
+						return d;
+					}
+				}
+			]);
+
 			doh.run();
 		});
 	</script>
 </head>
 <body class="claro" role="main">
-	<div data-dojo-id="editor" data-dojo-type="dijit/Editor"
-		 data-dojo-props='"aria-label":"editor", name:"field"'>initial content</div>
+	<div id="anchorDiv">This is the anchor div.</div>
+	<div id="editorWrapper">
+		<div data-dojo-id="editor" data-dojo-type="dijit/Editor"
+			 data-dojo-props='"aria-label":"editor", name:"field"'>initial content</div>
+	</div>
 </body>
 </html>
