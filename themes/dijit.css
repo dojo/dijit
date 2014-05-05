@@ -671,8 +671,8 @@ div.dijitArrowButton {
 }
 
 .dijitCheckBoxInput {
-	/* place the actual input on top, but all-but-invisible */
-	opacity: 0.01;
+	/* place the actual input on top, but invisible */
+	opacity: 0;
 }
 
 .dj_ie .dijitCheckBoxInput {
