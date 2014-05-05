@@ -5,6 +5,7 @@ define([
 	"dojo/dom-class", // domClass.add domClass.remove domClass.toggle
 	"dojo/dom-geometry", // domGeometry.setMarginBox
 	"dojo/i18n", // i18n.getLocalization
+	"dojo/keys",
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on",
 	"dojo/sniff", // has("ie")
@@ -18,7 +19,7 @@ define([
 	"../registry", // registry.byNode
 	"dojo/text!./templates/Select.html",
 	"dojo/i18n!./nls/validate"
-], function(array, declare, domAttr, domClass, domGeometry, i18n, lang, on, has,
+], function(array, declare, domAttr, domClass, domGeometry, i18n, keys, lang, on, has,
 			_FormSelectWidget, _HasDropDown, DropDownMenu, MenuItem, MenuSeparator, Tooltip, _KeyNavMixin, registry, template){
 
 	// module:
@@ -38,11 +39,9 @@ define([
 		},
 
 		postCreate: function(){
-			// summary:
-			//		stop mousemove from selecting text on IE to be consistent with other browsers
-
 			this.inherited(arguments);
 
+			// stop mousemove from selecting text on IE to be consistent with other browsers
 			this.own(on(this.domNode, "selectstart", function(evt){
 				evt.preventDefault();
 				evt.stopPropagation();
@@ -366,11 +365,9 @@ define([
 		},
 
 		postCreate: function(){
-			// summary:
-			//		stop mousemove from selecting text on IE to be consistent with other browsers
-
 			this.inherited(arguments);
 
+			// stop mousemove from selecting text on IE to be consistent with other browsers
 			this.own(on(this.domNode, "selectstart", function(evt){
 				evt.preventDefault();
 				evt.stopPropagation();
@@ -401,6 +398,12 @@ define([
 					}
 				});
 			}
+
+			// Prevent _KeyNavMixin from calling stopPropagation() on left and right arrow keys, thus breaking
+			// navigation when Select inside Toolbar.
+			var keyNavCodes = this._keyNavCodes;
+			delete keyNavCodes[keys.LEFT_ARROW];
+			delete keyNavCodes[keys.RIGHT_ARROW];
 		},
 
 		_setStyleAttr: function(/*String||Object*/ value){

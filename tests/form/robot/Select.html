@@ -570,6 +570,42 @@
 
 							return d;
 						}
+					},
+					{
+						name: "toolbar",
+						timeout: 10000,
+						setUp: function(){
+							dojo.byId("beforeToolbar").focus();
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// tab into toolbar, then arrow to select
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
+
+							// select Alabama
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+
+							// go to right toggle button and click it
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
+
+							// go to left toggle button and click it
+							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("AL", dijit.byId("toolbarSelect").get("value"), "select value");
+								doh.t(dijit.byId("toggle1").get("checked"), "first toggle button");
+								doh.t(dijit.byId("toggle2").get("checked"), "second toggle button");
+							}), 1000);
+
+							return d;
+						}
 					}
 				]);
 

@@ -64,6 +64,11 @@
 				"dijit/Dialog",
 				"dijit/Tooltip",
 				"dijit/tests/helpers",
+
+				// Used by parser
+				"dijit/Toolbar",
+				"dijit/form/ToggleButton",
+
 				"dojo/domReady!"
 			], function(doh, array, lang, parser, ItemFileReadStore, ItemFileWriteStore, Memory, Observable,
 						focus, registry, Select, Button, Form, Dialog, Tooltip, helpers){
@@ -1247,5 +1252,27 @@
 				</fieldset>
 			</fieldset>
 		</fieldset>
+
+		<h4 class="testSubtitle">Toolbar</h4>
+		<input id="beforeToolbar">
+		<div data-dojo-type="dijit/Toolbar">
+			<button type="button" data-dojo-type="dijit/form/ToggleButton" id="toggle1">
+				toggle 1
+			</button>
+			<select id="toolbarSelect" data-dojo-id="s14" data-dojo-type="dijit/form/Select"
+					name="s14" style="width: 150px;" required="true">
+				<option>&nbsp;</option>
+				<option value="AL">Alabama</option>
+				<option value="AK">Alaska</option>
+				<option></option>
+				<option value="AZ">Arizona</option>
+				<option value="AR">Arkansas</option>
+				<option></option>
+				<option value="CA">California</option>
+			</select>
+			<button type="button" data-dojo-type="dijit/form/ToggleButton" id="toggle2">
+				toggle 2
+			</button>
+		</div>
 	</body>
 </html>
