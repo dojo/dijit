@@ -1247,7 +1247,7 @@
                         textbox.focusNode.focus();
                         doh.robot.typeKeys('00', 500, 500);
                         doh.robot.sequence(d.getTestCallback(function(){
-                            doh.assertTrue(textbox.get('state') == "Incomplete");
+                            doh.is("Incomplete", textbox.get('state'), "textbox.get('state')");
                         }), 500);
                         return d;
                     }
@@ -1268,8 +1268,8 @@
                         textbox.focusNode.focus();
                         doh.robot.typeKeys('000', 500, 500);
                         doh.robot.sequence(d.getTestCallback(function(){
-                            doh.assertTrue(textbox.get('state') == "Error");
-                            }), 500);
+                            doh.is("Error", textbox.get('state'), "textbox.get('state')");
+                        }), 500);
                 	    return d;
                     }
                 },
@@ -1289,7 +1289,7 @@
                         textbox.focusNode.focus();
                         doh.robot.typeKeys('00', 500, 500);
                         doh.robot.sequence(d.getTestCallback(function(){
-                            doh.assertTrue(textbox.get('state') == "Error");
+                            doh.is("Error", textbox.get('state'), "textbox.get('state')");
                         }), 500);
                         return d;
                     }
@@ -1310,7 +1310,7 @@
                         textbox.focusNode.focus();
                         doh.robot.typeKeys('00000', 500, 500);
                         doh.robot.sequence(d.getTestCallback(function(){
-                            doh.assertTrue(textbox.get('state') == "Incomplete");
+                            doh.is("Incomplete", textbox.get('state'), "textbox.get('state')");
                         }), 500);
                         return d;
                     }
@@ -1331,7 +1331,7 @@
                         textbox.focusNode.focus();
                         doh.robot.typeKeys('0.1', 500, 500);
                         doh.robot.sequence(d.getTestCallback(function(){
-                          doh.assertTrue(textbox.get('state') == "Error");
+                          doh.is("Error", textbox.get('state'), "textbox.get('state')");
                         }), 500);
                         return d;
                     }
@@ -1352,7 +1352,7 @@
                         textbox.focusNode.focus();
                         doh.robot.typeKeys('-9.01', 500, 500);
                         doh.robot.sequence(d.getTestCallback(function(){
-                          doh.assertTrue(textbox.get('state') == "Error");
+                          doh.is("Error", textbox.get('state'), "textbox.get('state')");
                         }), 500);
                         return d;
                     }
@@ -1373,7 +1373,7 @@
                         textbox.focusNode.focus();
                         doh.robot.typeKeys('-9.021', 500, 500);
                         doh.robot.sequence(d.getTestCallback(function(){
-                          doh.assertTrue(textbox.get('state') == "");
+                          doh.is("", textbox.get('state'), "textbox.get('state')");
                         }),500);
                         return d;
                     }
@@ -1394,7 +1394,7 @@
                         textbox.focusNode.focus();
                         doh.robot.typeKeys('-', 50, 100);
                         doh.robot.sequence(d.getTestCallback(function(){
-                          doh.assertTrue(textbox.get('state') == "Incomplete");
+                          doh.is("Incomplete", textbox.get('state'), "textbox.get('state')");
                         }));
                         return d;
                     }
@@ -1408,7 +1408,7 @@
                         textbox.focusNode.focus();
                         doh.robot.typeKeys('9', 50, 100);
                         doh.robot.sequence(d.getTestCallback(function(){
-                            doh.assertTrue(textbox.get('state') == "Incomplete");
+                            doh.is("Incomplete", textbox.get('state'), "textbox.get('state')");
                         }));
                         return d;
                     }
@@ -1422,7 +1422,7 @@
                         textbox.focusNode.focus();
                         doh.robot.typeKeys('.', 50, 100);
                         doh.robot.sequence(d.getTestCallback(function(){
-                            doh.assertTrue(textbox.get('state') == "Incomplete");
+                            doh.is("Incomplete", textbox.get('state'), "textbox.get('state')");
                         }));
                         return d;
                     }
@@ -1436,7 +1436,7 @@
                         textbox.focusNode.focus();
                         doh.robot.typeKeys('0', 50, 100);
                         doh.robot.sequence(d.getTestCallback(function(){
-                            doh.assertTrue(textbox.get('state') == "Incomplete");
+                            doh.is("Incomplete", textbox.get('state'), "textbox.get('state')");
                         }));
                         return d;
                     }
@@ -1450,13 +1450,12 @@
                         textbox.focusNode.focus();
                         doh.robot.typeKeys('1', 50, 100);
                         doh.robot.sequence(d.getTestCallback(function(){
-                            doh.assertTrue(textbox.get('state') == "Error");
+                            doh.is("Error", textbox.get('state'), "textbox.get('state')");
                         }));
                         return d;
                     }
                 }]);
-
-                doh.run();
+				doh.run();
 			});
 		</script>
 	</head>

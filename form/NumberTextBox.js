@@ -252,74 +252,83 @@ define([
 		},
 
 		_isValidSubset: function(){
-            // Overrides dijit/form/ValidationTextBox._isValidSubset()
-		    //
-            // The inherited method only checks that the computed regex pattern is valid, which doesn't 
-            // take into account that numbers are a special case. Specifically:
-            // 
-            //  (1) An arbitrary amount of leading or trailing zero's can be ignored.
-            //  (2) Since numeric input always occurs in the order of most significant to least significant
-            //      digits, the maximum and minimum possible values for partially inputted numbers can easily
-            //      be determined by using number of remaining digit spaces available.
-            // 
-            // For example if a field has a maxLength of 5, and a min value of greater than 100, then the subset
-            // is invalid if there are 3 leading 0s. It remains value for the first two.
-            //
-            // Another example is if the a min value is 1.1. Once a value of 1.0 is entered in, no additional
-            // trailing digits could possibly satisify the min requirement. 
-            //
-            // See ticket #17923
-            var hasMinConstraint = (typeof this.constraints.min == "number"),
-                hasMaxConstraint = (typeof this.constraints.max == "number"),
-                curVal = this.get('value');
-
-            // If there is no parsable number, or there are no min or max bounds, then we can safely
-            // skip all remainig checks
-            if(isNaN(curVal) || (!hasMinConstraint && !hasMaxConstraint)){
-                return this.inherited(arguments);
-            }
-
-            // This block picks apart the values in the text box to be used later
-            // to compute the min and max possible values based on the current state.
-            //
-            // Warning: The use of a "num|0" expression, can be confusing. See the link below
-            // for an explanation.
-            //
-            // http://stackoverflow.com/questions/12125421/why-does-a-shift-by-0-truncate-the-decimal
-            var integerDigits = curVal|0,
-                valNegative = curVal < 0,
-                // Capture the locale for this field
-                locale = i18n.normalizeLocale(this.constraints.locale),
-                bundle = i18n.getLocalization("dojo.cldr", "number", locale),
-                decimal = bundle.decimal,
-                // Check if the current number has a decimal based on it's locale
-                hasDecimal = this.textbox.value.indexOf(decimal) != -1,
-                // Determin the max digits based on the textbox length. If no length is 
-                // speficied, chose a huge number to account for crazy formatting
-                maxDigits = (this.textbox.maxLength) ? this.textbox.maxLength : 20,
-                // Determine the remaining digits, based on the max digits
-                remaingDigitsCount = maxDigits - this.get('displayedValue').length,
-                // avoid rounding issues by capturing the decimal string, if any
-                fractionalDigitStr = (hasDecimal) ? this.textbox.value.split(decimal)[1] : ""; 
-
-
-            // Create a normalized value string in the form of #.###
-            var normalizedValueStr = (hasDecimal) ? integerDigits+"."+fractionalDigitStr : integerDigits+"";
-
-            // Make the remaingDigitsCount could produce a value number (no more than 16 digits)
-            // see: http://ecma262-5.com/ELS5_HTML.htm#Section_8.5
-            remaingDigitsCount = Math.min(remaingDigitsCount, 16-normalizedValueStr.length);
-
-            // Determine the min and max possible values for this field, based on the current
-            // value. The criteria was determined above
-            var maxPadding = (valNegative) ? "" : string.rep("9", remaingDigitsCount),
-                minPadding = (valNegative) ? string.rep("9", remaingDigitsCount) : "",
-                maxPossibleValue = Number(normalizedValueStr+maxPadding),
-                minPossibleValue = Number(normalizedValueStr+minPadding);
-
-            return !((hasMinConstraint && maxPossibleValue < this.constraints.min)
-                    || (hasMaxConstraint && minPossibleValue > this.constraints.max));
-        }
+			// Overrides dijit/form/ValidationTextBox._isValidSubset()
+			//
+			// The inherited method only checks that the computed regex pattern is valid, which doesn't 
+			// take into account that numbers are a special case. Specifically:
+			// 
+			//  (1) An arbitrary amount of leading or trailing zero's can be ignored.
+			//  (2) Since numeric input always occurs in the order of most significant to least significant
+			//      digits, the maximum and minimum possible values for partially inputted numbers can easily
+			//      be determined by using the number of remaining digit spaces available.
+			// 
+			// For example, if an input has a maxLength of 5, and a min value of greater than 100, then the subset
+			// is invalid if there are 3 leading 0s. It remains valid for the first two.
+			//
+			// Another example is if the min value is 1.1. Once a value of 1.0 is entered, no additional trailing digits
+			// could possibly satisify the min requirement. 
+			//
+			// See ticket #17923
+			var hasMinConstraint = (typeof this.constraints.min == "number"),
+				hasMaxConstraint = (typeof this.constraints.max == "number"),
+				curVal = this.get('value');
+			
+			// If there is no parsable number, or there are no min or max bounds, then we can safely
+			// skip all remaining checks
+			if(isNaN(curVal) || (!hasMinConstraint && !hasMaxConstraint)){
+				return this.inherited(arguments);
+			}
+			
+			// This block picks apart the values in the text box to be used later to compute the min and max possible 
+			// values based on the current value and the remaining available digits.
+			//
+			// Warning: The use of a "num|0" expression, can be confusing. See the link below
+			// for an explanation.
+			//
+			// http://stackoverflow.com/questions/12125421/why-does-a-shift-by-0-truncate-the-decimal
+			var integerDigits = curVal|0,
+				valNegative = curVal < 0,
+				// Capture the locale for this field
+				locale = i18n.normalizeLocale(this.constraints.locale),
+				bundle = i18n.getLocalization("dojo.cldr", "number", locale),
+				decimal = bundle.decimal,
+				// Check if the current number has a decimal based on its locale
+				hasDecimal = this.textbox.value.indexOf(decimal) != -1,
+				// Determine the max digits based on the textbox length. If no length is 
+				// specified, chose a huge number to account for crazy formatting
+				maxDigits = this.textbox.maxLength || 20,
+				// Determine the remaining digits, based on the max digits
+				remainingDigitsCount = maxDigits - this.get('displayedValue').length,
+				// avoid approximation issues by capturing the decimal portion of the value as the user-entered string
+				fractionalDigitStr = hasDecimal ? this.textbox.value.split(decimal)[1].replace(/[^0-9]/g, "") : ""; 
+			
+			
+			// Create a normalized value string in the form of #.###
+			var normalizedValueStr = hasDecimal ? integerDigits+"."+fractionalDigitStr : integerDigits+"";
+			
+			// The min and max values for the field can be determined using the following
+			// logic:
+			//
+			//  If the number is positive:
+			//      min value = the current value
+			//      max value = the current value with 9s appended for all remaining possible digits
+			//  else
+			//      min value = the current value with 9s appended for all remaining possible digits
+			//      max value = the current value
+			//
+			var ninePadding = string.rep("9", remainingDigitsCount),
+				minPossibleValue = curVal,
+				maxPossibleValue = curVal;
+			if (valNegative){
+				minPossibleValue = Number(normalizedValueStr+ninePadding);
+			}
+			else{
+				maxPossibleValue = Number(normalizedValueStr+ninePadding);
+			}
+			
+			return !((hasMinConstraint && maxPossibleValue < this.constraints.min) 
+					|| (hasMaxConstraint && minPossibleValue > this.constraints.max));
+		}
 	});
 
 	var NumberTextBox = declare("dijit.form.NumberTextBox", [RangeBoundTextBox, NumberTextBoxMixin], {
