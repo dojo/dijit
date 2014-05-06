@@ -1225,8 +1225,238 @@
 						}
 					}
 				]);
+				
+                doh.register("Leading 0 parsing for NumberTextBox", [
+                {
+                    name: "valid with 2 leading zeros",
+                    timeout: 2000,
+                    setUp: function(){
+                        var textbox = dijit.byId("ticket17923");
+                            textbox.set('value', '');
+                            textbox.set('constraints', dojo.mixin({}, textbox.get('constraints'), {min: 1}));
+                            textbox.set('maxLength', 3);	
+                        // When this is run at the end of the tests in IE 9, the incomplete
+                        // state is not properly triggered. Focus and blur to fix.
+                        textbox.focusNode.focus();
+                        textbox.focusNode.blur();
+                    },
+                    runTest: function(){
+                        var d = new doh.Deferred(),
+                            textbox = dijit.byId("ticket17923");
+                        textbox.focusNode.scrollIntoView();
+                        textbox.focusNode.focus();
+                        doh.robot.typeKeys('00', 500, 500);
+                        doh.robot.sequence(d.getTestCallback(function(){
+                            doh.assertTrue(textbox.get('state') == "Incomplete");
+                        }), 500);
+                        return d;
+                    }
+                },
+                {
+                    name: "invalid with 3 leading zeros",
+                    timeout: 2000,
+                    setUp: function(){
+                        var textbox = dijit.byId("ticket17923");
+                        textbox.set('value', '');
+                        textbox.set('constraints', dojo.mixin({}, textbox.get('constraints'), {min: 1}));
+                        textbox.set('maxLength', 3);	
+                    },
+                    runTest: function(){
+                        var d = new doh.Deferred(),
+                        textbox = dijit.byId("ticket17923");
+                        textbox.focusNode.scrollIntoView();
+                        textbox.focusNode.focus();
+                        doh.robot.typeKeys('000', 500, 500);
+                        doh.robot.sequence(d.getTestCallback(function(){
+                            doh.assertTrue(textbox.get('state') == "Error");
+                            }), 500);
+                	    return d;
+                    }
+                },
+                {
+                    name: "invalid with 2 leading zeros",
+                    timeout: 2000,
+                    setUp: function(){
+                        var textbox = dijit.byId("ticket17923");
+                        textbox.set('value', '');
+                        textbox.set('constraints', dojo.mixin({}, textbox.get('constraints'), {min: 100}));
+                        textbox.set('maxLength', 4);	
+                    },
+                    runTest: function(){
+                        var d = new doh.Deferred(),
+                            textbox = dijit.byId("ticket17923");
+                        textbox.focusNode.scrollIntoView();
+                        textbox.focusNode.focus();
+                        doh.robot.typeKeys('00', 500, 500);
+                        doh.robot.sequence(d.getTestCallback(function(){
+                            doh.assertTrue(textbox.get('state') == "Error");
+                        }), 500);
+                        return d;
+                    }
+                },
+                {
+                    name: "valid with 5 leading zeros",
+                    timeout: 2000,
+                    setUp: function(){
+                        var textbox = dijit.byId("ticket17923");
+                        textbox.set('value', '');
+                        textbox.set('constraints', dojo.mixin({}, textbox.get('constraints'), {min: 10}));
+                        textbox.set('maxLength', 7);	
+                    },
+                    runTest: function(){
+                        var d = new doh.Deferred(),
+                            textbox = dijit.byId("ticket17923");
+                        textbox.focusNode.scrollIntoView();
+                        textbox.focusNode.focus();
+                        doh.robot.typeKeys('00000', 500, 500);
+                        doh.robot.sequence(d.getTestCallback(function(){
+                            doh.assertTrue(textbox.get('state') == "Incomplete");
+                        }), 500);
+                        return d;
+                    }
+                },
+                {
+                    name: "invalid with 0.1 leading zeros",
+                    timeout: 2000,
+                    setUp: function(){
+                        var textbox = dijit.byId("ticket17923");
+                        textbox.set('value', '');
+                        textbox.set('constraints', dojo.mixin({}, textbox.get('constraints'), {min: 10}));
+                        textbox.set('maxLength', 7);	
+                    },
+                    runTest: function(){
+                        var d = new doh.Deferred(),
+                            textbox = dijit.byId("ticket17923");
+                        textbox.focusNode.scrollIntoView();
+                        textbox.focusNode.focus();
+                        doh.robot.typeKeys('0.1', 500, 500);
+                        doh.robot.sequence(d.getTestCallback(function(){
+                          doh.assertTrue(textbox.get('state') == "Error");
+                        }), 500);
+                        return d;
+                    }
+                },
+                {
+                    name: "invalid with -9.01",
+                    timeout: 2000,
+                    setUp: function(){
+                        var textbox = dijit.byId("ticket17923");
+                        textbox.set('value', '');
+                        textbox.set('constraints', dojo.mixin({}, textbox.get('constraints'), {max: -9.02}));
+                        textbox.set('maxLength', 7);	
+                    },
+                    runTest: function(){
+                        var d = new doh.Deferred(),
+                            textbox = dijit.byId("ticket17923");
+                        textbox.focusNode.scrollIntoView();
+                        textbox.focusNode.focus();
+                        doh.robot.typeKeys('-9.01', 500, 500);
+                        doh.robot.sequence(d.getTestCallback(function(){
+                          doh.assertTrue(textbox.get('state') == "Error");
+                        }), 500);
+                        return d;
+                    }
+                },
+                {
+                    name: "valid with -9.021",
+                    timeout: 2000,
+                    setUp: function(){
+                        var textbox = dijit.byId("ticket17923");
+                        textbox.set('value', '');
+                        textbox.set('constraints', dojo.mixin({}, textbox.get('constraints'), {min: -9.03, max: -9.02}));
+                        textbox.set('maxLength', 7);	
+                    },
+                    runTest: function(){
+                        var d = new doh.Deferred(),
+                            textbox = dijit.byId("ticket17923");
+                        textbox.focusNode.scrollIntoView();
+                        textbox.focusNode.focus();
+                        doh.robot.typeKeys('-9.021', 500, 500);
+                        doh.robot.sequence(d.getTestCallback(function(){
+                          doh.assertTrue(textbox.get('state') == "");
+                        }),500);
+                        return d;
+                    }
+                },
+                {
+                    name: "checking each keypress for -9.01: 1 of 5",
+                    timeout: 500,
+                    setUp: function(){
+                        var textbox = dijit.byId("ticket17923");
+                        textbox.set('value', '');
+                        textbox.set('constraints', dojo.mixin({}, textbox.get('constraints'), {min: -9.03, max: -9.02}));
+                        textbox.set('maxLength', 7);	
+                    },
+                    runTest: function(){
+                        var d = new doh.Deferred(),
+                            textbox = dijit.byId("ticket17923");
+                        textbox.focusNode.scrollIntoView();
+                        textbox.focusNode.focus();
+                        doh.robot.typeKeys('-', 50, 100);
+                        doh.robot.sequence(d.getTestCallback(function(){
+                          doh.assertTrue(textbox.get('state') == "Incomplete");
+                        }));
+                        return d;
+                    }
+                },
+                {
+                    name: "checking each keypress for -9.01: 2 of 5",
+                    timeout: 500,
+                    runTest: function(){
+                        var d = new doh.Deferred(),
+                        textbox = dijit.byId("ticket17923");
+                        textbox.focusNode.focus();
+                        doh.robot.typeKeys('9', 50, 100);
+                        doh.robot.sequence(d.getTestCallback(function(){
+                            doh.assertTrue(textbox.get('state') == "Incomplete");
+                        }));
+                        return d;
+                    }
+                },
+                {
+                    name: "checking each keypress for -9.01: 3 of 5",
+                    timeout: 500,
+                    runTest: function(){
+                        var d = new doh.Deferred(),
+                        textbox = dijit.byId("ticket17923");
+                        textbox.focusNode.focus();
+                        doh.robot.typeKeys('.', 50, 100);
+                        doh.robot.sequence(d.getTestCallback(function(){
+                            doh.assertTrue(textbox.get('state') == "Incomplete");
+                        }));
+                        return d;
+                    }
+                },
+                {
+                    name: "checking each keypress for -9.01: 4 of 5",
+                    timeout: 500,
+                    runTest: function(){
+                        var d = new doh.Deferred(),
+                        textbox = dijit.byId("ticket17923");
+                        textbox.focusNode.focus();
+                        doh.robot.typeKeys('0', 50, 100);
+                        doh.robot.sequence(d.getTestCallback(function(){
+                            doh.assertTrue(textbox.get('state') == "Incomplete");
+                        }));
+                        return d;
+                    }
+                },
+                {
+                    name: "checking each keypress for -9.01: 5 of 5",
+                    timeout: 500,
+                    runTest: function(){
+                        var d = new doh.Deferred(),
+                        textbox = dijit.byId("ticket17923");
+                        textbox.focusNode.focus();
+                        doh.robot.typeKeys('1', 50, 100);
+                        doh.robot.sequence(d.getTestCallback(function(){
+                            doh.assertTrue(textbox.get('state') == "Error");
+                        }));
+                        return d;
+                    }
+                }]);
 
-				doh.run();
+                doh.run();
 			});
 		</script>
 	</head>

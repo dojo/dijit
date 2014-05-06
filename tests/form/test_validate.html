@@ -876,5 +876,45 @@
 		</div>
 		<button dojoType="dijit.form.Button" id="dlgOpenBtn" onclick="dijit.byId('dlg').show();">show dialog</button>
 
+		<div class="dojoTitlePaneLabel">
+			<label id="l_ticket17923">Trac ticket 17923</label>
+			<span class="noticeMessage">Partial numeric input should be validated with respect to the min/max constraints and available space</span>
+		</div>
+		
+        <div class="testExample">
+            <input id="ticket17923" class="medium"/>
+            <input type="button" id="ticket17923-maxLength5" value="maxLength: 5" tabIndex="-1"/>
+            <input type="button" id="ticket17923-maxLength3" value="maxLength: 3" tabIndex="-1"/>
+            <input type="button" id="ticket17923-min1:max15" value="min: 12, max: 142" tabIndex="-1"/>
+            <input type="button" id="ticket17923-min-15:max15" value="min: -15, max: -5" tabIndex="-1"/>
+        </div>
+        <script>
+        require(["dijit/form/NumberTextBox", "dojo/dom", "dojo/on", "dojo/_base/lang"], function(NumberTextBox, dom, on, lang){
+            
+            var fld = new NumberTextBox({
+                name: "ticket17923",
+                constraints: {pattern: '#000.#', min: 12, max: 142 },
+                maxLength: 5
+            }, "ticket17923");
+
+            on(dom.byId("ticket17923-maxLength5"), 'click', function(){
+                fld.set('maxLength', 5);
+            });
+    
+            on(dom.byId("ticket17923-maxLength3"), 'click', function(){
+                fld.set('maxLength', 3);
+            });
+    
+            on(dom.byId("ticket17923-min1:max15"), 'click', function(){
+                fld.set('constraints', lang.mixin({}, fld.get('constraints'), {min: 12, max: 142}));
+            });
+    
+            on(dom.byId("ticket17923-min-15:max15"), 'click', function(){
+                fld.set('constraints', lang.mixin({}, fld.get('constraints'), {min: -15, max: -5}));
+            });
+
+            fld.startup();
+        });
+        </script>
 	</body>
 </html>
