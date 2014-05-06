@@ -267,19 +267,19 @@
 							doh.t(helpers.isHidden(menu), "menu should be initially hidden");
 
 							// click random point on screen
-							robot.mouseMoveAt("link", 500, 500);
+							robot.mouseMoveAt("input", 500, 500);
 							robot.mouseClick({right: true}, 500);
 
 							robot.sequence(d.getTestCallback(function(){
 								doh.t(helpers.isVisible(menu), "menu is now shown");
 
-								var linkCoords = domGeom.position("link");
+								var inputCoords = domGeom.position("input");
 									menuCoords = domGeom.position(menu.domNode);
 
-								doh.t(menuCoords.x > linkCoords.x, "to right of link left edge");
-								doh.t(menuCoords.x < linkCoords.x + linkCoords.w, "to left of link right edge");
-								doh.t(menuCoords.y > linkCoords.y, "menu (" + menuCoords.y + ") starts below top of link (" + linkCoords.y + ")");
-								doh.t(menuCoords.y < linkCoords.y + linkCoords.h, "menu (" + menuCoords.y + ") starts above bottom of link (" + linkCoords.y + "+" + linkCoords.h + ")");
+								doh.t(menuCoords.x > inputCoords.x, "to right of link left edge");
+								doh.t(menuCoords.x < inputCoords.x + inputCoords.w, "to left of link right edge");
+								doh.t(menuCoords.y > inputCoords.y, "menu (" + menuCoords.y + ") starts below top of link (" + inputCoords.y + ")");
+								doh.t(menuCoords.y < inputCoords.y + inputCoords.h, "menu (" + menuCoords.y + ") starts above bottom of link (" + inputCoords.y + "+" + inputCoords.h + ")");
 
 								doh.f(domClass.contains("windowContextMenuFirstChoice", "dijitMenuItemSelected"), "first choice not marked as selected");
 							}), 1000);
