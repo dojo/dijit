@@ -90,7 +90,7 @@
 
 				new dijit.form.TextBox({id: 'monospace1', "aria-label":"monospace1", disabled: true, value: 'M|M:monospace?'}, 'monospace1');
 				new dijit.form.TextBox({id: 'monospace2', "aria-label":"monospace2",disabled: true, value: 'M|M:monospace?'}).placeAt('widget_monospace1', 'after');
-				
+
 				new dijit.form.TextBox({id: 'sans1', "aria-label":"sans1", disabled: true, value: 'sans1'}, 'sans1');
 				new dijit.form.TextBox({id: 'sans2', "aria-label":"sans2", disabled: true, value: 'sans2'}).placeAt('widget_sans1', 'after');
 
@@ -126,22 +126,22 @@
 					name: "initial conditions",
 					runTest: function(){
 						var form1 = dojo.byId("form1");
-						
+
 						doh.is("Testing Testing", form1.firstname.value, "firstname");
 						doh.is("not fired yet!", dojo.byId("oc1").value, "firstname onchange");
 
 						doh.is("TESTING TESTING", form1.lastname.value, "lastname");
-						
+
 						doh.is("", form1.age.value, "age");
 						doh.is("not fired yet!", dojo.byId("oc3").value, "age onchange");
-						
+
 						doh.is("", form1.occupation.value, "occupation");
-						
+
 						doh.is("3000", form1.elevation.value, "elevation");
 						doh.is("3,000", dojo.byId("q05").value, "elevation display value");
 						doh.is("not fired yet!", dojo.byId("oc5").value, "elevation onchange");
 						doh.t(!!dijit.byId("q05").constraints.allowCruft, "constructor constraints value");
-						
+
 						doh.is("54775.53", form1.income1.value, "income1");
 						doh.is("$54,775.53", dojo.byId("q08").value, "income1 display value");
 						doh.is("not fired yet!", dojo.byId("oc8").value, "income1 onchange");
@@ -189,12 +189,12 @@
 						runTest: function(){
 
 							textbox = dijit.byId(textbox);
-		
+
 							// expectedState is a combination of the attributes that we expect to change
 							// and the attributes that we expect not to change
 							var expectedState = dojo.delegate(watchExpected, unchangedExpected);
 
-							// save all notifications from watch()		
+							// save all notifications from watch()
 							var watchActual = {};
 							watchHandle = textbox.watch(function(attr, oldVal, newVal){
 									console.log(textbox.id + ": " + attr + ": " + oldVal + " --> " + newVal);
@@ -211,26 +211,26 @@
 
 							// do the set
 							textbox.set(setDict);
-							
+
 							doh.is(expectedState.displayedValue, fixNbsp(textbox.focusNode.value), "focusNode.value");
-		
+
 							doh.is(isValid, textbox.isValid(), "isValid()");
-		
+
 							var d = new doh.Deferred();
-		
+
 							setTimeout(d.getTestCallback(function(){
 								// test that onChange() was called correctly
 								if(onChangeExpected){
 									doh.is(onChangeExpected, onChangeActual, "onChange()");
 								}
-								
+
 								// check that watch() callbacks were called
 								for(attr in watchExpected){
 									doh.t(attr in watchActual, "watch(" + attr + ") fired");
 									doh.is(watchExpected[attr], watchActual[attr], "watch(" + attr + ")");
 									doh.is(typeof watchExpected[attr], typeof watchActual[attr], "typeof watch(" + attr + ")")
 								}
-		
+
 								// check that direct get(...) calls are also working, for both the attributes
 								// that were supposed to change and the attributes that weren't supposed to change
 								for(attr in expectedState){
@@ -240,11 +240,11 @@
 
 								// check that watch() didn't report attributes as changed when they didn't change
 								for(attr in unchangedExpected){
-									doh.f(attr in watchActual, attr + " shouldn't have been reported as changed by watch " + 
+									doh.f(attr in watchActual, attr + " shouldn't have been reported as changed by watch " +
 										watchActual[attr]);
 								}
-							}), 50);		
-		
+							}), 50);
+
 							return d;
 						},
 						tearDown: function(){
@@ -266,7 +266,7 @@
 					setTest("out_of_range_min", 'q03', {value: -1}, {value: -1, displayedValue: "-1", state: "Error"}, {}, false),
 					setTest("invalid", 'q03', {value: 'two'}, {value: undefined, displayedValue: 'two'}, {}, false),
 					setTest("null_required", 'q03', {required: true, value: null},
-							{required: true, value: NaN, displayedValue: ''}, {state: "Error"}, false),	
+							{required: true, value: NaN, displayedValue: ''}, {state: "Error"}, false),
 					setTest("null_notrequired", 'q03', {required: false, value: null}, {}, {displayedValue: ''}, true),
 
 					// test formatting of value vs. displayed value
@@ -876,5 +876,45 @@
 		</div>
 		<button dojoType="dijit.form.Button" id="dlgOpenBtn" onclick="dijit.byId('dlg').show();">show dialog</button>
 
+		<div class="dojoTitlePaneLabel">
+			<label id="l_ticket17923">Trac ticket 17923</label>
+			<span class="noticeMessage">Partial numeric input should be validated with respect to the min/max constraints and available space</span>
+		</div>
+
+        <div class="testExample">
+            <input id="ticket17923" class="medium"/>
+            <input type="button" id="ticket17923-maxLength5" value="maxLength: 5" tabIndex="-1"/>
+            <input type="button" id="ticket17923-maxLength3" value="maxLength: 3" tabIndex="-1"/>
+            <input type="button" id="ticket17923-min1:max15" value="min: 12, max: 142" tabIndex="-1"/>
+            <input type="button" id="ticket17923-min-15:max15" value="min: -15, max: -5" tabIndex="-1"/>
+        </div>
+        <script>
+        require(["dijit/form/NumberTextBox", "dojo/dom", "dojo/on", "dojo/_base/lang"], function(NumberTextBox, dom, on, lang){
+
+            var fld = new NumberTextBox({
+                name: "ticket17923",
+                constraints: {pattern: '#000.#', min: 12, max: 142 },
+                maxLength: 5
+            }, "ticket17923");
+
+            on(dom.byId("ticket17923-maxLength5"), 'click', function(){
+                fld.set('maxLength', 5);
+            });
+
+            on(dom.byId("ticket17923-maxLength3"), 'click', function(){
+                fld.set('maxLength', 3);
+            });
+
+            on(dom.byId("ticket17923-min1:max15"), 'click', function(){
+                fld.set('constraints', lang.mixin({}, fld.get('constraints'), {min: 12, max: 142}));
+            });
+
+            on(dom.byId("ticket17923-min-15:max15"), 'click', function(){
+                fld.set('constraints', lang.mixin({}, fld.get('constraints'), {min: -15, max: -5}));
+            });
+
+            fld.startup();
+        });
+        </script>
 	</body>
 </html>
