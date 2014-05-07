@@ -81,6 +81,13 @@ define([
 		=====*/
 		_regExpGenerator: number.regexp,
 
+		// _decimalChar: String
+		// summary:
+		//		The decimal character used with the locale associated with this number text box
+		// tags:
+		//		private
+		_decimalChar: i18n.getLocalization("dojo.cldr", "number", i18n.normalizeLocale()).decimal,
+
 		postMixInProperties: function(){
 			this.inherited(arguments);
 			this._set("type", "text"); // in case type="number" was specified which messes up parse/format
@@ -99,6 +106,8 @@ define([
 			if(this.focusNode && this.focusNode.value && !isNaN(this.value)){
 				this.set('value', this.value);
 			}
+			// Capture the decimal character for the locale of this field. Will be used in _isValidSubset()
+			this._decimalChar = i18n.getLocalization("dojo.cldr", "number", i18n.normalizeLocale(constraints.locale)).decimal;
 		},
 
 		_onFocus: function(){
@@ -272,13 +281,13 @@ define([
 			var hasMinConstraint = (typeof this.constraints.min == "number"),
 				hasMaxConstraint = (typeof this.constraints.max == "number"),
 				curVal = this.get('value');
-			
+
 			// If there is no parsable number, or there are no min or max bounds, then we can safely
 			// skip all remaining checks
 			if(isNaN(curVal) || (!hasMinConstraint && !hasMaxConstraint)){
 				return this.inherited(arguments);
 			}
-			
+
 			// This block picks apart the values in the text box to be used later to compute the min and max possible 
 			// values based on the current value and the remaining available digits.
 			//
@@ -288,24 +297,19 @@ define([
 			// http://stackoverflow.com/questions/12125421/why-does-a-shift-by-0-truncate-the-decimal
 			var integerDigits = curVal|0,
 				valNegative = curVal < 0,
-				// Capture the locale for this field
-				locale = i18n.normalizeLocale(this.constraints.locale),
-				bundle = i18n.getLocalization("dojo.cldr", "number", locale),
-				decimal = bundle.decimal,
 				// Check if the current number has a decimal based on its locale
-				hasDecimal = this.textbox.value.indexOf(decimal) != -1,
-				// Determine the max digits based on the textbox length. If no length is 
-				// specified, chose a huge number to account for crazy formatting
-				maxDigits = this.textbox.maxLength || 20,
+				hasDecimal = this.textbox.value.indexOf(this._decimalChar) != -1,
+				// Determine the max digits based on the textbox length. If no length is
+				// specified, chose a huge number to account for crazy formatting.
+				maxDigits = this.maxLength || 20,
 				// Determine the remaining digits, based on the max digits
 				remainingDigitsCount = maxDigits - this.textbox.value.length,
 				// avoid approximation issues by capturing the decimal portion of the value as the user-entered string
-				fractionalDigitStr = hasDecimal ? this.textbox.value.split(decimal)[1].replace(/[^0-9]/g, "") : ""; 
-			
-			
+				fractionalDigitStr = hasDecimal ? this.textbox.value.split(this._decimalChar)[1].replace(/[^0-9]/g, "") : ""; 
+
 			// Create a normalized value string in the form of #.###
 			var normalizedValueStr = hasDecimal ? integerDigits+"."+fractionalDigitStr : integerDigits+"";
-			
+
 			// The min and max values for the field can be determined using the following
 			// logic:
 			//
@@ -316,16 +320,15 @@ define([
 			//      min value = the current value with 9s appended for all remaining possible digits
 			//      max value = the current value
 			//
-			var ninePadding = string.rep("9", remainingDigitsCount),
-				minPossibleValue = curVal,
-				maxPossibleValue = curVal;
+			var ninePaddingStr = string.rep("9", remainingDigitsCount),
+			    minPossibleValue = curVal,
+			    maxPossibleValue = curVal;
 			if (valNegative){
-				minPossibleValue = Number(normalizedValueStr+ninePadding);
+				minPossibleValue = Number(normalizedValueStr+ninePaddingStr);
+			} else{
+				maxPossibleValue = Number(normalizedValueStr+ninePaddingStr);
 			}
-			else{
-				maxPossibleValue = Number(normalizedValueStr+ninePadding);
-			}
-			
+
 			return !((hasMinConstraint && maxPossibleValue < this.constraints.min) 
 					|| (hasMaxConstraint && minPossibleValue > this.constraints.max));
 		}
