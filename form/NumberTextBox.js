@@ -298,7 +298,7 @@ define([
 				// specified, chose a huge number to account for crazy formatting
 				maxDigits = this.textbox.maxLength || 20,
 				// Determine the remaining digits, based on the max digits
-				remainingDigitsCount = maxDigits - this.get('displayedValue').length,
+				remainingDigitsCount = maxDigits - this.textbox.value.length,
 				// avoid approximation issues by capturing the decimal portion of the value as the user-entered string
 				fractionalDigitStr = hasDecimal ? this.textbox.value.split(decimal)[1].replace(/[^0-9]/g, "") : ""; 
 			
