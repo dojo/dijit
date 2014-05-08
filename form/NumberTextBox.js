@@ -1,9 +1,11 @@
 define([
 	"dojo/_base/declare", // declare
 	"dojo/_base/lang", // lang.hitch lang.mixin
+	"dojo/i18n", // i18n.normalizeLocale, i18n.getLocalization
+	"dojo/string", // string.rep
 	"dojo/number", // number._realNumberRegexp number.format number.parse number.regexp
 	"./RangeBoundTextBox"
-], function(declare, lang, number, RangeBoundTextBox){
+], function(declare, lang, i18n, string, number, RangeBoundTextBox){
 
 	// module:
 	//		dijit/form/NumberTextBox
@@ -79,6 +81,13 @@ define([
 		=====*/
 		_regExpGenerator: number.regexp,
 
+		// _decimalChar: String
+		// summary:
+		//		The decimal character used with the locale associated with this number text box
+		// tags:
+		//		private
+		_decimalChar: i18n.getLocalization("dojo.cldr", "number", i18n.normalizeLocale()).decimal,
+
 		postMixInProperties: function(){
 			this.inherited(arguments);
 			this._set("type", "text"); // in case type="number" was specified which messes up parse/format
@@ -97,6 +106,8 @@ define([
 			if(this.focusNode && this.focusNode.value && !isNaN(this.value)){
 				this.set('value', this.value);
 			}
+			// Capture the decimal character for the locale of this field. Will be used in _isValidSubset()
+			this._decimalChar = i18n.getLocalization("dojo.cldr", "number", i18n.normalizeLocale(constraints.locale)).decimal;
 		},
 
 		_onFocus: function(){
@@ -247,6 +258,79 @@ define([
 					return false;
 				}
 			}
+		},
+
+		_isValidSubset: function(){
+			// Overrides dijit/form/ValidationTextBox._isValidSubset()
+			//
+			// The inherited method only checks that the computed regex pattern is valid, which doesn't 
+			// take into account that numbers are a special case. Specifically:
+			// 
+			//  (1) An arbitrary amount of leading or trailing zero's can be ignored.
+			//  (2) Since numeric input always occurs in the order of most significant to least significant
+			//      digits, the maximum and minimum possible values for partially inputted numbers can easily
+			//      be determined by using the number of remaining digit spaces available.
+			// 
+			// For example, if an input has a maxLength of 5, and a min value of greater than 100, then the subset
+			// is invalid if there are 3 leading 0s. It remains valid for the first two.
+			//
+			// Another example is if the min value is 1.1. Once a value of 1.0 is entered, no additional trailing digits
+			// could possibly satisify the min requirement. 
+			//
+			// See ticket #17923
+			var hasMinConstraint = (typeof this.constraints.min == "number"),
+				hasMaxConstraint = (typeof this.constraints.max == "number"),
+				curVal = this.get('value');
+
+			// If there is no parsable number, or there are no min or max bounds, then we can safely
+			// skip all remaining checks
+			if(isNaN(curVal) || (!hasMinConstraint && !hasMaxConstraint)){
+				return this.inherited(arguments);
+			}
+
+			// This block picks apart the values in the text box to be used later to compute the min and max possible 
+			// values based on the current value and the remaining available digits.
+			//
+			// Warning: The use of a "num|0" expression, can be confusing. See the link below
+			// for an explanation.
+			//
+			// http://stackoverflow.com/questions/12125421/why-does-a-shift-by-0-truncate-the-decimal
+			var integerDigits = curVal|0,
+				valNegative = curVal < 0,
+				// Check if the current number has a decimal based on its locale
+				hasDecimal = this.textbox.value.indexOf(this._decimalChar) != -1,
+				// Determine the max digits based on the textbox length. If no length is
+				// specified, chose a huge number to account for crazy formatting.
+				maxDigits = this.maxLength || 20,
+				// Determine the remaining digits, based on the max digits
+				remainingDigitsCount = maxDigits - this.textbox.value.length,
+				// avoid approximation issues by capturing the decimal portion of the value as the user-entered string
+				fractionalDigitStr = hasDecimal ? this.textbox.value.split(this._decimalChar)[1].replace(/[^0-9]/g, "") : ""; 
+
+			// Create a normalized value string in the form of #.###
+			var normalizedValueStr = hasDecimal ? integerDigits+"."+fractionalDigitStr : integerDigits+"";
+
+			// The min and max values for the field can be determined using the following
+			// logic:
+			//
+			//  If the number is positive:
+			//      min value = the current value
+			//      max value = the current value with 9s appended for all remaining possible digits
+			//  else
+			//      min value = the current value with 9s appended for all remaining possible digits
+			//      max value = the current value
+			//
+			var ninePaddingStr = string.rep("9", remainingDigitsCount),
+			    minPossibleValue = curVal,
+			    maxPossibleValue = curVal;
+			if (valNegative){
+				minPossibleValue = Number(normalizedValueStr+ninePaddingStr);
+			} else{
+				maxPossibleValue = Number(normalizedValueStr+ninePaddingStr);
+			}
+
+			return !((hasMinConstraint && maxPossibleValue < this.constraints.min) 
+					|| (hasMaxConstraint && minPossibleValue > this.constraints.max));
 		}
 	});
 
