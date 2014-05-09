@@ -53,14 +53,29 @@ define([
 		//		from the `<option>` html tags.   Should support getIdentity().
 		//		For back-compat store can also be a dojo/data/api/Identity.
 		store: null,
+		_setStoreAttr: function(val){
+			if(this._created){		// don't repeat work that will happen in postCreate()
+				this._deprecatedSetStore(val);
+			}
+		},
 
 		// query: object
 		//		A query to use when fetching items from our store
 		query: null,
+		_setQueryAttr: function(query){
+			if(this._created){		// don't repeat work that will happen in postCreate()
+				this._deprecatedSetStore(this.store, this.selectedValue, {query: query});
+			}
+		},
 
 		// queryOptions: object
 		//		Query options to use when fetching from the store
 		queryOptions: null,
+		_setQueryOptionsAttr: function(queryOptions){
+			if(this._created){		// don't repeat work that will happen in postCreate()
+				this._deprecatedSetStore(this.store, this.selectedValue, {queryOptions: queryOptions});
+			}
+		},
 
 		// labelAttr: String?
 		//		The entries in the drop down list come from this attribute in the dojo.store items.
@@ -322,6 +337,8 @@ define([
 			// If user has specified new query and query options along with this new store, then use them.
 			if(fetchArgs.query){
 				this._set("query", fetchArgs.query);
+			}
+			if(fetchArgs.queryOptions){
 				this._set("queryOptions", fetchArgs.queryOptions);
 			}
 
@@ -397,12 +414,6 @@ define([
 				});
 			}
 			return oStore;	// dojo/data/api/Identity
-		},
-
-		// TODO: implement set() and watch() for store and query, although not sure how to handle
-		// setting them individually rather than together (as in setStore() above)
-		_setStoreAttr: function(val) {
-			this._deprecatedSetStore(val);
 		},
 
 		_setValueAttr: function(/*anything*/ newValue, /*Boolean?*/ priorityChange){
@@ -652,15 +663,16 @@ define([
 			// Make our event connections for updating state
 			aspect.after(this, "onChange", lang.hitch(this, "_updateSelection"));
 
-			// moved from startup
 			//		Connects in our store, if we have one defined
 			var store = this.store;
 			if(store && (store.getIdentity || store.getFeatures()["dojo.data.api.Identity"])){
 				// Temporarily set our store to null so that it will get set
 				// and connected appropriately
 				this.store = null;
-				this.setStore(store, this._oValue);
+				this._deprecatedSetStore(store, this._oValue, {query: this.query, queryOptions: this.queryOptions});
 			}
+
+			this._storeInitialized = true;
 		},
 
 		startup: function(){

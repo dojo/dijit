@@ -475,6 +475,13 @@
 							ds12_dep.setStore(memoryStore2);
 							t.is(7, ds12_dep.getOptions().length);
 							t.is("DE", ds12_dep.value);
+						},
+
+						function test_setQuery(){
+							ds.set("value", "CT");
+							doh.is("Connecticut", ds.get("displayedValue"));
+							ds.set("query", {value: /^A.*/});
+							doh.is("Alabama", ds.get("displayedValue"));
 						}
 					]);
 					
