@@ -102,8 +102,8 @@ define([
 
 			if(body){
 				// Listen for touches or mousedowns... could also use dojo/touch.press here.
-				var event = navigator.pointerEnabled ? "pointerdown" : navigator.msPointerEnabled ? "MSPointerDown" :
-					"ontouchstart" in document ? "mousedown, touchstart" : "mousedown";
+				var event = has("pointer-events") ? "pointerdown" : has("MSPointer") ? "MSPointerDown" :
+					has("touch-events") ? "mousedown, touchstart" : "mousedown";
 				var mdh = on(targetWindow.document, event, function(evt){
 					// workaround weird IE bug where the click is on an orphaned node
 					// (first time clicking a Select/DropDownButton inside a TooltipDialog).
