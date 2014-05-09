@@ -52,6 +52,9 @@ define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
 	}
 
 	doh.register("Fieldset", require.toUrl("./Fieldset.html"), 999999);
+	if(test_robot){
+		doh.register("robot.Fieldset", require.toUrl("./robot/Fieldset.html"), 999999);
+	}
 
 	if(test_robot){
 		doh.register("robot.Toolbar", require.toUrl("./robot/Toolbar.html"), 999999);
