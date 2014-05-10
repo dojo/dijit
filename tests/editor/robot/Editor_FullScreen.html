@@ -75,8 +75,10 @@
 
 								//There may be a difference of a pixel or two, so check that the editor is real close
 								//to the viewport size.
-								doh.t(edPos.h >= vp.h && edPos.h < (vp.h + 5), "Height check");
-								doh.t(edPos.w >= vp.w && edPos.w < (vp.w + 5), "Width check");
+								doh.t(edPos.h >= vp.h && edPos.h < (vp.h + 5),
+									"Height check, ed = " + edPos.h + ", vp = " + vp.h);
+								doh.t(Math.ceil(edPos.w) >= vp.w && Math.floor(edPos.w) < (vp.w + 5),
+									"Width check, ed = " + edPos.w + ", vp = " + vp.w);
 							}), 1000);
 
 							return d;
@@ -145,7 +147,8 @@
 								//There may be a difference of a pixel or two, so check that the editor is real close
 								//to the viewport size.
 								doh.t(edPos.h >= vp.h && edPos.h < (vp.h + 5), "Height check");
-								doh.t(edPos.w >= vp.w && edPos.w < (vp.w + 5), "Width check");
+								doh.t(Math.ceil(edPos.w) >= vp.w && Math.floor(edPos.w) < (vp.w + 5),
+												"Width check, ed = " + edPos.w + ", vp = " + vp.w);
 							}), 1000);
 
 							return d;
