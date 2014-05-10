@@ -89,7 +89,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(true, textbox.isValid(true), "isValid");
+											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
 										});
@@ -103,7 +103,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(false, textbox.isValid(true), "isValid");
+											doh.f(textbox.isValid(true), "isValid");
 											doh.is("Error", textbox.state, "state");
 											doh.is(invalidMessage||promptMessage, tooltip, "tooltip");
 										});
@@ -117,7 +117,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(true, textbox.isValid(true), "isValid");
+											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
 										});
@@ -132,7 +132,7 @@
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
 											// number.parse("12.", {fractional:[true,false], pattern:"#.#####"}) is valid
-											doh.is(true, textbox.isValid(true), "isValid");
+											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
 										});
@@ -146,7 +146,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(false, textbox.isValid(true), "isValid");
+											doh.f(textbox.isValid(true), "isValid");
 											doh.is("Error", textbox.state, "state");
 											doh.is(invalidMessage||promptMessage, tooltip, "tooltip");
 										});
@@ -160,7 +160,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(true, textbox.isValid(true), "isValid");
+											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
 										});
@@ -174,7 +174,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(true, textbox.isValid(true), "isValid");
+											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
 										});
@@ -188,7 +188,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(false, textbox.isValid(true), "isValid");
+											doh.f(textbox.isValid(true), "isValid");
 											doh.is("Error", textbox.state, "state");
 											doh.is(invalidMessage||promptMessage, tooltip, "tooltip");
 										});
@@ -202,7 +202,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(true, textbox.isValid(true), "isValid");
+											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
 										});
@@ -216,7 +216,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(true, textbox.isValid(true), "isValid");
+											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
 										});
@@ -230,7 +230,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(true, textbox.isValid(true), "isValid");
+											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
 										});
@@ -390,7 +390,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(true, textbox.isValid(true), "isValid");
+											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
 
@@ -405,7 +405,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(true, textbox.isValid(true), "isValid");
+											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
 										});
@@ -419,7 +419,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(false, textbox.isValid(true), "isValid");
+											doh.f(textbox.isValid(true), "isValid");
 											doh.is("Error", textbox.state, "state");
 											doh.is(invalidMessage||promptMessage, tooltip, "tooltip");
 										});
@@ -433,7 +433,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(true, textbox.isValid(true), "isValid");
+											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
 										});
@@ -447,7 +447,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(true, textbox.isValid(true), "isValid");
+											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
 										});
@@ -461,7 +461,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(false, textbox.isValid(true), "isValid");
+											doh.f(textbox.isValid(true), "isValid");
 											doh.is("Error", textbox.state, "state");
 											doh.is(invalidMessage||promptMessage, tooltip, "tooltip");
 										});
@@ -475,7 +475,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(true, textbox.isValid(true), "isValid");
+											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
 										});
@@ -489,7 +489,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(true, textbox.isValid(true), "isValid");
+											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
 										});
@@ -503,7 +503,7 @@
 									runTest: function(){
 										var d = new doh.Deferred();
 										testOn('keyup', textbox, d, function(){
-											doh.is(true, textbox.isValid(true), "isValid");
+											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
 										});
