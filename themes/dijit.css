@@ -841,16 +841,14 @@ body .dijitAlignClient { position: absolute; }
  * BorderContainer
  *
  * .dijitBorderContainer is a stylized layout where panes have border and margin.
- * .dijitBorderContainerNoGutter is a raw layout.
  */
-.dijitBorderContainer, .dijitBorderContainerNoGutter {
+.dijitBorderContainer {
 	position:relative;
 	overflow: hidden;
     z-index: 0; /* so z-index settings below have no effect outside of the BorderContainer */
 }
 
-.dijitBorderContainerPane,
-.dijitBorderContainerNoGutterPane {
+.dijitBorderContainerPane {
 	position: absolute !important;	/* !important to override position:relative in dijitTabContainer etc. */
 	z-index: 2;		/* above the splitters so that off-by-one browser errors don't cover up border of pane */
 }
