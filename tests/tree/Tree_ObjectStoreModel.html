@@ -420,32 +420,36 @@
 					setupStoreAndModel(Memory, true);
 				},
 
-				function getPath(){
-					myTree = new Tree({
-						id: "myTree",
-						model: myModel,
-						persist: false,		// persist==true is too hard to test
-						dndController: dndSource,
-						autoExpand: true
-					}).placeAt(win.body());
-					doh.t(myTree, "tree created");
+				{
+					name: "getPath",
+					timeout: 5000,
+					runTest: function() {
+						myTree = new Tree({
+							id: "myTree",
+							model: myModel,
+							persist: false,		// persist==true is too hard to test
+							dndController: dndSource,
+							autoExpand: true
+						}).placeAt(win.body());
+						doh.t(myTree, "tree created");
 
-					myTree.startup();
+						myTree.startup();
 
-					return myTree.onLoadDeferred.then(function(){
-						// Select the node.   can't emit "click" because dndSelector listens for mousedown & mouseup.
-						// And before the mousedown, we need a mouseover event, so _dndContainer.js sets this.current.
-						var europe = myTree.rootNode.getChildren()[3];
-						var france = europe.getChildren()[1];
-						on.emit(france.labelNode, navigator.pointerEnabled ? "pointerover" : navigator.msPointerEnabled ? "MSPointerOver" : "mouseover", {bubbles: true});
-						on.emit(france.labelNode, navigator.pointerEnabled ? "pointerdown" : navigator.msPointerEnabled ? "MSPointerDown" : "mousedown", {button: dojo.mouseButtons.LEFT, bubbles: true});
-						on.emit(france.labelNode, navigator.pointerEnabled ? "pointerup" : navigator.msPointerEnabled ? "MSPointerUp" : "mouseup", {button: dojo.mouseButtons.LEFT, bubbles: true});
+						return myTree.onLoadDeferred.then(function () {
+							// Select the node.   can't emit "click" because dndSelector listens for mousedown & mouseup.
+							// And before the mousedown, we need a mouseover event, so _dndContainer.js sets this.current.
+							var europe = myTree.rootNode.getChildren()[3];
+							var france = europe.getChildren()[1];
+							on.emit(france.labelNode, navigator.pointerEnabled ? "pointerover" : navigator.msPointerEnabled ? "MSPointerOver" : "mouseover", {bubbles: true});
+							on.emit(france.labelNode, navigator.pointerEnabled ? "pointerdown" : navigator.msPointerEnabled ? "MSPointerDown" : "mousedown", {button: dojo.mouseButtons.LEFT, bubbles: true});
+							on.emit(france.labelNode, navigator.pointerEnabled ? "pointerup" : navigator.msPointerEnabled ? "MSPointerUp" : "mouseup", {button: dojo.mouseButtons.LEFT, bubbles: true});
 
-						var path = myTree.get("path");
-						doh.is("earth, EU, FR", array.map(myTree.get("path"), function(obj){
-							return obj.id;
-						}).join(", "), "serialized path");
-					});
+							var path = myTree.get("path");
+							doh.is("earth, EU, FR", array.map(myTree.get("path"), function (obj) {
+								return obj.id;
+							}).join(", "), "serialized path");
+						});
+					}
 				},
 
 				{
