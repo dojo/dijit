@@ -81,8 +81,8 @@
 						touched = true;
 					});
 
-					var eventType = navigator.pointerEnabled ? "pointerdown" : navigator.msPointerEnabled ?
-									"MSPointerDown" : has("touch") ? "touchstart" : "mousedown",
+					var eventType = has("pointer-events") ? "pointerdown" : has("MSPointer") ?
+									"MSPointerDown" : has("touch-events") ? "touchstart" : "mousedown",
 						target = myWidget.domNode;
 
 					if(document.createEvent && target.dispatchEvent){
