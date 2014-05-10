@@ -14,7 +14,10 @@ define(["dojo/_base/kernel", "dojo/_base/array", "dojo/dom-geometry", "dojo/json
 	
 			var cp = geom.position(child.domNode, true),
 				pp = geom.position(parent.domNode, true);
-	
+
+			// Adjust for IE10+ fractional values
+			pp.w = Math.ceil(pp.w);
+
 			doh.t(
 				cp.y >= pp.y && cp.y+cp.h <= pp.y+pp.h &&
 				cp.x >= pp.x && cp.x+cp.w <= pp.x+pp.w,

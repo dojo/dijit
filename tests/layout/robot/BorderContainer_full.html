@@ -39,8 +39,8 @@
 					function testFullScreen(){
 						var borderContainerPos = geom.position(dom.byId("main"));
 						var view = window.getBox();
-						doh.t( borderContainerPos.h-view.h < 3);
-						doh.t( borderContainerPos.w-view.w < 3);
+						doh.t(borderContainerPos.h-view.h < 3, "borderContainerPos.h-view.h = " + borderContainerPos.h-view.h);
+						doh.t(borderContainerPos.w-view.w < 3, "borderContainerPos.w-view.w = " + borderContainerPos.w-view.w);
 					}
 				]);
 
