@@ -114,7 +114,10 @@ define([
 				}))[0];
 				// Set a global event to handle mouseup, so it fires properly
 				// even if the cursor leaves this.domNode before the mouse up event.
-				var mouseUpHandle = this.own(on(this.ownerDocumentBody, "mouseup, touchend", lang.hitch(this, function(evt){
+				var event = has("pointer-events") ? "pointerup" : has("MSPointer") ? "MSPointerUp" :
+					has("touch-events") ? "touchend, mouseup" :		// seems like overkill but see #16622, #16725
+					"mouseup";
+				var mouseUpHandle = this.own(on(this.ownerDocumentBody, event, lang.hitch(this, function(evt){
 					mouseUpHandle.remove();
 					focusHandle.remove();
 					// if here, then the mousedown did not focus the focusNode as the default action
