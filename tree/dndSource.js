@@ -395,7 +395,8 @@ define([
 			if(this.containerState == "Over"){
 				var tree = this.tree,
 					model = tree.model,
-					target = this.targetAnchor;
+					target = this.targetAnchor,
+					doExpand = false; // this is so we don't expand the sibling above
 
 				this.isDragging = false;
 
@@ -418,6 +419,7 @@ define([
 					}
 				}else{
 					newParentItem = (target && target.item) || tree.item;
+					doExpand = true;
 				}
 
 				// If necessary, use this variable to hold array of hashes to pass to model.newItem()
@@ -469,7 +471,7 @@ define([
 
 				// Expand the target node (if it's currently collapsed) so the user can see
 				// where their node was dropped.   In particular since that node is still selected.
-				this.tree._expandNode(target);
+				if(doExpand) this.tree._expandNode(target);
 			}
 			this.onDndCancel();
 		},
