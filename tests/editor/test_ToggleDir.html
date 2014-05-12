@@ -11,7 +11,6 @@
 			"dojo/parser",
 			"dijit/Editor",
 			"dijit/_editor/plugins/ToggleDir",
-			"dijit/_editor/plugins/TabIndent",
 			"dojo/domReady!"
 		], function(parser){
 			parser.parse();
@@ -19,11 +18,18 @@
 	</script>
 </head>
 <body class="claro" role="main">
-	<div style="border: 1px dotted black;">
-		<div id="ed0" data-dojo-type="dijit/Editor" data-dojo-props='"aria-label":"ed0",extraPlugins:["dijit/_editor/plugins/ToggleDir"]'>
-			<ol><li>the toggleDir plugin provides an extra button to switch text direction (BiDi). Useful when right-to-left 
-					languages are used with left-to-right languages.</li></ol>
-		</div>
+	<h3 id="ltr_label">LTR Editor</h3>
+	<div id="ltr_ed" data-dojo-type="dijit/Editor"  aria-labelledby="ltr_label"
+		 data-dojo-props='extraPlugins:["dijit/_editor/plugins/ToggleDir"], height: 100'>
+		<ol><li>the toggleDir plugin provides an extra button to switch text direction (BiDi). Useful when right-to-left
+				languages are used with left-to-right languages.</li></ol>
+	</div>
+
+	<h3 id="rtl_label">RTL Editor</h3>
+	<div id="rtl_ed" data-dojo-type="dijit/Editor" aria-labelledby="rtl_label" dir="rtl"
+		 data-dojo-props='extraPlugins:["dijit/_editor/plugins/ToggleDir"], height: 100'>
+		<ol><li>the toggleDir plugin provides an extra button to switch text direction (BiDi). Useful when right-to-left
+			languages are used with left-to-right languages.</li></ol>
 	</div>
 </body>
 </html>

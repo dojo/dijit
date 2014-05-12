@@ -28,7 +28,6 @@ define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
 		doh.register("editor.robot.LinkDialog", require.toUrl("./robot/Editor_LinkDialog.html"), 999999);
 		doh.register("editor.robot.FontChoice", require.toUrl("./robot/Editor_FontChoice.html"), 999999);
 		doh.register("editor.robot.ToggleDir", require.toUrl("./robot/ToggleDir.html"), 999999);
-		doh.register("editor.robot.ToggleDir_rtl", require.toUrl("./robot/ToggleDir_rtl.html"), 999999);
 		doh.register("editor.robot.TabIndent", require.toUrl("./robot/TabIndent.html"), 999999);
 	}
 
