@@ -180,24 +180,25 @@
 					},
 
 					{
-						name: "drag 'Cereals' to be before 'Vegetables' (reordering)",
+						name: "drag 'Cereals' to be after 'Fruits' (reordering)",
 						timeout: 10000,
 						runTest: function(){
 							var
 								d = new doh.Deferred(),
-								vegetablesTreeNode = dndHelpers.findTreeNode("collectionsTree", "Vegetables (0)"),
-								cerealsTreeNode = dndHelpers.findTreeNode("collectionsTree", "Cereals (0)");
+								fruitsTreeNode = dndHelpers.findTreeNode("collectionsTree", "Fruits (2)"),
+								cerealsTreeNode = dndHelpers.findTreeNode("collectionsTree", "Cereals (0)"),
+								fruitsTreeNodeSize = domGeom.getContentBox(fruitsTreeNode.domNode);
 
 							// (Try to) make sure drag source and drop source are both in viewport
 							winUtils.scrollIntoView(cerealsTreeNode.domNode);
 
-							// Drag 'Cereals' and drop near top edge of 'Vegetables'.
-							// It should become Vegetables' prior-sibling
+							// Drag 'Cereals' and drop near bottom edge of 'Fruits'.
+							// It should become Fruits next-sibling aka Vegetables' prior-sibling
 							// Note: if mousemove duration is too small itemTree doesn't get onmouseout event on IE6/7,
 							// causing subsequent JS exceptions
 							robot.mouseMoveAt(cerealsTreeNode.domNode, 500, 100);
 							robot.mousePress({left: true}, 500);
-							robot.mouseMoveAt(vegetablesTreeNode.domNode, 500, 1000, 50, 3);
+							robot.mouseMoveAt(fruitsTreeNode.domNode, 500, 1000, 50, fruitsTreeNodeSize.h - 2);
 							robot.mouseRelease({left: true}, 500);
 
 							robot.sequence(d.getTestCallback(function(){
@@ -218,6 +219,9 @@
 								doh.is("Fruits (2)", helpers.innerText(foodsTreeNodeChildren[0].labelNode));
 								doh.is("Cereals (0)", helpers.innerText(foodsTreeNodeChildren[1].labelNode));
 								doh.is("Vegetables (0)", helpers.innerText(foodsTreeNodeChildren[2].labelNode));
+
+								// Check that Fruits tree node wasn't expanded just because we dropped after it
+								doh.f(fruitsTreeNode.isExpanded, "fruit tree node not expanded");
 							}), 2000);
 
 							return d;
