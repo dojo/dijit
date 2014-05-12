@@ -471,7 +471,9 @@ define([
 
 				// Expand the target node (if it's currently collapsed) so the user can see
 				// where their node was dropped.   In particular since that node is still selected.
-				if(doExpand) this.tree._expandNode(target);
+				if(doExpand) {
+					this.tree._expandNode(target);
+				}
 			}
 			this.onDndCancel();
 		},
