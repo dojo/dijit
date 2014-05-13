@@ -221,6 +221,7 @@ define([
 				/* if we are hiding the root node then make every first level child look like a root node */
 				domClass.add(this.domNode, "dijitTreeIsRoot");
 			}else{
+				domClass.remove(this.domNode, "dijitTreeIsRoot");  
 				domClass.toggle(this.domNode, "dijitTreeIsLast", !this.getNextSibling());
 			}
 		},
