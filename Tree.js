@@ -216,13 +216,13 @@ define([
 			//		Set appropriate CSS classes for this.domNode
 			// tags:
 			//		private
-			var parent = this.getParent();
-			if(!parent || !parent.rowNode || parent.rowNode.style.display == "none"){
-				/* if we are hiding the root node then make every first level child look like a root node */
-				domClass.add(this.domNode, "dijitTreeIsRoot");
-			}else{
-				domClass.toggle(this.domNode, "dijitTreeIsLast", !this.getNextSibling());
-			}
+
+			// if we are hiding the root node then make every first level child look like a root node
+			var parent = this.getParent(),
+				markAsRoot = !parent || !parent.rowNode || parent.rowNode.style.display == "none";
+			domClass.toggle(this.domNode, "dijitTreeIsRoot", markAsRoot);
+
+			domClass.toggle(this.domNode, "dijitTreeIsLast", !markAsRoot && !this.getNextSibling());
 		},
 
 		_setExpando: function(/*Boolean*/ processing){

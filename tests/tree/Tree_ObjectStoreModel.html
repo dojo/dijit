@@ -104,10 +104,12 @@
 								doh.t(world, "root node exists");
 								doh.is("The earth", world.label, "world node label");
 								doh.t(world.isExpanded, "root node is expanded");
+								doh.t(domClass.contains(world.domNode, "dijitTreeIsRoot"), "root node has dijitTreeIsRoot");
 
 								var children = world.getChildren();
 								doh.is(6, children.length, "six children");
 								doh.is("Africa", children[0].label, "first child");
+								doh.f(domClass.contains(children[0].domNode, "dijitTreeIsRoot"), "first child doesn't have dijitTreeIsRoot");
 								doh.f(children[0].isExpanded, "first child not expanded");
 								doh.is("South America", children[5].label, "last child");
 
@@ -753,7 +755,12 @@
 							var world = myTree.rootNode;
 							return myTree._expandNode(world.getChildren()[0]).then(function(){
 								var children = world.getChildren();
-								doh.t(children[0].isExpanded, "Africa collapsed");
+								doh.t(children[0].isExpanded, "Africa expanded");
+
+								// While we are here, check that dijitTreeIsRoot class applied to first level of
+								// children, since the actual root node is hidden.
+								doh.t(domClass.contains(children[0].domNode, "dijitTreeIsRoot"),
+										"first level children have dijitTreeIsRoot");
 
 								return myTree.collapseAll().then(function(){
 									doh.t(world, "root node exists");
