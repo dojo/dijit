@@ -10,6 +10,12 @@ define([
 	// module:
 	//		dijit/form/NumberTextBox
 
+	// Capture several locale-specific data points from the environment on module initialization. They will be
+	// used to set the default values for the _decimalChar and _decimalPlaces properties.
+	var localeBundle = i18n.getLocalization("dojo.cldr", "number", i18n.normalizeLocale()),
+		localeDecimalChar = localeBundle.decimal,
+		localeDecimalFormat = localeBundle.decimalFormat,
+		localeDecimalFormatPlaces = localeDecimalFormat.split(localeDecimalChar)[1].replace(/[^#0]/g, "").length;
 
 	var NumberTextBoxMixin = declare("dijit.form.NumberTextBoxMixin", null, {
 		// summary:
@@ -86,7 +92,14 @@ define([
 		//		The decimal character used with the locale associated with this number text box
 		// tags:
 		//		private
-		_decimalChar: i18n.getLocalization("dojo.cldr", "number", i18n.normalizeLocale()).decimal,
+		_decimalChar: localeDecimalChar,
+
+		// _decimalPlaces: number
+		// summary:
+		//		The decimal precision of this textbox. Initially set to the default dojo/number.parse() precision.
+		// tags:
+		//		private
+		_decimalPlaces: localeDecimalFormatPlaces,
 
 		postMixInProperties: function(){
 			this.inherited(arguments);
@@ -106,8 +119,13 @@ define([
 			if(this.focusNode && this.focusNode.value && !isNaN(this.value)){
 				this.set('value', this.value);
 			}
-			// Capture the decimal character for the locale of this field. Will be used in _isValidSubset()
-			this._decimalChar = i18n.getLocalization("dojo.cldr", "number", i18n.normalizeLocale(constraints.locale)).decimal;
+			// Capture information based on the constraint locale and pattern. Specifically, capture the decimalChar
+			// and the decimalPlaces.
+			var localeBundle = i18n.getLocalization("dojo.cldr", "number", i18n.normalizeLocale(constraints.locale)),
+				// Same pattern resolution as dojo/number.parse(). See parse() and dojo/number._parseInfo()
+				pattern = constraints.pattern ? constraints.pattern : localeBundle[(constraints.type || "decimal")+"Format"]; 
+			this._decimalChar = localeBundle.decimal;
+			this._decimalPlaces = pattern.indexOf(this._decimalChar) == -1 ? 0 : pattern.split(this._decimalChar)[1].replace(/[^#0]/g, "").length;
 		},
 
 		_onFocus: function(){
@@ -182,7 +200,14 @@ define([
 			//		Otherwise it dispatches to the superclass's filter() method.
 			//
 			//		See `dijit/form/TextBox.filter()` for more details.
-			return (value == null /* or undefined */ || value === '') ? NaN : this.inherited(arguments); // set('value', null||''||undefined) should fire onChange(NaN)
+			if (value == null  /* or undefined */ || typeof value == "string" && value ==''){
+				return NaN;
+			}
+			else
+			if (typeof value == "number" && !isNaN(value) && value != 0){
+				value = number.round(value, this._decimalPlaces);
+			}
+			return this.inherited(arguments, [value]);
 		},
 
 		serialize: function(/*Number*/ value, /*Object?*/ options){

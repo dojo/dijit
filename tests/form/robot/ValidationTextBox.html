@@ -1192,36 +1192,37 @@
 					}
 				]);
 
-				// This should be the last test since it destroys a ValidationTextBox
-				doh.register("tooltip hide on destroy", [
+				doh.register("Ensure value formatting doesn't change entered values", [
 					{
-						name: "focus",
-						timeout: 5000,
+						name: "Ensure leading 0s don't cause a value change on blur",
+						timeout: 1000,
+						setUp: function(){
+							var textWidget = dijit.byId("ticket17955");
+							textWidget.set('maxLength', 8);
+							textWidget.set('constraints', {pattern: "000.#"});
+						},
 						runTest: function(){
-							var d = new doh.Deferred();
-							textbox = dijit.byId("q03");
-							textbox.focusNode.scrollIntoView();
-							textbox.set("value", "");
-							textbox.focus();
-							setTimeout(d.getTestCallback(function(){
-								// Tooltip should appear with information message
-								masterTT = dojo.global.dijit._masterTT;
-								doh.t(masterTT && isVisible(masterTT.domNode), "visible");
-							}), 750);
+							var textWidget = dijit.byId("ticket17955");
+							textWidget.textbox.focus();
+							textWidget.textbox.value = "02103.5";
+							textWidget.textbox.blur();
+							doh.is(2103.5, textWidget.get("value"), "textbox.get('value')");
 						}
 					},
 					{
-						name: "destroy",
-						timeout: 2000,
+						name: "Ensure extra digits do not cause a value change on blur",
+						timeout: 1000,
+						setUp: function(){
+							var textWidget = dijit.byId("ticket17955");
+							textWidget.set('maxLength', 8);
+							textWidget.set('constraints', {pattern: "000.#"});
+						},
 						runTest: function(){
-							var d = new doh.Deferred();
-							textbox.destroy();
-							setTimeout(d.getTestCallback(function(){
-								// Tooltip should disappear when ValidationTextBox (or enclosing Dialog) destroyed
-								masterTT = dojo.global.dijit._masterTT;
-								doh.t(masterTT && isHidden(masterTT.domNode), "hidden");
-							}), 300);
-							return d;
+							var textWidget = dijit.byId("ticket17955");
+							textWidget.textbox.focus();
+							textWidget.textbox.value = "5123123";
+							textWidget.textbox.blur();
+							doh.is(5123123, textWidget.get("value"), "textbox.get('value')");
 						}
 					}
 				]);
@@ -1455,6 +1456,40 @@
 						return d;
 					}
 				}]);
+
+				// This should be the last test since it destroys a ValidationTextBox
+				doh.register("tooltip hide on destroy", [
+					{
+						name: "focus",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							textbox = dijit.byId("q03");
+							textbox.focusNode.scrollIntoView();
+							textbox.set("value", "");
+							textbox.focus();
+							setTimeout(d.getTestCallback(function(){
+								// Tooltip should appear with information message
+								masterTT = dojo.global.dijit._masterTT;
+								doh.t(masterTT && isVisible(masterTT.domNode), "visible");
+							}), 750);
+						}
+					},
+					{
+						name: "destroy",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							textbox.destroy();
+							setTimeout(d.getTestCallback(function(){
+								// Tooltip should disappear when ValidationTextBox (or enclosing Dialog) destroyed
+								masterTT = dojo.global.dijit._masterTT;
+								doh.t(masterTT && isHidden(masterTT.domNode), "hidden");
+							}), 300);
+							return d;
+						}
+					}
+				]);
 
 				doh.run();
 			});
