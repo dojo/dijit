@@ -112,11 +112,11 @@ define([
 					this._firstAroundPosition = newPos;
 					for(var i = 0; i < this._stack.length; i++){
 						var style = this._stack[i].wrapper.style;
-						style.top = (parseInt(style.top, 10) + dy) + "px";
+						style.top = (parseFloat(style.top) + dy) + "px";
 						if(style.right == "auto"){
-							style.left = (parseInt(style.left, 10) + dx) + "px";
+							style.left = (parseFloat(style.left) + dx) + "px";
 						}else{
-							style.right = (parseInt(style.right, 10) - dx) + "px";
+							style.right = (parseFloat(style.right) - dx) + "px";
 						}
 					}
 				}
