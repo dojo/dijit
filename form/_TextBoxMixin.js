@@ -89,6 +89,17 @@ define([
 					}else{
 						formattedValue = '';
 					}
+					// Ensure the filtered value does not change after being formatted. See track #17955.
+					//
+					// This check is only applied when the formatted value is not specified by the caller in order to allow the 
+					// behavior to be overriden. This is needed whenever value synonyms cannot be determined using parse/compare. For
+					// example, dijit/form/FilteringSelect determines the formatted value asynchronously and applies it using a 
+					// callback to this method.
+					//
+					// TODO: Should developers be warned that they broke the round trip on format?
+					if (this.compare(filteredValue, this.filter(this.parse(formattedValue, this.constraints))) != 0){
+						formattedValue = null;
+					}
 				}
 			}
 			if(formattedValue != null /* and !undefined */ && ((typeof formattedValue) != "number" || !isNaN(formattedValue)) && this.textbox.value != formattedValue){

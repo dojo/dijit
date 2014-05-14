@@ -10,6 +10,18 @@ define([
 	// module:
 	//		dijit/form/NumberTextBox
 
+	// A private helper function to determine decimal information
+	// Returns an object with "sep" and "places" properties
+	var getDecimalInfo = function(constraints){
+		var constraints = constraints || {},
+			bundle = i18n.getLocalization("dojo.cldr", "number", i18n.normalizeLocale(constraints.locale)),
+			pattern = constraints.pattern ? constraints.pattern : bundle[(constraints.type || "decimal")+"Format"],
+			placesSpecified = typeof constraints.places == "number",
+			// The "places" property trumps the pattern property if both are specified in number.format, we follow the same
+			// logic here
+			places = placesSpecified ? constraints.places : (pattern.indexOf(bundle.decimal) ? pattern.split(bundle.decimal)[1].replace(/[^#0]/g, "").length : 0);
+		return { sep: bundle.decimal, places: places };
+	};
 
 	var NumberTextBoxMixin = declare("dijit.form.NumberTextBoxMixin", null, {
 		// summary:
@@ -81,12 +93,12 @@ define([
 		=====*/
 		_regExpGenerator: number.regexp,
 
-		// _decimalChar: String
+		// _decimalInfo: Object
 		// summary:
-		//		The decimal character used with the locale associated with this number text box
+		//		An object containing decimal related properties relevant to this TextBox.
 		// tags:
 		//		private
-		_decimalChar: i18n.getLocalization("dojo.cldr", "number", i18n.normalizeLocale()).decimal,
+		_decimalInfo: getDecimalInfo(),
 
 		postMixInProperties: function(){
 			this.inherited(arguments);
@@ -106,8 +118,8 @@ define([
 			if(this.focusNode && this.focusNode.value && !isNaN(this.value)){
 				this.set('value', this.value);
 			}
-			// Capture the decimal character for the locale of this field. Will be used in _isValidSubset()
-			this._decimalChar = i18n.getLocalization("dojo.cldr", "number", i18n.normalizeLocale(constraints.locale)).decimal;
+			// Capture decimal information based on the constraint locale and pattern.
+			this._decimalInfo = getDecimalInfo(constraints);
 		},
 
 		_onFocus: function(){
@@ -182,7 +194,12 @@ define([
 			//		Otherwise it dispatches to the superclass's filter() method.
 			//
 			//		See `dijit/form/TextBox.filter()` for more details.
-			return (value == null /* or undefined */ || value === '') ? NaN : this.inherited(arguments); // set('value', null||''||undefined) should fire onChange(NaN)
+			if(value == null  /* or undefined */ || typeof value == "string" && value ==''){
+				return NaN;
+			}else if(typeof value == "number" && !isNaN(value) && value != 0){
+				value = number.round(value, this._decimalInfo.places);
+			}
+			return this.inherited(arguments, [value]);
 		},
 
 		serialize: function(/*Number*/ value, /*Object?*/ options){
@@ -298,14 +315,14 @@ define([
 			var integerDigits = curVal|0,
 				valNegative = curVal < 0,
 				// Check if the current number has a decimal based on its locale
-				hasDecimal = this.textbox.value.indexOf(this._decimalChar) != -1,
+				hasDecimal = this.textbox.value.indexOf(this._decimalInfo.sep) != -1,
 				// Determine the max digits based on the textbox length. If no length is
 				// specified, chose a huge number to account for crazy formatting.
 				maxDigits = this.maxLength || 20,
 				// Determine the remaining digits, based on the max digits
 				remainingDigitsCount = maxDigits - this.textbox.value.length,
 				// avoid approximation issues by capturing the decimal portion of the value as the user-entered string
-				fractionalDigitStr = hasDecimal ? this.textbox.value.split(this._decimalChar)[1].replace(/[^0-9]/g, "") : "";
+				fractionalDigitStr = hasDecimal ? this.textbox.value.split(this._decimalInfo.sep)[1].replace(/[^0-9]/g, "") : "";
 
 			// Create a normalized value string in the form of #.###
 			var normalizedValueStr = hasDecimal ? integerDigits+"."+fractionalDigitStr : integerDigits+"";
