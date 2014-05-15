@@ -1128,6 +1128,7 @@
 								doh.t(masterTT && isVisible(masterTT.domNode), "visible");
 								doh.is("(optional) Enter an age between 0 and 120", dojo.trim(innerText(masterTT.domNode)));
 							}), 750);
+							return d;
 						}
 					},
 					{
@@ -1473,6 +1474,7 @@
 								masterTT = dojo.global.dijit._masterTT;
 								doh.t(masterTT && isVisible(masterTT.domNode), "visible");
 							}), 750);
+							return d;
 						}
 					},
 					{
