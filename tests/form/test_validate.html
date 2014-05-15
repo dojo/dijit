@@ -916,5 +916,25 @@
             fld.startup();
         });
         </script>
+
+		<div class="dojoTitlePaneLabel">
+			<label id="l_ticket17955">Trac ticket 17955</label>
+			<span class="noticeMessage">Ensure setting the formattedValue does not alter the entered value on blur</span>
+		</div>
+		<div class="testExample">
+			<input id="ticket17955" class="medium"/>
+		</div>
+		<script>
+		require(["dijit/form/NumberTextBox", "dojo/dom", "dojo/on", "dojo/_base/lang"], function(NumberTextBox, dom, on, lang){
+
+			var fld = new NumberTextBox({
+				name: "ticket17955",
+				constraints: {pattern: '000.#', min: 12, max: 142 },
+				placeHolder: "Number Pattern 000.#",
+				maxLength: 5
+			}, "ticket17955");
+			fld.startup();
+		});
+		</script>
 	</body>
 </html>
