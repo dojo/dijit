@@ -1225,6 +1225,22 @@
 							textWidget.textbox.blur();
 							doh.is(5123123, textWidget.get("value"), "textbox.get('value')");
 						}
+					},
+					{
+						name: "Verify patterns without a decimal work as expected",
+						timeout: 1000,
+						setUp: function(){
+							var textWidget = dijit.byId("ticket17955");
+							textWidget.set('maxLength', null);
+							textWidget.set('constraints', {pattern: "#"});
+						},
+						runTest: function(){
+							var textWidget = dijit.byId("ticket17955");
+							textWidget.textbox.focus();
+							textWidget.textbox.value = "80000";
+							textWidget.textbox.blur();
+							doh.is(80000, textWidget.get("value"), "textbox.get('value')");
+						}
 					}
 				]);
 
