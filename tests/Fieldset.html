@@ -22,10 +22,13 @@
 				doh.t(fs1.open, "open");
 				doh.is("Declarative", fs1.titleNode.innerHTML);
 
+				var labelNodeId = fs1.containerNode.getAttribute("aria-labelledby");
+				doh.is("Declarative", document.getElementById(labelNodeId).innerHTML);
+
 				on.emit(fs1.titleNode, "click", {bubbles: true});
 				setTimeout(d.getTestCallback(function(){
 					doh.f(fs1.open, "closed");
-					doh.is("none", fs1.hideNode.style.display, "hidden")
+					doh.is("none", fs1.hideNode.style.display, "hidden");
 				}), 500);
 
 				return d;
