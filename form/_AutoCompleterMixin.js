@@ -60,6 +60,14 @@ define([
 		//		Any reference to the `searchAttr` is ignored.
 		query: {},
 
+		// list: [const] String
+		//		Alternate to specifying a store.  Id of a dijit/form/DataList widget.
+		list: "",
+		_setListAttr: function(list){
+			// Avoid having list applied to the DOM node, since it has native meaning in modern browsers
+			this._set("list", list);
+		},
+
 		// autoComplete: Boolean
 		//		If user types in a partial string, and then tab out of the `<input>` box,
 		//		automatically copy the first entry displayed in the drop down list to
