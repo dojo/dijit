@@ -42,6 +42,14 @@ define([
 		//		ComboBox overwrites any reference to the `searchAttr` and sets it to the `queryExpr` with the user's input substituted.
 		query: {},
 
+		// list: [const] String
+		//		Alternate to specifying a store.  Id of a dijit/form/DataList widget.
+		list: "",
+		_setListAttr: function(list){
+			// Avoid having list applied to the DOM node, since it has native meaning in modern browsers
+			this._set("list", list);
+		},
+
 		// searchDelay: Integer
 		//		Delay in milliseconds between when user types something and we start
 		//		searching based on that value
