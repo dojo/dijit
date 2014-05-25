@@ -11,12 +11,11 @@ define([
 	"dojo/keys",
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on",
-	"dojo/_base/window",
 	"./place",
 	"./BackgroundIframe",
 	"./Viewport",
 	"./main"    // dijit (defining dijit.popup to match API doc)
-], function(array, aspect, declare, dom, domAttr, domConstruct, domGeometry, domStyle, has, keys, lang, on, win,
+], function(array, aspect, declare, dom, domAttr, domConstruct, domGeometry, domStyle, has, keys, lang, on,
 			place, BackgroundIframe, Viewport, dijit){
 
 	// module:
@@ -98,24 +97,6 @@ define([
 
 		_idGen: 1,
 
-		constructor: function(){
-			if("ontouchstart" in win.doc){
-				// Workaround iOS problem where clicking a Menu can focus an <input> (or click a button) behind it.
-				// When a menu is closed [by a touchstart event], then squelch the synthetic mousedown from dojo/touch
-				// (when node.dojoClick=true is set on an ancestor) or from the browser (otherwise).
-				var squelch = function (evt){
-					if((new Date()).getTime() < this._lastTimePopupClosed + 500){
-						evt.stopImmediatePropagation();
-						evt.preventDefault();
-						console.log("dijit/popup: squelched " + evt.type);
-					}
-				}.bind(this);
-				win.doc.addEventListener("mousedown", squelch, true);
-				win.doc.addEventListener("mouseup", squelch, true);
-				win.doc.addEventListener("click", squelch, true);
-			}
-		},
-
 		_repositionAll: function(){
 			// summary:
 			//		If screen has been scrolled, reposition all the popups in the stack.
@@ -173,6 +154,16 @@ define([
 
 				widget._popupWrapper = wrapper;
 				aspect.after(widget, "destroy", destroyWrapper, true);
+
+				if("ontouchend" in document){
+					// Workaround iOS problem where clicking a Menu can focus an <input> (or click a button) behind it.
+					// Need to be careful though that you can still focus <input>'s and click <button>'s in a TooltipDialog.
+					on(wrapper, "touchend", function(evt){
+						if(!/^(input|button|textarea)$/i.test(evt.target.tagName)){
+							evt.preventDefault();
+						}
+					});
+				}
 			}
 
 			return wrapper;
@@ -430,9 +421,6 @@ define([
 				if(onClose){
 					onClose();
 				}
-
-				this._lastTimePopupClosed = (new Date()).getTime();
-				console.log("set this._lastTimePopupClosed =" + this._lastTimePopupClosed, this);
 			}
 
 			if(stack.length == 0 && this._aroundMoveListener){
