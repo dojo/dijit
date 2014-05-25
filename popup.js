@@ -11,11 +11,12 @@ define([
 	"dojo/keys",
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on",
+	"dojo/_base/window",
 	"./place",
 	"./BackgroundIframe",
 	"./Viewport",
 	"./main"    // dijit (defining dijit.popup to match API doc)
-], function(array, aspect, declare, dom, domAttr, domConstruct, domGeometry, domStyle, has, keys, lang, on,
+], function(array, aspect, declare, dom, domAttr, domConstruct, domGeometry, domStyle, has, keys, lang, on, win,
 			place, BackgroundIframe, Viewport, dijit){
 
 	// module:
@@ -80,8 +81,6 @@ define([
 		}
 	}
 
-	var touchstartPrevented, lastTouchY;
-
 	var PopupManager = declare(null, {
 		// summary:
 		//		Used to show drop downs (ex: the select list of a ComboBox)
@@ -98,6 +97,24 @@ define([
 		_beginZIndex: 1000,
 
 		_idGen: 1,
+
+		constructor: function(){
+			if("ontouchstart" in win.doc){
+				// Workaround iOS problem where clicking a Menu can focus an <input> (or click a button) behind it.
+				// When a menu is closed [by a touchstart event], then squelch the synthetic mousedown from dojo/touch
+				// (when node.dojoClick=true is set on an ancestor) or from the browser (otherwise).
+				var squelch = function (evt){
+					if((new Date()).getTime() < this._lastTimePopupClosed + 500){
+						evt.stopImmediatePropagation();
+						evt.preventDefault();
+						console.log("dijit/popup: squelched " + evt.type);
+					}
+				}.bind(this);
+				win.doc.addEventListener("mousedown", squelch, true);
+				win.doc.addEventListener("mouseup", squelch, true);
+				win.doc.addEventListener("click", squelch, true);
+			}
+		},
 
 		_repositionAll: function(){
 			// summary:
@@ -156,36 +173,6 @@ define([
 
 				widget._popupWrapper = wrapper;
 				aspect.after(widget, "destroy", destroyWrapper, true);
-
-				if("ontouchstart" in document) {
-					// Workaround iOS problem where clicking a Menu can focus an <input> (or click a button) behind it.
-					// Need to be careful though that you can still focus <input>'s and click <button>'s in a TooltipDialog.
-					on(wrapper, "touchstart", function (evt){
-						if(!/^(input|button|textarea)$/i.test(evt.target.tagName)){
-							evt.preventDefault();
-							touchstartPrevented = true;
-							lastTouchY = evt.pageY;
-						}else{
-							touchstartPrevented = false;
-						}
-					});
-
-					// But calling evt.preventDefault() on touchstart breaks native scrolling, so simulate it here.
-					// Just doing vertical scrolling since horizontal is unusual.
-					on(wrapper, "touchmove", function (evt){
-						if(touchstartPrevented){
-							var dy = evt.pageY - lastTouchY;
-							for(var node = evt.target; node != wrapper.parentNode; node = node.parentNode){
-								if((dy > 0 && node.scrollTop > 0) ||
-									(dy < 0 && node.scrollTop + node.clientHeight < node.scrollHeight)){
-									node.scrollTop -= dy;
-									break;
-								}
-							}
-							lastTouchY = evt.pageY;
-						}
-					});
-				}
 			}
 
 			return wrapper;
@@ -443,6 +430,9 @@ define([
 				if(onClose){
 					onClose();
 				}
+
+				this._lastTimePopupClosed = (new Date()).getTime();
+				console.log("set this._lastTimePopupClosed =" + this._lastTimePopupClosed, this);
 			}
 
 			if(stack.length == 0 && this._aroundMoveListener){
