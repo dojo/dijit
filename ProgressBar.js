@@ -121,6 +121,9 @@ define([
 			this.labelNode.innerHTML = this.report(percent);
 
 			domClass.toggle(this.domNode, "dijitProgressBarIndeterminate", this.indeterminate);
+			// Bidi Support
+			domClass.toggle(this.domNode, "dijitProgressBarIndeterminateRtl", (this.indeterminate && !this.isLeftToRight()));
+			
 			tip.style.width = (percent * 100) + "%";
 			this.onChange();
 		},
