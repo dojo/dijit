@@ -1,5 +1,4 @@
 define(
-//begin v1.x content
 ({
 	'bold': 'Negrito',
 	'copy': 'Copiar',
@@ -12,9 +11,9 @@ define(
 	'italic': 'Itálico',
 	'justifyCenter': 'Alinhar pelo Centro',
 	'justifyFull': 'Justificar',
-	'justifyLeft': 'Alinhar à Esquerda',
-	'justifyRight': 'Alinhar à Direita',
-	'outdent': 'Não chanfrado',
+	'justifyLeft': 'Alinhar pela Esquerda',
+	'justifyRight': 'Alinhar pela Direita',
+	'outdent': 'Não-chanfrado',
 	'paste': 'Colar',
 	'redo': 'Refazer',
 	'removeFormat': 'Remover Formato',
@@ -34,7 +33,7 @@ define(
 	'tableProp': 'Propriedade da Tabela',
 	'htmlToggle': 'Origem HTML',
 	'foreColor': 'Cor do Primeiro Plano',
-	'hiliteColor': 'Cor do Segundo Plano',
+	'hiliteColor': 'Cor de segundo plano',
 	'plainFormatBlock': 'Estilo de Parágrafo',
 	'formatBlock': 'Estilo de Parágrafo',
 	'fontSize': 'Tamanho da Fonte',
@@ -42,10 +41,11 @@ define(
 	'tabIndent': 'Recuo de Guia',
 	"fullScreen": "Comutar Tela Cheia",
 	"viewSource": "Visualizar Origem HTML",
-	"print": "Imprimir",
+	"print": "Impressão",
 	"newPage": "Nova Página",
 	/* Error messages */
-	'systemShortcut': 'A ação "${0}" está disponível em seu navegador apenas usando um atalho de teclado. Use ${1}.'
+	'systemShortcut': 'A ação "${0}" está disponível em seu navegador apenas usando um atalho do teclado. Use ${1}.',
+	'ctrlKey':'ctrl+${0}',
+	'appleKey':'\u2318${0}' // "command" or open-apple key on Macintosh
 })
-//end v1.x content
 );

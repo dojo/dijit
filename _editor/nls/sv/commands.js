@@ -1,12 +1,11 @@
 define(
-//begin v1.x content
 ({
-	'bold': 'Fetstil',
+	'bold': 'Halvfet',
 	'copy': 'Kopiera',
 	'cut': 'Klipp ut',
 	'delete': 'Ta bort',
 	'indent': 'Indrag',
-	'insertHorizontalRule': 'Horisontell linjal',
+	'insertHorizontalRule': 'Horisontell linje',
 	'insertOrderedList': 'Numrerad lista',
 	'insertUnorderedList': 'Punktlista',
 	'italic': 'Kursiv',
@@ -22,14 +21,14 @@ define(
 	'strikethrough': 'Genomstruken',
 	'subscript': 'Nedsänkt',
 	'superscript': 'Upphöjt',
-	'underline': 'Understrykning',
+	'underline': 'Understruken',
 	'undo': 'Ångra',
 	'unlink': 'Ta bort länk',
 	'createLink': 'Skapa länk',
 	'toggleDir': 'Växla riktning',
 	'insertImage': 'Infoga bild',
 	'insertTable': 'Infoga/redigera tabell',
-	'toggleTableBorder': 'Aktivera/avaktivera tabellram',
+	'toggleTableBorder': 'Växla tabellinjer',
 	'deleteTable': 'Ta bort tabell',
 	'tableProp': 'Tabellegenskap',
 	'htmlToggle': 'HTML-källkod',
@@ -38,17 +37,15 @@ define(
 	'plainFormatBlock': 'Styckeformat',
 	'formatBlock': 'Styckeformat',
 	'fontSize': 'Teckenstorlek',
-	'fontName': 'Teckensnittsnamn',
+	'fontName': 'Teckensnitt',
 	'tabIndent': 'Tabbindrag',
 	"fullScreen": "Växla helskärm",
 	"viewSource": "Visa HTML-kod",
 	"print": "Skriv ut",
 	"newPage": "Ny sida",
 	/* Error messages */
-	'systemShortcut': 'Åtgärden "${0}" är endast tillgänglig i webbläsaren med hjälp av ett kortkommando. Använd ${1}.',
+	'systemShortcut': 'Åtgärden ${0} är endast tillgänglig i webbläsaren via ett tangentbordskommando. Använd ${1}.',
 	'ctrlKey':'Ctrl+${0}',
-	'appleKey':'\u2318+${0}' // "command" or open-apple key on Macintosh
+	'appleKey':'\u2318${0}' // "command" or open-apple key on Macintosh
 })
-
-//end v1.x content
 );

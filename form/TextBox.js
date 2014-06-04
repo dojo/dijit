@@ -42,15 +42,6 @@ define([
 			this.inherited(arguments);
 		},
 
-		_onInput: function(e){
-			this.inherited(arguments);
-			if(this.intermediateChanges){ // _TextBoxMixin uses onInput
-				var _this = this;
-				// the setTimeout allows the key to post to the widget input box
-				setTimeout(function(){ _this._handleOnChange(_this.get('value'), false); }, 0);
-			}
-		},
-
 		_setPlaceHolderAttr: function(v){
 			this._set("placeHolder", v);
 			if(!this._phspan){
@@ -65,9 +56,17 @@ define([
 			this._updatePlaceHolder();
 		},
 
+		_onInput: function(/*Event*/ evt){
+			// summary:
+			//		Called AFTER the input event has happened
+			//		See if the placeHolder text should be removed or added while editing.
+			this.inherited(arguments);
+			this._updatePlaceHolder();
+		},
+
 		_updatePlaceHolder: function(){
 			if(this._phspan){
-				this._phspan.style.display=(this.placeHolder&&!this.focused&&!this.textbox.value)?"":"none";
+				this._phspan.style.display = (this.placeHolder && !this.textbox.value) ? "" : "none";
 			}
 		},
 

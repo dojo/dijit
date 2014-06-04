@@ -211,6 +211,11 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 			this.applyTextDir(this.focusNode, this.focusNode.value);
 		}
 
+
+		if(this.intermediateChanges){
+			// allow the key to post to the widget input box
+			this.defer(function(){ this._handleOnChange(this.get('value'), false); });
+		}
 		this._refreshState();
 
 		// In case someone is watch()'ing for changes to displayedValue

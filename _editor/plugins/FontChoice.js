@@ -56,6 +56,7 @@ var _FontDropDown = declare("dijit._editor.plugins._FontDropDown",
 			"<label class='dijitLeft dijitInline' for='${selectId}'>${label}</label>" +
 			"<input data-dojo-type='dijit.form.FilteringSelect' required='false' " +
 			        "data-dojo-props='labelType:\"html\", labelAttr:\"label\", searchAttr:\"name\"' " +
+				"class='${comboClass}' " +
 					"tabIndex='-1' id='${selectId}' data-dojo-attach-point='select' value=''/>" +
 		"</span>",
 
@@ -155,6 +156,8 @@ var _FontNameDropDown = declare("dijit._editor.plugins._FontNameDropDown", _Font
 	//		The editor 'command' implemented by this plugin.
 	command: "fontName",
 
+		comboClass: "dijitFontNameCombo",
+
 	postMixInProperties: function(){
 		// summary:
 		//		Over-ride for the default posr mixin control
@@ -217,6 +220,8 @@ var _FontSizeDropDown = declare("dijit._editor.plugins._FontSizeDropDown", _Font
 	//		The editor 'command' implemented by this plugin.
 	command: "fontSize",
 
+		comboClass: "dijitFontSizeCombo",
+
 	// values: [public] Number[]
 	//		The HTML font size values supported by this plugin
 	values: [1,2,3,4,5,6,7], // sizes according to the old HTML FONT SIZE
@@ -261,6 +266,8 @@ var _FormatBlockDropDown = declare("dijit._editor.plugins._FormatBlockDropDown",
 	// command: [public] String
 	//		The editor 'command' implemented by this plugin.
 	command: "formatBlock",
+
+		comboClass: "dijitFormatBlockCombo",
 
 	// values: [public] Array
 	//		The HTML format tags supported by this plugin

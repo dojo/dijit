@@ -7,6 +7,8 @@ define([
 	"dojo/dom-geometry", // domGeometry.getMarginBox domGeometry.position
 	"dojo/dom-style", // domStyle.set, domStyle.get
 	"dojo/_base/lang", // lang.hitch lang.isArrayLike
+	"dojo/mouse",
+	"dojo/on",
 	"dojo/_base/sniff", // has("ie")
 	"dojo/_base/window", // win.body
 	"./_base/manager",	// manager.defaultDuration
@@ -16,7 +18,7 @@ define([
 	"./BackgroundIframe",
 	"dojo/text!./templates/Tooltip.html",
 	"."		// sets dijit.showTooltip etc. for back-compat
-], function(array, declare, fx, dom, domClass, domGeometry, domStyle, lang, has, win,
+], function(array, declare, fx, dom, domClass, domGeometry, domStyle, lang, mouse, on, has, win,
 			manager, place, _Widget, _TemplatedMixin, BackgroundIframe, template, dijit){
 
 /*=====
@@ -30,6 +32,14 @@ define([
 	// summary:
 	//		Defines dijit.Tooltip widget (to display a tooltip), showTooltip()/hideTooltip(), and _MasterTooltip
 
+
+	// TODO: Tooltip should really share more positioning code with TooltipDialog, like:
+	//		- the orient() method
+	//		- the connector positioning code in show()
+	//		- the dijitTooltip[Dialog] class
+	//
+	// The problem is that Tooltip's implementation supplies it's own <iframe> and interacts directly
+	// with dijit/place, rather than going through dijit/popup like TooltipDialog and other popups (ex: Menu).
 
 	var MasterTooltip = declare("dijit._MasterTooltip", [_Widget, _TemplatedMixin], {
 		// summary:
@@ -77,9 +87,6 @@ define([
 				return;
 			}
 
-			// reset width; it may have been set by orient() on a previous tooltip show()
-			this.domNode.width = "auto";
-
 			if(this.fadeOut.status() == "playing"){
 				// previous tooltip is being hidden; wait until the hide completes then show new one
 				this._onDeck=arguments;
@@ -103,6 +110,10 @@ define([
 				this.connectorNode.style.left = "";
 			}else if(pos.corner.charAt(1) == 'M' && pos.aroundCorner.charAt(1) == 'M'){
 				this.connectorNode.style.left = aroundNodeCoords.x + ((aroundNodeCoords.w - this.connectorNode.offsetWidth) >> 1) - pos.x + "px";
+			}else{
+				// Not *-centered, but just above/below/after/before
+				this.connectorNode.style.left = "";
+				this.connectorNode.style.top = "";
 			}
 
 			// show it
@@ -119,10 +130,11 @@ define([
 			//		width to whatever width is available
 			// tags:
 			//		protected
+
 			this.connectorNode.style.top = ""; //reset to default
 
-			//Adjust the spaceAvailable width, without changing the spaceAvailable object
-			var tooltipSpaceAvaliableWidth = spaceAvailable.w - this.connectorNode.offsetWidth;
+			var heightAvailable = spaceAvailable.h,
+				widthAvailable = spaceAvailable.w;
 
 			node.className = "dijitTooltip " +
 				{
@@ -138,33 +150,30 @@ define([
 					"BL-BR": "dijitTooltipLeft"
 				}[aroundCorner + "-" + tooltipCorner];
 
-			// reduce tooltip's width to the amount of width available, so that it doesn't overflow screen
+			// reset width; it may have been set by orient() on a previous tooltip show()
 			this.domNode.style.width = "auto";
-			var size = domGeometry.getContentBox(this.domNode);
 
-			var width = Math.min((Math.max(tooltipSpaceAvaliableWidth,1)), size.w);
+			// Reduce tooltip's width to the amount of width available, so that it doesn't overflow screen.
+			// Note that sometimes widthAvailable is negative, but we guard against setting style.width to a
+			// negative number since that causes an exception on IE.
+			var size = domGeometry.position(this.domNode);
+			if(has("ie") == 9){
+				// workaround strange IE9 bug where setting width to offsetWidth causes words to wrap
+				size.w += 2;
+			}
+
+			var width = Math.min((Math.max(widthAvailable,1)), size.w);
 			var widthWasReduced = width < size.w;
 
-			this.domNode.style.width = width+"px";
-
-			//Adjust width for tooltips that have a really long word or a nowrap setting
-			if(widthWasReduced){
-				this.containerNode.style.overflow = "auto"; //temp change to overflow to detect if our tooltip needs to be wider to support the content
-				var scrollWidth = this.containerNode.scrollWidth;
-				this.containerNode.style.overflow = "visible"; //change it back
-				if(scrollWidth > width){
-					scrollWidth = scrollWidth + domStyle.get(this.domNode,"paddingLeft") + domStyle.get(this.domNode,"paddingRight");
-					this.domNode.style.width = scrollWidth + "px";
-				}
-			}
+			domGeometry.setMarginBox(this.domNode, {w: width});
 
 			// Reposition the tooltip connector.
 			if(tooltipCorner.charAt(0) == 'B' && aroundCorner.charAt(0) == 'B'){
 				var mb = domGeometry.getMarginBox(node);
 				var tooltipConnectorHeight = this.connectorNode.offsetHeight;
-				if(mb.h > spaceAvailable.h){
+				if(mb.h > heightAvailable){
 					// The tooltip starts at the top of the page and will extend past the aroundNode
-					var aroundNodePlacement = spaceAvailable.h - ((aroundNodeCoords.h + tooltipConnectorHeight) >> 1);
+					var aroundNodePlacement = heightAvailable - ((aroundNodeCoords.h + tooltipConnectorHeight) >> 1);
 					this.connectorNode.style.top = aroundNodePlacement + "px";
 					this.connectorNode.style.bottom = "";
 				}else{
@@ -182,7 +191,7 @@ define([
 				this.connectorNode.style.bottom = "";
 			}
 
-			return Math.max(0, size.w - tooltipSpaceAvaliableWidth);
+			return Math.max(0, size.w - widthAvailable);
 		},
 
 		_onShow: function(){
@@ -276,7 +285,8 @@ define([
 		// textDir: String?
 		//		Corresponds to `WidgetBase.textdir` attribute; specifies direction of text.
 
-		// after/before don't work, but they used to, so for back-compat convert them to after-centered, before-centered
+		// After/before don't work, but for back-compat convert them to the working after-centered, before-centered.
+		// Possibly remove this in 2.0.   Alternately, get before/after to work.
 		if(position){
 			position = array.map(position, function(val){
 				return {after: "after-centered", before: "before-centered"}[val] || val;
@@ -316,13 +326,20 @@ define([
 		//		See description of `dijit.Tooltip.defaultPosition` for details on position parameter.
 		position: [],
 
+		// selector: String?
+		//		CSS expression to apply this Tooltip to descendants of connectIds, rather than to
+		//		the nodes specified by connectIds themselves.    Useful for applying a Tooltip to
+		//		a range of rows in a table, tree, etc.   Use in conjunction with getContent() parameter.
+		//		Ex: connectId: myTable, selector: "tr", getContent: function(node){ return ...; }
+		selector: "",
+
 		_setConnectIdAttr: function(/*String|String[]*/ newId){
 			// summary:
 			//		Connect to specified node(s)
 
 			// Remove connections to old nodes (if there are any)
 			array.forEach(this._connections || [], function(nested){
-				array.forEach(nested, lang.hitch(this, "disconnect"));
+				array.forEach(nested, function(handle){ handle.remove(); });
 			}, this);
 
 			// Make array of id's to connect to, excluding entries for nodes that don't exist yet, see startup()
@@ -331,12 +348,21 @@ define([
 
 			// Make connections
 			this._connections = array.map(this._connectIds, function(id){
-				var node = dom.byId(id);
+				var node = dom.byId(id),
+					selector = this.selector,
+					delegatedEvent = selector ?
+						function(eventType){ return on.selector(selector, eventType); } :
+						function(eventType){ return eventType; },
+					self = this;
 				return [
-					this.connect(node, "onmouseenter", "_onHover"),
-					this.connect(node, "onmouseleave", "_onUnHover"),
-					this.connect(node, "onfocus", "_onHover"),
-					this.connect(node, "onblur", "_onUnHover")
+					on(node, delegatedEvent(mouse.enter), function(){
+						self._onHover(this);
+					}),
+					on(node, delegatedEvent("focusin"), function(){
+						self._onHover(this);
+					}),
+					on(node, delegatedEvent(mouse.leave), lang.hitch(self, "_onUnHover")),
+					on(node, delegatedEvent("focusout"), lang.hitch(self, "_onUnHover"))
 				];
 			}, this);
 
@@ -384,19 +410,26 @@ define([
 			array.forEach(lang.isArrayLike(ids) ? ids : [ids], this.addTarget, this);
 		},
 
-		_onHover: function(/*Event*/ e){
+		getContent: function(/*DomNode*/ node){
+			// summary:
+			//		User overridable function that return the text to display in the tooltip.
+			// tags:
+			//		extension
+			return this.label || this.domNode.innerHTML;
+		},
+
+		_onHover: function(/*DomNode*/ target){
 			// summary:
 			//		Despite the name of this method, it actually handles both hover and focus
 			//		events on the target node, setting a timer to show the tooltip.
 			// tags:
 			//		private
 			if(!this._showTimer){
-				var target = e.target;
 				this._showTimer = setTimeout(lang.hitch(this, function(){this.open(target)}), this.showDelay);
 			}
 		},
 
-		_onUnHover: function(/*Event*/ /*===== e =====*/){
+		_onUnHover: function(){
 			// summary:
 			//		Despite the name of this method, it actually handles both mouseleave and blur
 			//		events on the target node, hiding the tooltip.
@@ -424,9 +457,14 @@ define([
 				clearTimeout(this._showTimer);
 				delete this._showTimer;
 			}
-			Tooltip.show(this.label || this.domNode.innerHTML, target, this.position, !this.isLeftToRight(), this.textDir);
 
-			this._connectNode = target;
+			var content = this.getContent(target);
+			if(!content){
+				return;
+			}
+			Tooltip.show(content, target, this.position, !this.isLeftToRight(), this.textDir);
+
+			this._connectNode = target;		// _connectNode means "tooltip currently displayed for this node"
 			this.onShow(target, this.position);
 		},
 
@@ -465,6 +503,12 @@ define([
 
 		uninitialize: function(){
 			this.close();
+
+			// Remove connections manually since they aren't registered to be removed by _WidgetBase
+			array.forEach(this._connections || [], function(nested){
+				array.forEach(nested, function(handle){ handle.remove(); });
+			}, this);
+
 			this.inherited(arguments);
 		}
 	});

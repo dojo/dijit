@@ -11,7 +11,7 @@
 
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../dojo/dojo.js"></script>
-		<script type="text/javascript" src="../../helpers.js"></script>
+		<script type="text/javascript">dojo.require("dijit.tests.helpers"); // this instead of script tag for AMD 1.7</script>
 
 		<script type="text/javascript">
 			dojo.require("dijit.robotx");

@@ -13,7 +13,7 @@
 			djConfig="isDebug: true"></script>
 
 		<!-- functions to help test -->
-		<script type="text/javascript" src="../../helpers.js"></script>
+		<script type="text/javascript">dojo.require("dijit.tests.helpers"); // this instead of script tag for AMD 1.7</script>
 		<script type="text/javascript" src="./borderContainerTestFunctions.js"></script>
 
 		<script type="text/javascript">
@@ -242,12 +242,12 @@
 								doh.robot.sequence(d.getTestCallback(function(){
 									// test that the margin box for the accordion pane grows the same size as the splitter moved
 									var newAccordion = dojo.position(dojo.byId("ac1"));
-									doh.is(newAccordion.w, accordion.w-move, 'old accordion w = ' + accordion.w + ', new w = ' + newAccordion.w);
+									doh.t(Math.abs(newAccordion.w-(accordion.w-move)) <= 1, 'old accordion w = ' + accordion.w + ', new w = ' + newAccordion.w);
 									
 									// test that the center content got smaller by the same size that the splitter moved
 									var newCenterPane = dojo.position(dojo.byId("mainCP"));
 									var newCenterPaneRight = newCenterPane.x + newCenterPane.w;
-									doh.is(newCenterPane.w, centerPane.w+move-centerPaneRight+newCenterPaneRight, 'old center pane w = ' + centerPane.w + ', new w = ' + newCenterPane.w);
+									doh.t(Math.abs(newCenterPane.w-(centerPane.w+move-centerPaneRight+newCenterPaneRight)) <= 1, 'old center pane w = ' + centerPane.w + ', new w = ' + newCenterPane.w);
 								}), 500);
 							}, 500);
 

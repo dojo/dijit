@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>dijit.form.ComboBox Unit Test</title>
@@ -21,6 +21,7 @@
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">
+		var isUnitTest = false;
 		var testWidget = "dijit.form.ComboBox";
 		var qstr = window.location.search.substr(1);
 		if(qstr.length){
@@ -30,14 +31,20 @@
 		                if(tp[0] == "testWidget"){
 		                        testWidget = tp[1];
 					document.title = testWidget + " Unit Test";
-		                }
+		                }else if(tp[0] == "mode"){
+					isUnitTest = tp[1] == "test";
+				}
 		        }
 		}
+		var isComboBox = testWidget == "dijit.form.ComboBox";
+		dojo.require("dojo.store.Memory");
+		dojo.require("dojo._base.Deferred");
 		dojo.require("dojo.data.ItemFileReadStore");
 		dojo.require("dijit.tests._data.SlowStore");
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require(testWidget);
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+		dojo.require("doh.runner");
 
 		function setVal2(val){
 			dojo.byId('value2').value=val;
@@ -61,7 +68,20 @@
 			return label;
 		}
 
+		// Test Custom Store
+		dojo.declare("StateSelect", isComboBox ? dijit.form.ComboBox : dijit.form.FilteringSelect , {
+			placeHolder: "Select a State",
+			searchAttr: "name",
+			label: "State:",
+			name: "state",
+			style: "width: 160px",
+			store: new dojo.data.ItemFileReadStore({ url: dojo.moduleUrl("dijit.tests._data", "states.json") }),
+			value: ''
+		});
+
 		function init(){
+			var combo;
+
 			var testClass = dojo.getObject(testWidget);
 			// substitute testWidget for each data-dojo-type=$testWidget
 			dojo.query('[data-dojo-type="$testWidget"]').forEach(function(node){
@@ -93,6 +113,208 @@
 				searchAttr:"name",
 				fetchProperties: {sort:[{attribute: 'name', descending: true}]}
 			}, dojo.byId("progCombo3"));
+
+			// change Memory store to have an asynchronous total
+			var oldMemoryQuery = dojo.store.Memory.prototype.query;
+			dojo.store.Memory.extend({
+				query: function(){
+					var results = oldMemoryQuery.apply(this, arguments);
+					var total = results.total;
+					results.total = new dojo.Deferred();
+					setTimeout(function(){
+						results.total.resolve(total);
+					}, 100);
+					return results;
+				}
+			});
+
+			if(!isUnitTest){ return; }
+
+			doh.register("label", [
+				{
+					name: "user-specified id",
+					runTest: function(){
+						combo = dijit.byId("setvaluetest");
+						var labelId = combo.domNode.getAttribute('aria-labelledby');
+						doh.is("setvaluetest_mylabel", labelId, "labelledby");
+						doh.is(labelId, dojo.byId(labelId).id, "label id");
+					}
+				},
+				{
+					name: "generated id",
+					runTest: function(){
+						combo = dijit.byId("datatest");
+						var labelId = combo.domNode.getAttribute('aria-labelledby');
+						doh.is("datatest_label", labelId, "labelledby");
+						doh.is(labelId, dojo.byId(labelId).id, "label id");
+					}
+				},
+				{
+					name: "aria roles and attributes",
+					timeout: 2000,
+					runTest:function(){
+						var d = new doh.Deferred();
+						combo = dijit.byId("setvaluetest");
+						// ComboBox and FilteringSelect have the same roles and attributes
+						doh.is("combobox", combo._popupStateNode.getAttribute("role"), "combo _popupStateNode role");
+						doh.t(combo._popupStateNode.getAttribute("aria-haspopup"), "aria-haspopup on combo");
+						doh.is("setvaluetest_mylabel", combo._popupStateNode.getAttribute("aria-labelledby"), "aria-labelledby");
+						doh.f(combo._popupStateNode.getAttribute("aria-expanded"), "initially missing aria-expanded");
+						doh.f(combo._popupStateNode.getAttribute("aria-owns"), "initally missing aria-owns");					
+							
+						var handler = dojo.connect(combo, "openDropDown", function(){
+							dojo.disconnect(handler);
+							setTimeout(d.getTestCallback(function(){
+								doh.t(combo._popupStateNode.getAttribute("aria-expanded"), "now aria-expanded should be true");
+								doh.is("setvaluetest_popup", combo._popupStateNode.getAttribute("aria-owns"), "should aria-own the popup");
+							
+								doh.is("listbox", combo.dropDown.domNode.getAttribute("role"), "dropDown.domNode should have a role");
+								doh.is("setvaluetest", combo.dropDown.domNode.getAttribute("aria-labelledby"), "aria-labelledby should point back to button");
+								doh.is("region", dojo.byId("widget_setvaluetest_dropdown").getAttribute("role"), "popup wrapper should have role=region since it gets appended to the end of the body");
+								doh.is("setvaluetest_popup", dojo.byId("widget_setvaluetest_dropdown").getAttribute("aria-label"), "popup wrapper should have aria-label since role=region");
+							}), 500);
+						});
+
+						combo.loadDropDown();
+						return d;
+					},
+					tearDown:function(){
+						combo.closeDropDown();
+					}
+				}
+			]);
+
+			doh.register("placeHolder", [
+				{
+					timeout: 2000,
+					name: "focus enpty",
+					combo: "placeholdertest",
+					setUp: function(){
+						dojo.byId('native').focus(); // blur combo so onfocus fires
+						combo = dijit.byId(this.combo);
+					},
+					runTest: function(){
+						var d = new doh.Deferred();
+						doh.is("", combo.get("value"), "value");
+						doh.is("", combo.get('displayedValue'), "displayedValue");
+						doh.is("Select a New England State", combo._phspan.innerHTML, "_phspan.innerHTML");
+						doh.isNot("none", combo._phspan.style.display, "_phspan.style.display 1");
+
+						var handler = dojo.connect(combo.textbox, "onfocus", function(){
+							dojo.disconnect(handler);
+							setTimeout(d.getTestCallback(function(){
+								doh.isNot("none", combo._phspan.style.display, "_phspan.style.display 2");
+							}), 0);
+						});
+						combo.focus();
+						return d;
+					}
+				},
+				{
+					timeout: 2000,
+					name: "blur empty",
+					runTest: function(){
+						var d = new doh.Deferred();
+						var handler = dojo.connect(dojo.byId('native'), "onfocus", function(){
+							dojo.disconnect(handler);
+							setTimeout(d.getTestCallback(function(){
+								doh.is("", combo.get("value"), "value");
+								doh.is("", combo.get('displayedValue'), "displayedValue");
+								doh.isNot("none", combo._phspan.style.display, "_phspan.style.display");
+							}), 0);
+						});
+						dojo.byId('native').focus(); // blur combo
+						return d;
+					}
+				},
+				{
+					timeout: 2000,
+					name: "focus non enpty",
+					combo: "placeholdertest",
+					setUp: function(){
+						dojo.byId('native').focus(); // blur combo so onfocus fires
+						combo = dijit.byId(this.combo);
+					},
+					runTest: function(){
+						var d = new doh.Deferred();
+						var value = isComboBox? 'Connecticut' : 'ct';
+						combo.set("value", value);
+						doh.is(value, combo.get("value"), "value");
+						doh.is("none", combo._phspan.style.display, "_phspan.style.display 1");
+
+						var handler = dojo.connect(combo.textbox, "onfocus", function(){
+							dojo.disconnect(handler);
+							setTimeout(d.getTestCallback(function(){
+								doh.is("none", combo._phspan.style.display, "_phspan.style.display 2");
+							}), 0);
+						});
+						combo.focus();
+						return d;
+					}
+				},
+				{
+					timeout: 2000,
+					name: "blur non empty",
+					runTest: function(){
+						var d = new doh.Deferred();
+						var value = isComboBox? 'Connecticut' : 'ct';
+						var handler = dojo.connect(dojo.byId('native'), "onfocus", function(){
+							dojo.disconnect(handler);
+							setTimeout(d.getTestCallback(function(){
+								doh.is(value, combo.get("value"), "value");
+								doh.is("none", combo._phspan.style.display, "_phspan.style.display");
+								doh.is('Connecticut', combo.textbox.value, "textbox.value");
+							}), 0);
+						});
+						dojo.byId('native').focus(); // blur combo
+						return d;
+					}
+				},
+				{
+					timeout: 2000,
+					name: "re-empty",
+					runTest: function(){
+						var d = new doh.Deferred();
+						var handler = dojo.connect(combo, "onChange", function(){
+							dojo.disconnect(handler);
+							setTimeout(d.getTestCallback(function(){
+								doh.is("", combo.get("value"), "value");
+								doh.is("", combo.get("displayedValue"), "displayedValue");
+								doh.isNot("none", combo._phspan.style.display, "_phspan.style.display");
+							}), 0);
+						});
+						combo.set("value", '');
+						return d;
+					}
+				}
+			]);
+
+			doh.register("asynchronous data store", [
+				{
+					timeout:5000,
+					name:"total",
+					runTest: function(){
+						var d = new doh.Deferred();
+						var combo = dijit.byId("slow");
+						var handler = dojo.connect(combo, "onSearch", function(results, query, options){
+							dojo.disconnect(handler);
+							d.getTestCallback(function(){
+								doh.is(30, options.start, "start");
+								doh.is(4, results.length, "count");
+								doh.is(61, results.total, "total");
+							})();
+						});
+						combo._set('fetchProperties', { start:30, count:4 });
+						combo._startSearch("");
+						return d;
+					},
+					tearDown:function(){
+						dijit.byId("slow").closeDropDown();
+					}
+				}
+			]);
+
+			doh.run();
 		}
 		dojo.ready(init);
 
@@ -124,7 +346,7 @@
 	</script>
 </head>
 
-<body class="claro">
+<body class="claro" role="main">
 
 	<h1 class="testTitle" id="title"></h1>
 	<script>dojo.byId('title').appendChild(document.createTextNode(testWidget+" Unit Test"))</script>
@@ -142,7 +364,7 @@
 		<hr>
 
 		<p>Option tags, autoComplete=false, selectOnClick=true, default value of California, pageSize=30, custom labelFunc method</p>
-		<label for="setvaluetest">US State test 1 (200% Courier font):</label>
+		<label id="setvaluetest_mylabel" for="setvaluetest">US State test 1 (200% Courier font):</label>
 		<script type="text/javascript">
 			function setValueTestOnChange(newValue){
 				if(this.lastlabelFuncMsg){
@@ -250,10 +472,10 @@
 			<option value="WI">Wisconsin</option>
 			<option value="WY">Wyoming</option>
 		</select>
-		<br>onChange:<input id="oc1" disabled value="not fired yet!" autocomplete="off"/>
-		<br>value:<input id="v1" disabled value="not fired yet!" autocomplete="off"/>
-		<br>blur:<input id="b1" disabled value="not fired yet!" autocomplete="off"/>
-		<br>this.item:<input id="i1" disabled value="no onChange yet!" autocomplete="off"/>
+		<br><label for="oc1">onChange:</label><input id="oc1" disabled value="not fired yet!" autocomplete="off"/>
+		<br><label for="v1">value:</label><input id="v1" disabled value="not fired yet!" autocomplete="off"/>
+		<br><label for="b1">blur:</label><input id="b1" disabled value="not fired yet!" autocomplete="off"/>
+		<br><label for="i1">this.item:</label><input id="i1" disabled value="no onChange yet!" autocomplete="off"/>
 		<input type="button" id="sv1_1" value="Set displayed value to Kentucky" onClick="dijit.byId('setvaluetest').set('displayedValue', 'Kentucky')"/>
 	        <input type="button" id="sv1_2" value="Set displayed value to Canada" onClick="dijit.byId('setvaluetest').set('displayedValue', 'Canada')"/>
 	        <input type="button" id="sv1_3" value="Set value to null" onClick="dijit.byId('setvaluetest').set('value', null)"/>
@@ -276,7 +498,7 @@
 				name:"state2",
 				onChange:setVal2
 				'/>
-		<br>onChange:<input id="value2" disabled value="not fired yet!" autocomplete="off"/>
+		<br><label for="value2">onChange:</label><input id="value2" disabled value="not fired yet!" autocomplete="off"/>
 		<hr>
 		<p>Artificially slowed-down data store, autoComplete=true:</p>
 		<label for="slow">US State test slow:</label>
@@ -287,7 +509,7 @@
 				name:"stateSlow",
 				onChange:function(val){ dojo.byId("ocSlow").value = val; }
 				'/>
-		<br>onChange:<input id="ocSlow" disabled value="not fired yet!" autocomplete="off"/>
+		<br><label for="ocSlow">onChange:</label><input id="ocSlow" disabled value="not fired yet!" autocomplete="off"/>
 		<button id="slowDestroy" type="button" onclick="dijit.byId('slow').destroy();return false">Destroy widget to test in-flight query cancel</button>
 		<hr>
 
@@ -314,7 +536,7 @@
 				onChange:setVal3,
 				disabled:true
 		'/>
-		<br>onChange:<input id="value3" disabled value="not fired yet!" autocomplete="off"/>
+		<br><label for="value3">onChange:</label><input id="value3" disabled value="not fired yet!" autocomplete="off"/>
 		<div>
 			<button id="combo3_disable" type="button" onclick='toggleDisabled("combo3_disable", "combo3"); return false;' tabIndex="-1">Enable</button>
 		</div>
@@ -332,7 +554,7 @@
 				required:true,
 				highlightMatch:"none"
 		'/>
-		<br>onChange:<input id="value4" disabled value="not fired yet!" autocomplete="off"/>
+		<br><label for="value4">onChange:</label><input id="value4" disabled value="not fired yet!" autocomplete="off"/>
 		<hr>
 		<p>test that title used as label is preserved on input</p>
 		<select id="preservetitletest" data-dojo-type="$testWidget"
@@ -351,6 +573,7 @@
 		</select>
 		<hr>
 		<p>No arrow, data store which searches and highlights matches anywhere in the string</p>
+		<label for="arrowless">Arrowless:</label>
 	 	<input id="arrowless" data-dojo-type="$testWidget"
 				data-dojo-props='value: (testWidget == "dijit.form.ComboBox") ? "California" : "CA",
 				store:stateStore,
@@ -363,15 +586,19 @@
 		'/>
 		<hr>
 		<p>Created programmatically</p>
+		<label for="progCombo">progCombo:</label>
 		<input id="progCombo"/>
 		<hr>
 		<p>Created programmatically with an initial query.  (Limits list to items with type = country.)</p>
+		<label for="progCombo2">progCombo2</label>
 		<input id="progCombo2"/>
 		<hr>
 		<p>Created programmatically with an ItemFileReadStore and a descending sort.  (Limits list to items with type = country.)</p>
+		<label for="progCombo3">progCombo3:</label>
 		<input id="progCombo3"/>
 		<hr>
 		<p>With option tags, autoComplete=true, pageSize=30, and a descending sort.</p>
+		<label for="descending">descending:</label>
 		<select id="descending" data-dojo-type="$testWidget"
 				data-dojo-props='name:"descending",
 				style:{width:"50%",fontSize:"200%",fontFamily:"Courier"},
@@ -446,7 +673,7 @@
 		<p>The drop down list should be:</p>
 		<ul>
 		   <li>sticks &amp; stones</li>
-		   <li>rags --&gt; riches</li>
+		   <li>rags --&gt; riches to</li>
 		   <li>more\less</li>
 		   <li>3 * 5</li>
 		</ul>
@@ -455,13 +682,15 @@
 			data-dojo-props='name:"specialchars"
 			'>
 			<option value="sticks" selected>sticks &amp; stones</option>
-			<option value="rags">rags --&gt; riches</option>
+			<option value="rags">rags --&gt; riches to</option>
 			<option value="more">more\less</option>
 			<option value="times">3 * 5</option>
 		</select>
 		<hr>
 		<p>Japanese</p>
-		<p>Try typing &#x6771;&#x533A; (East), &#x897F;&#x533A; (West), &#x5317;&#x533A; (North), &#x5357;&#x533A; (South) and a few choices will pop up.</p>
+		<p>Try typing &#x6771;&#x533A; (East), &#x897F;&#x533A; (West), &#x5317;&#x533A; (North), &#x5357;&#x533A; (South) and a few choices will pop up.<br>
+		Using the Microsoft IME for Japanese (Hiragana), &#x6771; can be inputed by typing higashi followed by SPACE.
+		</p>
 		<label for="japanese">Japanese list:</label>
 		<select id="japanese" data-dojo-type="$testWidget" data-dojo-props='name:"japanese", style:{width:"300px"}, autoComplete:true, required:true, value:""'>
 			<option value="nanboku">&#x5357;&#x5317; (Nanboku)</option>
@@ -514,7 +743,7 @@
 	</form>
 	
 	<hr>
-	<p>test placeholder</p>
+	<p><label for="placeholdertest">test placeholder</label></p>
 	<select id="placeholdertest" data-dojo-type="$testWidget"
 			data-dojo-props='name:"placetest",
 			style:{width:"50%",fontFamily:"Courier"},
@@ -530,18 +759,18 @@
 		<option value="nh">New Hampshire</option>
 		<option value="vt">Vermont</option>
 	</select>
-	<p>
+	<p id="nativeLabel">
 	This is some text below the boxes. It shouldn't get pushed out of the way when search results get returned.
 	A native select tag to test IE bleed through problem:
 	</p>
 
-	<select id="native">
+	<select id="native" aria-labelledby="nativeLabel">
 	  <option>test for</option>
 	  <option>IE bleed through</option>
 	  <option>problem</option>
 	</select>
 	
-	Destroy test:<div id="destroyDiv"
+	<label for="combo_01">Destroy test:</label><div id="destroyDiv"
 		><select id="combo_01" data-dojo-type="$testWidget" 
 				data-dojo-props='name:"state", 
 				disabled:true,
@@ -559,19 +788,21 @@
 
 	<br>
 	<fieldset style="position:relative;border:1px solid black;display:inline;">
-		<span style="position:absolute;">Highlight test</span>
+		<legend>Highlight test</legend>
 		<div style="border:0;margin:1.5em;">
 			<span style='white-space:nowrap;'>
-			ignoreCase:<select onchange="dijit.byId('highlight').set('ignoreCase', this.value=='true')">
+			<label for="ignoreCase">ignoreCase:</label><select id="ignoreCase" onchange="dijit.byId('highlight').set('ignoreCase', this.value=='true')">
 				<option value="true" selected>true</option>
 				<option value="false">false</option>
 			</select>
-			highlightMatch:<select onchange="dijit.byId('highlight').set('highlightMatch', this.value)">
+			<label for="highlightMatch">highlightMatch:</label>
+			<select id="highlightMatch" onchange="dijit.byId('highlight').set('highlightMatch', this.value)">
 				<option value="first" selected>first</option>
 				<option value="all">all</option>
 				<option value="none">none</option>
 			</select>
-			queryExpr:<select onchange="dijit.byId('highlight').set('queryExpr', this.value)">
+			<label for="queryExpr">queryExpr:</label>
+			<select id="queryExpr" onchange="dijit.byId('highlight').set('queryExpr', this.value)">
 				<option value="${0}*" selected>${0}*</option>
 				<option value="*${0}*">*${0}*</option>
 				<option value="*${0}">*${0}</option>
@@ -579,7 +810,8 @@
 			</span>
 			<br>
 			<span style='white-space:nowrap;'>
-			Highlight test:<select id="highlight" data-dojo-type="$testWidget"
+			<label for="highlight">Highlight test:</label>
+			<select id="highlight" data-dojo-type="$testWidget"
 					data-dojo-props='ignoreCase:true,
 					highlightMatch:"first",
 					autoComplete:false,
@@ -597,5 +829,9 @@
 	</fieldset>
 
 	<div id="debugbox"></div>
+
+	<p><label for="subclass">User-defined subclass of ComboBox/FilteringSelect:</label></p>
+	<input id="subclass" data-dojo-type="StateSelect"/>
+
 </body>
 </html>
