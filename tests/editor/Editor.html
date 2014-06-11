@@ -94,6 +94,16 @@
 				}
 			]);
 
+			doh.register("destroy", [
+				{
+					name: "destroy the editor",
+					runTest: function(){
+						// just making sure this doesn't throw an exception
+						editor.destroy();
+					}
+				}
+			]);
+
 			doh.run();
 		});
 	</script>

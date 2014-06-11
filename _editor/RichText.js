@@ -815,10 +815,10 @@ define([
 
 			var events = this.events.concat(this.captureEvents);
 			var ap = this.iframe ? this.document : this.editNode;
-			this.own(
+			this.own.apply(this,
 				array.map(events, function(item){
 					var type = item.toLowerCase().replace(/^on/, "");
-					on(ap, type, lang.hitch(this, item));
+					return on(ap, type, lang.hitch(this, item));
 				}, this)
 			);
 
