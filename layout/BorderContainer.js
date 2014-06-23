@@ -284,6 +284,15 @@ define([
 		//		Optional hook to override the default Splitter widget used by BorderContainer
 		_splitterClass: _Splitter,
 
+		postMixInProperties: function(){
+			// change class name to indicate that BorderContainer is being used purely for
+			// layout (like LayoutContainer) rather than for pretty formatting.
+			if(!this.gutters){
+				this.baseClass += "NoGutter";
+			}
+			this.inherited(arguments);
+		},
+
 		_setupChild: function(/*dijit/_WidgetBase*/ child){
 			// Override LayoutContainer._setupChild().
 
