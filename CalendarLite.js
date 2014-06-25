@@ -248,8 +248,6 @@ define([
 
 				// Each cell has an associated integer value representing it's date
 				var dateVal = date.valueOf();
-				if(idx==0)
-					console.log("setting date2cell[" + dateVal + "]");
 				this._date2cell[dateVal] = template;
 				template.dijitDateValue = dateVal;
 
