@@ -295,7 +295,7 @@ define([
 
 		baseClass: "dijitCalendarMonthMenu dijitMenu",
 
-		templateString: "<div data-dojo-attach-event='onclick:_onClick'></div>",
+		templateString: "<div data-dojo-attach-event='ondijitclick:_onClick'></div>",
 
 		_setMonthsAttr: function(/*String[]*/ months){
 			this.domNode.innerHTML = "";

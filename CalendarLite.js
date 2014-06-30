@@ -349,6 +349,7 @@ define([
 			//		protected
 
 			var connect = lang.hitch(this, function(nodeProp, part, amount){
+				this[nodeProp].dojoClick = true;
 				return on(this[nodeProp], "click", lang.hitch(this, function(){
 					this._setCurrentFocusAttr(this.dateModule.add(this.currentFocus, part, amount));
 				}));
