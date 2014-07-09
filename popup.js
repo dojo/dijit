@@ -14,7 +14,8 @@ define([
 	"./place",
 	"./BackgroundIframe",
 	"./Viewport",
-	"./main"    // dijit (defining dijit.popup to match API doc)
+	"./main",    // dijit (defining dijit.popup to match API doc)
+	"dojo/touch"		// use of dojoClick
 ], function(array, aspect, declare, dom, domAttr, domConstruct, domGeometry, domStyle, has, keys, lang, on,
 			place, BackgroundIframe, Viewport, dijit){
 
@@ -165,6 +166,11 @@ define([
 						}
 					});
 				}
+
+				// Calling evt.preventDefault() suppresses the native click event on most browsers.  However, it doesn't
+				// suppress the synthetic click event emitted by dojo/touch.  In order for clicks in popups to work
+				// consistently, always use dojo/touch in popups.  See #18150.
+				wrapper.dojoClick = true;
 			}
 
 			return wrapper;
