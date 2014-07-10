@@ -48,7 +48,10 @@
 			"dojo/domReady!"
 		], function(dom, parser, Menu, MenuItem, PopupMenuItem, CheckedMenuItem, RadioMenuItem, MenuSeparator){
 
-			createMenu = function(){
+			// Programmatic menu
+			var pMenu;
+
+			function createMenu(){
 				// create a menu programmatically
 				function fClick(){console.log("clicked!")}
 	
@@ -77,30 +80,34 @@
 				pMenu.addChild(new PopupMenuItem({label:"Submenu", popup:pSubMenu, id:"progPopupMenuItem"}));
 	
 				pMenu.startup();
-	
-				updateButtons(true);
-				dom.byId("prog_menu").innerHTML="This div has a programmatic context menu on it that's different to the page menu.";
-	
-				dom.byId("createButton").disabled = true;
-				dom.byId("destroyButton").disabled = false;
-			};
+			}
 
-			destroyMenu = function (){
-				pMenu.destroyRecursive();
-				updateButtons(false);
-			};
+			function updateButton(/*Boolean*/ created){
+				// Update the text of the button and the right click div according to whether or not the programmatic
+				// conext menu exists.
+				dom.byId("prog_menu").innerHTML= created ?
+					"This div has a programmatic context menu on it that's different to the page menu." :
+					"No programmatic menu on this div, should get page level menu.";
+				dom.byId("createDestroyButton").innerHTML = created ? "destroy programmatic menu" :
+					"create programmatic menu";
+			}
 
-			updateButtons = function (created){
-				dom.byId("prog_menu").innerHTML=created?"This div has a programmatic context menu on it that's different to the page menu.":"No programmatic menu on this div, should get page level menu.";
-				dom.byId("createButton").disabled = created;
-				dom.byId("destroyButton").disabled = !created;
-			};
-
-			// need to explicitly update our buttons states, otherwise the
-			// browser will remember the last states of them before reloading
+			// need to explicitly update our button state, otherwise the
+			// browser will remember the last state of them before reloading
 			// (so a programmatic menu is created, reload, and "the create
 			// programmatic menu" button is still in disabled state)
-			updateButtons(false);
+			updateButton(false);
+
+			createDestroyMenu = function(){
+				// Create programmatic menu, or if it's already created, then destroy it.
+				if(pMenu){
+					pMenu.destroyRecursive();
+					pMenu = null;
+				}else{
+					createMenu();
+				}
+				updateButton(pMenu);
+			};
 
 			parser.parse();
 		});
@@ -368,8 +375,7 @@
 			    <div id="prog_menu" style="clear: both; border:1px solid blue; padding:10px; margin:20px 0;">
 			        Click button below to create special menu on this div.
 			    </div>
-			    <button id="createButton" onclick="createMenu();">create programmatic menu</button>
-			    <button id="destroyButton" onclick="destroyMenu();" disabled>destroy programmatic menu</button>
+			    <button id="createDestroyButton" onclick="createDestroyMenu();">create programmatic menu</button>
 
 				<div style="height:500px"></div>
 				<p>(this space intentionally left blank to aid testing with controls
