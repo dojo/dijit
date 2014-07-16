@@ -38,6 +38,14 @@
 						}, dom.byId("calendar2"));
 
 						doh.is("explicit summary", cal2.gridNode.getAttribute("summary"));
+					},
+					
+					function createWithFirstDayOfWeek(){
+						cal3 = new CalendarLite({
+							id: "cal3",
+							value: "1999-12-31",
+							firstDayOfWeek: 1
+						}, dom.byId("calendar3"));
 					}
 
 				]);
@@ -54,5 +62,6 @@
 		<label for="after">between:</label><input value="input" id="between"/>
 		<input id="calendar2"/>
 		<label for="after">after:</label><input value="input" id="after"/>
+		<input id="calendar3"/>
 	</body>
 </html>
