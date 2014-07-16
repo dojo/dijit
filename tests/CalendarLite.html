@@ -7,8 +7,8 @@
 		<script src="boilerplate.js"></script>
 
 		<script type="text/javascript">
-			require(["doh/runner", "dojo/date/stamp", "dojo/dom", "dijit/CalendarLite", "dojo/domReady!"],
-					function(doh, stamp, dom, CalendarLite){
+			require(["doh/runner", "dojo/date/stamp", "dojo/dom", "dijit/CalendarLite", "dojo/query", "dojo/domReady!"],
+					function(doh, stamp, dom, CalendarLite, query){
 
 				doh.register("CalendarLite", [
 					function create(){
@@ -28,6 +28,9 @@
 						cal.set("value", "2000-11-30");
 						doh.is("2000-11-30", stamp.toISOString(cal.get("value"), {selector: "date"}), "value");
 						doh.is("November", cal.gridNode.getAttribute("summary"));
+
+						//Verify default dayOffset is for locale.
+						doh.is(-1, cal.get('dayOffset'), "CalendarLite should default to -1 if no value specified");
 					},
 
 					function createWithSummary(){
@@ -38,6 +41,18 @@
 						}, dom.byId("calendar2"));
 
 						doh.is("explicit summary", cal2.gridNode.getAttribute("summary"));
+					},
+
+					function createWithFirstDayOfWeek(){
+						cal3 = new CalendarLite({
+							id: "cal3",
+							value: "1999-12-31",
+							dayOffset: 3
+						}, dom.byId("calendar3"));
+
+						var firstCol = query('thead tr[role="row"] > *', cal3.domNode);
+						doh.is("W", firstCol[0].textContent || firstCol[0].innerText ,
+								"W should be first column heading with offset of 3");
 					}
 
 				]);
@@ -54,5 +69,6 @@
 		<label for="after">between:</label><input value="input" id="between"/>
 		<input id="calendar2"/>
 		<label for="after">after:</label><input value="input" id="after"/>
+		<input id="calendar3"/>
 	</body>
 </html>
