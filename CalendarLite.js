@@ -72,6 +72,12 @@ define([
 		// tabIndex: String
 		//		Order fields are traversed when user hits the tab key
 		tabIndex: "0",
+		
+		// dayOffset: Integer
+		//		(Optional) The first day of week override. By default the first day of week is determined 
+		//		for the current locale (extracted from the CLDR).
+		//		Special value -1 (default value), means use locale dependent value.
+		dayOffset: -1, 
 
 		// currentFocus: Date
 		//		Date object containing the currently focused date, or the date which would be focused
@@ -149,7 +155,7 @@ define([
 				this._markSelectedDates([]);
 			}
 		},
-
+		
 		_patchDate: function(/*Date|Number*/ value){
 			// summary:
 			//		Convert Number into Date, or copy Date object.   Then, round to nearest day,
@@ -188,7 +194,7 @@ define([
 				daysInMonth = this.dateModule.getDaysInMonth(month),
 				daysInPreviousMonth = this.dateModule.getDaysInMonth(this.dateModule.add(month, "month", -1)),
 				today = new this.dateClassObj(),
-				dayOffset = cldrSupplemental.getFirstDayOfWeek(this.lang);
+				dayOffset = this.dayOffset >= 0 ? this.dayOffset : cldrSupplemental.getFirstDayOfWeek(this.lang);
 			if(dayOffset > firstDay){
 				dayOffset -= 7;
 			}
@@ -313,7 +319,7 @@ define([
 			// Markup for days of the week (referenced from template)
 			var d = this.dowTemplateString,
 				dayNames = this.dateLocaleModule.getNames('days', this.dayWidth, 'standAlone', this.lang),
-				dayOffset = cldrSupplemental.getFirstDayOfWeek(this.lang);
+				dayOffset = this.dayOffset >= 0 ? this.dayOffset : cldrSupplemental.getFirstDayOfWeek(this.lang);
 			this.dayCellsHtml = string.substitute([d, d, d, d, d, d, d].join(""), {d: ""}, function(){
 				return dayNames[dayOffset++ % 7];
 			});
