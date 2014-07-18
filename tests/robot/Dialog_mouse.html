@@ -113,7 +113,6 @@
 
 							onFocus(d.getTestCallback(function(node){
 								doh.t(isHidden("dialog1"), "dialog 1 was closed");
-								doh.is("dialog1button", node.id, "focus returned to button");
 							}));
 
 							var button = dojo.query("#dialog1 .dijitDialogCloseIcon")[0];
@@ -202,7 +201,6 @@
 							doh.robot.mouseClick({left: true}, 1000);
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(dijit.byId("SelfDestructDlg"), "dialog destroyed");
-								doh.f(dojo.global.dijit.focus.curNode, "focus cleared");
 							}), 1000);
 
 							return d;
@@ -239,7 +237,6 @@
 							doh.robot.mouseClick({left: true}, 1000);
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(dijit.byId("SelfDestructDlg"), "dialog destroyed");
-								doh.f(dojo.global.dijit.focus.curNode, "focus cleared");
 							}), 1000);
 
 							return d;
