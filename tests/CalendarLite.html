@@ -30,9 +30,7 @@
 						doh.is("November", cal.gridNode.getAttribute("summary"));
 						
 						//Verify default dayOffset is for locale.
-						var calDayOffset = cal.get('dayOffset');
-						var localDayOffset = cldrSupplemental.getFirstDayOfWeek(this.lang);
-						doh.is(calDayOffset, localDayOffset, "CalendarLite should default to locale dayOffset if no value specified");
+						doh.is(-1, cal.get('dayOffset'), "CalendarLite should default to -1 if no value specified");
 					},
 
 					function createWithSummary(){

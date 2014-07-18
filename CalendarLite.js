@@ -156,34 +156,6 @@ define([
 			}
 		},
 		
-		_setDayOffsetAttr: function(value){
-			// summary:
-			//		If dayOffset is outside of range(-1 to 6) default to 0(Sunday).
-			var dayOffset = 0;
-			if ((value < -1) || (value > 6)) {
-				//If outside the expected range default to 0
-				dayOffset = 0;
-			}else{
-				//Valid value
-				dayOffset = this.dayOffset;
-			}
-			this._set("dayOffset", dayOffset);		
-		},
-		
-		_getDayOffsetAttr: function(){
-			// summary:
-			//		If dayOffset is -1 get locale specific value otherwise return set value.
-			var dayOffset = 0;
-			if (this.dayOffset==-1) {
-				//If -1 look up locale value
-				dayOffset = cldrSupplemental.getFirstDayOfWeek(this.lang);
-			}else{
-				//Valid value
-				dayOffset = this.dayOffset;
-			}
-			return dayOffset;
-		},
-		
 		_patchDate: function(/*Date|Number*/ value){
 			// summary:
 			//		Convert Number into Date, or copy Date object.   Then, round to nearest day,
@@ -222,7 +194,7 @@ define([
 				daysInMonth = this.dateModule.getDaysInMonth(month),
 				daysInPreviousMonth = this.dateModule.getDaysInMonth(this.dateModule.add(month, "month", -1)),
 				today = new this.dateClassObj(),
-				dayOffset = this.get("dayOffset");
+				dayOffset = this.dayOffset >= 0 ? this.dayOffset : cldrSupplemental.getFirstDayOfWeek(this.lang);
 			if(dayOffset > firstDay){
 				dayOffset -= 7;
 			}
@@ -347,7 +319,7 @@ define([
 			// Markup for days of the week (referenced from template)
 			var d = this.dowTemplateString,
 				dayNames = this.dateLocaleModule.getNames('days', this.dayWidth, 'standAlone', this.lang),
-				dayOffset = this.get("dayOffset");
+				dayOffset = this.dayOffset >= 0 ? this.dayOffset : cldrSupplemental.getFirstDayOfWeek(this.lang);
 			this.dayCellsHtml = string.substitute([d, d, d, d, d, d, d].join(""), {d: ""}, function(){
 				return dayNames[dayOffset++ % 7];
 			});
