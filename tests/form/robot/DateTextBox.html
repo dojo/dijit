@@ -164,6 +164,11 @@
 							}), 1000);
 
 							return d;
+						},
+						tearDown: function(){
+							// Close the drop down so it doesn't interfere with the next test by covering up the
+							// <input> that we want to focus.
+							german.closeDropDown();
 						}
 					}
 				]);
@@ -1171,7 +1176,7 @@
 				doh.register("openOnClick=false", [
 					{
 						name: "click on input",
-						timeout: 6000,
+						timeout: 10000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
