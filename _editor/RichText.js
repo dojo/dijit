@@ -794,6 +794,9 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		}
 		if(!has("ie") && !has("webkit") && (this.height || has("mozilla"))){
 			this.editNode=this.document.body;
+			if(has("trident")){
+				this.tabStop = domConstruct.create('div', { tabIndex: -1 }, this.editingArea);
+			}
 		}else{
 			// there's a wrapper div around the content, see _getIframeDocTxt().
 			this.editNode=this.document.body.firstChild;
@@ -896,7 +899,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		// such as the backspace. It might be possible to add this to Dojo, so that
 		// keyPress events can be emulated by the keyDown and keyUp detection.
 
-		if(e.keyCode === keys.TAB && this.isTabIndent ){
+		if(e.keyCode === keys.TAB && this.isTabIndent){
 			event.stop(e); //prevent tab from moving focus out of editor
 
 			// FIXME: this is a poor-man's indent/outdent. It would be
@@ -906,12 +909,12 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 				this.execCommand((e.shiftKey ? "outdent" : "indent"));
 			}
 		}
-		if(has("ie")){
-			if(e.keyCode == keys.TAB && !this.isTabIndent){
-				if(e.shiftKey && !e.ctrlKey && !e.altKey){
+		if(has("ie") || has("trident")){
+			if(e.keyCode == keys.TAB && !this.isTabIndent && !e.ctrlKey && !e.altKey){
+				if(e.shiftKey){
 					// focus the BODY so the browser will tab away from it instead
 					this.iframe.focus();
-				}else if(!e.shiftKey && !e.ctrlKey && !e.altKey){
+				}else{
 					// focus the BODY so the browser will tab away from it instead
 					this.tabStop.focus();
 				}
@@ -976,6 +979,14 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		//		Handle the various key events
 		// tags:
 		//		protected
+
+		if(e.keyCode === keys.SHIFT ||
+		   e.keyCode === keys.ALT ||
+		   e.keyCode === keys.META ||
+		   e.keyCode === keys.CTRL ||
+		   (e.keyCode == keys.TAB && !this.isTabIndent && !e.ctrlKey && !e.altKey)){
+			return true;
+		}
 
 		var c = (e.keyChar && e.keyChar.toLowerCase()) || e.keyCode,
 			handlers = this._keyHandlers[c],
