@@ -34,6 +34,8 @@
 								doh.t(isVisible("tooltipDlg"), "TooltipDialog visible");
 								doh.is("inline", dojo.global.dijit.focus.curNode.id, "focus on InlineEditBox (first field in TooltipDialog)")
 							}), 1000);
+
+							return d;
 						}
 					},
 
@@ -122,6 +124,8 @@
 								doh.t(isVisible("tooltipDlg"), "TooltipDialog should still still be showing");
 								doh.is("text", dijit.focus.curNode && dijit.focus.curNode.id, "focused on textbox")
 							}), 1000);
+
+							return d;
 						}
 					},
 
@@ -204,6 +208,8 @@
 								doh.t(isVisible("tooltipDlg"), "TooltipDialog visible");
 								doh.is("inline", dojo.global.dijit.focus.curNode.id, "focus on InlineEditBox (first field in TooltipDialog)")
 							}), 1000);
+
+							return d;
 						}
 					},
 
@@ -242,8 +248,10 @@
 							doh.robot.mouseClick({left: true}, 1000);
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isVisible("tooltipDlg"), "TooltipDialog should still be showing");
-								doh.f(isVisible("date_popup"), "calendar closed");
+                                doh.t(!dojo.byId("date_popup") || isHidden("date_popup"), "calendar closed");
 							}), 1000);
+
+							return d;
 						}
 					},
 
@@ -277,6 +285,8 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isVisible("outerTtDialog"), "Outer TooltipDialog visible");
 							}), 1000);
+
+							return d;
 						}
 					},
 					{
@@ -290,6 +300,8 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isVisible("innerTtDialog"), "Inner TooltipDialog visible");
 							}), 1000);
+
+							return d;
 						}
 					},
 
@@ -355,10 +367,12 @@
 							doh.robot.mouseClick({left: true}, 1000);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.t(isHidden("submenuu"), "submenu closed");
+								doh.t(isHidden("submenu"), "submenu closed");
 								doh.t(isVisible("innerTtDialog"), "TooltipDialog should still still be showing");
 								doh.is("name", dijit.focus.curNode && dijit.focus.curNode.id, "focused on textbox")
 							}), 1000);
+
+							return d;
 						}
 					},
 

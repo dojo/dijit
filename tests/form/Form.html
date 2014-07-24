@@ -604,7 +604,13 @@
 				formWidget.validate();
 				
 				doh.t(dojo.hasClass(dojo.byId("widget_rw"), "dijitValidationTextBoxError"), "required but empty marked as error");
-				doh.is("dtb2", dijit.focus.curNode.id, "focused on first invalid DateTextBox");
+
+				// Check that focus went to invalid field.  But on IE9+ focus change is asynchronous so use a timer.
+				var d = new doh.Deferred();
+				setTimeout(d.getTestCallback(function(){
+					doh.is("dtb2", dijit.focus.curNode.id, "focused on first invalid DateTextBox");
+				}), 0);
+				return d;
 			});
 
 			if(dojo.isFF >= 4 || dojo.isIE >= 10 || dojo.isWebKit){

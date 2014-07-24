@@ -775,20 +775,24 @@
 
 				// Test that you can't focus a disabled combobox
 				{
-					timeout:60000,
+					timeout: 5000,
 					name:"tab over disabled elements",
 					runTest: function(){
 						var d = new doh.Deferred();
 
 						dojo.byId("datatestDijit").focus();
-						doh.is("datatestDijit", dojo.global.dijit.focus.curNode.id, "focused on elem before disabled combo");
+
+						doh.robot.sequence(d.getTestErrback(function(){
+							// use sequence because focus on IE9+ is asynchronous
+							doh.is("datatestDijit", dojo.global.dijit.focus.curNode.id, "focused on elem before disabled combo");
+						}), 100);
 
 						// Tab over the disabled ComboBox
-						doh.robot.keyPress(dojo.keys.TAB, 1000);
+						doh.robot.keyPress(dojo.keys.TAB, 100);
 
 						doh.robot.sequence(d.getTestCallback(function(){
 							doh.is("combobox4", dojo.global.dijit.focus.curNode.id, "focused on 'enable' button after disabled combo");
-						}), 1000);
+						}), 200);
 
 						return d;
 					}

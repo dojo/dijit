@@ -190,7 +190,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			this.contentPreFilters = [this._removeWebkitBogus].concat(this.contentPreFilters);
 			this.contentPostFilters = [this._removeWebkitBogus].concat(this.contentPostFilters);
 		}
-		if(has("ie")){
+		if(has("ie") || has("trident")){
 			// IE generates <strong> and <em> but we want to normalize to <b> and <i>
 				// Still happens in IE11!
 			this.contentPostFilters = [this._normalizeFontStyle].concat(this.contentPostFilters);
@@ -619,13 +619,17 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			"\t\tbackground:transparent;\n",
 			"\t\tpadding: 1px 0 0 0;\n",
 			"\t\tmargin: -1px 0 0 0;\n", // remove extraneous vertical scrollbar on safari and firefox
-
-			// Set the html/body sizing.  Webkit always needs this, other browsers
-			// only set it when height is defined (not auto-expanding), otherwise
-			// scrollers do not appear.
-			((has("webkit"))?"\t\twidth: 100%;\n":""),
-			((has("webkit"))?"\t\theight: 100%;\n":""),
 			"\t}\n",
+				"\tbody,html,#dijitEditorBody { outline: none; }",
+
+				// Set <body> to expand to full size of editor, so clicking anywhere will work.
+				// Except in auto-expand mode, in which case the editor expands to the size of <body>.
+				// Also determine how scrollers should be applied.  In autoexpand mode (height = "") no scrollers on y at all.
+				// But in fixed height mode we want both x/y scrollers.
+				// Scrollers go on <body> since it's been set to height: 100%.
+				"html { height: 100%; width: 100%; overflow: hidden; }\n",	// scroll bar is on #dijitEditorBody, shouldn't be on <html>
+				this.height ? "\tbody,#dijitEditorBody { height: 100%; width: 100%; overflow: auto; }\n" :
+					"\tbody,#dijitEditorBody { min-height: " + this.minHeight + "; width: 100%; overflow-x: auto; overflow-y: hidden; }\n",
 
 			// TODO: left positioning will cause contents to disappear out of view
 			//	   if it gets too wide for the visible area
@@ -635,17 +639,10 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			"\t\tright:0px;\n",
 			"\t\tfont:", font, ";\n",
 				((this.height||has("opera")) ? "" : "\t\tposition: fixed;\n"),
-			// FIXME: IE 6 won't understand min-height?
-			"\t\tmin-height:", this.minHeight, ";\n",
 			"\t\tline-height:", lineHeight,";\n",
 			"\t}\n",
 			"\tp{ margin: 1em 0; }\n",
 
-			// Determine how scrollers should be applied.  In autoexpand mode (height = "") no scrollers on y at all.
-			// But in fixed height mode we want both x/y scrollers.  Also, if it's using wrapping div and in auto-expand
-			// (Mainly IE) we need to kill the y scroller on body and html.
-			(!setBodyId && !this.height ? "\tbody,html {overflow-y: hidden;}\n" : ""),
-			"\t#dijitEditorBody{overflow-x: auto; overflow-y:" + (this.height ? "auto;" : "hidden;") + " outline: 0px;}\n",
 			"\tli > ul:-moz-first-node, li > ol:-moz-first-node{ padding-top: 1.2em; }\n",
 			// Can't set min-height in IE9, it puts layout on li, which puts move/resize handles.
 			(!has("ie") ? "\tli{ min-height:1.2em; }\n" : ""),
@@ -743,7 +740,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		value = !!value;
 		this._set("disabled", value);
 		if(!this.isLoaded){ return; } // this method requires init to be complete
-		if(has("ie") || has("webkit") || has("opera")){
+		if(has("ie") || has("trident") || has("webkit") || has("opera")){
 			var preventIEfocus = has("ie") && (this.isLoaded || !this.focusOnLoad);
 			if(preventIEfocus){ this.editNode.unselectable = "on"; }
 			this.editNode.contentEditable = !value;
@@ -797,6 +794,9 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		}
 		if(!has("ie") && !has("webkit") && (this.height || has("mozilla"))){
 			this.editNode=this.document.body;
+			if(has("trident")){
+				this.tabStop = domConstruct.create('div', { tabIndex: -1 }, this.editingArea);
+			}
 		}else{
 			// there's a wrapper div around the content, see _getIframeDocTxt().
 			this.editNode=this.document.body.firstChild;
@@ -899,7 +899,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		// such as the backspace. It might be possible to add this to Dojo, so that
 		// keyPress events can be emulated by the keyDown and keyUp detection.
 
-		if(e.keyCode === keys.TAB && this.isTabIndent ){
+		if(e.keyCode === keys.TAB && this.isTabIndent){
 			event.stop(e); //prevent tab from moving focus out of editor
 
 			// FIXME: this is a poor-man's indent/outdent. It would be
@@ -909,12 +909,12 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 				this.execCommand((e.shiftKey ? "outdent" : "indent"));
 			}
 		}
-		if(has("ie")){
-			if(e.keyCode == keys.TAB && !this.isTabIndent){
-				if(e.shiftKey && !e.ctrlKey && !e.altKey){
+		if(has("ie") || has("trident")){
+			if(e.keyCode == keys.TAB && !this.isTabIndent && !e.ctrlKey && !e.altKey){
+				if(e.shiftKey){
 					// focus the BODY so the browser will tab away from it instead
 					this.iframe.focus();
-				}else if(!e.shiftKey && !e.ctrlKey && !e.altKey){
+				}else{
 					// focus the BODY so the browser will tab away from it instead
 					this.tabStop.focus();
 				}
@@ -979,6 +979,14 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		//		Handle the various key events
 		// tags:
 		//		protected
+
+		if(e.keyCode === keys.SHIFT ||
+		   e.keyCode === keys.ALT ||
+		   e.keyCode === keys.META ||
+		   e.keyCode === keys.CTRL ||
+		   (e.keyCode == keys.TAB && !this.isTabIndent && !e.ctrlKey && !e.altKey)){
+			return true;
+		}
 
 		var c = (e.keyChar && e.keyChar.toLowerCase()) || e.keyCode,
 			handlers = this._keyHandlers[c],
@@ -1058,7 +1066,15 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		// tags:
 		//		protected
 
-		// console.info('_onBlur')
+			// Workaround IE9+ problems when you blur the browser windows while an editor is focused: IE hangs
+			// when you focus editor #1, blur the browser window, and then click editor #0.  See #16939.
+			if(has("ie") >= 9){
+				this.defer(function(){
+					if(!focus.curNode){
+						this.ownerDocumentBody.focus();
+					}
+				});
+			}
 
 		this.inherited(arguments);
 
@@ -1111,25 +1127,14 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 				return;
 			}
 		}
-		if(!has("ie")){
-			focus.focus(this.iframe);
-		}else if(this.editNode && this.editNode.focus){
-			// editNode may be hidden in display:none div, lets just punt in this case
+		if(has("ie") < 9){
 			//this.editNode.focus(); -> causes IE to scroll always (strict and quirks mode) to the top the Iframe
 			// if we fire the event manually and let the browser handle the focusing, the latest
 			// cursor position is focused like in FF
-			if(has("ie") < 9){
-				this.iframe.fireEvent('onfocus', document.createEventObject()); // createEventObject/fireEvent only in IE < 11
-			}else{
-				// IE11 seems to be in a strange limbo where neither focus.focus nor fireEvent work.
-				// It seems to require a moz-style focus synthetic event.
-				var e = document.createEvent("UIEvents");
-				e.initEvent('focus', true, false);
-				this.iframe.dispatchEvent(e);
-			}
-		//	}else{
-		// TODO: should we throw here?
-		// console.debug("Have no idea how to focus into the editor!");
+			this.iframe.fireEvent('onfocus', document.createEventObject()); // createEventObject/fireEvent only in IE < 11
+		}else{
+			// Firefox and chrome
+			this.editNode.focus();
 		}
 	},
 
@@ -1270,7 +1275,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			default: return false;
 		}
 
-		return (has("ie") && supportedBy.ie) ||
+			return ((has("ie") || has("trident")) && supportedBy.ie) ||
 			(has("mozilla") && supportedBy.mozilla) ||
 			(has("webkit") && supportedBy.webkit) ||
 			(has("opera") && supportedBy.opera);	// Boolean return true if the command is supported, false otherwise
@@ -1300,7 +1305,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		if(argument !== undefined){
 			if(command === "heading"){
 				throw new Error("unimplemented");
-			}else if((command === "formatblock") && has("ie")){
+				}else if(command === "formatblock" && (has("ie") || has("trident"))){
 				argument = '<'+argument+'>';
 			}
 		}
@@ -1371,7 +1376,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		if(this.disabled || !this._disabledOK){ return false; }
 		var r;
 		command = this._normalizeCommand(command);
-		if(has("ie") && command === "formatblock"){
+			if((has("ie") || has("trident")) && command === "formatblock"){
 			r = this._native2LocalFormatNames[this.document.queryCommandValue(command)];
 		}else if(has("mozilla") && command === "hilitecolor"){
 			var oldValue;
@@ -2102,19 +2107,41 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		//		protected
 		argument = this._preFilterContent(argument);
 		var rv = true;
-		if(has("ie")){
+		if(has("ie") < 9){
 			var insertRange = this.document.selection.createRange();
 			if(this.document.selection.type.toUpperCase() === 'CONTROL'){
-				var n=insertRange.item(0);
+				var n = insertRange.item(0);
 				while(insertRange.length){
 					insertRange.remove(insertRange.item(0));
 				}
-				n.outerHTML=argument;
+				n.outerHTML = argument;
 			}else{
 				insertRange.pasteHTML(argument);
 			}
 			insertRange.select();
-			//insertRange.collapse(true);
+		}else if(has("trident") < 8){
+			var insertRange;
+			var selection = rangeapi.getSelection(this.window);
+			if(selection && selection.rangeCount && selection.getRangeAt){
+				insertRange = selection.getRangeAt(0);
+				insertRange.deleteContents();
+
+				var div = domConstruct.create('div');
+				div.innerHTML = argument;
+				var node, lastNode;
+				var n = this.document.createDocumentFragment();
+				while((node = div.firstChild)){
+					lastNode = n.appendChild(node);
+				}
+				insertRange.insertNode(n);
+				if(lastNode) {
+					insertRange = insertRange.cloneRange();
+					insertRange.setStartAfter(lastNode);
+					insertRange.collapse(false);
+					selection.removeAllRanges();
+					selection.addRange(insertRange);
+				}
+			}
 		}else if(has("mozilla") && !argument.length){
 			//mozilla can not inserthtml an empty html to delete current selection
 			//so we delete the selection instead in this case
