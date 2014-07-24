@@ -190,7 +190,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			this.contentPreFilters = [this._removeWebkitBogus].concat(this.contentPreFilters);
 			this.contentPostFilters = [this._removeWebkitBogus].concat(this.contentPostFilters);
 		}
-			if(has("ie") || has("trident")){
+		if(has("ie") || has("trident")){
 			// IE generates <strong> and <em> but we want to normalize to <b> and <i>
 				// Still happens in IE11!
 			this.contentPostFilters = [this._normalizeFontStyle].concat(this.contentPostFilters);
@@ -1368,7 +1368,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		if(this.disabled || !this._disabledOK){ return false; }
 		var r;
 		command = this._normalizeCommand(command);
-		if(has("ie") && command === "formatblock"){
+			if((has("ie") || has("trident")) && command === "formatblock"){
 			r = this._native2LocalFormatNames[this.document.queryCommandValue(command)];
 		}else if(has("mozilla") && command === "hilitecolor"){
 			var oldValue;
