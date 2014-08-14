@@ -305,7 +305,7 @@
 				doh.register("TabContainer in table",[
 					function width(){
 						// Make sure the scrolling tabs don't make the width of the table explode to 50,0000px
-						doh.is(400, dojo.position(dojo.byId("tableTabContainer")).w);
+						doh.is(400, Math.round(dojo.position(dojo.byId("tableTabContainer")).w));
 					},
 					{
 						name: "tab1_t2",
