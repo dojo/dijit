@@ -164,6 +164,25 @@
 					required:true,
 					invalidMessage:"" '/>
 			</div>
+			<div class="dojoTitlePaneLabel">
+				<strong>Ticket #18201</strong>
+				<span class="noticeMessage">Ensure that Date values can used with TimeTextBoxes</span>
+			</div>
+			<div class="testExample">
+				<input id="q21"/>
+				<script type="text/javascript">
+				require(["dijit/form/TimeTextBox", "dojo/domReady!"], function(TimeTextBox){
+					new TimeTextBox({name: "q21", value: new Date(),
+						constraints: {
+							timePattern: 'HH:mm a',
+							clickableIncrement: 'T00:15:00',
+							visibleIncrement: 'T00:15:00',
+							visibleRange: 'T01:00:00'
+						}
+					}, "q21").startup();
+			  });
+				</script>
+			</div>
 		</form>
 		<input id="ro" type="button" onclick="dijit.byId('q20').set('readOnly',true);" value="Set readOnly" tabIndex="-1"/>
 		<input id="rw" type="button" onclick="dijit.byId('q20').set('readOnly',false);" value="Clear readOnly" tabIndex="-1"/>

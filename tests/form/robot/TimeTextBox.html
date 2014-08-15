@@ -428,6 +428,34 @@
 					}
 				]);
 
+				var q21;
+				doh.register("Regression tests for 18201", [
+					{
+						name: "set Date value",
+						timeout: 1000,
+						runTest: function(){
+							var q21 = dijit.byId("q21"),
+								testDate = new Date();
+
+							q21.set('value', testDate);
+							var value = q21.get('value');
+							doh.assertTrue(value != null, "Unable to set Date value");
+						}
+					},
+					{
+						name: "compare Date value",
+						timeout: 1000,
+						runTest: function(){
+							var q21 = dijit.byId("q21"),
+								testDate = new Date();
+
+							q21.set('value', testDate);
+							var widgetDate = q21.get('value');
+							doh.assertEqual(0, q21.compare(testDate, widgetDate), "Invalid date comparison")
+						}
+					}
+				]);
+
 				doh.run();
 			});
 		</script>
