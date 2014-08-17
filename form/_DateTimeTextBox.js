@@ -39,7 +39,7 @@ define([
 		======*/
 
 		// The constraints without the min/max properties. Used by the compare() method
-		_unboundedConstraints: null,
+		_unboundedConstraints: {},
 
 		// Override ValidationTextBox.pattern.... we use a reg-ex generating function rather
 		// than a straight regexp to deal with locale  (plus formatting options too?)
@@ -72,7 +72,7 @@ define([
 				pval1 = this.parse(fval1, this._unboundedConstraints),
 				pval2 = this.parse(fval2, this._unboundedConstraints);
 
-			return (fval1 == fval2) ? 0 : date.compare(pval1, pval2, this._selector);
+			return fval1 == fval2 ? 0 : date.compare(pval1, pval2, this._selector);
 		},
 
 		// flag to _HasDropDown to make drop down Calendar width == <input> width
