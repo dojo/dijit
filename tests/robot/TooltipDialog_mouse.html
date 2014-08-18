@@ -253,7 +253,7 @@
 							robot.mouseClick({left: true}, 1000);
 							robot.sequence(d.getTestCallback(function(){
 								doh.t(helpers.isVisible("tooltipDlg"), "TooltipDialog should still be showing");
-								doh.t(!dom.byId("date_popup") || helpers.isHidden("date_popup"), "calendar closed");
+								doh.t(helpers.isHidden("date2_popup"), "calendar closed");
 							}), 1000);
 
 							return d;
