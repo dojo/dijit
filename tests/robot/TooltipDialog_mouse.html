@@ -363,8 +363,10 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							
-							// click TextBox to get submenu to close
-							doh.robot.mouseMoveAt("name", 0);
+							// Click TextBox to get submenu to close.
+							// Click towards the left so we hit the TextBox rather than the menu which is over the
+							// right side of the TextBox.
+							doh.robot.mouseMoveAt("name", 0, 100, 10, 5);
 							doh.robot.mouseClick({left: true}, 1000);
 
 							doh.robot.sequence(d.getTestCallback(function(){
