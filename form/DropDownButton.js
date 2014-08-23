@@ -76,7 +76,7 @@ define([
 			// Returns whether or not we are loaded - if our dropdown has an href,
 			// then we want to check that.
 			var dropDown = this.dropDown;
-			return (!!dropDown && (!dropDown.href || dropDown.isLoaded));
+			return (!!dropDown && (!dropDown.href || dropDown.isLoaded || dropDown.refreshOnShow));
 		},
 
 		loadDropDown: function(/*Function*/ callback){
