@@ -518,9 +518,12 @@ define([
 				s;
 
 			// IE10 and earlier will throw an "Access is denied" error when attempting to access the parent frame if
-			// document.domain has been set, unless the child frame also has the same document.domain set. The child frame
-			// can only set document.domain while the document is being constructed using open/write/close; attempting to
-			// set it later results in a different "This method can't be used in this context" error. See #17529
+			// document.domain has been set, unless the child frame also has the same document.domain set. In some
+			// cases, we can only set document.domain while the document is being constructed using open/write/close;
+			// attempting to set it later results in a different "This method can't be used in this context" error.
+			// However, in at least IE9-10, sometimes the parent.window check will succeed and the access failure will
+			// only happen later when trying to access frameElement, so there is an additional check and fix there
+			// as well. See #17529
 			if (has("ie") < 11) {
 				s = 'javascript:document.open();try{parent.window;}catch(e){document.domain="' + document.domain + '";}' +
 					'document.write(\'' + src + '\');document.close()';
@@ -665,7 +668,10 @@ define([
 
 				// Onload handler fills in real editor content.
 				// On IE9, sometimes onload is called twice, and the first time frameElement is null (test_FullScreen.html)
-				"onload='frameElement && frameElement._loadFunc(window,document)' ",
+				// On IE9-10, it is also possible that accessing window.parent in the initial creation of the
+				// iframe DOM will succeed, but trying to access window.frameElement will fail, in which case we
+				// *can* set the domain without a "This method can't be used in this context" error. See #17529
+				"onload='try{frameElement && frameElement._loadFunc(window,document)}catch(e){document.domain=\"" + document.domain + "\";frameElement._loadFunc(window,document)}' ",
 				"style='" + userStyle + "'>", html, "</body>\n</html>"
 			].join(""); // String
 		},
