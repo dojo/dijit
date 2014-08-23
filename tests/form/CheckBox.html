@@ -126,6 +126,17 @@
 					function getValues(){
 						doh.is( json.stringify(originalGet), json.stringify(registry.byId("myForm").get('value')) );
 					},
+					function resetWithoutStateChange(){
+						var dfd = new doh.Deferred();
+						var passed = true;
+						var handle = cb1.on("change", function () { passed = false; });
+						cb1.reset();
+						setTimeout(dfd.getTestCallback(function() {
+							handle.remove();
+							doh.t(passed, "Change event should not fire when checkbox state is not changed from its initial value");
+						}), 50);
+						return dfd;
+					},
 					{
 						timeout:3000,
 						name: "setValues",
