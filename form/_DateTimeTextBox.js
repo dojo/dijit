@@ -124,6 +124,7 @@ define([
 			// srcNodeRef: DOMNode|String?
 			//		If a srcNodeRef (DOM node) is specified, replace srcNodeRef with my generated DOM tree
 
+			params = params || {};
 			this.dateModule = params.datePackage ? lang.getObject(params.datePackage, false) : date;
 			this.dateClassObj = this.dateModule.Date || Date;
 			this.dateLocaleModule = params.datePackage ? lang.getObject(params.datePackage+".locale", false) : locale;
@@ -224,7 +225,7 @@ define([
 				currentFocus: !this._isInvalidDate(value) ? value : this.dropDownDefaultValue,
 				constraints: textBox.constraints,
 				filterString: textBox.filterString, // for TimeTextBox, to filter times shown
-				datePackage: textBox.params.datePackage,
+				datePackage: textBox.datePackage,
 				isDisabledDate: function(/*Date*/ date){
 					// summary:
 					//		disables dates outside of the min/max of the _DateTimeTextBox
