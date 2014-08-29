@@ -31,24 +31,35 @@ define([
 		//		The root className to use for the various states of this widget
 		baseClass: "dijitTimePicker",
 
+		// pickerMin: String
+		//		ISO-8601 string representing the time of the first
+		//		visible element in the time picker.
+		//		Set in local time, without a time zone.
+		pickerMin: "T00:00:00",
+
+		// pickerMax: String
+		//		ISO-8601 string representing the last (possible) time
+		//		added to the time picker.
+		//		Set in local time, without a time zone.
+		pickerMax: "T23:45:00",
+
 		// clickableIncrement: String
-		//		ISO-8601 string representing the amount by which
-		//		every clickable element in the time picker increases.
+		//		ISO-8601 string representing the interval between choices in the time picker.
 		//		Set in local time, without a time zone.
 		//		Example: `T00:15:00` creates 15 minute increments
 		//		Must divide dijit/_TimePicker.visibleIncrement evenly
 		clickableIncrement: "T00:15:00",
 
 		// visibleIncrement: String
-		//		ISO-8601 string representing the amount by which
-		//		every element with a visible time in the time picker increases.
+		//		ISO-8601 string representing the interval between "major" choices in the time picker.
+		//		Each theme will highlight the major choices with a larger font / different color / etc.
 		//		Set in local time, without a time zone.
 		//		Example: `T01:00:00` creates text in every 1 hour increment
 		visibleIncrement: "T01:00:00",
 
 		// value: String
-		//		Date to display.
-		//		Defaults to current time and date.
+		//		Time to display.
+		//		Defaults to current time.
 		//		Can be a Date object or an ISO-8601 string.
 		//		If you specify the GMT time zone (`-01:00`),
 		//		the time will be converted to the local time in the local time zone.
@@ -67,7 +78,8 @@ define([
 		_totalIncrements: 10,
 
 		// constraints: TimePicker.__Constraints
-		//		Specifies valid range of times (start time, end time)
+		//		Specifies valid range of times (start time, end time), and also used by TimeTextBox to pass other
+		//		options to the TimePicker: pickerMin, pickerMax, clickableIncrement, and visibleIncrement.
 		constraints: {},
 
 		/*=====
@@ -172,7 +184,7 @@ define([
 				// round reference date to previous visible increment
 				time = (this.value || this.currentFocus).getTime();
 
-			this._refDate = fromIso("T00:00:00");
+			this._refDate = fromIso(this.pickerMin);
 			this._refDate.setFullYear(1970, 0, 1); // match parse defaults
 
 			// assume clickable increment is the smallest unit
@@ -182,9 +194,12 @@ define([
 			// divide the visible increments by the clickable increments to get how often to display the time inline
 			// example: 01:00:00/00:15:00 -> display the time every 4 divs
 			this._visibleIncrement = visibleIncrementSeconds / clickableIncrementSeconds;
-			// divide the number of seconds in a day by the clickable increment in seconds to get the
-			// absolute max number of increments.
-			this._maxIncrement = (60 * 60 * 24) / clickableIncrementSeconds;
+
+			// get the number of increments (i.e. number of entries in the picker)
+			var endDate = fromIso(this.pickerMax);
+			endDate.setFullYear(1970, 0, 1);
+			var visibleRange = (endDate.getTime() - this._refDate.getTime()) * 0.001;
+			this._maxIncrement = Math.ceil((visibleRange + 1) / clickableIncrementSeconds);
 
 			var nodes  = this._getFilteredNodes();
 			array.forEach(nodes, function(n){
@@ -216,9 +231,10 @@ define([
 			this._setConstraintsAttr(this.constraints); // this needs to happen now (and later) due to codependency on _set*Attr calls
 		},
 
+		// For historical reasons TimeTextBox sends all the options for the _TimePicker inside of a constraints{} object
 		_setConstraintsAttr: function(/* Object */ constraints){
 			// brings in increments, etc.
-			for (var key in { clickableIncrement: 1, visibleIncrement: 1 }) {
+			for (var key in { clickableIncrement: 1, visibleIncrement: 1, pickerMin: 1, pickerMax: 1 }) {
 				if (key in constraints) {
 					this[key] = constraints[key];
 				}

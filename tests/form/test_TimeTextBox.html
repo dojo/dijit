@@ -42,15 +42,7 @@
 		<script type="text/javascript" src="../_testCommon.js"></script>
 
 		<script type="text/javascript">
-			dojo.require("dijit.dijit"); // optimize: load dijit layer
-			dojo.require("dijit.form.TextBox");
-			dojo.require("dijit.form.ValidationTextBox");
-			dojo.require("dijit.form.NumberTextBox");
-			dojo.require("dijit.form.CurrencyTextBox");
-			dojo.require("dijit.form.DateTextBox");
 			dojo.require("dijit.form.TimeTextBox");
-			dojo.require("dojo.currency");
-			dojo.require("dojo.date.locale");
 			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
 			formValue = null;
@@ -182,6 +174,31 @@
 					}, "q21").startup();
 			  });
 				</script>
+			</div>
+			<div class="dojoTitlePaneLabel">
+				<label for="q22">TimeTextBox with dropdown from 9AM - 5PM</label>
+				<span class="noticeMessage">TimeTextBox class,
+					Attributes: {formatLength:"medium",
+						pickerMin: "T09:00:00",
+						clickableIncrement: "T01:00:00",
+						pickerMax: "T17:00:00"}</span>
+			</div>
+			<div class="testExample">
+				<input id="q22" data-dojo-type="dijit/form/TimeTextBox"
+					data-dojo-props='
+					type:"text",
+					name:"time22",
+					value:"T9:45:00",
+					constraints:{
+						formatLength:"medium",
+						pickerMin: "T09:00:00",
+						clickableIncrement: "T01:00:00",
+						pickerMax: "T17:00:00"
+					},
+					required:true,
+					onChange:function(val){ dojo.byId("oc22").value = val; },
+					invalidMessage:"Invalid time." '/>
+				<label for="oc22">onChange:</label><input id="oc22" size="34" disabled value="not fired yet!" autocomplete="off"/>
 			</div>
 		</form>
 		<input id="ro" type="button" onclick="dijit.byId('q20').set('readOnly',true);" value="Set readOnly" tabIndex="-1"/>

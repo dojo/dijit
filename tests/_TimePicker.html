@@ -37,6 +37,14 @@
 
 					tp.set('value', new Date());
 					doh.is(24, tp.timeMenu.children.length, 'Increment constraints should be copied but other non-constraint properties should not');
+				},
+				function min_max(){
+					var tp = _TimePicker({
+						pickerMin: "T09:00:00",
+						clickableIncrement: "T01:00:00",
+						pickerMax: "T17:00:00"
+					});
+					doh.is(9, tp.timeMenu.children.length, 'num entries');
 				}
 			]);
 

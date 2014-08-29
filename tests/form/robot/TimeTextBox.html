@@ -456,6 +456,31 @@
 					}
 				]);
 
+				doh.register("limited drop down range", {
+					name: "9 to 5",
+					timeout: 10000,
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						w = dijit.byId('q22');
+
+						// open drop down
+						w.focus();
+						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 1000, {});
+						doh.robot.sequence(d.getTestCallback(function(){
+							var popup = dijit.byId('q22_popup');
+							doh.t(isVisible(popup), "popup visible");
+							doh.is(9, popup.containerNode.children.length, "# of entries in drop down")
+						}), 500);
+
+						return d;
+					},
+					tearDown: function(){
+						// Even if test failed, make sure drop down is closed so it doesn't interfere w/next test
+						w.closeDropDown();
+					}
+				});
+
 				doh.run();
 			});
 		</script>
