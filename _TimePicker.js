@@ -31,6 +31,19 @@ define([
 		//		The root className to use for the various states of this widget
 		baseClass: "dijitTimePicker",
 
+                // visibleBaseTime: String
+		//		ISO-8601 string representing the time of the first
+		//		visible element in the time picker.
+		//		Set in local time, without a time zone.
+		//              Overriden by constraints.
+		visibleBaseTime: "T00:00:00",
+                // visibleBaseTime: String
+		//		ISO-8601 string representing the last (possible) time
+		//		added to the time picker.
+		//		Set in local time, without a time zone.
+		//              Overriden by constraints.
+		visibleEndTime: "T23:59:59",
+
 		// clickableIncrement: String
 		//		ISO-8601 string representing the amount by which
 		//		every clickable element in the time picker increases.
@@ -172,7 +185,7 @@ define([
 				// round reference date to previous visible increment
 				time = (this.value || this.currentFocus).getTime();
 
-			this._refDate = fromIso("T00:00:00");
+			this._refDate = fromIso(this.constraints.visibleBaseTime || this.visibleBaseTime);
 			this._refDate.setFullYear(1970, 0, 1); // match parse defaults
 
 			// assume clickable increment is the smallest unit
@@ -184,7 +197,11 @@ define([
 			this._visibleIncrement = visibleIncrementSeconds / clickableIncrementSeconds;
 			// divide the number of seconds in a day by the clickable increment in seconds to get the
 			// absolute max number of increments.
-			this._maxIncrement = (60 * 60 * 24) / clickableIncrementSeconds;
+			var endDate = fromIso(this.constraints.visibleEndTime || this.visibleEndTime);
+			endDate.setFullYear(1970, 0, 1);
+			// visableRange is incremented to include the visibleEndTime if it is divisible by cliackableIncrementSeconds.
+			var visibleRange = (endDate.getTime() - this._refDate.getTime()) * 0.001 + 1;
+			this._maxIncrement = Math.ceil((visibleRange + 1) / clickableIncrementSeconds);
 
 			var nodes  = this._getFilteredNodes();
 			array.forEach(nodes, function(n){
