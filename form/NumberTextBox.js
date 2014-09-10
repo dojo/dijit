@@ -19,7 +19,7 @@ define([
 			placesSpecified = typeof constraints.places == "number",
 			// The "places" property trumps the pattern property if both are specified in number.format, we follow the same
 			// logic here
-			places = placesSpecified ? constraints.places : (pattern.indexOf(bundle.decimal) != -1 ? pattern.split(bundle.decimal)[1].replace(/[^#0]/g, "").length : 0);
+			places = placesSpecified ? constraints.places : (pattern.indexOf(".") != -1 ? pattern.split(".")[1].replace(/[^#0]/g, "").length : 0);
 		return { sep: bundle.decimal, places: places };
 	};
 
