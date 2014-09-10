@@ -1509,6 +1509,20 @@
 					}
 				]);
 
+				doh.register("Ensure rounding works with locale's whose decimal separator is not a period", [
+					{
+						name: "basic rounding test",
+						runTest: function(){
+							// Expects the textbox to have a constraint of up to 1 decimal place, and the lang of 'de-de',
+							// which uses a comma instead of a period as the decimal separator.
+							var textbox = dijit.byId("ticket18260");
+							textbox.set('value', 12.9);
+							doh.is(12.9, textbox.get('value'), 'textbox.value == 12.9');
+							textbox.set('value', 12.99);
+							doh.is(13.0, textbox.get('value'), 'textbox.value == 13.0');
+						}
+					}
+				]);
 				doh.run();
 			});
 		</script>
