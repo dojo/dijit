@@ -41,7 +41,7 @@ define([
 		//		ISO-8601 string representing the last (possible) time
 		//		added to the time picker.
 		//		Set in local time, without a time zone.
-		pickerMax: "T23:45:00",
+		pickerMax: "T23:59:59",
 
 		// clickableIncrement: String
 		//		ISO-8601 string representing the interval between choices in the time picker.
