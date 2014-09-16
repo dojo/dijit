@@ -27,6 +27,8 @@
 				// log of calls to onChange handler
 				var changes = [];
 
+				var focus;		// dijit/focus
+
 				doh.register("setup",
 					function setUp(){
 						s1 = dijit.byId('s1');
@@ -56,6 +58,9 @@
 						dijit.byId('s6').loadDropDown(doNothing);
 						s8a.loadDropDown(doNothing);
 						s8b.loadDropDown(doNothing);
+
+						// modules in test page
+						focus = dojo.global.require("dijit/focus");
 				    }
 				);
 
@@ -74,7 +79,7 @@
 								doh.is("true", s1.domNode.getAttribute('aria-expanded'), 'aria-expanded');
 								doh.is("listbox", s1_menu.domNode.getAttribute('role'), 'menu role');
 								doh.is(5, dojo.query("tr", s1_menu.domNode).length, "5 options in menu");
-								
+
 								var selectedOptions = dojo.query(".dijitSelectSelectedOption .dijitMenuItemLabel", s1_menu.domNode);
 								doh.is(1, selectedOptions.length, "one selected option");
 								doh.is("Virginia", innerText(selectedOptions[0]), "Virginia highlighted");
@@ -92,7 +97,7 @@
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(isHidden(s1_menu), "clicking choice hides menu");
 								doh.is("false", s1.domNode.getAttribute('aria-expanded'), 'aria-expanded');
-								
+
 								doh.is("Washington", innerText(s1.containerNode), "select shows selected option");
 								doh.is("WA", s1.get("value"), "get(value) after selecting Washington");
 							}), 1000);
@@ -102,7 +107,7 @@
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(isVisible(s1_menu), "drop down menu displayed after third click");
-								
+
 								var selectedOptions = dojo.query(".dijitSelectSelectedOption .dijitMenuItemLabel", s1_menu.domNode);
 								doh.is(1, selectedOptions.length, "one selected option");
 								doh.is("Washington", innerText(selectedOptions[0]), "Washington highlighted");
@@ -134,7 +139,7 @@
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(isVisible(s1_menu), "drop down menu displayed after mouse down");
 								doh.is(5, dojo.query("tr", s1_menu.domNode).length, "5 options in menu");
-								
+
 								var selectedOptions = dojo.query(".dijitSelectSelectedOption .dijitMenuItemLabel", s1_menu.domNode);
 								doh.is(1, selectedOptions.length, "one selected option");
 								doh.is("Virginia", innerText(selectedOptions[0]), "Virginia highlighted");
@@ -151,7 +156,7 @@
 							doh.robot.mouseRelease({left:true}, 500);
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(isHidden(s1_menu), "clicking choice hides menu");
-								
+
 								doh.is("Washington", innerText(s1.containerNode), "select shows selected option");
 								doh.is("WA", s1.get("value"), "get(value) after selecting Washington");
 							}), 1000);
@@ -161,7 +166,7 @@
 							doh.robot.mousePress({left:true}, 500);
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(isVisible(s1_menu), "drop down menu displayed after second mouse down");
-								
+
 								var selectedOptions = dojo.query(".dijitSelectSelectedOption .dijitMenuItemLabel", s1_menu.domNode);
 								doh.is(1, selectedOptions.length, "one selected option");
 								doh.is("Washington", innerText(selectedOptions[0]), "Washington highlighted");
@@ -194,7 +199,7 @@
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(isVisible(s8a_menu.domNode), "drop down menu displayed after mouse down");
-								
+
 								var pos = dojo.position(s8a_menu.domNode.parentNode);	// scrollbar on wrapper
 								doh.t(pos.h >= 200, "height at least 200: " + pos.h);
 								doh.t(pos.h < 220, "height including borders not much more than 200: " + pos.h);
@@ -212,7 +217,7 @@
 					},
 
 					// Not sure if this is good or not, but sometimes menu can overlap
-					// the select itself.  In this case, mouse up should leave the menu open						
+					// the select itself.  In this case, mouse up should leave the menu open
 					{
 						name: "menu overlaps select",
 						timeout: 6000,
@@ -454,7 +459,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							// c search finds CA 
+							// c search finds CA
 							doh.robot.typeKeys("c", 500, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -665,7 +670,7 @@
 								var s5newSize = dojo.position(s5.domNode);
 								doh.t(s5newSize.w > s5origSize.w, "select changed width from " + s5origSize.w + " to " + s5newSize.w);
 							}), 500);
-				
+
 							return d;
 						}
 					}
@@ -698,7 +703,7 @@
 								doh.t(!s3.options[0].value, "blank option");
 								doh.f(s3.isValid(), "should not be valid");
 							}), 1000);
-				
+
 							return d;
 						}
 					},
@@ -722,7 +727,7 @@
 								doh.f(!s3.options[0].value, "no blank option");
 								doh.t(s3.isValid(), "should be valid");
 							}), 1000);
-				
+
 							return d;
 						}
 					},
@@ -745,7 +750,7 @@
 								doh.is("AR", s3.get('value'), "Arkansas");
 								doh.t(s3.isValid(), "should be valid");
 							}), 1000);
-				
+
 							return d;
 						}
 					}
@@ -828,6 +833,73 @@
 							doh.robot.mouseMoveAt("submit", 0, 1);
 							doh.robot.mouseClick({left:true}, 500);
 
+							return d;
+						}
+					}
+				]);
+
+				doh.register("validation in dialog", [
+					{
+						name: "show and validate dialog",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// Show dialog
+							doh.robot.mouseMoveAt("dlg1OpenBtn", 0, 1);
+							doh.robot.mouseClick({left: true}, 500);
+
+							// Clicking validate button should show "required but empty" tooltip on the Select
+							doh.robot.mouseMoveAt("dlg1ValidateBtn", 0, 1);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("dlg1Select", focus.curNode && focus.curNode.id, "focused on select");
+								var masterTT = dijit.Tooltip._masterTT;
+								doh.t(masterTT && isVisible(masterTT.domNode), "tooltip shown");
+							}), 750);
+							return d;
+						}
+					},
+					{
+						name: "hide dialog",
+						timeout: 5000,
+						runTest: function(){
+							// Hiding the dialog should make the validation tooltip disappear
+							var d = new doh.Deferred();
+
+							doh.is("dlg1Select", focus.curNode && focus.curNode.id, "focused on select");
+
+							// Close dialog via ESCAPE key because on FF, robot when run from runTests.html has
+							// problems positioning mouse over the close icon.  It strangely positions a few
+							// hundred pixels above the close icon, perhaps due to the iframes and scrolling.
+							doh.robot.keyPress(dojo.keys.ESCAPE, 500, {});
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(isHidden(dojo.byId("dlg1")), "dialog hidden");
+								var masterTT = dijit.Tooltip._masterTT;
+								doh.t(isHidden(masterTT.domNode), "tooltip hidden");
+							}), 750);
+							return d;
+						}
+					},
+					{
+						name: "show again",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// Show dialog again.   Presumably focus is already on the open button, so can
+							// keyboard trigger it.
+							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
+
+							// Opening the dialog focuses the select, which is invalid since it's got no value.
+							// Since this is the second time it's being focused, it should popup the tooltip
+							// immediately.
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(isVisible(dojo.byId("dlg1")), "dialog shown again");
+								doh.is("dlg1Select", focus.curNode.id, "focused on select");
+								var masterTT = dijit.Tooltip._masterTT;
+								doh.t(masterTT && isVisible(masterTT.domNode), "tooltip shown");
+							}), 750);
 							return d;
 						}
 					}

@@ -183,25 +183,37 @@
 								s1.set("value", s1.getOptions(2)); // set s1 to a valid value via index search
 								t.is("WA", s1.value);
 
-								setTimeout(function(){ try{ // allow onChange to fire
+								setTimeout(function(){
+									try{ // allow onChange to fire
 
-									// set s1 to non-existing value, which (currently) makes the Select pick
-									// the first option in the drop down
-									s1.set("value", "UT");
-									t.is("TN", s1.value);
+										// set s1 to non-existing value, which (currently) makes the Select pick
+										// the first option in the drop down
+										s1.set("value", "UT");
+										t.is("TN", s1.value);
 
-									setTimeout(function(){ try{ // allow onChange to fire
-										t.is(2, numChanges);
-										
-										// prevent onChange from firing
-										s1.set("value", "FL", false);
-										
-										setTimeout(function(){ try{ // allow onChange to fire if it's wrong
-											t.is(2, numChanges);
-											d.callback(true);
-										}catch(e){ d.errback(e); }}, 0)
-									}catch(e){ d.errback(e); }}, 0);
-								}catch(e){ d.errback(e); }}, 0);
+										setTimeout(function(){
+											try{ // allow onChange to fire
+												t.is(2, numChanges);
+
+												// prevent onChange from firing
+												s1.set("value", "FL", false);
+
+												setTimeout(function(){
+													try{ // allow onChange to fire if it's wrong
+														t.is(2, numChanges);
+														d.callback(true);
+													}catch(e){
+														d.errback(e);
+													}
+												}, 0)
+											}catch(e){
+												d.errback(e);
+											}
+										}, 0);
+									}catch(e){
+										d.errback(e);
+									}
+								}, 0);
 								return d;
 							}
 						},
@@ -214,26 +226,38 @@
 								s5.set("value", s5.getOptions(2)); // set s5 to a valid value via index search
 								t.is(102, s5.value);
 
-								setTimeout(function(){ try{ // allow onChange to fire
+								setTimeout(function(){
+									try{ // allow onChange to fire
 
-									// set s5 to non-existing value, which (currently) makes the Select pick
-									// the first option in the drop down
-									s5.set("value", 200);
-									t.is(100, s5.value);
+										// set s5 to non-existing value, which (currently) makes the Select pick
+										// the first option in the drop down
+										s5.set("value", 200);
+										t.is(100, s5.value);
 
-									setTimeout(function(){ try{ // allow onChange to fire
-										t.is(2, numChanges);
-										
-										// prevent onChange from firing
-										s5.set("value", 103, false);
-										t.t(/.*No Move.*/.test(s5.containerNode.innerHTML), s5.containerNode.innerHTML);
-										
-										setTimeout(function(){ try{ // allow onChange to fire if it's wrong
-											t.is(2, numChanges);
-											d.callback(true);
-										}catch(e){ d.errback(e); }}, 0)
-									}catch(e){ d.errback(e); }}, 0);
-								}catch(e){ d.errback(e); }}, 0);
+										setTimeout(function(){
+											try{ // allow onChange to fire
+												t.is(2, numChanges);
+
+												// prevent onChange from firing
+												s5.set("value", 103, false);
+												t.t(/.*No Move.*/.test(s5.containerNode.innerHTML), s5.containerNode.innerHTML);
+
+												setTimeout(function(){
+													try{ // allow onChange to fire if it's wrong
+														t.is(2, numChanges);
+														d.callback(true);
+													}catch(e){
+														d.errback(e);
+													}
+												}, 0)
+											}catch(e){
+												d.errback(e);
+											}
+										}, 0);
+									}catch(e){
+										d.errback(e);
+									}
+								}, 0);
 								return d;
 							}
 						},
@@ -263,7 +287,7 @@
 							timeout: 5000,
 							runTest: function(t){
 								var oldCnt = registry.length;
-									
+
 								s1.destroy();
 
 								var newCnt = registry.length;
@@ -273,10 +297,10 @@
 						{
 							name: "aria attributes",
 							timeout: 2000,
-							runTest:function(){
+							runTest: function(){
 								var d = new doh.Deferred();
 								select = registry.byId("s2");
-																
+
 								doh.is("listbox", select._popupStateNode.getAttribute("role"), "select _popupStateNode role");
 								doh.t(select._popupStateNode.getAttribute("aria-haspopup"), "aria-haspopup on select");
 								doh.f(select._popupStateNode.getAttribute("aria-expanded"), "initially false aria-expanded");
@@ -294,7 +318,7 @@
 
 								return d;
 							},
-							tearDown:function(){
+							tearDown: function(){
 								select.closeDropDown();
 							}
 						}
@@ -357,7 +381,7 @@
 						// Test that new items added to the data store appear in the select's options
 						function test_newItem(t){
 							t.is(5, s11.getOptions().length);
-							t.is("AL", s11.value);	
+							t.is("AL", s11.value);
 
 							var d = new doh.Deferred();
 							writeStore.newItem({value: "NY", label: "New York"});
@@ -426,16 +450,16 @@
 						// Test that new items added to the data store appear in the select's options
 						function test_newItem(t){
 							t.is(5, ds11.getOptions().length);
-							t.is("AL", ds11.value);	
+							t.is("AL", ds11.value);
 
 							memoryStore3.add({value: "NY", label: "New York"});
 
 							// TODO: try w/out the timeout
 							var d = new doh.Deferred();
 							setTimeout(d.getTestCallback(function(){
-									t.is(6, ds11.getOptions().length);
-									ds11.set("value", "NY");
-									t.is("NY", ds11.value);
+								t.is(6, ds11.getOptions().length);
+								ds11.set("value", "NY");
+								t.is("NY", ds11.value);
 							}), 100);
 							return d;
 						},
@@ -484,7 +508,7 @@
 							doh.is("Alabama", ds.get("displayedValue"));
 						}
 					]);
-					
+
 					doh.register("validation", [
 						function required(){
 							var s3 = registry.byId("s3");
@@ -505,105 +529,9 @@
 							doh.is("", stateWatch, "watch fired after set value=AK''");
 						}
 					]);
-					doh.register("validation in dialog1", [
-						function showDialog(){
-							// Show dialog, returning Deferred that fires when show dialog is finished.
-							// Before showing, focus the open button, so that Dialog knows where to return focus to.
-							registry.byId("dlg1OpenBtn").focus();
-							return registry.byId("dlg1").show();
-						},
-						function validateDialog(){
-							// Clicking validate button should show "required but empty" tooltip on the Select
-							var d = new doh.Deferred();
-							registry.byId("dlg1ValidateBtn").focus();
-							registry.byId("dlg1").validate();
-							setTimeout(d.getTestCallback(function(){
-								doh.is("dlg1Select", focus.curNode && focus.curNode.id, "focused on select");
-								masterTT = Tooltip._masterTT;
-								doh.t(masterTT && helpers.isVisible(masterTT.domNode), "tooltip shown");
-							}), 300);
-							return d;
-						},
-						{
-							name: "hideDialog",
-							timeout: 5000,
-							runTest: function(){
-								// Hiding the dialog should make the validation tooltip disappear
-								var d = new doh.Deferred();
-								registry.byId("dlg1").hide().then(function(){
-									setTimeout(d.getTestCallback(function(){
-										doh.t(helpers.isHidden(masterTT.domNode), "tooltip hidden");
-									}), 300);
-								});
-								return d;
-							}
-						},
-						function showDialogAgain(){
-							// Show dialog, returning Deferred that fires when show dialog is finished.
-							// Before showing, focus the open button, so that Dialog knows where to return focus to.
-							registry.byId("dlg1OpenBtn").focus();
-							return registry.byId("dlg1").show();
-						},
-						function tooltipAppears(){
-							// Opening the dialog focuses the select, which is invalid since it's got no value.
-							// Since this is the second time it's being focused, it should popup the tooltip
-							// immediately.
-							var d = new doh.Deferred();
-							registry.byId("dlg1ValidateBtn").focus();
-							registry.byId("dlg1").validate();
-							setTimeout(d.getTestCallback(function(){
-								doh.is("dlg1Select", focus.curNode && focus.curNode.id, "focused on select");
-								masterTT = Tooltip._masterTT;
-								doh.t(masterTT && helpers.isVisible(masterTT.domNode), "tooltip shown");
-							}), 300);
-							return d;
-						},
-						function destroyingSelectHidesTooltip(){
-							var d = new doh.Deferred();
-							registry.byId("dlg1Select").destroy();
-							setTimeout(d.getTestCallback(function(){
-								doh.t(helpers.isHidden(masterTT.domNode), "tooltip hidden");
-							}), 300);
-							return d;
-						},
-						function tearDown(){
-							return registry.byId("dlg1").hide();
-						}
-					]);
-
-					doh.register("validation in dialog2", [
-						function showDialog(){
-							// Show dialog, returning Deferred that fires when show dialog is finished.
-							// Before showing, focus the open button, so that Dialog knows where to return focus to.
-							registry.byId("dlg2OpenBtn").focus();
-							return registry.byId("dlg2").show();
-						},
-						function validateDialog(){
-							// Clicking validate button should show "required but empty" tooltip on the Select
-							var d = new doh.Deferred();
-							registry.byId("dlg2ValidateBtn").focus();
-							registry.byId("dlg2").validate();
-							setTimeout(d.getTestCallback(function(){
-								doh.is("dlg2Select1", focus.curNode && focus.curNode.id, "focused on select");
-								masterTT = Tooltip._masterTT;
-								doh.t(masterTT && helpers.isVisible(masterTT.domNode), "tooltip shown");
-							}), 300);
-							return d;
-						},
-						function hideDialog(){
-							// Hiding the dialog should make the validation tooltip disappear
-							var d = new doh.Deferred();
-							registry.byId("dlg2").hide().then(function(){
-								setTimeout(d.getTestCallback(function(){
-									doh.t(helpers.isHidden(masterTT.domNode), "tooltip hidden");
-								}), 300);
-							});
-							return d;
-						}
-					]);
 				}
 
-				if(testPerformance){			
+				if(testPerformance){
 					doh.register("performance", [
 						{
 							name: "test_performance_single",
