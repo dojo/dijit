@@ -634,8 +634,8 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 			"\tp{ margin: 1em 0; }\n",
 
 			"\tli > ul:-moz-first-node, li > ol:-moz-first-node{ padding-top: 1.2em; }\n",
-			// Can't set min-height in IE9, it puts layout on li, which puts move/resize handles.
-			(!has("ie") ? "\tli{ min-height:1.2em; }\n" : ""),
+			// Can't set min-height in IE>=9, it puts layout on li, which puts move/resize handles.
+			(has("ie") || has("trident") ? "" : "\tli{ min-height:1.2em; }\n"),
 			"</style>\n",
 			this._applyEditingAreaStyleSheets(),"\n",
 			"</head>\n<body ",
@@ -2129,7 +2129,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		// tags:
 		//		protected
 		var applied = false;
-		if(has("ie")){
+		if(has("ie") || has("trident")){
 			this._adaptIESelection();		
 			applied = this._adaptIEFormatAreaAndExec("bold");
 		}
@@ -2147,7 +2147,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		// tags:
 		//		protected
 		var applied = false;
-		if(has("ie")){
+		if(has("ie") || has("trident")){
 			this._adaptIESelection();			
 			applied = this._adaptIEFormatAreaAndExec("italic");
 		}
@@ -2165,7 +2165,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		// tags:
 		//		protected
 		var applied = false;
-		if(has("ie")){
+		if(has("ie") || has("trident")){
 			this._adaptIESelection();			
 			applied = this._adaptIEFormatAreaAndExec("underline");
 		}
@@ -2183,7 +2183,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		// tags:
 		//		protected
 		var applied = false;
-		if(has("ie")){
+		if(has("ie") || has("trident")){
 			this._adaptIESelection();			
 			applied = this._adaptIEFormatAreaAndExec("strikethrough");
 		}
@@ -2201,7 +2201,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		// tags:
 		//		protected
 		var applied = false;
-		if(has("ie")){
+		if(has("ie") || has("trident")){
 			this._adaptIESelection();			
 			applied = this._adaptIEFormatAreaAndExec("superscript");
 		}
@@ -2219,7 +2219,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		// tags:
 		//		protected
 		var applied = false;
-		if(has("ie")){
+		if(has("ie") || has("trident")){
 			this._adaptIESelection();			
 			applied = this._adaptIEFormatAreaAndExec("subscript");
 			
@@ -2238,7 +2238,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		// tags:
 		//		protected
 		var isApplied;
-		if(has("ie")){
+		if(has("ie") || has("trident")){
 			isApplied = this._handleTextColorOrProperties("fontname", argument);
 		}
 		if(!isApplied){
@@ -2255,7 +2255,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		// tags:
 		//		protected
 		var isApplied;
-		if(has("ie")){
+		if(has("ie") || has("trident")){
 			isApplied = this._handleTextColorOrProperties("fontsize", argument);
 		}
 		if(!isApplied){
@@ -2272,7 +2272,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		// tags:
 		//		protected
 		var applied = false;
-		if(has("ie")){
+		if(has("ie") || has("trident")){
 			applied = this._adaptIEList("insertorderedlist", argument);
 		}
 		if(!applied){
@@ -2289,7 +2289,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		// tags:
 		//		protected
 		var applied = false;
-		if(has("ie")){
+		if(has("ie") || has("trident")){
 			applied = this._adaptIEList("insertunorderedlist", argument);
 		}
 		if(!applied){
