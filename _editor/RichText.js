@@ -660,8 +660,8 @@ define([
 				"\tp{ margin: 1em 0; }\n",
 
 				"\tli > ul:-moz-first-node, li > ol:-moz-first-node{ padding-top: 1.2em; }\n",
-				// Can't set min-height in IE9, it puts layout on li, which puts move/resize handles.
-				(!has("ie") ? "\tli{ min-height:1.2em; }\n" : ""),
+				// Can't set min-height in IE>=9, it puts layout on li, which puts move/resize handles.
+				(has("ie") || has("trident") ? "" : "\tli{ min-height:1.2em; }\n"),
 				"</style>\n",
 				this._applyEditingAreaStyleSheets(), "\n",
 				"</head>\n<body role='main' ",
@@ -2198,7 +2198,7 @@ define([
 			// tags:
 			//		protected
 			var applied = false;
-			if(has("ie")){
+			if(has("ie") || has("trident")){
 				this._adaptIESelection();
 				applied = this._adaptIEFormatAreaAndExec("bold");
 			}
@@ -2216,7 +2216,7 @@ define([
 			// tags:
 			//		protected
 			var applied = false;
-			if(has("ie")){
+			if(has("ie") || has("trident")){
 				this._adaptIESelection();
 				applied = this._adaptIEFormatAreaAndExec("italic");
 			}
@@ -2234,7 +2234,7 @@ define([
 			// tags:
 			//		protected
 			var applied = false;
-			if(has("ie")){
+			if(has("ie") || has("trident")){
 				this._adaptIESelection();
 				applied = this._adaptIEFormatAreaAndExec("underline");
 			}
@@ -2252,7 +2252,7 @@ define([
 			// tags:
 			//		protected
 			var applied = false;
-			if(has("ie")){
+			if(has("ie") || has("trident")){
 				this._adaptIESelection();
 				applied = this._adaptIEFormatAreaAndExec("strikethrough");
 			}
@@ -2270,7 +2270,7 @@ define([
 			// tags:
 			//		protected
 			var applied = false;
-			if(has("ie")){
+			if(has("ie") || has("trident")){
 				this._adaptIESelection();
 				applied = this._adaptIEFormatAreaAndExec("superscript");
 			}
@@ -2288,7 +2288,7 @@ define([
 			// tags:
 			//		protected
 			var applied = false;
-			if(has("ie")){
+			if(has("ie") || has("trident")){
 				this._adaptIESelection();
 				applied = this._adaptIEFormatAreaAndExec("subscript");
 
@@ -2307,7 +2307,7 @@ define([
 			// tags:
 			//		protected
 			var isApplied;
-			if(has("ie")){
+			if(has("ie") || has("trident")){
 				isApplied = this._handleTextColorOrProperties("fontname", argument);
 			}
 			if(!isApplied){
@@ -2324,7 +2324,7 @@ define([
 			// tags:
 			//		protected
 			var isApplied;
-			if(has("ie")){
+			if(has("ie") || has("trident")){
 				isApplied = this._handleTextColorOrProperties("fontsize", argument);
 			}
 			if(!isApplied){
@@ -2341,7 +2341,7 @@ define([
 			// tags:
 			//		protected
 			var applied = false;
-			if(has("ie")){
+			if(has("ie") || has("trident")){
 				applied = this._adaptIEList("insertorderedlist", argument);
 			}
 			if(!applied){
@@ -2358,7 +2358,7 @@ define([
 			// tags:
 			//		protected
 			var applied = false;
-			if(has("ie")){
+			if(has("ie") || has("trident")){
 				applied = this._adaptIEList("insertunorderedlist", argument);
 			}
 			if(!applied){
