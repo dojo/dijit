@@ -892,5 +892,38 @@
 
 	<div id="filteringSelect"></div>
 
+	<hr>
+	<p>autoComplete=true</p>
+	<select id="autocompleteon" data-dojo-type="$testWidget"
+			data-dojo-props='name:"autocompleteon",
+			style:{width:"50%", fontFamily:"Courier"},
+			autoComplete:true,
+			selectOnClick:true,
+			pageSize:5,
+			title:"New England States"
+	'>
+		<option value="ct">Connecticut</option>
+		<option value="me">Maine</option>
+		<option value="ma">Massachusetts</option>
+		<option value="nh">New Hampshire</option>
+		<option value="vt">Vermont</option>
+	</select>
+
+	<hr>
+	<p>autoComplete=false</p>
+	<select id="autocompleteoff" data-dojo-type="$testWidget"
+			data-dojo-props='name:"autocompleteon",
+			style:{width:"50%", fontFamily:"Courier"},
+			autoComplete:false,
+			selectOnClick:true,
+			pageSize:5,
+			title:"New England States"
+	'>
+		<option value="ct">Connecticut</option>
+		<option value="me">Maine</option>
+		<option value="ma">Massachusetts</option>
+		<option value="nh">New Hampshire</option>
+		<option value="vt">Vermont</option>
+	</select>
 </body>
 </html>
