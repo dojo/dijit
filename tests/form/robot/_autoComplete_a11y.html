@@ -1601,6 +1601,27 @@
 				}
 			]);
 
+			doh.register("aria-autocomplete (#9089)", [
+				{
+					timeout: 1000,
+					name:"aria-autocomplete with autoComplete enabled",
+					combo: "autocompleteon",
+					runTest: function(){
+						var combo = dijit.byId(this.combo);
+						doh.is("both", combo.focusNode.getAttribute("aria-autocomplete"), "aria-autocomplete on combo is 'both'");
+					}
+				},
+				{
+					timeout: 1000,
+					name:"aria-autocomplete with autoComplete disabled",
+					combo: "autocompleteoff",
+					runTest: function(){
+						var combo = dijit.byId(this.combo);
+						doh.is("list", combo.focusNode.getAttribute("aria-autocomplete"), "aria-autocomplete on combo is 'list'");
+					}
+				}
+			]);
+
 			doh.run();
 		});
 	</script>
