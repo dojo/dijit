@@ -1,5 +1,5 @@
 define([
-	"../dojo/_base/declare",
+	"dojo/_base/declare",
 	"./Dialog",
 	"./_ConfirmDialogMixin"
 ], function(declare, Dialog, _ConfirmDialogMixin) {
