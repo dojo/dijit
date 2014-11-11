@@ -1,5 +1,5 @@
 define([
-	"../dojo/_base/declare",
+	"dojo/_base/declare",
 	"./_WidgetsInTemplateMixin",
 	"dojo/i18n!./nls/common",
 	"dojo/text!./templates/actionBar.html",
