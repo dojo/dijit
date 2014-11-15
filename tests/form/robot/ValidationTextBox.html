@@ -1523,6 +1523,39 @@
 						}
 					}
 				]);
+
+				doh.register("Ensure using both forms of the places constraint work as expected", [
+					{
+						name: "Fixed numeric places test, 2",
+						runTest: function(){
+							var textbox = dijit.byId("ticket18367");
+							textbox.set('constraints', {places:2});
+							textbox.set('value', 12.991);
+							doh.is(12.99, textbox.get('value'), 'textbox.value == 12.99');
+						}
+					},
+					{
+						name: "Range places test 0,4",
+						runTest: function(){
+							var textbox = dijit.byId("ticket18367");
+							textbox.set('constraints', {places: "0,4"});
+							textbox.set('value', 12);
+							doh.is(12, textbox.get('value'), 'textbox.value == 12');
+							textbox.set('value', 12.9);
+							doh.is(12.9, textbox.get('value'), 'textbox.value == 12.9');
+							textbox.set('value', 12.99);
+							doh.is(12.99, textbox.get('value'), 'textbox.value == 12.99');
+							textbox.set('value', 12.991);
+							doh.is(12.991, textbox.get('value'), 'textbox.value == 12.991');
+							textbox.set('value', 12.9912);
+							doh.is(12.9912, textbox.get('value'), 'textbox.value == 12.9912');
+							textbox.set('value', 12.99123);
+							doh.is(12.9912, textbox.get('value'), 'textbox.value == 12.9912');
+							textbox.set('value', 12.1);
+							doh.is(12.1, textbox.get('value'), 'textbox.value == 12.1');
+						}
+					}
+				]);
 				doh.run();
 			});
 		</script>

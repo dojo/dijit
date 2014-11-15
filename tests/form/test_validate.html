@@ -937,7 +937,7 @@
 		});
 		</script>
 		<div class="dojoTitlePaneLabel">
-			<label id="l_ticket8260">Trac ticket 18260</label>
+			<label id="l_ticket18260">Trac ticket 18260</label>
 			<span class="noticeMessage">Make sure rounding works with different locale's</span>
 		</div>
 
@@ -957,5 +957,26 @@
 			fld.startup();
 		});
 		</script>
+
+		<div class="dojoTitlePaneLabel">
+			<label id="l_ticket18367">Trac ticket 18367</label>
+			<span class="noticeMessage">Make sure precision ranges work as expected</span>
+		</div>
+		<div class="testExample">
+			<input id="ticket18367" class="medium"/>
+		</div>
+		<script>
+		require(["dijit/form/NumberTextBox"], function(NumberTextBox){
+
+			var fld = new NumberTextBox({
+				name: "ticket18367",
+				value: 8.0153234,
+				constraints: { min: 1, max: 10 , places: "0,5"},
+				maxLength: 5
+			}, "ticket18367");
+			fld.startup();
+		});
+		</script>
+
 	</body>
 </html>
