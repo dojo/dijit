@@ -14,7 +14,8 @@ define([
 	"dojo/dom-construct", // empty()
 	"dojo/_base/xhr", // xhr.get
 	"dojo/i18n", // i18n.getLocalization
-	"dojo/when"
+	"dojo/when",
+	"dojo/i18n!../nls/loading"
 ], function(kernel, lang, _Widget, _Container, _ContentPaneResizeMixin, string, html, array, declare,
 			Deferred, dom, domAttr, domConstruct, xhr, i18n, when){
 
