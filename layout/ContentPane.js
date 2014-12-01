@@ -6,7 +6,6 @@ define([
 	"./_ContentPaneResizeMixin",
 	"dojo/string", // string.substitute
 	"dojo/html", // html._ContentSetter
-	"dojo/i18n!../nls/loading",
 	"dojo/_base/array", // array.forEach
 	"dojo/_base/declare", // declare
 	"dojo/_base/Deferred", // Deferred
@@ -16,7 +15,7 @@ define([
 	"dojo/_base/xhr", // xhr.get
 	"dojo/i18n", // i18n.getLocalization
 	"dojo/when"
-], function(kernel, lang, _Widget, _Container, _ContentPaneResizeMixin, string, html, nlsLoading, array, declare,
+], function(kernel, lang, _Widget, _Container, _ContentPaneResizeMixin, string, html, array, declare,
 			Deferred, dom, domAttr, domConstruct, xhr, i18n, when){
 
 	// module:
