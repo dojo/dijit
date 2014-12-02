@@ -533,7 +533,7 @@ var FontChoice = declare("dijit._editor.plugins.FontChoice", _Plugin,{
 			}
 
 			// strip off single quotes, if any
-			var quoted = lang.isString(value) && value.match(/'([^']*)'/);
+			var quoted = lang.isString(value) && (value.match(/'([^']*)'/) || value.match(/"([^"]*)"/));
 			if(quoted){ value = quoted[1]; }
 
 			if(_c === "formatBlock"){
