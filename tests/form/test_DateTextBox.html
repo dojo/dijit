@@ -216,7 +216,7 @@
 						function noInitialValue(){
 							var fromDate = registry.byId('fromDate');
 							doh.is('', fromDate.get('displayedValue'), 'initially blank');
-							doh.is(DateTextBox.prototype.value, fromDate.value, 'default value');
+							doh.is(new Date('').toString(), fromDate.value.toString(), 'default value');
 							var d = new doh.Deferred();
 							var today = new Date();
 							fromDate.set('value', today, true);
