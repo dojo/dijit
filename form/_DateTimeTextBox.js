@@ -140,6 +140,9 @@ define([
 			params = params || {};
 			this.dateModule = params.datePackage ? lang.getObject(params.datePackage, false) : date;
 			this.dateClassObj = this.dateModule.Date || Date;
+			if(!(this.dateClassObj instanceof Date)){
+				this.value = new this.dateClassObj(this.value);
+			}
 			this.dateLocaleModule = params.datePackage ? lang.getObject(params.datePackage+".locale", false) : locale;
 			this._set('pattern', this.dateLocaleModule.regexp);
 			this._invalidDate = this.constructor.prototype.value.toString();
@@ -164,8 +167,18 @@ define([
 			constraints.selector = this._selector;
 			constraints.fullYear = true; // see #5465 - always format with 4-digit years
 			var fromISO = stamp.fromISOString;
-			if(typeof constraints.min == "string"){ constraints.min = fromISO(constraints.min); }
-			if(typeof constraints.max == "string"){ constraints.max = fromISO(constraints.max); }
+			if(typeof constraints.min == "string"){
+				constraints.min = fromISO(constraints.min);
+				if(!(this.dateClassObj instanceof Date)){
+					constraints.min = new this.dateClassObj(constraints.min);
+				}
+			}
+			if(typeof constraints.max == "string"){
+				constraints.max = fromISO(constraints.max);
+				if(!(this.dateClassObj instanceof Date)){
+					constraints.max = new this.dateClassObj(constraints.max);
+				}
+			}
 			this.inherited(arguments);
 			this._unboundedConstraints = lang.mixin({}, this.constraints, {min: null, max: null});
 		},
@@ -192,7 +205,7 @@ define([
 					value = new this.dateClassObj(value);
 				}
 			}
-			this.inherited(arguments);
+			this.inherited(arguments, [value, priorityChange, formattedValue]);
 			if(this.value instanceof Date){
 				this.filterString = "";
 			}
@@ -203,9 +216,14 @@ define([
 
 		_set: function(attr, value){
 			// Avoid spurious watch() notifications when value is changed to new Date object w/the same value
-			var oldValue = this._get("value");
-			if(attr == "value" && oldValue instanceof Date && this.compare(value, oldValue) == 0){
-				return;
+			if(attr == "value"){
+				if(value instanceof Date && !(this.dateClassObj instanceof Date)){
+					value = new this.dateClassObj(value);
+				}
+				var oldValue = this._get("value");
+				if(oldValue instanceof this.dateClassObj && this.compare(value, oldValue) == 0){
+					return;
+				}
 			}
 			this.inherited(arguments);
 		},
