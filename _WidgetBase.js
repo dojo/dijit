@@ -1086,7 +1086,7 @@ define([
 			//		Return this widget's explicit or implicit orientation (true for LTR, false for RTL)
 			// tags:
 			//		protected
-			return this.dir ? (this.dir == "ltr") : domGeometry.isBodyLtr(this.ownerDocument); //Boolean
+			return this.dir ? (this.dir.toLowerCase() == "ltr") : domGeometry.isBodyLtr(this.ownerDocument); //Boolean
 		},
 
 		isFocusable: function(){

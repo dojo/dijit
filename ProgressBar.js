@@ -77,8 +77,9 @@ define([
 
 		_setDirAttr: function(val){
 			// Normally _CssStateMixin takes care of this, but we aren't extending it
-			domClass.toggle(this.domNode, "dijitProgressBarRtl", val == "rtl");
-			domClass.toggle(this.domNode, "dijitProgressBarIndeterminateRtl", this.indeterminate && val == "rtl");
+			var rtl = val.toLowerCase() == "rtl";
+			domClass.toggle(this.domNode, "dijitProgressBarRtl", rtl);
+			domClass.toggle(this.domNode, "dijitProgressBarIndeterminateRtl", this.indeterminate && rtl);
 			this.inherited(arguments);
 		},
 
