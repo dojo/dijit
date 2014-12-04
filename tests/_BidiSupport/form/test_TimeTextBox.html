@@ -26,11 +26,12 @@
 			function testWidget(element, guiDir, textDir, isfirstChildLatin){
 				doh.is(registry.byId(element).get("textDir"), textDir, "widget textDir");
 				doh.is(registry.byId(element).dir, guiDir, "GUI dir");
+				doh.is(guiDir.toLowerCase() == "ltr", registry.byId(element).isLeftToRight(), "isLeftToRight()");
 				if(textDir == "auto"){
 					textDir = isfirstChildLatin? "ltr" : "rtl";
 				}
 				doh.is(registry.byId(element).focusNode.dir, textDir, "focusNode textDir");
-				doh[guiDir == "rtl" ? "t" : "f"](domClass.contains(registry.byId(element).domNode, "dijitTimeTextBoxRtl"), "dijitTimeTextBoxRtl");
+				doh[guiDir.toLowerCase() == "rtl" ? "t" : "f"](domClass.contains(registry.byId(element).domNode, "dijitTimeTextBoxRtl"), "dijitTimeTextBoxRtl");
 			}
 
 			function testDropDownList(widgetId){
@@ -130,7 +131,7 @@
 				{
 					name:"textbox",
 					runTest:function(){
-						testWidget("q4", "ltr", "auto", false);
+						testWidget("q4", "LTR", "auto", false);
 					}
 				},
 				{
@@ -145,7 +146,7 @@
 				{
 					name:"textbox",
 					runTest:function(){
-						testWidget("q5", "rtl", "ltr", true);
+						testWidget("q5", "RTL", "ltr", true);
 					}
 				},
 				{
@@ -247,7 +248,7 @@
 					invalidMessage:"" '/>
 			</td>
 			<td>
-				<input dir="ltr" id="q4" data-dojo-type="dijit/form/TimeTextBox"
+				<input dir="LTR" id="q4" data-dojo-type="dijit/form/TimeTextBox"
 					data-dojo-props='type:"text", name:"time1a", value:"T12:30:00", textDir:"auto",
 					constraints:{formatLength:"short"},
 					lang:"ar",
@@ -258,7 +259,7 @@
 		<tr>
 			<td >  <font size=4 color=blue>RTL</font></td>
 			<td>
-				<input dir="rtl" id="q5" data-dojo-type="dijit/form/TimeTextBox"
+				<input dir="RTL" id="q5" data-dojo-type="dijit/form/TimeTextBox"
 					data-dojo-props='type:"text", name:"time1a", value:"T10:30:00", textDir:"ltr",
 					constraints:{formatLength:"short"},
 					required:true,
