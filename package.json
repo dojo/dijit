@@ -1,6 +1,6 @@
 {
   "name": "dijit",
-  "version":"1.6.3-pre",
+  "version":"1.6.3",
   "directories": {
     "lib": "."
   },
