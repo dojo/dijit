@@ -2,12 +2,14 @@ define([
 	"dojo/_base/array", // array.forEach
 	"dojo/_base/declare", // declare
 	"dojo/dom", // dom.byId
+	"dojo/dom-style", // Bidi Support
 	"dojo/has",
 	"dojo/keys", // keys.ALT keys.CAPS_LOCK keys.CTRL keys.META keys.SHIFT
 	"dojo/_base/lang", // lang.mixin
+	"dojo/data/util/NumericShaperUtility", // NumericShaping(Bidi Support)
 	"dojo/on", // on
 	"../main"    // for exporting dijit._setSelectionRange, dijit.selectInputText
-], function(array, declare, dom, has, keys, lang, on, dijit){
+], function(array, declare, dom, domStyle, has, keys, lang, numShaper, on, dijit){
 
 	// module:
 	//		dijit/form/_TextBoxMixin
@@ -44,7 +46,22 @@ define([
 		//		Defines a hint to help users fill out the input field (as defined in HTML 5).
 		//		This should only contain plain text (no html markup).
 		placeHolder: "",
-
+		
+		// Bidi Support
+		shaper: "Nominal",
+		
+		// isCtrlKeyDown: Boolean
+		//		Used to handle Ctrl + Shift shortcut used to change the widget orientation
+		isCtrlKeyDown: false,
+		
+		// isCtrlLeft: Boolean
+		//		Used to handle Left Ctrl shortcut
+		isCtrlLeft: false,
+		
+		// isRightCtrlKeyPressed: Boolean
+		//		Used to check if Right ctrl pressed or not
+		isRightCtrlKeyPressed: false,
+		
 		_getValueAttr: function(){
 			// summary:
 			//		Hook so get('value') works as we like.
@@ -89,17 +106,6 @@ define([
 					}else{
 						formattedValue = '';
 					}
-					// Ensure the filtered value does not change after being formatted. See track #17955.
-					//
-					// This check is only applied when the formatted value is not specified by the caller in order to allow the 
-					// behavior to be overriden. This is needed whenever value synonyms cannot be determined using parse/compare. For
-					// example, dijit/form/FilteringSelect determines the formatted value asynchronously and applies it using a 
-					// callback to this method.
-					//
-					// TODO: Should developers be warned that they broke the round trip on format?
-					if (this.compare(filteredValue, this.filter(this.parse(formattedValue, this.constraints))) != 0){
-						formattedValue = null;
-					}
 				}
 			}
 			if(formattedValue != null /* and !undefined */ && ((typeof formattedValue) != "number" || !isNaN(formattedValue)) && this.textbox.value != formattedValue){
@@ -123,7 +129,7 @@ define([
 		//		Problem is that ComboBox references displayedValue,
 		//		for benefit of FilteringSelect.
 		displayedValue: "",
-
+		
 		_getDisplayedValueAttr: function(){
 			// summary:
 			//		Hook so get('displayedValue') works.
@@ -210,9 +216,11 @@ define([
 		_onInput: function(/*Event*/ evt){
 			// summary:
 			//		Called AFTER the input event has happened
-
+			
+			// Bidi Support
+			this.applyShaping();
+			this.shapeOnCtrlPress(this.shaper , this.isRightCtrlKeyPressed);
 			this._processInput(evt);
-
 			if(this.intermediateChanges){
 				// allow the key to post to the widget input box
 				this.defer(function(){
@@ -224,11 +232,41 @@ define([
 		_processInput: function(/*Event*/ evt){
 			// summary:
 			//		Default action handler for user input events
-
 			this._refreshState();
 
 			// In case someone is watch()'ing for changes to displayedValue
 			this._set("displayedValue", this.get("displayedValue"));
+		},
+		
+		shapeOnCtrlPress: function(/*String*/ shaperValue, /*Boolean*/ isRight){
+			var ob = new numShaper();
+			var shapedString = ob.shapeOnCtrl(shaperValue, this.textbox.value, isRight);
+			this.textbox.value = shapedString;
+		},
+		
+		applyShaping: function(){
+			var ob = new numShaper();
+			var stringToBeShaped = this.textbox.value;
+			
+			if(stringToBeShaped){
+				if(this.shaper == "National"){
+					ob.getShaper(ob.ARABIC); // National
+				}else if(this.shaper == "Contextual"){
+					ob.getContextualShaper(ob.ARABIC, ob.EUROPEAN); // Contextual Arabic
+				}else{
+					ob.getShaper(ob.EUROPEAN); // Nominal
+				}
+				
+				var shapedArray = ob.shapeWith(this.shaper ,stringToBeShaped);
+				var shapedString = shapedArray.join("");
+				
+				if(this.shaper == "Contextual" && this.isRightCtrlKeyPressed){
+					this.shapeOnCtrlPress(shapedString, true);
+				}
+				
+				this.textbox.value = shapedString;
+			}
+			
 		},
 
 		postCreate: function(){
@@ -244,19 +282,45 @@ define([
 			//	onkeypress: do not forward numeric charOrCode keys (already sent through onkeydown)
 			//	onpaste & oncut: set charOrCode to 229 (IME)
 			//	oninput: if primary event not already processed, set charOrCode to 229 (IME), else do not forward
-			function handleEvent(e){
+			var handleEvent = function(e){
 				var charOrCode;
 				if(e.type == "keydown"){
 					charOrCode = e.keyCode;
+					// Bidi Support
 					switch(charOrCode){ // ignore state keys
-						case keys.SHIFT:
 						case keys.ALT:
-						case keys.CTRL:
 						case keys.META:
 						case keys.CAPS_LOCK:
 						case keys.NUM_LOCK:
-						case keys.SCROLL_LOCK:
+						case keys.SCROLL_LOCK:{
+							this.isCtrlKeyDown = false;
 							return;
+						}
+						case keys.CTRL:{
+							this.isCtrlKeyDown  = true;
+							if (e.location == 1) {
+						        // left Ctrl key pressed
+								this.isCtrlLeft = true;
+						    }
+							return;
+						}
+						case keys.SHIFT:{
+							if(this.isCtrlKeyDown  && this.isCtrlLeft){
+								// shape national
+								this.isRightCtrlKeyPressed = false;
+								this.shapeOnCtrlPress(this.shaper, false);
+								this.isCtrlKeyDown = false;
+								this.isCtrlLeft = false;
+								
+							}else if(this.isCtrlKeyDown  && !this.isCtrlLeft){
+								this.isRightCtrlKeyPressed = true;
+								this.shapeOnCtrlPress(this.shaper, true);
+								this.isCtrlKeyDown = false;
+								this.isCtrlLeft = false;
+								// shape nominal
+							}
+							return;
+						}
 					}
 					if(!e.ctrlKey && !e.metaKey && !e.altKey){ // no modifiers
 						switch(charOrCode){ // ignore location keys
@@ -321,7 +385,7 @@ define([
 				// create fake event to set charOrCode and to know if preventDefault() was called
 				var faux = { faux: true }, attr;
 				for(attr in e){
-					if(!/^(layer[XY]|returnValue|keyLocation)$/.test(attr)){ // prevent WebKit warnings
+					if(attr != "layerX" && attr != "layerY"){ // prevent WebKit warnings
 						var v = e[attr];
 						if(typeof v != "function" && typeof v != "undefined"){
 							faux[attr] = v;
@@ -351,15 +415,8 @@ define([
 				this.defer(function(){
 					this._onInput(faux);
 				}); // widget notification after key has posted
-			}
-			this.own(
-				on(this.textbox, "keydown, keypress, paste, cut, input, compositionend", lang.hitch(this, handleEvent)),
-
-				// Allow keypress to bubble to this.domNode, so that TextBox.on("keypress", ...) works,
-				// but prevent it from further propagating, so that typing into a TextBox inside a Toolbar doesn't
-				// trigger the Toolbar's letter key navigation.
-				on(this.domNode, "keypress", function(e){ e.stopPropagation(); })
-			);
+			};
+			this.own(on(this.textbox, "keydown, keypress, paste, cut, input, compositionend", lang.hitch(this, handleEvent)));
 		},
 
 		_blankValue: '', // if the textbox is blank, what value should be reported
