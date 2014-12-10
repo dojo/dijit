@@ -1037,7 +1037,7 @@ define([
 				return all(array.map(paths, function(path){
 					// normalize path to use identity
 					path = array.map(path, function(item){
-						return lang.isString(item) ? item : tree.model.getIdentity(item);
+						return item && lang.isObject(item) ? tree.model.getIdentity(item) : item;
 					});
 
 					if(path.length){

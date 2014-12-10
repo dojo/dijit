@@ -31,17 +31,36 @@
 		], function(doh, array, aspect, cookie, domClass, lang, on, win, all, Memory, Observable,
 					focus, registry, Tree, ObjectStoreModel, dndSource, data, AsyncMemoryStore, helpers){
 
-			var myStore, myModel, myTree, myTree2;
+			var myStore, myModel, myTree, myTree2, cache;
 
 			// Create / reset the data store and model, setting global-ish variables myStore and myModel
-			function setupStoreAndModel(/*Function*/ Store, /*Boolean*/ isObservable){
+			function setupStoreAndModel(/*Function*/ Store, /*Boolean*/ isObservable, idDataType){
 				if(!Store){
 					Store = Memory;
 				}
 
+				// Clone to sandbox tests that change data
+				var datacopy = lang.clone(data);
+
+				// id datatype switch:
+				// assume fetched data id is of type 'string', overwrite if needed
+				// store original id in a cache, so it can be retrieved later
+				var _id, i=0, l=datacopy.length;
+				cache = {};
+				for(i=0;i<l;i++){
+					_id = datacopy[i].id;
+					cache[_id] = idDataType=="float" ? Math.random() : idDataType=="int" ? i+1 : _id;
+					datacopy[i].id = cache[_id];
+				}
+				// replace parent
+				for(i=0;i<l;i++){
+					if(datacopy[i].hasOwnProperty("parent")){
+						datacopy[i].parent = cache[datacopy[i].parent];
+					}
+				}
 				// Create test store.
 				myStore = new Store({
-					data: lang.clone(data)	// Clone to sandbox tests that change data
+					data: datacopy
 				});
 
 				// Since dojo.store.Memory doesn't have various store methods we need, we have to add them manually
@@ -71,7 +90,7 @@
 				doh.t(myStore, "store created");
 
 				// Create the model
-				myModel = new ObjectStoreModel({store: myStore, query: {id: "earth"}});
+				myModel = new ObjectStoreModel({store: myStore, query: {id: cache["earth"]}});
 				doh.t(myModel, "model created");
 			}
 
@@ -416,157 +435,185 @@
 			registerBasicTests(true, false);
 
 			// Other tests, currently only run on synchronous observable store
-
-			doh.register("paths", [
-				function reset(){
-					setupStoreAndModel(Memory, true);
-				},
-
-				{
-					name: "getPath",
-					timeout: 5000,
-					runTest: function() {
-						myTree = new Tree({
-							id: "myTree",
-							model: myModel,
-							persist: false,		// persist==true is too hard to test
-							dndController: dndSource,
-							autoExpand: true
-						}).placeAt(win.body());
-						doh.t(myTree, "tree created");
-
-						myTree.startup();
-
-						return myTree.onLoadDeferred.then(function () {
-							// Select the node.   can't emit "click" because dndSelector listens for mousedown & mouseup.
-							// And before the mousedown, we need a mouseover event, so _dndContainer.js sets this.current.
-							var europe = myTree.rootNode.getChildren()[3];
-							var france = europe.getChildren()[1];
-							on.emit(france.labelNode, navigator.pointerEnabled ? "pointerover" : navigator.msPointerEnabled ? "MSPointerOver" : "mouseover", {bubbles: true});
-							on.emit(france.labelNode, navigator.pointerEnabled ? "pointerdown" : navigator.msPointerEnabled ? "MSPointerDown" : "mousedown", {button: dojo.mouseButtons.LEFT, bubbles: true});
-							on.emit(france.labelNode, navigator.pointerEnabled ? "pointerup" : navigator.msPointerEnabled ? "MSPointerUp" : "mouseup", {button: dojo.mouseButtons.LEFT, bubbles: true});
-
-							var path = myTree.get("path");
-							doh.is("earth, EU, FR", array.map(myTree.get("path"), function (obj) {
-								return obj.id;
-							}).join(", "), "serialized path");
+			function registerPathsTests(datatype){
+				// use datatype to switch between int|float|string (default)
+				// cleanup:
+				datatype = datatype == "float" ? "float" : datatype == "int" ? "int" : "string";
+				function typePath(path){
+					if(datatype!="string"){
+						return array.map(path,function(item){
+							return cache[item];
 						});
 					}
-				},
-
-				{
-					name: "createWithPath",
-					timeout: 5000,
-					runTest: function(){
-						myTree2 = new Tree({
-							id: "myTree2",
-							model: myModel,
-							persist: false,		// persist==true is too hard to test
-							dndController: dndSource,
-							path: ["earth", "EU", "IT"]
-						}).placeAt(win.body());
-						doh.t(myTree2, "myTree2 created");
-
-						myTree2.startup();
-
-						return myTree2.onLoadDeferred.then(function(){
-							doh.t(myTree2.rootNode, "root node exists");
-							doh.t(myTree2.rootNode.isExpanded, "root node is expanded");
-							doh.t(myTree2.rootNode.getChildren()[3].isExpanded, "europe node is expanded");
-							doh.is("Italy", myTree2.selectedNode.label, "selected correct node");
-						});
-					}
-				},
-
-				function copyPath(){
-					var world = myTree.rootNode;
-
-					return myTree.set("path", myTree2.get("path")).then(function(items){
-						doh.is("earth, EU, IT", array.map(items, function(item){ return item.id; }).join(", "));
-						doh.t(world.isExpanded, "root node is expanded");
-						doh.t(world.getChildren()[3].isExpanded, "europe node is expanded");
-						doh.is("Italy", myTree.get("selectedNode").label, "selected correct node");
-					});
-				},
-
-				{
-					name: "copyPathByIds",
-					timeout: 5000,
-					runTest: function(){
-						return myTree.set("path", ["earth", "NA", "CA", "Ottawa"]).then(function(){
-							var path = array.map(myTree.get("path"), function(item){ return item.id; });
-							doh.is(["earth", "NA", "CA", "Ottawa"], path, "path got set on myTree");
-
-							return myTree2.set("path", path).then(function(){
-								doh.t(myTree2.rootNode.isExpanded, "root node is expanded");
-								doh.t(myTree2.rootNode.getChildren()[4].isExpanded, "north america node is expanded");
-								doh.t(myTree2.rootNode.getChildren()[4].getChildren()[1].isExpanded, "canada node is expanded");
-								doh.is("Ottawa", myTree2.get("selectedNode").label, "selected correct node");
-							});
-						});
-					}
-				},
-
-				function setPathToNull(){
-					return myTree2.set("path", []).then(function(){
-						doh.is(null, myTree2.get("selectedNode"), "no selected node");
-					});
-				},
-
-				function setPathToRoot(){
-					return myTree2.set("path", ["earth"]).then(function(){
-						doh.is(myTree2.rootNode, myTree2.get("selectedNode"), "selected root node");
-					});
-				},
-
-				{
-					name: "setPaths",
-					timeout: 5000,
-					runTest: function(){
-						return myTree2.set("paths", [
-							["earth", "AF", "KE", "Nairobi"],
-							["earth", "NA", "MX", "Guadalajara"]
-						]).then(function(paths){
-							doh.is("earth, AF, KE, Nairobi", array.map(paths[0], function(item){
-								return item.id;
-							}).join(", "));
-							doh.is("earth, NA, MX, Guadalajara", array.map(paths[1], function(item){
-								return item.id;
-							}).join(", "));
-							var ids = array.map(myTree2.selectedItems, function(x){
-								return myTree2.model.getIdentity(x);
-							}).sort();
-							doh.is(["Guadalajara", "Nairobi"], ids);
-						});
-					}
-				},
-
-				function setEmptyPath(){
-					// setting an empty path is interpreted as selecting nothing
-					return myTree2.set("path", []).then(function(){
-						doh.is(0, myTree2.get("selectedNodes").length, "no nodes selected");
-					});
-				},
-				function setInvalidPath(){
-					var d = new doh.Deferred();
-
-					myTree2.set("path", ["earth", "AF", "KE", "Narnia"]).then(
-						function(){
-							d.errback("Should have gotten error trying to set invalid path");
-						},
-						d.getTestCallback(function(e){
-							doh.t(e instanceof Tree.PathError, "got PathError");
-						})
-					);
-
-					return d;
-				},
-
-				function destroyTree(){
-					myTree.destroy();
-					myTree2.destroy();
+					return path;
 				}
-			]);
+				// return original id from cache
+				function fromCache(val){
+					for(var k in cache){
+						if(cache[k]===val){
+							return k;
+						}
+					}
+				}
+				doh.register("paths_"+datatype, [
+					function reset(){
+						setupStoreAndModel(Memory, true, datatype);
+					},
+
+					{
+						name: "getPath",
+						timeout: 5000,
+						runTest: function(){
+							myTree = new Tree({
+								id: "myTree",
+								model: myModel,
+								persist: false,		// persist==true is too hard to test
+								dndController: dndSource,
+								autoExpand: true
+							}).placeAt(win.body());
+							doh.t(myTree, "tree created");
+
+							myTree.startup();
+
+							return myTree.onLoadDeferred.then(function (){
+								// Select the node.   can't emit "click" because dndSelector listens for mousedown & mouseup.
+								// And before the mousedown, we need a mouseover event, so _dndContainer.js sets this.current.
+								var europe = myTree.rootNode.getChildren()[3];
+								var france = europe.getChildren()[1];
+								on.emit(france.labelNode, navigator.pointerEnabled ? "pointerover" : navigator.msPointerEnabled ? "MSPointerOver" : "mouseover", {bubbles: true});
+								on.emit(france.labelNode, navigator.pointerEnabled ? "pointerdown" : navigator.msPointerEnabled ? "MSPointerDown" : "mousedown", {button: dojo.mouseButtons.LEFT, bubbles: true});
+								on.emit(france.labelNode, navigator.pointerEnabled ? "pointerup" : navigator.msPointerEnabled ? "MSPointerUp" : "mouseup", {button: dojo.mouseButtons.LEFT, bubbles: true});
+
+								var path = myTree.get("path");
+								doh.is("earth, EU, FR", array.map(myTree.get("path"), function (obj){
+									return fromCache(obj.id);
+								}).join(", "), "serialized path");
+							});
+						}
+					},
+
+					{
+						name: "createWithPath",
+						timeout: 5000,
+						runTest: function(){
+							myTree2 = new Tree({
+								id: "myTree2",
+								model: myModel,
+								persist: false,		// persist==true is too hard to test
+								dndController: dndSource,
+								path: typePath(["earth", "EU", "IT"])
+							}).placeAt(win.body());
+							doh.t(myTree2, "myTree2 created");
+
+							myTree2.startup();
+
+							return myTree2.onLoadDeferred.then(function(){
+								doh.t(myTree2.rootNode, "root node exists");
+								doh.t(myTree2.rootNode.isExpanded, "root node is expanded");
+								doh.t(myTree2.rootNode.getChildren()[3].isExpanded, "europe node is expanded");
+								doh.is("Italy", myTree2.selectedNode.label, "selected correct node");
+							});
+						}
+					},
+
+					function copyPath(){
+						var world = myTree.rootNode;
+
+						return myTree.set("path", myTree2.get("path")).then(function(items){
+							doh.is("earth, EU, IT", array.map(items, function(item){
+								return fromCache(item.id);
+							}).join(", "));
+							doh.t(world.isExpanded, "root node is expanded");
+							doh.t(world.getChildren()[3].isExpanded, "europe node is expanded");
+							doh.is("Italy", myTree.get("selectedNode").label, "selected correct node");
+						});
+					},
+
+					{
+						name: "copyPathByIds",
+						timeout: 5000,
+						runTest: function(){
+							var testpath = typePath(["earth", "NA", "CA", "Ottawa"]);
+
+							return myTree.set("path", testpath).then(function(){
+								var path = array.map(myTree.get("path"), function(item){ return item.id; });
+								doh.is(testpath, path, "path got set on myTree");
+
+								return myTree2.set("path", path).then(function(){
+									doh.t(myTree2.rootNode.isExpanded, "root node is expanded");
+									doh.t(myTree2.rootNode.getChildren()[4].isExpanded, "north america node is expanded");
+									doh.t(myTree2.rootNode.getChildren()[4].getChildren()[1].isExpanded, "canada node is expanded");
+									doh.is("Ottawa", myTree2.get("selectedNode").label, "selected correct node");
+								});
+							});
+						}
+					},
+
+					function setPathToNull(){
+						return myTree2.set("path", []).then(function(){
+							doh.is(null, myTree2.get("selectedNode"), "no selected node");
+						});
+					},
+
+					function setPathToRoot(){
+						return myTree2.set("path", typePath(["earth"])).then(function(){
+							doh.is(myTree2.rootNode, myTree2.get("selectedNode"), "selected root node");
+						});
+					},
+
+					{
+						name: "setPaths",
+						timeout: 5000,
+						runTest: function(){
+							return myTree2.set("paths", [
+								typePath(["earth", "AF", "KE", "Nairobi"]),
+								typePath(["earth", "NA", "MX", "Guadalajara"])
+							]).then(function(paths){
+								doh.is("earth, AF, KE, Nairobi", array.map(paths[0], function(item){
+									return fromCache(item.id);
+								}).join(", "));
+								doh.is("earth, NA, MX, Guadalajara", array.map(paths[1], function(item){
+									return fromCache(item.id);
+								}).join(", "));
+								var ids = array.map(myTree2.selectedItems, function(x){
+									return myTree2.model.getIdentity(x);
+								}).sort();
+								doh.is(typePath(["Guadalajara", "Nairobi"]).sort(), ids);
+							});
+						}
+					},
+
+					function setEmptyPath(){
+						// setting an empty path is interpreted as selecting nothing
+						return myTree2.set("path", []).then(function(){
+							doh.is(0, myTree2.get("selectedNodes").length, "no nodes selected");
+						});
+					},
+					function setInvalidPath(){
+						var d = new doh.Deferred();
+
+						myTree2.set("path", typePath(["earth", "AF", "KE", "Narnia"])).then(
+							function(){
+								d.errback("Should have gotten error trying to set invalid path");
+							},
+							d.getTestCallback(function(e){
+								doh.t(e instanceof Tree.PathError, "got PathError");
+							})
+						);
+
+						return d;
+					},
+
+					function destroyTree(){
+						myTree.destroy();
+						myTree2.destroy();
+					}
+				]);
+			}
+
+			registerPathsTests("string");
+			registerPathsTests("int");
+			registerPathsTests("float");
 
 			doh.register("delete selected node", [
 				function reset(){
@@ -1098,7 +1145,7 @@
 					timeout: 5000,
 					runTest: function(){
 						setupStoreAndModel(Memory, true);
-						
+
 						win.body().appendChild(myTree_before);
 						myTree = new Tree({
 							id: "myTree",
@@ -1242,7 +1289,7 @@
 					}
 				}
 			]);
-			
+
 			doh.run();
 
  		});
