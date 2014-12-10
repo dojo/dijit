@@ -31,7 +31,7 @@
 		], function(doh, array, aspect, cookie, domClass, lang, on, win, all, Memory, Observable,
 					focus, registry, Tree, ObjectStoreModel, dndSource, data, AsyncMemoryStore, helpers){
 
-			var myStore, myModel, myTree, myTree2, cache = {};
+			var myStore, myModel, myTree, myTree2, cache;
 
 			// Create / reset the data store and model, setting global-ish variables myStore and myModel
 			function setupStoreAndModel(/*Function*/ Store, /*Boolean*/ isObservable, idDataType){
@@ -46,6 +46,7 @@
 				// assume fetched data id is of type 'string', overwrite if needed
 				// store original id in a cache, so it can be retrieved later
 				var _id, i=0, l=datacopy.length;
+				cache = {};
 				for(i=0;i<l;i++) {
 					_id = datacopy[i].id;
 					cache[_id] = idDataType=="float" ? Math.random() : idDataType=="int" ? i+1 : _id;
