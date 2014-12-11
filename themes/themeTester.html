@@ -347,20 +347,6 @@
 				location.search = "?theme=" + theme + (rtl ? "&dir=rtl" : "") + (a11y ? "&a11y=true" : "");
 			}
 
-			// Create menu choices and links to test other themes
-			var tmpString = '';
-			array.forEach(availableThemes, function(theme){
-				if(theme != curTheme){
-					tmpString +=
-							'<a href="?theme=' + theme.theme + '">' + theme.theme + '</' + 'a> (' +
-									'<a href="?theme=' + theme.theme + '&dir=rtl">RTL</' + 'a> ' +
-									'<a href="?theme=' + theme.theme + '&a11y=true">high-contrast</' + 'a> ' +
-									'<a href="?theme=' + theme.theme + '&dir=rtl&a11y=true">RTL+high-contrast</' + 'a> )' +
-									' - by: ' + theme.author + ' <br>';
-				}
-			});
-			dom.byId('themeData').innerHTML = tmpString;
-
 			// Create menu choices to test other themes
 			array.forEach(availableThemes, function(theme){
 				registry.byId('themeMenu').addChild(new RadioMenuItem({
@@ -1332,13 +1318,7 @@
 	</div>
 	<!-- end:info btab1 -->
 
-	<div id="btab2" data-dojo-type="dijit/layout/ContentPane"
-		 data-dojo-props='title:"Alternate Themes", style:"padding:20px;"'>
-		<span id="themeData"></span>
-	</div>
-	<!-- btab2 -->
-
-	<div id="btab3" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Bottom 3", closable:true'>
+	<div id="btab2" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Bottom 2", closable:true'>
 		<p>I am the last Tab</p>
 
 		<div id="dialog2" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Encased Dialog", style:"display:none;"'>
@@ -1346,7 +1326,7 @@
 			parented by the Low Tab Pane #3
 		</div>
 	</div>
-	<!-- btab3 -->
+	<!-- btab2 -->
 
 </div>
 <!-- end Bottom TabContainer -->
