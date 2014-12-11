@@ -47,14 +47,16 @@
 				// store original id in a cache, so it can be retrieved later
 				var _id, i=0, l=datacopy.length;
 				cache = {};
-				for(i=0;i<l;i++) {
+				for(i=0;i<l;i++){
 					_id = datacopy[i].id;
 					cache[_id] = idDataType=="float" ? Math.random() : idDataType=="int" ? i+1 : _id;
 					datacopy[i].id = cache[_id];
 				}
 				// replace parent
-				for(i=0;i<l;i++) {
-					if(datacopy[i].hasOwnProperty("parent")) datacopy[i].parent = cache[datacopy[i].parent];
+				for(i=0;i<l;i++){
+					if(datacopy[i].hasOwnProperty("parent")){
+						datacopy[i].parent = cache[datacopy[i].parent];
+					}
 				}
 				// Create test store.
 				myStore = new Store({
@@ -433,12 +435,12 @@
 			registerBasicTests(true, false);
 
 			// Other tests, currently only run on synchronous observable store
-			function registerPathsTests(datatype) {
+			function registerPathsTests(datatype){
 				// use datatype to switch between int|float|string (default)
 				// cleanup:
 				datatype = datatype == "float" ? "float" : datatype == "int" ? "int" : "string";
-				function typePath(path) {
-					if(datatype!="string") {
+				function typePath(path){
+					if(datatype!="string"){
 						return array.map(path,function(item){
 							return cache[item];
 						});
@@ -446,9 +448,11 @@
 					return path;
 				}
 				// return original id from cache
-				function fromCache(val) {
-					for(var k in cache) {
-						if(cache[k]===val) return k;
+				function fromCache(val){
+					for(var k in cache){
+						if(cache[k]===val){
+							return k;
+						}
 					}
 				}
 				doh.register("paths_"+datatype, [
@@ -459,7 +463,7 @@
 					{
 						name: "getPath",
 						timeout: 5000,
-						runTest: function() {
+						runTest: function(){
 							myTree = new Tree({
 								id: "myTree",
 								model: myModel,
@@ -471,7 +475,7 @@
 	
 							myTree.startup();
 	
-							return myTree.onLoadDeferred.then(function () {
+							return myTree.onLoadDeferred.then(function (){
 								// Select the node.   can't emit "click" because dndSelector listens for mousedown & mouseup.
 								// And before the mousedown, we need a mouseover event, so _dndContainer.js sets this.current.
 								var europe = myTree.rootNode.getChildren()[3];
@@ -481,7 +485,7 @@
 								on.emit(france.labelNode, navigator.pointerEnabled ? "pointerup" : navigator.msPointerEnabled ? "MSPointerUp" : "mouseup", {button: dojo.mouseButtons.LEFT, bubbles: true});
 	
 								var path = myTree.get("path");
-								doh.is("earth, EU, FR", array.map(myTree.get("path"), function (obj) {
+								doh.is("earth, EU, FR", array.map(myTree.get("path"), function (obj){
 									return fromCache(obj.id);
 								}).join(", "), "serialized path");
 							});
