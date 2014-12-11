@@ -574,7 +574,7 @@
 								var ids = array.map(myTree2.selectedItems, function(x){
 									return myTree2.model.getIdentity(x);
 								}).sort();
-								doh.is(typePath(["Guadalajara", "Nairobi"]), ids);
+								doh.is(typePath(["Guadalajara", "Nairobi"]).sort(), ids);
 							});
 						}
 					},
