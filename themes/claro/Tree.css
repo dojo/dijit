@@ -131,7 +131,8 @@
   background-image: none;
 }
 .claro .dijitTreeExpandoLoading {
-  background-image: url("images/loadingAnimation.gif");
+  background-image: url("../../icons/images/loadingAnimation.gif");
+  background-position: 0 0;
 }
 /* Drag and Drop on TreeNodes
  * Put insert line on dijitTreeContent node so it's aligned w/

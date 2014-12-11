@@ -163,7 +163,7 @@ The 16 x 16px icons in these sprites are action and object type images which can
 
 /*Loading animation*/
 .dijitIconLoading {
-	background:url('images/loadingAnimation_rtl.gif') no-repeat;
+	background: url('images/loadingAnimation.gif') no-repeat;
 	height: 20px;
 	width: 20px;
 }
