@@ -15,12 +15,12 @@
 		dojo.require("dijit.robotx");
 
 		// These are all the sliders
-		var accessibleSliders = ['slider1','slider2','slider3','programaticSlider'];
+		var accessibleSliders = ['slider1','slider2','slider3'];
 		var accessibleSliderInit_min = [0.2,10,2,1200];
 		var accessibleSliderInit_max = [99.8,90,2,2800];
-		var sliderIds = ["slider1", "slider2", "slider3", "sliderH2", "programaticSlider"];
-		var sliderNames = ["horizontal1","vertical1","horizontal2","horizontalH2","programaticSlider"];
-		var onChange = {slider1: 'slider1input', slider2: 'slider2input', programaticSlider: 'sliderProgInput'};
+		var sliderIds = ["slider1", "slider2", "slider3", "sliderH2"];
+		var sliderNames = ["horizontal1","vertical1","horizontal2","horizontalH2"];
+		var onChange = {slider1: 'slider1input', slider2: 'slider2input'};
 
 		var a11yBoundaryTest = function(slider, initValue, finalValue){
 			// summary:
@@ -73,7 +73,7 @@
 			//		Populates eaVals[] with expected slider values after each keystroke (in this test),
 			//		and sets up listener to record actual value into same eaVals[] array.
 
-			var slider = dijit.byId(inSliderId);
+			var slider = registry.byId(inSliderId);
 			eaVals = populateExpected(slider);
 			strokeIndex = 0;
 			noteChanges = dojo.global.dojo.connect(slider, "onChange", function(){
@@ -121,7 +121,7 @@
 
 		var a11yTabFocusTest = function(inSliderId){
 			var d = new doh.Deferred();
-			var slider = dijit.byId(inSliderId);
+			var slider = registry.byId(inSliderId);
 			var focusCount = 0;
 			var blurCount = 0;
 			var gotFocus = function(){
@@ -157,7 +157,7 @@
 
 		var a11yKeystrokeTest = function(inSliderId){
 			var d = new doh.Deferred();
-			var slider = dijit.byId(inSliderId);
+			var slider = registry.byId(inSliderId);
 			var initVal = slider.get('value');
 			// get focus on slider thumb before pressing keys.
 			slider.focus();
@@ -192,10 +192,17 @@
 		dojo.ready(function(){
 			doh.robot.initRobot('../test_Slider.html');
 
+			doh.register(function setup(){
+				// get pointer to registry in the iframe
+				registry = doh.robot.window.require("dijit/registry");
+				dfocus = doh.robot.window.require("dijit/focus");
+			});
+
+			// TODO: move to Slider.html
 			// This tests that Slider is structured so that dojo.query can find the hidden input.
 			doh.register("dojo.query() by name",
 				function slider1(){
-					var slider = dijit.byId("slider1"),
+					var slider = registry.byId("slider1"),
 						queried = dojo.query("input[name=horizontal1]"),
 						bar = slider.valueNode.parentNode,
 						barWidth = bar.offsetWidth;
@@ -214,7 +221,7 @@
 				slider: accessibleSliders[0],
 				timeout: 30000,
 				runTest: function(){
-					this.slider = dijit.byId(this.slider);
+					this.slider = registry.byId(this.slider);
 					this.slider.set('disabled', true);
 					var value = accessibleSliderInit_min[0];
 					return a11yBoundaryTest(this.slider, value, value);
@@ -227,7 +234,7 @@
 				slider: accessibleSliders[0],
 				timeout: 30000,
 				runTest: function(){
-					this.slider = dijit.byId(this.slider);
+					this.slider = registry.byId(this.slider);
 					this.slider.set('disabled', false);
 					return a11yBoundaryTest(this.slider, accessibleSliderInit_min[0], this.slider.minimum);
 				}
@@ -237,7 +244,7 @@
 				slider: accessibleSliders[0],
 				timeout: 30000,
 				runTest: function(){
-					this.slider = dijit.byId(this.slider);
+					this.slider = registry.byId(this.slider);
 					return a11yBoundaryTest(this.slider, accessibleSliderInit_max[0], this.slider.maximum);
 				}
 			});
@@ -285,33 +292,22 @@
 					}
 				},
 				{
-					name: "programaticSliderKeystrokes",
-					timeout: 9000,
-					setUp: function(){
-						keyStrokeSetup("programaticSlider");
-					},
-					runTest: function(){
-						return a11yKeystrokeTest("programaticSlider");
-					}
-				},
-				{
 					name: "disabledTabStop",
 					timeout: 9000,
 					runTest: function(){
 						var d = new doh.Deferred();
-						var slider = dijit.byId("programaticSlider");
-						var target = dijit.byId("slider3");
-						target.set('value', 1);
-						var initValue = target.get('value');
-						// get focus on slider thumb before pressing keys.
-						slider.focus();
-						// jump to slider3 (hopefully)
+
+						// focus element after slider 2, and disable slider 2
+						doh.robot.window.document.getElementById("slider2input").focus();
+						registry.byId("slider2").set("disabled", true);
+
+						// jump to element before slider 2 (hopefully)
 						doh.robot.keyPress(dojo.keys.TAB, 1000, {
 							shift: true
 						});
-						doh.robot.keyPress(dojo.keys.END, 1000);
+
 						doh.robot.sequence(d.getTestCallback(function(){
-							doh.f(initValue == target.get('value'), "disabled tab stop should be skipped");
+							doh.is("disableButton", dfocus.curNode.id, "disabled tab stop should be skipped");
 						}), 500);
 						return d;
 					}
