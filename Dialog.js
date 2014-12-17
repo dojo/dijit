@@ -408,7 +408,7 @@ define([
 								delete this._singleChildOriginalStyle;
 							}
 						}
-						array.forEach([this.domNode, this.containerNode, this.titleBar], function(node){
+						array.forEach([this.domNode, this.containerNode, this.titleBar, this.actionBarNode], function(node){
 							if(node){	// because titleBar may not be defined
 								domStyle.set(node, {
 									position: "static",
@@ -447,6 +447,9 @@ define([
 					var layoutNodes = [];
 					if(this.titleBar){
 						layoutNodes.push({domNode: this.titleBar, region: "top"});
+					}
+					if(this.actionBarNode){
+						layoutNodes.push({domNode: this.actionBarNode, region: "bottom"});
 					}
 					var centerSize = {domNode: this.containerNode, region: "center"};
 					layoutNodes.push(centerSize);

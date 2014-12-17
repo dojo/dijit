@@ -17,6 +17,9 @@ define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
 		doh.register("robot.Dialog_mouse", require.toUrl("./robot/Dialog_mouse.html"), 999999);
 		doh.register("robot.Dialog_a11y", require.toUrl("./robot/Dialog_a11y.html"), 999999);
 		doh.register("robot.Dialog_focusDestroy", require.toUrl("./robot/Dialog_focusDestroy.html"), 999999);
+	}
+	doh.register("ConfirmDialog", require.toUrl("./ConfirmDialog.html"), 999999);
+	if(test_robot){
 		doh.register("robot.ConfirmDialog_a11y", require.toUrl("./robot/ConfirmDialog_a11y.html"), 999999);
 	}
 
