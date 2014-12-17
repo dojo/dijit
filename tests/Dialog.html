@@ -591,7 +591,7 @@
 						// containerNode should be slightly smaller
 						var containerPos = domGeom.position(hrefDlg.containerNode);
 						doh.t(containerPos.h > 150 && containerPos.h < 190, "containerNode.h " + containerPos.h);
-						doh.is(298, containerPos.w, "containerNode.h " + containerPos.h);
+						doh.is(298, containerPos.w, "containerNode.w");
 						doh.is("auto", hrefDlg.containerNode.style.overflow, "overflow style")
 					}
 				},
@@ -642,8 +642,36 @@
 						doh.is(undefined, layout2._resizeArg, "layout2 resize arg after dialog resize");
 						doh.is(undefined, layout3._resizeArg, "layout3 resize arg after dialog resize");
 					}
-				}
+				},
 
+				// titlebar is optional for back-compat and to support dojox.image.LightboxDialog
+				{
+					name: "no titlebar node",
+					timeout: 10000,
+					runTest: function() {
+						noTbDialog = new Dialog({
+							id: "noTbDialog",
+							templateString: '<div style="border: 1px solid black">' +
+								'<span data-dojo-attach-point="closeButtonNode" role="button" tabindex="-1">x</span>' +
+								'<div data-dojo-attach-point="containerNode"></div>' +
+							"</div>",
+							content: "custom template w/no titlebar"
+						});
+
+						return noTbDialog.show().then(function () {
+							noTbDialog.resize({h: 200, w: 300});
+
+							var domPos = domGeom.position(noTbDialog.domNode);
+							doh.is(200, domPos.h, "domNode.h");
+							doh.is(300, domPos.w, "domNode.w");
+
+							// containerNode should be slightly smaller
+							var containerPos = domGeom.position(noTbDialog.containerNode);
+							doh.is(198, containerPos.h, "containerNode.h");
+							doh.is(298, containerPos.w, "containerNode.w");
+						});
+					}
+				}
 			]);
 
 			doh.run();
