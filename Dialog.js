@@ -409,11 +409,13 @@ define([
 							}
 						}
 						array.forEach([this.domNode, this.containerNode, this.titleBar], function(node){
-							domStyle.set(node, {
-								position: "static",
-								width: "auto",
-								height: "auto"
-							});
+							if(node){	// because titleBar may not be defined
+								domStyle.set(node, {
+									position: "static",
+									width: "auto",
+									height: "auto"
+								});
+							}
 						});
 						this.domNode.style.position = "absolute";
 					}
@@ -442,10 +444,15 @@ define([
 					domGeometry.setMarginBox(this.domNode, dim);
 
 					// And then size this.containerNode
-					var contentDim = utils.marginBox2contentBox(this.domNode, dim),
-						centerSize = {domNode: this.containerNode, region: "center"};
-					utils.layoutChildren(this.domNode, contentDim,
-						[ {domNode: this.titleBar, region: "top"}, centerSize ]);
+					var layoutNodes = [];
+					if(this.titleBar){
+						layoutNodes.push({domNode: this.titleBar, region: "top"});
+					}
+					var centerSize = {domNode: this.containerNode, region: "center"};
+					layoutNodes.push(centerSize);
+
+					var contentDim = utils.marginBox2contentBox(this.domNode, dim);
+					utils.layoutChildren(this.domNode, contentDim, layoutNodes);
 
 					// And then if this.containerNode has a single layout widget child, size it too.
 					// Otherwise, make this.containerNode show a scrollbar if it's overflowing.
