@@ -35,7 +35,26 @@ define([], function(){
 		//
 		//		By default is as the page direction.
 		textDir: "",
+		
+		// Bidi Support
+		shaper: "Nominal",
+		
+		getShaper: function(/*String*/ text){
+			return this.shaper;
+		},
+		
+		_setShaper: function(/*String*/ shaper){
+			// summary:
+			//		Setter for textDir.
+			// description:
+			//		Users shouldn't call this function; they should be calling
+			//		set('textDir', value)
+			if(!this._created || this.shaper != shaper){
+				this._set("shaper", shaper);
+			}
+		},
 
+		
 		getTextDir: function(/*String*/ text){
 			// summary:
 			//		Gets the right direction of text.

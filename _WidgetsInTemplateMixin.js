@@ -45,7 +45,8 @@ define([
 				parser.parse(node, {
 					noStart: !this._earlyTemplatedStartup,
 					template: true,
-					inherited: {dir: this.dir, lang: this.lang, textDir: this.textDir},
+					// Bidi Support
+					inherited: {dir: this.dir, lang: this.lang, textDir: this.textDir, shaper: this.shaper},
 					propsThis: this,	// so data-dojo-props of widgets in the template can reference "this" to refer to me
 					contextRequire: this.contextRequire,
 					scope: "dojo"	// even in multi-version mode templates use dojoType/data-dojo-type
@@ -78,7 +79,6 @@ define([
 						delete this.containerNode.stopParser;
 					}
 				}));
-
 				if(!this._startupWidgets){
 					throw new Error(this.declaredClass + ": parser returned unfilled promise (probably waiting for module auto-load), " +
 						"unsupported by _WidgetsInTemplateMixin.   Must pre-load all supporting widgets before instantiation.");
