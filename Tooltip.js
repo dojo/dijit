@@ -395,7 +395,7 @@ define([
 			this._set("connectId", newId);
 		},
 
-		addTarget: function(/*OomNode|String*/ node){
+		addTarget: function(/*DomNode|String*/ node){
 			// summary:
 			//		Attach tooltip to specified node if it's not already connected
 
