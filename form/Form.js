@@ -57,7 +57,7 @@ define([
 		//		Target frame for the document to be opened in.
 		target: "",
 
-		templateString: "<form data-dojo-attach-point='containerNode' data-dojo-attach-event='onreset:_onReset,onsubmit:_onSubmit' ${!nameAttrSetting}></form>",
+		templateString: "<div data-dojo-attach-point='containerNode' data-dojo-attach-event='onreset:_onReset,onsubmit:_onSubmit' ${!nameAttrSetting}></div>",
 
 		postMixInProperties: function(){
 			// Setup name=foo string to be referenced from the template (but only if a name has been specified)
