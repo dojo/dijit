@@ -57,7 +57,11 @@ define([
 		//		Target frame for the document to be opened in.
 		target: "",
 
-		templateString: "<div data-dojo-attach-point='containerNode' data-dojo-attach-event='onreset:_onReset,onsubmit:_onSubmit' ${!nameAttrSetting}></div>",
+		// accept : Boolean
+		//		Whether to change the markup to allow embedded forms (in forms) for IE 8
+		embedded : false,
+
+		templateString: "<" + this._formOrDiv() " data-dojo-attach-point='containerNode' data-dojo-attach-event='onreset:_onReset,onsubmit:_onSubmit' ${!nameAttrSetting}></" + this._formOrDiv() + ">",
 
 		postMixInProperties: function(){
 			// Setup name=foo string to be referenced from the template (but only if a name has been specified)
@@ -163,6 +167,10 @@ define([
 			if(!(this.onSubmit() === false)){
 				this.containerNode.submit();
 			}
+		},
+
+		_formOrDiv : function () {
+			return this.embedded ? "div" : "form";
 		}
 	});
 });
