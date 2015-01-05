@@ -32,11 +32,15 @@
 						plainText: "",
 						_setPlainTextAttr: {node: "plainTextNode", type: "innerText"},
 
+						teeny: false,
+						_setTeenyAttr: {node: "teenyNode", type: "toggleClass"},
+
 						templateString: "<div class='class1' style='border: 1px solid red; width: 456px'>" +
 											"<button data-dojo-attach-point='buttonNode,focusNode'>hi</button>" +
 											'<span><input data-dojo-attach-point="inputNode" value="input"></span>' +
 											"<span data-dojo-attach-point='containerNode'></span>" +
 											"<span data-dojo-attach-point='plainTextNode'>original plain text</span>" +
+											"<span data-dojo-attach-point='teenyNode'>teeny text</span>" +
 										"</div>"
 					});
 
@@ -46,6 +50,7 @@
 						"class":"class2",
 						style:"height: 123px",
 						plainText: "hello world <>&;",
+						teeny: true,
 						"name-with-dashes": "name with dashes"
 					}).placeAt(dom.byId("wrapper"));
 
@@ -57,6 +62,7 @@
 					doh.is("123px", widget.domNode.style.height, "height");
 					doh.is("456px", widget.domNode.style.width, "width");
 					doh.is("hello world &lt;&gt;&amp;;", widget.plainTextNode.innerHTML, "innerHTML");
+					doh.t(domClass.contains(widget.teenyNode, "teeny"), "teeny");
 				},
 
 				// Test attributes mapped to subwidgets
@@ -206,12 +212,13 @@
 				// Test deprecated attributeMap (remove for 2.0)
 				function attributeMap(){
 					var AttrMap = declare([_WidgetBase, _TemplatedMixin], {
-						attributeMap: {foo: "", bar: "buttonNode", plainText: {node: "plainTextNode", type: "innerText"}},
+						attributeMap: {foo: "", bar: "buttonNode", plainText: {node: "plainTextNode", type: "innerText"}, teeny: {node: "teenyNode", type: "toggleClass"}},
 						templateString: "<div class='class1' style='border: 1px solid red; width: 456px'>" +
 											"<button data-dojo-attach-point='buttonNode,focusNode'>hi</button>" +
 											'<span><input data-dojo-attach-point="inputNode" value="input"></span>' +
 											"<span data-dojo-attach-point='containerNode'></span>" +
 											"<span data-dojo-attach-point='plainTextNode'>original plain text</span>" +
+											"<span data-dojo-attach-point='teenyNode'>teeny text</span>" +
 										"</div>"
 					});
 
@@ -220,7 +227,8 @@
 						bar:"value2",
 						"class":"class2",
 						style:"height: 123px",
-						plainText: "hello world <>&;"
+						plainText: "hello world <>&;",
+						teeny: true
 					}).placeAt(dom.byId("wrapper"));
 
 					// test that attributes specified to constructor were copied over to the DOM
@@ -231,6 +239,7 @@
 					doh.is("123px", widget.domNode.style.height, "height");
 					doh.is("456px", widget.domNode.style.width, "width");
 					doh.is("hello world &lt;&gt;&amp;;", widget.plainTextNode.innerHTML, "innerHTML");
+					doh.t(domClass.contains(widget.teenyNode, "teeny"), "teeny");
 				},
 
 				// Test that attributes set in the ctor when side effects setter exist
