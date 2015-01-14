@@ -53,7 +53,7 @@
 						var titlePos = domGeom.position(dlg1.titleBar),
 							containerPos = domGeom.position(dlg1.containerNode),
 							actionBarPos = domGeom.position(dlg1.actionBarNode);
-						doh.is(148, titlePos.h + containerPos.h + actionBarPos.h, "heights add up");
+						doh.t(Math.abs(titlePos.h + containerPos.h + actionBarPos.h - 148) < 1, "heights add up");
 						doh.t(titlePos.h > 0, "title has height");
 						doh.t(containerPos.h > 0, "container has height");
 						doh.t(actionBarPos.h > 0, "container has height");
