@@ -408,10 +408,10 @@ define([
 					}
 					this.onLoadDeferred.resolve(true);
 					this.onSetStore();
-				}), function(err){
+				}), lang.hitch(this, function(err){
 					console.error('dijit.form.Select: ' + err.toString());
 					this.onLoadDeferred.reject(err);
-				});
+				}));
 			}
 			return oStore;	// dojo/data/api/Identity
 		},
