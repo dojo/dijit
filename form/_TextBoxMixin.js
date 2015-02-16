@@ -3,7 +3,7 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/dom", // dom.byId
 	"dojo/has",
-	"dojo/keys", // keys.ALT keys.CAPS_LOCK keys.CTRL keys.META keys.SHIFT
+	"dojo/keys", // keys.ALT keys.CAPS_LOCK keys.CTRL keys.META keys.SHIFT keys.BACKSPACE
 	"dojo/_base/lang", // lang.mixin
 	"dojo/on", // on
 	"../main"    // for exporting dijit._setSelectionRange, dijit.selectInputText
@@ -209,7 +209,7 @@ define([
 		__skipInputEvent: false,
 		_onInput: function(/*Event*/ evt){
 			// summary:
-			//		Called AFTER the input event has happened
+			//		Called AFTER the input event has happened and this.textbox.value has new value.
 
 			this._processInput(evt);
 
@@ -310,14 +310,32 @@ define([
 						} // can only be stopped reliably in keydown
 					}
 				}
-				if(e.type == "input"){
+
+				if(e.type == "input") {
+					// Send notification about value change.
+					this._onInput(e);
+
+					// If we already called onInput() for the corresponding keypress event, then skip calling it again.
 					if(this.__skipInputEvent){ // duplicate event
 						this.__skipInputEvent = false;
 						return;
 					}
 				}else{
+					// Ideally we would just call _onInput() on the "input" event, as done above.
+					// But that event isn't supported fully on <= IE9.  The this.defer() call is a workaround.
+					// See http://benalpert.com/2013/06/18/a-near-perfect-oninput-shim-for-ie-8-and-9.html.
+					// We could add code to debounce notifications, but it doesn't seem strictly necessary.
+					if(has("ie") <= 8 || (has("ie") == 9 && e.keyCode == keys.BACKSPACE)){
+						this.defer(function(){
+							on.emit(this.textbox, "input", {bubbles: true});
+						});
+					}
+
+					// We are about to call onInput() for this keypress etc. event, so set flag to skip calling it again
+					// when the corresponding "input" event comes.
 					this.__skipInputEvent = true;
 				}
+
 				// create fake event to set charOrCode and to know if preventDefault() was called
 				var faux = { faux: true }, attr;
 				for(attr in e){
@@ -339,7 +357,9 @@ define([
 						e.stopPropagation();
 					}
 				});
-				// give web page author a chance to consume the event
+
+				// Give web page author a chance to consume the event.  Note that onInput() may be called multiple times
+				// for same keystroke: once for keypress event and once for input event.
 				//console.log(faux.type + ', charOrCode = (' + (typeof charOrCode) + ') ' + charOrCode + ', ctrl ' + !!faux.ctrlKey + ', alt ' + !!faux.altKey + ', meta ' + !!faux.metaKey + ', shift ' + !!faux.shiftKey);
 				if(this.onInput(faux) === false){ // return false means stop
 					faux.preventDefault();
@@ -348,9 +368,6 @@ define([
 				if(faux._wasConsumed){
 					return;
 				} // if preventDefault was called
-				this.defer(function(){
-					this._onInput(faux);
-				}); // widget notification after key has posted
 			}
 			this.own(
 				on(this.textbox, "keydown, keypress, paste, cut, input, compositionend", lang.hitch(this, handleEvent)),
