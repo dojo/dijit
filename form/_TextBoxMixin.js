@@ -196,22 +196,24 @@ define([
 			//		protected
 		},
 
-		 onInput: function(/*===== event =====*/){
+		 onInput: function(/*Event*/ evt){
 			 // summary:
 			 //		Connect to this function to receive notifications of various user data-input events.
 			 //		Return false to cancel the event and prevent it from being processed.
 			 // event:
-			 //		keydown | keypress | cut | paste | input
+			 //		keydown | keypress | cut | paste | compositionend
 			 // tags:
 			 //		callback
+
+			 this._lastOnInputEvent = evt;
 		 },
 
-		__skipInputEvent: false,
-		_onInput: function(/*Event*/ evt){
+		_onInput: function(/*Event*/ /*===== evt =====*/){
 			// summary:
 			//		Called AFTER the input event has happened and this.textbox.value has new value.
 
-			this._processInput(evt);
+			// For Combobox, this needs to be called w/the keydown/keypress event that was passed to onInput()
+			this._processInput(this._lastOnInputEvent);
 
 			if(this.intermediateChanges){
 				// allow the key to post to the widget input box
@@ -311,31 +313,6 @@ define([
 					}
 				}
 
-				if(e.type == "input") {
-					// Send notification about value change.
-					this._onInput(e);
-
-					// If we already called onInput() for the corresponding keypress event, then skip calling it again.
-					if(this.__skipInputEvent){ // duplicate event
-						this.__skipInputEvent = false;
-						return;
-					}
-				}else{
-					// Ideally we would just call _onInput() on the "input" event, as done above.
-					// But that event isn't supported fully on <= IE9.  The this.defer() call is a workaround.
-					// See http://benalpert.com/2013/06/18/a-near-perfect-oninput-shim-for-ie-8-and-9.html.
-					// We could add code to debounce notifications, but it doesn't seem strictly necessary.
-					if(has("ie") <= 8 || (has("ie") == 9 && e.keyCode == keys.BACKSPACE)){
-						this.defer(function(){
-							on.emit(this.textbox, "input", {bubbles: true});
-						});
-					}
-
-					// We are about to call onInput() for this keypress etc. event, so set flag to skip calling it again
-					// when the corresponding "input" event comes.
-					this.__skipInputEvent = true;
-				}
-
 				// create fake event to set charOrCode and to know if preventDefault() was called
 				var faux = { faux: true }, attr;
 				for(attr in e){
@@ -368,9 +345,20 @@ define([
 				if(faux._wasConsumed){
 					return;
 				} // if preventDefault was called
+
+				// Ideally we would just call _onInput() on the "input" event, as done below.
+				// But that event isn't supported fully on <= IE9.  The this.defer() call is a workaround.
+				// See http://benalpert.com/2013/06/18/a-near-perfect-oninput-shim-for-ie-8-and-9.html.
+				// We could add code to debounce notifications, but it doesn't seem strictly necessary.
+				if(has("ie") <= 8 || (has("ie") == 9 && e.keyCode == keys.BACKSPACE)){
+					this.defer(function(){
+						on.emit(this.textbox, "input", {bubbles: true});
+					});
+				}
 			}
 			this.own(
-				on(this.textbox, "keydown, keypress, paste, cut, input, compositionend", lang.hitch(this, handleEvent)),
+				on(this.textbox, "keydown, keypress, paste, cut, compositionend", lang.hitch(this, handleEvent)),
+				on(this.textbox, "input", lang.hitch(this, "_onInput")),
 
 				// Allow keypress to bubble to this.domNode, so that TextBox.on("keypress", ...) works,
 				// but prevent it from further propagating, so that typing into a TextBox inside a Toolbar doesn't
