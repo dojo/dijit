@@ -185,22 +185,24 @@ define([
 			//		protected
 		},
 
-		 onInput: function(/*===== event =====*/){
+		 onInput: function(/*Event*/ evt){
 			 // summary:
 			 //		Connect to this function to receive notifications of various user data-input events.
 			 //		Return false to cancel the event and prevent it from being processed.
 			 // event:
-			 //		keydown | keypress | cut | paste | input
+			 //		keydown | keypress | cut | paste | compositionend
 			 // tags:
 			 //		callback
+
+			 this._lastOnInputEvent = evt;
 		 },
 
-		__skipInputEvent: false,
-		_onInput: function(/*Event*/ evt){
+		_onInput: function(/*Event*/ /*===== evt =====*/){
 			// summary:
-			//		Called AFTER the input event has happened
+			//		Called AFTER the input event has happened and this.textbox.value has new value.
 
-			this._processInput(evt);
+			// For Combobox, this needs to be called w/the keydown/keypress event that was passed to onInput()
+			this._processInput(this._lastOnInputEvent);
 
 			if(this.intermediateChanges){
 				// allow the key to post to the widget input box
@@ -212,7 +214,11 @@ define([
 
 		_processInput: function(/*Event*/ evt){
 			// summary:
-			//		Default action handler for user input events
+			//		Default action handler for user input events.
+			//		Called after the "input" event (i.e. after this.textbox.value has been updated),
+			//		but `evt` is the keydown/keypress/etc. event that triggered the "input" event.
+			// tags:
+			//		protected
 
 			this._refreshState();
 
@@ -228,11 +234,10 @@ define([
 			this.inherited(arguments);
 
 			// normalize input events to reduce spurious event processing
-			//	onkeydown: do not forward modifier keys
+			//	keydown: do not forward modifier keys
 			//		       set charOrCode to numeric keycode
-			//	onkeypress: do not forward numeric charOrCode keys (already sent through onkeydown)
-			//	onpaste & oncut: set charOrCode to 229 (IME)
-			//	oninput: if primary event not already processed, set charOrCode to 229 (IME), else do not forward
+			//	keypress: do not forward numeric charOrCode keys (already sent through onkeydown)
+			//	paste, cut, compositionend: set charOrCode to 229 (IME)
 			function handleEvent(e){
 				var charOrCode;
 				if(e.type == "keydown"){
@@ -299,14 +304,7 @@ define([
 						} // can only be stopped reliably in keydown
 					}
 				}
-				if(e.type == "input"){
-					if(this.__skipInputEvent){ // duplicate event
-						this.__skipInputEvent = false;
-						return;
-					}
-				}else{
-					this.__skipInputEvent = true;
-				}
+
 				// create fake event to set charOrCode and to know if preventDefault() was called
 				var faux = { faux: true }, attr;
 				for(attr in e){
@@ -328,7 +326,9 @@ define([
 						e.stopPropagation();
 					}
 				});
-				// give web page author a chance to consume the event
+
+				// Give web page author a chance to consume the event.  Note that onInput() may be called multiple times
+				// for same keystroke: once for keypress event and once for input event.
 				//console.log(faux.type + ', charOrCode = (' + (typeof charOrCode) + ') ' + charOrCode + ', ctrl ' + !!faux.ctrlKey + ', alt ' + !!faux.altKey + ', meta ' + !!faux.metaKey + ', shift ' + !!faux.shiftKey);
 				if(this.onInput(faux) === false){ // return false means stop
 					faux.preventDefault();
@@ -337,12 +337,20 @@ define([
 				if(faux._wasConsumed){
 					return;
 				} // if preventDefault was called
-				this.defer(function(){
-					this._onInput(faux);
-				}); // widget notification after key has posted
+
+				// IE8 doesn't emit the "input" event at all, and IE9 doesn't emit it for backspace, delete, cut, etc.
+				// Since the code below (and perhaps user code) depends on that event, emit it synthetically.
+				// See http://benalpert.com/2013/06/18/a-near-perfect-oninput-shim-for-ie-8-and-9.html.
+				// I could add code to debounce and remove duplicate notifications, but it doesn't seem strictly necessary.
+				if(has("ie") <= 9){
+					this.defer(function(){
+						on.emit(this.textbox, "input", {bubbles: true});
+					});
+				}
 			}
 			this.own(
-				on(this.textbox, "keydown, keypress, paste, cut, input, compositionend", lang.hitch(this, handleEvent)),
+				on(this.textbox, "keydown, keypress, paste, cut, compositionend", lang.hitch(this, handleEvent)),
+				on(this.textbox, "input", lang.hitch(this, "_onInput")),
 
 				// Allow keypress to bubble to this.domNode, so that TextBox.on("keypress", ...) works,
 				// but prevent it from further propagating, so that typing into a TextBox inside a Toolbar doesn't
