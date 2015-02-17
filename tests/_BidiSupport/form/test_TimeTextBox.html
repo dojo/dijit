@@ -24,13 +24,13 @@
 			});
 
 			function testWidget(element, guiDir, textDir, isfirstChildLatin){
-				doh.is(registry.byId(element).get("textDir"), textDir, "widget textDir");
-				doh.is(registry.byId(element).dir, guiDir, "GUI dir");
+				doh.is(textDir, registry.byId(element).get("textDir"), "widget textDir");
+				doh.is(guiDir, registry.byId(element).dir.toLowerCase(), "GUI dir");
 				doh.is(guiDir.toLowerCase() == "ltr", registry.byId(element).isLeftToRight(), "isLeftToRight()");
 				if(textDir == "auto"){
 					textDir = isfirstChildLatin? "ltr" : "rtl";
 				}
-				doh.is(registry.byId(element).focusNode.dir, textDir, "focusNode textDir");
+				doh.is(textDir, registry.byId(element).focusNode.dir, "focusNode textDir");
 				doh[guiDir.toLowerCase() == "rtl" ? "t" : "f"](domClass.contains(registry.byId(element).domNode, "dijitTimeTextBoxRtl"), "dijitTimeTextBoxRtl");
 			}
 
@@ -131,7 +131,7 @@
 				{
 					name:"textbox",
 					runTest:function(){
-						testWidget("q4", "LTR", "auto", false);
+						testWidget("q4", "ltr", "auto", false);
 					}
 				},
 				{
@@ -146,7 +146,7 @@
 				{
 					name:"textbox",
 					runTest:function(){
-						testWidget("q5", "RTL", "ltr", true);
+						testWidget("q5", "rtl", "ltr", true);
 					}
 				},
 				{
