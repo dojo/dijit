@@ -49,7 +49,7 @@
 							robot.typeKeys("world", 500, 1650);
 
 							robot.sequence(d.getTestCallback(function(){
-								var val = editor1.get('value').replace(/ +/g, "").toLowerCase();
+								var val = editor1.get('value').replace(/[\s\xA0]+/g, "").toLowerCase();
 								doh.is("hello<br/>world", val);
 							}), 500);
 
