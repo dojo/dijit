@@ -74,8 +74,7 @@
 								}), 1000);
 
 								// Test shrink on delete of newline
-								robot.keyPress(keys.LEFT_ARROW, 200, {});
-								robot.keyPress(keys.DELETE, 200, {});
+								robot.keyPress(keys.BACKSPACE, 200, {});
 								robot.sequence(d.getTestCallback(function(){
 									height3 = domGeom.getMarginBox(w.domNode).h;
 									doh.t(height2 > height1, "height ("+height2+") should have increased from " + height1);
@@ -115,14 +114,11 @@
 									} // still typing
 									height2 = domGeom.getMarginBox(w.domNode).h;
 									typing = false;
-									// Test shrink on delete (backspace) of text.   delete seems to delete the next character
-									// rather than the previous character, hence the LEFT_ARROW.
-									robot.keyPress(keys.LEFT_ARROW, 0, {});
-									robot.keyPress(keys.DELETE, 0, {});
+									// Test shrink on delete (backspace) of text
+									robot.keyPress(keys.BACKSPACE, 0, {});
 								}else{
 									if(nv.length > pos){
-										robot.keyPress(keys.LEFT_ARROW, 0, {});
-										robot.keyPress(keys.DELETE, 0, {});
+										robot.keyPress(keys.BACKSPACE, 0, {});
 										return; // still deleting
 									}
 									handler.remove();
@@ -157,6 +153,7 @@
 							robot.keyPress("x", 500, modifier);
 							robot.sequence(function(){
 								height2 = domGeom.getMarginBox(w.domNode).h;
+								doh.t(height2 < height1, "height2 (" + height2 + ") < height1 (" + height1 + ")");
 							}, 500);
 
 							// Paste text, height should increase
@@ -164,8 +161,7 @@
 							robot.keyPress("v", 500, modifier);
 							robot.sequence(d.getTestCallback(function(){
 								height3 = domGeom.getMarginBox(w.domNode).h;
-								doh.t(height2 < height1, "height went from " + height1 + " to " + height2);
-								doh.t(height3 > height2, "height went from " + height2 + " to " + height3);
+								doh.t(height3 > height2, "height3 (" + height3 + ") > height2 (" + height2 + ")");
 							}), 500);
 
 							return d;
@@ -193,8 +189,7 @@
 								}, 500);
 
 								// Erase a character
-								robot.keyPress(keys.LEFT_ARROW, 100, {});
-								robot.keyPress(keys.DELETE, 500, {});
+								robot.keyPress(keys.BACKSPACE, 500, {});
 								robot.sequence(function(){
 									value2 = ta.get("value");
 								}, 500);
