@@ -346,11 +346,11 @@ define([
 					return;
 				} // if preventDefault was called
 
-				// Ideally we would just call _onInput() on the "input" event, as done below.
-				// But that event isn't supported fully on <= IE9.  The this.defer() call is a workaround.
+				// IE8 doesn't emit the "input" event at all, and IE9 doesn't emit it for backspace, delete, cut, etc.
+				// Since the code below (and perhaps user code) depends on that event, emit it synthetically.
 				// See http://benalpert.com/2013/06/18/a-near-perfect-oninput-shim-for-ie-8-and-9.html.
-				// We could add code to debounce notifications, but it doesn't seem strictly necessary.
-				if(has("ie") <= 8 || (has("ie") == 9 && e.keyCode == keys.BACKSPACE)){
+				// I could add code to debounce and remove duplicate notifications, but it doesn't seem strictly necessary.
+				if(has("ie") <= 9){
 					this.defer(function(){
 						on.emit(this.textbox, "input", {bubbles: true});
 					});
