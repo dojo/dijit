@@ -3,7 +3,7 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/dom", // dom.byId
 	"dojo/has",
-	"dojo/keys", // keys.ALT keys.CAPS_LOCK keys.CTRL keys.META keys.SHIFT
+	"dojo/keys", // keys.ALT keys.CAPS_LOCK keys.CTRL keys.META keys.SHIFT keys.BACKSPACE
 	"dojo/_base/lang", // lang.mixin
 	"dojo/on", // on
 	"../main"    // for exporting dijit._setSelectionRange, dijit.selectInputText
