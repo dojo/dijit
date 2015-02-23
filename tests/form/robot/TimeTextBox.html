@@ -218,15 +218,27 @@
 								doh.is("12:45 PM", innerText(children[7]));
 							}), 1000);
 
-							// Setup handler to fire when TAB keypress below fires
-							doh.robot.sequence(function(){
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+
+							doh.robot.sequence(d.getTestErrback(function(){
+								// dropdown list should still be filtered
+								var popup = dijit.byId('q2_popup');
+								var children = dojo.query(".dijitTimePickerItem", popup.domNode);
+								doh.is(8, children.length, "# of items in drop down after down arrow keys");
+
+								// for screenreader (and to be like ComboBox), navigated value should be in <input>
+								var val = dojo.date.stamp.toISOString(w.get('value'), {selector: "time"});
+								doh.is("T00:15:00", val, "12:15 was selected");
+
+								// Setup handler to fire when TAB keypress below fires
 								onFocus(d.getTestCallback(function(){
 									var popup = dijit.byId('q2_popup');
 									doh.t(!popup || isHidden(popup), "popup hidden again");
 
 									doh.is("q3", dojo.global.dijit.focus.curNode.id, "tab moved to next input widget");
 								}));
-							}, 0);
+							}), 1000);
 
 							// tab away to close drop down
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
