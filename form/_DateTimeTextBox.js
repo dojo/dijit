@@ -209,7 +209,10 @@ define([
 			if(this.value instanceof Date){
 				this.filterString = "";
 			}
-			if(this.dropDown){
+
+			// Set the dropdown's value to match, unless we are being updated due to the user navigating the TimeTextBox
+			// dropdown via up/down arrow keys.
+			if(priorityChange !== false && this.dropDown){
 				this.dropDown.set('value', value, false);
 			}
 		},

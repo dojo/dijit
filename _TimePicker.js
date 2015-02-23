@@ -308,18 +308,26 @@ define([
 			this.set("selected", this._selectedDiv);
 		},
 
-		_onOptionSelected: function(/*Object*/ tgt){
+		_onOptionSelected: function(/*Object*/ tgt, /*Boolean*/ change){
 			// summary:
-			//		Called when user clicks an option in the drop down list
+			//		Called when user clicks or keys to an option in the drop down list
+			// tgt: Object
+			//		tgt.target specifies the node that was clicked
+			// change: Boolean
+			///		If true, fire "change" event, otherwise just fire "input" event.
 			// tags:
 			//		private
 			var tdate = tgt.target.date || tgt.target.parentNode.date;
 			if(!tdate || this.isDisabledDate(tdate)){
 				return;
 			}
-			this._highlighted_option = null;
-			this.set('value', tdate);
-			this.onChange(tdate);
+			this._set('value', tdate);
+			this.emit("input");
+			if(change) {
+				this._highlighted_option = null;
+				this.set('value', tdate);
+				this.onChange(tdate);
+			}
 		},
 
 		onChange: function(/*Date*/ /*===== time =====*/){
@@ -363,11 +371,13 @@ define([
 			//		protected
 			if(e.keyCode == keys.DOWN_ARROW){
 				this.selectNextNode();
+				this._onOptionSelected({target: this._highlighted_option}, false);
 				e.stopPropagation();
 				e.preventDefault();
 				return false;
 			}else if(e.keyCode == keys.UP_ARROW){
 				this.selectPreviousNode();
+				this._onOptionSelected({target: this._highlighted_option}, false);
 				e.stopPropagation();
 				e.preventDefault();
 				return false;
@@ -379,7 +389,7 @@ define([
 
 				// Accept the currently-highlighted option as the value
 				if(this._highlighted_option){
-					this._onOptionSelected({target: this._highlighted_option});
+					this._onOptionSelected({target: this._highlighted_option}, true);
 				}
 
 				// Call stopEvent() for ENTER key so that form doesn't submit,
@@ -407,7 +417,7 @@ define([
 		},
 
 		onClick: function(/*DomNode*/ node){
-			this._onOptionSelected({target: node});
+			this._onOptionSelected({target: node}, true);
 		}
 	});
 

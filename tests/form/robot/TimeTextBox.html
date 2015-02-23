@@ -45,8 +45,19 @@
 								doh.t(popup && isVisible(popup), "popup visible");
 							}), 500);
 
-							// advance from 5:45PM to 6PM, and select
+							// advance from 5:45PM to 6PM
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 1000, {});
+							doh.robot.sequence(d.getTestErrback(function(){
+								var popup = dijit.byId('q1_popup');
+								doh.t(popup && isVisible(popup), "popup still visible");
+
+								// for screenreader (and to be like ComboBox), navigated value should be in <input>
+								var val = dojo.date.stamp.toISOString(w.get('value'), {selector: "time"});
+								doh.is("T18:00:00", val, "6PM was selected");
+
+								doh.is(null, dojo.global.formValue, "no form submit");
+							}), 500);
+
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 
 							doh.robot.sequence(d.getTestErrback(function(){

@@ -45,6 +45,15 @@ define([
 		// Add scrollbars if necessary so that dropdown doesn't cover the <input>
 		maxHeight: -1,
 
+		openDropDown: function(/*Function*/ callback){
+			this.inherited(arguments);
+
+			// For screen readers, as user arrows through values, populate <input> with latest value.
+			this.dropDown.on("input", lang.hitch(this, function(){
+				this.set('value', this.dropDown.get("value"), false);
+			}));
+		},
+
 		_onKey: function(evt){
 			if(this.disabled || this.readOnly){ return; }
 			this.inherited(arguments);
