@@ -74,7 +74,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.is(!rangeBound, textbox.isValid(true), "isValid");
 											doh.is(rangeBound ? "Incomplete" : "", textbox.state, "state");
 											doh.is(rangeBound? promptMessage : "", tooltip, "tooltip");
@@ -88,7 +88,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
@@ -102,7 +102,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.f(textbox.isValid(true), "isValid");
 											doh.is("Error", textbox.state, "state");
 											doh.is(invalidMessage||promptMessage, tooltip, "tooltip");
@@ -116,7 +116,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
@@ -130,7 +130,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											// number.parse("12.", {fractional:[true,false], pattern:"#.#####"}) is valid
 											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
@@ -145,7 +145,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.f(textbox.isValid(true), "isValid");
 											doh.is("Error", textbox.state, "state");
 											doh.is(invalidMessage||promptMessage, tooltip, "tooltip");
@@ -159,7 +159,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
@@ -173,7 +173,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
@@ -187,7 +187,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.f(textbox.isValid(true), "isValid");
 											doh.is("Error", textbox.state, "state");
 											doh.is(invalidMessage||promptMessage, tooltip, "tooltip");
@@ -201,7 +201,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
@@ -215,7 +215,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
@@ -229,7 +229,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
@@ -243,7 +243,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.is(!rangeBound, textbox.isValid(true), "isValid");
 											doh.is(rangeBound ? "Incomplete" : "", textbox.state, "state");
 											doh.is(rangeBound? promptMessage : "", tooltip, "tooltip");
@@ -257,7 +257,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.is(!required, textbox.isValid(false), "isValid");
 											doh.is(required ? "Incomplete" : "", textbox.state, "state");
 											doh.is(promptMessage, tooltip, "tooltip");
@@ -300,7 +300,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.is(!rangeBound, textbox.isValid(false), "isValid");
 											doh.is(rangeBound ? "Incomplete" : "", textbox.state, "state");
 											doh.is(rangeBound? promptMessage : "", tooltip, "tooltip");
@@ -314,7 +314,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
 										});
@@ -327,7 +327,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.is(!rangeBound, textbox.isValid(false), "isValid");
 											doh.is(rangeBound ? "Error" : "", textbox.state, "state");
 											doh.is(rangeBound? textbox.rangeMessage : "", tooltip, "tooltip");
@@ -389,7 +389,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
@@ -404,7 +404,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
@@ -418,7 +418,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.f(textbox.isValid(true), "isValid");
 											doh.is("Error", textbox.state, "state");
 											doh.is(invalidMessage||promptMessage, tooltip, "tooltip");
@@ -432,7 +432,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
@@ -446,7 +446,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
@@ -460,7 +460,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.f(textbox.isValid(true), "isValid");
 											doh.is("Error", textbox.state, "state");
 											doh.is(invalidMessage||promptMessage, tooltip, "tooltip");
@@ -474,7 +474,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
@@ -488,7 +488,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
@@ -502,7 +502,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.t(textbox.isValid(true), "isValid");
 											doh.is("", textbox.state, "state");
 											doh.is("", tooltip, "tooltip");
@@ -516,7 +516,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.is(rangeBound ? "Incomplete" : "", textbox.state, "state");
 											doh.is(rangeBound? promptMessage : "", tooltip, "tooltip");
 										});
@@ -529,7 +529,7 @@
 									timeout: 2000,
 									runTest: function(){
 										var d = new doh.Deferred();
-										testOn('keyup', textbox, d, function(){
+										testOn('input', textbox, d, function(){
 											doh.is(!required, textbox.isValid(true), "isValid");
 											doh.is(required ? "Incomplete" : "", textbox.state, "state");
 											doh.is(promptMessage, tooltip, "tooltip");
