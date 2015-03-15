@@ -283,6 +283,21 @@ define([
 		//		Used by `<img>` nodes in templates that really get their image via CSS background-image.
 		_blankGif: config.blankGif || require.toUrl("dojo/resources/blank.gif"),
 
+		// textDir: String
+		//		Bi-directional support,	the main variable which is responsible for the direction of the text.
+		//		The text direction can be different than the GUI direction by using this parameter in creation
+		//		of a widget.
+		//
+		//		This property is only effective when `has("dojo-bidi")` is defined to be true.
+		//
+		//		Allowed values:
+		//
+		//		1. "" - default value; text is same direction as widget
+		//		2. "ltr"
+		//		3. "rtl"
+		//		4. "auto" - contextual the direction of a text defined by first strong letter.
+		textDir: "",
+
 		//////////// INITIALIZATION METHODS ///////////////////////////////////////
 
 		/*=====
