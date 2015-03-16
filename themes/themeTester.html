@@ -907,10 +907,9 @@
 	 data-dojo-props="title:'Select Widgets', style:'padding:10px;display:none;'">
 
 	<h2>dijit/form/Select</h2>
-	<!-- fixme: <label for=""> but target a form element like input select etc -->
-	<label>Enabled:</label>
 
-	<div id="selectEnabled" data-dojo-type="dijit/form/Select" data-dojo-props="value:'AK'">
+	<span id="l_selectEnabled">Enabled:</span>
+	<div id="selectEnabled" data-dojo-type="dijit/form/Select" value="AK" aria-labelledby="l_selectEnabled">
 		<span data-dojo-value="AL"><b>Alabama</b></span>
 		<span data-dojo-value="AK"><span style="color:red">A</span><span style="color:orange">l</span><span
 				style="color:yellow">a</span><span style="color:green">s</span><span style="color:blue">k</span><span
@@ -925,9 +924,8 @@
 		<span data-dojo-value="NM">New<br>&nbsp;&nbsp;Mexico</span>
 	</div>
 
-	<label>Disabled: </label>
-
-	<div id="selectDisabled" data-dojo-props="value:'AK', disabled:true" data-dojo-type="dijit/form/Select">
+	<span id="l_selectDisabled">Disabled:</span>
+	<div id="selectDisabled" data-dojo-type="dijit/form/Select" value="AK" disabled aria-labelledby="l_selectDisabled">
 		<span data-dojo-value="AL"><b>Alabama</b></span>
 		<span data-dojo-value="AK"><span style="color:red">A</span><span style="color:orange">l</span><span
 				style="color:yellow">a</span><span style="color:green">s</span><span style="color:blue">k</span><span

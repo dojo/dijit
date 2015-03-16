@@ -627,8 +627,8 @@
 				onSubmit="return this.validate();">
 			<h2>dijit/form/Select form</h2>
 			<h4 class="testSubtitle">Setting Defaults</h4>
-			<label for="s1">Test One: </label>
-			<select id="s1" data-dojo-id="s1" data-dojo-type="dijit/form/Select" data-dojo-props='name:"s1" '>
+			<span id="ls1">Test One:</span>
+			<select id="s1" data-dojo-id="s1" data-dojo-type="dijit/form/Select" name="s1" aria-labelledby="ls1">
 				<option value="TN">Tennessee</option>
 				<option value="VA" selected="selected">Virginia</option>
 				<option value="WA">Washington</option>
@@ -638,8 +638,9 @@
 			<button id="s1button" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button", onClick:function(){ console.log(s1.get("displayedValue")); }'>
 				Get Displayed Value
 			</button>
-			<label for="s2">Test Two: </label>
-			<select id="s2" data-dojo-id="s2" data-dojo-type="dijit/form/Select" data-dojo-props='name:"s2", value:"CA", title: "widget title" '>
+			<span id="ls2">Test Two:</span>
+			<select id="s2" data-dojo-id="s2" data-dojo-type="dijit/form/Select" name="s2" aria-labelledby="ls2"
+					value="CA" title="widget title">
 				<option value="AL">Alabama</option>
 				<option value="AK">Alaska</option>
 				<option value="AZ">Arizona</option>
@@ -650,8 +651,9 @@
 				<option value="NM">New Mexico</option>
 				<option value="NY">New York</option>
 			</select>
-			<label for="s3">Test Three (required): </label>
-			<select id="s3" data-dojo-id="s3" data-dojo-type="dijit/form/Select" data-dojo-props='name:"s3", style:{width:"150px"},
+			<span id="ls3">Test Three (required):</span>
+			<select id="s3" data-dojo-id="s3" data-dojo-type="dijit/form/Select" name="s3" aria-labelledby="ls3"
+					data-dojo-props='style:{width:"150px"},
 					required:true,
 					onChange: function(){
 						if(!this.options[0].value){
@@ -670,8 +672,8 @@
 			</select>
 		<hr>
 			<h4 class="testSubtitle">Rich Text (Need to use divs and spans - since browsers hack selects to pieces)</h4>
-			<label id="ls4">Rich text One:</label>
-			<span id="s4" data-dojo-id="s4" data-dojo-type="dijit/form/Select" data-dojo-props='name:"s4", value:"AK", "aria-labelledby":"ls4" '>
+			<span id="ls4">Rich text One:</span>
+			<span id="s4" data-dojo-id="s4" data-dojo-type="dijit/form/Select" name="s4" aria-labelledby="ls4" value="AK">
 				<span data-dojo-value="AL"><b>Alabama</b></span>
 				<span data-dojo-value="AK"><span style="color:red;">A</span><span style="color:orange;">l</span><span style="color:yellow;">a</span><span style="color:green;">s</span><span style="color:blue;">k</span><span style="color:purple;">a</span></span>
 				<span data-dojo-value="AZ"><i>Arizona</i></span>
@@ -682,8 +684,8 @@
 			<button data-dojo-type="dijit/form/Button" data-dojo-props='type:"button", onClick:function(){ s4.set("disabled", !s4.get("disabled")); }'>
 				Toggle Disabled
 			</button>
-			<label for="s5">Rich text two: </label>
-			<span id="s5" data-dojo-id="s5" data-dojo-type="dijit/form/Select" data-dojo-props='name:"s5", value:"move"'>
+			<span id="ls5">Rich text two:</span>
+			<span id="s5" data-dojo-id="s5" data-dojo-type="dijit/form/Select" name="s5" aria-labelledby="ls5" value="move">
 				<span data-dojo-value=100><img style="vertical-align: middle;margin-top: 1px;margin-bottom:1px;" src="../../../dijit/themes/tundra/images/dndCopy.png" alt="copy" /> Copy</span>
 				<span data-dojo-value=101><img  style="vertical-align: middle;margin-top: 1px;margin-bottom:1px;" src="../../../dijit/themes/tundra/images/dndMove.png" alt="move" /> Move</span>
 				<span data-dojo-value=102><img  style="vertical-align: middle;margin-top: 1px;margin-bottom:1px;" src="../../../dijit/themes/tundra/images/dndNoCopy.png" alt="no copy" /> No Copy</span>
@@ -691,8 +693,9 @@
 				<span data-dojo-value=104><img  style="vertical-align: middle;margin-top: 1px;margin-bottom:1px;" src="../../../dijit/themes/tundra/images/dndNoMove.png" alt="very long menu" /> Very Long Menu Entry</span>
 			</span>
 		<hr>
-			<h4 class="testSubtitle"><label for="s6">Initially Empty</label></h4>
-			<select id="s6" data-dojo-id="s6" data-dojo-type="dijit/form/Select" data-dojo-props='name:"s6", maxHeight:100 '>
+			<h4 class="testSubtitle" id="ls6">Initially Empty</h4>
+			<select id="s6" data-dojo-id="s6" data-dojo-type="dijit/form/Select" name="s6" aria-labelledby="ls6"
+					data-dojo-props='maxHeight:100'>
 			</select>
 			<button data-dojo-type="dijit/form/Button" data-dojo-props='type:"button", onClick:function(){ numOptions++; s6.addOption({value: numOptions + "", label: "Option " + numOptions}); }'>
 				Add Option
@@ -704,14 +707,15 @@
 				Toggle Disabled
 			</button>
 			<hr>
-		<h4 class="testSubtitle"><label for="s7">Single Item</label></h4>
-			<select id="s7" data-dojo-id="s7" data-dojo-type="dijit/form/Select" data-dojo-props='name:"s7" '>
+		<h4 class="testSubtitle" id="ls7">Single Item</h4>
+			<select id="s7" data-dojo-id="s7" data-dojo-type="dijit/form/Select" name="s7" aria-labelledby="ls7">
 				<option value="NY">New York</option>
 			</select>
 		<hr>
 		<h4 class="testSubtitle">Long lists</h4>
-			<label for="s8a">maxHeight=200:</label>
-			<select id="s8a" data-dojo-id="s8a" data-dojo-type="dijit/form/Select" data-dojo-props='name:"s8a", maxHeight:200 '>
+			<span id="ls8a">maxHeight=200:</span>
+			<select id="s8a" data-dojo-id="s8a" data-dojo-type="dijit/form/Select" name="s8" aria-labelledby="ls8"
+					data-dojo-props='maxHeight:200'>
 				<option value="AL">Alabama</option>
 				<option value="AK">Alaska</option>
 				<option value="AZ">Arizona</option>
@@ -764,8 +768,8 @@
 				<option value="WI">Wisconsin</option>
 				<option value="WY">Wyoming</option>
 			</select>
-			<label for="s8b">no maxHeight:</label>
-			<select id="s8b" data-dojo-id="s8b" data-dojo-type="dijit/form/Select" data-dojo-props='name:"s8b" '>
+			<span id="ls8b">no maxHeight:</span>
+			<select id="s8b" data-dojo-id="s8b" data-dojo-type="dijit/form/Select" name="s8b" aria-labelledby="ls8b">
 				<option value="AL">Alabama</option>
 				<option value="AK">Alaska</option>
 				<option value="AZ">Arizona</option>
@@ -821,59 +825,64 @@
 
 			<hr>
 			<h4 class="testSubtitle">dojo/data store (legacy API) based</h4>
-			<label for="s9">Example 1</label>
-			<select id="s9" data-dojo-id="s9" data-dojo-type="dijit/form/Select" data-dojo-props='name:"s9", store:readStore, value:"CT" '>
+			<span id="ls9">Example 1</span>
+			<select id="s9" data-dojo-id="s9" data-dojo-type="dijit/form/Select" name="s9" value="CT"
+				aria-labelledby="ls9" data-dojo-props='store:readStore'>
 			</select>
-			<label for="s10">Example 2</label>
-			<select id="s10" data-dojo-id="s10" data-dojo-type="dijit/form/Select" data-dojo-props='name:"s10", store:readStore '>
+			<span id="ls10">Example 2</span>
+			<select id="s10" data-dojo-id="s10" data-dojo-type="dijit/form/Select" name="s10" aria-labelledby="ls10"
+					data-dojo-props='store:readStore'>
 			</select>
-			<label for="s11">Example 3</label>
-			<select id="s11" data-dojo-id="s11" data-dojo-type="dijit/form/Select" data-dojo-props='name:"s11", store:writeStore '>
+			<span id="ls11">Example 3</span>
+			<select id="s11" data-dojo-id="s11" data-dojo-type="dijit/form/Select" name="s11" aria-labelledby="ls11"
+					data-dojo-props='store:writeStore'>
 			</select>
-			<label for="s12_dep">Example 4 Legacy</label>
-			<select id="s12_dep" data-dojo-id="s12_dep" data-dojo-type="dijit/form/Select" data-dojo-props='name:"s12_dep", store:readStore '>
+			<span id="ls12_dep">Example 4 Legacy</span>
+			<select id="s12_dep" data-dojo-id="s12_dep" data-dojo-type="dijit/form/Select" name="s12_dep"
+				aria-labelledby="ls12_dep" data-dojo-props='store:readStore'>
 			</select>
 
 			<hr>
 			<h4 class="testSubtitle">dojo/store based</h4>
-			<label for="ds9">Example 1</label>
-			<select id="ds9" data-dojo-id="ds" data-dojo-type="dijit/form/Select"
-					data-dojo-props='name:"ds", store:memoryStore, value:"CT", labelAttr:"label" '>
+			<span id="lds9">Example 1</span>
+			<select id="ds9" data-dojo-id="ds" data-dojo-type="dijit/form/Select" name="ds9" aria-labelledby="lds9"
+					value="CT" data-dojo-props='store:memoryStore, labelAttr:"label"'>
 			</select>
-			<label for="ds10">Example 2</label>
-			<select id="ds10" data-dojo-id="ds10"
-					data-dojo-type="dijit/form/Select" data-dojo-props='name:"ds10", store:memoryStore, labelAttr:"label" '>
+			<span id="lds10">Example 2</span>
+			<select id="ds10" data-dojo-id="ds10" data-dojo-type="dijit/form/Select" name="ds10" aria-labelledby="lds10"
+					data-dojo-props='store:memoryStore, labelAttr:"label"'>
 			</select>
-			<label for="ds11">Example 3 (Observable)</label>
-			<select id="ds11" data-dojo-id="ds11" data-dojo-type="dijit/form/Select"
-					data-dojo-props='name:"ds11", store:memoryStore3, labelType: "text", labelAttr:"label" '>
+			<span id="lds11">Example 3 (Observable)</span>
+			<select id="ds11" data-dojo-id="ds11" data-dojo-type="dijit/form/Select" name="ds11" aria-labelledby="lds11"
+					data-dojo-props='store:memoryStore3, labelType: "text", labelAttr:"label"'>
 			</select>
-			<label for="ds11a">Example 3a (Observable, same store as 3)</label>
-			<select id="ds11a" data-dojo-id="ds11a" data-dojo-type="dijit/form/Select"
-					data-dojo-props='name:"ds11a", store:memoryStore3, labelAttr:"label" '>
+			<span id="lds11a">Example 3a (Observable, same store as 3)</span>
+			<select id="ds11a" data-dojo-id="ds11a" data-dojo-type="dijit/form/Select" name="ds11a" aria-labelledby="lds11a"
+					data-dojo-props='store:memoryStore3, labelAttr:"label"'>
 			</select>
-			<label for="ds12">Example 4</label>
-			<select id="ds12" data-dojo-id="ds12" data-dojo-type="dijit/form/Select"
-					data-dojo-props='name:"ds12", labelType: "text", store:memoryStore, labelAttr:"label" '>
+			<span id="lds12">Example 4</span>
+			<select id="ds12" data-dojo-id="ds12" data-dojo-type="dijit/form/Select" name="ds12" aria-labelledby="lds12"
+					data-dojo-props='labelType: "text", store:memoryStore, labelAttr:"label"'>
 			</select>
-			<label for="ds12_dep">Example 5 Legacy</label>
-			<select id="ds12_dep" data-dojo-id="ds12_dep" data-dojo-type="dijit/form/Select"
-					data-dojo-props='name:"ds12_dep", labelType: "text", store:memoryStore, labelAttr:"label" '>
+			<span id="lds12_dep">Example 5 Legacy</span>
+			<select id="ds12_dep" data-dojo-id="ds12_dep" data-dojo-type="dijit/form/Select" name="ds12_dep"
+					aria-labelledby="lds12_dep"
+					data-dojo-props='labelType: "text", store:memoryStore, labelAttr:"label"'>
 			</select>
 
 			<hr>
 			<h4 class="testSubtitle">Inlined with text (all IE modes except for IE8 Standards)</h4>
-			<label for="txtPrompt">Text Prompt:</label>
-			<select id="txtPrompt" data-dojo-type="dijit/form/Select" >
+			<span id="ltxtPrompt">Text Prompt:</span>
+			<select id="txtPrompt" data-dojo-type="dijit/form/Select" aria-labelledby="ltxtPrompt">
 				<option value="SEL" selected="selected">Select</option>
 				<option value="OTHER">Other</option>
 			</select>
 
 			<hr>
 			<h4 class="testSubtitle">More required but blank selects</h4>
-			<label for="s13">required s13:</label>
-			<select id="s13" data-dojo-id="s13" data-dojo-type="dijit/form/Select"
-					name="s13" style="width: 150px;" required="true">
+			<span id="ls13">required s13:</span>
+			<select id="s13" data-dojo-id="s13" data-dojo-type="dijit/form/Select" name="s13" aria-labelledby="ls13"
+					style="width: 150px;" required="true">
 				<option>&nbsp;</option>
 				<option value="AL">Alabama</option>
 				<option value="AK">Alaska</option>
@@ -883,9 +892,9 @@
 				<option></option>
 				<option value="CA">California</option>
 			</select>
-			<label for="s14">required s14:</label>
+			<span id="ls14">required s14:</span>
 			<select id="s14" data-dojo-id="s14" data-dojo-type="dijit/form/Select"
-					name="s14" style="width: 150px;" required="true">
+					name="s14" aria-labelledby="ls14" style="width: 150px;" required="true">
 				<option>&nbsp;</option>
 				<option value="AL">Alabama</option>
 				<option value="AK">Alaska</option>
@@ -904,8 +913,9 @@
 		</form>
 
 		<h4 class="testSubtitle">Disabled</h4>
-		<label for="testDisabled">Disabled:</label>
-		<select id='testDisabled' data-dojo-id='testDisabled' data-dojo-type="dijit/form/Select" data-dojo-props='disabled:true, name:"testDisabled" '>
+		<span id="l_testDisabled">Disabled:</span>
+		<select id='testDisabled' data-dojo-id='testDisabled' data-dojo-type="dijit/form/Select"
+				disabled name="testDisabled" aria-labelledby="l_testDisabled">
 			<option value="foo">foo</option>
 			<option value="bar">bar</option>
 		</select>
