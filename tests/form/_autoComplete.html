@@ -161,7 +161,11 @@
 						doh.is("setvaluetest_mylabel", combo._popupStateNode.getAttribute("aria-labelledby"), "aria-labelledby");
 						doh.f(combo._popupStateNode.getAttribute("aria-expanded"), "initially missing aria-expanded");
 						doh.f(combo._popupStateNode.getAttribute("aria-owns"), "initally missing aria-owns");					
-							
+
+						// type is "text" by default but app should be able to override it
+						doh.is("text", combo.focusNode.type, "default type");
+						doh.is("url", dijit.byId("url").focusNode.type, "override type");
+
 						var handler = dojo.connect(combo, "openDropDown", function(){
 							dojo.disconnect(handler);
 							setTimeout(d.getTestCallback(function(){
@@ -925,5 +929,13 @@
 		<option value="nh">New Hampshire</option>
 		<option value="vt">Vermont</option>
 	</select>
+
+	<hr>
+	<p>type=url</p>
+	<select id="url" data-dojo-type="$testWidget" type="url">
+		<option value="toolkit">http://dojotoolkit.org/</option>
+		<option value="foundation">http://dojofoundation.org/</option>
+	</select>
+
 </body>
 </html>
