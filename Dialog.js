@@ -42,6 +42,8 @@ define([
 	var resolvedDeferred = new Deferred();
 	resolvedDeferred.resolve(true);
 
+	function nop(){}
+
 	var _DialogBase = declare("dijit._DialogBase" + (has("dojo-bidi") ? "_NoBidi" : ""), [_TemplatedMixin, _FormMixin, _DialogMixin, _CssStateMixin], {
 		templateString: template,
 
@@ -304,6 +306,7 @@ define([
 				fadeIn.stop();
 				delete this._fadeInDeferred;
 			}));
+			this._fadeInDeferred.then(undefined, nop);	// avoid spurious CancelError message to console
 
 			// If delay is 0, code below will delete this._fadeInDeferred instantly, so grab promise while we can.
 			var promise = this._fadeInDeferred.promise;
@@ -351,6 +354,7 @@ define([
 				fadeOut.stop();
 				delete this._fadeOutDeferred;
 			}));
+			this._fadeOutDeferred.then(undefined, nop);	// avoid spurious CancelError message to console
 
 			// fire onHide when the promise resolves.
 			this._fadeOutDeferred.then(lang.hitch(this, 'onHide'));
