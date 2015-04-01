@@ -194,21 +194,20 @@ define([
 			 // tags:
 			 //		callback
 
-			 this._lastOnInputEvent = evt;
+			 this._lastInputProducingEvent = evt;
 		 },
 
 		_onInput: function(/*Event*/ /*===== evt =====*/){
 			// summary:
 			//		Called AFTER the input event has happened and this.textbox.value has new value.
 
+			this._lastInputEventValue = this.textbox.value;
+
 			// For Combobox, this needs to be called w/the keydown/keypress event that was passed to onInput()
-			this._processInput(this._lastOnInputEvent);
+			this._processInput(this._lastInputProducingEvent);
 
 			if(this.intermediateChanges){
-				// allow the key to post to the widget input box
-				this.defer(function(){
-					this._handleOnChange(this.get('value'), false);
-				});
+				this._handleOnChange(this.get('value'), false);
 			}
 		},
 
@@ -341,11 +340,28 @@ define([
 				// IE8 doesn't emit the "input" event at all, and IE9 doesn't emit it for backspace, delete, cut, etc.
 				// Since the code below (and perhaps user code) depends on that event, emit it synthetically.
 				// See http://benalpert.com/2013/06/18/a-near-perfect-oninput-shim-for-ie-8-and-9.html.
-				// I could add code to debounce and remove duplicate notifications, but it doesn't seem strictly necessary.
 				if(has("ie") <= 9){
-					this.defer(function(){
-						on.emit(this.textbox, "input", {bubbles: true});
-					});
+					switch(e.keyCode){
+					case keys.TAB:
+					case keys.ESCAPE:
+					case keys.DOWN_ARROW:
+					case keys.UP_ARROW:
+					case keys.LEFT_ARROW:
+					case keys.RIGHT_ARROW:
+						// These keys may alter the <input>'s value indirectly, but we don't want to emit an "input"
+						// event.  For example, the up/down arrows in TimeTextBox or ComboBox will cause the next
+						// dropdown item's value to be copied to the <input>.
+						break;
+					default:
+						if(e.keyCode == keys.ENTER && this.textbox.tagName.toLowerCase() != "textarea"){
+							break;
+						}
+						this.defer(function(){
+							if(this.textbox.value !== this._lastInputEventValue){
+								on.emit(this.textbox, "input", {bubbles: true});
+							}
+						});
+					}
 				}
 			}
 			this.own(
