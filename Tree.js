@@ -564,6 +564,12 @@ define([
 						childNode.set("textDir", textDir);
 					}, this);
 				}
+			},
+			_setLabelAttr: function(val){
+				this.labelNode[this.labelType == "html" ? "innerHTML" : "innerText" in this.labelNode ?
+					"innerText" : "textContent"] = val;
+				this._set("label", val);
+				this.applyTextDir(this.labelNode);
 			}
 		});
 	}

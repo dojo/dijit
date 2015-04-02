@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html dir="ltr">
+    
+    <head>
+        <style type="text/css">
+            body, html { font-family:helvetica,arial,sans-serif; font-size:90%; }
+        </style>
+       <script type="text/javascript" src="../../../../dojo/dojo.js"
+			data-dojo-config="parseOnLoad: true, isDebug: true, has: { 'dojo-bidi': true }">
+		</script>
+		<link id="themeStyles" rel="stylesheet" href="../../../../dijit/themes/claro/claro.css"/>
+        <script>
+            dojo.require("dojo.data.ItemFileReadStore");
+            dojo.require("dojo.data.ItemFileWriteStore");
+            dojo.require("dijit.form.Button");
+            dojo.require("dijit.Tree");
+            var storeData2 = {
+                identifier: 'name',
+                label: 'displayname',
+				tooltip: 'displayname',
+                items: [{
+                    name: 'Africa',
+					displayname: 'Africa.',
+                    type: 'continent',
+                    children: [{
+                        name: 'Egypt',
+						displayname: 'Egypt',
+                        type: 'country'
+                    }]
+					},
+                    {
+                        name: 'Asia',
+						displayname: '\u05e9_Asia',
+                        type: 'continent'
+                    }]               
+            };
+
+            function init() {
+                function renameContinent() {
+                    function gotContinent(items, request) {
+                        if (items) {
+                            var i;
+                            for (i = 0; i < items.length; i++) {
+                                var item = items[i];
+                                geographyStore2.setValue(item, 'displayname', '\u05e9\u05ea\u05d9\u05d9\u05dd.');
+                            }
+                        }
+                    }
+                    geographyStore2.fetch({
+                        query: {
+                            type: "continent"
+                        },
+                        onComplete: gotContinent,
+                        queryOptions: {
+                            deep: true
+                        }
+                    });
+                }
+                dojo.connect(button3, "onClick", renameContinent);
+            }
+            dojo.addOnLoad(init);
+        </script>
+        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/claro/claro.css"
+        />
+    </head>
+    
+    <body class=" claro ">
+        <div dojoType="dojo.data.ItemFileWriteStore" data="storeData2" jsId="geographyStore2">
+        </div>
+        <br>
+        <div dojoType="dijit.form.Button" jsId="button3">
+            Rename Continent
+        </div>
+        <br>
+        <br>
+        <div dojoType="dijit.tree.ForestStoreModel" jsId="geographyModel2" store="geographyStore2"
+        query="{type: 'continent'}" rootId="Geography" rootLabel="Geography">
+        </div>
+        <div dojoType="dijit.Tree" model="geographyModel2" data-dojo-props='textDir:"auto"'>
+        </div>
+        <script type="text/javascript">
+            dojo.addOnLoad(function() {
+                
+            });
+        </script>
+    </body>
+
+</html>
