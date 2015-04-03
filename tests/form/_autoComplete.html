@@ -162,9 +162,12 @@
 						doh.f(combo._popupStateNode.getAttribute("aria-expanded"), "initially missing aria-expanded");
 						doh.f(combo._popupStateNode.getAttribute("aria-owns"), "initally missing aria-owns");					
 
-						// type is "text" by default but app should be able to override it
-						doh.is("text", combo.focusNode.type, "default type");
-						doh.is("url", dijit.byId("url").focusNode.type, "override type");
+						// Type is "text" by default but app should be able to override it.
+						// Except it doesn't work on IE9 and below; the type is always text.
+						if(!(dojo.isIE <= 9)){
+							doh.is("text", combo.focusNode.type, "default type");
+							doh.is("url", dijit.byId("url").focusNode.type, "override type");
+						}
 
 						var handler = dojo.connect(combo, "openDropDown", function(){
 							dojo.disconnect(handler);
