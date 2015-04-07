@@ -314,7 +314,7 @@ define([
 			// tgt: Object
 			//		tgt.target specifies the node that was clicked
 			// change: Boolean
-			///		If true, fire "change" event, otherwise just fire "input" event.
+			//		If true, fire "change" event, otherwise just fire "input" event.
 			// tags:
 			//		private
 			var tdate = tgt.target.date || tgt.target.parentNode.date;
