@@ -10,12 +10,7 @@ define([
 	//		dijit/form/TimeTextBox
 
 
-	/*=====
-	var __Constraints = declare([_DateTimeTextBox.__Constraints, _TimePicker.__Constraints], {
-	});
-	=====*/
-
-	return declare("dijit.form.TimeTextBox", _DateTimeTextBox, {
+	var TimeTextBox = declare("dijit.form.TimeTextBox", _DateTimeTextBox, {
 		// summary:
 		//		A validating, serializable, range-bound time text box with a drop down time picker
 
@@ -24,7 +19,10 @@ define([
 		_selector: "time",
 
 /*=====
-		// constraints: __Constraints
+		// constraints: TimeTextBox.__Constraints
+		//		Despite the name, this parameter specifies both constraints on the input
+		//		(including minimum/maximum allowed values) as well as
+		//		formatting options.  See `dijit/form/TimeTextBox.__Constraints` for details.
 		constraints:{},
 =====*/
 
@@ -62,4 +60,14 @@ define([
 			this.openDropDown();
 		}
 	});
+
+	/*=====
+	 TimeTextBox.__Constraints = declare([_DateTimeTextBox.__Constraints, _TimePicker.__Constraints], {
+		 // summary:
+		 //		Specifies both the rules on valid/invalid values (first/last time allowed),
+		 //		and also formatting options for how the time is displayed.
+	 });
+	 =====*/
+
+	return TimeTextBox;
 });
