@@ -106,7 +106,7 @@
 					}
 				},
 
-				// Check that tab labels for initial tabs are created
+				// Check that tab labels for initial tabs are created.
 				{
 					name: 'checkTabLabels',
 					runTest: function(t){
@@ -118,7 +118,7 @@
 			
 			doh.register("addingTabs", [
 
-				// Test that adding a pane creates new tab button
+				// Test that adding a pane creates new tab button.
 				{
 					name: 'add new tab',
 					runTest: function(t){
@@ -136,7 +136,7 @@
 					}
 				},
 				
-				// Test that scroll buttons show up when tab buttons overflow
+				// Test that scroll buttons show up when tab buttons overflow.
 				{
 					name: 'addTabsOverflowMenu',
 					runTest: function(t){
@@ -166,50 +166,107 @@
 
 			doh.register("selectingTabs", [
 
-				// Check that tab button is scrolled into view when tab is selected
+				// Check that tab button is scrolled into view when tab is selected,
+				// but that focus isn't changed because it's outside the tab container.
+				// Also, check that left/right scroll buttons are enabled/disabled correctly.
 				{
-					name: 'isVisible',
+					name: 'focus outside',
 					timeout: 10000,
-					runTest: function(t){
+					runTest: function(){
 						var d = new doh.Deferred();
-						
-						var tc = registry.byId("tc1");
-						var cp = registry.byId("newTab1");
 
+						dom.byId("inputBeforeTc1").focus();
+						doh.is("inputBeforeTc1", focus.curNode.id, "initial focus");
+
+						var tc = registry.byId("tc1");
+
+						var cp = registry.byId("newTab2");
 						tc.selectChild(cp);
 						
-						setTimeout(d.getTestCallback(function(){
-							var cpLeft = dom.byId("tc1_tablist_leftBtn");
-							var left = domGeom.position(cpLeft).x + domGeom.position(cpLeft).w;
+						setTimeout(d.getTestErrback(function(){
+							doh.is("inputBeforeTc1", focus.curNode.id, "focus after selectChild()");
 
-							var cpRight = dom.byId("tc1_tablist_rightBtn");
-							var right = domGeom.position(cpRight).x;
+							var cpLeft = registry.byId("tc1_tablist_leftBtn");
+							var left = domGeom.position(cpLeft.domNode).x + domGeom.position(cpLeft.domNode).w;
+
+							var cpRight = registry.byId("tc1_tablist_rightBtn");
+							var right = domGeom.position(cpRight.domNode).x;
 
 							var tab = registry.byId("tc1_tablist_newTab1");
 							var tabLeft = domGeom.position(tab.domNode).x;
 							var tabRight = domGeom.position(tab.domNode).x + domGeom.position(tab.domNode).w;
-								
-							var isTabVisible = ((tabLeft > left) && (tabRight < right));
-							doh.t(isTabVisible, "verify chosen tab is in viewable area");
+
+							doh.t(tabLeft > left && tabRight < right, "chosen tab visible");
+
+							doh.f(cpLeft.get("disabled"), "left scroll button enabled");
+							doh.t(cpRight.get("disabled"), "right scroll button disabled");
+
+							tc.selectChild("cpTitle");
+
+							setTimeout(d.getTestCallback(function(){
+								doh.t(cpLeft.get("disabled"), "left scroll button disabled");
+								doh.f(cpRight.get("disabled"), "right scroll button enabled");
+								doh.is("inputBeforeTc1", focus.curNode.id);
+							}), 1000);
 						}), 1000);
-						
+
 						return d;
 					}
 				},
-				function focusOutside(){
-					// Test what happens when focus is outside the TabContainer and you call selectChild().
-					// In this case, focus shouldn't be changed.
-					registry.byId("tc1").selectChild("t2");
-					dom.byId("inputBeforeTc1").focus();
-					registry.byId("tc1").selectChild("cpTitle");
-					doh.is("inputBeforeTc1", focus.curNode.id);
-				},
-				function focusInside(){
-					// Test what happens when focus is inside tab1 and you call selectChild() to select tab2.
-					// In this case focus should be put on the tab label, so that it isn't in a hidden pane.
-					dom.byId("inputInsideCpTitle").focus();
-					registry.byId("tc1").selectChild("t2");
-					doh.is("tc1_tablist_t2", focus.curNode.id);
+
+				// Test what happens when focus is inside tab1 and you call selectChild() to select tab2.
+				// In this case focus should be put on the tab2's label, so that it isn't in a hidden pane.
+				{
+					name: 'focus inside',
+					timeout: 10000,
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						// ... if previous test was successful, cpTitle tab is selected ...
+
+						dom.byId("inputInsideCpTitle").focus();
+						doh.is("inputInsideCpTitle", focus.curNode.id, "initial focus");
+
+						var tc = registry.byId("tc1");
+
+						// First select a child where the tab label is already visible.
+						// The specified pane should be selected and the associated tab label should be focused.
+						tc.selectChild("t2");
+						doh.is("tc1_tablist_t2", focus.curNode.id, "focus after selectChild(t2)");
+
+						// Next, select a pane that requires scrolling the tab labels.
+						var cp = registry.byId("newTab2");
+						tc.selectChild(cp);
+
+						setTimeout(d.getTestErrback(function(){
+							doh.is("tc1_tablist_newTab2", focus.curNode.id, "focus after selectChild(newTab2)");
+
+							var cpLeft = registry.byId("tc1_tablist_leftBtn");
+							var left = domGeom.position(cpLeft.domNode).x + domGeom.position(cpLeft.domNode).w;
+
+							var cpRight = registry.byId("tc1_tablist_rightBtn");
+							var right = domGeom.position(cpRight.domNode).x;
+
+							var tab = registry.byId("tc1_tablist_newTab1");
+							var tabLeft = domGeom.position(tab.domNode).x;
+							var tabRight = domGeom.position(tab.domNode).x + domGeom.position(tab.domNode).w;
+
+							doh.t(tabLeft > left && tabRight < right, "chosen tab visible");
+
+							doh.f(cpLeft.get("disabled"), "left scroll button enabled");
+							doh.t(cpRight.get("disabled"), "right scroll button disabled");
+
+							tc.selectChild("cpTitle");
+
+							setTimeout(d.getTestCallback(function(){
+								doh.t(cpLeft.get("disabled"), "left scroll button disabled");
+								doh.f(cpRight.get("disabled"), "right scroll button enabled");
+								doh.is("tc1_tablist_cpTitle", focus.curNode.id, "focus after selectChild(cpTitle)");
+							}), 1000);
+						}), 1000);
+
+						return d;
+					}
 				}
 			]);
 
@@ -218,7 +275,7 @@
 					name: "initialIcon",
 					runTest: function(t){
 						var cp = registry.byId("cp4");
-						
+
 						t.is('tab1', innerText(cp.controlButton.containerNode), "tab label");
 						t.is('plusIcon', cp.controlButton.iconClass, "tab icon");
 					}
@@ -232,7 +289,7 @@
 							"title": "note",
 							"iconClass": "noteIcon"
 						});
-						
+
 						t.is('note', innerText(cp.controlButton.containerNode), "the tab's label has changed");
 						t.is('noteIcon', cp.controlButton.iconClass, "new icon is displayed in tab");
 					}
@@ -252,9 +309,9 @@
 					runTest: function(t){
 						var cp = registry.byId('cpTitle');
 						cp.set('title', 'newTitle');
-						
+
 						var title = query("#tc1_tablist_cpTitle")[0];
-						
+
 						t.is('newTitle', innerText(title), "the tab's text label has changed");
 					}
 				}
@@ -262,24 +319,24 @@
 
 			doh.register("deletingTabs", [
 
-				// Check that deleting a pane removes the tab button
+				// Check that deleting a pane removes the tab button.
 				{
 					name: 'deleteTab',
 					runTest: function(t){
 						var tc1 = registry.byId("tc1");
 						var cp = registry.byId("cpTitle");
-						
+
 
 						// track resizes to cp, removing it from tc1 shouldn't cause a resize call
 						var cpResizes = 0;
 						aspect.after(cp, "resize", function(){
 							cpResizes++;
 						}, true);
-						
+
 						tc1.removeChild(cp);
 
 						var childPanes = tc1.getChildren();
-						
+
 						t.is(5, childPanes.length, "verify there are now only 4 tabs instead of 5");
 						t.t(cp.domNode, "verify that the deleted tab's content pane still exists on the page");
 
@@ -289,26 +346,26 @@
 						t.is(0, cpResizes, "no resize");
 					}
 				},
-				
-				// Check that scroll buttons disappear when no longer needed
+
+				// Check that scroll buttons disappear when no longer needed.
 				{
 					name: 'removedOverflowMenu',
 					runTest: function(t){
 						var tc = registry.byId("tc3");
-						
+
 						var cp = registry.byId('cp10');
-						tc.removeChild(cp);	
+						tc.removeChild(cp);
 						cp = registry.byId('cp9');
 						tc.removeChild(cp);
 						cp = registry.byId('cp8');
 						tc.removeChild(cp);
 						cp = registry.byId('cp7');
-						tc.removeChild(cp);			
-						
+						tc.removeChild(cp);
+
 						var left = registry.byId("tc3_tablist_leftBtn").domNode;
 						var right = registry.byId("tc3_tablist_rightBtn").domNode;
 						var menu = registry.byId("tc3_tablist_menuBtn").domNode;
-						
+
 						t.t(helpers.isHidden(left), "left scroll is hidden");
 						t.t(helpers.isHidden(right), "right scroll is hidden");
 						t.t(helpers.isHidden(menu), "menu is hidden");
@@ -322,25 +379,25 @@
 					runTest: function(t){
 						var cp = registry.byId("cp6");
 						var cp2 = registry.byId("cp5");
-						
+
 						t.t(cp.controlButton.closeButton, "close button is displayed");
 						t.f(cp2.controlButton.closeButton, "close button is not displayed");
 					}
 				}
-			]);		
+			]);
 
 			doh.register("menu", {
 				name: "menu",
-				runTest: function(t){
+				runTest: function(){
 					var tc1 = registry.byId("tc1"),
 						children = tc1.getChildren();
-				
+
 					// add an icon and change the title just for testing that the icon and label appear in the menu
 					children[0].set({
 						title: "new title",
 						iconClass: "noteIcon"
 					});
-						
+
 					var menuBtn = registry.byId("tc1_tablist_menuBtn");
 					menuBtn.toggleDropDown();
 
@@ -368,8 +425,6 @@
 				{
 					name: "tabPosition",
 					runTest: function(t){
-						var tc = registry.byId("tc1");
-
 						// top tabs above content
 						var topTabs = dom.byId("tc1_tablist"),
 							topContent = query(".dijitTabPaneWrapper", "tc1")[0],
@@ -410,13 +465,13 @@
 							child = registry.byId("tcNestedChild");
 
 						t.f(parent.nested, "parent TabContainer is not nested");
-						
+
 						var children = parent.getChildren();
 						t.is(2, children.length, "parent TabContainer has multiple children");
-						
+
 						t.t(children[1].nested, "second child of parent TabContainer has nested tabs");
 						t.t(domClass.contains("tcNestedChild_tablist", "dijitTabContainerTabListNested"), "nested CSS applied");
-						
+
 						// test that when TabButtons overflow to 2 rows, the content area is reduced
 						parent.selectChild(registry.byId("tcNestedChild"));
 						var content = query(".dijitTabPaneWrapper", "tcNestedChild")[0],
@@ -480,18 +535,19 @@
 						t.t(height1 > 10, "make sure height measurement is giving something reasonable");
 					}
 				}
-				
+
 			]);
+
 			var tabId = 1;
-	        function addTab(tc){
+			function addTab(tc){
 				// summary:
-				//		Add a tab to specified TabContainer
+				//		Add a tab to specified TabContainer.
 				var cp = new ContentPane({
 					title: 'Tab' + tabId,
 					content: "Contents of Tab " + tabId++
 				});
 				tc.addChild(cp);
-	        }
+			}
 
 			doh.register("empty tab container",[
 				function createEmptyTabContainer(){
@@ -502,7 +558,7 @@
 					var children = emptyTC.getChildren();
 					doh.is(0, children.length);
 					doh.t(helpers.isVisible(emptyTC));
-					
+
 					var pos = domGeom.position(emptyTC.domNode);
 					var heightDiff = 200 - pos.h;
 					var widthDiff = 500 - pos.w;
@@ -511,7 +567,7 @@
 				},
 				function addTabToEmptyTabContainer(){
 					var tc = registry.byId("emptyTC");
-					addTab(tc);							
+					addTab(tc);
 
 					var children = tc.getChildren();
 					doh.is(1, children.length);
@@ -522,37 +578,37 @@
 				},
 				function add2ndTabToEmptyTabContainer(){
 					var tc = registry.byId("emptyTC");
-					addTab(tc);							
-					tc.selectChild(tc.getChildren()[1]);							
+					addTab(tc);
+					tc.selectChild(tc.getChildren()[1]);
 
 					var children = tc.getChildren();
 					doh.is(2, children.length);
 					doh.is("Tab2", children[1].title);
 					doh.is("Contents of Tab 2", tc.selectedChildWidget.domNode.innerHTML);
-					
+
 					doh.t(helpers.isVisible(tc.tablist.containerNode.childNodes[1]));
 				},
 				function remove2ndTabToEmptyTabContainer(){
 					var tc = registry.byId("emptyTC");
-					tc.removeChild(tc.getChildren()[1]);							
+					tc.removeChild(tc.getChildren()[1]);
 
 					var children = tc.getChildren();
 					doh.is(1, children.length);
 					doh.is("Tab1", children[0].title);
 					doh.is("Contents of Tab 1", tc.selectedChildWidget.domNode.innerHTML);
 				}
-			]);			
+			]);
 
+			// Further testing for tab label scrolling.  Also tested in "selectingTabs" section.
 			doh.register("tab label scrolling", [
 				function initialScroll(){
-					// Make sure that tab labels are scrolled so that selected tab visible
-					var tc = registry.byId("scroll"),
-						tcPos = domGeom.position("scroll");
+					// Make sure that tab labels are scrolled so that selected tab visible.
+					var tcPos = domGeom.position("scroll"),
 						labelPos = domGeom.position("scroll_tablist_nine");
 					doh.t(tcPos.x < labelPos.x, "tcPos.x (" + tcPos.x + ") < labelPos.x (" + labelPos.x + ")");
 					doh.t(tcPos.x + tcPos.w > labelPos.x + labelPos.w,
-							"tcPos.x (" + tcPos.x + ") + tcPos.w (" + tcPos.w +
-							") < labelPos.x " + labelPos.x + " + labelPos.w + (" + labelPos.w + ")");
+						"tcPos.x (" + tcPos.x + ") + tcPos.w (" + tcPos.w +
+						") < labelPos.x " + labelPos.x + " + labelPos.w + (" + labelPos.w + ")");
 				},
 				function selectATab(){
 					// Make sure that tab labels are scrolled so that selected tab visible
@@ -560,7 +616,7 @@
 					var tc = registry.byId("scroll");
 					tc.selectChild(registry.byId("one"));
 					setTimeout(d.getTestCallback(function(){
-						var tcPos = domGeom.position("scroll");
+						var tcPos = domGeom.position("scroll"),
 							labelPos = domGeom.position("scroll_tablist_one");
 						doh.t(tcPos.x < labelPos.x, "tcPos.x (" + tcPos.x + ") < labelPos.x (" + labelPos.x + ")");
 						doh.t(tcPos.x + tcPos.w > labelPos.x + labelPos.w,
@@ -571,8 +627,8 @@
 					return d;
 				}
 			]);
-			doh.run();
 
+			doh.run();
 		});
 	</script>
 

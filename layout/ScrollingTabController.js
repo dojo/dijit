@@ -235,7 +235,7 @@ define([
 			}
 		},
 
-		onSelectChild: function(/*dijit/_WidgetBase*/ page){
+		onSelectChild: function(/*dijit/_WidgetBase*/ page, /*Boolean*/ tabContainerFocused){
 			// summary:
 			//		Smoothly scrolls to a tab when it is selected.
 
@@ -257,7 +257,17 @@ define([
 					if(sl > node.offsetLeft ||
 						sl + domStyle.get(this.scrollNode, "width") <
 							node.offsetLeft + domStyle.get(node, "width")){
-						this.createSmoothScroll().play();
+						var anim = this.createSmoothScroll();
+						if(tabContainerFocused){
+							anim.onEnd = function(){
+								// Focus is on hidden tab or previously selected tab label.  Move to current tab label.
+								tab.focus();
+							};
+						}
+						anim.play();
+					}else if(tabContainerFocused){
+						// Focus is on hidden tab or previously selected tab label.  Move to current tab label.
+						tab.focus();
 					}
 				}
 			}
