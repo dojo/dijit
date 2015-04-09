@@ -232,7 +232,7 @@ define([
 				// Deselect old page and select new one
 				d = this._transition(page, this.selectedChildWidget, animate);
 				this._set("selectedChildWidget", page);
-				topic.publish(this.id + "-selectChild", page);	// publish
+				topic.publish(this.id + "-selectChild", page, this._focused);	// publish
 
 				if(this.persist){
 					cookie(this.id + "_selectedChild", this.selectedChildWidget.id);
