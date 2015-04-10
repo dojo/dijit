@@ -2,8 +2,8 @@ define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
 
 	var test_robot = !has("ios") && !has("android");
 
-	doh.register("form.Button", require.toUrl("./test_Button.html?mode=test"), 999999);
-	doh.register("form.ToggleButtonMixin", require.toUrl("./ToggleButtonMixin.html"));
+	doh.register("form.ButtonMixin", require.toUrl("./ButtonMixin.html"), 999999);
+	doh.register("form.ToggleButtonMixin", require.toUrl("./ToggleButtonMixin.html"), 999999);
 	if(test_robot){
 		doh.register("form.robot.Button_mouse", require.toUrl("./robot/Button_mouse.html"), 999999);
 		doh.register("form.robot.Button_a11y", require.toUrl("./robot/Button_a11y.html"), 999999);
@@ -17,7 +17,6 @@ define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
 		doh.register("form.robot.CheckBox_a11y", require.toUrl("./robot/CheckBox_a11y.html"), 999999);
 	}
 
-	doh.register("form.ButtonMixin", require.toUrl("./ButtonMixin.html"));
 	doh.register("form.test_validate", require.toUrl("./test_validate.html?mode=test"), 999999);
 	if(test_robot){
 		doh.register("form.robot.ValidationTextBox", require.toUrl("./robot/ValidationTextBox.html"), 999999);

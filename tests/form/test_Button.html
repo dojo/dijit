@@ -71,22 +71,12 @@
 			dojo.require("dijit.form.Form");
 			dojo.require("dijit.form.TextBox");
 
-			dojo.require("doh.runner");
 			dojo.require("dojo.parser");
 
 			dojo.ready(99, function(){
 				ViewButton = dojo.declare([dijit.form.Button], {
 					label: "View"
 				});
-			});
-
-			// Add test=true to the URL to run unit tests.
-			var test = /mode=test/i.test(window.location.href);
-
-			dojo.ready(function(){
-				if(test){
-					doh.run();
-				}
 			});
 		</script>
 	</head>
