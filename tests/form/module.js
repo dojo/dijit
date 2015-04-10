@@ -2,7 +2,7 @@ define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
 
 	var test_robot = !has("ios") && !has("android");
 
-	doh.register("form.Button", require.toUrl("./test_Button.html?mode=test"), 999999);
+	doh.register("form.ButtonMixin", require.toUrl("./ButtonMixin.html"), 999999);
 	doh.register("form.ToggleButtonMixin", require.toUrl("./ToggleButtonMixin.html"), 999999);
 	if(test_robot){
 		doh.register("form.robot.Button_mouse", require.toUrl("./robot/Button_mouse.html"), 999999);
