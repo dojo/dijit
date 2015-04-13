@@ -94,18 +94,8 @@ define([
 			this.set("label", content);
 		},
 
-		_setLabelAttr: function(/*String*/ content){
-			// summary:
-			//		Hook for set('label', ...) to work.
-			// description:
-			//		Set the label (text) of the button; takes an HTML string.
-			//		If the label is hidden (showLabel=false) then and no title has
-			//		been specified, then label is also set as title attribute of icon.
-			this.inherited(arguments);
-			this.onLabelSet();
-		},
-
 		onLabelSet: function(){
+			this.inherited(arguments);
 			if(!this.showLabel && !("title" in this.params)){
 				this.titleNode.title = lang.trim(this.containerNode.innerText || this.containerNode.textContent || '');
 			}
