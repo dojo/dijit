@@ -7,7 +7,7 @@
 		<script type="text/javascript">
 			var queryCount = location.search.match(/count=(\d*)/);
 			var count = (queryCount ? parseInt(queryCount[1]) : 100);
-			var queryClass = location.search.match(/class=([a-zA-z.]*)/);
+			var queryClass = location.search.match(/class=([a-zA-Z\.]*)/);
 			var className = (queryClass ? queryClass[1] : "form.Button");
 
 			dojo.require("dijit." + className);
