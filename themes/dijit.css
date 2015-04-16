@@ -401,6 +401,7 @@ div.dijitArrowButton {
 	left: 0;
 	#filter: ""; /* make this show up in IE6 after the rendering of the widget */
 	white-space: nowrap;
+	pointer-events: none;   /* so cut/paste context menu shows up when right clicking */
 }
 
 .dijitTimeTextBox {
