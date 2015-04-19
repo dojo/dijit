@@ -10,11 +10,11 @@
 		<link id="themeStyles" rel="stylesheet" href="../../../../dijit/themes/claro/claro.css"/>
         <script type="text/javascript">
             dojo.require("doh.runner");
-			dojo.require("dojo.data.ItemFileReadStore");
+			dojo.require("dojo.data.ItemFileWriteStore");
             dojo.require("dijit.Tree");
 
             dojo.ready(function() {
-                var store = new dojo.data.ItemFileReadStore({
+                var store = new dojo.data.ItemFileWriteStore({
                     url: "../../../../dijit/tests/_BidiSupport/_data/countriesHeb.json"
                 });
                 var treeModel = new dijit.tree.ForestStoreModel({
@@ -41,7 +41,7 @@
                     model: treeModel
                 },
                 "treeAuto");
-				var treeRtl, treeLtr, treeAuto, buttonLtr, buttonRtl, buttonAuto;
+				var treeRtl, treeLtr, treeAuto, buttonLtr, buttonRtl, buttonAuto, buttonRenameCountry;
 				function testNodeAuto(node,textDir){
 					doh.is(node.tree._checkContextual(node.label), node.labelNode.dir, "direction of " + node.tree.id +" : rootNode");
 					if(!node.item.children){
@@ -65,6 +65,40 @@
 				function expandedNodesTextDirTest(tree, textDir){
 					textDir == "auto" ? testNodeAuto(tree.rootNode, textDir) : testNode(tree.rootNode, textDir);
 				}
+				function renameContinent(){
+					store.fetch({
+						query:{
+							type: "continent"
+						},
+						onComplete: rename,
+						queryOptions:{
+							deep: true
+						}
+					});
+				}
+				function renameCountry(){
+					store.fetch ({
+						query:{
+							type: "country"
+						},
+						onComplete: rename,
+						queryOptions:{
+							deep: true
+						}
+					});
+				}
+				function rename(items, request){
+					if(items){
+						var i;
+						for(i = 0; i < items.length; i++){
+							var item = items[i];
+							var newName = '\u05D0' + '_' + store.getValue(item, 'name');
+							store.setValue(item, 'name', newName);
+						}
+					}
+				}
+				buttonRenameCountry = dojo.byId("buttonRenameCountry");
+				dojo.connect(buttonRenameCountry, "onclick", renameCountry);
 				doh.register("initial", [
 					{
 						name: "initial dirs",
@@ -169,6 +203,15 @@
 						}
 					}
 				]);
+				doh.register("Change Node label", [
+					{
+						name: 'check "_setLabelAttr" function',
+						runTest: function() {
+							renameContinent();
+							expandedNodesTextDirTest(treeAuto, "auto");
+						}
+					}
+				]);
 				doh.run();
             });
         </script>
@@ -199,16 +242,17 @@
 			onclick="dijit.byId('treeLtr').set('textDir','rtl');
 				dijit.byId('treeRtl').set('textDir','rtl');
 				dijit.byId('treeAuto').set('textDir','rtl');"
-		/>
+		>
 		<input id="buttonLtr" type="button" value="LTR"
 			onclick="dijit.byId('treeLtr').set('textDir','ltr');
 				dijit.byId('treeRtl').set('textDir','ltr');
 				dijit.byId('treeAuto').set('textDir','ltr');"
-		/>
+		>
 		<input id="buttonAuto" type="button" value="AUTO"
 			onclick="dijit.byId('treeLtr').set('textDir','auto');
 				dijit.byId('treeRtl').set('textDir','auto');
 				dijit.byId('treeAuto').set('textDir','auto');"
-		/>
+		>
+		<input id="buttonRenameCountry" type="button" value="Rename Country">
     </body>
 </html>

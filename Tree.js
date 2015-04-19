@@ -81,6 +81,9 @@ define([
 			this.labelNode[this.labelType == "html" ? "innerHTML" : "innerText" in this.labelNode ?
 				"innerText" : "textContent"] = val;
 			this._set("label", val);
+			if(has("dojo-bidi")){
+				this.applyTextDir(this.labelNode);
+			}
 		},
 
 		// labelType: [const] String
