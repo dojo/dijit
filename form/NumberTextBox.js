@@ -192,6 +192,10 @@ define([
 			if(this.editOptions && this.focused && isNaN(v)){
 				v = this._parser(value, constraints); // parse w/o editOptions: not technically needed but is nice for the user
 			}
+			if (this.focused && isNaN(v) && constraints.places != null  /* or undefined */) {
+				var maxPlaces = typeof constraints.places === "number" ? constraints.places : Number(constraints.places.split(",").pop()); // handle number and range
+				v = this._parser(value, lang.mixin({}, constraints, { places: "0," + maxPlaces }));
+			}
 			return v;
 		},
 
