@@ -493,11 +493,22 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							doh.robot.typeKeys('123', 1000, 600);
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
 								doh.is('123', this.textbox.focusNode.value, "focusNode.value");
-								doh.is(undefined, this.textbox.get('value'), "get('value')");
+								doh.is(123, this.textbox.get('value'), "get('value')");
 								doh.f(this.textbox.isValid(), "!isValid()");
 							})), 1000);
+							var textbox = this.textbox;
+							var handler = textbox.connect(textbox, '_onBlur',
+								function(){
+									textbox.disconnect(handler);
+									setTimeout(d.getTestCallback(function(){
+										doh.is('$123.00', textbox.focusNode.value, "focusNode.value");
+										doh.is(123, textbox.get('value'), "get('value')");
+										doh.t(textbox.isValid(), "isValid()");
+									}), 150);
+								});
+							doh.robot.keyPress(dojo.keys.TAB, 1500, {});
 							return d;
 						}
 					},
@@ -513,11 +524,22 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							doh.robot.typeKeys('123.0', 1000, 1000);
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
 								doh.is('123.0', this.textbox.focusNode.value, "focusNode.value");
-								doh.is(undefined, this.textbox.get('value'), "get('value')");
+								doh.is(123, this.textbox.get('value'), "get('value')");
 								doh.f(this.textbox.isValid(), "!isValid()");
 							})), 1000);
+							var textbox = this.textbox;
+							var handler = textbox.connect(textbox, '_onBlur',
+								function(){
+									textbox.disconnect(handler);
+									setTimeout(d.getTestCallback(function(){
+										doh.is('$123.00', textbox.focusNode.value, "focusNode.value");
+										doh.is(123, textbox.get('value'), "get('value')");
+										doh.t(textbox.isValid(), "isValid()");
+									}), 150);
+								});
+							doh.robot.keyPress(dojo.keys.TAB, 1500, {});
 							return d;
 						}
 					},

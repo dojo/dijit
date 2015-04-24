@@ -187,8 +187,13 @@ define([
 			//		Replaceable function to convert a formatted string to a number value
 			// tags:
 			//		protected extension
-
-			var v = this._parser(value, lang.mixin({}, constraints, (this.editOptions && this.focused) ? this.editOptions : {}));
+			var parserOptions = lang.mixin({}, constraints, (this.editOptions && this.focused) ? this.editOptions : {})
+			if(this.focused && parserOptions.places != null /* or undefined */){
+				var places = parserOptions.places;
+				var maxPlaces = typeof places === "number" ? places : Number(places.split(",").pop()); // handle number and range
+				parserOptions.places = "0," + maxPlaces;
+			}
+			var v = this._parser(value, parserOptions);
 			if(this.editOptions && this.focused && isNaN(v)){
 				v = this._parser(value, constraints); // parse w/o editOptions: not technically needed but is nice for the user
 			}
