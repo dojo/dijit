@@ -495,7 +495,7 @@
 							doh.robot.typeKeys('123', 1000, 600);
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								doh.is('123', this.textbox.focusNode.value, "focusNode.value");
-								doh.is(undefined, this.textbox.get('value'), "get('value')");
+								doh.is(123, this.textbox.get('value'), "get('value')");
 								doh.f(this.textbox.isValid(), "!isValid()");
 							})), 1000);
 							return d;
@@ -515,7 +515,7 @@
 							doh.robot.typeKeys('123.0', 1000, 1000);
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								doh.is('123.0', this.textbox.focusNode.value, "focusNode.value");
-								doh.is(undefined, this.textbox.get('value'), "get('value')");
+								doh.is(123, this.textbox.get('value'), "get('value')");
 								doh.f(this.textbox.isValid(), "!isValid()");
 							})), 1000);
 							return d;
