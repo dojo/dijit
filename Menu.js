@@ -167,7 +167,7 @@ define([
 						evt.stopPropagation();
 						evt.preventDefault();
 
-						if((new Date()).getTime() < this._lastKeyDown + 500){
+						if((new Date()).getTime() < self._lastKeyDown + 500){
 							// Ignore contextmenu/click events that were already processed in keydown handler below.
 							// But still call preventDefault() (above) so system context menu doesn't appear.
 							return;
@@ -182,7 +182,7 @@ define([
 					on(cn, delegatedEvent("keydown"), function(evt){
 						if(evt.keyCode == 93 ||									// context menu key
 							(evt.shiftKey && evt.keyCode == keys.F10) ||		// shift-F10
-							(this.leftClickToOpen && evt.keyCode == keys.SPACE)	// space key
+							(self.leftClickToOpen && evt.keyCode == keys.SPACE)	// space key
 						){
 							evt.stopPropagation();
 							evt.preventDefault();
@@ -191,7 +191,7 @@ define([
 							// are likely different, especially for global context menu, where "this" is <body>.
 							self._scheduleOpen(this, iframe, null, evt.target);	// no coords - open near evt.target
 
-							this._lastKeyDown = (new Date()).getTime();
+							self._lastKeyDown = (new Date()).getTime();
 						}
 					})
 				];

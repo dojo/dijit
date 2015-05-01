@@ -714,7 +714,7 @@
 								// open via keyboard
 								robot.keyPress(test.key, 500, test.options);
 
-								robot.sequence(d.getTestCallback(function(){
+								robot.sequence(d.getTestErrback(function(){
 									var menu = registry.byId("windowContextMenu");
 									doh.t(helpers.isVisible(menu), "menu is now shown");
 
@@ -730,7 +730,11 @@
 									doh.t(domClass.contains("windowContextMenuFirstChoice", "dijitMenuItemSelected"),
 											"first choice selected");
 
-									robot.keyPress(keys.ESCAPE, 0, {}, true); // close context menu
+									robot.keyPress(keys.ESCAPE, 250, {}); // close context menu
+
+									robot.sequence(d.getTestCallback(function(){
+										doh.t(helpers.isHidden(menu), "menu disappeared");
+									}), 1000);
 								}), 1000);
 
 								return d;
@@ -738,6 +742,45 @@
 						};
 					}));
 				}
+
+				doh.register("Left click menu keyboard tests", {
+					name: "open left click context menu",
+					timeout: 5000,
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						// Tab to node to be opened by keyboard.
+						robot.sequence(function(){
+							dom.byId("input").focus();
+						}, 500);
+						robot.keyPress(keys.TAB, 500);
+
+						// open via keyboard
+						robot.keyPress(keys.SPACE, 500);
+
+						robot.sequence(d.getTestErrback(function(){
+							var menu = registry.byId("leftClickContextMenu");
+							doh.t(helpers.isVisible(menu), "menu is now shown");
+
+							// Check that menu's top is near focus point, rather than upper-left hand corner of browser
+							// window.  Since the focus node is on the right of the screen though, it might be to the
+							// left.
+							var menuCoords = domGeom.position(menu.domNode);
+							doh.t(menuCoords.x > 100, "actual x: " + menuCoords.x);
+							doh.t(menuCoords.y > 100, "actual y: " + menuCoords.y);
+							doh.t(domClass.contains("leftClickMenuFirstChoice", "dijitMenuItemSelected"),
+									"first choice selected");
+
+							robot.keyPress(keys.ESCAPE, 250, {}); // close context menu
+
+							robot.sequence(d.getTestCallback(function(){
+								doh.t(helpers.isHidden(menu), "menu disappeared");
+							}), 1000);
+						}), 1000);
+
+						return d;
+					}
+				});
 
 				doh.register("Cancellation (ESCAPE) tests", [
 					{
