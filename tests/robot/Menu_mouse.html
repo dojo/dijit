@@ -365,6 +365,32 @@
 					}
 				]);
 
+				doh.register("Left click menu mouse test", {
+					name: "open left click context menu",
+					timeout: 5000,
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						robot.mouseMoveAt("input2", 500, 1);
+						robot.mouseClick({left: true}, 500);
+
+						robot.sequence(d.getTestErrback(function(){
+							var menu = registry.byId("leftClickContextMenu");
+							doh.t(helpers.isVisible(menu), "menu is now shown");
+
+							// close menu
+							robot.mouseMove(2, 2, 100);
+							robot.mouseClick({left: true}, 100);
+
+							robot.sequence(d.getTestCallback(function(){
+								doh.t(helpers.isHidden(menu), "menu disappeared");
+							}), 1000);
+						}), 1000);
+
+						return d;
+					}
+				});
+
 				doh.register("More MenuBar mouse tests", [
 					{
 						name: "MenuBar selection and cancellation",
