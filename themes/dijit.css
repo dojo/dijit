@@ -1170,12 +1170,23 @@ body .dijitAlignClient { position: absolute; }
 
 /* Calendar */
 
-.dijitCalendarContainer {
+.dijitCalendarContainer table {
 	width: auto;	/* in case user has specified a width for the TABLE nodes, see #10553 */
+	clear: both;    /* clear margin created for left/right month arrows; needed on IE10 for CalendarLite */
 }
 .dijitCalendarContainer th, .dijitCalendarContainer td {
 	padding: 0;
 	vertical-align: middle;
+}
+
+.dijitCalendarMonthContainer {
+	text-align: center;
+}
+.dijitCalendarDecrementArrow {
+	float: left;
+}
+.dijitCalendarIncrementArrow {
+	float: right;
 }
 
 .dijitCalendarYearLabel {
