@@ -51,6 +51,10 @@ define([
 	// During animation there are two dijtAccordionChildWrapper's shown, so we need
 	// to compensate for that.
 
+	function size(widget, dim){
+		widget.resize ? widget.resize(dim) : domGeometry.setMarginBox(widget.domNode, dim);
+	}
+
 	var AccordionButton = declare("dijit.layout._AccordionButton", [_Widget, _TemplatedMixin, _CssStateMixin], {
 		// summary:
 		//		The title bar to click to open up an accordion pane.
@@ -354,7 +358,7 @@ define([
 			};
 
 			if(openPane){
-				openPane.resize(this._containerContentBox);
+				size(openPane, this._containerContentBox);
 			}
 		},
 
@@ -456,8 +460,8 @@ define([
 				// Size the new widget, in case this is the first time it's being shown,
 				// or I have been resized since the last time it was shown.
 				// Note that page must be visible for resizing to work.
-				if(this.doLayout && newWidget.resize){
-					newWidget.resize(this._containerContentBox);
+				if(this.doLayout){
+					size(newWidget, this._containerContentBox);
 				}
 			}
 

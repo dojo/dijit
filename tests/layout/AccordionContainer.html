@@ -9,12 +9,12 @@
 	<script type="text/javascript">
 		require([
 			"doh/runner",
-			"dojo/_base/array", "dojo/data/ItemFileReadStore", "dojo/dom", "dojo/dom-geometry", "dojo/parser", "dojo/query",
-			"dijit/registry", "dijit/layout/AccordionContainer", "dijit/layout/ContentPane", "dijit/Tree",
-			"dijit/tree/ForestStoreModel", "dijit/tests/helpers",
-			"dijit/form/Button", "dojo/domReady!"
-		], function(doh, array, ItemFileReadStore, dom, domGeom, parser, query,
-					registry, AccordionContainer, ContentPane, Tree, ForestStoreModel, helpers){
+			"dojo/_base/array", "dojo/data/ItemFileReadStore", "dojo/dom", "dojo/dom-geometry", "dojo/dom-style",
+			"dojo/parser", "dojo/query",
+			"dijit/registry", "dijit/layout/AccordionContainer", "dijit/layout/ContentPane", "dijit/_WidgetBase",
+			"dijit/Tree", "dijit/tree/ForestStoreModel", "dijit/form/Button", "dojo/domReady!"
+		], function(doh, array, ItemFileReadStore, dom, domGeom, domStyle, parser, query,
+					registry, AccordionContainer, ContentPane, _WidgetBase){
 
 			// Data used by Tree in markup test
 			data = {
@@ -446,6 +446,23 @@
 						var children = accordion.getChildren();
 						t.is(4, children.length, "number of children (ie, contentpanes)");
 						t.is(pane1half, children[1], "second child is the newly inserted one");
+					}
+				}
+			]);
+
+			doh.register("resize", [
+				{
+					name: "no resize() method",
+					runTest: function(t){
+						accordion = new AccordionContainer({style: "width: 400px; height: 400px;"}).placeAt(document.body);
+
+						var child = new _WidgetBase({
+							id: "no resize",
+							title: "No Resize"
+						});
+						accordion.addChild(child);
+						accordion.startup();
+						t.t(domStyle.get(child.domNode, "height") > 300, "child resized");
 					}
 				}
 			]);
