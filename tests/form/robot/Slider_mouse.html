@@ -22,7 +22,7 @@
 
 		var onChange = {slider1: 'slider1input', slider2: 'slider2input'};
 
-		var boundaryTest = function(slider, initValue, finalValue){
+		function boundaryTest(slider, initValue, finalValue){
 			// summary:
 			//		Sets slider to initValue, which should be either one below the
 			//		max, or one above the min.
@@ -54,9 +54,9 @@
 				}), 500);
 			}), 500);
 			return d;
-		};
+		}
 
-		var buttonHeldTest = function(slider, initValue, finalValue){
+		function buttonHeldTest(slider, initValue, finalValue){
 			var d = new doh.Deferred();
 			slider.set('value', initValue);
 			var button = slider._descending?(initValue<finalValue?slider.decrementButton: slider.incrementButton): (initValue<finalValue?slider.incrementButton: slider.decrementButton);
@@ -73,9 +73,9 @@
 				}
 			}), 500);
 			return d;
-		};
+		}
 
-		var mouseWheelTest = function(slider, initValue, finalValue){
+		function mouseWheelTest(slider, initValue, finalValue){
 			if(slider.discreteValues != Infinity){
 				var d = new doh.Deferred();
 				slider.set('value', initValue);
@@ -95,7 +95,7 @@
 				}), 500);
 				return d;
 			}
-		};
+		}
 
 		dojo.ready(function(){
 			doh.robot.initRobot('../test_Slider.html');
@@ -316,6 +316,39 @@
 					}
 				}
 			]);
+
+			doh.register("fractional slider test", {
+				// Check for rounding errors on a fractional slider.
+				name: "fractional value",
+				timeout: 9000,
+				runTest: function(){
+					var d = new doh.Deferred();
+					var slider = registry.byId("fractionalSlider");
+					doh.is("0.28", slider.focusNode.getAttribute("aria-valuenow"), "aria-valuenow #0");
+
+					doh.robot.mouseMoveAt(slider.incrementButton, 1000, 0);
+					doh.robot.mouseClick({left: true}, 500);
+					doh.robot.sequence(d.getTestErrback(function(){
+						doh.is("0.3", slider.focusNode.getAttribute("aria-valuenow"), "aria-valuenow #1");
+						doh.is("0.3", slider.get("value"), "get('value') #1");
+						doh.is("0.3", dojo.byId("fractionalSliderInput").value, "value reported in input #1");
+					}), 500);
+
+					doh.robot.mouseMoveAt(slider.decrementButton, 1000, 0);
+					doh.robot.mouseClick({left: true}, 500);
+					doh.robot.sequence(d.getTestErrback(function(){
+						doh.is("0.28", slider.focusNode.getAttribute("aria-valuenow"), "aria-valuenow #2");
+					}), 500);
+
+					doh.robot.mouseClick({left: true}, 500);
+					doh.robot.sequence(d.getTestCallback(function(){
+						doh.is("0.26", slider.focusNode.getAttribute("aria-valuenow"), "aria-valuenow #3");
+						doh.is("0.26", slider.get("value"), "get('value') #3");
+						doh.is("0.26", dojo.byId("fractionalSliderInput").value, "value reported in input #3");
+					}), 500);
+					return d;
+				}
+			});
 
 			doh.run();
 		});

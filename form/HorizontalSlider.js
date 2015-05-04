@@ -254,7 +254,8 @@ define([
 				count = c[this._pixelCount];
 			}
 			count--;
-			var value = (this.value - this.minimum) * count / (this.maximum - this.minimum) + signedChange;
+			// the division is imprecise so the expression has to be rounded to avoid long floating numbers
+			var value = Math.round((this.value - this.minimum) * count / (this.maximum - this.minimum)) + signedChange;
 			if(value < 0){
 				value = 0;
 			}

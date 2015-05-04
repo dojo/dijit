@@ -52,8 +52,9 @@
 		<!--    to test form submission, you'll need to create an action handler similar to
 			http://www.utexas.edu/teamweb/cgi-bin/generic.cgi -->
 		<form id="form1" action="" name="example" method="post">
-		<br>initial value=10, min=0, max=100, pageIncrement=100, onChange event triggers input box value change immediately<br>
-		<strong>Horizontal Slider Example</strong>
+
+		<h2>Horizontal Slider Example</h2>
+		initial value=10, min=0, max=100, pageIncrement=100, onChange event triggers input box value change immediately<br>
 		<div id="slider1" data-dojo-type="dijit/form/HorizontalSlider" aria-label="slider 1" data-dojo-props='name:"horizontal1",
 			onChange:function(val){ dom.byId("slider1input").value=dojo.number.format(val/100,{places:1,pattern:"#%"}); },
 			value:10,
@@ -79,9 +80,9 @@
 		<br>
 		<button id="disableButton" data-dojo-type="dijit/form/Button" data-dojo-props='onClick:function(){ registry.byId("slider1").set("disabled", true);registry.byId("disableButton").set("disabled",true);registry.byId("enableButton").set("disabled",false); }'>Disable previous slider</button>
 		<button id="enableButton" data-dojo-type="dijit/form/Button" data-dojo-props='onClick:function(){ registry.byId("slider1").set("disabled",false);registry.byId("disableButton").set("disabled",false);registry.byId("enableButton").set("disabled", true); }, disabled:true'>Enable previous slider</button>
-		<br>
-		<br>initial value=10, min=0, max=100, onChange event triggers input box value change when you mouse up or tab away<br>
-		<strong>Vertical Slider Example</strong>
+
+		<h2>Vertical Slider Example</h2>
+		initial value=10, min=0, max=100, onChange event triggers input box value change when you mouse up or tab away<br>
 		<div id="slider2" data-dojo-type="dijit/form/VerticalSlider" data-dojo-props='name:"vertical1",
 			onChange:function(val){ dom.byId("slider2input").value = val; },
 			value:10,
@@ -100,7 +101,8 @@
 				<ol data-dojo-type="dijit/form/VerticalRuleLabels" data-dojo-props='container:"rightDecoration", style:{width:"2em"}, count:6, numericMargin:1, maximum:100, constraints:{pattern:"#"}'></ol>
 		</div>
 		<label for="slider2input">Slider2 Value:</label><input readonly id="slider2input" size="3" value="10"/>
-		<h1>Fancy HTML labels (no slide animation):</h1>
+
+		<h2>Fancy HTML labels (no slide animation):</h2>
 		<div id="slider3" data-dojo-type="dijit/form/HorizontalSlider" aria-label="slider 3" data-dojo-props='name:"horizontal2",
 			title:"Fancy HTML Labels",
 			minimum:1,
@@ -119,8 +121,9 @@
 					<li><img width=20 height=20 alt="large" src="../images/note.gif"/><br><span style="font-size: large">large</span></li>
 				</ol>
 		</div>
+		<br><br>
 
-		<p></p><h1>Standalone ruler example:</h1><p></p>
+		<h2>Standalone ruler example:</h2>
 
 		<div style="width:2in;border-top:1px solid black;">
 			<div data-dojo-type="dijit/form/HorizontalRule" data-dojo-props='count:17, style:{height:".4em"}'></div>
@@ -134,7 +137,7 @@
 			</ol>
 		</div>
 
-		<h1>horizontal, with buttons, disabled (to show styling):</h1>
+		<h2>Horizontal, with buttons, disabled (to show styling):</h2>
 
 		<div id="sliderH2" aria-label="horizontal slider 2" data-dojo-type="dijit/form/HorizontalSlider" data-dojo-props='name:"horizontalH2",
 			onChange:function(val){ dom.byId("slider1input").value = val; },
@@ -177,5 +180,20 @@
 		</div>
 
 		</form>
+
+		<h2>Fractional Slider Example</h2>
+		initial value=0.28, min=0, max=2, onChange event triggers input box value change when you mouse up or tab away<br><br>
+		<div id="fractionalSlider" data-dojo-type="dijit/form/HorizontalSlider" data-dojo-props='
+			onChange:function(val){ dom.byId("fractionalSliderInput").value = val; },
+			value:0.28,
+			maximum:2,
+			minimum:0,
+			discreteValues:101,
+			"aria-label":"fractional slider",
+			style:{width:"357px"}
+			'>
+			<div data-dojo-type="dijit/form/HorizontalRule" data-dojo-props='container:"bottomDecoration", count:101, style:{height:"5px"}'></div>
+		</div>
+		<label for="fractionalSliderInput">Fractional Slider Value:</label><input readonly id="fractionalSliderInput" size="10" value="0.28"/>
 	</body>
 </html>
