@@ -1,4 +1,4 @@
-<div class="dijitCalendarContainer dijitInline" role="presentation">
+<div class="dijitCalendarContainer dijitInline" role="presentation" aria-labelledby="${id}_mddb ${id}_year">
 	<div class="dijitReset dijitCalendarMonthContainer" role="presentation">
 		<div class='dijitReset dijitCalendarArrow dijitCalendarDecrementArrow' data-dojo-attach-point="decrementMonth">
 			<img src="${_blankGif}" alt="" class="dijitCalendarIncrementControl dijitCalendarDecrease" role="presentation"/>
@@ -10,7 +10,7 @@
 		</div>
 		<div data-dojo-attach-point="monthNode" class="dijitInline"></div>
 	</div>
-	<table cellspacing="0" cellpadding="0" class="dijitCalendarContainer" role="grid" data-dojo-attach-point="gridNode" aria-labelledby="${id}_mddb ${id}_year">
+	<table cellspacing="0" cellpadding="0" role="grid" data-dojo-attach-point="gridNode">
 		<thead>
 			<tr role="row">
 				${!dayCellsHtml}

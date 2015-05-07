@@ -244,7 +244,7 @@
 								doh.is("local_popup", button._popupStateNode.getAttribute("aria-owns"), "should aria-own the Dlg");
 								// Check roles and attributes on the dialog
 								var dlg = registry.byId("local_popup");
-								doh.is("grid", dlg.domNode.getAttribute("role"), "Dlg.domNode should have a role");
+								doh.t(dlg.domNode.hasAttribute("role"), "Dlg.domNode should have a role");
 								doh.is("local_popup_mddb local_popup_year", dlg.domNode.getAttribute("aria-labelledby"), "aria-labelledby should not overwrite existing labelledby for the Calendar");
 
 								button.closeDropDown();
