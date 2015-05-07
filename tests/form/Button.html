@@ -61,6 +61,18 @@
 				var myWidget = new Test1Widget();
 				doh.t(dom.isDescendant(myWidget.titleNode, myWidget.domNode), "titleNode inside domNode");
 			});
+
+			// ARIA tests.  See also Button_a11y.html.
+			doh.register("aria", function(){
+				var b1 = new Button({
+					label: "disabled",
+					disabled: true
+				});
+				b1.placeAt(document.body);
+				doh.is("true", b1.focusNode.getAttribute("aria-disabled"), "aria-disabled");
+				doh.f(b1.focusNode.disabled, "disabled not set since it's a <span>")
+			});
+
 			doh.run();
 		});
 	</script>

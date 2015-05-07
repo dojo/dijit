@@ -222,6 +222,17 @@
 					}
 				]);
 
+				// ARIA tests.  See also CheckBox_a11y.html.
+				doh.register("aria", function(){
+					var c1 = new CheckBox({
+						disabled: true
+					});
+					c1.placeAt(document.body);
+					doh.t(c1.focusNode.disabled, "disabled set")
+					doh.f(c1.focusNode.hasAttribute("aria-disabled"),
+						"aria-disabled not set, that would be redundant");
+				});
+
 				doh.run();
 			});
 		</script>
