@@ -70,11 +70,19 @@ define([
 
 		_setDisabledAttr: function(/*Boolean*/ value){
 			this._set("disabled", value);
-			domAttr.set(this.focusNode, 'disabled', value);
+
+			// Set disabled property if focusNode is an <input>, but aria-disabled attribute if focusNode is a <span>.
+			// Can't use "disabled" in this.focusNode as a test because on IE, that's true for all nodes.
+			if(/^(button|input|select|textarea|optgroup|option|fieldset)$/i.test(this.focusNode.tagName)){
+				domAttr.set(this.focusNode, 'disabled', value);
+			}else{
+				this.focusNode.setAttribute("aria-disabled", value ? "true" : "false");
+			}
+
+			// And also set disabled on the hidden <input> node
 			if(this.valueNode){
 				domAttr.set(this.valueNode, 'disabled', value);
 			}
-			this.focusNode.setAttribute("aria-disabled", value ? "true" : "false");
 
 			if(value){
 				// reset these, because after the domNode is disabled, we can no longer receive
