@@ -137,6 +137,29 @@
 				}
 			]);
 
+			// Test for StackContainer etc. where each child is wrapped inside a <div>
+			doh.register("wrapped children", [
+				{
+					name: "getChildren",
+					runTest: function(t){
+						var c = registry.byId("wrappedContainer");
+						var children = c.getChildren();
+						t.is(3, children.length);
+						t.is("wrappedOne", children[0].id);
+						t.is("wrappedTwo", children[1].id);
+						t.is("wrappedThree", children[2].id);
+					}
+				},
+				{
+					name: "getPreviousSibling / getNextSibling",
+					runTest: function(t){
+						var c = registry.byId("wrappedTwo");
+						t.is("wrappedOne", c.getPreviousSibling().id);
+						t.is("wrappedThree", c.getNextSibling().id);
+					}
+				}
+			]);
+
 			doh.run();
 		});
 
@@ -154,5 +177,13 @@
 </div>
 <div id="outside" data-dojo-type="dijit/_WidgetBase"></div>
 <div id="outsideCont" data-dojo-type="TestContained"></div>
+
+
+<div id="wrappedContainer" data-dojo-type="TestContainer">
+	<div id="wrappedOne" data-dojo-type="TestContained"></div>
+	<div id="wrappedTwo" data-dojo-type="TestContained"></div>
+	<div id="wrappedThree" data-dojo-type="TestContained"></div>
+</div>
+
 </body>
 </html>
