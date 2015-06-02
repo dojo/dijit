@@ -493,26 +493,11 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							doh.robot.typeKeys('123', 1000, 600);
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
 								doh.is('123', this.textbox.focusNode.value, "focusNode.value");
 								doh.is(123, this.textbox.get('value'), "get('value')");
 								doh.f(this.textbox.isValid(), "!isValid()");
 							})), 1000);
-							return d;
-						}
-					},
-					{
-						name: "missing required decimal, format on blur",
-						timeout: 9000,
-						textbox: "q08",
-						setUp: function(){
-							this.textbox = dijit.byId(this.textbox);
-							this.textbox.set('value', '');
-							this.textbox.focusNode.focus();
-						},
-						runTest: function(){
-							var d = new doh.Deferred();
-							doh.robot.typeKeys('123', 1000, 600);
 							var textbox = this.textbox;
 							var handler = textbox.connect(textbox, '_onBlur',
 								function(){
@@ -539,26 +524,11 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							doh.robot.typeKeys('123.0', 1000, 1000);
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
 								doh.is('123.0', this.textbox.focusNode.value, "focusNode.value");
 								doh.is(123, this.textbox.get('value'), "get('value')");
 								doh.f(this.textbox.isValid(), "!isValid()");
 							})), 1000);
-							return d;
-						}
-					},
-					{
-						name: "too few decimal digits, format on blur",
-						timeout: 9000,
-						textbox: "q08",
-						setUp: function(){
-							this.textbox = dijit.byId(this.textbox);
-							this.textbox.set('value', '');
-							this.textbox.focusNode.focus();
-						},
-						runTest: function(){
-							var d = new doh.Deferred();
-							doh.robot.typeKeys('123.0', 1000, 1000);
 							var textbox = this.textbox;
 							var handler = textbox.connect(textbox, '_onBlur',
 								function(){
