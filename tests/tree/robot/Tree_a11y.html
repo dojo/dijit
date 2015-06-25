@@ -60,6 +60,7 @@
 
 					tree = registry.byId("tree2");  // the rootless tree
 					doh.is("tree", tree.rootNode.containerNode.getAttribute("role"), "rootless tree has role on containerNode");
+					doh.f(tree.rootNode.labelNode.hasAttribute("aria-selected"), "labelNode.hasAttribute('aria-selected')");
 				},
 
 				{
