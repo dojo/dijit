@@ -68,7 +68,7 @@
 							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
 								doh.t(vsPlugin._sourceShown, "Verifying the plugin believes the source is shown.");
-								doh.is("none", domStyle.get(editor0.iframe, "display"), "Verifying iframe is invisible");
+								doh.is("hidden", domStyle.get(editor0.iframe, "visibility"), "Verifying iframe is invisible");
 								doh.is("block", domStyle.get(vsPlugin.sourceArea, "display"), "Verifying source view node is visible");
 								doh.is(vsPlugin.sourceArea.nextSibling, editor0.iframe, "Verifying source view node's next sibling is the hidden iframe node.");
 							}), 3000);
@@ -112,7 +112,7 @@
 							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
 								doh.f(vsPlugin._sourceShown, "Verifying the plugin states the source is not shown.");
-								doh.is("block", domStyle.get(editor0.iframe, "display"), "Verifying iframe is visible");
+								doh.is("visible", domStyle.get(editor0.iframe, "visibility"), "Verifying iframe is visible");
 								doh.is("none", domStyle.get(vsPlugin.sourceArea, "display"), "Verifying source view node is invisible");
 								doh.is(vsPlugin.sourceArea.nextSibling, editor0.iframe, "Verifying source view node's next sibling is the hidden iframe node.");
 							}), 2000);
@@ -152,7 +152,7 @@
 							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
 								doh.t(vsPlugin._sourceShown, "Verifying the plugin believes the source is shown.");
-								doh.is("none", domStyle.get(editor0.iframe, "display"), "Verifying iframe is invisible");
+								doh.is("hidden", domStyle.get(editor0.iframe, "visibility"), "Verifying iframe is invisible");
 								doh.is("block", domStyle.get(vsPlugin.sourceArea, "display"), "Verifying source view node is visible");
 								doh.is(vsPlugin.sourceArea.nextSibling, editor0.iframe, "Verifying source view node's next sibling is the hidden iframe node.");
 							}), 1000);
@@ -196,7 +196,7 @@
 							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
 								doh.t(!vsPlugin._sourceShown, "Verifying the plugin believes the source is not shown.");
-								doh.is("block", domStyle.get(editor0.iframe, "display"), "Verifying iframe is visible");
+								doh.is("visible", domStyle.get(editor0.iframe, "visibility"), "Verifying iframe is visible");
 								doh.is("none", domStyle.get(vsPlugin.sourceArea, "display"), "Verifying source view node is invisible");
 								doh.is(vsPlugin.sourceArea.nextSibling, editor0.iframe, "Verifying source view node's next sibling is the hidden iframe node.");
 							}), 1000);
@@ -248,7 +248,7 @@
 								//Now check the state!
 								doh.t(fsPlugin.isFullscreen, "Verifying the plugin believes the editor is in full screen mode.");
 								doh.t(vsPlugin._sourceShown, "Verifying the plugin believes the source is shown.");
-								doh.is("none", domStyle.get(editor1.iframe, "display"), "Verifying iframe is invisible");
+								doh.is("hidden", domStyle.get(editor1.iframe, "visibility"), "Verifying iframe is invisible");
 								doh.is("block", domStyle.get(vsPlugin.sourceArea, "display"), "Verifying source view node is visible");
 								doh.is(vsPlugin.sourceArea.nextSibling, editor1.iframe, "Verifying source view node's next sibling is the hidden iframe node.");
 							}), 2000);
@@ -307,7 +307,7 @@
 								//Now check the state!
 								doh.t(!fsPlugin.isFullscreen, "Verifying the plugin believes the editor is not in full screen mode.");
 								doh.t(!vsPlugin._sourceShown, "Verifying the plugin believes the source is not shown.");
-								doh.is("block", domStyle.get(editor1.iframe, "display"), "Verifying iframe is visible");
+								doh.is("visible", domStyle.get(editor1.iframe, "visibility"), "Verifying iframe is visible");
 								doh.is("none", domStyle.get(vsPlugin.sourceArea, "display"), "Verifying source view node is invisible");
 								doh.is(vsPlugin.sourceArea.nextSibling, editor1.iframe, "Verifying source view node's next sibling is the hidden iframe node.");
 							}), 1000);
@@ -767,7 +767,7 @@
 							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
 								doh.t(vsPlugin._sourceShown, "Verifying the plugin believes the source is shown.");
-								doh.is("none", domStyle.get(editor0.iframe, "display"), "Verifying iframe is invisible");
+								doh.is("hidden", domStyle.get(editor0.iframe, "visibility"), "Verifying iframe is invisible");
 								doh.is("block", domStyle.get(vsPlugin.sourceArea, "display"), "Verifying source view node is visible");
 								doh.is(vsPlugin.sourceArea.nextSibling, editor0.iframe, "Verifying source view node's next sibling is the hidden iframe node.");
 								vsPlugin.sourceArea.value = "FOO";
@@ -818,7 +818,7 @@
 							robot.sequence(d.getTestCallback(function(){
 								//Now check the state!
 								doh.t(vsPlugin._sourceShown, "Verifying the plugin believes the source is shown.");
-								doh.is("none", domStyle.get(editor0.iframe, "display"), "Verifying iframe is invisible");
+								doh.is("hidden", domStyle.get(editor0.iframe, "visibility"), "Verifying iframe is invisible");
 								doh.is("block", domStyle.get(vsPlugin.sourceArea, "display"), "Verifying source view node is visible");
 								doh.is(vsPlugin.sourceArea.nextSibling, editor0.iframe, "Verifying source view node's next sibling is the hidden iframe node.");
 								editor0.set("value", "FOO");
