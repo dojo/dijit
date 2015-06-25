@@ -920,6 +920,7 @@ define([
 							this.domNode.removeAttribute("aria-labelledby");
 						}
 						rn.labelNode.setAttribute("role", "presentation");
+						rn.labelNode.removeAttribute("aria-selected");
 						rn.containerNode.setAttribute("role", "tree");
 						rn.containerNode.setAttribute("aria-expanded", "true");
 						rn.containerNode.setAttribute("aria-multiselectable", !this.dndController.singular);
