@@ -206,15 +206,17 @@ define([
 			//		Position the dialog in the viewport.  If no relative offset
 			//		in the viewport has been determined (by dragging, for instance),
 			//		center the dialog.  Otherwise, use the Dialog's stored relative offset,
-			//		adjusted by the viewport's scroll.
+			//		clipped to fit inside the viewport (which may have been shrunk).
+			//		Finally, adjust position according to viewport's scroll.
+
 			if(!domClass.contains(this.ownerDocumentBody, "dojoMove")){    // don't do anything if called during auto-scroll
 				var node = this.domNode,
 					viewport = winUtils.getBox(this.ownerDocument),
 					p = this._relativePosition,
-					bb = p ? null : domGeometry.position(node),
-					l = Math.floor(viewport.l + (p ? p.x : (viewport.w - bb.w) / 2)),
-					t = Math.floor(viewport.t + (p ? p.y : (viewport.h - bb.h) / 2))
-					;
+					bb = domGeometry.position(node),
+					l = Math.floor(viewport.l + (p ? Math.min(p.x, viewport.w - bb.w) : (viewport.w - bb.w) / 2)),
+					t = Math.floor(viewport.t + (p ? Math.min(p.y, viewport.h - bb.h) : (viewport.h - bb.h) / 2));
+
 				domStyle.set(node, {
 					left: l + "px",
 					top: t + "px"
