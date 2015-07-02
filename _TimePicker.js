@@ -147,21 +147,22 @@ define([
 
 		_getFilteredNodes: function(/*number*/ start, /*number*/ maxNum, /*Boolean*/ before, /*DOMNode*/ lastNode){
 			// summary:
-			//		Returns an array of nodes with the filter applied.  At most maxNum nodes
+			//		Returns a DocumentFragment of nodes with the filter applied.  At most maxNum nodes
 			//		will be returned - but fewer may be returned as well.  If the
 			//		before parameter is set to true, then it will return the elements
 			//		before the given index
 			// tags:
 			//		private
 
-			var nodes = [];
+			var nodes = this.ownerDocument.createDocumentFragment();
 
 			for(var i = 0 ; i < this._maxIncrement; i++){
 				var n = this._createOption(i);
 				if(n){
-					nodes.push(n);
+					nodes.appendChild(n);
 				}
 			}
+
 			return nodes;
 		},
 
@@ -201,15 +202,14 @@ define([
 			var visibleRange = (endDate.getTime() - this._refDate.getTime()) * 0.001;
 			this._maxIncrement = Math.ceil((visibleRange + 1) / clickableIncrementSeconds);
 
-			var nodes  = this._getFilteredNodes();
-			array.forEach(nodes, function(n){
-				this.domNode.appendChild(n);
-			}, this);
+			var nodes = this._getFilteredNodes();
 
 			// never show empty due to a bad filter
-			if(!nodes.length && this.filterString){
+			if(!nodes.firstChild && this.filterString){
 				this.filterString = '';
 				this._showText();
+			}else{
+				this.domNode.appendChild(nodes);
 			}
 		},
 
@@ -274,24 +274,26 @@ define([
 				innerHTML: dateString
 			}, div);
 
-			if(index % this._visibleIncrement < 1 && index % this._visibleIncrement > -1){
-				domClass.add(div, this.baseClass + "Marker");
-			}else if(!(index % this._clickableIncrement)){
-				domClass.add(div, this.baseClass + "Tick");
+			var marker = index % this._visibleIncrement < 1 && index % this._visibleIncrement > -1,
+				tick = !marker && !(index % this._clickableIncrement);
+			if(marker){
+				div.className += " " + this.baseClass + "Marker";
+			}else if(tick){
+				div.className += " " + this.baseClass + "Tick";
 			}
 
 			if(this.isDisabledDate(date)){
 				// set disabled
-				domClass.add(div, this.baseClass + "ItemDisabled");
+				div.className += " " + this.baseClass + "ItemDisabled";
 			}
 			if(this.value && !ddate.compare(this.value, date, this.constraints.selector)){
 				div.selected = true;
-				domClass.add(div, this.baseClass + "ItemSelected");
+				div.className += " " + this.baseClass + "ItemSelected";
 				this._selectedDiv = div;
-				if(domClass.contains(div, this.baseClass + "Marker")){
-					domClass.add(div, this.baseClass + "MarkerSelected");
-				}else{
-					domClass.add(div, this.baseClass + "TickSelected");
+				if(marker){
+					div.className += " " + this.baseClass + "MarkerSelected";
+				}else if(tick){
+					div.className += " " + this.baseClass + "TickSelected";
 				}
 
 				// Initially highlight the current value.   User can change highlight by up/down arrow keys
