@@ -664,28 +664,6 @@
 							});
 							return d;
 						}
-					},
-					{
-						name: "improper fraction",
-						timeout: 5000,
-						runTest: function(){
-							var d=new doh.Deferred();
-							spin4.set("value", NaN);
-							focusThenRun(spin4, function(){
-								var handler = spin4.connect(spin4, '_onBlur',
-									function(){
-										spin4.disconnect(handler);
-										setTimeout(d.getTestCallback(function(){
-											doh.f(spin4.isValid(), "missing fraction is invalid");
-											doh.is('99', spin4.get('displayedValue'), "fraction not added to unparsable number");
-											doh.t(isNaN(spin4.get('value')), "unparsable number causes no value");
-										}), 150);
-									});
-								doh.robot.typeKeys("99", 1, 400);
-								doh.robot.keyPress(dojo.keys.TAB, 500, {shift:true});
-							});
-							return d;
-						}
 					}
 				]);
 
