@@ -15,14 +15,17 @@
 			"dojo/dom-style",
 			"dojo/parser",
 			"dijit/registry",
-			"dijit/form/Button",
 			"dijit/layout/_LayoutWidget",
+			"dijit/tests/helpers",
+
+			// just used by parser
+			"dijit/form/Button",
 			"dijit/layout/ContentPane",
 			"dijit/layout/StackContainer",
 			"dijit/layout/StackController",
 			"dijit/layout/TabContainer",
 			"dojo/domReady!"
-		], function(doh, declare, domGeom, domStyle, parser, registry, _LayoutWidget){
+		], function(doh, declare, domGeom, domStyle, parser, registry, _LayoutWidget, helpers){
 
 			// This keeps track of which panes were resized, and their hidden/visible state
 			// when they were resized.
@@ -67,7 +70,7 @@
 					name: "TabContainer 1 content pane 1 visible and resized",
 					runTest: function(t){
 						doh.is(1, resizeCnt["tab1cp1"], "Tab 1 was resized once");
-						doh.is("block", domStyle.get(registry.byId("tab1cp1").domNode, "display"), "TabContainer1 Tab 1 is visible");
+						doh.t(helpers.isVisible(registry.byId("tab1cp1")), "TabContainer1 Tab 1 is visible");
 						doh.t(resizeLog["tab1cp1"] != "none", "Tab 1 was visible when it was resized");
 					}
 				},
@@ -75,14 +78,14 @@
 					name: "TabContainer 1 content pane 2 hidden",
 					runTest: function(t){
 						doh.f(!"tab1cp2" in resizeCnt, "tab 2 hasn't been resized");
-						doh.is("none", domStyle.get(registry.byId("tab1cp2").domNode.parentNode, "display"), "TabContainer1 Tab 2 is hidden");
+						doh.t(helpers.isHidden(registry.byId("tab1cp2").domNode.parentNode), "TabContainer1 Tab 2 is hidden");
 					}
 				},
 				{
 					name: "TabContainer 2 hidden and unsized",
 					runTest: function(t){
 						doh.f(!"tab2" in resizeCnt, "TabContainer 2 hasn't been resized");
-						doh.is("none", domStyle.get(registry.byId("tab2").domNode.parentNode, "display"), "TabContainer 2 is hidden");
+						doh.t(helpers.isHidden(registry.byId("tab2").domNode.parentNode, "display"), "TabContainer 2 is hidden");
 					}
 				},
 				{
@@ -100,14 +103,14 @@
 				{
 					name: "TabContainer 1 hidden",
 					runTest: function(t){
-						doh.is("none", domStyle.get(registry.byId("tab1").domNode.parentNode, "display"), "TabContainer1 is hidden");
+						doh.t(helpers.isHidden(registry.byId("tab1").domNode.parentNode), "TabContainer1 is hidden");
 					}
 				},
 				{
 					name: "TabContainer 2 visible and resized",
 					runTest: function(t){
 						doh.is(1, resizeCnt["tab2"], "TabContainer 2 was resized once");
-						doh.is("block", domStyle.get(registry.byId("tab2").domNode.parentNode, "display"), "TabContainer 2 is visible");
+						doh.t(helpers.isVisible(registry.byId("tab2").domNode.parentNode), "TabContainer 2 is visible");
 						doh.t(resizeLog["tab2"] != "none", "TabContainer 2 was visible when it was resized");
 					}
 				},
@@ -115,7 +118,7 @@
 					name: "TabContainer 2 content pane 1 visible and resized",
 					runTest: function(t){
 						doh.is(1, resizeCnt["tab2cp1"], "Tab 2 was resized once");
-						doh.is("block", domStyle.get(registry.byId("tab2cp1").domNode.parentNode, "display"), "TabContainer2 Tab 1 is visible");
+						doh.t(helpers.isVisible(registry.byId("tab2cp1").domNode.parentNode), "TabContainer2 Tab 1 is visible");
 						doh.t(resizeLog["tab2cp1"] != "none", "Tab 2 was visible when it was resized");
 					}
 				}

@@ -47,7 +47,8 @@ table.dijitInline {
 
 .dijitHidden {
 	/* To hide unselected panes in StackContainer etc. */
-	display: none !important;
+	position: absolute; /* remove from normal document flow to simulate display: none */
+	visibility: hidden; /* hide element from view, but don't break scrolling, see #18612 */
 }
 
 .dijitVisible {

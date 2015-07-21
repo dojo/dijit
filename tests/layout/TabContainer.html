@@ -267,6 +267,35 @@
 
 						return d;
 					}
+				},
+
+				// Test that scroll position is preserved when returning to a tab.
+				{
+					name: 'panel scroll',
+					timeout: 10000,
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						var tc = registry.byId("tc1");
+						var cp = registry.byId("t4");
+						tc.selectChild(cp);
+
+						setTimeout(d.getTestErrback(function(){
+							cp.domNode.scrollTop = 10000;	// scroll to the bottom
+
+							tc.selectChild("t3");	// switch to another tab
+
+							setTimeout(d.getTestErrback(function(){
+								tc.selectChild(cp);	// and then switch back
+
+								setTimeout(d.getTestCallback(function(){
+									doh.t(cp.domNode.scrollTop > 0, "still scrolled");
+								}), 1000);
+							}), 1000);
+						}), 1000);
+
+						return d;
+					}
 				}
 			]);
 
@@ -649,8 +678,39 @@
 		<div id="t3" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"tab3", closable:true'>
 			Lorem ipsum and all around - third...
 		</div>
-		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"tab4", closable:true'>
-			Lorem ipsum and all around - last...
+		<div id="t4" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"tab4", closable:true'>
+			<p>
+				Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
+				semper sagittis velit. Cras in mi. Duis porta mauris ut ligula. Proin
+				porta rutrum lacus. Etiam consequat scelerisque quam. Nulla facilisi.
+				Maecenas luctus venenatis nulla. In sit amet dui non mi semper iaculis.
+				Sed molestie tortor at ipsum. Morbi dictum rutrum magna. Sed vitae
+				risus.
+			</p>
+			<p>
+				Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
+				semper sagittis velit. Cras in mi. Duis porta mauris ut ligula. Proin
+				porta rutrum lacus. Etiam consequat scelerisque quam. Nulla facilisi.
+				Maecenas luctus venenatis nulla. In sit amet dui non mi semper iaculis.
+				Sed molestie tortor at ipsum. Morbi dictum rutrum magna. Sed vitae
+				risus.
+			</p>
+			<p>
+				Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
+				semper sagittis velit. Cras in mi. Duis porta mauris ut ligula. Proin
+				porta rutrum lacus. Etiam consequat scelerisque quam. Nulla facilisi.
+				Maecenas luctus venenatis nulla. In sit amet dui non mi semper iaculis.
+				Sed molestie tortor at ipsum. Morbi dictum rutrum magna. Sed vitae
+				risus.
+			</p>
+			<p>
+				Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
+				semper sagittis velit. Cras in mi. Duis porta mauris ut ligula. Proin
+				porta rutrum lacus. Etiam consequat scelerisque quam. Nulla facilisi.
+				Maecenas luctus venenatis nulla. In sit amet dui non mi semper iaculis.
+				Sed molestie tortor at ipsum. Morbi dictum rutrum magna. Sed vitae
+				risus.
+			</p>
 		</div>
 	</div>
 	
