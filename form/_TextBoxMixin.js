@@ -185,16 +185,16 @@ define([
 			//		protected
 		},
 
-		 onInput: function(/*Event*/ evt){
+		 onInput: function(/*Event*/ /*===== evt =====*/){
 			 // summary:
 			 //		Connect to this function to receive notifications of various user data-input events.
 			 //		Return false to cancel the event and prevent it from being processed.
+			 //		Note that although for historical reasons this method is called `onInput()`, it doesn't
+			 //		correspond to the standard DOM "input" event, because it occurs before the input has been processed.
 			 // event:
 			 //		keydown | keypress | cut | paste | compositionend
 			 // tags:
 			 //		callback
-
-			 this._lastInputProducingEvent = evt;
 		 },
 
 		_onInput: function(/*Event*/ /*===== evt =====*/){
@@ -211,7 +211,7 @@ define([
 			}
 		},
 
-		_processInput: function(/*Event*/ evt){
+		_processInput: function(/*Event*/ /*===== evt =====*/){
 			// summary:
 			//		Default action handler for user input events.
 			//		Called after the "input" event (i.e. after this.textbox.value has been updated),
@@ -325,6 +325,8 @@ define([
 						e.stopPropagation();
 					}
 				});
+
+				this._lastInputProducingEvent = faux;
 
 				// Give web page author a chance to consume the event.  Note that onInput() may be called multiple times
 				// for same keystroke: once for keypress event and once for input event.

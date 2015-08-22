@@ -2,7 +2,7 @@
 		"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-	<title>robot TextBox onInput Test</title>
+	<title>robot TextBox onInput and _processInput Test</title>
 
 	<style>
 		@import "../../../../util/doh/robot/robot.css";
@@ -19,7 +19,9 @@
 		], function(doh, robot, aspect, json, keys, on){
 			robot.initRobot('../test_validate.html');
 
-			var widget, registry
+			var widget, registry;
+
+			function nop(){}
 
 			doh.register("onInput", [
 				function setup(){
@@ -32,16 +34,14 @@
 					timeout: 2000,
 					runTest: function(){
 						var d = new doh.Deferred();
-						var handler = on.once(widget.focusNode, "focus",
-								function(){
-									setTimeout(d.getTestCallback(function(){
-										doh.t(true);
-									}), 0);
-								}
-						);
+						var handler = on.once(widget.focusNode, "focus", function(){
+							setTimeout(function(){
+								d.resolve();
+							}, 0);
+						});
 						setTimeout(function(){
 							widget.focus();
-						}, 1); // return d before calling onfocus
+						}, 1); // return d before calling focus
 						return d;
 					}
 				},
@@ -51,10 +51,10 @@
 					runTest: function(){
 						var d = new doh.Deferred();
 
-						var handler = aspect.after(widget, "onInput", d.getTestErrback(function(e){
-							var expEvt = expected.shift() || { type: null, charOrCode: null };
+						widget.onInput = d.getTestErrback(function(e){
+							var expEvt = expected.shift() || {type: null, charOrCode: null};
 							if(expEvt.type != e.type || expEvt.charOrCode !== e.charOrCode || expEvt.ctrlKey != e.ctrlKey || expEvt.shiftKey != e.shiftKey || expEvt.altKey != e.altKey){
-								handler.remove();
+								widget.onInput = nop;
 								d.getTestCallback(function(){
 									doh.is(expEvt.type, e.type);
 									doh.is(expEvt.charOrCode, e.charOrCode);
@@ -64,10 +64,10 @@
 								})(); // fail asap
 							}else if(expected.length == 0){
 								setTimeout(d.getTestCallback(function(){
-									handler.remove();
+									widget.onInput = nop;
 								}), 100); // wait to see if an extra onInput event arrives
 							}
-						}), true);
+						});
 						var expected = [
 							{ type: "keypress", charOrCode: ' ', ctrlKey: false, shiftKey: false, altKey: false }
 						];
@@ -82,10 +82,10 @@
 					runTest: function(){
 						var d = new doh.Deferred();
 
-						var handler = aspect.after(widget, "onInput", d.getTestErrback(function(e){
+						widget.onInput = d.getTestErrback(function(e){
 							var expEvt = expected.shift() || { type: null, charOrCode: null, ctrlKey: false, shiftKey: false, altKey: false };
 							if(expEvt.charOrCode == ' '/*the end sentinel*/ || (expEvt.type != e.type || expEvt.charOrCode !== e.charOrCode || expEvt.ctrlKey != e.ctrlKey || (expEvt.shiftKey != null && expEvt.shiftKey != e.shiftKey) || expEvt.altKey != e.altKey)){
-								handler.remove();
+								widget.onInput = nop;
 								d.getTestCallback(function(){
 									var hint = "Expected: " +
 											json.stringify({ type: expEvt.type, charOrCode: expEvt.charOrCode, ctrlKey: expEvt.ctrlKey, shiftKey: expEvt.shiftKey, altKey: expEvt.altKey }) +
@@ -98,7 +98,7 @@
 									doh.t(expEvt.shiftKey == null || expEvt.shiftKey == e.shiftKey, hint);
 								})();
 							}
-						}), true);
+						});
 						var expected = [
 							{ type: "keypress", charOrCode: 'a', ctrlKey: false, shiftKey: false, altKey: false },
 							{ type: "keypress", charOrCode: 'Z', ctrlKey: false, shiftKey: true, altKey: false },
@@ -125,6 +125,47 @@
 						robot.keyPress(keys.TAB, 200, {});
 						robot.keyPress(keys.TAB, 500, { shift: true });
 						robot.keyPress(keys.SPACE, 500, {});
+
+						return d;
+					}
+				},
+				{
+					name: "advanced",
+					timeout: 2000,
+					runTest: function(){
+						var d = new doh.Deferred();
+
+						// note: using robot.sequence() to give time for final SPACE key in above test to process
+						robot.sequence(d.getTestErrback(function(){
+							widget.set("value", "");
+							widget.focus();
+
+							// Test that when onInput is overridden and returns false, the character is canceled.
+							// "a" should be ignored and only "b" will appear in the <input> and to
+							// trigger the call to _processInput()
+							widget.onInput = function(evt1){
+								if(evt1.charOrCode == "a"){
+									return false;
+								}
+							};
+
+							// Test that _processInput(evt) is called with the event object after the character has
+							// appeared in the <input>
+							var handle = aspect.after(widget, "_processInput", d.getTestCallback(function(res, args){
+								var evt2 = args[0];
+								handle.remove();
+								doh.is("b", evt2.charOrCode, "charOrCode");
+								doh.is("b", widget.focusNode.value, "widget.focusNode.value");
+							}));
+
+						}), 100);
+
+						robot.keyPress("a", 100, {});
+						robot.sequence(d.getTestErrback(function(){
+							doh.is("", widget.focusNode.value, "widget.focusNode.value");
+						}), 100);
+
+						robot.keyPress("b", 100, {});
 
 						return d;
 					}
