@@ -196,8 +196,6 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 			 //		keydown | keypress | cut | paste | compositionend
 		// tags:
 		//		callback
-
-		 this._lastInputProducingEvent = evt;
 	 },
 
 	_onInput: function(/*Event*/ /*===== evt =====*/){
@@ -324,8 +322,11 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 				stopPropagation: function(){ e.stopPropagation(); }
 			});
 
-				// Give web page author a chance to consume the event.  Note that onInput() may be called multiple times
-				// for same keystroke: once for keypress event and once for input event.
+
+			this._lastInputProducingEvent = faux;
+
+			// Give web page author a chance to consume the event.  Note that onInput() may be called multiple times
+			// for same keystroke: once for keypress event and once for input event.
 			//console.log(faux.type + ', charOrCode = (' + (typeof charOrCode) + ') ' + charOrCode + ', ctrl ' + !!faux.ctrlKey + ', alt ' + !!faux.altKey + ', meta ' + !!faux.metaKey + ', shift ' + !!faux.shiftKey);
 			if(this.onInput(faux) === false){ // return false means stop
 				faux.preventDefault();
