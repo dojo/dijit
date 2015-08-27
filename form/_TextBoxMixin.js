@@ -197,14 +197,16 @@ define([
 			 //		callback
 		 },
 
-		_onInput: function(/*Event*/ /*===== evt =====*/){
+		_onInput: function(/*Event*/ evt){
 			// summary:
 			//		Called AFTER the input event has happened and this.textbox.value has new value.
 
 			this._lastInputEventValue = this.textbox.value;
 
-			// For Combobox, this needs to be called w/the keydown/keypress event that was passed to onInput()
-			this._processInput(this._lastInputProducingEvent);
+			// For Combobox, this needs to be called w/the keydown/keypress event that was passed to onInput().
+			// As a backup, use the "input" event itself.
+			this._processInput(this._lastInputProducingEvent || evt);
+			delete this._lastInputProducingEvent;
 
 			if(this.intermediateChanges){
 				this._handleOnChange(this.get('value'), false);
@@ -239,7 +241,10 @@ define([
 			//	paste, cut, compositionend: set charOrCode to 229 (IME)
 			function handleEvent(e){
 				var charOrCode;
-				if(e.type == "keydown"){
+
+				// Filter out keydown events that will be followed by keypress events.  Note that chrome/android
+				// w/word suggestion has keydown/229 events on typing with no corresponding keypress events.
+				if(e.type == "keydown" && e.keyCode != 229){
 					charOrCode = e.keyCode;
 					switch(charOrCode){ // ignore state keys
 						case keys.SHIFT:
@@ -286,6 +291,7 @@ define([
 						} // only allow named ones through
 					}
 				}
+
 				charOrCode = e.charCode >= 32 ? String.fromCharCode(e.charCode) : e.charCode;
 				if(!charOrCode){
 					charOrCode = (e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 48 && e.keyCode <= 57) || e.keyCode == keys.SPACE ? String.fromCharCode(e.keyCode) : e.keyCode;
