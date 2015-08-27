@@ -198,7 +198,7 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 		//		callback
 	 },
 
-	_onInput: function(/*Event*/ /*===== evt =====*/){
+	_onInput: function(/*Event*/ evt){
 		// summary:
 		//		Called AFTER the input event has happened and this.textbox.value has new value.
 
@@ -209,8 +209,10 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 
 		this._lastInputEventValue = this.textbox.value;
 
-		// For Combobox, this needs to be called w/the keydown/keypress event that was passed to onInput()
+		// For Combobox, this needs to be called w/the keydown/keypress event that was passed to onInput().
+		// As a backup, use the "input" event itself.
 		this._processInput(this._lastInputProducingEvent);
+		delete this._lastInputProducingEvent;
 
 		if(this.intermediateChanges){
 			this._handleOnChange(this.get('value'), false);
@@ -245,7 +247,10 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 		//	paste, cut, compositionend: set charOrCode to 229 (IME)
 		function handleEvent(e){
 			var charOrCode;
-			if(e.type == "keydown"){
+
+			// Filter out keydown events that will be followed by keypress events.  Note that chrome/android
+			// w/word suggestions has keydown/229 events on typing with no corresponding keypress events.
+			if(e.type == "keydown" && e.keyCode != 229){
 				charOrCode = e.keyCode;
 				switch(charOrCode){ // ignore state keys
 					case keys.SHIFT:
@@ -289,7 +294,8 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 					}
 					if(!named){ return; } // only allow named ones through
 				}
-					}
+			}
+
 			charOrCode = e.charCode >= 32 ? String.fromCharCode(e.charCode) : e.charCode;
 			if(!charOrCode){
 				charOrCode = (e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 48 && e.keyCode <= 57) || e.keyCode == keys.SPACE ? String.fromCharCode(e.keyCode) : e.keyCode;
