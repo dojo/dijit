@@ -332,7 +332,6 @@ define([
 				this._setValueAttr(this._lastValueReported, true);
 			}else if(typeof this.item == "undefined"){
 				// Update 'value' (ex: KY) according to currently displayed text
-				this.item = null;
 				this.set('displayedValue', newvalue);
 			}else{
 				if(this.value != this._lastValueReported){
