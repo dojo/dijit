@@ -6,6 +6,9 @@ define({ root:
 })
 //end v1.x content
 ,
+"bs": true,
+"mk": true,
+"sr": true,
 "zh": true,
 "zh-tw": true,
 "uk": true,
