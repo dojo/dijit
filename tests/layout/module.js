@@ -1,6 +1,6 @@
 define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
 
-	var test_robot = !has("ios") && !has("android");
+	var test_robot = has("trident") || has("ff") || has("chrome") < 45;
 
 	doh.register("layout.ContentPane", require.toUrl("./ContentPane.html"), 999999);
 	doh.register("layout.test_ContentPane", require.toUrl("./test_ContentPane.html"), 999999);

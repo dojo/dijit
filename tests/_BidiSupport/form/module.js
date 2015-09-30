@@ -1,6 +1,6 @@
 define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
 
-	var test_robot = !has("ios") && !has("android");
+	var test_robot = has("trident") || has("ff") || has("chrome") < 45;
 
 	doh.register("_BidiSupport.form.test_PlaceholderInput.", require.toUrl("./test_PlaceholderInput.html"), 999999);
 

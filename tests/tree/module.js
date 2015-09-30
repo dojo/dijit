@@ -1,6 +1,6 @@
 define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
 
-	var test_robot = !has("ios") && !has("android");
+	var test_robot = has("trident") || has("ff") || has("chrome") < 45;
 
 	doh.register("tree.CustomLabel", require.toUrl("./CustomLabel.html"), 999999);
 	doh.register("tree.Tree_ForestStoreModel", require.toUrl("./Tree_ForestStoreModel.html"), 999999);
