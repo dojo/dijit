@@ -1,6 +1,6 @@
 define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
 
-	var test_robot = !has("ios") && !has("android");
+	var test_robot = has("trident") || has("ff") || has("chrome") < 45;
 
 	// inline doh tests
 	doh.register("editor.Editor", require.toUrl("./Editor.html"), 999999);

@@ -1,6 +1,6 @@
 define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
 
-	var test_robot = !has("ios") && !has("android");
+	var test_robot = has("trident") || has("ff") || has("chrome") < 45;
 
 	doh.register("form.ButtonMixin", require.toUrl("./ButtonMixin.html"), 999999);
 	doh.register("form.Button", require.toUrl("./Button.html"), 999999);
