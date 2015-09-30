@@ -532,17 +532,10 @@ define([
 				s = "javascript: '" + src + "'";
 			}
 
-			if(has("ie") == 9){
-				// On IE9, attach to document before setting the content, to avoid problem w/iframe running in
-				// wrong security context, see #16633.
-				this.editingArea.appendChild(ifr);
-				ifr.src = s;
-			}else{
-				// For other browsers, set src first, especially for IE6/7 where attaching first gives a warning on
-				// https:// about "this page contains secure and insecure items, do you want to view both?"
-				ifr.setAttribute('src', s);
-				this.editingArea.appendChild(ifr);
-			}
+			// Attach to document before setting the content, to avoid problem w/iframe running in
+			// wrong security context (IE9 and IE11), see #16633.
+			this.editingArea.appendChild(ifr);
+			ifr.src = s;
 
 			// TODO: this is a guess at the default line-height, kinda works
 			if(dn.nodeName === "LI"){
