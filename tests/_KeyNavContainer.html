@@ -23,9 +23,17 @@
 					this.connectKeyNavHandlers([keys.LEFT_ARROW, keys.UP_ARROW], [keys.RIGHT_ARROW, keys.DOWN_ARROW]);
 				}
 			});
-	
+
 			declare("TestContained", _WidgetBase, {
 				// _KeyNavContainer requires children to have focus()
+				focus: function(){
+					this.domNode.focus();
+				}
+			});
+
+			declare("TestNotFocusedChildContainer", [_WidgetBase, _KeyNavContainer], {
+				// Some container may override focus and have 'focusedChild==null'
+				// dijit/form/Select is a sample
 				focus: function(){
 					this.domNode.focus();
 				}
@@ -144,6 +152,55 @@
 
 						return d;
 					}
+				},
+				{
+					name: "search (& match) in container with not focused child",
+					runTest: function(t){
+						var d = new doh.Deferred();
+
+						var c = registry.byId("notFocusedChildContainer");
+						c.focus();
+
+						doh.is("notFocusedChildContainer", focus.curNode.id, "container is focused");
+
+						// searach with no match
+						on.emit(c.domNode, "keypress", {charCode: 115 /* "s" */, bubbles: true, cancelable: true});
+
+						setTimeout(d.getTestCallback(function(){
+							doh.is("single", focus.curNode.id, "focus changed to child 'single'");
+						}), 0);
+
+						return d;
+					}
+				},
+				{
+					name: "search (& no match) in container with not focused child",
+					setUp: function() {
+						var d = this.d = new doh.Deferred();
+						window.onerror = function(msg){
+							d.reject(new Error(msg));
+						};
+					},
+					runTest: function(t){
+						var d = this.d;
+
+						var c = registry.byId("notFocusedChildContainer");
+						c.focus();
+
+						doh.is("notFocusedChildContainer", focus.curNode.id, "container is focused");
+
+						// searach with no match
+						on.emit(c.domNode, "keypress", {charCode: 97 /* "a" */, bubbles: true, cancelable: true});
+
+						setTimeout(d.getTestCallback(function(){
+							doh.is("notFocusedChildContainer", focus.curNode.id, "focus not changed");
+						}), 0);
+
+						return d;
+					},
+					tearDown: function(){
+						window.onerror = null;
+					}
 				}
 			]);
 
@@ -161,6 +218,10 @@
 		<div id="one" data-dojo-type="TestContained">one</div>
 		<div id="two" data-dojo-type="TestContained">two</div>
 		<div id="three" data-dojo-type="TestContained">three</div>
+	</div>
+
+	<div id="notFocusedChildContainer" data-dojo-type="TestNotFocusedChildContainer">
+		<div id="single" data-dojo-type="TestContained">single</div>
 	</div>
 </body>
 </html>
