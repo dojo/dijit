@@ -192,8 +192,6 @@
 						// searach with no match
 						on.emit(c.domNode, "keypress", {charCode: 97 /* "a" */, bubbles: true, cancelable: true});
 											
-						window.onerror = d.reject;
-						
 						setTimeout(d.getTestCallback(function(){
 							doh.is("notFocusedChildContainer", focus.curNode.id, "focus not changed");
 						}), 0);
