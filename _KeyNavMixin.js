@@ -386,7 +386,7 @@ define([
 							break;
 						}
 						currentItem = this._getNextFocusableChild(currentItem, 1);
-					}while(currentItem != stop);
+					}while(currentItem && currentItem != stop);
 					// commented out code block to search again if the multichar search fails after a smaller timeout
 					//if(!numMatches && (this._typingSlowly || searchLen == 1)){
 					//	this._searchString = '';
