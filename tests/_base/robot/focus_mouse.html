@@ -32,7 +32,7 @@
 				doh.register("Dijit focus manager tests", [
 
 					function setUp(){
-						dojo.forEach(["form", "fieldset1", "fieldset2", "select", "editor", "spinner"], function(id){
+						dojo.forEach(["form", "fieldset1", "fieldset2", "select", "spinner"], function(id){
 							var w = dijit.byId(id);
 
 							// old API is to connect to onFocus/onBlur (remove in 2.0)
@@ -117,37 +117,6 @@
 						},
 						tearDown: function(){
 							dojo.disconnect(handle);
-						}
-					},
-					{
-						name: "focus editor",
-						timeout: 4000,
-						setUp: function(){
-							resetEvents();
-						},
-						runTest: function(){
-							var d = new doh.Deferred();
-
-							dijit.byId("editor").focus();
-
-							doh.robot.sequence(d.getTestCallback(function(){
-								// The focus stack should show the Editor plus all parent widgets
-								var stack = dojo.global.dijit._activeStack;
-								doh.is("form, editor", stack.join(", "), "editor stack");
-
-								// _onFocus()/_onBlur was called appropriately
-								doh.f(focusEvents["form"], "form was already focused, no duplicate event");
-								doh.f(blurEvents["form"], "form wasn't blurred");
-								doh.t(blurEvents["fieldset1"], "fieldset no longer focused");
-								doh.t(focusEvents["editor"], "editor focused");
-
-								doh.f(focusedWatchLog["form"], "form watch callback (no new notification)");
-								doh.is("blurred", focusedWatchLog["fieldset1"], "fieldset watch callback, no longer focused");
-								doh.is("blurred", focusedWatchLog["select"], "select watch callback, no longer focused");
-								doh.is("focused", focusedWatchLog["editor"], "editor watch callback");
-							}), 500);
-
-							return d;
 						}
 					},
 
