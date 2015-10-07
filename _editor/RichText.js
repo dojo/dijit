@@ -564,7 +564,7 @@ define([
 			// The contents inside of <body>.  The real contents are set later via a call to setValue().
 			// In auto-expand mode, need a wrapper div for AlwaysShowToolbar plugin to correctly
 			// expand/contract the editor as the content changes.
-			var html = "<div id='dijitEditorBody'></div>";
+			var html = "<div id='dijitEditorBody' role='main'></div>";
 
 			var font = [ _cs.fontWeight, _cs.fontSize, _cs.fontFamily ].join(" ");
 
@@ -661,7 +661,7 @@ define([
 				(has("ie") || has("trident") ? "" : "\tli{ min-height:1.2em; }\n"),
 				"</style>\n",
 				this._applyEditingAreaStyleSheets(), "\n",
-				"</head>\n<body role='main' ",
+				"</head>\n<body ",
 
 				// Onload handler fills in real editor content.
 				// On IE9, sometimes onload is called twice, and the first time frameElement is null (test_FullScreen.html)
