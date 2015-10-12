@@ -192,7 +192,7 @@ define([
 			}
 			if(has("ie") || has("trident")){
 				// IE generates <strong> and <em> but we want to normalize to <b> and <i>
-				// Still happens in IE11!
+				// Still happens in IE11, but doesn't happen with Edge.
 				this.contentPostFilters = [this._normalizeFontStyle].concat(this.contentPostFilters);
 				this.contentDomPostFilters = [lang.hitch(this, "_stripBreakerNodes")].concat(this.contentDomPostFilters);
 			}
@@ -661,7 +661,9 @@ define([
 
 				"\tli > ul:-moz-first-node, li > ol:-moz-first-node{ padding-top: 1.2em; }\n",
 				// Can't set min-height in IE>=9, it puts layout on li, which puts move/resize handles.
-				(has("ie") || has("trident") ? "" : "\tli{ min-height:1.2em; }\n"),
+				// Also can't set it on Edge, as it leads to strange behavior where hitting the return key
+				// doesn't start a new list item.
+				(has("ie") || has("trident") || has("edge") ? "" : "\tli{ min-height:1.2em; }\n"),
 				"</style>\n",
 				this._applyEditingAreaStyleSheets(), "\n",
 				"</head>\n<body ",
@@ -1077,6 +1079,7 @@ define([
 
 			// Workaround IE problem when you blur the browser windows while an editor is focused: IE hangs
 			// when you focus editor #1, blur the browser window, and then click editor #0.  See #16939.
+			// Note: Edge doesn't seem to have this problem.
 			if(has("ie") || has("trident")){
 				this.defer(function(){
 					if(!focus.curNode){
@@ -1222,22 +1225,6 @@ define([
 			// tags:
 			//		private
 
-			var ie = 1;
-			var mozilla = 1 << 1;
-			var webkit = 1 << 2;
-			var opera = 1 << 3;
-
-			function isSupportedBy(browsers){
-				return {
-					ie: Boolean(browsers & ie),
-					mozilla: Boolean(browsers & mozilla),
-					webkit: Boolean(browsers & webkit),
-					opera: Boolean(browsers & opera)
-				};
-			}
-
-			var supportedBy = null;
-
 			switch(command.toLowerCase()){
 				case "bold":
 				case "italic":
@@ -1255,8 +1242,6 @@ define([
 				case "delete":
 				case "selectall":
 				case "toggledir":
-					supportedBy = isSupportedBy(mozilla | ie | webkit | opera);
-					break;
 
 				case "createlink":
 				case "unlink":
@@ -1273,27 +1258,27 @@ define([
 				case "redo":
 				case "strikethrough":
 				case "tabindent":
-					supportedBy = isSupportedBy(mozilla | ie | opera | webkit);
-					break;
 
+				case "cut":
+				case "copy":
+				case "paste":
+					return true;
+
+				// Note: This code path is apparently never called.  Not sure if it should return true or false
+				// for Edge.
 				case "blockdirltr":
 				case "blockdirrtl":
 				case "dirltr":
 				case "dirrtl":
 				case "inlinedirltr":
 				case "inlinedirrtl":
-					supportedBy = isSupportedBy(ie);
-					break;
-				case "cut":
-				case "copy":
-				case "paste":
-					supportedBy = isSupportedBy(ie | mozilla | webkit | opera);
-					break;
+					return has("ie") || has("trident") || has("edge");
 
+				// Note: This code path is apparently never called, not even by the dojox/editor table plugins.
+				// There's also an _inserttableEnabledImpl() method that's also never called.
+				// Previously this code returned truthy for IE and mozilla, but false for chrome/safari, so
+				// leaving it that way just in case.
 				case "inserttable":
-					supportedBy = isSupportedBy(mozilla | ie);
-					break;
-
 				case "insertcell":
 				case "insertcol":
 				case "insertrow":
@@ -1302,17 +1287,11 @@ define([
 				case "deleterows":
 				case "mergecells":
 				case "splitcell":
-					supportedBy = isSupportedBy(ie | mozilla);
-					break;
+					return !has("webkit");
 
 				default:
 					return false;
 			}
-
-			return ((has("ie") || has("trident")) && supportedBy.ie) ||
-				(has("mozilla") && supportedBy.mozilla) ||
-				(has("webkit") && supportedBy.webkit) ||
-				(has("opera") && supportedBy.opera);	// Boolean return true if the command is supported, false otherwise
 		},
 
 		execCommand: function(/*String*/ command, argument){
@@ -1340,6 +1319,8 @@ define([
 				if(command === "heading"){
 					throw new Error("unimplemented");
 				}else if(command === "formatblock" && (has("ie") || has("trident"))){
+					// See http://stackoverflow.com/questions/10741831/execcommand-formatblock-headings-in-ie.
+					// Not necessary on Edge though.
 					argument = '<' + argument + '>';
 				}
 			}
@@ -1416,7 +1397,9 @@ define([
 			}
 			var r;
 			command = this._normalizeCommand(command);
-			if((has("ie") || has("trident")) && command === "formatblock"){
+			if(has("ie") && command === "formatblock"){
+				// This is to deal with IE bug when running in non-English.  See _localizeEditorCommands().
+				// Apparently not needed on IE11 or Edge.
 				r = this._native2LocalFormatNames[this.document.queryCommandValue(command)];
 			}else if(has("mozilla") && command === "hilitecolor"){
 				var oldValue;
@@ -2341,7 +2324,7 @@ define([
 			// tags:
 			//		protected
 			var applied = false;
-			if(has("ie") || has("trident")){
+			if(has("ie") || has("trident") || has("edge")){
 				applied = this._adaptIEList("insertorderedlist", argument);
 			}
 			if(!applied){
@@ -2358,7 +2341,7 @@ define([
 			// tags:
 			//		protected
 			var applied = false;
-			if(has("ie") || has("trident")){
+			if(has("ie") || has("trident") || has("edge")){
 				applied = this._adaptIEList("insertunorderedlist", argument);
 			}
 			if(!applied){
@@ -2449,6 +2432,9 @@ define([
 			//		then the native browser commands will fail to execute correctly.
 			//		To work around the issue,  we can remove all empty nodes from
 			//		the start of the range selection.
+			//
+			//		Note: not needed on Edge because Windows 10 won't let the user make
+			//		a selection containing leading or trailing newlines.
 			var selection = rangeapi.getSelection(this.window);
 			if(selection && selection.rangeCount && !selection.isCollapsed){
 				var range = selection.getRangeAt(0);
@@ -2781,7 +2767,7 @@ define([
 			//		private
 			var selection = rangeapi.getSelection(this.window);
 			if(selection.isCollapsed){
-				// In the case of no selection, lets commonize the behavior and
+				// In the case of no selection, let's commonize the behavior and
 				// make sure that it indents if needed.
 				if(selection.rangeCount && !this.queryCommandValue(command)){
 					var range = selection.getRangeAt(0);
@@ -2795,6 +2781,7 @@ define([
 							// or IE may shove too much into the list element.  It seems to
 							// grab content before the text node too if it's br split.
 							// Why can't IE work like everyone else?
+							// This problem also happens on Edge.
 
 							// Create a space, we'll select and bold it, so
 							// the whole word doesn't get bolded
