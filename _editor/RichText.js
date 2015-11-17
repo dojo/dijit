@@ -9,13 +9,14 @@ define([
 	"dojo/dom-construct", // domConstruct.create domConstruct.destroy domConstruct.place
 	"dojo/dom-geometry", // domGeometry.position
 	"dojo/dom-style", // domStyle.getComputedStyle domStyle.set
-	"dojo/_base/kernel", // kernel.deprecated
+	"dojo/_base/kernel", // kernel.deprecated, kernel.locale
 	"dojo/keys", // keys.BACKSPACE keys.TAB
 	"dojo/_base/lang", // lang.clone lang.hitch lang.isArray lang.isFunction lang.isString lang.trim
 	"dojo/on", // on()
 	"dojo/query", // query
 	"dojo/domReady",
 	"dojo/sniff", // has("ie") has("mozilla") has("opera") has("safari") has("webkit")
+	"dojo/string",
 	"dojo/topic", // topic.publish() (publish)
 	"dojo/_base/unload", // unload
 	"dojo/_base/url", // url
@@ -28,7 +29,7 @@ define([
 	"../focus",
 	"../main"    // dijit._scopeName
 ], function(array, config, declare, Deferred, dom, domAttr, domClass, domConstruct, domGeometry, domStyle,
-			kernel, keys, lang, on, query, domReady, has, topic, unload, _Url, winUtils,
+			kernel, keys, lang, on, query, domReady, has, string, topic, unload, _Url, winUtils,
 			_Widget, _CssStateMixin, selectionapi, rangeapi, htmlapi, focus, dijit){
 
 	// module:
@@ -564,10 +565,23 @@ define([
 			//		private
 			var _cs = domStyle.getComputedStyle(this.domNode);
 
+			// Find any associated label element, aria-label, or aria-labelledby and get unescaped text.
+			var title;
+			if(this["aria-label"]){
+				title = this["aria-label"];
+			}else{
+				var labelNode = query('label[for="' + this.id + '"]', this.ownerDocument)[0] ||
+						dom.byId(this["aria-labelledby"], this.ownerDocument);
+				if(labelNode){
+					title = labelNode.textContent || labelNode.innerHTML || "";
+				}
+			}
+
 			// The contents inside of <body>.  The real contents are set later via a call to setValue().
 			// In auto-expand mode, need a wrapper div for AlwaysShowToolbar plugin to correctly
 			// expand/contract the editor as the content changes.
-			var html = "<div id='dijitEditorBody' role='main'></div>";
+			var html = "<div id='dijitEditorBody' role='textbox' aria-multiline='true' " +
+					(title ? " aria-label='" + string.escape(title) + "'" : "") + "></div>";
 
 			var font = [ _cs.fontWeight, _cs.fontSize, _cs.fontFamily ].join(" ");
 
@@ -610,26 +624,18 @@ define([
 				userStyle += match + ';';
 			});
 
-
-			// need to find any associated label element, aria-label, or aria-labelledby and update iframe document title
-			var label = query('label[for="' + this.id + '"]');
-			var title = "";
-			if(label.length){
-				title = label[0].innerHTML;
-			}else if(this["aria-label"]){
-				title = this["aria-label"];
-			}else if(this["aria-labelledby"]){
-				title = dom.byId(this["aria-labelledby"]).innerHTML;
-			}
-
 			// Now that we have the title, also set it as the title attribute on the iframe
 			this.iframe.setAttribute("title", title);
 
+			// if this.lang is unset then use default value, to avoid invalid setting of lang=""
+			var language = this.lang || kernel.locale.replace(/-.*/, "");
+
 			return [
 				"<!DOCTYPE html>",
-				this.isLeftToRight() ? "<html lang='" + this.lang + "'>\n<head>\n" : "<html dir='rtl' lang='" + this.lang + "'>\n<head>\n",
-				title ? "<title>" + title + "</title>" : "",
+				"<html lang='" + language + "'" + (this.isLeftToRight() ? "" : " dir='rtl'") + ">\n",
+				"<head>\n",
 				"<meta http-equiv='Content-Type' content='text/html'>\n",
+				title ? "<title>" + string.escape(title) + "</title>" : "",
 				"<style>\n",
 				"\tbody,html {\n",
 				"\t\tbackground:transparent;\n",
@@ -666,7 +672,8 @@ define([
 				(has("ie") || has("trident") || has("edge") ? "" : "\tli{ min-height:1.2em; }\n"),
 				"</style>\n",
 				this._applyEditingAreaStyleSheets(), "\n",
-				"</head>\n<body ",
+				"</head>\n<body role='application'",
+				title ? " aria-label='" + string.escape(title) + "'" : "",
 
 				// Onload handler fills in real editor content.
 				// On IE9, sometimes onload is called twice, and the first time frameElement is null (test_FullScreen.html)
