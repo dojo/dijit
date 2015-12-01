@@ -215,9 +215,9 @@ define([
 
 			domStyle.set(wrapper, {
 				display: "none",
-				height: "auto",		// Open may have limited the height to fit in the viewport
-				overflow: "visible",
-				border: ""			// Open() may have moved border from popup to wrapper.
+				height: "auto",			// Open() may have limited the height to fit in the viewport,
+				overflowY: "visible",	// and set overflowY to "auto".
+				border: ""				// Open() may have moved border from popup to wrapper.
 			});
 
 			// Open() may have moved border from popup to wrapper.  Move it back.
