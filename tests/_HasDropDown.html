@@ -19,25 +19,30 @@ require([
 		// summary:
 		//		A trivial popup widget
 
+		templateString: "<div></div>",
+
 		label: "i'm a popup",
-		templateString: "<div>${label}</div>"
+		_setLabelAttr: { node: "domNode", type: "innerText" }
 	});
 
 	var SimpleDropDownButton = declare([_WidgetBase, _TemplatedMixin, _HasDropDown], {
 		// summary:
 		//		A button that shows a popup.
 
-		label: "show dropdown",
-		popupLabel: "i'm a popup",
-		orient: ["below"],
+		templateString: "<button></button>",
 
-		templateString: "<button>${label}</button>",
+		label: "show dropdown",
+		_setLabelAttr: { node: "domNode", type: "innerText" },
+
+		popupLabel: "i'm a popup",
+		_setPopupLabel: "dropDown",
+
+		orient: ["below"],
 
 		postCreate: function(){
 			this.inherited(arguments);
 			this.dropDown = new SimplePopup({
-				id: this.id + "_popup",
-				label: this.popupLabel
+				id: this.id + "_popup"
 			});
 		}
 	});
@@ -203,6 +208,50 @@ require([
 				doh.t(anchorPos.w > dropDownPos.w, "anchor wider than drop down");
 			}), 10);
 			return d;
+		}
+	]);
+
+	doh.register("autoWidth", [
+		function setup(){
+			dd = new SimpleDropDownButton({
+				id: "autowidth",
+				label: "auto width",
+				popupLabel: "x"		// start with narrow popup to test it gets expanded
+			}).placeAt(win.body());
+			popup = dd.dropDown;
+			doh.t(!!popup, "popup exists");
+		},
+		function open(){
+			var d = new doh.Deferred();
+			click(dd.domNode);
+			setTimeout(d.getTestCallback(function(){
+				doh.t(helpers.isVisible(popup), "popup visible");
+				var anchorPos = domGeom.position(dd.domNode),
+						dropDownPos = domGeom.position(popup.domNode);
+				doh.t(Math.abs(anchorPos.w - dropDownPos.w) < 1, "drop down same width as anchor");
+			}), 10);
+			return d;
+		},
+		function close(){
+			dd.closeDropDown();
+			doh.t(helpers.isHidden(popup), "popup hidden");
+		},
+		function open2(){
+			var d = new doh.Deferred();
+			dd.dropDown.set("label", "this is a very wide dropdown, wider than the button")
+			click(dd.domNode);
+			setTimeout(d.getTestCallback(function(){
+				doh.t(helpers.isVisible(popup), "popup visible");
+				var anchorPos = domGeom.position(dd.domNode),
+						dropDownPos = domGeom.position(popup.domNode);
+				doh.t(dropDownPos.w > anchorPos.w + 1,
+					"drop down wider than anchor, " + dropDownPos.w + ", " + anchorPos.w);
+			}), 10);
+			return d;
+		},
+		function close2(){
+			dd.closeDropDown();
+			doh.t(helpers.isHidden(popup), "popup hidden");
 		}
 	]);
 

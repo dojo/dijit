@@ -412,6 +412,7 @@ define([
 				var resizeArgs = {
 					w: dropDown.domNode.offsetWidth + widthAdjust
 				};
+				this._origStyle = ddNode.style.cssText;
 				if(lang.isFunction(dropDown.resize)){
 					dropDown.resize(resizeArgs);
 				}else{
@@ -461,7 +462,11 @@ define([
 				popup.close(this.dropDown);
 				this._opened = false;
 			}
-		}
 
+			if(this._origStyle){
+				this.dropDown.domNode.style.cssText = this._origStyle;
+				delete this._origStyle;
+			}
+		}
 	});
 });
