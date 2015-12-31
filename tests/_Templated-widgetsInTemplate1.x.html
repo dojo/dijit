@@ -26,11 +26,7 @@
 			dojo.ready(function(){
 				var testW;
 
-				dojo.declare('Test1Widget',
-					[dijit._Widget, dijit._Templated],
-				{
-					widgetsInTemplate: true,
-	
+				dojo.declare('Test1Widget', [dijit._Widget, dijit._Templated], {
 					templateString: dojo.byId('Test1Template').textContent || dojo.byId('Test1Template').innerText,
 					onClick: function(e){
 						if(e.target){
@@ -45,19 +41,11 @@
 					}
 				});
 
-				dojo.declare('Test2Widget',
-					[dijit._Widget, dijit._Templated],
-				{
-					widgetsInTemplate: true,
-	
+				dojo.declare('Test2Widget', [dijit._Widget, dijit._Templated], {
 					templateString: dojo.byId('Test2Template').textContent || dojo.byId('Test2Template').innerText
 				});
 
-				dojo.declare('Test4Widget',
-					[dijit._Widget, dijit._Templated],
-				{
-					widgetsInTemplate: true,
-		
+				dojo.declare('Test4Widget', [dijit._Widget, dijit._Templated], {
 					templateString: dojo.byId('Test4Template').textContent || dojo.byId('Test4Template').innerText
 				});
 		
@@ -152,11 +140,7 @@
 					}
 				});
 		
-				dojo.declare('Test5Widget',
-					[dijit._Widget, dijit._Templated],
-				{
-					widgetsInTemplate: true,
-		
+				dojo.declare('Test5Widget', [dijit._Widget, dijit._Templated], {
 					templateString: dojo.byId('Test5Template').textContent || dojo.byId('Test5Template').innerText,
 					startup: function(){
 						if(this._started){
@@ -218,8 +202,7 @@
 											'<div dojoType="dijit.form.Button" id="missingButtonId" ' +
 											'dojoAttachPoint="missingButton">Missing...</div>' +
 										'</div>' +
-									'</div>',
-					widgetsInTemplate: true
+									'</div>'
 				});
 	
 				doh.register("parse", function(){
@@ -413,11 +396,7 @@
 		</div>
 	</xmp>
 		<script>
-			dojo.declare('Test3Widget',
-				[dijit._Widget, dijit._Templated],
-			{
-				widgetsInTemplate: true,
-
+			dojo.declare('Test3Widget', [dijit._Widget, dijit._Templated], {
 				templateString: dojo.byId('Test3Template').textContent || dojo.byId('Test3Template').innerText
 			});
 		</script>
