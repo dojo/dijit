@@ -2127,6 +2127,19 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	text-align: inherit; /* input */
 }
 
+.dijitNumberTextBox input.dijitInputInner,
+.dijitCurrencyTextBox input.dijitInputInner,
+.dijitSpinner input.dijitInputInner {
+	text-align: right;
+}
+
+.dj_ie8 .dijitNumberTextBox input.dijitInputInner, .dj_ie9 .dijitNumberTextBox input.dijitInputInner,
+.dj_ie8 .dijitCurrencyTextBox input.dijitInputInner, .dj_ie9 .dijitCurrencyTextBox input.dijitInputInner,
+.dj_ie8 .dijitSpinner input.dijitInputInner, .dj_ie9 .dijitSpinner input.dijitInputInner {
+	/* workaround bug where caret invisible in empty textboxes */
+	padding-right: 1px !important;
+}
+
 .dijitToolbar .dijitSelect {
 	margin: 0;
 }
