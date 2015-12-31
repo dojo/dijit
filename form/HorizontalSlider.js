@@ -299,6 +299,12 @@ define([
 		_mouseWheeled: function(/*Event*/ evt){
 			// summary:
 			//		Event handler for mousewheel where supported
+
+			if(!this.focused){
+				// If use is scrolling over page and we happen to get the mouse wheel event, just ignore it.
+				return;
+			}
+
 			evt.stopPropagation();
 			evt.preventDefault();
 			this._bumpValue(evt.wheelDelta < 0 ? -1 : 1, true); // negative scroll acts like a decrement
