@@ -45,10 +45,10 @@
 
 			createTab = function(){
 				if(!tabCounter){ tabCounter = 3; }
-	
+
 				var title = '<img src="../images/plus.gif" style="background-color:#95B7D3;"/> Tab ' +(++tabCounter);
 				var refreshOnShow = !!(tabCounter % 2);
-	
+
 				var newTab = new ContentPane({
 					id: "ttab" + tabCounter,
 					title: title + (refreshOnShow ? ' <i>refreshOnShow</i>': ''),
@@ -57,9 +57,9 @@
 					href: 'getResponse.php?delay=1000&messId='+tabCounter
 						+"&message="+encodeURI("<h1>Programmatically created Tab "+tabCounter+"</h1>")
 				}, document.createElement('div'));
-	
+
 				registry.byId('ttabs').addChild(newTab);
-	
+
 				newTab.startup();
 			};
 
@@ -75,11 +75,31 @@
 				return parser.parse();
 			});
 
-			var cp;
+			var cp, cp1;
 
 			doh.register("ContentPane", [
 				function create(){
 					cp = new ContentPane({}, dom.byId("cp"));
+
+					cp1 = new declare(ContentPane, {
+						preprocessContent: function(content){
+							if(typeof content === "string"){
+								// return a reversed string
+								var reverse = "";
+								for(var i = content.length - 1; i >= 0; i--){
+									reverse += content[i];
+								}
+								return reverse;
+							}else{
+								// wrap the DocumentFragment in a div
+								var frag = document.createDocumentFragment();
+								var div = document.createElement("div");
+								div.appendChild(content);
+								frag.appendChild(div);
+								return frag;
+							}
+						}
+					})({}, dom.byId("cp1"));
 				},
 
 				{
@@ -317,7 +337,7 @@
 								// check that custom message was set
 								doh.is(msg, cp.containerNode.innerHTML, "custom download message was set");
 
-								// and then wait for the download to complete						
+								// and then wait for the download to complete
 								endHandle = cp.on("downloadend", d.getTestCallback(function(){
 									// if this gets called (before the test timeout) then test succeeded
 								}));
@@ -344,7 +364,7 @@
 					runTest:function(t){
 						var d = new doh.Deferred();
 
-						loadHandle = cp.on("unload", d.getTestErrback(function(){							
+						loadHandle = cp.on("unload", d.getTestErrback(function(){
 							unloadHandle = cp.on("load", d.getTestCallback(function(){
 								// if this gets called (before the test timeout) then test succeeded
 							}));
@@ -357,7 +377,36 @@
 						loadHandle.remove();
 						unloadHandle.remove();
 					}
+				},
+
+				// Test that preprocessContent returns as expected when setting
+				// content as a string
+				{
+					name: "preprocessContent.string",
+					timeout: 5000,
+					setUp:function(t){
+						cp1.set("content", "foo");
+					},
+					runTest:function(t){
+						doh.is("oof", cp1.get("content"), "preprocessContent(string)");
+					}
+				},
+
+				{
+					name: "preprocessContent.DocumentFragment",
+					timeout: 5000,
+					setUp:function(t){
+						var docFrag = document.createDocumentFragment();
+						var span = document.createElement("span");
+						docFrag.appendChild(span);
+						cp1.set("content", docFrag);
+					},
+					runTest:function(t){
+						doh.is("<div><span></span></div>", cp1.get("content").toLowerCase(),
+							"preprocessContent(DocumentFragment)");
+					}
 				}
+
 			]);
 
 			function selectChildAndTestLoad(/*String*/ parentId, /*String*/ childId, /*String*/ startOfExpectedContent){
@@ -504,7 +553,7 @@
 					timeout: 9000,
 					runTest: function(){ return selectChildAndTestLoad("ttabs", "ttab1", "IT WAS"); }
 				}
-			]);			
+			]);
 
 			doh.register("ContentPane in AccordionContainer", [
 				{
@@ -538,7 +587,7 @@
 						});
 
 						registry.byId("ac").selectChild("ac_pane3");
-						
+
 						return d;
 					}
 				},
@@ -572,7 +621,7 @@
 						// Check that it isn't loaded yet
 						var dlg = registry.byId("noPreloadTooltipDlg");
 						doh.f(dlg.isLoaded, "didn't load yet");
-	
+
 						// Open the dialog and then return Deferred waiting for it to load.
 						// If it doesn't load then this test will get a timeout.
 						var btn = registry.byId("noPreloadTooltipDlgBtn");
@@ -593,6 +642,9 @@
 
 	<h2>Plain ContentPane</h2>
 	<div id='cp' class='box'></div>
+
+	<h2>preprocessContent ContentPane</h2>
+	<div id='cp1' class='box'></div>
 
 	<h2>StackContainer</h2>
 	<div id='stackcontainer'></div>
