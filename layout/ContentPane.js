@@ -513,6 +513,7 @@ define([
 			// returns:
 			//		Returns a Deferred promise that is resolved when the content is parsed.
 
+			this.onPreprocessContent(cont);
 			// first get rid of child widgets
 			this.destroyDescendants();
 
@@ -595,6 +596,14 @@ define([
 			//		Event hook, is called after everything is loaded and widgetified
 			// tags:
 			//		callback
+		},
+
+		onPreprocessContent: function(/*String|DocumentFragment*/ content){
+			// summary:
+			//		Event hook, called after content has loaded, before being processed
+			// tags:
+			//		callback
+			/* See https://bugs.dojotoolkit.org/ticket/9622 */
 		},
 
 		onUnload: function(){
