@@ -513,7 +513,7 @@ define([
 			// returns:
 			//		Returns a Deferred promise that is resolved when the content is parsed.
 
-			this.onPreprocessContent(cont);
+			cont = this.preprocessContent(cont);
 			// first get rid of child widgets
 			this.destroyDescendants();
 
@@ -577,6 +577,17 @@ define([
 			});
 		},
 
+		preprocessContent: function(/*String|DocumentFragment*/ content){
+			// summary:
+			//		Hook, called after content has loaded, before being processed.
+			// description:
+			//		A subclass should preprocess the content and return the preprocessed content.
+			//		See https://bugs.dojotoolkit.org/ticket/9622
+			// returns:
+			//		Returns preprocessed content, either a String or DocumentFragment
+			return content;
+		},
+
 		_onError: function(type, err, consoleText){
 			this.onLoadDeferred.reject(err);
 
@@ -596,14 +607,6 @@ define([
 			//		Event hook, is called after everything is loaded and widgetified
 			// tags:
 			//		callback
-		},
-
-		onPreprocessContent: function(/*String|DocumentFragment*/ content){
-			// summary:
-			//		Event hook, called after content has loaded, before being processed
-			// tags:
-			//		callback
-			/* See https://bugs.dojotoolkit.org/ticket/9622 */
 		},
 
 		onUnload: function(){
