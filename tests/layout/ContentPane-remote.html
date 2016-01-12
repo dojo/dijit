@@ -25,7 +25,7 @@
 			"dijit/TooltipDialog",
 			"dijit/form/Button",
 			"dijit/form/DropDownButton",
-			"dijit/layout/ContentPane",
+			"dijit-dylan/layout/ContentPane",
 			"dijit/layout/StackContainer",
 			"dijit/layout/TabContainer",
 			"dijit/layout/AccordionContainer",
@@ -75,18 +75,20 @@
 				return parser.parse();
 			});
 
-			var cp;
+			var cp, cp1;
 
 			doh.register("ContentPane", [
 				function create(){
 					cp = new ContentPane({}, dom.byId("cp"));
-					cp1 = new ContentPane({
+
+					cp1 = new declare(ContentPane, {
 						preprocessContent: function(content){
 							if(typeof content === "string"){
 								// return a reversed string
 								var reverse = "";
-								for(var i = content.length - 1; i >= 0; i--)
-								    reverse += content[i];
+								for(var i = content.length - 1; i >= 0; i--){
+									reverse += content[i];
+								}
 								return reverse;
 							}else{
 								// wrap the DocumentFragment in a div
@@ -97,7 +99,7 @@
 								return frag;
 							}
 						}
-					}, dom.byId("cp1"));
+					})({}, dom.byId("cp1"));
 				},
 
 				{
@@ -390,7 +392,6 @@
 					}
 				},
 
-				// Test that preprocessContent wraps a div when passed a DocumentFragment
 				{
 					name: "preprocessContent.DocumentFragment",
 					timeout: 5000,
@@ -401,7 +402,7 @@
 						cp1.set("content", docFrag);
 					},
 					runTest:function(t){
-						doh.is("div", cp1.get("content").children[0].tagName,
+						doh.is("<div><span></span></div>", cp1.get("content").toLowerCase(),
 							"preprocessContent(DocumentFragment)");
 					}
 				}
