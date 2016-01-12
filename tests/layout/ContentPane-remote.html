@@ -85,10 +85,10 @@
 							if(typeof content === "string"){
 								// return a reversed string
 								var reverse = "";
-								for(var i = content.length - 1; i >= 0; i--;)
+								for(var i = content.length - 1; i >= 0; i--)
 								    reverse += content[i];
 								return reverse;
-							} else {
+							}else{
 								// wrap the DocumentFragment in a div
 								var frag = document.createDocumentFragment();
 								var div = document.createElement("div");
