@@ -605,7 +605,11 @@ define([
 
 			val = lang.trim(val);
 			var renderVal = this.renderAsHtml ? val : val.replace(/&/gm, "&amp;").replace(/</gm, "&lt;").replace(/>/gm, "&gt;").replace(/"/gm, "&quot;").replace(/\n/g, "<br>");
-			this.displayNode.innerHTML = renderVal || this.noValueIndicator;
+			if(this.editorParams && this.editorParams.type === 'password'){
+			    this.displayNode.innerHTML = "********";
+			}else{
+			    this.displayNode.innerHTML = renderVal || this.noValueIndicator;
+			}
 			this._set("value", val);
 
 			if(this._started){
