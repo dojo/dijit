@@ -2,12 +2,12 @@
 	"name": "dijit",
 	"main": "main.js",
 	"moduleType": [ "amd" ],
-	"licenses": [ "BSD-3-Clause", "AFL-2.1"],
+	"licenses": [ "BSD-3-Clause", "AFL-2.1" ],
 	"ignore": [
 		".*",
 		"tests"
 	],
-	"keywords": ["JavaScript", "Dojo", "Toolkit", "Dijit"],
+	"keywords": [ "JavaScript", "Dojo", "Toolkit", "Dijit" ],
 	"authors": [],
 	"homepage": "http://dojotoolkit.org/",
 	"repository":{
@@ -15,7 +15,7 @@
 		"url": "https://github.com/dojo/dijit.git"
 	},
 	"dependencies": {
-		"dojo":"1.11.0-pre"
+		"dojo": "1.11.0-pre"
 	},
 	"devDependencies": {
 	},
