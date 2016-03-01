@@ -513,6 +513,7 @@
 
 							var tc = registry.byId("ttabs");
 							winUtils.scrollIntoView(tc.domNode);
+							doh.is(4, tc.getChildren().length, "num tabs before trying to close one");
 
 							dom.byId("ttabs_tablist_ttab1").focus();
 
@@ -531,7 +532,7 @@
 							robot.keyPress(keys.ENTER, 500, {});
 
 							robot.sequence(d.getTestCallback(function(){
-								doh.is(2, tc.getChildren().length, "remaining tabs");
+								doh.is(3, tc.getChildren().length, "remaining tabs");
 								doh.is("ttab2", tc.selectedChildWidget.id,
 										"selection moved to next tab (since first tab was deleted)");
 							}), 500);
