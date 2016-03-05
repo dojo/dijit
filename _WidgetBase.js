@@ -400,7 +400,7 @@ define([
 			this._supportingWidgets = [];
 
 			// this is here for back-compat, remove in 2.0 (but check NodeList-instantiate.html test)
-			if(this.srcNodeRef && (typeof this.srcNodeRef.id == "string")){
+			if(this.srcNodeRef && this.srcNodeRef.id  && (typeof this.srcNodeRef.id == "string")){
 				this.id = this.srcNodeRef.id;
 			}
 
