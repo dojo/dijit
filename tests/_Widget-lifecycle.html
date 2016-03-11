@@ -94,7 +94,30 @@
 
 						doh.isNot(undefined, w.id)
 					}
-				}
+				},
+				{
+					name: "create where id specified in prototype",
+					runTest: function(t){
+						declare("TestWidgetWithId", _WidgetBase, {
+							id: "id-in-prototype"
+						});
+
+						// Creating without an id should use the id in the prototype
+						w = new TestWidgetWithId();
+						w.placeAt(document.body);
+						doh.t(registry.byId("id-in-prototype"), "widget in registry");
+						doh.is(w.domNode, dom.byId("id-in-prototype"), "id on domnode");
+						w.destroy();
+
+						// Then try overriding id
+						w = new TestWidgetWithId({id: "override"});
+						w.placeAt(document.body);
+						doh.t(registry.byId("override"), "widget in registry");
+						doh.is(w.domNode, dom.byId("override"), "id on domnode");
+						w.destroy();
+					}
+				},
+
 			]);
 
 			doh.register("setter calls on creation", function(){
