@@ -66,6 +66,75 @@
 					}
 				});
 
+				doh.register("aria-invalid", [
+					{
+						name: "initial state",
+						textbox: "fav",
+						timeout: 9000,
+						setUp: function(){
+							this.textbox = dijit.byId(this.textbox);
+						},
+						runTest: function(){
+							// Even though it's required, it shouldn't initially be marked invalid
+							doh.is('false', this.textbox.focusNode.getAttribute("aria-invalid"), "aria-invalid");
+						}
+					},
+					{
+						name: "after blur",
+						textbox: "fav",
+						timeout: 9000,
+						setUp: function(){
+							this.textbox = dijit.byId(this.textbox);
+							this.textbox.set('value', '');
+							this.textbox.focusNode.focus();
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+							doh.robot.keyPress(dojo.keys.TAB, 100, {});
+							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+								doh.is('true', this.textbox.focusNode.getAttribute("aria-invalid"), "aria-invalid");
+							})), 1000);
+							return d;
+						}
+					},
+					{
+						name: "type invalid value",
+						textbox: "fav",
+						timeout: 9000,
+						setUp: function(){
+							this.textbox = dijit.byId(this.textbox);
+							this.textbox.set('value', '');
+							this.textbox.focusNode.focus();
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+							doh.robot.typeKeys('abc', 1000, 600);
+							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+								doh.is('true', this.textbox.focusNode.getAttribute("aria-invalid"), "aria-invalid");
+							})), 1000);
+							return d;
+						}
+					},
+					{
+						name: "type valid value",
+						textbox: "fav",
+						timeout: 9000,
+						setUp: function(){
+							this.textbox = dijit.byId(this.textbox);
+							this.textbox.set('value', '');
+							this.textbox.focusNode.focus();
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+							doh.robot.typeKeys('abc', 1000, 600);
+							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+								doh.is('true', this.textbox.focusNode.getAttribute("aria-invalid"), "aria-invalid");
+							})), 1000);
+							return d;
+						}
+					}
+				]);
+
 				doh.register("maxlength", [
 					{
 						name: "3chars",
