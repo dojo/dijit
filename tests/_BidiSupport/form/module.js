@@ -10,6 +10,8 @@ define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
 
 	doh.register("_BidiSupport.form.Button", require.toUrl("./Button.html"), 999999);
 
+	doh.register("_BidiSupport.form.RadioButton", require.toUrl("./RadioButton.html"), 999999);
+
 	doh.register("_BidiSupport.form.Select", require.toUrl("./test_Select.html"), 999999);
 
 	doh.register("_BidiSupport.form.Slider", require.toUrl("./test_Slider.html"), 999999);
