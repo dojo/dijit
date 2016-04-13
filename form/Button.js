@@ -76,8 +76,8 @@ define([
 				// reference that variable.  Alternately, could have a _getLabelAttr() method to return
 				// this.containerNode.innerHTML.
 				this.label = lang.trim(this.containerNode.innerHTML);
+				this.onLabelSet();		// set this.titleNode.title etc. according to label
 			}
-			this.onLabelSet();		// set this.titleNode.title etc. according to label
 		},
 
 		_setShowLabelAttr: function(val){
