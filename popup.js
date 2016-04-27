@@ -293,7 +293,7 @@ define([
 				var cs = domStyle.getComputedStyle(node),
 					borderStyle = cs.borderLeftWidth + " " + cs.borderLeftStyle + " " + cs.borderLeftColor;
 				domStyle.set(wrapper, {
-					overflowY: "scroll",
+					overflowY: "auto",
 					height: maxHeight + "px",
 					border: borderStyle	// so scrollbar is inside border
 				});
