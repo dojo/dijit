@@ -286,7 +286,8 @@ define([
 				// ignore nodes between position:relative and position:absolute
 				var sawPosAbsolute = domStyle.getComputedStyle(anchor).position == "absolute";
 				var parent = anchor.parentNode;
-				while(parent && parent.nodeType == 1 && parent.nodeName != "BODY"){  //ignoring the body will help performance
+				var fullScreenNode = document.fullscreenElement || document.fullScreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+				while(parent && parent.nodeType == 1 && parent != fullScreenNode && parent.nodeName != "BODY"){  //ignoring the body will help performance
 					var parentPos = domGeometry.position(parent, true),
 						pcs = domStyle.getComputedStyle(parent);
 					if(/relative|absolute/.test(pcs.position)){
