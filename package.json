@@ -1,9 +1,9 @@
 {
 	"name": "dijit",
-	"version":"1.7.10",
+	"version":"1.7.11-pre",
 	"main":"main",
 	"dependencies": {
-		"dojo":"1.7.10"
+		"dojo":"1.7.11-pre"
 	},
 	"description": "Dijit provides a complete collection of user interface controls based on Dojo, giving you the power to create web applications that are highly optimized for usability, performance, internationalization, accessibility, but above all deliver an incredible user experience.",
 	"licenses": [
