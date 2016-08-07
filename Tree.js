@@ -414,10 +414,10 @@ define([
 						}
 
 						// If we've orphaned the focused node then move focus to the root node
-						if(tree.lastFocusedChild && !dom.isDescendant(tree.lastFocusedChild, tree.domNode)){
+						if(tree.lastFocusedChild && !dom.isDescendant(tree.lastFocusedChild.domNode, tree.domNode)){
 							delete tree.lastFocusedChild;
 						}
-						if(focusedChild && !dom.isDescendant(focusedChild, tree.domNode)){
+						if(focusedChild && !dom.isDescendant(focusedChild.domNode, tree.domNode)){
 							tree.focus();	// could alternately focus this node (parent of the deleted node)
 						}
 
@@ -1647,10 +1647,10 @@ define([
 					}
 
 					// If we've orphaned the focused node then move focus to the root node
-					if(this.lastFocusedChild && !dom.isDescendant(this.lastFocusedChild, this.domNode)){
+					if(this.lastFocusedChild && !dom.isDescendant(this.lastFocusedChild.domNode, this.domNode)){
 						delete this.lastFocusedChild;
 					}
-					if(this.focusedChild && !dom.isDescendant(this.focusedChild, this.domNode)){
+					if(this.focusedChild && !dom.isDescendant(this.focusedChild.domNode, this.domNode)){
 						this.focus();
 					}
 
