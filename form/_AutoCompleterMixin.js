@@ -486,6 +486,16 @@ define([
 			}
 			this.inherited(arguments);
 			aspect.after(this, "onSearch", lang.hitch(this, "_openResultList"), true);
+
+			// if the "clear" button is pressed in IE (provided by <input>), then clear the value
+			// must be async since the clearing of the input element happens after the mouseup event 
+			this.on("mouseup", function (e) {
+				setTimeout(lang.hitch(this, function() {
+					if (!e.target.value) {
+						this.set("item", null);
+					}
+				}), 0); 
+			});
 		},
 
 		_getMenuLabelFromItem: function(/*Item*/ item){
