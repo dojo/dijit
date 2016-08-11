@@ -32,6 +32,7 @@
 		dojo.require("dijit.form.DataList");
 		dojo.require("dijit.form.ComboBox");
 		dojo.require("dojox.mobile.ComboBox");
+		dojo.require("dojo.on");
 
 		dojo.ready(function(){
 
@@ -53,12 +54,12 @@
 						dijit_attributes.set('item', {});
 						dijit_attributes.textbox.value = '';
 						
-						dijit_attributes.on('mouseup', function(){
+						dojo.on(dijit_attributes.textbox, 'input', function(){
 							setTimeout(d.getTestCallback(function() {
 								doh.is(null, dijit_attributes.get('item'), 'clears item when textbox emptied');
 							}), 10);
 						});
-						dijit_attributes.emit('mouseup');
+						dojo.on.emit(dijit_attributes.textbox,'input', {});
 
 						return d;
 					}
