@@ -7,10 +7,11 @@ define([
 	"dojo/query", // query
 	"dojo/regexp", // regexp.escapeString
 	"dojo/sniff", // has("ie")
+	"dojo/on",
 	"./DataList",
 	"./_TextBoxMixin", // defines _TextBoxMixin.selectInputText
 	"./_SearchMixin"
-], function(aspect, declare, domAttr, keys, lang, query, regexp, has, DataList, _TextBoxMixin, SearchMixin){
+], function(aspect, declare, domAttr, keys, lang, query, regexp, has, on, DataList, _TextBoxMixin, SearchMixin){
 
 	// module:
 	//		dijit/form/_AutoCompleterMixin
@@ -489,13 +490,13 @@ define([
 
 			// if the "clear" button is pressed in IE (provided by <input>), then clear the value
 			// must be async since the clearing of the input element happens after the mouseup event 
-			this.on("mouseup", function (e) {
+			on(this.textbox, "input", lang.hitch(this, function (e) {
 				setTimeout(lang.hitch(this, function() {
 					if (!e.target.value) {
 						this.set("item", null);
 					}
 				}), 0); 
-			});
+			}));
 		},
 
 		_getMenuLabelFromItem: function(/*Item*/ item){
