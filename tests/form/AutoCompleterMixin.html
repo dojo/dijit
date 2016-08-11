@@ -39,7 +39,9 @@
 				{
 					name: "dijit",
 					runTest: function(){
-						var dijit_attributes = dijit.byId('dijit_attributes');
+						var d = new doh.Deferred(),
+							dijit_attributes = dijit.byId('dijit_attributes');
+
 						doh.is("", dijit_attributes.textbox.value, "dijit original value");
 						doh.is("", dijit_attributes.get('value'), "dijit original get('value')");
 						doh.is(Infinity, dijit_attributes.get('pageSize'), "dijit original get('pageSize')");
@@ -48,6 +50,17 @@
 						doh.is("test", dijit_attributes.textbox.value, "dijit value");
 						doh.is("test", dijit_attributes.get('value'), "dijit get('value')");
 						doh.is(9, dijit_attributes.get('pageSize'), "dijit get('pageSize')");
+						dijit_attributes.set('item', {});
+						dijit_attributes.textbox.value = '';
+						
+						dijit_attributes.on('mouseup', function(){
+							setTimeout(d.getTestCallback(function() {
+								doh.is(null, dijit_attributes.get('item'), 'clears item when textbox emptied');
+							}), 10);
+						});
+						dijit_attributes.emit('mouseup');
+
+						return d;
 					}
 	 			},
 				{
