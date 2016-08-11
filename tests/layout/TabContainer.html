@@ -41,7 +41,7 @@
 					name: 'destroyRecursive',
 					runTest: function(t){
 						var num = registry.length;
-	
+
 						var cp1 = new ContentPane({title: "test pane 1", closable: true}),
 							cp2 = new ContentPane({title: "test pane 2", href: "doc0.html"}),
 							tc = new TabContainer({
@@ -59,12 +59,12 @@
 						tc.startup();
 
 						tc.destroyRecursive();
-	
+
 						t.is(registry.length, num, "registry length");
 						t.f(cp2selected, "second pane wasn't temporarily selected");
 					}
 				},
-				
+
 				// Test that on destroyDescendants(), the second tab doesn't get selected
 				// for a split second as the TabContainer is being destroyed.
 				{
@@ -115,7 +115,7 @@
 					}
 				}
 			]);
-			
+
 			doh.register("addingTabs", [
 
 				// Test that adding a pane creates new tab button.
@@ -129,26 +129,26 @@
 							content: "newTab1 content"
 						});
 						tc.addChild(cp1);
-						
+
 						var tabLabels = registry.byId("tc1").getChildren();
-						
+
 						t.is(5, tabLabels.length, "there are 5 tabs");
 					}
 				},
-				
+
 				// Test that scroll buttons show up when tab buttons overflow.
 				{
 					name: 'addTabsOverflowMenu',
 					runTest: function(t){
 						var tc = registry.byId("tc1");
-						
+
 						var cp2 = new ContentPane({
 							id: "newTab2",
 							title: "newTab2",
 							content: "newTab2 content"
 						});
 						tc.addChild(cp2);
-						
+
 						var left = dom.byId("tc1_tablist_leftBtn");
 						var right = dom.byId("tc1_tablist_rightBtn");
 						var menu = dom.byId("tc1_tablist_menuBtn");
@@ -156,10 +156,10 @@
 						t.t(left, "verify left scroll button exists");
 						t.t(right, "verify right scroll button exists");
 						t.t(menu, "verify dropdown menu button exists");
-							
+
 						t.t(helpers.isVisible(left), "left scroll button is displayed");
 						t.t(helpers.isVisible(right), "right scroll button is displayed");
-						t.t(helpers.isVisible(menu), "menu button is displayed");	
+						t.t(helpers.isVisible(menu), "menu button is displayed");
 					}
 				}
 			]);
@@ -182,7 +182,7 @@
 
 						var cp = registry.byId("newTab2");
 						tc.selectChild(cp);
-						
+
 						setTimeout(d.getTestErrback(function(){
 							doh.is("inputBeforeTc1", focus.curNode.id, "focus after selectChild()");
 
@@ -362,7 +362,11 @@
 							cpResizes++;
 						}, true);
 
+						t.is(true, domClass.contains(cp.domNode, 'dijitTabPane'), 'children have correct CSS class');
+
 						tc1.removeChild(cp);
+
+						t.is(false, domClass.contains(cp.domNode, 'dijitTabPane'), 'children have CSS class removed upon removal');
 
 						var childPanes = tc1.getChildren();
 
@@ -713,7 +717,7 @@
 			</p>
 		</div>
 	</div>
-	
+
 	<div id="tc3" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='style:"width: 300px; height: 100px;" '>
 		<div id="cp4" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"tab1", selected:true, iconClass:"plusIcon"'>
 			Lorem ipsum and all around...
@@ -741,7 +745,7 @@
 			Lorem ipsum and all around - last...
 		</div>
 	</div>
-	
+
 	<div id="tcNestedParent" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='style:"width: 400px; height: 300px;" '>
 		<div id="tcNestedChild" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='title:"Tab 1", nested:true '>
 			<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"My first inner tab", selected:true'>
@@ -766,7 +770,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div id="tcNoLayout" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='style:"width: 100%;", doLayout:false'>
 		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"My first tab", selected:true'>
 			Lorem ipsum and all around...
