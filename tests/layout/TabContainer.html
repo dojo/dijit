@@ -362,11 +362,11 @@
 							cpResizes++;
 						}, true);
 
-						t.is(true, domClass.contains(cp.domNode, 'dijitTabPane'), 'children have correct CSS class');
+						t.t(domClass.contains(cp.domNode, 'dijitTabPane'), 'children have correct CSS class');
 
 						tc1.removeChild(cp);
 
-						t.is(false, domClass.contains(cp.domNode, 'dijitTabPane'), 'children have CSS class removed upon removal');
+						t.f(domClass.contains(cp.domNode, 'dijitTabPane'), 'children have CSS class removed upon removal');
 
 						var childPanes = tc1.getChildren();
 
