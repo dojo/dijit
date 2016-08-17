@@ -568,6 +568,16 @@ define([
 				value = '';
 			} // null translates to blank
 			this.inherited(arguments);
+		},
+
+		_onInput: function(/*Event*/ evt) {
+			this.inherited(arguments);
+
+			setTimeout(lang.hitch(this, function() {
+				if(!evt.target.value) {
+					this.set("item", null);
+				}
+			}), 0);
 		}
 	});
 
