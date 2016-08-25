@@ -572,12 +572,13 @@ define([
 
 		_onInput: function(/*Event*/ evt) {
 			this.inherited(arguments);
-
-			setTimeout(lang.hitch(this, function() {
-				if(!evt.target.value) {
-					this.set("item", null);
-				}
-			}), 0);
+			var value = evt.target.value;
+			if (this._lastInput !== value && evt.target.value == '') {
+				var query = {};
+				query[this.searchAttr] = evt.target.value;
+				var item = this.store.query(query);
+				this.set('value', item[this.isAttr] || '', false, item[this.searchAttr], item);
+			}
 		}
 	});
 
