@@ -259,9 +259,13 @@ define([
 				template.dijitDateValue = dateVal;
 
 				// Set Date string (ex: "13").
+
 				var localizedDate = date.getDateLocalized ? date.getDateLocalized(this.lang) : date.getDate()
 				this._setText(this.dateLabels[idx], localizedDate);
-				domAttr.set(template, 'aria-label', localizedDate);
+				domAttr.set(template, 'aria-label', locale.format(date, {
+					selector: 'date',
+					formatLength: 'long'
+				}));
 			}, this);
 		},
 
