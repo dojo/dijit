@@ -568,17 +568,6 @@ define([
 				value = '';
 			} // null translates to blank
 			this.inherited(arguments);
-		},
-
-		_onInput: function(/*Event*/ evt) {
-			this.inherited(arguments);
-			var value = evt.target.value;
-			if (this._lastInput !== value && evt.target.value == '') {
-				var query = {};
-				query[this.searchAttr] = evt.target.value;
-				var item = this.store.query(query);
-				this.set('value', item[this.isAttr] || '', false, item[this.searchAttr], item);
-			}
 		}
 	});
 
