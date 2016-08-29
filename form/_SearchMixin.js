@@ -131,31 +131,19 @@ define([
 			if(this.disabled || this.readOnly){ return; }
 			var key = evt.charOrCode;
 
-			var doSearch = false;
 			this._prev_key_backspace = false;
 
-			switch(key){
-				case keys.DELETE:
-				case keys.BACKSPACE:
-					this._prev_key_backspace = true;
-					this._maskValidSubsetError = true;
-					doSearch = true;
-					break;
-
-				default:
-					// Non char keys (F1-F12 etc..) shouldn't start a search..
-					// Ascii characters and IME input (Chinese, Japanese etc.) should.
-					//IME input produces keycode == 229.
-					doSearch = typeof key == 'string' || key == 229;
+			if (key == keys.DELETE || key == keys.BACKSPACE) {
+				this._prev_key_backspace = true;
+				this._maskValidSubsetError = true;
 			}
-			if(doSearch){
-				// need to wait a tad before start search so that the event
-				// bubbles through DOM and we have value visible
-				if(!this.store){
-					this.onSearch();
-				}else{
-					this.searchTimer = this.defer("_startSearchFromInput", 1);
-				}
+
+			// need to wait a tad before start search so that the event
+			// bubbles through DOM and we have value visible
+			if(!this.store){
+				this.onSearch();
+			}else{
+				this.searchTimer = this.defer("_startSearchFromInput", 1);
 			}
 		},
 
