@@ -252,7 +252,7 @@ define([
 			//		True if widget is LTR, false if widget is RTL.   Affects the behavior of "above" and "below"
 			//		positions slightly.
 			// example:
-			//	|	placeAroundNode(node, aroundNode, {'BL':'TL', 'TR':'BR'});
+			//	|	placeAroundNode(node, aroundNode, ['below', 'above-alt']);
 			//		This will try to position node such that node's top-left corner is at the same position
 			//		as the bottom left corner of the aroundNode (ie, put node below
 			//		aroundNode, with left edges aligned).	If that fails it will try to put
@@ -305,7 +305,7 @@ define([
 					}
 					parent = parent.parentNode;
 				}
-			}			
+			}
 
 			var x = aroundNodePos.x,
 				y = aroundNodePos.y,
