@@ -21,7 +21,7 @@ define([
 	// conditionally required via  dojo/has!bgIfame?dijit/BackgroundIframe
 	has.add("config-bgIframe",
 		(has("ie") && !/IEMobile\/10\.0/.test(navigator.userAgent)) || // No iframe on WP8, to match 1.9 behavior
-		(has("trident") && /Windows NT 6.[01]/.test(navigator.userAgent)));
+		(has("trident") && /Windows NT (?:6.[0123]|10\.0)/.test(navigator.userAgent)));
 
 	var _frames = new function(){
 		// summary:
