@@ -16,7 +16,7 @@ define([
 	// A background iframe is useful to prevent problems with popups appearing behind applets/pdf files,
 	// and is also useful on older versions of IE (IE6 and IE7) to prevent the "bleed through select" problem.
 	// By default, it's enabled for IE6-10, excluding Windows Phone 8,
-	// and it's also enabled for IE11 on Windows 7 and Windows 2008 Server.
+	// and it's also enabled for IE11 on Windows 7, 8, 8.1, 10 and Windows 2008 Server.
 	// TODO: For 2.0, make this false by default.  Also, possibly move definition to has.js so that this module can be
 	// conditionally required via  dojo/has!bgIfame?dijit/BackgroundIframe
 	has.add("config-bgIframe",
