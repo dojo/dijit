@@ -1,8 +1,7 @@
 define([
 	"dojo/_base/declare", // declare
-	"dojo/i18n", // i18n.getLocalization
-	"./MappedTextBox",
-	"dojo/i18n!./nls/validate"
+	"dojo/i18n!./nls/validate", // i18n
+	"./MappedTextBox"
 ], function(declare, i18n, MappedTextBox){
 
 	// module:
@@ -83,7 +82,7 @@ define([
 		postMixInProperties: function(){
 			this.inherited(arguments);
 			if(!this.rangeMessage){
-				this.messages = i18n.getLocalization("dijit.form", "validate", this.lang);
+				this.messages = i18n;
 				this.rangeMessage = this.messages.rangeMessage;
 			}
 		}

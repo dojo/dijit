@@ -13,9 +13,8 @@ define([
 	"dojo/dom-attr", // domAttr.attr
 	"dojo/dom-construct", // empty()
 	"dojo/_base/xhr", // xhr.get
-	"dojo/i18n", // i18n.getLocalization
-	"dojo/when",
-	"dojo/i18n!../nls/loading"
+	"dojo/i18n!../nls/loading", // i18n
+	"dojo/when"
 ], function(kernel, lang, _Widget, _Container, _ContentPaneResizeMixin, string, html, array, declare,
 			Deferred, dom, domAttr, domConstruct, xhr, i18n, when){
 
@@ -176,7 +175,7 @@ define([
 
 		postMixInProperties: function(){
 			this.inherited(arguments);
-			var messages = i18n.getLocalization("dijit", "loading", this.lang);
+			var messages = i18n;
 			this.loadingMessage = string.substitute(this.loadingMessage, messages);
 			this.errorMessage = string.substitute(this.errorMessage, messages);
 		},

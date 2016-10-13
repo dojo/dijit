@@ -3,7 +3,7 @@ define([
 	"dojo/_base/array", // array.indexOf array.map
 	"dojo/_base/declare", // declare
 	"dojo/dom-construct", // domConstruct.place
-	"dojo/i18n", // i18n.getLocalization
+	"dojo/i18n!../nls/FontChoice", // i18n
 	"dojo/_base/lang", // lang.delegate lang.hitch lang.isString
 	"dojo/store/Memory", // MemoryStore
 	"../../registry", // registry.getUniqueId
@@ -12,8 +12,7 @@ define([
 	"../../_WidgetsInTemplateMixin",
 	"../../form/FilteringSelect",
 	"../_Plugin",
-	"../range",
-	"dojo/i18n!../nls/FontChoice"
+	"../range"
 ], function(require, array, declare, domConstruct, i18n, lang, MemoryStore,
 	registry, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, FilteringSelect, _Plugin, rangeapi){
 
@@ -55,7 +54,7 @@ define([
 				//		Over-ride to set specific properties.
 				this.inherited(arguments);
 
-				this.strings = i18n.getLocalization("dijit._editor", "FontChoice");
+				this.strings = i18n;
 
 				// Set some substitution variables used in the template
 				this.label = this.strings[this.command];

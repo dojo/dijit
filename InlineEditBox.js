@@ -7,7 +7,7 @@ define([
 	"dojo/dom-class", // domClass.add domClass.remove domClass.toggle
 	"dojo/dom-construct", // domConstruct.create domConstruct.destroy
 	"dojo/dom-style", // domStyle.getComputedStyle domStyle.set domStyle.get
-	"dojo/i18n", // i18n.getLocalization
+	"dojo/i18n!./nls/common", // i18n
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/keys", // keys.ENTER keys.ESCAPE
 	"dojo/_base/lang", // lang.getObject
@@ -23,8 +23,7 @@ define([
 	"./form/Button",
 	"./form/_TextBoxMixin",
 	"./form/TextBox",
-	"dojo/text!./templates/InlineEditBox.html",
-	"dojo/i18n!./nls/common"
+	"dojo/text!./templates/InlineEditBox.html"
 ], function(require, array, aspect, declare, domAttr, domClass, domConstruct, domStyle, i18n, kernel, keys, lang, on, has, when, a11yclick, fm, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, _Container, Button, _TextBoxMixin, TextBox, template){
 
 	// module:
@@ -50,7 +49,7 @@ define([
 
 		postMixInProperties: function(){
 			this.inherited(arguments);
-			this.messages = i18n.getLocalization("dijit", "common", this.lang);
+			this.messages = i18n;
 			array.forEach(["buttonSave", "buttonCancel"], function(prop){
 				if(!this[prop]){
 					this[prop] = this.messages[prop];

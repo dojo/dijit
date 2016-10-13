@@ -2,11 +2,10 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/lang",
-	"dojo/i18n", // i18n.getLocalization
+	"dojo/i18n!./nls/validate", // i18n
 	"./TextBox",
 	"../Tooltip",
-	"dojo/text!./templates/ValidationTextBox.html",
-	"dojo/i18n!./nls/validate"
+	"dojo/text!./templates/ValidationTextBox.html"
 ], function(declare, kernel, lang, i18n, TextBox, Tooltip, template){
 
 	// module:
@@ -285,7 +284,7 @@ define([
 
 		postMixInProperties: function(){
 			this.inherited(arguments);
-			this.messages = i18n.getLocalization("dijit.form", "validate", this.lang);
+			this.messages = i18n;
 			this._setConstraintsAttr(this.constraints); // this needs to happen now (and later) due to codependency on _set*Attr calls attachPoints
 		},
 

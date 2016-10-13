@@ -4,7 +4,7 @@ define([
 	"dojo/dom-attr", // domAttr.set
 	"dojo/dom-class", // domClass.add domClass.remove domClass.toggle
 	"dojo/dom-geometry", // domGeometry.setMarginBox
-	"dojo/i18n", // i18n.getLocalization
+	"dojo/i18n!./nls/validate", // i18n
 	"dojo/keys",
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on",
@@ -17,8 +17,7 @@ define([
 	"../Tooltip",
 	"../_KeyNavMixin",
 	"../registry", // registry.byNode
-	"dojo/text!./templates/Select.html",
-	"dojo/i18n!./nls/validate"
+	"dojo/text!./templates/Select.html"
 ], function(array, declare, domAttr, domClass, domGeometry, i18n, keys, lang, on, has,
 			_FormSelectWidget, _HasDropDown, DropDownMenu, MenuItem, MenuSeparator, Tooltip, _KeyNavMixin, registry, template){
 
@@ -361,7 +360,7 @@ define([
 			// summary:
 			//		set the missing message
 			this.inherited(arguments);
-			this._missingMsg = i18n.getLocalization("dijit.form", "validate", this.lang).missingMessage;
+			this._missingMsg = i18n.missingMessage;
 		},
 
 		postCreate: function(){
