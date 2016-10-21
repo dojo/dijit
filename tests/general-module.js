@@ -62,4 +62,6 @@ define(["doh/main", "require", "dojo/sniff"], function(doh, require, has){
 
 	doh.register("_TimePicker", require.toUrl("./_TimePicker.html"), 999999);
 
+	doh.register("InlineEditBox", require.toUrl("./InlineEditBox.html"), 999999);
+
 });
