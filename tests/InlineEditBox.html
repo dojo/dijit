@@ -21,11 +21,11 @@
 			doh.register("password", [
 				function charsAreHidden() {
 					var password = registry.byId('password'),
-						expected = "password";
+						notExpected = "password";
 
-					password.set("value", expected);
+					password.set("value", notExpected);
 
-					doh.isNot(expected, password.displayNode.innerHTML);
+					doh.isNot(notExpected, password.displayNode.innerHTML);
 				}
 			]);
 
