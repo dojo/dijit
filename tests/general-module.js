@@ -14,9 +14,9 @@ try{
 	doh.registerUrl("dijit.tests.robot.Dialog_mouse", dojo.moduleUrl("dijit","tests/robot/Dialog_mouse.html"+userArgs), 999999);
 	doh.registerUrl("dijit.tests.robot.Dialog_a11y", dojo.moduleUrl("dijit","tests/robot/Dialog_a11y.html"+userArgs), 999999);
 	doh.registerUrl("dijit.tests.robot.Dialog_focusDestroy", dojo.moduleUrl("dijit","tests/robot/Dialog_focusDestroy.html"+userArgs), 999999);
-	
+
 	doh.registerUrl("dijit.tests.ProgressBar", dojo.moduleUrl("dijit","tests/ProgressBar.html"+userArgs), 999999);
-	
+
 	doh.registerUrl("dijit.tests.robot.Tooltip_a11y", dojo.moduleUrl("dijit","tests/robot/Tooltip_a11y.html"+userArgs), 999999);
 	doh.registerUrl("dijit.tests.robot.Tooltip_mouse", dojo.moduleUrl("dijit","tests/robot/Tooltip_mouse.html"+userArgs), 999999);
 	doh.registerUrl("dijit.tests.robot.Tooltip_mouse_quirks", dojo.moduleUrl("dijit","tests/robot/Tooltip_mouse_quirks.html"+userArgs), 999999);
@@ -26,7 +26,7 @@ try{
 	doh.registerUrl("dijit.tests.robot.TooltipDialog_a11y", dojo.moduleUrl("dijit","tests/robot/TooltipDialog_a11y.html"+userArgs), 999999);
 
 	doh.registerUrl("dijit.tests.robot.InlineEditBox", dojo.moduleUrl("dijit","tests/robot/InlineEditBox.html"+userArgs), 999999);
-	
+
 	doh.registerUrl("dijit.tests.robot.ColorPalette", dojo.moduleUrl("dijit","tests/robot/ColorPalette.html"+userArgs), 999999);
 
 	doh.registerUrl("dijit.tests.CalendarLite", dojo.moduleUrl("dijit","tests/CalendarLite.html"+userArgs), 999999);
@@ -39,6 +39,8 @@ try{
 	doh.registerUrl("dijit.tests.robot.BgIframe", dojo.moduleUrl("dijit","tests/robot/BgIframe.html"+userArgs), 999999);
 
 	doh.registerUrl("dijit.tests._TimePicker", dojo.moduleUrl("dijit","tests/_TimePicker.html"+userArgs), 999999);
+
+	doh.register("InlineEditBox", require.toUrl("./InlineEditBox.html"), 999999);
 
 }catch(e){
 	doh.debug(e);
