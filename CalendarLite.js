@@ -160,7 +160,7 @@ define([
 			// summary:
 			//		Convert Number into Date, or copy Date object.   Then, round to nearest day,
 			//		setting to 1am to avoid issues when DST shift occurs at midnight, see #8521, #9366)
-			if(value){
+			if(value || value === 0){
 				value = new this.dateClassObj(value);
 				value.setHours(1, 0, 0, 0);
 			}
@@ -423,7 +423,7 @@ define([
 			//		protected
 			evt.stopPropagation();
 			evt.preventDefault();
-			for(var node = evt.target; node && !node.dijitDateValue; node = node.parentNode){
+			for(var node = evt.target; node && !node.dijitDateValue && node.dijitDateValue !== 0; node = node.parentNode){
 				;
 			}
 			if(node && !domClass.contains(node, "dijitCalendarDisabledDate")){
