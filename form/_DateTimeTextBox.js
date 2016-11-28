@@ -4,10 +4,11 @@ define([
 	"dojo/date/stamp", // stamp.fromISOString stamp.toISOString
 	"dojo/_base/declare", // declare
 	"dojo/_base/lang", // lang.getObject
+	"dojo/on",
 	"./RangeBoundTextBox",
 	"../_HasDropDown",
 	"dojo/text!./templates/DropDownBox.html"
-], function(date, locale, stamp, declare, lang, RangeBoundTextBox, _HasDropDown, template){
+], function(date, locale, stamp, declare, lang, on, RangeBoundTextBox, _HasDropDown, template){
 
 	// module:
 	//		dijit/form/_DateTimeTextBox
@@ -161,6 +162,14 @@ define([
 				this._buttonNode = this.domNode;
 				this.baseClass += " dijitComboBoxOpenOnClick";
 			}
+		},
+
+		postCreate: function() {
+			this.inherited(arguments);
+
+			this.own(
+				on(this.textbox, 'blur', lang.hitch(this, '_setBlurValue'))
+			);
 		},
 
 		_setConstraintsAttr: function(/*Object*/ constraints){
