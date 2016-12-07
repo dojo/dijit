@@ -35,9 +35,8 @@ Foundation.
 If you are an unfamiliar contributor to the committer assessing your pull request, it is best to make it clear how
 you are covered by a CLA in the notes of the pull request.  A bot will verify your status.
 
-If your GitHub user id you are submitting your pull request from differs from the Dojo Community ID or e-mail address
-which you have signed your CLA under, you should specifically note what you have your CLA filed under (and for CCLA
-that you are listed under your companies authorised contributors).
+If your GitHub user id you are submitting your pull request from differs from the e-mail address
+which you have signed your CLA under, you should specifically note what you have your CLA filed under.
 
 # Submitting a Pull Request
 
