@@ -57,7 +57,11 @@ define([
 		//		Target frame for the document to be opened in.
 		target: "",
 
-		templateString: "<form data-dojo-attach-point='containerNode' data-dojo-attach-event='onreset:_onReset,onsubmit:_onSubmit' ${!nameAttrSetting}></form>",
+		// accept : String
+		//		The HTML tag the form should reside in.
+		rootTag : 'form',
+
+		templateString: "<${rootTag} data-dojo-attach-point='containerNode' data-dojo-attach-event='onreset:_onReset,onsubmit:_onSubmit' ${!nameAttrSetting}></${rootTag}>",
 
 		postMixInProperties: function(){
 			// Setup name=foo string to be referenced from the template (but only if a name has been specified)
@@ -164,5 +168,6 @@ define([
 				this.containerNode.submit();
 			}
 		}
+
 	});
 });
