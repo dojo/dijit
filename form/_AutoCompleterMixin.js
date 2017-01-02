@@ -189,6 +189,9 @@ define([
 					}
 					if(highlighted){
 						this._selectOption(highlighted);
+						// do selection of item without tabbing to the next field as well
+						evt.stopPropagation();
+						evt.preventDefault();
 					}
 				// fall through
 
