@@ -169,7 +169,7 @@ define([
 			// tags:
 			//		private
 
-			var nodes = lang.isArray(rootNode) ? rootNode : (rootNode.all || rootNode.getElementsByTagName("*"));
+			var nodes = lang.isArray(rootNode) ? rootNode : (rootNode.all || rootNode.querySelectorAll("*"));
 			var x = lang.isArray(rootNode) ? 0 : -1;
 			for(; x<nodes.length; x++){
 				var baseNode = (x == -1) ? rootNode : nodes[x];
