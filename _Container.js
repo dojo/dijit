@@ -38,7 +38,7 @@ define([
 				// Old-school way to get nth child; dojo.query would be easier but _Container was weened from dojo.query
 				// in #10087 to minimize download size.   Not sure if that's still and issue with new smaller dojo/query.
 				refNode = refNode.firstChild;
-				while(insertIndex > 0){
+				while(insertIndex > 0 && refNode !== null){
 					if(refNode.nodeType == 1){ insertIndex--; }
 					refNode = refNode.nextSibling;
 				}
