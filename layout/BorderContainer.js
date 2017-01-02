@@ -134,8 +134,18 @@ define([
 				layoutFunc = lang.hitch(this.container, "_layoutChildren", this.child.id),
 				de = this.ownerDocument;
 
+			var minLoad = min;
 			this._handlers = this._handlers.concat([
 				on(de, touch.move, this._drag = function(e, forceResize){
+				    // restore old size
+				    if (this.child && this.child.domNode.style[this.horizontal ? "height" : "width"] === "0px" && this.container && this.container.persist) {
+			            var persistSize = cookie(this._cookieName);
+			            if (persistSize) {
+			                min = persistSize.replace("px", "");
+				        }
+				    } else {
+				        min = minLoad;
+				    }
 					var delta = e[axis] - pageStart,
 						childSize = factor * delta + childStart,
 						boundChildSize = Math.max(Math.min(childSize, max), min);
