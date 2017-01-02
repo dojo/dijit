@@ -491,7 +491,7 @@ define([
 
 					// Show tooltip and setup callbacks for mouseenter/mouseleave of tooltip itself
 					Tooltip.show(content, this._connectNode, this.position, !this.isLeftToRight(), this.textDir,
-						lang.hitch(this, "set", "state", SHOWING), lang.hitch(this, "set", "state", HIDE_TIMER));
+						lang.hitch(this, "set", "state", HIDE_TIMER), lang.hitch(this, "set", "state", HIDE_TIMER));
 
 					this.onShow(this._connectNode, this.position);
 					break;
