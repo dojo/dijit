@@ -59,6 +59,10 @@ define([
 					 shown, s.fontFamily would trigger "Invalid Argument" error.*/}
 				});
 			}
+
+			this.own(
+				on(this.textbox, 'input', lang.hitch(this, '_updatePlaceHolder'))
+			);
 		},
 
 		_setPlaceHolderAttr: function(v){
