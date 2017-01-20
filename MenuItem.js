@@ -1,6 +1,7 @@
 define([
 	"dojo/_base/declare", // declare
 	"dojo/dom", // dom.setSelectable
+	"dojo/dom-construct",
 	"dojo/dom-attr", // domAttr.set
 	"dojo/dom-class", // domClass.toggle
 	"dojo/_base/kernel", // kernel.deprecated
@@ -11,7 +12,7 @@ define([
 	"./_Contained",
 	"./_CssStateMixin",
 	"dojo/text!./templates/MenuItem.html"
-], function(declare, dom, domAttr, domClass, kernel, has, lang,
+], function(declare, dom, domConstruct, domAttr, domClass, kernel, has, lang,
 			_Widget, _TemplatedMixin, _Contained, _CssStateMixin, template){
 
 	// module:
@@ -93,6 +94,21 @@ define([
 				domAttr.set(this.accelKeyNode, "id", this.id + "_accel"); // only needed for backward compat
 			}
 			dom.setSelectable(this.domNode, false);
+		},
+
+		// Bidi Support
+		startup: function(){
+			this.inherited(arguments);
+			if(this.getParent()!= null){
+				var mainMenuDirection = this.getParent().isLeftToRight();//get the parent menu direction
+				var curMenuItemDirection = this.isLeftToRight();
+				if(curMenuItemDirection != mainMenuDirection){
+					var itemsLength = this.focusNode.children.length;
+					for(var i =0;i<itemsLength-1;i++){
+						domConstruct.place(this.focusNode.children[i+1],this.focusNode.children[0], "before");
+					}
+				}
+			}
 		},
 
 		onClick: function(/*Event*/){
