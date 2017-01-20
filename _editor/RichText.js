@@ -170,6 +170,12 @@ define([
 		//		Works only in Firefox.
 		disableSpellCheck: false,
 
+		// Bidi Support
+		// isCtrlKeyDown: Boolean
+		//		Used to handle Ctrl + Shift shortcut used to change the widget orientation
+		isCtrlKeyDown: false,
+				
+
 		postCreate: function(){
 			if("textarea" === this.domNode.tagName.toLowerCase()){
 				console.warn("RichText should not be used with the TEXTAREA tag.  See dijit._editor.RichText docs.");
@@ -979,6 +985,16 @@ define([
 						return true;
 					}
 				}, this);
+			}
+
+			// Bidi Support
+			if(e.keyCode == keys.CTRL){
+				this.isCtrlKeyDown = true;
+			}
+			if(e.keyCode == keys.SHIFT && this.isCtrlKeyDown && (has("safari") || has("mozilla") )){
+				console.dir(this.iframe.contentDocument.childNodes[0]);
+				this.iframe.contentDocument.childNodes[0].parentNode.dir = this.iframe.contentDocument.childNodes[0].parentNode.dir == "rtl" ? "ltr" : "rtl";
+				this.dir = this.iframe.contentDocument.childNodes[0].parentNode.dir;
 			}
 
 			// function call after the character has been inserted
