@@ -74,7 +74,7 @@ define([
 			if((query && query[this.searchAttr] !== this._lastQuery) || (!query && result.length && this.store.getIdentity(result[0]) != this._lastQuery)){
 				return;
 			}
-			if(!result.length){
+			if(!result.length || result.length>1){
 				//#3268: don't modify display value on bad input
 				//#3285: change CSS to indicate error
 				this.set("value", '', priorityChange || (priorityChange === undefined && !this.focused), this.textbox.value, null);
