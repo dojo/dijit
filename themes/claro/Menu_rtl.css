@@ -6,3 +6,12 @@
 .claro .dijitMenuItemRtl .dijitMenuItemIcon {
   margin: 0 4px 0 0;
 }
+
+/* Bidi Support */
+.claro .dijitMenuRtl .dijitCheckedMenuItemRtl .dijitMenuItemLabel{
+	text-align: right;
+}
+
+.claro .dijitMenu .dijitCheckedMenuItemRtl .dijitMenuItemLabel{
+	text-align: right;
+}
