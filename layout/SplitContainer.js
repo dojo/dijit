@@ -104,6 +104,10 @@ var SplitContainer = declare("dijit.layout.SplitContainer", _LayoutWidget, {
 		sizer.className = this.isHorizontal ? 'dijitSplitContainerVirtualSizerH' : 'dijitSplitContainerVirtualSizerV';
 		this.domNode.appendChild(sizer);
 		dom.setSelectable(sizer, false);
+		
+		// Bidi Support
+		this.dir = domStyle.getComputedStyle(this.domNode).direction;
+		
 	},
 
 	destroy: function(){
@@ -135,7 +139,10 @@ var SplitContainer = declare("dijit.layout.SplitContainer", _LayoutWidget, {
 
 	_setupChild: function(/*dijit/_WidgetBase*/ child){
 		this.inherited(arguments);
+		// Bidi Support
 		child.domNode.style.position = "absolute";
+		child.domNode.dir = this.domNode.dir;
+		
 		domClass.add(child.domNode, "dijitSplitPane");
 	},
 
@@ -312,7 +319,12 @@ var SplitContainer = declare("dijit.layout.SplitContainer", _LayoutWidget, {
 	_movePanel: function(panel, pos, size){
 		var box;
 		if(this.isHorizontal){
-			panel.domNode.style.left = pos + 'px';	// TODO: resize() takes l and t parameters too, don't need to set manually
+			// Bidi Support
+			if(!this.isLeftToRight()){
+				panel.domNode.style.right = pos + 'px';
+			}else{
+				panel.domNode.style.left = pos + 'px';
+			}
 			panel.domNode.style.top = 0;
 			box = {w: size, h: this.paneHeight};
 			if(panel.resize){
@@ -334,7 +346,12 @@ var SplitContainer = declare("dijit.layout.SplitContainer", _LayoutWidget, {
 
 	_moveSlider: function(slider, pos, size){
 		if(this.isHorizontal){
-			slider.style.left = pos + 'px';
+			// Bidi Support
+			if(!this.isLeftToRight()){
+				slider.style.right = pos + 'px';
+			}else{
+				slider.style.left = pos + 'px';
+			}
 			slider.style.top = 0;
 			domGeometry.setMarginBox(slider, { w: size, h: this.paneHeight });
 		}else{
