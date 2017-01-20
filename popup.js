@@ -126,10 +126,10 @@ define([
 			}
 		},
 
-		_createWrapper: function(/*Widget*/ widget){
+		_createWrapper: function(/*Widget*/ widget, /*String?*/ parentLabel){
 			// summary:
 			//		Initialization for widgets that will be used as popups.
-			//		Puts widget inside a wrapper DIV (if not already in one),
+			//		Puts widget (and parent's label for aria-label fallback) inside a wrapper DIV (if not already in one),
 			//		and returns pointer to that wrapper DIV.
 
 			var wrapper = widget._popupWrapper,
@@ -143,7 +143,7 @@ define([
 					"class": "dijitPopup",
 					style: { display: "none"},
 					role: "region",
-					"aria-label": widget["aria-label"] || widget.label || widget.name || widget.id
+					"aria-label": widget["aria-label"] || widget.label || widget.name || parentLabel || widget.id
 				}, widget.ownerDocumentBody);
 				wrapper.appendChild(node);
 
@@ -200,18 +200,18 @@ define([
 			return wrapper;
 		},
 
-		hide: function(/*Widget*/ widget){
+		hide: function(/*Widget*/ widget, /*String?*/ parentLabel){
 			// summary:
 			//		Hide this popup widget (until it is ready to be shown).
 			//		Initialization for widgets that will be used as popups
 			//
-			//		Also puts widget inside a wrapper DIV (if not already in one)
+			//		Also puts widget (and parent's label for aria-label fallback) inside a wrapper DIV (if not already in one)
 			//
 			//		If popup widget needs to layout it should
 			//		do so when it is made visible, and popup._onShow() is called.
 
 			// Create wrapper if not already there
-			var wrapper = this._createWrapper(widget);
+			var wrapper = this._createWrapper(widget, parentLabel);
 
 			domStyle.set(wrapper, {
 				display: "none",
