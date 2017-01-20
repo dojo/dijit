@@ -245,6 +245,11 @@ define([
 
 			this.inherited(arguments);
 
+			//Bidi Support
+			// isCtrlKeyDown: Boolean
+			//	Used to handle Ctrl + Shift shortcut used to change the widget orientation
+			var isCtrlKeyDown = false;
+			
 			// normalize input events to reduce spurious event processing
 			//	keydown: do not forward modifier keys
 			//		       set charOrCode to numeric keycode
@@ -257,15 +262,28 @@ define([
 				// w/word suggestion has keydown/229 events on typing with no corresponding keypress events.
 				if(e.type == "keydown" && e.keyCode != 229){
 					charOrCode = e.keyCode;
+					// Bidi Support
 					switch(charOrCode){ // ignore state keys
-						case keys.SHIFT:
 						case keys.ALT:
-						case keys.CTRL:
 						case keys.META:
 						case keys.CAPS_LOCK:
 						case keys.NUM_LOCK:
-						case keys.SCROLL_LOCK:
+						case keys.SCROLL_LOCK:{
+								isCtrlKeyDown = false;
 							return;
+					}
+						case keys.CTRL:{
+							isCtrlKeyDown  = true;
+							return;
+						}
+						case keys.SHIFT:{
+							if(isCtrlKeyDown  && has("safari")){
+								this.domNode.dir = (this.isLeftToRight()) ? "rtl" : "ltr";
+								this.dir = this.domNode.dir;
+								isCtrlKeyDown = false;
+						}
+						return;
+						}
 					}
 					if(!e.ctrlKey && !e.metaKey && !e.altKey){ // no modifiers
 						switch(charOrCode){ // ignore location keys
