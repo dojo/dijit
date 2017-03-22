@@ -1,10 +1,12 @@
 define([
 	"dojo/_base/declare", // declare
 	"dojo/keys", // keys.DOWN_ARROW keys.ENTER keys.ESCAPE keys.TAB keys.UP_ARROW
+	"dojo/query",
+	"dojo/window",
 	"dojo/_base/lang", // lang.hitch
 	"../_TimePicker",
 	"./_DateTimeTextBox"
-], function(declare, keys, lang, _TimePicker, _DateTimeTextBox){
+], function(declare, keys, query, win, lang, _TimePicker, _DateTimeTextBox){
 
 	// module:
 	//		dijit/form/TimeTextBox
@@ -45,6 +47,25 @@ define([
 
 		openDropDown: function(/*Function*/ callback){
 			this.inherited(arguments);
+
+                        // Fix #18683
+                        var selectedNode = query(".dijitTimePickerItemSelected", this.dropDown.domNode),
+                            nodeCount=this.dropDown.domNode.childNodes.length,scrollPos=0;
+                       if (selectedNode[0]) {
+                             // Without the offset, the selected node is left at the ABSOLUTE BOTTOM
+                             // of the screen.
+                             scrollPos=selectedNode[0].idx+4;
+                       } else {
+                             //      There is no currently selected value. Position the list so that the median
+                             //      node is visible.
+                             //
+                             //      Ideally, scrollIntoView would put the selected node dead in the middle of
+                             //      the screen, but that isn't automatic so I'm just going ahead a specific count
+                             //      to get the desired offset.
+                             scrollPos=Math.floor(nodeCount/2)+12;
+                        }
+                        var scrollNode = this.dropDown.domNode.childNodes[scrollPos > nodeCount ? nodeCount : scrollPos];
+                        win.scrollIntoView(scrollNode);
 
 			// For screen readers, as user arrows through values, populate <input> with latest value.
 			this.dropDown.on("input", lang.hitch(this, function(){
