@@ -64,7 +64,7 @@ define([
                              //      to get the desired offset.
                              scrollPos=Math.floor(nodeCount/2)+12;
                         }
-                        var scrollNode = this.dropDown.domNode.childNodes[scrollPos >= nodeCount ? nodeCount - 1 : scrollPos];
+                        var scrollNode = this.dropDown.domNode.childNodes[scrollPos >= nodeCount ? nodeCount-1 : scrollPos];
                         win.scrollIntoView(scrollNode);
 
 			// For screen readers, as user arrows through values, populate <input> with latest value.
