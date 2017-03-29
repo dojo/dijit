@@ -52,7 +52,7 @@ define([
                             parentNode=this.dropDown.domNode.parentNode;
                        if (selectedNode[0]) {
                              // Center the selected node in the client area of the popup.
-                             parentNode.scrollTop=selectedNode[0].offsetTop-parentNode.clientHeight/2;
+                             parentNode.scrollTop=selectedNode[0].offsetTop-(parentNode.clientHeight-selectedNode[0].clientHeight)/2;
                        } else {
                              //      There is no currently selected value. Position the list so that the median
                              //      node is visible.
