@@ -3,7 +3,7 @@ define([
 	"dojo/_base/array", // array.forEach
 	"dojo/_base/declare", // declare
 	"dojo/Deferred", // Deferred
-	"dojo/i18n", // i18n.getLocalization
+	"dojo/i18n!./_editor/nls/commands", // i18n
 	"dojo/dom-attr", // domAttr.set
 	"dojo/dom-class", // domClass.add
 	"dojo/dom-geometry",
@@ -23,8 +23,7 @@ define([
 	"./_editor/html",
 	"./_editor/range",
 	"./_editor/RichText",
-	"./main", // dijit._scopeName
-	"dojo/i18n!./_editor/nls/commands"
+	"./main" // dijit._scopeName
 ], function(require, array, declare, Deferred, i18n, domAttr, domClass, domGeometry, domStyle,
 			keys, lang, has, string, topic,
 			_Container, Toolbar, ToolbarSeparator, _LayoutWidget, ToggleButton,
@@ -114,7 +113,7 @@ define([
 				this.plugins = this.plugins.concat(this.extraPlugins);
 			}
 
-			this.commands = i18n.getLocalization("dijit._editor", "commands", this.lang);
+			this.commands = i18n;
 
 			if(has("webkit")){
 				// Disable selecting the entire editor by inadvertent double-clicks.

@@ -9,7 +9,7 @@ define([
 	"dojo/dom-geometry", // domGeometry.position
 	"dojo/dom-style", // domStyle.set
 	"dojo/_base/fx", // fx.fadeIn fx.fadeOut
-	"dojo/i18n", // i18n.getLocalization
+	"dojo/i18n!./nls/common", // i18n
 	"dojo/keys",
 	"dojo/_base/lang", // lang.mixin lang.hitch
 	"dojo/on",
@@ -29,8 +29,7 @@ define([
 	"./layout/ContentPane",
 	"./layout/utils",
 	"dojo/text!./templates/Dialog.html",
-	"./a11yclick",	// template uses ondijitclick
-	"dojo/i18n!./nls/common"
+	"./a11yclick"	// template uses ondijitclick
 ], function(require, array, aspect, declare, Deferred,
 			dom, domClass, domGeometry, domStyle, fx, i18n, keys, lang, on, ready, has, winUtils,
 			Moveable, TimedMoveable, focus, manager, _Widget, _TemplatedMixin, _CssStateMixin, _FormMixin, _DialogMixin,
@@ -110,7 +109,7 @@ define([
 		},
 
 		postMixInProperties: function(){
-			var _nlsResources = i18n.getLocalization("dijit", "common");
+			var _nlsResources = i18n;
 			lang.mixin(this, _nlsResources);
 			this.inherited(arguments);
 		},

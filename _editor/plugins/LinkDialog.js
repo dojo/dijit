@@ -100,19 +100,17 @@ define([
 		_loadDropDown: function(callback){
 			// Called the first time the button is pressed.  Initialize TooltipDialog.
 			require([
-				"dojo/i18n", // i18n.getLocalization
+				"dojo/i18n!../../nls/common", // i18n
+				"dojo/i18n!../nls/LinkDialog", // i18nDialog
 				"../../TooltipDialog",
 				"../../registry", // registry.byId, registry.getUniqueId
 				"../../form/Button", // used by template
 				"../../form/Select", // used by template
-				"../../form/ValidationTextBox", // used by template
-				"dojo/i18n!../../nls/common",
-				"dojo/i18n!../nls/LinkDialog"
-			], lang.hitch(this, function(i18n, TooltipDialog, registry){
+				"../../form/ValidationTextBox" // used by template
+			], lang.hitch(this, function(i18n, i18nDialog, TooltipDialog, registry){
 				var _this = this;
 				this.tag = this.command == 'insertImage' ? 'img' : 'a';
-				var messages = lang.delegate(i18n.getLocalization("dijit", "common", this.lang),
-					i18n.getLocalization("dijit._editor", "LinkDialog", this.lang));
+				var messages = lang.delegate(i18n, i18nDialog);
 				var dropDown = (this.dropDown = this.button.dropDown = new TooltipDialog({
 					title: messages[this.command + "Title"],
 					ownerDocument: this.editor.ownerDocument,

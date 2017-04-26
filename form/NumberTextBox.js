@@ -1,7 +1,7 @@
 define([
 	"dojo/_base/declare", // declare
 	"dojo/_base/lang", // lang.hitch lang.mixin
-	"dojo/i18n", // i18n.normalizeLocale, i18n.getLocalization
+	"dojo/i18n!dojo/cldr/nls/number", // i18n
 	"dojo/string", // string.rep
 	"dojo/number", // number._realNumberRegexp number.format number.parse number.regexp
 	"./RangeBoundTextBox"
@@ -14,7 +14,7 @@ define([
 	// Returns an object with "sep" and "places" properties
 	var getDecimalInfo = function(constraints){
 		var constraints = constraints || {},
-			bundle = i18n.getLocalization("dojo.cldr", "number", i18n.normalizeLocale(constraints.locale)),
+			bundle = i18n,
 			pattern = constraints.pattern ? constraints.pattern : bundle[(constraints.type || "decimal")+"Format"];
 
 		// The number of places in the constraint can be specified in several ways,

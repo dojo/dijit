@@ -3,8 +3,7 @@ define([
 	"dojo/_base/declare", // declare
 	"dojo/dom-attr", // domAttr.set
 	"dojo/has",
-	"dojo/i18n", // i18n.getLocalization
-	"dojo/i18n!./nls/ComboBox"
+	"dojo/i18n!./nls/ComboBox" // i18n
 ], function(array, declare, domAttr, has, i18n){
 
 	// module:
@@ -22,7 +21,7 @@ define([
 
 		postMixInProperties: function(){
 			this.inherited(arguments);
-			this._messages = i18n.getLocalization("dijit.form", "ComboBox", this.lang);
+			this._messages = i18n;
 		},
 
 		buildRendering: function(){

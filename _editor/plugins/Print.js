@@ -1,12 +1,11 @@
 define([
 	"dojo/_base/declare", // declare
-	"dojo/i18n", // i18n.getLocalization
+	"dojo/i18n!../nls/commands", // i18n
 	"dojo/_base/lang", // lang.hitch
 	"dojo/sniff", // has("chrome") has("opera")
 	"../../focus", // focus.focus()
 	"../_Plugin",
-	"../../form/Button",
-	"dojo/i18n!../nls/commands"
+	"../../form/Button"
 ], function(declare, i18n, lang, has, focus, _Plugin, Button){
 
 	// module:
@@ -20,7 +19,7 @@ define([
 		_initButton: function(){
 			// summary:
 			//		Over-ride for creation of the Print button.
-			var strings = i18n.getLocalization("dijit._editor", "commands"),
+			var strings = i18n,
 				editor = this.editor;
 			this.button = new Button({
 				label: strings["print"],
