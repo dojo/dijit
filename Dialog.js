@@ -15,6 +15,7 @@ define([
 	"dojo/on",
 	"dojo/ready",
 	"dojo/sniff", // has("ie") has("opera") has("dijit-legacy-requires")
+	"dojo/touch",
 	"dojo/window", // winUtils.getBox, winUtils.get
 	"dojo/dnd/Moveable", // Moveable
 	"dojo/dnd/TimedMoveable", // TimedMoveable
@@ -32,7 +33,7 @@ define([
 	"./a11yclick",	// template uses ondijitclick
 	"dojo/i18n!./nls/common"
 ], function(require, array, aspect, declare, Deferred,
-			dom, domClass, domGeometry, domStyle, fx, i18n, keys, lang, on, ready, has, winUtils,
+			dom, domClass, domGeometry, domStyle, fx, i18n, keys, lang, on, ready, has, touch, winUtils,
 			Moveable, TimedMoveable, focus, manager, _Widget, _TemplatedMixin, _CssStateMixin, _FormMixin, _DialogMixin,
 			DialogUnderlay, ContentPane, utils, template){
 
@@ -126,6 +127,9 @@ define([
 
 			aspect.after(this, "onExecute", lang.hitch(this, "hide"), true);
 			aspect.after(this, "onCancel", lang.hitch(this, "hide"), true);
+			on(this.closeButtonNode, touch.press, function(e){
+				e.stopPropagation();
+			});
 
 			this._modalconnects = [];
 		},
