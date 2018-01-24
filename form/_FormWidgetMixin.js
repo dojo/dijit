@@ -75,6 +75,23 @@ define([
 			// Can't use "disabled" in this.focusNode as a test because on IE, that's true for all nodes.
 			if(/^(button|input|select|textarea|optgroup|option|fieldset)$/i.test(this.focusNode.tagName)){
 				domAttr.set(this.focusNode, 'disabled', value);
+				// IE has a Caret Browsing mode (hit F7 to activate) where disabled textboxes can be modified
+				// textboxes marked readonly avoid this issue.
+				// If setting widget disabled and widget is not already readonly, also set readonly.
+				// If setting widget enabled, and this code set readonly, set to non-readonly
+				if(has("trident")){
+					if(value){
+						if(domAttr.get(this.focusNode, 'readonly') === false){
+							domAttr.set(this.focusNode, 'readonly', true);
+							this._disabledSetReadonly = true;
+						}
+					}else{
+						if(this._disabledSetReadonly){
+							domAttr.set(this.focusNode, 'readonly', false);
+							this._disabledSetReadonly = false;
+						}
+					}
+				}
 			}else{
 				this.focusNode.setAttribute("aria-disabled", value ? "true" : "false");
 			}
