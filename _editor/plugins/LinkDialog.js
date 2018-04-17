@@ -219,6 +219,7 @@ define([
 			// summary:
 			//		Over-ridable function that connects tag specific events.
 			this.editor.onLoadDeferred.then(lang.hitch(this, function(){
+				this.own(on(this.editor.editNode, "mouseup", lang.hitch(this, "_onMouseUp")));
 				this.own(on(this.editor.editNode, "dblclick", lang.hitch(this, "_onDblClick")));
 			}));
 		},
@@ -429,6 +430,34 @@ define([
 							}
 						});
 					}, 10);
+				}
+			}
+		},
+
+		_onMouseUp: function(){
+			// summary:
+			//		Function to define a behavior on mouse up on the element
+			//		type this dialog edits to move the cursor just outside
+			//		anchor tags when clicking on their edges.
+			// tags:
+			//		protected.
+			if(has('ff')){
+				var a = this.editor.selection.getAncestorElement(this.tag);
+				if(a){
+					var selection = rangeapi.getSelection(this.editor.window);
+					var range = selection.getRangeAt(0);
+					if(range.collapsed && a.childNodes.length){
+						var test = range.cloneRange();
+						test.selectNodeContents(a.childNodes[a.childNodes.length - 1]);
+						test.setStart(a.childNodes[0], 0);
+						if(range.compareBoundaryPoints(test.START_TO_START, test) !== 1){
+							// cursor is before or at the test start
+							range.setStartBefore(a);
+						}else if(range.compareBoundaryPoints(test.END_TO_START, test) !== -1){
+							// cursor is before or at the test end
+							range.setStartAfter(a);
+						}
+					}
 				}
 			}
 		}
