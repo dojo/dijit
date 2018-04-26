@@ -1209,6 +1209,15 @@ define([
 
 			return command;
 		},
+		_implCommand: function(/*String*/ cmd){
+			// summary:
+			//		Used as the function name where we might
+			//		find an override for advice on support
+			//		for this command by the target browser.
+			// tags:
+			//		private
+			return  "_" + this._normalizeCommand(cmd) + "EnabledImpl";
+		},
 
 		_qcaCache: {},
 		queryCommandAvailable: function(/*String*/ command){
@@ -1368,7 +1377,7 @@ define([
 			//Check to see if we have any over-rides for commands, they will be functions on this
 			//widget of the form _commandEnabledImpl.  If we don't, fall through to the basic native
 			//command of the browser.
-			var implFunc = "_" + command + "EnabledImpl";
+			var implFunc = this._implCommand(command);
 
 			if(this[implFunc]){
 				return  this[implFunc](command);
