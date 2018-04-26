@@ -255,6 +255,16 @@ define([
 			return args;
 		},
 
+		_createlinkEnabledImpl: function() {
+			// summary:
+			//		This function implements the test for if the create link
+			//		command should be enabled or not. This plugin supports
+			//		link creation even without selected text.
+			// tags:
+			//		protected
+			return true;
+		},
+
 		setValue: function(args){
 			// summary:
 			//		Callback from the dialog when user presses "set" button.
