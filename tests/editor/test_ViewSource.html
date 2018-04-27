@@ -105,6 +105,48 @@
 	</div>
 	<br>
 	<br>
+	<div>
+		<div id="editor4" data-dojo-type="dijit/Editor"
+			 data-dojo-props='"aria-label":"editor3",extraPlugins:["fullScreen", "viewSource"],
+			style:"background-color: white; width: 800px;", height:"300px" '>
+			<h1>ViewSource Plugin with stripEventHandlers enabled</h1>
+			<img ondrag="alert('Bug dragged!')" src="./bug.png" onclick="alert('Bug clicked!');">
+			<button
+					onclick="alert('Button clicked!')"
+					id="button1"
+					ondblclick="alert('Button double clicked!')">
+				onclick button
+			</button>
+			<button name="button" id="button2">Just a button</button>
+			<h2>Things to test:</h2>
+			<ol>
+				<li>Click the view source button and verify that all on* attributes have been removed.</li>
+			</ol>
+		</div>
+	</div>
+	<br>
+	<br>
+	<div>
+		<div id="editor5" data-dojo-type="dijit/Editor"
+			 data-dojo-props='"aria-label":"editor3",extraPlugins:["fullScreen", {name: "viewSource", stripEventHandlers: false}],
+			style:"background-color: white; width: 800px;", height:"300px" '>
+			<h1>ViewSource Plugin with stripEventHandlers disabled</h1>
+			<img ondrag="alert('Bug dragged!')" src="./bug.png" onclick="alert('Bug clicked!');">
+			<button
+					onclick="alert('Button clicked!')"
+					id="button3"
+					ondblclick="alert('Button double clicked!')">
+				onclick button
+			</button>
+			<button name="button" id="button4">Just a button</button>
+			<h2>Things to test:</h2>
+			<ol>
+				<li>Click the view source button and verify that all on* attributes have NOT been removed.</li>
+			</ol>
+		</div>
+	</div>
+	<br>
+	<br>
 	<div>Content after the editors.</div>
 </body>
 </html>
