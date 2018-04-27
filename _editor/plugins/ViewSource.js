@@ -45,6 +45,12 @@ define([
 		//		Defaults to true.
 		stripIFrames: true,
 
+		// stripEventHandlers: [public] Boolean
+		//		Boolean flag used to indicate if event handler attributes like onload should be
+		//		stripped from the document.
+		//		Defaults to true.
+		stripEventHandlers: true,
+
 		// readOnly: [const] Boolean
 		//		Boolean flag used to indicate if the source view should be readonly or not.
 		//		Cannot be changed after initialization of the plugin.
@@ -477,6 +483,22 @@ define([
 			return html;
 		},
 
+		_stripEventHandlers: function (html) {
+			if(html){
+				// Find all tags that contain an event handler attribute (an on* attribute).
+				var matches = html.match(/<[a-z]+?\b(.*?on.*?(['"]).*?\2.*?)+>/gim);
+				if(matches){
+					for(var i = 0, l = matches.length; i < l; i++){
+						// For each tag, remove only the event handler attributes.
+						var match = matches[i];
+						var replacement = match.replace(/\s+on[a-z]*\s*=\s*(['"])(.*?)\1/igm, "");
+						html = html.replace(match, replacement);
+					}
+				}
+			}
+			return html;
+		},
+
 		_filter: function(html){
 			// summary:
 			//		Internal function to perform some filtering on the HTML.
@@ -493,6 +515,9 @@ define([
 				}
 				if(this.stripIFrames){
 					html = this._stripIFrames(html);
+				}
+				if(this.stripEventHandlers){
+					html = this._stripEventHandlers(html);
 				}
 			}
 			return html;
@@ -543,7 +568,8 @@ define([
 			readOnly: ("readOnly" in args) ? args.readOnly : false,
 			stripComments: ("stripComments" in args) ? args.stripComments : true,
 			stripScripts: ("stripScripts" in args) ? args.stripScripts : true,
-			stripIFrames: ("stripIFrames" in args) ? args.stripIFrames : true
+			stripIFrames: ("stripIFrames" in args) ? args.stripIFrames : true,
+			stripEventHandlers: ("stripEventHandlers" in args) ? args.stripEventHandlers : true
 		});
 	};
 
