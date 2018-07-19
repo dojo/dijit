@@ -1571,20 +1571,20 @@ define([
 			//		Focus on the specified node (which must be visible)
 			// tags:
 			//		protected
-                        var focusNode = this.domNode;
+			var focusNode = this.domNode;
 			// finds the node that actually has the "scrollTop" setted
-                        while (focusNode 
-			       && focusNode.scrollTop === 0 
-			       && focusNode.scrollLeft === 0 && focusNode.tagName.toUpperCase() !== 'BODY') {
-                            focusNode = focusNode.parentNode;
-                        }
+			while (focusNode 
+				&& focusNode.scrollTop === 0 
+				&& focusNode.scrollLeft === 0 && focusNode.tagName.toUpperCase() !== 'BODY') {
+				focusNode = focusNode.parentNode;
+			}
 			var scrollLeft = focusNode.scrollLeft;
-                        var scrollTop = focusNode.scrollTop || 0;
+			var scrollTop = focusNode.scrollTop || 0;
 			this.focusChild(node);
-                        setTimeout(function() {
+			setTimeout(function() {
 				// IE Compatibility
 				window.scrollTo(scrollLeft, scrollTop);
-                        },0)
+			},0)
 		},
 
 		_onNodeMouseEnter: function(/*dijit/_WidgetBase*/ /*===== node =====*/){
