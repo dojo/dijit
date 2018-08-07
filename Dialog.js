@@ -438,7 +438,7 @@ define([
 
 					var bb = domGeometry.position(this.domNode);
 					this._shrunk = false;
-					// First check and limit width, because limiting the width may increase the hieght due to word wrapping.
+					// First check and limit width, because limiting the width may increase the height due to word wrapping.
 					if(bb.w >= viewport.w){
 						dim = {
 							w: viewport.w
