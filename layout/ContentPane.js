@@ -440,7 +440,7 @@ define([
 			try{
 				this.onLoadDeferred.resolve(data);
 			}catch(e){
-				console.error('Error ' + this.widgetId + ' running custom onLoad code: ' + e.message);
+				console.error('Error ' + (this.widgetId || this.id) + ' running custom onLoad code: ' + e.message);
 			}
 		},
 
