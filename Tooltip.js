@@ -81,7 +81,7 @@ define([
 				return;
 			}
 			if(!this.containerNode){
-			return;
+				return;
 			}
 
 			if(this.fadeOut.status() == "playing"){
