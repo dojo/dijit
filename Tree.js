@@ -1571,20 +1571,23 @@ define([
 			//		Focus on the specified node (which must be visible)
 			// tags:
 			//		protected
-			var focusNode = this.domNode;
-			// finds the node that actually has the "scrollTop" setted
-			while (focusNode 
-				&& focusNode.scrollTop === 0 
-				&& focusNode.scrollLeft === 0 && focusNode.tagName.toUpperCase() !== 'BODY') {
-				focusNode = focusNode.parentNode;
-			}
-			var scrollLeft = focusNode.scrollLeft;
-			var scrollTop = focusNode.scrollTop || 0;
+                        var tmp = [];
+                        for(var domNode = this.domNode; 
+                            domNode && domNode.tagName && domNode.tagName.toUpperCase() !== 'IFRAME';
+                            domNode = domNode.parentNode) {
+                            tmp.push({
+                                domNode: domNode.contentWindow || domNode,
+                                scrollLeft: domNode.scrollLeft || 0,
+                                scrollTop: domNode.scrollTop || 0
+                            });
+                        }
 			this.focusChild(node);
-			setTimeout(function() {
-				// IE Compatibility
-				window.scrollTo(scrollLeft, scrollTop);
-			},0)
+			this.defer(function() {
+                            for (var i = 0, max = tmp.length; i < max; i++) {
+                                tmp[i].domNode.scrollLeft = tmp[i].scrollLeft;
+                                tmp[i].domNode.scrollTop = tmp[i].scrollTop;
+                            }
+			}, 0);
 		},
 
 		_onNodeMouseEnter: function(/*dijit/_WidgetBase*/ /*===== node =====*/){
