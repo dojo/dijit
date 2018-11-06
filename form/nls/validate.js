@@ -44,5 +44,6 @@ define({ root:
 "ca": true,
 "bg": true,
 "az": true,
-"ar": true
+"ar": true,
+"al"
 });
