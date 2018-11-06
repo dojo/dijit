@@ -1,5 +1,4 @@
-define(
-({
+define({
 	createLinkTitle: "Cilesitë e lidhjes",
 	insertImageTitle: "Cilesitë e Imazhit",
 	url: "URL:",
@@ -10,5 +9,4 @@ define(
 	parentWindow: "Dritarja prind",
 	topWindow: "Dritarja e sipërme",
 	newWindow: "Dritare e re"
-})
-);
+});

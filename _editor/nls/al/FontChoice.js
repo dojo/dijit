@@ -1,5 +1,4 @@
-define(
-({
+define({
 	fontSize: "Madhësia",
 	fontName: "Shkrimi",
 	formatBlock: "Formati",
@@ -21,5 +20,4 @@ define(
 	5: "madh",
 	6: "shumë i madh",
 	7: "i stërmadh"
-})
-);
+});
