@@ -1,5 +1,4 @@
-define(
-({
+define({
 	fontSize: "Dimensione",
 	fontName: "Carattere",
 	formatBlock: "Formato",
@@ -21,5 +20,4 @@ define(
 	5: "grande",
 	6: "molto grande",
 	7: "grandissimo"
-})
-);
+});
