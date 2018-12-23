@@ -89,5 +89,5 @@ define({ root:
 "bg": true,
 "az": true,
 "ar": true,
-"al"
+"al": true
 });
