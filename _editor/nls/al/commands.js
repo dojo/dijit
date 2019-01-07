@@ -42,8 +42,8 @@ define({
 "viewSource": "Shiko burimin HTML",
 "print": "Shtyp",
 "newPage": "Faqja e re",
-/ * Mesazhet e gabimeve * /
-'systemShortcut': 'Veprimi' $ {0} 'është i disponueshëm vetëm në shfletues përmes një çelësi. Përdorni $ {1}. ',
-'CtrlKey': 'Ctrl $ {0}',
-'appleKey': '\ u2318 $ {0}' // "komanda" ose çelësi i hapur i Apple në Macintosh
+/* Mesazhet e gabimeve */
+"systemShortcut": "Veprimi '${0}' është i disponueshëm vetëm në shfletues përmes një çelësi. Përdorni ${1}. ",
+"CtrlKey": "Ctrl+${0}",
+"appleKey": "\u2318${0}" // "komanda" ose çelësi i hapur i Apple në Macintosh
 });
