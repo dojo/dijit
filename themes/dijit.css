@@ -1584,6 +1584,7 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .dijitTree {
 	overflow: auto;	/* for scrollbars when Tree has a height setting, and to prevent wrapping around float elements, see #11491 */
 	-webkit-tap-highlight-color: transparent;
+	-moz-user-select: none;
 }
 
 .dijitTreeContainer {
