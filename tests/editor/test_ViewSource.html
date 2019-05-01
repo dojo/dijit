@@ -20,6 +20,16 @@
 		dojo.require("dijit._editor.plugins.ViewSource");
 		dojo.require("dijit._editor.plugins.FullScreen");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+
+		dojo.ready(function () {
+			var editor = dijit.byId("editor7");
+			editor.set("value", "<h1>ViewSource Plugin with script tags in content set via setValue.</h1>" +
+					"<iframe srcdoc=\"<div>Hello from iFrame!</div>\"></iframe>" +
+					"<h2>Things to test:</h2>\n" +
+					"<ol>" +
+					"<li>An iframe should not be displayed.</li>" +
+					"</ol>");
+		});
 	</script>
 </head>
 <body class="claro">
@@ -105,6 +115,30 @@
 			<ol>
 				<li>Verify that typed in script tags, comments, and iframes are left in the content when view switched.</li>
 			</ol>
+		</div>
+	</div>
+	<br>
+	<br>
+	<div>
+		<div id="editor6" data-dojo-type="dijit.Editor"
+			 data-dojo-props='extraPlugins:["fullscreen", "viewsource"],
+			style:"background-color: white; width: 800px;", height:"300px" '>
+			<h1>ViewSource Plugin with script tags in content.</h1>
+
+			<iframe srcdoc="<div>Hello from iFrame!</div>"></iframe>
+
+			<h2>Things to test:</h2>
+			<ol>
+				<li>An iframe should not be displayed.</li>
+			</ol>
+		</div>
+	</div>
+	<br>
+	<br>
+	<div>
+		<div id="editor7" data-dojo-type="dijit.Editor"
+			 data-dojo-props='extraPlugins:["fullscreen", "viewsource"],
+			style:"background-color: white; width: 800px;", height:"300px" '>
 		</div>
 	</div>
 	<br>

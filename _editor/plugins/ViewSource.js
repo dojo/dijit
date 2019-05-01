@@ -86,6 +86,15 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 		this.editor = editor;
 		this._initButton();
 
+		// Filter the html content when it is set and retrieved in the editor.
+		this.removeValueFilterHandles();
+		this._setValueFilterHandle = dojo.aspect.before(this.editor, "setValue", dojo.hitch(this, function (html) {
+			return [this._filter(html)];
+		}));
+		this._getValueFilterHandle = dojo.aspect.after(this.editor, "getValue", dojo.hitch(this, function (html) {
+			return this._filter(html);
+		}));
+
 		this.editor.addKeyHandler(dojo.keys.F12, true, true, dojo.hitch(this, function(e){
 			// Move the focus before switching
 			// It'll focus back.  Hiding a focused
@@ -132,9 +141,6 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 					}
 				};
 				this.editor.onDisplayChanged();
-				html = ed.get("value");
-				html = this._filter(html);
-				ed.set("value", html);
 				this._pluginList = [];
 				dojo.forEach(edPlugins, function(p){
 					// Turn off any plugins not controlled by queryCommandenabled.
@@ -151,7 +157,8 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 					};
 				}
 
-				this.sourceArea.value = html;
+				this.sourceArea.value = ed.get("value");
+
 				var is = dojo._getMarginSize(ed.iframe.parentNode);
 
 				dojo.marginBox(this.sourceArea, {
@@ -226,8 +233,8 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 				ed.queryCommandEnabled = ed._sourceQueryCommandEnabled;
 				if(!this._readOnly){
 					html = this.sourceArea.value;
-					html = this._filter(html);
 					ed.beginEditing();
+					// html will be filtered in setValue aspect.
 					ed.set("value", html);
 					ed.endEditing();
 				}
@@ -479,6 +486,17 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 		return html;
 	},
 
+	removeValueFilterHandles: function () {
+		if (this._setValueFilterHandle) {
+			dojo.disconnect(this._setValueFilterHandle);
+			delete this._setValueFilterHandle;
+		}
+		if (this._getValueFilterHandle) {
+			dojo.disconnect(this._getValueFilterHandle);
+			delete this._getValueFilterHandle;
+		}
+	},
+
 	setSourceAreaCaret: function(){
 		// summary:
 		//		Internal function to set the caret in the sourceArea
@@ -519,6 +537,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 			dojo.disconnect(this._resizeHandle);
 			delete this._resizeHandle;
 		}
+		this.removeValueFilterHandles();
 		this.inherited(arguments);
 	}
 });
