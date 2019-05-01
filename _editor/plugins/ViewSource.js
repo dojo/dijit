@@ -2,6 +2,7 @@ define([
 	"dojo/_base/array", // array.forEach
 	"dojo/_base/declare", // declare
 	"dojo/dom-attr", // domAttr.set
+	"dojo/aspect",
 	"dojo/dom-construct", // domConstruct.create domConstruct.place
 	"dojo/dom-geometry", // domGeometry.setMarginBox domGeometry.position
 	"dojo/dom-style", // domStyle.set
@@ -19,7 +20,7 @@ define([
 	"../..",	// dijit._scopeName
 	"../../registry", // registry.getEnclosingWidget()
 	"dojo/i18n!../nls/commands"
-], function(array, declare, domAttr, domConstruct, domGeometry, domStyle, event, i18n, keys, lang, on, has, win,
+], function(array, declare, domAttr, aspect, domConstruct, domGeometry, domStyle, event, i18n, keys, lang, on, has, win,
 	winUtils, focus, _Plugin, ToggleButton, dijit, registry){
 
 /*=====
@@ -118,6 +119,15 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 		this.editor = editor;
 		this._initButton();
 
+		// Filter the html content when it is set and retrieved in the editor.
+		this.removeValueFilterHandles();
+		this._setValueFilterHandle = aspect.before(this.editor, "setValue", lang.hitch(this, function (html) {
+			return [this._filter(html)];
+		}));
+		this._getValueFilterHandle = aspect.after(this.editor, "getValue", lang.hitch(this, function (html) {
+			return this._filter(html);
+		}));
+
 		this.editor.addKeyHandler(keys.F12, true, true, lang.hitch(this, function(e){
 			// Move the focus before switching
 			// It'll focus back.  Hiding a focused
@@ -162,9 +172,6 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 					return cmd.toLowerCase() === "viewsource";
 				};
 				this.editor.onDisplayChanged();
-				html = ed.get("value");
-				html = this._filter(html);
-				ed.set("value", html);
 				array.forEach(edPlugins, function(p){
 					// Turn off any plugins not controlled by queryCommandenabled.
 					if(!(p instanceof ViewSource)){
@@ -180,7 +187,7 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 					};
 				}
 
-				this.sourceArea.value = html;
+				this.sourceArea.value = ed.get("value");
 
 				// Since neither iframe nor textarea have margin, border, or padding,
 				// just set sizes equal
@@ -253,8 +260,8 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 				ed.queryCommandEnabled = ed._sourceQueryCommandEnabled;
 				if(!this._readOnly){
 					html = this.sourceArea.value;
-					html = this._filter(html);
 					ed.beginEditing();
+					// html will be filtered in setValue aspect.
 					ed.set("value", html);
 					ed.endEditing();
 				}
@@ -505,6 +512,17 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 		return html;
 	},
 
+	removeValueFilterHandles: function () {
+		if (this._setValueFilterHandle) {
+			this._setValueFilterHandle.remove();
+			delete this._setValueFilterHandle;
+		}
+		if (this._getValueFilterHandle) {
+			this._getValueFilterHandle.remove();
+			delete this._getValueFilterHandle;
+		}
+	},
+
 	setSourceAreaCaret: function(){
 		// summary:
 		//		Internal function to set the caret in the sourceArea
@@ -545,6 +563,7 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 			this._resizeHandle.remove();
 			delete this._resizeHandle;
 		}
+		this.removeValueFilterHandles();
 		this.inherited(arguments);
 	}
 });
