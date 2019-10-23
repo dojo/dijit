@@ -71,7 +71,7 @@ define([
 
 			if(this.container.persist){
 				// restore old size
-				var persistSize = cookie(this._cookieName);
+				var persistSize = this._getPersistentSize();
 				if(persistSize){
 					this.child.domNode.style[this.horizontal ? "height" : "width"] = persistSize;
 				}
@@ -168,6 +168,14 @@ define([
 			domClass.toggle(this.domNode, "dijitSplitter" + (this.horizontal ? "H" : "V") + "Hover", o);
 		},
 
+		_getPersistentSplit: function() {
+			return cookie(this._cookieName);
+		},
+
+		_setPersistentSplit: function(value) {
+			cookie(this._cookieName, value, {expires: 365});
+		},
+
 		_stopDrag: function(e){
 			try{
 				if(this.cover){
@@ -186,7 +194,7 @@ define([
 			}
 
 			if(this.container.persist){
-				cookie(this._cookieName, this.child.domNode.style[this.horizontal ? "height" : "width"], {expires: 365});
+				this._setPersistentSplit(this.child.domNode.style[this.horizontal ? "height" : "width"]);
 			}
 		},
 
