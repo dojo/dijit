@@ -71,7 +71,7 @@ define([
 
 			if(this.container.persist){
 				// restore old size
-				var persistSize = this._getPersistentSize();
+				var persistSize = this._getPersistentSplit();
 				if(persistSize){
 					this.child.domNode.style[this.horizontal ? "height" : "width"] = persistSize;
 				}
