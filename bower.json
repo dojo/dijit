@@ -15,7 +15,7 @@
 		"url": "https://github.com/dojo/dijit.git"
 	},
 	"dependencies": {
-		"dojo": "1.14.4"
+		"dojo": "1.14.5-pre"
 	},
 	"devDependencies": {
 	}
