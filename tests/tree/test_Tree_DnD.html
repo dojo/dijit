@@ -28,6 +28,14 @@
 <body class="claro" role="main">
 	<h1 class="testTitle">Dijit Tree Test - Drag And Drop Support</h1>
 
+	<h2>Dojo Object Store (<code>dojo/store</code>) Examples</h2>
+
+	<p>
+		You can't drop items onto this tree, but you can reorder categories. The between threshold
+		is set to 5, so if you are near the top or bottom of a node the drop will be above or below it.
+	</p>
+	<div id="memoryStoreTree"></div>
+
 	<h2>Dojo.data (<code>dojo/data</code>) Examples</h2>
 	<div>
 		<div role="presentation" style="display: inline-block; vertical-align: top; width: 49%;">
@@ -69,7 +77,6 @@
 				data-dojo-type="dijit/Tree"
 				data-dojo-props="'class': 'container',
 					model: itemModel,
-					checkAcceptance: dndAccept,
 					checkItemAcceptance: itemTreeCheckItemAcceptance,
 					dragThreshold: 8,
 					betweenThreshold: 5,
@@ -90,7 +97,6 @@
 			model: catModel,
 			getLabel: catTreeCustomLabel,
 			betweenThreshold: 5,
-			checkAcceptance: dndAccept,
 			checkItemAcceptance: collectionTreeCheckItemAcceptance,
 			getIconClass: getIcon,
 			persist: false">
@@ -107,6 +113,132 @@
 	<script type="text/javascript" src="../boilerplate.js"></script>
 
 	<script type="text/javascript">
+		/* dojo/store examples */
+		require([
+			"dojo/_base/array",
+			"dojo/_base/lang",
+			"dojo/dom",
+			"dojo/store/Memory",
+			"dojo/store/Observable",
+			"dijit/Tree",
+			/testController=selector/.test(window.location.search) ? "dijit/tree/_dndSelector" : "dijit/tree/dndSource",
+			"dijit/tree/ObjectStoreModel",
+			"dojo/text!../_data/categories.json"
+		], function(arrayUtil, lang, dom, MemoryStore, Observable, Tree, testController, ObjectStoreModel, categoriesJson){
+			Tree.prototype.dndController = testController;
+
+			var TreeStore = MemoryStore.createSubclass([Observable], {
+				getChildren: function(item){
+					return this.query({parentId: item.id});
+				},
+
+				mayHaveChildren: function(item){
+					return Boolean(item.numberOfItems);
+				},
+				put: function(object, options){
+					var id = this.inherited(arguments);
+					if(options && (options.parent !== options.oldParent)){
+						object.parentId = this.getIdentity(options.parent);
+						if(isNaN(options.parent.numberOfItems)){
+							options.parent.numberOfItems = 1;
+						}
+						else{
+							options.parent.numberOfItems += 1;
+						}
+						this.put(options.parent);
+
+						if(options.oldParent){
+							options.oldParent.numberOfItems = Math.max(0, options.oldParent.numberOfItems - 1);
+							this.put(options.oldParent);
+						}
+					}
+				}
+			});
+
+			var MyModel = ObjectStoreModel.createSubclass([], {
+				newItem: function(args, parent){
+					this.inherited(arguments);
+					if(parent){
+						this._updateChildrenCache(parent);
+					}
+				},
+
+				pasteItem: function(item, oldParent, newParent){
+					this.inherited(arguments);
+					if(oldParent !== newParent){
+						this._updateChildrenCache(oldParent);
+						this._updateChildrenCache(newParent);
+					}
+				},
+
+				_updateChildrenCache: function(parent){
+					this.childrenCache[this.getIdentity(parent)] = undefined;
+					var onGetChildren = lang.hitch(this, function(children){
+						this.onChildrenChange(parent, children);
+					});
+					var onError = lang.hitch(this, function(error){
+						throw (error || "Error getting children for: " + this.getIdentity(parent));
+					});
+					this.getChildren(parent, onGetChildren, onError);
+				}
+			});
+
+			function transformData(data){
+				arrayUtil.forEach(data, function(item){
+					var children = item.children || item.items || [];
+
+					arrayUtil.forEach(children, function(child){
+						var childItem = arrayUtil.filter(data, function (o) {
+							return o.id === child._reference;
+						})[0];
+
+						if(childItem){
+							childItem.parentId = item.id;
+						}
+					});
+
+					item.children = undefined;
+					item.items = undefined;
+				});
+
+				return data;
+			}
+
+			memoryStore = new TreeStore({
+				data: transformData(JSON.parse(categoriesJson).items)
+			});
+
+			memoryStoreModel = new MyModel({
+				store: memoryStore,
+				query: { id: "0" },
+				mayHaveChildren: function(item){
+					return Boolean(item.numberOfItems);
+				}
+			});
+
+			function getLabel(item){
+				return item.name + (item.numberOfItems ? (" (" + (item.numberOfItems || "0") + ")") : "");
+			};
+
+			function getIcon(item){
+				return ("numberOfItems" in item) ? "myFolder" : "myItem";
+			};
+
+			memoryStoreTree = new Tree({
+				className: "container",
+				model: memoryStoreModel,
+				betweenThreshold: 5,
+				persist: false,
+				getLabel: getLabel,
+				checkItemAcceptance: function(node, source){
+					return source.tree && source.tree.id === "memoryStoreTree";
+				},
+				getIconClass: getIcon
+			}, dom.byId("memoryStoreTree"));
+		});
+	</script>
+
+	<script type="text/javascript">
 		/* dojo/data examples */
 		require([
 			"dojo/aspect",
@@ -115,14 +247,13 @@
 			"dojo/parser",
 			"dojo/topic",
 			"dijit/registry",
-			"dijit/Tree",
 			"dijit/tree/TreeStoreModel",
-			/testController=selector/.test(window.location.search) ? "dijit/tree/_dndSelector" : "dijit/tree/dndSource",
 			"dojo/dnd/Source",
 			"dijit/Menu",
 			"dijit/form/Button",
-			"dijit/focus"	// not used directly, but needed by robot test drivers, ex: Tree_Selector.html
-		], function(aspect, ItemFileWriteStore, dom, parser, topic, registry, Tree, TreeStoreModel, testController){
+			"dijit/focus",	// not used directly, but needed by robot test drivers, ex: Tree_Selector.html
+			"dijit/Tree"
+		], function(aspect, ItemFileWriteStore, dom, parser, topic, registry, TreeStoreModel){
 
 			myStore = new ItemFileWriteStore({
 				url: "../_data/categories.json"
@@ -140,6 +271,11 @@
 				return label + ' (' + num+ ')';
 			};
 
+			// on collection tree, only accept itself as the source tree
+			collectionTreeCheckItemAcceptance = function(node, source, position){
+				return source.tree && source.tree.id == "collectionsTree";
+			}
+
 			//on item tree , we want to drop on containers, the root node itself, or between items in the containers
 			itemTreeCheckItemAcceptance = function(node, source, position){
 				/*
@@ -154,23 +290,12 @@
 				return position != "over";
 			};
 
-			// on collection tree, only accept itself as the source tree
-			collectionTreeCheckItemAcceptance = function(node,source,position){
-				return source.tree && source.tree.id == "collectionsTree";
-			};
-
-			dndAccept = function(source, nodes){
-				return this.tree.id != "myTree";
-			};
-
 			getIcon = function(item){
 				if(!item || myStore.hasAttribute(item, "numberOfItems")){
 					return "myFolder";
 				}
 				return "myItem"
 			};
-
-			Tree.prototype.dndController = testController;
 
 			parser.parse();
 
