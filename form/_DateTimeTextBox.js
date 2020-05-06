@@ -183,6 +183,43 @@ define([
 			this._unboundedConstraints = lang.mixin({}, this.constraints, {min: null, max: null});
 		},
 
+		_isDefinitelyOutOfRange: function(){
+			var returnValue = this.inherited(arguments);
+			var isOutOfRange = false;
+			var inputDate;
+			var inputYear;
+			var inputYearMax;
+			var inputYearMin;
+			var maxDate;
+			var minDate;
+
+			if(returnValue && (this.constraints.min || this.constraints.max)){
+				dateRegExp = new RegExp(this._lastRegExp);
+				inputDate = dateRegExp.exec(this._lastInputEventValue);
+				inputYear = inputDate[3];
+
+				if(this.constraints.min){
+					minDate = this.constraints.min instanceof Date ?
+						this.constraints.min : new Date(String(this.constraints.min));
+					minYear = minDate.getFullYear();
+					inputYearMax = parseInt((inputYear + '9999').substr(0, 4), 10);
+					isOutOfRange = inputYearMax < minYear;
+				}
+
+				if(!isOutOfRange && this.constraints.max){
+					maxDate = this.constraints.max instanceof Date ?
+						this.constraints.max : new Date(String(this.constraints.max));
+					maxYear = maxDate.getFullYear();
+					inputYearMin = parseInt((inputYear + '0000').substr(0, 4), 10);
+					isOutOfRange = inputYearMin > maxYear;
+				}
+
+				returnValue = isOutOfRange;
+			}
+
+			return returnValue;
+		},
+
 		_isInvalidDate: function(/*Date*/ value){
 			// summary:
 			//		Runs various tests on the value, checking for invalid conditions
