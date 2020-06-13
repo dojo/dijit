@@ -7,6 +7,10 @@
 	<script type="text/javascript" src="../boilerplate.js"></script>
 
 	<script type="text/javascript">
+		function filterLink () {
+			return 'Filtered Value';
+		}
+
 		require([
 			"dojo/parser",
 			"dijit/Editor",
@@ -32,6 +36,22 @@
 			<br>
 			<div><img src="./sample.jpg" alt="Sample Image" id="exampleImage" /></div>
 			<br>
+			<br>
+		</div>
+	</div>
+
+	<p>Editor with <code>allowUnsafeHtml</code> set to <code>true</code></p>
+	<div style="border: 1px dotted black;">
+		<div id="editorUnsafe" data-dojo-type="dijit/Editor" data-dojo-props='"aria-label":"editor",extraPlugins:[{name: "createLink", allowUnsafeHtml: true}, "insertImage", "viewSource"]'>
+			<p>This editor will allow unrestricted HTML in the Description field of links</p>
+			<br>
+		</div>
+	</div>
+
+	<p>Editor with custom <code>linkFilter</code> function</p>
+	<div style="border: 1px dotted black;">
+		<div id="editorLinkFilter" data-dojo-type="dijit/Editor" data-dojo-props='"aria-label":"editor",extraPlugins:[{name: "createLink", linkFilter: filterLink}, "insertImage", "viewSource"]'>
+			<p>Links created in this editor will always have a description of "Filtered Value", which is the value returned by the custom <code>linkFilter</code> function.</p>
 			<br>
 		</div>
 	</div>
