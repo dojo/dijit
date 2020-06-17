@@ -127,7 +127,7 @@
 		], function(arrayUtil, lang, dom, MemoryStore, Observable, Tree, testController, ObjectStoreModel, categoriesJson){
 			Tree.prototype.dndController = testController;
 
-			var TreeStore = MemoryStore.createSubclass([Observable], {
+			var TreeStore = MemoryStore.createSubclass([], {
 				getChildren: function(item){
 					return this.query({parentId: item.id});
 				},
@@ -135,10 +135,14 @@
 				mayHaveChildren: function(item){
 					return Boolean(item.numberOfItems);
 				},
+
 				put: function(object, options){
 					var id = this.inherited(arguments);
-					if(options && (options.parent !== options.oldParent)){
-						object.parentId = this.getIdentity(options.parent);
+					var parentId = options && options.parent && this.getIdentity(options.parent);
+					var oldParentId = options && options.oldParent && this.getIdentity(options.oldParent);
+
+					if(parentId !== oldParentId){
+						object.parentId = parentId;
 						if(isNaN(options.parent.numberOfItems)){
 							options.parent.numberOfItems = 1;
 						}
@@ -152,6 +156,8 @@
 							this.put(options.oldParent);
 						}
 					}
+
+					return id;
 				}
 			});
 
@@ -204,9 +210,9 @@
 				return data;
 			}
 
-			memoryStore = new TreeStore({
+			memoryStore = new Observable(new TreeStore({
 				data: transformData(JSON.parse(categoriesJson).items)
-			});
+			}));
 
 			memoryStoreModel = new MyModel({
 				store: memoryStore,
