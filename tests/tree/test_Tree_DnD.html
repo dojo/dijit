@@ -161,34 +161,6 @@
 				}
 			});
 
-			var MyModel = ObjectStoreModel.createSubclass([], {
-				newItem: function(args, parent){
-					this.inherited(arguments);
-					if(parent){
-						this._updateChildrenCache(parent);
-					}
-				},
-
-				pasteItem: function(item, oldParent, newParent){
-					this.inherited(arguments);
-					if(oldParent !== newParent){
-						this._updateChildrenCache(oldParent);
-						this._updateChildrenCache(newParent);
-					}
-				},
-
-				_updateChildrenCache: function(parent){
-					this.childrenCache[this.getIdentity(parent)] = undefined;
-					var onGetChildren = lang.hitch(this, function(children){
-						this.onChildrenChange(parent, children);
-					});
-					var onError = lang.hitch(this, function(error){
-						throw (error || "Error getting children for: " + this.getIdentity(parent));
-					});
-					this.getChildren(parent, onGetChildren, onError);
-				}
-			});
-
 			function transformData(data){
 				arrayUtil.forEach(data, function(item){
 					var children = item.children || item.items || [];
@@ -214,7 +186,7 @@
 				data: transformData(JSON.parse(categoriesJson).items)
 			}));
 
-			memoryStoreModel = new MyModel({
+			memoryStoreModel = new ObjectStoreModel({
 				store: memoryStore,
 				query: { id: "0" },
 				mayHaveChildren: function(item){
@@ -254,6 +226,8 @@
 			"dojo/topic",
 			"dijit/registry",
 			"dijit/tree/TreeStoreModel",
+
+			// for parser
 			"dojo/dnd/Source",
 			"dijit/Menu",
 			"dijit/form/Button",
