@@ -203,12 +203,6 @@ define([
 			// summary:
 			//		Creates a new item.   See `dojo/data/api/Write` for details on args.
 			//		Used in drag & drop when item from external source dropped onto tree.
-
-			// adding a new child invalidates the childrenCache for the parent
-			if(parent){
-				this.childrenCache[this.getIdentity(parent)] = undefined;
-			}
-
 			return this.store.put(args, {
 				parent: parent,
 				before: before
@@ -229,15 +223,6 @@ define([
 				// that the childItem was added/moved.
 				d.resolve(true);
 				return d;
-			}
-
-			if(newParentItem !== oldParentItem){
-				if(newParentItem){
-					this.childrenCache[this.getIdentity(newParentItem)] = undefined;
-				}
-				if(oldParentItem){
-					this.childrenCache[this.getIdentity(oldParentItem)] = undefined;
-				}
 			}
 
 			if(oldParentItem && !bCopy){
