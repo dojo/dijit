@@ -203,6 +203,7 @@ define([
 			// summary:
 			//		Creates a new item.   See `dojo/data/api/Write` for details on args.
 			//		Used in drag & drop when item from external source dropped onto tree.
+
 			return this.store.put(args, {
 				parent: parent,
 				before: before
