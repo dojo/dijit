@@ -144,7 +144,9 @@ define([
 				return opts; // __SelectOption[]
 			}
 			if(lang.isArrayLike(valueOrIdx)){
-				return array.map(valueOrIdx, "return this.getOptions(item);", this); // __SelectOption[]
+				return array.map(valueOrIdx, function(item){
+					return this.getOptions(item);
+				}, this); // __SelectOption[]
 			}
 			if(lang.isString(valueOrIdx)){
 				valueOrIdx = { value: valueOrIdx };
