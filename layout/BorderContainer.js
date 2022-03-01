@@ -71,7 +71,7 @@ define([
 
 			if(this.container.persist){
 				// restore old size
-				var persistSize = this.container._getPersistentSplit();
+				var persistSize = this._getPersistentSplit();
 				if(persistSize){
 					this.child.domNode.style[this.horizontal ? "height" : "width"] = persistSize;
 				}
@@ -194,7 +194,7 @@ define([
 			}
 
 			if(this.container.persist){
-				this.container._setPersistentSplit(this.child.domNode.style[this.horizontal ? "height" : "width"]);
+				this._setPersistentSplit(this.child.domNode.style[this.horizontal ? "height" : "width"]);
 			}
 		},
 
