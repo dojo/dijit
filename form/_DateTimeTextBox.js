@@ -194,27 +194,29 @@ define([
 			var minDate;
 
 			if(returnValue && (this.constraints.min || this.constraints.max)){
-				dateRegExp = new RegExp(this._lastRegExp);
+				var dateRegExp = new RegExp(this._lastRegExp);
 				inputDate = dateRegExp.exec(this._lastInputEventValue);
-				inputYear = inputDate[3];
+				if (inputDate != null) {
+					inputYear = inputDate[3];
 
-				if(this.constraints.min){
-					minDate = this.constraints.min instanceof Date ?
-						this.constraints.min : new Date(String(this.constraints.min));
-					minYear = minDate.getFullYear();
-					inputYearMax = parseInt((inputYear + '9999').substr(0, 4), 10);
-					isOutOfRange = inputYearMax < minYear;
+					if(this.constraints.min){
+						minDate = this.constraints.min instanceof Date ?
+							this.constraints.min : new Date(String(this.constraints.min));
+						minYear = minDate.getFullYear();
+						inputYearMax = parseInt((inputYear + '9999').substr(0, 4), 10);
+						isOutOfRange = inputYearMax < minYear;
+					}
+
+					if(!isOutOfRange && this.constraints.max){
+						maxDate = this.constraints.max instanceof Date ?
+							this.constraints.max : new Date(String(this.constraints.max));
+						maxYear = maxDate.getFullYear();
+						inputYearMin = parseInt((inputYear + '0000').substr(0, 4), 10);
+						isOutOfRange = inputYearMin > maxYear;
+					}
+
+					returnValue = isOutOfRange;
 				}
-
-				if(!isOutOfRange && this.constraints.max){
-					maxDate = this.constraints.max instanceof Date ?
-						this.constraints.max : new Date(String(this.constraints.max));
-					maxYear = maxDate.getFullYear();
-					inputYearMin = parseInt((inputYear + '0000').substr(0, 4), 10);
-					isOutOfRange = inputYearMin > maxYear;
-				}
-
-				returnValue = isOutOfRange;
 			}
 
 			return returnValue;
