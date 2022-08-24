@@ -45,7 +45,7 @@ define([
 			}else{
 				text = val;
 			}
-			this.domNode.setAttribute("aria-label", text + " " + this.accelKey);
+			this.domNode.setAttribute("aria-label", text + (this.accelKey ? " " + this.accelKey : ""));
 			this.containerNode.innerHTML = val;
 			this._set('shortcutKey', shortcutKey);
 		},
