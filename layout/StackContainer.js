@@ -344,7 +344,7 @@ define([
 				domClass.replace(page._wrapper, "dijitHidden", "dijitVisible");
 			}
 
-			page.onHide && page.onHide();
+			page._onHide && page._onHide();
 		},
 
 		closeChild: function(/*dijit/_WidgetBase*/ page){
