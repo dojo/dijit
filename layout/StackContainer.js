@@ -267,7 +267,7 @@ define([
 				if(this.doLayout){
 					newWidget.resize(this._containerContentBox || this._contentBox);
 				}else{
-					// the child should pick it's own size but we still need to call resize()
+					// the child should pick its own size, but we still need to call resize()
 					// (with no arguments) to let the widget lay itself out
 					newWidget.resize();
 				}
@@ -318,7 +318,7 @@ define([
 
 		_showChild: function(/*dijit/_WidgetBase*/ page){
 			// summary:
-			//		Show the specified child by changing it's CSS, and call _onShow()/onShow() so
+			//		Show the specified child by changing its CSS, and call _onShow() so
 			//		it can do any updates it needs regarding loading href's etc.
 			// returns:
 			//		Promise that fires when page has finished showing, or true if there's no href
@@ -336,7 +336,7 @@ define([
 
 		_hideChild: function(/*dijit/_WidgetBase*/ page){
 			// summary:
-			//		Hide the specified child by changing it's CSS, and call _onHide() so
+			//		Hide the specified child by changing its CSS, and call onHide() so
 			//		it's notified.
 			page._set("selected", false);
 
