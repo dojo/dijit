@@ -484,6 +484,9 @@ define([
 				this.domNode.setAttribute("aria-labelledby", label[0].id);
 
 			}
+			// ARIA 1.1 combobox requires aria-controls pointing at the popup widget.
+			// The popup is always created with id = this.id + "_popup".
+			this.domNode.setAttribute("aria-controls", this.id + "_popup");
 			this.inherited(arguments);
 			aspect.after(this, "onSearch", lang.hitch(this, "_openResultList"), true);
 		},
