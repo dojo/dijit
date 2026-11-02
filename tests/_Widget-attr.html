@@ -315,6 +315,43 @@
 					doh.is(expected, actual);
 
 					widget.destroyRecursive();
+				},
+
+				function protoPollutionGuard() {
+					// Regression test for a prototype-pollution gap in set()/_set(): a "__proto__"
+					// key reaching set() (scalar or hash form) must not replace the widget
+					// instance's own prototype. Matches the fix landed for the identical bug class
+					// in dojo/Stateful etc. (dojo-core commit 1a4c3d1). The payload is built via
+					// JSON.parse(), not object-literal syntax, since literal "__proto__: ..." syntax
+					// sets the prototype at parse time rather than creating an own enumerable key --
+					// JSON.parse is the realistic way an own "__proto__" key reaches application code
+					// (e.g. a widget constructed from a parsed JSON API response).
+					var protoBefore = Object.getPrototypeOf(new _WidgetBase({}));
+
+					// Scalar two-argument form.
+					var w1 = new _WidgetBase({});
+					w1.set("__proto__", JSON.parse('{"pwned":true}'));
+					doh.is(protoBefore, Object.getPrototypeOf(w1), "w1 prototype unchanged (scalar form)");
+					doh.f(w1.pwned, "w1.pwned not set (scalar form)");
+					w1.destroyRecursive();
+
+					// Hash form, and via constructor params.
+					var payload = JSON.parse('{"title":"hi","__proto__":{"pwned":true}}');
+					doh.t(Object.prototype.hasOwnProperty.call(payload, "__proto__"),
+						"payload has own __proto__ key (sanity check on JSON.parse semantics)");
+
+					var w2 = new _WidgetBase(payload);
+					doh.is(protoBefore, Object.getPrototypeOf(w2), "w2 prototype unchanged (constructor params)");
+					doh.f(w2.pwned, "w2.pwned not set (constructor params)");
+					doh.is("hi", w2.get("title"), "w2 ordinary property still set correctly");
+					w2.destroyRecursive();
+
+					var w3 = new _WidgetBase({});
+					w3.set(payload);
+					doh.is(protoBefore, Object.getPrototypeOf(w3), "w3 prototype unchanged (hash-form set())");
+					doh.f(w3.pwned, "w3.pwned not set (hash-form set())");
+					doh.is("hi", w3.get("title"), "w3 ordinary property still set correctly");
+					w3.destroyRecursive();
 				}
 			]);	// doh.register()
 

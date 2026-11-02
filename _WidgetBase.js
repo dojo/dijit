@@ -836,7 +836,13 @@ define([
 
 			if(typeof name === "object"){
 				for(var x in name){
-					this.set(x, name[x]);
+					// __proto__ is skipped here for the same reason dojo/Stateful's hash branch
+					// skips it (see dojo/Stateful #460 and dojo-core commit 1a4c3d1): assigning it
+					// via the scalar branch below replaces the prototype of this widget instance
+					// rather than setting a property on it.
+					if(name.hasOwnProperty(x) && x != "__proto__"){
+						this.set(x, name[x]);
+					}
 				}
 				return this;
 			}
@@ -896,6 +902,14 @@ define([
 			// summary:
 			//		Helper function to set new value for specified property, and call handlers
 			//		registered with watch() if the value has changed.
+			if(name == "__proto__"){
+				// __proto__ is skipped here for the same reason dojo/Stateful's set() skips it
+				// (see dojo-core commit 1a4c3d1): assigning it replaces the prototype of this
+				// widget instance rather than setting a property on it. Guarded here as well as
+				// in set()'s hash branch above since _set() is also called directly by subclasses
+				// and _attrToDom-adjacent code, not only through set().
+				return;
+			}
 			var oldValue = this[name];
 			this[name] = value;
 			if(this._created && !isEqual(oldValue, value)){
