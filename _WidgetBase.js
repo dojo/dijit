@@ -840,7 +840,7 @@ define([
 					// skips it (see dojo/Stateful #460 and dojo-core commit 1a4c3d1): assigning it
 					// via the scalar branch below replaces the prototype of this widget instance
 					// rather than setting a property on it.
-					if(name.hasOwnProperty(x) && x != "__proto__"){
+					if(name.hasOwnProperty(x) && x !== "__proto__"){
 						this.set(x, name[x]);
 					}
 				}
@@ -902,7 +902,7 @@ define([
 			// summary:
 			//		Helper function to set new value for specified property, and call handlers
 			//		registered with watch() if the value has changed.
-			if(name == "__proto__"){
+			if(name === "__proto__"){
 				// __proto__ is skipped here for the same reason dojo/Stateful's set() skips it
 				// (see dojo-core commit 1a4c3d1): assigning it replaces the prototype of this
 				// widget instance rather than setting a property on it. Guarded here as well as
